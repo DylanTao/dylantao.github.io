@@ -2413,7 +2413,17 @@
 				border-top-right-radius: 4px;
 			}
 
+			.thumbnails a video {
+				width: 100%;
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
+			}
+
 			.thumbnails a h3 {
+				margin: 1em;
+			}
+
+			.thumbnails a h4 {
 				margin: 1em;
 			}
 
@@ -2431,7 +2441,7 @@
 			-webkit-flex-direction: column;
 			-ms-flex-direction: column;
 			flex-direction: column;
-			width: calc(100% / 3);
+			width: calc(100%);
 			padding-left: 2em;
 		}
 
