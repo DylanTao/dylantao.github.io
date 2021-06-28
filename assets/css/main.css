@@ -1473,7 +1473,7 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: #0a0a0a;
 		font-weight: 200;
 		line-height: 1.5;
 		margin: 0 0 1em 0;
@@ -1641,7 +1641,7 @@
 	}
 
 	label {
-		color: #ffffff;
+		color: #070707;
 		display: block;
 		font-size: 0.9em;
 		font-weight: 200;
@@ -2157,7 +2157,7 @@
 		}
 
 		table th {
-			color: #ffffff;
+			color: #141313;
 			font-size: 0.9em;
 			font-weight: 200;
 			padding: 0 0.75em 0.75em 0.75em;
