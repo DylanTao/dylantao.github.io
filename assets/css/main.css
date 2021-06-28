@@ -1410,10 +1410,9 @@
 
 	body {
 		background-color: #000;
-		/* background-image: url("../../images/bgs/bg6.jpg");
+		background-image: url("../../images/bgs/bg2.jpg");
 		background-size: cover;
 		background-position: top center;
-		 */
 	}
 
 		body.is-loading *, body.is-loading *:before, body.is-loading *:after {
