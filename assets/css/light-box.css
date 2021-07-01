@@ -1,7 +1,8 @@
 /* LIGHT BOX */
 
 body:after {
-  content: url(../img/close.png) url(../img/loading.gif) url(../img/prev.png) url(../img/next.png);
+  content: url(/images/templatemo_518_sentra/close.png) url(/images/templatemo_518_sentra/loading.gif) 
+  url(/images/templatemo_518_sentra/prev.png) url(/images/templatemo_518_sentra/next.png);
   display: none;
 }
 
@@ -80,7 +81,7 @@ body.lb-disable-scrolling {
   width: 32px;
   height: 32px;
   margin: 0 auto;
-  background: url(../img/loading.gif) no-repeat;
+  background: url(/images/templatemo_518_sentra/loading.gif) no-repeat;
 }
 
 .lb-nav {
@@ -111,7 +112,7 @@ body.lb-disable-scrolling {
   width: 34%;
   left: 0;
   float: left;
-  background: url(../img/prev.png) left 48% no-repeat;
+  background: url(/images/templatemo_518_sentra/prev.png) left 48% no-repeat;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -webkit-transition: opacity 0.6s;
@@ -129,7 +130,7 @@ body.lb-disable-scrolling {
   width: 64%;
   right: 0;
   float: right;
-  background: url(../img/next.png) right 48% no-repeat;
+  background: url(/images/templatemo_518_sentra/next.png) right 48% no-repeat;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -webkit-transition: opacity 0.6s;
@@ -198,7 +199,7 @@ body.lb-disable-scrolling {
   float: right;
   width: 30px;
   height: 30px;
-  background: url(../img/close.png) top right no-repeat;
+  background: url(/images/templatemo_518_sentra/close.png) top right no-repeat;
   text-align: right;
   outline: none;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
