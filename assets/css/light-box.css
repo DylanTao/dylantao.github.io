@@ -1,8 +1,7 @@
 /* LIGHT BOX */
 
 body:after {
-  content: url(/images/templatemo_518_sentra/close.png) url(/images/templatemo_518_sentra/loading.gif) 
-  url(/images/templatemo_518_sentra/prev.png) url(/images/templatemo_518_sentra/next.png);
+  content: url(/images/templatemo_518_sentra/close.png) url(/images/templatemo_518_sentra/loading.gif) url(/images/templatemo_518_sentra/prev.png) url(/images/templatemo_518_sentra/next.png);
   display: none;
 }
 

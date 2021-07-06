@@ -113,5 +113,12 @@ jQuery(document).ready(function($) {
           $('html, body').animate({ scrollTop: $($(this).attr('href')).offset().top -0 }, 500, 'linear');
         });
 
+        $(".Downloadscontainer li ul").css("display", "none");
+        $(".Downloadscontainer a").click(function (e) {
+            if ($(this).attr("href") == '#') {
+                e.preventDefault();
+                $(this).closest('li').children('ul').toggle();
+            }
+        });
 
 });
