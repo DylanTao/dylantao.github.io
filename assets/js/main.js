@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
             speed:900,
             slidesToShow:1,
             slidesToScroll:1,
-            pauseOnHover:false,
+            pauseOnHover:true,
             dots:true,
             fade: true,
             pauseOnDotsHover:true,
