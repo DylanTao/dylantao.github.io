@@ -142,8 +142,7 @@
   "awards": [
     {
       "title": "IGE Shah Fellowship",
-      "start": "2023",
-      "end": "2024",
+      "date": "2023-2024",
       "awarder": "UCSD, Institute for the Global Entrepreneur",
       "summary": "One of two Shah Fellows of the year, awarded for outstanding research contributions and entrepreneurial potential. The Shah Family Entrepreneur Fellowship is a program launched by the Institute for the Global Entrepreneur (IGE), a collaboration between the Jacobs School of Engineering and the Rady School of Management. The program's goal is to teach engineers to be entrepreneurs and leaders."
     },
@@ -173,8 +172,7 @@
     },
     {
       "title": "Data Science Student Representative",
-      "start": "2021",
-      "end": "2022",
+      "date": "2021-2022",
       "awarder": "HDSI, UCSD",
       "summary": "Elected as the student representative for the Data Science program at HDSI, representing student interests and contributing to program development."
     },
@@ -186,8 +184,7 @@
     },
     {
       "title": "Provost Honor",
-      "start": "2019",
-      "end": "2023",
+      "date": "2019-2023",
       "awarder": "Warren College, UCSD",
       "summary": "Consistently recognized for academic excellence throughout undergraduate studies. Awarded to students completing a quarter with a >3.5 GPA in 12+ units."
     }
@@ -195,18 +192,18 @@
   "certificates": [],
   "publications": [
     {
-      "name": "HotSpot: Screened Poisson Equation for Signed Distance Function Optimization",
-      "publisher": "In submission to Conference on Computer Vision and Pattern Recognition 2025",
-      "releaseDate": "2025",
-      "url": "",
-      "summary": "A study on optimizing signed distance functions with screened Poisson equations."
-    },
-    {
       "name": "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design",
       "publisher": "In submission to Conference on Human Factors in Computing Systems 2025",
       "releaseDate": "2025",
       "url": "",
       "summary": "Explores dimensional scaffolding to enhance designer workflows in generative AI."
+    },
+    {
+      "name": "HotSpot: Screened Poisson Equation for Signed Distance Function Optimization",
+      "publisher": "In submission to Conference on Computer Vision and Pattern Recognition 2025",
+      "releaseDate": "2025",
+      "url": "",
+      "summary": "A study on optimizing signed distance functions with screened Poisson equations."
     },
     {
       "name": "Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines",
@@ -284,11 +281,12 @@
   "interests": [
     {
       "name": "Research",
-      "keywords": ["Design", "HCI", "Graphics", "Creativity", "AI", "3D", "Embodied Automomous Systems"]
+      "keywords": ["Design", "HCI", "Graphics", "Creativity", "Generative AI", "3D Understanding", "Human & Embodied Autonomous Systems", "Accessibility", "Fairness"]
     },
     {
       "name": "Real ones",
-      "keywords": ["Workout", "Cats & Dogs", "Cooking", "Climbing", "Nature", "Movie", "Game"]
+      "keywords": ["Workout", "Cats & Dogs", "Cooking", "Climbing", "Nature", "Movie", "Game", "Badminton", "Travel"]
+    }
   ],
   "references": [
     {
