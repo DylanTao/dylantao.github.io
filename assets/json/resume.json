@@ -1,14 +1,133 @@
 {
   "basics": {
     "name": "Sirui Tao",
+    "label": "Researcher and Engineer",
+    "image": "",
     "email": "s1tao@ucsd.edu",
     "url": "https://dylantao.github.io",
+    "summary": "A master's student in Computer Science and Engineering at UCSD, focusing on HCI and Graphics, with a background in data science and statistics, passionate about combining AI with design and technology.",
     "location": {
+      "address": "",
+      "postalCode": "",
       "city": "San Diego",
-      "region": "CA",
-      "countryCode": "US"
-    }
+      "countryCode": "US",
+      "region": "California"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "dylantao",
+        "url": "https://github.com/dylantao"
+      }
+    ]
   },
+  "work": [
+    {
+      "name": "UCSD, Protolab",
+      "position": "Graduate Researcher",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-01",
+      "endDate": "Present",
+      "summary": "Investigating generative models for contextual multimodal documents to aid designers and support collaborative scenarios."
+    },
+    {
+      "name": "UCSD, Tzu-Mao Li’s Lab",
+      "position": "Graduate Researcher",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2023-01",
+      "endDate": "Present",
+      "summary": "Combining neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction; studying inverse physical prediction using diffusion-based models."
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - CSE 175",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-06",
+      "endDate": "2024-09",
+      "summary": "Assisted in teaching Introduction to Artificial Intelligence; held office hours and graded assignments."
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - DSGN 1",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-03",
+      "endDate": "2024-06",
+      "summary": "Assisted in teaching Design of Everyday Things during Spring quarter; supported students in understanding design principles."
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - DSGN 1",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-09",
+      "endDate": "2024-12",
+      "summary": "Assisted in teaching Design of Everyday Things during Fall quarter; supported students in understanding design principles."
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - COGS 9",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-01",
+      "endDate": "2024-03",
+      "summary": "Assisted in teaching Introduction to Data Science; guided students through data science projects."
+    },
+    {
+      "name": "SchedGo",
+      "position": "Data Engineer",
+      "location": "Remote",
+      "startDate": "2023-06",
+      "endDate": "2023-08",
+      "summary": "Built data infrastructure and conducted analytics; developed marketing data analytics to identify key user groups; designed a survey model for front-end user feedback."
+    },
+    {
+      "name": "UCSD, HDSI",
+      "position": "Undergraduate Researcher",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2022-09",
+      "endDate": "2023-06",
+      "summary": "Developed GraphHSCN, a novel graph neural network architecture for long-range interaction modeling."
+    },
+    {
+      "name": "Tesla",
+      "position": "Data Scientist Intern",
+      "location": "Fremont, California, USA",
+      "startDate": "2022-01",
+      "endDate": "2022-12",
+      "summary": "Developed lossless image compression solutions and advanced statistical process control tools."
+    },
+    {
+      "name": "UCSD, CogTools Lab",
+      "position": "Undergraduate Researcher",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2021-01",
+      "endDate": "2022-06",
+      "summary": "Contributed to Physion and Physion++, focusing on data analysis and designing 3D stimuli for non-rigid physical interactions."
+    },
+    {
+      "name": "Bühler Group",
+      "position": "Data Scientist Intern",
+      "location": "Wuxi, Jiangsu, China",
+      "startDate": "2021-01",
+      "endDate": "2021-12",
+      "summary": "Initiated MLOps image-labeling features for defect detection and prototyped cross-functional innovation tools."
+    },
+    {
+      "name": "J.D. Power",
+      "position": "Analyst Intern",
+      "location": "Shanghai, China",
+      "startDate": "2021-06",
+      "endDate": "2021-09",
+      "summary": "Optimized workflow for quality analytics by automating data processing and report pipelines."
+    },
+    {
+      "name": "Bosch",
+      "position": "Data Analyst Intern",
+      "location": "Wuxi, Jiangsu, China",
+      "startDate": "2020-06",
+      "endDate": "2020-09",
+      "summary": "Developed Tableau dashboards for manufacturing analytics; reduced bottleneck diagnosing time by 80%."
+    }
+  ],
+  "volunteer": [],
   "education": [
     {
       "institution": "University of California, San Diego",
@@ -16,7 +135,7 @@
       "studyType": "M.S.",
       "startDate": "2023",
       "endDate": "2025",
-      "advisors": ["Prof. Steven Dow", "Prof. Tzu-Mao Li"]
+      "summary": "M.S. in Computer Science and Engineering - HCI & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li."
     },
     {
       "institution": "University of California, San Diego",
@@ -24,190 +143,170 @@
       "studyType": "B.S.",
       "startDate": "2019",
       "endDate": "2023",
-      "minor": "Economics",
-      "advisor": "Prof. Judith Fan"
-    }
-  ],
-  "publications": [
-    {
-      "title": "HotSpot: Screened Poisson Equation for Signed Distance Function Optimization",
-      "authors": "*Wang, Z., *Wang, C., Yoshino, T., Tao, S., Fu Z., **Li, T.-M.",
-      "year": 2025,
-      "status": "In submission to Conference on Computer Vision and Pattern Recognition 2025"
-    },
-    {
-      "title": "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design",
-      "authors": "*Tao, S., Liang, I., Peng, C., Wang, Z., **Palani, S., and **Dow, S.",
-      "year": 2024,
-      "status": "In submission to Conference on Human Factors in Computing Systems 2024"
-    },
-    {
-      "title": "Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines",
-      "authors": "*Tung, H.-Y., *Ding, M., *Chen, Z., Tao, S., et al.",
-      "year": 2023,
-      "conference": "Annual Meeting of the Cognitive Science Society 2023"
-    },
-    {
-      "title": "Physion: Evaluating Physical Prediction from Vision in Humans and Machines",
-      "authors": "*Bear, D., *Wang, E., *Mrowca, D., *Binder, F., Tao, S., et al.",
-      "year": 2021,
-      "conference": "Advances in Neural Information Processing Systems (NeurIPS Datasets & Benchmarks Track) 2021"
-    }
-  ],
-  "academic_experience": [
-    {
-      "organization": "UCSD, Protolab",
-      "position": "Graduate Researcher",
-      "location": "La Jolla, San Diego, CA, USA",
-      "startDate": "2023",
-      "endDate": "Present",
-      "details": [
-        "Investigate how to improve generative models with contextual multimodal documents to aid designers and explore their use in human collaborations."
-      ]
-    },
-    {
-      "organization": "UCSD, Tzu-Mao Li’s Lab",
-      "position": "Graduate Researcher",
-      "location": "La Jolla, San Diego, CA, USA",
-      "startDate": "2023",
-      "endDate": "Present",
-      "details": [
-        "Combine neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction.",
-        "Study inverse physical prediction using diffusion-based models."
-      ]
-    },
-    {
-      "organization": "UCSD, HDSI",
-      "position": "Undergraduate Researcher",
-      "location": "La Jolla, San Diego, CA, USA",
-      "startDate": "2022",
-      "endDate": "2023",
-      "details": [
-        "Develop and implement GraphHSCN, a novel graph neural network architecture for long-range interaction in graph-structured data.",
-        "Presented the senior capstone and HDSI scholarship poster session on GraphHSCN."
-      ]
-    },
-    {
-      "organization": "UCSD, CogTools Lab",
-      "position": "Undergraduate Researcher",
-      "location": "La Jolla, San Diego, CA, USA",
-      "startDate": "2021",
-      "endDate": "2022",
-      "details": [
-        "Contributed to the development and analysis of Physion under Prof. Judith Fan.",
-        "Focused on data analysis and designing 3D stimuli for evaluating physical understanding in vision models compared to human perception."
-      ]
-    }
-  ],
-  "working_experience": [
-    {
-      "organization": "SchedGo",
-      "position": "Data Engineer",
-      "location": "Remote",
-      "startDate": "2023",
-      "endDate": "2024",
-      "details": [
-        "Built data infrastructure for product analytics and machine learning algorithms using Firestore.",
-        "Conducted marketing data analytics to identify key user groups.",
-        "Designed survey models for user feedback."
-      ]
-    },
-    {
-      "organization": "Tesla",
-      "position": "Data Scientist Intern",
-      "location": "Fremont, California, USA",
-      "startDate": "2022",
-      "endDate": "2023",
-      "details": [
-        "Developed lossless image compression solutions, saving ~20% annual image storage.",
-        "Built end-to-end process-agnostic advanced statistical tools with automatic alerts.",
-        "Conducted root cause analysis and validated model performance."
-      ]
-    },
-    {
-      "organization": "San Diego Supercomputer Center",
-      "position": "Deep Learning Engineer Intern",
-      "location": "La Jolla, San Diego, CA, USA",
-      "startDate": "2022",
-      "endDate": "2023",
-      "details": [
-        "Used Ray Tune for scalable multi-GPU hyperparameter tuning.",
-        "Investigated data-centric MLOps solutions for experimentation efficiency."
-      ]
-    }
-  ],
-  "teaching_experience": [
-    {
-      "course": "CSE 175",
-      "position": "Teaching Assistant",
-      "institution": "UCSD",
-      "terms": ["2023", "2024"]
-    },
-    {
-      "course": "DSGN 1",
-      "position": "Teaching Assistant",
-      "institution": "UCSD",
-      "terms": ["2024"]
-    },
-    {
-      "course": "COGS 9",
-      "position": "Teaching Assistant",
-      "institution": "UCSD",
-      "terms": ["2021", "2022"]
-    }
-  ],
-  "projects": [
-    {
-      "name": "Tree-of-thoughts Context-aware Encoding for LLMs",
-      "location": "La Jolla, San Diego, CA, USA",
-      "details": [
-        "Led the development of a context-aware encoding algorithm for LLMs.",
-        "Improved knowledge retrieval accuracy without model fine-tuning using hierarchical context trees."
-      ]
-    },
-    {
-      "name": "GraphHSCN",
-      "location": "UCSD",
-      "details": [
-        "Designed and implemented GraphHSCN for long-range interaction in graph data.",
-        "Presented work at HDSI scholarship poster sessions."
-      ]
+      "summary": "B.S. degrees with a minor in Economics, advised by Prof. Judith Fan."
     }
   ],
   "awards": [
     {
       "title": "IGE Shah Fellowship",
-      "organization": "UCSD",
-      "year": "2024"
+      "date": "2023-2024",
+      "awarder": "UCSD",
+      "summary": "Awarded for research contributions in generative AI and data science."
     },
     {
       "title": "TRELS Research Scholarship",
-      "organization": "AEP, UCSD",
-      "year": "2024"
+      "date": "2020 Spring",
+      "awarder": "AEP, UCSD",
+      "summary": "Recognized for academic excellence and research innovation."
+    },
+    {
+      "title": "TRELS Research Scholarship",
+      "date": "2022 Winter",
+      "awarder": "AEP, UCSD",
+      "summary": "Recognized for academic excellence and research innovation."
+    },
+    {
+      "title": "Data Science Student Representative",
+      "date": "2021-2022",
+      "awarder": "HDSI, UCSD",
+      "summary": "Elected as student representative for the Data Science program at HDSI."
     },
     {
       "title": "HDSI Research Scholarship",
-      "organization": "UCSD",
-      "year": "2023"
+      "date": "2021",
+      "awarder": "HDSI, UCSD",
+      "summary": "Awarded for outstanding research in data science."
+    },
+    {
+      "title": "HDSI Research Scholarship",
+      "date": "2022",
+      "awarder": "HDSI, UCSD",
+      "summary": "Awarded for outstanding research in data science."
     },
     {
       "title": "Provost Honor",
-      "organization": "Warren College, UCSD",
-      "year": "2023"
+      "date": "2019-2023",
+      "awarder": "Warren College, UCSD",
+      "summary": "Consistently recognized for academic excellence throughout undergraduate studies."
+    }
+  ],
+  "certificates": [],
+  "publications": [
+    {
+      "name": "HotSpot: Screened Poisson Equation for Signed Distance Function Optimization",
+      "publisher": "In submission to Conference on Computer Vision and Pattern Recognition 2025",
+      "releaseDate": "2025",
+      "url": "",
+      "summary": "A study on optimizing signed distance functions with screened Poisson equations."
+    },
+    {
+      "name": "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design",
+      "publisher": "In submission to Conference on Human Factors in Computing Systems 2025",
+      "releaseDate": "2025",
+      "url": "",
+      "summary": "Explores dimensional scaffolding to enhance designer workflows in generative AI."
+    },
+    {
+      "name": "Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines",
+      "publisher": "Proceedings of the Annual Meeting of the Cognitive Science Society",
+      "releaseDate": "2023",
+      "url": "",
+      "summary": "Evaluates physical scene understanding in humans and machines with varying physical attributes."
+    },
+    {
+      "name": "Physion: Evaluating Physical Prediction from Vision in Humans and Machines",
+      "publisher": "Advances in Neural Information Processing Systems",
+      "releaseDate": "2021",
+      "url": "",
+      "summary": "A study on evaluating physical prediction from vision in humans and machines."
     }
   ],
   "skills": [
     {
-      "category": "Software",
-      "keywords": ["Python", "R", "SQL", "Angular", "D3.js", "Firestore", "Clickhouse"]
+      "name": "Software",
+      "keywords": [
+        "Python",
+        "R",
+        "SQL",
+        "Angular",
+        "D3.js",
+        "PyTorch",
+        "Clickhouse",
+        "FireStore",
+        "DevOps",
+        "Agile"
+      ]
     },
     {
-      "category": "AI/ML",
-      "keywords": ["LSTM", "GAN", "GNN", "NeRF", "Gaussian Splatting", "Reinforcement Learning", "LLMs"]
+      "name": "Data Science",
+      "keywords": [
+        "Scalable Analytics",
+        "Data Visualization",
+        "MLOps",
+        "Recommender Systems",
+        "Data Mining",
+        "Database"
+      ]
     },
     {
-      "category": "Data Science",
-      "keywords": ["MLOps", "Recommender Systems", "Data Visualization", "Scalable Analytics"]
+      "name": "Mathematics",
+      "keywords": [
+        "Probabilistic Reasoning",
+        "Descriptive and Inferential Statistics",
+        "Stochastic Processes"
+      ]
+    },
+    {
+      "name": "AI/ML",
+      "keywords": [
+        "LSTM",
+        "GAN",
+        "GNN",
+        "NeRF",
+        "3D Gaussian Splatting",
+        "Reinforcement Learning",
+        "LLM"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Fluent"
+    },
+    {
+      "language": "Chinese",
+      "fluency": "Native"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Generative AI",
+      "keywords": ["HCI", "Graphics", "Creative Design"]
+    }
+  ],
+  "references": [
+    {
+      "name": "Professor Steven Dow",
+      "reference": "Master Advisor for my research in HCI."
+    },
+    {
+      "name": "Professor Tzu-Mao Li",
+      "reference": "Master Advisor for my research in Graphics."
+    },
+    {
+      "name": "Professor Judith Fan",
+      "reference": "Undergraduate advisor for my research in Intuitive Physics."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Tree-of-thoughts Context-aware Encoding for LLMs",
+      "summary": "Developed a context-aware encoding algorithm for LLMs to improve retrieval and contextual understanding."
+    },
+    {
+      "name": "GraphHSCN",
+      "summary": "Developed a novel graph neural network architecture for long-range interaction modeling."
     }
   ]
 }
