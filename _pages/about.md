@@ -6,7 +6,7 @@ subtitle: <a href='#'>Affiliations</a> University of California, San Diego
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: sirui_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>9500 Gilman Dr</p>
