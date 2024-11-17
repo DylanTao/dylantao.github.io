@@ -12,102 +12,113 @@
       "city": "San Diego",
       "countryCode": "US",
       "region": "California"
-    },
-    "profiles": [
-      {
-        "network": "GitHub",
-        "username": "dylantao",
-        "url": "https://github.com/dylantao"
-      }
-    ]
+    }
   },
-  "work": [
+  "education": [
     {
-      "name": "UCSD, Protolab",
+      "institution": "University of California, San Diego",
+      "area": "Computer Science and Engineering",
+      "studyType": "M.S.",
+      "startDate": "2023-09",
+      "endDate": "2025-06",
+      "summary": "M.S. in Computer Science and Engineering - HCI & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li."
+    },
+    {
+      "institution": "University of California, San Diego",
+      "area": "Data Science & Probability and Statistics",
+      "studyType": "B.S.",
+      "startDate": "2019-09",
+      "endDate": "2023-06",
+      "summary": "B.S. degrees with a minor in Economics, advised by Prof. Judith Fan."
+    }
+  ],
+  "academia": [
+    {
+      "institution": "UCSD, Protolab",
       "position": "Graduate Researcher",
       "location": "La Jolla, CA, USA",
-      "startDate": "2024-01",
+      "startDate": "2023-12",
       "endDate": "Present",
       "summary": "Investigating generative models for contextual multimodal documents to aid designers and support collaborative scenarios."
     },
     {
-      "name": "UCSD, Tzu-Mao Li’s Lab",
+      "institution": "UCSD, Tzu-Mao Li’s Lab",
       "position": "Graduate Researcher",
       "location": "La Jolla, CA, USA",
-      "startDate": "2023-01",
+      "startDate": "2023-08",
       "endDate": "Present",
       "summary": "Combining neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction; studying inverse physical prediction using diffusion-based models."
     },
     {
-      "name": "UCSD",
-      "position": "Teaching Assistant - CSE 175",
-      "location": "La Jolla, CA, USA",
-      "startDate": "2024-06",
-      "endDate": "2024-09",
-      "summary": "Assisted in teaching Introduction to Artificial Intelligence; held office hours and graded assignments."
-    },
-    {
-      "name": "UCSD",
-      "position": "Teaching Assistant - DSGN 1",
-      "location": "La Jolla, CA, USA",
-      "startDate": "2024-03",
-      "endDate": "2024-06",
-      "summary": "Assisted in teaching Design of Everyday Things during Spring quarter; supported students in understanding design principles."
-    },
-    {
-      "name": "UCSD",
-      "position": "Teaching Assistant - DSGN 1",
-      "location": "La Jolla, CA, USA",
-      "startDate": "2024-09",
-      "endDate": "2024-12",
-      "summary": "Assisted in teaching Design of Everyday Things during Fall quarter; supported students in understanding design principles."
-    },
-    {
-      "name": "UCSD",
-      "position": "Teaching Assistant - COGS 9",
-      "location": "La Jolla, CA, USA",
-      "startDate": "2024-01",
-      "endDate": "2024-03",
-      "summary": "Assisted in teaching Introduction to Data Science; guided students through data science projects."
-    },
-    {
-      "name": "SchedGo",
-      "position": "Data Engineer",
-      "location": "Remote",
-      "startDate": "2023-06",
-      "endDate": "2023-08",
-      "summary": "Built data infrastructure and conducted analytics; developed marketing data analytics to identify key user groups; designed a survey model for front-end user feedback."
-    },
-    {
-      "name": "UCSD, HDSI",
+      "institution": "UCSD, HDSI",
       "position": "Undergraduate Researcher",
       "location": "La Jolla, CA, USA",
-      "startDate": "2022-09",
-      "endDate": "2023-06",
+      "startDate": "2022-11",
+      "endDate": "2023-05",
       "summary": "Developed GraphHSCN, a novel graph neural network architecture for long-range interaction modeling."
     },
     {
-      "name": "Tesla",
-      "position": "Data Scientist Intern",
-      "location": "Fremont, California, USA",
-      "startDate": "2022-01",
-      "endDate": "2022-12",
-      "summary": "Developed lossless image compression solutions and advanced statistical process control tools."
-    },
-    {
-      "name": "UCSD, CogTools Lab",
+      "institution": "UCSD, CogTools Lab",
       "position": "Undergraduate Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2021-01",
       "endDate": "2022-06",
       "summary": "Contributed to Physion and Physion++, focusing on data analysis and designing 3D stimuli for non-rigid physical interactions."
+    }
+  ],
+  "teaching": [
+    {
+      "institution": "UCSD",
+      "position": "Teaching Assistant - DSGN 1",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-09",
+      "endDate": "2024-12"
+    },
+    {
+      "institution": "UCSD",
+      "position": "Teaching Assistant - CSE 175",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-06",
+      "endDate": "2024-09"
+    },
+    {
+      "institution": "UCSD",
+      "position": "Teaching Assistant - DSGN 1",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-03",
+      "endDate": "2024-06"
+    },
+    {
+      "institution": "UCSD",
+      "position": "Teaching Assistant - COGS 9",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-01",
+      "endDate": "2024-03"
+    }
+  ],
+  "work": [
+    {
+      "name": "SchedGo",
+      "position": "Data Engineer",
+      "location": "Remote",
+      "startDate": "2023-01",
+      "endDate": "2023-08",
+      "summary": "Built data infrastructure and conducted analytics; developed marketing data analytics to identify key user groups; designed a survey model for front-end user feedback."
+    },
+    {
+      "name": "Tesla",
+      "position": "Data Scientist Intern",
+      "location": "Fremont, California, USA",
+      "startDate": "2022-06",
+      "endDate": "2022-09",
+      "summary": "Developed lossless image compression solutions and advanced statistical process control tools."
     },
     {
       "name": "Bühler Group",
       "position": "Data Scientist Intern",
       "location": "Wuxi, Jiangsu, China",
-      "startDate": "2021-01",
-      "endDate": "2021-12",
+      "startDate": "2021-07",
+      "endDate": "2021-09",
       "summary": "Initiated MLOps image-labeling features for defect detection and prototyped cross-functional innovation tools."
     },
     {
@@ -115,79 +126,70 @@
       "position": "Analyst Intern",
       "location": "Shanghai, China",
       "startDate": "2021-06",
-      "endDate": "2021-09",
+      "endDate": "2021-07",
       "summary": "Optimized workflow for quality analytics by automating data processing and report pipelines."
     },
     {
       "name": "Bosch",
       "position": "Data Analyst Intern",
       "location": "Wuxi, Jiangsu, China",
-      "startDate": "2020-06",
-      "endDate": "2020-09",
+      "startDate": "2020-08",
+      "endDate": "2020-11",
       "summary": "Developed Tableau dashboards for manufacturing analytics; reduced bottleneck diagnosing time by 80%."
     }
   ],
   "volunteer": [],
-  "education": [
-    {
-      "institution": "University of California, San Diego",
-      "area": "Computer Science and Engineering",
-      "studyType": "M.S.",
-      "startDate": "2023",
-      "endDate": "2025",
-      "summary": "M.S. in Computer Science and Engineering - HCI & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li."
-    },
-    {
-      "institution": "University of California, San Diego",
-      "area": "Data Science & Probability and Statistics",
-      "studyType": "B.S.",
-      "startDate": "2019",
-      "endDate": "2023",
-      "summary": "B.S. degrees with a minor in Economics, advised by Prof. Judith Fan."
-    }
-  ],
   "awards": [
     {
       "title": "IGE Shah Fellowship",
-      "date": "2023-2024",
-      "awarder": "UCSD",
-      "summary": "Awarded for research contributions in generative AI and data science."
+      "start": "2023",
+      "end": "2024",
+      "awarder": "UCSD, Institute for the Global Entrepreneur",
+      "summary": "One of two Shah Fellows of the year, awarded for outstanding research contributions and entrepreneurial potential. The Shah Family Entrepreneur Fellowship is a program launched by the Institute for the Global Entrepreneur (IGE), a collaboration between the Jacobs School of Engineering and the Rady School of Management. The program's goal is to teach engineers to be entrepreneurs and leaders."
     },
     {
-      "title": "TRELS Research Scholarship",
-      "date": "2020 Spring",
-      "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation."
-    },
-    {
-      "title": "TRELS Research Scholarship",
-      "date": "2022 Winter",
-      "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation."
-    },
-    {
-      "title": "Data Science Student Representative",
-      "date": "2021-2022",
-      "awarder": "HDSI, UCSD",
-      "summary": "Elected as student representative for the Data Science program at HDSI."
-    },
-    {
-      "title": "HDSI Research Scholarship",
-      "date": "2021",
-      "awarder": "HDSI, UCSD",
-      "summary": "Awarded for outstanding research in data science."
+      "title": "Participant of The Cornell, Maryland, Max Planck Pre-doctoral Research School",
+      "date": "2023",
+      "awarder": "Cornell, Maryland, Max Planck Institute",
+      "summary": "Selected to participate in the prestigious pre-doctoral research school focused on cutting-edge interdisciplinary research, held in August 2023."
     },
     {
       "title": "HDSI Research Scholarship",
       "date": "2022",
+      "awarder": "UCSD, Halıcıoğlu Data Science Institute",
+      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science."
+    },
+    {
+      "title": "TRELS Research Scholarship",
+      "date": "2022",
+      "awarder": "AEP, UCSD",
+      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant."
+    },
+    {
+      "title": "HDSI Research Scholarship",
+      "date": "2021",
+      "awarder": "UCSD, Halıcıoğlu Data Science Institute",
+      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science."
+    },
+    {
+      "title": "Data Science Student Representative",
+      "start": "2021",
+      "end": "2022",
       "awarder": "HDSI, UCSD",
-      "summary": "Awarded for outstanding research in data science."
+      "summary": "Elected as the student representative for the Data Science program at HDSI, representing student interests and contributing to program development."
+    },
+    {
+      "title": "TRELS Research Scholarship",
+      "date": "2020",
+      "awarder": "AEP, UCSD",
+      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant."
     },
     {
       "title": "Provost Honor",
-      "date": "2019-2023",
+      "start": "2019",
+      "end": "2023",
       "awarder": "Warren College, UCSD",
-      "summary": "Consistently recognized for academic excellence throughout undergraduate studies."
+      "summary": "Consistently recognized for academic excellence throughout undergraduate studies. Awarded to students completing a quarter with a >3.5 GPA in 12+ units."
     }
   ],
   "certificates": [],
@@ -281,13 +283,16 @@
   ],
   "interests": [
     {
-      "name": "Generative AI",
-      "keywords": ["HCI", "Graphics", "Creative Design"]
-    }
+      "name": "Research",
+      "keywords": ["Design", "HCI", "Graphics", "Creativity", "AI", "3D", "Embodied Automomous Systems"]
+    },
+    {
+      "name": "Real ones",
+      "keywords": ["Workout", "Cats & Dogs", "Cooking", "Climbing", "Nature", "Movie", "Game"]
   ],
   "references": [
     {
-      "name": "Professor Steven Dow",
+      "name": "Professor Steven P. Dow",
       "reference": "Master Advisor for my research in HCI."
     },
     {
@@ -295,7 +300,7 @@
       "reference": "Master Advisor for my research in Graphics."
     },
     {
-      "name": "Professor Judith Fan",
+      "name": "Professor Judith E. Fan",
       "reference": "Undergraduate advisor for my research in Intuitive Physics."
     }
   ],
