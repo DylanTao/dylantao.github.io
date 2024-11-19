@@ -34,7 +34,7 @@
   ],
   "academia": [
     {
-      "institution": "UCSD, Protolab",
+      "name": "UCSD, Protolab",
       "position": "Graduate Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2023-12",
@@ -42,7 +42,7 @@
       "summary": "Investigating generative models for contextual multimodal documents to aid designers and support collaborative scenarios."
     },
     {
-      "institution": "UCSD, Tzu-Mao Li’s Lab",
+      "name": "UCSD, Tzu-Mao Li’s Lab",
       "position": "Graduate Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2023-08",
@@ -50,7 +50,7 @@
       "summary": "Combining neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction; studying inverse physical prediction using diffusion-based models."
     },
     {
-      "institution": "UCSD, HDSI",
+      "name": "UCSD, HDSI",
       "position": "Undergraduate Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2022-11",
@@ -58,7 +58,7 @@
       "summary": "Developed GraphHSCN, a novel graph neural network architecture for long-range interaction modeling."
     },
     {
-      "institution": "UCSD, CogTools Lab",
+      "name": "UCSD, CogTools Lab",
       "position": "Undergraduate Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2021-01",
@@ -68,21 +68,21 @@
   ],
   "teaching": [
     {
-      "institution": "UCSD",
+      "name": "UCSD",
       "position": "Teaching Assistant - DSGN 1",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-09",
       "endDate": "2024-12"
     },
     {
-      "institution": "UCSD",
+      "name": "UCSD",
       "position": "Teaching Assistant - CSE 175",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-06",
       "endDate": "2024-09"
     },
     {
-      "institution": "UCSD",
+      "name": "UCSD",
       "position": "Teaching Assistant - DSGN 1",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-03",
@@ -104,6 +104,22 @@
       "startDate": "2023-01",
       "endDate": "2023-08",
       "summary": "Built data infrastructure and conducted analytics; developed marketing data analytics to identify key user groups; designed a survey model for front-end user feedback."
+    },
+    {
+      "name": "MAVERiC Studio",
+      "position": "Garage Startup Intern",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2024-01",
+      "endDate": "2024-04",
+      "summary": "Explored virtual world creation, metaverse audience engagement, and AI tools. Built 'Not A Good Driver'. <a href='https://vrchat.com/home/launch?worldId=wrld_ef581bd6-9d93-457e-b6a3-7d7f297f1cab' target='_blank'>Try it here</a>."
+    },
+    {
+      "name": "San Diego Supercomputer Center",
+      "position": "Deep Learning Engineer Intern",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2022-11",
+      "endDate": "2023-08",
+      "summary": "Implemented scalable multi-GPU hyperparameter tuning using Ray Tune on HPC infrastructure. Investigated data-centric MLOps solutions to improve time and resource efficiency in experimentation."
     },
     {
       "name": "Tesla",
