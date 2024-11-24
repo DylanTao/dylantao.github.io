@@ -1,7 +1,7 @@
 {
   "basics": {
     "name": "Sirui Tao",
-    "label": "HCI Researcher and Engineer",
+    "label": "Researcher and Engineer",
     "image": "",
     "email": "s1tao@ucsd.edu",
     "url": "https://dylandao.github.io/",
@@ -30,23 +30,25 @@
         "url": "https://x.com/siruitao"
       }
     ]
-    },
+  },
   "education": [
     {
       "institution": "University of California, San Diego",
       "area": "Computer Science and Engineering",
-      "studyType": "M.S.",
+      "studyType": "Master of Science",
       "startDate": "2023-09",
       "endDate": "2025-06",
-      "summary": "M.S. in Computer Science and Engineering - HCI & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li."
+      "courses": "Doing research in Human-computer-interaction & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li.",
+      "url": "https://ucsd.edu/"
     },
     {
       "institution": "University of California, San Diego",
       "area": "Data Science & Probability and Statistics",
-      "studyType": "B.S.",
+      "studyType": "Bachelor of Science",
       "startDate": "2019-09",
-      "endDate": "2023-06",
-      "summary": "B.S. degrees with a minor in Economics, advised by Prof. Judith Fan."
+      "endDate": "2023-03",
+      "courses": "Doing research in Intuitive Physics, advised by Prof. Judith Fan.",
+      "url": "https://ucsd.edu/"
     }
   ],
   "academia": [
@@ -56,7 +58,8 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2023-12",
       "endDate": "Present",
-      "summary": "Investigating generative models for contextual multimodal documents to aid designers and support collaborative scenarios."
+      "summary": "Investigating generative models for contextual multimodal documents to aid designers and support collaborative scenarios.",
+      "url": "https://protolab.ucsd.edu/"
     },
     {
       "name": "UCSD, Tzu-Mao Li’s Lab",
@@ -64,7 +67,8 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2023-08",
       "endDate": "Present",
-      "summary": "Combining neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction; studying inverse physical prediction using diffusion-based models."
+      "summary": "Combining neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction; studying inverse physical prediction using diffusion-based models.",
+      "url": "https://cseweb.ucsd.edu/~tzli/"
     },
     {
       "name": "UCSD, HDSI",
@@ -72,7 +76,8 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2022-11",
       "endDate": "2023-05",
-      "summary": "Developed GraphHSCN, a novel graph neural network architecture for long-range interaction modeling."
+      "summary": "Developed GraphHSCN, a novel graph neural network architecture for long-range interaction modeling.",
+      "url": "http://yusu.belkin-wang.org"
     },
     {
       "name": "UCSD, CogTools Lab",
@@ -80,7 +85,8 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2021-01",
       "endDate": "2022-06",
-      "summary": "Contributed to Physion and Physion++, focusing on data analysis and designing 3D stimuli for non-rigid physical interactions."
+      "summary": "Contributed to Physion and Physion++, focusing on data analysis and designing 3D stimuli for non-rigid physical interactions.",
+      "url": "https://cogtoolslab.github.io/"
     }
   ],
   "teaching": [
@@ -89,46 +95,52 @@
       "position": "Teaching Assistant - DSGN 1",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-09",
-      "endDate": "2024-12"
+      "endDate": "2024-12",
+      "url": "https://design.ucsd.edu/"
     },
     {
       "name": "UCSD",
       "position": "Teaching Assistant - CSE 175",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-06",
-      "endDate": "2024-09"
+      "endDate": "2024-09",
+      "url": "https://cse.ucsd.edu/"
     },
     {
       "name": "UCSD",
       "position": "Teaching Assistant - DSGN 1",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-03",
-      "endDate": "2024-06"
+      "endDate": "2024-06",
+      "url": "https://design.ucsd.edu/"
     },
     {
       "institution": "UCSD",
       "position": "Teaching Assistant - COGS 9",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-01",
-      "endDate": "2024-03"
+      "endDate": "2024-03",
+      "url": "https://cogsci.ucsd.edu/"
     }
   ],
   "work": [
-    {
-      "name": "SchedGo",
-      "position": "Data Engineer",
-      "location": "Remote",
-      "startDate": "2023-01",
-      "endDate": "2023-08",
-      "summary": "Built data infrastructure and conducted analytics; developed marketing data analytics to identify key user groups; designed a survey model for front-end user feedback."
-    },
     {
       "name": "MAVERiC Studio",
       "position": "Garage Startup Intern",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-01",
       "endDate": "2024-04",
-      "summary": "Explored virtual world creation, metaverse audience engagement, and AI tools. Built 'Not A Good Driver'. <a href='https://vrchat.com/home/launch?worldId=wrld_ef581bd6-9d93-457e-b6a3-7d7f297f1cab' target='_blank'>Try it here</a>."
+      "summary": "Explored virtual world creation, metaverse audience engagement, and AI tools. Built 'Not A Good Driver'. <a href='https://vrchat.com/home/launch?worldId=wrld_ef581bd6-9d93-457e-b6a3-7d7f297f1cab' target='_blank'>Try it here</a>.",
+      "url": "https://dib.ucsd.edu/studios/maveric-studio/"
+    },
+    {
+      "name": "SchedGo",
+      "position": "Data Engineer",
+      "location": "Remote",
+      "startDate": "2023-01",
+      "endDate": "2023-08",
+      "summary": "Built data infrastructure and conducted analytics; developed marketing data analytics to identify key user groups; designed a survey model for front-end user feedback.",
+      "url": "https://schedgo.com/"
     },
     {
       "name": "San Diego Supercomputer Center",
@@ -136,7 +148,8 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2022-11",
       "endDate": "2023-08",
-      "summary": "Implemented scalable multi-GPU hyperparameter tuning using Ray Tune on HPC infrastructure. Investigated data-centric MLOps solutions to improve time and resource efficiency in experimentation."
+      "summary": "Implemented scalable multi-GPU hyperparameter tuning using Ray Tune on HPC infrastructure. Investigated data-centric MLOps solutions to improve time and resource efficiency in experimentation.",
+      "url": "https://www.sdsc.edu/"
     },
     {
       "name": "Tesla",
@@ -144,7 +157,8 @@
       "location": "Fremont, California, USA",
       "startDate": "2022-06",
       "endDate": "2022-09",
-      "summary": "Developed lossless image compression solutions and advanced statistical process control tools."
+      "summary": "Developed lossless image compression solutions and advanced statistical process control tools.",
+      "url": "https://www.tesla.com/"
     },
     {
       "name": "Bühler Group",
@@ -152,7 +166,8 @@
       "location": "Wuxi, Jiangsu, China",
       "startDate": "2021-07",
       "endDate": "2021-09",
-      "summary": "Initiated MLOps image-labeling features for defect detection and prototyped cross-functional innovation tools."
+      "summary": "Initiated MLOps image-labeling features for defect detection and prototyped cross-functional innovation tools.",
+      "url": "https://www.buhlergroup.com/"
     },
     {
       "name": "J.D. Power",
@@ -160,7 +175,8 @@
       "location": "Shanghai, China",
       "startDate": "2021-06",
       "endDate": "2021-07",
-      "summary": "Optimized workflow for quality analytics by automating data processing and report pipelines."
+      "summary": "Optimized workflow for quality analytics by automating data processing and report pipelines.",
+      "url": "https://www.jdpower.com/"
     },
     {
       "name": "Bosch",
@@ -168,7 +184,8 @@
       "location": "Wuxi, Jiangsu, China",
       "startDate": "2020-08",
       "endDate": "2020-11",
-      "summary": "Developed Tableau dashboards for manufacturing analytics; reduced bottleneck diagnosing time by 80%."
+      "summary": "Developed Tableau dashboards for manufacturing analytics; reduced bottleneck diagnosing time by 80%.",
+      "url": "https://www.bosch.com/"
     }
   ],
   "volunteer": [],
@@ -177,49 +194,57 @@
       "title": "IGE Shah Fellowship",
       "date": "2023-2024",
       "awarder": "UCSD, Institute for the Global Entrepreneur",
-      "summary": "One of two Shah Fellows of the year, awarded for outstanding research contributions and entrepreneurial potential. The Shah Family Entrepreneur Fellowship is a program launched by the Institute for the Global Entrepreneur (IGE), a collaboration between the Jacobs School of Engineering and the Rady School of Management. The program's goal is to teach engineers to be entrepreneurs and leaders."
+      "summary": "Awarded the Shah Family Entrepreneur Fellowship as one of two Shah Fellows for outstanding research contributions and entrepreneurial potential. The fellowship, launched by the Institute for the Global Entrepreneur (IGE)—a collaboration between the Jacobs School of Engineering and the Rady School of Management—aims to teach engineers to become entrepreneurs and leaders.",
+      "url": "https://ige.ucsd.edu/programs/certificate"
     },
     {
       "title": "Participant of The Cornell, Maryland, Max Planck Pre-doctoral Research School",
       "date": "2023",
       "awarder": "Cornell, Maryland, Max Planck Institute",
-      "summary": "Selected to participate in the prestigious pre-doctoral research school focused on cutting-edge interdisciplinary research, held in August 2023."
+      "summary": "Selected to participate in the prestigious pre-doctoral research school focused on cutting-edge interdisciplinary research, held in August 2023.",
+      "url": "https://cmmrs.mpi-sws.org/"
     },
     {
       "title": "HDSI Research Scholarship",
       "date": "2022",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science."
+      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science.",
+      "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
     },
     {
       "title": "TRELS Research Scholarship",
       "date": "2022",
       "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant."
+      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant.",
+      "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
     },
     {
       "title": "HDSI Research Scholarship",
       "date": "2021",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science."
+      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science.",
+      "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
     },
     {
       "title": "Data Science Student Representative",
       "date": "2021-2022",
       "awarder": "HDSI, UCSD",
-      "summary": "Elected as the student representative for the Data Science program at HDSI, representing student interests and helping provide peer advising."
+      "summary": "Elected as the student representative for the Data Science program at HDSI, representing student interests and helping provide peer advising.",
+      "url": "https://datascience.ucsd.edu/"
     },
     {
       "title": "TRELS Research Scholarship",
       "date": "2020",
       "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant."
+      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant.",
+      "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
     },
     {
       "title": "Provost Honor",
       "date": "2019-2023",
       "awarder": "Warren College, UCSD",
-      "summary": "Consistently recognized for academic excellence throughout undergraduate studies."
+      "summary": "Consistently recognized for academic excellence throughout undergraduate studies.",
+      "url": "https://warren.ucsd.edu/"
     }
   ],
   "certificates": [],
@@ -256,49 +281,19 @@
   "skills": [
     {
       "name": "Software",
-      "keywords": [
-        "Python",
-        "R",
-        "SQL",
-        "Angular",
-        "D3.js",
-        "PyTorch",
-        "Clickhouse",
-        "FireStore",
-        "DevOps",
-        "Agile"
-      ]
+      "keywords": ["Python", "R", "SQL", "Angular", "D3.js", "PyTorch", "ClickHouse", "FireStore", "DevOps", "Agile"]
     },
     {
       "name": "Data Science",
-      "keywords": [
-        "Scalable Analytics",
-        "Data Visualization",
-        "MLOps",
-        "Recommender Systems",
-        "Data Mining",
-        "Database"
-      ]
+      "keywords": ["Scalable Analytics", "Data Visualization", "MLOps", "Recommender Systems", "Data Mining", "Database"]
     },
     {
       "name": "Mathematics",
-      "keywords": [
-        "Probabilistic Reasoning",
-        "Descriptive and Inferential Statistics",
-        "Stochastic Processes"
-      ]
+      "keywords": ["Probabilistic Reasoning", "Descriptive and Inferential Statistics", "Stochastic Processes"]
     },
     {
       "name": "AI/ML",
-      "keywords": [
-        "LSTM",
-        "GAN",
-        "GNN",
-        "NeRF",
-        "3D Gaussian Splatting",
-        "Reinforcement Learning",
-        "LLM"
-      ]
+      "keywords": ["LSTM", "GAN", "GNN", "NeRF", "3D Gaussian Splatting", "Reinforcement Learning", "LLM"]
     }
   ],
   "languages": [
@@ -314,7 +309,17 @@
   "interests": [
     {
       "name": "Research",
-      "keywords": ["Design", "HCI", "Graphics", "Creativity", "Generative AI", "3D Understanding", "Human & Embodied Autonomous Systems", "Accessibility", "Fairness"]
+      "keywords": [
+        "Design",
+        "HCI",
+        "Graphics",
+        "Creativity",
+        "Generative AI",
+        "3D Understanding",
+        "Human & Embodied Autonomous Systems",
+        "Accessibility",
+        "Fairness"
+      ]
     },
     {
       "name": "Real ones",
