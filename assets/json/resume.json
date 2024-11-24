@@ -1,19 +1,36 @@
 {
   "basics": {
     "name": "Sirui Tao",
-    "label": "Researcher and Engineer",
+    "label": "HCI Researcher and Engineer",
     "image": "",
     "email": "s1tao@ucsd.edu",
-    "url": "https://dylantao.github.io",
-    "summary": "A master's student in Computer Science and Engineering at UCSD, focusing on HCI and Graphics, with a background in data science and statistics, passionate about combining AI with design and technology.",
+    "url": "https://dylandao.github.io/",
+    "summary": "A master's student in Computer Science and Engineering at UCSD, focusing on HCI and Graphics, with a background in data science and statistics, passionate about combining AI with design and technology to augment human.",
     "location": {
-      "address": "",
-      "postalCode": "",
-      "city": "San Diego",
+      "address": "9510 Innovation Ln",
+      "postalCode": "CA 92093",
+      "city": "La Jolla",
       "countryCode": "US",
       "region": "California"
-    }
-  },
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "siruitao",
+        "url": "https://www.linkedin.com/in/siruitao"
+      },
+      {
+        "network": "GitHub",
+        "username": "dylandao",
+        "url": "https://github.com/dylanTao"
+      },
+      {
+        "network": "Twitter",
+        "username": "siruitao",
+        "url": "https://x.com/siruitao"
+      }
+    ]
+    },
   "education": [
     {
       "institution": "University of California, San Diego",
@@ -225,14 +242,14 @@
       "name": "Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines",
       "publisher": "Proceedings of the Annual Meeting of the Cognitive Science Society",
       "releaseDate": "2023",
-      "url": "",
+      "url": "https://escholarship.org/uc/item/3x9960zn",
       "summary": "Evaluates physical scene understanding in humans and machines with varying physical attributes."
     },
     {
       "name": "Physion: Evaluating Physical Prediction from Vision in Humans and Machines",
       "publisher": "Advances in Neural Information Processing Systems",
       "releaseDate": "2021",
-      "url": "",
+      "url": "https://physion-benchmark.github.io/",
       "summary": "A study on evaluating physical prediction from vision in humans and machines."
     }
   ],
@@ -321,11 +338,13 @@
   "projects": [
     {
       "name": "Tree-of-thoughts Context-aware Encoding for LLMs",
-      "summary": "Developed a context-aware encoding algorithm for LLMs to improve retrieval and contextual understanding."
+      "summary": "Developed a context-aware encoding algorithm for LLMs to improve retrieval and contextual understanding.",
+      "url": "https://github.com/DylanTao/CAC"
     },
     {
       "name": "GraphHSCN",
-      "summary": "Developed a novel graph neural network architecture for long-range interaction modeling."
+      "summary": "Developed a novel graph neural network architecture for long-range interaction modeling.",
+      "url": "https://graphhscn.github.io"
     }
   ]
 }
