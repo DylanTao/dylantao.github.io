@@ -22,7 +22,7 @@ Hello Visitor, Sirui here!👋 I am a master's student in Computer Science and E
 Currently, my three main research interests are (listed in order of my passion for each topic):
 
 1. **HCI and Design**
-2. **Embodied (semi-)autonomous Systems in the Wild**
+2. **Embodied (semi-)Autonomous Systems in the Wild**
 3. **AI and Mixed Reality for People with Disabilities**
 
 More specifically, I am interested in:
