@@ -281,7 +281,7 @@
   "skills": [
     {
       "name": "Software",
-      "keywords": ["Python", "R", "SQL", "Angular", "D3.js", "PyTorch", "ClickHouse", "FireStore", "DevOps", "Agile"]
+      "keywords": ["Python", "R", "SQL", "Angular", "D3.js", "PyTorch", "ClickHouse", "FireStore", "DevOps", "Agile", "AR/ VR"]
     },
     {
       "name": "Data Science",
@@ -293,7 +293,11 @@
     },
     {
       "name": "AI/ML",
-      "keywords": ["LSTM", "GAN", "GNN", "NeRF", "3D Gaussian Splatting", "Reinforcement Learning", "LLM"]
+      "keywords": ["LSTM", "GAN", "Diffusion Models", "GNN", "NeRF", "3D Gaussian Splatting", "Reinforcement Learning", "LLM"]
+    },
+    {
+      "name": "Human-Computer Interaction",
+      "keywords": ["User-Centered Design", "Interaction Design", "Prototyping", "Qualitative & Quantitative Methods", "A/B Testing"]
     }
   ],
   "languages": [
