@@ -280,24 +280,24 @@
   ],
   "skills": [
     {
-      "name": "Software",
-      "keywords": ["Python", "R", "SQL", "Angular", "D3.js", "PyTorch", "ClickHouse", "FireStore", "DevOps", "Agile", "AR/ VR"]
+      "name": "Human-Computer Interaction",
+      "keywords": ["User-Centered Design", "Interaction Design", "Prototyping", "Qualitative & Quantitative Methods", "A/B Testing"]
     },
     {
       "name": "Data Science",
       "keywords": ["Scalable Analytics", "Data Visualization", "MLOps", "Recommender Systems", "Data Mining", "Database"]
     },
     {
-      "name": "Mathematics",
-      "keywords": ["Probabilistic Reasoning", "Descriptive and Inferential Statistics", "Stochastic Processes"]
-    },
-    {
       "name": "AI/ML",
       "keywords": ["LSTM", "GAN", "Diffusion Models", "GNN", "NeRF", "3D Gaussian Splatting", "Reinforcement Learning", "LLM"]
     },
     {
-      "name": "Human-Computer Interaction",
-      "keywords": ["User-Centered Design", "Interaction Design", "Prototyping", "Qualitative & Quantitative Methods", "A/B Testing"]
+      "name": "Software",
+      "keywords": ["Python", "R", "SQL", "Angular", "D3.js", "PyTorch", "ClickHouse", "FireStore", "DevOps", "Agile", "AR/ VR"]
+    },
+    {
+      "name": "Mathematics",
+      "keywords": ["Probabilistic Reasoning", "Descriptive and Inferential Statistics", "Stochastic Processes"]
     }
   ],
   "languages": [
