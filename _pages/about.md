@@ -9,7 +9,7 @@ profile:
   image: sirui_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>9500 Gilman Dr</p>
+    <p>9510 Innovation Ln,</p>
     <p>La Jolla, CA 92093, USA</p>
 
 news: false # includes a list of news items
