@@ -7,9 +7,9 @@ subtitle: <a href='#'>Affiliations</a> University of California San Diego
 profile:
   align: right
   image: sirui_pic.jpg
-  image_circular: false # crops the image to make it circular
+  image_circular: true # crops the image to make it circular
   more_info: >
-    <p>9510 Innovation Ln,</p>
+    <p>9510 Innovation Ln</p>
     <p>La Jolla, CA 92093, USA</p>
 
 news: false # includes a list of news items
@@ -24,20 +24,18 @@ Currently, my three main research interests are (listed in order of my passion f
 1. **HCI and Design**
 2. **Embodied (semi-)Autonomous Systems in the Wild**
 3. **AI and Mixed Reality for People with Disabilities**
+4. **Human-in-the-loop AI Solutions in Real World**
 
 More specifically, I am interested in:
 
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both Human-Computer Interaction and Computer Graphics perspectives.
 2. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
 3. Using AI and Mixed Reality to help blind and low-vision individuals live more enjoyable and independent lives 😎.
+4. Monitoring and iteratively improving the deployment of the above mentioned AI solutions in the real world 🌍 to maximize benefits while minimizing harm.
 
 Additionally, I am open to explore:
 
-- How we can maximize benefits while minimizing harm when new AI solutions are deployed in the real world.
-  This includes:
-  - Using well-designed metrics to monitor and measure outcomes as vast amounts of information stream in.
-  - Keeping humans in the loop to iteratively improve the process.
-- Providing more customized and effective learning resources and interactions while making them more affordable and accessible to people.
-- Creating more inclusive and effective community work support, enabled by the emergence of AI advancements.
+- Scaling affordable and accessible learning resources for all with customized and engaging interactions enabled by learner-centric generative AI.
+- Creating more inclusive and effective support for community-centered work, enabled by the emergence of AI advancements.
 
 Currently, I am working on research projects under the guidance of [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive physics.

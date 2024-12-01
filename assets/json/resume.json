@@ -188,7 +188,32 @@
       "url": "https://www.bosch.com/"
     }
   ],
-  "volunteer": [],
+  "volunteer": [
+    {
+      "organization": "Halıcıoğlu Data Science Institute, UC San Diego",
+      "location": "La Jolla, CA, USA",
+      "position": "Data Science Student Representative",
+      "url": "https://datascience.ucsd.edu",
+      "startDate": "2021-09-01",
+      "endDate": "2022-06-01",
+      "summary": "Represented HDSI students to improve the data science program and curriculum.",
+      "highlights": [
+        "Peer-advised HDSI undergraduate students.",
+        "Evaluated and improved the data science curriculum.",
+        "Promoted the program to external audiences."
+      ]
+    },
+    {
+      "organization": "Mentor Collective",
+      "location": "La Jolla, CA, USA",
+      "position": "Mentor at UCSD",
+      "url": "https://mentorcollective.org",
+      "startDate": "2021-09-01",
+      "endDate": "2022-02-01",
+      "summary": "Mentored first-year and transfer students at UCSD to help them adapt to university life.",
+      "highlights": ["Provided guidance and support for new UCSD students.", "Facilitated connections to campus resources and communities."]
+    }
+  ],
   "awards": [
     {
       "title": "IGE Shah Fellowship",
