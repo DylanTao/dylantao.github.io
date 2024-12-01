@@ -26,7 +26,7 @@ Currently, my four main research interests are (listed in order of my passion fo
 3. **AI and Mixed Reality for People with Disabilities**
 4. **Human-in-the-loop AI Solutions in Real World**
 
-More specifically, I am interested in:
+More specifically:
 
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both Human-Computer Interaction and Computer Graphics perspectives.
 2. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
