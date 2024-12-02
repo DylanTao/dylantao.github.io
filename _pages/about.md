@@ -17,7 +17,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Hello Visitor, Sirui (pronounced as "three") here!👋 I am a master's student in Computer Science and Engineering at the University of California San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities in all areas.
+Hello visitor, Sirui (pronounced as "three") here!👋 I am a master's student in Computer Science and Engineering at the University of California San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities in all areas.
 
 Currently, my four main research interests are (listed in order of my passion for each topic):
 
