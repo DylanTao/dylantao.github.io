@@ -10,8 +10,8 @@ email: dylantaosirui@gmail.com
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   Sirui Tao | HCI Researcher & Graphics Enthusiast at UCSD
 footer_text: >
-  Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a>.
-  Hosted by <a href="https://pages.github.com/" target="_blank">GitHub</a>.
+  Big thanks </a> to <a href="https://github.com/alshedivat/al-folio">al-folio</a>.
+  Best way to contact is email!
 keywords: sirui, sirui-tao, tao-sirui, researcher-sirui-tao, human-computer-interaction, human-centered-ai, hci-research, computational-design, ux-research, embodied-robotics, generative-design, creative-ai, graphics, ucsd, hci, design-tools, generative-ai, 3d-graphics, creativity, hci-and-graphics, mixed-reality-design, research, ucsd-research, ucsd-hci, academic-website, portfolio-website, product-manager, data-scientist, hci-phd, phd-applicant # add your own keywords or leave empty
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon.ico # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
@@ -53,7 +53,7 @@ socials_in_search: true
 bib_search: true
 
 # Dimensions
-max_width: 1225px
+max_width: 1480px
 
 # TODO: add layout settings (single page vs. multi-page)
 
@@ -86,7 +86,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: sirui-tao # blog_name will be displayed in your blog page
-blog_description: a simple whitespace theme for academics
+blog_description: a place to dump random stuff
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
@@ -95,7 +95,7 @@ pagination:
   enabled: true
 
 related_blog_posts:
-  enabled: true
+  enabled: false
   max_related: 5
 
 # Giscus comments (RECOMMENDED)
@@ -103,7 +103,7 @@ related_blog_posts:
 giscus:
   repo: # <your-github-user-name>/<your-github-repo-name>
   repo_id: # leave empty or specify your repo_id (see https://giscus.app/)
-  category: Comments # name of the category under which discussions will be created
+  category: Critiques # name of the category under which discussions will be created
   category_id: # leave empty or specify your category_id (see https://giscus.app/)
   mapping: title # identify discussions by post title
   strict: 1 # use strict identification mode
@@ -257,8 +257,8 @@ jekyll-archives:
     tag: "/blog/tag/:name/"
     category: "/blog/category/:name/"
 
-display_tags: ["formatting", "images", "links", "math", "code", "blockquotes"] # these tags will be displayed on the front page of your blog
-display_categories: ["external-services"] # these categories will be displayed on the front page of your blog
+display_tags: ["gen-ai", "cool-things", "art"] # these tags will be displayed on the front page of your blog
+display_categories: ["image-posts"] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
