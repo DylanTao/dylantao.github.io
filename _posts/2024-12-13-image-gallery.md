@@ -16,7 +16,7 @@ images:
 
 With greater power comes more time wasted :-]
 
-## [MidJourney](https://www.midjourney.com/explore)
+## MidJourney
 
 <div class="spotlight-group">
   <a class="spotlight" href="/assets/img/genai_pics/facesoft_dog.png"><img src="/assets/img/genai_pics/facesoft_dog-480.webp"/></a>
