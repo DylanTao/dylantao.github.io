@@ -28,10 +28,10 @@ Currently, my four main research interests are (listed in order of my passion fo
 
 More specifically:
 
-1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both Human-Computer Interaction and Computer Graphics perspectives.
+1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
 2. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
-3. Using AI and Mixed Reality to help blind and low-vision individuals live more enjoyable and independent lives 😎.
-4. Monitoring and iteratively improving the deployment of the above mentioned AI solutions in the real world 🌍 to maximize benefits while minimizing harm.
+3. Using AI and Mixed Reality to help blind and low-vision individuals live more enjoyably and independently 😎.
+4. Monitoring and iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
 
 Additionally, I am open to explore:
 
