@@ -9,7 +9,7 @@ profile:
   image: sirui_pic.jpg
   image_circular: true # crops the image to make it circular
   more_info: >
-    <p>9510 Innovation Ln</p>
+    <p>9510 Innovation Ln,</p>
     <p>La Jolla, CA 92093, USA</p>
 
 news: false # includes a list of news items
@@ -31,7 +31,7 @@ More specifically:
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
 2. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
 3. Using AI and Mixed Reality to help blind and low-vision individuals live more enjoyably and independently 😎.
-4. Monitoring and iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
+4. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
 
 Additionally, I am open to explore:
 
