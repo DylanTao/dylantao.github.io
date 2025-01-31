@@ -94,9 +94,17 @@
       "name": "UCSD",
       "position": "Teaching Assistant - DSGN 1",
       "location": "La Jolla, CA, USA",
+      "startDate": "2025-01",
+      "endDate": "2025-03",
+      "url": "https://catalog.ucsd.edu/courses/DSGN.html"
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - DSGN 1",
+      "location": "La Jolla, CA, USA",
       "startDate": "2024-09",
       "endDate": "2024-12",
-      "url": "https://design.ucsd.edu/"
+      "url": "https://catalog.ucsd.edu/courses/DSGN.html"
     },
     {
       "name": "UCSD",
@@ -104,7 +112,7 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2024-06",
       "endDate": "2024-09",
-      "url": "https://cse.ucsd.edu/"
+      "url": "https://catalog.ucsd.edu/courses/CSE.html"
     },
     {
       "name": "UCSD",
@@ -112,7 +120,7 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2024-03",
       "endDate": "2024-06",
-      "url": "https://design.ucsd.edu/"
+      "url": "https://catalog.ucsd.edu/courses/DSGN.html"
     },
     {
       "institution": "UCSD",
@@ -120,7 +128,7 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2024-01",
       "endDate": "2024-03",
-      "url": "https://cogsci.ucsd.edu/"
+      "url": "https://catalog.ucsd.edu/courses/COGS.html"
     }
   ],
   "work": [
