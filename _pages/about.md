@@ -21,7 +21,7 @@ announcements:
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: true
+  enabled: false
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
@@ -32,14 +32,14 @@ Currently, my four main research interests are (listed in order of my passion fo
 
 1. **HCI and Design**
 2. **Embodied (semi-)Autonomous Systems in the Wild**
-3. **AI and Mixed Reality for People with Disabilities**
+3. **AI and Mixed Reality for User Experience Augmentation**
 4. **Human-in-the-loop AI Solutions in Real World**
 
 More specifically:
 
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
 2. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
-3. Using AI and Mixed Reality to help blind and low-vision individuals live more enjoyably and independently 😎.
+3. Using spatial intelligence and Mixed Reality to augment individuals both in their everyday experience and professional workflow 😎.
 4. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
 
 Additionally, I am open to explore:
