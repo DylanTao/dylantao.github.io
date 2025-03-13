@@ -38,9 +38,9 @@ Currently, my four main research interests are (listed in order of my passion fo
 More specifically:
 
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
-3. Using spatial intelligence and Mixed Reality to augment individuals both in their everyday experience and professional workflow 😎.
-4. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
-5. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
+2. Using spatial intelligence and Mixed Reality to augment individuals both in their everyday experience and professional workflow 😎.
+3. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
+4. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
 
 Additionally, I am open to explore:
 
