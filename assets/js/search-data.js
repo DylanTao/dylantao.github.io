@@ -44,6 +44,9 @@ ninja.data = [{
     },{id: "news-designweaver-got-into-chi-25-will-go-to-japan-sparkles-smile",
           title: 'DesignWeaver got into CHI 25! Will go to Japan! :sparkles: :smile:',
           description: "",
+          section: "News",},{id: "news-hotspot-got-into-cvpr-25",
+          title: 'HotSpot got into CVPR 25!',
+          description: "",
           section: "News",},{
         id: 'social-bluesky',
         title: 'Bluesky',
