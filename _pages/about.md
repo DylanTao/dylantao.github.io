@@ -26,21 +26,21 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hello visitor, Sirui (pronounced as "three") here!👋 I am a master's student in Computer Science and Engineering at the University of California San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities in all areas.
+Hello visitor, Sirui (pronounced as "three") here!👋 I am a HCI graduate student researcher in Computer Science and Engineering at the University of California San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities in all areas.
 
 Currently, my four main research interests are (listed in order of my passion for each topic):
 
-1. **HCI and Design**
-2. **Embodied (semi-)Autonomous Systems in the Wild**
-3. **AI and Mixed Reality for User Experience Augmentation**
+1. **HAI and Design**
+2. **AI and Mixed Reality for User Experience Augmentation**
+3. **Embodied (semi-)Autonomous Systems in the Wild**
 4. **Human-in-the-loop AI Solutions in Real World**
 
 More specifically:
 
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
-2. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
 3. Using spatial intelligence and Mixed Reality to augment individuals both in their everyday experience and professional workflow 😎.
-4. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
+4. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
+5. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
 
 Additionally, I am open to explore:
 
