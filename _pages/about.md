@@ -47,4 +47,4 @@ Additionally, I am open to explore:
 - Scaling affordable and accessible learning resources for all with customized and engaging interactions enabled by learner-centric generative AI.
 - Creating more inclusive and effective support for community-centered work, enabled by the emergence of AI advancements.
 
-Currently, I am working on research projects under the guidance of [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive physics.
+Currently, I am working with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
