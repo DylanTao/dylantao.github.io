@@ -7,6 +7,7 @@ subtitle: <a href='#'>Affiliations</a> University of California San Diego
 profile:
   align: right
   image: sirui_pic.jpg
+  image_hover: sirui_pic_ghbili.png
   image_circular: true # crops the image to make it circular
   more_info: >
     <p>9510 Innovation Ln,</p>
