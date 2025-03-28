@@ -196,8 +196,8 @@ ul.task-list input[type="checkbox"] {
   width: 100%;
 
   .more-info {
-    margin-bottom: 5px;
-    margin-top: 5px;
+    // margin-bottom: 5px;
+    // margin-top: 5px;
     font-family: monospace;
 
     p {
@@ -223,17 +223,16 @@ ul.task-list input[type="checkbox"] {
   background-position: center;
   border-radius: 50%;
   overflow: hidden;
-  padding: 0 !important;
-  margin: 0 !important;
+  aspect-ratio: 1 / 1; // explicitly enforce square ratio without explicit px size
 
   img, picture {
     display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
     transition: opacity 0.3s ease-in-out;
-    padding: 0 !important;
     margin: 0 !important;
+    padding: 0 !important;
   }
 
   &:hover img {
