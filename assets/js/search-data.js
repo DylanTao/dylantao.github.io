@@ -30,18 +30,34 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-a-gallery-of-random-gen-ai-images",
-      
-        title: "a gallery of random gen-ai images",
-      
-      description: "a gallery of random gen-ai images",
-      section: "Posts",
-      handler: () => {
+        },{id: "post-a-post-with-plotly-js",
         
-          window.location.href = "/blog/2024/image-gallery/";
+          title: "a post with plotly.js",
         
-      },
-    },{id: "news-designweaver-got-into-chi-25-will-go-to-japan-sparkles-smile",
+        description: "this is what included plotly.js code could look like",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/plotly/";
+          
+        },
+      },{id: "post-a-gallery-of-random-gen-ai-images",
+        
+          title: "a gallery of random gen-ai images",
+        
+        description: "a gallery of random gen-ai images",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/image-gallery/";
+          
+        },
+      },{id: "books-the-godfather",
+          title: 'The Godfather',
+          description: "",
+          section: "Books",handler: () => {
+              window.location.href = "/books/the_godfather/";
+            },},{id: "news-designweaver-got-into-chi-25-will-go-to-japan-sparkles-smile",
           title: 'DesignWeaver got into CHI 25! Will go to Japan! :sparkles: :smile:',
           description: "",
           section: "News",},{id: "news-hotspot-got-into-cvpr-25",
