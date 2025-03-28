@@ -66,10 +66,6 @@ If you want to create blog posts that are not ready to be published, but you wan
 
 Note that `posts` is also a collection, but it is a default collection created automatically by Jekyll. To access the posts, you can use the `site.posts` variable in your templates.
 
-## Creating new projects
-
-You can create new projects by adding new Markdown files in the [\_projects](_projects/) directory. The easiest way to do this is to copy an existing project and modify it.
-
 ## Adding some news
 
 You can add news in the about page by adding new Markdown files in the [\_news](_news/) directory. There are currently two types of news: inline news and news with a link. News with a link take you to a new page while inline news are displayed directly in the about page. The easiest way to create yours is to copy an existing news and modify it.
@@ -208,7 +204,6 @@ To remove the news section, you can:
 
 To remove the projects, you can:
 
-- delete the [\_projects](_projects/) directory
 - delete the projects page [\_pages/projects.md](_pages/projects.md)
 - remove reference to projects page in our [\_pages/dropdown.md](_pages/dropdown.md)
 - remove projects part in the `Collections` section in the [\_config.yml](_config.yml) file
