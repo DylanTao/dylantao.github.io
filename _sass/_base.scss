@@ -225,7 +225,8 @@ ul.task-list input[type="checkbox"] {
   overflow: hidden;
   aspect-ratio: 1 / 1; // explicitly enforce square ratio without explicit px size
 
-  img, picture {
+  img,
+  picture {
     display: block;
     width: 100% !important;
     height: 100% !important;

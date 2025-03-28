@@ -15,12 +15,16 @@ layout: page
               {% assign profile_image_class = 'img-fluid z-depth-1 rounded' %}
             {% endif %}
             {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px) 30vw, 95vw"{% endcapture %}
-            <div class="profile-image-container"
-                style="background-image: url('{{ profile.image_hover | prepend: 'assets/img/' | relative_url }}');">
-              <img src="{{ profile_image_path | relative_url }}" 
-                  class="{{ profile_image_class }}"
-                  alt="{{ profile.image }}"
-                  loading="eager">
+            <div
+              class="profile-image-container"
+              style="background-image: url('{{ profile.image_hover | prepend: 'assets/img/' | relative_url }}');"
+            >
+              <img
+                src="{{ profile_image_path | relative_url }}"
+                class="{{ profile_image_class }}"
+                alt="{{ profile.image }}"
+                loading="eager"
+              >
             </div>
           {% endif %}
           {% if profile.more_info %}

@@ -7,7 +7,11 @@ subtitle: <a href='#'>Affiliations</a> University of California San Diego
 profile:
   align: right
   image: sirui_pic.jpg
-  image_hover: sirui_pic_ghbili.png
+  image_hovers:
+    - sirui_pic_ghbili.png
+    - sirui_pic_rick_and_morty.png
+    - sirui_pic_south_park.png
+    - sirui_pic_simpsons.png
   image_circular: true # crops the image to make it circular
   more_info: >
     <p>9510 Innovation Ln,</p>
@@ -49,3 +53,16 @@ Additionally, I am open to explore:
 - Creating more inclusive and effective support for community-centered work, enabled by the emergence of AI advancements.
 
 Currently, I am working with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const container = document.getElementById('profile-image-container');
+  if (container) {
+    const images = container.getAttribute('data-images').split(',');
+    container.addEventListener('mouseenter', function(){
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+      container.style.backgroundImage = `url(${randomImage})`;
+    });
+  }
+});
+</script>
