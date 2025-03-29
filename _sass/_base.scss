@@ -194,6 +194,7 @@ ul.task-list input[type="checkbox"] {
 
 .profile {
   width: 100%;
+  aspect-ratio: 1 / 1;
 
   .more-info {
     // margin-bottom: 5px;
@@ -208,11 +209,11 @@ ul.task-list input[type="checkbox"] {
 }
 
 .profile.float-right {
-  margin-left: 1rem;
+  margin-left: 0rem;
 }
 
 .profile.float-left {
-  margin-right: 1rem;
+  margin-right: 0rem;
 }
 
 // Profile image hover effect
@@ -229,7 +230,7 @@ ul.task-list input[type="checkbox"] {
   picture {
     display: block;
     width: 100% !important;
-    height: 100% !important;
+    aspect-ratio: 1 / 1;
     object-fit: cover !important;
     transition: opacity 0.3s ease-in-out;
     margin: 0 !important;
