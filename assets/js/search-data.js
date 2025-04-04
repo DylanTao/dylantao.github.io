@@ -63,6 +63,9 @@ ninja.data = [{
           section: "News",},{id: "news-hotspot-got-into-cvpr-25",
           title: 'HotSpot got into CVPR 25!',
           description: "",
+          section: "News",},{id: "news-hotspot-got-selected-as-a-cvpr-25-highlight",
+          title: 'HotSpot got selected as a CVPR 25 Highlight!',
+          description: "",
           section: "News",},{
         id: 'social-bluesky',
         title: 'Bluesky',
