@@ -52,7 +52,7 @@ Additionally, I am open to explore (listed in order of my passion for each topic
 - Scaling affordable and accessible learning resources 📚 for all with customized and engaging interactions enabled by learner-centric generative AI ✨.
 - Creating more inclusive 🤝 and effective support for community-centered work 🏘️, enabled by the emergence of AI advancements.
 
-In my Ph.D., I will be continuing working with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI. In Master's, I worked with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
+During my Ph.D., I will continue my research in HCI under the guidance of [Prof. Steven Dow](https://spdow.ucsd.edu/). Throughout my Master's program, I collaborated with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
 
 If you want to chat, free to contact me via any of the social links at the bottom of the page.
 
