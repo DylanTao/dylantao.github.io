@@ -31,28 +31,30 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hello visitor, Sirui (pronounced as "three") here!👋 I am a HCI graduate student researcher in Computer Science and Engineering at the University of California San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities in all areas.
+Hello visitor, Sirui here!👋 (pronounced as "three")
 
-Currently, my four main research interests are (listed in order of my passion for each topic):
+I am an incoming Ph.D. student in Cognitive Science Department at the UC San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities.
+
+Currently, my main research interests are:
 
 1. **HAI and Design**
 2. **AI and Mixed Reality for User Experience Augmentation**
-3. **Embodied (semi-)Autonomous Systems in the Wild**
-4. **Human-in-the-loop AI Solutions in Real World**
 
 More specifically:
 
 1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
 2. Using spatial intelligence and Mixed Reality to augment individuals both in their everyday experience and professional workflow 😎.
-3. Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
-4. Iteratively improving the above mentioned AI solutions post-deployment in real world 🌍 to maximize benefits while minimizing harm.
 
-Additionally, I am open to explore:
+Additionally, I am open to explore (listed in order of my passion for each topic):
 
-- Scaling affordable and accessible learning resources for all with customized and engaging interactions enabled by learner-centric generative AI.
-- Creating more inclusive and effective support for community-centered work, enabled by the emergence of AI advancements.
+- Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
+- Iteratively improving AI solutions post-deployments in real world 🌍 to maximize benefits while minimizing harm.
+- Scaling affordable and accessible learning resources 📚 for all with customized and engaging interactions enabled by learner-centric generative AI ✨.
+- Creating more inclusive 🤝 and effective support for community-centered work 🏘️, enabled by the emergence of AI advancements.
 
-Currently, I am working with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
+In my Ph.D., I will be continuing working with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI. In Master's, I worked with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. During my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
+
+If you want to chat, free to contact me via any of the social links at the bottom of the page.
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
