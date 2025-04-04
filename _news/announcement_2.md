@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-HotSpot got into CVPR 25!
+[HotSpot](https://zeamoxwang.github.io/HotSpot-CVPR25/) got into CVPR 25!

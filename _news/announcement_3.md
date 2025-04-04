@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-HotSpot got selected as a CVPR 25 Highlight!
+[HotSpot](https://zeamoxwang.github.io/HotSpot-CVPR25/) got selected as a CVPR 25 Highlight!
