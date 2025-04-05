@@ -23,6 +23,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "A growing collection of your cool projects.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
         },{id: "nav-blog",
           title: "blog",
           description: "",
@@ -55,7 +62,12 @@ ninja.data = [{
           section: "News",},{id: "news-hotspot-got-selected-as-a-cvpr-25-highlight",
           title: 'HotSpot got selected as a CVPR 25 Highlight!',
           description: "",
-          section: "News",},{
+          section: "News",},{id: "projects-project-1",
+          title: 'project 1',
+          description: "with background image",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/1_project/";
+            },},{
         id: 'social-bluesky',
         title: 'Bluesky',
         section: 'Socials',
