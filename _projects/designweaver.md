@@ -12,7 +12,7 @@ related_publications: true
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.png" title="DesignWeaver_teaser" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" title="DesignWeaver_teaser" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -29,7 +29,7 @@ DesignWeaver leverages advanced models (such as GPT-4 for text and DALL-E 3 for 
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_system_diagram.png" title="tool_design_system_diagram" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_system_diagram.jpg" title="tool_design_system_diagram" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -44,7 +44,7 @@ DesignWeaver leverages advanced models (such as GPT-4 for text and DALL-E 3 for 
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_all_features.png" title="tool_design_all_features" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_all_features.jpg" title="tool_design_all_features" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -61,7 +61,7 @@ A user study involving 52 novice designers revealed that DesignWeaver:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.png" title="user_study_workflow" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" title="user_study_workflow" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -76,7 +76,7 @@ A user study involving 52 novice designers revealed that DesignWeaver:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_baseline.png" title="user_study_baseline" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_baseline.jpg" title="user_study_baseline" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -93,10 +93,10 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 <div class="row justify-content-sm-center">
     <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.png" title="finding_survey_average_ratings_comparison" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.jpg" title="finding_survey_average_ratings_comparison" class="img-fluid rounded z-depth-1" %}
     </div>
     <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution.png" title="finding_image_similarity_scores_distribution" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution.jpg" title="finding_image_similarity_scores_distribution" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -105,7 +105,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.png" title="finding_novelty_gallery_" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg" title="finding_novelty_gallery_" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
