@@ -100,8 +100,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
     </div>
 </div>
 <div class="caption">
-    Figure 6: Participants rated DesignWeaver higher than the Baseline on ease of idea-to-prompt conversion, design space exploration, prompt generation, concept refinement, and iterative design improvement (Left). 
-    DesignWeaver participants created semantically more diverse images than the Baseline (Right).
+    Figure 6: Participants rated DesignWeaver higher than the Baseline on ease of idea-to-prompt conversion, design space exploration, prompt generation, concept refinement, and iterative design improvement (Left). <br> DesignWeaver participants created semantically more diverse images than the Baseline (Right).
 </div>
 
 <div class="row">
