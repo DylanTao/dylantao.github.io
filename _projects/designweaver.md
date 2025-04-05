@@ -121,9 +121,11 @@ DesignWeaver demonstrates that integrating AI into the design process can signif
 {% raw %}
 
 ```html
-@inproceedings{tao2024designweaver, title = {DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design}, author = {Tao, Sirui and Liang,
-Ivan and Peng, Cindy and Wang, Zhiqing and Palani, Srishti and Dow, Steven}, booktitle = {Conference on Human Factors in Computing Systems}, year =
-{2025}, }
+@inproceedings{tao2024designweaver, 
+title = {DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design}, 
+author = {Tao, Sirui and Liang, Ivan and Peng, Cindy and Wang, Zhiqing and Palani, Srishti and Dow, Steven}, booktitle = {Conference on Human Factors in Computing Systems}, 
+year = {2025}
+}
 ```
 
 {% endraw %}
