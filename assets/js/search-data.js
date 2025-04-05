@@ -25,7 +25,7 @@ ninja.data = [{
           },
         },{id: "nav-projects",
           title: "projects",
-          description: "A growing collection of your cool projects.",
+          description: "A growing collection of cool projects.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
@@ -62,11 +62,16 @@ ninja.data = [{
           section: "News",},{id: "news-hotspot-got-selected-as-a-cvpr-25-highlight",
           title: 'HotSpot got selected as a CVPR 25 Highlight!',
           description: "",
-          section: "News",},{id: "projects-project-1",
-          title: 'project 1',
-          description: "with background image",
+          section: "News",},{id: "projects-designweaver",
+          title: 'DesignWeaver',
+          description: "a tool that helps novices generate better design prompts by surfacing key visual dimensions, leading to more diverse and expert-aligned product designs",
           section: "Projects",handler: () => {
-              window.location.href = "/projects/1_project/";
+              window.location.href = "/projects/designweaver/";
+            },},{id: "projects-hotspot",
+          title: 'HotSpot',
+          description: "a new optimization framework for neural signed distance functions (SDFs) by solving a screened Poisson equation that provides an asymptotically sufficient condition—ensuring the output converges to the true distance function, unlike prior methods like the Eikonal loss which are necessary but insufficient; the method improves stability, penalizes surface area naturally, and achieves superior surface reconstruction across 2D and 3D datasets",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/hotspot/";
             },},{
         id: 'social-bluesky',
         title: 'Bluesky',
