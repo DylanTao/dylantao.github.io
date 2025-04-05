@@ -5,7 +5,7 @@
     "image": "",
     "email": "s1tao@ucsd.edu",
     "url": "https://dylandao.github.io/",
-    "summary": "A master's student in Computer Science and Engineering at UCSD, focusing on HCI and Graphics, with a background in data science and statistics, passionate about combining AI with design and technology to augment human.",
+    "summary": "An incoming Ph.D. student in Cognitive Science at UC San Diego, focusing on HCI and Design, with a background in graphics, data science and statistics, passionate about combining AI with design and technology to augment human.",
     "location": {
       "address": "9510 Innovation Ln",
       "postalCode": "CA 92093",
@@ -34,11 +34,20 @@
   "education": [
     {
       "institution": "University of California San Diego",
+      "area": "Cognitive Science",
+      "studyType": "Doctor of Philosophy",
+      "startDate": "2025-08",
+      "endDate": "2030-06",
+      "courses": "Research in Human-computer-interaction & Design, advised by Prof. Steven Dow.",
+      "url": "https://ucsd.edu/"
+    },
+    {
+      "institution": "University of California San Diego",
       "area": "Computer Science and Engineering",
       "studyType": "Master of Science",
       "startDate": "2023-09",
-      "endDate": "2025-06",
-      "courses": "Doing research in Human-computer-interaction & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li.",
+      "endDate": "2025-03",
+      "courses": "Research in Human-computer-interaction & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li.",
       "url": "https://ucsd.edu/"
     },
     {
@@ -47,7 +56,7 @@
       "studyType": "Bachelor of Science",
       "startDate": "2019-09",
       "endDate": "2023-03",
-      "courses": "Doing research in Intuitive Physics, advised by Prof. Judith Fan.",
+      "courses": "Research in Intuitive Physics, advised by Prof. Judith Fan.",
       "url": "https://ucsd.edu/"
     }
   ],
