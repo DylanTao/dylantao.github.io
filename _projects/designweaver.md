@@ -8,7 +8,7 @@ category: research
 related_publications: true
 ---
 
-**DesignWeaver** is an AI-enabled tool that empowers novice designers by scaffolding the design process through key visual dimensions. By automatically extracting and organizing design elements from images and design documents, DesignWeaver enables users to generate richer text prompts and, in turn, more innovative design outputs *{% cite tao2024designweaver %}*.
+**DesignWeaver** is an AI-enabled tool that empowers novice designers by scaffolding the design process through key visual dimensions. By automatically extracting and organizing design elements from images and design documents, DesignWeaver enables users to generate richer text prompts and, in turn, more innovative design outputs _{% cite tao2024designweaver %}_.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -121,12 +121,9 @@ DesignWeaver demonstrates that integrating AI into the design process can signif
 {% raw %}
 
 ```html
-@inproceedings{tao2024designweaver,
-  title = {DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design},
-  author = {Tao, Sirui and Liang, Ivan and Peng, Cindy and Wang, Zhiqing and Palani, Srishti and Dow, Steven},
-  booktitle = {Conference on Human Factors in Computing Systems},
-  year = {2025},
-}
+@inproceedings{tao2024designweaver, title = {DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design}, author = {Tao, Sirui and Liang,
+Ivan and Peng, Cindy and Wang, Zhiqing and Palani, Srishti and Dow, Steven}, booktitle = {Conference on Human Factors in Computing Systems}, year =
+{2025}, }
 ```
 
 {% endraw %}
