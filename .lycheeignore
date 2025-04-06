@@ -1,2 +1,4 @@
 linkedin.com
 reddit.com
+/assets/img/authors/.*\.(jpg|png)
+{{.*}}
