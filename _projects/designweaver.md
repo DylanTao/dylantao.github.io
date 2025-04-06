@@ -77,8 +77,6 @@ related_publications: true
 <br>
 <br>
 
-**DesignWeaver** is an AI-enabled tool that empowers novice designers by scaffolding the design process through key visual dimensions. By automatically extracting and organizing design elements from images and design documents, DesignWeaver enables users to generate richer text prompts and, in turn, more innovative design outputs _{% cite tao2024designweaver %}_.
-
 <div class="row">
     <div class="col-sm-10 mx-auto mt-3 mt-md-0">
         <div class="embed-responsive embed-responsive-16by9">
@@ -89,6 +87,8 @@ related_publications: true
 <div class="caption">
     System demo of DesignWeaver
 </div>
+
+**DesignWeaver** is an AI-enabled tool that empowers novice designers by scaffolding the design process through key visual dimensions. By automatically extracting and organizing design elements from images and design documents, DesignWeaver enables users to generate richer text prompts and, in turn, more innovative design outputs _{% cite tao2024designweaver %}_.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
