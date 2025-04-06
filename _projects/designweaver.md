@@ -8,7 +8,87 @@ category: research
 related_publications: true
 ---
 
+<div class="row justify-content-center">
+    <div class="col-lg-9 text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-2 mb-3">
+                <img src="{{ '/assets/img/authors/sirui_tao.jpg' | relative_url }}" alt="Sirui Tao" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
+                <div class="mt-2">
+                    <a href="https://dylantao.github.io/" class="text-decoration-none">Sirui Tao</a>
+                    <div class="text-muted small">UC San Diego</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <img src="{{ '/assets/img/authors/ivan_liang.jpg' | relative_url }}" alt="Ivan Liang" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
+                <div class="mt-2">
+                    <a href="https://www.linkedin.com/in/ivan-liang-537967155" class="text-decoration-none">Ivan Liang</a>
+                    <div class="text-muted small">UC San Diego</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <img src="{{ '/assets/img/authors/cindy_peng.jpg' | relative_url }}" alt="Cindy Peng" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
+                <div class="mt-2">
+                    <a href="https://www.linkedin.com/in/cindy-peng-45a6131bb/" class="text-decoration-none">Cindy Peng</a>
+                    <div class="text-muted small">Carnegie Mellon</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <img src="{{ '/assets/img/authors/zhiqing_wang.png' | relative_url }}" alt="Zhiqing Wang" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
+                <div class="mt-2">
+                    <a href="https://www.zhiqingwang.me/" class="text-decoration-none">Zhiqing Wang</a>
+                    <div class="text-muted small">UC San Diego</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <img src="{{ '/assets/img/authors/srishti_palani.png' | relative_url }}" alt="Srishti Palani" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
+                <div class="mt-2">
+                    <a href="https://srishtipalani.github.io/" class="text-decoration-none">Srishti Palani</a>
+                    <div class="text-muted small">Tableau Research</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <img src="{{ '/assets/img/authors/steven_dow.png' | relative_url }}" alt="Steven P. Dow" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
+                <div class="mt-2">
+                    <a href="https://spdow.ucsd.edu" class="text-decoration-none">Steven P. Dow</a>
+                    <div class="text-muted small">UC San Diego</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-auto">
+        <a href="https://youtu.be/Qs_0yOHOYtI" target="_blank" class="btn btn-dark mx-1">
+            Full Video
+        </a>
+        <a href="https://arxiv.org/pdf/2502.09867" target="_blank" class="btn btn-dark mx-1">
+            Paper 📄
+        </a>
+        <a href="https://arxiv.org/abs/2502.09867" target="_blank" class="btn btn-dark mx-1">
+            Arxiv 📝
+        </a>
+        <a href="https://github.com/slimykat/DesignWeaver" target="_blank" class="btn btn-dark mx-1">
+            Code 💻
+        </a>
+    </div>
+</div>
+
+<br>
+<br>
+
 **DesignWeaver** is an AI-enabled tool that empowers novice designers by scaffolding the design process through key visual dimensions. By automatically extracting and organizing design elements from images and design documents, DesignWeaver enables users to generate richer text prompts and, in turn, more innovative design outputs _{% cite tao2024designweaver %}_.
+
+<div class="row">
+    <div class="col-sm-10 mx-auto mt-3 mt-md-0">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/04s9TpR3KBg" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+<div class="caption">
+    System demo of DesignWeaver
+</div>
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
