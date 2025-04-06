@@ -29,7 +29,7 @@ related_publications: true
                 <img src="{{ '/assets/img/authors/cindy_peng.jpg' | relative_url }}" alt="Cindy Peng" class="rounded-circle img-fluid" style="width: 100%; aspect-ratio: 1;">
                 <div class="mt-2">
                     <a href="https://www.linkedin.com/in/cindy-peng-45a6131bb/" class="text-decoration-none">Cindy Peng</a>
-                    <div class="text-muted small">Carnegie Mellon</div>
+                    <div class="text-muted small">Carnegie Mellon University</div>
                 </div>
             </div>
             <div class="col-md-2 mb-3">
