@@ -85,10 +85,12 @@ related_publications: true
     </div>
 </div>
 <div class="caption">
-    System demo of DesignWeaver
+    Demo of DesignWeaver in action
 </div>
 
-**DesignWeaver** is an AI-enabled tool that empowers novice designers by scaffolding the design process through key visual dimensions. By automatically extracting and organizing design elements from images and design documents, DesignWeaver enables users to generate richer text prompts and, in turn, more innovative design outputs _{% cite tao2024designweaver %}_.
+## Overview
+
+**DesignWeaver** is an AI-enabled interface that helps novice designers craft richer text prompts by **surfacing key design dimensions** (e.g., style, material, ergonomics) from images and documents. In a controlled study (n = 52), it resulted in longer, more nuanced prompts and more diverse, novel designs compared to a standard text-only interface _{% cite tao2024designweaver %}_.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -99,13 +101,16 @@ related_publications: true
     Figure 1: DesignWeaver: An AI-enabled product design interface for novices. The components include (A) Prompt Box, (B) Dimension Palette, (C) Image Gallery, and (D) Favorite Folder
 </div>
 
-## What is DesignWeaver?
+## Workflow
 
-DesignWeaver leverages advanced models (such as GPT-4 for text and DALL-E 3 for image generation) to:
-
-- **Extract Design Dimensions:** Automatically identify and categorize key design elements (e.g., style, color, material) from user-provided documents.
-- **Guide Prompt Engineering:** Offer an interactive prompt box that blends user input with expert-recommended design tags.
-- **Iterate with Visual Feedback:** Enable users to refine their designs by linking textual prompts to AI-generated images.
+1. **Upload Brief**  
+   Client persona, requirements, moodboard → system extracts 3 initial dimensions.
+2. **Build Prompt**  
+   Click tags or type text → prompt auto‑formats.
+3. **Generate & Inspect**  
+   View 3 AI‑rendered images → use Info to surface new tags.
+4. **Iterate**  
+   Add/remove tags, regenerate → favorite best designs.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -118,9 +123,20 @@ DesignWeaver leverages advanced models (such as GPT-4 for text and DALL-E 3 for 
 
 ## Key Features
 
-- **Dimensional Scaffolding:** Creates a palette of design dimensions to help users explore the design space systematically.
-- **Interactive Interface:** Combines a prompt box for text input with an image panel that displays generated visuals.
-- **Iterative Refinement:** Supports a bi-directional feedback loop where users update prompts based on visual outputs.
+1. **Dimension Palette**
+
+   - Auto‑extracts dimensions (style, color, form) from an uploaded brief
+   - Lets users toggle tags (e.g., “minimalist,” “sustainable”) to build prompts
+
+2. **Interactive Prompt Box**
+
+   - Merges user text with activated tags
+   - Auto‑completes and re‑formats prompts via GPT‑4
+
+3. **Image Gallery & Feedback**
+   - Generates 3 DALL·E 3 images per prompt
+   - Info‑button overlays new tags from generated images (via GPT‑4o‑mini)
+   - “Like” favorites for side‑by‑side comparison
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -131,28 +147,11 @@ DesignWeaver leverages advanced models (such as GPT-4 for text and DALL-E 3 for 
     Figure 3: User Interface of DesignWeaver. The UI facilitates structured dimensional tagging and interactive exploration of AI-generated designs. Key features include a design document for guidance, a prompt box for input, a dimension palette for organizing and modifying design aspects, and an image panel displaying generated outputs. Users can add or delete dimensions, tag designs, view detailed image information, and curate favorite designs for final selection. This workflow supports iterative refinement and creativity.
 </div>
 
-## User Study & Results
+## Implementation
 
-A user study involving 52 novice designers revealed that DesignWeaver:
-
-- Encouraged longer and more nuanced text prompts.
-- Led to the creation of more diverse and innovative images.
-- Enhanced the overall creative exploration and articulation of design ideas.
-
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" title="user_study_workflow" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Figure 4: Workflow of the user study.
-</div>
-
-## Implementation Highlights
-
-- **Frontend:** Built with React to ensure a responsive and intuitive user experience.
-- **Backend:** Powered by Python, with Firebase and Google FireStore managing data and image storage.
-- **AI Integration:** Utilizes GPT-4 for prompt generation and DALL-E 3 for image synthesis, ensuring high-quality design outputs.
+- **Frontend:** React
+- **Backend:** Python + Firebase / Firestore
+- **AI:** GPT‑4o (prompting), DALL·E 3 (image gen), GPT‑4o‑mini (tag extraction)
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -160,7 +159,24 @@ A user study involving 52 novice designers revealed that DesignWeaver:
     </div>
 </div>
 <div class="caption">
-    Figure 5: The baseline interface mimics a standard text-to-image setup, excluding scaffolding components.
+    Figure 4: The baseline interface mimics a standard text-to-image setup, excluding scaffolding components.
+</div>
+
+## User Study & Results
+
+A user study involving 52 novice designers revealed that DesignWeaver:
+
+- **Prompt Quality:** Encouraged longer and more nuanced text prompts.
+- **Design Diversity:** Led to the creation of more diverse and innovative images.
+- **Creative Exploration:** Rated higher on creative exploration and conitnous improvemet of design ideas
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" title="user_study_workflow" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Figure 5: Workflow of the user study.
 </div>
 
 ## Discussion & Impact
@@ -194,7 +210,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 ## Conclusion
 
-DesignWeaver demonstrates that integrating AI into the design process can significantly enhance the creative workflow, making expert-level design concepts accessible to novices. Its dimensional scaffolding approach not only improves prompt quality but also fosters innovative design thinking.
+DesignWeaver's **dimensional scaffolding** bridges novice‑expert gaps by making domain vocabulary explicit and enabling rapid, structured exploration of design spaces—ultimately fostering more innovative, user‑aligned product concepts.
 
 ## BibTeX
 
