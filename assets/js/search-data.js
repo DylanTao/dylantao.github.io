@@ -72,6 +72,11 @@ ninja.data = [{
           description: "a new optimization framework for neural signed distance functions (SDFs) by solving a screened Poisson equation that provides an asymptotically sufficient condition—ensuring the output converges to the true distance function, unlike prior methods like the Eikonal loss which are necessary but insufficient; the method improves stability, penalizes surface area naturally, and achieves superior surface reconstruction across 2D and 3D datasets",
           section: "Projects",handler: () => {
               window.location.href = "/projects/hotspot/";
+            },},{id: "projects-physion",
+          title: 'Physion',
+          description: "a benchmark evaluating intuitive physics in vision models via object contact prediction across realistic 3D scenarios. Humans consistently outperform state-of-the-art models, emphasizing the need for object-centric, physics-informed representations",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/physion/";
             },},{
         id: 'social-bluesky',
         title: 'Bluesky',
