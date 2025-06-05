@@ -3,7 +3,7 @@ layout: page
 title: DesignWeaver
 description: a tool that helps novices generate better design prompts by surfacing key visual dimensions, leading to more diverse and expert-aligned product designs
 img: assets/img/publication_preview/designweaver.png
-importance: -1
+importance: -2
 category: research
 related_publications: true
 keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product design, prompt engineering, design dimensions, novice designers, DALL-E, GPT-4, GPT-4o, GPT-4o-mini, design innovation, CHI 2025, CHI25, Sirui, Sirui Tao, Steven, Steven Dow
