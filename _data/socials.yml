@@ -13,6 +13,7 @@ email: dylantaosirui@gmail.com # your email address
 # flickr_id: # your flickr id
 github_username: DylanTao # your GitHub user name
 # gitlab_username: # your GitLab user name
+# hal_id: # your HAL id (https://hal.science/)
 # ieee_id: # your ieeexplore.ieee.org/author/id
 # inspirehep_id: # Inspire HEP author ID
 # instagram_id: # your instagram id
@@ -36,6 +37,7 @@ scholar_userid: W6vF-VcAAAAJ&hl # your Google Scholar ID
 # semanticscholar_id: # your Semantic Scholar ID
 # spotify_id: # your spotify id
 # stackoverflow_id: # your stackoverflow id
+# strava_userid: # your strava user id
 # telegram_username: # your Telegram user name
 # unsplash_id: # your unsplash id
 # wechat_qr: # filename of your wechat qr-code saved as an image (e.g., wechat-qr.png if saved to assets/img/wechat-qr.png)
