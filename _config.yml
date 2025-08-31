@@ -23,6 +23,29 @@ impressum_path: # set to path to include impressum link in the footer, use the s
 back_to_top: true # set to false to disable the back to top button
 
 # -----------------------------------------------------------------------------
+# SEO & Performance Settings
+# -----------------------------------------------------------------------------
+
+# Enhanced SEO settings
+seo:
+  # Meta tags
+  enable_robots_meta: true
+  enable_canonical_urls: true
+  enable_geo_meta: true
+  
+  # Performance
+  enable_lazy_loading: true
+  enable_image_optimization: true
+  
+  # Social media
+  enable_social_meta: true
+  default_og_image: "/assets/img/og-default.jpg"
+  
+  # Analytics
+  enable_structured_data: true
+  enable_google_analytics: true
+
+# -----------------------------------------------------------------------------
 # Theme
 # -----------------------------------------------------------------------------
 

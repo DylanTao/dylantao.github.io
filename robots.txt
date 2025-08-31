@@ -1,7 +1,24 @@
 ---
 permalink: /robots.txt
 ---
+
+# Enhanced robots.txt for better SEO
 User-agent: *
+Allow: /
+
+# Allow search engines to crawl all content
 Disallow:
 
+# Sitemap location
 Sitemap: {{ site.baseurl | prepend: site.url }}/sitemap.xml
+
+# Additional SEO directives
+# Allow crawling of all important directories
+Allow: /publications/
+Allow: /projects/
+Allow: /blog/
+Allow: /cv/
+Allow: /teaching/
+
+# Crawl delay (optional - helps with server load)
+Crawl-delay: 1
