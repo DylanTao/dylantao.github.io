@@ -189,117 +189,117 @@
 
   <!-- Enhanced Schema.org for Academic Profile -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "{{ author_name }}",
-    "givenName": "{{ site.first_name }}",
-    "familyName": "{{ site.last_name }}",
-    "email": "{{ site.email }}",
-    "jobTitle": "HCI Researcher & Graphics Enthusiast",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "University of California, San Diego",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "San Diego",
-        "addressRegion": "CA",
-        "addressCountry": "US"
-      }
-    },
-    "alumniOf": {
-      "@type": "Organization",
-      "name": "University of California, San Diego"
-    },
-    "knowsAbout": [
-      "Human-Computer Interaction",
-      "Computer Graphics",
-      "Generative AI",
-      "Computational Design",
-      "UX Research",
-      "Embodied Robotics"
-    ],
-    "sameAs": {{ sameaslinks | jsonify }},
-    "url": "{{ site.url }}{{ site.baseurl }}",
-    "image": "{{ site.url }}{{ site.baseurl }}/assets/img/{{ site.icon }}",
-    "description": "{{ site.description }}"
-  }
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "{{ author_name }}",
+      "givenName": "{{ site.first_name }}",
+      "familyName": "{{ site.last_name }}",
+      "email": "{{ site.email }}",
+      "jobTitle": "HCI Researcher & Graphics Enthusiast",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "University of California, San Diego",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "San Diego",
+          "addressRegion": "CA",
+          "addressCountry": "US"
+        }
+      },
+      "alumniOf": {
+        "@type": "Organization",
+        "name": "University of California, San Diego"
+      },
+      "knowsAbout": [
+        "Human-Computer Interaction",
+        "Computer Graphics",
+        "Generative AI",
+        "Computational Design",
+        "UX Research",
+        "Embodied Robotics"
+      ],
+      "sameAs": {{ sameaslinks | jsonify }},
+      "url": "{{ site.url }}{{ site.baseurl }}",
+      "image": "{{ site.url }}{{ site.baseurl }}/assets/img/{{ site.icon }}",
+      "description": "{{ site.description }}"
+    }
   </script>
 
   <!-- Schema.org for Website -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "{{ title }}",
-    "url": "{{ site.url }}{{ site.baseurl }}",
-    "description": "{{ site.description }}",
-    "author": {
-      "@type": "Person",
-      "name": "{{ author_name }}"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "{{ author_name }}"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "{{ site.url }}{{ site.baseurl }}/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "{{ title }}",
+      "url": "{{ site.url }}{{ site.baseurl }}",
+      "description": "{{ site.description }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ author_name }}"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "{{ author_name }}"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ site.url }}{{ site.baseurl }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     }
-  }
   </script>
 
   <!-- Schema.org for Research Publications -->
   {% if page.url contains '/publications/' or page.url contains '/projects/' %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": "{% if page.title %}{{ page.title }}{% else %}{{ title }}{% endif %}",
-    "description": "{{ page_description | strip_newlines | strip }}",
-    "author": {
-      "@type": "Person",
-      "name": "{{ author_name }}"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "{{ author_name }}"
-    },
-    "url": "{{ page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' }}",
-    "datePublished": "{% if page.date %}{{ page.date | date: '%Y-%m-%d' }}{% else %}2025{% endif %}",
-    "genre": "Research Publication",
-    "keywords": "{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}"
-  }
-  </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "{% if page.title %}{{ page.title }}{% else %}{{ title }}{% endif %}",
+        "description": "{{ page_description | strip_newlines | strip }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ author_name }}"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "{{ author_name }}"
+        },
+        "url": "{{ page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' }}",
+        "datePublished": "{% if page.date %}{{ page.date | date: '%Y-%m-%d' }}{% else %}2025{% endif %}",
+        "genre": "Research Publication",
+        "keywords": "{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}"
+      }
+    </script>
   {% endif %}
 
   <!-- Schema.org for Blog Posts -->
   {% if is_blog_post %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "{% if page.title %}{{ page.title }}{% else %}{{ title }}{% endif %}",
-    "description": "{{ page_description | strip_newlines | strip }}",
-    "author": {
-      "@type": "Person",
-      "name": "{{ author_name }}"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "{{ author_name }}"
-    },
-    "url": "{{ page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' }}",
-    "datePublished": "{% if page.date %}{{ page.date | date: '%Y-%m-%d' }}{% else %}2025{% endif %}",
-    "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date: '%Y-%m-%d' }}{% else %}{{ page.date | date: '%Y-%m-%d' }}{% endif %}",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "{{ page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' }}"
-    },
-    "articleSection": "{% if page.categories %}{{ page.categories | first }}{% else %}Research{% endif %}",
-    "keywords": "{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}"
-  }
-  </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{% if page.title %}{{ page.title }}{% else %}{{ title }}{% endif %}",
+        "description": "{{ page_description | strip_newlines | strip }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ author_name }}"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "{{ author_name }}"
+        },
+        "url": "{{ page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' }}",
+        "datePublished": "{% if page.date %}{{ page.date | date: '%Y-%m-%d' }}{% else %}2025{% endif %}",
+        "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date: '%Y-%m-%d' }}{% else %}{{ page.date | date: '%Y-%m-%d' }}{% endif %}",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "{{ page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' }}"
+        },
+        "articleSection": "{% if page.categories %}{{ page.categories | first }}{% else %}Research{% endif %}",
+        "keywords": "{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}"
+      }
+    </script>
   {% endif %}
 {% endif %}

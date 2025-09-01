@@ -14,7 +14,7 @@ images:
   venobox: false
 ---
 
-I'm excited to announce that I'll be starting my pottery journey this fall quarter at the UCSD Craft Center, learning from the amazing **Ellen Fager**! 
+I'm excited to announce that I'll be starting my pottery journey this fall quarter at the UCSD Craft Center, learning from the amazing **Ellen Fager**!
 
 Ellen is a member of the [San Diego Potters' Guild](https://www.sandiegopottersguild.org/ellen-fager.html) and has been working with clay since high school. She makes one-of-a-kind functional ware that's mostly wheel-thrown, often paddled, pounded, cut and pasted. Her work is fired in reduction to cone 10, and she's been teaching at the UCSD Crafts Center until its closure in 2012, and now teaches classes at the Guild.
 
@@ -23,7 +23,8 @@ Ellen is a member of the [San Diego Potters' Guild](https://www.sandiegopottersg
 I have three pieces commissioned that I'm excited to create. These are my design drafts - the actual pottery pieces will be made during my pottery journey with Ellen Fager:
 
 ### 1. Psyduck Coffee Cup
-A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psyduck. This will be a functional piece that brings joy to morning coffee routines. *(Design draft - not yet produced)*
+
+A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psyduck. This will be a functional piece that brings joy to morning coffee routines. _(Design draft - not yet produced)_
 
 <div class="spotlight-group">
 <a class="spotlight" href="/assets/img/pottery/psyduck-cup.png">
@@ -32,7 +33,8 @@ A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psy
 </div>
 
 ### 2. Winnie the Pooh Pot with Lid
-A charming honey pot inspired by the beloved bear, complete with a bear-head lid. This piece will be both decorative and functional, perfect for storing honey or other sweet treats. *(Design draft - not yet produced)*
+
+A charming honey pot inspired by the beloved bear, complete with a bear-head lid. This piece will be both decorative and functional, perfect for storing honey or other sweet treats. _(Design draft - not yet produced)_
 
 <div class="spotlight-group">
 <a class="spotlight" href="/assets/img/pottery/pooh-pot.png">
@@ -41,7 +43,8 @@ A charming honey pot inspired by the beloved bear, complete with a bear-head lid
 </div>
 
 ### 3. Cat Sculpture Pair
-Two small cat sculptures - one dancing with joy and another peacefully sleeping. These will showcase different moods and poses, adding personality to any space. *(Design draft - not yet produced)*
+
+Two small cat sculptures - one dancing with joy and another peacefully sleeping. These will showcase different moods and poses, adding personality to any space. _(Design draft - not yet produced)_
 
 <div class="spotlight-group">
 <a class="spotlight" href="/assets/img/pottery/cat-sculptures.png">
@@ -59,4 +62,4 @@ Two small cat sculptures - one dancing with joy and another peacefully sleeping.
 
 I'll be sharing my progress and the final pieces once they're complete. For now, these are just the design concepts - the real magic will happen when I get my hands on the clay!
 
-*Note: These are design drafts and concepts - the actual pottery pieces will be created during my pottery journey with Ellen Fager. The images shown are design renderings, not finished pottery.*
+_Note: These are design drafts and concepts - the actual pottery pieces will be created during my pottery journey with Ellen Fager. The images shown are design renderings, not finished pottery._
