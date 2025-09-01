@@ -212,40 +212,9 @@
     }
   }
 
-  // Social Media Enhancement
+  // Social Media Enhancement - Removed automatic sharing buttons
   function enhanceSocialMedia() {
-    // Add social sharing buttons if not present
-    const socialButtons = document.querySelector(".social-share");
-    if (!socialButtons) {
-      addSocialShareButtons();
-    }
-  }
-
-  // Add Social Share Buttons
-  function addSocialShareButtons() {
-    const shareContainer = document.createElement("div");
-    shareContainer.className = "social-share mt-3";
-    shareContainer.innerHTML = `
-            <h6>Share this page:</h6>
-            <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(document.title)}" 
-               target="_blank" class="btn btn-sm btn-outline-primary me-2">
-               <i class="fab fa-twitter"></i> Twitter
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}" 
-               target="_blank" class="btn btn-sm btn-outline-primary me-2">
-               <i class="fab fa-linkedin"></i> LinkedIn
-            </a>
-            <a href="mailto:?subject=${encodeURIComponent(document.title)}&body=${encodeURIComponent(window.location.href)}" 
-               class="btn btn-sm btn-outline-primary">
-               <i class="fas fa-envelope"></i> Email
-            </a>
-        `;
-
-    // Insert after the main content
-    const mainContent = document.querySelector("main") || document.querySelector(".container");
-    if (mainContent) {
-      mainContent.appendChild(shareContainer);
-    }
+    // Functionality removed - you already have social section at bottom
   }
 
   // Initialize SEO Features
