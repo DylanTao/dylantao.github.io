@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-a-gallery-of-random-gen-ai-images",
+        },{id: "post-starting-pottery-with-ellen-fager",
+        
+          title: "starting pottery with ellen fager",
+        
+        description: "embarking on a pottery journey with ellen fager at ucsd craft center, featuring three commissioned works",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/starting-pottery/";
+          
+        },
+      },{id: "post-a-gallery-of-random-gen-ai-images",
         
           title: "a gallery of random gen-ai images",
         
