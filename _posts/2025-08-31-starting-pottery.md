@@ -40,7 +40,7 @@ A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psy
 
 <div class="spotlight-group">
 <a class="spotlight" href="/assets/img/pottery/psyduck-cup.png">
-  <img src="/assets/img/pottery/psyduck-cup.png" alt="Psyduck Coffee Cup"/>
+  <img src="/assets/img/pottery/psyduck-cup.png" alt="Psyduck Coffee Cup" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -50,7 +50,7 @@ A charming honey pot inspired by the beloved bear, complete with a bear-head lid
 
 <div class="spotlight-group">
 <a class="spotlight" href="/assets/img/pottery/pooh-pot.png">
-  <img src="/assets/img/pottery/pooh-pot.png" alt="Winnie the Pooh Pot with Bear-Head Lid"/>
+  <img src="/assets/img/pottery/pooh-pot.png" alt="Winnie the Pooh Pot with Bear-Head Lid" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -60,7 +60,7 @@ Two small cat sculptures - one dancing with joy and another peacefully sleeping.
 
 <div class="spotlight-group">
 <a class="spotlight" href="/assets/img/pottery/cat-sculptures.png">
-  <img src="/assets/img/pottery/cat-sculptures.png" alt="Cat Sculpture Pair - Dancing and Sleeping"/>
+  <img src="/assets/img/pottery/cat-sculptures.png" alt="Cat Sculpture Pair - Dancing and Sleeping" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
