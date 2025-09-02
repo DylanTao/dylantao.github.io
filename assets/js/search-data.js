@@ -37,9 +37,9 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-starting-pottery-with-ellen-fager",
+        },{id: "post-starting-my-pottery-journey",
         
-          title: "starting pottery with ellen fager",
+          title: "starting my pottery journey",
         
         description: "embarking on a pottery journey with ellen fager at ucsd craft center, featuring three commissioned works",
         section: "Posts",
