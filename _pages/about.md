@@ -43,7 +43,7 @@ I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Die
 
 **Domains I Love Applying This To**
 
-- Urban design, architecture, interior & product design, fashion, robotics, accessibility, and education tech—places where ideas move from **vibes → variables → value**. ✨
+Urban design, architecture, interior & product design, fashion, robotics, accessibility, and education tech—places where ideas move from **vibes → variables → value**. ✨
 
 **Additionally Exploring**
 
