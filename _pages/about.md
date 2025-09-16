@@ -31,22 +31,22 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-# Hello visitor, Sirui here! 👋 (pronounced like “three”)
+Hello visitor, Sirui here! 👋 (pronounced like “three”)
 
 I’m a **first-year Ph.D. student** in the Cognitive Science Department at **UC San Diego**, advised by **[Prof. Steven Dow](https://spdow.ucsd.edu/)** ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
 
 
 
-## Research focus (2025)
+**Research Focus (2025)**
 
-- **Human–AI for Design** 🧠🎨 — Interfaces and workflows that keep generative alternatives **diverse, legible, and verifiable** (not just pretty). I explore structured variation, aligned comparison, and lightweight language scaffolds that make consequential differences obvious.
+- **Human–AI for Design** 🧠🎨 — Building interfaces and workflows that keep generative alternatives **diverse, legible, and verifiable** (not just pretty). I explore structured variation, aligned comparison, and lightweight language scaffolds that make consequential differences obvious.
 - **AI & Mixed Reality for Augmentation** 🥽📐 — **In-situ** support for everyday and professional tasks, with attention to **accessibility** (e.g., environment cues for low-vision users) and **spatial intelligence** that works beyond the demo room.
 - **Method** 🧪 — Build → measure: controlled variation in interfaces, mixed-methods evaluation (reflexive thematic analysis + pragmatic quant), and metrics like **dispersion/diversity**, **verification cost**, and **appropriate reliance**.
 
-### Domains I love applying this to
-Urban design, architecture, interior & product design, fashion, robotics, accessibility, and education tech—places where ideas move from **vibes → variables → value**. ✨
+**Domains I Love Applying This To**
+- Urban design, architecture, interior & product design, fashion, robotics, accessibility, and education tech—places where ideas move from **vibes → variables → value**. ✨
 
-### Additionally exploring
+**Additionally Exploring**
 - Smooth integration of **embodied (semi-)autonomous systems** 🤖 into everyday life.  
 - **Post-deployment iteration** in the wild 🌍 to maximize benefit and minimize harm.  
 - **Accessible, affordable learning** at scale 📚 with learner-centric generative AI.  
@@ -54,17 +54,18 @@ Urban design, architecture, interior & product design, fashion, robotics, access
 
 
 
-## Undergrad & Master’s research @ UCSD
-Curious, motivated, and kind? **Reach out**—all years and departments welcome. Pick a lane or straddle both:
+**Research Opportunities @ ProtoLab** 🧪
 
-### Two tracks
+Seeking curious, motivated, and kind undergraduate & master's students to join our research team! Whether you're just starting your academic journey or nearing graduation, we welcome students from all years and departments. Choose your focus or explore both tracks:
+
+**Two Tracks**
 - **Quant Track** (coding/ML/AR-VR/metrics) 🧩  
   Prototype interfaces (React/TS), XR interactions (Unity/C#), light graphics/vision, LLM/VLM pipelines, and analysis (Python/pandas/matplotlib). Help design metrics for diversity & verification cost.
 
 - **Quali Track** (UI/UX/interviews/analysis) ✍️  
   Shape flows and affordances, run user studies (IRB → pilot), conduct interviews, do reflexive thematic analysis, and craft honest figures/captions.
 
-> Interested in both? Great. Unsure but passionate about these themes? Also great.
+(Interested in both? Great. Unsure but passionate about these themes? Also great.)
 
 **How to contact (please be concise):**  
 Email me (s1tao@ucsd.edu) with subject **“UCSD Research – Quant / Quali / Both”** and include:
@@ -74,10 +75,10 @@ Email me (s1tao@ucsd.edu) with subject **“UCSD Research – Quant / Quali / Bo
 I’m happy to chat once I have that quick snapshot!
 
 
-## Advisor lineage & past collaborations
-Ph.D.: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI, ProtoLab)  
-Master’s: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI) & **[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)** (Graphics)  
-Undergrad: **[Judith E. Fan](https://profiles.stanford.edu/judith-fan)** (Cognition & Intuitive Physics)
+**Advisor Lineage & Past Collaborations**
+- Ph.D.: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI, ProtoLab)  
+- Master's: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI) & **[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)** (Graphics)  
+- Undergrad: **[Judith E. Fan](https://profiles.stanford.edu/judith-fan)** (Cognition & Intuitive Physics)
 
 ---
 
