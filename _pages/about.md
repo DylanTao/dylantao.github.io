@@ -31,30 +31,58 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hello visitor, Sirui here!👋 (pronounced as "three")
+# Hello visitor, Sirui here! 👋 (pronounced like “three”)
 
-I am an incoming Ph.D. student in Cognitive Science Department at the UC San Diego. My broad research interest lies in leveraging technological advancements to better augment human capabilities.
+I’m a **first-year Ph.D. student** in the Cognitive Science Department at **UC San Diego**, advised by **[Prof. Steven Dow](https://spdow.ucsd.edu/)** ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
 
-Currently, my main research interests are:
 
-1. **HAI and Design**
-2. **AI and Mixed Reality for User Experience Augmentation**
 
-More specifically:
+## Research focus (2025)
 
-1. Enabling creative professionals 👨‍🎨 to leverage AI tools 🧠 for their design tasks 🖼️, from both HCI and Graphics perspectives.
-2. Using spatial intelligence and Mixed Reality to augment individuals both in their everyday experience and professional workflow 😎.
+- **Human–AI for Design** 🧠🎨 — Interfaces and workflows that keep generative alternatives **diverse, legible, and verifiable** (not just pretty). I explore structured variation, aligned comparison, and lightweight language scaffolds that make consequential differences obvious.
+- **AI & Mixed Reality for Augmentation** 🥽📐 — **In-situ** support for everyday and professional tasks, with attention to **accessibility** (e.g., environment cues for low-vision users) and **spatial intelligence** that works beyond the demo room.
+- **Method** 🧪 — Build → measure: controlled variation in interfaces, mixed-methods evaluation (reflexive thematic analysis + pragmatic quant), and metrics like **dispersion/diversity**, **verification cost**, and **appropriate reliance**.
 
-Additionally, I am open to explore (listed in order of my passion for each topic):
+### Domains I love applying this to
+Urban design, architecture, interior & product design, fashion, robotics, accessibility, and education tech—places where ideas move from **vibes → variables → value**. ✨
 
-- Studying how to smoothly incorporate embodied (semi-)autonomous systems 🤖 into people's everyday lives.
-- Iteratively improving AI solutions post-deployments in real world 🌍 to maximize benefits while minimizing harm.
-- Scaling affordable and accessible learning resources 📚 for all, with personalized and engaging interactions enabled by learner-centric generative AI ✨.
-- Creating more inclusive 🤝 and effective support for community-centered work 🏘️, enabled by the emergence of AI advancements.
+### Additionally exploring
+- Smooth integration of **embodied (semi-)autonomous systems** 🤖 into everyday life.  
+- **Post-deployment iteration** in the wild 🌍 to maximize benefit and minimize harm.  
+- **Accessible, affordable learning** at scale 📚 with learner-centric generative AI.  
+- **Community-centered, inclusive tools** 🤝 for real-world collaboration 🏘️.
 
-During my Ph.D., I will continue my research in HCI under the guidance of [Prof. Steven Dow](https://spdow.ucsd.edu/). Throughout my Master's program, I collaborated with [Prof. Steven Dow](https://spdow.ucsd.edu/) on HCI and [Prof. Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) on Graphics. In my undergraduate studies, I had the great fortune to work with [Prof. Judith E. Fan](https://profiles.stanford.edu/judith-fan) on Intuitive Physics.
 
-If you want to chat, free to contact me via any of the social links at the bottom of the page.
+
+## Undergrad & Master’s research @ UCSD
+Curious, motivated, and kind? **Reach out**—all years and departments welcome. Pick a lane or straddle both:
+
+### Two tracks
+- **Quant Track** (coding/ML/AR-VR/metrics) 🧩  
+  Prototype interfaces (React/TS), XR interactions (Unity/C#), light graphics/vision, LLM/VLM pipelines, and analysis (Python/pandas/matplotlib). Help design metrics for diversity & verification cost.
+
+- **Quali Track** (UI/UX/interviews/analysis) ✍️  
+  Shape flows and affordances, run user studies (IRB → pilot), conduct interviews, do reflexive thematic analysis, and craft honest figures/captions.
+
+> Interested in both? Great. Unsure but passionate about these themes? Also great.
+
+**How to contact (please be concise):**  
+Email me (s1tao@ucsd.edu) with subject **“UCSD Research – Quant / Quali / Both”** and include:
+- A **1-page CV/resumé** or portfolio link 🔗  
+- A **3–5 sentence TL;DR** on why you’re a fit (interests, skills, what you want to learn) 📨
+
+I’m happy to chat once I have that quick snapshot!
+
+
+## Advisor lineage & past collaborations
+Ph.D.: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI, ProtoLab)  
+Master’s: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI) & **[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)** (Graphics)  
+Undergrad: **[Judith E. Fan](https://profiles.stanford.edu/judith-fan)** (Cognition & Intuitive Physics)
+
+---
+
+If you’re excited about this space, **let’s chat**. 🚀
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
