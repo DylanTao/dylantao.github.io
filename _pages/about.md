@@ -56,7 +56,11 @@ I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Die
 
 Seeking curious, motivated, and kind undergraduate & master's students to work with! Whether you're just starting your academic journey or nearing graduation, I'm happy to work with and mentor students from all years and departments.
 
-I broadly categorize potential interns into two bins—**Quant** 🧩 (coding/ML/AR-VR/metrics) and **Quali** ✍️ (UI/UX/interviews/analysis)—though you're welcome to explore both! The Quant side involves prototyping interfaces (React/TS), XR interactions (Unity/C#), graphics/vision, LLM/VLM pipelines, and analysis (Python/pandas/matplotlib), plus designing metrics for diversity & verification cost. The Quali side focuses on shaping flows and affordances, running user studies (IRB → pilot), conducting interviews, doing reflexive thematic analysis, and crafting honest figures/captions.
+I broadly categorize potential interns into two bins—though you're welcome to explore both!
+
+- **Quant** 🧩 (coding/ML/AR-VR/metrics) — Building interfaces (React/TS), XR interactions (Unity/C#), graphics/vision, LLM/VLM pipelines, and data analysis (Python/pandas/matplotlib), plus designing metrics.
+
+- **Quali** ✍️ (UI/UX/interviews/analysis) — Designing user flows and interfaces (Figma), running user studies and interviews, analyzing qualitative data, and creating clear visualizations and reports.
 
 **Ready to apply?** Email me (s1tao@ucsd.edu) with subject **"UCSD Research – Quant / Quali / Both"** and include: a **1-page CV/resumé** or portfolio link 🔗, plus a **3–5 sentence TL;DR** on why you're a fit (interests, skills, what you want to learn) 📨
 
