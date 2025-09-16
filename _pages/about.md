@@ -33,7 +33,7 @@ latest_posts:
 
 Hello visitor, Sirui here! 👋 (pronounced like “three”)
 
-I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
+I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven P. Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
 
 **Research Focus (2025)**
 
@@ -64,8 +64,8 @@ I’m happy to chat once I have that quick snapshot!
 
 **Advisor Lineage & Past Collaborations**
 
-- Ph.D.: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI)
-- Master's: **[Steven Dow](https://spdow.ucsd.edu/)** (HCI) & **[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)** (Graphics)
+- Ph.D.: **[Steven P. Dow](https://spdow.ucsd.edu/)** (HCI)
+- Master's: **[Steven P. Dow](https://spdow.ucsd.edu/)** (HCI) & **[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)** (Graphics)
 - Undergrad: **[Judith E. Fan](https://profiles.stanford.edu/judith-fan)** (Cognition & Intuitive Physics)
 
 ---
