@@ -1,11 +1,11 @@
 {
   "basics": {
     "name": "Sirui Tao",
-    "label": "Researcher and Engineer",
+    "label": "Researcher, Engineer, and Designer",
     "image": "",
     "email": "s1tao@ucsd.edu",
     "url": "https://dylandao.github.io/",
-    "summary": "An incoming Ph.D. student in Cognitive Science at UC San Diego, focusing on HCI and Design, with a background in graphics, data science and statistics, passionate about combining AI with design and technology to augment human.",
+    "summary": "A Ph.D. student in Cognitive Science at UC San Diego, focusing on HCI and Design, with a background in graphics, data science and statistics, passionate about combining AI with design and technology to augment human.",
     "location": {
       "address": "9510 Innovation Ln",
       "postalCode": "CA 92093",
@@ -75,7 +75,7 @@
       "position": "Graduate Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2023-08",
-      "endDate": "Present",
+      "endDate": "2025-04",
       "summary": "Combining neural methods and traditional graphics pipelines to enable flexible and fast-forward physical interaction prediction; studying inverse physical prediction using diffusion-based models.",
       "url": "https://cseweb.ucsd.edu/~tzli/"
     },
@@ -257,14 +257,14 @@
   "awards": [
     {
       "title": "SHORE Fellowship",
-      "date": "2025-2030",
+      "date": "2025 to 2030",
       "awarder": "UCSD, Cognitive Science Department",
       "summary": "Awarded the prestigious SHORE (Supporting Holistic Opportunities for Research Excellence) Fellowship, one of only 3 recipients in the Cognitive Science Department annually. This highly competitive fellowship provides approximately $70,000 in value to support doctoral research in cognitive science.",
       "url": "https://cogsci.ucsd.edu/"
     },
     {
       "title": "IGE Shah Fellowship",
-      "date": "2023-2024",
+      "date": "2023 to 2024",
       "awarder": "UCSD, Institute for the Global Entrepreneur",
       "summary": "Awarded the Shah Family Entrepreneur Fellowship ($5,000) as one of two Shah Fellows university-wide for outstanding research contributions and entrepreneurial potential. The fellowship, launched by the Institute for the Global Entrepreneur (IGE)—a collaboration between the Jacobs School of Engineering and the Rady School of Management—aims to teach engineers to become entrepreneurs and leaders.",
       "url": "https://ige.ucsd.edu/programs/certificate"
@@ -306,7 +306,7 @@
     },
     {
       "title": "Provost Honor",
-      "date": "2019-2023",
+      "date": "2019 to 2023",
       "awarder": "Warren College, UCSD",
       "summary": "Consistently recognized for academic excellence throughout undergraduate studies, awarded to approximately 20% of students at Warren College annually.",
       "url": "https://warren.ucsd.edu/"
