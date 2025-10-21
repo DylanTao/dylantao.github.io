@@ -101,42 +101,65 @@
   "teaching": [
     {
       "name": "UCSD",
-      "position": "Teaching Assistant - DSGN 1",
+      "position": "Teaching Assistant - COGS 187A: Usability & Information Architecture",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2025-06",
+      "endDate": "2025-09",
+      "summary": "TA for Prof. Mary ET Boyle",
+      "url": "https://catalog.ucsd.edu/courses/COGS.html"
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - COGS 186: Genetic Algorithms",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2025-06",
+      "endDate": "2025-09",
+      "summary": "TA for Prof. Anjum Gupta",
+      "url": "https://catalog.ucsd.edu/courses/COGS.html"
+    },
+    {
+      "name": "UCSD",
+      "position": "Teaching Assistant - DSGN 1: Design of Everyday Things",
       "location": "La Jolla, CA, USA",
       "startDate": "2025-01",
       "endDate": "2025-03",
+      "summary": "TA for Prof. Michael Meyer",
       "url": "https://catalog.ucsd.edu/courses/DSGN.html"
     },
     {
       "name": "UCSD",
-      "position": "Teaching Assistant - DSGN 1",
+      "position": "Teaching Assistant - DSGN 1: Design of Everyday Things",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-09",
       "endDate": "2024-12",
+      "summary": "TA for Prof. Michael Meyer",
       "url": "https://catalog.ucsd.edu/courses/DSGN.html"
     },
     {
       "name": "UCSD",
-      "position": "Teaching Assistant - CSE 175",
+      "position": "Teaching Assistant - CSE 175: Entrepreneurship for Engineers",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-06",
       "endDate": "2024-09",
+      "summary": "TA for Prof. Rakesh Kumar",
       "url": "https://catalog.ucsd.edu/courses/CSE.html"
     },
     {
       "name": "UCSD",
-      "position": "Teaching Assistant - DSGN 1",
+      "position": "Teaching Assistant - DSGN 1: Design of Everyday Things",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-03",
       "endDate": "2024-06",
+      "summary": "TA for Prof. Scott Klemmer",
       "url": "https://catalog.ucsd.edu/courses/DSGN.html"
     },
     {
-      "institution": "UCSD",
-      "position": "Teaching Assistant - COGS 9",
+      "name": "UCSD",
+      "position": "Teaching Assistant - COGS 9: Introduction to Data Science",
       "location": "La Jolla, CA, USA",
       "startDate": "2024-01",
       "endDate": "2024-03",
+      "summary": "TA for Prof. Meenakshi Khosla",
       "url": "https://catalog.ucsd.edu/courses/COGS.html"
     }
   ],
@@ -233,52 +256,59 @@
   ],
   "awards": [
     {
+      "title": "SHORE Fellowship",
+      "date": "2025-2030",
+      "awarder": "UCSD, Cognitive Science Department",
+      "summary": "Awarded the prestigious SHORE (Supporting Holistic Opportunities for Research Excellence) Fellowship, one of only 3 recipients in the Cognitive Science Department annually. This highly competitive fellowship provides approximately $70,000 in value to support doctoral research in cognitive science.",
+      "url": "https://cogsci.ucsd.edu/"
+    },
+    {
       "title": "IGE Shah Fellowship",
       "date": "2023-2024",
       "awarder": "UCSD, Institute for the Global Entrepreneur",
-      "summary": "Awarded the Shah Family Entrepreneur Fellowship as one of two Shah Fellows for outstanding research contributions and entrepreneurial potential. The fellowship, launched by the Institute for the Global Entrepreneur (IGE)—a collaboration between the Jacobs School of Engineering and the Rady School of Management—aims to teach engineers to become entrepreneurs and leaders.",
+      "summary": "Awarded the Shah Family Entrepreneur Fellowship ($5,000) as one of two Shah Fellows university-wide for outstanding research contributions and entrepreneurial potential. The fellowship, launched by the Institute for the Global Entrepreneur (IGE)—a collaboration between the Jacobs School of Engineering and the Rady School of Management—aims to teach engineers to become entrepreneurs and leaders.",
       "url": "https://ige.ucsd.edu/programs/certificate"
     },
     {
-      "title": "Participant of The Cornell, Maryland, Max Planck Pre-doctoral Research School",
+      "title": "The Cornell, Maryland, Max Planck Pre-doctoral Research School Fellowship",
       "date": "2023",
       "awarder": "Cornell, Maryland, Max Planck Institute",
-      "summary": "Selected to participate in the prestigious pre-doctoral research school focused on cutting-edge interdisciplinary research, held in August 2023.",
+      "summary": "Selected as one of approximately 60 global recipients to participate in the prestigious pre-doctoral research school ($3,000 fellowship) focused on cutting-edge interdisciplinary research, held in August 2023.",
       "url": "https://cmmrs.mpi-sws.org/"
     },
     {
       "title": "HDSI Research Scholarship",
       "date": "2022",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science.",
+      "summary": "Awarded the competitive $2,500 Undergraduate Research Scholarship, one of approximately 20 recipients department-wide annually, for outstanding research contributions in data science.",
       "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
     },
     {
       "title": "TRELS Research Scholarship",
       "date": "2022",
       "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant.",
+      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant as one of approximately 75 recipients university-wide each quarter.",
       "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
     },
     {
       "title": "HDSI Research Scholarship",
       "date": "2021",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "One of 20 students to be awarded the competitive $2,500 Undergraduate Research Scholarship from HDSI for outstanding research contributions in data science.",
+      "summary": "Awarded the competitive $2,500 Undergraduate Research Scholarship, one of approximately 20 recipients department-wide annually, for outstanding research contributions in data science.",
       "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
     },
     {
       "title": "TRELS Research Scholarship",
       "date": "2020",
       "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant.",
+      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant as one of approximately 75 recipients university-wide each quarter.",
       "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
     },
     {
       "title": "Provost Honor",
       "date": "2019-2023",
       "awarder": "Warren College, UCSD",
-      "summary": "Consistently recognized for academic excellence throughout undergraduate studies.",
+      "summary": "Consistently recognized for academic excellence throughout undergraduate studies, awarded to approximately 20% of students at Warren College annually.",
       "url": "https://warren.ucsd.edu/"
     }
   ],
