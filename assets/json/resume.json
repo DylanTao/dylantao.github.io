@@ -263,6 +263,13 @@
       "url": "https://cogsci.ucsd.edu/"
     },
     {
+      "title": "OpenAI Researcher Access Program",
+      "date": "2025",
+      "awarder": "OpenAI",
+      "summary": "Selected for the OpenAI Researcher Access Program (~$1,000 in credits) to support research with advanced AI models.",
+      "url": "https://openai.com/"
+    },
+    {
       "title": "IGE Shah Fellowship",
       "date": "2023 ~ 2024",
       "awarder": "UCSD, Institute for the Global Entrepreneur",
@@ -278,30 +285,16 @@
     },
     {
       "title": "HDSI Research Scholarship",
-      "date": "2022",
+      "date": "2021, 2022",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "Awarded the competitive $2,500 Undergraduate Research Scholarship, one of approximately 20 recipients department-wide annually, for outstanding research contributions in data science.",
+      "summary": "Awarded the competitive $2,500 * 2 Undergraduate Research Scholarship, one of approximately 30 recipients @ HDSI Department annually, for outstanding research contributions in data science.",
       "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
     },
     {
       "title": "TRELS Research Scholarship",
-      "date": "2022",
+      "date": "2020, 2022",
       "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant as one of approximately 75 recipients university-wide each quarter.",
-      "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
-    },
-    {
-      "title": "HDSI Research Scholarship",
-      "date": "2021",
-      "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "Awarded the competitive $2,500 Undergraduate Research Scholarship, one of approximately 20 recipients department-wide annually, for outstanding research contributions in data science.",
-      "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
-    },
-    {
-      "title": "TRELS Research Scholarship",
-      "date": "2020",
-      "awarder": "AEP, UCSD",
-      "summary": "Recognized for academic excellence and research innovation, receiving a $1,000 quarterly research grant as one of approximately 75 recipients university-wide each quarter.",
+      "summary": "$1,000 * 2 quarterly research scholarship; ~75 recipients @ UCSD each quarter.",
       "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
     },
     {
