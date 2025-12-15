@@ -103,6 +103,13 @@ ninja.data = [{
           window.open("https://twitter.com/SiruiTao", "_blank");
         },
       },{
+        id: 'social-cv',
+        title: 'CV',
+        section: 'Socials',
+        handler: () => {
+          window.open("/assets/pdf/Sirui_Tao_CV_Public.pdf", "_blank");
+        },
+      },{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
