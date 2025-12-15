@@ -6,9 +6,12 @@
 #  organization: princeton # your organization as appears in the subdomain
 #  username:  AlbertEinstein # your username
 # acm_id: # your dl.acm.org/profile/id
+# arxiv_id: # your arXiv author ID
 # blogger_url: # your blogger URL
 bluesky_url: https://siruitao.bsky.social # your bluesky URL
 x_username: SiruiTao # your X handle
+# bluesky_url: # your bluesky URL
+cv_pdf: /assets/pdf/Sirui_Tao_CV_Public.pdf # path to your CV PDF file
 # dblp_url: # your DBLP profile url
 # discord_id: # your discord id (18-digit unique numerical identifier)
 email: dylantaosirui@gmail.com # your email address
