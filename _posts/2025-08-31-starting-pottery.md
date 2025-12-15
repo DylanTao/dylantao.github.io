@@ -69,3 +69,7 @@ Two small cat sculptures - one dancing with joy and another peacefully sleeping.
 I'll definitely share updates as I go along and show you the finished pieces when they're done. Right now these are just my design ideas - the fun part starts when I actually get to work with the clay!
 
 _Note: These are design drafts and concepts - the actual pottery pieces will be created during my pottery journey with Ellen Fager. The images shown are design renderings, not finished pottery._
+
+---
+
+**Update (2025/12/15):** I got humbled by the lesson. It is fun but hard, haha! I might update this post more later.
