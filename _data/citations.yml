@@ -1,8 +1,8 @@
 metadata:
-  last_updated: '2026-01-07'
+  last_updated: '2026-01-12'
 papers:
   W6vF-VcAAAAJ:Se3iqnhoufwC:
-    citations: 118
+    citations: 117
     title: 'Physion: Evaluating physical prediction from vision in humans and machines'
     year: '2021'
   W6vF-VcAAAAJ:_FxGoFyzp5QC:
@@ -14,6 +14,6 @@ papers:
     title: 'Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines'
     year: '2023'
   W6vF-VcAAAAJ:roLk4NBRz8UC:
-    citations: 5
+    citations: 6
     title: 'HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition'
     year: '2025'
