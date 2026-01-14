@@ -72,6 +72,9 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
         <a href="https://github.com/slimykat/DesignWeaver" target="_blank" class="btn btn-dark mx-1">
             Code 💻
         </a>
+        <a href="{{ '/assets/pdf/slides/[CHI25 Version] DesignWeaver.pdf' | relative_url }}" target="_blank" class="btn btn-dark mx-1">
+            CHI Slides
+        </a>
     </div>
 </div>
 
