@@ -1,12 +1,16 @@
 metadata:
-  last_updated: '2026-02-16'
+  last_updated: '2026-02-23'
 papers:
+  W6vF-VcAAAAJ:0EnyYjriUFMC:
+    citations: 5
+    title: 'Physion: Evaluating physical prediction from vision in humans and machines. arXiv'
+    year: '2021'
   W6vF-VcAAAAJ:Se3iqnhoufwC:
-    citations: 123
+    citations: 125
     title: 'Physion: Evaluating physical prediction from vision in humans and machines'
     year: '2021'
   W6vF-VcAAAAJ:_FxGoFyzp5QC:
-    citations: 12
+    citations: 15
     title: 'DesignWeaver: dimensional scaffolding for text-to-image product design'
     year: '2025'
   W6vF-VcAAAAJ:eQOLeE2rZwMC:
