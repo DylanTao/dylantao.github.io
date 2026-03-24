@@ -61,7 +61,7 @@ Here we will give you some tips on how to customize the website. One important t
     - [How it works](#how-it-works)
     - [Configuration](#configuration-1)
     - [Disable related posts for a specific post](#disable-related-posts-for-a-specific-post)
-    - [Additional configuration in _config.yml](#additional-configuration-in-_configyml)
+    - [Additional configuration in \_config.yml](#additional-configuration-in-_configyml)
   - [Managing publication display](#managing-publication-display)
   - [Adding a Google Calendar](#adding-a-google-calendar)
     - [Basic usage](#basic-usage)
@@ -271,6 +271,7 @@ Understanding al-folio's technology stack will help you better customize and ext
 ### Backend
 
 - **Jekyll 4.x**: [Jekyll](https://jekyllrb.com/) is a static site generator written in Ruby that transforms your Markdown files and templates into a static website. Jekyll is used to:
+
   - Convert Markdown files to HTML
   - Process Liquid templates
   - Manage collections (posts, projects, news, books, etc.)
@@ -278,6 +279,7 @@ Understanding al-folio's technology stack will help you better customize and ext
   - Minify CSS and JavaScript
 
 - **Ruby Gems** (Jekyll plugins): The project uses several Ruby plugins to extend Jekyll's functionality:
+
   - `classifier-reborn`: Used for categorizing and finding related blog posts
   - `jekyll-archives-v2`: Creates archive pages for posts and collections organized by category, tag, or date
   - `jekyll-feed`: Generates an Atom (RSS-like) feed for your content
@@ -295,6 +297,7 @@ Understanding al-folio's technology stack will help you better customize and ext
 ### Build and Deployment
 
 - **GitHub Actions**: Automated workflows for building, testing, and deploying your site. Workflows are defined in `.github/workflows/`:
+
   - **Deploy**: Automatically builds and deploys your site to GitHub Pages when you push changes to the main branch
   - **Link checking**: Validates that all links in your site are not broken
   - **Code formatting**: Ensures code follows the Prettier code style
@@ -665,6 +668,7 @@ Custom fields (any field name you create) remain as **strings** and require expl
    ```
 
    Your archive pages will be generated at:
+
    - `/books/adaptations/movie/`
    - `/books/adaptations/tv-series/` (slugified from `TV-series`)
    - `/books/adaptations/video-game/` (slugified from `video-game`)
@@ -1075,6 +1079,7 @@ To update a library:
 
 1. Change the `version` number
 2. Obtain the new integrity hash for the updated library version and update the `integrity` field with the new hash. You can:
+
    - Check if the CDN provider (e.g., jsDelivr, cdnjs, unpkg) provides the SRI hash for the file. Many CDN sites display the SRI hash alongside the file URL.
    - Generate the SRI hash yourself using a tool such as [SRI Hash Generator](https://www.srihash.org/) or by running the following command in your terminal:
 
@@ -1084,6 +1089,7 @@ To update a library:
 
      Replace `[FILE_URL]` with the URL of the library file. Then, prefix the result with `sha384-` and use it in the `integrity` field.
      For detailed instructions on updating specific libraries, see the FAQ:
+
      - [How can I update Academicons version](FAQ.md#how-can-i-update-academicons-version-on-the-template)
      - [How can I update Font Awesome version](FAQ.md#how-can-i-update-font-awesome-version-on-the-template)
 
@@ -1379,6 +1385,7 @@ GitHub restricts the default `GITHUB_TOKEN` from triggering other workflows when
 ### How to set up the PAT
 
 1. **Create a Personal Access Token**
+
    - Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens).
    - Click "Generate new token" (classic or fine-grained).
    - Grant at least the following permissions:
@@ -1386,6 +1393,7 @@ GitHub restricts the default `GITHUB_TOKEN` from triggering other workflows when
    - Save the token somewhere safe.
 
 2. **Add the PAT as a repository secret**
+
    - Go to your repository on GitHub.
    - Navigate to `Settings` > `Secrets and variables` > `Actions` > `New repository secret`.
    - Name the secret `PAT` (must match the name used in the workflow).
