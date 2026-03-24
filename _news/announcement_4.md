@@ -6,4 +6,4 @@ related_posts: false
 pinned: true
 ---
 
-Met the great Don Norman and even got a [selfie plus a "To Sirui" signed the "Yellow Book"](/blog/2026/don-norman-design-lab-talk/)! :sparkles: :camera_flash: :smile:
+Met the great Don Norman and even got a [selfie + a "To Sirui" signed "Yellow Book"](/blog/2026/don-norman-design-lab-talk/)! :sparkles: :camera_flash: :smile:
