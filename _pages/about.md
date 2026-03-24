@@ -37,32 +37,29 @@ I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Die
 
 **Research Focus (2026)**
 
-- **Human–AI for Design** 🧠🎨 — Interfaces that keep generative alternatives diverse, legible, and verifiable through structured variation and aligned comparison.
-- **AI & Mixed Reality for Augmentation** 🥽📐 — In-situ support for everyday tasks with accessibility focus and spatial intelligence beyond demo rooms.
-- **Method** 🧪 — Build → measure: controlled variation, mixed-methods evaluation, and metrics for diversity, verification cost, and appropriate reliance.
+- **Human–AI for Design** 🧠🎨 — Designing interfaces and systems that help people explore, compare, and refine generative possibilities in more diverse, legible, and grounded ways—while also supporting stronger taste and judgment in creative work.
+- **AI & Mixed Reality for Augmentation** 🥽📐 — Building interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
+- **Method** 🧪 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, and appropriate reliance.
 
 **Domains I Love Applying This To**
 
-Urban design, architecture, interior & product design, fashion, robotics, accessibility, and education tech—places where ideas move from **vibes → variables → value**. ✨
+Urban design, architecture, interior & product design, fashion, robotics, and education—places where ideas move from **vibes → variables → value**. ✨
 
-**Additionally Exploring**
+**Exploring**
 
-- Embodied systems 🤖 integration into everyday life
+- Developing taste and judgment ✨ in AI-supported creative work ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
+- Embodied systems 🤖 integrated into everyday life
 - Post-deployment iteration 🌍 to maximize benefit and minimize harm
-- Accessible learning at scale 📚 with learner-centric generative AI
+- Learner-centered generative AI 📚 for education at scale
 - Community-centered tools 🤝 for real-world collaboration
 
 **Research Opportunities @ ProtoLab** 🧪
 
-Seeking curious, motivated, and kind undergraduate & master's students to work with! Whether you're just starting your academic journey or nearing graduation, I'm happy to work with and mentor students from all years and departments.
+I’m always excited to work with curious, motivated, and kind undergraduate and master’s students. As generative AI expands what one person can build, prototype, and investigate, I’m especially interested in working with driven students who have genuine research curiosity and real passion for a domain, problem space, or question they care about.
 
-I broadly categorize potential interns into two bins—though you're welcome to explore both!
+You do not need to already be an expert in every part of research. I value people who want to grow into thoughtful, well-rounded researchers—people who are excited to develop taste, judgment, and craft over time, and who are willing to learn across reading, ideation, prototyping, evaluation, analysis, and communication.
 
-- **Quant** 🧩 (coding/ML/AR-VR/metrics) — Building interfaces (React/TS), XR interactions (Unity/C#), graphics/vision, LLM/VLM pipelines, and data analysis (Python/pandas/matplotlib), plus designing metrics.
-
-- **Quali** ✍️ (UI/UX/interviews/analysis) — Designing user flows and interfaces (Figma), running user studies and interviews, analyzing qualitative data, and creating clear visualizations and reports.
-
-**Ready to apply?** Email me (s1tao@ucsd.edu) with subject **"UCSD Research – Quant / Quali / Both"** and include: a **1-page CV/resumé** or portfolio link 🔗, plus a **3–5 sentence TL;DR** on why you're a fit (interests, skills, what you want to learn) 📨
+**Ready to apply?** Email me at **s1tao@ucsd.edu** with subject **"UCSD Research Interest"** and include a **1-page CV/resumé** (plus a portfolio link, if relevant). In your email, please include a short **3–5 sentence note** on why you think you’d be a good fit—your interests, relevant experience, the domain or question you care about, and what you hope to learn. Please also include a brief **"Why I’m a fit"** line or section in your CV/resumé so I can quickly understand your interests and goals.
 
 I’m happy to chat once I have that quick snapshot!
 
@@ -83,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const images = container.getAttribute('data-images').split(',');
     container.addEventListener('mouseenter', function(){
       const randomImage = images[Math.floor(Math.random() * images.length)];
-      container.style.backgroundImage = `url(${randomImage})`;
+      container.style.setProperty('--profile-hover-image', `url(${randomImage})`);
     });
   }
 });

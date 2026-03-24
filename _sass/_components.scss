@@ -59,6 +59,7 @@ ul.task-list input[type="checkbox"] {
   width: 100%;
 
   .profile-image-container {
+    background: none;
     display: block;
     line-height: 0;
     position: relative;
@@ -78,7 +79,7 @@ ul.task-list input[type="checkbox"] {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: inherit;
+      background-image: var(--profile-hover-image);
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
