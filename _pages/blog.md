@@ -20,6 +20,50 @@ pagination:
 
 {% assign blog_name_size = site.blog_name | size %}
 {% assign blog_description_size = site.blog_description | size %}
+{% assign active_posts = site.posts | where_exp: 'post', 'post.published != false and post.date <= site.time' %}
+{% assign all_active_tags = '' | split: '' %}
+
+{% for post in active_posts %}
+{% if post.tags %}
+{% assign all_active_tags = all_active_tags | concat: post.tags %}
+{% endif %}
+{% endfor %}
+
+{% assign unique_active_tags = all_active_tags | uniq %}
+{% assign ranked_tag_entries = '' | split: '' %}
+
+{% for tag in unique_active_tags %}
+{% assign tag_count = 0 %}
+{% assign latest_tag_date = '00000000' %}
+
+{% for post in active_posts %}
+{% if post.tags and post.tags contains tag %}
+{% assign tag_count = tag_count | plus: 1 %}
+{% assign post_date_key = post.date | date: '%Y%m%d' %}
+{% if post_date_key > latest_tag_date %}
+{% assign latest_tag_date = post_date_key %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% if tag_count > 0 %}
+{% assign inverse_tag_count = 9999 | minus: tag_count %}
+{% assign inverse_tag_date = 99999999 | minus: latest_tag_date %}
+{% capture padded_inverse_tag_count %}0000{{ inverse_tag_count }}{% endcapture %}
+{% capture padded_inverse_tag_date %}00000000{{ inverse_tag_date }}{% endcapture %}
+{% capture rank_entry %}{{ padded_inverse_tag_count | slice: -4, 4 }}::{{ padded_inverse_tag_date | slice: -8, 8 }}::{{ tag }}{% endcapture %}
+{% assign ranked_tag_entries = ranked_tag_entries | push: rank_entry %}
+{% endif %}
+{% endfor %}
+
+{% assign ranked_tag_entries = ranked_tag_entries | sort %}
+{% assign display_tags_limit = site.display_tags_limit | default: 5 %}
+{% assign featured_tags = '' | split: '' %}
+
+{% for rank_entry in ranked_tag_entries limit: display_tags_limit %}
+{% assign rank_parts = rank_entry | split: '::' %}
+{% assign featured_tags = featured_tags | push: rank_parts[2] %}
+{% endfor %}
 
 {% if blog_name_size > 0 or blog_description_size > 0 %}
 
@@ -27,13 +71,13 @@ pagination:
     <h1>{{ site.blog_name }}</h1>
     <h2>{{ site.blog_description }}</h2>
   </div>
-  {% endif %}
+{% endif %}
 
-{% if site.display_tags and site.display_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
+{% if featured_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
 
   <div class="tag-category-list">
     <ul class="p-0 m-0">
-      {% for tag in site.display_tags %}
+      {% for tag in featured_tags %}
         <li>
           <i class="fa-solid fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
         </li>
@@ -41,7 +85,7 @@ pagination:
           <p>&bull;</p>
         {% endunless %}
       {% endfor %}
-      {% if site.display_categories.size > 0 and site.display_tags.size > 0 %}
+      {% if site.display_categories.size > 0 and featured_tags.size > 0 %}
         <p>&bull;</p>
       {% endif %}
       {% for category in site.display_categories %}
