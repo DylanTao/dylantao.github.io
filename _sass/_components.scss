@@ -58,6 +58,48 @@ ul.task-list input[type="checkbox"] {
 .profile {
   width: 100%;
 
+  .profile-image-container {
+    display: block;
+    line-height: 0;
+    position: relative;
+
+    figure {
+      margin: 0;
+    }
+
+    picture,
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: inherit;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    &.profile-image-circular::after {
+      border-radius: 50%;
+    }
+
+    &.profile-image-rounded::after {
+      border-radius: 0.25rem;
+    }
+
+    &.profile-image-swappable:hover::after {
+      opacity: 1;
+    }
+  }
+
   .more-info {
     margin-bottom: 5px;
     margin-top: 5px;

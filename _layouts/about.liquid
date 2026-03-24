@@ -27,7 +27,7 @@ layout: default
           {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px)
       30vw, 95vw"{% endcapture %}
           <div
-            class="profile-image-container"
+            class="profile-image-container{% if page.profile.image_circular %} profile-image-circular{% else %} profile-image-rounded{% endif %}{% if page.profile.image_hovers %} profile-image-swappable{% endif %}"
             id="profile-image-container"
             data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
           >

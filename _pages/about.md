@@ -35,7 +35,7 @@ Hello visitor, Sirui here! 👋 (pronounced like “three”)
 
 I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven P. Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
 
-**Research Focus (2025)**
+**Research Focus (2026)**
 
 - **Human–AI for Design** 🧠🎨 — Interfaces that keep generative alternatives diverse, legible, and verifiable through structured variation and aligned comparison.
 - **AI & Mixed Reality for Augmentation** 🥽📐 — In-situ support for everyday tasks with accessibility focus and spatial intelligence beyond demo rooms.
