@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-starting-my-pottery-journey",
+        },{id: "post-an-afternoon-with-don-norman",
+        
+          title: "an afternoon with don norman",
+        
+        description: "Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/don-norman-design-lab-talk/";
+          
+        },
+      },{id: "post-starting-my-pottery-journey",
         
           title: "starting my pottery journey",
         
@@ -94,6 +105,9 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "news-hotspot-got-selected-as-a-cvpr-25-highlight",
           title: 'HotSpot got selected as a CVPR 25 Highlight!',
+          description: "",
+          section: "News",},{id: "news-met-the-great-don-norman-and-even-got-a-selfie-plus-a-to-sirui-signed-the-yellow-book-sparkles-camera-flash-smile",
+          title: 'Met the great Don Norman and even got a selfie plus a “To...',
           description: "",
           section: "News",},{id: "projects-designweaver",
           title: 'DesignWeaver',
