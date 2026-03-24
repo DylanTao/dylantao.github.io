@@ -22,10 +22,14 @@ pagination:
 {% assign blog_description_size = site.blog_description | size %}
 {% assign active_posts = site.posts | where_exp: 'post', 'post.published != false and post.date <= site.time' %}
 {% assign all_active_tags = '' | split: '' %}
+{% assign all_active_categories = '' | split: '' %}
 
 {% for post in active_posts %}
 {% if post.tags %}
 {% assign all_active_tags = all_active_tags | concat: post.tags %}
+{% endif %}
+{% if post.categories %}
+{% assign all_active_categories = all_active_categories | concat: post.categories %}
 {% endif %}
 {% endfor %}
 
@@ -65,6 +69,42 @@ pagination:
 {% assign featured_tags = featured_tags | push: rank_parts[2] %}
 {% endfor %}
 
+{% assign unique_active_categories = all_active_categories | uniq %}
+{% assign ranked_category_entries = '' | split: '' %}
+
+{% for category in unique_active_categories %}
+{% assign category_count = 0 %}
+{% assign latest_category_date = '00000000' %}
+
+{% for post in active_posts %}
+{% if post.categories and post.categories contains category %}
+{% assign category_count = category_count | plus: 1 %}
+{% assign post_date_key = post.date | date: '%Y%m%d' %}
+{% if post_date_key > latest_category_date %}
+{% assign latest_category_date = post_date_key %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% if category_count > 0 %}
+{% assign inverse_category_count = 9999 | minus: category_count %}
+{% assign inverse_category_date = 99999999 | minus: latest_category_date %}
+{% capture padded_inverse_category_count %}0000{{ inverse_category_count }}{% endcapture %}
+{% capture padded_inverse_category_date %}00000000{{ inverse_category_date }}{% endcapture %}
+{% capture rank_entry %}{{ padded_inverse_category_count | slice: -4, 4 }}::{{ padded_inverse_category_date | slice: -8, 8 }}::{{ category }}{% endcapture %}
+{% assign ranked_category_entries = ranked_category_entries | push: rank_entry %}
+{% endif %}
+{% endfor %}
+
+{% assign ranked_category_entries = ranked_category_entries | sort %}
+{% assign display_categories_limit = site.display_categories_limit | default: 2 %}
+{% assign featured_categories = '' | split: '' %}
+
+{% for rank_entry in ranked_category_entries limit: display_categories_limit %}
+{% assign rank_parts = rank_entry | split: '::' %}
+{% assign featured_categories = featured_categories | push: rank_parts[2] %}
+{% endfor %}
+
 {% if blog_name_size > 0 or blog_description_size > 0 %}
 
   <div class="header-bar">
@@ -73,7 +113,7 @@ pagination:
   </div>
 {% endif %}
 
-{% if featured_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
+{% if featured_tags.size > 0 or featured_categories.size > 0 %}
 
   <div class="tag-category-list">
     <ul class="p-0 m-0">
@@ -85,10 +125,10 @@ pagination:
           <p>&bull;</p>
         {% endunless %}
       {% endfor %}
-      {% if site.display_categories.size > 0 and featured_tags.size > 0 %}
+      {% if featured_categories.size > 0 and featured_tags.size > 0 %}
         <p>&bull;</p>
       {% endif %}
-      {% for category in site.display_categories %}
+      {% for category in featured_categories %}
         <li>
           <i class="fa-solid fa-tag fa-sm"></i> <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
         </li>

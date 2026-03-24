@@ -283,7 +283,7 @@ jekyll-archives:
     enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
 
 display_tags_limit: 5 # number of blog tags to display on the front page, ranked by frequency then recency
-display_categories: ["image-posts"] # these categories will be displayed on the front page of your blog
+display_categories_limit: 2 # number of blog categories to display on the front page, ranked by frequency then recency
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
