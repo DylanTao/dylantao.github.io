@@ -77,10 +77,13 @@ If you're excited about this space, let's chat. 🚀
 document.addEventListener("DOMContentLoaded", function() {
   const container = document.getElementById('profile-image-container');
   if (container) {
+    const hoverLayer = container.querySelector('.profile-image-hover-layer');
     const images = container.getAttribute('data-images').split(',');
-    container.addEventListener('mouseenter', function(){
+    if (!hoverLayer || images.length === 0) return;
+    hoverLayer.style.backgroundImage = `url("${images[0]}")`;
+    container.addEventListener('mouseenter', function() {
       const randomImage = images[Math.floor(Math.random() * images.length)];
-      container.style.setProperty('--profile-hover-image', `url(${randomImage})`);
+      hoverLayer.style.backgroundImage = `url("${randomImage}")`;
     });
   }
 });

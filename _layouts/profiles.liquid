@@ -17,7 +17,6 @@ layout: page
             {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px) 30vw, 95vw"{% endcapture %}
             <div
               class="profile-image-container{% if profile.image_circular %} profile-image-circular{% else %} profile-image-rounded{% endif %}{% if profile.image_hover %} profile-image-swappable{% endif %}"
-              style="--profile-hover-image: url('{{ profile.image_hover | prepend: 'assets/img/' | relative_url }}');"
             >
               <img
                 src="{{ profile_image_path | relative_url }}"
@@ -25,6 +24,13 @@ layout: page
                 alt="{{ profile.image }}"
                 loading="eager"
               >
+              {% if profile.image_hover %}
+                <div
+                  class="profile-image-hover-layer"
+                  aria-hidden="true"
+                  style="background-image: url('{{ profile.image_hover | prepend: 'assets/img/' | relative_url }}');"
+                ></div>
+              {% endif %}
             </div>
           {% endif %}
           {% if profile.more_info %}

@@ -32,6 +32,9 @@ layout: default
             data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
           >
             {% include figure.liquid loading="eager" path=profile_image_path class=profile_image_class sizes=sizes alt=page.profile.image cache_bust=true %}
+            {% if page.profile.image_hovers %}
+              <div class="profile-image-hover-layer" aria-hidden="true"></div>
+            {% endif %}
           </div>
         {% endif %}
         {% if page.profile.more_info %}

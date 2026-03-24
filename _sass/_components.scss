@@ -59,13 +59,15 @@ ul.task-list input[type="checkbox"] {
   width: 100%;
 
   .profile-image-container {
-    background: none;
     display: block;
     line-height: 0;
+    overflow: hidden;
     position: relative;
 
     figure {
       margin: 0;
+      position: relative;
+      z-index: 1;
     }
 
     picture,
@@ -75,28 +77,27 @@ ul.task-list input[type="checkbox"] {
       height: auto;
     }
 
-    &::after {
-      content: "";
+    &.profile-image-circular {
+      border-radius: 50%;
+    }
+
+    &.profile-image-rounded {
+      border-radius: 0.25rem;
+    }
+
+    .profile-image-hover-layer {
       position: absolute;
       inset: 0;
-      background-image: var(--profile-hover-image);
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease-in-out;
+      z-index: 2;
     }
 
-    &.profile-image-circular::after {
-      border-radius: 50%;
-    }
-
-    &.profile-image-rounded::after {
-      border-radius: 0.25rem;
-    }
-
-    &.profile-image-swappable:hover::after {
+    &.profile-image-swappable:hover .profile-image-hover-layer {
       opacity: 1;
     }
   }
