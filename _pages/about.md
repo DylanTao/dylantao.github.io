@@ -38,8 +38,8 @@ I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Die
 **Research Focus (2026)**
 
 - **Human–AI for Design** 🧠🎨 — Designing interfaces and systems that help people explore, compare, and refine generative possibilities in more diverse, legible, and grounded ways—while also supporting stronger taste and judgment in creative work.
-- **AI & Mixed Reality for Augmentation** 🥽📐 — Building interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
-- **Method** 🧪 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, and appropriate reliance.
+- **AI & Mixed Reality for Augmentation** 🥽 — Building interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
+- **Method** 📐 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, and appropriate reliance.
 
 **Domains I Love Applying This To**
 
@@ -47,7 +47,7 @@ Urban design, architecture, interior & product design, fashion, robotics, and ed
 
 **Exploring**
 
-- Developing taste and judgment ✨ in AI-supported creative work ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
+- Developing taste and judgment 🧐 in AI-supported creative work ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
 - Embodied systems 🤖 integrated into everyday life
 - Post-deployment iteration 🌍 to maximize benefit and minimize harm
 - Learner-centered generative AI 📚 for education at scale
