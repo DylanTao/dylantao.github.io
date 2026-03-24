@@ -62,8 +62,8 @@
   ],
   "academia": [
     {
-      "name": "UCSD, Protolab",
-      "position": "Graduate Researcher",
+      "name": "UCSD, ProtoLab",
+      "position": "Graduate Student Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2023-12",
       "endDate": "Present",
@@ -71,8 +71,8 @@
       "url": "https://protolab.ucsd.edu/"
     },
     {
-      "name": "UCSD, Tzu-Mao Li’s Lab",
-      "position": "Graduate Researcher",
+      "name": "UCSD, Tzu-Mao Li's Lab",
+      "position": "Graduate Student Researcher",
       "location": "La Jolla, CA, USA",
       "startDate": "2023-08",
       "endDate": "2025-04",
@@ -201,7 +201,7 @@
       "url": "https://www.tesla.com/"
     },
     {
-      "name": "Bühler Group",
+      "name": "Buhler Group",
       "position": "Data Scientist Intern",
       "location": "Wuxi, Jiangsu, China",
       "startDate": "2021-07",

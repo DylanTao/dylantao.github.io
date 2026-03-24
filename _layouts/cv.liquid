@@ -268,11 +268,11 @@ layout: default
         {% assign vol = site.data.resume.volunteer | default: empty_array %}
         {% assign combined_experience = work | concat: vol %}
 
-        <!-- Academia -->
+        <!-- Research Experience -->
         {% if academia.size > 0 %}
           <a class="anchor" id="academia"></a>
           <div class="card mt-3 p-3">
-            <h3 class="card-title font-weight-medium">Academia</h3>
+            <h3 class="card-title font-weight-medium">Research Experience</h3>
             <div>
               {% assign entries = academia %}
               {% include cv/experience.liquid %}
@@ -280,11 +280,11 @@ layout: default
           </div>
         {% endif %}
 
-        <!-- Teaching -->
+        <!-- Teaching Experience -->
         {% if teaching.size > 0 %}
           <a class="anchor" id="teaching"></a>
           <div class="card mt-3 p-3">
-            <h3 class="card-title font-weight-medium">Teaching</h3>
+            <h3 class="card-title font-weight-medium">Teaching Experience</h3>
             <div>
               {% assign entries = teaching %}
               {% include cv/experience.liquid %}
