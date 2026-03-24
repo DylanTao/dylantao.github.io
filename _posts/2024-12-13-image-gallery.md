@@ -5,7 +5,7 @@ date: 2024-12-13 09:08:46
 description: a gallery of random gen-ai images
 tags: gen-ai cool-things art
 categories: image-posts
-featured: true
+featured: false
 thumbnail: assets/img/genai_pics/facesoft_cat2.png
 images:
   lightbox2: false

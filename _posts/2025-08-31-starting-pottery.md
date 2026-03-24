@@ -5,7 +5,7 @@ date: 2025-08-31 09:00:00
 description: embarking on a pottery journey with ellen fager at ucsd craft center, featuring three commissioned works
 tags: pottery cool-things art
 categories: art
-featured: true
+featured: false
 thumbnail: assets/img/pottery/psyduck-cup.png
 images:
   lightbox2: false
