@@ -262,9 +262,36 @@ layout: default
 
         <!-- JSONResume Sections - Merge work and volunteer into Experience -->
         {% assign empty_array = '' | split: ',' %}
+        {% assign academia = site.data.resume.academia | default: empty_array %}
+        {% assign teaching = site.data.resume.teaching | default: empty_array %}
         {% assign work = site.data.resume.work | default: empty_array %}
         {% assign vol = site.data.resume.volunteer | default: empty_array %}
         {% assign combined_experience = work | concat: vol %}
+
+        <!-- Academia -->
+        {% if academia.size > 0 %}
+          <a class="anchor" id="academia"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Academia</h3>
+            <div>
+              {% assign entries = academia %}
+              {% include cv/experience.liquid %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Teaching -->
+        {% if teaching.size > 0 %}
+          <a class="anchor" id="teaching"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Teaching</h3>
+            <div>
+              {% assign entries = teaching %}
+              {% include cv/experience.liquid %}
+            </div>
+          </div>
+        {% endif %}
+
         {% if combined_experience.size > 0 %}
           <a class="anchor" id="experience"></a>
           <div class="card mt-3 p-3">

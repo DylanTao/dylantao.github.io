@@ -74,11 +74,20 @@
 
           {% if entry.courses or entry.highlights %}
             <ul class="items">
-              {% for item in entry.courses %}
-                <li>
-                  <span class="item">{{ item }}</span>
-                </li>
-              {% endfor %}
+              {% if entry.courses %}
+                {% assign courses_json = entry.courses | jsonify %}
+                {% if courses_json contains '[' %}
+                  {% for item in entry.courses %}
+                    <li>
+                      <span class="item">{{ item }}</span>
+                    </li>
+                  {% endfor %}
+                {% else %}
+                  <li>
+                    <span class="item">{{ entry.courses }}</span>
+                  </li>
+                {% endif %}
+              {% endif %}
               {% for item in entry.highlights %}
                 <li>
                   <span class="item">{{ item | markdownify | remove: '<p>' | remove: '</p>' }}</span>
