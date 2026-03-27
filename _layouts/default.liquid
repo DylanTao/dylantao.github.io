@@ -22,10 +22,12 @@
 
     <!-- Content -->
     {% assign main_container_class = 'container' %}
+    {% assign main_container_spacing_class = 'mt-5' %}
     {% if page.wide_layout %}
       {% assign main_container_class = 'container-fluid px-3 px-md-4 px-xl-5' %}
+      {% assign main_container_spacing_class = 'mt-3 mt-md-4' %}
     {% endif %}
-    <div class="{{ main_container_class }} mt-5" role="main">
+    <div class="{{ main_container_class }} {{ main_container_spacing_class }}" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row">
