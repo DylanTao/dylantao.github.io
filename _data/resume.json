@@ -36,28 +36,31 @@
       "institution": "University of California San Diego",
       "area": "Cognitive Science",
       "studyType": "Doctor of Philosophy",
+      "location": "La Jolla, CA, USA",
       "startDate": "2025-08",
       "endDate": "2030-06",
       "courses": "Research in Human-computer-interaction & Design, advised by Prof. Steven Dow.",
-      "url": "https://ucsd.edu/"
+      "url": "https://cogsci.ucsd.edu/graduates/phd-program/index.html"
     },
     {
       "institution": "University of California San Diego",
       "area": "Computer Science and Engineering",
       "studyType": "Master of Science",
+      "location": "La Jolla, CA, USA",
       "startDate": "2023-09",
       "endDate": "2025-03",
       "courses": "Research in Human-computer-interaction & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li.",
-      "url": "https://ucsd.edu/"
+      "url": "https://cse.ucsd.edu/graduate/degree-programs/ms-program"
     },
     {
       "institution": "University of California San Diego",
       "area": "Data Science & Probability and Statistics",
       "studyType": "Bachelor of Science",
+      "location": "La Jolla, CA, USA",
       "startDate": "2019-09",
       "endDate": "2023-03",
       "courses": "Research in Intuitive Physics, advised by Prof. Judith Fan.",
-      "url": "https://ucsd.edu/"
+      "url": "https://warren.ucsd.edu/"
     }
   ],
   "academia": [
