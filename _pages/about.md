@@ -15,8 +15,8 @@ profile:
     - sirui_pic_simpsons.png
   image_circular: true # crops the image to make it circular
   more_info: >
-    <p>9510 Innovation Ln,</p>
-    <p>La Jolla, CA 92093, USA</p>
+    <p>9510 Innovation Ln, La Jolla,</p>
+    <p>CA 92093, USA</p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
