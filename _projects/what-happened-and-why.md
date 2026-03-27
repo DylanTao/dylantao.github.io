@@ -95,30 +95,30 @@ _styles: |
   .trace-title {
     margin: 1.15rem 0 0.95rem;
     font-family: 'Roboto Slab', serif;
-    max-width: 26ch;
+    max-width: 38ch;
     line-height: 1;
     letter-spacing: -0.03em;
   }
 
   .trace-title-lead {
     display: block;
-    max-width: 11ch;
-    font-size: clamp(2.8rem, 5vw, 5rem);
-    line-height: 0.97;
+    max-width: none;
+    font-size: clamp(3rem, 4.35vw, 4.85rem);
+    line-height: 0.95;
   }
 
   .trace-title-rest {
     display: block;
-    max-width: 24ch;
+    max-width: 34ch;
     margin-top: 0.45rem;
-    font-size: clamp(1.7rem, 2.65vw, 3.15rem);
+    font-size: clamp(1.55rem, 2.15vw, 2.65rem);
     font-weight: 400;
-    line-height: 1.08;
+    line-height: 1.12;
     letter-spacing: -0.02em;
   }
 
   .trace-subtitle {
-    max-width: 64rem;
+    max-width: 72rem;
     margin: 0;
     font-size: clamp(1rem, 1.15vw, 1.18rem);
     line-height: 1.78;
@@ -225,8 +225,9 @@ _styles: |
     justify-content: center;
     padding: 0.78rem 1.1rem;
     border-radius: 999px;
-    background: var(--global-text-color);
-    color: var(--global-bg-color);
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--trace-accent-deep);
+    border: 1px solid var(--trace-border);
     font-weight: 700;
     text-decoration: none;
     transition:
@@ -236,9 +237,23 @@ _styles: |
   }
 
   .trace-btn:hover {
-    color: var(--global-bg-color);
+    color: var(--trace-accent-deep);
+    background: rgba(255, 255, 255, 0.92);
     transform: translateY(-1px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 10px 22px rgba(22, 21, 18, 0.1);
+  }
+
+  html[data-theme='dark'] .trace-btn {
+    background: rgba(0, 0, 0, 0.14);
+  }
+
+  html[data-theme='dark'] .trace-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .trace-btn.trace-btn-primary {
+    background: var(--trace-accent-soft);
+    color: var(--trace-accent-deep);
   }
 
   .trace-btn.trace-btn-quiet {
@@ -336,7 +351,7 @@ _styles: |
 
   .trace-inline-list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 0.75rem 1.25rem;
     padding: 0;
     margin: 1rem 0 1.2rem;
@@ -367,8 +382,8 @@ _styles: |
     padding: 1rem 1.1rem;
     overflow-x: auto;
     border-radius: 1rem;
-    background: var(--global-code-bg-color);
-    border: 1px solid var(--global-divider-color);
+    background: var(--trace-accent-softer);
+    border: 1px solid var(--trace-border);
   }
 
   .trace-bibtex code {
@@ -480,7 +495,7 @@ _styles: |
     </div>
 
     <div class="trace-actions">
-      <a class="trace-btn" href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">PDF</a>
+      <a class="trace-btn trace-btn-primary" href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">PDF</a>
       <a class="trace-btn trace-btn-quiet" href="https://herding-cats-ws.github.io/">Workshop</a>
       <a class="trace-btn trace-btn-quiet" href="#bibtex">BibTeX</a>
     </div>
@@ -529,45 +544,40 @@ _styles: |
   </section>
 
   <section class="trace-citation">
-    <h2>PDF, citation, and workshop info</h2>
+    <h2>Cite this paper</h2>
     <ul class="trace-inline-list">
-      <li>
-        <strong>Authors</strong>
-        Sirui Tao, William P. McCarthy, and Steven P. Dow
-      </li>
       <li>
         <strong>Venue</strong>
         Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)
       </li>
       <li>
         <strong>Publication Date</strong>
-        2026/02/25
+        February 25, 2026
       </li>
       <li>
-        <strong>PDF URL</strong>
+        <strong>PDF</strong>
         <a href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">what-happened-and-why.pdf</a>
       </li>
     </ul>
 
     <p>
-      Suggested citation: Tao, Sirui, William P. McCarthy, and Steven P. Dow. 2026. <em>What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration.</em> Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop).
+      Use the BibTeX below if you want to cite the paper or add it to a reference manager.
     </p>
 
     <div class="trace-actions">
-      <a class="trace-btn" href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">Open PDF</a>
+      <a class="trace-btn trace-btn-primary" href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">Open PDF</a>
       <a class="trace-btn trace-btn-quiet" href="https://herding-cats-ws.github.io/">Workshop Page</a>
     </div>
 
     <h2 id="bibtex" style="margin-top: 1.5rem;">BibTeX</h2>
-    <pre class="trace-bibtex"><code>@inproceedings{tao202whw,
-
-title = {What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
-author = {Tao, Sirui and McCarthy, William P. and Dow, Steven P.},
-booktitle = {Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)},
-year = {2026},
-month = feb,
-url = {https://dylantao.github.io/projects/what-happened-and-why/},
-pdf = {https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf}
+    <pre class="trace-bibtex"><code>@inproceedings{tao2026whw,
+  title = {What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
+  author = {Tao, Sirui and McCarthy, William P. and Dow, Steven P.},
+  booktitle = {Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)},
+  year = {2026},
+  month = feb,
+  url = {https://dylantao.github.io/projects/what-happened-and-why/},
+  pdf = {https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf}
 }</code></pre>
 
   </section>
