@@ -96,8 +96,26 @@ p.location {
 }
 
 .cv .cv-title-struck {
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+}
+
+.cv .cv-title-struck::after {
+  content: '';
+  position: absolute;
+  top: 52%;
+  left: -0.08em;
+  right: -0.08em;
+  border-top: 0.18em solid currentColor;
+  opacity: 0.95;
+  pointer-events: none;
+  transform: rotate(-2.5deg);
+  transform-origin: center;
+}
+
+.cv .cv-title-struck:hover {
+  text-decoration: none;
 }
 
 @media (max-width: 767.98px) {
