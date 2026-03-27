@@ -48,7 +48,23 @@
   <!-- Entry bib key -->
   <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
     <!-- Title -->
-    <div class="title">{{ entry.title }}</div>
+    {% assign entry_title_url = nil %}
+    {% if entry.html %}
+      {% if entry.html contains '://' %}
+        {% assign entry_title_url = entry.html %}
+      {% else %}
+        {% assign entry_title_url = entry.html | prepend: '/assets/html/' | relative_url %}
+      {% endif %}
+    {% elsif entry.website %}
+      {% assign entry_title_url = entry.website %}
+    {% endif %}
+    <div class="title">
+      {% if entry_title_url %}
+        <a href="{{ entry_title_url }}">{{ entry.title }}</a>
+      {% else %}
+        {{ entry.title }}
+      {% endif %}
+    </div>
     <!-- Author -->
     <div class="author">
       {% assign author_array_size = entry.author_array | size %}

@@ -93,19 +93,35 @@ _styles: |
   }
 
   .trace-title {
-    margin: 1.15rem 0 0.85rem;
+    margin: 1.15rem 0 0.95rem;
     font-family: 'Roboto Slab', serif;
-    max-width: 15ch;
-    font-size: clamp(2.35rem, 4.8vw, 5rem);
-    line-height: 1.02;
+    max-width: 26ch;
+    line-height: 1;
     letter-spacing: -0.03em;
+  }
+
+  .trace-title-lead {
+    display: block;
+    max-width: 11ch;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 0.97;
+  }
+
+  .trace-title-rest {
+    display: block;
+    max-width: 24ch;
+    margin-top: 0.45rem;
+    font-size: clamp(1.7rem, 2.65vw, 3.15rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
   }
 
   .trace-subtitle {
     max-width: 64rem;
     margin: 0;
-    font-size: clamp(1.05rem, 1.25vw, 1.28rem);
-    line-height: 1.72;
+    font-size: clamp(1rem, 1.15vw, 1.18rem);
+    line-height: 1.78;
     color: var(--global-text-color-light);
   }
 
@@ -279,6 +295,14 @@ _styles: |
     margin-top: 1rem;
   }
 
+  .trace-reading-width {
+    max-width: 76rem;
+  }
+
+  .trace-section .trace-reading-width p:last-child {
+    margin-bottom: 0;
+  }
+
   .trace-why-card {
     padding: 1rem;
     border-radius: 1rem;
@@ -389,7 +413,16 @@ _styles: |
 
     .trace-title {
       max-width: none;
-      font-size: 1.95rem;
+    }
+
+    .trace-title-lead {
+      max-width: none;
+      font-size: 2.15rem;
+    }
+
+    .trace-title-rest {
+      max-width: none;
+      font-size: 1.45rem;
     }
 
     .trace-actions {
@@ -406,10 +439,11 @@ _styles: |
   <section class="trace-hero">
     <span class="trace-kicker">CHI 2026 Workshop Position Paper</span>
     <h1 class="trace-title">
-      What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration
+      <span class="trace-title-lead">What Happened and Why?</span>
+      <span class="trace-title-rest">Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration</span>
     </h1>
     <p class="trace-subtitle">
-      A paper about making creative-AI telemetry more useful by pairing high-friction interaction traces with lightweight, in-flow user explanations.
+      A workshop position paper about how interaction traces and short, in-context user explanations can work together to support product iteration in creative AI tools.
     </p>
 
     <div class="trace-meta">
@@ -462,13 +496,13 @@ _styles: |
 
   <section class="trace-section">
     <div class="trace-two-column">
-      <div>
-        <h2>What is this paper about?</h2>
+      <div class="trace-reading-width">
+        <h2>Overview</h2>
         <p>
-          The paper argues that activity traces alone usually tell teams <em>what</em> happened, but not <em>why</em>. In creative and generative workflows, that gap matters: the same behavioral trace can signal useful exploration, confusion, verification burden, or a mismatch between system output and user intent.
+          Creative systems produce detailed logs, but those logs are often hard to interpret on their own. A long interaction sequence might reflect productive exploration, repeated verification, or a user struggling to recover from an unsatisfying result. This paper starts from a simple observation: traces are good at showing <em>what</em> happened, but they are often poor at revealing <em>why</em>.
         </p>
         <p>
-          To bridge that gap, the paper proposes <strong>trace-guided micro-episodes</strong>: compact records that combine a short interaction trace, the surrounding interface state, and a minimal user explanation collected exactly when friction is high. The core idea is to make clarification useful to the person in the moment, so rationale capture becomes part of recovery rather than an interruption.
+          To make those traces more informative, the paper proposes <strong>trace-guided micro-episodes</strong>: short windows of interaction paired with the local interface context and a lightweight explanation from the user at a moment of friction. Rather than treating explanation as a separate survey task, the proposal is to gather it through useful recovery-oriented interactions inside the tool itself.
         </p>
       </div>
       <div>
@@ -484,25 +518,13 @@ _styles: |
 
   <section class="trace-section">
     <h2>Why it matters</h2>
-    <div class="trace-why-grid">
-      <div class="trace-why-card">
-        <h3>Better product diagnosis</h3>
-        <p>
-          Teams can separate vague failure modes like controllability, quality, and verification burden instead of inferring them from ambiguous aggregate metrics.
-        </p>
-      </div>
-      <div class="trace-why-card">
-        <h3>Low-friction evidence capture</h3>
-        <p>
-          The proposed &ldquo;utility-for-rationale&rdquo; framing keeps the focus on helping users recover in the moment, rather than asking them to stop and fill out a survey.
-        </p>
-      </div>
-      <div class="trace-why-card">
-        <h3>Grounded training data</h3>
-        <p>
-          Micro-episodes can also become alignment data for future agents by pairing action traces with explicit human reasoning about what went wrong.
-        </p>
-      </div>
+    <div class="trace-reading-width">
+      <p>
+        For product teams, this framing offers a more grounded way to interpret analytics from creative workflows. Instead of collapsing many behaviors into a single metric, micro-episodes can help distinguish between broad but practically different issues such as controllability problems, output-quality mismatches, and verification burden. The goal is not to replace telemetry, but to make it easier to reason about.
+      </p>
+      <p>
+        The paper also matters methodologically. It suggests that user explanations do not need to be collected only through disruptive post-hoc surveys. When explanation is tied to an action that helps the user move forward, it can become part of the workflow rather than an interruption. That opens up a more modest and more realistic path toward gathering situated evidence for both product iteration and future agent training.
+      </p>
     </div>
   </section>
 
