@@ -217,8 +217,11 @@
         {% endif %}
       {% endif %}
       {% if entry.pdf %}
+        {% assign pdf_path_prefix = entry.pdf | slice: 0 %}
         {% if entry.pdf contains '://' %}
           <a href="{{ entry.pdf }}" class="btn btn-sm z-depth-0" role="button">PDF</a>
+        {% elsif pdf_path_prefix == '/' %}
+          <a href="{{ entry.pdf | relative_url }}" class="btn btn-sm z-depth-0" role="button">PDF</a>
         {% else %}
           <a href="{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">PDF</a>
         {% endif %}
