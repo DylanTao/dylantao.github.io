@@ -105,6 +105,11 @@ ninja.data = [{
           description: "a benchmark evaluating intuitive physics in vision models via object contact prediction across realistic 3D scenarios. Humans consistently outperform state-of-the-art models, emphasizing the need for object-centric, physics-informed representations",
           section: "Projects",handler: () => {
               window.location.href = "/projects/physion/";
+            },},{id: "projects-what-happened-and-why",
+          title: 'What Happened and Why?',
+          description: "A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/what-happened-and-why/";
             },},{id: "teachings-data-science-fundamentals",
           title: 'Data Science Fundamentals',
           description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
