@@ -47,6 +47,26 @@ p.location {
   white-space: nowrap;
 }
 
+.cv .date-column {
+  text-align: left;
+}
+
+.cv .cv-date-table {
+  margin-bottom: 0;
+}
+
+.cv .cv-date-badge {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 7.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cv .date-column .location {
+  margin-bottom: 0;
+  text-align: left;
+}
+
 i.iconlocation {
   color: var(--global-theme-color);
   font-size: 0.8rem;

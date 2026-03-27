@@ -319,7 +319,7 @@ layout: default
         {% if site.data.resume.awards.size > 0 %}
           <a class="anchor" id="awards"></a>
           <div class="card mt-3 p-3">
-            <h3 class="card-title font-weight-medium">Awards</h3>
+            <h3 class="card-title font-weight-medium">Honors &amp; Awards (&amp; Rejections)</h3>
             <div>
               {% assign entries = site.data.resume.awards %}
               {% include cv/awards.liquid %}
@@ -347,6 +347,18 @@ layout: default
             <div>
               {% assign entries = site.data.resume.mentorship %}
               {% include cv/mentorship.liquid %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Academic Service -->
+        {% if site.data.resume.academicService.size > 0 %}
+          <a class="anchor" id="academic-service"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Academic Service</h3>
+            <div>
+              {% assign entries = site.data.resume.academicService %}
+              {% include cv/awards.liquid %}
             </div>
           </div>
         {% endif %}
@@ -420,6 +432,15 @@ layout: default
               {% assign entries = site.data.resume.references %}
               {% include cv/references.liquid %}
             </div>
+          </div>
+        {% endif %}
+
+        {% if site.data.resume.cvNote %}
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Note</h3>
+            <p class="mb-0">
+              {{ site.data.resume.cvNote | markdownify | remove: '<p>' | remove: '</p>' }}
+            </p>
           </div>
         {% endif %}
 

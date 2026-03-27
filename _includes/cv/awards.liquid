@@ -11,14 +11,12 @@
         {% endcapture %}
 
         {% if start_date != '' %}
-          <div class="col-xs-2 col-sm-2 col-md-2 text-center">
-            <table class="table-cv">
+          <div class="col-xs-2 col-sm-2 col-md-2 date-column">
+            <table class="table-cv cv-date-table">
               <tbody>
                 <tr>
                   <td>
-                    <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle" style="min-width: 75px">
-                      {{- start_date | split: '-' | slice: 0, 1 | join: '' -}}
-                    </span>
+                    <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle cv-date-badge">{{- start_date -}}</span>
                   </td>
                 </tr>
               </tbody>

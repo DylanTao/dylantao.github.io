@@ -9,7 +9,7 @@
   {% for entry in entries %}
     <li class="list-group-item">
       <div class="row">
-        <div class="col-xs-2 col-sm-2 col-md-2 text-center date-column">
+        <div class="col-xs-2 col-sm-2 col-md-2 date-column">
           {% capture start_date %}
             {% if entry.start_date %}{{ entry.start_date }}{% elsif entry.startDate %}{{ entry.startDate }}{% endif %}
           {% endcapture %}
@@ -26,11 +26,11 @@
             {% assign date = '' %}
           {% endif %}
 
-          <table class="table-cv">
+          <table class="table-cv cv-date-table">
             <tbody>
               <tr>
                 <td>
-                  <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle" style="min-width: 75px">{{ date }}</span>
+                  <span class="badge font-weight-bold danger-color-dark text-uppercase align-middle cv-date-badge">{{ date }}</span>
                 </td>
               </tr>
               {% capture location %}

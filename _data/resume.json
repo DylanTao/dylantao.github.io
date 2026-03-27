@@ -101,6 +101,15 @@
   "teaching": [
     {
       "name": "UCSD",
+      "position": "Teaching Assistant - DSGN 1: Design of Everyday Things",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2026-01",
+      "endDate": "2026-03",
+      "summary": "TA for Prof. Michael Meyer",
+      "url": "https://catalog.ucsd.edu/courses/DSGN.html"
+    },
+    {
+      "name": "UCSD",
       "position": "Teaching Assistant - COGS 187A: Usability & Information Architecture",
       "location": "La Jolla, CA, USA",
       "startDate": "2025-08",
@@ -256,22 +265,33 @@
   ],
   "awards": [
     {
+      "title": "MSR Fellowship [Rejected Once]",
+      "date": "2026",
+      "awarder": "Microsoft Research"
+    },
+    {
+      "title": "YC AI Student Starter Pack",
+      "date": "2026",
+      "awarder": "Y Combinator",
+      "summary": "~$25,000 in free credits for AI tools and cloud services."
+    },
+    {
       "title": "SHORE Fellowship",
-      "date": "2025 ~ 2030",
+      "date": "2025 - 2031",
       "awarder": "UCSD, Cognitive Science Department",
-      "summary": "Awarded the prestigious SHORE (Supporting Holistic Opportunities for Research Excellence) Fellowship, one of only 3 recipients in the Cognitive Science Department annually. This highly competitive fellowship provides approximately $70,000 in value to support doctoral research in cognitive science.",
+      "summary": "~$70,000 in value; 3 recipients in the Cognitive Science Department annually.",
       "url": "https://cogsci.ucsd.edu/"
     },
     {
       "title": "OpenAI Researcher Access Program",
       "date": "2025",
       "awarder": "OpenAI",
-      "summary": "Selected for the OpenAI Researcher Access Program (~$1,000 in credits) to support research with advanced AI models.",
+      "summary": "~$1,000 in credits.",
       "url": "https://openai.com/"
     },
     {
       "title": "IGE Shah Fellowship",
-      "date": "2023 ~ 2024",
+      "date": "2023 - 2024",
       "awarder": "UCSD, Institute for the Global Entrepreneur",
       "summary": "Awarded the Shah Family Entrepreneur Fellowship ($5,000) as one of two Shah Fellows university-wide for outstanding research contributions and entrepreneurial potential. The fellowship, launched by the Institute for the Global Entrepreneur (IGE)—a collaboration between the Jacobs School of Engineering and the Rady School of Management—aims to teach engineers to become entrepreneurs and leaders.",
       "url": "https://ige.ucsd.edu/programs/certificate"
@@ -280,33 +300,41 @@
       "title": "The Cornell, Maryland, Max Planck Pre-doctoral Research School Fellowship",
       "date": "2023",
       "awarder": "Cornell, Maryland, Max Planck Institute",
-      "summary": "Selected as one of approximately 60 global recipients to participate in the prestigious pre-doctoral research school ($3,000 fellowship) focused on cutting-edge interdisciplinary research, held in August 2023.",
+      "summary": "$3,000; ~60 global recipients annually.",
       "url": "https://cmmrs.mpi-sws.org/"
     },
     {
-      "title": "HDSI Research Scholarship",
+      "title": "HDSI Research Scholarship [Rejected Once]",
       "date": "2021, 2022",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
-      "summary": "Awarded the competitive $2,500 * 2 Undergraduate Research Scholarship, one of approximately 30 recipients @ HDSI Department annually, for outstanding research contributions in data science.",
+      "summary": "$2,500 x 2; ~30 recipients at HDSI annually.",
       "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
     },
     {
-      "title": "TRELS Research Scholarship",
-      "date": "2020, 2022",
+      "title": "TRELS Research Scholarship [Rejected Twice]",
+      "date": "2020 Spring, 2022 Winter",
       "awarder": "AEP, UCSD",
-      "summary": "$1,000 * 2 quarterly research scholarship; ~75 recipients @ UCSD each quarter.",
+      "summary": "$1,000 x 2; ~75 recipients at UCSD quarterly.",
       "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
     },
     {
       "title": "Provost Honor",
-      "date": "2019 ~ 2023",
+      "date": "2019 - 2023",
       "awarder": "Warren College, UCSD",
-      "summary": "Consistently recognized for academic excellence throughout undergraduate studies, awarded to approximately 20% of students at Warren College annually.",
+      "summary": "$0, but it sounds cool; ~20% of students at Warren College annually.",
       "url": "https://warren.ucsd.edu/"
     }
   ],
   "certificates": [],
   "publications": [
+    {
+      "name": "XXX: abcdefg",
+      "publisher": "Submission at UIST 2026",
+      "releaseDate": "2026",
+      "summary": "Sirui Tao, ..., and Steven P. Dow. Rejected at CHI26.",
+      "paperLabel": "P5",
+      "anchor": "cv-publication-p5"
+    },
     {
       "name": "What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration",
       "publisher": "Conference on Human Factors in Computing Systems 2026 (Position paper for \"Herding CATs: Making Sense of Creative Activity Traces\" workshop)",
@@ -321,7 +349,7 @@
       "publisher": "Conference on Human Factors in Computing Systems 2025",
       "releaseDate": "2025",
       "url": "https://drive.google.com/file/d/1URD3apa7C9qS_ZXFAFCPpnwNfQzljI2M/view?usp=sharing",
-      "summary": "Explores dimensional scaffolding to enhance designer workflows in generative AI.",
+      "summary": "Sirui Tao, Ivan Liang, Cindy Peng, Zhiqing Wang, Srishti Palani, and Steven P. Dow.",
       "paperLabel": "P4",
       "anchor": "cv-publication-p4"
     },
@@ -330,25 +358,25 @@
       "publisher": "Conference on Computer Vision and Pattern Recognition 2025 (Highlight)",
       "releaseDate": "2025",
       "url": "https://arxiv.org/pdf/2411.14628",
-      "summary": "A study on optimizing signed distance functions with screened Poisson equations.",
+      "summary": "Zimo Wang, Cheng Wang, Taiki Yoshino, Sirui Tao, Ziyang Fu, and Tzu-Mao Li.",
       "paperLabel": "P3",
       "anchor": "cv-publication-p3"
     },
     {
       "name": "Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines",
-      "publisher": "Proceedings of the Annual Meeting of the Cognitive Science Society (Accepted as poster with abstract publication)",
+      "publisher": "Proceedings of the Annual Meeting of the Cognitive Science Society 2023 (Poster with abstract)",
       "releaseDate": "2023",
       "url": "https://escholarship.org/uc/item/3x9960zn",
-      "summary": "Evaluates physical scene understanding in humans and machines with varying physical attributes.",
+      "summary": "Hsiao-Yu Tung, Mingyu Ding, Zhenfang Chen, Sirui Tao, Vedang Lad, Daniel Bear, Chuang Gan, Josh Tenenbaum, Daniel Yamins, Judith Fan, and Kevin Smith.",
       "paperLabel": "P2",
       "anchor": "cv-publication-p2"
     },
     {
       "name": "Physion: Evaluating Physical Prediction from Vision in Humans and Machines",
-      "publisher": "Advances in Neural Information Processing Systems",
+      "publisher": "Advances in Neural Information Processing Systems 2021 (NeurIPS Datasets & Benchmarks Track)",
       "releaseDate": "2021",
       "url": "https://physion-benchmark.github.io/",
-      "summary": "A study on evaluating physical prediction from vision in humans and machines.",
+      "summary": "Daniel Bear, Elias Wang, Damian Mrowca, Felix Binder, Hsiao-Yu Tung, Pramod RT, Cameron Holdaway, Sirui Tao, Kevin Smith, Fan-Yun Sun, Fei-Fei Li, Nancy Kanwisher, Josh Tenenbaum, Dan Yamins, and Judith Fan.",
       "paperLabel": "P1",
       "anchor": "cv-publication-p1"
     }
@@ -358,38 +386,79 @@
       "name": "Shreya Krishnamurthy",
       "url": "https://shreyakrishnamurthy.framer.website/",
       "details": "B.S. UCSD",
-      "paperLabel": "W1",
-      "paperAnchor": "cv-publication-w1"
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
     },
     {
       "name": "Erin Huang",
       "url": "https://www.linkedin.com/in/erin-huang-305389233/",
       "details": "B.S. UCSD",
-      "paperLabel": "W1",
-      "paperAnchor": "cv-publication-w1"
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
     },
     {
       "name": "Suma Vintha",
       "url": "https://www.linkedin.com/in/suma-vintha/",
       "details": "B.S. UCSD",
-      "paperLabel": "W1",
-      "paperAnchor": "cv-publication-w1"
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
     },
     {
       "name": "Domonick Marshall",
       "url": "https://www.linkedin.com/in/domonick-marshall-817556309/",
       "details": "B.S. UCSD",
-      "paperLabel": "W1",
-      "paperAnchor": "cv-publication-w1"
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
     },
     {
       "name": "Kiruthika Marikumaran",
       "url": "https://www.linkedin.com/in/kiruthika-star14/",
       "details": "B.S. + M.S. UCSD",
-      "paperLabel": "W1",
-      "paperAnchor": "cv-publication-w1"
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
     }
   ],
+  "academicService": [
+    {
+      "date": "2026",
+      "title": "C&C Full Paper Reviewer",
+      "summary": "2 papers."
+    },
+    {
+      "date": "2026",
+      "title": "DIS Full Paper Reviewer",
+      "summary": "2 papers."
+    },
+    {
+      "date": "2026",
+      "title": "CHI Full Paper Reviewer",
+      "summary": "8 papers; Special Recognition for 3 + Highly Useful for 1."
+    },
+    {
+      "date": "2025 - 2026",
+      "title": "UCSD Design Lab Weekly Research Meeting Annual Organizer"
+    },
+    {
+      "date": "2025",
+      "title": "CI Extended Abstract Reviewer + Student Volunteer",
+      "summary": "1 paper."
+    },
+    {
+      "date": "2025",
+      "title": "CHI Late Breaking Work Reviewer",
+      "summary": "2 papers."
+    },
+    {
+      "date": "2025",
+      "title": "DIS Work-in-Progress Reviewer",
+      "summary": "1 paper."
+    },
+    {
+      "date": "2024",
+      "title": "UCSD Design Lab Weekly Research Meeting Fall Quarter Co-host"
+    }
+  ],
+  "cvNote": "I include all my rejections on my CV following the steps of the awesome [Bradley Voytek](https://voyteklab.com/members) ([his CV](https://voyteklab.com/assets/pdfs/members/voytek_cv.pdf#page=39.11)). He said that would inspire more people to be ok with rejection, and I agree.",
   "skills": [
     {
       "name": "Human-Computer Interaction",
