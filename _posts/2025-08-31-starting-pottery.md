@@ -4,7 +4,7 @@ title: starting my pottery journey
 date: 2025-08-31 09:00:00
 description: embarking on a pottery journey with ellen fager at ucsd craft center, featuring three commissioned works
 tags: pottery cool-things art
-categories: art
+categories: reflections
 featured: false
 thumbnail: assets/img/pottery/psyduck-cup.png
 images:
