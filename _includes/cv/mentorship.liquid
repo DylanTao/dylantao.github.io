@@ -1,0 +1,29 @@
+{% comment %}
+  Research mentorship entry renderer for linked mentees and their related papers
+{% endcomment %}
+
+<ul class="card-text font-weight-light list-group list-group-flush">
+  {% for entry in entries %}
+    <li class="list-group-item">
+      {% if entry.url %}
+        <h6 class="title font-weight-bold ml-1 ml-md-4">
+          <a href="{{ entry.url }}">{{ entry.name }}</a>
+        </h6>
+      {% else %}
+        <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.name }}</h6>
+      {% endif %}
+
+      {% capture details_line %}
+        {% if entry.details %}{{ entry.details }}{% endif %}
+        {% if entry.paperLabel and entry.paperAnchor %}
+          {% if entry.details %} {% endif %}
+          <a href="#{{ entry.paperAnchor }}">[{{ entry.paperLabel }}]</a>
+        {% endif %}
+      {% endcapture %}
+      {% assign details_line = details_line | strip %}
+      {% if details_line != '' %}
+        <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">{{ details_line }}</h6>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

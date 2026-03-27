@@ -4,7 +4,7 @@ title: What Happened and Why?
 permalink: /projects/what-happened-and-why/
 description: A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.
 img: assets/img/publication_preview/herding_cats_why_what.png
-importance: -1
+importance: -4
 category: research
 date: 2026-02-25
 hide_title: true

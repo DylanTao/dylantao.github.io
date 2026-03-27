@@ -339,6 +339,18 @@ layout: default
           </div>
         {% endif %}
 
+        <!-- Research Mentorship -->
+        {% if site.data.resume.mentorship.size > 0 %}
+          <a class="anchor" id="research-mentorship"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Research Mentorship</h3>
+            <div>
+              {% assign entries = site.data.resume.mentorship %}
+              {% include cv/mentorship.liquid %}
+            </div>
+          </div>
+        {% endif %}
+
         <!-- Skills -->
         {% if site.data.resume.skills.size > 0 %}
           <a class="anchor" id="skills"></a>
