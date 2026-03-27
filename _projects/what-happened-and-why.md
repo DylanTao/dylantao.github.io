@@ -110,7 +110,7 @@ _styles: |
 
   .trace-title-rest {
     display: block;
-    max-width: 44rem;
+    max-width: 58rem;
     margin-top: 0.45rem;
     font-size: clamp(1.55rem, 2.15vw, 2.65rem);
     font-weight: 400;
@@ -119,11 +119,12 @@ _styles: |
   }
 
   .trace-subtitle {
-    max-width: 72rem;
+    max-width: 88rem;
     margin: 0;
     font-size: clamp(1rem, 1.15vw, 1.18rem);
     line-height: 1.78;
     color: var(--global-text-color-light);
+    text-wrap: pretty;
   }
 
   .trace-meta {
@@ -457,7 +458,7 @@ _styles: |
     <span class="trace-kicker">CHI 2026 Workshop Position Paper</span>
     <h1 class="trace-title">
       <span class="trace-title-lead">What Happened and Why?</span>
-      <span class="trace-title-rest">Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration</span>
+      <span class="trace-title-rest">Trace-Guided Micro-Episodes with Elicited User Explanations for Product&nbsp;Iteration</span>
     </h1>
     <p class="trace-subtitle">
       A workshop position paper about how interaction traces and short, in-context user explanations can work together to support product iteration in creative AI tools.
