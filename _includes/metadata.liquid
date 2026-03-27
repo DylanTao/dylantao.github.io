@@ -57,6 +57,23 @@
 {% if page.keywords or site.keywords %}
   <meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}">
 {% endif %}
+{% if page.citation_title %}
+  <meta name="citation_title" content="{{ page.citation_title | escape }}">
+{% endif %}
+{% if page.citation_authors %}
+  {% for citation_author in page.citation_authors %}
+    <meta name="citation_author" content="{{ citation_author | escape }}">
+  {% endfor %}
+{% endif %}
+{% if page.citation_publication_date %}
+  <meta name="citation_publication_date" content="{{ page.citation_publication_date | escape }}">
+{% endif %}
+{% if page.citation_conference_title %}
+  <meta name="citation_conference_title" content="{{ page.citation_conference_title | escape }}">
+{% endif %}
+{% if page.citation_pdf_url %}
+  <meta name="citation_pdf_url" content="{{ page.citation_pdf_url | escape }}">
+{% endif %}
 
 {% assign is_blog_post = false %}
 {% if page.url != '/blog/index.html' and page.url contains '/blog/' %}
