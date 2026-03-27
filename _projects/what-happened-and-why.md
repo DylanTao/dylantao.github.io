@@ -535,10 +535,10 @@ _styles: |
     <h2>Why it matters</h2>
     <div class="trace-reading-width">
       <p>
-        For product teams, this framing offers a more grounded way to interpret analytics from creative workflows. Instead of collapsing many behaviors into a single metric, micro-episodes can help distinguish between broad but practically different issues such as controllability problems, output-quality mismatches, and verification burden. The goal is not to replace telemetry, but to make it easier to reason about.
+        Creative AI teams already collect rich traces, but those traces often flatten very different situations into the same pattern of behavior. A long session, repeated regeneration, or lots of edits could mean productive exploration, careful verification, or a user struggling to recover from a bad output. The core claim of the paper is that teams need a unit of analysis closer to the moment of friction: a micro-episode that pairs the trace with the user&rsquo;s local explanation. That makes it much easier to tell whether a problem is really about controllability, mismatch with intent, or the effort required to verify and repair outputs.
       </p>
       <p>
-        The paper also matters methodologically. It suggests that user explanations do not need to be collected only through disruptive post-hoc surveys. When explanation is tied to an action that helps the user move forward, it can become part of the workflow rather than an interruption. That opens up a more modest and more realistic path toward gathering situated evidence for both product iteration and future agent training.
+        The methodological contribution is the same practical move. Instead of asking users to reconstruct what went wrong after the fact, the paper argues for a utility-for-rationale exchange: the system offers a useful, context-aware action at a likely failure point, and the resulting interaction captures what the user was trying to fix. In that framing, explanation is not extra survey work layered on top of the workflow; it becomes part of error recovery itself. That is what makes the approach plausible for real product teams while also producing more grounded data for future agent training.
       </p>
     </div>
   </section>
