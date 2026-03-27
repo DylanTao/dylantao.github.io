@@ -21,7 +21,11 @@
     {% include header.liquid %}
 
     <!-- Content -->
-    <div class="container mt-5" role="main">
+    {% assign main_container_class = 'container' %}
+    {% if page.wide_layout %}
+      {% assign main_container_class = 'container-fluid px-3 px-md-4 px-xl-5' %}
+    {% endif %}
+    <div class="{{ main_container_class }} mt-5" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row">

@@ -8,6 +8,7 @@ importance: -4
 category: research
 date: 2026-02-25
 hide_title: true
+wide_layout: true
 keywords: What Happened and Why, trace-guided micro-episodes, elicited user explanations, product iteration, creative activity traces, CHI 2026 workshop, Herding CATs, generative AI, design tools, Sirui Tao, William P. McCarthy, Steven P. Dow
 og_image: https://dylantao.github.io/assets/img/publication_preview/herding_cats_why_what.png
 citation_title: "What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration"
@@ -26,6 +27,9 @@ _styles: |
     --trace-accent-softer: rgba(159, 79, 47, 0.06);
     --trace-border: rgba(159, 79, 47, 0.18);
     --trace-shadow: 0 24px 60px rgba(22, 21, 18, 0.08);
+    max-width: 1480px;
+    margin: 0 auto;
+    padding-bottom: 1.25rem;
     color: var(--global-text-color);
   }
 
@@ -58,8 +62,8 @@ _styles: |
   }
 
   .trace-hero {
-    padding: 2.25rem;
-    margin-bottom: 1.5rem;
+    padding: clamp(1.6rem, 3vw, 2.9rem);
+    margin-bottom: 1.75rem;
     border-color: var(--trace-border);
   }
 
@@ -91,24 +95,25 @@ _styles: |
   .trace-title {
     margin: 1.15rem 0 0.85rem;
     font-family: 'Roboto Slab', serif;
-    font-size: clamp(2rem, 4vw, 3.35rem);
-    line-height: 1.08;
+    max-width: 15ch;
+    font-size: clamp(2.35rem, 4.8vw, 5rem);
+    line-height: 1.02;
     letter-spacing: -0.03em;
   }
 
   .trace-subtitle {
-    max-width: 52rem;
+    max-width: 64rem;
     margin: 0;
-    font-size: 1.08rem;
-    line-height: 1.75;
+    font-size: clamp(1.05rem, 1.25vw, 1.28rem);
+    line-height: 1.72;
     color: var(--global-text-color-light);
   }
 
   .trace-meta {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.9rem;
-    margin: 1.5rem 0 1.75rem;
+    gap: 1rem;
+    margin: 1.75rem 0 1.6rem;
   }
 
   .trace-meta-card {
@@ -141,12 +146,12 @@ _styles: |
   .trace-author-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 1.1rem;
+    margin-bottom: 1.6rem;
   }
 
   .trace-author-card {
-    padding: 1.15rem 1rem 1.2rem;
+    padding: 1.25rem 1.05rem 1.3rem;
     text-align: center;
     background: var(--global-card-bg-color);
     border: 1px solid var(--global-divider-color);
@@ -155,8 +160,8 @@ _styles: |
 
   .trace-author-avatar,
   .trace-author-card img {
-    width: 108px;
-    height: 108px;
+    width: 118px;
+    height: 118px;
     margin: 0 auto 0.9rem;
     border-radius: 50%;
     object-fit: cover;
@@ -195,6 +200,7 @@ _styles: |
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+    align-items: center;
   }
 
   .trace-btn {
@@ -231,8 +237,8 @@ _styles: |
   }
 
   .trace-abstract {
-    padding: 1.55rem 1.45rem;
-    margin-bottom: 1.5rem;
+    padding: clamp(1.45rem, 2vw, 1.95rem);
+    margin-bottom: 1.75rem;
     border-color: var(--trace-border);
   }
 
@@ -255,8 +261,8 @@ _styles: |
 
   .trace-section,
   .trace-citation {
-    padding: 1.55rem 1.45rem;
-    margin-bottom: 1.5rem;
+    padding: clamp(1.45rem, 2vw, 1.95rem);
+    margin-bottom: 1.75rem;
   }
 
   .trace-two-column {
@@ -306,7 +312,7 @@ _styles: |
 
   .trace-inline-list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.75rem 1.25rem;
     padding: 0;
     margin: 1rem 0 1.2rem;
@@ -357,6 +363,11 @@ _styles: |
     text-align: center;
   }
 
+  .trace-abstract p,
+  .trace-citation > p {
+    max-width: 78rem;
+  }
+
   @media (max-width: 992px) {
     .trace-meta,
     .trace-author-grid,
@@ -377,7 +388,8 @@ _styles: |
     }
 
     .trace-title {
-      font-size: 1.85rem;
+      max-width: none;
+      font-size: 1.95rem;
     }
 
     .trace-actions {
@@ -422,8 +434,7 @@ _styles: |
         <p class="trace-author-affiliation">UC San Diego</p>
       </div>
       <div class="trace-author-card">
-        <!-- TODO: Replace this placeholder with William P. McCarthy's repo-local headshot when one is added to assets/img/authors/. -->
-        <div class="trace-author-avatar" aria-hidden="true">WM</div>
+        <img src="{{ '/assets/img/authors/william_mccarthy.jpg' | relative_url }}" alt="William P. McCarthy portrait">
         <a class="trace-author-name" href="https://wpmccarthy.com/">William P. McCarthy</a>
         <p class="trace-author-affiliation">Autodesk AI Lab</p>
       </div>
