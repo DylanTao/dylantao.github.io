@@ -134,7 +134,13 @@ ul.task-list input[type="checkbox"] {
   }
 
   .about-profile.float-right {
-    margin-top: -1.25rem;
+    margin-top: -2.25rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .about-profile.float-right {
+    margin-top: -5.5rem;
   }
 }
 

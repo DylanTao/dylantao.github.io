@@ -2,6 +2,7 @@
 layout: about
 title: about
 permalink: /
+panel_wide: true
 subtitle: <a href='#'>Affiliations</a> University of California San Diego
 
 profile:

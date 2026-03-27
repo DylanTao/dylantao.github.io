@@ -4,6 +4,7 @@ permalink: /blog/
 title: blog
 nav: true
 nav_order: 3
+panel_wide: true
 pagination:
   enabled: true
   collection: posts
@@ -144,7 +145,7 @@ pagination:
 {% if featured_posts.size > 0 %}
 <br>
 
-<div class="container featured-posts">
+<div class="featured-posts">
 {% assign is_even = featured_posts.size | modulo: 2 %}
 <div class="row row-cols-{% if featured_posts.size <= 2 or is_even == 0 %}2{% else %}3{% endif %}">
 {% for post in featured_posts %}
