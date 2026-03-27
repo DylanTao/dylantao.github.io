@@ -9,7 +9,7 @@
       {% if publication_anchor %}
         <a class="anchor" id="{{ publication_anchor }}"></a>
       {% endif %}
-      <div class="row">
+      <div class="row cv-entry">
         {% capture pub_date %}
           {% if entry.releaseDate %}{{ entry.releaseDate }}{% elsif entry.date %}{{ entry.date }}{% endif %}
         {% endcapture %}
@@ -26,7 +26,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0">
+          <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0 cv-entry-content">
             {% if entry.paperLabel %}
               <div class="ml-1 ml-md-4 mb-1">
                 <strong>[{{ entry.paperLabel }}]</strong>
@@ -36,8 +36,8 @@
               <h6 class="title font-weight-bold ml-1 ml-md-4">
                 <a href="{{ entry.url }}">{{ entry.title | default: entry.name }}</a>
               </h6>
-            {% elsif entry.title %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.title }}</h6>
+            {% elsif entry.title or entry.name %}
+              <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.title | default: entry.name }}</h6>
             {% endif %}
 
             {% if entry.publisher %}
@@ -61,8 +61,8 @@
               <h6 class="title font-weight-bold ml-1 ml-md-4">
                 <a href="{{ entry.url }}">{{ entry.title | default: entry.name }}</a>
               </h6>
-            {% elsif entry.title %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.title }}</h6>
+            {% elsif entry.title or entry.name %}
+              <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.title | default: entry.name }}</h6>
             {% endif %}
 
             {% if entry.publisher %}

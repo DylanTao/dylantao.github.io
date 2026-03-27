@@ -27,7 +27,7 @@ _styles: |
     --trace-accent-softer: rgba(159, 79, 47, 0.06);
     --trace-border: rgba(159, 79, 47, 0.18);
     --trace-shadow: 0 24px 60px rgba(22, 21, 18, 0.08);
-    max-width: 1180px;
+    max-width: 1380px;
     margin: 0 auto;
     padding-bottom: 1.25rem;
     color: var(--global-text-color);
@@ -95,7 +95,7 @@ _styles: |
   .trace-title {
     margin: 1.15rem 0 0.95rem;
     font-family: 'Roboto Slab', serif;
-    max-width: 38ch;
+    max-width: 60rem;
     line-height: 1;
     letter-spacing: -0.03em;
   }
@@ -103,13 +103,14 @@ _styles: |
   .trace-title-lead {
     display: block;
     max-width: none;
-    font-size: clamp(3rem, 4.35vw, 4.85rem);
+    font-size: clamp(3rem, 4.1vw, 4.85rem);
     line-height: 0.95;
+    white-space: nowrap;
   }
 
   .trace-title-rest {
     display: block;
-    max-width: 34ch;
+    max-width: 44rem;
     margin-top: 0.45rem;
     font-size: clamp(1.55rem, 2.15vw, 2.65rem);
     font-weight: 400;
@@ -433,6 +434,7 @@ _styles: |
     .trace-title-lead {
       max-width: none;
       font-size: 2.15rem;
+      white-space: normal;
     }
 
     .trace-title-rest {
@@ -535,10 +537,7 @@ _styles: |
     <h2>Why it matters</h2>
     <div class="trace-reading-width">
       <p>
-        Creative AI teams already collect rich traces, but those traces often flatten very different situations into the same pattern of behavior. A long session, repeated regeneration, or lots of edits could mean productive exploration, careful verification, or a user struggling to recover from a bad output. The core claim of the paper is that teams need a unit of analysis closer to the moment of friction: a micro-episode that pairs the trace with the user&rsquo;s local explanation. That makes it much easier to tell whether a problem is really about controllability, mismatch with intent, or the effort required to verify and repair outputs.
-      </p>
-      <p>
-        The methodological contribution is the same practical move. Instead of asking users to reconstruct what went wrong after the fact, the paper argues for a utility-for-rationale exchange: the system offers a useful, context-aware action at a likely failure point, and the resulting interaction captures what the user was trying to fix. In that framing, explanation is not extra survey work layered on top of the workflow; it becomes part of error recovery itself. That is what makes the approach plausible for real product teams while also producing more grounded data for future agent training.
+        This position paper argues that telemetry alone is not enough for understanding creative AI workflows, because the same trace can reflect productive exploration, careful verification, or real friction. It proposes trace-guided micro-episodes as a way to look more locally at moments where users are trying to recover, clarify intent, or repair an output, and pairs those traces with lightweight in-context explanations from the user. The value of that framing is not that it solves the problem outright, but that it gives teams a more concrete way to interpret ambiguous behavior and reason about what kind of support or product change is actually needed.
       </p>
     </div>
   </section>
@@ -571,8 +570,7 @@ _styles: |
 
     <h2 id="bibtex" style="margin-top: 1.5rem;">BibTeX</h2>
     <pre class="trace-bibtex"><code>@inproceedings{tao2026whw,
-
-title = {What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
+  title = {What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
 author = {Tao, Sirui and McCarthy, William P. and Dow, Steven P.},
 booktitle = {Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)},
 year = {2026},

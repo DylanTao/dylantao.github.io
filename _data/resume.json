@@ -268,15 +268,19 @@
   ],
   "awards": [
     {
-      "title": "MSR Fellowship [Rejected Once]",
+      "title": "MSR Fellowship",
       "date": "2026",
-      "awarder": "Microsoft Research"
+      "awarder": "Microsoft Research",
+      "url": "https://www.microsoft.com/en-us/research/academic-program/microsoft-research-fellowship/",
+      "rejectionNote": "[Rejected Once]",
+      "strikeTitle": true
     },
     {
       "title": "YC AI Student Starter Pack",
       "date": "2026",
       "awarder": "Y Combinator",
-      "summary": "~$25,000 in free credits for AI tools and cloud services."
+      "summary": "~$25,000 in free credits for AI tools and cloud services.",
+      "url": "https://www.ycombinator.com/blog/the-yc-ai-student-starter-pack"
     },
     {
       "title": "SHORE Fellowship",
@@ -307,18 +311,20 @@
       "url": "https://cmmrs.mpi-sws.org/"
     },
     {
-      "title": "HDSI Research Scholarship [Rejected Once]",
+      "title": "HDSI Research Scholarship",
       "date": "2021, 2022",
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
       "summary": "$2,500 x 2; ~30 recipients at HDSI annually.",
-      "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/"
+      "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/",
+      "rejectionNote": "[Rejected Once]"
     },
     {
-      "title": "TRELS Research Scholarship [Rejected Twice]",
+      "title": "TRELS Research Scholarship",
       "date": "2020 Spring, 2022 Winter",
       "awarder": "AEP, UCSD",
       "summary": "$1,000 x 2; ~75 recipients at UCSD quarterly.",
-      "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/"
+      "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/",
+      "rejectionNote": "[Rejected Twice]"
     },
     {
       "title": "Provost Honor",
@@ -430,7 +436,7 @@
     {
       "date": "2026",
       "title": "DIS Full Paper Reviewer",
-      "summary": "2 papers."
+      "summary": "2 papers; Special Recognition for 1."
     },
     {
       "date": "2026",

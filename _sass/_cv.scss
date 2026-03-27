@@ -51,20 +51,66 @@ p.location {
   text-align: left;
 }
 
+.cv .cv-entry {
+  align-items: flex-start;
+}
+
 .cv .cv-date-table {
   margin-bottom: 0;
+  width: 100%;
 }
 
 .cv .cv-date-badge {
   display: inline-flex;
   justify-content: center;
-  min-width: 7.75rem;
+  width: 100%;
+  min-width: 0;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cv .cv-entry .date-column {
+  flex: 0 0 13rem;
+  max-width: 13rem;
+  padding-right: 1rem;
+  transform: none;
+}
+
+.cv .cv-entry .cv-entry-content {
+  flex: 1 1 calc(100% - 13rem);
+  max-width: calc(100% - 13rem);
 }
 
 .cv .date-column .location {
   margin-bottom: 0;
   text-align: left;
+  white-space: normal;
+}
+
+.cv .cv-entry-title {
+  line-height: 1.3;
+}
+
+.cv .cv-entry-note {
+  margin-left: 0.35rem;
+}
+
+.cv .cv-title-struck {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 767.98px) {
+  .cv .cv-entry .date-column,
+  .cv .cv-entry .cv-entry-content {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-right: 15px;
+  }
+
+  .cv .cv-entry .cv-entry-content {
+    margin-top: 0.5rem;
+  }
 }
 
 i.iconlocation {
