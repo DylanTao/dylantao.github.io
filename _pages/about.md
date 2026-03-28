@@ -36,19 +36,20 @@ Hello visitor, Sirui here! 👋 (pronounced like “three”)
 
 I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven P. Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
 
+My main thesis thread is **Scaffolding for Taste** 🧐: how AI can help people develop **taste, discernment, and evaluative judgment** in a world of generative abundance. ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
+
 **Research Focus (2026)**
 
-- **Human–AI for Design** 🧠🎨 — Designing interfaces and systems that help people explore, compare, and refine generative possibilities in more diverse, legible, and grounded ways—while also supporting stronger taste and judgment in creative work.
-- **AI & Mixed Reality for Augmentation** 🥽 — Building interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
-- **Method** 📐 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, and appropriate reliance.
+- **Human–AI for Design** 🧠🎨 — Building interfaces that help people explore and refine generative possibilities in more **grounded, legible, and human-centered** ways—especially by making meaningful differences, tradeoffs, and consequences easier to see and reason about.
+- **AI & Mixed Reality for Augmentation** 🥽 — Creating interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
+- **Method** 📐 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, calibration, and appropriate reliance.
 
 **Domains I Love Applying This To**
 
-Urban design, architecture, interior & product design, fashion, robotics, and education—places where ideas move from **vibes → variables → value**. ✨
+Urban design, architecture, interior & product design, fashion, robotics, education, and creative media—places where ideas move from **vibes → variables → value**. ✨
 
 **Exploring**
 
-- Developing taste and judgment 🧐 in AI-supported creative work ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
 - Embodied systems 🤖 integrated into everyday life
 - Post-deployment iteration 🌍 to maximize benefit and minimize harm
 - Learner-centered generative AI 📚 for education at scale
