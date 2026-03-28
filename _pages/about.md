@@ -34,7 +34,7 @@ latest_posts:
 
 Hello visitor, Sirui here! 👋 (pronounced like “three”)
 
-I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven P. Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and make**—using human-centered AI and mixed reality. ⚡
+I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven P. Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and build**—using human-centered AI and mixed reality. ⚡
 
 My main thesis thread is **Scaffolding for Taste** 🧐: how AI can help people develop **taste, discernment, and evaluative judgment** in a world of generative abundance. ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
 
