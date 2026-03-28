@@ -6,6 +6,7 @@
   {% for entry in entries %}
     <li class="list-group-item">
       {% assign publication_anchor = entry.anchor | default: null %}
+      {% assign title_note = entry.rejectionNote | default: entry.annotation %}
       {% if publication_anchor %}
         <a class="anchor" id="{{ publication_anchor }}"></a>
       {% endif %}
@@ -33,11 +34,32 @@
               </div>
             {% endif %}
             {% if entry.url %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4">
-                <a href="{{ entry.url }}">{{ entry.title | default: entry.name }}</a>
+              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+                <a
+                  href="{{ entry.url }}"
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title | default: entry.name -}}
+                </a>
+                {% if title_note %}
+                  <span class="cv-entry-note">{{ title_note }}</span>
+                {% endif %}
               </h6>
             {% elsif entry.title or entry.name %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.title | default: entry.name }}</h6>
+              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+                <span
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title | default: entry.name -}}
+                </span>
+                {% if title_note %}
+                  <span class="cv-entry-note">{{ title_note }}</span>
+                {% endif %}
+              </h6>
             {% endif %}
 
             {% if entry.publisher %}
@@ -58,11 +80,32 @@
               </div>
             {% endif %}
             {% if entry.url %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4">
-                <a href="{{ entry.url }}">{{ entry.title | default: entry.name }}</a>
+              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+                <a
+                  href="{{ entry.url }}"
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title | default: entry.name -}}
+                </a>
+                {% if title_note %}
+                  <span class="cv-entry-note">{{ title_note }}</span>
+                {% endif %}
               </h6>
             {% elsif entry.title or entry.name %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.title | default: entry.name }}</h6>
+              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+                <span
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title | default: entry.name -}}
+                </span>
+                {% if title_note %}
+                  <span class="cv-entry-note">{{ title_note }}</span>
+                {% endif %}
+              </h6>
             {% endif %}
 
             {% if entry.publisher %}

@@ -340,7 +340,9 @@
       "name": "XXX: abcdefg",
       "publisher": "Submission at UIST 2026",
       "releaseDate": "2026",
-      "summary": "Sirui Tao, ..., and Steven P. Dow. Rejected at CHI26.",
+      "summary": "Sirui Tao, ..., and Steven P. Dow.",
+      "rejectionNote": "[Rejected at CHI26]",
+      "strikeTitle": true,
       "paperLabel": "P5",
       "anchor": "cv-publication-p5"
     },
