@@ -272,7 +272,7 @@
       "date": "2026",
       "awarder": "Microsoft Research",
       "url": "https://www.microsoft.com/en-us/research/academic-program/microsoft-research-fellowship/",
-      "rejectionNote": "[Rejected Once]",
+      "rejectionNote": "[Rejected Once, Accepted Zero Times ;)]",
       "strikeTitle": true
     },
     {
@@ -316,7 +316,7 @@
       "awarder": "UCSD, Halıcıoğlu Data Science Institute",
       "summary": "$2,500 x 2; ~30 recipients at HDSI annually.",
       "url": "https://datascience.ucsd.edu/current-students/undergraduate-financial-opportunities/",
-      "rejectionNote": "[Rejected Once]"
+      "rejectionNote": "[Rejected Once, Accepted Twice]"
     },
     {
       "title": "TRELS Research Scholarship",
@@ -324,7 +324,7 @@
       "awarder": "AEP, UCSD",
       "summary": "$1,000 x 2; ~75 recipients at UCSD quarterly.",
       "url": "https://ugresearch.ucsd.edu/programs/all-urh-programs/trels/",
-      "rejectionNote": "[Rejected Twice]"
+      "rejectionNote": "[Rejected Twice, Accepted Twice]"
     },
     {
       "title": "Provost Honor",
