@@ -40,9 +40,9 @@ My main thesis thread is **Scaffolding for Taste** 🧐: how AI can help people 
 
 **Research Focus (2026)**
 
-- **Human–AI for Design** 🧠🎨 — Building interfaces that help people explore and refine generative possibilities in more **grounded, legible, and human-centered** ways—especially by making meaningful differences, tradeoffs, and consequences easier to see and reason about.
-- **AI & Mixed Reality for Augmentation** 🥽 — Creating interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
+- **Human–AI for Design** 🎨 — Building interfaces that help people explore and refine generative possibilities in more **grounded, legible, and human-centered** ways—especially by making meaningful differences, tradeoffs, and consequences easier to see and reason about.
 - **Method** 📐 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, calibration, and appropriate reliance.
+- **AI & Embodied systems & Mixed Reality for Augmentation** 🥽 — Creating interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
 
 **Domains I Love Applying This To**
 
@@ -50,9 +50,9 @@ Urban design, architecture, interior & product design, fashion, robotics, educat
 
 **Exploring**
 
-- Embodied systems 🤖 integrated into everyday life
-- Post-deployment iteration 🌍 to maximize benefit and minimize harm
+- Robots 🤖 integrated into everyday life
 - Learner-centered generative AI 📚 for education at scale
+- Post-deployment iteration 🌍 to maximize benefit and minimize harm
 - Community-centered tools 🤝 for real-world collaboration
 
 **Research Opportunities @ ProtoLab** 🧪
