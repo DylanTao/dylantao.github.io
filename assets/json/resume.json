@@ -104,6 +104,15 @@
   "teaching": [
     {
       "name": "UCSD",
+      "position": "Teaching Assistant - COGS 125: Advanced Interaction Design",
+      "location": "La Jolla, CA, USA",
+      "startDate": "2026-03",
+      "endDate": "2026-06",
+      "summary": "TA for Prof. Scott Klemmer",
+      "url": "https://catalog.ucsd.edu/courses/COGS.html"
+    },
+    {
+      "name": "UCSD",
       "position": "Teaching Assistant - DSGN 1: Design of Everyday Things",
       "location": "La Jolla, CA, USA",
       "startDate": "2026-01",
@@ -430,6 +439,15 @@
     }
   ],
   "academicService": [
+    {
+      "date": "2026",
+      "title": "HCI Journal Reviewer",
+      "summary": "1 paper."
+    },
+    {
+      "date": "2026",
+      "title": "CHI 2026 UCSD Happy Hour Party Co-organizer"
+    },
     {
       "date": "2026",
       "title": "C&C Full Paper Reviewer",
