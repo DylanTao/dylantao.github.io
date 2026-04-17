@@ -397,9 +397,14 @@
 
     {% if entry.bibtex_show %}
       <!-- Hidden bibtex block -->
+      {% assign bibtex_override = site.data.bibtex_overrides[entry.key] %}
       <div class="bibtex hidden">
         {% highlight bibtex %}
-        {{- entry.bibtex | hideCustomBibtex -}}
+        {% if bibtex_override %}
+          {{- bibtex_override -}}
+        {% else %}
+          {{- entry.bibtex | hideCustomBibtex -}}
+        {% endif %}
         {% endhighlight %}
       </div>
     {% endif %}

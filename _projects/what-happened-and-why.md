@@ -570,14 +570,9 @@ _styles: |
     </div>
 
     <h2 id="bibtex" style="margin-top: 1.5rem;">BibTeX</h2>
-    <pre class="trace-bibtex"><code>@inproceedings{tao2026whw,
-  title = {What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
-  author = {Tao, Sirui and McCarthy, William P. and Dow, Steven P.},
-  booktitle = {Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)},
-  year = {2026},
-  month = feb,
-  url = {https://dylantao.github.io/projects/what-happened-and-why/},
-  pdf = {https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf}
+    <pre class="trace-bibtex"><code>@article{taohappened,
+  title={What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
+  author={TAO, SIRUI and MCCARTHY, WILLIAM P and DOW, STEVEN P}
 }</code></pre>
 
   </section>
