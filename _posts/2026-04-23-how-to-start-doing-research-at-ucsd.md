@@ -99,7 +99,11 @@ earlier in their own journey, and many are happy to pay that forward.
 If you are still figuring out what you even care about, that is normal. One of
 the best ways to discover your actual research interests is to attend talks,
 read papers, sit in on seminars, and notice which questions keep pulling you
-back in.
+back in. If you are exploring HCI and design at UC San Diego, the weekly
+Wednesday [Design Lab research meeting](https://designlab.ucsd.edu/research/)
+is a great place to hear current work, learn how research conversations sound
+in practice, and get a better sense of what kinds of questions you are actually
+interested in.
 
 Once you have done some of that homework, you will usually have much better
 questions. That is often the right time to go to office hours or ask for a

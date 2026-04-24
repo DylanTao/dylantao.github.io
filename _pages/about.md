@@ -63,7 +63,7 @@ You do not need to already be an expert in every part of research. I value peopl
 
 Before reaching out, please read my short post on [how to start doing research at UC San Diego]({% link _posts/2026-04-23-how-to-start-doing-research-at-ucsd.md %}). Borrowing a nice rule of thumb from Scott Klemmer: when you realize you are repeatedly answering the same questions, writing a short blog post about it is often a good idea. I wrote this one to answer the most common questions I get from prospective undergraduate and master's interns, and I will keep updating it as new ones come up.
 
-**Ready to apply?** Email me at **s1tao@ucsd.edu** with subject **"UCSD Research Interest"** and include a **1-page CV/resumé** (plus a portfolio link, if relevant). In your email, please include a short **3–5 sentence note** on why you think you’d be a good fit—your interests, relevant experience, the domain or question you care about, and what you hope to learn. Please also include a brief **"Why I’m a fit"** line or section in your CV/resumé so I can quickly understand your interests and goals.
+**Ready to apply?** Email me at **s1tao@ucsd.edu** with subject **"UCSD Research Interest"** and include a **1-page CV/resumé** (plus a portfolio link, if relevant). In the email, include a short **3–5 sentence note** on the research questions or domains you care about, why you think you’d be a good fit, any relevant experience, and what you hope to learn.
 
 I’m happy to chat once I have that quick snapshot!
 
