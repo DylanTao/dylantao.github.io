@@ -155,3 +155,7 @@ Read a few things. Go to a talk. Figure out what question or domain you care
 about. Then send a thoughtful note.
 
 That usually leads to a much better conversation for both of us.
+
+---
+
+Last updated: April 23, 2026.
