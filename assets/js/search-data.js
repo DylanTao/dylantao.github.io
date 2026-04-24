@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-an-afternoon-with-don-norman",
+        },{id: "post-how-to-start-doing-research-at-ucsd",
+        
+          title: "how to start doing research at ucsd",
+        
+        description: "A short note for prospective undergraduate and master&#39;s research interns at UC San Diego.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/how-to-start-doing-research-at-ucsd/";
+          
+        },
+      },{id: "post-an-afternoon-with-don-norman",
         
           title: "an afternoon with don norman",
         
