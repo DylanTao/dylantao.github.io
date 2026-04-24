@@ -571,8 +571,9 @@ _styles: |
 
     <h2 id="bibtex" style="margin-top: 1.5rem;">BibTeX</h2>
     <pre class="trace-bibtex"><code>@article{taohappened,
-  title={What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
-  author={TAO, SIRUI and MCCARTHY, WILLIAM P and DOW, STEVEN P}
+
+title={What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
+author={TAO, SIRUI and MCCARTHY, WILLIAM P and DOW, STEVEN P}
 }</code></pre>
 
   </section>

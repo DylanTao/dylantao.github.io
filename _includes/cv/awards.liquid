@@ -26,14 +26,27 @@
           <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0 cv-entry-content">
             {% if entry.url %}
               <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
-                <a href="{{ entry.url }}"{% if entry.strikeTitle %} class="cv-title-struck"{% endif %}>{{ entry.title }}</a>
+                <a
+                  href="{{ entry.url }}"
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title -}}
+                </a>
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
               </h6>
             {% elsif entry.title %}
               <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
-                <span{% if entry.strikeTitle %} class="cv-title-struck"{% endif %}>{{ entry.title }}</span>
+                <span
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title -}}
+                </span>
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
@@ -52,14 +65,27 @@
           <div class="col-xs-12 col-sm-12 col-md-12">
             {% if entry.url %}
               <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
-                <a href="{{ entry.url }}"{% if entry.strikeTitle %} class="cv-title-struck"{% endif %}>{{ entry.title }}</a>
+                <a
+                  href="{{ entry.url }}"
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title -}}
+                </a>
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
               </h6>
             {% elsif entry.title %}
               <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
-                <span{% if entry.strikeTitle %} class="cv-title-struck"{% endif %}>{{ entry.title }}</span>
+                <span
+                  {% if entry.strikeTitle %}
+                    class="cv-title-struck"
+                  {% endif %}
+                >
+                  {{- entry.title -}}
+                </span>
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
