@@ -61,6 +61,8 @@ I’m always excited to work with curious, motivated, and kind undergraduate and
 
 You do not need to already be an expert in every part of research. I value people who want to grow into thoughtful, well-rounded researchers—people who are excited to develop taste, judgment, and craft over time, and who are willing to learn across reading, ideation, prototyping, evaluation, analysis, and communication.
 
+Before reaching out, please read my short post on [how to start doing research at UC San Diego]({% link _posts/2026-04-23-how-to-start-doing-research-at-ucsd.md %}). Borrowing a nice rule of thumb from Scott Klemmer: when you realize you are repeatedly answering the same questions, writing a short blog post about it is often a good idea. I wrote this one to answer the most common questions I get from prospective undergraduate and master's interns, and I will keep updating it as new ones come up.
+
 **Ready to apply?** Email me at **s1tao@ucsd.edu** with subject **"UCSD Research Interest"** and include a **1-page CV/resumé** (plus a portfolio link, if relevant). In your email, please include a short **3–5 sentence note** on why you think you’d be a good fit—your interests, relevant experience, the domain or question you care about, and what you hope to learn. Please also include a brief **"Why I’m a fit"** line or section in your CV/resumé so I can quickly understand your interests and goals.
 
 I’m happy to chat once I have that quick snapshot!
