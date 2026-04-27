@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-how-to-start-doing-research-at-ucsd",
+        },{id: "post-research-skills-starter-pack",
+        
+          title: "research skills starter pack",
+        
+        description: "An ongoing self-study list for learning research reading, writing, reviewing, Ph.D. life, and empirical methods.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/research-skills-starter-pack/";
+          
+        },
+      },{id: "post-how-to-start-doing-research-at-ucsd",
         
           title: "how to start doing research at ucsd",
         
