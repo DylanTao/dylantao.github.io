@@ -156,6 +156,10 @@ about. Then send a thoughtful note.
 
 That usually leads to a much better conversation for both of us.
 
+If you want a more concrete self-study list, I also wrote a companion post on
+[research skills to practice before and during research]({% link _posts/2026-04-27-research-skills-starter-pack.md %}),
+including writing, Ph.D. life, statistics, and experimental-methods resources.
+
 ---
 
-Last updated: April 23, 2026.
+Last updated: April 27, 2026.
