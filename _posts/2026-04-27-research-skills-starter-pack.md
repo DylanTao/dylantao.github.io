@@ -3,7 +3,7 @@ layout: post
 title: research skills starter pack
 date: 2026-04-27 09:00:00
 description: An ongoing self-study list for learning research reading, writing, reviewing, Ph.D. life, and empirical methods.
-tags: research writing phd methods statistics mentorship
+tags: research writing phd methods statistics modeling mentorship
 categories: guides
 related_posts: false
 permalink: /blog/2026/research-skills-starter-pack/
@@ -204,6 +204,24 @@ I would use this book to learn the mindset, not only the formulas:
 - What would a better control condition look like?
 - What can this study conclude, and what can it not conclude?
 
+For quantitative modeling, I would next read Seth Roberts and Harold Pashler's
+[_How persuasive is a good fit? A comment on theory testing_](https://pubmed.ncbi.nlm.nih.gov/10789200/).
+The title gives away the lesson: a model fitting the observed data is not, by
+itself, strong evidence that the model is right. You also need to ask how
+flexible the model is, what outcomes it could not have fit, how noisy the data
+are, and whether plausible alternative results would have actually challenged
+the theory. This is a good guardrail against being dazzled by a clean curve or a
+high $R^2$.
+
+Then read Tamar R. Makin and Jean-Jacques Orban de Xivry's
+[_Ten common statistical mistakes to watch out for when writing or reviewing a manuscript_](https://elifesciences.org/articles/48175).
+This is the piece I would use when a paper's claims feel like they might be
+outrunning the design or analysis. It covers recurring problems like inadequate
+controls, comparing two effects without directly comparing them, inflated units
+of analysis, spurious correlations, small samples, circular analysis, and
+overstated null results. The larger habit is simple but hard: make the strength
+of the claim match the strength and kind of evidence.
+
 For students entering HCI or human-centered AI, I would pair methods reading
 with practice. Take a paper you like and reverse-engineer the study:
 
@@ -245,10 +263,16 @@ who wrote those resources:
   [_Doing Psychology Experiments_](https://books.google.com/books/about/Doing_Psychology_Experiments.html?id=YzwQAQAAIAAJ),
   and [David W. Martin](https://books.google.com/books/about/Doing_Psychology_Experiments.html?id=YzwQAQAAIAAJ)
   for writing it.
+- [Seth Roberts](https://pubmed.ncbi.nlm.nih.gov/10789200/) and
+  [Harold Pashler](https://pubmed.ncbi.nlm.nih.gov/10789200/) for
+  [_How persuasive is a good fit? A comment on theory testing_](https://pubmed.ncbi.nlm.nih.gov/10789200/).
+- [Tamar R. Makin](https://elifesciences.org/articles/48175) and
+  [Jean-Jacques Orban de Xivry](https://elifesciences.org/articles/48175) for
+  [_Ten common statistical mistakes to watch out for when writing or reviewing a manuscript_](https://elifesciences.org/articles/48175).
 
 Research is a craft. The nice thing about craft is that you can practice it
 before anyone gives you permission.
 
 ---
 
-Last updated: April 27, 2026.
+Last updated: May 8, 2026.
