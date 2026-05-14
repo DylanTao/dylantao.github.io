@@ -118,9 +118,174 @@ pagination:
 {% if blog_name_size > 0 or blog_description_size > 0 %}
 
   <div class="header-bar">
-    <h1>{{ site.blog_name }}</h1>
+    <h1 class="blog-secret-title">
+      {{ site.blog_name }}
+      <button id="sirui-secret-dog" class="sirui-secret-dog" type="button" aria-label="unlock sirui research thoughts">
+        <img src="{{ '/assets/img/meme_dog.png' | relative_url }}" alt="">
+      </button>
+    </h1>
     <h2>{{ site.blog_description }}</h2>
   </div>
+
+  <div id="sirui-secret-dialog" class="sirui-secret-dialog" hidden>
+    <div class="sirui-secret-panel" role="dialog" aria-modal="true" aria-labelledby="sirui-secret-title">
+      <button id="sirui-secret-close" class="sirui-secret-close" type="button" aria-label="close">&times;</button>
+      <h3 id="sirui-secret-title">secret checkpoint</h3>
+      <form id="sirui-secret-form">
+        <label for="sirui-secret-password">password</label>
+        <div class="sirui-secret-row">
+          <input id="sirui-secret-password" type="password" autocomplete="current-password" required>
+          <button type="submit">enter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .blog-secret-title {
+      align-items: center;
+      display: inline-flex;
+      gap: 0.25em;
+      justify-content: center;
+    }
+
+    .sirui-secret-dog {
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      transform: translateY(0.04em);
+    }
+
+    .sirui-secret-dog img {
+      border-radius: 50%;
+      height: 0.68em;
+      object-fit: cover;
+      transition:
+        transform 160ms ease,
+        filter 160ms ease;
+      vertical-align: middle;
+      width: 0.68em;
+    }
+
+    .sirui-secret-dog:hover img,
+    .sirui-secret-dog:focus-visible img {
+      filter: saturate(1.1);
+      transform: rotate(-8deg) scale(1.12);
+    }
+
+    .sirui-secret-dialog[hidden] {
+      display: none;
+    }
+
+    .sirui-secret-dialog {
+      align-items: center;
+      background: rgba(0, 0, 0, 0.42);
+      display: flex;
+      inset: 0;
+      justify-content: center;
+      padding: 1rem;
+      position: fixed;
+      z-index: 2000;
+    }
+
+    .sirui-secret-panel {
+      background: var(--global-bg-color);
+      border: 1px solid var(--global-divider-color);
+      border-radius: 0.5rem;
+      box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.2);
+      max-width: 22rem;
+      padding: 1.2rem;
+      position: relative;
+      text-align: left;
+      width: 100%;
+    }
+
+    .sirui-secret-panel h3 {
+      font-size: 1.15rem;
+      margin: 0 1.5rem 1rem 0;
+    }
+
+    .sirui-secret-close {
+      background: transparent;
+      border: 0;
+      color: var(--global-text-color);
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      position: absolute;
+      right: 0.7rem;
+      top: 0.55rem;
+    }
+
+    .sirui-secret-panel label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .sirui-secret-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .sirui-secret-row input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sirui-secret-row input,
+    .sirui-secret-row button {
+      border: 1px solid var(--global-divider-color);
+      border-radius: 0.25rem;
+      padding: 0.45rem 0.65rem;
+    }
+
+    .sirui-secret-row button {
+      background: var(--global-theme-color);
+      color: var(--global-bg-color);
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    (() => {
+      const dog = document.getElementById("sirui-secret-dog");
+      const dialog = document.getElementById("sirui-secret-dialog");
+      const closeButton = document.getElementById("sirui-secret-close");
+      const form = document.getElementById("sirui-secret-form");
+      const password = document.getElementById("sirui-secret-password");
+      const secretUrl = "{{ '/blog/2026/sirui-research-thoughts/' | relative_url }}";
+
+      if (!dog || !dialog || !closeButton || !form || !password) return;
+
+      const openDialog = () => {
+        dialog.hidden = false;
+        password.value = "";
+        window.setTimeout(() => password.focus(), 0);
+      };
+
+      const closeDialog = () => {
+        dialog.hidden = true;
+      };
+
+      dog.addEventListener("click", openDialog);
+      closeButton.addEventListener("click", closeDialog);
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) closeDialog();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !dialog.hidden) closeDialog();
+      });
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        sessionStorage.setItem("siruiResearchThoughtsPassword", password.value);
+        window.location.href = secretUrl;
+      });
+    })();
+  </script>
+
 {% endif %}
 
 {% if featured_tags.size > 0 or featured_categories.size > 0 %}

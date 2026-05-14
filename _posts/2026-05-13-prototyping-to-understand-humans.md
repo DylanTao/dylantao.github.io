@@ -19,10 +19,6 @@ writing it because I have been confused about the difference between a useful
 product idea, a publishable HCI artifact, and a research contribution that still
 matters after the prototype is gone.
 
-I have about five months before my next project really starts. I do not need to
-finish the project now. I need to use this time to build better research taste:
-to understand what kind of question is worth spending limited Ph.D. energy on.
-
 ## The confusion
 
 A lot of HCI artifact and system work can look like this:
@@ -277,54 +273,9 @@ about how that mechanism behaves in a new context. The stronger version is:
 Then the contribution is not just the borrowed trick. The contribution is the
 translation, boundary condition, and explanation.
 
-## A direction that feels promising
-
-For my own interests, a promising direction is:
-
-> When AI can generate many plausible design alternatives, how should systems
-> help people compare, critique, coordinate around, and converge on those
-> alternatives?
-
-This feels more durable than simply generating better outputs. In the GenAI
-age, output generation is becoming cheap. The deeper HCI problem may be how
-people make sense of, negotiate, and act on abundant AI-generated possibilities.
-
-A possible framing:
-
-> AI creates abundance; people still need coordination, judgment, and shared
-> understanding.
-
-A possible contribution claim:
-
-> This project studies how externalizing design dimensions in GenAI-supported
-> collaborative design affects teams' ability to compare alternatives, negotiate
-> trade-offs, and converge on decisions.
-
-A possible trade-off:
-
-> Structured representations may improve comparison and convergence, but may
-> also narrow exploration or prematurely impose criteria.
-
-Before committing to a project, I should be able to answer:
-
-1. What human process am I trying to understand?
-2. What is the reusable research claim?
-3. What is the interaction mechanism?
-4. What is the plausible failure mode or trade-off?
-5. What would industry learn from normal product iteration?
-6. What would my research learn beyond normal product iteration?
-7. What kind of contribution is this?
-8. What evidence would be appropriate for that contribution type?
-9. If the prototype dies, what sentence of knowledge remains?
-
-My personal rule, at least for now, is:
-
-> After this project, other researchers should understand **[what]** about
-> **[which class of human-technology interaction]**, because I showed
-> **[mechanism/evidence/trade-off]**.
-
-If I cannot fill this in, I may only have a product idea, not yet a research
-contribution.
+That is the distinction I want to keep in view: not whether a prototype is
+impressive by itself, but whether it helps articulate a piece of interaction
+knowledge that can outlive the prototype.
 
 ## Credits and references
 
