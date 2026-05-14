@@ -476,6 +476,10 @@ pagination:
                       {{ read_time }} min read &nbsp; &middot; &nbsp;
                       <a href="{{ year | prepend: '/blog/' | relative_url }}">
                         <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
+                      <span class="js-blog-read-count-wrap" hidden>
+                        &nbsp; &middot; &nbsp;
+                        <span class="blog-read-count js-blog-read-count" data-blog-read-url="{{ post.url | absolute_url }}" data-blog-read-mode="display" hidden></span>
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -540,6 +544,10 @@ pagination:
       <p class="post-meta">
         {{ read_time }} min read &nbsp; &middot; &nbsp;
         {{ post.date | date: '%B %d, %Y' }}
+        <span class="js-blog-read-count-wrap" hidden>
+          &nbsp; &middot; &nbsp;
+          <span class="blog-read-count js-blog-read-count" data-blog-read-url="{{ post.url | absolute_url }}" data-blog-read-mode="display" hidden></span>
+        </span>
         {% if post.external_source %}
         &nbsp; &middot; &nbsp; {{ post.external_source }}
         {% endif %}
