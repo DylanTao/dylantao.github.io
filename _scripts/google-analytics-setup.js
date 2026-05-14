@@ -2,8 +2,10 @@
 permalink: /assets/js/google-analytics-setup.js
 ---
 window.dataLayer = window.dataLayer || [];
-function gtag() {
-  window.dataLayer.push(arguments);
-}
-gtag("js", new Date());
-gtag("config", "{{ site.google_analytics }}");
+window.gtag =
+  window.gtag ||
+  function () {
+    window.dataLayer.push(arguments);
+  };
+window.gtag("js", new Date());
+window.gtag("config", "{{ site.google_analytics }}");
