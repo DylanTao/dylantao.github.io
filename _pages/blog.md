@@ -145,34 +145,111 @@ pagination:
     .blog-secret-title {
       align-items: center;
       display: inline-flex;
-      gap: 0.25em;
+      flex-wrap: wrap;
+      gap: 0.18em;
       justify-content: center;
     }
 
     .sirui-secret-dog {
+      -webkit-tap-highlight-color: transparent;
+      align-items: center;
       background: transparent;
       border: 0;
       cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
       line-height: 1;
+      min-height: 44px;
+      min-width: 44px;
       padding: 0;
+      touch-action: manipulation;
       transform: translateY(0.04em);
     }
 
     .sirui-secret-dog img {
       border-radius: 50%;
-      height: 0.68em;
+      height: 0.84em;
       object-fit: cover;
+      transform-origin: 50% 78%;
       transition:
         transform 160ms ease,
         filter 160ms ease;
       vertical-align: middle;
-      width: 0.68em;
+      width: 0.84em;
     }
 
-    .sirui-secret-dog:hover img,
-    .sirui-secret-dog:focus-visible img {
-      filter: saturate(1.1);
-      transform: rotate(-8deg) scale(1.12);
+    .sirui-secret-dog:focus-visible {
+      outline: 2px solid var(--global-theme-color);
+      outline-offset: 0.18em;
+    }
+
+    @keyframes sirui-dog-chaos {
+      0% {
+        filter: saturate(1) drop-shadow(0 0 0 transparent);
+        transform: rotate(0deg) scale(1);
+      }
+
+      12% {
+        transform: rotate(-18deg) scale(1.12);
+      }
+
+      24% {
+        transform: rotate(18deg) scale(1.08);
+      }
+
+      36% {
+        transform: rotate(-14deg) scale(1.16);
+      }
+
+      50% {
+        filter: saturate(1.25)
+          drop-shadow(0 0.18rem 0.28rem rgba(0, 0, 0, 0.2));
+        transform: rotate(380deg) scale(1.18);
+      }
+
+      66% {
+        transform: rotate(335deg) scale(0.98);
+      }
+
+      82% {
+        transform: rotate(720deg) scale(1.2);
+      }
+
+      100% {
+        filter: saturate(1.12)
+          drop-shadow(0 0.08rem 0.18rem rgba(0, 0, 0, 0.16));
+        transform: rotate(705deg) scale(1.12);
+      }
+    }
+
+    @keyframes sirui-dog-boop {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      35% {
+        transform: rotate(-16deg) scale(1.22);
+      }
+
+      70% {
+        transform: rotate(360deg) scale(0.98);
+      }
+
+      100% {
+        transform: rotate(372deg) scale(1.08);
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .sirui-secret-dog:hover img,
+      .sirui-secret-dog:focus-visible img {
+        animation: sirui-dog-chaos 1.35s cubic-bezier(0.34, 1.56, 0.64, 1)
+          infinite;
+      }
+    }
+
+    .sirui-secret-dog.is-booping img {
+      animation: sirui-dog-boop 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .sirui-secret-dialog[hidden] {
@@ -185,7 +262,10 @@ pagination:
       display: flex;
       inset: 0;
       justify-content: center;
-      padding: 1rem;
+      padding: max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(1rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
       position: fixed;
       z-index: 2000;
     }
@@ -195,7 +275,9 @@ pagination:
       border: 1px solid var(--global-divider-color);
       border-radius: 0.5rem;
       box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.2);
+      max-height: calc(100dvh - 2rem);
       max-width: 22rem;
+      overflow: auto;
       padding: 1.2rem;
       position: relative;
       text-align: left;
@@ -239,13 +321,51 @@ pagination:
     .sirui-secret-row button {
       border: 1px solid var(--global-divider-color);
       border-radius: 0.25rem;
-      padding: 0.45rem 0.65rem;
+      font-size: 16px;
+      min-height: 44px;
+      padding: 0.55rem 0.75rem;
     }
 
     .sirui-secret-row button {
       background: var(--global-theme-color);
       color: var(--global-bg-color);
       cursor: pointer;
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .sirui-secret-dog img {
+        height: 0.92em;
+        width: 0.92em;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .sirui-secret-dialog {
+        align-items: flex-start;
+      }
+
+      .sirui-secret-panel {
+        margin-top: 0.75rem;
+        max-width: none;
+      }
+
+      .sirui-secret-row {
+        flex-direction: column;
+      }
+
+      .sirui-secret-row button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sirui-secret-dog img,
+      .sirui-secret-dog:hover img,
+      .sirui-secret-dog:focus-visible img,
+      .sirui-secret-dog.is-booping img {
+        animation: none;
+        transition: none;
+      }
     }
   </style>
 
@@ -260,10 +380,20 @@ pagination:
 
       if (!dog || !dialog || !closeButton || !form || !password) return;
 
+      const boopDog = () => {
+        dog.classList.remove("is-booping");
+        void dog.offsetWidth;
+        dog.classList.add("is-booping");
+        window.setTimeout(() => dog.classList.remove("is-booping"), 560);
+      };
+
       const openDialog = () => {
+        boopDog();
         dialog.hidden = false;
         password.value = "";
-        window.setTimeout(() => password.focus(), 0);
+        if (window.matchMedia("(pointer: fine)").matches) {
+          window.setTimeout(() => password.focus(), 0);
+        }
       };
 
       const closeDialog = () => {
