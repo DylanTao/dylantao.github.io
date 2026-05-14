@@ -410,7 +410,10 @@ pagination:
       });
       form.addEventListener("submit", (event) => {
         event.preventDefault();
-        sessionStorage.setItem("siruiResearchThoughtsPassword", password.value);
+        sessionStorage.setItem(
+          "siruiResearchThoughtsPassword",
+          password.value.trim(),
+        );
         window.location.href = secretUrl;
       });
     })();

@@ -10,8 +10,8 @@ search: false
 <div
   id="sirui-private-note"
   class="sirui-private-note"
-  data-salt="LBxTYJSLodO2i8jIH9S+qQ=="
-  data-iv="OVoAXmXeHZyZOyeh"
+  data-salt="iJoDMgLewA59OFlKJNkqyA=="
+  data-iv="l6gF7cRta+KJfOKq"
 >
   <p id="sirui-private-message" class="sirui-private-message" aria-live="polite">
     checking access...
@@ -22,8 +22,8 @@ search: false
   <section id="sirui-visitor-panel" class="sirui-visitor-panel" hidden>
     <h2>visitor readout</h2>
     <p class="sirui-map-note">
-      Approx location comes from browser timezone, not GPS. The unlock event is
-      also sent to Google Analytics as <code>secret_page_unlock</code>.
+      Approximate location comes from browser timezone, not GPS. Unlocks also
+      send a Google Analytics event named <code>secret_page_unlock</code>.
     </p>
     <dl id="sirui-visitor-facts" class="sirui-visitor-facts"></dl>
   </section>
@@ -65,7 +65,7 @@ search: false
   </section>
 
   <script type="text/plain" id="sirui-private-payload">
-    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
+    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
   </script>
 </div>
 
@@ -90,19 +90,33 @@ search: false
     margin-bottom: 0.75rem;
   }
 
+  .sirui-secret-copy h3 {
+    font-size: 1.35rem;
+    margin-top: 1.5rem;
+  }
+
+  .sirui-secret-copy p {
+    line-height: 1.65;
+  }
+
   .sirui-secret-copy ol {
     padding-left: 1.35rem;
   }
 
   .sirui-secret-copy li {
-    margin-bottom: 0.35rem;
+    line-height: 1.55;
+    margin-bottom: 0.55rem;
   }
 
   .sirui-secret-copy blockquote {
     border-left: 0.25rem solid var(--global-theme-color);
     color: var(--global-text-color);
     margin: 1rem 0;
-    padding: 0.25rem 0 0.25rem 1rem;
+    padding: 0.35rem 0 0.35rem 1rem;
+  }
+
+  .sirui-secret-copy blockquote p {
+    margin-bottom: 0;
   }
 
   .sirui-visitor-panel,
@@ -281,26 +295,43 @@ search: false
       ((90 - latitude) / 180) * 520,
     ];
 
+    const safeLocalGet = (key) => {
+      try {
+        return localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    };
+
+    const safeLocalSet = (key, value) => {
+      try {
+        localStorage.setItem(key, value);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
     const getLog = () => {
       try {
-        return JSON.parse(localStorage.getItem(logKey)) || [];
+        return JSON.parse(safeLocalGet(logKey)) || [];
       } catch {
         return [];
       }
     };
 
     const saveLog = (entries) => {
-      localStorage.setItem(logKey, JSON.stringify(entries));
+      safeLocalSet(logKey, JSON.stringify(entries));
     };
 
     const getBrowserId = () => {
-      const stored = localStorage.getItem(browserIdKey);
+      const stored = safeLocalGet(browserIdKey);
       if (stored) return stored;
 
       const browserId =
         crypto.randomUUID?.() ||
         `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
-      localStorage.setItem(browserIdKey, browserId);
+      safeLocalSet(browserIdKey, browserId);
       return browserId;
     };
 
@@ -442,7 +473,9 @@ search: false
       if (existing) {
         existing.browserId = existing.browserId || browserId;
         existing.label = "you";
-        existing.coordinates = existing.coordinates || coordinates;
+        existing.coordinates = Array.isArray(existing.coordinates)
+          ? existing.coordinates
+          : coordinates;
         existing.coordinateSource = existing.coordinateSource || source;
         existing.count += 1;
         existing.lastLocalTime = meta.localTime;
@@ -480,7 +513,10 @@ search: false
         .sort((a, b) => (b.lastIso || "").localeCompare(a.lastIso || ""))
         .forEach((entry) => {
           const visitorLabel = entry.label || entry.handle || "you";
-          const [x, y] = projectPoint(entry.coordinates);
+          const coordinates = Array.isArray(entry.coordinates)
+            ? entry.coordinates
+            : fallbackCoordinates();
+          const [x, y] = projectPoint(coordinates);
           const marker = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "circle",
@@ -515,27 +551,40 @@ search: false
       map.hidden = false;
     };
 
+    const decryptSecret = async (password) => {
+      const key = await deriveKey(password, b64ToBytes(container.dataset.salt));
+      const decrypted = await crypto.subtle.decrypt(
+        {
+          name: "AES-GCM",
+          iv: b64ToBytes(container.dataset.iv),
+        },
+        key,
+        b64ToBytes(payload.textContent),
+      );
+
+      return new TextDecoder().decode(decrypted);
+    };
+
     const unlock = async (password) => {
       message.textContent = "checking access...";
 
+      let decryptedHtml = "";
       try {
-        const key = await deriveKey(
-          password,
-          b64ToBytes(container.dataset.salt),
-        );
-        const decrypted = await crypto.subtle.decrypt(
-          {
-            name: "AES-GCM",
-            iv: b64ToBytes(container.dataset.iv),
-          },
-          key,
-          b64ToBytes(payload.textContent),
-        );
-
+        decryptedHtml = await decryptSecret(password);
+      } catch {
         sessionStorage.removeItem(passwordKey);
-        secretCopy.innerHTML = new TextDecoder().decode(decrypted);
-        secretCopy.hidden = false;
+        message.innerHTML =
+          'wrong password. go back to the <a href="{{ "/blog/" | relative_url }}">blog page</a> and try the dog again.';
+        return;
+      }
 
+      sessionStorage.removeItem(passwordKey);
+      secretCopy.innerHTML = decryptedHtml;
+      secretCopy.hidden = false;
+      message.textContent = "access granted.";
+      message.classList.add("is-unlocked");
+
+      try {
         const visitorMeta = collectVisitorMeta();
         const unlockRecord = recordUnlock(visitorMeta);
         const anonymousCrackerId = await hashText(
@@ -555,11 +604,9 @@ search: false
         );
 
         message.textContent = "access granted. browser crumbs collected.";
-        message.classList.add("is-unlocked");
-      } catch {
-        sessionStorage.removeItem(passwordKey);
-        message.innerHTML =
-          'wrong password. go back to the <a href="{{ "/blog/" | relative_url }}">blog page</a> and try the dog again.';
+      } catch (error) {
+        console.warn("secret page visitor readout failed", error);
+        message.textContent = "access granted. visitor readout had a hiccup.";
       }
     };
 
