@@ -25,16 +25,25 @@
     if (wrapper) wrapper.hidden = true;
   };
 
-  const counterUrl = (value) => new URL(value, window.location.href).href;
+  const counterUrl = (value) => {
+    const url = new URL(value, window.location.href);
+    url.hash = "";
+    return url.href;
+  };
 
   const isLocalPreview = () => ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) || window.location.protocol === "file:";
 
   const fetchReadCount = async (url, mode) => {
+    const canonicalUrl = counterUrl(url);
+    const requestUrl = new URL(counterEndpoint);
+    requestUrl.searchParams.set("referer", canonicalUrl);
+    requestUrl.searchParams.set("_", Date.now().toString());
     const shouldIncrement = mode === "increment" && !isLocalPreview();
-    const response = await fetch(counterEndpoint, {
+    const response = await fetch(requestUrl, {
+      cache: "no-store",
       credentials: "include",
       headers: {
-        "x-bsz-referer": counterUrl(url),
+        "x-bsz-referer": canonicalUrl,
       },
       method: shouldIncrement ? "POST" : "GET",
     });
@@ -50,12 +59,12 @@
       throw new Error("read counter returned no page_pv");
     }
 
-    return count;
+    return shouldIncrement ? Math.max(count, 1) : count;
   };
 
   const groupedCounters = counters.reduce((groups, counter) => {
     const mode = counter.dataset.blogReadMode || "display";
-    const url = counter.dataset.blogReadUrl;
+    const url = counterUrl(counter.dataset.blogReadUrl);
     const key = `${mode}:${url}`;
 
     if (!groups.has(key)) {
