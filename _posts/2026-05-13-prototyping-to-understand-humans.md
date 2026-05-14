@@ -1,0 +1,354 @@
+---
+layout: post
+title: prototyping to understand humans
+date: 2026-05-13 09:00:00
+description: Some working thoughts on good HCI research in the age of AI.
+tags: hci research gen-ai prototyping design
+categories: reflections
+related_posts: false
+permalink: /blog/2026/prototyping-to-understand-humans/
+---
+
+_Some working thoughts on good HCI research in the age of AI._
+
+I have been thinking about what counts as good HCI research, especially now
+that AI makes system-building much easier.
+
+This is not a theory of all research. It is a working note for myself. I am
+writing it because I have been confused about the difference between a useful
+product idea, a publishable HCI artifact, and a research contribution that still
+matters after the prototype is gone.
+
+I have about five months before my next project really starts. I do not need to
+finish the project now. I need to use this time to build better research taste:
+to understand what kind of question is worth spending limited Ph.D. energy on.
+
+## The confusion
+
+A lot of HCI artifact and system work can look like this:
+
+1. Find a real user need.
+2. Build a tool.
+3. Compare it against a baseline.
+4. Show that users do better or like it more.
+5. Claim a contribution.
+
+This can be valuable. But it can also feel unsatisfying.
+
+If the main claim is only "we built a better tool," then a startup or big
+company might be able to do something similar faster. Product teams can
+identify user needs, prototype features, run beta tests, dogfood internally,
+A/B test, and iterate with many more users than most academic projects can.
+
+So the question that bothers me is:
+
+> If industry can also follow a research-like workflow, what makes academic HCI
+> research worth doing?
+
+I do not think the answer is "companies only use knowledge and researchers
+produce knowledge." Companies can produce knowledge too. Some product teams run
+careful experiments. Some industry researchers do excellent public research.
+
+But I do think the default incentives are different.
+
+A company often wants knowledge as an input:
+
+> Should we ship this? Does this improve our metric? Does this help our product?
+
+Research, at least at its best, tries to produce knowledge as an output:
+
+> What can other people reuse, question, test, adapt, or build on?
+
+That distinction is not absolute. It is more like a useful starting lens.
+
+## What the contribution is
+
+One paper that helped me here is [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)
+and [Julie A. Kientz](https://www.hcde.washington.edu/kientz)'s
+[_Research Contributions in Human-Computer Interaction_](https://dl.acm.org/doi/10.1145/2907069).
+
+The paper helped because it makes a simple but important point: HCI research
+produces different kinds of knowledge. Not every paper should be judged as if
+it were the same kind of paper.
+
+Wobbrock and Kientz describe several contribution types in HCI, including
+empirical, artifact/system, methodological, theoretical, dataset, survey, and
+opinion or argument contributions. This is useful because a system paper is not
+automatically weak because it is not a polished product, and an artifact paper
+does not always need the same kind of user study as an empirical paper.
+
+But the reverse is also true: a prototype is not automatically research just
+because it exists.
+
+The question I want to keep asking is:
+
+> What kind of knowledge does this work produce?
+
+Product knowledge can be local:
+
+> Version B works better for this product, this user base, this metric, and this
+> moment.
+
+Research knowledge should be more portable:
+
+> This kind of interaction mechanism helps this kind of human activity under
+> these conditions, while creating these trade-offs.
+
+For HCI, "portable" does not have to mean universal. It might mean a reusable
+interaction pattern, a clearer account of a human process, a new way to
+evaluate a class of systems, a boundary condition, a design trade-off, a
+conceptual vocabulary, or an artifact that opens a new design space.
+
+A good HCI contribution is not "only HCI" in a narrow sense. It is a
+contribution about interaction: how people understand, use, coordinate around,
+resist, appropriate, trust, misuse, or reshape technology.
+
+## AI makes this sharper
+
+This feels especially important now because AI makes it easier to build
+plausible demos.
+
+In the past, building a system could itself be strong evidence of technical
+imagination. Now, many prototypes can be assembled quickly with LLM APIs, prompt
+chains, generated UI code, and existing infrastructure.
+
+That does not make artifact or system research obsolete. But it does raise the
+bar for what the artifact needs to show.
+
+"AI applied to X" is usually not enough.
+
+A weak artifact claim might be:
+
+> We built a GenAI tool for designers, and users liked it better than the
+> baseline.
+
+A stronger artifact claim might be:
+
+> We built an artifact that externalizes AI-generated alternatives into editable
+> design dimensions, making trade-offs visible and negotiable for teams.
+
+The difference is that the second version names a reusable interaction idea.
+The system is not just a product. It is a research object.
+
+An HCI artifact contribution is not a worse product. It is a different kind of
+object. A product asks whether something is useful, reliable, scalable,
+desirable, and worth shipping. A research artifact asks what new interaction
+possibility, representation, workflow, architecture, or design trade-off this
+prototype makes visible.
+
+A prototype can be rough and still be valuable if it makes an idea inspectable.
+But a rough prototype with a vague claim is just a rough prototype.
+
+## Prototype as probe
+
+The most useful shift for me is this:
+
+> Do not prototype only to make a better tool. Prototype to better understand
+> people.
+
+Instead of starting with:
+
+> What tool can I build?
+
+I want to start with:
+
+> What human process am I trying to understand or change?
+
+That process might be comparing alternatives, forming shared understanding,
+negotiating trade-offs, critiquing ideas, converging on decisions, preserving
+agency, calibrating trust, or maintaining ownership.
+
+Then I can ask:
+
+> What interaction mechanism might change that process?
+
+The mechanism might be externalized design dimensions, contrastive examples,
+editable rationales, structured critique, shared design-space maps, provenance
+traces, role-based prompting, progressive disclosure, or representations that
+preserve useful ambiguity.
+
+The artifact becomes valuable when it makes the mechanism concrete enough to
+inspect, use, and evaluate.
+
+This also changes how I think about studies. The study is not only product
+validation. It is a way to stress-test a claim about human activity. A prototype
+can help reveal what users notice, what they ignore, how they make decisions,
+where they lose agency, what trade-offs they care about, and what breakdowns
+happen in practice.
+
+The prototype is not the endpoint. It is a probe.
+
+## What survives after the prototype dies?
+
+The test I want to use is:
+
+> If the prototype dies, what knowledge remains?
+
+A weak answer is:
+
+> Users preferred our system.
+
+A better answer is:
+
+> Externalizing design dimensions helped teams move from output-level
+> preference talk to attribute-level trade-off reasoning.
+
+An even better answer includes a boundary or trade-off:
+
+> Externalizing design dimensions helped teams compare and converge, but
+> sometimes narrowed exploration by imposing criteria too early.
+
+This kind of claim feels more durable. Other people can reuse it, test it,
+disagree with it, or build better systems from it.
+
+It also helps me avoid confusing product improvement with research contribution.
+If the only thing that survives is "our tool was better," I may have built
+something useful, but I have not yet made clear what the research community can
+learn from it.
+
+## Evidence should match the claim
+
+Another lesson from Wobbrock and Kientz's paper is that contribution types
+should be judged differently.
+
+If the contribution is empirical, the evidence needs to support the finding. If
+the contribution is an artifact, the paper needs to show what the artifact makes
+possible and why the design is insightful. If the contribution is methodological,
+the method needs to be useful, reproducible, reliable, and valid. If the
+contribution is theoretical, it needs to explain or organize something in a way
+that has power beyond a single example. If the contribution is an argument, it
+needs to be fair, persuasive, and grounded.
+
+This connects to Dan R. Olsen Jr.'s
+[_Evaluating User Interface Systems Research_](https://dl.acm.org/doi/10.1145/1294211)
+and Saul Greenberg and Bill Buxton's
+[_Usability Evaluation Considered Harmful (Some of the Time)_](https://dl.acm.org/doi/10.1145/1357054.1357074).
+A user study is not automatically the right validation for every system
+contribution. Sometimes a premature or poorly matched evaluation can obscure
+what is actually interesting about a system.
+
+The point is not "avoid evaluation." The point is:
+
+> Evaluate the claim, not just the interface.
+
+## A formula I want to use
+
+When planning a project, I want to fill in this sentence:
+
+> This project contributes a `[type of contribution]` by showing
+> `[knowledge claim]` through `[artifact/study/method]`, and it should be
+> evaluated by `[appropriate standard]`.
+
+For an artifact or system contribution:
+
+> This project contributes an artifact that demonstrates
+> `[new interaction possibility]` by implementing `[specific mechanism]` for
+> `[human activity/context]`. The artifact shows that
+> `[previously hard thing]` can become
+> `[possible/easier/inspectable/contestable/collaborative]`, while exposing the
+> trade-off between `[A]` and `[B]`.
+
+For example:
+
+> This project contributes an artifact that demonstrates design-space-based
+> interaction with generative AI. By implementing editable dimensions,
+> alternative clustering, and rationale-linked comparison, the system makes
+> AI-generated design options inspectable and negotiable by teams. The artifact
+> exposes a trade-off between structuring exploration and preserving open-ended
+> creativity.
+
+I should be careful with projects whose main claim is:
+
+> We built a better AI tool and users performed better.
+
+That can be useful, but it risks becoming lower-efficiency product engineering.
+
+I should also be careful with:
+
+> We borrowed a trick from another literature and put it into an HCI system.
+
+That can be good research, but only if the project tests something non-obvious
+about how that mechanism behaves in a new context. The stronger version is:
+
+> This known mechanism should behave differently in this human-AI setting
+> because the task, agency structure, uncertainty, or collaboration pattern is
+> different.
+
+Then the contribution is not just the borrowed trick. The contribution is the
+translation, boundary condition, and explanation.
+
+## A direction that feels promising
+
+For my own interests, a promising direction is:
+
+> When AI can generate many plausible design alternatives, how should systems
+> help people compare, critique, coordinate around, and converge on those
+> alternatives?
+
+This feels more durable than simply generating better outputs. In the GenAI
+age, output generation is becoming cheap. The deeper HCI problem may be how
+people make sense of, negotiate, and act on abundant AI-generated possibilities.
+
+A possible framing:
+
+> AI creates abundance; people still need coordination, judgment, and shared
+> understanding.
+
+A possible contribution claim:
+
+> This project studies how externalizing design dimensions in GenAI-supported
+> collaborative design affects teams' ability to compare alternatives, negotiate
+> trade-offs, and converge on decisions.
+
+A possible trade-off:
+
+> Structured representations may improve comparison and convergence, but may
+> also narrow exploration or prematurely impose criteria.
+
+Before committing to a project, I should be able to answer:
+
+1. What human process am I trying to understand?
+2. What is the reusable research claim?
+3. What is the interaction mechanism?
+4. What is the plausible failure mode or trade-off?
+5. What would industry learn from normal product iteration?
+6. What would my research learn beyond normal product iteration?
+7. What kind of contribution is this?
+8. What evidence would be appropriate for that contribution type?
+9. If the prototype dies, what sentence of knowledge remains?
+
+My personal rule, at least for now, is:
+
+> After this project, other researchers should understand **[what]** about
+> **[which class of human-technology interaction]**, because I showed
+> **[mechanism/evidence/trade-off]**.
+
+If I cannot fill this in, I may only have a product idea, not yet a research
+contribution.
+
+## Credits and references
+
+This note came out of conversations with mentors and labmates.
+
+[Dev](https://hayatpur.dev/) pointed me to Wobbrock and Kientz's paper.
+
+[Zhiqing](https://www.zhiqingwang.me/) gave me a helpful framing about
+companies often using knowledge as input, while research should output knowledge
+that others can reuse.
+
+Main references:
+
+- [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/) and
+  [Julie A. Kientz](https://www.hcde.washington.edu/kientz).
+  [_Research Contributions in Human-Computer Interaction_](https://dl.acm.org/doi/10.1145/2907069).
+  _interactions_, 2016.
+- Dan R. Olsen Jr.
+  [_Evaluating User Interface Systems Research_](https://dl.acm.org/doi/10.1145/1294211).
+  UIST 2007.
+- Saul Greenberg and Bill Buxton.
+  [_Usability Evaluation Considered Harmful (Some of the Time)_](https://dl.acm.org/doi/10.1145/1357054.1357074).
+  CHI 2008.
+
+---
+
+Last updated: May 13, 2026.

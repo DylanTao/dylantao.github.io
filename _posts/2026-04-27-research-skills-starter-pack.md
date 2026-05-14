@@ -24,6 +24,10 @@ It is not a complete syllabus. It is a map.
 It is also an ongoing thing. I will keep updating this post when I run into
 more resources that feel genuinely helpful.
 
+Related note: I also wrote a more reflective piece on what counts as good HCI
+research now that AI makes prototyping easier:
+[prototyping to understand humans]({% link _posts/2026-05-13-prototyping-to-understand-humans.md %}).
+
 ## 1. Learn to read research papers
 
 Reading papers is its own skill. You are not supposed to understand every paper
@@ -241,6 +245,13 @@ you a much stronger collaborator.
 This list credits both the people who recommended resources to me and the people
 who wrote those resources:
 
+- [Dev](https://hayatpur.dev/) for pointing me to
+  [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/) and
+  [Julie A. Kientz](https://www.hcde.washington.edu/kientz)'s
+  [_Research Contributions in Human-Computer Interaction_](https://dl.acm.org/doi/10.1145/2907069).
+- [Zhiqing](https://www.zhiqingwang.me/) for the helpful framing that companies
+  often use knowledge as input, while research should output knowledge that
+  others can reuse.
 - [Philip Guo](https://pg.ucsd.edu/) for recommending
   [Srinivasan Keshav](https://cs.uwaterloo.ca/about/people/srinivasan-keshav)'s
   [_How to Read a Paper_](https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf)
