@@ -130,12 +130,12 @@ pagination:
   <div id="sirui-secret-dialog" class="sirui-secret-dialog" hidden>
     <div class="sirui-secret-panel" role="dialog" aria-modal="true" aria-labelledby="sirui-secret-title">
       <button id="sirui-secret-close" class="sirui-secret-close" type="button" aria-label="close">&times;</button>
-      <h3 id="sirui-secret-title">secret checkpoint</h3>
+      <h3 id="sirui-secret-title">the hidden gate</h3>
       <form id="sirui-secret-form">
-        <label for="sirui-secret-password">password</label>
+        <label for="sirui-secret-password">speak the spell</label>
         <div class="sirui-secret-row">
           <input id="sirui-secret-password" type="password" autocomplete="current-password" required>
-          <button type="submit">enter</button>
+          <button type="submit">unlock</button>
         </div>
       </form>
     </div>
