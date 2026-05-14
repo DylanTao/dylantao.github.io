@@ -22,8 +22,8 @@ search: false
   <section id="sirui-visitor-panel" class="sirui-visitor-panel" hidden>
     <h2>visitor readout</h2>
     <p class="sirui-map-note">
-      Approximate location comes from browser timezone, not GPS. Unlocks also
-      send a Google Analytics event named <code>secret_page_unlock</code>.
+      Only browser-exposed details are shown. The map appears only when the
+      browser timezone matches a known location.
     </p>
     <dl id="sirui-visitor-facts" class="sirui-visitor-facts"></dl>
   </section>
@@ -270,12 +270,6 @@ search: false
       "Australia/Sydney": [151.2093, -33.8688],
     };
 
-    const fallbackCoordinates = () => {
-      const offsetMinutes = new Date().getTimezoneOffset();
-      const longitude = Math.max(-170, Math.min(170, -offsetMinutes / 4));
-      return [longitude, 18];
-    };
-
     const getCoordinates = (timezone) => {
       if (timezoneCoordinates[timezone]) {
         return {
@@ -284,10 +278,7 @@ search: false
         };
       }
 
-      return {
-        coordinates: fallbackCoordinates(),
-        source: "UTC offset estimate",
-      };
+      return null;
     };
 
     const projectPoint = ([longitude, latitude]) => [
@@ -336,29 +327,49 @@ search: false
     };
 
     const hashText = async (value) => {
-      const buffer = await crypto.subtle.digest(
-        "SHA-256",
-        new TextEncoder().encode(value),
-      );
-      return Array.from(new Uint8Array(buffer))
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("")
-        .slice(0, 16);
+      try {
+        const buffer = await crypto.subtle.digest(
+          "SHA-256",
+          new TextEncoder().encode(value),
+        );
+        return Array.from(new Uint8Array(buffer))
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("")
+          .slice(0, 16);
+      } catch {
+        return String(value || "local")
+          .replace(/[^a-z0-9]/gi, "")
+          .slice(0, 16);
+      }
     };
 
     const getBrowserSummary = () => {
-      if (navigator.userAgentData?.brands?.length) {
-        return navigator.userAgentData.brands
-          .map((brand) => `${brand.brand} ${brand.version}`)
-          .join(", ");
+      try {
+        if (navigator.userAgentData?.brands?.length) {
+          return navigator.userAgentData.brands
+            .map((brand) => `${brand.brand} ${brand.version}`)
+            .join(", ");
+        }
+
+        const ua = navigator.userAgent;
+        if (/Edg\//.test(ua)) return "Microsoft Edge";
+        if (/Chrome\//.test(ua)) return "Chrome";
+        if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) return "Safari";
+        if (/Firefox\//.test(ua)) return "Firefox";
+      } catch {
+        return "";
       }
 
-      const ua = navigator.userAgent;
-      if (/Edg\//.test(ua)) return "Microsoft Edge";
-      if (/Chrome\//.test(ua)) return "Chrome";
-      if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) return "Safari";
-      if (/Firefox\//.test(ua)) return "Firefox";
-      return "unknown browser";
+      return "";
+    };
+
+    const readSafely = (reader) => {
+      try {
+        const value = reader();
+        return value === undefined || value === null ? "" : String(value).trim();
+      } catch {
+        return "";
+      }
     };
 
     const collectVisitorMeta = () => {
@@ -366,54 +377,64 @@ search: false
         navigator.connection ||
         navigator.mozConnection ||
         navigator.webkitConnection;
-      const timezone =
-        Intl.DateTimeFormat().resolvedOptions().timeZone || "local time";
       const now = new Date();
-      const localTime = now.toLocaleString(undefined, {
-        dateStyle: "medium",
-        timeStyle: "short",
-        timeZoneName: "short",
-      });
+      const timezone = readSafely(
+        () => Intl.DateTimeFormat().resolvedOptions().timeZone,
+      );
+      const localTime = readSafely(() =>
+        new Intl.DateTimeFormat(undefined, {
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+          month: "short",
+          timeZoneName: "short",
+          year: "numeric",
+        }).format(now),
+      );
+      const connectionSummary = connection
+        ? [connection.effectiveType, connection.downlink ? `${connection.downlink} Mbps-ish` : ""]
+            .filter(Boolean)
+            .join(", ")
+        : "";
 
       return {
         browser: getBrowserSummary(),
-        connection: connection
-          ? [
-              connection.effectiveType,
-              connection.downlink ? `${connection.downlink} Mbps-ish` : "",
-            ]
-              .filter(Boolean)
-              .join(", ") || "reported but hidden"
-          : "not exposed",
+        connection: connectionSummary,
         cookies: navigator.cookieEnabled ? "enabled" : "disabled",
-        cores: navigator.hardwareConcurrency
-          ? `${navigator.hardwareConcurrency}`
-          : "not exposed",
-        deviceMemory: navigator.deviceMemory
-          ? `${navigator.deviceMemory} GB-ish`
-          : "not exposed",
-        doNotTrack: navigator.doNotTrack || window.doNotTrack || "not set",
-        language:
-          navigator.languages?.join(", ") || navigator.language || "unknown",
+        cores: readSafely(() => navigator.hardwareConcurrency),
+        deviceMemory: readSafely(() =>
+          navigator.deviceMemory ? `${navigator.deviceMemory} GB-ish` : "",
+        ),
+        doNotTrack: readSafely(
+          () => navigator.doNotTrack || window.doNotTrack,
+        ),
+        language: readSafely(
+          () => navigator.languages?.join(", ") || navigator.language,
+        ),
         localTime,
-        platform:
-          navigator.userAgentData?.platform || navigator.platform || "unknown",
-        referrer: document.referrer || "direct",
-        screen: `${screen.width} x ${screen.height} @ ${
-          window.devicePixelRatio || 1
-        }x`,
+        platform: readSafely(
+          () => navigator.userAgentData?.platform || navigator.platform,
+        ),
+        referrer: document.referrer,
+        screen: readSafely(
+          () => `${screen.width} x ${screen.height} @ ${window.devicePixelRatio || 1}x`,
+        ),
         timezone,
-        touchPoints: `${navigator.maxTouchPoints || 0}`,
-        viewport: `${window.innerWidth} x ${window.innerHeight}`,
+        touchPoints: readSafely(() => navigator.maxTouchPoints),
+        viewport: readSafely(() => `${window.innerWidth} x ${window.innerHeight}`),
       };
     };
 
     const renderVisitorPanel = (entry, meta, anonymousCrackerId) => {
       if (!visitorPanel || !visitorFacts) return;
 
+      const hasValue = (value) =>
+        value !== undefined && value !== null && String(value).trim() !== "";
       const facts = [
         ["anonymous id", anonymousCrackerId],
-        ["mapped from", `${meta.timezone} (${entry.coordinateSource})`],
+        entry.coordinateSource
+          ? ["mapped from", `${meta.timezone} (${entry.coordinateSource})`]
+          : null,
         ["local time", meta.localTime],
         ["browser", meta.browser],
         ["platform", meta.platform],
@@ -428,10 +449,16 @@ search: false
         ["do not track", meta.doNotTrack],
         ["referrer", meta.referrer],
         ["this browser", `${entry.count} successful unlock(s)`],
-      ];
+      ].filter(Boolean);
+      const visibleFacts = facts.filter(([, value]) => hasValue(value));
+
+      if (!visibleFacts.length) {
+        visitorPanel.hidden = true;
+        return;
+      }
 
       visitorFacts.replaceChildren(
-        ...facts.flatMap(([label, value]) => {
+        ...visibleFacts.flatMap(([label, value]) => {
           const term = document.createElement("dt");
           const detail = document.createElement("dd");
           term.textContent = label;
@@ -445,39 +472,46 @@ search: false
     const sendUnlockAnalytics = (entry, meta, anonymousCrackerId) => {
       if (typeof gtag !== "function") return;
 
-      gtag("event", "secret_page_unlock", {
-        event_category: "secret_page",
-        event_label: "sirui_research_thoughts",
-        page_path: "/blog/2026/sirui-research-thoughts/",
-        cracker_id: anonymousCrackerId,
-        unlock_timezone: entry.timezone,
-        unlock_local_time: entry.lastLocalTime,
-        unlock_count_for_browser: entry.count,
-        visitor_browser: meta.browser,
-        visitor_platform: meta.platform,
-        visitor_language: meta.language,
-        visitor_screen: meta.screen,
-        visitor_connection: meta.connection,
-      });
+      try {
+        gtag("event", "secret_page_unlock", {
+          event_category: "secret_page",
+          event_label: "sirui_research_thoughts",
+          page_path: "/blog/2026/sirui-research-thoughts/",
+          cracker_id: anonymousCrackerId,
+          unlock_timezone: entry.timezone,
+          unlock_local_time: entry.lastLocalTime,
+          unlock_count_for_browser: entry.count,
+          visitor_browser: meta.browser,
+          visitor_platform: meta.platform,
+          visitor_language: meta.language,
+          visitor_screen: meta.screen,
+          visitor_connection: meta.connection,
+        });
+      } catch (error) {
+        console.warn("secret page analytics failed", error);
+      }
     };
 
     const recordUnlock = (meta) => {
       const now = new Date();
       const browserId = getBrowserId();
-      const { coordinates, source } = getCoordinates(meta.timezone);
+      const location = getCoordinates(meta.timezone);
       const entries = getLog();
-      const id = `${browserId}|${meta.timezone}`;
+      const id = `${browserId}|${meta.timezone || "unknown"}`;
       const existing = entries.find((entry) => entry.id === id);
       let activeEntry = existing;
 
       if (existing) {
         existing.browserId = existing.browserId || browserId;
         existing.label = "you";
-        existing.coordinates = Array.isArray(existing.coordinates)
-          ? existing.coordinates
-          : coordinates;
-        existing.coordinateSource = existing.coordinateSource || source;
-        existing.count += 1;
+        if (location) {
+          existing.coordinates = location.coordinates;
+          existing.coordinateSource = location.source;
+        } else if (existing.coordinateSource !== "timezone match") {
+          delete existing.coordinates;
+          existing.coordinateSource = "";
+        }
+        existing.count = (Number(existing.count) || 0) + 1;
         existing.lastLocalTime = meta.localTime;
         existing.lastIso = now.toISOString();
         existing.meta = meta;
@@ -487,12 +521,12 @@ search: false
           browserId,
           label: "you",
           timezone: meta.timezone,
-          coordinateSource: source,
+          coordinateSource: location?.source || "",
           count: 1,
           firstLocalTime: meta.localTime,
           lastLocalTime: meta.localTime,
           lastIso: now.toISOString(),
-          coordinates,
+          coordinates: location?.coordinates,
           meta,
         };
         entries.push(activeEntry);
@@ -508,15 +542,23 @@ search: false
       markerLayer.replaceChildren();
       logBody.replaceChildren();
 
-      entries
+      const mappableEntries = entries.filter(
+        (entry) =>
+          entry.coordinateSource === "timezone match" &&
+          Array.isArray(entry.coordinates),
+      );
+
+      if (!mappableEntries.length) {
+        map.hidden = true;
+        return;
+      }
+
+      mappableEntries
         .slice()
         .sort((a, b) => (b.lastIso || "").localeCompare(a.lastIso || ""))
         .forEach((entry) => {
           const visitorLabel = entry.label || entry.handle || "you";
-          const coordinates = Array.isArray(entry.coordinates)
-            ? entry.coordinates
-            : fallbackCoordinates();
-          const [x, y] = projectPoint(coordinates);
+          const [x, y] = projectPoint(entry.coordinates);
           const marker = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "circle",
@@ -602,11 +644,8 @@ search: false
           visitorMeta,
           anonymousCrackerId,
         );
-
-        message.textContent = "access granted. browser crumbs collected.";
       } catch (error) {
         console.warn("secret page visitor readout failed", error);
-        message.textContent = "access granted. visitor readout had a hiccup.";
       }
     };
 
