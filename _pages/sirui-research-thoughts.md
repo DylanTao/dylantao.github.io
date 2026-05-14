@@ -1,7 +1,7 @@
 ---
 layout: page
-title: sirui research thoughts
-description: A locked personal research scratchpad.
+title: "sirui's secrets"
+description: A tiny locked corner.
 permalink: /blog/2026/sirui-research-thoughts/
 sitemap: false
 search: false
@@ -10,36 +10,27 @@ search: false
 <div
   id="sirui-private-note"
   class="sirui-private-note"
-  data-salt="bGOv8tsG6TYdyXCnYLXY/A=="
-  data-iv="qX4U1oKCTC8BbLBt"
+  data-salt="LBxTYJSLodO2i8jIH9S+qQ=="
+  data-iv="OVoAXmXeHZyZOyeh"
 >
-  <p>This note is locked.</p>
+  <p id="sirui-private-message" class="sirui-private-message" aria-live="polite">
+    checking access...
+  </p>
 
-  <form id="sirui-private-form" class="sirui-private-form">
-    <label for="sirui-private-password">password</label>
-    <div class="sirui-private-row">
-      <input
-        id="sirui-private-password"
-        type="password"
-        autocomplete="current-password"
-        required
-      >
-      <button type="submit">unlock</button>
-    </div>
-    <p id="sirui-private-message" class="sirui-private-message" aria-live="polite"></p>
-  </form>
+  <div id="sirui-secret-copy" class="sirui-secret-copy" hidden></div>
 
-  <div id="sirui-private-content" class="sirui-private-content" hidden></div>
+  <section id="sirui-visitor-panel" class="sirui-visitor-panel" hidden>
+    <h2>visitor readout</h2>
+    <p class="sirui-map-note">
+      Approx location comes from browser timezone, not GPS. The unlock event is
+      also sent to Google Analytics as <code>secret_page_unlock</code>.
+    </p>
+    <dl id="sirui-visitor-facts" class="sirui-visitor-facts"></dl>
+  </section>
 
   <section id="sirui-crack-map" class="sirui-crack-map" hidden>
     <h2>crack map</h2>
-    <p class="sirui-map-note">
-      This table shows unlocks saved in this browser. Successful unlocks are
-      also sent to Google Analytics as anonymous <code>secret_page_unlock</code>
-      events for the shared/global view. No name is collected here; the spooky
-      part is just your browser timezone and local unlock count.
-    </p>
-    <div class="sirui-world-map" aria-label="local unlock map">
+    <div class="sirui-world-map" aria-label="timezone-based visitor map">
       <svg viewBox="0 0 1000 520" role="img">
         <rect width="1000" height="520" rx="18"></rect>
         <path
@@ -63,8 +54,7 @@ search: false
         <thead>
           <tr>
             <th>visitor</th>
-            <th>timezone</th>
-            <th>first local time</th>
+            <th>where-ish</th>
             <th>last local time</th>
             <th>times</th>
           </tr>
@@ -75,58 +65,71 @@ search: false
   </section>
 
   <script type="text/plain" id="sirui-private-payload">
-    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
+    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
   </script>
 </div>
 
 <style>
   .sirui-private-note {
-    max-width: 38rem;
-  }
-
-  .sirui-private-form label {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .sirui-private-row {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .sirui-private-row input {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .sirui-private-row input,
-  .sirui-private-row button {
-    border: 1px solid var(--global-divider-color);
-    border-radius: 0.25rem;
-    padding: 0.45rem 0.65rem;
-  }
-
-  .sirui-private-row button {
-    background: var(--global-theme-color);
-    color: var(--global-bg-color);
-    cursor: pointer;
+    max-width: 48rem;
   }
 
   .sirui-private-message {
     min-height: 1.5rem;
-    margin-top: 0.75rem;
   }
 
-  .sirui-private-content {
+  .sirui-private-message.is-unlocked {
+    color: var(--global-text-color-light);
+  }
+
+  .sirui-secret-copy {
     margin-top: 1.5rem;
   }
 
+  .sirui-secret-copy h2 {
+    margin-bottom: 0.75rem;
+  }
+
+  .sirui-secret-copy ol {
+    padding-left: 1.35rem;
+  }
+
+  .sirui-secret-copy li {
+    margin-bottom: 0.35rem;
+  }
+
+  .sirui-secret-copy blockquote {
+    border-left: 0.25rem solid var(--global-theme-color);
+    color: var(--global-text-color);
+    margin: 1rem 0;
+    padding: 0.25rem 0 0.25rem 1rem;
+  }
+
+  .sirui-visitor-panel,
   .sirui-crack-map {
-    margin-top: 2rem;
+    margin-top: 1.75rem;
   }
 
   .sirui-map-note {
+    color: var(--global-text-color-light);
+    font-size: 0.9rem;
+  }
+
+  .sirui-visitor-facts {
+    display: grid;
+    gap: 0.65rem 1rem;
+    grid-template-columns: minmax(8rem, max-content) 1fr;
+    margin-top: 1rem;
+  }
+
+  .sirui-visitor-facts dt,
+  .sirui-visitor-facts dd {
+    border-bottom: 1px solid var(--global-divider-color);
+    margin: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .sirui-visitor-facts dt {
     color: var(--global-text-color-light);
     font-size: 0.9rem;
   }
@@ -175,16 +178,27 @@ search: false
     text-align: left;
     white-space: nowrap;
   }
+
+  @media (max-width: 576px) {
+    .sirui-visitor-facts {
+      grid-template-columns: 1fr;
+    }
+
+    .sirui-visitor-facts dt {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
 </style>
 
 <script>
   (() => {
     const container = document.getElementById("sirui-private-note");
-    const form = document.getElementById("sirui-private-form");
-    const passwordInput = document.getElementById("sirui-private-password");
     const message = document.getElementById("sirui-private-message");
-    const content = document.getElementById("sirui-private-content");
     const payload = document.getElementById("sirui-private-payload");
+    const secretCopy = document.getElementById("sirui-secret-copy");
+    const visitorPanel = document.getElementById("sirui-visitor-panel");
+    const visitorFacts = document.getElementById("sirui-visitor-facts");
     const map = document.getElementById("sirui-crack-map");
     const markerLayer = document.getElementById("sirui-map-markers");
     const logBody = document.getElementById("sirui-crack-log");
@@ -248,6 +262,20 @@ search: false
       return [longitude, 18];
     };
 
+    const getCoordinates = (timezone) => {
+      if (timezoneCoordinates[timezone]) {
+        return {
+          coordinates: timezoneCoordinates[timezone],
+          source: "timezone match",
+        };
+      }
+
+      return {
+        coordinates: fallbackCoordinates(),
+        source: "UTC offset estimate",
+      };
+    };
+
     const projectPoint = ([longitude, latitude]) => [
       ((longitude + 180) / 360) * 1000,
       ((90 - latitude) / 180) * 520,
@@ -287,10 +315,104 @@ search: false
         .slice(0, 16);
     };
 
-    const sendUnlockAnalytics = async (entry) => {
-      if (typeof gtag !== "function") return;
+    const getBrowserSummary = () => {
+      if (navigator.userAgentData?.brands?.length) {
+        return navigator.userAgentData.brands
+          .map((brand) => `${brand.brand} ${brand.version}`)
+          .join(", ");
+      }
 
-      const anonymousCrackerId = await hashText(entry.browserId);
+      const ua = navigator.userAgent;
+      if (/Edg\//.test(ua)) return "Microsoft Edge";
+      if (/Chrome\//.test(ua)) return "Chrome";
+      if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) return "Safari";
+      if (/Firefox\//.test(ua)) return "Firefox";
+      return "unknown browser";
+    };
+
+    const collectVisitorMeta = () => {
+      const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+      const timezone =
+        Intl.DateTimeFormat().resolvedOptions().timeZone || "local time";
+      const now = new Date();
+      const localTime = now.toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZoneName: "short",
+      });
+
+      return {
+        browser: getBrowserSummary(),
+        connection: connection
+          ? [
+              connection.effectiveType,
+              connection.downlink ? `${connection.downlink} Mbps-ish` : "",
+            ]
+              .filter(Boolean)
+              .join(", ") || "reported but hidden"
+          : "not exposed",
+        cookies: navigator.cookieEnabled ? "enabled" : "disabled",
+        cores: navigator.hardwareConcurrency
+          ? `${navigator.hardwareConcurrency}`
+          : "not exposed",
+        deviceMemory: navigator.deviceMemory
+          ? `${navigator.deviceMemory} GB-ish`
+          : "not exposed",
+        doNotTrack: navigator.doNotTrack || window.doNotTrack || "not set",
+        language:
+          navigator.languages?.join(", ") || navigator.language || "unknown",
+        localTime,
+        platform:
+          navigator.userAgentData?.platform || navigator.platform || "unknown",
+        referrer: document.referrer || "direct",
+        screen: `${screen.width} x ${screen.height} @ ${
+          window.devicePixelRatio || 1
+        }x`,
+        timezone,
+        touchPoints: `${navigator.maxTouchPoints || 0}`,
+        viewport: `${window.innerWidth} x ${window.innerHeight}`,
+      };
+    };
+
+    const renderVisitorPanel = (entry, meta, anonymousCrackerId) => {
+      if (!visitorPanel || !visitorFacts) return;
+
+      const facts = [
+        ["anonymous id", anonymousCrackerId],
+        ["mapped from", `${meta.timezone} (${entry.coordinateSource})`],
+        ["local time", meta.localTime],
+        ["browser", meta.browser],
+        ["platform", meta.platform],
+        ["screen", meta.screen],
+        ["viewport", meta.viewport],
+        ["language", meta.language],
+        ["connection", meta.connection],
+        ["CPU threads", meta.cores],
+        ["memory hint", meta.deviceMemory],
+        ["touch points", meta.touchPoints],
+        ["cookies", meta.cookies],
+        ["do not track", meta.doNotTrack],
+        ["referrer", meta.referrer],
+        ["this browser", `${entry.count} successful unlock(s)`],
+      ];
+
+      visitorFacts.replaceChildren(
+        ...facts.flatMap(([label, value]) => {
+          const term = document.createElement("dt");
+          const detail = document.createElement("dd");
+          term.textContent = label;
+          detail.textContent = value;
+          return [term, detail];
+        }),
+      );
+      visitorPanel.hidden = false;
+    };
+
+    const sendUnlockAnalytics = (entry, meta, anonymousCrackerId) => {
+      if (typeof gtag !== "function") return;
 
       gtag("event", "secret_page_unlock", {
         event_category: "secret_page",
@@ -300,22 +422,20 @@ search: false
         unlock_timezone: entry.timezone,
         unlock_local_time: entry.lastLocalTime,
         unlock_count_for_browser: entry.count,
+        visitor_browser: meta.browser,
+        visitor_platform: meta.platform,
+        visitor_language: meta.language,
+        visitor_screen: meta.screen,
+        visitor_connection: meta.connection,
       });
     };
 
-    const recordUnlock = () => {
-      const timezone =
-        Intl.DateTimeFormat().resolvedOptions().timeZone || "local time";
+    const recordUnlock = (meta) => {
       const now = new Date();
-      const localTime = now.toLocaleString(undefined, {
-        dateStyle: "medium",
-        timeStyle: "short",
-        timeZoneName: "short",
-      });
       const browserId = getBrowserId();
-      const coordinates = timezoneCoordinates[timezone] || fallbackCoordinates();
+      const { coordinates, source } = getCoordinates(meta.timezone);
       const entries = getLog();
-      const id = `${browserId}|${timezone}`;
+      const id = `${browserId}|${meta.timezone}`;
       const existing = entries.find((entry) => entry.id === id);
       let activeEntry = existing;
 
@@ -323,20 +443,24 @@ search: false
         existing.browserId = existing.browserId || browserId;
         existing.label = "you";
         existing.coordinates = existing.coordinates || coordinates;
+        existing.coordinateSource = existing.coordinateSource || source;
         existing.count += 1;
-        existing.lastLocalTime = localTime;
+        existing.lastLocalTime = meta.localTime;
         existing.lastIso = now.toISOString();
+        existing.meta = meta;
       } else {
         activeEntry = {
           id,
           browserId,
           label: "you",
-          timezone,
+          timezone: meta.timezone,
+          coordinateSource: source,
           count: 1,
-          firstLocalTime: localTime,
-          lastLocalTime: localTime,
+          firstLocalTime: meta.localTime,
+          lastLocalTime: meta.localTime,
           lastIso: now.toISOString(),
           coordinates,
+          meta,
         };
         entries.push(activeEntry);
       }
@@ -353,7 +477,7 @@ search: false
 
       entries
         .slice()
-        .sort((a, b) => b.lastIso.localeCompare(a.lastIso))
+        .sort((a, b) => (b.lastIso || "").localeCompare(a.lastIso || ""))
         .forEach((entry) => {
           const visitorLabel = entry.label || entry.handle || "you";
           const [x, y] = projectPoint(entry.coordinates);
@@ -377,8 +501,7 @@ search: false
           const row = document.createElement("tr");
           [
             visitorLabel,
-            entry.timezone,
-            entry.firstLocalTime,
+            `${entry.timezone} (${entry.coordinateSource || "timezone"})`,
             entry.lastLocalTime,
             `${entry.count}`,
           ].forEach((value) => {
@@ -393,7 +516,7 @@ search: false
     };
 
     const unlock = async (password) => {
-      message.textContent = "checking...";
+      message.textContent = "checking access...";
 
       try {
         const key = await deriveKey(
@@ -409,35 +532,46 @@ search: false
           b64ToBytes(payload.textContent),
         );
 
-        content.innerHTML = new TextDecoder().decode(decrypted);
-        content.hidden = false;
-        const unlockRecord = recordUnlock();
-      renderMap(unlockRecord.entries);
-        sendUnlockAnalytics(unlockRecord.activeEntry);
         sessionStorage.removeItem(passwordKey);
-        form.remove();
+        secretCopy.innerHTML = new TextDecoder().decode(decrypted);
+        secretCopy.hidden = false;
+
+        const visitorMeta = collectVisitorMeta();
+        const unlockRecord = recordUnlock(visitorMeta);
+        const anonymousCrackerId = await hashText(
+          unlockRecord.activeEntry.browserId,
+        );
+
+        renderVisitorPanel(
+          unlockRecord.activeEntry,
+          visitorMeta,
+          anonymousCrackerId,
+        );
+        renderMap(unlockRecord.entries);
+        sendUnlockAnalytics(
+          unlockRecord.activeEntry,
+          visitorMeta,
+          anonymousCrackerId,
+        );
+
+        message.textContent = "access granted. browser crumbs collected.";
+        message.classList.add("is-unlocked");
       } catch {
         sessionStorage.removeItem(passwordKey);
-        message.textContent = "wrong password";
-        passwordInput.select();
+        message.innerHTML =
+          'wrong password. go back to the <a href="{{ "/blog/" | relative_url }}">blog page</a> and try the dog again.';
       }
     };
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      unlock(passwordInput.value);
-    });
-
     const storedPassword = sessionStorage.getItem(passwordKey);
+
     if (storedPassword) {
-      passwordInput.value = storedPassword;
       unlock(storedPassword);
+    } else {
+      message.innerHTML =
+        'locked. enter through the dog on the <a href="{{ "/blog/" | relative_url }}">blog page</a>.';
     }
   })();
 </script>
 
-<noscript>This note needs JavaScript to unlock.</noscript>
-
----
-
-Last updated: May 13, 2026.
+<noscript>This page needs JavaScript to unlock.</noscript>

@@ -120,7 +120,7 @@ pagination:
   <div class="header-bar">
     <h1 class="blog-secret-title">
       {{ site.blog_name }}
-      <button id="sirui-secret-dog" class="sirui-secret-dog" type="button" aria-label="unlock sirui research thoughts">
+      <button id="sirui-secret-dog" class="sirui-secret-dog" type="button" aria-label="unlock sirui's secrets">
         <img src="{{ '/assets/img/meme_dog.png' | relative_url }}" alt="">
       </button>
     </h1>
