@@ -183,73 +183,212 @@ pagination:
       outline-offset: 0.18em;
     }
 
-    @keyframes sirui-dog-chaos {
+    @keyframes sirui-dog-curious {
       0% {
+        filter: saturate(1) drop-shadow(0 0 0 transparent);
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+
+      12% {
+        transform: translateY(0.02em) rotate(-4deg) scale(0.97);
+      }
+
+      38% {
+        filter: saturate(1.08) drop-shadow(0 0.08rem 0.16rem rgba(0, 0, 0, 0.12));
+        transform: translateY(-0.02em) rotate(14deg) scale(1.08);
+      }
+
+      68% {
+        transform: translateY(-0.01em) rotate(10deg) scale(1.05);
+      }
+
+      100% {
+        filter: saturate(1.12) drop-shadow(0 0.1rem 0.2rem rgba(0, 0, 0, 0.14));
+        transform: translateY(-0.01em) rotate(12deg) scale(1.06);
+      }
+    }
+
+    @keyframes sirui-dog-suspicious {
+      0%,
+      100% {
+        filter: saturate(1) drop-shadow(0 0 0 transparent);
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+      }
+
+      16% {
+        transform: translateX(0) translateY(0.025em) rotate(2deg) scale(0.96);
+      }
+
+      34%,
+      48% {
+        filter: saturate(1.08) drop-shadow(0 0.09rem 0.18rem rgba(0, 0, 0, 0.13));
+        transform: translateX(-0.045em) translateY(-0.02em) rotate(-9deg) scale(1.09);
+      }
+
+      58% {
+        transform: translateX(0.035em) translateY(-0.02em) rotate(6deg) scale(1.07);
+      }
+
+      69% {
+        transform: translateX(-0.025em) translateY(-0.015em) rotate(-5deg) scale(1.06);
+      }
+
+      80% {
+        transform: translateX(0.015em) translateY(-0.01em) rotate(3deg) scale(1.04);
+      }
+    }
+
+    @keyframes sirui-dog-wiggle {
+      0%,
+      100% {
         filter: saturate(1) drop-shadow(0 0 0 transparent);
         transform: rotate(0deg) scale(1);
       }
 
-      12% {
-        transform: rotate(-18deg) scale(1.12);
+      10% {
+        transform: rotate(0deg) scale(0.97, 1.03);
       }
 
-      24% {
-        transform: rotate(18deg) scale(1.08);
+      26% {
+        transform: rotate(-16deg) scale(1.08, 0.96);
       }
 
-      36% {
-        transform: rotate(-14deg) scale(1.16);
+      43% {
+        filter: saturate(1.1) drop-shadow(0 0.1rem 0.18rem rgba(0, 0, 0, 0.14));
+        transform: rotate(15deg) scale(0.98, 1.08);
       }
 
-      50% {
-        filter: saturate(1.25)
-          drop-shadow(0 0.18rem 0.28rem rgba(0, 0, 0, 0.2));
-        transform: rotate(380deg) scale(1.18);
+      60% {
+        transform: rotate(-10deg) scale(1.05, 0.98);
       }
 
-      66% {
-        transform: rotate(335deg) scale(0.98);
+      78% {
+        transform: rotate(5deg) scale(1.02);
+      }
+    }
+
+    @keyframes sirui-dog-victory-roll {
+      0% {
+        filter: saturate(1) drop-shadow(0 0 0 transparent);
+        transform: translateY(0) rotate(0deg) scale(1);
       }
 
-      82% {
-        transform: rotate(720deg) scale(1.2);
+      14% {
+        transform: translateY(0.02em) rotate(-8deg) scale(0.95);
+      }
+
+      54% {
+        filter: saturate(1.16) drop-shadow(0 0.12rem 0.22rem rgba(0, 0, 0, 0.16));
+        transform: translateY(-0.07em) rotate(370deg) scale(1.12);
+      }
+
+      74% {
+        transform: translateY(0.025em) rotate(354deg) scale(0.98);
+      }
+
+      88% {
+        transform: translateY(-0.015em) rotate(363deg) scale(1.05);
       }
 
       100% {
-        filter: saturate(1.12)
-          drop-shadow(0 0.08rem 0.18rem rgba(0, 0, 0, 0.16));
-        transform: rotate(705deg) scale(1.12);
+        filter: saturate(1.08) drop-shadow(0 0.07rem 0.14rem rgba(0, 0, 0, 0.12));
+        transform: translateY(0) rotate(360deg) scale(1.03);
+      }
+    }
+
+    @keyframes sirui-dog-glitch-secret {
+      0%,
+      100% {
+        filter: saturate(1) hue-rotate(0deg) drop-shadow(0 0 0 transparent);
+        transform: translate(0, 0) rotate(0deg) scale(1);
+      }
+
+      12% {
+        transform: translateY(0.02em) rotate(-3deg) scale(0.95);
+      }
+
+      25% {
+        filter: saturate(1.45) hue-rotate(10deg)
+          drop-shadow(0 0 0.24rem rgba(199, 0, 194, 0.36));
+        transform: translate(-0.035em, -0.025em) rotate(8deg) scale(1.18);
+      }
+
+      34% {
+        transform: translate(0.04em, 0.015em) rotate(-7deg) scale(1.08);
+      }
+
+      46% {
+        filter: saturate(1.6) hue-rotate(-12deg)
+          drop-shadow(0 0 0.3rem rgba(199, 0, 194, 0.42));
+        transform: translate(-0.025em, -0.04em) rotate(378deg) scale(1.16);
+      }
+
+      63% {
+        transform: translate(0.015em, 0.015em) rotate(356deg) scale(0.98);
+      }
+
+      82% {
+        filter: saturate(1.18) hue-rotate(0deg)
+          drop-shadow(0 0.08rem 0.18rem rgba(0, 0, 0, 0.15));
+        transform: translateY(-0.01em) rotate(362deg) scale(1.06);
       }
     }
 
     @keyframes sirui-dog-boop {
       0% {
-        transform: rotate(0deg) scale(1);
+        filter: saturate(1) drop-shadow(0 0 0 transparent);
+        transform: translateY(0) rotate(0deg) scale(1);
       }
 
-      35% {
-        transform: rotate(-16deg) scale(1.22);
+      18% {
+        transform: translateY(0.025em) rotate(-6deg) scale(0.94);
       }
 
-      70% {
-        transform: rotate(360deg) scale(0.98);
+      46% {
+        filter: saturate(1.16) drop-shadow(0 0.12rem 0.22rem rgba(0, 0, 0, 0.16));
+        transform: translateY(-0.045em) rotate(18deg) scale(1.18);
+      }
+
+      68% {
+        transform: translateY(0.01em) rotate(-8deg) scale(0.99);
+      }
+
+      84% {
+        transform: translateY(-0.015em) rotate(4deg) scale(1.07);
       }
 
       100% {
-        transform: rotate(372deg) scale(1.08);
+        filter: saturate(1.08) drop-shadow(0 0.06rem 0.12rem rgba(0, 0, 0, 0.11));
+        transform: translateY(0) rotate(0deg) scale(1.03);
       }
     }
 
     @media (hover: hover) and (pointer: fine) {
-      .sirui-secret-dog:hover img,
-      .sirui-secret-dog:focus-visible img {
-        animation: sirui-dog-chaos 1.35s cubic-bezier(0.34, 1.56, 0.64, 1)
-          infinite;
+      .sirui-secret-dog.is-curious img {
+        animation: sirui-dog-curious 1.55s ease-in-out infinite alternate;
+      }
+
+      .sirui-secret-dog.is-suspicious img {
+        animation: sirui-dog-suspicious 1.45s ease-in-out infinite;
+      }
+
+      .sirui-secret-dog.is-wiggle img {
+        animation: sirui-dog-wiggle 1.08s cubic-bezier(0.34, 1.56, 0.64, 1)
+          both;
+      }
+
+      .sirui-secret-dog.is-victory-roll img {
+        animation: sirui-dog-victory-roll 1.42s cubic-bezier(0.22, 1, 0.36, 1)
+          both;
+      }
+
+      .sirui-secret-dog.is-glitch-secret img {
+        animation: sirui-dog-glitch-secret 1.18s steps(2, end) both;
       }
     }
 
     .sirui-secret-dog.is-booping img {
-      animation: sirui-dog-boop 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: sirui-dog-boop 780ms cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .sirui-secret-dialog[hidden] {
@@ -360,8 +499,11 @@ pagination:
 
     @media (prefers-reduced-motion: reduce) {
       .sirui-secret-dog img,
-      .sirui-secret-dog:hover img,
-      .sirui-secret-dog:focus-visible img,
+      .sirui-secret-dog.is-curious img,
+      .sirui-secret-dog.is-suspicious img,
+      .sirui-secret-dog.is-wiggle img,
+      .sirui-secret-dog.is-victory-roll img,
+      .sirui-secret-dog.is-glitch-secret img,
       .sirui-secret-dog.is-booping img {
         animation: none;
         transition: none;
@@ -380,11 +522,57 @@ pagination:
 
       if (!dog || !dialog || !closeButton || !form || !password) return;
 
+      const animationClasses = [
+        "is-curious",
+        "is-curious",
+        "is-suspicious",
+        "is-suspicious",
+        "is-wiggle",
+        "is-wiggle",
+        "is-victory-roll",
+        "is-glitch-secret",
+      ];
+      const animationClassSet = new Set(animationClasses);
+      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let activeDogAnimation = "";
+      let dogResetTimer;
+
+      const clearDogAnimation = () => {
+        animationClassSet.forEach((className) => dog.classList.remove(className));
+        activeDogAnimation = "";
+      };
+
+      const pickDogAnimation = () =>
+        animationClasses[Math.floor(Math.random() * animationClasses.length)];
+
+      const startDogHoverAnimation = () => {
+        window.clearTimeout(dogResetTimer);
+
+        if (!finePointer.matches || reducedMotion.matches || activeDogAnimation) {
+          return;
+        }
+
+        clearDogAnimation();
+        activeDogAnimation = pickDogAnimation();
+        dog.classList.add(activeDogAnimation);
+      };
+
+      const stopDogHoverAnimation = () => {
+        if (!activeDogAnimation) return;
+
+        window.clearTimeout(dogResetTimer);
+        dogResetTimer = window.setTimeout(clearDogAnimation, 140);
+      };
+
       const boopDog = () => {
+        if (reducedMotion.matches) return;
+
+        window.clearTimeout(dogResetTimer);
         dog.classList.remove("is-booping");
         void dog.offsetWidth;
         dog.classList.add("is-booping");
-        window.setTimeout(() => dog.classList.remove("is-booping"), 560);
+        window.setTimeout(() => dog.classList.remove("is-booping"), 820);
       };
 
       const openDialog = () => {
@@ -400,6 +588,10 @@ pagination:
         dialog.hidden = true;
       };
 
+      dog.addEventListener("pointerenter", startDogHoverAnimation);
+      dog.addEventListener("pointerleave", stopDogHoverAnimation);
+      dog.addEventListener("focus", startDogHoverAnimation);
+      dog.addEventListener("blur", stopDogHoverAnimation);
       dog.addEventListener("click", openDialog);
       closeButton.addEventListener("click", closeDialog);
       dialog.addEventListener("click", (event) => {
