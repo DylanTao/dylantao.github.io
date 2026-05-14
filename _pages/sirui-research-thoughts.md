@@ -5,6 +5,7 @@ description: A tiny locked corner.
 permalink: /blog/2026/sirui-research-thoughts/
 sitemap: false
 search: false
+secret_globe: true
 ---
 
 <div
@@ -29,56 +30,70 @@ search: false
       </div>
 
       <div class="sirui-map-stage">
-        <svg
-          class="sirui-world-map"
-          viewBox="0 0 1000 520"
+        <div
+          id="sirui-globe"
+          class="sirui-globe-canvas"
           role="img"
-          aria-labelledby="sirui-world-title sirui-world-desc"
-        >
-          <title id="sirui-world-title">where-ish visitor map</title>
-          <desc id="sirui-world-desc">
-            A timezone-based map showing this browser's local unlock history.
-          </desc>
-          <defs>
-            <pattern id="sirui-map-grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50"></path>
-            </pattern>
-          </defs>
-          <rect class="sirui-map-bg" width="1000" height="520" rx="8"></rect>
-          <rect class="sirui-map-grid-fill" width="1000" height="520" rx="8"></rect>
-          <g class="sirui-map-longitudes" aria-hidden="true">
-            <line x1="125" y1="26" x2="125" y2="494"></line>
-            <line x1="250" y1="26" x2="250" y2="494"></line>
-            <line x1="375" y1="26" x2="375" y2="494"></line>
-            <line x1="500" y1="26" x2="500" y2="494"></line>
-            <line x1="625" y1="26" x2="625" y2="494"></line>
-            <line x1="750" y1="26" x2="750" y2="494"></line>
-            <line x1="875" y1="26" x2="875" y2="494"></line>
-          </g>
-          <g class="sirui-map-latitudes" aria-hidden="true">
-            <line x1="28" y1="130" x2="972" y2="130"></line>
-            <line x1="28" y1="260" x2="972" y2="260"></line>
-            <line x1="28" y1="390" x2="972" y2="390"></line>
-          </g>
-          <path
-            class="sirui-map-land"
-            d="M142 130 211 98 284 116 304 170 252 210 208 186 166 228 111 202 92 158z"
-          ></path>
-          <path
-            class="sirui-map-land"
-            d="M258 246 316 280 344 358 304 444 254 416 235 344 203 306z"
-          ></path>
-          <path
-            class="sirui-map-land"
-            d="M455 118 552 91 632 118 704 105 809 151 890 178 856 236 752 220 694 250 615 222 542 239 477 205z"
-          ></path>
-          <path
-            class="sirui-map-land"
-            d="M511 247 590 236 642 283 627 370 572 436 528 385 493 315z"
-          ></path>
-          <path class="sirui-map-land" d="M778 337 842 328 887 374 860 425 790 407 756 365z"></path>
-          <g id="sirui-map-markers"></g>
-        </svg>
+          aria-describedby="sirui-globe-status"
+          aria-label="3D where-ish visitor globe"
+        ></div>
+
+        <p id="sirui-globe-status" class="sr-only" aria-live="polite">
+          Waiting for the where-ish signal.
+        </p>
+
+        <div id="sirui-map-fallback" class="sirui-map-fallback" hidden>
+          <svg
+            class="sirui-world-map"
+            viewBox="0 0 1000 520"
+            role="img"
+            aria-labelledby="sirui-world-title sirui-world-desc"
+          >
+            <title id="sirui-world-title">where-ish visitor map</title>
+            <desc id="sirui-world-desc">
+              A timezone-based map showing this browser's local unlock history.
+            </desc>
+            <defs>
+              <pattern id="sirui-map-grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                <path d="M 50 0 L 0 0 0 50"></path>
+              </pattern>
+            </defs>
+            <rect class="sirui-map-bg" width="1000" height="520" rx="8"></rect>
+            <rect class="sirui-map-grid-fill" width="1000" height="520" rx="8"></rect>
+            <g class="sirui-map-longitudes" aria-hidden="true">
+              <line x1="125" y1="26" x2="125" y2="494"></line>
+              <line x1="250" y1="26" x2="250" y2="494"></line>
+              <line x1="375" y1="26" x2="375" y2="494"></line>
+              <line x1="500" y1="26" x2="500" y2="494"></line>
+              <line x1="625" y1="26" x2="625" y2="494"></line>
+              <line x1="750" y1="26" x2="750" y2="494"></line>
+              <line x1="875" y1="26" x2="875" y2="494"></line>
+            </g>
+            <g class="sirui-map-latitudes" aria-hidden="true">
+              <line x1="28" y1="130" x2="972" y2="130"></line>
+              <line x1="28" y1="260" x2="972" y2="260"></line>
+              <line x1="28" y1="390" x2="972" y2="390"></line>
+            </g>
+            <path
+              class="sirui-map-land"
+              d="M142 130 211 98 284 116 304 170 252 210 208 186 166 228 111 202 92 158z"
+            ></path>
+            <path
+              class="sirui-map-land"
+              d="M258 246 316 280 344 358 304 444 254 416 235 344 203 306z"
+            ></path>
+            <path
+              class="sirui-map-land"
+              d="M455 118 552 91 632 118 704 105 809 151 890 178 856 236 752 220 694 250 615 222 542 239 477 205z"
+            ></path>
+            <path
+              class="sirui-map-land"
+              d="M511 247 590 236 642 283 627 370 572 436 528 385 493 315z"
+            ></path>
+            <path class="sirui-map-land" d="M778 337 842 328 887 374 860 425 790 407 756 365z"></path>
+            <g id="sirui-map-markers"></g>
+          </svg>
+        </div>
 
         <div class="sirui-map-scanline" aria-hidden="true"></div>
 
@@ -149,6 +164,7 @@ search: false
     --sirui-console-bg: #10130f;
     --sirui-console-panel: rgba(246, 252, 241, 0.08);
     --sirui-console-border: rgba(190, 244, 155, 0.24);
+    --sirui-console-cyan: #70d8ff;
     --sirui-console-grid: rgba(142, 234, 98, 0.13);
     --sirui-console-land: rgba(142, 234, 98, 0.22);
     --sirui-console-accent: #8eea62;
@@ -183,7 +199,7 @@ search: false
 
   .sirui-map-topline h2 {
     color: var(--sirui-console-text);
-    font-size: clamp(2rem, 7vw, 4.85rem);
+    font-size: 4.4rem;
     line-height: 0.92;
     margin: 0;
   }
@@ -206,8 +222,53 @@ search: false
   }
 
   .sirui-map-stage {
+    isolation: isolate;
     margin-top: 1rem;
     position: relative;
+  }
+
+  .sirui-globe-canvas,
+  .sirui-map-fallback {
+    background:
+      radial-gradient(circle at 50% 42%, rgba(112, 216, 255, 0.18), transparent 26rem),
+      radial-gradient(circle at 72% 18%, rgba(255, 79, 154, 0.12), transparent 18rem),
+      #050806;
+    border: 1px solid rgba(244, 248, 239, 0.16);
+    border-radius: 0.5rem;
+    min-height: 25rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sirui-globe-canvas {
+    height: 38rem;
+  }
+
+  .sirui-globe-canvas canvas {
+    display: block;
+  }
+
+  .sirui-globe-canvas::after,
+  .sirui-map-fallback::after {
+    background:
+      linear-gradient(rgba(244, 248, 239, 0.035) 50%, transparent 50%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent 12%, transparent 88%, rgba(255, 255, 255, 0.035));
+    background-size:
+      100% 4px,
+      100% 100%;
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .sirui-globe-canvas.is-fallback {
+    display: none;
+  }
+
+  .sirui-map-fallback[hidden] {
+    display: none;
   }
 
   .sirui-world-map {
@@ -267,8 +328,89 @@ search: false
     }
 
     100% {
-      transform: translateY(41rem);
+      transform: translateY(44rem);
     }
+  }
+
+  .sirui-globe-marker {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--sirui-console-text);
+    cursor: pointer;
+    display: flex;
+    gap: 0.38rem;
+    letter-spacing: 0;
+    padding: 0;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+
+  .sirui-globe-marker:focus-visible {
+    outline: 2px solid var(--sirui-console-cyan);
+    outline-offset: 4px;
+  }
+
+  .sirui-globe-marker-dot {
+    background: var(--sirui-console-accent);
+    border: 2px solid var(--sirui-console-bg);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 0.35rem rgba(142, 234, 98, 0.16),
+      0 0 1.2rem rgba(112, 216, 255, 0.55);
+    display: block;
+    height: 0.72rem;
+    position: relative;
+    width: 0.72rem;
+  }
+
+  .sirui-globe-marker.is-active .sirui-globe-marker-dot,
+  .sirui-globe-marker:hover .sirui-globe-marker-dot,
+  .sirui-globe-marker:focus-visible .sirui-globe-marker-dot {
+    background: var(--sirui-console-hot);
+    box-shadow:
+      0 0 0 0.45rem rgba(255, 79, 154, 0.18),
+      0 0 1.35rem rgba(255, 79, 154, 0.7);
+  }
+
+  .sirui-globe-marker.is-current .sirui-globe-marker-dot::after {
+    animation: sirui-marker-pulse 2.2s ease-out infinite;
+    border: 2px solid var(--sirui-console-hot);
+    border-radius: 50%;
+    content: "";
+    inset: -0.5rem;
+    opacity: 0.8;
+    position: absolute;
+  }
+
+  .sirui-globe-marker-label {
+    background: rgba(5, 8, 6, 0.68);
+    border: 1px solid rgba(244, 248, 239, 0.16);
+    border-radius: 999px;
+    color: var(--sirui-console-text);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.28rem 0.45rem;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  .sirui-map-stage.is-zoom-far .sirui-globe-marker:not(.is-current) .sirui-globe-marker-label,
+  .sirui-map-stage.is-zoom-far .sirui-globe-marker:not(.is-current) {
+    opacity: 0.58;
+  }
+
+  .sirui-map-stage.is-zoom-far .sirui-globe-marker:not(.is-current) .sirui-globe-marker-label,
+  .sirui-map-stage.is-zoom-mid .sirui-globe-marker:not(.is-active) .sirui-globe-marker-count {
+    opacity: 0;
+    transform: translateY(0.2rem);
+  }
+
+  .sirui-globe-marker-count {
+    color: var(--sirui-console-cyan);
   }
 
   .sirui-map-marker-group {
@@ -341,6 +483,7 @@ search: false
     overflow-wrap: anywhere;
     padding: 0.9rem;
     position: absolute;
+    z-index: 3;
   }
 
   .sirui-map-readout {
@@ -463,6 +606,14 @@ search: false
       padding: 0.85rem;
     }
 
+    .sirui-map-topline h2 {
+      font-size: 2.75rem;
+    }
+
+    .sirui-globe-canvas {
+      height: 30rem;
+    }
+
     .sirui-map-readout,
     .sirui-marker-card {
       margin-top: 0.75rem;
@@ -485,6 +636,10 @@ search: false
       font-size: 2.25rem;
     }
 
+    .sirui-globe-canvas {
+      height: 25rem;
+    }
+
     .sirui-map-note {
       font-size: 0.86rem;
     }
@@ -497,7 +652,8 @@ search: false
 
   @media (prefers-reduced-motion: reduce) {
     .sirui-map-scanline,
-    .sirui-map-marker-pulse {
+    .sirui-map-marker-pulse,
+    .sirui-globe-marker.is-current .sirui-globe-marker-dot::after {
       animation: none;
     }
 
@@ -515,6 +671,10 @@ search: false
     const secretCopy = document.getElementById("sirui-secret-copy");
     const secretNote = document.getElementById("sirui-secret-note-wrap");
     const map = document.getElementById("sirui-crack-map");
+    const mapStage = map?.querySelector(".sirui-map-stage");
+    const globeElement = document.getElementById("sirui-globe");
+    const globeStatus = document.getElementById("sirui-globe-status");
+    const mapFallback = document.getElementById("sirui-map-fallback");
     const markerLayer = document.getElementById("sirui-map-markers");
     const markerCard = document.getElementById("sirui-marker-card");
     const markerTitle = document.getElementById("sirui-marker-title");
@@ -527,8 +687,16 @@ search: false
     const logKey = "siruiResearchThoughtsCrackLog";
     const browserIdKey = "siruiResearchThoughtsBrowserId";
     const passwordKey = "siruiResearchThoughtsPassword";
-    const readoutVersion = "map_v1";
+    const readoutVersion = "globe_v1";
     const svgNamespace = "http://www.w3.org/2000/svg";
+    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_dark }}";
+    const globeBumpUrl = "{{ site.third_party_libraries.three-globe.url.earth_topology }}";
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+
+    let globeInstance = null;
+    let globeResizeObserver = null;
 
     const b64ToBytes = (value) =>
       Uint8Array.from(atob(value.replace(/\s/g, "")), (char) =>
@@ -743,19 +911,26 @@ search: false
       const place = timezonePlaces[timezone];
 
       if (place) {
+        const [lng, lat] = place.coordinates;
+
         return {
           ...place,
+          lat,
+          lng,
           source: "timezone match",
+          timezone,
         };
       }
 
       return null;
     };
 
-    const projectPoint = ([longitude, latitude]) => [
-      ((longitude + 180) / 360) * 1000,
-      ((90 - latitude) / 180) * 520,
-    ];
+    const projectPoint = (entry) => {
+      const longitude = Number(entry.lng);
+      const latitude = Number(entry.lat);
+
+      return [((longitude + 180) / 360) * 1000, ((90 - latitude) / 180) * 520];
+    };
 
     const safeLocalGet = (key) => {
       try {
@@ -907,7 +1082,7 @@ search: false
           secret_id: "sirui_research_thoughts",
           unlock_method: "dog_password",
           unlock_timezone: entry.timezone || "unknown",
-          unlock_count_for_browser: Number(entry.count) || 1,
+          unlock_count_for_browser: Number(entry.browserUnlockCount || entry.count) || 1,
           readout_version: readoutVersion,
         };
 
@@ -925,8 +1100,10 @@ search: false
       place
         ? {
             city: place.city,
-            coordinates: place.coordinates,
             country: place.country,
+            lat: place.lat,
+            lng: place.lng,
+            timezone: place.timezone,
           }
         : null;
 
@@ -943,11 +1120,13 @@ search: false
         existing.browserId = existing.browserId || browserId;
         existing.label = "you";
         if (place) {
-          existing.coordinates = place.coordinates;
           existing.coordinateSource = place.source;
+          existing.lat = place.lat;
+          existing.lng = place.lng;
           existing.place = placeSnapshot(place);
         } else if (existing.coordinateSource !== "timezone match") {
-          delete existing.coordinates;
+          delete existing.lat;
+          delete existing.lng;
           existing.coordinateSource = "";
           existing.place = null;
         }
@@ -966,12 +1145,18 @@ search: false
           firstLocalTime: meta.localTime,
           lastLocalTime: meta.localTime,
           lastIso: now.toISOString(),
-          coordinates: place?.coordinates,
+          lat: place?.lat,
+          lng: place?.lng,
           meta,
           place: placeSnapshot(place),
         };
         entries.push(activeEntry);
       }
+
+      const browserUnlockCount = entries
+        .filter((entry) => !entry.browserId || entry.browserId === browserId)
+        .reduce((total, entry) => total + (Number(entry.count) || 0), 0);
+      activeEntry.browserUnlockCount = browserUnlockCount;
 
       saveLog(entries);
       return { entries, activeEntry };
@@ -985,18 +1170,33 @@ search: false
     };
 
     const normalizeEntry = (entry) => {
-      const place = entry.place?.coordinates
-        ? {
-            ...entry.place,
-            source: "timezone match",
-          }
-        : getPlace(entry.timezone);
+      const legacyCoordinates =
+        entry.place?.coordinates || entry.coordinates || null;
+      const storedPlace =
+        Number.isFinite(Number(entry.place?.lat)) &&
+        Number.isFinite(Number(entry.place?.lng))
+          ? {
+              ...entry.place,
+              source: "timezone match",
+            }
+          : Array.isArray(legacyCoordinates)
+            ? {
+                city: entry.place?.city,
+                country: entry.place?.country,
+                lat: legacyCoordinates[1],
+                lng: legacyCoordinates[0],
+                source: "timezone match",
+                timezone: entry.timezone,
+              }
+            : null;
+      const place = storedPlace || getPlace(entry.timezone);
 
       if (place) {
         return {
           ...entry,
           coordinateSource: "timezone match",
-          coordinates: place.coordinates,
+          lat: place.lat,
+          lng: place.lng,
           place: placeSnapshot(place),
         };
       }
@@ -1004,7 +1204,8 @@ search: false
       return {
         ...entry,
         coordinateSource: "",
-        coordinates: null,
+        lat: null,
+        lng: null,
         place: null,
       };
     };
@@ -1057,7 +1258,8 @@ search: false
         ["timezone", timezoneLabel(entry)],
         ["last visit", entry.lastLocalTime],
         ["first visit", entry.firstLocalTime],
-        ["this browser", formatUnlockCount(entry.count)],
+        ["this browser", formatUnlockCount(entry.browserUnlockCount || entry.count)],
+        ["this place", formatUnlockCount(entry.count)],
         ["browser", meta.browser],
         ["platform", meta.platform],
         ["language", meta.language],
@@ -1077,15 +1279,16 @@ search: false
       setText(mapPlace, whereLabel(entry));
       setText(mapTimezone, timezoneLabel(entry));
       setText(mapTime, entry?.lastLocalTime);
-      setText(mapCount, formatUnlockCount(entry?.count));
+      setText(mapCount, formatUnlockCount(entry?.browserUnlockCount || entry?.count));
     };
 
     const setActiveMarker = (id) => {
-      markerLayer
-        ?.querySelectorAll(".sirui-map-marker-group")
-        .forEach((marker) =>
-          marker.classList.toggle("is-active", marker.dataset.entryId === id),
-        );
+      document
+        .querySelectorAll(".sirui-map-marker-group, .sirui-globe-marker")
+        .forEach((marker) => {
+          marker.classList.toggle("is-active", marker.dataset.entryId === id);
+          marker.classList.toggle("is-selected", marker.dataset.entryId === id);
+        });
     };
 
     let detailsPinned = false;
@@ -1126,7 +1329,7 @@ search: false
     };
 
     const renderMarker = (entry) => {
-      const [x, y] = projectPoint(entry.coordinates);
+      const [x, y] = projectPoint(entry);
       const label = shortPlaceLabel(entry);
       const group = svgElement("g", {
         "aria-label": `details for ${whereLabel(entry)}`,
@@ -1183,23 +1386,297 @@ search: false
       return group;
     };
 
-    const renderMap = (entries, activeEntry) => {
-      if (!map || !markerLayer) return;
+    const hasCoordinates = (entry) =>
+      Number.isFinite(Number(entry?.lat)) && Number.isFinite(Number(entry?.lng));
+
+    const setGlobeStatus = (value) => {
+      if (globeStatus) globeStatus.textContent = value;
+    };
+
+    const hasWebGl = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        return Boolean(
+          canvas.getContext("webgl2") ||
+            canvas.getContext("webgl") ||
+            canvas.getContext("experimental-webgl"),
+        );
+      } catch {
+        return false;
+      }
+    };
+
+    const waitForGlobe = () =>
+      new Promise((resolve) => {
+        if (typeof window.Globe === "function") {
+          resolve(window.Globe);
+          return;
+        }
+
+        const started = Date.now();
+        const interval = window.setInterval(() => {
+          if (typeof window.Globe === "function") {
+            window.clearInterval(interval);
+            resolve(window.Globe);
+          } else if (Date.now() - started > 3000) {
+            window.clearInterval(interval);
+            resolve(null);
+          }
+        }, 60);
+      });
+
+    const createGlobeMarker = (entry) => {
+      const button = document.createElement("button");
+      const dot = document.createElement("span");
+      const label = document.createElement("span");
+      const count = document.createElement("span");
+
+      button.type = "button";
+      button.className = "sirui-globe-marker";
+      button.dataset.entryId = entry.id;
+      button.setAttribute("aria-label", `details for ${whereLabel(entry)}`);
+      if (entry.isCurrent) button.classList.add("is-current", "is-active");
+
+      dot.className = "sirui-globe-marker-dot";
+      label.className = "sirui-globe-marker-label";
+      count.className = "sirui-globe-marker-count";
+      label.textContent = shortPlaceLabel(entry);
+      count.textContent = Number(entry.count) > 1 ? ` x${entry.count}` : "";
+      label.append(count);
+      button.append(dot, label);
+
+      button.addEventListener("mouseenter", () => showMarkerDetails(entry));
+      button.addEventListener("mouseleave", hideMarkerDetails);
+      button.addEventListener("focus", () => showMarkerDetails(entry));
+      button.addEventListener("blur", hideMarkerDetails);
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        showMarkerDetails(entry, { pinned: true });
+        if (globeInstance && hasCoordinates(entry)) {
+          globeInstance.pointOfView(
+            {
+              altitude: 0.82,
+              lat: entry.lat,
+              lng: entry.lng,
+            },
+            prefersReducedMotion.matches ? 0 : 900,
+          );
+        }
+      });
+
+      return button;
+    };
+
+    const buildUnlockArcs = (entries, activeEntry) => {
+      if (!hasCoordinates(activeEntry)) return [];
+
+      return entries
+        .filter((entry) => entry.id !== activeEntry.id && hasCoordinates(entry))
+        .slice(0, 7)
+        .map((entry) => ({
+          endLat: activeEntry.lat,
+          endLng: activeEntry.lng,
+          name: "local unlock trail",
+          startLat: entry.lat,
+          startLng: entry.lng,
+        }));
+    };
+
+    const applyZoomMode = (pov, activeEntry) => {
+      const altitude = Number(pov?.altitude) || 2.4;
+      const isFar = altitude > 2.05;
+      const isNear = altitude <= 1.05;
+
+      mapStage?.classList.toggle("is-zoom-far", isFar);
+      mapStage?.classList.toggle("is-zoom-mid", !isFar && !isNear);
+      mapStage?.classList.toggle("is-zoom-near", isNear);
+
+      if (isNear && hasCoordinates(activeEntry) && !detailsPinned) {
+        showMarkerDetails(activeEntry);
+      } else if (!detailsPinned && !isNear) {
+        hideMarkerDetails();
+      }
+    };
+
+    const resizeGlobe = () => {
+      if (!globeInstance || !globeElement) return;
+
+      const bounds = globeElement.getBoundingClientRect();
+      globeInstance.width(Math.max(320, Math.floor(bounds.width)));
+      globeInstance.height(Math.max(320, Math.floor(bounds.height)));
+    };
+
+    const renderGlobe = async (entries, activeEntry) => {
+      if (!globeElement || !hasWebGl()) return false;
+
+      const Globe = await waitForGlobe();
+      if (!Globe) return false;
+
+      try {
+        markerLayer?.replaceChildren();
+        if (mapFallback) mapFallback.hidden = true;
+        globeElement.classList.remove("is-fallback");
+        globeElement.replaceChildren();
+        if (globeResizeObserver) globeResizeObserver.disconnect();
+
+        const activePoint = hasCoordinates(activeEntry)
+          ? activeEntry
+          : entries.find(hasCoordinates);
+        const reducedMotion = prefersReducedMotion.matches;
+        const globe = new Globe(globeElement, {
+          animateIn: !reducedMotion,
+          rendererConfig: {
+            alpha: true,
+            antialias: true,
+          },
+          waitForGlobeReady: false,
+        });
+
+        globeInstance = globe;
+        resizeGlobe();
+
+        globe
+          .backgroundColor("rgba(0, 0, 0, 0)")
+          .showAtmosphere(true)
+          .atmosphereColor("#70d8ff")
+          .atmosphereAltitude(0.18)
+          .globeCurvatureResolution(3)
+          .pointsData(entries)
+          .pointLat("lat")
+          .pointLng("lng")
+          .pointAltitude((entry) => (entry.isCurrent ? 0.08 : 0.035))
+          .pointRadius((entry) => 0.18 + Math.min(Number(entry.count) || 1, 6) * 0.025)
+          .pointColor((entry) => (entry.isCurrent ? "#ff4f9a" : "#8eea62"))
+          .pointLabel((entry) => whereLabel(entry))
+          .pointsTransitionDuration(reducedMotion ? 0 : 700)
+          .ringsData(activePoint ? [activePoint] : [])
+          .ringLat("lat")
+          .ringLng("lng")
+          .ringAltitude(0.012)
+          .ringColor(() => "rgba(255, 79, 154, 0.78)")
+          .ringMaxRadius(3.2)
+          .ringPropagationSpeed(reducedMotion ? 0 : 1.4)
+          .ringRepeatPeriod(reducedMotion ? 0 : 1200)
+          .arcsData(buildUnlockArcs(entries, activeEntry))
+          .arcLabel("name")
+          .arcStartLat("startLat")
+          .arcStartLng("startLng")
+          .arcEndLat("endLat")
+          .arcEndLng("endLng")
+          .arcColor(() => ["rgba(112, 216, 255, 0.1)", "rgba(255, 79, 154, 0.8)"])
+          .arcAltitudeAutoScale(0.32)
+          .arcDashLength(0.36)
+          .arcDashGap(0.18)
+          .arcDashAnimateTime(reducedMotion ? 0 : 2600)
+          .arcStroke(0.34)
+          .htmlElementsData(entries)
+          .htmlLat("lat")
+          .htmlLng("lng")
+          .htmlAltitude(0.09)
+          .htmlElement(createGlobeMarker)
+          .htmlTransitionDuration(reducedMotion ? 0 : 700)
+          .htmlElementVisibilityModifier((element, isVisible) => {
+            element.style.opacity = isVisible ? "" : "0.12";
+            element.style.pointerEvents = isVisible ? "auto" : "none";
+            element.tabIndex = isVisible ? 0 : -1;
+          })
+          .onZoom((pov) => applyZoomMode(pov, activeEntry));
+
+        if (globeTextureUrl) globe.globeImageUrl(globeTextureUrl);
+        if (globeBumpUrl) globe.bumpImageUrl(globeBumpUrl);
+
+        const controls = globe.controls?.();
+        if (controls) {
+          controls.autoRotate = !reducedMotion;
+          controls.autoRotateSpeed = 0.28;
+          controls.enableDamping = true;
+        }
+
+        if (window.ResizeObserver) {
+          globeResizeObserver = new ResizeObserver(resizeGlobe);
+          globeResizeObserver.observe(globeElement);
+        } else {
+          window.addEventListener("resize", resizeGlobe, { passive: true });
+        }
+
+        applyZoomMode({ altitude: 2.45 }, activeEntry);
+
+        if (activePoint) {
+          globe.pointOfView(
+            {
+              altitude: reducedMotion ? 1.2 : 2.45,
+              lat: activePoint.lat,
+              lng: activePoint.lng,
+            },
+            0,
+          );
+          window.setTimeout(
+            () =>
+              globe.pointOfView(
+                {
+                  altitude: 1.18,
+                  lat: activePoint.lat,
+                  lng: activePoint.lng,
+                },
+                reducedMotion ? 0 : 1600,
+              ),
+            reducedMotion ? 0 : 300,
+          );
+        }
+
+        setGlobeStatus(
+          activePoint
+            ? `Signal acquired near ${whereLabel(activePoint)}.`
+            : "Signal acquired, but this timezone is not on the where-ish map yet.",
+        );
+
+        return true;
+      } catch (error) {
+        console.warn("secret page globe failed", error);
+        return false;
+      }
+    };
+
+    const renderFallbackMap = (entries) => {
+      if (!globeElement || !mapFallback || !markerLayer) return;
+
+      globeElement.classList.add("is-fallback");
+      mapFallback.hidden = false;
+      markerLayer.replaceChildren(...entries.map(renderMarker));
+      setGlobeStatus("Using the static where-ish fallback map.");
+    };
+
+    const renderMap = async (entries, activeEntry) => {
+      if (!map) return;
 
       const normalizedEntries = entries.map(normalizeEntry);
       const normalizedActive =
         normalizedEntries.find((entry) => entry.id === activeEntry.id) ||
         normalizeEntry(activeEntry);
       const mappableEntries = normalizedEntries
-        .filter((entry) => Array.isArray(entry.coordinates))
+        .filter(hasCoordinates)
         .slice()
         .sort((a, b) => (b.lastIso || "").localeCompare(a.lastIso || ""));
 
-      markerLayer.replaceChildren(...mappableEntries.map(renderMarker));
       clearPinnedDetails();
       renderReadout(normalizedActive);
 
       map.hidden = false;
+
+      const globeRendered = await renderGlobe(
+        mappableEntries.map((entry) => ({
+          ...entry,
+          isCurrent: entry.id === normalizedActive.id,
+        })),
+        {
+          ...normalizedActive,
+          isCurrent: true,
+        },
+      );
+
+      if (!globeRendered) {
+        renderFallbackMap(mappableEntries);
+      }
     };
 
     const decryptSecret = async (password) => {
@@ -1240,8 +1717,8 @@ search: false
         const visitorMeta = collectVisitorMeta();
         const unlockRecord = recordUnlock(visitorMeta);
 
-        renderMap(unlockRecord.entries, unlockRecord.activeEntry);
         sendUnlockAnalytics(unlockRecord.activeEntry, visitorMeta);
+        await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
       } catch (error) {
         console.warn("secret page visitor readout failed", error);
       }

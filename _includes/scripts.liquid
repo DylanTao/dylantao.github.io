@@ -73,6 +73,15 @@
   <script defer src="{{ '/assets/js/leaflet-setup.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
 
+{% if page.secret_globe %}
+  <!-- Globe.GL -->
+  <script
+    defer
+    src="{{ site.third_party_libraries.globe-gl.url.js }}"
+    crossorigin="anonymous"
+  ></script>
+{% endif %}
+
 {% if page.chart and page.chart.chartjs %}
   <!-- Chart.js -->
   <script

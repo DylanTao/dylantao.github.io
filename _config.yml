@@ -473,6 +473,10 @@ third_party_libraries:
   google_fonts:
     url:
       fonts: "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&display=swap"
+  globe-gl:
+    url:
+      js: "https://cdn.jsdelivr.net/npm/globe.gl@{{version}}/dist/globe.gl.min.js"
+    version: "2.45.3"
   highlightjs:
     integrity:
       css:
@@ -619,6 +623,11 @@ third_party_libraries:
     url:
       js: "https://cdn.jsdelivr.net/npm/swiper@11.1.0/swiper-element-bundle.min.js.map"
     version: "11.0.5"
+  three-globe:
+    url:
+      earth_dark: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-dark.jpg"
+      earth_topology: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-topology.png"
+    version: "2.45.2"
   vanilla-cookieconsent:
     integrity:
       css: "sha256-ygRrixsQlBByBZiOcJamh7JByO9fP+/l5UPtKNJmRsE="
