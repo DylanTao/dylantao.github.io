@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-research-skills-starter-pack",
+        },{id: "post-prototyping-to-understand-humans",
+        
+          title: "prototyping to understand humans",
+        
+        description: "Some working thoughts on good HCI research in the age of AI.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/prototyping-to-understand-humans/";
+          
+        },
+      },{id: "post-research-skills-starter-pack",
         
           title: "research skills starter pack",
         
