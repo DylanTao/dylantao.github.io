@@ -103,9 +103,11 @@ secret_globe: true
         <div class="sirui-map-scanline" aria-hidden="true"></div>
 
         <div class="sirui-sun-hud" aria-live="polite">
-          <span>sun track</span>
+          <span>orbit sim</span>
           <span id="sirui-sun-utc">UTC --</span>
-          <span id="sirui-sun-point">subsolar --</span>
+          <span id="sirui-orbit-clock">1x</span>
+          <span id="sirui-sun-point">sun --</span>
+          <span id="sirui-moon-point">moon --</span>
         </div>
       </div>
 
@@ -182,7 +184,10 @@ secret_globe: true
   }
 
   .sirui-crack-map {
-    margin-top: 1.25rem;
+    margin-left: 50%;
+    margin-top: 0.9rem;
+    transform: translateX(-50%);
+    width: min(94vw, 88rem);
   }
 
   .sirui-map-shell {
@@ -205,13 +210,23 @@ secret_globe: true
     border-radius: 0.5rem;
     box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.22);
     color: var(--sirui-console-text);
+    display: grid;
+    gap: 0.8rem;
+    grid-template-areas:
+      "top top"
+      "stage dock"
+      "foot foot";
+    grid-template-columns: minmax(0, 2.15fr) minmax(18rem, 0.85fr);
     overflow: hidden;
-    padding: clamp(1rem, 2vw, 1.35rem);
+    padding: clamp(0.9rem, 1.6vw, 1.2rem);
   }
 
   .sirui-map-topline {
+    align-items: end;
     display: grid;
-    gap: 0.45rem;
+    gap: 0.4rem 1rem;
+    grid-area: top;
+    grid-template-columns: auto minmax(16rem, 1fr);
     max-width: none;
   }
 
@@ -222,6 +237,7 @@ secret_globe: true
     flex-wrap: wrap;
     font-size: 0.78rem;
     gap: 0.38rem 0.55rem;
+    grid-column: 1 / -1;
     line-height: 1.35;
   }
 
@@ -263,7 +279,7 @@ secret_globe: true
 
   .sirui-map-topline h2 {
     color: var(--sirui-console-text);
-    font-size: 3.25rem;
+    font-size: 2.75rem;
     line-height: 1;
     margin: 0;
   }
@@ -276,18 +292,23 @@ secret_globe: true
   }
 
   .sirui-map-note {
+    align-self: center;
     font-size: 0.86rem;
     margin-top: 0;
+    max-width: 44rem;
   }
 
   .sirui-map-footnote {
     font-size: 0.8rem;
+    grid-area: foot;
     margin-top: 0.9rem;
   }
 
   .sirui-map-stage {
+    grid-area: stage;
     isolation: isolate;
-    margin-top: 0.8rem;
+    margin-top: 0;
+    min-width: 0;
     position: relative;
   }
 
@@ -301,17 +322,19 @@ secret_globe: true
       #050806;
     border: 1px solid rgba(244, 248, 239, 0.16);
     border-radius: 0.5rem;
+    min-width: 0;
     min-height: 25rem;
     overflow: hidden;
     position: relative;
   }
 
   .sirui-globe-canvas {
-    height: clamp(28rem, 56vh, 38rem);
+    height: clamp(32rem, 68vh, 49rem);
   }
 
   .sirui-globe-canvas canvas {
     display: block;
+    max-width: 100%;
   }
 
   .sirui-globe-canvas::after,
@@ -525,10 +548,10 @@ secret_globe: true
     transform: translate(-50%, 0);
   }
 
-  .sirui-sun-marker {
+  .sirui-celestial-marker {
     align-items: center;
-    background: rgba(255, 184, 86, 0.16);
-    border: 1px solid rgba(255, 184, 86, 0.55);
+    background: rgba(255, 184, 86, 0.18);
+    border: 1px solid rgba(255, 184, 86, 0.62);
     border-radius: 999px;
     box-shadow:
       0 0 1.4rem rgba(255, 184, 86, 0.42),
@@ -544,13 +567,27 @@ secret_globe: true
     white-space: nowrap;
   }
 
-  .sirui-sun-marker::before {
+  .sirui-celestial-marker::before {
     background: #ffb856;
     border-radius: 50%;
     box-shadow: 0 0 1rem rgba(255, 184, 86, 0.95);
     content: "";
     height: 0.45rem;
     width: 0.45rem;
+  }
+
+  .sirui-celestial-marker.is-moon {
+    background: rgba(220, 235, 255, 0.15);
+    border-color: rgba(220, 235, 255, 0.62);
+    box-shadow:
+      0 0 1.2rem rgba(220, 235, 255, 0.32),
+      inset 0 0 0.75rem rgba(220, 235, 255, 0.18);
+    color: #edf5ff;
+  }
+
+  .sirui-celestial-marker.is-moon::before {
+    background: #edf5ff;
+    box-shadow: 0 0 0.9rem rgba(220, 235, 255, 0.9);
   }
 
   .sirui-map-stage.is-zoom-far .sirui-globe-marker:not(.is-current) .sirui-globe-marker-label,
@@ -631,9 +668,11 @@ secret_globe: true
   .sirui-map-dock {
     align-items: start;
     display: grid;
-    gap: 0.75rem;
-    grid-template-columns: minmax(17rem, 0.8fr) minmax(0, 1.2fr);
-    margin-top: 0.75rem;
+    gap: 0.8rem;
+    grid-area: dock;
+    grid-template-columns: 1fr;
+    margin-top: 0;
+    min-width: 0;
   }
 
   .sirui-map-readout,
@@ -695,7 +734,7 @@ secret_globe: true
   }
 
   .sirui-marker-card {
-    max-height: min(22rem, 46vh);
+    max-height: min(31rem, 58vh);
     overflow: auto;
   }
 
@@ -746,9 +785,32 @@ secret_globe: true
     margin-bottom: 0;
   }
 
+  @media (max-width: 980px) {
+    .sirui-map-shell {
+      grid-template-areas:
+        "top"
+        "stage"
+        "dock"
+        "foot";
+      grid-template-columns: 1fr;
+    }
+
+    .sirui-map-dock {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+  }
+
   @media (max-width: 720px) {
+    .sirui-crack-map {
+      width: min(94vw, 42rem);
+    }
+
     .sirui-map-shell {
       padding: 0.85rem;
+    }
+
+    .sirui-map-topline {
+      grid-template-columns: 1fr;
     }
 
     .sirui-map-topline h2 {
@@ -830,7 +892,9 @@ secret_globe: true
     const statusTime = document.getElementById("sirui-status-time");
     const statusCount = document.getElementById("sirui-status-count");
     const sunUtc = document.getElementById("sirui-sun-utc");
+    const orbitClock = document.getElementById("sirui-orbit-clock");
     const sunPoint = document.getElementById("sirui-sun-point");
+    const moonPoint = document.getElementById("sirui-moon-point");
 
     const logKey = "siruiResearchThoughtsCrackLog";
     const browserIdKey = "siruiResearchThoughtsBrowserId";
@@ -843,10 +907,12 @@ secret_globe: true
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
+    const celestialSpeed = prefersReducedMotion.matches ? 1 : 720;
 
     let globeInstance = null;
     let globeResizeObserver = null;
     let sunTimer = null;
+    let celestialStartTime = Date.now();
     let activeMarkerId = "";
 
     const b64ToBytes = (value) =>
@@ -1594,6 +1660,28 @@ secret_globe: true
     const normalizeLongitude = (longitude) =>
       ((((Number(longitude) || 0) + 540) % 360) + 360) % 360 - 180;
 
+    const toRadians = (degrees) => (degrees * Math.PI) / 180;
+    const toDegrees = (radians) => (radians * 180) / Math.PI;
+
+    const getJulianDate = (date) => date.getTime() / 86400000 + 2440587.5;
+
+    const getGreenwichSiderealTime = (date) => {
+      const jd = getJulianDate(date);
+      const centuries = (jd - 2451545) / 36525;
+
+      return normalizeLongitude(
+        280.46061837 +
+          360.98564736629 * (jd - 2451545) +
+          0.000387933 * centuries * centuries -
+          (centuries * centuries * centuries) / 38710000,
+      );
+    };
+
+    const getSubpointFromRightAscension = (date, rightAscension, declination) => ({
+      lat: declination,
+      lng: normalizeLongitude(rightAscension - getGreenwichSiderealTime(date)),
+    });
+
     const getSubsolarPoint = (date = new Date()) => {
       const year = date.getUTCFullYear();
       const dayStart = Date.UTC(year, 0, 0);
@@ -1627,6 +1715,93 @@ secret_globe: true
       };
     };
 
+    const getSubsolarPointPrecise = (date = new Date()) => {
+      const jd = getJulianDate(date);
+      const days = jd - 2451545;
+      const meanLongitude = normalizeLongitude(280.460 + 0.9856474 * days);
+      const meanAnomaly = normalizeLongitude(357.528 + 0.9856003 * days);
+      const eclipticLongitude =
+        meanLongitude +
+        1.915 * Math.sin(toRadians(meanAnomaly)) +
+        0.02 * Math.sin(toRadians(2 * meanAnomaly));
+      const obliquity = 23.439 - 0.0000004 * days;
+      const rightAscension = normalizeLongitude(
+        toDegrees(
+          Math.atan2(
+            Math.cos(toRadians(obliquity)) *
+              Math.sin(toRadians(eclipticLongitude)),
+            Math.cos(toRadians(eclipticLongitude)),
+          ),
+        ),
+      );
+      const declination = toDegrees(
+        Math.asin(
+          Math.sin(toRadians(obliquity)) *
+            Math.sin(toRadians(eclipticLongitude)),
+        ),
+      );
+
+      return getSubpointFromRightAscension(date, rightAscension, declination);
+    };
+
+    const getSublunarPoint = (date = new Date()) => {
+      const jd = getJulianDate(date);
+      const days = jd - 2451543.5;
+      const ascendingNode = normalizeLongitude(
+        125.1228 - 0.0529538083 * days,
+      );
+      const inclination = 5.1454;
+      const argumentOfPerigee = normalizeLongitude(
+        318.0634 + 0.1643573223 * days,
+      );
+      const eccentricity = 0.0549;
+      const meanAnomaly = normalizeLongitude(115.3654 + 13.0649929509 * days);
+      const eccentricAnomaly =
+        meanAnomaly +
+        toDegrees(eccentricity * Math.sin(toRadians(meanAnomaly))) *
+          (1 + eccentricity * Math.cos(toRadians(meanAnomaly)));
+      const xv = Math.cos(toRadians(eccentricAnomaly)) - eccentricity;
+      const yv =
+        Math.sqrt(1 - eccentricity * eccentricity) *
+        Math.sin(toRadians(eccentricAnomaly));
+      const trueAnomaly = toDegrees(Math.atan2(yv, xv));
+      const radius = Math.sqrt(xv * xv + yv * yv);
+      const nodeRadians = toRadians(ascendingNode);
+      const orbitalAngle = toRadians(trueAnomaly + argumentOfPerigee);
+      const inclinationRadians = toRadians(inclination);
+      const xEcliptic =
+        radius *
+        (Math.cos(nodeRadians) * Math.cos(orbitalAngle) -
+          Math.sin(nodeRadians) *
+            Math.sin(orbitalAngle) *
+            Math.cos(inclinationRadians));
+      const yEcliptic =
+        radius *
+        (Math.sin(nodeRadians) * Math.cos(orbitalAngle) +
+          Math.cos(nodeRadians) *
+            Math.sin(orbitalAngle) *
+            Math.cos(inclinationRadians));
+      const zEcliptic =
+        radius * Math.sin(orbitalAngle) * Math.sin(inclinationRadians);
+      const obliquity = toRadians(23.4393 - 0.0000004 * (jd - 2451545));
+      const xEquatorial = xEcliptic;
+      const yEquatorial =
+        yEcliptic * Math.cos(obliquity) - zEcliptic * Math.sin(obliquity);
+      const zEquatorial =
+        yEcliptic * Math.sin(obliquity) + zEcliptic * Math.cos(obliquity);
+      const rightAscension = normalizeLongitude(
+        toDegrees(Math.atan2(yEquatorial, xEquatorial)),
+      );
+      const declination = toDegrees(
+        Math.atan2(
+          zEquatorial,
+          Math.sqrt(xEquatorial * xEquatorial + yEquatorial * yEquatorial),
+        ),
+      );
+
+      return getSubpointFromRightAscension(date, rightAscension, declination);
+    };
+
     const formatCoordinate = (value, positive, negative) => {
       const number = Number(value) || 0;
       return `${Math.abs(number).toFixed(1)}\u00b0${number >= 0 ? positive : negative}`;
@@ -1644,23 +1819,149 @@ secret_globe: true
     };
 
     const makeSunEntry = (date = new Date()) => {
-      const point = getSubsolarPoint(date);
+      const point = getSubsolarPointPrecise(date);
 
       return {
         id: "sun-track",
         kind: "sun",
+        label: "sun",
         lat: point.lat,
         lng: point.lng,
       };
     };
 
-    const updateSunHud = (date, point) => {
+    const makeMoonEntry = (date = new Date()) => {
+      const point = getSublunarPoint(date);
+
+      return {
+        id: "moon-track",
+        kind: "moon",
+        label: "moon",
+        lat: point.lat,
+        lng: point.lng,
+      };
+    };
+
+    const latLngToUnit = ({ lat, lng }) => {
+      const latRadians = toRadians(lat);
+      const lngRadians = toRadians(lng);
+
+      return {
+        x: Math.cos(latRadians) * Math.cos(lngRadians),
+        y: Math.cos(latRadians) * Math.sin(lngRadians),
+        z: Math.sin(latRadians),
+      };
+    };
+
+    const cross = (a, b) => ({
+      x: a.y * b.z - a.z * b.y,
+      y: a.z * b.x - a.x * b.z,
+      z: a.x * b.y - a.y * b.x,
+    });
+
+    const normalizeVector = (vector) => {
+      const length =
+        Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z) ||
+        1;
+
+      return {
+        x: vector.x / length,
+        y: vector.y / length,
+        z: vector.z / length,
+      };
+    };
+
+    const unitToLatLng = (vector) => ({
+      lat: toDegrees(Math.asin(Math.max(-1, Math.min(1, vector.z)))),
+      lng: normalizeLongitude(toDegrees(Math.atan2(vector.y, vector.x))),
+    });
+
+    const buildTerminatorPath = (sunPosition) => {
+      const sun = latLngToUnit(sunPosition);
+      const reference = Math.abs(sun.z) > 0.92 ? { x: 0, y: 1, z: 0 } : { x: 0, y: 0, z: 1 };
+      const axisA = normalizeVector(cross(sun, reference));
+      const axisB = normalizeVector(cross(sun, axisA));
+      const points = [];
+
+      for (let index = 0; index <= 240; index += 1) {
+        const angle = (index / 240) * Math.PI * 2;
+        const point = unitToLatLng({
+          x: Math.cos(angle) * axisA.x + Math.sin(angle) * axisB.x,
+          y: Math.cos(angle) * axisA.y + Math.sin(angle) * axisB.y,
+          z: Math.cos(angle) * axisA.z + Math.sin(angle) * axisB.z,
+        });
+
+        points.push({ ...point, alt: 0.018 });
+      }
+
+      return points;
+    };
+
+    const buildMoonGroundTrack = (date) => {
+      const points = [];
+
+      for (let index = -24; index <= 24; index += 1) {
+        const point = getSublunarPoint(
+          new Date(date.getTime() + index * 60 * 60 * 1000),
+        );
+
+        points.push({ ...point, alt: 0.024 });
+      }
+
+      return points;
+    };
+
+    const buildCelestialPaths = (date, sunPosition) => [
+      {
+        color: "rgba(112, 216, 255, 0.58)",
+        dashGap: 0,
+        dashLength: 0,
+        name: "terminator glow",
+        points: buildTerminatorPath(sunPosition),
+        stroke: 1.65,
+      },
+      {
+        color: "rgba(255, 224, 154, 1)",
+        dashGap: 0,
+        dashLength: 0,
+        name: "sunrise sunset terminator",
+        points: buildTerminatorPath(sunPosition),
+        stroke: 0.88,
+      },
+      {
+        animateTime: 3600,
+        color: "rgba(220, 235, 255, 0.62)",
+        dashGap: 0.08,
+        dashLength: 0.18,
+        name: "moon ground track",
+        points: buildMoonGroundTrack(date),
+        stroke: 0.38,
+      },
+    ];
+
+    const getSimulatedDate = () => {
+      if (prefersReducedMotion.matches) return new Date();
+
+      const elapsed = Date.now() - celestialStartTime;
+      return new Date(celestialStartTime + elapsed * celestialSpeed);
+    };
+
+    const updateSunHud = (date, sunPosition, moonPosition) => {
       if (sunUtc) {
         sunUtc.textContent = `UTC ${date.toISOString().slice(11, 16)}`;
       }
 
+      if (orbitClock) {
+        orbitClock.textContent =
+          celestialSpeed === 1 ? "real time" : `${celestialSpeed}x sky`;
+      }
+
       if (sunPoint) {
-        sunPoint.textContent = `subsolar ${formatCoordinate(point.lat, "N", "S")}, ${formatCoordinate(point.lng, "E", "W")}`;
+        sunPoint.textContent = `sun ${formatCoordinate(sunPosition.lat, "N", "S")}, ${formatCoordinate(sunPosition.lng, "E", "W")}`;
+      }
+
+      if (moonPoint) {
+        moonPoint.textContent = `moon ${formatCoordinate(moonPosition.lat, "N", "S")}, ${formatCoordinate(moonPosition.lng, "E", "W")}`;
       }
     };
 
@@ -1695,7 +1996,7 @@ secret_globe: true
     };
 
     const updateSunlight = (globe, date = new Date()) => {
-      const point = getSubsolarPoint(date);
+      const point = getSubsolarPointPrecise(date);
       const vector = sunVector(point);
       const lights = globe.lights?.();
       const directional = Array.isArray(lights)
@@ -1706,8 +2007,25 @@ secret_globe: true
         directional.position.set(vector.x, vector.y, vector.z);
       }
 
-      updateSunHud(date, point);
       return point;
+    };
+
+    const configureCelestialPaths = (globe, reducedMotion) => {
+      if (typeof globe.pathsData !== "function") return;
+
+      globe.pathsData([]);
+      globe.pathPoints?.("points");
+      globe.pathPointLat?.("lat");
+      globe.pathPointLng?.("lng");
+      globe.pathPointAlt?.("alt");
+      globe.pathColor?.((path) => path.color);
+      globe.pathStroke?.((path) => path.stroke);
+      globe.pathDashLength?.((path) => path.dashLength);
+      globe.pathDashGap?.((path) => path.dashGap);
+      globe.pathDashAnimateTime?.((path) =>
+        reducedMotion ? 0 : path.animateTime || 0,
+      );
+      globe.pathTransitionDuration?.(reducedMotion ? 0 : 700);
     };
 
     const stopSunTimer = () => {
@@ -1719,27 +2037,36 @@ secret_globe: true
 
     const startSunSystem = (globe, entries) => {
       stopSunTimer();
+      celestialStartTime = Date.now();
 
       const tick = () => {
-        const date = new Date();
+        const date = getSimulatedDate();
         const sunEntry = makeSunEntry(date);
-        updateSunlight(globe, date);
-        globe.htmlElementsData([...entries, sunEntry]);
+        const moonEntry = makeMoonEntry(date);
+        const sunPosition = updateSunlight(globe, date);
+        const moonPosition = {
+          lat: moonEntry.lat,
+          lng: moonEntry.lng,
+        };
+
+        updateSunHud(date, sunPosition, moonPosition);
+        globe.htmlElementsData([...entries, sunEntry, moonEntry]);
+        globe.pathsData?.(buildCelestialPaths(date, sunPosition));
         window.requestAnimationFrame(() => setActiveMarker(activeMarkerId));
       };
 
       tick();
 
       if (!prefersReducedMotion.matches) {
-        sunTimer = window.setInterval(tick, 30000);
+        sunTimer = window.setInterval(tick, 1500);
       }
     };
 
     const createGlobeMarker = (entry) => {
-      if (entry.kind === "sun") {
+      if (entry.kind === "sun" || entry.kind === "moon") {
         const marker = document.createElement("span");
-        marker.className = "sirui-sun-marker";
-        marker.textContent = "sun";
+        marker.className = `sirui-celestial-marker is-${entry.kind}`;
+        marker.textContent = entry.label;
         marker.setAttribute("aria-hidden", "true");
         return marker;
       }
@@ -1901,11 +2228,11 @@ secret_globe: true
           .htmlElementsData(entries)
           .htmlLat("lat")
           .htmlLng("lng")
-          .htmlAltitude(0.09)
+          .htmlAltitude((entry) => (entry.kind ? 0.13 : 0.09))
           .htmlElement(createGlobeMarker)
           .htmlTransitionDuration(reducedMotion ? 0 : 700)
           .htmlElementVisibilityModifier((element, isVisible) => {
-            if (element.classList.contains("sirui-sun-marker")) {
+            if (element.classList.contains("sirui-celestial-marker")) {
               element.style.opacity = isVisible ? "" : "0";
               return;
             }
@@ -1921,6 +2248,7 @@ secret_globe: true
         }
         if (globeBumpUrl) globe.bumpImageUrl(globeBumpUrl);
         tuneGlobeRender(globe);
+        configureCelestialPaths(globe, reducedMotion);
 
         const controls = globe.controls?.();
         if (controls) {
