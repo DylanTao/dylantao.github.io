@@ -625,8 +625,12 @@ third_party_libraries:
     version: "11.0.5"
   three-globe:
     url:
+      earth_blue_marble: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-blue-marble.jpg"
       earth_dark: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-dark.jpg"
+      earth_day: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-day.jpg"
+      earth_night: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-night.jpg"
       earth_topology: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/earth-topology.png"
+      night_sky: "https://cdn.jsdelivr.net/npm/three-globe@{{version}}/example/img/night-sky.png"
     version: "2.45.2"
   vanilla-cookieconsent:
     integrity:

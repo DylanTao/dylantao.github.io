@@ -21,7 +21,12 @@ secret_globe: true
   <section id="sirui-crack-map" class="sirui-crack-map" hidden aria-labelledby="sirui-map-title">
     <div class="sirui-map-shell">
       <div class="sirui-map-topline">
-        <p class="sirui-map-kicker">access granted</p>
+        <div class="sirui-console-status" aria-live="polite">
+          <span class="sirui-status-pill">ACCESS GRANTED</span>
+          <span id="sirui-status-place">where-ish pending</span>
+          <span id="sirui-status-time">time pending</span>
+          <span id="sirui-status-count">count pending</span>
+        </div>
         <h2 id="sirui-map-title">I see you.</h2>
         <p class="sirui-map-note">
           Browser-exposed details only. Location is where-ish, inferred from
@@ -97,6 +102,14 @@ secret_globe: true
 
         <div class="sirui-map-scanline" aria-hidden="true"></div>
 
+        <div class="sirui-sun-hud" aria-live="polite">
+          <span>sun track</span>
+          <span id="sirui-sun-utc">UTC --</span>
+          <span id="sirui-sun-point">subsolar --</span>
+        </div>
+      </div>
+
+      <div class="sirui-map-dock">
         <div class="sirui-map-readout" aria-live="polite">
           <span class="sirui-readout-label">where-ish</span>
           <h3 id="sirui-map-place">signal pending</h3>
@@ -128,10 +141,9 @@ secret_globe: true
 
   </section>
 
-  <details id="sirui-secret-note-wrap" class="sirui-secret-note" hidden>
-    <summary>open the note</summary>
+  <section id="sirui-secret-note-wrap" class="sirui-secret-note" hidden aria-label="decrypted note">
     <div id="sirui-secret-copy" class="sirui-secret-copy"></div>
-  </details>
+  </section>
 
   <script type="text/plain" id="sirui-private-payload">
     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
@@ -149,6 +161,19 @@ secret_globe: true
 
   .sirui-private-message.is-unlocked {
     color: var(--global-text-color-light);
+  }
+
+  .sirui-private-message.sr-only {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 
   .sirui-crack-map[hidden],
@@ -171,8 +196,10 @@ secret_globe: true
     --sirui-console-hot: #ff4f9a;
     --sirui-console-text: #f4f8ef;
     --sirui-console-muted: #bdcbb5;
+    --sirui-night-sky: url("{{ site.third_party_libraries.three-globe.url.night_sky }}");
     background:
-      radial-gradient(circle at 78% 14%, rgba(255, 79, 154, 0.15), transparent 24%),
+      radial-gradient(circle at 82% 10%, rgba(255, 184, 86, 0.08), transparent 22%),
+      radial-gradient(circle at 78% 14%, rgba(255, 79, 154, 0.12), transparent 24%),
       linear-gradient(135deg, #10130f 0%, #171a13 55%, #151412 100%);
     border: 1px solid var(--sirui-console-border);
     border-radius: 0.5rem;
@@ -183,10 +210,47 @@ secret_globe: true
   }
 
   .sirui-map-topline {
-    max-width: 35rem;
+    display: grid;
+    gap: 0.45rem;
+    max-width: none;
   }
 
-  .sirui-map-kicker,
+  .sirui-console-status {
+    align-items: center;
+    color: var(--sirui-console-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    gap: 0.38rem 0.55rem;
+    line-height: 1.35;
+  }
+
+  .sirui-console-status span:not(.sirui-status-pill) {
+    align-items: center;
+    color: #d9e7d0;
+    display: inline-flex;
+    gap: 0.55rem;
+    font-weight: 600;
+  }
+
+  .sirui-console-status span:not(.sirui-status-pill)::before {
+    background: rgba(244, 248, 239, 0.36);
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 0.22rem;
+    width: 0.22rem;
+  }
+
+  .sirui-status-pill {
+    background: rgba(142, 234, 98, 0.12);
+    border: 1px solid rgba(142, 234, 98, 0.32);
+    border-radius: 999px;
+    color: var(--sirui-console-accent);
+    font-weight: 800;
+    padding: 0.16rem 0.45rem;
+  }
+
   .sirui-readout-label,
   .sirui-marker-kicker {
     color: var(--sirui-console-accent);
@@ -199,8 +263,8 @@ secret_globe: true
 
   .sirui-map-topline h2 {
     color: var(--sirui-console-text);
-    font-size: 4.4rem;
-    line-height: 0.92;
+    font-size: 3.25rem;
+    line-height: 1;
     margin: 0;
   }
 
@@ -212,8 +276,8 @@ secret_globe: true
   }
 
   .sirui-map-note {
-    font-size: 0.92rem;
-    margin-top: 0.6rem;
+    font-size: 0.86rem;
+    margin-top: 0;
   }
 
   .sirui-map-footnote {
@@ -223,15 +287,17 @@ secret_globe: true
 
   .sirui-map-stage {
     isolation: isolate;
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     position: relative;
   }
 
   .sirui-globe-canvas,
   .sirui-map-fallback {
     background:
-      radial-gradient(circle at 50% 42%, rgba(112, 216, 255, 0.18), transparent 26rem),
-      radial-gradient(circle at 72% 18%, rgba(255, 79, 154, 0.12), transparent 18rem),
+      radial-gradient(circle at 52% 44%, rgba(112, 216, 255, 0.16), transparent 26rem),
+      radial-gradient(circle at 78% 18%, rgba(255, 184, 86, 0.13), transparent 17rem),
+      linear-gradient(rgba(5, 8, 6, 0.42), rgba(5, 8, 6, 0.78)),
+      var(--sirui-night-sky) center / cover,
       #050806;
     border: 1px solid rgba(244, 248, 239, 0.16);
     border-radius: 0.5rem;
@@ -241,7 +307,7 @@ secret_globe: true
   }
 
   .sirui-globe-canvas {
-    height: 38rem;
+    height: clamp(28rem, 56vh, 38rem);
   }
 
   .sirui-globe-canvas canvas {
@@ -251,8 +317,8 @@ secret_globe: true
   .sirui-globe-canvas::after,
   .sirui-map-fallback::after {
     background:
-      linear-gradient(rgba(244, 248, 239, 0.035) 50%, transparent 50%),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent 12%, transparent 88%, rgba(255, 255, 255, 0.035));
+      linear-gradient(rgba(244, 248, 239, 0.018) 50%, transparent 50%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.026), transparent 12%, transparent 88%, rgba(255, 255, 255, 0.026));
     background-size:
       100% 4px,
       100% 100%;
@@ -313,13 +379,44 @@ secret_globe: true
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(142, 234, 98, 0.22) 49%,
+      rgba(142, 234, 98, 0.12) 49%,
       transparent 100%
     );
-    height: 5rem;
-    inset: -5rem 0 auto;
+    height: 3.5rem;
+    inset: -3.5rem 0 auto;
     pointer-events: none;
     position: absolute;
+  }
+
+  .sirui-sun-hud {
+    align-items: center;
+    background: rgba(5, 8, 6, 0.62);
+    border: 1px solid rgba(255, 184, 86, 0.28);
+    border-radius: 999px;
+    bottom: 0.75rem;
+    color: var(--sirui-console-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    gap: 0.3rem 0.65rem;
+    left: 0.75rem;
+    line-height: 1.35;
+    max-width: calc(100% - 1.5rem);
+    padding: 0.4rem 0.6rem;
+    pointer-events: none;
+    position: absolute;
+    z-index: 3;
+  }
+
+  .sirui-sun-hud span:first-child {
+    color: #ffb856;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .sirui-sun-hud span:not(:first-child) {
+    color: #d9e7d0;
+    font-weight: 600;
   }
 
   @keyframes sirui-map-scan {
@@ -343,6 +440,7 @@ secret_globe: true
     letter-spacing: 0;
     padding: 0;
     pointer-events: auto;
+    position: relative;
     transform: translate(-50%, -50%);
     white-space: nowrap;
   }
@@ -396,6 +494,63 @@ secret_globe: true
     transition:
       opacity 160ms ease,
       transform 160ms ease;
+  }
+
+  .sirui-globe-marker-tooltip {
+    background: rgba(5, 8, 6, 0.86);
+    border: 1px solid rgba(244, 248, 239, 0.18);
+    border-radius: 0.35rem;
+    bottom: calc(100% + 0.45rem);
+    color: var(--sirui-console-muted);
+    font-size: 0.7rem;
+    left: 50%;
+    line-height: 1.35;
+    max-width: 15rem;
+    opacity: 0;
+    overflow-wrap: anywhere;
+    padding: 0.35rem 0.45rem;
+    pointer-events: none;
+    position: absolute;
+    transform: translate(-50%, 0.25rem);
+    transition:
+      opacity 140ms ease,
+      transform 140ms ease;
+    white-space: normal;
+    width: max-content;
+  }
+
+  .sirui-globe-marker:hover .sirui-globe-marker-tooltip,
+  .sirui-globe-marker:focus-visible .sirui-globe-marker-tooltip {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .sirui-sun-marker {
+    align-items: center;
+    background: rgba(255, 184, 86, 0.16);
+    border: 1px solid rgba(255, 184, 86, 0.55);
+    border-radius: 999px;
+    box-shadow:
+      0 0 1.4rem rgba(255, 184, 86, 0.42),
+      inset 0 0 0.75rem rgba(255, 184, 86, 0.2);
+    color: #ffcc7d;
+    display: inline-flex;
+    font-size: 0.68rem;
+    font-weight: 800;
+    gap: 0.28rem;
+    padding: 0.18rem 0.4rem;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+
+  .sirui-sun-marker::before {
+    background: #ffb856;
+    border-radius: 50%;
+    box-shadow: 0 0 1rem rgba(255, 184, 86, 0.95);
+    content: "";
+    height: 0.45rem;
+    width: 0.45rem;
   }
 
   .sirui-map-stage.is-zoom-far .sirui-globe-marker:not(.is-current) .sirui-globe-marker-label,
@@ -473,23 +628,23 @@ secret_globe: true
     }
   }
 
+  .sirui-map-dock {
+    align-items: start;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: minmax(17rem, 0.8fr) minmax(0, 1.2fr);
+    margin-top: 0.75rem;
+  }
+
   .sirui-map-readout,
   .sirui-marker-card {
     background: rgba(16, 19, 15, 0.82);
     border: 1px solid var(--sirui-console-border);
     border-radius: 0.5rem;
     box-shadow: 0 0.7rem 1.8rem rgba(0, 0, 0, 0.28);
-    max-width: calc(100% - 2rem);
     overflow-wrap: anywhere;
     padding: 0.9rem;
-    position: absolute;
-    z-index: 3;
-  }
-
-  .sirui-map-readout {
-    right: 1rem;
-    top: 1rem;
-    width: min(19rem, 42%);
+    position: relative;
   }
 
   .sirui-map-readout h3,
@@ -540,10 +695,8 @@ secret_globe: true
   }
 
   .sirui-marker-card {
-    bottom: 1rem;
-    left: 1rem;
-    width: min(22rem, 48%);
-    z-index: 2;
+    max-height: min(22rem, 46vh);
+    overflow: auto;
   }
 
   .sirui-marker-card[hidden] {
@@ -556,15 +709,7 @@ secret_globe: true
     padding-top: 1rem;
   }
 
-  .sirui-secret-note summary {
-    color: var(--global-theme-color);
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
-
   .sirui-secret-copy {
-    margin-top: 1.25rem;
     max-width: 48rem;
   }
 
@@ -607,19 +752,15 @@ secret_globe: true
     }
 
     .sirui-map-topline h2 {
-      font-size: 2.75rem;
+      font-size: 2.45rem;
     }
 
     .sirui-globe-canvas {
-      height: 30rem;
+      height: clamp(25rem, 68vh, 34rem);
     }
 
-    .sirui-map-readout,
-    .sirui-marker-card {
-      margin-top: 0.75rem;
-      max-width: none;
-      position: static;
-      width: 100%;
+    .sirui-map-dock {
+      grid-template-columns: 1fr;
     }
 
     .sirui-map-scanline {
@@ -633,11 +774,11 @@ secret_globe: true
 
   @media (max-width: 480px) {
     .sirui-map-topline h2 {
-      font-size: 2.25rem;
+      font-size: 2.15rem;
     }
 
     .sirui-globe-canvas {
-      height: 25rem;
+      height: 26rem;
     }
 
     .sirui-map-note {
@@ -653,8 +794,10 @@ secret_globe: true
   @media (prefers-reduced-motion: reduce) {
     .sirui-map-scanline,
     .sirui-map-marker-pulse,
-    .sirui-globe-marker.is-current .sirui-globe-marker-dot::after {
+    .sirui-globe-marker.is-current .sirui-globe-marker-dot::after,
+    .sirui-globe-marker-tooltip {
       animation: none;
+      transition: none;
     }
 
     .sirui-map-marker-pulse {
@@ -683,13 +826,19 @@ secret_globe: true
     const mapTimezone = document.getElementById("sirui-map-timezone");
     const mapTime = document.getElementById("sirui-map-time");
     const mapCount = document.getElementById("sirui-map-count");
+    const statusPlace = document.getElementById("sirui-status-place");
+    const statusTime = document.getElementById("sirui-status-time");
+    const statusCount = document.getElementById("sirui-status-count");
+    const sunUtc = document.getElementById("sirui-sun-utc");
+    const sunPoint = document.getElementById("sirui-sun-point");
 
     const logKey = "siruiResearchThoughtsCrackLog";
     const browserIdKey = "siruiResearchThoughtsBrowserId";
     const passwordKey = "siruiResearchThoughtsPassword";
     const readoutVersion = "globe_v1";
     const svgNamespace = "http://www.w3.org/2000/svg";
-    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_dark }}";
+    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_blue_marble }}";
+    const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_day }}";
     const globeBumpUrl = "{{ site.third_party_libraries.three-globe.url.earth_topology }}";
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -697,6 +846,8 @@ secret_globe: true
 
     let globeInstance = null;
     let globeResizeObserver = null;
+    let sunTimer = null;
+    let activeMarkerId = "";
 
     const b64ToBytes = (value) =>
       Uint8Array.from(atob(value.replace(/\s/g, "")), (char) =>
@@ -1280,9 +1431,16 @@ secret_globe: true
       setText(mapTimezone, timezoneLabel(entry));
       setText(mapTime, entry?.lastLocalTime);
       setText(mapCount, formatUnlockCount(entry?.browserUnlockCount || entry?.count));
+      setText(statusPlace, whereLabel(entry));
+      setText(statusTime, entry?.lastLocalTime);
+      setText(
+        statusCount,
+        formatUnlockCount(entry?.browserUnlockCount || entry?.count),
+      );
     };
 
     const setActiveMarker = (id) => {
+      activeMarkerId = id || "";
       document
         .querySelectorAll(".sirui-map-marker-group, .sirui-globe-marker")
         .forEach((marker) => {
@@ -1292,6 +1450,14 @@ secret_globe: true
     };
 
     let detailsPinned = false;
+
+    const previewMarker = (entry) => {
+      if (!detailsPinned) setActiveMarker(entry.id);
+    };
+
+    const clearMarkerPreview = () => {
+      if (!detailsPinned) setActiveMarker("");
+    };
 
     const showMarkerDetails = (entry, { pinned = false } = {}) => {
       if (!markerCard || !markerTitle || !markerFacts) return;
@@ -1368,8 +1534,8 @@ secret_globe: true
       text.textContent = label;
 
       group.append(title, hit, pulse, dot, text);
-      group.addEventListener("mouseenter", () => showMarkerDetails(entry));
-      group.addEventListener("mouseleave", hideMarkerDetails);
+      group.addEventListener("mouseenter", () => previewMarker(entry));
+      group.addEventListener("mouseleave", clearMarkerPreview);
       group.addEventListener("focus", () => showMarkerDetails(entry));
       group.addEventListener("blur", hideMarkerDetails);
       group.addEventListener("click", (event) => {
@@ -1425,11 +1591,164 @@ secret_globe: true
         }, 60);
       });
 
+    const normalizeLongitude = (longitude) =>
+      ((((Number(longitude) || 0) + 540) % 360) + 360) % 360 - 180;
+
+    const getSubsolarPoint = (date = new Date()) => {
+      const year = date.getUTCFullYear();
+      const dayStart = Date.UTC(year, 0, 0);
+      const dayOfYear = Math.floor((date.getTime() - dayStart) / 86400000);
+      const minutes =
+        date.getUTCHours() * 60 +
+        date.getUTCMinutes() +
+        date.getUTCSeconds() / 60;
+      const gamma =
+        (2 * Math.PI) / 365 *
+        (dayOfYear - 1 + (minutes / 60 - 12) / 24);
+      const declination =
+        0.006918 -
+        0.399912 * Math.cos(gamma) +
+        0.070257 * Math.sin(gamma) -
+        0.006758 * Math.cos(2 * gamma) +
+        0.000907 * Math.sin(2 * gamma) -
+        0.002697 * Math.cos(3 * gamma) +
+        0.00148 * Math.sin(3 * gamma);
+      const equationOfTime =
+        229.18 *
+        (0.000075 +
+          0.001868 * Math.cos(gamma) -
+          0.032077 * Math.sin(gamma) -
+          0.014615 * Math.cos(2 * gamma) -
+          0.040849 * Math.sin(2 * gamma));
+
+      return {
+        lat: (declination * 180) / Math.PI,
+        lng: normalizeLongitude(180 - (minutes + equationOfTime) / 4),
+      };
+    };
+
+    const formatCoordinate = (value, positive, negative) => {
+      const number = Number(value) || 0;
+      return `${Math.abs(number).toFixed(1)}\u00b0${number >= 0 ? positive : negative}`;
+    };
+
+    const sunVector = ({ lat, lng }, radius = 420) => {
+      const phi = ((90 - lat) * Math.PI) / 180;
+      const theta = ((lng + 180) * Math.PI) / 180;
+
+      return {
+        x: -radius * Math.sin(phi) * Math.cos(theta),
+        y: radius * Math.cos(phi),
+        z: radius * Math.sin(phi) * Math.sin(theta),
+      };
+    };
+
+    const makeSunEntry = (date = new Date()) => {
+      const point = getSubsolarPoint(date);
+
+      return {
+        id: "sun-track",
+        kind: "sun",
+        lat: point.lat,
+        lng: point.lng,
+      };
+    };
+
+    const updateSunHud = (date, point) => {
+      if (sunUtc) {
+        sunUtc.textContent = `UTC ${date.toISOString().slice(11, 16)}`;
+      }
+
+      if (sunPoint) {
+        sunPoint.textContent = `subsolar ${formatCoordinate(point.lat, "N", "S")}, ${formatCoordinate(point.lng, "E", "W")}`;
+      }
+    };
+
+    const tuneGlobeRender = (globe) => {
+      const renderer = globe.renderer?.();
+      if (renderer?.setPixelRatio) {
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      }
+
+      const camera = globe.camera?.();
+      if (camera?.updateProjectionMatrix) {
+        camera.fov = 45;
+        camera.near = 0.1;
+        camera.far = 2000;
+        camera.updateProjectionMatrix();
+      }
+
+      const material = globe.globeMaterial?.();
+      if (material) {
+        material.bumpScale = 6;
+        material.shininess = 18;
+        material.needsUpdate = true;
+      }
+
+      const lights = globe.lights?.();
+      if (Array.isArray(lights)) {
+        lights.forEach((light) => {
+          if (light.type === "AmbientLight") light.intensity = 0.34;
+          if (light.type === "DirectionalLight") light.intensity = 1.32;
+        });
+      }
+    };
+
+    const updateSunlight = (globe, date = new Date()) => {
+      const point = getSubsolarPoint(date);
+      const vector = sunVector(point);
+      const lights = globe.lights?.();
+      const directional = Array.isArray(lights)
+        ? lights.find((light) => light.type === "DirectionalLight")
+        : null;
+
+      if (directional?.position?.set) {
+        directional.position.set(vector.x, vector.y, vector.z);
+      }
+
+      updateSunHud(date, point);
+      return point;
+    };
+
+    const stopSunTimer = () => {
+      if (sunTimer) {
+        window.clearInterval(sunTimer);
+        sunTimer = null;
+      }
+    };
+
+    const startSunSystem = (globe, entries) => {
+      stopSunTimer();
+
+      const tick = () => {
+        const date = new Date();
+        const sunEntry = makeSunEntry(date);
+        updateSunlight(globe, date);
+        globe.htmlElementsData([...entries, sunEntry]);
+        window.requestAnimationFrame(() => setActiveMarker(activeMarkerId));
+      };
+
+      tick();
+
+      if (!prefersReducedMotion.matches) {
+        sunTimer = window.setInterval(tick, 30000);
+      }
+    };
+
     const createGlobeMarker = (entry) => {
+      if (entry.kind === "sun") {
+        const marker = document.createElement("span");
+        marker.className = "sirui-sun-marker";
+        marker.textContent = "sun";
+        marker.setAttribute("aria-hidden", "true");
+        return marker;
+      }
+
       const button = document.createElement("button");
       const dot = document.createElement("span");
       const label = document.createElement("span");
       const count = document.createElement("span");
+      const tooltip = document.createElement("span");
 
       button.type = "button";
       button.className = "sirui-globe-marker";
@@ -1440,13 +1759,15 @@ secret_globe: true
       dot.className = "sirui-globe-marker-dot";
       label.className = "sirui-globe-marker-label";
       count.className = "sirui-globe-marker-count";
+      tooltip.className = "sirui-globe-marker-tooltip";
       label.textContent = shortPlaceLabel(entry);
       count.textContent = Number(entry.count) > 1 ? ` x${entry.count}` : "";
+      tooltip.textContent = `${timezoneLabel(entry)} - ${entry.lastLocalTime || "visit time pending"}`;
       label.append(count);
-      button.append(dot, label);
+      button.append(dot, label, tooltip);
 
-      button.addEventListener("mouseenter", () => showMarkerDetails(entry));
-      button.addEventListener("mouseleave", hideMarkerDetails);
+      button.addEventListener("mouseenter", () => previewMarker(entry));
+      button.addEventListener("mouseleave", clearMarkerPreview);
       button.addEventListener("focus", () => showMarkerDetails(entry));
       button.addEventListener("blur", hideMarkerDetails);
       button.addEventListener("click", (event) => {
@@ -1455,7 +1776,7 @@ secret_globe: true
         if (globeInstance && hasCoordinates(entry)) {
           globeInstance.pointOfView(
             {
-              altitude: 0.82,
+              altitude: 1.35,
               lat: entry.lat,
               lng: entry.lng,
             },
@@ -1484,8 +1805,8 @@ secret_globe: true
 
     const applyZoomMode = (pov, activeEntry) => {
       const altitude = Number(pov?.altitude) || 2.4;
-      const isFar = altitude > 2.05;
-      const isNear = altitude <= 1.05;
+      const isFar = altitude > 2.35;
+      const isNear = altitude <= 1.42;
 
       mapStage?.classList.toggle("is-zoom-far", isFar);
       mapStage?.classList.toggle("is-zoom-mid", !isFar && !isNear);
@@ -1504,6 +1825,12 @@ secret_globe: true
       const bounds = globeElement.getBoundingClientRect();
       globeInstance.width(Math.max(320, Math.floor(bounds.width)));
       globeInstance.height(Math.max(320, Math.floor(bounds.height)));
+
+      const camera = globeInstance.camera?.();
+      if (camera?.updateProjectionMatrix && bounds.height) {
+        camera.aspect = bounds.width / bounds.height;
+        camera.updateProjectionMatrix();
+      }
     };
 
     const renderGlobe = async (entries, activeEntry) => {
@@ -1514,6 +1841,7 @@ secret_globe: true
 
       try {
         markerLayer?.replaceChildren();
+        stopSunTimer();
         if (mapFallback) mapFallback.hidden = true;
         globeElement.classList.remove("is-fallback");
         globeElement.replaceChildren();
@@ -1528,6 +1856,7 @@ secret_globe: true
           rendererConfig: {
             alpha: true,
             antialias: true,
+            powerPreference: "high-performance",
           },
           waitForGlobeReady: false,
         });
@@ -1540,7 +1869,7 @@ secret_globe: true
           .showAtmosphere(true)
           .atmosphereColor("#70d8ff")
           .atmosphereAltitude(0.18)
-          .globeCurvatureResolution(3)
+          .globeCurvatureResolution(2)
           .pointsData(entries)
           .pointLat("lat")
           .pointLng("lng")
@@ -1576,19 +1905,27 @@ secret_globe: true
           .htmlElement(createGlobeMarker)
           .htmlTransitionDuration(reducedMotion ? 0 : 700)
           .htmlElementVisibilityModifier((element, isVisible) => {
+            if (element.classList.contains("sirui-sun-marker")) {
+              element.style.opacity = isVisible ? "" : "0";
+              return;
+            }
+
             element.style.opacity = isVisible ? "" : "0.12";
             element.style.pointerEvents = isVisible ? "auto" : "none";
             element.tabIndex = isVisible ? 0 : -1;
           })
           .onZoom((pov) => applyZoomMode(pov, activeEntry));
 
-        if (globeTextureUrl) globe.globeImageUrl(globeTextureUrl);
+        if (globeTextureUrl || globeFallbackTextureUrl) {
+          globe.globeImageUrl(globeTextureUrl || globeFallbackTextureUrl);
+        }
         if (globeBumpUrl) globe.bumpImageUrl(globeBumpUrl);
+        tuneGlobeRender(globe);
 
         const controls = globe.controls?.();
         if (controls) {
-          controls.autoRotate = !reducedMotion;
-          controls.autoRotateSpeed = 0.28;
+          controls.autoRotate = false;
+          controls.autoRotateSpeed = 0;
           controls.enableDamping = true;
         }
 
@@ -1604,7 +1941,7 @@ secret_globe: true
         if (activePoint) {
           globe.pointOfView(
             {
-              altitude: reducedMotion ? 1.2 : 2.45,
+              altitude: reducedMotion ? 2.45 : 2.85,
               lat: activePoint.lat,
               lng: activePoint.lng,
             },
@@ -1614,15 +1951,17 @@ secret_globe: true
             () =>
               globe.pointOfView(
                 {
-                  altitude: 1.18,
+                  altitude: 2.45,
                   lat: activePoint.lat,
                   lng: activePoint.lng,
                 },
-                reducedMotion ? 0 : 1600,
+                reducedMotion ? 0 : 1400,
               ),
             reducedMotion ? 0 : 300,
           );
         }
+
+        startSunSystem(globe, entries);
 
         setGlobeStatus(
           activePoint
@@ -1632,6 +1971,7 @@ secret_globe: true
 
         return true;
       } catch (error) {
+        stopSunTimer();
         console.warn("secret page globe failed", error);
         return false;
       }
@@ -1640,6 +1980,7 @@ secret_globe: true
     const renderFallbackMap = (entries) => {
       if (!globeElement || !mapFallback || !markerLayer) return;
 
+      stopSunTimer();
       globeElement.classList.add("is-fallback");
       mapFallback.hidden = false;
       markerLayer.replaceChildren(...entries.map(renderMarker));
@@ -1695,6 +2036,7 @@ secret_globe: true
 
     const unlock = async (password) => {
       message.textContent = "checking access...";
+      message.classList.remove("is-unlocked", "sr-only");
 
       let decryptedHtml = "";
       try {
@@ -1709,9 +2051,8 @@ secret_globe: true
       safeSessionRemove(passwordKey);
       secretCopy.innerHTML = decryptedHtml;
       secretNote.hidden = false;
-      secretNote.open = false;
       message.textContent = "access granted.";
-      message.classList.add("is-unlocked");
+      message.classList.add("is-unlocked", "sr-only");
 
       try {
         const visitorMeta = collectVisitorMeta();
@@ -1724,7 +2065,17 @@ secret_globe: true
       }
     };
 
-    map?.addEventListener("click", clearPinnedDetails);
+    mapStage?.addEventListener("click", (event) => {
+      if (!event.target.closest(".sirui-globe-marker, .sirui-map-marker-group")) {
+        clearPinnedDetails();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !map?.hidden) {
+        clearPinnedDetails();
+      }
+    });
 
     const storedPassword = safeSessionGet(passwordKey);
 
