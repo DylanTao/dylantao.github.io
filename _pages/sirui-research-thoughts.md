@@ -46,6 +46,20 @@ secret_globe: true
           Waiting for the where-ish signal.
         </p>
 
+        <div id="sirui-street-map-panel" class="sirui-street-map-panel" hidden aria-live="polite">
+          <div class="sirui-street-map-header">
+            <span>street zoom</span>
+            <strong id="sirui-street-map-title">nearby map</strong>
+          </div>
+          <iframe
+            id="sirui-street-map"
+            class="sirui-street-map"
+            title="nearby street-level map"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+
         <div id="sirui-map-fallback" class="sirui-map-fallback" hidden>
           <svg
             class="sirui-world-map"
@@ -134,7 +148,7 @@ secret_globe: true
             </div>
           </dl>
           <div class="sirui-location-actions">
-            <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>sharpen location</button>
+            <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>precise location</button>
             <span id="sirui-location-source">source pending</span>
           </div>
         </div>
@@ -461,7 +475,11 @@ secret_globe: true
     padding: 0;
     pointer-events: auto;
     position: relative;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(var(--sirui-marker-scale, 1));
+    transform-origin: center;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
     white-space: nowrap;
   }
 
@@ -669,6 +687,28 @@ secret_globe: true
     transform: translateY(0.2rem);
   }
 
+  .sirui-map-stage.is-zoom-near .sirui-globe-marker {
+    --sirui-marker-scale: 0.58;
+  }
+
+  .sirui-map-stage.is-zoom-near .sirui-globe-marker-label {
+    font-size: 0.66rem;
+    padding: 0.22rem 0.36rem;
+  }
+
+  .sirui-map-stage.is-zoom-near .sirui-globe-marker-dot {
+    height: 0.52rem;
+    width: 0.52rem;
+  }
+
+  .sirui-map-stage.is-zoom-near .sirui-globe-marker.is-active .sirui-globe-marker-dot,
+  .sirui-map-stage.is-zoom-near .sirui-globe-marker:hover .sirui-globe-marker-dot,
+  .sirui-map-stage.is-zoom-near .sirui-globe-marker:focus-visible .sirui-globe-marker-dot {
+    box-shadow:
+      0 0 0 0.25rem rgba(255, 79, 154, 0.14),
+      0 0 0.85rem rgba(255, 79, 154, 0.58);
+  }
+
   .sirui-globe-marker-count {
     color: var(--sirui-console-cyan);
   }
@@ -731,6 +771,60 @@ secret_globe: true
       opacity: 0;
       transform: scale(1.85);
     }
+  }
+
+  .sirui-street-map-panel {
+    background: rgba(5, 8, 6, 0.86);
+    border: 1px solid rgba(112, 216, 255, 0.28);
+    border-radius: 0.45rem;
+    box-shadow: 0 0.9rem 2rem rgba(0, 0, 0, 0.38);
+    color: var(--sirui-console-text);
+    overflow: hidden;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+    width: min(19rem, calc(100% - 1.5rem));
+    z-index: 4;
+  }
+
+  .sirui-street-map-panel[hidden] {
+    display: none;
+  }
+
+  .sirui-street-map-header {
+    align-items: baseline;
+    display: flex;
+    gap: 0.45rem;
+    justify-content: space-between;
+    padding: 0.45rem 0.55rem;
+  }
+
+  .sirui-street-map-header span {
+    color: var(--sirui-console-cyan);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .sirui-street-map-header strong {
+    color: var(--sirui-console-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    min-width: 0;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sirui-street-map {
+    background: rgba(244, 248, 239, 0.08);
+    border: 0;
+    display: block;
+    filter: saturate(0.78) contrast(0.96) brightness(0.9);
+    height: 12rem;
+    width: 100%;
   }
 
   .sirui-map-dock {
@@ -947,6 +1041,16 @@ secret_globe: true
     .sirui-map-marker-label {
       font-size: 26px;
     }
+
+    .sirui-street-map-panel {
+      bottom: 0.75rem;
+      top: auto;
+      width: min(17rem, calc(100% - 1.5rem));
+    }
+
+    .sirui-street-map {
+      height: 9.5rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -996,6 +1100,9 @@ secret_globe: true
     const mapStage = map?.querySelector(".sirui-map-stage");
     const globeElement = document.getElementById("sirui-globe");
     const globeStatus = document.getElementById("sirui-globe-status");
+    const streetMapPanel = document.getElementById("sirui-street-map-panel");
+    const streetMapFrame = document.getElementById("sirui-street-map");
+    const streetMapTitle = document.getElementById("sirui-street-map-title");
     const mapFallback = document.getElementById("sirui-map-fallback");
     const markerLayer = document.getElementById("sirui-map-markers");
     const markerCard = document.getElementById("sirui-marker-card");
@@ -1023,8 +1130,8 @@ secret_globe: true
     const readoutVersion = "globe_v1";
     const visitorEndpoint = "{{ site.sirui_visitor_endpoint | default: '' }}".trim();
     const svgNamespace = "http://www.w3.org/2000/svg";
-    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_dark }}";
-    const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_day }}";
+    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_day }}";
+    const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_blue_marble }}";
     const globeBumpUrl = "{{ site.third_party_libraries.three-globe.url.earth_topology }}";
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -1037,6 +1144,10 @@ secret_globe: true
     let celestialStartTime = Date.now();
     let activeMarkerId = "";
     let lastUnlockRecord = null;
+    let browserPrecisionRequestInFlight = false;
+    let currentGlobeAltitude = 2.45;
+    let focusedGlobeEntry = null;
+    let streetMapKey = "";
 
     const b64ToBytes = (value) =>
       Uint8Array.from(atob(value.replace(/\s/g, "")), (char) =>
@@ -1265,6 +1376,66 @@ secret_globe: true
       return null;
     };
 
+    const nearbyBrowserPlaces = [
+      {
+        city: "San Diego",
+        countryName: "United States",
+        lat: 32.8328,
+        lng: -117.2713,
+        neighborhood: "La Jolla",
+        regionCode: "CA",
+      },
+      {
+        city: "San Diego",
+        countryName: "United States",
+        lat: 32.7157,
+        lng: -117.1611,
+        regionCode: "CA",
+      },
+      {
+        city: "Los Angeles",
+        countryName: "United States",
+        lat: 34.0522,
+        lng: -118.2437,
+        regionCode: "CA",
+      },
+      {
+        city: "San Francisco",
+        countryName: "United States",
+        lat: 37.7749,
+        lng: -122.4194,
+        regionCode: "CA",
+      },
+      {
+        city: "Seattle",
+        countryName: "United States",
+        lat: 47.6062,
+        lng: -122.3321,
+        regionCode: "WA",
+      },
+      {
+        city: "New York",
+        countryName: "United States",
+        lat: 40.7128,
+        lng: -74.006,
+        regionCode: "NY",
+      },
+      {
+        city: "Chicago",
+        countryName: "United States",
+        lat: 41.8781,
+        lng: -87.6298,
+        regionCode: "IL",
+      },
+      {
+        city: "Boston",
+        countryName: "United States",
+        lat: 42.3601,
+        lng: -71.0589,
+        regionCode: "MA",
+      },
+    ];
+
     const projectPoint = (entry) => {
       const longitude = Number(entry.lng);
       const latitude = Number(entry.lat);
@@ -1331,6 +1502,7 @@ secret_globe: true
 
     const formatPlaceParts = (place) =>
       [
+        place?.neighborhood,
         place?.city,
         place?.regionCode || place?.region,
         place?.countryName || place?.country,
@@ -1356,6 +1528,46 @@ secret_globe: true
         : `${Math.round(meters)} m`;
     };
 
+    const formatKilometers = (value) => {
+      const kilometers = toFiniteNumber(value);
+      if (kilometers === null) return "";
+
+      return kilometers >= 10
+        ? `${Math.round(kilometers)} km`
+        : `${kilometers.toFixed(1)} km`;
+    };
+
+    const distanceBetweenCoordinates = (a, b) => {
+      const earthRadiusKm = 6371;
+      const latA = (a.lat * Math.PI) / 180;
+      const latB = (b.lat * Math.PI) / 180;
+      const deltaLat = ((b.lat - a.lat) * Math.PI) / 180;
+      const deltaLng = ((b.lng - a.lng) * Math.PI) / 180;
+      const haversine =
+        Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        Math.cos(latA) *
+          Math.cos(latB) *
+          Math.sin(deltaLng / 2) *
+          Math.sin(deltaLng / 2);
+
+      return (
+        earthRadiusKm *
+        2 *
+        Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
+      );
+    };
+
+    const nearestKnownBrowserPlace = (lat, lng) => {
+      const nearest = nearbyBrowserPlaces
+        .map((place) => ({
+          ...place,
+          distanceKm: distanceBetweenCoordinates({ lat, lng }, place),
+        }))
+        .sort((a, b) => a.distanceKm - b.distanceKm)[0];
+
+      return nearest?.distanceKm <= 90 ? nearest : null;
+    };
+
     const placeFromBrowserLocation = (location, timezone) => {
       if (!location) return null;
 
@@ -1363,13 +1575,19 @@ secret_globe: true
       const lng = toFiniteNumber(location.lng);
       if (lat === null || lng === null) return null;
 
+      const nearest = nearestKnownBrowserPlace(lat, lng);
+
       return {
         accuracy: location.accuracy,
-        city: "browser precise location",
-        country: "",
-        countryName: "",
+        city: nearest?.city || "precise coordinates",
+        country: nearest?.country,
+        countryName: nearest?.countryName,
         lat,
         lng,
+        neighborhood: nearest?.neighborhood,
+        nearestDistanceKm: nearest?.distanceKm,
+        region: nearest?.region,
+        regionCode: nearest?.regionCode,
         source: "browser geolocation",
         timezone,
       };
@@ -1604,6 +1822,8 @@ secret_globe: true
             countryName: place.countryName,
             lat: place.lat,
             lng: place.lng,
+            neighborhood: place.neighborhood,
+            nearestDistanceKm: place.nearestDistanceKm,
             postalCode: place.postalCode,
             region: place.region,
             regionCode: place.regionCode,
@@ -1766,6 +1986,13 @@ secret_globe: true
       if (!entry?.timezone) return "timezone unavailable";
 
       const source = entry.coordinateSource || entry.place?.source;
+      const coordinates = formatCoordinatePair(entry.lat, entry.lng);
+
+      if (source === "browser geolocation") {
+        return coordinates
+          ? `${entry.timezone} timezone; ${coordinates}`
+          : `${entry.timezone} timezone`;
+      }
 
       return source
         ? `${entry.timezone} (${source})`
@@ -1808,6 +2035,8 @@ secret_globe: true
         ["where", whereLabel(entry)],
         ["source", locationSourceLabel(entry)],
         ["timezone", timezoneLabel(entry)],
+        ["nearest known place", formatPlaceParts(entry.place)],
+        ["nearest place distance", formatKilometers(entry.place?.nearestDistanceKm)],
         ["ip", edgeVisit.ip],
         ["edge location", formatEdgeLocation(edgeVisit)],
         [
@@ -1851,7 +2080,8 @@ secret_globe: true
       setText(mapCount, formatUnlockCount(entry?.browserUnlockCount || entry?.count));
       setText(locationSource, locationSourceLabel(entry));
       if (sharpenLocationButton) {
-        sharpenLocationButton.hidden = !navigator.geolocation;
+        const hasBrowserPrecision = entry?.coordinateSource === "browser geolocation";
+        sharpenLocationButton.hidden = !navigator.geolocation || hasBrowserPrecision;
       }
       setText(statusPlace, whereLabel(entry));
       setText(statusTime, entry?.lastLocalTime);
@@ -1976,6 +2206,30 @@ secret_globe: true
 
     const hasCoordinates = (entry) =>
       Number.isFinite(Number(entry?.lat)) && Number.isFinite(Number(entry?.lng));
+
+    const clamp = (value, min, max) =>
+      Math.max(min, Math.min(max, Number(value) || 0));
+
+    const globeMarkerScale = () =>
+      clamp((currentGlobeAltitude - 0.58) / 1.72, 0.22, 1);
+
+    const pointRadiusForEntry = (entry) => {
+      const countBoost = Math.min(Number(entry?.count) || 1, 8) * 0.006;
+      const baseRadius = entry?.isCurrent ? 0.088 : 0.052;
+
+      return (baseRadius + countBoost) * globeMarkerScale();
+    };
+
+    const refreshGlobeMarkerScale = () => {
+      if (!globeInstance) return;
+
+      const scale = globeMarkerScale();
+      globeInstance.pointRadius?.(pointRadiusForEntry);
+      globeInstance.ringMaxRadius?.(0.78 + scale * 1.38);
+      globeInstance.ringPropagationSpeed?.(
+        prefersReducedMotion.matches ? 0 : 0.28 + scale * 0.28,
+      );
+    };
 
     const setGlobeStatus = (value) => {
       if (globeStatus) globeStatus.textContent = value;
@@ -2376,19 +2630,19 @@ secret_globe: true
 
       const material = globe.globeMaterial?.();
       if (material) {
-        material.bumpScale = 8;
-        material.shininess = 10;
-        material.color?.set?.("#d6f2e7");
-        material.emissive?.set?.("#07120d");
-        material.emissiveIntensity = 0.16;
+        material.bumpScale = 5;
+        material.shininess = 16;
+        material.color?.set?.("#ffffff");
+        material.emissive?.set?.("#06110d");
+        material.emissiveIntensity = 0.1;
         material.needsUpdate = true;
       }
 
       const lights = globe.lights?.();
       if (Array.isArray(lights)) {
         lights.forEach((light) => {
-          if (light.type === "AmbientLight") light.intensity = 0.42;
-          if (light.type === "DirectionalLight") light.intensity = 1.18;
+          if (light.type === "AmbientLight") light.intensity = 0.62;
+          if (light.type === "DirectionalLight") light.intensity = 1.08;
         });
       }
     };
@@ -2469,6 +2723,7 @@ secret_globe: true
     const focusCelestial = (entry) => {
       if (!entry || !hasCoordinates(entry)) return;
 
+      focusedGlobeEntry = entry;
       showMarkerDetails(entry, { pinned: true });
       if (globeInstance) {
         globeInstance.pointOfView(
@@ -2539,6 +2794,7 @@ secret_globe: true
       button.addEventListener("blur", hideMarkerDetails);
       button.addEventListener("click", (event) => {
         event.stopPropagation();
+        focusedGlobeEntry = entry;
         showMarkerDetails(entry, { pinned: true });
         if (globeInstance && hasCoordinates(entry)) {
           globeInstance.pointOfView(
@@ -2570,17 +2826,66 @@ secret_globe: true
         }));
     };
 
+    const streetZoomForEntry = (entry) => {
+      if (entry?.coordinateSource === "browser geolocation") return 17;
+      if (entry?.coordinateSource === "edge IP geo") return 12;
+      return 7;
+    };
+
+    const streetSpanForZoom = (zoom) => {
+      if (zoom >= 17) return 0.012;
+      if (zoom >= 12) return 0.18;
+      return 1.25;
+    };
+
+    const setStreetMap = (entry, visible) => {
+      const canShow = visible && hasCoordinates(entry) && !entry?.kind;
+      if (!streetMapPanel || !streetMapFrame || !streetMapTitle || !canShow) {
+        if (streetMapPanel) streetMapPanel.hidden = true;
+        return;
+      }
+
+      const lat = Number(entry.lat);
+      const lng = Number(entry.lng);
+      const zoom = streetZoomForEntry(entry);
+      const span = streetSpanForZoom(zoom);
+      const bbox = [
+        normalizeLongitude(lng - span),
+        clamp(lat - span, -85, 85),
+        normalizeLongitude(lng + span),
+        clamp(lat + span, -85, 85),
+      ];
+      const key = `${lat.toFixed(5)}|${lng.toFixed(5)}|${zoom}`;
+
+      streetMapTitle.textContent = whereLabel(entry);
+      streetMapPanel.hidden = false;
+
+      if (streetMapKey === key) return;
+
+      const params = new URLSearchParams({
+        bbox: bbox.join(","),
+        layer: "mapnik",
+        marker: `${lat},${lng}`,
+      });
+      streetMapFrame.src = `https://www.openstreetmap.org/export/embed.html?${params.toString()}`;
+      streetMapKey = key;
+    };
+
     const applyZoomMode = (pov, activeEntry) => {
       const altitude = Number(pov?.altitude) || 2.4;
       const isFar = altitude > 2.35;
       const isNear = altitude <= 1.42;
+      const focusEntry = focusedGlobeEntry || activeEntry;
 
+      currentGlobeAltitude = altitude;
       mapStage?.classList.toggle("is-zoom-far", isFar);
       mapStage?.classList.toggle("is-zoom-mid", !isFar && !isNear);
       mapStage?.classList.toggle("is-zoom-near", isNear);
+      refreshGlobeMarkerScale();
+      setStreetMap(focusEntry, isNear);
 
-      if (isNear && hasCoordinates(activeEntry) && !detailsPinned) {
-        showMarkerDetails(activeEntry);
+      if (isNear && hasCoordinates(focusEntry) && !detailsPinned) {
+        showMarkerDetails(focusEntry);
       } else if (!detailsPinned && !isNear) {
         hideMarkerDetails();
       }
@@ -2641,7 +2946,7 @@ secret_globe: true
           .pointLat("lat")
           .pointLng("lng")
           .pointAltitude((entry) => (entry.isCurrent ? 0.08 : 0.035))
-          .pointRadius((entry) => 0.18 + Math.min(Number(entry.count) || 1, 6) * 0.025)
+          .pointRadius(pointRadiusForEntry)
           .pointResolution(24)
           .pointColor((entry) => (entry.isCurrent ? "#ff4f9a" : "#8eea62"))
           .pointLabel((entry) => whereLabel(entry))
@@ -2775,6 +3080,8 @@ secret_globe: true
 
       clearPinnedDetails();
       renderReadout(normalizedActive);
+      setStreetMap(normalizedActive, false);
+      focusedGlobeEntry = normalizedActive;
 
       map.hidden = false;
 
@@ -2798,6 +3105,19 @@ secret_globe: true
       if (sharpenLocationButton) sharpenLocationButton.textContent = text;
     };
 
+    const readGeolocationPermissionState = async () => {
+      if (!navigator.permissions?.query) return "";
+
+      try {
+        const status = await navigator.permissions.query({
+          name: "geolocation",
+        });
+        return status.state;
+      } catch {
+        return "";
+      }
+    };
+
     const getBrowserPosition = () =>
       new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
@@ -2812,37 +3132,62 @@ secret_globe: true
         });
       });
 
-    const sharpenLocation = async () => {
-      if (!lastUnlockRecord?.activeEntry || !sharpenLocationButton) return;
+    const applyBrowserPosition = async (position) => {
+      const browserLocation = normalizeBrowserPosition(position);
+      if (!browserLocation) throw new Error("missing browser coordinates");
 
-      sharpenLocationButton.disabled = true;
-      setSharpenButtonText("sharpening...");
+      const meta = {
+        ...(lastUnlockRecord.activeEntry.meta || {}),
+        browserLocation,
+      };
+      const unlockRecord = recordUnlock(meta, { increment: false });
+      lastUnlockRecord = unlockRecord;
+
+      await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
+      showMarkerDetails(normalizeEntry(unlockRecord.activeEntry), {
+        pinned: true,
+      });
+    };
+
+    const requestBrowserPrecision = async ({ automatic = false } = {}) => {
+      if (!lastUnlockRecord?.activeEntry || browserPrecisionRequestInFlight) return;
+
+      browserPrecisionRequestInFlight = true;
+      if (sharpenLocationButton) sharpenLocationButton.disabled = true;
+      if (!automatic && sharpenLocationButton) sharpenLocationButton.hidden = false;
+      setSharpenButtonText("locating...");
+      setText(locationSource, "checking browser precision");
 
       try {
         const position = await getBrowserPosition();
-        const browserLocation = normalizeBrowserPosition(position);
-        if (!browserLocation) throw new Error("missing browser coordinates");
-
-        const meta = {
-          ...(lastUnlockRecord.activeEntry.meta || {}),
-          browserLocation,
-        };
-        const unlockRecord = recordUnlock(meta, { increment: false });
-        lastUnlockRecord = unlockRecord;
-
-        await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
-        showMarkerDetails(normalizeEntry(unlockRecord.activeEntry), {
-          pinned: true,
-        });
+        await applyBrowserPosition(position);
         setSharpenButtonText("location sharpened");
       } catch (error) {
         console.warn("secret page browser location failed", error);
-        setSharpenButtonText("location denied");
-        window.setTimeout(() => setSharpenButtonText("sharpen location"), 1600);
+        setSharpenButtonText("retry precise location");
+        setText(locationSource, "browser precision unavailable");
       } finally {
-        sharpenLocationButton.disabled = false;
+        browserPrecisionRequestInFlight = false;
+        if (sharpenLocationButton) sharpenLocationButton.disabled = false;
       }
     };
+
+    const autoSharpenLocation = async () => {
+      if (!navigator.geolocation || !lastUnlockRecord?.activeEntry) return;
+      if (lastUnlockRecord.activeEntry.coordinateSource === "browser geolocation") return;
+
+      const permissionState = await readGeolocationPermissionState();
+      if (permissionState === "denied") {
+        setText(locationSource, "browser precision blocked");
+        setSharpenButtonText("retry precise location");
+        if (sharpenLocationButton) sharpenLocationButton.hidden = false;
+        return;
+      }
+
+      await requestBrowserPrecision({ automatic: true });
+    };
+
+    const sharpenLocation = () => requestBrowserPrecision();
 
     const decryptSecret = async (password) => {
       const key = await deriveKey(password, b64ToBytes(container.dataset.salt));
@@ -2890,13 +3235,20 @@ secret_globe: true
 
         sendUnlockAnalytics(unlockRecord.activeEntry, visitorMeta);
         await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
+        window.setTimeout(() => {
+          void autoSharpenLocation();
+        }, 250);
       } catch (error) {
         console.warn("secret page visitor readout failed", error);
       }
     };
 
     mapStage?.addEventListener("click", (event) => {
-      if (!event.target.closest(".sirui-globe-marker, .sirui-map-marker-group")) {
+      if (
+        !event.target.closest(
+          ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker, .sirui-street-map-panel",
+        )
+      ) {
         clearPinnedDetails();
       }
     });
