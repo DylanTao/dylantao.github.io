@@ -1,0 +1,9 @@
+name = "sirui-visitor"
+main = "src/index.js"
+compatibility_date = "2026-05-16"
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "VISIT_LOG"
+id = "00000000000000000000000000000000"
+preview_id = "00000000000000000000000000000000"

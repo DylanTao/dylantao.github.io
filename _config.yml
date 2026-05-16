@@ -103,6 +103,7 @@ google_analytics: G-L4SQ3C88KH # your Google Analytics measurement ID (format: G
 cronitor_analytics: # cronitor RUM analytics site ID (format: XXXXXXXXX)
 pirsch_analytics: # your Pirsch analytics site ID (length 32 characters)
 openpanel_analytics: # your Openpanel analytics client ID (format: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)
+sirui_visitor_endpoint: # set to your deployed Cloudflare Worker /visit URL
 
 # For Google Search Console, see https://support.google.com/webmasters/answer/9008080?hl=en#meta_tag_verification&zippy=%2Chtml-tag
 google_site_verification: 0Q9JmAWOsRjNON31heKWCqHL7f65D9JpWGmUfZ5OOiQ # your google-site-verification ID (Google Search Console)
@@ -215,6 +216,7 @@ exclude:
   - README.md
   - readme_preview/
   - vendor
+  - workers/
 keep_files:
   - CNAME
   - .nojekyll

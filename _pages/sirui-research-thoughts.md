@@ -29,8 +29,7 @@ secret_globe: true
         </div>
         <h2 id="sirui-map-title">I see you.</h2>
         <p class="sirui-map-note">
-          Browser-exposed details only. Location is where-ish, inferred from
-          timezone, not raw IP.
+          Current visitor trace from this browser and the edge.
         </p>
       </div>
 
@@ -122,10 +121,22 @@ secret_globe: true
               <dd id="sirui-map-time">--</dd>
             </div>
             <div>
+              <dt>edge IP</dt>
+              <dd id="sirui-map-ip">--</dd>
+            </div>
+            <div>
+              <dt>edge location</dt>
+              <dd id="sirui-map-edge-location">--</dd>
+            </div>
+            <div>
               <dt>this browser</dt>
               <dd id="sirui-map-count">--</dd>
             </div>
           </dl>
+          <div class="sirui-location-actions">
+            <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>sharpen location</button>
+            <span id="sirui-location-source">source pending</span>
+          </div>
         </div>
 
         <aside id="sirui-marker-card" class="sirui-marker-card" hidden>
@@ -135,10 +146,6 @@ secret_globe: true
         </aside>
       </div>
 
-      <p class="sirui-map-footnote">
-        GA4 gets aggregate country/city distribution from its normal geo
-        reporting; this page does not collect or display raw IP addresses.
-      </p>
     </div>
 
   </section>
@@ -733,6 +740,53 @@ secret_globe: true
     margin: 0.1rem 0 0;
   }
 
+  .sirui-location-actions {
+    align-items: center;
+    border-top: 1px solid rgba(244, 248, 239, 0.12);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+  }
+
+  .sirui-location-actions span {
+    color: var(--sirui-console-muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .sirui-sharpen-location {
+    background: rgba(112, 216, 255, 0.11);
+    border: 1px solid rgba(112, 216, 255, 0.36);
+    border-radius: 0.35rem;
+    color: var(--sirui-console-text);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1.2;
+    min-height: 2.15rem;
+    padding: 0.45rem 0.6rem;
+  }
+
+  .sirui-sharpen-location:hover,
+  .sirui-sharpen-location:focus-visible {
+    background: rgba(255, 79, 154, 0.16);
+    border-color: rgba(255, 79, 154, 0.5);
+  }
+
+  .sirui-sharpen-location:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  .sirui-sharpen-location[hidden] {
+    display: none;
+  }
+
   .sirui-marker-card {
     max-height: min(31rem, 58vh);
     overflow: auto;
@@ -887,7 +941,11 @@ secret_globe: true
     const mapPlace = document.getElementById("sirui-map-place");
     const mapTimezone = document.getElementById("sirui-map-timezone");
     const mapTime = document.getElementById("sirui-map-time");
+    const mapIp = document.getElementById("sirui-map-ip");
+    const mapEdgeLocation = document.getElementById("sirui-map-edge-location");
     const mapCount = document.getElementById("sirui-map-count");
+    const locationSource = document.getElementById("sirui-location-source");
+    const sharpenLocationButton = document.getElementById("sirui-sharpen-location");
     const statusPlace = document.getElementById("sirui-status-place");
     const statusTime = document.getElementById("sirui-status-time");
     const statusCount = document.getElementById("sirui-status-count");
@@ -900,6 +958,7 @@ secret_globe: true
     const browserIdKey = "siruiResearchThoughtsBrowserId";
     const passwordKey = "siruiResearchThoughtsPassword";
     const readoutVersion = "globe_v1";
+    const visitorEndpoint = "{{ site.sirui_visitor_endpoint | default: '' }}".trim();
     const svgNamespace = "http://www.w3.org/2000/svg";
     const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_blue_marble }}";
     const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_day }}";
@@ -914,6 +973,7 @@ secret_globe: true
     let sunTimer = null;
     let celestialStartTime = Date.now();
     let activeMarkerId = "";
+    let lastUnlockRecord = null;
 
     const b64ToBytes = (value) =>
       Uint8Array.from(atob(value.replace(/\s/g, "")), (char) =>
@@ -1197,6 +1257,99 @@ secret_globe: true
     const hasValue = (value) =>
       value !== undefined && value !== null && String(value).trim() !== "";
 
+    const toFiniteNumber = (value) => {
+      if (value === undefined || value === null || String(value).trim() === "") {
+        return null;
+      }
+
+      const number = Number(value);
+      return Number.isFinite(number) ? number : null;
+    };
+
+    const formatPlaceParts = (place) =>
+      [
+        place?.city,
+        place?.regionCode || place?.region,
+        place?.countryName || place?.country,
+      ]
+        .filter(hasValue)
+        .join(", ");
+
+    const formatCoordinatePair = (lat, lng) => {
+      const latitude = toFiniteNumber(lat);
+      const longitude = toFiniteNumber(lng);
+
+      if (latitude === null || longitude === null) return "";
+
+      return `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+    };
+
+    const formatMeters = (value) => {
+      const meters = toFiniteNumber(value);
+      if (meters === null) return "";
+
+      return meters >= 1000
+        ? `${(meters / 1000).toFixed(1)} km`
+        : `${Math.round(meters)} m`;
+    };
+
+    const placeFromBrowserLocation = (location, timezone) => {
+      if (!location) return null;
+
+      const lat = toFiniteNumber(location.lat);
+      const lng = toFiniteNumber(location.lng);
+      if (lat === null || lng === null) return null;
+
+      return {
+        accuracy: location.accuracy,
+        city: "browser precise location",
+        country: "",
+        countryName: "",
+        lat,
+        lng,
+        source: "browser geolocation",
+        timezone,
+      };
+    };
+
+    const placeFromEdgeVisit = (visit) => {
+      if (!visit) return null;
+
+      const lat = toFiniteNumber(visit.lat ?? visit.latitude);
+      const lng = toFiniteNumber(visit.lng ?? visit.longitude);
+      if (lat === null || lng === null) return null;
+
+      return {
+        city: visit.city,
+        country: visit.country,
+        countryName: visit.countryName,
+        lat,
+        lng,
+        postalCode: visit.postalCode,
+        region: visit.region,
+        regionCode: visit.regionCode,
+        source: "edge IP geo",
+        timezone: visit.timezone,
+      };
+    };
+
+    const resolvePlace = (meta) =>
+      placeFromBrowserLocation(meta.browserLocation, meta.timezone) ||
+      placeFromEdgeVisit(meta.edgeVisit) ||
+      getPlace(meta.timezone);
+
+    const formatEdgeLocation = (visit) => formatPlaceParts(placeFromEdgeVisit(visit) || visit);
+
+    const locationSourceLabel = (entry) => {
+      const source = entry?.coordinateSource || entry?.place?.source;
+
+      if (source === "browser geolocation") return "browser precision";
+      if (source === "edge IP geo") return "edge IP geo";
+      if (source === "timezone match") return "timezone fallback";
+
+      return "source pending";
+    };
+
     const getBrowserId = () => {
       const stored = safeLocalGet(browserIdKey);
       if (stored) return stored;
@@ -1291,6 +1444,72 @@ secret_globe: true
       };
     };
 
+    const normalizeEdgeVisit = (data) => {
+      const visit = data?.visit || data;
+      if (!visit || typeof visit !== "object") return null;
+
+      return {
+        asOrganization: readSafely(() => visit.asOrganization),
+        asn: readSafely(() => visit.asn),
+        city: readSafely(() => visit.city),
+        country: readSafely(() => visit.country),
+        countryName: readSafely(() => visit.countryName),
+        ip: readSafely(() => visit.ip),
+        lat: toFiniteNumber(visit.lat ?? visit.latitude),
+        lng: toFiniteNumber(visit.lng ?? visit.longitude),
+        metroCode: readSafely(() => visit.metroCode),
+        postalCode: readSafely(() => visit.postalCode),
+        region: readSafely(() => visit.region),
+        regionCode: readSafely(() => visit.regionCode),
+        requestTime: readSafely(() => visit.requestTime),
+        timezone: readSafely(() => visit.timezone),
+      };
+    };
+
+    const fetchEdgeVisit = async () => {
+      if (!hasValue(visitorEndpoint)) return null;
+
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 2800);
+
+      try {
+        const response = await fetch(visitorEndpoint, {
+          cache: "no-store",
+          credentials: "omit",
+          headers: {
+            Accept: "application/json",
+          },
+          signal: controller.signal,
+        });
+
+        if (!response.ok) throw new Error(`visitor endpoint ${response.status}`);
+
+        const data = await response.json();
+        return normalizeEdgeVisit(data);
+      } catch (error) {
+        console.warn("secret page edge visitor lookup failed", error);
+        return null;
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    };
+
+    const normalizeBrowserPosition = (position) => {
+      const coords = position?.coords;
+      if (!coords) return null;
+
+      const lat = toFiniteNumber(coords.latitude);
+      const lng = toFiniteNumber(coords.longitude);
+      if (lat === null || lng === null) return null;
+
+      return {
+        accuracy: toFiniteNumber(coords.accuracy),
+        lat,
+        lng,
+        timestamp: position.timestamp ? new Date(position.timestamp).toISOString() : "",
+      };
+    };
+
     const sendUnlockAnalytics = (entry, meta) => {
       if (typeof window.gtag !== "function") return;
 
@@ -1316,20 +1535,27 @@ secret_globe: true
     const placeSnapshot = (place) =>
       place
         ? {
+            accuracy: place.accuracy,
             city: place.city,
             country: place.country,
+            countryName: place.countryName,
             lat: place.lat,
             lng: place.lng,
+            postalCode: place.postalCode,
+            region: place.region,
+            regionCode: place.regionCode,
+            source: place.source,
             timezone: place.timezone,
           }
         : null;
 
-    const recordUnlock = (meta) => {
+    const recordUnlock = (meta, { increment = true } = {}) => {
       const now = new Date();
       const browserId = getBrowserId();
-      const place = getPlace(meta.timezone);
+      const place = resolvePlace(meta);
+      const timezone = meta.timezone || place?.timezone || "unknown";
       const entries = getLog();
-      const id = `${browserId}|${meta.timezone || "unknown"}`;
+      const id = `${browserId}|${timezone}`;
       const existing = entries.find((entry) => entry.id === id);
       let activeEntry = existing;
 
@@ -1341,22 +1567,25 @@ secret_globe: true
           existing.lat = place.lat;
           existing.lng = place.lng;
           existing.place = placeSnapshot(place);
-        } else if (existing.coordinateSource !== "timezone match") {
+        } else {
           delete existing.lat;
           delete existing.lng;
           existing.coordinateSource = "";
           existing.place = null;
         }
-        existing.count = (Number(existing.count) || 0) + 1;
-        existing.lastLocalTime = meta.localTime;
-        existing.lastIso = now.toISOString();
+        existing.count = (Number(existing.count) || 0) + (increment ? 1 : 0);
+        if (increment) {
+          existing.lastLocalTime = meta.localTime;
+          existing.lastIso = now.toISOString();
+        }
+        existing.timezone = timezone;
         existing.meta = meta;
       } else {
         activeEntry = {
           id,
           browserId,
           label: "you",
-          timezone: meta.timezone,
+          timezone,
           coordinateSource: place?.source || "",
           count: 1,
           firstLocalTime: meta.localTime,
@@ -1389,19 +1618,31 @@ secret_globe: true
     const normalizeEntry = (entry) => {
       const legacyCoordinates =
         entry.place?.coordinates || entry.coordinates || null;
+      const storedLat = toFiniteNumber(entry.place?.lat);
+      const storedLng = toFiniteNumber(entry.place?.lng);
+      const legacyLat = Array.isArray(legacyCoordinates)
+        ? toFiniteNumber(legacyCoordinates[1])
+        : null;
+      const legacyLng = Array.isArray(legacyCoordinates)
+        ? toFiniteNumber(legacyCoordinates[0])
+        : null;
       const storedPlace =
-        Number.isFinite(Number(entry.place?.lat)) &&
-        Number.isFinite(Number(entry.place?.lng))
+        storedLat !== null && storedLng !== null
           ? {
               ...entry.place,
-              source: "timezone match",
+              lat: storedLat,
+              lng: storedLng,
+              source:
+                entry.place.source ||
+                entry.coordinateSource ||
+                "stored coordinates",
             }
-          : Array.isArray(legacyCoordinates)
+          : legacyLat !== null && legacyLng !== null
             ? {
                 city: entry.place?.city,
                 country: entry.place?.country,
-                lat: legacyCoordinates[1],
-                lng: legacyCoordinates[0],
+                lat: legacyLat,
+                lng: legacyLng,
                 source: "timezone match",
                 timezone: entry.timezone,
               }
@@ -1411,7 +1652,8 @@ secret_globe: true
       if (place) {
         return {
           ...entry,
-          coordinateSource: "timezone match",
+          coordinateSource:
+            place.source || entry.coordinateSource || "stored coordinates",
           lat: place.lat,
           lng: place.lng,
           place: placeSnapshot(place),
@@ -1428,8 +1670,13 @@ secret_globe: true
     };
 
     const whereLabel = (entry) => {
-      if (entry?.place?.city && entry?.place?.country) {
-        return `${entry.place.city}, ${entry.place.country}`;
+      const placeLabel = formatPlaceParts(entry?.place);
+      if (placeLabel) {
+        return placeLabel;
+      }
+
+      if (entry?.coordinateSource === "browser geolocation") {
+        return "browser precise location";
       }
 
       if (entry?.timezone) {
@@ -1440,6 +1687,7 @@ secret_globe: true
     };
 
     const shortPlaceLabel = (entry) => {
+      if (entry?.coordinateSource === "browser geolocation") return "precise";
       if (entry?.place?.city) return entry.place.city;
       if (!entry?.timezone) return "unknown";
 
@@ -1449,8 +1697,10 @@ secret_globe: true
     const timezoneLabel = (entry) => {
       if (!entry?.timezone) return "timezone unavailable";
 
-      return entry.coordinateSource
-        ? `${entry.timezone} (${entry.coordinateSource})`
+      const source = entry.coordinateSource || entry.place?.source;
+
+      return source
+        ? `${entry.timezone} (${source})`
         : entry.timezone;
     };
 
@@ -1470,9 +1720,26 @@ secret_globe: true
 
     const detailsForEntry = (entry) => {
       const meta = entry.meta || {};
+      const edgeVisit = meta.edgeVisit || {};
+      const browserLocation = meta.browserLocation || {};
       return [
-        ["where-ish", whereLabel(entry)],
+        ["where", whereLabel(entry)],
+        ["source", locationSourceLabel(entry)],
         ["timezone", timezoneLabel(entry)],
+        ["ip", edgeVisit.ip],
+        ["edge location", formatEdgeLocation(edgeVisit)],
+        [
+          "edge coordinates",
+          formatCoordinatePair(edgeVisit.lat ?? edgeVisit.latitude, edgeVisit.lng ?? edgeVisit.longitude),
+        ],
+        ["edge observed", edgeVisit.requestTime],
+        ["ASN", edgeVisit.asn],
+        ["network", edgeVisit.asOrganization],
+        [
+          "browser coordinates",
+          formatCoordinatePair(browserLocation.lat, browserLocation.lng),
+        ],
+        ["browser accuracy", formatMeters(browserLocation.accuracy)],
         ["last visit", entry.lastLocalTime],
         ["first visit", entry.firstLocalTime],
         ["this browser", formatUnlockCount(entry.browserUnlockCount || entry.count)],
@@ -1493,10 +1760,17 @@ secret_globe: true
     };
 
     const renderReadout = (entry) => {
+      const edgeVisit = entry?.meta?.edgeVisit || {};
       setText(mapPlace, whereLabel(entry));
       setText(mapTimezone, timezoneLabel(entry));
       setText(mapTime, entry?.lastLocalTime);
+      setText(mapIp, edgeVisit.ip);
+      setText(mapEdgeLocation, formatEdgeLocation(edgeVisit));
       setText(mapCount, formatUnlockCount(entry?.browserUnlockCount || entry?.count));
+      setText(locationSource, locationSourceLabel(entry));
+      if (sharpenLocationButton) {
+        sharpenLocationButton.hidden = !navigator.geolocation;
+      }
       setText(statusPlace, whereLabel(entry));
       setText(statusTime, entry?.lastLocalTime);
       setText(
@@ -2348,6 +2622,56 @@ secret_globe: true
       }
     };
 
+    const setSharpenButtonText = (text) => {
+      if (sharpenLocationButton) sharpenLocationButton.textContent = text;
+    };
+
+    const getBrowserPosition = () =>
+      new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject(new Error("geolocation unavailable"));
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          maximumAge: 60000,
+          timeout: 10000,
+        });
+      });
+
+    const sharpenLocation = async () => {
+      if (!lastUnlockRecord?.activeEntry || !sharpenLocationButton) return;
+
+      sharpenLocationButton.disabled = true;
+      setSharpenButtonText("sharpening...");
+
+      try {
+        const position = await getBrowserPosition();
+        const browserLocation = normalizeBrowserPosition(position);
+        if (!browserLocation) throw new Error("missing browser coordinates");
+
+        const meta = {
+          ...(lastUnlockRecord.activeEntry.meta || {}),
+          browserLocation,
+        };
+        const unlockRecord = recordUnlock(meta, { increment: false });
+        lastUnlockRecord = unlockRecord;
+
+        await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
+        showMarkerDetails(normalizeEntry(unlockRecord.activeEntry), {
+          pinned: true,
+        });
+        setSharpenButtonText("location sharpened");
+      } catch (error) {
+        console.warn("secret page browser location failed", error);
+        setSharpenButtonText("location denied");
+        window.setTimeout(() => setSharpenButtonText("sharpen location"), 1600);
+      } finally {
+        sharpenLocationButton.disabled = false;
+      }
+    };
+
     const decryptSecret = async (password) => {
       const key = await deriveKey(password, b64ToBytes(container.dataset.salt));
       const decrypted = await crypto.subtle.decrypt(
@@ -2384,7 +2708,13 @@ secret_globe: true
 
       try {
         const visitorMeta = collectVisitorMeta();
+        const edgeVisit = await fetchEdgeVisit();
+        if (edgeVisit) {
+          visitorMeta.edgeVisit = edgeVisit;
+          visitorMeta.timezone = visitorMeta.timezone || edgeVisit.timezone;
+        }
         const unlockRecord = recordUnlock(visitorMeta);
+        lastUnlockRecord = unlockRecord;
 
         sendUnlockAnalytics(unlockRecord.activeEntry, visitorMeta);
         await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
@@ -2398,6 +2728,8 @@ secret_globe: true
         clearPinnedDetails();
       }
     });
+
+    sharpenLocationButton?.addEventListener("click", sharpenLocation);
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && !map?.hidden) {
