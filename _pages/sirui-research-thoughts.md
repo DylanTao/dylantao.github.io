@@ -347,10 +347,10 @@ secret_globe: true
   .sirui-globe-canvas::after,
   .sirui-map-fallback::after {
     background:
-      linear-gradient(rgba(244, 248, 239, 0.018) 50%, transparent 50%),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.026), transparent 12%, transparent 88%, rgba(255, 255, 255, 0.026));
+      radial-gradient(circle at 50% 50%, transparent 48%, rgba(112, 216, 255, 0.08) 72%, rgba(5, 8, 6, 0.26) 100%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018), transparent 16%, transparent 84%, rgba(255, 255, 255, 0.018));
     background-size:
-      100% 4px,
+      100% 100%,
       100% 100%;
     content: "";
     inset: 0;
@@ -405,17 +405,7 @@ secret_globe: true
   }
 
   .sirui-map-scanline {
-    animation: sirui-map-scan 4.8s linear infinite;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(142, 234, 98, 0.12) 49%,
-      transparent 100%
-    );
-    height: 3.5rem;
-    inset: -3.5rem 0 auto;
-    pointer-events: none;
-    position: absolute;
+    display: none;
   }
 
   .sirui-sun-hud {
@@ -557,44 +547,115 @@ secret_globe: true
 
   .sirui-celestial-marker {
     align-items: center;
-    background: rgba(255, 184, 86, 0.18);
-    border: 1px solid rgba(255, 184, 86, 0.62);
-    border-radius: 999px;
-    box-shadow:
-      0 0 1.4rem rgba(255, 184, 86, 0.42),
-      inset 0 0 0.75rem rgba(255, 184, 86, 0.2);
+    background: transparent;
+    border: 0;
     color: #ffcc7d;
-    display: inline-flex;
+    cursor: pointer;
+    display: grid;
     font-size: 0.68rem;
     font-weight: 800;
-    gap: 0.28rem;
-    padding: 0.18rem 0.4rem;
-    pointer-events: none;
+    height: 3.4rem;
+    justify-items: center;
+    letter-spacing: 0;
+    padding: 0;
+    pointer-events: auto;
+    position: relative;
     transform: translate(-50%, -50%);
+    transition:
+      filter 180ms ease,
+      opacity 180ms ease,
+      transform 180ms ease;
+    width: 3.4rem;
     white-space: nowrap;
   }
 
   .sirui-celestial-marker::before {
-    background: #ffb856;
+    background: radial-gradient(circle, rgba(255, 184, 86, 0.46), rgba(255, 184, 86, 0.08) 52%, transparent 72%);
     border-radius: 50%;
-    box-shadow: 0 0 1rem rgba(255, 184, 86, 0.95);
     content: "";
-    height: 0.45rem;
-    width: 0.45rem;
+    height: 3.1rem;
+    position: absolute;
+    width: 3.1rem;
+  }
+
+  .sirui-celestial-marker:focus-visible {
+    outline: 2px solid var(--sirui-console-cyan);
+    outline-offset: 0.2rem;
+  }
+
+  .sirui-celestial-marker:hover,
+  .sirui-celestial-marker:focus-visible,
+  .sirui-celestial-marker.is-active {
+    filter: brightness(1.18) saturate(1.08);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  .sirui-celestial-core {
+    border-radius: 50%;
+    display: block;
+    height: 1.15rem;
+    position: relative;
+    width: 1.15rem;
+    z-index: 1;
+  }
+
+  .sirui-celestial-marker.is-sun .sirui-celestial-core {
+    background:
+      radial-gradient(circle at 38% 34%, #fff7c8 0 14%, #ffd36f 34%, #ff8f3d 62%, #9f3c16 100%);
+    box-shadow:
+      0 0 0 0.2rem rgba(255, 184, 86, 0.12),
+      0 0 1.1rem rgba(255, 184, 86, 0.86),
+      0 0 2.5rem rgba(255, 112, 48, 0.38);
   }
 
   .sirui-celestial-marker.is-moon {
-    background: rgba(220, 235, 255, 0.15);
-    border-color: rgba(220, 235, 255, 0.62);
-    box-shadow:
-      0 0 1.2rem rgba(220, 235, 255, 0.32),
-      inset 0 0 0.75rem rgba(220, 235, 255, 0.18);
     color: #edf5ff;
   }
 
   .sirui-celestial-marker.is-moon::before {
-    background: #edf5ff;
-    box-shadow: 0 0 0.9rem rgba(220, 235, 255, 0.9);
+    background: radial-gradient(circle, rgba(220, 235, 255, 0.28), rgba(220, 235, 255, 0.06) 54%, transparent 74%);
+  }
+
+  .sirui-celestial-marker.is-moon .sirui-celestial-core {
+    background:
+      radial-gradient(circle at 36% 34%, #ffffff 0 12%, #dbeaff 36%, #7f99be 72%, #35465c 100%);
+    box-shadow:
+      0 0 0 0.18rem rgba(220, 235, 255, 0.1),
+      0 0 1rem rgba(220, 235, 255, 0.62);
+    overflow: hidden;
+  }
+
+  .sirui-celestial-marker.is-moon .sirui-celestial-core::after {
+    background: rgba(5, 8, 6, 0.78);
+    border-radius: 50%;
+    content: "";
+    inset: -0.08rem -0.18rem 0.08rem 0.34rem;
+    position: absolute;
+  }
+
+  .sirui-celestial-label {
+    background: rgba(5, 8, 6, 0.7);
+    border: 1px solid rgba(244, 248, 239, 0.14);
+    border-radius: 999px;
+    bottom: -0.58rem;
+    color: currentColor;
+    font-size: 0.66rem;
+    line-height: 1;
+    opacity: 0;
+    padding: 0.22rem 0.38rem;
+    position: absolute;
+    transform: translateY(0.18rem);
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+    z-index: 2;
+  }
+
+  .sirui-celestial-marker:hover .sirui-celestial-label,
+  .sirui-celestial-marker:focus-visible .sirui-celestial-label,
+  .sirui-celestial-marker.is-active .sirui-celestial-label {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .sirui-map-stage.is-zoom-far .sirui-globe-marker:not(.is-current) .sirui-globe-marker-label,
@@ -909,6 +970,8 @@ secret_globe: true
 
   @media (prefers-reduced-motion: reduce) {
     .sirui-map-scanline,
+    .sirui-celestial-marker,
+    .sirui-celestial-label,
     .sirui-map-marker-pulse,
     .sirui-globe-marker.is-current .sirui-globe-marker-dot::after,
     .sirui-globe-marker-tooltip {
@@ -960,13 +1023,13 @@ secret_globe: true
     const readoutVersion = "globe_v1";
     const visitorEndpoint = "{{ site.sirui_visitor_endpoint | default: '' }}".trim();
     const svgNamespace = "http://www.w3.org/2000/svg";
-    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_blue_marble }}";
+    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_dark }}";
     const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_day }}";
     const globeBumpUrl = "{{ site.third_party_libraries.three-globe.url.earth_topology }}";
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
-    const celestialSpeed = prefersReducedMotion.matches ? 1 : 720;
+    const celestialSpeed = prefersReducedMotion.matches ? 1 : 90;
 
     let globeInstance = null;
     let globeResizeObserver = null;
@@ -1670,6 +1733,9 @@ secret_globe: true
     };
 
     const whereLabel = (entry) => {
+      if (entry?.kind === "sun") return "Sun overhead point";
+      if (entry?.kind === "moon") return "Moon overhead point";
+
       const placeLabel = formatPlaceParts(entry?.place);
       if (placeLabel) {
         return placeLabel;
@@ -1687,6 +1753,8 @@ secret_globe: true
     };
 
     const shortPlaceLabel = (entry) => {
+      if (entry?.kind === "sun") return "sun";
+      if (entry?.kind === "moon") return "moon";
       if (entry?.coordinateSource === "browser geolocation") return "precise";
       if (entry?.place?.city) return entry.place.city;
       if (!entry?.timezone) return "unknown";
@@ -1718,7 +1786,21 @@ secret_globe: true
       return row;
     };
 
+    const detailsForCelestialEntry = (entry) =>
+      [
+        ["body", entry.kind === "sun" ? "Sun" : "Moon"],
+        ["view", entry.kind === "sun" ? "sun-centric subpoint" : "moon-centric subpoint"],
+        ["overhead point", formatCoordinatePair(entry.lat, entry.lng)],
+        ["latitude", formatCoordinate(entry.lat, "N", "S")],
+        ["longitude", formatCoordinate(entry.lng, "E", "W")],
+        ["simulated UTC", entry.simulatedUtc],
+      ].filter(([, value]) => hasValue(value));
+
     const detailsForEntry = (entry) => {
+      if (entry?.kind === "sun" || entry?.kind === "moon") {
+        return detailsForCelestialEntry(entry);
+      }
+
       const meta = entry.meta || {};
       const edgeVisit = meta.edgeVisit || {};
       const browserLocation = meta.browserLocation || {};
@@ -1782,7 +1864,7 @@ secret_globe: true
     const setActiveMarker = (id) => {
       activeMarkerId = id || "";
       document
-        .querySelectorAll(".sirui-map-marker-group, .sirui-globe-marker")
+        .querySelectorAll(".sirui-map-marker-group, .sirui-globe-marker, .sirui-celestial-marker")
         .forEach((marker) => {
           marker.classList.toggle("is-active", marker.dataset.entryId === id);
           marker.classList.toggle("is-selected", marker.dataset.entryId === id);
@@ -2101,6 +2183,7 @@ secret_globe: true
         label: "sun",
         lat: point.lat,
         lng: point.lng,
+        simulatedUtc: date.toISOString().replace("T", " ").slice(0, 16),
       };
     };
 
@@ -2113,6 +2196,7 @@ secret_globe: true
         label: "moon",
         lat: point.lat,
         lng: point.lng,
+        simulatedUtc: date.toISOString().replace("T", " ").slice(0, 16),
       };
     };
 
@@ -2185,31 +2269,68 @@ secret_globe: true
       return points;
     };
 
+    const geometricGridPaths = (() => {
+      const paths = [];
+
+      for (let lat = -60; lat <= 60; lat += 30) {
+        const points = [];
+        for (let lng = -180; lng <= 180; lng += 6) {
+          points.push({ alt: 0.012, lat, lng });
+        }
+        paths.push({
+          color: "rgba(112, 216, 255, 0.11)",
+          dashGap: 0,
+          dashLength: 0,
+          name: "geometric latitude line",
+          points,
+          stroke: lat === 0 ? 0.22 : 0.14,
+        });
+      }
+
+      for (let lng = -150; lng <= 180; lng += 30) {
+        const points = [];
+        for (let lat = -84; lat <= 84; lat += 6) {
+          points.push({ alt: 0.012, lat, lng: normalizeLongitude(lng) });
+        }
+        paths.push({
+          color: "rgba(142, 234, 98, 0.075)",
+          dashGap: 0,
+          dashLength: 0,
+          name: "geometric longitude line",
+          points,
+          stroke: 0.12,
+        });
+      }
+
+      return paths;
+    })();
+
     const buildCelestialPaths = (date, sunPosition) => [
+      ...geometricGridPaths,
       {
-        color: "rgba(112, 216, 255, 0.58)",
+        color: "rgba(112, 216, 255, 0.2)",
         dashGap: 0,
         dashLength: 0,
-        name: "terminator glow",
+        name: "soft terminator glow",
         points: buildTerminatorPath(sunPosition),
-        stroke: 1.65,
+        stroke: 0.72,
       },
       {
-        color: "rgba(255, 224, 154, 1)",
+        color: "rgba(255, 184, 86, 0.3)",
         dashGap: 0,
         dashLength: 0,
-        name: "sunrise sunset terminator",
+        name: "sunrise sunset edge",
         points: buildTerminatorPath(sunPosition),
-        stroke: 0.88,
+        stroke: 0.28,
       },
       {
-        animateTime: 3600,
-        color: "rgba(220, 235, 255, 0.62)",
-        dashGap: 0.08,
-        dashLength: 0.18,
+        animateTime: 0,
+        color: "rgba(220, 235, 255, 0.2)",
+        dashGap: 0,
+        dashLength: 0,
         name: "moon ground track",
         points: buildMoonGroundTrack(date),
-        stroke: 0.38,
+        stroke: 0.18,
       },
     ];
 
@@ -2255,16 +2376,19 @@ secret_globe: true
 
       const material = globe.globeMaterial?.();
       if (material) {
-        material.bumpScale = 6;
-        material.shininess = 18;
+        material.bumpScale = 8;
+        material.shininess = 10;
+        material.color?.set?.("#d6f2e7");
+        material.emissive?.set?.("#07120d");
+        material.emissiveIntensity = 0.16;
         material.needsUpdate = true;
       }
 
       const lights = globe.lights?.();
       if (Array.isArray(lights)) {
         lights.forEach((light) => {
-          if (light.type === "AmbientLight") light.intensity = 0.34;
-          if (light.type === "DirectionalLight") light.intensity = 1.32;
+          if (light.type === "AmbientLight") light.intensity = 0.42;
+          if (light.type === "DirectionalLight") light.intensity = 1.18;
         });
       }
     };
@@ -2292,6 +2416,7 @@ secret_globe: true
       globe.pathPointLat?.("lat");
       globe.pathPointLng?.("lng");
       globe.pathPointAlt?.("alt");
+      globe.pathResolution?.(0.85);
       globe.pathColor?.((path) => path.color);
       globe.pathStroke?.((path) => path.stroke);
       globe.pathDashLength?.((path) => path.dashLength);
@@ -2326,6 +2451,11 @@ secret_globe: true
         updateSunHud(date, sunPosition, moonPosition);
         globe.htmlElementsData([...entries, sunEntry, moonEntry]);
         globe.pathsData?.(buildCelestialPaths(date, sunPosition));
+        if (detailsPinned && activeMarkerId === sunEntry.id) {
+          showMarkerDetails(sunEntry, { pinned: true });
+        } else if (detailsPinned && activeMarkerId === moonEntry.id) {
+          showMarkerDetails(moonEntry, { pinned: true });
+        }
         window.requestAnimationFrame(() => setActiveMarker(activeMarkerId));
       };
 
@@ -2336,12 +2466,48 @@ secret_globe: true
       }
     };
 
+    const focusCelestial = (entry) => {
+      if (!entry || !hasCoordinates(entry)) return;
+
+      showMarkerDetails(entry, { pinned: true });
+      if (globeInstance) {
+        globeInstance.pointOfView(
+          {
+            altitude: 1.42,
+            lat: entry.lat,
+            lng: entry.lng,
+          },
+          prefersReducedMotion.matches ? 0 : 950,
+        );
+      }
+
+      setGlobeStatus(`${entry.kind === "sun" ? "Sun" : "Moon"}-centric view locked on ${whereLabel(entry)}.`);
+    };
+
     const createGlobeMarker = (entry) => {
       if (entry.kind === "sun" || entry.kind === "moon") {
-        const marker = document.createElement("span");
+        const marker = document.createElement("button");
+        const core = document.createElement("span");
+        const label = document.createElement("span");
+
+        marker.type = "button";
         marker.className = `sirui-celestial-marker is-${entry.kind}`;
-        marker.textContent = entry.label;
-        marker.setAttribute("aria-hidden", "true");
+        marker.dataset.entryId = entry.id;
+        marker.setAttribute("aria-label", `${entry.kind}-centric view for ${whereLabel(entry)}`);
+        core.className = "sirui-celestial-core";
+        label.className = "sirui-celestial-label";
+        label.textContent = entry.label;
+        marker.append(core, label);
+
+        marker.addEventListener("mouseenter", () => previewMarker(entry));
+        marker.addEventListener("mouseleave", clearMarkerPreview);
+        marker.addEventListener("focus", () => showMarkerDetails(entry));
+        marker.addEventListener("blur", hideMarkerDetails);
+        marker.addEventListener("click", (event) => {
+          event.stopPropagation();
+          focusCelestial(entry);
+        });
+
         return marker;
       }
 
@@ -2394,7 +2560,7 @@ secret_globe: true
 
       return entries
         .filter((entry) => entry.id !== activeEntry.id && hasCoordinates(entry))
-        .slice(0, 7)
+        .slice(0, 4)
         .map((entry) => ({
           endLat: activeEntry.lat,
           endLng: activeEntry.lng,
@@ -2469,13 +2635,14 @@ secret_globe: true
           .backgroundColor("rgba(0, 0, 0, 0)")
           .showAtmosphere(true)
           .atmosphereColor("#70d8ff")
-          .atmosphereAltitude(0.18)
-          .globeCurvatureResolution(2)
+          .atmosphereAltitude(0.13)
+          .globeCurvatureResolution(1.15)
           .pointsData(entries)
           .pointLat("lat")
           .pointLng("lng")
           .pointAltitude((entry) => (entry.isCurrent ? 0.08 : 0.035))
           .pointRadius((entry) => 0.18 + Math.min(Number(entry.count) || 1, 6) * 0.025)
+          .pointResolution(24)
           .pointColor((entry) => (entry.isCurrent ? "#ff4f9a" : "#8eea62"))
           .pointLabel((entry) => whereLabel(entry))
           .pointsTransitionDuration(reducedMotion ? 0 : 700)
@@ -2483,31 +2650,36 @@ secret_globe: true
           .ringLat("lat")
           .ringLng("lng")
           .ringAltitude(0.012)
-          .ringColor(() => "rgba(255, 79, 154, 0.78)")
-          .ringMaxRadius(3.2)
-          .ringPropagationSpeed(reducedMotion ? 0 : 1.4)
-          .ringRepeatPeriod(reducedMotion ? 0 : 1200)
+          .ringColor(() => "rgba(255, 79, 154, 0.42)")
+          .ringMaxRadius(2.2)
+          .ringPropagationSpeed(reducedMotion ? 0 : 0.48)
+          .ringRepeatPeriod(reducedMotion ? 0 : 3200)
+          .ringResolution(96)
           .arcsData(buildUnlockArcs(entries, activeEntry))
           .arcLabel("name")
           .arcStartLat("startLat")
           .arcStartLng("startLng")
           .arcEndLat("endLat")
           .arcEndLng("endLng")
-          .arcColor(() => ["rgba(112, 216, 255, 0.1)", "rgba(255, 79, 154, 0.8)"])
-          .arcAltitudeAutoScale(0.32)
-          .arcDashLength(0.36)
-          .arcDashGap(0.18)
-          .arcDashAnimateTime(reducedMotion ? 0 : 2600)
-          .arcStroke(0.34)
+          .arcColor(() => ["rgba(112, 216, 255, 0.08)", "rgba(255, 79, 154, 0.32)"])
+          .arcAltitudeAutoScale(0.2)
+          .arcCurveResolution(96)
+          .arcCircularResolution(8)
+          .arcDashLength(1)
+          .arcDashGap(0)
+          .arcDashAnimateTime(0)
+          .arcStroke(0.16)
           .htmlElementsData(entries)
           .htmlLat("lat")
           .htmlLng("lng")
-          .htmlAltitude((entry) => (entry.kind ? 0.13 : 0.09))
+          .htmlAltitude((entry) => (entry.kind ? 0.16 : 0.09))
           .htmlElement(createGlobeMarker)
           .htmlTransitionDuration(reducedMotion ? 0 : 700)
           .htmlElementVisibilityModifier((element, isVisible) => {
             if (element.classList.contains("sirui-celestial-marker")) {
               element.style.opacity = isVisible ? "" : "0";
+              element.style.pointerEvents = isVisible ? "auto" : "none";
+              element.tabIndex = isVisible ? 0 : -1;
               return;
             }
 
