@@ -513,7 +513,7 @@ third_party_libraries:
     version: "3.6.0"
   leaflet:
     integrity:
-      css: "sha256-q9ba7o845pMPFU+zcAll8rv+gC+fSovKsOoNQ6cynuQ="
+      css: "sha256-QZFpF9DkpabUBLoCc7fQJVCmtag/LaVAfAkUJSfuNyY="
       js: "sha256-MgH13bFTTNqsnuEoqNPBLDaqxjGH+lCpqrukmXc8Ppg="
       js_map: "sha256-YAoQ3FzREN4GmVENMir8vgHHypC0xfSK3CAxTHCqx1M="
     local:
