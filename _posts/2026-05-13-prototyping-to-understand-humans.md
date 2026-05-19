@@ -135,12 +135,49 @@ prototype makes visible.
 A prototype can be rough and still be valuable if it makes an idea inspectable.
 But a rough prototype with a vague claim is just a rough prototype.
 
+## The prototype should train the researcher too
+
+Minas Karamanis's essay
+[_The machines are fine. I'm worried about us._](https://ergosphere.blog/posts/the-machines-are-fine/)
+gave me another way to think about this.
+
+The question is not simply whether AI should or should not be used in research.
+The harder question is what kinds of work we are allowing AI to replace, and
+what kinds of human capacities we are still trying to develop.
+
+Karamanis makes this vivid through the contrast between Alice and Bob. From the
+outside, both can produce something that looks like successful research. But
+only one may have gone through the slow process of reading carefully, getting
+confused, debugging, checking assumptions, and learning what a good or bad
+result feels like. The visible output can be similar while the internal
+development is completely different.
+
+That distinction matters for HCI prototyping too. Two researchers can end up
+with similar demos, but only one may have built the judgment needed to explain,
+critique, debug, and defend the artifact. If AI helps with syntax, prose,
+interface polish, or generating alternatives after I already understand the
+problem, that seems useful. I am still responsible for the intellectual work.
+
+Where I become uncomfortable is when AI chooses the method, interprets the
+data, writes the claim, or smooths away the struggle before I have understood
+what the struggle is teaching me. Karamanis's phrase that "the failures are the
+curriculum" feels right here. Some friction is waste, but some friction is how
+taste develops: the confusing paper, the broken prototype, the weird user
+behavior, the bug that reveals a missing model of interaction.
+
+This connects to something my undergraduate advisor Judy once told me: in a
+very high-dimensional design space, one goal of research is to become a more
+efficient navigator. AI can help with that. It can eliminate bad options,
+surface alternatives, speed up implementation, and give me more things to
+compare. But the researcher still has to learn where to point the tool, what to
+trust, what to reject, and what is worth understanding more deeply.
+
 ## Prototype as probe
 
 The most useful shift for me is this:
 
 > Do not prototype only to make a better tool. Prototype to better understand
-> people.
+> people, and to train my own ability to notice what matters about them.
 
 Instead of starting with:
 
@@ -273,6 +310,14 @@ about how that mechanism behaves in a new context. The stronger version is:
 Then the contribution is not just the borrowed trick. The contribution is the
 translation, boundary condition, and explanation.
 
+Two extra checks I want to add, especially when AI is involved:
+
+> What difficulty am I intentionally preserving because it helps me build
+> judgment?
+
+> Could I still explain, evaluate, and defend this result if the AI assistance
+> disappeared?
+
 That is the distinction I want to keep in view: not whether a prototype is
 impressive by itself, but whether it helps articulate a piece of interaction
 knowledge that can outlive the prototype.
@@ -287,6 +332,10 @@ This note came out of conversations with mentors and labmates.
 companies often using knowledge as input, while research should output knowledge
 that others can reuse.
 
+[Philip Guo](https://pg.ucsd.edu/) recommended Karamanis's essay in his
+graduate seminar, which helped me connect AI use with researcher judgment and
+training.
+
 Main references:
 
 - [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/) and
@@ -299,7 +348,10 @@ Main references:
 - Saul Greenberg and Bill Buxton.
   [_Usability Evaluation Considered Harmful (Some of the Time)_](https://dl.acm.org/doi/10.1145/1357054.1357074).
   CHI 2008.
+- Minas Karamanis.
+  [_The machines are fine. I'm worried about us._](https://ergosphere.blog/posts/the-machines-are-fine/).
+  March 30, 2026.
 
 ---
 
-Last updated: May 13, 2026.
+Last updated: May 19, 2026.
