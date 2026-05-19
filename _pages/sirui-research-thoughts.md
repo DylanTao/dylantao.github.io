@@ -50,7 +50,6 @@ hide_title: true
 
         <div class="sirui-view-controls" role="toolbar" aria-label="visitor map view modes">
           <button type="button" data-sirui-view="visitor" class="is-active">visitor</button>
-          <button type="button" data-sirui-view="street">street</button>
           <button type="button" data-sirui-view="sun">sun</button>
           <button type="button" data-sirui-view="moon">moon</button>
           <button type="button" data-sirui-view="orbit">orbit</button>
@@ -1883,8 +1882,10 @@ hide_title: true
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
-    const streetModeAltitude = 1.55;
-    const defaultStreetZoom = 17;
+    const streetAutoEnterAltitude = 1.42;
+    const streetAutoExitAltitude = 1.78;
+    const sunSystemIntervalMs = 3200;
+    const celestialLayerIntervalMs = 9600;
 
     let globeInstance = null;
     let globeResizeObserver = null;
@@ -1907,6 +1908,8 @@ hide_title: true
     let globeSyncLocked = false;
     let streetSyncFrame = 0;
     let pendingStreetSync = null;
+    let streetMainActive = false;
+    let lastCelestialLayerUpdate = 0;
     let lastSkySnapshot = null;
     const initialBodyPaddingBottom = document.body.style.paddingBottom;
 
@@ -2847,11 +2850,11 @@ hide_title: true
       setText(streetAccuracy, formatMeters(entry?.meta?.browserLocation?.accuracy));
       setText(
         streetModeLabel,
-        activeViewMode === "street"
-          ? "synced street map"
-          : activeViewMode === "visitor"
-            ? "street inset"
-            : "globe context",
+        activeViewMode === "visitor"
+          ? streetMainActive
+            ? "street main"
+            : "street inset"
+          : "globe context",
       );
       if (sharpenLocationButton) {
         const hasBrowserPrecision = entry?.coordinateSource === "browser geolocation";
@@ -2984,8 +2987,14 @@ hide_title: true
     const clamp = (value, min, max) =>
       Math.max(min, Math.min(max, Number(value) || 0));
 
-    const isStreetSyncedMode = () =>
-      activeViewMode === "visitor" || activeViewMode === "street";
+    const isStreetSyncedMode = () => activeViewMode === "visitor";
+
+    const shouldUseStreetMainForAltitude = (altitude) => {
+      const value = Number(altitude) || 2.4;
+      return streetMainActive
+        ? value <= streetAutoExitAltitude
+        : value <= streetAutoEnterAltitude;
+    };
 
     const globeMarkerScale = () =>
       clamp(0.82 + ((currentGlobeAltitude - 1.2) / 2.5) * 0.23, 0.82, 1.05);
@@ -3002,7 +3011,7 @@ hide_title: true
 
       const scale = globeMarkerScale();
       globeInstance.pointRadius?.(pointRadiusForEntry);
-      globeInstance.ringMaxRadius?.(activeViewMode === "street" ? 0.95 : 0.9 + scale * 1.28);
+      globeInstance.ringMaxRadius?.(streetMainActive ? 0.95 : 0.9 + scale * 1.28);
       globeInstance.ringPropagationSpeed?.(
         prefersReducedMotion.matches ? 0 : 0.28 + scale * 0.28,
       );
@@ -3447,34 +3456,38 @@ hide_title: true
       return paths;
     })();
 
-    const buildCelestialPaths = (date, sunPosition) => [
-      ...geometricGridPaths,
-      {
-        color: "rgba(112, 216, 255, 0.2)",
-        dashGap: 0,
-        dashLength: 0,
-        name: "soft terminator glow",
-        points: buildTerminatorPath(sunPosition),
-        stroke: 0.72,
-      },
-      {
-        color: "rgba(255, 184, 86, 0.3)",
-        dashGap: 0,
-        dashLength: 0,
-        name: "sunrise sunset edge",
-        points: buildTerminatorPath(sunPosition),
-        stroke: 0.28,
-      },
-      {
-        animateTime: 0,
-        color: "rgba(220, 235, 255, 0.2)",
-        dashGap: 0,
-        dashLength: 0,
-        name: "moon ground track",
-        points: buildMoonGroundTrack(date),
-        stroke: 0.18,
-      },
-    ];
+    const buildCelestialPaths = (date, sunPosition) => {
+      const terminator = buildTerminatorPath(sunPosition);
+
+      return [
+        ...geometricGridPaths,
+        {
+          color: "rgba(112, 216, 255, 0.2)",
+          dashGap: 0,
+          dashLength: 0,
+          name: "soft terminator glow",
+          points: terminator,
+          stroke: 0.72,
+        },
+        {
+          color: "rgba(255, 184, 86, 0.3)",
+          dashGap: 0,
+          dashLength: 0,
+          name: "sunrise sunset edge",
+          points: terminator,
+          stroke: 0.28,
+        },
+        {
+          animateTime: 0,
+          color: "rgba(220, 235, 255, 0.2)",
+          dashGap: 0,
+          dashLength: 0,
+          name: "moon ground track",
+          points: buildMoonGroundTrack(date),
+          stroke: 0.18,
+        },
+      ];
+    };
 
     const getSimulatedDate = () => {
       if (celestialSpeed === 0) return new Date(celestialBaseSimTime);
@@ -3505,7 +3518,7 @@ hide_title: true
       celestialSpeed = 0;
       celestialMode = "pause";
       setCelestialMode("pause");
-      updateSunSystemOnce();
+      updateSunSystemOnce({ forceLayers: true });
     };
 
     const getMoonPhase = (date) => {
@@ -3708,9 +3721,10 @@ hide_title: true
       }
     };
 
-    const updateSunSystemOnce = () => {
+    const updateSunSystemOnce = ({ forceLayers = false } = {}) => {
       if (!globeInstance) return;
 
+      const realNow = Date.now();
       const date = getSimulatedDate();
       const sunEntry = makeSunEntry(date);
       const moonEntry = makeMoonEntry(date);
@@ -3726,8 +3740,15 @@ hide_title: true
       updateSunHud(date, sunPosition, moonPosition);
       updateSkyCockpit({ date, moonEntry, moonPhase, sunEntry });
       globeInstance.htmlElementsData([...baseEntries, sunEntry, moonEntry]);
-      globeInstance.pathsData?.(buildCelestialPaths(date, sunPosition));
-      globeInstance.polygonsData?.(buildNightHemisphere(sunPosition));
+
+      if (
+        forceLayers ||
+        realNow - lastCelestialLayerUpdate >= celestialLayerIntervalMs
+      ) {
+        globeInstance.pathsData?.(buildCelestialPaths(date, sunPosition));
+        globeInstance.polygonsData?.(buildNightHemisphere(sunPosition));
+        lastCelestialLayerUpdate = realNow;
+      }
 
       if (activeViewMode === "sun") {
         focusedGlobeEntry = sunEntry;
@@ -3746,11 +3767,12 @@ hide_title: true
     const startSunSystem = () => {
       stopSunTimer();
       celestialBaseRealTime = Date.now();
+      lastCelestialLayerUpdate = 0;
 
-      updateSunSystemOnce();
+      updateSunSystemOnce({ forceLayers: true });
 
       if (!prefersReducedMotion.matches) {
-        sunTimer = window.setInterval(updateSunSystemOnce, 1500);
+        sunTimer = window.setInterval(updateSunSystemOnce, sunSystemIntervalMs);
       }
     };
 
@@ -3874,7 +3896,14 @@ hide_title: true
       const zoom = streetMapInstance?.getZoom?.();
       const center = streetMapInstance?.getCenter?.();
 
-      setText(streetModeLabel, activeViewMode === "street" ? "synced street map" : "globe context");
+      setText(
+        streetModeLabel,
+        activeViewMode === "visitor"
+          ? streetMainActive
+            ? "street main"
+            : "street inset"
+          : "globe context",
+      );
       setText(streetZoomReadout, Number.isFinite(zoom) ? `z${zoom}` : "");
       setText(
         streetCenter,
@@ -3955,10 +3984,13 @@ hide_title: true
 
           const center = streetMapInstance.getCenter();
           const zoom = streetMapInstance.getZoom();
+          const altitude = streetZoomToAltitude(zoom, focusedGlobeEntry);
+          currentGlobeAltitude = altitude;
+          setStreetPresentation(shouldUseStreetMainForAltitude(altitude));
           globeSyncLocked = true;
           globeInstance.pointOfView(
             {
-              altitude: streetZoomToAltitude(zoom, focusedGlobeEntry),
+              altitude,
               lat: center.lat,
               lng: center.lng,
             },
@@ -3966,7 +3998,7 @@ hide_title: true
           );
           window.setTimeout(() => {
             globeSyncLocked = false;
-          }, 0);
+          }, 240);
           updateStreetReadout(focusedGlobeEntry);
         });
       }
@@ -4036,6 +4068,21 @@ hide_title: true
       });
     };
 
+    const setStreetPresentation = (full, { force = false } = {}) => {
+      const nextFull = Boolean(full);
+      if (!isStreetSyncedMode()) {
+        streetMainActive = false;
+        setStreetMapVisible(false);
+        return;
+      }
+
+      if (!force && streetMainActive === nextFull) return;
+
+      streetMainActive = nextFull;
+      setStreetMapVisible(true, { full: streetMainActive });
+      updateStreetReadout(focusedGlobeEntry || activeVisitorEntry());
+    };
+
     const applyZoomMode = (pov, activeEntry) => {
       const altitude = Number(pov?.altitude) || 2.4;
       const isFar = altitude > 2.35;
@@ -4048,6 +4095,7 @@ hide_title: true
       mapStage?.classList.toggle("is-zoom-near", isNear);
       refreshGlobeMarkerScale();
       if (isStreetSyncedMode() && !globeSyncLocked) {
+        setStreetPresentation(shouldUseStreetMainForAltitude(altitude));
         scheduleStreetMapSync(focusEntry, {
           altitude,
           lat: pov?.lat ?? focusEntry?.lat,
@@ -4055,7 +4103,9 @@ hide_title: true
         });
       }
 
-      if (isNear && hasCoordinates(focusEntry) && !detailsPinned) {
+      if (streetMainActive && !detailsPinned) {
+        hideMarkerDetails();
+      } else if (isNear && hasCoordinates(focusEntry) && !detailsPinned) {
         showMarkerDetails(focusEntry);
       } else if (!detailsPinned && !isNear) {
         hideMarkerDetails();
@@ -4068,6 +4118,8 @@ hide_title: true
     };
 
     const setViewMode = (mode, { animate = true } = {}) => {
+      if (mode === "street") mode = "visitor";
+
       const visitorEntry = activeVisitorEntry();
       if (!visitorEntry && !["sun", "moon", "orbit"].includes(mode)) return;
 
@@ -4085,9 +4137,13 @@ hide_title: true
           sunEntry: makeSunEntry(getSimulatedDate()),
         };
 
-      setStreetMapVisible(isStreetSyncedMode(), { full: mode === "street" });
+      if (isStreetSyncedMode()) {
+        setStreetPresentation(false, { force: true });
+      } else {
+        setStreetMapVisible(false);
+      }
       mapStage?.classList.toggle("is-sky-mode", ["sun", "moon", "orbit"].includes(mode));
-      if (mode !== "street") updateStreetReadout(visitorEntry);
+      updateStreetReadout(visitorEntry);
 
       if (mode === "visitor" && visitorEntry) {
         focusedGlobeEntry = visitorEntry;
@@ -4110,29 +4166,9 @@ hide_title: true
           },
           { force: true },
         );
-        setGlobeStatus(`Visitor view centered near ${whereLabel(visitorEntry)}.`);
-      } else if (mode === "street" && visitorEntry) {
-        focusedGlobeEntry = visitorEntry;
-        skyPanel.hidden = true;
-        showMarkerDetails(visitorEntry, { pinned: true });
-        globeInstance?.pointOfView(
-          {
-            altitude: 1.05,
-            lat: visitorEntry.lat,
-            lng: visitorEntry.lng,
-          },
-          transitionMs,
+        setGlobeStatus(
+          `Visitor view centered near ${whereLabel(visitorEntry)}; close zoom promotes the street map.`,
         );
-        void syncStreetMapFromGlobe(
-          visitorEntry,
-          {
-            altitude: 1.05,
-            lat: visitorEntry.lat,
-            lng: visitorEntry.lng,
-          },
-          { force: true },
-        );
-        setGlobeStatus(`Street view synced near ${whereLabel(visitorEntry)}.`);
       } else if (mode === "sun") {
         focusedGlobeEntry = skySnapshot.sunEntry;
         clearPinnedDetails();
@@ -4566,7 +4602,7 @@ hide_title: true
     timeModeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         setCelestialMode(button.dataset.siruiTimeMode);
-        updateSunSystemOnce();
+        updateSunSystemOnce({ forceLayers: true });
       });
     });
     timeStepButtons.forEach((button) => {
