@@ -7,6 +7,7 @@ sitemap: false
 search: false
 secret_globe: true
 map: true
+hide_title: true
 ---
 
 <div
@@ -243,6 +244,7 @@ map: true
               <dd id="sirui-info-sky-clock">--</dd>
             </div>
           </dl>
+          <p class="sirui-source-credit">Earth texture: NASA Earth Observatory.</p>
         </div>
       </div>
 
@@ -292,7 +294,8 @@ map: true
 
   .sirui-crack-map {
     margin-left: 50%;
-    margin-top: 0.9rem;
+    margin-bottom: calc(var(--sirui-fixed-footer-gap, 0px) + 0.85rem);
+    margin-top: 0.25rem;
     transform: translateX(-50%);
     width: min(94vw, 88rem);
   }
@@ -1038,7 +1041,7 @@ map: true
   }
 
   .sirui-map-shell {
-    --sirui-stage-height: clamp(22rem, calc(100vh - 17rem), 44rem);
+    --sirui-stage-height: clamp(18rem, calc(100svh - 14rem), 45rem);
     grid-template-areas:
       "top"
       "stage"
@@ -1047,8 +1050,29 @@ map: true
   }
 
   .sirui-crack-map {
-    margin-bottom: 2.5rem;
+    margin-bottom: calc(var(--sirui-fixed-footer-gap, 0px) + 0.85rem);
     width: min(94vw, 92rem);
+  }
+
+  .sirui-map-shell.is-height-tight {
+    gap: 0.56rem;
+    padding: clamp(0.62rem, 1vw, 0.9rem);
+  }
+
+  .sirui-map-shell.is-height-tight .sirui-map-topline {
+    gap: 0.25rem 0.75rem;
+  }
+
+  .sirui-map-shell.is-height-tight .sirui-map-topline h2 {
+    font-size: clamp(2rem, 4vw, 2.35rem);
+  }
+
+  .sirui-map-shell.is-height-tight .sirui-map-note {
+    font-size: 0.78rem;
+  }
+
+  .sirui-map-shell.is-height-tight .sirui-console-status {
+    font-size: 0.7rem;
   }
 
   .sirui-map-stage {
@@ -1204,19 +1228,19 @@ map: true
   }
 
   .sirui-celestial-marker {
-    height: 2.3rem;
-    width: 2.3rem;
+    height: 1.9rem;
+    width: 1.9rem;
   }
 
   .sirui-celestial-marker::before {
-    height: 1.8rem;
-    opacity: 0.52;
-    width: 1.8rem;
+    height: 1.45rem;
+    opacity: 0.42;
+    width: 1.45rem;
   }
 
   .sirui-celestial-core {
-    height: 0.7rem;
-    width: 0.7rem;
+    height: 0.56rem;
+    width: 0.56rem;
   }
 
   .sirui-sky-cockpit {
@@ -1226,13 +1250,17 @@ map: true
     border-radius: 0.55rem;
     box-shadow: 0 0.9rem 2rem rgba(0, 0, 0, 0.34);
     display: grid;
-    gap: 0.8rem;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    max-width: min(30rem, calc(100% - 1.5rem));
-    padding: 0.75rem;
+    gap: clamp(0.8rem, 1.5vw, 1.15rem);
+    grid-template-columns: clamp(12rem, 19vw, 16rem) minmax(13rem, 1fr);
+    max-height: min(31rem, calc(var(--sirui-stage-height) - 1.5rem));
+    max-width: min(45rem, calc(100% - 1.5rem));
+    overflow: auto;
+    padding: clamp(0.82rem, 1.25vw, 1.05rem);
     position: absolute;
     right: 0.75rem;
     top: 0.75rem;
+    --sirui-moon-shadow-opacity: 0.7;
+    --sirui-moon-shadow-x: -24%;
     z-index: 6;
   }
 
@@ -1242,9 +1270,27 @@ map: true
 
   .sirui-sky-orbit {
     aspect-ratio: 1;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(112, 216, 255, 0.1), transparent 31%),
+      radial-gradient(circle at 50% 50%, rgba(244, 248, 239, 0.03), transparent 62%);
     border: 1px solid rgba(220, 235, 255, 0.14);
     border-radius: 50%;
+    min-width: 0;
     position: relative;
+  }
+
+  .sirui-sky-orbit::before,
+  .sirui-sky-orbit::after {
+    border: 1px solid rgba(220, 235, 255, 0.12);
+    border-radius: 50%;
+    content: "";
+    inset: 11%;
+    position: absolute;
+  }
+
+  .sirui-sky-orbit::after {
+    border-color: rgba(255, 184, 86, 0.16);
+    inset: 24%;
   }
 
   .sirui-sky-sun,
@@ -1259,10 +1305,10 @@ map: true
     box-shadow:
       0 0 1rem rgba(255, 184, 86, 0.84),
       0 0 2.6rem rgba(255, 112, 48, 0.38);
-    height: 1.45rem;
+    height: 2.15rem;
     left: 0.45rem;
     top: 0.65rem;
-    width: 1.45rem;
+    width: 2.15rem;
   }
 
   .sirui-sky-earth {
@@ -1270,20 +1316,115 @@ map: true
       radial-gradient(circle at 44% 38%, rgba(244, 248, 239, 0.82), transparent 12%),
       radial-gradient(circle at 54% 54%, #1a7fa8 0 24%, #145b69 40%, #0d2e36 100%);
     border: 1px solid rgba(112, 216, 255, 0.46);
-    height: 3.9rem;
+    height: 4.3rem;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 3.9rem;
+    width: 4.3rem;
   }
 
   .sirui-sky-moon {
     background: radial-gradient(circle at 35% 32%, #ffffff 0 18%, #dbeaff 38%, #607086 100%);
     box-shadow: 0 0 0.8rem rgba(220, 235, 255, 0.44);
-    height: 1.06rem;
+    height: 1.18rem;
+    overflow: hidden;
     right: 1rem;
     top: 1.15rem;
-    width: 1.06rem;
+    width: 1.18rem;
+  }
+
+  .sirui-sky-moon::before {
+    background: radial-gradient(
+      circle at var(--sirui-moon-shadow-x) 50%,
+      rgba(6, 10, 17, 0.98) 0 46%,
+      rgba(6, 10, 17, 0.76) 61%,
+      transparent 78%
+    );
+    border-radius: inherit;
+    content: "";
+    inset: 0;
+    opacity: var(--sirui-moon-shadow-opacity);
+    position: absolute;
+  }
+
+  .sirui-sky-cockpit[data-view="sun"] .sirui-sky-sun,
+  .sirui-sky-cockpit[data-view="moon"] .sirui-sky-moon {
+    height: clamp(7rem, 11vw, 9.6rem);
+    width: clamp(7rem, 11vw, 9.6rem);
+  }
+
+  .sirui-sky-cockpit[data-view="sun"] .sirui-sky-sun {
+    box-shadow:
+      0 0 1.6rem rgba(255, 215, 128, 0.96),
+      0 0 5rem rgba(255, 112, 48, 0.45),
+      0 0 9rem rgba(255, 184, 86, 0.18);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .sirui-sky-cockpit[data-view="sun"] .sirui-sky-earth {
+    bottom: 0.75rem;
+    height: 2.8rem;
+    left: auto;
+    right: 0.75rem;
+    top: auto;
+    transform: none;
+    width: 2.8rem;
+  }
+
+  .sirui-sky-cockpit[data-view="sun"] .sirui-sky-moon {
+    height: 1rem;
+    opacity: 0.42;
+    right: 3.35rem;
+    top: 1.2rem;
+    width: 1rem;
+  }
+
+  .sirui-sky-cockpit[data-view="moon"] .sirui-sky-moon {
+    box-shadow:
+      0 0 1.2rem rgba(220, 235, 255, 0.72),
+      0 0 3.2rem rgba(112, 216, 255, 0.24);
+    left: 50%;
+    right: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .sirui-sky-cockpit[data-view="moon"] .sirui-sky-sun {
+    height: 2.7rem;
+    left: 0.45rem;
+    top: 0.65rem;
+    width: 2.7rem;
+  }
+
+  .sirui-sky-cockpit[data-view="moon"] .sirui-sky-earth {
+    bottom: 0.8rem;
+    height: 2.6rem;
+    left: auto;
+    right: 0.75rem;
+    top: auto;
+    transform: none;
+    width: 2.6rem;
+  }
+
+  .sirui-sky-cockpit[data-view="orbit"] .sirui-sky-sun {
+    height: 4.6rem;
+    left: -1.35rem;
+    top: -1rem;
+    width: 4.6rem;
+  }
+
+  .sirui-sky-cockpit[data-view="orbit"] .sirui-sky-earth {
+    height: 5.25rem;
+    width: 5.25rem;
+  }
+
+  .sirui-sky-cockpit[data-view="orbit"] .sirui-sky-moon {
+    height: 1.43rem;
+    right: 1.3rem;
+    top: 2.2rem;
+    width: 1.43rem;
   }
 
   .sirui-sky-copy {
@@ -1375,6 +1516,13 @@ map: true
     margin: 0;
   }
 
+  .sirui-info-panel .sirui-source-credit {
+    color: rgba(189, 203, 181, 0.72);
+    font-size: 0.62rem;
+    line-height: 1.25;
+    margin: 0.45rem 0 0;
+  }
+
   .sirui-location-actions {
     margin-top: 0.45rem;
     padding-top: 0.45rem;
@@ -1463,11 +1611,18 @@ map: true
     .sirui-map-dock {
       grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     }
+
+    .sirui-sky-cockpit {
+      grid-template-columns: clamp(10rem, 28vw, 13rem) minmax(12rem, 1fr);
+      max-width: min(38rem, calc(100% - 1rem));
+      right: 0.5rem;
+      top: 0.5rem;
+    }
   }
 
   @media (max-width: 720px) {
     .sirui-crack-map {
-      width: min(94vw, 42rem);
+      width: min(96vw, 42rem);
     }
 
     .sirui-map-shell {
@@ -1483,11 +1638,21 @@ map: true
     }
 
     .sirui-globe-canvas {
-      height: clamp(25rem, 68vh, 34rem);
+      height: var(--sirui-stage-height);
     }
 
     .sirui-map-dock {
-      grid-template-columns: 1fr;
+      display: flex;
+      gap: 0.6rem;
+      grid-template-columns: none;
+      overflow-x: auto;
+      padding-bottom: 0.15rem;
+      scroll-snap-type: x proximity;
+    }
+
+    .sirui-info-panel {
+      flex: 0 0 min(18rem, 82vw);
+      scroll-snap-align: start;
     }
 
     .sirui-map-scanline {
@@ -1508,6 +1673,36 @@ map: true
     .sirui-street-map {
       height: 100%;
     }
+
+    .sirui-sky-cockpit {
+      align-items: start;
+      grid-template-columns: minmax(0, 1fr);
+      left: 0.5rem;
+      max-height: min(18rem, calc(var(--sirui-stage-height) - 4.4rem));
+      overflow: auto;
+      right: 0.5rem;
+      top: 3.7rem;
+    }
+
+    .sirui-sky-orbit {
+      justify-self: center;
+      width: min(13rem, 68vw);
+    }
+
+    .sirui-sky-cockpit[data-view="sun"] .sirui-sky-sun,
+    .sirui-sky-cockpit[data-view="moon"] .sirui-sky-moon {
+      height: clamp(6rem, 36vw, 8rem);
+      width: clamp(6rem, 36vw, 8rem);
+    }
+
+    .sirui-marker-card {
+      bottom: 0.5rem;
+      left: 0.5rem;
+      max-height: 45svh;
+      max-width: none;
+      right: 0.5rem;
+      width: auto;
+    }
   }
 
   @media (max-width: 480px) {
@@ -1526,6 +1721,34 @@ map: true
     .sirui-map-shell {
       margin-left: -0.25rem;
       margin-right: -0.25rem;
+    }
+
+    .sirui-view-controls,
+    .sirui-time-controls {
+      gap: 0.12rem;
+      left: 0.45rem;
+      max-width: calc(100% - 0.9rem);
+      padding: 0.18rem;
+    }
+
+    .sirui-view-controls button,
+    .sirui-time-controls button {
+      font-size: 0.58rem;
+      min-height: 1.45rem;
+      padding: 0.3rem 0.34rem;
+    }
+
+    .sirui-map-stage.is-street-mode .sirui-globe-canvas {
+      bottom: 0.45rem;
+      height: clamp(4.75rem, 20svh, 6.6rem);
+      opacity: 0.82;
+      right: 0.45rem;
+      width: clamp(6rem, 28vw, 8rem);
+    }
+
+    .sirui-map-stage.is-street-mode .sirui-globe-marker-label,
+    .sirui-map-stage.is-street-mode .sirui-celestial-label {
+      display: none;
     }
   }
 
@@ -1608,7 +1831,7 @@ map: true
     const readoutVersion = "globe_v1";
     const visitorEndpoint = "{{ site.sirui_visitor_endpoint | default: '' }}".trim();
     const svgNamespace = "http://www.w3.org/2000/svg";
-    const globeTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_day }}";
+    const globeTextureUrl = "{{ '/assets/img/sirui/earth-bmng-nov-5400.jpg' | relative_url }}";
     const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_blue_marble }}";
     const globeBumpUrl = "{{ site.third_party_libraries.three-globe.url.earth_topology }}";
     const prefersReducedMotion = window.matchMedia(
@@ -1637,6 +1860,7 @@ map: true
     let streetSyncLocked = false;
     let globeSyncLocked = false;
     let lastSkySnapshot = null;
+    const initialBodyPaddingBottom = document.body.style.paddingBottom;
 
     const b64ToBytes = (value) =>
       Uint8Array.from(atob(value.replace(/\s/g, "")), (char) =>
@@ -2782,10 +3006,47 @@ map: true
       });
 
     const fitConsoleToViewport = () => {
-      if (!map || map.hidden) return;
+      if (!map || map.hidden || !mapShell) return;
 
-      const height = clamp(window.innerHeight - 270, 340, 720);
+      const parsePixels = (value) => {
+        const number = parseFloat(value);
+        return Number.isFinite(number) ? number : 0;
+      };
+      const viewportHeight =
+        window.visualViewport?.height ||
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        720;
+      const shellStyle = getComputedStyle(mapShell);
+      const shellRect = mapShell.getBoundingClientRect();
+      const topRect = mapShell.querySelector(".sirui-map-topline")?.getBoundingClientRect();
+      const dockRect = mapShell.querySelector(".sirui-map-dock")?.getBoundingClientRect();
+      const fixedFooter = document.querySelector("footer.fixed-bottom");
+      const footerHeight = fixedFooter
+        ? Math.ceil(fixedFooter.getBoundingClientRect().height)
+        : 0;
+      const rowGap = parsePixels(shellStyle.rowGap || shellStyle.gap);
+      const paddingY =
+        parsePixels(shellStyle.paddingTop) + parsePixels(shellStyle.paddingBottom);
+      const reserved =
+        (topRect?.height || 0) +
+        (dockRect?.height || 0) +
+        paddingY +
+        rowGap * 2 +
+        footerHeight +
+        (window.innerWidth < 720 ? 12 : 16);
+      const available = viewportHeight - shellRect.top - reserved;
+      const minHeight = window.innerWidth < 480 ? 220 : window.innerWidth < 720 ? 250 : 250;
+      const maxHeight = window.innerWidth < 720 ? 600 : 760;
+      const height = clamp(available, minHeight, maxHeight);
+
+      mapShell.classList.toggle("is-height-tight", height < 410 || viewportHeight < 780);
+      map.style.setProperty("--sirui-fixed-footer-gap", `${footerHeight}px`);
       map.style.setProperty("--sirui-stage-height", `${Math.round(height)}px`);
+      mapShell.style.setProperty("--sirui-stage-height", `${Math.round(height)}px`);
+      document.body.style.paddingBottom = footerHeight
+        ? `${footerHeight}px`
+        : initialBodyPaddingBottom;
       window.requestAnimationFrame(() => {
         resizeGlobe();
         streetMapInstance?.invalidateSize?.(false);
@@ -3169,6 +3430,7 @@ map: true
         age,
         illumination,
         label: `${name}, ${Math.round(illumination * 100)}% lit`,
+        waxing: age < cycle / 2,
       };
     };
 
@@ -3198,7 +3460,7 @@ map: true
     const updateSkyCockpit = ({ date, sunEntry, moonEntry, moonPhase }) => {
       const activeCelestial =
         activeViewMode === "moon" ? moonEntry : activeViewMode === "sun" ? sunEntry : null;
-      const summary = `Sun ${formatCoordinate(sunEntry.lat, "N", "S")}, ${formatCoordinate(sunEntry.lng, "E", "W")} - Moon ${formatCoordinate(moonEntry.lat, "N", "S")}, ${formatCoordinate(moonEntry.lng, "E", "W")}`;
+      const summary = `Sun ${formatCoordinate(sunEntry.lat, "N", "S")}, ${formatCoordinate(sunEntry.lng, "E", "W")} / Moon ${formatCoordinate(moonEntry.lat, "N", "S")}, ${formatCoordinate(moonEntry.lng, "E", "W")}`;
       const clockLabel =
         celestialSpeed === 0
           ? "paused"
@@ -3213,6 +3475,16 @@ map: true
       if (!skyPanel) return;
 
       const showSky = ["sun", "moon", "orbit"].includes(activeViewMode);
+      const moonShadowOpacity = clamp(1 - (moonPhase.illumination || 0), 0, 0.96);
+      skyPanel.dataset.view = activeViewMode;
+      skyPanel.style.setProperty(
+        "--sirui-moon-shadow-opacity",
+        moonShadowOpacity.toFixed(3),
+      );
+      skyPanel.style.setProperty(
+        "--sirui-moon-shadow-x",
+        moonPhase.waxing ? "-26%" : "126%",
+      );
       skyPanel.hidden = !showSky;
       if (!showSky) return;
 
@@ -3242,7 +3514,9 @@ map: true
         skyScale,
         activeViewMode === "orbit"
           ? "Moon drawn at 0.273x Earth radius; distance cinematic."
-          : "Earth subpoint view; bodies shown in sky overlay.",
+          : activeViewMode === "sun"
+            ? "Sun disk is cinematic; subsolar point is the overhead location."
+            : "Moon disk is cinematic; phase and sublunar point are simulated.",
       );
       setText(skyInfoTitle, modeLabel);
     };
@@ -3250,7 +3524,7 @@ map: true
     const tuneGlobeRender = (globe) => {
       const renderer = globe.renderer?.();
       if (renderer?.setPixelRatio) {
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2.5));
       }
 
       const camera = globe.camera?.();
@@ -3263,19 +3537,19 @@ map: true
 
       const material = globe.globeMaterial?.();
       if (material) {
-        material.bumpScale = 5;
-        material.shininess = 16;
+        material.bumpScale = 2.4;
+        material.shininess = 10;
         material.color?.set?.("#ffffff");
         material.emissive?.set?.("#06110d");
-        material.emissiveIntensity = 0.1;
+        material.emissiveIntensity = 0.06;
         material.needsUpdate = true;
       }
 
       const lights = globe.lights?.();
       if (Array.isArray(lights)) {
         lights.forEach((light) => {
-          if (light.type === "AmbientLight") light.intensity = 0.62;
-          if (light.type === "DirectionalLight") light.intensity = 1.08;
+          if (light.type === "AmbientLight") light.intensity = 0.72;
+          if (light.type === "DirectionalLight") light.intensity = 1.16;
         });
       }
     };
@@ -3708,11 +3982,11 @@ map: true
         setGlobeStatus(`Street view synced near ${whereLabel(visitorEntry)}.`);
       } else if (mode === "sun") {
         focusedGlobeEntry = skySnapshot.sunEntry;
-        showMarkerDetails(skySnapshot.sunEntry, { pinned: true });
+        clearPinnedDetails();
         updateSkyCockpit(skySnapshot);
         globeInstance?.pointOfView(
           {
-            altitude: 1.55,
+            altitude: 2.05,
             lat: skySnapshot.sunEntry.lat,
             lng: skySnapshot.sunEntry.lng,
           },
@@ -3721,11 +3995,11 @@ map: true
         setGlobeStatus("Sun cockpit facing the subsolar point.");
       } else if (mode === "moon") {
         focusedGlobeEntry = skySnapshot.moonEntry;
-        showMarkerDetails(skySnapshot.moonEntry, { pinned: true });
+        clearPinnedDetails();
         updateSkyCockpit(skySnapshot);
         globeInstance?.pointOfView(
           {
-            altitude: 1.55,
+            altitude: 2.05,
             lat: skySnapshot.moonEntry.lat,
             lng: skySnapshot.moonEntry.lng,
           },
@@ -3738,9 +4012,9 @@ map: true
         updateSkyCockpit(skySnapshot);
         globeInstance?.pointOfView(
           {
-            altitude: 3.05,
-            lat: visitorEntry?.lat || 0,
-            lng: visitorEntry?.lng || 0,
+            altitude: 3.35,
+            lat: 10,
+            lng: skySnapshot.moonEntry.lng,
           },
           transitionMs,
         );
@@ -3802,7 +4076,7 @@ map: true
           .showAtmosphere(true)
           .atmosphereColor("#70d8ff")
           .atmosphereAltitude(0.13)
-          .globeCurvatureResolution(1.15)
+          .globeCurvatureResolution(0.65)
           .pointsData(entries)
           .pointLat("lat")
           .pointLng("lng")
@@ -4136,6 +4410,9 @@ map: true
       });
     });
     window.addEventListener("resize", fitConsoleToViewport, { passive: true });
+    window.visualViewport?.addEventListener("resize", fitConsoleToViewport, {
+      passive: true,
+    });
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && !map?.hidden) {
