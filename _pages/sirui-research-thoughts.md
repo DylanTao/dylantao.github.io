@@ -35,6 +35,15 @@ hide_title: true
         </p>
       </div>
 
+      <div class="sirui-map-toolbar">
+        <div class="sirui-view-controls" role="toolbar" aria-label="visitor map view modes">
+          <button type="button" data-sirui-view="visitor" class="is-active">visitor</button>
+          <button type="button" data-sirui-view="sun">sun</button>
+          <button type="button" data-sirui-view="moon">moon</button>
+          <button type="button" data-sirui-view="orbit">orbit</button>
+        </div>
+      </div>
+
       <div class="sirui-map-stage">
         <div
           id="sirui-globe"
@@ -47,13 +56,6 @@ hide_title: true
         <p id="sirui-globe-status" class="sr-only" aria-live="polite">
           Waiting for the where-ish signal.
         </p>
-
-        <div class="sirui-view-controls" role="toolbar" aria-label="visitor map view modes">
-          <button type="button" data-sirui-view="visitor" class="is-active">visitor</button>
-          <button type="button" data-sirui-view="sun">sun</button>
-          <button type="button" data-sirui-view="moon">moon</button>
-          <button type="button" data-sirui-view="orbit">orbit</button>
-        </div>
 
         <div id="sirui-street-map-panel" class="sirui-street-map-panel" hidden aria-live="polite">
           <div class="sirui-street-map-header">
@@ -92,21 +94,6 @@ hide_title: true
               </div>
             </dl>
           </div>
-        </div>
-
-        <aside id="sirui-marker-card" class="sirui-marker-card" hidden>
-          <button id="sirui-marker-close" class="sirui-marker-close" type="button" aria-label="Close marker details">x</button>
-          <p class="sirui-marker-kicker">marker details</p>
-          <h3 id="sirui-marker-title">visitor</h3>
-          <dl id="sirui-marker-facts"></dl>
-        </aside>
-
-        <div class="sirui-time-controls" role="toolbar" aria-label="sky time controls">
-          <button type="button" data-sirui-time-step="-1">-1h</button>
-          <button type="button" data-sirui-time-mode="pause">pause</button>
-          <button type="button" data-sirui-time-mode="realtime">realtime</button>
-          <button type="button" data-sirui-time-mode="fast" class="is-active">90x</button>
-          <button type="button" data-sirui-time-step="1">+1h</button>
         </div>
 
         <div id="sirui-map-fallback" class="sirui-map-fallback" hidden>
@@ -163,14 +150,6 @@ hide_title: true
         </div>
 
         <div class="sirui-map-scanline" aria-hidden="true"></div>
-
-        <div class="sirui-sun-hud" aria-live="polite">
-          <span>orbit sim</span>
-          <span id="sirui-sun-utc">UTC --</span>
-          <span id="sirui-orbit-clock">1x</span>
-          <span id="sirui-sun-point">sun --</span>
-          <span id="sirui-moon-point">moon --</span>
-        </div>
       </div>
 
       <div class="sirui-map-dock">
@@ -196,6 +175,13 @@ hide_title: true
             <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>precise location</button>
           </div>
         </div>
+
+        <aside id="sirui-marker-card" class="sirui-marker-card sirui-info-panel" hidden>
+          <button id="sirui-marker-close" class="sirui-marker-close" type="button" aria-label="Close marker details">x</button>
+          <p class="sirui-marker-kicker">marker details</p>
+          <h3 id="sirui-marker-title">visitor</h3>
+          <dl id="sirui-marker-facts"></dl>
+        </aside>
 
         <div class="sirui-info-panel">
           <span class="sirui-readout-label">street</span>
@@ -243,6 +229,20 @@ hide_title: true
               <dd id="sirui-info-sky-clock">--</dd>
             </div>
           </dl>
+          <div class="sirui-time-controls" role="toolbar" aria-label="sky time controls">
+            <button type="button" data-sirui-time-step="-1">-1h</button>
+            <button type="button" data-sirui-time-mode="pause">pause</button>
+            <button type="button" data-sirui-time-mode="realtime" class="is-active">realtime</button>
+            <button type="button" data-sirui-time-mode="fast">90x</button>
+            <button type="button" data-sirui-time-step="1">+1h</button>
+          </div>
+          <div class="sirui-sun-hud" aria-live="polite">
+            <span>orbit sim</span>
+            <span id="sirui-sun-utc">UTC --</span>
+            <span id="sirui-orbit-clock">real time</span>
+            <span id="sirui-sun-point">sun --</span>
+            <span id="sirui-moon-point">moon --</span>
+          </div>
           <p class="sirui-source-credit">Earth texture: NASA Earth Observatory.</p>
         </div>
       </div>
@@ -323,6 +323,7 @@ hide_title: true
     gap: 0.8rem;
     grid-template-areas:
       "top top"
+      "toolbar toolbar"
       "stage dock"
       "foot foot";
     grid-template-columns: minmax(0, 2.15fr) minmax(18rem, 0.85fr);
@@ -405,6 +406,16 @@ hide_title: true
     font-size: 0.86rem;
     margin-top: 0;
     max-width: 44rem;
+  }
+
+  .sirui-map-toolbar {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    grid-area: toolbar;
+    justify-content: space-between;
+    min-width: 0;
   }
 
   .sirui-map-footnote {
@@ -527,34 +538,32 @@ hide_title: true
   }
 
   .sirui-sun-hud {
-    align-items: center;
+    align-items: start;
     background: rgba(5, 8, 6, 0.62);
     border: 1px solid rgba(255, 184, 86, 0.28);
-    border-radius: 999px;
-    bottom: 0.75rem;
+    border-radius: 0.45rem;
     color: var(--sirui-console-muted);
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     font-size: 0.72rem;
     gap: 0.3rem 0.65rem;
-    left: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     line-height: 1.35;
-    max-width: calc(100% - 1.5rem);
+    margin-top: 0.55rem;
     padding: 0.4rem 0.6rem;
-    pointer-events: none;
-    position: absolute;
-    z-index: 3;
   }
 
   .sirui-sun-hud span:first-child {
     color: #ffb856;
     font-weight: 800;
+    grid-column: 1 / -1;
     text-transform: uppercase;
   }
 
   .sirui-sun-hud span:not(:first-child) {
     color: #d9e7d0;
     font-weight: 600;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   @keyframes sirui-map-scan {
@@ -1082,6 +1091,7 @@ hide_title: true
     --sirui-stage-height: clamp(18rem, calc(100svh - 14rem), 45rem);
     grid-template-areas:
       "top"
+      "toolbar"
       "stage"
       "dock";
     grid-template-columns: 1fr;
@@ -1133,18 +1143,12 @@ hide_title: true
     display: flex;
     flex-wrap: wrap;
     gap: 0.22rem;
-    left: 0.75rem;
+    max-width: 100%;
     padding: 0.24rem;
-    position: absolute;
-    z-index: 7;
-  }
-
-  .sirui-view-controls {
-    top: 0.75rem;
   }
 
   .sirui-time-controls {
-    bottom: 0.75rem;
+    margin-top: 0.55rem;
   }
 
   .sirui-view-controls button,
@@ -1273,14 +1277,6 @@ hide_title: true
   .sirui-map-stage.is-street-mode .sirui-globe-canvas::after,
   .sirui-map-stage.is-globe-inset .sirui-globe-canvas::after {
     opacity: 0.36;
-  }
-
-  .sirui-map-stage.is-street-mode .sirui-sun-hud,
-  .sirui-map-stage.is-street-mode .sirui-time-controls,
-  .sirui-map-stage.is-street-main .sirui-sun-hud,
-  .sirui-map-stage.is-street-main .sirui-time-controls {
-    opacity: 0;
-    pointer-events: none;
   }
 
   .sirui-map-stage.is-street-mode .sirui-globe-marker:not(.is-current),
@@ -1606,15 +1602,23 @@ hide_title: true
   }
 
   .sirui-marker-card {
-    bottom: 0.75rem;
-    left: 0.75rem;
-    max-height: min(18rem, 48%);
-    max-width: min(34rem, calc(100% - 1.5rem));
+    grid-column: span 2;
+    overflow: hidden;
+    padding-right: 2.65rem;
+  }
+
+  .sirui-marker-card h3 {
+    overflow: visible;
+    padding-right: 0.35rem;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .sirui-marker-card dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: min(17rem, 42vh);
     overflow: auto;
-    position: absolute;
-    right: auto;
-    width: max-content;
-    z-index: 8;
+    padding-right: 0.35rem;
   }
 
   .sirui-marker-close {
@@ -1679,6 +1683,7 @@ hide_title: true
     .sirui-map-shell {
       grid-template-areas:
         "top"
+        "toolbar"
         "stage"
         "dock"
         "foot";
@@ -1783,12 +1788,14 @@ hide_title: true
     }
 
     .sirui-marker-card {
-      bottom: 0.5rem;
-      left: 0.5rem;
-      max-height: 45svh;
-      max-width: none;
-      right: 0.5rem;
-      width: auto;
+      flex: 0 0 min(24rem, 88vw);
+      grid-column: auto;
+      max-height: none;
+    }
+
+    .sirui-marker-card dl {
+      grid-template-columns: 1fr;
+      max-height: 15rem;
     }
   }
 
@@ -1813,8 +1820,7 @@ hide_title: true
     .sirui-view-controls,
     .sirui-time-controls {
       gap: 0.12rem;
-      left: 0.45rem;
-      max-width: calc(100% - 0.9rem);
+      max-width: 100%;
       padding: 0.18rem;
     }
 
@@ -1837,12 +1843,14 @@ hide_title: true
     .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
     .sirui-map-stage.is-street-inset .sirui-street-map-panel {
       bottom: 0.45rem;
-      height: clamp(5.8rem, 22svh, 7.4rem);
+      height: clamp(4.7rem, 16svh, 5.8rem);
       right: 0.45rem;
-      width: clamp(8rem, 48vw, 12rem);
+      width: clamp(6.5rem, 34vw, 8.5rem);
     }
 
     .sirui-map-stage.is-street-mode .sirui-globe-marker-label,
+    .sirui-map-stage.is-street-inset-mode .sirui-globe-marker-label,
+    .sirui-map-stage.is-street-inset .sirui-globe-marker-label,
     .sirui-map-stage.is-street-mode .sirui-celestial-label,
     .sirui-map-stage.is-globe-inset .sirui-globe-marker-label,
     .sirui-map-stage.is-globe-inset .sirui-celestial-label {
@@ -1952,8 +1960,8 @@ hide_title: true
     let sunTimer = null;
     let celestialBaseRealTime = Date.now();
     let celestialBaseSimTime = celestialBaseRealTime;
-    let celestialSpeed = prefersReducedMotion.matches ? 0 : 90;
-    let celestialMode = prefersReducedMotion.matches ? "pause" : "fast";
+    let celestialSpeed = 1;
+    let celestialMode = "realtime";
     let activeMarkerId = "";
     let lastUnlockRecord = null;
     let browserPrecisionRequestInFlight = false;
@@ -3184,6 +3192,7 @@ hide_title: true
       const shellStyle = getComputedStyle(mapShell);
       const shellRect = mapShell.getBoundingClientRect();
       const topRect = mapShell.querySelector(".sirui-map-topline")?.getBoundingClientRect();
+      const toolbarRect = mapShell.querySelector(".sirui-map-toolbar")?.getBoundingClientRect();
       const dockRect = mapShell.querySelector(".sirui-map-dock")?.getBoundingClientRect();
       const fixedFooter = document.querySelector("footer.fixed-bottom");
       const footerHeight = fixedFooter
@@ -3194,9 +3203,10 @@ hide_title: true
         parsePixels(shellStyle.paddingTop) + parsePixels(shellStyle.paddingBottom);
       const reserved =
         (topRect?.height || 0) +
+        (toolbarRect?.height || 0) +
         (dockRect?.height || 0) +
         paddingY +
-        rowGap * 2 +
+        rowGap * 3 +
         footerHeight +
         (window.innerWidth < 720 ? 12 : 16);
       const available = viewportHeight - shellRect.top - reserved;
@@ -3366,10 +3376,10 @@ hide_title: true
 
     const sunVector = ({ lat, lng }, radius = 420) => {
       const phi = ((90 - lat) * Math.PI) / 180;
-      const theta = ((lng + 180) * Math.PI) / 180;
+      const theta = ((90 - lng) * Math.PI) / 180;
 
       return {
-        x: -radius * Math.sin(phi) * Math.cos(theta),
+        x: radius * Math.sin(phi) * Math.cos(theta),
         y: radius * Math.cos(phi),
         z: radius * Math.sin(phi) * Math.sin(theta),
       };
@@ -3490,6 +3500,10 @@ hide_title: true
 
         coordinates.push([point.lng, point.lat]);
       }
+
+      // Globe.GL uses spherical ring winding to choose the filled cap.
+      // This order keeps the translucent cap on the antisolar hemisphere.
+      coordinates.reverse();
 
       return [
         {
@@ -3760,15 +3774,15 @@ hide_title: true
         material.shininess = 10;
         material.color?.set?.("#ffffff");
         material.emissive?.set?.("#06110d");
-        material.emissiveIntensity = 0.035;
+        material.emissiveIntensity = 0.028;
         material.needsUpdate = true;
       }
 
       const lights = globe.lights?.();
       if (Array.isArray(lights)) {
         lights.forEach((light) => {
-          if (light.type === "AmbientLight") light.intensity = 0.52;
-          if (light.type === "DirectionalLight") light.intensity = 1.38;
+          if (light.type === "AmbientLight") light.intensity = 0.46;
+          if (light.type === "DirectionalLight") light.intensity = 1.62;
         });
       }
     };
@@ -3812,7 +3826,7 @@ hide_title: true
 
       globe.polygonsData([]);
       globe.polygonGeoJsonGeometry?.("geometry");
-      globe.polygonCapColor?.(() => "rgba(2, 5, 10, 0.34)");
+      globe.polygonCapColor?.(() => "rgba(2, 5, 10, 0.26)");
       globe.polygonSideColor?.(() => "rgba(2, 5, 10, 0)");
       globe.polygonStrokeColor?.(() => "rgba(112, 216, 255, 0.08)");
       globe.polygonAltitude?.(0.009);
@@ -4840,7 +4854,7 @@ hide_title: true
     mapStage?.addEventListener("click", (event) => {
       if (
         !event.target.closest(
-          ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker, .sirui-street-map-panel, .sirui-marker-card",
+          ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker, .sirui-street-map-panel",
         )
       ) {
         clearPinnedDetails();
