@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-prototyping-to-understand-humans",
+        },{id: "post-science-communication-is-kindness",
+        
+          title: "science communication is kindness",
+        
+        description: "A short reflection on why scientists should communicate publicly, and how to do it with care.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/science-communication-is-kindness/";
+          
+        },
+      },{id: "post-prototyping-to-understand-humans",
         
           title: "prototyping to understand humans",
         
