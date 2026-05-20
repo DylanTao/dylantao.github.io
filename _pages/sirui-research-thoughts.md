@@ -425,6 +425,25 @@ hide_title: true
   }
 
   .sirui-map-stage {
+    --sirui-globe-height: var(--sirui-stage-height, clamp(32rem, 68vh, 49rem));
+    --sirui-globe-label-opacity: 1;
+    --sirui-globe-label-y: 0;
+    --sirui-globe-opacity: 1;
+    --sirui-globe-width: 100%;
+    --sirui-globe-x: 0px;
+    --sirui-globe-y: 0px;
+    --sirui-globe-z: 3;
+    --sirui-morph-duration: 560ms;
+    --sirui-morph-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --sirui-street-controls-opacity: 0;
+    --sirui-street-header-opacity: 0.86;
+    --sirui-street-height: clamp(8.5rem, 24vh, 13rem);
+    --sirui-street-morph: 0;
+    --sirui-street-opacity: 0.96;
+    --sirui-street-width: min(22rem, 38vw);
+    --sirui-street-x: 0px;
+    --sirui-street-y: 0px;
+    --sirui-street-z: 6;
     grid-area: stage;
     height: var(--sirui-stage-height, clamp(32rem, 68vh, 49rem));
     isolation: isolate;
@@ -455,16 +474,16 @@ hide_title: true
     height: clamp(32rem, 68vh, 49rem);
     transform-origin: right bottom;
     transition:
-      bottom 320ms ease,
+      bottom var(--sirui-morph-duration) var(--sirui-morph-ease),
       border-color 280ms ease,
-      box-shadow 280ms ease,
-      height 320ms ease,
-      left 320ms ease,
-      opacity 260ms ease,
-      right 320ms ease,
-      top 320ms ease,
-      transform 320ms ease,
-      width 320ms ease;
+      box-shadow 360ms ease,
+      height var(--sirui-morph-duration) var(--sirui-morph-ease),
+      left var(--sirui-morph-duration) var(--sirui-morph-ease),
+      opacity 360ms ease,
+      right var(--sirui-morph-duration) var(--sirui-morph-ease),
+      top var(--sirui-morph-duration) var(--sirui-morph-ease),
+      transform var(--sirui-morph-duration) var(--sirui-morph-ease),
+      width var(--sirui-morph-duration) var(--sirui-morph-ease);
     will-change: height, opacity, transform, width;
   }
 
@@ -672,7 +691,7 @@ hide_title: true
 
   .sirui-globe-marker:hover .sirui-globe-marker-tooltip,
   .sirui-globe-marker:focus-visible .sirui-globe-marker-tooltip {
-    opacity: 1;
+    opacity: var(--sirui-street-opacity);
     transform: translate(-50%, 0);
   }
 
@@ -900,16 +919,16 @@ hide_title: true
     transform: translate3d(0, 0, 0) scale(1);
     transform-origin: right bottom;
     transition:
-      bottom 320ms ease,
+      bottom var(--sirui-morph-duration) var(--sirui-morph-ease),
       border-color 280ms ease,
-      box-shadow 280ms ease,
-      height 320ms ease,
-      left 320ms ease,
-      opacity 260ms ease,
-      right 320ms ease,
-      top 320ms ease,
-      transform 320ms ease,
-      width 320ms ease;
+      box-shadow 360ms ease,
+      height var(--sirui-morph-duration) var(--sirui-morph-ease),
+      left var(--sirui-morph-duration) var(--sirui-morph-ease),
+      opacity 360ms ease,
+      right var(--sirui-morph-duration) var(--sirui-morph-ease),
+      top var(--sirui-morph-duration) var(--sirui-morph-ease),
+      transform var(--sirui-morph-duration) var(--sirui-morph-ease),
+      width var(--sirui-morph-duration) var(--sirui-morph-ease);
     width: min(22rem, 38vw);
     will-change: height, opacity, transform, width;
     z-index: 6;
@@ -1185,6 +1204,19 @@ hide_title: true
     height: clamp(8.5rem, 24vh, 13rem);
     position: absolute;
     right: 0.75rem;
+    transform-origin: right bottom;
+    transition:
+      bottom var(--sirui-morph-duration) var(--sirui-morph-ease),
+      border-color 180ms ease,
+      border-radius 180ms ease,
+      box-shadow 180ms ease,
+      height var(--sirui-morph-duration) var(--sirui-morph-ease),
+      left var(--sirui-morph-duration) var(--sirui-morph-ease),
+      opacity 300ms ease,
+      right var(--sirui-morph-duration) var(--sirui-morph-ease),
+      top var(--sirui-morph-duration) var(--sirui-morph-ease),
+      transform var(--sirui-morph-duration) var(--sirui-morph-ease),
+      width var(--sirui-morph-duration) var(--sirui-morph-ease);
     width: min(22rem, 38vw);
     z-index: 6;
   }
@@ -1194,9 +1226,11 @@ hide_title: true
     border-bottom: 1px solid rgba(244, 248, 239, 0.12);
     left: 0;
     max-width: none;
+    opacity: var(--sirui-street-header-opacity);
     position: absolute;
     right: 0;
     top: 0;
+    transition: opacity 160ms ease;
     z-index: 2;
   }
 
@@ -1208,6 +1242,17 @@ hide_title: true
   .sirui-street-map .leaflet-control-attribution {
     background: rgba(255, 255, 255, 0.78);
     font-size: 0.62rem;
+  }
+
+  .sirui-street-map .leaflet-control-zoom {
+    opacity: var(--sirui-street-controls-opacity);
+    pointer-events: none;
+    transition: opacity 160ms ease;
+  }
+
+  .sirui-map-stage.is-street-dominant .sirui-street-map .leaflet-control-zoom,
+  .sirui-map-stage.is-street-main .sirui-street-map .leaflet-control-zoom {
+    pointer-events: auto;
   }
 
   .sirui-street-pin {
@@ -1230,22 +1275,21 @@ hide_title: true
     display: block;
   }
 
-  .sirui-map-stage.is-street-mode .sirui-street-map-panel,
-  .sirui-map-stage.is-street-main .sirui-street-map-panel {
-    border-radius: 0.5rem;
-    bottom: 0;
-    box-shadow: none;
-    height: var(--sirui-stage-height);
+  .sirui-map-stage.is-street-morphing .sirui-street-map-panel {
+    border-radius: calc(0.5rem - var(--sirui-street-morph) * 0.08rem);
+    bottom: auto;
+    box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, calc(0.34 - var(--sirui-street-morph) * 0.2));
+    height: var(--sirui-street-height);
     left: 0;
     opacity: 1;
-    right: 0;
+    right: auto;
     top: 0;
-    transform: translate3d(0, 0, 0) scale(1);
-    width: 100%;
-    z-index: 4;
+    transform: translate3d(var(--sirui-street-x), var(--sirui-street-y), 0);
+    width: var(--sirui-street-width);
+    z-index: var(--sirui-street-z);
   }
 
-  .sirui-map-stage.is-street-mode .sirui-street-map-header,
+  .sirui-map-stage.is-street-dominant .sirui-street-map-header,
   .sirui-map-stage.is-street-main .sirui-street-map-header {
     left: 0.75rem;
     max-width: min(32rem, calc(100% - 1.5rem));
@@ -1253,30 +1297,29 @@ hide_title: true
     top: 0.75rem;
   }
 
-  .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
-  .sirui-map-stage.is-street-inset .sirui-street-map-panel {
-    opacity: 0.96;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  .sirui-map-stage.is-street-mode .sirui-globe-canvas,
-  .sirui-map-stage.is-globe-inset .sirui-globe-canvas {
+  .sirui-map-stage.is-street-morphing .sirui-globe-canvas {
     border-color: rgba(112, 216, 255, 0.42);
-    bottom: 0.75rem;
     box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.4);
-    height: clamp(8.5rem, 24vh, 13rem);
+    height: var(--sirui-globe-height);
+    left: 0;
     min-height: 0;
-    opacity: 0.94;
+    opacity: var(--sirui-globe-opacity);
     position: absolute;
-    right: 0.75rem;
-    transform: translate3d(0, 0, 0) scale(1);
-    width: min(19rem, 36vw);
-    z-index: 6;
+    right: auto;
+    top: 0;
+    transform: translate3d(var(--sirui-globe-x), var(--sirui-globe-y), 0);
+    width: var(--sirui-globe-width);
+    z-index: var(--sirui-globe-z);
   }
 
-  .sirui-map-stage.is-street-mode .sirui-globe-canvas::after,
+  .sirui-map-stage.is-street-dominant .sirui-globe-canvas::after,
   .sirui-map-stage.is-globe-inset .sirui-globe-canvas::after {
     opacity: 0.36;
+  }
+
+  .sirui-map-stage.is-street-morphing .sirui-globe-marker-label {
+    opacity: var(--sirui-globe-label-opacity);
+    transform: translateY(var(--sirui-globe-label-y));
   }
 
   .sirui-map-stage.is-street-mode .sirui-globe-marker:not(.is-current),
@@ -1745,23 +1788,6 @@ hide_title: true
       font-size: 26px;
     }
 
-    .sirui-map-stage.is-street-mode .sirui-street-map-panel,
-    .sirui-map-stage.is-street-main .sirui-street-map-panel {
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: 0;
-      width: 100%;
-    }
-
-    .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
-    .sirui-map-stage.is-street-inset .sirui-street-map-panel {
-      bottom: 0.5rem;
-      height: clamp(6rem, 24svh, 8rem);
-      right: 0.5rem;
-      width: min(16rem, calc(100% - 1rem));
-    }
-
     .sirui-street-map {
       height: 100%;
     }
@@ -1829,23 +1855,6 @@ hide_title: true
       font-size: 0.58rem;
       min-height: 1.45rem;
       padding: 0.3rem 0.34rem;
-    }
-
-    .sirui-map-stage.is-street-mode .sirui-globe-canvas,
-    .sirui-map-stage.is-globe-inset .sirui-globe-canvas {
-      bottom: 0.45rem;
-      height: clamp(4.75rem, 20svh, 6.6rem);
-      opacity: 0.82;
-      right: 0.45rem;
-      width: clamp(6rem, 28vw, 8rem);
-    }
-
-    .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
-    .sirui-map-stage.is-street-inset .sirui-street-map-panel {
-      bottom: 0.45rem;
-      height: clamp(4.7rem, 16svh, 5.8rem);
-      right: 0.45rem;
-      width: clamp(6.5rem, 34vw, 8.5rem);
     }
 
     .sirui-map-stage.is-street-mode .sirui-globe-marker-label,
@@ -1945,9 +1954,12 @@ hide_title: true
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
-    const streetAutoEnterAltitude = 1.42;
-    const streetAutoExitAltitude = 1.78;
-    const streetTransitionMs = 360;
+    const streetMorphStartAltitude = 2.55;
+    const streetMorphEndAltitude = 1.08;
+    const streetMainEnterProgress = 0.74;
+    const streetMainExitProgress = 0.56;
+    const globeInsetStartProgress = 0.6;
+    const streetTransitionMs = 560;
     const streetSyncThrottleMs = 120;
     const sunSystemIntervalMs = 4200;
     const celestialLayerIntervalMs = 18000;
@@ -1975,7 +1987,17 @@ hide_title: true
     let syncUnlockTimer = null;
     let streetSyncFrame = 0;
     let streetSyncTimeout = 0;
+    let streetInvalidateFrame = 0;
+    let streetInvalidateSettleTimer = 0;
+    let streetZoomGlideTimer = 0;
+    let streetZoomGlideToken = 0;
+    let streetZoomGlideTarget = null;
+    let streetFocusAnimation = null;
+    let streetFocusAnimationFrame = 0;
+    let streetFocusTargetUntil = 0;
+    let streetFocusTargetView = null;
     let pendingStreetSync = null;
+    let streetMorphProgress = 0;
     let streetMainActive = false;
     let streetPresentationTarget = false;
     let streetPresentationToken = 0;
@@ -3060,13 +3082,139 @@ hide_title: true
     const clamp = (value, min, max) =>
       Math.max(min, Math.min(max, Number(value) || 0));
 
+    const lerp = (start, end, progress) =>
+      start + (end - start) * clamp(progress, 0, 1);
+
+    const smoothStep = (progress) => {
+      const value = clamp(progress, 0, 1);
+      return value * value * (3 - 2 * value);
+    };
+
+    const inverseSmoothStep = (progress) => {
+      const target = clamp(progress, 0, 1);
+      let value = target;
+
+      for (let index = 0; index < 5; index += 1) {
+        const current = smoothStep(value);
+        const derivative = Math.max(6 * value * (1 - value), 0.001);
+        value = clamp(value - (current - target) / derivative, 0, 1);
+      }
+
+      return value;
+    };
+
     const isStreetSyncedMode = () => activeViewMode === "visitor";
 
+    const clearStreetFocusTarget = () => {
+      streetFocusAnimation = null;
+      streetFocusTargetView = null;
+      streetFocusTargetUntil = 0;
+      if (streetFocusAnimationFrame) {
+        window.cancelAnimationFrame(streetFocusAnimationFrame);
+        streetFocusAnimationFrame = 0;
+      }
+    };
+
+    const activeStreetFocusTarget = () => {
+      const now = performance.now();
+
+      if (streetFocusAnimation) {
+        const { duration, fromPov, start, toPov } = streetFocusAnimation;
+        const progress = duration ? smoothStep((now - start) / duration) : 1;
+
+        if (progress < 1) {
+          return {
+            altitude: lerp(fromPov.altitude, toPov.altitude, progress),
+            lat: lerp(fromPov.lat, toPov.lat, progress),
+            lng: lerp(fromPov.lng, toPov.lng, progress),
+          };
+        }
+
+        streetFocusAnimation = null;
+        streetFocusTargetView = toPov;
+        streetFocusTargetUntil = Math.max(streetFocusTargetUntil, now + 1400);
+      }
+
+      if (!streetFocusTargetView || now > streetFocusTargetUntil) {
+        streetFocusTargetView = null;
+        streetFocusTargetUntil = 0;
+        return null;
+      }
+
+      return streetFocusTargetView;
+    };
+
+    const startStreetFocusMorph = (entry, targetPov, duration) => {
+      if (!entry || !targetPov) return;
+
+      clearStreetFocusTarget();
+
+      const currentPov = globeInstance?.pointOfView?.() || {};
+      const fromPov = {
+        altitude: toFiniteNumber(currentPov.altitude) ?? currentGlobeAltitude,
+        lat: toFiniteNumber(currentPov.lat) ?? Number(entry.lat),
+        lng: toFiniteNumber(currentPov.lng) ?? Number(entry.lng),
+      };
+      const transitionMs = prefersReducedMotion.matches ? 0 : Math.max(duration || 0, 0);
+      const startedAt = performance.now();
+
+      streetFocusTargetView = targetPov;
+      streetFocusTargetUntil = startedAt + transitionMs + 1600;
+
+      if (transitionMs > 0) {
+        streetFocusAnimation = {
+          duration: transitionMs,
+          fromPov,
+          start: startedAt,
+          toPov: targetPov,
+        };
+      }
+
+      const step = () => {
+        streetFocusAnimationFrame = 0;
+        if (!isStreetSyncedMode() || activeVisitorEntry()?.id !== entry.id) {
+          clearStreetFocusTarget();
+          return;
+        }
+
+        const pov = activeStreetFocusTarget() || targetPov;
+        setStreetPresentation(shouldUseStreetMainForAltitude(pov.altitude), {
+          pov,
+          sync: false,
+        });
+        scheduleStreetMapSync(entry, pov);
+
+        if (streetFocusAnimation) {
+          streetFocusAnimationFrame = window.requestAnimationFrame(step);
+          return;
+        }
+
+        setStreetPresentation(shouldUseStreetMainForAltitude(targetPov.altitude), {
+          pov: targetPov,
+          sync: false,
+        });
+        scheduleStreetMapSync(entry, targetPov);
+      };
+
+      step();
+    };
+
+    const streetMorphProgressForAltitude = (altitude) =>
+      smoothStep(
+        (streetMorphStartAltitude - (Number(altitude) || streetMorphStartAltitude)) /
+          (streetMorphStartAltitude - streetMorphEndAltitude),
+      );
+
+    const altitudeForStreetMorphProgress = (progress) =>
+      streetMorphStartAltitude -
+      inverseSmoothStep(progress) *
+        (streetMorphStartAltitude - streetMorphEndAltitude);
+
     const shouldUseStreetMainForAltitude = (altitude) => {
-      const value = Number(altitude) || 2.4;
+      const progress = streetMorphProgressForAltitude(altitude);
       return streetMainActive
-        ? value <= streetAutoExitAltitude
-        : value <= streetAutoEnterAltitude;
+        ? progress >= streetMainExitProgress
+        : progress >= streetMainEnterProgress;
     };
 
     const globeMarkerScale = () =>
@@ -3221,7 +3369,11 @@ hide_title: true
       document.body.style.paddingBottom = footerHeight
         ? `${footerHeight}px`
         : initialBodyPaddingBottom;
-      invalidateStreetMapSettled();
+      if (mapStage?.classList.contains("is-street-morphing")) {
+        updateStreetMorphLayout(streetMorphProgress, { visible: true });
+      } else {
+        invalidateStreetMapSettled();
+      }
     };
 
     const normalizeLongitude = (longitude) =>
@@ -3982,14 +4134,14 @@ hide_title: true
         }
         showMarkerDetails(entry, { pinned: true });
         if (globeInstance && hasCoordinates(entry)) {
-          globeInstance.pointOfView(
-            {
-              altitude: 1.35,
-              lat: entry.lat,
-              lng: entry.lng,
-            },
-            prefersReducedMotion.matches ? 0 : 900,
-          );
+          const targetPov = {
+            altitude: 1.18,
+            lat: entry.lat,
+            lng: entry.lng,
+          };
+          const transitionMs = prefersReducedMotion.matches ? 0 : 900;
+          startStreetFocusMorph(entry, targetPov, transitionMs);
+          globeInstance.pointOfView(targetPov, transitionMs);
         }
       });
 
@@ -4012,38 +4164,56 @@ hide_title: true
     };
 
     const streetZoomRangeForEntry = (entry) => {
-      if (entry?.coordinateSource === "browser geolocation") return [16, 19];
-      if (entry?.coordinateSource === "edge IP geo") return [10, 13];
+      if (entry?.coordinateSource === "browser geolocation") return [14, 19];
+      if (entry?.coordinateSource === "edge IP geo") return [9, 13];
       return [4, 7];
     };
 
     const altitudeToStreetZoom = (altitude, entry) => {
       const [minZoom, maxZoom] = streetZoomRangeForEntry(entry);
-      const progress = clamp((2.65 - altitude) / (2.65 - 0.82), 0, 1);
+      const progress = streetMorphProgressForAltitude(altitude);
 
-      return clamp(Math.round(minZoom + progress * (maxZoom - minZoom)), minZoom, maxZoom);
+      return clamp(minZoom + progress * (maxZoom - minZoom), minZoom, maxZoom);
     };
 
     const streetZoomToAltitude = (zoom, entry) => {
       const [minZoom, maxZoom] = streetZoomRangeForEntry(entry);
       const progress = clamp((zoom - minZoom) / Math.max(maxZoom - minZoom, 1), 0, 1);
 
-      return 2.65 - progress * (2.65 - 0.82);
+      return altitudeForStreetMorphProgress(progress);
     };
 
     const updateStreetReadout = (entry) => {
-      const zoom = streetMapInstance?.getZoom?.();
-      const center = streetMapInstance?.getCenter?.();
+      let zoom = null;
+      let center = null;
+
+      try {
+        if (streetMapInstance?._loaded) {
+          zoom = streetMapInstance.getZoom?.();
+          center = streetMapInstance.getCenter?.();
+        }
+      } catch {
+        zoom = null;
+        center = null;
+      }
+
+      const zoomLabel = Number.isFinite(zoom)
+        ? Number.isInteger(zoom)
+          ? `z${zoom}`
+          : `z${zoom.toFixed(1)}`
+        : "";
 
       setText(
         streetModeLabel,
         activeViewMode === "visitor"
           ? streetMainActive
             ? "street main"
-            : "street inset"
+            : streetMorphProgress > 0.12
+              ? "street morph"
+              : "street inset"
           : "globe context",
       );
-      setText(streetZoomReadout, Number.isFinite(zoom) ? `z${zoom}` : "");
+      setText(streetZoomReadout, zoomLabel);
       setText(
         streetCenter,
         center
@@ -4093,30 +4263,255 @@ hide_title: true
       }
     };
 
-    const invalidateStreetMapSettled = () => {
-      window.requestAnimationFrame(() => {
+    const viewportSize = () => ({
+      height:
+        window.visualViewport?.height ||
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        720,
+      width:
+        window.visualViewport?.width ||
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        1024,
+    });
+
+    const clampPixels = (value, min, max) =>
+      Math.max(min, Math.min(max, Number(value) || 0));
+
+    const morphMetrics = () => {
+      const rect = mapStage?.getBoundingClientRect();
+      const viewport = viewportSize();
+      const stageWidth = Math.max(rect?.width || globeElement?.clientWidth || 1, 1);
+      const stageHeight = Math.max(rect?.height || globeElement?.clientHeight || 1, 1);
+      const narrow = viewport.width <= 480;
+      const compact = viewport.width <= 720;
+      const margin = narrow ? 7 : compact ? 8 : 12;
+      const streetInsetWidth = narrow
+        ? clampPixels(viewport.width * 0.34, 104, 136)
+        : compact
+          ? Math.min(256, stageWidth - margin * 2)
+          : Math.min(352, viewport.width * 0.38, stageWidth - margin * 2);
+      const streetInsetHeight = narrow
+        ? clampPixels(viewport.height * 0.16, 75, 93)
+        : compact
+          ? clampPixels(viewport.height * 0.24, 96, 128)
+          : clampPixels(viewport.height * 0.24, 136, 208);
+      const globeInsetWidth = narrow
+        ? clampPixels(viewport.width * 0.28, 96, 128)
+        : Math.min(304, viewport.width * 0.36, stageWidth - margin * 2);
+      const globeInsetHeight = narrow
+        ? clampPixels(viewport.height * 0.2, 76, 106)
+        : clampPixels(viewport.height * 0.24, 136, 208);
+
+      return {
+        globeInsetHeight: Math.min(globeInsetHeight, stageHeight - margin * 2),
+        globeInsetWidth: Math.min(globeInsetWidth, stageWidth - margin * 2),
+        margin,
+        stageHeight,
+        stageWidth,
+        streetInsetHeight: Math.min(streetInsetHeight, stageHeight - margin * 2),
+        streetInsetWidth: Math.min(streetInsetWidth, stageWidth - margin * 2),
+      };
+    };
+
+    const setPixelVariable = (name, value) => {
+      mapStage?.style.setProperty(name, `${Math.max(0, Math.round(value))}px`);
+    };
+
+    const invalidateStreetMapSoon = () => {
+      if (streetInvalidateFrame) return;
+
+      streetInvalidateFrame = window.requestAnimationFrame(() => {
+        streetInvalidateFrame = 0;
         streetMapInstance?.invalidateSize?.(false);
         resizeGlobe();
+      });
+    };
+
+    const invalidateStreetMapSettled = () => {
+      invalidateStreetMapSoon();
+
+      window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {
           streetMapInstance?.invalidateSize?.(false);
           resizeGlobe();
         });
       });
 
-      window.setTimeout(() => {
+      if (streetInvalidateSettleTimer) {
+        window.clearTimeout(streetInvalidateSettleTimer);
+      }
+      streetInvalidateSettleTimer = window.setTimeout(() => {
+        streetInvalidateSettleTimer = 0;
         streetMapInstance?.invalidateSize?.(false);
         resizeGlobe();
       }, streetTransitionMs + 80);
     };
 
-    const shouldSkipStreetMapSync = (lat, lng, zoom, force) => {
-      if (force || !lastStreetSyncView) return false;
+    const updateStreetMorphLayout = (progress, { visible = true, settled = false } = {}) => {
+      const value = clamp(progress, 0, 1);
+      const metrics = morphMetrics();
+      const globeProgress = smoothStep(
+        (value - globeInsetStartProgress) / Math.max(1 - globeInsetStartProgress, 0.01),
+      );
+      const streetX = lerp(
+        metrics.stageWidth - metrics.streetInsetWidth - metrics.margin,
+        0,
+        value,
+      );
+      const streetY = lerp(
+        metrics.stageHeight - metrics.streetInsetHeight - metrics.margin,
+        0,
+        value,
+      );
+      const streetWidth = lerp(metrics.streetInsetWidth, metrics.stageWidth, value);
+      const streetHeight = lerp(metrics.streetInsetHeight, metrics.stageHeight, value);
+      const globeX = lerp(
+        0,
+        metrics.stageWidth - metrics.globeInsetWidth - metrics.margin,
+        globeProgress,
+      );
+      const globeY = lerp(
+        0,
+        metrics.stageHeight - metrics.globeInsetHeight - metrics.margin,
+        globeProgress,
+      );
+      const globeWidth = lerp(metrics.stageWidth, metrics.globeInsetWidth, globeProgress);
+      const globeHeight = lerp(metrics.stageHeight, metrics.globeInsetHeight, globeProgress);
+      const labelFade = 1 - smoothStep((value - 0.18) / 0.46);
 
-      const sameZoom = Math.abs((lastStreetSyncView.zoom || 0) - zoom) < 0.1;
-      const sameLat = Math.abs((lastStreetSyncView.lat || 0) - lat) < 0.00002;
-      const sameLng = Math.abs((lastStreetSyncView.lng || 0) - lng) < 0.00002;
+      streetMorphProgress = value;
+      mapStage?.style.setProperty("--sirui-street-morph", value.toFixed(3));
+      mapStage?.style.setProperty("--sirui-street-opacity", (0.92 + value * 0.08).toFixed(3));
+      mapStage?.style.setProperty(
+        "--sirui-street-header-opacity",
+        (0.72 + smoothStep((value - 0.12) / 0.44) * 0.28).toFixed(3),
+      );
+      mapStage?.style.setProperty(
+        "--sirui-street-controls-opacity",
+        smoothStep((value - 0.52) / 0.36).toFixed(3),
+      );
+      mapStage?.style.setProperty("--sirui-globe-opacity", (1 - globeProgress * 0.08).toFixed(3));
+      mapStage?.style.setProperty("--sirui-globe-label-opacity", labelFade.toFixed(3));
+      mapStage?.style.setProperty("--sirui-globe-label-y", `${(1 - labelFade) * 0.3}rem`);
+      mapStage?.style.setProperty("--sirui-street-z", value > 0.04 ? "5" : "4");
+      mapStage?.style.setProperty("--sirui-globe-z", globeProgress > 0.82 ? "6" : "3");
+      setPixelVariable("--sirui-street-x", streetX);
+      setPixelVariable("--sirui-street-y", streetY);
+      setPixelVariable("--sirui-street-width", streetWidth);
+      setPixelVariable("--sirui-street-height", streetHeight);
+      setPixelVariable("--sirui-globe-x", globeX);
+      setPixelVariable("--sirui-globe-y", globeY);
+      setPixelVariable("--sirui-globe-width", globeWidth);
+      setPixelVariable("--sirui-globe-height", globeHeight);
+      mapStage?.classList.toggle("is-street-morphing", visible);
+      mapStage?.classList.toggle("is-street-dominant", visible && value >= streetMainExitProgress);
+      mapStage?.classList.toggle("is-globe-inset", visible && globeProgress > 0.5);
+      mapStage?.classList.toggle("is-globe-main", !visible || globeProgress <= 0.5);
+      invalidateStreetMapSoon();
+      if (settled) invalidateStreetMapSettled();
+    };
+
+    const shouldSkipStreetMapSync = (lat, lng, zoom, force) => {
+      const referenceView = streetZoomGlideTarget || lastStreetSyncView;
+      if (force || !referenceView) return false;
+
+      const sameZoom = Math.abs((referenceView.zoom || 0) - zoom) < 0.1;
+      const sameLat = Math.abs((referenceView.lat || 0) - lat) < 0.00002;
+      const sameLng = Math.abs((referenceView.lng || 0) - lng) < 0.00002;
 
       return sameZoom && sameLat && sameLng;
+    };
+
+    const cancelStreetZoomGlide = () => {
+      streetZoomGlideToken += 1;
+      streetZoomGlideTarget = null;
+      if (streetZoomGlideTimer) {
+        window.clearTimeout(streetZoomGlideTimer);
+        streetZoomGlideTimer = 0;
+      }
+    };
+
+    const applyStreetMapView = (streetMap, lat, lng, zoom, entry) => {
+      streetMap.setView([lat, lng], zoom, {
+        animate: false,
+      });
+      lastStreetSyncAt = performance.now();
+      lastStreetSyncView = { lat, lng, zoom };
+      invalidateStreetMapSoon();
+      updateStreetReadout(entry);
+    };
+
+    const glideStreetMapTo = (streetMap, lat, lng, zoom, { entry, force = false } = {}) => {
+      let currentCenter = null;
+      let currentZoom = null;
+
+      try {
+        if (streetMap?._loaded) {
+          currentCenter = streetMap.getCenter?.();
+          currentZoom = streetMap.getZoom?.();
+        }
+      } catch {
+        currentCenter = null;
+        currentZoom = null;
+      }
+
+      const fallbackView = lastStreetSyncView || streetZoomGlideTarget;
+      const startLat = toFiniteNumber(currentCenter?.lat) ?? toFiniteNumber(fallbackView?.lat) ?? lat;
+      const startLng = toFiniteNumber(currentCenter?.lng) ?? toFiniteNumber(fallbackView?.lng) ?? lng;
+      const startZoom = toFiniteNumber(currentZoom) ?? toFiniteNumber(fallbackView?.zoom) ?? zoom;
+      const zoomDelta = Math.abs(startZoom - zoom);
+      const distanceDelta = Math.max(Math.abs(startLat - lat), Math.abs(startLng - lng));
+      const shouldGlide =
+        !force &&
+        !prefersReducedMotion.matches &&
+        (zoomDelta > 0.45 || distanceDelta > 0.002) &&
+        activeViewMode === "visitor" &&
+        Boolean(streetMap?._loaded || fallbackView);
+
+      cancelStreetZoomGlide();
+      streetZoomGlideTarget = { lat, lng, zoom };
+
+      if (!shouldGlide) {
+        setSyncSource("globe", force ? 420 : 240);
+        applyStreetMapView(streetMap, lat, lng, zoom, entry);
+        streetZoomGlideTarget = null;
+        return;
+      }
+
+      const duration = clamp(320 + zoomDelta * 110, 380, 900);
+      const token = streetZoomGlideToken;
+      let started = 0;
+
+      setSyncSource("globe", duration + 180);
+
+      const scheduleStep = () => {
+        streetZoomGlideTimer = window.setTimeout(() => step(performance.now()), 48);
+      };
+
+      const step = (now) => {
+        streetZoomGlideTimer = 0;
+        if (token !== streetZoomGlideToken || syncSource === "street") return;
+
+        if (!started) started = now;
+        const progress = smoothStep((now - started) / duration);
+        const nextLat = lerp(startLat, lat, progress);
+        const nextLng = lerp(startLng, lng, progress);
+        const nextZoom = lerp(startZoom, zoom, progress);
+
+        applyStreetMapView(streetMap, nextLat, nextLng, nextZoom, entry);
+
+        if (progress < 1) {
+          scheduleStep();
+          return;
+        }
+
+        streetZoomGlideTarget = null;
+        invalidateStreetMapSettled();
+      };
+
+      scheduleStep();
     };
 
     const ensureStreetMap = async (entry) => {
@@ -4132,9 +4527,9 @@ hide_title: true
           maxZoom: 19,
           scrollWheelZoom: true,
           wheelPxPerZoomLevel: 84,
-          zoomDelta: 1,
+          zoomDelta: 0.5,
           zoomControl: false,
-          zoomSnap: 1,
+          zoomSnap: 0.1,
         });
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -4143,6 +4538,12 @@ hide_title: true
           maxNativeZoom: 19,
         }).addTo(streetMapInstance);
         L.control.zoom({ position: "bottomright" }).addTo(streetMapInstance);
+        streetMapInstance.on("movestart zoomstart", () => {
+          if (syncSource !== "globe") {
+            clearStreetFocusTarget();
+            cancelStreetZoomGlide();
+          }
+        });
         streetMapInstance.on("moveend zoomend", () => {
           if (syncSource === "globe" || streetSyncLocked || !globeInstance || !focusedGlobeEntry) return;
           if (!isStreetSyncedMode()) return;
@@ -4185,20 +4586,17 @@ hide_title: true
       const streetMap = await ensureStreetMap(entry);
       if (!streetMap) return false;
 
-      const centerLat = toFiniteNumber(pov?.lat) ?? Number(entry.lat);
-      const centerLng = toFiniteNumber(pov?.lng) ?? Number(entry.lng);
-      const zoom = altitudeToStreetZoom(Number(pov?.altitude) || currentGlobeAltitude, entry);
+      const effectivePov = !force ? activeStreetFocusTarget() || pov : pov;
+      const centerLat = toFiniteNumber(effectivePov?.lat) ?? Number(entry.lat);
+      const centerLng = toFiniteNumber(effectivePov?.lng) ?? Number(entry.lng);
+      const zoom = altitudeToStreetZoom(
+        Number(effectivePov?.altitude) || currentGlobeAltitude,
+        entry,
+      );
       if (shouldSkipStreetMapSync(centerLat, centerLng, zoom, force)) return true;
 
       streetMapTitle.textContent = whereLabel(entry);
-      setSyncSource("globe", force ? 420 : 180);
-      streetMap.setView([centerLat, centerLng], zoom, {
-        animate: false,
-      });
-      lastStreetSyncAt = performance.now();
-      lastStreetSyncView = { lat: centerLat, lng: centerLng, zoom };
-      invalidateStreetMapSettled();
-      updateStreetReadout(entry);
+      glideStreetMapTo(streetMap, centerLat, centerLng, zoom, { entry, force });
       return true;
     };
 
@@ -4255,21 +4653,24 @@ hide_title: true
       }
     };
 
-    const setStreetMapVisible = (visible, { full = false } = {}) => {
+    const setStreetMapVisible = (
+      visible,
+      { full = false, progress = streetMorphProgress, settled = false } = {},
+    ) => {
       const isFull = Boolean(visible && full);
       const isInset = Boolean(visible && !full);
 
       if (streetMapPanel && visible) streetMapPanel.hidden = false;
       mapStage?.classList.toggle("is-street-mode", isFull);
       mapStage?.classList.toggle("is-street-main", isFull);
-      mapStage?.classList.toggle("is-globe-inset", isFull);
       mapStage?.classList.toggle("is-street-inset-mode", isInset);
       mapStage?.classList.toggle("is-street-inset", isInset);
-      mapStage?.classList.toggle("is-globe-main", !isFull);
+      updateStreetMorphLayout(visible ? progress : 0, { settled, visible });
 
       if (streetMapPanel && !visible) {
         window.setTimeout(() => {
           if (
+            !mapStage?.classList.contains("is-street-morphing") &&
             !mapStage?.classList.contains("is-street-inset") &&
             !mapStage?.classList.contains("is-street-main")
           ) {
@@ -4277,12 +4678,9 @@ hide_title: true
           }
         }, prefersReducedMotion.matches ? 0 : 180);
       }
-
-      invalidateStreetMapSettled();
     };
 
     const setStreetPresentation = (full, { force = false, pov = null, sync = true } = {}) => {
-      const nextFull = Boolean(full);
       if (!isStreetSyncedMode()) {
         streetMainActive = false;
         streetPresentationTarget = false;
@@ -4300,52 +4698,37 @@ hide_title: true
         return;
       }
 
-      if (!force && streetMainActive === nextFull && streetPresentationTarget === nextFull) {
-        if (streetMapPanel?.hidden) setStreetMapVisible(true, { full: streetMainActive });
-        return;
-      }
-      if (!force && streetPresentationTarget === nextFull && streetMainActive !== nextFull) {
-        return;
-      }
-
-      streetPresentationTarget = nextFull;
-      const token = ++streetPresentationToken;
       const syncPov = pov || {
         altitude: currentGlobeAltitude,
         lat: entry.lat,
         lng: entry.lng,
       };
+      const progress = streetMorphProgressForAltitude(syncPov.altitude);
+      const nextFull = Boolean(full);
+      const semanticChanged =
+        streetMainActive !== nextFull || streetPresentationTarget !== nextFull;
 
-      if (!nextFull) {
-        streetMainActive = false;
-        setStreetMapVisible(true, { full: false });
+      if (!force && streetMainActive === nextFull && streetPresentationTarget === nextFull) {
+        setStreetMapVisible(true, {
+          full: streetMainActive,
+          progress,
+          settled: false,
+        });
         updateStreetReadout(entry);
-        if (force && sync) void syncStreetMapFromGlobe(entry, syncPov, { force: true });
         return;
       }
 
-      if (!sync && streetMapInstance) {
-        streetMainActive = true;
-        setStreetMapVisible(true, { full: true });
-        updateStreetReadout(entry);
-        return;
-      }
-
-      if (!streetMainActive) setStreetMapVisible(true, { full: false });
+      streetPresentationTarget = nextFull;
+      streetMainActive = nextFull;
+      streetPresentationToken += semanticChanged || force ? 1 : 0;
       if (streetMapPanel) streetMapPanel.hidden = false;
-      void syncStreetMapFromGlobe(entry, syncPov, { force: true }).then((ready) => {
-        if (!ready && token === streetPresentationToken) {
-          streetPresentationTarget = streetMainActive;
-          return;
-        }
-        if (token !== streetPresentationToken || !streetPresentationTarget || !isStreetSyncedMode()) {
-          return;
-        }
-
-        streetMainActive = true;
-        setStreetMapVisible(true, { full: true });
-        updateStreetReadout(entry);
+      setStreetMapVisible(true, {
+        full: nextFull,
+        progress,
+        settled: semanticChanged || force,
       });
+      updateStreetReadout(entry);
+      if (force && sync) void syncStreetMapFromGlobe(entry, syncPov, { force: true });
     };
 
     const applyZoomMode = (pov, activeEntry) => {
@@ -4360,12 +4743,13 @@ hide_title: true
       mapStage?.classList.toggle("is-zoom-near", isNear);
       refreshGlobeMarkerScale();
       if (isStreetSyncedMode() && !globeSyncLocked) {
-        const syncPov = {
-          altitude,
-          lat: pov?.lat ?? focusEntry?.lat,
-          lng: pov?.lng ?? focusEntry?.lng,
-        };
-        setStreetPresentation(shouldUseStreetMainForAltitude(altitude), {
+        const syncPov =
+          activeStreetFocusTarget() || {
+            altitude,
+            lat: pov?.lat ?? focusEntry?.lat,
+            lng: pov?.lng ?? focusEntry?.lng,
+          };
+        setStreetPresentation(shouldUseStreetMainForAltitude(syncPov.altitude), {
           pov: syncPov,
         });
         scheduleStreetMapSync(focusEntry, syncPov);
@@ -4864,7 +5248,10 @@ hide_title: true
     mapStage?.addEventListener(
       "wheel",
       (event) => {
-        if (!map?.hidden) event.preventDefault();
+        if (!map?.hidden) {
+          clearStreetFocusTarget();
+          event.preventDefault();
+        }
       },
       { passive: false },
     );
