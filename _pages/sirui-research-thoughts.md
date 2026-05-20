@@ -455,6 +455,11 @@ hide_title: true
     will-change: height, opacity, transform, width;
   }
 
+  .sirui-map-stage.is-globe-prepping .sirui-globe-canvas {
+    opacity: 0;
+    transform: translateY(0.35rem) scale(0.992);
+  }
+
   .sirui-globe-canvas canvas {
     display: block;
     max-width: 100%;
@@ -953,28 +958,42 @@ hide_title: true
   .sirui-map-hud {
     bottom: 0.75rem;
     display: grid;
-    gap: 0.55rem;
+    gap: 0.6rem;
+    grid-template-areas:
+      "readout marker"
+      "readout sky";
+    grid-template-columns: minmax(18rem, 27rem) minmax(16rem, 23rem);
     left: 0.75rem;
     max-height: calc(100% - 1.5rem);
     overflow: auto;
     pointer-events: none;
     position: absolute;
-    width: min(34rem, calc(100% - 1.5rem));
+    width: min(52rem, calc(100% - 1.5rem));
     z-index: 8;
   }
 
   .sirui-map-hud .sirui-info-panel {
-    backdrop-filter: blur(12px);
-    background: rgba(16, 19, 15, 0.72);
+    backdrop-filter: blur(6px);
+    background: rgba(16, 19, 15, 0.68);
     pointer-events: auto;
   }
 
   .sirui-map-stage.is-street-main .sirui-map-hud {
-    width: min(30rem, calc(100% - 1.5rem));
+    bottom: 1.6rem;
+    grid-template-areas:
+      "readout"
+      "marker"
+      "sky";
+    grid-template-columns: minmax(0, 1fr);
+    width: min(28rem, calc(100% - 5rem));
   }
 
   .sirui-sky-strip {
     display: none;
+    grid-area: sky;
+    max-height: min(21rem, 44vh);
+    overflow: auto;
+    width: min(23rem, 100%);
   }
 
   .sirui-map-stage.is-sky-mode .sirui-sky-strip {
@@ -990,6 +1009,12 @@ hide_title: true
     overflow-wrap: anywhere;
     padding: 0.9rem;
     position: relative;
+  }
+
+  .sirui-map-readout {
+    align-self: end;
+    grid-area: readout;
+    width: min(27rem, 100%);
   }
 
   .sirui-map-readout h3,
@@ -1092,8 +1117,11 @@ hide_title: true
   }
 
   .sirui-marker-card {
+    align-self: end;
+    grid-area: marker;
     max-height: min(31rem, 58vh);
     overflow: auto;
+    width: min(23rem, 100%);
   }
 
   .sirui-marker-card[hidden] {
@@ -1749,9 +1777,19 @@ hide_title: true
     .sirui-map-hud {
       bottom: 0.55rem;
       gap: 0.45rem;
+      grid-template-areas:
+        "readout"
+        "marker"
+        "sky";
+      grid-template-columns: minmax(0, 1fr);
       left: 0.55rem;
       max-height: calc(100% - 1.1rem);
       width: min(28rem, calc(100% - 1.1rem));
+    }
+
+    .sirui-map-stage.is-street-main .sirui-map-hud {
+      bottom: 1.55rem;
+      width: min(27rem, calc(100% - 2.8rem));
     }
 
     .sirui-map-hud .sirui-map-readout dl {
@@ -1792,12 +1830,16 @@ hide_title: true
     }
 
     .sirui-marker-card {
-      max-height: none;
+      max-height: min(16rem, 38vh);
     }
 
     .sirui-marker-card dl {
       grid-template-columns: 1fr;
-      max-height: 15rem;
+      max-height: min(10rem, 26vh);
+    }
+
+    .sirui-sky-strip {
+      max-height: min(15rem, 36vh);
     }
   }
 
@@ -1838,6 +1880,11 @@ hide_title: true
       left: 0.45rem;
       max-height: calc(100% - 0.9rem);
       width: min(25rem, calc(100% - 0.9rem));
+    }
+
+    .sirui-map-stage.is-street-main .sirui-map-hud {
+      bottom: 1.5rem;
+      width: min(23rem, calc(100% - 1.8rem));
     }
 
     .sirui-map-hud .sirui-info-panel {
@@ -1954,6 +2001,7 @@ hide_title: true
     let streetMarker = null;
     let streetAccuracyCircle = null;
     let sunTimer = null;
+    let sunSystemStartToken = 0;
     let celestialBaseRealTime = Date.now();
     let celestialBaseSimTime = celestialBaseRealTime;
     let celestialSpeed = 1;
@@ -4082,18 +4130,36 @@ hide_title: true
       globe.polygonsTransitionDuration?.(reducedMotion ? 0 : 450);
     };
 
+    const setGlobeVisualMotion = (globe, reducedMotion, enabled) => {
+      const shouldAnimate = enabled && !reducedMotion;
+
+      globe.pointsTransitionDuration?.(shouldAnimate ? 700 : 0);
+      globe.htmlTransitionDuration?.(shouldAnimate ? 700 : 0);
+      globe.pathTransitionDuration?.(shouldAnimate ? 700 : 0);
+      globe.polygonsTransitionDuration?.(shouldAnimate ? 450 : 0);
+      globe.ringPropagationSpeed?.(shouldAnimate ? 0.48 : 0);
+      globe.ringRepeatPeriod?.(shouldAnimate ? 3200 : 0);
+    };
+
     const stopSunTimer = () => {
+      sunSystemStartToken += 1;
+      celestialLayerRefreshPending = false;
       if (sunTimer) {
         window.clearInterval(sunTimer);
         sunTimer = null;
       }
     };
 
-    const scheduleCelestialLayerRefresh = (timeout = 1400) => {
+    const scheduleCelestialLayerRefresh = (timeout = 1400, token = sunSystemStartToken) => {
       if (celestialLayerRefreshPending) return;
 
       celestialLayerRefreshPending = true;
       scheduleDeferredWork(() => {
+        if (token !== sunSystemStartToken) {
+          celestialLayerRefreshPending = false;
+          return;
+        }
+
         celestialLayerRefreshPending = false;
         updateSunSystemOnce({ forceLayers: true });
       }, timeout);
@@ -4150,17 +4216,34 @@ hide_title: true
       window.requestAnimationFrame(() => setActiveMarker(activeMarkerId));
     };
 
-    const startSunSystem = () => {
+    const startSunSystem = ({ deferFirstUpdate = false } = {}) => {
       stopSunTimer();
       celestialBaseRealTime = Date.now();
       lastCelestialLayerUpdate = 0;
+      const token = ++sunSystemStartToken;
 
-      updateSunSystemOnce();
-      scheduleCelestialLayerRefresh(1800);
+      const beginSunSystem = () => {
+        if (token !== sunSystemStartToken || !globeInstance) return;
 
-      if (!prefersReducedMotion.matches) {
-        sunTimer = window.setInterval(updateSunSystemOnce, sunSystemIntervalMs);
+        updateSunSystemOnce();
+        scheduleCelestialLayerRefresh(1800, token);
+
+        if (!prefersReducedMotion.matches && token === sunSystemStartToken) {
+          sunTimer = window.setInterval(() => {
+            if (token === sunSystemStartToken) updateSunSystemOnce();
+          }, sunSystemIntervalMs);
+        }
+      };
+
+      if (deferFirstUpdate) {
+        scheduleDeferredWork(
+          beginSunSystem,
+          prefersReducedMotion.matches ? 420 : 1100,
+        );
+        return;
       }
+
+      beginSunSystem();
     };
 
     const focusCelestial = (entry) => {
@@ -4885,8 +4968,13 @@ hide_title: true
     const renderGlobe = async (entries, activeEntry) => {
       if (!globeElement || !hasWebGl()) return false;
 
+      mapStage?.classList.remove("is-globe-ready");
+      mapStage?.classList.add("is-globe-prepping");
       const Globe = await waitForGlobe();
-      if (!Globe) return false;
+      if (!Globe) {
+        mapStage?.classList.remove("is-globe-prepping");
+        return false;
+      }
 
       try {
         markerLayer?.replaceChildren();
@@ -4902,7 +4990,7 @@ hide_title: true
         const reducedMotion = prefersReducedMotion.matches;
         currentGlobeEntries = entries;
         const globe = new Globe(globeElement, {
-          animateIn: !reducedMotion,
+          animateIn: false,
           rendererConfig: {
             alpha: true,
             antialias: true,
@@ -4928,17 +5016,17 @@ hide_title: true
           .pointResolution(24)
           .pointColor((entry) => (entry.isCurrent ? "#ff4f9a" : "#8eea62"))
           .pointLabel((entry) => whereLabel(entry))
-          .pointsTransitionDuration(reducedMotion ? 0 : 700)
+          .pointsTransitionDuration(0)
           .ringsData(activePoint ? [activePoint] : [])
           .ringLat("lat")
           .ringLng("lng")
           .ringAltitude(0.012)
           .ringColor(() => "rgba(255, 79, 154, 0.42)")
           .ringMaxRadius(2.2)
-          .ringPropagationSpeed(reducedMotion ? 0 : 0.48)
-          .ringRepeatPeriod(reducedMotion ? 0 : 3200)
+          .ringPropagationSpeed(0)
+          .ringRepeatPeriod(0)
           .ringResolution(96)
-          .arcsData(buildUnlockArcs(entries, activeEntry))
+          .arcsData([])
           .arcLabel("name")
           .arcStartLat("startLat")
           .arcStartLng("startLng")
@@ -4957,7 +5045,7 @@ hide_title: true
           .htmlLng("lng")
           .htmlAltitude((entry) => (entry.kind ? 0.16 : 0.09))
           .htmlElement(createGlobeMarker)
-          .htmlTransitionDuration(reducedMotion ? 0 : 700)
+          .htmlTransitionDuration(0)
           .htmlElementVisibilityModifier((element, isVisible) => {
             if (element.classList.contains("sirui-celestial-marker")) {
               element.style.opacity = isVisible ? "" : "0";
@@ -4979,6 +5067,7 @@ hide_title: true
         tuneGlobeRender(globe);
         configureCelestialPaths(globe, reducedMotion);
         configureNightShade(globe, reducedMotion);
+        setGlobeVisualMotion(globe, reducedMotion, false);
 
         const controls = globe.controls?.();
         if (controls) {
@@ -5001,28 +5090,26 @@ hide_title: true
         if (activePoint) {
           globe.pointOfView(
             {
-              altitude: reducedMotion ? 2.45 : 2.85,
+              altitude: 2.45,
               lat: activePoint.lat,
               lng: activePoint.lng,
             },
             0,
           );
-          window.setTimeout(
-            () =>
-              globe.pointOfView(
-                {
-                  altitude: 2.45,
-                  lat: activePoint.lat,
-                  lng: activePoint.lng,
-                },
-                reducedMotion ? 0 : 1400,
-              ),
-            reducedMotion ? 0 : 300,
-          );
         }
 
-        startSunSystem();
-        updateGlobeAnimationState();
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            if (globeInstance !== globe) return;
+
+            setGlobeVisualMotion(globe, reducedMotion, true);
+            globe.arcsData?.(buildUnlockArcs(currentGlobeEntries, activeEntry));
+            mapStage?.classList.remove("is-globe-prepping");
+            mapStage?.classList.add("is-globe-ready");
+            startSunSystem({ deferFirstUpdate: true });
+            updateGlobeAnimationState();
+          });
+        });
 
         setGlobeStatus(
           activePoint
@@ -5033,6 +5120,7 @@ hide_title: true
         return true;
       } catch (error) {
         stopSunTimer();
+        mapStage?.classList.remove("is-globe-prepping");
         console.warn("secret page globe failed", error);
         return false;
       }
@@ -5042,6 +5130,7 @@ hide_title: true
       if (!globeElement || !mapFallback || !markerLayer) return;
 
       stopSunTimer();
+      mapStage?.classList.remove("is-globe-prepping", "is-globe-ready");
       globeElement.classList.add("is-fallback");
       mapFallback.hidden = false;
       markerLayer.replaceChildren(...entries.map(renderMarker));
