@@ -42,6 +42,13 @@ hide_title: true
           <button type="button" data-sirui-view="moon">moon</button>
           <button type="button" data-sirui-view="orbit">orbit</button>
         </div>
+        <div class="sirui-time-controls" role="toolbar" aria-label="sky time controls">
+          <button type="button" data-sirui-time-step="-1">-1h</button>
+          <button type="button" data-sirui-time-mode="pause">pause</button>
+          <button type="button" data-sirui-time-mode="realtime" class="is-active">realtime</button>
+          <button type="button" data-sirui-time-mode="fast">90x</button>
+          <button type="button" data-sirui-time-step="1">+1h</button>
+        </div>
       </div>
 
       <div class="sirui-map-stage">
@@ -59,14 +66,14 @@ hide_title: true
 
         <div id="sirui-street-map-panel" class="sirui-street-map-panel" hidden aria-live="polite">
           <div class="sirui-street-map-header">
-            <span>street zoom</span>
+            <span>street view</span>
             <strong id="sirui-street-map-title">nearby map</strong>
           </div>
           <div
             id="sirui-street-map"
             class="sirui-street-map"
-            role="application"
-            aria-label="Synced OpenStreetMap street view"
+            role="img"
+            aria-label="Fixed OpenStreetMap nearby street view"
           ></div>
         </div>
 
@@ -150,103 +157,64 @@ hide_title: true
         </div>
 
         <div class="sirui-map-scanline" aria-hidden="true"></div>
-      </div>
 
-      <div class="sirui-map-dock">
-        <div class="sirui-map-readout sirui-info-panel" aria-live="polite">
-          <span class="sirui-readout-label">where-ish</span>
-          <h3 id="sirui-map-place">signal pending</h3>
-          <p id="sirui-map-timezone">timezone pending</p>
-          <dl>
-            <div>
-              <dt>visit time</dt>
-              <dd id="sirui-map-time">--</dd>
+        <div class="sirui-map-hud" aria-live="polite">
+          <div class="sirui-map-readout sirui-info-panel">
+            <span class="sirui-readout-label">where-ish</span>
+            <h3 id="sirui-map-place">signal pending</h3>
+            <p id="sirui-map-timezone">timezone pending</p>
+            <dl>
+              <div>
+                <dt>visit time</dt>
+                <dd id="sirui-map-time">--</dd>
+              </div>
+              <div>
+                <dt>source</dt>
+                <dd id="sirui-location-source">source pending</dd>
+              </div>
+              <div>
+                <dt>this browser</dt>
+                <dd id="sirui-map-count">--</dd>
+              </div>
+            </dl>
+            <div class="sirui-location-actions">
+              <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>precise location</button>
+              <button id="sirui-back-to-globe" class="sirui-back-to-globe" type="button" hidden>back to globe</button>
             </div>
-            <div>
-              <dt>source</dt>
-              <dd id="sirui-location-source">source pending</dd>
-            </div>
-            <div>
-              <dt>this browser</dt>
-              <dd id="sirui-map-count">--</dd>
-            </div>
-          </dl>
-          <div class="sirui-location-actions">
-            <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>precise location</button>
           </div>
-        </div>
 
-        <aside id="sirui-marker-card" class="sirui-marker-card sirui-info-panel" hidden>
-          <button id="sirui-marker-close" class="sirui-marker-close" type="button" aria-label="Close marker details">x</button>
-          <p class="sirui-marker-kicker">marker details</p>
-          <h3 id="sirui-marker-title">visitor</h3>
-          <dl id="sirui-marker-facts"></dl>
-        </aside>
+          <aside id="sirui-marker-card" class="sirui-marker-card sirui-info-panel" hidden>
+            <button id="sirui-marker-close" class="sirui-marker-close" type="button" aria-label="Close marker details">x</button>
+            <p class="sirui-marker-kicker">marker details</p>
+            <h3 id="sirui-marker-title">visitor</h3>
+            <dl id="sirui-marker-facts"></dl>
+          </aside>
 
-        <div class="sirui-info-panel">
-          <span class="sirui-readout-label">street</span>
-          <h3 id="sirui-info-street-mode">globe view</h3>
-          <p id="sirui-info-street-center">center pending</p>
-          <dl>
-            <div>
-              <dt>map zoom</dt>
-              <dd id="sirui-info-street-zoom">--</dd>
+          <div class="sirui-sky-strip sirui-info-panel">
+            <span class="sirui-readout-label">sky</span>
+            <h3 id="sirui-info-sky-title">live sky</h3>
+            <p id="sirui-info-sky-summary">Sun and Moon subpoints pending.</p>
+            <dl>
+              <div>
+                <dt>UTC</dt>
+                <dd id="sirui-info-sky-utc">--</dd>
+              </div>
+              <div>
+                <dt>clock</dt>
+                <dd id="sirui-info-sky-clock">--</dd>
+              </div>
+            </dl>
+            <div class="sirui-sun-hud" aria-live="polite">
+              <span>orbit sim</span>
+              <span id="sirui-sun-utc">UTC --</span>
+              <span id="sirui-orbit-clock">real time</span>
+              <span id="sirui-sun-point">sun --</span>
+              <span id="sirui-moon-point">moon --</span>
             </div>
-            <div>
-              <dt>accuracy</dt>
-              <dd id="sirui-info-street-accuracy">--</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div class="sirui-info-panel">
-          <span class="sirui-readout-label">network</span>
-          <h3 id="sirui-map-ip">--</h3>
-          <p id="sirui-map-edge-location">edge location pending</p>
-          <dl>
-            <div>
-              <dt>ASN</dt>
-              <dd id="sirui-info-asn">--</dd>
-            </div>
-            <div>
-              <dt>observed</dt>
-              <dd id="sirui-info-edge-time">--</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div class="sirui-info-panel">
-          <span class="sirui-readout-label">sky</span>
-          <h3 id="sirui-info-sky-title">live sky</h3>
-          <p id="sirui-info-sky-summary">Sun and Moon subpoints pending.</p>
-          <dl>
-            <div>
-              <dt>UTC</dt>
-              <dd id="sirui-info-sky-utc">--</dd>
-            </div>
-            <div>
-              <dt>clock</dt>
-              <dd id="sirui-info-sky-clock">--</dd>
-            </div>
-          </dl>
-          <div class="sirui-time-controls" role="toolbar" aria-label="sky time controls">
-            <button type="button" data-sirui-time-step="-1">-1h</button>
-            <button type="button" data-sirui-time-mode="pause">pause</button>
-            <button type="button" data-sirui-time-mode="realtime" class="is-active">realtime</button>
-            <button type="button" data-sirui-time-mode="fast">90x</button>
-            <button type="button" data-sirui-time-step="1">+1h</button>
+            <p class="sirui-source-credit">Earth texture: NASA Earth Observatory.</p>
           </div>
-          <div class="sirui-sun-hud" aria-live="polite">
-            <span>orbit sim</span>
-            <span id="sirui-sun-utc">UTC --</span>
-            <span id="sirui-orbit-clock">real time</span>
-            <span id="sirui-sun-point">sun --</span>
-            <span id="sirui-moon-point">moon --</span>
-          </div>
-          <p class="sirui-source-credit">Earth texture: NASA Earth Observatory.</p>
         </div>
       </div>
-
     </div>
 
   </section>
@@ -322,11 +290,11 @@ hide_title: true
     display: grid;
     gap: 0.8rem;
     grid-template-areas:
-      "top top"
-      "toolbar toolbar"
-      "stage dock"
-      "foot foot";
-    grid-template-columns: minmax(0, 2.15fr) minmax(18rem, 0.85fr);
+      "top"
+      "toolbar"
+      "stage"
+      "foot";
+    grid-template-columns: minmax(0, 1fr);
     overflow: hidden;
     padding: clamp(0.9rem, 1.6vw, 1.2rem);
   }
@@ -982,14 +950,35 @@ hide_title: true
     width: 100%;
   }
 
-  .sirui-map-dock {
-    align-items: start;
+  .sirui-map-hud {
+    bottom: 0.75rem;
     display: grid;
-    gap: 0.8rem;
-    grid-area: dock;
-    grid-template-columns: 1fr;
-    margin-top: 0;
-    min-width: 0;
+    gap: 0.55rem;
+    left: 0.75rem;
+    max-height: calc(100% - 1.5rem);
+    overflow: auto;
+    pointer-events: none;
+    position: absolute;
+    width: min(34rem, calc(100% - 1.5rem));
+    z-index: 8;
+  }
+
+  .sirui-map-hud .sirui-info-panel {
+    backdrop-filter: blur(12px);
+    background: rgba(16, 19, 15, 0.72);
+    pointer-events: auto;
+  }
+
+  .sirui-map-stage.is-street-main .sirui-map-hud {
+    width: min(30rem, calc(100% - 1.5rem));
+  }
+
+  .sirui-sky-strip {
+    display: none;
+  }
+
+  .sirui-map-stage.is-sky-mode .sirui-sky-strip {
+    display: block;
   }
 
   .sirui-map-readout,
@@ -1068,7 +1057,8 @@ hide_title: true
     text-transform: uppercase;
   }
 
-  .sirui-sharpen-location {
+  .sirui-sharpen-location,
+  .sirui-back-to-globe {
     background: rgba(112, 216, 255, 0.11);
     border: 1px solid rgba(112, 216, 255, 0.36);
     border-radius: 0.35rem;
@@ -1083,17 +1073,21 @@ hide_title: true
   }
 
   .sirui-sharpen-location:hover,
-  .sirui-sharpen-location:focus-visible {
+  .sirui-sharpen-location:focus-visible,
+  .sirui-back-to-globe:hover,
+  .sirui-back-to-globe:focus-visible {
     background: rgba(255, 79, 154, 0.16);
     border-color: rgba(255, 79, 154, 0.5);
   }
 
-  .sirui-sharpen-location:disabled {
+  .sirui-sharpen-location:disabled,
+  .sirui-back-to-globe:disabled {
     cursor: wait;
     opacity: 0.65;
   }
 
-  .sirui-sharpen-location[hidden] {
+  .sirui-sharpen-location[hidden],
+  .sirui-back-to-globe[hidden] {
     display: none;
   }
 
@@ -1111,8 +1105,7 @@ hide_title: true
     grid-template-areas:
       "top"
       "toolbar"
-      "stage"
-      "dock";
+      "stage";
     grid-template-columns: 1fr;
   }
 
@@ -1167,7 +1160,7 @@ hide_title: true
   }
 
   .sirui-time-controls {
-    margin-top: 0.55rem;
+    opacity: 0.82;
   }
 
   .sirui-view-controls button,
@@ -1245,14 +1238,7 @@ hide_title: true
   }
 
   .sirui-street-map .leaflet-control-zoom {
-    opacity: var(--sirui-street-controls-opacity);
-    pointer-events: none;
-    transition: opacity 160ms ease;
-  }
-
-  .sirui-map-stage.is-street-dominant .sirui-street-map .leaflet-control-zoom,
-  .sirui-map-stage.is-street-main .sirui-street-map .leaflet-control-zoom {
-    pointer-events: auto;
+    display: none;
   }
 
   .sirui-street-pin {
@@ -1593,10 +1579,6 @@ hide_title: true
     margin: 0.06rem 0 0;
   }
 
-  .sirui-map-dock {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .sirui-info-panel {
     background: rgba(16, 19, 15, 0.78);
     border: 1px solid var(--sirui-console-border);
@@ -1644,8 +1626,11 @@ hide_title: true
     padding-top: 0.45rem;
   }
 
+  .sirui-map-hud .sirui-map-readout dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .sirui-marker-card {
-    grid-column: span 2;
     overflow: hidden;
     padding-right: 2.65rem;
   }
@@ -1728,13 +1713,8 @@ hide_title: true
         "top"
         "toolbar"
         "stage"
-        "dock"
         "foot";
       grid-template-columns: 1fr;
-    }
-
-    .sirui-map-dock {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     }
 
     .sirui-sky-cockpit {
@@ -1766,18 +1746,16 @@ hide_title: true
       height: var(--sirui-stage-height);
     }
 
-    .sirui-map-dock {
-      display: flex;
-      gap: 0.6rem;
-      grid-template-columns: none;
-      overflow-x: auto;
-      padding-bottom: 0.15rem;
-      scroll-snap-type: x proximity;
+    .sirui-map-hud {
+      bottom: 0.55rem;
+      gap: 0.45rem;
+      left: 0.55rem;
+      max-height: calc(100% - 1.1rem);
+      width: min(28rem, calc(100% - 1.1rem));
     }
 
-    .sirui-info-panel {
-      flex: 0 0 min(18rem, 82vw);
-      scroll-snap-align: start;
+    .sirui-map-hud .sirui-map-readout dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .sirui-map-scanline {
@@ -1814,8 +1792,6 @@ hide_title: true
     }
 
     .sirui-marker-card {
-      flex: 0 0 min(24rem, 88vw);
-      grid-column: auto;
       max-height: none;
     }
 
@@ -1855,6 +1831,21 @@ hide_title: true
       font-size: 0.58rem;
       min-height: 1.45rem;
       padding: 0.3rem 0.34rem;
+    }
+
+    .sirui-map-hud {
+      bottom: 0.45rem;
+      left: 0.45rem;
+      max-height: calc(100% - 0.9rem);
+      width: min(25rem, calc(100% - 0.9rem));
+    }
+
+    .sirui-map-hud .sirui-info-panel {
+      padding: 0.62rem;
+    }
+
+    .sirui-map-hud .sirui-map-readout dl {
+      grid-template-columns: 1fr;
     }
 
     .sirui-map-stage.is-street-mode .sirui-globe-marker-label,
@@ -1910,16 +1901,8 @@ hide_title: true
     const mapPlace = document.getElementById("sirui-map-place");
     const mapTimezone = document.getElementById("sirui-map-timezone");
     const mapTime = document.getElementById("sirui-map-time");
-    const mapIp = document.getElementById("sirui-map-ip");
-    const mapEdgeLocation = document.getElementById("sirui-map-edge-location");
     const mapCount = document.getElementById("sirui-map-count");
     const locationSource = document.getElementById("sirui-location-source");
-    const streetModeLabel = document.getElementById("sirui-info-street-mode");
-    const streetCenter = document.getElementById("sirui-info-street-center");
-    const streetZoomReadout = document.getElementById("sirui-info-street-zoom");
-    const streetAccuracy = document.getElementById("sirui-info-street-accuracy");
-    const networkAsn = document.getElementById("sirui-info-asn");
-    const networkObserved = document.getElementById("sirui-info-edge-time");
     const skyPanel = document.getElementById("sirui-sky-cockpit");
     const skyMode = document.getElementById("sirui-sky-mode");
     const skyTitle = document.getElementById("sirui-sky-title");
@@ -1931,6 +1914,7 @@ hide_title: true
     const skyInfoUtc = document.getElementById("sirui-info-sky-utc");
     const skyInfoClock = document.getElementById("sirui-info-sky-clock");
     const sharpenLocationButton = document.getElementById("sirui-sharpen-location");
+    const backToGlobeButton = document.getElementById("sirui-back-to-globe");
     const viewModeButtons = Array.from(document.querySelectorAll("[data-sirui-view]"));
     const timeModeButtons = Array.from(document.querySelectorAll("[data-sirui-time-mode]"));
     const timeStepButtons = Array.from(document.querySelectorAll("[data-sirui-time-step]"));
@@ -2001,6 +1985,8 @@ hide_title: true
     let streetMainActive = false;
     let streetPresentationTarget = false;
     let streetPresentationToken = 0;
+    let streetViewActive = false;
+    let streetRevealTimer = 0;
     let lastStreetSyncAt = 0;
     let lastStreetSyncView = null;
     let lastCelestialLayerUpdate = 0;
@@ -2931,26 +2917,11 @@ hide_title: true
     };
 
     const renderReadout = (entry) => {
-      const edgeVisit = entry?.meta?.edgeVisit || {};
       setText(mapPlace, whereLabel(entry));
       setText(mapTimezone, timezoneLabel(entry));
       setText(mapTime, entry?.lastLocalTime);
-      setText(mapIp, edgeVisit.ip);
-      setText(mapEdgeLocation, formatEdgeLocation(edgeVisit));
       setText(mapCount, formatUnlockCount(entry?.browserUnlockCount || entry?.count));
       setText(locationSource, locationSourceLabel(entry));
-      setText(networkAsn, edgeVisit.asn);
-      setText(networkObserved, edgeVisit.requestTime);
-      setText(streetCenter, formatCoordinatePair(entry?.lat, entry?.lng));
-      setText(streetAccuracy, formatMeters(entry?.meta?.browserLocation?.accuracy));
-      setText(
-        streetModeLabel,
-        activeViewMode === "visitor"
-          ? streetMainActive
-            ? "street main"
-            : "street inset"
-          : "globe context",
-      );
       if (sharpenLocationButton) {
         const hasBrowserPrecision = entry?.coordinateSource === "browser geolocation";
         sharpenLocationButton.hidden = !navigator.geolocation || hasBrowserPrecision;
@@ -3010,6 +2981,133 @@ hide_title: true
       setActiveMarker("");
     };
 
+    const streetViewZoomForEntry = (entry) => {
+      if (entry?.coordinateSource === "browser geolocation") return 17;
+      if (entry?.coordinateSource === "edge IP geo") return 11.5;
+      return 5.5;
+    };
+
+    const setStreetViewState = (active) => {
+      streetViewActive = Boolean(active);
+      mapStage?.classList.toggle("is-street-view-active", streetViewActive);
+      if (backToGlobeButton) backToGlobeButton.hidden = !streetViewActive;
+    };
+
+    const revealStreetPanel = () => {
+      if (streetRevealTimer) {
+        window.clearTimeout(streetRevealTimer);
+        streetRevealTimer = 0;
+      }
+
+      setStreetMapVisible(true, {
+        full: false,
+        progress: 0,
+        settled: false,
+      });
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          setStreetMapVisible(true, {
+            full: true,
+            progress: 1,
+            settled: true,
+          });
+        });
+      });
+    };
+
+    const enterStreetView = async (entry) => {
+      const rawTarget = entry || activeVisitorEntry();
+      if (!rawTarget) return;
+
+      const target = normalizeEntry(rawTarget);
+      if (!hasCoordinates(target) || target.kind) return;
+
+      if (activeViewMode !== "visitor") {
+        activeViewMode = "visitor";
+        viewModeButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.siruiView === "visitor");
+        });
+        mapStage?.classList.remove("is-sky-mode");
+        if (skyPanel) skyPanel.hidden = true;
+      }
+
+      focusedGlobeEntry = target;
+      clearPinnedDetails();
+      setStreetViewState(true);
+      setGlobeStatus(`Street view opening near ${whereLabel(target)}.`);
+
+      const streetMap = await ensureStreetMap(target);
+      if (!streetMap) {
+        setStreetViewState(false);
+        return;
+      }
+
+      const lat = Number(target.lat);
+      const lng = Number(target.lng);
+      const transitionMs = prefersReducedMotion.matches ? 0 : streetTransitionMs;
+      const streetZoom = streetViewZoomForEntry(target);
+
+      streetMapTitle.textContent = whereLabel(target);
+      setSyncSource("globe", transitionMs + 220);
+      applyStreetMapView(streetMap, lat, lng, streetZoom, target);
+      revealStreetPanel();
+
+      globeInstance?.pointOfView(
+        {
+          altitude: 2.2,
+          lat,
+          lng,
+        },
+        transitionMs,
+      );
+
+      updateStreetReadout(target);
+    };
+
+    const exitStreetView = ({ focusGlobe = true } = {}) => {
+      if (!streetViewActive && !mapStage?.classList.contains("is-street-morphing")) return;
+
+      if (streetRevealTimer) {
+        window.clearTimeout(streetRevealTimer);
+        streetRevealTimer = 0;
+      }
+
+      const transitionMs = prefersReducedMotion.matches ? 0 : streetTransitionMs;
+      const entry = activeVisitorEntry();
+
+      setStreetViewState(false);
+      clearPinnedDetails();
+      setStreetMapVisible(true, {
+        full: false,
+        progress: 0,
+        settled: true,
+      });
+
+      streetRevealTimer = window.setTimeout(() => {
+        streetRevealTimer = 0;
+        if (!streetViewActive) setStreetMapVisible(false);
+      }, transitionMs);
+
+      if (focusGlobe && globeInstance && hasCoordinates(entry)) {
+        globeInstance.pointOfView(
+          {
+            altitude: 2.45,
+            lat: entry.lat,
+            lng: entry.lng,
+          },
+          transitionMs,
+        );
+      }
+
+      setGlobeStatus(
+        hasCoordinates(entry)
+          ? `Globe view centered near ${whereLabel(entry)}.`
+          : "Globe view restored.",
+      );
+      updateStreetReadout(entry);
+    };
+
     const svgElement = (name, attributes = {}) => {
       const element = document.createElementNS(svgNamespace, name);
       Object.entries(attributes).forEach(([key, value]) => {
@@ -3064,12 +3162,12 @@ hide_title: true
       group.addEventListener("blur", hideMarkerDetails);
       group.addEventListener("click", (event) => {
         event.stopPropagation();
-        showMarkerDetails(entry, { pinned: true });
+        void enterStreetView(entry);
       });
       group.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          showMarkerDetails(entry, { pinned: true });
+          void enterStreetView(entry);
         }
       });
 
@@ -3341,7 +3439,6 @@ hide_title: true
       const shellRect = mapShell.getBoundingClientRect();
       const topRect = mapShell.querySelector(".sirui-map-topline")?.getBoundingClientRect();
       const toolbarRect = mapShell.querySelector(".sirui-map-toolbar")?.getBoundingClientRect();
-      const dockRect = mapShell.querySelector(".sirui-map-dock")?.getBoundingClientRect();
       const fixedFooter = document.querySelector("footer.fixed-bottom");
       const footerHeight = fixedFooter
         ? Math.ceil(fixedFooter.getBoundingClientRect().height)
@@ -3352,9 +3449,8 @@ hide_title: true
       const reserved =
         (topRect?.height || 0) +
         (toolbarRect?.height || 0) +
-        (dockRect?.height || 0) +
         paddingY +
-        rowGap * 3 +
+        rowGap * 2 +
         footerHeight +
         (window.innerWidth < 720 ? 12 : 16);
       const available = viewportHeight - shellRect.top - reserved;
@@ -4109,7 +4205,7 @@ hide_title: true
       button.type = "button";
       button.className = "sirui-globe-marker";
       button.dataset.entryId = entry.id;
-      button.setAttribute("aria-label", `details for ${whereLabel(entry)}`);
+      button.setAttribute("aria-label", `open street view near ${whereLabel(entry)}`);
       if (entry.isCurrent) button.classList.add("is-current", "is-active");
 
       dot.className = "sirui-globe-marker-dot";
@@ -4129,20 +4225,7 @@ hide_title: true
       button.addEventListener("click", (event) => {
         event.stopPropagation();
         focusedGlobeEntry = entry;
-        if (activeViewMode !== "visitor") {
-          setViewMode("visitor");
-        }
-        showMarkerDetails(entry, { pinned: true });
-        if (globeInstance && hasCoordinates(entry)) {
-          const targetPov = {
-            altitude: 1.18,
-            lat: entry.lat,
-            lng: entry.lng,
-          };
-          const transitionMs = prefersReducedMotion.matches ? 0 : 900;
-          startStreetFocusMorph(entry, targetPov, transitionMs);
-          globeInstance.pointOfView(targetPov, transitionMs);
-        }
+        void enterStreetView(entry);
       });
 
       return button;
@@ -4164,17 +4247,11 @@ hide_title: true
     };
 
     const streetZoomRangeForEntry = (entry) => {
-      if (entry?.coordinateSource === "browser geolocation") return [14, 19];
-      if (entry?.coordinateSource === "edge IP geo") return [9, 13];
-      return [4, 7];
+      const zoom = streetViewZoomForEntry(entry);
+      return [zoom, zoom];
     };
 
-    const altitudeToStreetZoom = (altitude, entry) => {
-      const [minZoom, maxZoom] = streetZoomRangeForEntry(entry);
-      const progress = streetMorphProgressForAltitude(altitude);
-
-      return clamp(minZoom + progress * (maxZoom - minZoom), minZoom, maxZoom);
-    };
+    const altitudeToStreetZoom = (_altitude, entry) => streetViewZoomForEntry(entry);
 
     const streetZoomToAltitude = (zoom, entry) => {
       const [minZoom, maxZoom] = streetZoomRangeForEntry(entry);
@@ -4183,45 +4260,7 @@ hide_title: true
       return altitudeForStreetMorphProgress(progress);
     };
 
-    const updateStreetReadout = (entry) => {
-      let zoom = null;
-      let center = null;
-
-      try {
-        if (streetMapInstance?._loaded) {
-          zoom = streetMapInstance.getZoom?.();
-          center = streetMapInstance.getCenter?.();
-        }
-      } catch {
-        zoom = null;
-        center = null;
-      }
-
-      const zoomLabel = Number.isFinite(zoom)
-        ? Number.isInteger(zoom)
-          ? `z${zoom}`
-          : `z${zoom.toFixed(1)}`
-        : "";
-
-      setText(
-        streetModeLabel,
-        activeViewMode === "visitor"
-          ? streetMainActive
-            ? "street main"
-            : streetMorphProgress > 0.12
-              ? "street morph"
-              : "street inset"
-          : "globe context",
-      );
-      setText(streetZoomReadout, zoomLabel);
-      setText(
-        streetCenter,
-        center
-          ? formatCoordinatePair(center.lat, center.lng)
-          : formatCoordinatePair(entry?.lat, entry?.lng),
-      );
-      setText(streetAccuracy, formatMeters(entry?.meta?.browserLocation?.accuracy));
-    };
+    const updateStreetReadout = () => {};
 
     const updateStreetMarker = (entry) => {
       if (!streetMapInstance || !window.L || !hasCoordinates(entry)) return;
@@ -4523,11 +4562,14 @@ hide_title: true
       if (!streetMapInstance) {
         streetMapInstance = L.map(streetMapElement, {
           attributionControl: true,
+          boxZoom: false,
+          doubleClickZoom: false,
+          dragging: false,
           keyboard: false,
           maxZoom: 19,
-          scrollWheelZoom: true,
-          wheelPxPerZoomLevel: 84,
-          zoomDelta: 0.5,
+          scrollWheelZoom: false,
+          tap: false,
+          touchZoom: false,
           zoomControl: false,
           zoomSnap: 0.1,
         });
@@ -4537,40 +4579,16 @@ hide_title: true
           maxZoom: 19,
           maxNativeZoom: 19,
         }).addTo(streetMapInstance);
-        L.control.zoom({ position: "bottomright" }).addTo(streetMapInstance);
-        streetMapInstance.on("movestart zoomstart", () => {
-          if (syncSource !== "globe") {
-            clearStreetFocusTarget();
-            cancelStreetZoomGlide();
-          }
-        });
-        streetMapInstance.on("moveend zoomend", () => {
-          if (syncSource === "globe" || streetSyncLocked || !globeInstance || !focusedGlobeEntry) return;
-          if (!isStreetSyncedMode()) return;
-
-          const center = streetMapInstance.getCenter();
-          const zoom = streetMapInstance.getZoom();
-          const altitude = streetZoomToAltitude(zoom, focusedGlobeEntry);
-          currentGlobeAltitude = altitude;
-          setSyncSource("street", 260);
-          setStreetPresentation(shouldUseStreetMainForAltitude(altitude), {
-            pov: {
-              altitude,
-              lat: center.lat,
-              lng: center.lng,
-            },
-            sync: false,
-          });
-          globeSyncLocked = true;
-          globeInstance.pointOfView(
-            {
-              altitude,
-              lat: center.lat,
-              lng: center.lng,
-            },
-            0,
-          );
-          updateStreetReadout(focusedGlobeEntry);
+        [
+          "boxZoom",
+          "doubleClickZoom",
+          "dragging",
+          "keyboard",
+          "scrollWheelZoom",
+          "tap",
+          "touchZoom",
+        ].forEach((handler) => {
+          streetMapInstance[handler]?.disable?.();
         });
       }
 
@@ -4742,20 +4760,8 @@ hide_title: true
       mapStage?.classList.toggle("is-zoom-mid", !isFar && !isNear);
       mapStage?.classList.toggle("is-zoom-near", isNear);
       refreshGlobeMarkerScale();
-      if (isStreetSyncedMode() && !globeSyncLocked) {
-        const syncPov =
-          activeStreetFocusTarget() || {
-            altitude,
-            lat: pov?.lat ?? focusEntry?.lat,
-            lng: pov?.lng ?? focusEntry?.lng,
-          };
-        setStreetPresentation(shouldUseStreetMainForAltitude(syncPov.altitude), {
-          pov: syncPov,
-        });
-        scheduleStreetMapSync(focusEntry, syncPov);
-      }
 
-      if ((streetMainActive || streetPresentationTarget) && !detailsPinned) {
+      if (streetViewActive && !detailsPinned) {
         hideMarkerDetails();
       } else if (isNear && hasCoordinates(focusEntry) && !detailsPinned) {
         showMarkerDetails(focusEntry);
@@ -4789,11 +4795,7 @@ hide_title: true
           sunEntry: makeSunEntry(getSimulatedDate()),
         };
 
-      if (isStreetSyncedMode()) {
-        setStreetPresentation(false, { force: true, sync: false });
-      } else {
-        setStreetMapVisible(false);
-      }
+      exitStreetView({ focusGlobe: false });
       mapStage?.classList.toggle("is-sky-mode", isSkyViewMode(mode));
       updateStreetReadout(visitorEntry);
 
@@ -4809,18 +4811,7 @@ hide_title: true
           },
           transitionMs,
         );
-        void syncStreetMapFromGlobe(
-          visitorEntry,
-          {
-            altitude: 2.35,
-            lat: visitorEntry.lat,
-            lng: visitorEntry.lng,
-          },
-          { force: true },
-        );
-        setGlobeStatus(
-          `Visitor view centered near ${whereLabel(visitorEntry)}; close zoom promotes the street map.`,
-        );
+        setGlobeStatus(`Visitor globe centered near ${whereLabel(visitorEntry)}. Click the marker for the reveal.`);
       } else if (mode === "sun") {
         focusedGlobeEntry = skySnapshot.sunEntry;
         clearPinnedDetails();
@@ -4994,6 +4985,8 @@ hide_title: true
           controls.autoRotate = false;
           controls.autoRotateSpeed = 0;
           controls.enableDamping = true;
+          controls.enablePan = false;
+          controls.enableZoom = false;
         }
 
         if (window.ResizeObserver) {
@@ -5069,6 +5062,11 @@ hide_title: true
 
       clearPinnedDetails();
       renderReadout(normalizedActive);
+      if (streetRevealTimer) {
+        window.clearTimeout(streetRevealTimer);
+        streetRevealTimer = 0;
+      }
+      setStreetViewState(false);
       setStreetMapVisible(false);
       focusedGlobeEntry = normalizedActive;
 
@@ -5128,6 +5126,7 @@ hide_title: true
       const browserLocation = normalizeBrowserPosition(position);
       if (!browserLocation) throw new Error("missing browser coordinates");
 
+      const returnToStreetView = streetViewActive;
       const meta = {
         ...(lastUnlockRecord.activeEntry.meta || {}),
         browserLocation,
@@ -5136,9 +5135,13 @@ hide_title: true
       lastUnlockRecord = unlockRecord;
 
       await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
-      showMarkerDetails(normalizeEntry(unlockRecord.activeEntry), {
-        pinned: true,
-      });
+      if (returnToStreetView) {
+        await enterStreetView(unlockRecord.activeEntry);
+      } else {
+        showMarkerDetails(normalizeEntry(unlockRecord.activeEntry), {
+          pinned: true,
+        });
+      }
     };
 
     const requestBrowserPrecision = async ({ automatic = false } = {}) => {
@@ -5238,7 +5241,7 @@ hide_title: true
     mapStage?.addEventListener("click", (event) => {
       if (
         !event.target.closest(
-          ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker, .sirui-street-map-panel",
+          ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker, .sirui-street-map-panel, .sirui-map-hud",
         )
       ) {
         clearPinnedDetails();
@@ -5247,16 +5250,16 @@ hide_title: true
 
     mapStage?.addEventListener(
       "wheel",
-      (event) => {
+      () => {
         if (!map?.hidden) {
           clearStreetFocusTarget();
-          event.preventDefault();
         }
       },
-      { passive: false },
+      { passive: true },
     );
 
     markerClose?.addEventListener("click", clearPinnedDetails);
+    backToGlobeButton?.addEventListener("click", () => exitStreetView());
     sharpenLocationButton?.addEventListener("click", sharpenLocation);
     viewModeButtons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -5282,6 +5285,10 @@ hide_title: true
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && !map?.hidden) {
+        if (streetViewActive) {
+          exitStreetView();
+          return;
+        }
         clearPinnedDetails();
       }
     });
