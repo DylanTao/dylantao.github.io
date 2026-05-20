@@ -415,9 +415,12 @@ hide_title: true
 
   .sirui-map-stage {
     grid-area: stage;
+    height: var(--sirui-stage-height, clamp(32rem, 68vh, 49rem));
     isolation: isolate;
     margin-top: 0;
     min-width: 0;
+    overflow: hidden;
+    overscroll-behavior: contain;
     position: relative;
   }
 
@@ -439,6 +442,19 @@ hide_title: true
 
   .sirui-globe-canvas {
     height: clamp(32rem, 68vh, 49rem);
+    transform-origin: right bottom;
+    transition:
+      bottom 320ms ease,
+      border-color 280ms ease,
+      box-shadow 280ms ease,
+      height 320ms ease,
+      left 320ms ease,
+      opacity 260ms ease,
+      right 320ms ease,
+      top 320ms ease,
+      transform 320ms ease,
+      width 320ms ease;
+    will-change: height, opacity, transform, width;
   }
 
   .sirui-globe-canvas canvas {
@@ -872,7 +888,21 @@ hide_title: true
     overflow: hidden;
     position: absolute;
     right: 0.75rem;
+    transform: translate3d(0, 0, 0) scale(1);
+    transform-origin: right bottom;
+    transition:
+      bottom 320ms ease,
+      border-color 280ms ease,
+      box-shadow 280ms ease,
+      height 320ms ease,
+      left 320ms ease,
+      opacity 260ms ease,
+      right 320ms ease,
+      top 320ms ease,
+      transform 320ms ease,
+      width 320ms ease;
     width: min(22rem, 38vw);
+    will-change: height, opacity, transform, width;
     z-index: 6;
   }
 
@@ -920,6 +950,7 @@ hide_title: true
     display: block;
     filter: saturate(0.78) contrast(0.96) brightness(0.9);
     height: 12rem;
+    overscroll-behavior: contain;
     width: 100%;
   }
 
@@ -1083,6 +1114,7 @@ hide_title: true
   }
 
   .sirui-map-stage {
+    height: var(--sirui-stage-height);
     min-height: var(--sirui-stage-height);
   }
 
@@ -1194,29 +1226,37 @@ hide_title: true
     display: block;
   }
 
-  .sirui-map-stage.is-street-mode .sirui-street-map-panel {
+  .sirui-map-stage.is-street-mode .sirui-street-map-panel,
+  .sirui-map-stage.is-street-main .sirui-street-map-panel {
     border-radius: 0.5rem;
-    bottom: auto;
+    bottom: 0;
     box-shadow: none;
     height: var(--sirui-stage-height);
-    inset: 0;
-    right: auto;
-    width: auto;
+    left: 0;
+    opacity: 1;
+    right: 0;
+    top: 0;
+    transform: translate3d(0, 0, 0) scale(1);
+    width: 100%;
     z-index: 4;
   }
 
-  .sirui-map-stage.is-street-mode .sirui-street-map-header {
+  .sirui-map-stage.is-street-mode .sirui-street-map-header,
+  .sirui-map-stage.is-street-main .sirui-street-map-header {
     left: 0.75rem;
     max-width: min(32rem, calc(100% - 1.5rem));
     right: auto;
     top: 0.75rem;
   }
 
-  .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel {
+  .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
+  .sirui-map-stage.is-street-inset .sirui-street-map-panel {
     opacity: 0.96;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
-  .sirui-map-stage.is-street-mode .sirui-globe-canvas {
+  .sirui-map-stage.is-street-mode .sirui-globe-canvas,
+  .sirui-map-stage.is-globe-inset .sirui-globe-canvas {
     border-color: rgba(112, 216, 255, 0.42);
     bottom: 0.75rem;
     box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.4);
@@ -1225,22 +1265,28 @@ hide_title: true
     opacity: 0.94;
     position: absolute;
     right: 0.75rem;
+    transform: translate3d(0, 0, 0) scale(1);
     width: min(19rem, 36vw);
     z-index: 6;
   }
 
-  .sirui-map-stage.is-street-mode .sirui-globe-canvas::after {
+  .sirui-map-stage.is-street-mode .sirui-globe-canvas::after,
+  .sirui-map-stage.is-globe-inset .sirui-globe-canvas::after {
     opacity: 0.36;
   }
 
   .sirui-map-stage.is-street-mode .sirui-sun-hud,
-  .sirui-map-stage.is-street-mode .sirui-time-controls {
+  .sirui-map-stage.is-street-mode .sirui-time-controls,
+  .sirui-map-stage.is-street-main .sirui-sun-hud,
+  .sirui-map-stage.is-street-main .sirui-time-controls {
     opacity: 0;
     pointer-events: none;
   }
 
   .sirui-map-stage.is-street-mode .sirui-globe-marker:not(.is-current),
-  .sirui-map-stage.is-street-mode .sirui-celestial-marker {
+  .sirui-map-stage.is-street-mode .sirui-celestial-marker,
+  .sirui-map-stage.is-globe-inset .sirui-globe-marker:not(.is-current),
+  .sirui-map-stage.is-globe-inset .sirui-celestial-marker {
     opacity: 0.22;
   }
 
@@ -1694,14 +1740,17 @@ hide_title: true
       font-size: 26px;
     }
 
-    .sirui-map-stage.is-street-mode .sirui-street-map-panel {
-      bottom: auto;
-      inset: 0;
+    .sirui-map-stage.is-street-mode .sirui-street-map-panel,
+    .sirui-map-stage.is-street-main .sirui-street-map-panel {
+      bottom: 0;
+      left: 0;
+      right: 0;
       top: 0;
-      width: auto;
+      width: 100%;
     }
 
-    .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel {
+    .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
+    .sirui-map-stage.is-street-inset .sirui-street-map-panel {
       bottom: 0.5rem;
       height: clamp(6rem, 24svh, 8rem);
       right: 0.5rem;
@@ -1776,7 +1825,8 @@ hide_title: true
       padding: 0.3rem 0.34rem;
     }
 
-    .sirui-map-stage.is-street-mode .sirui-globe-canvas {
+    .sirui-map-stage.is-street-mode .sirui-globe-canvas,
+    .sirui-map-stage.is-globe-inset .sirui-globe-canvas {
       bottom: 0.45rem;
       height: clamp(4.75rem, 20svh, 6.6rem);
       opacity: 0.82;
@@ -1784,7 +1834,8 @@ hide_title: true
       width: clamp(6rem, 28vw, 8rem);
     }
 
-    .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel {
+    .sirui-map-stage.is-street-inset-mode .sirui-street-map-panel,
+    .sirui-map-stage.is-street-inset .sirui-street-map-panel {
       bottom: 0.45rem;
       height: clamp(5.8rem, 22svh, 7.4rem);
       right: 0.45rem;
@@ -1792,7 +1843,9 @@ hide_title: true
     }
 
     .sirui-map-stage.is-street-mode .sirui-globe-marker-label,
-    .sirui-map-stage.is-street-mode .sirui-celestial-label {
+    .sirui-map-stage.is-street-mode .sirui-celestial-label,
+    .sirui-map-stage.is-globe-inset .sirui-globe-marker-label,
+    .sirui-map-stage.is-globe-inset .sirui-celestial-label {
       display: none;
     }
   }
@@ -1801,6 +1854,8 @@ hide_title: true
     .sirui-map-scanline,
     .sirui-celestial-marker,
     .sirui-celestial-label,
+    .sirui-globe-canvas,
+    .sirui-street-map-panel,
     .sirui-map-marker-pulse,
     .sirui-globe-marker.is-current .sirui-globe-marker-dot::after,
     .sirui-globe-marker-tooltip {
@@ -1884,8 +1939,10 @@ hide_title: true
     );
     const streetAutoEnterAltitude = 1.42;
     const streetAutoExitAltitude = 1.78;
-    const sunSystemIntervalMs = 3200;
-    const celestialLayerIntervalMs = 9600;
+    const streetTransitionMs = 360;
+    const streetSyncThrottleMs = 120;
+    const sunSystemIntervalMs = 4200;
+    const celestialLayerIntervalMs = 18000;
 
     let globeInstance = null;
     let globeResizeObserver = null;
@@ -1906,10 +1963,18 @@ hide_title: true
     let activeViewMode = "visitor";
     let streetSyncLocked = false;
     let globeSyncLocked = false;
+    let syncSource = null;
+    let syncUnlockTimer = null;
     let streetSyncFrame = 0;
+    let streetSyncTimeout = 0;
     let pendingStreetSync = null;
     let streetMainActive = false;
+    let streetPresentationTarget = false;
+    let streetPresentationToken = 0;
+    let lastStreetSyncAt = 0;
+    let lastStreetSyncView = null;
     let lastCelestialLayerUpdate = 0;
+    let celestialLayerRefreshPending = false;
     let lastSkySnapshot = null;
     const initialBodyPaddingBottom = document.body.style.paddingBottom;
 
@@ -3072,6 +3137,38 @@ hide_title: true
         }, 60);
       });
 
+    const clearSyncSource = (source = null) => {
+      if (source && syncSource !== source) return;
+
+      if (syncUnlockTimer) {
+        window.clearTimeout(syncUnlockTimer);
+        syncUnlockTimer = null;
+      }
+      syncSource = null;
+      streetSyncLocked = false;
+      globeSyncLocked = false;
+    };
+
+    const setSyncSource = (source, maxMs = 240) => {
+      clearSyncSource();
+      syncSource = source;
+      streetSyncLocked = source === "globe";
+      globeSyncLocked = source === "street";
+
+      if (maxMs > 0) {
+        syncUnlockTimer = window.setTimeout(() => clearSyncSource(source), maxMs);
+      }
+    };
+
+    const scheduleDeferredWork = (callback, timeout = 1200) => {
+      if (typeof window.requestIdleCallback === "function") {
+        window.requestIdleCallback(callback, { timeout });
+        return;
+      }
+
+      window.setTimeout(callback, Math.min(timeout, 420));
+    };
+
     const fitConsoleToViewport = () => {
       if (!map || map.hidden || !mapShell) return;
 
@@ -3114,10 +3211,7 @@ hide_title: true
       document.body.style.paddingBottom = footerHeight
         ? `${footerHeight}px`
         : initialBodyPaddingBottom;
-      window.requestAnimationFrame(() => {
-        resizeGlobe();
-        streetMapInstance?.invalidateSize?.(false);
-      });
+      invalidateStreetMapSettled();
     };
 
     const normalizeLongitude = (longitude) =>
@@ -3350,9 +3444,10 @@ hide_title: true
       const axisA = normalizeVector(cross(sun, reference));
       const axisB = normalizeVector(cross(sun, axisA));
       const points = [];
+      const segments = 120;
 
-      for (let index = 0; index <= 240; index += 1) {
-        const angle = (index / 240) * Math.PI * 2;
+      for (let index = 0; index <= segments; index += 1) {
+        const angle = (index / segments) * Math.PI * 2;
         const point = unitToLatLng({
           x: Math.cos(angle) * axisA.x + Math.sin(angle) * axisB.x,
           y: Math.cos(angle) * axisA.y + Math.sin(angle) * axisB.y,
@@ -3377,9 +3472,10 @@ hide_title: true
       const axisB = normalizeVector(cross(center, axisA));
       const radius = toRadians(88.8);
       const coordinates = [];
+      const segments = 120;
 
-      for (let index = 0; index <= 240; index += 1) {
-        const angle = (index / 240) * Math.PI * 2;
+      for (let index = 0; index <= segments; index += 1) {
+        const angle = (index / segments) * Math.PI * 2;
         const point = unitToLatLng({
           x:
             Math.cos(radius) * center.x +
@@ -3569,9 +3665,10 @@ hide_title: true
       }
     };
 
-    const updateSkyCockpit = ({ date, sunEntry, moonEntry, moonPhase }) => {
-      const activeCelestial =
-        activeViewMode === "moon" ? moonEntry : activeViewMode === "sun" ? sunEntry : null;
+    const isSkyViewMode = (mode = activeViewMode) =>
+      ["sun", "moon", "orbit"].includes(mode);
+
+    const updateSkyInfoReadout = ({ date, sunEntry, moonEntry }) => {
       const summary = `Sun ${formatCoordinate(sunEntry.lat, "N", "S")}, ${formatCoordinate(sunEntry.lng, "E", "W")} / Moon ${formatCoordinate(moonEntry.lat, "N", "S")}, ${formatCoordinate(moonEntry.lng, "E", "W")}`;
       const clockLabel =
         celestialSpeed === 0
@@ -3583,10 +3680,19 @@ hide_title: true
       setText(skyInfoUtc, date.toISOString().slice(11, 19));
       setText(skyInfoClock, clockLabel);
       setText(skyInfoSummary, summary);
+      if (!isSkyViewMode()) setText(skyInfoTitle, "live sky");
+
+      return { clockLabel, summary };
+    };
+
+    const updateSkyCockpit = ({ date, sunEntry, moonEntry, moonPhase }) => {
+      const activeCelestial =
+        activeViewMode === "moon" ? moonEntry : activeViewMode === "sun" ? sunEntry : null;
+      const { summary } = updateSkyInfoReadout({ date, moonEntry, sunEntry });
 
       if (!skyPanel) return;
 
-      const showSky = ["sun", "moon", "orbit"].includes(activeViewMode);
+      const showSky = isSkyViewMode();
       const moonShadowOpacity = clamp(1 - (moonPhase.illumination || 0), 0, 0.96);
       skyPanel.dataset.view = activeViewMode;
       skyPanel.style.setProperty(
@@ -3710,7 +3816,7 @@ hide_title: true
       globe.polygonSideColor?.(() => "rgba(2, 5, 10, 0)");
       globe.polygonStrokeColor?.(() => "rgba(112, 216, 255, 0.08)");
       globe.polygonAltitude?.(0.009);
-      globe.polygonCapCurvatureResolution?.(2.25);
+      globe.polygonCapCurvatureResolution?.(3.6);
       globe.polygonsTransitionDuration?.(reducedMotion ? 0 : 450);
     };
 
@@ -3719,6 +3825,16 @@ hide_title: true
         window.clearInterval(sunTimer);
         sunTimer = null;
       }
+    };
+
+    const scheduleCelestialLayerRefresh = (timeout = 1400) => {
+      if (celestialLayerRefreshPending) return;
+
+      celestialLayerRefreshPending = true;
+      scheduleDeferredWork(() => {
+        celestialLayerRefreshPending = false;
+        updateSunSystemOnce({ forceLayers: true });
+      }, timeout);
     };
 
     const updateSunSystemOnce = ({ forceLayers = false } = {}) => {
@@ -3735,16 +3851,24 @@ hide_title: true
       };
       const moonPhase = getMoonPhase(date);
       const baseEntries = currentGlobeEntries;
+      const skySnapshot = { date, moonEntry, moonPhase, sunEntry };
 
-      lastSkySnapshot = { date, moonEntry, moonPhase, sunEntry };
+      lastSkySnapshot = skySnapshot;
       updateSunHud(date, sunPosition, moonPosition);
-      updateSkyCockpit({ date, moonEntry, moonPhase, sunEntry });
+      if (isSkyViewMode()) {
+        updateSkyCockpit(skySnapshot);
+      } else {
+        updateSkyInfoReadout(skySnapshot);
+        if (skyPanel) skyPanel.hidden = true;
+      }
       globeInstance.htmlElementsData([...baseEntries, sunEntry, moonEntry]);
 
-      if (
-        forceLayers ||
-        realNow - lastCelestialLayerUpdate >= celestialLayerIntervalMs
-      ) {
+      const layersAreStale =
+        lastCelestialLayerUpdate > 0 &&
+        realNow - lastCelestialLayerUpdate >= celestialLayerIntervalMs;
+      const skyNeedsFirstLayers = isSkyViewMode() && lastCelestialLayerUpdate === 0;
+
+      if (forceLayers || layersAreStale || skyNeedsFirstLayers) {
         globeInstance.pathsData?.(buildCelestialPaths(date, sunPosition));
         globeInstance.polygonsData?.(buildNightHemisphere(sunPosition));
         lastCelestialLayerUpdate = realNow;
@@ -3769,7 +3893,8 @@ hide_title: true
       celestialBaseRealTime = Date.now();
       lastCelestialLayerUpdate = 0;
 
-      updateSunSystemOnce({ forceLayers: true });
+      updateSunSystemOnce();
+      scheduleCelestialLayerRefresh(1800);
 
       if (!prefersReducedMotion.matches) {
         sunTimer = window.setInterval(updateSunSystemOnce, sunSystemIntervalMs);
@@ -3954,6 +4079,32 @@ hide_title: true
       }
     };
 
+    const invalidateStreetMapSettled = () => {
+      window.requestAnimationFrame(() => {
+        streetMapInstance?.invalidateSize?.(false);
+        resizeGlobe();
+        window.requestAnimationFrame(() => {
+          streetMapInstance?.invalidateSize?.(false);
+          resizeGlobe();
+        });
+      });
+
+      window.setTimeout(() => {
+        streetMapInstance?.invalidateSize?.(false);
+        resizeGlobe();
+      }, streetTransitionMs + 80);
+    };
+
+    const shouldSkipStreetMapSync = (lat, lng, zoom, force) => {
+      if (force || !lastStreetSyncView) return false;
+
+      const sameZoom = Math.abs((lastStreetSyncView.zoom || 0) - zoom) < 0.1;
+      const sameLat = Math.abs((lastStreetSyncView.lat || 0) - lat) < 0.00002;
+      const sameLng = Math.abs((lastStreetSyncView.lng || 0) - lng) < 0.00002;
+
+      return sameZoom && sameLat && sameLng;
+    };
+
     const ensureStreetMap = async (entry) => {
       if (!streetMapElement || !hasCoordinates(entry)) return null;
 
@@ -3974,19 +4125,27 @@ hide_title: true
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           detectRetina: true,
-          maxZoom: 20,
+          maxZoom: 19,
           maxNativeZoom: 19,
         }).addTo(streetMapInstance);
         L.control.zoom({ position: "bottomright" }).addTo(streetMapInstance);
         streetMapInstance.on("moveend zoomend", () => {
-          if (streetSyncLocked || !globeInstance || !focusedGlobeEntry) return;
+          if (syncSource === "globe" || streetSyncLocked || !globeInstance || !focusedGlobeEntry) return;
           if (!isStreetSyncedMode()) return;
 
           const center = streetMapInstance.getCenter();
           const zoom = streetMapInstance.getZoom();
           const altitude = streetZoomToAltitude(zoom, focusedGlobeEntry);
           currentGlobeAltitude = altitude;
-          setStreetPresentation(shouldUseStreetMainForAltitude(altitude));
+          setSyncSource("street", 260);
+          setStreetPresentation(shouldUseStreetMainForAltitude(altitude), {
+            pov: {
+              altitude,
+              lat: center.lat,
+              lng: center.lng,
+            },
+            sync: false,
+          });
           globeSyncLocked = true;
           globeInstance.pointOfView(
             {
@@ -3996,9 +4155,6 @@ hide_title: true
             },
             0,
           );
-          window.setTimeout(() => {
-            globeSyncLocked = false;
-          }, 240);
           updateStreetReadout(focusedGlobeEntry);
         });
       }
@@ -4008,35 +4164,38 @@ hide_title: true
     };
 
     const syncStreetMapFromGlobe = async (entry, pov, { force = false } = {}) => {
-      if (!hasCoordinates(entry) || entry?.kind || !isStreetSyncedMode()) return;
+      if (!hasCoordinates(entry) || entry?.kind || !isStreetSyncedMode()) return false;
+      if (syncSource === "street" && !force) return false;
 
+      if (streetMapPanel) streetMapPanel.hidden = false;
       const streetMap = await ensureStreetMap(entry);
-      if (!streetMap) return;
+      if (!streetMap) return false;
 
       const centerLat = toFiniteNumber(pov?.lat) ?? Number(entry.lat);
       const centerLng = toFiniteNumber(pov?.lng) ?? Number(entry.lng);
       const zoom = altitudeToStreetZoom(Number(pov?.altitude) || currentGlobeAltitude, entry);
+      if (shouldSkipStreetMapSync(centerLat, centerLng, zoom, force)) return true;
+
       streetMapTitle.textContent = whereLabel(entry);
-      streetMapPanel.hidden = false;
-      streetSyncLocked = true;
-      if (force) {
-        streetMap.setView([centerLat, centerLng], zoom, {
-          animate: !prefersReducedMotion.matches,
-        });
-      } else {
-        streetMap.setView([centerLat, centerLng], zoom, {
-          animate: false,
-        });
-      }
-      window.setTimeout(() => {
-        streetSyncLocked = false;
-      }, force ? 450 : 80);
-      streetMap.invalidateSize(false);
+      setSyncSource("globe", force ? 420 : 180);
+      streetMap.setView([centerLat, centerLng], zoom, {
+        animate: false,
+      });
+      lastStreetSyncAt = performance.now();
+      lastStreetSyncView = { lat: centerLat, lng: centerLng, zoom };
+      invalidateStreetMapSettled();
       updateStreetReadout(entry);
+      return true;
     };
 
     const scheduleStreetMapSync = (entry, pov, { force = false } = {}) => {
-      if (!hasCoordinates(entry) || entry?.kind || !isStreetSyncedMode() || globeSyncLocked) {
+      if (
+        !hasCoordinates(entry) ||
+        entry?.kind ||
+        !isStreetSyncedMode() ||
+        globeSyncLocked ||
+        syncSource === "street"
+      ) {
         return;
       }
 
@@ -4046,41 +4205,133 @@ hide_title: true
         pov,
       };
 
-      if (streetSyncFrame) return;
+      if (force) {
+        if (streetSyncTimeout) {
+          window.clearTimeout(streetSyncTimeout);
+          streetSyncTimeout = 0;
+        }
+        if (streetSyncFrame) {
+          window.cancelAnimationFrame(streetSyncFrame);
+          streetSyncFrame = 0;
+        }
+      }
 
-      streetSyncFrame = window.requestAnimationFrame(() => {
+      if (streetSyncFrame || streetSyncTimeout) return;
+
+      const runSync = () => {
         const sync = pendingStreetSync;
         pendingStreetSync = null;
         streetSyncFrame = 0;
+        streetSyncTimeout = 0;
         if (!sync) return;
 
         void syncStreetMapFromGlobe(sync.entry, sync.pov, { force: sync.force });
-      });
+      };
+
+      const elapsed = performance.now() - lastStreetSyncAt;
+      const delay = force ? 0 : Math.max(0, streetSyncThrottleMs - elapsed);
+      const scheduleFrame = () => {
+        streetSyncFrame = window.requestAnimationFrame(runSync);
+      };
+
+      if (delay > 0) {
+        streetSyncTimeout = window.setTimeout(scheduleFrame, delay);
+      } else {
+        scheduleFrame();
+      }
     };
 
     const setStreetMapVisible = (visible, { full = false } = {}) => {
-      if (streetMapPanel) streetMapPanel.hidden = !visible;
-      mapStage?.classList.toggle("is-street-mode", visible && full);
-      mapStage?.classList.toggle("is-street-inset-mode", visible && !full);
-      window.requestAnimationFrame(() => {
-        streetMapInstance?.invalidateSize?.(false);
-        resizeGlobe();
-      });
+      const isFull = Boolean(visible && full);
+      const isInset = Boolean(visible && !full);
+
+      if (streetMapPanel && visible) streetMapPanel.hidden = false;
+      mapStage?.classList.toggle("is-street-mode", isFull);
+      mapStage?.classList.toggle("is-street-main", isFull);
+      mapStage?.classList.toggle("is-globe-inset", isFull);
+      mapStage?.classList.toggle("is-street-inset-mode", isInset);
+      mapStage?.classList.toggle("is-street-inset", isInset);
+      mapStage?.classList.toggle("is-globe-main", !isFull);
+
+      if (streetMapPanel && !visible) {
+        window.setTimeout(() => {
+          if (
+            !mapStage?.classList.contains("is-street-inset") &&
+            !mapStage?.classList.contains("is-street-main")
+          ) {
+            streetMapPanel.hidden = true;
+          }
+        }, prefersReducedMotion.matches ? 0 : 180);
+      }
+
+      invalidateStreetMapSettled();
     };
 
-    const setStreetPresentation = (full, { force = false } = {}) => {
+    const setStreetPresentation = (full, { force = false, pov = null, sync = true } = {}) => {
       const nextFull = Boolean(full);
       if (!isStreetSyncedMode()) {
         streetMainActive = false;
+        streetPresentationTarget = false;
+        streetPresentationToken += 1;
         setStreetMapVisible(false);
         return;
       }
 
-      if (!force && streetMainActive === nextFull) return;
+      const entry = focusedGlobeEntry || activeVisitorEntry();
+      if (!hasCoordinates(entry)) {
+        streetMainActive = false;
+        streetPresentationTarget = false;
+        streetPresentationToken += 1;
+        setStreetMapVisible(false);
+        return;
+      }
 
-      streetMainActive = nextFull;
-      setStreetMapVisible(true, { full: streetMainActive });
-      updateStreetReadout(focusedGlobeEntry || activeVisitorEntry());
+      if (!force && streetMainActive === nextFull && streetPresentationTarget === nextFull) {
+        if (streetMapPanel?.hidden) setStreetMapVisible(true, { full: streetMainActive });
+        return;
+      }
+      if (!force && streetPresentationTarget === nextFull && streetMainActive !== nextFull) {
+        return;
+      }
+
+      streetPresentationTarget = nextFull;
+      const token = ++streetPresentationToken;
+      const syncPov = pov || {
+        altitude: currentGlobeAltitude,
+        lat: entry.lat,
+        lng: entry.lng,
+      };
+
+      if (!nextFull) {
+        streetMainActive = false;
+        setStreetMapVisible(true, { full: false });
+        updateStreetReadout(entry);
+        if (force && sync) void syncStreetMapFromGlobe(entry, syncPov, { force: true });
+        return;
+      }
+
+      if (!sync && streetMapInstance) {
+        streetMainActive = true;
+        setStreetMapVisible(true, { full: true });
+        updateStreetReadout(entry);
+        return;
+      }
+
+      if (!streetMainActive) setStreetMapVisible(true, { full: false });
+      if (streetMapPanel) streetMapPanel.hidden = false;
+      void syncStreetMapFromGlobe(entry, syncPov, { force: true }).then((ready) => {
+        if (!ready && token === streetPresentationToken) {
+          streetPresentationTarget = streetMainActive;
+          return;
+        }
+        if (token !== streetPresentationToken || !streetPresentationTarget || !isStreetSyncedMode()) {
+          return;
+        }
+
+        streetMainActive = true;
+        setStreetMapVisible(true, { full: true });
+        updateStreetReadout(entry);
+      });
     };
 
     const applyZoomMode = (pov, activeEntry) => {
@@ -4095,15 +4346,18 @@ hide_title: true
       mapStage?.classList.toggle("is-zoom-near", isNear);
       refreshGlobeMarkerScale();
       if (isStreetSyncedMode() && !globeSyncLocked) {
-        setStreetPresentation(shouldUseStreetMainForAltitude(altitude));
-        scheduleStreetMapSync(focusEntry, {
+        const syncPov = {
           altitude,
           lat: pov?.lat ?? focusEntry?.lat,
           lng: pov?.lng ?? focusEntry?.lng,
+        };
+        setStreetPresentation(shouldUseStreetMainForAltitude(altitude), {
+          pov: syncPov,
         });
+        scheduleStreetMapSync(focusEntry, syncPov);
       }
 
-      if (streetMainActive && !detailsPinned) {
+      if ((streetMainActive || streetPresentationTarget) && !detailsPinned) {
         hideMarkerDetails();
       } else if (isNear && hasCoordinates(focusEntry) && !detailsPinned) {
         showMarkerDetails(focusEntry);
@@ -4138,11 +4392,11 @@ hide_title: true
         };
 
       if (isStreetSyncedMode()) {
-        setStreetPresentation(false, { force: true });
+        setStreetPresentation(false, { force: true, sync: false });
       } else {
         setStreetMapVisible(false);
       }
-      mapStage?.classList.toggle("is-sky-mode", ["sun", "moon", "orbit"].includes(mode));
+      mapStage?.classList.toggle("is-sky-mode", isSkyViewMode(mode));
       updateStreetReadout(visitorEntry);
 
       if (mode === "visitor" && visitorEntry) {
@@ -4210,6 +4464,7 @@ hide_title: true
         setGlobeStatus("Orbit view showing a stylized Earth-Moon scale cue.");
       }
 
+      if (isSkyViewMode(mode)) updateSunSystemOnce({ forceLayers: true });
       updateStreetReadout(visitorEntry);
       window.requestAnimationFrame(resizeGlobe);
     };
@@ -4591,6 +4846,14 @@ hide_title: true
         clearPinnedDetails();
       }
     });
+
+    mapStage?.addEventListener(
+      "wheel",
+      (event) => {
+        if (!map?.hidden) event.preventDefault();
+      },
+      { passive: false },
+    );
 
     markerClose?.addEventListener("click", clearPinnedDetails);
     sharpenLocationButton?.addEventListener("click", sharpenLocation);
