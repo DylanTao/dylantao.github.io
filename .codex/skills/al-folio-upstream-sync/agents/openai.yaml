@@ -1,0 +1,4 @@
+interface:
+  display_name: "al-folio Upstream Sync"
+  short_description: "Merge al-folio updates into this customized site"
+  default_prompt: "Use $al-folio-upstream-sync to pull the latest al-folio upstream changes into this customized site."
