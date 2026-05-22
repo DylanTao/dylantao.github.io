@@ -133,6 +133,213 @@
   }
 }
 
+.blog-post {
+  .post-header,
+  .post-content {
+    animation: blog-post-enter 220ms ease-out both;
+  }
+
+  .post-content {
+    animation-delay: 40ms;
+  }
+}
+
+.blog-post-navigation {
+  animation: blog-post-enter 240ms ease-out 80ms both;
+  border-top: 1px solid var(--global-divider-color);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.blog-nav-read-next {
+  align-items: center;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.5rem;
+  color: var(--global-text-color);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 1rem;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    border-color: var(--global-theme-color);
+    box-shadow: 0 0.45rem 1.25rem rgba(0, 0, 0, 0.08);
+    color: var(--global-theme-color);
+    transform: translateY(-2px);
+
+    .blog-nav-title {
+      color: var(--global-theme-color);
+    }
+
+    .blog-nav-arrow {
+      transform: translateX(0.18rem);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 3px;
+  }
+}
+
+.blog-nav-read-next-copy {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.blog-nav-kicker,
+.blog-nav-meta,
+.blog-nav-direction-label {
+  color: var(--global-text-color-light);
+  font-size: 0.82rem;
+}
+
+.blog-nav-kicker {
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.blog-nav-title {
+  color: var(--global-text-color);
+  font-size: 1.2rem;
+  font-weight: 650;
+  line-height: 1.25;
+  transition: color 160ms ease;
+}
+
+.blog-nav-description {
+  color: var(--global-text-color);
+  line-height: 1.45;
+}
+
+.blog-nav-arrow {
+  align-items: center;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 50%;
+  color: var(--global-theme-color);
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 2.25rem;
+  justify-content: center;
+  transition: transform 160ms ease;
+  width: 2.25rem;
+}
+
+.blog-nav-chronology {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  margin-top: 0.85rem;
+}
+
+.blog-nav-direction {
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--global-text-color);
+  display: grid;
+  gap: 0.2rem;
+  min-height: 44px;
+  padding: 0.75rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    background-color: var(--global-card-bg-color);
+    border-color: var(--global-divider-color);
+    color: var(--global-theme-color);
+    transform: translateY(-1px);
+
+    .blog-nav-direction-title {
+      color: var(--global-theme-color);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 3px;
+  }
+}
+
+.blog-nav-direction-newer {
+  text-align: right;
+}
+
+.blog-nav-direction-title {
+  color: var(--global-text-color);
+  font-weight: 600;
+  line-height: 1.25;
+  transition: color 160ms ease;
+}
+
+@keyframes blog-post-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .blog-nav-read-next {
+    align-items: flex-start;
+  }
+
+  .blog-nav-chronology {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-nav-direction-newer {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-post {
+    .post-header,
+    .post-content {
+      animation: none;
+    }
+  }
+
+  .blog-post-navigation {
+    animation: none;
+  }
+
+  .blog-nav-read-next,
+  .blog-nav-direction,
+  .blog-nav-arrow {
+    transition: none;
+  }
+
+  .blog-nav-read-next:hover,
+  .blog-nav-direction:hover {
+    transform: none;
+  }
+
+  .blog-nav-read-next:hover .blog-nav-arrow {
+    transform: none;
+  }
+}
+
 .featured-posts {
   a {
     color: var(--global-text-color-light);

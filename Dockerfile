@@ -67,6 +67,7 @@ RUN bundle install --no-cache
 EXPOSE 8080
 
 COPY bin/entry_point.sh /tmp/entry_point.sh
+RUN sed -i 's/\r$//' /tmp/entry_point.sh && chmod +x /tmp/entry_point.sh
 
 # uncomment this if you are having this issue with the build:
 # /usr/local/bundle/gems/jekyll-4.3.4/lib/jekyll/site.rb:509:in `initialize': Permission denied @ rb_sysopen - /srv/jekyll/.jekyll-cache/.gitignore (Errno::EACCES)

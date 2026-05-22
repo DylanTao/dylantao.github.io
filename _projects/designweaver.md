@@ -128,12 +128,10 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 ## Key Features of DesignWeaver
 
 1. **Dimension Palette**
-
    - Auto‑extracts dimensions (style, color, form) from an uploaded brief
    - Lets users toggle tags (e.g., "minimalist," "sustainable") to build prompts
 
 2. **Interactive Prompt Box**
-
    - Merges user text with activated tags
    - Auto‑completes and re‑formats prompts via GPT‑4
 

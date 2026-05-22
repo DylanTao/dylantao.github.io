@@ -6,6 +6,11 @@ description: Some working thoughts on good HCI research in the age of AI.
 tags: hci research gen-ai prototyping design
 categories: reflections
 related_posts: false
+blog_nav_pool: personal
+blog_nav_track: research
+blog_nav_stage: 3
+blog_nav_next:
+  - /blog/2026/science-communication-is-kindness/
 permalink: /blog/2026/prototyping-to-understand-humans/
 ---
 

@@ -6,6 +6,11 @@ description: Don gave a talk at DLab about his charity, signed my Yellow Book, a
 tags: design hci books talks
 categories: reflections
 thumbnail: assets/img/don-norman-talk-2026/book-cover.jpg
+blog_nav_pool: personal
+blog_nav_track: hci
+blog_nav_stage: 1
+blog_nav_next:
+  - /blog/2026/prototyping-to-understand-humans/
 permalink: /blog/2026/don-norman-design-lab-talk/
 ---
 

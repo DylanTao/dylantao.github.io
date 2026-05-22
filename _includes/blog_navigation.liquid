@@ -1,0 +1,113 @@
+{% assign blog_nav_pool = site.blog_navigation.pool | default: 'personal' %}
+{% assign blog_nav_posts = site.posts
+  | where_exp: 'post', 'post.blog_nav_pool == blog_nav_pool and post.published != false and post.date <= site.time'
+%}
+{% assign blog_nav_read_next = null %}
+{% assign blog_nav_newer_post = null %}
+{% assign blog_nav_older_post = null %}
+{% assign blog_nav_seen_current = false %}
+{% assign blog_nav_previous_post = null %}
+
+{% if page.blog_nav_next %}
+  {% for blog_nav_next_url in page.blog_nav_next %}
+    {% assign blog_nav_next_url = blog_nav_next_url | strip %}
+    {% for post in blog_nav_posts %}
+      {% if post.url == blog_nav_next_url %}
+        {% assign blog_nav_read_next = post %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    {% if blog_nav_read_next %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if blog_nav_read_next == null and page.blog_nav_track and page.blog_nav_stage %}
+  {% for post in blog_nav_posts %}
+    {% if post.url != page.url
+      and post.blog_nav_track == page.blog_nav_track
+      and post.blog_nav_stage
+      and post.blog_nav_stage >= page.blog_nav_stage
+    %}
+      {% assign blog_nav_read_next = post %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% for post in blog_nav_posts %}
+  {% if post.url == page.url %}
+    {% assign blog_nav_newer_post = blog_nav_previous_post %}
+    {% assign blog_nav_seen_current = true %}
+  {% elsif blog_nav_seen_current and blog_nav_older_post == null %}
+    {% assign blog_nav_older_post = post %}
+    {% break %}
+  {% endif %}
+  {% assign blog_nav_previous_post = post %}
+{% endfor %}
+
+{% assign blog_nav_show_older = false %}
+{% if blog_nav_older_post %}
+  {% if blog_nav_read_next and blog_nav_older_post.url == blog_nav_read_next.url %}
+  {% else %}
+    {% assign blog_nav_show_older = true %}
+  {% endif %}
+{% endif %}
+
+{% assign blog_nav_show_newer = false %}
+{% if blog_nav_newer_post %}
+  {% if blog_nav_read_next and blog_nav_newer_post.url == blog_nav_read_next.url %}
+  {% else %}
+    {% assign blog_nav_show_newer = true %}
+  {% endif %}
+{% endif %}
+
+{% if blog_nav_read_next or blog_nav_show_older or blog_nav_show_newer %}
+  <nav class="blog-post-navigation" aria-label="Blog post navigation">
+    {% if blog_nav_read_next %}
+      {% assign blog_nav_read_time = blog_nav_read_next.content | number_of_words | divided_by: 180 | plus: 1 %}
+      <a class="blog-nav-read-next" href="{{ blog_nav_read_next.url | relative_url }}">
+        <span class="blog-nav-read-next-copy">
+          <span class="blog-nav-kicker">Read next</span>
+          <span class="blog-nav-title">{{ blog_nav_read_next.title }}</span>
+          {% if blog_nav_read_next.description %}
+            <span class="blog-nav-description">{{ blog_nav_read_next.description }}</span>
+          {% endif %}
+          <span class="blog-nav-meta">
+            {{ blog_nav_read_time }} min read
+            <span aria-hidden="true">&middot;</span>
+            {{ blog_nav_read_next.date | date: '%B %d, %Y' }}
+          </span>
+        </span>
+        <span class="blog-nav-arrow" aria-hidden="true">
+          <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+    {% endif %}
+
+    {% if blog_nav_show_older or blog_nav_show_newer %}
+      <div class="blog-nav-chronology">
+        {% if blog_nav_show_older %}
+          <a class="blog-nav-direction blog-nav-direction-older" href="{{ blog_nav_older_post.url | relative_url }}">
+            <span class="blog-nav-direction-label">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              Older
+            </span>
+            <span class="blog-nav-direction-title">{{ blog_nav_older_post.title }}</span>
+          </a>
+        {% endif %}
+
+        {% if blog_nav_show_newer %}
+          <a class="blog-nav-direction blog-nav-direction-newer" href="{{ blog_nav_newer_post.url | relative_url }}">
+            <span class="blog-nav-direction-label">
+              Newer
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </span>
+            <span class="blog-nav-direction-title">{{ blog_nav_newer_post.title }}</span>
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </nav>
+{% endif %}

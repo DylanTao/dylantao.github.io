@@ -7,6 +7,9 @@ tags: pottery cool-things art
 categories: reflections
 featured: false
 thumbnail: assets/img/pottery/psyduck-cup.png
+blog_nav_pool: personal
+blog_nav_track: creative
+blog_nav_stage: 2
 images:
   lightbox2: false
   photoswipe: false

@@ -6,6 +6,9 @@ description: A short reflection on why scientists should communicate publicly, a
 tags: research writing science-communication public-speaking mentorship
 categories: reflections
 related_posts: false
+blog_nav_pool: personal
+blog_nav_track: research
+blog_nav_stage: 4
 permalink: /blog/2026/science-communication-is-kindness/
 ---
 

@@ -7,6 +7,9 @@ tags: gen-ai cool-things art
 categories: image-posts
 featured: false
 thumbnail: assets/img/genai_pics/facesoft_cat2.png
+blog_nav_pool: personal
+blog_nav_track: creative
+blog_nav_stage: 1
 images:
   lightbox2: false
   photoswipe: false

@@ -6,6 +6,11 @@ description: An ongoing self-study list for learning research reading, writing, 
 tags: research writing phd methods statistics modeling mentorship
 categories: guides
 related_posts: false
+blog_nav_pool: personal
+blog_nav_track: research
+blog_nav_stage: 2
+blog_nav_next:
+  - /blog/2026/prototyping-to-understand-humans/
 permalink: /blog/2026/research-skills-starter-pack/
 ---
 

@@ -7,6 +7,11 @@ tags: research ucsd mentorship undergraduate masters
 categories: guides
 featured: "true"
 related_posts: false
+blog_nav_pool: personal
+blog_nav_track: research
+blog_nav_stage: 1
+blog_nav_next:
+  - /blog/2026/research-skills-starter-pack/
 permalink: /blog/2026/how-to-start-doing-research-at-ucsd/
 ---
 
