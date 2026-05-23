@@ -137,3 +137,13 @@ For sitewide passes:
 - Do not copy Stripe's company-site goals, heavy sales posture, or brand spectacle.
 - AI in Design 2026 is useful for framing the moment: infinite output, craft, taste, tool fluency, role blur, and messy collaboration.
 - The site should remain a personal academic portfolio with research credibility first.
+
+## Stripe Lessons, Adapted
+
+- Use Stripe as a pattern reference, not a visual costume: crisp hierarchy, proof near claims, strong section rhythm, and quiet controls.
+- Prefer a clean sans-serif system for confidence and readability. Display headings can be large, but should not become chunky or theatrical.
+- Use a monospaced accent only for labels, metadata, dates, shortcuts, compact stats, and code-like signals.
+- Let the next section peek into view when possible. A visitor should always feel the page has a clear next step.
+- Motion should clarify state: hover means clickable, active rail means current section, reveal means a new idea has entered the reading path.
+- Navigation should survive zoom and tablet widths before it looks impressive. Collapse earlier if links become cramped.
+- Do not borrow Stripe's gradient spectacle or sales posture. Sirui's site should feel like a thoughtful research portfolio, not a company homepage.
