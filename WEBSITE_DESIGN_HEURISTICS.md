@@ -9,6 +9,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Every section should answer one visitor question:
   - Start: Who is this?
   - Taste: What is the intellectual thread?
+  - Motion: How do Sirui's research loops feel as an interaction?
   - Focus: What are the research areas?
   - Work: What concrete artifacts prove it?
   - Updates: What is active now?
@@ -30,6 +31,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Neutral surfaces should carry most of the layout.
 - Avoid a page that reads as all orange, all pastel, all purple, or all gradient.
 - If color does not communicate hierarchy, state, or meaning, remove it.
+- The global time-of-day themes should change atmosphere without changing the research story: morning is gentle, noon is clearest, afternoon is warmer and more exploratory, evening is quiet and dark.
+- Theme palettes need hue variety and contrast, not four versions of the same orange wash.
 
 ## Project Images
 
@@ -46,6 +49,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Bad motion: constant ambient movement, unrelated loops, or effects that compete with reading.
 - Always respect `prefers-reduced-motion`.
 - Animation should make Sirui feel thoughtful and dynamic, not flashy.
+- Interactive research motion should map to an idea: design means option exploration, evaluate means evidence and traces, situated means context-aware assistance.
+- Autoplay is acceptable only when it is slow, pausable by leaving the viewport/tab, and visually secondary to the words.
 
 ## Navigation
 
@@ -147,3 +152,14 @@ For sitewide passes:
 - Motion should clarify state: hover means clickable, active rail means current section, reveal means a new idea has entered the reading path.
 - Navigation should survive zoom and tablet widths before it looks impressive. Collapse earlier if links become cramped.
 - Do not borrow Stripe's gradient spectacle or sales posture. Sirui's site should feel like a thoughtful research portfolio, not a company homepage.
+- Credit inspiration compactly when it materially shaped the craft direction, but keep the page centered on Sirui's research.
+- Stripe's time-of-day pattern is most useful here as a mood and state model: the control is small, the palette changes are coherent, and the main content still carries the claim.
+
+## Research Motion Rules
+
+- The homepage motion section is a research diagram first and an animation second.
+- Keep canvas geometry abstract enough to avoid fake data, but structured enough that each mode has a reason to exist.
+- Use a stable number of lines and dots; reduce density on mobile.
+- Mouse movement may bend or separate the field, but it should never make text harder to read or turn the section into a toy.
+- Reduced-motion mode should render a still composition for the selected mode, not hide the idea.
+- Stop animation when offscreen or when the tab is hidden.

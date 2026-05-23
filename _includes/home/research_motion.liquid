@@ -1,0 +1,46 @@
+{% if page.research_motion %}
+  <section id="motion" class="home-section home-research-motion home-reveal" data-home-section="motion" aria-labelledby="home-motion-title">
+    <div class="home-motion-copy">
+      <div class="home-section-heading">
+        <p class="home-kicker">{{ page.research_motion.eyebrow }}</p>
+        <h2 id="home-motion-title">{{ page.research_motion.title }}</h2>
+        <p>{{ page.research_motion.intro }}</p>
+      </div>
+
+      {% if page.research_motion.modes %}
+        <div class="home-motion-controls" aria-label="Research motion modes">
+          {% for mode in page.research_motion.modes %}
+            <button
+              class="home-motion-mode{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              data-research-mode="{{ mode.id }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <span>{{ mode.label }}</span>
+              <strong>{{ mode.title }}</strong>
+              <small>{{ mode.text }}</small>
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if page.research_motion.credit %}
+        <p class="home-motion-credit">
+          {{ page.research_motion.credit.text }}
+          <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
+          and
+          <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
+        </p>
+      {% endif %}
+    </div>
+
+    <div class="home-motion-stage" data-research-motion>
+      <canvas data-research-motion-canvas aria-hidden="true"></canvas>
+      <div class="home-motion-readout" aria-hidden="true">
+        <span data-research-motion-readout>Design</span>
+        <strong>Comparison as a working surface</strong>
+      </div>
+      <p class="sr-only" data-research-motion-status>Showing the Design motion sketch.</p>
+    </div>
+  </section>
+{% endif %}

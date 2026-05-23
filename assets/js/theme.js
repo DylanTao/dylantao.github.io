@@ -1,29 +1,42 @@
 // Has to be in the head tag, otherwise a flicker effect will occur.
 
-// Toggle through light, dark, and system theme settings.
-let toggleThemeSetting = () => {
-  let themeSetting = determineThemeSetting();
-  if (themeSetting == "system") {
-    setThemeSetting("light");
-  } else if (themeSetting == "light") {
-    setThemeSetting("dark");
-  } else {
-    setThemeSetting("system");
-  }
+const themeModes = ["morning", "noon", "afternoon", "evening"];
+const themeModeMeta = {
+  morning: { label: "Morning", icon: "fa-cloud-sun", computedTheme: "light" },
+  noon: { label: "Noon", icon: "fa-sun", computedTheme: "light" },
+  afternoon: { label: "Afternoon", icon: "fa-cloud-sun-rain", computedTheme: "light" },
+  evening: { label: "Evening", icon: "fa-moon", computedTheme: "dark" },
 };
 
-// Change the theme setting and apply the theme.
-let setThemeSetting = (themeSetting) => {
-  localStorage.setItem("theme", themeSetting);
+// Cycle through time-of-day modes when a compact trigger is used without opening the menu.
+let toggleThemeSetting = () => {
+  const themeSetting = determineThemeSetting();
+  const index = themeModes.indexOf(themeSetting);
+  setThemeSetting(themeModes[(index + 1) % themeModes.length]);
+};
 
-  document.documentElement.setAttribute("data-theme-setting", themeSetting);
+// Change the theme setting and apply the compatible light/dark theme.
+let setThemeSetting = (themeSetting, options = { persist: true }) => {
+  const nextThemeSetting = normalizeThemeSetting(themeSetting);
+
+  if (options.persist) {
+    localStorage.setItem("theme", nextThemeSetting);
+  }
+
+  document.documentElement.setAttribute("data-theme-setting", nextThemeSetting);
+  document.documentElement.setAttribute("data-theme-mode", nextThemeSetting);
 
   applyTheme();
 };
 
-// Apply the computed dark or light theme to the website.
+// Apply the computed dark or light theme to integrations while preserving the richer mode.
 let applyTheme = () => {
-  let theme = determineComputedTheme();
+  let themeSetting = determineThemeSetting();
+  let theme = determineComputedTheme(themeSetting);
+
+  document.documentElement.setAttribute("data-theme-setting", themeSetting);
+  document.documentElement.setAttribute("data-theme-mode", themeSetting);
+  document.documentElement.setAttribute("data-theme", theme);
 
   transTheme();
   setHighlight(theme);
@@ -57,7 +70,8 @@ let applyTheme = () => {
     setVegaLiteTheme(theme);
   }
 
-  document.documentElement.setAttribute("data-theme", theme);
+  updateThemeToggleUI(themeSetting);
+  window.dispatchEvent(new CustomEvent("siteThemeChange", { detail: { theme: theme, themeMode: themeSetting } }));
 
   // Add class to tables.
   let tables = document.getElementsByTagName("table");
@@ -265,49 +279,120 @@ let transTheme = () => {
   }, 500);
 };
 
-// Determine the expected state of the theme toggle, which can be "dark", "light", or
-// "system". Default is "system".
+let normalizeThemeSetting = (themeSetting) => {
+  if (themeModes.includes(themeSetting)) return themeSetting;
+  if (themeSetting === "dark") return "evening";
+  if (themeSetting === "light") return "noon";
+  return determineDefaultThemeMode();
+};
+
+let determineDefaultThemeMode = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 11) return "morning";
+  if (hour >= 11 && hour < 15) return "noon";
+  if (hour >= 15 && hour < 20) return "afternoon";
+  return "evening";
+};
+
+// Determine the expected persisted theme mode.
 let determineThemeSetting = () => {
-  let themeSetting = localStorage.getItem("theme");
-  if (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") {
-    themeSetting = "system";
-  }
-  return themeSetting;
+  return normalizeThemeSetting(localStorage.getItem("theme"));
 };
 
-// Determine the computed theme, which can be "dark" or "light". If the theme setting is
-// "system", the computed theme is determined based on the user's system preference.
-let determineComputedTheme = () => {
-  let themeSetting = determineThemeSetting();
-  if (themeSetting == "system") {
-    const userPref = window.matchMedia;
-    if (userPref && userPref("(prefers-color-scheme: dark)").matches) {
-      return "dark";
+// Determine the compatible theme, which can be "dark" or "light".
+let determineComputedTheme = (themeSetting = determineThemeSetting()) => {
+  return themeModeMeta[normalizeThemeSetting(themeSetting)].computedTheme;
+};
+
+let updateThemeToggleUI = (themeSetting = determineThemeSetting()) => {
+  const toggle = document.getElementById("theme-toggle");
+  const icon = document.getElementById("theme-toggle-icon");
+  const label = document.getElementById("theme-toggle-label");
+  const options = Array.from(document.querySelectorAll("[data-theme-mode-option]"));
+  const mode = normalizeThemeSetting(themeSetting);
+  const meta = themeModeMeta[mode];
+
+  if (toggle) {
+    toggle.setAttribute("aria-label", `Change theme. Current theme: ${meta.label}`);
+    toggle.setAttribute("title", `Theme: ${meta.label}`);
+  }
+
+  if (icon) {
+    icon.innerHTML = `<i class="fa-solid ${meta.icon}" aria-hidden="true"></i>`;
+  }
+
+  if (label) {
+    label.textContent = `${meta.label} theme`;
+  }
+
+  options.forEach((option) => {
+    const isSelected = option.getAttribute("data-theme-mode-option") === mode;
+    option.classList.toggle("is-active", isSelected);
+    option.setAttribute("aria-selected", isSelected ? "true" : "false");
+  });
+};
+
+let setupThemeModeControl = () => {
+  const toggle = document.getElementById("theme-toggle");
+  const menu = document.getElementById("theme-menu");
+  const options = Array.from(document.querySelectorAll("[data-theme-mode-option]"));
+
+  if (!toggle || !menu || options.length === 0) return;
+
+  const closeMenu = () => {
+    menu.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+  };
+
+  const openMenu = () => {
+    menu.hidden = false;
+    toggle.setAttribute("aria-expanded", "true");
+    const selected = options.find((option) => option.getAttribute("aria-selected") === "true") || options[0];
+    selected.focus();
+  };
+
+  toggle.addEventListener("click", () => {
+    if (menu.hidden) {
+      openMenu();
     } else {
-      return "light";
+      closeMenu();
     }
-  } else {
-    return themeSetting;
-  }
-};
+  });
 
-let initTheme = () => {
-  let themeSetting = determineThemeSetting();
+  options.forEach((option, index) => {
+    option.addEventListener("click", () => {
+      setThemeSetting(option.getAttribute("data-theme-mode-option"));
+      closeMenu();
+      toggle.focus();
+    });
 
-  setThemeSetting(themeSetting);
+    option.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        toggle.focus();
+      }
 
-  // Add event listener to the theme toggle button.
-  document.addEventListener("DOMContentLoaded", function () {
-    const mode_toggle = document.getElementById("light-toggle");
-
-    mode_toggle.addEventListener("click", function () {
-      toggleThemeSetting();
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const direction = event.key === "ArrowDown" ? 1 : -1;
+        options[(index + direction + options.length) % options.length].focus();
+      }
     });
   });
 
-  // Add event listener to the system theme preference change.
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
-    applyTheme();
+  document.addEventListener("click", (event) => {
+    if (menu.hidden || menu.contains(event.target) || toggle.contains(event.target)) return;
+    closeMenu();
+  });
+
+  updateThemeToggleUI();
+};
+
+let initTheme = () => {
+  setThemeSetting(determineThemeSetting(), { persist: false });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    setupThemeModeControl();
   });
 };
 

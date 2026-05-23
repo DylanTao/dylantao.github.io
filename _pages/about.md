@@ -43,6 +43,8 @@ story_sections:
     id: start
   - label: Taste
     id: taste
+  - label: Motion
+    id: motion
   - label: Focus
     id: focus
   - label: Work
@@ -69,6 +71,30 @@ why_now:
       text: Designers, researchers, PMs, and engineers all shape early artifacts now. Interfaces need to support shared reasoning before decisions harden.
     - title: Speed still needs reflection.
       text: Fast cycles are useful only if teams keep room for critique, incubation, and explaining why a direction is better.
+
+research_motion:
+  eyebrow: Research motion
+  title: Design, evaluate, situate.
+  intro: "A small interactive sketch of the loops I keep studying: generating design directions, measuring what changed, and grounding help in the situation where work happens."
+  credit:
+    text: Motion pattern inspired by Stripe's homepage craft and Katie Dill's design-quality framing.
+    stripe_label: Stripe design team
+    stripe_url: https://stripe.com/
+    katie_label: Katie Dill at Stripe Sessions
+    katie_url: https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function
+  modes:
+    - id: design
+      label: Design
+      title: Explore options
+      text: Paths gather into comparable dimensions, then open back into directions worth trying.
+    - id: evaluate
+      label: Evaluate
+      title: Read the evidence
+      text: Traces, probes, and measures make tradeoffs visible before a decision hardens.
+    - id: situated
+      label: Situated
+      title: Work in context
+      text: Assistance bends around people, tasks, tools, and the space where action happens.
 
 pillars:
   - title: Human-AI for Design

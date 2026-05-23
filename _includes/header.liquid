@@ -112,13 +112,40 @@
             </li>
           {% endif %}
           {% if site.enable_darkmode %}
-            <!-- Toogle theme mode -->
-            <li class="toggle-container">
-              <button id="light-toggle" type="button" title="Change theme" aria-label="Change theme">
-                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
-                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
-                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+            <!-- Theme mode -->
+            <li class="toggle-container theme-mode-container">
+              <button
+                id="theme-toggle"
+                type="button"
+                title="Change theme"
+                aria-label="Change theme"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="theme-menu"
+              >
+                <span class="theme-toggle-icon" id="theme-toggle-icon" aria-hidden="true">
+                  <i class="fa-solid fa-cloud-sun"></i>
+                </span>
+                <span class="sr-only" id="theme-toggle-label">Morning theme</span>
               </button>
+              <div class="theme-menu" id="theme-menu" role="listbox" aria-label="Theme mode" hidden>
+                <button class="theme-option" type="button" role="option" data-theme-mode-option="morning" aria-selected="false">
+                  <i class="fa-solid fa-cloud-sun" aria-hidden="true"></i>
+                  <span>Morning</span>
+                </button>
+                <button class="theme-option" type="button" role="option" data-theme-mode-option="noon" aria-selected="false">
+                  <i class="fa-solid fa-sun" aria-hidden="true"></i>
+                  <span>Noon</span>
+                </button>
+                <button class="theme-option" type="button" role="option" data-theme-mode-option="afternoon" aria-selected="false">
+                  <i class="fa-solid fa-cloud-sun-rain" aria-hidden="true"></i>
+                  <span>Afternoon</span>
+                </button>
+                <button class="theme-option" type="button" role="option" data-theme-mode-option="evening" aria-selected="false">
+                  <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                  <span>Evening</span>
+                </button>
+              </div>
             </li>
           {% endif %}
         </ul>

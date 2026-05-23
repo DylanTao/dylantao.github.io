@@ -200,6 +200,9 @@
 {% endif %}
 {% if page.home_experience %}
   <script defer src="{{ '/assets/js/home.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+  {% if page.research_motion %}
+    <script defer src="{{ '/assets/js/research-motion.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+  {% endif %}
 {% endif %}
 
 <!-- Jupyter Open External Links New Tab -->
