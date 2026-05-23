@@ -7,6 +7,10 @@ img: assets/img/publication_preview/herding_cats_why_what.png
 image_aspect: 16 / 9
 importance: -4
 category: research
+venue: CHI 2026 Workshop
+year: 2026
+role: First author
+status: Accepted
 date: 2026-02-25
 hide_title: true
 wide_layout: true

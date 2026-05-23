@@ -38,6 +38,22 @@ a.btncv:hover {
   text-decoration: none !important;
 }
 
+.cv {
+  max-width: 68rem;
+
+  .card {
+    border-radius: 0.45rem;
+    box-shadow: none;
+    margin-top: 0.9rem !important;
+    padding: 1.1rem !important;
+  }
+
+  .card-title {
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    margin-bottom: 0.85rem;
+  }
+}
+
 /*****************************
  * CV TIME_TABLE styles
  *****************************/

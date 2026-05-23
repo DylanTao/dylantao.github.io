@@ -1,15 +1,69 @@
 ---
 layout: page
 title: DesignWeaver
-description: a tool that helps novices generate better design prompts by surfacing key visual dimensions, leading to more diverse and expert-aligned product designs
+description: A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.
 img: assets/img/publication_preview/designweaver.png
 image_aspect: 16 / 9
 importance: -2
 category: research
+venue: CHI 2025
+year: 2025
+role: First author
+status: Published
 related_publications: true
+hide_title: true
 keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product design, prompt engineering, design dimensions, novice designers, DALL-E, GPT-4, GPT-4o, GPT-4o-mini, design innovation, CHI 2025, CHI25, Sirui, Sirui Tao, Steven, Steven Dow
 ---
 
+<section class="project-case-hero designweaver-case">
+  <div class="project-case-copy">
+    <p class="project-case-kicker">CHI 2025 · First author</p>
+    <h1>DesignWeaver</h1>
+    <p class="project-case-lede">
+      A workspace for turning vague product ideas into inspectable design dimensions, richer prompts, and better comparison across generated concepts.
+    </p>
+    <div class="project-case-facts">
+      <span>52-participant study</span>
+      <span>Prompt scaffolding</span>
+      <span>Text-to-image product design</span>
+    </div>
+    <div class="project-case-actions">
+      <a href="https://arxiv.org/pdf/2502.09867" target="_blank" rel="noopener noreferrer">Paper</a>
+      <a href="https://youtu.be/Qs_0yOHOYtI" target="_blank" rel="noopener noreferrer">Talk</a>
+      <a href="https://github.com/slimykat/DesignWeaver" target="_blank" rel="noopener noreferrer">Code</a>
+      <a href="{{ '/assets/pdf/slides/[CHI25 Version] DesignWeaver.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">Slides</a>
+    </div>
+  </div>
+  <div class="project-case-media">
+    {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" title="DesignWeaver teaser" class="img-fluid" %}
+  </div>
+</section>
+
+<section class="project-case-summary" aria-label="DesignWeaver research summary">
+  <div>
+    <span>Question</span>
+    <p>How can an interface help novices see the design dimensions hidden inside prompts and generated images?</p>
+  </div>
+  <div>
+    <span>Contribution</span>
+    <p>DesignWeaver makes comparison explicit by letting designers collect, revise, and reuse visual dimensions during iteration.</p>
+  </div>
+  <div>
+    <span>Evidence</span>
+    <p>In a controlled study, participants wrote richer prompts and produced more diverse, expert-aligned chair concepts.</p>
+  </div>
+</section>
+
+<div class="project-author-strip" aria-label="DesignWeaver authors">
+  <a href="https://dylantao.github.io/">Sirui Tao</a>
+  <a href="https://www.linkedin.com/in/ivan-liang-537967155">Ivan Liang</a>
+  <a href="https://www.linkedin.com/in/cindy-peng-45a6131bb/">Cindy Peng</a>
+  <a href="https://www.zhiqingwang.me/">Zhiqing Wang</a>
+  <a href="https://srishtipalani.github.io/">Srishti Palani</a>
+  <a href="https://spdow.ucsd.edu">Steven P. Dow</a>
+</div>
+
+<div class="designweaver-legacy-lead" hidden>
 <div class="row justify-content-center">
     <div class="col-lg-9 text-center">
         <div class="row justify-content-center">
@@ -92,10 +146,11 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 <div class="caption">
     Demo of DesignWeaver in action
 </div>
+</div>
 
 ## What is DesignWeaver?
 
-**DesignWeaver** is an AI-powered interface that helps novice designers craft richer text prompts by **surfacing key design dimensions** (e.g., style, material, ergonomics) from images and documents. In a controlled study (n = 52), it resulted in longer, more nuanced prompts and more diverse, novel designs compared to a standard text-only interface _{% cite tao2024designweaver %}_.
+**DesignWeaver** is an interface for making prompt decisions visible. Instead of asking novices to invent the right design vocabulary from a blank text box, it surfaces dimensions such as style, material, ergonomics, and form from briefs, images, and generated concepts. In a controlled study (n = 52), participants wrote more nuanced prompts and produced more diverse, novel designs than with a standard text-only interface _{% cite tao2024designweaver %}_.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -109,13 +164,13 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 ## How DesignWeaver Works
 
 1. **Upload Design Brief**  
-   Client persona, requirements, moodboard → system extracts 3 initial dimensions.
+   Client persona, requirements, and moodboard go in; the system extracts three initial dimensions.
 2. **Build AI Prompt**  
-   Click tags or type text → prompt auto‑formats.
-3. **Generate & Inspect Designs**  
-   View 3 AI‑rendered images → use Info to surface new tags.
-4. **Iterate & Refine**  
-   Add/remove tags, regenerate → favorite best designs.
+   Designers click tags or type text, then the prompt is formatted into a more complete design request.
+3. **Generate And Inspect Designs**
+   Designers compare three rendered images and use Info to surface new tags from the outputs.
+4. **Iterate And Refine**
+   Designers add or remove dimensions, regenerate, and collect favorites for side-by-side comparison.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -129,17 +184,17 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 ## Key Features of DesignWeaver
 
 1. **Dimension Palette**
-   - Auto‑extracts dimensions (style, color, form) from an uploaded brief
+   - Extracts dimensions (style, color, form) from an uploaded brief
    - Lets users toggle tags (e.g., "minimalist," "sustainable") to build prompts
 
 2. **Interactive Prompt Box**
    - Merges user text with activated tags
-   - Auto‑completes and re‑formats prompts via GPT‑4
+   - Completes and reformats prompts via GPT-4
 
 3. **Image Gallery & Feedback**
-   - Generates 3 DALL·E 3 images per prompt
-   - Info‑button overlays new tags from generated images (via GPT‑4o‑mini)
-   - "Like" favorites for side‑by‑side comparison
+   - Generates three DALL-E 3 images per prompt
+   - Info buttons surface new tags from generated images via GPT-4o-mini
+   - Favorites support side-by-side comparison
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">

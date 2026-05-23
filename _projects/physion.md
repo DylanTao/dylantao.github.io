@@ -1,11 +1,15 @@
 ---
 layout: page
 title: Physion
-description: a benchmark evaluating intuitive physics in vision models via object contact prediction across realistic 3D scenarios. Humans consistently outperform state-of-the-art models, emphasizing the need for object-centric, physics-informed representations
+description: A benchmark for testing whether vision models predict physical scene dynamics the way people do.
 img: assets/img/publication_preview/physion-card.webp
 image_aspect: 16 / 9
 redirect: https://physion-benchmark.github.io/
 importance: -1
 category: research
+venue: NeurIPS Datasets 2021
+year: 2021
+role: Co-author
+status: Published
 related_publications: true
 ---

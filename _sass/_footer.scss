@@ -33,3 +33,14 @@ footer.sticky-bottom {
     text-align: center;
   }
 }
+
+@media (max-width: 575px) {
+  footer.fixed-bottom {
+    position: static;
+
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}

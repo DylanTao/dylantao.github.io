@@ -37,6 +37,38 @@ body.sticky-bottom-footer {
   max-width: v.$max-panel-width;
 }
 
+.post > .post-header {
+  border-bottom: 1px solid var(--global-divider-color);
+  margin-bottom: 2rem;
+  padding-bottom: 1.35rem;
+}
+
+.post > .post-header .post-title {
+  font-size: clamp(2.35rem, 4.5vw, 4rem);
+  line-height: 1.05;
+  margin-bottom: 0.55rem;
+}
+
+.post .post-description,
+.page-intro {
+  color: var(--global-text-color-light);
+  font-size: 1.03rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+
+.page-intro {
+  margin: 0 0 1.75rem;
+}
+
+.post article {
+  line-height: 1.68;
+}
+
+.post article h2 {
+  margin-top: 2.35rem;
+}
+
 // Profile
 .profile {
   img {
@@ -55,8 +87,18 @@ body.sticky-bottom-footer {
 // Publications layout is defined in _includes/bib_search.liquid
 // Uses jekyll-scholar for BibTeX parsing and Bootstrap cards for display
 
-/*****************************************************************************
-* Projects
-*****************************************************************************/
+@media (max-width: 575px) {
+  body {
+    padding-bottom: 0;
+  }
 
-// TODO: redefine projects layout.
+  .container.mt-5,
+  .container.panel-shell.mt-5 {
+    margin-top: 2rem !important;
+  }
+
+  .post > .post-header {
+    margin-bottom: 1.55rem;
+    padding-bottom: 1rem;
+  }
+}

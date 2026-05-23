@@ -4,6 +4,41 @@
 
 @use "variables" as v;
 
+.publication-intro {
+  align-items: flex-start;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.65rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 1rem 1.1rem;
+
+  p {
+    color: var(--global-text-color-light);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 56rem;
+  }
+}
+
+.publication-intro-link {
+  border: 1px solid var(--global-theme-color);
+  border-radius: 999px;
+  color: var(--global-theme-color);
+  flex: 0 0 auto;
+  font-weight: 650;
+  padding: 0.45rem 0.8rem;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(217, 107, 53, 0.09);
+    color: var(--global-theme-color);
+    text-decoration: none;
+  }
+}
+
 .publications {
   margin-top: 2rem;
 
@@ -24,7 +59,7 @@
   }
 
   h2.bibliography {
-    color: var(--global-divider-color);
+    color: rgba(116, 103, 96, 0.42);
     border-top: 1px solid var(--global-divider-color);
     padding-top: 1rem;
     margin-top: 2rem;
@@ -38,6 +73,7 @@
 
     li {
       margin-bottom: 1rem;
+      padding: 0.35rem 0;
 
       .preview {
         display: inline-block;
@@ -48,17 +84,24 @@
 
         abbr {
           display: inline-block;
-          background-color: var(--global-theme-color);
+          background-color: rgba(217, 107, 53, 0.1) !important;
+          border: 1px solid rgba(217, 107, 53, 0.22);
+          border-radius: 0.35rem;
           margin-bottom: 0.5rem;
-          color: var(--global-card-bg-color) !important;
+          color: var(--global-theme-color) !important;
 
           a {
-            color: white;
+            color: var(--global-theme-color);
 
             &:hover {
               text-decoration: none;
             }
           }
+        }
+
+        abbr.badge {
+          background-color: rgba(217, 107, 53, 0.1) !important;
+          color: var(--global-theme-color) !important;
         }
 
         .award {
@@ -101,7 +144,8 @@
       .links {
         a.btn {
           color: var(--global-text-color);
-          border: 1px solid var(--global-text-color);
+          border: 1px solid var(--global-divider-color);
+          border-radius: 0.25rem;
           padding-left: 1rem;
           padding-right: 1rem;
           padding-top: 0.25rem;
@@ -185,4 +229,14 @@
 .citation,
 .citation-number {
   color: var(--global-theme-color);
+}
+
+@media (max-width: 767px) {
+  .publication-intro {
+    display: grid;
+  }
+
+  .publication-intro-link {
+    justify-self: start;
+  }
 }

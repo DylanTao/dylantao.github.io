@@ -5,12 +5,22 @@
 .header-bar {
   border-bottom: 1px solid var(--global-divider-color);
   text-align: center;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  padding-top: 1.25rem;
+  padding-bottom: 2.2rem;
 
   h1 {
     color: var(--global-theme-color);
-    font-size: 5rem;
+    font-size: clamp(3.2rem, 7vw, 5rem);
+    line-height: 1;
+  }
+
+  h2 {
+    color: var(--global-text-color);
+    font-size: clamp(1.15rem, 2.4vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.35;
+    margin: 0 auto;
+    max-width: 44rem;
   }
 }
 
@@ -56,8 +66,19 @@
   li {
     border-bottom: 1px solid var(--global-divider-color);
     list-style: none;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 1.65rem;
+    padding-bottom: 1.65rem;
+
+    h3 {
+      font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+      line-height: 1.2;
+      margin-bottom: 0.55rem;
+    }
+
+    > p,
+    .row p {
+      max-width: 58rem;
+    }
 
     .post-meta {
       color: var(--global-text-color-light);
@@ -134,9 +155,33 @@
 }
 
 .blog-post {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 52rem;
+
   .post-header,
   .post-content {
     animation: blog-post-enter 220ms ease-out both;
+  }
+
+  .post-title {
+    font-size: clamp(2.45rem, 5vw, 4.2rem);
+  }
+
+  .post-content {
+    font-size: 1.03rem;
+    line-height: 1.72;
+
+    h2 {
+      font-size: clamp(1.65rem, 3vw, 2.2rem);
+      line-height: 1.18;
+      margin-bottom: 0.75rem;
+    }
+
+    p,
+    li {
+      color: var(--global-text-color);
+    }
   }
 
   .post-content {
@@ -152,6 +197,27 @@
 
   a {
     text-decoration: none;
+  }
+}
+
+#table-of-contents {
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.55rem;
+  margin-bottom: 1.25rem;
+  padding: 0.9rem 1rem;
+
+  ul {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: var(--global-text-color);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--global-theme-color);
+    }
   }
 }
 
@@ -341,14 +407,27 @@
 }
 
 .featured-posts {
+  max-width: 52rem;
+
+  .row {
+    display: block;
+  }
+
+  .col {
+    max-width: 100%;
+  }
+
   a {
     color: var(--global-text-color-light);
     text-decoration: none;
 
     .card-text {
+      display: -webkit-box;
+      line-height: 1.5;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      white-space: normal;
     }
 
     &:hover {
@@ -365,6 +444,125 @@
     font-size: 0.875rem;
     margin-bottom: 0;
     padding-top: 0.5rem;
+  }
+}
+
+.blog-secret-title {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.18em;
+  justify-content: center;
+}
+
+.sirui-secret-dog {
+  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 1;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0;
+  touch-action: manipulation;
+  transform: translateY(0.04em);
+
+  img {
+    border-radius: 50%;
+    height: 0.84em;
+    object-fit: cover;
+    transform-origin: 50% 78%;
+    transition:
+      transform 160ms ease,
+      filter 160ms ease;
+    vertical-align: middle;
+    width: 0.84em;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 0.18em;
+  }
+}
+
+.sirui-secret-dialog[hidden] {
+  display: none;
+}
+
+.sirui-secret-dialog {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom))
+    max(1rem, env(safe-area-inset-left));
+  position: fixed;
+  z-index: 2000;
+}
+
+.sirui-secret-panel {
+  background: var(--global-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.2);
+  max-height: calc(100dvh - 2rem);
+  max-width: 22rem;
+  overflow: auto;
+  padding: 1.2rem;
+  position: relative;
+  text-align: left;
+  width: 100%;
+
+  h3 {
+    font-size: 1.15rem;
+    margin: 0 1.5rem 1rem 0;
+  }
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+  }
+}
+
+.sirui-secret-close {
+  background: transparent;
+  border: 0;
+  color: var(--global-text-color);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  position: absolute;
+  right: 0.7rem;
+  top: 0.55rem;
+}
+
+.sirui-secret-row {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  input,
+  button {
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.25rem;
+    font-size: 16px;
+    min-height: 44px;
+    padding: 0.55rem 0.75rem;
+  }
+
+  button {
+    background: var(--global-theme-color);
+    color: var(--global-bg-color);
+    cursor: pointer;
   }
 }
 
