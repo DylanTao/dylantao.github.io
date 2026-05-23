@@ -4,7 +4,7 @@ title: about
 permalink: /
 panel_wide: true
 home_experience: true
-subtitle: UC San Diego HCI Ph.D. student studying interfaces for design judgment.
+subtitle: Cognitive Science Ph.D. student at UC San Diego studying interfaces for design judgment.
 
 profile:
   image: sirui_pic.jpg
@@ -16,7 +16,7 @@ profile:
   image_circular: true
 
 hero:
-  eyebrow: UC San Diego HCI Ph.D. student
+  eyebrow: Design judgment + human-centered AI
   title: Making AI tools that sharpen design judgment.
   lede: I study how interfaces help designers compare options, reason through tradeoffs, and decide what is worth making.
   affiliation: Cognitive Science Ph.D. student at UC San Diego, advised by Prof. Steven P. Dow in ProtoLab.
@@ -47,8 +47,8 @@ story_sections:
     id: motion
   - label: Focus
     id: focus
-  - label: Work
-    id: work
+  - label: Publications
+    id: publications
   - label: Updates
     id: updates
   - label: Students
@@ -106,36 +106,6 @@ pillars:
   - title: Embodied and Mixed Reality
     label: In-situ intelligence
     text: Systems that bring context-aware assistance into spatial tasks, mixed reality, and everyday environments.
-
-featured_work:
-  - title: DesignWeaver
-    venue: CHI 2025
-    description: A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.
-    image: /assets/img/publication_preview/designweaver.png
-    image_aspect: 16 / 10
-    url: /projects/designweaver/
-    theme: Design tools
-  - title: What Happened and Why?
-    venue: CHI 2026 Workshop
-    description: Trace-guided micro-episodes that turn messy interaction logs into moments people can explain and learn from.
-    image: /assets/img/publication_preview/herding_cats_why_what.png
-    image_aspect: 16 / 10
-    url: /projects/what-happened-and-why/
-    theme: AI product iteration
-  - title: HotSpot
-    venue: CVPR 2025 Highlight
-    description: A signed distance function optimization framework with stronger convergence conditions for stable surface reconstruction.
-    image: /assets/img/publication_preview/hotspot.png
-    image_aspect: 16 / 10
-    url: /projects/hotspot/
-    theme: Graphics and geometry
-  - title: Physion
-    venue: NeurIPS Datasets 2021
-    description: A benchmark for physical scene understanding that compares human intuitive physics with machine vision models.
-    image: /assets/img/publication_preview/physion-card.webp
-    image_aspect: 16 / 10
-    url: /projects/physion/
-    theme: Human and machine perception
 
 announcements:
   enabled: true

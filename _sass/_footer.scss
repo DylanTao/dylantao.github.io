@@ -3,8 +3,14 @@
  ******************************************************************************/
 
 footer.fixed-bottom {
+  position: static;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  z-index: auto;
   background-color: var(--global-footer-bg-color);
   font-size: 0.75rem;
+  margin-top: 3rem;
 
   .container {
     color: var(--global-footer-text-color);

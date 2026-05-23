@@ -11,8 +11,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
   - Taste: What is the intellectual thread?
   - Motion: How do Sirui's research loops feel as an interaction?
   - Focus: What are the research areas?
-  - Work: What concrete artifacts prove it?
-  - Updates: What is active now?
+  - Publications: What concrete evidence should I open first?
+  - Updates: What is active right now?
   - Students: How can someone work with Sirui?
   - Connect: How can someone follow up?
 
@@ -23,6 +23,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Prefer fewer, stronger CTAs over many equal buttons.
 - Put proof close to claims: projects, publications, venue labels, and updates should appear near the research story they support.
 - Use whitespace to clarify grouping, not to create empty drama.
+- Every ounce of ink should matter, whether it is black text, colored text, a border, a card, a shadow, or a line.
+- Repeated information is useful only when it improves orientation; remove it when it merely restates the same claim.
 
 ## Color
 
@@ -31,6 +33,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Neutral surfaces should carry most of the layout.
 - Avoid a page that reads as all orange, all pastel, all purple, or all gradient.
 - If color does not communicate hierarchy, state, or meaning, remove it.
+- Colored ink should mean action, active state, status, or a deliberate semantic grouping. Do not use a tinted card because a section feels empty.
 - The global time-of-day themes should change atmosphere without changing the research story: morning is gentle, noon is clearest, afternoon is warmer and more exploratory, evening is quiet and dark.
 - Theme palettes need hue variety and contrast, not four versions of the same orange wash.
 
@@ -112,6 +115,7 @@ For sitewide passes:
 - Prefer the smallest change that makes the visitor's next decision easier.
 - Remove a visual element if it does not clarify hierarchy, state, rhythm, or trust.
 - Do not add a new component when copy, spacing, or ordering solves the problem.
+- Remove the component before designing around its awkwardness.
 - Let repeated components carry consistency; reserve custom pages for genuinely different reading tasks.
 
 ## Responsive Layout
@@ -120,6 +124,8 @@ For sitewide passes:
 - On mobile, the first useful explanation should appear before long media, author grids, or metadata blocks.
 - Fixed-format content needs explicit dimensions or aspect ratios so cards do not jump or crop meaningful diagrams.
 - If a footer, floating button, or nav competes with reading on mobile, reduce its footprint or move it out of the way.
+- Whitespace should manage cognitive load: group related things, separate new ideas, and let the next step peek without creating dead air.
+- Use page-type widths: narrow for long reading, medium for notebooks and lists, wide only when grids or diagrams need the room.
 - Test 1440x1000, 1280x800, 768x1024, and 390x1000 before calling a visual pass done.
 
 ## Footer And Global Chrome

@@ -1,13 +1,29 @@
-<section id="updates" class="home-section home-news-pubs home-reveal" data-home-section="updates" aria-labelledby="home-updates-title">
-  <div class="home-section-heading home-section-heading-row">
-    <div>
-      <p class="home-kicker">Recent signal</p>
-      <h2 id="home-updates-title">Recent signals.</h2>
+{% if page.selected_papers %}
+  <section
+    id="publications"
+    class="home-section home-publications-wrap home-reveal"
+    data-home-section="publications"
+    aria-labelledby="home-publications-title"
+  >
+    <div class="home-section-heading home-publication-heading">
+      <p class="home-kicker">Selected publications</p>
+      <h2 id="home-publications-title">Papers worth opening first.</h2>
     </div>
-    <a class="home-text-link" href="{{ '/news/' | relative_url }}">All news</a>
-  </div>
+    {% include selected_papers.liquid %}
+    <a class="home-text-link home-publication-link" href="{{ '/publications/' | relative_url }}">Open full publication list</a>
+  </section>
+{% endif %}
 
-  {% if page.announcements and page.announcements.enabled and site.news != blank %}
+{% if page.announcements and page.announcements.enabled and site.news != blank %}
+  <section id="updates" class="home-section home-news-pubs home-reveal" data-home-section="updates" aria-labelledby="home-updates-title">
+    <div class="home-section-heading home-section-heading-row">
+      <div>
+        <p class="home-kicker">Recent signal</p>
+        <h2 id="home-updates-title">Recent signals.</h2>
+      </div>
+      <a class="home-text-link" href="{{ '/news/' | relative_url }}">All news</a>
+    </div>
+
     {% assign pinned_news = site.news | where: 'pinned', true | sort: 'date' | reverse %}
     {% assign regular_news = site.news | where_exp: 'item', 'item.pinned != true' | sort: 'date' | reverse %}
     {% assign home_news = pinned_news | concat: regular_news %}
@@ -29,16 +45,5 @@
         </article>
       {% endfor %}
     </div>
-  {% endif %}
-
-  {% if page.selected_papers %}
-    <div class="home-publications-wrap">
-      <div class="home-section-heading home-publication-heading">
-        <p class="home-kicker">Selected publications</p>
-        <h2>Papers worth opening first.</h2>
-      </div>
-      {% include selected_papers.liquid %}
-      <a class="home-text-link home-publication-link" href="{{ '/publications/' | relative_url }}">Open full publication list</a>
-    </div>
-  {% endif %}
-</section>
+  </section>
+{% endif %}

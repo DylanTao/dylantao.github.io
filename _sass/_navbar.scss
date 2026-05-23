@@ -8,8 +8,13 @@
   border-bottom: 1px solid var(--global-divider-color);
   background-color: rgba(255, 250, 246, 0.92);
   box-shadow: none;
+  min-height: 3.45rem;
   opacity: 1;
   backdrop-filter: blur(18px);
+}
+
+.navbar .container.panel-shell {
+  max-width: v.$max-panel-width;
 }
 
 html[data-theme="dark"] .navbar {
@@ -70,10 +75,10 @@ html[data-theme-mode="afternoon"] .navbar {
 
   .navbar-brand {
     display: inline-flex;
-    gap: 0.55rem;
+    gap: 0.5rem;
     align-items: center;
     color: var(--global-text-color);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 750;
     letter-spacing: 0;
     white-space: nowrap;
@@ -83,14 +88,14 @@ html[data-theme-mode="afternoon"] .navbar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.85rem;
+    height: 1.85rem;
     border: 1px solid rgba(var(--global-accent-rgb), 0.32);
     border-radius: 0.45rem;
     background: rgba(var(--global-accent-rgb), 0.08);
     color: var(--global-theme-color);
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
     line-height: 1;
   }
@@ -102,9 +107,11 @@ html[data-theme-mode="afternoon"] .navbar {
   .navbar-nav .nav-item .nav-link {
     color: var(--global-text-color);
     border-radius: 0.45rem;
-    font-size: 0.96rem;
+    font-size: 0.92rem;
     font-weight: 600;
     line-height: 1.2;
+    padding-right: 0.55rem;
+    padding-left: 0.55rem;
     transition:
       background-color var(--motion-standard),
       color var(--motion-standard);
@@ -218,8 +225,8 @@ html[data-theme-mode="afternoon"] .navbar {
   justify-content: center;
   color: var(--global-text-color);
   padding: 0;
-  width: 2rem;
-  height: 2rem;
+  width: 1.9rem;
+  height: 1.9rem;
   border: 0;
   border-radius: 0.45rem;
   background-color: transparent;
@@ -325,8 +332,8 @@ html[data-theme-mode="afternoon"] .navbar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2rem;
-  height: 2rem;
+  min-width: 1.9rem;
+  height: 1.9rem;
   padding: 0;
 }
 
