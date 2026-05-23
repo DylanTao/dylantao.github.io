@@ -43,8 +43,6 @@ story_sections:
     id: start
   - label: Taste
     id: taste
-  - label: Motion
-    id: motion
   - label: Focus
     id: focus
   - label: Publications

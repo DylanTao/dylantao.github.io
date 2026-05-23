@@ -3,7 +3,7 @@
   const wrap = document.querySelector("[data-research-motion]");
   if (!wrap) return;
 
-  const section = wrap.closest("[data-home-section='motion']") || document;
+  const section = wrap.closest("[data-home-section='focus']") || document;
   const canvas = wrap.querySelector("[data-research-motion-canvas]");
   const ctx = canvas.getContext("2d");
   const buttons = Array.from(section.querySelectorAll("[data-research-mode]"));
@@ -32,6 +32,8 @@
     geometry: {},
     pointer: {
       active: false,
+      intent: 0,
+      targetIntent: 0,
       x: 0.5,
       y: 0.5,
       tx: 0.5,
@@ -134,9 +136,10 @@
   };
 
   const updatePointer = () => {
-    const speed = state.pointer.active ? 0.075 : 0.04;
+    const speed = state.pointer.targetIntent > 0 ? 0.075 : 0.04;
     state.pointer.x = lerp(state.pointer.x, state.pointer.tx, speed);
     state.pointer.y = lerp(state.pointer.y, state.pointer.ty, speed);
+    state.pointer.intent = lerp(state.pointer.intent, state.pointer.targetIntent, state.pointer.targetIntent > 0 ? 0.055 : 0.08);
   };
 
   const strokeGradient = (pal) => {
@@ -163,8 +166,9 @@
   const drawDesign = (time, pal, alpha = 1) => {
     const b = plotBounds();
     const series = state.geometry.design || [];
-    const pointerX = (state.pointer.x - 0.5) * (state.pointer.active ? 34 : 10);
-    const pointerY = (state.pointer.y - 0.5) * (state.pointer.active ? 18 : 5);
+    const intent = state.pointer.intent;
+    const pointerX = (state.pointer.x - 0.5) * lerp(8, 34, intent);
+    const pointerY = (state.pointer.y - 0.5) * lerp(4, 18, intent);
     const centerX = b.cx + pointerX;
     const centerY = b.cy + pointerY;
     const leftX = b.left + b.width * 0.04;
@@ -178,7 +182,7 @@
       const y0 = lerp(top, bottom, t) + Math.sin(time * 0.7 + phase) * b.height * 0.025;
       const y1 = lerp(bottom, top, t) - Math.sin(time * 0.62 + phase) * b.height * 0.018;
       const compareLift = Math.sin(t * Math.PI) * b.height * 0.11;
-      const pointerPull = (state.pointer.y - 0.5) * b.height * 0.08 * Math.sin(t * Math.PI);
+      const pointerPull = (state.pointer.y - 0.5) * b.height * 0.08 * Math.sin(t * Math.PI) * intent;
 
       ctx.beginPath();
       ctx.moveTo(leftX, y0);
@@ -212,7 +216,7 @@
     const series = state.geometry.evaluate || [];
     const floor = b.bottom - b.height * 0.05;
     const top = b.top + b.height * 0.07;
-    const pointerLift = state.pointer.active ? (0.5 - state.pointer.y) * b.height * 0.12 : 0;
+    const pointerLift = (0.5 - state.pointer.y) * b.height * 0.12 * state.pointer.intent;
 
     beginMode(pal, 0.18 * alpha, 1);
     ctx.strokeStyle = pal.lineC;
@@ -267,8 +271,9 @@
   const drawSituated = (time, pal, alpha = 1) => {
     const b = plotBounds();
     const series = state.geometry.situated || [];
-    const centerX = b.cx + (state.pointer.x - 0.5) * (state.pointer.active ? b.width * 0.1 : b.width * 0.03);
-    const centerY = b.cy + (state.pointer.y - 0.5) * (state.pointer.active ? b.height * 0.12 : b.height * 0.03);
+    const intent = state.pointer.intent;
+    const centerX = b.cx + (state.pointer.x - 0.5) * lerp(b.width * 0.025, b.width * 0.1, intent);
+    const centerY = b.cy + (state.pointer.y - 0.5) * lerp(b.height * 0.025, b.height * 0.12, intent);
     const radiusX = b.width * 0.36;
     const radiusY = b.height * 0.32;
     const anchors = [
@@ -291,7 +296,7 @@
       const angle = Math.PI * 2 * t + Math.sin(time * 0.45 + phase) * 0.08;
       const targetX = clamp(centerX + Math.cos(angle) * radiusX, b.left, b.right);
       const targetY = clamp(centerY + Math.sin(angle) * radiusY, b.top, b.bottom);
-      const bend = Math.sin(t * Math.PI * 2 + time * 0.35) * b.height * 0.08;
+      const bend = Math.sin(t * Math.PI * 2 + time * 0.35) * b.height * lerp(0.045, 0.08, intent);
 
       ctx.beginPath();
       ctx.moveTo(source.x, source.y);
@@ -404,6 +409,7 @@
     if (state.reduceMotion) return;
     const rect = wrap.getBoundingClientRect();
     state.pointer.active = true;
+    state.pointer.targetIntent = 1;
     state.pointer.tx = clamp((event.clientX - rect.left) / rect.width, 0, 1);
     state.pointer.ty = clamp((event.clientY - rect.top) / rect.height, 0, 1);
     start();
@@ -411,6 +417,7 @@
 
   wrap.addEventListener("pointerleave", () => {
     state.pointer.active = false;
+    state.pointer.targetIntent = 0;
     state.pointer.tx = 0.5;
     state.pointer.ty = 0.5;
   });
@@ -419,6 +426,8 @@
     state.reduceMotion = event.matches;
     state.previousMode = null;
     state.pointer.active = false;
+    state.pointer.intent = 0;
+    state.pointer.targetIntent = 0;
     state.pointer.tx = 0.5;
     state.pointer.ty = 0.5;
     if (state.reduceMotion) {

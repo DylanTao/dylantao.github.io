@@ -4,6 +4,11 @@
 
 @use "variables" as v;
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.75rem;
+}
+
 body {
   padding-bottom: 0;
   color: var(--global-text-color);
@@ -79,6 +84,19 @@ body.sticky-bottom-footer {
   margin-top: 2.35rem;
 }
 
+html.site-motion-ready .site-reveal {
+  opacity: 0;
+  transform: translateY(0.55rem);
+  transition:
+    opacity 420ms ease,
+    transform 420ms ease;
+}
+
+html.site-motion-ready .site-reveal.site-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 // Profile
 .profile {
   img {
@@ -116,5 +134,17 @@ body.sticky-bottom-footer {
 @media (max-width: 767.98px) {
   #toc-sidebar {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.site-motion-ready .site-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

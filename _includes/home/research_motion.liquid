@@ -1,5 +1,5 @@
 {% if page.research_motion %}
-  <section id="motion" class="home-section home-research-motion home-reveal" data-home-section="motion" aria-labelledby="home-motion-title">
+  <section id="focus" class="home-section home-research-motion home-reveal" data-home-section="focus" aria-labelledby="home-motion-title">
     <div class="home-motion-intro">
       <div class="home-section-heading">
         <p class="home-kicker">{{ page.research_motion.eyebrow }}</p>
@@ -47,5 +47,24 @@
       </div>
       <p class="sr-only" data-research-motion-status>Showing the Design motion sketch.</p>
     </div>
+
+    {% if page.pillars %}
+      <div class="home-motion-focus" aria-labelledby="home-pillars-title">
+        <div class="home-section-heading">
+          <p class="home-kicker">Research focus</p>
+          <h2 id="home-pillars-title">Where I study judgment in practice.</h2>
+        </div>
+
+        <div class="home-pillars">
+          {% for pillar in page.pillars %}
+            <article class="home-pillar">
+              <span>{{ pillar.label }}</span>
+              <h3>{{ pillar.title }}</h3>
+              <p>{{ pillar.text }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
   </section>
 {% endif %}

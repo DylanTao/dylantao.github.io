@@ -62,9 +62,32 @@
 
   if (!hoverLayer || images.length === 0) return;
 
-  hoverLayer.style.backgroundImage = `url("${images[0]}")`;
-  portrait.addEventListener("mouseenter", () => {
-    const randomImage = images[Math.floor(Math.random() * images.length)];
-    hoverLayer.style.backgroundImage = `url("${randomImage}")`;
+  const preloaded = images.map((src) => {
+    const image = new Image();
+    image.src = src;
+    return image;
+  });
+  let imageIndex = -1;
+  let isHovering = false;
+
+  const setHoverImage = async () => {
+    isHovering = true;
+    imageIndex = (imageIndex + 1) % images.length;
+    const image = preloaded[imageIndex];
+    try {
+      if (image.decode) await image.decode();
+    } catch {
+      // If decode fails, the browser can still attempt to paint the image.
+    }
+    hoverLayer.style.backgroundImage = `url("${images[imageIndex]}")`;
+    window.requestAnimationFrame(() => {
+      if (isHovering) hoverLayer.classList.add("is-visible");
+    });
+  };
+
+  portrait.addEventListener("mouseenter", setHoverImage);
+  portrait.addEventListener("mouseleave", () => {
+    isHovering = false;
+    hoverLayer.classList.remove("is-visible");
   });
 })();

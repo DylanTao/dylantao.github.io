@@ -4,7 +4,7 @@ const themeModes = ["morning", "noon", "afternoon", "evening"];
 const themeModeMeta = {
   morning: { label: "Morning", icon: "fa-cloud-sun", computedTheme: "light" },
   noon: { label: "Noon", icon: "fa-sun", computedTheme: "light" },
-  afternoon: { label: "Afternoon", icon: "fa-cloud-sun-rain", computedTheme: "light" },
+  afternoon: { label: "Afternoon", icon: "fa-circle-half-stroke", computedTheme: "light" },
   evening: { label: "Evening", icon: "fa-moon", computedTheme: "dark" },
 };
 

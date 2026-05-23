@@ -57,4 +57,34 @@ $(document).ready(function () {
   $('[data-toggle="popover"]').popover({
     trigger: "hover",
   });
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revealItems = Array.from(
+    document.querySelectorAll(
+      ".featured-posts, .post-list > li, .publications ol.bibliography > li, .projects .grid-item, .card, .news table tr, .cv .card"
+    )
+  ).filter((item) => !item.closest(".home-page"));
+
+  if (revealItems.length) {
+    document.documentElement.classList.add("site-motion-ready");
+  }
+
+  revealItems.forEach((item) => item.classList.add("site-reveal"));
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealItems.forEach((item) => item.classList.add("site-visible"));
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("site-visible");
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+    );
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+  }
 });

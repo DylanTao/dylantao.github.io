@@ -1753,7 +1753,7 @@ hide_title: true
     }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 820px) {
     .sirui-crack-map {
       width: min(96vw, 42rem);
     }
@@ -1770,26 +1770,40 @@ hide_title: true
       font-size: 2.45rem;
     }
 
+    .sirui-map-stage {
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .sirui-map-stage.is-street-morphing {
+      padding-top: calc(var(--sirui-stage-height) + 0.65rem);
+    }
+
     .sirui-globe-canvas {
       height: var(--sirui-stage-height);
     }
 
     .sirui-map-hud {
-      bottom: 0.55rem;
+      position: relative;
+      bottom: auto;
       gap: 0.45rem;
       grid-template-areas:
         "readout"
         "marker"
         "sky";
       grid-template-columns: minmax(0, 1fr);
-      left: 0.55rem;
-      max-height: calc(100% - 1.1rem);
-      width: min(28rem, calc(100% - 1.1rem));
+      left: auto;
+      max-height: none;
+      width: 100%;
+      margin-top: 0.65rem;
+      overflow: visible;
+      pointer-events: auto;
     }
 
     .sirui-map-stage.is-street-main .sirui-map-hud {
-      bottom: 1.55rem;
-      width: min(27rem, calc(100% - 2.8rem));
+      bottom: auto;
+      width: 100%;
     }
 
     .sirui-map-hud .sirui-map-readout dl {
@@ -1876,15 +1890,15 @@ hide_title: true
     }
 
     .sirui-map-hud {
-      bottom: 0.45rem;
-      left: 0.45rem;
-      max-height: calc(100% - 0.9rem);
-      width: min(25rem, calc(100% - 0.9rem));
+      bottom: auto;
+      left: auto;
+      max-height: none;
+      width: 100%;
     }
 
     .sirui-map-stage.is-street-main .sirui-map-hud {
-      bottom: 1.5rem;
-      width: min(23rem, calc(100% - 1.8rem));
+      bottom: auto;
+      width: 100%;
     }
 
     .sirui-map-hud .sirui-info-panel {
@@ -3494,16 +3508,18 @@ hide_title: true
       const rowGap = parsePixels(shellStyle.rowGap || shellStyle.gap);
       const paddingY =
         parsePixels(shellStyle.paddingTop) + parsePixels(shellStyle.paddingBottom);
+      const mobileHudReserve = window.innerWidth < 820 ? 150 : 0;
       const reserved =
         (topRect?.height || 0) +
         (toolbarRect?.height || 0) +
         paddingY +
         rowGap * 2 +
         footerHeight +
-        (window.innerWidth < 720 ? 12 : 16);
+        mobileHudReserve +
+        (window.innerWidth < 820 ? 12 : 16);
       const available = viewportHeight - shellRect.top - reserved;
-      const minHeight = window.innerWidth < 480 ? 220 : window.innerWidth < 720 ? 250 : 250;
-      const maxHeight = window.innerWidth < 720 ? 600 : 760;
+      const minHeight = window.innerWidth < 480 ? 210 : window.innerWidth < 820 ? 235 : 250;
+      const maxHeight = window.innerWidth < 820 ? 440 : 760;
       const height = clamp(available, minHeight, maxHeight);
 
       mapShell.classList.toggle("is-height-tight", height < 410 || viewportHeight < 780);
@@ -4404,10 +4420,14 @@ hide_title: true
     const morphMetrics = () => {
       const rect = mapStage?.getBoundingClientRect();
       const viewport = viewportSize();
+      const compact = viewport.width <= 820;
+      const globeRect = globeElement?.getBoundingClientRect();
       const stageWidth = Math.max(rect?.width || globeElement?.clientWidth || 1, 1);
-      const stageHeight = Math.max(rect?.height || globeElement?.clientHeight || 1, 1);
+      const stageHeight = Math.max(
+        compact ? globeRect?.height || globeElement?.clientHeight || 1 : rect?.height || globeElement?.clientHeight || 1,
+        1,
+      );
       const narrow = viewport.width <= 480;
-      const compact = viewport.width <= 720;
       const margin = narrow ? 7 : compact ? 8 : 12;
       const streetInsetWidth = narrow
         ? clampPixels(viewport.width * 0.34, 104, 136)

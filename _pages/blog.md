@@ -170,28 +170,36 @@ pagination:
 {% assign featured_posts_string = active_posts | where: "featured", "true" %}
 {% assign featured_posts_boolean = active_posts | where: "featured", true %}
 {% assign featured_posts = featured_posts_string | concat: featured_posts_boolean | uniq %}
-{% assign start_post = featured_posts | first %}
-{% assign start_post_url = "" %}
-{% if start_post %}
-{% assign start_post_url = start_post.url %}
-{% if start_post.external_source == blank %}
-{% assign start_read_time = start_post.content | number_of_words | divided_by: 180 | plus: 1 %}
-{% else %}
-{% assign start_read_time = start_post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-{% endif %}
+{% if featured_posts.size > 0 %}
 
-  <section class="featured-posts" aria-labelledby="blog-start-title">
-    <a class="blog-start-link" href="{{ start_post.url | relative_url }}">
-      <span class="blog-start-kicker">Start here</span>
-      <span class="blog-start-body">
-        <strong id="blog-start-title">{{ start_post.title }}</strong>
-        <span>{{ start_post.description }}</span>
-      </span>
-      <span class="blog-start-meta">
-        {{ start_read_time }} min read
-        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-      </span>
-    </a>
+  <section class="featured-posts" aria-labelledby="blog-pinned-title">
+    <div class="blog-section-label" id="blog-pinned-title">Pinned notes</div>
+    <div class="blog-pinned-grid">
+      {% for start_post in featured_posts limit: 3 %}
+        {% if start_post.external_source == blank %}
+          {% assign start_read_time = start_post.content | number_of_words | divided_by: 180 | plus: 1 %}
+        {% else %}
+          {% assign start_read_time = start_post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
+        {% endif %}
+
+        <a class="blog-pinned-card blog-start-link" href="{{ start_post.url | relative_url }}">
+          <span class="blog-start-kicker">Start here</span>
+          <span class="blog-start-body">
+            <strong>{{ start_post.title }}</strong>
+            <span>{{ start_post.description }}</span>
+          </span>
+          <span class="blog-start-meta">
+            <span>{{ start_read_time }} min read</span>
+            <span class="js-blog-read-count-wrap" hidden>
+              <span aria-hidden="true">&middot;</span>
+              <span class="blog-read-count js-blog-read-count" data-blog-read-url="{{ start_post.url | absolute_url }}" data-blog-read-mode="display" hidden></span>
+            </span>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+
   </section>
 {% endif %}
 
@@ -221,8 +229,11 @@ pagination:
     {% endif %}
     {% assign tags = display_tags | join: "" %}
     {% assign categories = post.categories | join: "" %}
+    {% assign is_featured_post = false %}
+    {% if post.featured == true or post.featured == "true" %}
+      {% assign is_featured_post = true %}
+    {% endif %}
 
-    {% unless post.url == start_post_url %}
     <li>
 
 {% if post.thumbnail %}
@@ -244,6 +255,9 @@ pagination:
       </h3>
       <p>{{ post.description }}</p>
       <p class="post-meta">
+        {% if is_featured_post %}
+          <span class="blog-pinned-chip">Pinned</span>
+        {% endif %}
         {{ read_time }} min read &nbsp; &middot; &nbsp;
         {{ post.date | date: '%B %d, %Y' }}
         <span class="js-blog-read-count-wrap" hidden>
@@ -291,7 +305,6 @@ pagination:
 </div>
 {% endif %}
     </li>
-    {% endunless %}
 
     {% endfor %}
 
