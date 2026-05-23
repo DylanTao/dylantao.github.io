@@ -9,8 +9,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Every section should answer one visitor question:
   - Start: Who is this?
   - Taste: What is the intellectual thread?
-  - Motion: How do Sirui's research loops feel as an interaction?
-  - Focus: What are the research areas?
+  - Focus: What are Sirui's research loops and areas?
   - Publications: What concrete evidence should I open first?
   - Updates: What is active right now?
   - Students: How can someone work with Sirui?
@@ -25,6 +24,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Use whitespace to clarify grouping, not to create empty drama.
 - Every ounce of ink should matter, whether it is black text, colored text, a border, a card, a shadow, or a line.
 - Repeated information is useful only when it improves orientation; remove it when it merely restates the same claim.
+- Pinned content is a route into the work, not a reason to remove that work from the chronological archive.
 
 ## Color
 
@@ -51,6 +51,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Good motion: section reveal, active rail state, hover feedback, and small transitions that show "this is clickable."
 - Bad motion: constant ambient movement, unrelated loops, or effects that compete with reading.
 - Always respect `prefers-reduced-motion`.
+- Smooth scrolling should preserve native control: use anchor smoothing and reveal timing, not wheel or touch hijacking.
 - Animation should make Sirui feel thoughtful and dynamic, not flashy.
 - Interactive research motion should map to an idea: design means option exploration, evaluate means evidence and traces, situated means context-aware assistance.
 - Autoplay is acceptable only when it is slow, pausable by leaving the viewport/tab, and visually secondary to the words.
@@ -126,6 +127,7 @@ For sitewide passes:
 - On mobile, the first useful explanation should appear before long media, author grids, or metadata blocks.
 - Fixed-format content needs explicit dimensions or aspect ratios so cards do not jump or crop meaningful diagrams.
 - If a footer, floating button, or nav competes with reading on mobile, reduce its footprint or move it out of the way.
+- Primary media must not be covered on mobile. If an overlay hides a map, globe, figure, face, or artifact, move the overlay below the media or collapse it.
 - Whitespace should manage cognitive load: group related things, separate new ideas, and let the next step peek without creating dead air.
 - Use page-type widths: narrow for long reading, medium for notebooks and lists, wide only when grids or diagrams need the room.
 - Test 1440x1000, 1280x800, 768x1024, and 390x1000 before calling a visual pass done.
@@ -143,6 +145,14 @@ For sitewide passes:
 - Use concrete nouns and research situations instead of generic "AI tools" or "cool stuff."
 - A small playful interaction is fine when it rewards curiosity and does not block reading.
 - Long research notes need generous line length, heading rhythm, and a clear next-read path.
+- Pinned notes should behave like starting-point cards. Keep them compact, show the same trust signals as normal posts, and leave the canonical list intact.
+
+## Annotations And Portraits
+
+- Speech bubbles and annotations must point to a real idea, not fill awkward space.
+- Never let an annotation cover a face, project evidence, or primary figure.
+- If a bubble uses color, the color should separate roles or meaning. Neutral should remain the default surface.
+- Playful portrait hovers should preload and crossfade. A jagged image swap makes the joke feel cheaper than the rest of the design.
 
 ## Conservative Inspiration Boundaries
 
@@ -170,6 +180,7 @@ For sitewide passes:
 - Use a stable number of lines and dots; reduce density on mobile.
 - Give each mode enough copy to make the metaphor readable before asking visitors to interpret the motion.
 - Mouse movement may bend or separate the field, but it should never make text harder to read or turn the section into a toy.
+- Pointer entry should ease in. Nothing should snap just because a cursor crossed a canvas boundary.
 - Reduced-motion mode should render a still composition for the selected mode, not hide the idea.
 - Stop animation when offscreen or when the tab is hidden.
 - Local theme controls can sit near the thing they affect, but they must mirror the global theme state exactly. No second, hidden source of truth.
