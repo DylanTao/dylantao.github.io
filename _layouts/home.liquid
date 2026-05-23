@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<div class="home-page">
+  {% include home/hero.liquid %}
+  {% include home/thesis.liquid %}
+  {% include home/pillars.liquid %}
+  {% include home/featured_work.liquid %}
+  {% include home/news_publications.liquid %}
+  {% include home/recruiting.liquid %}
+
+  {% if page.social %}
+    <section class="home-section home-social-section home-reveal" aria-label="Contact and profiles">
+      <div class="home-section-heading">
+        <p class="home-kicker">Connect</p>
+        <h2>Find me around the web.</h2>
+      </div>
+      <div class="social home-social">
+        <div class="contact-icons">{% social_links %}</div>
+        <div class="contact-note">{{ site.contact_note }}</div>
+      </div>
+    </section>
+  {% endif %}
+</div>

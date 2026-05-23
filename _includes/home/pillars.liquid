@@ -1,0 +1,18 @@
+{% if page.pillars %}
+  <section class="home-section home-pillars-section home-reveal" aria-labelledby="home-pillars-title">
+    <div class="home-section-heading">
+      <p class="home-kicker">Research focus</p>
+      <h2 id="home-pillars-title">Three ways I study human capability with AI.</h2>
+    </div>
+
+    <div class="home-pillars">
+      {% for pillar in page.pillars %}
+        <article class="home-pillar">
+          <span>{{ pillar.label }}</span>
+          <h3>{{ pillar.title }}</h3>
+          <p>{{ pillar.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}

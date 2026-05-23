@@ -1,0 +1,39 @@
+{% if page.featured_work %}
+  <section class="home-section home-work-section home-reveal" aria-labelledby="home-work-title">
+    <div class="home-section-heading home-section-heading-row">
+      <div>
+        <p class="home-kicker">Featured work</p>
+        <h2 id="home-work-title">Concrete systems and studies.</h2>
+      </div>
+      <a class="home-text-link" href="{{ '/projects/' | relative_url }}">All projects</a>
+    </div>
+
+    <div class="home-work-grid">
+      {% for work in page.featured_work %}
+        <article class="home-work-card">
+          <a
+            class="home-work-link"
+            href="{% if work.url contains '://' %}{{ work.url }}{% else %}{{ work.url | relative_url }}{% endif %}"
+            aria-label="Open {{ work.title }}"
+          >
+            <div class="home-work-image-wrap">
+              <img
+                src="{{ work.image | relative_url }}"
+                alt="{{ work.title }} preview"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              >
+            </div>
+            <div class="home-work-body">
+              <div class="home-work-meta">
+                <span>{{ work.venue }}</span>
+                <span>{{ work.theme }}</span>
+              </div>
+              <h3>{{ work.title }}</h3>
+              <p>{{ work.description }}</p>
+            </div>
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}

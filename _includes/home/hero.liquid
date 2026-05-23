@@ -1,0 +1,57 @@
+<section class="home-hero home-reveal" aria-labelledby="home-title">
+  <div class="home-hero-copy">
+    <p class="home-kicker">{{ page.hero.eyebrow }}</p>
+    <h1 id="home-title" class="home-title">{{ page.hero.title }}</h1>
+    <p class="home-lede">{{ page.hero.lede }}</p>
+    <p class="home-affiliation">{{ page.hero.affiliation }}</p>
+
+    <div class="home-actions" aria-label="Primary actions">
+      <a class="home-btn home-btn-primary" href="{{ page.hero.primary_cta.url | relative_url }}">
+        {{ page.hero.primary_cta.label }}
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+      <a class="home-btn home-btn-secondary" href="{{ page.hero.secondary_cta.url | relative_url }}">
+        {{ page.hero.secondary_cta.label }}
+      </a>
+      <a class="home-btn home-btn-quiet" href="{{ page.hero.tertiary_cta.url }}">
+        {{ page.hero.tertiary_cta.label }}
+      </a>
+    </div>
+
+    {% if page.credibility %}
+      <div class="home-cred-grid" aria-label="Quick facts">
+        {% for item in page.credibility %}
+          <div class="home-cred-item">
+            <span>{{ item.label }}</span>
+            <strong>{{ item.value }}</strong>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="home-hero-media" aria-label="Portrait and research themes">
+    {% if page.profile.image %}
+      {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
+      <div
+        class="home-portrait-frame{% if page.profile.image_hovers %} home-profile-swappable{% endif %}"
+        id="home-profile-image-container"
+        data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+      >
+        {% include figure.liquid loading="eager" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
+        {% if page.profile.image_hovers %}
+          <div class="home-profile-image-hover-layer" aria-hidden="true"></div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="home-media-card home-media-card-primary">
+      <span>Research question</span>
+      <strong>How can AI help people develop taste, judgment, and craft?</strong>
+    </div>
+    <div class="home-media-card home-media-card-secondary">
+      <span>Design loop</span>
+      <strong>Vibes -> variables -> value</strong>
+    </div>
+  </div>
+</section>

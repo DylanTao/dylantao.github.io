@@ -1,94 +1,84 @@
 ---
-layout: about
+layout: home
 title: about
 permalink: /
 panel_wide: true
-subtitle: <a href='#'>Affiliations</a> University of California San Diego
+home_experience: true
+subtitle: UC San Diego HCI Ph.D. student building human-centered AI tools for design judgment.
 
 profile:
-  align: right
   image: sirui_pic.jpg
   image_hovers:
     - sirui_pic_ghbili.png
     - sirui_pic_rick_and_morty.png
     - sirui_pic_south_park.png
     - sirui_pic_simpsons.png
-  image_circular: true # crops the image to make it circular
-  more_info: >
-    <p>9510 Innovation Ln, La Jolla,</p>
-    <p>CA 92093, USA</p>
+  image_circular: true
 
-selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+hero:
+  eyebrow: UC San Diego HCI Ph.D. student
+  title: Scaffolding taste for human-centered AI design.
+  lede: I build tools that help people think, design, and build with AI by making possibilities, tradeoffs, and consequences easier to see.
+  affiliation: Cognitive Science Ph.D. student at UC San Diego, advised by Prof. Steven P. Dow in ProtoLab.
+  primary_cta:
+    label: See publications
+    url: /publications/
+  secondary_cta:
+    label: View projects
+    url: /projects/
+  tertiary_cta:
+    label: Contact
+    url: mailto:s1tao@ucsd.edu
+
+credibility:
+  - label: Thesis thread
+    value: Scaffolding for Taste
+  - label: Home base
+    value: UCSD ProtoLab
+  - label: Methods
+    value: Build -> measure -> iterate
+
+pillars:
+  - title: Human-AI for Design
+    label: Design judgment
+    text: Interfaces that help people explore generative possibilities in grounded, legible, and human-centered ways.
+  - title: Evaluation and Measurement
+    label: Build -> measure
+    text: Studies and metrics for diversity, verification cost, calibration, appropriate reliance, and useful iteration.
+  - title: Embodied and Mixed Reality
+    label: In-situ intelligence
+    text: Interactive systems that support everyday tasks through spatial interaction, real-world context, and augmentation.
+
+featured_work:
+  - title: DesignWeaver
+    venue: CHI 2025
+    description: Dimensional scaffolding for text-to-image product design, helping novice designers form richer prompts and explore design spaces.
+    image: /assets/img/publication_preview/designweaver.png
+    url: /projects/designweaver/
+    theme: Design tools
+  - title: What Happened and Why?
+    venue: CHI 2026 Workshop
+    description: Trace-guided micro-episodes that pair interaction data with lightweight user explanations for product iteration.
+    image: /assets/img/publication_preview/herding_cats_why_what.png
+    url: /projects/what-happened-and-why/
+    theme: AI product iteration
+  - title: HotSpot
+    venue: CVPR 2025 Highlight
+    description: A signed distance function optimization framework with stronger convergence conditions for stable surface reconstruction.
+    image: /assets/img/publication_preview/hotspot.png
+    url: /projects/hotspot/
+    theme: Graphics and geometry
+  - title: Physion
+    venue: NeurIPS Datasets 2021
+    description: A benchmark for physical scene understanding that compares human intuitive physics with machine vision models.
+    image: /assets/img/publication_preview/physion-card.webp
+    url: /projects/physion/
+    theme: Human and machine perception
 
 announcements:
-  enabled: true # includes a list of news items
-  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
-  limit: 5 # leave blank to include all the news in the `_news` folder
+  enabled: true
+  limit: 4
 
-latest_posts:
-  enabled: false
-  scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
+selected_papers: true
+social: true
 ---
-
-Hello visitor, Sirui here! 👋 (pronounced like “three”)
-
-I'm a first-year Ph.D. student in the Cognitive Science Department at UC San Diego, advised by [Prof. Steven P. Dow](https://spdow.ucsd.edu/) ([ProtoLab](https://protolab.ucsd.edu/)). I build tools that **augment human capabilities**—especially how people **think, design, and build**—using human-centered AI and mixed reality. ⚡
-
-My main thesis thread is **Scaffolding for Taste** 🧐: how AI can help people develop **taste, discernment, and evaluative judgment** in a world of generative abundance. ([cr. Don](https://dylantao.github.io/blog/2026/don-norman-design-lab-talk/))
-
-**Research Focus (2026)**
-
-- **Human–AI for Design** 🎨 — Building interfaces that help people explore and refine generative possibilities in more **grounded, legible, and human-centered** ways—especially by making meaningful differences, tradeoffs, and consequences easier to see and reason about.
-- **Method** 📐 — Build → measure: designing systems, studying how people use them, and developing metrics for diversity, verification cost, calibration, and appropriate reliance.
-- **AI & Embodied systems & Mixed Reality for Augmentation** 🥽 — Creating interactive systems that support everyday tasks through in-situ intelligence, spatial interaction, and real-world use.
-
-**Domains I Love Applying This To**
-
-Urban design, architecture, interior & product design, fashion, robotics, education, and creative media—places where ideas move from **vibes → variables → value**. ✨
-
-**Exploring**
-
-- Robots 🤖 integrated into everyday life
-- Learner-centered generative AI 📚 for education at scale
-- Post-deployment iteration 🌍 to maximize benefit and minimize harm
-- Community-centered tools 🤝 for real-world collaboration
-
-**Research Opportunities @ ProtoLab** 🧪
-
-I’m always excited to work with curious, motivated, and kind undergraduate and master’s students. As generative AI expands what one person can build, prototype, and investigate, I’m especially interested in working with driven students who have genuine research curiosity and real passion for a domain, problem space, or question they care about.
-
-You do not need to already be an expert in every part of research. I value people who want to grow into thoughtful, well-rounded researchers—people who are excited to develop taste, judgment, and craft over time, and who are willing to learn across reading, ideation, prototyping, evaluation, analysis, and communication.
-
-Before reaching out, please read my short post on [how to start doing research at UC San Diego]({% link _posts/2026-04-23-how-to-start-doing-research-at-ucsd.md %}). Borrowing a nice rule of thumb from Scott Klemmer: when you realize you are repeatedly answering the same questions, writing a short blog post about it is often a good idea. I wrote this one to answer the most common questions I get from prospective undergraduate and master's interns, and I will keep updating it as new ones come up.
-
-**Ready to apply?** Email me at **s1tao@ucsd.edu** with subject **"UCSD Research Interest"** and include a **1-page CV/resumé** (plus a portfolio link, if relevant). In the email, include a short **3–5 sentence note** on the research questions or domains you care about, why you think you’d be a good fit, any relevant experience, and what you hope to learn.
-
-I’m happy to chat once I have that quick snapshot!
-
-**Advisor Lineage & Past Collaborations**
-
-- Ph.D.: **[Steven P. Dow](https://spdow.ucsd.edu/)** (HCI)
-- Master's: **[Steven P. Dow](https://spdow.ucsd.edu/)** (HCI) & **[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)** (Graphics)
-- Undergrad: **[Judith E. Fan](https://profiles.stanford.edu/judith-fan)** (Cognition & Intuitive Physics)
-
----
-
-If you're excited about this space, let's chat. 🚀
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const container = document.getElementById('profile-image-container');
-  if (container) {
-    const hoverLayer = container.querySelector('.profile-image-hover-layer');
-    const images = container.getAttribute('data-images').split(',');
-    if (!hoverLayer || images.length === 0) return;
-    hoverLayer.style.backgroundImage = `url("${images[0]}")`;
-    container.addEventListener('mouseenter', function() {
-      const randomImage = images[Math.floor(Math.random() * images.length)];
-      hoverLayer.style.backgroundImage = `url("${randomImage}")`;
-    });
-  }
-});
-</script>

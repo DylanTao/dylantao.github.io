@@ -1,0 +1,44 @@
+<section class="home-section home-news-pubs home-reveal" aria-labelledby="home-updates-title">
+  <div class="home-section-heading home-section-heading-row">
+    <div>
+      <p class="home-kicker">Recent signal</p>
+      <h2 id="home-updates-title">What is moving lately.</h2>
+    </div>
+    <a class="home-text-link" href="{{ '/news/' | relative_url }}">All news</a>
+  </div>
+
+  {% if page.announcements and page.announcements.enabled and site.news != blank %}
+    {% assign pinned_news = site.news | where: 'pinned', true | sort: 'date' | reverse %}
+    {% assign regular_news = site.news | where_exp: 'item', 'item.pinned != true' | sort: 'date' | reverse %}
+    {% assign home_news = pinned_news | concat: regular_news %}
+    {% assign news_limit = page.announcements.limit | default: 4 %}
+    <div class="home-news-strip">
+      {% for item in home_news limit: news_limit %}
+        <article class="home-news-item">
+          <time datetime="{{ item.date | date_to_xmlschema }}">{{ item.date | date: '%b %d, %Y' }}</time>
+          <p>
+            {% if item.pinned %}
+              <span class="home-news-pin" title="Pinned" aria-label="Pinned">Pinned</span>
+            {% endif %}
+            {% if item.inline %}
+              {{ item.content | remove: '<p>' | remove: '</p>' | emojify }}
+            {% else %}
+              <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+            {% endif %}
+          </p>
+        </article>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if page.selected_papers %}
+    <div class="home-publications-wrap">
+      <div class="home-section-heading home-publication-heading">
+        <p class="home-kicker">Selected publications</p>
+        <h2>Research artifacts worth skimming.</h2>
+      </div>
+      {% include selected_papers.liquid %}
+      <a class="home-text-link home-publication-link" href="{{ '/publications/' | relative_url }}">Open full publication list</a>
+    </div>
+  {% endif %}
+</section>
