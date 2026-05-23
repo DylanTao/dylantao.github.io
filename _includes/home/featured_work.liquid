@@ -1,5 +1,5 @@
 {% if page.featured_work %}
-  <section class="home-section home-work-section home-reveal" aria-labelledby="home-work-title">
+  <section id="work" class="home-section home-work-section home-reveal" data-home-section="work" aria-labelledby="home-work-title">
     <div class="home-section-heading home-section-heading-row">
       <div>
         <p class="home-kicker">Featured work</p>
@@ -16,7 +16,12 @@
             href="{% if work.url contains '://' %}{{ work.url }}{% else %}{{ work.url | relative_url }}{% endif %}"
             aria-label="Open {{ work.title }}"
           >
-            <div class="home-work-image-wrap">
+            <div
+              class="home-work-image-wrap"
+              {% if work.image_aspect %}
+                style="--home-work-image-aspect: {{ work.image_aspect }};"
+              {% endif %}
+            >
               <img
                 src="{{ work.image | relative_url }}"
                 alt="{{ work.title }} preview"

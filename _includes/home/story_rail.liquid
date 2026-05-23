@@ -1,0 +1,17 @@
+{% if page.story_sections %}
+  <nav class="home-story-rail" aria-label="Homepage story">
+    <ol>
+      {% for section in page.story_sections %}
+        <li>
+          <a
+            class="home-story-rail-link{% if forloop.first %} is-active{% endif %}"
+            href="#{{ section.id }}"
+            data-home-rail-link="{{ section.id }}"
+          >
+            {{ section.label }}
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+{% endif %}

@@ -1,0 +1,30 @@
+{% if page.why_now %}
+  <section class="home-section home-why-now home-reveal" aria-labelledby="home-why-now-title">
+    <div class="home-why-now-copy">
+      <p class="home-kicker">Why now</p>
+      <h2 id="home-why-now-title">{{ page.why_now.title }}</h2>
+      <p>{{ page.why_now.intro }}</p>
+      {% if page.why_now.influence %}
+        <aside class="home-influence-note" aria-label="Design influence">
+          <blockquote>{{ page.why_now.influence.quote }}</blockquote>
+          <p>
+            {{ page.why_now.influence.person }},
+            <a href="{{ page.why_now.influence.url }}">{{ page.why_now.influence.source }}</a>
+          </p>
+        </aside>
+      {% endif %}
+    </div>
+
+    {% if page.why_now.claims %}
+      <div class="home-why-now-claims">
+        {% for claim in page.why_now.claims %}
+          <article>
+            <span>{{ forloop.index | prepend: '0' }}</span>
+            <h3>{{ claim.title }}</h3>
+            <p>{{ claim.text }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+{% endif %}

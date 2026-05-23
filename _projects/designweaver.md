@@ -3,6 +3,7 @@ layout: page
 title: DesignWeaver
 description: a tool that helps novices generate better design prompts by surfacing key visual dimensions, leading to more diverse and expert-aligned product designs
 img: assets/img/publication_preview/designweaver.png
+image_aspect: 16 / 9
 importance: -2
 category: research
 related_publications: true

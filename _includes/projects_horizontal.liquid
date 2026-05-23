@@ -4,7 +4,14 @@
       <div class="row no-gutters">
         {% if project.img %}
           <div class="col-md-6">
-            {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 768px) 156px, 50vw" alt="project thumbnail" class="card-img" %}
+            <div
+              class="project-card-media project-card-media-horizontal"
+              {% if project.image_aspect %}
+                style="--project-image-aspect: {{ project.image_aspect }};"
+              {% endif %}
+            >
+              {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 768px) 156px, 50vw" alt="project thumbnail" class="card-img project-card-img" %}
+            </div>
           </div>
         {% endif %}
         <div class="{% if project.img %}col-md-6{% else %}col-md-12{% endif %}">

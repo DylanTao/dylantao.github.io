@@ -22,6 +22,38 @@
     revealItems.forEach((item) => observer.observe(item));
   }
 
+  const sectionItems = Array.from(document.querySelectorAll("[data-home-section]"));
+  const railLinks = Array.from(document.querySelectorAll("[data-home-rail-link]"));
+
+  const setActiveRailLink = (sectionId) => {
+    railLinks.forEach((link) => {
+      const isActive = link.getAttribute("data-home-rail-link") === sectionId;
+      link.classList.toggle("is-active", isActive);
+      if (isActive) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+
+  if (railLinks.length > 0 && sectionItems.length > 0 && "IntersectionObserver" in window) {
+    const railObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (!visibleEntry) return;
+        setActiveRailLink(visibleEntry.target.getAttribute("data-home-section"));
+      },
+      { rootMargin: "-28% 0px -52% 0px", threshold: [0.08, 0.25, 0.5, 0.75] }
+    );
+
+    sectionItems.forEach((section) => railObserver.observe(section));
+    railLinks.forEach((link) => {
+      link.addEventListener("click", () => setActiveRailLink(link.getAttribute("data-home-rail-link")));
+    });
+  }
+
   const portrait = document.getElementById("home-profile-image-container");
   if (!portrait) return;
 

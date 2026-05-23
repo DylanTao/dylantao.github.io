@@ -38,6 +38,38 @@ credibility:
   - label: Methods
     value: Build -> measure -> iterate
 
+story_sections:
+  - label: Start
+    id: start
+  - label: Taste
+    id: taste
+  - label: Focus
+    id: focus
+  - label: Work
+    id: work
+  - label: Updates
+    id: updates
+  - label: Students
+    id: students
+  - label: Connect
+    id: connect
+
+why_now:
+  title: Why this work matters now
+  intro: AI is changing how quickly people can make things, but the harder question is still how people learn what is worth making.
+  influence:
+    quote: AI is sparking a creative renaissance in design.
+    person: Katie Dill
+    source: AI in Design 2026
+    url: https://stateofaidesign.com/
+  claims:
+    - title: Infinite output raises the bar for taste.
+      text: When many options are cheap to generate, the scarce skill becomes noticing meaningful differences and making better judgments.
+    - title: Role boundaries are getting blurrier.
+      text: Designers, researchers, PMs, and engineers are all touching prototypes, so scaffolding has to support shared reasoning in messy collaboration.
+    - title: Faster production needs deliberate craft.
+      text: Speed helps only when it preserves critique, incubation, learning, and the ability to explain why a direction is better.
+
 pillars:
   - title: Human-AI for Design
     label: Design judgment
@@ -54,24 +86,28 @@ featured_work:
     venue: CHI 2025
     description: Dimensional scaffolding for text-to-image product design, helping novice designers form richer prompts and explore design spaces.
     image: /assets/img/publication_preview/designweaver.png
+    image_aspect: 16 / 10
     url: /projects/designweaver/
     theme: Design tools
   - title: What Happened and Why?
     venue: CHI 2026 Workshop
     description: Trace-guided micro-episodes that pair interaction data with lightweight user explanations for product iteration.
     image: /assets/img/publication_preview/herding_cats_why_what.png
+    image_aspect: 16 / 10
     url: /projects/what-happened-and-why/
     theme: AI product iteration
   - title: HotSpot
     venue: CVPR 2025 Highlight
     description: A signed distance function optimization framework with stronger convergence conditions for stable surface reconstruction.
     image: /assets/img/publication_preview/hotspot.png
+    image_aspect: 16 / 10
     url: /projects/hotspot/
     theme: Graphics and geometry
   - title: Physion
     venue: NeurIPS Datasets 2021
     description: A benchmark for physical scene understanding that compares human intuitive physics with machine vision models.
     image: /assets/img/publication_preview/physion-card.webp
+    image_aspect: 16 / 10
     url: /projects/physion/
     theme: Human and machine perception
 
