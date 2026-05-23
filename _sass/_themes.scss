@@ -6,6 +6,11 @@
 
 :root {
   color-scheme: light;
+  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-display: var(--font-ui);
+  --font-mono: "Source Code Pro", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --motion-standard: 180ms ease;
+  --motion-slow: 420ms ease;
   --global-bg-color: #fffaf6;
   --global-code-bg-color: #{v.$code-bg-color-light};
   --global-text-color: #201916;

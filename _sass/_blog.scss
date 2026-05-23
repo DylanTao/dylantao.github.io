@@ -10,13 +10,14 @@
 
   h1 {
     color: var(--global-theme-color);
-    font-size: clamp(3.2rem, 7vw, 5rem);
-    line-height: 1;
+    font-size: clamp(2.8rem, 6.2vw, 4.5rem);
+    font-weight: 800;
+    line-height: 0.98;
   }
 
   h2 {
     color: var(--global-text-color);
-    font-size: clamp(1.15rem, 2.4vw, 1.85rem);
+    font-size: clamp(1.08rem, 2vw, 1.55rem);
     font-weight: 400;
     line-height: 1.35;
     margin: 0 auto;
@@ -70,7 +71,8 @@
     padding-bottom: 1.65rem;
 
     h3 {
-      font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+      font-size: clamp(1.35rem, 2vw, 1.7rem);
+      font-weight: 750;
       line-height: 1.2;
       margin-bottom: 0.55rem;
     }
@@ -133,12 +135,14 @@
 .post {
   .post-meta {
     color: var(--global-text-color-light);
+    font-family: var(--font-mono);
     font-size: 0.875rem;
     margin-bottom: 0;
   }
 
   .post-tags {
     color: var(--global-text-color-light);
+    font-family: var(--font-mono);
     font-size: 0.875rem;
     padding-top: 0.25rem;
     padding-bottom: 1rem;
@@ -165,7 +169,8 @@
   }
 
   .post-title {
-    font-size: clamp(2.45rem, 5vw, 4.2rem);
+    font-size: clamp(2.25rem, 4.6vw, 3.8rem);
+    font-weight: 800;
   }
 
   .post-content {
@@ -232,10 +237,10 @@
   min-height: 44px;
   padding: 1rem;
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
+    border-color var(--motion-standard),
+    box-shadow var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
 
   &:hover {
     border-color: var(--global-theme-color);
@@ -268,6 +273,7 @@
 .blog-nav-meta,
 .blog-nav-direction-label {
   color: var(--global-text-color-light);
+  font-family: var(--font-mono);
   font-size: 0.82rem;
 }
 
@@ -280,9 +286,9 @@
 .blog-nav-title {
   color: var(--global-text-color);
   font-size: 1.2rem;
-  font-weight: 650;
+  font-weight: 750;
   line-height: 1.25;
-  transition: color 160ms ease;
+  transition: color var(--motion-standard);
 }
 
 .blog-nav-description {
@@ -299,7 +305,7 @@
   flex: 0 0 auto;
   height: 2.25rem;
   justify-content: center;
-  transition: transform 160ms ease;
+  transition: transform var(--motion-standard);
   width: 2.25rem;
 }
 
@@ -319,10 +325,10 @@
   min-height: 44px;
   padding: 0.75rem;
   transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
 
   &:hover {
     background-color: var(--global-card-bg-color);
@@ -349,7 +355,7 @@
   color: var(--global-text-color);
   font-weight: 600;
   line-height: 1.25;
-  transition: color 160ms ease;
+  transition: color var(--motion-standard);
 }
 
 @keyframes blog-post-enter {
@@ -476,8 +482,8 @@
     object-fit: cover;
     transform-origin: 50% 78%;
     transition:
-      transform 160ms ease,
-      filter 160ms ease;
+      transform var(--motion-standard),
+      filter var(--motion-standard);
     vertical-align: middle;
     width: 0.84em;
   }

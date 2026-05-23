@@ -5,10 +5,15 @@
 @use "variables" as v;
 
 .navbar {
-  box-shadow: none;
   border-bottom: 1px solid var(--global-divider-color);
-  background-color: var(--global-bg-color);
-  opacity: 0.95;
+  background-color: rgba(255, 250, 246, 0.92);
+  box-shadow: none;
+  opacity: 1;
+  backdrop-filter: blur(18px);
+}
+
+html[data-theme="dark"] .navbar {
+  background-color: rgba(33, 28, 25, 0.9);
 }
 
 .navbar .dropdown-menu,
@@ -56,21 +61,61 @@
   }
 
   .navbar-brand {
+    display: inline-flex;
+    gap: 0.55rem;
+    align-items: center;
     color: var(--global-text-color);
+    font-size: 1rem;
+    font-weight: 750;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .site-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgba(217, 107, 53, 0.32);
+    border-radius: 0.45rem;
+    background: rgba(217, 107, 53, 0.08);
+    color: var(--global-theme-color);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .site-brand-name {
+    line-height: 1;
   }
 
   .navbar-nav .nav-item .nav-link {
     color: var(--global-text-color);
+    border-radius: 0.45rem;
+    font-size: 0.96rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition:
+      background-color var(--motion-standard),
+      color var(--motion-standard);
 
     &:hover {
+      background-color: rgba(217, 107, 53, 0.08);
       color: var(--global-hover-color);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(217, 107, 53, 0.5);
+      outline-offset: 2px;
     }
   }
 
   .navbar-nav .nav-item.active > .nav-link {
-    background-color: inherit;
-    font-weight: bolder;
+    background-color: rgba(217, 107, 53, 0.1);
     color: var(--global-theme-color);
+    font-weight: 750;
 
     &:hover {
       color: var(--global-hover-color);
@@ -156,19 +201,28 @@
 }
 
 #light-toggle {
-  padding: 0;
-  border: 0;
-  background-color: inherit;
-  color: var(--global-text-color);
-  /* Fix footprint to prevent navbar shifting when icon changes */
-  width: 2rem;
-  height: 2rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: var(--global-text-color);
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background-color: transparent;
+  transition:
+    background-color var(--motion-standard),
+    color var(--motion-standard);
 
   &:hover {
+    background-color: rgba(217, 107, 53, 0.08);
     color: var(--global-hover-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(217, 107, 53, 0.5);
+    outline-offset: 2px;
   }
 }
 
@@ -179,12 +233,49 @@
 }
 
 #search-toggle {
+  color: var(--global-text-color);
   padding: 0;
   border: 0;
-  background-color: inherit;
-  color: var(--global-text-color);
+  background-color: transparent;
 
   &:hover {
     color: var(--global-hover-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(217, 107, 53, 0.5);
+    outline-offset: 2px;
+  }
+}
+
+#search-toggle .nav-control-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+@media (max-width: 767.98px) {
+  .navbar .container.panel-shell {
+    align-items: center;
+  }
+
+  .navbar-collapse {
+    padding-top: 0.65rem;
+  }
+
+  .navbar-collapse .navbar-nav {
+    align-items: flex-end;
+    gap: 0.1rem;
+  }
+
+  .navbar.navbar-light .navbar-nav .nav-item .nav-link {
+    display: inline-flex;
+    min-height: 2.1rem;
+    align-items: center;
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
   }
 }

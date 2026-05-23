@@ -19,6 +19,33 @@ strong {
   color: var(--global-text-color);
 }
 
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: var(--font-ui);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 750;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+}
+
 hr {
   border-top: 1px solid var(--global-divider-color);
 }

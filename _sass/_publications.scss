@@ -28,14 +28,20 @@
   border-radius: 999px;
   color: var(--global-theme-color);
   flex: 0 0 auto;
-  font-weight: 650;
+  font-weight: 750;
   padding: 0.45rem 0.8rem;
   text-decoration: none;
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
 
   &:hover {
     background: rgba(217, 107, 53, 0.09);
     color: var(--global-theme-color);
     text-decoration: none;
+    transform: translateY(-1px);
   }
 }
 
@@ -89,6 +95,8 @@
           border-radius: 0.35rem;
           margin-bottom: 0.5rem;
           color: var(--global-theme-color) !important;
+          font-family: var(--font-mono);
+          font-weight: 650;
 
           a {
             color: var(--global-theme-color);
@@ -111,7 +119,8 @@
       }
 
       .title {
-        font-weight: bolder;
+        font-weight: 750;
+        line-height: 1.32;
       }
 
       .author {
@@ -151,10 +160,16 @@
           padding-top: 0.25rem;
           padding-bottom: 0.25rem;
           margin-left: 0;
+          font-weight: 650;
+          transition:
+            border-color var(--motion-standard),
+            color var(--motion-standard),
+            transform var(--motion-standard);
 
           &:hover {
             color: var(--global-theme-color);
             border-color: var(--global-theme-color);
+            transform: translateY(-1px);
           }
         }
         a.award.btn {

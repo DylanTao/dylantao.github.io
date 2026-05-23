@@ -24,18 +24,24 @@ a.btncv {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   text-decoration: none;
-  font-weight: 400;
+  font-family: var(--font-mono);
+  font-weight: 600;
   font-size: 0.7rem;
   text-align: center;
   vertical-align: middle;
   text-transform: uppercase;
   white-space: nowrap;
+  transition:
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
 }
 
 a.btncv:hover {
   color: var(--global-theme-color) !important;
   border-color: var(--global-theme-color) !important;
   text-decoration: none !important;
+  transform: translateY(-1px);
 }
 
 .cv {
@@ -49,7 +55,8 @@ a.btncv:hover {
   }
 
   .card-title {
-    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-weight: 800;
     margin-bottom: 0.85rem;
   }
 }
@@ -59,6 +66,7 @@ a.btncv:hover {
  *****************************/
 
 p.location {
+  font-family: var(--font-mono);
   font-size: 0.7rem;
   white-space: nowrap;
 }
