@@ -9,9 +9,10 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Every section should answer one visitor question:
   - Start: Who is this?
   - Taste: What is the intellectual thread?
+  - Motion: How do Sirui's research loops feel as an interaction?
   - Focus: What are the research areas?
-  - Work: What concrete artifacts prove it?
-  - Updates: What is active now?
+  - Publications: What concrete evidence should I open first?
+  - Updates: What is active right now?
   - Students: How can someone work with Sirui?
   - Connect: How can someone follow up?
 
@@ -22,6 +23,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Prefer fewer, stronger CTAs over many equal buttons.
 - Put proof close to claims: projects, publications, venue labels, and updates should appear near the research story they support.
 - Use whitespace to clarify grouping, not to create empty drama.
+- Every ounce of ink should matter, whether it is black text, colored text, a border, a card, a shadow, or a line.
+- Repeated information is useful only when it improves orientation; remove it when it merely restates the same claim.
 
 ## Color
 
@@ -30,6 +33,9 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Neutral surfaces should carry most of the layout.
 - Avoid a page that reads as all orange, all pastel, all purple, or all gradient.
 - If color does not communicate hierarchy, state, or meaning, remove it.
+- Colored ink should mean action, active state, status, or a deliberate semantic grouping. Do not use a tinted card because a section feels empty.
+- The global time-of-day themes should change atmosphere without changing the research story: morning is gentle, noon is clearest, afternoon is warmer and more exploratory, evening is quiet and dark.
+- Theme palettes need hue variety and contrast, not four versions of the same orange wash.
 
 ## Project Images
 
@@ -46,6 +52,10 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Bad motion: constant ambient movement, unrelated loops, or effects that compete with reading.
 - Always respect `prefers-reduced-motion`.
 - Animation should make Sirui feel thoughtful and dynamic, not flashy.
+- Interactive research motion should map to an idea: design means option exploration, evaluate means evidence and traces, situated means context-aware assistance.
+- Autoplay is acceptable only when it is slow, pausable by leaving the viewport/tab, and visually secondary to the words.
+- If an animation competes with the explanation, change the layout before decorating the animation. Claim and controls should come before the moving field.
+- Draw inside intentional bounds. Clipping should never be the default way to create drama.
 
 ## Navigation
 
@@ -107,6 +117,7 @@ For sitewide passes:
 - Prefer the smallest change that makes the visitor's next decision easier.
 - Remove a visual element if it does not clarify hierarchy, state, rhythm, or trust.
 - Do not add a new component when copy, spacing, or ordering solves the problem.
+- Remove the component before designing around its awkwardness.
 - Let repeated components carry consistency; reserve custom pages for genuinely different reading tasks.
 
 ## Responsive Layout
@@ -115,6 +126,8 @@ For sitewide passes:
 - On mobile, the first useful explanation should appear before long media, author grids, or metadata blocks.
 - Fixed-format content needs explicit dimensions or aspect ratios so cards do not jump or crop meaningful diagrams.
 - If a footer, floating button, or nav competes with reading on mobile, reduce its footprint or move it out of the way.
+- Whitespace should manage cognitive load: group related things, separate new ideas, and let the next step peek without creating dead air.
+- Use page-type widths: narrow for long reading, medium for notebooks and lists, wide only when grids or diagrams need the room.
 - Test 1440x1000, 1280x800, 768x1024, and 390x1000 before calling a visual pass done.
 
 ## Footer And Global Chrome
@@ -147,3 +160,16 @@ For sitewide passes:
 - Motion should clarify state: hover means clickable, active rail means current section, reveal means a new idea has entered the reading path.
 - Navigation should survive zoom and tablet widths before it looks impressive. Collapse earlier if links become cramped.
 - Do not borrow Stripe's gradient spectacle or sales posture. Sirui's site should feel like a thoughtful research portfolio, not a company homepage.
+- Credit inspiration compactly when it materially shaped the craft direction, but keep the page centered on Sirui's research.
+- Stripe's time-of-day pattern is most useful here as a mood and state model: the control is small, the palette changes are coherent, and the main content still carries the claim.
+
+## Research Motion Rules
+
+- The homepage motion section is a research diagram first and an animation second.
+- Keep canvas geometry abstract enough to avoid fake data, but structured enough that each mode has a reason to exist.
+- Use a stable number of lines and dots; reduce density on mobile.
+- Give each mode enough copy to make the metaphor readable before asking visitors to interpret the motion.
+- Mouse movement may bend or separate the field, but it should never make text harder to read or turn the section into a toy.
+- Reduced-motion mode should render a still composition for the selected mode, not hide the idea.
+- Stop animation when offscreen or when the tab is hidden.
+- Local theme controls can sit near the thing they affect, but they must mirror the global theme state exactly. No second, hidden source of truth.
