@@ -305,25 +305,29 @@ let determineComputedTheme = (themeSetting = determineThemeSetting()) => {
 };
 
 let updateThemeToggleUI = (themeSetting = determineThemeSetting()) => {
-  const toggle = document.getElementById("theme-toggle");
-  const icon = document.getElementById("theme-toggle-icon");
-  const label = document.getElementById("theme-toggle-label");
+  const controls = Array.from(document.querySelectorAll("[data-theme-control]"));
   const options = Array.from(document.querySelectorAll("[data-theme-mode-option]"));
   const mode = normalizeThemeSetting(themeSetting);
   const meta = themeModeMeta[mode];
 
-  if (toggle) {
+  controls.forEach((control) => {
+    const toggle = control.querySelector("[data-theme-toggle]");
+    const icon = control.querySelector("[data-theme-icon]");
+    const label = control.querySelector("[data-theme-label]");
+
+    if (!toggle) return;
+
     toggle.setAttribute("aria-label", `Change theme. Current theme: ${meta.label}`);
     toggle.setAttribute("title", `Theme: ${meta.label}`);
-  }
 
-  if (icon) {
-    icon.innerHTML = `<i class="fa-solid ${meta.icon}" aria-hidden="true"></i>`;
-  }
+    if (icon) {
+      icon.innerHTML = `<i class="fa-solid ${meta.icon}" aria-hidden="true"></i>`;
+    }
 
-  if (label) {
-    label.textContent = `${meta.label} theme`;
-  }
+    if (label) {
+      label.textContent = `${meta.label} theme`;
+    }
+  });
 
   options.forEach((option) => {
     const isSelected = option.getAttribute("data-theme-mode-option") === mode;
@@ -333,56 +337,76 @@ let updateThemeToggleUI = (themeSetting = determineThemeSetting()) => {
 };
 
 let setupThemeModeControl = () => {
-  const toggle = document.getElementById("theme-toggle");
-  const menu = document.getElementById("theme-menu");
-  const options = Array.from(document.querySelectorAll("[data-theme-mode-option]"));
+  const controls = Array.from(document.querySelectorAll("[data-theme-control]"));
 
-  if (!toggle || !menu || options.length === 0) return;
+  if (controls.length === 0) return;
 
-  const closeMenu = () => {
+  const closeControl = (control) => {
+    const toggle = control.querySelector("[data-theme-toggle]");
+    const menu = control.querySelector("[data-theme-menu]");
+    if (!toggle || !menu) return;
     menu.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
   };
 
-  const openMenu = () => {
+  const closeOtherControls = (activeControl) => {
+    controls.forEach((control) => {
+      if (control !== activeControl) closeControl(control);
+    });
+  };
+
+  const openControl = (control, options) => {
+    const toggle = control.querySelector("[data-theme-toggle]");
+    const menu = control.querySelector("[data-theme-menu]");
+    if (!toggle || !menu) return;
+
+    closeOtherControls(control);
     menu.hidden = false;
     toggle.setAttribute("aria-expanded", "true");
     const selected = options.find((option) => option.getAttribute("aria-selected") === "true") || options[0];
-    selected.focus();
+    if (selected) selected.focus();
   };
 
-  toggle.addEventListener("click", () => {
-    if (menu.hidden) {
-      openMenu();
-    } else {
-      closeMenu();
-    }
-  });
+  controls.forEach((control) => {
+    const toggle = control.querySelector("[data-theme-toggle]");
+    const menu = control.querySelector("[data-theme-menu]");
+    const options = Array.from(control.querySelectorAll("[data-theme-mode-option]"));
 
-  options.forEach((option, index) => {
-    option.addEventListener("click", () => {
-      setThemeSetting(option.getAttribute("data-theme-mode-option"));
-      closeMenu();
-      toggle.focus();
+    if (!toggle || !menu || options.length === 0) return;
+
+    toggle.addEventListener("click", () => {
+      if (menu.hidden) {
+        openControl(control, options);
+      } else {
+        closeControl(control);
+      }
     });
 
-    option.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
+    options.forEach((option, index) => {
+      option.addEventListener("click", () => {
+        setThemeSetting(option.getAttribute("data-theme-mode-option"));
+        closeControl(control);
         toggle.focus();
-      }
+      });
 
-      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-        event.preventDefault();
-        const direction = event.key === "ArrowDown" ? 1 : -1;
-        options[(index + direction + options.length) % options.length].focus();
-      }
+      option.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeControl(control);
+          toggle.focus();
+        }
+
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault();
+          const direction = event.key === "ArrowDown" ? 1 : -1;
+          options[(index + direction + options.length) % options.length].focus();
+        }
+      });
     });
-  });
 
-  document.addEventListener("click", (event) => {
-    if (menu.hidden || menu.contains(event.target) || toggle.contains(event.target)) return;
-    closeMenu();
+    document.addEventListener("click", (event) => {
+      if (menu.hidden || control.contains(event.target)) return;
+      closeControl(control);
+    });
   });
 
   updateThemeToggleUI();

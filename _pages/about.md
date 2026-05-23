@@ -75,7 +75,7 @@ why_now:
 research_motion:
   eyebrow: Research motion
   title: Design, evaluate, situate.
-  intro: "A small interactive sketch of the loops I keep studying: generating design directions, measuring what changed, and grounding help in the situation where work happens."
+  intro: "A small interactive sketch of the loops I keep studying: generating directions, reading evidence, and grounding assistance in the situation where work happens."
   credit:
     text: Motion pattern inspired by Stripe's homepage craft and Katie Dill's design-quality framing.
     stripe_label: Stripe design team
@@ -86,15 +86,15 @@ research_motion:
     - id: design
       label: Design
       title: Explore options
-      text: Paths gather into comparable dimensions, then open back into directions worth trying.
+      text: Compare generated directions by the dimensions that matter, then open them back into choices worth testing.
     - id: evaluate
       label: Evaluate
       title: Read the evidence
-      text: Traces, probes, and measures make tradeoffs visible before a decision hardens.
+      text: Turn traces, probes, and measures into evidence a team can argue with before a decision hardens.
     - id: situated
       label: Situated
       title: Work in context
-      text: Assistance bends around people, tasks, tools, and the space where action happens.
+      text: Adapt assistance to the person, task, tool, and physical or social context where action happens.
 
 pillars:
   - title: Human-AI for Design

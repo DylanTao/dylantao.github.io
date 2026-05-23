@@ -54,6 +54,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Animation should make Sirui feel thoughtful and dynamic, not flashy.
 - Interactive research motion should map to an idea: design means option exploration, evaluate means evidence and traces, situated means context-aware assistance.
 - Autoplay is acceptable only when it is slow, pausable by leaving the viewport/tab, and visually secondary to the words.
+- If an animation competes with the explanation, change the layout before decorating the animation. Claim and controls should come before the moving field.
+- Draw inside intentional bounds. Clipping should never be the default way to create drama.
 
 ## Navigation
 
@@ -166,6 +168,8 @@ For sitewide passes:
 - The homepage motion section is a research diagram first and an animation second.
 - Keep canvas geometry abstract enough to avoid fake data, but structured enough that each mode has a reason to exist.
 - Use a stable number of lines and dots; reduce density on mobile.
+- Give each mode enough copy to make the metaphor readable before asking visitors to interpret the motion.
 - Mouse movement may bend or separate the field, but it should never make text harder to read or turn the section into a toy.
 - Reduced-motion mode should render a still composition for the selected mode, not hide the idea.
 - Stop animation when offscreen or when the tab is hidden.
+- Local theme controls can sit near the thing they affect, but they must mirror the global theme state exactly. No second, hidden source of truth.
