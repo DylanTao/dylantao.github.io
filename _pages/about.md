@@ -4,7 +4,7 @@ title: about
 permalink: /
 panel_wide: true
 home_experience: true
-subtitle: UC San Diego HCI Ph.D. student building human-centered AI tools for design judgment.
+subtitle: UC San Diego HCI Ph.D. student studying interfaces for design judgment.
 
 profile:
   image: sirui_pic.jpg
@@ -17,8 +17,8 @@ profile:
 
 hero:
   eyebrow: UC San Diego HCI Ph.D. student
-  title: Scaffolding taste for human-centered AI design.
-  lede: I build tools that help people think, design, and build with AI by making possibilities, tradeoffs, and consequences easier to see.
+  title: Making AI tools that sharpen design judgment.
+  lede: I study how interfaces help designers compare options, reason through tradeoffs, and decide what is worth making.
   affiliation: Cognitive Science Ph.D. student at UC San Diego, advised by Prof. Steven P. Dow in ProtoLab.
   primary_cta:
     label: See publications
@@ -32,11 +32,11 @@ hero:
 
 credibility:
   - label: Thesis thread
-    value: Scaffolding for Taste
+    value: Compare, choose
   - label: Home base
     value: UCSD ProtoLab
   - label: Methods
-    value: Build -> measure -> iterate
+    value: Build, test, iterate
 
 story_sections:
   - label: Start
@@ -56,42 +56,42 @@ story_sections:
 
 why_now:
   title: Why this work matters now
-  intro: AI is changing how quickly people can make things, but the harder question is still how people learn what is worth making.
+  intro: AI makes it easy to produce variants; my question is how people learn to choose well.
   influence:
     quote: AI is sparking a creative renaissance in design.
     person: Katie Dill
     source: AI in Design 2026
     url: https://stateofaidesign.com/
   claims:
-    - title: Infinite output raises the bar for taste.
-      text: When many options are cheap to generate, the scarce skill becomes noticing meaningful differences and making better judgments.
-    - title: Role boundaries are getting blurrier.
-      text: Designers, researchers, PMs, and engineers are all touching prototypes, so scaffolding has to support shared reasoning in messy collaboration.
-    - title: Faster production needs deliberate craft.
-      text: Speed helps only when it preserves critique, incubation, learning, and the ability to explain why a direction is better.
+    - title: More output does not mean more taste.
+      text: "When generation is cheap, the scarce work is comparison: seeing dimensions, tradeoffs, and evidence across options."
+    - title: Everyone is closer to the prototype.
+      text: Designers, researchers, PMs, and engineers all shape early artifacts now. Interfaces need to support shared reasoning before decisions harden.
+    - title: Speed still needs reflection.
+      text: Fast cycles are useful only if teams keep room for critique, incubation, and explaining why a direction is better.
 
 pillars:
   - title: Human-AI for Design
     label: Design judgment
-    text: Interfaces that help people explore generative possibilities in grounded, legible, and human-centered ways.
+    text: Interfaces for exploring generated options with visible dimensions, constraints, and consequences.
   - title: Evaluation and Measurement
     label: Build -> measure
-    text: Studies and metrics for diversity, verification cost, calibration, appropriate reliance, and useful iteration.
+    text: Studies and metrics for diversity, verification cost, calibration, reliance, and iteration that actually changes the artifact.
   - title: Embodied and Mixed Reality
     label: In-situ intelligence
-    text: Interactive systems that support everyday tasks through spatial interaction, real-world context, and augmentation.
+    text: Systems that bring context-aware assistance into spatial tasks, mixed reality, and everyday environments.
 
 featured_work:
   - title: DesignWeaver
     venue: CHI 2025
-    description: Dimensional scaffolding for text-to-image product design, helping novice designers form richer prompts and explore design spaces.
+    description: A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.
     image: /assets/img/publication_preview/designweaver.png
     image_aspect: 16 / 10
     url: /projects/designweaver/
     theme: Design tools
   - title: What Happened and Why?
     venue: CHI 2026 Workshop
-    description: Trace-guided micro-episodes that pair interaction data with lightweight user explanations for product iteration.
+    description: Trace-guided micro-episodes that turn messy interaction logs into moments people can explain and learn from.
     image: /assets/img/publication_preview/herding_cats_why_what.png
     image_aspect: 16 / 10
     url: /projects/what-happened-and-why/
@@ -113,7 +113,7 @@ featured_work:
 
 announcements:
   enabled: true
-  limit: 4
+  limit: 3
 
 selected_papers: true
 social: true

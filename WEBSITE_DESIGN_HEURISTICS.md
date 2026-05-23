@@ -1,4 +1,4 @@
-# Sirui Website Design Heuristics
+# Website Design Heuristics
 
 Use this file as the shared design memory for future homepage and portfolio refinements. The goal is a personal academic site that feels thoughtful, alive, and readable without becoming a corporate product site or a visual demo reel.
 
