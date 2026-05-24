@@ -41,7 +41,7 @@ ninja.data = [{
         
           title: "what I learned redesigning my website with an AI coding agent",
         
-        description: "A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio in a day.",
+        description: "A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days.",
         section: "Posts",
         handler: () => {
           
