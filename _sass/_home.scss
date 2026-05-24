@@ -58,7 +58,7 @@ html[data-theme="dark"] .home-page {
 .home-story-rail {
   position: fixed;
   top: 50%;
-  left: max(1rem, calc((100vw - 1360px) / 2 - 5rem));
+  left: max(0.75rem, calc((100vw - 1360px) / 2 - 10.25rem));
   z-index: 9;
   display: none;
   transform: translateY(-50%);
@@ -611,8 +611,6 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-research-motion {
-  --home-stage-bleed-shift: 0rem;
-
   position: relative;
   display: grid;
   gap: 1.15rem;
@@ -623,32 +621,30 @@ html[data-theme="dark"] .home-story-rail ol {
 
 .home-research-motion::before {
   position: absolute;
-  top: -4rem;
-  left: 50%;
+  inset: 1.2rem 0 auto;
   z-index: -1;
-  width: 100vw;
-  height: min(44rem, 92%);
+  height: min(32rem, 82%);
   background:
-    radial-gradient(circle at 50% 48%, rgba(var(--global-accent-rgb), 0.065), transparent 40%),
-    radial-gradient(circle at 18% 54%, var(--research-motion-glow), transparent 36%),
-    radial-gradient(circle at 82% 58%, color-mix(in srgb, var(--home-sky) 28%, transparent), transparent 38%);
+    radial-gradient(circle at 50% 58%, var(--research-motion-glow), transparent 44%),
+    radial-gradient(circle at 18% 64%, color-mix(in srgb, var(--home-sky) 18%, transparent), transparent 34%),
+    radial-gradient(circle at 82% 54%, color-mix(in srgb, var(--home-mint) 18%, transparent), transparent 36%);
   content: "";
-  opacity: 0.42;
+  opacity: 0.32;
   pointer-events: none;
-  transform: translateX(calc(-50% - var(--home-stage-bleed-shift))) scale(0.985);
+  transform: scale(0.99);
   animation: home-motion-echo 14s ease-in-out infinite;
 }
 
 @keyframes home-motion-echo {
   0%,
   100% {
-    opacity: 0.34;
-    transform: translateX(calc(-50% - var(--home-stage-bleed-shift))) scale(0.985);
+    opacity: 0.26;
+    transform: scale(0.99);
   }
 
   50% {
-    opacity: 0.5;
-    transform: translateX(calc(-50% - var(--home-stage-bleed-shift))) scale(1.015);
+    opacity: 0.38;
+    transform: scale(1.01);
   }
 }
 
@@ -748,16 +744,20 @@ html[data-theme="dark"] .home-story-rail ol {
 
 .home-motion-stage {
   position: relative;
-  width: 100vw;
-  height: clamp(20rem, 30vw, 24rem);
-  margin-left: calc(50% - 50vw - var(--home-stage-bleed-shift));
-  overflow: visible;
-  border: 0;
-  border-radius: 0;
+  width: 100%;
+  height: clamp(19.5rem, 28vw, 23rem);
+  margin-left: 0;
+  overflow: hidden;
+  border: 1px solid rgba(var(--global-accent-rgb), 0.14);
+  border-radius: 0.65rem;
   background:
-    radial-gradient(circle at 50% 104%, var(--research-motion-bg-b), transparent 36%),
-    linear-gradient(135deg, var(--research-motion-bg-a), var(--research-motion-bg-c));
-  box-shadow: none;
+    radial-gradient(ellipse at 50% 108%, var(--research-motion-bg-b), transparent 42%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, var(--home-sky) 24%, transparent), transparent 32%),
+    radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--home-mint) 18%, transparent), transparent 34%),
+    linear-gradient(180deg, var(--research-motion-bg-a), var(--research-motion-bg-c));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--home-surface) 72%, transparent),
+    0 16px 34px rgba(73, 45, 30, 0.06);
   isolation: isolate;
 }
 
@@ -775,17 +775,29 @@ html[data-theme="dark"] .home-story-rail ol {
   z-index: 1;
   border-radius: inherit;
   background:
-    linear-gradient(to right, var(--global-bg-color), transparent 7rem, transparent calc(100% - 7rem), var(--global-bg-color)),
-    linear-gradient(to bottom, var(--global-bg-color), transparent 4.5rem, transparent calc(100% - 3.5rem), var(--global-bg-color));
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--global-bg-color) 84%, transparent),
+      transparent 5.5rem,
+      transparent calc(100% - 5.5rem),
+      color-mix(in srgb, var(--global-bg-color) 84%, transparent)
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--global-bg-color) 72%, transparent),
+      transparent 30%,
+      transparent 72%,
+      color-mix(in srgb, var(--global-bg-color) 76%, transparent)
+    );
   content: "";
-  opacity: 0.34;
+  opacity: 0.24;
   pointer-events: none;
 }
 
 .home-motion-theme-control {
   position: absolute;
   top: 0.8rem;
-  right: max(1rem, calc((100vw - min(100vw, 1360px)) / 2 + 1rem));
+  right: 1rem;
   z-index: 9;
 }
 
@@ -807,7 +819,7 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-motion-readout {
   position: absolute;
   bottom: 1rem;
-  left: max(1rem, calc((100vw - min(100vw, 1360px)) / 2 + 1rem + (var(--home-stage-bleed-shift) * 2)));
+  left: 1rem;
   z-index: 2;
   display: flex;
   max-width: min(31rem, calc(100% - 2rem));
@@ -1145,17 +1157,13 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 }
 
-@media (min-width: 1360px) {
+@media (min-width: 1500px) {
   body.home-body > .container[role="main"] {
     padding-left: calc(var(--bs-gutter-x, 1.5rem) * 0.5 + 6rem);
   }
 
   .home-story-rail {
     display: block;
-  }
-
-  .home-research-motion {
-    --home-stage-bleed-shift: 3rem;
   }
 }
 

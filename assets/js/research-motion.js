@@ -50,13 +50,13 @@
 
     const palette = () => ({
       bgA: cssVar("--research-motion-bg-a", "#fffaf6"),
-      bgB: cssVar("--research-motion-bg-b", "#ffe3cb"),
-      bgC: cssVar("--research-motion-bg-c", "#dceee7"),
-      lineA: cssVar("--research-motion-line-a", "#e76f37"),
-      lineB: cssVar("--research-motion-line-b", "#f3a43f"),
-      lineC: cssVar("--research-motion-line-c", "#3d8c82"),
-      dot: cssVar("--research-motion-dot", "#bf5c2a"),
-      glow: cssVar("--research-motion-glow", "rgba(217, 107, 53, 0.28)"),
+      bgB: cssVar("--research-motion-bg-b", "rgba(178, 214, 242, 0.36)"),
+      bgC: cssVar("--research-motion-bg-c", "#f7fbfb"),
+      lineA: cssVar("--research-motion-line-a", "#4f9bd8"),
+      lineB: cssVar("--research-motion-line-b", "#f2b36a"),
+      lineC: cssVar("--research-motion-line-c", "#5daea3"),
+      dot: cssVar("--research-motion-dot", "#2f7ec7"),
+      glow: cssVar("--research-motion-glow", "rgba(79, 155, 216, 0.1)"),
     });
 
     const plotBounds = () => {
@@ -90,9 +90,9 @@
       const mobile = state.width < 560;
       const tablet = state.width < 920;
       state.geometry = {
-        design: makeSeries(mobile ? 28 : tablet ? 40 : 52),
-        evaluate: makeSeries(mobile ? 24 : tablet ? 32 : 40),
-        situated: makeSeries(mobile ? 30 : tablet ? 40 : 48),
+        design: makeSeries(mobile ? 22 : tablet ? 32 : 38),
+        evaluate: makeSeries(mobile ? 20 : tablet ? 28 : 34),
+        situated: makeSeries(mobile ? 24 : tablet ? 32 : 38),
       };
     };
 
@@ -122,14 +122,14 @@
 
     const drawBackground = (pal) => {
       const { width, height } = state;
-      const base = ctx.createLinearGradient(0, 0, width, height);
+      const base = ctx.createLinearGradient(0, 0, 0, height);
       base.addColorStop(0, pal.bgA);
-      base.addColorStop(0.52, pal.bgC);
+      base.addColorStop(0.56, pal.bgC);
       base.addColorStop(1, pal.bgA);
       ctx.fillStyle = base;
       ctx.fillRect(0, 0, width, height);
 
-      const glow = ctx.createRadialGradient(width * 0.5, height * 1.02, 0, width * 0.5, height * 1.02, Math.max(width, height) * 0.7);
+      const glow = ctx.createRadialGradient(width * 0.5, height * 1.06, 0, width * 0.5, height * 1.06, Math.max(width, height) * 0.58);
       glow.addColorStop(0, pal.bgB);
       glow.addColorStop(0.42, pal.glow);
       glow.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -178,7 +178,7 @@
       const top = b.top + b.height * 0.05;
       const bottom = b.bottom - b.height * 0.05;
 
-      beginMode(pal, 0.54 * alpha, state.width < 560 ? 0.75 : 0.95);
+      beginMode(pal, 0.34 * alpha, state.width < 560 ? 0.7 : 0.82);
 
       series.forEach(({ index, t, phase }) => {
         const y0 = lerp(top, bottom, t) + Math.sin(time * 0.7 + phase) * b.height * 0.025;
@@ -193,12 +193,12 @@
         ctx.stroke();
 
         if (index % 4 === 0) {
-          drawDot(leftX, y0, state.width < 560 ? 1.3 : 1.7, pal.dot, 0.62 * alpha);
-          drawDot(rightX, y1, state.width < 560 ? 1.2 : 1.55, pal.dot, 0.5 * alpha);
+          drawDot(leftX, y0, state.width < 560 ? 1.2 : 1.5, pal.dot, 0.44 * alpha);
+          drawDot(rightX, y1, state.width < 560 ? 1.1 : 1.4, pal.dot, 0.38 * alpha);
         }
       });
 
-      ctx.globalAlpha = 0.28 * alpha;
+      ctx.globalAlpha = 0.18 * alpha;
       ctx.strokeStyle = pal.lineC;
       ctx.lineWidth = 1;
       [0.38, 0.5, 0.62].forEach((mark) => {
@@ -210,7 +210,7 @@
       });
 
       endMode();
-      drawDot(centerX, centerY, state.width < 560 ? 3 : 4, pal.lineB, 0.9 * alpha);
+      drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
     };
 
     const drawEvaluate = (time, pal, alpha = 1) => {
@@ -220,7 +220,7 @@
       const top = b.top + b.height * 0.07;
       const pointerLift = (0.5 - state.pointer.y) * b.height * 0.18 * state.pointer.intent;
 
-      beginMode(pal, 0.18 * alpha, 1);
+      beginMode(pal, 0.14 * alpha, 1);
       ctx.strokeStyle = pal.lineC;
       [0.25, 0.5, 0.75].forEach((mark) => {
         const y = lerp(top, floor, mark);
@@ -231,7 +231,7 @@
       });
       endMode();
 
-      beginMode(pal, 0.42 * alpha, state.width < 560 ? 0.75 : 0.95);
+      beginMode(pal, 0.32 * alpha, state.width < 560 ? 0.7 : 0.82);
       series.forEach(({ index, t, phase }) => {
         const x = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, t);
         const evidence = 0.35 + 0.32 * Math.sin(t * Math.PI) + 0.07 * Math.sin(time * 0.85 + phase);
@@ -244,12 +244,12 @@
         ctx.stroke();
 
         if (index % 3 === 0) {
-          drawDot(x, clamp(probeTop, top, floor), state.width < 560 ? 1.35 : 1.75, pal.dot, 0.62 * alpha);
+          drawDot(x, clamp(probeTop, top, floor), state.width < 560 ? 1.2 : 1.5, pal.dot, 0.48 * alpha);
         }
       });
       endMode();
 
-      beginMode(pal, 0.72 * alpha, state.width < 560 ? 1 : 1.2);
+      beginMode(pal, 0.54 * alpha, state.width < 560 ? 0.9 : 1.05);
       ctx.beginPath();
       series.forEach(({ t, phase }, index) => {
         const x = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, t);
@@ -260,9 +260,9 @@
       ctx.stroke();
 
       const scanX = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, state.reduceMotion ? 0.58 : (time * 0.07) % 1);
-      ctx.globalAlpha = 0.45 * alpha;
+      ctx.globalAlpha = 0.32 * alpha;
       ctx.strokeStyle = pal.lineB;
-      ctx.lineWidth = state.width < 560 ? 1.3 : 1.8;
+      ctx.lineWidth = state.width < 560 ? 1.1 : 1.45;
       ctx.beginPath();
       ctx.moveTo(scanX, top);
       ctx.lineTo(scanX, floor);
@@ -285,14 +285,14 @@
         { x: b.left + b.width * 0.28, y: b.top + b.height * 0.8 },
       ];
 
-      beginMode(pal, 0.16 * alpha, 1);
+      beginMode(pal, 0.12 * alpha, 1);
       ctx.strokeStyle = pal.lineC;
       ctx.beginPath();
       ctx.ellipse(centerX, centerY, radiusX * 0.42, radiusY * 0.5, 0, 0, Math.PI * 2);
       ctx.stroke();
       endMode();
 
-      beginMode(pal, 0.48 * alpha, state.width < 560 ? 0.75 : 0.95);
+      beginMode(pal, 0.34 * alpha, state.width < 560 ? 0.7 : 0.82);
       series.forEach(({ index, t, phase }) => {
         const source = anchors[index % anchors.length];
         const angle = Math.PI * 2 * t + Math.sin(time * 0.45 + phase) * 0.08;
@@ -313,15 +313,15 @@
         ctx.stroke();
 
         if (index % 6 === 0) {
-          drawDot(targetX, targetY, state.width < 560 ? 1.3 : 1.75, pal.dot, 0.55 * alpha);
+          drawDot(targetX, targetY, state.width < 560 ? 1.2 : 1.5, pal.dot, 0.42 * alpha);
         }
       });
       endMode();
 
       anchors.forEach((anchor, index) => {
-        drawDot(anchor.x, anchor.y, state.width < 560 ? 2.2 : 2.8, index % 2 ? pal.lineC : pal.lineA, 0.82 * alpha);
+        drawDot(anchor.x, anchor.y, state.width < 560 ? 2 : 2.55, index % 2 ? pal.lineC : pal.lineA, 0.72 * alpha);
       });
-      drawDot(centerX, centerY, state.width < 560 ? 3.4 : 4.4, pal.lineB, 0.92 * alpha);
+      drawDot(centerX, centerY, state.width < 560 ? 3 : 3.8, pal.lineB, 0.78 * alpha);
     };
 
     const drawMode = (mode, time, pal, alpha) => {
