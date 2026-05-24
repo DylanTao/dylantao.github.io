@@ -43,13 +43,13 @@
   --global-newsletter-text-color: #{v.$black-color};
 
   --research-motion-bg-a: #fffaf6;
-  --research-motion-bg-b: #ffe3cb;
-  --research-motion-bg-c: #dceee7;
+  --research-motion-bg-b: rgba(255, 218, 190, 0.64);
+  --research-motion-bg-c: #f6fbf8;
   --research-motion-line-a: #e76f37;
   --research-motion-line-b: #f3a43f;
   --research-motion-line-c: #3d8c82;
   --research-motion-dot: #bf5c2a;
-  --research-motion-glow: rgba(217, 107, 53, 0.28);
+  --research-motion-glow: rgba(217, 107, 53, 0.12);
 
   --global-tip-block: #42b983;
   --global-tip-block-bg: #e2f5ec;
@@ -100,13 +100,13 @@ html[data-theme-mode="noon"] {
   --global-card-bg-color: #ffffff;
 
   --research-motion-bg-a: #fbfdff;
-  --research-motion-bg-b: #dff1ff;
-  --research-motion-bg-c: #fff0d5;
+  --research-motion-bg-b: rgba(219, 239, 255, 0.58);
+  --research-motion-bg-c: #fffdf8;
   --research-motion-line-a: #2d8bd4;
   --research-motion-line-b: #cf6a2f;
   --research-motion-line-c: #37a27f;
   --research-motion-dot: #1667c4;
-  --research-motion-glow: rgba(45, 139, 212, 0.22);
+  --research-motion-glow: rgba(45, 139, 212, 0.1);
 }
 
 html[data-theme-mode="afternoon"] {
@@ -126,13 +126,13 @@ html[data-theme-mode="afternoon"] {
   --global-card-bg-color: #fffdfb;
 
   --research-motion-bg-a: #fff8f1;
-  --research-motion-bg-b: #ffd9c7;
-  --research-motion-bg-c: #eee8fb;
+  --research-motion-bg-b: rgba(255, 214, 195, 0.58);
+  --research-motion-bg-c: #fff9f4;
   --research-motion-line-a: #dd684b;
   --research-motion-line-b: #d38c43;
   --research-motion-line-c: #8068c8;
   --research-motion-dot: #bd4a7d;
-  --research-motion-glow: rgba(221, 104, 75, 0.24);
+  --research-motion-glow: rgba(221, 104, 75, 0.12);
 }
 
 html[data-theme="dark"],
@@ -168,13 +168,13 @@ html[data-theme-mode="evening"] {
   --global-newsletter-text-color: #{v.$grey-color-dark};
 
   --research-motion-bg-a: #211c19;
-  --research-motion-bg-b: #34253f;
-  --research-motion-bg-c: #0f2d32;
+  --research-motion-bg-b: rgba(78, 55, 91, 0.62);
+  --research-motion-bg-c: #25201d;
   --research-motion-line-a: #ffad7a;
   --research-motion-line-b: #c8b6ff;
   --research-motion-line-c: #8ed6c3;
   --research-motion-dot: #ffd7bd;
-  --research-motion-glow: rgba(255, 173, 122, 0.26);
+  --research-motion-glow: rgba(255, 173, 122, 0.14);
 
   --global-tip-block: #42b983;
   --global-tip-block-bg: #215d42;

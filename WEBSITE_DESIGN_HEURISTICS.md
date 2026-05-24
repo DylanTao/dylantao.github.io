@@ -38,6 +38,8 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - The global time-of-day themes should change atmosphere without changing the research story: morning is gentle, noon is clearest, afternoon is warmer and more exploratory, evening is quiet and dark.
 - Theme palettes need hue variety and contrast, not four versions of the same orange wash.
 - Time-of-day themes should default from the visitor's local time. Manual changes can be remembered within the current session, then return to the time-based rule on a future visit.
+- If a page stays open across a time boundary, automatic theme changes are allowed only when the visitor has not manually picked a theme in that session.
+- Theme backgrounds should stay clean. Use pastel atmosphere as a soft field, not as muddy color spread across every surface.
 
 ## Project Images
 
@@ -165,12 +167,14 @@ For sitewide passes:
 - AI in Design 2026 is useful for framing the moment: infinite output, craft, taste, tool fluency, role blur, and messy collaboration.
 - The site should remain a personal academic portfolio with research credibility first.
 - Give credit where credit is due. Inspiration, reports, talks, books, collaborators, and tools should be cited plainly when they shaped the work.
+- Source credit is part of design craft. Cite the artifact or person near the lesson they shaped, but keep credit quieter than the main story.
 
 ## Process Artifacts
 
 - A project page or blog post about the website should teach the design process, not just display screenshots.
 - Show before/after evidence, name the critique loop, and explain what changed because of taste, not just because it was possible.
 - Process writing should be reusable by students: include the heuristics, prompts, constraints, and reflective-practice lessons that helped the work improve.
+- Teaching artifacts should let students inspect the method, not only admire the result. If a heuristic file is central, preview it before asking people to download it.
 - When using AI coding help, describe the human design judgment and review loop. The agent is part of the workflow, not the author of taste.
 
 ## Stripe Lessons, Adapted
@@ -196,3 +200,9 @@ For sitewide passes:
 - Reduced-motion mode should render a still composition for the selected mode, not hide the idea.
 - Stop animation when offscreen or when the tab is hidden.
 - Local theme controls can sit near the thing they affect, but they must mirror the global theme state exactly. No second, hidden source of truth.
+
+## Maintenance And CI
+
+- Formatter drift is design debt. Pin formatter versions locally and in CI so the same file does not pass on one machine and fail on GitHub.
+- Treat generated or vendored third-party bundles as dependencies. Prefer excluding them from project-specific static analysis over hand-editing minified or generated code.
+- If demo content exists only to show theme features, unpublish it from the public portfolio until it becomes part of Sirui's real story.

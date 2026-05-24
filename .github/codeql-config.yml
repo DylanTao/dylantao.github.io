@@ -1,0 +1,5 @@
+name: "CodeQL config"
+
+paths-ignore:
+  - assets/js/distillpub/template.v2.js
+  - assets/js/distillpub/template.v2.js.map

@@ -3,7 +3,27 @@
     <p class="home-kicker">{{ page.hero.eyebrow }}</p>
     <h1 id="home-title" class="home-title">{{ page.hero.title }}</h1>
     <p class="home-lede">{{ page.hero.lede }}</p>
-    <p class="home-affiliation">{{ page.hero.affiliation }}</p>
+    {% if page.hero.affiliation_lines %}
+      <p class="home-affiliation">
+        {%- for line in page.hero.affiliation_lines %}
+          <span>
+            {%- if line.parts -%}
+              {%- for part in line.parts -%}
+                {%- if part.url -%}
+                  <a href="{{ part.url }}" target="_blank" rel="noopener noreferrer">{{- part.text -}}</a>
+                {%- else -%}
+                  {{- part.text -}}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {{- line.text -}}
+            {%- endif -%}
+          </span>
+        {%- endfor %}
+      </p>
+    {% elsif page.hero.affiliation %}
+      <p class="home-affiliation">{{ page.hero.affiliation }}</p>
+    {% endif %}
 
     <div class="home-actions" aria-label="Primary actions">
       <a class="home-btn home-btn-primary" href="{{ page.hero.primary_cta.url | relative_url }}">
@@ -13,7 +33,13 @@
       <a class="home-btn home-btn-secondary" href="{{ page.hero.secondary_cta.url | relative_url }}">
         {{ page.hero.secondary_cta.label }}
       </a>
-      <a class="home-btn home-btn-quiet" href="{{ page.hero.tertiary_cta.url }}">
+      <a
+        class="home-btn home-btn-quiet"
+        href="{{ page.hero.tertiary_cta.url }}"
+        {% if page.hero.tertiary_cta.external %}
+          target="_blank" rel="noopener noreferrer"
+        {% endif %}
+      >
         {{ page.hero.tertiary_cta.label }}
       </a>
     </div>
@@ -23,7 +49,19 @@
         {% for item in page.credibility %}
           <div class="home-cred-item">
             <span>{{ item.label }}</span>
-            <strong>{{ item.value }}</strong>
+            {% if item.url %}
+              <a
+                class="home-cred-link"
+                href="{{ item.url }}"
+                {% if item.external %}
+                  target="_blank" rel="noopener noreferrer"
+                {% endif %}
+              >
+                <strong>{{ item.value }}</strong>
+              </a>
+            {% else %}
+              <strong>{{ item.value }}</strong>
+            {% endif %}
           </div>
         {% endfor %}
       </div>

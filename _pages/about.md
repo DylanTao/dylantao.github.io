@@ -19,7 +19,16 @@ hero:
   eyebrow: Design judgment + human-centered AI
   title: Making AI tools that sharpen design judgment.
   lede: "I build and study interfaces that help people think, design, and build with AI: exploring possibilities, seeing tradeoffs, and developing taste over time."
-  affiliation: Cognitive Science Ph.D. student at UC San Diego, advised by Prof. Steven P. Dow in ProtoLab.
+  affiliation_lines:
+    - text: Cognitive Science Ph.D. student at UC San Diego
+    - parts:
+        - text: "Advised by Prof. "
+        - text: Steven P. Dow
+          url: https://spdow.ucsd.edu/
+        - text: " in "
+        - text: ProtoLab
+          url: https://protolab.ucsd.edu/
+        - text: "."
   primary_cta:
     label: See publications
     url: /publications/
@@ -28,13 +37,16 @@ hero:
     url: /projects/
   tertiary_cta:
     label: Contact
-    url: mailto:s1tao@ucsd.edu
+    url: https://www.linkedin.com/in/siruitao/
+    external: true
 
 credibility:
   - label: Thesis thread
     value: Scaffolding for Taste
   - label: Home base
-    value: UCSD ProtoLab
+    value: UCSD Design Lab
+    url: https://designlab.ucsd.edu/
+    external: true
   - label: Methods
     value: Build, test, iterate
 

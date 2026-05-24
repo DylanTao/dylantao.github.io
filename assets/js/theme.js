@@ -2,6 +2,8 @@
 
 const themeModes = ["morning", "noon", "afternoon", "evening"];
 const themeStorageKey = "theme";
+const themeManualStorageKey = "theme-manual";
+let themeBoundaryTimer = null;
 const themeModeMeta = {
   morning: { label: "Morning", icon: "fa-cloud-sun", computedTheme: "light" },
   noon: { label: "Noon", icon: "fa-sun", computedTheme: "light" },
@@ -17,17 +19,18 @@ let toggleThemeSetting = () => {
 };
 
 // Change the theme setting and apply the compatible light/dark theme.
-let setThemeSetting = (themeSetting, options = { persist: true }) => {
+let setThemeSetting = (themeSetting, options = { persist: true, manual: true }) => {
   const nextThemeSetting = normalizeThemeSetting(themeSetting);
 
   if (options.persist) {
-    writeSessionThemeSetting(nextThemeSetting);
+    writeSessionThemeSetting(nextThemeSetting, options.manual !== false);
   }
 
   document.documentElement.setAttribute("data-theme-setting", nextThemeSetting);
   document.documentElement.setAttribute("data-theme-mode", nextThemeSetting);
 
   applyTheme();
+  scheduleAutomaticThemeCheck();
 };
 
 // Apply the computed dark or light theme to integrations while preserving the richer mode.
@@ -303,9 +306,20 @@ let readSessionThemeSetting = () => {
   }
 };
 
-let writeSessionThemeSetting = (themeSetting) => {
+let hasManualThemeSetting = () => {
+  try {
+    return sessionStorage.getItem(themeManualStorageKey) === "true" && themeModes.includes(sessionStorage.getItem(themeStorageKey));
+  } catch {
+    return false;
+  }
+};
+
+let writeSessionThemeSetting = (themeSetting, manual = true) => {
   try {
     sessionStorage.setItem(themeStorageKey, themeSetting);
+    if (manual) {
+      sessionStorage.setItem(themeManualStorageKey, "true");
+    }
   } catch {
     // Some privacy modes can block storage; local time fallback still works.
   }
@@ -316,7 +330,7 @@ let readLegacyThemeSetting = () => {
     const legacy = localStorage.getItem(themeStorageKey);
     if (legacy) {
       localStorage.removeItem(themeStorageKey);
-      writeSessionThemeSetting(legacy);
+      writeSessionThemeSetting(legacy, true);
     }
     return legacy;
   } catch {
@@ -327,6 +341,42 @@ let readLegacyThemeSetting = () => {
 // Determine the expected theme mode for this browser session.
 let determineThemeSetting = () => {
   return normalizeThemeSetting(readSessionThemeSetting() || readLegacyThemeSetting());
+};
+
+let msUntilNextThemeBoundary = () => {
+  const now = new Date();
+  const next = new Date(now);
+  const hour = now.getHours();
+  const boundaries = [5, 11, 15, 20];
+  const nextHour = boundaries.find((boundary) => hour < boundary);
+
+  if (nextHour === undefined) {
+    next.setDate(next.getDate() + 1);
+    next.setHours(5, 0, 0, 0);
+  } else {
+    next.setHours(nextHour, 0, 0, 0);
+  }
+
+  return Math.max(1000, next.getTime() - now.getTime() + 1000);
+};
+
+let applyAutomaticThemeIfNeeded = () => {
+  if (hasManualThemeSetting()) return;
+  const nextMode = determineDefaultThemeMode();
+  if (document.documentElement.getAttribute("data-theme-mode") !== nextMode) {
+    setThemeSetting(nextMode, { persist: false, manual: false });
+  }
+};
+
+let scheduleAutomaticThemeCheck = () => {
+  window.clearTimeout(themeBoundaryTimer);
+  themeBoundaryTimer = window.setTimeout(
+    () => {
+      applyAutomaticThemeIfNeeded();
+      scheduleAutomaticThemeCheck();
+    },
+    Math.min(msUntilNextThemeBoundary(), 2147483647)
+  );
 };
 
 // Determine the compatible theme, which can be "dark" or "light".
@@ -443,7 +493,14 @@ let setupThemeModeControl = () => {
 };
 
 let initTheme = () => {
-  setThemeSetting(determineThemeSetting(), { persist: false });
+  setThemeSetting(determineThemeSetting(), { persist: false, manual: false });
+  scheduleAutomaticThemeCheck();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      applyAutomaticThemeIfNeeded();
+    }
+  });
 
   document.addEventListener("DOMContentLoaded", function () {
     setupThemeModeControl();

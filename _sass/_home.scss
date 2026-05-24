@@ -116,6 +116,25 @@ html[data-theme="dark"] .home-story-rail ol {
   color: var(--home-accent-strong);
 }
 
+.home-affiliation a {
+  color: inherit;
+  text-decoration-color: rgba(var(--global-accent-rgb), 0.28);
+}
+
+.home-affiliation span {
+  display: block;
+}
+
+.home-cred-link {
+  display: inline-flex;
+  color: inherit !important;
+  text-decoration: none;
+}
+
+.home-cred-link:hover strong {
+  color: var(--home-accent-strong);
+}
+
 .home-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
@@ -337,8 +356,8 @@ html[data-theme="dark"] .home-story-rail ol {
   grid-area: bubbles;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.05rem;
-  width: min(36rem, 100%);
+  gap: 0.9rem;
+  width: min(31.5rem, 100%);
   align-items: start;
 }
 
@@ -365,7 +384,7 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-media-card-secondary {
-  --home-bubble-x: -0.75rem;
+  --home-bubble-x: -0.55rem;
   --home-bubble-y: 2.65rem;
   align-self: start;
   border-color: color-mix(in srgb, var(--home-mint-strong) 26%, var(--home-line));
@@ -380,7 +399,7 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-media-card-primary {
-  --home-bubble-x: 0.85rem;
+  --home-bubble-x: 0.35rem;
   --home-bubble-y: -1.15rem;
   border-color: color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
   transform: translate(var(--home-bubble-x), var(--home-bubble-y));
@@ -603,9 +622,9 @@ html[data-theme="dark"] .home-story-rail ol {
   width: 100vw;
   height: min(44rem, 92%);
   background:
-    radial-gradient(circle at 50% 46%, rgba(var(--global-accent-rgb), 0.1), transparent 38%),
-    radial-gradient(circle at 18% 52%, var(--research-motion-glow), transparent 34%),
-    radial-gradient(circle at 82% 58%, color-mix(in srgb, var(--home-sky) 48%, transparent), transparent 36%);
+    radial-gradient(circle at 50% 48%, rgba(var(--global-accent-rgb), 0.065), transparent 40%),
+    radial-gradient(circle at 18% 54%, var(--research-motion-glow), transparent 36%),
+    radial-gradient(circle at 82% 58%, color-mix(in srgb, var(--home-sky) 28%, transparent), transparent 38%);
   content: "";
   opacity: 0.42;
   pointer-events: none;
@@ -729,7 +748,7 @@ html[data-theme="dark"] .home-story-rail ol {
   border: 0;
   border-radius: 0;
   background:
-    radial-gradient(circle at 50% 100%, var(--research-motion-bg-b), transparent 42%),
+    radial-gradient(circle at 50% 104%, var(--research-motion-bg-b), transparent 36%),
     linear-gradient(135deg, var(--research-motion-bg-a), var(--research-motion-bg-c));
   box-shadow: none;
   isolation: isolate;

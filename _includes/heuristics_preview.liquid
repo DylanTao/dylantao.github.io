@@ -1,0 +1,37 @@
+{% assign heuristics_title = include.title | default: 'Website design heuristics' %}
+{% assign heuristics_intro = include.intro
+  | default: 'A living markdown checklist for critiquing portfolio pages with clarity, restraint, and reflective practice.'
+%}
+{% assign heuristics_src = include.src | default: '/WEBSITE_DESIGN_HEURISTICS.md' %}
+{% assign heuristics_id = include.id_prefix | default: 'website-heuristics-preview' %}
+
+<section
+  class="website-heuristics-preview"
+  data-heuristics-preview
+  data-heuristics-src="{{ heuristics_src | relative_url }}"
+  aria-labelledby="{{ heuristics_id }}-title"
+>
+  <div class="website-heuristics-preview-header">
+    <div>
+      <p class="project-case-kicker">Living design memory</p>
+      <h2 id="{{ heuristics_id }}-title">{{ heuristics_title }}</h2>
+      <p>{{ heuristics_intro }}</p>
+    </div>
+    <div class="website-heuristics-preview-actions">
+      <button type="button" data-heuristics-copy disabled>
+        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+        <span>Copy</span>
+      </button>
+      <a href="{{ heuristics_src | relative_url }}" download>
+        <i class="fa-solid fa-download" aria-hidden="true"></i>
+        <span>Download</span>
+      </a>
+      <a href="{{ heuristics_src | relative_url }}">
+        <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+        <span>Source</span>
+      </a>
+    </div>
+  </div>
+  <pre class="website-heuristics-preview-scroll" tabindex="0"><code data-heuristics-content>Loading heuristics...</code></pre>
+  <p class="website-heuristics-preview-status" data-heuristics-status aria-live="polite"></p>
+</section>

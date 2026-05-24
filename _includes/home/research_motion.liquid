@@ -1,9 +1,17 @@
 {% if page.research_motion %}
-  <section id="focus" class="home-section home-research-motion home-reveal" data-home-section="focus" aria-labelledby="home-motion-title">
+  {% assign motion_section_id = include.section_id | default: 'focus' %}
+  {% assign motion_section_key = include.section_key | default: motion_section_id %}
+  <section
+    id="{{ motion_section_id }}"
+    class="home-section home-research-motion home-reveal"
+    data-home-section="{{ motion_section_key }}"
+    data-research-motion-section
+    aria-labelledby="{{ motion_section_id }}-title"
+  >
     <div class="home-motion-intro">
       <div class="home-section-heading">
         <p class="home-kicker">{{ page.research_motion.eyebrow }}</p>
-        <h2 id="home-motion-title">{{ page.research_motion.title }}</h2>
+        <h2 id="{{ motion_section_id }}-title">{{ page.research_motion.title }}</h2>
         <p>{{ page.research_motion.intro }}</p>
       </div>
 

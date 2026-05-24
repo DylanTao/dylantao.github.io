@@ -2,7 +2,7 @@
 layout: post
 title: what I learned redesigning my website with an AI coding agent
 date: 2026-05-23 10:00:00
-description: A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio in a day.
+description: A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days.
 tags: design gen-ai portfolio teaching cogs125 reflection
 categories: reflections
 related_posts: false
@@ -10,9 +10,10 @@ blog_nav_pool: personal
 blog_nav_track: research
 blog_nav_stage: 5
 permalink: /blog/2026/website-redesign-ai-agent/
+heuristics_preview: true
 ---
 
-I redesigned this website in a day with Codex and a lot of screenshot critique.
+I redesigned this website over two days with Codex and a lot of screenshot critique.
 That sounds like a speed story, but the better lesson is about taste.
 
 Fast tools make it easy to produce more interface. They do not automatically
@@ -27,14 +28,17 @@ cooler." It was:
 6. Write the lesson back into a heuristics file.
 
 That last step matters. I wanted this to become a teaching artifact for COGS
-125, Advanced Interaction Design, where I am a TA. Students often hear "make it
-clearer" or "use better hierarchy," but those phrases can stay abstract. A
+125, Advanced Interaction Design, where I am a TA in Winter 2026. A lot of
+students are just starting to use AI to build portfolio websites for course
+projects. "Make it clearer" or "use better hierarchy" can stay abstract; a
 living markdown file gives the critique something to hold onto.
 
 <p class="website-revamp-cta">
   <a href="{{ '/WEBSITE_DESIGN_HEURISTICS.md' | relative_url }}" download>Download the heuristics MD</a>
   <a href="{{ '/projects/website-revamp/' | relative_url }}">Open the case study</a>
 </p>
+
+{% include heuristics_preview.liquid title='Preview the heuristics' intro='This is the same living markdown file I want students to adapt, critique, and hand to their own AI agents.' %}
 
 ## The site before the loop
 
