@@ -3,11 +3,18 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const revealItems = Array.from(document.querySelectorAll(".home-reveal"));
 
-  root.classList.add("home-motion-ready");
+  const isAlreadyReadable = (item) => {
+    const rect = item.getBoundingClientRect();
+    return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+  };
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
     revealItems.forEach((item) => item.classList.add("home-visible"));
   } else {
+    revealItems.forEach((item) => {
+      if (isAlreadyReadable(item)) item.classList.add("home-visible");
+    });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -21,6 +28,8 @@
 
     revealItems.forEach((item) => observer.observe(item));
   }
+
+  root.classList.add("home-motion-ready");
 
   const sectionItems = Array.from(document.querySelectorAll("[data-home-section]"));
   const railLinks = Array.from(document.querySelectorAll("[data-home-rail-link]"));

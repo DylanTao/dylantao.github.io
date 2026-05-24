@@ -25,6 +25,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Every ounce of ink should matter, whether it is black text, colored text, a border, a card, a shadow, or a line.
 - Repeated information is useful only when it improves orientation; remove it when it merely restates the same claim.
 - Pinned content is a route into the work, not a reason to remove that work from the chronological archive.
+- Line breaks are part of hierarchy. If a phrase leaves one orphan word on a line, adjust width, type size, or copy before accepting the wrap.
 
 ## Color
 
@@ -36,6 +37,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Colored ink should mean action, active state, status, or a deliberate semantic grouping. Do not use a tinted card because a section feels empty.
 - The global time-of-day themes should change atmosphere without changing the research story: morning is gentle, noon is clearest, afternoon is warmer and more exploratory, evening is quiet and dark.
 - Theme palettes need hue variety and contrast, not four versions of the same orange wash.
+- Time-of-day themes should default from the visitor's local time. Manual changes can be remembered within the current session, then return to the time-based rule on a future visit.
 
 ## Project Images
 
@@ -57,6 +59,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Autoplay is acceptable only when it is slow, pausable by leaving the viewport/tab, and visually secondary to the words.
 - If an animation competes with the explanation, change the layout before decorating the animation. Claim and controls should come before the moving field.
 - Draw inside intentional bounds. Clipping should never be the default way to create drama.
+- Ambient motion may echo the main interaction, but it should be quieter than the text, strongest near the relevant section, and absent under reduced motion.
 
 ## Navigation
 
@@ -160,6 +163,14 @@ For sitewide passes:
 - Do not copy Stripe's company-site goals, heavy sales posture, or brand spectacle.
 - AI in Design 2026 is useful for framing the moment: infinite output, craft, taste, tool fluency, role blur, and messy collaboration.
 - The site should remain a personal academic portfolio with research credibility first.
+- Give credit where credit is due. Inspiration, reports, talks, books, collaborators, and tools should be cited plainly when they shaped the work.
+
+## Process Artifacts
+
+- A project page or blog post about the website should teach the design process, not just display screenshots.
+- Show before/after evidence, name the critique loop, and explain what changed because of taste, not just because it was possible.
+- Process writing should be reusable by students: include the heuristics, prompts, constraints, and reflective-practice lessons that helped the work improve.
+- When using AI coding help, describe the human design judgment and review loop. The agent is part of the workflow, not the author of taste.
 
 ## Stripe Lessons, Adapted
 

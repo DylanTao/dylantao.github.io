@@ -7,6 +7,7 @@
   const canvas = wrap.querySelector("[data-research-motion-canvas]");
   const ctx = canvas.getContext("2d");
   const buttons = Array.from(section.querySelectorAll("[data-research-mode]"));
+  const details = Array.from(section.querySelectorAll("[data-research-detail]"));
   const readout = section.querySelector("[data-research-motion-readout]");
   const readoutSummary = section.querySelector(".home-motion-readout strong");
   const status = section.querySelector("[data-research-motion-status]");
@@ -389,6 +390,12 @@
       const isActive = button.getAttribute("data-research-mode") === state.mode;
       button.classList.toggle("is-active", isActive);
       button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    details.forEach((detail) => {
+      const isActive = detail.getAttribute("data-research-detail") === state.mode;
+      detail.hidden = !isActive;
+      detail.classList.toggle("is-active", isActive);
     });
 
     const activeButton = buttons.find((button) => button.getAttribute("data-research-mode") === state.mode);

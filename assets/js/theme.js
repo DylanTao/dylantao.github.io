@@ -1,6 +1,7 @@
 // Has to be in the head tag, otherwise a flicker effect will occur.
 
 const themeModes = ["morning", "noon", "afternoon", "evening"];
+const themeStorageKey = "theme";
 const themeModeMeta = {
   morning: { label: "Morning", icon: "fa-cloud-sun", computedTheme: "light" },
   noon: { label: "Noon", icon: "fa-sun", computedTheme: "light" },
@@ -20,7 +21,7 @@ let setThemeSetting = (themeSetting, options = { persist: true }) => {
   const nextThemeSetting = normalizeThemeSetting(themeSetting);
 
   if (options.persist) {
-    localStorage.setItem("theme", nextThemeSetting);
+    writeSessionThemeSetting(nextThemeSetting);
   }
 
   document.documentElement.setAttribute("data-theme-setting", nextThemeSetting);
@@ -294,9 +295,38 @@ let determineDefaultThemeMode = () => {
   return "evening";
 };
 
-// Determine the expected persisted theme mode.
+let readSessionThemeSetting = () => {
+  try {
+    return sessionStorage.getItem(themeStorageKey);
+  } catch {
+    return null;
+  }
+};
+
+let writeSessionThemeSetting = (themeSetting) => {
+  try {
+    sessionStorage.setItem(themeStorageKey, themeSetting);
+  } catch {
+    // Some privacy modes can block storage; local time fallback still works.
+  }
+};
+
+let readLegacyThemeSetting = () => {
+  try {
+    const legacy = localStorage.getItem(themeStorageKey);
+    if (legacy) {
+      localStorage.removeItem(themeStorageKey);
+      writeSessionThemeSetting(legacy);
+    }
+    return legacy;
+  } catch {
+    return null;
+  }
+};
+
+// Determine the expected theme mode for this browser session.
 let determineThemeSetting = () => {
-  return normalizeThemeSetting(localStorage.getItem("theme"));
+  return normalizeThemeSetting(readSessionThemeSetting() || readLegacyThemeSetting());
 };
 
 // Determine the compatible theme, which can be "dark" or "light".

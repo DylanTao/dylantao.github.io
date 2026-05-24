@@ -70,6 +70,7 @@ body.sticky-bottom-footer {
   font-size: 1.03rem;
   line-height: 1.65;
   max-width: 52rem;
+  text-wrap: pretty;
 }
 
 .page-intro {
@@ -78,6 +79,7 @@ body.sticky-bottom-footer {
 
 .post article {
   line-height: 1.7;
+  text-wrap: pretty;
 }
 
 .post article h2 {

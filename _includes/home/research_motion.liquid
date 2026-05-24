@@ -48,22 +48,36 @@
       <p class="sr-only" data-research-motion-status>Showing the Design motion sketch.</p>
     </div>
 
-    {% if page.pillars %}
-      <div class="home-motion-focus" aria-labelledby="home-pillars-title">
-        <div class="home-section-heading">
-          <p class="home-kicker">Research focus</p>
-          <h2 id="home-pillars-title">Where I study judgment in practice.</h2>
-        </div>
-
-        <div class="home-pillars">
-          {% for pillar in page.pillars %}
-            <article class="home-pillar">
-              <span>{{ pillar.label }}</span>
-              <h3>{{ pillar.title }}</h3>
-              <p>{{ pillar.text }}</p>
-            </article>
-          {% endfor %}
-        </div>
+    {% if page.research_motion.modes %}
+      <div class="home-motion-details" aria-live="polite">
+        {% for mode in page.research_motion.modes %}
+          <article
+            class="home-motion-detail{% if forloop.first %} is-active{% endif %}"
+            data-research-detail="{{ mode.id }}"
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
+          >
+            <div>
+              <span>{{ mode.label }} lens</span>
+              <h3>{{ mode.detail_title | default: mode.title }}</h3>
+              <p>{{ mode.detail_text | default: mode.text }}</p>
+            </div>
+            {% if mode.detail_points %}
+              <ul>
+                {% for point in mode.detail_points %}
+                  <li>{{ point }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if mode.link_url %}
+              <a class="home-motion-detail-link" href="{{ mode.link_url | relative_url }}">
+                {{ mode.link_label | default: 'Learn more' }}
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            {% endif %}
+          </article>
+        {% endfor %}
       </div>
     {% endif %}
   </section>

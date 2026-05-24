@@ -71,7 +71,7 @@ why_now:
       text: Fast cycles are useful only if teams keep room for critique, incubation, and explaining why a direction is better.
 
 research_motion:
-  eyebrow: Research motion
+  eyebrow: Research focus
   title: Design, evaluate, situate.
   intro: "A small interactive sketch of the loops I keep studying: generating directions, reading evidence, and grounding assistance in the situation where work happens."
   credit:
@@ -85,25 +85,42 @@ research_motion:
       label: Design
       title: Explore options
       text: Compare generated directions by the dimensions that matter, then open them back into choices worth testing.
+      detail_title: Human-AI for design judgment
+      detail_text: >-
+        I study interfaces that make generated options inspectable: the dimensions, constraints,
+        visual differences, and consequences that help designers decide what is worth developing.
+      detail_points:
+        - Turn vague vibes into visible variables.
+        - Keep alternatives comparable instead of letting them blur together.
+        - Help novices build taste through critique, not just more output.
+      link_label: See DesignWeaver
+      link_url: /projects/designweaver/
     - id: evaluate
       label: Evaluate
       title: Read the evidence
       text: Turn traces, probes, and measures into evidence a team can argue with before a decision hardens.
+      detail_title: Evaluation and measurement
+      detail_text: >-
+        I care about what changes after a tool enters the loop: diversity, verification cost,
+        calibration, reliance, and whether evidence helps people revise the artifact.
+      detail_points:
+        - Measure the tradeoffs people actually need to negotiate.
+        - Surface traces before decisions become invisible.
+        - Treat evaluation as a design material, not just a final score.
+      link_label: Open selected papers
+      link_url: /publications/
     - id: situated
       label: Situated
       title: Work in context
       text: Adapt assistance to the person, task, tool, and physical or social context where action happens.
-
-pillars:
-  - title: Human-AI for Design
-    label: Design judgment
-    text: Interfaces for exploring generated options with visible dimensions, constraints, and consequences.
-  - title: Evaluation and Measurement
-    label: Build -> measure
-    text: Studies and metrics for diversity, verification cost, calibration, reliance, and iteration that actually changes the artifact.
-  - title: Embodied and Mixed Reality
-    label: In-situ intelligence
-    text: Systems that bring context-aware assistance into spatial tasks, mixed reality, and everyday environments.
+      detail_title: Embodied and in-situ intelligence
+      detail_text: I also look at systems that bring context-aware help into spatial tasks, mixed reality, and everyday environments where the right assistance depends on what is happening around the user.
+      detail_points:
+        - Let context change the shape of the interface.
+        - Keep people, tasks, tools, and physical space in the model.
+        - Design assistance that fits the situation instead of interrupting it.
+      link_label: Browse projects
+      link_url: /projects/
 
 announcements:
   enabled: true
