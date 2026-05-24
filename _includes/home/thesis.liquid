@@ -1,16 +1,26 @@
 <section id="taste" class="home-section home-thesis home-reveal" data-home-section="taste" aria-labelledby="home-thesis-title">
   <div class="home-section-heading">
-    <p class="home-kicker">Thesis thread</p>
-    <h2 id="home-thesis-title">Taste is a research problem.</h2>
+    <p class="home-kicker">{{ page.thesis.eyebrow | default: 'Thesis thread' }}</p>
+    <h2 id="home-thesis-title">{{ page.thesis.title | default: 'Taste is a research problem.' }}</h2>
   </div>
   <div class="home-thesis-grid">
     <p class="home-thesis-lead">
-      When AI can generate ten options in a minute, the hard part is not getting more options. It is learning what differs, what matters, and why one
-      direction is worth pursuing.
+      {{
+        page.thesis.lead
+        | default: 'When AI can generate ten options in a minute, the hard part is not getting more options. It is learning what differs, what matters, and why one direction is worth pursuing.'
+      }}
     </p>
     <div class="home-thesis-note">
-      <span>Design principle</span>
-      <p>Good interfaces should make comparison easier: show what changed, what evidence exists, and which decision comes next.</p>
+      <span>{{ page.thesis.principle_label | default: 'Design principle' }}</span>
+      <p>
+        {{
+          page.thesis.principle
+          | default: 'Good interfaces should make comparison easier: show what changed, what evidence exists, and which decision comes next.'
+        }}
+      </p>
     </div>
   </div>
+  {% if page.thesis.domain_note %}
+    <p class="home-thesis-domain">{{ page.thesis.domain_note }}</p>
+  {% endif %}
 </section>

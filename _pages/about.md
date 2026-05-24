@@ -18,7 +18,7 @@ profile:
 hero:
   eyebrow: Design judgment + human-centered AI
   title: Making AI tools that sharpen design judgment.
-  lede: I study how interfaces help designers compare options, reason through tradeoffs, and decide what is worth making.
+  lede: "I build and study interfaces that help people think, design, and build with AI: exploring possibilities, seeing tradeoffs, and developing taste over time."
   affiliation: Cognitive Science Ph.D. student at UC San Diego, advised by Prof. Steven P. Dow in ProtoLab.
   primary_cta:
     label: See publications
@@ -32,7 +32,7 @@ hero:
 
 credibility:
   - label: Thesis thread
-    value: Compare, choose
+    value: Scaffolding for Taste
   - label: Home base
     value: UCSD ProtoLab
   - label: Methods
@@ -53,6 +53,23 @@ story_sections:
     id: students
   - label: Connect
     id: connect
+
+thesis:
+  eyebrow: Thesis thread
+  title: Taste is a research problem.
+  lead: >-
+    My main thesis thread is Scaffolding for Taste: how AI can help people develop taste,
+    discernment, and evaluative judgment in a world of generative abundance. When AI can
+    generate ten options in a minute, the hard part is learning what differs, what matters,
+    and why one direction is worth pursuing.
+  principle_label: Design principle
+  principle: >-
+    Good interfaces should make differences, tradeoffs, consequences, and evidence easier
+    to see, so people can reason about what to try next.
+  domain_note: >-
+    I like applying this to urban design, architecture, interior and product design,
+    fashion, robotics, education, and creative media: places where ideas move from
+    vibes -> variables -> value.
 
 why_now:
   title: Why this work matters now
@@ -83,44 +100,47 @@ research_motion:
   modes:
     - id: design
       label: Design
-      title: Explore options
-      text: Compare generated directions by the dimensions that matter, then open them back into choices worth testing.
-      detail_title: Human-AI for design judgment
+      title: Scaffold creative judgment
+      text: Help people explore generative possibilities in grounded, legible, and human-centered ways.
+      detail_title: Human-AI for design and taste
       detail_text: >-
-        I study interfaces that make generated options inspectable: the dimensions, constraints,
-        visual differences, and consequences that help designers decide what is worth developing.
+        I study interfaces that scaffold creative judgment: helping people explore and refine
+        generative possibilities without losing the dimensions, constraints, and values that
+        make a design worth pursuing.
       detail_points:
-        - Turn vague vibes into visible variables.
-        - Keep alternatives comparable instead of letting them blur together.
-        - Help novices build taste through critique, not just more output.
+        - Make exploration more grounded, legible, and human-centered.
+        - Surface meaningful differences, tradeoffs, and consequences across directions.
+        - Move ideas from vibes to variables to value.
       link_label: See DesignWeaver
       link_url: /projects/designweaver/
     - id: evaluate
       label: Evaluate
-      title: Read the evidence
-      text: Turn traces, probes, and measures into evidence a team can argue with before a decision hardens.
-      detail_title: Evaluation and measurement
+      title: Build -> measure
+      text: Design systems, study use, and turn messy traces into evidence for iteration.
+      detail_title: Methods for evidence and iteration
       detail_text: >-
         I care about what changes after a tool enters the loop: diversity, verification cost,
-        calibration, reliance, and whether evidence helps people revise the artifact.
+        calibration, appropriate reliance, and whether traces help people revise the artifact
+        after deployment.
       detail_points:
-        - Measure the tradeoffs people actually need to negotiate.
-        - Surface traces before decisions become invisible.
-        - Treat evaluation as a design material, not just a final score.
-      link_label: Open selected papers
-      link_url: /publications/
+        - Build systems, then measure how people actually use and revise them.
+        - Read traces, probes, and measures as evidence for design decisions.
+        - Support post-deployment iteration to maximize benefit and minimize harm.
+      link_label: Read CHI 2026 workshop paper
+      link_url: /projects/what-happened-and-why/
     - id: situated
       label: Situated
-      title: Work in context
-      text: Adapt assistance to the person, task, tool, and physical or social context where action happens.
-      detail_title: Embodied and in-situ intelligence
-      detail_text: I also look at systems that bring context-aware help into spatial tasks, mixed reality, and everyday environments where the right assistance depends on what is happening around the user.
+      title: Augment in context
+      text: Bring in-situ intelligence into everyday tasks, spatial interaction, and mixed reality.
+      detail_title: Embodied systems and mixed reality
+      detail_text: >-
+        This is ongoing work around systems that support everyday tasks through in-situ
+        intelligence, spatial interaction, and real-world use, where the right assistance
+        depends on the person, task, tool, and physical or social context.
       detail_points:
         - Let context change the shape of the interface.
         - Keep people, tasks, tools, and physical space in the model.
         - Design assistance that fits the situation instead of interrupting it.
-      link_label: Browse projects
-      link_url: /projects/
 
 announcements:
   enabled: true

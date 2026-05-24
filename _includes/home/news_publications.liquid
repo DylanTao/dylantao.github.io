@@ -18,10 +18,10 @@
   <section id="updates" class="home-section home-news-pubs home-reveal" data-home-section="updates" aria-labelledby="home-updates-title">
     <div class="home-section-heading home-section-heading-row">
       <div>
-        <p class="home-kicker">Recent signal</p>
+        <p class="home-kicker">Updates</p>
         <h2 id="home-updates-title">Recent signals.</h2>
       </div>
-      <a class="home-text-link" href="{{ '/news/' | relative_url }}">All news</a>
+      <a class="home-text-link" href="{{ '/news/' | relative_url }}">Full timeline</a>
     </div>
 
     {% assign pinned_news = site.news | where: 'pinned', true | sort: 'date' | reverse %}
