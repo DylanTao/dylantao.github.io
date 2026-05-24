@@ -159,6 +159,8 @@ Stripe's homepage inspired the restraint: a compact control, a proof-like visual
 
 The reusable part is the markdown file. My hope is that students in COGS 125, or anyone redesigning a portfolio, can give it to their own agent and ask for a critique pass grounded in the same design values. Preview it here before downloading; it should stay a living document as the site keeps changing.
 
+That file was built gradually during the redesign, distilled from my critiques, screenshot notes, and interface iterations where the site pushed back and made a design rule clearer.
+
 {% include heuristics_preview.liquid %}
 
 ## Credits

@@ -33,6 +33,10 @@ students are just starting to use AI to build portfolio websites for course
 projects. "Make it clearer" or "use better hierarchy" can stay abstract; a
 living markdown file gives the critique something to hold onto.
 
+The file itself grew gradually through screenshot critique, interface revisions,
+and distilled design iterations, so it records the process instead of pretending
+the rules arrived fully formed.
+
 <p class="website-revamp-cta">
   <a href="{{ '/WEBSITE_DESIGN_HEURISTICS.md' | relative_url }}" download>Download the heuristics MD</a>
   <a href="{{ '/projects/website-revamp/' | relative_url }}">Open the case study</a>
