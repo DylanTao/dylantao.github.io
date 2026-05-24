@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-science-communication-is-kindness",
+        },{id: "post-what-i-learned-redesigning-my-website-with-an-ai-coding-agent",
+        
+          title: "what I learned redesigning my website with an AI coding agent",
+        
+        description: "A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio in a day.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/website-redesign-ai-agent/";
+          
+        },
+      },{id: "post-science-communication-is-kindness",
         
           title: "science communication is kindness",
         
@@ -149,6 +160,11 @@ ninja.data = [{
           description: "A benchmark for testing whether vision models predict physical scene dynamics the way people do.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/physion/";
+            },},{id: "projects-vibe-coding-a-research-portfolio",
+          title: 'Vibe-Coding a Research Portfolio',
+          description: "A reflective redesign of this website into a warmer, clearer research portfolio and a reusable design-heuristics guide for students.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/website-revamp/";
             },},{id: "projects-what-happened-and-why",
           title: 'What Happened and Why?',
           description: "A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.",
