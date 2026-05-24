@@ -58,7 +58,7 @@ body.sticky-bottom-footer {
 }
 
 .post > .post-header .post-title {
-  font-size: clamp(2.2rem, 4.2vw, 3.75rem);
+  font-size: var(--type-page-title);
   line-height: 1.03;
   margin-bottom: 0.55rem;
   text-wrap: balance;
@@ -67,9 +67,9 @@ body.sticky-bottom-footer {
 .post .post-description,
 .page-intro {
   color: var(--global-text-color-light);
-  font-size: 1.03rem;
+  font-size: var(--type-prose);
   line-height: 1.65;
-  max-width: 52rem;
+  max-width: var(--measure-prose);
   text-wrap: pretty;
 }
 
@@ -78,12 +78,31 @@ body.sticky-bottom-footer {
 }
 
 .post article {
+  font-size: var(--type-body);
   line-height: 1.7;
   text-wrap: pretty;
 }
 
 .post article h2 {
   margin-top: 2.35rem;
+}
+
+.post.project-case-page {
+  max-width: var(--measure-panel);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.post.project-case-page article > h2,
+.post.project-case-page article > h3,
+.post.project-case-page article > h4,
+.post.project-case-page article > p,
+.post.project-case-page article > ul,
+.post.project-case-page article > ol,
+.post.project-case-page article > blockquote {
+  max-width: var(--measure-prose);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 html.site-motion-ready .site-reveal {

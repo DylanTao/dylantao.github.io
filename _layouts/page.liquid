@@ -8,7 +8,15 @@ layout: default
   </style>
 {% endif %}
 
-<div class="post">
+{% assign post_classes = 'post' %}
+{% if page.collection == 'projects' %}
+  {% assign post_classes = post_classes | append: ' project-detail' %}
+  {% if page.hide_title %}
+    {% assign post_classes = post_classes | append: ' project-case-page' %}
+  {% endif %}
+{% endif %}
+
+<div class="{{ post_classes }}">
   {% unless page.hide_title %}
     <header class="post-header">
       <h1 class="post-title">{{ page.title }}</h1>

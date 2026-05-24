@@ -11,6 +11,18 @@
   --font-mono: "Source Code Pro", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --motion-standard: 180ms ease;
   --motion-slow: 420ms ease;
+  --measure-prose: 54rem;
+  --measure-notebook: 68rem;
+  --measure-panel: 1360px;
+  --type-label: 0.76rem;
+  --type-meta: 0.875rem;
+  --type-body: 1rem;
+  --type-prose: 1.03rem;
+  --type-lede: clamp(1.05rem, 1.35vw, 1.22rem);
+  --type-card-title: clamp(1.2rem, 1.45vw, 1.45rem);
+  --type-section-title: clamp(1.8rem, 2.7vw, 2.35rem);
+  --type-page-title: clamp(2.2rem, 4.2vw, 3.75rem);
+  --type-case-title: clamp(2.35rem, 3.8vw, 3.65rem);
 
   --global-bg-color: #fffaf6;
   --global-code-bg-color: #{v.$code-bg-color-light};

@@ -3,7 +3,7 @@
  ******************************************************************************/
 
 .blog-index {
-  max-width: min(100%, 68rem);
+  max-width: min(100%, var(--measure-notebook));
   margin-right: auto;
   margin-left: auto;
 }
@@ -19,7 +19,7 @@
 
   h1 {
     color: var(--global-theme-color);
-    font-size: clamp(2.45rem, 5.6vw, 3.9rem);
+    font-size: var(--type-page-title);
     font-weight: 800;
     line-height: 1;
     margin-bottom: 0.55rem;
@@ -27,7 +27,7 @@
 
   h2 {
     color: var(--global-text-color);
-    font-size: clamp(1rem, 1.7vw, 1.26rem);
+    font-size: var(--type-lede);
     font-weight: 400;
     line-height: 1.35;
     margin: 0 auto;
@@ -55,7 +55,7 @@
       border-radius: 999px;
       color: var(--global-text-color-light);
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: var(--type-label);
       line-height: 1.2;
 
       a {
@@ -99,7 +99,7 @@
     padding-bottom: 1.65rem;
 
     h3 {
-      font-size: clamp(1.35rem, 2vw, 1.7rem);
+      font-size: var(--type-card-title);
       font-weight: 750;
       line-height: 1.2;
       margin-bottom: 0.55rem;
@@ -113,13 +113,13 @@
 
     .post-meta {
       color: var(--global-text-color-light);
-      font-size: 0.875rem;
+      font-size: var(--type-meta);
       margin-bottom: 0;
     }
 
     .post-tags {
       color: var(--global-text-color-light);
-      font-size: 0.875rem;
+      font-size: var(--type-meta);
       line-height: 1.7;
       padding-top: 0.25rem;
       padding-bottom: 0;
@@ -166,14 +166,14 @@
   .post-meta {
     color: var(--global-text-color-light);
     font-family: var(--font-mono);
-    font-size: 0.875rem;
+    font-size: var(--type-meta);
     margin-bottom: 0;
   }
 
   .post-tags {
     color: var(--global-text-color-light);
     font-family: var(--font-mono);
-    font-size: 0.875rem;
+    font-size: var(--type-meta);
     padding-top: 0.25rem;
     padding-bottom: 1rem;
 
@@ -199,16 +199,16 @@
   }
 
   .post-title {
-    font-size: clamp(2.25rem, 4.6vw, 3.8rem);
+    font-size: var(--type-page-title);
     font-weight: 800;
   }
 
   .post-content {
-    font-size: 1.03rem;
+    font-size: var(--type-prose);
     line-height: 1.72;
 
     h2 {
-      font-size: clamp(1.65rem, 3vw, 2.2rem);
+      font-size: var(--type-section-title);
       line-height: 1.18;
       margin-bottom: 0.75rem;
     }
@@ -304,7 +304,7 @@
 .blog-nav-direction-label {
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: var(--type-label);
 }
 
 .blog-nav-kicker {
@@ -315,7 +315,7 @@
 
 .blog-nav-title {
   color: var(--global-text-color);
-  font-size: 1.2rem;
+  font-size: var(--type-card-title);
   font-weight: 750;
   line-height: 1.25;
   transition: color var(--motion-standard);
@@ -451,7 +451,7 @@
   margin-bottom: 0.55rem;
   color: var(--global-theme-color);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--type-label);
   font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
@@ -518,7 +518,7 @@
 
   strong {
     color: var(--global-text-color);
-    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    font-size: var(--type-card-title);
     line-height: 1.18;
   }
 
@@ -551,7 +551,7 @@
   background: rgba(var(--global-accent-rgb), 0.08);
   color: var(--global-theme-color);
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--type-label);
   font-weight: 700;
   line-height: 1.25;
   text-transform: uppercase;

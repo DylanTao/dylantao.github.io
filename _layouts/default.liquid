@@ -23,7 +23,7 @@
     <!-- Content -->
     {% assign main_container_class = 'container' %}
     {% assign main_container_spacing_class = 'mt-5' %}
-    {% if page.panel_wide %}
+    {% if page.panel_wide or page.layout == 'post' or page.collection == 'projects' %}
       {% assign main_container_class = 'container panel-shell' %}
     {% endif %}
     {% if page.wide_layout %}

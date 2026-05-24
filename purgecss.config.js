@@ -19,6 +19,6 @@ module.exports = {
       /is-active/,
     ],
     keyframes: [/^home-/, /^site-/],
-    variables: [/^--global-/, /^--home-/, /^--motion-/, /^--research-motion-/],
+    variables: [/^--global-/, /^--home-/, /^--motion-/, /^--research-motion-/, /^--measure-/, /^--type-/],
   },
 };

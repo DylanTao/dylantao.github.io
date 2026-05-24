@@ -80,9 +80,9 @@ _styles: |
     border-radius: 999px;
     background: var(--trace-accent-soft);
     color: var(--trace-accent-deep);
-    font-size: 0.82rem;
+    font-size: var(--type-label);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
 
@@ -99,34 +99,34 @@ _styles: |
 
   .trace-title {
     margin: 1.15rem 0 0.95rem;
-    font-family: 'Roboto Slab', serif;
+    font-family: var(--font-display);
     max-width: 60rem;
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
   }
 
   .trace-title-lead {
     display: block;
     max-width: none;
-    font-size: clamp(3rem, 4.1vw, 4.85rem);
-    line-height: 0.95;
-    white-space: nowrap;
+    font-size: var(--type-case-title);
+    line-height: 1;
+    white-space: normal;
   }
 
   .trace-title-rest {
     display: block;
     max-width: 58rem;
     margin-top: 0.45rem;
-    font-size: clamp(1.55rem, 2.15vw, 2.65rem);
+    font-size: var(--type-section-title);
     font-weight: 400;
     line-height: 1.12;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 
   .trace-subtitle {
     max-width: 88rem;
     margin: 0;
-    font-size: clamp(1rem, 1.15vw, 1.18rem);
+    font-size: var(--type-prose);
     line-height: 1.78;
     color: var(--global-text-color-light);
     text-wrap: pretty;
@@ -153,9 +153,9 @@ _styles: |
   .trace-meta-label {
     display: block;
     margin-bottom: 0.25rem;
-    font-size: 0.76rem;
+    font-size: var(--type-label);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     text-transform: uppercase;
     color: var(--trace-accent-deep);
   }
@@ -201,9 +201,9 @@ _styles: |
       radial-gradient(circle at 28% 28%, rgba(255, 255, 255, 0.9), transparent 36%),
       linear-gradient(135deg, var(--trace-accent), var(--trace-accent-deep));
     color: #fffaf5;
-    font-family: 'Roboto Slab', serif;
+    font-family: var(--font-display);
     font-size: 2rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0;
   }
 
   .trace-author-name {
@@ -285,8 +285,8 @@ _styles: |
   .trace-citation h2 {
     margin-top: 0;
     margin-bottom: 0.8rem;
-    font-family: 'Roboto Slab', serif;
-    font-size: 1.55rem;
+    font-family: var(--font-display);
+    font-size: var(--type-card-title);
   }
 
   .trace-abstract p,
@@ -378,8 +378,8 @@ _styles: |
 
   .trace-inline-list strong {
     display: block;
-    font-size: 0.76rem;
-    letter-spacing: 0.08em;
+    font-size: var(--type-label);
+    letter-spacing: 0;
     text-transform: uppercase;
     color: var(--trace-accent-deep);
   }

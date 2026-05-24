@@ -266,8 +266,9 @@ ul.task-list input[type="checkbox"] {
     padding-bottom: 1rem;
   }
 
-  .card-title {
-    font-size: clamp(1.22rem, 1.75vw, 1.65rem);
+  .card .card-title {
+    font-size: var(--type-card-title);
+    font-weight: 750;
     line-height: 1.16;
     margin-bottom: 0.55rem;
   }
@@ -287,7 +288,7 @@ ul.task-list input[type="checkbox"] {
     display: flex;
     flex-wrap: wrap;
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: var(--type-label);
     font-weight: 600;
     gap: 0.35rem 0.55rem;
     letter-spacing: 0;
@@ -339,14 +340,14 @@ ul.task-list input[type="checkbox"] {
 .project-case-summary span {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--type-label);
   font-weight: 650;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .project-case-copy h1 {
-  font-size: clamp(2.25rem, 4vw, 4rem);
+  font-size: var(--type-case-title);
   font-weight: 800;
   line-height: 1;
   margin: 0.4rem 0 0.8rem;
@@ -354,7 +355,7 @@ ul.task-list input[type="checkbox"] {
 
 .project-case-lede {
   color: var(--global-text-color);
-  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-size: var(--type-lede);
   line-height: 1.55;
   max-width: 48rem;
 }
@@ -372,7 +373,7 @@ ul.task-list input[type="checkbox"] {
   border: 1px solid var(--global-divider-color);
   border-radius: 999px;
   color: var(--global-text-color-light);
-  font-size: 0.86rem;
+  font-size: var(--type-meta);
   padding: 0.35rem 0.7rem;
 }
 
@@ -487,7 +488,7 @@ ul.task-list input[type="checkbox"] {
     margin: 0;
     padding: 0.8rem 0.9rem;
     color: var(--global-text-color-light);
-    font-size: 0.92rem;
+    font-size: var(--type-meta);
     line-height: 1.45;
   }
 }
@@ -514,7 +515,7 @@ ul.task-list input[type="checkbox"] {
     margin-bottom: 0.65rem;
     color: var(--global-theme-color);
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: var(--type-label);
     font-weight: 700;
   }
 
@@ -522,7 +523,7 @@ ul.task-list input[type="checkbox"] {
     display: block;
     margin-bottom: 0.4rem;
     color: var(--global-text-color);
-    font-size: 1.05rem;
+    font-size: var(--type-card-title);
     line-height: 1.25;
   }
 
@@ -642,7 +643,7 @@ ul.task-list input[type="checkbox"] {
 
   h2 {
     margin: 0.25rem 0 0.35rem;
-    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    font-size: var(--type-section-title);
     line-height: 1.12;
   }
 
@@ -672,7 +673,7 @@ ul.task-list input[type="checkbox"] {
     color: var(--global-text-color);
     gap: 0.38rem;
     font: inherit;
-    font-size: 0.9rem;
+    font-size: var(--type-meta);
     font-weight: 720;
     text-decoration: none;
     transition:
@@ -704,7 +705,7 @@ ul.task-list input[type="checkbox"] {
   background: color-mix(in srgb, var(--global-bg-color) 76%, var(--global-card-bg-color));
   color: var(--global-text-color);
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: var(--type-label);
   line-height: 1.55;
   white-space: pre-wrap;
 }
@@ -714,7 +715,7 @@ ul.task-list input[type="checkbox"] {
   margin: 0;
   padding: 0.55rem 1rem 0.75rem;
   color: var(--global-text-color-light);
-  font-size: 0.88rem;
+  font-size: var(--type-meta);
 }
 
 html[data-theme="dark"] {

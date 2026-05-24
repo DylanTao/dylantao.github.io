@@ -1,3 +1,8 @@
+{% assign project_status_label = project.status | default: '' %}
+{% if project_status_label == 'Published' or project_status_label == 'Accepted' %}
+  {% assign project_status_label = '' %}
+{% endif %}
+
 <div class="col">
   <a
     class="project-card-link"
@@ -19,7 +24,7 @@
       {% endif %}
       <div class="card-body">
         <h2 class="card-title">{{ project.title }}</h2>
-        {% if project.venue or project.year or project.role or project.status %}
+        {% if project.venue or project.year or project.role or project_status_label != '' %}
           <p class="project-card-meta">
             {% if project.venue %}
               <span>{{ project.venue }}</span>
@@ -29,8 +34,8 @@
             {% if project.role %}
               <span>{{ project.role }}</span>
             {% endif %}
-            {% if project.status %}
-              <span>{{ project.status }}</span>
+            {% if project_status_label != '' %}
+              <span>{{ project_status_label }}</span>
             {% endif %}
           </p>
         {% endif %}

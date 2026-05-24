@@ -4,7 +4,7 @@ permalink: /blog/
 title: blog
 nav: true
 nav_order: 3
-panel_wide: false
+panel_wide: true
 pagination:
   enabled: true
   collection: posts
