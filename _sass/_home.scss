@@ -653,10 +653,7 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-motion-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.42fr);
-  gap: 1.4rem;
-  align-items: end;
+  display: block;
   min-width: 0;
 }
 
@@ -733,16 +730,10 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-motion-credit {
-  justify-self: end;
-  max-width: 25rem;
-  margin: 0;
-  padding: 0.9rem 0.95rem;
-  border: 1px solid var(--home-line);
-  border-left: 3px solid rgba(var(--global-accent-rgb), 0.62);
-  border-radius: 0.5rem;
-  background: var(--home-surface);
+  max-width: 48rem;
+  margin: 0.25rem 0 0;
   color: var(--home-muted);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   line-height: 1.55;
 }
 
@@ -1236,16 +1227,6 @@ html.home-motion-ready .home-reveal.home-visible {
     min-height: 0;
   }
 
-  .home-motion-intro {
-    grid-template-columns: 1fr;
-    gap: 0.8rem;
-  }
-
-  .home-motion-credit {
-    justify-self: stretch;
-    max-width: none;
-  }
-
   .home-motion-controls {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.55rem;
@@ -1264,10 +1245,6 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-motion-mode strong {
     font-size: 0.9rem;
-  }
-
-  .home-motion-credit {
-    font-size: 0.82rem;
   }
 
   .home-motion-stage {
@@ -1337,15 +1314,37 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-motion-controls {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
   }
 
   .home-motion-mode {
-    min-height: 0;
+    justify-items: start;
+    min-height: 4.7rem;
+    padding: 0.58rem 0.52rem;
+    gap: 0.16rem;
+  }
+
+  .home-motion-mode span {
+    font-size: 0.58rem;
+  }
+
+  .home-motion-mode strong {
+    font-size: 0.76rem;
+    line-height: 1.18;
+  }
+
+  .home-motion-mode small {
+    display: none;
   }
 
   .home-motion-stage {
     height: clamp(16.5rem, 68vw, 18rem);
+  }
+
+  .home-motion-credit {
+    margin-top: 0;
+    font-size: 0.76rem;
   }
 
   .home-motion-theme-control {

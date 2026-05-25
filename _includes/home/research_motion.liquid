@@ -14,15 +14,6 @@
         <h2 id="{{ motion_section_id }}-title">{{ page.research_motion.title }}</h2>
         <p>{{ page.research_motion.intro }}</p>
       </div>
-
-      {% if page.research_motion.credit %}
-        <p class="home-motion-credit">
-          {{ page.research_motion.credit.text }}
-          <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
-          and
-          <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
-        </p>
-      {% endif %}
     </div>
 
     <div class="home-motion-body">
@@ -87,6 +78,14 @@
           </article>
         {% endfor %}
       </div>
+    {% endif %}
+    {% if page.research_motion.credit %}
+      <p class="home-motion-credit">
+        {{ page.research_motion.credit.text }}
+        <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
+        and
+        <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
+      </p>
     {% endif %}
   </section>
 {% endif %}
