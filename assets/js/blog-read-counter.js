@@ -11,6 +11,11 @@
   };
 
   const revealCounter = (counter, count) => {
+    if (!Number.isFinite(count) || count < 1) {
+      hideCounter(counter);
+      return;
+    }
+
     counter.textContent = formatReadCount(count);
     counter.hidden = false;
 

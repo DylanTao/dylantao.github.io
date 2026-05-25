@@ -152,7 +152,7 @@
     }
 
     &.active .page-link {
-      color: #fff;
+      color: var(--global-hover-text-color);
       background-color: var(--global-theme-color);
 
       &:hover {

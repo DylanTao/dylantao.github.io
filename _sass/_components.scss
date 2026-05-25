@@ -61,7 +61,7 @@ ul.task-list input[type="checkbox"] {
     transform var(--motion-standard);
 
   &:hover {
-    border-color: rgba(217, 107, 53, 0.32);
+    border-color: rgba(var(--global-accent-rgb), 0.32);
     box-shadow: 0 0.65rem 1.6rem rgba(32, 25, 22, 0.08);
     transform: translateY(-2px);
   }
@@ -195,7 +195,11 @@ ul.task-list input[type="checkbox"] {
 // Projects
 
 .projects {
-  margin-top: 0.25rem;
+  margin-top: 0.75rem;
+
+  .page-intro {
+    margin-bottom: 0.85rem;
+  }
 
   a {
     text-decoration: none;
@@ -223,7 +227,7 @@ ul.task-list input[type="checkbox"] {
     height: 100%;
 
     &:focus-visible {
-      outline: 2px solid rgba(217, 107, 53, 0.5);
+      outline: 2px solid rgba(var(--global-accent-rgb), 0.5);
       outline-offset: 3px;
     }
   }
@@ -273,7 +277,7 @@ ul.task-list input[type="checkbox"] {
     margin-bottom: 0.55rem;
   }
 
-  .card-text {
+  .card .card-body .card-text {
     color: var(--global-text-color-light);
     display: -webkit-box;
     line-height: 1.55;
@@ -315,18 +319,23 @@ ul.task-list input[type="checkbox"] {
   }
 
   h2.category {
-    color: rgba(116, 103, 96, 0.42);
+    color: var(--global-text-color-light);
     border-bottom: 1px solid var(--global-divider-color);
-    padding-top: 0.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    text-align: right;
+    padding-top: 0.75rem;
+    margin-top: 1.1rem;
+    margin-bottom: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+    text-transform: uppercase;
   }
 }
 
 .project-case-hero {
   align-items: center;
-  background: radial-gradient(circle at 100% 0%, rgba(217, 107, 53, 0.12), transparent 34%), var(--global-card-bg-color);
+  background: radial-gradient(circle at 100% 0%, rgba(var(--global-accent-rgb), 0.12), transparent 34%), var(--global-card-bg-color);
   border: 1px solid var(--global-divider-color);
   border-radius: 0.85rem;
   display: grid;
@@ -403,7 +412,7 @@ ul.task-list input[type="checkbox"] {
     }
 
     &:hover {
-      background: rgba(217, 107, 53, 0.1);
+      background: rgba(var(--global-accent-rgb), 0.1);
       box-shadow: 0 0.55rem 1.35rem rgba(32, 25, 22, 0.08);
       text-decoration: none;
       transform: translateY(-1px);
@@ -766,6 +775,16 @@ html[data-theme="dark"] {
 
 @media (max-width: 767px) {
   .projects {
+    .page-intro {
+      margin-bottom: 0.65rem;
+    }
+
+    h2.category {
+      padding-top: 0.65rem;
+      margin-top: 0.95rem;
+      margin-bottom: 0.7rem;
+    }
+
     .project-card-media-horizontal {
       height: auto;
       min-height: 0;
