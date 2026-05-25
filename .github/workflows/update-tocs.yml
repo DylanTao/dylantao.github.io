@@ -28,7 +28,18 @@ jobs:
         with:
           files: ./*.md
 
+      - name: Setup Node.js
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+
+      - name: Install Prettier
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: npm ci
+
       - name: Updated toc on all markdown changed files
+        if: steps.changed-files.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
@@ -40,6 +51,7 @@ jobs:
               continue
             fi
             ./gh-md-toc --indent 2 --insert --no-backup --hide-footer $file
+            npx prettier "$file" --write
           done
           rm gh-md-toc
 
