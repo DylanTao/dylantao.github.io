@@ -3,7 +3,7 @@
  ******************************************************************************/
 
 .blog-index {
-  max-width: min(100%, var(--measure-notebook));
+  max-width: min(100%, var(--measure-panel));
   margin-right: auto;
   margin-left: auto;
 }
@@ -13,7 +13,7 @@
   text-align: center;
   padding-top: 0.7rem;
   padding-bottom: 1.4rem;
-  max-width: 58rem;
+  max-width: var(--measure-notebook);
   margin-right: auto;
   margin-left: auto;
 
@@ -36,7 +36,7 @@
 }
 
 .tag-category-list {
-  max-width: 58rem;
+  max-width: var(--measure-notebook);
   margin: 0.8rem auto 1.35rem;
   text-align: left;
 
@@ -86,7 +86,7 @@
 }
 
 .post-list {
-  max-width: 64rem;
+  max-width: 76rem;
   margin: 0 auto;
   margin-bottom: 40px;
   padding: 0;
@@ -107,7 +107,7 @@
 
     > p,
     .row p {
-      max-width: 56rem;
+      max-width: 64rem;
       line-height: 1.62;
     }
 
@@ -191,7 +191,7 @@
 .blog-post {
   margin-left: auto;
   margin-right: auto;
-  max-width: 52rem;
+  max-width: var(--measure-notebook);
 
   .post-header,
   .post-content {
@@ -217,6 +217,24 @@
     li {
       color: var(--global-text-color);
     }
+  }
+
+  #markdown-content > p,
+  #markdown-content > ul,
+  #markdown-content > ol,
+  #markdown-content > blockquote,
+  #markdown-content > dl {
+    max-width: var(--measure-prose);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #markdown-content > p:has(img),
+  #markdown-content > p:has(picture),
+  #markdown-content > p:has(iframe),
+  #markdown-content > p:has(video),
+  #markdown-content > p:has(canvas) {
+    max-width: none;
   }
 
   .post-content {
@@ -443,7 +461,7 @@
 }
 
 .featured-posts {
-  max-width: 64rem;
+  max-width: 76rem;
   margin: 0 auto 1.65rem;
 }
 
