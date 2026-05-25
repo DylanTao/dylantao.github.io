@@ -1187,21 +1187,22 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero-media {
-    grid-template-areas:
-      "portrait"
-      "thread"
-      "bubbles";
-    grid-template-rows: auto 1.8rem auto;
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-areas: "portrait bubbles";
+    grid-template-columns: minmax(9rem, 0.28fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
     align-items: center;
-    justify-items: center;
+    justify-items: stretch;
     min-height: 0;
+  }
+
+  .home-media-thread {
+    display: none;
   }
 
   .home-portrait-frame {
     grid-area: portrait;
-    width: min(12rem, 34vw);
+    width: min(10rem, 28vw);
     max-width: none;
     margin: 0 auto;
   }
@@ -1409,22 +1410,24 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero-media {
-    grid-template-rows: auto 1.25rem auto;
+    grid-template-columns: minmax(4.9rem, 0.28fr) minmax(0, 1fr);
+    gap: 0.7rem;
     margin-top: 0.4rem;
   }
 
   .home-media-bubbles {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
-    margin-top: 0.25rem;
+    gap: 0.45rem;
+    width: 100%;
+    margin-top: 0;
   }
 
   .home-portrait-frame {
-    width: min(8.4rem, 34vw);
+    width: min(5.6rem, 24vw);
   }
 
   .home-media-card {
-    padding: 0.6rem 0.7rem;
+    padding: 0.52rem 0.62rem;
     box-shadow: none;
   }
 
