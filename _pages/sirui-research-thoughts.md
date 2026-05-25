@@ -59,6 +59,14 @@ hide_title: true
           aria-describedby="sirui-globe-status"
           aria-label="3D where-ish visitor globe"
         ></div>
+        <div class="sirui-globe-loading" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 
         <p id="sirui-globe-status" class="sr-only" aria-live="polite">
           Waiting for the where-ish signal.
@@ -179,6 +187,15 @@ hide_title: true
             </dl>
             <div class="sirui-location-actions">
               <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>precise location</button>
+              <button
+                id="sirui-street-details-toggle"
+                class="sirui-street-details-toggle"
+                type="button"
+                aria-expanded="false"
+                hidden
+              >
+                details
+              </button>
               <button id="sirui-back-to-globe" class="sirui-back-to-globe" type="button" hidden>back to globe</button>
             </div>
           </div>
@@ -261,7 +278,7 @@ hide_title: true
 
   .sirui-crack-map {
     margin-left: 50%;
-    margin-bottom: calc(var(--sirui-fixed-footer-gap, 0px) + 0.85rem);
+    margin-bottom: var(--sirui-map-bottom-gap, 0.85rem);
     margin-top: 0.25rem;
     transform: translateX(-50%);
     width: min(94vw, 88rem);
@@ -458,6 +475,123 @@ hide_title: true
   .sirui-map-stage.is-globe-prepping .sirui-globe-canvas {
     opacity: 0;
     transform: translateY(0.35rem) scale(0.992);
+  }
+
+  .sirui-globe-loading {
+    align-items: center;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(112, 216, 255, 0.16), transparent 34%),
+      radial-gradient(circle at 50% 50%, rgba(142, 234, 98, 0.08), transparent 48%);
+    display: grid;
+    inset: 0;
+    justify-items: center;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    transition:
+      opacity 260ms ease,
+      visibility 0s linear 260ms;
+    visibility: hidden;
+    z-index: 7;
+  }
+
+  .sirui-globe-loading::before {
+    animation: sirui-loading-breathe 3.2s ease-in-out infinite;
+    background:
+      radial-gradient(circle, rgba(112, 216, 255, 0.2) 0 16%, transparent 17%),
+      radial-gradient(circle, rgba(142, 234, 98, 0.14) 0 10%, transparent 11%);
+    background-position:
+      0 0,
+      1.2rem 1.2rem;
+    background-size:
+      2.4rem 2.4rem,
+      3rem 3rem;
+    content: "";
+    inset: 0;
+    opacity: 0.58;
+    position: absolute;
+    transform: scale(1);
+  }
+
+  .sirui-globe-loading span {
+    animation: sirui-loading-particle 2.7s ease-in-out infinite;
+    background: rgba(112, 216, 255, 0.86);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0.7rem rgba(112, 216, 255, 0.6),
+      0 0 1.4rem rgba(142, 234, 98, 0.18);
+    height: 0.44rem;
+    position: absolute;
+    width: 0.44rem;
+  }
+
+  .sirui-globe-loading span:nth-child(1) {
+    animation-delay: -0.2s;
+    left: 38%;
+    top: 40%;
+  }
+
+  .sirui-globe-loading span:nth-child(2) {
+    animation-delay: -0.75s;
+    left: 55%;
+    top: 35%;
+  }
+
+  .sirui-globe-loading span:nth-child(3) {
+    animation-delay: -1.25s;
+    left: 62%;
+    top: 54%;
+  }
+
+  .sirui-globe-loading span:nth-child(4) {
+    animation-delay: -1.7s;
+    left: 47%;
+    top: 64%;
+  }
+
+  .sirui-globe-loading span:nth-child(5) {
+    animation-delay: -2.1s;
+    left: 31%;
+    top: 56%;
+  }
+
+  .sirui-globe-loading span:nth-child(6) {
+    animation-delay: -2.45s;
+    left: 70%;
+    top: 43%;
+  }
+
+  .sirui-map-stage.is-globe-prepping .sirui-globe-loading {
+    opacity: 1;
+    transition-delay: 0s;
+    visibility: visible;
+  }
+
+  @keyframes sirui-loading-breathe {
+    0%,
+    100% {
+      opacity: 0.42;
+      transform: scale(0.96);
+    }
+
+    50% {
+      opacity: 0.72;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes sirui-loading-particle {
+    0%,
+    100% {
+      opacity: 0.36;
+      transform: translate3d(0, 0, 0) scale(0.78);
+    }
+
+    50% {
+      opacity: 0.95;
+      transform: translate3d(0, -0.55rem, 0) scale(1.16);
+    }
   }
 
   .sirui-globe-canvas canvas {
@@ -660,6 +794,79 @@ hide_title: true
       transform 140ms ease;
     white-space: normal;
     width: max-content;
+  }
+
+  .sirui-globe-marker-cue {
+    align-items: center;
+    animation: sirui-street-cue-breathe 3.4s ease-in-out infinite;
+    background: rgba(5, 8, 6, 0.88);
+    border: 1px solid rgba(255, 79, 154, 0.42);
+    border-radius: 999px;
+    bottom: calc(100% + 0.8rem);
+    box-shadow:
+      0 0.35rem 1rem rgba(0, 0, 0, 0.32),
+      0 0 1.1rem rgba(255, 79, 154, 0.24);
+    color: var(--sirui-console-text);
+    display: inline-flex;
+    font-size: 0.66rem;
+    font-weight: 800;
+    gap: 0.32rem;
+    left: 50%;
+    letter-spacing: 0;
+    line-height: 1;
+    opacity: 0;
+    padding: 0.34rem 0.5rem;
+    pointer-events: none;
+    position: absolute;
+    text-transform: uppercase;
+    transform: translate(-50%, 0.2rem);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 0s linear 180ms;
+    visibility: hidden;
+    white-space: nowrap;
+  }
+
+  .sirui-globe-marker-cue::before {
+    background: var(--sirui-console-hot);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0.22rem rgba(255, 79, 154, 0.22);
+    content: "";
+    height: 0.42rem;
+    width: 0.42rem;
+  }
+
+  .sirui-globe-marker-cue::after {
+    border-left: 0.28rem solid transparent;
+    border-right: 0.28rem solid transparent;
+    border-top: 0.34rem solid rgba(5, 8, 6, 0.88);
+    content: "";
+    left: 50%;
+    position: absolute;
+    top: calc(100% - 0.01rem);
+    transform: translateX(-50%);
+  }
+
+  .sirui-globe-marker.is-current .sirui-globe-marker-cue {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    transition-delay: 420ms;
+    visibility: visible;
+  }
+
+  .sirui-globe-marker.is-current .sirui-globe-marker-tooltip {
+    bottom: calc(100% + 2.55rem);
+  }
+
+  .sirui-map-stage.is-street-view-active .sirui-globe-marker-cue,
+  .sirui-map-stage.is-sky-mode .sirui-globe-marker-cue,
+  .sirui-map-stage.is-globe-prepping .sirui-globe-marker-cue {
+    animation: none;
+    opacity: 0;
+    transform: translate(-50%, 0.2rem);
+    transition-delay: 0s;
+    visibility: hidden;
   }
 
   .sirui-globe-marker:hover .sirui-globe-marker-tooltip,
@@ -878,6 +1085,21 @@ hide_title: true
     }
   }
 
+  @keyframes sirui-street-cue-breathe {
+    0%,
+    100% {
+      box-shadow:
+        0 0.35rem 1rem rgba(0, 0, 0, 0.32),
+        0 0 0.9rem rgba(255, 79, 154, 0.18);
+    }
+
+    50% {
+      box-shadow:
+        0 0.35rem 1rem rgba(0, 0, 0, 0.32),
+        0 0 1.45rem rgba(255, 79, 154, 0.36);
+    }
+  }
+
   .sirui-street-map-panel {
     background: rgba(5, 8, 6, 0.86);
     border: 1px solid rgba(112, 216, 255, 0.28);
@@ -1083,6 +1305,7 @@ hide_title: true
   }
 
   .sirui-sharpen-location,
+  .sirui-street-details-toggle,
   .sirui-back-to-globe {
     background: rgba(112, 216, 255, 0.11);
     border: 1px solid rgba(112, 216, 255, 0.36);
@@ -1099,6 +1322,8 @@ hide_title: true
 
   .sirui-sharpen-location:hover,
   .sirui-sharpen-location:focus-visible,
+  .sirui-street-details-toggle:hover,
+  .sirui-street-details-toggle:focus-visible,
   .sirui-back-to-globe:hover,
   .sirui-back-to-globe:focus-visible {
     background: rgba(255, 79, 154, 0.16);
@@ -1106,12 +1331,14 @@ hide_title: true
   }
 
   .sirui-sharpen-location:disabled,
+  .sirui-street-details-toggle:disabled,
   .sirui-back-to-globe:disabled {
     cursor: wait;
     opacity: 0.65;
   }
 
   .sirui-sharpen-location[hidden],
+  .sirui-street-details-toggle[hidden],
   .sirui-back-to-globe[hidden] {
     display: none;
   }
@@ -1128,6 +1355,12 @@ hide_title: true
     display: none;
   }
 
+  @media (min-width: 821px) {
+    .sirui-street-details-toggle {
+      display: none;
+    }
+  }
+
   .sirui-map-shell {
     --sirui-stage-height: clamp(18rem, calc(100svh - 14rem), 45rem);
     grid-template-areas:
@@ -1138,7 +1371,7 @@ hide_title: true
   }
 
   .sirui-crack-map {
-    margin-bottom: calc(var(--sirui-fixed-footer-gap, 0px) + 0.85rem);
+    margin-bottom: var(--sirui-map-bottom-gap, 0.85rem);
     width: min(94vw, 92rem);
   }
 
@@ -1269,6 +1502,12 @@ hide_title: true
     display: none;
   }
 
+  .sirui-map-stage.is-street-main .sirui-street-map .leaflet-control-zoom {
+    display: block;
+    margin-left: 0.75rem;
+    margin-top: 3.2rem;
+  }
+
   .sirui-street-pin {
     background: var(--sirui-console-hot);
     border: 2px solid #10130f;
@@ -1290,9 +1529,9 @@ hide_title: true
   }
 
   .sirui-map-stage.is-street-morphing .sirui-street-map-panel {
-    border-radius: calc(0.5rem - var(--sirui-street-morph) * 0.08rem);
+    border-radius: 0.5rem;
     bottom: auto;
-    box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, calc(0.34 - var(--sirui-street-morph) * 0.2));
+    box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.28);
     height: var(--sirui-street-height);
     left: 0;
     opacity: 1;
@@ -1329,6 +1568,10 @@ hide_title: true
   .sirui-map-stage.is-street-dominant .sirui-globe-canvas::after,
   .sirui-map-stage.is-globe-inset .sirui-globe-canvas::after {
     opacity: 0.36;
+  }
+
+  .sirui-map-stage.is-globe-inset .sirui-globe-canvas {
+    cursor: zoom-out;
   }
 
   .sirui-map-stage.is-street-morphing .sirui-globe-marker-label {
@@ -1382,7 +1625,7 @@ hide_title: true
     display: grid;
     gap: clamp(0.8rem, 1.5vw, 1.15rem);
     grid-template-columns: clamp(12rem, 19vw, 16rem) minmax(13rem, 1fr);
-    max-height: min(31rem, calc(var(--sirui-stage-height) - 1.5rem));
+    max-height: var(--sirui-sky-cockpit-max-height, 31rem);
     max-width: min(45rem, calc(100% - 1.5rem));
     overflow: auto;
     padding: clamp(0.82rem, 1.25vw, 1.05rem);
@@ -1777,7 +2020,7 @@ hide_title: true
     }
 
     .sirui-map-stage.is-street-morphing {
-      padding-top: calc(var(--sirui-stage-height) + 0.65rem);
+      padding-top: var(--sirui-stage-offset-height, 24rem);
     }
 
     .sirui-globe-canvas {
@@ -1802,8 +2045,93 @@ hide_title: true
     }
 
     .sirui-map-stage.is-street-main .sirui-map-hud {
-      bottom: auto;
+      bottom: max(0.58rem, env(safe-area-inset-bottom));
+      display: block;
+      left: 0.58rem;
+      margin-top: 0;
+      max-height: none;
+      pointer-events: none;
+      position: absolute;
+      right: 0.58rem;
+      width: auto;
+      z-index: 12;
+    }
+
+    .sirui-map-stage.is-street-main .sirui-map-readout {
+      backdrop-filter: blur(8px);
+      background: rgba(16, 19, 15, 0.72);
+      box-shadow: 0 0.7rem 1.6rem rgba(0, 0, 0, 0.3);
+      margin-inline: auto;
+      max-width: 28rem;
+      padding: 0.64rem 0.7rem;
+      pointer-events: auto;
       width: 100%;
+    }
+
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-map-readout {
+      padding: 0.52rem 0.58rem;
+    }
+
+    .sirui-map-stage.is-street-main .sirui-readout-label {
+      margin-bottom: 0.18rem;
+    }
+
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-readout-label {
+      display: none;
+    }
+
+    .sirui-map-stage.is-street-main .sirui-map-readout h3 {
+      font-size: 0.95rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sirui-map-stage.is-street-main .sirui-map-readout p {
+      font-size: 0.68rem;
+      margin-bottom: 0;
+      min-height: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-map-readout p,
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-sharpen-location {
+      display: none;
+    }
+
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-map-readout dl {
+      display: none;
+    }
+
+    .sirui-map-stage.is-street-main .sirui-location-actions {
+      border-top: 0;
+      margin-top: 0.45rem;
+      padding-top: 0;
+    }
+
+    .sirui-map-stage.is-street-main .sirui-sharpen-location,
+    .sirui-map-stage.is-street-main .sirui-street-details-toggle,
+    .sirui-map-stage.is-street-main .sirui-back-to-globe {
+      min-height: 1.9rem;
+      padding: 0.34rem 0.5rem;
+    }
+
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-street-details-toggle,
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-back-to-globe {
+      min-height: 1.75rem;
+      padding: 0.28rem 0.48rem;
+    }
+
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-marker-card,
+    .sirui-map-stage.is-street-main:not(.is-street-sheet-expanded) .sirui-sky-strip {
+      display: none;
+    }
+
+    .sirui-map-stage.is-street-sheet-expanded .sirui-map-hud {
+      max-height: min(54vh, 22rem);
+      overflow: auto;
     }
 
     .sirui-map-hud .sirui-map-readout dl {
@@ -1826,7 +2154,7 @@ hide_title: true
       align-items: start;
       grid-template-columns: minmax(0, 1fr);
       left: 0.5rem;
-      max-height: min(18rem, calc(var(--sirui-stage-height) - 4.4rem));
+      max-height: var(--sirui-sky-cockpit-mobile-max-height, 18rem);
       overflow: auto;
       right: 0.5rem;
       top: 3.7rem;
@@ -1897,8 +2225,10 @@ hide_title: true
     }
 
     .sirui-map-stage.is-street-main .sirui-map-hud {
-      bottom: auto;
-      width: 100%;
+      bottom: max(0.48rem, env(safe-area-inset-bottom));
+      left: 0.48rem;
+      right: 0.48rem;
+      width: auto;
     }
 
     .sirui-map-hud .sirui-info-panel {
@@ -1927,7 +2257,10 @@ hide_title: true
     .sirui-street-map-panel,
     .sirui-map-marker-pulse,
     .sirui-globe-marker.is-current .sirui-globe-marker-dot::after,
-    .sirui-globe-marker-tooltip {
+    .sirui-globe-marker-cue,
+    .sirui-globe-marker-tooltip,
+    .sirui-globe-loading::before,
+    .sirui-globe-loading span {
       animation: none;
       transition: none;
     }
@@ -1976,6 +2309,7 @@ hide_title: true
     const skyInfoClock = document.getElementById("sirui-info-sky-clock");
     const sharpenLocationButton = document.getElementById("sirui-sharpen-location");
     const backToGlobeButton = document.getElementById("sirui-back-to-globe");
+    const streetDetailsToggle = document.getElementById("sirui-street-details-toggle");
     const viewModeButtons = Array.from(document.querySelectorAll("[data-sirui-view]"));
     const timeModeButtons = Array.from(document.querySelectorAll("[data-sirui-time-mode]"));
     const timeStepButtons = Array.from(document.querySelectorAll("[data-sirui-time-step]"));
@@ -2048,6 +2382,7 @@ hide_title: true
     let streetPresentationTarget = false;
     let streetPresentationToken = 0;
     let streetViewActive = false;
+    let streetSheetExpanded = false;
     let streetRevealTimer = 0;
     let lastStreetSyncAt = 0;
     let lastStreetSyncView = null;
@@ -3049,10 +3384,21 @@ hide_title: true
       return 5.5;
     };
 
+    const setStreetSheetExpanded = (expanded) => {
+      streetSheetExpanded = Boolean(expanded && streetViewActive);
+      mapStage?.classList.toggle("is-street-sheet-expanded", streetSheetExpanded);
+      if (streetDetailsToggle) {
+        streetDetailsToggle.hidden = !streetViewActive;
+        streetDetailsToggle.setAttribute("aria-expanded", String(streetSheetExpanded));
+        streetDetailsToggle.textContent = streetSheetExpanded ? "less" : "details";
+      }
+    };
+
     const setStreetViewState = (active) => {
       streetViewActive = Boolean(active);
       mapStage?.classList.toggle("is-street-view-active", streetViewActive);
       if (backToGlobeButton) backToGlobeButton.hidden = !streetViewActive;
+      setStreetSheetExpanded(false);
     };
 
     const revealStreetPanel = () => {
@@ -3224,11 +3570,23 @@ hide_title: true
       group.addEventListener("blur", hideMarkerDetails);
       group.addEventListener("click", (event) => {
         event.stopPropagation();
+        if (streetViewActive) {
+          setActiveMarker(entry.id);
+          setStreetSheetExpanded(false);
+          setGlobeStatus(`Already in street view near ${whereLabel(entry)}.`);
+          return;
+        }
         void enterStreetView(entry);
       });
       group.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
+          if (streetViewActive) {
+            setActiveMarker(entry.id);
+            setStreetSheetExpanded(false);
+            setGlobeStatus(`Already in street view near ${whereLabel(entry)}.`);
+            return;
+          }
           void enterStreetView(entry);
         }
       });
@@ -3501,6 +3859,7 @@ hide_title: true
       const shellRect = mapShell.getBoundingClientRect();
       const topRect = mapShell.querySelector(".sirui-map-topline")?.getBoundingClientRect();
       const toolbarRect = mapShell.querySelector(".sirui-map-toolbar")?.getBoundingClientRect();
+      const rootFont = parsePixels(getComputedStyle(document.documentElement).fontSize) || 16;
       const fixedFooter = document.querySelector("footer.fixed-bottom");
       const footerHeight = fixedFooter
         ? Math.ceil(fixedFooter.getBoundingClientRect().height)
@@ -3521,11 +3880,21 @@ hide_title: true
       const minHeight = window.innerWidth < 480 ? 210 : window.innerWidth < 820 ? 235 : 250;
       const maxHeight = window.innerWidth < 820 ? 440 : 760;
       const height = clamp(available, minHeight, maxHeight);
+      const roundedHeight = Math.round(height);
+      const stageOffsetHeight = Math.round(height + rootFont * 0.65);
+      const skyMaxHeight = Math.max(160, Math.round(height - rootFont * 1.5));
+      const skyMobileMaxHeight = Math.max(130, Math.round(height - rootFont * 4.4));
 
       mapShell.classList.toggle("is-height-tight", height < 410 || viewportHeight < 780);
-      map.style.setProperty("--sirui-fixed-footer-gap", `${footerHeight}px`);
-      map.style.setProperty("--sirui-stage-height", `${Math.round(height)}px`);
-      mapShell.style.setProperty("--sirui-stage-height", `${Math.round(height)}px`);
+      map.style.setProperty("--sirui-map-bottom-gap", `${Math.round(footerHeight + rootFont * 0.85)}px`);
+      map.style.setProperty("--sirui-stage-height", `${roundedHeight}px`);
+      map.style.setProperty("--sirui-stage-offset-height", `${stageOffsetHeight}px`);
+      map.style.setProperty("--sirui-sky-cockpit-max-height", `${skyMaxHeight}px`);
+      map.style.setProperty("--sirui-sky-cockpit-mobile-max-height", `${skyMobileMaxHeight}px`);
+      mapShell.style.setProperty("--sirui-stage-height", `${roundedHeight}px`);
+      mapShell.style.setProperty("--sirui-stage-offset-height", `${stageOffsetHeight}px`);
+      mapShell.style.setProperty("--sirui-sky-cockpit-max-height", `${skyMaxHeight}px`);
+      mapShell.style.setProperty("--sirui-sky-cockpit-mobile-max-height", `${skyMobileMaxHeight}px`);
       document.body.style.paddingBottom = footerHeight
         ? `${footerHeight}px`
         : initialBodyPaddingBottom;
@@ -4300,6 +4669,7 @@ hide_title: true
       const label = document.createElement("span");
       const count = document.createElement("span");
       const tooltip = document.createElement("span");
+      const cue = document.createElement("span");
 
       button.type = "button";
       button.className = "sirui-globe-marker";
@@ -4311,11 +4681,13 @@ hide_title: true
       label.className = "sirui-globe-marker-label";
       count.className = "sirui-globe-marker-count";
       tooltip.className = "sirui-globe-marker-tooltip";
+      cue.className = "sirui-globe-marker-cue";
       label.textContent = shortPlaceLabel(entry);
       count.textContent = Number(entry.count) > 1 ? ` x${entry.count}` : "";
-      tooltip.textContent = `${timezoneLabel(entry)} - ${entry.lastLocalTime || "visit time pending"}`;
+      tooltip.textContent = `${timezoneLabel(entry)} - ${entry.lastLocalTime || "visit time pending"} - click for street view`;
+      cue.textContent = "tap dot for street view";
       label.append(count);
-      button.append(dot, label, tooltip);
+      button.append(dot, label, cue, tooltip);
 
       button.addEventListener("mouseenter", () => previewMarker(entry));
       button.addEventListener("mouseleave", clearMarkerPreview);
@@ -4324,6 +4696,12 @@ hide_title: true
       button.addEventListener("click", (event) => {
         event.stopPropagation();
         focusedGlobeEntry = entry;
+        if (streetViewActive) {
+          setActiveMarker(entry.id);
+          setStreetSheetExpanded(false);
+          setGlobeStatus(`Already in street view near ${whereLabel(entry)}.`);
+          return;
+        }
         void enterStreetView(entry);
       });
 
@@ -4360,6 +4738,24 @@ hide_title: true
     };
 
     const updateStreetReadout = () => {};
+
+    const setStreetMapInteraction = (enabled) => {
+      if (!streetMapInstance) return;
+
+      const method = enabled ? "enable" : "disable";
+      [
+        "boxZoom",
+        "doubleClickZoom",
+        "dragging",
+        "keyboard",
+        "scrollWheelZoom",
+        "tap",
+        "touchZoom",
+      ].forEach((handler) => {
+        streetMapInstance[handler]?.[method]?.();
+      });
+      streetMapElement?.classList.toggle("is-interactive", enabled);
+    };
 
     const updateStreetMarker = (entry) => {
       if (!streetMapInstance || !window.L || !hasCoordinates(entry)) return;
@@ -4673,7 +5069,8 @@ hide_title: true
           scrollWheelZoom: false,
           tap: false,
           touchZoom: false,
-          zoomControl: false,
+          wheelPxPerZoomLevel: 90,
+          zoomControl: true,
           zoomSnap: 0.1,
         });
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -4696,6 +5093,7 @@ hide_title: true
       }
 
       updateStreetMarker(entry);
+      setStreetMapInteraction(streetViewActive && streetMainActive);
       return streetMapInstance;
     };
 
@@ -4786,6 +5184,7 @@ hide_title: true
       mapStage?.classList.toggle("is-street-main", isFull);
       mapStage?.classList.toggle("is-street-inset-mode", isInset);
       mapStage?.classList.toggle("is-street-inset", isInset);
+      setStreetMapInteraction(isFull);
       updateStreetMorphLayout(visible ? progress : 0, { settled, visible });
 
       if (streetMapPanel && !visible) {
@@ -5348,9 +5747,18 @@ hide_title: true
     };
 
     mapStage?.addEventListener("click", (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target) return;
+
+      const markerSelector = ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker";
+      if (streetViewActive && globeElement?.contains(target) && !target.closest(markerSelector)) {
+        exitStreetView();
+        return;
+      }
+
       if (
-        !event.target.closest(
-          ".sirui-globe-marker, .sirui-map-marker-group, .sirui-celestial-marker, .sirui-street-map-panel, .sirui-map-hud",
+        !target.closest(
+          `${markerSelector}, .sirui-street-map-panel, .sirui-map-hud`,
         )
       ) {
         clearPinnedDetails();
@@ -5369,6 +5777,9 @@ hide_title: true
 
     markerClose?.addEventListener("click", clearPinnedDetails);
     backToGlobeButton?.addEventListener("click", () => exitStreetView());
+    streetDetailsToggle?.addEventListener("click", () => {
+      setStreetSheetExpanded(!streetSheetExpanded);
+    });
     sharpenLocationButton?.addEventListener("click", sharpenLocation);
     viewModeButtons.forEach((button) => {
       button.addEventListener("click", () => {

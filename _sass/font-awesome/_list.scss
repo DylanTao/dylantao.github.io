@@ -11,7 +11,7 @@
 }
 
 .#{v.$css-prefix}-li {
-  inset-inline-start: calc(-1 * var(--#{v.$css-prefix}-li-width, #{v.$li-width}));
+  inset-inline-end: 100%;
   position: absolute;
   text-align: center;
   width: var(--#{v.$css-prefix}-li-width, #{v.$li-width});

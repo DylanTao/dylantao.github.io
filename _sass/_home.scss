@@ -219,7 +219,7 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-btn-primary {
   border-color: var(--home-accent);
   background: var(--home-accent);
-  color: #fffaf6 !important;
+  color: var(--global-hover-text-color) !important;
 }
 
 .home-btn-secondary,
@@ -422,7 +422,7 @@ html[data-theme="dark"] .home-story-rail ol {
   }
 
   50% {
-    transform: translate(var(--home-bubble-x, 0), calc(var(--home-bubble-y, 0) - 0.34rem));
+    transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0)) translateY(-0.34rem);
   }
 }
 
@@ -433,7 +433,7 @@ html[data-theme="dark"] .home-story-rail ol {
   }
 
   50% {
-    transform: translate(var(--home-bubble-x, 0), calc(var(--home-bubble-y, 0) + 0.42rem));
+    transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0)) translateY(0.42rem);
   }
 }
 
@@ -1163,7 +1163,7 @@ html.home-motion-ready .home-reveal.home-visible {
 
 @media (min-width: 1500px) {
   body.home-body > .container[role="main"] {
-    padding-left: calc(var(--bs-gutter-x, 1.5rem) * 0.5 + 6rem);
+    padding-left: 6.75rem;
   }
 
   .home-story-rail {
