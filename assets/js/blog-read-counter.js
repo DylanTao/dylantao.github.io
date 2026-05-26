@@ -38,6 +38,11 @@
 
   const isLocalPreview = () => ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) || window.location.protocol === "file:";
 
+  if (isLocalPreview()) {
+    counters.forEach(hideCounter);
+    return;
+  }
+
   const fetchReadCount = async (url, mode) => {
     const canonicalUrl = counterUrl(url);
     const requestUrl = new URL(counterEndpoint);

@@ -214,6 +214,8 @@ ul.task-list input[type="checkbox"] {
   .card {
     border: 1px solid var(--global-divider-color);
     border-radius: 0.45rem;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
 
     img {
@@ -223,12 +225,18 @@ ul.task-list input[type="checkbox"] {
 
   .project-card-link {
     color: inherit;
-    display: block;
-    height: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
 
     &:focus-visible {
       outline: 2px solid rgba(var(--global-accent-rgb), 0.5);
       outline-offset: 3px;
+    }
+
+    &:hover {
+      color: inherit;
     }
   }
 
@@ -259,11 +267,42 @@ ul.task-list input[type="checkbox"] {
     }
   }
 
+  .project-card-media-cover {
+    padding: 0;
+
+    img {
+      object-fit: cover;
+      object-position: var(--project-image-position, center);
+    }
+  }
+
   .project-card-media-horizontal {
     height: 100%;
     min-height: 12rem;
     border-right: 1px solid var(--global-divider-color);
     border-bottom: 0;
+  }
+
+  .project-card-actions {
+    align-items: center;
+    display: flex;
+    gap: 0.55rem;
+    margin-top: -0.25rem;
+    padding: 0 1.25rem 1rem;
+  }
+
+  .project-card-action-link {
+    align-items: center;
+    color: var(--global-text-color-light);
+    display: inline-flex;
+    font-size: 1rem;
+    justify-content: center;
+    line-height: 1;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--global-theme-color);
+    }
   }
 
   .col {

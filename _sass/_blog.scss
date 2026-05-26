@@ -229,12 +229,45 @@
     margin-left: auto;
   }
 
+  #markdown-content > h2,
+  #markdown-content > h3,
+  #markdown-content > h4,
+  #markdown-content > h5,
+  #markdown-content > h6,
+  #markdown-content > .website-revamp-cta {
+    max-width: var(--measure-prose);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
   #markdown-content > p:has(img),
   #markdown-content > p:has(picture),
   #markdown-content > p:has(iframe),
   #markdown-content > p:has(video),
   #markdown-content > p:has(canvas) {
     max-width: none;
+  }
+
+  #markdown-content > figure,
+  #markdown-content > .highlight,
+  #markdown-content > .highlighter-rouge,
+  #markdown-content > .table-responsive,
+  #markdown-content > table,
+  #markdown-content > .website-revamp-gallery,
+  #markdown-content > .website-revamp-process,
+  #markdown-content > .website-heuristics-preview,
+  #markdown-content > .website-revamp-motion-demo {
+    max-width: none;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #markdown-content > .website-revamp-gallery,
+  #markdown-content > .website-revamp-process,
+  #markdown-content > .website-heuristics-preview,
+  #markdown-content > .website-revamp-motion-demo {
+    margin-top: 1.6rem;
+    margin-bottom: 2rem;
   }
 
   .post-content {

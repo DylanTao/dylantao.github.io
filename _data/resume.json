@@ -565,14 +565,24 @@
   ],
   "projects": [
     {
-      "name": "Tree-of-thoughts Context-aware Encoding for LLMs",
-      "summary": "Developed a context-aware encoding algorithm for LLMs to improve retrieval and contextual understanding.",
-      "url": "https://github.com/DylanTao/CAC"
+      "name": "Website Revamp",
+      "summary": "Redesigned this portfolio as a small reflective-practice experiment in AI-assisted coding, visual critique, and research storytelling.",
+      "url": "/projects/website-revamp/"
+    },
+    {
+      "name": "Not A Good Driver",
+      "summary": "Built a playful VRChat world while exploring virtual world creation, audience engagement, and AI-assisted production workflows.",
+      "url": "/projects/not-a-good-driver/"
+    },
+    {
+      "name": "Context-Aware Encoding for LLMs",
+      "summary": "Developed a tree-of-thoughts context encoding experiment to improve retrieval and contextual understanding.",
+      "url": "/projects/context-aware-encoding/"
     },
     {
       "name": "GraphHSCN",
       "summary": "Developed a novel graph neural network architecture for long-range interaction modeling.",
-      "url": "https://graphhscn.github.io"
+      "url": "/projects/graphhscn/"
     }
   ]
 }

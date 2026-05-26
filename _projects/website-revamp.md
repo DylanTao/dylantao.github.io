@@ -4,6 +4,8 @@ title: Vibe-Coding a Research Portfolio
 description: A reflective redesign of this website into a warmer, clearer research portfolio and a reusable design-heuristics guide for students.
 img: assets/img/website-revamp/current-home-desktop.png
 image_aspect: 16 / 9
+card_image_fit: cover
+card_image_position: top center
 importance: -1
 category: fun
 year: 2026
