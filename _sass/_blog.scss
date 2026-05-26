@@ -3,9 +3,21 @@
  ******************************************************************************/
 
 .blog-index {
+  --blog-index-width: var(--measure-notebook);
+
   max-width: min(100%, var(--measure-panel));
   margin-right: auto;
   margin-left: auto;
+
+  .header-bar,
+  .tag-category-list,
+  .featured-posts,
+  .post-list,
+  .pagination {
+    max-width: var(--blog-index-width);
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 .header-bar {
@@ -86,7 +98,7 @@
 }
 
 .post-list {
-  max-width: 76rem;
+  max-width: var(--measure-notebook);
   margin: 0 auto;
   margin-bottom: 40px;
   padding: 0;
@@ -494,7 +506,7 @@
 }
 
 .featured-posts {
-  max-width: 76rem;
+  max-width: var(--measure-notebook);
   margin: 0 auto 1.65rem;
 }
 

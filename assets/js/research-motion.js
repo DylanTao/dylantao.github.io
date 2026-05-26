@@ -52,6 +52,31 @@
     };
     const wrap01 = (value) => value - Math.floor(value);
     const cssVar = (name, fallback) => getComputedStyle(root).getPropertyValue(name).trim() || fallback;
+    const colorParser = document.createElement("canvas").getContext("2d");
+    const transparentColor = (color) => {
+      if (!colorParser) return "transparent";
+
+      colorParser.fillStyle = "#000000";
+      colorParser.fillStyle = color;
+      const parsed = colorParser.fillStyle;
+      const rgb = parsed.match(/^rgba?\(([^)]+)\)$/i);
+
+      if (rgb) {
+        const channels = rgb[1].split(",").map((part) => part.trim());
+        return `rgba(${channels[0]}, ${channels[1]}, ${channels[2]}, 0)`;
+      }
+
+      const hex = parsed.replace("#", "");
+      if (hex.length === 6) {
+        const red = parseInt(hex.slice(0, 2), 16);
+        const green = parseInt(hex.slice(2, 4), 16);
+        const blue = parseInt(hex.slice(4, 6), 16);
+        return `rgba(${red}, ${green}, ${blue}, 0)`;
+      }
+
+      return "transparent";
+    };
+    const canCrossfadeModes = () => !state.reduceMotion && state.width >= 560;
 
     const palette = () => ({
       bgA: cssVar("--research-motion-bg-a", "#fffaf6"),
@@ -156,7 +181,7 @@
       const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 3.2);
       glow.addColorStop(0, fill);
       glow.addColorStop(0.34, fill);
-      glow.addColorStop(1, "rgba(255, 255, 255, 0)");
+      glow.addColorStop(1, transparentColor(fill));
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(0, 0, radius * 3.2, 0, Math.PI * 2);
@@ -182,7 +207,7 @@
       const glow = ctx.createRadialGradient(width * 0.5, height * 1.06, 0, width * 0.5, height * 1.06, Math.max(width, height) * 0.58);
       glow.addColorStop(0, pal.bgB);
       glow.addColorStop(0.42, pal.glow);
-      glow.addColorStop(1, "rgba(255, 255, 255, 0)");
+      glow.addColorStop(1, transparentColor(pal.bgB));
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, width, height);
     };
@@ -308,9 +333,9 @@
 
       ctx.save();
       const scanBand = ctx.createLinearGradient(scanX - 46, 0, scanX + 46, 0);
-      scanBand.addColorStop(0, "rgba(255, 255, 255, 0)");
+      scanBand.addColorStop(0, transparentColor(pal.bgB));
       scanBand.addColorStop(0.48, pal.bgB);
-      scanBand.addColorStop(1, "rgba(255, 255, 255, 0)");
+      scanBand.addColorStop(1, transparentColor(pal.bgB));
       ctx.globalAlpha = 0.2 * alpha;
       ctx.fillStyle = scanBand;
       ctx.fillRect(scanX - 46, top, 92, floor - top);
@@ -462,7 +487,7 @@
       drawBackground(pal);
 
       let progress = 1;
-      if (state.previousMode && !state.reduceMotion) {
+      if (state.previousMode && canCrossfadeModes()) {
         progress = clamp((now - state.transitionStart) / state.transitionMs, 0, 1);
       }
 
@@ -501,7 +526,7 @@
       const now = performance.now();
 
       if (nextMode !== state.mode) {
-        state.previousMode = state.reduceMotion ? null : state.mode;
+        state.previousMode = canCrossfadeModes() ? state.mode : null;
         state.transitionStart = now;
         state.mode = nextMode;
       }

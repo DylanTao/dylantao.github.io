@@ -6,6 +6,7 @@ img: assets/img/project_pics/context-aware-encoding/context-aware-encoding-tease
 image_aspect: 16 / 9
 importance: 1
 category: fun
+year: 2023
 role: Builder
 status: Prototype
 github: https://github.com/DylanTao/CAC

@@ -195,10 +195,25 @@ ul.task-list input[type="checkbox"] {
 // Projects
 
 .projects {
+  max-width: var(--measure-notebook);
   margin-top: 0.75rem;
+  margin-right: auto;
+  margin-left: auto;
 
   .page-intro {
     margin-bottom: 0.85rem;
+  }
+
+  > .container {
+    max-width: none;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  > .row,
+  > .container > .row {
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
   }
 
   a {
@@ -307,6 +322,8 @@ ul.task-list input[type="checkbox"] {
 
   .col {
     padding-bottom: 1rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
 
   .card .card-title {
