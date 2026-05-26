@@ -283,6 +283,8 @@ ul.task-list input[type="checkbox"] {
   }
 
   .project-card-media-cover {
+    border-bottom-color: var(--global-card-bg-color);
+    background: var(--global-card-bg-color);
     padding: 0;
 
     img {

@@ -119,6 +119,25 @@ p.location {
   margin-left: 0.35rem;
 }
 
+.cv .cv-entry-pending .cv-date-badge {
+  border: 1px dashed rgba(var(--global-accent-rgb), 0.46);
+  background-color: color-mix(in srgb, var(--global-accent-soft) 62%, transparent) !important;
+  color: var(--global-theme-color);
+}
+
+.cv .cv-entry-pending .cv-entry-content {
+  border-left: 1px dashed rgba(var(--global-accent-rgb), 0.38);
+}
+
+.cv .cv-entry-pending .cv-entry-title,
+.cv .cv-entry-pending .cv-entry-note {
+  font-style: italic;
+}
+
+.cv .cv-entry-pending .cv-entry-note {
+  color: var(--global-theme-color);
+}
+
 .cv .cv-title-struck {
   display: inline-block;
   position: relative;

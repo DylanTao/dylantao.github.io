@@ -9,6 +9,7 @@ category: fun
 year: 2023
 role: Undergraduate researcher
 status: Research prototype
+github: https://github.com/camille-004/Graph-HSCN
 hide_title: true
 ---
 
@@ -27,6 +28,7 @@ hide_title: true
     </div>
     <div class="project-case-actions">
       <a href="https://graphhscn.github.io" target="_blank" rel="noopener noreferrer">Visit project</a>
+      <a href="https://github.com/camille-004/Graph-HSCN" target="_blank" rel="noopener noreferrer">View code</a>
     </div>
   </div>
   <div class="project-case-media">

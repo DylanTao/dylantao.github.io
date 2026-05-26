@@ -10,6 +10,7 @@ venue: CHI 2025
 year: 2025
 role: First author
 status: Published
+github: https://github.com/slimykat/DesignWeaver
 related_publications: true
 hide_title: true
 keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product design, prompt engineering, design dimensions, novice designers, DALL-E, GPT-4, GPT-4o, GPT-4o-mini, design innovation, CHI 2025, CHI25, Sirui, Sirui Tao, Steven, Steven Dow

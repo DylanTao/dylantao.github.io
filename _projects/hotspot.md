@@ -11,5 +11,6 @@ venue: CVPR 2025 Highlight
 year: 2025
 role: Co-author
 status: Published
+github: https://github.com/Galaxeaaa/HotSpot
 related_publications: true
 ---

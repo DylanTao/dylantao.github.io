@@ -6,7 +6,7 @@
   {% for entry in entries %}
     <li class="list-group-item">
       {% assign title_note = entry.rejectionNote | default: entry.annotation %}
-      <div class="row cv-entry">
+      <div class="row cv-entry{% if entry.pending %} cv-entry-pending{% endif %}">
         {% capture start_date %}
           {% if entry.date %}{{ entry.date }}{% endif %}
         {% endcapture %}
