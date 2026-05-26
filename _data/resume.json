@@ -299,19 +299,19 @@
   ],
   "awards": [
     {
+      "title": "MSR AI and the New Future of Work CFP",
+      "date": "2026",
+      "awarder": "Microsoft Research",
+      "annotation": "[In submission]",
+      "pending": true
+    },
+    {
       "title": "MSR Fellowship",
       "date": "2026",
       "awarder": "Microsoft Research",
       "url": "https://www.microsoft.com/en-us/research/academic-program/microsoft-research-fellowship/",
       "rejectionNote": "[Rejected Once, Accepted Zero Times ;)]",
       "strikeTitle": true
-    },
-    {
-      "title": "MSR AI and the New Future of Work CFP",
-      "date": "2026",
-      "awarder": "Microsoft Research",
-      "annotation": "[In submission]",
-      "pending": true
     },
     {
       "title": "YC AI Student Starter Pack",
