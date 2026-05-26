@@ -1,28 +1,53 @@
+{% assign recruiting = page.recruiting %}
+{% assign recruiting_post_url = recruiting.post_url | default: '/blog/2026/how-to-start-doing-research-at-ucsd/' %}
+{% assign recruiting_email = recruiting.email | default: 's1tao@ucsd.edu' %}
+{% assign recruiting_subject = recruiting.email_subject | default: 'UCSD Research Interest' %}
+
 <section id="students" class="home-section home-recruiting home-reveal" data-home-section="students" aria-labelledby="home-recruiting-title">
   <div class="home-section-heading">
-    <p class="home-kicker">Research opportunities</p>
-    <h2 id="home-recruiting-title">For students who like messy questions.</h2>
+    <p class="home-kicker">{{ recruiting.eyebrow | default: 'Research opportunities' }}</p>
+    <h2 id="home-recruiting-title">{{ recruiting.title | default: 'For students who like messy questions.' }}</h2>
   </div>
 
   <div class="home-recruiting-grid">
     <div>
-      <p>I like working with undergraduate and master's students who can stay curious about a messy question long enough to make it sharper.</p>
-      <p>
-        You do not need to arrive as an expert. It helps if you enjoy reading closely, making prototypes, testing claims, and explaining what changed
-        your mind.
-      </p>
+      {% if recruiting.intro %}
+        {% for paragraph in recruiting.intro %}
+          <p>{{ paragraph }}</p>
+        {% endfor %}
+      {% else %}
+        <p>I like working with undergraduate and master's students who can stay curious about a messy question long enough to make it sharper.</p>
+        <p>
+          You do not need to arrive as an expert. It helps if you enjoy reading closely, making prototypes, testing claims, and explaining what
+          changed your mind.
+        </p>
+      {% endif %}
+      {% if recruiting.growth %}
+        <div class="home-recruiting-growth" aria-label="Research skills students can grow here">
+          {% for item in recruiting.growth %}
+            <span>{{ item }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
     <div class="home-recruiting-steps">
       <h3>When reaching out</h3>
       <ol>
         <li>
           Read the
-          <a href="{{ '/blog/2026/how-to-start-doing-research-at-ucsd/' | relative_url }}">research-start post</a>.
+          <a href="{{ recruiting_post_url | relative_url }}">research-start post</a>.
         </li>
-        <li>Email <a href="mailto:s1tao@ucsd.edu">s1tao@ucsd.edu</a> with subject "UCSD Research Interest".</li>
-        <li>Include a 1-page CV or resume and a 3-5 sentence note on the questions or domains you care about.</li>
+        <li>
+          Email
+          <a href="mailto:{{ recruiting_email }}?subject={{ recruiting_subject | url_encode }}">{{ recruiting_email }}</a>
+          with subject "{{ recruiting_subject }}".
+        </li>
+        <li>Include a 1-page CV or resume, an optional portfolio link, and a 3-5 sentence note on the questions or domains you care about.</li>
       </ol>
-      <a class="home-btn home-btn-secondary" href="{{ '/blog/2026/how-to-start-doing-research-at-ucsd/' | relative_url }}">Read the post</a>
+      <div class="home-recruiting-actions">
+        <a class="home-btn home-btn-secondary" href="{{ recruiting_post_url | relative_url }}">Read the post</a>
+        <a class="home-btn home-btn-quiet" href="mailto:{{ recruiting_email }}?subject={{ recruiting_subject | url_encode }}">Email interest</a>
+      </div>
     </div>
   </div>
 </section>

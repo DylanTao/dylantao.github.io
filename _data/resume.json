@@ -39,7 +39,13 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2025-08",
       "endDate": "2030-06",
-      "courses": "Research in Human-computer-interaction & Design, advised by Prof. Steven Dow.",
+      "courses": "Research in Human-computer-interaction & Design",
+      "advisors": [
+        {
+          "name": "Steven P. Dow",
+          "url": "https://spdow.ucsd.edu/"
+        }
+      ],
       "url": "https://cogsci.ucsd.edu/graduates/phd-program/index.html"
     },
     {
@@ -49,7 +55,17 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2023-09",
       "endDate": "2025-03",
-      "courses": "Research in Human-computer-interaction & Graphics, advised by Prof. Steven Dow and Prof. Tzu-Mao Li.",
+      "courses": "Research in Human-computer-interaction & Graphics",
+      "advisors": [
+        {
+          "name": "Steven P. Dow",
+          "url": "https://spdow.ucsd.edu/"
+        },
+        {
+          "name": "Tzu-Mao Li",
+          "url": "https://cseweb.ucsd.edu/~tzli/"
+        }
+      ],
       "url": "https://cse.ucsd.edu/graduate/degree-programs/ms-program"
     },
     {
@@ -59,7 +75,13 @@
       "location": "La Jolla, CA, USA",
       "startDate": "2019-09",
       "endDate": "2023-03",
-      "courses": "Research in Intuitive Physics, advised by Prof. Judith Fan.",
+      "courses": "Research in Intuitive Physics",
+      "advisors": [
+        {
+          "name": "Judith E. Fan",
+          "url": "https://profiles.stanford.edu/judith-fan"
+        }
+      ],
       "url": "https://warren.ucsd.edu/"
     }
   ],
@@ -559,14 +581,17 @@
   "references": [
     {
       "name": "Professor Steven P. Dow",
+      "url": "https://spdow.ucsd.edu/",
       "reference": "Master Advisor for my research in HCI."
     },
     {
       "name": "Professor Tzu-Mao Li",
+      "url": "https://cseweb.ucsd.edu/~tzli/",
       "reference": "Master Advisor for my research in Graphics."
     },
     {
       "name": "Professor Judith E. Fan",
+      "url": "https://profiles.stanford.edu/judith-fan",
       "reference": "Undergraduate advisor for my research in Intuitive Physics."
     }
   ],

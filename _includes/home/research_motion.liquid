@@ -79,6 +79,25 @@
         {% endfor %}
       </div>
     {% endif %}
+    {% if page.research_motion.exploring %}
+      <div class="home-motion-exploring" aria-labelledby="{{ motion_section_id }}-exploring-title">
+        <div class="home-motion-exploring-copy">
+          <span>Exploring</span>
+          <h3 id="{{ motion_section_id }}-exploring-title">{{ page.research_motion.exploring.title }}</h3>
+          <p>{{ page.research_motion.exploring.intro }}</p>
+        </div>
+        {% if page.research_motion.exploring.items %}
+          <div class="home-motion-exploring-list">
+            {% for item in page.research_motion.exploring.items %}
+              <article>
+                <strong>{{ item.title }}</strong>
+                <span>{{ item.text }}</span>
+              </article>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
     {% if page.research_motion.credit %}
       <p class="home-motion-credit">
         {{ page.research_motion.credit.text }}

@@ -8,7 +8,13 @@
       {% if entry.icon %}
         <i class="{{ entry.icon }}"></i>
       {% endif %}
-      <strong>{{ entry.name }}</strong>
+      <strong>
+        {% if entry.url %}
+          <a class="cv-reference-link" href="{{ entry.url }}" target="_blank" rel="noopener noreferrer">{{ entry.name }}</a>
+        {% else %}
+          {{ entry.name }}
+        {% endif %}
+      </strong>
       <p>{{ entry.reference | markdownify | remove: '<p>' | remove: '</p>' }}</p>
     </li>
   {% endfor %}

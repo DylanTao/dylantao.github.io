@@ -84,9 +84,44 @@
                   {% endfor %}
                 {% else %}
                   <li>
-                    <span class="item">{{ entry.courses }}</span>
+                    <span class="item">
+                      {{- entry.courses -}}
+                      {%- if entry.advisors -%}
+                        , advised by
+                        {%- if entry.advisors.size > 1 %} Profs. {% else %} Prof. {% endif -%}
+                        {%- for advisor in entry.advisors -%}
+                          {%- if advisor.url -%}
+                            <a class="cv-advisor-link" href="{{ advisor.url }}" target="_blank" rel="noopener noreferrer">{{ advisor.name }}</a>
+                          {%- else -%}
+                            {{- advisor.name -}}
+                          {%- endif -%}
+                          {%- unless forloop.last -%}
+                            {%- if forloop.rindex == 2 %} and {% else %}, {% endif -%}
+                          {%- endunless -%}
+                        {%- endfor -%}
+                        .
+                      {%- endif -%}
+                    </span>
                   </li>
                 {% endif %}
+              {% elsif entry.advisors %}
+                <li>
+                  <span class="item">
+                    Advised by
+                    {%- if entry.advisors.size > 1 %} Profs. {% else %} Prof. {% endif -%}
+                    {%- for advisor in entry.advisors -%}
+                      {%- if advisor.url -%}
+                        <a class="cv-advisor-link" href="{{ advisor.url }}" target="_blank" rel="noopener noreferrer">{{ advisor.name }}</a>
+                      {%- else -%}
+                        {{- advisor.name -}}
+                      {%- endif -%}
+                      {%- unless forloop.last -%}
+                        {%- if forloop.rindex == 2 %} and {% else %}, {% endif -%}
+                      {%- endunless -%}
+                    {%- endfor -%}
+                    .
+                  </span>
+                </li>
               {% endif %}
               {% for item in entry.highlights %}
                 <li>

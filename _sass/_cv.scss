@@ -119,6 +119,13 @@ p.location {
   margin-left: 0.35rem;
 }
 
+.cv .cv-advisor-link,
+.cv .cv-reference-link {
+  font-weight: 700;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
 .cv .cv-entry-pending .cv-date-badge {
   border: 1px dashed rgba(var(--global-accent-rgb), 0.46);
   background-color: color-mix(in srgb, var(--global-accent-soft) 62%, transparent) !important;

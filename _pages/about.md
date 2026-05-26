@@ -103,6 +103,18 @@ research_motion:
   eyebrow: Research focus
   title: Design, evaluate, situate.
   intro: "A small interactive sketch of the loops I keep studying: generating directions, reading evidence, and grounding assistance in the situation where work happens."
+  exploring:
+    title: Adjacent questions I keep circling.
+    intro: These are not the center of my current thesis thread, but they are places I want to keep prototyping and learning.
+    items:
+      - title: Everyday robots
+        text: Robots integrated into daily routines, homes, and shared spaces.
+      - title: Learner-centered AI
+        text: Generative AI for education at scale.
+      - title: Post-deployment iteration
+        text: Maximizing benefit and minimizing harm after tools enter use.
+      - title: Community-centered tools
+        text: Systems for real-world collaboration.
   credit:
     text: Motion pattern inspired by Stripe's homepage craft and Katie Dill's design-quality framing.
     stripe_label: Stripe design team
@@ -153,6 +165,46 @@ research_motion:
         - Let context change the shape of the interface.
         - Keep people, tasks, tools, and physical space in the model.
         - Design assistance that fits the situation instead of interrupting it.
+
+recruiting:
+  eyebrow: Research opportunities
+  title: For students who like messy questions.
+  intro:
+    - I like working with curious, motivated, and kind undergraduate and master's students who can stay with a messy question long enough to make it sharper.
+    - As generative AI expands what one person can build, prototype, and investigate, I am especially excited by students with genuine research curiosity and real passion for a domain, problem space, or question they care about.
+    - You do not need to arrive as an expert. What matters more is wanting to grow into a thoughtful, well-rounded researcher over time.
+  growth:
+    - Reading closely
+    - Ideating carefully
+    - Prototyping
+    - Evaluation
+    - Analysis
+    - Communication
+  post_url: /blog/2026/how-to-start-doing-research-at-ucsd/
+  email: s1tao@ucsd.edu
+  email_subject: UCSD Research Interest
+
+lineage:
+  title: Advisor Lineage & Past Collaborations
+  rows:
+    - label: Ph.D.
+      people:
+        - name: Steven P. Dow
+          url: https://spdow.ucsd.edu/
+          area: HCI
+    - label: Master's
+      people:
+        - name: Steven P. Dow
+          url: https://spdow.ucsd.edu/
+          area: HCI
+        - name: Tzu-Mao Li
+          url: https://cseweb.ucsd.edu/~tzli/
+          area: Graphics
+    - label: Undergrad
+      people:
+        - name: Judith E. Fan
+          url: https://profiles.stanford.edu/judith-fan
+          area: Cognition & Intuitive Physics
 
 announcements:
   enabled: true
