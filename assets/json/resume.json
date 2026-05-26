@@ -566,21 +566,29 @@
   "projects": [
     {
       "name": "Website Revamp",
+      "year": "2026",
+      "role": "Portfolio redesign",
       "summary": "Redesigned this portfolio as a small reflective-practice experiment in AI-assisted coding, visual critique, and research storytelling.",
       "url": "/projects/website-revamp/"
     },
     {
       "name": "Not A Good Driver",
+      "year": "2024",
+      "role": "VRChat world",
       "summary": "Built a playful VRChat world while exploring virtual world creation, audience engagement, and AI-assisted production workflows.",
       "url": "/projects/not-a-good-driver/"
     },
     {
       "name": "Context-Aware Encoding for LLMs",
+      "year": "2023",
+      "role": "LLM context prototype",
       "summary": "Developed a tree-of-thoughts context encoding experiment to improve retrieval and contextual understanding.",
       "url": "/projects/context-aware-encoding/"
     },
     {
       "name": "GraphHSCN",
+      "year": "2023",
+      "role": "Graph neural network prototype",
       "summary": "Developed a novel graph neural network architecture for long-range interaction modeling.",
       "url": "/projects/graphhscn/"
     }

@@ -13,6 +13,17 @@
         <h6 class="title font-weight-bold">{{ entry.name }}</h6>
       {% endif %}
 
+      {% if entry.year or entry.role %}
+        <p class="cv-project-meta">
+          {% if entry.year %}
+            <span>{{ entry.year }}</span>
+          {% endif %}
+          {% if entry.role %}
+            <span>{{ entry.role }}</span>
+          {% endif %}
+        </p>
+      {% endif %}
+
       {% if entry.summary %}
         <p>{{ entry.summary | markdownify | remove: '<p>' | remove: '</p>' }}</p>
       {% endif %}

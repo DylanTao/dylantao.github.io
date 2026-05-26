@@ -254,6 +254,26 @@ p.list-group-time {
   padding-left: 0.5rem;
 }
 
+.cv-project-meta {
+  color: var(--global-text-color-light);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  gap: 0.3rem 0.45rem;
+  letter-spacing: 0;
+  line-height: 1.25;
+  margin-bottom: 0.45rem;
+}
+
+.cv-project-meta span + span::before {
+  color: var(--global-divider-color);
+  content: "/";
+  font-weight: 400;
+  margin-right: 0.45rem;
+}
+
 td.list-group-link {
   padding-left: 0.5rem;
 }
