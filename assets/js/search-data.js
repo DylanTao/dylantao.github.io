@@ -145,16 +145,31 @@ ninja.data = [{
           section: "News",},{id: "news-met-the-great-don-norman-and-even-got-a-selfie-a-to-sirui-signed-yellow-book-sparkles-camera-flash-smile",
           title: 'Met the great Don Norman and even got a selfie + a “To...',
           description: "",
-          section: "News",},{id: "projects-designweaver",
+          section: "News",},{id: "projects-context-aware-encoding-for-llms",
+          title: 'Context-Aware Encoding for LLMs',
+          description: "A tree-of-thoughts context encoding experiment for improving retrieval and long-document contextual understanding.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/context-aware-encoding/";
+            },},{id: "projects-designweaver",
           title: 'DesignWeaver',
           description: "A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/designweaver/";
+            },},{id: "projects-graphhscn",
+          title: 'GraphHSCN',
+          description: "A graph neural network architecture prototype for modeling long-range interactions in structured data.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/graphhscn/";
             },},{id: "projects-hotspot",
           title: 'HotSpot',
           description: "A neural SDF optimization framework with a screened Poisson objective for more stable surface reconstruction.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/hotspot/";
+            },},{id: "projects-not-a-good-driver",
+          title: 'Not A Good Driver',
+          description: "A playful VRChat world experiment in virtual-world creation, social audience engagement, and AI-assisted prototyping.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/not-a-good-driver/";
             },},{id: "projects-physion",
           title: 'Physion',
           description: "A benchmark for testing whether vision models predict physical scene dynamics the way people do.",
