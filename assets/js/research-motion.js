@@ -46,6 +46,11 @@
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const lerp = (a, b, t) => a + (b - a) * t;
     const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    const cubic = (a, b, c, d, t) => {
+      const inv = 1 - t;
+      return inv * inv * inv * a + 3 * inv * inv * t * b + 3 * inv * t * t * c + t * t * t * d;
+    };
+    const wrap01 = (value) => value - Math.floor(value);
     const cssVar = (name, fallback) => getComputedStyle(root).getPropertyValue(name).trim() || fallback;
 
     const palette = () => ({
@@ -86,6 +91,15 @@
         phase: index * 0.37,
       }));
 
+    const makeParticles = (count, lanes = 4) =>
+      Array.from({ length: count }, (_, index) => ({
+        index,
+        lane: index % lanes,
+        phase: index * 1.61,
+        seed: wrap01(index * 0.61803398875),
+        speed: 0.72 + (index % 5) * 0.08,
+      }));
+
     const generateGeometry = () => {
       const mobile = state.width < 560;
       const tablet = state.width < 920;
@@ -93,6 +107,11 @@
         design: makeSeries(mobile ? 22 : tablet ? 32 : 38),
         evaluate: makeSeries(mobile ? 20 : tablet ? 28 : 34),
         situated: makeSeries(mobile ? 24 : tablet ? 32 : 38),
+        particles: {
+          design: makeParticles(mobile ? 6 : tablet ? 8 : 10, mobile ? 3 : 5),
+          evaluate: makeParticles(mobile ? 7 : tablet ? 9 : 12, mobile ? 3 : 6),
+          situated: makeParticles(mobile ? 6 : tablet ? 8 : 10, 4),
+        },
       };
     };
 
@@ -116,6 +135,37 @@
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fillStyle = fill;
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const drawTraceParticle = (x, y, radius, fill, alpha = 1, angle = 0) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.globalAlpha = alpha * 0.28;
+      ctx.strokeStyle = fill;
+      ctx.lineWidth = Math.max(0.7, radius * 0.42);
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(-radius * 5.2, 0);
+      ctx.lineTo(-radius * 1.5, 0);
+      ctx.stroke();
+
+      ctx.globalAlpha = alpha;
+      const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 3.2);
+      glow.addColorStop(0, fill);
+      glow.addColorStop(0.34, fill);
+      glow.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 3.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.globalAlpha = Math.min(1, alpha + 0.12);
+      ctx.fillStyle = fill;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     };
@@ -210,6 +260,29 @@
       });
 
       endMode();
+
+      const designParticles = state.geometry.particles?.design || [];
+      designParticles.forEach((particle) => {
+        const laneCount = state.width < 560 ? 3 : 5;
+        const laneT = clamp((particle.lane + 0.55) / laneCount, 0.08, 0.92);
+        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.035 * particle.speed);
+        const y0 = lerp(top, bottom, laneT) + Math.sin(time * 0.48 + particle.phase) * b.height * 0.015;
+        const y1 = lerp(bottom, top, laneT) - Math.sin(time * 0.44 + particle.phase) * b.height * 0.012;
+        const compareLift = Math.sin(laneT * Math.PI) * b.height * 0.11;
+        const pointerPull = (state.pointer.y - 0.5) * b.height * 0.1 * Math.sin(laneT * Math.PI) * intent;
+        const localT = routeT < 0.5 ? routeT * 2 : (routeT - 0.5) * 2;
+        const firstHalf = routeT < 0.5;
+        const x = firstHalf
+          ? cubic(leftX, lerp(leftX, centerX, 0.35), centerX - b.width * 0.1, centerX, localT)
+          : cubic(centerX, centerX + b.width * 0.1, lerp(centerX, rightX, 0.65), rightX, localT);
+        const y = firstHalf
+          ? cubic(y0, y0 + compareLift, centerY + pointerPull, centerY, localT)
+          : cubic(centerY, centerY - pointerPull, y1 - compareLift, y1, localT);
+        const angle = firstHalf ? Math.atan2(centerY - y0, centerX - leftX) : Math.atan2(y1 - centerY, rightX - centerX);
+        const alpha = state.reduceMotion ? 0.34 : 0.3 + 0.22 * Math.sin(routeT * Math.PI);
+        drawTraceParticle(x, y, state.width < 560 ? 1 : 1.25, particle.lane % 2 ? pal.lineC : pal.lineB, alpha * alpha, angle);
+      });
+
       drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
     };
 
@@ -219,6 +292,8 @@
       const floor = b.bottom - b.height * 0.05;
       const top = b.top + b.height * 0.07;
       const pointerLift = (0.5 - state.pointer.y) * b.height * 0.18 * state.pointer.intent;
+      const scanT = state.reduceMotion ? 0.58 : wrap01(time * 0.11);
+      const scanX = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, scanT);
 
       beginMode(pal, 0.14 * alpha, 1);
       ctx.strokeStyle = pal.lineC;
@@ -230,6 +305,16 @@
         ctx.stroke();
       });
       endMode();
+
+      ctx.save();
+      const scanBand = ctx.createLinearGradient(scanX - 46, 0, scanX + 46, 0);
+      scanBand.addColorStop(0, "rgba(255, 255, 255, 0)");
+      scanBand.addColorStop(0.48, pal.bgB);
+      scanBand.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.globalAlpha = 0.2 * alpha;
+      ctx.fillStyle = scanBand;
+      ctx.fillRect(scanX - 46, top, 92, floor - top);
+      ctx.restore();
 
       beginMode(pal, 0.32 * alpha, state.width < 560 ? 0.7 : 0.82);
       series.forEach(({ index, t, phase }) => {
@@ -259,7 +344,6 @@
       });
       ctx.stroke();
 
-      const scanX = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, state.reduceMotion ? 0.58 : (time * 0.07) % 1);
       ctx.globalAlpha = 0.32 * alpha;
       ctx.strokeStyle = pal.lineB;
       ctx.lineWidth = state.width < 560 ? 1.1 : 1.45;
@@ -268,6 +352,17 @@
       ctx.lineTo(scanX, floor);
       ctx.stroke();
       endMode();
+
+      const evaluateParticles = state.geometry.particles?.evaluate || [];
+      evaluateParticles.forEach((particle) => {
+        const progress = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.085 * particle.speed);
+        const x = lerp(b.left + b.width * 0.06, b.right - b.width * 0.06, progress);
+        const evidence = 0.22 + 0.34 * Math.sin(progress * Math.PI) + 0.035 * Math.sin(time * 1.8 + particle.phase);
+        const y = floor - b.height * evidence + pointerLift * Math.sin(progress * Math.PI) * 0.7;
+        const pulse = state.reduceMotion ? 0.58 : 0.5 + 0.5 * Math.sin(time * 3.2 + particle.phase);
+        const color = particle.lane % 3 === 0 ? pal.lineB : particle.lane % 3 === 1 ? pal.lineA : pal.lineC;
+        drawTraceParticle(x, clamp(y, top, floor), state.width < 560 ? 1 : 1.25 + pulse * 0.28, color, (0.22 + pulse * 0.22) * alpha, -Math.PI / 2);
+      });
     };
 
     const drawSituated = (time, pal, alpha = 1) => {
@@ -321,6 +416,30 @@
       anchors.forEach((anchor, index) => {
         drawDot(anchor.x, anchor.y, state.width < 560 ? 2 : 2.55, index % 2 ? pal.lineC : pal.lineA, 0.72 * alpha);
       });
+
+      const situatedParticles = state.geometry.particles?.situated || [];
+      situatedParticles.forEach((particle) => {
+        const source = anchors[particle.lane % anchors.length];
+        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.032 * particle.speed);
+        const travel = state.reduceMotion ? wrap01(particle.seed + 0.28) : wrap01(particle.seed + time * 0.072 * particle.speed);
+        const angle = Math.PI * 2 * orbit + Math.sin(time * 0.38 + particle.phase) * 0.06;
+        const targetX = clamp(centerX + Math.cos(angle) * radiusX, b.left, b.right);
+        const targetY = clamp(centerY + Math.sin(angle) * radiusY, b.top, b.bottom);
+        const bend = Math.sin(particle.seed * Math.PI * 2 + time * 0.28) * b.height * 0.05;
+        const x = cubic(source.x, lerp(source.x, centerX, 0.42), lerp(targetX, centerX, 0.42), targetX, travel);
+        const y = cubic(source.y, lerp(source.y, centerY, 0.42) - bend, lerp(targetY, centerY, 0.42) + bend, targetY, travel);
+        const nextX = cubic(source.x, lerp(source.x, centerX, 0.42), lerp(targetX, centerX, 0.42), targetX, clamp(travel + 0.02, 0, 1));
+        const nextY = cubic(source.y, lerp(source.y, centerY, 0.42) - bend, lerp(targetY, centerY, 0.42) + bend, targetY, clamp(travel + 0.02, 0, 1));
+        drawTraceParticle(
+          x,
+          y,
+          state.width < 560 ? 1 : 1.2,
+          particle.lane % 2 ? pal.lineC : pal.lineA,
+          0.28 * alpha,
+          Math.atan2(nextY - y, nextX - x)
+        );
+      });
+
       drawDot(centerX, centerY, state.width < 560 ? 3 : 3.8, pal.lineB, 0.78 * alpha);
     };
 

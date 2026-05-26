@@ -77,7 +77,7 @@ html[data-theme="dark"] .home-page {
 }
 
 html[data-theme="dark"] .home-story-rail ol {
-  background: rgba(33, 28, 25, 0.88);
+  background: rgba(22, 28, 31, 0.88);
 }
 
 .home-story-rail-link {
@@ -375,6 +375,11 @@ html[data-theme="dark"] .home-story-rail ol {
   background: var(--home-surface);
   box-shadow: 0 10px 24px rgba(73, 45, 30, 0.065);
   transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0));
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    box-shadow var(--motion-standard),
+    transform var(--motion-slow);
 }
 
 .home-media-card::before {
@@ -415,35 +420,17 @@ html[data-theme="dark"] .home-story-rail ol {
   border-left: 1px solid color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
 }
 
-@keyframes home-bubble-float-up {
-  0%,
-  100% {
-    transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0));
-  }
-
-  50% {
-    transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0)) translateY(-0.34rem);
-  }
-}
-
-@keyframes home-bubble-float-down {
-  0%,
-  100% {
-    transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0));
-  }
-
-  50% {
-    transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0)) translateY(0.42rem);
-  }
-}
-
 @media (hover: hover) and (pointer: fine) {
-  .home-media-card-secondary {
-    animation: home-bubble-float-down 9.6s ease-in-out infinite;
+  .home-hero-media:hover .home-media-card-secondary {
+    border-color: color-mix(in srgb, var(--home-mint-strong) 38%, var(--home-line));
+    box-shadow: 0 14px 30px rgba(73, 45, 30, 0.085);
+    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(0.18rem);
   }
 
-  .home-media-card-primary {
-    animation: home-bubble-float-up 5.4s ease-in-out infinite;
+  .home-hero-media:hover .home-media-card-primary {
+    border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
+    box-shadow: 0 14px 30px rgba(73, 45, 30, 0.085);
+    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(-0.16rem);
   }
 }
 
@@ -865,7 +852,9 @@ html[data-theme="dark"] .home-story-rail ol {
   background: var(--home-surface);
   transition:
     border-color var(--motion-standard),
-    box-shadow var(--motion-standard);
+    box-shadow var(--motion-standard),
+    opacity 260ms ease,
+    transform 260ms ease;
 }
 
 .home-motion-detail[hidden] {
@@ -928,6 +917,19 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-motion-detail.is-active {
   border-color: rgba(var(--global-accent-rgb), 0.28);
   box-shadow: 0 12px 28px rgba(73, 45, 30, 0.06);
+  animation: home-detail-enter 260ms ease both;
+}
+
+@keyframes home-detail-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .home-work-card:hover {
