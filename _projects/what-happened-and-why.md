@@ -16,6 +16,8 @@ hide_title: true
 wide_layout: true
 keywords: What Happened and Why, trace-guided micro-episodes, elicited user explanations, product iteration, creative activity traces, CHI 2026 workshop, Herding CATs, generative AI, design tools, Sirui Tao, William P. McCarthy, Steven P. Dow
 og_image: https://dylantao.github.io/assets/img/publication_preview/herding_cats_why_what.png
+og_image_width: 1376
+og_image_height: 590
 citation_title: "What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration"
 citation_authors:
   - "Tao, Sirui"

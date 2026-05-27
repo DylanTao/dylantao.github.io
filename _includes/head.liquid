@@ -91,7 +91,6 @@
 {% endif %}
 {% assign main_css_version = site.time | date: '%Y%m%d%H%M%S' %}
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ main_css_version }}">
-<link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
 
 {% if site.enable_darkmode %}
   <!-- Dark Mode -->

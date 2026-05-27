@@ -14,6 +14,21 @@ github: https://github.com/slimykat/DesignWeaver
 related_publications: true
 hide_title: true
 keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product design, prompt engineering, design dimensions, novice designers, DALL-E, GPT-4, GPT-4o, GPT-4o-mini, design innovation, CHI 2025, CHI25, Sirui, Sirui Tao, Steven, Steven Dow
+og_image: https://dylantao.github.io/assets/img/publication_preview/designweaver.png
+og_image_width: 2294
+og_image_height: 1298
+citation_title: "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design"
+citation_authors:
+  - "Tao, Sirui"
+  - "Liang, Ivan"
+  - "Peng, Cindy"
+  - "Wang, Zhiqing"
+  - "Palani, Srishti"
+  - "Dow, Steven"
+citation_publication_date: "2025/04/26"
+citation_conference_title: "Conference on Human Factors in Computing Systems (CHI 2025)"
+citation_pdf_url: "https://dl.acm.org/doi/pdf/10.1145/3706598.3714211"
+doi: "10.1145/3706598.3714211"
 ---
 
 <section class="project-case-hero designweaver-case">

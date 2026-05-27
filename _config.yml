@@ -3,16 +3,21 @@
 # -----------------------------------------------------------------------------
 
 title: Sirui Tao's Crib 🐣 # the website title (if blank, full name will be used instead)
+site_name: Sirui Tao
+seo_title: Sirui Tao - HCI Researcher at UC San Diego
 first_name: Sirui
 middle_name:
 last_name: Tao
 email: dylantaosirui@gmail.com
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   Sirui Tao | HCI Researcher & Graphics Enthusiast at UCSD
+seo_description: >-
+  Sirui Tao is a Cognitive Science Ph.D. student at UC San Diego studying HCI,
+  creativity, design tools, and human-centered AI.
 footer_text: >
   Thanks to <a href="https://github.com/alshedivat/al-folio">al-folio</a>.
   For short updates, see <a href="/news/">news</a>. Best way to contact is email!
-keywords: sirui, sirui-tao, tao-sirui, researcher-sirui-tao, human-computer-interaction, human-centered-ai, hci-research, computational-design, ux-research, embodied-robotics, generative-design, creative-ai, graphics, ucsd, hci, design-tools, generative-ai, 3d-graphics, creativity, hci-and-graphics, mixed-reality-design, research, ucsd-research, ucsd-hci, academic-website, portfolio-website, product-manager, data-scientist, hci-phd, phd-applicant # add your own keywords or leave empty
+keywords: Sirui Tao, HCI researcher, UC San Diego, human-computer interaction, human-centered AI, creativity support tools, design tools, computational design, creative AI, DesignWeaver # add your own keywords or leave empty
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon.ico # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
@@ -91,7 +96,42 @@ max_width: 930px
 # see https://schema.org/docs/faq.html for more information
 serve_og_meta: true # Include Open Graph meta tags in the HTML head
 serve_schema_org: true # Include Schema.org in the HTML head
-og_image: true # The site-wide (default for all links) Open Graph preview image
+og_image: /assets/img/sirui_pic.jpg # The site-wide (default for all links) Open Graph preview image
+og_image_width: 2242
+og_image_height: 2146
+person_image: /assets/img/sirui_pic.jpg
+person_job_title: HCI Researcher and Cognitive Science Ph.D. Student
+profile_works_for:
+  "@type": Organization
+  name: University of California, San Diego
+  url: https://www.ucsd.edu/
+profile_affiliations:
+  - "@type": Organization
+    name: University of California, San Diego
+    url: https://www.ucsd.edu/
+  - "@type": Organization
+    name: UC San Diego Design Lab
+    url: https://designlab.ucsd.edu/
+  - "@type": Organization
+    name: ProtoLab
+    url: https://protolab.ucsd.edu/
+profile_knows_about:
+  - Human-Computer Interaction
+  - Creativity Support Tools
+  - Human-Centered AI
+  - Computational Design
+  - Design Tools
+  - Generative AI
+  - Computer Graphics
+  - Embodied Interaction
+profile_same_as:
+  - https://scholar.google.com/citations?user=W6vF-VcAAAAJ
+  - https://dblp.org/pid/295/8588
+  - https://openreview.net/profile?id=~Sirui_Tao1
+  - https://www.linkedin.com/in/siruitao/
+  - https://github.com/DylanTao
+  - https://x.com/SiruiTao
+  - https://siruitao.bsky.social
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification

@@ -53,71 +53,8 @@
 
   // Enhanced Meta Tags
   function enhanceMetaTags() {
-    // Add structured data for current page
-    const currentPage = window.location.pathname;
-
-    if (currentPage.includes("/publications/") || currentPage.includes("/projects/")) {
-      addPublicationSchema();
-    } else if (currentPage.includes("/blog/")) {
-      addBlogPostSchema();
-    }
-  }
-
-  // Add Publication Schema
-  function addPublicationSchema() {
-    const schema = {
-      "@context": "https://schema.org",
-      "@type": "CreativeWork",
-      name: document.title,
-      description: getMetaDescription(),
-      author: {
-        "@type": "Person",
-        name: "Sirui Tao",
-      },
-      publisher: {
-        "@type": "Person",
-        name: "Sirui Tao",
-      },
-      url: window.location.href,
-      datePublished: new Date().toISOString().split("T")[0],
-      genre: "Research Publication",
-    };
-
-    addStructuredData(schema);
-  }
-
-  // Add Blog Post Schema
-  function addBlogPostSchema() {
-    const schema = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: document.title,
-      description: getMetaDescription(),
-      author: {
-        "@type": "Person",
-        name: "Sirui Tao",
-      },
-      publisher: {
-        "@type": "Person",
-        name: "Sirui Tao",
-      },
-      url: window.location.href,
-      datePublished: new Date().toISOString().split("T")[0],
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": window.location.href,
-      },
-    };
-
-    addStructuredData(schema);
-  }
-
-  // Add Structured Data to Page
-  function addStructuredData(schema) {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.textContent = JSON.stringify(schema);
-    document.head.appendChild(script);
+    // Metadata and JSON-LD are rendered server-side in _includes/metadata.liquid.
+    // Keeping this function as a no-op avoids duplicate client-side schema.
   }
 
   // Get Meta Description
