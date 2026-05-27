@@ -22,16 +22,9 @@
           changed your mind.
         </p>
       {% endif %}
-      {% if recruiting.growth %}
-        <div class="home-recruiting-growth" aria-label="Research skills students can grow here">
-          {% for item in recruiting.growth %}
-            <span>{{ item }}</span>
-          {% endfor %}
-        </div>
-      {% endif %}
     </div>
     <div class="home-recruiting-steps">
-      <h3>When reaching out</h3>
+      <h3>Start here</h3>
       <ol>
         <li>
           Read the
@@ -44,7 +37,7 @@
         </li>
         <li>Include a 1-page CV or resume, an optional portfolio link, and a 3-5 sentence note on the questions or domains you care about.</li>
       </ol>
-      <div class="home-recruiting-actions">
+      <div class="home-recruiting-actions" aria-label="Student research application actions">
         <a class="home-btn home-btn-secondary" href="{{ recruiting_post_url | relative_url }}">Read the post</a>
         <a class="home-btn home-btn-quiet" href="mailto:{{ recruiting_email }}?subject={{ recruiting_subject | url_encode }}">Email interest</a>
       </div>
