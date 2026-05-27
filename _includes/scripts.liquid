@@ -195,6 +195,11 @@
 <script src="{{ '/assets/js/no_defer.js' | relative_url | bust_file_cache }}"></script>
 <script defer src="{{ '/assets/js/common.js' | relative_url | bust_file_cache }}"></script>
 <script defer src="{{ '/assets/js/copy_code.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+{% unless page.reading_aid == false %}
+  {% if page.layout == 'post' or page.collection == 'projects' %}
+    <script defer src="{{ '/assets/js/section-reading-aid.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+  {% endif %}
+{% endunless %}
 {% if page.url contains '/blog/' %}
   <script defer src="{{ '/assets/js/blog-read-counter.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <script defer src="{{ '/assets/js/blog-secret.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>

@@ -105,6 +105,193 @@ body.sticky-bottom-footer {
   margin-left: auto;
 }
 
+.post.project-case-page article > .row:has(figure),
+.post.project-case-page article > .website-revamp-gallery,
+.post.project-case-page article > .caption {
+  max-width: min(100%, 72rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.section-reading-aid-target {
+  scroll-margin-top: 6.5rem;
+}
+
+.section-reading-aid {
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  line-height: 1.35;
+}
+
+.section-reading-aid-list {
+  display: grid;
+  gap: 0.08rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-reading-aid-link {
+  display: grid;
+  grid-template-columns: 1.65rem minmax(0, 1fr);
+  gap: 0.48rem;
+  align-items: center;
+  min-height: 1.62rem;
+  color: inherit;
+  line-height: 1.15;
+  text-decoration: none;
+  transition:
+    color var(--motion-standard),
+    opacity var(--motion-standard);
+
+  &::before {
+    display: block;
+    width: 1.45rem;
+    height: 1px;
+    background: transparent;
+    content: "";
+    transition: background-color var(--motion-standard);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--global-theme-color);
+    text-decoration: none;
+  }
+
+  &.is-active {
+    color: var(--global-text-color);
+    font-weight: 720;
+
+    &::before {
+      background: currentColor;
+    }
+  }
+}
+
+.section-reading-aid-link-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section-reading-aid-kicker {
+  display: block;
+  margin: 0 0 0.42rem 2.15rem;
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.section-reading-aid-desktop {
+  display: none;
+}
+
+.section-reading-aid-mobile {
+  max-width: var(--measure-prose);
+  margin: 1.3rem auto 1.5rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.55rem;
+  background: var(--global-card-bg-color);
+  box-shadow: 0 0.55rem 1.5rem rgba(32, 25, 22, 0.05);
+
+  summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    align-items: center;
+    min-height: 2.85rem;
+    padding: 0.7rem 0.85rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      color: var(--global-theme-color);
+      content: "+";
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+  }
+
+  &[open] {
+    position: relative;
+    top: auto;
+
+    summary::after {
+      content: "-";
+    }
+  }
+
+  .section-reading-aid-list {
+    padding: 0 0.85rem 0.75rem;
+  }
+}
+
+.section-reading-aid-mobile-label {
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.section-reading-aid-current {
+  display: block;
+  min-width: 0;
+  color: var(--global-text-color);
+  font-size: var(--type-meta);
+  font-weight: 720;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 1280px) {
+  .section-reading-aid-mobile {
+    display: none;
+  }
+
+  .section-reading-aid-desktop {
+    position: fixed;
+    top: 9.25rem;
+    left: max(1rem, calc(50vw - (var(--measure-prose) / 2) - 13.5rem));
+    z-index: 8;
+    display: block;
+    width: 10.75rem;
+    max-height: min(calc(100vh - 10.5rem), var(--section-reading-aid-visible-height, calc(100vh - 10.5rem)));
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.35rem);
+    transition:
+      opacity var(--motion-standard),
+      transform var(--motion-standard);
+
+    &.is-readable:not(.is-obscured) {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (max-width: 1279.98px) {
+  .section-reading-aid-mobile {
+    position: sticky;
+    top: 4.35rem;
+    z-index: 12;
+  }
+}
+
 html.site-motion-ready .site-reveal {
   opacity: 0;
   transform: translateY(0.55rem);
