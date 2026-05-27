@@ -500,17 +500,82 @@ swiper-container {
 // for more options, check https://github.com/ssleptsov/ninja-keys?tab=readme-ov-file#css-variables
 ninja-keys {
   --ninja-accent-color: var(--global-theme-color);
+  --ninja-actions-height: min(420px, 52vh);
+  --ninja-backdrop-filter: blur(7px);
+  --ninja-footer-background: var(--global-card-bg-color);
   --ninja-icon-size: 0px;
-  --ninja-modal-background: var(--global-bg-color);
+  --ninja-modal-background: var(--global-card-bg-color);
+  --ninja-modal-shadow: 0 24px 80px rgb(36 23 17 / 18%), 0 4px 18px rgb(36 23 17 / 10%);
+  --ninja-overflow-background: color-mix(in srgb, var(--global-bg-color) 78%, transparent);
+  --ninja-secondary-background-color: color-mix(in srgb, var(--global-divider-color) 42%, transparent);
+  --ninja-secondary-text-color: var(--global-text-color-light);
+  --ninja-selected-background: color-mix(in srgb, var(--global-theme-color) 12%, var(--global-card-bg-color));
+  --ninja-selected-text-color: var(--global-text-color);
+  --ninja-separate-border: 1px solid var(--global-divider-color);
+  --ninja-text-color: var(--global-text-color);
+  --ninja-top: 14%;
+  --ninja-width: min(680px, calc(100vw - 2rem));
   --ninja-z-index: 1031;
 }
 
 ninja-keys::part(ninja-input) {
+  font-family: var(--font-sans);
+  font-size: 1rem;
   color: var(--ninja-selected-text-color);
 }
 
 ninja-keys::part(ninja-input-wrapper) {
-  background: var(--global-bg-color);
+  background: var(--global-card-bg-color);
+  border-bottom: 1px solid var(--global-divider-color);
+}
+
+ninja-keys::part(actions-list) {
+  background: var(--global-card-bg-color);
+  padding: 0.35rem 0;
+}
+
+ninja-keys::part(ninja-action) {
+  padding: 0.72rem 1rem;
+}
+
+ninja-keys::part(ninja-selected) {
+  background: var(--ninja-selected-background);
+}
+
+.search-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--global-divider-color);
+  background: var(--global-card-bg-color);
+  color: var(--global-text-color-light);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.search-modal-shortcut {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+}
+
+@media (max-width: 575px) {
+  ninja-keys {
+    --ninja-actions-height: min(430px, 62vh);
+    --ninja-top: 4.5rem;
+    --ninja-width: calc(100vw - 1rem);
+  }
+
+  .search-modal-footer {
+    display: block;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .search-modal-shortcut {
+    display: none;
+  }
 }
 
 // Books shelf
