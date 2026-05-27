@@ -14,7 +14,6 @@ Allow: /publications/
 Allow: /projects/
 Allow: /blog/
 Allow: /cv/
-Allow: /teaching/
 
 # Crawl delay (optional - helps with server load)
 Crawl-delay: 1
