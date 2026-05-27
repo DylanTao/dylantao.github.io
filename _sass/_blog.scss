@@ -238,7 +238,7 @@
   #markdown-content > dl {
     max-width: var(--measure-prose);
     margin-right: auto;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   #markdown-content > h2,
@@ -249,7 +249,7 @@
   #markdown-content > .website-revamp-cta {
     max-width: var(--measure-prose);
     margin-right: auto;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   #markdown-content > p:has(img),

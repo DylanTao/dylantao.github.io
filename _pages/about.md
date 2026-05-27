@@ -108,16 +108,16 @@ research_motion:
     intro: Secondary threads I want to keep prototyping around, while the thesis stays centered on design judgment.
     items:
       - title: Everyday robots
-        text: Daily routines, homes, and shared spaces.
+        text: Routines, homes, shared spaces, uncertainty, and unobtrusive help.
       - title: Learner-centered AI
-        text: Education at scale without losing the learner.
+        text: Education at scale while preserving agency and the learning process.
       - title: Post-deployment iteration
-        text: Better tools after real use begins.
+        text: Reading real-use traces to improve benefit and reduce harm.
       - title: Community-centered tools
-        text: Support for real-world collaboration.
+        text: Coordination, sensemaking, and shared ownership in real groups.
   credit:
-    text: Motion pattern inspired by Stripe's homepage craft and Katie Dill's design-quality framing.
-    stripe_label: Stripe design team
+    text: Inspired by motion craft from
+    stripe_label: Stripe's design team
     stripe_url: https://stripe.com/
     katie_label: Katie Dill at Stripe Sessions
     katie_url: https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function
@@ -132,9 +132,10 @@ research_motion:
         generative possibilities without losing the dimensions, constraints, and values that
         make a design worth pursuing.
       detail_points:
-        - Make exploration more grounded, legible, and human-centered.
-        - Surface meaningful differences, tradeoffs, and consequences across directions.
-        - Move ideas from vibes to variables to value.
+        - Ground generation in constraints, values, and criteria.
+        - Make differences visible enough to compare.
+        - Turn vague preference into evidence-backed direction.
+      detail_points_label: Moves
       link_label: See DesignWeaver
       link_url: /projects/designweaver/
     - id: evaluate
@@ -147,9 +148,10 @@ research_motion:
         calibration, appropriate reliance, and whether traces help people revise the artifact
         after deployment.
       detail_points:
-        - Build systems, then measure how people actually use and revise them.
-        - Read traces, probes, and measures as evidence for design decisions.
-        - Support post-deployment iteration to maximize benefit and minimize harm.
+        - Build systems, then measure how people revise with them.
+        - Treat traces, probes, and metrics as design evidence.
+        - Use evaluation to decide what should change next.
+      detail_points_label: Evidence loop
       link_label: Read CHI 2026 workshop paper
       link_url: /projects/what-happened-and-why/
     - id: situated
@@ -164,7 +166,8 @@ research_motion:
       detail_points:
         - Let context change the shape of the interface.
         - Keep people, tasks, tools, and physical space in the model.
-        - Design assistance that fits the situation instead of interrupting it.
+        - Make assistance fit the situation instead of interrupting it.
+      detail_points_label: Situations
 
 recruiting:
   eyebrow: Research opportunities

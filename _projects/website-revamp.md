@@ -18,8 +18,8 @@ research_motion:
   title: Play with the motion system.
   intro: "This is the same small research sketch from the homepage: change the research lens, then change the time-of-day theme to see how motion, color, and hierarchy stay connected."
   credit:
-    text: Motion pattern inspired by Stripe's homepage craft and Katie Dill's design-quality framing.
-    stripe_label: Stripe design team
+    text: Inspired by motion craft from
+    stripe_label: Stripe's design team
     stripe_url: https://stripe.com/
     katie_label: Katie Dill at Stripe Sessions
     katie_url: https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function
@@ -36,6 +36,7 @@ research_motion:
         - Turn vague vibes into inspectable variables.
         - Keep alternatives comparable before critique.
         - Use motion to show gathering, comparison, and reopening.
+      detail_points_label: Moves
     - id: evaluate
       label: Evaluate
       title: Build -> measure
@@ -48,6 +49,7 @@ research_motion:
         - Show probes and measures without making the page feel like a dashboard.
         - Connect speed with critique and reflection.
         - Keep evaluation close to the thing being evaluated.
+      detail_points_label: Evidence loop
     - id: situated
       label: Situated
       title: Augment in context
@@ -58,6 +60,7 @@ research_motion:
         - Draw anchors for people, tasks, tools, and spaces.
         - Let pointer motion suggest context without snapping.
         - Keep assistance calm enough to stay usable.
+      detail_points_label: Situations
 ---
 
 <section class="project-case-hero website-revamp-hero">

@@ -47,6 +47,18 @@
       <p class="sr-only" data-research-motion-status>Showing the Design motion sketch.</p>
     </div>
 
+    {% if page.research_motion.credit %}
+      <p class="home-motion-credit">
+        <span class="home-motion-credit-label">Motion note</span>
+        <span class="home-motion-credit-copy">
+          {{- page.research_motion.credit.text }}
+          <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
+          and
+          <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
+        </span>
+      </p>
+    {% endif %}
+
     {% if page.research_motion.modes %}
       <div class="home-motion-details" aria-live="polite">
         {% for mode in page.research_motion.modes %}
@@ -57,8 +69,8 @@
               hidden
             {% endunless %}
           >
-            <div>
-              <span>{{ mode.label }} lens</span>
+            <div class="home-motion-detail-main">
+              <span class="home-motion-detail-label">{{ mode.label }} lens</span>
               <h3>{{ mode.detail_title | default: mode.title }}</h3>
               <p>{{ mode.detail_text | default: mode.text }}</p>
               {% if mode.link_url %}
@@ -69,11 +81,17 @@
               {% endif %}
             </div>
             {% if mode.detail_points %}
-              <ul>
-                {% for point in mode.detail_points %}
-                  <li>{{ point }}</li>
-                {% endfor %}
-              </ul>
+              <div class="home-motion-detail-rail">
+                <span class="home-motion-detail-note-label">{{ mode.detail_points_label | default: 'Research moves' }}</span>
+                <ol class="home-motion-detail-notes">
+                  {% for point in mode.detail_points %}
+                    <li>
+                      <span>0{{ forloop.index }}</span>
+                      <p>{{ point }}</p>
+                    </li>
+                  {% endfor %}
+                </ol>
+              </div>
             {% endif %}
           </article>
         {% endfor %}
@@ -97,14 +115,6 @@
           </div>
         {% endif %}
       </div>
-    {% endif %}
-    {% if page.research_motion.credit %}
-      <p class="home-motion-credit">
-        {{ page.research_motion.credit.text }}
-        <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
-        and
-        <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
-      </p>
     {% endif %}
   </section>
 {% endif %}
