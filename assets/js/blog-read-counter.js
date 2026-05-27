@@ -1,5 +1,6 @@
 (() => {
   const counterEndpoint = "https://bsz.saop.cc/api";
+  const counterTimeoutMs = 2500;
   const counterSelector = ".js-blog-read-count[data-blog-read-url]";
   const counters = Array.from(document.querySelectorAll(counterSelector));
 
@@ -49,14 +50,23 @@
     requestUrl.searchParams.set("referer", canonicalUrl);
     requestUrl.searchParams.set("_", Date.now().toString());
     const shouldIncrement = mode === "increment" && !isLocalPreview();
-    const response = await fetch(requestUrl, {
-      cache: "no-store",
-      credentials: "include",
-      headers: {
-        "x-bsz-referer": canonicalUrl,
-      },
-      method: shouldIncrement ? "POST" : "GET",
-    });
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timeout = controller ? window.setTimeout(() => controller.abort(), counterTimeoutMs) : null;
+
+    let response;
+    try {
+      response = await fetch(requestUrl, {
+        cache: "no-store",
+        credentials: "include",
+        headers: {
+          "x-bsz-referer": canonicalUrl,
+        },
+        method: shouldIncrement ? "POST" : "GET",
+        signal: controller?.signal,
+      });
+    } finally {
+      if (timeout) window.clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       throw new Error(`read counter failed: ${response.status}`);
