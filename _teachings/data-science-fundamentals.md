@@ -8,6 +8,8 @@ term: Spring
 location: Science Building, Room 202
 time: Mondays and Wednesdays, 2:00-3:30 PM
 course_id: data-science-fundamentals
+published: false
+sitemap: false
 schedule:
   - week: 1
     date: Feb 5

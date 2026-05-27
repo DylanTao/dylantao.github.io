@@ -36,7 +36,7 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" title="DesignWeaver teaser" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" title="DesignWeaver teaser" alt="Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery" class="img-fluid" %}
   </div>
 </section>
 
@@ -155,7 +155,7 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" title="DesignWeaver_teaser" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" title="DesignWeaver_teaser" alt="DesignWeaver interface overview showing a prompt box, dimension palette, image gallery, and favorite folder" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -175,7 +175,7 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_system_diagram.jpg" title="tool_design_system_diagram" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_system_diagram.jpg" title="tool_design_system_diagram" alt="System diagram showing how DesignWeaver ingests design documents, recommends dimensions, generates images, and supports iteration" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -199,7 +199,7 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_all_features.jpg" title="tool_design_all_features" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_all_features.jpg" title="tool_design_all_features" alt="Full DesignWeaver interface with the design document, prompt box, dimension palette, image panel, and favorite selection tools" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -214,7 +214,7 @@ keywords: DesignWeaver, Design Weaver, GenAI, chair, AI design tool, product des
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_baseline.jpg" title="user_study_baseline" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_baseline.jpg" title="user_study_baseline" alt="Baseline study workflow showing participants creating product design prompts without dimensional scaffolding" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -231,7 +231,7 @@ A user study involving 52 novice designers revealed that DesignWeaver:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" title="user_study_workflow" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" title="user_study_workflow" alt="DesignWeaver study workflow showing how participants use extracted dimensions, prompts, generated images, and favorites" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -248,10 +248,10 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 <div class="row justify-content-sm-center">
     <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.jpg" title="finding_survey_average_ratings_comparison" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.jpg" title="finding_survey_average_ratings_comparison" alt="Bar chart comparing average survey ratings between DesignWeaver and baseline conditions" class="img-fluid rounded z-depth-1" %}
     </div>
     <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution.jpg" title="finding_image_similarity_scores_distribution" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid path="assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution.jpg" title="finding_image_similarity_scores_distribution" alt="Distribution plot comparing image similarity scores for generated chair concepts" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -260,7 +260,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg" title="finding_novelty_gallery_" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg" title="finding_novelty_gallery_" alt="Gallery comparing the novelty and diversity of chair concepts created with DesignWeaver and baseline workflows" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">

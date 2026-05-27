@@ -132,11 +132,34 @@ _styles: |
     text-wrap: pretty;
   }
 
+  .trace-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(330px, 0.58fr);
+    grid-template-areas: 'proof evidence';
+    gap: 1.35rem;
+    align-items: start;
+    margin-top: 1.55rem;
+  }
+
+  .trace-hero-proof {
+    grid-area: proof;
+    min-width: 0;
+  }
+
+  .trace-hero-evidence {
+    grid-area: evidence;
+    min-width: 0;
+  }
+
+  .trace-hero-evidence .trace-figure-shell {
+    background: var(--global-card-bg-color);
+  }
+
   .trace-meta {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
-    margin: 1.75rem 0 1.6rem;
+    margin: 0 0 1rem;
   }
 
   .trace-meta-card {
@@ -166,57 +189,49 @@ _styles: |
     line-height: 1.5;
   }
 
-  .trace-author-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.1rem;
-    margin-bottom: 1.6rem;
-  }
-
-  .trace-author-card {
-    padding: 1.25rem 1.05rem 1.3rem;
-    text-align: center;
-    background: var(--global-card-bg-color);
-    border: 1px solid var(--global-divider-color);
-    border-radius: 1.15rem;
-  }
-
-  .trace-author-avatar,
-  .trace-author-card img {
-    width: 118px;
-    height: 118px;
-    margin: 0 auto 0.9rem;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    border: 3px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
-  }
-
-  .trace-author-avatar {
+  .trace-author-line {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
     align-items: center;
-    justify-content: center;
-    background:
-      radial-gradient(circle at 28% 28%, rgba(255, 255, 255, 0.9), transparent 36%),
-      linear-gradient(135deg, var(--trace-accent), var(--trace-accent-deep));
-    color: #fffaf5;
-    font-family: var(--font-display);
-    font-size: 2rem;
-    letter-spacing: 0;
+    margin: 0 0 1rem;
   }
 
-  .trace-author-name {
-    display: inline-block;
-    margin-bottom: 0.18rem;
+  .trace-author-label,
+  .trace-author-chip span {
+    font-size: var(--type-label);
     font-weight: 700;
-    color: var(--global-text-color);
+    letter-spacing: 0;
+    text-transform: uppercase;
   }
 
-  .trace-author-affiliation {
-    margin: 0;
-    font-size: 0.95rem;
+  .trace-author-label {
+    color: var(--trace-accent-deep);
+  }
+
+  .trace-author-chip {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: baseline;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.38);
+    color: var(--global-text-color);
+    text-decoration: none;
+  }
+
+  .trace-author-chip:hover {
+    color: var(--trace-accent-deep);
+    text-decoration: none;
+  }
+
+  .trace-author-chip span {
     color: var(--global-text-color-light);
+  }
+
+  html[data-theme='dark'] .trace-author-chip {
+    background: rgba(0, 0, 0, 0.12);
   }
 
   .trace-actions {
@@ -416,11 +431,17 @@ _styles: |
 
   @media (max-width: 992px) {
     .trace-meta,
-    .trace-author-grid,
     .trace-why-grid,
     .trace-inline-list,
     .trace-two-column {
       grid-template-columns: 1fr;
+    }
+
+    .trace-hero-grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        'evidence'
+        'proof';
     }
   }
 
@@ -469,43 +490,45 @@ _styles: |
       A workshop position paper about how interaction traces and short, in-context user explanations can work together to support product iteration in creative AI tools.
     </p>
 
-    <div class="trace-meta">
-      <div class="trace-meta-card">
-        <span class="trace-meta-label">Venue</span>
-        <p class="trace-meta-value">Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)</p>
-      </div>
-      <div class="trace-meta-card">
-        <span class="trace-meta-label">Publication Date</span>
-        <p class="trace-meta-value">February 25, 2026</p>
-      </div>
-      <div class="trace-meta-card">
-        <span class="trace-meta-label">Focus</span>
-        <p class="trace-meta-value">Creative workflows, product iteration, and grounded alignment data</p>
-      </div>
-    </div>
+    <div class="trace-hero-grid">
+      <div class="trace-hero-proof">
+        <div class="trace-meta">
+          <div class="trace-meta-card">
+            <span class="trace-meta-label">Venue</span>
+            <p class="trace-meta-value">Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)</p>
+          </div>
+          <div class="trace-meta-card">
+            <span class="trace-meta-label">Publication Date</span>
+            <p class="trace-meta-value">February 25, 2026</p>
+          </div>
+          <div class="trace-meta-card">
+            <span class="trace-meta-label">Focus</span>
+            <p class="trace-meta-value">Creative workflows, product iteration, and grounded alignment data</p>
+          </div>
+        </div>
 
-    <div class="trace-author-grid">
-      <div class="trace-author-card">
-        <img src="{{ '/assets/img/authors/sirui_tao.jpg' | relative_url }}" alt="Sirui Tao portrait">
-        <a class="trace-author-name" href="https://dylantao.github.io/">Sirui Tao</a>
-        <p class="trace-author-affiliation">UC San Diego</p>
-      </div>
-      <div class="trace-author-card">
-        <img src="{{ '/assets/img/authors/william_mccarthy.jpg' | relative_url }}" alt="William P. McCarthy portrait">
-        <a class="trace-author-name" href="https://wpmccarthy.com/">William P. McCarthy</a>
-        <p class="trace-author-affiliation">Autodesk AI Lab</p>
-      </div>
-      <div class="trace-author-card">
-        <img src="{{ '/assets/img/authors/steven_dow.png' | relative_url }}" alt="Steven P. Dow portrait">
-        <a class="trace-author-name" href="https://spdow.ucsd.edu/">Steven P. Dow</a>
-        <p class="trace-author-affiliation">UC San Diego</p>
-      </div>
-    </div>
+        <div class="trace-author-line" aria-label="Authors">
+          <span class="trace-author-label">Authors</span>
+          <a class="trace-author-chip" href="https://dylantao.github.io/">Sirui Tao <span>UCSD</span></a>
+          <a class="trace-author-chip" href="https://wpmccarthy.com/">William P. McCarthy <span>Autodesk AI Lab</span></a>
+          <a class="trace-author-chip" href="https://spdow.ucsd.edu/">Steven P. Dow <span>UCSD</span></a>
+        </div>
 
-    <div class="trace-actions">
-      <a class="trace-btn trace-btn-primary" href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">PDF</a>
-      <a class="trace-btn trace-btn-quiet" href="https://herding-cats-ws.github.io/">Workshop</a>
-      <a class="trace-btn trace-btn-quiet" href="#bibtex">BibTeX</a>
+        <div class="trace-actions">
+          <a class="trace-btn trace-btn-primary" href="{{ '/projects/what-happened-and-why/what-happened-and-why.pdf' | relative_url }}">PDF</a>
+          <a class="trace-btn trace-btn-quiet" href="https://herding-cats-ws.github.io/">Workshop</a>
+          <a class="trace-btn trace-btn-quiet" href="#bibtex">BibTeX</a>
+        </div>
+      </div>
+
+      <aside class="trace-hero-evidence" aria-label="Micro-episode lifecycle diagram">
+        <div class="trace-figure-shell">
+          {% include figure.liquid loading="eager" path="assets/img/publication_preview/herding_cats_why_what.png" title="Micro-episode lifecycle diagram" alt="Diagram showing a trace-guided micro-episode lifecycle: detect friction, offer a context-aware control, collect user rationale, and diagnose product iteration" class="img-fluid rounded z-depth-1" %}
+        </div>
+        <div class="trace-caption">
+          Trace-guided micro-episodes pair what users did with a lightweight explanation of why the moment mattered.
+        </div>
+      </aside>
     </div>
 
   </section>
@@ -518,24 +541,14 @@ _styles: |
   </section>
 
   <section class="trace-section">
-    <div class="trace-two-column">
-      <div class="trace-reading-width">
-        <h2>Overview</h2>
-        <p>
-          Creative systems produce detailed logs, but those logs are often hard to interpret on their own. A long interaction sequence might reflect productive exploration, repeated verification, or a user struggling to recover from an unsatisfying result. This paper starts from a simple observation: traces are good at showing <em>what</em> happened, but they are often poor at revealing <em>why</em>.
-        </p>
-        <p>
-          To make those traces more informative, the paper proposes <strong>trace-guided micro-episodes</strong>: short windows of interaction paired with the local interface context and a lightweight explanation from the user at a moment of friction. Rather than treating explanation as a separate survey task, the proposal is to gather it through useful recovery-oriented interactions inside the tool itself.
-        </p>
-      </div>
-      <div>
-        <div class="trace-figure-shell">
-          {% include figure.liquid loading="eager" path="assets/img/publication_preview/herding_cats_why_what.png" title="Micro-episode lifecycle diagram" class="img-fluid rounded z-depth-1" %}
-        </div>
-        <div class="trace-caption">
-          The paper frames a micro-episode lifecycle: detect friction, offer a useful clarification affordance, and convert the resulting rationale into actionable product evidence.
-        </div>
-      </div>
+    <div class="trace-reading-width">
+      <h2>Overview</h2>
+      <p>
+        Creative systems produce detailed logs, but those logs are often hard to interpret on their own. A long interaction sequence might reflect productive exploration, repeated verification, or a user struggling to recover from an unsatisfying result. This paper starts from a simple observation: traces are good at showing <em>what</em> happened, but they are often poor at revealing <em>why</em>.
+      </p>
+      <p>
+        To make those traces more informative, the paper proposes <strong>trace-guided micro-episodes</strong>: short windows of interaction paired with the local interface context and a lightweight explanation from the user at a moment of friction. Rather than treating explanation as a separate survey task, the proposal is to gather it through useful recovery-oriented interactions inside the tool itself.
+      </p>
     </div>
   </section>
 
