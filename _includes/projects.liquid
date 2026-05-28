@@ -9,8 +9,12 @@
 {% endif %}
 {% if project.redirect %}
   {% assign project_href = project.redirect %}
+  {% assign project_cta_label = 'Visit project site' %}
+  {% assign project_cta_icon = 'fa-arrow-up-right-from-square' %}
 {% else %}
   {% assign project_href = project.url | relative_url %}
+  {% assign project_cta_label = 'Read project page' %}
+  {% assign project_cta_icon = 'fa-arrow-right' %}
 {% endif %}
 {% assign project_card_id = project.title | slugify | prepend: 'project-card-' %}
 
@@ -61,22 +65,21 @@
       </div>
 
       <div class="project-card-panel" id="{{ project_card_id }}-panel" data-project-card-panel hidden>
-        <button class="project-card-close" type="button" data-project-card-close aria-label="Close {{ project.title }} preview">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
         <div class="project-card-actions project-card-actions-expanded">
           <a
             class="project-card-open-link"
             href="{{ project_href }}"
+            data-project-card-primary-action
             {% if project.redirect %}
               target="_blank" rel="noopener noreferrer"
             {% endif %}
           >
-            Open Project
+            <span>{{ project_cta_label }}</span>
+            <i class="fa-solid {{ project_cta_icon }}" aria-hidden="true"></i>
           </a>
           {% if project.github %}
             <a
-              class="project-card-action-link"
+              class="project-card-action-link project-card-secondary-link"
               href="{{ project.github }}"
               target="_blank"
               rel="noopener noreferrer"
@@ -84,7 +87,7 @@
               title="Code Repository"
             >
               <i class="fa-brands fa-github gh-icon" aria-hidden="true"></i>
-              <span class="sr-only">Code Repository</span>
+              <span>Code</span>
             </a>
             {% if project.github_stars %}
               <span class="stars" data-toggle="tooltip" title="GitHub Stars">
@@ -94,6 +97,9 @@
             {% endif %}
           {% endif %}
         </div>
+        <button class="project-card-close" type="button" data-project-card-close aria-label="Close {{ project.title }} preview">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </article>

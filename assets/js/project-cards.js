@@ -67,6 +67,12 @@
         const block = window.matchMedia("(max-width: 767px)").matches ? "center" : "nearest";
         activeCard.scrollIntoView({ block, behavior: prefersReducedMotion() ? "auto" : "smooth" });
       }
+      if (activeCard && options.focusPrimaryAction) {
+        const primaryAction = activeCard.querySelector("[data-project-card-primary-action]");
+        if (primaryAction) {
+          primaryAction.focus({ preventScroll: true });
+        }
+      }
     });
   };
 
@@ -75,8 +81,8 @@
     const closeButton = card.querySelector("[data-project-card-close]");
 
     if (trigger) {
-      trigger.addEventListener("click", () => {
-        setActiveCard(activeCard === card ? null : card, { scroll: true });
+      trigger.addEventListener("click", (event) => {
+        setActiveCard(activeCard === card ? null : card, { focusPrimaryAction: event.detail === 0, scroll: true });
       });
     }
 
