@@ -1,0 +1,79 @@
+what-happened-and-why:
+  accents:
+    morning: "#b6c2cc"
+    noon: "#cdd6df"
+    afternoon: "#bcc2cb"
+    evening: "#dfe7ef"
+  takeaways:
+    - "Trace data needs user intent."
+    - "Micro-episodes capture why in flow."
+
+hotspot:
+  accents:
+    morning: "#efbca7"
+    noon: "#b5b7e3"
+    afternoon: "#9181b0"
+    evening: "#cecfea"
+  takeaways:
+    - "Screened Poisson objectives stabilize SDF optimization."
+    - "Surface reconstruction improves under noisy geometry."
+
+designweaver:
+  accents:
+    morning: "#e7837d"
+    noon: "#2765d6"
+    afternoon: "#f5b0ab"
+    evening: "#cce8ef"
+  takeaways:
+    - "Prompts become visible design dimensions."
+    - "Novices compare and iterate deliberately."
+
+physion:
+  accents:
+    morning: "#4c2f27"
+    noon: "#2d4051"
+    afternoon: "#5a3b31"
+    evening: "#6f8295"
+  takeaways:
+    - "Models predict physical scene dynamics."
+    - "Human judgments anchor plausibility."
+
+website-revamp:
+  accents:
+    morning: "#ca906d"
+    noon: "#a76441"
+    afternoon: "#e0baa1"
+    evening: "#dfdad2"
+  takeaways:
+    - "Portfolio becomes a research argument."
+    - "Heuristics become reusable design memory."
+
+not-a-good-driver:
+  accents:
+    morning: "#c07461"
+    noon: "#7d98bc"
+    afternoon: "#f3d4b8"
+    evening: "#b8c8dc"
+  takeaways:
+    - "VR worlds become social experiments."
+    - "AI-assisted prototypes meet public play."
+
+context-aware-encoding:
+  accents:
+    morning: "#a2b6e5"
+    noon: "#7f9ed8"
+    afternoon: "#cad4e4"
+    evening: "#d3dbe6"
+  takeaways:
+    - "Tree structure organizes long context."
+    - "Retrieval becomes easier to inspect."
+
+graphhscn:
+  accents:
+    morning: "#ebd1ad"
+    noon: "#a8cfda"
+    afternoon: "#ccd2e9"
+    evening: "#dae9ef"
+  takeaways:
+    - "Graph structure models long-range interactions."
+    - "Prototype explores structured-data reasoning."

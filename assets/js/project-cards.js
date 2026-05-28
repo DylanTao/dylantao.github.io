@@ -18,6 +18,10 @@
     if (prefersReducedMotion() || !("animate" in Element.prototype)) return;
 
     cards.forEach((card) => {
+      if ("getAnimations" in card) {
+        card.getAnimations().forEach((animation) => animation.cancel());
+      }
+
       const first = firstRects.get(card);
       const last = card.getBoundingClientRect();
       if (!first || !last.width || !last.height) return;
@@ -30,9 +34,24 @@
       if (!moved) return;
 
       card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` }, { transform: "translate(0, 0) scale(1, 1)" }], {
-        duration: 420,
-        easing: "cubic-bezier(.2, .75, .2, 1)",
+        duration: 430,
+        easing: "cubic-bezier(.18, .84, .22, 1)",
       });
+    });
+  };
+
+  const revealCard = (card) => {
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const scrollTarget = isMobile ? card.querySelector("[data-project-card-primary-action]") || card : card;
+    const rect = scrollTarget.getBoundingClientRect();
+    const margin = isMobile ? 16 : 28;
+    const isVisible = rect.top >= margin && rect.bottom <= window.innerHeight - margin;
+    if (isVisible) return;
+
+    scrollTarget.scrollIntoView({
+      block: isMobile ? "end" : "center",
+      inline: "nearest",
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
     });
   };
 
@@ -60,12 +79,22 @@
     cards.forEach((card) => {
       setCardState(card, card === activeCard, Boolean(activeCard));
     });
+    grids.forEach((grid) => {
+      grid.classList.toggle("has-expanded-project-card", Boolean(activeCard));
+    });
+    document.body.classList.toggle("project-card-preview-open", Boolean(activeCard));
 
     window.requestAnimationFrame(() => {
       animateLayout(firstRects);
       if (activeCard && options.scroll) {
-        const block = window.matchMedia("(max-width: 767px)").matches ? "center" : "nearest";
-        activeCard.scrollIntoView({ block, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+        const cardToReveal = activeCard;
+        revealCard(cardToReveal);
+
+        if (!prefersReducedMotion()) {
+          window.setTimeout(() => {
+            if (activeCard === cardToReveal) revealCard(cardToReveal);
+          }, 460);
+        }
       }
       if (activeCard && options.focusPrimaryAction) {
         const primaryAction = activeCard.querySelector("[data-project-card-primary-action]");
@@ -92,6 +121,17 @@
         if (trigger) trigger.focus({ preventScroll: true });
       });
     }
+  });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!activeCard || event.button > 0) return;
+
+    const target = event.target instanceof Element ? event.target : event.target.parentElement;
+    if (!target) return;
+    if (target.closest("[data-project-card]")) return;
+    if (target.closest("a, button, input, textarea, select, summary, [role='button']")) return;
+
+    setActiveCard(null);
   });
 
   document.addEventListener("keydown", (event) => {

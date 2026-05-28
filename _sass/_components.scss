@@ -194,6 +194,18 @@ ul.task-list input[type="checkbox"] {
 
 // Projects
 
+@keyframes project-takeaway-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .projects {
   max-width: var(--measure-notebook);
   margin-top: 0.75rem;
@@ -244,7 +256,33 @@ ul.task-list input[type="checkbox"] {
     margin-bottom: 0.25rem;
   }
 
+  .project-card-grid.has-expanded-project-card {
+    align-items: start;
+  }
+
+  html[data-theme-mode="morning"] & .project-card {
+    --project-accent: var(--project-accent-morning, var(--global-theme-color));
+  }
+
+  html[data-theme-mode="noon"] & .project-card {
+    --project-accent: var(--project-accent-noon, var(--global-theme-color));
+  }
+
+  html[data-theme-mode="afternoon"] & .project-card {
+    --project-accent: var(--project-accent-afternoon, var(--global-theme-color));
+  }
+
+  html[data-theme-mode="evening"] & .project-card,
+  html[data-theme="dark"] & .project-card {
+    --project-accent: var(--project-accent-evening, var(--global-theme-color));
+  }
+
   .project-card {
+    --project-accent: var(--project-accent-morning, var(--global-theme-color));
+    --project-accent-line: color-mix(in srgb, var(--project-accent) 52%, var(--global-divider-color));
+    --project-accent-wash: color-mix(in srgb, var(--project-accent) 8%, transparent);
+    --project-accent-panel: color-mix(in srgb, var(--project-accent) 26%, var(--global-card-bg-color));
+    --project-accent-panel-strong: color-mix(in srgb, var(--project-accent) 48%, var(--global-card-bg-color));
     min-width: 0;
     transform-origin: top left;
 
@@ -258,7 +296,8 @@ ul.task-list input[type="checkbox"] {
     }
 
     &.is-expanded .card {
-      border-color: rgba(var(--global-accent-rgb), 0.46);
+      border-color: var(--project-accent-line);
+      background: linear-gradient(180deg, var(--project-accent-wash), transparent 42%), var(--global-card-bg-color);
       box-shadow: 0 1rem 2.35rem rgba(32, 25, 22, 0.1);
       opacity: 1;
       transform: none;
@@ -273,7 +312,7 @@ ul.task-list input[type="checkbox"] {
       aspect-ratio: auto;
       height: auto;
       min-height: 13.5rem;
-      border-right: 1px solid var(--global-divider-color);
+      border-right: 1px solid var(--project-accent-line);
       border-bottom: 0;
     }
 
@@ -285,6 +324,11 @@ ul.task-list input[type="checkbox"] {
 
     &.is-expanded .project-card-panel {
       display: block;
+    }
+
+    &.is-expanded .project-card-takeaways {
+      display: block;
+      animation: project-takeaway-in 260ms ease-out both;
     }
 
     &:not(.is-dimmed) .project-card-preview:hover .project-card-media img,
@@ -321,7 +365,7 @@ ul.task-list input[type="checkbox"] {
     text-align: inherit;
 
     &:focus-visible {
-      outline: 2px solid rgba(var(--global-accent-rgb), 0.5);
+      outline: 2px solid var(--project-accent-line);
       outline-offset: 3px;
     }
   }
@@ -349,6 +393,7 @@ ul.task-list input[type="checkbox"] {
     flex-direction: column;
     overflow: hidden;
     transition:
+      background var(--motion-standard),
       border-color var(--motion-standard),
       box-shadow var(--motion-standard),
       opacity var(--motion-standard),
@@ -447,8 +492,12 @@ ul.task-list input[type="checkbox"] {
   .project-card-panel {
     position: relative;
     z-index: 3;
-    border-top: 1px solid var(--global-divider-color);
-    background: color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
+    border-top: 1px solid var(--project-accent-line);
+    background:
+      linear-gradient(90deg, var(--project-accent-wash), transparent 58%), color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
+    transition:
+      background var(--motion-standard),
+      border-color var(--motion-standard);
   }
 
   .project-card-close {
@@ -469,7 +518,7 @@ ul.task-list input[type="checkbox"] {
 
     &:hover,
     &:focus-visible {
-      border-color: rgba(var(--global-accent-rgb), 0.42);
+      border-color: var(--project-accent-line);
       color: var(--global-theme-color);
     }
   }
@@ -496,6 +545,7 @@ ul.task-list input[type="checkbox"] {
     font-size: var(--type-meta);
     font-weight: 750;
     line-height: 1;
+    scroll-margin-block: 1rem;
 
     &:hover,
     &:focus-visible {
@@ -548,6 +598,61 @@ ul.task-list input[type="checkbox"] {
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
+  }
+
+  .project-card-takeaways {
+    display: none;
+    margin-top: 0.95rem;
+    padding: 0.85rem 0.9rem;
+    border: 1px solid var(--project-accent-line);
+    border-radius: 0.45rem;
+    background: linear-gradient(135deg, var(--project-accent-panel), var(--project-accent-panel-strong));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    color: var(--global-text-color);
+    transition:
+      background var(--motion-standard),
+      border-color var(--motion-standard),
+      opacity var(--motion-standard),
+      transform var(--motion-standard);
+  }
+
+  .project-card-takeaways-label {
+    margin: 0 0 0.45rem;
+    color: var(--global-text-color);
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 750;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .project-card-takeaways ul {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-card-takeaways li {
+    position: relative;
+    padding-left: 0.9rem;
+    color: var(--global-text-color);
+    font-size: var(--type-meta);
+    line-height: 1.45;
+
+    &::before {
+      position: absolute;
+      top: 0.62em;
+      left: 0;
+      width: 0.38rem;
+      height: 0.38rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--project-accent) 72%, var(--global-theme-color));
+      content: "";
+      transform: translateY(-50%);
+    }
   }
 
   .project-card-meta {
@@ -1000,7 +1105,9 @@ html[data-theme="dark"] {
   }
 
   .projects .project-card-panel {
-    background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 12%, transparent), transparent 58%),
+      color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
   }
 
   .project-case-summary div {
@@ -1088,11 +1195,17 @@ html[data-theme="dark"] {
     }
 
     .project-card-open-link {
-      flex: 1 1 12rem;
+      flex: 1 1 100%;
+      width: 100%;
     }
 
     .project-card-secondary-link {
       flex: 0 0 auto;
+    }
+
+    .project-card-takeaways {
+      margin-top: 0.85rem;
+      padding: 0.78rem 0.82rem;
     }
 
     h2.category {
@@ -1107,6 +1220,12 @@ html[data-theme="dark"] {
       border-right: 0;
       border-bottom: 1px solid var(--global-divider-color);
     }
+  }
+
+  body.project-card-preview-open #back-to-top {
+    opacity: 0 !important;
+    pointer-events: none;
+    visibility: hidden;
   }
 
   .project-case-hero,
@@ -1139,6 +1258,8 @@ html[data-theme="dark"] {
   .hoverable,
   .project-case-actions a,
   .projects .card,
+  .projects .project-card-panel,
+  .projects .project-card-takeaways,
   .projects .project-card-media img {
     transition: none;
 
@@ -1152,6 +1273,10 @@ html[data-theme="dark"] {
   .projects .project-card-preview:hover .project-card-media img,
   .projects .project-card-preview:focus-within .project-card-media img {
     transform: none;
+  }
+
+  .projects .project-card.is-expanded .project-card-takeaways {
+    animation: none;
   }
 }
 

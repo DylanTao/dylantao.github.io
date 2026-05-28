@@ -17,9 +17,33 @@
   {% assign project_cta_icon = 'fa-arrow-right' %}
 {% endif %}
 {% assign project_card_id = project.title | slugify | prepend: 'project-card-' %}
+{% assign project_file_slug = project.slug
+  | default: project.name
+  | default: project.path
+  | default: project.title
+  | split: '/'
+  | last
+  | replace: '.md', ''
+  | slugify
+%}
+{% assign project_card_data = site.data.project_cards[project_file_slug] %}
+{% capture project_card_style %}
+  {% if project_card_data.accents %}
+    --project-accent-morning: {{ project_card_data.accents.morning | default: 'var(--global-theme-color)' }};
+    --project-accent-noon: {{ project_card_data.accents.noon | default: 'var(--global-theme-color)' }};
+    --project-accent-afternoon: {{ project_card_data.accents.afternoon | default: 'var(--global-theme-color)' }};
+    --project-accent-evening: {{ project_card_data.accents.evening | default: 'var(--global-theme-color)' }};
+  {% endif %}
+{% endcapture %}
 
 {% if page.project_cards_interactive %}
-  <article class="project-card" data-project-card>
+  <article
+    class="project-card"
+    data-project-card
+    {% if project_card_data.accents %}
+      style="{{ project_card_style | strip_newlines | strip }}"
+    {% endif %}
+  >
     <div class="card h-100 hoverable">
       <div class="project-card-preview">
         {% if project.img %}
@@ -53,6 +77,16 @@
             </p>
           {% endif %}
           <p class="card-text">{{ project.description }}</p>
+          {% if project_card_data.takeaways %}
+            <div class="project-card-takeaways" aria-label="{{ project.title }} takeaways">
+              <p class="project-card-takeaways-label">Core takeaways</p>
+              <ul>
+                {% for takeaway in project_card_data.takeaways limit: 2 %}
+                  <li>{{ takeaway }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
         </div>
         <button
           class="project-card-trigger"
