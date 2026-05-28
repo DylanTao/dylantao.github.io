@@ -8,12 +8,16 @@ nav_order: 2
 panel_wide: true
 display_categories: [research, fun]
 horizontal: false
+project_cards_interactive: true
 ---
 
 <!-- pages/projects.md -->
 <div class="projects">
 <p class="page-intro">
   I use projects to make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim.
+</p>
+<p class="project-inspiration-credit">
+  Card interaction inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>.
 </p>
 {% if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
@@ -33,7 +37,11 @@ horizontal: false
     </div>
   </div>
   {% else %}
+  {% if page.project_cards_interactive %}
+  <div class="project-card-grid" data-project-card-grid>
+  {% else %}
   <div class="row row-cols-1 row-cols-md-3">
+  {% endif %}
     {% for project in sorted_projects %}
       {% include projects.liquid %}
     {% endfor %}
@@ -59,7 +67,11 @@ horizontal: false
     </div>
   </div>
   {% else %}
+  {% if page.project_cards_interactive %}
+  <div class="project-card-grid" data-project-card-grid>
+  {% else %}
   <div class="row row-cols-1 row-cols-md-3">
+  {% endif %}
     {% for project in sorted_projects %}
       {% include projects.liquid %}
     {% endfor %}
