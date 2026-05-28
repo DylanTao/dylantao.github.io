@@ -117,7 +117,7 @@ ninja.data = [
           },
         },{id: "nav-projects",
           title: "projects",
-          description: "Research artifacts, prototypes, and studies around design judgment, creative tools, graphics, and embodied interaction.",
+          description: "Research artifacts, prototypes, and studies that make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
