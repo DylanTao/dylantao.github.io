@@ -57,6 +57,12 @@ body.sticky-bottom-footer {
   padding-bottom: 1.35rem;
 }
 
+.post:has(article .projects) > .post-header {
+  max-width: var(--measure-notebook);
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .post > .post-header .post-title {
   font-size: var(--type-page-title);
   line-height: 1.03;

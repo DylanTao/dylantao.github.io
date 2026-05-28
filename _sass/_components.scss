@@ -213,7 +213,7 @@ ul.task-list input[type="checkbox"] {
   margin-left: auto;
 
   .page-intro {
-    margin-bottom: 0.85rem;
+    margin-bottom: 1.05rem;
   }
 
   > .container {
@@ -228,12 +228,43 @@ ul.task-list input[type="checkbox"] {
     margin-left: -0.5rem;
   }
 
+  .project-category-heading {
+    display: grid;
+    align-items: end;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem 1rem;
+    padding-top: 0.35rem;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid var(--global-divider-color);
+  }
+
+  .project-card-grid + .project-category-heading,
+  > .row + .project-category-heading {
+    margin-top: 1.35rem;
+  }
+
+  .project-category-link {
+    min-width: 0;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: none;
+
+      h2.category {
+        color: var(--global-theme-color);
+      }
+    }
+  }
+
   .project-inspiration-credit {
-    margin-top: -0.35rem;
-    margin-bottom: 1rem;
-    color: var(--global-text-color-light);
-    font-size: var(--type-meta);
-    line-height: 1.5;
+    justify-self: end;
+    max-width: min(100%, 34rem);
+    margin: 0 0 0.28rem;
+    color: color-mix(in srgb, var(--global-text-color-light) 82%, var(--global-bg-color));
+    font-size: var(--type-label);
+    line-height: 1.35;
+    text-align: right;
 
     a {
       color: var(--global-theme-color);
@@ -688,10 +719,7 @@ ul.task-list input[type="checkbox"] {
 
   h2.category {
     color: var(--global-text-color-light);
-    border-bottom: 1px solid var(--global-divider-color);
-    padding-top: 0.75rem;
-    margin-top: 1.1rem;
-    margin-bottom: 0.8rem;
+    margin: 0 0 0.28rem;
     font-family: var(--font-mono);
     font-size: var(--type-label);
     font-weight: 700;
@@ -1162,11 +1190,19 @@ html[data-theme="dark"] {
 @media (max-width: 767px) {
   .projects {
     .page-intro {
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .project-category-heading {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
     }
 
     .project-inspiration-credit {
-      margin-bottom: 0.85rem;
+      justify-self: start;
+      max-width: var(--measure-prose);
+      margin-bottom: 0.45rem;
+      text-align: left;
     }
 
     .project-card-grid {

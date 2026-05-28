@@ -16,15 +16,19 @@ project_cards_interactive: true
 <p class="page-intro">
   I use projects to make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim.
 </p>
-<p class="project-inspiration-credit">
-  Card interaction inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>.
-</p>
 {% if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
   {% for category in page.display_categories %}
-  <a id="{{ category }}" href=".#{{ category }}">
-    <h2 class="category">{{ category }}</h2>
-  </a>
+  <div class="project-category-heading">
+    <a class="project-category-link" id="{{ category }}" href=".#{{ category }}">
+      <h2 class="category">{{ category }}</h2>
+    </a>
+    {% if forloop.first %}
+      <p class="project-inspiration-credit">
+        Card interaction inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>.
+      </p>
+    {% endif %}
+  </div>
   {% assign categorized_projects = site.projects | where: "category", category %}
   {% assign sorted_projects = categorized_projects | sort: "importance" %}
   <!-- Generate cards for each project -->
