@@ -77,9 +77,12 @@
             </p>
           {% endif %}
           <p class="card-text">{{ project.description }}</p>
+          <span class="project-card-preview-affordance" aria-hidden="true">
+            <i class="fa-solid fa-plus"></i>
+          </span>
           {% if project_card_data.takeaways %}
             <div class="project-card-takeaways" aria-label="{{ project.title }} takeaways">
-              <p class="project-card-takeaways-label">Core takeaways</p>
+              <p class="project-card-takeaways-label">What to notice</p>
               <ul>
                 {% for takeaway in project_card_data.takeaways limit: 2 %}
                   <li>{{ takeaway }}</li>

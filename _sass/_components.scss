@@ -212,10 +212,6 @@ ul.task-list input[type="checkbox"] {
   margin-right: auto;
   margin-left: auto;
 
-  .page-intro {
-    margin-bottom: 1.05rem;
-  }
-
   > .container {
     max-width: none;
     padding-right: 0;
@@ -231,7 +227,7 @@ ul.task-list input[type="checkbox"] {
   .project-category-heading {
     display: grid;
     align-items: end;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem 1rem;
     padding-top: 0.35rem;
     margin-top: 0;
@@ -258,13 +254,13 @@ ul.task-list input[type="checkbox"] {
   }
 
   .project-inspiration-credit {
-    justify-self: end;
-    max-width: min(100%, 34rem);
-    margin: 0 0 0.28rem;
+    max-width: var(--measure-prose);
+    margin: 1.45rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--global-divider-color);
     color: color-mix(in srgb, var(--global-text-color-light) 82%, var(--global-bg-color));
     font-size: var(--type-label);
-    line-height: 1.35;
-    text-align: right;
+    line-height: 1.45;
 
     a {
       color: var(--global-theme-color);
@@ -322,8 +318,8 @@ ul.task-list input[type="checkbox"] {
     }
 
     &.is-dimmed .card {
-      opacity: 0.62;
-      transform: scale(0.985);
+      opacity: 0.78;
+      transform: scale(0.992);
     }
 
     &.is-expanded .card {
@@ -362,6 +358,15 @@ ul.task-list input[type="checkbox"] {
       animation: project-takeaway-in 260ms ease-out both;
     }
 
+    &.is-expanded .project-card-preview-affordance {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+
+    &.is-dimmed .project-card-preview-affordance {
+      opacity: 0.42;
+    }
+
     &:not(.is-dimmed) .project-card-preview:hover .project-card-media img,
     &:not(.is-dimmed) .project-card-preview:focus-within .project-card-media img,
     &.is-expanded .project-card-media img {
@@ -380,6 +385,14 @@ ul.task-list input[type="checkbox"] {
   .project-card-body,
   .project-card-media {
     min-width: 0;
+  }
+
+  .project-card-body {
+    position: relative;
+  }
+
+  .project-card:not(.is-expanded) .project-card-body {
+    padding-right: 3.45rem;
   }
 
   .project-card-trigger {
@@ -405,6 +418,46 @@ ul.task-list input[type="checkbox"] {
   .project-card-preview:focus-within .card-title,
   .project-card.is-expanded .card-title {
     color: var(--global-theme-color);
+  }
+
+  .project-card-preview-affordance {
+    position: absolute;
+    top: 0.95rem;
+    right: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
+    color: var(--global-text-color-light);
+    font-size: 0.72rem;
+    line-height: 1;
+    opacity: 0.78;
+    pointer-events: none;
+    transition:
+      background var(--motion-standard),
+      border-color var(--motion-standard),
+      color var(--motion-standard),
+      opacity var(--motion-standard),
+      transform var(--motion-standard);
+  }
+
+  .project-card-preview:hover .project-card-preview-affordance,
+  .project-card-preview:focus-within .project-card-preview-affordance {
+    border-color: var(--project-accent-line);
+    background: var(--global-theme-color);
+    color: var(--global-hover-text-color);
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+
+  .project-card.is-expanded .project-card-preview-affordance {
+    opacity: 0;
+    transform: scale(0.92);
+    visibility: hidden;
   }
 
   a {
@@ -1189,20 +1242,14 @@ html[data-theme="dark"] {
 
 @media (max-width: 767px) {
   .projects {
-    .page-intro {
-      margin-bottom: 0.9rem;
-    }
-
     .project-category-heading {
       grid-template-columns: 1fr;
       gap: 0.25rem;
     }
 
     .project-inspiration-credit {
-      justify-self: start;
       max-width: var(--measure-prose);
-      margin-bottom: 0.45rem;
-      text-align: left;
+      margin-top: 1.15rem;
     }
 
     .project-card-grid {
@@ -1245,8 +1292,6 @@ html[data-theme="dark"] {
     }
 
     h2.category {
-      padding-top: 0.65rem;
-      margin-top: 0.95rem;
       margin-bottom: 0.7rem;
     }
 
@@ -1295,6 +1340,7 @@ html[data-theme="dark"] {
   .project-case-actions a,
   .projects .card,
   .projects .project-card-panel,
+  .projects .project-card-preview-affordance,
   .projects .project-card-takeaways,
   .projects .project-card-media img {
     transition: none;
@@ -1305,6 +1351,9 @@ html[data-theme="dark"] {
   }
 
   .projects .project-card.is-dimmed .card,
+  .projects .project-card.is-expanded .project-card-preview-affordance,
+  .projects .project-card-preview:hover .project-card-preview-affordance,
+  .projects .project-card-preview:focus-within .project-card-preview-affordance,
   .projects .project-card.is-expanded .project-card-media img,
   .projects .project-card-preview:hover .project-card-media img,
   .projects .project-card-preview:focus-within .project-card-media img {

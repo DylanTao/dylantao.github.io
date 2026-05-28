@@ -2,7 +2,7 @@
 layout: page
 title: projects
 permalink: /projects/
-description: Research artifacts, prototypes, and studies around design judgment, creative tools, graphics, and embodied interaction.
+description: "Research artifacts, prototypes, and studies that make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim."
 nav: true
 nav_order: 2
 panel_wide: true
@@ -13,21 +13,17 @@ project_cards_interactive: true
 
 <!-- pages/projects.md -->
 <div class="projects">
-<p class="page-intro">
-  I use projects to make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim.
-</p>
 {% if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
   {% for category in page.display_categories %}
+  {% assign category_label = category | capitalize %}
+  {% if category == 'fun' %}
+    {% assign category_label = 'Experiments' %}
+  {% endif %}
   <div class="project-category-heading">
     <a class="project-category-link" id="{{ category }}" href=".#{{ category }}">
-      <h2 class="category">{{ category }}</h2>
+      <h2 class="category">{{ category_label }}</h2>
     </a>
-    {% if forloop.first %}
-      <p class="project-inspiration-credit">
-        Card interaction inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>.
-      </p>
-    {% endif %}
   </div>
   {% assign categorized_projects = site.projects | where: "category", category %}
   {% assign sorted_projects = categorized_projects | sort: "importance" %}
@@ -82,4 +78,7 @@ project_cards_interactive: true
   </div>
   {% endif %}
 {% endif %}
+<p class="project-inspiration-credit">
+  Interaction note: card opening pattern inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>; adapted here for an academic project browser.
+</p>
 </div>
