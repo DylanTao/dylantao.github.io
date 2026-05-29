@@ -115,6 +115,7 @@ For sitewide passes:
 - Projects: evidence surface. Each card should show artifact, problem, venue/status, and where to click without requiring the visitor to parse a paragraph.
 - Project detail: case study. Lead with the research question, contribution, artifact preview, venue, and links before long author blocks or implementation detail.
 - Publications: bibliography with orientation. Keep the citation list authoritative, but help readers find selected/current work quickly.
+- Playful publication modules should still serve the bibliography: a rejection wall can celebrate hidden research failure when it stays rejection-only, keeps receipts close to each badge, and avoids becoming a leaderboard.
 - Blog: research notebook with personality. Casual voice is welcome; vague dumping-ground copy is not.
 - CV: utility page. Optimize for scanning, PDF access, dates, roles, and correctness over decoration.
 - News: timeline. Short, dated signals should be easy to skim and should not fight the homepage updates section.

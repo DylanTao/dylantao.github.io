@@ -1,3 +1,8 @@
+section:
+  kicker: Celebrating rejection
+  title: Wall of Rejection
+  description: Accepted work lives below. These are the rejection badges.
+
 papers:
   - id: p5
     paper_label: P5
@@ -13,8 +18,8 @@ papers:
         code: UIST26
         status: rejected
 
-achievements:
-  - id: chi26-rejection
+badges:
+  - id: chi26-nope
     title: CHI26 Rejection
     count: 1
     kind: venue-rejection
@@ -23,9 +28,9 @@ achievements:
     rarity: common
     icon: heart-crack
     linked_paper_id: p5
-    tooltip: Unlocked after one brave CHI 2026 submission attempt. The reviews became compost.
-    microcopy: The reviews became compost.
-  - id: uist26-rejection
+    short: Reviews composted.
+    detail: Unlocked after one brave CHI 2026 submission attempt. The reviews became compost.
+  - id: uist26-nope
     title: UIST26 Rejection
     count: 1
     kind: venue-rejection
@@ -34,26 +39,27 @@ achievements:
     rarity: common
     icon: paper-plane-crash
     linked_paper_id: p5
-    tooltip: Interactive system built. Acceptance not included, iteration included.
-    microcopy: Acceptance not included, iteration included.
-  - id: double-rejection-streak
-    title: Double Rejection Streak
+    short: Iteration unlocked.
+    detail: Interactive system built. Acceptance not included, iteration included.
+  - id: double-nope
+    title: Double Rejection
     count: 1
     kind: meta
     rarity: rare
     icon: crossed-reviewer-pens
     linked_paper_id: p5
-    tooltip: With great failure comes greater failure. Two doors closed; one plot twist earned.
-    microcopy: With great failure comes greater failure.
+    short: Great failure, greater failure.
+    detail: With great failure comes greater failure. Two doors closed; one plot twist earned.
 
 xp:
-  label: Spooder Reviewer
+  label: Nerdy Spooder-Man
+  kicker: Failure XP
+  blurb: Just a nerdy Spooder-Man collecting rejection XP, not a productivity dashboard.
   level: 2
   current: 240
   next_level: 300
   progress: 67
-  source_note: Inspired by the meme Sirui made after the UIST 2026 rejection and the Spooder-Man meme.
-  source_url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC
+  source_note: Inspired by Sirui's local UIST26 meme reference and the Spooder-Man trailer reference.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
     - label: First-author rejection
@@ -72,11 +78,14 @@ xp:
 
 credits:
   failure_cv:
-    label: Bradley Voytek's failure CV tradition
+    label: Voytek failure-CV tradition
     url: https://voyteklab.com/members
   failure_cv_pdf:
     label: Voytek CV
     url: https://voyteklab.com/assets/pdfs/members/voytek_cv.pdf#page=39.11
-  meme_source:
-    label: Spooder-Man meme source
+  local_meme_reference:
+    label: local meme reference
+    url: /assets/img/website-revamp/wall-of-rejection-steam-reference.svg
+  spooder_trailer:
+    label: Spooder-Man trailer reference
     url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC

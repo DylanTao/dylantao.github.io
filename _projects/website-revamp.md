@@ -160,6 +160,16 @@ Stripe's homepage inspired the restraint: a compact control, a proof-like visual
   </figure>
 </div>
 
+## Follow-up: play with receipts
+
+A later pass made two quieter pages more alive. The projects page borrowed the opening-card rhythm from IKEA's PS 2026 story: click a project, let it expand in place, keep the surrounding grid as context. It felt right for an academic project browser because the visitor can inspect one artifact without losing the rest of the collection.
+
+The publications page went in a stranger direction: a small **Wall of Rejection** above the bibliography. It is rejection-only: short Steam-ish badges, click-to-open receipts, and a nerdy Spooder-Man XP joke from my post-UIST 2026 mood. The goal is not to track review productivity. It is to celebrate failure as part of research life without making the page feel like a leaderboard.
+
+This is one of the moments where GenAI felt most creative to me. I could describe a half-formed joke, then use screenshots and the heuristics file to keep the joke native to the site: evidence close to the claim, restrained motion, theme-aware color, and no generic gaming skin.
+
+Note to future me: not sure if this is taste, but I had great fun.
+
 ## Use the heuristics
 
 The reusable part is the markdown file. My hope is that students in COGS 125, or anyone redesigning a portfolio, can give it to their own agent and ask for a critique pass grounded in the same design values. Preview it here before downloading; it should stay a living document as the site keeps changing.
@@ -177,5 +187,8 @@ This redesign borrows ideas, not assets, from work I admire: the AI in Design 20
   <li><a href="https://stateofaidesign.com/chapters/craft" target="_blank" rel="noopener noreferrer">AI in Design 2026, Craft chapter</a></li>
   <li><a href="https://stripe.com/" target="_blank" rel="noopener noreferrer">Stripe homepage</a></li>
   <li><a href="https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function" target="_blank" rel="noopener noreferrer">Katie Dill at Stripe Sessions</a></li>
+  <li><a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA PS 2026 collection story</a></li>
+  <li><a href="{{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.svg' | relative_url }}">Local Wall of Rejection mockup</a></li>
+  <li><a href="https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC" target="_blank" rel="noopener noreferrer">Spooder-Man trailer reference</a></li>
   <li><a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Wayback snapshot of the older site</a></li>
 </ul>

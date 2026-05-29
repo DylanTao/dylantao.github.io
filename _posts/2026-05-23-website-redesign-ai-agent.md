@@ -99,6 +99,16 @@ should manage cognitive load, not create mystery.
   </div>
 </div>
 
+## Follow-up: play with receipts
+
+After the first redesign, I kept pushing on the pages that still felt too quiet. The projects page got an IKEA-inspired card opening pattern: one project expands in place, the grid stays visible, and the visitor can inspect an artifact without feeling thrown into a separate product page too early.
+
+The publications page got the weirder experiment: a **Wall of Rejection**. It is rejection-only: short Steam-ish badges, click-to-open receipts, and a nerdy Spooder-Man XP joke from my post-UIST 2026 rejection mood. It is not a review-activity dashboard. It is a tiny celebration of failure as part of research life.
+
+This is also where GenAI felt creatively useful. I could hand the agent a messy vibe, then use the design heuristics to pull it back toward the site: restrained motion, clear evidence, theme-aware color, and playfulness that does not drown out the bibliography.
+
+Note to future me: not sure if this is taste, but I had great fun.
+
 ## Credit where credit is due
 
 I was also borrowing from people and artifacts I admire. The AI in Design 2026
@@ -125,6 +135,9 @@ Sources and inspirations: [AI in Design 2026](https://stateofaidesign.com/),
 the [Craft chapter](https://stateofaidesign.com/chapters/craft),
 [Stripe](https://stripe.com/),
 [Katie Dill at Stripe Sessions](https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function),
+[IKEA PS 2026](https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/),
+the [local Wall of Rejection mockup]({{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.svg' | relative_url }}),
+the [Spooder-Man trailer reference](https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC),
 Donald Schon's _The Reflective Practitioner_, and this
 [Wayback snapshot](https://web.archive.org/web/20260209013429/https://dylantao.github.io/)
 of the old site.

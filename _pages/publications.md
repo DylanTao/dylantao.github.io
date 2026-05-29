@@ -6,6 +6,7 @@ description: Papers and workshop pieces, with the current design/HCI thread near
 nav: true
 nav_order: 1
 panel_wide: true
+wall_of_rejection: true
 ---
 
 <!-- _pages/publications.md -->
@@ -19,7 +20,7 @@ panel_wide: true
   <a class="publication-intro-link" href="{{ '/projects/' | relative_url }}">Open project notes</a>
 </div>
 
-{% include publications/peer_review_achievements.liquid %}
+{% include publications/wall_of_rejection.liquid %}
 
 {% include bib_search.liquid %}
 

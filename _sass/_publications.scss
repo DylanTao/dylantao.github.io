@@ -45,53 +45,53 @@
   }
 }
 
-.peer-review-achievements {
-  --peer-spooder-red: #dc5d4d;
-  --peer-spooder-red-dark: #8c2f29;
-  --peer-spooder-blue: #4f81a5;
-  --peer-spooder-ink: #251a17;
-  --peer-spooder-eye: #fffefd;
-  --peer-achievement-wash: color-mix(in srgb, var(--global-accent-soft) 58%, transparent);
-  --peer-achievement-rare: var(--global-sky-strong);
+.wall-of-rejection {
+  --spooder-red: #dc5d4d;
+  --spooder-red-dark: #8c2f29;
+  --spooder-blue: #4f81a5;
+  --spooder-ink: #251a17;
+  --spooder-eye: #fffefd;
+  --rejection-badge-wash: color-mix(in srgb, var(--global-accent-soft) 58%, transparent);
+  --rejection-badge-rare: var(--global-sky-strong);
   margin: 0 0 1.25rem;
 }
 
-html[data-theme-mode="morning"] .peer-review-achievements {
-  --peer-spooder-red: #df6658;
-  --peer-spooder-red-dark: #9e3b31;
-  --peer-spooder-blue: #557f9d;
-  --peer-spooder-ink: #2b201d;
-  --peer-spooder-eye: #fffefd;
+html[data-theme-mode="morning"] .wall-of-rejection {
+  --spooder-red: #df6658;
+  --spooder-red-dark: #9e3b31;
+  --spooder-blue: #557f9d;
+  --spooder-ink: #2b201d;
+  --spooder-eye: #fffefd;
 }
 
-html[data-theme-mode="noon"] .peer-review-achievements {
-  --peer-spooder-red: #d94b3f;
-  --peer-spooder-red-dark: #8f2d27;
-  --peer-spooder-blue: #276f9d;
-  --peer-spooder-ink: #17212b;
-  --peer-spooder-eye: #ffffff;
+html[data-theme-mode="noon"] .wall-of-rejection {
+  --spooder-red: #d94b3f;
+  --spooder-red-dark: #8f2d27;
+  --spooder-blue: #276f9d;
+  --spooder-ink: #17212b;
+  --spooder-eye: #ffffff;
 }
 
-html[data-theme-mode="afternoon"] .peer-review-achievements {
-  --peer-spooder-red: #c85e48;
-  --peer-spooder-red-dark: #843528;
-  --peer-spooder-blue: #625fa3;
-  --peer-spooder-ink: #211815;
-  --peer-spooder-eye: #fffdfb;
+html[data-theme-mode="afternoon"] .wall-of-rejection {
+  --spooder-red: #c85e48;
+  --spooder-red-dark: #843528;
+  --spooder-blue: #625fa3;
+  --spooder-ink: #211815;
+  --spooder-eye: #fffdfb;
 }
 
-html[data-theme-mode="evening"] .peer-review-achievements,
-html[data-theme="dark"] .peer-review-achievements {
-  --peer-spooder-red: #ff745f;
-  --peer-spooder-red-dark: #9c352b;
-  --peer-spooder-blue: #94c6e8;
-  --peer-spooder-ink: #0f1416;
-  --peer-spooder-eye: #fff6ef;
-  --peer-achievement-wash: rgba(var(--global-accent-rgb), 0.11);
-  --peer-achievement-rare: var(--global-sky-strong);
+html[data-theme-mode="evening"] .wall-of-rejection,
+html[data-theme="dark"] .wall-of-rejection {
+  --spooder-red: #ff745f;
+  --spooder-red-dark: #9c352b;
+  --spooder-blue: #94c6e8;
+  --spooder-ink: #0f1416;
+  --spooder-eye: #fff6ef;
+  --rejection-badge-wash: rgba(var(--global-accent-rgb), 0.11);
+  --rejection-badge-rare: var(--global-sky-strong);
 }
 
-.peer-review-achievements-header {
+.wall-of-rejection-header {
   display: grid;
   grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
   gap: 0.8rem 1rem;
@@ -113,7 +113,7 @@ html[data-theme="dark"] .peer-review-achievements {
   }
 }
 
-.peer-review-kicker {
+.rejection-wall-kicker {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
@@ -123,72 +123,120 @@ html[data-theme="dark"] .peer-review-achievements {
   text-transform: uppercase;
 }
 
-.peer-review-achievements-layout {
+.wall-of-rejection-layout {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
   gap: 1rem;
   align-items: stretch;
 }
 
-.peer-review-badge-wall,
-.peer-review-ledger {
+.rejection-badge-wall,
+.rejection-xp-panel {
   min-width: 0;
   border: 1px solid var(--global-divider-color);
   border-radius: 0.65rem;
   background: var(--global-card-bg-color);
 }
 
-.peer-review-badge-wall {
+.rejection-badge-wall {
   padding: 0.9rem;
 }
 
-.peer-review-badge-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.rejection-badge-wall-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
   gap: 0.75rem;
+  margin-bottom: 0.55rem;
+
+  span {
+    color: var(--global-text-color-light);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
 }
 
-.peer-achievement-card {
+.rejection-pane-label {
+  margin: 0;
+  color: var(--global-text-color);
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.rejection-badge-grid {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.75rem;
+  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+.rejection-badge {
   min-width: 0;
-  min-height: 8rem;
-  padding: 0.85rem;
+  min-height: 0;
+  overflow: hidden;
   border: 1px solid var(--global-divider-color);
   border-radius: 0.5rem;
   background:
-    linear-gradient(145deg, var(--peer-achievement-wash), transparent 62%),
-    color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
+    linear-gradient(145deg, var(--rejection-badge-wash), transparent 62%), color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
+  transform-origin: top left;
   transition:
     border-color var(--motion-standard),
     box-shadow var(--motion-standard),
     transform var(--motion-standard);
 
+  summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.68rem;
+    align-items: center;
+    min-height: 4.35rem;
+    padding: 0.64rem 0.7rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--global-theme-color) 55%, transparent);
+      outline-offset: -0.35rem;
+    }
+  }
+
   &:hover,
-  &:focus-visible {
+  &:focus-within,
+  &[open] {
     border-color: color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
     box-shadow: 0 0.55rem 1.25rem rgba(32, 25, 22, 0.08);
-    outline: none;
     transform: translateY(-1px);
+  }
+
+  &[open] {
+    background: linear-gradient(145deg, var(--rejection-badge-wash), transparent 54%), var(--global-card-bg-color);
   }
 }
 
-html[data-theme="dark"] .peer-achievement-card:hover,
-html[data-theme="dark"] .peer-achievement-card:focus-visible {
+html[data-theme="dark"] .rejection-badge:hover,
+html[data-theme="dark"] .rejection-badge:focus-within,
+html[data-theme="dark"] .rejection-badge[open] {
   box-shadow: 0 0.55rem 1.25rem rgba(0, 0, 0, 0.18);
 }
 
-.peer-achievement-card-rare {
-  --peer-achievement-wash: color-mix(in srgb, var(--peer-achievement-rare) 13%, transparent);
+.rejection-badge-rare {
+  --rejection-badge-wash: color-mix(in srgb, var(--rejection-badge-rare) 13%, transparent);
 }
 
-.peer-achievement-icon {
+.rejection-badge-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.55rem;
-  height: 2.55rem;
+  width: 2.35rem;
+  height: 2.35rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 30%, var(--global-divider-color));
   border-radius: 0.45rem;
   background: color-mix(in srgb, var(--global-accent-soft) 64%, var(--global-card-bg-color));
@@ -197,11 +245,11 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   line-height: 1;
 }
 
-.peer-achievement-icon-crossed-reviewer-pens {
-  color: var(--peer-achievement-rare);
+.rejection-badge-icon-crossed-reviewer-pens {
+  color: var(--rejection-badge-rare);
 }
 
-.peer-crossed-pens {
+.rejection-crossed-pens {
   position: relative;
   width: 1.45rem;
   height: 1.45rem;
@@ -218,53 +266,99 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   }
 }
 
-.peer-achievement-body {
+.rejection-badge-summary {
+  display: grid;
+  gap: 0.18rem;
   min-width: 0;
 }
 
-.peer-achievement-title-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.55rem;
-  align-items: start;
-
-  h3 {
-    margin: 0;
-    color: var(--global-text-color);
-    font-size: 1rem;
-    line-height: 1.22;
-    overflow-wrap: anywhere;
-
-    span {
-      color: var(--global-theme-color);
-      font-family: var(--font-mono);
-      font-size: 0.84em;
-      white-space: nowrap;
-    }
-  }
-}
-
-.peer-achievement-rarity {
-  border: 1px solid var(--global-divider-color);
-  border-radius: 999px;
+.rejection-badge-unlocked {
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 700;
-  line-height: 1;
-  padding: 0.25rem 0.45rem;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 
-.peer-achievement-copy {
-  margin: 0.48rem 0 0;
-  color: var(--global-text-color-light);
-  font-size: 0.88rem;
-  line-height: 1.42;
+.rejection-badge-title {
+  color: var(--global-text-color);
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+
+  span {
+    color: var(--global-theme-color);
+    font-family: var(--font-mono);
+    font-size: 0.84em;
+    white-space: nowrap;
+  }
 }
 
-.peer-achievement-meta,
-.peer-review-ledger-evidence {
+.rejection-badge-short {
+  color: var(--global-text-color-light);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.rejection-badge-affordance {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
+  color: var(--global-text-color-light);
+  font-size: 0.72rem;
+  line-height: 1;
+  transition:
+    background var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
+}
+
+.rejection-badge:hover .rejection-badge-affordance,
+.rejection-badge:focus-within .rejection-badge-affordance {
+  border-color: var(--global-theme-color);
+  background: var(--global-theme-color);
+  color: var(--global-hover-text-color);
+  transform: translateY(-1px);
+}
+
+.rejection-badge[open] .rejection-badge-affordance {
+  border-color: var(--global-theme-color);
+  background: var(--global-theme-color);
+  color: var(--global-hover-text-color);
+  transform: rotate(45deg);
+}
+
+.rejection-badge-detail {
+  margin: 0 0.7rem 0.7rem 3.72rem;
+  padding-top: 0.62rem;
+  border-top: 1px solid var(--global-divider-color);
+  animation: rejection-detail-in 220ms ease-out both;
+
+  p {
+    margin: 0;
+    color: var(--global-text-color-light);
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+}
+
+.rejection-badge-paper {
+  margin-top: 0.45rem !important;
+  color: var(--global-text-color) !important;
+  font-family: var(--font-mono);
+  font-size: var(--type-label) !important;
+}
+
+.rejection-badge-meta,
+.rejection-xp-evidence {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
@@ -284,11 +378,11 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   }
 }
 
-.peer-achievement-meta {
+.rejection-badge-meta {
   margin-top: 0.72rem;
 }
 
-.peer-review-credit {
+.rejection-wall-credit {
   margin: 0.85rem 0 0;
   padding-top: 0.75rem;
   border-top: 1px solid var(--global-divider-color);
@@ -309,14 +403,14 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   }
 }
 
-.peer-review-ledger {
+.rejection-xp-panel {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   padding: 0.95rem;
 }
 
-.peer-ledger-topline {
+.rejection-xp-topline {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.75rem;
@@ -328,9 +422,16 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
     font-size: 1.05rem;
     line-height: 1.2;
   }
+
+  p:not(.rejection-wall-kicker) {
+    margin: 0.25rem 0 0;
+    color: var(--global-text-color-light);
+    font-size: var(--type-label);
+    line-height: 1.35;
+  }
 }
 
-.peer-spooder-mark {
+.spooder-mark {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -343,53 +444,53 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
     color-mix(in srgb, var(--global-accent-soft) 54%, var(--global-card-bg-color));
 }
 
-.peer-spooder-svg {
+.spooder-svg {
   display: block;
   width: 3.75rem;
   height: 3.75rem;
 }
 
-.peer-spooder-back {
-  fill: color-mix(in srgb, var(--peer-spooder-red-dark) 45%, transparent);
+.spooder-back {
+  fill: color-mix(in srgb, var(--spooder-red-dark) 45%, transparent);
 }
 
-.peer-spooder-suit {
-  fill: var(--peer-spooder-red);
-  stroke: var(--peer-spooder-ink);
+.spooder-suit {
+  fill: var(--spooder-red);
+  stroke: var(--spooder-ink);
   stroke-linejoin: round;
   stroke-width: 3.4;
 }
 
-.peer-spooder-blue {
-  fill: var(--peer-spooder-blue);
-  stroke: var(--peer-spooder-ink);
+.spooder-blue {
+  fill: var(--spooder-blue);
+  stroke: var(--spooder-ink);
   stroke-linejoin: round;
   stroke-width: 2.7;
 }
 
-.peer-spooder-web,
-.peer-spooder-pupil,
-.peer-spooder-mark-body {
+.spooder-web,
+.spooder-pupil,
+.spooder-mark-body {
   fill: none;
-  stroke: var(--peer-spooder-ink);
+  stroke: var(--spooder-ink);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2.6;
 }
 
-.peer-spooder-eye {
-  fill: var(--peer-spooder-eye);
-  stroke: var(--peer-spooder-ink);
+.spooder-eye {
+  fill: var(--spooder-eye);
+  stroke: var(--spooder-ink);
   stroke-linejoin: round;
   stroke-width: 2.6;
 }
 
-.peer-spooder-mark-body {
-  fill: var(--peer-spooder-ink);
+.spooder-mark-body {
+  fill: var(--spooder-ink);
   stroke-width: 1.6;
 }
 
-.peer-xp-heading {
+.failure-xp-heading {
   position: relative;
   display: flex;
   gap: 0.75rem;
@@ -397,18 +498,18 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   justify-content: space-between;
 }
 
-.peer-level-label,
-.peer-xp-count {
+.failure-level-label,
+.failure-xp-count {
   display: block;
 }
 
-.peer-level-label {
+.failure-level-label {
   color: var(--global-text-color);
   font-weight: 800;
   line-height: 1.15;
 }
 
-.peer-xp-count {
+.failure-xp-count {
   margin-top: 0.18rem;
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
@@ -416,7 +517,7 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   font-weight: 700;
 }
 
-.peer-xp-rules {
+.failure-xp-rules {
   position: relative;
   flex: 0 0 auto;
 
@@ -451,12 +552,12 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   }
 }
 
-.peer-xp-rules[open] summary {
+.failure-xp-rules[open] summary {
   border-color: var(--global-theme-color);
   color: var(--global-theme-color);
 }
 
-.peer-xp-rules-panel {
+.failure-xp-rules-panel {
   position: absolute;
   top: calc(100% + 0.4rem);
   right: 0;
@@ -508,11 +609,11 @@ html[data-theme="dark"] .peer-achievement-card:focus-visible {
   }
 }
 
-html[data-theme="dark"] .peer-xp-rules-panel {
+html[data-theme="dark"] .failure-xp-rules-panel {
   box-shadow: 0 0.7rem 1.6rem rgba(0, 0, 0, 0.3);
 }
 
-.peer-xp-track {
+.failure-xp-track {
   width: 100%;
   height: 0.62rem;
   overflow: hidden;
@@ -524,15 +625,15 @@ html[data-theme="dark"] .peer-xp-rules-panel {
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--global-theme-color), var(--peer-spooder-blue));
+    background: linear-gradient(90deg, var(--global-theme-color), var(--spooder-blue));
   }
 }
 
-.peer-review-ledger-evidence {
+.rejection-xp-evidence {
   margin-top: -0.12rem;
 }
 
-.peer-spooder-quote {
+.spooder-quote {
   margin: auto 0 0;
   padding-top: 0.75rem;
   border-top: 1px solid var(--global-divider-color);
@@ -540,6 +641,18 @@ html[data-theme="dark"] .peer-xp-rules-panel {
   font-size: 0.9rem;
   font-style: italic;
   line-height: 1.45;
+}
+
+@keyframes rejection-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .publications {
@@ -759,45 +872,63 @@ html[data-theme="dark"] .peer-xp-rules-panel {
     justify-self: start;
   }
 
-  .peer-review-achievements-header,
-  .peer-review-achievements-layout,
-  .peer-review-badge-grid {
+  .wall-of-rejection-header,
+  .wall-of-rejection-layout,
+  .rejection-badge-grid {
     grid-template-columns: 1fr;
   }
 
-  .peer-review-achievements-header {
+  .wall-of-rejection-header {
     align-items: start;
   }
 
-  .peer-review-badge-wall,
-  .peer-review-ledger {
+  .rejection-badge-wall,
+  .rejection-xp-panel {
     padding: 0.82rem;
   }
 
-  .peer-achievement-card {
+  .rejection-badge,
+  .rejection-badge summary {
     min-height: 0;
   }
 
-  .peer-spooder-quote {
+  .rejection-badge-detail {
+    margin-left: 0.7rem;
+  }
+
+  .spooder-quote {
     padding-right: 3.35rem;
+  }
+
+  .rejection-wall-credit {
+    padding-right: 3.35rem;
+  }
+
+  body.wall-of-rejection-open #back-to-top {
+    opacity: 0 !important;
+    pointer-events: none;
+    visibility: hidden;
   }
 }
 
 @media (max-width: 991px) {
-  .peer-review-achievements-layout,
-  .peer-review-badge-grid {
+  .wall-of-rejection-layout,
+  .rejection-badge-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .peer-achievement-card,
-  .peer-xp-rules summary {
+  .rejection-badge,
+  .rejection-badge-detail,
+  .rejection-badge-affordance,
+  .failure-xp-rules summary {
+    animation: none;
     transition: none;
   }
 
-  .peer-achievement-card:hover,
-  .peer-achievement-card:focus-visible {
+  .rejection-badge:hover,
+  .rejection-badge:focus-within {
     transform: none;
   }
 }

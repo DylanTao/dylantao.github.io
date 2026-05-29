@@ -1,0 +1,181 @@
+{% assign rejection_wall = site.data.wall_of_rejection %}
+
+{% if rejection_wall and rejection_wall.badges.size > 0 %}
+  {% assign failure_cv_credit = rejection_wall.credits.failure_cv %}
+  {% assign failure_cv_pdf_credit = rejection_wall.credits.failure_cv_pdf %}
+  {% assign local_meme_credit = rejection_wall.credits.local_meme_reference %}
+  {% assign spooder_trailer_credit = rejection_wall.credits.spooder_trailer %}
+  <section class="wall-of-rejection" aria-labelledby="wall-of-rejection-title">
+    <div class="wall-of-rejection-header">
+      <div>
+        <p class="rejection-wall-kicker">{{ rejection_wall.section.kicker }}</p>
+        <h2 id="wall-of-rejection-title">{{ rejection_wall.section.title }}</h2>
+      </div>
+      <p>{{ rejection_wall.section.description }}</p>
+    </div>
+
+    <div class="wall-of-rejection-layout">
+      <div class="rejection-badge-wall" aria-label="Rejection badge wall">
+        <div class="rejection-badge-wall-heading">
+          <p class="rejection-pane-label">Badges</p>
+          <span>Click for receipts</span>
+        </div>
+        <div class="rejection-badge-grid" data-rejection-wall-grid>
+          {% for badge in rejection_wall.badges %}
+            {% assign linked_papers = rejection_wall.papers | where: 'id', badge.linked_paper_id %}
+            {% assign linked_paper = linked_papers | first %}
+            <details
+              class="rejection-badge rejection-badge-{{ badge.rarity }}"
+              data-rejection-card
+              data-rejection-state="collapsed"
+            >
+              <summary>
+                <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
+                  {% case badge.icon %}
+                    {% when 'heart-crack' %}
+                      <i class="fa-solid fa-heart-crack"></i>
+                    {% when 'paper-plane-crash' %}
+                      <i class="fa-solid fa-plane-circle-xmark"></i>
+                    {% when 'crossed-reviewer-pens' %}
+                      <span class="rejection-crossed-pens">
+                        <i class="fa-solid fa-pen-nib"></i>
+                        <i class="fa-solid fa-pen-nib"></i>
+                      </span>
+                    {% else %}
+                      <i class="fa-solid fa-circle-xmark"></i>
+                  {% endcase %}
+                </span>
+                <span class="rejection-badge-summary">
+                  <span class="rejection-badge-unlocked">Achievement unlocked</span>
+                  <span class="rejection-badge-title">
+                    {{ badge.title }}
+                    <span>x{{ badge.count }}</span>
+                  </span>
+                  <span class="rejection-badge-short">{{ badge.short }}</span>
+                </span>
+                <span class="rejection-badge-affordance" aria-hidden="true">
+                  <i class="fa-solid fa-plus"></i>
+                </span>
+              </summary>
+              <div class="rejection-badge-detail">
+                <p>{{ badge.detail }}</p>
+                {% if linked_paper %}
+                  <p class="rejection-badge-paper">{{ linked_paper.paper_label }} / {{ linked_paper.title }}</p>
+                {% endif %}
+                <div class="rejection-badge-meta" aria-label="Rejection evidence">
+                  {% if badge.venue and badge.year %}
+                    <span>
+                      {{- badge.venue }}
+                      {{ badge.year -}}
+                    </span>
+                  {% endif %}
+                  {% if badge.kind %}
+                    <span>{{ badge.kind | replace: '-', ' ' }}</span>
+                  {% endif %}
+                  {% if badge.rarity %}
+                    <span>{{ badge.rarity }}</span>
+                  {% endif %}
+                  {% if linked_paper %}
+                    {% for outcome in linked_paper.outcomes %}
+                      <span>
+                        {{- outcome.code }}
+                        {{ outcome.status -}}
+                      </span>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </details>
+          {% endfor %}
+        </div>
+
+        <p class="rejection-wall-credit">
+          Credits:
+          <a href="{{ failure_cv_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_credit.label }}</a>
+          (<a href="{{ failure_cv_pdf_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_pdf_credit.label }}</a>) /
+          <a href="{{ local_meme_credit.url | relative_url }}">{{ local_meme_credit.label }}</a>
+          /
+          <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
+        </p>
+      </div>
+
+      <aside class="rejection-xp-panel" aria-label="Failure XP joke panel">
+        <div class="rejection-xp-topline">
+          <div class="spooder-mark" aria-hidden="true">
+            <svg class="spooder-svg" viewBox="0 0 120 120" focusable="false">
+              <path
+                class="spooder-back"
+                d="M33 21c17-15 52-10 61 10 7 15 2 34-10 45-5 5-8 12-8 20 0 9-9 15-22 13-13-2-22-10-22-20 0-8-4-13-10-18C9 61 8 40 20 27c4-4 8-6 13-6z"
+              />
+              <path
+                class="spooder-suit"
+                d="M35 17c18-11 45-6 57 10 11 15 8 36-7 49-6 5-9 11-9 19 0 10-9 16-21 14-13-2-23-11-23-22 0-7-3-12-9-17C8 56 12 31 35 17z"
+              />
+              <path class="spooder-blue" d="M36 76c7 5 15 9 24 10-3 9-3 16 0 23-17-1-28-10-28-22 0-4 1-8 4-11z" />
+              <path class="spooder-web" d="M26 34c18 6 39 8 62 3M22 51c21-3 42-2 64 4M31 68c12-8 26-14 43-18M44 23c-3 24-1 46 7 66M63 18c-6 25-6 49 0 72M81 28c-13 17-24 35-32 55" />
+              <path class="spooder-eye spooder-eye-left" d="M24 42c7-10 21-11 28-3-6 10-20 12-28 3z" />
+              <path class="spooder-eye spooder-eye-right" d="M67 40c7-9 18-8 24 1-6 8-18 9-24-1z" />
+              <path class="spooder-pupil" d="M42 40l7 1M82 40l7 1" />
+              <path class="spooder-mark-body" d="M61 68c4 4 7 7 10 12-5-2-9-2-13 1-4-3-8-3-13-1 3-5 6-8 10-12l-4-6 7 3 7-3-4 6z" />
+            </svg>
+          </div>
+          <div>
+            <p class="rejection-wall-kicker">{{ rejection_wall.xp.kicker }}</p>
+            <h3>{{ rejection_wall.xp.label }}</h3>
+            <p>{{ rejection_wall.xp.blurb }}</p>
+          </div>
+        </div>
+
+        <div class="failure-xp-heading">
+          <div>
+            <span class="failure-level-label">Level {{ rejection_wall.xp.level }}</span>
+            <span class="failure-xp-count">{{ rejection_wall.xp.current }} / {{ rejection_wall.xp.next_level }} XP</span>
+          </div>
+          <details class="failure-xp-rules">
+            <summary aria-label="Show XP rules">
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            </summary>
+            <div class="failure-xp-rules-panel">
+              <p>
+                {{ rejection_wall.xp.source_note }}
+                <a href="{{ local_meme_credit.url | relative_url }}">Meme reference</a>
+                /
+                <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">Trailer</a>.
+              </p>
+              <ul>
+                {% for rule in rejection_wall.xp.rules %}
+                  <li>
+                    <span>{{ rule.label }}</span>
+                    <strong>{{ rule.value }}</strong>
+                    {% if rule.note %}
+                      <small>{{ rule.note }}</small>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div
+          class="failure-xp-track"
+          role="meter"
+          aria-label="{{ rejection_wall.xp.label }} XP progress"
+          aria-valuemin="0"
+          aria-valuemax="{{ rejection_wall.xp.next_level }}"
+          aria-valuenow="{{ rejection_wall.xp.current }}"
+        >
+          <span style="width: {{ rejection_wall.xp.progress }}%"></span>
+        </div>
+
+        <div class="rejection-xp-evidence">
+          <span>P5 first-author</span>
+          <span>CHI26 rejected</span>
+          <span>UIST26 rejected</span>
+        </div>
+
+        <blockquote class="spooder-quote">"{{ rejection_wall.xp.quote }}"</blockquote>
+      </aside>
+    </div>
+  </section>
+{% endif %}
