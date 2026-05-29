@@ -4,47 +4,6 @@
 
 @use "variables" as v;
 
-.publication-intro {
-  align-items: flex-start;
-  background: var(--global-card-bg-color);
-  border: 1px solid var(--global-divider-color);
-  border-radius: 0.65rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  padding: 1rem 1.1rem;
-
-  p {
-    color: var(--global-text-color-light);
-    line-height: 1.55;
-    margin: 0;
-    max-width: 56rem;
-  }
-}
-
-.publication-intro-link {
-  border: 1px solid var(--global-theme-color);
-  border-radius: 999px;
-  color: var(--global-theme-color);
-  flex: 0 0 auto;
-  font-weight: 750;
-  padding: 0.45rem 0.8rem;
-  text-decoration: none;
-  transition:
-    background-color var(--motion-standard),
-    border-color var(--motion-standard),
-    color var(--motion-standard),
-    transform var(--motion-standard);
-
-  &:hover {
-    background: rgba(var(--global-accent-rgb), 0.09);
-    color: var(--global-theme-color);
-    text-decoration: none;
-    transform: translateY(-1px);
-  }
-}
-
 .wall-of-rejection {
   --spooder-red: #dc5d4d;
   --spooder-red-dark: #8c2f29;
@@ -53,7 +12,7 @@
   --spooder-eye: #fffefd;
   --rejection-badge-wash: color-mix(in srgb, var(--global-accent-soft) 58%, transparent);
   --rejection-badge-rare: var(--global-sky-strong);
-  margin: 0 0 1.25rem;
+  margin: 0.15rem 0 1rem;
 }
 
 html[data-theme-mode="morning"] .wall-of-rejection {
@@ -91,28 +50,6 @@ html[data-theme="dark"] .wall-of-rejection {
   --rejection-badge-rare: var(--global-sky-strong);
 }
 
-.wall-of-rejection-header {
-  display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
-  gap: 0.8rem 1rem;
-  align-items: end;
-  margin-bottom: 0.8rem;
-
-  h2 {
-    margin: 0.12rem 0 0;
-    color: var(--global-text-color);
-    font-size: clamp(1.2rem, 2vw, 1.55rem);
-    line-height: 1.15;
-  }
-
-  p {
-    margin: 0;
-    color: var(--global-text-color-light);
-    font-size: var(--type-meta);
-    line-height: 1.5;
-  }
-}
-
 .rejection-wall-kicker {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
@@ -144,12 +81,28 @@ html[data-theme="dark"] .wall-of-rejection {
 
 .rejection-badge-wall-heading {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.65rem;
 
-  span {
+  h2 {
+    margin: 0;
+    color: var(--global-text-color);
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+    line-height: 1.15;
+  }
+
+  p {
+    margin: 0.18rem 0 0;
+    color: var(--global-text-color-light);
+    font-size: var(--type-label);
+    line-height: 1.35;
+  }
+
+  > span {
+    flex: 0 0 auto;
+    margin-top: 0.18rem;
     color: var(--global-text-color-light);
     font-family: var(--font-mono);
     font-size: 0.68rem;
@@ -157,14 +110,6 @@ html[data-theme="dark"] .wall-of-rejection {
     line-height: 1.2;
     text-transform: uppercase;
   }
-}
-
-.rejection-pane-label {
-  margin: 0;
-  color: var(--global-text-color);
-  font-size: 0.98rem;
-  font-weight: 800;
-  line-height: 1.2;
 }
 
 .rejection-badge-grid {
@@ -191,10 +136,10 @@ html[data-theme="dark"] .wall-of-rejection {
   summary {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 0.68rem;
+    gap: 0.58rem;
     align-items: center;
-    min-height: 4.35rem;
-    padding: 0.64rem 0.7rem;
+    min-height: 3.35rem;
+    padding: 0.52rem 0.64rem;
     cursor: pointer;
     list-style: none;
 
@@ -235,13 +180,13 @@ html[data-theme="dark"] .rejection-badge[open] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.05rem;
+  height: 2.05rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 30%, var(--global-divider-color));
   border-radius: 0.45rem;
   background: color-mix(in srgb, var(--global-accent-soft) 64%, var(--global-card-bg-color));
   color: var(--global-theme-color);
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1;
 }
 
@@ -251,7 +196,7 @@ html[data-theme="dark"] .rejection-badge[open] {
 
 .rejection-crossed-pens {
   position: relative;
-  width: 1.45rem;
+  width: 1.7rem;
   height: 1.45rem;
 
   i {
@@ -268,22 +213,13 @@ html[data-theme="dark"] .rejection-badge[open] {
 
 .rejection-badge-summary {
   display: grid;
-  gap: 0.18rem;
+  gap: 0.12rem;
   min-width: 0;
-}
-
-.rejection-badge-unlocked {
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  line-height: 1.15;
-  text-transform: uppercase;
 }
 
 .rejection-badge-title {
   color: var(--global-text-color);
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 800;
   line-height: 1.18;
   overflow-wrap: anywhere;
@@ -298,8 +234,8 @@ html[data-theme="dark"] .rejection-badge[open] {
 
 .rejection-badge-short {
   color: var(--global-text-color-light);
-  font-size: 0.82rem;
-  line-height: 1.35;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
 .rejection-badge-affordance {
@@ -337,8 +273,8 @@ html[data-theme="dark"] .rejection-badge[open] {
 }
 
 .rejection-badge-detail {
-  margin: 0 0.7rem 0.7rem 3.72rem;
-  padding-top: 0.62rem;
+  margin: 0 0.64rem 0.64rem 3.27rem;
+  padding-top: 0.52rem;
   border-top: 1px solid var(--global-divider-color);
   animation: rejection-detail-in 220ms ease-out both;
 
@@ -357,8 +293,7 @@ html[data-theme="dark"] .rejection-badge[open] {
   font-size: var(--type-label) !important;
 }
 
-.rejection-badge-meta,
-.rejection-xp-evidence {
+.rejection-badge-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
@@ -380,6 +315,33 @@ html[data-theme="dark"] .rejection-badge[open] {
 
 .rejection-badge-meta {
   margin-top: 0.72rem;
+}
+
+.rejection-xp-ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin-top: -0.1rem;
+
+  span {
+    min-width: 0;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.45rem;
+    color: var(--global-text-color-light);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 650;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    padding: 0.38rem 0.42rem;
+  }
+
+  strong {
+    display: block;
+    color: var(--global-text-color);
+    font-size: 0.86rem;
+    line-height: 1.05;
+  }
 }
 
 .rejection-wall-credit {
@@ -406,8 +368,8 @@ html[data-theme="dark"] .rejection-badge[open] {
 .rejection-xp-panel {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  padding: 0.95rem;
+  gap: 0.68rem;
+  padding: 0.9rem;
 }
 
 .rejection-xp-topline {
@@ -435,8 +397,8 @@ html[data-theme="dark"] .rejection-badge[open] {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 4.2rem;
-  height: 4.2rem;
+  width: 3.65rem;
+  height: 3.65rem;
   border: 1px solid var(--global-divider-color);
   border-radius: 0.6rem;
   background:
@@ -446,8 +408,8 @@ html[data-theme="dark"] .rejection-badge[open] {
 
 .spooder-svg {
   display: block;
-  width: 3.75rem;
-  height: 3.75rem;
+  width: 3.28rem;
+  height: 3.28rem;
 }
 
 .spooder-back {
@@ -629,18 +591,14 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   }
 }
 
-.rejection-xp-evidence {
-  margin-top: -0.12rem;
-}
-
 .spooder-quote {
   margin: auto 0 0;
-  padding-top: 0.75rem;
+  padding-top: 0.68rem;
   border-top: 1px solid var(--global-divider-color);
   color: var(--global-text-color-light);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-style: italic;
-  line-height: 1.45;
+  line-height: 1.38;
 }
 
 @keyframes rejection-detail-in {
@@ -864,22 +822,17 @@ html[data-theme="dark"] .failure-xp-rules-panel {
 }
 
 @media (max-width: 767px) {
-  .publication-intro {
-    display: grid;
-  }
-
-  .publication-intro-link {
-    justify-self: start;
-  }
-
-  .wall-of-rejection-header,
   .wall-of-rejection-layout,
   .rejection-badge-grid {
     grid-template-columns: 1fr;
   }
 
-  .wall-of-rejection-header {
-    align-items: start;
+  .rejection-badge-wall-heading {
+    display: grid;
+
+    > span {
+      display: none;
+    }
   }
 
   .rejection-badge-wall,
@@ -897,11 +850,17 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   }
 
   .spooder-quote {
-    padding-right: 3.35rem;
+    font-size: 0.82rem;
+    padding-right: 0;
   }
 
   .rejection-wall-credit {
-    padding-right: 3.35rem;
+    font-size: 0.68rem;
+    padding-right: 0;
+  }
+
+  .rejection-xp-topline .rejection-wall-kicker {
+    display: none;
   }
 
   body.wall-of-rejection-open #back-to-top {

@@ -2,22 +2,16 @@
 
 {% if rejection_wall and rejection_wall.badges.size > 0 %}
   {% assign failure_cv_credit = rejection_wall.credits.failure_cv %}
-  {% assign failure_cv_pdf_credit = rejection_wall.credits.failure_cv_pdf %}
   {% assign local_meme_credit = rejection_wall.credits.local_meme_reference %}
   {% assign spooder_trailer_credit = rejection_wall.credits.spooder_trailer %}
   <section class="wall-of-rejection" aria-labelledby="wall-of-rejection-title">
-    <div class="wall-of-rejection-header">
-      <div>
-        <p class="rejection-wall-kicker">{{ rejection_wall.section.kicker }}</p>
-        <h2 id="wall-of-rejection-title">{{ rejection_wall.section.title }}</h2>
-      </div>
-      <p>{{ rejection_wall.section.description }}</p>
-    </div>
-
     <div class="wall-of-rejection-layout">
       <div class="rejection-badge-wall" aria-label="Rejection badge wall">
         <div class="rejection-badge-wall-heading">
-          <p class="rejection-pane-label">Badges</p>
+          <div>
+            <h2 id="wall-of-rejection-title">{{ rejection_wall.section.title }}</h2>
+            <p>{{ rejection_wall.section.description }}</p>
+          </div>
           <span>Click for receipts</span>
         </div>
         <div class="rejection-badge-grid" data-rejection-wall-grid>
@@ -46,7 +40,6 @@
                   {% endcase %}
                 </span>
                 <span class="rejection-badge-summary">
-                  <span class="rejection-badge-unlocked">Achievement unlocked</span>
                   <span class="rejection-badge-title">
                     {{ badge.title }}
                     <span>x{{ badge.count }}</span>
@@ -90,11 +83,10 @@
         </div>
 
         <p class="rejection-wall-credit">
-          Credits:
+          Inspired by
           <a href="{{ failure_cv_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_credit.label }}</a>
-          (<a href="{{ failure_cv_pdf_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_pdf_credit.label }}</a>) /
-          <a href="{{ local_meme_credit.url | relative_url }}">{{ local_meme_credit.label }}</a>
-          /
+          and Sirui's post-UIST26
+          <a href="{{ local_meme_credit.url | relative_url }}">{{ local_meme_credit.label }}</a>.
           <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
         </p>
       </div>
@@ -168,10 +160,13 @@
           <span style="width: {{ rejection_wall.xp.progress }}%"></span>
         </div>
 
-        <div class="rejection-xp-evidence">
-          <span>P5 first-author</span>
-          <span>CHI26 rejected</span>
-          <span>UIST26 rejected</span>
+        <div class="rejection-xp-ledger" aria-label="Rejection ledger">
+          {% for ledger_item in rejection_wall.xp.ledger %}
+            <span>
+              <strong>{{ ledger_item.value }}</strong>
+              {{ ledger_item.label }}
+            </span>
+          {% endfor %}
         </div>
 
         <blockquote class="spooder-quote">"{{ rejection_wall.xp.quote }}"</blockquote>
