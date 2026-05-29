@@ -3,7 +3,7 @@ layout: post
 title: research skills starter pack
 date: 2026-04-27 09:00:00
 description: An ongoing self-study list for learning research reading, writing, reviewing, Ph.D. life, and empirical methods.
-tags: research writing phd methods statistics modeling mentorship
+tags: research writing phd methods qualitative statistics modeling mentorship
 categories: guides
 related_posts: false
 blog_nav_pool: personal
@@ -188,7 +188,7 @@ Useful questions to ask while reading:
 A Ph.D. can be meaningful and joyful. It can also be hard in ways that are not
 obvious from the outside. Both can be true.
 
-## 5. Learn empirical methods and statistics
+## 5. Learn empirical methods, qualitative research, and statistics
 
 For HCI, design, psychology, education, and human-centered AI, methods matter a
 lot. If you want to study people, you need to learn how evidence gets made.
@@ -212,6 +212,28 @@ I would use this book to learn the mindset, not only the formulas:
 - What are the threats to validity?
 - What would a better control condition look like?
 - What can this study conclude, and what can it not conclude?
+
+Scott also recommended two qualitative papers as examples of how to turn close
+observation into a strong research contribution.
+
+[Janet Vertesi](https://janet.vertesi.com/)'s
+[_"Seeing like a rover": Embodied experience on the Mars Exploration Rover mission_](https://dl.acm.org/doi/10.1145/1358628.1358709)
+is useful for HCI students because it shows how qualitative work can make a
+technical practice socially and bodily legible. The paper is based on two years
+of ethnographic fieldwork with the Mars Rover mission, and the lesson for me is
+that good qualitative research does not only report what people said. It reveals
+the situated practices, metaphors, gestures, tools, and team arrangements that
+make a form of work possible.
+
+[Robert I. Sutton](https://www.gsb.stanford.edu/faculty-research/faculty/robert-i-sutton)
+and [Andrew Hargadon](https://www.hargadon.net/)'s
+[_Brainstorming Groups in Context: Effectiveness in a Product Design Firm_](https://web.mit.edu/~mcyang/www/papers/suttonHargadon96.pdf)
+is useful for design research because it asks what effectiveness means inside a
+real organization. Instead of treating idea count as the only outcome, the paper
+studies brainstorming in context and shows that the practice can support other
+organizational functions. The takeaway is a good qualitative habit: before
+deciding whether something "works," ask what work it is doing, for whom, and in
+what setting.
 
 For quantitative modeling, I would next read Seth Roberts and Harold Pashler's
 [_How persuasive is a good fit? A comment on theory testing_](https://pubmed.ncbi.nlm.nih.gov/10789200/).
@@ -238,6 +260,8 @@ with practice. Take a paper you like and reverse-engineer the study:
 - Identify the claim the study is trying to support.
 - Sketch the study design.
 - List the variables and measures.
+- If the paper is qualitative, identify the field setting, the interpretive
+  claim, and the observations that make that claim believable.
 - Write down possible confounds.
 - Ask what result would have changed your mind.
 - Check whether the paper's conclusion matches the evidence.
@@ -271,7 +295,12 @@ who wrote those resources:
   David W. Martin's
   [_Doing Psychology Experiments_](https://books.google.com/books/about/Doing_Psychology_Experiments.html?id=YzwQAQAAIAAJ),
   and [David W. Martin](https://books.google.com/books/about/Doing_Psychology_Experiments.html?id=YzwQAQAAIAAJ)
-  for writing it.
+  for writing it. Scott also recommended two qualitative exemplars:
+  [Janet Vertesi](https://janet.vertesi.com/)'s
+  [_"Seeing like a rover"_](https://dl.acm.org/doi/10.1145/1358628.1358709)
+  and [Robert I. Sutton](https://www.gsb.stanford.edu/faculty-research/faculty/robert-i-sutton)
+  and [Andrew Hargadon](https://www.hargadon.net/)'s
+  [_Brainstorming Groups in Context_](https://web.mit.edu/~mcyang/www/papers/suttonHargadon96.pdf).
 - [Seth Roberts](https://pubmed.ncbi.nlm.nih.gov/10789200/) and
   [Harold Pashler](https://pubmed.ncbi.nlm.nih.gov/10789200/) for
   [_How persuasive is a good fit? A comment on theory testing_](https://pubmed.ncbi.nlm.nih.gov/10789200/).
@@ -284,4 +313,4 @@ before anyone gives you permission.
 
 ---
 
-Last updated: May 8, 2026.
+Last updated: May 29, 2026.
