@@ -136,7 +136,7 @@ the [Craft chapter](https://stateofaidesign.com/chapters/craft),
 [Stripe](https://stripe.com/),
 [Katie Dill at Stripe Sessions](https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function),
 [IKEA PS 2026](https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/),
-the [local Wall of Rejection mockup]({{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.svg' | relative_url }}),
+the [local Wall of Rejection mockup]({{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.png' | relative_url }}),
 the [Spooder-Man trailer reference](https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC),
 Donald Schon's _The Reflective Practitioner_, and this
 [Wayback snapshot](https://web.archive.org/web/20260209013429/https://dylantao.github.io/)

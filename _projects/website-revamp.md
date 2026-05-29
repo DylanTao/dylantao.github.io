@@ -188,7 +188,7 @@ This redesign borrows ideas, not assets, from work I admire: the AI in Design 20
   <li><a href="https://stripe.com/" target="_blank" rel="noopener noreferrer">Stripe homepage</a></li>
   <li><a href="https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function" target="_blank" rel="noopener noreferrer">Katie Dill at Stripe Sessions</a></li>
   <li><a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA PS 2026 collection story</a></li>
-  <li><a href="{{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.svg' | relative_url }}">Local Wall of Rejection mockup</a></li>
+  <li><a href="{{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.png' | relative_url }}">Local Wall of Rejection mockup</a></li>
   <li><a href="https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC" target="_blank" rel="noopener noreferrer">Spooder-Man trailer reference</a></li>
   <li><a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Wayback snapshot of the older site</a></li>
 </ul>
