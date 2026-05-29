@@ -110,7 +110,7 @@ ninja.data = [
     },
   },{id: "nav-publications",
           title: "publications",
-          description: "Papers and workshop pieces, with the current design/HCI thread near the top.",
+          description: "Papers and workshop pieces, kept chronological.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/publications/";
