@@ -259,6 +259,18 @@ contribution is theoretical, it needs to explain or organize something in a way
 that has power beyond a single example. If the contribution is an argument, it
 needs to be fair, persuasive, and grounded.
 
+Sutton and Staw's
+[_What Theory Is Not_](https://doi.org/10.2307/2393788) sharpens this point.
+References, data, lists of variables, diagrams, and hypotheses can all support
+theory, but none of them are theory by themselves. The theoretical work is the
+explanation: why the relationship should hold, what mechanism connects the
+pieces, and where the claim should break.
+
+For HCI artifact work, this is a useful guardrail. A prototype is not theory. A
+positive study result is not theory. A clean system diagram is not theory. The
+theory is the account of why this interaction mechanism changes this human
+activity under these conditions.
+
 This connects to Dan R. Olsen Jr.'s
 [_Evaluating User Interface Systems Research_](https://dl.acm.org/doi/10.1145/1294211)
 and Saul Greenberg and Bill Buxton's
@@ -317,6 +329,11 @@ about how that mechanism behaves in a new context. The stronger version is:
 Then the contribution is not just the borrowed trick. The contribution is the
 translation, boundary condition, and explanation.
 
+One theory-specific check I want to keep near the formula:
+
+> Am I explaining the mechanism, or only listing references, variables,
+> diagrams, results, or hypotheses?
+
 Two extra checks I want to add, especially when AI is involved:
 
 > What difficulty am I intentionally preserving because it helps me build
@@ -349,6 +366,10 @@ Main references:
   [Julie A. Kientz](https://www.hcde.washington.edu/kientz).
   [_Research Contributions in Human-Computer Interaction_](https://dl.acm.org/doi/10.1145/2907069).
   _interactions_, 2016.
+- Robert I. Sutton and Barry M. Staw.
+  [_What Theory Is Not_](https://doi.org/10.2307/2393788).
+  _Administrative Science Quarterly_, 40(3), 371-384, 1995.
+  [MIT-hosted PDF](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Doctoral_Resources/Sutton_Staw_What%20theory%20is%20not.pdf).
 - Dan R. Olsen Jr.
   [_Evaluating User Interface Systems Research_](https://dl.acm.org/doi/10.1145/1294211).
   UIST 2007.
@@ -361,4 +382,4 @@ Main references:
 
 ---
 
-Last updated: May 19, 2026.
+Last updated: May 29, 2026.
