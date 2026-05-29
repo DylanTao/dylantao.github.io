@@ -19,6 +19,8 @@ panel_wide: true
   <a class="publication-intro-link" href="{{ '/projects/' | relative_url }}">Open project notes</a>
 </div>
 
+{% include publications/peer_review_achievements.liquid %}
+
 {% include bib_search.liquid %}
 
 <div class="publications">

@@ -1,0 +1,151 @@
+{% assign peer_review = site.data.peer_review_achievements %}
+
+{% if peer_review and peer_review.achievements.size > 0 %}
+  {% assign failure_cv_credit = peer_review.credits.failure_cv %}
+  {% assign failure_cv_pdf_credit = peer_review.credits.failure_cv_pdf %}
+  {% assign meme_source_credit = peer_review.credits.meme_source %}
+  <section class="peer-review-achievements" aria-labelledby="peer-review-achievements-title">
+    <div class="peer-review-achievements-header">
+      <div>
+        <p class="peer-review-kicker">Hidden peer-review grind</p>
+        <h2 id="peer-review-achievements-title">Peer Review Achievements</h2>
+      </div>
+      <p>Accepted papers already get the clean list below. This small wall keeps the rejected attempts close to the scholarly record too.</p>
+    </div>
+
+    <div class="peer-review-achievements-layout">
+      <div class="peer-review-badge-wall" aria-label="Rejection achievement badges">
+        <div class="peer-review-badge-grid">
+          {% for achievement in peer_review.achievements %}
+            {% assign linked_papers = peer_review.papers | where: 'id', achievement.linked_paper_id %}
+            {% assign linked_paper = linked_papers | first %}
+            <article class="peer-achievement-card peer-achievement-card-{{ achievement.rarity }}" tabindex="0">
+              <div class="peer-achievement-icon peer-achievement-icon-{{ achievement.icon }}" aria-hidden="true">
+                {% case achievement.icon %}
+                  {% when 'heart-crack' %}
+                    <i class="fa-solid fa-heart-crack"></i>
+                  {% when 'paper-plane-crash' %}
+                    <i class="fa-solid fa-plane-circle-xmark"></i>
+                  {% when 'crossed-reviewer-pens' %}
+                    <span class="peer-crossed-pens">
+                      <i class="fa-solid fa-pen-nib"></i>
+                      <i class="fa-solid fa-pen-nib"></i>
+                    </span>
+                  {% else %}
+                    <i class="fa-solid fa-circle-xmark"></i>
+                {% endcase %}
+              </div>
+              <div class="peer-achievement-body">
+                <div class="peer-achievement-title-row">
+                  <h3>
+                    {{ achievement.title }}
+                    <span>x{{ achievement.count }}</span>
+                  </h3>
+                  <span class="peer-achievement-rarity">{{ achievement.rarity }}</span>
+                </div>
+                <p class="peer-achievement-copy">{{ achievement.tooltip }}</p>
+                <div class="peer-achievement-meta" aria-label="Achievement evidence">
+                  {% if achievement.venue and achievement.year %}
+                    <span>
+                      {{- achievement.venue }}
+                      {{ achievement.year -}}
+                    </span>
+                  {% endif %}
+                  {% if achievement.kind %}
+                    <span>{{ achievement.kind | replace: '-', ' ' }}</span>
+                  {% endif %}
+                  {% if linked_paper %}
+                    <span>{{ linked_paper.paper_label }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        <p class="peer-review-credit">
+          Rejections here follow
+          <a href="{{ failure_cv_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_credit.label }}</a>
+          (<a href="{{ failure_cv_pdf_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_pdf_credit.label }}</a>). The XP pane
+          credits Sirui's post-UIST 2026 meme and the
+          <a href="{{ meme_source_credit.url }}" target="_blank" rel="noopener noreferrer">{{ meme_source_credit.label }}</a>.
+        </p>
+      </div>
+
+      <aside class="peer-review-ledger" aria-label="Peer review XP ledger">
+        <div class="peer-ledger-topline">
+          <div class="peer-spooder-mark" aria-hidden="true">
+            <svg class="peer-spooder-svg" viewBox="0 0 120 120" focusable="false">
+              <path
+                class="peer-spooder-back"
+                d="M33 21c17-15 52-10 61 10 7 15 2 34-10 45-5 5-8 12-8 20 0 9-9 15-22 13-13-2-22-10-22-20 0-8-4-13-10-18C9 61 8 40 20 27c4-4 8-6 13-6z"
+              />
+              <path
+                class="peer-spooder-suit"
+                d="M35 17c18-11 45-6 57 10 11 15 8 36-7 49-6 5-9 11-9 19 0 10-9 16-21 14-13-2-23-11-23-22 0-7-3-12-9-17C8 56 12 31 35 17z"
+              />
+              <path class="peer-spooder-blue" d="M36 76c7 5 15 9 24 10-3 9-3 16 0 23-17-1-28-10-28-22 0-4 1-8 4-11z" />
+              <path class="peer-spooder-web" d="M26 34c18 6 39 8 62 3M22 51c21-3 42-2 64 4M31 68c12-8 26-14 43-18M44 23c-3 24-1 46 7 66M63 18c-6 25-6 49 0 72M81 28c-13 17-24 35-32 55" />
+              <path class="peer-spooder-eye peer-spooder-eye-left" d="M24 42c7-10 21-11 28-3-6 10-20 12-28 3z" />
+              <path class="peer-spooder-eye peer-spooder-eye-right" d="M67 40c7-9 18-8 24 1-6 8-18 9-24-1z" />
+              <path class="peer-spooder-pupil" d="M42 40l7 1M82 40l7 1" />
+              <path class="peer-spooder-mark-body" d="M61 68c4 4 7 7 10 12-5-2-9-2-13 1-4-3-8-3-13-1 3-5 6-8 10-12l-4-6 7 3 7-3-4 6z" />
+            </svg>
+          </div>
+          <div>
+            <p class="peer-review-kicker">XP ledger</p>
+            <h3>{{ peer_review.xp.label }}</h3>
+          </div>
+        </div>
+
+        <div class="peer-xp-heading">
+          <div>
+            <span class="peer-level-label">Level {{ peer_review.xp.level }}</span>
+            <span class="peer-xp-count">{{ peer_review.xp.current }} / {{ peer_review.xp.next_level }} XP</span>
+          </div>
+          <details class="peer-xp-rules">
+            <summary aria-label="Show XP rules">
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            </summary>
+            <div class="peer-xp-rules-panel">
+              <p>
+                {{ peer_review.xp.source_note }}
+                <a href="{{ peer_review.xp.source_url }}" target="_blank" rel="noopener noreferrer">Source</a>.
+              </p>
+              <ul>
+                {% for rule in peer_review.xp.rules %}
+                  <li>
+                    <span>{{ rule.label }}</span>
+                    <strong>{{ rule.value }}</strong>
+                    {% if rule.note %}
+                      <small>{{ rule.note }}</small>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div
+          class="peer-xp-track"
+          role="meter"
+          aria-label="{{ peer_review.xp.label }} XP progress"
+          aria-valuemin="0"
+          aria-valuemax="{{ peer_review.xp.next_level }}"
+          aria-valuenow="{{ peer_review.xp.current }}"
+        >
+          <span style="width: {{ peer_review.xp.progress }}%"></span>
+        </div>
+
+        <div class="peer-review-ledger-evidence">
+          <span>P5 first-author</span>
+          <span>CHI26 rejected</span>
+          <span>UIST26 rejected</span>
+        </div>
+
+        <blockquote class="peer-spooder-quote">"{{ peer_review.xp.quote }}"</blockquote>
+      </aside>
+    </div>
+  </section>
+{% endif %}

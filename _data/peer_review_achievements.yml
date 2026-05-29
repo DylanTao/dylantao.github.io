@@ -1,0 +1,82 @@
+papers:
+  - id: p5
+    paper_label: P5
+    title: "XXX: abcdefg"
+    role: first-author
+    outcomes:
+      - venue: CHI
+        year: 2026
+        code: CHI26
+        status: rejected
+      - venue: UIST
+        year: 2026
+        code: UIST26
+        status: rejected
+
+achievements:
+  - id: chi26-rejection
+    title: CHI26 Rejection
+    count: 1
+    kind: venue-rejection
+    venue: CHI
+    year: 2026
+    rarity: common
+    icon: heart-crack
+    linked_paper_id: p5
+    tooltip: Unlocked after one brave CHI 2026 submission attempt. The reviews became compost.
+    microcopy: The reviews became compost.
+  - id: uist26-rejection
+    title: UIST26 Rejection
+    count: 1
+    kind: venue-rejection
+    venue: UIST
+    year: 2026
+    rarity: common
+    icon: paper-plane-crash
+    linked_paper_id: p5
+    tooltip: Interactive system built. Acceptance not included, iteration included.
+    microcopy: Acceptance not included, iteration included.
+  - id: double-rejection-streak
+    title: Double Rejection Streak
+    count: 1
+    kind: meta
+    rarity: rare
+    icon: crossed-reviewer-pens
+    linked_paper_id: p5
+    tooltip: With great failure comes greater failure. Two doors closed; one plot twist earned.
+    microcopy: With great failure comes greater failure.
+
+xp:
+  label: Spooder Reviewer
+  level: 2
+  current: 240
+  next_level: 300
+  progress: 67
+  source_note: Inspired by the meme Sirui made after the UIST 2026 rejection and the Spooder-Man meme.
+  source_url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC
+  quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
+  rules:
+    - label: First-author rejection
+      value: "+120 XP"
+    - label: Co-first listed first
+      value: "+110 XP"
+    - label: Co-first listed second
+      value: "+95 XP"
+    - label: Co-first listed third
+      value: "+80 XP"
+    - label: Co-author rejection
+      value: "+45 XP"
+    - label: Accepted papers
+      value: "0 XP here"
+      note: Accepted work already appears in the publication list.
+
+credits:
+  failure_cv:
+    label: Bradley Voytek's failure CV tradition
+    url: https://voyteklab.com/members
+  failure_cv_pdf:
+    label: Voytek CV
+    url: https://voyteklab.com/assets/pdfs/members/voytek_cv.pdf#page=39.11
+  meme_source:
+    label: Spooder-Man meme source
+    url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC
