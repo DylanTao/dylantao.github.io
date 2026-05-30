@@ -1,0 +1,26 @@
+metadata:
+  last_synced: 2026-05-22
+  scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
+  yearly_note: Exact per-paper yearly citation counts are not in this static snapshot yet.
+
+papers:
+  tao2026whw:
+    work_type: workshop-paper
+    role: first-author
+    citation_total: 0
+  tao2024designweaver:
+    work_type: full-paper
+    role: first-author
+    citation_total: 32
+  wang2025hotspot:
+    work_type: full-paper
+    role: coauthor
+    citation_total: 10
+  tung2023physion++:
+    work_type: poster-abstract
+    role: coauthor
+    citation_total: 0
+  bear2021physion:
+    work_type: full-paper
+    role: coauthor
+    citation_total: 152

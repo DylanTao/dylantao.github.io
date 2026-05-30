@@ -1,70 +1,74 @@
 (function () {
-  const grids = Array.from(document.querySelectorAll("[data-rejection-wall-grid]"));
-  if (grids.length === 0) return;
+  const wall = document.querySelector(".wall-of-rejection");
+  if (!wall) return;
 
-  const cards = Array.from(document.querySelectorAll("[data-rejection-card]"));
-  const details = Array.from(document.querySelectorAll(".wall-of-rejection details"));
+  const cards = Array.from(wall.querySelectorAll("[data-rejection-card]"));
+  const receiptTray = wall.querySelector("[data-rejection-receipt-tray]");
+  const receiptSources = new Map(
+    Array.from(wall.querySelectorAll("[data-rejection-receipt-source]")).map((source) => [source.dataset.rejectionSourceId, source])
+  );
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const prefersReducedMotion = () => reduceMotionQuery.matches;
 
-  const measureCards = () => {
-    const rects = new Map();
-    cards.forEach((card) => rects.set(card, card.getBoundingClientRect()));
-    return rects;
+  const setActiveCard = (card, options = { focusTray: false }) => {
+    const source = receiptSources.get(card.dataset.rejectionSourceId);
+    if (!source || !receiptTray) return;
+
+    cards.forEach((candidate) => {
+      const active = candidate === card;
+      candidate.classList.toggle("rejection-badge-active", active);
+      candidate.setAttribute("aria-expanded", active ? "true" : "false");
+    });
+
+    receiptTray.innerHTML = source.innerHTML;
+    receiptTray.classList.add("rejection-receipt-tray-active");
+    document.body.classList.add("wall-of-rejection-open");
+
+    if (!prefersReducedMotion() && "animate" in receiptTray) {
+      receiptTray.getAnimations().forEach((animation) => animation.cancel());
+      receiptTray.animate(
+        [
+          { opacity: 0.72, transform: "translateY(-0.2rem)" },
+          { opacity: 1, transform: "translateY(0)" },
+        ],
+        { duration: 180, easing: "ease-out" }
+      );
+    }
+
+    if (options.focusTray) {
+      receiptTray.focus({ preventScroll: true });
+    }
   };
 
-  const syncOpenState = () => {
-    document.body.classList.toggle(
-      "wall-of-rejection-open",
-      details.some((detail) => detail.open)
-    );
-  };
+  cards.forEach((card, index) => {
+    if (index === 0) {
+      card.classList.add("rejection-badge-active");
+    }
 
-  const animateLayout = (firstRects) => {
-    if (prefersReducedMotion() || !("animate" in Element.prototype)) return;
-
-    cards.forEach((card) => {
-      if ("getAnimations" in card) {
-        card.getAnimations().forEach((animation) => animation.cancel());
+    card.addEventListener("click", () => setActiveCard(card));
+    card.addEventListener("keydown", (event) => {
+      if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = cards.indexOf(card);
+      let nextIndex = currentIndex;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        nextIndex = (currentIndex + 1) % cards.length;
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        nextIndex = (currentIndex - 1 + cards.length) % cards.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = cards.length - 1;
       }
-
-      const first = firstRects.get(card);
-      const last = card.getBoundingClientRect();
-      if (!first || !last.width || !last.height) return;
-
-      const dx = first.left - last.left;
-      const dy = first.top - last.top;
-      const sx = first.width / last.width;
-      const sy = first.height / last.height;
-      const moved = Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5 || Math.abs(1 - sx) > 0.01 || Math.abs(1 - sy) > 0.01;
-      if (!moved) return;
-
-      card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` }, { transform: "translate(0, 0) scale(1, 1)" }], {
-        duration: 360,
-        easing: "cubic-bezier(.18, .84, .22, 1)",
-      });
-    });
-  };
-
-  cards.forEach((card) => {
-    const summary = card.querySelector("summary");
-    if (!summary) return;
-
-    summary.addEventListener("click", () => {
-      const firstRects = measureCards();
-      window.requestAnimationFrame(() => animateLayout(firstRects));
-    });
-
-    card.addEventListener("toggle", () => {
-      card.setAttribute("data-rejection-state", card.open ? "expanded" : "collapsed");
-      syncOpenState();
+      cards[nextIndex].focus();
+      setActiveCard(cards[nextIndex]);
     });
   });
 
-  details
-    .filter((detail) => !detail.matches("[data-rejection-card]"))
-    .forEach((detail) => {
-      detail.addEventListener("toggle", syncOpenState);
+  wall.querySelectorAll("details").forEach((detail) => {
+    detail.addEventListener("toggle", () => {
+      document.body.classList.toggle("wall-of-rejection-open", detail.open || receiptTray?.classList.contains("rejection-receipt-tray-active"));
     });
+  });
 })();

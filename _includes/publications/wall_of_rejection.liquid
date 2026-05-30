@@ -18,99 +18,140 @@
           {% for badge in rejection_wall.badges %}
             {% assign linked_papers = rejection_wall.papers | where: 'id', badge.linked_paper_id %}
             {% assign linked_paper = linked_papers | first %}
-            <details
+            <button
               class="rejection-badge rejection-badge-{{ badge.rarity }}"
+              type="button"
               data-rejection-card
-              data-rejection-state="collapsed"
+              data-rejection-source-id="{{ badge.id }}"
+              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="rejection-receipt-tray"
             >
-              <summary>
-                <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
-                  {% case badge.icon %}
-                    {% when 'heart-crack' %}
-                      <i class="fa-solid fa-heart-crack"></i>
-                    {% when 'paper-plane-crash' %}
-                      <i class="fa-solid fa-plane-circle-xmark"></i>
-                    {% when 'crossed-reviewer-pens' %}
-                      <span class="rejection-crossed-pens">
-                        <i class="fa-solid fa-pen-nib"></i>
-                        <i class="fa-solid fa-pen-nib"></i>
-                      </span>
-                    {% else %}
-                      <i class="fa-solid fa-circle-xmark"></i>
-                  {% endcase %}
+              <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
+                {% case badge.icon %}
+                  {% when 'heart-crack' %}
+                    <i class="fa-solid fa-heart-crack"></i>
+                  {% when 'paper-plane-crash' %}
+                    <i class="fa-solid fa-plane-circle-xmark"></i>
+                  {% when 'crossed-reviewer-pens' %}
+                    <span class="rejection-crossed-pens">
+                      <i class="fa-solid fa-pen-nib"></i>
+                      <i class="fa-solid fa-pen-nib"></i>
+                    </span>
+                  {% else %}
+                    <i class="fa-solid fa-circle-xmark"></i>
+                {% endcase %}
+              </span>
+              <span class="rejection-badge-summary">
+                <span class="rejection-badge-title">
+                  {{ badge.title }}
+                  <span>x{{ badge.count }}</span>
                 </span>
-                <span class="rejection-badge-summary">
-                  <span class="rejection-badge-title">
-                    {{ badge.title }}
-                    <span>x{{ badge.count }}</span>
-                  </span>
-                  <span class="rejection-badge-short">{{ badge.short }}</span>
-                </span>
-                <span class="rejection-badge-affordance" aria-hidden="true">
-                  <i class="fa-solid fa-plus"></i>
-                </span>
-              </summary>
-              <div class="rejection-badge-detail">
+                <span class="rejection-badge-short">{{ badge.short }}</span>
+              </span>
+            </button>
+          {% endfor %}
+        </div>
+
+        {% for badge in rejection_wall.badges %}
+          {% assign linked_papers = rejection_wall.papers | where: 'id', badge.linked_paper_id %}
+          {% assign linked_paper = linked_papers | first %}
+          <div class="rejection-receipt-source" hidden data-rejection-receipt-source data-rejection-source-id="{{ badge.id }}">
+            <div class="rejection-badge-detail">
+              <div>
+                <p class="rejection-badge-detail-title">
+                  {{ badge.title }}
+                  <span>x{{ badge.count }}</span>
+                </p>
                 <p>{{ badge.detail }}</p>
                 {% if linked_paper %}
                   <p class="rejection-badge-paper">{{ linked_paper.paper_label }} / {{ linked_paper.title }}</p>
                 {% endif %}
-                <div class="rejection-badge-meta" aria-label="Rejection evidence">
-                  {% if badge.venue and badge.year %}
-                    <span>
-                      {{- badge.venue }}
-                      {{ badge.year -}}
-                    </span>
-                  {% endif %}
-                  {% if badge.kind %}
-                    <span>{{ badge.kind | replace: '-', ' ' }}</span>
-                  {% endif %}
-                  {% if badge.rarity %}
-                    <span>{{ badge.rarity }}</span>
-                  {% endif %}
-                  {% if linked_paper %}
-                    {% for outcome in linked_paper.outcomes %}
-                      <span>
-                        {{- outcome.code }}
-                        {{ outcome.status -}}
-                      </span>
-                    {% endfor %}
-                  {% endif %}
-                </div>
               </div>
-            </details>
-          {% endfor %}
+              <div class="rejection-badge-meta" aria-label="Rejection evidence">
+                {% if badge.venue and badge.year %}
+                  <span>
+                    {{- badge.venue }}
+                    {{ badge.year -}}
+                  </span>
+                {% endif %}
+                {% if badge.kind %}
+                  <span>{{ badge.kind | replace: '-', ' ' }}</span>
+                {% endif %}
+                {% if badge.rarity %}
+                  <span>{{ badge.rarity }}</span>
+                {% endif %}
+                {% if linked_paper %}
+                  {% for outcome in linked_paper.outcomes %}
+                    <span>
+                      {{- outcome.code }}
+                      {{ outcome.status -}}
+                    </span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% assign first_badge = rejection_wall.badges | first %}
+        <div
+          id="rejection-receipt-tray"
+          class="rejection-receipt-tray"
+          data-rejection-receipt-tray
+          tabindex="0"
+          aria-label="Selected rejection badge receipt"
+        >
+          {% assign first_linked_papers = rejection_wall.papers | where: 'id', first_badge.linked_paper_id %}
+          {% assign first_linked_paper = first_linked_papers | first %}
+          <div class="rejection-badge-detail">
+            <div>
+              <p class="rejection-badge-detail-title">
+                {{ first_badge.title }}
+                <span>x{{ first_badge.count }}</span>
+              </p>
+              <p>{{ first_badge.detail }}</p>
+              {% if first_linked_paper %}
+                <p class="rejection-badge-paper">{{ first_linked_paper.paper_label }} / {{ first_linked_paper.title }}</p>
+              {% endif %}
+            </div>
+            <div class="rejection-badge-meta" aria-label="Rejection evidence">
+              {% if first_badge.venue and first_badge.year %}
+                <span>
+                  {{- first_badge.venue }}
+                  {{ first_badge.year -}}
+                </span>
+              {% endif %}
+              {% if first_badge.kind %}
+                <span>{{ first_badge.kind | replace: '-', ' ' }}</span>
+              {% endif %}
+              {% if first_badge.rarity %}
+                <span>{{ first_badge.rarity }}</span>
+              {% endif %}
+              {% if first_linked_paper %}
+                {% for outcome in first_linked_paper.outcomes %}
+                  <span>
+                    {{- outcome.code }}
+                    {{ outcome.status -}}
+                  </span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
         </div>
 
         <p class="rejection-wall-credit">
           Inspired by
-          <a href="{{ failure_cv_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_credit.label }}</a>
-          and Sirui's post-UIST26
-          <a href="{{ local_meme_credit.url | relative_url }}">{{ local_meme_credit.label }}</a>.
+          <a href="{{ failure_cv_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_credit.label }}</a>, Sirui's
+          <a href="{{ local_meme_credit.url | relative_url }}">{{ local_meme_credit.label }}</a>, and the
           <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
         </p>
       </div>
 
       <aside class="rejection-xp-panel" aria-label="Failure XP joke panel">
         <div class="rejection-xp-topline">
-          <div class="spooder-mark" aria-hidden="true">
-            <svg class="spooder-svg" viewBox="0 0 120 120" focusable="false">
-              <path
-                class="spooder-back"
-                d="M33 21c17-15 52-10 61 10 7 15 2 34-10 45-5 5-8 12-8 20 0 9-9 15-22 13-13-2-22-10-22-20 0-8-4-13-10-18C9 61 8 40 20 27c4-4 8-6 13-6z"
-              />
-              <path
-                class="spooder-suit"
-                d="M35 17c18-11 45-6 57 10 11 15 8 36-7 49-6 5-9 11-9 19 0 10-9 16-21 14-13-2-23-11-23-22 0-7-3-12-9-17C8 56 12 31 35 17z"
-              />
-              <path class="spooder-blue" d="M36 76c7 5 15 9 24 10-3 9-3 16 0 23-17-1-28-10-28-22 0-4 1-8 4-11z" />
-              <path class="spooder-web" d="M26 34c18 6 39 8 62 3M22 51c21-3 42-2 64 4M31 68c12-8 26-14 43-18M44 23c-3 24-1 46 7 66M63 18c-6 25-6 49 0 72M81 28c-13 17-24 35-32 55" />
-              <path class="spooder-eye spooder-eye-left" d="M24 42c7-10 21-11 28-3-6 10-20 12-28 3z" />
-              <path class="spooder-eye spooder-eye-right" d="M67 40c7-9 18-8 24 1-6 8-18 9-24-1z" />
-              <path class="spooder-pupil" d="M42 40l7 1M82 40l7 1" />
-              <path class="spooder-mark-body" d="M61 68c4 4 7 7 10 12-5-2-9-2-13 1-4-3-8-3-13-1 3-5 6-8 10-12l-4-6 7 3 7-3-4 6z" />
-            </svg>
-          </div>
+          <a class="spooder-reference-thumb" href="{{ local_meme_credit.url | relative_url }}" aria-label="Open {{ local_meme_credit.label }}">
+            <img src="{{ local_meme_credit.url | relative_url }}" alt="" loading="lazy">
+          </a>
           <div>
             <p class="rejection-wall-kicker">{{ rejection_wall.xp.kicker }}</p>
             <h3>{{ rejection_wall.xp.label }}</h3>
@@ -130,9 +171,10 @@
             <div class="failure-xp-rules-panel">
               <p>
                 {{ rejection_wall.xp.source_note }}
-                <a href="{{ local_meme_credit.url | relative_url }}">Meme reference</a>
+                References:
+                <a href="{{ local_meme_credit.url | relative_url }}">Steam achievement meme</a>
                 /
-                <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">Trailer</a>.
+                <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
               </p>
               <ul>
                 {% for rule in rejection_wall.xp.rules %}

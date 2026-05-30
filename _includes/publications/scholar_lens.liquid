@@ -1,0 +1,163 @@
+{% assign publication_lens = site.data.publication_lens %}
+
+{% if publication_lens and publication_lens.papers %}
+  {% assign total_papers = 0 %}
+  {% assign total_citations = 0 %}
+  {% assign first_author_papers = 0 %}
+  {% assign first_author_citations = 0 %}
+  {% assign full_papers = 0 %}
+  {% assign workshop_papers = 0 %}
+  {% assign poster_abstracts = 0 %}
+  {% assign max_citations = 0 %}
+
+  {% for paper in publication_lens.papers %}
+    {% assign paper_data = paper[1] %}
+    {% assign paper_citations = paper_data.citation_total | default: 0 %}
+    {% assign total_papers = total_papers | plus: 1 %}
+    {% assign total_citations = total_citations | plus: paper_citations %}
+    {% if paper_citations > max_citations %}
+      {% assign max_citations = paper_citations %}
+    {% endif %}
+    {% if paper_data.role == 'first-author' or paper_data.role == 'co-first' %}
+      {% assign first_author_papers = first_author_papers | plus: 1 %}
+      {% assign first_author_citations = first_author_citations | plus: paper_citations %}
+    {% endif %}
+    {% case paper_data.work_type %}
+      {% when 'full-paper' %}
+        {% assign full_papers = full_papers | plus: 1 %}
+      {% when 'workshop-paper' %}
+        {% assign workshop_papers = workshop_papers | plus: 1 %}
+      {% when 'poster-abstract' %}
+        {% assign poster_abstracts = poster_abstracts | plus: 1 %}
+    {% endcase %}
+  {% endfor %}
+
+  <aside
+    class="publication-scholar-lens"
+    data-scholar-lens
+    data-last-synced="{{ publication_lens.metadata.last_synced }}"
+    aria-labelledby="scholar-lens-title"
+  >
+    <div class="scholar-lens-card">
+      <div class="scholar-lens-heading">
+        <div>
+          <p class="scholar-lens-kicker">Scholar Lens</p>
+          <h2 id="scholar-lens-title">Author highlighter</h2>
+        </div>
+        <a
+          href="{{ publication_lens.metadata.scholar_profile }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Google Scholar profile"
+        >
+          <i class="ai ai-google-scholar" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <p class="scholar-lens-sync">Last synced {{ publication_lens.metadata.last_synced | date: '%b %-d, %Y' }}.</p>
+
+      <div class="scholar-lens-controls" aria-label="Publication lens filters">
+        <fieldset>
+          <legend>Role</legend>
+          <label>
+            <input type="radio" name="publication-role-filter" value="all" checked>
+            <span>All</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-role-filter" value="first-author">
+            <span>First author</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-role-filter" value="coauthor">
+            <span>Coauthor</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Type</legend>
+          <label>
+            <input type="radio" name="publication-type-filter" value="all" checked>
+            <span>All</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-type-filter" value="full-paper">
+            <span>Full</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-type-filter" value="workshop-paper">
+            <span>Workshop</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-type-filter" value="poster-abstract">
+            <span>Poster</span>
+          </label>
+        </fieldset>
+      </div>
+
+      <dl class="scholar-lens-stats">
+        <div>
+          <dt>Papers</dt>
+          <dd>
+            <span data-scholar-stat="papers">{{ total_papers }}</span>
+            <small>of {{ total_papers }}</small>
+          </dd>
+        </div>
+        <div>
+          <dt>Citations</dt>
+          <dd>
+            <span data-scholar-stat="citations">{{ total_citations }}</span>
+            <small>of {{ total_citations }}</small>
+          </dd>
+        </div>
+        <div>
+          <dt>First author</dt>
+          <dd>
+            <span data-scholar-stat="first-author">{{ first_author_papers }}</span>
+            <small>{{ first_author_citations }} cites</small>
+          </dd>
+        </div>
+        <div>
+          <dt>Full / WS / Poster</dt>
+          <dd>
+            <span data-scholar-stat="types">{{ full_papers }} / {{ workshop_papers }} / {{ poster_abstracts }}</span>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="scholar-lens-chart" aria-label="Citation totals by paper">
+        <div class="scholar-lens-chart-heading">
+          <span>Cited by</span>
+          <span>Total snapshot</span>
+        </div>
+        <div class="scholar-lens-bars" data-scholar-bars>
+          {% for paper in publication_lens.papers %}
+            {% assign paper_key = paper[0] %}
+            {% assign paper_data = paper[1] %}
+            {% assign paper_citations = paper_data.citation_total | default: 0 %}
+            {% assign paper_ratio = 0 %}
+            {% if max_citations > 0 %}
+              {% assign paper_ratio = paper_citations | times: 100.0 | divided_by: max_citations %}
+            {% endif %}
+            <button
+              class="scholar-lens-bar"
+              type="button"
+              data-scholar-bar
+              data-publication-key="{{ paper_key }}"
+              data-publication-type="{{ paper_data.work_type }}"
+              data-publication-role="{% if paper_data.role == 'co-first' %}first-author{% else %}{{ paper_data.role }}{% endif %}"
+              data-publication-citations="{{ paper_citations }}"
+              style="--citation-ratio: {{ paper_ratio }}%;"
+              aria-label="{{ paper_key }} has {{ paper_citations }} citations"
+            >
+              <span class="scholar-lens-bar-track"><span></span></span>
+              <span class="scholar-lens-bar-label">{{ paper_key }}</span>
+              <strong>{{ paper_citations }}</strong>
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <p class="scholar-lens-note">{{ publication_lens.metadata.yearly_note }}</p>
+    </div>
+  </aside>
+{% endif %}

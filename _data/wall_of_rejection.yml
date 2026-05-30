@@ -58,7 +58,7 @@ xp:
   current: 240
   next_level: 300
   progress: 67
-  source_note: Inspired by Sirui's local UIST26 meme reference and the Spooder-Man trailer reference.
+  source_note: Failure XP is a joke layer, not a productivity score.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
     - label: First-author rejection
@@ -87,8 +87,8 @@ credits:
     label: Bradley Voytek's failure-CV tradition
     url: https://voyteklab.com/members
   local_meme_reference:
-    label: Steam/Spooder-Man meme
+    label: post-UIST26 rejection Steam achievement meme
     url: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
   spooder_trailer:
-    label: Spooder-Man trailer reference
+    label: Spooderman meme
     url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC

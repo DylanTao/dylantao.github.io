@@ -1,6 +1,37 @@
 ---
 ---
-<div class="row">
+{% assign publication_lens_entry = site.data.publication_lens.papers[entry.key] %}
+{% assign publication_work_type = publication_lens_entry.work_type | default: 'unclassified' %}
+{% assign publication_role = publication_lens_entry.role | default: 'role-unknown' %}
+{% assign publication_citations = publication_lens_entry.citation_total | default: 0 %}
+{% assign publication_type_label = 'Publication' %}
+{% case publication_work_type %}
+  {% when 'full-paper' %}
+    {% assign publication_type_label = 'Full paper' %}
+  {% when 'workshop-paper' %}
+    {% assign publication_type_label = 'Workshop' %}
+  {% when 'poster-abstract' %}
+    {% assign publication_type_label = 'Poster + abstract' %}
+{% endcase %}
+{% assign publication_role_label = 'Contributor' %}
+{% assign publication_role_group = publication_role %}
+{% case publication_role %}
+  {% when 'first-author' %}
+    {% assign publication_role_label = 'First author' %}
+    {% assign publication_role_group = 'first-author' %}
+  {% when 'co-first' %}
+    {% assign publication_role_label = 'First author' %}
+    {% assign publication_role_group = 'first-author' %}
+  {% when 'coauthor' %}
+    {% assign publication_role_label = 'Coauthor' %}
+{% endcase %}
+<div
+  class="row publication-lens-entry"
+  data-publication-key="{{ entry.key }}"
+  data-publication-type="{{ publication_work_type }}"
+  data-publication-role="{{ publication_role_group }}"
+  data-publication-citations="{{ publication_citations }}"
+>
   {% if site.enable_publication_thumbnails %}
     <div class="col col-sm-2 abbr">
       {%- if entry.abbr -%}
@@ -38,6 +69,13 @@
 
   <!-- Entry bib key -->
   <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+    {% if publication_lens_entry %}
+      <div class="publication-lens-chips" aria-label="Publication type and role">
+        <span class="publication-lens-chip publication-lens-chip-type">{{ publication_type_label }}</span>
+        <span class="publication-lens-chip publication-lens-chip-role">{{ publication_role_label }}</span>
+        <span class="publication-lens-chip publication-lens-chip-citations">{{ publication_citations }} cites</span>
+      </div>
+    {% endif %}
     <!-- Title -->
     {% assign entry_title_url = null %}
     {% if entry.html %}
