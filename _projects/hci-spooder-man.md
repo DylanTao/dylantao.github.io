@@ -12,16 +12,11 @@ year: 2026
 role: OG HCI Spooder-Man
 status: Remix guide
 hide_title: true
-random_teasers: true
+random_teasers: false
 spooder_project: true
 ---
 
 {% assign spooder = site.data.spooder_man %}
-{% capture spooder_teasers %}
-{% for teaser in spooder.teasers %}
-{{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
-{% endfor %}
-{% endcapture %}
 
 <section class="project-case-hero hci-spooder-hero">
   <div class="project-case-copy">
@@ -36,81 +31,98 @@ spooder_project: true
     </div>
     <div class="project-case-actions">
       <a href="#spooder-remix-recipe">Start remixing</a>
-      <a href="#spooder-assets">Use the assets</a>
+      <a href="{{ spooder.downloads.remix_kit_zip | relative_url }}" download>Download remix kit</a>
       <a href="{{ spooder.hero.playlist_url }}" target="_blank" rel="noopener noreferrer">Watch the playlist</a>
     </div>
   </div>
-  <div class="project-case-media hci-spooder-hero-media" data-random-teaser data-random-teasers="{{ spooder_teasers | strip }}">
+  <div class="project-case-media hci-spooder-hero-media">
     {% include figure.liquid loading="eager" path=spooder.hero.teaser title="HCI Spooder-Man teaser" alt="A group of playful Spooder-Man characters moving through a city" class="img-fluid" %}
   </div>
 </section>
 
-<section class="project-case-summary hci-spooder-principles" aria-label="HCI Spooder-Man design principles">
-  <div>
-    <span>Keep trust</span>
-    <p>The publications, CV, and contact paths stay plain and findable. The joke never blocks the serious route.</p>
-  </div>
-  <div>
-    <span>Make process visible</span>
-    <p>Rejection, revision, and weird taste become evidence that the website was made by a person.</p>
-  </div>
-  <div>
-    <span>Invite remix</span>
-    <p>The best version is not a clone of this page. It is someone else's site becoming more theirs.</p>
-  </div>
-</section>
-
-<section class="hci-spooder-brief" aria-label="Why HCI Spooder-Man exists">
-  <div>
-    <p class="project-case-kicker">The move</p>
-    <h2>One playful artifact, attached to a serious portfolio.</h2>
-  </div>
-  <p>
-    HCI Spooder-Man is a small design pattern for academic websites: keep the page useful for visitors who need the work, then add one generous, funny layer that makes the maker visible. For me, that layer is the Wall of Rejection and this remix guide. For someone else, it might be a fieldwork postcard drawer, a prototype graveyard, a tiny conference-badge game, or a comic strip about reviewer feedback.
-  </p>
-</section>
-
-<div class="hci-spooder-gallery" aria-label="HCI Spooder-Man visual references">
-  {% for asset in spooder.assets limit: 9 %}
-    <figure>
-      <img src="{{ asset.path | relative_url }}" alt="{{ asset.label }}" loading="lazy">
-      <figcaption>
-        <strong>{{ asset.label }}</strong>
-        {{ asset.caption }}
-      </figcaption>
-    </figure>
-  {% endfor %}
-</div>
-
 <section id="spooder-remix-recipe" class="hci-spooder-remix-flow" aria-labelledby="spooder-remix-title">
   <div class="hci-spooder-section-heading">
-    <p class="project-case-kicker">Remix recipe</p>
-    <h2 id="spooder-remix-title">Build your own version without losing the plot.</h2>
-    <p>Use this as a markdown-level scaffold: swap the subject, tune the humor, keep the navigation boring in the best way, and make the playful part easy to reuse.</p>
+    <p class="project-case-kicker">How to remix this</p>
+    <h2 id="spooder-remix-title">Hand the prompt and kit to your coding agent, then make it yours.</h2>
+    <p>The move is simple: keep the serious portfolio trustworthy, attach one playful artifact, and publish the scaffold so the next person can adapt it.</p>
   </div>
   <ol>
-    <li>
-      <span>01</span>
-      <strong>Choose an honest tension.</strong>
-      Pick rejection, messy iteration, field notes, prototype failures, weird tools, or another part of research people usually hide.
-    </li>
-    <li>
-      <span>02</span>
-      <strong>Turn it into an interface moment.</strong>
-      Make a badge shelf, receipt drawer, comic panel, tiny game card, image viewer, or project page that still feels native to your site.
-    </li>
-    <li>
-      <span>03</span>
-      <strong>Publish the scaffold.</strong>
-      Share assets, prompts, credits, and enough structure that someone else can adapt the idea in their own voice.
-    </li>
+    {% for step in spooder.guide_steps %}
+      <li>
+        <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <strong>{{ step.title }}</strong>
+        {{ step.text }}
+      </li>
+    {% endfor %}
   </ol>
 </section>
 
+<section class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">
+  <div class="hci-spooder-section-heading">
+    <p class="project-case-kicker">Asset carousel</p>
+    <h2 id="spooder-gallery-title">Browse the visual kit before you remix.</h2>
+    <p>These are the local screenshots I used for the guide. Move through them here, then download the ZIP if you want to hand everything to a coding agent at once.</p>
+  </div>
+
+  <div class="hci-spooder-gallery-stage" tabindex="0" aria-label="HCI Spooder-Man visual assets">
+    <button class="hci-spooder-gallery-arrow hci-spooder-gallery-arrow-prev" type="button" data-spooder-image-prev aria-label="Previous image">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="hci-spooder-gallery-slides" aria-live="polite">
+      {% for asset in spooder.assets limit: 9 %}
+        <figure class="hci-spooder-gallery-slide" data-spooder-image-slide {% unless forloop.first %}hidden{% endunless %}>
+          <img src="{{ asset.path | relative_url }}" alt="{{ asset.label }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          <figcaption>
+            <strong>{{ asset.label }}</strong>
+            {{ asset.caption }}
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+    <button class="hci-spooder-gallery-arrow hci-spooder-gallery-arrow-next" type="button" data-spooder-image-next aria-label="Next image">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="hci-spooder-gallery-thumbs" aria-label="Select visual asset">
+    {% for asset in spooder.assets limit: 9 %}
+      <button type="button" data-spooder-image-thumb aria-label="Show {{ asset.label }}">
+        <img src="{{ asset.path | relative_url }}" alt="" loading="lazy">
+        <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+      </button>
+    {% endfor %}
+  </div>
+</section>
+
 <section class="hci-spooder-toolkit" aria-label="HCI Spooder-Man remix toolkit">
+  <section id="spooder-agent-kit" class="hci-spooder-agent-kit hci-spooder-prompt" data-spooder-prompt-card aria-labelledby="spooder-agent-kit-title">
+    <div>
+      <h2 id="spooder-agent-kit-title">Prompt and ZIP for a coding agent</h2>
+      <button type="button" data-spooder-copy-prompt>Copy agent prompt</button>
+    </div>
+    <p>
+      The easiest path is to download the kit, drop it into your site repo, paste this prompt into your coding agent, and ask it to adapt the pattern to your own voice.
+    </p>
+    <div class="hci-spooder-agent-actions">
+      <a href="{{ spooder.downloads.remix_kit_zip | relative_url }}" download>
+        <i class="fa-solid fa-file-zipper" aria-hidden="true"></i>
+        Download remix kit
+      </a>
+      <a href="{{ spooder.downloads.prompt_markdown | relative_url }}" download>
+        <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+        Download prompt markdown
+      </a>
+      <a href="#spooder-assets">
+        <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+        Use local assets
+      </a>
+    </div>
+    <textarea class="hci-spooder-agent-prompt" readonly rows="18" aria-label="Copyable HCI Spooder-Man remix prompt">{{ spooder.agent_prompt | strip }}</textarea>
+  </section>
+
   <section id="spooder-assets" class="hci-spooder-assets" aria-labelledby="spooder-assets-title">
     <div class="hci-spooder-section-heading">
-      <p class="project-case-kicker">Reuse kit</p>
+      <p class="project-case-kicker">Local assets</p>
       <h2 id="spooder-assets-title">Assets you can use</h2>
       <p>Use these local files as references, placeholders, or remix ingredients if you do not want to regenerate your own visual set first.</p>
     </div>
@@ -120,25 +132,6 @@ spooder_project: true
           <span>{{ asset.label }}</span>
           <small>{{ asset.caption }}</small>
         </a>
-      {% endfor %}
-    </div>
-  </section>
-
-  <section id="spooder-prompts" class="hci-spooder-prompts" aria-labelledby="spooder-prompts-title">
-    <div class="hci-spooder-section-heading">
-      <p class="project-case-kicker">Prompt scaffold</p>
-      <h2 id="spooder-prompts-title">Prompts to adapt</h2>
-      <p>Change the colors, academic identity, institution, field, humor level, and website tone. The point is not to become my copy. It is to make your own site braver.</p>
-    </div>
-    <div class="hci-spooder-prompt-list">
-      {% for prompt in spooder.prompts %}
-        <article class="hci-spooder-prompt">
-          <div>
-            <h3>{{ prompt.title }}</h3>
-            <button type="button" data-spooder-copy-prompt>Copy prompt</button>
-          </div>
-          <textarea readonly rows="7">{{ prompt.text }}</textarea>
-        </article>
       {% endfor %}
     </div>
   </section>

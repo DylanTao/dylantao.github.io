@@ -38,17 +38,17 @@ publication_lens: true
     <img src="{{ '/assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png' | relative_url }}" alt="HCI Spooder-Man group teaser" loading="lazy">
   </figure>
   <div>
-    <p class="publication-spooder-cta-kicker">After the papers</p>
-    <h2>Join me as a Spooder-Man.</h2>
+    <p class="publication-spooder-cta-kicker">Remix route</p>
+    <h2>After papers, remix the process.</h2>
     <p>
-      The publication list is the serious trail. The remix page is the invitation: turn rejection, process, taste, and website craft into something other people can borrow.
+      A small guide for turning rejection and process into reusable website craft.
     </p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Open the remix guide</span>
+        <span>Open remix guide</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
-      <span>Assets, prompts, credits, and the full Spooder playlist.</span>
+      <span>For later, after the papers have done their job.</span>
     </div>
   </div>
 </section>

@@ -60,7 +60,7 @@ badges:
     detail: With great failure comes greater failure. Two doors closed; one plot twist earned.
 
 xp:
-  label: Spooderman XP
+  label: Spooder-Man XP
   kicker: Failure XP
   blurb: Rejection XP only; accepted papers stay in the list.
   level: 2
@@ -135,7 +135,7 @@ credits:
     label: post-UIST26 reject Steam achievement meme
     url: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
   spooder_trailer:
-    label: Spooderman meme
+    label: Spooder-Man meme
     url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC
   chi26_dates:
     label: CHI 2026 papers dates

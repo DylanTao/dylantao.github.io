@@ -38,7 +38,7 @@
   data-publication-citations="{{ publication_citations }}"
 >
   {% if site.enable_publication_thumbnails %}
-    <div class="col col-sm-2 abbr">
+    <div class="col col-sm-3 abbr">
       {%- if entry.abbr -%}
         {%- if site.data.venues[entry.abbr] -%}
           <abbr class="badge rounded w-100">
@@ -61,7 +61,7 @@
             include figure.liquid
             loading="eager"
             path=entry_path
-            sizes = "200px"
+            sizes = "280px"
             class="preview z-depth-1 rounded"
             zoomable=true
             avoid_scaling=true
@@ -73,7 +73,7 @@
   {% endif %}
 
   <!-- Entry bib key -->
-  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-9{% else %}col-sm-10{% endif %}">
     {% if publication_lens_entry %}
       <div class="publication-lens-chips" aria-label="Publication type and role">
         <span class="publication-lens-chip publication-lens-chip-type">{{ publication_type_label }}</span>

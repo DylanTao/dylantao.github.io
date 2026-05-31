@@ -823,8 +823,8 @@ body.rejection-meme-viewer-open {
 .publication-workbench {
   display: grid;
   grid-template-areas: "list lens";
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
-  gap: clamp(1rem, 2.4vw, 1.8rem);
+  grid-template-columns: minmax(0, 1.08fr) minmax(17rem, 20.5rem);
+  gap: clamp(1rem, 2vw, 1.5rem);
   align-items: start;
   margin-top: 1.25rem;
 }
@@ -842,22 +842,27 @@ body.rejection-meme-viewer-open {
 
 .publication-spooder-cta {
   display: grid;
-  grid-template-columns: minmax(10rem, 0.38fr) minmax(0, 1fr);
-  gap: clamp(1rem, 2.4vw, 1.55rem);
-  align-items: stretch;
-  margin: 1.65rem 0 0;
+  grid-template-columns: 5.9rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+  max-width: 44rem;
+  margin: 1.25rem auto 0;
   overflow: hidden;
+  padding: 0.55rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 24%, var(--global-divider-color));
-  border-radius: 0.85rem;
+  border-radius: 0.7rem;
   background:
-    linear-gradient(135deg, rgba(var(--global-accent-rgb), 0.12), transparent 46%),
+    linear-gradient(135deg, rgba(var(--global-accent-rgb), 0.08), transparent 46%),
     color-mix(in srgb, var(--global-card-bg-color) 90%, var(--global-bg-color));
-  box-shadow: 0 0.9rem 2rem rgba(32, 25, 22, 0.06);
+  box-shadow: 0 0.55rem 1.35rem rgba(32, 25, 22, 0.045);
 }
 
 .publication-spooder-cta figure {
+  width: 5.9rem;
+  height: 5.9rem;
   margin: 0;
-  min-height: 11rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
   background: #10171c;
 }
 
@@ -865,35 +870,36 @@ body.rejection-meme-viewer-open {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 11rem;
+  min-height: 0;
   object-fit: cover;
 }
 
 .publication-spooder-cta > div {
   display: grid;
   align-content: center;
-  gap: 0.55rem;
+  gap: 0.24rem;
   min-width: 0;
-  padding: clamp(1rem, 2.2vw, 1.35rem) clamp(1rem, 2.4vw, 1.55rem) clamp(1rem, 2.2vw, 1.35rem) 0;
+  padding: 0;
 }
 
 .publication-spooder-cta p {
   margin: 0;
   color: var(--global-text-color-light);
-  line-height: 1.52;
+  font-size: var(--type-meta);
+  line-height: 1.34;
 }
 
 .publication-spooder-cta h2 {
-  margin: 0;
+  margin: 0 !important;
   color: var(--global-text-color);
-  font-size: clamp(1.28rem, 2.4vw, 1.75rem);
-  line-height: 1.12;
+  font-size: clamp(1rem, 1.38vw, 1.18rem);
+  line-height: 1.16;
 }
 
 .publication-spooder-cta-kicker {
   color: var(--global-theme-color) !important;
   font-family: var(--font-mono);
-  font-size: var(--type-label);
+  font-size: 0.68rem !important;
   font-weight: 760;
   line-height: 1.2;
   text-transform: uppercase;
@@ -902,11 +908,12 @@ body.rejection-meme-viewer-open {
 .publication-spooder-cta-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem 0.75rem;
+  gap: 0.42rem 0.6rem;
   align-items: center;
-  margin-top: 0.15rem;
+  margin-top: 0.08rem;
 
   > span {
+    display: none;
     color: var(--global-text-color-light);
     font-size: var(--type-label);
     line-height: 1.35;
@@ -917,14 +924,14 @@ body.rejection-meme-viewer-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.42rem;
-  min-height: 2.4rem;
-  padding: 0.55rem 0.85rem;
+  gap: 0.34rem;
+  min-height: 2.05rem;
+  padding: 0.42rem 0.68rem;
   border: 1px solid var(--global-theme-color);
   border-radius: 999px;
   background: var(--global-theme-color);
   color: var(--global-hover-text-color);
-  font-size: var(--type-meta);
+  font-size: var(--type-label);
   font-weight: 750;
   line-height: 1;
   text-decoration: none;
@@ -1374,11 +1381,29 @@ html[data-theme="dark"] .scholar-lens-card {
       }
 
       .preview {
-        display: inline-block;
+        display: block;
+        width: 100%;
+        max-width: 15rem;
+        border: 1px solid color-mix(in srgb, var(--global-divider-color) 82%, transparent);
+        background: color-mix(in srgb, var(--global-card-bg-color) 90%, var(--global-bg-color));
+        object-fit: contain;
       }
 
       .abbr {
+        display: grid;
+        gap: 0.42rem;
+        align-content: start;
         margin-bottom: 0.5rem;
+
+        figure {
+          width: 100%;
+          max-width: 15rem;
+          margin: 0;
+        }
+
+        picture {
+          display: block;
+        }
 
         abbr {
           display: inline-block;
@@ -1599,20 +1624,35 @@ html[data-theme="dark"] .scholar-lens-card {
 
 @media (max-width: 767px) {
   .publication-spooder-cta {
-    grid-template-columns: 1fr;
+    grid-template-columns: 4.8rem minmax(0, 1fr);
+    max-width: none;
+    margin-top: 1rem;
+    padding: 0.48rem;
+  }
+
+  .publication-spooder-cta figure {
+    width: 4.8rem;
+    height: 4.8rem;
   }
 
   .publication-spooder-cta > div {
-    padding: 0 0.9rem 1rem;
+    padding: 0;
   }
 
-  .publication-spooder-cta figure,
-  .publication-spooder-cta img {
-    min-height: 10rem;
+  .publication-spooder-cta h2 {
+    font-size: 0.96rem;
+  }
+
+  .publication-spooder-cta-kicker {
+    display: none;
+  }
+
+  .publication-spooder-cta p:not(.publication-spooder-cta-kicker) {
+    display: none;
   }
 
   .publication-spooder-cta a {
-    width: 100%;
+    width: fit-content;
   }
 
   .wall-of-rejection-layout {
