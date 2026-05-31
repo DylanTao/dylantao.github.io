@@ -224,7 +224,14 @@ ninja.data = [
               window.location.href = "/blog/2024/image-gallery/";
             
           },
-        },{id: "project-what-happened-and-why",
+        },{id: "project-hci-spooder-man",
+        title: "HCI Spooder-Man",
+        description: "A remixable guide for turning an academic website into a playful, human, and still-credible artifact.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/hci-spooder-man/";
+        },
+      },{id: "project-what-happened-and-why",
         title: "What Happened and Why?",
         description: "A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.",
         section: "Projects",
@@ -272,13 +279,6 @@ ninja.data = [
         section: "Projects",
         handler: () => {
           window.location.href = "/projects/context-aware-encoding/";
-        },
-      },{id: "project-hci-spooder-man",
-        title: "HCI Spooder-Man",
-        description: "A playful remix guide for turning an academic website into a small, funny, human-centered artifact.",
-        section: "Projects",
-        handler: () => {
-          window.location.href = "/projects/hci-spooder-man/";
         },
       },{id: "project-graphhscn",
         title: "GraphHSCN",
