@@ -915,13 +915,13 @@ body.rejection-meme-viewer-open {
 
 .publication-spooder-cta {
   display: grid;
-  grid-template-columns: 5.9rem minmax(0, 1fr);
+  grid-template-columns: minmax(8.25rem, 0.36fr) minmax(0, 1fr);
   gap: 0.75rem;
   align-items: center;
-  max-width: 44rem;
+  max-width: 48rem;
   margin: 1.25rem auto 0;
   overflow: hidden;
-  padding: 0.55rem;
+  padding: 0.6rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 24%, var(--global-divider-color));
   border-radius: 0.7rem;
   background:
@@ -931,8 +931,9 @@ body.rejection-meme-viewer-open {
 }
 
 .publication-spooder-cta figure {
-  width: 5.9rem;
-  height: 5.9rem;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   margin: 0;
   overflow: hidden;
   border-radius: 0.5rem;
@@ -945,6 +946,12 @@ body.rejection-meme-viewer-open {
   height: 100%;
   min-height: 0;
   object-fit: cover;
+}
+
+.publication-spooder-cta figure.random-teaser-title img {
+  padding: clamp(0.35rem, 1.3vw, 0.65rem);
+  background: #10171c;
+  object-fit: contain;
 }
 
 .publication-spooder-cta > div {
@@ -1741,15 +1748,17 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 
   .publication-spooder-cta {
-    grid-template-columns: 4.8rem minmax(0, 1fr);
+    grid-template-columns: minmax(6.6rem, 0.42fr) minmax(0, 1fr);
+    gap: 0.6rem;
     max-width: none;
     margin-top: 1rem;
     padding: 0.48rem;
   }
 
   .publication-spooder-cta figure {
-    width: 4.8rem;
-    height: 4.8rem;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
   .publication-spooder-cta > div {
@@ -1757,7 +1766,7 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 
   .publication-spooder-cta h2 {
-    font-size: 0.96rem;
+    font-size: clamp(0.94rem, 4.6vw, 1.05rem);
   }
 
   .publication-spooder-cta-kicker {
@@ -1770,6 +1779,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .publication-spooder-cta a {
     width: fit-content;
+    min-height: 2rem;
   }
 
   .wall-of-rejection-layout {

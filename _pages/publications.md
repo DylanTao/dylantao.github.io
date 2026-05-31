@@ -8,9 +8,17 @@ nav_order: 1
 panel_wide: true
 wall_of_rejection: true
 publication_lens: true
+random_teasers: true
 ---
 
 <!-- _pages/publications.md -->
+
+{% assign spooder = site.data.spooder_man %}
+{% capture spooder_teaser_paths %}
+{% for teaser in spooder.teasers %}
+{{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
+{% endfor %}
+{% endcapture %}
 
 <!-- Bibsearch Feature -->
 
@@ -34,18 +42,18 @@ publication_lens: true
 </div>
 
 <section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Man movement">
-  <figure>
-    <img src="{{ '/assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png' | relative_url }}" alt="HCI Spooder-Man group teaser" loading="lazy">
+  <figure data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
+    <img src="{{ spooder.hero.teaser | relative_url }}" alt="HCI Spooder-Man remix teaser" loading="lazy">
   </figure>
   <div>
-    <p class="publication-spooder-cta-kicker">Spooder-Verse</p>
-    <h2>Join the Spooder-Verse.</h2>
+    <p class="publication-spooder-cta-kicker">Rejection side quest</p>
+    <h2>Got a rejection? Give it a cape.</h2>
     <p>
-      Bring your own playful academic website remix.
+      Keep the papers readable, then let the messy academic arc become a tiny, remixable website bit.
     </p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Join the Spooder-Verse</span>
+        <span>Open the remix guide</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
