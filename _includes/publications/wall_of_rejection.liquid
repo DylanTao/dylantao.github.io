@@ -148,18 +148,30 @@
                 <span>XP over time</span>
                 <svg
                   class="failure-xp-history"
-                  viewBox="-2 0 124 86"
+                  viewBox="0 0 124 88"
                   role="img"
                   aria-label="Failure XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
                 >
                   {% assign xp_points = '' %}
                   {% for point in rejection_wall.xp.timeline %}
-                    {% capture xp_points %}{{ xp_points }} {{ point.x }},{{ point.y }}{% endcapture %}
+                    {% assign point_x = point.x | times: 1.08 | plus: 8 %}
+                    {% capture xp_points %}{{ xp_points }} {{ point_x }},{{ point.y }}{% endcapture %}
                   {% endfor %}
-                  <line class="failure-xp-axis" x1="0" y1="68" x2="100" y2="68" />
+                  <line class="failure-xp-axis" x1="8" y1="68" x2="116" y2="68" />
                   <polyline points="{{ xp_points | strip }}" />
                   {% for point in rejection_wall.xp.timeline %}
-                    {% assign point_year = point.date | split: '-' | first %}
+                    {% assign point_x = point.x | times: 1.08 | plus: 8 %}
+                    {% assign label_x = point_x %}
+                    {% assign label_anchor = 'middle' %}
+                    {% if forloop.first %}
+                      {% assign label_anchor = 'start' %}
+                    {% elsif forloop.last %}
+                      {% assign label_x = point_x | minus: 4 %}
+                      {% assign label_anchor = 'start' %}
+                    {% else %}
+                      {% assign label_x = point_x | minus: 3 %}
+                      {% assign label_anchor = 'end' %}
+                    {% endif %}
                     <g
                       class="failure-xp-point"
                       tabindex="0"
@@ -167,19 +179,13 @@
                       aria-label="{{ point.date }}: {{ point.total }} XP, {{ point.label }}"
                     >
                       <title>{{ point.date }} / {{ point.total }} XP / {{ point.label }}</title>
-                      <circle cx="{{ point.x }}" cy="{{ point.y }}" r="3.2" />
+                      <circle cx="{{ point_x }}" cy="{{ point.y }}" r="3.2" />
                       <text
-                        x="{{ point.x }}"
+                        x="{{ label_x }}"
                         y="80"
-                        {% if forloop.first %}
-                          text-anchor="start"
-                        {% elsif forloop.last %}
-                          text-anchor="end"
-                        {% else %}
-                          text-anchor="middle"
-                        {% endif %}
+                        text-anchor="{{ label_anchor }}"
                       >
-                        {{ point_year }}
+                        {{ point.axis_label | default: point.display_date | default: point.date }}
                       </text>
                     </g>
                   {% endfor %}
@@ -194,24 +200,6 @@
                   {% endfor %}
                 </ol>
               </div>
-              <p class="failure-xp-source-line">
-                Sources:
-                <a href="{{ chi26_dates_credit.url }}" target="_blank" rel="noopener noreferrer">CHI26</a>
-                /
-                <a href="{{ uist26_dates_credit.url }}" target="_blank" rel="noopener noreferrer">UIST26</a>
-                /
-                <button
-                  class="rejection-meme-link"
-                  type="button"
-                  data-rejection-meme-open
-                  aria-haspopup="dialog"
-                  aria-controls="rejection-meme-viewer"
-                >
-                  Steam achievement meme
-                </button>
-                /
-                <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
-              </p>
             </div>
           </details>
         </div>

@@ -27,11 +27,11 @@ badges:
     rarity: common
     icon: heart-crack
     linked_paper_id: p5
-    short: Reviews composted.
+    short: Peer review heartbreak. Compost for the next draft.
     stage: R&R decision
     date: 2026-01-15
     date_label: Jan 15, 2026
-    detail: Unlocked after one brave CHI 2026 submission attempt. The reviews became compost.
+    detail: Unlocked after one brave CHI 2026 submission attempt. The reviews did not accept the paper, but they did become compost for the next version.
   - id: uist26-nope
     title: UIST26 Rejection
     count: 1
@@ -41,11 +41,11 @@ badges:
     rarity: common
     icon: paper-plane-crash
     linked_paper_id: p5
-    short: Iteration unlocked.
+    short: Prototype survived. Acceptance did not. Iteration unlocked.
     stage: First-review exit
     date: 2026-05-28
     date_label: May 28, 2026
-    detail: Interactive system built. Acceptance not included, iteration included.
+    detail: Interactive system built. Acceptance not included, iteration very much included.
   - id: double-nope
     title: Double Rejection
     count: 1
@@ -53,7 +53,7 @@ badges:
     rarity: rare
     icon: crossed-reviewer-pens
     linked_paper_id: p5
-    short: Great failure, greater failure.
+    short: Two venues. One cursed combo badge. Somehow useful.
     stage: Combo badge
     date: 2026-05-28
     date_label: May 28, 2026
@@ -103,18 +103,21 @@ xp:
   timeline:
     - date: 2021-12
       display_date: 2021
+      axis_label: "2021"
       label: First paper in the record
       total: 0
       x: 0
       y: 64
     - date: 2026-01-15
       display_date: Jan 15
+      axis_label: "Jan"
       label: CHI26 R&R rejection
       total: 12
       x: 87
       y: 34
     - date: 2026-05-28
       display_date: May 28
+      axis_label: "May"
       label: UIST26 first-review rejection
       total: 24
       x: 100

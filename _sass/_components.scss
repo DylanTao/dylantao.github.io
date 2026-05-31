@@ -1157,6 +1157,10 @@ ul.task-list input[type="checkbox"] {
 }
 
 .hci-spooder-hero-media {
+  display: grid;
+  align-self: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   padding: 0;
   overflow: hidden;
   background: #0e1418;
@@ -1164,12 +1168,14 @@ ul.task-list input[type="checkbox"] {
   figure,
   picture,
   img {
+    width: 100%;
     height: 100%;
     margin: 0;
   }
 
   img {
-    min-height: 20rem;
+    display: block;
+    min-height: 0;
     object-fit: cover;
   }
 }
@@ -1178,6 +1184,10 @@ ul.task-list input[type="checkbox"] {
 .project-card-media.random-teaser-title img {
   background: #0e1418;
   object-fit: contain;
+}
+
+.hci-spooder-hero-media.random-teaser-title img {
+  padding: clamp(0.65rem, 2vw, 1.15rem);
 }
 
 .hci-spooder-principles {
@@ -1221,7 +1231,7 @@ ul.task-list input[type="checkbox"] {
 }
 
 .hci-spooder-section-heading {
-  max-width: var(--measure-prose);
+  max-width: min(100%, 56rem);
   margin-bottom: 1rem;
 
   h2 {
@@ -1235,6 +1245,52 @@ ul.task-list input[type="checkbox"] {
     margin: 0;
     color: var(--global-text-color-light);
     line-height: 1.55;
+  }
+}
+
+.hci-spooder-origin {
+  margin: 1.2rem 0 1.75rem;
+}
+
+.hci-spooder-origin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.72rem;
+
+  article {
+    padding: 0.86rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.58rem;
+    background: color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
+  }
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.55rem;
+    height: 1.55rem;
+    margin-bottom: 0.42rem;
+    border: 1px solid color-mix(in srgb, var(--global-theme-color) 28%, var(--global-divider-color));
+    border-radius: 999px;
+    color: var(--global-theme-color);
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 800;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 0.26rem;
+    color: var(--global-text-color);
+    line-height: 1.2;
+  }
+
+  p {
+    margin: 0;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    line-height: 1.48;
   }
 }
 
@@ -1311,6 +1367,18 @@ ul.task-list input[type="checkbox"] {
     display: block;
     margin-bottom: 0.18rem;
     color: #ffffff;
+  }
+}
+
+.hci-spooder-gallery-slide-contain {
+  img {
+    padding: clamp(0.62rem, 2.2vw, 1.25rem);
+    background: #0e1418;
+    object-fit: contain;
+  }
+
+  figcaption {
+    padding-top: clamp(1.7rem, 4.4vw, 2.6rem);
   }
 }
 
@@ -1613,10 +1681,9 @@ ul.task-list input[type="checkbox"] {
 }
 
 .spooder-video-section {
-  width: min(100vw - 1.2rem, 88rem);
-  margin: 1.8rem 0 1.9rem 50%;
+  width: min(100%, var(--measure-notebook));
+  margin: 1.8rem 0 1.9rem;
   padding: 0;
-  transform: translateX(-50%);
 }
 
 .spooder-video-heading {
@@ -1625,18 +1692,18 @@ ul.task-list input[type="checkbox"] {
   align-items: end;
   justify-content: space-between;
   max-width: min(100%, var(--measure-notebook));
-  margin: 0 auto 0.85rem;
-  padding: 0 clamp(0.85rem, 2vw, 1.2rem);
+  margin: 0 0 0.85rem;
+  padding: 0;
 
   h2 {
     margin: 0.25rem 0 0.32rem;
     color: var(--global-text-color);
-    font-size: var(--type-section-title);
+    font-size: clamp(1.85rem, 3.2vw, 2.55rem);
     line-height: 1.12;
   }
 
   p:not(.project-case-kicker) {
-    max-width: 52rem;
+    max-width: 46rem;
     margin: 0;
     color: var(--global-text-color-light);
     line-height: 1.55;
@@ -1657,9 +1724,10 @@ ul.task-list input[type="checkbox"] {
   gap: 0.65rem;
   align-items: stretch;
   overflow-x: auto;
+  overscroll-behavior: contain;
   overscroll-behavior-inline: contain;
   scroll-padding-inline: clamp(3.2rem, 6vw, 4.2rem);
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   padding: 0.78rem clamp(3.2rem, 6vw, 4.2rem);
   scrollbar-width: none;
 
@@ -1689,7 +1757,7 @@ ul.task-list input[type="checkbox"] {
     transform 280ms ease;
 
   &.is-active {
-    flex-basis: min(70vw, 58rem);
+    flex-basis: min(68vw, 48rem);
     border-color: color-mix(in srgb, var(--global-theme-color) 42%, rgba(255, 255, 255, 0.45));
     box-shadow: 0 1rem 2.5rem rgba(8, 12, 16, 0.22);
     opacity: 1;
@@ -1864,8 +1932,8 @@ ul.task-list input[type="checkbox"] {
 
 .spooder-video-playlist {
   max-width: min(100%, var(--measure-notebook));
-  margin: 0.72rem auto 0;
-  padding: 0 clamp(0.85rem, 2vw, 1.2rem);
+  margin: 0.72rem 0 0;
+  padding: 0;
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
   line-height: 1.45;
@@ -1878,13 +1946,15 @@ ul.task-list input[type="checkbox"] {
 
 .hci-spooder-credits {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.55rem;
+  max-width: min(100%, var(--measure-notebook));
   margin: 1.5rem 0 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--global-divider-color);
+  padding: 0.95rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
 
   p {
-    max-width: var(--measure-prose);
     margin: 0;
     color: var(--global-text-color-light);
     font-size: var(--type-meta);
@@ -1893,7 +1963,7 @@ ul.task-list input[type="checkbox"] {
 
   strong {
     color: var(--global-text-color);
-    font-size: var(--type-lede);
+    font-size: clamp(1.05rem, 1.7vw, 1.32rem);
     line-height: 1.35;
   }
 }
@@ -2115,7 +2185,7 @@ html[data-theme="dark"] {
   }
 
   .hci-spooder-gallery-stage {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 11;
   }
 
   .hci-spooder-gallery-arrow {
@@ -2132,12 +2202,17 @@ html[data-theme="dark"] {
   }
 
   .hci-spooder-brief,
+  .hci-spooder-origin-grid,
   .hci-spooder-remix-flow ol {
     grid-template-columns: 1fr;
   }
 
-  .hci-spooder-hero-media img {
-    min-height: 13rem;
+  .hci-spooder-hero .project-case-copy h1 {
+    font-size: clamp(2.05rem, 11vw, 2.72rem);
+  }
+
+  .hci-spooder-hero-media {
+    width: 100%;
   }
 
   .hci-spooder-prompt > div,
@@ -2147,7 +2222,7 @@ html[data-theme="dark"] {
   }
 
   .spooder-video-section {
-    width: min(100vw - 0.8rem, 88rem);
+    width: 100%;
   }
 
   .spooder-video-track {
@@ -2159,6 +2234,10 @@ html[data-theme="dark"] {
   .spooder-video-card,
   .spooder-video-card.is-active {
     flex-basis: min(86vw, 32rem);
+  }
+
+  .hci-spooder-credits {
+    padding: 0.85rem;
   }
 
   .spooder-video-meta,
@@ -2299,6 +2378,7 @@ html[data-theme="dark"] {
   .projects .project-card-preview-affordance,
   .projects .project-card-takeaways,
   .projects .project-card-media img,
+  .hci-spooder-gallery-slide,
   .spooder-video-card {
     transition: none;
 

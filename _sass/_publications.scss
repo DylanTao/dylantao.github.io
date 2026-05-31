@@ -66,7 +66,7 @@ html[data-theme="dark"] .wall-of-rejection {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(15rem, 0.82fr);
   gap: 0.85rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .rejection-badge-wall,
@@ -79,8 +79,11 @@ html[data-theme="dark"] .wall-of-rejection {
 
 .rejection-badge-wall {
   position: relative;
-  align-self: start;
-  padding: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  min-height: 18.75rem;
+  padding: 0.95rem;
 }
 
 .rejection-badge-wall-heading {
@@ -107,6 +110,9 @@ html[data-theme="dark"] .wall-of-rejection {
 
 .rejection-badge-zone {
   position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .rejection-badge-grid {
@@ -115,6 +121,7 @@ html[data-theme="dark"] .wall-of-rejection {
   grid-template-columns: repeat(auto-fit, minmax(3.25rem, 3.7rem));
   gap: 0.5rem;
   justify-content: start;
+  margin-bottom: 0.65rem;
 }
 
 .rejection-badge {
@@ -176,17 +183,17 @@ html[data-theme="dark"] .wall-of-rejection {
   &::after {
     bottom: calc(100% + 0.52rem);
     width: max-content;
-    max-width: min(13rem, 70vw);
-    padding: 0.4rem 0.52rem;
+    max-width: min(16rem, 76vw);
+    padding: 0.48rem 0.62rem;
     border: 1px solid color-mix(in srgb, var(--global-theme-color) 24%, var(--global-divider-color));
     border-radius: 0.45rem;
     background: color-mix(in srgb, var(--global-card-bg-color) 95%, var(--global-bg-color));
     color: var(--global-text-color);
     content: attr(data-rejection-tooltip);
     font-size: var(--type-label);
-    font-weight: 720;
-    line-height: 1.25;
-    text-align: center;
+    font-weight: 740;
+    line-height: 1.32;
+    text-align: left;
     box-shadow: 0 0.55rem 1.15rem rgba(32, 25, 22, 0.12);
   }
 
@@ -403,7 +410,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 }
 
 .rejection-wall-credit {
-  margin: 0.68rem 0 0;
+  margin: auto 0 0;
   padding-top: 0.65rem;
   border-top: 1px solid var(--global-divider-color);
   color: var(--global-text-color-light);
@@ -445,7 +452,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 .rejection-xp-panel {
   display: flex;
   flex-direction: column;
-  align-self: start;
+  align-self: stretch;
   gap: 0.68rem;
   padding: 0.9rem;
 }
@@ -717,7 +724,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
     text {
       fill: var(--global-text-color);
       font-family: var(--font-mono);
-      font-size: 7px;
+      font-size: 6px;
       font-weight: 760;
     }
   }
@@ -762,12 +769,6 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
     color: var(--global-text-color-light);
     font-style: normal;
   }
-}
-
-.failure-xp-source-line {
-  margin: 0.65rem 0 0 !important;
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--global-divider-color);
 }
 
 html[data-theme="dark"] .failure-xp-rules-panel {
@@ -1769,6 +1770,10 @@ html[data-theme="dark"] .scholar-lens-card {
   .rejection-xp-panel {
     padding: 0.64rem 0.72rem;
     border-radius: 0.58rem;
+  }
+
+  .rejection-badge-wall {
+    min-height: 0;
   }
 
   .rejection-badge {

@@ -64,6 +64,16 @@ hci-spooder-man:
     noon: "#2f75a8"
     afternoon: "#d9a15f"
     evening: "#d7e3ed"
+  teasers:
+    - /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-alley-standoff.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-verse-title.png
+    - /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
   takeaways:
     - "Academic websites can scaffold remixable play."
     - "Assets and prompts help others join in."

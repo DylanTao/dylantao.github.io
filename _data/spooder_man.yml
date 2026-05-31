@@ -2,8 +2,8 @@ hero:
   title: HCI Spooder-Man Across the Spooder-Verse
   kicker: Remixable website movement
   lede: >-
-    A practical, playful guide for making an academic website that can carry
-    papers, rejection, taste, and remixable weirdness in the same room.
+    A playful guide for celebrating academic rejection without hiding the real
+    research. The portfolio stays useful; the failures get origin-story energy.
   trailer_url: https://youtu.be/uKYV2qjYIS0?si=QmRJJf5yuv41UFDY
   playlist_url: https://youtube.com/playlist?list=PLsTV5jnZ_2V1T-AqzVKrhvJBWnQht9pme&si=QmE8AVsJHxlj6F-7
   teaser: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
@@ -13,19 +13,19 @@ downloads:
   remix_kit_zip: /assets/downloads/hci-spooder-man-remix-kit.zip
 
 guide_steps:
-  - title: Give your agent the prompt.
+  - title: Choose your rejection origin.
     text: >-
-      Start with the markdown prompt below, then replace my research context
-      with yours: field, site tone, colors, and the part of research you want
-      to make visible.
+      Pick one honest academic tension: rejection, reviewer confusion,
+      prototype mess, fieldwork weirdness, or the strange comedy of trying
+      again.
   - title: Drop in the remix kit.
     text: >-
-      Use the ZIP if you want the current Spooder-Man screenshots and rejection
-      meme as references or placeholders while your coding agent builds the page.
-  - title: Publish one generous scaffold.
+      Use the ZIP and markdown prompt as scaffolding, then replace my colors,
+      captions, and visual references with something that fits your own site.
+  - title: Publish the invitation.
     text: >-
-      Keep the main portfolio credible, add one opt-in playful artifact, and
-      share enough assets and credits that the next person can adapt the idea.
+      Keep the main portfolio credible, make the playful layer opt-in, and
+      leave enough structure that the next person can join without guessing.
 
 agent_prompt: |
   # HCI Spooder-Man Website Remix Prompt
@@ -35,14 +35,14 @@ agent_prompt: |
   Goal:
   Make my website credible first and playful second. Keep papers, CV, contact, and core professional pages easy to find. Add one opt-in playful artifact that makes the research process visible, honest, and remixable.
 
-  Use the attached remix-kit assets as references or placeholders. You may reuse the images directly, crop them for layout, or generate new site-native visuals that fit my website style.
+  Use the attached remix-kit assets as references or placeholders. You may reuse the images directly, crop them for layout, or generate a new site-native recruitment capsule that fits my website style.
 
   Please implement:
 
   1. A compact playful artifact for one honest research tension on my site, such as rejection, revision, fieldwork messiness, prototype failures, reviewer feedback, weird tools, or creative recovery.
   2. A small invitation route from the relevant serious page to the playful artifact. The serious work should stay visually primary.
   3. A remix guide page that explains how someone else can adapt the pattern with their own colors, academic identity, humor level, and website tone.
-  4. A reusable assets section with direct local links for any images used.
+  4. A small visual capsule that entices people into the idea without pretending to be a formal design system.
   5. A copyable prompt section so visitors can hand the scaffold to their own coding agent.
 
   Design guidance:
@@ -71,33 +71,33 @@ teasers:
   - /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
 
 assets:
-  - label: Teaser card
+  - label: Recruitment shot
     path: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
-    caption: The clearest group shot for the projects page teaser.
+    caption: The clearest group shot for inviting people into the bit.
   - label: Crosswalk lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft.png
-    caption: Softer city lineup for page texture and gallery rhythm.
+    caption: A softer city walk for the movement's less chaotic branch.
   - label: Rooftop lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
-    caption: Hero-team energy with enough sky to support overlaid text.
+    caption: The team assembles, probably after reviewer two says "unclear."
   - label: Alley car scramble
     path: /assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble.png
-    caption: Kinetic alley scene for motion-heavy variants and video sections.
+    caption: A useful reminder that research plans also leave dents.
   - label: Jet chaos
     path: /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
-    caption: Maximum movement, best used as a supporting visual.
+    caption: Maximum movement for the moment when a deadline learns to fly.
   - label: Alley standoff
     path: /assets/img/project_pics/hci-spooder-man/spooder-alley-standoff.png
-    caption: Three-Spooder pointing joke with a clean interaction metaphor.
+    caption: Every coauthor explaining which version of the draft is current.
   - label: Close-up dialogue
     path: /assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue.png
-    caption: Small conversational beat for credit or reflection sections.
+    caption: A small pause for the hero to consider rebuttal strategy.
   - label: Across the Spooder-Verse title
     path: /assets/img/project_pics/hci-spooder-man/spooder-verse-title.png
-    caption: Title treatment from the Across the Spooder-Verse trailer.
+    caption: The banner title for the recruiting poster in your heart.
   - label: Spooder-Man title
     path: /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
-    caption: Clean title treatment from the original trailer.
+    caption: The original title beat, now spared from awkward cropping.
   - label: Steam-style rejection meme
     path: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
     caption: Local Wall of Rejection mockup used by the publications page.

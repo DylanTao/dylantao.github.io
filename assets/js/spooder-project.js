@@ -61,26 +61,17 @@
     const thumbs = Array.from(imageCarousel.querySelectorAll("[data-spooder-image-thumb]"));
     const prevButton = imageCarousel.querySelector("[data-spooder-image-prev]");
     const nextButton = imageCarousel.querySelector("[data-spooder-image-next]");
-    const autoplayDelay = Number(imageCarousel.dataset.spooderAutoplayMs || 5200);
-    let autoplayTimer;
     let activeImageIndex = 0;
 
-    const stopAutoplay = () => {
-      window.clearInterval(autoplayTimer);
-      autoplayTimer = undefined;
-    };
+    const scrollThumbIntoView = (thumb) => {
+      const scroller = thumb?.parentElement;
+      if (!thumb || !scroller) return;
 
-    const startAutoplay = () => {
-      if (prefersReducedMotion() || slides.length < 2 || autoplayTimer) return;
-
-      autoplayTimer = window.setInterval(() => {
-        setActiveImage(activeImageIndex + 1, { automatic: true });
-      }, autoplayDelay);
-    };
-
-    const restartAutoplay = () => {
-      stopAutoplay();
-      startAutoplay();
+      const left = thumb.offsetLeft - (scroller.clientWidth - thumb.clientWidth) / 2;
+      scroller.scrollTo({
+        left,
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
     };
 
     const setActiveImage = (index, options = {}) => {
@@ -101,25 +92,17 @@
       });
 
       const activeThumb = thumbs[activeImageIndex];
-      if (activeThumb && options.scrollThumb !== false) {
-        activeThumb.scrollIntoView({
-          block: "nearest",
-          inline: "center",
-          behavior: prefersReducedMotion() ? "auto" : "smooth",
-        });
+      if (activeThumb && options.scrollThumb) {
+        scrollThumbIntoView(activeThumb);
       }
 
       if (activeThumb && options.focusThumb) {
         activeThumb.focus({ preventScroll: true });
       }
-
-      if (!options.automatic && options.restartAutoplay !== false) {
-        restartAutoplay();
-      }
     };
 
-    prevButton?.addEventListener("click", () => setActiveImage(activeImageIndex - 1));
-    nextButton?.addEventListener("click", () => setActiveImage(activeImageIndex + 1));
+    prevButton?.addEventListener("click", () => setActiveImage(activeImageIndex - 1, { scrollThumb: true }));
+    nextButton?.addEventListener("click", () => setActiveImage(activeImageIndex + 1, { scrollThumb: true }));
 
     thumbs.forEach((thumb, index) => {
       thumb.addEventListener("click", () => setActiveImage(index, { scrollThumb: false }));
@@ -157,16 +140,6 @@
     });
 
     setActiveImage(0, { scrollThumb: false });
-
-    imageCarousel.addEventListener("mouseenter", stopAutoplay);
-    imageCarousel.addEventListener("mouseleave", startAutoplay);
-    imageCarousel.addEventListener("focusin", stopAutoplay);
-    imageCarousel.addEventListener("focusout", (event) => {
-      if (event.relatedTarget instanceof Node && imageCarousel.contains(event.relatedTarget)) return;
-      startAutoplay();
-    });
-
-    startAutoplay();
   }
 
   const carousel = document.querySelector("[data-spooder-carousel]");
@@ -197,6 +170,16 @@
       frame.replaceChildren(iframe);
     };
 
+    const scrollSlideIntoTrack = (slide) => {
+      if (!track || !slide) return;
+
+      const left = slide.offsetLeft - (track.clientWidth - slide.clientWidth) / 2;
+      track.scrollTo({
+        left,
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
+    };
+
     const setActiveSlide = (index, options = { scroll: true }) => {
       if (!slides.length) return;
 
@@ -210,11 +193,7 @@
       });
 
       if (options.scroll) {
-        slides[activeIndex].scrollIntoView({
-          block: "nearest",
-          inline: "center",
-          behavior: prefersReducedMotion() ? "auto" : "smooth",
-        });
+        scrollSlideIntoTrack(slides[activeIndex]);
       }
     };
 
