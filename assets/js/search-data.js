@@ -273,6 +273,13 @@ ninja.data = [
         handler: () => {
           window.location.href = "/projects/context-aware-encoding/";
         },
+      },{id: "project-hci-spooder-man",
+        title: "HCI Spooder-Man",
+        description: "A playful remix guide for turning an academic website into a small, funny, human-centered artifact.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/hci-spooder-man/";
+        },
       },{id: "project-graphhscn",
         title: "GraphHSCN",
         description: "A graph neural network architecture prototype for modeling long-range interactions in structured data.",
