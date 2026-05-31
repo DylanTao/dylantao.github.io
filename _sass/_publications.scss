@@ -1231,6 +1231,14 @@ html[data-theme="dark"] .scholar-lens-card {
   font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
+
+  span:last-child {
+    max-width: 62%;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .scholar-lens-bars {
@@ -1367,11 +1375,12 @@ html[data-theme="dark"] .scholar-lens-card {
   font-size: 0.66rem;
   font-weight: 700;
   line-height: 1.05;
+  white-space: nowrap;
 }
 
 .scholar-lens-year-track {
-  display: flex;
-  align-items: flex-end;
+  position: relative;
+  display: block;
   width: 100%;
   max-width: 0.62rem;
   height: 100%;
@@ -1380,21 +1389,46 @@ html[data-theme="dark"] .scholar-lens-card {
   border: 0;
   border-radius: 0.28rem;
   background: color-mix(in srgb, var(--global-divider-color) 54%, transparent);
-
-  span {
-    display: block;
-    width: 100%;
-    height: max(0.22rem, var(--year-ratio));
-    border-radius: inherit;
-    background: color-mix(in srgb, var(--global-theme-color) 78%, var(--global-sky-strong));
-    transition:
-      height var(--motion-standard),
-      background-color var(--motion-standard);
-  }
 }
 
-.scholar-lens-year-empty .scholar-lens-year-track span {
+.scholar-lens-year-fill,
+.scholar-lens-year-share {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  border-radius: inherit;
+  transition:
+    height var(--motion-standard),
+    opacity var(--motion-standard),
+    background-color var(--motion-standard);
+}
+
+.scholar-lens-year-fill {
+  height: max(0.22rem, var(--year-ratio));
+  background: color-mix(in srgb, var(--global-theme-color) 78%, var(--global-sky-strong));
+}
+
+.scholar-lens-year-share {
+  height: max(0.18rem, var(--paper-share-height, 0%));
+  background: linear-gradient(0deg, var(--global-mint-strong), color-mix(in srgb, var(--global-mint-strong) 66%, #ffffff));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  opacity: 0;
+}
+
+.scholar-lens-year-empty .scholar-lens-year-fill {
   opacity: 0.24;
+}
+
+.scholar-lens-year-paper-share .scholar-lens-year-count {
+  color: var(--global-theme-color);
+  font-size: 0.58rem;
+}
+
+.scholar-lens-year-paper-share .scholar-lens-year-share {
+  opacity: 1;
 }
 
 .scholar-lens-year-muted-by-link {
@@ -1406,8 +1440,8 @@ html[data-theme="dark"] .scholar-lens-card {
   background: color-mix(in srgb, var(--global-theme-color) 17%, var(--global-divider-color));
 }
 
-.scholar-lens-year-active .scholar-lens-year-track span,
-.scholar-lens-year-linked .scholar-lens-year-track span {
+.scholar-lens-year-active .scholar-lens-year-fill,
+.scholar-lens-year-linked .scholar-lens-year-fill {
   background: var(--global-theme-color);
 }
 
@@ -2005,7 +2039,8 @@ html[data-theme="dark"] .scholar-lens-card {
   .scholar-lens-heading a,
   .scholar-lens-bar-track span,
   .scholar-lens-year-bar,
-  .scholar-lens-year-track span,
+  .scholar-lens-year-fill,
+  .scholar-lens-year-share,
   .publication-lens-entry,
   .publications ol.bibliography li {
     animation: none;

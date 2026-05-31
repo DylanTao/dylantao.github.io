@@ -53,6 +53,62 @@
     if (node) node.textContent = value;
   };
 
+  const citationWord = (count) => (Number(count) === 1 ? "citation" : "citations");
+
+  const visibleYearTotal = (bar) => Number(bar.dataset.visibleTotal || bar.dataset.yearTotal || 0);
+
+  const paperTitle = (entry) => {
+    const title = entry?.querySelector(".title")?.textContent?.replace(/\s+/g, " ").trim();
+    return title || entry?.dataset.publicationKey || "paper";
+  };
+
+  const resetYearPaperShare = (bar, visibleTotal = visibleYearTotal(bar)) => {
+    const label = bar.querySelector("[data-year-total-label]");
+    if (label) label.textContent = visibleTotal;
+    bar.classList.remove("scholar-lens-year-paper-share");
+    bar.style.removeProperty("--paper-share-ratio");
+    bar.style.removeProperty("--paper-share-height");
+    delete bar.dataset.paperShare;
+    bar.setAttribute("aria-label", `${bar.dataset.year}: ${visibleTotal} ${citationWord(visibleTotal)} in the active lens`);
+  };
+
+  const resetYearPaperShares = () => {
+    yearBars.forEach((bar) => resetYearPaperShare(bar));
+  };
+
+  const applyPaperShares = (entry) => {
+    if (!entry || !paperMatches(entry)) return 0;
+
+    const key = entry.dataset.publicationKey;
+    const title = paperTitle(entry);
+    let activeCitations = 0;
+
+    yearBars.forEach((bar) => {
+      const visibleTotal = visibleYearTotal(bar);
+      const contribution = parseContributions(bar).find((item) => item.key === key)?.citations || 0;
+      if (!visibleTotal || !contribution) return;
+
+      const yearRatio = Number.parseFloat(bar.style.getPropertyValue("--year-ratio")) || 0;
+      const paperShareRatio = (contribution / visibleTotal) * 100;
+      const paperShareHeight = Math.min(yearRatio, (paperShareRatio / 100) * yearRatio);
+      const label = bar.querySelector("[data-year-total-label]");
+      const roundedShare = Math.round(paperShareRatio);
+
+      bar.classList.add("scholar-lens-year-paper-share");
+      bar.dataset.paperShare = String(contribution);
+      bar.style.setProperty("--paper-share-ratio", `${paperShareRatio}%`);
+      bar.style.setProperty("--paper-share-height", `${paperShareHeight}%`);
+      if (label) label.textContent = `${contribution} / ${visibleTotal}`;
+      bar.setAttribute(
+        "aria-label",
+        `${bar.dataset.year}: ${contribution} of ${visibleTotal} active-lens ${citationWord(visibleTotal)} from ${title}, ${roundedShare}%`
+      );
+      activeCitations += contribution;
+    });
+
+    return activeCitations;
+  };
+
   const yearVisibleTotal = (bar) =>
     parseContributions(bar).reduce((sum, contribution) => {
       const entry = entryByKey.get(contribution.key);
@@ -80,12 +136,10 @@
 
     yearBars.forEach((bar, index) => {
       const visibleTotal = totals[index];
-      const label = bar.querySelector("[data-year-total-label]");
       bar.dataset.visibleTotal = visibleTotal;
       bar.style.setProperty("--year-ratio", `${(visibleTotal / maxTotal) * 100}%`);
       bar.classList.toggle("scholar-lens-year-empty", visibleTotal === 0);
-      if (label) label.textContent = visibleTotal;
-      bar.setAttribute("aria-label", `${bar.dataset.year}: ${visibleTotal} citations in the active lens`);
+      resetYearPaperShare(bar, visibleTotal);
     });
   };
 
@@ -107,12 +161,12 @@
     updateYearBars();
   };
 
-  const setLinkedPapers = (paperKeys, sourceLabel, activeYearBar = null) => {
+  const setLinkedPapers = (paperKeys, sourceLabel, activeYearBar = null, options = {}) => {
     const keys = new Set(paperKeys.filter(Boolean));
     if (!keys.size) return;
 
     workbench.dataset.activePublication = Array.from(keys).join(" ");
-    if (activeYearLabel && sourceLabel) activeYearLabel.textContent = sourceLabel;
+    resetYearPaperShares();
 
     entries.forEach((entry) => {
       const match = keys.has(entry.dataset.publicationKey);
@@ -129,15 +183,29 @@
 
     yearBars.forEach((bar) => {
       const contributions = parseContributions(bar);
-      const match = activeYearBar ? bar === activeYearBar : contributions.some((contribution) => keys.has(contribution.key));
+      const match = activeYearBar
+        ? bar === activeYearBar
+        : contributions.some((contribution) => {
+            const entry = entryByKey.get(contribution.key);
+            return keys.has(contribution.key) && entry && paperMatches(entry);
+          });
       bar.classList.toggle("scholar-lens-year-linked", match);
       bar.classList.toggle("scholar-lens-year-muted-by-link", !match);
     });
+
+    if (options.paperEntry) {
+      const activeCitations = applyPaperShares(options.paperEntry);
+      if (activeYearLabel)
+        activeYearLabel.textContent = `${paperTitle(options.paperEntry)}: ${activeCitations} visible ${citationWord(activeCitations)}`;
+    } else if (activeYearLabel && sourceLabel) {
+      activeYearLabel.textContent = sourceLabel;
+    }
   };
 
   const clearLinkedPapers = () => {
     delete workbench.dataset.activePublication;
     if (activeYearLabel) activeYearLabel.textContent = "All papers";
+    resetYearPaperShares();
     entries.forEach((entry) => {
       const listItem = entry.closest("li");
       entry.classList.remove("publication-lens-linked", "publication-lens-muted-by-link");
@@ -164,9 +232,9 @@
 
   entries.forEach((entry) => {
     const paperKey = entry.dataset.publicationKey;
-    entry.addEventListener("mouseenter", () => setLinkedPapers([paperKey], paperKey));
+    entry.addEventListener("mouseenter", () => setLinkedPapers([paperKey], paperTitle(entry), null, { paperEntry: entry }));
     entry.addEventListener("mouseleave", clearLinkedPapers);
-    entry.addEventListener("focusin", () => setLinkedPapers([paperKey], paperKey));
+    entry.addEventListener("focusin", () => setLinkedPapers([paperKey], paperTitle(entry), null, { paperEntry: entry }));
     entry.addEventListener("focusout", (event) => {
       if (!entry.contains(event.relatedTarget)) clearLinkedPapers();
     });
