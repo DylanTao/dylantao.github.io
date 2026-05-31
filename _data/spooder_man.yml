@@ -1,0 +1,93 @@
+hero:
+  title: HCI Spooder-Man Across the Spooder-Verse
+  kicker: Playful website scaffold
+  lede: >-
+    A remixable mini-guide for turning an academic website into a small, funny,
+    human-centered artifact without losing credibility.
+  trailer_url: https://youtu.be/uKYV2qjYIS0?si=QmRJJf5yuv41UFDY
+  playlist_url: https://youtube.com/playlist?list=PLsTV5jnZ_2V1T-AqzVKrhvJBWnQht9pme&si=QmE8AVsJHxlj6F-7
+  teaser: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
+
+assets:
+  - label: Teaser card
+    path: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
+    caption: The clearest group shot for the projects page teaser.
+  - label: Crosswalk lineup
+    path: /assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft.png
+    caption: Softer city lineup for page texture and gallery rhythm.
+  - label: Rooftop lineup
+    path: /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
+    caption: Hero-team energy with enough sky to support overlaid text.
+  - label: Jet chaos
+    path: /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
+    caption: Maximum movement, best used as a supporting visual.
+  - label: Alley standoff
+    path: /assets/img/project_pics/hci-spooder-man/spooder-alley-standoff.png
+    caption: Three-Spooder pointing joke with a clean interaction metaphor.
+  - label: Close-up dialogue
+    path: /assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue.png
+    caption: Small conversational beat for credit or reflection sections.
+  - label: Across the Spooder-Verse title
+    path: /assets/img/project_pics/hci-spooder-man/spooder-verse-title.png
+    caption: Title treatment from the Across the Spooder-Verse trailer.
+  - label: Spooder-Man title
+    path: /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
+    caption: Clean title treatment from the original trailer.
+  - label: Steam-style rejection meme
+    path: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
+    caption: Local Wall of Rejection mockup used by the publications page.
+
+prompts:
+  - title: Website badge shelf
+    text: >-
+      Create a playful Steam-achievement-style badge shelf for an academic HCI
+      portfolio. The badges should feel compact, dark-mode friendly, slightly
+      ridiculous, and site-native. Use my website accent color, my research
+      identity, and small icons that represent research failure, iteration,
+      feedback, and creative recovery. Avoid copying any exact copyrighted UI.
+  - title: HCI Spooder hero
+    text: >-
+      Create a wide cinematic teaser image for a playful academic project called
+      HCI Spooder-Man. Show a small group of intentionally goofy web-slinger
+      researchers walking together through a city, carrying laptops, sticky
+      notes, sketchbooks, and review comments. Make it warm, comic, and remixable
+      for a personal portfolio website, not a polished movie poster.
+  - title: Personal remix guide
+    text: >-
+      Rewrite this website page idea for my own academic identity. Keep the core
+      move: invite people to remix a playful website artifact, share local assets,
+      include prompts, credit the original inspiration, and end by saying this is
+      the creativity I want to scaffold for everyone. Adapt the tone, colors, and
+      examples to my field.
+
+videos:
+  - title: Spooder-Man Movie Trailer
+    id: f_Pcu6wTzoA
+    url: https://youtu.be/f_Pcu6wTzoA?si=z8yS95SrQ158yl7w
+  - title: "Spooder-Man: Across The Spooder-Verse Trailer"
+    id: uKYV2qjYIS0
+    url: https://youtu.be/uKYV2qjYIS0?si=-S_8KuQTavMLDg0a
+  - title: Spooder-Man Saves The MCU
+    id: PMX78C3f9A0
+    url: https://youtu.be/PMX78C3f9A0?si=GgPL3aIsDYEk4N5K
+  - title: Spooder-Man Breaks Star Wars
+    id: QtDAwqtIUpc
+    url: https://youtu.be/QtDAwqtIUpc?si=-6KRvIancdFL3rCI
+  - title: The Avoongers Movie Trailer
+    id: n7cjod9lF2s
+    url: https://youtu.be/n7cjod9lF2s?si=yME0UmW3ygEGoQ5q
+  - title: Spooder-Man Destroys Fortnite
+    id: 9Un2CD5Cgd4
+    url: https://youtu.be/9Un2CD5Cgd4?si=2quhW1noJD5DwDjy
+  - title: "Spooder-Man: The Story So Far (Compilation)"
+    id: HYNqQxhVMbs
+    url: https://youtu.be/HYNqQxhVMbs?si=FGeZ8NsDyeVbvNlH
+  - title: The Avoongers Vs Star Wars
+    id: y6nn4p5JOBM
+    url: https://youtu.be/y6nn4p5JOBM?si=jB9EWwX-XRx5yOeH
+  - title: Spooderman Destroys Rivals
+    id: 7q-Zidufm9Q
+    url: https://youtu.be/7q-Zidufm9Q?si=m9hqlT5HfgjWBMUj
+  - title: "Spooder-Man 2: Brand New Trailer"
+    id: rFG-Sx-Tz6o
+    url: https://youtu.be/rFG-Sx-Tz6o?si=R_fuhlEPgahdGLho

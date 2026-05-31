@@ -76,6 +76,7 @@ html[data-theme="dark"] .wall-of-rejection {
 }
 
 .rejection-badge-wall {
+  position: relative;
   padding: 0.9rem;
 }
 
@@ -112,21 +113,25 @@ html[data-theme="dark"] .wall-of-rejection {
   }
 }
 
+.rejection-badge-zone {
+  position: relative;
+}
+
 .rejection-badge-grid {
   display: grid;
   align-items: start;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.42rem;
 }
 
 .rejection-badge {
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 0.42rem;
+  gap: 0.32rem;
   width: 100%;
-  aspect-ratio: 1.7 / 1;
-  padding: 0.72rem 0.62rem;
+  aspect-ratio: 1.58 / 1;
+  padding: 0.5rem 0.44rem;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -151,20 +156,23 @@ html[data-theme="dark"] .wall-of-rejection {
 
   &:hover,
   &:focus-visible,
-  &.rejection-badge-active {
+  &.rejection-badge-active,
+  &.rejection-badge-pinned {
     border-color: color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
     box-shadow: 0 0.55rem 1.25rem rgba(32, 25, 22, 0.08);
     transform: translateY(-1px);
   }
 
-  &.rejection-badge-active {
+  &.rejection-badge-active,
+  &.rejection-badge-pinned {
     background: linear-gradient(145deg, var(--rejection-badge-wash), transparent 54%), var(--global-card-bg-color);
   }
 }
 
 html[data-theme="dark"] .rejection-badge:hover,
 html[data-theme="dark"] .rejection-badge:focus-visible,
-html[data-theme="dark"] .rejection-badge.rejection-badge-active {
+html[data-theme="dark"] .rejection-badge.rejection-badge-active,
+html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
   box-shadow: 0 0.55rem 1.25rem rgba(0, 0, 0, 0.18);
 }
 
@@ -176,13 +184,13 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 30%, var(--global-divider-color));
   border-radius: 0.45rem;
   background: color-mix(in srgb, var(--global-accent-soft) 64%, var(--global-card-bg-color));
   color: var(--global-theme-color);
-  font-size: 1.18rem;
+  font-size: 0.95rem;
   line-height: 1;
 }
 
@@ -192,13 +200,13 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
 
 .rejection-crossed-pens {
   position: relative;
-  width: 1.7rem;
-  height: 1.45rem;
+  width: 1.34rem;
+  height: 1.15rem;
 
   i {
     position: absolute;
-    top: 0.1rem;
-    left: 0.28rem;
+    top: 0.06rem;
+    left: 0.18rem;
     transform: rotate(42deg);
 
     + i {
@@ -216,7 +224,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
 
 .rejection-badge-title {
   color: var(--global-text-color);
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-weight: 800;
   line-height: 1.18;
   overflow-wrap: anywhere;
@@ -231,7 +239,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
 
 .rejection-badge-short {
   color: var(--global-text-color-light);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   line-height: 1.25;
 }
 
@@ -289,16 +297,38 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
 }
 
 .rejection-receipt-tray {
-  margin-top: 0.7rem;
-  padding: 0.72rem;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.45rem);
+  left: 0;
+  z-index: 5;
+  padding: 0.68rem 0.72rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 20%, var(--global-divider-color));
   border-radius: 0.5rem;
   background: color-mix(in srgb, var(--global-accent-soft) 34%, var(--global-card-bg-color));
+  box-shadow: 0 0.72rem 1.45rem rgba(32, 25, 22, 0.12);
 
   &:focus-visible {
     outline: 2px solid color-mix(in srgb, var(--global-theme-color) 45%, transparent);
     outline-offset: 0.16rem;
   }
+}
+
+.rejection-receipt-tray::after {
+  position: absolute;
+  bottom: -0.42rem;
+  left: 1.2rem;
+  width: 0.78rem;
+  height: 0.78rem;
+  border-right: 1px solid color-mix(in srgb, var(--global-theme-color) 20%, var(--global-divider-color));
+  border-bottom: 1px solid color-mix(in srgb, var(--global-theme-color) 20%, var(--global-divider-color));
+  background: inherit;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.rejection-receipt-tray-pinned {
+  border-color: color-mix(in srgb, var(--global-theme-color) 42%, var(--global-divider-color));
 }
 
 .rejection-xp-ledger {
@@ -346,6 +376,25 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
     &:focus-visible {
       color: var(--global-hover-color);
     }
+  }
+}
+
+.rejection-meme-link {
+  display: inline;
+  border: 0;
+  background: transparent;
+  color: var(--global-theme-color);
+  font: inherit;
+  padding: 0;
+  text-align: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--global-hover-color);
+    outline: none;
   }
 }
 
@@ -520,8 +569,8 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
   top: calc(100% + 0.4rem);
   right: 0;
   z-index: 4;
-  width: min(21rem, calc(100vw - 2rem));
-  max-height: min(74vh, 39rem);
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(68vh, 32rem);
   overflow: auto;
   padding: 0.85rem;
   border: 1px solid var(--global-divider-color);
@@ -566,6 +615,23 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
       color: var(--global-text-color-light);
       line-height: 1.35;
     }
+  }
+}
+
+.failure-xp-history-block {
+  margin-top: 0.72rem;
+  padding-top: 0.68rem;
+  border-top: 1px solid var(--global-divider-color);
+
+  > span {
+    display: block;
+    margin-bottom: 0.42rem;
+    color: var(--global-text-color);
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 750;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
 }
 
@@ -634,6 +700,10 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   box-shadow: 0 0.7rem 1.6rem rgba(0, 0, 0, 0.3);
 }
 
+html[data-theme="dark"] .rejection-receipt-tray {
+  box-shadow: 0 0.72rem 1.45rem rgba(0, 0, 0, 0.28);
+}
+
 .failure-xp-track {
   width: 100%;
   height: 0.62rem;
@@ -658,6 +728,82 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   font-size: 0.86rem;
   font-style: italic;
   line-height: 1.38;
+}
+
+.rejection-meme-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  padding: min(4vw, 2rem);
+}
+
+.rejection-meme-viewer[hidden] {
+  display: none;
+}
+
+.rejection-meme-viewer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 20, 22, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.rejection-meme-viewer-frame {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.55rem;
+  width: min(94vw, 86rem);
+  max-height: 92vh;
+  margin: 0;
+}
+
+.rejection-meme-viewer-frame img {
+  display: block;
+  width: 100%;
+  max-height: 86vh;
+  border: 1px solid color-mix(in srgb, #ffffff 22%, transparent);
+  border-radius: 0.5rem;
+  background: #0d141c;
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.38);
+  object-fit: contain;
+}
+
+.rejection-meme-viewer-frame figcaption {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: var(--type-meta);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.rejection-meme-viewer-close {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid color-mix(in srgb, #ffffff 26%, transparent);
+  border-radius: 999px;
+  background: rgba(16, 18, 20, 0.86);
+  color: #ffffff;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    border-color: #ffffff;
+    outline: none;
+  }
+}
+
+html.rejection-meme-viewer-open,
+body.rejection-meme-viewer-open {
+  overflow: hidden;
 }
 
 @keyframes rejection-detail-in {
@@ -692,6 +838,58 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   min-width: 0;
 }
 
+.publication-spooder-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  margin: 1.35rem 0 0;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--global-theme-color) 22%, var(--global-divider-color));
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--global-accent-soft) 34%, var(--global-card-bg-color));
+}
+
+.publication-spooder-cta p {
+  margin: 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  line-height: 1.45;
+}
+
+.publication-spooder-cta strong {
+  display: block;
+  margin-bottom: 0.18rem;
+  color: var(--global-text-color);
+  font-size: var(--type-card-title);
+  line-height: 1.2;
+}
+
+.publication-spooder-cta a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--global-theme-color);
+  border-radius: 999px;
+  background: var(--global-theme-color);
+  color: var(--global-hover-text-color);
+  font-size: var(--type-meta);
+  font-weight: 750;
+  line-height: 1;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--global-hover-color);
+    background: var(--global-hover-color);
+    color: var(--global-hover-text-color);
+    text-decoration: none;
+  }
+}
+
 .publication-scholar-lens {
   position: sticky;
   top: 5.25rem;
@@ -700,35 +898,15 @@ html[data-theme="dark"] .failure-xp-rules-panel {
 
 .scholar-lens-card {
   position: relative;
-  isolation: isolate;
   min-width: 0;
   max-height: calc(100vh - 6.25rem);
   overflow: auto;
   border: 1px solid var(--global-divider-color);
   border-radius: 0.65rem;
-  background:
-    linear-gradient(
-      145deg,
-      color-mix(in srgb, var(--global-card-bg-color) 82%, transparent),
-      color-mix(in srgb, var(--global-bg-color) 24%, var(--global-card-bg-color))
-    ),
-    var(--global-card-bg-color);
+  background: color-mix(in srgb, var(--global-card-bg-color) 96%, var(--global-bg-color));
   padding: 0.95rem;
   box-shadow: 0 1rem 2.4rem rgba(32, 25, 22, 0.06);
   backdrop-filter: blur(14px) saturate(1.15);
-
-  &::before {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    background:
-      linear-gradient(130deg, transparent 0 28%, color-mix(in srgb, var(--global-theme-color) 5%, transparent) 28% 28.7%, transparent 28.7% 100%),
-      radial-gradient(circle at 82% 16%, color-mix(in srgb, var(--global-sky-strong) 13%, transparent), transparent 34%),
-      radial-gradient(circle at 14% 100%, color-mix(in srgb, var(--global-theme-color) 8%, transparent), transparent 30%);
-    content: "";
-    pointer-events: none;
-  }
 }
 
 html[data-theme="dark"] .scholar-lens-card {
@@ -1038,16 +1216,20 @@ html[data-theme="dark"] .scholar-lens-card {
 .scholar-lens-year-bars {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.34rem;
+  gap: 0.26rem;
   align-items: end;
-  min-height: 9.4rem;
+  min-height: 7.4rem;
   margin-top: 0.65rem;
+  padding: 0.45rem 0.38rem 0.32rem;
+  border: 1px solid color-mix(in srgb, var(--global-divider-color) 78%, transparent);
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, var(--global-bg-color) 64%, var(--global-card-bg-color));
 }
 
 .scholar-lens-year-bar {
   display: grid;
-  grid-template-rows: auto minmax(5.8rem, 1fr) auto;
-  gap: 0.28rem;
+  grid-template-rows: auto minmax(4.4rem, 1fr) auto;
+  gap: 0.24rem;
   justify-items: center;
   min-width: 0;
   border: 0;
@@ -1066,7 +1248,7 @@ html[data-theme="dark"] .scholar-lens-card {
   &.scholar-lens-year-linked {
     color: var(--global-text-color);
     outline: none;
-    transform: translateY(-1px);
+    transform: translateY(-0.05rem);
   }
 }
 
@@ -1082,22 +1264,20 @@ html[data-theme="dark"] .scholar-lens-card {
   display: flex;
   align-items: flex-end;
   width: 100%;
-  max-width: 1.35rem;
+  max-width: 0.62rem;
   height: 100%;
-  min-height: 5.8rem;
+  min-height: 4.4rem;
   overflow: hidden;
-  border: 1px solid var(--global-divider-color);
+  border: 0;
   border-radius: 999px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--global-card-bg-color) 80%, transparent), transparent),
-    color-mix(in srgb, var(--global-bg-color) 70%, var(--global-card-bg-color));
+  background: color-mix(in srgb, var(--global-divider-color) 72%, transparent);
 
   span {
     display: block;
     width: 100%;
     height: max(0.22rem, var(--year-ratio));
     border-radius: inherit;
-    background: linear-gradient(180deg, var(--global-sky-strong), var(--global-theme-color));
+    background: color-mix(in srgb, var(--global-theme-color) 74%, var(--global-sky-strong));
     transition:
       height var(--motion-standard),
       background-color var(--motion-standard);
@@ -1114,12 +1294,12 @@ html[data-theme="dark"] .scholar-lens-card {
 
 .scholar-lens-year-active .scholar-lens-year-track,
 .scholar-lens-year-linked .scholar-lens-year-track {
-  border-color: color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
+  background: color-mix(in srgb, var(--global-theme-color) 17%, var(--global-divider-color));
 }
 
 .scholar-lens-year-active .scholar-lens-year-track span,
 .scholar-lens-year-linked .scholar-lens-year-track span {
-  background: linear-gradient(180deg, var(--global-mint-strong), var(--global-theme-color));
+  background: var(--global-theme-color);
 }
 
 .publications {
@@ -1395,6 +1575,15 @@ html[data-theme="dark"] .scholar-lens-card {
 }
 
 @media (max-width: 767px) {
+  .publication-spooder-cta {
+    grid-template-columns: 1fr;
+    padding: 0.85rem;
+  }
+
+  .publication-spooder-cta a {
+    width: 100%;
+  }
+
   .wall-of-rejection-layout {
     grid-template-columns: 1fr;
   }
@@ -1419,7 +1608,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .rejection-badge {
     aspect-ratio: 1 / 1;
-    padding: 0.5rem;
+    padding: 0.42rem;
   }
 
   .rejection-badge-detail {
@@ -1427,8 +1616,8 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 
   .rejection-badge-icon {
-    width: 1.9rem;
-    height: 1.9rem;
+    width: 1.72rem;
+    height: 1.72rem;
   }
 
   .rejection-badge-title {
@@ -1437,6 +1626,15 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .rejection-badge-short {
     font-size: 0.66rem;
+  }
+
+  .rejection-meme-viewer {
+    padding: 0.75rem;
+  }
+
+  .rejection-meme-viewer-close {
+    top: 0.45rem;
+    right: 0.45rem;
   }
 
   .spooder-quote {

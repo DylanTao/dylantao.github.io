@@ -32,3 +32,14 @@ publication_lens: true
 
   </div>
 </div>
+
+<section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Man movement">
+  <p>
+    <strong>Join me as a Spooder-Man.</strong>
+    A tiny, ridiculous invitation to turn rejection, taste, and website craft into something other people can remix.
+  </p>
+  <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
+    <span>Join the Spooder-Verse</span>
+    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+  </a>
+</section>

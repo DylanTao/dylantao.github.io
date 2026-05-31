@@ -16,70 +16,82 @@
           </div>
           <span>Badge notes</span>
         </div>
-        <div class="rejection-badge-grid" data-rejection-wall-grid>
-          {% for badge in rejection_wall.badges %}
-            <button
-              class="rejection-badge rejection-badge-{{ badge.rarity }}"
-              type="button"
-              data-rejection-card
-              data-rejection-source-id="{{ badge.id }}"
-              aria-expanded="false"
-              aria-controls="rejection-receipt-tray"
-            >
-              <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
-                {% case badge.icon %}
-                  {% when 'heart-crack' %}
-                    <i class="fa-solid fa-heart-crack"></i>
-                  {% when 'paper-plane-crash' %}
-                    <i class="fa-solid fa-plane-circle-xmark"></i>
-                  {% when 'crossed-reviewer-pens' %}
-                    <span class="rejection-crossed-pens">
-                      <i class="fa-solid fa-pen-nib"></i>
-                      <i class="fa-solid fa-pen-nib"></i>
-                    </span>
-                  {% else %}
-                    <i class="fa-solid fa-circle-xmark"></i>
-                {% endcase %}
-              </span>
-              <span class="rejection-badge-summary">
-                <span class="rejection-badge-title">
-                  {{ badge.title }}
-                  <span>x{{ badge.count }}</span>
+        <div class="rejection-badge-zone">
+          <div class="rejection-badge-grid" data-rejection-wall-grid>
+            {% for badge in rejection_wall.badges %}
+              <button
+                class="rejection-badge rejection-badge-{{ badge.rarity }}"
+                type="button"
+                data-rejection-card
+                data-rejection-source-id="{{ badge.id }}"
+                aria-expanded="false"
+                aria-controls="rejection-receipt-tray"
+              >
+                <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
+                  {% case badge.icon %}
+                    {% when 'heart-crack' %}
+                      <i class="fa-solid fa-heart-crack"></i>
+                    {% when 'paper-plane-crash' %}
+                      <i class="fa-solid fa-plane-circle-xmark"></i>
+                    {% when 'crossed-reviewer-pens' %}
+                      <span class="rejection-crossed-pens">
+                        <i class="fa-solid fa-pen-nib"></i>
+                        <i class="fa-solid fa-pen-nib"></i>
+                      </span>
+                    {% else %}
+                      <i class="fa-solid fa-circle-xmark"></i>
+                  {% endcase %}
                 </span>
-                <span class="rejection-badge-short">{{ badge.short }}</span>
-              </span>
-            </button>
-          {% endfor %}
-        </div>
+                <span class="rejection-badge-summary">
+                  <span class="rejection-badge-title">
+                    {{ badge.title }}
+                    <span>x{{ badge.count }}</span>
+                  </span>
+                  <span class="rejection-badge-short">{{ badge.short }}</span>
+                </span>
+              </button>
+            {% endfor %}
+          </div>
 
-        {% for badge in rejection_wall.badges %}
-          <div class="rejection-receipt-source" hidden data-rejection-receipt-source data-rejection-source-id="{{ badge.id }}">
-            <div class="rejection-badge-detail">
-              <div>
-                <p class="rejection-badge-detail-title">
-                  {{ badge.title }}
-                  <span>x{{ badge.count }}</span>
-                </p>
-                <p>{{ badge.detail }}</p>
-                <p class="rejection-badge-paper">{{ badge.stage }} / {{ badge.date_label }}</p>
+          {% for badge in rejection_wall.badges %}
+            <div class="rejection-receipt-source" hidden data-rejection-receipt-source data-rejection-source-id="{{ badge.id }}">
+              <div class="rejection-badge-detail">
+                <div>
+                  <p class="rejection-badge-detail-title">
+                    {{ badge.title }}
+                    <span>x{{ badge.count }}</span>
+                  </p>
+                  <p>{{ badge.detail }}</p>
+                  <p class="rejection-badge-paper">{{ badge.stage }} / {{ badge.date_label }}</p>
+                </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
 
-        <div
-          id="rejection-receipt-tray"
-          class="rejection-receipt-tray"
-          data-rejection-receipt-tray
-          tabindex="0"
-          aria-label="Selected rejection badge note"
-          hidden
-        ></div>
+          <div
+            id="rejection-receipt-tray"
+            class="rejection-receipt-tray"
+            data-rejection-receipt-tray
+            tabindex="-1"
+            aria-live="polite"
+            aria-label="Selected rejection badge note"
+            hidden
+          ></div>
+        </div>
 
         <p class="rejection-wall-credit">
           Inspired by
           <a href="{{ failure_cv_credit.url }}" target="_blank" rel="noopener noreferrer">{{ failure_cv_credit.label }}</a>, Sirui's
-          <a href="{{ local_meme_credit.url | relative_url }}">{{ local_meme_credit.label }}</a>, and the
+          <button
+            class="rejection-meme-link"
+            type="button"
+            data-rejection-meme-open
+            aria-haspopup="dialog"
+            aria-controls="rejection-meme-viewer"
+          >
+            {{ local_meme_credit.label }},
+          </button>
+          and the
           <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
         </p>
       </div>
@@ -123,32 +135,6 @@
             </summary>
             <div class="failure-xp-rules-panel">
               <p>{{ rejection_wall.xp.source_note }}</p>
-              <svg
-                class="failure-xp-history"
-                viewBox="0 0 120 72"
-                role="img"
-                aria-label="Failure XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
-              >
-                {% assign xp_points = '' %}
-                {% for point in rejection_wall.xp.timeline %}
-                  {% capture xp_points %}{{ xp_points }} {{ point.x }},{{ point.y }}{% endcapture %}
-                {% endfor %}
-                <polyline points="{{ xp_points | strip }}" />
-                {% for point in rejection_wall.xp.timeline %}
-                  <circle cx="{{ point.x }}" cy="{{ point.y }}" r="3.2">
-                    <title>{{ point.date }} / {{ point.total }} XP / {{ point.label }}</title>
-                  </circle>
-                {% endfor %}
-              </svg>
-              <ol class="failure-xp-timeline">
-                {% for point in rejection_wall.xp.timeline %}
-                  <li>
-                    <span>{{ point.display_date | default: point.date }}</span>
-                    <strong>{{ point.total }} XP</strong>
-                    <em>{{ point.label }}</em>
-                  </li>
-                {% endfor %}
-              </ol>
               <ul>
                 {% for rule in rejection_wall.xp.rules %}
                   <li>
@@ -160,13 +146,50 @@
                   </li>
                 {% endfor %}
               </ul>
+              <div class="failure-xp-history-block">
+                <span>XP over time</span>
+                <svg
+                  class="failure-xp-history"
+                  viewBox="0 0 120 72"
+                  role="img"
+                  aria-label="Failure XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
+                >
+                  {% assign xp_points = '' %}
+                  {% for point in rejection_wall.xp.timeline %}
+                    {% capture xp_points %}{{ xp_points }} {{ point.x }},{{ point.y }}{% endcapture %}
+                  {% endfor %}
+                  <polyline points="{{ xp_points | strip }}" />
+                  {% for point in rejection_wall.xp.timeline %}
+                    <circle cx="{{ point.x }}" cy="{{ point.y }}" r="3.2">
+                      <title>{{ point.date }} / {{ point.total }} XP / {{ point.label }}</title>
+                    </circle>
+                  {% endfor %}
+                </svg>
+                <ol class="failure-xp-timeline">
+                  {% for point in rejection_wall.xp.timeline %}
+                    <li>
+                      <span>{{ point.display_date | default: point.date }}</span>
+                      <strong>{{ point.total }} XP</strong>
+                      <em>{{ point.label }}</em>
+                    </li>
+                  {% endfor %}
+                </ol>
+              </div>
               <p class="failure-xp-source-line">
                 Sources:
                 <a href="{{ chi26_dates_credit.url }}" target="_blank" rel="noopener noreferrer">CHI26</a>
                 /
                 <a href="{{ uist26_dates_credit.url }}" target="_blank" rel="noopener noreferrer">UIST26</a>
                 /
-                <a href="{{ local_meme_credit.url | relative_url }}">Steam achievement meme</a>
+                <button
+                  class="rejection-meme-link"
+                  type="button"
+                  data-rejection-meme-open
+                  aria-haspopup="dialog"
+                  aria-controls="rejection-meme-viewer"
+                >
+                  Steam achievement meme
+                </button>
                 /
                 <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
               </p>
@@ -198,4 +221,23 @@
       </aside>
     </div>
   </section>
+
+  <div
+    id="rejection-meme-viewer"
+    class="rejection-meme-viewer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="rejection-meme-viewer-title"
+    data-rejection-meme-viewer
+    hidden
+  >
+    <div class="rejection-meme-viewer-backdrop" data-rejection-meme-close></div>
+    <figure class="rejection-meme-viewer-frame">
+      <button class="rejection-meme-viewer-close" type="button" data-rejection-meme-close aria-label="Close image viewer">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <img src="{{ local_meme_credit.url | relative_url }}" alt="{{ local_meme_credit.label }}">
+      <figcaption id="rejection-meme-viewer-title">{{ local_meme_credit.label }}</figcaption>
+    </figure>
+  </div>
 {% endif %}
