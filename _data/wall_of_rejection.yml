@@ -28,6 +28,9 @@ badges:
     icon: heart-crack
     linked_paper_id: p5
     short: Reviews composted.
+    stage: R&R decision
+    date: 2026-01-15
+    date_label: Jan 15, 2026
     detail: Unlocked after one brave CHI 2026 submission attempt. The reviews became compost.
   - id: uist26-nope
     title: UIST26 Rejection
@@ -39,6 +42,9 @@ badges:
     icon: paper-plane-crash
     linked_paper_id: p5
     short: Iteration unlocked.
+    stage: First-review exit
+    date: 2026-05-28
+    date_label: May 28, 2026
     detail: Interactive system built. Acceptance not included, iteration included.
   - id: double-nope
     title: Double Rejection
@@ -48,32 +54,71 @@ badges:
     icon: crossed-reviewer-pens
     linked_paper_id: p5
     short: Great failure, greater failure.
+    stage: Combo badge
+    date: 2026-05-28
+    date_label: May 28, 2026
     detail: With great failure comes greater failure. Two doors closed; one plot twist earned.
 
 xp:
-  label: Nerdy Spooder-Man
+  label: Spooderman XP
   kicker: Failure XP
   blurb: Rejection XP only; accepted papers stay in the list.
   level: 2
-  current: 240
-  next_level: 300
-  progress: 67
-  source_note: Failure XP is a joke layer, not a productivity score.
+  current: 24
+  next_level: 30
+  progress: 80
+  source_note: Tiny joke metric for the peer-review grind.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
     - label: First-author rejection
-      value: "+120 XP"
+      value: "+12 XP"
     - label: Co-first listed first
-      value: "+110 XP"
+      value: "+11 XP"
     - label: Co-first listed second
-      value: "+95 XP"
+      value: "+9 XP"
     - label: Co-first listed third
-      value: "+80 XP"
+      value: "+8 XP"
     - label: Co-author rejection
-      value: "+45 XP"
+      value: "+4 XP"
     - label: Accepted papers
       value: "0 XP here"
       note: Accepted work already appears in the publication list.
+  levels:
+    - level: 1
+      xp: 0
+    - level: 2
+      xp: 15
+    - level: 3
+      xp: 30
+    - level: 4
+      xp: 50
+    - level: 5
+      xp: 75
+    - level: 6
+      xp: 105
+    - level: 7
+      xp: 140
+    - level: 8
+      xp: 180
+  timeline:
+    - date: 2021-12
+      display_date: 2021
+      label: First paper in the record
+      total: 0
+      x: 0
+      y: 64
+    - date: 2026-01-15
+      display_date: Jan 15
+      label: CHI26 R&R rejection
+      total: 12
+      x: 87
+      y: 34
+    - date: 2026-05-28
+      display_date: May 28
+      label: UIST26 first-review rejection
+      total: 24
+      x: 100
+      y: 4
   ledger:
     - label: CHI rejection
       value: 1
@@ -87,8 +132,14 @@ credits:
     label: Bradley Voytek's failure-CV tradition
     url: https://voyteklab.com/members
   local_meme_reference:
-    label: post-UIST26 rejection Steam achievement meme
+    label: post-UIST26 reject Steam achievement meme
     url: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
   spooder_trailer:
     label: Spooderman meme
     url: https://youtu.be/f_Pcu6wTzoA?si=2FKEbhC8hkqildqC
+  chi26_dates:
+    label: CHI 2026 papers dates
+    url: https://chi2026.acm.org/for-authors/papers/
+  uist26_dates:
+    label: UIST 2026 papers dates
+    url: https://uist.acm.org/2026/cfp/

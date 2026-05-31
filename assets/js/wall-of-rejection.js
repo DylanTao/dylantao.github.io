@@ -22,6 +22,7 @@
     });
 
     receiptTray.innerHTML = source.innerHTML;
+    receiptTray.hidden = false;
     receiptTray.classList.add("rejection-receipt-tray-active");
     document.body.classList.add("wall-of-rejection-open");
 
@@ -41,11 +42,7 @@
     }
   };
 
-  cards.forEach((card, index) => {
-    if (index === 0) {
-      card.classList.add("rejection-badge-active");
-    }
-
+  cards.forEach((card) => {
     card.addEventListener("click", () => setActiveCard(card));
     card.addEventListener("keydown", (event) => {
       if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;

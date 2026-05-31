@@ -6,30 +6,30 @@
   {% assign first_author_papers = 0 %}
   {% assign first_author_citations = 0 %}
   {% assign full_papers = 0 %}
-  {% assign workshop_papers = 0 %}
-  {% assign poster_abstracts = 0 %}
-  {% assign max_citations = 0 %}
+  {% assign short_papers = 0 %}
+  {% assign max_year_citations = 0 %}
 
   {% for paper in publication_lens.papers %}
     {% assign paper_data = paper[1] %}
     {% assign paper_citations = paper_data.citation_total | default: 0 %}
+    {% assign paper_group = paper_data.work_group | default: paper_data.work_type %}
     {% assign total_papers = total_papers | plus: 1 %}
     {% assign total_citations = total_citations | plus: paper_citations %}
-    {% if paper_citations > max_citations %}
-      {% assign max_citations = paper_citations %}
-    {% endif %}
     {% if paper_data.role == 'first-author' or paper_data.role == 'co-first' %}
       {% assign first_author_papers = first_author_papers | plus: 1 %}
       {% assign first_author_citations = first_author_citations | plus: paper_citations %}
     {% endif %}
-    {% case paper_data.work_type %}
-      {% when 'full-paper' %}
-        {% assign full_papers = full_papers | plus: 1 %}
-      {% when 'workshop-paper' %}
-        {% assign workshop_papers = workshop_papers | plus: 1 %}
-      {% when 'poster-abstract' %}
-        {% assign poster_abstracts = poster_abstracts | plus: 1 %}
-    {% endcase %}
+    {% if paper_group == 'short-form' %}
+      {% assign short_papers = short_papers | plus: 1 %}
+    {% else %}
+      {% assign full_papers = full_papers | plus: 1 %}
+    {% endif %}
+  {% endfor %}
+
+  {% for year_bucket in publication_lens.citation_years %}
+    {% if year_bucket.total > max_year_citations %}
+      {% assign max_year_citations = year_bucket.total %}
+    {% endif %}
   {% endfor %}
 
   <aside
@@ -73,25 +73,14 @@
           </label>
         </fieldset>
 
-        <fieldset>
-          <legend>Type</legend>
-          <label>
-            <input type="radio" name="publication-type-filter" value="all" checked>
-            <span>All</span>
-          </label>
-          <label>
-            <input type="radio" name="publication-type-filter" value="full-paper">
-            <span>Full</span>
-          </label>
-          <label>
-            <input type="radio" name="publication-type-filter" value="workshop-paper">
-            <span>Workshop</span>
-          </label>
-          <label>
-            <input type="radio" name="publication-type-filter" value="poster-abstract">
-            <span>Poster</span>
-          </label>
-        </fieldset>
+        <label class="scholar-lens-select-label">
+          <span>Format</span>
+          <select name="publication-type-filter" data-scholar-type-filter>
+            <option value="all">All work</option>
+            <option value="full-paper">Full papers</option>
+            <option value="short-form">Short forms</option>
+          </select>
+        </label>
       </div>
 
       <dl class="scholar-lens-stats">
@@ -113,51 +102,52 @@
           <dt>First author</dt>
           <dd>
             <span data-scholar-stat="first-author">{{ first_author_papers }}</span>
-            <small>{{ first_author_citations }} cites</small>
+            <small data-scholar-stat="first-author-citations">{{ first_author_citations }} cites</small>
           </dd>
         </div>
         <div>
-          <dt>Full / WS / Poster</dt>
+          <dt>Full / Short</dt>
           <dd>
-            <span data-scholar-stat="types">{{ full_papers }} / {{ workshop_papers }} / {{ poster_abstracts }}</span>
+            <span data-scholar-stat="types">{{ full_papers }} / {{ short_papers }}</span>
           </dd>
         </div>
       </dl>
 
-      <div class="scholar-lens-chart" aria-label="Citation totals by paper">
+      <div class="scholar-lens-year-chart" aria-label="Citations by year">
         <div class="scholar-lens-chart-heading">
-          <span>Cited by</span>
-          <span>Total snapshot</span>
+          <span>Cited by year</span>
+          <span data-scholar-active-year>All papers</span>
         </div>
-        <div class="scholar-lens-bars" data-scholar-bars>
-          {% for paper in publication_lens.papers %}
-            {% assign paper_key = paper[0] %}
-            {% assign paper_data = paper[1] %}
-            {% assign paper_citations = paper_data.citation_total | default: 0 %}
-            {% assign paper_ratio = 0 %}
-            {% if max_citations > 0 %}
-              {% assign paper_ratio = paper_citations | times: 100.0 | divided_by: max_citations %}
+        <div class="scholar-lens-year-bars" data-scholar-year-bars>
+          {% for year_bucket in publication_lens.citation_years %}
+            {% assign year_ratio = 0 %}
+            {% if max_year_citations > 0 %}
+              {% assign year_ratio = year_bucket.total | times: 100.0 | divided_by: max_year_citations %}
             {% endif %}
+            {% capture contribution_pairs -%}
+              {%- for contribution in year_bucket.papers -%}
+                {{ contribution.key }}:{{ contribution.citations }}{% unless forloop.last %};{% endunless %}
+              {%- endfor -%}
+            {%- endcapture %}
             <button
-              class="scholar-lens-bar"
+              class="scholar-lens-year-bar"
               type="button"
-              data-scholar-bar
-              data-publication-key="{{ paper_key }}"
-              data-publication-type="{{ paper_data.work_type }}"
-              data-publication-role="{% if paper_data.role == 'co-first' %}first-author{% else %}{{ paper_data.role }}{% endif %}"
-              data-publication-citations="{{ paper_citations }}"
-              style="--citation-ratio: {{ paper_ratio }}%;"
-              aria-label="{{ paper_key }} has {{ paper_citations }} citations"
+              data-scholar-year-bar
+              data-year="{{ year_bucket.year }}"
+              data-year-total="{{ year_bucket.total }}"
+              data-year-papers="{{ contribution_pairs | strip }}"
+              style="--year-ratio: {{ year_ratio }}%;"
+              aria-label="{{ year_bucket.year }}: {{ year_bucket.total }} citations"
             >
-              <span class="scholar-lens-bar-track"><span></span></span>
-              <span class="scholar-lens-bar-label">{{ paper_key }}</span>
-              <strong>{{ paper_citations }}</strong>
+              <span class="scholar-lens-year-count" data-year-total-label>{{ year_bucket.total }}</span>
+              <span class="scholar-lens-year-track"><span></span></span>
+              <span class="scholar-lens-year-label">{{ year_bucket.year }}</span>
             </button>
           {% endfor %}
         </div>
       </div>
 
-      <p class="scholar-lens-note">{{ publication_lens.metadata.yearly_note }}</p>
+      <p class="scholar-lens-note" data-scholar-year-note>{{ publication_lens.metadata.yearly_note }}</p>
     </div>
   </aside>
 {% endif %}

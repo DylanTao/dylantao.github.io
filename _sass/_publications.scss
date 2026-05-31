@@ -237,7 +237,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
 
 .rejection-badge-detail {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.65rem;
   align-items: start;
   animation: rejection-detail-in 220ms ease-out both;
@@ -378,7 +378,9 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
 }
 
 .spooder-reference-thumb {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 3.65rem;
   height: 3.65rem;
   overflow: hidden;
@@ -397,14 +399,53 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
     outline: none;
     transform: translateY(-1px);
   }
+}
 
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 82% 72%;
-  }
+.spooder-svg {
+  display: block;
+  width: 3.28rem;
+  height: 3.28rem;
+}
+
+.spooder-back {
+  fill: color-mix(in srgb, var(--spooder-red-dark) 45%, transparent);
+}
+
+.spooder-suit {
+  fill: var(--spooder-red);
+  stroke: var(--spooder-ink);
+  stroke-linejoin: round;
+  stroke-width: 3.4;
+}
+
+.spooder-blue {
+  fill: var(--spooder-blue);
+  stroke: var(--spooder-ink);
+  stroke-linejoin: round;
+  stroke-width: 2.7;
+}
+
+.spooder-web,
+.spooder-pupil,
+.spooder-mouth,
+.spooder-mark-body {
+  fill: none;
+  stroke: var(--spooder-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.6;
+}
+
+.spooder-eye {
+  fill: var(--spooder-eye);
+  stroke: var(--spooder-ink);
+  stroke-linejoin: round;
+  stroke-width: 2.6;
+}
+
+.spooder-mark-body {
+  fill: var(--spooder-ink);
+  stroke-width: 1.6;
 }
 
 .failure-xp-heading {
@@ -479,7 +520,9 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
   top: calc(100% + 0.4rem);
   right: 0;
   z-index: 4;
-  width: min(18.5rem, calc(100vw - 2rem));
+  width: min(21rem, calc(100vw - 2rem));
+  max-height: min(74vh, 39rem);
+  overflow: auto;
   padding: 0.85rem;
   border: 1px solid var(--global-divider-color);
   border-radius: 0.55rem;
@@ -524,6 +567,67 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-active {
       line-height: 1.35;
     }
   }
+}
+
+.failure-xp-history {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0.2rem 0 0.55rem;
+  overflow: visible;
+
+  polyline {
+    fill: none;
+    stroke: var(--global-theme-color);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+  }
+
+  circle {
+    fill: var(--global-card-bg-color);
+    stroke: var(--global-theme-color);
+    stroke-width: 2.4;
+  }
+}
+
+.failure-xp-rules-panel .failure-xp-timeline {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: 3.25rem auto;
+    gap: 0.12rem 0.45rem;
+    font-size: var(--type-label);
+    line-height: 1.25;
+  }
+
+  span {
+    color: var(--global-text-color-light);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  strong {
+    color: var(--global-text-color);
+    font-family: var(--font-mono);
+  }
+
+  em {
+    grid-column: 2;
+    color: var(--global-text-color-light);
+    font-style: normal;
+  }
+}
+
+.failure-xp-source-line {
+  margin: 0.65rem 0 0 !important;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--global-divider-color);
 }
 
 html[data-theme="dark"] .failure-xp-rules-panel {
@@ -584,6 +688,7 @@ html[data-theme="dark"] .failure-xp-rules-panel {
 
 .publication-lens-column {
   grid-area: lens;
+  align-self: stretch;
   min-width: 0;
 }
 
@@ -594,13 +699,40 @@ html[data-theme="dark"] .failure-xp-rules-panel {
 }
 
 .scholar-lens-card {
+  position: relative;
+  isolation: isolate;
   min-width: 0;
   max-height: calc(100vh - 6.25rem);
   overflow: auto;
   border: 1px solid var(--global-divider-color);
   border-radius: 0.65rem;
-  background: var(--global-card-bg-color);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--global-card-bg-color) 82%, transparent),
+      color-mix(in srgb, var(--global-bg-color) 24%, var(--global-card-bg-color))
+    ),
+    var(--global-card-bg-color);
   padding: 0.95rem;
+  box-shadow: 0 1rem 2.4rem rgba(32, 25, 22, 0.06);
+  backdrop-filter: blur(14px) saturate(1.15);
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      linear-gradient(130deg, transparent 0 28%, color-mix(in srgb, var(--global-theme-color) 5%, transparent) 28% 28.7%, transparent 28.7% 100%),
+      radial-gradient(circle at 82% 16%, color-mix(in srgb, var(--global-sky-strong) 13%, transparent), transparent 34%),
+      radial-gradient(circle at 14% 100%, color-mix(in srgb, var(--global-theme-color) 8%, transparent), transparent 30%);
+    content: "";
+    pointer-events: none;
+  }
+}
+
+html[data-theme="dark"] .scholar-lens-card {
+  box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.24);
 }
 
 .scholar-lens-heading {
@@ -723,6 +855,43 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   input:focus-visible + span {
     outline: 2px solid color-mix(in srgb, var(--global-theme-color) 45%, transparent);
     outline-offset: 0.16rem;
+  }
+}
+
+.scholar-lens-select-label {
+  display: grid;
+  gap: 0.28rem;
+
+  > span {
+    display: block;
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--global-text-color);
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 750;
+    line-height: 1.2;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  select {
+    width: 100%;
+    min-height: 2rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.45rem;
+    background: color-mix(in srgb, var(--global-card-bg-color) 86%, transparent);
+    color: var(--global-text-color);
+    font-size: var(--type-label);
+    font-weight: 700;
+    padding: 0.3rem 0.48rem;
+
+    &:focus-visible {
+      border-color: var(--global-theme-color);
+      outline: 2px solid color-mix(in srgb, var(--global-theme-color) 36%, transparent);
+      outline-offset: 0.12rem;
+    }
   }
 }
 
@@ -860,6 +1029,99 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   background: linear-gradient(90deg, var(--global-theme-color), var(--global-mint-strong));
 }
 
+.scholar-lens-year-chart {
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--global-divider-color);
+}
+
+.scholar-lens-year-bars {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.34rem;
+  align-items: end;
+  min-height: 9.4rem;
+  margin-top: 0.65rem;
+}
+
+.scholar-lens-year-bar {
+  display: grid;
+  grid-template-rows: auto minmax(5.8rem, 1fr) auto;
+  gap: 0.28rem;
+  justify-items: center;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--global-text-color-light);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  transition:
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+
+  &:hover,
+  &:focus-visible,
+  &.scholar-lens-year-active,
+  &.scholar-lens-year-linked {
+    color: var(--global-text-color);
+    outline: none;
+    transform: translateY(-1px);
+  }
+}
+
+.scholar-lens-year-count,
+.scholar-lens-year-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.scholar-lens-year-track {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 1.35rem;
+  height: 100%;
+  min-height: 5.8rem;
+  overflow: hidden;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--global-card-bg-color) 80%, transparent), transparent),
+    color-mix(in srgb, var(--global-bg-color) 70%, var(--global-card-bg-color));
+
+  span {
+    display: block;
+    width: 100%;
+    height: max(0.22rem, var(--year-ratio));
+    border-radius: inherit;
+    background: linear-gradient(180deg, var(--global-sky-strong), var(--global-theme-color));
+    transition:
+      height var(--motion-standard),
+      background-color var(--motion-standard);
+  }
+}
+
+.scholar-lens-year-empty .scholar-lens-year-track span {
+  opacity: 0.24;
+}
+
+.scholar-lens-year-muted-by-link {
+  opacity: 0.34;
+}
+
+.scholar-lens-year-active .scholar-lens-year-track,
+.scholar-lens-year-linked .scholar-lens-year-track {
+  border-color: color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
+}
+
+.scholar-lens-year-active .scholar-lens-year-track span,
+.scholar-lens-year-linked .scholar-lens-year-track span {
+  background: linear-gradient(180deg, var(--global-mint-strong), var(--global-theme-color));
+}
+
 .publications {
   margin-top: 1.15rem;
 
@@ -884,7 +1146,7 @@ html[data-theme="dark"] .failure-xp-rules-panel {
     border-top: 1px solid var(--global-divider-color);
     padding-top: 1rem;
     margin-top: 2rem;
-    text-align: right;
+    text-align: left;
   }
 
   ol.bibliography {
@@ -1117,6 +1379,16 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   color: var(--global-theme-color);
 }
 
+.publication-lens-chip-format {
+  opacity: 0.78;
+}
+
+.publication-lens-citation-linked {
+  border-color: color-mix(in srgb, var(--global-theme-color) 42%, var(--global-divider-color));
+  background: var(--global-accent-soft);
+  color: var(--global-theme-color);
+}
+
 .citation,
 .citation-number {
   color: var(--global-theme-color);
@@ -1210,6 +1482,7 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   }
 
   .scholar-lens-chart,
+  .scholar-lens-year-chart,
   .scholar-lens-note {
     display: none;
   }
@@ -1222,23 +1495,60 @@ html[data-theme="dark"] .failure-xp-rules-panel {
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-  .rejection-badge {
-    aspect-ratio: 1.15 / 1;
+  .rejection-wall-credit {
+    display: none;
+  }
+
+  .rejection-xp-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 1fr);
+    gap: 0.5rem 0.85rem;
+    align-items: center;
+  }
+
+  .rejection-xp-topline {
+    grid-row: 1 / span 3;
+  }
+
+  .failure-xp-heading,
+  .failure-xp-track,
+  .rejection-xp-ledger {
+    grid-column: 2;
   }
 
   .rejection-xp-ledger {
-    grid-template-columns: 1fr;
-
     span {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
       gap: 0.5rem;
+      padding: 0.3rem 0.42rem;
+    }
+  }
+
+  .scholar-lens-card {
+    padding: 0.78rem;
+  }
+
+  .scholar-lens-sync {
+    margin-top: 0.28rem;
+  }
+
+  .scholar-lens-stats {
+    gap: 0.35rem;
+    margin-top: 0.55rem;
+
+    div {
+      padding: 0.36rem 0.44rem;
     }
   }
 }
 
 @media (max-width: 991px) {
+  .wall-of-rejection-layout {
+    grid-template-columns: 1fr;
+  }
+
   .publication-workbench {
     grid-template-columns: 1fr;
   }
@@ -1268,6 +1578,7 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   .spooder-quote,
   .scholar-lens-controls,
   .scholar-lens-chart,
+  .scholar-lens-year-chart,
   .scholar-lens-note {
     display: none;
   }
@@ -1284,6 +1595,8 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   .failure-xp-rules summary,
   .scholar-lens-bar,
   .scholar-lens-bar-track span,
+  .scholar-lens-year-bar,
+  .scholar-lens-year-track span,
   .publication-lens-entry,
   .publications ol.bibliography li {
     animation: none;
@@ -1293,7 +1606,9 @@ html[data-theme="dark"] .failure-xp-rules-panel {
   .rejection-badge:hover,
   .rejection-badge:focus-visible,
   .scholar-lens-bar:hover,
-  .scholar-lens-bar:focus-visible {
+  .scholar-lens-bar:focus-visible,
+  .scholar-lens-year-bar:hover,
+  .scholar-lens-year-bar:focus-visible {
     transform: none;
   }
 }

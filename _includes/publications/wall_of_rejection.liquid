@@ -4,6 +4,8 @@
   {% assign failure_cv_credit = rejection_wall.credits.failure_cv %}
   {% assign local_meme_credit = rejection_wall.credits.local_meme_reference %}
   {% assign spooder_trailer_credit = rejection_wall.credits.spooder_trailer %}
+  {% assign chi26_dates_credit = rejection_wall.credits.chi26_dates %}
+  {% assign uist26_dates_credit = rejection_wall.credits.uist26_dates %}
   <section class="wall-of-rejection" aria-labelledby="wall-of-rejection-title">
     <div class="wall-of-rejection-layout">
       <div class="rejection-badge-wall" aria-label="Rejection badge wall">
@@ -12,18 +14,16 @@
             <h2 id="wall-of-rejection-title">{{ rejection_wall.section.title }}</h2>
             <p>{{ rejection_wall.section.description }}</p>
           </div>
-          <span>Click for receipts</span>
+          <span>Badge notes</span>
         </div>
         <div class="rejection-badge-grid" data-rejection-wall-grid>
           {% for badge in rejection_wall.badges %}
-            {% assign linked_papers = rejection_wall.papers | where: 'id', badge.linked_paper_id %}
-            {% assign linked_paper = linked_papers | first %}
             <button
               class="rejection-badge rejection-badge-{{ badge.rarity }}"
               type="button"
               data-rejection-card
               data-rejection-source-id="{{ badge.id }}"
-              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-expanded="false"
               aria-controls="rejection-receipt-tray"
             >
               <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
@@ -53,8 +53,6 @@
         </div>
 
         {% for badge in rejection_wall.badges %}
-          {% assign linked_papers = rejection_wall.papers | where: 'id', badge.linked_paper_id %}
-          {% assign linked_paper = linked_papers | first %}
           <div class="rejection-receipt-source" hidden data-rejection-receipt-source data-rejection-source-id="{{ badge.id }}">
             <div class="rejection-badge-detail">
               <div>
@@ -63,81 +61,20 @@
                   <span>x{{ badge.count }}</span>
                 </p>
                 <p>{{ badge.detail }}</p>
-                {% if linked_paper %}
-                  <p class="rejection-badge-paper">{{ linked_paper.paper_label }} / {{ linked_paper.title }}</p>
-                {% endif %}
-              </div>
-              <div class="rejection-badge-meta" aria-label="Rejection evidence">
-                {% if badge.venue and badge.year %}
-                  <span>
-                    {{- badge.venue }}
-                    {{ badge.year -}}
-                  </span>
-                {% endif %}
-                {% if badge.kind %}
-                  <span>{{ badge.kind | replace: '-', ' ' }}</span>
-                {% endif %}
-                {% if badge.rarity %}
-                  <span>{{ badge.rarity }}</span>
-                {% endif %}
-                {% if linked_paper %}
-                  {% for outcome in linked_paper.outcomes %}
-                    <span>
-                      {{- outcome.code }}
-                      {{ outcome.status -}}
-                    </span>
-                  {% endfor %}
-                {% endif %}
+                <p class="rejection-badge-paper">{{ badge.stage }} / {{ badge.date_label }}</p>
               </div>
             </div>
           </div>
         {% endfor %}
 
-        {% assign first_badge = rejection_wall.badges | first %}
         <div
           id="rejection-receipt-tray"
           class="rejection-receipt-tray"
           data-rejection-receipt-tray
           tabindex="0"
-          aria-label="Selected rejection badge receipt"
-        >
-          {% assign first_linked_papers = rejection_wall.papers | where: 'id', first_badge.linked_paper_id %}
-          {% assign first_linked_paper = first_linked_papers | first %}
-          <div class="rejection-badge-detail">
-            <div>
-              <p class="rejection-badge-detail-title">
-                {{ first_badge.title }}
-                <span>x{{ first_badge.count }}</span>
-              </p>
-              <p>{{ first_badge.detail }}</p>
-              {% if first_linked_paper %}
-                <p class="rejection-badge-paper">{{ first_linked_paper.paper_label }} / {{ first_linked_paper.title }}</p>
-              {% endif %}
-            </div>
-            <div class="rejection-badge-meta" aria-label="Rejection evidence">
-              {% if first_badge.venue and first_badge.year %}
-                <span>
-                  {{- first_badge.venue }}
-                  {{ first_badge.year -}}
-                </span>
-              {% endif %}
-              {% if first_badge.kind %}
-                <span>{{ first_badge.kind | replace: '-', ' ' }}</span>
-              {% endif %}
-              {% if first_badge.rarity %}
-                <span>{{ first_badge.rarity }}</span>
-              {% endif %}
-              {% if first_linked_paper %}
-                {% for outcome in first_linked_paper.outcomes %}
-                  <span>
-                    {{- outcome.code }}
-                    {{ outcome.status -}}
-                  </span>
-                {% endfor %}
-              {% endif %}
-            </div>
-          </div>
-        </div>
+          aria-label="Selected rejection badge note"
+          hidden
+        ></div>
 
         <p class="rejection-wall-credit">
           Inspired by
@@ -149,8 +86,24 @@
 
       <aside class="rejection-xp-panel" aria-label="Failure XP joke panel">
         <div class="rejection-xp-topline">
-          <a class="spooder-reference-thumb" href="{{ local_meme_credit.url | relative_url }}" aria-label="Open {{ local_meme_credit.label }}">
-            <img src="{{ local_meme_credit.url | relative_url }}" alt="" loading="lazy">
+          <a
+            class="spooder-reference-thumb"
+            href="{{ spooder_trailer_credit.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open {{ spooder_trailer_credit.label }}"
+          >
+            <svg class="spooder-svg" viewBox="0 0 120 120" focusable="false" aria-hidden="true">
+              <path class="spooder-back" d="M35 19c18-13 49-8 58 12 7 15 1 33-12 45-6 5-9 11-8 19 1 10-9 17-23 15-13-2-22-10-23-21 0-8-4-13-11-18C4 61 8 34 35 19z" />
+              <path class="spooder-suit" d="M37 15c18-10 44-5 56 12 11 15 8 35-7 48-6 5-9 11-8 19 1 10-9 16-22 14-14-2-23-11-23-22 0-7-4-12-9-17C10 56 14 29 37 15z" />
+              <path class="spooder-blue" d="M37 75c7 6 15 9 24 10-3 8-3 16 0 23-17-1-28-10-28-22 0-4 1-8 4-11z" />
+              <path class="spooder-web" d="M27 34c18 6 38 7 61 3M23 51c20-3 42-1 64 4M31 68c13-8 27-14 44-18M45 23c-3 24-1 45 7 65M64 18c-6 25-6 49 0 71M82 28c-13 17-24 35-32 55" />
+              <path class="spooder-eye" d="M23 43c7-11 22-12 30-4-7 10-21 13-30 4z" />
+              <path class="spooder-eye" d="M67 41c7-9 18-8 24 1-6 8-18 9-24-1z" />
+              <path class="spooder-pupil" d="M43 41l7 1M82 41l7 1" />
+              <path class="spooder-mouth" d="M47 59c9 5 21 5 31 0" />
+              <path class="spooder-mark-body" d="M61 68c4 4 7 7 10 12-5-2-9-2-13 1-4-3-8-3-13-1 3-5 6-8 10-12l-4-6 7 3 7-3-4 6z" />
+            </svg>
           </a>
           <div>
             <p class="rejection-wall-kicker">{{ rejection_wall.xp.kicker }}</p>
@@ -169,13 +122,33 @@
               <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
             </summary>
             <div class="failure-xp-rules-panel">
-              <p>
-                {{ rejection_wall.xp.source_note }}
-                References:
-                <a href="{{ local_meme_credit.url | relative_url }}">Steam achievement meme</a>
-                /
-                <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
-              </p>
+              <p>{{ rejection_wall.xp.source_note }}</p>
+              <svg
+                class="failure-xp-history"
+                viewBox="0 0 120 72"
+                role="img"
+                aria-label="Failure XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
+              >
+                {% assign xp_points = '' %}
+                {% for point in rejection_wall.xp.timeline %}
+                  {% capture xp_points %}{{ xp_points }} {{ point.x }},{{ point.y }}{% endcapture %}
+                {% endfor %}
+                <polyline points="{{ xp_points | strip }}" />
+                {% for point in rejection_wall.xp.timeline %}
+                  <circle cx="{{ point.x }}" cy="{{ point.y }}" r="3.2">
+                    <title>{{ point.date }} / {{ point.total }} XP / {{ point.label }}</title>
+                  </circle>
+                {% endfor %}
+              </svg>
+              <ol class="failure-xp-timeline">
+                {% for point in rejection_wall.xp.timeline %}
+                  <li>
+                    <span>{{ point.display_date | default: point.date }}</span>
+                    <strong>{{ point.total }} XP</strong>
+                    <em>{{ point.label }}</em>
+                  </li>
+                {% endfor %}
+              </ol>
               <ul>
                 {% for rule in rejection_wall.xp.rules %}
                   <li>
@@ -187,6 +160,16 @@
                   </li>
                 {% endfor %}
               </ul>
+              <p class="failure-xp-source-line">
+                Sources:
+                <a href="{{ chi26_dates_credit.url }}" target="_blank" rel="noopener noreferrer">CHI26</a>
+                /
+                <a href="{{ uist26_dates_credit.url }}" target="_blank" rel="noopener noreferrer">UIST26</a>
+                /
+                <a href="{{ local_meme_credit.url | relative_url }}">Steam achievement meme</a>
+                /
+                <a href="{{ spooder_trailer_credit.url }}" target="_blank" rel="noopener noreferrer">{{ spooder_trailer_credit.label }}</a>.
+              </p>
             </div>
           </details>
         </div>
