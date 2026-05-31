@@ -24,7 +24,7 @@
       mode: buttons[0]?.getAttribute("data-research-mode") || "design",
       previousMode: null,
       transitionStart: 0,
-      transitionMs: 520,
+      transitionMs: 680,
       width: 0,
       height: 0,
       dpr: 1,
@@ -87,6 +87,8 @@
       lineC: cssVar("--research-motion-line-c", "#5daea3"),
       dot: cssVar("--research-motion-dot", "#2f7ec7"),
       glow: cssVar("--research-motion-glow", "rgba(79, 155, 216, 0.1)"),
+      ink: cssVar("--global-text-color", "#201916"),
+      muted: cssVar("--global-text-color-light", "#746760"),
     });
 
     const plotBounds = () => {
@@ -133,9 +135,9 @@
         evaluate: makeSeries(mobile ? 20 : tablet ? 28 : 34),
         situated: makeSeries(mobile ? 24 : tablet ? 32 : 38),
         particles: {
-          design: makeParticles(mobile ? 6 : tablet ? 8 : 10, mobile ? 3 : 5),
-          evaluate: makeParticles(mobile ? 7 : tablet ? 9 : 12, mobile ? 3 : 6),
-          situated: makeParticles(mobile ? 6 : tablet ? 8 : 10, 4),
+          design: makeParticles(mobile ? 7 : tablet ? 10 : 14, mobile ? 3 : 5),
+          evaluate: makeParticles(mobile ? 8 : tablet ? 11 : 15, mobile ? 3 : 6),
+          situated: makeParticles(mobile ? 7 : tablet ? 10 : 14, 4),
         },
       };
     };
@@ -192,6 +194,58 @@
       ctx.beginPath();
       ctx.arc(0, 0, radius, 0, Math.PI * 2);
       ctx.fill();
+      ctx.restore();
+    };
+
+    const drawGuideLabel = (text, x, y, pal, align = "center") => {
+      if (state.width < 580) return;
+
+      ctx.save();
+      ctx.globalAlpha = 0.58;
+      ctx.fillStyle = pal.muted;
+      ctx.font = `700 ${state.width < 760 ? 10 : 11}px ${cssVar("--font-mono", "monospace")}`;
+      ctx.textAlign = align;
+      ctx.textBaseline = "middle";
+      ctx.fillText(text.toUpperCase(), x, y);
+      ctx.restore();
+    };
+
+    const drawGuidePill = (text, x, y, pal, align = "center") => {
+      if (state.width < 760) return;
+
+      ctx.save();
+      ctx.font = `700 11px ${cssVar("--font-mono", "monospace")}`;
+      const metrics = ctx.measureText(text.toUpperCase());
+      const width = metrics.width + 18;
+      const height = 22;
+      const left = align === "left" ? x : align === "right" ? x - width : x - width / 2;
+      ctx.globalAlpha = 0.16;
+      ctx.fillStyle = pal.lineB;
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(left, y - height / 2, width, height, 11);
+      } else {
+        const top = y - height / 2;
+        const radius = 11;
+        ctx.moveTo(left + radius, top);
+        ctx.lineTo(left + width - radius, top);
+        ctx.quadraticCurveTo(left + width, top, left + width, top + radius);
+        ctx.lineTo(left + width, top + height - radius);
+        ctx.quadraticCurveTo(left + width, top + height, left + width - radius, top + height);
+        ctx.lineTo(left + radius, top + height);
+        ctx.quadraticCurveTo(left, top + height, left, top + height - radius);
+        ctx.lineTo(left, top + radius);
+        ctx.quadraticCurveTo(left, top, left + radius, top);
+      }
+      ctx.fill();
+      ctx.stroke();
+      ctx.globalAlpha = 0.68;
+      ctx.fillStyle = pal.ink;
+      ctx.textAlign = align;
+      ctx.textBaseline = "middle";
+      ctx.fillText(text.toUpperCase(), x, y);
       ctx.restore();
     };
 
@@ -309,6 +363,10 @@
       });
 
       drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
+
+      drawGuideLabel("options", leftX, b.bottom + 20, pal, "left");
+      drawGuidePill("compare", centerX, centerY - b.height * 0.24, pal);
+      drawGuideLabel("direction", rightX, b.bottom + 20, pal, "right");
     };
 
     const drawEvaluate = (time, pal, alpha = 1) => {
@@ -388,6 +446,10 @@
         const color = particle.lane % 3 === 0 ? pal.lineB : particle.lane % 3 === 1 ? pal.lineA : pal.lineC;
         drawTraceParticle(x, clamp(y, top, floor), state.width < 560 ? 1 : 1.25 + pulse * 0.28, color, (0.22 + pulse * 0.22) * alpha, -Math.PI / 2);
       });
+
+      drawGuideLabel("trace", b.left + b.width * 0.05, floor + 20, pal, "left");
+      drawGuidePill("evidence", scanX, top - 18, pal);
+      drawGuideLabel("revise", b.right - b.width * 0.05, floor + 20, pal, "right");
     };
 
     const drawSituated = (time, pal, alpha = 1) => {
@@ -442,6 +504,15 @@
         drawDot(anchor.x, anchor.y, state.width < 560 ? 2 : 2.55, index % 2 ? pal.lineC : pal.lineA, 0.72 * alpha);
       });
 
+      if (state.width >= 580) {
+        ["person", "task", "tool", "space"].forEach((label, index) => {
+          const anchor = anchors[index];
+          const xOffset = index === 0 || index === 3 ? -10 : 10;
+          const align = index === 0 || index === 3 ? "right" : "left";
+          drawGuideLabel(label, anchor.x + xOffset, anchor.y - 14, pal, align);
+        });
+      }
+
       const situatedParticles = state.geometry.particles?.situated || [];
       situatedParticles.forEach((particle) => {
         const source = anchors[particle.lane % anchors.length];
@@ -466,6 +537,7 @@
       });
 
       drawDot(centerX, centerY, state.width < 560 ? 3 : 3.8, pal.lineB, 0.78 * alpha);
+      drawGuidePill("context", centerX, centerY - radiusY * 0.62, pal);
     };
 
     const drawMode = (mode, time, pal, alpha) => {

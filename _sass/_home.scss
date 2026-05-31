@@ -137,12 +137,20 @@ html[data-theme="dark"] .home-story-rail ol {
 
 .home-hero {
   display: grid;
+  grid-template-areas:
+    "copy media"
+    "facts media";
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-  gap: 3rem;
+  grid-template-rows: auto auto;
+  gap: 1.45rem 3rem;
   align-items: center;
   min-height: 0;
   padding: 2.1rem 0 2.35rem;
   border-bottom: 1px solid var(--home-line);
+}
+
+.home-hero-copy {
+  grid-area: copy;
 }
 
 .home-kicker {
@@ -244,11 +252,12 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-cred-grid {
+  grid-area: facts;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
   max-width: 46rem;
-  margin-top: 1.6rem;
+  margin-top: 0.15rem;
 }
 
 .home-cred-item {
@@ -283,6 +292,7 @@ html[data-theme="dark"] .home-story-rail ol {
 
 .home-hero-media {
   position: relative;
+  grid-area: media;
   display: grid;
   grid-template-areas:
     "portrait"
@@ -1308,6 +1318,11 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero {
+    grid-template-areas:
+      "copy"
+      "media"
+      "facts";
+    grid-template-rows: auto;
     gap: 1.6rem;
     min-height: 0;
     padding-top: 1.8rem;
@@ -1576,6 +1591,24 @@ html.home-motion-ready .home-reveal.home-visible {
     grid-template-columns: minmax(4.9rem, 0.28fr) minmax(0, 1fr);
     gap: 0.7rem;
     margin-top: 0.4rem;
+  }
+
+  .home-hero-media::before {
+    position: absolute;
+    top: 50%;
+    right: 0.65rem;
+    left: 4.75rem;
+    z-index: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(var(--global-accent-rgb), 0.28), color-mix(in srgb, var(--home-sky-strong) 42%, transparent));
+    content: "";
+    pointer-events: none;
+  }
+
+  .home-portrait-frame,
+  .home-media-bubbles {
+    position: relative;
+    z-index: 1;
   }
 
   .home-media-bubbles {

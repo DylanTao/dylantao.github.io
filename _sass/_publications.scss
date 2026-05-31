@@ -1694,6 +1694,10 @@ html[data-theme="dark"] .scholar-lens-card {
 }
 
 @media (max-width: 767px) {
+  .wall-of-rejection {
+    margin-bottom: 0.45rem;
+  }
+
   .publication-spooder-cta {
     grid-template-columns: 4.8rem minmax(0, 1fr);
     max-width: none;
@@ -1728,29 +1732,41 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .wall-of-rejection-layout {
     grid-template-columns: 1fr;
+    gap: 0.55rem;
   }
 
   .rejection-badge-grid {
-    grid-template-columns: repeat(3, 3.35rem);
-    gap: 0.42rem;
+    grid-template-columns: repeat(3, 2.9rem);
+    gap: 0.34rem;
   }
 
   .rejection-badge-wall-heading {
     display: grid;
+    gap: 0.1rem;
+    margin-bottom: 0.45rem;
 
     > span {
+      display: none;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    p {
       display: none;
     }
   }
 
   .rejection-badge-wall,
   .rejection-xp-panel {
-    padding: 0.82rem;
+    padding: 0.64rem 0.72rem;
+    border-radius: 0.58rem;
   }
 
   .rejection-badge {
     aspect-ratio: 1 / 1;
-    padding: 0.34rem;
+    padding: 0.28rem;
   }
 
   .rejection-badge-detail {
@@ -1758,8 +1774,8 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 
   .rejection-badge-icon {
-    width: 2.12rem;
-    height: 2.12rem;
+    width: 1.95rem;
+    height: 1.95rem;
   }
 
   .rejection-meme-viewer {
@@ -1790,8 +1806,57 @@ html[data-theme="dark"] .scholar-lens-card {
     display: none;
   }
 
+  .rejection-xp-panel {
+    gap: 0.45rem;
+  }
+
+  .failure-level-label {
+    font-size: 0.98rem;
+  }
+
+  .failure-xp-count {
+    font-size: 0.68rem;
+  }
+
+  .failure-xp-track {
+    margin-top: -0.08rem;
+  }
+
+  .rejection-xp-ledger {
+    gap: 0.28rem;
+
+    span {
+      border-radius: 0.38rem;
+      font-size: 0.62rem;
+      padding: 0.28rem 0.34rem;
+    }
+
+    strong {
+      font-size: 0.78rem;
+    }
+  }
+
   .scholar-lens-card {
-    padding: 0.82rem;
+    padding: 0.74rem;
+    border-radius: 0.68rem;
+  }
+
+  .scholar-lens-heading h2 {
+    font-size: 1rem;
+  }
+
+  .scholar-lens-sync {
+    display: none;
+  }
+
+  .scholar-lens-controls {
+    gap: 0.5rem;
+    margin-top: 0.68rem;
+  }
+
+  .scholar-lens-controls span {
+    min-height: 1.62rem;
+    padding: 0.28rem 0.46rem;
   }
 
   .scholar-lens-stats {

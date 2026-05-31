@@ -102,7 +102,7 @@ why_now:
 research_motion:
   eyebrow: Research focus
   title: Design, evaluate, situate.
-  intro: "A small interactive sketch of the loops I keep studying: generating directions, reading evidence, and grounding assistance in the situation where work happens."
+  intro: "A small interactive sketch of the loops I keep studying: generate directions, compare what changed, read evidence, then ground assistance in the situation where work actually happens."
   exploring:
     title: Adjacent questions I keep circling
     intro: Secondary threads I want to keep prototyping around, while the thesis stays centered on design judgment.
@@ -124,8 +124,8 @@ research_motion:
   modes:
     - id: design
       label: Design
-      title: Scaffold creative judgment
-      text: Help people explore generative possibilities in grounded, legible, and human-centered ways.
+      title: Compare options
+      text: Turn many possible directions into a comparison people can reason with.
       detail_title: Human-AI for design and taste
       detail_text: >-
         I study interfaces that scaffold creative judgment: helping people explore and refine
@@ -141,7 +141,7 @@ research_motion:
     - id: evaluate
       label: Evaluate
       title: Build -> measure
-      text: Design systems, study use, and turn messy traces into evidence for iteration.
+      text: Turn messy use traces into evidence before decisions harden.
       detail_title: Methods for evidence and iteration
       detail_text: >-
         I care about what changes after a tool enters the loop: diversity, verification cost,
@@ -156,8 +156,8 @@ research_motion:
       link_url: /projects/what-happened-and-why/
     - id: situated
       label: Situated
-      title: Augment in context
-      text: Bring in-situ intelligence into everyday tasks, spatial interaction, and mixed reality.
+      title: Assist in context
+      text: Let assistance change shape around the person, task, tool, and place.
       detail_title: Embodied systems and mixed reality
       detail_text: >-
         This is ongoing work around systems that support everyday tasks through in-situ

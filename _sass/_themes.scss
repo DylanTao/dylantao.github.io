@@ -95,80 +95,106 @@
   }
 }
 
+html[data-theme-mode="morning"] {
+  --global-bg-color: #fff9f4;
+  --global-text-color: #211815;
+  --global-text-color-light: #72645d;
+  --global-theme-color: #b65422;
+  --global-hover-color: #93401a;
+  --global-hover-text-color: #fffaf6;
+  --global-accent-rgb: 182, 84, 34;
+  --global-accent-soft: #ffeadc;
+  --global-mint-soft: #dfefe7;
+  --global-mint-strong: #407864;
+  --global-sky-soft: #dfeff7;
+  --global-sky-strong: #487f93;
+  --global-divider-color: rgba(125, 82, 54, 0.16);
+  --global-card-bg-color: #fffefd;
+
+  --research-motion-bg-a: #fff9f4;
+  --research-motion-bg-b: rgba(174, 214, 244, 0.34);
+  --research-motion-bg-c: #f7fbfa;
+  --research-motion-line-a: #4c98d2;
+  --research-motion-line-b: #eda85d;
+  --research-motion-line-c: #58aa98;
+  --research-motion-dot: #2d7bc3;
+  --research-motion-glow: rgba(76, 152, 210, 0.1);
+}
+
 html[data-theme-mode="noon"] {
   --global-bg-color: #fbfdff;
   --global-text-color: #17212b;
-  --global-text-color-light: #65717f;
-  --global-theme-color: #a94f21;
-  --global-hover-color: #873b19;
+  --global-text-color-light: #617180;
+  --global-theme-color: #a64d1f;
+  --global-hover-color: #843a18;
   --global-hover-text-color: #ffffff;
-  --global-accent-rgb: 169, 79, 33;
-  --global-accent-soft: #fff0e5;
-  --global-mint-soft: #e2f2ed;
-  --global-mint-strong: #3f7567;
-  --global-sky-soft: #e2f2fb;
-  --global-sky-strong: #3f7f9f;
+  --global-accent-rgb: 166, 77, 31;
+  --global-accent-soft: #fff1e7;
+  --global-mint-soft: #e4f3ee;
+  --global-mint-strong: #387768;
+  --global-sky-soft: #dff1fb;
+  --global-sky-strong: #357f9e;
   --global-divider-color: rgba(49, 82, 104, 0.16);
   --global-card-bg-color: #ffffff;
 
   --research-motion-bg-a: #fbfdff;
-  --research-motion-bg-b: rgba(175, 214, 248, 0.42);
+  --research-motion-bg-b: rgba(171, 214, 248, 0.4);
   --research-motion-bg-c: #fffdf8;
-  --research-motion-line-a: #2d8bd4;
-  --research-motion-line-b: #f0b45b;
-  --research-motion-line-c: #37a27f;
-  --research-motion-dot: #1667c4;
-  --research-motion-glow: rgba(45, 139, 212, 0.1);
+  --research-motion-line-a: #2b8bd2;
+  --research-motion-line-b: #edaa52;
+  --research-motion-line-c: #31a27e;
+  --research-motion-dot: #176fc5;
+  --research-motion-glow: rgba(43, 139, 210, 0.1);
 }
 
 html[data-theme-mode="afternoon"] {
-  --global-bg-color: #fff8f1;
-  --global-text-color: #211815;
-  --global-text-color-light: #77665f;
-  --global-theme-color: #aa4b2e;
-  --global-hover-color: #8f3d24;
+  --global-bg-color: #fff7ef;
+  --global-text-color: #231814;
+  --global-text-color-light: #77655d;
+  --global-theme-color: #ad4d2c;
+  --global-hover-color: #8b3a20;
   --global-hover-text-color: #fffaf6;
-  --global-accent-rgb: 170, 75, 46;
-  --global-accent-soft: #ffe2d6;
-  --global-mint-soft: #e6eee5;
-  --global-mint-strong: #5c7b60;
-  --global-sky-soft: #eee8fb;
-  --global-sky-strong: #7464a5;
+  --global-accent-rgb: 173, 77, 44;
+  --global-accent-soft: #ffe3d4;
+  --global-mint-soft: #e5f0e2;
+  --global-mint-strong: #597d60;
+  --global-sky-soft: #ecebfe;
+  --global-sky-strong: #7065aa;
   --global-divider-color: rgba(132, 73, 57, 0.17);
   --global-card-bg-color: #fffdfb;
 
-  --research-motion-bg-a: #fff8f1;
-  --research-motion-bg-b: rgba(226, 190, 247, 0.32);
+  --research-motion-bg-a: #fff7ef;
+  --research-motion-bg-b: rgba(202, 177, 240, 0.3);
   --research-motion-bg-c: #fffdf8;
-  --research-motion-line-a: #5f8fd3;
-  --research-motion-line-b: #dc8d59;
-  --research-motion-line-c: #8068c8;
-  --research-motion-dot: #bd4a7d;
-  --research-motion-glow: rgba(128, 104, 200, 0.1);
+  --research-motion-line-a: #588fd0;
+  --research-motion-line-b: #dc8754;
+  --research-motion-line-c: #725fc1;
+  --research-motion-dot: #9a5bb5;
+  --research-motion-glow: rgba(114, 95, 193, 0.1);
 }
 
 html[data-theme="dark"],
 html[data-theme-mode="evening"] {
   color-scheme: dark;
-  --global-bg-color: #161c1f;
+  --global-bg-color: #131a1d;
   --global-code-bg-color: #{v.$code-bg-color-dark};
-  --global-text-color: #f3f1ec;
-  --global-text-color-light: #bdc5c2;
-  --global-theme-color: #ffb176;
-  --global-hover-color: #ffd0aa;
-  --global-hover-text-color: #161c1f;
-  --global-accent-rgb: 255, 177, 118;
-  --global-accent-soft: rgba(255, 177, 118, 0.15);
-  --global-mint-soft: rgba(119, 174, 151, 0.16);
-  --global-mint-strong: #aee0cd;
-  --global-sky-soft: rgba(112, 170, 196, 0.17);
-  --global-sky-strong: #b4deed;
-  --global-footer-bg-color: #0f1416;
+  --global-text-color: #f6f2ec;
+  --global-text-color-light: #c2cac7;
+  --global-theme-color: #ffb06f;
+  --global-hover-color: #ffd1a8;
+  --global-hover-text-color: #131a1d;
+  --global-accent-rgb: 255, 176, 111;
+  --global-accent-soft: rgba(255, 176, 111, 0.15);
+  --global-mint-soft: rgba(126, 184, 156, 0.16);
+  --global-mint-strong: #b4e4d0;
+  --global-sky-soft: rgba(117, 177, 206, 0.17);
+  --global-sky-strong: #b8e2f0;
+  --global-footer-bg-color: #0d1214;
   --global-footer-text-color: #d5ddda;
   --global-footer-link-color: #fff6ef;
   --global-distill-app-color: #d0d6d4;
   --global-divider-color: rgba(154, 196, 205, 0.2);
-  --global-card-bg-color: #20272b;
+  --global-card-bg-color: #1d2529;
   --global-back-to-top-bg-color: rgba(
     #{color.channel(v.$white-color, "red", v.$space: rgb)},
     #{color.channel(v.$white-color, "green", v.$space: rgb)},
@@ -179,14 +205,14 @@ html[data-theme-mode="evening"] {
   --global-newsletter-bg-color: #{v.$grey-color-light};
   --global-newsletter-text-color: #{v.$grey-color-dark};
 
-  --research-motion-bg-a: #161c1f;
-  --research-motion-bg-b: rgba(82, 106, 155, 0.42);
-  --research-motion-bg-c: #1b2024;
-  --research-motion-line-a: #88c5ff;
-  --research-motion-line-b: #c8b6ff;
-  --research-motion-line-c: #8ed6c3;
-  --research-motion-dot: #ffd5b7;
-  --research-motion-glow: rgba(136, 197, 255, 0.12);
+  --research-motion-bg-a: #131a1d;
+  --research-motion-bg-b: rgba(80, 108, 158, 0.42);
+  --research-motion-bg-c: #1b2227;
+  --research-motion-line-a: #8cc7ff;
+  --research-motion-line-b: #ffbe88;
+  --research-motion-line-c: #91ddc7;
+  --research-motion-dot: #ffd6b8;
+  --research-motion-glow: rgba(140, 199, 255, 0.12);
 
   --global-tip-block: #42b983;
   --global-tip-block-bg: #215d42;

@@ -43,29 +43,6 @@
         {{ page.hero.tertiary_cta.label }}
       </a>
     </div>
-
-    {% if page.credibility %}
-      <div class="home-cred-grid" aria-label="Quick facts">
-        {% for item in page.credibility %}
-          <div class="home-cred-item">
-            <span>{{ item.label }}</span>
-            {% if item.url %}
-              <a
-                class="home-cred-link"
-                href="{{ item.url }}"
-                {% if item.external %}
-                  target="_blank" rel="noopener noreferrer"
-                {% endif %}
-              >
-                <strong>{{ item.value }}</strong>
-              </a>
-            {% else %}
-              <strong>{{ item.value }}</strong>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
   </div>
 
   <div class="home-hero-media" aria-label="Portrait and research themes">
@@ -96,4 +73,27 @@
       </div>
     </div>
   </div>
+
+  {% if page.credibility %}
+    <div class="home-cred-grid" aria-label="Quick facts">
+      {% for item in page.credibility %}
+        <div class="home-cred-item">
+          <span>{{ item.label }}</span>
+          {% if item.url %}
+            <a
+              class="home-cred-link"
+              href="{{ item.url }}"
+              {% if item.external %}
+                target="_blank" rel="noopener noreferrer"
+              {% endif %}
+            >
+              <strong>{{ item.value }}</strong>
+            </a>
+          {% else %}
+            <strong>{{ item.value }}</strong>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </section>
