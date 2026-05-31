@@ -1,21 +1,27 @@
 ---
 layout: page
 title: HCI Spooder-Man
-description: A playful remix guide for turning an academic website into a small, funny, human-centered artifact.
+description: A remixable guide for turning an academic website into a playful, human, and still-credible artifact.
 img: assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
 image_aspect: 16 / 9
 card_image_fit: cover
 card_image_position: center
-importance: 1
+importance: -10
 category: fun
 year: 2026
 role: OG HCI Spooder-Man
 status: Remix guide
 hide_title: true
+random_teasers: true
 spooder_project: true
 ---
 
 {% assign spooder = site.data.spooder_man %}
+{% capture spooder_teasers %}
+{% for teaser in spooder.teasers %}
+{{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
+{% endfor %}
+{% endcapture %}
 
 <section class="project-case-hero hci-spooder-hero">
   <div class="project-case-copy">
@@ -24,46 +30,50 @@ spooder_project: true
     <p class="project-case-lede">{{ spooder.hero.lede }}</p>
     <div class="project-case-facts">
       <span>Website remix</span>
-      <span>Rejection as receipt</span>
+      <span>Academic play</span>
+      <span>Assets included</span>
       <span>Prompt scaffold</span>
-      <span>COGS 125 energy</span>
     </div>
     <div class="project-case-actions">
+      <a href="#spooder-remix-recipe">Start remixing</a>
       <a href="#spooder-assets">Use the assets</a>
-      <a href="#spooder-prompts">Borrow the prompts</a>
-      <a href="{{ spooder.hero.trailer_url }}" target="_blank" rel="noopener noreferrer">Watch the trailer</a>
+      <a href="{{ spooder.hero.playlist_url }}" target="_blank" rel="noopener noreferrer">Watch the playlist</a>
     </div>
   </div>
-  <div class="project-case-media hci-spooder-hero-media">
-    {% include figure.liquid loading="eager" path="assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png" title="HCI Spooder-Man group teaser" alt="A group of playful Spooder-Man characters walking together through a city crosswalk" class="img-fluid" %}
+  <div class="project-case-media hci-spooder-hero-media" data-random-teaser data-random-teasers="{{ spooder_teasers | strip }}">
+    {% include figure.liquid loading="eager" path=spooder.hero.teaser title="HCI Spooder-Man teaser" alt="A group of playful Spooder-Man characters moving through a city" class="img-fluid" %}
   </div>
 </section>
 
-<section class="project-case-summary" aria-label="HCI Spooder-Man summary">
+<section class="project-case-summary hci-spooder-principles" aria-label="HCI Spooder-Man design principles">
   <div>
-    <span>Premise</span>
-    <p>A personal academic website can hold serious research and still make room for weird, generous jokes that invite remixing.</p>
+    <span>Keep trust</span>
+    <p>The publications, CV, and contact paths stay plain and findable. The joke never blocks the serious route.</p>
   </div>
   <div>
-    <span>Move</span>
-    <p>Keep the portfolio credible, then add one playful artifact with receipts, prompts, and assets others can actually reuse.</p>
+    <span>Make process visible</span>
+    <p>Rejection, revision, and weird taste become evidence that the website was made by a person.</p>
   </div>
   <div>
-    <span>Invitation</span>
-    <p>Credit Sirui Tao as the OG HCI Spooder-Man, then adapt the idea until it fits your own taste, field, and website.</p>
+    <span>Invite remix</span>
+    <p>The best version is not a clone of this page. It is someone else's site becoming more theirs.</p>
   </div>
 </section>
 
-## Become a Spooder-Man
-
-This page is a small scaffold for anyone who wants their website to feel a little more alive. The joke works because it is not just decoration. It turns rejection, iteration, fandom, and academic self-presentation into a public artifact that says: we can take the work seriously without sanding off the human being who made it.
-
-The design rule is simple: make the playful layer opt-in, keep evidence close, and give future remixers enough material to make their own version instead of copying mine exactly.
+<section class="hci-spooder-brief" aria-label="Why HCI Spooder-Man exists">
+  <div>
+    <p class="project-case-kicker">The move</p>
+    <h2>One playful artifact, attached to a serious portfolio.</h2>
+  </div>
+  <p>
+    HCI Spooder-Man is a small design pattern for academic websites: keep the page useful for visitors who need the work, then add one generous, funny layer that makes the maker visible. For me, that layer is the Wall of Rejection and this remix guide. For someone else, it might be a fieldwork postcard drawer, a prototype graveyard, a tiny conference-badge game, or a comic strip about reviewer feedback.
+  </p>
+</section>
 
 <div class="hci-spooder-gallery" aria-label="HCI Spooder-Man visual references">
-  {% for asset in spooder.assets limit: 6 %}
+  {% for asset in spooder.assets limit: 9 %}
     <figure>
-      <img src="{{ asset.path | relative_url }}" alt="{{ asset.label }}">
+      <img src="{{ asset.path | relative_url }}" alt="{{ asset.label }}" loading="lazy">
       <figcaption>
         <strong>{{ asset.label }}</strong>
         {{ asset.caption }}
@@ -72,46 +82,66 @@ The design rule is simple: make the playful layer opt-in, keep evidence close, a
   {% endfor %}
 </div>
 
-## Remix recipe
-
-1. Pick one honest tension in your website: rejection, messy process, revision, fieldwork, half-working prototypes, or a tool that taught you something.
-2. Turn it into a small interface moment: a badge shelf, receipt drawer, comic panel, tiny game card, or project page.
-3. Keep the serious path intact. Visitors should still find papers, projects, CV, and contact information without needing the joke.
-4. Publish the scaffold: assets, prompts, credits, and enough markdown that someone else can make a version in their own voice.
-
-<section id="spooder-assets" class="hci-spooder-assets" aria-labelledby="spooder-assets-title">
+<section id="spooder-remix-recipe" class="hci-spooder-remix-flow" aria-labelledby="spooder-remix-title">
   <div class="hci-spooder-section-heading">
-    <p class="project-case-kicker">Reuse kit</p>
-    <h2 id="spooder-assets-title">Assets you can use</h2>
-    <p>These are local files from this site. Use them as references, placeholders, or remix ingredients if you do not want to regenerate your own visual set first.</p>
+    <p class="project-case-kicker">Remix recipe</p>
+    <h2 id="spooder-remix-title">Build your own version without losing the plot.</h2>
+    <p>Use this as a markdown-level scaffold: swap the subject, tune the humor, keep the navigation boring in the best way, and make the playful part easy to reuse.</p>
   </div>
-  <div class="hci-spooder-asset-grid">
-    {% for asset in spooder.assets %}
-      <a href="{{ asset.path | relative_url }}" download>
-        <span>{{ asset.label }}</span>
-        <small>{{ asset.caption }}</small>
-      </a>
-    {% endfor %}
-  </div>
+  <ol>
+    <li>
+      <span>01</span>
+      <strong>Choose an honest tension.</strong>
+      Pick rejection, messy iteration, field notes, prototype failures, weird tools, or another part of research people usually hide.
+    </li>
+    <li>
+      <span>02</span>
+      <strong>Turn it into an interface moment.</strong>
+      Make a badge shelf, receipt drawer, comic panel, tiny game card, image viewer, or project page that still feels native to your site.
+    </li>
+    <li>
+      <span>03</span>
+      <strong>Publish the scaffold.</strong>
+      Share assets, prompts, credits, and enough structure that someone else can adapt the idea in their own voice.
+    </li>
+  </ol>
 </section>
 
-<section id="spooder-prompts" class="hci-spooder-prompts" aria-labelledby="spooder-prompts-title">
-  <div class="hci-spooder-section-heading">
-    <p class="project-case-kicker">Prompt scaffold</p>
-    <h2 id="spooder-prompts-title">Prompts to adapt</h2>
-    <p>Swap in your own colors, research identity, institution, field, humor level, and website tone. The point is not to become my copy. It is to make your own site braver.</p>
-  </div>
-  <div class="hci-spooder-prompt-list">
-    {% for prompt in spooder.prompts %}
-      <article class="hci-spooder-prompt">
-        <div>
-          <h3>{{ prompt.title }}</h3>
-          <button type="button" data-spooder-copy-prompt>Copy prompt</button>
-        </div>
-        <textarea readonly rows="6">{{ prompt.text }}</textarea>
-      </article>
-    {% endfor %}
-  </div>
+<section class="hci-spooder-toolkit" aria-label="HCI Spooder-Man remix toolkit">
+  <section id="spooder-assets" class="hci-spooder-assets" aria-labelledby="spooder-assets-title">
+    <div class="hci-spooder-section-heading">
+      <p class="project-case-kicker">Reuse kit</p>
+      <h2 id="spooder-assets-title">Assets you can use</h2>
+      <p>Use these local files as references, placeholders, or remix ingredients if you do not want to regenerate your own visual set first.</p>
+    </div>
+    <div class="hci-spooder-asset-grid">
+      {% for asset in spooder.assets %}
+        <a href="{{ asset.path | relative_url }}" download>
+          <span>{{ asset.label }}</span>
+          <small>{{ asset.caption }}</small>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="spooder-prompts" class="hci-spooder-prompts" aria-labelledby="spooder-prompts-title">
+    <div class="hci-spooder-section-heading">
+      <p class="project-case-kicker">Prompt scaffold</p>
+      <h2 id="spooder-prompts-title">Prompts to adapt</h2>
+      <p>Change the colors, academic identity, institution, field, humor level, and website tone. The point is not to become my copy. It is to make your own site braver.</p>
+    </div>
+    <div class="hci-spooder-prompt-list">
+      {% for prompt in spooder.prompts %}
+        <article class="hci-spooder-prompt">
+          <div>
+            <h3>{{ prompt.title }}</h3>
+            <button type="button" data-spooder-copy-prompt>Copy prompt</button>
+          </div>
+          <textarea readonly rows="7">{{ prompt.text }}</textarea>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
 </section>
 
 <section class="spooder-video-section" data-spooder-carousel aria-labelledby="spooder-video-title">
@@ -119,9 +149,7 @@ The design rule is simple: make the playful layer opt-in, keep evidence close, a
     <div>
       <p class="project-case-kicker">Source chaos</p>
       <h2 id="spooder-video-title">The movement, in release order</h2>
-      <p>
-        The embeds request the richest normal YouTube playback experience the browser allows, but YouTube still decides the actual stream quality for each viewer.
-      </p>
+      <p>The center card is the current player; the side cards stay visible so the playlist feels browsable without jumping to YouTube.</p>
     </div>
     <div class="spooder-video-controls" aria-label="Spooder video carousel controls">
       <button type="button" data-spooder-prev aria-label="Previous video">
@@ -157,11 +185,13 @@ The design rule is simple: make the playful layer opt-in, keep evidence close, a
   <p class="spooder-video-playlist">
     Full playlist:
     <a href="{{ spooder.hero.playlist_url }}" target="_blank" rel="noopener noreferrer">open the 10-video Spooder-Man playlist</a>.
+    YouTube decides the final playback quality for each viewer, even when the embed asks for a high-quality stream.
   </p>
 </section>
 
-## Credits and invitation
-
-This page is inspired by the Spooder-Man trailers and the absurd generosity of the Spooder-Verse. Credit Sirui Tao as the OG HCI Spooder-Man if this scaffold helps you make your own version, then invite more people in. The best outcome is not one canonical joke. The best outcome is a small wave of websites where researchers let their taste, humor, and process show.
-
-This is the creativity I want to scaffold for everyone.
+<section class="hci-spooder-credits" aria-label="Credits and invitation">
+  <p>
+    Inspired by the Spooder-Man trailers and playlist. Credit Sirui Tao as the OG HCI Spooder-Man if this scaffold helps you make your own version, then invite more people to join the HCI Spooder-Verse.
+  </p>
+  <strong>This is the creativity I want to scaffold for everyone.</strong>
+</section>

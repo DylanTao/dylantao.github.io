@@ -1,12 +1,23 @@
 hero:
   title: HCI Spooder-Man Across the Spooder-Verse
-  kicker: Playful website scaffold
+  kicker: Remixable website movement
   lede: >-
-    A remixable mini-guide for turning an academic website into a small, funny,
-    human-centered artifact without losing credibility.
+    A practical, playful guide for making an academic website that can carry
+    papers, rejection, taste, and remixable weirdness in the same room.
   trailer_url: https://youtu.be/uKYV2qjYIS0?si=QmRJJf5yuv41UFDY
   playlist_url: https://youtube.com/playlist?list=PLsTV5jnZ_2V1T-AqzVKrhvJBWnQht9pme&si=QmE8AVsJHxlj6F-7
   teaser: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
+
+teasers:
+  - /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-alley-standoff.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-verse-title.png
+  - /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
 
 assets:
   - label: Teaser card
@@ -18,6 +29,9 @@ assets:
   - label: Rooftop lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
     caption: Hero-team energy with enough sky to support overlaid text.
+  - label: Alley car scramble
+    path: /assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble.png
+    caption: Kinetic alley scene for motion-heavy variants and video sections.
   - label: Jet chaos
     path: /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
     caption: Maximum movement, best used as a supporting visual.
@@ -38,27 +52,27 @@ assets:
     caption: Local Wall of Rejection mockup used by the publications page.
 
 prompts:
-  - title: Website badge shelf
+  - title: Badge shelf
     text: >-
-      Create a playful Steam-achievement-style badge shelf for an academic HCI
-      portfolio. The badges should feel compact, dark-mode friendly, slightly
-      ridiculous, and site-native. Use my website accent color, my research
-      identity, and small icons that represent research failure, iteration,
-      feedback, and creative recovery. Avoid copying any exact copyrighted UI.
-  - title: HCI Spooder hero
+      Create a compact achievement-badge shelf for an academic HCI portfolio.
+      Make it feel site-native, dark-mode friendly, and lightly ridiculous. Use
+      my website accent colors, my research identity, and icons for rejection,
+      iteration, feedback, and recovery. Do not copy an exact commercial badge UI.
+  - title: Hero scene
     text: >-
       Create a wide cinematic teaser image for a playful academic project called
       HCI Spooder-Man. Show a small group of intentionally goofy web-slinger
       researchers walking together through a city, carrying laptops, sticky
       notes, sketchbooks, and review comments. Make it warm, comic, and remixable
       for a personal portfolio website, not a polished movie poster.
-  - title: Personal remix guide
+  - title: Personal guide
     text: >-
-      Rewrite this website page idea for my own academic identity. Keep the core
-      move: invite people to remix a playful website artifact, share local assets,
-      include prompts, credit the original inspiration, and end by saying this is
-      the creativity I want to scaffold for everyone. Adapt the tone, colors, and
-      examples to my field.
+      Rewrite this HCI Spooder-Man project page for my own academic identity.
+      Keep the core structure: a serious portfolio stays usable, one playful
+      artifact becomes remixable, local assets and prompts are shared, Sirui Tao
+      is credited as the OG HCI Spooder-Man, and the closing line says this is
+      the creativity I want to scaffold for everyone. Adapt the tone, colors,
+      examples, and level of chaos to my field.
 
 videos:
   - title: Spooder-Man Movie Trailer

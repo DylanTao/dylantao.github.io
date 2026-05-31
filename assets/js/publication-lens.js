@@ -6,7 +6,8 @@
   const entries = Array.from(document.querySelectorAll("[data-publication-key].publication-lens-entry"));
   const yearBars = Array.from(lens.querySelectorAll("[data-scholar-year-bar]"));
   const roleInputs = Array.from(lens.querySelectorAll('input[name="publication-role-filter"]'));
-  const typeSelect = lens.querySelector("[data-scholar-type-filter]");
+  const typeInputs = Array.from(lens.querySelectorAll('input[name="publication-type-filter"]'));
+  const typeSelect = lens.querySelector("select[data-scholar-type-filter]");
   const activeYearLabel = lens.querySelector("[data-scholar-active-year]");
   const stats = {
     papers: lens.querySelector('[data-scholar-stat="papers"]'),
@@ -26,7 +27,7 @@
   const entryByKey = new Map(entries.map((entry) => [entry.dataset.publicationKey, entry]));
 
   const activeRole = () => roleInputs.find((input) => input.checked)?.value || "all";
-  const activeType = () => typeSelect?.value || "all";
+  const activeType = () => typeInputs.find((input) => input.checked)?.value || typeSelect?.value || "all";
 
   const parseContributions = (bar) =>
     (bar.dataset.yearPapers || "")
@@ -191,6 +192,7 @@
   });
 
   roleInputs.forEach((input) => input.addEventListener("change", updateFilters));
+  typeInputs.forEach((input) => input.addEventListener("change", updateFilters));
   typeSelect?.addEventListener("change", updateFilters);
 
   updateFilters();

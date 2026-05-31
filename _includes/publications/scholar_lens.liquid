@@ -42,7 +42,7 @@
       <div class="scholar-lens-heading">
         <div>
           <p class="scholar-lens-kicker">Scholar Lens</p>
-          <h2 id="scholar-lens-title">Author highlighter</h2>
+          <h2 id="scholar-lens-title">Quick publication lens</h2>
         </div>
         <a
           href="{{ publication_lens.metadata.scholar_profile }}"
@@ -54,11 +54,13 @@
         </a>
       </div>
 
-      <p class="scholar-lens-sync">Last synced {{ publication_lens.metadata.last_synced | date: '%b %-d, %Y' }}.</p>
+      <p class="scholar-lens-sync">
+        Filter the list by authorship or paper format. Citation data synced {{ publication_lens.metadata.last_synced | date: '%b %-d, %Y' }}.
+      </p>
 
       <div class="scholar-lens-controls" aria-label="Publication lens filters">
-        <fieldset>
-          <legend>Role</legend>
+        <fieldset class="scholar-lens-control-group">
+          <legend>Authorship</legend>
           <label>
             <input type="radio" name="publication-role-filter" value="all" checked>
             <span>All</span>
@@ -73,14 +75,21 @@
           </label>
         </fieldset>
 
-        <label class="scholar-lens-select-label">
-          <span>Format</span>
-          <select name="publication-type-filter" data-scholar-type-filter>
-            <option value="all">All work</option>
-            <option value="full-paper">Full papers</option>
-            <option value="short-form">Short forms</option>
-          </select>
-        </label>
+        <fieldset class="scholar-lens-control-group scholar-lens-control-group-compact">
+          <legend>Format</legend>
+          <label>
+            <input type="radio" name="publication-type-filter" value="all" checked data-scholar-type-filter>
+            <span>All work</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-type-filter" value="full-paper" data-scholar-type-filter>
+            <span>Full papers</span>
+          </label>
+          <label>
+            <input type="radio" name="publication-type-filter" value="short-form" data-scholar-type-filter>
+            <span>Short forms</span>
+          </label>
+        </fieldset>
       </div>
 
       <dl class="scholar-lens-stats">

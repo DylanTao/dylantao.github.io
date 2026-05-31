@@ -14,7 +14,6 @@
             <h2 id="wall-of-rejection-title">{{ rejection_wall.section.title }}</h2>
             <p>{{ rejection_wall.section.description }}</p>
           </div>
-          <span>Badge notes</span>
         </div>
         <div class="rejection-badge-zone">
           <div class="rejection-badge-grid" data-rejection-wall-grid>
@@ -43,11 +42,9 @@
                   {% endcase %}
                 </span>
                 <span class="rejection-badge-summary">
-                  <span class="rejection-badge-title">
-                    {{ badge.title }}
-                    <span>x{{ badge.count }}</span>
-                  </span>
-                  <span class="rejection-badge-short">{{ badge.short }}</span>
+                  <span class="rejection-badge-title">{{ badge.title }}</span>
+                  <span class="rejection-badge-count">x{{ badge.count }}</span>
+                  <span class="sr-only">{{ badge.short }}</span>
                 </span>
               </button>
             {% endfor %}

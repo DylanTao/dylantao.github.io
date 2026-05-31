@@ -27,6 +27,13 @@
   | slugify
 %}
 {% assign project_card_data = site.data.project_cards[project_file_slug] %}
+{% capture project_random_teaser_paths %}
+  {% if project_card_data.teasers %}
+    {% for teaser in project_card_data.teasers %}
+      {{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
+    {% endfor %}
+  {% endif %}
+{% endcapture %}
 {% capture project_card_style %}
   {% if project_card_data.accents %}
     --project-accent-morning: {{ project_card_data.accents.morning | default: 'var(--global-theme-color)' }};
@@ -49,6 +56,9 @@
         {% if project.img %}
           <div
             class="{{ project_media_classes }}"
+            {% if project_card_data.teasers %}
+              data-random-teaser data-random-teasers="{{ project_random_teaser_paths | strip }}"
+            {% endif %}
             {% if project.image_aspect %}
               style="
                 --project-image-aspect: {{ project.image_aspect }};
@@ -153,6 +163,9 @@
         {% if project.img %}
           <div
             class="{{ project_media_classes }}"
+            {% if project_card_data.teasers %}
+              data-random-teaser data-random-teasers="{{ project_random_teaser_paths | strip }}"
+            {% endif %}
             {% if project.image_aspect %}
               style="
                 --project-image-aspect: {{ project.image_aspect }};

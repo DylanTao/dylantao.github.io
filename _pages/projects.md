@@ -17,9 +17,6 @@ project_cards_interactive: true
   <!-- Display categorized projects -->
   {% for category in page.display_categories %}
   {% assign category_label = category | capitalize %}
-  {% if category == 'fun' %}
-    {% assign category_label = 'Experiments' %}
-  {% endif %}
   <div class="project-category-heading">
     <a class="project-category-link" id="{{ category }}" href=".#{{ category }}">
       <h2 class="category">{{ category_label }}</h2>
