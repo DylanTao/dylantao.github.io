@@ -4,23 +4,35 @@
 
   const copyButtons = Array.from(document.querySelectorAll("[data-spooder-copy-prompt]"));
 
-  const copyPrompt = async (textarea) => {
+  const copyPrompt = async (text) => {
     if (navigator.clipboard?.writeText && window.isSecureContext) {
       try {
-        await navigator.clipboard.writeText(textarea.value);
+        await navigator.clipboard.writeText(text);
         return true;
       } catch (error) {
         // Fall through to the selection-based fallback below.
       }
     }
 
-    textarea.focus();
-    textarea.select();
+    const fallback = document.createElement("textarea");
+    fallback.value = text;
+    fallback.readOnly = true;
+    fallback.style.position = "fixed";
+    fallback.style.insetBlockStart = "-9999px";
+    fallback.style.inlineSize = "1px";
+    fallback.style.blockSize = "1px";
+    fallback.style.opacity = "0";
+    document.body.append(fallback);
+    fallback.focus();
+    fallback.select();
 
     try {
       return document.execCommand("copy");
     } catch (error) {
       return false;
+    } finally {
+      fallback.remove();
+      window.getSelection()?.removeAllRanges();
     }
   };
 
@@ -32,7 +44,7 @@
     button.addEventListener("click", async () => {
       if (!textarea) return;
 
-      const copied = await copyPrompt(textarea);
+      const copied = await copyPrompt(textarea.value);
       button.textContent = copied ? "Copied" : "Select text";
 
       window.setTimeout(() => {
@@ -49,7 +61,27 @@
     const thumbs = Array.from(imageCarousel.querySelectorAll("[data-spooder-image-thumb]"));
     const prevButton = imageCarousel.querySelector("[data-spooder-image-prev]");
     const nextButton = imageCarousel.querySelector("[data-spooder-image-next]");
+    const autoplayDelay = Number(imageCarousel.dataset.spooderAutoplayMs || 5200);
+    let autoplayTimer;
     let activeImageIndex = 0;
+
+    const stopAutoplay = () => {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = undefined;
+    };
+
+    const startAutoplay = () => {
+      if (prefersReducedMotion() || slides.length < 2 || autoplayTimer) return;
+
+      autoplayTimer = window.setInterval(() => {
+        setActiveImage(activeImageIndex + 1, { automatic: true });
+      }, autoplayDelay);
+    };
+
+    const restartAutoplay = () => {
+      stopAutoplay();
+      startAutoplay();
+    };
 
     const setActiveImage = (index, options = {}) => {
       if (!slides.length) return;
@@ -58,7 +90,6 @@
 
       slides.forEach((slide, slideIndex) => {
         const active = slideIndex === activeImageIndex;
-        slide.hidden = !active;
         slide.classList.toggle("is-active", active);
         slide.setAttribute("aria-hidden", active ? "false" : "true");
       });
@@ -80,6 +111,10 @@
 
       if (activeThumb && options.focusThumb) {
         activeThumb.focus({ preventScroll: true });
+      }
+
+      if (!options.automatic && options.restartAutoplay !== false) {
+        restartAutoplay();
       }
     };
 
@@ -122,6 +157,16 @@
     });
 
     setActiveImage(0, { scrollThumb: false });
+
+    imageCarousel.addEventListener("mouseenter", stopAutoplay);
+    imageCarousel.addEventListener("mouseleave", startAutoplay);
+    imageCarousel.addEventListener("focusin", stopAutoplay);
+    imageCarousel.addEventListener("focusout", (event) => {
+      if (event.relatedTarget instanceof Node && imageCarousel.contains(event.relatedTarget)) return;
+      startAutoplay();
+    });
+
+    startAutoplay();
   }
 
   const carousel = document.querySelector("[data-spooder-carousel]");
@@ -148,6 +193,7 @@
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
       iframe.allowFullscreen = true;
 
+      slide.classList.add("is-loaded");
       frame.replaceChildren(iframe);
     };
 

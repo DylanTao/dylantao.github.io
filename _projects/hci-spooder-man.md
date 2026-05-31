@@ -57,7 +57,7 @@ spooder_project: true
   </ol>
 </section>
 
-<section class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">
+<section class="hci-spooder-gallery" data-spooder-image-carousel data-spooder-autoplay-ms="5200" aria-labelledby="spooder-gallery-title">
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">Asset carousel</p>
     <h2 id="spooder-gallery-title">Browse the visual kit before you remix.</h2>
@@ -70,7 +70,7 @@ spooder_project: true
     </button>
     <div class="hci-spooder-gallery-slides" aria-live="polite">
       {% for asset in spooder.assets limit: 9 %}
-        <figure class="hci-spooder-gallery-slide" data-spooder-image-slide {% unless forloop.first %}hidden{% endunless %}>
+        <figure class="hci-spooder-gallery-slide{% if forloop.first %} is-active{% endif %}" data-spooder-image-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
           <img src="{{ asset.path | relative_url }}" alt="{{ asset.label }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
           <figcaption>
             <strong>{{ asset.label }}</strong>
@@ -112,28 +112,8 @@ spooder_project: true
         <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
         Download prompt markdown
       </a>
-      <a href="#spooder-assets">
-        <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
-        Use local assets
-      </a>
     </div>
     <textarea class="hci-spooder-agent-prompt" readonly rows="18" aria-label="Copyable HCI Spooder-Man remix prompt">{{ spooder.agent_prompt | strip }}</textarea>
-  </section>
-
-  <section id="spooder-assets" class="hci-spooder-assets" aria-labelledby="spooder-assets-title">
-    <div class="hci-spooder-section-heading">
-      <p class="project-case-kicker">Local assets</p>
-      <h2 id="spooder-assets-title">Assets you can use</h2>
-      <p>Use these local files as references, placeholders, or remix ingredients if you do not want to regenerate your own visual set first.</p>
-    </div>
-    <div class="hci-spooder-asset-grid">
-      {% for asset in spooder.assets %}
-        <a href="{{ asset.path | relative_url }}" download>
-          <span>{{ asset.label }}</span>
-          <small>{{ asset.caption }}</small>
-        </a>
-      {% endfor %}
-    </div>
   </section>
 </section>
 
@@ -144,36 +124,36 @@ spooder_project: true
       <h2 id="spooder-video-title">The movement, in release order</h2>
       <p>The center card is the current player; the side cards stay visible so the playlist feels browsable without jumping to YouTube.</p>
     </div>
-    <div class="spooder-video-controls" aria-label="Spooder video carousel controls">
-      <button type="button" data-spooder-prev aria-label="Previous video">
-        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-      </button>
-      <button type="button" data-spooder-next aria-label="Next video">
-        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-      </button>
-    </div>
   </div>
 
-  <div class="spooder-video-track" data-spooder-track tabindex="0">
-    {% for video in spooder.videos %}
-      <article class="spooder-video-card" data-spooder-slide data-spooder-video-id="{{ video.id }}">
-        <div class="spooder-video-frame" data-spooder-video-frame>
-          <img src="https://i.ytimg.com/vi/{{ video.id }}/hqdefault.jpg" alt="{{ video.title }} thumbnail" loading="lazy">
-          <button type="button" data-spooder-load-video>
-            <i class="fa-solid fa-play" aria-hidden="true"></i>
-            <span>Load video</span>
-          </button>
-        </div>
-        <div class="spooder-video-meta">
-          <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-          <h3>{{ video.title }}</h3>
-          <a href="{{ video.url }}" target="_blank" rel="noopener noreferrer">
-            Watch on YouTube
-            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-          </a>
-        </div>
-      </article>
-    {% endfor %}
+  <div class="spooder-video-stage">
+    <button class="hci-spooder-gallery-arrow hci-spooder-gallery-arrow-prev spooder-video-arrow" type="button" data-spooder-prev aria-label="Previous video">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="spooder-video-track" data-spooder-track tabindex="0">
+      {% for video in spooder.videos %}
+        <article class="spooder-video-card" data-spooder-slide data-spooder-video-id="{{ video.id }}">
+          <div class="spooder-video-frame" data-spooder-video-frame>
+            <img src="https://i.ytimg.com/vi/{{ video.id }}/hqdefault.jpg" alt="{{ video.title }} thumbnail" loading="lazy">
+            <button type="button" data-spooder-load-video>
+              <i class="fa-solid fa-play" aria-hidden="true"></i>
+              <span>Load video</span>
+            </button>
+          </div>
+          <div class="spooder-video-meta">
+            <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <h3>{{ video.title }}</h3>
+            <a href="{{ video.url }}" target="_blank" rel="noopener noreferrer">
+              Watch on YouTube
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    <button class="hci-spooder-gallery-arrow hci-spooder-gallery-arrow-next spooder-video-arrow" type="button" data-spooder-next aria-label="Next video">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
   </div>
   <p class="spooder-video-playlist">
     Full playlist:
