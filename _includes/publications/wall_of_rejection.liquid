@@ -23,8 +23,10 @@
                 type="button"
                 data-rejection-card
                 data-rejection-source-id="{{ badge.id }}"
+                data-rejection-tooltip="{{ badge.title }}: {{ badge.short }}"
                 aria-expanded="false"
                 aria-controls="rejection-receipt-tray"
+                aria-label="{{ badge.title }}. {{ badge.short }} Click for details."
               >
                 <span class="rejection-badge-icon rejection-badge-icon-{{ badge.icon }}" aria-hidden="true">
                   {% case badge.icon %}
@@ -44,7 +46,6 @@
                 <span class="rejection-badge-summary">
                   <span class="rejection-badge-title">{{ badge.title }}</span>
                   <span class="rejection-badge-count">x{{ badge.count }}</span>
-                  <span class="sr-only">{{ badge.short }}</span>
                 </span>
               </button>
             {% endfor %}
@@ -147,7 +148,7 @@
                 <span>XP over time</span>
                 <svg
                   class="failure-xp-history"
-                  viewBox="0 0 120 72"
+                  viewBox="-2 0 124 86"
                   role="img"
                   aria-label="Failure XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
                 >
@@ -155,11 +156,32 @@
                   {% for point in rejection_wall.xp.timeline %}
                     {% capture xp_points %}{{ xp_points }} {{ point.x }},{{ point.y }}{% endcapture %}
                   {% endfor %}
+                  <line class="failure-xp-axis" x1="0" y1="68" x2="100" y2="68" />
                   <polyline points="{{ xp_points | strip }}" />
                   {% for point in rejection_wall.xp.timeline %}
-                    <circle cx="{{ point.x }}" cy="{{ point.y }}" r="3.2">
+                    {% assign point_year = point.date | split: '-' | first %}
+                    <g
+                      class="failure-xp-point"
+                      tabindex="0"
+                      role="listitem"
+                      aria-label="{{ point.date }}: {{ point.total }} XP, {{ point.label }}"
+                    >
                       <title>{{ point.date }} / {{ point.total }} XP / {{ point.label }}</title>
-                    </circle>
+                      <circle cx="{{ point.x }}" cy="{{ point.y }}" r="3.2" />
+                      <text
+                        x="{{ point.x }}"
+                        y="80"
+                        {% if forloop.first %}
+                          text-anchor="start"
+                        {% elsif forloop.last %}
+                          text-anchor="end"
+                        {% else %}
+                          text-anchor="middle"
+                        {% endif %}
+                      >
+                        {{ point_year }}
+                      </text>
+                    </g>
                   {% endfor %}
                 </svg>
                 <ol class="failure-xp-timeline">

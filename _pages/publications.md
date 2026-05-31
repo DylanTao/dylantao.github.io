@@ -38,17 +38,16 @@ publication_lens: true
     <img src="{{ '/assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png' | relative_url }}" alt="HCI Spooder-Man group teaser" loading="lazy">
   </figure>
   <div>
-    <p class="publication-spooder-cta-kicker">Remix route</p>
-    <h2>After papers, remix the process.</h2>
+    <p class="publication-spooder-cta-kicker">Spooder-Verse</p>
+    <h2>Join the Spooder-Verse.</h2>
     <p>
-      A small guide for turning rejection and process into reusable website craft.
+      Bring your own playful academic website remix.
     </p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Open remix guide</span>
+        <span>Join the Spooder-Verse</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
-      <span>For later, after the papers have done their job.</span>
     </div>
   </div>
 </section>

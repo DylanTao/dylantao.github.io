@@ -12,8 +12,8 @@
   const memeCloseButtons = Array.from(document.querySelectorAll("[data-rejection-meme-close]"));
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   let pinnedCard = null;
-  let previewCard = null;
   let lastMemeTrigger = null;
+  let receiptCloseAnimation = null;
 
   const prefersReducedMotion = () => reduceMotionQuery.matches;
 
@@ -23,22 +23,50 @@
     document.body.classList.toggle("wall-of-rejection-open", xpRulesOpen || receiptOpen || Boolean(memeViewer && !memeViewer.hidden));
   };
 
-  const clearCardState = () => {
+  const hideReceiptTray = (options = { animate: true }) => {
+    if (!receiptTray || receiptTray.hidden) return;
+
+    receiptCloseAnimation?.cancel();
+    receiptCloseAnimation = null;
+
+    const finish = () => {
+      receiptTray.hidden = true;
+      receiptTray.classList.remove("rejection-receipt-tray-active", "rejection-receipt-tray-pinned", "rejection-receipt-tray-closing");
+      receiptTray.innerHTML = "";
+      updateBodyState();
+    };
+
+    if (options.animate && !prefersReducedMotion() && "animate" in receiptTray) {
+      receiptTray.classList.add("rejection-receipt-tray-closing");
+      receiptCloseAnimation = receiptTray.animate(
+        [
+          { opacity: 1, transform: "translateY(0)" },
+          { opacity: 0, transform: "translateY(-0.22rem)" },
+        ],
+        { duration: 150, easing: "ease-in" }
+      );
+      receiptCloseAnimation.addEventListener("finish", finish, { once: true });
+      return;
+    }
+
+    finish();
+  };
+
+  const clearCardState = (options = { animate: true }) => {
     cards.forEach((candidate) => {
       candidate.classList.remove("rejection-badge-active", "rejection-badge-pinned");
       candidate.setAttribute("aria-expanded", "false");
     });
-    if (receiptTray) {
-      receiptTray.hidden = true;
-      receiptTray.classList.remove("rejection-receipt-tray-active", "rejection-receipt-tray-pinned");
-      receiptTray.innerHTML = "";
-    }
+    hideReceiptTray(options);
     updateBodyState();
   };
 
   const setActiveCard = (card, options = { pinned: false, focusTray: false }) => {
     const source = receiptSources.get(card.dataset.rejectionSourceId);
     if (!source || !receiptTray) return;
+
+    receiptCloseAnimation?.cancel();
+    receiptCloseAnimation = null;
 
     cards.forEach((candidate) => {
       const active = candidate === card;
@@ -47,10 +75,11 @@
       candidate.setAttribute("aria-expanded", active ? "true" : "false");
     });
 
-    receiptTray.innerHTML = source.innerHTML;
     receiptTray.hidden = false;
+    receiptTray.innerHTML = source.innerHTML;
     receiptTray.classList.add("rejection-receipt-tray-active");
-    receiptTray.classList.toggle("rejection-receipt-tray-pinned", options.pinned);
+    receiptTray.classList.remove("rejection-receipt-tray-closing");
+    receiptTray.classList.toggle("rejection-receipt-tray-pinned", Boolean(options.pinned));
     updateBodyState();
 
     if (!prefersReducedMotion() && "animate" in receiptTray) {
@@ -69,28 +98,14 @@
     }
   };
 
-  const showPreview = (card) => {
-    if (pinnedCard) return;
-    previewCard = card;
-    setActiveCard(card);
-  };
-
-  const hidePreview = (card) => {
-    if (pinnedCard || previewCard !== card) return;
-    previewCard = null;
-    clearCardState();
-  };
-
   const togglePinned = (card) => {
     if (pinnedCard === card) {
       pinnedCard = null;
-      previewCard = null;
       clearCardState();
       return;
     }
 
     pinnedCard = card;
-    previewCard = null;
     setActiveCard(card, { pinned: true });
   };
 
@@ -120,10 +135,6 @@
   };
 
   cards.forEach((card) => {
-    card.addEventListener("mouseenter", () => showPreview(card));
-    card.addEventListener("mouseleave", () => hidePreview(card));
-    card.addEventListener("focus", () => showPreview(card));
-    card.addEventListener("blur", () => hidePreview(card));
     card.addEventListener("click", () => togglePinned(card));
     card.addEventListener("keydown", (event) => {
       if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
@@ -140,8 +151,8 @@
         nextIndex = cards.length - 1;
       }
       pinnedCard = null;
+      clearCardState();
       cards[nextIndex].focus();
-      setActiveCard(cards[nextIndex]);
     });
   });
 
@@ -166,7 +177,6 @@
     if (!target || target.closest("[data-rejection-card], [data-rejection-receipt-tray]")) return;
 
     pinnedCard = null;
-    previewCard = null;
     clearCardState();
   });
 
@@ -181,7 +191,6 @@
     if (pinnedCard) {
       const cardToFocus = pinnedCard;
       pinnedCard = null;
-      previewCard = null;
       clearCardState();
       cardToFocus.focus({ preventScroll: true });
     }
