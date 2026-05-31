@@ -13,7 +13,7 @@
   --rejection-badge-wash: color-mix(in srgb, var(--global-accent-soft) 58%, transparent);
   --rejection-badge-surface: color-mix(in srgb, var(--global-card-bg-color) 86%, var(--global-bg-color));
   --rejection-badge-rare: var(--global-sky-strong);
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.95rem;
 }
 
 html[data-theme-mode="morning"] .wall-of-rejection {
@@ -64,8 +64,8 @@ html[data-theme="dark"] .wall-of-rejection {
 
 .wall-of-rejection-layout {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1.55fr) minmax(15rem, 0.82fr);
+  gap: 0.85rem;
   align-items: start;
 }
 
@@ -87,7 +87,7 @@ html[data-theme="dark"] .wall-of-rejection {
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.55rem;
 
   h2 {
     margin: 0;
@@ -101,6 +101,7 @@ html[data-theme="dark"] .wall-of-rejection {
     color: var(--global-text-color-light);
     font-size: var(--type-label);
     line-height: 1.35;
+    max-width: 42rem;
   }
 }
 
@@ -897,7 +898,7 @@ body.rejection-meme-viewer-open {
   grid-template-columns: minmax(0, 1.08fr) minmax(17rem, 20.5rem);
   gap: clamp(1rem, 2vw, 1.5rem);
   align-items: start;
-  margin-top: 1.25rem;
+  margin-top: 1rem;
 }
 
 .publication-list-column {
@@ -1032,7 +1033,7 @@ body.rejection-meme-viewer-open {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.2)), color-mix(in srgb, var(--global-card-bg-color) 78%, transparent);
   padding: 0.95rem;
-  box-shadow: 0 1rem 2.4rem rgba(32, 25, 22, 0.08);
+  box-shadow: 0 0.75rem 1.8rem rgba(32, 25, 22, 0.065);
   backdrop-filter: blur(18px) saturate(1.28);
 }
 
@@ -1066,6 +1067,11 @@ html[data-theme="dark"] .scholar-lens-card {
     border-radius: 999px;
     color: var(--global-theme-color);
     text-decoration: none;
+    transition:
+      background var(--motion-standard),
+      border-color var(--motion-standard),
+      color var(--motion-standard),
+      transform var(--motion-standard);
 
     &:hover,
     &:focus-visible {
@@ -1073,6 +1079,7 @@ html[data-theme="dark"] .scholar-lens-card {
       background: var(--global-accent-soft);
       color: var(--global-hover-color);
       text-decoration: none;
+      transform: translateY(-1px);
     }
   }
 }
@@ -1990,6 +1997,7 @@ html[data-theme="dark"] .scholar-lens-card {
   .spooder-reference-thumb,
   .failure-xp-rules summary,
   .scholar-lens-bar,
+  .scholar-lens-heading a,
   .scholar-lens-bar-track span,
   .scholar-lens-year-bar,
   .scholar-lens-year-track span,
@@ -2004,7 +2012,9 @@ html[data-theme="dark"] .scholar-lens-card {
   .scholar-lens-bar:hover,
   .scholar-lens-bar:focus-visible,
   .scholar-lens-year-bar:hover,
-  .scholar-lens-year-bar:focus-visible {
+  .scholar-lens-year-bar:focus-visible,
+  .scholar-lens-heading a:hover,
+  .scholar-lens-heading a:focus-visible {
     transform: none;
   }
 }

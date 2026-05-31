@@ -125,6 +125,9 @@ pagination:
         class="sirui-secret-dog"
         type="button"
         aria-label="unlock sirui's secrets"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="sirui-secret-dialog"
         data-secret-url="{{ '/blog/2026/sirui-research-thoughts/' | relative_url }}"
       >
         <img src="{{ '/assets/img/meme_dog.png' | relative_url }}" alt="">
@@ -152,6 +155,7 @@ pagination:
 {% if featured_tags.size > 0 or featured_categories.size > 0 %}
 
   <nav class="tag-category-list" aria-label="Blog topics">
+    <p class="blog-section-label">Browse notes</p>
     <ul class="p-0 m-0">
       {% for tag in featured_tags %}
         <li>

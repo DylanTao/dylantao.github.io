@@ -26,8 +26,8 @@ research_motion:
   modes:
     - id: design
       label: Design
-      title: Scaffold creative judgment
-      text: Compare generated directions without losing taste, constraints, or values.
+      title: Compare options
+      text: Turn possible directions into a comparison people can reason with.
       detail_title: Human-AI for design and taste
       detail_text: >-
         This lens treats interface design as scaffolding for judgment: make the space
@@ -52,8 +52,8 @@ research_motion:
       detail_points_label: Evidence loop
     - id: situated
       label: Situated
-      title: Augment in context
-      text: Let people, tasks, tools, and physical context bend the interface.
+      title: Assist in context
+      text: Let assistance change shape around people, tasks, tools, and physical context.
       detail_title: Context changes the shape of help
       detail_text: This lens keeps the interface grounded in the actual situation where people act, not only in a clean abstract workflow.
       detail_points:

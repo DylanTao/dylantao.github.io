@@ -49,6 +49,7 @@
   const openDialog = () => {
     pulseTrigger();
     dialog.hidden = false;
+    trigger.setAttribute("aria-expanded", "true");
     password.value = "";
     if (window.matchMedia("(pointer: fine)").matches) {
       window.setTimeout(() => password.focus(), 0);
@@ -57,6 +58,8 @@
 
   const closeDialog = () => {
     dialog.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.focus({ preventScroll: true });
   };
 
   trigger.addEventListener("pointerenter", startHoverAnimation);

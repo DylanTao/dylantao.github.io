@@ -44,6 +44,39 @@ a.btncv:hover {
   transform: translateY(-1px);
 }
 
+.cv-pdf-link {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  min-height: 2.3rem;
+  padding: 0.4rem 0.62rem;
+  border: 1px solid rgba(var(--global-accent-rgb), 0.32);
+  border-radius: 0.45rem;
+  background: rgba(var(--global-accent-rgb), 0.08);
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  font-weight: 760;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--global-theme-color);
+    background: var(--global-theme-color);
+    color: var(--global-hover-text-color);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+}
+
 .cv {
   max-width: 68rem;
 
@@ -51,6 +84,7 @@ a.btncv:hover {
     border-radius: 0.45rem;
     box-shadow: none;
     margin-top: 0.9rem !important;
+    overflow: hidden;
     padding: 1.1rem !important;
   }
 
@@ -58,6 +92,37 @@ a.btncv:hover {
     font-size: clamp(1.25rem, 2vw, 1.6rem);
     font-weight: 800;
     margin-bottom: 0.85rem;
+  }
+
+  .card-text.list-group {
+    margin: 0;
+  }
+
+  .list-group-item {
+    padding: 0.85rem 0;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  .card:first-child .table-cv {
+    margin-bottom: 0;
+
+    tr {
+      display: grid;
+      grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr);
+      gap: 0.65rem;
+      padding: 0.18rem 0;
+    }
+
+    td {
+      min-width: 0;
+    }
   }
 }
 
@@ -119,6 +184,15 @@ p.location {
   margin-left: 0.35rem;
 }
 
+.cv .items {
+  margin-top: 0.45rem;
+  padding-left: 1.15rem;
+}
+
+.cv .items li + li {
+  margin-top: 0.24rem;
+}
+
 .cv .cv-advisor-link,
 .cv .cv-reference-link {
   font-weight: 700;
@@ -169,6 +243,44 @@ p.location {
 }
 
 @media (max-width: 767.98px) {
+  .cv-pdf-link {
+    margin-top: 0.25rem;
+  }
+
+  .cv {
+    .card {
+      margin-top: 0.75rem !important;
+      padding: 0.95rem !important;
+    }
+
+    .card-title {
+      margin-bottom: 0.65rem;
+    }
+
+    .card:first-child .table-cv tr {
+      grid-template-columns: minmax(7rem, 0.42fr) minmax(0, 1fr);
+      gap: 0.65rem;
+      padding: 0.28rem 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--global-divider-color) 72%, transparent);
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    .card:first-child .table-cv th {
+      font-size: 0.9rem;
+      line-height: 1.35;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .card:first-child .table-cv td {
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+  }
+
   .cv .cv-entry .date-column,
   .cv .cv-entry .cv-entry-content {
     flex: 0 0 100%;
@@ -178,6 +290,11 @@ p.location {
 
   .cv .cv-entry .cv-entry-content {
     margin-top: 0.5rem;
+  }
+
+  .cv .cv-date-badge {
+    width: auto;
+    min-width: 8.5rem;
   }
 }
 
