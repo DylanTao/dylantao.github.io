@@ -83,7 +83,7 @@ html[data-theme="dark"] .wall-of-rejection {
   flex-direction: column;
   align-self: stretch;
   min-height: 0;
-  padding: 0.66rem 0.95rem 0.95rem;
+  padding: 0.5rem 0.95rem 0.95rem;
 }
 
 .rejection-badge-wall-heading {
@@ -106,6 +106,10 @@ html[data-theme="dark"] .wall-of-rejection {
     line-height: 1.35;
     max-width: 42rem;
   }
+}
+
+.post article .rejection-badge-wall-heading h2 {
+  margin: 0;
 }
 
 .rejection-badge-zone {
@@ -446,7 +450,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 
 .rejection-wall-credit {
   margin: auto 0 0;
-  padding-top: 0.65rem;
+  padding-top: 0.58rem;
   border-top: 1px solid var(--global-divider-color);
   color: var(--global-text-color-light);
   font-size: var(--type-label);
@@ -595,6 +599,10 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 .failure-level-label,
 .failure-xp-count {
   display: block;
+}
+
+.failure-xp-mobile-label {
+  display: none;
 }
 
 .failure-level-label {
@@ -1913,6 +1921,17 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .rejection-xp-panel {
     gap: 0.45rem;
+  }
+
+  .failure-xp-mobile-label {
+    display: block;
+    margin-bottom: 0.1rem;
+    color: var(--global-theme-color);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 780;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
 
   .failure-level-label {

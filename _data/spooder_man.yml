@@ -1,9 +1,9 @@
 hero:
-  title: HCI Spooder-Man Across the Spooder-Verse
-  kicker: Remixable website movement
+  title: Nerdy Spooder-Man Across the Spooder-Verse
+  kicker: Nerdy remix kit
   lede: >-
-    A playful guide for showing the messy parts of research without hiding the
-    real work. The portfolio stays useful; the rough parts become remixable.
+    Research takes the hit. The page gets the cape. Papers, CV, and contact
+    stay easy to find.
   trailer_url: https://youtu.be/uKYV2qjYIS0?si=QmRJJf5yuv41UFDY
   playlist_url: https://youtube.com/playlist?list=PLsTV5jnZ_2V1T-AqzVKrhvJBWnQht9pme&si=QmE8AVsJHxlj6F-7
   teaser: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
@@ -13,18 +13,16 @@ downloads:
   remix_kit_zip: /assets/downloads/hci-spooder-man-remix-kit.zip
 
 guide_steps:
-  - title: Pick your starting point.
+  - title: Pick the scar.
     text: >-
-      Choose one real research snag: rejection, confusing reviews, a rough
-      prototype, messy fieldwork, or trying again.
-  - title: Add the remix kit.
+      Rejection, confusing reviews, rough prototype, messy fieldwork, or round
+      two.
+  - title: Drop in the kit.
     text: >-
-      Use the ZIP and prompt, then swap in your colors, captions, assets, and
-      voice.
-  - title: Invite people in.
+      Swap images, captions, colors, and voice.
+  - title: Leave a door.
     text: >-
-      Keep the serious site easy to use. Make the playful part opt-in and simple
-      enough to reuse.
+      Keep the serious path clear. Let the joke be easy to remix.
 
 agent_prompt: |
   # HCI Spooder-Man Website Remix Prompt
@@ -70,36 +68,36 @@ teasers:
   - /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
 
 assets:
-  - label: Recruitment shot
+  - label: Invite shot
     path: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
-    caption: The clearest group shot for inviting people in.
+    caption: The door into the bit.
   - label: Crosswalk lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft.png
-    caption: A calmer city walk for the movement.
+    caption: A calmer walk after the no.
   - label: Rooftop lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
-    caption: The team gets together after a confusing review.
+    caption: The team regroups.
   - label: Alley car scramble
     path: /assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble.png
-    caption: Research plans go sideways too.
+    caption: When the plan swerves.
   - label: Jet scene
     path: /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
-    caption: A deadline scene with lots of motion.
+    caption: Deadline energy.
   - label: Alley standoff
     path: /assets/img/project_pics/hci-spooder-man/spooder-alley-standoff.png
-    caption: When nobody knows which draft is current.
+    caption: Draft standoff.
   - label: Close-up dialogue
     path: /assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue.png
-    caption: A small pause before the next reply.
+    caption: Before the next reply.
   - label: Across the Spooder-Verse title
     path: /assets/img/project_pics/hci-spooder-man/spooder-verse-title.png
-    caption: A simple title card for the page.
+    caption: Title card.
   - label: Spooder-Man title
     path: /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
-    caption: The original title card, kept uncropped.
-  - label: Steam-style rejection meme
+    caption: Original title card.
+  - label: Failure XP reference
     path: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
-    caption: Local Wall of Rejection mockup used by the publications page.
+    caption: Wall reference.
 
 prompts:
   - title: Badge shelf

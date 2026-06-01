@@ -60,14 +60,14 @@ badges:
     detail: CHI and UIST both said no. That means the next version gets simpler and stronger.
 
 xp:
-  label: Spooder-Man XP
-  kicker: Review XP
-  blurb: Only review misses count here; accepted papers stay in the list.
+  label: Nerdy Spooder-Man XP
+  kicker: Failure XP
+  blurb: Failed submissions count here; accepted papers stay in the list.
   level: 2
   current: 24
   next_level: 30
   progress: 80
-  source_note: Small joke metric for peer review.
+  source_note: Small joke metric for failed submissions.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
     - label: First-author rejection
@@ -111,14 +111,14 @@ xp:
     - date: 2026-01-15
       display_date: Jan 15
       axis_label: "Jan"
-      label: CHI26 review miss
+      label: CHI26 no
       total: 12
       x: 87
       y: 34
     - date: 2026-05-28
       display_date: May 28
       axis_label: "May"
-      label: UIST26 review miss
+      label: UIST26 no
       total: 24
       x: 100
       y: 4

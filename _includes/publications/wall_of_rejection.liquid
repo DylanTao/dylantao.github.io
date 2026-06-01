@@ -90,7 +90,7 @@
         </p>
       </div>
 
-      <aside class="rejection-xp-panel" aria-label="Review XP joke panel">
+      <aside class="rejection-xp-panel" aria-label="Failure XP joke panel">
         <div class="rejection-xp-topline">
           <a
             class="spooder-reference-thumb"
@@ -120,6 +120,7 @@
 
         <div class="failure-xp-heading">
           <div>
+            <span class="failure-xp-mobile-label">{{ rejection_wall.xp.kicker }} / {{ rejection_wall.xp.label }}</span>
             <span class="failure-level-label">Level {{ rejection_wall.xp.level }}</span>
             <span class="failure-xp-count">{{ rejection_wall.xp.current }} / {{ rejection_wall.xp.next_level }} XP</span>
           </div>
@@ -146,7 +147,7 @@
                   class="failure-xp-history"
                   viewBox="0 0 124 88"
                   role="img"
-                  aria-label="Review XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
+                  aria-label="Failure XP rose from 0 in 2021 to {{ rejection_wall.xp.current }} in May 2026"
                 >
                   {% assign xp_points = '' %}
                   {% for point in rejection_wall.xp.timeline %}
@@ -203,7 +204,7 @@
         <div
           class="failure-xp-track"
           role="meter"
-          aria-label="{{ rejection_wall.xp.label }} XP progress"
+          aria-label="{{ rejection_wall.xp.label }} progress"
           aria-valuemin="0"
           aria-valuemax="{{ rejection_wall.xp.next_level }}"
           aria-valuenow="{{ rejection_wall.xp.current }}"
@@ -211,7 +212,7 @@
           <span style="width: {{ rejection_wall.xp.progress }}%"></span>
         </div>
 
-        <div class="rejection-xp-ledger" aria-label="Review ledger">
+        <div class="rejection-xp-ledger" aria-label="Failure ledger">
           {% for ledger_item in rejection_wall.xp.ledger %}
             <span>
               <strong>{{ ledger_item.value }}</strong>

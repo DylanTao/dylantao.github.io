@@ -41,20 +41,20 @@ random_teasers: true
   </div>
 </div>
 
-<section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Man movement">
+<section class="publication-spooder-cta" aria-label="Join the nerdy Spooder-Verse">
   <figure data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
     <img src="{{ spooder.hero.teaser | relative_url }}" alt="HCI Spooder-Man remix teaser" loading="lazy">
   </figure>
   <div>
     <p class="publication-spooder-cta-kicker">Spooder-Verse</p>
-    <h2>Join the Spooder-Verse.</h2>
+    <h2>Join the nerdy Spooder-Verse.</h2>
     <p>
-      Bring your own playful academic website remix; keep the research useful, and let the web feel a
-      little more alive.
+      Bring your own playful academic website remix; keep the research useful, and let the web feel
+      alive.
     </p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Join the Spooder-Verse</span>
+        <span>Join the nerdy Spooder-Verse</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
