@@ -960,11 +960,11 @@ body.rejection-meme-viewer-open {
   display: grid;
   grid-template-columns: minmax(8.25rem, 0.36fr) minmax(0, 1fr);
   gap: 0.75rem;
-  align-items: center;
-  max-width: 48rem;
+  align-items: stretch;
+  max-width: 56rem;
   margin: 1.25rem auto 0;
   overflow: hidden;
-  padding: 0.6rem;
+  padding: 0.45rem;
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 24%, var(--global-divider-color));
   border-radius: 0.7rem;
   background:
@@ -975,8 +975,8 @@ body.rejection-meme-viewer-open {
 
 .publication-spooder-cta figure {
   width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
+  height: 100%;
+  min-height: 6.8rem;
   margin: 0;
   overflow: hidden;
   border-radius: 0.5rem;
@@ -1795,13 +1795,12 @@ html[data-theme="dark"] .scholar-lens-card {
     gap: 0.6rem;
     max-width: none;
     margin-top: 1rem;
-    padding: 0.48rem;
+    padding: 0.38rem;
   }
 
   .publication-spooder-cta figure {
     width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
+    min-height: 5.4rem;
   }
 
   .publication-spooder-cta > div {

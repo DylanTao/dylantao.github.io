@@ -14,9 +14,10 @@ random_teasers: true
 <!-- _pages/publications.md -->
 
 {% assign spooder = site.data.spooder_man %}
+{% assign spooder_teaser_separator = '' %}
 {% capture spooder_teaser_paths %}
-{% for teaser in spooder.teasers %}
-{{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
+{% for teaser in spooder.teasers limit: 7 %}
+{{ spooder_teaser_separator }}{{ teaser | relative_url }}{% assign spooder_teaser_separator = '|' %}
 {% endfor %}
 {% endcapture %}
 
@@ -48,12 +49,10 @@ random_teasers: true
   <div>
     <p class="publication-spooder-cta-kicker">Spooder-Verse</p>
     <h2>Join the nerdy Spooder-Verse.</h2>
-    <p>
-      Start with one real academic no, then use the prompt and asset ZIP to make your own remix.
-    </p>
+    <p>Bring one real academic no; use the prompt and assets to make your own remix.</p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Get the remix kit</span>
+        <span>Get the Spooder suits</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
