@@ -44,8 +44,11 @@
                   {% endcase %}
                 </span>
                 <span class="rejection-badge-summary">
-                  <span class="rejection-badge-title">{{ badge.title }}</span>
-                  <span class="rejection-badge-count">x{{ badge.count }}</span>
+                  <span class="rejection-badge-title-row">
+                    <span class="rejection-badge-title">{{ badge.title }}</span>
+                    <span class="rejection-badge-count">x{{ badge.count }}</span>
+                  </span>
+                  <span class="rejection-badge-short">{{ badge.short }}</span>
                 </span>
               </button>
             {% endfor %}
@@ -54,14 +57,7 @@
           {% for badge in rejection_wall.badges %}
             <div class="rejection-receipt-source" hidden data-rejection-receipt-source data-rejection-source-id="{{ badge.id }}">
               <div class="rejection-badge-detail">
-                <div>
-                  <p class="rejection-badge-detail-title">
-                    {{ badge.title }}
-                    <span>x{{ badge.count }}</span>
-                  </p>
-                  <p>{{ badge.detail }}</p>
-                  <p class="rejection-badge-paper">{{ badge.stage }} / {{ badge.date_label }}</p>
-                </div>
+                <p class="rejection-badge-paper">{{ badge.stage }} / {{ badge.date_label }}</p>
               </div>
             </div>
           {% endfor %}
