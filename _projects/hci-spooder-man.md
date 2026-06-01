@@ -36,7 +36,7 @@ spooder_project: true
     </div>
     <div class="project-case-actions">
       <a href="#spooder-origin-title">Read origin</a>
-      <a href="#spooder-agent-kit">Get files</a>
+      <a href="#spooder-agent-kit">Get spoody-suits</a>
       <a href="#spooder-capsule">Join in</a>
     </div>
   </div>
@@ -72,8 +72,8 @@ spooder_project: true
 
 <section id="spooder-capsule" class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">
   <div class="hci-spooder-section-heading">
-    <p class="project-case-kicker">Spooder kit</p>
-    <h2 id="spooder-gallery-title">Become a Spooder-Man.</h2>
+    <p class="project-case-kicker">Spoody kit</p>
+    <h2 id="spooder-gallery-title">Pick a spoody-suit.</h2>
     <p>Use these frames as placeholders or references; swap in your own academic no.</p>
   </div>
 
@@ -131,14 +131,14 @@ spooder_project: true
 <section class="hci-spooder-toolkit" aria-label="HCI Spooder-Man remix toolkit">
   <section id="spooder-agent-kit" class="hci-spooder-agent-kit hci-spooder-prompt" data-spooder-prompt-card aria-labelledby="spooder-agent-kit-title">
     <div>
-      <h2 id="spooder-agent-kit-title">Files for your version.</h2>
+      <h2 id="spooder-agent-kit-title">Spoody-suit files.</h2>
       <button type="button" data-spooder-copy-prompt>Copy agent prompt</button>
     </div>
     <p>Markdown prompt plus asset ZIP: enough structure, not a clone.</p>
     <div class="hci-spooder-agent-actions">
       <a href="{{ spooder.downloads.remix_kit_zip | relative_url }}" download>
         <i class="fa-solid fa-file-zipper" aria-hidden="true"></i>
-        Download remix kit
+        Download spoody-suits
       </a>
       <a href="{{ spooder.downloads.prompt_markdown | relative_url }}" download>
         <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
