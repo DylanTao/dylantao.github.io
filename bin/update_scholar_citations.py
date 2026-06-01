@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import argparse
 import os
 import sys
+from datetime import date, datetime
+
 import yaml
-from datetime import datetime
 from scholarly import scholarly
 
 
@@ -33,34 +35,123 @@ def load_scholar_user_id() -> str:
 
 
 SCHOLAR_USER_ID: str = load_scholar_user_id()
-OUTPUT_FILE: str = "_data/citations.yml"
+CITATIONS_FILE: str = "_data/citations.yml"
+PUBLICATION_LENS_FILE: str = "_data/publication_lens.yml"
 
 
-def get_scholar_citations() -> None:
+class IndentedSafeDumper(yaml.SafeDumper):
+    """Format nested YAML lists in the same style Prettier expects."""
+
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
+def load_yaml_file(path: str) -> dict:
+    """Load a YAML file, returning an empty dictionary if it does not exist."""
+    if not os.path.exists(path):
+        return {}
+
+    try:
+        with open(path, "r") as f:
+            return yaml.safe_load(f) or {}
+    except Exception as e:
+        print(f"Warning: Could not read {path}: {e}. The file may be missing or corrupted.")
+        return {}
+
+
+def write_yaml_file(path: str, data: dict) -> None:
+    """Write YAML while keeping insertion order stable."""
+    try:
+        with open(path, "w") as f:
+            yaml.dump(data, f, Dumper=IndentedSafeDumper, width=1000, sort_keys=False)
+        print(f"Data saved to {path}")
+    except Exception as e:
+        print(f"Error writing data to {path}: {e}. Please check file permissions and disk space.")
+        sys.exit(1)
+
+
+def date_matches(value, expected_date: date) -> bool:
+    """Compare YAML-loaded dates and strings against a date object."""
+    if isinstance(value, datetime):
+        return value.date() == expected_date
+    if isinstance(value, date):
+        return value == expected_date
+    return str(value) == expected_date.isoformat()
+
+
+def sync_publication_lens(citation_data: dict, sync_date: date) -> None:
+    """Update Scholar Lens totals from citation data while preserving curated fields."""
+    if not os.path.exists(PUBLICATION_LENS_FILE):
+        print(f"No {PUBLICATION_LENS_FILE} file found. Skipping Scholar Lens sync.")
+        return
+
+    publication_lens = load_yaml_file(PUBLICATION_LENS_FILE)
+    lens_papers = publication_lens.get("papers")
+    citation_papers = citation_data.get("papers")
+
+    if not isinstance(lens_papers, dict) or not isinstance(citation_papers, dict):
+        print(f"Warning: Could not sync {PUBLICATION_LENS_FILE}; expected papers mappings.")
+        return
+
+    changed = False
+    total_citations = 0
+
+    for lens_key, lens_paper in lens_papers.items():
+        if not isinstance(lens_paper, dict):
+            print(f"Warning: Skipping malformed Scholar Lens paper entry: {lens_key}")
+            continue
+
+        scholar_pub_id = lens_paper.get("scholar_pub_id")
+        if not scholar_pub_id:
+            print(f"Warning: No scholar_pub_id set for Scholar Lens paper: {lens_key}")
+            total_citations += int(lens_paper.get("citation_total") or 0)
+            continue
+
+        scholar_paper = citation_papers.get(scholar_pub_id)
+        if not scholar_paper:
+            print(f"Warning: No Google Scholar citation data found for {lens_key} ({scholar_pub_id}).")
+            total_citations += int(lens_paper.get("citation_total") or 0)
+            continue
+
+        citation_total = int(scholar_paper.get("citations") or 0)
+        total_citations += citation_total
+
+        if lens_paper.get("citation_total") != citation_total:
+            lens_paper["citation_total"] = citation_total
+            changed = True
+
+    metadata = publication_lens.setdefault("metadata", {})
+    if not date_matches(metadata.get("last_synced"), sync_date):
+        metadata["last_synced"] = sync_date
+        changed = True
+
+    if metadata.get("total_citations") != total_citations:
+        metadata["total_citations"] = total_citations
+        changed = True
+
+    if changed:
+        write_yaml_file(PUBLICATION_LENS_FILE, publication_lens)
+    else:
+        print("No changes in Scholar Lens citation data. Skipping file update.")
+
+
+def get_scholar_citations(force: bool = False) -> None:
     """Fetch and update Google Scholar citation data."""
     print(f"Fetching citations for Google Scholar ID: {SCHOLAR_USER_ID}")
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = datetime.now().date()
+    today_string = today.isoformat()
 
     # Check if the output file was already updated today
-    if os.path.exists(OUTPUT_FILE):
-        try:
-            with open(OUTPUT_FILE, "r") as f:
-                existing_data = yaml.safe_load(f)
-            if (
-                existing_data
-                and "metadata" in existing_data
-                and "last_updated" in existing_data["metadata"]
-            ):
-                print(f"Last updated on: {existing_data['metadata']['last_updated']}")
-                if existing_data["metadata"]["last_updated"] == today:
-                    print("Citations data is already up-to-date. Skipping fetch.")
-                    return
-        except Exception as e:
-            print(
-                f"Warning: Could not read existing citation data from {OUTPUT_FILE}: {e}. The file may be missing or corrupted."
-            )
+    existing_data = load_yaml_file(CITATIONS_FILE)
+    metadata = existing_data.get("metadata", {})
+    if metadata and "last_updated" in metadata:
+        print(f"Last updated on: {metadata['last_updated']}")
+        if not force and date_matches(metadata["last_updated"], today):
+            print("Citations data is already up-to-date. Skipping fetch.")
+            sync_publication_lens(existing_data, today)
+            return
 
-    citation_data = {"metadata": {"last_updated": today}, "papers": {}}
+    citation_data = {"metadata": {"last_updated": today_string}, "papers": {}}
 
     scholarly.set_timeout(15)
     scholarly.set_retries(3)
@@ -108,25 +199,28 @@ def get_scholar_citations() -> None:
                 f"Error processing publication '{pub.get('bib', {}).get('title', 'Unknown')}': {e}. This publication will be skipped."
             )
 
-    # Compare new data with existing data
-    if existing_data and existing_data.get("papers") == citation_data["papers"]:
+    if existing_data.get("papers") == citation_data["papers"] and date_matches(metadata.get("last_updated"), today):
         print("No changes in citation data. Skipping file update.")
-        return
+    else:
+        write_yaml_file(CITATIONS_FILE, citation_data)
 
-    try:
-        with open(OUTPUT_FILE, "w") as f:
-            yaml.dump(citation_data, f, width=1000, sort_keys=True)
-        print(f"Citation data saved to {OUTPUT_FILE}")
-    except Exception as e:
-        print(
-            f"Error writing citation data to {OUTPUT_FILE}: {e}. Please check file permissions and disk space."
-        )
-        sys.exit(1)
+    sync_publication_lens(citation_data, today)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Update Google Scholar citation data.")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Fetch Google Scholar data even if citations were already updated today.",
+    )
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
     try:
-        get_scholar_citations()
+        args = parse_args()
+        get_scholar_citations(force=args.force)
     except Exception as e:
         print(f"Unexpected error: {e}")
         sys.exit(1)

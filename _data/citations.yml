@@ -1,23 +1,23 @@
 metadata:
   last_updated: '2026-06-01'
 papers:
-  W6vF-VcAAAAJ:8k81kl-MbHgC:
-    citations: 0
-    title: What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration
-    year: '2026'
   W6vF-VcAAAAJ:Se3iqnhoufwC:
-    citations: 158
     title: 'Physion: Evaluating physical prediction from vision in humans and machines'
     year: '2021'
+    citations: 160
   W6vF-VcAAAAJ:_FxGoFyzp5QC:
-    citations: 33
     title: 'DesignWeaver: dimensional scaffolding for text-to-image product design'
     year: '2025'
-  W6vF-VcAAAAJ:eQOLeE2rZwMC:
-    citations: 0
-    title: 'Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines'
-    year: '2023'
+    citations: 33
   W6vF-VcAAAAJ:roLk4NBRz8UC:
-    citations: 10
     title: 'Hotspot: Signed distance function optimization with an asymptotically sufficient condition'
     year: '2025'
+    citations: 12
+  W6vF-VcAAAAJ:8k81kl-MbHgC:
+    title: What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration
+    year: '2026'
+    citations: 0
+  W6vF-VcAAAAJ:eQOLeE2rZwMC:
+    title: 'Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines'
+    year: '2023'
+    citations: 0

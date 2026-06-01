@@ -2,7 +2,7 @@ metadata:
   last_synced: 2026-06-01
   scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
   yearly_note: Annual bars follow the Google Scholar snapshot; hover a year or paper to connect the evidence.
-  total_citations: 201
+  total_citations: 205
   credits:
     tool:
       label: Google Scholar Author Highlighter
@@ -10,34 +10,37 @@ metadata:
     recommender:
       label: friend Howard
       url: https://howardhan.com/
-
 papers:
   tao2026whw:
+    scholar_pub_id: W6vF-VcAAAAJ:8k81kl-MbHgC
     work_type: workshop-paper
     work_group: short-form
     role: first-author
     citation_total: 0
   tao2024designweaver:
+    scholar_pub_id: W6vF-VcAAAAJ:_FxGoFyzp5QC
     work_type: full-paper
     work_group: full-paper
     role: first-author
     citation_total: 33
   wang2025hotspot:
+    scholar_pub_id: W6vF-VcAAAAJ:roLk4NBRz8UC
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 10
+    citation_total: 12
   tung2023physion++:
+    scholar_pub_id: W6vF-VcAAAAJ:eQOLeE2rZwMC
     work_type: poster-abstract
     work_group: short-form
     role: coauthor
     citation_total: 0
   bear2021physion:
+    scholar_pub_id: W6vF-VcAAAAJ:Se3iqnhoufwC
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 158
-
+    citation_total: 160
 citation_years:
   - year: 2020
     total: 1
