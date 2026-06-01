@@ -24,6 +24,7 @@
     - [Deployment to a separate repository (advanced users only)](#deployment-to-a-separate-repository-advanced-users-only)
   - [Maintaining Dependencies](#maintaining-dependencies)
   - [Upgrading from a previous version](#upgrading-from-a-previous-version)
+    - [Migrating heavily customized pre-v1 sites](#migrating-heavily-customized-pre-v1-sites)
 
 <!--te-->
 
@@ -85,7 +86,9 @@ Note that when you run it for the first time, it will download a docker image of
 
 Now, feel free to customize the theme however you like (don't forget to change the name!). Also, your changes should be automatically rendered in real-time (or maybe after a few seconds).
 
-> Beta: You can also use the slimmed docker image with a size below 100MBs and exact same functionality. Just use `docker compose -f docker-compose-slim.yml up`
+For v1.x, Docker serves from a container-local destination (`/tmp/_site`) to avoid host bind-mount write deadlocks during notebook and asset generation.
+
+> Beta: You can also try the slimmed docker image with `docker compose -f docker-compose-slim.yml up`, but it may lag behind the full image on some host architectures.
 
 ### Build your own docker image
 
@@ -99,7 +102,7 @@ docker compose up --build
 
 > If you want to update jekyll, install new ruby packages, etc., all you have to do is build the image again using `--force-recreate` argument at the end of the previous command! It will download Ruby and Jekyll and install all Ruby packages again from scratch.
 
-If you want to use a specific docker version, you can do so by changing the version tag to `your_version` in `docker-compose.yaml` (the `v0.16.3` in `image: amirpourmand/al-folio:v0.16.3`). For example, you might have created your website on `v0.10.0` and you want to stick with that.
+If you want to use a specific docker version, you can do so by changing the version tag to `your_version` in `docker-compose.yml` (for example, `image: amirpourmand/al-folio:v1.0.0`). Plugin patch releases do not require a new starter Docker image unless the starter wiring, lockfile, Dockerfile, or image build inputs change.
 
 ### Have Bugs on Docker Image?
 
@@ -140,14 +143,29 @@ For example, when you open the repository with Visual Studio Code (VSCode), it p
 
 For a hands-on walkthrough of running al-folio locally without using Docker, check out [this cool blog post](https://george-gca.github.io/blog/2022/running-local-al-folio/) by one of the community members!
 
-Assuming you have [Ruby](https://www.ruby-lang.org/en/downloads/) and [Bundler](https://bundler.io/) installed on your system (_hint: for ease of managing ruby gems, consider using [rbenv](https://github.com/rbenv/rbenv)_), and also [Python](https://www.python.org/) and [pip](https://pypi.org/project/pip/) (_hint: for ease of managing python packages, consider using a virtual environment, like [venv](https://docs.python.org/pt-br/3/library/venv.html) or [conda](https://docs.conda.io/en/latest/)_).
+Assuming you have [Ruby](https://www.ruby-lang.org/en/downloads/) and [Bundler](https://bundler.io/) installed on your system (_hint: for ease of managing ruby gems, consider using [rbenv](https://github.com/rbenv/rbenv)_), and also [Python](https://www.python.org/) and [pip](https://pypi.org/project/pip/) (_hint: for ease of managing python packages, consider using a virtual environment, like [venv](https://docs.python.org/pt-br/3/library/venv.html) or `conda`_).
 
 ```bash
 bundle install
-# assuming pip is your Python package manager
-pip install jupyter
+# optional but recommended if you use jupyter posts:
+# installs jupyter + nbconvert for jekyll-jupyter-notebook
+./bin/setup-python-deps
+# or manually:
+# python3 -m pip install --user --break-system-packages jupyter nbconvert
 bundle exec jekyll serve
 ```
+
+In `v1.x`, `al-folio` is a thin starter. Do not run starter-local npm build commands for theme/runtime assets; those are owned by `al-*` gems and loaded through plugin contracts.
+Interactive TOC (`toc.sidebar`) and TikZ (`tikzjax: true`) use pinned CDN runtime assets from `_config.yml` (`third_party_libraries.tocbot` and `third_party_libraries.tikzjax`), not install-time downloads.
+
+Starter plugin wiring lives in:
+
+- [Gemfile](../Gemfile) for dependency declarations
+- [\_config.yml](../_config.yml) for Jekyll plugin activation/config
+
+`al-folio` starter does not currently use a gemspec; contributor/plugin integration docs should reference the two files above.
+
+If `jekyll-jupyter-notebook` is enabled and `jupyter-nbconvert` is missing, builds continue but notebook rendering is skipped with a warning.
 
 To see the template running, open your browser and go to `http://localhost:4000`. You should see a copy of the theme's [demo website](https://alshedivat.github.io/al-folio/). Now, feel free to customize the theme however you like. After you are done, remember to **commit** your final changes.
 
@@ -280,17 +298,105 @@ bundle update --all
 
 ## Upgrading from a previous version
 
-If you installed **al-folio** as described above, you can manually update your code by following the steps below:
+Starting with `v1.0`, **al-folio** ships an upgrade CLI (`al_folio_upgrade`) and versioned migration manifests from `al_folio_core` to make minor upgrades (`v1.0 -> v1.1 -> v1.2`) predictable.
+
+### Recommended workflow (v1.x)
 
 ```bash
-# Assuming the current directory is <your-repo-name>
-git remote add upstream https://github.com/alshedivat/al-folio.git
-git fetch upstream
-git rebase v0.16.3
+# 1) Update dependencies
+bundle update
+
+# 2) Audit your site for breaking/deprecated patterns
+bundle exec al-folio upgrade audit
+
+# 3) Apply deterministic codemods (optional)
+bundle exec al-folio upgrade apply --safe
+
+# 4) Generate a report for manual follow-up
+bundle exec al-folio upgrade report
 ```
 
-If you have extensively customized a previous version, it might be trickier to upgrade.
-You can still follow the steps above, but `git rebase` may result in merge conflicts that must be resolved.
-See [git rebase manual](https://help.github.com/en/github/using-git/about-git-rebase) and how to [resolve conflicts](https://help.github.com/en/github/using-git/resolving-merge-conflicts-after-a-git-rebase) for more information.
-If rebasing is too complicated, we recommend re-installing the new version of the theme from scratch and port over your content and changes from the previous version manually. You can use tools like [meld](https://meldmerge.org/)
-or [winmerge](https://winmerge.org/) to help in this process.
+`al-folio` starter is intentionally thin in `v1.x`: layouts/includes/core assets are provided by `al_folio_core`, so regular upgrades do not require rebuilding Tailwind in the starter repo.
+
+The report is written to `al-folio-upgrade-report.md` and classifies findings as:
+
+- **Blocking**: must be resolved before the target upgrade is considered complete
+- **Non-blocking**: deprecated patterns that should be migrated over time
+
+### Legacy Bootstrap content
+
+`v1.0` is Tailwind-first. If your content still relies on Bootstrap-marked classes/behaviors:
+
+1. Enable `al_folio.compat.bootstrap.enabled: true` in `_config.yml`
+2. Ensure `al_folio_bootstrap_compat` is in your plugins/dependencies
+3. Complete migration gradually
+4. Disable compatibility mode before `v1.3` (compat is supported through `v1.2`, deprecated in `v1.3`, removed in `v2.0`)
+
+### Older pre-v1 installs
+
+For heavily customized pre-v1 repositories, you can still use rebase/cherry-pick workflows if needed, but the recommended path is:
+
+1. Start from the v1 starter/runtime contract and copy your site-owned files over: `_config.yml` values, `_data`, content collections, assets, Sass overrides, and intentional local `_layouts`/`_includes` overrides.
+2. Keep `theme: al_folio_core`, the `al_folio` config namespace, and the bundled `al_*` plugin entries from the v1 starter.
+3. Enable `al_folio.compat.bootstrap.enabled: true` if your custom templates still use Bootstrap classes or `data-toggle` attributes.
+4. Run the upgrade audit/codemods.
+5. Run the local override audit.
+6. Fix all blocking findings from `al-folio-upgrade-report.md`.
+7. Build locally and review key pages before deploying.
+
+For ownership boundaries (starter vs gem runtime/tests), see [`BOUNDARIES.md`](BOUNDARIES.md).
+
+#### Migrating heavily customized pre-v1 sites
+
+The safest migration pattern is to keep custom site code local, but stop carrying old copies of runtime files that v1 gems now own.
+
+Keep these in your site repo:
+
+- content collections such as `_pages`, `_projects`, `_news`, `_bibliography`, `_data`, and site assets
+- intentional local overrides such as `_layouts/bib.liquid`, `_includes/repository/repo.liquid`, or custom Sass files
+- custom plugins that are truly site-specific
+- local path or Git-pinned gems when you intentionally maintain a custom plugin variant
+
+Run these checks early:
+
+```bash
+bundle exec al-folio upgrade audit --no-fail
+bundle exec al-folio upgrade overrides audit
+bundle exec al-folio upgrade report
+```
+
+The report calls out plugin-owned local files that usually should be removed or replaced by v1 plugin wiring. The override audit catches intentional local copies of plugin-owned files and records the upstream version you reviewed.
+
+Remove or review these during migration:
+
+- `_includes/head.liquid` and `_includes/scripts.liquid` if they only copy old al-folio runtime setup
+- old local citation and external-post plugins now owned by `al_citations` and `al_ext_posts`
+- `assets/js/distillpub/**` now owned by `al_folio_distill`
+- `assets/js/search/**` now owned by `al_search`
+- starter sample content that does not exist in your old site, such as sample `_posts`
+
+To pin a plugin while testing a local fix:
+
+```ruby
+gem "al_folio_core", git: "https://github.com/YOUR-USER/al-folio-core.git", branch: "my-fix"
+```
+
+To use a local plugin checkout:
+
+```ruby
+gem "al_folio_core", path: "../al-folio-core"
+```
+
+Only fork a plugin when the behavior you need belongs to that plugin. A local layout/include/Sass override in your site repo is enough for one-off site customization.
+
+#### Tracking local override drift
+
+Local overrides are still supported in v1, but Git will not conflict when a gem updates the upstream file that your local copy shadows. Use `al_folio_upgrade` to restore that review signal:
+
+```bash
+bundle exec al-folio upgrade overrides audit
+bundle exec al-folio upgrade overrides diff _includes/repository/repo.liquid
+bundle exec al-folio upgrade overrides accept _includes/repository/repo.liquid
+```
+
+Commit `.al-folio-overrides.yml` in customized sites. It stores the owning gem, gem version, upstream checksum, and local checksum for each reviewed override. After future `bundle update` runs, `bundle exec al-folio upgrade overrides audit` flags overrides whose upstream plugin file changed.

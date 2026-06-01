@@ -389,7 +389,7 @@ Use one H1 per page, usually your blog post or page title
 - Use descriptive filenames: `neural-network-architecture.png` (not `img1.png`)
 - Add alt text (also helps accessibility):
   ```markdown
-  ![Neural network showing three layers with training accuracy of 95%](assets/img/neural-network.png)
+  ![Neural network showing three layers with training accuracy of 95%](../assets/img/neural-network.png)
   ```
 
 **For performance:**

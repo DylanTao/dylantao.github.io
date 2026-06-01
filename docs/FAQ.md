@@ -15,9 +15,14 @@ Here are some frequently asked questions. If you have a different question, plea
   - [When I manually run the Lighthouse Badger workflow, it fails with Error: Input required and not supplied: token. How do I fix that?](#when-i-manually-run-the-lighthouse-badger-workflow-it-fails-with-error-input-required-and-not-supplied-token-how-do-i-fix-that)
   - [My code runs fine locally, but when I create a commit and submit it, it fails with prettier code formatter workflow run failed for main branch. How do I fix that?](#my-code-runs-fine-locally-but-when-i-create-a-commit-and-submit-it-it-fails-with-prettier-code-formatter-workflow-run-failed-for-main-branch-how-do-i-fix-that)
   - [After I update my site with some new content, even a small change, the GitHub action throws an error or displays a warning. What happened?](#after-i-update-my-site-with-some-new-content-even-a-small-change-the-github-action-throws-an-error-or-displays-a-warning-what-happened)
+  - [How do I upgrade from al-folio `v1.0` to `v1.1+` with minimal friction?](#how-do-i-upgrade-from-al-folio-v10-to-v11-with-minimal-friction)
+  - [Do I need to fork every v1 gem to customize layouts and Liquid files?](#do-i-need-to-fork-every-v1-gem-to-customize-layouts-and-liquid-files)
+  - [How do I handle legacy Bootstrap-marked pages on Tailwind-first `v1.x`?](#how-do-i-handle-legacy-bootstrap-marked-pages-on-tailwind-first-v1x)
   - [I am trying to deploy my site, but it fails with Could not find gem 'jekyll-diagrams' in locally installed gems. How do I fix that?](#i-am-trying-to-deploy-my-site-but-it-fails-with-could-not-find-gem-jekyll-diagrams-in-locally-installed-gems-how-do-i-fix-that)
-  - [How can I update Academicons version on the template](#how-can-i-update-academicons-version-on-the-template)
-  - [How can I update Font Awesome version on the template](#how-can-i-update-font-awesome-version-on-the-template)
+  - [How can I update icon library versions on the template](#how-can-i-update-icon-library-versions-on-the-template)
+  - [How should I name plugins in `v1.x`?](#how-should-i-name-plugins-in-v1x)
+  - [How can I propose featuring my plugin in `al-folio`?](#how-can-i-propose-featuring-my-plugin-in-al-folio)
+  - [Why does plugin integration use `Gemfile` + `_config.yml` instead of a gemspec?](#why-does-plugin-integration-use-gemfile--_configyml-instead-of-a-gemspec)
   - [What do all these GitHub actions/workflows mean?](#what-do-all-these-github-actionsworkflows-mean)
   - [How can I use Google Search Console ID on the template?](#how-can-i-use-google-search-console-id-on-the-template)
   - [What are Code Wiki and DeepWiki?](#what-are-code-wiki-and-deepwiki)
@@ -44,7 +49,7 @@ Make sure you followed through the [deployment instructions](#deployment) in the
 
 If the website does not load the theme, the layout looks weird, and all links are broken, being the main page displayed this way:
 
-<img src="assets/img/template_error.png" width="500">
+<img src="../assets/img/template_error.png" width="500">
 
 make sure to correctly specify the `url` and `baseurl` paths in `_config.yml`. Set `url` to `https://<your-github-username>.github.io` or to `https://<your.custom.domain>` if you are using a custom domain. If you are deploying a <ins>personal</ins> or <ins>organization</ins> website, leave `baseurl` **empty** (do **NOT** delete it). If you are deploying a project page, set `baseurl: /<your-project-name>/`. If all previous steps were done correctly, all is missing is for your browser to fetch again the site stylesheet. For this, you can:
 
@@ -72,7 +77,7 @@ You need to [create a personal access token](https://docs.github.com/en/authenti
 
 We implemented support for [Prettier code formatting](https://prettier.io/) in [#2048](https://github.com/alshedivat/al-folio/pull/2048). It basically ensures that your code is [well formatted](https://prettier.io/docs/en/). If you want to ensure your code is compliant with `Prettier`, you have a few options:
 
-- if you are running locally with `Docker` and using [development containers](https://github.com/alshedivat/al-folio/blob/main/INSTALL.md#local-setup-with-development-containers), `Prettier` is already included
+- if you are running locally with `Docker` and using [development containers](INSTALL.md#local-setup-with-development-containers), `Prettier` is already included
 - if you don't use `Docker`, it is simple to integrate it with your preferred IDE using an [extension](https://prettier.io/docs/en/editors)
 - if you want to run it manually, you can follow the first 2 steps in [this tutorial](https://george-gca.github.io/blog/2023/slidev_for_non_web_devs/) (`Installing node version manager (nvm)` and `Installing Node (latest version)`), then, install it using `npm install prettier` inside the project directory, or install it globally on your computer using `npm install -g prettier`. To run `Prettier` on your current directory use `npx prettier . --write`.
 
@@ -95,21 +100,191 @@ The following actions uses node12 which is deprecated and will be forced to run 
 The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files. For more information see: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
 ```
 
-If that's the case, you are using deprecated libraries/commands. This happens because you are using a very old version of al-folio. To fix this it is recommended [upgrading your code to the latest version](INSTALL.md#upgrading-from-a-previous-version) of the template. You will probably need to do some manual merging. If you find it easier, you could create a copy of your repository, do a fresh installation from the template and reapply all your changes. For this I would recommend a tool like [meld](https://meldmerge.org/) or [winmerge](https://winmerge.org/) to check the differences between directories/files.
+If that's the case, you are using deprecated libraries/commands. This happens because you are using an old version of al-folio. Follow the [upgrade guide](INSTALL.md#upgrading-from-a-previous-version) and run the upgrade CLI:
+
+```bash
+bundle exec al-folio upgrade audit
+bundle exec al-folio upgrade apply --safe
+bundle exec al-folio upgrade report
+```
 
 Note that libraries tend to be deprecated and support for them dropped as they are no longer maintained, and keep using them involves security breaches. Also, some of these deprecations are enforced, for example, by GitHub itself, so there's so much we can do. We have also added tons of new functionality, as well as tidying things up and improving the overall speed and structure, so you could also benefit from these improvements.
+
+## How do I upgrade from al-folio `v1.0` to `v1.1+` with minimal friction?
+
+Use the SemVer migration flow:
+
+1. `bundle update`
+2. `bundle exec al-folio upgrade audit`
+3. `bundle exec al-folio upgrade overrides audit`
+4. `bundle exec al-folio upgrade apply --safe` (optional)
+5. `bundle exec al-folio upgrade report`
+
+Then resolve all **Blocking** findings in `al-folio-upgrade-report.md`. Non-blocking findings are deprecated patterns you can migrate incrementally.
+
+For starter-based sites, keep `theme: al_folio_core` and avoid copying theme internals into your repo unless you intentionally need overrides.
+
+## Do I need to fork every v1 gem to customize layouts and Liquid files?
+
+No. In `v1.x`, gem-owned layouts/includes/assets provide the default runtime, but your site can still override a file locally by adding the same path in your starter repo, for example `_layouts/bib.liquid` or `_includes/repository/repo.liquid`.
+
+Use this rule of thumb:
+
+- Keep site-specific content, data, Sass, and intentional local overrides in your site repo.
+- Remove old copied runtime files when v1 gems own them now, especially `_includes/head.liquid`, `_includes/scripts.liquid`, `assets/js/distillpub/**`, `assets/js/search/**`, and old citation/external-post helper plugins.
+- Fork or pin a plugin only when you want to change plugin-owned behavior for every site using that plugin.
+- Run `bundle exec al-folio upgrade overrides audit` after dependency updates to identify local overrides whose upstream plugin files changed.
+- Commit `.al-folio-overrides.yml` after reviewing intentional overrides so future gem updates can flag stale copies explicitly.
+
+## How do I know when a local override is stale after a plugin update?
+
+Use the override audit workflow:
+
+```bash
+bundle exec al-folio upgrade overrides audit
+bundle exec al-folio upgrade overrides diff _includes/repository/repo.liquid
+bundle exec al-folio upgrade overrides accept _includes/repository/repo.liquid
+```
+
+The audit compares local overrides with files shipped by installed `al-*` gems. The acknowledgement file `.al-folio-overrides.yml` stores the upstream checksum you reviewed. When a future gem update changes that upstream file, the audit marks your local override as stale so you can reconcile it.
+
+## Why does `v1.x` starter not have `npm run build:css` anymore?
+
+`al-folio` is a thin starter in `v1.x`. Tailwind/runtime build ownership moved to gem repos (primarily `al_folio_core` and feature gems), so starter builds do not require local npm CSS build commands.
+
+Use starter tests for:
+
+- visual regression/parity checks
+- cross-gem integration checks
+
+Use gem repos for:
+
+- component correctness/unit tests
+- plugin/runtime asset contract tests
+
+See [`BOUNDARIES.md`](BOUNDARIES.md) for the ownership contract.
+
+## Jupyter posts are enabled, but my build says `jupyter-nbconvert` is missing. What are my options?
+
+`jekyll-jupyter-notebook` depends on Python tooling (`jupyter` + `nbconvert`), and Bundler cannot install Python packages for you.
+
+Recommended options:
+
+1. Install Python deps locally:
+
+```bash
+./bin/setup-python-deps
+```
+
+2. Or install manually in your Python environment:
+
+```bash
+python3 -m pip install --user --break-system-packages jupyter nbconvert
+```
+
+3. If you do not need notebook rendering, disable/remove the plugin from `_config.yml`.
+
+In `v1.x`, missing `jupyter-nbconvert` is treated as warn-and-continue; notebook rendering is skipped until deps are installed.
+
+## How do I handle legacy Bootstrap-marked pages on Tailwind-first `v1.x`?
+
+`v1.x` core is Tailwind-first. If your content still relies on Bootstrap-marked classes or `data-toggle` behavior, enable compatibility mode temporarily:
+
+```yaml
+al_folio:
+  compat:
+    bootstrap:
+      enabled: true
+```
+
+Compatibility timeline:
+
+- Supported through `v1.2`
+- Deprecated in `v1.3`
+- Removed in `v2.0`
+
+The compatibility runtime (`/assets/css/bootstrap-compat.css` and `/assets/js/bootstrap-compat.js`) is provided by the `al_folio_bootstrap_compat` gem when enabled.
+
+## How does sidebar table of contents work in `v1.x`?
+
+`v1.x` uses Tocbot for sidebar TOC rendering when page front matter includes:
+
+```yaml
+toc:
+  sidebar: left # or right
+  collapse: expanded # or auto
+```
+
+Tocbot runtime assets are loaded from pinned CDN entries in `_config.yml` under `third_party_libraries.tocbot`.
+If needed, heading labels can be overridden using `data-toc-text` attributes.
+Use `collapse: auto` to expand nested TOC branches as the active section changes during scrolling.
+
+## Why does `pretty_table: true` still work when Bootstrap compatibility is disabled?
+
+When `al_folio.compat.bootstrap.enabled: false`, `v1.x` uses a built-in vanilla Tailwind table engine for `table[data-toggle="table"]` markup.
+It supports search, pagination, sortable columns, and click-to-select without requiring Bootstrap Table runtime.
+
+When compatibility is enabled, Bootstrap Table remains available for legacy content.
+
+## Why does Lightbox2 work without jQuery in `v1.x`?
+
+In `v1.x`, `al_img_tools` provides a plugin-owned lightbox adapter for `data-lightbox` markup, so lightbox galleries no longer depend on jQuery.
+Author-facing markup stays the same (`images.lightbox2: true` and `data-lightbox` links).
 
 ## I am trying to deploy my site, but it fails with `Could not find gem 'jekyll-diagrams' in locally installed gems`. How do I fix that?
 
 `jekyll-diagrams` support was dropped in [#1992](https://github.com/alshedivat/al-folio/pull/1992) in favor of using `mermaid.js` directly. Simply [update your code](INSTALL.md#upgrading-from-a-previous-version) to get the latest changes.
 
-## How can I update Academicons version on the template
+## How can I update icon library versions on the template
 
-To update the Academicons version, you need to download the latest release from the [Academicons website](https://jpswalsh.github.io/academicons/). After downloading, extract the zip file and copy the files `academicons.ttf` and `academicons.woff` from the `fonts/` directory to `assets/fonts/` and the file `academicons.min.css` from the `css/` directory to `assets/css/`.
+In `v1.x`, icon runtime ownership is provided by `al_icons`, and icons are loaded from pinned CDN URLs configured in `_config.yml` under `third_party_libraries`.
 
-## How can I update Font Awesome version on the template
+Update flow:
 
-To update the Font Awesome version, you need to download the latest release "for the web" from the [Font Awesome website](https://fontawesome.com/download). After downloading, extract the zip file and copy the `scss/` directory content to `_sass/font-awesome/` and the `webfonts/` content to `assets/webfonts/`.
+1. Confirm `al_icons` is enabled in `plugins`.
+2. Update version values in `_config.yml`:
+   - `third_party_libraries.fontawesome.version`
+   - `third_party_libraries.academicons.version`
+   - `third_party_libraries.scholar-icons.version`
+3. Update corresponding `integrity.css` hashes.
+4. Rebuild your site and verify icon rendering on pages with socials/publications.
+
+Do not copy icon fonts into `assets/fonts/` or `assets/webfonts/` in the starter for `v1.x`; those local runtime assets are no longer starter-owned.
+
+## How should I name plugins in `v1.x`?
+
+Use the hybrid naming model:
+
+- Theme-coupled plugins:
+  - repo: `al-folio-<feature>`
+  - gem/plugin id: `al_folio_<feature>`
+- Reusable plugins:
+  - repo: `al-<feature>` or neutral name
+  - gem/plugin id aligned with plugin namespace
+
+Third-party non-`al-*` plugins are still valid and can be featured.
+
+## How can I propose featuring my plugin in `al-folio`?
+
+Use the **Plugin Feature Proposal** issue template in this repo and include:
+
+1. plugin repo URL
+2. gem name and Jekyll plugin id
+3. compatibility range (`al_folio_min` / `al_folio_max`)
+4. owner/maintainer contact
+5. demo page/post path
+
+If maintainers decide to list it, update [`_data/featured_plugins.yml`](../_data/featured_plugins.yml) through a PR.
+If maintainers decide to bundle it by default, that is a separate decision and requires wiring updates in [Gemfile](../Gemfile) and [\_config.yml](../_config.yml).
+
+## Why does plugin integration use `Gemfile` + `_config.yml` instead of a gemspec?
+
+`al-folio` starter currently does not have a gemspec. Plugin integration is controlled by:
+
+- [Gemfile](../Gemfile) for dependency declarations
+- [\_config.yml](../_config.yml) for Jekyll plugin activation/configuration
+
+Any contribution guidance that references gemspec updates should be interpreted as starter wiring updates to those two files.
 
 ## What do all these GitHub actions/workflows mean?
 
@@ -124,9 +299,9 @@ Currently we have the following workflows:
 - `deploy-image.yml`: deploys a new docker image with the latest changes to Docker Hub
 - `deploy.yml`: deploys the website to GitHub Pages
 - `docker-slim.yml`: deploys a smaller version of the docker image to Docker Hub with the [docker-slim-action](https://github.com/kitabisa/docker-slim-action)
-- `lighthouse-badger.yml`: runs a [lighthouse](https://github.com/GoogleChrome/lighthouse) test for your site with the [lighthouse-badger-action](https://github.com/MyActionWay/lighthouse-badger-action), saving the results in the repository for easy inspecting, as can be seen [here](https://github.com/alshedivat/al-folio?tab=readme-ov-file#lighthouse-pagespeed-insights). For more information on how to enable this workflow, check our [FAQ question about it](https://github.com/alshedivat/al-folio/blob/main/FAQ.md#when-i-manually-run-the-lighthouse-badger-workflow-it-fails-with-error-input-required-and-not-supplied-token-how-do-i-fix-that)
+- `lighthouse-badger.yml`: runs a [lighthouse](https://github.com/GoogleChrome/lighthouse) test for your site with the [lighthouse-badger-action](https://github.com/MyActionWay/lighthouse-badger-action), saving the results in the repository for easy inspecting, as can be seen [here](https://github.com/alshedivat/al-folio?tab=readme-ov-file#lighthouse-pagespeed-insights). For more information on how to enable this workflow, check our [FAQ question about it](#when-i-manually-run-the-lighthouse-badger-workflow-it-fails-with-error-input-required-and-not-supplied-token-how-do-i-fix-that)
 - `prettier-comment-on-pr.yml`: not working. For now, this action is disabled. It was supposed to run prettier on the PRs and comment on them with the changes needed. For more information, check [issue 2115](https://github.com/alshedivat/al-folio/issues/2115)
-- `prettier.yml`: runs [prettier](https://prettier.io/) on the code to ensure it is well formatted. For more information, check our [FAQ question about it](https://github.com/alshedivat/al-folio/blob/main/FAQ.md#my-code-runs-fine-locally-but-when-i-create-a-commit-and-submit-it-it-fails-with-prettier-code-formatter-workflow-run-failed-for-main-branch-how-do-i-fix-that)
+- `prettier.yml`: runs [prettier](https://prettier.io/) on the code to ensure it is well formatted. For more information, check our [FAQ question about it](#my-code-runs-fine-locally-but-when-i-create-a-commit-and-submit-it-it-fails-with-prettier-code-formatter-workflow-run-failed-for-main-branch-how-do-i-fix-that)
 
 ## How can I use Google Search Console ID on the template?
 

@@ -10,9 +10,72 @@ If you would like to implement a new feature or a bug, please make sure you (or 
 
 Note that since [#2048](https://github.com/alshedivat/al-folio/pull/2048) al-folio uses the [prettier formatter](https://prettier.io/) for its code, meaning all new submitted code must conform to its standard. If you don't have `prettier` installed for your setup and the `prettier` code check fails when submitting a PR, you can check the referred failed action in our repo. In that action there will be an artifact with an HTML diff showing the needed changes.
 
-## GitHub Copilot Agents
+## Repository Routing (v1.x)
 
-This repository includes specialized GitHub Copilot agents and files to assist with development and documentation:
+`al-folio` is a starter in `v1.x`. Before opening a PR, route your change to the owning repo:
+
+- `al-folio` (this repo): starter wiring (`Gemfile`, `_config.yml`), example/demo content, documentation, visual tests, cross-gem integration tests.
+- `al-folio-core` and other `al-*` gem repos: component runtime behavior, layouts/includes/style primitives, feature logic, unit/component tests.
+- If a feature does not fit an existing plugin, propose a new standalone plugin first, then implement there.
+
+See [`BOUNDARIES.md`](BOUNDARIES.md) for ownership details.
+
+## Plugin Naming Convention (v1.x)
+
+We use a hybrid naming convention:
+
+- Theme-coupled plugins: repo `al-folio-<feature>`, gem/plugin id `al_folio_<feature>`.
+- Reusable plugins: repo `al-<feature>` or neutral name, gem/plugin id aligned with plugin namespace.
+- Third-party non-`al-*` plugins are allowed in the ecosystem and can be featured.
+
+## Featuring Community Plugins
+
+You can publish and own your own plugin, then propose it for featuring in `al-folio`.
+
+1. Open a **Plugin Feature Proposal** issue in this repo.
+2. Share plugin metadata (repo URL, gem name, plugin id, compatibility, owner, demo path).
+3. Open a PR to this starter updating:
+   - [`_data/featured_plugins.yml`](../_data/featured_plugins.yml)
+   - optional demo content page/post under `_pages/` or `_posts/`
+4. If requesting **bundled** status (not only featured listing), include starter wiring updates in:
+   - [Gemfile](../Gemfile)
+   - [\_config.yml](../_config.yml)
+
+Featuring and bundling are separate decisions:
+
+- **Featured-only**: catalog/docs entry and demo.
+- **Bundled**: also included in starter dependencies/plugin list by maintainers.
+
+Plugin patch releases are published from their owning repositories. Update this starter only when a plugin release changes default wiring, dependency pins, documentation, examples, integration tests, visual baselines, or Docker/runtime release artifacts.
+
+## Test Ownership
+
+`al-folio` is a starter kit in `v1.x`. Keep tests aligned with runtime ownership:
+
+- `al-folio`: visual regression + cross-gem integration + starter wiring contracts.
+- Gem repos (`al-folio-core`, `al-folio-distill`, `al-*`): component correctness/unit tests and asset/runtime contract checks.
+
+Do not add duplicate component-level correctness tests to this starter when the component is gem-owned. See [`BOUNDARIES.md`](BOUNDARIES.md).
+
+## Local Validation
+
+Before opening/updating a PR in `v1.x`, run:
+
+```bash
+npm ci
+bundle exec jekyll build
+```
+
+If your change touches visual tests, install Playwright browsers once and run:
+
+```bash
+npx playwright install chromium webkit
+npm run test:visual
+```
+
+## AI Agent Guidance
+
+This repository includes agent entrypoints and skills for Codex, Claude, Copilot, and similar coding agents.
 
 ### CLAUDE.md
 
@@ -21,6 +84,15 @@ The `CLAUDE.md` file serves as an entry point for Claude (Anthropic's AI assista
 ```
 @AGENTS.md
 ```
+
+### Agent Skills
+
+Agents can use repo-local skills for common v1 workflows:
+
+- `.agents/skills/al-folio-bootstrap/SKILL.md` for new site setup and safe starter customization.
+- `.agents/skills/al-folio-v1-migration/SKILL.md` for customized fork migration and override drift auditing.
+
+The canonical skill files live in `.agents/skills/`. `.codex/skills/` and `.claude/skills/` are symlinks for agent-specific discovery.
 
 ### Customization Agent
 
@@ -37,7 +109,7 @@ To use the customization agent, you need to have [GitHub Copilot](https://github
 
 The **Documentation Agent** (`.github/agents/docs.agent.md`) maintains the project documentation. It:
 
-- Updates and maintains documentation files (`README.md`, `INSTALL.md`, `CUSTOMIZE.md`, `FAQ.md`, `CONTRIBUTING.md`)
+- Updates and maintains documentation files (`README.md`, `docs/README.md`, `docs/INSTALL.md`, `docs/CUSTOMIZE.md`, `docs/FAQ.md`, `docs/CONTRIBUTING.md`)
 - Keeps documentation in sync with code changes
 - Writes clear, concise documentation for users without technical backgrounds
 - Follows documentation standards and best practices
@@ -53,7 +125,7 @@ To enhance GitHub Copilot's effectiveness when working with specific file types,
 - **`.github/instructions/yaml-configuration.instructions.md`** – Guidance for configuration and data files (`_config.yml`, `_data/**/*.yml`)
 - **`.github/instructions/bibtex-bibliography.instructions.md`** – Guidance for bibliography files (`.bib`, `_bibliography/**`)
 - **`.github/instructions/markdown-content.instructions.md`** – Guidance for content files across collections (`_books/`, `_news/`, `_pages/`, `_posts/`, `_projects/`, `_teachings/`)
-- **`.github/instructions/javascript-scripts.instructions.md`** – Guidance for JavaScript files in `_scripts/`
+- **`.github/instructions/javascript-scripts.instructions.md`** – Guidance for starter JavaScript and runtime script snippets
 
 These files help Copilot agents understand project conventions, build requirements, and development workflows without requiring codebase exploration.
 
