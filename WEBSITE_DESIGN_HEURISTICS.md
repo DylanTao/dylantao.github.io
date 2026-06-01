@@ -75,6 +75,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 
 - Keep Sirui's voice warm and specific.
 - Avoid generic AI/design language unless it is tied to a concrete research question or project.
+- Project and blog pages should tell the concrete story first. Keep design philosophy in process notes or heuristics, not as a substitute for what actually happened.
 - Content polish must preserve research meaning. A tighter phrase is worse if it narrows the actual claim, erases scope, or turns a thesis into a UI slogan.
 - The AI in Design 2026 report is useful as context: it frames AI as changing tools, craft, and teams. Borrow the questions, not the corporate tone.
 - A compact influence note can credit Katie Dill and AI in Design 2026, including the line: "AI is sparking a creative renaissance in design."

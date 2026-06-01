@@ -2,8 +2,8 @@ hero:
   title: Nerdy Spooder-Man Across the Spooder-Verse
   kicker: Nerdy remix kit
   lede: >-
-    Research takes the hit. The page gets the cape. Papers, CV, and contact
-    stay easy to find.
+    I got two noes on the same paper, made a Steam-style rejection meme for my
+    labmates, then turned the bit into a remix kit.
   trailer_url: https://youtu.be/uKYV2qjYIS0?si=QmRJJf5yuv41UFDY
   playlist_url: https://youtube.com/playlist?list=PLsTV5jnZ_2V1T-AqzVKrhvJBWnQht9pme&si=QmE8AVsJHxlj6F-7
   teaser: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
@@ -13,16 +13,17 @@ downloads:
   remix_kit_zip: /assets/downloads/hci-spooder-man-remix-kit.zip
 
 guide_steps:
-  - title: Pick the scar.
+  - title: Start with a real no.
     text: >-
-      Rejection, confusing reviews, rough prototype, messy fieldwork, or round
-      two.
-  - title: Drop in the kit.
+      Rejection, revise-and-resubmit, confusing review, failed prototype, or
+      round two.
+  - title: Use the kit.
     text: >-
-      Swap images, captions, colors, and voice.
-  - title: Leave a door.
+      Download the Markdown prompt and asset ZIP; swap in your field, assets,
+      and voice.
+  - title: Become Spooder-Man.
     text: >-
-      Keep the serious path clear. Let the joke be easy to remix.
+      Credit the idea, keep your portfolio useful, and invite the next remix.
 
 agent_prompt: |
   # HCI Spooder-Man Website Remix Prompt
@@ -30,22 +31,23 @@ agent_prompt: |
   You are helping me adapt Sirui Tao's HCI Spooder-Man idea to my own academic website.
 
   Goal:
-  Keep my website credible first and playful second. Papers, CV, contact, and project pages should stay easy to find. Add one optional playful section that shows the human side of research.
+  Make a playful academic page from one real story. Sirui's original version came from a double rejection, a Steam-style badge meme sent to labmates, and then a Spooder-Man meme remix. My version should use my own academic moment.
 
-  Use the attached remix-kit assets as references or placeholders. Reuse them, crop them, or make new visuals that match my site.
+  Use the attached remix-kit assets as references or placeholders. Reuse them, crop them, or make new visuals that match my site. Keep my main website credible: papers, CV, contact, and project pages should stay easy to find.
 
   Please implement:
 
-  1. A small playful section about one real research tension, such as rejection, revision, messy fieldwork, prototype failures, reviewer feedback, or creative recovery.
-  2. A clear link from the serious page to the playful section. The serious work should still come first.
-  3. A remix guide that shows how someone else can adapt the idea with their own colors, field, and tone.
-  4. A small visual kit that makes the page feel joinable.
-  5. A copyable prompt so visitors can hand the idea to their own coding agent.
+  1. A short origin story about one real academic moment, such as rejection, revision, messy fieldwork, prototype failure, reviewer feedback, or creative recovery.
+  2. A playful visual section that feels like my own "Spooder-Man" turn.
+  3. A clear download/remix path with a Markdown prompt and asset ZIP.
+  4. A serious path back to my papers, CV, contact, or project evidence.
+  5. A closing invitation to become a Spooder-Man and join the nerdy Spooder-Verse.
 
   Design guidance:
 
   - Keep navigation boring in the best way: clear, readable, and predictable.
   - Make the playful section feel like part of my site.
+  - Tell the concrete story first; do not replace it with generic design philosophy.
   - Use compact UI, restrained spacing, accessible contrast, keyboard support, and dark-mode-friendly styling.
   - Avoid copying exact commercial badge, game, or platform UI. Use the idea, not the exact interface.
   - If generating new assets, adapt colors, academic identity, institution, research materials, and visual tone to my site.
@@ -54,7 +56,7 @@ agent_prompt: |
 
   - Credit Sirui Tao as the OG HCI Spooder-Man.
   - Mention that the inspiration comes from the Spooder-Man trailers and playlist.
-  - End the guide with this line: "This is the creativity I want to share with everyone."
+  - End with a version of: "Download the kit, become a Spooder-Man, and join the nerdy Spooder-Verse."
 
 teasers:
   - /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
@@ -70,22 +72,22 @@ teasers:
 assets:
   - label: Invite shot
     path: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
-    caption: The door into the bit.
+    caption: The page turns the lab joke into an invitation.
   - label: Crosswalk lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft.png
-    caption: A calmer walk after the no.
+    caption: After the no, still walking.
   - label: Rooftop lineup
     path: /assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup.png
-    caption: The team regroups.
+    caption: Group-shot remix energy.
   - label: Alley car scramble
     path: /assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble.png
-    caption: When the plan swerves.
+    caption: Paper plans go sideways.
   - label: Jet scene
     path: /assets/img/project_pics/hci-spooder-man/spooder-jet-chaos.png
     caption: Deadline energy.
   - label: Alley standoff
     path: /assets/img/project_pics/hci-spooder-man/spooder-alley-standoff.png
-    caption: Draft standoff.
+    caption: Which draft are we submitting?
   - label: Close-up dialogue
     path: /assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue.png
     caption: Before the next reply.
@@ -97,7 +99,7 @@ assets:
     caption: Original title card.
   - label: Failure XP reference
     path: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
-    caption: Wall reference.
+    caption: The Steam-style lab meme that started it.
 
 prompts:
   - title: Badge shelf
@@ -115,11 +117,11 @@ prompts:
   - title: Personal guide
     text: >-
       Rewrite this HCI Spooder-Man project page for my own academic identity.
-      Keep the core structure: the serious portfolio stays usable, one playful
-      section is easy to remix, local assets and prompts are shared, Sirui Tao is
-      credited as the OG HCI Spooder-Man, and the closing line says this is the
-      creativity I want to share with everyone. Adapt the tone, colors, examples,
-      and humor level to my field.
+      Keep the core structure: a real academic moment starts the joke, the
+      serious portfolio stays usable, the Markdown prompt and asset ZIP make it
+      remixable, Sirui Tao is credited as the OG HCI Spooder-Man, and the page
+      invites readers to become a Spooder-Man and join the nerdy Spooder-Verse.
+      Adapt the tone, colors, examples, and humor level to my field.
 
 videos:
   - title: Spooder-Man Movie Trailer

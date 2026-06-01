@@ -1151,7 +1151,7 @@ ul.task-list input[type="checkbox"] {
 }
 
 .hci-spooder-hero .project-case-lede {
-  max-width: 34rem;
+  max-width: min(100%, 48rem);
   font-size: clamp(1rem, 1.35vw, 1.13rem);
   line-height: 1.42;
 }
@@ -1231,7 +1231,8 @@ ul.task-list input[type="checkbox"] {
 }
 
 .hci-spooder-section-heading {
-  max-width: min(100%, 48rem);
+  width: 100%;
+  max-width: none;
   margin-bottom: 0.82rem;
 
   h2 {
@@ -1242,7 +1243,7 @@ ul.task-list input[type="checkbox"] {
   }
 
   p:not(.project-case-kicker) {
-    max-width: 34rem;
+    max-width: none;
     margin: 0;
     color: var(--global-text-color-light);
     font-size: var(--type-meta);
@@ -1307,7 +1308,7 @@ ul.task-list input[type="checkbox"] {
   margin: 1.35rem 0 1.8rem;
 
   .hci-spooder-section-heading h2 {
-    max-width: 16ch;
+    max-width: none;
     font-size: clamp(1.72rem, 3.4vw, 2.75rem);
   }
 }
@@ -1533,7 +1534,8 @@ ul.task-list input[type="checkbox"] {
 }
 
 .hci-spooder-toolkit {
-  max-width: min(100%, var(--measure-notebook));
+  width: 100%;
+  max-width: none;
   margin: 1.35rem 0 1.75rem;
 }
 
@@ -1696,7 +1698,8 @@ ul.task-list input[type="checkbox"] {
 }
 
 .spooder-video-section {
-  width: min(100%, var(--measure-notebook));
+  width: 100%;
+  max-width: none;
   margin: 1.8rem 0 1.9rem;
   padding: 0;
 }
@@ -1706,7 +1709,7 @@ ul.task-list input[type="checkbox"] {
   gap: 1rem;
   align-items: end;
   justify-content: space-between;
-  max-width: min(100%, var(--measure-notebook));
+  max-width: none;
   margin: 0 0 0.85rem;
   padding: 0;
 
@@ -1947,7 +1950,7 @@ ul.task-list input[type="checkbox"] {
 }
 
 .spooder-video-playlist {
-  max-width: min(100%, var(--measure-notebook));
+  max-width: none;
   margin: 0.72rem 0 0;
   padding: 0;
   color: var(--global-text-color-light);
@@ -1963,7 +1966,8 @@ ul.task-list input[type="checkbox"] {
 .hci-spooder-credits {
   display: grid;
   gap: 0.55rem;
-  max-width: min(100%, var(--measure-notebook));
+  width: 100%;
+  max-width: none;
   margin: 1.5rem 0 0;
   padding: 0.95rem;
   border: 1px solid var(--global-divider-color);
