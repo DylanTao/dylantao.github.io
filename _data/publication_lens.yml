@@ -1,8 +1,8 @@
 metadata:
-  last_synced: 2026-05-30
+  last_synced: 2026-06-01
   scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
   yearly_note: Annual bars follow the Google Scholar snapshot; hover a year or paper to connect the evidence.
-  total_citations: 199
+  total_citations: 201
 
 papers:
   tao2026whw:
@@ -29,7 +29,7 @@ papers:
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 156
+    citation_total: 158
 
 citation_years:
   - year: 2020
@@ -58,19 +58,19 @@ citation_years:
       - key: bear2021physion
         citations: 33
   - year: 2025
-    total: 63
+    total: 62
     papers:
       - key: bear2021physion
-        citations: 40
+        citations: 39
       - key: tao2024designweaver
         citations: 16
       - key: wang2025hotspot
         citations: 7
   - year: 2026
-    total: 67
+    total: 70
     papers:
       - key: bear2021physion
-        citations: 47
+        citations: 50
       - key: tao2024designweaver
         citations: 17
       - key: wang2025hotspot

@@ -66,7 +66,7 @@ html[data-theme="dark"] .wall-of-rejection {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(15rem, 0.82fr);
   gap: 0.85rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .rejection-badge-wall,
@@ -81,9 +81,9 @@ html[data-theme="dark"] .wall-of-rejection {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-self: start;
+  align-self: stretch;
   min-height: 0;
-  padding: 0.95rem;
+  padding: 0.66rem 0.95rem 0.95rem;
 }
 
 .rejection-badge-wall-heading {
@@ -445,7 +445,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 }
 
 .rejection-wall-credit {
-  margin: 0.72rem 0 0;
+  margin: auto 0 0;
   padding-top: 0.65rem;
   border-top: 1px solid var(--global-divider-color);
   color: var(--global-text-color-light);
