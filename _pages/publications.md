@@ -41,20 +41,19 @@ random_teasers: true
   </div>
 </div>
 
-<section class="publication-spooder-cta" aria-label="HCI Spooder-Man remix kit">
+<section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Verse">
   <figure data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
     <img src="{{ spooder.hero.teaser | relative_url }}" alt="HCI Spooder-Man remix teaser" loading="lazy">
   </figure>
   <div>
-    <p class="publication-spooder-cta-kicker">Remix kit</p>
-    <h2>After the no, make the bit useful.</h2>
+    <p class="publication-spooder-cta-kicker">Spooder-Verse</p>
+    <h2>Join the nerdy Spooder-Verse.</h2>
     <p>
-      The HCI Spooder-Man page turns rejection into an origin story, then shares the prompt and
-      asset ZIP for making your own academic remix.
+      Start with one real academic no, then use the prompt and asset ZIP to make your own remix.
     </p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Open the remix kit</span>
+        <span>Get the remix kit</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
