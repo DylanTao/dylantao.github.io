@@ -3,6 +3,7 @@
   const workbench = document.querySelector("[data-publication-workbench]");
   if (!lens || !workbench) return;
 
+  const rejectionWall = document.querySelector(".wall-of-rejection");
   const entries = Array.from(document.querySelectorAll("[data-publication-key].publication-lens-entry"));
   const yearBars = Array.from(lens.querySelectorAll("[data-scholar-year-bar]"));
   const roleInputs = Array.from(lens.querySelectorAll('input[name="publication-role-filter"]'));
@@ -69,6 +70,8 @@
     bar.style.removeProperty("--paper-share-ratio");
     bar.style.removeProperty("--paper-share-height");
     delete bar.dataset.paperShare;
+    delete bar.dataset.paperShareTotal;
+    bar.removeAttribute("title");
     bar.setAttribute("aria-label", `${bar.dataset.year}: ${visibleTotal} ${citationWord(visibleTotal)} in the active lens`);
   };
 
@@ -93,16 +96,16 @@
       const paperShareHeight = Math.min(yearRatio, (paperShareRatio / 100) * yearRatio);
       const label = bar.querySelector("[data-year-total-label]");
       const roundedShare = Math.round(paperShareRatio);
+      const shareLabel = `${contribution} of ${visibleTotal} ${citationWord(visibleTotal)} from ${title}`;
 
       bar.classList.add("scholar-lens-year-paper-share");
       bar.dataset.paperShare = String(contribution);
+      bar.dataset.paperShareTotal = String(visibleTotal);
       bar.style.setProperty("--paper-share-ratio", `${paperShareRatio}%`);
       bar.style.setProperty("--paper-share-height", `${paperShareHeight}%`);
-      if (label) label.textContent = `${contribution} / ${visibleTotal}`;
-      bar.setAttribute(
-        "aria-label",
-        `${bar.dataset.year}: ${contribution} of ${visibleTotal} active-lens ${citationWord(visibleTotal)} from ${title}, ${roundedShare}%`
-      );
+      if (label) label.textContent = `${contribution}`;
+      bar.title = shareLabel;
+      bar.setAttribute("aria-label", `${bar.dataset.year}: ${shareLabel}, ${roundedShare}% of active-lens ${citationWord(visibleTotal)}`);
       activeCitations += contribution;
     });
 
@@ -263,5 +266,39 @@
   typeInputs.forEach((input) => input.addEventListener("change", updateFilters));
   typeSelect?.addEventListener("change", updateFilters);
 
+  const setupAdaptiveLens = () => {
+    if (!rejectionWall) {
+      workbench.classList.add("publication-workbench-paper-focus");
+      return;
+    }
+
+    const desktopQuery = window.matchMedia("(min-width: 992px)");
+    let scheduled = false;
+
+    const updateLensWidth = () => {
+      scheduled = false;
+      const wallBottom = rejectionWall.getBoundingClientRect().bottom;
+      const stickyOffset = Number.parseFloat(getComputedStyle(lens).top) || 80;
+      const isPaperFocus = desktopQuery.matches && wallBottom <= stickyOffset + 12;
+      workbench.classList.toggle("publication-workbench-paper-focus", isPaperFocus);
+    };
+
+    const scheduleLensWidthUpdate = () => {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(updateLensWidth);
+    };
+
+    window.addEventListener("scroll", scheduleLensWidthUpdate, { passive: true });
+    window.addEventListener("resize", scheduleLensWidthUpdate);
+    if (typeof desktopQuery.addEventListener === "function") {
+      desktopQuery.addEventListener("change", scheduleLensWidthUpdate);
+    } else if (typeof desktopQuery.addListener === "function") {
+      desktopQuery.addListener(scheduleLensWidthUpdate);
+    }
+    updateLensWidth();
+  };
+
   updateFilters();
+  setupAdaptiveLens();
 })();

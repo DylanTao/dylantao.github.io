@@ -951,6 +951,20 @@ body.rejection-meme-viewer-open {
   gap: clamp(1rem, 2vw, 1.5rem);
   align-items: start;
   margin-top: 1rem;
+  transition:
+    grid-template-columns 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    gap 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.publication-workbench-paper-focus {
+  grid-template-columns: minmax(0, 1fr) minmax(20.5rem, 23rem);
+  gap: clamp(1.15rem, 2.2vw, 1.75rem);
+}
+
+@media (min-width: 1200px) {
+  .publication-workbench-paper-focus {
+    grid-template-columns: minmax(0, 0.94fr) minmax(22rem, 26.5rem);
+  }
 }
 
 .publication-list-column {
@@ -1094,6 +1108,15 @@ body.rejection-meme-viewer-open {
   padding: 0.95rem;
   box-shadow: 0 0.75rem 1.8rem rgba(32, 25, 22, 0.065);
   backdrop-filter: blur(18px) saturate(1.28);
+  transition:
+    border-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.publication-workbench-paper-focus .scholar-lens-card {
+  border-color: color-mix(in srgb, var(--global-theme-color) 22%, var(--global-divider-color));
+  box-shadow: 0 0.9rem 2.05rem rgba(32, 25, 22, 0.08);
 }
 
 html[data-theme="dark"] .scholar-lens-card {
@@ -1422,6 +1445,15 @@ html[data-theme="dark"] .scholar-lens-card {
   background:
     linear-gradient(to top, color-mix(in srgb, var(--global-divider-color) 30%, transparent) 1px, transparent 1px) 0 25% / 100% 25%,
     color-mix(in srgb, var(--global-bg-color) 42%, transparent);
+  transition:
+    gap 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.publication-workbench-paper-focus .scholar-lens-year-bars {
+  gap: 0.38rem;
+  padding-right: 0.52rem;
+  padding-left: 0.52rem;
 }
 
 .scholar-lens-year-bar {
@@ -1455,8 +1487,26 @@ html[data-theme="dark"] .scholar-lens-card {
   font-family: var(--font-mono);
   font-size: 0.66rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   line-height: 1.05;
   white-space: nowrap;
+}
+
+.scholar-lens-year-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.45rem;
+  min-height: 1rem;
+  padding: 0.05rem 0.12rem;
+  border-radius: 999px;
+  transition:
+    min-width 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    font-size var(--motion-standard),
+    transform var(--motion-standard);
 }
 
 .scholar-lens-year-track {
@@ -1470,6 +1520,13 @@ html[data-theme="dark"] .scholar-lens-card {
   border: 0;
   border-radius: 0.28rem;
   background: color-mix(in srgb, var(--global-divider-color) 54%, transparent);
+  transition:
+    max-width 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color var(--motion-standard);
+}
+
+.publication-workbench-paper-focus .scholar-lens-year-track {
+  max-width: 0.72rem;
 }
 
 .scholar-lens-year-fill,
@@ -1504,8 +1561,18 @@ html[data-theme="dark"] .scholar-lens-card {
 }
 
 .scholar-lens-year-paper-share .scholar-lens-year-count {
+  min-width: 2.25rem;
+  border: 1px solid color-mix(in srgb, var(--global-theme-color) 32%, var(--global-divider-color));
+  background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-accent-soft));
   color: var(--global-theme-color);
-  font-size: 0.58rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  box-shadow: 0 0.18rem 0.46rem rgba(32, 25, 22, 0.08);
+}
+
+.scholar-lens-year-paper-share:hover .scholar-lens-year-count,
+.scholar-lens-year-paper-share:focus-visible .scholar-lens-year-count {
+  transform: translateY(-0.04rem);
 }
 
 .scholar-lens-year-paper-share .scholar-lens-year-share {
@@ -2143,12 +2210,16 @@ html[data-theme="dark"] .scholar-lens-card {
   .rejection-badge-detail,
   .spooder-reference-thumb,
   .failure-xp-rules summary,
+  .publication-workbench,
   .scholar-lens-bar,
+  .scholar-lens-card,
   .scholar-lens-heading a,
   .scholar-lens-bar-track span,
   .scholar-lens-year-bar,
+  .scholar-lens-year-count,
   .scholar-lens-year-fill,
   .scholar-lens-year-share,
+  .scholar-lens-year-track,
   .publication-lens-entry,
   .publications ol.bibliography li {
     animation: none;
