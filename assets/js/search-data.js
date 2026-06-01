@@ -226,7 +226,7 @@ ninja.data = [
           },
         },{id: "project-hci-spooder-man",
         title: "HCI Spooder-Man",
-        description: "A simple remix guide for making an academic website playful without hiding the serious work.",
+        description: "A remix kit for playful academic failure, images first.",
         section: "Projects",
         handler: () => {
           window.location.href = "/projects/hci-spooder-man/";
@@ -317,7 +317,7 @@ ninja.data = [
       description: "Scholar citations papers academic publications.",
       section: "Contact",
       handler: () => {
-        window.open("https://scholar.google.com/citations?user=W6vF-VcAAAAJ&hl", "_blank");
+        window.open("https://scholar.google.com/citations?user=W6vF-VcAAAAJ", "_blank");
       },
     },{
       id: "contact-bluesky",
