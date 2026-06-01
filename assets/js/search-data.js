@@ -226,7 +226,7 @@ ninja.data = [
           },
         },{id: "project-hci-spooder-man",
         title: "HCI Spooder-Man",
-        description: "A remixable guide for turning an academic website into a playful, human, and still-credible artifact.",
+        description: "A simple remix guide for making an academic website playful without hiding the serious work.",
         section: "Projects",
         handler: () => {
           window.location.href = "/projects/hci-spooder-man/";
