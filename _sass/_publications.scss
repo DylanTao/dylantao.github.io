@@ -424,10 +424,14 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 .rejection-xp-ledger {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.35rem;
+  gap: 0.3rem;
   margin-top: -0.1rem;
 
   span {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.24rem;
     min-width: 0;
     border: 1px solid var(--global-divider-color);
     border-radius: 0.45rem;
@@ -437,14 +441,18 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
     font-weight: 650;
     line-height: 1.2;
     overflow-wrap: normal;
-    padding: 0.38rem 0.42rem;
+    padding: 0.28rem 0.36rem;
+    white-space: nowrap;
   }
 
   strong {
-    display: block;
     color: var(--global-text-color);
-    font-size: 0.86rem;
+    font-size: 0.78rem;
     line-height: 1.05;
+  }
+
+  em {
+    font-style: normal;
   }
 }
 

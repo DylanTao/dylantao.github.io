@@ -215,8 +215,8 @@
         <div class="rejection-xp-ledger" aria-label="Failure ledger">
           {% for ledger_item in rejection_wall.xp.ledger %}
             <span>
+              <em>{{ ledger_item.label }}:</em>
               <strong>{{ ledger_item.value }}</strong>
-              {{ ledger_item.label }}
             </span>
           {% endfor %}
         </div>
