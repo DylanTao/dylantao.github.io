@@ -24,7 +24,7 @@
       mode: buttons[0]?.getAttribute("data-research-mode") || "design",
       previousMode: null,
       transitionStart: 0,
-      transitionMs: 680,
+      transitionMs: 420,
       width: 0,
       height: 0,
       dpr: 1,
@@ -197,11 +197,11 @@
       ctx.restore();
     };
 
-    const drawGuideLabel = (text, x, y, pal, align = "center") => {
+    const drawGuideLabel = (text, x, y, pal, align = "center", alpha = 1) => {
       if (state.width < 580) return;
 
       ctx.save();
-      ctx.globalAlpha = 0.58;
+      ctx.globalAlpha = 0.58 * alpha;
       ctx.fillStyle = pal.muted;
       ctx.font = `700 ${state.width < 760 ? 10 : 11}px ${cssVar("--font-mono", "monospace")}`;
       ctx.textAlign = align;
@@ -210,7 +210,7 @@
       ctx.restore();
     };
 
-    const drawGuidePill = (text, x, y, pal, align = "center") => {
+    const drawGuidePill = (text, x, y, pal, align = "center", alpha = 1) => {
       if (state.width < 760) return;
 
       ctx.save();
@@ -219,7 +219,7 @@
       const width = metrics.width + 18;
       const height = 22;
       const left = align === "left" ? x : align === "right" ? x - width : x - width / 2;
-      ctx.globalAlpha = 0.16;
+      ctx.globalAlpha = 0.16 * alpha;
       ctx.fillStyle = pal.lineB;
       ctx.strokeStyle = pal.lineB;
       ctx.lineWidth = 1;
@@ -241,7 +241,7 @@
       }
       ctx.fill();
       ctx.stroke();
-      ctx.globalAlpha = 0.68;
+      ctx.globalAlpha = 0.68 * alpha;
       ctx.fillStyle = pal.ink;
       ctx.textAlign = align;
       ctx.textBaseline = "middle";
@@ -358,15 +358,15 @@
           ? cubic(y0, y0 + compareLift, centerY + pointerPull, centerY, localT)
           : cubic(centerY, centerY - pointerPull, y1 - compareLift, y1, localT);
         const angle = firstHalf ? Math.atan2(centerY - y0, centerX - leftX) : Math.atan2(y1 - centerY, rightX - centerX);
-        const alpha = state.reduceMotion ? 0.34 : 0.3 + 0.22 * Math.sin(routeT * Math.PI);
-        drawTraceParticle(x, y, state.width < 560 ? 1 : 1.25, particle.lane % 2 ? pal.lineC : pal.lineB, alpha * alpha, angle);
+        const particleAlpha = state.reduceMotion ? 0.34 : 0.3 + 0.22 * Math.sin(routeT * Math.PI);
+        drawTraceParticle(x, y, state.width < 560 ? 1 : 1.25, particle.lane % 2 ? pal.lineC : pal.lineB, particleAlpha * alpha, angle);
       });
 
       drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
 
-      drawGuideLabel("options", leftX, b.bottom + 20, pal, "left");
-      drawGuidePill("compare", centerX, centerY - b.height * 0.24, pal);
-      drawGuideLabel("direction", rightX, b.bottom + 20, pal, "right");
+      drawGuideLabel("options", leftX, b.bottom + 20, pal, "left", alpha);
+      drawGuidePill("compare", centerX, centerY - b.height * 0.24, pal, "center", alpha);
+      drawGuideLabel("direction", rightX, b.bottom + 20, pal, "right", alpha);
     };
 
     const drawEvaluate = (time, pal, alpha = 1) => {
@@ -447,9 +447,9 @@
         drawTraceParticle(x, clamp(y, top, floor), state.width < 560 ? 1 : 1.25 + pulse * 0.28, color, (0.22 + pulse * 0.22) * alpha, -Math.PI / 2);
       });
 
-      drawGuideLabel("trace", b.left + b.width * 0.05, floor + 20, pal, "left");
-      drawGuidePill("evidence", scanX, top - 18, pal);
-      drawGuideLabel("revise", b.right - b.width * 0.05, floor + 20, pal, "right");
+      drawGuideLabel("trace", b.left + b.width * 0.05, floor + 20, pal, "left", alpha);
+      drawGuidePill("evidence", scanX, top - 18, pal, "center", alpha);
+      drawGuideLabel("revise", b.right - b.width * 0.05, floor + 20, pal, "right", alpha);
     };
 
     const drawSituated = (time, pal, alpha = 1) => {
@@ -509,7 +509,7 @@
           const anchor = anchors[index];
           const xOffset = index === 0 || index === 3 ? -10 : 10;
           const align = index === 0 || index === 3 ? "right" : "left";
-          drawGuideLabel(label, anchor.x + xOffset, anchor.y - 14, pal, align);
+          drawGuideLabel(label, anchor.x + xOffset, anchor.y - 14, pal, align, alpha);
         });
       }
 
@@ -537,7 +537,7 @@
       });
 
       drawDot(centerX, centerY, state.width < 560 ? 3 : 3.8, pal.lineB, 0.78 * alpha);
-      drawGuidePill("context", centerX, centerY - radiusY * 0.62, pal);
+      drawGuidePill("context", centerX, centerY - radiusY * 0.62, pal, "center", alpha);
     };
 
     const drawMode = (mode, time, pal, alpha) => {

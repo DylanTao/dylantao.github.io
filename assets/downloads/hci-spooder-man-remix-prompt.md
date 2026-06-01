@@ -28,4 +28,4 @@ Credits and closing:
 
 - Credit Sirui Tao as the OG HCI Spooder-Man.
 - Mention that the inspiration comes from the Spooder-Man trailers and playlist.
-- End with a version of: "Download the kit, become a Spooder-Man, and join the nerdy Spooder-Verse."
+- End with a version of: "Become a Spooder-Man. Join the nerdy Spooder-Verse."

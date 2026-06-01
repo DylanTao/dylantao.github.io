@@ -1,7 +1,7 @@
 ---
 layout: page
 title: HCI Spooder-Man
-description: Double rejection, a Steam-style lab meme, and a remix kit for joining the nerdy Spooder-Verse.
+description: Double rejection, a Steam-style lab meme, and a small door into the nerdy Spooder-Verse.
 img: assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
 image_aspect: 16 / 9
 card_image_fit: cover
@@ -36,8 +36,8 @@ spooder_project: true
     </div>
     <div class="project-case-actions">
       <a href="#spooder-origin-title">Read origin</a>
-      <a href="#spooder-agent-kit">Download kit</a>
-      <a href="#spooder-capsule">Become Spooder-Man</a>
+      <a href="#spooder-agent-kit">Get files</a>
+      <a href="#spooder-capsule">Join in</a>
     </div>
   </div>
   <div class="project-case-media hci-spooder-hero-media" data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
@@ -74,7 +74,7 @@ spooder_project: true
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">Spooder kit</p>
     <h2 id="spooder-gallery-title">Become a Spooder-Man.</h2>
-    <p>Use these frames as placeholders or references. Swap in your own academic no, inside joke, and visual style.</p>
+    <p>Use these frames as placeholders or references; swap in your own academic no.</p>
   </div>
 
   <div class="hci-spooder-gallery-stage" tabindex="0" aria-label="HCI Spooder-Man recruitment capsule images">
@@ -114,8 +114,8 @@ spooder_project: true
 <section id="spooder-remix-recipe" class="hci-spooder-remix-flow" aria-labelledby="spooder-remix-title">
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">How to remix this</p>
-    <h2 id="spooder-remix-title">How to join the nerdy Spooder-Verse.</h2>
-    <p>Download the Markdown prompt and asset ZIP. Replace my rejection story with yours. Keep the serious work easy to find.</p>
+    <h2 id="spooder-remix-title">Remix it in three moves.</h2>
+    <p>Start with your no, use the files, keep the serious work easy to find.</p>
   </div>
   <ol>
     {% for step in spooder.guide_steps %}
@@ -131,10 +131,10 @@ spooder_project: true
 <section class="hci-spooder-toolkit" aria-label="HCI Spooder-Man remix toolkit">
   <section id="spooder-agent-kit" class="hci-spooder-agent-kit hci-spooder-prompt" data-spooder-prompt-card aria-labelledby="spooder-agent-kit-title">
     <div>
-      <h2 id="spooder-agent-kit-title">Download the remix kit.</h2>
+      <h2 id="spooder-agent-kit-title">Files for your version.</h2>
       <button type="button" data-spooder-copy-prompt>Copy agent prompt</button>
     </div>
-    <p>Markdown prompt plus asset ZIP: enough to become a Spooder-Man without copying this page exactly.</p>
+    <p>Markdown prompt plus asset ZIP: enough structure, not a clone.</p>
     <div class="hci-spooder-agent-actions">
       <a href="{{ spooder.downloads.remix_kit_zip | relative_url }}" download>
         <i class="fa-solid fa-file-zipper" aria-hidden="true"></i>
@@ -195,5 +195,5 @@ spooder_project: true
 
 <section class="hci-spooder-credits" aria-label="Credits and invitation">
   <p>Credit Sirui Tao as the OG HCI Spooder-Man. The original spark was a double rejection, a lab meme, and too much Spooder-Man energy.</p>
-  <strong>Download the kit, become a Spooder-Man, and join the nerdy Spooder-Verse.</strong>
+  <strong>Become a Spooder-Man. Join the nerdy Spooder-Verse.</strong>
 </section>

@@ -60,9 +60,9 @@ badges:
     detail: CHI and UIST both said no. That means the next version gets simpler and stronger.
 
 xp:
-  label: Nerdy Spooder-Man XP
+  label: Nerdy Spooder-Man
   kicker: Failure XP
-  blurb: Failed submissions count here; accepted papers stay in the list.
+  blurb: Counting all the Failures here.
   level: 2
   current: 24
   next_level: 30

@@ -2,8 +2,7 @@ hero:
   title: Nerdy Spooder-Man Across the Spooder-Verse
   kicker: Nerdy remix kit
   lede: >-
-    I got two noes on the same paper, made a Steam-style rejection meme for my
-    labmates, then turned the bit into a remix kit.
+    Two noes. One lab meme. Then the bit became a remix kit.
   trailer_url: https://youtu.be/uKYV2qjYIS0?si=QmRJJf5yuv41UFDY
   playlist_url: https://youtube.com/playlist?list=PLsTV5jnZ_2V1T-AqzVKrhvJBWnQht9pme&si=QmE8AVsJHxlj6F-7
   teaser: /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
@@ -15,15 +14,13 @@ downloads:
 guide_steps:
   - title: Start with a real no.
     text: >-
-      Rejection, revise-and-resubmit, confusing review, failed prototype, or
-      round two.
-  - title: Use the kit.
+      Rejection, confusing review, failed prototype, or round two.
+  - title: Use the files.
     text: >-
-      Download the Markdown prompt and asset ZIP; swap in your field, assets,
-      and voice.
-  - title: Become Spooder-Man.
+      Open the Markdown prompt and asset ZIP; swap in your field and voice.
+  - title: Join the verse.
     text: >-
-      Credit the idea, keep your portfolio useful, and invite the next remix.
+      Credit the idea and invite the next remix.
 
 agent_prompt: |
   # HCI Spooder-Man Website Remix Prompt
@@ -56,7 +53,7 @@ agent_prompt: |
 
   - Credit Sirui Tao as the OG HCI Spooder-Man.
   - Mention that the inspiration comes from the Spooder-Man trailers and playlist.
-  - End with a version of: "Download the kit, become a Spooder-Man, and join the nerdy Spooder-Verse."
+  - End with a version of: "Become a Spooder-Man. Join the nerdy Spooder-Verse."
 
 teasers:
   - /assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
