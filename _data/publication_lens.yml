@@ -3,6 +3,13 @@ metadata:
   scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
   yearly_note: Annual bars follow the Google Scholar snapshot; hover a year or paper to connect the evidence.
   total_citations: 201
+  credits:
+    tool:
+      label: Google Scholar Author Highlighter
+      url: https://chromewebstore.google.com/detail/google-scholar-author-hig/ijmngekkpaccbbjimedfkjpigplaikah?hl=en
+    recommender:
+      label: Howard Han
+      url: https://howardhan.com/
 
 papers:
   tao2026whw:

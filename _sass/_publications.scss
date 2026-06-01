@@ -1161,6 +1161,29 @@ html[data-theme="dark"] .scholar-lens-card {
   line-height: 1.4;
 }
 
+.scholar-lens-credit {
+  margin: 0.72rem 0 0;
+  padding-top: 0.58rem;
+  border-top: 1px solid color-mix(in srgb, var(--global-divider-color) 72%, transparent);
+  color: color-mix(in srgb, var(--global-text-color-light) 86%, transparent);
+  font-size: 0.68rem;
+  line-height: 1.42;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--global-theme-color) 48%, transparent);
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.18em;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--global-theme-color);
+      text-decoration-color: currentColor;
+    }
+  }
+}
+
 .scholar-lens-controls {
   display: grid;
   gap: 0.62rem;

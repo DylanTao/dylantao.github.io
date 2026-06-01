@@ -17,10 +17,20 @@
 
   const prefersReducedMotion = () => reduceMotionQuery.matches;
 
+  const openXpRule = () => Array.from(wall.querySelectorAll(".failure-xp-rules")).find((detail) => detail.open);
+
   const updateBodyState = () => {
-    const xpRulesOpen = Array.from(wall.querySelectorAll("details")).some((detail) => detail.open);
+    const xpRulesOpen = Boolean(openXpRule());
     const receiptOpen = Boolean(receiptTray && !receiptTray.hidden);
     document.body.classList.toggle("wall-of-rejection-open", xpRulesOpen || receiptOpen || Boolean(memeViewer && !memeViewer.hidden));
+  };
+
+  const closeXpRule = () => {
+    const detail = openXpRule();
+    if (!detail) return null;
+    detail.open = false;
+    updateBodyState();
+    return detail;
   };
 
   const hideReceiptTray = (options = { animate: true }) => {
@@ -171,10 +181,15 @@
   });
 
   document.addEventListener("pointerdown", (event) => {
-    if (!pinnedCard) return;
-
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
-    if (!target || target.closest("[data-rejection-card], [data-rejection-receipt-tray]")) return;
+    if (!target) return;
+
+    const activeXpRule = openXpRule();
+    if (activeXpRule && !activeXpRule.contains(target)) {
+      closeXpRule();
+    }
+
+    if (!pinnedCard || target.closest("[data-rejection-card], [data-rejection-receipt-tray]")) return;
 
     pinnedCard = null;
     clearCardState();
@@ -185,6 +200,14 @@
 
     if (memeViewer && !memeViewer.hidden) {
       closeMemeViewer();
+      return;
+    }
+
+    const activeXpRule = openXpRule();
+    if (activeXpRule) {
+      const summary = activeXpRule.querySelector("summary");
+      closeXpRule();
+      summary?.focus({ preventScroll: true });
       return;
     }
 

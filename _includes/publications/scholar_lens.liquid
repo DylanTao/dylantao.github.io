@@ -1,6 +1,8 @@
 {% assign publication_lens = site.data.publication_lens %}
 
 {% if publication_lens and publication_lens.papers %}
+  {% assign scholar_lens_credit_tool = publication_lens.metadata.credits.tool %}
+  {% assign scholar_lens_credit_recommender = publication_lens.metadata.credits.recommender %}
   {% assign total_papers = 0 %}
   {% assign total_citations = 0 %}
   {% assign first_author_papers = 0 %}
@@ -160,6 +162,27 @@
       </div>
 
       <p class="scholar-lens-note" data-scholar-year-note>{{ publication_lens.metadata.yearly_note }}</p>
+
+      {% if scholar_lens_credit_tool and scholar_lens_credit_recommender %}
+        <p class="scholar-lens-credit">
+          A small nod to
+          <a
+            href="{{ scholar_lens_credit_tool.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ scholar_lens_credit_tool.label | append: ',' }}
+          </a>
+          recommended by
+          <a
+            href="{{ scholar_lens_credit_recommender.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ scholar_lens_credit_recommender.label | append: '.' }}
+          </a>
+        </p>
+      {% endif %}
     </div>
   </aside>
 {% endif %}
