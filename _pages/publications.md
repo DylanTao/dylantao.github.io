@@ -46,14 +46,15 @@ random_teasers: true
     <img src="{{ spooder.hero.teaser | relative_url }}" alt="HCI Spooder-Man remix teaser" loading="lazy">
   </figure>
   <div>
-    <p class="publication-spooder-cta-kicker">Rejection side quest</p>
-    <h2>Got a rejection? Give it a cape.</h2>
+    <p class="publication-spooder-cta-kicker">Spooder-Verse</p>
+    <h2>Join the Spooder-Verse.</h2>
     <p>
-      Keep the papers readable, then let the messy academic arc become a tiny, remixable website bit.
+      Bring your own playful academic website remix; keep the research useful, and let the web feel a
+      little more alive.
     </p>
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
-        <span>Open the remix guide</span>
+        <span>Join the Spooder-Verse</span>
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
