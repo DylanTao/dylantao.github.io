@@ -88,13 +88,22 @@ The best outreach is intentional outreach.
 
 - Reach out to professors whose work you are actually interested in.
 - Do not spam every professor in your department.
-- Go to seminars, talks, and office hours.
+- Go to seminars, talks, and office hours with your TAs or course professors.
 - Read the lab website.
 - Read at least a couple of papers.
 - Try to understand the problems they care about, not just the title of the
   project.
 - When you do reach out, ask informed questions and explain why there is a real
   fit.
+
+[Prof. Philip Guo](https://pg.ucsd.edu/) also reminded me that TA and course
+professor office hours are one of the lowest-friction ways to start. They are
+not only for homework questions. You can ask what research looks like in that
+field, how the TA or professor first got involved, what skills mattered, and
+what a small next step might be. Those conversations build research
+self-efficacy: you get a better sense that you can ask real questions, talk
+with researchers, and decide whether research is something you actually want to
+try.
 
 The same rule applies when reaching out to graduate students or undergraduate
 researchers in a lab. Their time is valuable too. Respect people's time, but do
@@ -167,4 +176,4 @@ including writing, Ph.D. life, statistics, and experimental-methods resources.
 
 ---
 
-Last updated: April 27, 2026.
+Last updated: June 1, 2026.
