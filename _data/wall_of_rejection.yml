@@ -1,6 +1,6 @@
 section:
   title: Wall of Rejection
-  description: Badges for peer-review misses behind the papers below.
+  description: Badges for papers that did not land yet.
 
 papers:
   - id: p5
@@ -27,11 +27,11 @@ badges:
     rarity: common
     icon: heart-crack
     linked_paper_id: p5
-    short: Peer review heartbreak. Compost for the next draft.
+    short: CHI said no. Useful notes for the next draft.
     stage: R&R decision
     date: 2026-01-15
     date_label: Jan 15, 2026
-    detail: Unlocked after one brave CHI 2026 submission attempt. The reviews did not accept the paper, but they did become compost for the next version.
+    detail: CHI 2026 did not accept this paper. The reviews now guide the next draft.
   - id: uist26-nope
     title: UIST26 Rejection
     count: 1
@@ -41,11 +41,11 @@ badges:
     rarity: common
     icon: paper-plane-crash
     linked_paper_id: p5
-    short: Prototype survived. Acceptance did not. Iteration unlocked.
-    stage: First-review exit
+    short: The prototype lived. The paper needs another round.
+    stage: First review
     date: 2026-05-28
     date_label: May 28, 2026
-    detail: Interactive system built. Acceptance not included, iteration very much included.
+    detail: The system was built and submitted. UIST said no, so the next version gets clearer.
   - id: double-nope
     title: Double Rejection
     count: 1
@@ -53,21 +53,21 @@ badges:
     rarity: rare
     icon: crossed-reviewer-pens
     linked_paper_id: p5
-    short: Two venues. One cursed combo badge. Somehow useful.
+    short: Two noes. Still moving.
     stage: Combo badge
     date: 2026-05-28
     date_label: May 28, 2026
-    detail: With great failure comes greater failure. Two doors closed; one plot twist earned.
+    detail: CHI and UIST both said no. That means the next version gets simpler and stronger.
 
 xp:
   label: Spooder-Man XP
-  kicker: Failure XP
-  blurb: Rejection XP only; accepted papers stay in the list.
+  kicker: Review XP
+  blurb: Only review misses count here; accepted papers stay in the list.
   level: 2
   current: 24
   next_level: 30
   progress: 80
-  source_note: Tiny joke metric for the peer-review grind.
+  source_note: Small joke metric for peer review.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
     - label: First-author rejection
@@ -111,21 +111,21 @@ xp:
     - date: 2026-01-15
       display_date: Jan 15
       axis_label: "Jan"
-      label: CHI26 R&R rejection
+      label: CHI26 review miss
       total: 12
       x: 87
       y: 34
     - date: 2026-05-28
       display_date: May 28
       axis_label: "May"
-      label: UIST26 first-review rejection
+      label: UIST26 review miss
       total: 24
       x: 100
       y: 4
   ledger:
-    - label: CHI rejection
+    - label: CHI no
       value: 1
-    - label: UIST rejection
+    - label: UIST no
       value: 1
     - label: 2x combo
       value: 1
@@ -135,7 +135,7 @@ credits:
     label: Bradley Voytek's failure-CV tradition
     url: https://voyteklab.com/members
   local_meme_reference:
-    label: post-UIST26 reject Steam achievement meme
+    label: post-UIST26 badge meme
     url: /assets/img/website-revamp/wall-of-rejection-steam-reference.png
   spooder_trailer:
     label: Spooder-Man meme

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: HCI Spooder-Man
-description: A remixable guide for turning an academic website into a playful, human, and still-credible artifact.
+description: A simple remix guide for making an academic website playful without hiding the serious work.
 img: assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
 image_aspect: 16 / 9
 card_image_fit: cover
@@ -31,7 +31,7 @@ spooder_project: true
     <div class="project-case-facts">
       <span>Rejection XP</span>
       <span>Origin story</span>
-      <span>Remix capsule</span>
+      <span>Remix images</span>
       <span>Prompt + ZIP</span>
     </div>
     <div class="project-case-actions">
@@ -47,34 +47,34 @@ spooder_project: true
 
 <section class="hci-spooder-origin" aria-labelledby="spooder-origin-title">
   <div class="hci-spooder-section-heading">
-    <p class="project-case-kicker">Hero origin story</p>
-    <h2 id="spooder-origin-title">Academic rejection is already dramatic. We might as well give it a cape.</h2>
-    <p>HCI Spooder-Man started as a tiny rebellion against hiding every failed submission in a private folder. The work stays serious; the recovery gets to be visible, funny, and remixable.</p>
+    <p class="project-case-kicker">Origin story</p>
+    <h2 id="spooder-origin-title">Academic rejection is already dramatic. Give it a cape.</h2>
+    <p>HCI Spooder-Man started as a small way to stop hiding failed submissions. The work stays serious; the messy parts can be visible, funny, and easy to remix.</p>
   </div>
   <div class="hci-spooder-origin-grid">
     <article>
       <span>01</span>
-      <strong>Celebrate the closed door.</strong>
-      <p>Rejections are not secret shame artifacts. They are field notes from the part of research where taste, timing, framing, and reviewer chaos collide.</p>
+      <strong>Show the closed door.</strong>
+      <p>A rejection is not something to hide. It is a note about timing, framing, fit, or what to try next.</p>
     </article>
     <article>
       <span>02</span>
       <strong>Keep the portfolio credible.</strong>
-      <p>The joke works because the main site still helps visitors find papers, CV, contact, and project evidence without making them decode a bit first.</p>
+      <p>The serious site still comes first. Visitors should find papers, CV, contact, and project evidence without decoding the joke.</p>
     </article>
     <article>
       <span>03</span>
-      <strong>Let the bit recruit people.</strong>
-      <p>A playful capsule makes the research process feel more human, and gives other academic website builders permission to make their own version.</p>
+      <strong>Invite people in.</strong>
+      <p>A playful section makes research feel more human and invites others to make their own version.</p>
     </article>
   </div>
 </section>
 
 <section id="spooder-capsule" class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">
   <div class="hci-spooder-section-heading">
-    <p class="project-case-kicker">Recruitment capsule</p>
-    <h2 id="spooder-gallery-title">A tiny visual rally for everyone collecting rejection XP.</h2>
-    <p>This is not a formal asset library. It is the silly little capsule that makes the movement feel joinable before the prompt and ZIP make it reproducible.</p>
+    <p class="project-case-kicker">Visual kit</p>
+    <h2 id="spooder-gallery-title">A small visual kit for the Spooder-Verse.</h2>
+    <p>These images make the page feel joinable. The prompt and ZIP make it easy to reuse.</p>
   </div>
 
   <div class="hci-spooder-gallery-stage" tabindex="0" aria-label="HCI Spooder-Man recruitment capsule images">
@@ -114,8 +114,8 @@ spooder_project: true
 <section id="spooder-remix-recipe" class="hci-spooder-remix-flow" aria-labelledby="spooder-remix-title">
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">How to remix this</p>
-    <h2 id="spooder-remix-title">Turn your own research scar tissue into one generous scaffold.</h2>
-    <p>The recipe is small: pick a real academic tension, keep the main site usable, and publish enough structure that someone else can adapt the joke without stealing your whole identity.</p>
+    <h2 id="spooder-remix-title">Turn one rough research moment into a reusable page idea.</h2>
+    <p>The recipe is small: pick a real academic tension, keep the main site usable, and share enough structure that someone else can adapt the idea.</p>
   </div>
   <ol>
     {% for step in spooder.guide_steps %}
@@ -131,11 +131,11 @@ spooder_project: true
 <section class="hci-spooder-toolkit" aria-label="HCI Spooder-Man remix toolkit">
   <section id="spooder-agent-kit" class="hci-spooder-agent-kit hci-spooder-prompt" data-spooder-prompt-card aria-labelledby="spooder-agent-kit-title">
     <div>
-      <h2 id="spooder-agent-kit-title">Prompt markdown and ZIP for your coding agent</h2>
+      <h2 id="spooder-agent-kit-title">Prompt and ZIP for your coding agent</h2>
       <button type="button" data-spooder-copy-prompt>Copy agent prompt</button>
     </div>
     <p>
-      Download the ZIP, keep the markdown prompt nearby, and ask your coding agent to adapt the structure to your field, voice, and preferred level of academic foolishness.
+      Download the ZIP, keep the prompt nearby, and ask your coding agent to adapt the page to your field, voice, and humor level.
     </p>
     <div class="hci-spooder-agent-actions">
       <a href="{{ spooder.downloads.remix_kit_zip | relative_url }}" download>
@@ -155,8 +155,8 @@ spooder_project: true
   <div class="spooder-video-heading">
     <div>
       <p class="project-case-kicker">Source playlist</p>
-      <h2 id="spooder-video-title">Primary sources from the Spooder canon.</h2>
-      <p>This is the YouTube trail that gave the page its completely reasonable academic energy. Browse locally, or open the playlist when you need the full origin saga.</p>
+      <h2 id="spooder-video-title">Spooder source videos.</h2>
+      <p>These videos inspired the page. Browse them here or open the playlist for the full run.</p>
     </div>
   </div>
 
@@ -198,7 +198,7 @@ spooder_project: true
 
 <section class="hci-spooder-credits" aria-label="Credits and invitation">
   <p>
-    If this scaffold helps you make your own rejection-powered academic artifact, credit Sirui Tao as the OG HCI Spooder-Man and keep the scholarship easier to find than the bit.
+    If this helps you make your own playful academic page, credit Sirui Tao as the OG HCI Spooder-Man. Keep the scholarship easier to find than the joke.
   </p>
-  <strong>Go forth, collect your rejection XP, and make the HCI Spooder-Verse slightly more peer-reviewed.</strong>
+  <strong>Join the HCI Spooder-Verse, keep your site useful, and let the web feel a little more alive.</strong>
 </section>

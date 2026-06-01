@@ -1823,6 +1823,11 @@ html[data-theme="dark"] .scholar-lens-card {
   .rejection-badge {
     aspect-ratio: 1 / 1;
     padding: 0.28rem;
+
+    &::before,
+    &::after {
+      display: none;
+    }
   }
 
   .rejection-badge-detail {
