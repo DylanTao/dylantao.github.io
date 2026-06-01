@@ -226,7 +226,7 @@ ninja.data = [
           },
         },{id: "project-hci-spooder-man",
         title: "HCI Spooder-Man",
-        description: "A remix kit for playful academic failure, images first.",
+        description: "Double rejection, a Steam-style lab meme, and a remix kit for joining the nerdy Spooder-Verse.",
         section: "Projects",
         handler: () => {
           window.location.href = "/projects/hci-spooder-man/";
