@@ -48,7 +48,10 @@ jobs:
           bundler-cache: true
 
       - name: Run upgrade audit 🧪
-        run: bundle exec al-folio upgrade audit
+        run: bundle exec al-folio upgrade audit --no-fail
+
+      - name: Verify acknowledged local overrides
+        run: bundle exec al-folio upgrade overrides audit
 
       - name: Upload upgrade report 📄
         if: always()

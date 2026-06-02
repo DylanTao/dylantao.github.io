@@ -8,6 +8,8 @@ const exists = (relPath) => fs.existsSync(path.join(root, relPath));
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const failures = [];
+const overrideManifestPath = ".al-folio-overrides.yml";
+const hasOverrideManifest = exists(overrideManifestPath);
 
 const packageJson = JSON.parse(read("package.json"));
 const scripts = packageJson.scripts || {};
@@ -61,21 +63,33 @@ if (/gem 'al_math',\s*:git =>/.test(gemfile)) {
   failures.push("`Gemfile` must not use git-branch pin for `al_math`; use released gem version.");
 }
 
-for (const forbiddenPath of ["_includes", "_layouts", "_sass", "_scripts", "assets/tailwind", "tailwind.config.js", "assets/webfonts"]) {
-  if (exists(forbiddenPath)) {
-    failures.push(`Starter must not own core component path \`${forbiddenPath}\`; move ownership to the corresponding gem.`);
-  }
-}
-
-for (const forbiddenGlobPath of [
+const pluginOwnedLocalPaths = [
+  "_includes",
+  "_layouts",
+  "_sass",
+  "_scripts",
+  "assets/tailwind",
+  "tailwind.config.js",
+  "assets/webfonts",
   "assets/fonts/academicons.woff",
   "assets/fonts/academicons.ttf",
   "assets/fonts/scholar-icons.woff",
   "assets/fonts/scholar-icons.ttf",
-]) {
-  if (exists(forbiddenGlobPath)) {
-    failures.push(`Starter must not own icon runtime artifact \`${forbiddenGlobPath}\`; icon ownership belongs to al_icons.`);
+];
+const presentPluginOwnedPaths = pluginOwnedLocalPaths.filter(exists);
+if (presentPluginOwnedPaths.length > 0 && !hasOverrideManifest) {
+  failures.push(
+    `Customized forks with local plugin-owned overrides must commit \`${overrideManifestPath}\`; run \`bundle exec al-folio upgrade overrides accept --all\` after reviewing the overrides.`
+  );
+  for (const localPath of presentPluginOwnedPaths) {
+    failures.push(
+      `Starter must not own core component path \`${localPath}\`; move ownership to the corresponding gem or acknowledge the local override.`
+    );
   }
+}
+
+if (hasOverrideManifest && !/^version:\s*1\s*$/m.test(read(overrideManifestPath))) {
+  failures.push(`\`${overrideManifestPath}\` must declare override manifest \`version: 1\`.`);
 }
 
 for (const requiredPath of ["test/visual", "test/integration_plugin_toggles.sh", "test/integration_distill.sh"]) {
