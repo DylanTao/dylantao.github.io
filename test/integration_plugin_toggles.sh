@@ -12,7 +12,7 @@ remove_plugin_and_build() {
   local override="${tmp_dir}/${plugin}-override.yml"
   local output_site="${tmp_dir}/site-${plugin}"
 
-  ruby -rpsych -e "cfg = Psych.unsafe_load_file('_config.yml'); plugins = Array(cfg['plugins']).reject { |p| p == '${plugin}' }; puts({ 'plugins' => plugins }.to_yaml)" >"${override}"
+  ruby -rpsych -e "cfg = Psych.unsafe_load_file('_config.yml'); plugins = Array(cfg['plugins']).reject { |p| p == '${plugin}' }; puts({ 'plugins' => plugins, 'imagemagick' => { 'enabled' => false } }.to_yaml)" >"${override}"
 
   bundle exec jekyll build --config "_config.yml,${override}" -d "${output_site}" >/dev/null
   if [ ! -f "${output_site}/index.html" ]; then

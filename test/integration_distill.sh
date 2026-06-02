@@ -11,6 +11,8 @@ cleanup() {
 trap cleanup EXIT
 
 cat >"${tmp_override}" <<'YAML'
+imagemagick:
+  enabled: false
 giscus:
   repo: alshedivat/al-folio
   repo_id: R_kgDOExample
@@ -18,7 +20,7 @@ giscus:
   category_id: DIC_kwDOExample
 YAML
 
-bundle exec jekyll build --config "_config.yml,${tmp_override}" -d "${tmp_site}" >/dev/null
+bundle exec jekyll build --unpublished --config "_config.yml,${tmp_override}" -d "${tmp_site}" >/dev/null
 
 distill_page="${tmp_site}/blog/2021/distill/index.html"
 
@@ -31,9 +33,9 @@ grep -q 'd-front-matter' "${distill_page}"
 grep -q '/assets/js/distillpub/template.v2.js' "${distill_page}"
 grep -q '/assets/js/distillpub/transforms.v2.js' "${distill_page}"
 grep -q '/assets/js/distillpub/overrides.js' "${distill_page}"
-grep -q '/assets/al_charts/js/mermaid-setup.js' "${distill_page}"
-grep -q 'https://cdn.jsdelivr.net/npm/@planktimerr/tikzjax@1.0.8/dist/fonts.css' "${distill_page}"
-grep -q 'https://cdn.jsdelivr.net/npm/@planktimerr/tikzjax@1.0.8/dist/tikzjax.js' "${distill_page}"
+grep -q '/assets/js/mermaid-setup.js' "${distill_page}"
+grep -q '/assets/css/tikzjax.min.css' "${distill_page}"
+grep -q '/assets/js/tikzjax.min.js' "${distill_page}"
 grep -q 'id="giscus_thread"' "${distill_page}"
 transforms_runtime="${tmp_site}/assets/js/distillpub/transforms.v2.js"
 distill_runtime="$(PATH="$HOME/.rbenv/shims:$PATH" bundle exec ruby -e 'spec = Gem.loaded_specs["al_folio_distill"]; puts(spec ? File.join(spec.full_gem_path, "assets/js/distillpub/transforms.v2.js") : "")')"
