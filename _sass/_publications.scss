@@ -945,6 +945,8 @@ body.rejection-meme-viewer-open {
 }
 
 .publication-workbench {
+  --scholar-lens-right-bleed: 0px;
+
   display: grid;
   grid-template-areas: "list lens";
   grid-template-columns: minmax(0, 1.08fr) minmax(17rem, 20.5rem);
@@ -957,13 +959,13 @@ body.rejection-meme-viewer-open {
 }
 
 .publication-workbench-paper-focus {
-  grid-template-columns: minmax(0, 1fr) minmax(20.5rem, 23rem);
-  gap: clamp(1.15rem, 2.2vw, 1.75rem);
+  grid-template-columns: minmax(0, 1.06fr) minmax(19.25rem, 21.5rem);
+  gap: clamp(1.05rem, 2.05vw, 1.6rem);
 }
 
 @media (min-width: 1200px) {
   .publication-workbench-paper-focus {
-    grid-template-columns: minmax(0, 0.94fr) minmax(22rem, 26.5rem);
+    grid-template-columns: minmax(0, 1.06fr) minmax(20rem, 21.5rem);
   }
 }
 
@@ -1098,8 +1100,11 @@ body.rejection-meme-viewer-open {
 
 .scholar-lens-card {
   position: relative;
+  box-sizing: border-box;
   min-width: 0;
+  width: calc(100% + var(--scholar-lens-right-bleed, 0px));
   max-height: calc(100vh - 5.8rem);
+  margin-right: calc(var(--scholar-lens-right-bleed, 0px) * -1);
   overflow: auto;
   border: 1px solid color-mix(in srgb, var(--global-divider-color) 76%, rgba(255, 255, 255, 0.36));
   border-radius: 0.85rem;
@@ -1110,8 +1115,10 @@ body.rejection-meme-viewer-open {
   backdrop-filter: blur(18px) saturate(1.28);
   transition:
     border-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin-right 420ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    padding 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    padding 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .publication-workbench-paper-focus .scholar-lens-card {
@@ -2168,6 +2175,8 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 
   .publication-workbench {
+    --scholar-lens-right-bleed: 0px !important;
+
     grid-template-columns: 1fr;
   }
 
@@ -2182,7 +2191,9 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 
   .scholar-lens-card {
+    width: 100%;
     max-height: none;
+    margin-right: 0;
   }
 
   .rejection-receipt-tray {
