@@ -290,7 +290,7 @@ body.sticky-bottom-footer {
   }
 
   .blog-post .section-reading-aid-desktop {
-    --section-reading-aid-gap: clamp(1rem, 3vw, 3.5rem);
+    --section-reading-aid-gap: clamp(1.5rem, 4vw, 4.5rem);
     --section-reading-aid-width: clamp(11.15rem, 14vw, 13rem);
 
     left: max(1rem, calc(50vw - (var(--measure-prose) / 2) - var(--section-reading-aid-gap) - var(--section-reading-aid-width)));
@@ -308,6 +308,19 @@ body.sticky-bottom-footer {
     .section-reading-aid-kicker {
       margin-left: 1.77rem;
     }
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1359.98px) {
+  .blog-post .section-reading-aid-desktop {
+    display: none;
+  }
+
+  .blog-post .section-reading-aid-mobile {
+    position: sticky;
+    top: 4.35rem;
+    z-index: 12;
+    display: block;
   }
 }
 
