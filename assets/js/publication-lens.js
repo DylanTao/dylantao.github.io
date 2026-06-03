@@ -267,12 +267,35 @@
   typeSelect?.addEventListener("change", updateFilters);
 
   const setupAdaptiveLens = () => {
+    const desktopQuery = window.matchMedia("(min-width: 992px)");
+    const layoutShell = workbench.closest(".panel-shell") || workbench.closest(".container");
+    const rootFontSize = () => Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+    const setRightBleed = (isPaperFocus) => {
+      if (!desktopQuery.matches || !isPaperFocus || !layoutShell) {
+        workbench.style.setProperty("--scholar-lens-right-bleed", "0px");
+        return;
+      }
+
+      const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+      const shellRight = layoutShell.getBoundingClientRect().right;
+      const availableRight = Math.max(0, viewportWidth - shellRight - 8);
+      const maxBleedRem = viewportWidth >= 1400 ? 4 : 2;
+      const rightBleed = Math.min(availableRight, rootFontSize() * maxBleedRem);
+
+      workbench.style.setProperty("--scholar-lens-right-bleed", `${Math.round(rightBleed)}px`);
+    };
+
+    const setPaperFocus = (isPaperFocus) => {
+      setRightBleed(isPaperFocus);
+      workbench.classList.toggle("publication-workbench-paper-focus", isPaperFocus);
+    };
+
     if (!rejectionWall) {
-      workbench.classList.add("publication-workbench-paper-focus");
+      setPaperFocus(true);
       return;
     }
 
-    const desktopQuery = window.matchMedia("(min-width: 992px)");
     let scheduled = false;
 
     const updateLensWidth = () => {
@@ -280,7 +303,7 @@
       const wallBottom = rejectionWall.getBoundingClientRect().bottom;
       const stickyOffset = Number.parseFloat(getComputedStyle(lens).top) || 80;
       const isPaperFocus = desktopQuery.matches && wallBottom <= stickyOffset + 12;
-      workbench.classList.toggle("publication-workbench-paper-focus", isPaperFocus);
+      setPaperFocus(isPaperFocus);
     };
 
     const scheduleLensWidthUpdate = () => {
