@@ -3,10 +3,18 @@
 import argparse
 import os
 import sys
+import tempfile
 from datetime import date, datetime
 
 import yaml
 from scholarly import scholarly
+
+
+for stream in (sys.stdout, sys.stderr):
+    try:
+        stream.reconfigure(line_buffering=True)
+    except AttributeError:
+        pass
 
 
 def load_scholar_user_id() -> str:
@@ -60,12 +68,33 @@ def load_yaml_file(path: str) -> dict:
 
 
 def write_yaml_file(path: str, data: dict) -> None:
-    """Write YAML while keeping insertion order stable."""
+    """Write YAML atomically while keeping insertion order stable."""
+    temp_path = None
     try:
-        with open(path, "w") as f:
+        directory = os.path.dirname(path) or "."
+        prefix = f".{os.path.basename(path)}."
+        with tempfile.NamedTemporaryFile(
+            "w",
+            dir=directory,
+            prefix=prefix,
+            suffix=".tmp",
+            delete=False,
+            encoding="utf-8",
+        ) as f:
+            temp_path = f.name
             yaml.dump(data, f, Dumper=IndentedSafeDumper, width=1000, sort_keys=False)
+            f.flush()
+            os.fsync(f.fileno())
+        if os.path.exists(path):
+            os.chmod(temp_path, os.stat(path).st_mode & 0o777)
+        os.replace(temp_path, path)
         print(f"Data saved to {path}")
     except Exception as e:
+        if temp_path and os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except OSError:
+                pass
         print(f"Error writing data to {path}: {e}. Please check file permissions and disk space.")
         sys.exit(1)
 

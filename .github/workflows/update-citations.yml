@@ -7,19 +7,22 @@ on:
     - cron: "0 0 * * 5" # Friday
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-citations:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       # See docs/CUSTOMIZE.md for details on how to set up PAT for triggering subsequent workflows
       #        with:
       #          token: ${{ secrets.PAT }}
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -47,16 +50,27 @@ jobs:
           fi
 
       - name: Run citation update script
+        id: update
         shell: bash
         run: |
           echo "Running citation update script (single attempt)..."
           start_time=$(date)
-          timeout 90 python bin/update_scholar_citations.py
+          set +e
+          timeout 180 python -u bin/update_scholar_citations.py
           status=$?
+          set -e
           end_time=$(date)
           if [ $status -eq 0 ]; then
+            echo "citation_result=success" >> $GITHUB_OUTPUT
             echo "Citation update succeeded (started at $start_time, ended at $end_time)."
             echo "Citation update succeeded." >> $GITHUB_STEP_SUMMARY
+          elif [ $status -eq 124 ]; then
+            echo "citation_result=stale" >> $GITHUB_OUTPUT
+            echo "::warning::Google Scholar citation update timed out after 180 seconds; keeping existing citation data."
+            echo "Citation update timed out after 180 seconds (started at $start_time, ended at $end_time)." >> $GITHUB_STEP_SUMMARY
+            echo "Keeping existing citation data and skipping the citation-data commit." >> $GITHUB_STEP_SUMMARY
+            git restore --worktree -- _data/citations.yml _data/publication_lens.yml
+            find _data -maxdepth 1 \( -name '.citations.yml.*.tmp' -o -name '.publication_lens.yml.*.tmp' \) -delete
           else
             echo "Citation update script failed with exit code $status (started at $start_time, ended at $end_time)."
             echo "Citation update script failed with exit code $status." >> $GITHUB_STEP_SUMMARY
@@ -92,12 +106,14 @@ jobs:
           fi
 
       - name: Configure Git
+        if: steps.update.outputs.citation_result == 'success'
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           echo "Git configured."
 
       - name: Commit and push if changed
+        if: steps.update.outputs.citation_result == 'success'
         run: |
           git add _data/citations.yml _data/publication_lens.yml
           git diff --staged --quiet || (
