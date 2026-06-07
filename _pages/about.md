@@ -75,17 +75,16 @@ thesis:
     I study interfaces that turn generative abundance into clearer comparison,
     stronger discernment, and better reasons for choosing one direction over another.
   origin:
-    label: Origin note
-    text: Don Norman's Design Lab talk helped sharpen this into a question about educating designers for an AI-heavy future.
+    label: cr.
+    text: Don Norman's Design Lab talk
     url: /blog/2026/don-norman-design-lab-talk/
   principle_label: Design principle
   principle: >-
     Design help should not just make more artifacts. It should make the next
     judgment easier to explain.
   domain_note: >-
-    I like applying this to urban design, architecture, interior and product design,
-    fashion, robotics, education, and creative media: places where ideas move from
-    vibes -> variables -> value.
+    I apply this across built environments, products, fashion, robotics, education,
+    and creative media.
 
 why_now:
   title: Why this work matters now

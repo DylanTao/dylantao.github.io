@@ -20,8 +20,8 @@
       </p>
       {% if page.thesis.origin %}
         <a class="home-thesis-origin" href="{{ page.thesis.origin.url | relative_url }}">
-          <span>{{ page.thesis.origin.label | default: 'Origin note' }}</span>
-          <strong>{{ page.thesis.origin.text }}</strong>
+          <span class="home-thesis-origin-label">{{ page.thesis.origin.label | default: 'cr.' }}</span>
+          <span class="home-thesis-origin-text">{{ page.thesis.origin.text }}</span>
         </a>
       {% endif %}
     </div>

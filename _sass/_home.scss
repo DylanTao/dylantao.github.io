@@ -269,7 +269,7 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-cred-item span,
-.home-media-card span,
+.home-media-card > span,
 .home-work-meta span {
   display: block;
   margin-bottom: 0.35rem;
@@ -288,6 +288,15 @@ html[data-theme="dark"] .home-story-rail ol {
   font-size: 1rem;
   line-height: 1.35;
   overflow-wrap: anywhere;
+}
+
+.home-media-card strong span {
+  display: block;
+  color: inherit;
+}
+
+.home-media-card strong span + span {
+  margin-top: 0.08rem;
 }
 
 .home-hero-media {
@@ -408,6 +417,7 @@ html[data-theme="dark"] .home-story-rail ol {
   align-self: start;
   border-color: color-mix(in srgb, var(--home-mint-strong) 26%, var(--home-line));
   background: color-mix(in srgb, var(--home-mint) 42%, var(--home-surface));
+  animation: home-bubble-breathe-secondary 5.8s ease-in-out infinite;
   transform: translate(var(--home-bubble-x), var(--home-bubble-y));
 }
 
@@ -421,6 +431,7 @@ html[data-theme="dark"] .home-story-rail ol {
   --home-bubble-x: 0.35rem;
   --home-bubble-y: -1.15rem;
   border-color: color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
+  animation: home-bubble-breathe-primary 5.8s ease-in-out infinite;
   transform: translate(var(--home-bubble-x), var(--home-bubble-y));
 }
 
@@ -433,14 +444,36 @@ html[data-theme="dark"] .home-story-rail ol {
 @media (hover: hover) and (pointer: fine) {
   .home-hero-media:hover .home-media-card-secondary {
     border-color: color-mix(in srgb, var(--home-mint-strong) 38%, var(--home-line));
+    background: color-mix(in srgb, var(--home-mint) 52%, var(--home-surface));
     box-shadow: 0 14px 30px rgba(73, 45, 30, 0.085);
-    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(0.18rem);
   }
 
   .home-hero-media:hover .home-media-card-primary {
     border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
+    background: color-mix(in srgb, var(--home-accent-soft) 36%, var(--home-surface));
     box-shadow: 0 14px 30px rgba(73, 45, 30, 0.085);
-    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(-0.16rem);
+  }
+}
+
+@keyframes home-bubble-breathe-secondary {
+  0%,
+  100% {
+    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(-0.14rem);
+  }
+
+  50% {
+    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(0.14rem);
+  }
+}
+
+@keyframes home-bubble-breathe-primary {
+  0%,
+  100% {
+    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(0.14rem);
+  }
+
+  50% {
+    transform: translate(var(--home-bubble-x), var(--home-bubble-y)) translateY(-0.14rem);
   }
 }
 
@@ -504,7 +537,7 @@ html[data-theme="dark"] .home-story-rail ol {
   background: var(--home-surface);
 }
 
-.home-thesis-note span {
+.home-thesis-note > span {
   display: block;
   margin-bottom: 0.55rem;
   color: var(--home-sky-strong);
@@ -517,34 +550,32 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-thesis-origin {
-  display: block;
-  margin-top: 1rem;
-  padding-top: 0.9rem;
-  border-top: 1px solid color-mix(in srgb, var(--home-line) 78%, transparent);
-  color: var(--home-muted);
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.32rem;
+  align-items: baseline;
+  margin-top: 0.75rem;
+  color: var(--home-muted) !important;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  line-height: 1.35;
   text-decoration: none;
 }
 
-.home-thesis-origin span {
-  margin-bottom: 0.28rem;
-  color: var(--home-accent-strong);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1.2;
-  text-transform: uppercase;
+.home-thesis-origin-label,
+.home-thesis-origin-text {
+  color: inherit;
 }
 
-.home-thesis-origin strong {
-  display: block;
-  color: var(--home-ink);
-  font-size: 0.94rem;
-  font-weight: 650;
-  line-height: 1.55;
+.home-thesis-origin-text {
+  font-weight: 600;
 }
 
-.home-thesis-origin:hover strong {
-  color: var(--home-accent-strong);
+.home-thesis-origin:hover,
+.home-thesis-origin:hover .home-thesis-origin-text {
+  color: var(--home-accent-strong) !important;
+  text-decoration: none;
 }
 
 .home-thesis-domain {
@@ -1759,7 +1790,7 @@ html.home-motion-ready .home-reveal.home-visible {
     display: none;
   }
 
-  .home-media-card span {
+  .home-media-card > span {
     font-size: 0.72rem;
   }
 
