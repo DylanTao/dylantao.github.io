@@ -18,6 +18,12 @@
           | default: 'Good interfaces should make comparison easier: show what changed, what evidence exists, and which decision comes next.'
         }}
       </p>
+      {% if page.thesis.origin %}
+        <a class="home-thesis-origin" href="{{ page.thesis.origin.url | relative_url }}">
+          <span>{{ page.thesis.origin.label | default: 'Origin note' }}</span>
+          <strong>{{ page.thesis.origin.text }}</strong>
+        </a>
+      {% endif %}
     </div>
   </div>
   {% if page.thesis.domain_note %}

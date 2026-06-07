@@ -18,7 +18,7 @@ profile:
 hero:
   eyebrow: Design judgment + human-centered AI
   title: Making AI tools that sharpen design judgment.
-  lede: "I build and study interfaces that help people think, design, and build with AI: exploring possibilities, seeing tradeoffs, and developing taste over time."
+  lede: "I build and study interfaces for an AI-heavy design world: tools that help people notice differences, explain tradeoffs, and build taste over time."
   affiliation_lines:
     - text: Cognitive Science Ph.D. student at UC San Diego
     - parts:
@@ -70,14 +70,18 @@ thesis:
   eyebrow: Thesis thread
   title: Taste is a research problem.
   lead: >-
-    My main thesis thread is Scaffolding for Taste: how AI can help people develop taste,
-    discernment, and evaluative judgment in a world of generative abundance. When AI can
-    generate ten options in a minute, the hard part is learning what differs, what matters,
-    and why one direction is worth pursuing.
+    Scaffolding for Taste asks a simple question: when AI can make ten plausible
+    options in a minute, how do people learn to notice the difference that matters?
+    I study interfaces that turn generative abundance into clearer comparison,
+    stronger discernment, and better reasons for choosing one direction over another.
+  origin:
+    label: Origin note
+    text: Don Norman's Design Lab talk helped sharpen this into a question about educating designers for an AI-heavy future.
+    url: /blog/2026/don-norman-design-lab-talk/
   principle_label: Design principle
   principle: >-
-    Good interfaces should make differences, tradeoffs, consequences, and evidence easier
-    to see, so people can reason about what to try next.
+    Design help should not just make more artifacts. It should make the next
+    judgment easier to explain.
   domain_note: >-
     I like applying this to urban design, architecture, interior and product design,
     fashion, robotics, education, and creative media: places where ideas move from
@@ -176,9 +180,37 @@ recruiting:
     - I like working with curious, motivated, and kind undergraduate and master's students, especially people who have a question they cannot stop poking at.
     - You do not need to show up as a polished researcher. It helps if you like reading carefully, making small prototypes, testing claims, looking honestly at evidence, and writing clearly about what changed.
     - The best fit is someone with real stake in a domain or problem, plus enough patience to turn that interest into a concrete study.
+  growth:
+    - Reading closely
+    - Prototyping
+    - Evaluation
+    - Analysis
+    - Communication
   post_url: /blog/2026/how-to-start-doing-research-at-ucsd/
   email: s1tao@ucsd.edu
   email_subject: UCSD Research Interest
+
+lineage:
+  title: Advisor Lineage & Past Collaborations
+  rows:
+    - label: Ph.D.
+      people:
+        - name: Steven P. Dow
+          url: https://spdow.ucsd.edu/
+          area: HCI
+    - label: Master's
+      people:
+        - name: Steven P. Dow
+          url: https://spdow.ucsd.edu/
+          area: HCI
+        - name: Tzu-Mao Li
+          url: https://cseweb.ucsd.edu/~tzli/
+          area: Graphics
+    - label: Undergrad
+      people:
+        - name: Judith E. Fan
+          url: https://profiles.stanford.edu/judith-fan
+          area: Cognition & Intuitive Physics
 
 announcements:
   enabled: true
