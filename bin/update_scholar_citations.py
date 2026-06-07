@@ -186,7 +186,7 @@ def get_scholar_citations(force: bool = False) -> None:
     scholarly.set_retries(3)
     try:
         author = scholarly.search_author_id(SCHOLAR_USER_ID)
-        author_data = scholarly.fill(author)
+        author_data = scholarly.fill(author, sections=["publications"])
     except Exception as e:
         print(
             f"Error fetching author data from Google Scholar for user ID '{SCHOLAR_USER_ID}': {e}. Please check your internet connection and Scholar user ID."

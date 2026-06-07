@@ -56,7 +56,7 @@ jobs:
           echo "Running citation update script (single attempt)..."
           start_time=$(date)
           set +e
-          timeout 180 python -u bin/update_scholar_citations.py
+          timeout 300 python -u bin/update_scholar_citations.py
           status=$?
           set -e
           end_time=$(date)
@@ -66,8 +66,8 @@ jobs:
             echo "Citation update succeeded." >> $GITHUB_STEP_SUMMARY
           elif [ $status -eq 124 ]; then
             echo "citation_result=stale" >> $GITHUB_OUTPUT
-            echo "::warning::Google Scholar citation update timed out after 180 seconds; keeping existing citation data."
-            echo "Citation update timed out after 180 seconds (started at $start_time, ended at $end_time)." >> $GITHUB_STEP_SUMMARY
+            echo "::warning::Google Scholar citation update timed out after 300 seconds; keeping existing citation data."
+            echo "Citation update timed out after 300 seconds (started at $start_time, ended at $end_time)." >> $GITHUB_STEP_SUMMARY
             echo "Keeping existing citation data and skipping the citation-data commit." >> $GITHUB_STEP_SUMMARY
             git restore --worktree -- _data/citations.yml _data/publication_lens.yml
             find _data -maxdepth 1 \( -name '.citations.yml.*.tmp' -o -name '.publication_lens.yml.*.tmp' \) -delete
