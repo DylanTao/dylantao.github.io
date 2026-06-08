@@ -76,7 +76,7 @@ thesis:
     stronger discernment, and better reasons for choosing one direction over another.
   origin:
     label: cr.
-    text: Don Norman's Design Lab talk
+    text: Don Norman for the thoughtful push on scaffolding taste
     url: /blog/2026/don-norman-design-lab-talk/
   principle_label: Design principle
   principle: >-
