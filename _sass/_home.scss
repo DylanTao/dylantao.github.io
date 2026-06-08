@@ -303,7 +303,7 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-media-card strong .home-flow-step i {
-  color: color-mix(in srgb, var(--home-accent) 64%, var(--home-muted));
+  color: var(--home-card-arrow-color, color-mix(in srgb, var(--home-accent) 64%, var(--home-muted)));
   font-size: 0.78em;
   line-height: 1;
 }
@@ -398,14 +398,21 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-media-card {
+  --home-card-tint: var(--home-accent-soft);
+  --home-card-tint-rest: 18%;
+  --home-card-tint-hover: 42%;
+  --home-card-edge: color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
+  --home-card-edge-hover: color-mix(in srgb, var(--home-accent) 38%, var(--home-line));
+  --home-card-shadow: rgba(73, 45, 30, 0.065);
+  --home-card-shadow-hover: rgba(73, 45, 30, 0.095);
   position: relative;
   z-index: 3;
   width: 100%;
   padding: 0.85rem 0.95rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-edge);
   border-radius: 0.5rem;
-  background: var(--home-surface);
-  box-shadow: 0 10px 24px rgba(73, 45, 30, 0.065);
+  background-color: color-mix(in srgb, var(--home-card-tint) var(--home-card-tint-rest), var(--home-surface));
+  box-shadow: 0 10px 24px var(--home-card-shadow);
   transform: translate(var(--home-bubble-x, 0), var(--home-bubble-y, 0));
   transition:
     background-color var(--motion-standard),
@@ -422,49 +429,63 @@ html[data-theme="dark"] .home-story-rail ol {
   background: inherit;
   content: "";
   transform: rotate(45deg);
+  transition: border-color var(--motion-standard);
 }
 
 .home-media-card-secondary {
   --home-bubble-x: -0.55rem;
   --home-bubble-y: 2.65rem;
+  --home-card-tint: var(--home-mint);
+  --home-card-tint-rest: 34%;
+  --home-card-tint-hover: 52%;
+  --home-card-edge: color-mix(in srgb, var(--home-mint-strong) 26%, var(--home-line));
+  --home-card-edge-hover: color-mix(in srgb, var(--home-mint-strong) 42%, var(--home-line));
+  --home-card-arrow-color: color-mix(in srgb, var(--home-mint-strong) 62%, var(--home-accent));
   align-self: start;
-  border-color: color-mix(in srgb, var(--home-mint-strong) 26%, var(--home-line));
-  background: color-mix(in srgb, var(--home-mint) 42%, var(--home-surface));
   animation: home-bubble-breathe-secondary 5.8s ease-in-out infinite;
   transform: translate(var(--home-bubble-x), var(--home-bubble-y));
 }
 
 .home-media-card-secondary::before {
   right: -0.42rem;
-  border-top: 1px solid color-mix(in srgb, var(--home-mint-strong) 26%, var(--home-line));
-  border-right: 1px solid color-mix(in srgb, var(--home-mint-strong) 26%, var(--home-line));
+  border-top: 1px solid var(--home-card-edge);
+  border-right: 1px solid var(--home-card-edge);
 }
 
 .home-media-card-primary {
   --home-bubble-x: 0.35rem;
   --home-bubble-y: -1.15rem;
-  border-color: color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
+  --home-card-tint: var(--home-accent-soft);
+  --home-card-tint-rest: 24%;
+  --home-card-tint-hover: 44%;
+  --home-card-edge: color-mix(in srgb, var(--home-accent) 26%, var(--home-line));
+  --home-card-edge-hover: color-mix(in srgb, var(--home-accent) 42%, var(--home-line));
   animation: home-bubble-breathe-primary 5.8s ease-in-out infinite;
   transform: translate(var(--home-bubble-x), var(--home-bubble-y));
 }
 
 .home-media-card-primary::before {
   left: -0.42rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
-  border-left: 1px solid color-mix(in srgb, var(--home-accent) 24%, var(--home-line));
+  border-bottom: 1px solid var(--home-card-edge);
+  border-left: 1px solid var(--home-card-edge);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-hero-media:hover .home-media-card-secondary {
-    border-color: color-mix(in srgb, var(--home-mint-strong) 38%, var(--home-line));
-    background: color-mix(in srgb, var(--home-mint) 52%, var(--home-surface));
-    box-shadow: 0 14px 30px rgba(73, 45, 30, 0.085);
+  .home-hero-media:hover .home-media-card-secondary,
+  .home-hero-media:hover .home-media-card-primary {
+    border-color: var(--home-card-edge-hover);
+    background-color: color-mix(in srgb, var(--home-card-tint) var(--home-card-tint-hover), var(--home-surface));
+    box-shadow: 0 14px 30px var(--home-card-shadow-hover);
   }
 
-  .home-hero-media:hover .home-media-card-primary {
-    border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
-    background: color-mix(in srgb, var(--home-accent-soft) 36%, var(--home-surface));
-    box-shadow: 0 14px 30px rgba(73, 45, 30, 0.085);
+  .home-hero-media:hover .home-media-card-secondary::before {
+    border-top-color: var(--home-card-edge-hover);
+    border-right-color: var(--home-card-edge-hover);
+  }
+
+  .home-hero-media:hover .home-media-card-primary::before {
+    border-bottom-color: var(--home-card-edge-hover);
+    border-left-color: var(--home-card-edge-hover);
   }
 }
 
