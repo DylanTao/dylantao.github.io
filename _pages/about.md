@@ -68,7 +68,7 @@ story_sections:
 
 thesis:
   eyebrow: Thesis thread
-  title: Taste is a research problem.
+  title: Scaffolding taste in an age of AI.
   lead: >-
     Scaffolding for Taste asks a simple question: when AI can make ten plausible
     options in a minute, how do people learn to notice the difference that matters?
