@@ -231,9 +231,15 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-btn-secondary,
+.home-btn-contact,
 .home-btn-quiet {
   background: var(--home-surface);
   color: var(--home-accent-strong) !important;
+}
+
+.home-btn-contact {
+  border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--home-surface) 78%, transparent);
 }
 
 .home-btn-quiet {
@@ -287,29 +293,24 @@ html[data-theme="dark"] .home-story-rail ol {
   color: var(--home-ink);
   font-size: 1rem;
   line-height: 1.35;
+}
+
+.home-cred-item strong {
   overflow-wrap: anywhere;
+}
+
+.home-media-card strong {
+  overflow-wrap: normal;
 }
 
 .home-media-card strong span {
   display: block;
   color: inherit;
+  text-wrap: balance;
 }
 
-.home-media-card strong .home-flow-step {
-  display: flex;
-  gap: 0.35rem;
-  align-items: center;
-  width: fit-content;
-}
-
-.home-media-card strong .home-flow-step i {
-  color: var(--home-card-arrow-color, color-mix(in srgb, var(--home-accent) 64%, var(--home-muted)));
-  font-size: 0.78em;
-  line-height: 1;
-}
-
-.home-media-card strong span + span {
-  margin-top: 0.08rem;
+.home-media-card strong .home-flow-inline {
+  white-space: nowrap;
 }
 
 .home-hero-media {
@@ -1731,6 +1732,11 @@ html.home-motion-ready .home-reveal.home-visible {
     width: 100%;
     min-height: 2.45rem;
     padding: 0.62rem 0.9rem;
+  }
+
+  .home-btn-contact {
+    border-color: color-mix(in srgb, var(--home-accent) 48%, var(--home-line));
+    background: color-mix(in srgb, var(--home-surface) 84%, var(--home-accent-soft));
   }
 
   .home-btn-quiet {
