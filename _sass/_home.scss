@@ -295,6 +295,19 @@ html[data-theme="dark"] .home-story-rail ol {
   color: inherit;
 }
 
+.home-media-card strong .home-flow-step {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  width: fit-content;
+}
+
+.home-media-card strong .home-flow-step i {
+  color: color-mix(in srgb, var(--home-accent) 64%, var(--home-muted));
+  font-size: 0.78em;
+  line-height: 1;
+}
+
 .home-media-card strong span + span {
   margin-top: 0.08rem;
 }
