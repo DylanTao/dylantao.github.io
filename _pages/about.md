@@ -75,14 +75,14 @@ thesis:
     I study interfaces that turn generative abundance into clearer comparison,
     stronger discernment, and better reasons for choosing one direction over another.
   origin:
-    text: thanks Don for his wonderful insights on cultivating taste for the next generation of designers!
+    text: thanks Don for his wonderful insights on the need to cultivate taste for the next generation of designers!
     url: /blog/2026/don-norman-design-lab-talk/
   principle_label: Design principle
   principle: >-
     Design help should not just make more artifacts. It should make the next
     judgment easier to explain.
   domain_note: >-
-    I apply this across urban design, architecture, interiors, products, fashion,
+    I aim to explore this across different domains, such as film, urban design, architecture, interiors, products, fashion,
     robotics, accessibility, education technology, and creative media.
 
 why_now:
