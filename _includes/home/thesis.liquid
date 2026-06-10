@@ -27,8 +27,8 @@
         </a>
       {% endif %}
     </div>
+    {% if page.thesis.domain_note %}
+      <p class="home-thesis-domain">{{ page.thesis.domain_note }}</p>
+    {% endif %}
   </div>
-  {% if page.thesis.domain_note %}
-    <p class="home-thesis-domain">{{ page.thesis.domain_note }}</p>
-  {% endif %}
 </section>

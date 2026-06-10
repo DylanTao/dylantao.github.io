@@ -110,6 +110,59 @@ test("navbar menu stays right-aligned on desktop pages", async ({ page }, testIn
   expect(Math.abs(alignment.menuRight - alignment.containerRight)).toBeLessThanOrEqual(24);
 });
 
+test("home profile bubbles hover independently", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "hover-specific assertion is desktop-only");
+
+  await preparePage(page, "light");
+  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const secondary = page.locator(".home-media-card-secondary");
+  const primary = page.locator(".home-media-card-primary");
+  await expect(secondary).toBeVisible();
+  await expect(primary).toBeVisible();
+
+  const readCardStyles = async (card) =>
+    card.evaluate((el) => {
+      const computed = window.getComputedStyle(el);
+      return {
+        animationPlayState: computed.animationPlayState,
+        backgroundColor: computed.backgroundColor,
+        borderColor: computed.borderColor,
+        boxShadow: computed.boxShadow,
+      };
+    });
+
+  const secondaryRest = await readCardStyles(secondary);
+  const primaryRest = await readCardStyles(primary);
+
+  await secondary.hover();
+  await page.waitForTimeout(320);
+  const secondaryHovered = await readCardStyles(secondary);
+  const primaryWhileSecondaryHovered = await readCardStyles(primary);
+
+  expect(secondaryHovered.animationPlayState).toBe("paused");
+  expect(primaryWhileSecondaryHovered.animationPlayState).not.toBe("paused");
+  expect(secondaryHovered.backgroundColor).not.toBe(secondaryRest.backgroundColor);
+  expect(secondaryHovered.borderColor).not.toBe(secondaryRest.borderColor);
+  expect(secondaryHovered.boxShadow).not.toBe(secondaryRest.boxShadow);
+  expect(primaryWhileSecondaryHovered.backgroundColor).toBe(primaryRest.backgroundColor);
+  expect(primaryWhileSecondaryHovered.borderColor).toBe(primaryRest.borderColor);
+
+  await primary.hover();
+  await page.waitForTimeout(320);
+  const primaryHovered = await readCardStyles(primary);
+  const secondaryWhilePrimaryHovered = await readCardStyles(secondary);
+
+  expect(primaryHovered.animationPlayState).toBe("paused");
+  expect(secondaryWhilePrimaryHovered.animationPlayState).not.toBe("paused");
+  expect(primaryHovered.backgroundColor).not.toBe(primaryRest.backgroundColor);
+  expect(primaryHovered.borderColor).not.toBe(primaryRest.borderColor);
+  expect(primaryHovered.boxShadow).not.toBe(primaryRest.boxShadow);
+  expect(secondaryWhilePrimaryHovered.backgroundColor).toBe(secondaryRest.backgroundColor);
+  expect(secondaryWhilePrimaryHovered.borderColor).toBe(secondaryRest.borderColor);
+});
+
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "navbar search/theme controls are collapsed under mobile menu");
 

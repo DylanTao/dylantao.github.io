@@ -310,7 +310,7 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-media-card strong .home-flow-inline {
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .home-hero-media {
@@ -393,7 +393,7 @@ html[data-theme="dark"] .home-story-rail ol {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.9rem;
-  width: min(31.5rem, calc(100% - 1rem));
+  width: min(31.5rem, 100%);
   align-items: start;
   overflow: visible;
 }
@@ -472,19 +472,19 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-hero-media:hover .home-media-card-secondary,
-  .home-hero-media:hover .home-media-card-primary {
+  .home-media-card:hover {
+    animation-play-state: paused;
     border-color: var(--home-card-edge-hover);
     background-color: color-mix(in srgb, var(--home-card-tint) var(--home-card-tint-hover), var(--home-surface));
     box-shadow: 0 14px 30px var(--home-card-shadow-hover);
   }
 
-  .home-hero-media:hover .home-media-card-secondary::before {
+  .home-media-card-secondary:hover::before {
     border-top-color: var(--home-card-edge-hover);
     border-right-color: var(--home-card-edge-hover);
   }
 
-  .home-hero-media:hover .home-media-card-primary::before {
+  .home-media-card-primary:hover::before {
     border-bottom-color: var(--home-card-edge-hover);
     border-left-color: var(--home-card-edge-hover);
   }
@@ -553,7 +553,8 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-thesis-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-  gap: 2rem;
+  column-gap: 2rem;
+  row-gap: 1rem;
   align-items: stretch;
 }
 
@@ -614,11 +615,12 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-thesis-domain {
-  max-width: 58rem;
-  margin: 1.25rem 0 0;
+  grid-column: 1 / 2;
+  max-width: 67ch;
+  margin: 0;
   color: var(--home-muted);
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 0.98rem;
+  line-height: 1.64;
   text-wrap: pretty;
 }
 
@@ -757,11 +759,12 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-motion-intro .home-section-heading > p:not(.home-kicker) {
-  max-width: 43rem;
+  max-width: 64ch;
   margin: 1rem 0 0;
   color: var(--home-muted);
-  font-size: 1.02rem;
-  line-height: 1.7;
+  font-size: clamp(0.98rem, 1.05vw, 1.04rem);
+  line-height: 1.64;
+  text-wrap: pretty;
 }
 
 .home-motion-body {
@@ -1534,7 +1537,7 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-media-bubbles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: min(34rem, calc(100% - 1rem));
+    width: min(34rem, 100%);
   }
 
   .home-media-card {
@@ -1551,6 +1554,11 @@ html.home-motion-ready .home-reveal.home-visible {
     --home-bubble-x: 0.25rem;
     --home-bubble-y: -0.25rem;
     transform: translate(var(--home-bubble-x), var(--home-bubble-y));
+  }
+
+  .home-thesis-domain {
+    grid-column: 1 / -1;
+    max-width: 68ch;
   }
 
   .home-why-now-claims {
