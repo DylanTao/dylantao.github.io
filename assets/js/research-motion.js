@@ -298,43 +298,96 @@
       const b = plotBounds();
       const series = state.geometry.design || [];
       const intent = state.pointer.intent;
-      const pointerX = (state.pointer.x - 0.5) * lerp(12, 52, intent);
-      const pointerY = (state.pointer.y - 0.5) * lerp(6, 28, intent);
+      const pointerX = (state.pointer.x - 0.5) * lerp(10, 46, intent);
+      const pointerY = (state.pointer.y - 0.5) * lerp(6, 24, intent);
       const centerX = b.cx + pointerX;
       const centerY = b.cy + pointerY;
       const leftX = b.left + b.width * 0.04;
+      const varyX = b.left + b.width * 0.28;
+      const refineX = b.right - b.width * 0.24;
       const rightX = b.right - b.width * 0.04;
       const top = b.top + b.height * 0.05;
       const bottom = b.bottom - b.height * 0.05;
+      const surfaceWidth = clamp(b.width * 0.18, 88, 148);
+      const surfaceHeight = clamp(b.height * 0.28, 48, 76);
+      const branchScale = state.width < 560 ? 0.55 : 1;
 
-      beginMode(pal, 0.34 * alpha, state.width < 560 ? 0.7 : 0.82);
+      ctx.save();
+      const surfaceGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, surfaceWidth * 0.9);
+      surfaceGlow.addColorStop(0, pal.bgB);
+      surfaceGlow.addColorStop(0.62, pal.glow);
+      surfaceGlow.addColorStop(1, transparentColor(pal.bgB));
+      ctx.globalAlpha = 0.36 * alpha;
+      ctx.fillStyle = surfaceGlow;
+      ctx.fillRect(centerX - surfaceWidth, centerY - surfaceHeight, surfaceWidth * 2, surfaceHeight * 2);
+
+      ctx.globalAlpha = 0.22 * alpha;
+      ctx.fillStyle = pal.bgA;
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(centerX, centerY, surfaceWidth * 0.52, surfaceHeight * 0.52, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      beginMode(pal, 0.3 * alpha, state.width < 560 ? 0.72 : 0.86);
 
       series.forEach(({ index, t, phase }) => {
-        const y0 = lerp(top, bottom, t) + Math.sin(time * 0.7 + phase) * b.height * 0.025;
-        const y1 = lerp(bottom, top, t) - Math.sin(time * 0.62 + phase) * b.height * 0.018;
-        const compareLift = Math.sin(t * Math.PI) * b.height * 0.11;
-        const pointerPull = (state.pointer.y - 0.5) * b.height * 0.13 * Math.sin(t * Math.PI) * intent;
+        const wiggle = Math.sin(time * 0.62 + phase) * b.height * 0.018;
+        const sourceY = lerp(top, bottom, t) + wiggle;
+        const spreadY = centerY + (t - 0.5) * b.height * 0.78 + Math.sin(time * 0.42 + phase) * b.height * 0.026;
+        const compareY = centerY + (t - 0.5) * b.height * 0.17 + (state.pointer.y - 0.5) * b.height * 0.07 * intent;
+        const refineY = centerY + (0.5 - t) * b.height * 0.26 + Math.sin(time * 0.48 + phase) * b.height * 0.018;
+        const directionY = centerY + (0.5 - t) * b.height * 0.36 - wiggle * 0.7;
 
         ctx.beginPath();
-        ctx.moveTo(leftX, y0);
-        ctx.bezierCurveTo(lerp(leftX, centerX, 0.35), y0 + compareLift, centerX - b.width * 0.1, centerY + pointerPull, centerX, centerY);
-        ctx.bezierCurveTo(centerX + b.width * 0.1, centerY - pointerPull, lerp(centerX, rightX, 0.65), y1 - compareLift, rightX, y1);
+        ctx.moveTo(leftX, sourceY);
+        ctx.bezierCurveTo(leftX + b.width * 0.12, sourceY, varyX - b.width * 0.04, spreadY, centerX - surfaceWidth * 0.48, compareY);
+        ctx.bezierCurveTo(centerX + surfaceWidth * 0.48, compareY, refineX - b.width * 0.07, refineY, rightX, directionY);
         ctx.stroke();
 
+        if (index % 5 === 0 || index % 7 === 1) {
+          const branchX = lerp(leftX, varyX, 0.72);
+          const branchY = lerp(sourceY, spreadY, 0.82);
+          const split = index % 10 === 0 ? -1 : 1;
+          const branchA = branchY + split * b.height * 0.09 * branchScale;
+          const branchB = branchY - split * b.height * 0.06 * branchScale;
+          ctx.globalAlpha = 0.22 * alpha;
+          ctx.beginPath();
+          ctx.moveTo(branchX, branchY);
+          ctx.lineTo(branchX + b.width * 0.045, branchA);
+          ctx.lineTo(branchX + b.width * 0.085, branchB);
+          ctx.stroke();
+          ctx.globalAlpha = 0.3 * alpha;
+          drawDot(branchX + b.width * 0.045, branchA, state.width < 560 ? 1.1 : 1.4, pal.lineC, 0.42 * alpha);
+          drawDot(branchX + b.width * 0.085, branchB, state.width < 560 ? 1.1 : 1.4, pal.lineB, 0.38 * alpha);
+          ctx.globalAlpha = 0.3 * alpha;
+        }
+
         if (index % 4 === 0) {
-          drawDot(leftX, y0, state.width < 560 ? 1.2 : 1.5, pal.dot, 0.44 * alpha);
-          drawDot(rightX, y1, state.width < 560 ? 1.1 : 1.4, pal.dot, 0.38 * alpha);
+          drawDot(leftX, sourceY, state.width < 560 ? 1.1 : 1.45, pal.dot, 0.38 * alpha);
+          drawDot(rightX, directionY, state.width < 560 ? 1 : 1.3, pal.dot, 0.34 * alpha);
         }
       });
 
-      ctx.globalAlpha = 0.18 * alpha;
-      ctx.strokeStyle = pal.lineC;
+      ctx.globalAlpha = 0.2 * alpha;
+      ctx.strokeStyle = pal.lineB;
       ctx.lineWidth = 1;
-      [0.38, 0.5, 0.62].forEach((mark) => {
-        const x = lerp(b.left, b.right, mark);
+      [-0.22, 0.04, 0.26].forEach((offset, index) => {
+        const loopY = centerY + offset * b.height;
+        const branchY = centerY + (offset + (index % 2 ? -0.1 : 0.08)) * b.height;
         ctx.beginPath();
-        ctx.moveTo(x, b.top + b.height * 0.18);
-        ctx.lineTo(x, b.bottom - b.height * 0.18);
+        ctx.moveTo(centerX - surfaceWidth * 0.34, loopY);
+        ctx.bezierCurveTo(centerX - b.width * 0.13, loopY - b.height * 0.08, varyX + b.width * 0.05, branchY, varyX - b.width * 0.03, branchY);
+        ctx.bezierCurveTo(
+          varyX + b.width * 0.04,
+          branchY - b.height * 0.06,
+          centerX - b.width * 0.1,
+          loopY + b.height * 0.08,
+          centerX - surfaceWidth * 0.26,
+          loopY
+        );
         ctx.stroke();
       });
 
@@ -344,29 +397,89 @@
       designParticles.forEach((particle) => {
         const laneCount = state.width < 560 ? 3 : 5;
         const laneT = clamp((particle.lane + 0.55) / laneCount, 0.08, 0.92);
-        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.035 * particle.speed);
-        const y0 = lerp(top, bottom, laneT) + Math.sin(time * 0.48 + particle.phase) * b.height * 0.015;
-        const y1 = lerp(bottom, top, laneT) - Math.sin(time * 0.44 + particle.phase) * b.height * 0.012;
-        const compareLift = Math.sin(laneT * Math.PI) * b.height * 0.11;
-        const pointerPull = (state.pointer.y - 0.5) * b.height * 0.1 * Math.sin(laneT * Math.PI) * intent;
-        const localT = routeT < 0.5 ? routeT * 2 : (routeT - 0.5) * 2;
-        const firstHalf = routeT < 0.5;
-        const x = firstHalf
-          ? cubic(leftX, lerp(leftX, centerX, 0.35), centerX - b.width * 0.1, centerX, localT)
-          : cubic(centerX, centerX + b.width * 0.1, lerp(centerX, rightX, 0.65), rightX, localT);
-        const y = firstHalf
-          ? cubic(y0, y0 + compareLift, centerY + pointerPull, centerY, localT)
-          : cubic(centerY, centerY - pointerPull, y1 - compareLift, y1, localT);
-        const angle = firstHalf ? Math.atan2(centerY - y0, centerX - leftX) : Math.atan2(y1 - centerY, rightX - centerX);
-        const particleAlpha = state.reduceMotion ? 0.34 : 0.3 + 0.22 * Math.sin(routeT * Math.PI);
-        drawTraceParticle(x, y, state.width < 560 ? 1 : 1.25, particle.lane % 2 ? pal.lineC : pal.lineB, particleAlpha * alpha, angle);
+        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.045 * particle.speed);
+        const routeKind = particle.seed < 0.28 ? "loop" : particle.seed > 0.64 ? "branch" : "forward";
+        const sourceY = lerp(top, bottom, laneT) + Math.sin(time * 0.48 + particle.phase) * b.height * 0.015;
+        const spreadY = centerY + (laneT - 0.5) * b.height * 0.78 + Math.sin(time * 0.38 + particle.phase) * b.height * 0.02;
+        const compareY = centerY + (laneT - 0.5) * b.height * 0.14;
+        const refineY = centerY + (0.5 - laneT) * b.height * 0.25;
+        const directionY = centerY + (0.5 - laneT) * b.height * 0.34;
+        const branchY = spreadY + (particle.seed > 0.5 ? -1 : 1) * b.height * 0.13 * branchScale;
+        const branchX = varyX + b.width * 0.07;
+
+        const pointAt = (progress) => {
+          if (routeKind === "loop") {
+            if (progress < 0.4) {
+              const local = progress / 0.4;
+              return {
+                x: cubic(leftX, leftX + b.width * 0.12, varyX, centerX - surfaceWidth * 0.48, local),
+                y: cubic(sourceY, sourceY, spreadY, compareY, local),
+              };
+            }
+            if (progress < 0.64) {
+              const local = (progress - 0.4) / 0.24;
+              return {
+                x: cubic(centerX - surfaceWidth * 0.32, centerX - b.width * 0.12, branchX, branchX, local),
+                y: cubic(compareY, compareY - b.height * 0.08, branchY, branchY, local),
+              };
+            }
+            const local = (progress - 0.64) / 0.36;
+            return {
+              x: cubic(branchX, varyX + b.width * 0.15, refineX, rightX, local),
+              y: cubic(branchY, spreadY, refineY, directionY, local),
+            };
+          }
+
+          if (routeKind === "branch") {
+            if (progress < 0.3) {
+              const local = progress / 0.3;
+              return {
+                x: cubic(leftX, leftX + b.width * 0.1, varyX - b.width * 0.03, branchX, local),
+                y: cubic(sourceY, sourceY, spreadY, branchY, local),
+              };
+            }
+            if (progress < 0.58) {
+              const local = (progress - 0.3) / 0.28;
+              return {
+                x: cubic(branchX, branchX + b.width * 0.06, centerX - b.width * 0.12, centerX - surfaceWidth * 0.5, local),
+                y: cubic(branchY, spreadY, compareY, compareY, local),
+              };
+            }
+            const local = (progress - 0.58) / 0.42;
+            return {
+              x: cubic(centerX + surfaceWidth * 0.48, refineX - b.width * 0.06, refineX + b.width * 0.06, rightX, local),
+              y: cubic(compareY, refineY, refineY, directionY, local),
+            };
+          }
+
+          if (progress < 0.5) {
+            const local = progress / 0.5;
+            return {
+              x: cubic(leftX, leftX + b.width * 0.12, varyX - b.width * 0.04, centerX - surfaceWidth * 0.48, local),
+              y: cubic(sourceY, sourceY, spreadY, compareY, local),
+            };
+          }
+
+          const local = (progress - 0.5) / 0.5;
+          return {
+            x: cubic(centerX + surfaceWidth * 0.48, refineX - b.width * 0.07, refineX + b.width * 0.05, rightX, local),
+            y: cubic(compareY, refineY, refineY, directionY, local),
+          };
+        };
+
+        const point = pointAt(routeT);
+        const next = pointAt(clamp(routeT + 0.018, 0, 1));
+        const angle = Math.atan2(next.y - point.y, next.x - point.x);
+        const particleAlpha = state.reduceMotion ? 0.34 : 0.28 + 0.26 * Math.sin(routeT * Math.PI);
+        const color = routeKind === "loop" ? pal.lineB : routeKind === "branch" ? pal.lineC : particle.lane % 2 ? pal.lineA : pal.lineB;
+        drawTraceParticle(point.x, point.y, state.width < 560 ? 1 : 1.25, color, particleAlpha * alpha, angle);
       });
 
       drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
 
-      drawGuideLabel("vary", leftX, b.bottom + 20, pal, "left", alpha);
-      drawGuidePill("compare", centerX, centerY - b.height * 0.24, pal, "center", alpha);
-      drawGuideLabel("refine", rightX, b.bottom + 20, pal, "right", alpha);
+      drawGuideLabel("vary", varyX, b.bottom + 20, pal, "center", alpha);
+      drawGuidePill("compare/refine", centerX, centerY - b.height * 0.24, pal, "center", alpha);
+      drawGuideLabel("refine", refineX, b.bottom + 20, pal, "center", alpha);
     };
 
     const drawEvaluate = (time, pal, alpha = 1) => {
