@@ -16,8 +16,14 @@
 
     const modeCopy = {
       design: "Vary-compare-refine",
-      evaluate: "Evidence before decisions harden",
-      situated: "Context changes the shape of help",
+      evaluate: "Build-test-learn",
+      situated: "Assistance bends to context",
+    };
+
+    const modeStatus = {
+      design: "Alternatives branch, compare, loop back, and refine.",
+      evaluate: "Prototype traces organize into sharper questions and revisions.",
+      situated: "An assistance field bends around practice, medium, and setting.",
     };
 
     const state = {
@@ -131,13 +137,13 @@
       const mobile = state.width < 560;
       const tablet = state.width < 920;
       state.geometry = {
-        design: makeSeries(mobile ? 22 : tablet ? 32 : 38),
-        evaluate: makeSeries(mobile ? 20 : tablet ? 28 : 34),
-        situated: makeSeries(mobile ? 24 : tablet ? 32 : 38),
+        design: makeSeries(mobile ? 10 : tablet ? 16 : 20),
+        evaluate: makeSeries(mobile ? 18 : tablet ? 24 : 28),
+        situated: makeSeries(mobile ? 18 : tablet ? 24 : 28),
         particles: {
-          design: makeParticles(mobile ? 7 : tablet ? 10 : 14, mobile ? 3 : 5),
-          evaluate: makeParticles(mobile ? 8 : tablet ? 11 : 15, mobile ? 3 : 6),
-          situated: makeParticles(mobile ? 7 : tablet ? 10 : 14, 4),
+          design: makeParticles(mobile ? 6 : tablet ? 9 : 12, mobile ? 3 : 5),
+          evaluate: makeParticles(mobile ? 7 : tablet ? 10 : 13, mobile ? 3 : 5),
+          situated: makeParticles(mobile ? 8 : tablet ? 10 : 13, 3),
         },
       };
     };
@@ -249,6 +255,93 @@
       ctx.restore();
     };
 
+    const drawRoundedRectPath = (x, y, width, height, radius) => {
+      const r = Math.min(radius, width / 2, height / 2);
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(x, y, width, height, r);
+        return;
+      }
+
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + width - r, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+      ctx.lineTo(x + width, y + height - r);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+      ctx.lineTo(x + r, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+    };
+
+    const drawSurfacePanel = (x, y, width, height, pal, alpha = 1, accent = pal.lineB) => {
+      ctx.save();
+      const cx = x + width / 2;
+      const cy = y + height / 2;
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.72);
+      glow.addColorStop(0, pal.bgB);
+      glow.addColorStop(0.58, pal.glow);
+      glow.addColorStop(1, transparentColor(pal.bgB));
+      ctx.globalAlpha = 0.34 * alpha;
+      ctx.fillStyle = glow;
+      ctx.fillRect(x - width * 0.28, y - height * 0.32, width * 1.56, height * 1.64);
+
+      drawRoundedRectPath(x, y, width, height, Math.min(18, height * 0.28));
+      ctx.globalAlpha = 0.2 * alpha;
+      ctx.fillStyle = pal.bgA;
+      ctx.fill();
+      ctx.globalAlpha = 0.34 * alpha;
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const drawNodeGlyph = (shape, x, y, size, color, alpha = 1) => {
+      ctx.save();
+      ctx.globalAlpha = 0.22 * alpha;
+      ctx.fillStyle = color;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      if (shape === "triangle") {
+        ctx.moveTo(x, y - size);
+        ctx.lineTo(x + size * 0.92, y + size * 0.64);
+        ctx.lineTo(x - size * 0.92, y + size * 0.64);
+        ctx.closePath();
+      } else if (shape === "square") {
+        drawRoundedRectPath(x - size * 0.82, y - size * 0.82, size * 1.64, size * 1.64, size * 0.34);
+      } else if (shape === "diamond") {
+        ctx.moveTo(x, y - size);
+        ctx.lineTo(x + size, y);
+        ctx.lineTo(x, y + size);
+        ctx.lineTo(x - size, y);
+        ctx.closePath();
+      } else {
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+      }
+      ctx.fill();
+      ctx.globalAlpha = 0.72 * alpha;
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const drawArrowHead = (x, y, angle, size, color, alpha = 1) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.globalAlpha = 0.5 * alpha;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(size, 0);
+      ctx.lineTo(-size * 0.55, -size * 0.48);
+      ctx.lineTo(-size * 0.34, 0);
+      ctx.lineTo(-size * 0.55, size * 0.48);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    };
+
     const drawBackground = (pal) => {
       const { width, height } = state;
       const base = ctx.createLinearGradient(0, 0, 0, height);
@@ -297,360 +390,621 @@
     const drawDesign = (time, pal, alpha = 1) => {
       const b = plotBounds();
       const series = state.geometry.design || [];
+      const mobile = state.width < 560;
       const intent = state.pointer.intent;
-      const pointerX = (state.pointer.x - 0.5) * lerp(10, 46, intent);
-      const pointerY = (state.pointer.y - 0.5) * lerp(6, 24, intent);
-      const centerX = b.cx + pointerX;
-      const centerY = b.cy + pointerY;
-      const leftX = b.left + b.width * 0.04;
+      const centerX = b.cx + (state.pointer.x - 0.5) * lerp(10, 42, intent);
+      const centerY = b.cy + (state.pointer.y - 0.5) * lerp(6, 22, intent);
+      const leftX = b.left + b.width * (mobile ? 0.08 : 0.06);
       const varyX = b.left + b.width * 0.28;
       const refineX = b.right - b.width * 0.24;
-      const rightX = b.right - b.width * 0.04;
-      const top = b.top + b.height * 0.05;
-      const bottom = b.bottom - b.height * 0.05;
-      const surfaceWidth = clamp(b.width * 0.18, 88, 148);
-      const surfaceHeight = clamp(b.height * 0.28, 48, 76);
-      const branchScale = state.width < 560 ? 0.55 : 1;
+      const rightX = b.right - b.width * 0.05;
+      const top = b.top + b.height * 0.06;
+      const bottom = b.bottom - b.height * 0.06;
+      const surfaceW = clamp(b.width * 0.22, mobile ? 92 : 118, 170);
+      const surfaceH = clamp(b.height * 0.35, mobile ? 54 : 62, 88);
+      const surfaceLeft = centerX - surfaceW / 2;
+      const surfaceRight = centerX + surfaceW / 2;
+      const surfaceTop = centerY - surfaceH / 2;
 
-      ctx.save();
-      const surfaceGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, surfaceWidth * 0.9);
-      surfaceGlow.addColorStop(0, pal.bgB);
-      surfaceGlow.addColorStop(0.62, pal.glow);
-      surfaceGlow.addColorStop(1, transparentColor(pal.bgB));
-      ctx.globalAlpha = 0.36 * alpha;
-      ctx.fillStyle = surfaceGlow;
-      ctx.fillRect(centerX - surfaceWidth, centerY - surfaceHeight, surfaceWidth * 2, surfaceHeight * 2);
+      drawSurfacePanel(surfaceLeft, surfaceTop, surfaceW, surfaceH, pal, alpha, pal.lineB);
 
-      ctx.globalAlpha = 0.22 * alpha;
-      ctx.fillStyle = pal.bgA;
-      ctx.strokeStyle = pal.lineB;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.ellipse(centerX, centerY, surfaceWidth * 0.52, surfaceHeight * 0.52, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-      ctx.restore();
-
-      beginMode(pal, 0.3 * alpha, state.width < 560 ? 0.72 : 0.86);
-
-      series.forEach(({ index, t, phase }) => {
-        const wiggle = Math.sin(time * 0.62 + phase) * b.height * 0.018;
-        const sourceY = lerp(top, bottom, t) + wiggle;
-        const spreadY = centerY + (t - 0.5) * b.height * 0.78 + Math.sin(time * 0.42 + phase) * b.height * 0.026;
-        const compareY = centerY + (t - 0.5) * b.height * 0.17 + (state.pointer.y - 0.5) * b.height * 0.07 * intent;
-        const refineY = centerY + (0.5 - t) * b.height * 0.26 + Math.sin(time * 0.48 + phase) * b.height * 0.018;
-        const directionY = centerY + (0.5 - t) * b.height * 0.36 - wiggle * 0.7;
+      beginMode(pal, (mobile ? 0.2 : 0.21) * alpha, mobile ? 0.68 : 0.84);
+      series.forEach(({ t, phase }) => {
+        const sourceY = lerp(top, bottom, t) + Math.sin(time * 0.5 + phase) * b.height * 0.012;
+        const spreadY = centerY + (t - 0.5) * b.height * 0.74 + Math.sin(time * 0.42 + phase) * b.height * 0.018;
+        const compareY = centerY + (t - 0.5) * surfaceH * 0.72;
+        const refineY = centerY + (0.5 - t) * b.height * 0.24 + Math.sin(time * 0.45 + phase) * b.height * 0.012;
+        const directionY = centerY + (0.5 - t) * b.height * 0.3;
 
         ctx.beginPath();
         ctx.moveTo(leftX, sourceY);
-        ctx.bezierCurveTo(leftX + b.width * 0.12, sourceY, varyX - b.width * 0.04, spreadY, centerX - surfaceWidth * 0.48, compareY);
-        ctx.bezierCurveTo(centerX + surfaceWidth * 0.48, compareY, refineX - b.width * 0.07, refineY, rightX, directionY);
+        ctx.bezierCurveTo(leftX + b.width * 0.1, sourceY, varyX - b.width * 0.05, spreadY, surfaceLeft, compareY);
+        ctx.bezierCurveTo(surfaceRight, compareY, refineX - b.width * 0.06, refineY, rightX, directionY);
         ctx.stroke();
 
-        if (index % 5 === 0 || index % 7 === 1) {
-          const branchX = lerp(leftX, varyX, 0.72);
-          const branchY = lerp(sourceY, spreadY, 0.82);
-          const split = index % 10 === 0 ? -1 : 1;
-          const branchA = branchY + split * b.height * 0.09 * branchScale;
-          const branchB = branchY - split * b.height * 0.06 * branchScale;
-          ctx.globalAlpha = 0.22 * alpha;
-          ctx.beginPath();
-          ctx.moveTo(branchX, branchY);
-          ctx.lineTo(branchX + b.width * 0.045, branchA);
-          ctx.lineTo(branchX + b.width * 0.085, branchB);
-          ctx.stroke();
-          ctx.globalAlpha = 0.3 * alpha;
-          drawDot(branchX + b.width * 0.045, branchA, state.width < 560 ? 1.1 : 1.4, pal.lineC, 0.42 * alpha);
-          drawDot(branchX + b.width * 0.085, branchB, state.width < 560 ? 1.1 : 1.4, pal.lineB, 0.38 * alpha);
-          ctx.globalAlpha = 0.3 * alpha;
-        }
-
-        if (index % 4 === 0) {
-          drawDot(leftX, sourceY, state.width < 560 ? 1.1 : 1.45, pal.dot, 0.38 * alpha);
-          drawDot(rightX, directionY, state.width < 560 ? 1 : 1.3, pal.dot, 0.34 * alpha);
+        if (t < 0.1 || t > 0.9) return;
+        if (Math.round(t * 100) % 17 === 0) {
+          drawDot(leftX, sourceY, mobile ? 1 : 1.35, pal.dot, 0.36 * alpha);
         }
       });
-
-      ctx.globalAlpha = 0.2 * alpha;
-      ctx.strokeStyle = pal.lineB;
-      ctx.lineWidth = 1;
-      [-0.22, 0.04, 0.26].forEach((offset, index) => {
-        const loopY = centerY + offset * b.height;
-        const branchY = centerY + (offset + (index % 2 ? -0.1 : 0.08)) * b.height;
-        ctx.beginPath();
-        ctx.moveTo(centerX - surfaceWidth * 0.34, loopY);
-        ctx.bezierCurveTo(centerX - b.width * 0.13, loopY - b.height * 0.08, varyX + b.width * 0.05, branchY, varyX - b.width * 0.03, branchY);
-        ctx.bezierCurveTo(
-          varyX + b.width * 0.04,
-          branchY - b.height * 0.06,
-          centerX - b.width * 0.1,
-          loopY + b.height * 0.08,
-          centerX - surfaceWidth * 0.26,
-          loopY
-        );
-        ctx.stroke();
-      });
-
       endMode();
+
+      const clusterOffsets = mobile ? [-0.24, 0.08] : [-0.3, -0.08, 0.14, 0.32];
+      ctx.save();
+      ctx.strokeStyle = pal.lineC;
+      ctx.lineWidth = mobile ? 0.8 : 1;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      clusterOffsets.forEach((offset, index) => {
+        const rootX = varyX - b.width * 0.05;
+        const rootY = centerY + offset * b.height + Math.sin(time * 0.38 + index) * b.height * 0.01;
+        const childX = varyX + b.width * (mobile ? 0.012 : 0.02);
+        const leafX = varyX + b.width * (mobile ? 0.07 : 0.085);
+        const split = (index % 2 ? -1 : 1) * b.height * (mobile ? 0.055 : 0.07);
+        const childA = rootY + split;
+        const childB = rootY - split * 0.72;
+        const leafY = lerp(childA, childB, 0.52);
+
+        ctx.globalAlpha = 0.3 * alpha;
+        ctx.beginPath();
+        ctx.moveTo(rootX, rootY);
+        ctx.lineTo(childX, childA);
+        ctx.moveTo(rootX, rootY);
+        ctx.lineTo(childX, childB);
+        ctx.moveTo(childX, childA);
+        ctx.lineTo(leafX, leafY);
+        ctx.moveTo(childX, childB);
+        ctx.lineTo(leafX, leafY);
+        ctx.stroke();
+
+        const nodeSize = mobile ? 2.2 : 2.8;
+        drawNodeGlyph(index % 3 === 0 ? "circle" : index % 3 === 1 ? "square" : "triangle", rootX, rootY, nodeSize, pal.lineA, alpha);
+        drawNodeGlyph("circle", childX, childA, nodeSize * 0.78, pal.lineC, alpha);
+        drawNodeGlyph("square", childX, childB, nodeSize * 0.74, pal.lineB, alpha);
+        drawNodeGlyph("diamond", leafX, leafY, nodeSize * 0.82, pal.lineC, alpha);
+      });
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = mobile ? 0.8 : 1;
+      ctx.lineCap = "round";
+      ctx.setLineDash(mobile ? [4, 7] : [5, 8]);
+      clusterOffsets.slice(0, mobile ? 1 : 3).forEach((offset, index) => {
+        const loopY = centerY + (offset + 0.04) * b.height;
+        const targetX = varyX + b.width * (index % 2 ? 0.02 : -0.02);
+        const targetY = centerY + (offset + (index % 2 ? -0.06 : 0.06)) * b.height;
+        ctx.globalAlpha = 0.24 * alpha;
+        ctx.beginPath();
+        ctx.moveTo(surfaceLeft + surfaceW * 0.15, loopY);
+        ctx.bezierCurveTo(centerX - b.width * 0.14, loopY - b.height * 0.1, targetX + b.width * 0.08, targetY, targetX, targetY);
+        ctx.stroke();
+        drawArrowHead(targetX, targetY, Math.PI, mobile ? 4 : 5, pal.lineB, alpha);
+      });
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = mobile ? 1.05 : 1.35;
+      ctx.lineCap = "round";
+      [-0.18, 0, 0.18].slice(0, mobile ? 2 : 3).forEach((offset, index) => {
+        const startY = centerY + offset * surfaceH;
+        const endY = centerY - offset * b.height * 0.78 + (index - 1) * b.height * 0.025;
+        ctx.globalAlpha = 0.5 * alpha;
+        ctx.beginPath();
+        ctx.moveTo(surfaceRight - surfaceW * 0.08, startY);
+        ctx.bezierCurveTo(refineX - b.width * 0.06, startY, refineX + b.width * 0.02, endY, rightX, endY);
+        ctx.stroke();
+        drawDot(rightX, endY, mobile ? 1.35 : 1.7, pal.lineB, 0.52 * alpha);
+      });
+      ctx.restore();
+
+      ctx.save();
+      const tileCount = mobile ? 2 : 3;
+      const tileW = (surfaceW - (tileCount + 1) * 8) / tileCount;
+      const tileH = surfaceH * 0.52;
+      for (let index = 0; index < tileCount; index += 1) {
+        const tileX = surfaceLeft + 8 + index * (tileW + 8);
+        const tileY = centerY - tileH / 2 + Math.sin(time * 0.45 + index) * 1.5;
+        drawRoundedRectPath(tileX, tileY, tileW, tileH, 6);
+        ctx.globalAlpha = 0.18 * alpha;
+        ctx.fillStyle = index === 1 ? pal.lineB : pal.lineC;
+        ctx.fill();
+        ctx.globalAlpha = 0.42 * alpha;
+        ctx.strokeStyle = index === 1 ? pal.lineB : pal.lineC;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.34 * alpha;
+        ctx.strokeStyle = pal.ink;
+        ctx.beginPath();
+        ctx.moveTo(tileX + tileW * 0.22, tileY + tileH * 0.38);
+        ctx.lineTo(tileX + tileW * 0.78, tileY + tileH * 0.38);
+        ctx.moveTo(tileX + tileW * 0.28, tileY + tileH * 0.62);
+        ctx.lineTo(tileX + tileW * 0.68, tileY + tileH * 0.62);
+        ctx.stroke();
+      }
+      ctx.restore();
 
       const designParticles = state.geometry.particles?.design || [];
       designParticles.forEach((particle) => {
-        const laneCount = state.width < 560 ? 3 : 5;
+        const laneCount = mobile ? 3 : 5;
         const laneT = clamp((particle.lane + 0.55) / laneCount, 0.08, 0.92);
-        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.045 * particle.speed);
-        const routeKind = particle.seed < 0.28 ? "loop" : particle.seed > 0.64 ? "branch" : "forward";
-        const sourceY = lerp(top, bottom, laneT) + Math.sin(time * 0.48 + particle.phase) * b.height * 0.015;
-        const spreadY = centerY + (laneT - 0.5) * b.height * 0.78 + Math.sin(time * 0.38 + particle.phase) * b.height * 0.02;
-        const compareY = centerY + (laneT - 0.5) * b.height * 0.14;
-        const refineY = centerY + (0.5 - laneT) * b.height * 0.25;
-        const directionY = centerY + (0.5 - laneT) * b.height * 0.34;
-        const branchY = spreadY + (particle.seed > 0.5 ? -1 : 1) * b.height * 0.13 * branchScale;
+        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.046 * particle.speed);
+        const routeKind = particle.seed < 0.26 ? "loop" : particle.seed > 0.66 ? "branch" : "forward";
+        const sourceY = lerp(top, bottom, laneT) + Math.sin(time * 0.44 + particle.phase) * b.height * 0.01;
+        const spreadY = centerY + (laneT - 0.5) * b.height * 0.72;
+        const compareY = centerY + (laneT - 0.5) * surfaceH * 0.64;
         const branchX = varyX + b.width * 0.07;
+        const branchY = spreadY + (particle.seed > 0.5 ? -1 : 1) * b.height * (mobile ? 0.08 : 0.11);
+        const outY = centerY + (0.5 - laneT) * b.height * 0.28;
 
         const pointAt = (progress) => {
           if (routeKind === "loop") {
-            if (progress < 0.4) {
-              const local = progress / 0.4;
+            if (progress < 0.42) {
+              const local = progress / 0.42;
               return {
-                x: cubic(leftX, leftX + b.width * 0.12, varyX, centerX - surfaceWidth * 0.48, local),
+                x: cubic(leftX, leftX + b.width * 0.1, varyX - b.width * 0.04, surfaceLeft, local),
                 y: cubic(sourceY, sourceY, spreadY, compareY, local),
               };
             }
-            if (progress < 0.64) {
-              const local = (progress - 0.4) / 0.24;
+            if (progress < 0.62) {
+              const local = (progress - 0.42) / 0.2;
               return {
-                x: cubic(centerX - surfaceWidth * 0.32, centerX - b.width * 0.12, branchX, branchX, local),
+                x: cubic(surfaceLeft + surfaceW * 0.16, centerX - b.width * 0.12, branchX, branchX, local),
                 y: cubic(compareY, compareY - b.height * 0.08, branchY, branchY, local),
               };
             }
-            const local = (progress - 0.64) / 0.36;
+            if (progress < 0.8) {
+              const local = (progress - 0.62) / 0.18;
+              return {
+                x: cubic(branchX, varyX + b.width * 0.12, surfaceLeft, surfaceRight, local),
+                y: cubic(branchY, spreadY, compareY, compareY, local),
+              };
+            }
+            const local = (progress - 0.8) / 0.2;
             return {
-              x: cubic(branchX, varyX + b.width * 0.15, refineX, rightX, local),
-              y: cubic(branchY, spreadY, refineY, directionY, local),
+              x: cubic(surfaceRight, refineX - b.width * 0.04, refineX + b.width * 0.04, rightX, local),
+              y: cubic(compareY, outY, outY, outY, local),
             };
           }
 
           if (routeKind === "branch") {
-            if (progress < 0.3) {
-              const local = progress / 0.3;
+            if (progress < 0.32) {
+              const local = progress / 0.32;
               return {
-                x: cubic(leftX, leftX + b.width * 0.1, varyX - b.width * 0.03, branchX, local),
+                x: cubic(leftX, leftX + b.width * 0.08, varyX, branchX, local),
                 y: cubic(sourceY, sourceY, spreadY, branchY, local),
               };
             }
             if (progress < 0.58) {
-              const local = (progress - 0.3) / 0.28;
+              const local = (progress - 0.32) / 0.26;
               return {
-                x: cubic(branchX, branchX + b.width * 0.06, centerX - b.width * 0.12, centerX - surfaceWidth * 0.5, local),
+                x: cubic(branchX, branchX + b.width * 0.05, centerX - b.width * 0.11, surfaceLeft, local),
                 y: cubic(branchY, spreadY, compareY, compareY, local),
               };
             }
-            const local = (progress - 0.58) / 0.42;
+            if (progress < 0.72) {
+              const local = (progress - 0.58) / 0.14;
+              return { x: lerp(surfaceLeft, surfaceRight, local), y: compareY };
+            }
+            const local = (progress - 0.72) / 0.28;
             return {
-              x: cubic(centerX + surfaceWidth * 0.48, refineX - b.width * 0.06, refineX + b.width * 0.06, rightX, local),
-              y: cubic(compareY, refineY, refineY, directionY, local),
+              x: cubic(surfaceRight, refineX - b.width * 0.06, refineX + b.width * 0.04, rightX, local),
+              y: cubic(compareY, outY, outY, outY, local),
             };
           }
 
           if (progress < 0.5) {
             const local = progress / 0.5;
             return {
-              x: cubic(leftX, leftX + b.width * 0.12, varyX - b.width * 0.04, centerX - surfaceWidth * 0.48, local),
+              x: cubic(leftX, leftX + b.width * 0.1, varyX - b.width * 0.04, surfaceLeft, local),
               y: cubic(sourceY, sourceY, spreadY, compareY, local),
             };
           }
-
-          const local = (progress - 0.5) / 0.5;
+          if (progress < 0.64) {
+            const local = (progress - 0.5) / 0.14;
+            return { x: lerp(surfaceLeft, surfaceRight, local), y: compareY };
+          }
+          const local = (progress - 0.64) / 0.36;
           return {
-            x: cubic(centerX + surfaceWidth * 0.48, refineX - b.width * 0.07, refineX + b.width * 0.05, rightX, local),
-            y: cubic(compareY, refineY, refineY, directionY, local),
+            x: cubic(surfaceRight, refineX - b.width * 0.06, refineX + b.width * 0.05, rightX, local),
+            y: cubic(compareY, outY, outY, outY, local),
           };
         };
 
         const point = pointAt(routeT);
         const next = pointAt(clamp(routeT + 0.018, 0, 1));
         const angle = Math.atan2(next.y - point.y, next.x - point.x);
-        const particleAlpha = state.reduceMotion ? 0.34 : 0.28 + 0.26 * Math.sin(routeT * Math.PI);
+        const particleAlpha = state.reduceMotion ? 0.36 : 0.24 + 0.34 * Math.sin(routeT * Math.PI);
         const color = routeKind === "loop" ? pal.lineB : routeKind === "branch" ? pal.lineC : particle.lane % 2 ? pal.lineA : pal.lineB;
-        drawTraceParticle(point.x, point.y, state.width < 560 ? 1 : 1.25, color, particleAlpha * alpha, angle);
+        drawTraceParticle(point.x, point.y, mobile ? 1 : 1.2, color, particleAlpha * alpha, angle);
       });
 
-      drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
-
       drawGuideLabel("vary", varyX, b.bottom + 20, pal, "center", alpha);
-      drawGuidePill("compare/refine", centerX, centerY - b.height * 0.24, pal, "center", alpha);
+      drawGuidePill("compare/refine", centerX, surfaceTop - 18, pal, "center", alpha);
       drawGuideLabel("refine", refineX, b.bottom + 20, pal, "center", alpha);
     };
 
     const drawEvaluate = (time, pal, alpha = 1) => {
       const b = plotBounds();
       const series = state.geometry.evaluate || [];
-      const floor = b.bottom - b.height * 0.05;
-      const top = b.top + b.height * 0.07;
-      const pointerLift = (0.5 - state.pointer.y) * b.height * 0.18 * state.pointer.intent;
-      const scanT = state.reduceMotion ? 0.58 : wrap01(time * 0.11);
-      const scanX = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, scanT);
+      const mobile = state.width < 560;
+      const intent = state.pointer.intent;
+      const centerX = b.cx + (state.pointer.x - 0.5) * lerp(8, 32, intent);
+      const centerY = b.cy + (state.pointer.y - 0.5) * lerp(4, 18, intent);
+      const surfaceW = clamp(b.width * 0.28, mobile ? 104 : 138, 210);
+      const surfaceH = clamp(b.height * 0.42, mobile ? 68 : 78, 112);
+      const surfaceLeft = centerX - surfaceW / 2;
+      const surfaceTop = centerY - surfaceH / 2;
+      const surfaceRight = centerX + surfaceW / 2;
+      const protoX = b.left + b.width * 0.07;
+      const protoW = clamp(b.width * 0.12, mobile ? 42 : 54, 78);
+      const protoH = clamp(b.height * 0.18, mobile ? 28 : 34, 46);
+      const questionX = b.right - b.width * 0.1;
+      const questionY = centerY - b.height * 0.02;
+      const protoCount = mobile ? 2 : 3;
+      const protoYs = Array.from({ length: protoCount }, (_, index) => {
+        const t = protoCount === 1 ? 0.5 : index / (protoCount - 1);
+        return centerY + (t - 0.5) * b.height * 0.52;
+      });
 
-      beginMode(pal, 0.14 * alpha, 1);
+      drawSurfacePanel(surfaceLeft, surfaceTop, surfaceW, surfaceH, pal, alpha, pal.lineC);
+
+      ctx.save();
       ctx.strokeStyle = pal.lineC;
-      [0.25, 0.5, 0.75].forEach((mark) => {
-        const y = lerp(top, floor, mark);
+      ctx.lineWidth = 1;
+      protoYs.forEach((y, index) => {
+        const x = protoX + (index % 2) * (mobile ? 3 : 6);
+        drawRoundedRectPath(x, y - protoH / 2, protoW, protoH, 7);
+        ctx.globalAlpha = 0.18 * alpha;
+        ctx.fillStyle = index % 2 ? pal.lineA : pal.lineB;
+        ctx.fill();
+        ctx.globalAlpha = 0.46 * alpha;
+        ctx.strokeStyle = index % 2 ? pal.lineA : pal.lineB;
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.34 * alpha;
+        ctx.strokeStyle = pal.ink;
         ctx.beginPath();
-        ctx.moveTo(b.left, y);
-        ctx.lineTo(b.right, y);
+        ctx.moveTo(x + protoW * 0.18, y - protoH * 0.12);
+        ctx.lineTo(x + protoW * 0.72, y - protoH * 0.12);
+        ctx.moveTo(x + protoW * 0.18, y + protoH * 0.14);
+        ctx.lineTo(x + protoW * 0.55, y + protoH * 0.14);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      beginMode(pal, 0.2 * alpha, mobile ? 0.7 : 0.84);
+      series.forEach(({ index, phase }) => {
+        const protoIndex = index % protoCount;
+        const seed = wrap01(index * 0.61803398875);
+        const startX = protoX + protoW;
+        const startY = protoYs[protoIndex] + Math.sin(time * 0.44 + phase) * protoH * 0.18;
+        const endX = surfaceLeft + surfaceW * (0.12 + seed * 0.76);
+        const endY = surfaceTop + surfaceH * (0.22 + wrap01(seed * 1.73) * 0.56) + Math.sin(time * 0.36 + phase) * surfaceH * 0.025;
+        const lift = (seed - 0.5) * b.height * 0.16;
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(startX + b.width * 0.09, startY + lift, surfaceLeft - b.width * 0.08, endY - lift * 0.35, endX, endY);
         ctx.stroke();
       });
       endMode();
 
       ctx.save();
-      const scanBand = ctx.createLinearGradient(scanX - 46, 0, scanX + 46, 0);
-      scanBand.addColorStop(0, transparentColor(pal.bgB));
-      scanBand.addColorStop(0.48, pal.bgB);
-      scanBand.addColorStop(1, transparentColor(pal.bgB));
-      ctx.globalAlpha = 0.2 * alpha;
-      ctx.fillStyle = scanBand;
-      ctx.fillRect(scanX - 46, top, 92, floor - top);
+      ctx.globalAlpha = 0.22 * alpha;
+      ctx.strokeStyle = pal.lineC;
+      ctx.lineWidth = 1;
+      const axisY = surfaceTop + surfaceH * 0.7;
+      ctx.beginPath();
+      ctx.moveTo(surfaceLeft + surfaceW * 0.12, axisY);
+      ctx.lineTo(surfaceRight - surfaceW * 0.1, axisY);
+      ctx.stroke();
+      [0.24, 0.42, 0.6, 0.78].forEach((mark) => {
+        const x = surfaceLeft + surfaceW * mark;
+        ctx.beginPath();
+        ctx.moveTo(x, axisY - surfaceH * 0.06);
+        ctx.lineTo(x, axisY + surfaceH * 0.06);
+        ctx.stroke();
+      });
       ctx.restore();
 
-      beginMode(pal, 0.32 * alpha, state.width < 560 ? 0.7 : 0.82);
-      series.forEach(({ index, t, phase }) => {
-        const x = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, t);
-        const evidence = 0.35 + 0.32 * Math.sin(t * Math.PI) + 0.07 * Math.sin(time * 0.85 + phase);
-        const y = floor - b.height * evidence + pointerLift * Math.sin(t * Math.PI);
-        const probeTop = y - b.height * (0.09 + 0.05 * Math.cos(time * 0.7 + phase));
-
-        ctx.beginPath();
-        ctx.moveTo(x, floor);
-        ctx.lineTo(x, clamp(probeTop, top, floor));
-        ctx.stroke();
-
-        if (index % 3 === 0) {
-          drawDot(x, clamp(probeTop, top, floor), state.width < 560 ? 1.2 : 1.5, pal.dot, 0.48 * alpha);
-        }
+      const signalPoints = series.map(({ index, phase }) => {
+        const seed = wrap01(index * 0.61803398875);
+        const cluster = index % 5;
+        const baseX = surfaceLeft + surfaceW * (0.2 + (cluster / 4) * 0.58);
+        const baseY = surfaceTop + surfaceH * (0.28 + wrap01(seed * 1.41) * 0.42);
+        return {
+          x: baseX + Math.sin(seed * Math.PI * 2 + time * 0.28) * surfaceW * 0.025,
+          y: baseY + Math.cos(phase + time * 0.3) * surfaceH * 0.028,
+          selected: index % 7 === 1 || index % 11 === 0,
+          seed,
+        };
       });
-      endMode();
 
-      beginMode(pal, 0.54 * alpha, state.width < 560 ? 0.9 : 1.05);
-      ctx.beginPath();
-      series.forEach(({ t, phase }, index) => {
-        const x = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, t);
-        const y = floor - b.height * (0.26 + 0.23 * Math.sin(t * Math.PI)) - Math.sin(time * 0.65 + phase) * b.height * 0.025;
-        if (index === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+      signalPoints.forEach((point) => {
+        const selectedAlpha = point.selected ? 0.68 : 0.34;
+        const radius = point.selected ? (mobile ? 1.7 : 2.05) : mobile ? 1.05 : 1.25;
+        drawDot(point.x, point.y, radius, point.selected ? pal.lineB : pal.lineC, selectedAlpha * alpha);
       });
-      ctx.stroke();
 
-      ctx.globalAlpha = 0.32 * alpha;
+      ctx.save();
       ctx.strokeStyle = pal.lineB;
-      ctx.lineWidth = state.width < 560 ? 1.1 : 1.45;
-      ctx.beginPath();
-      ctx.moveTo(scanX, top);
-      ctx.lineTo(scanX, floor);
-      ctx.stroke();
-      endMode();
+      ctx.lineWidth = mobile ? 1 : 1.25;
+      ctx.lineCap = "round";
+      signalPoints
+        .filter((point) => point.selected)
+        .slice(0, mobile ? 2 : 3)
+        .forEach((point, index) => {
+          ctx.globalAlpha = 0.46 * alpha;
+          ctx.beginPath();
+          ctx.moveTo(point.x, point.y);
+          ctx.bezierCurveTo(
+            surfaceRight + b.width * 0.05,
+            point.y,
+            questionX - b.width * 0.08,
+            questionY + (index - 1) * b.height * 0.04,
+            questionX,
+            questionY
+          );
+          ctx.stroke();
+        });
+      ctx.restore();
+
+      drawNodeGlyph("diamond", questionX, questionY, mobile ? 9 : 12, pal.lineB, alpha);
+      drawDot(questionX, questionY, mobile ? 2.4 : 3.1, pal.lineB, 0.72 * alpha);
+
+      ctx.save();
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = mobile ? 0.8 : 1;
+      ctx.setLineDash(mobile ? [4, 7] : [5, 8]);
+      protoYs.slice(0, mobile ? 1 : 2).forEach((y, index) => {
+        const targetX = protoX + protoW * 0.22;
+        const targetY = y + (index % 2 ? -1 : 1) * protoH * 0.34;
+        ctx.globalAlpha = 0.34 * alpha;
+        ctx.beginPath();
+        ctx.moveTo(questionX - b.width * 0.02, questionY + (index - 0.5) * b.height * 0.08);
+        ctx.bezierCurveTo(centerX + b.width * 0.1, b.bottom - b.height * 0.02, protoX + b.width * 0.16, b.bottom - b.height * 0.03, targetX, targetY);
+        ctx.stroke();
+        drawArrowHead(targetX, targetY, Math.PI * 0.92, mobile ? 4.4 : 5.5, pal.lineB, alpha);
+      });
+      ctx.restore();
 
       const evaluateParticles = state.geometry.particles?.evaluate || [];
       evaluateParticles.forEach((particle) => {
-        const progress = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.085 * particle.speed);
-        const x = lerp(b.left + b.width * 0.06, b.right - b.width * 0.06, progress);
-        const evidence = 0.22 + 0.34 * Math.sin(progress * Math.PI) + 0.035 * Math.sin(time * 1.8 + particle.phase);
-        const y = floor - b.height * evidence + pointerLift * Math.sin(progress * Math.PI) * 0.7;
-        const pulse = state.reduceMotion ? 0.58 : 0.5 + 0.5 * Math.sin(time * 3.2 + particle.phase);
-        const color = particle.lane % 3 === 0 ? pal.lineB : particle.lane % 3 === 1 ? pal.lineA : pal.lineC;
-        drawTraceParticle(x, clamp(y, top, floor), state.width < 560 ? 1 : 1.25 + pulse * 0.28, color, (0.22 + pulse * 0.22) * alpha, -Math.PI / 2);
+        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.072 * particle.speed);
+        const protoIndex = particle.lane % protoCount;
+        const seed = particle.seed;
+        const startX = protoX + protoW;
+        const startY = protoYs[protoIndex] + Math.sin(time * 0.42 + particle.phase) * protoH * 0.14;
+        const clusterX = surfaceLeft + surfaceW * (0.18 + wrap01(seed * 1.9) * 0.64);
+        const clusterY = surfaceTop + surfaceH * (0.24 + wrap01(seed * 1.37) * 0.5);
+        const loopBack = seed > 0.62;
+
+        const pointAt = (progress) => {
+          if (loopBack) {
+            if (progress < 0.42) {
+              const local = progress / 0.42;
+              return {
+                x: cubic(startX, startX + b.width * 0.1, surfaceLeft - b.width * 0.05, clusterX, local),
+                y: cubic(startY, startY, clusterY, clusterY, local),
+              };
+            }
+            if (progress < 0.64) {
+              const local = (progress - 0.42) / 0.22;
+              return {
+                x: cubic(clusterX, surfaceRight + b.width * 0.05, questionX - b.width * 0.07, questionX, local),
+                y: cubic(clusterY, clusterY, questionY, questionY, local),
+              };
+            }
+            const local = (progress - 0.64) / 0.36;
+            return {
+              x: cubic(questionX, centerX + b.width * 0.1, protoX + b.width * 0.18, protoX + protoW * 0.18, local),
+              y: cubic(questionY, b.bottom - b.height * 0.02, b.bottom - b.height * 0.03, protoYs[protoIndex], local),
+            };
+          }
+
+          if (progress < 0.54) {
+            const local = progress / 0.54;
+            return {
+              x: cubic(startX, startX + b.width * 0.08, surfaceLeft - b.width * 0.05, clusterX, local),
+              y: cubic(startY, startY, clusterY, clusterY, local),
+            };
+          }
+          if (progress < 0.72) {
+            const local = (progress - 0.54) / 0.18;
+            return {
+              x: clusterX + Math.sin(local * Math.PI * 2 + seed) * surfaceW * 0.035,
+              y: clusterY + Math.cos(local * Math.PI * 2 + seed) * surfaceH * 0.035,
+            };
+          }
+          const local = (progress - 0.72) / 0.28;
+          return {
+            x: cubic(clusterX, surfaceRight + b.width * 0.05, questionX - b.width * 0.06, questionX, local),
+            y: cubic(clusterY, clusterY, questionY, questionY, local),
+          };
+        };
+
+        const point = pointAt(routeT);
+        const next = pointAt(clamp(routeT + 0.018, 0, 1));
+        const pulse = state.reduceMotion ? 0.48 : 0.5 + 0.5 * Math.sin(time * 2.8 + particle.phase);
+        const color = loopBack ? pal.lineB : particle.lane % 2 ? pal.lineA : pal.lineC;
+        drawTraceParticle(
+          point.x,
+          point.y,
+          mobile ? 1 : 1.18 + pulse * 0.22,
+          color,
+          (0.22 + pulse * 0.2) * alpha,
+          Math.atan2(next.y - point.y, next.x - point.x)
+        );
       });
 
-      drawGuideLabel("trace", b.left + b.width * 0.05, floor + 20, pal, "left", alpha);
-      drawGuidePill("evidence", scanX, top - 18, pal, "center", alpha);
-      drawGuideLabel("revise", b.right - b.width * 0.05, floor + 20, pal, "right", alpha);
+      drawGuideLabel("build", protoX + protoW * 0.5, b.bottom + 20, pal, "center", alpha);
+      drawGuidePill("traces", centerX, surfaceTop - 18, pal, "center", alpha);
+      drawGuideLabel("learn", questionX, b.bottom + 20, pal, "center", alpha);
     };
 
     const drawSituated = (time, pal, alpha = 1) => {
       const b = plotBounds();
-      const series = state.geometry.situated || [];
+      const mobile = state.width < 560;
       const intent = state.pointer.intent;
-      const centerX = b.cx + (state.pointer.x - 0.5) * lerp(b.width * 0.02, b.width * 0.082, intent);
-      const centerY = b.cy + (state.pointer.y - 0.5) * lerp(b.height * 0.02, b.height * 0.088, intent);
-      const radiusX = b.width * 0.36;
-      const radiusY = b.height * 0.32;
+      const drift = state.reduceMotion ? 0.36 : time * 0.22;
+      const focusX = b.cx + Math.cos(drift) * b.width * 0.055 + (state.pointer.x - 0.5) * lerp(b.width * 0.025, b.width * 0.09, intent);
+      const focusY =
+        b.cy + Math.sin(drift * 1.18 + 0.5) * b.height * 0.07 + (state.pointer.y - 0.5) * lerp(b.height * 0.025, b.height * 0.09, intent);
+      const fieldRadiusX = b.width * (mobile ? 0.22 : 0.26);
+      const fieldRadiusY = b.height * (mobile ? 0.28 : 0.34);
+      const gridLeft = b.left + b.width * 0.04;
+      const gridRight = b.right - b.width * 0.04;
+      const gridTop = b.top + b.height * 0.05;
+      const gridBottom = b.bottom - b.height * 0.05;
+
+      const warpPoint = (x, y, strength = 1) => {
+        const dx = x - focusX;
+        const dy = y - focusY;
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        const normalized = Math.pow(dx / fieldRadiusX, 2) + Math.pow(dy / fieldRadiusY, 2);
+        const influence = Math.exp(-normalized * 1.45) * strength * lerp(0.9, 1.32, intent);
+        const push = influence * (mobile ? 10 : 18);
+        const turn = influence * (mobile ? 4 : 7) * Math.sin(time * 0.36 + dx * 0.01);
+
+        return {
+          x: x + (dx / distance) * push - (dy / distance) * turn,
+          y: y + (dy / distance) * push + (dx / distance) * turn,
+        };
+      };
+
+      ctx.save();
+      const assistanceGlow = ctx.createRadialGradient(focusX, focusY, 0, focusX, focusY, fieldRadiusX * 1.12);
+      assistanceGlow.addColorStop(0, pal.bgB);
+      assistanceGlow.addColorStop(0.5, pal.glow);
+      assistanceGlow.addColorStop(1, transparentColor(pal.bgB));
+      ctx.globalAlpha = 0.3 * alpha;
+      ctx.fillStyle = assistanceGlow;
+      ctx.beginPath();
+      ctx.ellipse(focusX, focusY, fieldRadiusX * 0.95, fieldRadiusY * 0.72, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = pal.lineC;
+      ctx.lineWidth = mobile ? 0.65 : 0.78;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.globalAlpha = 0.19 * alpha;
+      const rowCount = mobile ? 5 : 7;
+      const colCount = mobile ? 7 : 9;
+      const samplesX = mobile ? 18 : 26;
+      const samplesY = mobile ? 12 : 18;
+
+      for (let row = 0; row < rowCount; row += 1) {
+        const y = lerp(gridTop, gridBottom, rowCount === 1 ? 0.5 : row / (rowCount - 1));
+        ctx.beginPath();
+        for (let sample = 0; sample < samplesX; sample += 1) {
+          const x = lerp(gridLeft, gridRight, samplesX === 1 ? 0.5 : sample / (samplesX - 1));
+          const point = warpPoint(x, y);
+          if (sample === 0) ctx.moveTo(point.x, point.y);
+          else ctx.lineTo(point.x, point.y);
+        }
+        ctx.stroke();
+      }
+
+      for (let col = 0; col < colCount; col += 1) {
+        const x = lerp(gridLeft, gridRight, colCount === 1 ? 0.5 : col / (colCount - 1));
+        ctx.beginPath();
+        for (let sample = 0; sample < samplesY; sample += 1) {
+          const y = lerp(gridTop, gridBottom, samplesY === 1 ? 0.5 : sample / (samplesY - 1));
+          const point = warpPoint(x, y);
+          if (sample === 0) ctx.moveTo(point.x, point.y);
+          else ctx.lineTo(point.x, point.y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = mobile ? 0.95 : 1.15;
+      ctx.lineCap = "round";
+      [0.42, 0.64, 0.86].forEach((scale, index) => {
+        ctx.globalAlpha = (0.34 - index * 0.055) * alpha;
+        ctx.beginPath();
+        const segments = 36;
+        for (let step = 0; step <= segments; step += 1) {
+          const angle = (step / segments) * Math.PI * 2;
+          const rawX = focusX + Math.cos(angle) * fieldRadiusX * scale;
+          const rawY = focusY + Math.sin(angle) * fieldRadiusY * scale;
+          const point = warpPoint(rawX, rawY, 0.55);
+          if (step === 0) ctx.moveTo(point.x, point.y);
+          else ctx.lineTo(point.x, point.y);
+        }
+        ctx.stroke();
+      });
+      ctx.restore();
+
       const anchors = [
-        { x: b.left + b.width * 0.18, y: b.top + b.height * 0.28 },
-        { x: b.left + b.width * 0.72, y: b.top + b.height * 0.2 },
-        { x: b.left + b.width * 0.82, y: b.top + b.height * 0.72 },
-        { x: b.left + b.width * 0.28, y: b.top + b.height * 0.8 },
+        { label: "practice", x: b.left + b.width * 0.17, y: b.top + b.height * 0.25, align: "right", color: pal.lineA },
+        { label: "medium", x: b.right - b.width * 0.17, y: b.top + b.height * 0.28, align: "left", color: pal.lineC },
+        { label: "setting", x: b.cx, y: b.bottom - b.height * 0.11, align: "center", color: pal.lineB },
       ];
 
-      beginMode(pal, 0.12 * alpha, 1);
-      ctx.strokeStyle = pal.lineC;
-      ctx.beginPath();
-      ctx.ellipse(centerX, centerY, radiusX * 0.42, radiusY * 0.5, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      endMode();
-
-      beginMode(pal, 0.34 * alpha, state.width < 560 ? 0.7 : 0.82);
-      series.forEach(({ index, t, phase }) => {
-        const source = anchors[index % anchors.length];
-        const angle = Math.PI * 2 * t + Math.sin(time * 0.45 + phase) * 0.08;
-        const targetX = clamp(centerX + Math.cos(angle) * radiusX, b.left, b.right);
-        const targetY = clamp(centerY + Math.sin(angle) * radiusY, b.top, b.bottom);
-        const bend = Math.sin(t * Math.PI * 2 + time * 0.35) * b.height * lerp(0.04, 0.072, intent);
-
+      ctx.save();
+      ctx.strokeStyle = pal.lineA;
+      ctx.lineWidth = mobile ? 0.9 : 1.08;
+      ctx.lineCap = "round";
+      anchors.forEach((anchor, index) => {
+        const midA = warpPoint(lerp(anchor.x, focusX, 0.36), lerp(anchor.y, focusY, 0.36), 0.62);
+        const midB = warpPoint(lerp(anchor.x, focusX, 0.68), lerp(anchor.y, focusY, 0.68), 0.72);
+        ctx.globalAlpha = 0.36 * alpha;
+        ctx.strokeStyle = anchor.color;
         ctx.beginPath();
-        ctx.moveTo(source.x, source.y);
-        ctx.bezierCurveTo(
-          lerp(source.x, centerX, 0.42),
-          lerp(source.y, centerY, 0.42) - bend,
-          lerp(targetX, centerX, 0.42),
-          lerp(targetY, centerY, 0.42) + bend,
-          targetX,
-          targetY
-        );
+        ctx.moveTo(anchor.x, anchor.y);
+        ctx.bezierCurveTo(midA.x, midA.y, midB.x, midB.y, focusX, focusY);
         ctx.stroke();
 
-        if (index % 6 === 0) {
-          drawDot(targetX, targetY, state.width < 560 ? 1.2 : 1.5, pal.dot, 0.42 * alpha);
-        }
+        drawDot(anchor.x, anchor.y, mobile ? 2.25 : 2.8, anchor.color, 0.8 * alpha);
+        const xOffset = anchor.align === "right" ? -10 : anchor.align === "left" ? 10 : 0;
+        const yOffset = index === 2 ? 16 : -14;
+        drawGuideLabel(anchor.label, anchor.x + xOffset, anchor.y + yOffset, pal, anchor.align, alpha);
       });
-      endMode();
-
-      anchors.forEach((anchor, index) => {
-        drawDot(anchor.x, anchor.y, state.width < 560 ? 2 : 2.55, index % 2 ? pal.lineC : pal.lineA, 0.72 * alpha);
-      });
-
-      if (state.width >= 580) {
-        ["person", "task", "tool", "space"].forEach((label, index) => {
-          const anchor = anchors[index];
-          const xOffset = index === 0 || index === 3 ? -10 : 10;
-          const align = index === 0 || index === 3 ? "right" : "left";
-          drawGuideLabel(label, anchor.x + xOffset, anchor.y - 14, pal, align, alpha);
-        });
-      }
+      ctx.restore();
 
       const situatedParticles = state.geometry.particles?.situated || [];
       situatedParticles.forEach((particle) => {
-        const source = anchors[particle.lane % anchors.length];
-        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.032 * particle.speed);
-        const travel = state.reduceMotion ? wrap01(particle.seed + 0.28) : wrap01(particle.seed + time * 0.072 * particle.speed);
-        const angle = Math.PI * 2 * orbit + Math.sin(time * 0.38 + particle.phase) * 0.06;
-        const targetX = clamp(centerX + Math.cos(angle) * radiusX, b.left, b.right);
-        const targetY = clamp(centerY + Math.sin(angle) * radiusY, b.top, b.bottom);
-        const bend = Math.sin(particle.seed * Math.PI * 2 + time * 0.28) * b.height * 0.05;
-        const x = cubic(source.x, lerp(source.x, centerX, 0.42), lerp(targetX, centerX, 0.42), targetX, travel);
-        const y = cubic(source.y, lerp(source.y, centerY, 0.42) - bend, lerp(targetY, centerY, 0.42) + bend, targetY, travel);
-        const nextX = cubic(source.x, lerp(source.x, centerX, 0.42), lerp(targetX, centerX, 0.42), targetX, clamp(travel + 0.02, 0, 1));
-        const nextY = cubic(source.y, lerp(source.y, centerY, 0.42) - bend, lerp(targetY, centerY, 0.42) + bend, targetY, clamp(travel + 0.02, 0, 1));
+        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.038 * particle.speed);
+        const angle = Math.PI * 2 * orbit + particle.lane * 0.56;
+        const localRadiusX = fieldRadiusX * (0.38 + (particle.lane % 3) * 0.16);
+        const localRadiusY = fieldRadiusY * (0.36 + (particle.lane % 3) * 0.13);
+        const rawX = focusX + Math.cos(angle) * localRadiusX;
+        const rawY = focusY + Math.sin(angle) * localRadiusY;
+        const nextRawX = focusX + Math.cos(angle + 0.08) * localRadiusX;
+        const nextRawY = focusY + Math.sin(angle + 0.08) * localRadiusY;
+        const point = warpPoint(rawX, rawY, 0.5);
+        const next = warpPoint(nextRawX, nextRawY, 0.5);
+        const pulse = state.reduceMotion ? 0.46 : 0.5 + 0.5 * Math.sin(time * 2.2 + particle.phase);
         drawTraceParticle(
-          x,
-          y,
-          state.width < 560 ? 1 : 1.2,
+          point.x,
+          point.y,
+          mobile ? 1 : 1.16 + pulse * 0.18,
           particle.lane % 2 ? pal.lineC : pal.lineA,
-          0.28 * alpha,
-          Math.atan2(nextY - y, nextX - x)
+          (0.28 + pulse * 0.2) * alpha,
+          Math.atan2(next.y - point.y, next.x - point.x)
         );
       });
 
-      drawDot(centerX, centerY, state.width < 560 ? 3 : 3.8, pal.lineB, 0.78 * alpha);
-      drawGuidePill("context", centerX, centerY - radiusY * 0.62, pal, "center", alpha);
+      ctx.save();
+      drawRoundedRectPath(focusX - (mobile ? 11 : 14), focusY - (mobile ? 8 : 10), mobile ? 22 : 28, mobile ? 16 : 20, 6);
+      ctx.globalAlpha = 0.18 * alpha;
+      ctx.fillStyle = pal.lineB;
+      ctx.fill();
+      ctx.globalAlpha = 0.72 * alpha;
+      ctx.strokeStyle = pal.lineB;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+      drawDot(focusX, focusY, mobile ? 2.4 : 3.1, pal.lineB, 0.78 * alpha);
+      drawGuidePill("assistance", focusX, Math.max(b.top + 18, focusY - fieldRadiusY * 0.86), pal, "center", alpha);
     };
 
     const drawMode = (mode, time, pal, alpha) => {
@@ -732,7 +1086,7 @@
       const label = activeButton?.querySelector("span")?.textContent || "Design";
       if (readout) readout.textContent = label;
       if (readoutSummary) readoutSummary.textContent = modeCopy[state.mode];
-      if (status) status.textContent = `Showing the ${label} motion sketch. ${modeCopy[state.mode]}`;
+      if (status) status.textContent = `Showing the ${label} motion sketch. ${modeStatus[state.mode] || modeCopy[state.mode]}`;
 
       render(now);
       start();

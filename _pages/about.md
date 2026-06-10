@@ -83,8 +83,8 @@ thesis:
     Design help should not just make more artifacts. It should make the next move
     easier to see, and the next judgment easier to explain.
   domain_note: >-
-    I aim to explore this across different domains, such as film, urban design, architecture, interiors, products, fashion,
-    robotics, accessibility, education technology, and creative media.
+    I use this thread to connect creative media, spatial design, learning environments, and embodied interfaces without
+    treating those settings as interchangeable.
 
 why_now:
   title: Why this work matters now
@@ -164,8 +164,8 @@ research_motion:
       detail_title: Embodied systems and mixed reality
       detail_text: >-
         I use situated for work where judgment depends on the practice, medium,
-        and setting: design studios and classrooms, mixed-reality and robotic
-        interfaces, and civic or urban projects.
+        and setting: what counts as useful help changes between studio critique,
+        mixed-reality work, and embodied interaction.
       detail_points:
         - Let practice shape what assistance should do.
         - Match the interface to the medium and setting.
