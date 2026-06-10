@@ -164,8 +164,9 @@ research_motion:
       detail_title: Embodied systems and mixed reality
       detail_text: >-
         I use situated for work where judgment depends on the practice, medium,
-        and setting: design studios and classrooms, mixed-reality and robotic
-        interfaces, and civic or urban projects.
+        and setting: studio critique, mixed-reality and robotic interfaces, and
+        civic or urban projects each change what help should do, when it should
+        appear, and when it should stay out of the way.
       detail_points:
         - Let practice shape what assistance should do.
         - Match the interface to the medium and setting.
