@@ -47,20 +47,54 @@
   };
 
   if (railLinks.length > 0 && sectionItems.length > 0 && "IntersectionObserver" in window) {
-    const railObserver = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    let railUpdateRaf = null;
 
-        if (!visibleEntry) return;
-        setActiveRailLink(visibleEntry.target.getAttribute("data-home-section"));
-      },
-      { rootMargin: "-28% 0px -52% 0px", threshold: [0.08, 0.25, 0.5, 0.75] }
-    );
+    const pickReadableSection = () => {
+      const navbar = document.getElementById("navbar");
+      const headerOffset = navbar ? navbar.getBoundingClientRect().bottom : 0;
+      const readingLine = headerOffset + (window.innerHeight - headerOffset) * 0.38;
+
+      return sectionItems
+        .map((section) => {
+          const rect = section.getBoundingClientRect();
+          const visibleTop = Math.max(rect.top, headerOffset);
+          const visibleBottom = Math.min(rect.bottom, window.innerHeight);
+          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+          const anchor = Math.min(Math.max(readingLine, rect.top), rect.bottom);
+          return {
+            id: section.getAttribute("data-home-section"),
+            distance: Math.abs(anchor - readingLine),
+            visibleHeight,
+          };
+        })
+        .filter((section) => section.visibleHeight > 0)
+        .sort((a, b) => a.distance - b.distance || b.visibleHeight - a.visibleHeight)[0];
+    };
+
+    const syncRailLink = () => {
+      const visibleSection = pickReadableSection();
+
+      if (!visibleSection) return;
+      setActiveRailLink(visibleSection.id);
+    };
+
+    const scheduleRailSync = () => {
+      if (railUpdateRaf) return;
+      railUpdateRaf = window.requestAnimationFrame(() => {
+        railUpdateRaf = null;
+        syncRailLink();
+      });
+    };
+
+    const railObserver = new IntersectionObserver(scheduleRailSync, { rootMargin: "-28% 0px -52% 0px", threshold: [0.08, 0.25, 0.5, 0.75] });
 
     sectionItems.forEach((section) => railObserver.observe(section));
     railLinks.forEach((link) => {
       link.addEventListener("click", () => setActiveRailLink(link.getAttribute("data-home-rail-link")));
     });
+    window.addEventListener("scroll", scheduleRailSync, { passive: true });
+    window.addEventListener("resize", scheduleRailSync);
+    scheduleRailSync();
   }
 
   const portrait = document.getElementById("home-profile-image-container");

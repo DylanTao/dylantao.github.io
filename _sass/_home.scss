@@ -790,6 +790,7 @@ html[data-theme="dark"] .home-story-rail ol {
   background: var(--home-surface);
   color: var(--home-ink);
   text-align: left;
+  overflow-wrap: anywhere;
   transition:
     background-color var(--motion-standard),
     border-color var(--motion-standard),
@@ -810,6 +811,7 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-motion-mode strong {
   font-size: 1.02rem;
   line-height: 1.25;
+  text-wrap: balance;
 }
 
 .home-motion-mode small {
@@ -1669,9 +1671,9 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-motion-mode {
     justify-items: start;
-    min-height: 4.7rem;
-    padding: 0.58rem 0.52rem;
-    gap: 0.16rem;
+    min-height: 5.15rem;
+    padding: 0.6rem 0.5rem;
+    gap: 0.18rem;
   }
 
   .home-motion-mode span {
@@ -1679,7 +1681,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-motion-mode strong {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     line-height: 1.18;
   }
 

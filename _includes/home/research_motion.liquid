@@ -42,22 +42,10 @@
       {% endif %}
       <div class="home-motion-readout" aria-hidden="true">
         <span data-research-motion-readout>Design</span>
-        <strong>Vary-compare-refine</strong>
+        <strong>Generate alternatives people can compare</strong>
       </div>
       <p class="sr-only" data-research-motion-status>Showing the Design motion sketch.</p>
     </div>
-
-    {% if page.research_motion.credit %}
-      <p class="home-motion-credit">
-        <span class="home-motion-credit-label">Motion note</span>
-        <span class="home-motion-credit-copy">
-          {{- page.research_motion.credit.text }}
-          <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
-          and
-          <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
-        </span>
-      </p>
-    {% endif %}
 
     {% if page.research_motion.modes %}
       <div class="home-motion-details" aria-live="polite">
@@ -115,6 +103,18 @@
           </div>
         {% endif %}
       </div>
+    {% endif %}
+
+    {% if page.research_motion.credit %}
+      <p class="home-motion-credit">
+        <span class="home-motion-credit-label">Motion note</span>
+        <span class="home-motion-credit-copy">
+          {{- page.research_motion.credit.text }}
+          <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
+          and
+          <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
+        </span>
+      </p>
     {% endif %}
   </section>
 {% endif %}

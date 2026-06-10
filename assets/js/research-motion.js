@@ -15,9 +15,9 @@
     const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const modeCopy = {
-      design: "Vary-compare-refine",
-      evaluate: "Evidence before decisions harden",
-      situated: "Context changes the shape of help",
+      design: "Generate alternatives people can compare",
+      evaluate: "Learn from prototypes and traces",
+      situated: "Fit help to the work context",
     };
 
     const state = {

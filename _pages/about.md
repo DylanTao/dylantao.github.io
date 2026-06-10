@@ -76,15 +76,15 @@ thesis:
     changed, comparing alternatives, and building better reasons for choosing one
     direction over another.
   origin:
-    text: thanks Don for his wonderful insights on the need to cultivate taste for the next generation of designers!
+    text: "Don Norman's Design Lab talk helped sharpen this framing: the next generation of designers needs tools that cultivate taste, not just tools that generate options."
     url: /blog/2026/don-norman-design-lab-talk/
   principle_label: Design principle
   principle: >-
     Design help should not just make more artifacts. It should make the next move
     easier to see, and the next judgment easier to explain.
   domain_note: >-
-    I aim to explore this across different domains, such as film, urban design, architecture, interiors, products, fashion,
-    robotics, accessibility, education technology, and creative media.
+    I am testing this frame across creative tools, learning environments,
+    mixed-reality and robotic interfaces, and community or civic design settings.
 
 why_now:
   title: Why this work matters now
@@ -104,20 +104,20 @@ why_now:
 
 research_motion:
   eyebrow: Research focus
-  title: Design, Evaluate, Situated.
-  intro: "A small interactive sketch of the loops I keep studying: shaping alternatives, learning from prototypes and traces, and adapting assistance to the situation where work happens."
+  title: Design, Evaluate, Situate.
+  intro: "The loop I keep returning to: generate alternatives people can compare, learn from prototypes and traces, and fit assistance to the context where judgment happens."
   exploring:
-    title: Adjacent questions I keep circling
-    intro: Secondary threads I want to keep prototyping around, while the thesis stays centered on design judgment.
+    title: Secondary threads I prototype around
+    intro: These questions stay adjacent to the thesis, borrowing the same concern with judgment, agency, and evidence in context.
     items:
       - title: Everyday robots
-        text: Routines, homes, shared spaces, uncertainty, and unobtrusive help.
+        text: Assistance for routines, homes, and shared spaces where uncertainty is normal.
       - title: Learner-centered AI
-        text: Education at scale while preserving agency and the learning process.
+        text: Scalable support that keeps agency and the learning process visible.
       - title: Post-deployment iteration
-        text: Reading real-use traces to improve benefit and reduce harm.
+        text: Using traces from real use to improve benefit and catch harm.
       - title: Community-centered tools
-        text: Coordination, sensemaking, and shared ownership in real groups.
+        text: Coordination and sensemaking for groups with shared ownership.
   credit:
     text: Inspired by motion craft from
     stripe_label: Stripe's design team
@@ -127,29 +127,29 @@ research_motion:
   modes:
     - id: design
       label: Design
-      title: Vary, compare, refine
-      text: Turn many possible directions into alternatives people can inspect, recombine, and reason with.
-      detail_title: Human-AI for design and taste
+      title: Generate alternatives
+      text: Create variations people can inspect, compare, and explain.
+      detail_title: Human-AI for design judgment
       detail_text: >-
-        I study interfaces that scaffold creative judgment: helping people vary,
-        compare, and refine possibilities without losing the constraints, tradeoffs,
-        and values that make a design worth pursuing.
+        I study interfaces that scaffold creative judgment: helping people generate
+        alternatives, compare consequential differences, and turn rough preferences
+        into reasons they can defend.
       detail_points:
         - Ground generation in constraints, values, and criteria.
         - Make differences visible enough to compare.
-        - Help rough preferences become reasons people can defend.
+        - Turn preferences into reasons people can defend.
       detail_points_label: Moves
       link_label: See DesignWeaver
       link_url: /projects/designweaver/
     - id: evaluate
       label: Evaluate
-      title: Build -> learn
-      text: Turn prototypes, traces, and feedback into sharper questions before decisions harden.
-      detail_title: Methods for evidence and iteration
+      title: Learn from evidence
+      text: Use prototypes, traces, and feedback to refine the next question.
+      detail_title: Evidence for iteration
       detail_text: >-
-        I study what prototypes, traces, feedback, and outcomes reveal after a tool
-        enters the loop, so evaluation can sharpen the next question before a
-        decision hardens.
+        I study what prototypes, traces, feedback, and outcomes reveal once a tool
+        enters use, so evaluation sharpens the next design question before decisions
+        harden.
       detail_points:
         - Build prototypes that make real use observable.
         - Connect traces and feedback to concrete design questions.
@@ -158,15 +158,15 @@ research_motion:
       link_label: Read CHI 2026 workshop paper
       link_url: /projects/what-happened-and-why/
     - id: situated
-      label: Situated
-      title: Assist in context
-      text: Let assistance change shape around the practice, medium, and setting where work happens.
-      detail_title: Embodied systems and mixed reality
+      label: Situate
+      title: Fit help to context
+      text: Adapt assistance to the practice, medium, and setting where work happens.
+      detail_title: Interfaces fitted to context
       detail_text: >-
-        I use situated for work where judgment depends on the practice, medium,
-        and setting: studio critique, mixed-reality and robotic interfaces, and
-        civic or urban projects each change what help should do, when it should
-        appear, and when it should stay out of the way.
+        I use situated work for settings where judgment depends on practice and
+        medium: studio critique, mixed reality, robotics, and civic or urban
+        projects each change what help should do, when it should appear, and when
+        it should stay out of the way.
       detail_points:
         - Let practice shape what assistance should do.
         - Match the interface to the medium and setting.
