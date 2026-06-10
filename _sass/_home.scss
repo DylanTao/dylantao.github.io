@@ -838,6 +838,7 @@ html[data-theme="dark"] .home-story-rail ol {
   color: var(--home-muted);
   font-size: 0.76rem;
   line-height: 1.45;
+  opacity: 0.78;
 }
 
 .home-motion-credit-label {
@@ -1016,6 +1017,15 @@ html[data-theme="dark"] .home-story-rail ol {
   max-width: none;
   padding: 0.52rem 0 0.58rem;
   border-top: 1px solid color-mix(in srgb, var(--home-line) 72%, transparent);
+}
+
+.home-motion-exploring-list small {
+  color: var(--home-accent-strong);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
 .home-motion-exploring-list strong,
@@ -1876,6 +1886,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-btn i,
   .home-research-motion::before,
   .home-motion-detail,
+  .home-motion-detail.is-active,
   .home-motion-mode,
   .home-story-rail-link,
   .home-work-card,

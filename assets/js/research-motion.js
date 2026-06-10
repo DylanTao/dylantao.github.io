@@ -14,10 +14,11 @@
     const status = section.querySelector("[data-research-motion-status]");
     const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const modeCopy = {
-      design: "Generate alternatives people can compare",
-      evaluate: "Learn from prototypes and traces",
-      situated: "Fit help to the work context",
+    const knownModes = new Set(["design", "evaluate", "situated"]);
+    const buttonForMode = (mode) => buttons.find((button) => button.getAttribute("data-research-mode") === mode);
+    const getModeSummary = (mode) => {
+      const button = buttonForMode(mode);
+      return button?.getAttribute("data-research-summary") || button?.querySelector("small")?.textContent?.trim() || "";
     };
 
     const state = {
@@ -308,7 +309,6 @@
       const bottom = b.bottom - b.height * 0.05;
 
       beginMode(pal, 0.34 * alpha, state.width < 560 ? 0.7 : 0.82);
-
       series.forEach(({ index, t, phase }) => {
         const y0 = lerp(top, bottom, t) + Math.sin(time * 0.7 + phase) * b.height * 0.025;
         const y1 = lerp(bottom, top, t) - Math.sin(time * 0.62 + phase) * b.height * 0.018;
@@ -594,7 +594,8 @@
     };
 
     const setMode = (mode) => {
-      const nextMode = modeCopy[mode] ? mode : "design";
+      const hasButtonMode = Boolean(buttonForMode(mode));
+      const nextMode = hasButtonMode || knownModes.has(mode) ? mode : "design";
       const now = performance.now();
 
       if (nextMode !== state.mode) {
@@ -615,11 +616,12 @@
         detail.classList.toggle("is-active", isActive);
       });
 
-      const activeButton = buttons.find((button) => button.getAttribute("data-research-mode") === state.mode);
+      const activeButton = buttonForMode(state.mode);
       const label = activeButton?.querySelector("span")?.textContent || "Design";
+      const summary = getModeSummary(state.mode);
       if (readout) readout.textContent = label;
-      if (readoutSummary) readoutSummary.textContent = modeCopy[state.mode];
-      if (status) status.textContent = `Showing the ${label} motion sketch. ${modeCopy[state.mode]}`;
+      if (readoutSummary) readoutSummary.textContent = summary;
+      if (status) status.textContent = `Showing the ${label} motion sketch.${summary ? ` ${summary}` : ""}`;
 
       render(now);
       start();

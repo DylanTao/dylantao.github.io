@@ -1,6 +1,12 @@
 {% if page.research_motion %}
   {% assign motion_section_id = include.section_id | default: 'focus' %}
   {% assign motion_section_key = include.section_key | default: motion_section_id %}
+  {% assign initial_motion_mode = page.research_motion.modes | first %}
+  {% assign initial_motion_label = initial_motion_mode.label | default: 'Design' %}
+  {% assign initial_motion_summary = initial_motion_mode.motion_summary
+    | default: initial_motion_mode.text
+    | default: 'Generate alternatives people can compare'
+  %}
   <section
     id="{{ motion_section_id }}"
     class="home-section home-research-motion home-reveal"
@@ -24,6 +30,7 @@
               class="home-motion-mode{% if forloop.first %} is-active{% endif %}"
               type="button"
               data-research-mode="{{ mode.id }}"
+              data-research-summary="{{ mode.motion_summary | default: mode.text | escape }}"
               aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
             >
               <span>{{ mode.label }}</span>
@@ -41,10 +48,10 @@
         {% include theme_mode_control.liquid id_prefix='motion-theme' class='home-motion-theme-control' %}
       {% endif %}
       <div class="home-motion-readout" aria-hidden="true">
-        <span data-research-motion-readout>Design</span>
-        <strong>Generate alternatives people can compare</strong>
+        <span data-research-motion-readout>{{ initial_motion_label }}</span>
+        <strong>{{ initial_motion_summary }}</strong>
       </div>
-      <p class="sr-only" data-research-motion-status>Showing the Design motion sketch.</p>
+      <p class="sr-only" data-research-motion-status>Showing the {{ initial_motion_label }} motion sketch. {{ initial_motion_summary }}</p>
     </div>
 
     {% if page.research_motion.modes %}
@@ -96,6 +103,9 @@
           <div class="home-motion-exploring-list">
             {% for item in page.research_motion.exploring.items %}
               <span>
+                {% if item.lens %}
+                  <small>{{ item.lens }}</small>
+                {% endif %}
                 <strong>{{ item.title }}</strong>
                 <em>{{ item.text }}</em>
               </span>

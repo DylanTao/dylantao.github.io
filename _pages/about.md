@@ -105,18 +105,22 @@ why_now:
 research_motion:
   eyebrow: Research focus
   title: Design, Evaluate, Situate.
-  intro: "The loop I keep returning to: generate alternatives people can compare, learn from prototypes and traces, and fit assistance to the context where judgment happens."
+  intro: "I keep testing the same loop: how to make alternatives comparable, let evidence sharpen the next question, and fit assistance to the situation where judgment happens."
   exploring:
-    title: Secondary threads I prototype around
-    intro: These questions stay adjacent to the thesis, borrowing the same concern with judgment, agency, and evidence in context.
+    title: Adjacent contexts for the same loop
+    intro: These threads are places I test the same concern with judgment, agency, and evidence in context.
     items:
       - title: Everyday robots
+        lens: Situate
         text: Assistance for routines, homes, and shared spaces where uncertainty is normal.
       - title: Learner-centered AI
+        lens: Design
         text: Scalable support that keeps agency and the learning process visible.
       - title: Post-deployment iteration
+        lens: Evaluate
         text: Using traces from real use to improve benefit and catch harm.
       - title: Community-centered tools
+        lens: Situate
         text: Coordination and sensemaking for groups with shared ownership.
   credit:
     text: Inspired by motion craft from
@@ -129,11 +133,13 @@ research_motion:
       label: Design
       title: Generate alternatives
       text: Create variations people can inspect, compare, and explain.
+      motion_summary: Variants become criteria, comparisons, and reasons.
       detail_title: Human-AI for design judgment
       detail_text: >-
-        I study interfaces that scaffold creative judgment: helping people generate
-        alternatives, compare consequential differences, and turn rough preferences
-        into reasons they can defend.
+        I study interfaces that scaffold creative judgment by making design
+        dimensions visible: helping people generate alternatives, compare
+        consequential differences, and turn rough preferences into reasons they can
+        defend.
       detail_points:
         - Ground generation in constraints, values, and criteria.
         - Make differences visible enough to compare.
@@ -145,6 +151,7 @@ research_motion:
       label: Evaluate
       title: Learn from evidence
       text: Use prototypes, traces, and feedback to refine the next question.
+      motion_summary: Prototype traces sharpen the next question.
       detail_title: Evidence for iteration
       detail_text: >-
         I study what prototypes, traces, feedback, and outcomes reveal once a tool
@@ -161,6 +168,7 @@ research_motion:
       label: Situate
       title: Fit help to context
       text: Adapt assistance to the practice, medium, and setting where work happens.
+      motion_summary: Help fits the person, task, tool, and setting.
       detail_title: Interfaces fitted to context
       detail_text: >-
         I use situated work for settings where judgment depends on practice and
