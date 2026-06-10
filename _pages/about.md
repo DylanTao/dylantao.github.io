@@ -83,8 +83,8 @@ thesis:
     Design help should not just make more artifacts. It should make the next move
     easier to see, and the next judgment easier to explain.
   domain_note: >-
-    I use this thread to connect creative media, spatial design, learning environments, and embodied interfaces without
-    treating those settings as interchangeable.
+    I aim to explore this across different domains, such as film, urban design, architecture, interiors, products, fashion,
+    robotics, accessibility, education technology, and creative media.
 
 why_now:
   title: Why this work matters now
