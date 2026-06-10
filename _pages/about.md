@@ -84,7 +84,9 @@ thesis:
     easier to see, and the next judgment easier to explain.
   domain_note: >-
     I am testing this frame across creative tools, learning environments,
-    mixed-reality and robotic interfaces, and community or civic design settings.
+    mixed reality, everyday robotics, and community or civic design settings:
+    places where tools can help people notice viable options, weigh tradeoffs,
+    and choose the next move.
 
 why_now:
   title: Why this work matters now
@@ -96,7 +98,7 @@ why_now:
     url: https://stateofaidesign.com/
   claims:
     - title: More output does not mean more taste.
-      text: "When generation is cheap, the scarce work is comparison: seeing dimensions, tradeoffs, and evidence across options."
+      text: "When generation is cheap, the scarce work is structuring the design space: what dimensions matter, what to vary, what to preserve, and how to justify a direction."
     - title: Everyone is closer to the prototype.
       text: Designers, researchers, PMs, and engineers all shape early artifacts now. Interfaces need to support shared reasoning before decisions harden.
     - title: Speed still needs reflection.
@@ -110,9 +112,9 @@ research_motion:
     title: Adjacent contexts for the same loop
     intro: These threads are places I test the same concern with judgment, agency, and evidence in context.
     items:
-      - title: Everyday robots
+      - title: Everyday robotics
         lens: Situate
-        text: Assistance for routines, homes, and shared spaces where uncertainty is normal.
+        text: Integrating intelligence into robots so they can better assist people in everyday living and working contexts.
       - title: Learner-centered AI
         lens: Design
         text: Scalable support that keeps agency and the learning process visible.
@@ -131,50 +133,52 @@ research_motion:
   modes:
     - id: design
       label: Design
-      title: Generate alternatives
-      text: Create variations people can inspect, compare, and explain.
-      motion_summary: Variants become criteria, comparisons, and reasons.
-      detail_title: Human-AI for design judgment
+      title: Scaffold design thinking
+      text: Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.
+      motion_summary: Dimensions, variations, comparisons, and fidelity shifts become thinking surfaces.
+      detail_title: Human-AI for design thinking
       detail_text: >-
-        I study interfaces that scaffold creative judgment by making design
-        dimensions visible: helping people generate alternatives, compare
-        consequential differences, and turn rough preferences into reasons they can
-        defend.
+        I study interfaces that support design thinking beyond artifact
+        generation: dimensional scaffolds that make the design space visible,
+        variation mechanisms that expose alternatives, structured comparison that
+        helps people reason across options, and staged fidelity that lets ideas
+        mature from rough intent to defensible direction.
       detail_points:
-        - Ground generation in constraints, values, and criteria.
-        - Make differences visible enough to compare.
-        - Turn preferences into reasons people can defend.
+        - Externalize useful dimensions so people can see what matters.
+        - Use variation and structured comparison to reason across alternatives.
+        - Move from coarse ideas to committed artifact choices through staged fidelity.
       detail_points_label: Moves
       link_label: See DesignWeaver
       link_url: /projects/designweaver/
     - id: evaluate
       label: Evaluate
-      title: Learn from evidence
-      text: Use prototypes, traces, and feedback to refine the next question.
-      motion_summary: Prototype traces sharpen the next question.
-      detail_title: Evidence for iteration
+      title: Study process, not just output
+      text: Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.
+      motion_summary: Process traces and rationales reveal what the scaffold changed.
+      detail_title: Evaluation for design thinking
       detail_text: >-
-        I study what prototypes, traces, feedback, and outcomes reveal once a tool
-        enters use, so evaluation sharpens the next design question before decisions
-        harden.
+        I evaluate AI tools with evidence between controlled psychology tasks and
+        outcome-only benchmarks: process traces, artifact changes, rationales,
+        preservation and explanation behavior, and learning probes that show what
+        users carry beyond the interface.
       detail_points:
-        - Build prototypes that make real use observable.
-        - Connect traces and feedback to concrete design questions.
-        - Use evaluation to learn what changed and what should change next.
+        - Treat final artifact quality as one layer of evidence.
+        - Connect traces and rationales to concrete design questions.
+        - Measure explanation, preservation, revision, and transfer.
       detail_points_label: Evidence loop
       link_label: Read CHI 2026 workshop paper
       link_url: /projects/what-happened-and-why/
     - id: situated
       label: Situate
-      title: Fit help to context
-      text: Adapt assistance to the practice, medium, and setting where work happens.
+      title: Fit help to everyday contexts
+      text: Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.
       motion_summary: Help fits the person, task, tool, and setting.
       detail_title: Interfaces fitted to context
       detail_text: >-
         I use situated work for settings where judgment depends on practice and
-        medium: studio critique, mixed reality, robotics, and civic or urban
-        projects each change what help should do, when it should appear, and when
-        it should stay out of the way.
+        medium: studio critique, mixed reality, everyday robotics, and civic or
+        urban projects each change what help should do, when it should appear,
+        and when it should stay out of the way.
       detail_points:
         - Let practice shape what assistance should do.
         - Match the interface to the medium and setting.
