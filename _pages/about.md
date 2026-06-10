@@ -18,7 +18,7 @@ profile:
 hero:
   eyebrow: Design judgment + human-centered AI
   title: Making AI tools that sharpen design judgment.
-  lede: "I build and study interfaces for an AI-heavy design world: tools that help people notice differences, explain tradeoffs, and build taste over time."
+  lede: "I build and study interfaces for an age of generative abundance: tools that help people explore alternatives, notice consequential differences, explain tradeoffs, and build taste over time."
   affiliation_lines:
     - text: Cognitive Science Ph.D. student at UC San Diego
     - parts:
@@ -68,19 +68,20 @@ story_sections:
 
 thesis:
   eyebrow: Thesis thread
-  title: Scaffolding taste in an age of AI.
+  title: Scaffolding taste in an age of generative abundance.
   lead: >-
     Scaffolding for Taste asks a simple question: when AI can make ten plausible
     options in a minute, how do people learn to notice the difference that matters?
-    I study interfaces that turn generative abundance into clearer comparison,
-    stronger discernment, and better reasons for choosing one direction over another.
+    I study interfaces that support reflective practice: making a move, seeing what
+    changed, comparing alternatives, and building better reasons for choosing one
+    direction over another.
   origin:
     text: thanks Don for his wonderful insights on the need to cultivate taste for the next generation of designers!
     url: /blog/2026/don-norman-design-lab-talk/
   principle_label: Design principle
   principle: >-
-    Design help should not just make more artifacts. It should make the next
-    judgment easier to explain.
+    Design help should not just make more artifacts. It should make the next move
+    easier to see, and the next judgment easier to explain.
   domain_note: >-
     I aim to explore this across different domains, such as film, urban design, architecture, interiors, products, fashion,
     robotics, accessibility, education technology, and creative media.
@@ -103,8 +104,8 @@ why_now:
 
 research_motion:
   eyebrow: Research focus
-  title: Design, evaluate, situate.
-  intro: "A small interactive sketch of the loops I keep studying: generate directions, compare what changed, read evidence, then ground assistance in the situation where work actually happens."
+  title: Design, Evaluate, Situated.
+  intro: "A small interactive sketch of the loops I keep studying: shaping alternatives, learning from prototypes and traces, and adapting assistance to the situation where work happens."
   exploring:
     title: Adjacent questions I keep circling
     intro: Secondary threads I want to keep prototyping around, while the thesis stays centered on design judgment.
@@ -126,49 +127,49 @@ research_motion:
   modes:
     - id: design
       label: Design
-      title: Compare options
-      text: Turn many possible directions into a comparison people can reason with.
+      title: Vary, compare, refine
+      text: Turn many possible directions into alternatives people can inspect, recombine, and reason with.
       detail_title: Human-AI for design and taste
       detail_text: >-
-        I study interfaces that scaffold creative judgment: helping people explore and refine
-        generative possibilities without losing the dimensions, constraints, and values that
-        make a design worth pursuing.
+        I study interfaces that scaffold creative judgment: helping people vary,
+        compare, and refine possibilities without losing the constraints, tradeoffs,
+        and values that make a design worth pursuing.
       detail_points:
         - Ground generation in constraints, values, and criteria.
         - Make differences visible enough to compare.
-        - Turn vague preference into evidence-backed direction.
+        - Help rough preferences become reasons people can defend.
       detail_points_label: Moves
       link_label: See DesignWeaver
       link_url: /projects/designweaver/
     - id: evaluate
       label: Evaluate
-      title: Build -> measure
-      text: Turn messy use traces into evidence before decisions harden.
+      title: Build -> learn
+      text: Turn prototypes, traces, and feedback into sharper questions before decisions harden.
       detail_title: Methods for evidence and iteration
       detail_text: >-
-        I care about what changes after a tool enters the loop: diversity, verification cost,
-        calibration, appropriate reliance, and whether traces help people revise the artifact
-        after deployment.
+        I study what prototypes, traces, feedback, and outcomes reveal after a tool
+        enters the loop, so evaluation can sharpen the next question before a
+        decision hardens.
       detail_points:
-        - Build systems, then measure how people revise with them.
-        - Treat traces, probes, and metrics as design evidence.
-        - Use evaluation to decide what should change next.
+        - Build prototypes that make real use observable.
+        - Connect traces and feedback to concrete design questions.
+        - Use evaluation to learn what changed and what should change next.
       detail_points_label: Evidence loop
       link_label: Read CHI 2026 workshop paper
       link_url: /projects/what-happened-and-why/
     - id: situated
       label: Situated
       title: Assist in context
-      text: Let assistance change shape around the person, task, tool, and place.
+      text: Let assistance change shape around the practice, medium, and setting where work happens.
       detail_title: Embodied systems and mixed reality
       detail_text: >-
-        This is ongoing work around systems that support everyday tasks through in-situ
-        intelligence, spatial interaction, and real-world use, where the right assistance
-        depends on the person, task, tool, and physical or social context.
+        I use situated for work where judgment depends on the practice, medium,
+        and setting: design studios and classrooms, mixed-reality and robotic
+        interfaces, and civic or urban projects.
       detail_points:
-        - Let context change the shape of the interface.
-        - Keep people, tasks, tools, and physical space in the model.
-        - Make assistance fit the situation instead of interrupting it.
+        - Let practice shape what assistance should do.
+        - Match the interface to the medium and setting.
+        - Make help fit the situation instead of interrupting it.
       detail_points_label: Situations
 
 recruiting:
