@@ -615,13 +615,13 @@ html[data-theme="dark"] .home-story-rail ol {
 }
 
 .home-thesis-domain {
-  grid-column: 1 / 2;
-  max-width: 67ch;
+  grid-column: 1 / -1;
+  max-width: 82ch;
   margin: 0;
   color: var(--home-muted);
   font-size: 0.98rem;
   line-height: 1.64;
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .home-why-now {
