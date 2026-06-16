@@ -1,6 +1,83 @@
 section:
   title: Wall of Rejection
-  description: Badges for papers that did not land yet.
+  description: Selected badges for papers, grants, and fellowships that did not land yet.
+
+views:
+  - id: highlights
+    label: Highlights
+    icon: star
+    aria_label: Show highlighted rejection badges
+    groups:
+      - id: highlights
+        label: Curated shelf
+        shelf: highlights
+        description: Meaningful firsts, major venues, and combo badges.
+  - id: type
+    label: By type
+    icon: layer-group
+    aria_label: Organize rejection badges by kind
+    groups:
+      - id: papers
+        label: Papers
+        shelf: type-paper
+        description: Major paper submission noes.
+      - id: grants
+        label: Grants
+        shelf: type-grant
+        description: Proposal and grant attempts.
+      - id: fellowships
+        label: Fellowships
+        shelf: type-fellowship
+        description: Fellowship attempts.
+  - id: venue_funder
+    label: Venue/funder
+    icon: building-columns
+    aria_label: Organize rejection badges by venue or funder
+    groups:
+      - id: chi
+        label: CHI
+        shelf: venue-chi
+        description: CHI-family paper outcomes.
+      - id: uist
+        label: UIST
+        shelf: venue-uist
+        description: UIST-family paper outcomes.
+      - id: microsoft_research
+        label: Microsoft Research
+        shelf: funder-microsoft-research
+        description: Microsoft Research grants and fellowships.
+
+events:
+  - id: chi26-paper-rejection
+    type: paper
+    source_label: CHI 2026
+    status: rejected
+    xp: 12
+    badge_ids:
+      - chi-rejection
+      - double-nope
+  - id: uist26-paper-rejection
+    type: paper
+    source_label: UIST 2026
+    status: rejected
+    xp: 12
+    badge_ids:
+      - uist-rejection
+      - double-nope
+  - id: msr-future-work-grant-rejection
+    type: grant
+    source_label: MSR AI and the New Future of Work CFP
+    status: rejected
+    xp: 6
+    badge_ids:
+      - first-grant-rejection
+  - id: msr-fellowship-rejection
+    type: fellowship
+    source_label: MSR Fellowship
+    status: rejected
+    xp: 6
+    badge_ids:
+      - first-fellowship-rejection
 
 papers:
   - id: p5
@@ -17,42 +94,104 @@ papers:
         code: UIST26
         status: rejected
 
+opportunities:
+  - id: msr-future-work-cfp
+    type: grant
+    title: MSR AI and the New Future of Work CFP
+    funder: Microsoft Research
+    status: rejected
+  - id: msr-fellowship
+    type: fellowship
+    title: MSR Fellowship
+    funder: Microsoft Research
+    status: rejected
+
 badges:
-  - id: chi26-nope
-    title: CHI26 Rejection
+  - id: chi-rejection
+    title: CHI Rejection
     count: 1
     kind: venue-rejection
+    category: paper
     venue: CHI
     year: 2026
     rarity: common
     icon: heart-crack
     linked_paper_id: p5
+    shelves:
+      - highlights
+      - type-paper
+      - venue-chi
     short: CHI said no. Useful notes for the next draft.
     stage: R&R decision
     date: 2026-01-15
     date_label: Jan 15, 2026
     detail: CHI 2026 did not accept this paper. The reviews now guide the next draft.
-  - id: uist26-nope
-    title: UIST26 Rejection
+  - id: uist-rejection
+    title: UIST Rejection
     count: 1
     kind: venue-rejection
+    category: paper
     venue: UIST
     year: 2026
     rarity: common
     icon: paper-plane-crash
     linked_paper_id: p5
+    shelves:
+      - highlights
+      - type-paper
+      - venue-uist
     short: The prototype lived. The paper needs another round.
     stage: First review
     date: 2026-05-28
     date_label: May 28, 2026
     detail: The system was built and submitted. UIST said no, so the next version gets clearer.
+  - id: first-grant-rejection
+    title: First Grant Rejection
+    count: 1
+    kind: grant-rejection
+    category: grant
+    funder: Microsoft Research
+    rarity: uncommon
+    icon: file-circle-xmark
+    linked_opportunity_id: msr-future-work-cfp
+    shelves:
+      - highlights
+      - type-grant
+      - funder-microsoft-research
+    short: MSR Future of Work said no. Proposal reps still count.
+    stage: Grant/proposal decision
+    date: 2026-06
+    date_label: Jun 2026
+    detail: MSR AI and the New Future of Work CFP did not land. The attempt still counts as proposal practice and future-work clarity.
+  - id: first-fellowship-rejection
+    title: First Fellowship Rejection
+    count: 1
+    kind: fellowship-rejection
+    category: fellowship
+    funder: Microsoft Research
+    rarity: uncommon
+    icon: user-graduate
+    linked_opportunity_id: msr-fellowship
+    shelves:
+      - highlights
+      - type-fellowship
+      - funder-microsoft-research
+    short: First fellowship no. The record gets more honest.
+    stage: Fellowship decision
+    date: 2026-06
+    date_label: Jun 2026
+    detail: The MSR Fellowship did not land this round. The badge marks the first fellowship rejection without making every future no a new card.
   - id: double-nope
     title: Double Rejection
     count: 1
     kind: meta
+    category: paper
     rarity: rare
     icon: crossed-reviewer-pens
     linked_paper_id: p5
+    shelves:
+      - highlights
+      - type-paper
     short: Two noes. Still moving.
     stage: Combo badge
     date: 2026-05-28
@@ -62,15 +201,15 @@ badges:
 xp:
   label: Nerdy Spooder-Man
   kicker: Failure XP
-  blurb: Counting all the Failures here.
-  level: 2
-  current: 24
-  next_level: 30
-  progress: 80
-  source_note: Small joke metric for failed submissions.
+  blurb: Counting selected failures here, not collecting every no.
+  level: 3
+  current: 36
+  next_level: 50
+  progress: 72
+  source_note: Small joke metric for failed submissions. Combo and milestone badges add 0 XP so the same rejection is not counted twice.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
-    - label: First-author rejection
+    - label: First-author paper rejection
       value: "+12 XP"
     - label: Co-first listed first
       value: "+11 XP"
@@ -78,9 +217,16 @@ xp:
       value: "+9 XP"
     - label: Co-first listed third
       value: "+8 XP"
-    - label: Co-author rejection
+    - label: Co-author paper rejection
       value: "+4 XP"
-    - label: Accepted papers
+    - label: Grant/proposal rejection
+      value: "+6 XP"
+    - label: Fellowship rejection
+      value: "+6 XP"
+    - label: Combo/milestone badges
+      value: "0 XP"
+      note: They celebrate patterns without double counting.
+    - label: Accepted work
       value: "0 XP here"
       note: Accepted work already appears in the publication list.
   levels:
@@ -111,23 +257,30 @@ xp:
     - date: 2026-01-15
       display_date: Jan 15
       axis_label: "Jan"
-      label: CHI26 no
+      label: CHI no
       total: 12
-      x: 87
-      y: 34
+      x: 72
+      y: 44
     - date: 2026-05-28
       display_date: May 28
       axis_label: "May"
-      label: UIST26 no
+      label: UIST no
       total: 24
+      x: 88
+      y: 24
+    - date: 2026-06
+      display_date: Jun
+      axis_label: "Jun"
+      label: MSR grant and fellowship noes
+      total: 36
       x: 100
       y: 4
   ledger:
-    - label: CHI rej
+    - label: paper
+      value: 2
+    - label: grant
       value: 1
-    - label: UIST rej
-      value: 1
-    - label: 2x combo
+    - label: fellowship
       value: 1
 
 credits:

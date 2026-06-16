@@ -208,6 +208,15 @@
   ],
   "work": [
     {
+      "name": "Autodesk",
+      "position": "PhD Intern, AI Research - Datasets & Benchmarks",
+      "location": "Remote",
+      "startDate": "2026-06",
+      "endDate": "2026-09",
+      "summary": "Working on better human-centered evaluation for 3D CAD.",
+      "url": "https://www.autodesk.com/"
+    },
+    {
       "name": "MAVERiC Studio",
       "position": "Garage Startup Intern",
       "location": "La Jolla, CA, USA",
@@ -302,8 +311,8 @@
       "title": "MSR AI and the New Future of Work CFP",
       "date": "2026",
       "awarder": "Microsoft Research",
-      "annotation": "[In submission]",
-      "pending": true
+      "rejectionNote": "[Rejected Once, Accepted Zero Times ;)]",
+      "strikeTitle": true
     },
     {
       "title": "MSR Fellowship",
@@ -376,10 +385,10 @@
   "publications": [
     {
       "name": "XXX: abcdefg",
-      "publisher": "Submission at UIST 2026",
+      "publisher": "Resubmitting to CHI27",
       "releaseDate": "2026",
-      "summary": "Sirui Tao, ..., and Steven P. Dow.",
-      "rejectionNote": "[Rejected at CHI26; rejected at UIST26]",
+      "summary": "Sirui Tao and Steven P. Dow.",
+      "rejectionNote": "[Rejected at CHI26 & UIST 2026] :-<",
       "strikeTitle": true,
       "paperLabel": "P5",
       "anchor": "cv-publication-p5"
@@ -470,8 +479,8 @@
   "academicService": [
     {
       "date": "2026",
-      "title": "UIST Full Paper Reviewer",
-      "summary": "5 papers; Special Recognition for 1 + Highly Useful for 1."
+      "title": "UIST 2026 Full Paper Reviewer",
+      "summary": "5 papers; Special Recognition for 1 + Highly Useful for 2."
     },
     {
       "date": "2026",

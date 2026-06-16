@@ -3,6 +3,8 @@
   if (!wall) return;
 
   const cards = Array.from(wall.querySelectorAll("[data-rejection-card]"));
+  const viewButtons = Array.from(wall.querySelectorAll("[data-rejection-view-button]"));
+  const viewPanels = Array.from(wall.querySelectorAll("[data-rejection-view]"));
   const receiptTray = wall.querySelector("[data-rejection-receipt-tray]");
   const receiptSources = new Map(
     Array.from(wall.querySelectorAll("[data-rejection-receipt-source]")).map((source) => [source.dataset.rejectionSourceId, source])
@@ -16,6 +18,8 @@
   let receiptCloseAnimation = null;
 
   const prefersReducedMotion = () => reduceMotionQuery.matches;
+
+  const visibleCards = () => cards.filter((card) => !card.closest("[hidden]"));
 
   const openXpRule = () => Array.from(wall.querySelectorAll(".failure-xp-rules")).find((detail) => detail.open);
 
@@ -68,6 +72,28 @@
       candidate.setAttribute("aria-expanded", "false");
     });
     hideReceiptTray(options);
+    updateBodyState();
+  };
+
+  const setActiveView = (viewId) => {
+    const nextPanel = viewPanels.find((panel) => panel.dataset.rejectionView === viewId);
+    if (!nextPanel || !nextPanel.hidden) return;
+
+    pinnedCard = null;
+    clearCardState({ animate: false });
+
+    viewPanels.forEach((panel) => {
+      const active = panel === nextPanel;
+      panel.hidden = !active;
+      panel.classList.toggle("rejection-view-active", active);
+    });
+
+    viewButtons.forEach((button) => {
+      const active = button.dataset.rejectionViewTarget === viewId;
+      button.classList.toggle("rejection-wall-view-button-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+
     updateBodyState();
   };
 
@@ -144,25 +170,47 @@
     lastMemeTrigger = null;
   };
 
+  viewButtons.forEach((button) => {
+    button.addEventListener("click", () => setActiveView(button.dataset.rejectionViewTarget));
+    button.addEventListener("keydown", (event) => {
+      if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = viewButtons.indexOf(button);
+      let nextIndex = currentIndex;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        nextIndex = (currentIndex + 1) % viewButtons.length;
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        nextIndex = (currentIndex - 1 + viewButtons.length) % viewButtons.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = viewButtons.length - 1;
+      }
+      viewButtons[nextIndex].focus();
+    });
+  });
+
   cards.forEach((card) => {
     card.addEventListener("click", () => togglePinned(card));
     card.addEventListener("keydown", (event) => {
       if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
-      const currentIndex = cards.indexOf(card);
+      const activeCards = visibleCards();
+      const currentIndex = activeCards.indexOf(card);
+      if (currentIndex < 0 || activeCards.length === 0) return;
       let nextIndex = currentIndex;
       if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-        nextIndex = (currentIndex + 1) % cards.length;
+        nextIndex = (currentIndex + 1) % activeCards.length;
       } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-        nextIndex = (currentIndex - 1 + cards.length) % cards.length;
+        nextIndex = (currentIndex - 1 + activeCards.length) % activeCards.length;
       } else if (event.key === "Home") {
         nextIndex = 0;
       } else if (event.key === "End") {
-        nextIndex = cards.length - 1;
+        nextIndex = activeCards.length - 1;
       }
       pinnedCard = null;
       clearCardState();
-      cards[nextIndex].focus();
+      activeCards[nextIndex].focus();
     });
   });
 
