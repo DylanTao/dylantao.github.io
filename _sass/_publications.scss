@@ -12,6 +12,11 @@
   --spooder-eye: #fffefd;
   --rejection-badge-wash: color-mix(in srgb, var(--global-accent-soft) 58%, transparent);
   --rejection-badge-surface: color-mix(in srgb, var(--global-card-bg-color) 86%, var(--global-bg-color));
+  --rejection-badge-highlight: rgba(255, 255, 255, 0.28);
+  --rejection-badge-highlight-active: rgba(255, 255, 255, 0.34);
+  --rejection-badge-icon-highlight: rgba(255, 255, 255, 0.56);
+  --rejection-badge-inset-highlight: rgba(255, 255, 255, 0.18);
+  --rejection-badge-inset-highlight-active: rgba(255, 255, 255, 0.22);
   --rejection-badge-rare: var(--global-sky-strong);
   margin: 0 0 0.95rem;
 }
@@ -47,8 +52,13 @@ html[data-theme="dark"] .wall-of-rejection {
   --spooder-blue: #94c6e8;
   --spooder-ink: #0f1416;
   --spooder-eye: #fff6ef;
-  --rejection-badge-wash: rgba(var(--global-accent-rgb), 0.11);
-  --rejection-badge-surface: color-mix(in srgb, var(--global-card-bg-color) 82%, #111820);
+  --rejection-badge-wash: rgba(var(--global-accent-rgb), 0.075);
+  --rejection-badge-surface: color-mix(in srgb, var(--global-card-bg-color) 84%, #111820);
+  --rejection-badge-highlight: rgba(255, 226, 184, 0.09);
+  --rejection-badge-highlight-active: rgba(255, 211, 158, 0.13);
+  --rejection-badge-icon-highlight: rgba(255, 223, 178, 0.2);
+  --rejection-badge-inset-highlight: rgba(255, 230, 190, 0.06);
+  --rejection-badge-inset-highlight-active: rgba(255, 220, 172, 0.08);
   --rejection-badge-rare: var(--global-sky-strong);
 }
 
@@ -219,9 +229,9 @@ html[data-theme="dark"] .wall-of-rejection {
   border: 1px solid color-mix(in srgb, var(--global-divider-color) 82%, transparent);
   border-radius: 0.58rem;
   background:
-    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.34), transparent 18%),
+    radial-gradient(circle at 50% 18%, var(--rejection-badge-highlight), transparent 20%),
     linear-gradient(160deg, var(--rejection-badge-wash), transparent 58%), var(--rejection-badge-surface);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 var(--rejection-badge-inset-highlight);
   color: inherit;
   cursor: pointer;
   text-align: center;
@@ -284,7 +294,7 @@ html[data-theme="dark"] .wall-of-rejection {
   &.rejection-badge-pinned {
     border-color: color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.24),
+      inset 0 1px 0 var(--rejection-badge-inset-highlight-active),
       0 0.55rem 1.25rem rgba(32, 25, 22, 0.1);
     transform: translateY(-2px);
   }
@@ -310,7 +320,7 @@ html[data-theme="dark"] .wall-of-rejection {
     aspect-ratio: auto;
     padding: 0.48rem 0.62rem;
     background:
-      radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.45), transparent 18%),
+      radial-gradient(circle at 12% 22%, var(--rejection-badge-highlight-active), transparent 22%),
       linear-gradient(160deg, var(--rejection-badge-wash), transparent 50%), var(--rejection-badge-surface);
     text-align: left;
   }
@@ -323,11 +333,17 @@ html[data-theme="dark"] .wall-of-rejection {
   }
 }
 
+html[data-theme-mode="evening"] .rejection-badge:hover,
+html[data-theme-mode="evening"] .rejection-badge:focus-visible,
+html[data-theme-mode="evening"] .rejection-badge.rejection-badge-active,
+html[data-theme-mode="evening"] .rejection-badge.rejection-badge-pinned,
 html[data-theme="dark"] .rejection-badge:hover,
 html[data-theme="dark"] .rejection-badge:focus-visible,
 html[data-theme="dark"] .rejection-badge.rejection-badge-active,
 html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
-  box-shadow: 0 0.55rem 1.25rem rgba(0, 0, 0, 0.18);
+  box-shadow:
+    inset 0 1px 0 var(--rejection-badge-inset-highlight-active),
+    0 0.45rem 1.05rem rgba(0, 0, 0, 0.18);
 }
 
 .rejection-badge-rare {
@@ -347,7 +363,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
   border: 1px solid color-mix(in srgb, var(--global-theme-color) 30%, var(--global-divider-color));
   border-radius: 999px;
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.64), transparent 21%),
+    radial-gradient(circle at 34% 28%, var(--rejection-badge-icon-highlight), transparent 24%),
     color-mix(in srgb, var(--global-accent-soft) 70%, var(--global-card-bg-color));
   color: var(--global-theme-color);
   font-size: 1rem;
@@ -718,13 +734,12 @@ html[data-theme="dark"] .rejection-xp-ledger-item {
   position: relative;
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-}
+  margin-top: clamp(0.1rem, 0.8vh, 0.46rem);
 
-@media (min-width: 992px) {
-  .failure-xp-heading {
-    margin-top: auto;
+  > div {
+    min-width: 0;
   }
 }
 
@@ -745,16 +760,40 @@ html[data-theme="dark"] .rejection-xp-ledger-item {
 }
 
 .failure-xp-count {
-  margin-top: 0.12rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.16rem;
+  margin-top: 0.14rem;
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.failure-xp-count-current {
+  color: var(--global-text-color);
+  font-size: 0.92rem;
+  font-weight: 820;
+}
+
+.failure-xp-count-separator,
+.failure-xp-count-next {
+  color: var(--global-text-color-light);
+  font-size: 0.72rem;
+  font-weight: 720;
+}
+
+.failure-xp-count-unit {
+  color: var(--global-text-color-light);
+  font-size: 0.64rem;
+  font-weight: 760;
+  letter-spacing: 0.02em;
 }
 
 .failure-xp-rules {
   position: relative;
   flex: 0 0 auto;
+  align-self: flex-start;
 
   summary {
     display: inline-flex;
@@ -2289,7 +2328,7 @@ html[data-theme="dark"] .scholar-lens-card {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(16rem, 1fr);
     gap: 0.5rem 0.85rem;
-    align-items: center;
+    align-items: start;
   }
 
   .rejection-xp-topline {

@@ -193,7 +193,12 @@
           <div>
             <span class="failure-xp-mobile-label">{{ rejection_wall.xp.kicker }} / {{ rejection_wall.xp.label }}</span>
             <span class="failure-level-label">Level {{ rejection_wall.xp.level }}</span>
-            <span class="failure-xp-count">{{ rejection_wall.xp.current }} / {{ rejection_wall.xp.next_level }} XP</span>
+            <span class="failure-xp-count" aria-label="{{ rejection_wall.xp.current }} out of {{ rejection_wall.xp.next_level }} XP">
+              <span class="failure-xp-count-current">{{ rejection_wall.xp.current }}</span>
+              <span class="failure-xp-count-separator">/</span>
+              <span class="failure-xp-count-next">{{ rejection_wall.xp.next_level }}</span>
+              <span class="failure-xp-count-unit">XP</span>
+            </span>
           </div>
           <details class="failure-xp-rules">
             <summary aria-label="Show XP rules">
