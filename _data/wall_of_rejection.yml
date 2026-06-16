@@ -182,7 +182,7 @@ badges:
     shelves:
       - highlights
       - type-paper
-    short: Two noes. Still moving.
+    short: Two no-no. Still moving.
     stage: Combo badge
     date: 2026-05-28
     date_label: May 28, 2026
@@ -287,16 +287,16 @@ xp:
         value: "2"
     type:
       - label: Papers
-        value: "2 noes"
+        value: "2 no-no"
       - label: Funding
-        value: "2 noes"
+        value: "2 no-no"
     venue_funder:
       - label: CHI
-        value: "1 no"
+        value: "1 no-no"
       - label: UIST
-        value: "1 no"
+        value: "1 no-no"
       - label: Microsoft Research
-        value: "2 noes"
+        value: "2 no-no"
 
 credits:
   failure_cv:
