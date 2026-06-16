@@ -68,14 +68,14 @@ events:
     type: grant
     source_label: MSR AI and the New Future of Work CFP
     status: rejected
-    xp: 6
+    xp: 7
     badge_ids:
       - first-grant-rejection
   - id: msr-fellowship-rejection
     type: fellowship
     source_label: MSR Fellowship
     status: rejected
-    xp: 6
+    xp: 7
     badge_ids:
       - first-fellowship-rejection
 
@@ -160,9 +160,9 @@ badges:
       - funder-microsoft-research
     short: MSR Future of Work said no. Proposal reps still count.
     stage: Grant/proposal decision
-    date: 2026-06
-    date_label: Jun 2026
-    detail: MSR AI and the New Future of Work CFP did not land. The attempt still counts as proposal practice and future-work clarity.
+    date: 2026-06-15
+    date_label: Jun 15, 2026
+    detail: MSR AI and the New Future of Work CFP did not land after decisions were delayed to June 15, 2026. The attempt still counts as proposal practice and future-work clarity.
   - id: first-fellowship-rejection
     title: First Fellowship Rejection
     count: 1
@@ -178,9 +178,9 @@ badges:
       - funder-microsoft-research
     short: First fellowship no. The record gets more honest.
     stage: Fellowship decision
-    date: 2026-06
-    date_label: Jun 2026
-    detail: The MSR Fellowship did not land this round. The badge marks the first fellowship rejection without making every future no a new card.
+    date: 2026-02-27
+    date_label: Feb 27, 2026
+    detail: The MSR Fellowship proposal notification did not land this round on February 27, 2026. The badge marks the first fellowship rejection without making every future no a new card.
   - id: double-nope
     title: Double Rejection
     count: 1
@@ -203,9 +203,9 @@ xp:
   kicker: Failure XP
   blurb: Counting selected failures here, not collecting every no.
   level: 3
-  current: 36
+  current: 38
   next_level: 50
-  progress: 72
+  progress: 76
   source_note: Small joke metric for failed submissions. Combo and milestone badges add 0 XP so the same rejection is not counted twice.
   quote: "I am not the hero the world wants, I am not the hero the world needs, but I am the hero that the world gets."
   rules:
@@ -214,15 +214,15 @@ xp:
     - label: Co-first listed first
       value: "+11 XP"
     - label: Co-first listed second
-      value: "+9 XP"
+      value: "+10 XP"
     - label: Co-first listed third
-      value: "+8 XP"
+      value: "+9 XP"
     - label: Co-author paper rejection
       value: "+4 XP"
     - label: Grant/proposal rejection
-      value: "+6 XP"
+      value: "+7 XP"
     - label: Fellowship rejection
-      value: "+6 XP"
+      value: "+7 XP"
     - label: Combo/milestone badges
       value: "0 XP"
       note: They celebrate patterns without double counting.
@@ -260,19 +260,26 @@ xp:
       label: CHI no
       total: 12
       x: 72
-      y: 44
+      y: 45
+    - date: 2026-02-27
+      display_date: Feb 27
+      axis_label: "Feb"
+      label: MSR Fellowship no
+      total: 19
+      x: 80
+      y: 34
     - date: 2026-05-28
       display_date: May 28
       axis_label: "May"
       label: UIST no
-      total: 24
+      total: 31
       x: 88
-      y: 24
-    - date: 2026-06
-      display_date: Jun
+      y: 15
+    - date: 2026-06-15
+      display_date: Jun 15
       axis_label: "Jun"
-      label: MSR grant and fellowship noes
-      total: 36
+      label: MSR Future of Work no
+      total: 38
       x: 100
       y: 4
   ledger:
