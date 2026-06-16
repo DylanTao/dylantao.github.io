@@ -619,8 +619,10 @@ html[data-theme="dark"] .rejection-xp-ledger-item {
 .rejection-xp-panel {
   display: flex;
   flex-direction: column;
-  align-self: start;
+  align-self: stretch;
   gap: 0.48rem;
+  min-height: 0;
+  height: 100%;
   border-color: color-mix(in srgb, var(--global-divider-color) 78%, transparent);
   background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
   padding: 0.72rem 0.78rem;
@@ -724,6 +726,12 @@ html[data-theme="dark"] .rejection-xp-ledger-item {
   gap: 0.5rem;
   align-items: center;
   justify-content: space-between;
+}
+
+@media (min-width: 992px) {
+  .failure-xp-heading {
+    margin-top: auto;
+  }
 }
 
 .failure-level-label,
@@ -970,7 +978,7 @@ html[data-theme="dark"] .rejection-receipt-tray {
 }
 
 .spooder-quote {
-  margin: 0.18rem 0 0;
+  margin: auto 0 0;
   padding: 0.46rem 0.56rem 0.48rem;
   border-left: 0.16rem solid var(--global-theme-color);
   border-radius: 0.28rem;
