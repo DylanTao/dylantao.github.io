@@ -11,7 +11,6 @@ views:
       - id: highlights
         label: Curated shelf
         shelf: highlights
-        description: Meaningful firsts, major venues, and combo badges.
   - id: type
     label: By type
     icon: layer-group
@@ -20,15 +19,9 @@ views:
       - id: papers
         label: Papers
         shelf: type-paper
-        description: Major paper submission noes.
-      - id: grants
-        label: Grants
-        shelf: type-grant
-        description: Proposal and grant attempts.
-      - id: fellowships
-        label: Fellowships
-        shelf: type-fellowship
-        description: Fellowship attempts.
+      - id: funding
+        label: Funding
+        shelf: type-funding
   - id: venue_funder
     label: Venue/funder
     icon: building-columns
@@ -37,15 +30,12 @@ views:
       - id: chi
         label: CHI
         shelf: venue-chi
-        description: CHI-family paper outcomes.
       - id: uist
         label: UIST
         shelf: venue-uist
-        description: UIST-family paper outcomes.
       - id: microsoft_research
         label: Microsoft Research
         shelf: funder-microsoft-research
-        description: Microsoft Research grants and fellowships.
 
 events:
   - id: chi26-paper-rejection
@@ -156,7 +146,7 @@ badges:
     linked_opportunity_id: msr-future-work-cfp
     shelves:
       - highlights
-      - type-grant
+      - type-funding
       - funder-microsoft-research
     short: MSR Future of Work said no. Proposal reps still count.
     stage: Grant/proposal decision
@@ -174,7 +164,7 @@ badges:
     linked_opportunity_id: msr-fellowship
     shelves:
       - highlights
-      - type-fellowship
+      - type-funding
       - funder-microsoft-research
     short: First fellowship no. The record gets more honest.
     stage: Fellowship decision
@@ -291,32 +281,22 @@ xp:
       value: 1
   view_ledgers:
     highlights:
-      - label: Paper noes
+      - label: Paper no-no
         value: "2"
-      - label: Funding noes
+      - label: Funding no-no
         value: "2"
-      - label: Selected badges
-        value: "5"
     type:
       - label: Papers
         value: "2 noes"
-        secondary: "3 badges"
-      - label: Grants
-        value: "1 no"
-        secondary: "1 badge"
-      - label: Fellowships
-        value: "1 no"
-        secondary: "1 badge"
+      - label: Funding
+        value: "2 noes"
     venue_funder:
       - label: CHI
         value: "1 no"
-        secondary: "1 badge"
       - label: UIST
         value: "1 no"
-        secondary: "1 badge"
       - label: Microsoft Research
         value: "2 noes"
-        secondary: "2 badges"
 
 credits:
   failure_cv:
