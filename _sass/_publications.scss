@@ -507,36 +507,63 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
 
 .rejection-xp-ledger {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.3rem;
-  margin-top: -0.1rem;
+  gap: 0.34rem;
+  margin-top: -0.06rem;
+}
 
-  span {
-    display: inline-flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.24rem;
+.rejection-xp-ledger[hidden] {
+  display: none;
+}
+
+.rejection-xp-ledger-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.08rem 0.58rem;
+  align-items: baseline;
+  min-width: 0;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--global-card-bg-color) 84%, var(--global-bg-color));
+  color: var(--global-text-color-light);
+  line-height: 1.2;
+  padding: 0.4rem 0.5rem;
+
+  em {
     min-width: 0;
-    border: 1px solid var(--global-divider-color);
-    border-radius: 0.45rem;
-    color: var(--global-text-color-light);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 650;
-    line-height: 1.2;
-    overflow-wrap: normal;
-    padding: 0.28rem 0.36rem;
-    white-space: nowrap;
+    color: var(--global-text-color);
+    font-size: 0.72rem;
+    font-style: normal;
+    font-weight: 720;
+    overflow-wrap: anywhere;
   }
 
   strong {
     color: var(--global-text-color);
-    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 760;
     line-height: 1.05;
+    white-space: nowrap;
   }
 
-  em {
-    font-style: normal;
+  small {
+    grid-column: 1 / -1;
+    justify-self: end;
+    color: var(--global-text-color-light);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 650;
+    line-height: 1.1;
+  }
+}
+
+html[data-theme="dark"] .rejection-xp-ledger-item {
+  background: color-mix(in srgb, var(--global-card-bg-color) 88%, #111820);
+}
+
+.rejection-xp-ledger-active {
+  .rejection-xp-ledger-item {
+    box-shadow: 0 0.28rem 0.8rem rgba(var(--global-accent-rgb), 0.06);
   }
 }
 
@@ -2162,15 +2189,23 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .rejection-xp-ledger {
     gap: 0.28rem;
+  }
 
-    span {
-      border-radius: 0.38rem;
-      font-size: 0.62rem;
-      padding: 0.28rem 0.34rem;
-    }
+  .rejection-xp-ledger-item {
+    gap: 0.05rem 0.4rem;
+    border-radius: 0.38rem;
+    padding: 0.32rem 0.4rem;
 
     strong {
-      font-size: 0.78rem;
+      font-size: 0.72rem;
+    }
+
+    em {
+      font-size: 0.62rem;
+    }
+
+    small {
+      font-size: 0.56rem;
     }
   }
 
@@ -2251,14 +2286,9 @@ html[data-theme="dark"] .scholar-lens-card {
     grid-column: 2;
   }
 
-  .rejection-xp-ledger {
-    span {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.3rem 0.42rem;
-    }
+  .rejection-xp-ledger-item {
+    gap: 0.05rem 0.5rem;
+    padding: 0.34rem 0.44rem;
   }
 
   .scholar-lens-card {

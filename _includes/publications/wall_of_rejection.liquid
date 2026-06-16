@@ -283,14 +283,38 @@
           <span style="width: {{ rejection_wall.xp.progress }}%"></span>
         </div>
 
-        <div class="rejection-xp-ledger" aria-label="Failure ledger">
-          {% for ledger_item in rejection_wall.xp.ledger %}
-            <span>
-              <em>{{ ledger_item.label }}:</em>
-              <strong>{{ ledger_item.value }}</strong>
-            </span>
-          {% endfor %}
-        </div>
+        {% for view in rejection_wall.views %}
+          {% assign view_ledger = rejection_wall.xp.view_ledgers[view.id] %}
+          {% if view_ledger %}
+            <div
+              class="rejection-xp-ledger{% if forloop.first %} rejection-xp-ledger-active{% endif %}"
+              aria-label="{{ view.label }} failure ledger"
+              data-rejection-ledger="{{ view.id }}"
+              {% unless forloop.first %}
+                hidden
+              {% endunless %}
+            >
+              {% for ledger_item in view_ledger %}
+                <span class="rejection-xp-ledger-item">
+                  <em>{{ ledger_item.label }}</em>
+                  <strong>{{ ledger_item.value }}</strong>
+                  {% if ledger_item.secondary %}
+                    <small>{{ ledger_item.secondary }}</small>
+                  {% endif %}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="rejection-xp-ledger rejection-xp-ledger-active" aria-label="Failure ledger">
+            {% for ledger_item in rejection_wall.xp.ledger %}
+              <span class="rejection-xp-ledger-item">
+                <em>{{ ledger_item.label }}</em>
+                <strong>{{ ledger_item.value }}</strong>
+              </span>
+            {% endfor %}
+          </div>
+        {% endfor %}
 
         <blockquote class="spooder-quote">"{{ rejection_wall.xp.quote }}"</blockquote>
       </aside>

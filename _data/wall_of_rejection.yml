@@ -282,6 +282,34 @@ xp:
       value: 1
     - label: fellowship
       value: 1
+  view_ledgers:
+    highlights:
+      - label: Paper noes
+        value: "2"
+      - label: Funding noes
+        value: "2"
+      - label: Selected badges
+        value: "5"
+    type:
+      - label: Papers
+        value: "2 noes"
+        secondary: "3 badges"
+      - label: Grants
+        value: "1 no"
+        secondary: "1 badge"
+      - label: Fellowships
+        value: "1 no"
+        secondary: "1 badge"
+    venue_funder:
+      - label: CHI
+        value: "1 no"
+        secondary: "1 badge"
+      - label: UIST
+        value: "1 no"
+        secondary: "1 badge"
+      - label: Microsoft Research
+        value: "2 noes"
+        secondary: "2 badges"
 
 credits:
   failure_cv:

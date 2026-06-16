@@ -5,6 +5,7 @@
   const cards = Array.from(wall.querySelectorAll("[data-rejection-card]"));
   const viewButtons = Array.from(wall.querySelectorAll("[data-rejection-view-button]"));
   const viewPanels = Array.from(wall.querySelectorAll("[data-rejection-view]"));
+  const ledgerPanels = Array.from(wall.querySelectorAll("[data-rejection-ledger]"));
   const receiptTray = wall.querySelector("[data-rejection-receipt-tray]");
   const receiptSources = new Map(
     Array.from(wall.querySelectorAll("[data-rejection-receipt-source]")).map((source) => [source.dataset.rejectionSourceId, source])
@@ -92,6 +93,12 @@
       const active = button.dataset.rejectionViewTarget === viewId;
       button.classList.toggle("rejection-wall-view-button-active", active);
       button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+
+    ledgerPanels.forEach((panel) => {
+      const active = panel.dataset.rejectionLedger === viewId;
+      panel.hidden = !active;
+      panel.classList.toggle("rejection-xp-ledger-active", active);
     });
 
     updateBodyState();
