@@ -83,7 +83,7 @@ research_motion:
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/website-revamp/current-home-desktop.png" title="Current homepage after the redesign" alt="Current redesigned Sirui Tao homepage with a warm editorial layout" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/website-revamp/current-home-desktop.png" title="Current homepage after the playful artifact-stage pass" alt="Current redesigned Sirui Tao homepage with a warm editorial layout and research desk artifact stage" class="img-fluid" %}
   </div>
 </section>
 
@@ -112,10 +112,14 @@ The old site did its job, but it asked visitors to assemble the story themselves
     <figcaption>Before: useful information, but weaker first-glance hierarchy.</figcaption>
   </figure>
   <figure>
-    <img src="{{ '/assets/img/website-revamp/current-home-desktop.png' | relative_url }}" alt="Screenshot of the redesigned homepage with research-first hierarchy">
-    <figcaption>After: thesis, affiliation, actions, and proof live closer together.</figcaption>
+    <img src="{{ '/assets/img/website-revamp/current-home-desktop.png' | relative_url }}" alt="Screenshot of the redesigned homepage with research-first hierarchy and artifact cards">
+    <figcaption>After: thesis, affiliation, actions, portrait, and proof live closer together.</figcaption>
   </figure>
 </div>
+
+## Follow-up: playful proof above the fold
+
+After a student portfolio exercise, I revisited the hero through Jackie Hu's portfolio as a motion reference. The useful lesson was not doodle styling; it was how tiny hover states can make a page feel more discoverable. The updated hero keeps the original research-card language, shifts the cards toward quiet paper artifacts on a messy research desk, and gives the portrait one playful meme-record state. The rule stayed conservative: thesis first, personality second, a tiny visible inspiration credit, and any sound behind an explicit play button with original generated tones only.
 
 ## Taste as a loop
 
@@ -180,12 +184,13 @@ That file was built gradually during the redesign, distilled from my critiques, 
 
 ## Credits
 
-This redesign borrows ideas, not assets, from work I admire: the AI in Design 2026 report, Katie Dill's writing and talks on craft, Stripe's interaction design, and Donald Schon's reflective-practice framing. The point of credit is not formality. It is a design habit: know where your taste came from.
+This redesign borrows ideas, not assets, from work I admire: the AI in Design 2026 report, Katie Dill's writing and talks on craft, Stripe's interaction design, Jackie Hu's portfolio motion craft, and Donald Schon's reflective-practice framing. The point of credit is not formality. It is a design habit: know where your taste came from.
 
 <ul class="website-revamp-sources">
   <li><a href="https://stateofaidesign.com/" target="_blank" rel="noopener noreferrer">AI in Design 2026</a></li>
   <li><a href="https://stateofaidesign.com/chapters/craft" target="_blank" rel="noopener noreferrer">AI in Design 2026, Craft chapter</a></li>
   <li><a href="https://stripe.com/" target="_blank" rel="noopener noreferrer">Stripe homepage</a></li>
+  <li><a href="https://jackiehu.design/" target="_blank" rel="noopener noreferrer">Jackie Hu portfolio</a></li>
   <li><a href="https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function" target="_blank" rel="noopener noreferrer">Katie Dill at Stripe Sessions</a></li>
   <li><a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA PS 2026 collection story</a></li>
   <li><a href="{{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.png' | relative_url }}">Local Wall of Rejection mockup</a></li>

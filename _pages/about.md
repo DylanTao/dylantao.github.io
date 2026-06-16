@@ -4,6 +4,8 @@ title: about
 permalink: /
 panel_wide: true
 home_experience: true
+home_microinteractions:
+  sound: true
 subtitle: Cognitive Science Ph.D. student at UC San Diego studying interfaces for design judgment.
 
 profile:
@@ -13,6 +15,27 @@ profile:
     - sirui_pic_rick_and_morty.png
     - sirui_pic_south_park.png
     - sirui_pic_simpsons.png
+  meme_records:
+    - title: Yellow Submarine
+      image: sirui_pic_south_park.png
+      caption: The Beatles / cartoon voyage
+      duration: "2:40"
+      tone: submarine
+    - title: Hey Jude
+      image: sirui_pic_simpsons.png
+      caption: The Beatles / singalong mode
+      duration: "7:11"
+      tone: jude
+    - title: Blowin' in the Wind
+      image: sirui_pic_ghbili.png
+      caption: Bob Dylan / gentle drift
+      duration: "2:48"
+      tone: wind
+    - title: Sunday Bloody Sunday
+      image: sirui_pic_rick_and_morty.png
+      caption: U2 / Irish rock urgency
+      duration: "4:40"
+      tone: sunday
   image_circular: true
 
 hero:
@@ -39,6 +62,20 @@ hero:
     label: Contact
     url: https://www.linkedin.com/in/siruitao/
     external: true
+  inspiration_credit:
+    label: desk-motion cue inspired by Jackie Hu
+    url: https://jackiehu.design/
+  artifacts:
+    - label: Design loop
+      title: Vibes -> Variables -> Value
+      url: /projects/designweaver/
+      tone: design
+      icon: fa-diagram-project
+    - label: Research question
+      title: Make better design decisions visible
+      url: /projects/what-happened-and-why/
+      tone: evaluate
+      icon: fa-lightbulb
 
 credibility:
   - label: Thesis thread

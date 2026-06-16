@@ -1,4 +1,9 @@
-<section id="start" class="home-hero home-reveal" data-home-section="start" aria-labelledby="home-title">
+<section
+  id="start"
+  class="home-hero home-reveal"
+  data-home-section="start"
+  aria-labelledby="home-title"
+>
   <div class="home-hero-copy">
     <p class="home-kicker">{{ page.hero.eyebrow }}</p>
     <h1 id="home-title" class="home-title">{{ page.hero.title }}</h1>
@@ -45,37 +50,189 @@
     </div>
   </div>
 
-  <div class="home-hero-media" aria-label="Portrait and research themes">
+  <div
+    class="home-hero-media"
+    aria-label="Portrait and research artifacts"
+    data-home-artifact-stage
+    data-home-sound-enabled="{{ page.home_microinteractions.sound | default: false }}"
+  >
     {% if page.profile.image %}
       {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
+      {% assign meme_records = page.profile.meme_records %}
       <div
-        class="home-portrait-frame{% if page.profile.image_hovers %} home-profile-swappable{% endif %}"
+        class="home-portrait-frame{% if meme_records %} home-profile-recordable{% elsif page.profile.image_hovers %} home-profile-swappable{% endif %}"
         id="home-profile-image-container"
-        data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+        tabindex="0"
+        aria-label="Sirui Tao portrait meme-record preview"
+        {% if meme_records %}
+          data-record-images="{% for record in meme_records %}{{ record.image | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-titles="{% for record in meme_records %}{{ record.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-captions="{% for record in meme_records %}{{ record.caption | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-durations="{% for record in meme_records %}{{ record.duration | default: '0:18' | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-tones="{% for record in meme_records %}{{ record.tone | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+        {% else %}
+          data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+        {% endif %}
       >
+        {% if meme_records %}
+          <div class="home-record-vinyl" aria-hidden="true"></div>
+        {% endif %}
         {% include figure.liquid loading="eager" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
-        {% if page.profile.image_hovers %}
+        {% if meme_records or page.profile.image_hovers %}
           <div class="home-profile-image-hover-layer" aria-hidden="true"></div>
         {% endif %}
+        {% if meme_records %}
+          <button
+            class="home-record-play"
+            type="button"
+            data-home-record-play
+            aria-pressed="false"
+            aria-label="Play meme-record preview"
+          >
+            <i class="fa-solid fa-play" data-home-record-play-icon aria-hidden="true"></i>
+            <i class="fa-solid fa-pause" data-home-record-pause-icon aria-hidden="true"></i>
+          </button>
+          <button
+            class="home-record-nav home-record-nav-prev"
+            type="button"
+            data-home-record-prev
+            aria-label="Previous meme record"
+          >
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <button
+            class="home-record-nav home-record-nav-next"
+            type="button"
+            data-home-record-next
+            aria-label="Next meme record"
+          >
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        {% endif %}
       </div>
+
+      {% if meme_records %}
+        <div
+          class="home-record-controls"
+          data-home-record-panel
+          data-player-active="false"
+          role="group"
+          aria-label="Meme record player"
+          aria-hidden="true"
+          inert
+        >
+          <p class="home-record-caption" aria-live="polite" aria-atomic="true">
+            <span data-home-record-title>Meme record</span>
+            <em data-home-record-caption>Four tiny moods</em>
+          </p>
+          <div class="home-record-actions">
+            <button
+              class="home-record-volume-toggle"
+              type="button"
+              data-home-record-volume-toggle
+              aria-expanded="false"
+              aria-controls="home-record-volume-panel"
+              aria-label="Show meme record volume"
+            >
+              <i class="fa-solid fa-volume-low" aria-hidden="true"></i>
+            </button>
+            <div class="home-record-volume-popover" id="home-record-volume-panel" data-home-record-volume-panel hidden>
+              <label class="home-record-volume">
+                <span class="sr-only">Meme record volume</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value="50"
+                  data-home-record-volume
+                  aria-label="Meme record volume"
+                >
+              </label>
+            </div>
+          </div>
+          <label class="home-record-meter">
+            <span class="sr-only">Meme record position</span>
+            <input
+              type="range"
+              min="0"
+              max="1000"
+              step="1"
+              value="0"
+              data-home-record-seek
+              aria-label="Meme record position"
+            >
+            <span data-home-record-progress></span>
+          </label>
+          <p class="home-record-time" aria-label="Meme record playback time">
+            <span data-home-record-elapsed>0:00</span>
+            <span>/</span>
+            <span data-home-record-duration>2:40</span>
+          </p>
+        </div>
+      {% endif %}
     {% endif %}
 
-    <div class="home-media-thread" aria-hidden="true"></div>
+    {% if page.hero.artifacts %}
+      <div class="home-artifact-stack" aria-label="Featured research artifacts">
+        {% for artifact in page.hero.artifacts %}
+          {% assign artifact_tone = artifact.tone | default: 'accent' %}
+          {% capture artifact_card_content %}
+            {% if artifact.image %}
+              <div class="home-artifact-thumb" aria-hidden="true">
+                {% include figure.liquid loading="eager" path=artifact.image class="home-artifact-img" sizes="(min-width: 992px) 92px, 64px" alt=artifact.title %}
+              </div>
+            {% else %}
+              <span class="home-artifact-mark" aria-hidden="true">
+                <i class="fa-solid {{ artifact.icon | default: 'fa-arrow-up-right-from-square' }}"></i>
+              </span>
+            {% endif %}
+            <span class="home-artifact-copy">
+              <span>{{ artifact.label }}</span>
+              <strong>{{ artifact.title }}</strong>
+              {% if artifact.meta %}
+                <em>{{ artifact.meta }}</em>
+              {% endif %}
+            </span>
+            {% if artifact.url %}
+              <span class="home-artifact-route" aria-hidden="true">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </span>
+            {% endif %}
+          {% endcapture %}
 
-    <div class="home-media-bubbles">
-      <div class="home-media-card home-media-bubble home-media-card-secondary">
-        <span>Design loop</span>
-        <strong>
-          <span class="home-flow-inline">Vibes -> Variables -> Value</span>
-        </strong>
+          {% if artifact.url %}
+            <a
+              class="home-artifact-card home-artifact-card-{{ forloop.index }} home-artifact-tone-{{ artifact_tone }}"
+              href="{{ artifact.url | relative_url }}"
+              {% if artifact.external %}
+                target="_blank" rel="noopener noreferrer"
+              {% endif %}
+            >
+              {{ artifact_card_content }}
+            </a>
+          {% else %}
+            <div
+              class="home-artifact-card home-artifact-card-{{ forloop.index }} home-artifact-tone-{{ artifact_tone }}"
+            >
+              {{ artifact_card_content }}
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="home-media-card home-media-bubble home-media-card-primary">
-        <span>Research question</span>
-        <strong>
-          <span>Make better design decisions visible</span>
-        </strong>
-      </div>
-    </div>
+
+      {% if page.hero.inspiration_credit %}
+        <p class="home-inspiration-credit">
+          {% if page.hero.inspiration_credit.url %}
+            <a href="{{ page.hero.inspiration_credit.url }}" target="_blank" rel="noopener noreferrer">
+              {{ page.hero.inspiration_credit.label }}
+            </a>
+          {% else %}
+            {{ page.hero.inspiration_credit.label }}
+          {% endif %}
+        </p>
+      {% endif %}
+    {% endif %}
   </div>
 
   {% if page.credibility %}

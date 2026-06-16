@@ -63,6 +63,44 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Draw inside intentional bounds. Clipping should never be the default way to create drama.
 - Ambient motion may echo the main interaction, but it should be quieter than the text, strongest near the relevant section, and absent under reduced motion.
 
+## Playful Portfolio Lessons
+
+- Borrow from Jackie Hu's portfolio as an interaction principle, not as a visual costume: a personal site can feel like a small desk of artifacts when each object teaches something real about the person.
+- Artifact constellations work only when the artifacts are proof. On Sirui's homepage, playful objects should point to actual tools, papers, teaching artifacts, or active research threads.
+- Reveal-on-hover should answer "what is this and why open it?" rather than merely showing that something can move.
+- Hover should preview the current state; explicit controls should change state. If hovering a portrait changes the selected record before the visitor can click play, the interaction feels slippery instead of polished.
+- Playful metadata belongs after activation. A hover preview can tease the disk/object, but title, time, progress, and volume controls should wait until the visitor explicitly starts the record.
+- If a playful object has multiple states, provide a small explicit control for touch and keyboard users. Hover can preview; it should not be the only way to reach the full set.
+- Put state-changing controls where the state lives. Record switching belongs beside the disk, not inside a progress bar where it can be mistaken for play/pause.
+- Put one or two concrete proof routes above the fold, but do not let proof cards compete with the thesis headline.
+- Small rotations, lifts, image zooms, and caption emphasis are enough. If the motion becomes the thing a visitor remembers more than the work, simplify it.
+- Sound should not be attached to hover. If a playful sound exists, it needs an explicit play/pause control, no autoplay, no surprise keyboard-focus audio, and no copied recordings or melodies.
+- Sound controls should adjust the thing they claim to control. If pause already makes the record silent, a volume control should change loudness; a second mute button reads as redundant interface chrome.
+- Keep secondary controls tucked away until they are requested. A small volume popover can preserve the artifact, while a visible progress line should be genuinely seekable if it invites dragging.
+- Music references can be taste cues, but the site should use original generated tones or licensed/user-provided audio only. The joke should never depend on hearing the sound.
+
+## Research Desk Materiality
+
+- Paper texture, desk surfaces, coffee rings, pens, records, and other small objects should support Sirui's story as a researcher-designer making judgment visible. If an object cannot answer "what proof or process does this point to?", remove it.
+- Treat material effects as quiet evidence framing: clean white stock, warm hairline borders, small shadows, and restrained stains are enough. Avoid fake crosshatch paper textures, visible diagonal fibers, decorative connector lines, and stains that read like clip art.
+- A desk stage should have one related material language, not one merged object. If two proof cards represent different claims, keep them as separate slips; combining them into one note makes the evidence feel less intentional.
+- Dark-mode materiality must be native to the theme. Do not force white paper/card surfaces into evening mode unless the contrast is deliberately rare and justified; use muted theme-aware pastel surfaces instead.
+- Coffee rings should be thin, broken, and partially hidden behind content, with at most a few tiny pooled dots. If the ring draws attention before the research cards, lower the opacity or remove it.
+- Put material marks on or directly behind a specific artifact, not in empty background space. A coffee ring reads as intentional when it belongs to a paper slip; it reads as decoration when it floats offstage.
+- "Premium paper" should be white first: warm edge, paper-thickness shadow, crisp typography, and maybe a barely perceptible surface variation. Avoid colored fills, visible grain, grid textures, and large rounded app-card shapes when the metaphor is paper.
+- Controls embedded in playful objects should feel native to the object: translucent glass on vinyl, quiet focus rings, and enough hit area to be usable without looking like a separate app button. Hide controls when they compete with the artifact and reveal them on hover/focus.
+- Playback metadata can sit on the desk as an annotation. Avoid giving a tiny record strip its own card surface when the portrait, record, and paper slips are already the objects in the scene.
+- Use CSS-only texture first for paper and stain details. Add image assets only when the object itself is meaningful evidence.
+- Keep the thesis and research proof above the fold more important than the desk vibe. Materiality should make the page feel handled and human, not turn it into a prop scene.
+- Credit visible influences when they shape interaction taste. Borrow principles from references such as Jackie Hu's playful object language, not their assets, code, layout, or exact styling.
+
+## Future Style Opportunities
+
+- Extend the desk material language only where it clarifies process: project case-study process notes, selected teaching artifacts, and the website-revamp story can use paper slips, margin notes, or receipts because those pages are about artifacts and critique.
+- Keep publications, CV, and archive pages more utilitarian. Their job is trust, scanning, and citation, so materiality should appear as restrained spacing, crisp typography, and proof grouping rather than decorative desk objects.
+- Blog posts can carry more personality than bibliography pages, but the playful object should belong to the post's subject. A record, coffee ring, doodle, or taped note needs a reason inside the story.
+- Reuse the homepage's paper system before inventing new effects: warm white stock, tiny grain, small tape tabs, thin borders, and short shadows. Consistency will feel more polished than a new visual trick on every page.
+
 ## Navigation
 
 - Keep the global nav simple.
