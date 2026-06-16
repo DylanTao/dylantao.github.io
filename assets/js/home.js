@@ -270,11 +270,20 @@
         volumeOpen = false;
         syncVolumeInput();
       }
+      syncRecordVisualState();
     };
 
     const setPreviewing = (nextPreviewing) => {
       isPreviewing = nextPreviewing;
       portrait.classList.toggle("is-previewing", isPreviewing);
+      syncRecordVisualState();
+    };
+
+    const syncRecordVisualState = () => {
+      const isPausedRecord = isPlayerActive && !isPlaying;
+      portrait.classList.toggle("is-paused-record", isPausedRecord);
+      portrait.setAttribute("data-record-visual", isPausedRecord ? "empty" : isPlaying ? "face" : isPreviewing ? "preview" : "portrait");
+      if (isPausedRecord) hoverLayer.classList.remove("is-visible");
     };
 
     const setPanelCopy = (record) => {
@@ -314,17 +323,21 @@
       progressRaf = window.requestAnimationFrame(tickProgress);
     };
 
-    const showRecord = async (nextIndex) => {
-      const ticket = ++imageTicket;
+    const selectRecord = (nextIndex) => {
       const normalizedIndex = (nextIndex + records.length) % records.length;
       const recordChanged = normalizedIndex !== recordIndex;
       recordIndex = normalizedIndex;
       if (recordChanged) playbackOffsetSeconds = 0;
       const record = records[recordIndex];
-      const image = preloadedRecords[recordIndex];
 
       setPanelCopy(record);
       syncRecordTheme(record.tone);
+      return { image: preloadedRecords[recordIndex], record };
+    };
+
+    const showRecord = async (nextIndex) => {
+      const ticket = ++imageTicket;
+      const { image, record } = selectRecord(nextIndex);
 
       try {
         if (image.decode) await image.decode();
@@ -339,6 +352,14 @@
         hoverLayer.classList.add("is-visible");
         portrait.classList.add("is-vinyl-preview");
       });
+    };
+
+    const showEmptyRecord = () => {
+      imageTicket += 1;
+      setPreviewing(false);
+      portrait.classList.add("is-vinyl-preview");
+      hoverLayer.classList.remove("is-visible");
+      syncRecordVisualState();
     };
 
     const hideRecord = (force = false) => {
@@ -406,11 +427,12 @@
         playButton.setAttribute("aria-pressed", String(isPlaying));
         playButton.setAttribute("aria-label", isPlaying ? `Pause ${record.title} meme-record preview` : `Play ${record.title} meme-record preview`);
       }
+      syncRecordVisualState();
     };
 
     const startRecord = async () => {
-      setPlayerActive(true);
       isPlaying = true;
+      setPlayerActive(true);
       playbackStartedAt = performance.now();
       updatePlayState();
       await showRecord(recordIndex < 0 ? 0 : recordIndex);
@@ -428,7 +450,7 @@
       clearLoopTimers();
       stopProgress(false);
       updateProgressDisplay(playbackOffsetSeconds);
-      showRecord(recordIndex);
+      showEmptyRecord();
     };
 
     const resetRecordPlayer = () => {
@@ -452,6 +474,10 @@
         stopProgress(true);
         tickProgress();
         scheduleRecordLoop();
+      } else if (isPlayerActive) {
+        selectRecord(nextIndex);
+        stopProgress(true);
+        showEmptyRecord();
       } else {
         await showRecord(nextIndex);
       }
@@ -471,11 +497,11 @@
     setPlayerActive(false);
 
     portrait.addEventListener("mouseenter", () => {
-      if (!isPlaying) showRecord(recordIndex);
+      if (!isPlayerActive && !isPlaying) showRecord(recordIndex);
     });
     portrait.addEventListener("mouseleave", hideRecord);
     portrait.addEventListener("focusin", () => {
-      if (!isPlaying) showRecord(recordIndex);
+      if (!isPlayerActive && !isPlaying) showRecord(recordIndex);
     });
     portrait.addEventListener("focusout", (event) => {
       if (!portrait.contains(event.relatedTarget)) hideRecord();

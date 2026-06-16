@@ -491,7 +491,8 @@ html[data-theme="dark"] .home-cred-item strong {
 }
 
 .home-profile-recordable.is-vinyl-preview,
-.home-profile-recordable.is-playing {
+.home-profile-recordable.is-playing,
+.home-profile-recordable.is-paused-record {
   border-color: color-mix(in srgb, var(--home-accent) 46%, var(--home-line));
   box-shadow: 0 24px 54px rgba(73, 45, 30, 0.17);
 }
@@ -499,7 +500,8 @@ html[data-theme="dark"] .home-cred-item strong {
 .home-profile-recordable:hover .home-record-vinyl,
 .home-profile-recordable:focus-within .home-record-vinyl,
 .home-profile-recordable.is-vinyl-preview .home-record-vinyl,
-.home-profile-recordable.is-playing .home-record-vinyl {
+.home-profile-recordable.is-playing .home-record-vinyl,
+.home-profile-recordable.is-paused-record .home-record-vinyl {
   opacity: 1;
   transform: scale(1) rotate(0deg);
 }
@@ -507,7 +509,8 @@ html[data-theme="dark"] .home-cred-item strong {
 .home-profile-recordable:hover figure,
 .home-profile-recordable:focus-within figure,
 .home-profile-recordable.is-vinyl-preview figure,
-.home-profile-recordable.is-playing figure {
+.home-profile-recordable.is-playing figure,
+.home-profile-recordable.is-paused-record figure {
   opacity: 0.12;
   transform: scale(0.97);
 }
@@ -549,6 +552,12 @@ html[data-theme="dark"] .home-cred-item strong {
 
 .home-profile-recordable .home-profile-image-hover-layer.is-visible {
   transform: scale(1) rotate(0deg);
+}
+
+.home-profile-recordable.is-paused-record .home-profile-image-hover-layer,
+.home-profile-recordable.is-paused-record .home-profile-image-hover-layer.is-visible {
+  opacity: 0;
+  transform: scale(0.9) rotate(-6deg);
 }
 
 .home-profile-recordable.is-playing .home-record-vinyl,
