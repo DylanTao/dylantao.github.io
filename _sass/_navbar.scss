@@ -5,17 +5,17 @@
 @use "variables" as v;
 
 .navbar {
-  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.052);
-  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.14);
-  --nav-glass-shine: rgba(255, 255, 255, 0.38);
-  --nav-glass-shadow: rgba(var(--global-accent-rgb), 0.08);
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.034);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.095);
+  --nav-glass-shine: rgba(255, 255, 255, 0.24);
+  --nav-glass-shadow: rgba(var(--global-accent-rgb), 0.045);
 
-  border-bottom: 1px solid var(--global-divider-color);
-  background-color: rgba(255, 250, 246, 0.92);
+  border-bottom: 1px solid color-mix(in srgb, var(--global-divider-color) 72%, transparent);
+  background-color: rgba(255, 250, 246, 0.82);
   box-shadow: none;
   min-height: 3.45rem;
   opacity: 1;
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px) saturate(1.02);
 }
 
 .navbar .container.panel-shell {
@@ -37,26 +37,26 @@
 }
 
 html[data-theme="dark"] .navbar {
-  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.07);
-  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.2);
-  --nav-glass-shine: rgba(255, 255, 255, 0.09);
-  --nav-glass-shadow: rgba(0, 0, 0, 0.2);
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.045);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.14);
+  --nav-glass-shine: rgba(255, 255, 255, 0.055);
+  --nav-glass-shadow: rgba(0, 0, 0, 0.14);
 
-  background-color: rgba(22, 28, 31, 0.9);
+  background-color: rgba(22, 28, 31, 0.8);
 }
 
 html[data-theme-mode="noon"] .navbar {
-  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.045);
-  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.13);
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.03);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.085);
 
-  background-color: rgba(251, 253, 255, 0.92);
+  background-color: rgba(251, 253, 255, 0.82);
 }
 
 html[data-theme-mode="afternoon"] .navbar {
-  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.055);
-  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.15);
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.036);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.1);
 
-  background-color: rgba(255, 248, 241, 0.92);
+  background-color: rgba(255, 248, 241, 0.82);
 }
 
 .navbar .dropdown-menu,
@@ -120,10 +120,10 @@ html[data-theme-mode="afternoon"] .navbar {
     justify-content: center;
     width: 1.85rem;
     height: 1.85rem;
-    border: 1px solid rgba(var(--global-accent-rgb), 0.32);
+    border: 1px solid rgba(var(--global-accent-rgb), 0.2);
     border-radius: 0.45rem;
-    background: rgba(var(--global-accent-rgb), 0.08);
-    color: var(--global-theme-color);
+    background: rgba(var(--global-accent-rgb), 0.045);
+    color: color-mix(in srgb, var(--global-theme-color) 76%, var(--global-text-color));
     font-family: var(--font-mono);
     font-size: 0.72rem;
     font-weight: 700;
@@ -152,7 +152,7 @@ html[data-theme-mode="afternoon"] .navbar {
     overflow: hidden;
     border-radius: 0.45rem;
     font-size: 0.92rem;
-    font-weight: 600;
+    font-weight: 590;
     line-height: 1.2;
     padding-right: 0.55rem;
     padding-left: 0.55rem;
@@ -169,10 +169,10 @@ html[data-theme-mode="afternoon"] .navbar {
       z-index: -1;
       border: 1px solid var(--nav-glass-rim);
       border-radius: 0.42rem;
-      background: linear-gradient(145deg, var(--nav-glass-shine), rgba(255, 255, 255, 0.05) 38%, transparent 70%), var(--nav-glass-fill);
+      background: linear-gradient(145deg, var(--nav-glass-shine), rgba(255, 255, 255, 0.035) 38%, transparent 70%), var(--nav-glass-fill);
       box-shadow:
-        0 0.38rem 0.86rem var(--nav-glass-shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 0.24rem 0.58rem var(--nav-glass-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
       content: "";
       opacity: 0;
       transition:
@@ -188,7 +188,7 @@ html[data-theme-mode="afternoon"] .navbar {
       width: 38%;
       height: 1px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.46);
+      background: rgba(255, 255, 255, 0.34);
       content: "";
       opacity: 0;
       transition:
@@ -197,18 +197,18 @@ html[data-theme-mode="afternoon"] .navbar {
     }
 
     &:hover {
-      color: var(--global-hover-color);
-      transform: translateY(-0.04rem);
+      color: color-mix(in srgb, var(--global-hover-color) 82%, var(--global-text-color));
+      transform: translateY(-0.025rem);
     }
 
     &:hover::before {
-      opacity: 0.86;
+      opacity: 0.72;
       transform: translateY(-0.01rem);
     }
 
     &:hover::after {
-      opacity: 0.62;
-      transform: translateX(0.08rem);
+      opacity: 0.44;
+      transform: translateX(0.05rem);
     }
 
     &:focus-visible {
@@ -218,17 +218,17 @@ html[data-theme-mode="afternoon"] .navbar {
   }
 
   .navbar-nav .nav-item.active > .nav-link {
-    color: var(--global-theme-color);
-    font-weight: 750;
+    color: color-mix(in srgb, var(--global-theme-color) 78%, var(--global-text-color));
+    font-weight: 700;
 
     &::before {
-      border-color: rgba(var(--global-accent-rgb), 0.19);
-      opacity: 0.92;
+      border-color: rgba(var(--global-accent-rgb), 0.12);
+      opacity: 0.74;
     }
 
     &::after {
-      opacity: 0.68;
-      transform: translateX(0.08rem);
+      opacity: 0.42;
+      transform: translateX(0.05rem);
     }
 
     &:hover {

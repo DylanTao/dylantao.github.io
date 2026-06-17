@@ -69,14 +69,17 @@
           data-record-artists="{% for record in meme_records %}{{ record.artist | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-durations="{% for record in meme_records %}{{ record.duration | default: '0:18' | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-tones="{% for record in meme_records %}{{ record.tone | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-covers="{% for record in meme_records %}{% assign record_cover = record.cover_image | default: record.image %}{{ record_cover | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-sources="{% for record in meme_records %}{{ record.source_url | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
         {% else %}
           data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
         {% endif %}
       >
         {% if meme_records %}
-          <div class="home-record-vinyl" aria-hidden="true">
-            <div class="home-record-art"></div>
+          <div class="home-record-scene" data-home-record-scene aria-hidden="true">
+            <div class="home-record-scene-fallback">
+              <div class="home-record-art"></div>
+            </div>
           </div>
         {% endif %}
         {% include figure.liquid loading="eager" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}

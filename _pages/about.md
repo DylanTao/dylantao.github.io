@@ -17,24 +17,28 @@ profile:
     - title: Yellow Submarine
       artist: The Beatles
       image: sirui_pic_south_park.png
+      cover_image: album_covers/yellow_submarine.jpg
       duration: "2:38"
       tone: submarine
       source_url: https://open.spotify.com/track/1tdltVUBkiBCW1C3yB4zyD
     - title: Hey Jude
       artist: The Beatles
       image: sirui_pic_simpsons.png
+      cover_image: album_covers/hey_jude.jpg
       duration: "7:11"
       tone: jude
       source_url: https://open.spotify.com/track/3m7V717IKZqZLW5qUIOxdD
     - title: Blowin' in the Wind
       artist: Bob Dylan
       image: sirui_pic_ghbili.png
+      cover_image: album_covers/blowin_in_the_wind.jpg
       duration: "2:48"
       tone: wind
       source_url: https://open.spotify.com/track/18GiV1BaXzPVYpp9rmOg0E
     - title: Sunday Bloody Sunday
       artist: U2
       image: sirui_pic_rick_and_morty.png
+      cover_image: album_covers/sunday_bloody_sunday.jpg
       duration: "4:39"
       tone: sunday
       source_url: https://open.spotify.com/track/6C4LXC9UFH1IKiHYOp0BiJ
