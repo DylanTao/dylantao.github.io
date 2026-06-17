@@ -1,14 +1,6 @@
 {% assign img_path = include.path | remove: '.jpg' | remove: '.jpeg' | remove: '.png' | remove: '.tiff' | remove: '.gif' %}
 {% assign parts = include.path | split: '.' %}
 {% assign ext = parts.last %}
-{% assign cache_bust_enabled = false %}
-{% if include.cache_bust %}
-  {% assign cache_bust_enabled = true %}
-{% endif %}
-{% assign al_img_tools_enabled = false %}
-{% if site.plugins contains 'al_img_tools' %}
-  {% assign al_img_tools_enabled = true %}
-{% endif %}
 
 <figure
   {% if include.slot %}
@@ -40,7 +32,7 @@
       {% endunless %}
     {% endif %}
     <img
-      src="{% if include.url %}{{ include.url }}{% elsif cache_bust_enabled and al_img_tools_enabled %}{{ include.path | relative_url | bust_file_cache }}{% else %}{{ include.path | relative_url }}{% endif %}"
+      src="{% if include.url %}{{ include.url }}{% else %}{{ include.path | relative_url }}{% endif %}"
       {% if include.class %}
         class="{{ include.class }}"
       {% endif %}
@@ -84,7 +76,6 @@
       {% elsif site.lazy_loading_images %}
         loading="lazy"
       {% endif %}
-      onerror="this.onerror=null; document.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); });"
     >
   </picture>
 
