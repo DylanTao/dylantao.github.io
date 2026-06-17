@@ -20,28 +20,28 @@ profile:
       caption: cartoon voyage
       duration: "2:38"
       tone: submarine
-      source_url: https://www.thebeatles.com/yellow-submarine-0
+      source_url: "https://www.thebeatles.com/yellow-submarine-0"
     - title: Hey Jude
       artist: The Beatles
       image: sirui_pic_simpsons.png
       caption: singalong mode
       duration: "7:11"
       tone: jude
-      source_url: https://www.thebeatles.com/hey-jude
+      source_url: "https://www.thebeatles.com/hey-jude"
     - title: Blowin' in the Wind
       artist: Bob Dylan
       image: sirui_pic_ghbili.png
       caption: gentle drift
       duration: "2:48"
       tone: wind
-      source_url: https://www.bobdylan.com/songs/blowin-wind/
+      source_url: "https://www.bobdylan.com/songs/blowin-wind/"
     - title: Sunday Bloody Sunday
       artist: U2
       image: sirui_pic_rick_and_morty.png
       caption: Irish rock urgency
       duration: "4:39"
       tone: sunday
-      source_url: https://www.u2.com/music/lyrics/127
+      source_url: "https://www.u2.com/music/lyrics/127"
   image_circular: true
 
 hero:
