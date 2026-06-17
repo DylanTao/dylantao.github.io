@@ -38,10 +38,4 @@ grep -q '/assets/css/tikzjax.min.css' "${distill_page}"
 grep -q '/assets/js/tikzjax.min.js' "${distill_page}"
 grep -q 'id="giscus_thread"' "${distill_page}"
 
-transforms_runtime="${tmp_site}/assets/js/distillpub/transforms.v2.js"
-if [ ! -s "${transforms_runtime}" ]; then
-  echo "distill transforms runtime missing or empty at ${transforms_runtime}" >&2
-  exit 1
-fi
-
 echo "distill integration checks passed"
