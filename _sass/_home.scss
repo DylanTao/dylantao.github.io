@@ -1236,13 +1236,7 @@ html[data-theme="dark"] .home-record-card-link {
 
 @keyframes home-artifact-coffee-bloom {
   to {
-    transform: translateX(var(--coffee-stain-wobble, 0)) rotate(var(--coffee-stain-rotate, -8deg)) scale(1.24);
-  }
-}
-
-@keyframes home-artifact-coffee-drop {
-  to {
-    transform: translate(0.12rem, 0.1rem) scale(1.12);
+    transform: translateX(var(--coffee-stain-wobble, 0)) rotate(var(--coffee-stain-rotate, -8deg)) scale(1.14);
   }
 }
 
@@ -1274,32 +1268,48 @@ html[data-theme="dark"] .home-record-card-link {
 }
 
 .home-artifact-stack::after {
-  right: -1.34rem;
-  bottom: -1.44rem;
-  z-index: 0;
-  width: 7.6rem;
+  top: var(--coffee-stain-top, 0.2rem);
+  right: var(--coffee-stain-right, -1.2rem);
+  z-index: 3;
+  display: none;
+  width: var(--coffee-stain-size, 9.4rem);
   aspect-ratio: 1;
-  border-radius: 49% 51% 47% 53% / 52% 47% 54% 48%;
+  border-radius: 50%;
   background:
-    conic-gradient(
-      from 18deg,
-      transparent 0 31deg,
-      rgba(87, 45, 20, 0.16) 38deg 66deg,
-      rgba(179, 111, 50, 0.072) 76deg 96deg,
-      transparent 107deg 188deg,
-      rgba(121, 61, 27, 0.072) 202deg 221deg,
-      rgba(70, 36, 17, 0.18) 236deg 268deg,
-      rgba(177, 101, 43, 0.07) 279deg 302deg,
-      transparent 315deg 360deg
+    radial-gradient(
+      ellipse at 49% 51%,
+      transparent 0 39%,
+      rgba(var(--home-coffee-rgb), calc(0.2 * var(--coffee-stain-density, 1))) 40% 42.2%,
+      rgba(var(--home-coffee-rgb), calc(0.125 * var(--coffee-stain-density, 1))) 42.8% 46.6%,
+      rgba(var(--home-coffee-rgb), 0.048) 47.4% 50.2%,
+      transparent 55.8%
     ),
-    radial-gradient(circle at 35% 82%, rgba(90, 46, 20, 0.14) 0 0.07rem, transparent 0.1rem),
-    radial-gradient(circle at 53% 93%, rgba(90, 46, 20, 0.12) 0 0.045rem, transparent 0.075rem);
-  opacity: 0.26;
-  transform: rotate(14deg);
-  filter: blur(0.18px);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6.2px), #000 calc(100% - 5.35px) calc(100% - 1.35px), transparent 100%);
-  mask: radial-gradient(farthest-side, transparent calc(100% - 6.2px), #000 calc(100% - 5.35px) calc(100% - 1.35px), transparent 100%);
-  mix-blend-mode: multiply;
+    repeating-conic-gradient(
+      from var(--coffee-stain-rotate, -8deg),
+      rgba(var(--home-coffee-rgb), calc(0.19 * var(--coffee-stain-density, 1))) 0 3.6deg,
+      rgba(var(--home-coffee-rgb), 0.045) 3.6deg 8.4deg,
+      transparent 8.4deg 17deg,
+      rgba(var(--home-coffee-rgb), 0.12) 17deg 20.6deg,
+      transparent 20.6deg 34deg
+    ),
+    radial-gradient(ellipse at 64% 34%, rgba(var(--home-coffee-rgb), 0.115), transparent 23%),
+    radial-gradient(ellipse at 36% 74%, rgba(var(--home-coffee-rgb), 0.082), transparent 22%),
+    radial-gradient(circle at 27% 43%, rgba(var(--home-coffee-rgb), 0.082), transparent 6.8%),
+    radial-gradient(circle at 74% 61%, rgba(var(--home-coffee-rgb), 0.064), transparent 6.2%),
+    radial-gradient(circle at 52% 86%, rgba(var(--home-coffee-rgb), 0.052), transparent 4.8%);
+  filter: blur(0.14px);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, transparent 0 38%, #000 40.2% 49.8%, transparent 58.5%);
+  mask-image: radial-gradient(ellipse at 50% 50%, transparent 0 38%, #000 40.2% 49.8%, transparent 58.5%);
+  mix-blend-mode: var(--home-coffee-blend);
+  opacity: 0.4;
+  transform: translateX(0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-scale, 1));
+  animation:
+    home-artifact-coffee-morph var(--coffee-stain-morph-duration, 26s) ease-in-out infinite alternate,
+    home-artifact-coffee-bloom var(--coffee-stain-bloom-duration, 165s) linear forwards;
+}
+
+.home-artifact-stack.has-coffee-stain::after {
+  display: block;
 }
 
 .home-artifact-stack::before {
@@ -1308,8 +1318,7 @@ html[data-theme="dark"] .home-record-card-link {
 
 html[data-theme="dark"] .home-artifact-stack::before,
 html[data-theme="dark"] .home-artifact-stack::after {
-  opacity: 0.12;
-  mix-blend-mode: multiply;
+  opacity: 0.18;
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -1382,75 +1391,6 @@ html[data-theme="dark"] .home-artifact-stack {
     box-shadow var(--motion-standard),
     color var(--motion-standard),
     transform var(--motion-slow);
-}
-
-.home-artifact-card::before,
-.home-artifact-card::after {
-  display: none;
-}
-
-.home-artifact-card.has-coffee-stain::before,
-.home-artifact-card.has-coffee-stain::after {
-  position: absolute;
-  content: "";
-  pointer-events: none;
-}
-
-.home-artifact-card.has-coffee-stain::before {
-  top: var(--coffee-stain-top, -0.32rem);
-  right: var(--coffee-stain-right, 0.8rem);
-  z-index: 0;
-  display: block;
-  width: var(--coffee-stain-size, 4.9rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      ellipse at 49% 51%,
-      transparent 0 39%,
-      rgba(var(--home-coffee-rgb), calc(0.22 * var(--coffee-stain-density, 1))) 40.2% 42.4%,
-      rgba(var(--home-coffee-rgb), calc(0.13 * var(--coffee-stain-density, 1))) 43% 46.5%,
-      rgba(var(--home-coffee-rgb), 0.045) 47.2% 50%,
-      transparent 55%
-    ),
-    repeating-conic-gradient(
-      from var(--coffee-stain-rotate, -8deg),
-      rgba(var(--home-coffee-rgb), calc(0.2 * var(--coffee-stain-density, 1))) 0 4deg,
-      rgba(var(--home-coffee-rgb), 0.04) 4deg 9deg,
-      transparent 9deg 18deg,
-      rgba(var(--home-coffee-rgb), 0.11) 18deg 21deg,
-      transparent 21deg 35deg
-    ),
-    radial-gradient(ellipse at 64% 34%, rgba(var(--home-coffee-rgb), 0.12), transparent 24%),
-    radial-gradient(ellipse at 36% 74%, rgba(var(--home-coffee-rgb), 0.09), transparent 22%),
-    radial-gradient(circle at 28% 42%, rgba(var(--home-coffee-rgb), 0.08), transparent 7%),
-    radial-gradient(circle at 72% 60%, rgba(var(--home-coffee-rgb), 0.065), transparent 6%);
-  filter: blur(0.14px);
-  mask-image: radial-gradient(ellipse at 50% 50%, transparent 0 38%, #000 40.5% 49.5%, transparent 58%);
-  mix-blend-mode: var(--home-coffee-blend);
-  opacity: 0.56;
-  transform: rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-scale, 0.96));
-  animation:
-    home-artifact-coffee-morph var(--coffee-stain-morph-duration, 20s) ease-in-out infinite alternate,
-    home-artifact-coffee-bloom var(--coffee-stain-bloom-duration, 150s) linear forwards;
-}
-
-.home-artifact-card.has-coffee-stain::after {
-  top: calc(var(--coffee-stain-top, -0.32rem) + var(--coffee-stain-size, 4.9rem) * 0.62);
-  right: calc(var(--coffee-stain-right, 0.8rem) + var(--coffee-stain-size, 4.9rem) * 0.68);
-  z-index: 0;
-  display: block;
-  width: 0.92rem;
-  aspect-ratio: 1;
-  border-radius: 52% 48% 58% 42% / 45% 54% 46% 55%;
-  background:
-    radial-gradient(circle at 45% 48%, rgba(var(--home-coffee-rgb), 0.13), rgba(var(--home-coffee-rgb), 0.045) 56%, transparent 72%),
-    radial-gradient(circle at 75% 35%, rgba(var(--home-coffee-rgb), 0.09), transparent 34%);
-  filter: blur(0.35px);
-  mix-blend-mode: var(--home-coffee-blend);
-  opacity: 0.38;
-  transform: translateX(var(--coffee-stain-wobble, 0));
-  animation: home-artifact-coffee-drop 18s ease-in-out infinite alternate;
 }
 
 .home-artifact-card > * {
@@ -3038,6 +2978,10 @@ html.home-motion-ready .home-reveal.home-visible {
     display: none;
   }
 
+  .home-artifact-stack.has-coffee-stain::after {
+    display: none;
+  }
+
   .home-inspiration-credit {
     justify-self: end;
     width: min(100%, 22.5rem);
@@ -3187,8 +3131,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-card-tab,
   .home-record-card-tab::before,
   .home-artifact-card,
-  .home-artifact-card.has-coffee-stain::before,
-  .home-artifact-card.has-coffee-stain::after,
+  .home-artifact-stack.has-coffee-stain::after,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {
     animation: none;

@@ -445,34 +445,30 @@
   };
 
   const setupArtifactCoffeeStains = () => {
-    const cards = Array.from(document.querySelectorAll(".home-artifact-card")).slice(0, 2);
-    if (cards.length === 0) return;
+    const artifactStack = document.querySelector(".home-artifact-stack");
+    if (!artifactStack) return;
 
     const random = createSeededRandom(`home-coffee-${Date.now()}-${Math.random()}`);
+    const size = 8.85 + random() * 1.28;
+    const top = 0.04 + random() * 0.72;
+    const right = -1.52 + random() * 0.74;
+    const rotate = -16 + random() * 32;
+    const scale = 0.98 + random() * 0.12;
+    const wobble = -0.32 + random() * 0.64;
+    const morphDuration = 26 + random() * 14;
+    const bloomDuration = 165 + random() * 95;
+    const density = 0.86 + random() * 0.3;
 
-    cards.forEach((card, index) => {
-      const layout = index === 0 ? { size: 6.25, top: -1.42, right: -1.08 } : { size: 5.75, top: 1.7, right: -0.82 };
-      const size = layout.size + random() * 0.92;
-      const top = layout.top + random() * 0.46;
-      const right = layout.right + random() * 0.5;
-      const rotate = -22 + random() * 44;
-      const scale = 0.96 + random() * 0.16;
-      const wobble = -0.42 + random() * 0.84;
-      const morphDuration = 22 + random() * 12;
-      const bloomDuration = 150 + random() * 90;
-      const density = 0.82 + random() * 0.34;
-
-      card.classList.add("has-coffee-stain");
-      card.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
-      card.style.setProperty("--coffee-stain-top", `${top.toFixed(2)}rem`);
-      card.style.setProperty("--coffee-stain-right", `${right.toFixed(2)}rem`);
-      card.style.setProperty("--coffee-stain-rotate", `${rotate.toFixed(2)}deg`);
-      card.style.setProperty("--coffee-stain-scale", scale.toFixed(3));
-      card.style.setProperty("--coffee-stain-wobble", `${wobble.toFixed(2)}rem`);
-      card.style.setProperty("--coffee-stain-density", density.toFixed(3));
-      card.style.setProperty("--coffee-stain-morph-duration", `${morphDuration.toFixed(2)}s`);
-      card.style.setProperty("--coffee-stain-bloom-duration", `${bloomDuration.toFixed(2)}s`);
-    });
+    artifactStack.classList.add("has-coffee-stain");
+    artifactStack.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
+    artifactStack.style.setProperty("--coffee-stain-top", `${top.toFixed(2)}rem`);
+    artifactStack.style.setProperty("--coffee-stain-right", `${right.toFixed(2)}rem`);
+    artifactStack.style.setProperty("--coffee-stain-rotate", `${rotate.toFixed(2)}deg`);
+    artifactStack.style.setProperty("--coffee-stain-scale", scale.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-wobble", `${wobble.toFixed(2)}rem`);
+    artifactStack.style.setProperty("--coffee-stain-density", density.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-morph-duration", `${morphDuration.toFixed(2)}s`);
+    artifactStack.style.setProperty("--coffee-stain-bloom-duration", `${bloomDuration.toFixed(2)}s`);
   };
 
   setupArtifactCoffeeStains();
