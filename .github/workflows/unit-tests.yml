@@ -77,8 +77,11 @@ jobs:
       - name: Run comments integration test 🧪
         run: bash test/integration_comments.sh
 
-      - name: Run plugin toggle integration test 🔌
-        run: bash test/integration_plugin_toggles.sh
+      - name: Run analytics plugin toggle integration test 📈
+        run: bash test/integration_plugin_toggles.sh al_analytics
+
+      - name: Run image tools plugin toggle integration test 🖼️
+        run: bash test/integration_plugin_toggles.sh al_img_tools
 
       - name: Run distill integration test 📄
         run: bash test/integration_distill.sh
