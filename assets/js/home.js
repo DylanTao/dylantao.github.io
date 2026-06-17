@@ -127,6 +127,8 @@
     const captionTarget = panel ? panel.querySelector("[data-home-record-caption]") : null;
     const durationTarget = panel ? panel.querySelector("[data-home-record-duration]") : null;
     const sourceTarget = panel ? panel.querySelector("[data-home-record-source]") : null;
+    const recordSurface = portrait.querySelector(".home-record-vinyl");
+    const recordArt = portrait.querySelector(".home-record-art");
 
     const records = recordImages.map((src, index) => ({
       src,
@@ -149,6 +151,14 @@
     let isRecordEngaged = false;
     let isSpinning = false;
     let isLinerOpen = false;
+    let isLinerUnlocked = false;
+    let activePointerId = null;
+    let gestureStartX = 0;
+    let gestureStartY = 0;
+    let lastShakeX = 0;
+    let lastShakeDirection = 0;
+    let shakeCount = 0;
+    let suppressNextSpinClick = false;
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
 
@@ -157,8 +167,10 @@
       if (panel) {
         panel.classList.toggle("is-active", isActive);
         panel.classList.toggle("is-note-open", isLinerOpen);
+        panel.classList.toggle("is-liner-unlocked", isLinerUnlocked);
         panel.setAttribute("data-record-active", String(isActive));
         panel.setAttribute("data-liner-open", String(isLinerOpen));
+        panel.setAttribute("data-liner-unlocked", String(isLinerUnlocked));
       }
       if (linerToggle) {
         linerToggle.setAttribute("aria-expanded", String(isLinerOpen));
@@ -175,8 +187,7 @@
       const isPausedRecord = isRecordEngaged && !isSpinning;
       portrait.classList.toggle("is-paused-record", isPausedRecord);
       portrait.classList.toggle("is-playing", isSpinning);
-      portrait.setAttribute("data-record-visual", isPausedRecord ? "empty" : isSpinning ? "face" : isPreviewing ? "preview" : "portrait");
-      if (isPausedRecord) hoverLayer.classList.remove("is-visible");
+      portrait.setAttribute("data-record-visual", isPausedRecord ? "paused" : isSpinning ? "spinning" : isPreviewing ? "preview" : "portrait");
       syncPanelState();
     };
 
@@ -187,6 +198,7 @@
     };
 
     const setLinerOpen = (nextOpen) => {
+      if (nextOpen) isLinerUnlocked = true;
       isLinerOpen = nextOpen;
       syncPanelState();
     };
@@ -225,6 +237,16 @@
     const showRecord = async (nextIndex) => {
       const ticket = ++imageTicket;
       const { image, record } = selectRecord(nextIndex);
+      hoverLayer.style.backgroundImage = `url("${record.src}")`;
+      portrait.style.setProperty("--record-image", `url("${record.src}")`);
+      if (recordSurface) recordSurface.style.setProperty("--record-image", `url("${record.src}")`);
+      if (recordArt) recordArt.style.backgroundImage = `url("${record.src}")`;
+      window.requestAnimationFrame(() => {
+        if (ticket !== imageTicket) return;
+        setPreviewing(true);
+        hoverLayer.classList.add("is-visible");
+        portrait.classList.add("is-vinyl-preview");
+      });
 
       try {
         if (image.decode) await image.decode();
@@ -233,18 +255,15 @@
       }
 
       if (ticket !== imageTicket) return;
-      hoverLayer.style.backgroundImage = `url("${record.src}")`;
-      window.requestAnimationFrame(() => {
-        setPreviewing(true);
-        hoverLayer.classList.add("is-visible");
-        portrait.classList.add("is-vinyl-preview");
-      });
     };
 
     const showEmptyRecord = () => {
       imageTicket += 1;
       setPreviewing(false);
       portrait.classList.add("is-vinyl-preview");
+      portrait.style.removeProperty("--record-image");
+      if (recordSurface) recordSurface.style.removeProperty("--record-image");
+      if (recordArt) recordArt.style.removeProperty("background-image");
       hoverLayer.classList.remove("is-visible");
       syncRecordVisualState();
     };
@@ -254,6 +273,9 @@
       imageTicket += 1;
       setPreviewing(false);
       portrait.classList.remove("is-vinyl-preview");
+      portrait.style.removeProperty("--record-image");
+      if (recordSurface) recordSurface.style.removeProperty("--record-image");
+      if (recordArt) recordArt.style.removeProperty("background-image");
       hoverLayer.classList.remove("is-visible");
     };
 
@@ -279,13 +301,19 @@
       isRecordEngaged = true;
       isSpinning = false;
       updateSpinState();
-      showEmptyRecord();
+      showRecord(recordIndex);
     };
 
     const resetRecord = () => {
       isRecordEngaged = false;
       isSpinning = false;
       isLinerOpen = false;
+      isLinerUnlocked = false;
+      shakeCount = 0;
+      portrait.classList.remove("is-dragging-record", "is-liner-unlocked");
+      portrait.style.removeProperty("--record-drag-x");
+      portrait.style.removeProperty("--record-drag-tilt");
+      if (panel) panel.classList.remove("is-note-dropping");
       updateSpinState();
       setLinerOpen(false);
       hideRecord(true);
@@ -293,12 +321,7 @@
 
     const advanceRecord = async (direction = 1) => {
       const nextIndex = recordIndex + direction;
-      if (isRecordEngaged && !isSpinning) {
-        selectRecord(nextIndex);
-        showEmptyRecord();
-      } else {
-        await showRecord(nextIndex);
-      }
+      await showRecord(nextIndex);
     };
 
     const bindRecordNav = (button, direction) => {
@@ -313,40 +336,137 @@
     syncPanelState();
     syncRecordVisualState();
 
+    const toggleRecordPlayback = () => {
+      if (isSpinning) {
+        pauseRecord();
+      } else {
+        startRecord();
+      }
+    };
+
+    const revealLinerNote = async () => {
+      if (isLinerOpen) return;
+      isRecordEngaged = true;
+      isLinerUnlocked = true;
+      portrait.classList.add("is-liner-unlocked");
+      await showRecord(recordIndex);
+      setLinerOpen(true);
+      if (panel) {
+        panel.classList.remove("is-note-dropping");
+        // Restart the small drop animation each time the note is discovered.
+        void panel.offsetWidth;
+        panel.classList.add("is-note-dropping");
+      }
+    };
+
+    const endShakeGesture = () => {
+      if (activePointerId === null) return;
+      activePointerId = null;
+      lastShakeDirection = 0;
+      portrait.classList.remove("is-dragging-record");
+      portrait.style.removeProperty("--record-drag-x");
+      portrait.style.removeProperty("--record-drag-tilt");
+    };
+
+    const startShakeGesture = (event) => {
+      if (!window.PointerEvent || (event.pointerType === "mouse" && event.button !== 0)) return;
+      if (event.target.closest("button, a")) return;
+
+      activePointerId = event.pointerId;
+      gestureStartX = event.clientX;
+      gestureStartY = event.clientY;
+      lastShakeX = event.clientX;
+      lastShakeDirection = 0;
+      shakeCount = 0;
+      portrait.classList.add("is-dragging-record");
+      if (portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
+    };
+
+    const updateShakeGesture = (event) => {
+      if (activePointerId !== event.pointerId) return;
+
+      const totalX = event.clientX - gestureStartX;
+      const totalY = event.clientY - gestureStartY;
+      if (Math.abs(totalX) < 10 && Math.abs(totalY) < 10) return;
+      if (Math.abs(totalY) > Math.abs(totalX) * 1.35) return;
+      suppressNextSpinClick = true;
+
+      const dragX = Math.max(-13, Math.min(13, totalX * 0.12));
+      const dragTilt = Math.max(-8, Math.min(8, totalX * 0.12));
+      portrait.style.setProperty("--record-drag-x", `${dragX}px`);
+      portrait.style.setProperty("--record-drag-tilt", `${dragTilt}deg`);
+
+      const segmentX = event.clientX - lastShakeX;
+      if (Math.abs(segmentX) >= 18) {
+        const direction = Math.sign(segmentX);
+        if (lastShakeDirection && direction !== lastShakeDirection) {
+          shakeCount += 1;
+          portrait.setAttribute("data-record-shakes", String(Math.min(shakeCount, 3)));
+          if (shakeCount >= 3) {
+            revealLinerNote();
+            endShakeGesture();
+            event.preventDefault();
+            return;
+          }
+        }
+        lastShakeDirection = direction;
+        lastShakeX = event.clientX;
+      }
+
+      event.preventDefault();
+    };
+
     portrait.addEventListener("mouseenter", () => {
       if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
     });
-    portrait.addEventListener("mouseleave", hideRecord);
+    portrait.addEventListener("mouseleave", () => hideRecord());
     portrait.addEventListener("focusin", () => {
       if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
     });
     portrait.addEventListener("focusout", (event) => {
       if (!portrait.contains(event.relatedTarget) && !panel?.contains(event.relatedTarget)) hideRecord();
     });
+    portrait.addEventListener("pointerdown", startShakeGesture);
+    portrait.addEventListener("pointermove", updateShakeGesture);
+    portrait.addEventListener("pointerup", endShakeGesture);
+    portrait.addEventListener("pointercancel", endShakeGesture);
+    portrait.addEventListener("click", (event) => {
+      if (event.target.closest("button, a")) return;
+      if (suppressNextSpinClick) {
+        event.preventDefault();
+        suppressNextSpinClick = false;
+        return;
+      }
+      toggleRecordPlayback();
+    });
 
     if (spinButton) {
-      spinButton.addEventListener("click", () => {
-        if (isSpinning) {
-          pauseRecord();
-        } else {
-          startRecord();
+      spinButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (suppressNextSpinClick) {
+          event.preventDefault();
+          suppressNextSpinClick = false;
+          return;
         }
+        toggleRecordPlayback();
       });
     }
 
     if (linerToggle) {
       linerToggle.addEventListener("click", (event) => {
         event.stopPropagation();
-        const nextOpen = !isLinerOpen;
-        setLinerOpen(nextOpen);
-        if (nextOpen && !isRecordEngaged && !isSpinning) showRecord(recordIndex);
+        if (isLinerOpen) {
+          setLinerOpen(false);
+        } else {
+          revealLinerNote();
+        }
       });
     }
 
     document.addEventListener("click", (event) => {
       const clickedInsidePortrait = portrait.contains(event.target);
       const clickedInsidePanel = Boolean(panel && panel.contains(event.target));
-      if ((isRecordEngaged || isLinerOpen) && !clickedInsidePortrait && !clickedInsidePanel) {
+      if (!isSpinning && (isRecordEngaged || isLinerOpen) && !clickedInsidePortrait && !clickedInsidePanel) {
         resetRecord();
       }
     });

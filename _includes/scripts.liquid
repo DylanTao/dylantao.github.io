@@ -172,7 +172,7 @@
   <!-- Search -->
   {% if site.plugins contains 'al_search' %}
     {% capture al_search_assets_output %}
-      {% al_search_assets %}
+      {% include plugins/al_search_assets.liquid %}
     {% endcapture %}
     {% assign al_search_data_script = al_search_assets_output | split: '<script>' | last | split: '</script>' | first | strip %}
   {% endif %}

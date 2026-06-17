@@ -150,11 +150,11 @@ overrides:
     acknowledged_at: "2026-06-16"
   _includes/header.liquid:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: _includes/header.liquid
     upstream_sha256: c8663513baded68d9fa5fbe4d6363a976535bbe201efe5138243d0ff03101058
-    local_sha256: 870200a687ecd52c081ee788a78626573f427306de16b6c7a4285234e8271173
-    acknowledged_at: "2026-06-01"
+    local_sha256: cc75f5c37ef7c892e5fa13e91b456758fa1d624c0003ed8305a43cb3e719cc90
+    acknowledged_at: "2026-06-17"
   _includes/latest_posts.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -190,6 +190,13 @@ overrides:
     upstream_sha256: bc15269f2273104ede299579c41b9406180d3adcfc3d18355d7e66afc8735e3e
     local_sha256: ff4cddb56e03c3f01772d7c1ea1a3323b0a2553468a84e9990eea77dbe2e5409
     acknowledged_at: "2026-06-01"
+  _includes/plugins/al_search_assets.liquid:
+    owner: al_folio_core
+    gem_version: 1.0.11
+    upstream_path: _includes/plugins/al_search_assets.liquid
+    upstream_sha256: f502a9eefa1bbcff7cea239755b4144004b501cfd6c57a29b1c91866eb7805fe
+    local_sha256: 69516c6208f1617e588979c1239cf532ec8fd8c189988ee8ee1f4cc71a1babcc
+    acknowledged_at: "2026-06-17"
   _includes/projects.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -237,7 +244,7 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/scripts.liquid
     upstream_sha256: 6b7146cfc83ab101ba20e4ad6fb1b65aede3f6fc18ec083ad71bed07e20b93ce
-    local_sha256: 9181b84ec915bde953af6cd9b654c9f858e41bd4d0430f29b0c8621387f4f4b5
+    local_sha256: 84f3c3b17f05f1f615b6bb533d4dda4f57d1b65d1bc253650d94842b6ede3946
     acknowledged_at: "2026-06-17"
   _includes/selected_papers.liquid:
     owner: al_folio_core
@@ -374,11 +381,11 @@ overrides:
     acknowledged_at: "2026-06-01"
   _sass/_navbar.scss:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: _sass/_navbar.scss
     upstream_sha256: 6bf33c8e61fbf49cd3e6ad878f435b90a5acbd2b508587981063a33a1b681029
-    local_sha256: 70f98204ace0315e60779165dd2ab55a3c4a1cf82af9f9888bcafadd5077dc59
-    acknowledged_at: "2026-06-01"
+    local_sha256: 04c42af9a08eace2d8e878c8b2bd17c7beae99dcabe309748ce441ee5760f518
+    acknowledged_at: "2026-06-17"
   _sass/_publications.scss:
     owner: al_folio_core
     gem_version: 1.0.10

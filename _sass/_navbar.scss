@@ -14,7 +14,21 @@
 }
 
 .navbar .container.panel-shell {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: nowrap;
   max-width: v.$max-panel-width;
+}
+
+#navbarNav.navbar-collapse {
+  display: flex !important;
+  flex-basis: auto;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  visibility: visible !important;
 }
 
 html[data-theme="dark"] .navbar {
@@ -105,25 +119,73 @@ html[data-theme-mode="afternoon"] .navbar {
   }
 
   .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
+    justify-content: flex-end;
     gap: 0.05rem;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
   }
 
   .navbar-nav .nav-item .nav-link {
+    position: relative;
     color: var(--global-text-color);
+    overflow: hidden;
     border-radius: 0.45rem;
     font-size: 0.92rem;
     font-weight: 600;
     line-height: 1.2;
     padding-right: 0.55rem;
     padding-left: 0.55rem;
+    isolation: isolate;
     transition:
       background-color var(--motion-standard),
-      color var(--motion-standard);
+      box-shadow var(--motion-standard),
+      color var(--motion-standard),
+      transform var(--motion-standard);
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at 20% 16%, rgba(var(--global-accent-rgb), 0.14), transparent 44%), rgba(var(--global-accent-rgb), 0.065);
+      content: "";
+      opacity: 0;
+      transition: opacity var(--motion-standard);
+    }
+
+    &::after {
+      position: absolute;
+      right: 0.52rem;
+      bottom: 0.24rem;
+      left: 0.52rem;
+      height: 1px;
+      border-radius: 999px;
+      background: rgba(var(--global-accent-rgb), 0.48);
+      content: "";
+      opacity: 0;
+      transform: scaleX(0.35);
+      transform-origin: center;
+      transition:
+        opacity var(--motion-standard),
+        transform var(--motion-standard);
+    }
 
     &:hover {
-      background-color: rgba(var(--global-accent-rgb), 0.08);
       color: var(--global-hover-color);
+      transform: translateY(-1px);
+    }
+
+    &:hover::before,
+    &:hover::after {
+      opacity: 1;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
     }
 
     &:focus-visible {
@@ -133,9 +195,18 @@ html[data-theme-mode="afternoon"] .navbar {
   }
 
   .navbar-nav .nav-item.active > .nav-link {
-    background-color: rgba(var(--global-accent-rgb), 0.1);
     color: var(--global-theme-color);
     font-weight: 750;
+    box-shadow: inset 0 0 0 1px rgba(var(--global-accent-rgb), 0.16);
+
+    &::before,
+    &::after {
+      opacity: 1;
+    }
+
+    &::after {
+      transform: scaleX(1);
+    }
 
     &:hover {
       color: var(--global-hover-color);
@@ -181,6 +252,8 @@ html[data-theme-mode="afternoon"] .navbar {
 }
 
 .navbar-toggler {
+  display: none;
+
   .icon-bar {
     display: block;
     width: 22px;
@@ -336,30 +409,64 @@ html[data-theme-mode="afternoon"] .navbar {
 }
 
 @media (max-width: 767.98px) {
+  .navbar {
+    min-height: 0;
+  }
+
   .navbar .container.panel-shell {
     align-items: center;
+    flex-wrap: wrap;
+    row-gap: 0.28rem;
+    padding-top: 0.42rem;
+    padding-bottom: 0.4rem;
   }
 
-  .navbar-collapse {
-    padding-top: 0.65rem;
+  .navbar-toggler {
+    display: none;
   }
 
-  .navbar-collapse .navbar-nav {
-    align-items: flex-end;
-    gap: 0.1rem;
+  #navbarNav.navbar-collapse {
+    display: block !important;
+    flex-basis: 100%;
+    height: auto !important;
+    width: 100%;
+    padding-top: 0;
+    overflow-x: auto;
+    visibility: visible !important;
+    scrollbar-width: none;
+  }
+
+  .navbar-collapse::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navbar.navbar-light .navbar-collapse .navbar-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.12rem;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    padding-bottom: 0.06rem;
+  }
+
+  .navbar-collapse .navbar-nav .nav-item {
+    flex: 0 0 auto;
   }
 
   .theme-mode-control-nav .theme-menu {
-    position: static;
-    margin-top: 0.35rem;
-    box-shadow: none;
+    position: absolute;
+    right: 0;
+    margin-top: 0;
   }
 
   .navbar.navbar-light .navbar-nav .nav-item .nav-link {
     display: inline-flex;
-    min-height: 2.1rem;
+    min-height: 1.92rem;
     align-items: center;
-    padding-right: 0.65rem;
-    padding-left: 0.65rem;
+    padding-right: 0.58rem;
+    padding-left: 0.58rem;
+    white-space: nowrap;
   }
 }

@@ -76,7 +76,9 @@
         {% endif %}
       >
         {% if meme_records %}
-          <div class="home-record-vinyl" aria-hidden="true"></div>
+          <div class="home-record-vinyl" aria-hidden="true">
+            <div class="home-record-art"></div>
+          </div>
         {% endif %}
         {% include figure.liquid loading="eager" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
         {% if meme_records or page.profile.image_hovers %}
@@ -91,7 +93,7 @@
             aria-label="Spin meme-record album"
           >
             <i class="fa-solid fa-record-vinyl" data-home-record-play-icon aria-hidden="true"></i>
-            <i class="fa-solid fa-circle-stop" data-home-record-pause-icon aria-hidden="true"></i>
+            <i class="fa-solid fa-pause" data-home-record-pause-icon aria-hidden="true"></i>
           </button>
           <button
             class="home-record-nav home-record-nav-prev"
@@ -129,8 +131,8 @@
             aria-controls="home-record-liner-note"
             aria-label="Open hidden liner notes"
           >
-            <i class="fa-solid fa-note-sticky" aria-hidden="true"></i>
-            <span>liner notes</span>
+            <i class="fa-solid fa-grip-lines" aria-hidden="true"></i>
+            <span class="sr-only">hidden liner note</span>
           </button>
           <div class="home-record-liner-note" id="home-record-liner-note" data-home-record-liner-note hidden>
             <p class="home-record-kicker">found in the sleeve</p>
