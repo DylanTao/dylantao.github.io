@@ -162,7 +162,9 @@
     <script src="{{ back_to_top_js }}"></script>
   {% endif %}
   <script>
-    addBackToTop();
+    if (typeof addBackToTop === 'function') {
+      addBackToTop();
+    }
   </script>
 {% endif %}
 
