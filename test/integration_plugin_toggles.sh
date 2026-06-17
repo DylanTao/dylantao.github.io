@@ -44,8 +44,13 @@ remove_plugin_and_build() {
   fi
 }
 
-remove_plugin_and_build "al_analytics"
-remove_plugin_and_build "al_img_tools"
-remove_plugin_and_build "al_search"
+plugins=("$@")
+if [ "${#plugins[@]}" -eq 0 ]; then
+  plugins=("al_analytics" "al_img_tools" "al_search")
+fi
+
+for plugin in "${plugins[@]}"; do
+  remove_plugin_and_build "${plugin}"
+done
 
 echo "plugin toggle integration checks passed"
