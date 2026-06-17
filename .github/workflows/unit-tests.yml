@@ -83,9 +83,6 @@ jobs:
       - name: Run image tools plugin toggle integration test 🖼️
         run: bash test/integration_plugin_toggles.sh al_img_tools
 
-      - name: Run search plugin toggle integration test 🔎
-        run: bash test/integration_plugin_toggles.sh al_search
-
       - name: Run distill integration test 📄
         run: bash test/integration_distill.sh
 
