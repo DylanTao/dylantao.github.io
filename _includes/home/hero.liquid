@@ -54,7 +54,6 @@
     class="home-hero-media"
     aria-label="Portrait and research artifacts"
     data-home-artifact-stage
-    data-home-sound-enabled="{{ page.home_microinteractions.sound | default: false }}"
   >
     {% if page.profile.image %}
       {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
@@ -67,9 +66,11 @@
         {% if meme_records %}
           data-record-images="{% for record in meme_records %}{{ record.image | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-titles="{% for record in meme_records %}{{ record.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-artists="{% for record in meme_records %}{{ record.artist | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-captions="{% for record in meme_records %}{{ record.caption | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-durations="{% for record in meme_records %}{{ record.duration | default: '0:18' | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-tones="{% for record in meme_records %}{{ record.tone | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+          data-record-sources="{% for record in meme_records %}{{ record.source_url | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
         {% else %}
           data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
         {% endif %}
@@ -87,10 +88,10 @@
             type="button"
             data-home-record-play
             aria-pressed="false"
-            aria-label="Play meme-record preview"
+            aria-label="Spin meme-record album"
           >
-            <i class="fa-solid fa-play" data-home-record-play-icon aria-hidden="true"></i>
-            <i class="fa-solid fa-pause" data-home-record-pause-icon aria-hidden="true"></i>
+            <i class="fa-solid fa-record-vinyl" data-home-record-play-icon aria-hidden="true"></i>
+            <i class="fa-solid fa-circle-stop" data-home-record-pause-icon aria-hidden="true"></i>
           </button>
           <button
             class="home-record-nav home-record-nav-prev"
@@ -115,60 +116,35 @@
         <div
           class="home-record-controls"
           data-home-record-panel
-          data-player-active="false"
+          data-record-active="false"
+          data-liner-open="false"
           role="group"
-          aria-label="Meme record player"
-          aria-hidden="true"
-          inert
+          aria-label="Meme record liner notes"
         >
-          <p class="home-record-caption" aria-live="polite" aria-atomic="true">
-            <span data-home-record-title>Meme record</span>
-            <em data-home-record-caption>Four tiny moods</em>
-          </p>
-          <div class="home-record-actions">
-            <button
-              class="home-record-volume-toggle"
-              type="button"
-              data-home-record-volume-toggle
-              aria-expanded="false"
-              aria-controls="home-record-volume-panel"
-              aria-label="Show meme record volume"
-            >
-              <i class="fa-solid fa-volume-low" aria-hidden="true"></i>
-            </button>
-            <div class="home-record-volume-popover" id="home-record-volume-panel" data-home-record-volume-panel hidden>
-              <label class="home-record-volume">
-                <span class="sr-only">Meme record volume</span>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="5"
-                  value="50"
-                  data-home-record-volume
-                  aria-label="Meme record volume"
-                >
-              </label>
-            </div>
+          <button
+            class="home-record-liner-toggle"
+            type="button"
+            data-home-record-liner-toggle
+            aria-expanded="false"
+            aria-controls="home-record-liner-note"
+            aria-label="Open hidden liner notes"
+          >
+            <i class="fa-solid fa-note-sticky" aria-hidden="true"></i>
+            <span>liner notes</span>
+          </button>
+          <div class="home-record-liner-note" id="home-record-liner-note" data-home-record-liner-note hidden>
+            <p class="home-record-kicker">found in the sleeve</p>
+            <p class="home-record-caption" aria-live="polite" aria-atomic="true">
+              <span data-home-record-title>Meme record</span>
+              <em>
+                <span data-home-record-artist>artist</span>
+                <span aria-hidden="true">/</span>
+                <span data-home-record-duration>0:00</span>
+              </em>
+            </p>
+            <p class="home-record-mood" data-home-record-caption>Four tiny moods</p>
+            <a class="home-record-source" data-home-record-source href="#" target="_blank" rel="noopener noreferrer"> catalog note </a>
           </div>
-          <label class="home-record-meter">
-            <span class="sr-only">Meme record position</span>
-            <input
-              type="range"
-              min="0"
-              max="1000"
-              step="1"
-              value="0"
-              data-home-record-seek
-              aria-label="Meme record position"
-            >
-            <span data-home-record-progress></span>
-          </label>
-          <p class="home-record-time" aria-label="Meme record playback time">
-            <span data-home-record-elapsed>0:00</span>
-            <span>/</span>
-            <span data-home-record-duration>2:40</span>
-          </p>
         </div>
       {% endif %}
     {% endif %}

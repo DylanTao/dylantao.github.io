@@ -4,8 +4,6 @@ title: about
 permalink: /
 panel_wide: true
 home_experience: true
-home_microinteractions:
-  sound: true
 subtitle: Cognitive Science Ph.D. student at UC San Diego studying interfaces for design judgment.
 
 profile:
@@ -17,25 +15,33 @@ profile:
     - sirui_pic_simpsons.png
   meme_records:
     - title: Yellow Submarine
+      artist: The Beatles
       image: sirui_pic_south_park.png
-      caption: The Beatles / cartoon voyage
-      duration: "2:40"
+      caption: cartoon voyage
+      duration: "2:38"
       tone: submarine
+      source_url: https://www.thebeatles.com/yellow-submarine-0
     - title: Hey Jude
+      artist: The Beatles
       image: sirui_pic_simpsons.png
-      caption: The Beatles / singalong mode
+      caption: singalong mode
       duration: "7:11"
       tone: jude
+      source_url: https://www.thebeatles.com/hey-jude
     - title: Blowin' in the Wind
+      artist: Bob Dylan
       image: sirui_pic_ghbili.png
-      caption: Bob Dylan / gentle drift
+      caption: gentle drift
       duration: "2:48"
       tone: wind
+      source_url: https://www.bobdylan.com/songs/blowin-wind/
     - title: Sunday Bloody Sunday
+      artist: U2
       image: sirui_pic_rick_and_morty.png
-      caption: U2 / Irish rock urgency
-      duration: "4:40"
+      caption: Irish rock urgency
+      duration: "4:39"
       tone: sunday
+      source_url: https://www.u2.com/music/lyrics/127
   image_circular: true
 
 hero:

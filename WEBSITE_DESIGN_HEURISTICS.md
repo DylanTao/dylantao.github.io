@@ -69,15 +69,14 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Artifact constellations work only when the artifacts are proof. On Sirui's homepage, playful objects should point to actual tools, papers, teaching artifacts, or active research threads.
 - Reveal-on-hover should answer "what is this and why open it?" rather than merely showing that something can move.
 - Hover should preview the current state; explicit controls should change state. If hovering a portrait changes the selected record before the visitor can click play, the interaction feels slippery instead of polished.
-- Playful metadata belongs after activation. A hover preview can tease the disk/object, but title, time, progress, and volume controls should wait until the visitor explicitly starts the record.
+- Playful metadata belongs behind a deliberate reveal. A hover preview can tease the disk/object, but titles, artists, durations, and catalog notes should stay hidden until the visitor opens the liner note.
 - If a playful object has multiple states, provide a small explicit control for touch and keyboard users. Hover can preview; it should not be the only way to reach the full set.
 - Put state-changing controls where the state lives. Record switching belongs beside the disk, not inside a progress bar where it can be mistaken for play/pause.
 - Put one or two concrete proof routes above the fold, but do not let proof cards compete with the thesis headline.
 - Small rotations, lifts, image zooms, and caption emphasis are enough. If the motion becomes the thing a visitor remembers more than the work, simplify it.
-- Sound should not be attached to hover. If a playful sound exists, it needs an explicit play/pause control, no autoplay, no surprise keyboard-focus audio, and no copied recordings or melodies.
-- Sound controls should adjust the thing they claim to control. If pause already makes the record silent, a volume control should change loudness; a second mute button reads as redundant interface chrome.
-- Keep secondary controls tucked away until they are requested. A small volume popover can preserve the artifact, while a visible progress line should be genuinely seekable if it invites dragging.
-- Music references can be taste cues, but the site should use original generated tones or licensed/user-provided audio only. The joke should never depend on hearing the sound.
+- Do not fake copyrighted music. If the referenced songs cannot be licensed, keep the album as a visual artifact rather than adding unrelated free music, generated tones, progress bars, or volume controls.
+- Music references can be taste cues, but they should read as liner-note metadata: title, artist, duration, mood caption, and source link. The joke should never imply the site is playing a song it cannot legally play.
+- Future audio must be owned, licensed, or deliberately Creative Commons for the story being told, and it still needs explicit activation, visible control, no autoplay, and no surprise keyboard-focus sound.
 
 ## Research Desk Materiality
 
@@ -89,7 +88,7 @@ Use this file as the shared design memory for future homepage and portfolio refi
 - Put material marks on or directly behind a specific artifact, not in empty background space. A coffee ring reads as intentional when it belongs to a paper slip; it reads as decoration when it floats offstage.
 - "Premium paper" should be white first: warm edge, paper-thickness shadow, crisp typography, and maybe a barely perceptible surface variation. Avoid colored fills, visible grain, grid textures, and large rounded app-card shapes when the metaphor is paper.
 - Controls embedded in playful objects should feel native to the object: translucent glass on vinyl, quiet focus rings, and enough hit area to be usable without looking like a separate app button. Hide controls when they compete with the artifact and reveal them on hover/focus.
-- Playback metadata can sit on the desk as an annotation. Avoid giving a tiny record strip its own card surface when the portrait, record, and paper slips are already the objects in the scene.
+- Album metadata belongs in a liner-note easter egg, not in a player strip. Avoid progress bars, elapsed time, and volume UI when the interaction is only a visual record spin.
 - Use CSS-only texture first for paper and stain details. Add image assets only when the object itself is meaningful evidence.
 - Keep the thesis and research proof above the fold more important than the desk vibe. Materiality should make the page feel handled and human, not turn it into a prop scene.
 - Credit visible influences when they shape interaction taste. Borrow principles from references such as Jackie Hu's playful object language, not their assets, code, layout, or exact styling.

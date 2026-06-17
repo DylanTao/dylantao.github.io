@@ -568,27 +568,14 @@ html[data-theme="dark"] .home-cred-item strong {
 .home-record-controls {
   position: relative;
   grid-area: record;
-  z-index: 4;
+  z-index: 5;
   display: grid;
-  grid-template-areas:
-    "caption time"
-    "meter actions";
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.08rem 0.62rem;
-  align-items: center;
-  width: min(22rem, 100%);
-  height: 0;
-  min-height: 0;
-  margin-top: 0;
-  padding: 0 0.02rem;
-  overflow: hidden;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  justify-items: center;
+  width: min(18.5rem, 100%);
+  margin-top: 0.2rem;
   color: var(--home-ink);
   opacity: 0;
-  transform: none;
+  transform: translateY(-0.18rem);
   transition:
     opacity var(--motion-standard),
     transform var(--motion-standard),
@@ -597,12 +584,12 @@ html[data-theme="dark"] .home-cred-item strong {
   pointer-events: none;
 }
 
+.home-profile-recordable:hover + .home-record-controls,
+.home-profile-recordable:focus-within + .home-record-controls,
+.home-record-controls:focus-within,
 .home-record-controls.is-active,
-.home-record-controls[data-player-active="true"] {
-  height: auto;
-  margin-top: 0.34rem;
-  padding: 0.08rem 0.02rem 0.02rem;
-  overflow: visible;
+.home-record-controls[data-record-active="true"],
+.home-record-controls[data-liner-open="true"] {
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
@@ -616,6 +603,69 @@ html[data-theme="dark"] .home-cred-item strong {
 .home-record-controls > * {
   position: relative;
   z-index: 1;
+}
+
+.home-record-liner-toggle {
+  display: inline-flex;
+  gap: 0.32rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.54rem;
+  padding: 0.34rem 0.54rem;
+  border: 1px solid color-mix(in srgb, var(--record-accent) 26%, var(--home-line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--home-surface) 72%, transparent);
+  box-shadow:
+    0 0.35rem 0.85rem rgba(73, 45, 30, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  color: color-mix(in srgb, var(--record-accent-ink) 78%, var(--home-muted));
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+  backdrop-filter: blur(10px) saturate(1.04);
+}
+
+.home-record-liner-toggle:hover,
+.home-record-liner-toggle:focus-visible,
+.home-record-liner-toggle[aria-expanded="true"] {
+  border-color: color-mix(in srgb, var(--record-accent) 46%, var(--home-line));
+  background: color-mix(in srgb, var(--record-accent) 10%, var(--home-surface));
+  color: color-mix(in srgb, var(--record-accent-ink) 88%, var(--home-ink));
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.home-record-liner-toggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--record-accent) 34%, transparent);
+  outline-offset: 0.16rem;
+}
+
+.home-record-liner-note {
+  width: min(18.5rem, 100%);
+  margin-top: 0.42rem;
+  padding: 0.74rem 0.82rem;
+  border: 1px solid color-mix(in srgb, var(--record-accent) 18%, var(--home-line));
+  border-radius: 0.46rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 44%),
+    repeating-linear-gradient(0deg, rgba(91, 65, 42, 0.035) 0 1px, transparent 1px 5px),
+    color-mix(in srgb, var(--home-surface) 88%, var(--record-label-paper));
+  box-shadow: 0 0.7rem 1.35rem rgba(73, 45, 30, 0.12);
+  transform: rotate(-0.45deg);
+}
+
+.home-record-liner-note[hidden] {
+  display: none;
 }
 
 .home-record-play {
@@ -719,15 +769,18 @@ html[data-theme="dark"] .home-cred-item strong {
 }
 
 .home-record-nav-prev {
-  left: -0.72rem;
+  left: 0.48rem;
 }
 
 .home-record-nav-next {
-  right: -0.72rem;
+  right: 0.48rem;
 }
 
 .home-profile-recordable:hover .home-record-nav,
 .home-profile-recordable:focus-visible .home-record-nav,
+.home-profile-recordable.is-vinyl-preview .home-record-nav,
+.home-profile-recordable.is-playing .home-record-nav,
+.home-profile-recordable.is-paused-record .home-record-nav,
 .home-record-nav:focus-visible {
   opacity: 0.82;
   pointer-events: auto;
@@ -753,152 +806,24 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   color: color-mix(in srgb, var(--record-accent) 78%, var(--home-ink));
 }
 
+.home-record-kicker {
+  margin: 0;
+  color: color-mix(in srgb, var(--record-accent-ink) 72%, var(--home-muted));
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
 .home-record-caption {
-  grid-area: caption;
   display: grid;
   min-width: 0;
-  margin: 0;
+  margin: 0.22rem 0 0;
   color: var(--home-ink);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   line-height: 1.15;
-}
-
-.home-record-actions {
-  position: relative;
-  grid-area: actions;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-  min-width: 1.45rem;
-}
-
-.home-record-volume-toggle {
-  display: grid;
-  width: 1.42rem;
-  aspect-ratio: 1;
-  place-items: center;
-  padding: 0;
-  border: 1px solid color-mix(in srgb, var(--record-accent) 22%, transparent);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--record-accent) 8%, transparent);
-  color: color-mix(in srgb, var(--home-muted) 74%, var(--record-accent-ink));
-  font-size: 0.66rem;
-  line-height: 1;
-  opacity: 0.72;
-  cursor: pointer;
-  transition:
-    background-color var(--motion-standard),
-    border-color var(--motion-standard),
-    color var(--motion-standard),
-    opacity var(--motion-standard),
-    transform var(--motion-standard);
-}
-
-.home-record-volume-toggle:hover,
-.home-record-volume-toggle:focus-visible,
-.home-record-volume-toggle[aria-expanded="true"] {
-  border-color: color-mix(in srgb, var(--record-accent) 46%, var(--home-line));
-  background: color-mix(in srgb, var(--record-accent) 13%, transparent);
-  color: color-mix(in srgb, var(--record-accent-ink) 82%, var(--home-ink));
-  opacity: 1;
-  transform: translateY(-0.03rem);
-}
-
-.home-record-volume-toggle:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--record-accent) 34%, transparent);
-  outline-offset: 0.13rem;
-}
-
-.home-record-volume-popover {
-  position: absolute;
-  top: calc(100% + 0.44rem);
-  right: -0.18rem;
-  z-index: 12;
-  width: 5.25rem;
-  padding: 0.36rem 0.44rem;
-  border: 1px solid color-mix(in srgb, var(--record-accent) 18%, var(--home-line));
-  border-radius: 0.45rem;
-  background: color-mix(in srgb, var(--home-surface) 88%, transparent);
-  box-shadow: 0 0.42rem 1rem rgba(73, 45, 30, 0.1);
-  backdrop-filter: blur(10px) saturate(1.04);
-}
-
-.home-record-volume-popover[hidden] {
-  display: none;
-}
-
-.home-record-volume {
-  --home-record-volume: 50%;
-
-  display: block;
-  width: 100%;
-  margin: 0;
-}
-
-.home-record-volume input[type="range"] {
-  display: block;
-  width: 100%;
-  height: 0.82rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  opacity: 0.78;
-  transition: opacity var(--motion-standard);
-  appearance: none;
-}
-
-.home-record-volume input[type="range"]:hover,
-.home-record-volume input[type="range"]:focus-visible {
-  opacity: 1;
-}
-
-.home-record-volume input[type="range"]:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--record-accent) 34%, transparent);
-  outline-offset: 0.14rem;
-}
-
-.home-record-volume input[type="range"]::-webkit-slider-runnable-track {
-  height: 0.16rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--record-accent) 72%, var(--home-muted)) 0 var(--home-record-volume),
-    color-mix(in srgb, var(--home-muted) 32%, transparent) var(--home-record-volume) 100%
-  );
-}
-
-.home-record-volume input[type="range"]::-moz-range-track {
-  height: 0.16rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--home-muted) 32%, transparent);
-}
-
-.home-record-volume input[type="range"]::-moz-range-progress {
-  height: 0.16rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--record-accent) 72%, var(--home-muted));
-}
-
-.home-record-volume input[type="range"]::-webkit-slider-thumb {
-  width: 0.48rem;
-  height: 0.48rem;
-  margin-top: -0.16rem;
-  border: 1px solid color-mix(in srgb, var(--record-accent) 42%, var(--home-line));
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--home-surface) 74%, var(--record-accent));
-  box-shadow: 0 0.08rem 0.24rem rgba(0, 0, 0, 0.12);
-  appearance: none;
-}
-
-.home-record-volume input[type="range"]::-moz-range-thumb {
-  width: 0.48rem;
-  height: 0.48rem;
-  border: 1px solid color-mix(in srgb, var(--record-accent) 42%, var(--home-line));
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--home-surface) 74%, var(--record-accent));
-  box-shadow: 0 0.08rem 0.24rem rgba(0, 0, 0, 0.12);
 }
 
 .home-record-caption span {
@@ -912,160 +837,81 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-caption em {
   overflow: hidden;
   color: var(--home-muted);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-style: normal;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.home-record-meter {
-  position: relative;
-  grid-area: meter;
-  display: block;
-  height: 0.74rem;
-  margin: -0.02rem 0 0;
-  overflow: visible;
-  border-radius: 999px;
-  background: transparent;
-  cursor: pointer;
+.home-record-mood {
+  margin: 0.42rem 0 0;
+  color: color-mix(in srgb, var(--home-muted) 88%, var(--record-accent-ink));
+  font-size: 0.76rem;
+  line-height: 1.35;
 }
 
-.home-record-meter::before {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  height: 0.17rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--record-accent) 8%, rgba(122, 94, 61, 0.16));
-  content: "";
-  transform: translateY(-50%);
-}
-
-.home-record-meter:focus-within::before {
-  outline: 2px solid color-mix(in srgb, var(--record-accent) 34%, transparent);
-  outline-offset: 0.18rem;
-}
-
-.home-record-meter input[type="range"] {
-  position: absolute;
-  inset: -0.08rem 0;
-  z-index: 2;
-  width: 100%;
-  height: calc(100% + 0.16rem);
-  margin: 0;
-  padding: 0;
-  opacity: 0.001;
-  cursor: pointer;
-  appearance: none;
-}
-
-.home-record-meter span {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 0.17rem;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--record-accent), color-mix(in srgb, var(--record-accent) 62%, #fff));
-  pointer-events: none;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 160ms linear;
-  translate: 0 -50%;
-}
-
-.home-record-time {
+.home-record-source {
   display: inline-flex;
-  grid-area: time;
-  gap: 0.18rem;
-  justify-content: end;
-  align-self: center;
-  margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 86%, var(--record-accent-ink));
+  gap: 0.28rem;
+  align-items: center;
+  margin-top: 0.46rem;
+  color: color-mix(in srgb, var(--record-accent-ink) 80%, var(--home-accent));
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 650;
-  line-height: 1.08;
-  white-space: nowrap;
+  font-size: 0.58rem;
+  font-weight: 720;
+  line-height: 1.1;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
-.home-record-time span {
-  color: inherit;
+.home-record-source::after {
+  font: var(--fa-font-solid);
+  font-size: 0.5rem;
+  content: "\f35d";
 }
 
-html[data-theme="dark"] .home-record-controls {
-  background: transparent;
-  box-shadow: none;
-  color: var(--home-ink);
+.home-record-source:hover,
+.home-record-source:focus-visible {
+  color: var(--home-accent);
+  outline: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.16rem;
 }
 
-html[data-theme="dark"] .home-record-caption {
-  color: var(--home-ink);
+html[data-theme="dark"] .home-record-liner-toggle {
+  border-color: color-mix(in srgb, var(--record-accent) 28%, var(--home-line));
+  background: color-mix(in srgb, var(--home-surface) 82%, transparent);
+  color: color-mix(in srgb, var(--record-accent) 66%, var(--home-muted));
 }
 
+html[data-theme="dark"] .home-record-liner-toggle:hover,
+html[data-theme="dark"] .home-record-liner-toggle:focus-visible,
+html[data-theme="dark"] .home-record-liner-toggle[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--record-accent) 16%, var(--home-surface));
+  color: color-mix(in srgb, var(--record-accent) 78%, var(--home-ink));
+}
+
+html[data-theme="dark"] .home-record-liner-note {
+  border-color: color-mix(in srgb, var(--record-accent) 24%, var(--home-line));
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 44%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 5px),
+    color-mix(in srgb, var(--home-surface) 82%, var(--record-accent-soft));
+  box-shadow: 0 0.75rem 1.45rem rgba(0, 0, 0, 0.24);
+}
+
+html[data-theme="dark"] .home-record-caption,
 html[data-theme="dark"] .home-record-caption span {
   color: var(--home-ink);
 }
 
-html[data-theme="dark"] .home-record-caption em {
+html[data-theme="dark"] .home-record-caption em,
+html[data-theme="dark"] .home-record-mood {
   color: var(--home-muted);
 }
 
-html[data-theme="dark"] .home-record-meter {
-  background: transparent;
-}
-
-html[data-theme="dark"] .home-record-meter::before {
-  background: color-mix(in srgb, var(--record-accent) 10%, rgba(93, 83, 65, 0.18));
-}
-
-html[data-theme="dark"] .home-record-time {
-  color: color-mix(in srgb, var(--home-muted) 82%, var(--record-accent));
-  font-weight: 760;
-}
-
-html[data-theme="dark"] .home-record-volume-toggle {
-  border-color: color-mix(in srgb, var(--record-accent) 28%, transparent);
-  background: color-mix(in srgb, var(--record-accent) 10%, transparent);
-  color: color-mix(in srgb, var(--record-accent) 66%, var(--home-muted));
-}
-
-html[data-theme="dark"] .home-record-volume-popover {
-  border-color: color-mix(in srgb, var(--record-accent) 24%, var(--home-line));
-  background: color-mix(in srgb, var(--home-surface) 82%, transparent);
-  box-shadow: 0 0.42rem 1.1rem rgba(0, 0, 0, 0.22);
-}
-
-html[data-theme="dark"] .home-record-volume input[type="range"]::-webkit-slider-runnable-track {
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--record-accent) 70%, var(--home-muted)) 0 var(--home-record-volume),
-    color-mix(in srgb, var(--home-muted) 28%, transparent) var(--home-record-volume) 100%
-  );
-}
-
-html[data-theme="dark"] .home-record-volume input[type="range"]::-moz-range-track {
-  background: color-mix(in srgb, var(--home-muted) 28%, transparent);
-}
-
-html[data-theme="dark"] .home-record-volume input[type="range"]::-moz-range-progress {
-  background: color-mix(in srgb, var(--record-accent) 70%, var(--home-muted));
-}
-
-html[data-theme="dark"] .home-record-volume input[type="range"]::-webkit-slider-thumb {
-  border-color: color-mix(in srgb, var(--record-accent) 42%, var(--home-line));
-  background: color-mix(in srgb, var(--home-surface) 68%, var(--record-accent));
-  box-shadow: 0 0.08rem 0.26rem rgba(0, 0, 0, 0.28);
-}
-
-html[data-theme="dark"] .home-record-volume input[type="range"]::-moz-range-thumb {
-  border-color: color-mix(in srgb, var(--record-accent) 42%, var(--home-line));
-  background: color-mix(in srgb, var(--home-surface) 68%, var(--record-accent));
-  box-shadow: 0 0.08rem 0.26rem rgba(0, 0, 0, 0.28);
+html[data-theme="dark"] .home-record-source {
+  color: color-mix(in srgb, var(--record-accent) 72%, var(--home-ink));
 }
 
 @keyframes home-record-spin {
@@ -2765,31 +2611,21 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-record-controls {
-    grid-template-areas:
-      "caption time"
-      "meter actions";
-    grid-template-columns: minmax(0, 1fr) auto;
-    width: min(22.5rem, calc(100vw - 2rem));
-    max-width: min(22.5rem, calc(100vw - 2rem));
+    width: min(18.5rem, calc(100vw - 2rem));
+    max-width: min(18.5rem, calc(100vw - 2rem));
     margin-top: 0.02rem;
-    padding: 0.04rem 0;
-    border-radius: 0;
     transform: none;
   }
 
-  .home-record-actions {
-    min-width: 1.36rem;
+  .home-record-liner-toggle {
+    min-height: 1.42rem;
+    padding: 0.3rem 0.48rem;
+    font-size: 0.52rem;
   }
 
-  .home-record-volume-toggle {
-    width: 1.34rem;
-    font-size: 0.6rem;
-  }
-
-  .home-record-volume-popover {
-    right: -0.18rem;
-    width: 4.85rem;
-    padding: 0.32rem 0.38rem;
+  .home-record-liner-note {
+    width: min(18.5rem, calc(100vw - 2rem));
+    padding: 0.64rem 0.7rem;
   }
 
   .home-record-play {
@@ -2802,11 +2638,11 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-record-nav-prev {
-    left: -0.42rem;
+    left: 0.36rem;
   }
 
   .home-record-nav-next {
-    right: -0.42rem;
+    right: 0.36rem;
   }
 
   .home-record-caption {
@@ -2822,9 +2658,8 @@ html.home-motion-ready .home-reveal.home-visible {
     font-size: 0.66rem;
   }
 
-  .home-record-time {
-    justify-self: end;
-    font-size: 0.58rem;
+  .home-record-mood {
+    font-size: 0.7rem;
   }
 
   .home-artifact-card {
@@ -2910,9 +2745,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-vinyl,
   .home-record-play,
   .home-record-nav,
-  .home-record-volume-toggle,
-  .home-record-volume input[type="range"],
-  .home-record-meter input[type="range"],
+  .home-record-liner-toggle,
   .home-artifact-card,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {
@@ -2936,10 +2769,8 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-play:focus-visible,
   .home-record-nav:hover,
   .home-record-nav:focus-visible,
-  .home-record-volume-toggle:hover,
-  .home-record-volume-toggle:focus-visible,
-  .home-record-volume input[type="range"]:hover,
-  .home-record-volume input[type="range"]:focus-visible,
+  .home-record-liner-toggle:hover,
+  .home-record-liner-toggle:focus-visible,
   .home-artifact-card:hover,
   .home-artifact-card:focus-visible,
   .home-artifact-card:hover .home-artifact-thumb img,
