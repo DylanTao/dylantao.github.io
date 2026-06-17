@@ -5,6 +5,11 @@
 @use "variables" as v;
 
 .navbar {
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.052);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.14);
+  --nav-glass-shine: rgba(255, 255, 255, 0.38);
+  --nav-glass-shadow: rgba(var(--global-accent-rgb), 0.08);
+
   border-bottom: 1px solid var(--global-divider-color);
   background-color: rgba(255, 250, 246, 0.92);
   box-shadow: none;
@@ -32,14 +37,25 @@
 }
 
 html[data-theme="dark"] .navbar {
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.07);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.2);
+  --nav-glass-shine: rgba(255, 255, 255, 0.09);
+  --nav-glass-shadow: rgba(0, 0, 0, 0.2);
+
   background-color: rgba(22, 28, 31, 0.9);
 }
 
 html[data-theme-mode="noon"] .navbar {
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.045);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.13);
+
   background-color: rgba(251, 253, 255, 0.92);
 }
 
 html[data-theme-mode="afternoon"] .navbar {
+  --nav-glass-fill: rgba(var(--global-accent-rgb), 0.055);
+  --nav-glass-rim: rgba(var(--global-accent-rgb), 0.15);
+
   background-color: rgba(255, 248, 241, 0.92);
 }
 
@@ -149,26 +165,32 @@ html[data-theme-mode="afternoon"] .navbar {
 
     &::before {
       position: absolute;
-      inset: 0;
+      inset: 0.1rem 0.06rem;
       z-index: -1;
-      background: radial-gradient(circle at 20% 16%, rgba(var(--global-accent-rgb), 0.14), transparent 44%), rgba(var(--global-accent-rgb), 0.065);
+      border: 1px solid var(--nav-glass-rim);
+      border-radius: 0.42rem;
+      background: linear-gradient(145deg, var(--nav-glass-shine), rgba(255, 255, 255, 0.05) 38%, transparent 70%), var(--nav-glass-fill);
+      box-shadow:
+        0 0.38rem 0.86rem var(--nav-glass-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
       content: "";
       opacity: 0;
-      transition: opacity var(--motion-standard);
+      transition:
+        border-color var(--motion-standard),
+        opacity var(--motion-standard),
+        transform var(--motion-standard);
     }
 
     &::after {
       position: absolute;
-      right: 0.52rem;
-      bottom: 0.24rem;
-      left: 0.52rem;
+      top: 0.31rem;
+      left: 0.58rem;
+      width: 38%;
       height: 1px;
       border-radius: 999px;
-      background: rgba(var(--global-accent-rgb), 0.48);
+      background: rgba(255, 255, 255, 0.46);
       content: "";
       opacity: 0;
-      transform: scaleX(0.35);
-      transform-origin: center;
       transition:
         opacity var(--motion-standard),
         transform var(--motion-standard);
@@ -176,16 +198,17 @@ html[data-theme-mode="afternoon"] .navbar {
 
     &:hover {
       color: var(--global-hover-color);
-      transform: translateY(-1px);
+      transform: translateY(-0.04rem);
     }
 
-    &:hover::before,
-    &:hover::after {
-      opacity: 1;
+    &:hover::before {
+      opacity: 0.86;
+      transform: translateY(-0.01rem);
     }
 
     &:hover::after {
-      transform: scaleX(1);
+      opacity: 0.62;
+      transform: translateX(0.08rem);
     }
 
     &:focus-visible {
@@ -197,15 +220,15 @@ html[data-theme-mode="afternoon"] .navbar {
   .navbar-nav .nav-item.active > .nav-link {
     color: var(--global-theme-color);
     font-weight: 750;
-    box-shadow: inset 0 0 0 1px rgba(var(--global-accent-rgb), 0.16);
 
-    &::before,
-    &::after {
-      opacity: 1;
+    &::before {
+      border-color: rgba(var(--global-accent-rgb), 0.19);
+      opacity: 0.92;
     }
 
     &::after {
-      transform: scaleX(1);
+      opacity: 0.68;
+      transform: translateX(0.08rem);
     }
 
     &:hover {

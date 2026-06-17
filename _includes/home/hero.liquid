@@ -67,7 +67,6 @@
           data-record-images="{% for record in meme_records %}{{ record.image | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-titles="{% for record in meme_records %}{{ record.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-artists="{% for record in meme_records %}{{ record.artist | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-          data-record-captions="{% for record in meme_records %}{{ record.caption | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-durations="{% for record in meme_records %}{{ record.duration | default: '0:18' | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-tones="{% for record in meme_records %}{{ record.tone | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-sources="{% for record in meme_records %}{{ record.source_url | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
@@ -116,38 +115,12 @@
 
       {% if meme_records %}
         <div
-          class="home-record-controls"
-          data-home-record-panel
-          data-record-active="false"
-          data-liner-open="false"
-          role="group"
-          aria-label="Meme record liner notes"
-        >
-          <button
-            class="home-record-liner-toggle"
-            type="button"
-            data-home-record-liner-toggle
-            aria-expanded="false"
-            aria-controls="home-record-liner-note"
-            aria-label="Open hidden liner notes"
-          >
-            <i class="fa-solid fa-grip-lines" aria-hidden="true"></i>
-            <span class="sr-only">hidden liner note</span>
-          </button>
-          <div class="home-record-liner-note" id="home-record-liner-note" data-home-record-liner-note hidden>
-            <p class="home-record-kicker">found in the sleeve</p>
-            <p class="home-record-caption" aria-live="polite" aria-atomic="true">
-              <span data-home-record-title>Meme record</span>
-              <em>
-                <span data-home-record-artist>artist</span>
-                <span aria-hidden="true">/</span>
-                <span data-home-record-duration>0:00</span>
-              </em>
-            </p>
-            <p class="home-record-mood" data-home-record-caption>Four tiny moods</p>
-            <a class="home-record-source" data-home-record-source href="#" target="_blank" rel="noopener noreferrer"> catalog note </a>
-          </div>
-        </div>
+          class="home-record-card-pile"
+          data-home-record-pile
+          aria-live="polite"
+          aria-label="Dropped meme record cards"
+          hidden
+        ></div>
       {% endif %}
     {% endif %}
 

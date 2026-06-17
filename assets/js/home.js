@@ -98,6 +98,56 @@
     scheduleRailSync();
   }
 
+  const hashString = (value) => {
+    let hash = 2166136261;
+    for (let index = 0; index < value.length; index += 1) {
+      hash ^= value.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  };
+
+  const createSeededRandom = (seed) => {
+    let state = hashString(seed) || 1;
+    return () => {
+      state += 0x6d2b79f5;
+      let value = state;
+      value = Math.imul(value ^ (value >>> 15), value | 1);
+      value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+      return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+    };
+  };
+
+  const setupArtifactCoffeeStains = () => {
+    const cards = Array.from(document.querySelectorAll(".home-artifact-card")).slice(0, 2);
+    if (cards.length === 0) return;
+
+    const random = createSeededRandom(`home-coffee-${Date.now()}-${Math.random()}`);
+
+    cards.forEach((card, index) => {
+      const size = 4.08 + random() * 0.78 + index * 0.12;
+      const top = -0.58 + random() * 0.85;
+      const right = index === 0 ? -0.05 + random() * 1.05 : 0.75 + random() * 1.15;
+      const rotate = -18 + random() * 36;
+      const scale = 0.9 + random() * 0.18;
+      const wobble = -0.34 + random() * 0.68;
+      const morphDuration = 16 + random() * 10;
+      const bloomDuration = 120 + random() * 70;
+
+      card.classList.add("has-coffee-stain");
+      card.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
+      card.style.setProperty("--coffee-stain-top", `${top.toFixed(2)}rem`);
+      card.style.setProperty("--coffee-stain-right", `${right.toFixed(2)}rem`);
+      card.style.setProperty("--coffee-stain-rotate", `${rotate.toFixed(2)}deg`);
+      card.style.setProperty("--coffee-stain-scale", scale.toFixed(3));
+      card.style.setProperty("--coffee-stain-wobble", `${wobble.toFixed(2)}rem`);
+      card.style.setProperty("--coffee-stain-morph-duration", `${morphDuration.toFixed(2)}s`);
+      card.style.setProperty("--coffee-stain-bloom-duration", `${bloomDuration.toFixed(2)}s`);
+    });
+  };
+
+  setupArtifactCoffeeStains();
+
   const portrait = document.getElementById("home-profile-image-container");
   if (!portrait) return;
 
@@ -110,23 +160,15 @@
     if (!hoverLayer || recordImages.length === 0) return false;
 
     const stage = document.querySelector("[data-home-artifact-stage]");
+    const pile = document.querySelector("[data-home-record-pile]");
     const recordTitles = splitAttribute("data-record-titles", "|");
     const recordArtists = splitAttribute("data-record-artists", "|");
-    const recordCaptions = splitAttribute("data-record-captions", "|");
     const recordDurations = splitAttribute("data-record-durations", "|");
     const recordTones = splitAttribute("data-record-tones", "|");
     const recordSources = splitAttribute("data-record-sources", "|");
-    const panel = document.querySelector("[data-home-record-panel]");
     const spinButton = document.querySelector("[data-home-record-play]");
     const previousButton = document.querySelector("[data-home-record-prev]");
     const nextButton = document.querySelector("[data-home-record-next]");
-    const linerToggle = panel ? panel.querySelector("[data-home-record-liner-toggle]") : null;
-    const linerNote = panel ? panel.querySelector("[data-home-record-liner-note]") : null;
-    const titleTarget = panel ? panel.querySelector("[data-home-record-title]") : null;
-    const artistTarget = panel ? panel.querySelector("[data-home-record-artist]") : null;
-    const captionTarget = panel ? panel.querySelector("[data-home-record-caption]") : null;
-    const durationTarget = panel ? panel.querySelector("[data-home-record-duration]") : null;
-    const sourceTarget = panel ? panel.querySelector("[data-home-record-source]") : null;
     const recordSurface = portrait.querySelector(".home-record-vinyl");
     const recordArt = portrait.querySelector(".home-record-art");
 
@@ -134,7 +176,6 @@
       src,
       title: recordTitles[index] || "Meme record",
       artist: recordArtists[index] || "",
-      caption: recordCaptions[index] || "",
       duration: recordDurations[index] || "",
       tone: recordTones[index] || "submarine",
       source: recordSources[index] || "",
@@ -145,14 +186,15 @@
       return image;
     });
 
+    const droppedRecords = new Set();
+    let activeCard = null;
     let recordIndex = 0;
     let imageTicket = 0;
     let isPreviewing = false;
     let isRecordEngaged = false;
     let isSpinning = false;
-    let isLinerOpen = false;
-    let isLinerUnlocked = false;
     let activePointerId = null;
+    let activePointerStartedOnPlayButton = false;
     let gestureStartX = 0;
     let gestureStartY = 0;
     let lastShakeX = 0;
@@ -162,33 +204,22 @@
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
 
-    const syncPanelState = () => {
-      const isActive = isRecordEngaged || isLinerOpen;
-      if (panel) {
-        panel.classList.toggle("is-active", isActive);
-        panel.classList.toggle("is-note-open", isLinerOpen);
-        panel.classList.toggle("is-liner-unlocked", isLinerUnlocked);
-        panel.setAttribute("data-record-active", String(isActive));
-        panel.setAttribute("data-liner-open", String(isLinerOpen));
-        panel.setAttribute("data-liner-unlocked", String(isLinerUnlocked));
-      }
-      if (linerToggle) {
-        linerToggle.setAttribute("aria-expanded", String(isLinerOpen));
-        linerToggle.setAttribute("aria-label", `${isLinerOpen ? "Close" : "Open"} hidden liner notes`);
-      }
-      if (linerNote) {
-        linerNote.hidden = !isLinerOpen;
-        linerNote.setAttribute("aria-hidden", String(!isLinerOpen));
-      }
-      if (stage) stage.setAttribute("data-record-active", String(isActive));
+    const syncPileState = () => {
+      if (!pile) return;
+      const cardCount = pile.querySelectorAll("[data-home-record-card]").length;
+      pile.hidden = cardCount === 0;
+      pile.classList.toggle("has-cards", cardCount > 0);
+      pile.setAttribute("data-card-count", String(cardCount));
+      if (stage) stage.setAttribute("data-record-card-count", String(cardCount));
     };
 
     const syncRecordVisualState = () => {
       const isPausedRecord = isRecordEngaged && !isSpinning;
+      const isActive = isRecordEngaged || isSpinning || isPreviewing;
       portrait.classList.toggle("is-paused-record", isPausedRecord);
       portrait.classList.toggle("is-playing", isSpinning);
       portrait.setAttribute("data-record-visual", isPausedRecord ? "paused" : isSpinning ? "spinning" : isPreviewing ? "preview" : "portrait");
-      syncPanelState();
+      if (stage) stage.setAttribute("data-record-active", String(isActive));
     };
 
     const setPreviewing = (nextPreviewing) => {
@@ -197,23 +228,9 @@
       syncRecordVisualState();
     };
 
-    const setLinerOpen = (nextOpen) => {
-      if (nextOpen) isLinerUnlocked = true;
-      isLinerOpen = nextOpen;
-      syncPanelState();
-    };
-
-    const setPanelCopy = (record) => {
-      if (titleTarget) titleTarget.textContent = record.title;
-      if (artistTarget) artistTarget.textContent = record.artist;
-      if (captionTarget) captionTarget.textContent = record.caption;
-      if (durationTarget) durationTarget.textContent = record.duration;
-      if (sourceTarget) {
-        sourceTarget.hidden = !record.source;
-        sourceTarget.href = record.source || "#";
-      }
+    const syncRecordControls = (record) => {
       if (spinButton) {
-        spinButton.setAttribute("aria-label", isSpinning ? `Set down ${record.title} meme record` : `Spin ${record.title} meme record`);
+        spinButton.setAttribute("aria-label", isSpinning ? `Pause ${record.title} meme record` : `Spin ${record.title} meme record`);
       }
       if (previousButton) previousButton.setAttribute("aria-label", `Previous meme record from ${record.title}`);
       if (nextButton) nextButton.setAttribute("aria-label", `Next meme record from ${record.title}`);
@@ -222,14 +239,14 @@
     const syncRecordTheme = (tone) => {
       portrait.setAttribute("data-record-tone", tone);
       if (stage) stage.setAttribute("data-record-tone", tone);
-      if (panel) panel.setAttribute("data-record-tone", tone);
+      if (pile) pile.setAttribute("data-record-tone", tone);
     };
 
     const selectRecord = (nextIndex) => {
       const normalizedIndex = (nextIndex + records.length) % records.length;
       recordIndex = normalizedIndex;
       const record = records[recordIndex];
-      setPanelCopy(record);
+      syncRecordControls(record);
       syncRecordTheme(record.tone);
       return { image: preloadedRecords[recordIndex], record };
     };
@@ -257,19 +274,8 @@
       if (ticket !== imageTicket) return;
     };
 
-    const showEmptyRecord = () => {
-      imageTicket += 1;
-      setPreviewing(false);
-      portrait.classList.add("is-vinyl-preview");
-      portrait.style.removeProperty("--record-image");
-      if (recordSurface) recordSurface.style.removeProperty("--record-image");
-      if (recordArt) recordArt.style.removeProperty("background-image");
-      hoverLayer.classList.remove("is-visible");
-      syncRecordVisualState();
-    };
-
     const hideRecord = (force = false) => {
-      if (!force && (isRecordEngaged || isSpinning || isLinerOpen)) return;
+      if (!force && (isRecordEngaged || isSpinning)) return;
       imageTicket += 1;
       setPreviewing(false);
       portrait.classList.remove("is-vinyl-preview");
@@ -285,7 +291,7 @@
       if (spinButton) {
         spinButton.classList.toggle("is-playing", isSpinning);
         spinButton.setAttribute("aria-pressed", String(isSpinning));
-        spinButton.setAttribute("aria-label", isSpinning ? `Set down ${record.title} meme record` : `Spin ${record.title} meme record`);
+        spinButton.setAttribute("aria-label", isSpinning ? `Pause ${record.title} meme record` : `Spin ${record.title} meme record`);
       }
       syncRecordVisualState();
     };
@@ -294,7 +300,7 @@
       isRecordEngaged = true;
       isSpinning = true;
       updateSpinState();
-      await showRecord(recordIndex < 0 ? 0 : recordIndex);
+      await showRecord(recordIndex);
     };
 
     const pauseRecord = () => {
@@ -307,16 +313,168 @@
     const resetRecord = () => {
       isRecordEngaged = false;
       isSpinning = false;
-      isLinerOpen = false;
-      isLinerUnlocked = false;
       shakeCount = 0;
-      portrait.classList.remove("is-dragging-record", "is-liner-unlocked");
+      portrait.classList.remove("is-dragging-record", "is-record-card-found");
+      portrait.removeAttribute("data-record-shakes");
       portrait.style.removeProperty("--record-drag-x");
       portrait.style.removeProperty("--record-drag-tilt");
-      if (panel) panel.classList.remove("is-note-dropping");
       updateSpinState();
-      setLinerOpen(false);
       hideRecord(true);
+    };
+
+    const setCardRestTransform = (card, order) => {
+      const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
+      const side = order % 2 === 0 ? -1 : 1;
+      const x = side * (1.35 + (order % 3) * 0.36);
+      const y = 0.14 + order * 0.48;
+      const z = order * 0.2;
+      const rotate = side * (3.4 + (recordOrder % 3) * 0.72) + order * 0.42;
+      const tilt = 2.5 - Math.min(order, 4) * 0.34;
+      card.style.setProperty(
+        "--card-rest-transform",
+        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg)`
+      );
+      card.style.setProperty("--card-open-transform", `translate3d(0, -1.28rem, 5.8rem) rotateZ(0deg) rotateX(0deg) scale(1.025)`);
+      card.style.zIndex = String(20 + order);
+
+      const tab = pile?.querySelector(`[data-home-record-card-tab][data-record-index="${recordOrder}"]`);
+      if (tab) {
+        const tabX = x + side * 8.05;
+        const tabY = y + 1.05;
+        tab.style.setProperty(
+          "--card-tab-transform",
+          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 5.2rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(0deg)`
+        );
+        tab.style.zIndex = String(58 + order);
+      }
+    };
+
+    const reflowRecordCards = () => {
+      if (!pile) return;
+      Array.from(pile.querySelectorAll("[data-home-record-card]")).forEach((card, order) => setCardRestTransform(card, order));
+      syncPileState();
+    };
+
+    const closeActiveCard = ({ sendToTop = true } = {}) => {
+      if (!activeCard) return;
+      const card = activeCard;
+      card.classList.remove("is-open");
+      card.setAttribute("aria-expanded", "false");
+      activeCard = null;
+      if (pile && sendToTop) {
+        pile.appendChild(card);
+        reflowRecordCards();
+      }
+      if (pile) pile.classList.remove("is-reading-card");
+    };
+
+    const openRecordCard = (card) => {
+      if (activeCard && activeCard !== card) closeActiveCard({ sendToTop: false });
+      activeCard = card;
+      card.classList.add("is-open");
+      card.setAttribute("aria-expanded", "true");
+      card.style.zIndex = "80";
+      if (pile) pile.classList.add("is-reading-card");
+    };
+
+    const createRecordCard = (record, index) => {
+      const card = document.createElement("article");
+      const dropSide = index % 2 === 0 ? -1 : 1;
+      card.className = "home-record-card is-dropping";
+      card.tabIndex = 0;
+      card.dataset.homeRecordCard = String(index);
+      card.setAttribute("data-record-index", String(index));
+      card.setAttribute("aria-expanded", "false");
+      card.setAttribute("aria-label", `Pick up ${record.title} by ${record.artist}`);
+      card.style.setProperty(
+        "--card-drop-start",
+        `translate3d(${(dropSide * 1.35).toFixed(2)}rem, -6.7rem, 3.6rem) rotateZ(${(dropSide * -12).toFixed(2)}deg) rotateX(18deg)`
+      );
+      card.style.setProperty(
+        "--card-drop-mid",
+        `translate3d(${(dropSide * -0.62).toFixed(2)}rem, -1.4rem, 2.2rem) rotateZ(${(dropSide * 6.5).toFixed(2)}deg) rotateX(-4deg)`
+      );
+
+      const cover = document.createElement("span");
+      cover.className = "home-record-card-cover";
+      cover.setAttribute("aria-hidden", "true");
+      cover.style.backgroundImage = `url("${record.src}")`;
+
+      const body = document.createElement("span");
+      body.className = "home-record-card-body";
+
+      const title = document.createElement("strong");
+      title.textContent = record.title;
+
+      const artist = document.createElement("em");
+      artist.textContent = record.artist;
+
+      body.append(title, artist);
+
+      if (record.source) {
+        const source = document.createElement("a");
+        source.className = "home-record-card-link";
+        source.href = record.source;
+        source.target = "_blank";
+        source.rel = "noopener noreferrer";
+        source.textContent = "Listen on Spotify";
+        source.addEventListener("click", (event) => event.stopPropagation());
+        body.append(source);
+      }
+
+      card.append(cover, body);
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("a")) return;
+        event.stopPropagation();
+        openRecordCard(card);
+      });
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openRecordCard(card);
+      });
+
+      const tab = document.createElement("button");
+      tab.className = "home-record-card-tab";
+      tab.type = "button";
+      tab.dataset.homeRecordCardTab = String(index);
+      tab.setAttribute("data-record-index", String(index));
+      tab.setAttribute("aria-label", `Pick up ${record.title}`);
+      tab.addEventListener("click", (event) => {
+        event.stopPropagation();
+        openRecordCard(card);
+      });
+
+      return { card, tab };
+    };
+
+    const pulseAlreadyFound = () => {
+      portrait.classList.add("is-record-card-found");
+      window.setTimeout(() => portrait.classList.remove("is-record-card-found"), 520);
+    };
+
+    const dropRecordCard = async () => {
+      const record = getCurrentRecord();
+      isRecordEngaged = true;
+      await showRecord(recordIndex);
+
+      if (!pile || droppedRecords.has(recordIndex)) {
+        pulseAlreadyFound();
+        return;
+      }
+
+      droppedRecords.add(recordIndex);
+      const { card, tab } = createRecordCard(record, recordIndex);
+      pile.hidden = false;
+      pile.appendChild(card);
+      pile.appendChild(tab);
+      reflowRecordCards();
+
+      if (reduceMotion) {
+        card.classList.remove("is-dropping");
+      } else {
+        card.addEventListener("animationend", () => card.classList.remove("is-dropping"), { once: true });
+      }
     };
 
     const advanceRecord = async (direction = 1) => {
@@ -332,10 +490,6 @@
       });
     };
 
-    selectRecord(0);
-    syncPanelState();
-    syncRecordVisualState();
-
     const toggleRecordPlayback = () => {
       if (isSpinning) {
         pauseRecord();
@@ -344,42 +498,32 @@
       }
     };
 
-    const revealLinerNote = async () => {
-      if (isLinerOpen) return;
-      isRecordEngaged = true;
-      isLinerUnlocked = true;
-      portrait.classList.add("is-liner-unlocked");
-      await showRecord(recordIndex);
-      setLinerOpen(true);
-      if (panel) {
-        panel.classList.remove("is-note-dropping");
-        // Restart the small drop animation each time the note is discovered.
-        void panel.offsetWidth;
-        panel.classList.add("is-note-dropping");
-      }
-    };
-
     const endShakeGesture = () => {
       if (activePointerId === null) return;
       activePointerId = null;
+      activePointerStartedOnPlayButton = false;
       lastShakeDirection = 0;
       portrait.classList.remove("is-dragging-record");
+      portrait.removeAttribute("data-record-shakes");
       portrait.style.removeProperty("--record-drag-x");
       portrait.style.removeProperty("--record-drag-tilt");
     };
 
     const startShakeGesture = (event) => {
       if (!window.PointerEvent || (event.pointerType === "mouse" && event.button !== 0)) return;
-      if (event.target.closest("button, a")) return;
+      const startedOnPlayButton = event.target.closest("[data-home-record-play]");
+      if (event.target.closest("a") || (event.target.closest("button") && !startedOnPlayButton)) return;
 
       activePointerId = event.pointerId;
+      activePointerStartedOnPlayButton = Boolean(startedOnPlayButton);
       gestureStartX = event.clientX;
       gestureStartY = event.clientY;
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
+      showRecord(recordIndex);
       portrait.classList.add("is-dragging-record");
-      if (portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
+      if (!activePointerStartedOnPlayButton && portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
     };
 
     const updateShakeGesture = (event) => {
@@ -391,19 +535,19 @@
       if (Math.abs(totalY) > Math.abs(totalX) * 1.35) return;
       suppressNextSpinClick = true;
 
-      const dragX = Math.max(-13, Math.min(13, totalX * 0.12));
-      const dragTilt = Math.max(-8, Math.min(8, totalX * 0.12));
-      portrait.style.setProperty("--record-drag-x", `${dragX}px`);
-      portrait.style.setProperty("--record-drag-tilt", `${dragTilt}deg`);
+      const dragX = Math.max(-18, Math.min(18, totalX * 0.16));
+      const dragTilt = Math.max(-10, Math.min(10, totalX * 0.14));
+      portrait.style.setProperty("--record-drag-x", `${dragX.toFixed(2)}px`);
+      portrait.style.setProperty("--record-drag-tilt", `${dragTilt.toFixed(2)}deg`);
 
       const segmentX = event.clientX - lastShakeX;
-      if (Math.abs(segmentX) >= 18) {
+      if (Math.abs(segmentX) >= 20) {
         const direction = Math.sign(segmentX);
         if (lastShakeDirection && direction !== lastShakeDirection) {
           shakeCount += 1;
           portrait.setAttribute("data-record-shakes", String(Math.min(shakeCount, 3)));
           if (shakeCount >= 3) {
-            revealLinerNote();
+            dropRecordCard();
             endShakeGesture();
             event.preventDefault();
             return;
@@ -416,6 +560,10 @@
       event.preventDefault();
     };
 
+    selectRecord(0);
+    syncRecordVisualState();
+    syncPileState();
+
     portrait.addEventListener("mouseenter", () => {
       if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
     });
@@ -424,7 +572,7 @@
       if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
     });
     portrait.addEventListener("focusout", (event) => {
-      if (!portrait.contains(event.relatedTarget) && !panel?.contains(event.relatedTarget)) hideRecord();
+      if (!portrait.contains(event.relatedTarget) && !pile?.contains(event.relatedTarget)) hideRecord();
     });
     portrait.addEventListener("pointerdown", startShakeGesture);
     portrait.addEventListener("pointermove", updateShakeGesture);
@@ -437,7 +585,8 @@
         suppressNextSpinClick = false;
         return;
       }
-      toggleRecordPlayback();
+      if (isSpinning) return;
+      startRecord();
     });
 
     if (spinButton) {
@@ -452,29 +601,22 @@
       });
     }
 
-    if (linerToggle) {
-      linerToggle.addEventListener("click", (event) => {
-        event.stopPropagation();
-        if (isLinerOpen) {
-          setLinerOpen(false);
-        } else {
-          revealLinerNote();
-        }
-      });
-    }
-
     document.addEventListener("click", (event) => {
       const clickedInsidePortrait = portrait.contains(event.target);
-      const clickedInsidePanel = Boolean(panel && panel.contains(event.target));
-      if (!isSpinning && (isRecordEngaged || isLinerOpen) && !clickedInsidePortrait && !clickedInsidePanel) {
-        resetRecord();
-      }
+      const clickedInsidePile = Boolean(pile && pile.contains(event.target));
+
+      if (activeCard && !clickedInsidePile) closeActiveCard();
+      if (!isSpinning && isRecordEngaged && !clickedInsidePortrait && !clickedInsidePile) resetRecord();
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape" || !isLinerOpen) return;
-      setLinerOpen(false);
-      if (linerToggle) linerToggle.focus({ preventScroll: true });
+      if (event.key !== "Escape") return;
+      if (activeCard) {
+        closeActiveCard();
+      } else if (!isSpinning && isRecordEngaged) {
+        resetRecord();
+        if (spinButton) spinButton.focus({ preventScroll: true });
+      }
     });
 
     bindRecordNav(previousButton, -1);
