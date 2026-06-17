@@ -34,8 +34,289 @@
       function () {
         window.dataLayer.push(arguments);
       };
-  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Source+Code+Pro:wght@500;600;700&amp;family=Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico?v=ccfed3cf6a1e0f02dc4a56b088f223b3"> <link rel="stylesheet" href="/assets/css/main.css?v=20260616232812"> <script src="/assets/js/theme.js?v=72506066853fb8dc0eb9339033fd122e"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+  </script> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link rel="stylesheet" href="/assets/css/bootstrap-compat.css?v=aa8aa1241f76708eaa8c8fad88fe7955"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Source+Code+Pro:wght@500;600;700&amp;family=Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico?v=ccfed3cf6a1e0f02dc4a56b088f223b3"> <link rel="stylesheet" href="/assets/css/main.css?v=20260617005656"> <link rel="canonical" href="https://dylantao.github.io/blog/tag/methods/"> <script src="/assets/js/theme.js?v=72506066853fb8dc0eb9339033fd122e"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
     initTheme();
-  </script> </head> <body class=" fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-md fixed-top" role="navigation"> <div class="container panel-shell"> <a class="navbar-brand title site-brand" href="/" aria-label="Sirui Tao home"> <span class="site-brand-mark" aria-hidden="true">ST</span> <span class="site-brand-name">Sirui Tao</span> </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search (Ctrl K)" aria-label="Search" onclick="openSearchModal()"> <span class="nav-link nav-control-link"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span> </button> </li> <li class="nav-item toggle-container theme-mode-container"> <div class="theme-mode-control theme-mode-control-nav" data-theme-control> <button id="theme-toggle" class="theme-toggle" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-menu" data-theme-toggle> <span class="theme-toggle-icon" data-theme-icon aria-hidden="true"> <i class="fa-solid fa-cloud-sun"></i> </span> <span class="sr-only" data-theme-label>Morning theme</span> </button> <div class="theme-menu" id="theme-menu" role="listbox" aria-label="Theme mode" data-theme-menu hidden> <button class="theme-option" type="button" role="option" data-theme-mode-option="morning" aria-selected="false"> <i class="fa-solid fa-cloud-sun" aria-hidden="true"></i> <span>Morning</span> </button> <button class="theme-option" type="button" role="option" data-theme-mode-option="noon" aria-selected="false"> <i class="fa-solid fa-sun" aria-hidden="true"></i> <span>Noon</span> </button> <button class="theme-option" type="button" role="option" data-theme-mode-option="afternoon" aria-selected="false"> <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> <span>Afternoon</span> </button> <button class="theme-option" type="button" role="option" data-theme-mode-option="evening" aria-selected="false"> <i class="fa-solid fa-moon" aria-hidden="true"></i> <span>Evening</span> </button> </div> </div> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title"> <i class="fa-solid fa-hashtag fa-sm"></i> methods</h1> <p class="post-description">an archive of posts with this tag</p> </header> <article class="archive"> <div class="table-responsive"> <table class="table table-sm table-borderless"> <tr> <th scope="row">Apr 27, 2026</th> <td> <a class="post-link" href="/blog/2026/research-skills-starter-pack/">research skills starter pack</a> </td> </tr> </table> </div> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Sirui Tao. Thanks to <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a>. For short updates, see <a href="/news/">news</a>. Best way to contact is email! Last updated: June 16, 2026. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script defer src="/assets/js/seo-optimization.js?v=b4176eb3af2066c4d0270f84a76dec49" type="text/javascript"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script src="/assets/js/tooltips-setup.js?v=53023e960fbc64cccb90d32e9363de2b"></script> <script defer src="" integrity="" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?v=7976bbc9cf7a92373235b22ce5dec120"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099" type="text/javascript"></script> <script defer src="/assets/js/blog-secret.js?v=ab41756b46b5a2dcb7f06eba53ee74a7" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4SQ3C88KH"></script> <script defer src="/assets/js/google-analytics-setup.js"></script> <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script> <script>
-    addBackToTop();
-  </script> <script type="module" src="/assets/js/search/ninja-keys.min.js?v=a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Search projects, posts, CV, contact"> <div slot="footer" class="search-modal-footer"> <span>Search Sirui's research, projects, posts, and ways to connect.</span> <span class="search-modal-shortcut">Esc closes</span> </div> </ninja-keys> <script src="/assets/js/search-setup.js?v=6c304f7b1992d4b60f7a07956e52f04a"></script> <script src="/assets/js/search-data.js"></script> <script src="/assets/js/shortcut-key.js?v=a78c9ea7ea2754b2c53aa191c30e0ae5"></script> </body> </html>
+  </script> </head> <body class=" fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-md fixed-top" role="navigation"> <div class="container panel-shell"> <a class="navbar-brand title site-brand" href="/" aria-label="Sirui Tao home"> <span class="site-brand-mark" aria-hidden="true">ST</span> <span class="site-brand-name">Sirui Tao</span> </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search (Ctrl K)" aria-label="Search" onclick="openSearchModal()"> <span class="nav-link nav-control-link"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span> </button> </li> <li class="nav-item toggle-container theme-mode-container"> <div class="theme-mode-control theme-mode-control-nav" data-theme-control> <button id="theme-toggle" class="theme-toggle" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-menu" data-theme-toggle> <span class="theme-toggle-icon" data-theme-icon aria-hidden="true"> <i class="fa-solid fa-cloud-sun"></i> </span> <span class="sr-only" data-theme-label>Morning theme</span> </button> <div class="theme-menu" id="theme-menu" role="listbox" aria-label="Theme mode" data-theme-menu hidden> <button class="theme-option" type="button" role="option" data-theme-mode-option="morning" aria-selected="false"> <i class="fa-solid fa-cloud-sun" aria-hidden="true"></i> <span>Morning</span> </button> <button class="theme-option" type="button" role="option" data-theme-mode-option="noon" aria-selected="false"> <i class="fa-solid fa-sun" aria-hidden="true"></i> <span>Noon</span> </button> <button class="theme-option" type="button" role="option" data-theme-mode-option="afternoon" aria-selected="false"> <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> <span>Afternoon</span> </button> <button class="theme-option" type="button" role="option" data-theme-mode-option="evening" aria-selected="false"> <i class="fa-solid fa-moon" aria-hidden="true"></i> <span>Evening</span> </button> </div> </div> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title"> <i class="fa-solid fa-hashtag fa-sm"></i> methods</h1> <p class="post-description">an archive of posts with this tag</p> </header> <article class="archive"> <div class="table-responsive"> <table class="table table-sm table-borderless"> <tr> <th scope="row">Apr 27, 2026</th> <td> <a class="post-link" href="/blog/2026/research-skills-starter-pack/">research skills starter pack</a> </td> </tr> </table> </div> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Sirui Tao. Thanks to <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a>. For short updates, see <a href="/news/">news</a>. Best way to contact is email! Last updated: June 17, 2026. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: true
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script src="/assets/js/bootstrap-compat.js?v=b5579a3408e7c44d505c6a9755578409"></script> <script defer src="/assets/js/seo-optimization.js?v=b4176eb3af2066c4d0270f84a76dec49" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=edd4d4401bfe2e6d50dc81b10802b062"></script> <script defer src="/assets/js/common.js?v=333a52c423e67e946fee088acb2aef54"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099" type="text/javascript"></script> <script defer src="/assets/js/blog-secret.js?v=ab41756b46b5a2dcb7f06eba53ee74a7" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4SQ3C88KH"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-L4SQ3C88KH");
+</script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    if (typeof addBackToTop === 'function') {
+      addBackToTop();
+    }
+  </script> <script type="module" src="/assets/js/search/ninja-keys.min.js?v=a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Search projects, posts, CV, contact"> <div slot="footer" class="search-modal-footer"> <span>Search Sirui's research, projects, posts, and ways to connect.</span> <span class="search-modal-shortcut">Esc closes</span> </div> </ninja-keys> <script src="/assets/js/search-setup.js?v=5c0b4c15fb0dbf781940ec17d42a3d98"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-publications",
+          title: "publications",
+          description: "Papers and workshop pieces, kept chronological.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "Research artifacts, prototypes, and studies that make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-blog",
+          title: "blog",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/blog/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "Education, research experience, teaching, publications, and the practical version of the story.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-what-i-learned-redesigning-my-website-with-an-ai-coding-agent",
+        
+          title: "what I learned redesigning my website with an AI coding agent",
+        
+        description: "A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/website-redesign-ai-agent/";
+          
+        },
+      },{id: "post-science-communication-is-kindness",
+        
+          title: "science communication is kindness",
+        
+        description: "A short reflection on why scientists should communicate publicly, and how to do it with care.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/science-communication-is-kindness/";
+          
+        },
+      },{id: "post-prototyping-to-understand-humans",
+        
+          title: "prototyping to understand humans",
+        
+        description: "Some working thoughts on good HCI research in the age of AI.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/prototyping-to-understand-humans/";
+          
+        },
+      },{id: "post-research-skills-starter-pack",
+        
+          title: "research skills starter pack",
+        
+        description: "An ongoing self-study list for learning research reading, writing, reviewing, Ph.D. life, and empirical methods.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/research-skills-starter-pack/";
+          
+        },
+      },{id: "post-how-to-start-doing-research-at-ucsd",
+        
+          title: "how to start doing research at ucsd",
+        
+        description: "A short note for prospective undergraduate and master's research interns at UC San Diego.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/how-to-start-doing-research-at-ucsd/";
+          
+        },
+      },{id: "post-an-afternoon-with-don-norman",
+        
+          title: "an afternoon with don norman",
+        
+        description: "Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/don-norman-design-lab-talk/";
+          
+        },
+      },{id: "post-starting-my-pottery-journey",
+        
+          title: "starting my pottery journey",
+        
+        description: "embarking on a pottery journey with ellen fager at ucsd craft center, featuring three commissioned works",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/starting-pottery/";
+          
+        },
+      },{id: "post-a-gallery-of-random-gen-ai-images",
+        
+          title: "a gallery of random gen-ai images",
+        
+        description: "a gallery of random gen-ai images",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/image-gallery/";
+          
+        },
+      },{id: "news-designweaver-got-into-chi-25-will-go-to-japan-sparkles-smile",
+          title: 'DesignWeaver got into CHI 25! Will go to Japan! <img class="emoji" title=":sparkles:" alt=":sparkles:" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" height="20" width="20"> <img class="emoji" title=":smile:" alt=":smile:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" height="20" width="20">',
+          description: "",
+          section: "News",},{id: "news-hotspot-got-into-cvpr-25",
+          title: 'HotSpot got into CVPR 25!',
+          description: "",
+          section: "News",},{id: "news-hotspot-got-selected-as-a-cvpr-25-highlight",
+          title: 'HotSpot got selected as a CVPR 25 Highlight!',
+          description: "",
+          section: "News",},{id: "news-our-chi-2026-workshop-position-paper-what-happened-and-why-trace-guided-micro-episodes-with-elicited-user-explanations-for-product-iteration-was-accepted-to-herding-cats-easily-one-of-the-best-workshop-names-ever-the-whole-protolab-is-going-to-spain-might-be-a-ucsd-party-beer-cat-wine-glass",
+          title: 'Our CHI 2026 workshop position paper, What Happened and Why? Trace-Guided Micro-Episodes with...',
+          description: "",
+          section: "News",},{id: "news-met-the-great-don-norman-and-even-got-a-selfie-a-to-sirui-signed-yellow-book-sparkles-camera-flash-smile",
+          title: 'Met the great Don Norman and even got a selfie + a “To...',
+          description: "",
+          section: "News",},{id: "projects-context-aware-encoding-for-llms",
+          title: 'Context-Aware Encoding for LLMs',
+          description: "A tree-of-thoughts context encoding experiment for improving retrieval and long-document contextual understanding.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/context-aware-encoding/";
+            },},{id: "projects-designweaver",
+          title: 'DesignWeaver',
+          description: "A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/designweaver/";
+            },},{id: "projects-graphhscn",
+          title: 'GraphHSCN',
+          description: "A graph neural network architecture prototype for modeling long-range interactions in structured data.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/graphhscn/";
+            },},{id: "projects-hci-spooder-man",
+          title: 'HCI Spooder-Man',
+          description: "Double rejection, a Steam-style lab meme, and a small door into the nerdy Spooder-Verse.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/hci-spooder-man/";
+            },},{id: "projects-hotspot",
+          title: 'HotSpot',
+          description: "A neural SDF optimization framework with a screened Poisson objective for more stable surface reconstruction.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/hotspot/";
+            },},{id: "projects-not-a-good-driver",
+          title: 'Not A Good Driver',
+          description: "A playful VRChat world experiment in virtual-world creation, social audience engagement, and AI-assisted prototyping.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/not-a-good-driver/";
+            },},{id: "projects-physion",
+          title: 'Physion',
+          description: "A benchmark for testing whether vision models predict physical scene dynamics the way people do.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/physion/";
+            },},{id: "projects-vibe-coding-a-research-portfolio",
+          title: 'Vibe-Coding a Research Portfolio',
+          description: "A reflective redesign of this website into a warmer, clearer research portfolio and a reusable design-heuristics guide for students.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/website-revamp/";
+            },},{id: "projects-what-happened-and-why",
+          title: 'What Happened and Why?',
+          description: "A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/what-happened-and-why/";
+            },},{
+        id: 'social-bluesky',
+        title: 'Bluesky',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://siruitao.bsky.social", "_blank");
+        },
+      },{
+        id: 'social-x',
+        title: 'X',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://twitter.com/SiruiTao", "_blank");
+        },
+      },{
+        id: 'social-cv',
+        title: 'CV',
+        section: 'Socials',
+        handler: () => {
+          window.open("/assets/pdf/Sirui_Tao_CV_Public.pdf", "_blank");
+        },
+      },{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%64%79%6C%61%6E%74%61%6F%73%69%72%75%69@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/DylanTao", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/siruitao", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=W6vF-VcAAAAJ", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+    </script> <script src="/assets/js/shortcut-key.js?v=a78c9ea7ea2754b2c53aa191c30e0ae5"></script> </body> </html>

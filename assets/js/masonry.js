@@ -1,1 +1,1 @@
-$(document).ready(function(){var r=$(".grid").masonry({gutter:10,horizontalOrder:!0,itemSelector:".grid-item"});r.imagesLoaded().progress(function(){r.masonry("layout")})});
+document.addEventListener("DOMContentLoaded",()=>{const o=document.querySelector(".grid");if(!o||"function"!=typeof window.Masonry)return;const e=new window.Masonry(o,{gutter:10,horizontalOrder:!0,itemSelector:".grid-item"});if("function"==typeof window.imagesLoaded){const n=window.imagesLoaded(o);if(n&&"function"==typeof n.on)return void n.on("progress",()=>e.layout())}e.layout()});
