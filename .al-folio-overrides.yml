@@ -318,11 +318,11 @@ overrides:
     acknowledged_at: "2026-06-01"
   _layouts/distill.liquid:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: _layouts/distill.liquid
     upstream_sha256: 3610cdd2f384d05d2e30669ffc8e3696552b1fb22017a41a3224187d88f9d803
-    local_sha256: 90a1e7b32a88a0951506322e89b052cf40512e23ba4710bce86e80574405d590
-    acknowledged_at: "2026-06-01"
+    local_sha256: 9fe2b3e6110ce71f051586d80340e727b97ad3c5bf55e07567577d26338f5397
+    acknowledged_at: "2026-06-17"
   _layouts/none.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
