@@ -12,7 +12,30 @@ remove_plugin_and_build() {
   local override="${tmp_dir}/${plugin}-override.yml"
   local output_site="${tmp_dir}/site-${plugin}"
 
-  ruby -rpsych -e "cfg = Psych.unsafe_load_file('_config.yml'); plugins = Array(cfg['plugins']).reject { |p| p == '${plugin}' }; puts({ 'plugins' => plugins, 'imagemagick' => { 'enabled' => false } }.to_yaml)" >"${override}"
+  echo "checking build without ${plugin}"
+  ruby -rpsych -e '
+    plugin = ARGV.fetch(0)
+    cfg = Psych.unsafe_load_file("_config.yml")
+    plugins = Array(cfg["plugins"]).reject { |entry| entry == plugin }
+    override = {
+      "plugins" => plugins,
+      "imagemagick" => { "enabled" => false },
+    }
+
+    case plugin
+    when "al_analytics"
+      override["enable_google_analytics"] = false
+      override["google_analytics"] = nil
+      override["analytics"] = { "google" => nil }
+    when "al_search"
+      override["search_enabled"] = false
+      override["socials_in_search"] = false
+      override["posts_in_search"] = false
+      override["bib_search"] = false
+    end
+
+    puts override.to_yaml
+  ' "${plugin}" >"${override}"
 
   bundle exec jekyll build --config "_config.yml,${override}" -d "${output_site}" >/dev/null
   if [ ! -f "${output_site}/index.html" ]; then
