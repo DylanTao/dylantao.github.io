@@ -27,11 +27,6 @@ remove_plugin_and_build() {
       override["enable_google_analytics"] = false
       override["google_analytics"] = nil
       override["analytics"] = { "google" => nil }
-    when "al_search"
-      override["search_enabled"] = false
-      override["socials_in_search"] = false
-      override["posts_in_search"] = false
-      override["bib_search"] = false
     end
 
     puts override.to_yaml
@@ -46,7 +41,11 @@ remove_plugin_and_build() {
 
 plugins=("$@")
 if [ "${#plugins[@]}" -eq 0 ]; then
-  plugins=("al_analytics" "al_img_tools" "al_search")
+  # al_search registers a custom Liquid tag that local templates parse at build
+  # time, so this fork treats search as a configured feature rather than a
+  # removable plugin. The removable-plugin contract covers plugins whose local
+  # integrations are guarded by regular includes/config flags.
+  plugins=("al_analytics" "al_img_tools")
 fi
 
 for plugin in "${plugins[@]}"; do
