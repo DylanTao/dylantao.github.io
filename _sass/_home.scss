@@ -586,13 +586,13 @@ html[data-theme="dark"] .home-cred-item strong {
 .home-record-scene {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 5;
   overflow: hidden;
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
   isolation: isolate;
-  transform: scale(0.96) rotate(-8deg);
+  transform: scale(0.965) rotate(-7deg);
   transition:
     opacity var(--motion-standard),
     transform var(--motion-slow);
@@ -614,10 +614,9 @@ html[data-theme="dark"] .home-cred-item strong {
   overflow: hidden;
   border-radius: 50%;
   background:
-    radial-gradient(circle at center, rgba(238, 231, 214, 0.95) 0 2.2%, rgba(62, 59, 54, 0.78) 2.6% 3.5%, transparent 3.9%),
-    radial-gradient(circle at center, transparent 0 25%, rgba(12, 13, 13, 0.96) 25.5% 84%, rgba(20, 20, 20, 0.72) 86% 92%, transparent 93%),
-    repeating-radial-gradient(circle at center, transparent 0 0.48rem, rgba(255, 255, 255, 0.09) 0.5rem 0.54rem, transparent 0.58rem 0.78rem),
-    radial-gradient(circle at 35% 23%, rgba(255, 255, 255, 0.24), transparent 24%), color-mix(in srgb, var(--record-accent-soft) 38%, transparent);
+    radial-gradient(circle at center, transparent 0 21.5%, rgba(12, 13, 13, 0.96) 22.2% 84%, rgba(20, 20, 20, 0.72) 86% 92%, transparent 93%),
+    repeating-radial-gradient(circle at center, transparent 0 0.34rem, rgba(255, 255, 255, 0.055) 0.36rem 0.385rem, transparent 0.42rem 0.64rem),
+    radial-gradient(circle at 35% 23%, rgba(255, 255, 255, 0.18), transparent 23%), color-mix(in srgb, var(--record-accent-soft) 30%, transparent);
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--record-accent) 22%, rgba(255, 255, 255, 0.3)),
     inset 0 -1.4rem 2.6rem rgba(0, 0, 0, 0.18);
@@ -629,7 +628,7 @@ html[data-theme="dark"] .home-cred-item strong {
 
 .home-record-art {
   position: absolute;
-  inset: 28.5%;
+  inset: 31.5%;
   z-index: 2;
   border-radius: 50%;
   border: 1px solid color-mix(in srgb, var(--record-accent) 38%, rgba(255, 255, 255, 0.42));
@@ -655,41 +654,41 @@ html[data-theme="dark"] .home-cred-item strong {
   inset: 0;
   z-index: 3;
   background:
-    radial-gradient(circle at center, transparent 0 27%, rgba(255, 255, 255, 0.08) 27.8% 28.4%, transparent 29%),
+    radial-gradient(circle at center, transparent 0 22.5%, rgba(255, 255, 255, 0.06) 23% 23.5%, transparent 24%),
     radial-gradient(circle at 64% 72%, rgba(0, 0, 0, 0.14), transparent 26%),
-    repeating-radial-gradient(circle at center, transparent 0 11px, rgba(255, 255, 255, 0.11) 12px 13px, transparent 14px 22px);
+    repeating-radial-gradient(circle at center, transparent 0 8px, rgba(255, 255, 255, 0.072) 9px 10px, transparent 11px 18px);
   mix-blend-mode: soft-light;
   opacity: 0.72;
 }
 
 .home-record-scene-fallback::after {
-  inset: calc(50% - 0.24rem);
+  inset: calc(50% - 0.08rem);
   z-index: 4;
-  background: radial-gradient(circle at 38% 30%, #fff8e9 0 12%, #b9aa93 28% 54%, #2d2e2e 56% 66%, #f6efe4 68%);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  background: radial-gradient(circle at 38% 30%, rgba(255, 248, 233, 0.88), rgba(185, 170, 147, 0.52) 54%, rgba(246, 239, 228, 0.72) 68%);
   box-shadow:
-    0 0 0 0.05rem rgba(255, 255, 255, 0.52),
-    0 0.08rem 0.26rem rgba(0, 0, 0, 0.3);
+    0 0 0 0.025rem rgba(255, 255, 255, 0.34),
+    0 0.05rem 0.16rem rgba(0, 0, 0, 0.16);
+  opacity: 0.78;
 }
 
 .home-profile-recordable.is-vinyl-preview,
+.home-profile-recordable.is-vinyl-mode,
 .home-profile-recordable.is-playing,
 .home-profile-recordable.is-paused-record {
   border-color: color-mix(in srgb, var(--home-accent) 46%, var(--home-line));
   box-shadow: 0 24px 54px rgba(73, 45, 30, 0.17);
 }
 
-.home-profile-recordable:hover .home-record-scene,
-.home-profile-recordable:focus-within .home-record-scene,
-.home-profile-recordable.is-vinyl-preview .home-record-scene,
+.home-profile-recordable.is-vinyl-mode .home-record-scene,
 .home-profile-recordable.is-playing .home-record-scene,
 .home-profile-recordable.is-paused-record .home-record-scene {
   opacity: 1;
   transform: scale(1) rotate(0deg);
 }
 
-.home-profile-recordable:hover figure,
-.home-profile-recordable:focus-within figure,
 .home-profile-recordable.is-vinyl-preview figure,
+.home-profile-recordable.is-vinyl-mode figure,
 .home-profile-recordable.is-playing figure,
 .home-profile-recordable.is-paused-record figure {
   opacity: 0.035;
@@ -718,11 +717,43 @@ html[data-theme="dark"] .home-cred-item strong {
   z-index: 3;
   border: 0;
   border-radius: 50%;
+  overflow: hidden;
   background-color: color-mix(in srgb, var(--record-accent-soft) 28%, var(--home-surface));
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 0 0 2.8rem rgba(0, 0, 0, 0.18);
+    inset 0 0 0 1px color-mix(in srgb, var(--record-accent) 24%, rgba(255, 255, 255, 0.36)),
+    inset 0 0 0 0.52rem color-mix(in srgb, var(--record-accent-soft) 22%, transparent),
+    inset 0 -2.6rem 3.7rem rgba(0, 0, 0, 0.14),
+    0 1.15rem 2.35rem rgba(73, 45, 30, 0.11);
   transform: scale(0.95) rotate(-8deg);
+  isolation: isolate;
+}
+
+.home-profile-recordable .home-profile-image-hover-layer::before,
+.home-profile-recordable .home-profile-image-hover-layer::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.home-profile-recordable .home-profile-image-hover-layer::before {
+  z-index: 1;
+  background:
+    radial-gradient(circle at center, transparent 0 42%, color-mix(in srgb, var(--record-accent) 12%, transparent) 42.5% 43%, transparent 44%),
+    repeating-radial-gradient(circle at center, transparent 0 0.66rem, rgba(255, 255, 255, 0.085) 0.7rem 0.72rem, transparent 0.76rem 1.08rem),
+    radial-gradient(circle at 36% 22%, rgba(255, 255, 255, 0.18), transparent 24%);
+  mix-blend-mode: soft-light;
+  opacity: 0.72;
+}
+
+.home-profile-recordable .home-profile-image-hover-layer::after {
+  z-index: 2;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--record-accent) 22%, rgba(255, 255, 255, 0.4)),
+    inset 0 0 1.1rem rgba(255, 255, 255, 0.16),
+    inset 0 -2.8rem 3.2rem rgba(0, 0, 0, 0.1);
+  opacity: 0.82;
 }
 
 .home-profile-image-hover-layer.is-visible {
@@ -735,10 +766,10 @@ html[data-theme="dark"] .home-cred-item strong {
   transform: scale(1) rotate(0deg);
 }
 
-.home-profile-recordable.is-paused-record .home-profile-image-hover-layer,
-.home-profile-recordable.is-paused-record .home-profile-image-hover-layer.is-visible {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
+.home-profile-recordable.is-vinyl-mode .home-profile-image-hover-layer,
+.home-profile-recordable.is-vinyl-mode .home-profile-image-hover-layer.is-visible {
+  opacity: 0;
+  transform: scale(0.98) rotate(0deg);
 }
 
 .home-profile-recordable.is-dragging-record .home-record-scene,
@@ -750,12 +781,12 @@ html[data-theme="dark"] .home-cred-item strong {
 }
 
 .home-profile-recordable.is-record-card-found .home-record-scene,
+.home-profile-recordable.is-record-card-found .home-profile-image-hover-layer.is-visible,
 .home-record-scene.is-found-pulse {
   animation: home-record-found-pulse 520ms ease-out both;
 }
 
-.home-profile-recordable.is-playing .home-record-scene-fallback,
-.home-profile-recordable.is-playing .home-profile-image-hover-layer.is-visible {
+.home-profile-recordable.is-playing .home-record-scene-fallback {
   animation: home-record-spin 7.5s linear infinite;
 }
 
@@ -768,16 +799,16 @@ html[data-theme="dark"] .home-cred-item strong {
   width: clamp(4.15rem, 31%, 5.65rem);
   aspect-ratio: 1;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.46);
+  border: 1px solid color-mix(in srgb, var(--record-accent) 24%, rgba(255, 255, 255, 0.58));
   border-radius: 50%;
   background:
-    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.24), transparent 42%), color-mix(in srgb, var(--home-surface) 12%, transparent);
+    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.42), transparent 42%), color-mix(in srgb, var(--home-surface) 44%, transparent);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.36),
-    inset 0 0 1.15rem rgba(255, 255, 255, 0.1),
-    0 0.38rem 1rem rgba(0, 0, 0, 0.13),
-    0 0 0 0.18rem rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.78);
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    inset 0 0 1.15rem rgba(255, 255, 255, 0.18),
+    0 0.38rem 1rem rgba(73, 45, 30, 0.12),
+    0 0 0 0.18rem rgba(255, 255, 255, 0.1);
+  color: color-mix(in srgb, var(--record-accent-ink) 84%, var(--home-ink));
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0.9);
@@ -787,37 +818,48 @@ html[data-theme="dark"] .home-cred-item strong {
     color var(--motion-standard),
     opacity var(--motion-standard),
     transform var(--motion-standard);
-  backdrop-filter: blur(4px) saturate(1.04);
+  backdrop-filter: blur(7px) saturate(1.04);
 }
 
 .home-profile-recordable:hover .home-record-play,
 .home-profile-recordable:focus-visible .home-record-play,
 .home-record-play:focus-visible {
-  opacity: 0.48;
+  opacity: 0.76;
   pointer-events: auto;
   transform: translate(-50%, -50%) scale(1);
 }
 
 .home-record-play.is-playing {
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.17), transparent 42%), color-mix(in srgb, var(--home-surface) 10%, transparent);
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.35), transparent 42%), color-mix(in srgb, var(--home-surface) 38%, transparent);
 }
 
 .home-record-play:hover,
 .home-record-play:focus-visible {
-  border-color: rgba(255, 255, 255, 0.62);
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.28), transparent 42%), color-mix(in srgb, var(--home-surface) 22%, transparent);
-  color: rgba(255, 255, 255, 0.9);
-  opacity: 0.78;
+  border-color: color-mix(in srgb, var(--record-accent) 36%, rgba(255, 255, 255, 0.68));
+  background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.5), transparent 42%), color-mix(in srgb, var(--home-surface) 56%, transparent);
+  color: color-mix(in srgb, var(--record-accent-ink) 92%, var(--home-ink));
+  opacity: 0.92;
   transform: translate(-50%, -50%) scale(1.035);
 }
 
 .home-record-play i {
   font-size: clamp(1.36rem, 10vw, 1.96rem);
   text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.34),
-    0 0 0.7rem rgba(255, 255, 255, 0.4);
+    0 1px 0 rgba(255, 255, 255, 0.34),
+    0 0.12rem 0.42rem rgba(73, 45, 30, 0.22);
+}
+
+html[data-theme="dark"] .home-record-play {
+  border-color: color-mix(in srgb, var(--record-accent) 28%, rgba(255, 255, 255, 0.28));
+  background:
+    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.18), transparent 42%), color-mix(in srgb, var(--home-surface) 52%, transparent);
+  color: color-mix(in srgb, var(--record-accent) 70%, var(--home-ink));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 0 1.15rem rgba(255, 255, 255, 0.06),
+    0 0.38rem 1rem rgba(0, 0, 0, 0.24),
+    0 0 0 0.18rem rgba(255, 255, 255, 0.04);
 }
 
 .home-record-play [data-home-record-pause-icon] {
@@ -901,6 +943,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   --record-card-edge: color-mix(in srgb, var(--home-accent) 12%, var(--home-line));
   --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 26%, var(--home-line));
   --record-card-shadow: rgba(73, 45, 30, 0.12);
+  --record-card-halo: color-mix(in srgb, var(--home-accent) 54%, #ffffff);
+  --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 42%, transparent);
 
   position: relative;
   grid-area: record;
@@ -922,7 +966,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards {
-  min-height: 10.65rem;
+  min-height: 11.25rem;
   margin-top: 0.12rem;
   pointer-events: auto;
 }
@@ -930,14 +974,15 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card-pile::before {
   position: absolute;
   right: 6%;
-  bottom: 0.42rem;
+  bottom: 0.18rem;
   left: 8%;
-  height: 1.35rem;
+  height: 1.62rem;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(73, 45, 30, 0.18), rgba(73, 45, 30, 0.08) 44%, transparent 72%);
+  background: radial-gradient(ellipse at center, rgba(73, 45, 30, 0.16), rgba(73, 45, 30, 0.07) 48%, transparent 74%);
   content: "";
   opacity: 0;
-  transform: translateY(0.26rem) rotateX(68deg);
+  filter: blur(0.12rem);
+  transform: translateY(0.32rem) rotateX(70deg);
   transition:
     opacity var(--motion-standard),
     transform var(--motion-standard);
@@ -945,8 +990,68 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards::before {
-  opacity: 0.78;
+  opacity: 0.7;
   transform: translateY(0);
+}
+
+.home-record-card-halo {
+  position: absolute;
+  top: 6.36rem;
+  left: 50%;
+  z-index: 18;
+  display: block;
+  width: min(17.4rem, 98%);
+  height: 4.18rem;
+  border: 1px solid color-mix(in srgb, var(--record-card-halo) 72%, transparent);
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, color-mix(in srgb, var(--record-card-halo) 22%, transparent), transparent 58%),
+    conic-gradient(
+      from -18deg,
+      transparent 0 18deg,
+      color-mix(in srgb, var(--record-card-halo) 52%, transparent) 32deg 54deg,
+      transparent 70deg 146deg,
+      color-mix(in srgb, var(--record-card-halo) 38%, transparent) 164deg 190deg,
+      transparent 214deg 360deg
+    );
+  box-shadow:
+    0 0 0.58rem color-mix(in srgb, var(--record-card-halo) 32%, transparent),
+    0 0 2.05rem var(--record-card-halo-soft),
+    inset 0 0 0.66rem color-mix(in srgb, var(--record-card-halo) 4%, transparent);
+  opacity: 0.9;
+  pointer-events: none;
+  transform: translateX(-50%) rotateX(72deg) translateZ(0.16rem);
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  animation: home-record-halo-breathe 4.8s ease-in-out infinite;
+}
+
+.home-record-card-halo::before,
+.home-record-card-halo::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.home-record-card-halo::before {
+  inset: 28% 11%;
+  border-top: 1px solid color-mix(in srgb, var(--record-card-halo) 38%, transparent);
+  opacity: 0.7;
+}
+
+.home-record-card-halo::after {
+  inset: -0.92rem 16% auto;
+  height: 1.3rem;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--record-card-halo) 18%, transparent), transparent 68%);
+  filter: blur(0.22rem);
+  opacity: 0.52;
+}
+
+.home-record-card-halo.is-dropping-halo {
+  animation:
+    home-record-halo-arrive 720ms cubic-bezier(0.19, 0.9, 0.24, 1) both,
+    home-record-halo-breathe 4.8s ease-in-out 720ms infinite;
 }
 
 .home-record-card {
@@ -966,7 +1071,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     linear-gradient(135deg, rgba(255, 255, 255, 0.36), transparent 44%),
     linear-gradient(180deg, var(--record-card-paper), color-mix(in srgb, var(--record-card-paper) 92%, var(--home-paper-warm)));
   box-shadow:
-    0 0.46rem 0.9rem var(--record-card-shadow),
+    0 0.34rem 0.72rem var(--record-card-shadow),
+    0 1.2rem 2.2rem color-mix(in srgb, var(--record-card-halo-soft) 72%, transparent),
     0 1px 0 rgba(255, 255, 255, 0.46) inset;
   color: var(--home-ink);
   cursor: pointer;
@@ -985,7 +1091,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card:focus-visible {
   border-color: var(--record-card-edge-hover);
   box-shadow:
-    0 0.58rem 1rem color-mix(in srgb, var(--record-card-shadow) 86%, transparent),
+    0 0.44rem 0.86rem color-mix(in srgb, var(--record-card-shadow) 86%, transparent),
+    0 1.26rem 2.25rem color-mix(in srgb, var(--record-card-halo-soft) 78%, transparent),
     0 1px 0 rgba(255, 255, 255, 0.5) inset;
   outline: 0;
 }
@@ -1001,7 +1108,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 42%),
     linear-gradient(180deg, var(--record-card-paper-open), color-mix(in srgb, var(--record-card-paper-open) 94%, var(--home-paper-warm)));
   box-shadow:
-    0 1.05rem 2.15rem rgba(73, 45, 30, 0.16),
+    0 1rem 2rem rgba(73, 45, 30, 0.16),
+    0 1.55rem 2.6rem color-mix(in srgb, var(--record-card-halo-soft) 64%, transparent),
     0 1px 0 rgba(255, 255, 255, 0.56) inset;
   transform: translateX(-50%) var(--card-open-transform, translate3d(0, -1.28rem, 5.8rem) rotateZ(0deg) rotateX(0deg) scale(1.025));
 }
@@ -1137,6 +1245,8 @@ html[data-theme="dark"] .home-record-card-pile {
   --record-card-edge: color-mix(in srgb, var(--home-accent) 18%, var(--home-line));
   --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 32%, var(--home-line));
   --record-card-shadow: rgba(0, 0, 0, 0.26);
+  --record-card-halo: color-mix(in srgb, var(--home-accent) 62%, #ffffff);
+  --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 58%, transparent);
 }
 
 html[data-theme="dark"] .home-record-card {
@@ -1169,6 +1279,14 @@ html[data-theme="dark"] .home-record-card-tab {
   box-shadow:
     0 0.48rem 0.92rem rgba(0, 0, 0, 0.26),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .home-record-card-halo {
+  opacity: 0.58;
+  box-shadow:
+    0 0 0.46rem color-mix(in srgb, var(--record-card-halo) 14%, transparent),
+    0 0 1.65rem var(--record-card-halo-soft),
+    inset 0 0 0.58rem color-mix(in srgb, var(--record-card-halo) 12%, transparent);
 }
 
 html[data-theme="dark"] .home-record-card-link {
@@ -1209,18 +1327,51 @@ html[data-theme="dark"] .home-record-card-link {
 
   72% {
     opacity: 1;
-    transform: translateX(-50%) var(--card-drop-land, translate3d(-0.16rem, 0.42rem, 0.22rem) rotateZ(-0.7deg) rotateX(68deg));
+    transform: translateX(-50%) var(--card-drop-land, translate3d(-0.16rem, 1.8rem, 0.52rem) rotateZ(-0.7deg) rotateX(60deg));
   }
 
   84% {
     opacity: 1;
-    transform: translateX(-50%) translate3d(0.08rem, 1.02rem, 0.18rem) rotateZ(0.5deg) rotateX(62deg);
+    transform: translateX(-50%) translate3d(0.08rem, 2.05rem, 0.58rem) rotateZ(0.5deg) rotateX(56deg);
   }
 
   100% {
     opacity: 1;
     filter: blur(0);
     transform: translateX(-50%) var(--card-rest-transform, translate3d(0, 0, 0) rotateZ(0deg) rotateX(0deg));
+  }
+}
+
+@keyframes home-record-halo-arrive {
+  0% {
+    opacity: 0;
+    filter: blur(0.5px);
+    transform: translateX(-50%) translateY(-1.4rem) rotateX(72deg) scale(0.78);
+  }
+
+  64% {
+    opacity: 0.94;
+    filter: blur(0);
+    transform: translateX(-50%) translateY(0.08rem) rotateX(72deg) scale(1.035);
+  }
+
+  100% {
+    opacity: 0.9;
+    filter: blur(0);
+    transform: translateX(-50%) rotateX(72deg) translateZ(0.16rem) scale(1);
+  }
+}
+
+@keyframes home-record-halo-breathe {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: translateX(-50%) rotateX(72deg) translateZ(0.14rem) scale(0.992);
+  }
+
+  52% {
+    opacity: 0.94;
+    transform: translateX(-50%) rotateX(72deg) translateZ(0.2rem) scale(1.018);
   }
 }
 
@@ -1236,7 +1387,8 @@ html[data-theme="dark"] .home-record-card-link {
 
 @keyframes home-artifact-coffee-bloom {
   to {
-    transform: translateX(var(--coffee-stain-wobble, 0)) rotate(var(--coffee-stain-rotate, -8deg)) scale(1.14);
+    transform: translate3d(var(--coffee-stain-wobble-x, 0), var(--coffee-stain-wobble-y, 0), 0) rotate(var(--coffee-stain-rotate, -8deg))
+      scale(var(--coffee-stain-scale, 1.06)) scaleX(var(--coffee-stain-stretch-x, 1.08)) scaleY(var(--coffee-stain-stretch-y, 0.96));
   }
 }
 
@@ -1267,58 +1419,83 @@ html[data-theme="dark"] .home-record-card-link {
   pointer-events: none;
 }
 
+.home-artifact-stack::before,
 .home-artifact-stack::after {
   top: var(--coffee-stain-top, 0.2rem);
   right: var(--coffee-stain-right, -1.2rem);
-  z-index: 3;
+  z-index: 1;
   display: none;
   width: var(--coffee-stain-size, 9.4rem);
   aspect-ratio: 1;
-  border-radius: 50%;
+  border-radius: 46% 54% 51% 49% / 49% 44% 56% 51%;
+  mix-blend-mode: var(--home-coffee-blend);
+  transform: translate3d(0, 0, 0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-scale, 1))
+    scaleX(var(--coffee-stain-stretch-x, 1.08)) scaleY(var(--coffee-stain-stretch-y, 0.96));
+  animation:
+    home-artifact-coffee-morph var(--coffee-stain-morph-duration, 32s) ease-in-out infinite alternate,
+    home-artifact-coffee-bloom var(--coffee-stain-bloom-duration, 190s) linear forwards;
+}
+
+.home-artifact-stack::before {
   background:
     radial-gradient(
-      ellipse at 49% 51%,
-      transparent 0 39%,
-      rgba(var(--home-coffee-rgb), calc(0.2 * var(--coffee-stain-density, 1))) 40% 42.2%,
-      rgba(var(--home-coffee-rgb), calc(0.125 * var(--coffee-stain-density, 1))) 42.8% 46.6%,
-      rgba(var(--home-coffee-rgb), 0.048) 47.4% 50.2%,
-      transparent 55.8%
+      ellipse at 52% 51%,
+      rgba(var(--home-coffee-rgb), var(--coffee-stain-wash-opacity, 0.046)) 0 33%,
+      rgba(var(--home-coffee-rgb), 0.034) 39%,
+      transparent 68%
+    ),
+    radial-gradient(ellipse at 58% 43%, transparent 0 36%, rgba(var(--home-coffee-rgb), 0.032) 42%, transparent 64%),
+    radial-gradient(circle at 24% 58%, rgba(var(--home-coffee-rgb), 0.026), transparent 9%),
+    radial-gradient(circle at 75% 35%, rgba(var(--home-coffee-rgb), 0.022), transparent 7%);
+  filter: blur(0.32rem);
+  opacity: 0.74;
+}
+
+.home-artifact-stack::after {
+  background:
+    radial-gradient(
+      ellipse at 50% 50%,
+      transparent 0 37.8%,
+      rgba(var(--home-coffee-rgb), var(--coffee-stain-edge-opacity, 0.16)) 39.4% 41.2%,
+      rgba(var(--home-coffee-rgb), 0.072) 42.4% 45.6%,
+      transparent 49.8%
     ),
     repeating-conic-gradient(
       from var(--coffee-stain-rotate, -8deg),
-      rgba(var(--home-coffee-rgb), calc(0.19 * var(--coffee-stain-density, 1))) 0 3.6deg,
-      rgba(var(--home-coffee-rgb), 0.045) 3.6deg 8.4deg,
-      transparent 8.4deg 17deg,
-      rgba(var(--home-coffee-rgb), 0.12) 17deg 20.6deg,
-      transparent 20.6deg 34deg
+      rgba(var(--home-coffee-rgb), var(--coffee-stain-edge-opacity, 0.16)) 0 2.8deg,
+      transparent 2.8deg 9.6deg,
+      rgba(var(--home-coffee-rgb), 0.07) 9.6deg 12.2deg,
+      transparent 12.2deg 24deg
     ),
-    radial-gradient(ellipse at 64% 34%, rgba(var(--home-coffee-rgb), 0.115), transparent 23%),
-    radial-gradient(ellipse at 36% 74%, rgba(var(--home-coffee-rgb), 0.082), transparent 22%),
-    radial-gradient(circle at 27% 43%, rgba(var(--home-coffee-rgb), 0.082), transparent 6.8%),
-    radial-gradient(circle at 74% 61%, rgba(var(--home-coffee-rgb), 0.064), transparent 6.2%),
-    radial-gradient(circle at 52% 86%, rgba(var(--home-coffee-rgb), 0.052), transparent 4.8%);
-  filter: blur(0.14px);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, transparent 0 38%, #000 40.2% 49.8%, transparent 58.5%);
-  mask-image: radial-gradient(ellipse at 50% 50%, transparent 0 38%, #000 40.2% 49.8%, transparent 58.5%);
-  mix-blend-mode: var(--home-coffee-blend);
-  opacity: 0.4;
-  transform: translateX(0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-scale, 1));
-  animation:
-    home-artifact-coffee-morph var(--coffee-stain-morph-duration, 26s) ease-in-out infinite alternate,
-    home-artifact-coffee-bloom var(--coffee-stain-bloom-duration, 165s) linear forwards;
+    radial-gradient(circle at 28% 42%, rgba(var(--home-coffee-rgb), var(--coffee-stain-speckle-opacity, 0.07)), transparent 2.6%),
+    radial-gradient(circle at 72% 61%, rgba(var(--home-coffee-rgb), 0.06), transparent 2.2%),
+    radial-gradient(circle at 46% 84%, rgba(var(--home-coffee-rgb), 0.048), transparent 1.9%),
+    radial-gradient(circle at 61% 23%, rgba(var(--home-coffee-rgb), 0.052), transparent 1.7%),
+    radial-gradient(ellipse at 37% 72%, rgba(var(--home-coffee-rgb), 0.045), transparent 9%),
+    radial-gradient(ellipse at 69% 31%, rgba(var(--home-coffee-rgb), 0.04), transparent 8%);
+  filter: blur(0.02rem);
+  -webkit-mask-image:
+    radial-gradient(ellipse at 50% 50%, transparent 0 36.6%, #000 38.8% 49.6%, transparent 58%),
+    radial-gradient(circle at 28% 42%, #000 0 3.2%, transparent 3.7%), radial-gradient(circle at 72% 61%, #000 0 2.8%, transparent 3.3%),
+    radial-gradient(circle at 46% 84%, #000 0 2.4%, transparent 2.9%), radial-gradient(circle at 61% 23%, #000 0 2.2%, transparent 2.7%);
+  mask-image:
+    radial-gradient(ellipse at 50% 50%, transparent 0 36.6%, #000 38.8% 49.6%, transparent 58%),
+    radial-gradient(circle at 28% 42%, #000 0 3.2%, transparent 3.7%), radial-gradient(circle at 72% 61%, #000 0 2.8%, transparent 3.3%),
+    radial-gradient(circle at 46% 84%, #000 0 2.4%, transparent 2.9%), radial-gradient(circle at 61% 23%, #000 0 2.2%, transparent 2.7%);
+  opacity: 0.58;
 }
 
+.home-artifact-stack.has-coffee-stain::before,
 .home-artifact-stack.has-coffee-stain::after {
   display: block;
 }
 
-.home-artifact-stack::before {
-  display: none;
+html[data-theme="dark"] .home-artifact-stack::before {
+  opacity: 0.2;
 }
 
-html[data-theme="dark"] .home-artifact-stack::before,
 html[data-theme="dark"] .home-artifact-stack::after {
-  opacity: 0.18;
+  opacity: 0.3;
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -3127,10 +3304,14 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-nav,
   .home-record-card-pile,
   .home-record-card-pile::before,
+  .home-record-card-halo,
+  .home-record-card-halo::before,
+  .home-record-card-halo::after,
   .home-record-card,
   .home-record-card-tab,
   .home-record-card-tab::before,
   .home-artifact-card,
+  .home-artifact-stack.has-coffee-stain::before,
   .home-artifact-stack.has-coffee-stain::after,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {

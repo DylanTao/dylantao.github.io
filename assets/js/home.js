@@ -152,6 +152,8 @@
     let isLoading = false;
     let isVisible = false;
     let isPlaying = false;
+    const armState = { rotation: 0.56, lift: 0.44 };
+    const armTarget = { rotation: 0.56, lift: 0.44 };
     const textureCache = new Map();
 
     const render = () => {
@@ -187,30 +189,60 @@
       animationFrame = null;
     };
 
+    const updateArmTarget = (playing) => {
+      armTarget.rotation = playing ? -0.18 : 0.56;
+      armTarget.lift = playing ? 0.28 : 0.48;
+    };
+
+    const armNeedsFrame = () => {
+      if (!armGroup) return false;
+      return Math.abs(armState.rotation - armTarget.rotation) > 0.002 || Math.abs(armState.lift - armTarget.lift) > 0.002;
+    };
+
+    const applyArmPose = (time = 0, immediate = false) => {
+      if (!armGroup) return false;
+      const speed = immediate || reduceMotion ? 1 : 0.11;
+      armState.rotation += (armTarget.rotation - armState.rotation) * speed;
+      armState.lift += (armTarget.lift - armState.lift) * speed;
+
+      if (immediate || reduceMotion) {
+        armState.rotation = armTarget.rotation;
+        armState.lift = armTarget.lift;
+      }
+
+      const playingDrift = isPlaying && !reduceMotion ? Math.sin(time * 0.0014) * 0.006 : 0;
+      armGroup.rotation.z = armState.rotation + playingDrift;
+      armGroup.position.z = armState.lift;
+      return armNeedsFrame();
+    };
+
     const tick = (time) => {
       animationFrame = null;
       if (!isVisible || reduceMotion || !recordGroup) {
+        applyArmPose(time, true);
         render();
         return;
       }
 
       if (isPlaying) {
         recordGroup.rotation.z = time * 0.00084;
-        if (armGroup) armGroup.rotation.z = -0.18 + Math.sin(time * 0.0014) * 0.008;
-        render();
+      }
+
+      const keepAnimatingArm = applyArmPose(time);
+      render();
+
+      if (isPlaying || keepAnimatingArm) {
         animationFrame = window.requestAnimationFrame(tick);
-      } else {
-        if (armGroup) armGroup.rotation.z = -0.18;
-        render();
       }
     };
 
     const scheduleRender = () => {
       if (!isLoaded) return;
       stopLoop();
-      if (isVisible && isPlaying && !reduceMotion) {
+      if (isVisible && !reduceMotion && (isPlaying || armNeedsFrame())) {
         animationFrame = window.requestAnimationFrame(tick);
       } else {
+        applyArmPose(0, true);
         render();
       }
     };
@@ -266,19 +298,19 @@
       scene.add(ambient, key, low);
 
       const platterMaterial = new THREE.MeshStandardMaterial({
-        color: 0xd6c5aa,
-        metalness: 0.34,
-        roughness: 0.5,
+        color: 0xd4c3a8,
+        metalness: 0.32,
+        roughness: 0.54,
       });
       const vinylMaterial = new THREE.MeshStandardMaterial({
-        color: 0x101113,
-        metalness: 0.08,
-        roughness: 0.42,
+        color: 0x111214,
+        metalness: 0.05,
+        roughness: 0.56,
       });
       const grooveMaterial = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         transparent: true,
-        opacity: 0.085,
+        opacity: 0.052,
         depthWrite: false,
       });
       labelMaterial = new THREE.MeshStandardMaterial({
@@ -295,6 +327,8 @@
         color: 0xf2eee3,
         metalness: 0.7,
         roughness: 0.24,
+        transparent: true,
+        opacity: 0.72,
       });
       const armMaterial = new THREE.MeshStandardMaterial({
         color: 0x6f7070,
@@ -322,12 +356,12 @@
       recordGroup.position.z = 0.02;
       baseGroup.add(recordGroup);
 
-      const vinyl = new THREE.Mesh(new THREE.RingGeometry(0.74, 2.42, 176), vinylMaterial);
+      const vinyl = new THREE.Mesh(new THREE.RingGeometry(0.62, 2.42, 192), vinylMaterial);
       recordGroup.add(vinyl);
 
-      for (let index = 0; index < 26; index += 1) {
-        const radius = 0.86 + index * 0.058;
-        const groove = new THREE.Mesh(new THREE.RingGeometry(radius, radius + 0.004, 176), grooveMaterial);
+      for (let index = 0; index < 38; index += 1) {
+        const radius = 0.72 + index * 0.044;
+        const groove = new THREE.Mesh(new THREE.RingGeometry(radius, radius + 0.0032, 192), grooveMaterial);
         groove.position.z = 0.012 + index * 0.0006;
         recordGroup.add(groove);
       }
@@ -339,22 +373,21 @@
       gloss.position.set(-0.1, 0.05, 0.032);
       recordGroup.add(gloss);
 
-      const label = new THREE.Mesh(new THREE.CircleGeometry(0.72, 128), labelMaterial);
+      const label = new THREE.Mesh(new THREE.CircleGeometry(0.58, 128), labelMaterial);
       label.position.z = 0.052;
       recordGroup.add(label);
 
-      const labelRim = new THREE.Mesh(new THREE.RingGeometry(0.725, 0.76, 128), accentMaterial);
+      const labelRim = new THREE.Mesh(new THREE.RingGeometry(0.585, 0.615, 128), accentMaterial);
       labelRim.position.z = 0.058;
       recordGroup.add(labelRim);
 
-      const spindle = new THREE.Mesh(new THREE.CylinderGeometry(0.074, 0.088, 0.14, 40), spindleMaterial);
-      spindle.rotation.x = Math.PI / 2;
-      spindle.position.z = 0.14;
-      baseGroup.add(spindle);
+      const spindleWasher = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0065, 10, 44), spindleMaterial);
+      spindleWasher.position.z = 0.124;
+      baseGroup.add(spindleWasher);
 
       armGroup = new THREE.Group();
-      armGroup.position.set(2.18, 1.55, 0.28);
-      armGroup.rotation.z = -0.18;
+      armGroup.position.set(2.18, 1.55, armState.lift);
+      armGroup.rotation.z = armState.rotation;
       baseGroup.add(armGroup);
 
       const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.12, 48), spindleMaterial);
@@ -378,6 +411,8 @@
       armGroup.add(stylus);
 
       updateAccent();
+      updateArmTarget(isPlaying);
+      applyArmPose(0, true);
       resize();
       applyRecordTexture(currentRecord);
       render();
@@ -423,6 +458,7 @@
       },
       setPlaying(nextPlaying) {
         isPlaying = nextPlaying;
+        updateArmTarget(isPlaying);
         container.classList.toggle("is-playing", isPlaying);
         scheduleRender();
       },
@@ -449,15 +485,20 @@
     if (!artifactStack) return;
 
     const random = createSeededRandom(`home-coffee-${Date.now()}-${Math.random()}`);
-    const size = 8.85 + random() * 1.28;
-    const top = 0.04 + random() * 0.72;
-    const right = -1.52 + random() * 0.74;
-    const rotate = -16 + random() * 32;
-    const scale = 0.98 + random() * 0.12;
-    const wobble = -0.32 + random() * 0.64;
-    const morphDuration = 26 + random() * 14;
-    const bloomDuration = 165 + random() * 95;
-    const density = 0.86 + random() * 0.3;
+    const size = 10.65 + random() * 1.42;
+    const top = 0.64 + random() * 0.38;
+    const right = -2.34 + random() * 0.56;
+    const rotate = -18 + random() * 36;
+    const scale = 0.98 + random() * 0.1;
+    const stretchX = 1.04 + random() * 0.16;
+    const stretchY = 0.9 + random() * 0.12;
+    const wobbleX = -0.22 + random() * 0.44;
+    const wobbleY = -0.1 + random() * 0.2;
+    const morphDuration = 32 + random() * 18;
+    const bloomDuration = 190 + random() * 110;
+    const edgeOpacity = 0.14 + random() * 0.055;
+    const washOpacity = 0.036 + random() * 0.026;
+    const speckleOpacity = 0.058 + random() * 0.03;
 
     artifactStack.classList.add("has-coffee-stain");
     artifactStack.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
@@ -465,8 +506,13 @@
     artifactStack.style.setProperty("--coffee-stain-right", `${right.toFixed(2)}rem`);
     artifactStack.style.setProperty("--coffee-stain-rotate", `${rotate.toFixed(2)}deg`);
     artifactStack.style.setProperty("--coffee-stain-scale", scale.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-wobble", `${wobble.toFixed(2)}rem`);
-    artifactStack.style.setProperty("--coffee-stain-density", density.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-stretch-x", stretchX.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-stretch-y", stretchY.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-wobble-x", `${wobbleX.toFixed(2)}rem`);
+    artifactStack.style.setProperty("--coffee-stain-wobble-y", `${wobbleY.toFixed(2)}rem`);
+    artifactStack.style.setProperty("--coffee-stain-edge-opacity", edgeOpacity.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-wash-opacity", washOpacity.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-speckle-opacity", speckleOpacity.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-morph-duration", `${morphDuration.toFixed(2)}s`);
     artifactStack.style.setProperty("--coffee-stain-bloom-duration", `${bloomDuration.toFixed(2)}s`);
   };
@@ -539,8 +585,10 @@
     const syncPileState = () => {
       if (!pile) return;
       const cardCount = pile.querySelectorAll("[data-home-record-card]").length;
+      const hasHalo = Boolean(pile.querySelector("[data-home-record-halo]"));
       pile.hidden = cardCount === 0;
       pile.classList.toggle("has-cards", cardCount > 0);
+      pile.classList.toggle("has-halo", hasHalo);
       pile.setAttribute("data-card-count", String(cardCount));
       if (stage) stage.setAttribute("data-record-card-count", String(cardCount));
     };
@@ -550,6 +598,7 @@
       const isActive = isRecordEngaged || isSpinning || isPreviewing;
       portrait.classList.toggle("is-paused-record", isPausedRecord);
       portrait.classList.toggle("is-playing", isSpinning);
+      portrait.classList.toggle("is-vinyl-mode", isRecordEngaged || isSpinning);
       portrait.setAttribute("data-record-visual", isPausedRecord ? "paused" : isSpinning ? "spinning" : isPreviewing ? "preview" : "portrait");
       if (stage) stage.setAttribute("data-record-active", String(isActive));
     };
@@ -582,17 +631,32 @@
       return { image: preloadedRecords[recordIndex], record };
     };
 
-    const showRecord = async (nextIndex) => {
+    const showRecord = async (nextIndex, options = {}) => {
+      const showVinyl = options.vinyl ?? (isRecordEngaged || isSpinning);
       const ticket = ++imageTicket;
       const { image, record } = selectRecord(nextIndex);
       portrait.style.setProperty("--record-image", `url("${record.src}")`);
+      hoverLayer.style.backgroundImage = `url("${record.src}")`;
       if (recordFallbackArt) recordFallbackArt.style.backgroundImage = `url("${record.src}")`;
       recordScene.setRecord(record);
-      recordScene.setVisible(true);
+      recordScene.setVisible(showVinyl);
+
+      if (showVinyl) {
+        setPreviewing(false);
+        hoverLayer.classList.remove("is-visible");
+        portrait.classList.remove("is-vinyl-preview");
+        portrait.classList.add("is-vinyl-mode");
+      } else {
+        portrait.classList.remove("is-vinyl-mode");
+        portrait.classList.add("is-vinyl-preview");
+      }
+
       window.requestAnimationFrame(() => {
         if (ticket !== imageTicket) return;
-        setPreviewing(true);
-        portrait.classList.add("is-vinyl-preview");
+        if (!showVinyl) {
+          setPreviewing(true);
+          hoverLayer.classList.add("is-visible");
+        }
       });
 
       try {
@@ -609,6 +673,7 @@
       imageTicket += 1;
       setPreviewing(false);
       portrait.classList.remove("is-vinyl-preview");
+      portrait.classList.remove("is-vinyl-mode");
       portrait.style.removeProperty("--record-image");
       if (recordFallbackArt) recordFallbackArt.style.removeProperty("background-image");
       recordScene.setVisible(false);
@@ -618,6 +683,7 @@
     const updateSpinState = () => {
       const record = getCurrentRecord();
       portrait.classList.toggle("is-playing", isSpinning);
+      portrait.classList.toggle("is-vinyl-mode", isRecordEngaged || isSpinning);
       if (spinButton) {
         spinButton.classList.toggle("is-playing", isSpinning);
         spinButton.setAttribute("aria-pressed", String(isSpinning));
@@ -631,21 +697,21 @@
       isRecordEngaged = true;
       isSpinning = true;
       updateSpinState();
-      await showRecord(recordIndex);
+      await showRecord(recordIndex, { vinyl: true });
     };
 
     const pauseRecord = () => {
       isRecordEngaged = true;
       isSpinning = false;
       updateSpinState();
-      showRecord(recordIndex);
+      showRecord(recordIndex, { vinyl: true });
     };
 
     const resetRecord = () => {
       isRecordEngaged = false;
       isSpinning = false;
       shakeCount = 0;
-      portrait.classList.remove("is-dragging-record", "is-record-card-found");
+      portrait.classList.remove("is-dragging-record", "is-record-card-found", "is-vinyl-mode");
       portrait.removeAttribute("data-record-shakes");
       portrait.style.removeProperty("--record-drag-x");
       portrait.style.removeProperty("--record-drag-tilt");
@@ -658,15 +724,15 @@
       const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
       const side = order % 2 === 0 ? -1 : 1;
       const x = side * (1.15 + (order % 3) * 0.42);
-      const y = 1.14 + order * 0.34;
-      const z = order * 0.12;
-      const rotate = side * (4.2 + (recordOrder % 3) * 0.8) + order * 0.48;
-      const tilt = 66 - Math.min(order, 4) * 1.2;
+      const y = 1.86 + order * 0.28;
+      const z = 0.58 + order * 0.16;
+      const rotate = side * (3.4 + (recordOrder % 3) * 0.72) + order * 0.42;
+      const tilt = 59 - Math.min(order, 4) * 0.85;
       card.style.setProperty(
         "--card-rest-transform",
-        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg)`
+        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -2.2).toFixed(2)}deg)`
       );
-      card.style.setProperty("--card-open-transform", `translate3d(0, -2.05rem, 6.4rem) rotateZ(0deg) rotateX(3deg) scale(1.025)`);
+      card.style.setProperty("--card-open-transform", `translate3d(0, -1.72rem, 6.6rem) rotateZ(0deg) rotateX(4deg) scale(1.025)`);
       card.style.zIndex = String(20 + order);
 
       const tab = pile?.querySelector(`[data-home-record-card-tab][data-record-index="${recordOrder}"]`);
@@ -675,7 +741,7 @@
         const tabY = y + 1.35;
         tab.style.setProperty(
           "--card-tab-transform",
-          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 1.5rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(64deg)`
+          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 1.8rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(58deg)`
         );
         tab.style.zIndex = String(58 + order);
       }
@@ -720,6 +786,21 @@
       );
     };
 
+    const ensureRecordHalo = () => {
+      if (!pile || pile.querySelector("[data-home-record-halo]")) return;
+      const halo = document.createElement("span");
+      halo.className = "home-record-card-halo is-dropping-halo";
+      halo.dataset.homeRecordHalo = "true";
+      halo.setAttribute("aria-hidden", "true");
+      pile.prepend(halo);
+
+      if (reduceMotion) {
+        halo.classList.remove("is-dropping-halo");
+      } else {
+        halo.addEventListener("animationend", () => halo.classList.remove("is-dropping-halo"), { once: true });
+      }
+    };
+
     const createRecordCard = (record, index) => {
       const card = document.createElement("article");
       const dropSide = index % 2 === 0 ? -1 : 1;
@@ -731,15 +812,15 @@
       card.setAttribute("aria-label", `Pick up ${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 1.42).toFixed(2)}rem, -8.2rem, 7.4rem) rotateZ(${(dropSide * -14).toFixed(2)}deg) rotateX(24deg) rotateY(${(dropSide * 10).toFixed(2)}deg)`
+        `translate3d(${(dropSide * 1.42).toFixed(2)}rem, -8.2rem, 7.4rem) rotateZ(${(dropSide * -14).toFixed(2)}deg) rotateX(22deg) rotateY(${(dropSide * 10).toFixed(2)}deg)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.55).toFixed(2)}rem, -2.2rem, 4.1rem) rotateZ(${(dropSide * 7.5).toFixed(2)}deg) rotateX(48deg) rotateY(${(dropSide * -5).toFixed(2)}deg)`
+        `translate3d(${(dropSide * -0.55).toFixed(2)}rem, -2.05rem, 4.2rem) rotateZ(${(dropSide * 7.5).toFixed(2)}deg) rotateX(42deg) rotateY(${(dropSide * -5).toFixed(2)}deg)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.18).toFixed(2)}rem, 1.42rem, 0.42rem) rotateZ(${(dropSide * -1.2).toFixed(2)}deg) rotateX(72deg)`
+        `translate3d(${(dropSide * 0.16).toFixed(2)}rem, 1.92rem, 0.66rem) rotateZ(${(dropSide * -1.1).toFixed(2)}deg) rotateX(60deg) rotateY(${(dropSide * -1.8).toFixed(2)}deg)`
       );
 
       const cover = document.createElement("span");
@@ -803,8 +884,8 @@
 
     const dropRecordCard = async () => {
       const record = getCurrentRecord();
-      isRecordEngaged = true;
-      await showRecord(recordIndex);
+      const showVinyl = isRecordEngaged || isSpinning;
+      await showRecord(recordIndex, { vinyl: showVinyl });
 
       if (!pile || droppedRecords.has(recordIndex)) {
         pulseAlreadyFound();
@@ -814,6 +895,7 @@
       droppedRecords.add(recordIndex);
       const { card, tab } = createRecordCard(record, recordIndex);
       pile.hidden = false;
+      ensureRecordHalo();
       pile.appendChild(card);
       pile.appendChild(tab);
       reflowRecordCards();
@@ -870,7 +952,7 @@
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
-      showRecord(recordIndex);
+      showRecord(recordIndex, { vinyl: isRecordEngaged || isSpinning });
       portrait.classList.add("is-dragging-record");
       if (!activePointerStartedOnPlayButton && portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
     };
@@ -936,7 +1018,6 @@
         return;
       }
       if (isSpinning) return;
-      startRecord();
     });
 
     if (pile) {
