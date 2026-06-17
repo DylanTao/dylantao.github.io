@@ -1,68 +1,207 @@
-$(document).ready(function () {
-  // add toggle functionality to abstract, award and bibtex buttons
-  const togglePublicationPanel = ($button, panelClass) => {
-    const $entry = $button.closest(".links").parent();
-    const panelClasses = ["abstract", "award", "bibtex"];
-    const $targetPanels = $entry.find(`.${panelClass}.hidden`);
-    const shouldOpen = !$targetPanels.first().hasClass("open");
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleSpecs = [
+    { trigger: "a.abstract", target: ".abstract.hidden", panelClass: "abstract" },
+    { trigger: "a.award", target: ".award.hidden", panelClass: "award" },
+    { trigger: "a.bibtex", target: ".bibtex.hidden", panelClass: "bibtex" },
+  ];
 
-    panelClasses.forEach((currentClass) => {
-      const isOpen = currentClass === panelClass && shouldOpen;
-      $entry.find(`.${currentClass}.hidden`).toggleClass("open", isOpen).attr("aria-hidden", String(!isOpen));
-      $entry.find(`a.${currentClass}[aria-expanded]`).attr("aria-expanded", String(isOpen));
+  const resolveToggleScope = (link) => {
+    const linksContainer = link.closest(".links");
+    if (linksContainer && linksContainer.parentElement) {
+      return linksContainer.parentElement;
+    }
+
+    return link.closest("li, .card-body, article, .post, .row") || link.parentElement;
+  };
+
+  const closePanels = (scope, exceptPanel) => {
+    scope.querySelectorAll(".abstract.hidden.open, .award.hidden.open, .bibtex.hidden.open").forEach((panel) => {
+      if (panel !== exceptPanel) {
+        panel.classList.remove("open");
+        panel.setAttribute("aria-hidden", "true");
+      }
+    });
+
+    scope.querySelectorAll("a.abstract[aria-expanded], a.award[aria-expanded], a.bibtex[aria-expanded]").forEach((link) => {
+      const shouldRemainOpen = Boolean(exceptPanel && link.classList.contains(exceptPanel.dataset.panelClass || ""));
+      link.setAttribute("aria-expanded", String(shouldRemainOpen));
     });
   };
 
-  $("a.abstract, a.award, a.bibtex").click(function (event) {
-    event.preventDefault();
+  toggleSpecs.forEach((spec) => {
+    document.querySelectorAll(spec.trigger).forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const scope = resolveToggleScope(link);
+        if (!scope) {
+          return;
+        }
 
-    const panelClass = ["abstract", "award", "bibtex"].find((currentClass) => this.classList.contains(currentClass));
-    if (!panelClass) return;
+        const panel = scope.querySelector(spec.target);
+        if (!panel) {
+          return;
+        }
 
-    togglePublicationPanel($(this), panelClass);
+        panel.dataset.panelClass = spec.panelClass;
+        const shouldOpen = !panel.classList.contains("open");
+        closePanels(scope, shouldOpen ? panel : null);
+        panel.classList.toggle("open", shouldOpen);
+        panel.setAttribute("aria-hidden", String(!shouldOpen));
+        link.setAttribute("aria-expanded", String(shouldOpen));
+      });
+    });
   });
-  $("a").removeClass("waves-effect waves-light");
 
-  // bootstrap-toc
-  if ($("#toc-sidebar").length) {
-    // remove related publications years from the TOC
-    $(".publications h2").each(function () {
-      $(this).attr("data-toc-skip", "");
+  document.querySelectorAll("a.waves-effect, a.waves-light").forEach((anchor) => {
+    anchor.classList.remove("waves-effect", "waves-light");
+  });
+
+  const tocSidebar = document.querySelector("#toc-sidebar");
+  const contentRoot = document.querySelector('[role="main"]') || document.querySelector("main") || document.body;
+  const buildSidebarToc = (tocRoot) => {
+    const headings = Array.from(contentRoot.querySelectorAll("h2, h3")).filter((heading) => !heading.hasAttribute("data-toc-skip"));
+
+    if (!headings.length) {
+      return;
+    }
+
+    const list = document.createElement("ul");
+    list.className = "toc-list";
+
+    headings.forEach((heading) => {
+      if (!heading.id) {
+        heading.id = heading.textContent
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+
+      const item = document.createElement("li");
+      item.className = "toc-list-item";
+      const link = document.createElement("a");
+      link.className = "toc-link";
+      link.href = `#${heading.id}`;
+      link.textContent = heading.dataset.tocText || heading.textContent.trim();
+      if (heading.tagName.toLowerCase() === "h3") {
+        item.classList.add("is-collapsible");
+      }
+
+      item.appendChild(link);
+      list.appendChild(item);
     });
-    var navSelector = "#toc-sidebar";
-    var $myNav = $(navSelector);
-    Toc.init($myNav);
-    $("body").scrollspy({
-      target: navSelector,
-      offset: 100,
+
+    tocRoot.replaceChildren(list);
+  };
+
+  if (tocSidebar) {
+    const resolveTocCollapseDepth = () => {
+      const explicitDepth = Number.parseInt(tocSidebar.dataset.tocCollapseDepth || "", 10);
+      if (!Number.isNaN(explicitDepth) && explicitDepth >= 0) {
+        return explicitDepth;
+      }
+
+      const collapseMode = (tocSidebar.dataset.tocCollapse || "expanded").toLowerCase();
+      if (["auto", "scroll", "true", "collapsed"].includes(collapseMode)) {
+        return 3;
+      }
+
+      return 6;
+    };
+
+    document.querySelectorAll(".publications h2").forEach((heading) => {
+      heading.setAttribute("data-toc-skip", "");
     });
+
+    const headings = Array.from(contentRoot.querySelectorAll("h2, h3")).filter((heading) => !heading.hasAttribute("data-toc-skip"));
+    headings.forEach((heading) => {
+      if (!heading.id) {
+        heading.id = heading.textContent
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+    });
+
+    const applyCustomTocLabels = () => {
+      tocSidebar.querySelectorAll(".toc-link").forEach((link) => {
+        const anchor = link.getAttribute("href") || "";
+        const headingId = decodeURIComponent(anchor.replace(/^#/, ""));
+        if (!headingId) {
+          return;
+        }
+        const heading = document.getElementById(headingId);
+        const customText = heading?.dataset?.tocText;
+        if (customText) {
+          link.textContent = customText;
+        }
+      });
+    };
+
+    if (window.tocbot && typeof window.tocbot.init === "function" && headings.length > 0) {
+      if (typeof window.tocbot.destroy === "function") {
+        window.tocbot.destroy();
+      }
+
+      window.tocbot.init({
+        tocSelector: "#toc-sidebar",
+        contentSelector: '[role="main"]',
+        headingSelector: "h2, h3",
+        ignoreSelector: "[data-toc-skip]",
+        hasInnerContainers: true,
+        collapseDepth: resolveTocCollapseDepth(),
+        orderedList: false,
+        activeLinkClass: "is-active-link",
+        scrollSmooth: true,
+        scrollSmoothOffset: -80,
+        headingsOffset: 80,
+      });
+      applyCustomTocLabels();
+    } else {
+      buildSidebarToc(tocSidebar);
+    }
   }
 
-  // add css to jupyter notebooks
-  const cssLink = document.createElement("link");
-  cssLink.href = "../css/jupyter.css";
-  cssLink.rel = "stylesheet";
-  cssLink.type = "text/css";
-
-  let jupyterTheme = determineComputedTheme();
-
-  $(".jupyter-notebook-iframe-container iframe").each(function () {
-    $(this).contents().find("head").append(cssLink);
-
-    if (jupyterTheme == "dark") {
-      $(this).bind("load", function () {
-        $(this).contents().find("body").attr({
-          "data-jp-theme-light": "false",
-          "data-jp-theme-name": "JupyterLab Dark",
-        });
-      });
+  const prefersTheme = () => {
+    if (typeof window.determineComputedTheme === "function") {
+      return window.determineComputedTheme();
     }
+    return document.documentElement.dataset.theme || "light";
+  };
+
+  const jupyterTheme = prefersTheme();
+  document.querySelectorAll(".jupyter-notebook-iframe-container iframe").forEach((iframe) => {
+    const applyNotebookStyling = () => {
+      const iframeDocument = iframe.contentDocument;
+      if (!iframeDocument) {
+        return;
+      }
+
+      if (!iframeDocument.querySelector('link[data-al-folio-jupyter="true"]')) {
+        const cssLink = iframeDocument.createElement("link");
+        cssLink.href = "../css/jupyter.css";
+        cssLink.rel = "stylesheet";
+        cssLink.type = "text/css";
+        cssLink.setAttribute("data-al-folio-jupyter", "true");
+        iframeDocument.head.appendChild(cssLink);
+      }
+
+      if (jupyterTheme === "dark") {
+        iframeDocument.body?.setAttribute("data-jp-theme-light", "false");
+        iframeDocument.body?.setAttribute("data-jp-theme-name", "JupyterLab Dark");
+      }
+    };
+
+    if (iframe.contentDocument?.readyState === "complete") {
+      applyNotebookStyling();
+    }
+    iframe.addEventListener("load", applyNotebookStyling);
   });
 
-  // trigger popovers
-  $('[data-toggle="popover"]').popover({
-    trigger: "hover",
-  });
+  if (window.AlFolioUi && typeof window.AlFolioUi.initPopovers === "function") {
+    window.AlFolioUi.initPopovers(document);
+  }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const revealItems = Array.from(

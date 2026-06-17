@@ -406,7 +406,40 @@ nav[data-toggle="toc"] {
   }
 }
 
-// Popovers
+// Vanilla fallback popovers/tooltips created by tooltips-setup.js when the
+// Bootstrap compatibility runtime is not active.
+
+.af-popover {
+  position: absolute;
+  z-index: 1070;
+  max-width: 276px;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--global-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.375rem;
+  color: var(--global-text-color);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  white-space: pre-line;
+  word-wrap: break-word;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.af-tooltip {
+  position: absolute;
+  z-index: 1080;
+  max-width: 200px;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 0.8125rem;
+  word-wrap: break-word;
+  pointer-events: none;
+}
+
+// Bootstrap popover theming used when bootstrap-compat is enabled.
 
 .popover {
   background-color: var(--global-bg-color);

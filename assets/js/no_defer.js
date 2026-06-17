@@ -1,24 +1,29 @@
-// add bootstrap classes to tables
-$(document).ready(function () {
-  $("table").each(function () {
-    if (determineComputedTheme() == "dark") {
-      $(this).addClass("table-dark");
+document.addEventListener("DOMContentLoaded", () => {
+  const compatBootstrap = Boolean(window.alFolio && window.alFolio.compatBootstrap);
+  const computedTheme =
+    typeof window.determineComputedTheme === "function" ? window.determineComputedTheme() : document.documentElement.dataset.theme || "light";
+
+  document.querySelectorAll("table").forEach((table) => {
+    if (computedTheme === "dark") {
+      table.classList.add("table-dark");
     } else {
-      $(this).removeClass("table-dark");
+      table.classList.remove("table-dark");
     }
 
-    // only select tables that are not inside an element with "news" (about page) or "card" (cv page) class
-    if (
-      $(this).parents('[class*="news"]').length == 0 &&
-      $(this).parents('[class*="card"]').length == 0 &&
-      $(this).parents('[class*="archive"]').length == 0 &&
-      $(this).parents("code").length == 0
-    ) {
-      // make table use bootstrap-table
-      $(this).attr("data-toggle", "table");
-      // add some classes to make the table look better
-      // $(this).addClass('table-sm');
-      $(this).addClass("table-hover");
+    const insideExcludedParent =
+      table.closest('[class*="news"]') ||
+      table.closest('[class*="card"]') ||
+      table.closest('[class*="archive"]') ||
+      table.closest("pre") ||
+      table.closest("code");
+
+    if (!insideExcludedParent) {
+      table.classList.add("table", "table-hover");
+      table.parentElement?.classList.add("table-responsive");
+
+      if (compatBootstrap) {
+        table.setAttribute("data-toggle", "table");
+      }
     }
   });
 });

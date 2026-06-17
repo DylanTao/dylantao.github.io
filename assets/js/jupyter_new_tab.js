@@ -1,18 +1,35 @@
-$(document).ready(function () {
-  // Let external links in jupyter notebooks open in new tab
-  let jupyterNotebooks = $(".jupyter-notebook-iframe-container");
-  jupyterNotebooks.each(function () {
-    let iframeBody = $(this).find("iframe").get(0).contentWindow.document.body;
-    // Get all <a> elements in the bodyElement
-    let links = $(iframeBody).find("a");
+document.addEventListener("DOMContentLoaded", () => {
+  const notebookIframes = document.querySelectorAll(".jupyter-notebook-iframe-container iframe");
 
-    // Loop through each <a> element
-    links.each(function () {
-      // Check if the <a> element has an 'href' attribute
-      if ($(this).attr("href")) {
-        // Set the 'target' attribute to '_blank' to open the link in a new tab/window
-        $(this).attr("target", "_blank");
+  const updateNotebookLinks = (iframe) => {
+    try {
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document;
+      if (!iframeDocument || !iframeDocument.body) {
+        return;
       }
-    });
+
+      iframeDocument.querySelectorAll("a[href]").forEach((link) => {
+        link.setAttribute("target", "_blank");
+        const currentRel = link.getAttribute("rel") || "";
+        const relParts = currentRel.split(/\s+/).filter(Boolean);
+        if (!relParts.includes("noopener")) {
+          relParts.push("noopener");
+        }
+        if (!relParts.includes("noreferrer")) {
+          relParts.push("noreferrer");
+        }
+        link.setAttribute("rel", relParts.join(" "));
+      });
+    } catch (_error) {
+      // Cross-origin iframe access is blocked by design.
+    }
+  };
+
+  notebookIframes.forEach((iframe) => {
+    if (iframe.contentDocument?.readyState === "complete") {
+      updateNotebookLinks(iframe);
+    }
+
+    iframe.addEventListener("load", () => updateNotebookLinks(iframe));
   });
 });
