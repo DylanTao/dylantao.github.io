@@ -1,79 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img" aria-label="Irregular coffee stain">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-label="Organic circular coffee stain">
   <defs>
-    <filter id="bleed" x="-18%" y="-22%" width="136%" height="144%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.029 0.071" numOctaves="4" seed="56" />
-      <feDisplacementMap in="SourceGraphic" scale="8.2" />
+    <filter id="bleed" x="-18%" y="-18%" width="136%" height="136%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.034 0.052" numOctaves="4" seed="56" />
+      <feDisplacementMap in="SourceGraphic" scale="7.4" />
     </filter>
-    <filter id="soft" x="-22%" y="-28%" width="144%" height="156%">
-      <feGaussianBlur stdDeviation="2.9" />
+    <filter id="soft" x="-22%" y="-22%" width="144%" height="144%">
+      <feGaussianBlur stdDeviation="2.8" />
     </filter>
     <filter id="tiny-bleed" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="1.2" />
-      <feTurbulence type="fractalNoise" baseFrequency="0.11 0.18" numOctaves="2" seed="25" />
-      <feDisplacementMap in="SourceGraphic" scale="2.2" />
+      <feGaussianBlur stdDeviation="1.15" />
+      <feTurbulence type="fractalNoise" baseFrequency="0.12 0.16" numOctaves="2" seed="25" />
+      <feDisplacementMap in="SourceGraphic" scale="2" />
     </filter>
   </defs>
   <path
-    d="M58 157C49 101 93 55 161 43C239 29 321 57 359 106C391 147 373 199 317 230C254 265 167 252 104 222C76 208 63 184 58 157Z"
+    d="M62 178C62 102 112 58 184 58C258 58 303 108 304 181C305 254 257 302 181 301C106 300 62 251 62 178Z"
     fill="#d9aa78"
     opacity="0.07"
     filter="url(#soft)"
   />
   <path
-    d="M91 178C126 215 199 228 268 210C308 200 335 179 346 154C326 176 294 191 248 198C186 207 129 197 91 178Z"
+    d="M86 207C113 257 184 280 246 248C283 229 299 196 297 164C286 202 259 231 216 242C164 255 116 241 86 207Z"
     fill="#d09460"
     opacity="0.062"
     filter="url(#bleed)"
   />
-  <path d="M142 71C178 51 248 54 305 81C267 74 216 76 181 89C160 97 145 94 142 71Z" fill="#e2be91" opacity="0.034" filter="url(#soft)" />
+  <path d="M111 105C143 75 207 69 259 101C224 91 178 95 145 116C126 128 112 126 111 105Z" fill="#e2be91" opacity="0.034" filter="url(#soft)" />
   <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#bleed)">
     <path
-      d="M65 153C55 101 96 61 164 50C232 39 306 60 347 101C388 142 375 196 319 226C258 258 171 248 111 220C82 207 70 184 65 153Z"
+      d="M70 178C68 111 115 67 183 66C254 65 296 111 297 180C298 251 252 293 181 292C111 291 72 247 70 178Z"
       stroke="#d09460"
       stroke-opacity="0.34"
       stroke-width="11.2"
-      stroke-dasharray="72 18 29 16 118 22 44 30 86 18 31 24"
+      stroke-dasharray="68 18 31 17 96 21 46 28 72 18 34 24"
       stroke-dashoffset="13"
     />
     <path
-      d="M89 152C82 112 114 80 169 70C229 59 291 76 324 108C357 141 345 182 300 205C251 229 180 223 132 203C102 190 94 174 89 152Z"
-      stroke="#efbf8b"
-      stroke-opacity="0.22"
+      d="M91 179C90 123 130 89 184 88C241 87 276 124 277 180C278 236 239 271 182 271C127 271 92 235 91 179Z"
+      stroke="#e2be91"
+      stroke-opacity="0.24"
       stroke-width="5.8"
-      stroke-dasharray="46 28 96 18 34 26 69 24 31 20"
+      stroke-dasharray="44 26 86 18 36 24 58 23 30 20"
       stroke-dashoffset="33"
     />
     <path
-      d="M115 160C118 124 150 100 201 94C254 87 296 104 308 135C320 167 286 192 234 199C181 207 128 191 115 160Z"
-      stroke="#b4784a"
-      stroke-opacity="0.15"
+      d="M119 184C120 145 146 121 185 120C226 119 253 145 254 181C255 219 225 243 184 243C144 243 118 221 119 184Z"
+      stroke="#f0c79a"
+      stroke-opacity="0.12"
       stroke-width="3.3"
-      stroke-dasharray="38 32 62 24 21 28 74 30"
+      stroke-dasharray="36 30 54 24 22 28 62 30"
     />
     <path
-      d="M77 178C105 227 182 245 258 226C299 216 333 194 352 160"
-      stroke="#dfa979"
+      d="M80 202C104 261 181 292 247 255C279 237 294 212 300 177"
+      stroke="#c58b58"
       stroke-opacity="0.14"
       stroke-width="7"
-      stroke-dasharray="38 16 86 22 26 18 54 28"
+      stroke-dasharray="36 16 72 22 28 18 48 28"
     />
   </g>
-  <g fill="#d1935d" filter="url(#soft)">
-    <ellipse cx="72" cy="111" rx="12" ry="22" opacity="0.08" transform="rotate(-28 72 111)" />
-    <ellipse cx="132" cy="43" rx="19" ry="8" opacity="0.095" transform="rotate(-17 132 43)" />
-    <ellipse cx="290" cy="55" rx="28" ry="9" opacity="0.1" transform="rotate(15 290 55)" />
-    <ellipse cx="363" cy="129" rx="17" ry="9" opacity="0.12" transform="rotate(-9 363 129)" />
-    <ellipse cx="315" cy="244" rx="20" ry="8" opacity="0.08" transform="rotate(-22 315 244)" />
+  <g fill="#d19b68" filter="url(#soft)">
+    <ellipse cx="82" cy="136" rx="10" ry="18" opacity="0.075" transform="rotate(-23 82 136)" />
+    <ellipse cx="130" cy="75" rx="18" ry="8" opacity="0.09" transform="rotate(-12 130 75)" />
+    <ellipse cx="254" cy="83" rx="24" ry="8" opacity="0.09" transform="rotate(14 254 83)" />
+    <ellipse cx="302" cy="173" rx="16" ry="8" opacity="0.11" transform="rotate(-7 302 173)" />
+    <ellipse cx="251" cy="287" rx="18" ry="7" opacity="0.07" transform="rotate(-18 251 287)" />
   </g>
-  <g fill="#e1a873" filter="url(#tiny-bleed)">
-    <circle cx="92" cy="71" r="3.4" opacity="0.16" />
-    <circle cx="116" cy="54" r="1.9" opacity="0.14" />
-    <ellipse cx="203" cy="38" rx="4.8" ry="2.6" opacity="0.15" transform="rotate(8 203 38)" />
-    <circle cx="337" cy="78" r="3.1" opacity="0.14" />
-    <ellipse cx="376" cy="155" rx="5.2" ry="3.2" opacity="0.15" transform="rotate(-18 376 155)" />
-    <circle cx="343" cy="203" r="2.3" opacity="0.12" />
-    <ellipse cx="272" cy="258" rx="6.8" ry="2.5" opacity="0.11" transform="rotate(-14 272 258)" />
-    <circle cx="93" cy="232" r="2.4" opacity="0.12" />
-    <ellipse cx="54" cy="174" rx="3.2" ry="6.4" opacity="0.12" transform="rotate(18 54 174)" />
+  <g fill="#dfb17f" filter="url(#tiny-bleed)">
+    <circle cx="101" cy="98" r="3.4" opacity="0.18" />
+    <circle cx="123" cy="80" r="1.9" opacity="0.14" />
+    <ellipse cx="194" cy="66" rx="4.8" ry="2.6" opacity="0.15" transform="rotate(8 194 66)" />
+    <circle cx="282" cy="111" r="3.1" opacity="0.15" />
+    <ellipse cx="313" cy="198" rx="5.2" ry="3.2" opacity="0.16" transform="rotate(-18 313 198)" />
+    <circle cx="292" cy="236" r="2.3" opacity="0.12" />
+    <ellipse cx="213" cy="306" rx="6.8" ry="2.5" opacity="0.12" transform="rotate(-14 213 306)" />
+    <circle cx="101" cy="272" r="2.4" opacity="0.12" />
+    <ellipse cx="60" cy="204" rx="3.2" ry="6.4" opacity="0.12" transform="rotate(18 60 204)" />
   </g>
 </svg>
