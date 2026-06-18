@@ -2659,7 +2659,7 @@
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
 
-    const setDeskMode = (mode) => {
+    const setDeskMode = (mode, userInitiated = false) => {
       const is3D = mode === "3d";
       if (stage) {
         stage.classList.toggle("is-desk-3d", is3D);
@@ -2683,6 +2683,11 @@
         button.setAttribute("aria-pressed", String(isActive));
       });
       deskScene.setVisible(is3D);
+      if (is3D && userInitiated && stage && compactPileQuery.matches) {
+        window.requestAnimationFrame(() => {
+          stage.scrollIntoView({ block: "center", inline: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+        });
+      }
     };
 
     const syncPileState = () => {
@@ -3146,7 +3151,7 @@
     selectRecord(0);
     setDeskMode("2d");
     deskModeButtons.forEach((button) => {
-      button.addEventListener("click", () => setDeskMode(button.getAttribute("data-home-desk-mode") || "2d"));
+      button.addEventListener("click", () => setDeskMode(button.getAttribute("data-home-desk-mode") || "2d", true));
     });
     if (deskControls) {
       deskControls.addEventListener("click", (event) => event.stopPropagation());
