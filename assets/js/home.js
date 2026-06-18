@@ -392,6 +392,13 @@
       labelRim.position.z = 0.058;
       recordGroup.add(labelRim);
 
+      const outerBevel = new THREE.Mesh(new THREE.RingGeometry(2.37, 2.46, 192), accentMaterial);
+      outerBevel.position.z = 0.063;
+      outerBevel.material = accentMaterial.clone();
+      outerBevel.material.transparent = true;
+      outerBevel.material.opacity = 0.24;
+      recordGroup.add(outerBevel);
+
       const spindleWasher = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0065, 10, 44), spindleMaterial);
       spindleWasher.position.z = 0.124;
       baseGroup.add(spindleWasher);
@@ -406,19 +413,33 @@
       pivot.position.set(0, 0, 0.03);
       armGroup.add(pivot);
 
-      const arm = new THREE.Mesh(new THREE.BoxGeometry(0.075, 1.72, 0.055), armMaterial);
-      arm.position.set(-0.64, -0.69, 0.08);
-      arm.rotation.z = -0.88;
+      const counterWeight = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.18, 36), armMaterial);
+      counterWeight.rotation.x = Math.PI / 2;
+      counterWeight.position.set(0.18, 0.18, 0.08);
+      armGroup.add(counterWeight);
+
+      const armCurve = new THREE.CatmullRomCurve3(
+        [
+          new THREE.Vector3(-0.05, -0.08, 0.1),
+          new THREE.Vector3(-0.34, -0.42, 0.105),
+          new THREE.Vector3(-0.78, -0.82, 0.095),
+          new THREE.Vector3(-1.14, -1.14, 0.08),
+        ],
+        false,
+        "catmullrom",
+        0.42
+      );
+      const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 52, 0.034, 12, false), armMaterial);
       armGroup.add(arm);
 
-      const head = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.2, 0.08), accentMaterial);
-      head.position.set(-1.24, -1.18, 0.1);
-      head.rotation.z = -0.88;
-      armGroup.add(head);
+      const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.18, 0.075), accentMaterial);
+      headshell.position.set(-1.26, -1.22, 0.082);
+      headshell.rotation.z = -0.72;
+      armGroup.add(headshell);
 
       const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.18, 20), armMaterial);
       stylus.rotation.x = Math.PI;
-      stylus.position.set(-1.38, -1.3, 0.02);
+      stylus.position.set(-1.39, -1.32, 0.012);
       armGroup.add(stylus);
 
       updateAccent();
@@ -650,7 +671,7 @@
 
     const updateWindowJumpVisibility = () => {
       if (!windowJumpGroup) return;
-      const shouldShow = activeView === "desk" && (isCompactScene || zoomLevel > 0.42);
+      const shouldShow = activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.48;
       if (windowJumpGroup.visible !== shouldShow) {
         windowJumpGroup.visible = shouldShow;
         render();
@@ -664,9 +685,14 @@
       if (immediate || reduceMotion) zoomLevel = targetZoomLevel;
 
       if (activeView === "outside") {
-        camera.fov = isCompactScene ? 38 : 34;
-        camera.position.set(isCompactScene ? 2.86 : 3.38, isCompactScene ? 1.46 : 1.72, isCompactScene ? 5.15 : 5.42);
-        camera.lookAt(isCompactScene ? 0.1 : 0.24, -0.14, 0.04);
+        const zoom = easeOutCubic(zoomLevel);
+        camera.fov = lerp(isCompactScene ? 38 : 34, isCompactScene ? 32 : 29, zoom);
+        camera.position.set(
+          lerp(isCompactScene ? 2.86 : 3.38, isCompactScene ? 1.92 : 2.1, zoom),
+          lerp(isCompactScene ? 1.46 : 1.72, isCompactScene ? 1.08 : 1.16, zoom),
+          lerp(isCompactScene ? 5.15 : 5.42, isCompactScene ? 3.42 : 3.74, zoom)
+        );
+        camera.lookAt(lerp(isCompactScene ? 0.1 : 0.24, 1.04, zoom), lerp(-0.14, -0.06, zoom), lerp(0.04, 0.24, zoom));
       } else {
         const zoom = easeOutCubic(zoomLevel);
         if (focusedEntry?.kind === "album") {
@@ -855,28 +881,30 @@
         192
       );
 
-    const createDeskButtonTexture = (palette, label) =>
+    const createDeskButtonTexture = (palette) =>
       makeCanvasTexture(
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
           const glow = context.createRadialGradient(width * 0.5, height * 0.48, 10, width * 0.5, height * 0.48, width * 0.46);
-          glow.addColorStop(0, palette.isDarkTheme ? "rgba(255,221,175,0.68)" : "rgba(255,183,102,0.68)");
-          glow.addColorStop(0.58, palette.isDarkTheme ? "rgba(255,203,146,0.22)" : "rgba(173,123,80,0.18)");
+          glow.addColorStop(0, palette.isDarkTheme ? "rgba(255,221,175,0.46)" : "rgba(255,183,102,0.46)");
+          glow.addColorStop(0.46, palette.isDarkTheme ? "rgba(255,203,146,0.16)" : "rgba(173,123,80,0.14)");
           glow.addColorStop(1, "rgba(255,255,255,0)");
           context.fillStyle = glow;
           context.fillRect(0, 0, width, height);
+          context.strokeStyle = palette.isDarkTheme ? "rgba(255,232,196,0.34)" : "rgba(122,83,45,0.22)";
+          context.lineWidth = 5;
           context.beginPath();
-          context.arc(width * 0.5, height * 0.5, width * 0.26, 0, Math.PI * 2);
-          context.fillStyle = palette.isDarkTheme ? "rgba(24,34,36,0.72)" : "rgba(255,250,241,0.76)";
-          context.fill();
-          context.lineWidth = 7;
-          context.strokeStyle = palette.isDarkTheme ? "rgba(255,221,175,0.42)" : "rgba(122,83,45,0.32)";
+          context.arc(width * 0.5, height * 0.5, width * 0.2, -0.45, Math.PI * 1.18);
           context.stroke();
-          context.fillStyle = palette.isDarkTheme ? "rgba(255,229,191,0.88)" : "rgba(104,70,42,0.86)";
-          context.font = "800 70px Inter, system-ui, sans-serif";
-          context.textAlign = "center";
-          context.textBaseline = "middle";
-          context.fillText(label, width * 0.5, height * 0.51);
+          context.lineWidth = 2.5;
+          context.beginPath();
+          context.moveTo(width * 0.36, height * 0.55);
+          context.quadraticCurveTo(width * 0.5, height * 0.39, width * 0.66, height * 0.54);
+          context.stroke();
+          context.fillStyle = palette.isDarkTheme ? "rgba(255,238,208,0.52)" : "rgba(255,255,255,0.5)";
+          context.beginPath();
+          context.arc(width * 0.62, height * 0.36, width * 0.025, 0, Math.PI * 2);
+          context.fill();
         },
         256,
         256
@@ -1405,9 +1433,9 @@
       themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x58b5cf);
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
       if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
-      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x62533e : 0x9b825f);
-      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x4f4434 : 0x7f6849);
-      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x7c694b : 0xbba077);
+      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xaa9169);
+      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0x9b835f);
+      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xd0b583);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
@@ -1541,9 +1569,9 @@
         },
         620
       );
-      targetZoomLevel = Math.max(targetZoomLevel, 0.34);
-      targetRotationX = -0.04;
-      targetRotationY = -0.22;
+      targetZoomLevel = Math.max(targetZoomLevel, 0.54);
+      targetRotationX = -0.055;
+      targetRotationY = -0.3;
       scheduleFrame();
     };
 
@@ -1566,7 +1594,7 @@
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, 0.68);
+      targetZoomLevel = Math.max(targetZoomLevel, 0.76);
       targetRotationX = -0.035;
       targetRotationY = -0.2;
       scheduleFrame();
@@ -1729,7 +1757,7 @@
       const buttonMaterial = new THREE.MeshBasicMaterial({
         map: createDeskButtonTexture(palette, "OUT"),
         transparent: true,
-        opacity: 0.72,
+        opacity: 0.5,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
@@ -1801,9 +1829,9 @@
         map: beachTexture,
         roughness: 0.9,
       });
-      const cliffMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x62533e : 0x9b825f, roughness: 0.88 });
-      const cliffFaceMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4f4434 : 0x7f6849, roughness: 0.92 });
-      const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x7c694b : 0xbba077, roughness: 0.86 });
+      const cliffMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x675a46 : 0xaa9169, roughness: 0.88 });
+      const cliffFaceMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x5a4f3e : 0x9b835f, roughness: 0.92 });
+      const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x867458 : 0xd0b583, roughness: 0.86 });
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
@@ -1902,8 +1930,8 @@
           [0.88, 1.02],
           [0.2, 0.56],
         ],
-        -0.62,
-        0.2,
+        -0.86,
+        0.08,
         cliffMaterial
       );
       addIrregularSlab(
@@ -1915,8 +1943,8 @@
           [1.62, 1.54],
           [-0.36, 1.05],
         ],
-        -0.82,
-        0.22,
+        -1.05,
+        0.1,
         cliffFaceMaterial
       );
       addIrregularSlab(
@@ -1928,19 +1956,19 @@
           [0.42, 1.82],
           [-0.76, 1.24],
         ],
-        -1.02,
-        0.18,
+        -1.2,
+        0.08,
         cliffFaceMaterial
       );
       [
-        { size: { x: 1.52, y: 0.018, z: 0.026 }, position: { x: 1.35, y: -0.78, z: 1.01 }, rotation: -0.04 },
-        { size: { x: 1.8, y: 0.016, z: 0.024 }, position: { x: 1.15, y: -0.94, z: 1.25 }, rotation: 0.08 },
-        { size: { x: 1.24, y: 0.014, z: 0.022 }, position: { x: 0.64, y: -1.1, z: 1.48 }, rotation: -0.1 },
+        { size: { x: 1.3, y: 0.012, z: 0.02 }, position: { x: 1.34, y: -0.92, z: 1.0 }, rotation: -0.04 },
+        { size: { x: 1.5, y: 0.011, z: 0.018 }, position: { x: 1.1, y: -1.11, z: 1.2 }, rotation: 0.08 },
+        { size: { x: 1.02, y: 0.01, z: 0.016 }, position: { x: 0.58, y: -1.26, z: 1.42 }, rotation: -0.1 },
       ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
       });
-      addBox(outsideGroup, { x: 1.72, y: 0.075, z: 0.68 }, { x: 1.2, y: -0.55, z: 0.38 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.72, y: 0.052, z: 0.62 }, { x: 1.2, y: -0.56, z: 0.38 }, roofMaterial);
 
       const house = new THREE.Group();
       house.position.set(1.18, 0.12, 0.16);
@@ -1950,8 +1978,8 @@
       addBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial);
-      addBox(house, { x: 1.78, y: 0.16, z: 0.96 }, { x: 0, y: 0.5, z: 0.02 }, roofMaterial);
-      addBox(house, { x: 1.9, y: 0.06, z: 1.04 }, { x: 0, y: 0.6, z: 0.04 }, roofMaterial);
+      addBox(house, { x: 1.78, y: 0.1, z: 0.92 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
+      addBox(house, { x: 1.9, y: 0.04, z: 1.0 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
       addBox(house, { x: 1.9, y: 0.045, z: 0.075 }, { x: 0, y: 0.43, z: 0.53 }, trimMaterial);
       addBox(house, { x: 1.78, y: 0.035, z: 0.075 }, { x: 0, y: 0.39, z: -0.42 }, trimMaterial);
       addBox(house, { x: 1.48, y: 0.075, z: 0.14 }, { x: -0.02, y: -0.57, z: 0.36 }, roofMaterial);
@@ -1999,13 +2027,50 @@
       laptopScreen.rotation.set(-0.58, -0.08, 0);
       room.add(laptopScreen);
 
+      const roomDesk = new THREE.Group();
+      roomDesk.position.set(0.42, -0.16, -0.07);
+      roomDesk.rotation.y = -0.36;
+      roomDesk.scale.setScalar(0.82);
+      room.add(roomDesk);
+      const miniVinylMaterial = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.54, metalness: 0.04 });
+      const miniPaperMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xfff3de : 0xfffbf2, roughness: 0.68 });
+      const miniAccentMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe4b780 : 0xa96b3d, roughness: 0.52 });
+      addBox(roomDesk, { x: 0.72, y: 0.045, z: 0.36 }, { x: 0, y: -0.035, z: 0.0 }, roofMaterial);
+      [
+        [-0.3, -0.13],
+        [0.3, -0.13],
+        [-0.3, 0.13],
+        [0.3, 0.13],
+      ].forEach(([x, z]) => addBox(roomDesk, { x: 0.035, y: 0.28, z: 0.035 }, { x, y: -0.18, z }, trimMaterial));
+      addBox(roomDesk, { x: 0.28, y: 0.028, z: 0.2 }, { x: -0.2, y: 0.006, z: -0.02 }, trimMaterial);
+      const miniRecord = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.018, 48), miniVinylMaterial);
+      miniRecord.position.set(-0.22, 0.04, -0.02);
+      roomDesk.add(miniRecord);
+      const miniLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.021, 32), miniPaperMaterial);
+      miniLabel.position.set(-0.22, 0.054, -0.02);
+      roomDesk.add(miniLabel);
+      addBox(roomDesk, { x: 0.2, y: 0.012, z: 0.09 }, { x: 0.12, y: 0.035, z: -0.08 }, miniPaperMaterial);
+      addBox(roomDesk, { x: 0.2, y: 0.012, z: 0.09 }, { x: 0.18, y: 0.039, z: 0.05 }, miniPaperMaterial);
+      const miniCup = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.047, 0.11, 32), bedMaterial);
+      miniCup.position.set(0.31, 0.072, 0.08);
+      roomDesk.add(miniCup);
+      records.slice(0, 4).forEach((recordItem, index) => {
+        const sleeveMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.58, side: THREE.DoubleSide });
+        const sleeve = new THREE.Mesh(new THREE.PlaneGeometry(0.11, 0.15), sleeveMaterial);
+        sleeve.position.set(-0.06 + index * 0.055, 0.12 + index * 0.002, -0.18 - index * 0.01);
+        sleeve.rotation.set(-0.1, -0.24 + index * 0.08, 0.04);
+        roomDesk.add(sleeve);
+        loadTexture(recordItem.cover || recordItem.src, sleeveMaterial);
+      });
+      addBox(roomDesk, { x: 0.04, y: 0.012, z: 0.16 }, { x: 0.29, y: 0.07, z: -0.08 }, miniAccentMaterial);
+
       returnInsideGroup = new THREE.Group();
       returnInsideGroup.position.set(-2.35, 0.98, -0.82);
       outsideGroup.add(returnInsideGroup);
       const returnMaterial = new THREE.MeshBasicMaterial({
         map: createDeskButtonTexture(palette, "IN"),
         transparent: true,
-        opacity: 0.74,
+        opacity: 0.48,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
@@ -2062,6 +2127,12 @@
       const ceramicMaterial = new THREE.MeshStandardMaterial({ color: palette.ceramic, roughness: 0.42, metalness: 0.02 });
       const recordBaseMaterial = new THREE.MeshStandardMaterial({ color: palette.recordBase, roughness: 0.68, metalness: 0.08 });
       const vinylMaterial = new THREE.MeshStandardMaterial({ color: 0x101111, roughness: 0.5, metalness: 0.05 });
+      const grooveMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xd9c2a4 : 0xffffff,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.085 : 0.072,
+        depthWrite: false,
+      });
       const metalMaterial = new THREE.MeshStandardMaterial({ color: palette.metal, roughness: 0.38, metalness: 0.42 });
       const cardEdgeMaterial = new THREE.MeshStandardMaterial({ color: palette.cardEdge, roughness: 0.72, metalness: 0.02 });
       const stainMaterial = new THREE.MeshBasicMaterial({
@@ -2125,32 +2196,73 @@
       turntableHit.position.set(-0.12, 0.28, 0.02);
       player.add(turntableHit);
       registerInteractive(turntableHit, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
+      const platter = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.64, 0.075, 112), metalMaterial);
+      platter.position.set(-0.24, 0.115, 0);
+      player.add(platter);
+      const platterMat = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x2f3332 : 0xb9aa92, roughness: 0.42, metalness: 0.28 });
+      const platterTop = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.58, 0.03, 112), platterMat);
+      platterTop.position.set(-0.24, 0.168, 0);
+      player.add(platterTop);
+      const platterLip = new THREE.Mesh(new THREE.TorusGeometry(0.585, 0.012, 10, 96), metalMaterial);
+      platterLip.rotation.x = Math.PI / 2;
+      platterLip.position.set(-0.24, 0.19, 0);
+      player.add(platterLip);
       recordGroup = new THREE.Group();
-      recordGroup.position.set(-0.24, 0.16, 0.0);
+      recordGroup.position.set(-0.24, 0.205, 0.0);
       player.add(recordGroup);
       const record = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.055, 112), vinylMaterial);
       recordGroup.add(record);
+      const recordLip = new THREE.Mesh(new THREE.TorusGeometry(0.495, 0.009, 8, 112), grooveMaterial);
+      recordLip.rotation.x = Math.PI / 2;
+      recordLip.position.y = 0.035;
+      recordGroup.add(recordLip);
+      [0.32, 0.37, 0.415, 0.455].forEach((radius, index) => {
+        const groove = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.0026, 6, 96), grooveMaterial);
+        groove.rotation.x = Math.PI / 2;
+        groove.position.y = 0.038 + index * 0.0014;
+        recordGroup.add(groove);
+      });
       recordLabelMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.02 });
-      const recordLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.245, 0.245, 0.062, 72), recordLabelMaterial);
-      recordLabel.position.y = 0.036;
+      const recordLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.275, 0.275, 0.062, 72), recordLabelMaterial);
+      recordLabel.position.y = 0.041;
       recordGroup.add(recordLabel);
+      const spindle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.09, 32), metalMaterial);
+      spindle.position.set(-0.24, 0.268, 0);
+      player.add(spindle);
       registerInteractive(record, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
       registerInteractive(recordLabel, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
 
       toneArmGroup = new THREE.Group();
-      toneArmGroup.position.set(0.43, 0.22, -0.36);
+      toneArmGroup.position.set(0.43, 0.27, -0.36);
       toneArmGroup.rotation.y = 0.38;
       player.add(toneArmGroup);
       const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.08, 36), metalMaterial);
       toneArmGroup.add(pivot);
-      const arm = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.055, 0.7), metalMaterial);
-      arm.position.set(-0.26, 0, -0.26);
-      arm.rotation.y = -0.48;
+      const counterWeight = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.11, 32), metalMaterial);
+      counterWeight.rotation.z = Math.PI / 2;
+      counterWeight.position.set(0.12, 0.008, 0.1);
+      toneArmGroup.add(counterWeight);
+      const armCurve = new THREE.CatmullRomCurve3(
+        [
+          new THREE.Vector3(0.015, 0.02, -0.055),
+          new THREE.Vector3(-0.16, 0.023, -0.22),
+          new THREE.Vector3(-0.36, 0.018, -0.43),
+          new THREE.Vector3(-0.52, 0.006, -0.58),
+        ],
+        false,
+        "catmullrom",
+        0.5
+      );
+      const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 44, 0.018, 10, false), metalMaterial);
       toneArmGroup.add(arm);
-      const head = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.06, 0.13), metalMaterial);
-      head.position.set(-0.48, 0, -0.52);
-      head.rotation.y = -0.48;
-      toneArmGroup.add(head);
+      const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.055, 0.14), metalMaterial);
+      headshell.position.set(-0.57, 0.002, -0.62);
+      headshell.rotation.y = -0.38;
+      toneArmGroup.add(headshell);
+      const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.018, 0.095, 18), metalMaterial);
+      stylus.position.set(-0.62, -0.052, -0.68);
+      stylus.rotation.x = Math.PI;
+      toneArmGroup.add(stylus);
 
       const albumRack = new THREE.Group();
       albumRack.position.set(-1.76, -0.2, -0.66);
@@ -2442,6 +2554,11 @@
           setSceneView("outside");
         } else if (pointerMode === "returnInside" && !movedEnough) {
           setSceneView("desk");
+        } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && (focusedEntry || targetZoomLevel > 0.04)) {
+          clearFocusedEntry();
+          targetZoomLevel = 0;
+          targetRotationX = defaultRotation.x;
+          targetRotationY = defaultRotation.y;
         }
 
         if (releasedEntry) releasedEntry.isDragging = false;
@@ -2474,6 +2591,18 @@
         const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
         if (!delta) return;
         if (activeView === "outside") {
+          if (delta < 0) {
+            targetZoomLevel = clamp(targetZoomLevel - delta * 0.00125, 0, 1);
+            event.preventDefault();
+            scheduleFrame();
+            return;
+          }
+          if (delta > 0 && targetZoomLevel > 0.04) {
+            targetZoomLevel = 0;
+            event.preventDefault();
+            scheduleFrame();
+            return;
+          }
           if (delta > 0) {
             setSceneView("desk");
             event.preventDefault();
@@ -2482,11 +2611,12 @@
           return;
         }
         if (delta > 0 && (focusedEntry || targetZoomLevel > 0.04)) {
+          const wasDeepWindowZoom = !focusedEntry && targetZoomLevel > 0.55;
           clearFocusedEntry();
           targetZoomLevel = 0;
           targetRotationX = defaultRotation.x;
           targetRotationY = defaultRotation.y;
-          event.preventDefault();
+          if (wasDeepWindowZoom) event.preventDefault();
           scheduleFrame();
           return;
         }
