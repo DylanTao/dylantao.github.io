@@ -208,8 +208,8 @@
     };
 
     const updateArmTarget = (playing) => {
-      armTarget.rotation = playing ? -0.12 : 0.74;
-      armTarget.lift = playing ? 0.27 : 0.56;
+      armTarget.rotation = playing ? -0.12 : 0.56;
+      armTarget.lift = playing ? 0.27 : 0.52;
     };
 
     const armNeedsFrame = () => {
@@ -353,6 +353,17 @@
         metalness: 0.62,
         roughness: 0.26,
       });
+      const armDarkMaterial = new THREE.MeshStandardMaterial({
+        color: 0x292b2b,
+        metalness: 0.26,
+        roughness: 0.48,
+      });
+      const recordSheenMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.035,
+        depthWrite: false,
+      });
 
       const baseGroup = new THREE.Group();
       baseGroup.rotation.x = -0.13;
@@ -376,6 +387,18 @@
 
       const vinyl = new THREE.Mesh(new THREE.RingGeometry(0.82, 2.42, 192), vinylMaterial);
       recordGroup.add(vinyl);
+
+      [
+        { inner: 1.12, outer: 1.18, opacity: 0.028 },
+        { inner: 1.52, outer: 1.6, opacity: 0.038 },
+        { inner: 1.96, outer: 2.06, opacity: 0.03 },
+      ].forEach((band) => {
+        const material = recordSheenMaterial.clone();
+        material.opacity = band.opacity;
+        const sheen = new THREE.Mesh(new THREE.RingGeometry(band.inner, band.outer, 192), material);
+        sheen.position.z = 0.019;
+        recordGroup.add(sheen);
+      });
 
       for (let index = 0; index < 38; index += 1) {
         const radius = 0.92 + index * 0.038;
@@ -402,6 +425,10 @@
       const spindleWasher = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0065, 10, 44), spindleMaterial);
       spindleWasher.position.z = 0.124;
       baseGroup.add(spindleWasher);
+      const centerPin = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.026, 0.095, 28), spindleMaterial);
+      centerPin.rotation.x = Math.PI / 2;
+      centerPin.position.z = 0.13;
+      baseGroup.add(centerPin);
 
       armGroup = new THREE.Group();
       armGroup.position.set(2.18, 1.55, armState.lift);
@@ -412,6 +439,9 @@
       pivot.rotation.x = Math.PI / 2;
       pivot.position.set(0, 0, 0.03);
       armGroup.add(pivot);
+      const pivotCap = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.012, 10, 48), accentMaterial);
+      pivotCap.position.z = 0.098;
+      armGroup.add(pivotCap);
 
       const counterWeight = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.18, 36), armMaterial);
       counterWeight.rotation.x = Math.PI / 2;
@@ -432,14 +462,19 @@
       const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 52, 0.034, 12, false), armMaterial);
       armGroup.add(arm);
 
-      const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.18, 0.075), accentMaterial);
-      headshell.position.set(-1.26, -1.22, 0.082);
+      const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.058), accentMaterial);
+      headshell.position.set(-1.27, -1.21, 0.09);
       headshell.rotation.z = -0.72;
       armGroup.add(headshell);
 
-      const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.18, 20), armMaterial);
+      const cartridge = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.105, 0.065), armDarkMaterial);
+      cartridge.position.set(-1.37, -1.31, 0.04);
+      cartridge.rotation.z = -0.72;
+      armGroup.add(cartridge);
+
+      const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.034, 0.16, 18), armDarkMaterial);
       stylus.rotation.x = Math.PI;
-      stylus.position.set(-1.39, -1.32, 0.012);
+      stylus.position.set(-1.42, -1.36, -0.02);
       armGroup.add(stylus);
 
       updateAccent();
@@ -1422,6 +1457,8 @@
       themeMaterials.ceramic?.color.setHex(palette.ceramic);
       themeMaterials.recordBase?.color.setHex(palette.recordBase);
       themeMaterials.metal?.color.setHex(palette.metal);
+      themeMaterials.darkArm?.color.setHex(palette.isDarkTheme ? 0x232728 : 0x343838);
+      themeMaterials.warmArm?.color.setHex(palette.isDarkTheme ? 0xd0a45f : 0xb9853d);
       themeMaterials.cardEdge?.color.setHex(palette.cardEdge);
       themeMaterials.shadow?.color.setHex(palette.shadow);
       if (themeMaterials.shadow) themeMaterials.shadow.opacity = palette.shadowOpacity;
@@ -2134,6 +2171,8 @@
         depthWrite: false,
       });
       const metalMaterial = new THREE.MeshStandardMaterial({ color: palette.metal, roughness: 0.38, metalness: 0.42 });
+      const darkArmMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x232728 : 0x343838, roughness: 0.42, metalness: 0.34 });
+      const warmArmMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xd0a45f : 0xb9853d, roughness: 0.36, metalness: 0.28 });
       const cardEdgeMaterial = new THREE.MeshStandardMaterial({ color: palette.cardEdge, roughness: 0.72, metalness: 0.02 });
       const stainMaterial = new THREE.MeshBasicMaterial({
         color: palette.stain,
@@ -2149,6 +2188,8 @@
       themeMaterials.ceramic = ceramicMaterial;
       themeMaterials.recordBase = recordBaseMaterial;
       themeMaterials.metal = metalMaterial;
+      themeMaterials.darkArm = darkArmMaterial;
+      themeMaterials.warmArm = warmArmMaterial;
       themeMaterials.cardEdge = cardEdgeMaterial;
       themeMaterials.stain = stainMaterial;
 
@@ -2216,7 +2257,7 @@
       recordLip.rotation.x = Math.PI / 2;
       recordLip.position.y = 0.035;
       recordGroup.add(recordLip);
-      [0.32, 0.37, 0.415, 0.455].forEach((radius, index) => {
+      [0.18, 0.235, 0.29, 0.32, 0.37, 0.415, 0.455].forEach((radius, index) => {
         const groove = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.0026, 6, 96), grooveMaterial);
         groove.rotation.x = Math.PI / 2;
         groove.position.y = 0.038 + index * 0.0014;
@@ -2226,9 +2267,17 @@
       const recordLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.275, 0.275, 0.062, 72), recordLabelMaterial);
       recordLabel.position.y = 0.041;
       recordGroup.add(recordLabel);
+      const labelRim = new THREE.Mesh(new THREE.TorusGeometry(0.282, 0.009, 8, 72), warmArmMaterial);
+      labelRim.rotation.x = Math.PI / 2;
+      labelRim.position.y = 0.078;
+      recordGroup.add(labelRim);
       const spindle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.09, 32), metalMaterial);
       spindle.position.set(-0.24, 0.268, 0);
       player.add(spindle);
+      const spindleCap = new THREE.Mesh(new THREE.SphereGeometry(0.038, 24, 14), metalMaterial);
+      spindleCap.scale.set(1, 0.36, 1);
+      spindleCap.position.set(-0.24, 0.322, 0);
+      player.add(spindleCap);
       registerInteractive(record, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
       registerInteractive(recordLabel, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
 
@@ -2238,6 +2287,10 @@
       player.add(toneArmGroup);
       const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.08, 36), metalMaterial);
       toneArmGroup.add(pivot);
+      const pivotRing = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.01, 8, 44), warmArmMaterial);
+      pivotRing.rotation.x = Math.PI / 2;
+      pivotRing.position.y = 0.045;
+      toneArmGroup.add(pivotRing);
       const counterWeight = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.11, 32), metalMaterial);
       counterWeight.rotation.z = Math.PI / 2;
       counterWeight.position.set(0.12, 0.008, 0.1);
@@ -2255,12 +2308,16 @@
       );
       const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 44, 0.018, 10, false), metalMaterial);
       toneArmGroup.add(arm);
-      const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.055, 0.14), metalMaterial);
-      headshell.position.set(-0.57, 0.002, -0.62);
+      const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.045, 0.13), warmArmMaterial);
+      headshell.position.set(-0.565, 0.002, -0.615);
       headshell.rotation.y = -0.38;
       toneArmGroup.add(headshell);
-      const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.018, 0.095, 18), metalMaterial);
-      stylus.position.set(-0.62, -0.052, -0.68);
+      const cartridge = new THREE.Mesh(new THREE.BoxGeometry(0.105, 0.04, 0.075), darkArmMaterial);
+      cartridge.position.set(-0.63, -0.034, -0.68);
+      cartridge.rotation.y = -0.38;
+      toneArmGroup.add(cartridge);
+      const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.012, 0.076, 16), darkArmMaterial);
+      stylus.position.set(-0.665, -0.078, -0.718);
       stylus.rotation.x = Math.PI;
       toneArmGroup.add(stylus);
 

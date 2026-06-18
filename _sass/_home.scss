@@ -1206,6 +1206,7 @@ html[data-theme="dark"] .home-record-play {
     border-color var(--motion-standard),
     color var(--motion-standard),
     opacity var(--motion-standard),
+    top var(--motion-standard),
     transform var(--motion-standard);
 }
 
@@ -1215,6 +1216,13 @@ html[data-theme="dark"] .home-record-play {
 
 .home-record-nav-next {
   right: 0.48rem;
+}
+
+.home-profile-recordable.is-vinyl-mode .home-record-nav,
+.home-profile-recordable.is-playing .home-record-nav,
+.home-profile-recordable.is-paused-record .home-record-nav {
+  top: 63%;
+  width: 1.84rem;
 }
 
 .home-profile-recordable:hover .home-record-nav,
