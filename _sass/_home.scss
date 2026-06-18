@@ -482,6 +482,126 @@ html[data-theme="dark"] .home-cred-item strong {
   padding: 0.7rem 0.4rem 0.4rem;
 }
 
+.home-desk-mode-switch {
+  position: absolute;
+  top: 0.08rem;
+  right: 0.34rem;
+  z-index: 16;
+  display: inline-flex;
+  gap: 0.36rem;
+  align-items: center;
+  color: color-mix(in srgb, var(--home-muted) 76%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.home-desk-mode-switch button {
+  margin: 0;
+  padding: 0.16rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  opacity: 0.64;
+  transition:
+    color var(--motion-standard),
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+}
+
+.home-desk-mode-switch button[aria-pressed="true"] {
+  color: color-mix(in srgb, var(--home-accent-strong) 82%, var(--home-ink));
+  opacity: 1;
+}
+
+.home-desk-mode-switch button:hover,
+.home-desk-mode-switch button:focus-visible {
+  color: var(--home-accent-strong);
+  opacity: 1;
+  outline: 0;
+  transform: translateY(-0.04rem);
+}
+
+.home-desk-mode-switch button:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18rem;
+}
+
+.home-desk-mode-switch span {
+  opacity: 0.34;
+}
+
+.home-desk-corner-scene {
+  position: absolute;
+  inset: 3.2rem -0.5rem 0.1rem -0.5rem;
+  z-index: 9;
+  overflow: visible;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.6rem) scale(0.982);
+  transition:
+    opacity var(--motion-slow),
+    transform var(--motion-slow);
+}
+
+.home-desk-corner-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 31rem;
+  cursor: grab;
+}
+
+.home-desk-corner-scene.is-dragging .home-desk-corner-canvas {
+  cursor: grabbing;
+}
+
+.home-desk-corner-fallback {
+  position: absolute;
+  inset: 8% 5% 4%;
+  z-index: 0;
+  border-radius: 46% 42% 48% 40% / 42% 50% 38% 50%;
+  background:
+    radial-gradient(ellipse at 50% 70%, rgba(73, 45, 30, 0.1), transparent 60%),
+    linear-gradient(145deg, color-mix(in srgb, var(--home-paper-warm) 58%, transparent), transparent 54%);
+  opacity: 0.5;
+  pointer-events: none;
+  filter: blur(0.05rem);
+}
+
+.home-hero-media.is-desk-3d .home-desk-corner-scene {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.home-hero-media.is-desk-3d .home-portrait-frame,
+.home-hero-media.is-desk-3d .home-record-card-pile,
+.home-hero-media.is-desk-3d .home-artifact-stack,
+.home-hero-media.is-desk-3d .home-inspiration-credit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.home-hero-media.is-desk-3d .home-portrait-frame {
+  transform: translateY(-0.64rem) scale(0.94);
+}
+
+.home-hero-media.is-desk-3d .home-record-card-pile,
+.home-hero-media.is-desk-3d .home-artifact-stack,
+.home-hero-media.is-desk-3d .home-inspiration-credit {
+  transform: translateY(0.58rem) scale(0.985);
+}
+
 .home-hero-media::before {
   position: absolute;
   inset: 7.2rem -0.8rem 0.4rem -0.4rem;
@@ -1293,23 +1413,26 @@ html[data-theme="dark"] .home-record-card-link {
   z-index: 3;
   isolation: isolate;
   transform: none;
+  transition:
+    opacity var(--motion-standard),
+    transform var(--motion-slow);
 }
 
-.home-artifact-stack.has-coffee-stain .home-artifact-card-1::before {
+.home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -0.86rem;
-  right: -1rem;
-  width: 9.35rem;
+  top: -0.55rem;
+  right: -4.6rem;
+  width: min(16.4rem, 52%);
   aspect-ratio: 360 / 260;
+  z-index: 5;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
-  filter: saturate(1.03) contrast(1.02);
+  filter: saturate(1.04) contrast(1.02);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: var(--home-coffee-stain-opacity);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.8);
   pointer-events: none;
-  transform: rotate(-6deg);
+  transform: rotate(-8deg);
   transform-origin: 54% 52%;
-  z-index: 0;
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -1331,6 +1454,9 @@ html[data-theme="dark"] .home-artifact-stack {
   letter-spacing: 0;
   line-height: 1.35;
   text-align: right;
+  transition:
+    opacity var(--motion-standard),
+    transform var(--motion-slow);
 }
 
 .home-inspiration-credit a {
@@ -2600,6 +2726,10 @@ html.home-motion-ready .home-reveal.home-visible {
     min-height: 0;
   }
 
+  .home-hero-media.is-desk-3d {
+    min-height: 32rem;
+  }
+
   .home-portrait-frame {
     grid-area: portrait;
     width: min(11.5rem, 30vw);
@@ -2950,6 +3080,24 @@ html.home-motion-ready .home-reveal.home-visible {
     padding: 0;
   }
 
+  .home-hero-media.is-desk-3d {
+    min-height: 29rem;
+  }
+
+  .home-desk-mode-switch {
+    top: -0.16rem;
+    right: 0.1rem;
+    font-size: 0.62rem;
+  }
+
+  .home-desk-corner-scene {
+    inset: 1.55rem -0.55rem -0.2rem -0.55rem;
+  }
+
+  .home-desk-corner-canvas {
+    min-height: 27rem;
+  }
+
   .home-portrait-frame,
   .home-artifact-stack {
     position: relative;
@@ -2965,10 +3113,10 @@ html.home-motion-ready .home-reveal.home-visible {
     transform: none;
   }
 
-  .home-artifact-stack.has-coffee-stain .home-artifact-card-1::before {
-    top: -0.62rem;
-    right: 0.36rem;
-    width: min(7.15rem, 34vw);
+  .home-artifact-stack.has-coffee-stain::before {
+    top: 0.05rem;
+    right: -6.2rem;
+    width: min(10.8rem, 46vw);
   }
 
   .home-inspiration-credit {
@@ -3112,6 +3260,8 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-work-image-wrap img,
   .home-profile-image-hover-layer,
   .home-portrait-frame,
+  .home-desk-corner-scene,
+  .home-desk-mode-switch button,
   .home-profile-recordable.is-playing .home-record-scene,
   .home-profile-recordable.is-playing .home-profile-image-hover-layer.is-visible,
   .home-profile-recordable.is-playing .home-record-scene-fallback,
@@ -3124,8 +3274,9 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-card,
   .home-record-card::before,
   .home-record-card::after,
+  .home-artifact-stack,
+  .home-artifact-stack.has-coffee-stain::before,
   .home-artifact-card,
-  .home-artifact-stack.has-coffee-stain .home-artifact-card-1::before,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {
     animation: none;
@@ -3144,6 +3295,12 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-work-card:hover,
   .home-portrait-frame:hover,
   .home-portrait-frame:focus-visible,
+  .home-desk-mode-switch button:hover,
+  .home-desk-mode-switch button:focus-visible,
+  .home-hero-media.is-desk-3d .home-portrait-frame,
+  .home-hero-media.is-desk-3d .home-record-card-pile,
+  .home-hero-media.is-desk-3d .home-artifact-stack,
+  .home-hero-media.is-desk-3d .home-inspiration-credit,
   .home-record-play:hover,
   .home-record-play:focus-visible,
   .home-record-nav:hover,

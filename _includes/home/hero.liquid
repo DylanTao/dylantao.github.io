@@ -55,6 +55,15 @@
     aria-label="Portrait and research artifacts"
     data-home-artifact-stage
   >
+    <div class="home-desk-mode-switch" data-home-desk-mode-switch aria-label="Desk view mode">
+      <button type="button" data-home-desk-mode="2d" aria-pressed="true">2D</button>
+      <span aria-hidden="true">|</span>
+      <button type="button" data-home-desk-mode="3d" aria-pressed="false">3D</button>
+    </div>
+    <div class="home-desk-corner-scene" data-home-desk-scene aria-hidden="true">
+      <div class="home-desk-corner-fallback" aria-hidden="true"></div>
+    </div>
+
     {% if page.profile.image %}
       {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
       {% assign meme_records = page.profile.meme_records %}
