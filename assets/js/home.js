@@ -831,17 +831,19 @@
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
           context.fillStyle = palette.isDarkTheme ? "rgba(25,38,42,0.84)" : "rgba(54,61,62,0.72)";
-          context.font = "700 58px Inter, system-ui, sans-serif";
-          context.fillText("Autodesk", 38, 136);
+          context.font = "700 56px Inter, system-ui, sans-serif";
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText("Autodesk", width * 0.5, height * 0.48);
           context.strokeStyle = palette.isDarkTheme ? "rgba(25,38,42,0.42)" : "rgba(54,61,62,0.34)";
-          context.lineWidth = 8;
+          context.lineWidth = 7;
           context.beginPath();
-          context.moveTo(40, 166);
-          context.lineTo(266, 166);
+          context.moveTo(width * 0.2, height * 0.66);
+          context.lineTo(width * 0.8, height * 0.66);
           context.stroke();
         },
-        420,
-        220
+        512,
+        192
       );
 
     const createDeskButtonTexture = (palette, label) =>
@@ -1994,13 +1996,36 @@
       coffee.rotation.x = -Math.PI / 2;
       coffee.position.y = 0.236;
       cup.add(coffee);
-      const handle = new THREE.Mesh(new THREE.TorusGeometry(0.13, 0.017, 10, 34, Math.PI * 1.35), ceramicMaterial);
-      handle.rotation.set(0, Math.PI / 2, 0.12);
-      handle.position.set(0.27, 0.02, 0.02);
+      const handleCurve = new THREE.CatmullRomCurve3(
+        [
+          new THREE.Vector3(0.232, 0.132, 0.012),
+          new THREE.Vector3(0.37, 0.105, 0.018),
+          new THREE.Vector3(0.395, -0.07, 0.018),
+          new THREE.Vector3(0.235, -0.132, 0.012),
+        ],
+        false,
+        "catmullrom",
+        0.58
+      );
+      const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 42, 0.018, 12, false), ceramicMaterial);
       cup.add(handle);
-      mugMarkMaterial = new THREE.MeshBasicMaterial({ map: createMugMarkTexture(palette), transparent: true, depthWrite: false });
-      const mark = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.16), mugMarkMaterial);
-      mark.position.set(0.0, 0.02, 0.252);
+      [
+        { y: 0.132, z: 0.012 },
+        { y: -0.132, z: 0.012 },
+      ].forEach((anchor) => {
+        const pad = new THREE.Mesh(new THREE.SphereGeometry(0.034, 18, 12), ceramicMaterial);
+        pad.position.set(0.226, anchor.y, anchor.z);
+        pad.scale.set(0.7, 1.05, 0.48);
+        cup.add(pad);
+      });
+      mugMarkMaterial = new THREE.MeshBasicMaterial({
+        map: createMugMarkTexture(palette),
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const mark = new THREE.Mesh(new THREE.CylinderGeometry(0.236, 0.224, 0.142, 36, 1, true, -0.56, 1.12), mugMarkMaterial);
+      mark.position.set(0, -0.052, 0);
       cup.add(mark);
 
       setActiveRecordInternal(activeRecordIndex);
