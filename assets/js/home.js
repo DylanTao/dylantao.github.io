@@ -557,6 +557,7 @@
     const artifactEntries = [];
     const songCardEntries = [];
     const tweens = [];
+    const outsideMotionItems = [];
     const cleanupListeners = [];
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -649,7 +650,7 @@
 
     const updateWindowJumpVisibility = () => {
       if (!windowJumpGroup) return;
-      const shouldShow = activeView === "desk" && zoomLevel > 0.42;
+      const shouldShow = activeView === "desk" && (isCompactScene || zoomLevel > 0.42);
       if (windowJumpGroup.visible !== shouldShow) {
         windowJumpGroup.visible = shouldShow;
         render();
@@ -709,6 +710,14 @@
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.anisotropy = Math.min(renderer?.capabilities?.getMaxAnisotropy?.() || 1, 8);
       texture.needsUpdate = true;
+      return texture;
+    };
+
+    const makeRepeatingCanvasTexture = (draw, width, height, repeatX = 1, repeatY = 1) => {
+      const texture = makeCanvasTexture(draw, width, height);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(repeatX, repeatY);
       return texture;
     };
 
@@ -955,6 +964,119 @@
         context.fillRect(0, 0, width, height);
         context.globalCompositeOperation = "source-over";
       });
+
+    const createOceanSurfaceTexture = (palette) =>
+      makeRepeatingCanvasTexture(
+        (context, width, height) => {
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          const water = context.createLinearGradient(0, 0, width, height);
+          water.addColorStop(0, isEvening ? "#1a4657" : "#3197bd");
+          water.addColorStop(0.52, isEvening ? "#133342" : "#5bc0d9");
+          water.addColorStop(1, isEvening ? "#0d2633" : "#9bd7e5");
+          context.fillStyle = water;
+          context.fillRect(0, 0, width, height);
+
+          for (let row = 0; row < 9; row += 1) {
+            const y = 26 + row * 29;
+            const alpha = isEvening ? 0.34 + (row % 3) * 0.04 : 0.42 + (row % 2) * 0.05;
+            context.strokeStyle = `rgba(255,255,255,${alpha})`;
+            context.lineWidth = row % 3 === 0 ? 3 : 2;
+            context.beginPath();
+            context.moveTo(-32, y);
+            for (let x = -32; x <= width + 40; x += 64) {
+              const crest = y + Math.sin((x + row * 31) * 0.036) * (row % 2 ? 8 : 5);
+              context.quadraticCurveTo(x + 30, crest - 12, x + 64, crest);
+            }
+            context.stroke();
+          }
+
+          context.fillStyle = isEvening ? "rgba(255,241,201,0.18)" : "rgba(255,255,255,0.18)";
+          for (let index = 0; index < 26; index += 1) {
+            const x = (index * 47) % width;
+            const y = 18 + ((index * 71) % (height - 36));
+            context.beginPath();
+            context.ellipse(x, y, 10 + (index % 5) * 4, 1.4, (index % 4) * 0.24, 0, Math.PI * 2);
+            context.fill();
+          }
+        },
+        512,
+        256,
+        1.6,
+        1.2
+      );
+
+    const createFoamSurfaceTexture = (palette) =>
+      makeRepeatingCanvasTexture(
+        (context, width, height) => {
+          context.clearRect(0, 0, width, height);
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          for (let row = 0; row < 4; row += 1) {
+            context.strokeStyle = isEvening ? `rgba(246,233,203,${0.44 - row * 0.05})` : `rgba(255,255,255,${0.52 - row * 0.06})`;
+            context.lineWidth = row === 0 ? 5 : 3;
+            context.beginPath();
+            const y = 22 + row * 18;
+            context.moveTo(-24, y);
+            for (let x = -24; x <= width + 32; x += 56) {
+              context.quadraticCurveTo(x + 28, y - 9 + row * 2, x + 56, y + Math.sin(x * 0.03) * 4);
+            }
+            context.stroke();
+          }
+          context.fillStyle = isEvening ? "rgba(246,233,203,0.34)" : "rgba(255,255,255,0.34)";
+          for (let index = 0; index < 18; index += 1) {
+            context.beginPath();
+            context.arc((index * 37) % width, 18 + ((index * 23) % (height - 28)), 1.5 + (index % 3), 0, Math.PI * 2);
+            context.fill();
+          }
+        },
+        384,
+        96,
+        1.4,
+        1
+      );
+
+    const createSandSurfaceTexture = (palette) =>
+      makeRepeatingCanvasTexture(
+        (context, width, height) => {
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          const sand = context.createLinearGradient(0, 0, width, height);
+          sand.addColorStop(0, isEvening ? "#c4a67a" : "#f1d9aa");
+          sand.addColorStop(0.58, isEvening ? "#a88d68" : "#e6c791");
+          sand.addColorStop(1, isEvening ? "#7e684e" : "#c8a06e");
+          context.fillStyle = sand;
+          context.fillRect(0, 0, width, height);
+
+          for (let index = 0; index < 130; index += 1) {
+            const x = (index * 29) % width;
+            const y = (index * 47) % height;
+            context.fillStyle =
+              index % 3
+                ? isEvening
+                  ? "rgba(255,235,188,0.1)"
+                  : "rgba(255,255,246,0.22)"
+                : isEvening
+                  ? "rgba(71,55,38,0.15)"
+                  : "rgba(129,89,49,0.12)";
+            context.beginPath();
+            context.arc(x, y, 0.8 + (index % 4) * 0.28, 0, Math.PI * 2);
+            context.fill();
+          }
+
+          context.strokeStyle = isEvening ? "rgba(255,238,199,0.22)" : "rgba(255,255,255,0.36)";
+          context.lineWidth = 2;
+          [28, 66, 108].forEach((y, row) => {
+            context.beginPath();
+            context.moveTo(-18, y);
+            for (let x = -18; x <= width + 24; x += 72) {
+              context.quadraticCurveTo(x + 34, y + (row % 2 ? 5 : -5), x + 72, y);
+            }
+            context.stroke();
+          });
+        },
+        512,
+        160,
+        1.8,
+        1
+      );
 
     const createCatBlanketTexture = (palette) =>
       makeCanvasTexture(
@@ -1241,6 +1363,26 @@
       material.needsUpdate = true;
     };
 
+    const setOutsideMotionTexture = (key, texture) => {
+      const item = outsideMotionItems.find((motionItem) => motionItem.key === key);
+      if (item) item.texture = texture;
+    };
+
+    const updateOutsideMotion = (time) => {
+      if (!isVisible || activeView !== "outside" || reduceMotion || outsideMotionItems.length === 0) return false;
+      const seconds = time * 0.001;
+      outsideMotionItems.forEach((item) => {
+        if (item.texture) {
+          item.texture.offset.x = item.offsetX + seconds * item.speedX;
+          item.texture.offset.y = item.offsetY + seconds * item.speedY;
+        }
+        if (item.mesh && Number.isFinite(item.baseY)) {
+          item.mesh.position.y = item.baseY + Math.sin(seconds * item.frequency + item.phase) * item.amplitude;
+        }
+      });
+      return true;
+    };
+
     const applyDeskPalette = () => {
       if (!THREE) return;
       const palette = readDeskPalette();
@@ -1262,6 +1404,7 @@
       themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
       themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x58b5cf);
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
+      if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
       themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x62533e : 0x9b825f);
       themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x4f4434 : 0x7f6849);
       themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x7c694b : 0xbba077);
@@ -1285,6 +1428,15 @@
       replaceMaterialMap(themeMaterials.windowButton, createDeskButtonTexture(palette, "OUT"));
       replaceMaterialMap(themeMaterials.returnButton, createDeskButtonTexture(palette, "IN"));
       replaceMaterialMap(themeMaterials.outsideBackdrop, createOutsideBackdropTexture(palette));
+      const oceanTexture = createOceanSurfaceTexture(palette);
+      replaceMaterialMap(themeMaterials.outsideOcean, oceanTexture);
+      setOutsideMotionTexture("ocean", oceanTexture);
+      const foamTexture = createFoamSurfaceTexture(palette);
+      replaceMaterialMap(themeMaterials.outsideFoam, foamTexture);
+      setOutsideMotionTexture("foam", foamTexture);
+      const sandTexture = createSandSurfaceTexture(palette);
+      replaceMaterialMap(themeMaterials.outsideBeach, sandTexture);
+      setOutsideMotionTexture("sand", sandTexture);
       replaceMaterialMap(themeMaterials.catBlanket, createCatBlanketTexture(palette));
       replaceMaterialMap(themeMaterials.laptopScreen, createLaptopScreenTexture(palette));
       render();
@@ -1512,6 +1664,7 @@
       applyRootRotation();
       const keepCameraMoving = applyCameraPose();
       const keepTweening = updateTweens(time);
+      const keepOutsideMoving = updateOutsideMotion(time);
 
       if (recordGroup && isVisible && isRecordSpinning && !reduceMotion) {
         recordGroup.rotation.y = time * 0.00135;
@@ -1523,7 +1676,7 @@
 
       render();
 
-      if (isVisible && ((!reduceMotion && isRecordSpinning) || needsRotationFrame() || keepCameraMoving || keepTweening)) {
+      if (isVisible && ((!reduceMotion && (isRecordSpinning || keepOutsideMoving)) || needsRotationFrame() || keepCameraMoving || keepTweening)) {
         scheduleFrame();
       }
     }
@@ -1571,7 +1724,7 @@
 
       windowJumpGroup = new THREE.Group();
       windowJumpGroup.visible = false;
-      windowJumpGroup.position.set(1.94, 0.34, -1.54);
+      windowJumpGroup.position.set(0.72, 0.5, -1.44);
       rootGroup.add(windowJumpGroup);
       const buttonMaterial = new THREE.MeshBasicMaterial({
         map: createDeskButtonTexture(palette, "OUT"),
@@ -1581,10 +1734,10 @@
         side: THREE.DoubleSide,
       });
       themeMaterials.windowButton = buttonMaterial;
-      const button = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.42), buttonMaterial);
+      const button = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.46), buttonMaterial);
       windowJumpGroup.add(button);
       const buttonHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.82, 0.82),
+        new THREE.PlaneGeometry(1.18, 1.18),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       buttonHit.position.z = 0.01;
@@ -1604,6 +1757,7 @@
       outsideGroup = new THREE.Group();
       outsideGroup.visible = false;
       scene.add(outsideGroup);
+      outsideMotionItems.length = 0;
 
       const backdropMaterial = new THREE.MeshBasicMaterial({
         map: createOutsideBackdropTexture(palette),
@@ -1616,10 +1770,12 @@
       backdrop.position.set(0.1, 0.34, -1.9);
       outsideGroup.add(backdrop);
 
+      const oceanTexture = createOceanSurfaceTexture(palette);
       const oceanMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0x183648 : 0x58b5cf,
+        map: oceanTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.3 : 0.28,
+        opacity: palette.isDarkTheme ? 0.62 : 0.58,
         depthWrite: false,
       });
       themeMaterials.outsideOcean = oceanMaterial;
@@ -1628,7 +1784,23 @@
       ocean.position.set(-0.72, -1.24, 0.18);
       outsideGroup.add(ocean);
 
-      const beachMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6, roughness: 0.9 });
+      const foamTexture = createFoamSurfaceTexture(palette);
+      const foamMaterial = new THREE.MeshBasicMaterial({
+        map: foamTexture,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.78 : 0.72,
+        depthWrite: false,
+        depthTest: false,
+        side: THREE.DoubleSide,
+      });
+      themeMaterials.outsideFoam = foamMaterial;
+
+      const beachTexture = createSandSurfaceTexture(palette);
+      const beachMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6,
+        map: beachTexture,
+        roughness: 0.9,
+      });
       const cliffMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x62533e : 0x9b825f, roughness: 0.88 });
       const cliffFaceMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4f4434 : 0x7f6849, roughness: 0.92 });
       const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x7c694b : 0xbba077, roughness: 0.86 });
@@ -1671,6 +1843,54 @@
       beach.rotation.x = -Math.PI / 2;
       beach.position.set(-1.42, -1.17, 1.58);
       outsideGroup.add(beach);
+
+      const foam = new THREE.Mesh(new THREE.PlaneGeometry(4.35, 0.22), foamMaterial);
+      foam.rotation.x = -Math.PI / 2;
+      foam.rotation.z = -0.08;
+      foam.position.set(-1.5, -1.145, 1.34);
+      foam.renderOrder = 2;
+      outsideGroup.add(foam);
+      outsideMotionItems.push(
+        {
+          key: "ocean",
+          texture: oceanTexture,
+          mesh: ocean,
+          baseY: ocean.position.y,
+          speedX: 0.052,
+          speedY: 0.12,
+          offsetX: 0,
+          offsetY: 0,
+          amplitude: 0.012,
+          frequency: 1.55,
+          phase: 0,
+        },
+        {
+          key: "foam",
+          texture: foamTexture,
+          mesh: foam,
+          baseY: foam.position.y,
+          speedX: -0.16,
+          speedY: 0.044,
+          offsetX: 0.18,
+          offsetY: 0,
+          amplitude: 0.008,
+          frequency: 2.4,
+          phase: 0.8,
+        },
+        {
+          key: "sand",
+          texture: beachTexture,
+          mesh: beach,
+          baseY: beach.position.y,
+          speedX: 0.024,
+          speedY: 0.035,
+          offsetX: 0.04,
+          offsetY: 0,
+          amplitude: 0.003,
+          frequency: 1.25,
+          phase: 1.7,
+        }
+      );
 
       addIrregularSlab(
         outsideGroup,
