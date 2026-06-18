@@ -485,22 +485,22 @@
     if (!artifactStack) return;
 
     const random = createSeededRandom(`home-coffee-${Date.now()}-${Math.random()}`);
-    const size = 8.85 + random() * 1.08;
-    const top = -0.24 + random() * 0.36;
-    const right = 4.55 + random() * 0.72;
-    const rotate = -13 + random() * 25;
-    const scale = 0.98 + random() * 0.08;
-    const startScale = Math.max(0.92, scale - (0.035 + random() * 0.025));
-    const stretchX = 1.08 + random() * 0.2;
-    const stretchY = 0.82 + random() * 0.14;
-    const wobbleX = -0.14 + random() * 0.28;
-    const wobbleY = -0.06 + random() * 0.16;
-    const morphDuration = 38 + random() * 22;
-    const bloomDuration = 110 + random() * 80;
-    const edgeOpacity = 0.18 + random() * 0.06;
-    const washOpacity = 0.034 + random() * 0.022;
-    const innerOpacity = 0.018 + random() * 0.016;
-    const speckleOpacity = 0.072 + random() * 0.035;
+    const size = 6.28 + random() * 0.58;
+    const top = -0.32 + random() * 0.34;
+    const right = -2.44 + random() * 0.34;
+    const rotate = -9 + random() * 18;
+    const scale = 0.99 + random() * 0.055;
+    const startScale = Math.max(0.94, scale - (0.025 + random() * 0.018));
+    const stretchX = 1.02 + random() * 0.12;
+    const stretchY = 0.9 + random() * 0.09;
+    const wobbleX = -0.05 + random() * 0.1;
+    const wobbleY = -0.03 + random() * 0.08;
+    const morphDuration = 44 + random() * 24;
+    const bloomDuration = 130 + random() * 80;
+    const edgeOpacity = 0.165 + random() * 0.046;
+    const washOpacity = 0.024 + random() * 0.014;
+    const innerOpacity = 0.01 + random() * 0.01;
+    const speckleOpacity = 0.048 + random() * 0.024;
 
     artifactStack.classList.add("has-coffee-stain");
     artifactStack.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
@@ -583,6 +583,9 @@
     let lastShakeDirection = 0;
     let shakeCount = 0;
     let suppressNextSpinClick = false;
+    let reflowRecordCardsFrame = 0;
+
+    const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
 
@@ -739,29 +742,36 @@
 
     const setCardRestTransform = (card, order) => {
       const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
+      const isCompactPile = compactPileQuery.matches;
       const side = order % 2 === 0 ? -1 : 1;
       const layer = Math.min(order, 5);
-      const x = side * (0.62 + (order % 3) * 0.28);
-      const y = 1.52 + layer * 0.34;
-      const z = 0.76 + layer * 0.22;
-      const rotate = side * (1.85 + (recordOrder % 3) * 0.46) + layer * 0.26;
-      const tilt = 64 - layer * 1.05;
-      const scale = 1 - Math.min(order, 4) * 0.012;
+      const x = side * ((isCompactPile ? 0.34 : 0.56) + (order % 3) * (isCompactPile ? 0.18 : 0.24));
+      const y = (isCompactPile ? 1.18 : 1.72) + layer * (isCompactPile ? 0.38 : 0.42);
+      const z = (isCompactPile ? 0.46 : 0.64) + layer * (isCompactPile ? 0.12 : 0.16);
+      const rotate = side * ((isCompactPile ? 1.12 : 1.48) + (recordOrder % 3) * 0.34) + layer * 0.18;
+      const tilt = (isCompactPile ? 56 : 59) - layer * 1.25;
+      const scale = 1 - Math.min(order, 4) * (isCompactPile ? 0.01 : 0.011);
+      const openY = isCompactPile ? 1.16 : 0.42;
+      const openZ = isCompactPile ? 5.8 : 7.2;
+      const openScale = isCompactPile ? 1.012 : 1.028;
       card.style.setProperty(
         "--card-rest-transform",
         `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -1.45).toFixed(2)}deg) scale(${scale.toFixed(3)})`
       );
-      card.style.setProperty("--card-open-transform", `translate3d(0, -1.52rem, 6.8rem) rotateZ(0deg) rotateX(5deg) rotateY(0deg) scale(1.035)`);
+      card.style.setProperty(
+        "--card-open-transform",
+        `translate3d(0, ${openY.toFixed(2)}rem, ${openZ.toFixed(2)}rem) rotateZ(0deg) rotateX(3deg) rotateY(0deg) scale(${openScale.toFixed(3)})`
+      );
       card.dataset.stackOrder = String(order);
-      card.style.zIndex = String(20 + order);
+      card.style.zIndex = card.classList.contains("is-open") ? "80" : String(20 + order);
 
       const tab = getRecordCardTab(card);
       if (tab) {
-        const tabX = x + side * 8.34;
-        const tabY = y + 1.18;
+        const tabX = x + side * (isCompactPile ? 7.22 : 8.08);
+        const tabY = y + (isCompactPile ? 0.82 : 1.02);
         tab.style.setProperty(
           "--card-tab-transform",
-          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 2.1rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(62deg) rotateY(${(side * -1.2).toFixed(2)}deg)`
+          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 2.1rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${(tilt + 2).toFixed(2)}deg) rotateY(${(side * -1.2).toFixed(2)}deg)`
         );
         tab.dataset.stackOrder = String(order);
         tab.style.zIndex = String(58 + order);
@@ -772,6 +782,14 @@
       if (!pile) return;
       Array.from(pile.querySelectorAll("[data-home-record-card]")).forEach((card, order) => setCardRestTransform(card, order));
       syncPileState();
+    };
+
+    const scheduleRecordCardReflow = () => {
+      if (reflowRecordCardsFrame) window.cancelAnimationFrame(reflowRecordCardsFrame);
+      reflowRecordCardsFrame = window.requestAnimationFrame(() => {
+        reflowRecordCardsFrame = 0;
+        reflowRecordCards();
+      });
     };
 
     const closeActiveCard = ({ sendToTop = true } = {}) => {
@@ -1055,6 +1073,10 @@
         event.stopPropagation();
         openRecordCard(card);
       });
+    }
+
+    if (compactPileQuery.addEventListener) {
+      compactPileQuery.addEventListener("change", scheduleRecordCardReflow);
     }
 
     if (spinButton) {

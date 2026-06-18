@@ -968,8 +968,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards {
-  min-height: 11.7rem;
-  margin-top: 0.12rem;
+  min-height: 12.75rem;
+  margin-top: 0.36rem;
   pointer-events: auto;
 }
 
@@ -1158,7 +1158,31 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     0 1.6rem 2.72rem color-mix(in srgb, var(--record-card-halo-soft) 68%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.82),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 78%, transparent);
-  transform: translateX(-50%) var(--card-open-transform, translate3d(0, -1.28rem, 5.8rem) rotateZ(0deg) rotateX(0deg) scale(1.025));
+  transform: translateX(-50%) var(--card-open-transform, translate3d(0, 0.42rem, 6.4rem) rotateZ(0deg) rotateX(3deg) scale(1.025));
+}
+
+.home-record-card.is-open::before {
+  background:
+    linear-gradient(102deg, transparent 0 23%, color-mix(in srgb, var(--record-card-rim) 46%, transparent) 34%, transparent 47%),
+    linear-gradient(
+      90deg,
+      transparent 0 8%,
+      var(--record-card-rim) 16%,
+      transparent 24% 74%,
+      color-mix(in srgb, var(--record-card-rim) 52%, transparent) 86%,
+      transparent
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 46%);
+  background-position:
+    -140% 0,
+    0 0,
+    0 0;
+  background-size:
+    220% 100%,
+    100% 100%,
+    100% 100%;
+  opacity: 0.62;
+  animation: home-record-card-sheen 3.8s ease-in-out infinite;
 }
 
 .home-record-card.is-dropping {
@@ -1443,6 +1467,24 @@ html[data-theme="dark"] .home-record-card-link {
   }
 }
 
+@keyframes home-record-card-sheen {
+  0%,
+  28%,
+  100% {
+    background-position:
+      -140% 0,
+      0 0,
+      0 0;
+  }
+
+  58% {
+    background-position:
+      160% 0,
+      0 0,
+      0 0;
+  }
+}
+
 @keyframes home-artifact-coffee-morph {
   0% {
     border-radius: 44% 56% 49% 51% / 39% 55% 45% 61%;
@@ -1489,32 +1531,27 @@ html[data-theme="dark"] .home-record-card-link {
   transform: none;
 }
 
-.home-artifact-stack::before,
-.home-artifact-stack::after {
+.home-artifact-stack.has-coffee-stain::before,
+.home-artifact-stack.has-coffee-stain::after {
   position: absolute;
-  content: "";
-  pointer-events: none;
-}
-
-.home-artifact-stack::before,
-.home-artifact-stack::after {
-  top: var(--coffee-stain-top, 0.2rem);
-  right: var(--coffee-stain-right, -1.2rem);
-  display: none;
-  width: var(--coffee-stain-size, 9.4rem);
+  top: var(--coffee-stain-top, -0.18rem);
+  right: var(--coffee-stain-right, -2.24rem);
+  width: var(--coffee-stain-size, 6.4rem);
   aspect-ratio: 1;
   border-radius: 44% 56% 49% 51% / 39% 55% 45% 61%;
+  content: "";
   mix-blend-mode: var(--home-coffee-blend);
+  pointer-events: none;
   transform: translate3d(0, 0, 0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-start-scale, 0.96))
     scaleX(var(--coffee-stain-stretch-x, 1.08)) scaleY(var(--coffee-stain-stretch-y, 0.96));
   transform-origin: 49% 51%;
+  z-index: 0;
   animation:
     home-artifact-coffee-morph var(--coffee-stain-morph-duration, 32s) ease-in-out infinite alternate,
     home-artifact-coffee-bloom var(--coffee-stain-bloom-duration, 190s) linear forwards;
 }
 
-.home-artifact-stack::before {
-  z-index: 4;
+.home-artifact-stack.has-coffee-stain::before {
   background:
     radial-gradient(
       ellipse at 52% 53%,
@@ -1527,12 +1564,11 @@ html[data-theme="dark"] .home-record-card-link {
     radial-gradient(circle at 23% 61%, rgba(var(--home-coffee-rgb), 0.04), transparent 8%),
     radial-gradient(circle at 75% 33%, rgba(var(--home-coffee-rgb), 0.034), transparent 6%),
     radial-gradient(ellipse at 67% 69%, rgba(var(--home-coffee-rgb), 0.032), transparent 11%);
-  filter: blur(0.31rem);
-  opacity: 0.54;
+  filter: blur(0.24rem);
+  opacity: 0.38;
 }
 
-.home-artifact-stack::after {
-  z-index: 5;
+.home-artifact-stack.has-coffee-stain::after {
   background:
     radial-gradient(
       ellipse at 49% 51%,
@@ -1558,21 +1594,16 @@ html[data-theme="dark"] .home-record-card-link {
     radial-gradient(ellipse at 37% 72%, rgba(var(--home-coffee-rgb), 0.062), transparent 8%),
     radial-gradient(ellipse at 69% 31%, rgba(var(--home-coffee-rgb), 0.056), transparent 7%);
   filter: blur(0.018rem);
-  opacity: 0.62;
+  opacity: 0.54;
 }
 
-.home-artifact-stack.has-coffee-stain::before,
-.home-artifact-stack.has-coffee-stain::after {
-  display: block;
+html[data-theme="dark"] .home-artifact-stack.has-coffee-stain::before {
+  filter: blur(0.3rem) saturate(0.78);
+  opacity: 0.22;
 }
 
-html[data-theme="dark"] .home-artifact-stack::before {
-  filter: blur(0.36rem) saturate(0.86);
-  opacity: 0.18;
-}
-
-html[data-theme="dark"] .home-artifact-stack::after {
-  opacity: 0.3;
+html[data-theme="dark"] .home-artifact-stack.has-coffee-stain::after {
+  opacity: 0.38;
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -1637,6 +1668,7 @@ html[data-theme="dark"] .home-artifact-stack {
     0 0.28rem 0.68rem var(--home-card-shadow),
     0 1px 0 color-mix(in srgb, #fff 32%, transparent) inset;
   color: inherit !important;
+  isolation: isolate;
   text-decoration: none;
   transform: translate(var(--home-artifact-x), var(--home-artifact-y)) rotate(var(--home-artifact-rotate));
   transition:
@@ -3227,19 +3259,19 @@ html.home-motion-ready .home-reveal.home-visible {
     transform: none;
   }
 
-  .home-artifact-stack::before,
-  .home-artifact-stack::after {
-    top: -0.16rem;
-    right: -0.82rem;
-    width: min(7.1rem, 40vw);
+  .home-artifact-stack.has-coffee-stain::before,
+  .home-artifact-stack.has-coffee-stain::after {
+    top: -0.26rem;
+    right: -2.1rem;
+    width: min(5.8rem, 27vw);
   }
 
-  .home-artifact-stack::before {
-    opacity: 0.38;
+  .home-artifact-stack.has-coffee-stain::before {
+    opacity: 0.22;
   }
 
-  .home-artifact-stack::after {
-    opacity: 0.36;
+  .home-artifact-stack.has-coffee-stain::after {
+    opacity: 0.24;
   }
 
   .home-inspiration-credit {
@@ -3259,12 +3291,12 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-record-card-pile {
     width: min(19rem, calc(100vw - 2rem));
-    margin-top: 0;
+    margin-top: 0.24rem;
   }
 
   .home-record-card-pile.has-cards {
-    min-height: 8.85rem;
-    margin-top: -8.25rem;
+    min-height: 9.65rem;
+    margin-top: 0.34rem;
   }
 
   .home-record-card {
@@ -3273,6 +3305,10 @@ html.home-motion-ready .home-reveal.home-visible {
     width: min(16.8rem, 96%);
     min-height: 5.72rem;
     padding: 0.52rem 0.56rem;
+  }
+
+  .home-record-card.is-open {
+    width: min(17.45rem, 96%);
   }
 
   .home-record-card strong {
