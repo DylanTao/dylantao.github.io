@@ -37,6 +37,8 @@
 
   const sectionItems = Array.from(document.querySelectorAll("[data-home-section]"));
   const railLinks = Array.from(document.querySelectorAll("[data-home-rail-link]"));
+  const storyRail = document.querySelector(".home-story-rail");
+  const homeTitle = document.querySelector(".home-title");
 
   const setActiveRailLink = (sectionId) => {
     railLinks.forEach((link) => {
@@ -99,6 +101,42 @@
     window.addEventListener("scroll", scheduleRailSync, { passive: true });
     window.addEventListener("resize", scheduleRailSync);
     scheduleRailSync();
+  }
+
+  if (storyRail && homeTitle) {
+    let railPlacementRaf = null;
+
+    const syncRailPlacement = () => {
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        storyRail.style.removeProperty("--home-rail-anchor");
+        storyRail.removeAttribute("data-rail-compact");
+        return;
+      }
+
+      const titleRect = homeTitle.getBoundingClientRect();
+      const collapsedWidth = storyRail.getBoundingClientRect().width || 38;
+      const expandedWidth = Math.min(Math.max(window.innerWidth * 0.07, 89), 116);
+      const hasExpansionGutter = titleRect.left >= expandedWidth + 72;
+      const gap = hasExpansionGutter ? 56 : 10;
+      const anchor = Math.max(8 + collapsedWidth, titleRect.left - gap);
+      storyRail.style.setProperty("--home-rail-anchor", `${anchor.toFixed(1)}px`);
+      storyRail.toggleAttribute("data-rail-compact", !hasExpansionGutter);
+    };
+
+    const scheduleRailPlacement = () => {
+      if (railPlacementRaf) return;
+      railPlacementRaf = window.requestAnimationFrame(() => {
+        railPlacementRaf = null;
+        syncRailPlacement();
+      });
+    };
+
+    window.addEventListener("resize", scheduleRailPlacement);
+    window.addEventListener("orientationchange", scheduleRailPlacement);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(scheduleRailPlacement).catch(() => {});
+    }
+    scheduleRailPlacement();
   }
 
   const createRecordSceneController = (container) => {
@@ -170,8 +208,8 @@
     };
 
     const updateArmTarget = (playing) => {
-      armTarget.rotation = playing ? -0.12 : 0.68;
-      armTarget.lift = playing ? 0.27 : 0.52;
+      armTarget.rotation = playing ? -0.12 : 0.74;
+      armTarget.lift = playing ? 0.27 : 0.56;
     };
 
     const armNeedsFrame = () => {
@@ -346,18 +384,11 @@
         recordGroup.add(groove);
       }
 
-      const grooveSheen = new THREE.Mesh(
-        new THREE.RingGeometry(1.12, 2.28, 160, 1, Math.PI * 1.58, Math.PI * 0.42),
-        new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.032, depthWrite: false })
-      );
-      grooveSheen.position.set(-0.05, 0.02, 0.032);
-      recordGroup.add(grooveSheen);
-
-      const label = new THREE.Mesh(new THREE.CircleGeometry(0.78, 128), labelMaterial);
+      const label = new THREE.Mesh(new THREE.CircleGeometry(0.94, 128), labelMaterial);
       label.position.z = 0.052;
       recordGroup.add(label);
 
-      const labelRim = new THREE.Mesh(new THREE.RingGeometry(0.785, 0.825, 128), accentMaterial);
+      const labelRim = new THREE.Mesh(new THREE.RingGeometry(0.945, 0.99, 128), accentMaterial);
       labelRim.position.z = 0.058;
       recordGroup.add(labelRim);
 
@@ -487,6 +518,9 @@
     let recordLabelMaterial = null;
     let toneArmGroup = null;
     let windowMaterial = null;
+    let windowJumpGroup = null;
+    let outsideGroup = null;
+    let returnInsideGroup = null;
     let mugMarkMaterial = null;
     let ambientLight = null;
     let keyLight = null;
@@ -507,6 +541,10 @@
     let rotationY = -0.28;
     let targetRotationX = -0.05;
     let targetRotationY = -0.28;
+    let zoomLevel = 0;
+    let targetZoomLevel = 0;
+    let isCompactScene = false;
+    let activeView = "desk";
     let activeEntry = null;
     let hoveredEntry = null;
     let pointerMoved = false;
@@ -592,9 +630,11 @@
     };
 
     const needsRotationFrame = () => Math.abs(rotationX - targetRotationX) > 0.002 || Math.abs(rotationY - targetRotationY) > 0.002;
+    const needsZoomFrame = () => Math.abs(zoomLevel - targetZoomLevel) > 0.002;
 
     const applyRootRotation = (immediate = false) => {
-      if (!rootGroup) return;
+      const activeGroup = activeView === "outside" ? outsideGroup : rootGroup;
+      if (!activeGroup) return;
       const speed = immediate || reduceMotion ? 1 : 0.13;
       rotationX += (targetRotationX - rotationX) * speed;
       rotationY += (targetRotationY - rotationY) * speed;
@@ -602,8 +642,42 @@
         rotationX = targetRotationX;
         rotationY = targetRotationY;
       }
-      rootGroup.rotation.x = rotationX;
-      rootGroup.rotation.y = rotationY;
+      activeGroup.rotation.x = rotationX;
+      activeGroup.rotation.y = rotationY;
+    };
+
+    const updateWindowJumpVisibility = () => {
+      if (!windowJumpGroup) return;
+      const shouldShow = activeView === "desk" && zoomLevel > 0.68;
+      if (windowJumpGroup.visible !== shouldShow) {
+        windowJumpGroup.visible = shouldShow;
+        render();
+      }
+    };
+
+    const applyCameraPose = (immediate = false) => {
+      if (!camera) return false;
+      const speed = immediate || reduceMotion ? 1 : 0.18;
+      zoomLevel += (targetZoomLevel - zoomLevel) * speed;
+      if (immediate || reduceMotion) zoomLevel = targetZoomLevel;
+
+      if (activeView === "outside") {
+        camera.fov = isCompactScene ? 38 : 34;
+        camera.position.set(isCompactScene ? 2.86 : 3.38, isCompactScene ? 1.46 : 1.72, isCompactScene ? 5.15 : 5.42);
+        camera.lookAt(isCompactScene ? 0.1 : 0.24, -0.14, 0.04);
+      } else {
+        const zoom = easeOutCubic(zoomLevel);
+        camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 29 : 26, zoom);
+        camera.position.set(
+          lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 1.24 : 1.48, zoom),
+          lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.42 : 1.58, zoom),
+          lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.45 : 3.62, zoom)
+        );
+        camera.lookAt(lerp(isCompactScene ? -0.08 : 0.02, 1.08, zoom), lerp(-0.42, 0.52, zoom), lerp(0.08, -1.1, zoom));
+      }
+      camera.updateProjectionMatrix();
+      updateWindowJumpVisibility();
+      return needsZoomFrame();
     };
 
     const makeCanvasTexture = (draw, width = 768, height = 480) => {
@@ -751,6 +825,180 @@
         220
       );
 
+    const createDeskButtonTexture = (palette, label) =>
+      makeCanvasTexture(
+        (context, width, height) => {
+          context.clearRect(0, 0, width, height);
+          const glow = context.createRadialGradient(width * 0.5, height * 0.48, 10, width * 0.5, height * 0.48, width * 0.46);
+          glow.addColorStop(0, palette.isDarkTheme ? "rgba(255,221,175,0.68)" : "rgba(255,183,102,0.68)");
+          glow.addColorStop(0.58, palette.isDarkTheme ? "rgba(255,203,146,0.22)" : "rgba(173,123,80,0.18)");
+          glow.addColorStop(1, "rgba(255,255,255,0)");
+          context.fillStyle = glow;
+          context.fillRect(0, 0, width, height);
+          context.beginPath();
+          context.arc(width * 0.5, height * 0.5, width * 0.26, 0, Math.PI * 2);
+          context.fillStyle = palette.isDarkTheme ? "rgba(24,34,36,0.72)" : "rgba(255,250,241,0.76)";
+          context.fill();
+          context.lineWidth = 7;
+          context.strokeStyle = palette.isDarkTheme ? "rgba(255,221,175,0.42)" : "rgba(122,83,45,0.32)";
+          context.stroke();
+          context.fillStyle = palette.isDarkTheme ? "rgba(255,229,191,0.88)" : "rgba(104,70,42,0.86)";
+          context.font = "800 70px Inter, system-ui, sans-serif";
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText(label, width * 0.5, height * 0.51);
+        },
+        256,
+        256
+      );
+
+    const createOutsideBackdropTexture = (palette) =>
+      makeCanvasTexture((context, width, height) => {
+        const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+        const isAfternoon = palette.mode === "afternoon";
+        const sky = context.createLinearGradient(0, 0, 0, height * 0.62);
+        sky.addColorStop(0, isEvening ? "#0f1d2c" : isAfternoon ? "#f1a96c" : "#8bc6e6");
+        sky.addColorStop(0.54, isEvening ? "#23364d" : isAfternoon ? "#ffd09a" : "#d8f0fb");
+        sky.addColorStop(1, isEvening ? "#455762" : "#f6efe2");
+        context.fillStyle = sky;
+        context.fillRect(0, 0, width, height);
+
+        if (isEvening) {
+          context.fillStyle = "rgba(255,246,210,0.82)";
+          [58, 142, 230, 302, 386, 494, 570, 690].forEach((x, index) => {
+            context.beginPath();
+            context.arc(x, 38 + ((index * 31) % 106), index % 3 === 0 ? 2.5 : 1.5, 0, Math.PI * 2);
+            context.fill();
+          });
+        } else {
+          context.fillStyle = isAfternoon ? "rgba(255,243,209,0.76)" : "rgba(255,255,255,0.82)";
+          context.beginPath();
+          context.ellipse(width * 0.78, height * 0.16, 52, 30, -0.18, 0, Math.PI * 2);
+          context.fill();
+        }
+
+        const ocean = context.createLinearGradient(0, height * 0.46, 0, height);
+        ocean.addColorStop(0, isEvening ? "#21465a" : "#257fa9");
+        ocean.addColorStop(0.64, isEvening ? "#153140" : "#52b5d3");
+        ocean.addColorStop(1, isEvening ? "#0f2733" : "#8fd2e2");
+        context.fillStyle = ocean;
+        context.fillRect(0, height * 0.46, width, height * 0.54);
+
+        context.strokeStyle = isEvening ? "rgba(216,234,238,0.24)" : "rgba(255,255,255,0.58)";
+        context.lineWidth = 4;
+        for (let index = 0; index < 7; index += 1) {
+          const y = height * (0.58 + index * 0.055);
+          context.beginPath();
+          context.moveTo(-20 + index * 42, y);
+          context.bezierCurveTo(width * 0.16, y - 26, width * 0.3, y + 28, width * 0.46, y - 2);
+          context.bezierCurveTo(width * 0.62, y - 24, width * 0.76, y + 18, width + 20, y - 8);
+          context.stroke();
+        }
+
+        context.fillStyle = isEvening ? "#2b332b" : "#8d7b5c";
+        context.beginPath();
+        context.moveTo(width * 0.58, height);
+        context.lineTo(width, height);
+        context.lineTo(width, height * 0.48);
+        context.quadraticCurveTo(width * 0.82, height * 0.56, width * 0.72, height * 0.76);
+        context.quadraticCurveTo(width * 0.64, height * 0.9, width * 0.58, height);
+        context.fill();
+
+        context.fillStyle = isEvening ? "#c8ae82" : "#edd5a7";
+        context.beginPath();
+        context.moveTo(0, height);
+        context.lineTo(width * 0.72, height);
+        context.quadraticCurveTo(width * 0.46, height * 0.88, width * 0.2, height * 0.86);
+        context.quadraticCurveTo(width * 0.08, height * 0.86, 0, height * 0.9);
+        context.closePath();
+        context.fill();
+
+        context.strokeStyle = isEvening ? "rgba(247,230,190,0.62)" : "rgba(31,68,80,0.56)";
+        context.lineWidth = 3;
+        context.beginPath();
+        context.moveTo(width * 0.2, height * 0.28);
+        context.quadraticCurveTo(width * 0.27, height * 0.18, width * 0.34, height * 0.28);
+        context.stroke();
+        context.beginPath();
+        context.moveTo(width * 0.15, height * 0.68);
+        context.quadraticCurveTo(width * 0.2, height * 0.64, width * 0.26, height * 0.68);
+        context.stroke();
+
+        const fade = context.createRadialGradient(width * 0.58, height * 0.55, width * 0.18, width * 0.58, height * 0.55, width * 0.55);
+        fade.addColorStop(0, "rgba(0,0,0,1)");
+        fade.addColorStop(0.58, "rgba(0,0,0,0.98)");
+        fade.addColorStop(0.86, "rgba(0,0,0,0.24)");
+        fade.addColorStop(1, "rgba(0,0,0,0)");
+        context.globalCompositeOperation = "destination-in";
+        context.fillStyle = fade;
+        context.fillRect(0, 0, width, height);
+        context.globalCompositeOperation = "source-over";
+      });
+
+    const createCatBlanketTexture = (palette) =>
+      makeCanvasTexture(
+        (context, width, height) => {
+          const base = context.createLinearGradient(0, 0, width, height);
+          base.addColorStop(0, palette.isDarkTheme ? "#45636a" : "#b9dde1");
+          base.addColorStop(1, palette.isDarkTheme ? "#6b5848" : "#f0d3b7");
+          context.fillStyle = base;
+          context.fillRect(0, 0, width, height);
+          for (let row = 0; row < 4; row += 1) {
+            for (let col = 0; col < 6; col += 1) {
+              const x = 50 + col * 92 + (row % 2) * 34;
+              const y = 44 + row * 62;
+              context.fillStyle = row % 2 ? "rgba(255,248,229,0.8)" : "rgba(43,53,56,0.72)";
+              context.beginPath();
+              context.moveTo(x - 20, y - 4);
+              context.lineTo(x - 8, y - 24);
+              context.lineTo(x + 2, y - 7);
+              context.lineTo(x + 16, y - 24);
+              context.lineTo(x + 22, y - 2);
+              context.arc(x, y, 22, 0.08, Math.PI * 1.92);
+              context.fill();
+              context.fillStyle = row % 2 ? "rgba(43,53,56,0.58)" : "rgba(255,248,229,0.78)";
+              context.beginPath();
+              context.arc(x - 8, y - 1, 2.2, 0, Math.PI * 2);
+              context.arc(x + 8, y - 1, 2.2, 0, Math.PI * 2);
+              context.fill();
+              context.strokeStyle = context.fillStyle;
+              context.lineWidth = 2;
+              context.beginPath();
+              context.moveTo(x - 4, y + 8);
+              context.quadraticCurveTo(x, y + 12, x + 4, y + 8);
+              context.stroke();
+            }
+          }
+        },
+        640,
+        320
+      );
+
+    const createLaptopScreenTexture = (palette) =>
+      makeCanvasTexture(
+        (context, width, height) => {
+          context.fillStyle = palette.isDarkTheme ? "#111b20" : "#17222a";
+          context.fillRect(0, 0, width, height);
+          context.fillStyle = "#212d35";
+          context.fillRect(0, 0, width, 42);
+          context.fillStyle = "#77d2a8";
+          context.font = "700 28px ui-monospace, SFMono-Regular, Consolas, monospace";
+          context.fillText("VS Code", 24, 29);
+          context.fillStyle = "#9ed5ff";
+          context.fillText("Codex", width - 122, 29);
+          context.fillStyle = "#ffd38b";
+          context.fillRect(24, 72, 92, 10);
+          context.fillStyle = "#d6e6ef";
+          [104, 144, 184, 224].forEach((y, index) => {
+            context.fillRect(24, y, 320 - index * 42, 8);
+          });
+          context.fillStyle = "rgba(119,210,168,0.62)";
+          context.fillRect(24, 270, 180, 12);
+        },
+        480,
+        320
+      );
+
     const createArtifactTexture = (artifact, index, palette) =>
       makeCanvasTexture((context, width, height) => {
         const accent = index === 0 ? "#6f9d87" : "#6f98ad";
@@ -766,17 +1014,6 @@
         context.beginPath();
         context.arc(width - 116, 106, 78, 0, Math.PI * 2);
         context.fill();
-        if (index === 0) {
-          context.strokeStyle = "rgba(125,75,36,0.12)";
-          context.lineWidth = 10;
-          context.beginPath();
-          context.ellipse(width - 132, height - 90, 78, 44, -0.24, 0, Math.PI * 1.86);
-          context.stroke();
-          context.fillStyle = "rgba(125,75,36,0.12)";
-          context.beginPath();
-          context.arc(width - 66, height - 62, 7, 0, Math.PI * 2);
-          context.fill();
-        }
         context.globalAlpha = 1;
         context.fillStyle = "#66727a";
         context.font = "700 34px ui-monospace, SFMono-Regular, Consolas, monospace";
@@ -926,11 +1163,21 @@
         hoveredEntry.group.position.y = hoveredEntry.currentRestY ?? hoveredEntry.basePosition.y;
       }
       hoveredEntry = entry;
-      if (renderer?.domElement) renderer.domElement.style.cursor = entry ? (entry.kind === "turntable" ? "pointer" : "grab") : "grab";
-      if (entry && !entry.isDragging && entry.kind !== "turntable") {
+      if (renderer?.domElement) {
+        const isButton = entry?.kind === "turntable" || entry?.kind === "windowJump" || entry?.kind === "returnInside";
+        renderer.domElement.style.cursor = entry ? (isButton ? "pointer" : "grab") : "grab";
+      }
+      if (entry && !entry.isDragging && entry.kind !== "turntable" && entry.kind !== "windowJump" && entry.kind !== "returnInside") {
         entry.group.position.y = (entry.currentRestY ?? entry.basePosition.y) + 0.035;
         render();
       }
+    };
+
+    const replaceMaterialMap = (material, texture) => {
+      if (!material) return;
+      material.map?.dispose?.();
+      material.map = texture;
+      material.needsUpdate = true;
     };
 
     const applyDeskPalette = () => {
@@ -949,21 +1196,31 @@
       if (themeMaterials.shadow) themeMaterials.shadow.opacity = palette.shadowOpacity;
       themeMaterials.stain?.color.setHex(palette.stain);
       if (themeMaterials.stain) themeMaterials.stain.opacity = palette.stainOpacity;
+      themeMaterials.windowFrame?.color.setHex(palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047);
+      themeMaterials.windowRecess?.color.setHex(palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae);
+      themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
+      themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x58b5cf);
+      themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
+      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x62533e : 0x9b825f);
+      themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
+      themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
+      themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
       ambientLight?.color.setHex(palette.ambientColor);
       if (ambientLight) ambientLight.intensity = palette.ambientIntensity;
       if (keyLight) keyLight.intensity = palette.keyIntensity;
       sideLight?.color.setHex(palette.sideColor);
       if (sideLight) sideLight.intensity = palette.sideIntensity;
       if (windowMaterial) {
-        windowMaterial.map?.dispose?.();
-        windowMaterial.map = createWindowTexture(palette);
-        windowMaterial.needsUpdate = true;
+        replaceMaterialMap(windowMaterial, createWindowTexture(palette));
       }
       if (mugMarkMaterial) {
-        mugMarkMaterial.map?.dispose?.();
-        mugMarkMaterial.map = createMugMarkTexture(palette);
-        mugMarkMaterial.needsUpdate = true;
+        replaceMaterialMap(mugMarkMaterial, createMugMarkTexture(palette));
       }
+      replaceMaterialMap(themeMaterials.windowButton, createDeskButtonTexture(palette, "OUT"));
+      replaceMaterialMap(themeMaterials.returnButton, createDeskButtonTexture(palette, "IN"));
+      replaceMaterialMap(themeMaterials.outsideBackdrop, createOutsideBackdropTexture(palette));
+      replaceMaterialMap(themeMaterials.catBlanket, createCatBlanketTexture(palette));
+      replaceMaterialMap(themeMaterials.laptopScreen, createLaptopScreenTexture(palette));
       render();
     };
 
@@ -973,17 +1230,19 @@
       const width = Math.max(1, Math.round(rect.width || 1));
       const height = Math.max(1, Math.round(rect.height || width * 0.74));
       const isCompact = width < 560;
+      isCompactScene = isCompact;
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(width, height, false);
-      camera.fov = isCompact ? 35 : 31;
       camera.aspect = width / height;
-      camera.position.set(isCompact ? 3.05 : 3.7, isCompact ? 2.15 : 2.22, isCompact ? 6.55 : 6.85);
-      camera.lookAt(isCompact ? -0.08 : 0.02, -0.42, 0.08);
-      camera.updateProjectionMatrix();
       if (rootGroup) {
         rootGroup.scale.setScalar(isCompact ? 0.8 : 1.04);
         rootGroup.position.set(isCompact ? -0.16 : -0.02, isCompact ? -0.14 : -0.12, isCompact ? 0.24 : 0.04);
       }
+      if (outsideGroup) {
+        outsideGroup.scale.setScalar(isCompact ? 0.78 : 0.98);
+        outsideGroup.position.set(isCompact ? -0.14 : -0.04, isCompact ? -0.1 : -0.04, isCompact ? 0.16 : 0);
+      }
+      applyCameraPose(true);
       render();
     };
 
@@ -1067,11 +1326,37 @@
       setToneArm(isRecordSpinning, true);
     };
 
+    const setSceneView = (nextView) => {
+      activeView = nextView === "outside" ? "outside" : "desk";
+      if (rootGroup) rootGroup.visible = activeView === "desk";
+      if (outsideGroup) outsideGroup.visible = activeView === "outside";
+      container.classList.toggle("is-outside-view", activeView === "outside");
+      targetZoomLevel = 0;
+      zoomLevel = 0;
+      targetRotationX = activeView === "outside" ? -0.03 : defaultRotation.x;
+      targetRotationY = activeView === "outside" ? 0.16 : defaultRotation.y;
+      rotationX = targetRotationX;
+      rotationY = targetRotationY;
+      applyRootRotation(true);
+      applyCameraPose(true);
+      updateWindowJumpVisibility();
+      scheduleFrame();
+    };
+
+    const resetSceneView = () => {
+      setSceneView("desk");
+      targetZoomLevel = 0;
+      zoomLevel = 0;
+      applyCameraPose(true);
+      updateWindowJumpVisibility();
+    };
+
     function tick(time) {
       animationFrame = null;
       if (!isLoaded) return;
 
       applyRootRotation();
+      const keepCameraMoving = applyCameraPose();
       const keepTweening = updateTweens(time);
 
       if (recordGroup && isVisible && isRecordSpinning && !reduceMotion) {
@@ -1084,7 +1369,7 @@
 
       render();
 
-      if (isVisible && ((!reduceMotion && isRecordSpinning) || needsRotationFrame() || keepTweening)) {
+      if (isVisible && ((!reduceMotion && isRecordSpinning) || needsRotationFrame() || keepCameraMoving || keepTweening)) {
         scheduleFrame();
       }
     }
@@ -1097,17 +1382,188 @@
       wall.renderOrder = -3;
       rootGroup.add(wall);
 
+      const recessMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae, roughness: 0.86, metalness: 0.01 });
+      const frameMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047, roughness: 0.62 });
+      const glassMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.16 : 0.22,
+        depthWrite: false,
+      });
+      themeMaterials.windowFrame = frameMaterial;
+      themeMaterials.windowRecess = recessMaterial;
+      themeMaterials.windowGlass = glassMaterial;
+
+      addBox(rootGroup, { x: 2.18, y: 1.45, z: 0.09 }, { x: 1.16, y: 0.68, z: -1.765 }, recessMaterial);
+
       windowMaterial = new THREE.MeshBasicMaterial({ map: createWindowTexture(palette), transparent: true });
       const view = new THREE.Mesh(new THREE.PlaneGeometry(1.72, 1.08), windowMaterial);
-      view.position.set(1.16, 0.68, -1.75);
+      view.position.set(1.16, 0.68, -1.708);
       view.renderOrder = -2;
       rootGroup.add(view);
 
-      const frameMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047, roughness: 0.62 });
-      addBox(rootGroup, { x: 1.84, y: 0.05, z: 0.05 }, { x: 1.16, y: 1.24, z: -1.72 }, frameMaterial);
-      addBox(rootGroup, { x: 1.84, y: 0.05, z: 0.05 }, { x: 1.16, y: 0.12, z: -1.72 }, frameMaterial);
-      addBox(rootGroup, { x: 0.05, y: 1.16, z: 0.05 }, { x: 0.22, y: 0.68, z: -1.72 }, frameMaterial);
-      addBox(rootGroup, { x: 0.05, y: 1.16, z: 0.05 }, { x: 2.1, y: 0.68, z: -1.72 }, frameMaterial);
+      const glass = new THREE.Mesh(new THREE.PlaneGeometry(1.64, 1), glassMaterial);
+      glass.position.set(1.16, 0.68, -1.69);
+      glass.renderOrder = -1;
+      rootGroup.add(glass);
+
+      addBox(rootGroup, { x: 1.96, y: 0.08, z: 0.11 }, { x: 1.16, y: 1.27, z: -1.66 }, frameMaterial);
+      addBox(rootGroup, { x: 1.96, y: 0.08, z: 0.11 }, { x: 1.16, y: 0.09, z: -1.66 }, frameMaterial);
+      addBox(rootGroup, { x: 0.08, y: 1.22, z: 0.11 }, { x: 0.16, y: 0.68, z: -1.66 }, frameMaterial);
+      addBox(rootGroup, { x: 0.08, y: 1.22, z: 0.11 }, { x: 2.16, y: 0.68, z: -1.66 }, frameMaterial);
+      addBox(rootGroup, { x: 0.06, y: 1.08, z: 0.08 }, { x: 1.16, y: 0.68, z: -1.63 }, frameMaterial);
+      addBox(rootGroup, { x: 1.72, y: 0.045, z: 0.08 }, { x: 1.16, y: 0.68, z: -1.63 }, frameMaterial);
+      addBox(rootGroup, { x: 2.2, y: 0.1, z: 0.28 }, { x: 1.12, y: 0.0, z: -1.58 }, frameMaterial);
+
+      windowJumpGroup = new THREE.Group();
+      windowJumpGroup.visible = false;
+      windowJumpGroup.position.set(1.94, 0.34, -1.54);
+      rootGroup.add(windowJumpGroup);
+      const buttonMaterial = new THREE.MeshBasicMaterial({
+        map: createDeskButtonTexture(palette, "OUT"),
+        transparent: true,
+        opacity: 0.72,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      themeMaterials.windowButton = buttonMaterial;
+      const button = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), buttonMaterial);
+      windowJumpGroup.add(button);
+      const buttonHit = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.54, 0.54),
+        new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
+      );
+      buttonHit.position.z = 0.01;
+      windowJumpGroup.add(buttonHit);
+      const entry = {
+        kind: "windowJump",
+        group: windowJumpGroup,
+        basePosition: windowJumpGroup.position.clone(),
+        baseRotation: windowJumpGroup.rotation.clone(),
+        currentRestY: windowJumpGroup.position.y,
+      };
+      registerInteractive(button, { kind: "windowJump", index: 0 }, entry);
+      registerInteractive(buttonHit, { kind: "windowJump", index: 0 }, entry);
+    };
+
+    const addOutsideVignette = (palette) => {
+      outsideGroup = new THREE.Group();
+      outsideGroup.visible = false;
+      scene.add(outsideGroup);
+
+      const backdropMaterial = new THREE.MeshBasicMaterial({
+        map: createOutsideBackdropTexture(palette),
+        side: THREE.DoubleSide,
+        transparent: true,
+        depthWrite: false,
+      });
+      themeMaterials.outsideBackdrop = backdropMaterial;
+      const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 4.02), backdropMaterial);
+      backdrop.position.set(0.1, 0.34, -1.9);
+      outsideGroup.add(backdrop);
+
+      const oceanMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0x183648 : 0x58b5cf,
+        transparent: true,
+        opacity: 0.38,
+        depthWrite: false,
+      });
+      themeMaterials.outsideOcean = oceanMaterial;
+      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 2.9), oceanMaterial);
+      ocean.rotation.x = -Math.PI / 2;
+      ocean.position.set(-0.72, -1.18, 0.1);
+      outsideGroup.add(ocean);
+
+      const beachMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6, roughness: 0.9 });
+      const cliffMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x62533e : 0x9b825f, roughness: 0.88 });
+      const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
+      const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
+      const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
+      themeMaterials.outsideBeach = beachMaterial;
+      themeMaterials.outsideCliff = cliffMaterial;
+      themeMaterials.outsideHouse = houseMaterial;
+      themeMaterials.outsideRoof = roofMaterial;
+      themeMaterials.outsideBed = bedMaterial;
+      const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe5b58e, roughness: 0.68 });
+      const hairMaterial = new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.8 });
+      const screenMaterial = new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture(palette), side: THREE.DoubleSide });
+      const blanketMaterial = new THREE.MeshStandardMaterial({ map: createCatBlanketTexture(palette), roughness: 0.78 });
+      themeMaterials.laptopScreen = screenMaterial;
+      themeMaterials.catBlanket = blanketMaterial;
+
+      const beach = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 0.82), beachMaterial);
+      beach.rotation.x = -Math.PI / 2;
+      beach.position.set(-0.9, -1.15, 1.5);
+      outsideGroup.add(beach);
+
+      addBox(outsideGroup, { x: 1.92, y: 1.04, z: 0.56 }, { x: 1.62, y: -0.72, z: 0.54 }, cliffMaterial);
+      addBox(outsideGroup, { x: 0.72, y: 0.18, z: 0.3 }, { x: 0.92, y: 0.02, z: 0.34 }, cliffMaterial);
+
+      const house = new THREE.Group();
+      house.position.set(1.14, 0.12, 0.08);
+      house.scale.setScalar(0.94);
+      outsideGroup.add(house);
+      addBox(house, { x: 1.46, y: 0.92, z: 0.72 }, { x: 0, y: 0, z: 0 }, houseMaterial);
+      addBox(house, { x: 1.62, y: 0.18, z: 0.88 }, { x: 0, y: 0.55, z: 0 }, roofMaterial);
+      addBox(
+        house,
+        { x: 0.88, y: 0.54, z: 0.035 },
+        { x: -0.12, y: 0.02, z: 0.38 },
+        new THREE.MeshStandardMaterial({ color: 0x1d2a2e, roughness: 0.65 })
+      );
+
+      const room = new THREE.Group();
+      room.position.set(-0.12, -0.02, 0.43);
+      house.add(room);
+      addBox(room, { x: 0.72, y: 0.1, z: 0.42 }, { x: -0.04, y: -0.18, z: 0 }, bedMaterial);
+      addBox(room, { x: 0.32, y: 0.08, z: 0.18 }, { x: -0.32, y: -0.1, z: -0.04 }, bedMaterial);
+      addBox(room, { x: 0.66, y: 0.09, z: 0.38 }, { x: 0.02, y: -0.04, z: 0.02 }, blanketMaterial);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
+      head.position.set(-0.27, 0.03, 0.08);
+      room.add(head);
+      const hair = new THREE.Mesh(new THREE.SphereGeometry(0.095, 24, 18), hairMaterial);
+      hair.scale.set(1.14, 0.72, 0.92);
+      hair.position.set(-0.3, 0.055, 0.07);
+      room.add(hair);
+      addBox(
+        room,
+        { x: 0.22, y: 0.015, z: 0.16 },
+        { x: 0.28, y: 0.03, z: 0.04 },
+        new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
+      );
+      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.16), screenMaterial);
+      laptopScreen.position.set(0.28, 0.14, -0.04);
+      laptopScreen.rotation.x = -0.42;
+      room.add(laptopScreen);
+
+      returnInsideGroup = new THREE.Group();
+      returnInsideGroup.position.set(-2.35, 0.98, -0.82);
+      outsideGroup.add(returnInsideGroup);
+      const returnMaterial = new THREE.MeshBasicMaterial({
+        map: createDeskButtonTexture(palette, "IN"),
+        transparent: true,
+        opacity: 0.74,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      themeMaterials.returnButton = returnMaterial;
+      const returnButton = new THREE.Mesh(new THREE.PlaneGeometry(0.38, 0.38), returnMaterial);
+      returnInsideGroup.add(returnButton);
+      const returnHit = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.62, 0.62),
+        new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
+      );
+      returnHit.position.z = 0.01;
+      returnInsideGroup.add(returnHit);
+      const returnEntry = {
+        kind: "returnInside",
+        group: returnInsideGroup,
+        basePosition: returnInsideGroup.position.clone(),
+        baseRotation: returnInsideGroup.rotation.clone(),
+        currentRestY: returnInsideGroup.position.y,
+      };
+      registerInteractive(returnButton, { kind: "returnInside", index: 0 }, returnEntry);
+      registerInteractive(returnHit, { kind: "returnInside", index: 0 }, returnEntry);
     };
 
     const buildScene = () => {
@@ -1163,6 +1619,7 @@
       themeMaterials.stain = stainMaterial;
 
       addWindow(palette);
+      addOutsideVignette(palette);
 
       const floor = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 4.9), floorMaterial);
       floor.rotation.x = -Math.PI / 2;
@@ -1467,6 +1924,10 @@
             isRecordSpinning = !isRecordSpinning;
             setToneArm(isRecordSpinning);
           }
+        } else if (pointerMode === "windowJump" && !movedEnough) {
+          setSceneView("outside");
+        } else if (pointerMode === "returnInside" && !movedEnough) {
+          setSceneView("desk");
         }
 
         if (releasedEntry) releasedEntry.isDragging = false;
@@ -1494,15 +1955,30 @@
         container.classList.remove("is-dragging");
       };
 
+      const onWheel = (event) => {
+        if (!isVisible || activeView !== "desk") return;
+        const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+        if (!delta) return;
+        targetZoomLevel = clamp(targetZoomLevel - delta * 0.00135, 0, 1);
+        if (targetZoomLevel > 0.5) {
+          targetRotationX = defaultRotation.x;
+          targetRotationY = defaultRotation.y;
+        }
+        event.preventDefault();
+        scheduleFrame();
+      };
+
       canvas.addEventListener("pointerdown", onPointerDown);
       canvas.addEventListener("pointermove", onPointerMove);
       canvas.addEventListener("pointerup", onPointerUp);
       canvas.addEventListener("pointercancel", onPointerCancel);
+      canvas.addEventListener("wheel", onWheel, { passive: false });
       cleanupListeners.push(
         () => canvas.removeEventListener("pointerdown", onPointerDown),
         () => canvas.removeEventListener("pointermove", onPointerMove),
         () => canvas.removeEventListener("pointerup", onPointerUp),
-        () => canvas.removeEventListener("pointercancel", onPointerCancel)
+        () => canvas.removeEventListener("pointercancel", onPointerCancel),
+        () => canvas.removeEventListener("wheel", onWheel)
       );
     };
 
@@ -1548,8 +2024,7 @@
         Object.assign(callbacks, nextCallbacks);
       },
       resetView() {
-        targetRotationX = defaultRotation.x;
-        targetRotationY = defaultRotation.y;
+        resetSceneView();
         resetObjects();
         scheduleFrame();
       },
