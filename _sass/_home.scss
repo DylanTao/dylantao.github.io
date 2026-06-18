@@ -1610,18 +1610,18 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -0.88rem;
-  right: clamp(-2.24rem, -2.72vw, -1.32rem);
-  width: min(17.25rem, 50%);
+  top: -1.08rem;
+  right: clamp(-2.72rem, -3.1vw, -1.62rem);
+  width: min(18.35rem, 53%);
   aspect-ratio: 1 / 1;
   z-index: 7;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
   filter: saturate(1.12) contrast(1.08);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.58);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.62);
   pointer-events: none;
-  transform: rotate(-10deg);
+  transform: rotate(-14deg);
   transform-origin: 52% 50%;
 }
 
@@ -3338,10 +3338,10 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: 0.08rem;
-    right: -1.26rem;
-    width: min(10.1rem, 41vw);
-    opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
+    top: -0.14rem;
+    right: -1.48rem;
+    width: min(11.2rem, 45vw);
+    opacity: calc(var(--home-coffee-stain-opacity) * 0.42);
   }
 
   .home-inspiration-credit {

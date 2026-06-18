@@ -14,7 +14,7 @@
     </filter>
   </defs>
   <path
-    d="M62 187C58 112 111 58 188 57C263 56 319 103 323 180C327 257 274 318 193 319C112 320 66 266 62 187Z"
+    d="M55 184C53 111 110 54 190 59C269 64 326 110 331 181C336 258 278 323 194 316C116 310 61 263 55 184Z"
     fill="#9c632e"
     opacity="0.072"
     filter="url(#soft)"
@@ -28,19 +28,19 @@
   <path d="M102 121C140 80 212 72 273 106C236 94 184 97 145 124C122 140 104 143 102 121Z" fill="#aa7040" opacity="0.04" filter="url(#soft)" />
   <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#bleed)">
     <path
-      d="M68 188C65 116 115 66 188 64C265 62 313 112 315 184C317 259 266 307 190 308C114 309 72 262 68 188Z"
+      d="M61 186C59 113 116 61 190 67C265 73 317 111 318 184C319 260 265 304 190 309C111 314 65 260 61 186Z"
       stroke="#6b3a1a"
       stroke-opacity="0.37"
       stroke-width="12.6"
-      stroke-dasharray="54 19 23 15 88 28 31 22 76 18 34 26 52 20"
+      stroke-dasharray="40 18 16 21 96 26 22 16 64 30 11 24 58 17 28 34"
       stroke-dashoffset="3"
     />
     <path
-      d="M93 187C92 128 136 88 193 87C253 86 287 128 289 184C291 244 248 282 188 282C130 282 94 247 93 187Z"
+      d="M92 184C96 127 137 88 195 89C252 90 289 129 287 188C285 244 246 281 187 279C130 277 89 244 92 184Z"
       stroke="#aa7040"
       stroke-opacity="0.26"
       stroke-width="6.4"
-      stroke-dasharray="35 28 72 19 28 31 52 23 23 20 44 30"
+      stroke-dasharray="22 33 76 16 17 37 42 24 13 18 50 35"
       stroke-dashoffset="29"
     />
     <path
@@ -70,7 +70,9 @@
     <circle cx="130" cy="70" r="4.2" opacity="0.28" />
     <ellipse cx="214" cy="55" rx="9.2" ry="4.2" opacity="0.3" transform="rotate(9 214 55)" />
     <circle cx="318" cy="92" r="6.8" opacity="0.4" />
-    <ellipse cx="350" cy="172" rx="10.8" ry="6" opacity="0.38" transform="rotate(-18 350 172)" />
-    <ellipse cx="108" cy="300" rx="5.8" ry="8.4" opacity="0.26" transform="rotate(18 108 300)" />
+    <ellipse cx="350" cy="172" rx="10.8" ry="6" opacity="0.42" transform="rotate(-18 350 172)" />
+    <ellipse cx="338" cy="235" rx="5.4" ry="8.8" opacity="0.31" transform="rotate(27 338 235)" />
+    <circle cx="302" cy="326" r="4.4" opacity="0.25" />
+    <ellipse cx="108" cy="300" rx="5.8" ry="8.4" opacity="0.28" transform="rotate(18 108 300)" />
   </g>
 </svg>

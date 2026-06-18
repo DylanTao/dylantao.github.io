@@ -1141,6 +1141,53 @@
         1
       );
 
+    const createCliffSurfaceTexture = (palette, face = false) =>
+      makeRepeatingCanvasTexture(
+        (context, width, height) => {
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          const base = context.createLinearGradient(0, 0, width, height);
+          base.addColorStop(0, isEvening ? "#85745a" : "#cfb384");
+          base.addColorStop(0.56, isEvening ? "#6d604a" : "#b79c72");
+          base.addColorStop(1, isEvening ? "#5a4e3c" : "#957b59");
+          context.fillStyle = base;
+          context.fillRect(0, 0, width, height);
+
+          context.globalAlpha = face ? 0.24 : 0.18;
+          context.strokeStyle = isEvening ? "#d2b98d" : "#f0d09a";
+          context.lineWidth = face ? 4 : 3;
+          for (let row = 0; row < 7; row += 1) {
+            const y = 18 + row * 28;
+            context.beginPath();
+            context.moveTo(-24, y);
+            for (let x = -24; x <= width + 32; x += 74) {
+              context.quadraticCurveTo(x + 34, y - 10 + ((row + x) % 3) * 5, x + 74, y + Math.sin((x + row) * 0.03) * 5);
+            }
+            context.stroke();
+          }
+
+          context.globalAlpha = 1;
+          for (let index = 0; index < 90; index += 1) {
+            const x = (index * 43) % width;
+            const y = (index * 59) % height;
+            context.fillStyle =
+              index % 3 === 0
+                ? isEvening
+                  ? "rgba(35,29,22,0.2)"
+                  : "rgba(78,55,35,0.18)"
+                : isEvening
+                  ? "rgba(235,207,156,0.11)"
+                  : "rgba(255,232,178,0.18)";
+            context.beginPath();
+            context.ellipse(x, y, 2.8 + (index % 4), 1.1 + (index % 3) * 0.35, (index % 5) * 0.4, 0, Math.PI * 2);
+            context.fill();
+          }
+        },
+        512,
+        224,
+        face ? 1.2 : 1.5,
+        face ? 1.35 : 1
+      );
+
     const createCatBlanketTexture = (palette) =>
       makeCanvasTexture(
         (context, width, height) => {
@@ -1472,6 +1519,10 @@
       if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
       themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xaa9169);
       themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0x9b835f);
+      themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x2c241a : 0x9a7b50);
+      themeMaterials.outsideCliffFace?.emissive?.setHex(palette.isDarkTheme ? 0x261f18 : 0x836744);
+      if (themeMaterials.outsideCliff) themeMaterials.outsideCliff.emissiveIntensity = palette.isDarkTheme ? 0.08 : 0.14;
+      if (themeMaterials.outsideCliffFace) themeMaterials.outsideCliffFace.emissiveIntensity = palette.isDarkTheme ? 0.06 : 0.1;
       themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xd0b583);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
@@ -1502,6 +1553,8 @@
       const sandTexture = createSandSurfaceTexture(palette);
       replaceMaterialMap(themeMaterials.outsideBeach, sandTexture);
       setOutsideMotionTexture("sand", sandTexture);
+      replaceMaterialMap(themeMaterials.outsideCliff, createCliffSurfaceTexture(palette));
+      replaceMaterialMap(themeMaterials.outsideCliffFace, createCliffSurfaceTexture(palette, true));
       replaceMaterialMap(themeMaterials.catBlanket, createCatBlanketTexture(palette));
       replaceMaterialMap(themeMaterials.laptopScreen, createLaptopScreenTexture(palette));
       render();
@@ -1542,8 +1595,8 @@
 
     const setToneArm = (playing, immediate = false) => {
       if (!toneArmGroup) return;
-      const targetY = playing ? -0.4 : 0.38;
-      const targetZ = playing ? -0.17 : -0.36;
+      const targetY = playing ? -0.48 : 0.42;
+      const targetZ = playing ? -0.14 : -0.38;
       if (immediate || reduceMotion) {
         toneArmGroup.rotation.y = targetY;
         toneArmGroup.position.z = targetZ;
@@ -1868,8 +1921,20 @@
         map: beachTexture,
         roughness: 0.9,
       });
-      const cliffMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x675a46 : 0xaa9169, roughness: 0.88 });
-      const cliffFaceMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x5a4f3e : 0x9b835f, roughness: 0.92 });
+      const cliffMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x675a46 : 0xaa9169,
+        map: createCliffSurfaceTexture(palette),
+        emissive: palette.isDarkTheme ? 0x2c241a : 0x9a7b50,
+        emissiveIntensity: palette.isDarkTheme ? 0.08 : 0.14,
+        roughness: 0.9,
+      });
+      const cliffFaceMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x5a4f3e : 0x9b835f,
+        map: createCliffSurfaceTexture(palette, true),
+        emissive: palette.isDarkTheme ? 0x261f18 : 0x836744,
+        emissiveIntensity: palette.isDarkTheme ? 0.06 : 0.1,
+        roughness: 0.94,
+      });
       const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x867458 : 0xd0b583, roughness: 0.86 });
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
@@ -1906,16 +1971,17 @@
       themeMaterials.laptopScreen = screenMaterial;
       themeMaterials.catBlanket = blanketMaterial;
 
-      const beach = new THREE.Mesh(new THREE.PlaneGeometry(4.35, 0.58), beachMaterial);
+      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.74, 0.48), beachMaterial);
       beach.rotation.x = -Math.PI / 2;
-      beach.position.set(-1.56, -1.18, 1.72);
+      beach.rotation.z = 0.04;
+      beach.position.set(-1.68, -1.23, 1.66);
       beach.renderOrder = -3;
       outsideGroup.add(beach);
 
-      const foam = new THREE.Mesh(new THREE.PlaneGeometry(4.35, 0.22), foamMaterial);
+      const foam = new THREE.Mesh(new THREE.PlaneGeometry(3.72, 0.2), foamMaterial);
       foam.rotation.x = -Math.PI / 2;
-      foam.rotation.z = -0.08;
-      foam.position.set(-1.64, -1.15, 1.46);
+      foam.rotation.z = -0.04;
+      foam.position.set(-1.72, -1.19, 1.43);
       foam.renderOrder = -2;
       outsideGroup.add(foam);
       outsideMotionItems.push(
@@ -1963,62 +2029,18 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.36, 0.06],
-          [2.12, 0.1],
-          [2.34, 0.48],
-          [1.82, 0.76],
-          [0.68, 0.76],
-          [0.18, 0.42],
+          [0.42, 0.16],
+          [2.22, 0.12],
+          [2.46, 0.52],
+          [1.96, 0.92],
+          [0.66, 0.88],
+          [0.22, 0.5],
         ],
-        -0.74,
-        0.16,
+        -0.76,
+        0.22,
         cliffMaterial
       );
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [0.04, 0.34],
-          [2.26, 0.36],
-          [2.46, 0.9],
-          [1.42, 1.16],
-          [-0.28, 0.9],
-        ],
-        -0.98,
-        0.18,
-        cliffFaceMaterial
-      );
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [-0.14, 0.76],
-          [1.44, 0.78],
-          [1.68, 1.08],
-          [0.42, 1.28],
-          [-0.28, 1.02],
-        ],
-        -1.23,
-        0.16,
-        cliffFaceMaterial
-      );
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [0.48, 0.06],
-          [2.22, 0.16],
-          [2.34, 0.48],
-          [1.78, 0.66],
-          [0.72, 0.64],
-          [0.32, 0.34],
-        ],
-        -0.54,
-        0.18,
-        cliffMaterial
-      );
-      [
-        { size: { x: 0.72, y: 0.014, z: 0.016 }, position: { x: 1.45, y: -0.74, z: 0.54 }, rotation: -0.04 },
-        { size: { x: 0.86, y: 0.013, z: 0.014 }, position: { x: 1.18, y: -0.98, z: 0.82 }, rotation: 0.07 },
-        { size: { x: 0.62, y: 0.012, z: 0.012 }, position: { x: 0.72, y: -1.24, z: 1.06 }, rotation: -0.1 },
-      ].forEach((strip) => {
+      [{ size: { x: 0.54, y: 0.012, z: 0.014 }, position: { x: 1.56, y: -0.74, z: 0.56 }, rotation: -0.04 }].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
       });
@@ -2276,6 +2298,18 @@
       platterLip.rotation.x = Math.PI / 2;
       platterLip.position.set(-0.24, 0.19, 0);
       player.add(platterLip);
+      const platterTickMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xd7caa7 : 0xf2e0bd,
+        roughness: 0.46,
+        metalness: 0.18,
+      });
+      for (let index = 0; index < 18; index += 1) {
+        const angle = (index / 18) * Math.PI * 2;
+        const tick = new THREE.Mesh(new THREE.BoxGeometry(0.038, 0.008, 0.006), platterTickMaterial);
+        tick.position.set(-0.24 + Math.cos(angle) * 0.62, 0.216, Math.sin(angle) * 0.62);
+        tick.rotation.y = -angle;
+        player.add(tick);
+      }
       recordGroup = new THREE.Group();
       recordGroup.position.set(-0.24, 0.205, 0.0);
       player.add(recordGroup);
@@ -2319,10 +2353,22 @@
       pivotRing.rotation.x = Math.PI / 2;
       pivotRing.position.y = 0.045;
       toneArmGroup.add(pivotRing);
+      const pivotCap = new THREE.Mesh(new THREE.SphereGeometry(0.074, 24, 14), metalMaterial);
+      pivotCap.scale.set(1, 0.42, 1);
+      pivotCap.position.y = 0.074;
+      toneArmGroup.add(pivotCap);
       const counterWeight = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.11, 32), metalMaterial);
       counterWeight.rotation.z = Math.PI / 2;
       counterWeight.position.set(0.12, 0.008, 0.1);
       toneArmGroup.add(counterWeight);
+      const counterWeightRim = new THREE.Mesh(new THREE.TorusGeometry(0.087, 0.006, 8, 32), darkArmMaterial);
+      counterWeightRim.rotation.y = Math.PI / 2;
+      counterWeightRim.position.set(0.18, 0.008, 0.1);
+      toneArmGroup.add(counterWeightRim);
+      const armRest = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.04, 0.18, 24), darkArmMaterial);
+      armRest.position.set(-0.12, -0.01, 0.04);
+      armRest.rotation.z = -0.2;
+      toneArmGroup.add(armRest);
       const armCurve = new THREE.CatmullRomCurve3(
         [
           new THREE.Vector3(0.015, 0.02, -0.055),
@@ -2336,10 +2382,22 @@
       );
       const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 44, 0.018, 10, false), metalMaterial);
       toneArmGroup.add(arm);
+      const armHighlight = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 44, 0.006, 8, false), warmArmMaterial);
+      armHighlight.position.y = 0.018;
+      toneArmGroup.add(armHighlight);
       const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.045, 0.13), warmArmMaterial);
       headshell.position.set(-0.565, 0.002, -0.615);
       headshell.rotation.y = -0.38;
       toneArmGroup.add(headshell);
+      [
+        [-0.6, 0.03, -0.59],
+        [-0.545, 0.03, -0.642],
+      ].forEach(([x, y, z]) => {
+        const screw = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.01, 14), darkArmMaterial);
+        screw.position.set(x, y, z);
+        screw.rotation.x = Math.PI / 2;
+        toneArmGroup.add(screw);
+      });
       const cartridge = new THREE.Mesh(new THREE.BoxGeometry(0.105, 0.04, 0.075), darkArmMaterial);
       cartridge.position.set(-0.63, -0.034, -0.68);
       cartridge.rotation.y = -0.38;
@@ -2348,6 +2406,9 @@
       stylus.position.set(-0.665, -0.078, -0.718);
       stylus.rotation.x = Math.PI;
       toneArmGroup.add(stylus);
+      const stylusTip = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 8), warmArmMaterial);
+      stylusTip.position.set(-0.665, -0.122, -0.718);
+      toneArmGroup.add(stylusTip);
 
       const albumRack = new THREE.Group();
       albumRack.position.set(-1.76, -0.2, -0.66);
