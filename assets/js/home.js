@@ -649,7 +649,7 @@
 
     const updateWindowJumpVisibility = () => {
       if (!windowJumpGroup) return;
-      const shouldShow = activeView === "desk" && zoomLevel > 0.68;
+      const shouldShow = activeView === "desk" && zoomLevel > 0.42;
       if (windowJumpGroup.visible !== shouldShow) {
         windowJumpGroup.visible = shouldShow;
         render();
@@ -1551,10 +1551,10 @@
         side: THREE.DoubleSide,
       });
       themeMaterials.windowButton = buttonMaterial;
-      const button = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), buttonMaterial);
+      const button = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.42), buttonMaterial);
       windowJumpGroup.add(button);
       const buttonHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.54, 0.54),
+        new THREE.PlaneGeometry(0.82, 0.82),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       buttonHit.position.z = 0.01;
@@ -1617,14 +1617,18 @@
       themeMaterials.laptopScreen = screenMaterial;
       themeMaterials.catBlanket = blanketMaterial;
 
-      const beach = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 0.82), beachMaterial);
+      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.65, 0.48), beachMaterial);
       beach.rotation.x = -Math.PI / 2;
-      beach.position.set(-0.9, -1.15, 1.5);
+      beach.position.set(-1.32, -1.2, 1.68);
       outsideGroup.add(beach);
 
-      addBox(outsideGroup, { x: 1.34, y: 0.68, z: 0.42 }, { x: 1.82, y: -0.94, z: 0.7 }, cliffMaterial);
-      addBox(outsideGroup, { x: 1.72, y: 0.12, z: 0.54 }, { x: 1.62, y: -0.56, z: 0.48 }, cliffMaterial);
-      addBox(outsideGroup, { x: 0.86, y: 0.16, z: 0.28 }, { x: 0.86, y: -0.02, z: 0.34 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.1, y: 0.5, z: 0.36 }, { x: 1.78, y: -1.04, z: 0.74 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.42, y: 0.1, z: 0.42 }, { x: 1.56, y: -0.62, z: 0.48 }, cliffMaterial);
+      addBox(outsideGroup, { x: 0.62, y: 0.12, z: 0.24 }, { x: 0.8, y: -0.1, z: 0.34 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.5, y: 0.055, z: 0.42 }, { x: 1.25, y: -0.22, z: 0.56 }, roofMaterial);
+      addBox(outsideGroup, { x: 0.08, y: 0.46, z: 0.08 }, { x: 0.64, y: -0.48, z: 0.32 }, roofMaterial);
+      addBox(outsideGroup, { x: 0.08, y: 0.46, z: 0.08 }, { x: 1.86, y: -0.48, z: 0.32 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.14, y: 0.04, z: 0.04 }, { x: 1.25, y: -0.2, z: 0.28 }, houseMaterial);
 
       const house = new THREE.Group();
       house.position.set(1.16, 0.2, 0.05);
