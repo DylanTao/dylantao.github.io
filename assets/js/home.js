@@ -685,13 +685,13 @@
           );
           camera.lookAt(isCompactScene ? -0.04 : 0.04, 0.28, 0.28);
         } else {
-          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 29 : 26, zoom);
+          camera.fov = lerp(isCompactScene ? 33 : 29, isCompactScene ? 28 : 25, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 1.24 : 1.48, zoom),
-            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.42 : 1.58, zoom),
-            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.45 : 3.62, zoom)
+            lerp(isCompactScene ? 2.72 : 3.18, isCompactScene ? 1.24 : 1.48, zoom),
+            lerp(isCompactScene ? 1.96 : 2.0, isCompactScene ? 1.42 : 1.58, zoom),
+            lerp(isCompactScene ? 5.86 : 5.98, isCompactScene ? 3.45 : 3.62, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.08 : 0.02, 1.08, zoom), lerp(-0.42, 0.52, zoom), lerp(0.08, -1.1, zoom));
+          camera.lookAt(lerp(isCompactScene ? -0.1 : -0.02, 1.08, zoom), lerp(-0.38, 0.52, zoom), lerp(0.04, -1.1, zoom));
         }
       }
       camera.updateProjectionMatrix();
@@ -1261,8 +1261,8 @@
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       if (rootGroup) {
-        rootGroup.scale.setScalar(isCompact ? 0.8 : 1.04);
-        rootGroup.position.set(isCompact ? -0.16 : -0.02, isCompact ? -0.14 : -0.12, isCompact ? 0.24 : 0.04);
+        rootGroup.scale.setScalar(isCompact ? 0.84 : 1.14);
+        rootGroup.position.set(isCompact ? -0.18 : -0.08, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
       }
       if (outsideGroup) {
         outsideGroup.scale.setScalar(isCompact ? 0.78 : 0.98);
