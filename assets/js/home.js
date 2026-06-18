@@ -1527,6 +1527,8 @@
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
+      themeMaterials.outsideRoomFloor?.color.setHex(palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5);
+      themeMaterials.outsideRoomWall?.color.setHex(palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0);
       themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
       themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
       themeMaterials.outsideGlass?.color.setHex(palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6);
@@ -1755,8 +1757,9 @@
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
       container.classList.toggle("is-outside-view", activeView === "outside");
       root.classList.toggle("home-desk-outside-active", activeView === "outside");
-      targetZoomLevel = 0;
-      zoomLevel = 0;
+      const entryZoom = activeView === "outside" ? (isCompactScene ? 0.02 : 0.2) : 0;
+      targetZoomLevel = entryZoom;
+      zoomLevel = entryZoom;
       targetRotationX = activeView === "outside" ? -0.03 : defaultRotation.x;
       targetRotationY = activeView === "outside" ? 0.16 : defaultRotation.y;
       rotationX = targetRotationX;
@@ -1939,6 +1942,8 @@
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
+      const roomFloorMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5, roughness: 0.76 });
+      const roomWallMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0, roughness: 0.8 });
       const trimMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xffead0 : 0xe9d2b4, roughness: 0.58 });
       const interiorMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf6c98b : 0xffdeb0,
@@ -1959,6 +1964,8 @@
       themeMaterials.outsideHouse = houseMaterial;
       themeMaterials.outsideRoof = roofMaterial;
       themeMaterials.outsideBed = bedMaterial;
+      themeMaterials.outsideRoomFloor = roomFloorMaterial;
+      themeMaterials.outsideRoomWall = roomWallMaterial;
       themeMaterials.outsideTrim = trimMaterial;
       themeMaterials.outsideInterior = interiorMaterial;
       themeMaterials.outsideGlass = glassMaterial;
@@ -2029,18 +2036,22 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.42, 0.16],
-          [2.22, 0.12],
-          [2.46, 0.52],
-          [1.96, 0.92],
-          [0.66, 0.88],
-          [0.22, 0.5],
+          [0.58, 0.18],
+          [2.16, 0.2],
+          [2.32, 0.5],
+          [1.78, 0.78],
+          [0.72, 0.74],
+          [0.36, 0.46],
         ],
-        -0.76,
-        0.22,
+        -0.81,
+        0.16,
         cliffMaterial
       );
-      [{ size: { x: 0.54, y: 0.012, z: 0.014 }, position: { x: 1.56, y: -0.74, z: 0.56 }, rotation: -0.04 }].forEach((strip) => {
+      [
+        { size: { x: 0.5, y: 0.012, z: 0.014 }, position: { x: 1.52, y: -0.8, z: 0.52 }, rotation: -0.04 },
+        { size: { x: 0.34, y: 0.18, z: 0.032 }, position: { x: 0.86, y: -0.88, z: 0.48 }, rotation: 0.1 },
+        { size: { x: 0.3, y: 0.16, z: 0.03 }, position: { x: 1.86, y: -0.88, z: 0.5 }, rotation: -0.12 },
+      ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
       });
@@ -2062,7 +2073,9 @@
       house.scale.setScalar(1.18);
       outsideGroup.add(house);
       addBox(house, { x: 1.52, y: 0.08, z: 0.78 }, { x: 0, y: -0.47, z: 0 }, trimMaterial);
+      addBox(house, { x: 1.34, y: 0.035, z: 0.62 }, { x: -0.06, y: -0.4, z: 0.02 }, roomFloorMaterial);
       addBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial);
+      addBox(house, { x: 1.2, y: 0.58, z: 0.035 }, { x: -0.06, y: -0.08, z: -0.31 }, roomWallMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial);
       addBox(house, { x: 1.78, y: 0.1, z: 0.92 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
@@ -2089,12 +2102,15 @@
       room.position.set(-0.08, -0.04, 0.2);
       room.scale.set(1.22, 1.12, 1.14);
       house.add(room);
-      addBox(room, { x: 0.98, y: 0.035, z: 0.52 }, { x: -0.02, y: -0.34, z: 0.0 }, trimMaterial);
-      addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: 0.0 }, trimMaterial);
+      addBox(room, { x: 1.02, y: 0.035, z: 0.54 }, { x: -0.02, y: -0.34, z: 0.0 }, roomFloorMaterial);
+      addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.1, y: -0.305, z: 0.06 }, blanketMaterial);
+      addBox(room, { x: 0.1, y: 0.25, z: 0.5 }, { x: -0.48, y: -0.08, z: -0.02 }, trimMaterial);
+      addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: 0.0 }, bedMaterial);
       addBox(room, { x: 0.84, y: 0.1, z: 0.46 }, { x: -0.02, y: -0.18, z: -0.01 }, bedMaterial);
-      addBox(room, { x: 0.34, y: 0.07, z: 0.22 }, { x: -0.34, y: -0.11, z: -0.06 }, pillowMaterial);
+      addBox(room, { x: 0.34, y: 0.075, z: 0.22 }, { x: -0.34, y: -0.1, z: -0.06 }, pillowMaterial);
       addBox(room, { x: 0.42, y: 0.065, z: 0.16 }, { x: -0.07, y: -0.055, z: 0.02 }, shirtMaterial);
-      addBox(room, { x: 0.72, y: 0.09, z: 0.4 }, { x: 0.06, y: -0.035, z: 0.035 }, blanketMaterial);
+      addBox(room, { x: 0.72, y: 0.095, z: 0.4 }, { x: 0.07, y: -0.032, z: 0.035 }, blanketMaterial);
+      addBox(room, { x: 0.18, y: 0.018, z: 0.46 }, { x: 0.28, y: 0.025, z: 0.02 }, pillowMaterial);
       const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
       head.scale.set(1.06, 0.88, 0.82);
       head.position.set(-0.32, 0.02, 0.08);
@@ -2115,7 +2131,7 @@
       room.add(laptopScreen);
 
       const roomDesk = new THREE.Group();
-      roomDesk.position.set(0.3, -0.15, -0.02);
+      roomDesk.position.set(0.34, -0.14, -0.02);
       roomDesk.rotation.y = -0.46;
       roomDesk.scale.setScalar(1.04);
       room.add(roomDesk);
