@@ -546,6 +546,7 @@
     let isCompactScene = false;
     let activeView = "desk";
     let activeEntry = null;
+    let focusedEntry = null;
     let hoveredEntry = null;
     let pointerMoved = false;
     const callbacks = {};
@@ -667,13 +668,31 @@
         camera.lookAt(isCompactScene ? 0.1 : 0.24, -0.14, 0.04);
       } else {
         const zoom = easeOutCubic(zoomLevel);
-        camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 29 : 26, zoom);
-        camera.position.set(
-          lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 1.24 : 1.48, zoom),
-          lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.42 : 1.58, zoom),
-          lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.45 : 3.62, zoom)
-        );
-        camera.lookAt(lerp(isCompactScene ? -0.08 : 0.02, 1.08, zoom), lerp(-0.42, 0.52, zoom), lerp(0.08, -1.1, zoom));
+        if (focusedEntry?.kind === "album") {
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 30 : 27, zoom);
+          camera.position.set(
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.46 : 2.82, zoom),
+            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.66 : 1.74, zoom),
+            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.36 : 4.72, zoom)
+          );
+          camera.lookAt(isCompactScene ? -0.9 : -1.08, -0.12, -0.22);
+        } else if (focusedEntry?.kind === "artifact") {
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 29 : 26, zoom);
+          camera.position.set(
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 1.92 : 2.24, zoom),
+            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.48 : 1.6, zoom),
+            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.24 : 3.62, zoom)
+          );
+          camera.lookAt(isCompactScene ? -0.04 : 0.04, 0.28, 0.28);
+        } else {
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 29 : 26, zoom);
+          camera.position.set(
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 1.24 : 1.48, zoom),
+            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.42 : 1.58, zoom),
+            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.45 : 3.62, zoom)
+          );
+          camera.lookAt(lerp(isCompactScene ? -0.08 : 0.02, 1.08, zoom), lerp(-0.42, 0.52, zoom), lerp(0.08, -1.1, zoom));
+        }
       }
       camera.updateProjectionMatrix();
       updateWindowJumpVisibility();
@@ -1159,7 +1178,7 @@
 
     const setHoverEntry = (entry) => {
       if (hoveredEntry === entry) return;
-      if (hoveredEntry && !hoveredEntry.isDragging) {
+      if (hoveredEntry && !hoveredEntry.isDragging && hoveredEntry !== focusedEntry) {
         hoveredEntry.group.position.y = hoveredEntry.currentRestY ?? hoveredEntry.basePosition.y;
       }
       hoveredEntry = entry;
@@ -1167,7 +1186,14 @@
         const isButton = entry?.kind === "turntable" || entry?.kind === "windowJump" || entry?.kind === "returnInside";
         renderer.domElement.style.cursor = entry ? (isButton ? "pointer" : "grab") : "grab";
       }
-      if (entry && !entry.isDragging && entry.kind !== "turntable" && entry.kind !== "windowJump" && entry.kind !== "returnInside") {
+      if (
+        entry &&
+        entry !== focusedEntry &&
+        !entry.isDragging &&
+        entry.kind !== "turntable" &&
+        entry.kind !== "windowJump" &&
+        entry.kind !== "returnInside"
+      ) {
         entry.group.position.y = (entry.currentRestY ?? entry.basePosition.y) + 0.035;
         render();
       }
@@ -1277,7 +1303,85 @@
       );
     };
 
+    const clearFocusedEntry = (duration = 460) => {
+      if (!focusedEntry) return false;
+      const entry = focusedEntry;
+      focusedEntry = null;
+      container.removeAttribute("data-focused-desk-object");
+      entry.lifted = false;
+      entry.currentRestY = entry.basePosition.y;
+      addTween(
+        entry.group,
+        {
+          position: entry.basePosition.clone(),
+          rotation: entry.baseRotation.clone(),
+          scale: new THREE.Vector3(1, 1, 1),
+        },
+        duration
+      );
+      return true;
+    };
+
+    const focusAlbum = (entry) => {
+      if (!entry) return;
+      if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
+      focusedEntry = entry;
+      container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
+      entry.thrown = false;
+      const playPosition = entry.playPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
+      const playRotation = entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
+      entry.currentRestY = playPosition.y;
+      setActiveRecordInternal(entry.index, true);
+      if (callbacks.playRecord) {
+        callbacks.playRecord(entry.index);
+      } else {
+        isRecordSpinning = true;
+        setToneArm(true);
+      }
+      addTween(
+        entry.group,
+        {
+          position: playPosition.clone(),
+          rotation: playRotation.clone(),
+          scale: new THREE.Vector3(1.13, 1.13, 1.13),
+        },
+        620
+      );
+      targetZoomLevel = Math.max(targetZoomLevel, 0.34);
+      targetRotationX = -0.04;
+      targetRotationY = -0.22;
+      scheduleFrame();
+    };
+
+    const focusArtifact = (entry) => {
+      if (!entry) return;
+      if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
+      focusedEntry = entry;
+      container.setAttribute("data-focused-desk-object", `artifact-${entry.index}`);
+      entry.lifted = true;
+      const focusPosition = entry.focusPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.56, -0.16));
+      const focusRotation = entry.focusRotation || new THREE.Euler(0.88, 0.02, entry.index === 0 ? -0.05 : 0.05);
+      entry.currentRestY = focusPosition.y;
+      addTween(
+        entry.group,
+        {
+          position: focusPosition.clone(),
+          rotation: focusRotation.clone(),
+          scale: new THREE.Vector3(1.42, 1.42, 1.42),
+        },
+        560
+      );
+      targetZoomLevel = Math.max(targetZoomLevel, 0.68);
+      targetRotationX = -0.035;
+      targetRotationY = -0.2;
+      scheduleFrame();
+    };
+
     const throwAlbum = (entry, deltaX = 1) => {
+      if (focusedEntry === entry) {
+        focusedEntry = null;
+        container.removeAttribute("data-focused-desk-object");
+      }
       entry.thrown = true;
       entry.currentRestY = -1.145;
       const side = deltaX >= 0 ? 1 : -1;
@@ -1307,6 +1411,8 @@
     };
 
     const resetObjects = () => {
+      focusedEntry = null;
+      container.removeAttribute("data-focused-desk-object");
       albumEntries.forEach((entry) => {
         entry.thrown = false;
         entry.currentRestY = entry.basePosition.y;
@@ -1327,10 +1433,12 @@
     };
 
     const setSceneView = (nextView) => {
+      if (focusedEntry) clearFocusedEntry(360);
       activeView = nextView === "outside" ? "outside" : "desk";
       if (rootGroup) rootGroup.visible = activeView === "desk";
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
       container.classList.toggle("is-outside-view", activeView === "outside");
+      root.classList.toggle("home-desk-outside-active", activeView === "outside");
       targetZoomLevel = 0;
       zoomLevel = 0;
       targetRotationX = activeView === "outside" ? -0.03 : defaultRotation.x;
@@ -1486,6 +1594,8 @@
       themeMaterials.outsideBed = bedMaterial;
       const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe5b58e, roughness: 0.68 });
       const hairMaterial = new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.8 });
+      const pillowMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf2e6d5 : 0xfff2df, roughness: 0.72 });
+      const shirtMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x1d2527 : 0x2b3334, roughness: 0.78 });
       const screenMaterial = new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture(palette), side: THREE.DoubleSide });
       const blanketMaterial = new THREE.MeshStandardMaterial({ map: createCatBlanketTexture(palette), roughness: 0.78 });
       themeMaterials.laptopScreen = screenMaterial;
@@ -1496,18 +1606,21 @@
       beach.position.set(-0.9, -1.15, 1.5);
       outsideGroup.add(beach);
 
-      addBox(outsideGroup, { x: 1.92, y: 1.04, z: 0.56 }, { x: 1.62, y: -0.72, z: 0.54 }, cliffMaterial);
-      addBox(outsideGroup, { x: 0.72, y: 0.18, z: 0.3 }, { x: 0.92, y: 0.02, z: 0.34 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.34, y: 0.68, z: 0.42 }, { x: 1.82, y: -0.94, z: 0.7 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.72, y: 0.12, z: 0.54 }, { x: 1.62, y: -0.56, z: 0.48 }, cliffMaterial);
+      addBox(outsideGroup, { x: 0.86, y: 0.16, z: 0.28 }, { x: 0.86, y: -0.02, z: 0.34 }, cliffMaterial);
 
       const house = new THREE.Group();
-      house.position.set(1.14, 0.12, 0.08);
-      house.scale.setScalar(0.94);
+      house.position.set(1.16, 0.2, 0.05);
+      house.scale.setScalar(1.08);
       outsideGroup.add(house);
       addBox(house, { x: 1.46, y: 0.92, z: 0.72 }, { x: 0, y: 0, z: 0 }, houseMaterial);
       addBox(house, { x: 1.62, y: 0.18, z: 0.88 }, { x: 0, y: 0.55, z: 0 }, roofMaterial);
+      addBox(house, { x: 1.2, y: 0.08, z: 0.16 }, { x: -0.08, y: -0.55, z: 0.38 }, roofMaterial);
+      addBox(house, { x: 1.2, y: 0.035, z: 0.04 }, { x: -0.08, y: -0.45, z: 0.52 }, houseMaterial);
       addBox(
         house,
-        { x: 0.88, y: 0.54, z: 0.035 },
+        { x: 0.9, y: 0.56, z: 0.035 },
         { x: -0.12, y: 0.02, z: 0.38 },
         new THREE.MeshStandardMaterial({ color: 0x1d2a2e, roughness: 0.65 })
       );
@@ -1515,25 +1628,27 @@
       const room = new THREE.Group();
       room.position.set(-0.12, -0.02, 0.43);
       house.add(room);
-      addBox(room, { x: 0.72, y: 0.1, z: 0.42 }, { x: -0.04, y: -0.18, z: 0 }, bedMaterial);
-      addBox(room, { x: 0.32, y: 0.08, z: 0.18 }, { x: -0.32, y: -0.1, z: -0.04 }, bedMaterial);
-      addBox(room, { x: 0.66, y: 0.09, z: 0.38 }, { x: 0.02, y: -0.04, z: 0.02 }, blanketMaterial);
+      addBox(room, { x: 0.82, y: 0.1, z: 0.46 }, { x: -0.04, y: -0.2, z: 0 }, bedMaterial);
+      addBox(room, { x: 0.34, y: 0.07, z: 0.2 }, { x: -0.34, y: -0.12, z: -0.03 }, pillowMaterial);
+      addBox(room, { x: 0.42, y: 0.07, z: 0.16 }, { x: -0.08, y: -0.06, z: 0.03 }, shirtMaterial);
+      addBox(room, { x: 0.7, y: 0.09, z: 0.4 }, { x: 0.05, y: -0.035, z: 0.03 }, blanketMaterial);
       const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
-      head.position.set(-0.27, 0.03, 0.08);
+      head.scale.set(1.06, 0.88, 0.82);
+      head.position.set(-0.29, 0.03, 0.08);
       room.add(head);
       const hair = new THREE.Mesh(new THREE.SphereGeometry(0.095, 24, 18), hairMaterial);
-      hair.scale.set(1.14, 0.72, 0.92);
-      hair.position.set(-0.3, 0.055, 0.07);
+      hair.scale.set(1.2, 0.64, 0.9);
+      hair.position.set(-0.32, 0.055, 0.07);
       room.add(hair);
       addBox(
         room,
-        { x: 0.22, y: 0.015, z: 0.16 },
-        { x: 0.28, y: 0.03, z: 0.04 },
+        { x: 0.24, y: 0.016, z: 0.18 },
+        { x: -0.08, y: 0.035, z: 0.18 },
         new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
       );
       const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.16), screenMaterial);
-      laptopScreen.position.set(0.28, 0.14, -0.04);
-      laptopScreen.rotation.x = -0.42;
+      laptopScreen.position.set(-0.08, 0.15, 0.08);
+      laptopScreen.rotation.set(-0.44, 0.02, 0);
       room.add(laptopScreen);
 
       returnInsideGroup = new THREE.Group();
@@ -1690,21 +1805,26 @@
       toneArmGroup.add(head);
 
       const albumRack = new THREE.Group();
-      albumRack.position.set(-1.8, -0.12, -0.68);
+      albumRack.position.set(-1.76, -0.2, -0.66);
       table.add(albumRack);
+      addBox(albumRack, { x: 1.42, y: 0.08, z: 0.24 }, { x: 0.02, y: 0.02, z: -0.07 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 1.48, y: 0.08, z: 0.08 }, { x: 0.02, y: 0.42, z: -0.19 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.08, y: 0.56, z: 0.12 }, { x: -0.7, y: 0.24, z: -0.08 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.08, y: 0.56, z: 0.12 }, { x: 0.74, y: 0.24, z: -0.08 }, woodEdgeMaterial);
       records.slice(0, 4).forEach((recordItem, index) => {
         const entry = { kind: "album", index, group: new THREE.Group(), thrown: false };
-        entry.group.position.set(index * 0.13, 0.34 - index * 0.01, -index * 0.055);
-        entry.group.rotation.set(-0.05, 0.2 - index * 0.03, -0.04 + index * 0.035);
+        entry.group.position.set(-0.45 + index * 0.3, 0.36 + index * 0.01, 0.01 - index * 0.018);
+        entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
+        entry.playPosition = new THREE.Vector3(0.34, 0.58, 0.58);
+        entry.playRotation = new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
-        const sleeveBack = addBox(entry.group, { x: 0.64, y: 0.04, z: 0.66 }, { x: 0, y: 0, z: -0.02 }, cardEdgeMaterial);
+        const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
         const coverMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55, side: THREE.DoubleSide });
-        const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.66), coverMaterial);
-        cover.position.set(0, 0.025, 0.0);
-        cover.rotation.x = -Math.PI / 2;
+        const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.43, 0.61), coverMaterial);
+        cover.position.set(0, 0.01, 0.008);
         entry.group.add(cover);
         registerInteractive(sleeveBack, { kind: "album", index }, entry);
         registerInteractive(cover, { kind: "album", index }, entry);
@@ -1734,13 +1854,15 @@
 
       artifacts.slice(0, 2).forEach((artifact, index) => {
         const entry = { kind: "artifact", index, url: artifact.url || "", group: new THREE.Group(), lifted: false };
-        entry.group.position.set(0.42 + index * 0.46, -0.265 + index * 0.01, 0.18 + index * 0.24);
-        entry.group.rotation.set(0, 0, index === 0 ? -0.12 : 0.07);
+        entry.group.position.set(index === 0 ? 0.42 : 0.98, -0.265 + index * 0.006, index === 0 ? 0.56 : -0.22);
+        entry.group.rotation.set(0, 0, index === 0 ? -0.045 : 0.04);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
+        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.22 : 0.04, 0.74, index === 0 ? 0.34 : 0.08);
+        entry.focusRotation = new THREE.Euler(1.08, 0.02, index === 0 ? -0.035 : 0.035);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
-        const base = addBox(entry.group, { x: 1.58, y: 0.035, z: 0.7 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
+        const base = addBox(entry.group, { x: 1.38, y: 0.035, z: 0.62 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
         const topMaterial = new THREE.MeshStandardMaterial({
           map: createArtifactTexture(artifact, index, palette),
           roughness: 0.64,
@@ -1748,23 +1870,28 @@
           side: THREE.DoubleSide,
           transparent: true,
         });
-        const top = new THREE.Mesh(new THREE.PlaneGeometry(1.58, 0.7), topMaterial);
+        const top = new THREE.Mesh(new THREE.PlaneGeometry(1.38, 0.62), topMaterial);
         top.rotation.x = -Math.PI / 2;
         top.position.y = 0.026;
         entry.group.add(top);
+        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(1.58, 0.78), hitMaterial);
+        cardHit.rotation.x = -Math.PI / 2;
+        cardHit.position.y = 0.055;
+        entry.group.add(cardHit);
         registerInteractive(base, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(top, { kind: "artifact", index, url: entry.url }, entry);
+        registerInteractive(cardHit, { kind: "artifact", index, url: entry.url }, entry);
         artifactEntries.push(entry);
       });
 
       const tableRing = new THREE.Mesh(new THREE.RingGeometry(0.33, 0.48, 72), stainMaterial);
       tableRing.rotation.x = -Math.PI / 2;
-      tableRing.position.set(1.52, -0.271, -0.24);
+      tableRing.position.set(1.6, -0.271, 0.66);
       table.add(tableRing);
       [
-        { x: 1.18, z: -0.04, s: 0.06 },
-        { x: 1.88, z: -0.12, s: 0.04 },
-        { x: 1.36, z: -0.58, s: 0.035 },
+        { x: 1.24, z: 0.8, s: 0.052 },
+        { x: 1.92, z: 0.76, s: 0.04 },
+        { x: 1.46, z: 0.25, s: 0.032 },
       ].forEach((drop) => {
         const droplet = new THREE.Mesh(new THREE.CircleGeometry(drop.s, 24), stainMaterial);
         droplet.rotation.x = -Math.PI / 2;
@@ -1774,7 +1901,7 @@
       });
 
       const cup = new THREE.Group();
-      cup.position.set(1.52, -0.08, -0.24);
+      cup.position.set(1.6, -0.08, 0.66);
       table.add(cup);
       const cupBody = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.21, 0.44, 64, 1, true), ceramicMaterial);
       cup.add(cupBody);
@@ -1815,6 +1942,9 @@
       const canvas = renderer.domElement;
       const onPointerDown = (event) => {
         if (!isVisible || (event.pointerType === "mouse" && event.button !== 0)) return;
+        if (document.activeElement instanceof HTMLElement && document.activeElement.closest("[data-home-desk-controls]")) {
+          document.activeElement.blur();
+        }
         const hit = pickObject(event);
         pointerId = event.pointerId;
         pointerStartX = event.clientX;
@@ -1877,35 +2007,19 @@
           if (movedEnough && Math.abs(deltaX) + Math.abs(deltaY) > 32) {
             throwAlbum(releasedEntry, deltaX || 1);
           } else {
-            setActiveRecordInternal(releasedEntry.index, true);
-            addTween(
-              releasedEntry.group,
-              {
-                position: releasedEntry.basePosition.clone().add(new THREE.Vector3(0, 0.06, 0)),
-                rotation: releasedEntry.baseRotation.clone(),
-                scale: new THREE.Vector3(1.08, 1.08, 1.08),
-              },
-              260
-            );
-            window.setTimeout(
-              () =>
-                addTween(
-                  releasedEntry.group,
-                  {
-                    position: releasedEntry.basePosition.clone(),
-                    rotation: releasedEntry.baseRotation.clone(),
-                    scale: new THREE.Vector3(1.06, 1.06, 1.06),
-                  },
-                  300
-                ),
-              170
-            );
+            focusAlbum(releasedEntry);
           }
         } else if (releasedEntry?.kind === "artifact") {
-          if (!movedEnough && releasedEntry.url) {
+          if (!movedEnough && focusedEntry === releasedEntry && releasedEntry.url) {
             if (callbacks.openArtifact) callbacks.openArtifact(releasedEntry.url);
             else window.location.href = releasedEntry.url;
+          } else if (!movedEnough) {
+            focusArtifact(releasedEntry);
           } else {
+            if (focusedEntry === releasedEntry) {
+              focusedEntry = null;
+              container.removeAttribute("data-focused-desk-object");
+            }
             releasedEntry.lifted = true;
             releasedEntry.currentRestY = releasedEntry.basePosition.y + 0.13;
             addTween(
@@ -1956,9 +2070,26 @@
       };
 
       const onWheel = (event) => {
-        if (!isVisible || activeView !== "desk") return;
+        if (!isVisible) return;
         const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
         if (!delta) return;
+        if (activeView === "outside") {
+          if (delta > 0) {
+            setSceneView("desk");
+            event.preventDefault();
+            scheduleFrame();
+          }
+          return;
+        }
+        if (delta > 0 && (focusedEntry || targetZoomLevel > 0.04)) {
+          clearFocusedEntry();
+          targetZoomLevel = 0;
+          targetRotationX = defaultRotation.x;
+          targetRotationY = defaultRotation.y;
+          event.preventDefault();
+          scheduleFrame();
+          return;
+        }
         targetZoomLevel = clamp(targetZoomLevel - delta * 0.00135, 0, 1);
         if (targetZoomLevel > 0.5) {
           targetRotationX = defaultRotation.x;
@@ -2008,6 +2139,7 @@
           await ensureLoaded();
           scheduleFrame();
         } else {
+          root.classList.remove("home-desk-outside-active");
           stopLoop();
           render();
         }
@@ -2030,6 +2162,7 @@
       },
       dispose() {
         stopLoop();
+        root.classList.remove("home-desk-outside-active");
         cleanupListeners.forEach((cleanup) => cleanup());
         if (resizeObserver) resizeObserver.disconnect();
         if (!resizeObserver) window.removeEventListener("resize", resize);
@@ -2075,6 +2208,7 @@
     const deskSpinButton = deskControls?.querySelector('[data-home-desk-control="spin"]');
     const deskResetButton = deskControls?.querySelector('[data-home-desk-control="reset"]');
     const deskControlItems = deskControls ? Array.from(deskControls.querySelectorAll("button, a")) : [];
+    const deskNote = stage?.querySelector("[data-home-desk-note]");
     const artifactCards = Array.from(document.querySelectorAll(".home-artifact-card"))
       .slice(0, 2)
       .map((card) => ({
@@ -2133,6 +2267,9 @@
       }
       if (deskControls) {
         deskControls.setAttribute("aria-hidden", String(!is3D));
+      }
+      if (deskNote) {
+        deskNote.setAttribute("aria-hidden", String(!is3D));
       }
       deskControlItems.forEach((control) => {
         if (is3D) {
@@ -2528,6 +2665,13 @@
         isRecordEngaged = true;
         showRecord(index, { vinyl: true });
         syncRecordVisualState();
+      },
+      playRecord(index) {
+        selectRecord(index);
+        isRecordEngaged = true;
+        isSpinning = true;
+        updateSpinState();
+        showRecord(recordIndex, { vinyl: true });
       },
       toggleSpin: toggleRecordPlayback,
       openArtifact(url) {
