@@ -101,26 +101,6 @@
     scheduleRailSync();
   }
 
-  const hashString = (value) => {
-    let hash = 2166136261;
-    for (let index = 0; index < value.length; index += 1) {
-      hash ^= value.charCodeAt(index);
-      hash = Math.imul(hash, 16777619);
-    }
-    return hash >>> 0;
-  };
-
-  const createSeededRandom = (seed) => {
-    let state = hashString(seed) || 1;
-    return () => {
-      state += 0x6d2b79f5;
-      let value = state;
-      value = Math.imul(value ^ (value >>> 15), value | 1);
-      value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-      return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-    };
-  };
-
   const createRecordSceneController = (container) => {
     const fallback = container?.querySelector(".home-record-scene-fallback");
     const fallbackArt = fallback?.querySelector(".home-record-art");
@@ -480,49 +460,6 @@
     };
   };
 
-  const setupArtifactCoffeeStains = () => {
-    const artifactStack = document.querySelector(".home-artifact-stack");
-    if (!artifactStack) return;
-
-    const random = createSeededRandom(`home-coffee-${Date.now()}-${Math.random()}`);
-    const size = 6.28 + random() * 0.58;
-    const top = -0.32 + random() * 0.34;
-    const right = -2.44 + random() * 0.34;
-    const rotate = -9 + random() * 18;
-    const scale = 0.99 + random() * 0.055;
-    const startScale = Math.max(0.94, scale - (0.025 + random() * 0.018));
-    const stretchX = 1.02 + random() * 0.12;
-    const stretchY = 0.9 + random() * 0.09;
-    const wobbleX = -0.05 + random() * 0.1;
-    const wobbleY = -0.03 + random() * 0.08;
-    const morphDuration = 44 + random() * 24;
-    const bloomDuration = 130 + random() * 80;
-    const edgeOpacity = 0.165 + random() * 0.046;
-    const washOpacity = 0.024 + random() * 0.014;
-    const innerOpacity = 0.01 + random() * 0.01;
-    const speckleOpacity = 0.048 + random() * 0.024;
-
-    artifactStack.classList.add("has-coffee-stain");
-    artifactStack.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
-    artifactStack.style.setProperty("--coffee-stain-top", `${top.toFixed(2)}rem`);
-    artifactStack.style.setProperty("--coffee-stain-right", `${right.toFixed(2)}rem`);
-    artifactStack.style.setProperty("--coffee-stain-rotate", `${rotate.toFixed(2)}deg`);
-    artifactStack.style.setProperty("--coffee-stain-scale", scale.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-start-scale", startScale.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-stretch-x", stretchX.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-stretch-y", stretchY.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-wobble-x", `${wobbleX.toFixed(2)}rem`);
-    artifactStack.style.setProperty("--coffee-stain-wobble-y", `${wobbleY.toFixed(2)}rem`);
-    artifactStack.style.setProperty("--coffee-stain-edge-opacity", edgeOpacity.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-wash-opacity", washOpacity.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-inner-opacity", innerOpacity.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-speckle-opacity", speckleOpacity.toFixed(3));
-    artifactStack.style.setProperty("--coffee-stain-morph-duration", `${morphDuration.toFixed(2)}s`);
-    artifactStack.style.setProperty("--coffee-stain-bloom-duration", `${bloomDuration.toFixed(2)}s`);
-  };
-
-  setupArtifactCoffeeStains();
-
   const portrait = document.getElementById("home-profile-image-container");
   if (!portrait) return;
 
@@ -584,6 +521,7 @@
     let shakeCount = 0;
     let suppressNextSpinClick = false;
     let reflowRecordCardsFrame = 0;
+    let recordDropSequence = 0;
 
     const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
@@ -727,60 +665,60 @@
       hideRecord(true);
     };
 
-    const getRecordCardTab = (card) => {
-      const recordOrder = card?.getAttribute("data-record-index");
-      if (!pile || recordOrder === null || recordOrder === undefined) return null;
-      return pile.querySelector(`[data-home-record-card-tab][data-record-index="${recordOrder}"]`);
-    };
-
-    const moveRecordCardToTop = (card) => {
-      if (!pile || !card) return;
-      const tab = getRecordCardTab(card);
-      if (tab) pile.appendChild(tab);
-      pile.appendChild(card);
-    };
-
-    const setCardRestTransform = (card, order) => {
+    const setCardRestTransform = (card, visualOrder, cardCount) => {
       const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
       const isCompactPile = compactPileQuery.matches;
-      const side = order % 2 === 0 ? -1 : 1;
-      const layer = Math.min(order, 5);
-      const x = side * ((isCompactPile ? 0.34 : 0.56) + (order % 3) * (isCompactPile ? 0.18 : 0.24));
-      const y = (isCompactPile ? 1.18 : 1.72) + layer * (isCompactPile ? 0.38 : 0.42);
-      const z = (isCompactPile ? 0.46 : 0.64) + layer * (isCompactPile ? 0.12 : 0.16);
-      const rotate = side * ((isCompactPile ? 1.12 : 1.48) + (recordOrder % 3) * 0.34) + layer * 0.18;
-      const tilt = (isCompactPile ? 56 : 59) - layer * 1.25;
-      const scale = 1 - Math.min(order, 4) * (isCompactPile ? 0.01 : 0.011);
-      const openY = isCompactPile ? 1.16 : 0.42;
-      const openZ = isCompactPile ? 5.8 : 7.2;
-      const openScale = isCompactPile ? 1.012 : 1.028;
+      const scatterSlots = isCompactPile
+        ? [
+            { x: 0, y: 1.08, rotate: -0.7, tilt: 56.5, scale: 1 },
+            { x: -1.34, y: 1.66, rotate: -5.2, tilt: 59.4, scale: 0.984 },
+            { x: 1.46, y: 1.96, rotate: 4.6, tilt: 58.2, scale: 0.976 },
+            { x: -0.46, y: 2.54, rotate: 2.2, tilt: 60.8, scale: 0.966 },
+            { x: 0.82, y: 2.86, rotate: -3.6, tilt: 60.2, scale: 0.956 },
+          ]
+        : [
+            { x: 0, y: 1.12, rotate: -0.6, tilt: 58.2, scale: 1 },
+            { x: -2.02, y: 1.78, rotate: -5.8, tilt: 61, scale: 0.984 },
+            { x: 2.14, y: 2.1, rotate: 5.1, tilt: 60.1, scale: 0.976 },
+            { x: -0.72, y: 2.74, rotate: 2.5, tilt: 62, scale: 0.966 },
+            { x: 1.16, y: 3.1, rotate: -4, tilt: 61.4, scale: 0.956 },
+          ];
+      const slot = scatterSlots[visualOrder % scatterSlots.length];
+      const cycle = Math.floor(visualOrder / scatterSlots.length);
+      const side = visualOrder % 2 === 0 ? -1 : 1;
+      const x = slot.x + side * cycle * (isCompactPile ? 0.2 : 0.28);
+      const y = slot.y + cycle * (isCompactPile ? 0.36 : 0.42);
+      const z = Math.max(0.16, (isCompactPile ? 0.72 : 0.86) - visualOrder * 0.08);
+      const rotate = slot.rotate + ((recordOrder % 3) - 1) * 0.28;
+      const tilt = slot.tilt;
+      const scale = slot.scale;
       card.style.setProperty(
         "--card-rest-transform",
-        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -1.45).toFixed(2)}deg) scale(${scale.toFixed(3)})`
+        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -0.52).toFixed(2)}deg) scale(${scale.toFixed(3)})`
       );
       card.style.setProperty(
         "--card-open-transform",
-        `translate3d(0, ${openY.toFixed(2)}rem, ${openZ.toFixed(2)}rem) rotateZ(0deg) rotateX(3deg) rotateY(0deg) scale(${openScale.toFixed(3)})`
+        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${(z + 0.08).toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -0.52).toFixed(2)}deg) scale(${scale.toFixed(3)})`
       );
-      card.dataset.stackOrder = String(order);
-      card.style.zIndex = card.classList.contains("is-open") ? "80" : String(20 + order);
-
-      const tab = getRecordCardTab(card);
-      if (tab) {
-        const tabX = x + side * (isCompactPile ? 7.22 : 8.08);
-        const tabY = y + (isCompactPile ? 0.82 : 1.02);
-        tab.style.setProperty(
-          "--card-tab-transform",
-          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 2.1rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${(tilt + 2).toFixed(2)}deg) rotateY(${(side * -1.2).toFixed(2)}deg)`
-        );
-        tab.dataset.stackOrder = String(order);
-        tab.style.zIndex = String(58 + order);
-      }
+      card.style.setProperty(
+        "--card-drop-settle",
+        `translate3d(${(x + side * 0.06).toFixed(2)}rem, ${(y + 0.1).toFixed(2)}rem, ${Math.max(0.12, z - 0.06).toFixed(2)}rem) rotateZ(${(rotate + side * 0.28).toFixed(2)}deg) rotateX(${(tilt + 1.8).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.012, scale + 0.012).toFixed(3)})`
+      );
+      card.dataset.stackOrder = String(visualOrder);
+      card.style.zIndex = card.classList.contains("is-open") ? "80" : String(40 + Math.max(0, cardCount - visualOrder));
     };
 
     const reflowRecordCards = () => {
       if (!pile) return;
-      Array.from(pile.querySelectorAll("[data-home-record-card]")).forEach((card, order) => setCardRestTransform(card, order));
+      const cards = Array.from(pile.querySelectorAll("[data-home-record-card]")).sort((first, second) => {
+        const firstOrder = Number(first.dataset.dropSequence) || 0;
+        const secondOrder = Number(second.dataset.dropSequence) || 0;
+        return firstOrder - secondOrder;
+      });
+      cards.forEach((card, chronologicalOrder) => {
+        const visualOrder = cards.length - 1 - chronologicalOrder;
+        setCardRestTransform(card, visualOrder, cards.length);
+      });
       syncPileState();
     };
 
@@ -792,15 +730,13 @@
       });
     };
 
-    const closeActiveCard = ({ sendToTop = true } = {}) => {
+    const closeActiveCard = () => {
       if (!activeCard) return;
       const card = activeCard;
       card.classList.remove("is-open");
       card.setAttribute("aria-expanded", "false");
       activeCard = null;
-      if (pile && sendToTop) moveRecordCardToTop(card);
       reflowRecordCards();
-      if (pile) pile.classList.remove("is-reading-card");
     };
 
     const openRecordCard = (card) => {
@@ -809,7 +745,6 @@
       card.classList.add("is-open");
       card.setAttribute("aria-expanded", "true");
       card.style.zIndex = "80";
-      if (pile) pile.classList.add("is-reading-card");
     };
 
     const pickRecordCardFromPoint = (clientX, clientY) => {
@@ -830,40 +765,31 @@
     };
 
     const ensureRecordHalo = () => {
-      if (!pile || pile.querySelector("[data-home-record-halo]")) return;
-      const halo = document.createElement("span");
-      halo.className = "home-record-card-halo is-dropping-halo";
-      halo.dataset.homeRecordHalo = "true";
-      halo.setAttribute("aria-hidden", "true");
-      pile.prepend(halo);
-
-      if (reduceMotion) {
-        halo.classList.remove("is-dropping-halo");
-      } else {
-        halo.addEventListener("animationend", () => halo.classList.remove("is-dropping-halo"), { once: true });
-      }
+      if (!pile) return;
+      pile.classList.add("has-ground-shadow");
     };
 
-    const createRecordCard = (record, index) => {
+    const createRecordCard = (record, index, dropSequence) => {
       const card = document.createElement("article");
       const dropSide = index % 2 === 0 ? -1 : 1;
       card.className = "home-record-card is-dropping";
       card.tabIndex = 0;
       card.dataset.homeRecordCard = String(index);
+      card.dataset.dropSequence = String(dropSequence);
       card.setAttribute("data-record-index", String(index));
       card.setAttribute("aria-expanded", "false");
-      card.setAttribute("aria-label", `Pick up ${record.title} by ${record.artist}`);
+      card.setAttribute("aria-label", `${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 0.86).toFixed(2)}rem, -9.4rem, 8.8rem) rotateZ(${(dropSide * -10).toFixed(2)}deg) rotateX(12deg) rotateY(${(dropSide * 8.4).toFixed(2)}deg) scale(0.78)`
+        `translate3d(${(dropSide * 0.86).toFixed(2)}rem, -8.2rem, 7.6rem) rotateZ(${(dropSide * -10).toFixed(2)}deg) rotateX(12deg) rotateY(${(dropSide * 7.4).toFixed(2)}deg) scale(0.78)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.36).toFixed(2)}rem, -2.86rem, 5.4rem) rotateZ(${(dropSide * 5.6).toFixed(2)}deg) rotateX(38deg) rotateY(${(dropSide * -4.2).toFixed(2)}deg) scale(0.94)`
+        `translate3d(${(dropSide * -0.3).toFixed(2)}rem, -1.92rem, 4.2rem) rotateZ(${(dropSide * 5.2).toFixed(2)}deg) rotateX(36deg) rotateY(${(dropSide * -3.6).toFixed(2)}deg) scale(0.94)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.12).toFixed(2)}rem, 1.68rem, 0.82rem) rotateZ(${(dropSide * -0.72).toFixed(2)}deg) rotateX(64deg) rotateY(${(dropSide * -1.2).toFixed(2)}deg) scale(1.006)`
+        `translate3d(${(dropSide * 0.08).toFixed(2)}rem, 1.18rem, 0.88rem) rotateZ(${(dropSide * -0.48).toFixed(2)}deg) rotateX(57deg) rotateY(${(dropSide * -0.52).toFixed(2)}deg) scale(1.006)`
       );
 
       const cover = document.createElement("span");
@@ -905,18 +831,7 @@
         openRecordCard(card);
       });
 
-      const tab = document.createElement("button");
-      tab.className = "home-record-card-tab";
-      tab.type = "button";
-      tab.dataset.homeRecordCardTab = String(index);
-      tab.setAttribute("data-record-index", String(index));
-      tab.setAttribute("aria-label", `Pick up ${record.title}`);
-      tab.addEventListener("click", (event) => {
-        event.stopPropagation();
-        openRecordCard(card);
-      });
-
-      return { card, tab };
+      return card;
     };
 
     const pulseAlreadyFound = () => {
@@ -935,11 +850,12 @@
         return;
       }
 
+      closeActiveCard();
       droppedRecords.add(recordIndex);
-      const { card, tab } = createRecordCard(record, recordIndex);
+      recordDropSequence += 1;
+      const card = createRecordCard(record, recordIndex, recordDropSequence);
       pile.hidden = false;
       ensureRecordHalo();
-      pile.appendChild(tab);
       pile.appendChild(card);
       reflowRecordCards();
 
@@ -1067,7 +983,7 @@
 
     if (pile) {
       pile.addEventListener("click", (event) => {
-        if (event.target.closest("a, button, [data-home-record-card], [data-home-record-card-tab]")) return;
+        if (event.target.closest("a, button, [data-home-record-card]")) return;
         const card = pickRecordCardFromPoint(event.clientX, event.clientY);
         if (!card) return;
         event.stopPropagation();

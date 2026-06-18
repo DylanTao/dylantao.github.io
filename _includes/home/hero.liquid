@@ -128,7 +128,7 @@
     {% endif %}
 
     {% if page.hero.artifacts %}
-      <div class="home-artifact-stack" aria-label="Featured research artifacts">
+      <div class="home-artifact-stack has-coffee-stain" aria-label="Featured research artifacts">
         {% for artifact in page.hero.artifacts %}
           {% assign artifact_tone = artifact.tone | default: 'accent' %}
           {% capture artifact_card_content %}

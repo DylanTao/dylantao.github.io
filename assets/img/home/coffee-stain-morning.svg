@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Coffee cup stain">
+  <defs>
+    <filter id="soft-blur" x="-18%" y="-22%" width="136%" height="144%">
+      <feGaussianBlur stdDeviation="3.2" />
+    </filter>
+    <filter id="paper-bleed" x="-18%" y="-22%" width="136%" height="144%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.044 0.068" numOctaves="2" seed="12" />
+      <feDisplacementMap in="SourceGraphic" scale="4.8" />
+    </filter>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M96 138C91 94 128 52 189 48C242 45 294 70 310 119C326 169 287 213 219 222C154 231 97 197 96 138Z"
+      fill="#9b6331"
+      opacity="0.045"
+      stroke="none"
+      filter="url(#soft-blur)"
+    />
+    <g filter="url(#paper-bleed)">
+      <path
+        d="M94 139C88 90 130 43 194 45C252 47 300 78 313 126C326 174 288 214 218 225C151 235 88 199 94 139"
+        stroke="#7c461f"
+        stroke-opacity="0.33"
+        stroke-width="8.4"
+        stroke-dasharray="232 22 42 16 92 28"
+      />
+      <path
+        d="M105 137C102 98 141 61 198 60C252 59 294 96 300 137C305 181 258 210 199 211C145 212 108 179 105 137"
+        stroke="#9e6535"
+        stroke-opacity="0.22"
+        stroke-width="4.4"
+        stroke-dasharray="154 32 86 18 56 34"
+      />
+      <path
+        d="M114 135C116 105 153 78 202 77C246 76 283 103 287 138C291 171 249 196 199 196C151 196 111 169 114 135"
+        stroke="#704018"
+        stroke-opacity="0.11"
+        stroke-width="2.8"
+        stroke-dasharray="82 48 130 34"
+      />
+    </g>
+  </g>
+  <g fill="#77431d" filter="url(#soft-blur)">
+    <ellipse cx="211" cy="44" rx="11" ry="17" opacity="0.15" transform="rotate(-16 211 44)" />
+    <ellipse cx="239" cy="51" rx="13" ry="9" opacity="0.12" transform="rotate(23 239 51)" />
+    <ellipse cx="303" cy="88" rx="7" ry="18" opacity="0.09" transform="rotate(-32 303 88)" />
+    <ellipse cx="314" cy="132" rx="18" ry="6" opacity="0.13" transform="rotate(2 314 132)" />
+    <ellipse cx="270" cy="218" rx="16" ry="7" opacity="0.09" transform="rotate(-11 270 218)" />
+    <ellipse cx="130" cy="211" rx="9" ry="5" opacity="0.08" transform="rotate(18 130 211)" />
+  </g>
+  <g fill="#865127">
+    <circle cx="222" cy="33" r="3.4" opacity="0.19" />
+    <circle cx="229" cy="43" r="2.3" opacity="0.15" />
+    <circle cx="306" cy="123" r="3.2" opacity="0.16" />
+    <circle cx="319" cy="144" r="2.5" opacity="0.13" />
+    <circle cx="178" cy="217" r="2.1" opacity="0.11" />
+    <circle cx="126" cy="197" r="1.8" opacity="0.1" />
+  </g>
+</svg>
