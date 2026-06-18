@@ -1610,9 +1610,9 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -0.64rem;
-  right: clamp(-1.92rem, -2.28vw, -1.08rem);
-  width: min(16.35rem, 48%);
+  top: -0.88rem;
+  right: clamp(-2.24rem, -2.72vw, -1.32rem);
+  width: min(17.25rem, 50%);
   aspect-ratio: 1 / 1;
   z-index: 7;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
@@ -3338,9 +3338,9 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: 0.34rem;
-    right: -1.08rem;
-    width: min(9.35rem, 38vw);
+    top: 0.08rem;
+    right: -1.26rem;
+    width: min(10.1rem, 41vw);
     opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
   }
 

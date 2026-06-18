@@ -1490,8 +1490,8 @@
       if (mugMarkMaterial) {
         replaceMaterialMap(mugMarkMaterial, createMugMarkTexture(palette));
       }
-      replaceMaterialMap(themeMaterials.windowButton, createDeskButtonTexture(palette, "OUT"));
-      replaceMaterialMap(themeMaterials.returnButton, createDeskButtonTexture(palette, "IN"));
+      replaceMaterialMap(themeMaterials.windowButton, createDeskButtonTexture(palette));
+      replaceMaterialMap(themeMaterials.returnButton, createDeskButtonTexture(palette));
       replaceMaterialMap(themeMaterials.outsideBackdrop, createOutsideBackdropTexture(palette));
       const oceanTexture = createOceanSurfaceTexture(palette);
       replaceMaterialMap(themeMaterials.outsideOcean, oceanTexture);
@@ -1522,8 +1522,8 @@
         rootGroup.position.set(isCompact ? -0.2 : -0.18, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
       }
       if (outsideGroup) {
-        outsideGroup.scale.setScalar(isCompact ? 0.84 : 1.1);
-        outsideGroup.position.set(isCompact ? -0.2 : -0.2, isCompact ? -0.1 : -0.04, isCompact ? 0.14 : -0.02);
+        outsideGroup.scale.setScalar(isCompact ? 0.84 : 1.02);
+        outsideGroup.position.set(isCompact ? -0.2 : -0.14, isCompact ? -0.1 : -0.06, isCompact ? 0.14 : -0.04);
       }
       applyCameraPose(true);
       render();
@@ -1792,7 +1792,7 @@
       windowJumpGroup.position.set(0.72, 0.5, -1.44);
       rootGroup.add(windowJumpGroup);
       const buttonMaterial = new THREE.MeshBasicMaterial({
-        map: createDeskButtonTexture(palette, "OUT"),
+        map: createDeskButtonTexture(palette),
         transparent: true,
         opacity: 0.24,
         depthWrite: false,
@@ -1833,6 +1833,7 @@
       themeMaterials.outsideBackdrop = backdropMaterial;
       const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 4.02), backdropMaterial);
       backdrop.position.set(0.1, 0.34, -1.9);
+      backdrop.renderOrder = -6;
       outsideGroup.add(backdrop);
 
       const oceanTexture = createOceanSurfaceTexture(palette);
@@ -1846,7 +1847,8 @@
       themeMaterials.outsideOcean = oceanMaterial;
       const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 2.35), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(-0.72, -1.24, 0.18);
+      ocean.position.set(-0.92, -1.3, -0.38);
+      ocean.renderOrder = -5;
       outsideGroup.add(ocean);
 
       const foamTexture = createFoamSurfaceTexture(palette);
@@ -1906,14 +1908,15 @@
 
       const beach = new THREE.Mesh(new THREE.PlaneGeometry(4.35, 0.58), beachMaterial);
       beach.rotation.x = -Math.PI / 2;
-      beach.position.set(-1.42, -1.17, 1.58);
+      beach.position.set(-1.56, -1.18, 1.72);
+      beach.renderOrder = -3;
       outsideGroup.add(beach);
 
       const foam = new THREE.Mesh(new THREE.PlaneGeometry(4.35, 0.22), foamMaterial);
       foam.rotation.x = -Math.PI / 2;
       foam.rotation.z = -0.08;
-      foam.position.set(-1.5, -1.145, 1.34);
-      foam.renderOrder = 2;
+      foam.position.set(-1.64, -1.15, 1.46);
+      foam.renderOrder = -2;
       outsideGroup.add(foam);
       outsideMotionItems.push(
         {
@@ -1960,52 +1963,77 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.3, 0.04],
-          [2.16, 0.14],
-          [2.38, 0.54],
-          [1.95, 0.82],
-          [0.84, 0.82],
-          [0.18, 0.46],
+          [0.18, -0.08],
+          [2.12, -0.02],
+          [2.54, 0.46],
+          [2.08, 0.88],
+          [0.74, 0.92],
+          [0.02, 0.48],
         ],
-        -0.86,
-        0.08,
+        -0.75,
+        0.14,
         cliffMaterial
       );
       addIrregularSlab(
         outsideGroup,
         [
-          [0.04, 0.34],
-          [2.36, 0.32],
-          [2.56, 0.86],
-          [1.48, 1.14],
-          [-0.34, 0.86],
+          [-0.08, 0.22],
+          [2.4, 0.22],
+          [2.68, 0.86],
+          [1.58, 1.22],
+          [-0.5, 0.94],
         ],
-        -1.05,
-        0.1,
+        -0.96,
+        0.16,
         cliffFaceMaterial
       );
       addIrregularSlab(
         outsideGroup,
         [
-          [-0.4, 0.62],
-          [1.7, 0.66],
-          [2.06, 1.12],
-          [0.34, 1.32],
-          [-0.66, 1.02],
+          [-0.68, 0.58],
+          [1.84, 0.66],
+          [2.24, 1.12],
+          [0.48, 1.46],
+          [-0.82, 1.08],
         ],
         -1.2,
-        0.08,
+        0.12,
         cliffFaceMaterial
       );
+      addIrregularSlab(
+        outsideGroup,
+        [
+          [0.34, 0.0],
+          [2.34, 0.1],
+          [2.58, 0.5],
+          [1.94, 0.74],
+          [0.62, 0.72],
+          [0.2, 0.38],
+        ],
+        -0.54,
+        0.16,
+        cliffMaterial
+      );
       [
-        { size: { x: 1.18, y: 0.012, z: 0.02 }, position: { x: 1.22, y: -0.92, z: 0.78 }, rotation: -0.04 },
-        { size: { x: 1.34, y: 0.011, z: 0.018 }, position: { x: 0.98, y: -1.11, z: 0.98 }, rotation: 0.08 },
-        { size: { x: 0.94, y: 0.01, z: 0.016 }, position: { x: 0.46, y: -1.26, z: 1.12 }, rotation: -0.1 },
+        { size: { x: 1.02, y: 0.012, z: 0.018 }, position: { x: 1.36, y: -0.73, z: 0.56 }, rotation: -0.04 },
+        { size: { x: 1.12, y: 0.011, z: 0.016 }, position: { x: 1.12, y: -0.94, z: 0.82 }, rotation: 0.07 },
+        { size: { x: 0.82, y: 0.01, z: 0.014 }, position: { x: 0.68, y: -1.14, z: 1.08 }, rotation: -0.1 },
       ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
       });
-      addBox(outsideGroup, { x: 1.72, y: 0.052, z: 0.62 }, { x: 1.2, y: -0.56, z: 0.38 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.92, y: 0.064, z: 0.58 }, { x: 1.13, y: -0.48, z: 0.48 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.74, y: 0.035, z: 0.42 }, { x: 1.1, y: -0.56, z: 0.84 }, trimMaterial);
+      [
+        [0.38, 0.28],
+        [1.82, 0.28],
+        [0.46, 0.78],
+        [1.74, 0.78],
+      ].forEach(([x, z]) => addBox(outsideGroup, { x: 0.045, y: 0.42, z: 0.045 }, { x, y: -0.72, z }, roofMaterial));
+      [
+        { x: 1.1, z: 0.62, w: 1.52 },
+        { x: 1.08, z: 0.92, w: 1.18 },
+      ].forEach((rail) => addBox(outsideGroup, { x: rail.w, y: 0.024, z: 0.032 }, { x: rail.x, y: -0.32, z: rail.z }, trimMaterial));
 
       const house = new THREE.Group();
       house.position.set(1.1, 0.13, 0.18);
@@ -2102,10 +2130,10 @@
       addBox(roomDesk, { x: 0.04, y: 0.012, z: 0.16 }, { x: 0.29, y: 0.07, z: -0.08 }, miniAccentMaterial);
 
       returnInsideGroup = new THREE.Group();
-      returnInsideGroup.position.set(-2.35, 0.98, -0.82);
+      returnInsideGroup.position.set(1.04, 0.18, 0.9);
       outsideGroup.add(returnInsideGroup);
       const returnMaterial = new THREE.MeshBasicMaterial({
-        map: createDeskButtonTexture(palette, "IN"),
+        map: createDeskButtonTexture(palette),
         transparent: true,
         opacity: 0.08,
         depthWrite: false,
@@ -2654,7 +2682,7 @@
         if (activeView === "outside") {
           if (delta < 0) {
             targetZoomLevel = clamp(targetZoomLevel - delta * 0.00125, 0, 1);
-            if (targetZoomLevel > 0.94 && zoomLevel > 0.72) {
+            if (targetZoomLevel > 0.78) {
               setSceneView("desk");
               targetZoomLevel = 0.58;
               targetRotationX = defaultRotation.x;
