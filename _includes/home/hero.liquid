@@ -63,6 +63,44 @@
     <div class="home-desk-corner-scene" data-home-desk-scene aria-hidden="true">
       <div class="home-desk-corner-fallback" aria-hidden="true"></div>
     </div>
+    <div class="home-desk-control-strip" data-home-desk-controls aria-label="3D desk controls" aria-hidden="true">
+      <button type="button" data-home-desk-control="previous" aria-label="Previous meme record" title="Previous meme record">
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <button
+        type="button"
+        data-home-desk-control="spin"
+        aria-pressed="false"
+        aria-label="Spin meme record"
+        title="Spin meme record"
+      >
+        <i class="fa-solid fa-play" data-home-desk-play-icon aria-hidden="true"></i>
+        <i class="fa-solid fa-pause" data-home-desk-pause-icon aria-hidden="true"></i>
+      </button>
+      <button type="button" data-home-desk-control="next" aria-label="Next meme record" title="Next meme record">
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+      </button>
+      <button type="button" data-home-desk-control="reset" aria-label="Reset 3D desk view" title="Reset 3D desk view">
+        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+      </button>
+      {% if page.hero.artifacts %}
+        {% for artifact in page.hero.artifacts limit: 2 %}
+          {% if artifact.url %}
+            <a
+              href="{{ artifact.url | relative_url }}"
+              {% if artifact.external %}
+                target="_blank" rel="noopener noreferrer"
+              {% endif %}
+              data-home-desk-artifact-link
+              aria-label="{{ artifact.title | escape }}"
+              title="{{ artifact.title | escape }}"
+            >
+              <i class="fa-solid {{ artifact.icon | default: 'fa-arrow-up-right-from-square' }}" aria-hidden="true"></i>
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
 
     {% if page.profile.image %}
       {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}

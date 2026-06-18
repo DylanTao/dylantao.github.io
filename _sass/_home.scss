@@ -5,6 +5,8 @@
 @use "variables" as v;
 
 .home-page {
+  --home-shell-max: 1320px;
+  --home-shell-gutter: 1rem;
   --home-accent: var(--global-theme-color);
   --home-accent-strong: var(--global-hover-color);
   --home-accent-soft: var(--global-accent-soft);
@@ -236,6 +238,12 @@ html[data-theme="dark"] .home-story-rail ol {
 
 .home-story-rail-link.is-active {
   border-color: color-mix(in srgb, var(--home-accent) 15%, transparent);
+}
+
+@media (min-width: 1680px) {
+  .home-story-rail {
+    left: max(0.72rem, env(safe-area-inset-left), calc((100vw - var(--home-shell-max)) / 2 - 3.15rem));
+  }
 }
 
 .home-page a {
@@ -541,9 +549,94 @@ html[data-theme="dark"] .home-cred-item strong {
   opacity: 0.34;
 }
 
+.home-desk-control-strip {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.62rem;
+  z-index: 18;
+  display: inline-flex;
+  gap: 0.34rem;
+  align-items: center;
+  padding: 0.28rem;
+  border: 1px solid color-mix(in srgb, var(--home-line) 64%, transparent);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.06) 48%, transparent),
+    color-mix(in srgb, var(--home-surface) 58%, transparent);
+  box-shadow:
+    0 0.48rem 1.1rem rgba(73, 45, 30, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.28rem);
+  transition:
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+  backdrop-filter: blur(16px) saturate(1.04);
+}
+
+html[data-theme="dark"] .home-desk-control-strip {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.018) 48%, transparent),
+    color-mix(in srgb, var(--home-surface) 62%, transparent);
+  box-shadow:
+    0 0.62rem 1.38rem rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.home-desk-control-strip button,
+.home-desk-control-strip a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--home-accent) 14%, var(--home-line));
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--home-surface) 84%, transparent);
+  color: color-mix(in srgb, var(--home-muted) 72%, var(--home-ink)) !important;
+  font-size: 0.74rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
+}
+
+.home-desk-control-strip button:hover,
+.home-desk-control-strip button:focus-visible,
+.home-desk-control-strip a:hover,
+.home-desk-control-strip a:focus-visible,
+.home-desk-control-strip button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--home-accent) 42%, var(--home-line));
+  background: color-mix(in srgb, var(--home-accent-soft) 38%, var(--home-surface));
+  color: var(--home-accent-strong) !important;
+  outline: 0;
+  transform: translateY(-0.04rem);
+}
+
+.home-desk-control-strip button:focus-visible,
+.home-desk-control-strip a:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--home-accent) 28%, transparent);
+}
+
+.home-desk-control-strip [data-home-desk-pause-icon],
+.home-desk-control-strip [data-home-desk-control="spin"].is-playing [data-home-desk-play-icon] {
+  display: none;
+}
+
+.home-desk-control-strip [data-home-desk-control="spin"].is-playing [data-home-desk-pause-icon] {
+  display: inline-block;
+}
+
 .home-desk-corner-scene {
   position: absolute;
-  inset: 3.2rem -0.5rem 0.1rem -0.5rem;
+  inset: 2.35rem -0.1rem 0.25rem -0.1rem;
   z-index: 9;
   overflow: visible;
   opacity: 0;
@@ -558,7 +651,7 @@ html[data-theme="dark"] .home-cred-item strong {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 31rem;
+  min-height: 27.5rem;
   cursor: grab;
 }
 
@@ -568,21 +661,31 @@ html[data-theme="dark"] .home-cred-item strong {
 
 .home-desk-corner-fallback {
   position: absolute;
-  inset: 8% 5% 4%;
+  inset: 5% 4% 4%;
   z-index: 0;
   border-radius: 46% 42% 48% 40% / 42% 50% 38% 50%;
   background:
-    radial-gradient(ellipse at 50% 70%, rgba(73, 45, 30, 0.1), transparent 60%),
-    linear-gradient(145deg, color-mix(in srgb, var(--home-paper-warm) 58%, transparent), transparent 54%);
-  opacity: 0.5;
+    radial-gradient(ellipse at 52% 66%, rgba(73, 45, 30, 0.082), transparent 58%),
+    linear-gradient(145deg, color-mix(in srgb, var(--home-paper-warm) 46%, transparent), transparent 56%);
+  opacity: 0.42;
   pointer-events: none;
   filter: blur(0.05rem);
+}
+
+.home-hero-media.is-desk-3d {
+  min-height: 30.2rem;
 }
 
 .home-hero-media.is-desk-3d .home-desk-corner-scene {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
+}
+
+.home-hero-media.is-desk-3d .home-desk-control-strip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .home-hero-media.is-desk-3d .home-portrait-frame,
@@ -1421,16 +1524,16 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -0.55rem;
-  right: -4.6rem;
-  width: min(16.4rem, 52%);
+  top: -1.9rem;
+  right: clamp(-1.65rem, -2.2vw, -0.55rem);
+  width: min(10.8rem, 34%);
   aspect-ratio: 360 / 260;
-  z-index: 5;
+  z-index: 1;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
   filter: saturate(1.04) contrast(1.02);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.8);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.68);
   pointer-events: none;
   transform: rotate(-8deg);
   transform-origin: 54% 52%;
@@ -2728,7 +2831,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero-media.is-desk-3d {
-    min-height: 32rem;
+    min-height: 29.6rem;
   }
 
   .home-portrait-frame {
@@ -2841,30 +2944,37 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-story-rail {
-    top: 6.8rem;
-    right: max(0.32rem, env(safe-area-inset-right));
-    left: auto;
-    width: 1.58rem;
+    top: 6.36rem;
+    right: auto;
+    left: 50%;
+    width: auto;
+    max-width: calc(100vw - 1.5rem);
     margin: 0;
     padding: 0;
+    transform: translateX(-50%);
   }
 
   .home-story-rail:hover,
   .home-story-rail:focus-within {
-    width: 1.58rem;
+    width: auto;
   }
 
   .home-story-rail ol {
-    width: 100%;
-    padding: 0.28rem 0.18rem;
-    gap: 0.22rem;
+    display: flex;
+    width: auto;
+    max-width: calc(100vw - 1.5rem);
+    padding: 0.26rem 0.34rem;
+    gap: 0.18rem;
+    overflow-x: auto;
     border-radius: 999px;
+    touch-action: pan-x;
   }
 
   .home-story-rail-link {
     justify-content: center;
-    width: 1.18rem;
-    min-height: 1.46rem;
+    flex: 0 0 auto;
+    width: 1.82rem;
+    min-height: 1.72rem;
     padding: 0;
     border-radius: 50%;
     font-size: 0;
@@ -2873,7 +2983,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-story-rail:hover .home-story-rail-link,
   .home-story-rail:focus-within .home-story-rail-link {
     justify-content: center;
-    width: 1.18rem;
+    width: 1.82rem;
     margin: 0 auto;
     padding: 0;
     font-size: 0;
@@ -3082,7 +3192,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero-media.is-desk-3d {
-    min-height: 29rem;
+    min-height: 26.4rem;
   }
 
   .home-desk-mode-switch {
@@ -3092,11 +3202,25 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-desk-corner-scene {
-    inset: 1.55rem -0.55rem -0.2rem -0.55rem;
+    inset: 1.42rem -0.15rem 0.25rem -0.15rem;
   }
 
   .home-desk-corner-canvas {
-    min-height: 27rem;
+    min-height: 24.2rem;
+  }
+
+  .home-desk-control-strip {
+    right: 0.6rem;
+    bottom: 0.48rem;
+    gap: 0.26rem;
+    padding: 0.24rem;
+  }
+
+  .home-desk-control-strip button,
+  .home-desk-control-strip a {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.68rem;
   }
 
   .home-portrait-frame,
@@ -3115,9 +3239,9 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: 0.05rem;
-    right: -6.2rem;
-    width: min(10.8rem, 46vw);
+    top: -0.1rem;
+    right: -0.9rem;
+    width: min(6.8rem, 27vw);
   }
 
   .home-inspiration-credit {
@@ -3263,6 +3387,9 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-portrait-frame,
   .home-desk-corner-scene,
   .home-desk-mode-switch button,
+  .home-desk-control-strip,
+  .home-desk-control-strip button,
+  .home-desk-control-strip a,
   .home-profile-recordable.is-playing .home-record-scene,
   .home-profile-recordable.is-playing .home-profile-image-hover-layer.is-visible,
   .home-profile-recordable.is-playing .home-record-scene-fallback,
@@ -3298,6 +3425,10 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-portrait-frame:focus-visible,
   .home-desk-mode-switch button:hover,
   .home-desk-mode-switch button:focus-visible,
+  .home-desk-control-strip button:hover,
+  .home-desk-control-strip button:focus-visible,
+  .home-desk-control-strip a:hover,
+  .home-desk-control-strip a:focus-visible,
   .home-hero-media.is-desk-3d .home-portrait-frame,
   .home-hero-media.is-desk-3d .home-record-card-pile,
   .home-hero-media.is-desk-3d .home-artifact-stack,
