@@ -485,20 +485,22 @@
     if (!artifactStack) return;
 
     const random = createSeededRandom(`home-coffee-${Date.now()}-${Math.random()}`);
-    const size = 10.65 + random() * 1.42;
-    const top = 0.64 + random() * 0.38;
-    const right = -2.34 + random() * 0.56;
-    const rotate = -18 + random() * 36;
-    const scale = 0.98 + random() * 0.1;
-    const stretchX = 1.04 + random() * 0.16;
-    const stretchY = 0.9 + random() * 0.12;
-    const wobbleX = -0.22 + random() * 0.44;
-    const wobbleY = -0.1 + random() * 0.2;
-    const morphDuration = 32 + random() * 18;
-    const bloomDuration = 190 + random() * 110;
-    const edgeOpacity = 0.14 + random() * 0.055;
-    const washOpacity = 0.036 + random() * 0.026;
-    const speckleOpacity = 0.058 + random() * 0.03;
+    const size = 8.85 + random() * 1.08;
+    const top = -0.24 + random() * 0.36;
+    const right = 4.55 + random() * 0.72;
+    const rotate = -13 + random() * 25;
+    const scale = 0.98 + random() * 0.08;
+    const startScale = Math.max(0.92, scale - (0.035 + random() * 0.025));
+    const stretchX = 1.08 + random() * 0.2;
+    const stretchY = 0.82 + random() * 0.14;
+    const wobbleX = -0.14 + random() * 0.28;
+    const wobbleY = -0.06 + random() * 0.16;
+    const morphDuration = 38 + random() * 22;
+    const bloomDuration = 110 + random() * 80;
+    const edgeOpacity = 0.18 + random() * 0.06;
+    const washOpacity = 0.034 + random() * 0.022;
+    const innerOpacity = 0.018 + random() * 0.016;
+    const speckleOpacity = 0.072 + random() * 0.035;
 
     artifactStack.classList.add("has-coffee-stain");
     artifactStack.style.setProperty("--coffee-stain-size", `${size.toFixed(2)}rem`);
@@ -506,12 +508,14 @@
     artifactStack.style.setProperty("--coffee-stain-right", `${right.toFixed(2)}rem`);
     artifactStack.style.setProperty("--coffee-stain-rotate", `${rotate.toFixed(2)}deg`);
     artifactStack.style.setProperty("--coffee-stain-scale", scale.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-start-scale", startScale.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-stretch-x", stretchX.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-stretch-y", stretchY.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-wobble-x", `${wobbleX.toFixed(2)}rem`);
     artifactStack.style.setProperty("--coffee-stain-wobble-y", `${wobbleY.toFixed(2)}rem`);
     artifactStack.style.setProperty("--coffee-stain-edge-opacity", edgeOpacity.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-wash-opacity", washOpacity.toFixed(3));
+    artifactStack.style.setProperty("--coffee-stain-inner-opacity", innerOpacity.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-speckle-opacity", speckleOpacity.toFixed(3));
     artifactStack.style.setProperty("--coffee-stain-morph-duration", `${morphDuration.toFixed(2)}s`);
     artifactStack.style.setProperty("--coffee-stain-bloom-duration", `${bloomDuration.toFixed(2)}s`);
@@ -720,29 +724,46 @@
       hideRecord(true);
     };
 
+    const getRecordCardTab = (card) => {
+      const recordOrder = card?.getAttribute("data-record-index");
+      if (!pile || recordOrder === null || recordOrder === undefined) return null;
+      return pile.querySelector(`[data-home-record-card-tab][data-record-index="${recordOrder}"]`);
+    };
+
+    const moveRecordCardToTop = (card) => {
+      if (!pile || !card) return;
+      const tab = getRecordCardTab(card);
+      if (tab) pile.appendChild(tab);
+      pile.appendChild(card);
+    };
+
     const setCardRestTransform = (card, order) => {
       const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
       const side = order % 2 === 0 ? -1 : 1;
-      const x = side * (1.15 + (order % 3) * 0.42);
-      const y = 1.86 + order * 0.28;
-      const z = 0.58 + order * 0.16;
-      const rotate = side * (3.4 + (recordOrder % 3) * 0.72) + order * 0.42;
-      const tilt = 59 - Math.min(order, 4) * 0.85;
+      const layer = Math.min(order, 5);
+      const x = side * (0.62 + (order % 3) * 0.28);
+      const y = 1.52 + layer * 0.34;
+      const z = 0.76 + layer * 0.22;
+      const rotate = side * (1.85 + (recordOrder % 3) * 0.46) + layer * 0.26;
+      const tilt = 64 - layer * 1.05;
+      const scale = 1 - Math.min(order, 4) * 0.012;
       card.style.setProperty(
         "--card-rest-transform",
-        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -2.2).toFixed(2)}deg)`
+        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -1.45).toFixed(2)}deg) scale(${scale.toFixed(3)})`
       );
-      card.style.setProperty("--card-open-transform", `translate3d(0, -1.72rem, 6.6rem) rotateZ(0deg) rotateX(4deg) scale(1.025)`);
+      card.style.setProperty("--card-open-transform", `translate3d(0, -1.52rem, 6.8rem) rotateZ(0deg) rotateX(5deg) rotateY(0deg) scale(1.035)`);
+      card.dataset.stackOrder = String(order);
       card.style.zIndex = String(20 + order);
 
-      const tab = pile?.querySelector(`[data-home-record-card-tab][data-record-index="${recordOrder}"]`);
+      const tab = getRecordCardTab(card);
       if (tab) {
-        const tabX = x + side * 8.05;
-        const tabY = y + 1.35;
+        const tabX = x + side * 8.34;
+        const tabY = y + 1.18;
         tab.style.setProperty(
           "--card-tab-transform",
-          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 1.8rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(58deg)`
+          `translate3d(${tabX.toFixed(2)}rem, ${tabY.toFixed(2)}rem, 2.1rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(62deg) rotateY(${(side * -1.2).toFixed(2)}deg)`
         );
+        tab.dataset.stackOrder = String(order);
         tab.style.zIndex = String(58 + order);
       }
     };
@@ -759,15 +780,13 @@
       card.classList.remove("is-open");
       card.setAttribute("aria-expanded", "false");
       activeCard = null;
-      if (pile && sendToTop) {
-        pile.appendChild(card);
-        reflowRecordCards();
-      }
+      if (pile && sendToTop) moveRecordCardToTop(card);
+      reflowRecordCards();
       if (pile) pile.classList.remove("is-reading-card");
     };
 
     const openRecordCard = (card) => {
-      if (activeCard && activeCard !== card) closeActiveCard({ sendToTop: false });
+      if (activeCard && activeCard !== card) closeActiveCard();
       activeCard = card;
       card.classList.add("is-open");
       card.setAttribute("aria-expanded", "true");
@@ -777,7 +796,13 @@
 
     const pickRecordCardFromPoint = (clientX, clientY) => {
       if (!pile) return null;
-      const cards = Array.from(pile.querySelectorAll("[data-home-record-card]")).reverse();
+      const cards = Array.from(pile.querySelectorAll("[data-home-record-card]")).sort((first, second) => {
+        const firstZ = Number.parseInt(window.getComputedStyle(first).zIndex, 10) || 0;
+        const secondZ = Number.parseInt(window.getComputedStyle(second).zIndex, 10) || 0;
+        const firstOrder = Number(first.dataset.stackOrder) || 0;
+        const secondOrder = Number(second.dataset.stackOrder) || 0;
+        return secondZ - firstZ || secondOrder - firstOrder;
+      });
       return (
         cards.find((card) => {
           const rect = card.getBoundingClientRect();
@@ -812,15 +837,15 @@
       card.setAttribute("aria-label", `Pick up ${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 1.42).toFixed(2)}rem, -8.2rem, 7.4rem) rotateZ(${(dropSide * -14).toFixed(2)}deg) rotateX(22deg) rotateY(${(dropSide * 10).toFixed(2)}deg)`
+        `translate3d(${(dropSide * 0.86).toFixed(2)}rem, -9.4rem, 8.8rem) rotateZ(${(dropSide * -10).toFixed(2)}deg) rotateX(12deg) rotateY(${(dropSide * 8.4).toFixed(2)}deg) scale(0.78)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.55).toFixed(2)}rem, -2.05rem, 4.2rem) rotateZ(${(dropSide * 7.5).toFixed(2)}deg) rotateX(42deg) rotateY(${(dropSide * -5).toFixed(2)}deg)`
+        `translate3d(${(dropSide * -0.36).toFixed(2)}rem, -2.86rem, 5.4rem) rotateZ(${(dropSide * 5.6).toFixed(2)}deg) rotateX(38deg) rotateY(${(dropSide * -4.2).toFixed(2)}deg) scale(0.94)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.16).toFixed(2)}rem, 1.92rem, 0.66rem) rotateZ(${(dropSide * -1.1).toFixed(2)}deg) rotateX(60deg) rotateY(${(dropSide * -1.8).toFixed(2)}deg)`
+        `translate3d(${(dropSide * 0.12).toFixed(2)}rem, 1.68rem, 0.82rem) rotateZ(${(dropSide * -0.72).toFixed(2)}deg) rotateX(64deg) rotateY(${(dropSide * -1.2).toFixed(2)}deg) scale(1.006)`
       );
 
       const cover = document.createElement("span");
@@ -896,14 +921,16 @@
       const { card, tab } = createRecordCard(record, recordIndex);
       pile.hidden = false;
       ensureRecordHalo();
-      pile.appendChild(card);
       pile.appendChild(tab);
+      pile.appendChild(card);
       reflowRecordCards();
 
+      const clearDropState = () => card.classList.remove("is-dropping");
       if (reduceMotion) {
-        card.classList.remove("is-dropping");
+        clearDropState();
       } else {
-        card.addEventListener("animationend", () => card.classList.remove("is-dropping"), { once: true });
+        card.addEventListener("animationend", clearDropState, { once: true });
+        window.setTimeout(clearDropState, 1400);
       }
     };
 

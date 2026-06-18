@@ -938,21 +938,23 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 
 .home-record-card-pile {
   --record-card-accent: var(--home-accent);
-  --record-card-paper: color-mix(in srgb, var(--home-surface) 94%, var(--home-paper-warm));
-  --record-card-paper-open: color-mix(in srgb, var(--home-surface) 88%, #fff 12%);
-  --record-card-edge: color-mix(in srgb, var(--home-accent) 12%, var(--home-line));
-  --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 26%, var(--home-line));
-  --record-card-shadow: rgba(73, 45, 30, 0.12);
-  --record-card-halo: color-mix(in srgb, var(--home-accent) 54%, #ffffff);
-  --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 42%, transparent);
+  --record-card-glass: color-mix(in srgb, var(--home-surface) 54%, rgba(255, 255, 255, 0.58));
+  --record-card-glass-open: color-mix(in srgb, var(--home-surface) 66%, rgba(255, 255, 255, 0.68));
+  --record-card-edge: color-mix(in srgb, var(--home-accent) 22%, rgba(136, 199, 209, 0.42));
+  --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 42%, rgba(108, 184, 198, 0.52));
+  --record-card-rim: color-mix(in srgb, var(--home-accent) 24%, rgba(130, 211, 221, 0.72));
+  --record-card-rim-soft: color-mix(in srgb, var(--home-accent-soft) 54%, rgba(134, 221, 231, 0.18));
+  --record-card-shadow: rgba(73, 45, 30, 0.1);
+  --record-card-halo: color-mix(in srgb, var(--home-accent) 48%, #d7fbff);
+  --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 42%, rgba(138, 221, 231, 0.16));
 
   position: relative;
   grid-area: record;
   z-index: 6;
-  width: min(20.6rem, 100%);
+  width: min(21.4rem, 100%);
   min-height: 0;
   margin-top: -0.2rem;
-  perspective: 880px;
+  perspective: 1040px;
   transform-style: preserve-3d;
   transition:
     margin var(--motion-standard),
@@ -966,19 +968,21 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards {
-  min-height: 11.25rem;
+  min-height: 11.7rem;
   margin-top: 0.12rem;
   pointer-events: auto;
 }
 
 .home-record-card-pile::before {
   position: absolute;
-  right: 6%;
-  bottom: 0.18rem;
-  left: 8%;
-  height: 1.62rem;
+  right: 3%;
+  bottom: 0.08rem;
+  left: 5%;
+  height: 1.82rem;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(73, 45, 30, 0.16), rgba(73, 45, 30, 0.07) 48%, transparent 74%);
+  background:
+    radial-gradient(ellipse at center, rgba(73, 45, 30, 0.14), rgba(73, 45, 30, 0.065) 48%, transparent 76%),
+    radial-gradient(ellipse at 48% 46%, var(--record-card-halo-soft), transparent 62%);
   content: "";
   opacity: 0;
   filter: blur(0.12rem);
@@ -996,29 +1000,29 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 
 .home-record-card-halo {
   position: absolute;
-  top: 6.36rem;
+  top: 6.44rem;
   left: 50%;
   z-index: 18;
   display: block;
-  width: min(17.4rem, 98%);
-  height: 4.18rem;
-  border: 1px solid color-mix(in srgb, var(--record-card-halo) 72%, transparent);
+  width: min(18.4rem, 99%);
+  height: 4.56rem;
+  border: 1px solid color-mix(in srgb, var(--record-card-halo) 64%, transparent);
   border-radius: 50%;
   background:
-    radial-gradient(ellipse at center, color-mix(in srgb, var(--record-card-halo) 22%, transparent), transparent 58%),
+    radial-gradient(ellipse at center, color-mix(in srgb, var(--record-card-halo) 18%, transparent), transparent 58%),
     conic-gradient(
       from -18deg,
       transparent 0 18deg,
-      color-mix(in srgb, var(--record-card-halo) 52%, transparent) 32deg 54deg,
+      color-mix(in srgb, var(--record-card-halo) 46%, transparent) 32deg 54deg,
       transparent 70deg 146deg,
-      color-mix(in srgb, var(--record-card-halo) 38%, transparent) 164deg 190deg,
+      color-mix(in srgb, var(--record-card-halo) 34%, transparent) 164deg 190deg,
       transparent 214deg 360deg
     );
   box-shadow:
-    0 0 0.58rem color-mix(in srgb, var(--record-card-halo) 32%, transparent),
-    0 0 2.05rem var(--record-card-halo-soft),
-    inset 0 0 0.66rem color-mix(in srgb, var(--record-card-halo) 4%, transparent);
-  opacity: 0.9;
+    0 0 0.54rem color-mix(in srgb, var(--record-card-halo) 24%, transparent),
+    0 0 2.2rem var(--record-card-halo-soft),
+    inset 0 0 0.72rem color-mix(in srgb, var(--record-card-halo) 5%, transparent);
+  opacity: 0.82;
   pointer-events: none;
   transform: translateX(-50%) rotateX(72deg) translateZ(0.16rem);
   transform-origin: 50% 50%;
@@ -1056,44 +1060,85 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 
 .home-record-card {
   position: absolute;
-  top: 0.38rem;
+  top: 0.22rem;
   left: 50%;
   display: grid;
   grid-template-columns: 4.35rem minmax(0, 1fr);
   gap: 0.68rem;
   align-items: center;
-  width: min(18rem, 96%);
+  width: min(18.9rem, 97%);
   min-height: 6.35rem;
-  padding: 0.62rem 0.66rem;
+  padding: 0.64rem 0.7rem;
   border: 1px solid var(--record-card-edge);
-  border-radius: 0.48rem;
+  border-radius: 0.62rem;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.36), transparent 44%),
-    linear-gradient(180deg, var(--record-card-paper), color-mix(in srgb, var(--record-card-paper) 92%, var(--home-paper-warm)));
+    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.72), transparent 36%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 46%),
+    linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 72%, var(--record-card-rim-soft)));
   box-shadow:
-    0 0.34rem 0.72rem var(--record-card-shadow),
-    0 1.2rem 2.2rem color-mix(in srgb, var(--record-card-halo-soft) 72%, transparent),
-    0 1px 0 rgba(255, 255, 255, 0.46) inset;
+    0 0.34rem 0.74rem var(--record-card-shadow),
+    0 1.24rem 2.25rem color-mix(in srgb, var(--record-card-halo-soft) 66%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -0.16rem 0.34rem rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 58%, transparent);
   color: var(--home-ink);
   cursor: pointer;
   transform: translateX(-50%) var(--card-rest-transform, translate3d(0, 0, 0) rotateZ(0deg) rotateX(0deg));
-  transform-origin: 50% 82%;
+  transform-origin: 50% 86%;
   transform-style: preserve-3d;
   transition:
+    background-color var(--motion-standard),
     border-color var(--motion-standard),
     box-shadow var(--motion-standard),
-    transform 420ms cubic-bezier(0.2, 0.82, 0.22, 1),
+    transform 520ms cubic-bezier(0.2, 0.82, 0.22, 1),
     width var(--motion-standard);
+  backdrop-filter: blur(14px) saturate(1.18);
+  -webkit-backdrop-filter: blur(14px) saturate(1.18);
   will-change: transform;
+}
+
+.home-record-card::before,
+.home-record-card::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+}
+
+.home-record-card::before {
+  border-top: 1px solid rgba(255, 255, 255, 0.72);
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 8%,
+      var(--record-card-rim) 16%,
+      transparent 24% 74%,
+      color-mix(in srgb, var(--record-card-rim) 52%, transparent) 86%,
+      transparent
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), transparent 46%);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+.home-record-card::after {
+  inset: auto 0.54rem 0.36rem;
+  height: 0.08rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--record-card-rim) 66%, transparent), transparent);
+  opacity: 0.76;
+  filter: blur(0.02rem);
 }
 
 .home-record-card:hover,
 .home-record-card:focus-visible {
   border-color: var(--record-card-edge-hover);
   box-shadow:
-    0 0.44rem 0.86rem color-mix(in srgb, var(--record-card-shadow) 86%, transparent),
-    0 1.26rem 2.25rem color-mix(in srgb, var(--record-card-halo-soft) 78%, transparent),
-    0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    0 0.46rem 0.9rem color-mix(in srgb, var(--record-card-shadow) 82%, transparent),
+    0 1.34rem 2.36rem color-mix(in srgb, var(--record-card-halo-soft) 82%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 72%, transparent);
   outline: 0;
 }
 
@@ -1103,36 +1148,40 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card.is-open {
-  width: min(19.4rem, 98%);
+  width: min(19.8rem, 98%);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 42%),
-    linear-gradient(180deg, var(--record-card-paper-open), color-mix(in srgb, var(--record-card-paper-open) 94%, var(--home-paper-warm)));
+    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.8), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.6), transparent 44%),
+    linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 76%, var(--record-card-rim-soft)));
   box-shadow:
-    0 1rem 2rem rgba(73, 45, 30, 0.16),
-    0 1.55rem 2.6rem color-mix(in srgb, var(--record-card-halo-soft) 64%, transparent),
-    0 1px 0 rgba(255, 255, 255, 0.56) inset;
+    0 0.9rem 1.72rem rgba(73, 45, 30, 0.13),
+    0 1.6rem 2.72rem color-mix(in srgb, var(--record-card-halo-soft) 68%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 78%, transparent);
   transform: translateX(-50%) var(--card-open-transform, translate3d(0, -1.28rem, 5.8rem) rotateZ(0deg) rotateX(0deg) scale(1.025));
 }
 
 .home-record-card.is-dropping {
-  animation: home-record-card-drop 980ms cubic-bezier(0.2, 0.82, 0.22, 1) both;
+  animation: home-record-card-drop 1120ms cubic-bezier(0.18, 0.88, 0.2, 1) both;
 }
 
 .home-record-card-tab {
   position: absolute;
-  top: 0.38rem;
+  top: 0.22rem;
   left: 50%;
   display: grid;
-  width: 1.18rem;
-  height: 3.15rem;
+  width: 1.12rem;
+  height: 3.38rem;
   place-items: center;
   border: 1px solid var(--record-card-edge);
-  border-radius: 0.28rem;
+  border-radius: 0.42rem;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.38), transparent 54%), color-mix(in srgb, var(--record-card-paper) 84%, var(--home-surface));
+    radial-gradient(ellipse at 36% 18%, rgba(255, 255, 255, 0.54), transparent 48%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.46), transparent 54%), color-mix(in srgb, var(--record-card-glass) 78%, transparent);
   box-shadow:
-    0 0.36rem 0.68rem var(--record-card-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    0 0.38rem 0.72rem var(--record-card-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 52%, transparent);
   color: transparent;
   cursor: pointer;
   transform: translateX(-50%) var(--card-tab-transform, translate3d(-9rem, 1rem, 5rem) rotateZ(-4deg) rotateX(0deg));
@@ -1140,14 +1189,16 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     border-color var(--motion-standard),
     box-shadow var(--motion-standard),
     opacity var(--motion-standard),
-    transform 420ms cubic-bezier(0.2, 0.82, 0.22, 1);
+    transform 520ms cubic-bezier(0.2, 0.82, 0.22, 1);
+  backdrop-filter: blur(12px) saturate(1.14);
+  -webkit-backdrop-filter: blur(12px) saturate(1.14);
 }
 
 .home-record-card-tab::before {
-  width: 0.28rem;
-  height: 1.7rem;
+  width: 0.22rem;
+  height: 1.76rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--home-accent) 26%, var(--home-line));
+  background: linear-gradient(180deg, var(--record-card-rim), color-mix(in srgb, var(--home-accent) 24%, var(--home-line)));
   content: "";
   opacity: 0.52;
 }
@@ -1156,8 +1207,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card-tab:focus-visible {
   border-color: var(--record-card-edge-hover);
   box-shadow:
-    0 0.5rem 0.9rem color-mix(in srgb, var(--record-card-shadow) 88%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.46);
+    0 0.52rem 0.94rem color-mix(in srgb, var(--record-card-shadow) 84%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 68%, transparent);
   opacity: 1;
   outline: 0;
 }
@@ -1172,22 +1224,29 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-cover {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--home-accent) 10%, rgba(255, 255, 255, 0.5));
-  border-radius: 0.34rem;
-  background-color: color-mix(in srgb, var(--home-accent-soft) 24%, var(--home-surface));
+  border: 1px solid color-mix(in srgb, var(--record-card-rim) 28%, rgba(255, 255, 255, 0.54));
+  border-radius: 0.46rem;
+  background-color: color-mix(in srgb, var(--home-accent-soft) 20%, rgba(255, 255, 255, 0.42));
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow:
-    0 0.32rem 0.72rem rgba(73, 45, 30, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    0 0.3rem 0.68rem rgba(73, 45, 30, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 44%, transparent);
+  opacity: 0.9;
+  filter: saturate(0.94) contrast(0.98);
 }
 
 .home-record-card-body {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 0.14rem;
   min-width: 0;
@@ -1240,45 +1299,54 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 html[data-theme="dark"] .home-record-card-pile {
-  --record-card-paper: color-mix(in srgb, var(--home-surface) 92%, var(--home-paper-warm));
-  --record-card-paper-open: color-mix(in srgb, var(--home-surface) 96%, var(--home-accent-soft));
-  --record-card-edge: color-mix(in srgb, var(--home-accent) 18%, var(--home-line));
-  --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 32%, var(--home-line));
-  --record-card-shadow: rgba(0, 0, 0, 0.26);
-  --record-card-halo: color-mix(in srgb, var(--home-accent) 62%, #ffffff);
-  --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 58%, transparent);
+  --record-card-glass: color-mix(in srgb, var(--home-surface) 68%, rgba(190, 230, 238, 0.2));
+  --record-card-glass-open: color-mix(in srgb, var(--home-surface) 74%, rgba(202, 238, 242, 0.24));
+  --record-card-edge: color-mix(in srgb, var(--home-accent) 30%, rgba(129, 210, 225, 0.34));
+  --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 46%, rgba(139, 222, 235, 0.46));
+  --record-card-rim: color-mix(in srgb, var(--home-accent) 34%, rgba(135, 222, 235, 0.68));
+  --record-card-rim-soft: color-mix(in srgb, var(--home-accent-soft) 58%, rgba(90, 176, 190, 0.12));
+  --record-card-shadow: rgba(0, 0, 0, 0.24);
+  --record-card-halo: color-mix(in srgb, var(--home-accent) 58%, #d7fbff);
+  --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 56%, rgba(96, 186, 200, 0.14));
 }
 
 html[data-theme="dark"] .home-record-card {
   border-color: var(--record-card-edge);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 44%),
-    linear-gradient(180deg, var(--record-card-paper), color-mix(in srgb, var(--record-card-paper) 88%, var(--home-accent-soft)));
+    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.12), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 44%),
+    linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 84%, var(--record-card-rim-soft)));
   box-shadow:
     0 0.72rem 1.2rem var(--record-card-shadow),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    0 1.2rem 2.2rem color-mix(in srgb, var(--record-card-halo-soft) 48%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 44%, transparent);
 }
 
 html[data-theme="dark"] .home-record-card.is-open {
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.09), transparent 42%),
-    linear-gradient(180deg, var(--record-card-paper-open), color-mix(in srgb, var(--record-card-paper-open) 91%, var(--home-accent-soft)));
+    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.16), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 84%, var(--record-card-rim-soft)));
 }
 
 html[data-theme="dark"] .home-record-card-cover {
-  border-color: color-mix(in srgb, var(--home-accent) 18%, var(--home-line));
+  border-color: color-mix(in srgb, var(--record-card-rim) 34%, var(--home-line));
   box-shadow:
-    0 0.38rem 0.76rem rgba(0, 0, 0, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 0.38rem 0.76rem rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 34%, transparent);
 }
 
 html[data-theme="dark"] .home-record-card-tab {
   border-color: var(--record-card-edge);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 54%), color-mix(in srgb, var(--record-card-paper) 82%, var(--home-surface));
+    radial-gradient(ellipse at 36% 18%, rgba(255, 255, 255, 0.12), transparent 48%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.09), transparent 54%), color-mix(in srgb, var(--record-card-glass) 82%, transparent);
   box-shadow:
-    0 0.48rem 0.92rem rgba(0, 0, 0, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 0.48rem 0.92rem rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 36%, transparent);
 }
 
 html[data-theme="dark"] .home-record-card-halo {
@@ -1332,7 +1400,7 @@ html[data-theme="dark"] .home-record-card-link {
 
   84% {
     opacity: 1;
-    transform: translateX(-50%) translate3d(0.08rem, 2.05rem, 0.58rem) rotateZ(0.5deg) rotateX(56deg);
+    transform: translateX(-50%) translate3d(0.04rem, 1.88rem, 0.86rem) rotateZ(0.34deg) rotateX(61deg) scale(1.012);
   }
 
   100% {
@@ -1377,15 +1445,24 @@ html[data-theme="dark"] .home-record-card-link {
 
 @keyframes home-artifact-coffee-morph {
   0% {
-    border-radius: 46% 54% 51% 49% / 49% 44% 56% 51%;
+    border-radius: 44% 56% 49% 51% / 39% 55% 45% 61%;
+  }
+
+  48% {
+    border-radius: 57% 43% 52% 48% / 50% 40% 60% 50%;
   }
 
   100% {
-    border-radius: 54% 46% 47% 53% / 44% 52% 48% 56%;
+    border-radius: 43% 57% 46% 54% / 59% 45% 55% 41%;
   }
 }
 
 @keyframes home-artifact-coffee-bloom {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-start-scale, 0.96))
+      scaleX(var(--coffee-stain-stretch-x, 1.08)) scaleY(var(--coffee-stain-stretch-y, 0.96));
+  }
+
   to {
     transform: translate3d(var(--coffee-stain-wobble-x, 0), var(--coffee-stain-wobble-y, 0), 0) rotate(var(--coffee-stain-rotate, -8deg))
       scale(var(--coffee-stain-scale, 1.06)) scaleX(var(--coffee-stain-stretch-x, 1.08)) scaleY(var(--coffee-stain-stretch-y, 0.96));
@@ -1423,66 +1500,65 @@ html[data-theme="dark"] .home-record-card-link {
 .home-artifact-stack::after {
   top: var(--coffee-stain-top, 0.2rem);
   right: var(--coffee-stain-right, -1.2rem);
-  z-index: 1;
   display: none;
   width: var(--coffee-stain-size, 9.4rem);
   aspect-ratio: 1;
-  border-radius: 46% 54% 51% 49% / 49% 44% 56% 51%;
+  border-radius: 44% 56% 49% 51% / 39% 55% 45% 61%;
   mix-blend-mode: var(--home-coffee-blend);
-  transform: translate3d(0, 0, 0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-scale, 1))
+  transform: translate3d(0, 0, 0) rotate(var(--coffee-stain-rotate, -8deg)) scale(var(--coffee-stain-start-scale, 0.96))
     scaleX(var(--coffee-stain-stretch-x, 1.08)) scaleY(var(--coffee-stain-stretch-y, 0.96));
+  transform-origin: 49% 51%;
   animation:
     home-artifact-coffee-morph var(--coffee-stain-morph-duration, 32s) ease-in-out infinite alternate,
     home-artifact-coffee-bloom var(--coffee-stain-bloom-duration, 190s) linear forwards;
 }
 
 .home-artifact-stack::before {
+  z-index: 4;
   background:
     radial-gradient(
-      ellipse at 52% 51%,
-      rgba(var(--home-coffee-rgb), var(--coffee-stain-wash-opacity, 0.046)) 0 33%,
-      rgba(var(--home-coffee-rgb), 0.034) 39%,
-      transparent 68%
+      ellipse at 52% 53%,
+      rgba(var(--home-coffee-rgb), var(--coffee-stain-inner-opacity, 0.022)) 0 24%,
+      rgba(var(--home-coffee-rgb), var(--coffee-stain-wash-opacity, 0.046)) 31% 50%,
+      transparent 70%
     ),
-    radial-gradient(ellipse at 58% 43%, transparent 0 36%, rgba(var(--home-coffee-rgb), 0.032) 42%, transparent 64%),
-    radial-gradient(circle at 24% 58%, rgba(var(--home-coffee-rgb), 0.026), transparent 9%),
-    radial-gradient(circle at 75% 35%, rgba(var(--home-coffee-rgb), 0.022), transparent 7%);
-  filter: blur(0.32rem);
-  opacity: 0.74;
+    radial-gradient(ellipse at 44% 45%, rgba(var(--home-coffee-rgb), 0.03) 0 17%, transparent 45%),
+    radial-gradient(ellipse at 63% 62%, transparent 0 31%, rgba(var(--home-coffee-rgb), 0.07) 39%, transparent 63%),
+    radial-gradient(circle at 23% 61%, rgba(var(--home-coffee-rgb), 0.04), transparent 8%),
+    radial-gradient(circle at 75% 33%, rgba(var(--home-coffee-rgb), 0.034), transparent 6%),
+    radial-gradient(ellipse at 67% 69%, rgba(var(--home-coffee-rgb), 0.032), transparent 11%);
+  filter: blur(0.31rem);
+  opacity: 0.54;
 }
 
 .home-artifact-stack::after {
+  z-index: 5;
   background:
     radial-gradient(
-      ellipse at 50% 50%,
-      transparent 0 37.8%,
-      rgba(var(--home-coffee-rgb), var(--coffee-stain-edge-opacity, 0.16)) 39.4% 41.2%,
-      rgba(var(--home-coffee-rgb), 0.072) 42.4% 45.6%,
-      transparent 49.8%
+      ellipse at 49% 51%,
+      transparent 0 37.7%,
+      rgba(var(--home-coffee-rgb), var(--coffee-stain-edge-opacity, 0.18)) 38.4% 39.7%,
+      transparent 40.5%,
+      rgba(var(--home-coffee-rgb), 0.105) 42.2% 45.3%,
+      transparent 51.2%
     ),
-    repeating-conic-gradient(
-      from var(--coffee-stain-rotate, -8deg),
-      rgba(var(--home-coffee-rgb), var(--coffee-stain-edge-opacity, 0.16)) 0 2.8deg,
-      transparent 2.8deg 9.6deg,
-      rgba(var(--home-coffee-rgb), 0.07) 9.6deg 12.2deg,
-      transparent 12.2deg 24deg
-    ),
-    radial-gradient(circle at 28% 42%, rgba(var(--home-coffee-rgb), var(--coffee-stain-speckle-opacity, 0.07)), transparent 2.6%),
-    radial-gradient(circle at 72% 61%, rgba(var(--home-coffee-rgb), 0.06), transparent 2.2%),
-    radial-gradient(circle at 46% 84%, rgba(var(--home-coffee-rgb), 0.048), transparent 1.9%),
-    radial-gradient(circle at 61% 23%, rgba(var(--home-coffee-rgb), 0.052), transparent 1.7%),
-    radial-gradient(ellipse at 37% 72%, rgba(var(--home-coffee-rgb), 0.045), transparent 9%),
-    radial-gradient(ellipse at 69% 31%, rgba(var(--home-coffee-rgb), 0.04), transparent 8%);
-  filter: blur(0.02rem);
-  -webkit-mask-image:
-    radial-gradient(ellipse at 50% 50%, transparent 0 36.6%, #000 38.8% 49.6%, transparent 58%),
-    radial-gradient(circle at 28% 42%, #000 0 3.2%, transparent 3.7%), radial-gradient(circle at 72% 61%, #000 0 2.8%, transparent 3.3%),
-    radial-gradient(circle at 46% 84%, #000 0 2.4%, transparent 2.9%), radial-gradient(circle at 61% 23%, #000 0 2.2%, transparent 2.7%);
-  mask-image:
-    radial-gradient(ellipse at 50% 50%, transparent 0 36.6%, #000 38.8% 49.6%, transparent 58%),
-    radial-gradient(circle at 28% 42%, #000 0 3.2%, transparent 3.7%), radial-gradient(circle at 72% 61%, #000 0 2.8%, transparent 3.3%),
-    radial-gradient(circle at 46% 84%, #000 0 2.4%, transparent 2.9%), radial-gradient(circle at 61% 23%, #000 0 2.2%, transparent 2.7%);
-  opacity: 0.58;
+    radial-gradient(ellipse at 81% 51%, rgba(var(--home-coffee-rgb), 0.25) 0 2.6%, rgba(var(--home-coffee-rgb), 0.09) 4.2%, transparent 8.6%),
+    radial-gradient(ellipse at 65% 22%, rgba(var(--home-coffee-rgb), 0.19) 0 3.5%, transparent 7.3%),
+    radial-gradient(ellipse at 31% 78%, rgba(var(--home-coffee-rgb), 0.2) 0 4%, rgba(var(--home-coffee-rgb), 0.075) 5.6%, transparent 8.7%),
+    radial-gradient(ellipse at 18% 50%, rgba(var(--home-coffee-rgb), 0.16) 0 3.1%, transparent 7.1%),
+    radial-gradient(ellipse at 49% 13%, rgba(var(--home-coffee-rgb), 0.17) 0 2.8%, transparent 6.6%),
+    radial-gradient(ellipse at 55% 89%, rgba(var(--home-coffee-rgb), 0.15) 0 2.8%, transparent 6.4%),
+    radial-gradient(circle at 26% 42%, rgba(var(--home-coffee-rgb), var(--coffee-stain-speckle-opacity, 0.07)) 0 1.1%, transparent 1.7%),
+    radial-gradient(circle at 72% 61%, rgba(var(--home-coffee-rgb), 0.096) 0 0.95%, transparent 1.5%),
+    radial-gradient(circle at 46% 83%, rgba(var(--home-coffee-rgb), 0.082) 0 0.8%, transparent 1.35%),
+    radial-gradient(circle at 61% 22%, rgba(var(--home-coffee-rgb), 0.086) 0 0.82%, transparent 1.35%),
+    radial-gradient(circle at 86% 57%, rgba(var(--home-coffee-rgb), 0.075) 0 0.66%, transparent 1.1%),
+    radial-gradient(circle at 15% 56%, rgba(var(--home-coffee-rgb), 0.062) 0 0.62%, transparent 1.05%),
+    radial-gradient(circle at 54% 71%, rgba(var(--home-coffee-rgb), 0.05) 0 0.5%, transparent 0.92%),
+    radial-gradient(ellipse at 37% 72%, rgba(var(--home-coffee-rgb), 0.062), transparent 8%),
+    radial-gradient(ellipse at 69% 31%, rgba(var(--home-coffee-rgb), 0.056), transparent 7%);
+  filter: blur(0.018rem);
+  opacity: 0.62;
 }
 
 .home-artifact-stack.has-coffee-stain::before,
@@ -1491,7 +1567,8 @@ html[data-theme="dark"] .home-record-card-link {
 }
 
 html[data-theme="dark"] .home-artifact-stack::before {
-  opacity: 0.2;
+  filter: blur(0.36rem) saturate(0.86);
+  opacity: 0.18;
 }
 
 html[data-theme="dark"] .home-artifact-stack::after {
@@ -3152,11 +3229,17 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-artifact-stack::before,
   .home-artifact-stack::after {
-    display: none;
+    top: -0.16rem;
+    right: -0.82rem;
+    width: min(7.1rem, 40vw);
   }
 
-  .home-artifact-stack.has-coffee-stain::after {
-    display: none;
+  .home-artifact-stack::before {
+    opacity: 0.38;
+  }
+
+  .home-artifact-stack::after {
+    opacity: 0.36;
   }
 
   .home-inspiration-credit {
@@ -3180,7 +3263,8 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-record-card-pile.has-cards {
-    min-height: 9.45rem;
+    min-height: 8.85rem;
+    margin-top: -8.25rem;
   }
 
   .home-record-card {
@@ -3308,6 +3392,8 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-card-halo::before,
   .home-record-card-halo::after,
   .home-record-card,
+  .home-record-card::before,
+  .home-record-card::after,
   .home-record-card-tab,
   .home-record-card-tab::before,
   .home-artifact-card,
