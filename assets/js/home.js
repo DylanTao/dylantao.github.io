@@ -1176,10 +1176,19 @@
       return hit ? findInteractiveData(hit.object) : null;
     };
 
+    const setEntryCue = (entry, active) => {
+      if (!entry?.cue) return;
+      entry.cue.visible = active;
+      if (entry.cue.material) {
+        entry.cue.material.opacity = active ? (entry.kind === "artifact" ? 0.13 : 0.22) : 0;
+      }
+    };
+
     const setHoverEntry = (entry) => {
       if (hoveredEntry === entry) return;
       if (hoveredEntry && !hoveredEntry.isDragging && hoveredEntry !== focusedEntry) {
         hoveredEntry.group.position.y = hoveredEntry.currentRestY ?? hoveredEntry.basePosition.y;
+        setEntryCue(hoveredEntry, false);
       }
       hoveredEntry = entry;
       if (renderer?.domElement) {
@@ -1195,6 +1204,7 @@
         entry.kind !== "returnInside"
       ) {
         entry.group.position.y = (entry.currentRestY ?? entry.basePosition.y) + 0.035;
+        setEntryCue(entry, true);
         render();
       }
     };
@@ -1310,6 +1320,7 @@
       container.removeAttribute("data-focused-desk-object");
       entry.lifted = false;
       entry.currentRestY = entry.basePosition.y;
+      setEntryCue(entry, false);
       addTween(
         entry.group,
         {
@@ -1327,6 +1338,7 @@
       if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
       focusedEntry = entry;
       container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
+      setEntryCue(entry, true);
       entry.thrown = false;
       const playPosition = entry.playPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
       const playRotation = entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
@@ -1358,6 +1370,7 @@
       if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
       focusedEntry = entry;
       container.setAttribute("data-focused-desk-object", `artifact-${entry.index}`);
+      setEntryCue(entry, true);
       entry.lifted = true;
       const focusPosition = entry.focusPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.56, -0.16));
       const focusRotation = entry.focusRotation || new THREE.Euler(0.88, 0.02, entry.index === 0 ? -0.05 : 0.05);
@@ -1382,6 +1395,7 @@
         focusedEntry = null;
         container.removeAttribute("data-focused-desk-object");
       }
+      setEntryCue(entry, false);
       entry.thrown = true;
       entry.currentRestY = -1.145;
       const side = deltaX >= 0 ? 1 : -1;
@@ -1414,11 +1428,13 @@
       focusedEntry = null;
       container.removeAttribute("data-focused-desk-object");
       albumEntries.forEach((entry) => {
+        setEntryCue(entry, false);
         entry.thrown = false;
         entry.currentRestY = entry.basePosition.y;
         addTween(entry.group, { position: entry.basePosition.clone(), rotation: entry.baseRotation.clone(), scale: new THREE.Vector3(1, 1, 1) }, 520);
       });
       artifactEntries.forEach((entry) => {
+        setEntryCue(entry, false);
         entry.lifted = false;
         entry.currentRestY = entry.basePosition.y;
         addTween(entry.group, { position: entry.basePosition.clone(), rotation: entry.baseRotation.clone(), scale: new THREE.Vector3(1, 1, 1) }, 420);
@@ -1826,6 +1842,20 @@
         const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.43, 0.61), coverMaterial);
         cover.position.set(0, 0.01, 0.008);
         entry.group.add(cover);
+        const albumCue = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.52, 0.7),
+          new THREE.MeshBasicMaterial({
+            color: palette.isDarkTheme ? 0xf2c38d : 0xb76f38,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          })
+        );
+        albumCue.position.set(0, 0.01, 0.004);
+        albumCue.visible = false;
+        entry.group.add(albumCue);
+        entry.cue = albumCue;
         registerInteractive(sleeveBack, { kind: "album", index }, entry);
         registerInteractive(cover, { kind: "album", index }, entry);
         loadTexture(recordItem.cover || recordItem.src, coverMaterial);
@@ -1874,6 +1904,21 @@
         top.rotation.x = -Math.PI / 2;
         top.position.y = 0.026;
         entry.group.add(top);
+        const artifactCue = new THREE.Mesh(
+          new THREE.PlaneGeometry(1.62, 0.82),
+          new THREE.MeshBasicMaterial({
+            color: palette.isDarkTheme ? 0xf0c48f : 0xb86f38,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          })
+        );
+        artifactCue.rotation.x = -Math.PI / 2;
+        artifactCue.position.y = 0.031;
+        artifactCue.visible = false;
+        entry.group.add(artifactCue);
+        entry.cue = artifactCue;
         const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(1.58, 0.78), hitMaterial);
         cardHit.rotation.x = -Math.PI / 2;
         cardHit.position.y = 0.055;
