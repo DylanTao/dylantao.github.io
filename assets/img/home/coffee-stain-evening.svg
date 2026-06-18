@@ -1,59 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Coffee cup stain">
   <defs>
-    <filter id="soft-blur" x="-18%" y="-22%" width="136%" height="144%">
-      <feGaussianBlur stdDeviation="3.2" />
+    <filter id="soft-blur" x="-22%" y="-26%" width="144%" height="152%">
+      <feGaussianBlur stdDeviation="2.8" />
     </filter>
-    <filter id="paper-bleed" x="-18%" y="-22%" width="136%" height="144%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.044 0.068" numOctaves="2" seed="31" />
-      <feDisplacementMap in="SourceGraphic" scale="4.8" />
+    <filter id="paper-bleed" x="-22%" y="-26%" width="144%" height="152%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.038 0.074" numOctaves="3" seed="31" />
+      <feDisplacementMap in="SourceGraphic" scale="5.4" />
     </filter>
   </defs>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
     <path
-      d="M96 138C91 94 128 52 189 48C242 45 294 70 310 119C326 169 287 213 219 222C154 231 97 197 96 138Z"
+      d="M72 138C69 83 121 38 195 42C266 46 322 83 324 137C326 193 265 225 191 224C119 223 75 190 72 138Z"
       fill="#ddb184"
-      opacity="0.04"
+      opacity="0.043"
       stroke="none"
       filter="url(#soft-blur)"
     />
     <g filter="url(#paper-bleed)">
       <path
-        d="M94 139C88 90 130 43 194 45C252 47 300 78 313 126C326 174 288 214 218 225C151 235 88 199 94 139"
+        d="M78 139C74 84 124 41 196 43C269 45 323 83 324 139C325 191 267 224 192 222C118 220 76 190 78 139"
         stroke="#d09560"
         stroke-opacity="0.34"
-        stroke-width="8.4"
-        stroke-dasharray="232 22 42 16 92 28"
+        stroke-width="8.8"
+        stroke-dasharray="184 24 54 13 72 30 112 18"
       />
       <path
-        d="M105 137C102 98 141 61 198 60C252 59 294 96 300 137C305 181 258 210 199 211C145 212 108 179 105 137"
+        d="M93 137C93 93 134 58 197 58C260 58 306 91 308 137C310 181 257 209 194 209C134 209 92 178 93 137"
         stroke="#efbf8b"
-        stroke-opacity="0.24"
-        stroke-width="4.4"
-        stroke-dasharray="154 32 86 18 56 34"
+        stroke-opacity="0.23"
+        stroke-width="4.8"
+        stroke-dasharray="126 26 76 18 54 28 64 22"
       />
       <path
-        d="M114 135C116 105 153 78 202 77C246 76 283 103 287 138C291 171 249 196 199 196C151 196 111 169 114 135"
+        d="M111 136C112 105 148 78 198 76C249 74 286 101 288 136C290 170 248 195 196 195C146 195 110 168 111 136"
         stroke="#b4784a"
         stroke-opacity="0.16"
-        stroke-width="2.8"
-        stroke-dasharray="82 48 130 34"
+        stroke-width="2.7"
+        stroke-dasharray="58 42 98 28 76 34"
+      />
+      <path
+        d="M86 154C103 205 171 227 236 210C270 201 297 182 310 157"
+        stroke="#dfab7a"
+        stroke-opacity="0.11"
+        stroke-width="6.2"
+        stroke-dasharray="86 22 28 18 66 32"
       />
     </g>
   </g>
   <g fill="#d1935d" filter="url(#soft-blur)">
-    <ellipse cx="211" cy="44" rx="11" ry="17" opacity="0.12" transform="rotate(-16 211 44)" />
-    <ellipse cx="239" cy="51" rx="13" ry="9" opacity="0.1" transform="rotate(23 239 51)" />
-    <ellipse cx="303" cy="88" rx="7" ry="18" opacity="0.1" transform="rotate(-32 303 88)" />
-    <ellipse cx="314" cy="132" rx="18" ry="6" opacity="0.12" transform="rotate(2 314 132)" />
-    <ellipse cx="270" cy="218" rx="16" ry="7" opacity="0.07" transform="rotate(-11 270 218)" />
-    <ellipse cx="130" cy="211" rx="9" ry="5" opacity="0.065" transform="rotate(18 130 211)" />
+    <ellipse cx="121" cy="48" rx="10" ry="18" opacity="0.075" transform="rotate(32 121 48)" />
+    <ellipse cx="214" cy="38" rx="14" ry="8" opacity="0.12" transform="rotate(-12 214 38)" />
+    <ellipse cx="285" cy="58" rx="18" ry="7" opacity="0.09" transform="rotate(24 285 58)" />
+    <ellipse cx="328" cy="124" rx="17" ry="6" opacity="0.12" transform="rotate(-6 328 124)" />
+    <ellipse cx="296" cy="215" rx="14" ry="7" opacity="0.07" transform="rotate(-20 296 215)" />
+    <ellipse cx="82" cy="192" rx="8" ry="15" opacity="0.075" transform="rotate(-34 82 192)" />
   </g>
   <g fill="#e1a873">
-    <circle cx="222" cy="33" r="3.4" opacity="0.15" />
-    <circle cx="229" cy="43" r="2.3" opacity="0.12" />
-    <circle cx="306" cy="123" r="3.2" opacity="0.13" />
-    <circle cx="319" cy="144" r="2.5" opacity="0.1" />
-    <circle cx="178" cy="217" r="2.1" opacity="0.09" />
-    <circle cx="126" cy="197" r="1.8" opacity="0.08" />
+    <circle cx="111" cy="52" r="2.1" opacity="0.12" />
+    <circle cx="222" cy="30" r="3.6" opacity="0.16" />
+    <circle cx="237" cy="41" r="2.4" opacity="0.13" />
+    <circle cx="315" cy="80" r="2.8" opacity="0.12" />
+    <circle cx="331" cy="143" r="3.2" opacity="0.14" />
+    <circle cx="309" cy="171" r="1.9" opacity="0.1" />
+    <circle cx="242" cy="223" r="2.4" opacity="0.095" />
+    <circle cx="94" cy="201" r="2" opacity="0.1" />
   </g>
 </svg>
