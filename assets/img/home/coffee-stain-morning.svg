@@ -19,6 +19,13 @@
     opacity="0.086"
     filter="url(#soft)"
   />
+  <path
+    d="M91 178C126 215 199 228 268 210C308 200 335 179 346 154C326 176 294 191 248 198C186 207 129 197 91 178Z"
+    fill="#6b3a1a"
+    opacity="0.066"
+    filter="url(#bleed)"
+  />
+  <path d="M142 71C178 51 248 54 305 81C267 74 216 76 181 89C160 97 145 94 142 71Z" fill="#aa7040" opacity="0.036" filter="url(#soft)" />
   <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#bleed)">
     <path
       d="M65 153C55 101 96 61 164 50C232 39 306 60 347 101C388 142 375 196 319 226C258 258 171 248 111 220C82 207 70 184 65 153Z"
