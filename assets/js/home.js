@@ -686,13 +686,13 @@
 
       if (activeView === "outside") {
         const zoom = easeOutCubic(zoomLevel);
-        camera.fov = lerp(isCompactScene ? 38 : 34, isCompactScene ? 32 : 29, zoom);
+        camera.fov = lerp(isCompactScene ? 37 : 32, isCompactScene ? 31 : 27, zoom);
         camera.position.set(
-          lerp(isCompactScene ? 2.86 : 3.38, isCompactScene ? 1.92 : 2.1, zoom),
-          lerp(isCompactScene ? 1.46 : 1.72, isCompactScene ? 1.08 : 1.16, zoom),
-          lerp(isCompactScene ? 5.15 : 5.42, isCompactScene ? 3.42 : 3.74, zoom)
+          lerp(isCompactScene ? 2.66 : 3.02, isCompactScene ? 1.72 : 1.88, zoom),
+          lerp(isCompactScene ? 1.42 : 1.62, isCompactScene ? 1.02 : 1.08, zoom),
+          lerp(isCompactScene ? 4.92 : 4.86, isCompactScene ? 3.18 : 3.28, zoom)
         );
-        camera.lookAt(lerp(isCompactScene ? 0.1 : 0.24, 1.04, zoom), lerp(-0.14, -0.06, zoom), lerp(0.04, 0.24, zoom));
+        camera.lookAt(lerp(isCompactScene ? 0.24 : 0.58, 1.08, zoom), lerp(-0.14, -0.04, zoom), lerp(0.08, 0.22, zoom));
       } else {
         const zoom = easeOutCubic(zoomLevel);
         if (focusedEntry?.kind === "album") {
@@ -1485,8 +1485,8 @@
         rootGroup.position.set(isCompact ? -0.2 : -0.18, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
       }
       if (outsideGroup) {
-        outsideGroup.scale.setScalar(isCompact ? 0.78 : 0.98);
-        outsideGroup.position.set(isCompact ? -0.14 : -0.04, isCompact ? -0.1 : -0.04, isCompact ? 0.16 : 0);
+        outsideGroup.scale.setScalar(isCompact ? 0.84 : 1.1);
+        outsideGroup.position.set(isCompact ? -0.2 : -0.2, isCompact ? -0.1 : -0.04, isCompact ? 0.14 : -0.02);
       }
       applyCameraPose(true);
       render();
@@ -1757,7 +1757,7 @@
       const buttonMaterial = new THREE.MeshBasicMaterial({
         map: createDeskButtonTexture(palette, "OUT"),
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.24,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
@@ -1923,12 +1923,12 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.3, 0.12],
-          [2.26, 0.2],
-          [2.62, 0.72],
-          [2.1, 1.08],
-          [0.88, 1.02],
-          [0.2, 0.56],
+          [0.3, 0.04],
+          [2.16, 0.14],
+          [2.38, 0.54],
+          [1.95, 0.82],
+          [0.84, 0.82],
+          [0.18, 0.46],
         ],
         -0.86,
         0.08,
@@ -1937,11 +1937,11 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.02, 0.42],
-          [2.5, 0.36],
-          [2.82, 1.08],
-          [1.62, 1.54],
-          [-0.36, 1.05],
+          [0.04, 0.34],
+          [2.36, 0.32],
+          [2.56, 0.86],
+          [1.48, 1.14],
+          [-0.34, 0.86],
         ],
         -1.05,
         0.1,
@@ -1950,20 +1950,20 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [-0.46, 0.82],
-          [1.92, 0.82],
-          [2.48, 1.5],
-          [0.42, 1.82],
-          [-0.76, 1.24],
+          [-0.4, 0.62],
+          [1.7, 0.66],
+          [2.06, 1.12],
+          [0.34, 1.32],
+          [-0.66, 1.02],
         ],
         -1.2,
         0.08,
         cliffFaceMaterial
       );
       [
-        { size: { x: 1.3, y: 0.012, z: 0.02 }, position: { x: 1.34, y: -0.92, z: 1.0 }, rotation: -0.04 },
-        { size: { x: 1.5, y: 0.011, z: 0.018 }, position: { x: 1.1, y: -1.11, z: 1.2 }, rotation: 0.08 },
-        { size: { x: 1.02, y: 0.01, z: 0.016 }, position: { x: 0.58, y: -1.26, z: 1.42 }, rotation: -0.1 },
+        { size: { x: 1.18, y: 0.012, z: 0.02 }, position: { x: 1.22, y: -0.92, z: 0.78 }, rotation: -0.04 },
+        { size: { x: 1.34, y: 0.011, z: 0.018 }, position: { x: 0.98, y: -1.11, z: 0.98 }, rotation: 0.08 },
+        { size: { x: 0.94, y: 0.01, z: 0.016 }, position: { x: 0.46, y: -1.26, z: 1.12 }, rotation: -0.1 },
       ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
@@ -1971,8 +1971,8 @@
       addBox(outsideGroup, { x: 1.72, y: 0.052, z: 0.62 }, { x: 1.2, y: -0.56, z: 0.38 }, roofMaterial);
 
       const house = new THREE.Group();
-      house.position.set(1.18, 0.12, 0.16);
-      house.scale.setScalar(1.08);
+      house.position.set(1.1, 0.13, 0.18);
+      house.scale.setScalar(1.18);
       outsideGroup.add(house);
       addBox(house, { x: 1.52, y: 0.08, z: 0.78 }, { x: 0, y: -0.47, z: 0 }, trimMaterial);
       addBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial);
@@ -2000,7 +2000,7 @@
 
       const room = new THREE.Group();
       room.position.set(-0.08, -0.04, 0.2);
-      room.scale.set(1.14, 1.08, 1.08);
+      room.scale.set(1.22, 1.12, 1.14);
       house.add(room);
       addBox(room, { x: 0.98, y: 0.035, z: 0.52 }, { x: -0.02, y: -0.34, z: 0.0 }, trimMaterial);
       addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: 0.0 }, trimMaterial);
@@ -2030,7 +2030,7 @@
       const roomDesk = new THREE.Group();
       roomDesk.position.set(0.42, -0.16, -0.07);
       roomDesk.rotation.y = -0.36;
-      roomDesk.scale.setScalar(0.82);
+      roomDesk.scale.setScalar(0.9);
       room.add(roomDesk);
       const miniVinylMaterial = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.54, metalness: 0.04 });
       const miniPaperMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xfff3de : 0xfffbf2, roughness: 0.68 });
@@ -2070,7 +2070,7 @@
       const returnMaterial = new THREE.MeshBasicMaterial({
         map: createDeskButtonTexture(palette, "IN"),
         transparent: true,
-        opacity: 0.48,
+        opacity: 0.08,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
@@ -2597,6 +2597,12 @@
         if (activeView === "outside") {
           if (delta < 0) {
             targetZoomLevel = clamp(targetZoomLevel - delta * 0.00125, 0, 1);
+            if (targetZoomLevel > 0.94 && zoomLevel > 0.72) {
+              setSceneView("desk");
+              targetZoomLevel = 0.58;
+              targetRotationX = defaultRotation.x;
+              targetRotationY = defaultRotation.y;
+            }
             event.preventDefault();
             scheduleFrame();
             return;

@@ -726,7 +726,7 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-control-strip {
-  opacity: 0.2;
+  opacity: 0.08;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -1602,16 +1602,16 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -0.42rem;
-  right: clamp(-1.62rem, -1.95vw, -0.9rem);
-  width: min(15.2rem, 45%);
+  top: -0.64rem;
+  right: clamp(-1.92rem, -2.28vw, -1.08rem);
+  width: min(16.35rem, 48%);
   aspect-ratio: 1 / 1;
   z-index: 7;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
   filter: saturate(1.12) contrast(1.08);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.54);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.58);
   pointer-events: none;
   transform: rotate(-10deg);
   transform-origin: 52% 50%;
@@ -3330,10 +3330,10 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: 0.54rem;
-    right: -0.94rem;
-    width: min(8.7rem, 35.6vw);
-    opacity: calc(var(--home-coffee-stain-opacity) * 0.34);
+    top: 0.34rem;
+    right: -1.08rem;
+    width: min(9.35rem, 38vw);
+    opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
   }
 
   .home-inspiration-credit {
