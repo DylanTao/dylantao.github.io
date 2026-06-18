@@ -1241,6 +1241,9 @@
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
+      themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
+      themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
+      themeMaterials.outsideGlass?.color.setHex(palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6);
       ambientLight?.color.setHex(palette.ambientColor);
       if (ambientLight) ambientLight.intensity = palette.ambientIntensity;
       if (keyLight) keyLight.intensity = palette.keyIntensity;
@@ -1589,13 +1592,13 @@
       const oceanMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0x183648 : 0x58b5cf,
         transparent: true,
-        opacity: 0.38,
+        opacity: palette.isDarkTheme ? 0.3 : 0.28,
         depthWrite: false,
       });
       themeMaterials.outsideOcean = oceanMaterial;
-      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 2.9), oceanMaterial);
+      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 2.35), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(-0.72, -1.18, 0.1);
+      ocean.position.set(-0.72, -1.24, 0.18);
       outsideGroup.add(ocean);
 
       const beachMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6, roughness: 0.9 });
@@ -1603,11 +1606,27 @@
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
+      const trimMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xffead0 : 0xe9d2b4, roughness: 0.58 });
+      const interiorMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xf6c98b : 0xffdeb0,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.32 : 0.22,
+        depthWrite: false,
+      });
+      const glassMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6,
+        transparent: true,
+        opacity: 0.18,
+        depthWrite: false,
+      });
       themeMaterials.outsideBeach = beachMaterial;
       themeMaterials.outsideCliff = cliffMaterial;
       themeMaterials.outsideHouse = houseMaterial;
       themeMaterials.outsideRoof = roofMaterial;
       themeMaterials.outsideBed = bedMaterial;
+      themeMaterials.outsideTrim = trimMaterial;
+      themeMaterials.outsideInterior = interiorMaterial;
+      themeMaterials.outsideGlass = glassMaterial;
       const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe5b58e, roughness: 0.68 });
       const hairMaterial = new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.8 });
       const pillowMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf2e6d5 : 0xfff2df, roughness: 0.72 });
@@ -1617,38 +1636,51 @@
       themeMaterials.laptopScreen = screenMaterial;
       themeMaterials.catBlanket = blanketMaterial;
 
-      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.65, 0.48), beachMaterial);
+      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.95, 0.44), beachMaterial);
       beach.rotation.x = -Math.PI / 2;
-      beach.position.set(-1.32, -1.2, 1.68);
+      beach.position.set(-1.36, -1.19, 1.52);
       outsideGroup.add(beach);
 
-      addBox(outsideGroup, { x: 1.1, y: 0.5, z: 0.36 }, { x: 1.78, y: -1.04, z: 0.74 }, cliffMaterial);
-      addBox(outsideGroup, { x: 1.42, y: 0.1, z: 0.42 }, { x: 1.56, y: -0.62, z: 0.48 }, cliffMaterial);
-      addBox(outsideGroup, { x: 0.62, y: 0.12, z: 0.24 }, { x: 0.8, y: -0.1, z: 0.34 }, cliffMaterial);
-      addBox(outsideGroup, { x: 1.5, y: 0.055, z: 0.42 }, { x: 1.25, y: -0.22, z: 0.56 }, roofMaterial);
-      addBox(outsideGroup, { x: 0.08, y: 0.46, z: 0.08 }, { x: 0.64, y: -0.48, z: 0.32 }, roofMaterial);
-      addBox(outsideGroup, { x: 0.08, y: 0.46, z: 0.08 }, { x: 1.86, y: -0.48, z: 0.32 }, roofMaterial);
-      addBox(outsideGroup, { x: 1.14, y: 0.04, z: 0.04 }, { x: 1.25, y: -0.2, z: 0.28 }, houseMaterial);
+      addBox(outsideGroup, { x: 1.02, y: 0.32, z: 0.24 }, { x: 1.82, y: -1.0, z: 0.72 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.38, y: 0.06, z: 0.32 }, { x: 1.58, y: -0.62, z: 0.5 }, cliffMaterial);
+      addBox(outsideGroup, { x: 0.56, y: 0.075, z: 0.18 }, { x: 0.8, y: -0.15, z: 0.35 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.68, y: 0.045, z: 0.34 }, { x: 1.25, y: -0.23, z: 0.58 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.46, y: 0.032, z: 0.07 }, { x: 1.25, y: -0.18, z: 0.34 }, trimMaterial);
+      addBox(outsideGroup, { x: 0.06, y: 0.42, z: 0.07 }, { x: 0.64, y: -0.48, z: 0.32 }, roofMaterial);
+      addBox(outsideGroup, { x: 0.06, y: 0.42, z: 0.07 }, { x: 1.86, y: -0.48, z: 0.32 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.1, y: 0.035, z: 0.035 }, { x: 1.25, y: -0.2, z: 0.28 }, houseMaterial);
 
       const house = new THREE.Group();
       house.position.set(1.16, 0.2, 0.05);
       house.scale.setScalar(1.08);
       outsideGroup.add(house);
-      addBox(house, { x: 1.46, y: 0.92, z: 0.72 }, { x: 0, y: 0, z: 0 }, houseMaterial);
-      addBox(house, { x: 1.62, y: 0.18, z: 0.88 }, { x: 0, y: 0.55, z: 0 }, roofMaterial);
-      addBox(house, { x: 1.2, y: 0.08, z: 0.16 }, { x: -0.08, y: -0.55, z: 0.38 }, roofMaterial);
-      addBox(house, { x: 1.2, y: 0.035, z: 0.04 }, { x: -0.08, y: -0.45, z: 0.52 }, houseMaterial);
+      addBox(house, { x: 1.44, y: 0.86, z: 0.68 }, { x: 0, y: -0.02, z: 0 }, houseMaterial);
+      addBox(house, { x: 1.72, y: 0.16, z: 0.84 }, { x: 0, y: 0.5, z: 0 }, roofMaterial);
+      addBox(house, { x: 1.58, y: 0.035, z: 0.78 }, { x: 0, y: 0.38, z: -0.02 }, roofMaterial);
+      addBox(house, { x: 1.62, y: 0.035, z: 0.08 }, { x: 0, y: 0.39, z: 0.44 }, trimMaterial);
+      addBox(house, { x: 0.075, y: 0.78, z: 0.62 }, { x: 0.76, y: -0.04, z: -0.02 }, trimMaterial);
+      addBox(house, { x: 1.28, y: 0.075, z: 0.14 }, { x: -0.06, y: -0.52, z: 0.36 }, roofMaterial);
+      addBox(house, { x: 1.32, y: 0.04, z: 0.04 }, { x: -0.06, y: -0.42, z: 0.5 }, trimMaterial);
       addBox(
         house,
-        { x: 0.9, y: 0.56, z: 0.035 },
-        { x: -0.12, y: 0.02, z: 0.38 },
-        new THREE.MeshStandardMaterial({ color: 0x1d2a2e, roughness: 0.65 })
+        { x: 1.0, y: 0.62, z: 0.04 },
+        { x: -0.12, y: 0.02, z: 0.39 },
+        new THREE.MeshStandardMaterial({ color: 0x172225, roughness: 0.65 })
       );
+      addBox(house, { x: 1.1, y: 0.66, z: 0.018 }, { x: -0.12, y: 0.02, z: 0.412 }, interiorMaterial);
+      addBox(house, { x: 1.04, y: 0.035, z: 0.035 }, { x: -0.12, y: 0.35, z: 0.43 }, trimMaterial);
+      addBox(house, { x: 1.04, y: 0.035, z: 0.035 }, { x: -0.12, y: -0.31, z: 0.43 }, trimMaterial);
+      addBox(house, { x: 0.035, y: 0.62, z: 0.035 }, { x: -0.66, y: 0.02, z: 0.43 }, trimMaterial);
+      addBox(house, { x: 0.035, y: 0.62, z: 0.035 }, { x: 0.42, y: 0.02, z: 0.43 }, trimMaterial);
+      addBox(house, { x: 1.06, y: 0.5, z: 0.012 }, { x: -0.12, y: 0.02, z: 0.452 }, glassMaterial);
 
       const room = new THREE.Group();
       room.position.set(-0.12, -0.02, 0.43);
       house.add(room);
-      addBox(room, { x: 0.82, y: 0.1, z: 0.46 }, { x: -0.04, y: -0.2, z: 0 }, bedMaterial);
+      addBox(room, { x: 0.92, y: 0.03, z: 0.5 }, { x: -0.02, y: -0.34, z: 0.03 }, trimMaterial);
+      addBox(room, { x: 0.035, y: 0.48, z: 0.38 }, { x: 0.43, y: -0.06, z: -0.02 }, interiorMaterial);
+      addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: 0 }, trimMaterial);
+      addBox(room, { x: 0.82, y: 0.1, z: 0.46 }, { x: -0.04, y: -0.18, z: 0 }, bedMaterial);
       addBox(room, { x: 0.34, y: 0.07, z: 0.2 }, { x: -0.34, y: -0.12, z: -0.03 }, pillowMaterial);
       addBox(room, { x: 0.42, y: 0.07, z: 0.16 }, { x: -0.08, y: -0.06, z: 0.03 }, shirtMaterial);
       addBox(room, { x: 0.7, y: 0.09, z: 0.4 }, { x: 0.05, y: -0.035, z: 0.03 }, blanketMaterial);
@@ -1663,11 +1695,11 @@
       addBox(
         room,
         { x: 0.24, y: 0.016, z: 0.18 },
-        { x: -0.08, y: 0.035, z: 0.18 },
+        { x: -0.18, y: 0.035, z: 0.18 },
         new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
       );
       const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.16), screenMaterial);
-      laptopScreen.position.set(-0.08, 0.15, 0.08);
+      laptopScreen.position.set(-0.18, 0.15, 0.08);
       laptopScreen.rotation.set(-0.44, 0.02, 0);
       room.add(laptopScreen);
 
