@@ -1627,13 +1627,13 @@
         {
           position: focusPosition.clone(),
           rotation: focusRotation.clone(),
-          scale: new THREE.Vector3(1.42, 1.42, 1.42),
+          scale: new THREE.Vector3(1.3, 1.3, 1.3),
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, 0.76);
-      targetRotationX = -0.035;
-      targetRotationY = -0.2;
+      targetZoomLevel = Math.max(targetZoomLevel, 0.72);
+      targetRotationX = -0.03;
+      targetRotationY = -0.18;
       scheduleFrame();
     };
 
@@ -1789,7 +1789,7 @@
 
       windowJumpGroup = new THREE.Group();
       windowJumpGroup.visible = false;
-      windowJumpGroup.position.set(0.72, 0.5, -1.44);
+      windowJumpGroup.position.set(1.16, 0.68, -1.44);
       rootGroup.add(windowJumpGroup);
       const buttonMaterial = new THREE.MeshBasicMaterial({
         map: createDeskButtonTexture(palette),
@@ -1802,7 +1802,7 @@
       const button = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.46), buttonMaterial);
       windowJumpGroup.add(button);
       const buttonHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.18, 1.18),
+        new THREE.PlaneGeometry(1.86, 1.18),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       buttonHit.position.z = 0.01;
@@ -2421,8 +2421,8 @@
         entry.group.rotation.set(0, 0, index === 0 ? -0.045 : 0.04);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.22 : 0.04, 0.74, index === 0 ? 0.34 : 0.08);
-        entry.focusRotation = new THREE.Euler(1.08, 0.02, index === 0 ? -0.035 : 0.035);
+        entry.focusPosition = new THREE.Vector3(index === 0 ? 0.1 : 0.22, 0.7, index === 0 ? 0.28 : 0.04);
+        entry.focusRotation = new THREE.Euler(1.02, 0.018, index === 0 ? -0.025 : 0.03);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
         const base = addBox(entry.group, { x: 1.38, y: 0.035, z: 0.62 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
