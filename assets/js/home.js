@@ -1565,7 +1565,7 @@
         {
           position: playPosition.clone(),
           rotation: playRotation.clone(),
-          scale: new THREE.Vector3(1.13, 1.13, 1.13),
+          scale: new THREE.Vector3(1.22, 1.22, 1.22),
         },
         620
       );
@@ -2277,8 +2277,8 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(0.34, 0.58, 0.58);
-        entry.playRotation = new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
+        entry.playPosition = new THREE.Vector3(0.34, 0.66, 0.61);
+        entry.playRotation = new THREE.Euler(-Math.PI / 2, 0.02, 0.03);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -2300,8 +2300,12 @@
         albumCue.visible = false;
         entry.group.add(albumCue);
         entry.cue = albumCue;
+        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.78), hitMaterial);
+        albumHit.position.set(0, 0.02, 0.03);
+        entry.group.add(albumHit);
         registerInteractive(sleeveBack, { kind: "album", index }, entry);
         registerInteractive(cover, { kind: "album", index }, entry);
+        registerInteractive(albumHit, { kind: "album", index }, entry);
         loadTexture(recordItem.cover || recordItem.src, coverMaterial);
         albumEntries.push(entry);
 
