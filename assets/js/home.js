@@ -1272,7 +1272,7 @@
       camera.aspect = width / height;
       if (rootGroup) {
         rootGroup.scale.setScalar(isCompact ? 0.84 : 1.14);
-        rootGroup.position.set(isCompact ? -0.18 : -0.08, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
+        rootGroup.position.set(isCompact ? -0.2 : -0.18, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
       }
       if (outsideGroup) {
         outsideGroup.scale.setScalar(isCompact ? 0.78 : 0.98);
