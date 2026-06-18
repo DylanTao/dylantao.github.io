@@ -1602,19 +1602,19 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: 1.78rem;
-  right: clamp(-1.48rem, -2.1vw, -0.72rem);
-  width: min(14.8rem, 43%);
+  top: 1.18rem;
+  right: clamp(-1.28rem, -1.7vw, -0.48rem);
+  width: min(15.6rem, 45%);
   aspect-ratio: 420 / 300;
   z-index: 7;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
-  filter: saturate(1.09) contrast(1.06);
+  filter: saturate(1.12) contrast(1.08);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.58);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.52);
   pointer-events: none;
-  transform: rotate(-8deg) skewX(-2deg);
-  transform-origin: 58% 48%;
+  transform: rotate(-13deg) skewX(-5deg) scaleY(0.86);
+  transform-origin: 56% 46%;
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -3326,10 +3326,10 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: 2.32rem;
-    right: -1rem;
-    width: min(9.35rem, 38vw);
-    opacity: calc(var(--home-coffee-stain-opacity) * 0.46);
+    top: 1.92rem;
+    right: -0.82rem;
+    width: min(9.9rem, 40vw);
+    opacity: calc(var(--home-coffee-stain-opacity) * 0.42);
   }
 
   .home-inspiration-credit {
