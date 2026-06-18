@@ -1963,67 +1963,67 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.18, -0.08],
-          [2.12, -0.02],
-          [2.54, 0.46],
-          [2.08, 0.88],
-          [0.74, 0.92],
-          [0.02, 0.48],
+          [0.36, 0.06],
+          [2.12, 0.1],
+          [2.34, 0.48],
+          [1.82, 0.76],
+          [0.68, 0.76],
+          [0.18, 0.42],
         ],
-        -0.75,
-        0.14,
+        -0.74,
+        0.16,
         cliffMaterial
       );
       addIrregularSlab(
         outsideGroup,
         [
-          [-0.08, 0.22],
-          [2.4, 0.22],
-          [2.68, 0.86],
-          [1.58, 1.22],
-          [-0.5, 0.94],
+          [0.04, 0.34],
+          [2.26, 0.36],
+          [2.46, 0.9],
+          [1.42, 1.16],
+          [-0.28, 0.9],
         ],
-        -0.96,
+        -0.98,
+        0.18,
+        cliffFaceMaterial
+      );
+      addIrregularSlab(
+        outsideGroup,
+        [
+          [-0.14, 0.76],
+          [1.44, 0.78],
+          [1.68, 1.08],
+          [0.42, 1.28],
+          [-0.28, 1.02],
+        ],
+        -1.23,
         0.16,
         cliffFaceMaterial
       );
       addIrregularSlab(
         outsideGroup,
         [
-          [-0.68, 0.58],
-          [1.84, 0.66],
-          [2.24, 1.12],
-          [0.48, 1.46],
-          [-0.82, 1.08],
-        ],
-        -1.2,
-        0.12,
-        cliffFaceMaterial
-      );
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [0.34, 0.0],
-          [2.34, 0.1],
-          [2.58, 0.5],
-          [1.94, 0.74],
-          [0.62, 0.72],
-          [0.2, 0.38],
+          [0.48, 0.06],
+          [2.22, 0.16],
+          [2.34, 0.48],
+          [1.78, 0.66],
+          [0.72, 0.64],
+          [0.32, 0.34],
         ],
         -0.54,
-        0.16,
+        0.18,
         cliffMaterial
       );
       [
-        { size: { x: 1.02, y: 0.012, z: 0.018 }, position: { x: 1.36, y: -0.73, z: 0.56 }, rotation: -0.04 },
-        { size: { x: 1.12, y: 0.011, z: 0.016 }, position: { x: 1.12, y: -0.94, z: 0.82 }, rotation: 0.07 },
-        { size: { x: 0.82, y: 0.01, z: 0.014 }, position: { x: 0.68, y: -1.14, z: 1.08 }, rotation: -0.1 },
+        { size: { x: 0.72, y: 0.014, z: 0.016 }, position: { x: 1.45, y: -0.74, z: 0.54 }, rotation: -0.04 },
+        { size: { x: 0.86, y: 0.013, z: 0.014 }, position: { x: 1.18, y: -0.98, z: 0.82 }, rotation: 0.07 },
+        { size: { x: 0.62, y: 0.012, z: 0.012 }, position: { x: 0.72, y: -1.24, z: 1.06 }, rotation: -0.1 },
       ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
       });
-      addBox(outsideGroup, { x: 1.92, y: 0.064, z: 0.58 }, { x: 1.13, y: -0.48, z: 0.48 }, roofMaterial);
-      addBox(outsideGroup, { x: 1.74, y: 0.035, z: 0.42 }, { x: 1.1, y: -0.56, z: 0.84 }, trimMaterial);
+      addBox(outsideGroup, { x: 1.86, y: 0.066, z: 0.58 }, { x: 1.14, y: -0.48, z: 0.46 }, roofMaterial);
+      addBox(outsideGroup, { x: 1.5, y: 0.04, z: 0.4 }, { x: 1.12, y: -0.56, z: 0.84 }, trimMaterial);
       [
         [0.38, 0.28],
         [1.82, 0.28],
@@ -2031,8 +2031,8 @@
         [1.74, 0.78],
       ].forEach(([x, z]) => addBox(outsideGroup, { x: 0.045, y: 0.42, z: 0.045 }, { x, y: -0.72, z }, roofMaterial));
       [
-        { x: 1.1, z: 0.62, w: 1.52 },
-        { x: 1.08, z: 0.92, w: 1.18 },
+        { x: 1.1, z: 0.62, w: 1.28 },
+        { x: 1.08, z: 0.9, w: 0.92 },
       ].forEach((rail) => addBox(outsideGroup, { x: rail.w, y: 0.024, z: 0.032 }, { x: rail.x, y: -0.32, z: rail.z }, trimMaterial));
 
       const house = new THREE.Group();
@@ -2093,9 +2093,9 @@
       room.add(laptopScreen);
 
       const roomDesk = new THREE.Group();
-      roomDesk.position.set(0.42, -0.16, -0.07);
-      roomDesk.rotation.y = -0.36;
-      roomDesk.scale.setScalar(0.9);
+      roomDesk.position.set(0.3, -0.15, -0.02);
+      roomDesk.rotation.y = -0.46;
+      roomDesk.scale.setScalar(1.04);
       room.add(roomDesk);
       const miniVinylMaterial = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.54, metalness: 0.04 });
       const miniPaperMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xfff3de : 0xfffbf2, roughness: 0.68 });
@@ -2452,9 +2452,9 @@
         artifactCue.visible = false;
         entry.group.add(artifactCue);
         entry.cue = artifactCue;
-        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(1.58, 0.78), hitMaterial);
+        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(1.86, 0.98), hitMaterial);
         cardHit.rotation.x = -Math.PI / 2;
-        cardHit.position.y = 0.055;
+        cardHit.position.y = 0.082;
         entry.group.add(cardHit);
         registerInteractive(base, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(top, { kind: "artifact", index, url: entry.url }, entry);
