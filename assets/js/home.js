@@ -1477,7 +1477,14 @@
       const hits = raycaster
         .intersectObjects(interactiveObjects, true)
         .map((hit) => ({ hit, data: findInteractiveData(hit.object) }))
-        .filter((candidate) => candidate.data);
+        .filter((candidate) => {
+          if (!candidate.data) return false;
+          if (candidate.data.kind === "windowJump") {
+            return activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.42;
+          }
+          if (candidate.data.kind === "returnInside") return activeView === "outside";
+          return activeView === "desk";
+        });
       if (!hits.length) return null;
       hits.sort((first, second) => {
         const priorityDelta = interactionPriority(second.data.kind) - interactionPriority(first.data.kind);
@@ -1950,6 +1957,8 @@
         currentRestY: windowJumpGroup.position.y,
       };
       registerInteractive(buttonHit, { kind: "windowJump", index: 0 }, entry);
+      registerInteractive(view, { kind: "windowJump", index: 0 }, entry);
+      registerInteractive(glass, { kind: "windowJump", index: 0 }, entry);
     };
 
     const addOutsideVignette = (palette) => {
