@@ -9,6 +9,7 @@
 - Use `docs/BOUNDARIES.md` as the source of truth for starter-vs-plugin ownership.
 - Use `.agents/skills/al-folio-bootstrap/SKILL.md` for new-site setup tasks.
 - Use `.agents/skills/al-folio-v1-migration/SKILL.md` when planning a full customized-fork migration.
+- Use `.codex/skills/agentic-usage-ledger/SKILL.md` when updating Codex token, agent-hour, or commit counters for this customized site.
 - Use `.github/agents/customize.agent.md` for site customization work.
 - Use `.github/agents/docs.agent.md` for documentation work.
 
