@@ -676,6 +676,7 @@
     let activeView = "desk";
     let activeEntry = null;
     let focusedEntry = null;
+    let focusedEntryAt = 0;
     let hoveredEntry = null;
     let pointerMoved = false;
     let windowAutoEntryBlockedUntil = 0;
@@ -983,15 +984,15 @@
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
           context.fillStyle = palette.isDarkTheme ? "rgba(24,35,38,0.9)" : "rgba(47,54,55,0.84)";
-          context.font = "780 94px Inter, system-ui, sans-serif";
+          context.font = "820 106px Inter, system-ui, sans-serif";
           context.textAlign = "center";
           context.textBaseline = "middle";
-          context.fillText("Autodesk", width * 0.58, height * 0.48);
+          context.fillText("Autodesk", width * 0.5, height * 0.47);
           context.strokeStyle = palette.isDarkTheme ? "rgba(24,35,38,0.42)" : "rgba(47,54,55,0.34)";
           context.lineWidth = 6;
           context.beginPath();
-          context.moveTo(width * 0.27, height * 0.74);
-          context.lineTo(width * 0.73, height * 0.74);
+          context.moveTo(width * 0.32, height * 0.74);
+          context.lineTo(width * 0.68, height * 0.74);
           context.stroke();
         },
         768,
@@ -1506,9 +1507,9 @@
     };
 
     const interactionPriority = (kind) => {
+      if (kind === "turntable") return 5;
       if (kind === "album" || kind === "artifact") return 4;
       if (kind === "windowJump" || kind === "returnInside") return 3;
-      if (kind === "turntable") return 2;
       return 1;
     };
 
@@ -1716,8 +1717,8 @@
 
     const setToneArm = (playing, immediate = false) => {
       if (!toneArmGroup) return;
-      const targetY = playing ? -0.48 : 0.42;
-      const targetZ = playing ? -0.14 : -0.38;
+      const targetY = playing ? -0.43 : 0.38;
+      const targetZ = playing ? -0.17 : -0.36;
       if (immediate || reduceMotion) {
         toneArmGroup.rotation.y = targetY;
         toneArmGroup.position.z = targetZ;
@@ -1730,7 +1731,7 @@
           rotation: new THREE.Euler(toneArmGroup.rotation.x, targetY, toneArmGroup.rotation.z),
           scale: toneArmGroup.scale.clone(),
         },
-        360
+        520
       );
     };
 
@@ -1738,6 +1739,7 @@
       if (!focusedEntry) return false;
       const entry = focusedEntry;
       focusedEntry = null;
+      focusedEntryAt = 0;
       container.removeAttribute("data-focused-desk-object");
       entry.lifted = false;
       entry.currentRestY = entry.basePosition.y;
@@ -1758,6 +1760,7 @@
       if (!entry) return;
       if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
       focusedEntry = entry;
+      focusedEntryAt = performance.now();
       container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
       setEntryCue(entry, true);
       entry.thrown = false;
@@ -1790,10 +1793,11 @@
       if (!entry) return;
       if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
       focusedEntry = entry;
+      focusedEntryAt = performance.now();
       container.setAttribute("data-focused-desk-object", `artifact-${entry.index}`);
       setEntryCue(entry, true);
       entry.lifted = true;
-      const focusPosition = entry.focusPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.56, -0.16));
+      const focusPosition = entry.focusPosition || entry.basePosition.clone().add(new THREE.Vector3(-0.08, 0.54, -0.18));
       const focusRotation = entry.focusRotation || new THREE.Euler(0.88, 0.02, entry.index === 0 ? -0.05 : 0.05);
       entry.currentRestY = focusPosition.y;
       addTween(
@@ -1801,19 +1805,20 @@
         {
           position: focusPosition.clone(),
           rotation: focusRotation.clone(),
-          scale: new THREE.Vector3(1.18, 1.18, 1.18),
+          scale: new THREE.Vector3(1.1, 1.1, 1.1),
         },
         560
       );
-      targetZoomLevel = clamp(targetZoomLevel, 0.58, 0.64);
+      targetZoomLevel = isCompactScene ? 0.4 : 0.35;
       targetRotationX = -0.03;
-      targetRotationY = -0.18;
+      targetRotationY = -0.08;
       scheduleFrame();
     };
 
     const throwAlbum = (entry, deltaX = 1) => {
       if (focusedEntry === entry) {
         focusedEntry = null;
+        focusedEntryAt = 0;
         container.removeAttribute("data-focused-desk-object");
       }
       setEntryCue(entry, false);
@@ -1847,6 +1852,7 @@
 
     const resetObjects = () => {
       focusedEntry = null;
+      focusedEntryAt = 0;
       container.removeAttribute("data-focused-desk-object");
       albumEntries.forEach((entry) => {
         setEntryCue(entry, false);
@@ -1871,6 +1877,7 @@
 
     const setSceneView = (nextView) => {
       if (focusedEntry) clearFocusedEntry(360);
+      focusedEntryAt = 0;
       activeView = nextView === "outside" ? "outside" : "desk";
       if (rootGroup) rootGroup.visible = activeView === "desk";
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
@@ -2699,6 +2706,16 @@
         groove.position.y = 0.038 + index * 0.0014;
         recordGroup.add(groove);
       });
+      const recordWellMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0x000000 : 0x362717,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.14 : 0.095,
+        depthWrite: false,
+      });
+      const recordWell = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.008, 8, 84), recordWellMaterial);
+      recordWell.rotation.x = Math.PI / 2;
+      recordWell.position.y = 0.052;
+      recordGroup.add(recordWell);
       recordLabelMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.02 });
       const recordLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.315, 0.315, 0.062, 72), recordLabelMaterial);
       recordLabel.position.y = 0.041;
@@ -2725,6 +2742,17 @@
       spindleCap.scale.set(1, 0.36, 1);
       spindleCap.position.set(-0.24, 0.35, 0);
       player.add(spindleCap);
+      const cueLamp = new THREE.Mesh(
+        new THREE.SphereGeometry(0.035, 24, 12),
+        new THREE.MeshBasicMaterial({
+          color: palette.isDarkTheme ? 0xffd28a : 0xc47b32,
+          transparent: true,
+          opacity: palette.isDarkTheme ? 0.58 : 0.4,
+        })
+      );
+      cueLamp.scale.set(1, 0.34, 1);
+      cueLamp.position.set(0.28, 0.218, 0.34);
+      player.add(cueLamp);
       registerInteractive(record, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
       registerInteractive(recordLabel, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
 
@@ -2812,6 +2840,12 @@
       const stylusTip = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 8), warmArmMaterial);
       stylusTip.position.set(-0.665, -0.122, -0.718);
       toneArmGroup.add(stylusTip);
+      const stylusGlint = new THREE.Mesh(
+        new THREE.SphereGeometry(0.0065, 10, 8),
+        new THREE.MeshBasicMaterial({ color: palette.isDarkTheme ? 0xffdf9f : 0xfff0c8, transparent: true, opacity: 0.88 })
+      );
+      stylusGlint.position.set(-0.676, -0.13, -0.724);
+      toneArmGroup.add(stylusGlint);
       const stylusShadow = new THREE.Mesh(
         new THREE.CircleGeometry(0.026, 18),
         new THREE.MeshBasicMaterial({
@@ -2898,8 +2932,8 @@
         entry.group.rotation.set(0, 0, index === 0 ? -0.045 : 0.04);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.focusPosition = new THREE.Vector3(index === 0 ? 0.08 : 0.2, 0.62, index === 0 ? 0.32 : 0.06);
-        entry.focusRotation = new THREE.Euler(1.02, 0.018, index === 0 ? -0.025 : 0.03);
+        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.04 : 0.12, 0.6, index === 0 ? 0.26 : 0.02);
+        entry.focusRotation = new THREE.Euler(0.98, 0.014, index === 0 ? -0.02 : 0.026);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
         const base = addBox(entry.group, { x: 1.38, y: 0.035, z: 0.62 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
@@ -2965,7 +2999,7 @@
       });
 
       const cup = new THREE.Group();
-      cup.position.set(1.6, -0.08, 0.66);
+      cup.position.set(1.56, -0.08, 0.69);
       table.add(cup);
       const cupBody = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.21, 0.44, 64, 1, true), ceramicMaterial);
       cup.add(cupBody);
@@ -2979,24 +3013,24 @@
       cup.add(coffee);
       const handleCurve = new THREE.CatmullRomCurve3(
         [
-          new THREE.Vector3(0.232, 0.132, 0.012),
-          new THREE.Vector3(0.37, 0.105, 0.018),
-          new THREE.Vector3(0.395, -0.07, 0.018),
-          new THREE.Vector3(0.235, -0.132, 0.012),
+          new THREE.Vector3(0.228, 0.132, 0.026),
+          new THREE.Vector3(0.398, 0.118, 0.04),
+          new THREE.Vector3(0.414, -0.08, 0.038),
+          new THREE.Vector3(0.228, -0.136, 0.026),
         ],
         false,
         "catmullrom",
         0.58
       );
-      const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 42, 0.021, 14, false), ceramicMaterial);
+      const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 48, 0.018, 16, false), ceramicMaterial);
       cup.add(handle);
       [
-        { y: 0.132, z: 0.012 },
-        { y: -0.132, z: 0.012 },
+        { y: 0.132, z: 0.026 },
+        { y: -0.136, z: 0.026 },
       ].forEach((anchor) => {
         const pad = new THREE.Mesh(new THREE.SphereGeometry(0.04, 20, 12), ceramicMaterial);
-        pad.position.set(0.223, anchor.y, anchor.z);
-        pad.scale.set(0.78, 1.16, 0.52);
+        pad.position.set(0.222, anchor.y, anchor.z);
+        pad.scale.set(0.62, 1.14, 0.46);
         cup.add(pad);
       });
       mugMarkMaterial = new THREE.MeshBasicMaterial({
@@ -3005,8 +3039,8 @@
         depthWrite: false,
         side: THREE.DoubleSide,
       });
-      const mark = new THREE.Mesh(new THREE.CylinderGeometry(0.259, 0.247, 0.214, 56, 1, true, -1.05, 2.1), mugMarkMaterial);
-      mark.position.set(0, -0.026, 0);
+      const mark = new THREE.Mesh(new THREE.CylinderGeometry(0.239, 0.226, 0.19, 64, 1, true, -0.9, 1.8), mugMarkMaterial);
+      mark.position.set(0, -0.038, 0);
       cup.add(mark);
 
       setActiveRecordInternal(activeRecordIndex);
@@ -3097,7 +3131,8 @@
             focusAlbum(releasedEntry);
           }
         } else if (releasedEntry?.kind === "artifact") {
-          if (!movedEnough && focusedEntry === releasedEntry && releasedEntry.url) {
+          const focusedLongEnough = performance.now() - focusedEntryAt > 1200;
+          if (!movedEnough && focusedEntry === releasedEntry && releasedEntry.url && focusedLongEnough) {
             if (callbacks.openArtifact) callbacks.openArtifact(releasedEntry.url);
             else window.location.href = releasedEntry.url;
           } else if (!movedEnough) {
