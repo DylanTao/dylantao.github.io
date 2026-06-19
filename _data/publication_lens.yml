@@ -1,5 +1,5 @@
 metadata:
-  last_synced: 2026-06-17
+  last_synced: 2026-06-19
   scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
   yearly_note: Annual bars follow the Google Scholar snapshot; hover a year or paper to connect the evidence.
   total_citations: 211
@@ -28,7 +28,7 @@ papers:
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 13
+    citation_total: 14
   tung2023physion++:
     scholar_pub_id: W6vF-VcAAAAJ:eQOLeE2rZwMC
     work_type: poster-abstract
@@ -40,7 +40,7 @@ papers:
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 163
+    citation_total: 162
 citation_years:
   - year: 2020
     total: 1

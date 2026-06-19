@@ -14,32 +14,34 @@ The homepage contact ledger should render the playful tree-sacrifice estimate in
 
 Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clear homepage redesign commit.
 
-Published total baseline, estimated on June 18, 2026:
+Published total baseline, estimated on June 19, 2026:
 
-- 182 commits since the revamp cutoff.
-- 1.36B estimated Codex tokens.
-- 135 estimated active agent-hours.
-- Tree-cut lens: about 816 kWh, 305 kg CO2e, or a stored-carbon equivalent of about 0.5 ten-year urban trees. Range: 0.2-1.7 trees.
+- 211 commits since the revamp cutoff, including the pending ledger/tooling commit estimate.
+- 1.67B estimated Codex tokens.
+- 157 estimated active agent-hours.
+- API-cost lens: about $540 at `gpt-5.3-codex` list prices, treated as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 1002 kWh, 374 kg CO2e, or a stored-carbon equivalent of about 0.6 ten-year urban trees. Range: 0.21-2.1 trees.
 
 Evidence behind the total:
 
-- Retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, show 1,255,985,046 total tokens and 125.15 active hours across 40 sessions.
-- Those logs begin on May 23, 2026 at about 9:40 PM Pacific, so the first redesign day is partly missing.
-- The missing pre-log stretch covers about 13 revamp commits. The baseline adds a rough 100M tokens and 10 active hours for that gap, using the observed post-log token/hour density per commit.
+- `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 46 sessions after the revamp cutoff.
+- The audit showed about 1.667B raw tokens and 156.87 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
+- The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 
 Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the meme-record and desk-scene burst began.
 
 Published 3D desk baseline:
 
-- 35 commits touching the homepage desk/vinyl/coffee scene paths.
-- 350M estimated Codex tokens.
-- 25 estimated active agent-hours.
-- Tree-cut lens: about 210 kWh, 78 kg CO2e, or a stored-carbon equivalent of about 0.13 ten-year urban trees. Range: 0.04-0.4 trees.
+- 61 commits touching the homepage desk/vinyl/coffee scene paths, including the pending ledger/tooling commit estimate.
+- 610M estimated Codex tokens.
+- 43 estimated active agent-hours.
+- API-cost lens: about $200 at `gpt-5.3-codex` list prices, treated as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 366 kWh, 137 kg CO2e, or a stored-carbon equivalent of about 0.23 ten-year urban trees. Range: 0.08-0.8 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- Deduped local Codex sessions after the 3D cutoff show 348,933,378 total tokens and 24.92 active hours, rounded for the public UI.
+- The audit counted 11 Codex sessions after the 3D cutoff, about 606.8M raw tokens, and about 42.70 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -64,12 +66,35 @@ Factors:
 
 Sources:
 
+- OpenAI API pricing, `gpt-5.3-codex` list rates: https://developers.openai.com/api/docs/pricing
 - Epoch AI, "How much energy does ChatGPT use?": https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use
 - EPA Greenhouse Gas Equivalencies Calculator calculations and references: https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
 - USDA Forest Service, "Forest Carbon FAQs": https://www.fs.usda.gov/sites/default/files/Forest-Carbon-FAQs.pdf
 - USDA Forest Service urban/community tree carbon storage summary: https://research.fs.usda.gov/treesearch/46254
 
 ## Update Heuristic
+
+Prefer the helper for future updates:
+
+```bash
+python bin/audit_agentic_usage.py
+python bin/audit_agentic_usage.py --write --include-pending-commit
+```
+
+The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to scopes that currently have worktree changes, which lets a final combined commit carry fresh public counters before it exists on `HEAD`.
+
+Use this freshness gate before pushing site changes:
+
+1. Run the normal relevant checks for the change.
+2. If `_data/citations.yml` is more than one day stale or publication pages changed, run `python bin/update_scholar_citations.py --force` and review `_data/citations.yml` plus `_data/publication_lens.yml`. Otherwise rely on the daily GitHub workflow.
+3. Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit` and review the visible-label deltas.
+4. Commit the intended work and refreshed ledger together when feasible.
+5. After the commit, rerun `python bin/audit_agentic_usage.py` read-only. Update again only if visible labels, commit counts, rounded hours, rounded kWh/tree, or rounded API-cost labels changed.
+6. Stage only intended files; do not sweep unrelated dirty files into a stats update.
+
+Do not chase tiny drift caused by running the audit itself. This is an estimate for a public joke, not a billing-grade ledger.
+
+Manual fallback:
 
 1. Recount commits after the work is committed, or use the current uncommitted state only if the user explicitly wants a pre-commit estimate.
 
@@ -89,12 +114,27 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 6. Round public labels to readable units:
 
 - Use `M` for millions and `B` for billions of tokens.
+- Round large public token counts to the nearest 10M so the audit itself does not churn visible labels.
 - Use whole hours once the value is above 10 hours.
 - Keep exact-ish evidence in this markdown file, not in the homepage UI.
 
 7. Update `_data/agentic_usage.yml` and append a dated note here when the estimate changes materially.
 
 8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy compact: show the cut-tree midpoint in the top caption, show kWh as the fourth stat cell, and keep the stored-carbon caveats in the docs and info tooltip.
+
+9. Recompute the API-cost equivalence from the token breakdown using the OpenAI `gpt-5.3-codex` standard list rates stored in `_data/agentic_usage.yml`. Keep public copy clear that it is API list-price cosplay and not actual Codex product spend.
+
+## Update Log
+
+### 2026-06-19
+
+- Work scope: added the publish freshness gate and the write-capable `bin/audit_agentic_usage.py` helper.
+- Commit delta: public total moved from 182 to 211 revamp commits; desk-scene total moved from 35 to 61 scoped commits.
+- Token delta: public total moved from 1.36B to 1.67B; desk-scene total moved from 350M to 610M.
+- Active-hour delta: public total moved from 135 to 157 hours; desk-scene total moved from 25 to 43 hours.
+- Energy/cut-tree delta: public total moved from 816 kWh / ~0.5 tree to 1002 kWh / ~0.6 tree; desk-scene total moved from 210 kWh / ~0.13 tree to 366 kWh / ~0.23 tree.
+- API-cost delta: added list-price equivalence, currently about $540 for the full revamp and $200 for the desk-scene burst.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 73 repo sessions, counted 46 sessions after the revamp cutoff and 11 after the desk cutoff, and rounded the clipped totals for the public UI.
 
 ## Future Entry Template
 

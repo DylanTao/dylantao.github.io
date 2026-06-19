@@ -103,15 +103,14 @@
     </div>
     {% assign desk_usage = site.data.agentic_usage.desk_scene %}
     <p class="home-desk-scene-note" data-home-desk-note aria-hidden="true">
-      Codex 5.5 extended made this.
       {% if desk_usage %}
+        {% assign desk_energy = desk_usage.energy_equivalence %}
         <span>
-          3D desk tally: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot;
-          {{ desk_usage.hours_label }} agent-hours.
+          Codex 5.5 extended made this: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot;
+          {{ desk_usage.hours_label }}h
+          {%- if desk_energy %} &middot; roughly {{ desk_energy.cut_tree_midpoint }} trees cut{% endif -%}
+          . Future models may do less damage.
         </span>
-        {% if desk_usage.energy_equivalence %}
-          <span>{{ desk_usage.energy_equivalence.public_note }}.</span>
-        {% endif %}
       {% else %}
         <span>It will probably get better with the next model update.</span>
       {% endif %}

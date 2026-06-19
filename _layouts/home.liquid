@@ -22,6 +22,7 @@ layout: default
         {% assign agentic_usage = site.data.agentic_usage %}
         {% if agentic_usage.total %}
           {% assign total_energy = agentic_usage.total.energy_equivalence %}
+          {% assign total_cost = agentic_usage.total.api_cost_equivalence %}
           <div class="home-agentic-tally" aria-label="Estimated Codex and agentic work used for this site revamp">
             <p class="home-agentic-kicker">
               <span class="home-agentic-tree-label home-agentic-kicker-copy">
@@ -46,9 +47,22 @@ layout: default
                   i
                 </button>
                 <span id="home-agentic-tooltip" class="home-agentic-tooltip" role="tooltip">
-                  Counted since {{ agentic_usage.total.since_label }}. The spell is plain: Codex tokens become kWh, kWh become CO2e, and CO2e is
-                  compared with carbon stored by a ten-year urban tree. Here, {{ total_energy.kg_co2e_midpoint }} kg CO2e /
-                  {{ total_energy.cut_tree_co2e_kg }} kg per tree = ~{{ total_energy.cut_tree_midpoint }} tree. Real trees vary.
+                  <span class="home-agentic-tooltip-main">
+                    Counted since {{ agentic_usage.total.since_label }}. The reckoning: tokens become kWh, kWh become CO2e, then CO2e is weighed
+                    against ten-year urban-tree carbon: {{ total_energy.kg_co2e_midpoint }} kg / {{ total_energy.cut_tree_co2e_kg }} kg = ~
+                    {{- total_energy.cut_tree_midpoint }}
+                    tree. Real trees vary.
+                  </span>
+                  {% if total_cost %}
+                    <span class="home-agentic-money-gag">
+                      <img src="{{ '/assets/img/home/sam-money-jester.png' | relative_url }}" alt="" loading="lazy" decoding="async">
+                      <span>
+                        <strong>{{ total_cost.usd_label }}</strong>
+                        <em>lol 😭 hehe, wasted lots of Sam's money.</em>
+                        <small>{{ total_cost.model }} list-price cosplay, not an actual Codex bill.</small>
+                      </span>
+                    </span>
+                  {% endif %}
                 </span>
               </span>
             </p>

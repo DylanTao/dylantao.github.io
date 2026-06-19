@@ -673,14 +673,15 @@ html[data-theme="dark"] .home-desk-control-strip {
   left: 1.05rem;
   z-index: 17;
   margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 66%, transparent);
+  color: color-mix(in srgb, var(--home-muted) 76%, var(--home-ink));
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.54rem;
   letter-spacing: 0;
   line-height: 1.35;
   text-align: center;
   opacity: 0;
   pointer-events: none;
+  text-shadow: 0 0.08rem 0.42rem color-mix(in srgb, var(--home-surface) 84%, transparent);
   transform: translateY(0.24rem);
   transition:
     opacity var(--motion-standard),
@@ -689,6 +690,13 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 .home-desk-scene-note span {
   display: inline-block;
+  max-width: min(100%, 34rem);
+  padding: 0.16rem 0.42rem;
+  border: 1px solid color-mix(in srgb, var(--home-line) 44%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--home-surface) 62%, transparent);
+  box-shadow: 0 0.42rem 1.1rem color-mix(in srgb, var(--home-ink) 4%, transparent);
+  backdrop-filter: blur(10px) saturate(1.04);
 }
 
 .home-desk-corner-scene {
@@ -753,18 +761,18 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-scene-note {
-  opacity: 0.62;
+  opacity: 0.72;
   transform: translateY(0);
 }
 
 .home-hero-media.is-desk-3d .home-desk-corner-scene.is-outside-view + .home-desk-control-strip {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0.74;
+  pointer-events: auto;
 }
 
 .home-hero-media.is-desk-3d .home-desk-corner-scene[data-focused-desk-object] + .home-desk-control-strip {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0.74;
+  pointer-events: auto;
 }
 
 .home-hero-media.is-desk-3d .home-desk-corner-scene.is-outside-view + .home-desk-control-strip:focus-within {
@@ -1319,7 +1327,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards {
-  min-height: 13.4rem;
+  min-height: 10.2rem;
   margin-top: 0.36rem;
   pointer-events: auto;
 }
@@ -1327,7 +1335,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card-pile::before {
   position: absolute;
   right: 8%;
-  bottom: 3.62rem;
+  bottom: 2.6rem;
   left: 8%;
   height: 1.42rem;
   border-radius: 50%;
@@ -1453,7 +1461,11 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card.is-dropping {
-  animation: home-record-card-drop 1120ms cubic-bezier(0.18, 0.88, 0.2, 1) both;
+  animation: home-record-card-drop 1260ms cubic-bezier(0.17, 0.84, 0.22, 1) both;
+}
+
+.home-record-card.is-settling {
+  transition-timing-function: cubic-bezier(0.19, 0.9, 0.24, 1);
 }
 
 .home-record-card-cover {
@@ -1597,18 +1609,28 @@ html[data-theme="dark"] .home-record-card-link {
     transform: translateX(-50%) var(--card-drop-start, translate3d(0, -6rem, 3rem) rotateZ(-10deg) rotateX(18deg));
   }
 
-  42% {
+  34% {
     opacity: 1;
     filter: blur(0);
     transform: translateX(-50%) var(--card-drop-mid, translate3d(0.5rem, -1.4rem, 2rem) rotateZ(6deg) rotateX(-4deg));
   }
 
-  72% {
+  62% {
     opacity: 1;
     transform: translateX(-50%) var(--card-drop-land, translate3d(-0.16rem, 1.8rem, 0.52rem) rotateZ(-0.7deg) rotateX(60deg));
   }
 
+  72% {
+    opacity: 1;
+    transform: translateX(-50%) var(--card-drop-impact, translate3d(0.04rem, 1.94rem, 0.42rem) rotateZ(0.52deg) rotateX(63deg) scale(1.012));
+  }
+
   84% {
+    opacity: 1;
+    transform: translateX(-50%) var(--card-drop-bounce, translate3d(-0.02rem, 1.66rem, 0.9rem) rotateZ(-0.24deg) rotateX(58deg) scale(1.004));
+  }
+
+  94% {
     opacity: 1;
     transform: translateX(-50%) var(--card-drop-settle, translate3d(0.04rem, 1.88rem, 0.86rem) rotateZ(0.34deg) rotateX(61deg) scale(1.012));
   }
@@ -3100,6 +3122,56 @@ html[data-theme="dark"] .home-artifact-mark {
   visibility: hidden;
 }
 
+.home-agentic-tooltip-main {
+  display: block;
+}
+
+.home-agentic-money-gag {
+  display: grid;
+  grid-template-columns: 2.35rem minmax(0, 1fr);
+  gap: 0.46rem;
+  align-items: center;
+  margin-top: 0.52rem;
+  padding-top: 0.48rem;
+  border-top: 1px dashed color-mix(in srgb, var(--home-line) 70%, transparent);
+}
+
+.home-agentic-money-gag img {
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid color-mix(in srgb, var(--home-accent) 26%, var(--home-line));
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--home-paper-warm) 82%, var(--home-surface));
+  object-fit: cover;
+}
+
+.home-agentic-money-gag span {
+  display: grid;
+  min-width: 0;
+  gap: 0.08rem;
+}
+
+.home-agentic-money-gag strong {
+  color: color-mix(in srgb, var(--home-ink) 74%, var(--home-accent-strong));
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 760;
+  line-height: 1.2;
+}
+
+.home-agentic-money-gag em,
+.home-agentic-money-gag small {
+  color: color-mix(in srgb, var(--home-muted) 82%, transparent);
+  font-size: 0.64rem;
+  font-style: normal;
+  line-height: 1.28;
+}
+
+.home-agentic-money-gag small {
+  color: color-mix(in srgb, var(--home-muted) 66%, transparent);
+  font-size: 0.58rem;
+}
+
 .home-agentic-tooltip::after {
   position: absolute;
   right: 50%;
@@ -3600,7 +3672,8 @@ html.home-motion-ready .home-reveal.home-visible {
     right: 0.72rem;
     bottom: 3.58rem;
     left: 0.72rem;
-    font-size: 0.46rem;
+    font-size: 0.54rem;
+    line-height: 1.32;
   }
 
   html.home-desk-outside-active .home-desk-scene-note {
@@ -3609,8 +3682,10 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-desk-scene-note span {
-    display: block;
+    display: inline-block;
     margin-top: 0.08rem;
+    padding: 0.2rem 0.44rem;
+    border-radius: 0.42rem;
   }
 
   .home-hero-media.is-desk-3d .home-desk-scene-note {
@@ -3660,7 +3735,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-record-card-pile.has-cards {
-    min-height: 9.65rem;
+    min-height: 8.35rem;
     margin-top: 0.34rem;
   }
 
@@ -3803,6 +3878,25 @@ html.home-motion-ready .home-reveal.home-visible {
     width: min(17rem, calc(100vw - 2rem));
     font-size: 0.68rem;
     transform: translate(0, 0.18rem);
+  }
+
+  .home-agentic-money-gag {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.38rem;
+  }
+
+  .home-agentic-money-gag img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .home-agentic-money-gag strong {
+    font-size: 0.64rem;
+  }
+
+  .home-agentic-money-gag em,
+  .home-agentic-money-gag small {
+    font-size: 0.56rem;
   }
 
   .home-agentic-tooltip::after {

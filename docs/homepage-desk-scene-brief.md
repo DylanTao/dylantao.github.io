@@ -17,6 +17,27 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Albums are object-native controls. Clicking one should focus it, bring the record/cover toward the turntable, and start the meme vinyl spinning. Dragging or flicking can scatter an album and reveal a small song card.
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
+- The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
+
+## Room Grid Contract
+
+Top-down schematic for the shared room language, with `+x` moving right, `+z` moving toward the viewer, and the viewer looking from the lower edge of the grid:
+
+```text
+z
+^
+|  W W W       window: four-pane frame, thick sill, warm wood trim
+|  W W W       outside view: same horizon, ocean, sand/cliff palette
+|
+|  [albums] [turntable]        rear-left desk zone
+|
+|        [paper cards] [mug]   front-right working zone
+|
+|  dropped meme cards          floor in front of desk, compact fan stack
++--------------------------------------------------------------> +x
+```
+
+Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, a lightly gridded floor/board texture, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language rather than switching to a different facade style.
 
 ## Outside Vignette
 
@@ -25,10 +46,17 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
 - Outside mode should hide the page story rail and visible 3D helper strip, while keeping a subtle keyboard-accessible way back inside.
 
+## WebGL / Three.js Direction
+
+- Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, blanket pattern, laptop screen, and record labels.
+- Favor cheap GPU motion before adding heavier simulation: scrolling texture offsets, small mesh bobbing, and eased object arcs already give ocean/sand/card motion without a particle system.
+- Next valuable additions would be a low-resolution water/foam shader plane for the beach, a tiny sand-wind overlay near the cliff, and instanced dust/card glints. Avoid full fluid simulation unless it replaces the existing canvas-texture motion with a clearly better, still-fast effect.
+- Keep renderer pixel ratio capped and animate only when visible, spinning, moving, or outside textures are active.
+
 ## Acceptance Checklist
 
 - One visible coffee stain, organic and non-circular, not clipped, readable on light and dark themes.
 - 3D canvas prewarms, renders nonblank, and drag/zoom produce visible pixel changes.
-- Four albums are in an organized shelf; cards do not intersect.
-- Album click, card focus, scroll-back, reset, window jump, and outside return all work.
+- Four albums are in an organized shelf; discovered song cards settle on the floor in the same order as the 2D pile.
+- Album click, card focus, 2D shake discovery, 3D album flick discovery, scroll-back, reset, window jump, and outside return all work.
 - Mobile keeps the scene usable without cropping the window, controls, or artifact focus states.

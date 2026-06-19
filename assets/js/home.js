@@ -627,6 +627,7 @@
         setVisible() {},
         setActiveRecord() {},
         setSpinning() {},
+        setDroppedRecords() {},
         setCallbacks() {},
         resetView() {},
         dispose() {},
@@ -680,6 +681,7 @@
     let hoveredEntry = null;
     let pointerMoved = false;
     let windowAutoEntryBlockedUntil = 0;
+    let droppedRecordIndices = [];
     const callbacks = {};
     const textureCache = new Map();
     const themeMaterials = {};
@@ -693,6 +695,7 @@
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
     const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
+    const easeOutQuart = (value) => 1 - Math.pow(1 - value, 4);
     const lerp = (from, to, progress) => from + (to - from) * progress;
     const defaultRotation = { x: -0.05, y: -0.28 };
 
@@ -781,7 +784,7 @@
 
     const updateWindowJumpVisibility = () => {
       if (!windowJumpGroup) return;
-      const shouldShow = activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.48;
+      const shouldShow = activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.24;
       if (windowJumpGroup.visible !== shouldShow) {
         windowJumpGroup.visible = shouldShow;
         render();
@@ -793,7 +796,7 @@
       const rect = renderer.domElement.getBoundingClientRect();
       const x = (event.clientX - rect.left) / Math.max(1, rect.width);
       const y = (event.clientY - rect.top) / Math.max(1, rect.height);
-      return x > 0.36 && x < 1.04 && y > 0.03 && y < 0.68;
+      return x > 0.58 && x < 1.04 && y > 0.02 && y < 0.52;
     };
 
     const applyCameraPose = (immediate = false) => {
@@ -816,19 +819,19 @@
         if (focusedEntry?.kind === "album") {
           camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 30 : 27, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.46 : 2.82, zoom),
-            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.66 : 1.74, zoom),
-            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.36 : 4.72, zoom)
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.32 : 2.62, zoom),
+            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.58 : 1.68, zoom),
+            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.08 : 4.42, zoom)
           );
-          camera.lookAt(isCompactScene ? -0.9 : -1.08, -0.12, -0.22);
+          camera.lookAt(isCompactScene ? -0.78 : -0.92, 0.04, -0.18);
         } else if (focusedEntry?.kind === "artifact") {
-          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 29 : 26, zoom);
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 30 : 27, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 1.92 : 2.24, zoom),
-            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.48 : 1.6, zoom),
-            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.24 : 3.62, zoom)
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.02 : 2.28, zoom),
+            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.64 : 1.76, zoom),
+            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.58 : 3.88, zoom)
           );
-          camera.lookAt(isCompactScene ? -0.04 : 0.04, 0.28, 0.28);
+          camera.lookAt(isCompactScene ? 0.0 : 0.08, 0.48, 0.22);
         } else {
           camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
           camera.position.set(
@@ -978,6 +981,50 @@
         context.quadraticCurveTo(width * 0.58, height * 0.67, width * 0.63, height * 0.7);
         context.stroke();
       });
+
+    const createRoomFloorTexture = (palette) =>
+      makeRepeatingCanvasTexture(
+        (context, width, height) => {
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          const base = context.createLinearGradient(0, 0, width, height);
+          base.addColorStop(0, isEvening ? "#111b1d" : "#f8f0e7");
+          base.addColorStop(0.58, isEvening ? "#172326" : "#efe0d0");
+          base.addColorStop(1, isEvening ? "#0f181a" : "#e5d1bd");
+          context.fillStyle = base;
+          context.fillRect(0, 0, width, height);
+
+          context.strokeStyle = isEvening ? "rgba(246,220,186,0.075)" : "rgba(126,88,55,0.105)";
+          context.lineWidth = 2;
+          for (let y = 36; y < height; y += 58) {
+            context.beginPath();
+            context.moveTo(0, y + Math.sin(y * 0.05) * 2);
+            context.bezierCurveTo(width * 0.28, y - 5, width * 0.66, y + 6, width, y - 1);
+            context.stroke();
+          }
+
+          context.strokeStyle = isEvening ? "rgba(255,231,197,0.045)" : "rgba(141,99,62,0.06)";
+          context.lineWidth = 1;
+          for (let x = 42; x < width; x += 112) {
+            context.beginPath();
+            context.moveTo(x, 0);
+            context.lineTo(x + Math.sin(x) * 3, height);
+            context.stroke();
+          }
+
+          context.fillStyle = isEvening ? "rgba(255,226,186,0.05)" : "rgba(121,81,48,0.055)";
+          for (let index = 0; index < 34; index += 1) {
+            const x = (index * 83) % width;
+            const y = 20 + ((index * 47) % (height - 40));
+            context.beginPath();
+            context.ellipse(x, y, 9 + (index % 4) * 3, 1.4, (index % 5) * 0.18, 0, Math.PI * 2);
+            context.fill();
+          }
+        },
+        512,
+        384,
+        1.45,
+        1.1
+      );
 
     const createMugMarkTexture = (palette) =>
       makeCanvasTexture(
@@ -1443,7 +1490,10 @@
       return mesh;
     };
 
-    const addTween = (object, to, duration = 520) => {
+    const addTween = (object, to, duration = 520, options = {}) => {
+      for (let index = tweens.length - 1; index >= 0; index -= 1) {
+        if (tweens[index].object === object) tweens.splice(index, 1);
+      }
       tweens.push({
         object,
         start: performance.now(),
@@ -1454,6 +1504,10 @@
         toPosition: to.position ? to.position.clone() : object.position.clone(),
         toRotation: to.rotation ? to.rotation.clone() : object.rotation.clone(),
         toScale: to.scale ? to.scale.clone() : object.scale.clone(),
+        arcHeight: options.arcHeight || 0,
+        wobbleZ: options.wobbleZ || 0,
+        easing: options.easing || easeOutCubic,
+        onComplete: options.onComplete,
       });
       scheduleFrame();
     };
@@ -1463,23 +1517,28 @@
       for (let index = tweens.length - 1; index >= 0; index -= 1) {
         const tween = tweens[index];
         const raw = clamp((time - tween.start) / tween.duration, 0, 1);
-        const progress = easeOutCubic(raw);
+        const progress = tween.easing(raw);
+        const arcY = tween.arcHeight ? Math.sin(raw * Math.PI) * tween.arcHeight : 0;
+        const dampedWobbleZ = tween.wobbleZ ? Math.sin(raw * Math.PI * 2.2) * tween.wobbleZ * (1 - raw) : 0;
         tween.object.position.set(
           lerp(tween.fromPosition.x, tween.toPosition.x, progress),
-          lerp(tween.fromPosition.y, tween.toPosition.y, progress),
+          lerp(tween.fromPosition.y, tween.toPosition.y, progress) + arcY,
           lerp(tween.fromPosition.z, tween.toPosition.z, progress)
         );
         tween.object.rotation.set(
           lerp(tween.fromRotation.x, tween.toRotation.x, progress),
           lerp(tween.fromRotation.y, tween.toRotation.y, progress),
-          lerp(tween.fromRotation.z, tween.toRotation.z, progress)
+          lerp(tween.fromRotation.z, tween.toRotation.z, progress) + dampedWobbleZ
         );
         tween.object.scale.set(
           lerp(tween.fromScale.x, tween.toScale.x, progress),
           lerp(tween.fromScale.y, tween.toScale.y, progress),
           lerp(tween.fromScale.z, tween.toScale.z, progress)
         );
-        if (raw >= 1) tweens.splice(index, 1);
+        if (raw >= 1) {
+          tween.onComplete?.();
+          tweens.splice(index, 1);
+        }
       }
       return tweens.length > 0;
     };
@@ -1614,6 +1673,7 @@
       if (!THREE) return;
       const palette = readDeskPalette();
       themeMaterials.floor?.color.setHex(palette.floor);
+      replaceMaterialMap(themeMaterials.floor, createRoomFloorTexture(palette));
       themeMaterials.wall?.color.setHex(palette.wall);
       themeMaterials.wood?.color.setHex(palette.wood);
       themeMaterials.woodEdge?.color.setHex(palette.woodEdge);
@@ -1721,7 +1781,7 @@
       const record = records[activeRecordIndex];
       if (recordLabelMaterial) loadTexture(record?.src || record?.cover, recordLabelMaterial);
       albumEntries.forEach((entry) => {
-        entry.group.scale.setScalar(entry.index === activeRecordIndex ? 1.06 : 1);
+        if (!entry.thrown) entry.group.scale.setScalar(entry.index === activeRecordIndex ? 1.06 : 1);
       });
       if (notify && callbacks.selectRecord) callbacks.selectRecord(activeRecordIndex);
       scheduleFrame();
@@ -1754,18 +1814,177 @@
       focusedEntryAt = 0;
       container.removeAttribute("data-focused-desk-object");
       entry.lifted = false;
-      entry.currentRestY = entry.basePosition.y;
       setEntryCue(entry, false);
+      const droppedPose = entry.kind === "album" && entry.thrown && entry.dropRestPose ? entry.dropRestPose : null;
+      const position = droppedPose?.position || entry.basePosition;
+      const rotation = droppedPose?.rotation || entry.baseRotation;
+      const scale = droppedPose?.scale || new THREE.Vector3(1, 1, 1);
+      entry.currentRestY = position.y;
       addTween(
         entry.group,
         {
-          position: entry.basePosition.clone(),
-          rotation: entry.baseRotation.clone(),
-          scale: new THREE.Vector3(1, 1, 1),
+          position: position.clone(),
+          rotation: rotation.clone(),
+          scale: scale.clone(),
         },
         duration
       );
       return true;
+    };
+
+    const normalizeDroppedRecordIndices = (indices = []) => {
+      const seen = new Set();
+      return indices
+        .map((index) => Number(index))
+        .filter((index) => {
+          if (!Number.isInteger(index) || index < 0 || index >= records.length || seen.has(index)) return false;
+          seen.add(index);
+          return true;
+        });
+    };
+
+    const getDroppedRecordPose = (entry, orderIndex) => {
+      const side = entry.dropDirection || (orderIndex % 2 === 0 ? -1 : 1);
+      const row = Math.floor(orderIndex / 2);
+      const jitter = (((entry.index * 37) % 11) - 5) * 0.012;
+      const fan = side * (0.2 + row * 0.06) + jitter;
+
+      return {
+        albumPosition: new THREE.Vector3(
+          0.82 + side * (0.32 + row * 0.1) + jitter,
+          -0.95 + orderIndex * 0.012,
+          1.28 + row * 0.16 + (entry.index % 2) * 0.06
+        ),
+        albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.035, side * 0.032, fan),
+        albumScale: new THREE.Vector3(0.93, 0.93, 0.93),
+        cardPosition: new THREE.Vector3(
+          -0.68 + side * (0.28 + row * 0.12) + jitter,
+          -1.15 + orderIndex * 0.012,
+          1.02 + row * 0.16 + (entry.index % 2) * 0.055
+        ),
+        cardRotation: new THREE.Euler(-Math.PI / 2 + side * 0.018, side * 0.024, side * (0.18 + row * 0.06) - jitter),
+        cardScale: new THREE.Vector3(1, 1, 1),
+      };
+    };
+
+    const placeObject = (object, pose, immediate, options = {}) => {
+      if (!object || !pose) return;
+      if (immediate || reduceMotion) {
+        object.position.copy(pose.position);
+        object.rotation.copy(pose.rotation);
+        object.scale.copy(pose.scale);
+        return;
+      }
+      addTween(
+        object,
+        {
+          position: pose.position,
+          rotation: pose.rotation,
+          scale: pose.scale,
+        },
+        options.duration || 680,
+        {
+          arcHeight: options.arcHeight || 0,
+          wobbleZ: options.wobbleZ || 0,
+          easing: options.easing || easeOutQuart,
+        }
+      );
+    };
+
+    const setDroppedRecordState = (indices = [], options = {}) => {
+      droppedRecordIndices = normalizeDroppedRecordIndices(indices);
+      if (!THREE || albumEntries.length === 0) return;
+
+      const droppedOrder = new Map(droppedRecordIndices.map((index, order) => [index, order]));
+      const immediate = options.immediate || reduceMotion;
+      albumEntries.forEach((entry) => {
+        const orderIndex = droppedOrder.get(entry.index);
+        const songCard = songCardEntries[entry.index];
+
+        if (Number.isInteger(orderIndex)) {
+          const pose = getDroppedRecordPose(entry, orderIndex);
+          const animateThisDrop = options.animate && (options.focusIndex === undefined || options.focusIndex === entry.index);
+          entry.thrown = true;
+          entry.dropRestPose = {
+            position: pose.albumPosition.clone(),
+            rotation: pose.albumRotation.clone(),
+            scale: pose.albumScale.clone(),
+          };
+          entry.currentRestY = pose.albumPosition.y;
+          setEntryCue(entry, false);
+
+          if (focusedEntry !== entry) {
+            placeObject(
+              entry.group,
+              {
+                position: pose.albumPosition,
+                rotation: pose.albumRotation,
+                scale: pose.albumScale,
+              },
+              immediate && !animateThisDrop,
+              {
+                duration: animateThisDrop ? 780 : 420,
+                arcHeight: animateThisDrop ? 0.2 : 0,
+                wobbleZ: animateThisDrop ? 0.055 : 0,
+              }
+            );
+          }
+
+          if (songCard) {
+            const wasVisible = songCard.group.visible;
+            songCard.group.visible = true;
+            if (!wasVisible && animateThisDrop && !immediate) {
+              songCard.group.position.copy(pose.cardPosition).add(new THREE.Vector3(-0.08 * (entry.dropDirection || 1), 0.46, -0.16));
+              songCard.group.rotation.set(-Math.PI / 2 + 0.32, 0, pose.cardRotation.z - 0.28 * (entry.dropDirection || 1));
+              songCard.group.scale.setScalar(0.78);
+            }
+            placeObject(
+              songCard.group,
+              {
+                position: pose.cardPosition,
+                rotation: pose.cardRotation,
+                scale: pose.cardScale,
+              },
+              immediate && !animateThisDrop,
+              {
+                duration: animateThisDrop ? 720 : 360,
+                arcHeight: animateThisDrop ? 0.34 : 0,
+                wobbleZ: animateThisDrop ? 0.075 : 0,
+              }
+            );
+          }
+          return;
+        }
+
+        if (entry.thrown && focusedEntry !== entry) {
+          entry.thrown = false;
+          entry.dropDirection = 0;
+          entry.dropRestPose = null;
+          entry.currentRestY = entry.basePosition.y;
+          placeObject(
+            entry.group,
+            {
+              position: entry.basePosition,
+              rotation: entry.baseRotation,
+              scale: new THREE.Vector3(
+                entry.index === activeRecordIndex ? 1.06 : 1,
+                entry.index === activeRecordIndex ? 1.06 : 1,
+                entry.index === activeRecordIndex ? 1.06 : 1
+              ),
+            },
+            immediate,
+            { duration: 460 }
+          );
+        }
+        if (songCard) {
+          songCard.group.visible = false;
+          songCard.group.position.copy(songCard.basePosition);
+          songCard.group.rotation.copy(songCard.baseRotation);
+          songCard.group.scale.setScalar(0.72);
+        }
+      });
+      render();
+      scheduleFrame();
     };
 
     const focusAlbum = (entry) => {
@@ -1779,10 +1998,11 @@
       const playPosition = entry.playPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
       const playRotation = entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
       entry.currentRestY = playPosition.y;
-      setActiveRecordInternal(entry.index, true);
+      setActiveRecordInternal(entry.index, false);
       if (callbacks.playRecord) {
         callbacks.playRecord(entry.index);
       } else {
+        setActiveRecordInternal(entry.index, false);
         isRecordSpinning = true;
         setToneArm(true);
       }
@@ -1810,18 +2030,18 @@
       setEntryCue(entry, true);
       entry.lifted = true;
       const focusPosition = entry.focusPosition || entry.basePosition.clone().add(new THREE.Vector3(-0.08, 0.54, -0.18));
-      const focusRotation = entry.focusRotation || new THREE.Euler(0.88, 0.02, entry.index === 0 ? -0.05 : 0.05);
+      const focusRotation = entry.focusRotation || new THREE.Euler(1.12, -0.02, entry.index === 0 ? -0.05 : 0.05);
       entry.currentRestY = focusPosition.y;
       addTween(
         entry.group,
         {
           position: focusPosition.clone(),
           rotation: focusRotation.clone(),
-          scale: new THREE.Vector3(1.1, 1.1, 1.1),
+          scale: new THREE.Vector3(1.16, 1.16, 1.16),
         },
         560
       );
-      targetZoomLevel = isCompactScene ? 0.4 : 0.35;
+      targetZoomLevel = isCompactScene ? 0.44 : 0.42;
       targetRotationX = -0.03;
       targetRotationY = -0.08;
       scheduleFrame();
@@ -1834,31 +2054,10 @@
         container.removeAttribute("data-focused-desk-object");
       }
       setEntryCue(entry, false);
-      entry.thrown = true;
-      entry.currentRestY = -1.145;
-      const side = deltaX >= 0 ? 1 : -1;
-      addTween(
-        entry.group,
-        {
-          position: new THREE.Vector3(-1.25 + side * (0.45 + entry.index * 0.08), -1.145, 1.64 + entry.index * 0.13),
-          rotation: new THREE.Euler(-Math.PI / 2, 0.05 * side, -0.42 * side + entry.index * 0.12),
-          scale: new THREE.Vector3(0.94, 0.94, 0.94),
-        },
-        680
-      );
-      const songCard = songCardEntries[entry.index];
-      if (songCard) {
-        songCard.group.visible = true;
-        addTween(
-          songCard.group,
-          {
-            position: new THREE.Vector3(-0.86 + side * 0.26, -1.12, 1.18 + entry.index * 0.08),
-            rotation: new THREE.Euler(-Math.PI / 2, 0, 0.28 * side),
-            scale: new THREE.Vector3(1, 1, 1),
-          },
-          560
-        );
-      }
+      entry.dropDirection = deltaX >= 0 ? 1 : -1;
+      const nextDropped = droppedRecordIndices.includes(entry.index) ? droppedRecordIndices : [...droppedRecordIndices, entry.index];
+      setDroppedRecordState(nextDropped, { animate: true, focusIndex: entry.index });
+      callbacks.dropRecord?.(entry.index);
       scheduleFrame();
     };
 
@@ -1866,9 +2065,12 @@
       focusedEntry = null;
       focusedEntryAt = 0;
       container.removeAttribute("data-focused-desk-object");
+      const droppedSet = new Set(droppedRecordIndices);
       albumEntries.forEach((entry) => {
+        if (droppedSet.has(entry.index)) return;
         setEntryCue(entry, false);
         entry.thrown = false;
+        entry.dropDirection = 0;
         entry.currentRestY = entry.basePosition.y;
         addTween(entry.group, { position: entry.basePosition.clone(), rotation: entry.baseRotation.clone(), scale: new THREE.Vector3(1, 1, 1) }, 520);
       });
@@ -1884,6 +2086,7 @@
         entry.group.rotation.copy(entry.baseRotation);
         entry.group.scale.setScalar(0.72);
       });
+      setDroppedRecordState(droppedRecordIndices, { immediate: true });
       setToneArm(isRecordSpinning, true);
     };
 
@@ -2478,8 +2681,7 @@
       addBox(house, { x: 0.04, y: 0.62, z: 0.04 }, { x: 0.54, y: 0.0, z: 0.43 }, trimMaterial);
       addBox(house, { x: 1.1, y: 0.52, z: 0.012 }, { x: -0.06, y: 0.0, z: 0.454 }, glassMaterial);
       addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: -0.06, y: 0.0, z: 0.462 }, trimMaterial);
-      addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: -0.36, y: 0.0, z: 0.466 }, trimMaterial);
-      addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: 0.24, y: 0.0, z: 0.466 }, trimMaterial);
+      addBox(house, { x: 1.1, y: 0.032, z: 0.052 }, { x: -0.06, y: 0.0, z: 0.466 }, trimMaterial);
       addBox(house, { x: 1.28, y: 0.035, z: 0.08 }, { x: -0.06, y: -0.47, z: 0.48 }, trimMaterial);
       addBox(house, { x: 1.02, y: 0.026, z: 0.08 }, { x: -0.06, y: -0.36, z: 0.56 }, roofShadowMaterial);
       const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.08, 0.5), interiorGlowMaterial);
@@ -2647,7 +2849,7 @@
       rootGroup.rotation.set(rotationX, rotationY, 0);
       scene.add(rootGroup);
 
-      const floorMaterial = new THREE.MeshBasicMaterial({ color: palette.floor, depthWrite: false });
+      const floorMaterial = new THREE.MeshBasicMaterial({ color: palette.floor, map: createRoomFloorTexture(palette), depthWrite: false });
       const woodMaterial = new THREE.MeshStandardMaterial({ color: palette.wood, roughness: 0.82, metalness: 0.02 });
       const woodEdgeMaterial = new THREE.MeshStandardMaterial({ color: palette.woodEdge, roughness: 0.86, metalness: 0.02 });
       const coffeeMaterial = new THREE.MeshStandardMaterial({ color: palette.coffee, roughness: 0.46 });
@@ -2940,8 +3142,8 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(0.34, 0.66, 0.61);
-        entry.playRotation = new THREE.Euler(-Math.PI / 2, 0.02, 0.03);
+        entry.playPosition = new THREE.Vector3(0.28, 0.68, 0.54);
+        entry.playRotation = new THREE.Euler(-Math.PI / 2 + 0.035, 0.018, 0.02);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -2999,8 +3201,8 @@
         entry.group.rotation.set(0, 0, index === 0 ? -0.045 : 0.04);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.04 : 0.12, 0.6, index === 0 ? 0.26 : 0.02);
-        entry.focusRotation = new THREE.Euler(0.98, 0.014, index === 0 ? -0.02 : 0.026);
+        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.04 : 0.14, 0.72, index === 0 ? 0.28 : 0.06);
+        entry.focusRotation = new THREE.Euler(1.13, -0.018, index === 0 ? -0.02 : 0.026);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
         const base = addBox(entry.group, { x: 1.38, y: 0.035, z: 0.62 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
@@ -3112,6 +3314,7 @@
 
       setActiveRecordInternal(activeRecordIndex);
       setToneArm(isRecordSpinning, true);
+      setDroppedRecordState(droppedRecordIndices, { immediate: true });
       applyRootRotation(true);
       resize();
       render();
@@ -3165,20 +3368,24 @@
           targetRotationY = clamp(rotationStartY + deltaX * 0.006, -0.82, 0.28);
           targetRotationX = clamp(rotationStartX + deltaY * 0.0035, -0.22, 0.18);
         } else if (activeEntry?.kind === "album") {
+          const lift = clamp(0.065 + Math.hypot(deltaX, deltaY) * 0.0007, 0.075, 0.24);
           activeEntry.group.position.set(
             activeEntry.dragStartPosition.x + deltaX * 0.0048,
-            activeEntry.dragStartPosition.y + 0.09,
+            activeEntry.dragStartPosition.y + lift,
             activeEntry.dragStartPosition.z + deltaY * 0.0048
           );
+          activeEntry.group.rotation.x = activeEntry.dragStartRotation.x + clamp(deltaY * -0.0011, -0.16, 0.16);
+          activeEntry.group.rotation.y = activeEntry.dragStartRotation.y + clamp(deltaX * 0.0008, -0.12, 0.12);
           activeEntry.group.rotation.z = activeEntry.dragStartRotation.z + deltaX * 0.0028;
         } else if (activeEntry?.kind === "artifact") {
+          const lift = clamp(0.06 + Math.hypot(deltaX, deltaY) * 0.00055, 0.08, 0.2);
           activeEntry.group.position.set(
             activeEntry.dragStartPosition.x + deltaX * 0.0038,
-            activeEntry.dragStartPosition.y + 0.12,
+            activeEntry.dragStartPosition.y + lift,
             activeEntry.dragStartPosition.z + deltaY * 0.0038
           );
           activeEntry.group.rotation.z = activeEntry.dragStartRotation.z + deltaX * 0.002;
-          activeEntry.group.rotation.x = -0.08;
+          activeEntry.group.rotation.x = activeEntry.dragStartRotation.x + clamp(deltaY * -0.0008, -0.12, 0.12);
         }
         scheduleFrame();
         event.preventDefault();
@@ -3214,11 +3421,18 @@
             addTween(
               releasedEntry.group,
               {
-                position: releasedEntry.basePosition.clone().add(new THREE.Vector3(deltaX * 0.0012, 0.13, deltaY * 0.0012)),
-                rotation: new THREE.Euler(-0.07, releasedEntry.baseRotation.y, releasedEntry.baseRotation.z + clamp(deltaX * 0.001, -0.12, 0.12)),
-                scale: new THREE.Vector3(1.03, 1.03, 1.03),
+                position: releasedEntry.basePosition
+                  .clone()
+                  .add(new THREE.Vector3(clamp(deltaX * 0.0011, -0.18, 0.18), 0.04, clamp(deltaY * 0.0011, -0.14, 0.18))),
+                rotation: new THREE.Euler(
+                  releasedEntry.baseRotation.x + 0.035,
+                  releasedEntry.baseRotation.y,
+                  releasedEntry.baseRotation.z + clamp(deltaX * 0.0008, -0.1, 0.1)
+                ),
+                scale: new THREE.Vector3(1.02, 1.02, 1.02),
               },
-              280
+              360,
+              { arcHeight: 0.05, wobbleZ: 0.025 }
             );
           }
         } else if (pointerMode === "turntable" && !movedEnough) {
@@ -3230,14 +3444,10 @@
         } else if (pointerMode === "windowJump" && !movedEnough) {
           setSceneView("outside");
         } else if (pointerMode === "returnInside" && !movedEnough) {
-          setSceneView("desk");
-        } else if (
-          pointerMode === "rotate" &&
-          !movedEnough &&
-          activeView === "desk" &&
-          Math.max(zoomLevel, targetZoomLevel) > 0.5 &&
-          isPointerInWindowRegion(event)
-        ) {
+          enterDeskFromOutside();
+        } else if (pointerMode === "rotate" && !movedEnough && activeView === "outside") {
+          enterDeskFromOutside();
+        } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && isPointerInWindowRegion(event)) {
           setSceneView("outside");
         } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && (focusedEntry || targetZoomLevel > 0.04)) {
           clearFocusedEntry();
@@ -3368,6 +3578,9 @@
         setToneArm(isRecordSpinning);
         if (isVisible) scheduleFrame();
       },
+      setDroppedRecords(indices, options = {}) {
+        setDroppedRecordState(indices, options);
+      },
       setCallbacks(nextCallbacks = {}) {
         Object.assign(callbacks, nextCallbacks);
       },
@@ -3454,6 +3667,7 @@
     });
 
     const droppedRecords = new Set();
+    const droppedRecordOrder = [];
     let activeCard = null;
     let recordIndex = 0;
     let imageTicket = 0;
@@ -3468,12 +3682,38 @@
     let lastShakeDirection = 0;
     let shakeCount = 0;
     let suppressNextSpinClick = false;
+    let shakeSuppressionTimer = 0;
     let reflowRecordCardsFrame = 0;
     let recordDropSequence = 0;
 
     const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
+
+    const syncDroppedRecordsToDesk = (options = {}) => {
+      deskScene.setDroppedRecords(droppedRecordOrder, options);
+      if (stage) stage.setAttribute("data-dropped-records", droppedRecordOrder.join(","));
+    };
+
+    const markRecordDropped = (index, options = {}) => {
+      if (!droppedRecords.has(index)) {
+        droppedRecords.add(index);
+        droppedRecordOrder.push(index);
+      }
+      if (stage) stage.setAttribute("data-dropped-records", droppedRecordOrder.join(","));
+      if (options.syncDesk !== false) {
+        syncDroppedRecordsToDesk({ animate: options.animate3D, focusIndex: index });
+      }
+    };
+
+    const getNextUndroppedRecordIndex = (fromIndex = recordIndex) => {
+      if (droppedRecords.size >= records.length) return fromIndex;
+      for (let offset = 1; offset <= records.length; offset += 1) {
+        const nextIndex = (fromIndex + offset) % records.length;
+        if (!droppedRecords.has(nextIndex)) return nextIndex;
+      }
+      return fromIndex;
+    };
 
     const setDeskMode = (mode, userInitiated = false) => {
       const is3D = mode === "3d";
@@ -3499,6 +3739,7 @@
         button.setAttribute("aria-pressed", String(isActive));
       });
       deskScene.setVisible(is3D);
+      if (is3D) syncDroppedRecordsToDesk({ immediate: true });
       if (is3D && userInitiated && stage && compactPileQuery.matches) {
         window.requestAnimationFrame(() => {
           stage.scrollIntoView({ block: "center", inline: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
@@ -3662,18 +3903,18 @@
       const isCompactPile = compactPileQuery.matches;
       const scatterSlots = isCompactPile
         ? [
-            { x: 0, y: 1.08, rotate: -0.7, tilt: 56.5, scale: 1 },
-            { x: -1.34, y: 1.66, rotate: -5.2, tilt: 59.4, scale: 0.984 },
-            { x: 1.46, y: 1.96, rotate: 4.6, tilt: 58.2, scale: 0.976 },
-            { x: -0.46, y: 2.54, rotate: 2.2, tilt: 60.8, scale: 0.966 },
-            { x: 0.82, y: 2.86, rotate: -3.6, tilt: 60.2, scale: 0.956 },
+            { x: 0, y: 0.78, rotate: -0.8, tilt: 58.8, scale: 1 },
+            { x: -0.64, y: 0.98, rotate: -3.6, tilt: 60.4, scale: 0.988 },
+            { x: 0.7, y: 1.16, rotate: 3.2, tilt: 59.8, scale: 0.982 },
+            { x: -0.24, y: 1.36, rotate: 1.7, tilt: 61.2, scale: 0.976 },
+            { x: 0.4, y: 1.52, rotate: -2.5, tilt: 60.6, scale: 0.97 },
           ]
         : [
-            { x: 0, y: 1.12, rotate: -0.6, tilt: 58.2, scale: 1 },
-            { x: -2.02, y: 1.78, rotate: -5.8, tilt: 61, scale: 0.984 },
-            { x: 2.14, y: 2.1, rotate: 5.1, tilt: 60.1, scale: 0.976 },
-            { x: -0.72, y: 2.74, rotate: 2.5, tilt: 62, scale: 0.966 },
-            { x: 1.16, y: 3.1, rotate: -4, tilt: 61.4, scale: 0.956 },
+            { x: 0, y: 0.86, rotate: -0.7, tilt: 59.2, scale: 1 },
+            { x: -0.78, y: 1.08, rotate: -3.9, tilt: 61.1, scale: 0.988 },
+            { x: 0.84, y: 1.26, rotate: 3.5, tilt: 60.4, scale: 0.982 },
+            { x: -0.32, y: 1.48, rotate: 1.9, tilt: 61.7, scale: 0.976 },
+            { x: 0.52, y: 1.66, rotate: -2.8, tilt: 61.0, scale: 0.97 },
           ];
       const slot = scatterSlots[visualOrder % scatterSlots.length];
       const cycle = Math.floor(visualOrder / scatterSlots.length);
@@ -3684,17 +3925,28 @@
       const rotate = slot.rotate + ((recordOrder % 3) - 1) * 0.28;
       const tilt = slot.tilt;
       const scale = slot.scale;
+      const openX = x * (isCompactPile ? 0.36 : 0.34);
+      const openY = Math.max(isCompactPile ? -1.04 : -1.18, y - (isCompactPile ? 1.92 : 2.14));
+      const openZ = z + (isCompactPile ? 4.45 : 5.15);
       card.style.setProperty(
         "--card-rest-transform",
         `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${z.toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -0.52).toFixed(2)}deg) scale(${scale.toFixed(3)})`
       );
       card.style.setProperty(
         "--card-open-transform",
-        `translate3d(${x.toFixed(2)}rem, ${y.toFixed(2)}rem, ${(z + 0.08).toFixed(2)}rem) rotateZ(${rotate.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) rotateY(${(side * -0.52).toFixed(2)}deg) scale(${scale.toFixed(3)})`
+        `translate3d(${openX.toFixed(2)}rem, ${openY.toFixed(2)}rem, ${openZ.toFixed(2)}rem) rotateZ(${(rotate * 0.28).toFixed(2)}deg) rotateX(5.2deg) rotateY(${(side * -1.6).toFixed(2)}deg) scale(${Math.min(1.048, scale + 0.038).toFixed(3)})`
+      );
+      card.style.setProperty(
+        "--card-drop-impact",
+        `translate3d(${(x + side * 0.08).toFixed(2)}rem, ${(y + 0.22).toFixed(2)}rem, ${Math.max(0.1, z - 0.12).toFixed(2)}rem) rotateZ(${(rotate + side * 0.46).toFixed(2)}deg) rotateX(${(tilt + 3.4).toFixed(2)}deg) rotateY(${(side * -0.6).toFixed(2)}deg) scale(${Math.min(1.018, scale + 0.016).toFixed(3)})`
+      );
+      card.style.setProperty(
+        "--card-drop-bounce",
+        `translate3d(${(x - side * 0.03).toFixed(2)}rem, ${(y - 0.1).toFixed(2)}rem, ${(z + 0.18).toFixed(2)}rem) rotateZ(${(rotate - side * 0.2).toFixed(2)}deg) rotateX(${(tilt - 1.1).toFixed(2)}deg) rotateY(${(side * -0.48).toFixed(2)}deg) scale(${Math.min(1.006, scale + 0.006).toFixed(3)})`
       );
       card.style.setProperty(
         "--card-drop-settle",
-        `translate3d(${(x + side * 0.06).toFixed(2)}rem, ${(y + 0.1).toFixed(2)}rem, ${Math.max(0.12, z - 0.06).toFixed(2)}rem) rotateZ(${(rotate + side * 0.28).toFixed(2)}deg) rotateX(${(tilt + 1.8).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.012, scale + 0.012).toFixed(3)})`
+        `translate3d(${(x + side * 0.025).toFixed(2)}rem, ${(y + 0.05).toFixed(2)}rem, ${Math.max(0.12, z - 0.03).toFixed(2)}rem) rotateZ(${(rotate + side * 0.12).toFixed(2)}deg) rotateX(${(tilt + 0.8).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.008, scale + 0.008).toFixed(3)})`
       );
       card.dataset.stackOrder = String(visualOrder);
       card.style.zIndex = card.classList.contains("is-open") ? "80" : String(40 + Math.max(0, cardCount - visualOrder));
@@ -3722,12 +3974,19 @@
       });
     };
 
-    const closeActiveCard = () => {
+    const closeActiveCard = (options = {}) => {
       if (!activeCard) return;
       const card = activeCard;
       card.classList.remove("is-open");
       card.setAttribute("aria-expanded", "false");
+      if (options.bringToTop !== false) {
+        recordDropSequence += 1;
+        card.dataset.dropSequence = String(recordDropSequence);
+        card.classList.add("is-settling");
+        window.setTimeout(() => card.classList.remove("is-settling"), reduceMotion ? 0 : 560);
+      }
       activeCard = null;
+      if (pile) pile.classList.remove("is-viewing-card");
       reflowRecordCards();
     };
 
@@ -3737,6 +3996,7 @@
       card.classList.add("is-open");
       card.setAttribute("aria-expanded", "true");
       card.style.zIndex = "80";
+      if (pile) pile.classList.add("is-viewing-card");
     };
 
     const pickRecordCardFromPoint = (clientX, clientY) => {
@@ -3773,15 +4033,15 @@
       card.setAttribute("aria-label", `${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 0.86).toFixed(2)}rem, -8.2rem, 7.6rem) rotateZ(${(dropSide * -10).toFixed(2)}deg) rotateX(12deg) rotateY(${(dropSide * 7.4).toFixed(2)}deg) scale(0.78)`
+        `translate3d(${(dropSide * 1.18).toFixed(2)}rem, -6.7rem, 6.4rem) rotateZ(${(dropSide * -12).toFixed(2)}deg) rotateX(-8deg) rotateY(${(dropSide * 10).toFixed(2)}deg) scale(0.72)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.3).toFixed(2)}rem, -1.92rem, 4.2rem) rotateZ(${(dropSide * 5.2).toFixed(2)}deg) rotateX(36deg) rotateY(${(dropSide * -3.6).toFixed(2)}deg) scale(0.94)`
+        `translate3d(${(dropSide * -0.42).toFixed(2)}rem, -2.18rem, 4.35rem) rotateZ(${(dropSide * 7.4).toFixed(2)}deg) rotateX(28deg) rotateY(${(dropSide * -5.2).toFixed(2)}deg) scale(0.91)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.08).toFixed(2)}rem, 1.18rem, 0.88rem) rotateZ(${(dropSide * -0.48).toFixed(2)}deg) rotateX(57deg) rotateY(${(dropSide * -0.52).toFixed(2)}deg) scale(1.006)`
+        `translate3d(${(dropSide * 0.16).toFixed(2)}rem, 1.06rem, 0.82rem) rotateZ(${(dropSide * -0.6).toFixed(2)}deg) rotateX(58deg) rotateY(${(dropSide * -0.5).toFixed(2)}deg) scale(1.004)`
       );
 
       const cover = document.createElement("span");
@@ -3832,20 +4092,23 @@
       window.setTimeout(() => portrait.classList.remove("is-record-card-found"), 520);
     };
 
-    const dropRecordCard = async () => {
-      const record = getCurrentRecord();
+    const dropRecordCard = async (options = {}) => {
+      const targetIndex = Number.isInteger(options.index) ? ((options.index % records.length) + records.length) % records.length : recordIndex;
+      const record = records[targetIndex] || getCurrentRecord();
       const showVinyl = isRecordEngaged || isSpinning;
-      await showRecord(recordIndex, { vinyl: showVinyl });
+      if (options.reveal !== false) {
+        await showRecord(targetIndex, { vinyl: showVinyl });
+      }
 
-      if (!pile || droppedRecords.has(recordIndex)) {
+      if (!pile || droppedRecords.has(targetIndex)) {
         pulseAlreadyFound();
         return;
       }
 
-      closeActiveCard();
-      droppedRecords.add(recordIndex);
+      closeActiveCard({ bringToTop: false });
       recordDropSequence += 1;
-      const card = createRecordCard(record, recordIndex, recordDropSequence);
+      markRecordDropped(targetIndex, { syncDesk: options.syncDesk !== false, animate3D: options.animate3D });
+      const card = createRecordCard(record, targetIndex, recordDropSequence);
       pile.hidden = false;
       ensureRecordHalo();
       pile.appendChild(card);
@@ -3857,6 +4120,18 @@
       } else {
         card.addEventListener("animationend", clearDropState, { once: true });
         window.setTimeout(clearDropState, 1400);
+      }
+
+      if (options.autoAdvance !== false && options.reveal !== false && !isRecordEngaged && !isSpinning) {
+        const nextIndex = getNextUndroppedRecordIndex(targetIndex);
+        if (nextIndex !== targetIndex) {
+          window.setTimeout(
+            () => {
+              showRecord(nextIndex, { vinyl: false });
+            },
+            reduceMotion ? 0 : 460
+          );
+        }
       }
     };
 
@@ -3894,6 +4169,9 @@
         updateSpinState();
         showRecord(recordIndex, { vinyl: true });
       },
+      dropRecord(index) {
+        dropRecordCard({ index, reveal: false, syncDesk: false, autoAdvance: false });
+      },
       toggleSpin: toggleRecordPlayback,
       openArtifact(url) {
         if (url) window.location.href = url;
@@ -3910,6 +4188,13 @@
       portrait.style.removeProperty("--record-drag-x");
       portrait.style.removeProperty("--record-drag-tilt");
       recordScene.setDrag(0, 0);
+      if (shakeSuppressionTimer) window.clearTimeout(shakeSuppressionTimer);
+      if (suppressNextSpinClick) {
+        shakeSuppressionTimer = window.setTimeout(() => {
+          suppressNextSpinClick = false;
+          shakeSuppressionTimer = 0;
+        }, 420);
+      }
     };
 
     const startShakeGesture = (event) => {
@@ -3924,6 +4209,10 @@
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
+      if (!isRecordEngaged && !isSpinning && droppedRecords.has(recordIndex)) {
+        const nextIndex = getNextUndroppedRecordIndex(recordIndex);
+        if (nextIndex !== recordIndex) selectRecord(nextIndex);
+      }
       showRecord(recordIndex, { vinyl: isRecordEngaged || isSpinning });
       portrait.classList.add("is-dragging-record");
       if (!activePointerStartedOnPlayButton && portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
@@ -3951,7 +4240,7 @@
           shakeCount += 1;
           portrait.setAttribute("data-record-shakes", String(Math.min(shakeCount, 3)));
           if (shakeCount >= 3) {
-            dropRecordCard();
+            dropRecordCard({ animate3D: true });
             endShakeGesture();
             event.preventDefault();
             return;
@@ -4067,6 +4356,9 @@
       if (event.key !== "Escape") return;
       if (activeCard) {
         closeActiveCard();
+      } else if (stage?.dataset.deskMode === "3d") {
+        deskScene.resetView();
+        deskControls?.querySelector('[data-home-desk-control="reset"]')?.focus({ preventScroll: true });
       } else if (!isSpinning && isRecordEngaged) {
         resetRecord();
         if (spinButton) spinButton.focus({ preventScroll: true });
