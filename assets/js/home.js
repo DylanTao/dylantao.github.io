@@ -678,6 +678,7 @@
     let focusedEntry = null;
     let hoveredEntry = null;
     let pointerMoved = false;
+    let windowAutoEntryBlockedUntil = 0;
     const callbacks = {};
     const textureCache = new Map();
     const themeMaterials = {};
@@ -791,7 +792,7 @@
       const rect = renderer.domElement.getBoundingClientRect();
       const x = (event.clientX - rect.left) / Math.max(1, rect.width);
       const y = (event.clientY - rect.top) / Math.max(1, rect.height);
-      return x > 0.52 && x < 0.98 && y > 0.08 && y < 0.48;
+      return x > 0.44 && x < 1.02 && y > 0.05 && y < 0.58;
     };
 
     const applyCameraPose = (immediate = false) => {
@@ -1644,6 +1645,12 @@
       themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
       themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
       themeMaterials.outsideGlass?.color.setHex(palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6);
+      themeMaterials.outsideInteriorGlow?.color.setHex(palette.isDarkTheme ? 0xffc98f : 0xffddb0);
+      if (themeMaterials.outsideInteriorGlow) themeMaterials.outsideInteriorGlow.opacity = palette.isDarkTheme ? 0.16 : 0.1;
+      themeMaterials.outsideCurtain?.color.setHex(palette.isDarkTheme ? 0xf5dfc8 : 0xffead4);
+      if (themeMaterials.outsideCurtain) themeMaterials.outsideCurtain.opacity = palette.isDarkTheme ? 0.74 : 0.58;
+      themeMaterials.outsideLamp?.color.setHex(palette.isDarkTheme ? 0xffcb78 : 0xf2b15f);
+      if (themeMaterials.outsideLamp) themeMaterials.outsideLamp.opacity = palette.isDarkTheme ? 0.86 : 0.68;
       themeMaterials.outsideReturnGlow?.color.setHex(palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca);
       if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.1 : 0.13;
       ambientLight?.color.setHex(palette.ambientColor);
@@ -1689,8 +1696,8 @@
         rootGroup.position.set(isCompact ? -0.2 : -0.18, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
       }
       if (outsideGroup) {
-        outsideGroup.scale.setScalar(isCompact ? 0.7 : 1.02);
-        outsideGroup.position.set(isCompact ? -0.16 : -0.14, isCompact ? -0.06 : -0.06, isCompact ? 0.08 : -0.04);
+        outsideGroup.scale.setScalar(isCompact ? 0.58 : 1.02);
+        outsideGroup.position.set(isCompact ? -0.14 : -0.14, isCompact ? -0.04 : -0.06, isCompact ? 0.08 : -0.04);
       }
       applyCameraPose(true);
       render();
@@ -1883,6 +1890,7 @@
     };
 
     const getOutsideEntryZoom = () => (isCompactScene ? 0.16 : 0.36);
+    const getOutsideMaxZoom = () => (isCompactScene ? 0.24 : 0.54);
 
     const enterDeskFromOutside = () => {
       setSceneView("desk");
@@ -1890,6 +1898,7 @@
       zoomLevel = isCompactScene ? 0.3 : 0.34;
       targetRotationX = defaultRotation.x;
       targetRotationY = defaultRotation.y;
+      windowAutoEntryBlockedUntil = Date.now() + 1200;
       updateWindowJumpVisibility();
       scheduleFrame();
     };
@@ -2109,6 +2118,24 @@
         opacity: 0.1,
         depthWrite: false,
       });
+      const interiorGlowMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xffc98f : 0xffddb0,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.16 : 0.1,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const curtainMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xf5dfc8 : 0xffead4,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.74 : 0.58,
+        roughness: 0.78,
+      });
+      const lampMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xffcb78 : 0xf2b15f,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.86 : 0.68,
+      });
       const roofShadowMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0x3a2b22 : 0x6f492d,
         roughness: 0.82,
@@ -2127,6 +2154,9 @@
       themeMaterials.outsideTrim = trimMaterial;
       themeMaterials.outsideInterior = interiorMaterial;
       themeMaterials.outsideGlass = glassMaterial;
+      themeMaterials.outsideInteriorGlow = interiorGlowMaterial;
+      themeMaterials.outsideCurtain = curtainMaterial;
+      themeMaterials.outsideLamp = lampMaterial;
       const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe5b58e, roughness: 0.68 });
       const hairMaterial = new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.8 });
       const pillowMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf2e6d5 : 0xfff2df, roughness: 0.72 });
@@ -2388,6 +2418,20 @@
       addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: 0.24, y: 0.0, z: 0.466 }, trimMaterial);
       addBox(house, { x: 1.28, y: 0.035, z: 0.08 }, { x: -0.06, y: -0.47, z: 0.48 }, trimMaterial);
       addBox(house, { x: 1.02, y: 0.026, z: 0.08 }, { x: -0.06, y: -0.36, z: 0.56 }, roofShadowMaterial);
+      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.08, 0.5), interiorGlowMaterial);
+      interiorGlow.position.set(-0.06, -0.02, 0.474);
+      house.add(interiorGlow);
+      [
+        { x: -0.54, h: 0.46 },
+        { x: 0.42, h: 0.42 },
+      ].forEach((curtain) => addBox(house, { x: 0.055, y: curtain.h, z: 0.018 }, { x: curtain.x, y: -0.02, z: 0.49 }, curtainMaterial));
+      const balcony = new THREE.Group();
+      balcony.position.set(-0.02, -0.48, 0.58);
+      house.add(balcony);
+      addBox(balcony, { x: 1.46, y: 0.04, z: 0.18 }, { x: 0, y: 0, z: 0 }, roofShadowMaterial);
+      addBox(balcony, { x: 1.32, y: 0.018, z: 0.055 }, { x: 0, y: 0.08, z: 0.106 }, trimMaterial);
+      addBox(balcony, { x: 1.24, y: 0.022, z: 0.032 }, { x: 0, y: 0.22, z: 0.112 }, trimMaterial);
+      [-0.58, -0.28, 0.02, 0.32, 0.58].forEach((x) => addBox(balcony, { x: 0.026, y: 0.28, z: 0.026 }, { x, y: 0.1, z: 0.112 }, trimMaterial));
 
       const room = new THREE.Group();
       room.position.set(-0.08, -0.04, 0.2);
@@ -2403,6 +2447,11 @@
       addBox(room, { x: 0.34, y: 0.075, z: 0.22 }, { x: -0.34, y: -0.1, z: -0.06 }, pillowMaterial);
       addBox(room, { x: 0.42, y: 0.065, z: 0.16 }, { x: -0.07, y: -0.055, z: 0.02 }, shirtMaterial);
       addBox(room, { x: 0.72, y: 0.095, z: 0.4 }, { x: 0.07, y: -0.032, z: 0.035 }, blanketMaterial);
+      [
+        { x: -0.12, z: -0.1, w: 0.5 },
+        { x: 0.08, z: 0.02, w: 0.56 },
+        { x: 0.2, z: 0.13, w: 0.46 },
+      ].forEach((fold) => addBox(room, { x: fold.w, y: 0.011, z: 0.012 }, { x: fold.x, y: 0.025, z: fold.z }, curtainMaterial));
       addBox(room, { x: 0.18, y: 0.018, z: 0.46 }, { x: 0.28, y: 0.025, z: 0.02 }, pillowMaterial);
       const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
       head.scale.set(1.06, 0.88, 0.82);
@@ -2422,6 +2471,12 @@
       laptopScreen.position.set(-0.43, 0.13, 0.15);
       laptopScreen.rotation.set(-0.58, -0.08, 0);
       room.add(laptopScreen);
+      addBox(room, { x: 0.14, y: 0.01, z: 0.018 }, { x: -0.36, y: 0.018, z: 0.275 }, trimMaterial);
+      const lampGlow = new THREE.Mesh(new THREE.SphereGeometry(0.044, 24, 14), lampMaterial);
+      lampGlow.scale.set(1, 0.62, 1);
+      lampGlow.position.set(-0.2, 0.075, 0.26);
+      room.add(lampGlow);
+      addBox(room, { x: 0.018, y: 0.08, z: 0.018 }, { x: -0.2, y: 0.018, z: 0.26 }, trimMaterial);
 
       const roomDesk = new THREE.Group();
       roomDesk.position.set(0.34, -0.14, -0.02);
@@ -3121,20 +3176,16 @@
         if (activeView === "outside") {
           const outsideEntryZoom = getOutsideEntryZoom();
           if (delta < 0) {
-            targetZoomLevel = clamp(targetZoomLevel - delta * 0.00125, 0, 1);
-            if (targetZoomLevel > 0.78) {
-              enterDeskFromOutside();
-            }
+            targetZoomLevel = clamp(targetZoomLevel - delta * 0.00115, outsideEntryZoom, getOutsideMaxZoom());
             event.preventDefault();
             scheduleFrame();
             return;
           }
           if (delta > 0) {
-            if (targetZoomLevel > outsideEntryZoom + 0.03) {
-              targetZoomLevel = clamp(targetZoomLevel - delta * 0.0012, outsideEntryZoom, 1);
-              event.preventDefault();
-              scheduleFrame();
-            }
+            enterDeskFromOutside();
+            event.preventDefault();
+            scheduleFrame();
+            return;
           }
           return;
         }
@@ -3152,6 +3203,11 @@
         if (targetZoomLevel > 0.5) {
           targetRotationX = defaultRotation.x;
           targetRotationY = defaultRotation.y;
+        }
+        if (delta < 0 && targetZoomLevel > 0.64 && Date.now() > windowAutoEntryBlockedUntil && isPointerInWindowRegion(event)) {
+          setSceneView("outside");
+          event.preventDefault();
+          return;
         }
         event.preventDefault();
         scheduleFrame();
