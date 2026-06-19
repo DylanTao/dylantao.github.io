@@ -85,6 +85,9 @@
   }
 
   #back-to-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--global-back-to-top-text-color);
     background: var(--global-back-to-top-bg-color);
     bottom: v.$back-to-top-bottom;
@@ -92,6 +95,13 @@
     height: v.$back-to-top-height;
     width: v.$back-to-top-width;
     z-index: v.$back-to-top-z-index;
+
+    svg {
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+    }
   }
 }
 
