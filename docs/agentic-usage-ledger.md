@@ -16,32 +16,32 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 Published total baseline, estimated on June 19, 2026:
 
-- 211 commits since the revamp cutoff, including the pending ledger/tooling commit estimate.
-- 1.67B estimated Codex tokens.
-- 157 estimated active agent-hours.
-- API-cost lens: about $540 at `gpt-5.3-codex` list prices, treated as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1002 kWh, 374 kg CO2e, or a stored-carbon equivalent of about 0.6 ten-year urban trees. Range: 0.21-2.1 trees.
+- 212 commits since the revamp cutoff, including the local emoji-asset commit.
+- 1.69B estimated Codex tokens.
+- 159 estimated active agent-hours.
+- API-cost lens: about $550 at `gpt-5.3-codex` list prices, treated as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 1014 kWh, 378 kg CO2e, or a stored-carbon equivalent of about 0.6 ten-year urban trees. Range: 0.21-2.1 trees.
 
 Evidence behind the total:
 
-- `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 46 sessions after the revamp cutoff.
-- The audit showed about 1.667B raw tokens and 156.87 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
+- `python bin/audit_agentic_usage.py --write` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 46 sessions after the revamp cutoff.
+- The audit showed about 1.687B raw tokens and 158.84 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 
 Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the meme-record and desk-scene burst began.
 
 Published 3D desk baseline:
 
-- 61 commits touching the homepage desk/vinyl/coffee scene paths, including the pending ledger/tooling commit estimate.
-- 610M estimated Codex tokens.
-- 43 estimated active agent-hours.
+- 62 commits touching the homepage desk/vinyl/coffee scene paths, including the local emoji-asset commit.
+- 630M estimated Codex tokens.
+- 45 estimated active agent-hours.
 - API-cost lens: about $200 at `gpt-5.3-codex` list prices, treated as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 366 kWh, 137 kg CO2e, or a stored-carbon equivalent of about 0.23 ten-year urban trees. Range: 0.08-0.8 trees.
+- Tree-cut lens: about 378 kWh, 141 kg CO2e, or a stored-carbon equivalent of about 0.23 ten-year urban trees. Range: 0.08-0.8 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 11 Codex sessions after the 3D cutoff, about 606.8M raw tokens, and about 42.70 active hours, rounded for the public UI.
+- The audit counted 11 Codex sessions after the 3D cutoff, about 628.8M raw tokens, and about 44.77 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -129,12 +129,13 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 ### 2026-06-19
 
 - Work scope: added the publish freshness gate and the write-capable `bin/audit_agentic_usage.py` helper.
-- Commit delta: public total moved from 182 to 211 revamp commits; desk-scene total moved from 35 to 61 scoped commits.
-- Token delta: public total moved from 1.36B to 1.67B; desk-scene total moved from 350M to 610M.
-- Active-hour delta: public total moved from 135 to 157 hours; desk-scene total moved from 25 to 43 hours.
-- Energy/cut-tree delta: public total moved from 816 kWh / ~0.5 tree to 1002 kWh / ~0.6 tree; desk-scene total moved from 210 kWh / ~0.13 tree to 366 kWh / ~0.23 tree.
-- API-cost delta: added list-price equivalence, currently about $540 for the full revamp and $200 for the desk-scene burst.
+- Commit delta: public total moved from 182 to 212 revamp commits; desk-scene total moved from 35 to 62 scoped commits.
+- Token delta: public total moved from 1.36B to 1.69B; desk-scene total moved from 350M to 630M.
+- Active-hour delta: public total moved from 135 to 159 hours; desk-scene total moved from 25 to 45 hours.
+- Energy/cut-tree delta: public total moved from 816 kWh / ~0.5 tree to 1014 kWh / ~0.6 tree; desk-scene total moved from 210 kWh / ~0.13 tree to 378 kWh / ~0.23 tree.
+- API-cost delta: added list-price equivalence, currently about $550 for the full revamp and $200 for the desk-scene burst.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 73 repo sessions, counted 46 sessions after the revamp cutoff and 11 after the desk cutoff, and rounded the clipped totals for the public UI.
+- Follow-up transparent icon pass: public total moved to 212 commits, 1.69B tokens, 159 hours, 1014 kWh, and about $550 API cosplay; desk-scene total moved to 62 commits, 630M tokens, 45 hours, 378 kWh, and about $200 API cosplay.
 
 ## Future Entry Template
 

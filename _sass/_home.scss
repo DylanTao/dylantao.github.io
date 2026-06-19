@@ -3139,10 +3139,10 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-agentic-money-gag img {
   width: 2.35rem;
   height: 2.35rem;
-  border: 1px solid color-mix(in srgb, var(--home-accent) 26%, var(--home-line));
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--home-paper-warm) 82%, var(--home-surface));
-  object-fit: cover;
+  border: 0;
+  background: transparent;
+  filter: drop-shadow(0 0.1rem 0.16rem rgba(21, 23, 24, 0.14));
+  object-fit: contain;
 }
 
 .home-agentic-money-gag span {
