@@ -1024,8 +1024,20 @@
             context.stroke();
           }
 
-          context.fillStyle = isEvening ? "rgba(255,241,201,0.18)" : "rgba(255,255,255,0.18)";
-          for (let index = 0; index < 26; index += 1) {
+          context.strokeStyle = isEvening ? "rgba(141,196,210,0.26)" : "rgba(231,252,255,0.34)";
+          context.lineWidth = 1.4;
+          for (let row = 0; row < 5; row += 1) {
+            const y = 18 + row * 42;
+            context.beginPath();
+            context.moveTo(-18, y + 6);
+            for (let x = -18; x <= width + 36; x += 52) {
+              context.bezierCurveTo(x + 16, y - 4, x + 34, y + 16, x + 52, y + 4);
+            }
+            context.stroke();
+          }
+
+          context.fillStyle = isEvening ? "rgba(255,241,201,0.18)" : "rgba(255,255,255,0.2)";
+          for (let index = 0; index < 34; index += 1) {
             const x = (index * 47) % width;
             const y = 18 + ((index * 71) % (height - 36));
             context.beginPath();
@@ -1044,23 +1056,32 @@
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
-          for (let row = 0; row < 4; row += 1) {
-            context.strokeStyle = isEvening ? `rgba(246,233,203,${0.44 - row * 0.05})` : `rgba(255,255,255,${0.52 - row * 0.06})`;
-            context.lineWidth = row === 0 ? 5 : 3;
+          for (let row = 0; row < 5; row += 1) {
+            context.strokeStyle = isEvening ? `rgba(246,233,203,${0.48 - row * 0.055})` : `rgba(255,255,255,${0.58 - row * 0.065})`;
+            context.lineWidth = row === 0 ? 5.6 : row === 1 ? 4 : 2.4;
             context.beginPath();
-            const y = 22 + row * 18;
+            const y = 18 + row * 15;
             context.moveTo(-24, y);
             for (let x = -24; x <= width + 32; x += 56) {
-              context.quadraticCurveTo(x + 28, y - 9 + row * 2, x + 56, y + Math.sin(x * 0.03) * 4);
+              context.quadraticCurveTo(x + 20, y - 10 + row * 2, x + 38, y + Math.sin((x + row * 17) * 0.032) * 5);
+              context.quadraticCurveTo(x + 48, y + 9 - row, x + 56, y + Math.sin(x * 0.03) * 4);
             }
             context.stroke();
           }
           context.fillStyle = isEvening ? "rgba(246,233,203,0.34)" : "rgba(255,255,255,0.34)";
-          for (let index = 0; index < 18; index += 1) {
+          for (let index = 0; index < 30; index += 1) {
             context.beginPath();
             context.arc((index * 37) % width, 18 + ((index * 23) % (height - 28)), 1.5 + (index % 3), 0, Math.PI * 2);
             context.fill();
           }
+          context.globalAlpha = isEvening ? 0.22 : 0.3;
+          context.fillStyle = "#ffffff";
+          for (let index = 0; index < 10; index += 1) {
+            context.beginPath();
+            context.ellipse((index * 83) % width, 36 + ((index * 31) % 34), 16 + (index % 4) * 6, 2.2, -0.16 + index * 0.05, 0, Math.PI * 2);
+            context.fill();
+          }
+          context.globalAlpha = 1;
         },
         384,
         96,
@@ -1074,9 +1095,17 @@
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
           const sand = context.createLinearGradient(0, 0, width, height);
           sand.addColorStop(0, isEvening ? "#c4a67a" : "#f1d9aa");
-          sand.addColorStop(0.58, isEvening ? "#a88d68" : "#e6c791");
-          sand.addColorStop(1, isEvening ? "#7e684e" : "#c8a06e");
+          sand.addColorStop(0.34, isEvening ? "#b89a70" : "#eed2a0");
+          sand.addColorStop(0.66, isEvening ? "#958064" : "#d5b07c");
+          sand.addColorStop(1, isEvening ? "#6f5d47" : "#b88958");
           context.fillStyle = sand;
+          context.fillRect(0, 0, width, height);
+
+          const wet = context.createLinearGradient(0, 0, width, 0);
+          wet.addColorStop(0, isEvening ? "rgba(69,94,102,0.26)" : "rgba(100,184,200,0.22)");
+          wet.addColorStop(0.45, isEvening ? "rgba(238,216,176,0.16)" : "rgba(255,250,224,0.28)");
+          wet.addColorStop(1, "rgba(255,255,255,0)");
+          context.fillStyle = wet;
           context.fillRect(0, 0, width, height);
 
           for (let index = 0; index < 130; index += 1) {
@@ -1097,11 +1126,11 @@
 
           context.strokeStyle = isEvening ? "rgba(255,238,199,0.22)" : "rgba(255,255,255,0.36)";
           context.lineWidth = 2;
-          [28, 66, 108].forEach((y, row) => {
+          [24, 54, 86, 122].forEach((y, row) => {
             context.beginPath();
             context.moveTo(-18, y);
             for (let x = -18; x <= width + 24; x += 72) {
-              context.quadraticCurveTo(x + 34, y + (row % 2 ? 5 : -5), x + 72, y);
+              context.quadraticCurveTo(x + 34, y + (row % 2 ? 4 : -5), x + 72, y + Math.sin((x + row * 31) * 0.04) * 1.8);
             }
             context.stroke();
           });
@@ -1985,6 +2014,12 @@
       foam.position.set(-1.8, -1.18, 0.96);
       foam.renderOrder = -2;
       outsideGroup.add(foam);
+      const tideFoam = new THREE.Mesh(new THREE.PlaneGeometry(2.84, 0.07), foamMaterial);
+      tideFoam.rotation.x = -Math.PI / 2;
+      tideFoam.rotation.z = 0.035;
+      tideFoam.position.set(-1.52, -1.17, 1.12);
+      tideFoam.renderOrder = -1;
+      outsideGroup.add(tideFoam);
       outsideMotionItems.push(
         {
           key: "ocean",
@@ -2024,6 +2059,19 @@
           amplitude: 0.014,
           frequency: 2.4,
           phase: 0.8,
+        },
+        {
+          key: "tideFoam",
+          texture: null,
+          mesh: tideFoam,
+          baseY: tideFoam.position.y,
+          speedX: 0,
+          speedY: 0,
+          offsetX: 0,
+          offsetY: 0,
+          amplitude: 0.018,
+          frequency: 2.75,
+          phase: 1.42,
         },
         {
           key: "sand",
