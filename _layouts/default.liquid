@@ -39,22 +39,22 @@
     <div class="{{ main_container_class }} {{ main_container_spacing_class }}" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
-          <div class="row">
+          <div class="row toc-layout toc-layout-right">
             <!-- main content area -->
-            <div class="{{ toc_main_class }}">{{ content }}</div>
+            <div class="{{ toc_main_class }} toc-main-column">{{ content }}</div>
             <!-- sidebar, which will move to the top on a small screen -->
-            <div class="{{ toc_sidebar_class }}">
-              <nav id="toc-sidebar" class="sticky-top"></nav>
+            <div class="{{ toc_sidebar_class }} toc-sidebar-column">
+              <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation"></nav>
             </div>
           </div>
         {% else %}
-          <div class="row">
+          <div class="row toc-layout toc-layout-left">
             <!-- sidebar, which will move to the top on a small screen -->
-            <div class="{{ toc_sidebar_class }}">
-              <nav id="toc-sidebar" class="sticky-top"></nav>
+            <div class="{{ toc_sidebar_class }} toc-sidebar-column">
+              <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation"></nav>
             </div>
             <!-- main content area -->
-            <div class="{{ toc_main_class }}">{{ content }}</div>
+            <div class="{{ toc_main_class }} toc-main-column">{{ content }}</div>
           </div>
         {% endif %}
       {% else %}

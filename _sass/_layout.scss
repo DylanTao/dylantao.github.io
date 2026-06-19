@@ -352,9 +352,72 @@ html.site-motion-ready .site-reveal.site-visible {
   }
 }
 
-// Content layout uses Bootstrap's grid system with responsive columns
-// Main content flows naturally through container-mt-5 and Bootstrap grid classes
+// Content layout helpers
 // See _layouts/default.liquid and _includes/projects.liquid for examples
+
+.toc-layout {
+  display: grid;
+  gap: 1.35rem;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.toc-sidebar-column,
+.toc-main-column {
+  width: auto;
+  max-width: none;
+  flex: none;
+  min-width: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.toc-main-column {
+  width: 100%;
+}
+
+@media (max-width: 991.98px) {
+  .toc-layout {
+    display: block;
+  }
+
+  .toc-sidebar-column {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .toc-layout {
+    grid-template-columns: minmax(12.5rem, 15.5rem) minmax(0, 1fr);
+    column-gap: 1.75rem;
+  }
+
+  .toc-layout-right {
+    grid-template-columns: minmax(0, 1fr) minmax(12.5rem, 15.5rem);
+  }
+
+  .toc-layout-left .toc-sidebar-column {
+    grid-column: 1;
+  }
+
+  .toc-layout-left .toc-main-column {
+    grid-column: 2;
+  }
+
+  .toc-layout-right .toc-main-column {
+    grid-column: 1;
+  }
+
+  .toc-layout-right .toc-sidebar-column {
+    grid-column: 2;
+  }
+}
+
+@media (min-width: 1200px) {
+  .toc-layout {
+    column-gap: 2.1rem;
+  }
+}
 
 /******************************************************************************
  * Publications
@@ -379,7 +442,7 @@ html.site-motion-ready .site-reveal.site-visible {
   }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
   #toc-sidebar {
     display: none;
   }
