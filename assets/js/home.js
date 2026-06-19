@@ -2093,10 +2093,39 @@
       });
       addBox(outsideGroup, { x: 1.68, y: 0.052, z: 0.48 }, { x: 1.12, y: -0.49, z: 0.42 }, cliffMaterial);
       addBox(outsideGroup, { x: 1.26, y: 0.028, z: 0.28 }, { x: 1.1, y: -0.555, z: 0.72 }, cliffLineMaterial);
+      addIrregularSlab(
+        outsideGroup,
+        [
+          [0.24, 0.18],
+          [2.22, 0.2],
+          [2.38, 0.42],
+          [2.08, 0.66],
+          [1.18, 0.72],
+          [0.46, 0.6],
+        ],
+        -0.66,
+        0.085,
+        cliffMaterial
+      );
+      addIrregularSlab(
+        outsideGroup,
+        [
+          [0.62, 0.7],
+          [2.0, 0.73],
+          [2.16, 0.95],
+          [1.42, 1.16],
+          [0.72, 1.02],
+        ],
+        -1.0,
+        0.12,
+        cliffFaceMaterial
+      );
       [
         { x: 0.7, y: -0.77, z: 0.82, sx: 0.14, sy: 0.22, sz: 0.06, ry: 0.18 },
         { x: 1.42, y: -0.79, z: 0.88, sx: 0.18, sy: 0.2, sz: 0.065, ry: -0.12 },
         { x: 1.95, y: -0.78, z: 0.78, sx: 0.12, sy: 0.18, sz: 0.055, ry: 0.08 },
+        { x: 0.54, y: -0.68, z: 0.36, sx: 0.1, sy: 0.16, sz: 0.045, ry: -0.22 },
+        { x: 2.08, y: -0.68, z: 0.42, sx: 0.12, sy: 0.18, sz: 0.05, ry: 0.24 },
       ].forEach((facet) => {
         const mesh = addBox(outsideGroup, { x: facet.sx, y: facet.sy, z: facet.sz }, facet, cliffFaceMaterial);
         mesh.rotation.y = facet.ry;
@@ -2111,6 +2140,23 @@
         { x: 1.1, z: 0.62, w: 1.28 },
         { x: 1.08, z: 0.9, w: 0.92 },
       ].forEach((rail) => addBox(outsideGroup, { x: rail.w, y: 0.024, z: 0.032 }, { x: rail.x, y: -0.32, z: rail.z }, trimMaterial));
+      [
+        { x: 0.54, z: 0.28, h: 0.56 },
+        { x: 1.08, z: 0.28, h: 0.6 },
+        { x: 1.64, z: 0.29, h: 0.54 },
+        { x: 1.86, z: 0.76, h: 0.46 },
+      ].forEach((pier) =>
+        addBox(outsideGroup, { x: 0.045, y: pier.h, z: 0.045 }, { x: pier.x, y: -0.49 - pier.h / 2, z: pier.z }, roofShadowMaterial)
+      );
+      [
+        { x: 0.84, z: 0.31, ry: 0.22 },
+        { x: 1.46, z: 0.31, ry: -0.2 },
+        { x: 1.72, z: 0.7, ry: 0.18 },
+      ].forEach((brace) => {
+        const mesh = addBox(outsideGroup, { x: 0.36, y: 0.026, z: 0.036 }, { x: brace.x, y: -0.75, z: brace.z }, roofShadowMaterial);
+        mesh.rotation.y = brace.ry;
+        mesh.rotation.z = brace.ry > 0 ? 0.32 : -0.32;
+      });
 
       const house = new THREE.Group();
       house.position.set(1.1, 0.13, 0.18);
@@ -2125,11 +2171,23 @@
       addBox(house, { x: 1.78, y: 0.1, z: 0.92 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
       addBox(house, { x: 1.72, y: 0.035, z: 0.88 }, { x: 0, y: 0.415, z: 0.02 }, roofShadowMaterial);
       addBox(house, { x: 1.9, y: 0.04, z: 1.0 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
+      addBox(house, { x: 1.94, y: 0.05, z: 0.065 }, { x: 0, y: 0.505, z: 0.565 }, roofShadowMaterial);
+      addBox(house, { x: 1.94, y: 0.045, z: 0.055 }, { x: 0, y: 0.505, z: -0.495 }, roofShadowMaterial);
+      addBox(house, { x: 0.07, y: 0.09, z: 1.02 }, { x: -0.98, y: 0.49, z: 0.04 }, roofShadowMaterial);
+      addBox(house, { x: 0.07, y: 0.09, z: 1.02 }, { x: 0.98, y: 0.49, z: 0.04 }, roofShadowMaterial);
       addBox(house, { x: 1.9, y: 0.045, z: 0.075 }, { x: 0, y: 0.43, z: 0.53 }, trimMaterial);
       addBox(house, { x: 1.78, y: 0.035, z: 0.075 }, { x: 0, y: 0.39, z: -0.42 }, trimMaterial);
       addBox(house, { x: 1.82, y: 0.032, z: 0.07 }, { x: 0, y: 0.36, z: 0.37 }, roofShadowMaterial);
       addBox(house, { x: 1.48, y: 0.075, z: 0.14 }, { x: -0.02, y: -0.57, z: 0.36 }, roofMaterial);
       addBox(house, { x: 1.42, y: 0.045, z: 0.05 }, { x: -0.02, y: -0.47, z: 0.51 }, trimMaterial);
+      [
+        [-0.73, 0.39],
+        [0.61, 0.39],
+        [-0.73, -0.34],
+        [0.61, -0.34],
+      ].forEach(([x, z]) => addBox(house, { x: 0.038, y: 0.72, z: 0.038 }, { x, y: -0.06, z }, trimMaterial));
+      addBox(house, { x: 1.42, y: 0.03, z: 0.045 }, { x: -0.06, y: 0.26, z: -0.255 }, trimMaterial);
+      addBox(house, { x: 1.42, y: 0.026, z: 0.045 }, { x: -0.06, y: -0.31, z: -0.255 }, roofShadowMaterial);
       addBox(
         house,
         { x: 1.16, y: 0.62, z: 0.04 },
