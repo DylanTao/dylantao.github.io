@@ -136,6 +136,7 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - API-cost delta: added list-price equivalence, currently about $550 for the full revamp and $200 for the desk-scene burst.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 73 repo sessions, counted 46 sessions after the revamp cutoff and 11 after the desk cutoff, and rounded the clipped totals for the public UI.
 - Follow-up transparent icon pass: public total moved to 212 commits, 1.69B tokens, 159 hours, 1014 kWh, and about $550 API cosplay; desk-scene total moved to 62 commits, 630M tokens, 45 hours, 378 kWh, and about $200 API cosplay.
+- Desk physics/outside-motion polish: public total moved to 213 commits; desk-scene total moved to 63 scoped commits, 640M tokens, 384 kWh, and roughly 0.24 trees cut. Overall rounded token, hour, kWh, tree, and API-cost labels stayed at 1.69B / 159h / 1014 kWh / ~0.6 tree / ~$550.
 
 ## Future Entry Template
 

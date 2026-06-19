@@ -50,7 +50,8 @@ Interior and exterior should read as two scales of the same hut/desk world: warm
 
 - Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, blanket pattern, laptop screen, and record labels.
 - Favor cheap GPU motion before adding heavier simulation: scrolling texture offsets, small mesh bobbing, and eased object arcs already give ocean/sand/card motion without a particle system.
-- Next valuable additions would be a low-resolution water/foam shader plane for the beach, a tiny sand-wind overlay near the cliff, and instanced dust/card glints. Avoid full fluid simulation unless it replaces the existing canvas-texture motion with a clearly better, still-fast effect.
+- The outside view uses texture-offset ocean/foam motion plus a transparent sand-gust plane near the beach. This should read as shader-like coastal motion while staying cheap and only animating outside mode.
+- Next valuable additions would be a low-resolution water/foam shader plane for the beach and instanced dust/card glints. Avoid full fluid simulation unless it replaces the existing canvas-texture motion with a clearly better, still-fast effect.
 - Keep renderer pixel ratio capped and animate only when visible, spinning, moving, or outside textures are active.
 
 ## Acceptance Checklist

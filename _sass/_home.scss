@@ -765,6 +765,17 @@ html[data-theme="dark"] .home-desk-control-strip {
   transform: translateY(0);
 }
 
+@media (min-width: 768px) {
+  .home-hero-media.is-desk-3d .home-desk-scene-note {
+    bottom: 3.55rem;
+    right: 1.05rem;
+  }
+
+  .home-hero-media.is-desk-3d .home-desk-scene-note span {
+    max-width: min(100%, 34rem);
+  }
+}
+
 .home-hero-media.is-desk-3d .home-desk-corner-scene.is-outside-view + .home-desk-control-strip {
   opacity: 0.74;
   pointer-events: auto;
@@ -1667,11 +1678,11 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -2.88rem;
-  right: clamp(-3.28rem, -4.35vw, -2.02rem);
-  width: min(20.2rem, 57%);
+  top: -4.05rem;
+  right: clamp(-1.35rem, -1.75vw, -0.55rem);
+  width: min(18.2rem, 50%);
   aspect-ratio: 1 / 1;
-  z-index: 7;
+  z-index: 9;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
   filter: saturate(1.08) contrast(1.04);
@@ -3709,8 +3720,8 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-artifact-stack.has-coffee-stain::before {
     top: -1.84rem;
-    right: -2.02rem;
-    width: min(12.85rem, 50vw);
+    right: clamp(-1.05rem, -4vw, -0.45rem);
+    width: min(12.25rem, 47vw);
     opacity: calc(var(--home-coffee-stain-opacity) * 0.28);
   }
 

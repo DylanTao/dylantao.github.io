@@ -817,13 +817,13 @@
       } else {
         const zoom = easeOutCubic(zoomLevel);
         if (focusedEntry?.kind === "album") {
-          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 30 : 27, zoom);
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 31 : 28, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.32 : 2.62, zoom),
-            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.58 : 1.68, zoom),
-            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.08 : 4.42, zoom)
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.46 : 2.84, zoom),
+            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.66 : 1.78, zoom),
+            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.46 : 4.86, zoom)
           );
-          camera.lookAt(isCompactScene ? -0.78 : -0.92, 0.04, -0.18);
+          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.34 : -0.42, zoom), lerp(-0.06, 0.12, zoom), lerp(0.02, 0.16, zoom));
         } else if (focusedEntry?.kind === "artifact") {
           camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 30 : 27, zoom);
           camera.position.set(
@@ -1268,6 +1268,40 @@
         512,
         160,
         1.8,
+        1
+      );
+
+    const createSandGustTexture = (palette) =>
+      makeRepeatingCanvasTexture(
+        (context, width, height) => {
+          context.clearRect(0, 0, width, height);
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          const palePrefix = isEvening ? "rgba(255,230,184," : "rgba(255,255,245,";
+          const warmPrefix = isEvening ? "rgba(197,155,100," : "rgba(183,125,64,";
+          for (let row = 0; row < 7; row += 1) {
+            const y = 16 + row * 18;
+            context.strokeStyle = `${row % 2 ? warmPrefix : palePrefix}${row % 2 ? 0.1 : 0.18})`;
+            context.lineWidth = row % 3 === 0 ? 3.2 : 1.8;
+            context.beginPath();
+            context.moveTo(-42, y);
+            for (let x = -42; x <= width + 60; x += 90) {
+              const sway = Math.sin((x + row * 37) * 0.022) * 9;
+              context.bezierCurveTo(x + 24, y - 8 + sway, x + 58, y + 10 - sway * 0.4, x + 90, y + Math.sin(x * 0.018) * 3);
+            }
+            context.stroke();
+          }
+          context.fillStyle = isEvening ? "rgba(255,236,190,0.16)" : "rgba(255,255,255,0.22)";
+          for (let index = 0; index < 54; index += 1) {
+            const x = (index * 53) % width;
+            const y = 8 + ((index * 31) % (height - 16));
+            context.beginPath();
+            context.ellipse(x, y, 1.8 + (index % 4) * 0.8, 0.7, (index % 5) * 0.24, 0, Math.PI * 2);
+            context.fill();
+          }
+        },
+        512,
+        128,
+        1.4,
         1
       );
 
@@ -1747,6 +1781,10 @@
       const sandTexture = createSandSurfaceTexture(palette);
       replaceMaterialMap(themeMaterials.outsideBeach, sandTexture);
       setOutsideMotionTexture("sand", sandTexture);
+      const sandGustTexture = createSandGustTexture(palette);
+      replaceMaterialMap(themeMaterials.outsideSandGust, sandGustTexture);
+      if (themeMaterials.outsideSandGust) themeMaterials.outsideSandGust.opacity = palette.isDarkTheme ? 0.2 : 0.24;
+      setOutsideMotionTexture("sandGust", sandGustTexture);
       replaceMaterialMap(themeMaterials.outsideCliff, createCliffSurfaceTexture(palette));
       replaceMaterialMap(themeMaterials.outsideCliffFace, createCliffSurfaceTexture(palette, true));
       replaceMaterialMap(themeMaterials.catBlanket, createCatBlanketTexture(palette));
@@ -1815,7 +1853,7 @@
       container.removeAttribute("data-focused-desk-object");
       entry.lifted = false;
       setEntryCue(entry, false);
-      const droppedPose = entry.kind === "album" && entry.thrown && entry.dropRestPose ? entry.dropRestPose : null;
+      const droppedPose = entry.kind === "album" ? getAlbumDroppedRestPose(entry) : null;
       const position = droppedPose?.position || entry.basePosition;
       const rotation = droppedPose?.rotation || entry.baseRotation;
       const scale = droppedPose?.scale || new THREE.Vector3(1, 1, 1);
@@ -1847,24 +1885,39 @@
       const side = entry.dropDirection || (orderIndex % 2 === 0 ? -1 : 1);
       const row = Math.floor(orderIndex / 2);
       const jitter = (((entry.index * 37) % 11) - 5) * 0.012;
-      const fan = side * (0.2 + row * 0.06) + jitter;
+      const fan = side * (0.14 + row * 0.05) + jitter;
 
       return {
         albumPosition: new THREE.Vector3(
-          0.82 + side * (0.32 + row * 0.1) + jitter,
-          -0.95 + orderIndex * 0.012,
-          1.28 + row * 0.16 + (entry.index % 2) * 0.06
+          0.42 + side * (0.18 + row * 0.08) + jitter,
+          -0.94 + orderIndex * 0.014,
+          1.08 + row * 0.14 + (entry.index % 2) * 0.045
         ),
-        albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.035, side * 0.032, fan),
-        albumScale: new THREE.Vector3(0.93, 0.93, 0.93),
+        albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.024, side * 0.02, fan),
+        albumScale: new THREE.Vector3(0.95, 0.95, 0.95),
         cardPosition: new THREE.Vector3(
-          -0.68 + side * (0.28 + row * 0.12) + jitter,
-          -1.15 + orderIndex * 0.012,
-          1.02 + row * 0.16 + (entry.index % 2) * 0.055
+          -0.18 + side * (0.2 + row * 0.08) + jitter,
+          -1.08 + orderIndex * 0.016,
+          0.94 + row * 0.13 + (entry.index % 2) * 0.045
         ),
-        cardRotation: new THREE.Euler(-Math.PI / 2 + side * 0.018, side * 0.024, side * (0.18 + row * 0.06) - jitter),
+        cardRotation: new THREE.Euler(side * 0.018, side * 0.018, side * (0.12 + row * 0.05) - jitter),
         cardScale: new THREE.Vector3(1, 1, 1),
       };
+    };
+
+    const getAlbumDroppedRestPose = (entry) => {
+      if (!entry || entry.kind !== "album") return null;
+      const orderIndex = droppedRecordIndices.indexOf(entry.index);
+      if (orderIndex < 0) return null;
+      const pose = getDroppedRecordPose(entry, orderIndex);
+      const restPose = {
+        position: pose.albumPosition.clone(),
+        rotation: pose.albumRotation.clone(),
+        scale: pose.albumScale.clone(),
+      };
+      entry.thrown = true;
+      entry.dropRestPose = restPose;
+      return restPose;
     };
 
     const placeObject = (object, pose, immediate, options = {}) => {
@@ -1923,9 +1976,9 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 780 : 420,
-                arcHeight: animateThisDrop ? 0.2 : 0,
-                wobbleZ: animateThisDrop ? 0.055 : 0,
+                duration: animateThisDrop ? 760 : 420,
+                arcHeight: animateThisDrop ? 0.15 : 0,
+                wobbleZ: animateThisDrop ? 0.034 : 0,
               }
             );
           }
@@ -1935,7 +1988,7 @@
             songCard.group.visible = true;
             if (!wasVisible && animateThisDrop && !immediate) {
               songCard.group.position.copy(pose.cardPosition).add(new THREE.Vector3(-0.08 * (entry.dropDirection || 1), 0.46, -0.16));
-              songCard.group.rotation.set(-Math.PI / 2 + 0.32, 0, pose.cardRotation.z - 0.28 * (entry.dropDirection || 1));
+              songCard.group.rotation.set(0.34, 0, pose.cardRotation.z - 0.28 * (entry.dropDirection || 1));
               songCard.group.scale.setScalar(0.78);
             }
             placeObject(
@@ -1947,9 +2000,9 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 720 : 360,
-                arcHeight: animateThisDrop ? 0.34 : 0,
-                wobbleZ: animateThisDrop ? 0.075 : 0,
+                duration: animateThisDrop ? 700 : 360,
+                arcHeight: animateThisDrop ? 0.24 : 0,
+                wobbleZ: animateThisDrop ? 0.044 : 0,
               }
             );
           }
@@ -1994,7 +2047,6 @@
       focusedEntryAt = performance.now();
       container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
       setEntryCue(entry, true);
-      entry.thrown = false;
       const playPosition = entry.playPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
       const playRotation = entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
       entry.currentRestY = playPosition.y;
@@ -2011,13 +2063,13 @@
         {
           position: playPosition.clone(),
           rotation: playRotation.clone(),
-          scale: new THREE.Vector3(1.22, 1.22, 1.22),
+          scale: new THREE.Vector3(1.14, 1.14, 1.14),
         },
-        620
+        560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, 0.54);
-      targetRotationX = -0.055;
-      targetRotationY = -0.3;
+      targetZoomLevel = Math.max(targetZoomLevel, 0.42);
+      targetRotationX = -0.045;
+      targetRotationY = -0.2;
       scheduleFrame();
     };
 
@@ -2307,6 +2359,15 @@
         depthWrite: false,
         roughness: 0.9,
       });
+      const sandGustTexture = createSandGustTexture(palette);
+      const sandGustMaterial = new THREE.MeshBasicMaterial({
+        map: sandGustTexture,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.2 : 0.24,
+        depthWrite: false,
+        depthTest: false,
+        side: THREE.DoubleSide,
+      });
       const cliffMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0x675a46 : 0xc2a775,
         map: createCliffSurfaceTexture(palette),
@@ -2364,6 +2425,7 @@
         metalness: 0.01,
       });
       themeMaterials.outsideBeach = beachMaterial;
+      themeMaterials.outsideSandGust = sandGustMaterial;
       themeMaterials.outsideCliff = cliffMaterial;
       themeMaterials.outsideCliffFace = cliffFaceMaterial;
       themeMaterials.outsideCliffLine = cliffLineMaterial;
@@ -2407,6 +2469,12 @@
       tideFoam.position.set(-1.52, -1.17, 1.12);
       tideFoam.renderOrder = -1;
       outsideGroup.add(tideFoam);
+      const sandGust = new THREE.Mesh(new THREE.PlaneGeometry(3.9, 0.42), sandGustMaterial);
+      sandGust.rotation.x = -Math.PI / 2;
+      sandGust.rotation.z = -0.035;
+      sandGust.position.set(-1.72, -1.105, 1.08);
+      sandGust.renderOrder = 0;
+      outsideGroup.add(sandGust);
       outsideMotionItems.push(
         {
           key: "ocean",
@@ -2507,6 +2575,26 @@
           baseScaleZ: beach.scale.z,
           scaleAmplitude: 0.004,
           scaleFrequency: 0.8,
+        },
+        {
+          key: "sandGust",
+          texture: sandGustTexture,
+          mesh: sandGust,
+          baseY: sandGust.position.y,
+          speedX: 0.18,
+          speedY: 0.026,
+          offsetX: 0.22,
+          offsetY: 0,
+          amplitude: 0.012,
+          frequency: 1.72,
+          phase: 2.15,
+          baseRotationZ: sandGust.rotation.z,
+          rotationAmplitude: 0.012,
+          baseScaleX: sandGust.scale.x,
+          baseScaleY: sandGust.scale.y,
+          baseScaleZ: sandGust.scale.z,
+          scaleAmplitude: 0.01,
+          scaleFrequency: 1.24,
         }
       );
 
@@ -3469,9 +3557,14 @@
         if (event.pointerId !== pointerId) return;
         if (activeEntry) {
           activeEntry.isDragging = false;
+          const droppedPose = activeEntry.kind === "album" ? getAlbumDroppedRestPose(activeEntry) : null;
           addTween(
             activeEntry.group,
-            { position: activeEntry.basePosition.clone(), rotation: activeEntry.baseRotation.clone(), scale: new THREE.Vector3(1, 1, 1) },
+            {
+              position: (droppedPose?.position || activeEntry.basePosition).clone(),
+              rotation: (droppedPose?.rotation || activeEntry.baseRotation).clone(),
+              scale: (droppedPose?.scale || new THREE.Vector3(1, 1, 1)).clone(),
+            },
             280
           );
         }
