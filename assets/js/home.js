@@ -1671,11 +1671,11 @@
         {
           position: focusPosition.clone(),
           rotation: focusRotation.clone(),
-          scale: new THREE.Vector3(1.3, 1.3, 1.3),
+          scale: new THREE.Vector3(1.18, 1.18, 1.18),
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, 0.72);
+      targetZoomLevel = clamp(targetZoomLevel, 0.58, 0.64);
       targetRotationX = -0.03;
       targetRotationY = -0.18;
       scheduleFrame();
@@ -2556,7 +2556,7 @@
         entry.group.rotation.set(0, 0, index === 0 ? -0.045 : 0.04);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.focusPosition = new THREE.Vector3(index === 0 ? 0.1 : 0.22, 0.7, index === 0 ? 0.28 : 0.04);
+        entry.focusPosition = new THREE.Vector3(index === 0 ? 0.08 : 0.2, 0.62, index === 0 ? 0.32 : 0.06);
         entry.focusRotation = new THREE.Euler(1.02, 0.018, index === 0 ? -0.025 : 0.03);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
@@ -2845,12 +2845,11 @@
           return;
         }
         if (delta > 0 && (focusedEntry || targetZoomLevel > 0.04)) {
-          const wasDeepWindowZoom = !focusedEntry && targetZoomLevel > 0.55;
           clearFocusedEntry();
           targetZoomLevel = 0;
           targetRotationX = defaultRotation.x;
           targetRotationY = defaultRotation.y;
-          if (wasDeepWindowZoom) event.preventDefault();
+          event.preventDefault();
           scheduleFrame();
           return;
         }
@@ -2867,13 +2866,13 @@
       canvas.addEventListener("pointermove", onPointerMove);
       canvas.addEventListener("pointerup", onPointerUp);
       canvas.addEventListener("pointercancel", onPointerCancel);
-      canvas.addEventListener("wheel", onWheel, { passive: false });
+      container.addEventListener("wheel", onWheel, { passive: false });
       cleanupListeners.push(
         () => canvas.removeEventListener("pointerdown", onPointerDown),
         () => canvas.removeEventListener("pointermove", onPointerMove),
         () => canvas.removeEventListener("pointerup", onPointerUp),
         () => canvas.removeEventListener("pointercancel", onPointerCancel),
-        () => canvas.removeEventListener("wheel", onWheel)
+        () => container.removeEventListener("wheel", onWheel)
       );
     };
 
