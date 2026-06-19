@@ -2346,6 +2346,9 @@
         { x: 1.95, y: -0.78, z: 0.78, sx: 0.12, sy: 0.18, sz: 0.055, ry: 0.08 },
         { x: 0.54, y: -0.68, z: 0.36, sx: 0.1, sy: 0.16, sz: 0.045, ry: -0.22 },
         { x: 2.08, y: -0.68, z: 0.42, sx: 0.12, sy: 0.18, sz: 0.05, ry: 0.24 },
+        { x: 0.88, y: -0.95, z: 0.96, sx: 0.16, sy: 0.07, sz: 0.05, ry: -0.3 },
+        { x: 1.22, y: -1.01, z: 1.06, sx: 0.12, sy: 0.06, sz: 0.05, ry: 0.28 },
+        { x: 1.68, y: -0.98, z: 1.0, sx: 0.18, sy: 0.065, sz: 0.055, ry: -0.18 },
       ].forEach((facet) => {
         const mesh = addBox(outsideGroup, { x: facet.sx, y: facet.sy, z: facet.sz }, facet, cliffFaceMaterial);
         mesh.rotation.y = facet.ry;
@@ -2391,6 +2394,10 @@
       addBox(house, { x: 1.78, y: 0.1, z: 0.92 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
       addBox(house, { x: 1.72, y: 0.035, z: 0.88 }, { x: 0, y: 0.415, z: 0.02 }, roofShadowMaterial);
       addBox(house, { x: 1.9, y: 0.04, z: 1.0 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
+      [-0.68, -0.34, 0, 0.34, 0.68].forEach((x) => {
+        const rib = addBox(house, { x: 0.034, y: 0.035, z: 0.86 }, { x, y: 0.545, z: 0.04 }, roofShadowMaterial);
+        rib.rotation.y = x * 0.035;
+      });
       addBox(house, { x: 1.94, y: 0.05, z: 0.065 }, { x: 0, y: 0.505, z: 0.565 }, roofShadowMaterial);
       addBox(house, { x: 1.94, y: 0.045, z: 0.055 }, { x: 0, y: 0.505, z: -0.495 }, roofShadowMaterial);
       addBox(house, { x: 0.07, y: 0.09, z: 1.02 }, { x: -0.98, y: 0.49, z: 0.04 }, roofShadowMaterial);
@@ -2406,6 +2413,9 @@
         [-0.73, -0.34],
         [0.61, -0.34],
       ].forEach(([x, z]) => addBox(house, { x: 0.038, y: 0.72, z: 0.038 }, { x, y: -0.06, z }, trimMaterial));
+      addBox(house, { x: 0.05, y: 0.54, z: 0.52 }, { x: 0.68, y: -0.08, z: 0.08 }, roomWallMaterial);
+      addBox(house, { x: 0.042, y: 0.58, z: 0.64 }, { x: 0.75, y: -0.06, z: 0.08 }, trimMaterial);
+      addBox(house, { x: 0.035, y: 0.42, z: 0.42 }, { x: 0.78, y: -0.06, z: 0.18 }, interiorMaterial);
       addBox(house, { x: 1.42, y: 0.03, z: 0.045 }, { x: -0.06, y: 0.26, z: -0.255 }, trimMaterial);
       addBox(house, { x: 1.42, y: 0.026, z: 0.045 }, { x: -0.06, y: -0.31, z: -0.255 }, roofShadowMaterial);
       addBox(
@@ -2436,9 +2446,19 @@
       balcony.position.set(-0.02, -0.48, 0.58);
       house.add(balcony);
       addBox(balcony, { x: 1.46, y: 0.04, z: 0.18 }, { x: 0, y: 0, z: 0 }, roofShadowMaterial);
+      [-0.06, -0.02, 0.02, 0.06].forEach((z) => addBox(balcony, { x: 1.36, y: 0.009, z: 0.012 }, { x: 0, y: 0.027, z }, trimMaterial));
       addBox(balcony, { x: 1.32, y: 0.018, z: 0.055 }, { x: 0, y: 0.08, z: 0.106 }, trimMaterial);
       addBox(balcony, { x: 1.24, y: 0.022, z: 0.032 }, { x: 0, y: 0.22, z: 0.112 }, trimMaterial);
       [-0.58, -0.28, 0.02, 0.32, 0.58].forEach((x) => addBox(balcony, { x: 0.026, y: 0.28, z: 0.026 }, { x, y: 0.1, z: 0.112 }, trimMaterial));
+      [0, 1].forEach((step) => {
+        const tread = addBox(
+          house,
+          { x: 0.28 - step * 0.025, y: 0.012, z: 0.052 },
+          { x: 0.54, y: -0.56 - step * 0.044, z: 0.75 + step * 0.068 },
+          trimMaterial
+        );
+        tread.rotation.y = -0.08;
+      });
 
       const room = new THREE.Group();
       room.position.set(-0.08, -0.04, 0.2);
