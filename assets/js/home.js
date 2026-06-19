@@ -916,35 +916,6 @@
         192
       );
 
-    const createDeskButtonTexture = (palette) =>
-      makeCanvasTexture(
-        (context, width, height) => {
-          context.clearRect(0, 0, width, height);
-          const glow = context.createRadialGradient(width * 0.5, height * 0.48, 10, width * 0.5, height * 0.48, width * 0.46);
-          glow.addColorStop(0, palette.isDarkTheme ? "rgba(255,221,175,0.46)" : "rgba(255,183,102,0.46)");
-          glow.addColorStop(0.46, palette.isDarkTheme ? "rgba(255,203,146,0.16)" : "rgba(173,123,80,0.14)");
-          glow.addColorStop(1, "rgba(255,255,255,0)");
-          context.fillStyle = glow;
-          context.fillRect(0, 0, width, height);
-          context.strokeStyle = palette.isDarkTheme ? "rgba(255,232,196,0.34)" : "rgba(122,83,45,0.22)";
-          context.lineWidth = 5;
-          context.beginPath();
-          context.arc(width * 0.5, height * 0.5, width * 0.2, -0.45, Math.PI * 1.18);
-          context.stroke();
-          context.lineWidth = 2.5;
-          context.beginPath();
-          context.moveTo(width * 0.36, height * 0.55);
-          context.quadraticCurveTo(width * 0.5, height * 0.39, width * 0.66, height * 0.54);
-          context.stroke();
-          context.fillStyle = palette.isDarkTheme ? "rgba(255,238,208,0.52)" : "rgba(255,255,255,0.5)";
-          context.beginPath();
-          context.arc(width * 0.62, height * 0.36, width * 0.025, 0, Math.PI * 2);
-          context.fill();
-        },
-        256,
-        256
-      );
-
     const createOutsideBackdropTexture = (palette) =>
       makeCanvasTexture((context, width, height) => {
         const isEvening = palette.mode === "evening" || palette.isDarkTheme;
@@ -1545,8 +1516,6 @@
       if (mugMarkMaterial) {
         replaceMaterialMap(mugMarkMaterial, createMugMarkTexture(palette));
       }
-      replaceMaterialMap(themeMaterials.windowButton, createDeskButtonTexture(palette));
-      replaceMaterialMap(themeMaterials.returnButton, createDeskButtonTexture(palette));
       replaceMaterialMap(themeMaterials.outsideBackdrop, createOutsideBackdropTexture(palette));
       const oceanTexture = createOceanSurfaceTexture(palette);
       replaceMaterialMap(themeMaterials.outsideOcean, oceanTexture);
@@ -1849,16 +1818,6 @@
       windowJumpGroup.visible = false;
       windowJumpGroup.position.set(1.16, 0.68, -1.44);
       rootGroup.add(windowJumpGroup);
-      const buttonMaterial = new THREE.MeshBasicMaterial({
-        map: createDeskButtonTexture(palette),
-        transparent: true,
-        opacity: 0.24,
-        depthWrite: false,
-        side: THREE.DoubleSide,
-      });
-      themeMaterials.windowButton = buttonMaterial;
-      const button = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.46), buttonMaterial);
-      windowJumpGroup.add(button);
       const buttonHit = new THREE.Mesh(
         new THREE.PlaneGeometry(1.86, 1.18),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
@@ -1872,7 +1831,6 @@
         baseRotation: windowJumpGroup.rotation.clone(),
         currentRestY: windowJumpGroup.position.y,
       };
-      registerInteractive(button, { kind: "windowJump", index: 0 }, entry);
       registerInteractive(buttonHit, { kind: "windowJump", index: 0 }, entry);
     };
 
@@ -2183,18 +2141,8 @@
       returnInsideGroup = new THREE.Group();
       returnInsideGroup.position.set(1.04, 0.18, 0.9);
       outsideGroup.add(returnInsideGroup);
-      const returnMaterial = new THREE.MeshBasicMaterial({
-        map: createDeskButtonTexture(palette),
-        transparent: true,
-        opacity: 0.08,
-        depthWrite: false,
-        side: THREE.DoubleSide,
-      });
-      themeMaterials.returnButton = returnMaterial;
-      const returnButton = new THREE.Mesh(new THREE.PlaneGeometry(0.38, 0.38), returnMaterial);
-      returnInsideGroup.add(returnButton);
       const returnHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.62, 0.62),
+        new THREE.PlaneGeometry(1.28, 0.92),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       returnHit.position.z = 0.01;
@@ -2206,7 +2154,6 @@
         baseRotation: returnInsideGroup.rotation.clone(),
         currentRestY: returnInsideGroup.position.y,
       };
-      registerInteractive(returnButton, { kind: "returnInside", index: 0 }, returnEntry);
       registerInteractive(returnHit, { kind: "returnInside", index: 0 }, returnEntry);
     };
 
