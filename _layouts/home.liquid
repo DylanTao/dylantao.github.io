@@ -21,26 +21,50 @@ layout: default
         <div class="contact-icons">{% social_links %}</div>
         {% assign agentic_usage = site.data.agentic_usage %}
         {% if agentic_usage.total %}
+          {% assign total_energy = agentic_usage.total.energy_equivalence %}
           <div class="home-agentic-tally" aria-label="Estimated Codex and agentic work used for this site revamp">
-            <p class="home-agentic-kicker">Agentic revamp ledger since {{ agentic_usage.total.since_label }}</p>
+            <p class="home-agentic-kicker">Tiny making-of receipt</p>
             <dl class="home-agentic-grid">
-              <div>
+              <div class="home-agentic-stat">
                 <dt>{{ agentic_usage.total.tokens_label }}</dt>
                 <dd>Codex tokens</dd>
               </div>
-              <div>
+              <div class="home-agentic-stat">
                 <dt>{{ agentic_usage.total.hours_label }}</dt>
                 <dd>agent-hours</dd>
               </div>
-              <div>
+              <div class="home-agentic-stat">
                 <dt>{{ agentic_usage.total.commits }}</dt>
                 <dd>site commits</dd>
               </div>
+              {% if total_energy %}
+                <div class="home-agentic-stat">
+                  <dt>{{ total_energy.kwh_midpoint }}</dt>
+                  <dd>est. kWh</dd>
+                </div>
+                <div class="home-agentic-stat home-agentic-stat-tree">
+                  <dt>~{{ total_energy.cut_tree_midpoint }}</dt>
+                  <dd>
+                    <span>tree-cut eq.</span>
+                    <span class="home-agentic-info-wrap">
+                      <button
+                        type="button"
+                        class="home-agentic-info"
+                        aria-label="How the tree-cut equivalent is estimated"
+                        aria-describedby="home-agentic-tree-tooltip"
+                      >
+                        i
+                      </button>
+                      <span id="home-agentic-tree-tooltip" class="home-agentic-tooltip" role="tooltip">
+                        {{ total_energy.kg_co2e_midpoint }} kg CO2e / {{ total_energy.cut_tree_co2e_kg }} kg CO2e per ten-year urban tree. Based on
+                        EPA urban-tree annual sequestration over 10 years; actual carbon timing varies by species, age, wood fate, roots, soil, and
+                        future growth.
+                      </span>
+                    </span>
+                  </dd>
+                </div>
+              {% endif %}
             </dl>
-            {% if agentic_usage.total.energy_equivalence %}
-              <p class="home-agentic-energy">{{ agentic_usage.total.energy_equivalence.public_note }}</p>
-            {% endif %}
-            <p class="home-agentic-source">{{ agentic_usage.source_note }} Last refreshed {{ agentic_usage.updated_at }}.</p>
           </div>
         {% endif %}
         <div class="contact-note">{{ site.contact_note }}</div>

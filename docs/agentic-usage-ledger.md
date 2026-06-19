@@ -8,6 +8,8 @@ The homepage reads `_data/agentic_usage.yml`.
 
 Update that file when a future Codex or agentic run materially changes this site, especially if the work touches homepage visuals, custom layouts, custom scripts, publications/CV polish, or the 3D desk scene.
 
+The homepage contact ledger should render compact stat cells for tokens, agent-hours, commits, estimated kWh, and tree-cut equivalent. Keep detailed conversion caveats in this document and in the small homepage info tooltip, not as extra ledger paragraphs.
+
 ## Current Baseline
 
 Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clear homepage redesign commit.
@@ -92,7 +94,7 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 
 7. Update `_data/agentic_usage.yml` and append a dated note here when the estimate changes materially.
 
-8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy framed as a stored-carbon estimate with a range and caveats.
+8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy compact: show the kWh and cut-tree midpoint as stat cells, with caveats in the docs and info tooltip.
 
 ## Future Entry Template
 
