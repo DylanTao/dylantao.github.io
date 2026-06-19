@@ -1592,7 +1592,19 @@
           item.texture.offset.y = item.offsetY + seconds * item.speedY;
         }
         if (item.mesh && Number.isFinite(item.baseY)) {
-          item.mesh.position.y = item.baseY + Math.sin(seconds * item.frequency + item.phase) * item.amplitude;
+          const wave = Math.sin(seconds * item.frequency + item.phase);
+          item.mesh.position.y = item.baseY + wave * item.amplitude;
+          if (Number.isFinite(item.baseRotationZ) && Number.isFinite(item.rotationAmplitude)) {
+            item.mesh.rotation.z = item.baseRotationZ + wave * item.rotationAmplitude;
+          }
+          if (Number.isFinite(item.baseScaleX) && Number.isFinite(item.scaleAmplitude)) {
+            const scaleWave = Math.sin(seconds * (item.scaleFrequency || item.frequency) + item.phase * 0.7);
+            item.mesh.scale.set(
+              item.baseScaleX + scaleWave * item.scaleAmplitude,
+              item.baseScaleY,
+              item.baseScaleZ + scaleWave * item.scaleAmplitude * 0.42
+            );
+          }
         }
       });
       return true;
@@ -2205,6 +2217,13 @@
           amplitude: 0.018,
           frequency: 1.55,
           phase: 0,
+          baseRotationZ: ocean.rotation.z,
+          rotationAmplitude: 0.006,
+          baseScaleX: ocean.scale.x,
+          baseScaleY: ocean.scale.y,
+          baseScaleZ: ocean.scale.z,
+          scaleAmplitude: 0.01,
+          scaleFrequency: 1.12,
         },
         {
           key: "nearOcean",
@@ -2218,6 +2237,13 @@
           amplitude: 0.01,
           frequency: 1.9,
           phase: 0.34,
+          baseRotationZ: nearOcean.rotation.z,
+          rotationAmplitude: 0.012,
+          baseScaleX: nearOcean.scale.x,
+          baseScaleY: nearOcean.scale.y,
+          baseScaleZ: nearOcean.scale.z,
+          scaleAmplitude: 0.008,
+          scaleFrequency: 1.42,
         },
         {
           key: "foam",
@@ -2231,6 +2257,13 @@
           amplitude: 0.014,
           frequency: 2.4,
           phase: 0.8,
+          baseRotationZ: foam.rotation.z,
+          rotationAmplitude: 0.018,
+          baseScaleX: foam.scale.x,
+          baseScaleY: foam.scale.y,
+          baseScaleZ: foam.scale.z,
+          scaleAmplitude: 0.018,
+          scaleFrequency: 2.1,
         },
         {
           key: "tideFoam",
@@ -2244,6 +2277,13 @@
           amplitude: 0.018,
           frequency: 2.75,
           phase: 1.42,
+          baseRotationZ: tideFoam.rotation.z,
+          rotationAmplitude: 0.02,
+          baseScaleX: tideFoam.scale.x,
+          baseScaleY: tideFoam.scale.y,
+          baseScaleZ: tideFoam.scale.z,
+          scaleAmplitude: 0.022,
+          scaleFrequency: 2.36,
         },
         {
           key: "sand",
@@ -2257,6 +2297,13 @@
           amplitude: 0.004,
           frequency: 1.25,
           phase: 1.7,
+          baseRotationZ: beach.rotation.z,
+          rotationAmplitude: 0.004,
+          baseScaleX: beach.scale.x,
+          baseScaleY: beach.scale.y,
+          baseScaleZ: beach.scale.z,
+          scaleAmplitude: 0.004,
+          scaleFrequency: 0.8,
         }
       );
 
