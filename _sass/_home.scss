@@ -742,7 +742,7 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-control-strip {
-  opacity: 0.08;
+  opacity: 0.055;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -3585,6 +3585,8 @@ html.home-motion-ready .home-reveal.home-visible {
     bottom: 0.26rem;
     gap: 0.26rem;
     padding: 0.24rem;
+    transform: translateY(0.04rem) scale(0.92);
+    transform-origin: right bottom;
   }
 
   .home-desk-control-strip button,
@@ -3596,7 +3598,7 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-desk-scene-note {
     right: 0.72rem;
-    bottom: 3.86rem;
+    bottom: 3.58rem;
     left: 0.72rem;
     font-size: 0.46rem;
   }
@@ -3612,7 +3614,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero-media.is-desk-3d .home-desk-scene-note {
-    opacity: 0.48;
+    opacity: 0.36;
   }
 
   .home-portrait-frame,

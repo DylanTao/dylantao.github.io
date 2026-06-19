@@ -793,7 +793,7 @@
       const rect = renderer.domElement.getBoundingClientRect();
       const x = (event.clientX - rect.left) / Math.max(1, rect.width);
       const y = (event.clientY - rect.top) / Math.max(1, rect.height);
-      return x > 0.44 && x < 1.02 && y > 0.05 && y < 0.58;
+      return x > 0.36 && x < 1.04 && y > 0.03 && y < 0.68;
     };
 
     const applyCameraPose = (immediate = false) => {
@@ -830,13 +830,13 @@
           );
           camera.lookAt(isCompactScene ? -0.04 : 0.04, 0.28, 0.28);
         } else {
-          camera.fov = lerp(isCompactScene ? 33 : 29, isCompactScene ? 28 : 25, zoom);
+          camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 2.72 : 3.18, isCompactScene ? 1.24 : 1.48, zoom),
+            lerp(isCompactScene ? 2.56 : 3.18, isCompactScene ? 1.24 : 1.48, zoom),
             lerp(isCompactScene ? 1.96 : 2.0, isCompactScene ? 1.42 : 1.58, zoom),
             lerp(isCompactScene ? 5.86 : 5.98, isCompactScene ? 3.45 : 3.62, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.1 : -0.02, 1.08, zoom), lerp(-0.38, 0.52, zoom), lerp(0.04, -1.1, zoom));
+          camera.lookAt(lerp(isCompactScene ? 0.06 : -0.02, 1.08, zoom), lerp(-0.38, 0.52, zoom), lerp(0.04, -1.1, zoom));
         }
       }
       camera.updateProjectionMatrix();
@@ -3306,7 +3306,7 @@
           targetRotationX = defaultRotation.x;
           targetRotationY = defaultRotation.y;
         }
-        if (delta < 0 && targetZoomLevel > 0.64 && Date.now() > windowAutoEntryBlockedUntil && isPointerInWindowRegion(event)) {
+        if (delta < 0 && targetZoomLevel > 0.56 && Date.now() > windowAutoEntryBlockedUntil && isPointerInWindowRegion(event)) {
           setSceneView("outside");
           event.preventDefault();
           return;
