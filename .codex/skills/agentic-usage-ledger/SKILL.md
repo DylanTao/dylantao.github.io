@@ -6,8 +6,8 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 
 1. Read `docs/agentic-usage-ledger.md` and `_data/agentic_usage.yml`.
 2. Keep the visible homepage numbers powered by `_data/agentic_usage.yml`; do not hardcode duplicate totals in templates.
-   - The homepage contact ledger renders compact stat cells for tokens, agent-hours, commits, estimated kWh, and cut-tree equivalent.
-   - Keep conversion detail in `docs/agentic-usage-ledger.md` and the small homepage info tooltip, not as extra paragraphs under the stats.
+   - The homepage contact ledger renders compact stat cells for tokens, agent-hours, commits, estimated kWh, and a playful `tree sacrifice` stored-carbon equivalent.
+   - Keep conversion detail and cutoff context in `docs/agentic-usage-ledger.md` and the small homepage info tooltips, not as extra paragraphs under the stats.
 3. Recount commits after the relevant work is committed when possible.
 4. Estimate Codex tokens from retained local session logs:
    - include sessions whose `session_meta.payload.cwd` contains `dylantao.github.io`;

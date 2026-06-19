@@ -359,4 +359,23 @@ document.addEventListener("DOMContentLoaded", () => {
   if (revealItems.length) {
     document.documentElement.classList.add("site-motion-ready");
   }
+
+  if (document.body.classList.contains("home-body")) {
+    let backTopTicking = false;
+    const setHomeBackTopLift = () => {
+      const scrollRoot = document.documentElement;
+      const distanceToBottom = Math.max(0, scrollRoot.scrollHeight - window.innerHeight - window.scrollY);
+      document.body.classList.toggle("home-backtop-lift", distanceToBottom < 220);
+      backTopTicking = false;
+    };
+    const requestHomeBackTopLift = () => {
+      if (backTopTicking) return;
+      backTopTicking = true;
+      window.requestAnimationFrame(setHomeBackTopLift);
+    };
+
+    window.addEventListener("scroll", requestHomeBackTopLift, { passive: true });
+    window.addEventListener("resize", requestHomeBackTopLift);
+    requestHomeBackTopLift();
+  }
 });

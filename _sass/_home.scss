@@ -55,6 +55,17 @@ body.home-body footer.fixed-bottom {
   margin-top: clamp(0.65rem, 1.2vw, 0.9rem);
 }
 
+body.home-body #back-to-top {
+  transition:
+    bottom 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+body.home-body.home-backtop-lift #back-to-top {
+  bottom: calc(#{v.$back-to-top-bottom} + clamp(2.4rem, 5vw, 3.55rem));
+}
+
 html[data-theme="dark"] body.home-body .navbar.navbar-light .navbar-nav .nav-item .nav-link,
 html[data-theme="dark"] body.home-body #search-toggle,
 html[data-theme="dark"] body.home-body .theme-toggle {
@@ -2895,17 +2906,26 @@ html[data-theme="dark"] .home-artifact-mark {
 }
 
 .home-agentic-kicker {
-  margin: 0;
-}
-
-.home-agentic-kicker {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  max-width: min(100%, 34rem);
+  margin: 0 auto;
   color: color-mix(in srgb, var(--home-accent-strong) 62%, var(--home-muted));
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 680;
+  font-size: 0.63rem;
+  font-weight: 580;
+  gap: 0.34rem;
   letter-spacing: 0;
-  line-height: 1.35;
-  text-transform: uppercase;
+  line-height: 1.42;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.home-agentic-kicker-copy {
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .home-agentic-grid {
@@ -2958,10 +2978,46 @@ html[data-theme="dark"] .home-artifact-mark {
   text-transform: uppercase;
 }
 
+.home-agentic-tree-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.16rem;
+  white-space: nowrap;
+}
+
+.home-agentic-tree-mark {
+  flex: 0 0 auto;
+  width: 0.88rem;
+  height: 0.88rem;
+  color: color-mix(in srgb, var(--home-muted) 72%, var(--home-accent));
+  overflow: visible;
+  transition:
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.home-agentic-tree-mark path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.28;
+}
+
+.home-agentic-stat-tree:hover .home-agentic-tree-mark,
+.home-agentic-stat-tree:focus-within .home-agentic-tree-mark {
+  color: color-mix(in srgb, var(--home-accent-strong) 72%, var(--home-muted));
+  transform: translateY(-0.04rem);
+}
+
 .home-agentic-info-wrap {
   position: relative;
   display: inline-flex;
   align-items: center;
+}
+
+.home-agentic-info-wrap-kicker {
+  flex: 0 0 auto;
 }
 
 .home-agentic-info {
@@ -2980,6 +3036,11 @@ html[data-theme="dark"] .home-artifact-mark {
   font-size: 0.52rem;
   font-weight: 700;
   line-height: 1;
+}
+
+.home-agentic-info:hover {
+  border-color: color-mix(in srgb, var(--home-accent) 58%, transparent);
+  color: color-mix(in srgb, var(--home-accent-strong) 72%, var(--home-muted));
 }
 
 .home-agentic-info:focus-visible {
@@ -3039,6 +3100,11 @@ html[data-theme="dark"] .home-artifact-mark {
 
 html[data-theme="dark"] .home-agentic-tally {
   border-top-color: color-mix(in srgb, var(--home-accent) 10%, var(--home-line));
+}
+
+html[data-theme="dark"] .home-agentic-tooltip {
+  background: color-mix(in srgb, var(--home-surface) 94%, var(--home-accent) 6%);
+  box-shadow: 0 0.72rem 1.6rem rgba(0, 0, 0, 0.28);
 }
 
 html.home-motion-ready .home-reveal {
