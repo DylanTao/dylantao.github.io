@@ -1486,9 +1486,9 @@
       themeMaterials.windowRecess?.color.setHex(palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae);
       themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
       themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x5bb9cf);
-      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.46 : 0.36;
+      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.56 : 0.46;
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
-      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.48 : 0.34;
+      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.58 : 0.44;
       if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
       themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xc2a775);
       themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0xad9365);
@@ -1499,6 +1499,7 @@
       themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xe0c48e);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
+      themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x3a2b22 : 0x6f492d);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
       themeMaterials.outsideRoomFloor?.color.setHex(palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5);
       themeMaterials.outsideRoomWall?.color.setHex(palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0);
@@ -1728,7 +1729,7 @@
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
       container.classList.toggle("is-outside-view", activeView === "outside");
       root.classList.toggle("home-desk-outside-active", activeView === "outside");
-      const entryZoom = activeView === "outside" ? (isCompactScene ? 0.02 : 0.2) : 0;
+      const entryZoom = activeView === "outside" ? (isCompactScene ? 0.16 : 0.36) : 0;
       targetZoomLevel = entryZoom;
       zoomLevel = entryZoom;
       targetRotationX = activeView === "outside" ? -0.03 : defaultRotation.x;
@@ -1857,15 +1858,22 @@
         color: palette.isDarkTheme ? 0x183648 : 0x5bb9cf,
         map: oceanTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.46 : 0.36,
+        opacity: palette.isDarkTheme ? 0.56 : 0.46,
         depthWrite: false,
       });
       themeMaterials.outsideOcean = oceanMaterial;
-      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 0.88), oceanMaterial);
+      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 1.06), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(-0.92, -1.34, -1.48);
+      ocean.position.set(-0.92, -1.36, -1.4);
       ocean.renderOrder = -5;
       outsideGroup.add(ocean);
+
+      const nearOcean = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 0.34), oceanMaterial);
+      nearOcean.rotation.x = -Math.PI / 2;
+      nearOcean.rotation.z = 0.052;
+      nearOcean.position.set(-1.26, -1.305, 0.34);
+      nearOcean.renderOrder = -4;
+      outsideGroup.add(nearOcean);
 
       const foamTexture = createFoamSurfaceTexture(palette);
       const foamMaterial = new THREE.MeshBasicMaterial({
@@ -1883,7 +1891,7 @@
         color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6,
         map: beachTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.48 : 0.34,
+        opacity: palette.isDarkTheme ? 0.58 : 0.44,
         depthWrite: false,
         roughness: 0.9,
       });
@@ -1920,12 +1928,18 @@
         opacity: 0.1,
         depthWrite: false,
       });
+      const roofShadowMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x3a2b22 : 0x6f492d,
+        roughness: 0.82,
+        metalness: 0.01,
+      });
       themeMaterials.outsideBeach = beachMaterial;
       themeMaterials.outsideCliff = cliffMaterial;
       themeMaterials.outsideCliffFace = cliffFaceMaterial;
       themeMaterials.outsideCliffLine = cliffLineMaterial;
       themeMaterials.outsideHouse = houseMaterial;
       themeMaterials.outsideRoof = roofMaterial;
+      themeMaterials.outsideRoofShadow = roofShadowMaterial;
       themeMaterials.outsideBed = bedMaterial;
       themeMaterials.outsideRoomFloor = roomFloorMaterial;
       themeMaterials.outsideRoomWall = roomWallMaterial;
@@ -1960,13 +1974,26 @@
           texture: oceanTexture,
           mesh: ocean,
           baseY: ocean.position.y,
-          speedX: 0.052,
-          speedY: 0.12,
+          speedX: 0.066,
+          speedY: 0.14,
           offsetX: 0,
           offsetY: 0,
-          amplitude: 0.012,
+          amplitude: 0.018,
           frequency: 1.55,
           phase: 0,
+        },
+        {
+          key: "nearOcean",
+          texture: null,
+          mesh: nearOcean,
+          baseY: nearOcean.position.y,
+          speedX: 0,
+          speedY: 0,
+          offsetX: 0,
+          offsetY: 0,
+          amplitude: 0.01,
+          frequency: 1.9,
+          phase: 0.34,
         },
         {
           key: "foam",
@@ -1977,7 +2004,7 @@
           speedY: 0.044,
           offsetX: 0.18,
           offsetY: 0,
-          amplitude: 0.008,
+          amplitude: 0.014,
           frequency: 2.4,
           phase: 0.8,
         },
@@ -1990,7 +2017,7 @@
           speedY: 0.035,
           offsetX: 0.04,
           offsetY: 0,
-          amplitude: 0.003,
+          amplitude: 0.004,
           frequency: 1.25,
           phase: 1.7,
         }
@@ -1999,21 +2026,50 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.58, 0.18],
-          [2.16, 0.2],
-          [2.32, 0.5],
-          [1.78, 0.78],
-          [0.72, 0.74],
-          [0.36, 0.46],
+          [0.72, 0.26],
+          [2.04, 0.3],
+          [2.16, 0.5],
+          [1.6, 0.72],
+          [0.88, 0.66],
+          [0.56, 0.46],
         ],
         -0.81,
-        0.16,
+        0.12,
         cliffMaterial
       );
+      [
+        {
+          points: [
+            [0.48, 0.42],
+            [2.18, 0.46],
+            [2.28, 0.72],
+            [1.68, 0.96],
+            [0.7, 0.9],
+            [0.34, 0.62],
+          ],
+          yTop: -0.93,
+          height: 0.1,
+          material: cliffFaceMaterial,
+        },
+        {
+          points: [
+            [0.78, 0.62],
+            [1.92, 0.68],
+            [2.06, 0.9],
+            [1.48, 1.08],
+            [0.92, 0.98],
+            [0.58, 0.78],
+          ],
+          yTop: -1.08,
+          height: 0.08,
+          material: cliffMaterial,
+        },
+      ].forEach((terrace) => addIrregularSlab(outsideGroup, terrace.points, terrace.yTop, terrace.height, terrace.material));
       [
         { size: { x: 0.5, y: 0.012, z: 0.014 }, position: { x: 1.52, y: -0.8, z: 0.52 }, rotation: -0.04 },
         { size: { x: 0.26, y: 0.12, z: 0.028 }, position: { x: 0.88, y: -0.91, z: 0.58 }, rotation: 0.1 },
         { size: { x: 0.24, y: 0.1, z: 0.026 }, position: { x: 1.86, y: -0.9, z: 0.58 }, rotation: -0.12 },
+        { size: { x: 0.46, y: 0.012, z: 0.016 }, position: { x: 1.26, y: -1.02, z: 0.78 }, rotation: 0.05 },
       ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
@@ -2050,9 +2106,11 @@
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial);
       addBox(house, { x: 1.78, y: 0.1, z: 0.92 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
+      addBox(house, { x: 1.72, y: 0.035, z: 0.88 }, { x: 0, y: 0.415, z: 0.02 }, roofShadowMaterial);
       addBox(house, { x: 1.9, y: 0.04, z: 1.0 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
       addBox(house, { x: 1.9, y: 0.045, z: 0.075 }, { x: 0, y: 0.43, z: 0.53 }, trimMaterial);
       addBox(house, { x: 1.78, y: 0.035, z: 0.075 }, { x: 0, y: 0.39, z: -0.42 }, trimMaterial);
+      addBox(house, { x: 1.82, y: 0.032, z: 0.07 }, { x: 0, y: 0.36, z: 0.37 }, roofShadowMaterial);
       addBox(house, { x: 1.48, y: 0.075, z: 0.14 }, { x: -0.02, y: -0.57, z: 0.36 }, roofMaterial);
       addBox(house, { x: 1.42, y: 0.045, z: 0.05 }, { x: -0.02, y: -0.47, z: 0.51 }, trimMaterial);
       addBox(
@@ -2068,6 +2126,10 @@
       addBox(house, { x: 0.04, y: 0.62, z: 0.04 }, { x: 0.54, y: 0.0, z: 0.43 }, trimMaterial);
       addBox(house, { x: 1.1, y: 0.52, z: 0.012 }, { x: -0.06, y: 0.0, z: 0.454 }, glassMaterial);
       addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: -0.06, y: 0.0, z: 0.462 }, trimMaterial);
+      addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: -0.36, y: 0.0, z: 0.466 }, trimMaterial);
+      addBox(house, { x: 0.04, y: 0.52, z: 0.05 }, { x: 0.24, y: 0.0, z: 0.466 }, trimMaterial);
+      addBox(house, { x: 1.28, y: 0.035, z: 0.08 }, { x: -0.06, y: -0.47, z: 0.48 }, trimMaterial);
+      addBox(house, { x: 1.02, y: 0.026, z: 0.08 }, { x: -0.06, y: -0.36, z: 0.56 }, roofShadowMaterial);
 
       const room = new THREE.Group();
       room.position.set(-0.08, -0.04, 0.2);
@@ -2076,6 +2138,8 @@
       addBox(room, { x: 1.02, y: 0.035, z: 0.54 }, { x: -0.02, y: -0.34, z: 0.0 }, roomFloorMaterial);
       addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.1, y: -0.305, z: 0.06 }, blanketMaterial);
       addBox(room, { x: 0.1, y: 0.25, z: 0.5 }, { x: -0.48, y: -0.08, z: -0.02 }, trimMaterial);
+      addBox(room, { x: 0.95, y: 0.045, z: 0.06 }, { x: -0.02, y: -0.235, z: -0.28 }, trimMaterial);
+      addBox(room, { x: 0.06, y: 0.2, z: 0.52 }, { x: 0.48, y: -0.12, z: 0.0 }, trimMaterial);
       addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: 0.0 }, bedMaterial);
       addBox(room, { x: 0.84, y: 0.1, z: 0.46 }, { x: -0.02, y: -0.18, z: -0.01 }, bedMaterial);
       addBox(room, { x: 0.34, y: 0.075, z: 0.22 }, { x: -0.34, y: -0.1, z: -0.06 }, pillowMaterial);
@@ -2729,14 +2793,9 @@
             scheduleFrame();
             return;
           }
-          if (delta > 0 && targetZoomLevel > 0.04) {
-            targetZoomLevel = 0;
-            event.preventDefault();
-            scheduleFrame();
-            return;
-          }
           if (delta > 0) {
             setSceneView("desk");
+            targetZoomLevel = 0;
             event.preventDefault();
             scheduleFrame();
           }
