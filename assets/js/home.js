@@ -1569,6 +1569,10 @@
       themeMaterials.windowFrame?.color.setHex(palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047);
       themeMaterials.windowRecess?.color.setHex(palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae);
       themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
+      themeMaterials.windowCue?.color.setHex(palette.isDarkTheme ? 0xf2c994 : 0xb97942);
+      if (themeMaterials.windowCue) themeMaterials.windowCue.opacity = palette.isDarkTheme ? 0.18 : 0.13;
+      themeMaterials.windowSillGlint?.color.setHex(palette.isDarkTheme ? 0xffdfb0 : 0xd79b61);
+      if (themeMaterials.windowSillGlint) themeMaterials.windowSillGlint.opacity = palette.isDarkTheme ? 0.22 : 0.16;
       themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x5bb9cf);
       if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.56 : 0.46;
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
@@ -1590,6 +1594,8 @@
       themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
       themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
       themeMaterials.outsideGlass?.color.setHex(palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6);
+      themeMaterials.outsideReturnGlow?.color.setHex(palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca);
+      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.1 : 0.13;
       ambientLight?.color.setHex(palette.ambientColor);
       if (ambientLight) ambientLight.intensity = palette.ambientIntensity;
       if (keyLight) keyLight.intensity = palette.keyIntensity;
@@ -1903,6 +1909,33 @@
       windowJumpGroup.visible = false;
       windowJumpGroup.position.set(1.16, 0.68, -1.44);
       rootGroup.add(windowJumpGroup);
+      const windowCueMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xf2c994 : 0xb97942,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.18 : 0.13,
+        depthWrite: false,
+      });
+      themeMaterials.windowCue = windowCueMaterial;
+      [
+        { size: { x: 1.76, y: 0.018, z: 0.012 }, position: { x: 0, y: 0.55, z: 0.018 } },
+        { size: { x: 1.76, y: 0.018, z: 0.012 }, position: { x: 0, y: -0.55, z: 0.018 } },
+        { size: { x: 0.018, y: 1.06, z: 0.012 }, position: { x: -0.88, y: 0, z: 0.018 } },
+        { size: { x: 0.018, y: 1.06, z: 0.012 }, position: { x: 0.88, y: 0, z: 0.018 } },
+      ].forEach((cue) => addBox(windowJumpGroup, cue.size, cue.position, windowCueMaterial));
+      const sillGlint = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.52, 0.08),
+        new THREE.MeshBasicMaterial({
+          color: palette.isDarkTheme ? 0xffdfb0 : 0xd79b61,
+          transparent: true,
+          opacity: palette.isDarkTheme ? 0.22 : 0.16,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        })
+      );
+      themeMaterials.windowSillGlint = sillGlint.material;
+      sillGlint.position.set(0.44, -0.58, 0.024);
+      sillGlint.rotation.z = -0.08;
+      windowJumpGroup.add(sillGlint);
       const buttonHit = new THREE.Mesh(
         new THREE.PlaneGeometry(1.86, 1.18),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
@@ -2366,6 +2399,19 @@
       returnInsideGroup = new THREE.Group();
       returnInsideGroup.position.set(1.04, 0.18, 0.9);
       outsideGroup.add(returnInsideGroup);
+      const returnGlow = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.08, 0.56),
+        new THREE.MeshBasicMaterial({
+          color: palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca,
+          transparent: true,
+          opacity: palette.isDarkTheme ? 0.1 : 0.13,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        })
+      );
+      themeMaterials.outsideReturnGlow = returnGlow.material;
+      returnGlow.position.set(-0.06, 0.0, 0.018);
+      returnInsideGroup.add(returnGlow);
       const returnHit = new THREE.Mesh(
         new THREE.PlaneGeometry(1.28, 0.92),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
