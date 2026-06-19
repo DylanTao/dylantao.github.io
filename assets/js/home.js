@@ -1514,16 +1514,18 @@
       themeMaterials.windowFrame?.color.setHex(palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047);
       themeMaterials.windowRecess?.color.setHex(palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae);
       themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
-      themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x58b5cf);
+      themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x5bb9cf);
+      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.46 : 0.36;
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
+      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.48 : 0.34;
       if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
-      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xaa9169);
-      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0x9b835f);
-      themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x2c241a : 0x9a7b50);
-      themeMaterials.outsideCliffFace?.emissive?.setHex(palette.isDarkTheme ? 0x261f18 : 0x836744);
-      if (themeMaterials.outsideCliff) themeMaterials.outsideCliff.emissiveIntensity = palette.isDarkTheme ? 0.08 : 0.14;
-      if (themeMaterials.outsideCliffFace) themeMaterials.outsideCliffFace.emissiveIntensity = palette.isDarkTheme ? 0.06 : 0.1;
-      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xd0b583);
+      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xc2a775);
+      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0xad9365);
+      themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x2c241a : 0xc4a26d);
+      themeMaterials.outsideCliffFace?.emissive?.setHex(palette.isDarkTheme ? 0x261f18 : 0xa98555);
+      if (themeMaterials.outsideCliff) themeMaterials.outsideCliff.emissiveIntensity = palette.isDarkTheme ? 0.08 : 0.2;
+      if (themeMaterials.outsideCliffFace) themeMaterials.outsideCliffFace.emissiveIntensity = palette.isDarkTheme ? 0.06 : 0.16;
+      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xe0c48e);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
@@ -1894,16 +1896,16 @@
 
       const oceanTexture = createOceanSurfaceTexture(palette);
       const oceanMaterial = new THREE.MeshBasicMaterial({
-        color: palette.isDarkTheme ? 0x183648 : 0x58b5cf,
+        color: palette.isDarkTheme ? 0x183648 : 0x5bb9cf,
         map: oceanTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.62 : 0.58,
+        opacity: palette.isDarkTheme ? 0.46 : 0.36,
         depthWrite: false,
       });
       themeMaterials.outsideOcean = oceanMaterial;
-      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 2.35), oceanMaterial);
+      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 0.88), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(-0.92, -1.3, -0.38);
+      ocean.position.set(-0.92, -1.34, -1.48);
       ocean.renderOrder = -5;
       outsideGroup.add(ocean);
 
@@ -1922,23 +1924,26 @@
       const beachMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6,
         map: beachTexture,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.48 : 0.34,
+        depthWrite: false,
         roughness: 0.9,
       });
       const cliffMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x675a46 : 0xaa9169,
+        color: palette.isDarkTheme ? 0x675a46 : 0xc2a775,
         map: createCliffSurfaceTexture(palette),
-        emissive: palette.isDarkTheme ? 0x2c241a : 0x9a7b50,
-        emissiveIntensity: palette.isDarkTheme ? 0.08 : 0.14,
+        emissive: palette.isDarkTheme ? 0x2c241a : 0xc4a26d,
+        emissiveIntensity: palette.isDarkTheme ? 0.08 : 0.2,
         roughness: 0.9,
       });
       const cliffFaceMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x5a4f3e : 0x9b835f,
+        color: palette.isDarkTheme ? 0x5a4f3e : 0xad9365,
         map: createCliffSurfaceTexture(palette, true),
-        emissive: palette.isDarkTheme ? 0x261f18 : 0x836744,
-        emissiveIntensity: palette.isDarkTheme ? 0.06 : 0.1,
+        emissive: palette.isDarkTheme ? 0x261f18 : 0xa98555,
+        emissiveIntensity: palette.isDarkTheme ? 0.06 : 0.16,
         roughness: 0.94,
       });
-      const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x867458 : 0xd0b583, roughness: 0.86 });
+      const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x867458 : 0xe0c48e, roughness: 0.86 });
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
@@ -1978,17 +1983,17 @@
       themeMaterials.laptopScreen = screenMaterial;
       themeMaterials.catBlanket = blanketMaterial;
 
-      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.74, 0.48), beachMaterial);
+      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.58, 0.24), beachMaterial);
       beach.rotation.x = -Math.PI / 2;
-      beach.rotation.z = 0.04;
-      beach.position.set(-1.68, -1.23, 1.66);
+      beach.rotation.z = 0.025;
+      beach.position.set(-1.78, -1.235, 1.08);
       beach.renderOrder = -3;
       outsideGroup.add(beach);
 
-      const foam = new THREE.Mesh(new THREE.PlaneGeometry(3.72, 0.2), foamMaterial);
+      const foam = new THREE.Mesh(new THREE.PlaneGeometry(3.46, 0.12), foamMaterial);
       foam.rotation.x = -Math.PI / 2;
       foam.rotation.z = -0.04;
-      foam.position.set(-1.72, -1.19, 1.43);
+      foam.position.set(-1.8, -1.18, 0.96);
       foam.renderOrder = -2;
       outsideGroup.add(foam);
       outsideMotionItems.push(
@@ -2049,14 +2054,22 @@
       );
       [
         { size: { x: 0.5, y: 0.012, z: 0.014 }, position: { x: 1.52, y: -0.8, z: 0.52 }, rotation: -0.04 },
-        { size: { x: 0.34, y: 0.18, z: 0.032 }, position: { x: 0.86, y: -0.88, z: 0.48 }, rotation: 0.1 },
-        { size: { x: 0.3, y: 0.16, z: 0.03 }, position: { x: 1.86, y: -0.88, z: 0.5 }, rotation: -0.12 },
+        { size: { x: 0.26, y: 0.12, z: 0.028 }, position: { x: 0.88, y: -0.91, z: 0.58 }, rotation: 0.1 },
+        { size: { x: 0.24, y: 0.1, z: 0.026 }, position: { x: 1.86, y: -0.9, z: 0.58 }, rotation: -0.12 },
       ].forEach((strip) => {
         const mesh = addBox(outsideGroup, strip.size, strip.position, cliffLineMaterial);
         mesh.rotation.y = strip.rotation;
       });
-      addBox(outsideGroup, { x: 1.86, y: 0.066, z: 0.58 }, { x: 1.14, y: -0.48, z: 0.46 }, roofMaterial);
-      addBox(outsideGroup, { x: 1.5, y: 0.04, z: 0.4 }, { x: 1.12, y: -0.56, z: 0.84 }, trimMaterial);
+      addBox(outsideGroup, { x: 1.68, y: 0.052, z: 0.48 }, { x: 1.12, y: -0.49, z: 0.42 }, cliffMaterial);
+      addBox(outsideGroup, { x: 1.26, y: 0.028, z: 0.28 }, { x: 1.1, y: -0.555, z: 0.72 }, cliffLineMaterial);
+      [
+        { x: 0.7, y: -0.77, z: 0.82, sx: 0.14, sy: 0.22, sz: 0.06, ry: 0.18 },
+        { x: 1.42, y: -0.79, z: 0.88, sx: 0.18, sy: 0.2, sz: 0.065, ry: -0.12 },
+        { x: 1.95, y: -0.78, z: 0.78, sx: 0.12, sy: 0.18, sz: 0.055, ry: 0.08 },
+      ].forEach((facet) => {
+        const mesh = addBox(outsideGroup, { x: facet.sx, y: facet.sy, z: facet.sz }, facet, cliffFaceMaterial);
+        mesh.rotation.y = facet.ry;
+      });
       [
         [0.38, 0.28],
         [1.82, 0.28],
