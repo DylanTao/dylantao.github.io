@@ -19,6 +19,30 @@ layout: default
       {% include home/lineage.liquid %}
       <div class="social home-social">
         <div class="contact-icons">{% social_links %}</div>
+        {% assign agentic_usage = site.data.agentic_usage %}
+        {% if agentic_usage.total %}
+          <div class="home-agentic-tally" aria-label="Estimated Codex and agentic work used for this site revamp">
+            <p class="home-agentic-kicker">Agentic revamp ledger since {{ agentic_usage.total.since_label }}</p>
+            <dl class="home-agentic-grid">
+              <div>
+                <dt>{{ agentic_usage.total.tokens_label }}</dt>
+                <dd>Codex tokens</dd>
+              </div>
+              <div>
+                <dt>{{ agentic_usage.total.hours_label }}</dt>
+                <dd>agent-hours</dd>
+              </div>
+              <div>
+                <dt>{{ agentic_usage.total.commits }}</dt>
+                <dd>site commits</dd>
+              </div>
+            </dl>
+            {% if agentic_usage.total.energy_equivalence %}
+              <p class="home-agentic-energy">{{ agentic_usage.total.energy_equivalence.public_note }}</p>
+            {% endif %}
+            <p class="home-agentic-source">{{ agentic_usage.source_note }} Last refreshed {{ agentic_usage.updated_at }}.</p>
+          </div>
+        {% endif %}
         <div class="contact-note">{{ site.contact_note }}</div>
       </div>
     </section>

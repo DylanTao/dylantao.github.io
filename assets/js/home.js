@@ -1394,14 +1394,29 @@
       return null;
     };
 
+    const interactionPriority = (kind) => {
+      if (kind === "album" || kind === "artifact") return 4;
+      if (kind === "windowJump" || kind === "returnInside") return 3;
+      if (kind === "turntable") return 2;
+      return 1;
+    };
+
     const pickObject = (event) => {
       if (!raycaster || !pointerNdc || !camera || !renderer) return null;
       const rect = renderer.domElement.getBoundingClientRect();
       pointerNdc.x = ((event.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
       pointerNdc.y = -(((event.clientY - rect.top) / Math.max(1, rect.height)) * 2 - 1);
       raycaster.setFromCamera(pointerNdc, camera);
-      const hit = raycaster.intersectObjects(interactiveObjects, true)[0];
-      return hit ? findInteractiveData(hit.object) : null;
+      const hits = raycaster
+        .intersectObjects(interactiveObjects, true)
+        .map((hit) => ({ hit, data: findInteractiveData(hit.object) }))
+        .filter((candidate) => candidate.data);
+      if (!hits.length) return null;
+      hits.sort((first, second) => {
+        const priorityDelta = interactionPriority(second.data.kind) - interactionPriority(first.data.kind);
+        return priorityDelta || first.hit.distance - second.hit.distance;
+      });
+      return hits[0].data;
     };
 
     const setEntryCue = (entry, active) => {
@@ -1477,6 +1492,8 @@
       themeMaterials.metal?.color.setHex(palette.metal);
       themeMaterials.darkArm?.color.setHex(palette.isDarkTheme ? 0x232728 : 0x343838);
       themeMaterials.warmArm?.color.setHex(palette.isDarkTheme ? 0xd0a45f : 0xb9853d);
+      themeMaterials.stylusContact?.color.setHex(palette.isDarkTheme ? 0xd6b47c : 0x6d4827);
+      if (themeMaterials.stylusContact) themeMaterials.stylusContact.opacity = palette.isDarkTheme ? 0.36 : 0.24;
       themeMaterials.cardEdge?.color.setHex(palette.cardEdge);
       themeMaterials.shadow?.color.setHex(palette.shadow);
       if (themeMaterials.shadow) themeMaterials.shadow.opacity = palette.shadowOpacity;
@@ -2366,16 +2383,20 @@
         recordGroup.add(groove);
       });
       recordLabelMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.02 });
-      const recordLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.275, 0.275, 0.062, 72), recordLabelMaterial);
+      const recordLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.315, 0.315, 0.062, 72), recordLabelMaterial);
       recordLabel.position.y = 0.041;
       recordGroup.add(recordLabel);
-      const labelRim = new THREE.Mesh(new THREE.TorusGeometry(0.282, 0.009, 8, 72), warmArmMaterial);
+      const labelRim = new THREE.Mesh(new THREE.TorusGeometry(0.323, 0.011, 8, 72), warmArmMaterial);
       labelRim.rotation.x = Math.PI / 2;
       labelRim.position.y = 0.078;
       recordGroup.add(labelRim);
       const spindle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.09, 32), metalMaterial);
       spindle.position.set(-0.24, 0.268, 0);
       player.add(spindle);
+      const spindleHalo = new THREE.Mesh(new THREE.TorusGeometry(0.065, 0.006, 8, 42), warmArmMaterial);
+      spindleHalo.rotation.x = Math.PI / 2;
+      spindleHalo.position.set(-0.24, 0.318, 0);
+      player.add(spindleHalo);
       const spindleCap = new THREE.Mesh(new THREE.SphereGeometry(0.038, 24, 14), metalMaterial);
       spindleCap.scale.set(1, 0.36, 1);
       spindleCap.position.set(-0.24, 0.322, 0);
@@ -2449,6 +2470,19 @@
       const stylusTip = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 8), warmArmMaterial);
       stylusTip.position.set(-0.665, -0.122, -0.718);
       toneArmGroup.add(stylusTip);
+      const stylusShadow = new THREE.Mesh(
+        new THREE.CircleGeometry(0.026, 18),
+        new THREE.MeshBasicMaterial({
+          color: palette.isDarkTheme ? 0xd6b47c : 0x6d4827,
+          transparent: true,
+          opacity: palette.isDarkTheme ? 0.36 : 0.24,
+          depthWrite: false,
+        })
+      );
+      stylusShadow.rotation.x = -Math.PI / 2;
+      stylusShadow.position.set(-0.67, -0.126, -0.72);
+      toneArmGroup.add(stylusShadow);
+      themeMaterials.stylusContact = stylusShadow.material;
 
       const albumRack = new THREE.Group();
       albumRack.position.set(-1.76, -0.2, -0.66);
@@ -2486,8 +2520,8 @@
         albumCue.visible = false;
         entry.group.add(albumCue);
         entry.cue = albumCue;
-        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.78), hitMaterial);
-        albumHit.position.set(0, 0.02, 0.03);
+        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.9), hitMaterial);
+        albumHit.position.set(0, 0.02, 0.055);
         entry.group.add(albumHit);
         registerInteractive(sleeveBack, { kind: "album", index }, entry);
         registerInteractive(cover, { kind: "album", index }, entry);
@@ -2553,13 +2587,22 @@
         artifactCue.visible = false;
         entry.group.add(artifactCue);
         entry.cue = artifactCue;
-        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(1.86, 0.98), hitMaterial);
+        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(2.04, 1.12), hitMaterial);
         cardHit.rotation.x = -Math.PI / 2;
         cardHit.position.y = 0.082;
         entry.group.add(cardHit);
+        const readingHit = new THREE.Mesh(new THREE.PlaneGeometry(1.72, 0.74), hitMaterial);
+        readingHit.position.set(0, 0.26, 0.02);
+        entry.group.add(readingHit);
         registerInteractive(base, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(top, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(cardHit, { kind: "artifact", index, url: entry.url }, entry);
+        registerInteractive(readingHit, { kind: "artifact", index, url: entry.url }, entry);
+        const tableReadingHit = new THREE.Mesh(new THREE.PlaneGeometry(1.72, 0.82), hitMaterial);
+        tableReadingHit.position.set(entry.basePosition.x, 0.08, entry.basePosition.z + 0.08);
+        tableReadingHit.rotation.z = entry.baseRotation.z;
+        table.add(tableReadingHit);
+        registerInteractive(tableReadingHit, { kind: "artifact", index, url: entry.url }, entry);
         artifactEntries.push(entry);
       });
 
