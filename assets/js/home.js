@@ -374,6 +374,22 @@
       const platter = new THREE.Mesh(new THREE.CircleGeometry(2.64, 160), platterMaterial);
       platter.position.z = -0.08;
       baseGroup.add(platter);
+      const platterRimMaterial = accentMaterial.clone();
+      platterRimMaterial.transparent = true;
+      platterRimMaterial.opacity = 0.2;
+      const platterRim = new THREE.Mesh(new THREE.RingGeometry(2.48, 2.6, 176), platterRimMaterial);
+      platterRim.position.z = -0.024;
+      baseGroup.add(platterRim);
+      const platterStrobeMaterial = armMaterial.clone();
+      platterStrobeMaterial.transparent = true;
+      platterStrobeMaterial.opacity = 0.28;
+      for (let index = 0; index < 30; index += 1) {
+        const angle = (index / 30) * Math.PI * 2;
+        const tick = new THREE.Mesh(new THREE.BoxGeometry(0.052, 0.012, 0.012), platterStrobeMaterial);
+        tick.position.set(Math.cos(angle) * 2.55, Math.sin(angle) * 2.55, -0.004);
+        tick.rotation.z = angle;
+        baseGroup.add(tick);
+      }
 
       const recordShadow = new THREE.Mesh(
         new THREE.RingGeometry(0.7, 2.5, 160),
@@ -448,6 +464,13 @@
       counterWeight.rotation.x = Math.PI / 2;
       counterWeight.position.set(0.18, 0.18, 0.08);
       armGroup.add(counterWeight);
+      const counterWeightRim = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.008, 8, 40), armDarkMaterial);
+      counterWeightRim.position.set(0.18, 0.18, 0.176);
+      armGroup.add(counterWeightRim);
+      const cueLever = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.34, 0.032), armDarkMaterial);
+      cueLever.position.set(-0.08, 0.2, 0.12);
+      cueLever.rotation.z = -0.22;
+      armGroup.add(cueLever);
 
       const armCurve = new THREE.CatmullRomCurve3(
         [
@@ -467,6 +490,14 @@
       headshell.position.set(-1.27, -1.21, 0.09);
       headshell.rotation.z = -0.72;
       armGroup.add(headshell);
+      [
+        [-1.2, -1.16],
+        [-1.31, -1.26],
+      ].forEach(([x, y]) => {
+        const screw = new THREE.Mesh(new THREE.CircleGeometry(0.018, 14), spindleMaterial);
+        screw.position.set(x, y, 0.124);
+        armGroup.add(screw);
+      });
 
       const cartridge = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.105, 0.065), armDarkMaterial);
       cartridge.position.set(-1.37, -1.31, 0.04);
@@ -477,6 +508,12 @@
       stylus.rotation.x = Math.PI;
       stylus.position.set(-1.42, -1.36, -0.02);
       armGroup.add(stylus);
+      const stylusGlow = new THREE.Mesh(
+        new THREE.CircleGeometry(0.072, 24),
+        new THREE.MeshBasicMaterial({ color: 0xb99538, transparent: true, opacity: 0.16, depthWrite: false })
+      );
+      stylusGlow.position.set(-1.42, -1.36, -0.075);
+      armGroup.add(stylusGlow);
 
       updateAccent();
       updateArmTarget(isPlaying);

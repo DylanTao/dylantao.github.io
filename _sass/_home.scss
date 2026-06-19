@@ -1175,6 +1175,25 @@ html[data-theme="dark"] .home-record-play {
     0 0 0 0.18rem rgba(255, 255, 255, 0.04);
 }
 
+.home-profile-recordable.is-vinyl-mode .home-record-play,
+.home-profile-recordable.is-playing .home-record-play,
+.home-profile-recordable.is-paused-record .home-record-play {
+  width: clamp(2.45rem, 17.5%, 3.08rem);
+  border-color: color-mix(in srgb, var(--record-accent) 22%, rgba(255, 255, 255, 0.42));
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.34), transparent 44%), color-mix(in srgb, var(--home-surface) 34%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 0 0.68rem rgba(255, 255, 255, 0.12),
+    0 0.26rem 0.72rem rgba(73, 45, 30, 0.1);
+}
+
+.home-profile-recordable.is-vinyl-mode .home-record-play i,
+.home-profile-recordable.is-playing .home-record-play i,
+.home-profile-recordable.is-paused-record .home-record-play i {
+  font-size: clamp(0.86rem, 5.4vw, 1.12rem);
+}
+
 .home-record-play [data-home-record-pause-icon] {
   display: none;
 }
@@ -3232,7 +3251,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-social-section {
-    padding-bottom: 1.2rem;
+    padding-bottom: 1.25rem;
   }
 
   .home-section-heading h2 {
