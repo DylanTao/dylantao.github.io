@@ -17,7 +17,7 @@ Published total baseline, estimated on June 18, 2026:
 - 182 commits since the revamp cutoff.
 - 1.36B estimated Codex tokens.
 - 135 estimated active agent-hours.
-- Energy lens: about 816 kWh, 305 kg CO2e, or 5.1 urban-tree years of CO2 absorption. Range: 1.7-16.9 tree-years.
+- Tree-cut lens: about 816 kWh, 305 kg CO2e, or a stored-carbon equivalent of about 0.5 ten-year urban trees. Range: 0.2-1.7 trees.
 
 Evidence behind the total:
 
@@ -32,16 +32,16 @@ Published 3D desk baseline:
 - 35 commits touching the homepage desk/vinyl/coffee scene paths.
 - 350M estimated Codex tokens.
 - 25 estimated active agent-hours.
-- Energy lens: about 210 kWh, 78 kg CO2e, or 1.3 urban-tree years of CO2 absorption. Range: 0.4-4.4 tree-years.
+- Tree-cut lens: about 210 kWh, 78 kg CO2e, or a stored-carbon equivalent of about 0.13 ten-year urban trees. Range: 0.04-0.4 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
 - Deduped local Codex sessions after the 3D cutoff show 348,933,378 total tokens and 24.92 active hours, rounded for the public UI.
 
-## Energy and Tree-Year Equivalence
+## Energy and Cut-Tree Equivalence
 
-The public page uses "urban-tree years of CO2 absorption" instead of "trees cut down." Literal cut-tree equivalence depends on species, tree age, wood fate, land-use assumptions, and whether carbon is released immediately or over time.
+The public page uses a "tree-cut lens" as a stored-carbon equivalence because it is more legible than tree-years. This is not literal felled-tree accounting: cutting or removing a tree does not instantly release all stored carbon, and the real effect depends on wood products, decay, burning, roots, soil carbon, foregone future growth, species, age, and site conditions.
 
 The midpoint calculation uses:
 
@@ -49,6 +49,7 @@ The midpoint calculation uses:
 kWh = token_count * Wh_per_token / 1000
 kg_CO2e = kWh * 0.373
 tree_years = kg_CO2e / 60
+cut_tree_equivalent = kg_CO2e / 600
 ```
 
 Factors:
@@ -56,12 +57,15 @@ Factors:
 - Token energy midpoint: `0.0006 Wh/token`, derived from Epoch AI's rough GPT-4o estimate of `0.3 Wh` for a 500-output-token query.
 - Token energy range: `0.0002-0.002 Wh/token`, used because Codex logs combine cached, input, output, and reasoning tokens, and true inference energy is not exposed.
 - Grid emissions: `0.373 kg CO2e/kWh`, converted from EPA's `823.1 lb CO2e/MWh` electricity factor.
-- Tree-year absorption: `0.060 metric tons CO2 per urban tree planted per year`, from EPA's greenhouse gas equivalencies methodology.
+- Tree-year absorption, kept as internal/legacy context: `0.060 metric tons CO2 per urban tree planted per year`, from EPA's greenhouse gas equivalencies methodology.
+- Cut-tree equivalent: `600 kg CO2e` per ten-year urban tree, derived as `0.060 metric tons CO2/tree/year * 10 years * 1000 kg/metric ton`. Public copy should present this as stored-carbon equivalence and should not round small values up to one tree.
 
 Sources:
 
 - Epoch AI, "How much energy does ChatGPT use?": https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use
 - EPA Greenhouse Gas Equivalencies Calculator calculations and references: https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
+- USDA Forest Service, "Forest Carbon FAQs": https://www.fs.usda.gov/sites/default/files/Forest-Carbon-FAQs.pdf
+- USDA Forest Service urban/community tree carbon storage summary: https://research.fs.usda.gov/treesearch/46254
 
 ## Update Heuristic
 
@@ -88,7 +92,7 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 
 7. Update `_data/agentic_usage.yml` and append a dated note here when the estimate changes materially.
 
-8. Recompute the energy equivalence from the token totals using the formula above. Keep public copy framed as an estimate with a range.
+8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy framed as a stored-carbon estimate with a range and caveats.
 
 ## Future Entry Template
 
@@ -98,6 +102,6 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Commit delta:
 - Token delta:
 - Active-hour delta:
-- Energy/tree-year delta:
+- Energy/cut-tree delta:
 - Evidence:
 - Updated public totals:

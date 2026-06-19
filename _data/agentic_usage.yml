@@ -24,7 +24,11 @@ total:
     kg_co2e_midpoint: 305
     tree_years_midpoint: 5.1
     tree_years_range: "1.7-16.9"
-    public_note: "Energy lens: about 816 kWh, or 5.1 urban-tree years of CO2 absorption. Range: 1.7-16.9."
+    cut_tree_co2e_kg: 600
+    cut_tree_basis: "EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released."
+    cut_tree_midpoint: 0.5
+    cut_tree_range: "0.2-1.7"
+    public_note: "Tree-cut lens: about 816 kWh, or ~0.5 ten-year urban trees' stored carbon. Range: 0.2-1.7."
 
 desk_scene:
   label: "3D desk + vinyl"
@@ -47,4 +51,8 @@ desk_scene:
     kg_co2e_midpoint: 78
     tree_years_midpoint: 1.3
     tree_years_range: "0.4-4.4"
-    public_note: "energy lens: ~1.3 tree-years"
+    cut_tree_co2e_kg: 600
+    cut_tree_basis: "EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released."
+    cut_tree_midpoint: 0.13
+    cut_tree_range: "0.04-0.4"
+    public_note: "tree-cut lens: ~1/8 tree"
