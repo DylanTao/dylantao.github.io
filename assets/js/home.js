@@ -1913,8 +1913,8 @@
 
     const enterDeskFromOutside = () => {
       setSceneView("desk");
-      targetZoomLevel = isCompactScene ? 0.52 : 0.58;
-      zoomLevel = isCompactScene ? 0.3 : 0.34;
+      targetZoomLevel = 0;
+      zoomLevel = isCompactScene ? 0.24 : 0.32;
       targetRotationX = defaultRotation.x;
       targetRotationY = defaultRotation.y;
       windowAutoEntryBlockedUntil = Date.now() + 1200;
