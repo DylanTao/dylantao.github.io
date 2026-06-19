@@ -349,6 +349,11 @@
         transparent: true,
         opacity: 0.72,
       });
+      const darkDetailMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1d2020,
+        metalness: 0.18,
+        roughness: 0.48,
+      });
       const armMaterial = new THREE.MeshStandardMaterial({
         color: 0x6f7070,
         metalness: 0.62,
@@ -431,6 +436,14 @@
       const labelRim = new THREE.Mesh(new THREE.RingGeometry(0.945, 0.99, 128), accentMaterial);
       labelRim.position.z = 0.058;
       recordGroup.add(labelRim);
+      const labelInnerRim = new THREE.Mesh(new THREE.RingGeometry(0.18, 0.205, 80), accentMaterial.clone());
+      labelInnerRim.material.transparent = true;
+      labelInnerRim.material.opacity = 0.5;
+      labelInnerRim.position.z = 0.066;
+      recordGroup.add(labelInnerRim);
+      const labelHole = new THREE.Mesh(new THREE.CircleGeometry(0.09, 48), darkDetailMaterial);
+      labelHole.position.z = 0.071;
+      recordGroup.add(labelHole);
 
       const outerBevel = new THREE.Mesh(new THREE.RingGeometry(2.37, 2.46, 192), accentMaterial);
       outerBevel.position.z = 0.063;
@@ -438,6 +451,10 @@
       outerBevel.material.transparent = true;
       outerBevel.material.opacity = 0.24;
       recordGroup.add(outerBevel);
+      const outerCatchlight = new THREE.Mesh(new THREE.RingGeometry(2.2, 2.24, 192), recordSheenMaterial.clone());
+      outerCatchlight.material.opacity = 0.058;
+      outerCatchlight.position.z = 0.074;
+      recordGroup.add(outerCatchlight);
 
       const spindleWasher = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0065, 10, 44), spindleMaterial);
       spindleWasher.position.z = 0.124;
@@ -446,6 +463,10 @@
       centerPin.rotation.x = Math.PI / 2;
       centerPin.position.z = 0.13;
       baseGroup.add(centerPin);
+      const centerPinTip = new THREE.Mesh(new THREE.SphereGeometry(0.024, 24, 12), spindleMaterial);
+      centerPinTip.scale.set(1, 1, 0.46);
+      centerPinTip.position.z = 0.185;
+      baseGroup.add(centerPinTip);
 
       armGroup = new THREE.Group();
       armGroup.position.set(2.18, 1.55, armState.lift);
@@ -485,6 +506,9 @@
       );
       const arm = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 52, 0.034, 12, false), armMaterial);
       armGroup.add(arm);
+      const armHighlight = new THREE.Mesh(new THREE.TubeGeometry(armCurve, 52, 0.009, 8, false), spindleMaterial);
+      armHighlight.position.set(0.015, 0.008, 0.028);
+      armGroup.add(armHighlight);
 
       const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.058), accentMaterial);
       headshell.position.set(-1.27, -1.21, 0.09);
@@ -503,11 +527,22 @@
       cartridge.position.set(-1.37, -1.31, 0.04);
       cartridge.rotation.z = -0.72;
       armGroup.add(cartridge);
+      const cantileverCurve = new THREE.CatmullRomCurve3(
+        [new THREE.Vector3(-1.38, -1.32, 0.02), new THREE.Vector3(-1.41, -1.35, -0.01), new THREE.Vector3(-1.42, -1.37, -0.052)],
+        false,
+        "catmullrom",
+        0.5
+      );
+      const cantilever = new THREE.Mesh(new THREE.TubeGeometry(cantileverCurve, 18, 0.006, 8, false), spindleMaterial);
+      armGroup.add(cantilever);
 
       const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.034, 0.16, 18), armDarkMaterial);
       stylus.rotation.x = Math.PI;
       stylus.position.set(-1.42, -1.36, -0.02);
       armGroup.add(stylus);
+      const stylusTip = new THREE.Mesh(new THREE.SphereGeometry(0.017, 14, 8), accentMaterial);
+      stylusTip.position.set(-1.42, -1.39, -0.075);
+      armGroup.add(stylusTip);
       const stylusGlow = new THREE.Mesh(
         new THREE.CircleGeometry(0.072, 24),
         new THREE.MeshBasicMaterial({ color: 0xb99538, transparent: true, opacity: 0.16, depthWrite: false })
@@ -751,6 +786,14 @@
       }
     };
 
+    const isPointerInWindowRegion = (event) => {
+      if (!renderer) return false;
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / Math.max(1, rect.width);
+      const y = (event.clientY - rect.top) / Math.max(1, rect.height);
+      return x > 0.52 && x < 0.98 && y > 0.08 && y < 0.48;
+    };
+
     const applyCameraPose = (immediate = false) => {
       if (!camera) return false;
       const speed = immediate || reduceMotion ? 1 : 0.18;
@@ -938,19 +981,19 @@
       makeCanvasTexture(
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
-          context.fillStyle = palette.isDarkTheme ? "rgba(25,38,42,0.84)" : "rgba(54,61,62,0.72)";
-          context.font = "700 56px Inter, system-ui, sans-serif";
+          context.fillStyle = palette.isDarkTheme ? "rgba(24,35,38,0.9)" : "rgba(47,54,55,0.84)";
+          context.font = "780 94px Inter, system-ui, sans-serif";
           context.textAlign = "center";
           context.textBaseline = "middle";
-          context.fillText("Autodesk", width * 0.5, height * 0.48);
-          context.strokeStyle = palette.isDarkTheme ? "rgba(25,38,42,0.42)" : "rgba(54,61,62,0.34)";
-          context.lineWidth = 7;
+          context.fillText("Autodesk", width * 0.58, height * 0.48);
+          context.strokeStyle = palette.isDarkTheme ? "rgba(24,35,38,0.42)" : "rgba(47,54,55,0.34)";
+          context.lineWidth = 6;
           context.beginPath();
-          context.moveTo(width * 0.2, height * 0.66);
-          context.lineTo(width * 0.8, height * 0.66);
+          context.moveTo(width * 0.27, height * 0.74);
+          context.lineTo(width * 0.73, height * 0.74);
           context.stroke();
         },
-        512,
+        768,
         192
       );
 
@@ -1646,8 +1689,8 @@
         rootGroup.position.set(isCompact ? -0.2 : -0.18, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
       }
       if (outsideGroup) {
-        outsideGroup.scale.setScalar(isCompact ? 0.84 : 1.02);
-        outsideGroup.position.set(isCompact ? -0.2 : -0.14, isCompact ? -0.1 : -0.06, isCompact ? 0.14 : -0.04);
+        outsideGroup.scale.setScalar(isCompact ? 0.7 : 1.02);
+        outsideGroup.position.set(isCompact ? -0.16 : -0.14, isCompact ? -0.06 : -0.06, isCompact ? 0.08 : -0.04);
       }
       applyCameraPose(true);
       render();
@@ -1826,7 +1869,7 @@
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
       container.classList.toggle("is-outside-view", activeView === "outside");
       root.classList.toggle("home-desk-outside-active", activeView === "outside");
-      const entryZoom = activeView === "outside" ? (isCompactScene ? 0.16 : 0.36) : 0;
+      const entryZoom = activeView === "outside" ? getOutsideEntryZoom() : 0;
       targetZoomLevel = entryZoom;
       zoomLevel = entryZoom;
       targetRotationX = activeView === "outside" ? -0.03 : defaultRotation.x;
@@ -1835,6 +1878,18 @@
       rotationY = targetRotationY;
       applyRootRotation(true);
       applyCameraPose(true);
+      updateWindowJumpVisibility();
+      scheduleFrame();
+    };
+
+    const getOutsideEntryZoom = () => (isCompactScene ? 0.16 : 0.36);
+
+    const enterDeskFromOutside = () => {
+      setSceneView("desk");
+      targetZoomLevel = isCompactScene ? 0.52 : 0.58;
+      zoomLevel = isCompactScene ? 0.3 : 0.34;
+      targetRotationX = defaultRotation.x;
+      targetRotationY = defaultRotation.y;
       updateWindowJumpVisibility();
       scheduleFrame();
     };
@@ -2550,6 +2605,14 @@
       const platterTop = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.58, 0.03, 112), platterMat);
       platterTop.position.set(-0.24, 0.168, 0);
       player.add(platterTop);
+      const rubberMatMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x171b1c : 0x24282a,
+        roughness: 0.72,
+        metalness: 0.02,
+      });
+      const rubberMat = new THREE.Mesh(new THREE.CylinderGeometry(0.535, 0.54, 0.018, 112), rubberMatMaterial);
+      rubberMat.position.set(-0.24, 0.194, 0);
+      player.add(rubberMat);
       const platterLip = new THREE.Mesh(new THREE.TorusGeometry(0.585, 0.012, 10, 96), metalMaterial);
       platterLip.rotation.x = Math.PI / 2;
       platterLip.position.set(-0.24, 0.19, 0);
@@ -2567,7 +2630,7 @@
         player.add(tick);
       }
       recordGroup = new THREE.Group();
-      recordGroup.position.set(-0.24, 0.205, 0.0);
+      recordGroup.position.set(-0.24, 0.224, 0.0);
       player.add(recordGroup);
       const record = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.055, 112), vinylMaterial);
       recordGroup.add(record);
@@ -2589,16 +2652,23 @@
       labelRim.rotation.x = Math.PI / 2;
       labelRim.position.y = 0.078;
       recordGroup.add(labelRim);
+      const labelInnerRim = new THREE.Mesh(new THREE.TorusGeometry(0.118, 0.0055, 8, 52), warmArmMaterial);
+      labelInnerRim.rotation.x = Math.PI / 2;
+      labelInnerRim.position.y = 0.084;
+      recordGroup.add(labelInnerRim);
+      const centerHole = new THREE.Mesh(new THREE.CylinderGeometry(0.044, 0.044, 0.012, 32), darkArmMaterial);
+      centerHole.position.y = 0.091;
+      recordGroup.add(centerHole);
       const spindle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.09, 32), metalMaterial);
-      spindle.position.set(-0.24, 0.268, 0);
+      spindle.position.set(-0.24, 0.296, 0);
       player.add(spindle);
       const spindleHalo = new THREE.Mesh(new THREE.TorusGeometry(0.065, 0.006, 8, 42), warmArmMaterial);
       spindleHalo.rotation.x = Math.PI / 2;
-      spindleHalo.position.set(-0.24, 0.318, 0);
+      spindleHalo.position.set(-0.24, 0.346, 0);
       player.add(spindleHalo);
       const spindleCap = new THREE.Mesh(new THREE.SphereGeometry(0.038, 24, 14), metalMaterial);
       spindleCap.scale.set(1, 0.36, 1);
-      spindleCap.position.set(-0.24, 0.322, 0);
+      spindleCap.position.set(-0.24, 0.35, 0);
       player.add(spindleCap);
       registerInteractive(record, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
       registerInteractive(recordLabel, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
@@ -2625,10 +2695,20 @@
       counterWeightRim.rotation.y = Math.PI / 2;
       counterWeightRim.position.set(0.18, 0.008, 0.1);
       toneArmGroup.add(counterWeightRim);
+      [-0.024, 0, 0.024].forEach((offset) => {
+        const counterTick = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.052, 0.003), warmArmMaterial);
+        counterTick.position.set(0.18 + offset, 0.086, 0.1);
+        counterTick.rotation.z = Math.PI / 2;
+        toneArmGroup.add(counterTick);
+      });
       const armRest = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.04, 0.18, 24), darkArmMaterial);
       armRest.position.set(-0.12, -0.01, 0.04);
       armRest.rotation.z = -0.2;
       toneArmGroup.add(armRest);
+      const armRestFelt = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.19, 24), rubberMatMaterial);
+      armRestFelt.position.set(-0.122, 0.018, 0.04);
+      armRestFelt.rotation.z = -0.2;
+      toneArmGroup.add(armRestFelt);
       const armCurve = new THREE.CatmullRomCurve3(
         [
           new THREE.Vector3(0.015, 0.02, -0.055),
@@ -2662,6 +2742,14 @@
       cartridge.position.set(-0.63, -0.034, -0.68);
       cartridge.rotation.y = -0.38;
       toneArmGroup.add(cartridge);
+      const cantileverCurve = new THREE.CatmullRomCurve3(
+        [new THREE.Vector3(-0.64, -0.048, -0.69), new THREE.Vector3(-0.655, -0.07, -0.706), new THREE.Vector3(-0.666, -0.103, -0.718)],
+        false,
+        "catmullrom",
+        0.48
+      );
+      const cantilever = new THREE.Mesh(new THREE.TubeGeometry(cantileverCurve, 16, 0.0045, 8, false), warmArmMaterial);
+      toneArmGroup.add(cantilever);
       const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.012, 0.076, 16), darkArmMaterial);
       stylus.position.set(-0.665, -0.078, -0.718);
       stylus.rotation.x = Math.PI;
@@ -2845,15 +2933,15 @@
         "catmullrom",
         0.58
       );
-      const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 42, 0.018, 12, false), ceramicMaterial);
+      const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 42, 0.021, 14, false), ceramicMaterial);
       cup.add(handle);
       [
         { y: 0.132, z: 0.012 },
         { y: -0.132, z: 0.012 },
       ].forEach((anchor) => {
-        const pad = new THREE.Mesh(new THREE.SphereGeometry(0.034, 18, 12), ceramicMaterial);
-        pad.position.set(0.226, anchor.y, anchor.z);
-        pad.scale.set(0.7, 1.05, 0.48);
+        const pad = new THREE.Mesh(new THREE.SphereGeometry(0.04, 20, 12), ceramicMaterial);
+        pad.position.set(0.223, anchor.y, anchor.z);
+        pad.scale.set(0.78, 1.16, 0.52);
         cup.add(pad);
       });
       mugMarkMaterial = new THREE.MeshBasicMaterial({
@@ -2862,8 +2950,8 @@
         depthWrite: false,
         side: THREE.DoubleSide,
       });
-      const mark = new THREE.Mesh(new THREE.CylinderGeometry(0.236, 0.224, 0.142, 36, 1, true, -0.56, 1.12), mugMarkMaterial);
-      mark.position.set(0, -0.052, 0);
+      const mark = new THREE.Mesh(new THREE.CylinderGeometry(0.259, 0.247, 0.214, 56, 1, true, -1.05, 2.1), mugMarkMaterial);
+      mark.position.set(0, -0.026, 0);
       cup.add(mark);
 
       setActiveRecordInternal(activeRecordIndex);
@@ -2986,6 +3074,14 @@
           setSceneView("outside");
         } else if (pointerMode === "returnInside" && !movedEnough) {
           setSceneView("desk");
+        } else if (
+          pointerMode === "rotate" &&
+          !movedEnough &&
+          activeView === "desk" &&
+          Math.max(zoomLevel, targetZoomLevel) > 0.5 &&
+          isPointerInWindowRegion(event)
+        ) {
+          setSceneView("outside");
         } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && (focusedEntry || targetZoomLevel > 0.04)) {
           clearFocusedEntry();
           targetZoomLevel = 0;
@@ -3023,23 +3119,22 @@
         const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
         if (!delta) return;
         if (activeView === "outside") {
+          const outsideEntryZoom = getOutsideEntryZoom();
           if (delta < 0) {
             targetZoomLevel = clamp(targetZoomLevel - delta * 0.00125, 0, 1);
             if (targetZoomLevel > 0.78) {
-              setSceneView("desk");
-              targetZoomLevel = 0.58;
-              targetRotationX = defaultRotation.x;
-              targetRotationY = defaultRotation.y;
+              enterDeskFromOutside();
             }
             event.preventDefault();
             scheduleFrame();
             return;
           }
           if (delta > 0) {
-            setSceneView("desk");
-            targetZoomLevel = 0;
-            event.preventDefault();
-            scheduleFrame();
+            if (targetZoomLevel > outsideEntryZoom + 0.03) {
+              targetZoomLevel = clamp(targetZoomLevel - delta * 0.0012, outsideEntryZoom, 1);
+              event.preventDefault();
+              scheduleFrame();
+            }
           }
           return;
         }
@@ -3052,6 +3147,7 @@
           scheduleFrame();
           return;
         }
+        if (delta > 0 && targetZoomLevel <= 0.04) return;
         targetZoomLevel = clamp(targetZoomLevel - delta * 0.00135, 0, 1);
         if (targetZoomLevel > 0.5) {
           targetRotationX = defaultRotation.x;

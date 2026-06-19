@@ -244,9 +244,9 @@
   stacks.forEach((stack, index) => {
     stack.style.setProperty("--home-coffee-stain-image", image);
     stack.style.setProperty("--home-coffee-stain-rotation", `${number(between(random, -16, -5))}deg`);
-    stack.style.setProperty("--home-coffee-stain-x", `${number(between(random, 0.08, 0.42))}rem`);
-    stack.style.setProperty("--home-coffee-stain-y", `${number(between(random, -0.3, -0.04))}rem`);
-    stack.style.setProperty("--home-coffee-stain-scale", String(number(between(random, 0.98, 1.08))));
+    stack.style.setProperty("--home-coffee-stain-x", `${number(between(random, 0.3, 0.74))}rem`);
+    stack.style.setProperty("--home-coffee-stain-y", `${number(between(random, -0.56, -0.18))}rem`);
+    stack.style.setProperty("--home-coffee-stain-scale", String(number(between(random, 1.03, 1.13))));
     stack.dataset.coffeeStainSeed = index === 0 ? seed : `${seed}-${index}`;
   });
 })();
