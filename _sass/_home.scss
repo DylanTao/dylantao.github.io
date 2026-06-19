@@ -1615,16 +1615,16 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -2.12rem;
-  right: clamp(-2.34rem, -3.1vw, -1.22rem);
-  width: min(18.55rem, 53%);
+  top: -2.42rem;
+  right: clamp(-2.82rem, -3.65vw, -1.58rem);
+  width: min(19.35rem, 55%);
   aspect-ratio: 1 / 1;
   z-index: 7;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
   filter: saturate(1.08) contrast(1.04);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.5);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.42);
   pointer-events: none;
   transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, -12deg))
     scale(var(--home-coffee-stain-scale, 1));
@@ -3444,10 +3444,10 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: -1.4rem;
-    right: -1.62rem;
-    width: min(12.2rem, 48vw);
-    opacity: calc(var(--home-coffee-stain-opacity) * 0.32);
+    top: -1.68rem;
+    right: -1.84rem;
+    width: min(12.85rem, 50vw);
+    opacity: calc(var(--home-coffee-stain-opacity) * 0.28);
   }
 
   .home-inspiration-credit {

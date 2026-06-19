@@ -117,8 +117,9 @@
       const collapsedWidth = storyRail.getBoundingClientRect().width || 38;
       const expandedWidth = Math.min(Math.max(window.innerWidth * 0.07, 89), 116);
       const hasExpansionGutter = titleRect.left >= expandedWidth + 72;
-      const gap = hasExpansionGutter ? 56 : 10;
-      const anchor = Math.max(8 + collapsedWidth, titleRect.left - gap);
+      const gap = hasExpansionGutter ? 56 : 48;
+      const minAnchor = hasExpansionGutter ? 8 + collapsedWidth : 14;
+      const anchor = Math.max(minAnchor, titleRect.left - gap);
       storyRail.style.setProperty("--home-rail-anchor", `${anchor.toFixed(1)}px`);
       storyRail.toggleAttribute("data-rail-compact", !hasExpansionGutter);
     };
