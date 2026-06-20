@@ -751,7 +751,8 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-control-strip {
-  opacity: 0.055;
+  bottom: 1.15rem;
+  opacity: 0.68;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -807,6 +808,8 @@ html.home-desk-outside-active .home-story-rail {
 .home-hero-media.is-desk-3d .home-record-card-pile,
 .home-hero-media.is-desk-3d .home-artifact-stack,
 .home-hero-media.is-desk-3d .home-inspiration-credit {
+  position: absolute;
+  visibility: hidden;
   opacity: 0;
   pointer-events: none;
 }
