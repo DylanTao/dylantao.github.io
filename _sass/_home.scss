@@ -3018,13 +3018,6 @@ html[data-theme="dark"] .home-artifact-mark {
     box-shadow 160ms ease;
 }
 
-.home-agentic-stat:focus-within,
-.home-agentic-stat:has(.home-agentic-info:hover) {
-  border-color: color-mix(in srgb, var(--home-accent) 15%, var(--home-line));
-  background: color-mix(in srgb, var(--home-surface) 74%, transparent);
-  box-shadow: 0 0.24rem 0.64rem color-mix(in srgb, var(--home-ink) 4%, transparent);
-}
-
 .home-agentic-stat + .home-agentic-stat::before {
   position: absolute;
   top: 0.68rem;
@@ -3284,13 +3277,6 @@ html[data-theme="dark"] .home-agentic-tooltip {
   background: color-mix(in srgb, var(--home-surface) 86%, #ffffff 14%);
   box-shadow: 0 0.72rem 1.6rem rgba(0, 0, 0, 0.28);
   color: color-mix(in srgb, var(--home-ink) 82%, #ffffff 18%);
-}
-
-html[data-theme="dark"] .home-agentic-stat:focus-within,
-html[data-theme="dark"] .home-agentic-stat:has(.home-agentic-info:hover) {
-  border-color: color-mix(in srgb, var(--home-accent) 18%, var(--home-line));
-  background: color-mix(in srgb, var(--home-surface) 84%, #ffffff 5%);
-  box-shadow: 0 0.24rem 0.64rem rgba(0, 0, 0, 0.16);
 }
 
 html[data-theme="dark"] .home-agentic-money-gag strong {
