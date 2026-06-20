@@ -164,22 +164,82 @@
 }
 
 .pagination {
-  .page-item {
-    .page-link {
-      color: var(--global-text-color);
-      padding: 0.75rem 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  align-items: center;
+  justify-content: center;
+  margin: 1.25rem auto 0;
+  padding: 0;
+  list-style: none;
 
-      &:hover {
-        color: #000;
+  .page-item {
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &::marker {
+      content: "";
+    }
+
+    .page-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.15rem;
+      min-height: 2.15rem;
+      border: 1px solid var(--global-divider-color);
+      border-radius: 999px;
+      background-color: var(--global-card-bg-color);
+      color: var(--global-text-color);
+      font-family: var(--font-mono);
+      font-size: var(--type-label);
+      font-weight: 750;
+      line-height: 1;
+      padding: 0.45rem 0.72rem;
+      text-decoration: none;
+      transition:
+        background-color var(--motion-standard),
+        border-color var(--motion-standard),
+        box-shadow var(--motion-standard),
+        color var(--motion-standard),
+        transform var(--motion-standard);
+
+      &:hover,
+      &:focus-visible {
+        border-color: rgba(var(--global-accent-rgb), 0.35);
+        background-color: var(--global-accent-soft);
+        color: var(--global-theme-color);
+        text-decoration: none;
+        transform: translateY(-1px);
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgba(var(--global-accent-rgb), 0.45);
+        outline-offset: 2px;
       }
     }
 
     &.active .page-link {
-      color: var(--global-hover-text-color);
       background-color: var(--global-theme-color);
+      border-color: var(--global-theme-color);
+      box-shadow: 0 0.55rem 1.2rem rgba(var(--global-accent-rgb), 0.18);
+      color: var(--global-hover-text-color);
 
       &:hover {
         background-color: var(--global-theme-color);
+        color: var(--global-hover-text-color);
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+
+      .page-link {
+        background-color: transparent;
+        color: var(--global-text-color-light);
+        opacity: 0.52;
       }
     }
   }
@@ -937,6 +997,17 @@
     > p,
     .row p {
       line-height: 1.56;
+    }
+  }
+
+  .pagination {
+    gap: 0.32rem;
+    margin-top: 1rem;
+
+    .page-item .page-link {
+      min-width: 2rem;
+      min-height: 2rem;
+      padding: 0.4rem 0.62rem;
     }
   }
 }

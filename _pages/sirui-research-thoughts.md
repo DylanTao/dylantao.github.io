@@ -758,12 +758,13 @@ hide_title: true
     border: 2px solid var(--sirui-console-bg);
     border-radius: 50%;
     box-shadow:
-      0 0 0 0.35rem rgba(142, 234, 98, 0.16),
-      0 0 1.2rem rgba(112, 216, 255, 0.55);
+      0 0 0 0.24rem rgba(142, 234, 98, 0.14),
+      0 0 0.8rem rgba(112, 216, 255, 0.46);
     display: block;
-    height: 0.72rem;
+    flex: 0 0 auto;
+    height: 0.54rem;
     position: relative;
-    width: 0.72rem;
+    width: 0.54rem;
   }
 
   .sirui-globe-marker.is-active .sirui-globe-marker-dot,
@@ -771,8 +772,8 @@ hide_title: true
   .sirui-globe-marker:focus-visible .sirui-globe-marker-dot {
     background: var(--sirui-console-hot);
     box-shadow:
-      0 0 0 0.45rem rgba(255, 79, 154, 0.18),
-      0 0 1.35rem rgba(255, 79, 154, 0.7);
+      0 0 0 0.3rem rgba(255, 79, 154, 0.16),
+      0 0 0.9rem rgba(255, 79, 154, 0.58);
   }
 
   .sirui-globe-marker.is-current .sirui-globe-marker-dot::after {
@@ -780,8 +781,8 @@ hide_title: true
     border: 2px solid var(--sirui-console-hot);
     border-radius: 50%;
     content: "";
-    inset: -0.5rem;
-    opacity: 0.8;
+    inset: -0.34rem;
+    opacity: 0.58;
     position: absolute;
   }
 
@@ -857,10 +858,10 @@ hide_title: true
   .sirui-globe-marker-cue::before {
     background: var(--sirui-console-hot);
     border-radius: 50%;
-    box-shadow: 0 0 0 0.22rem rgba(255, 79, 154, 0.22);
+    box-shadow: 0 0 0 0.16rem rgba(255, 79, 154, 0.2);
     content: "";
-    height: 0.42rem;
-    width: 0.42rem;
+    height: 0.32rem;
+    width: 0.32rem;
   }
 
   .sirui-globe-marker-cue::after {
@@ -1026,7 +1027,7 @@ hide_title: true
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker {
-    --sirui-marker-scale: 0.58;
+    --sirui-marker-scale: 0.62;
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker-label {
@@ -1035,16 +1036,16 @@ hide_title: true
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker-dot {
-    height: 0.52rem;
-    width: 0.52rem;
+    height: 0.42rem;
+    width: 0.42rem;
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker.is-active .sirui-globe-marker-dot,
   .sirui-map-stage.is-zoom-near .sirui-globe-marker:hover .sirui-globe-marker-dot,
   .sirui-map-stage.is-zoom-near .sirui-globe-marker:focus-visible .sirui-globe-marker-dot {
     box-shadow:
-      0 0 0 0.25rem rgba(255, 79, 154, 0.14),
-      0 0 0.85rem rgba(255, 79, 154, 0.58);
+      0 0 0 0.18rem rgba(255, 79, 154, 0.12),
+      0 0 0.62rem rgba(255, 79, 154, 0.48);
   }
 
   .sirui-globe-marker-count {
@@ -1653,17 +1654,17 @@ hide_title: true
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker {
-    --sirui-marker-scale: 0.92;
+    --sirui-marker-scale: 0.66;
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker-label {
-    font-size: 0.72rem;
-    padding: 0.28rem 0.45rem;
+    font-size: 0.66rem;
+    padding: 0.22rem 0.36rem;
   }
 
   .sirui-map-stage.is-zoom-near .sirui-globe-marker-dot {
-    height: 0.72rem;
-    width: 0.72rem;
+    height: 0.42rem;
+    width: 0.42rem;
   }
 
   .sirui-celestial-marker {
@@ -2424,6 +2425,8 @@ hide_title: true
     );
     const streetMapMinZoom = 3;
     const streetMapMaxZoom = 17;
+    const globeInspectMinAltitude = 1.12;
+    const globeWheelZoomSensitivity = 0.00125;
     const streetMorphStartAltitude = 2.55;
     const streetMorphEndAltitude = 1.08;
     const streetMainEnterProgress = 0.74;
@@ -3891,11 +3894,11 @@ hide_title: true
     };
 
     const globeMarkerScale = () =>
-      clamp(0.82 + ((currentGlobeAltitude - 1.2) / 2.5) * 0.23, 0.82, 1.05);
+      clamp(0.68 + ((currentGlobeAltitude - globeInspectMinAltitude) / 2.6) * 0.24, 0.68, 0.96);
 
     const pointRadiusForEntry = (entry) => {
-      const countBoost = Math.min(Number(entry?.count) || 1, 8) * 0.004;
-      const baseRadius = entry?.isCurrent ? 0.072 : 0.046;
+      const countBoost = Math.max(0, Math.min(Number(entry?.count) || 1, 8) - 1) * 0.0008;
+      const baseRadius = entry?.isCurrent ? 0.024 : 0.018;
 
       return (baseRadius + countBoost) * globeMarkerScale();
     };
@@ -3905,9 +3908,9 @@ hide_title: true
 
       const scale = globeMarkerScale();
       globeInstance.pointRadius?.(pointRadiusForEntry);
-      globeInstance.ringMaxRadius?.(streetMainActive ? 0.95 : 0.9 + scale * 1.28);
+      globeInstance.ringMaxRadius?.(streetMainActive ? 0.48 : 0.28 + scale * 0.5);
       globeInstance.ringPropagationSpeed?.(
-        prefersReducedMotion.matches ? 0 : 0.28 + scale * 0.28,
+        prefersReducedMotion.matches ? 0 : 0.18 + scale * 0.14,
       );
     };
 
@@ -4977,6 +4980,10 @@ hide_title: true
       let textureToken = 0;
       let dragging = false;
       let dragStart = null;
+      let pinchStart = null;
+      let zoomEaseFrame = 0;
+      let zoomTargetAltitude = state.pov.altitude;
+      const activePointers = new Map();
 
       renderer.domElement.className = "sirui-three-globe-canvas";
       renderer.setClearColor(0x000000, 0);
@@ -5052,7 +5059,7 @@ hide_title: true
       };
 
       const setCameraFromPov = () => {
-        const altitude = clamp(state.pov.altitude, 1.02, 3.75);
+        const altitude = clamp(state.pov.altitude, globeInspectMinAltitude, 3.75);
         state.pov.altitude = altitude;
         state.pov.lat = clamp(state.pov.lat, -82, 82);
         state.pov.lng = normalizeLongitude(state.pov.lng);
@@ -5111,7 +5118,7 @@ hide_title: true
           });
           const mesh = new THREE.Mesh(geometry, material);
           mesh.position.copy(latLngToThreeVector(THREE, entry.lat, entry.lng, 1 + altitude));
-          mesh.scale.setScalar(clamp(radius, 0.025, 0.14));
+          mesh.scale.setScalar(clamp(radius, 0.012, 0.065));
           pointsGroup.add(mesh);
         });
       };
@@ -5126,14 +5133,14 @@ hide_title: true
             blending: THREE.AdditiveBlending,
             color: 0xff4f9a,
             depthWrite: false,
-            opacity: 0.42,
+            opacity: 0.3,
             side: THREE.DoubleSide,
             transparent: true,
           });
           const ring = new THREE.Mesh(new THREE.RingGeometry(0.018, 0.024, 96), material);
           ring.position.copy(normal.clone().multiplyScalar(1.022));
           ring.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal);
-          ring.userData.maxScale = 4.2 + state.ringMaxRadius * 0.55;
+          ring.userData.maxScale = 1.65 + state.ringMaxRadius * 0.5;
           ringsGroup.add(ring);
         });
       };
@@ -5264,7 +5271,7 @@ hide_title: true
           const phase = speed ? (seconds * speed + index * 0.23) % 1 : 0.44;
           const scale = 0.9 + phase * (ring.userData.maxScale || 5);
           ring.scale.setScalar(scale);
-          ring.material.opacity = speed ? (1 - phase) * 0.46 : 0.34;
+          ring.material.opacity = speed ? (1 - phase) * 0.26 : 0.18;
         });
         atmosphere.material.opacity = 0.15 + Math.sin(seconds * 0.8) * 0.018;
         starGroup.rotation.y += delta * 0.006;
@@ -5287,11 +5294,75 @@ hide_title: true
         }
       };
 
+      const cancelZoomEase = () => {
+        if (zoomEaseFrame) {
+          window.cancelAnimationFrame(zoomEaseFrame);
+          zoomEaseFrame = 0;
+        }
+        zoomTargetAltitude = state.pov.altitude;
+      };
+
+      const stepZoomEase = () => {
+        zoomEaseFrame = 0;
+        if (state.disposed) return;
+
+        const difference = zoomTargetAltitude - state.pov.altitude;
+        if (Math.abs(difference) <= 0.004) {
+          if (Math.abs(difference) > 0.0001) {
+            state.pov = { ...state.pov, altitude: zoomTargetAltitude };
+            setCameraFromPov();
+            notifyZoom();
+          }
+          return;
+        }
+
+        const ease = prefersReducedMotion.matches
+          ? 1
+          : clamp(0.18 + Math.abs(difference) * 0.04, 0.18, 0.3);
+        state.pov = {
+          ...state.pov,
+          altitude: state.pov.altitude + difference * ease,
+        };
+        setCameraFromPov();
+        notifyZoom();
+        zoomEaseFrame = window.requestAnimationFrame(stepZoomEase);
+      };
+
+      const scheduleZoomEase = () => {
+        if (!zoomEaseFrame) {
+          zoomEaseFrame = window.requestAnimationFrame(stepZoomEase);
+        }
+      };
+
+      const pointerDistance = () => {
+        const pointers = Array.from(activePointers.values());
+        if (pointers.length < 2) return 0;
+
+        return Math.hypot(pointers[0].x - pointers[1].x, pointers[0].y - pointers[1].y);
+      };
+
+      const setPointerCaptureSafely = (event) => {
+        try {
+          renderer.domElement.setPointerCapture?.(event.pointerId);
+        } catch {
+          // Synthetic or interrupted touch streams may not own pointer capture.
+        }
+      };
+
+      const releasePointerCaptureSafely = (event) => {
+        try {
+          renderer.domElement.releasePointerCapture?.(event.pointerId);
+        } catch {
+          // Synthetic or interrupted touch streams may not own pointer capture.
+        }
+      };
+
       const moveToPov = (nextPov, duration = 0) => {
         if (!nextPov) return;
 
+        cancelZoomEase();
         const target = {
-          altitude: clamp(Number(nextPov.altitude) || state.pov.altitude, 1.02, 3.75),
+          altitude: clamp(Number(nextPov.altitude) || state.pov.altitude, globeInspectMinAltitude, 3.75),
           lat: clamp(
             toFiniteNumber(nextPov.lat) ?? state.pov.lat,
             -82,
@@ -5307,6 +5378,7 @@ hide_title: true
 
         if (!transitionMs) {
           state.pov = target;
+          zoomTargetAltitude = target.altitude;
           setCameraFromPov();
           notifyZoom();
           return;
@@ -5321,6 +5393,7 @@ hide_title: true
             lat: lerp(start.lat, target.lat, progress),
             lng: normalizeLongitude(start.lng + deltaLng * progress),
           };
+          zoomTargetAltitude = state.pov.altitude;
           setCameraFromPov();
           notifyZoom();
           if (progress < 1) window.requestAnimationFrame(step);
@@ -5332,6 +5405,11 @@ hide_title: true
       const handlePointerDown = (event) => {
         if (event.button !== undefined && event.button !== 0) return;
 
+        cancelZoomEase();
+        activePointers.set(event.pointerId, {
+          x: event.clientX,
+          y: event.clientY,
+        });
         dragging = true;
         dragStart = {
           lat: state.pov.lat,
@@ -5342,10 +5420,39 @@ hide_title: true
         };
         state.activeAnimation += 1;
         element.classList.add("is-dragging");
-        renderer.domElement.setPointerCapture?.(event.pointerId);
+        setPointerCaptureSafely(event);
+
+        if (activePointers.size >= 2) {
+          const distance = pointerDistance();
+          pinchStart = {
+            altitude: state.pov.altitude,
+            distance: distance || 1,
+          };
+          dragging = false;
+          dragStart = null;
+        }
       };
 
       const handlePointerMove = (event) => {
+        if (activePointers.has(event.pointerId)) {
+          activePointers.set(event.pointerId, {
+            x: event.clientX,
+            y: event.clientY,
+          });
+        }
+
+        if (pinchStart && activePointers.size >= 2) {
+          const distance = pointerDistance();
+          const ratio = distance > 0 ? distance / pinchStart.distance : 1;
+          zoomTargetAltitude = clamp(
+            pinchStart.altitude / Math.pow(Math.max(ratio, 0.18), 0.9),
+            globeInspectMinAltitude,
+            3.75,
+          );
+          scheduleZoomEase();
+          return;
+        }
+
         if (!dragging || !dragStart) return;
 
         const altitudeFactor = clamp(state.pov.altitude / 2.3, 0.54, 1.24);
@@ -5356,17 +5463,35 @@ hide_title: true
           lat: clamp(dragStart.lat + dy * 0.16 * altitudeFactor, -82, 82),
           lng: normalizeLongitude(dragStart.lng - dx * 0.2 * altitudeFactor),
         };
+        zoomTargetAltitude = state.pov.altitude;
         setCameraFromPov();
         notifyZoom();
       };
 
       const handlePointerUp = (event) => {
-        if (!dragging) return;
+        activePointers.delete(event.pointerId);
+        releasePointerCaptureSafely(event);
 
+        if (pinchStart && activePointers.size === 1) {
+          const [pointerId, pointer] = Array.from(activePointers.entries())[0];
+          pinchStart = null;
+          dragging = true;
+          dragStart = {
+            lat: state.pov.lat,
+            lng: state.pov.lng,
+            pointerId,
+            x: pointer.x,
+            y: pointer.y,
+          };
+          return;
+        }
+
+        if (activePointers.size > 0) return;
+
+        pinchStart = null;
         dragging = false;
         dragStart = null;
         element.classList.remove("is-dragging");
-        renderer.domElement.releasePointerCapture?.(event.pointerId);
       };
 
       const handleWheel = (event) => {
@@ -5375,14 +5500,13 @@ hide_title: true
         event.preventDefault();
         state.activeAnimation += 1;
         const modeScale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 96 : 1;
-        const delta = event.deltaY * modeScale;
-        const nextAltitude = clamp(state.pov.altitude + delta * 0.0022, 1.02, 3.75);
-        state.pov = {
-          ...state.pov,
-          altitude: nextAltitude,
-        };
-        setCameraFromPov();
-        notifyZoom();
+        const delta = clamp(event.deltaY * modeScale, -900, 900);
+        zoomTargetAltitude = clamp(
+          zoomTargetAltitude + delta * globeWheelZoomSensitivity,
+          globeInspectMinAltitude,
+          3.75,
+        );
+        scheduleZoomEase();
       };
 
       on(renderer.domElement, "pointerdown", handlePointerDown);
@@ -5444,6 +5568,7 @@ hide_title: true
         },
         dispose() {
           state.disposed = true;
+          cancelZoomEase();
           stopFrameLoop();
           cleanup.forEach((remove) => remove());
           element.classList.remove("is-dragging");
@@ -6241,28 +6366,12 @@ hide_title: true
       refreshGlobeMarkerScale();
 
       if (focusPov && isStreetSyncedMode()) {
-        const streetRevealProgress = streetMorphProgressForAltitude(altitude);
-
-        if (!streetViewActive && performance.now() < streetExitSuppressUntil) {
-          return;
-        }
-
         if (streetViewActive) {
-          scheduleStreetMapSync(focusEntry, focusPov);
-        } else if (streetRevealProgress > 0.18 || streetMainActive || streetPresentationTarget) {
-          const shouldUseStreetMain = shouldUseStreetMainForAltitude(altitude);
-
-          if (shouldUseStreetMain && !streetViewActive) {
-            setStreetViewState(true);
-            setGlobeStatus(`Street view opening near ${whereLabel(focusEntry)}.`);
-          }
-          setStreetPresentation(shouldUseStreetMain, {
-            pov: focusPov,
-            sync: false,
-          });
           scheduleStreetMapSync(focusEntry, focusPov);
         } else if (
           mapStage?.classList.contains("is-street-inset") ||
+          mapStage?.classList.contains("is-street-morphing") ||
+          mapStage?.classList.contains("is-street-main") ||
           mapStage?.classList.contains("is-street-inset-mode")
         ) {
           setStreetMapVisible(false);
@@ -6272,7 +6381,8 @@ hide_title: true
       if (streetViewActive && !detailsPinned) {
         hideMarkerDetails();
       } else if (isNear && hasCoordinates(focusEntry) && !detailsPinned) {
-        showMarkerDetails(focusEntry);
+        setActiveMarker(focusEntry.id);
+        if (markerCard) markerCard.hidden = true;
       } else if (!detailsPinned && !isNear) {
         hideMarkerDetails();
       }

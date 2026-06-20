@@ -9,8 +9,9 @@ footer.fixed-bottom {
   left: auto;
   z-index: auto;
   background-color: var(--global-footer-bg-color);
+  flex-shrink: 0;
   font-size: 0.75rem;
-  margin-top: 3rem;
+  margin-top: auto;
 
   .container {
     color: var(--global-footer-text-color);

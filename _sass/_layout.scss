@@ -38,6 +38,19 @@ body.fixed-top-nav {
   padding-top: 57px;
 }
 
+body:not(.home-body) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-bottom: 0 !important;
+}
+
+body:not(.home-body) > [role="main"] {
+  flex: 1 0 auto;
+  padding-bottom: clamp(2rem, 4vh, 3rem);
+}
+
 body.sticky-bottom-footer {
   // Remove padding below footer.
   padding-bottom: 0;
