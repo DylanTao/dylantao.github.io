@@ -1958,7 +1958,9 @@
       themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x5b4635 : 0x7f5637);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
       themeMaterials.outsideRoomFloor?.color.setHex(palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5);
+      if (themeMaterials.outsideRoomFloor) replaceMaterialMap(themeMaterials.outsideRoomFloor, createRoomFloorTexture(palette));
       themeMaterials.outsideRoomWall?.color.setHex(palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0);
+      if (themeMaterials.outsideRoomWall) replaceMaterialMap(themeMaterials.outsideRoomWall, createRoomWallTexture(palette));
       themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
       themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
       if (themeMaterials.outsideInterior) themeMaterials.outsideInterior.opacity = palette.isDarkTheme ? 0.24 : 0.18;
@@ -2110,14 +2112,14 @@
       return {
         albumPosition: new THREE.Vector3(
           0.42 + side * (0.18 + row * 0.08) + jitter,
-          -0.94 + orderIndex * 0.014,
+          -0.985 + orderIndex * 0.01,
           1.08 + row * 0.14 + (entry.index % 2) * 0.045
         ),
         albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.024, side * 0.02, fan),
         albumScale: new THREE.Vector3(0.95, 0.95, 0.95),
         cardPosition: new THREE.Vector3(
           -0.18 + side * (0.2 + row * 0.08) + jitter,
-          -1.08 + orderIndex * 0.016,
+          -1.16 + orderIndex * 0.012,
           0.94 + row * 0.13 + (entry.index % 2) * 0.045
         ),
         cardRotation: new THREE.Euler(side * 0.018, side * 0.018, side * (0.12 + row * 0.05) - jitter),
@@ -2125,7 +2127,7 @@
         albumShadowPosition: new THREE.Vector3(0.42 + side * (0.18 + row * 0.08) + jitter, -1.018 + floorLift, 1.08 + row * 0.14),
         albumShadowRotation: new THREE.Euler(-Math.PI / 2, 0, fan * 0.84),
         albumShadowScale: new THREE.Vector3(0.64 + row * 0.045, 0.34, 1),
-        cardShadowPosition: new THREE.Vector3(-0.18 + side * (0.2 + row * 0.08) + jitter, -1.206 + floorLift, 0.94 + row * 0.13),
+        cardShadowPosition: new THREE.Vector3(-0.18 + side * (0.2 + row * 0.08) + jitter, -1.216 + floorLift, 0.94 + row * 0.13),
         cardShadowRotation: new THREE.Euler(-Math.PI / 2, 0, side * (0.1 + row * 0.04) - jitter),
         cardShadowScale: new THREE.Vector3(0.52 + row * 0.03, 0.23, 1),
       };
@@ -2233,9 +2235,9 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 820 : 420,
-                arcHeight: animateThisDrop ? 0.045 : 0,
-                wobbleZ: animateThisDrop ? 0.01 : 0,
+                duration: animateThisDrop ? 780 : 420,
+                arcHeight: animateThisDrop ? 0.026 : 0,
+                wobbleZ: animateThisDrop ? 0.006 : 0,
                 easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
@@ -2268,9 +2270,9 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 780 : 360,
-                arcHeight: animateThisDrop ? 0.05 : 0,
-                wobbleZ: animateThisDrop ? 0.012 : 0,
+                duration: animateThisDrop ? 740 : 360,
+                arcHeight: animateThisDrop ? 0.03 : 0,
+                wobbleZ: animateThisDrop ? 0.006 : 0,
                 easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
@@ -2282,7 +2284,7 @@
                 scale: pose.cardShadowScale,
               },
               immediate && !animateThisDrop,
-              { duration: animateThisDrop ? 600 : 300, opacity: 0.18, startScale: 0.58 }
+              { duration: animateThisDrop ? 560 : 300, opacity: 0.2, startScale: 0.72 }
             );
           }
           return;
@@ -2345,7 +2347,7 @@
         {
           position: playPosition.clone(),
           rotation: playRotation.clone(),
-          scale: new THREE.Vector3(1.2, 1.2, 1.2),
+          scale: new THREE.Vector3(1.42, 1.42, 1.42),
         },
         560
       );
@@ -2758,8 +2760,16 @@
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
-      const roomFloorMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5, roughness: 0.76 });
-      const roomWallMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0, roughness: 0.8 });
+      const roomFloorMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5,
+        map: createRoomFloorTexture(palette),
+        roughness: 0.76,
+      });
+      const roomWallMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0,
+        map: createRoomWallTexture(palette),
+        roughness: 0.8,
+      });
       const trimMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xffead0 : 0xe9d2b4, roughness: 0.58 });
       const interiorMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf6c98b : 0xffdeb0,
@@ -3789,8 +3799,8 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(0.88, 0.68, 0.62);
-        entry.playRotation = new THREE.Euler(0.12, -0.2, 0.035);
+        entry.playPosition = new THREE.Vector3(1.28, 0.82, 0.98);
+        entry.playRotation = new THREE.Euler(0.08, -0.33, 0.05);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -4055,15 +4065,15 @@
           targetRotationY = clamp(rotationStartY + deltaX * 0.006, -0.82, 0.28);
           targetRotationX = clamp(rotationStartX + deltaY * 0.0035, -0.22, 0.18);
         } else if (activeEntry?.kind === "album") {
-          const lift = clamp(0.045 + Math.hypot(deltaX, deltaY) * 0.00045, 0.056, 0.16);
+          const lift = clamp(0.035 + Math.hypot(deltaX, deltaY) * 0.0003, 0.046, 0.11);
           activeEntry.group.position.set(
-            activeEntry.dragStartPosition.x + deltaX * 0.0038,
+            activeEntry.dragStartPosition.x + clamp(deltaX * 0.003, -0.44, 0.44),
             activeEntry.dragStartPosition.y + lift,
-            activeEntry.dragStartPosition.z + deltaY * 0.0036
+            activeEntry.dragStartPosition.z + clamp(deltaY * 0.0026, -0.32, 0.34)
           );
-          activeEntry.group.rotation.x = activeEntry.dragStartRotation.x + clamp(deltaY * -0.00075, -0.1, 0.1);
-          activeEntry.group.rotation.y = activeEntry.dragStartRotation.y + clamp(deltaX * 0.00055, -0.08, 0.08);
-          activeEntry.group.rotation.z = activeEntry.dragStartRotation.z + deltaX * 0.0019;
+          activeEntry.group.rotation.x = activeEntry.dragStartRotation.x + clamp(deltaY * -0.00045, -0.06, 0.06);
+          activeEntry.group.rotation.y = activeEntry.dragStartRotation.y + clamp(deltaX * 0.00036, -0.052, 0.052);
+          activeEntry.group.rotation.z = activeEntry.dragStartRotation.z + clamp(deltaX * 0.00115, -0.18, 0.18);
         } else if (activeEntry?.kind === "artifact") {
           const lift = clamp(0.06 + Math.hypot(deltaX, deltaY) * 0.00055, 0.08, 0.2);
           activeEntry.group.position.set(
@@ -4600,22 +4610,22 @@
       collisionXDrift: isCompactPile ? 0.16 : 0.22,
       projectedHeight: isCompactPile ? 2.86 : 3.12,
       projectedWidth: isCompactPile ? 16.2 : 18.25,
-      zBase: isCompactPile ? 0.72 : 0.86,
-      zStep: 0.08,
+      zBase: isCompactPile ? 0.42 : 0.5,
+      zStep: 0.045,
       slots: isCompactPile
         ? [
-            { x: 0, y: 0.48, rotate: -1.2, tilt: 57.2, scale: 1 },
-            { x: -1.12, y: 2.9, rotate: -5.2, tilt: 58.4, scale: 0.986 },
-            { x: 1.08, y: 5.32, rotate: 4.8, tilt: 57.8, scale: 0.98 },
-            { x: -0.52, y: 7.64, rotate: 2.5, tilt: 59.2, scale: 0.974 },
-            { x: 0.78, y: 9.86, rotate: -3.9, tilt: 58.8, scale: 0.968 },
+            { x: 0, y: 0.48, rotate: -1.2, tilt: 55.8, scale: 1 },
+            { x: -1.12, y: 2.9, rotate: -5.2, tilt: 56.8, scale: 0.986 },
+            { x: 1.08, y: 5.32, rotate: 4.8, tilt: 56.2, scale: 0.98 },
+            { x: -0.52, y: 7.64, rotate: 2.5, tilt: 57.4, scale: 0.974 },
+            { x: 0.78, y: 9.86, rotate: -3.9, tilt: 57, scale: 0.968 },
           ]
         : [
-            { x: 0, y: 0.52, rotate: -1.1, tilt: 57.4, scale: 1 },
-            { x: -1.42, y: 3.32, rotate: -5.6, tilt: 58.8, scale: 0.986 },
-            { x: 1.48, y: 6.12, rotate: 5.2, tilt: 58.1, scale: 0.98 },
-            { x: -0.72, y: 8.82, rotate: 2.8, tilt: 59.5, scale: 0.974 },
-            { x: 0.96, y: 11.42, rotate: -4.2, tilt: 58.9, scale: 0.968 },
+            { x: 0, y: 0.52, rotate: -1.1, tilt: 55.8, scale: 1 },
+            { x: -1.42, y: 3.32, rotate: -5.6, tilt: 56.9, scale: 0.986 },
+            { x: 1.48, y: 6.12, rotate: 5.2, tilt: 56.4, scale: 0.98 },
+            { x: -0.72, y: 8.82, rotate: 2.8, tilt: 57.6, scale: 0.974 },
+            { x: 0.96, y: 11.42, rotate: -4.2, tilt: 57.1, scale: 0.968 },
           ],
     });
 
@@ -4687,15 +4697,15 @@
       );
       card.style.setProperty(
         "--card-drop-impact",
-        `translate3d(${(x + side * 0.06).toFixed(2)}rem, ${(y + 0.14).toFixed(2)}rem, ${Math.max(0.1, z - 0.1).toFixed(2)}rem) rotateZ(${(rotate + side * 0.32).toFixed(2)}deg) rotateX(${(tilt + 2.4).toFixed(2)}deg) rotateY(${(side * -0.56).toFixed(2)}deg) scale(${Math.min(1.012, scale + 0.01).toFixed(3)})`
+        `translate3d(${(x + side * 0.09).toFixed(2)}rem, ${(y + 0.1).toFixed(2)}rem, ${Math.max(0.08, z - 0.08).toFixed(2)}rem) rotateZ(${(rotate + side * 0.24).toFixed(2)}deg) rotateX(${(tilt + 1.3).toFixed(2)}deg) rotateY(${(side * -0.44).toFixed(2)}deg) scale(${Math.min(1.006, scale + 0.006).toFixed(3)})`
       );
       card.style.setProperty(
         "--card-drop-bounce",
-        `translate3d(${(x - side * 0.02).toFixed(2)}rem, ${(y - 0.04).toFixed(2)}rem, ${(z + 0.08).toFixed(2)}rem) rotateZ(${(rotate - side * 0.12).toFixed(2)}deg) rotateX(${(tilt - 0.55).toFixed(2)}deg) rotateY(${(side * -0.48).toFixed(2)}deg) scale(${Math.min(1.004, scale + 0.004).toFixed(3)})`
+        `translate3d(${(x - side * 0.035).toFixed(2)}rem, ${(y - 0.015).toFixed(2)}rem, ${(z + 0.035).toFixed(2)}rem) rotateZ(${(rotate - side * 0.08).toFixed(2)}deg) rotateX(${(tilt - 0.28).toFixed(2)}deg) rotateY(${(side * -0.42).toFixed(2)}deg) scale(${Math.min(1.002, scale + 0.002).toFixed(3)})`
       );
       card.style.setProperty(
         "--card-drop-settle",
-        `translate3d(${(x + side * 0.018).toFixed(2)}rem, ${(y + 0.03).toFixed(2)}rem, ${Math.max(0.12, z - 0.02).toFixed(2)}rem) rotateZ(${(rotate + side * 0.08).toFixed(2)}deg) rotateX(${(tilt + 0.42).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.005, scale + 0.005).toFixed(3)})`
+        `translate3d(${(x + side * 0.024).toFixed(2)}rem, ${(y + 0.018).toFixed(2)}rem, ${Math.max(0.1, z - 0.01).toFixed(2)}rem) rotateZ(${(rotate + side * 0.045).toFixed(2)}deg) rotateX(${(tilt + 0.18).toFixed(2)}deg) rotateY(${(side * -0.46).toFixed(2)}deg) scale(${Math.min(1.003, scale + 0.003).toFixed(3)})`
       );
       card.dataset.stackOrder = String(visualOrder);
       card.dataset.cardLaneY = y.toFixed(2);
@@ -4785,15 +4795,15 @@
       card.setAttribute("aria-label", `${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 1.08).toFixed(2)}rem, -4.35rem, 3.1rem) rotateZ(${(dropSide * -7.2).toFixed(2)}deg) rotateX(24deg) rotateY(${(dropSide * 5.2).toFixed(2)}deg) scale(0.84)`
+        `translate3d(${(dropSide * 1.18).toFixed(2)}rem, -3.62rem, 2.2rem) rotateZ(${(dropSide * -6.2).toFixed(2)}deg) rotateX(30deg) rotateY(${(dropSide * 4.2).toFixed(2)}deg) scale(0.86)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.28).toFixed(2)}rem, -1.82rem, 1.85rem) rotateZ(${(dropSide * 4.6).toFixed(2)}deg) rotateX(44deg) rotateY(${(dropSide * -2.8).toFixed(2)}deg) scale(0.94)`
+        `translate3d(${(dropSide * -0.3).toFixed(2)}rem, -1.34rem, 1.16rem) rotateZ(${(dropSide * 3.8).toFixed(2)}deg) rotateX(47deg) rotateY(${(dropSide * -2.2).toFixed(2)}deg) scale(0.95)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.14).toFixed(2)}rem, 0.72rem, 0.42rem) rotateZ(${(dropSide * -0.62).toFixed(2)}deg) rotateX(56deg) rotateY(${(dropSide * -0.36).toFixed(2)}deg) scale(0.996)`
+        `translate3d(${(dropSide * 0.14).toFixed(2)}rem, 0.68rem, 0.24rem) rotateZ(${(dropSide * -0.5).toFixed(2)}deg) rotateX(54deg) rotateY(${(dropSide * -0.3).toFixed(2)}deg) scale(0.996)`
       );
 
       const cover = document.createElement("span");

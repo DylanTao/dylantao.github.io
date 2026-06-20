@@ -1331,6 +1331,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   --record-card-accent: var(--home-accent);
   --record-card-glass: color-mix(in srgb, var(--home-surface) 88%, #ffffff 12%);
   --record-card-glass-open: color-mix(in srgb, var(--home-surface) 92%, #ffffff 8%);
+  --record-card-paper: color-mix(in srgb, var(--home-surface) 94%, #fff7e8 6%);
+  --record-card-paper-shadow: color-mix(in srgb, var(--home-surface) 88%, #e8d3b5 12%);
   --record-card-edge: color-mix(in srgb, var(--home-accent) 22%, rgba(136, 199, 209, 0.42));
   --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 42%, rgba(108, 184, 198, 0.52));
   --record-card-rim: color-mix(in srgb, var(--home-accent) 24%, rgba(130, 211, 221, 0.72));
@@ -1390,6 +1392,29 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   transform: translateY(0) rotateX(74deg) scaleX(1.04);
 }
 
+.home-record-card-pile::after {
+  position: absolute;
+  right: 9%;
+  bottom: 2.18rem;
+  left: 9%;
+  height: 0.12rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--record-card-contact) 52%, transparent), transparent);
+  content: "";
+  opacity: 0;
+  filter: blur(0.025rem);
+  transform: translateY(0.18rem) rotateX(72deg) scaleX(0.76);
+  transition:
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+  pointer-events: none;
+}
+
+.home-record-card-pile.has-cards::after {
+  opacity: 0.42;
+  transform: translateY(0) rotateX(72deg) scaleX(1);
+}
+
 .home-record-card {
   position: absolute;
   top: 0.22rem;
@@ -1404,16 +1429,15 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   border: 1px solid var(--record-card-edge);
   border-radius: 0.62rem;
   background:
-    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.72), transparent 36%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 46%),
-    linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 92%, var(--record-card-rim-soft)));
+    radial-gradient(ellipse at 18% 12%, rgba(255, 255, 255, 0.46), transparent 34%),
+    repeating-linear-gradient(3deg, transparent 0 0.48rem, color-mix(in srgb, var(--record-card-rim-soft) 24%, transparent) 0.5rem 0.53rem),
+    linear-gradient(180deg, var(--record-card-paper), var(--record-card-paper-shadow));
   box-shadow:
-    0 0.12rem 0.16rem color-mix(in srgb, var(--record-card-contact) 88%, transparent),
-    0 0.38rem 0.56rem var(--record-card-shadow),
-    0 0.92rem 1.1rem color-mix(in srgb, var(--record-card-halo-soft) 32%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    inset 0 -0.16rem 0.34rem rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 58%, transparent);
+    0 0.08rem 0.1rem color-mix(in srgb, var(--record-card-contact) 86%, transparent),
+    0 0.28rem 0.48rem color-mix(in srgb, var(--record-card-shadow) 82%, transparent),
+    0 0.78rem 1.05rem color-mix(in srgb, var(--record-card-halo-soft) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 44%, transparent);
   color: var(--home-ink);
   cursor: pointer;
   transform: translateX(-50%) var(--card-rest-transform, translate3d(0, 0, 0) rotateZ(0deg) rotateX(0deg));
@@ -1425,8 +1449,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     box-shadow var(--motion-standard),
     transform 520ms cubic-bezier(0.2, 0.82, 0.22, 1),
     width var(--motion-standard);
-  backdrop-filter: blur(8px) saturate(1.08);
-  -webkit-backdrop-filter: blur(8px) saturate(1.08);
+  backdrop-filter: blur(2px) saturate(1.02);
+  -webkit-backdrop-filter: blur(2px) saturate(1.02);
   will-change: transform;
 }
 
@@ -1484,9 +1508,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card.is-open {
   width: min(18.9rem, 97%);
   background:
-    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.74), transparent 37%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 46%),
-    linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 94%, var(--record-card-rim-soft)));
+    radial-gradient(ellipse at 20% 14%, rgba(255, 255, 255, 0.54), transparent 38%),
+    repeating-linear-gradient(3deg, transparent 0 0.48rem, color-mix(in srgb, var(--record-card-rim-soft) 18%, transparent) 0.5rem 0.53rem),
+    linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 94%, var(--record-card-paper-shadow)));
   box-shadow:
     0 0.12rem 0.18rem color-mix(in srgb, var(--record-card-contact) 62%, transparent),
     0 0.38rem 0.62rem rgba(73, 45, 30, 0.12),
@@ -1578,6 +1602,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 html[data-theme="dark"] .home-record-card-pile {
   --record-card-glass: color-mix(in srgb, var(--home-surface) 88%, #283a40 12%);
   --record-card-glass-open: color-mix(in srgb, var(--home-surface) 92%, #31474f 8%);
+  --record-card-paper: color-mix(in srgb, var(--home-surface) 91%, #34474c 9%);
+  --record-card-paper-shadow: color-mix(in srgb, var(--home-surface) 84%, #172428 16%);
   --record-card-edge: color-mix(in srgb, var(--home-accent) 30%, rgba(129, 210, 225, 0.34));
   --record-card-edge-hover: color-mix(in srgb, var(--home-accent) 46%, rgba(139, 222, 235, 0.46));
   --record-card-rim: color-mix(in srgb, var(--home-accent) 34%, rgba(135, 222, 235, 0.68));
@@ -1591,9 +1617,9 @@ html[data-theme="dark"] .home-record-card-pile {
 html[data-theme="dark"] .home-record-card {
   border-color: var(--record-card-edge);
   background:
-    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.12), transparent 38%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 44%),
-    linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 84%, var(--record-card-rim-soft)));
+    radial-gradient(ellipse at 18% 12%, rgba(255, 255, 255, 0.12), transparent 38%),
+    repeating-linear-gradient(3deg, transparent 0 0.48rem, color-mix(in srgb, var(--record-card-rim-soft) 18%, transparent) 0.5rem 0.53rem),
+    linear-gradient(180deg, var(--record-card-paper), var(--record-card-paper-shadow));
   box-shadow:
     0 0.12rem 0.16rem color-mix(in srgb, var(--record-card-contact) 86%, transparent),
     0 0.62rem 1rem var(--record-card-shadow),
@@ -1604,9 +1630,9 @@ html[data-theme="dark"] .home-record-card {
 
 html[data-theme="dark"] .home-record-card.is-open {
   background:
-    radial-gradient(ellipse at 34% 18%, rgba(255, 255, 255, 0.16), transparent 38%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 42%),
-    linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 84%, var(--record-card-rim-soft)));
+    radial-gradient(ellipse at 20% 14%, rgba(255, 255, 255, 0.16), transparent 38%),
+    repeating-linear-gradient(3deg, transparent 0 0.48rem, color-mix(in srgb, var(--record-card-rim-soft) 18%, transparent) 0.5rem 0.53rem),
+    linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 84%, var(--record-card-paper-shadow)));
 }
 
 html[data-theme="dark"] .home-record-card-cover {
@@ -4095,6 +4121,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-nav,
   .home-record-card-pile,
   .home-record-card-pile::before,
+  .home-record-card-pile::after,
   .home-record-card,
   .home-record-card::before,
   .home-record-card::after,

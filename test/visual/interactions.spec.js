@@ -10,9 +10,9 @@ async function shakeCurrentRecord(page) {
   const centerX = box.x + box.width / 2;
   const centerY = box.y + box.height / 2;
   const offsets = [42, -42, 46, -46, 48, -48];
-  const useSyntheticTouch = await page.evaluate(() => window.matchMedia("(pointer: coarse)").matches);
+  const canUseSyntheticPointer = await page.evaluate(() => Boolean(window.PointerEvent));
 
-  if (useSyntheticTouch) {
+  if (canUseSyntheticPointer) {
     await portrait.evaluate((element, shakeOffsets) => {
       const rect = element.getBoundingClientRect();
       const pointerId = 817;
@@ -59,6 +59,18 @@ async function clickDeskCanvasAt(page, xRatio, yRatio) {
   const box = await canvas.boundingBox();
   expect(box).not.toBeNull();
   await page.mouse.click(box.x + box.width * xRatio, box.y + box.height * yRatio);
+}
+
+async function dropRecordCardsUntil(page, expectedCount) {
+  const cards = page.locator("[data-home-record-card]");
+
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    if ((await cards.count()) >= expectedCount) break;
+    await shakeCurrentRecord(page);
+    await page.waitForTimeout(900);
+  }
+
+  await expect(cards).toHaveCount(expectedCount);
 }
 
 test("publications Abs toggle opens and closes", async ({ page }) => {
@@ -231,12 +243,8 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
 
-  await shakeCurrentRecord(page);
-  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
-  await page.waitForTimeout(620);
-
-  await shakeCurrentRecord(page);
-  await expect(page.locator("[data-home-record-card]")).toHaveCount(2);
+  await dropRecordCardsUntil(page, 1);
+  await dropRecordCardsUntil(page, 2);
   await page.waitForTimeout(120);
 
   const maxOverlapRatio = await page.locator("[data-home-record-card]").evaluateAll((cards) => {
@@ -269,6 +277,42 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
   expect(maxOverlapRatio).toBeLessThan(0.08);
 });
 
+test("home opened meme record cards settle back on top of the 2D pile", async ({ page }) => {
+  await preparePage(page, "light");
+  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const cards = page.locator("[data-home-record-card]");
+
+  await dropRecordCardsUntil(page, 1);
+  await dropRecordCardsUntil(page, 2);
+  await page.waitForTimeout(240);
+
+  const firstCard = cards.nth(0);
+  const openedIndex = await firstCard.getAttribute("data-record-index");
+  await firstCard.click();
+  await expect(firstCard).toHaveAttribute("aria-expanded", "true");
+
+  await page.keyboard.press("Escape");
+  await expect(firstCard).toHaveAttribute("aria-expanded", "false");
+  await page.waitForTimeout(680);
+
+  const topIndex = await cards.evaluateAll((cardNodes) => {
+    const sorted = cardNodes
+      .map((card) => ({
+        index: card.getAttribute("data-record-index"),
+        zIndex: Number.parseInt(window.getComputedStyle(card).zIndex, 10) || 0,
+        dropSequence: Number(card.getAttribute("data-drop-sequence") || card.dataset.dropSequence || 0),
+      }))
+      .sort((first, second) => second.zIndex - first.zIndex || second.dropSequence - first.dropSequence);
+
+    return sorted[0]?.index || "";
+  });
+
+  expect(topIndex).toBe(openedIndex);
+});
+
 test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
 
@@ -281,12 +325,8 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   const scene = page.locator("[data-home-desk-scene]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
 
-  await shakeCurrentRecord(page);
-  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
-  await page.waitForTimeout(620);
-
-  await shakeCurrentRecord(page);
-  await expect(page.locator("[data-home-record-card]")).toHaveCount(2);
+  await dropRecordCardsUntil(page, 1);
+  await dropRecordCardsUntil(page, 2);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
 
   await page.click('[data-home-desk-mode="3d"]');

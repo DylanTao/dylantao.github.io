@@ -107,9 +107,8 @@
         {% assign desk_energy = desk_usage.energy_equivalence %}
         <span>
           <span class="home-desk-scene-note-primary">
-            Codex 5.5 extra high made this: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot;
-            {{ desk_usage.hours_label }}h
-            {%- if desk_energy %} &middot; roughly {{ desk_energy.cut_tree_midpoint }} trees cut{% endif -%}
+            3D desk tally: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot; {{ desk_usage.hours_label }}h
+            {%- if desk_energy %} &middot; ~{{ desk_energy.cut_tree_midpoint }} trees cut{% endif -%}
             .
           </span>
           <span class="home-desk-scene-note-secondary">Future models may do less damage.</span>

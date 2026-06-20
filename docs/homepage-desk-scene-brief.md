@@ -20,7 +20,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
-- Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces or generic object-view lifts that make sleeves look like rigid blocks.
+- Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces, hovering rest poses, or generic object-view lifts that make sleeves look like rigid blocks.
 - Dropping or flicking an album should leave object-view and ease back to the full room view, so the user never gets stranded in a close crop after discovery.
 - In 2D, the discovered-card pile should remain visibly paper-like after repeated drops: separated fan slots, slight elevation cues, and enough offset for individual card edges to read instead of becoming a single glossy slab.
 - In 3D mode, hidden 2D portrait/card/artifact layers must not stay in the hero grid flow. The room canvas, usage note, and 3D controls should all remain visible together on laptop-height desktop viewports and mobile after switching modes; on mobile, keep the usage note above the control strip rather than letting the two overlays collide.
@@ -46,7 +46,7 @@ z
 +--------------------------------------------------------------> +x
 ```
 
-Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, lightly gridded floor/wall board textures, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language rather than switching to a different facade style.
+Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, lightly gridded floor/wall board textures, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language and the same generated floor/wall texture vocabulary rather than switching to a different facade style.
 
 The grid is descriptive, not a mandate for photoreal geometry. Keep the room stylized and graphic, but preserve the stable anchors: rear window, rear-left record shelf/turntable, front-right paper/mug work zone, and the dropped-card fan on the near floor.
 
