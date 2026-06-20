@@ -22,7 +22,8 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces or generic object-view lifts that make sleeves look like rigid blocks.
 - Dropping or flicking an album should leave object-view and ease back to the full room view, so the user never gets stranded in a close crop after discovery.
 - In 2D, the discovered-card pile should remain visibly paper-like after repeated drops: separated fan slots, slight elevation cues, and enough offset for individual card edges to read instead of becoming a single glossy slab.
-- In 3D mode, hidden 2D portrait/card/artifact layers must not stay in the hero grid flow. The room canvas, usage note, and 3D controls should all remain visible together on laptop-height desktop viewports and mobile after switching modes.
+- In 3D mode, hidden 2D portrait/card/artifact layers must not stay in the hero grid flow. The room canvas, usage note, and 3D controls should all remain visible together on laptop-height desktop viewports and mobile after switching modes; on mobile, keep the usage note above the control strip rather than letting the two overlays collide.
+- Focused album and artifact views should keep enough of the room in frame to feel like reading an object on the desk, not a hard crop into a separate inspection scene.
 - Dark mode must not collapse the room floor into a black slab. The generated floorboard texture should stay visible through a warm material tint, with low-opacity contact shadows and enough wall/floor separation for the dropped cards to read as paper lying on a room surface.
 
 ## Room Grid Contract

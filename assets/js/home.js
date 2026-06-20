@@ -819,21 +819,21 @@
       } else {
         const zoom = easeOutCubic(zoomLevel);
         if (focusedEntry?.kind === "album") {
-          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 31 : 28, zoom);
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 32 : 29, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.46 : 2.84, zoom),
-            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.66 : 1.78, zoom),
-            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.46 : 4.86, zoom)
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.62 : 3, zoom),
+            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.72 : 1.84, zoom),
+            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.82 : 5.12, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.34 : -0.42, zoom), lerp(-0.06, 0.12, zoom), lerp(0.02, 0.16, zoom));
+          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.24 : -0.3, zoom), lerp(-0.06, 0.1, zoom), lerp(0.02, 0.12, zoom));
         } else if (focusedEntry?.kind === "artifact") {
-          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 30 : 27, zoom);
+          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 31 : 29, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.02 : 2.28, zoom),
-            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.64 : 1.76, zoom),
-            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 3.58 : 3.88, zoom)
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.42 : 2.7, zoom),
+            lerp(isCompactScene ? 2.15 : 2.22, isCompactScene ? 1.72 : 1.84, zoom),
+            lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 4.38 : 4.68, zoom)
           );
-          camera.lookAt(isCompactScene ? 0.0 : 0.08, 0.48, 0.22);
+          camera.lookAt(isCompactScene ? -0.04 : 0.02, 0.34, 0.16);
         } else {
           camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
           camera.position.set(
@@ -1650,8 +1650,8 @@
     };
 
     const interactionPriority = (kind) => {
+      if (kind === "album") return 7;
       if (kind === "turntable") return 6;
-      if (kind === "album") return 5;
       if (kind === "artifact") return 4;
       if (kind === "windowJump" || kind === "returnInside") return 3;
       return 1;
@@ -2219,8 +2219,8 @@
               immediate && !animateThisDrop,
               {
                 duration: animateThisDrop ? 820 : 420,
-                arcHeight: animateThisDrop ? 0.08 : 0,
-                wobbleZ: animateThisDrop ? 0.018 : 0,
+                arcHeight: animateThisDrop ? 0.045 : 0,
+                wobbleZ: animateThisDrop ? 0.01 : 0,
                 easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
@@ -2254,8 +2254,8 @@
               immediate && !animateThisDrop,
               {
                 duration: animateThisDrop ? 780 : 360,
-                arcHeight: animateThisDrop ? 0.09 : 0,
-                wobbleZ: animateThisDrop ? 0.02 : 0,
+                arcHeight: animateThisDrop ? 0.05 : 0,
+                wobbleZ: animateThisDrop ? 0.012 : 0,
                 easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
@@ -2334,9 +2334,9 @@
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.27 : 0.29);
-      targetRotationX = -0.028;
-      targetRotationY = -0.15;
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.22 : 0.24);
+      targetRotationX = -0.036;
+      targetRotationY = -0.18;
       scheduleFrame();
     };
 
@@ -2360,9 +2360,9 @@
         },
         560
       );
-      targetZoomLevel = isCompactScene ? 0.29 : 0.28;
-      targetRotationX = -0.02;
-      targetRotationY = -0.06;
+      targetZoomLevel = isCompactScene ? 0.23 : 0.22;
+      targetRotationX = -0.028;
+      targetRotationY = -0.11;
       scheduleFrame();
     };
 
@@ -4770,15 +4770,15 @@
       card.setAttribute("aria-label", `${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 0.96).toFixed(2)}rem, -5.4rem, 4.8rem) rotateZ(${(dropSide * -8.6).toFixed(2)}deg) rotateX(12deg) rotateY(${(dropSide * 7.2).toFixed(2)}deg) scale(0.78)`
+        `translate3d(${(dropSide * 1.08).toFixed(2)}rem, -4.35rem, 3.1rem) rotateZ(${(dropSide * -7.2).toFixed(2)}deg) rotateX(24deg) rotateY(${(dropSide * 5.2).toFixed(2)}deg) scale(0.84)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.34).toFixed(2)}rem, -2.36rem, 3.3rem) rotateZ(${(dropSide * 5.8).toFixed(2)}deg) rotateX(38deg) rotateY(${(dropSide * -3.8).toFixed(2)}deg) scale(0.92)`
+        `translate3d(${(dropSide * -0.28).toFixed(2)}rem, -1.82rem, 1.85rem) rotateZ(${(dropSide * 4.6).toFixed(2)}deg) rotateX(44deg) rotateY(${(dropSide * -2.8).toFixed(2)}deg) scale(0.94)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.2).toFixed(2)}rem, 0.98rem, 0.7rem) rotateZ(${(dropSide * -0.8).toFixed(2)}deg) rotateX(57deg) rotateY(${(dropSide * -0.45).toFixed(2)}deg) scale(1.002)`
+        `translate3d(${(dropSide * 0.14).toFixed(2)}rem, 0.72rem, 0.42rem) rotateZ(${(dropSide * -0.62).toFixed(2)}deg) rotateX(56deg) rotateY(${(dropSide * -0.36).toFixed(2)}deg) scale(0.996)`
       );
 
       const cover = document.createElement("span");

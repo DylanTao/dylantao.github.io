@@ -769,7 +769,7 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 @media (min-width: 768px) {
   .home-hero-media.is-desk-3d .home-desk-scene-note {
-    bottom: 3.55rem;
+    bottom: 4.15rem;
     right: 1.05rem;
   }
 
@@ -1626,32 +1626,32 @@ html[data-theme="dark"] .home-record-card-link {
 @keyframes home-record-card-drop {
   0% {
     opacity: 0;
-    filter: blur(0.8px);
+    filter: blur(0.45px);
     transform: translateX(-50%) var(--card-drop-start, translate3d(0, -6rem, 3rem) rotateZ(-10deg) rotateX(18deg));
   }
 
-  34% {
+  38% {
     opacity: 1;
     filter: blur(0);
     transform: translateX(-50%) var(--card-drop-mid, translate3d(0.5rem, -1.4rem, 2rem) rotateZ(6deg) rotateX(-4deg));
   }
 
-  62% {
+  68% {
     opacity: 1;
     transform: translateX(-50%) var(--card-drop-land, translate3d(-0.16rem, 1.8rem, 0.52rem) rotateZ(-0.7deg) rotateX(60deg));
   }
 
-  72% {
+  78% {
     opacity: 1;
     transform: translateX(-50%) var(--card-drop-impact, translate3d(0.04rem, 1.86rem, 0.46rem) rotateZ(0.34deg) rotateX(62deg) scale(1.008));
   }
 
-  84% {
+  89% {
     opacity: 1;
     transform: translateX(-50%) var(--card-drop-bounce, translate3d(-0.02rem, 1.74rem, 0.8rem) rotateZ(-0.14deg) rotateX(59deg) scale(1.003));
   }
 
-  94% {
+  96% {
     opacity: 1;
     transform: translateX(-50%) var(--card-drop-settle, translate3d(0.03rem, 1.84rem, 0.84rem) rotateZ(0.18deg) rotateX(60.6deg) scale(1.005));
   }
@@ -3749,15 +3749,24 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-desk-scene-note {
     right: 0.72rem;
-    bottom: 3.58rem;
+    bottom: 4.72rem;
     left: 0.72rem;
     font-size: 0.54rem;
     line-height: 1.32;
   }
 
-  html.home-desk-outside-active .home-desk-scene-note {
-    bottom: 0.82rem;
-    opacity: 0.48;
+  .home-hero-media.is-desk-3d .home-desk-control-strip {
+    right: 50%;
+    bottom: 0.74rem;
+    max-width: calc(100% - 1.2rem);
+    transform: translateX(50%) scale(0.92);
+    transform-origin: center bottom;
+  }
+
+  .home-hero-media.is-desk-3d .home-desk-scene-note,
+  html.home-desk-outside-active .home-hero-media.is-desk-3d .home-desk-scene-note {
+    bottom: 4.62rem;
+    opacity: 0.42;
   }
 
   .home-desk-scene-note span {
