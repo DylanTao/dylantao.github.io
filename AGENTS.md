@@ -57,7 +57,7 @@ Before pushing changes to this customized site:
 - Use `.codex/skills/agentic-usage-ledger/SKILL.md` and `docs/agentic-usage-ledger.md` for the homepage Codex token, agent-hour, commit, energy, and tree-equivalence counters.
 - Google Scholar runs daily in `.github/workflows/update-citations.yml`; locally run `python bin/update_scholar_citations.py --force` only if `_data/citations.yml` is more than one day stale or publication pages changed.
 - Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit`; the helper estimates the pending commit and updates `_data/agentic_usage.yml`.
-- After commit, rerun `python bin/audit_agentic_usage.py` read-only; update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded API-cost labels changed.
+- After commit, rerun `python bin/audit_agentic_usage.py` read-only; update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
 - Stage only intended files; do not sweep unrelated dirty files into a stats refresh.
 
 ## Agent Routing Rules
