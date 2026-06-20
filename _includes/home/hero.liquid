@@ -106,10 +106,11 @@
       {% if desk_usage %}
         {% assign desk_energy = desk_usage.energy_equivalence %}
         <span>
-          Codex 5.5 extended made this: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot;
+          Codex 5.5 extra high made this: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot;
           {{ desk_usage.hours_label }}h
           {%- if desk_energy %} &middot; roughly {{ desk_energy.cut_tree_midpoint }} trees cut{% endif -%}
-          . Future models may do less damage.
+          .<br>
+          Future models may do less damage.
         </span>
       {% else %}
         <span>It will probably get better with the next model update.</span>
