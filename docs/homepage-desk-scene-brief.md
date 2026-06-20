@@ -52,6 +52,7 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 - The window should read as a real window with frame, sill, glass, and a view plane.
 - Zooming toward the window reveals a faint object-native jump affordance. The outside scene should be a stylized San Diego cliff-beach diorama with ocean, beach, cliff-side house, and time-of-day lighting.
 - In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
+- The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the bed/head/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
 - Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.
 
 ## WebGL / Three.js Direction

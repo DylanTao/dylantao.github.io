@@ -1940,17 +1940,19 @@
       themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xe0c48e);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
-      themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x3a2b22 : 0x6f492d);
+      themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x5b4635 : 0x7f5637);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
       themeMaterials.outsideRoomFloor?.color.setHex(palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5);
       themeMaterials.outsideRoomWall?.color.setHex(palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0);
       themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
       themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
+      if (themeMaterials.outsideInterior) themeMaterials.outsideInterior.opacity = palette.isDarkTheme ? 0.24 : 0.18;
       themeMaterials.outsideGlass?.color.setHex(palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6);
+      if (themeMaterials.outsideGlass) themeMaterials.outsideGlass.opacity = palette.isDarkTheme ? 0.07 : 0.09;
       themeMaterials.outsideInteriorGlow?.color.setHex(palette.isDarkTheme ? 0xffc98f : 0xffddb0);
-      if (themeMaterials.outsideInteriorGlow) themeMaterials.outsideInteriorGlow.opacity = palette.isDarkTheme ? 0.16 : 0.1;
+      if (themeMaterials.outsideInteriorGlow) themeMaterials.outsideInteriorGlow.opacity = palette.isDarkTheme ? 0.12 : 0.08;
       themeMaterials.outsideCurtain?.color.setHex(palette.isDarkTheme ? 0xf5dfc8 : 0xffead4);
-      if (themeMaterials.outsideCurtain) themeMaterials.outsideCurtain.opacity = palette.isDarkTheme ? 0.74 : 0.58;
+      if (themeMaterials.outsideCurtain) themeMaterials.outsideCurtain.opacity = palette.isDarkTheme ? 0.58 : 0.5;
       themeMaterials.outsideLamp?.color.setHex(palette.isDarkTheme ? 0xffcb78 : 0xf2b15f);
       if (themeMaterials.outsideLamp) themeMaterials.outsideLamp.opacity = palette.isDarkTheme ? 0.86 : 0.68;
       themeMaterials.outsideReturnGlow?.color.setHex(palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca);
@@ -2747,26 +2749,26 @@
       const interiorMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf6c98b : 0xffdeb0,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.32 : 0.22,
+        opacity: palette.isDarkTheme ? 0.24 : 0.18,
         depthWrite: false,
       });
       const glassMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6,
         transparent: true,
-        opacity: 0.1,
+        opacity: palette.isDarkTheme ? 0.07 : 0.09,
         depthWrite: false,
       });
       const interiorGlowMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xffc98f : 0xffddb0,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.16 : 0.1,
+        opacity: palette.isDarkTheme ? 0.12 : 0.08,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
       const curtainMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0xf5dfc8 : 0xffead4,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.74 : 0.58,
+        opacity: palette.isDarkTheme ? 0.58 : 0.5,
         roughness: 0.78,
       });
       const lampMaterial = new THREE.MeshBasicMaterial({
@@ -2775,7 +2777,7 @@
         opacity: palette.isDarkTheme ? 0.86 : 0.68,
       });
       const roofShadowMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x3a2b22 : 0x6f492d,
+        color: palette.isDarkTheme ? 0x5b4635 : 0x7f5637,
         roughness: 0.82,
         metalness: 0.01,
       });
@@ -3181,8 +3183,8 @@
       });
 
       const room = new THREE.Group();
-      room.position.set(-0.08, -0.04, 0.2);
-      room.scale.set(1.22, 1.12, 1.14);
+      room.position.set(-0.08, -0.02, 0.3);
+      room.scale.set(1.34, 1.18, 1.24);
       house.add(room);
       addBox(room, { x: 1.02, y: 0.035, z: 0.54 }, { x: -0.02, y: -0.34, z: 0.0 }, roomFloorMaterial);
       addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.1, y: -0.305, z: 0.06 }, blanketMaterial);
@@ -3202,11 +3204,11 @@
       addBox(room, { x: 0.18, y: 0.018, z: 0.46 }, { x: 0.28, y: 0.025, z: 0.02 }, pillowMaterial);
       const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
       head.scale.set(1.06, 0.88, 0.82);
-      head.position.set(-0.32, 0.02, 0.08);
+      head.position.set(-0.32, 0.04, 0.12);
       room.add(head);
       const hair = new THREE.Mesh(new THREE.SphereGeometry(0.095, 24, 18), hairMaterial);
       hair.scale.set(1.2, 0.64, 0.9);
-      hair.position.set(-0.35, 0.05, 0.07);
+      hair.position.set(-0.35, 0.07, 0.11);
       room.add(hair);
       addBox(
         room,
@@ -3215,8 +3217,8 @@
         new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
       );
       const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.16), screenMaterial);
-      laptopScreen.position.set(-0.43, 0.13, 0.15);
-      laptopScreen.rotation.set(-0.58, -0.08, 0);
+      laptopScreen.position.set(-0.43, 0.16, 0.2);
+      laptopScreen.rotation.set(-0.52, -0.08, 0);
       room.add(laptopScreen);
       addBox(room, { x: 0.14, y: 0.01, z: 0.018 }, { x: -0.36, y: 0.018, z: 0.275 }, trimMaterial);
       const lampGlow = new THREE.Mesh(new THREE.SphereGeometry(0.044, 24, 14), lampMaterial);
