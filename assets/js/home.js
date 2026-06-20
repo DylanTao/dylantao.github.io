@@ -2046,6 +2046,13 @@
       return true;
     };
 
+    const returnToRoomView = () => {
+      if (activeView !== "desk") return;
+      targetZoomLevel = 0;
+      targetRotationX = defaultRotation.x;
+      targetRotationY = defaultRotation.y;
+    };
+
     const normalizeDroppedRecordIndices = (indices = []) => {
       const seen = new Set();
       return indices
@@ -2347,6 +2354,7 @@
       const nextDropped = droppedRecordIndices.includes(entry.index) ? droppedRecordIndices : [...droppedRecordIndices, entry.index];
       setDroppedRecordState(nextDropped, { animate: true, focusIndex: entry.index });
       callbacks.dropRecord?.(entry.index);
+      returnToRoomView();
       scheduleFrame();
     };
 
@@ -4544,18 +4552,18 @@
       const isCompactPile = compactPileQuery.matches;
       const scatterSlots = isCompactPile
         ? [
-            { x: 0, y: 0.78, rotate: -0.8, tilt: 58.8, scale: 1 },
-            { x: -0.64, y: 0.98, rotate: -3.6, tilt: 60.4, scale: 0.988 },
-            { x: 0.7, y: 1.16, rotate: 3.2, tilt: 59.8, scale: 0.982 },
-            { x: -0.24, y: 1.36, rotate: 1.7, tilt: 61.2, scale: 0.976 },
-            { x: 0.4, y: 1.52, rotate: -2.5, tilt: 60.6, scale: 0.97 },
+            { x: 0, y: 0.72, rotate: -1.2, tilt: 57.8, scale: 1 },
+            { x: -0.86, y: 1.08, rotate: -5.2, tilt: 59.4, scale: 0.986 },
+            { x: 0.94, y: 1.34, rotate: 4.8, tilt: 58.7, scale: 0.98 },
+            { x: -0.36, y: 1.62, rotate: 2.5, tilt: 60.4, scale: 0.974 },
+            { x: 0.6, y: 1.86, rotate: -3.9, tilt: 59.8, scale: 0.968 },
           ]
         : [
-            { x: 0, y: 0.86, rotate: -0.7, tilt: 59.2, scale: 1 },
-            { x: -0.78, y: 1.08, rotate: -3.9, tilt: 61.1, scale: 0.988 },
-            { x: 0.84, y: 1.26, rotate: 3.5, tilt: 60.4, scale: 0.982 },
-            { x: -0.32, y: 1.48, rotate: 1.9, tilt: 61.7, scale: 0.976 },
-            { x: 0.52, y: 1.66, rotate: -2.8, tilt: 61.0, scale: 0.97 },
+            { x: 0, y: 0.78, rotate: -1.1, tilt: 58.2, scale: 1 },
+            { x: -1.06, y: 1.18, rotate: -5.6, tilt: 59.9, scale: 0.986 },
+            { x: 1.16, y: 1.5, rotate: 5.2, tilt: 59.1, scale: 0.98 },
+            { x: -0.48, y: 1.84, rotate: 2.8, tilt: 60.8, scale: 0.974 },
+            { x: 0.78, y: 2.12, rotate: -4.2, tilt: 60.1, scale: 0.968 },
           ];
       const slot = scatterSlots[visualOrder % scatterSlots.length];
       const cycle = Math.floor(visualOrder / scatterSlots.length);
@@ -4674,15 +4682,15 @@
       card.setAttribute("aria-label", `${record.title} by ${record.artist}`);
       card.style.setProperty(
         "--card-drop-start",
-        `translate3d(${(dropSide * 1.18).toFixed(2)}rem, -6.7rem, 6.4rem) rotateZ(${(dropSide * -12).toFixed(2)}deg) rotateX(-8deg) rotateY(${(dropSide * 10).toFixed(2)}deg) scale(0.72)`
+        `translate3d(${(dropSide * 0.96).toFixed(2)}rem, -5.4rem, 4.8rem) rotateZ(${(dropSide * -8.6).toFixed(2)}deg) rotateX(12deg) rotateY(${(dropSide * 7.2).toFixed(2)}deg) scale(0.78)`
       );
       card.style.setProperty(
         "--card-drop-mid",
-        `translate3d(${(dropSide * -0.42).toFixed(2)}rem, -2.18rem, 4.35rem) rotateZ(${(dropSide * 7.4).toFixed(2)}deg) rotateX(28deg) rotateY(${(dropSide * -5.2).toFixed(2)}deg) scale(0.91)`
+        `translate3d(${(dropSide * -0.34).toFixed(2)}rem, -2.36rem, 3.3rem) rotateZ(${(dropSide * 5.8).toFixed(2)}deg) rotateX(38deg) rotateY(${(dropSide * -3.8).toFixed(2)}deg) scale(0.92)`
       );
       card.style.setProperty(
         "--card-drop-land",
-        `translate3d(${(dropSide * 0.16).toFixed(2)}rem, 1.06rem, 0.82rem) rotateZ(${(dropSide * -0.6).toFixed(2)}deg) rotateX(58deg) rotateY(${(dropSide * -0.5).toFixed(2)}deg) scale(1.004)`
+        `translate3d(${(dropSide * 0.2).toFixed(2)}rem, 0.98rem, 0.7rem) rotateZ(${(dropSide * -0.8).toFixed(2)}deg) rotateX(57deg) rotateY(${(dropSide * -0.45).toFixed(2)}deg) scale(1.002)`
       );
 
       const cover = document.createElement("span");

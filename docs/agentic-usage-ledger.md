@@ -98,6 +98,16 @@ Use this freshness gate before pushing site changes:
 
 Do not chase tiny drift caused by running the audit itself. This is an estimate for a public joke, not a billing-grade ledger.
 
+## Codex hook behavior
+
+This repo has a project-local Codex `PreToolUse` hook in `.codex/hooks.json`. It checks Codex-issued `git commit` and `git push` commands before they run.
+
+- Normal `git commit` runs `python bin/audit_agentic_usage.py --check --include-pending-commit`; `git commit --amend` and `git push` run `python bin/audit_agentic_usage.py --check`.
+- If public ledger fields are stale, the hook blocks and asks Codex to run the matching `--write` audit command, review `_data/agentic_usage.yml`, and stage only intended files.
+- If staged paths touch publication or citation surfaces, the hook requires today's `_data/citations.yml` snapshot and keeps `_data/citations.yml` plus `_data/publication_lens.yml` staged together.
+- For unrelated work, Scholar data more than one day stale becomes model-visible context instead of a block, because the daily GitHub workflow remains the routine refresh path.
+- Codex requires changed repo-local hooks to be reviewed and trusted through `/hooks`.
+
 Manual fallback:
 
 1. Recount commits after the work is committed, or use the current uncommitted state only if the user explicitly wants a pre-commit estimate.
@@ -163,6 +173,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed `_data/agentic_usage.yml` before amending the counter commit.
 - Dark 3D room texture pass: public total moved to 223 commits, 1.83B tokens, 169 hours, 1098 kWh, about $590 API cosplay, and about $1.6K on the CodexBar-ratio money joke; desk-scene total moved to 71 scoped commits, 770M tokens, 55 hours, 462 kWh, roughly 0.29 trees cut, about $250 API cosplay, and about $670 on the CodexBar-ratio money joke.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` before commit and `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed the public labels for the room-texture commit.
+- Desk room-return and pile-spread pass: public total moved to 227 commits, 1.87B tokens, 172 hours, 1122 kWh, about $610 API cosplay, and about $1.6K on the CodexBar-ratio money joke; desk-scene total moved to 72 scoped commits, 810M tokens, 58 hours, 486 kWh, roughly 0.3 trees cut, about $260 API cosplay, and about $710 on the CodexBar-ratio money joke.
+- Evidence: `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 76 repo sessions, counted 49 sessions after the revamp cutoff and 14 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending desk-scene commit.
 
 ## Future Entry Template
 

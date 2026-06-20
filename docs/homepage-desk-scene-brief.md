@@ -19,6 +19,8 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
 - Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces or generic object-view lifts that make sleeves look like rigid blocks.
+- Dropping or flicking an album should leave object-view and ease back to the full room view, so the user never gets stranded in a close crop after discovery.
+- In 2D, the discovered-card pile should remain visibly paper-like after repeated drops: separated fan slots, slight elevation cues, and enough offset for individual card edges to read instead of becoming a single glossy slab.
 - In 3D mode, hidden 2D portrait/card/artifact layers must not stay in the hero grid flow. The room canvas, usage note, and 3D controls should all remain visible together on laptop-height desktop viewports and mobile after switching modes.
 - Dark mode must not collapse the room floor into a black slab. The generated floorboard texture should stay visible through a warm material tint, with low-opacity contact shadows and enough wall/floor separation for the dropped cards to read as paper lying on a room surface.
 
@@ -42,6 +44,8 @@ z
 
 Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, lightly gridded floor/wall board textures, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language rather than switching to a different facade style.
 
+The grid is descriptive, not a mandate for photoreal geometry. Keep the room stylized and graphic, but preserve the stable anchors: rear window, rear-left record shelf/turntable, front-right paper/mug work zone, and the dropped-card fan on the near floor.
+
 ## Outside Vignette
 
 - The window should read as a real window with frame, sill, glass, and a view plane.
@@ -63,5 +67,5 @@ Interior and exterior should read as two scales of the same hut/desk world: warm
 - One visible coffee stain, organic and non-circular, not clipped, readable on light and dark themes.
 - 3D canvas prewarms, renders nonblank, and drag/zoom produce visible pixel changes.
 - Four albums are in an organized shelf; discovered song cards settle on the floor in the same order as the 2D pile.
-- Album click, card focus, 2D shake discovery, 3D album flick discovery, scroll-back, reset, window jump, and outside return all work.
+- Album click, card focus, 2D shake discovery, 3D album flick discovery, album-drop room return, scroll-back, reset, window jump, and outside return all work.
 - Mobile keeps the scene usable without cropping the window, controls, or artifact focus states.
