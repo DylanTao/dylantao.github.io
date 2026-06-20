@@ -14,19 +14,19 @@ The homepage contact ledger should render the playful tree-sacrifice estimate in
 
 Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clear homepage redesign commit.
 
-Published total baseline, estimated on June 19, 2026:
+Published total baseline, estimated on June 20, 2026:
 
-- 220 commits since the revamp cutoff, including the Sirui WebGL globe restoration milestone.
-- 1.79B estimated Codex tokens.
-- 166 estimated active agent-hours.
+- 222 commits since the revamp cutoff, including the agentic cost tooltip polish milestone and the usage refresh.
+- 1.81B estimated Codex tokens.
+- 167 estimated active agent-hours.
 - Public money joke: about $1.6K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
-- API-cost reference: about $580 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1074 kWh, 401 kg CO2e, or a stored-carbon equivalent of about 0.7 ten-year urban trees. Range: 0.22-2.2 trees.
+- API-cost reference: about $590 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 1086 kWh, 405 kg CO2e, or a stored-carbon equivalent of about 0.7 ten-year urban trees. Range: 0.23-2.3 trees.
 
 Evidence behind the total:
 
-- `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 47 sessions after the revamp cutoff.
-- The audit showed about 1.790B raw tokens and 166.06 active hours after clipping sessions to the cutoff and including the pending milestone commit, then rounded those values for the public UI.
+- `python bin/audit_agentic_usage.py --write` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 47 sessions after the revamp cutoff.
+- The audit showed about 1.808B raw tokens and 167.17 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 - The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
@@ -34,17 +34,17 @@ Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the
 
 Published 3D desk baseline:
 
-- 69 commits touching the homepage desk/vinyl/coffee scene paths, including the Sam meme split-tooltip polish milestone.
-- 730M estimated Codex tokens.
-- 52 estimated active agent-hours.
-- Public money joke reference: about $640 from the CodexBar screenshot ratio.
-- API-cost reference: about $230 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 438 kWh, 163 kg CO2e, or a stored-carbon equivalent of about 0.27 ten-year urban trees. Range: 0.09-0.9 trees.
+- 70 commits touching the homepage desk/vinyl/coffee scene paths, including the agentic cost tooltip polish milestone.
+- 750M estimated Codex tokens.
+- 53 estimated active agent-hours.
+- Public money joke reference: about $650 from the CodexBar screenshot ratio.
+- API-cost reference: about $240 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 450 kWh, 168 kg CO2e, or a stored-carbon equivalent of about 0.28 ten-year urban trees. Range: 0.09-0.9 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 12 Codex sessions after the 3D cutoff, about 732.1M raw tokens, and about 52.00 active hours, rounded for the public UI.
+- The audit counted 12 Codex sessions after the 3D cutoff, about 746.0M raw tokens, and about 52.95 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -133,10 +133,10 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 ### 2026-06-19
 
 - Work scope: added the publish freshness gate and the write-capable `bin/audit_agentic_usage.py` helper.
-- Commit delta: public total moved from 182 to 219 revamp commits; desk-scene total moved from 35 to 69 scoped commits.
-- Token delta: public total moved from 1.36B to 1.79B; desk-scene total moved from 350M to 730M.
-- Active-hour delta: public total moved from 135 to 166 hours; desk-scene total moved from 25 to 52 hours.
-- Energy/cut-tree delta: public total moved from 816 kWh / ~0.5 tree to 1074 kWh / ~0.7 tree; desk-scene total moved from 210 kWh / ~0.13 tree to 438 kWh / ~0.27 tree.
+- Commit delta: public total moved from 182 to 222 revamp commits; desk-scene total moved from 35 to 70 scoped commits.
+- Token delta: public total moved from 1.36B to 1.81B; desk-scene total moved from 350M to 750M.
+- Active-hour delta: public total moved from 135 to 167 hours; desk-scene total moved from 25 to 53 hours.
+- Energy/cut-tree delta: public total moved from 816 kWh / ~0.5 tree to 1086 kWh / ~0.7 tree; desk-scene total moved from 210 kWh / ~0.13 tree to 450 kWh / ~0.28 tree.
 - Cost delta: added API list-price equivalence plus the CodexBar-ratio public joke estimate; current public money joke is about $1.6K for the full revamp.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 73 repo sessions, counted 46 sessions after the revamp cutoff and 11 after the desk cutoff, and rounded the clipped totals for the public UI.
 - Follow-up transparent icon pass: public total moved to 212 commits, 1.69B tokens, 159 hours, 1014 kWh, and about $550 API cosplay; desk-scene total moved to 62 commits, 630M tokens, 45 hours, 378 kWh, and about $200 API cosplay.
@@ -157,6 +157,10 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and included the pending 3D layout-flow commit in the public labels.
 - Sirui WebGL globe restoration: public total moved to 220 commits while rounded token, active-hour, energy, tree, API-cost, and CodexBar labels stayed unchanged; desk-scene public labels stayed unchanged.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and included the pending Sirui globe commit in the public total.
+- Agentic cost tooltip UX polish: public total moved to 221 commits, 1.8B tokens, 167 hours, 1080 kWh, roughly 0.7 trees, about $580 API cosplay, and about $1.6K on the CodexBar-ratio money joke; desk-scene total moved to 70 scoped commits, 740M tokens, 53 hours, 444 kWh, roughly 0.28 trees cut, about $230 API cosplay, and about $650 on the CodexBar-ratio money joke.
+- Evidence: `python bin/audit_agentic_usage.py` after commit showed visible-label drift, then `python bin/audit_agentic_usage.py --write` scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed `_data/agentic_usage.yml`.
+- Agentic usage refresh: public total moved to 222 commits, 1.81B tokens, 1086 kWh, and about $590 API cosplay; desk-scene rounded labels moved to 750M tokens, 450 kWh, and about $240 API cosplay while desk commits, hours, tree midpoint, and CodexBar labels stayed unchanged.
+- Evidence: `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed `_data/agentic_usage.yml` before amending the counter commit.
 
 ## Future Entry Template
 
