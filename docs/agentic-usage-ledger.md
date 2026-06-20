@@ -161,6 +161,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py` after commit showed visible-label drift, then `python bin/audit_agentic_usage.py --write` scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed `_data/agentic_usage.yml`.
 - Agentic usage refresh: public total moved to 222 commits, 1.81B tokens, 1086 kWh, and about $590 API cosplay; desk-scene rounded labels moved to 750M tokens, 450 kWh, and about $240 API cosplay while desk commits, hours, tree midpoint, and CodexBar labels stayed unchanged.
 - Evidence: `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed `_data/agentic_usage.yml` before amending the counter commit.
+- Dark 3D room texture pass: public total moved to 223 commits, 1.83B tokens, 169 hours, 1098 kWh, about $590 API cosplay, and about $1.6K on the CodexBar-ratio money joke; desk-scene total moved to 71 scoped commits, 770M tokens, 55 hours, 462 kWh, roughly 0.29 trees cut, about $250 API cosplay, and about $670 on the CodexBar-ratio money joke.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` before commit and `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed the public labels for the room-texture commit.
 
 ## Future Entry Template
 

@@ -707,8 +707,8 @@
         ? {
             mode,
             isDarkTheme,
-            floor: 0x101819,
-            wall: 0x111b1d,
+            floor: 0xf0d4ad,
+            wall: 0xe7d8c5,
             wood: 0x8f6947,
             woodEdge: 0x6f4b2f,
             coffee: 0x58351f,
@@ -716,8 +716,8 @@
             recordBase: 0xc6b89e,
             metal: 0x7d817e,
             cardEdge: 0x213133,
-            shadow: 0x030708,
-            shadowOpacity: 0.13,
+            shadow: 0x0a1112,
+            shadowOpacity: 0.085,
             stain: 0xb47a47,
             stainOpacity: 0.18,
             ambientColor: 0xded4c6,
@@ -988,13 +988,20 @@
         (context, width, height) => {
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
           const base = context.createLinearGradient(0, 0, width, height);
-          base.addColorStop(0, isEvening ? "#111b1d" : "#f8f0e7");
-          base.addColorStop(0.58, isEvening ? "#172326" : "#efe0d0");
-          base.addColorStop(1, isEvening ? "#0f181a" : "#e5d1bd");
+          base.addColorStop(0, isEvening ? "#5a4532" : "#f8f0e7");
+          base.addColorStop(0.58, isEvening ? "#3f342b" : "#efe0d0");
+          base.addColorStop(1, isEvening ? "#272824" : "#e5d1bd");
           context.fillStyle = base;
           context.fillRect(0, 0, width, height);
 
-          context.strokeStyle = isEvening ? "rgba(246,220,186,0.075)" : "rgba(126,88,55,0.105)";
+          const lampGlow = context.createRadialGradient(width * 0.64, height * 0.36, 0, width * 0.64, height * 0.36, width * 0.68);
+          lampGlow.addColorStop(0, isEvening ? "rgba(255,211,145,0.2)" : "rgba(255,246,226,0.32)");
+          lampGlow.addColorStop(0.48, isEvening ? "rgba(206,143,82,0.08)" : "rgba(223,168,101,0.11)");
+          lampGlow.addColorStop(1, "rgba(0,0,0,0)");
+          context.fillStyle = lampGlow;
+          context.fillRect(0, 0, width, height);
+
+          context.strokeStyle = isEvening ? "rgba(255,226,187,0.16)" : "rgba(126,88,55,0.105)";
           context.lineWidth = 2;
           for (let y = 36; y < height; y += 58) {
             context.beginPath();
@@ -1003,7 +1010,7 @@
             context.stroke();
           }
 
-          context.strokeStyle = isEvening ? "rgba(255,231,197,0.045)" : "rgba(141,99,62,0.06)";
+          context.strokeStyle = isEvening ? "rgba(255,231,197,0.09)" : "rgba(141,99,62,0.06)";
           context.lineWidth = 1;
           for (let x = 42; x < width; x += 112) {
             context.beginPath();
@@ -1012,7 +1019,7 @@
             context.stroke();
           }
 
-          context.fillStyle = isEvening ? "rgba(255,226,186,0.05)" : "rgba(121,81,48,0.055)";
+          context.fillStyle = isEvening ? "rgba(255,226,186,0.08)" : "rgba(121,81,48,0.055)";
           for (let index = 0; index < 34; index += 1) {
             const x = (index * 83) % width;
             const y = 20 + ((index * 47) % (height - 40));
@@ -1026,6 +1033,45 @@
         1.45,
         1.1
       );
+
+    const createRoomWallTexture = (palette) =>
+      makeCanvasTexture((context, width, height) => {
+        const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+        const base = context.createLinearGradient(0, 0, width, height);
+        base.addColorStop(0, isEvening ? "#152328" : "#fffaf2");
+        base.addColorStop(0.52, isEvening ? "#101c20" : "#fbf0e3");
+        base.addColorStop(1, isEvening ? "#0e191c" : "#f0dfcc");
+        context.fillStyle = base;
+        context.fillRect(0, 0, width, height);
+
+        const windowGlow = context.createRadialGradient(width * 0.73, height * 0.32, 0, width * 0.73, height * 0.32, width * 0.44);
+        windowGlow.addColorStop(0, isEvening ? "rgba(255,205,138,0.18)" : "rgba(255,224,169,0.28)");
+        windowGlow.addColorStop(0.62, isEvening ? "rgba(126,86,52,0.08)" : "rgba(204,139,82,0.08)");
+        windowGlow.addColorStop(1, "rgba(0,0,0,0)");
+        context.fillStyle = windowGlow;
+        context.fillRect(0, 0, width, height);
+
+        context.strokeStyle = isEvening ? "rgba(255,231,196,0.055)" : "rgba(132,89,54,0.055)";
+        context.lineWidth = 1.5;
+        for (let x = 54; x < width; x += 92) {
+          context.beginPath();
+          context.moveTo(x, 0);
+          context.lineTo(x + Math.sin(x * 0.08) * 4, height);
+          context.stroke();
+        }
+
+        context.strokeStyle = isEvening ? "rgba(255,232,196,0.065)" : "rgba(132,89,54,0.06)";
+        context.lineWidth = 1;
+        for (let y = 58; y < height; y += 72) {
+          context.beginPath();
+          context.moveTo(0, y);
+          context.bezierCurveTo(width * 0.28, y - 3, width * 0.68, y + 4, width, y);
+          context.stroke();
+        }
+
+        context.fillStyle = isEvening ? "rgba(0,0,0,0.08)" : "rgba(99,61,34,0.025)";
+        context.fillRect(0, height * 0.74, width, height * 0.26);
+      });
 
     const createMugMarkTexture = (palette) =>
       makeCanvasTexture(
@@ -1824,6 +1870,7 @@
       themeMaterials.floor?.color.setHex(palette.floor);
       replaceMaterialMap(themeMaterials.floor, createRoomFloorTexture(palette));
       themeMaterials.wall?.color.setHex(palette.wall);
+      replaceMaterialMap(themeMaterials.wall, createRoomWallTexture(palette));
       themeMaterials.wood?.color.setHex(palette.wood);
       themeMaterials.woodEdge?.color.setHex(palette.woodEdge);
       themeMaterials.coffee?.color.setHex(palette.coffee);
@@ -2404,7 +2451,13 @@
     }
 
     const addWindow = (palette) => {
-      const wallMaterial = new THREE.MeshBasicMaterial({ color: palette.wall, transparent: true, opacity: 0.98, depthWrite: false });
+      const wallMaterial = new THREE.MeshBasicMaterial({
+        color: palette.wall,
+        map: createRoomWallTexture(palette),
+        transparent: true,
+        opacity: 0.98,
+        depthWrite: false,
+      });
       themeMaterials.wall = wallMaterial;
       const wall = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 3.08), wallMaterial);
       wall.position.set(0.22, 0.2, -1.78);
@@ -2423,6 +2476,7 @@
       themeMaterials.windowRecess = recessMaterial;
       themeMaterials.windowGlass = glassMaterial;
 
+      addBox(rootGroup, { x: 5.72, y: 0.08, z: 0.12 }, { x: 0.22, y: -1.17, z: -1.62 }, frameMaterial);
       addBox(rootGroup, { x: 2.18, y: 1.45, z: 0.09 }, { x: 1.16, y: 0.68, z: -1.765 }, recessMaterial);
 
       windowMaterial = new THREE.MeshBasicMaterial({ map: createWindowTexture(palette), transparent: true });
@@ -3435,9 +3489,9 @@
       addWindow(palette);
       addOutsideVignette(palette);
 
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 4.9), floorMaterial);
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(7.4, 6.2), floorMaterial);
       floor.rotation.x = -Math.PI / 2;
-      floor.position.set(0, -1.22, 0.82);
+      floor.position.set(0, -1.22, 0.62);
       rootGroup.add(floor);
 
       const floorShadowMaterial = new THREE.MeshBasicMaterial({

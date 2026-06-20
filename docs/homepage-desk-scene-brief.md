@@ -20,6 +20,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
 - Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces or generic object-view lifts that make sleeves look like rigid blocks.
 - In 3D mode, hidden 2D portrait/card/artifact layers must not stay in the hero grid flow. The room canvas, usage note, and 3D controls should all remain visible together on laptop-height desktop viewports and mobile after switching modes.
+- Dark mode must not collapse the room floor into a black slab. The generated floorboard texture should stay visible through a warm material tint, with low-opacity contact shadows and enough wall/floor separation for the dropped cards to read as paper lying on a room surface.
 
 ## Room Grid Contract
 
@@ -39,7 +40,7 @@ z
 +--------------------------------------------------------------> +x
 ```
 
-Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, a lightly gridded floor/board texture, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language rather than switching to a different facade style.
+Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, lightly gridded floor/wall board textures, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language rather than switching to a different facade style.
 
 ## Outside Vignette
 
