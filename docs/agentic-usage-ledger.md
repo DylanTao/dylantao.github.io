@@ -145,6 +145,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Post-commit album interaction/glint audit: public total moved to 215 commits and 162 hours; desk-scene total moved to 65 scoped commits and 48 hours. Rounded token, energy, tree, API-cost, and CodexBar labels stayed unchanged.
 - Shoreline WebGL and outside-return glow pass: public total moved to 216 commits, 1.74B tokens, and 1044 kWh; desk-scene total moved to 66 commits, 680M tokens, 408 kWh, about $220 API cosplay, and about $590 on the CodexBar-ratio money joke. Active-hour and tree-midpoint labels stayed rounded the same.
 
+### 2026-06-20
+
+- Desk card grounding pass: public total moved to 217 commits, 1.75B tokens, 163 hours, 1050 kWh, roughly 0.7 trees, and about $570 API cosplay; desk-scene total moved to 67 scoped commits, 690M tokens, 49 hours, 414 kWh, roughly 0.26 trees cut, and about $600 on the CodexBar-ratio money joke.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` before commit and `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 73 repo sessions, counted 46 sessions after the revamp cutoff and 11 after the desk cutoff, and refreshed raw token snapshots plus commit counts.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

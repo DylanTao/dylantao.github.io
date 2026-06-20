@@ -1764,6 +1764,12 @@
       themeMaterials.cardEdge?.color.setHex(palette.cardEdge);
       themeMaterials.shadow?.color.setHex(palette.shadow);
       if (themeMaterials.shadow) themeMaterials.shadow.opacity = palette.shadowOpacity;
+      albumEntries.forEach((entry) => {
+        entry.floorShadow?.material?.color?.setHex(palette.shadow);
+      });
+      songCardEntries.forEach((entry) => {
+        entry.floorShadow?.material?.color?.setHex(palette.shadow);
+      });
       themeMaterials.stain?.color.setHex(palette.stain);
       if (themeMaterials.stain) themeMaterials.stain.opacity = palette.stainOpacity;
       themeMaterials.windowFrame?.color.setHex(palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047);
@@ -1934,6 +1940,7 @@
       const row = Math.floor(orderIndex / 2);
       const jitter = (((entry.index * 37) % 11) - 5) * 0.012;
       const fan = side * (0.14 + row * 0.05) + jitter;
+      const floorLift = orderIndex * 0.0025;
 
       return {
         albumPosition: new THREE.Vector3(
@@ -1950,7 +1957,43 @@
         ),
         cardRotation: new THREE.Euler(side * 0.018, side * 0.018, side * (0.12 + row * 0.05) - jitter),
         cardScale: new THREE.Vector3(1, 1, 1),
+        albumShadowPosition: new THREE.Vector3(0.42 + side * (0.18 + row * 0.08) + jitter, -1.018 + floorLift, 1.08 + row * 0.14),
+        albumShadowRotation: new THREE.Euler(-Math.PI / 2, 0, fan * 0.84),
+        albumShadowScale: new THREE.Vector3(0.64 + row * 0.045, 0.34, 1),
+        cardShadowPosition: new THREE.Vector3(-0.18 + side * (0.2 + row * 0.08) + jitter, -1.206 + floorLift, 0.94 + row * 0.13),
+        cardShadowRotation: new THREE.Euler(-Math.PI / 2, 0, side * (0.1 + row * 0.04) - jitter),
+        cardShadowScale: new THREE.Vector3(0.52 + row * 0.03, 0.23, 1),
       };
+    };
+
+    const placeContactShadow = (shadow, pose, immediate, options = {}) => {
+      if (!shadow || !pose) return;
+      const wasVisible = shadow.visible;
+      shadow.visible = true;
+      if (shadow.material) shadow.material.opacity = options.opacity ?? 0.22;
+      if (!wasVisible || immediate || reduceMotion) {
+        shadow.position.copy(pose.position);
+        shadow.rotation.copy(pose.rotation);
+        shadow.scale.copy(pose.scale);
+        if (immediate || reduceMotion) return;
+        shadow.scale.multiplyScalar(options.startScale || 0.72);
+      }
+      addTween(
+        shadow,
+        {
+          position: pose.position.clone(),
+          rotation: pose.rotation.clone(),
+          scale: pose.scale.clone(),
+        },
+        options.duration || 520,
+        { easing: options.easing || easeOutCubic }
+      );
+    };
+
+    const hideContactShadow = (shadow) => {
+      if (!shadow) return;
+      shadow.visible = false;
+      if (shadow.material) shadow.material.opacity = 0;
     };
 
     const getAlbumDroppedRestPose = (entry) => {
@@ -2024,20 +2067,31 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 760 : 420,
-                arcHeight: animateThisDrop ? 0.15 : 0,
-                wobbleZ: animateThisDrop ? 0.034 : 0,
+                duration: animateThisDrop ? 820 : 420,
+                arcHeight: animateThisDrop ? 0.08 : 0,
+                wobbleZ: animateThisDrop ? 0.018 : 0,
+                easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
           }
+          placeContactShadow(
+            entry.floorShadow,
+            {
+              position: pose.albumShadowPosition,
+              rotation: pose.albumShadowRotation,
+              scale: pose.albumShadowScale,
+            },
+            immediate && !animateThisDrop,
+            { duration: animateThisDrop ? 620 : 320, opacity: 0.2, startScale: 0.62 }
+          );
 
           if (songCard) {
             const wasVisible = songCard.group.visible;
             songCard.group.visible = true;
             if (!wasVisible && animateThisDrop && !immediate) {
-              songCard.group.position.copy(pose.cardPosition).add(new THREE.Vector3(-0.08 * (entry.dropDirection || 1), 0.46, -0.16));
-              songCard.group.rotation.set(0.34, 0, pose.cardRotation.z - 0.28 * (entry.dropDirection || 1));
-              songCard.group.scale.setScalar(0.78);
+              songCard.group.position.copy(pose.cardPosition).add(new THREE.Vector3(-0.14 * (entry.dropDirection || 1), 0.22, -0.1));
+              songCard.group.rotation.set(0.14, 0, pose.cardRotation.z - 0.18 * (entry.dropDirection || 1));
+              songCard.group.scale.setScalar(0.86);
             }
             placeObject(
               songCard.group,
@@ -2048,10 +2102,21 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 700 : 360,
-                arcHeight: animateThisDrop ? 0.24 : 0,
-                wobbleZ: animateThisDrop ? 0.044 : 0,
+                duration: animateThisDrop ? 780 : 360,
+                arcHeight: animateThisDrop ? 0.09 : 0,
+                wobbleZ: animateThisDrop ? 0.02 : 0,
+                easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
+            );
+            placeContactShadow(
+              songCard.floorShadow,
+              {
+                position: pose.cardShadowPosition,
+                rotation: pose.cardShadowRotation,
+                scale: pose.cardShadowScale,
+              },
+              immediate && !animateThisDrop,
+              { duration: animateThisDrop ? 600 : 300, opacity: 0.18, startScale: 0.58 }
             );
           }
           return;
@@ -2082,7 +2147,9 @@
           songCard.group.position.copy(songCard.basePosition);
           songCard.group.rotation.copy(songCard.baseRotation);
           songCard.group.scale.setScalar(0.72);
+          hideContactShadow(songCard.floorShadow);
         }
+        hideContactShadow(entry.floorShadow);
       });
       render();
       scheduleFrame();
@@ -2115,9 +2182,9 @@
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, 0.42);
-      targetRotationX = -0.045;
-      targetRotationY = -0.2;
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.27 : 0.29);
+      targetRotationX = -0.028;
+      targetRotationY = -0.15;
       scheduleFrame();
     };
 
@@ -2141,9 +2208,9 @@
         },
         560
       );
-      targetZoomLevel = isCompactScene ? 0.44 : 0.42;
-      targetRotationX = -0.03;
-      targetRotationY = -0.08;
+      targetZoomLevel = isCompactScene ? 0.29 : 0.28;
+      targetRotationX = -0.02;
+      targetRotationY = -0.06;
       scheduleFrame();
     };
 
@@ -3543,6 +3610,20 @@
         albumCue.visible = false;
         entry.group.add(albumCue);
         entry.cue = albumCue;
+        const albumShadow = new THREE.Mesh(
+          new THREE.CircleGeometry(0.5, 48),
+          new THREE.MeshBasicMaterial({
+            color: palette.shadow,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          })
+        );
+        albumShadow.visible = false;
+        albumShadow.renderOrder = -1;
+        albumRack.add(albumShadow);
+        entry.floorShadow = albumShadow;
         const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 1.08), hitMaterial);
         albumHit.position.set(0, 0.03, 0.07);
         albumHit.rotation.x = -0.06;
@@ -3561,6 +3642,21 @@
         songEntry.basePosition = songEntry.group.position.clone();
         songEntry.baseRotation = songEntry.group.rotation.clone();
         table.add(songEntry.group);
+        const songShadow = new THREE.Mesh(
+          new THREE.CircleGeometry(0.5, 48),
+          new THREE.MeshBasicMaterial({
+            color: palette.shadow,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          })
+        );
+        songShadow.visible = false;
+        songShadow.renderOrder = -1;
+        table.add(songShadow);
+        songEntry.floorShadow = songShadow;
+        addBox(songEntry.group, { x: 0.68, y: 0.018, z: 0.42 }, { x: 0, y: -0.014, z: 0 }, cardEdgeMaterial);
         const songMaterial = new THREE.MeshStandardMaterial({
           map: createSongCardTexture(recordItem),
           roughness: 0.62,
@@ -3570,6 +3666,7 @@
         });
         const song = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.4), songMaterial);
         song.rotation.x = -Math.PI / 2;
+        song.position.y = 0.006;
         songEntry.group.add(song);
         songCardEntries.push(songEntry);
       });
@@ -3750,15 +3847,15 @@
           targetRotationY = clamp(rotationStartY + deltaX * 0.006, -0.82, 0.28);
           targetRotationX = clamp(rotationStartX + deltaY * 0.0035, -0.22, 0.18);
         } else if (activeEntry?.kind === "album") {
-          const lift = clamp(0.065 + Math.hypot(deltaX, deltaY) * 0.0007, 0.075, 0.24);
+          const lift = clamp(0.045 + Math.hypot(deltaX, deltaY) * 0.00045, 0.056, 0.16);
           activeEntry.group.position.set(
-            activeEntry.dragStartPosition.x + deltaX * 0.0048,
+            activeEntry.dragStartPosition.x + deltaX * 0.0038,
             activeEntry.dragStartPosition.y + lift,
-            activeEntry.dragStartPosition.z + deltaY * 0.0048
+            activeEntry.dragStartPosition.z + deltaY * 0.0036
           );
-          activeEntry.group.rotation.x = activeEntry.dragStartRotation.x + clamp(deltaY * -0.0011, -0.16, 0.16);
-          activeEntry.group.rotation.y = activeEntry.dragStartRotation.y + clamp(deltaX * 0.0008, -0.12, 0.12);
-          activeEntry.group.rotation.z = activeEntry.dragStartRotation.z + deltaX * 0.0028;
+          activeEntry.group.rotation.x = activeEntry.dragStartRotation.x + clamp(deltaY * -0.00075, -0.1, 0.1);
+          activeEntry.group.rotation.y = activeEntry.dragStartRotation.y + clamp(deltaX * 0.00055, -0.08, 0.08);
+          activeEntry.group.rotation.z = activeEntry.dragStartRotation.z + deltaX * 0.0019;
         } else if (activeEntry?.kind === "artifact") {
           const lift = clamp(0.06 + Math.hypot(deltaX, deltaY) * 0.00055, 0.08, 0.2);
           activeEntry.group.position.set(
@@ -4326,15 +4423,15 @@
       );
       card.style.setProperty(
         "--card-drop-impact",
-        `translate3d(${(x + side * 0.08).toFixed(2)}rem, ${(y + 0.22).toFixed(2)}rem, ${Math.max(0.1, z - 0.12).toFixed(2)}rem) rotateZ(${(rotate + side * 0.46).toFixed(2)}deg) rotateX(${(tilt + 3.4).toFixed(2)}deg) rotateY(${(side * -0.6).toFixed(2)}deg) scale(${Math.min(1.018, scale + 0.016).toFixed(3)})`
+        `translate3d(${(x + side * 0.06).toFixed(2)}rem, ${(y + 0.14).toFixed(2)}rem, ${Math.max(0.1, z - 0.1).toFixed(2)}rem) rotateZ(${(rotate + side * 0.32).toFixed(2)}deg) rotateX(${(tilt + 2.4).toFixed(2)}deg) rotateY(${(side * -0.56).toFixed(2)}deg) scale(${Math.min(1.012, scale + 0.01).toFixed(3)})`
       );
       card.style.setProperty(
         "--card-drop-bounce",
-        `translate3d(${(x - side * 0.03).toFixed(2)}rem, ${(y - 0.1).toFixed(2)}rem, ${(z + 0.18).toFixed(2)}rem) rotateZ(${(rotate - side * 0.2).toFixed(2)}deg) rotateX(${(tilt - 1.1).toFixed(2)}deg) rotateY(${(side * -0.48).toFixed(2)}deg) scale(${Math.min(1.006, scale + 0.006).toFixed(3)})`
+        `translate3d(${(x - side * 0.02).toFixed(2)}rem, ${(y - 0.04).toFixed(2)}rem, ${(z + 0.08).toFixed(2)}rem) rotateZ(${(rotate - side * 0.12).toFixed(2)}deg) rotateX(${(tilt - 0.55).toFixed(2)}deg) rotateY(${(side * -0.48).toFixed(2)}deg) scale(${Math.min(1.004, scale + 0.004).toFixed(3)})`
       );
       card.style.setProperty(
         "--card-drop-settle",
-        `translate3d(${(x + side * 0.025).toFixed(2)}rem, ${(y + 0.05).toFixed(2)}rem, ${Math.max(0.12, z - 0.03).toFixed(2)}rem) rotateZ(${(rotate + side * 0.12).toFixed(2)}deg) rotateX(${(tilt + 0.8).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.008, scale + 0.008).toFixed(3)})`
+        `translate3d(${(x + side * 0.018).toFixed(2)}rem, ${(y + 0.03).toFixed(2)}rem, ${Math.max(0.12, z - 0.02).toFixed(2)}rem) rotateZ(${(rotate + side * 0.08).toFixed(2)}deg) rotateX(${(tilt + 0.42).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.005, scale + 0.005).toFixed(3)})`
       );
       card.dataset.stackOrder = String(visualOrder);
       card.style.zIndex = card.classList.contains("is-open") ? "80" : String(40 + Math.max(0, cardCount - visualOrder));

@@ -1316,6 +1316,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   --record-card-rim: color-mix(in srgb, var(--home-accent) 24%, rgba(130, 211, 221, 0.72));
   --record-card-rim-soft: color-mix(in srgb, var(--home-accent-soft) 54%, rgba(134, 221, 231, 0.18));
   --record-card-shadow: rgba(73, 45, 30, 0.1);
+  --record-card-contact: rgba(73, 45, 30, 0.18);
   --record-card-halo: color-mix(in srgb, var(--home-accent) 48%, #d7fbff);
   --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 42%, rgba(138, 221, 231, 0.16));
 
@@ -1347,17 +1348,17 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card-pile::before {
   position: absolute;
   right: 8%;
-  bottom: 2.6rem;
+  bottom: 2.22rem;
   left: 8%;
-  height: 1.42rem;
+  height: 1.2rem;
   border-radius: 50%;
   background:
-    radial-gradient(ellipse at center, rgba(73, 45, 30, 0.15), rgba(73, 45, 30, 0.064) 52%, transparent 78%),
-    radial-gradient(ellipse at 48% 46%, color-mix(in srgb, var(--record-card-halo-soft) 62%, transparent), transparent 66%);
+    radial-gradient(ellipse at center, var(--record-card-contact), rgba(73, 45, 30, 0.07) 54%, transparent 80%),
+    radial-gradient(ellipse at 48% 46%, color-mix(in srgb, var(--record-card-halo-soft) 48%, transparent), transparent 68%);
   content: "";
   opacity: 0;
   filter: blur(0.08rem);
-  transform: translateY(0.32rem) rotateX(70deg);
+  transform: translateY(0.28rem) rotateX(74deg) scaleX(0.9);
   transition:
     opacity var(--motion-standard),
     transform var(--motion-standard);
@@ -1365,8 +1366,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards::before {
-  opacity: 0.42;
-  transform: translateY(0);
+  opacity: 0.5;
+  transform: translateY(0) rotateX(74deg) scaleX(1);
 }
 
 .home-record-card {
@@ -1387,8 +1388,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 46%),
     linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 92%, var(--record-card-rim-soft)));
   box-shadow:
-    0 0.28rem 0.48rem var(--record-card-shadow),
-    0 0.86rem 1.18rem color-mix(in srgb, var(--record-card-halo-soft) 46%, transparent),
+    0 0.1rem 0.13rem color-mix(in srgb, var(--record-card-contact) 78%, transparent),
+    0 0.32rem 0.46rem var(--record-card-shadow),
+    0 0.82rem 1.04rem color-mix(in srgb, var(--record-card-halo-soft) 36%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.72),
     inset 0 -0.16rem 0.34rem rgba(255, 255, 255, 0.18),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 58%, transparent);
@@ -1446,8 +1448,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card:focus-visible {
   border-color: var(--record-card-edge-hover);
   box-shadow:
-    0 0.46rem 0.9rem color-mix(in srgb, var(--record-card-shadow) 82%, transparent),
-    0 1.34rem 2.36rem color-mix(in srgb, var(--record-card-halo-soft) 82%, transparent),
+    0 0.12rem 0.16rem color-mix(in srgb, var(--record-card-contact) 72%, transparent),
+    0 0.42rem 0.74rem color-mix(in srgb, var(--record-card-shadow) 82%, transparent),
+    0 1.14rem 2rem color-mix(in srgb, var(--record-card-halo-soft) 64%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.78),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 72%, transparent);
   outline: 0;
@@ -1465,8 +1468,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 46%),
     linear-gradient(180deg, var(--record-card-glass-open), color-mix(in srgb, var(--record-card-glass-open) 94%, var(--record-card-rim-soft)));
   box-shadow:
-    0 0.3rem 0.54rem rgba(73, 45, 30, 0.12),
-    0 0.9rem 1.32rem color-mix(in srgb, var(--record-card-halo-soft) 38%, transparent),
+    0 0.12rem 0.18rem color-mix(in srgb, var(--record-card-contact) 62%, transparent),
+    0 0.38rem 0.62rem rgba(73, 45, 30, 0.12),
+    0 0.86rem 1.22rem color-mix(in srgb, var(--record-card-halo-soft) 34%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.78),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 68%, transparent);
   transform: translateX(-50%) var(--card-open-transform, var(--card-rest-transform, translate3d(0, 0, 0) rotateZ(0deg) rotateX(0deg)));
@@ -1559,6 +1563,7 @@ html[data-theme="dark"] .home-record-card-pile {
   --record-card-rim: color-mix(in srgb, var(--home-accent) 34%, rgba(135, 222, 235, 0.68));
   --record-card-rim-soft: color-mix(in srgb, var(--home-accent-soft) 58%, rgba(90, 176, 190, 0.12));
   --record-card-shadow: rgba(0, 0, 0, 0.24);
+  --record-card-contact: rgba(0, 0, 0, 0.34);
   --record-card-halo: color-mix(in srgb, var(--home-accent) 58%, #d7fbff);
   --record-card-halo-soft: color-mix(in srgb, var(--home-accent-soft) 56%, rgba(96, 186, 200, 0.14));
 }
@@ -1570,8 +1575,9 @@ html[data-theme="dark"] .home-record-card {
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 44%),
     linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 84%, var(--record-card-rim-soft)));
   box-shadow:
-    0 0.72rem 1.2rem var(--record-card-shadow),
-    0 1.2rem 2.2rem color-mix(in srgb, var(--record-card-halo-soft) 48%, transparent),
+    0 0.12rem 0.16rem color-mix(in srgb, var(--record-card-contact) 86%, transparent),
+    0 0.62rem 1rem var(--record-card-shadow),
+    0 1rem 1.84rem color-mix(in srgb, var(--record-card-halo-soft) 36%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 44%, transparent);
 }
@@ -1634,17 +1640,17 @@ html[data-theme="dark"] .home-record-card-link {
 
   72% {
     opacity: 1;
-    transform: translateX(-50%) var(--card-drop-impact, translate3d(0.04rem, 1.94rem, 0.42rem) rotateZ(0.52deg) rotateX(63deg) scale(1.012));
+    transform: translateX(-50%) var(--card-drop-impact, translate3d(0.04rem, 1.86rem, 0.46rem) rotateZ(0.34deg) rotateX(62deg) scale(1.008));
   }
 
   84% {
     opacity: 1;
-    transform: translateX(-50%) var(--card-drop-bounce, translate3d(-0.02rem, 1.66rem, 0.9rem) rotateZ(-0.24deg) rotateX(58deg) scale(1.004));
+    transform: translateX(-50%) var(--card-drop-bounce, translate3d(-0.02rem, 1.74rem, 0.8rem) rotateZ(-0.14deg) rotateX(59deg) scale(1.003));
   }
 
   94% {
     opacity: 1;
-    transform: translateX(-50%) var(--card-drop-settle, translate3d(0.04rem, 1.88rem, 0.86rem) rotateZ(0.34deg) rotateX(61deg) scale(1.012));
+    transform: translateX(-50%) var(--card-drop-settle, translate3d(0.03rem, 1.84rem, 0.84rem) rotateZ(0.18deg) rotateX(60.6deg) scale(1.005));
   }
 
   100% {

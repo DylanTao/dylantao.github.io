@@ -18,6 +18,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
+- Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces or generic object-view lifts that make sleeves look like rigid blocks.
 
 ## Room Grid Contract
 
@@ -33,7 +34,7 @@ z
 |
 |        [paper cards] [mug]   front-right working zone
 |
-|  dropped meme cards          floor in front of desk, compact fan stack
+|  dropped meme cards          floor in front of desk, compact fan stack with contact shadows
 +--------------------------------------------------------------> +x
 ```
 
