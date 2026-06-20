@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/site_policy.py\"",
+            "commandWindows": "python \"$(git rev-parse --show-toplevel)\\.codex\\hooks\\site_policy.py\"",
+            "timeout": 45,
+            "statusMessage": "Checking site publish freshness"
+          }
+        ]
+      }
+    ]
+  }
+}

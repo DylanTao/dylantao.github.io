@@ -54,6 +54,28 @@ TOKEN_USAGE_FIELDS = (
     "reasoning_output_tokens",
     "total_tokens",
 )
+PUBLIC_CHECK_FIELDS = (
+    ("commits",),
+    ("token_count",),
+    ("tokens_label",),
+    ("hours_count",),
+    ("hours_label",),
+    ("energy_equivalence", "kwh_midpoint"),
+    ("energy_equivalence", "kg_co2e_midpoint"),
+    ("energy_equivalence", "tree_years_midpoint"),
+    ("energy_equivalence", "tree_years_range"),
+    ("energy_equivalence", "cut_tree_midpoint"),
+    ("energy_equivalence", "cut_tree_range"),
+    ("energy_equivalence", "public_note"),
+    ("api_cost_equivalence", "usd_midpoint"),
+    ("api_cost_equivalence", "usd_label"),
+    ("api_cost_equivalence", "usd_range_label"),
+    ("api_cost_equivalence", "public_note"),
+    ("codexbar_cost_estimate", "token_count"),
+    ("codexbar_cost_estimate", "usd_midpoint"),
+    ("codexbar_cost_estimate", "usd_label"),
+    ("codexbar_cost_estimate", "public_note"),
+)
 
 CODEX_PRICE_MODEL = "gpt-5.3-codex"
 CODEX_PRICE_SOURCE_URL = "https://developers.openai.com/api/docs/pricing"
@@ -259,6 +281,25 @@ def has_pending_changes(repo_root: Path, paths: list[str]) -> bool:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or f"git command failed: {' '.join(command)}")
     return bool(result.stdout.strip())
+
+
+def normalize_repo_path(path: str) -> str:
+    normalized = path.replace("\\", "/").lstrip("./")
+    return normalized.rstrip("/")
+
+
+def path_matches_scope(path: str, scope: str) -> bool:
+    normalized_path = normalize_repo_path(path)
+    normalized_scope = normalize_repo_path(scope)
+    return normalized_path == normalized_scope or normalized_path.startswith(f"{normalized_scope}/")
+
+
+def paths_matching_scope(paths: list[str], scopes: list[str]) -> list[str]:
+    return [
+        path
+        for path in paths
+        if any(path_matches_scope(path, scope) or path_matches_scope(scope, path) for scope in scopes)
+    ]
 
 
 def rounded_token_count(raw_tokens: int) -> int:
@@ -497,6 +538,29 @@ def build_ledger_data(current: dict[str, Any], total: dict[str, Any], desk: dict
     return next_data
 
 
+def nested_value(data: dict[str, Any], path: tuple[str, ...]) -> Any:
+    current: Any = data
+    for key in path:
+        if not isinstance(current, dict):
+            return None
+        current = current.get(key)
+    return current
+
+
+def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) -> list[str]:
+    mismatches: list[str] = []
+    for scope_name in ("total", "desk_scene"):
+        current_scope = current.get(scope_name, {}) if isinstance(current, dict) else {}
+        proposed_scope = proposed.get(scope_name, {}) if isinstance(proposed, dict) else {}
+        for field_path in PUBLIC_CHECK_FIELDS:
+            current_value = nested_value(current_scope, field_path)
+            proposed_value = nested_value(proposed_scope, field_path)
+            if current_value != proposed_value:
+                label = ".".join((scope_name, *field_path))
+                mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
+    return mismatches
+
+
 def write_ledger(repo_root: Path, data: dict[str, Any], dry_run: bool = False) -> None:
     if yaml is None:
         raise RuntimeError("PyYAML is required for --write.")
@@ -573,12 +637,23 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--repo-root", default=".", help="Repository root. Defaults to the current directory.")
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Exit non-zero if public ledger fields are stale; does not compare updated_at.",
+    )
     parser.add_argument("--write", action="store_true", help="Update _data/agentic_usage.yml with the proposed values.")
     parser.add_argument("--dry-run", action="store_true", help="Show the proposed write output without changing files.")
     parser.add_argument(
         "--include-pending-commit",
         action="store_true",
         help="Add one commit to scopes with pending worktree changes so a final uncommitted batch can be estimated before commit.",
+    )
+    parser.add_argument(
+        "--pending-path",
+        action="append",
+        default=[],
+        help="Restrict --include-pending-commit checks to this path. Can be repeated.",
     )
     return parser.parse_args()
 
@@ -592,13 +667,30 @@ def main() -> int:
     total_commits = git_commit_count(repo_root, REVAMP_GIT_SINCE, ["."])
     desk_commits = git_commit_count(repo_root, DESK_GIT_SINCE, DESK_PATHS)
     if args.include_pending_commit:
-        if has_pending_changes(repo_root, ["."]):
+        pending_paths = args.pending_path or ["."]
+        if has_pending_changes(repo_root, pending_paths):
             total_commits += 1
-        if has_pending_changes(repo_root, DESK_PATHS):
+        desk_pending_paths = paths_matching_scope(pending_paths, DESK_PATHS) if args.pending_path else DESK_PATHS
+        if desk_pending_paths and has_pending_changes(repo_root, desk_pending_paths):
             desk_commits += 1
 
     total = audit_scope(sessions, REVAMP_CUTOFF_UTC, total_commits)
     desk = audit_scope(sessions, DESK_CUTOFF_UTC, desk_commits)
+
+    if args.check:
+        if yaml is None:
+            print("PyYAML is required for --check.", file=sys.stderr)
+            return 2
+        current = load_current_ledger(repo_root)
+        proposed = build_ledger_data(current, total, desk)
+        mismatches = check_public_freshness(current, proposed)
+        if mismatches:
+            print("Agentic usage ledger public fields are stale:")
+            for mismatch in mismatches:
+                print(f"- {mismatch}")
+            return 1
+        print("Agentic usage ledger public fields are fresh.")
+        return 0
 
     if args.json:
         print(json.dumps(build_json_output(sessions_root, total, desk), indent=2, sort_keys=True))
