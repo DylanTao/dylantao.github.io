@@ -1,6 +1,58 @@
 const { test, expect } = require("@playwright/test");
 const { preparePage, stabilizeVisuals } = require("./helpers");
 
+async function shakeCurrentRecord(page) {
+  const portrait = page.locator("#home-profile-image-container");
+  await expect(portrait).toBeVisible();
+  const box = await portrait.boundingBox();
+  expect(box).not.toBeNull();
+
+  const centerX = box.x + box.width / 2;
+  const centerY = box.y + box.height / 2;
+  const offsets = [42, -42, 46, -46, 48, -48];
+  const useSyntheticTouch = await page.evaluate(() => window.matchMedia("(pointer: coarse)").matches);
+
+  if (useSyntheticTouch) {
+    await portrait.evaluate((element, shakeOffsets) => {
+      const rect = element.getBoundingClientRect();
+      const pointerId = 817;
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const originalCapture = element.setPointerCapture;
+      element.setPointerCapture = () => {};
+
+      const dispatchPointer = (type, x, buttons = 1) => {
+        element.dispatchEvent(
+          new PointerEvent(type, {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            pointerId,
+            pointerType: "touch",
+            clientX: x,
+            clientY: centerY + 2,
+            button: type === "pointerdown" ? 0 : -1,
+            buttons,
+          })
+        );
+      };
+
+      dispatchPointer("pointerdown", centerX);
+      shakeOffsets.forEach((offset) => dispatchPointer("pointermove", centerX + offset));
+      dispatchPointer("pointerup", centerX, 0);
+      element.setPointerCapture = originalCapture;
+    }, offsets);
+    return;
+  }
+
+  await page.mouse.move(centerX, centerY);
+  await page.mouse.down();
+  for (const offset of offsets) {
+    await page.mouse.move(centerX + offset, centerY + 2, { steps: 2 });
+  }
+  await page.mouse.up();
+}
+
 test("publications Abs toggle opens and closes", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });
@@ -161,6 +213,52 @@ test("home profile bubbles hover independently", async ({ page }, testInfo) => {
   expect(primaryHovered.boxShadow).not.toBe(primaryRest.boxShadow);
   expect(secondaryWhilePrimaryHovered.backgroundColor).toBe(secondaryRest.backgroundColor);
   expect(secondaryWhilePrimaryHovered.borderColor).toBe(secondaryRest.borderColor);
+});
+
+test("home dropped meme record cards resolve into separate 2D lanes", async ({ page }) => {
+  await preparePage(page, "dark");
+  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const stage = page.locator("[data-home-artifact-stage]");
+  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
+
+  await shakeCurrentRecord(page);
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
+  await page.waitForTimeout(620);
+
+  await shakeCurrentRecord(page);
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(2);
+  await page.waitForTimeout(120);
+
+  const maxOverlapRatio = await page.locator("[data-home-record-card]").evaluateAll((cards) => {
+    const rects = cards.map((card) => {
+      const rect = card.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom,
+        area: rect.width * rect.height,
+      };
+    });
+    let maxRatio = 0;
+
+    for (let firstIndex = 0; firstIndex < rects.length; firstIndex += 1) {
+      for (let secondIndex = firstIndex + 1; secondIndex < rects.length; secondIndex += 1) {
+        const first = rects[firstIndex];
+        const second = rects[secondIndex];
+        const overlapWidth = Math.max(0, Math.min(first.right, second.right) - Math.max(first.left, second.left));
+        const overlapHeight = Math.max(0, Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top));
+        const smallerArea = Math.max(1, Math.min(first.area, second.area));
+        maxRatio = Math.max(maxRatio, (overlapWidth * overlapHeight) / smallerArea);
+      }
+    }
+
+    return maxRatio;
+  });
+
+  expect(maxOverlapRatio).toBeLessThan(0.08);
 });
 
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {

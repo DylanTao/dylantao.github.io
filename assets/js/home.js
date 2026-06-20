@@ -639,6 +639,7 @@
     let scene = null;
     let camera = null;
     let textureLoader = null;
+    const projectedHitCenter = { vector: null };
     let resizeObserver = null;
     let animationFrame = null;
     let rootGroup = null;
@@ -1627,11 +1628,13 @@
     const registerInteractive = (mesh, data, entry) => {
       mesh.userData = {
         ...mesh.userData,
+        ...data,
         kind: data.kind,
         index: data.index,
         url: data.url || "",
         homeDeskInteractive: true,
         homeDeskEntry: entry,
+        homeDeskProjectionObject: data.projectionObject || mesh,
       };
       interactiveObjects.push(mesh);
       return mesh;
@@ -1654,6 +1657,17 @@
       return 1;
     };
 
+    const projectedInteractiveDistance = (data) => {
+      const target = data?.homeDeskProjectionObject || data?.homeDeskEntry?.group;
+      if (!THREE || !camera || !target) return Number.POSITIVE_INFINITY;
+      if (!projectedHitCenter.vector) projectedHitCenter.vector = new THREE.Vector3();
+      target.getWorldPosition(projectedHitCenter.vector);
+      projectedHitCenter.vector.project(camera);
+      const dx = projectedHitCenter.vector.x - pointerNdc.x;
+      const dy = projectedHitCenter.vector.y - pointerNdc.y;
+      return dx * dx + dy * dy;
+    };
+
     const pickObject = (event) => {
       if (!raycaster || !pointerNdc || !camera || !renderer) return null;
       const rect = renderer.domElement.getBoundingClientRect();
@@ -1674,7 +1688,12 @@
       if (!hits.length) return null;
       hits.sort((first, second) => {
         const priorityDelta = interactionPriority(second.data.kind) - interactionPriority(first.data.kind);
-        return priorityDelta || first.hit.distance - second.hit.distance;
+        if (priorityDelta) return priorityDelta;
+        if (first.data.kind === "album" && second.data.kind === "album" && first.data.homeDeskEntry !== second.data.homeDeskEntry) {
+          const screenDelta = projectedInteractiveDistance(first.data) - projectedInteractiveDistance(second.data);
+          if (Math.abs(screenDelta) > 0.0002) return screenDelta;
+        }
+        return first.hit.distance - second.hit.distance;
       });
       return hits[0].data;
     };
@@ -2178,6 +2197,7 @@
           const pose = getDroppedRecordPose(entry, orderIndex);
           const animateThisDrop = options.animate && (options.focusIndex === undefined || options.focusIndex === entry.index);
           entry.thrown = true;
+          if (entry.rackSlotHit) entry.rackSlotHit.visible = false;
           entry.dropRestPose = {
             position: pose.albumPosition.clone(),
             rotation: pose.albumRotation.clone(),
@@ -2256,6 +2276,7 @@
           entry.dropDirection = 0;
           entry.dropRestPose = null;
           entry.currentRestY = entry.basePosition.y;
+          if (entry.rackSlotHit) entry.rackSlotHit.visible = true;
           placeObject(
             entry.group,
             {
@@ -3792,9 +3813,15 @@
         albumHit.position.set(0, 0.03, 0.07);
         albumHit.rotation.x = -0.06;
         entry.group.add(albumHit);
+        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.72), hitMaterial);
+        rackSlotHit.position.copy(entry.basePosition).add(new THREE.Vector3(0, 0.015, 0.026));
+        rackSlotHit.rotation.copy(entry.baseRotation);
+        albumRack.add(rackSlotHit);
+        entry.rackSlotHit = rackSlotHit;
         registerInteractive(sleeveBack, { kind: "album", index }, entry);
         registerInteractive(cover, { kind: "album", index }, entry);
         registerInteractive(albumHit, { kind: "album", index }, entry);
+        registerInteractive(rackSlotHit, { kind: "album", index, rackSlot: true, projectionObject: rackSlotHit }, entry);
         loadTexture(recordItem.cover || recordItem.src, coverMaterial);
         albumEntries.push(entry);
 
@@ -4404,6 +4431,7 @@
       pile.classList.toggle("has-cards", cardCount > 0);
       pile.classList.toggle("has-halo", hasHalo);
       pile.setAttribute("data-card-count", String(cardCount));
+      if (cardCount === 0) pile.style.removeProperty("--record-card-pile-height");
       if (stage) stage.setAttribute("data-record-card-count", String(cardCount));
     };
 
@@ -4547,33 +4575,88 @@
       hideRecord(true);
     };
 
-    const setCardRestTransform = (card, visualOrder, cardCount) => {
-      const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
-      const isCompactPile = compactPileQuery.matches;
-      const scatterSlots = isCompactPile
+    const getRecordCardLayoutProfile = (isCompactPile) => ({
+      baseHeight: isCompactPile ? 8.35 : 10.2,
+      bottomPad: isCompactPile ? 1.15 : 1.35,
+      collisionGap: isCompactPile ? 0.28 : 0.34,
+      collisionStep: isCompactPile ? 2.42 : 2.82,
+      collisionXDrift: isCompactPile ? 0.16 : 0.22,
+      projectedHeight: isCompactPile ? 2.86 : 3.12,
+      projectedWidth: isCompactPile ? 16.2 : 18.25,
+      zBase: isCompactPile ? 0.72 : 0.86,
+      zStep: 0.08,
+      slots: isCompactPile
         ? [
-            { x: 0, y: 0.72, rotate: -1.2, tilt: 57.8, scale: 1 },
-            { x: -0.86, y: 1.08, rotate: -5.2, tilt: 59.4, scale: 0.986 },
-            { x: 0.94, y: 1.34, rotate: 4.8, tilt: 58.7, scale: 0.98 },
-            { x: -0.36, y: 1.62, rotate: 2.5, tilt: 60.4, scale: 0.974 },
-            { x: 0.6, y: 1.86, rotate: -3.9, tilt: 59.8, scale: 0.968 },
+            { x: 0, y: 0.48, rotate: -1.2, tilt: 57.2, scale: 1 },
+            { x: -1.12, y: 2.9, rotate: -5.2, tilt: 58.4, scale: 0.986 },
+            { x: 1.08, y: 5.32, rotate: 4.8, tilt: 57.8, scale: 0.98 },
+            { x: -0.52, y: 7.64, rotate: 2.5, tilt: 59.2, scale: 0.974 },
+            { x: 0.78, y: 9.86, rotate: -3.9, tilt: 58.8, scale: 0.968 },
           ]
         : [
-            { x: 0, y: 0.78, rotate: -1.1, tilt: 58.2, scale: 1 },
-            { x: -1.06, y: 1.18, rotate: -5.6, tilt: 59.9, scale: 0.986 },
-            { x: 1.16, y: 1.5, rotate: 5.2, tilt: 59.1, scale: 0.98 },
-            { x: -0.48, y: 1.84, rotate: 2.8, tilt: 60.8, scale: 0.974 },
-            { x: 0.78, y: 2.12, rotate: -4.2, tilt: 60.1, scale: 0.968 },
-          ];
-      const slot = scatterSlots[visualOrder % scatterSlots.length];
-      const cycle = Math.floor(visualOrder / scatterSlots.length);
-      const side = visualOrder % 2 === 0 ? -1 : 1;
-      const x = slot.x + side * cycle * (isCompactPile ? 0.2 : 0.28);
-      const y = slot.y + cycle * (isCompactPile ? 0.36 : 0.42);
-      const z = Math.max(0.16, (isCompactPile ? 0.72 : 0.86) - visualOrder * 0.08);
-      const rotate = slot.rotate + ((recordOrder % 3) - 1) * 0.28;
-      const tilt = slot.tilt;
-      const scale = slot.scale;
+            { x: 0, y: 0.52, rotate: -1.1, tilt: 57.4, scale: 1 },
+            { x: -1.42, y: 3.32, rotate: -5.6, tilt: 58.8, scale: 0.986 },
+            { x: 1.48, y: 6.12, rotate: 5.2, tilt: 58.1, scale: 0.98 },
+            { x: -0.72, y: 8.82, rotate: 2.8, tilt: 59.5, scale: 0.974 },
+            { x: 0.96, y: 11.42, rotate: -4.2, tilt: 58.9, scale: 0.968 },
+          ],
+    });
+
+    const cardFootprintsOverlap = (first, second, gap) =>
+      first.left < second.right && first.right > second.left && first.top < second.bottom + gap && first.bottom + gap > second.top;
+
+    const createCardFootprint = (layout, profile) => {
+      const width = profile.projectedWidth * layout.scale;
+      const height = profile.projectedHeight * layout.scale;
+      return {
+        left: layout.x - width / 2,
+        right: layout.x + width / 2,
+        top: layout.y,
+        bottom: layout.y + height,
+      };
+    };
+
+    const buildRecordCardLayouts = (cardCount) => {
+      const isCompactPile = compactPileQuery.matches;
+      const profile = getRecordCardLayoutProfile(isCompactPile);
+      const layouts = [];
+
+      for (let visualOrder = 0; visualOrder < cardCount; visualOrder += 1) {
+        const slot = profile.slots[visualOrder % profile.slots.length];
+        const cycle = Math.floor(visualOrder / profile.slots.length);
+        const side = visualOrder % 2 === 0 ? -1 : 1;
+        const layout = {
+          x: slot.x + side * cycle * (isCompactPile ? 0.22 : 0.3),
+          y: slot.y + cycle * (isCompactPile ? 1.38 : 1.64),
+          z: Math.max(0.16, profile.zBase - visualOrder * profile.zStep),
+          rotate: slot.rotate,
+          tilt: slot.tilt,
+          scale: slot.scale,
+          side,
+        };
+        let footprint = createCardFootprint(layout, profile);
+        let attempts = 0;
+
+        while (attempts < 8 && layouts.some((placed) => cardFootprintsOverlap(footprint, placed.footprint, profile.collisionGap))) {
+          layout.y += profile.collisionStep;
+          layout.x += side * profile.collisionXDrift;
+          footprint = createCardFootprint(layout, profile);
+          attempts += 1;
+        }
+
+        layouts.push({ ...layout, footprint });
+      }
+
+      const lastBottom = layouts.reduce((bottom, layout) => Math.max(bottom, layout.footprint.bottom), 0);
+      const pileHeight = Math.max(profile.baseHeight, lastBottom + profile.bottomPad);
+      return { layouts, pileHeight };
+    };
+
+    const setCardRestTransform = (card, layout, visualOrder, cardCount) => {
+      const recordOrder = Number(card.getAttribute("data-record-index")) || 0;
+      const isCompactPile = compactPileQuery.matches;
+      const { x, y, z, side, tilt, scale } = layout;
+      const rotate = layout.rotate + ((recordOrder % 3) - 1) * 0.28;
       const openX = x * (isCompactPile ? 0.36 : 0.34);
       const openY = Math.max(isCompactPile ? -1.04 : -1.18, y - (isCompactPile ? 1.92 : 2.14));
       const openZ = z + (isCompactPile ? 4.45 : 5.15);
@@ -4598,6 +4681,7 @@
         `translate3d(${(x + side * 0.018).toFixed(2)}rem, ${(y + 0.03).toFixed(2)}rem, ${Math.max(0.12, z - 0.02).toFixed(2)}rem) rotateZ(${(rotate + side * 0.08).toFixed(2)}deg) rotateX(${(tilt + 0.42).toFixed(2)}deg) rotateY(${(side * -0.5).toFixed(2)}deg) scale(${Math.min(1.005, scale + 0.005).toFixed(3)})`
       );
       card.dataset.stackOrder = String(visualOrder);
+      card.dataset.cardLaneY = y.toFixed(2);
       card.style.zIndex = card.classList.contains("is-open") ? "80" : String(40 + Math.max(0, cardCount - visualOrder));
     };
 
@@ -4608,9 +4692,11 @@
         const secondOrder = Number(second.dataset.dropSequence) || 0;
         return firstOrder - secondOrder;
       });
+      const cardLayout = buildRecordCardLayouts(cards.length);
+      pile.style.setProperty("--record-card-pile-height", `${cardLayout.pileHeight.toFixed(2)}rem`);
       cards.forEach((card, chronologicalOrder) => {
         const visualOrder = cards.length - 1 - chronologicalOrder;
-        setCardRestTransform(card, visualOrder, cards.length);
+        setCardRestTransform(card, cardLayout.layouts[visualOrder], visualOrder, cards.length);
       });
       syncPileState();
     };
