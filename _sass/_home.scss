@@ -699,6 +699,15 @@ html[data-theme="dark"] .home-desk-control-strip {
   backdrop-filter: blur(10px) saturate(1.04);
 }
 
+.home-desk-scene-note-primary,
+.home-desk-scene-note-secondary {
+  display: block;
+}
+
+.home-desk-scene-note-secondary {
+  margin-top: 0.04rem;
+}
+
 .home-desk-corner-scene {
   position: absolute;
   inset: 2.35rem -0.1rem 0.25rem -0.1rem;
@@ -767,6 +776,10 @@ html[data-theme="dark"] .home-desk-control-strip {
   transform: translateY(0);
 }
 
+.home-hero-media.is-desk-3d .home-desk-scene-note-secondary {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .home-hero-media.is-desk-3d .home-desk-scene-note {
     bottom: 4.15rem;
@@ -774,7 +787,11 @@ html[data-theme="dark"] .home-desk-control-strip {
   }
 
   .home-hero-media.is-desk-3d .home-desk-scene-note span {
-    max-width: min(100%, 34rem);
+    max-width: min(100%, 32rem);
+  }
+
+  .home-hero-media.is-desk-3d .home-desk-scene-note-primary {
+    white-space: nowrap;
   }
 }
 
@@ -1350,10 +1367,10 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 
 .home-record-card-pile::before {
   position: absolute;
-  right: 8%;
-  bottom: 2.22rem;
-  left: 8%;
-  height: 1.2rem;
+  right: 4%;
+  bottom: 1.84rem;
+  left: 4%;
+  height: 1.48rem;
   border-radius: 50%;
   background:
     radial-gradient(ellipse at center, var(--record-card-contact), rgba(73, 45, 30, 0.07) 54%, transparent 80%),
@@ -1369,8 +1386,8 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 }
 
 .home-record-card-pile.has-cards::before {
-  opacity: 0.5;
-  transform: translateY(0) rotateX(74deg) scaleX(1);
+  opacity: 0.62;
+  transform: translateY(0) rotateX(74deg) scaleX(1.04);
 }
 
 .home-record-card {
@@ -1391,9 +1408,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
     linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 46%),
     linear-gradient(180deg, var(--record-card-glass), color-mix(in srgb, var(--record-card-glass) 92%, var(--record-card-rim-soft)));
   box-shadow:
-    0 0.1rem 0.13rem color-mix(in srgb, var(--record-card-contact) 78%, transparent),
-    0 0.32rem 0.46rem var(--record-card-shadow),
-    0 0.82rem 1.04rem color-mix(in srgb, var(--record-card-halo-soft) 36%, transparent),
+    0 0.12rem 0.16rem color-mix(in srgb, var(--record-card-contact) 88%, transparent),
+    0 0.38rem 0.56rem var(--record-card-shadow),
+    0 0.92rem 1.1rem color-mix(in srgb, var(--record-card-halo-soft) 32%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.72),
     inset 0 -0.16rem 0.34rem rgba(255, 255, 255, 0.18),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 58%, transparent);
@@ -1451,9 +1468,9 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
 .home-record-card:focus-visible {
   border-color: var(--record-card-edge-hover);
   box-shadow:
-    0 0.12rem 0.16rem color-mix(in srgb, var(--record-card-contact) 72%, transparent),
-    0 0.42rem 0.74rem color-mix(in srgb, var(--record-card-shadow) 82%, transparent),
-    0 1.14rem 2rem color-mix(in srgb, var(--record-card-halo-soft) 64%, transparent),
+    0 0.14rem 0.18rem color-mix(in srgb, var(--record-card-contact) 82%, transparent),
+    0 0.46rem 0.78rem color-mix(in srgb, var(--record-card-shadow) 86%, transparent),
+    0 1.08rem 1.78rem color-mix(in srgb, var(--record-card-halo-soft) 56%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.78),
     inset 0 -1px 0 color-mix(in srgb, var(--record-card-rim) 72%, transparent);
   outline: 0;

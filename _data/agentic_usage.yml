@@ -7,11 +7,11 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 235
-  token_count: 1960000000
-  tokens_label: 1.96B
-  hours_count: 179
-  hours_label: "179"
+  commits: 236
+  token_count: 1970000000
+  tokens_label: 1.97B
+  hours_count: 180
+  hours_label: "180"
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -20,21 +20,21 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 1176
-    kg_co2e_midpoint: 439
+    kwh_midpoint: 1182
+    kg_co2e_midpoint: 441
     tree_years_midpoint: 7.3
-    tree_years_range: 2.4-24.4
+    tree_years_range: 2.4-24.5
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.7
     cut_tree_range: 0.24-2.4
-    public_note: "Tree lens: about 1176 kWh, or ~0.7 ten-year urban trees' stored carbon. Range: 0.24-2.4."
+    public_note: "Tree lens: about 1182 kWh, or ~0.7 ten-year urban trees' stored carbon. Range: 0.24-2.4."
   token_usage:
-    input_tokens: 1956004315
-    cached_input_tokens: 1838532180
-    output_tokens: 7547785
-    reasoning_output_tokens: 2715478
-    total_tokens: 1963542917
+    input_tokens: 1960618539
+    cached_input_tokens: 1842943700
+    output_tokens: 7569834
+    reasoning_output_tokens: 2724452
+    total_tokens: 1968179190
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -43,12 +43,12 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 1956004315
-    cached_input_tokens: 1838532180
-    uncached_input_tokens: 117472135
-    output_tokens: 7547785
-    reasoning_output_tokens: 2715478
-    total_tokens: 1963542917
+    input_tokens: 1960618539
+    cached_input_tokens: 1842943700
+    uncached_input_tokens: 117674839
+    output_tokens: 7569834
+    reasoning_output_tokens: 2724452
+    total_tokens: 1968179190
     usd_midpoint: 630
     usd_label: ~$630 API cosplay
     usd_range_label: $450-$3.5K
@@ -62,7 +62,7 @@ total:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 1960000000
+    token_count: 1970000000
     usd_midpoint: 1700
     usd_label: ~$1.7K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
@@ -71,11 +71,11 @@ desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 78
+  commits: 79
   token_count: 910000000
   tokens_label: 910M
-  hours_count: 65
-  hours_label: "65"
+  hours_count: 66
+  hours_label: "66"
   confidence: estimate
   note: Scoped to the homepage vinyl, desk, coffee mug, and 3D scene burst.
   energy_equivalence:
@@ -94,11 +94,11 @@ desk_scene:
     cut_tree_range: 0.11-1.1
     public_note: roughly 0.3 trees cut
   token_usage:
-    input_tokens: 902132100
-    cached_input_tokens: 851942559
-    output_tokens: 3451741
-    reasoning_output_tokens: 1210513
-    total_tokens: 905583841
+    input_tokens: 906746324
+    cached_input_tokens: 856354079
+    output_tokens: 3473790
+    reasoning_output_tokens: 1219487
+    total_tokens: 910220114
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -107,12 +107,12 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 902132100
-    cached_input_tokens: 851942559
-    uncached_input_tokens: 50189541
-    output_tokens: 3451741
-    reasoning_output_tokens: 1210513
-    total_tokens: 905583841
+    input_tokens: 906746324
+    cached_input_tokens: 856354079
+    uncached_input_tokens: 50392245
+    output_tokens: 3473790
+    reasoning_output_tokens: 1219487
+    total_tokens: 910220114
     usd_midpoint: 290
     usd_label: ~$290 API cosplay
     usd_range_label: $210-$1.6K
