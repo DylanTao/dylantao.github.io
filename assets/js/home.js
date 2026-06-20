@@ -1678,10 +1678,83 @@
       if (item) item.texture = texture;
     };
 
+    const applyCoastalShaderPalette = (material, palette, variant = "foam") => {
+      if (!material?.uniforms) return;
+      const isFoam = variant === "foam";
+      material.uniforms.uOpacity.value = isFoam ? (palette.isDarkTheme ? 0.42 : 0.5) : palette.isDarkTheme ? 0.2 : 0.24;
+      material.uniforms.uColorA.value.setHex(isFoam ? (palette.isDarkTheme ? 0xe7fbff : 0xffffff) : palette.isDarkTheme ? 0xffdfaa : 0xfff3ca);
+      material.uniforms.uColorB.value.setHex(isFoam ? (palette.isDarkTheme ? 0x94d4e6 : 0xbff5ff) : palette.isDarkTheme ? 0xd6a56d : 0xf0c987);
+      material.uniforms.uBandOffset.value = isFoam ? 0.24 : 0.36;
+      material.uniforms.uBandSpread.value = isFoam ? 0.24 : 0.18;
+      material.needsUpdate = true;
+    };
+
+    const createCoastalShaderMaterial = (palette, variant = "foam") => {
+      const material = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        depthTest: false,
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+        uniforms: {
+          uTime: { value: 0 },
+          uOpacity: { value: 0.4 },
+          uColorA: { value: new THREE.Color(0xffffff) },
+          uColorB: { value: new THREE.Color(0xbff5ff) },
+          uBandOffset: { value: 0.24 },
+          uBandSpread: { value: 0.24 },
+        },
+        vertexShader: `
+          varying vec2 vUv;
+
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime;
+          uniform float uOpacity;
+          uniform vec3 uColorA;
+          uniform vec3 uColorB;
+          uniform float uBandOffset;
+          uniform float uBandSpread;
+          varying vec2 vUv;
+
+          float lineBand(float y, float center, float width) {
+            return smoothstep(width, 0.0, abs(y - center));
+          }
+
+          void main() {
+            float x = vUv.x;
+            float y = vUv.y;
+            float curve = sin((x + uTime * 0.045) * 11.0) * 0.036 + sin((x * 24.0) - uTime * 0.34) * 0.014;
+            float tide = lineBand(y, uBandOffset + curve, 0.032);
+            tide += lineBand(y, uBandOffset + uBandSpread + curve * 0.72 + sin(x * 16.0 + uTime * 0.28) * 0.014, 0.022) * 0.62;
+            tide += lineBand(y, uBandOffset + uBandSpread * 1.72 + curve * 0.42, 0.018) * 0.34;
+
+            float grains = sin(x * 78.0 + y * 41.0 + uTime * 2.4) * sin(x * 31.0 - y * 59.0 - uTime * 1.8);
+            float sparkle = smoothstep(0.82, 1.0, grains) * 0.18;
+            float edgeFade = smoothstep(0.02, 0.14, x) * (1.0 - smoothstep(0.86, 1.0, x));
+            edgeFade *= smoothstep(0.04, 0.16, y) * (1.0 - smoothstep(0.88, 1.0, y));
+
+            float alpha = clamp((tide + sparkle) * uOpacity * edgeFade, 0.0, 0.72);
+            vec3 color = mix(uColorB, uColorA, clamp(tide + sparkle, 0.0, 1.0));
+            gl_FragColor = vec4(color, alpha);
+          }
+        `,
+      });
+      applyCoastalShaderPalette(material, palette, variant);
+      return material;
+    };
+
     const updateOutsideMotion = (time) => {
       if (!isVisible || activeView !== "outside" || reduceMotion || outsideMotionItems.length === 0) return false;
       const seconds = time * 0.001;
       outsideMotionItems.forEach((item) => {
+        if (item.uniforms?.uTime) {
+          item.uniforms.uTime.value = seconds + (item.timeOffset || 0);
+        }
         if (item.texture) {
           item.texture.offset.x = item.offsetX + seconds * item.speedX;
           item.texture.offset.y = item.offsetY + seconds * item.speedY;
@@ -1790,6 +1863,8 @@
       if (themeMaterials.outsideShoreGlints) themeMaterials.outsideShoreGlints.opacity = palette.isDarkTheme ? 0.46 : 0.56;
       themeMaterials.outsideSandGlints?.color.setHex(palette.isDarkTheme ? 0xffd6a0 : 0xfff0c7);
       if (themeMaterials.outsideSandGlints) themeMaterials.outsideSandGlints.opacity = palette.isDarkTheme ? 0.2 : 0.26;
+      applyCoastalShaderPalette(themeMaterials.outsideFoamShader, palette, "foam");
+      applyCoastalShaderPalette(themeMaterials.outsideSandShader, palette, "sand");
       themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xc2a775);
       themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0xad9365);
       themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x2c241a : 0xc4a26d);
@@ -2672,8 +2747,35 @@
       sandGust.position.set(-1.72, -1.105, 1.08);
       sandGust.renderOrder = 0;
       outsideGroup.add(sandGust);
+      const foamShaderMaterial = createCoastalShaderMaterial(palette, "foam");
+      const foamShader = new THREE.Mesh(new THREE.PlaneGeometry(3.72, 0.34, 48, 6), foamShaderMaterial);
+      foamShader.rotation.x = -Math.PI / 2;
+      foamShader.rotation.z = -0.036;
+      foamShader.position.set(-1.76, -1.104, 1.02);
+      foamShader.renderOrder = 2;
+      outsideGroup.add(foamShader);
+      themeMaterials.outsideFoamShader = foamShaderMaterial;
+
+      const sandShaderMaterial = createCoastalShaderMaterial(palette, "sand");
+      const sandShader = new THREE.Mesh(new THREE.PlaneGeometry(3.44, 0.28, 36, 4), sandShaderMaterial);
+      sandShader.rotation.x = -Math.PI / 2;
+      sandShader.rotation.z = 0.018;
+      sandShader.position.set(-1.72, -1.098, 1.26);
+      sandShader.renderOrder = 1;
+      outsideGroup.add(sandShader);
+      themeMaterials.outsideSandShader = sandShaderMaterial;
       addOutsideShorelineAccents(outsideGroup, palette);
       outsideMotionItems.push(
+        {
+          key: "foamShader",
+          uniforms: foamShaderMaterial.uniforms,
+          timeOffset: 0,
+        },
+        {
+          key: "sandShader",
+          uniforms: sandShaderMaterial.uniforms,
+          timeOffset: 1.25,
+        },
         {
           key: "ocean",
           texture: oceanTexture,
