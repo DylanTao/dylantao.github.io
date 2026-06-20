@@ -283,6 +283,7 @@ hide_title: true
     margin-left: 50%;
     margin-bottom: var(--sirui-map-bottom-gap, 0.85rem);
     margin-top: 0.25rem;
+    scroll-margin-top: 5.5rem;
     transform: translateX(-50%);
     width: min(94vw, 88rem);
   }
@@ -459,7 +460,9 @@ hide_title: true
   }
 
   .sirui-globe-canvas {
+    cursor: grab;
     height: clamp(32rem, 68vh, 49rem);
+    touch-action: none;
     transform-origin: right bottom;
     transition:
       bottom var(--sirui-morph-duration) var(--sirui-morph-ease),
@@ -473,6 +476,10 @@ hide_title: true
       transform var(--sirui-morph-duration) var(--sirui-morph-ease),
       width var(--sirui-morph-duration) var(--sirui-morph-ease);
     will-change: height, opacity, transform, width;
+  }
+
+  .sirui-globe-canvas.is-dragging {
+    cursor: grabbing;
   }
 
   .sirui-map-stage.is-globe-prepping .sirui-globe-canvas {
@@ -599,7 +606,23 @@ hide_title: true
 
   .sirui-globe-canvas canvas {
     display: block;
+    height: 100%;
     max-width: 100%;
+    width: 100%;
+  }
+
+  .sirui-globe-html-layer {
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: 4;
+  }
+
+  .sirui-globe-html-layer .sirui-globe-marker,
+  .sirui-globe-html-layer .sirui-celestial-marker {
+    position: absolute;
+    will-change: opacity, transform;
   }
 
   .sirui-globe-canvas::after,
@@ -2041,6 +2064,7 @@ hide_title: true
 
   @media (max-width: 820px) {
     .sirui-crack-map {
+      scroll-margin-top: 8.5rem;
       width: min(96vw, 42rem);
     }
 
@@ -2267,6 +2291,23 @@ hide_title: true
       width: 100%;
     }
 
+    .sirui-globe-marker-label {
+      font-size: 0.66rem;
+      padding: 0.25rem 0.4rem;
+    }
+
+    .sirui-globe-marker-cue {
+      bottom: calc(100% + 0.62rem);
+      font-size: 0.58rem;
+      gap: 0.24rem;
+      padding: 0.27rem 0.42rem;
+    }
+
+    .sirui-globe-marker-cue::before {
+      height: 0.34rem;
+      width: 0.34rem;
+    }
+
     .sirui-map-stage.is-street-main .sirui-map-hud {
       bottom: max(0.48rem, env(safe-area-inset-bottom));
       left: 0.48rem;
@@ -2371,6 +2412,7 @@ hide_title: true
     const readoutVersion = "globe_v1";
     const visitorEndpoint = "{{ site.sirui_visitor_endpoint | default: '' }}".trim();
     const svgNamespace = "http://www.w3.org/2000/svg";
+    const threeModuleUrl = "{{ '/assets/js/three.module.min.js' | relative_url | bust_file_cache }}";
     const globeTextureUrl = "{{ '/assets/img/sirui/earth-bmng-nov-5400.jpg' | relative_url }}";
     const globeFallbackTextureUrl = "{{ site.third_party_libraries.three-globe.url.earth_blue_marble }}";
     const globeBumpUrl = "{{ site.third_party_libraries.three-globe.url.earth_topology }}";
@@ -2394,6 +2436,7 @@ hide_title: true
 
     let globeInstance = null;
     let globeResizeObserver = null;
+    let threeModulePromise = null;
     let streetMapInstance = null;
     let streetMarker = null;
     let streetAccuracyCircle = null;
@@ -2435,6 +2478,7 @@ hide_title: true
     let streetViewActive = false;
     let streetSheetExpanded = false;
     let streetRevealTimer = 0;
+    let streetExitSuppressUntil = 0;
     let ignoreNextStageClickFromStreetMap = false;
     let ignoreStreetMapStageClickTimer = 0;
     let lastStreetSyncAt = 0;
@@ -3568,6 +3612,12 @@ hide_title: true
       const transitionMs = prefersReducedMotion.matches ? 0 : streetTransitionMs;
       const entry = activeVisitorEntry();
 
+      streetExitSuppressUntil = performance.now() + transitionMs + 900;
+      streetMainActive = false;
+      streetPresentationTarget = false;
+      streetPresentationToken += 1;
+      clearStreetFocusTarget();
+      clearPendingStreetSync();
       setStreetViewState(false);
       clearPinnedDetails();
       setStreetMapVisible(true, {
@@ -3726,6 +3776,18 @@ hide_title: true
       }
     };
 
+    const clearPendingStreetSync = () => {
+      pendingStreetSync = null;
+      if (streetSyncFrame) {
+        window.cancelAnimationFrame(streetSyncFrame);
+        streetSyncFrame = 0;
+      }
+      if (streetSyncTimeout) {
+        window.clearTimeout(streetSyncTimeout);
+        streetSyncTimeout = 0;
+      }
+    };
+
     const activeStreetFocusTarget = () => {
       const now = performance.now();
 
@@ -3866,24 +3928,16 @@ hide_title: true
       }
     };
 
-    const waitForGlobe = () =>
-      new Promise((resolve) => {
-        if (typeof window.Globe === "function") {
-          resolve(window.Globe);
-          return;
-        }
+    const waitForThree = async () => {
+      if (!threeModulePromise) {
+        threeModulePromise = import(threeModuleUrl).catch((error) => {
+          console.warn("secret page Three.js module failed", error);
+          return null;
+        });
+      }
 
-        const started = Date.now();
-        const interval = window.setInterval(() => {
-          if (typeof window.Globe === "function") {
-            window.clearInterval(interval);
-            resolve(window.Globe);
-          } else if (Date.now() - started > 3000) {
-            window.clearInterval(interval);
-            resolve(null);
-          }
-        }, 60);
-      });
+      return threeModulePromise;
+    };
 
     const waitForLeaflet = () =>
       new Promise((resolve) => {
@@ -4544,18 +4598,18 @@ hide_title: true
 
       const material = globe.globeMaterial?.();
       if (material) {
-        material.bumpScale = 2.4;
+        material.bumpScale = 1.7;
         material.shininess = 10;
         material.color?.set?.("#ffffff");
-        material.emissive?.set?.("#06110d");
-        material.emissiveIntensity = 0.028;
+        material.emissive?.set?.("#0a1815");
+        material.emissiveIntensity = 0.075;
         material.needsUpdate = true;
       }
 
       const lights = globe.lights?.();
       if (Array.isArray(lights)) {
         lights.forEach((light) => {
-          if (light.type === "AmbientLight") light.intensity = 0.46;
+          if (light.type === "AmbientLight") light.intensity = 0.58;
           if (light.type === "DirectionalLight") light.intensity = 1.62;
         });
       }
@@ -4816,6 +4870,786 @@ hide_title: true
           startLat: entry.lat,
           startLng: entry.lng,
         }));
+    };
+
+    const cssColor = (THREE, value, fallback = "#70d8ff") => {
+      const colorValue = typeof value === "string" ? value : fallback;
+      const rgba = colorValue.match(/rgba?\(([^)]+)\)/i);
+
+      if (rgba) {
+        const parts = rgba[1].split(",").map((part) => part.trim());
+        const [red, green, blue] = parts;
+        const alpha = parts[3] !== undefined ? Number(parts[3]) : 1;
+        return {
+          color: new THREE.Color(`rgb(${red}, ${green}, ${blue})`),
+          opacity: Number.isFinite(alpha) ? alpha : 1,
+        };
+      }
+
+      return {
+        color: new THREE.Color(colorValue || fallback),
+        opacity: 1,
+      };
+    };
+
+    const latLngToThreeVector = (THREE, lat, lng, radius = 1) => {
+      const latRadians = toRadians(Number(lat) || 0);
+      const lngRadians = toRadians((Number(lng) || 0) + 180);
+      const cosLat = Math.cos(latRadians);
+
+      return new THREE.Vector3(
+        -radius * cosLat * Math.cos(lngRadians),
+        radius * Math.sin(latRadians),
+        radius * cosLat * Math.sin(lngRadians),
+      );
+    };
+
+    const createSiruiThreeGlobe = (THREE, element) => {
+      const state = {
+        activeAnimation: 0,
+        arcColor: () => "rgba(112, 216, 255, 0.26)",
+        arcStroke: () => 0.16,
+        disposed: false,
+        height: Math.max(320, Math.floor(element.getBoundingClientRect().height || 420)),
+        htmlData: [],
+        htmlFactory: () => document.createElement("span"),
+        htmlModifier: null,
+        htmlRecords: [],
+        pathColor: (path) => path.color || "rgba(112, 216, 255, 0.16)",
+        pathStroke: (path) => path.stroke || 0.18,
+        pointAltitude: (entry) => (entry.isCurrent ? 0.08 : 0.035),
+        pointColor: (entry) => (entry.isCurrent ? "#ff4f9a" : "#8eea62"),
+        pointRadius: pointRadiusForEntry,
+        pov: { altitude: 2.45, lat: 18, lng: -126 },
+        ringMaxRadius: 2.2,
+        ringPropagationSpeed: prefersReducedMotion.matches ? 0 : 0.48,
+        width: Math.max(320, Math.floor(element.getBoundingClientRect().width || 640)),
+        zoomCallback: null,
+      };
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, state.width / state.height, 0.08, 120);
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: !window.matchMedia("(max-width: 700px)").matches,
+        powerPreference: "high-performance",
+      });
+      const overlay = document.createElement("div");
+      const earthGroup = new THREE.Group();
+      const pointsGroup = new THREE.Group();
+      const arcsGroup = new THREE.Group();
+      const pathsGroup = new THREE.Group();
+      const ringsGroup = new THREE.Group();
+      const polygonGroup = new THREE.Group();
+      const starGroup = new THREE.Group();
+      const ambientLight = new THREE.AmbientLight(0xb8d7d0, 0.48);
+      const hemiLight = new THREE.HemisphereLight(0x9ddcff, 0x112015, 0.82);
+      const sunLight = new THREE.DirectionalLight(0xfff1d0, 1.52);
+      const earthGeometry = new THREE.SphereGeometry(1, 96, 64);
+      const earthMaterial = new THREE.MeshPhongMaterial({
+        color: 0xf4fff7,
+        emissive: 0x06110d,
+        emissiveIntensity: 0.035,
+        shininess: 12,
+        specular: 0x315a5f,
+      });
+      const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+      const atmosphere = new THREE.Mesh(
+        new THREE.SphereGeometry(1.045, 96, 64),
+        new THREE.MeshBasicMaterial({
+          blending: THREE.AdditiveBlending,
+          color: 0x70d8ff,
+          depthWrite: false,
+          opacity: 0.18,
+          side: THREE.BackSide,
+          transparent: true,
+        }),
+      );
+      const controls = {
+        autoRotate: false,
+        autoRotateSpeed: 0,
+        enableDamping: true,
+        enablePan: false,
+        enableZoom: true,
+      };
+      const cleanup = [];
+      let frame = 0;
+      let lastFrameTime = 0;
+      let textureToken = 0;
+      let dragging = false;
+      let dragStart = null;
+
+      renderer.domElement.className = "sirui-three-globe-canvas";
+      renderer.setClearColor(0x000000, 0);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 700 ? 1.45 : 1.9));
+      renderer.setSize(state.width, state.height, false);
+      if (THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
+      if (THREE.ACESFilmicToneMapping) {
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.02;
+      }
+
+      overlay.className = "sirui-globe-html-layer";
+      element.append(renderer.domElement, overlay);
+
+      sunLight.position.set(3.8, 1.7, 4.2);
+      earthGroup.add(earthMesh, atmosphere);
+      scene.add(starGroup, earthGroup, pointsGroup, arcsGroup, pathsGroup, ringsGroup, polygonGroup);
+      scene.add(ambientLight, hemiLight, sunLight);
+
+      const disposeObject = (object) => {
+        object.traverse?.((child) => {
+          child.geometry?.dispose?.();
+          const materials = Array.isArray(child.material) ? child.material : [child.material];
+          materials.filter(Boolean).forEach((material) => {
+            Object.values(material).forEach((value) => {
+              if (value?.isTexture) value.dispose();
+            });
+            material.dispose?.();
+          });
+        });
+      };
+
+      const clearGroup = (group) => {
+        while (group.children.length) {
+          const child = group.children[0];
+          group.remove(child);
+          disposeObject(child);
+        }
+      };
+
+      const on = (target, type, handler, options) => {
+        target.addEventListener(type, handler, options);
+        cleanup.push(() => target.removeEventListener(type, handler, options));
+      };
+
+      const buildStars = () => {
+        const starCount = window.innerWidth < 700 ? 360 : 780;
+        const positions = new Float32Array(starCount * 3);
+
+        for (let index = 0; index < starCount; index += 1) {
+          const radius = 22 + Math.random() * 38;
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(2 * Math.random() - 1);
+          positions[index * 3] = radius * Math.sin(phi) * Math.cos(theta);
+          positions[index * 3 + 1] = radius * Math.cos(phi);
+          positions[index * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+        }
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        const material = new THREE.PointsMaterial({
+          color: 0xd9fff3,
+          opacity: 0.42,
+          size: 0.045,
+          sizeAttenuation: true,
+          transparent: true,
+        });
+        starGroup.add(new THREE.Points(geometry, material));
+      };
+
+      const notifyZoom = () => {
+        state.zoomCallback?.({ ...state.pov });
+      };
+
+      const setCameraFromPov = () => {
+        const altitude = clamp(state.pov.altitude, 1.02, 3.75);
+        state.pov.altitude = altitude;
+        state.pov.lat = clamp(state.pov.lat, -82, 82);
+        state.pov.lng = normalizeLongitude(state.pov.lng);
+        const position = latLngToThreeVector(
+          THREE,
+          state.pov.lat,
+          state.pov.lng,
+          1 + altitude,
+        );
+        camera.position.copy(position);
+        camera.lookAt(0, 0, 0);
+        camera.updateProjectionMatrix();
+        updateHtmlPositions();
+      };
+
+      const makeLine = (points, colorValue, opacityMultiplier = 1) => {
+        const { color, opacity } = cssColor(THREE, colorValue);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({
+          blending: THREE.AdditiveBlending,
+          color,
+          depthWrite: false,
+          opacity: clamp(opacity * opacityMultiplier, 0, 1),
+          transparent: true,
+        });
+
+        return new THREE.Line(geometry, material);
+      };
+
+      const renderPoints = () => {
+        clearGroup(pointsGroup);
+        const geometry = new THREE.SphereGeometry(1, 24, 16);
+
+        state.pointData?.forEach((entry) => {
+          if (!hasCoordinates(entry)) return;
+
+          const radius =
+            typeof state.pointRadius === "function"
+              ? Number(state.pointRadius(entry))
+              : Number(state.pointRadius) || 0.05;
+          const altitude =
+            typeof state.pointAltitude === "function"
+              ? Number(state.pointAltitude(entry))
+              : Number(state.pointAltitude) || 0.04;
+          const colorValue =
+            typeof state.pointColor === "function"
+              ? state.pointColor(entry)
+              : state.pointColor;
+          const { color } = cssColor(THREE, colorValue, "#8eea62");
+          const material = new THREE.MeshStandardMaterial({
+            color,
+            emissive: color,
+            emissiveIntensity: entry.isCurrent ? 1.25 : 0.64,
+            metalness: 0.08,
+            roughness: 0.34,
+          });
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.copy(latLngToThreeVector(THREE, entry.lat, entry.lng, 1 + altitude));
+          mesh.scale.setScalar(clamp(radius, 0.025, 0.14));
+          pointsGroup.add(mesh);
+        });
+      };
+
+      const renderRings = () => {
+        clearGroup(ringsGroup);
+        state.ringData?.forEach((entry) => {
+          if (!hasCoordinates(entry)) return;
+
+          const normal = latLngToThreeVector(THREE, entry.lat, entry.lng, 1).normalize();
+          const material = new THREE.MeshBasicMaterial({
+            blending: THREE.AdditiveBlending,
+            color: 0xff4f9a,
+            depthWrite: false,
+            opacity: 0.42,
+            side: THREE.DoubleSide,
+            transparent: true,
+          });
+          const ring = new THREE.Mesh(new THREE.RingGeometry(0.018, 0.024, 96), material);
+          ring.position.copy(normal.clone().multiplyScalar(1.022));
+          ring.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal);
+          ring.userData.maxScale = 4.2 + state.ringMaxRadius * 0.55;
+          ringsGroup.add(ring);
+        });
+      };
+
+      const renderArcs = () => {
+        clearGroup(arcsGroup);
+        state.arcData?.forEach((arc) => {
+          const start = latLngToThreeVector(THREE, arc.startLat, arc.startLng, 1.035);
+          const end = latLngToThreeVector(THREE, arc.endLat, arc.endLng, 1.035);
+          const mid = start.clone().add(end).normalize().multiplyScalar(1.22);
+          const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+          const colorValue =
+            typeof state.arcColor === "function"
+              ? state.arcColor(arc)
+              : state.arcColor;
+          const color = Array.isArray(colorValue) ? colorValue[colorValue.length - 1] : colorValue;
+          const line = makeLine(curve.getPoints(72), color || "rgba(255, 79, 154, 0.32)", 1.25);
+          arcsGroup.add(line);
+        });
+      };
+
+      const renderPaths = () => {
+        clearGroup(pathsGroup);
+        state.pathData?.forEach((path) => {
+          const points = (path.points || [])
+            .filter(hasCoordinates)
+            .map((point) =>
+              latLngToThreeVector(THREE, point.lat, point.lng, 1 + (Number(point.alt) || 0.012)),
+            );
+
+          if (points.length < 2) return;
+
+          const colorValue =
+            typeof state.pathColor === "function"
+              ? state.pathColor(path)
+              : state.pathColor;
+          const stroke =
+            typeof state.pathStroke === "function"
+              ? Number(state.pathStroke(path))
+              : Number(state.pathStroke) || 0.16;
+          pathsGroup.add(makeLine(points, colorValue, clamp(0.68 + stroke, 0.2, 1.4)));
+        });
+      };
+
+      const renderPolygons = () => {
+        clearGroup(polygonGroup);
+        const polygon = state.polygonData?.[0]?.geometry?.coordinates?.[0];
+        if (!Array.isArray(polygon) || polygon.length < 3) return;
+
+        const vertices = [new THREE.Vector3(0, 0, 0)];
+        polygon.forEach(([lng, lat]) => {
+          vertices.push(latLngToThreeVector(THREE, lat, lng, 1.006));
+        });
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
+        const indices = [];
+        for (let index = 1; index < vertices.length - 1; index += 1) {
+          indices.push(0, index, index + 1);
+        }
+        geometry.setIndex(indices);
+        geometry.computeVertexNormals();
+        const material = new THREE.MeshBasicMaterial({
+          color: 0x02050a,
+          depthWrite: false,
+          opacity: 0.18,
+          side: THREE.DoubleSide,
+          transparent: true,
+        });
+        polygonGroup.add(new THREE.Mesh(geometry, material));
+      };
+
+      const renderHtml = () => {
+        overlay.replaceChildren();
+        state.htmlRecords = (state.htmlData || [])
+          .filter(hasCoordinates)
+          .map((entry) => {
+            const elementNode = state.htmlFactory(entry);
+            overlay.append(elementNode);
+            return { element: elementNode, entry };
+          });
+        window.requestAnimationFrame(() => setActiveMarker(activeMarkerId));
+        updateHtmlPositions();
+      };
+
+      const updateHtmlPositions = () => {
+        if (!state.htmlRecords.length || !state.width || !state.height) return;
+
+        const cameraNormal = camera.position.clone().normalize();
+        state.htmlRecords.forEach(({ element: marker, entry }) => {
+          const altitude = entry.kind ? 0.16 : 0.09;
+          const world = latLngToThreeVector(THREE, entry.lat, entry.lng, 1 + altitude);
+          const normal = world.clone().normalize();
+          const projected = world.clone().project(camera);
+          const x = (projected.x * 0.5 + 0.5) * state.width;
+          const y = (-projected.y * 0.5 + 0.5) * state.height;
+          const isVisible =
+            normal.dot(cameraNormal) > -0.08 &&
+            projected.z > -1 &&
+            projected.z < 1.08 &&
+            x > -120 &&
+            x < state.width + 120 &&
+            y > -120 &&
+            y < state.height + 120;
+
+          marker.style.left = `${x.toFixed(1)}px`;
+          marker.style.top = `${y.toFixed(1)}px`;
+          if (state.htmlModifier) {
+            state.htmlModifier(marker, isVisible);
+          } else {
+            marker.style.opacity = isVisible ? "" : "0";
+            marker.style.pointerEvents = isVisible ? "auto" : "none";
+          }
+        });
+      };
+
+      const renderFrame = (now = performance.now()) => {
+        if (state.disposed) return;
+
+        const seconds = now / 1000;
+        const delta = lastFrameTime ? Math.min((now - lastFrameTime) / 1000, 0.05) : 0;
+        lastFrameTime = now;
+        if (controls.autoRotate && !dragging && state.pov.altitude > 1.35) {
+          state.pov.lng = normalizeLongitude(state.pov.lng + controls.autoRotateSpeed * delta);
+          setCameraFromPov();
+        }
+        ringsGroup.children.forEach((ring, index) => {
+          const speed = Math.max(0, state.ringPropagationSpeed || 0);
+          const phase = speed ? (seconds * speed + index * 0.23) % 1 : 0.44;
+          const scale = 0.9 + phase * (ring.userData.maxScale || 5);
+          ring.scale.setScalar(scale);
+          ring.material.opacity = speed ? (1 - phase) * 0.46 : 0.34;
+        });
+        atmosphere.material.opacity = 0.15 + Math.sin(seconds * 0.8) * 0.018;
+        starGroup.rotation.y += delta * 0.006;
+        renderer.render(scene, camera);
+        updateHtmlPositions();
+        frame = window.requestAnimationFrame(renderFrame);
+      };
+
+      const restartFrameLoop = () => {
+        if (!frame && !state.disposed) {
+          lastFrameTime = 0;
+          frame = window.requestAnimationFrame(renderFrame);
+        }
+      };
+
+      const stopFrameLoop = () => {
+        if (frame) {
+          window.cancelAnimationFrame(frame);
+          frame = 0;
+        }
+      };
+
+      const moveToPov = (nextPov, duration = 0) => {
+        if (!nextPov) return;
+
+        const target = {
+          altitude: clamp(Number(nextPov.altitude) || state.pov.altitude, 1.02, 3.75),
+          lat: clamp(
+            toFiniteNumber(nextPov.lat) ?? state.pov.lat,
+            -82,
+            82,
+          ),
+          lng: normalizeLongitude(toFiniteNumber(nextPov.lng) ?? state.pov.lng),
+        };
+        const start = { ...state.pov };
+        const deltaLng = normalizeLongitude(target.lng - start.lng);
+        const animationId = ++state.activeAnimation;
+        const transitionMs = prefersReducedMotion.matches ? 0 : Math.max(Number(duration) || 0, 0);
+        const startedAt = performance.now();
+
+        if (!transitionMs) {
+          state.pov = target;
+          setCameraFromPov();
+          notifyZoom();
+          return;
+        }
+
+        const step = (now) => {
+          if (state.disposed || animationId !== state.activeAnimation) return;
+
+          const progress = smoothStep((now - startedAt) / transitionMs);
+          state.pov = {
+            altitude: lerp(start.altitude, target.altitude, progress),
+            lat: lerp(start.lat, target.lat, progress),
+            lng: normalizeLongitude(start.lng + deltaLng * progress),
+          };
+          setCameraFromPov();
+          notifyZoom();
+          if (progress < 1) window.requestAnimationFrame(step);
+        };
+
+        window.requestAnimationFrame(step);
+      };
+
+      const handlePointerDown = (event) => {
+        if (event.button !== undefined && event.button !== 0) return;
+
+        dragging = true;
+        dragStart = {
+          lat: state.pov.lat,
+          lng: state.pov.lng,
+          pointerId: event.pointerId,
+          x: event.clientX,
+          y: event.clientY,
+        };
+        state.activeAnimation += 1;
+        element.classList.add("is-dragging");
+        renderer.domElement.setPointerCapture?.(event.pointerId);
+      };
+
+      const handlePointerMove = (event) => {
+        if (!dragging || !dragStart) return;
+
+        const altitudeFactor = clamp(state.pov.altitude / 2.3, 0.54, 1.24);
+        const dx = event.clientX - dragStart.x;
+        const dy = event.clientY - dragStart.y;
+        state.pov = {
+          altitude: state.pov.altitude,
+          lat: clamp(dragStart.lat + dy * 0.16 * altitudeFactor, -82, 82),
+          lng: normalizeLongitude(dragStart.lng - dx * 0.2 * altitudeFactor),
+        };
+        setCameraFromPov();
+        notifyZoom();
+      };
+
+      const handlePointerUp = (event) => {
+        if (!dragging) return;
+
+        dragging = false;
+        dragStart = null;
+        element.classList.remove("is-dragging");
+        renderer.domElement.releasePointerCapture?.(event.pointerId);
+      };
+
+      const handleWheel = (event) => {
+        if (!controls.enableZoom) return;
+
+        event.preventDefault();
+        state.activeAnimation += 1;
+        const modeScale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 96 : 1;
+        const delta = event.deltaY * modeScale;
+        const nextAltitude = clamp(state.pov.altitude + delta * 0.0022, 1.02, 3.75);
+        state.pov = {
+          ...state.pov,
+          altitude: nextAltitude,
+        };
+        setCameraFromPov();
+        notifyZoom();
+      };
+
+      on(renderer.domElement, "pointerdown", handlePointerDown);
+      on(renderer.domElement, "pointermove", handlePointerMove);
+      on(renderer.domElement, "pointerup", handlePointerUp);
+      on(renderer.domElement, "pointercancel", handlePointerUp);
+      on(element, "wheel", handleWheel, { passive: false });
+
+      buildStars();
+      setCameraFromPov();
+      restartFrameLoop();
+
+      const api = {
+        arcColor(value) {
+          state.arcColor = value;
+          renderArcs();
+          return api;
+        },
+        arcStroke(value) {
+          state.arcStroke = value;
+          renderArcs();
+          return api;
+        },
+        arcsData(value) {
+          state.arcData = value || [];
+          renderArcs();
+          return api;
+        },
+        backgroundColor() {
+          return api;
+        },
+        bumpImageUrl(url) {
+          const token = textureToken;
+          if (!url) return api;
+
+          const loader = new THREE.TextureLoader();
+          loader.setCrossOrigin("anonymous");
+          loader.load(
+            url,
+            (texture) => {
+              if (state.disposed || token !== textureToken) {
+                texture.dispose();
+                return;
+              }
+              earthMaterial.bumpMap = texture;
+              earthMaterial.bumpScale = 0.018;
+              earthMaterial.needsUpdate = true;
+            },
+            undefined,
+            () => {},
+          );
+          return api;
+        },
+        camera() {
+          return camera;
+        },
+        controls() {
+          return controls;
+        },
+        dispose() {
+          state.disposed = true;
+          stopFrameLoop();
+          cleanup.forEach((remove) => remove());
+          element.classList.remove("is-dragging");
+          overlay.remove();
+          renderer.domElement.remove();
+          renderer.dispose();
+          disposeObject(scene);
+        },
+        globeImageUrl(url) {
+          textureToken += 1;
+          const token = textureToken;
+          if (!url) return api;
+
+          const loader = new THREE.TextureLoader();
+          loader.setCrossOrigin("anonymous");
+          loader.load(
+            url,
+            (texture) => {
+              if (state.disposed || token !== textureToken) {
+                texture.dispose();
+                return;
+              }
+              texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy?.() || 1, 8);
+              if (THREE.SRGBColorSpace) texture.colorSpace = THREE.SRGBColorSpace;
+              earthMaterial.map = texture;
+              earthMaterial.needsUpdate = true;
+            },
+            undefined,
+            () => {
+              if (url !== globeFallbackTextureUrl && globeFallbackTextureUrl) {
+                api.globeImageUrl(globeFallbackTextureUrl);
+              }
+            },
+          );
+          return api;
+        },
+        globeMaterial() {
+          return earthMaterial;
+        },
+        height(value) {
+          state.height = Math.max(320, Math.floor(value || state.height));
+          renderer.setSize(state.width, state.height, false);
+          camera.aspect = state.width / state.height;
+          camera.updateProjectionMatrix();
+          updateHtmlPositions();
+          return api;
+        },
+        htmlElement(value) {
+          state.htmlFactory = value;
+          renderHtml();
+          return api;
+        },
+        htmlElementVisibilityModifier(value) {
+          state.htmlModifier = value;
+          updateHtmlPositions();
+          return api;
+        },
+        htmlElementsData(value) {
+          state.htmlData = value || [];
+          renderHtml();
+          return api;
+        },
+        lights() {
+          return [ambientLight, hemiLight, sunLight];
+        },
+        onZoom(value) {
+          state.zoomCallback = value;
+          return api;
+        },
+        pathColor(value) {
+          state.pathColor = value;
+          renderPaths();
+          return api;
+        },
+        pathStroke(value) {
+          state.pathStroke = value;
+          renderPaths();
+          return api;
+        },
+        pathsData(value) {
+          state.pathData = value || [];
+          renderPaths();
+          return api;
+        },
+        pauseAnimation() {
+          stopFrameLoop();
+          return api;
+        },
+        pointAltitude(value) {
+          state.pointAltitude = value;
+          renderPoints();
+          return api;
+        },
+        pointColor(value) {
+          state.pointColor = value;
+          renderPoints();
+          return api;
+        },
+        pointOfView(value, duration) {
+          if (!value) return { ...state.pov };
+
+          moveToPov(value, duration);
+          return api;
+        },
+        pointRadius(value) {
+          state.pointRadius = value;
+          renderPoints();
+          return api;
+        },
+        pointsData(value) {
+          state.pointData = value || [];
+          renderPoints();
+          return api;
+        },
+        polygonsData(value) {
+          state.polygonData = value || [];
+          renderPolygons();
+          return api;
+        },
+        renderer() {
+          return renderer;
+        },
+        resumeAnimation() {
+          restartFrameLoop();
+          return api;
+        },
+        ringMaxRadius(value) {
+          state.ringMaxRadius = Number(value) || state.ringMaxRadius;
+          renderRings();
+          return api;
+        },
+        ringPropagationSpeed(value) {
+          state.ringPropagationSpeed = Number(value) || 0;
+          return api;
+        },
+        ringsData(value) {
+          state.ringData = value || [];
+          renderRings();
+          return api;
+        },
+        showAtmosphere(value) {
+          atmosphere.visible = value !== false;
+          return api;
+        },
+        width(value) {
+          state.width = Math.max(320, Math.floor(value || state.width));
+          renderer.setSize(state.width, state.height, false);
+          camera.aspect = state.width / state.height;
+          camera.updateProjectionMatrix();
+          updateHtmlPositions();
+          return api;
+        },
+      };
+
+      [
+        "animateIn",
+        "arcAltitudeAutoScale",
+        "arcCircularResolution",
+        "arcCurveResolution",
+        "arcDashAnimateTime",
+        "arcDashGap",
+        "arcDashLength",
+        "arcEndLat",
+        "arcEndLng",
+        "arcLabel",
+        "arcStartLat",
+        "arcStartLng",
+        "atmosphereAltitude",
+        "atmosphereColor",
+        "globeCurvatureResolution",
+        "htmlAltitude",
+        "htmlLat",
+        "htmlLng",
+        "htmlTransitionDuration",
+        "pathDashAnimateTime",
+        "pathDashGap",
+        "pathDashLength",
+        "pathPointAlt",
+        "pathPointLat",
+        "pathPointLng",
+        "pathPoints",
+        "pathResolution",
+        "pathTransitionDuration",
+        "pointLabel",
+        "pointLat",
+        "pointLng",
+        "pointResolution",
+        "pointsTransitionDuration",
+        "polygonAltitude",
+        "polygonCapColor",
+        "polygonCapCurvatureResolution",
+        "polygonGeoJsonGeometry",
+        "polygonSideColor",
+        "polygonStrokeColor",
+        "polygonsTransitionDuration",
+        "ringAltitude",
+        "ringColor",
+        "ringLat",
+        "ringLng",
+        "ringRepeatPeriod",
+        "ringResolution",
+      ].forEach((method) => {
+        api[method] = () => api;
+      });
+
+      return api;
     };
 
     const streetZoomRangeForEntry = (entry) => {
@@ -5392,12 +6226,48 @@ hide_title: true
       const isFar = altitude > 2.35;
       const isNear = altitude <= 1.42;
       const focusEntry = focusedGlobeEntry || activeEntry;
+      const focusPov = hasCoordinates(focusEntry)
+        ? {
+            altitude,
+            lat: toFiniteNumber(pov?.lat) ?? Number(focusEntry.lat),
+            lng: toFiniteNumber(pov?.lng) ?? Number(focusEntry.lng),
+          }
+        : null;
 
       currentGlobeAltitude = altitude;
       mapStage?.classList.toggle("is-zoom-far", isFar);
       mapStage?.classList.toggle("is-zoom-mid", !isFar && !isNear);
       mapStage?.classList.toggle("is-zoom-near", isNear);
       refreshGlobeMarkerScale();
+
+      if (focusPov && isStreetSyncedMode()) {
+        const streetRevealProgress = streetMorphProgressForAltitude(altitude);
+
+        if (!streetViewActive && performance.now() < streetExitSuppressUntil) {
+          return;
+        }
+
+        if (streetViewActive) {
+          scheduleStreetMapSync(focusEntry, focusPov);
+        } else if (streetRevealProgress > 0.18 || streetMainActive || streetPresentationTarget) {
+          const shouldUseStreetMain = shouldUseStreetMainForAltitude(altitude);
+
+          if (shouldUseStreetMain && !streetViewActive) {
+            setStreetViewState(true);
+            setGlobeStatus(`Street view opening near ${whereLabel(focusEntry)}.`);
+          }
+          setStreetPresentation(shouldUseStreetMain, {
+            pov: focusPov,
+            sync: false,
+          });
+          scheduleStreetMapSync(focusEntry, focusPov);
+        } else if (
+          mapStage?.classList.contains("is-street-inset") ||
+          mapStage?.classList.contains("is-street-inset-mode")
+        ) {
+          setStreetMapVisible(false);
+        }
+      }
 
       if (streetViewActive && !detailsPinned) {
         hideMarkerDetails();
@@ -5525,8 +6395,8 @@ hide_title: true
 
       mapStage?.classList.remove("is-globe-ready");
       mapStage?.classList.add("is-globe-prepping");
-      const Globe = await waitForGlobe();
-      if (!Globe) {
+      const THREE = await waitForThree();
+      if (!THREE) {
         mapStage?.classList.remove("is-globe-prepping");
         return false;
       }
@@ -5536,6 +6406,7 @@ hide_title: true
         stopSunTimer();
         if (mapFallback) mapFallback.hidden = true;
         globeElement.classList.remove("is-fallback");
+        globeInstance?.dispose?.();
         globeElement.replaceChildren();
         if (globeResizeObserver) globeResizeObserver.disconnect();
 
@@ -5544,15 +6415,7 @@ hide_title: true
           : entries.find(hasCoordinates);
         const reducedMotion = prefersReducedMotion.matches;
         currentGlobeEntries = entries;
-        const globe = new Globe(globeElement, {
-          animateIn: false,
-          rendererConfig: {
-            alpha: true,
-            antialias: true,
-            powerPreference: "high-performance",
-          },
-          waitForGlobeReady: false,
-        });
+        const globe = createSiruiThreeGlobe(THREE, globeElement);
 
         globeInstance = globe;
         resizeGlobe();
@@ -5630,7 +6493,7 @@ hide_title: true
           controls.autoRotateSpeed = 0;
           controls.enableDamping = true;
           controls.enablePan = false;
-          controls.enableZoom = false;
+          controls.enableZoom = true;
         }
 
         if (window.ResizeObserver) {
@@ -5766,7 +6629,7 @@ hide_title: true
         });
       });
 
-    const applyBrowserPosition = async (position) => {
+    const applyBrowserPosition = async (position, { revealDetails = false } = {}) => {
       const browserLocation = normalizeBrowserPosition(position);
       if (!browserLocation) throw new Error("missing browser coordinates");
 
@@ -5781,7 +6644,7 @@ hide_title: true
       await renderMap(unlockRecord.entries, unlockRecord.activeEntry);
       if (returnToStreetView) {
         await enterStreetView(unlockRecord.activeEntry);
-      } else {
+      } else if (revealDetails) {
         showMarkerDetails(normalizeEntry(unlockRecord.activeEntry), {
           pinned: true,
         });
@@ -5799,7 +6662,7 @@ hide_title: true
 
       try {
         const position = await getBrowserPosition();
-        await applyBrowserPosition(position);
+        await applyBrowserPosition(position, { revealDetails: !automatic });
         setSharpenButtonText("location sharpened");
       } catch (error) {
         console.warn("secret page browser location failed", error);

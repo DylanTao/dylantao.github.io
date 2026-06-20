@@ -16,7 +16,7 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 Published total baseline, estimated on June 19, 2026:
 
-- 219 commits since the revamp cutoff, including the Sam meme split-tooltip polish milestone.
+- 220 commits since the revamp cutoff, including the Sirui WebGL globe restoration milestone.
 - 1.79B estimated Codex tokens.
 - 166 estimated active agent-hours.
 - Public money joke: about $1.6K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
@@ -26,7 +26,7 @@ Published total baseline, estimated on June 19, 2026:
 Evidence behind the total:
 
 - `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 47 sessions after the revamp cutoff.
-- The audit showed about 1.787B raw tokens and 165.66 active hours after clipping sessions to the cutoff and including the pending milestone commit, then rounded those values for the public UI.
+- The audit showed about 1.790B raw tokens and 166.06 active hours after clipping sessions to the cutoff and including the pending milestone commit, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 - The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
@@ -44,7 +44,7 @@ Published 3D desk baseline:
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 12 Codex sessions after the 3D cutoff, about 729.2M raw tokens, and about 51.60 active hours, rounded for the public UI.
+- The audit counted 12 Codex sessions after the 3D cutoff, about 732.1M raw tokens, and about 52.00 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -155,6 +155,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` before commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed raw token snapshots plus commit counts.
 - 3D room layout-flow pass: public total moved to 219 commits, 1.79B tokens, 166 hours, 1074 kWh, about $580 API cosplay, and about $1.6K on the CodexBar-ratio money joke; desk-scene total moved to 69 scoped commits, 730M tokens, 52 hours, 438 kWh, roughly 0.27 trees cut, and about $640 on the CodexBar-ratio money joke.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and included the pending 3D layout-flow commit in the public labels.
+- Sirui WebGL globe restoration: public total moved to 220 commits while rounded token, active-hour, energy, tree, API-cost, and CodexBar labels stayed unchanged; desk-scene public labels stayed unchanged.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and included the pending Sirui globe commit in the public total.
 
 ## Future Entry Template
 
