@@ -53,6 +53,14 @@ async function shakeCurrentRecord(page) {
   await page.mouse.up();
 }
 
+async function clickDeskCanvasAt(page, xRatio, yRatio) {
+  const canvas = page.locator(".home-desk-corner-canvas");
+  await expect(canvas).toBeVisible();
+  const box = await canvas.boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.click(box.x + box.width * xRatio, box.y + box.height * yRatio);
+}
+
 test("publications Abs toggle opens and closes", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });
@@ -259,6 +267,44 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
   });
 
   expect(maxOverlapRatio).toBeLessThan(0.08);
+});
+
+test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
+
+  await preparePage(page, "light");
+  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const stage = page.locator("[data-home-artifact-stage]");
+  const scene = page.locator("[data-home-desk-scene]");
+  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
+
+  await shakeCurrentRecord(page);
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
+  await page.waitForTimeout(620);
+
+  await shakeCurrentRecord(page);
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(2);
+  await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
+
+  await page.click('[data-home-desk-mode="3d"]');
+  await expect(stage).toHaveAttribute("data-desk-mode", "3d");
+  await page.waitForTimeout(1200);
+
+  await clickDeskCanvasAt(page, 0.26, 0.36);
+  await page.waitForTimeout(420);
+  await expect(scene).not.toHaveAttribute("data-focused-desk-object", "album-0");
+
+  await clickDeskCanvasAt(page, 0.32, 0.36);
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-2");
+  await expect(stage).toHaveAttribute("data-record-tone", "wind");
+
+  await clickDeskCanvasAt(page, 0.38, 0.36);
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-3");
+  await expect(stage).toHaveAttribute("data-record-tone", "sunday");
+  await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
 });
 
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {

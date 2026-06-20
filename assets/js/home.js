@@ -1649,6 +1649,15 @@
       return null;
     };
 
+    const isObjectVisibleForPicking = (object) => {
+      let current = object;
+      while (current) {
+        if (current.visible === false) return false;
+        current = current.parent;
+      }
+      return true;
+    };
+
     const interactionPriority = (kind) => {
       if (kind === "album") return 7;
       if (kind === "turntable") return 6;
@@ -1678,7 +1687,8 @@
         .intersectObjects(interactiveObjects, true)
         .map((hit) => ({ hit, data: findInteractiveData(hit.object) }))
         .filter((candidate) => {
-          if (!candidate.data) return false;
+          if (!candidate.data || !isObjectVisibleForPicking(candidate.hit.object)) return false;
+          if (candidate.data.kind === "album" && candidate.data.homeDeskEntry?.thrown) return false;
           if (candidate.data.kind === "windowJump") {
             return activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.42;
           }
@@ -1690,6 +1700,11 @@
         const priorityDelta = interactionPriority(second.data.kind) - interactionPriority(first.data.kind);
         if (priorityDelta) return priorityDelta;
         if (first.data.kind === "album" && second.data.kind === "album" && first.data.homeDeskEntry !== second.data.homeDeskEntry) {
+          if (focusedEntry?.kind === "album") {
+            const firstRackReplacement = first.data.rackSlot && first.data.homeDeskEntry !== focusedEntry;
+            const secondRackReplacement = second.data.rackSlot && second.data.homeDeskEntry !== focusedEntry;
+            if (firstRackReplacement !== secondRackReplacement) return firstRackReplacement ? -1 : 1;
+          }
           const screenDelta = projectedInteractiveDistance(first.data) - projectedInteractiveDistance(second.data);
           if (Math.abs(screenDelta) > 0.0002) return screenDelta;
         }
@@ -2330,7 +2345,7 @@
         {
           position: playPosition.clone(),
           rotation: playRotation.clone(),
-          scale: new THREE.Vector3(1.14, 1.14, 1.14),
+          scale: new THREE.Vector3(1.2, 1.2, 1.2),
         },
         560
       );
@@ -3774,8 +3789,8 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(0.38, 0.64, 0.4);
-        entry.playRotation = new THREE.Euler(0.16, -0.035, 0.025);
+        entry.playPosition = new THREE.Vector3(0.88, 0.68, 0.62);
+        entry.playRotation = new THREE.Euler(0.12, -0.2, 0.035);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -3784,7 +3799,7 @@
         cover.position.set(0, 0.01, 0.008);
         entry.group.add(cover);
         const albumCue = new THREE.Mesh(
-          new THREE.PlaneGeometry(0.52, 0.7),
+          new THREE.PlaneGeometry(0.58, 0.78),
           new THREE.MeshBasicMaterial({
             color: palette.isDarkTheme ? 0xf2c38d : 0xb76f38,
             transparent: true,
@@ -3811,12 +3826,12 @@
         albumShadow.renderOrder = -1;
         albumRack.add(albumShadow);
         entry.floorShadow = albumShadow;
-        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 1.08), hitMaterial);
-        albumHit.position.set(0, 0.03, 0.07);
-        albumHit.rotation.x = -0.06;
+        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(1.02, 1.24), hitMaterial);
+        albumHit.position.set(0, 0.04, 0.09);
+        albumHit.rotation.x = -0.04;
         entry.group.add(albumHit);
-        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.72), hitMaterial);
-        rackSlotHit.position.copy(entry.basePosition).add(new THREE.Vector3(0, 0.015, 0.026));
+        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.74, 1.02), hitMaterial);
+        rackSlotHit.position.copy(entry.basePosition).add(new THREE.Vector3(0, 0.02, 0.084));
         rackSlotHit.rotation.copy(entry.baseRotation);
         albumRack.add(rackSlotHit);
         entry.rackSlotHit = rackSlotHit;

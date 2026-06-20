@@ -2,13 +2,15 @@ const path = require("path");
 const { devices } = require("@playwright/test");
 
 const repoRoot = path.resolve(__dirname, "../..");
+const defaultBaseURL = "http://127.0.0.1:4000/al-folio";
+const baseURL = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? process.env.VISUAL_BASE_URL : defaultBaseURL;
 
 const webServer = process.env.NO_WEBSERVER
   ? undefined
   : {
       command: "bundle exec jekyll serve --host 127.0.0.1 --port 4000 --baseurl /al-folio --quiet",
       cwd: repoRoot,
-      url: "http://127.0.0.1:4000/al-folio/",
+      url: `${baseURL}/`,
       reuseExistingServer: !process.env.CI,
       timeout: 300000,
     };
@@ -25,7 +27,7 @@ module.exports = {
     },
   },
   use: {
-    baseURL: "http://127.0.0.1:4000/al-folio",
+    baseURL,
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },
