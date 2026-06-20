@@ -1,4 +1,4 @@
-# Agentic Usage Ledger
+﻿# Agentic Usage Ledger
 
 This ledger keeps the visible homepage AI-work counters honest enough to be useful without pretending the old runs were measured perfectly.
 
@@ -175,8 +175,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` before commit and `python bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 74 repo sessions, counted 47 sessions after the revamp cutoff and 12 after the desk cutoff, and refreshed the public labels for the room-texture commit.
 - Desk room-return and pile-spread pass: public total moved to 227 commits, 1.87B tokens, 172 hours, 1122 kWh, about $610 API cosplay, and about $1.6K on the CodexBar-ratio money joke; desk-scene total moved to 72 scoped commits, 810M tokens, 58 hours, 486 kWh, roughly 0.3 trees cut, about $260 API cosplay, and about $710 on the CodexBar-ratio money joke.
 - Evidence: `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 76 repo sessions, counted 49 sessions after the revamp cutoff and 14 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending desk-scene commit.
-- Footer tally, album rack, and 2D card-lane pass: public total moved to 228 commits, 1.91B tokens, 175 hours, 1146 kWh, about $620 API cosplay, and about $1.7K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 73 commits, 850M tokens, 60 hours, 510 kWh, about $270 API cosplay, and about $740 on the CodexBar-ratio money joke.
-- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 78 repo sessions, counted 51 sessions after the revamp cutoff and 16 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending footer-tally, album-rack, and 2D card-lane milestone.
+- Footer tally, album rack, and 2D card-lane pass: public total moved to 229 commits, 1.92B tokens, 175 hours, 1152 kWh, about $620 API cosplay, and about $1.7K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 73 commits, 860M tokens, 61 hours, 516 kWh, about $270 API cosplay, and about $750 on the CodexBar-ratio money joke.
+- Evidence: `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write` after commit scanned `C:\Users\dylan\.codex\sessions\2026`, found 78 repo sessions, counted 51 sessions after the revamp cutoff and 16 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the committed footer-tally, album-rack, and 2D card-lane milestone.
 
 ## Future Entry Template
 
