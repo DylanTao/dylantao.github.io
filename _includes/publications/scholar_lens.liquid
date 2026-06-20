@@ -43,8 +43,8 @@
     <div class="scholar-lens-card">
       <div class="scholar-lens-heading">
         <div>
-          <p class="scholar-lens-kicker">Scholar Lens</p>
-          <h2 id="scholar-lens-title">Quick publication lens</h2>
+          <p class="scholar-lens-kicker">Google Scholar</p>
+          <h2 id="scholar-lens-title">Publication snapshot</h2>
         </div>
         <a
           href="{{ publication_lens.metadata.scholar_profile }}"
@@ -57,7 +57,7 @@
       </div>
 
       <p class="scholar-lens-sync">
-        Filter the list by authorship or paper format. Citation data synced {{ publication_lens.metadata.last_synced | date: '%b %-d, %Y' }}.
+        Filter papers by authorship or format. Citations synced {{ publication_lens.metadata.last_synced | date: '%b %-d, %Y' }}.
       </p>
 
       <div class="scholar-lens-controls" aria-label="Publication lens filters">
@@ -126,7 +126,7 @@
 
       <div class="scholar-lens-year-chart" aria-label="Citations by year">
         <div class="scholar-lens-chart-heading">
-          <span>Cited by year</span>
+          <span>Citations by year</span>
           <span data-scholar-active-year>All papers</span>
         </div>
         <div class="scholar-lens-year-bars" data-scholar-year-bars>
