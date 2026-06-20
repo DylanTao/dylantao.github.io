@@ -1700,6 +1700,23 @@
               item.baseScaleZ + scaleWave * item.scaleAmplitude * 0.42
             );
           }
+          if (item.material && Number.isFinite(item.baseOpacity) && Number.isFinite(item.opacityAmplitude)) {
+            const opacityWave = Math.sin(seconds * (item.opacityFrequency || item.frequency) + item.phase * 0.8);
+            item.material.opacity = Math.max(0, item.baseOpacity + opacityWave * item.opacityAmplitude);
+          }
+        }
+        if (item.instancedMesh && item.specs && item.dummy) {
+          item.specs.forEach((spec, index) => {
+            const wave = Math.sin(seconds * spec.frequency + spec.phase);
+            const shimmer = 0.78 + Math.sin(seconds * spec.shimmerFrequency + spec.phase * 1.7) * 0.22;
+            const drift = Math.sin(seconds * spec.driftFrequency + spec.phase * 0.47) * spec.drift;
+            item.dummy.position.set(spec.x + drift, spec.y + wave * spec.amplitude, spec.z + drift * spec.zDrift);
+            item.dummy.rotation.set(spec.rx, spec.ry || 0, spec.rz + wave * spec.rotationAmplitude);
+            item.dummy.scale.set(spec.scaleX * shimmer, spec.scaleY * (0.9 + shimmer * 0.12), 1);
+            item.dummy.updateMatrix();
+            item.instancedMesh.setMatrixAt(index, item.dummy.matrix);
+          });
+          item.instancedMesh.instanceMatrix.needsUpdate = true;
         }
       });
       return true;
@@ -1763,6 +1780,10 @@
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
       if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.58 : 0.44;
       if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
+      themeMaterials.outsideShoreGlints?.color.setHex(palette.isDarkTheme ? 0xdff8ff : 0xffffff);
+      if (themeMaterials.outsideShoreGlints) themeMaterials.outsideShoreGlints.opacity = palette.isDarkTheme ? 0.46 : 0.56;
+      themeMaterials.outsideSandGlints?.color.setHex(palette.isDarkTheme ? 0xffd6a0 : 0xfff0c7);
+      if (themeMaterials.outsideSandGlints) themeMaterials.outsideSandGlints.opacity = palette.isDarkTheme ? 0.2 : 0.26;
       themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xc2a775);
       themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0xad9365);
       themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x2c241a : 0xc4a26d);
@@ -1786,7 +1807,7 @@
       themeMaterials.outsideLamp?.color.setHex(palette.isDarkTheme ? 0xffcb78 : 0xf2b15f);
       if (themeMaterials.outsideLamp) themeMaterials.outsideLamp.opacity = palette.isDarkTheme ? 0.86 : 0.68;
       themeMaterials.outsideReturnGlow?.color.setHex(palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca);
-      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.1 : 0.13;
+      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.18 : 0.22;
       ambientLight?.color.setHex(palette.ambientColor);
       if (ambientLight) ambientLight.intensity = palette.ambientIntensity;
       if (keyLight) keyLight.intensity = palette.keyIntensity;
@@ -2330,6 +2351,84 @@
       registerInteractive(glass, { kind: "windowJump", index: 0 }, entry);
     };
 
+    const addOutsideShorelineAccents = (group, palette) => {
+      const makeInstancedAccent = (key, materialName, materialOptions, specs) => {
+        const geometry = new THREE.PlaneGeometry(0.16, 0.018);
+        const material = new THREE.MeshBasicMaterial({
+          transparent: true,
+          depthWrite: false,
+          depthTest: false,
+          side: THREE.DoubleSide,
+          blending: THREE.AdditiveBlending,
+          ...materialOptions,
+        });
+        themeMaterials[materialName] = material;
+        const instancedMesh = new THREE.InstancedMesh(geometry, material, specs.length);
+        instancedMesh.renderOrder = 1;
+        group.add(instancedMesh);
+
+        const item = { key, instancedMesh, specs, dummy: new THREE.Object3D() };
+        outsideMotionItems.push(item);
+        item.specs.forEach((spec, index) => {
+          item.dummy.position.set(spec.x, spec.y, spec.z);
+          item.dummy.rotation.set(spec.rx, spec.ry || 0, spec.rz);
+          item.dummy.scale.set(spec.scaleX, spec.scaleY, 1);
+          item.dummy.updateMatrix();
+          instancedMesh.setMatrixAt(index, item.dummy.matrix);
+        });
+        instancedMesh.instanceMatrix.needsUpdate = true;
+      };
+
+      const foamSpecs = [
+        { x: -3.16, y: -1.116, z: 0.86, rz: -0.19, scaleX: 2.35, scaleY: 1.02, phase: 0.1 },
+        { x: -2.7, y: -1.114, z: 0.93, rz: -0.09, scaleX: 1.72, scaleY: 0.88, phase: 0.74 },
+        { x: -2.22, y: -1.112, z: 1.01, rz: 0.04, scaleX: 2.45, scaleY: 0.96, phase: 1.36 },
+        { x: -1.78, y: -1.11, z: 1.09, rz: 0.08, scaleX: 1.85, scaleY: 0.82, phase: 2.02 },
+        { x: -1.4, y: -1.108, z: 1.16, rz: -0.02, scaleX: 1.62, scaleY: 0.72, phase: 2.68 },
+      ].map((spec) => ({
+        rx: -Math.PI / 2,
+        frequency: 2.7,
+        shimmerFrequency: 3.8,
+        amplitude: 0.014,
+        rotationAmplitude: 0.03,
+        driftFrequency: 1.18,
+        drift: 0.048,
+        zDrift: 0.35,
+        ...spec,
+      }));
+
+      const sandSpecs = [
+        { x: -2.96, y: -1.06, z: 1.14, rz: 0.1, scaleX: 0.82, scaleY: 0.58, phase: 0.44 },
+        { x: -2.5, y: -1.058, z: 1.22, rz: -0.18, scaleX: 0.68, scaleY: 0.5, phase: 1.08 },
+        { x: -2.1, y: -1.056, z: 1.31, rz: 0.22, scaleX: 0.78, scaleY: 0.52, phase: 1.64 },
+        { x: -1.68, y: -1.054, z: 1.28, rz: -0.08, scaleX: 0.58, scaleY: 0.44, phase: 2.36 },
+        { x: -1.28, y: -1.052, z: 1.36, rz: 0.18, scaleX: 0.7, scaleY: 0.46, phase: 3.2 },
+      ].map((spec) => ({
+        rx: -Math.PI / 2,
+        frequency: 1.72,
+        shimmerFrequency: 2.9,
+        amplitude: 0.006,
+        rotationAmplitude: 0.018,
+        driftFrequency: 0.88,
+        drift: 0.022,
+        zDrift: -0.18,
+        ...spec,
+      }));
+
+      makeInstancedAccent(
+        "shoreFoamGlints",
+        "outsideShoreGlints",
+        { color: palette.isDarkTheme ? 0xdff8ff : 0xffffff, opacity: palette.isDarkTheme ? 0.46 : 0.56 },
+        foamSpecs
+      );
+      makeInstancedAccent(
+        "sandGlints",
+        "outsideSandGlints",
+        { color: palette.isDarkTheme ? 0xffd6a0 : 0xfff0c7, opacity: palette.isDarkTheme ? 0.2 : 0.26 },
+        sandSpecs
+      );
+    };
+
     const addOutsideVignette = (palette) => {
       outsideGroup = new THREE.Group();
       outsideGroup.visible = false;
@@ -2506,6 +2605,7 @@
       sandGust.position.set(-1.72, -1.105, 1.08);
       sandGust.renderOrder = 0;
       outsideGroup.add(sandGust);
+      addOutsideShorelineAccents(outsideGroup, palette);
       outsideMotionItems.push(
         {
           key: "ocean",
@@ -2918,14 +3018,40 @@
         new THREE.MeshBasicMaterial({
           color: palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca,
           transparent: true,
-          opacity: palette.isDarkTheme ? 0.1 : 0.13,
+          opacity: palette.isDarkTheme ? 0.18 : 0.22,
           depthWrite: false,
+          depthTest: false,
           side: THREE.DoubleSide,
+          blending: THREE.AdditiveBlending,
         })
       );
       themeMaterials.outsideReturnGlow = returnGlow.material;
+      returnGlow.renderOrder = 3;
       returnGlow.position.set(-0.06, 0.0, 0.018);
       returnInsideGroup.add(returnGlow);
+      outsideMotionItems.push({
+        key: "returnGlow",
+        mesh: returnGlow,
+        material: returnGlow.material,
+        baseY: returnGlow.position.y,
+        speedX: 0,
+        speedY: 0,
+        offsetX: 0,
+        offsetY: 0,
+        amplitude: 0.004,
+        frequency: 1.55,
+        phase: 0.65,
+        baseRotationZ: returnGlow.rotation.z,
+        rotationAmplitude: 0.004,
+        baseScaleX: returnGlow.scale.x,
+        baseScaleY: returnGlow.scale.y,
+        baseScaleZ: returnGlow.scale.z,
+        scaleAmplitude: 0.034,
+        scaleFrequency: 1.18,
+        baseOpacity: returnGlow.material.opacity,
+        opacityAmplitude: 0.045,
+        opacityFrequency: 1.36,
+      });
       const returnHit = new THREE.Mesh(
         new THREE.PlaneGeometry(1.28, 0.92),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })

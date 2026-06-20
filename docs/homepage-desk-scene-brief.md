@@ -44,15 +44,15 @@ Interior and exterior should read as two scales of the same hut/desk world: warm
 - The window should read as a real window with frame, sill, glass, and a view plane.
 - Zooming toward the window reveals a faint object-native jump affordance. The outside scene should be a stylized San Diego cliff-beach diorama with ocean, beach, cliff-side house, and time-of-day lighting.
 - In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
-- Outside mode should hide the page story rail and visible 3D helper strip, while keeping a subtle keyboard-accessible way back inside.
+- Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.
 
 ## WebGL / Three.js Direction
 
 - Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, blanket pattern, laptop screen, and record labels.
 - Favor cheap GPU motion before adding heavier simulation: scrolling texture offsets, small mesh bobbing, and eased object arcs already give ocean/sand/card motion without a particle system.
-- The outside view uses texture-offset ocean/foam motion plus a transparent sand-gust plane near the beach. This should read as shader-like coastal motion while staying cheap and only animating outside mode.
+- The outside view uses texture-offset ocean/foam motion plus a transparent sand-gust plane and small instanced shoreline glints near the beach. This should read as shader-like coastal motion while staying cheap and only animating outside mode.
 - The desk view uses a tiny instanced glint mesh on record/card/mug surfaces. Keep this as a single low-cost GPU accent that only animates while the scene is spinning, focused, hovered, or already tweening.
-- Next valuable additions would be a low-resolution water/foam shader plane for the beach and better depth-aware dust/glisten accents. Avoid full fluid simulation unless it replaces the existing canvas-texture motion with a clearly better, still-fast effect.
+- Next valuable additions would be a low-resolution water/foam shader plane for the beach and better depth-aware dust/glisten accents. Avoid full fluid simulation unless it replaces the existing canvas-texture and instanced-accent motion with a clearly better, still-fast effect.
 - Keep renderer pixel ratio capped and animate only when visible, spinning, moving, or outside textures are active.
 
 ## Acceptance Checklist
