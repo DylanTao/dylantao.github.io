@@ -3215,8 +3215,18 @@ html[data-theme="dark"] .home-agentic-tally::before {
 }
 
 html[data-theme="dark"] .home-agentic-tooltip {
-  background: color-mix(in srgb, var(--home-surface) 94%, var(--home-accent) 6%);
+  border-color: color-mix(in srgb, var(--home-line) 58%, rgba(255, 255, 255, 0.18));
+  background: color-mix(in srgb, var(--home-surface) 86%, #ffffff 14%);
   box-shadow: 0 0.72rem 1.6rem rgba(0, 0, 0, 0.28);
+  color: color-mix(in srgb, var(--home-ink) 82%, #ffffff 18%);
+}
+
+html[data-theme="dark"] .home-agentic-money-gag strong {
+  color: color-mix(in srgb, var(--home-ink) 88%, #ffffff 12%);
+}
+
+html[data-theme="dark"] .home-agentic-money-gag small {
+  color: color-mix(in srgb, var(--home-muted) 72%, #ffffff 28%);
 }
 
 html.home-motion-ready .home-reveal {

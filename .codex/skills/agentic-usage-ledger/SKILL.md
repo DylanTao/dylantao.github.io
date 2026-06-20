@@ -12,7 +12,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - rely on the daily Google Scholar workflow for routine citation freshness;
    - refresh Scholar locally with `python bin/update_scholar_citations.py --force` only when `_data/citations.yml` is more than one day stale or publication pages changed;
    - before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit` so the helper can estimate the pending commit and update `_data/agentic_usage.yml`;
-   - after committing, rerun `python bin/audit_agentic_usage.py` read-only and update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded API-cost labels changed.
+   - after committing, rerun `python bin/audit_agentic_usage.py` read-only and update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
 4. Recount commits after the relevant work is committed when possible. Prefer the read-only helper over ad hoc scripts:
    - `python bin/audit_agentic_usage.py`
 5. Estimate Codex tokens from retained local session logs:
@@ -31,11 +31,13 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - midpoint `Wh_per_token = 0.0006`
    - range `Wh_per_token = 0.0002-0.002`
    - cut-tree basis `600 kg CO2e`, derived from EPA's urban-tree annual sequestration over 10 years.
-10. Recompute the OpenAI API list-price equivalence whenever token totals change:
+10. Recompute both cost lenses whenever token totals change:
 
 - use `gpt-5.3-codex` standard API rates stored in `_data/agentic_usage.yml`;
 - compute `(input_tokens - cached_input_tokens) * input_rate + cached_input_tokens * cached_rate + output_tokens * output_rate`;
-- frame it as API-cost equivalence only, not actual Codex product spend.
+- keep that as API-cost equivalence only, not actual Codex product spend;
+- compute `codexbar_cost_estimate` from the local CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`;
+- use the CodexBar-ratio label for the public `Sam's money waste so far` tooltip joke, with a caveat that it is not an actual bill.
 
 11. Frame public environmental copy as a "tree-cut lens" only when it is a stored-carbon equivalence. Do not imply instant emissions from cutting a tree, and do not round small values up to one tree.
 

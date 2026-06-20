@@ -62,6 +62,11 @@ CODEX_INPUT_USD_PER_MILLION = 1.75
 CODEX_CACHED_INPUT_USD_PER_MILLION = 0.175
 CODEX_OUTPUT_USD_PER_MILLION = 14.00
 API_COST_CAVEAT = "API list-price equivalence only; actual Codex product or subscription cost is not exposed."
+CODEXBAR_COST_SOURCE = "CodexBar local dashboard screenshot"
+CODEXBAR_COST_SOURCE_AS_OF = "2026-06-19"
+CODEXBAR_REFERENCE_USD = 2616.40
+CODEXBAR_REFERENCE_TOKENS = 3_000_000_000
+CODEXBAR_COST_CAVEAT = "CodexBar-ratio estimate only; actual Codex product or subscription cost may differ."
 LEDGER_HEADER = """# Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 """
@@ -315,17 +320,41 @@ def rounded_money(value: float) -> int:
     return int(round(value / step) * step)
 
 
-def money_label(value: float) -> str:
+def money_amount_label(value: float) -> str:
     rounded = rounded_money(value)
     if rounded >= 1000:
-        return f"~${rounded / 1000:.1f}K API cosplay"
-    return f"~${rounded} API cosplay"
+        return f"~${rounded / 1000:.1f}K"
+    return f"~${rounded}"
+
+
+def money_label(value: float) -> str:
+    return f"{money_amount_label(value)} API cosplay"
 
 
 def money_range_label(low: float, high: float) -> str:
-    low_label = money_label(low).removeprefix("~").removesuffix(" API cosplay")
-    high_label = money_label(high).removeprefix("~").removesuffix(" API cosplay")
+    low_label = money_amount_label(low).removeprefix("~")
+    high_label = money_amount_label(high).removeprefix("~")
     return f"{low_label}-{high_label}"
+
+
+def codexbar_cost_estimate(token_count: int) -> dict[str, Any]:
+    usd_per_million = CODEXBAR_REFERENCE_USD / (CODEXBAR_REFERENCE_TOKENS / 1_000_000)
+    usd_midpoint = token_count * usd_per_million / 1_000_000
+    usd_label = money_amount_label(usd_midpoint)
+    return {
+        "label": "CodexBar cost lens",
+        "source": CODEXBAR_COST_SOURCE,
+        "source_as_of": CODEXBAR_COST_SOURCE_AS_OF,
+        "source_note": "$2,616.40 / 3B tokens from the local CodexBar dashboard screenshot.",
+        "reference_usd": CODEXBAR_REFERENCE_USD,
+        "reference_tokens": CODEXBAR_REFERENCE_TOKENS,
+        "usd_per_million_tokens": round(usd_per_million, 3),
+        "token_count": token_count,
+        "usd_midpoint": rounded_money(usd_midpoint),
+        "usd_label": usd_label,
+        "caveat": CODEXBAR_COST_CAVEAT,
+        "public_note": f"Sam's money waste so far: {usd_label}",
+    }
 
 
 def api_cost_equivalence(token_usage: dict[str, int]) -> dict[str, Any]:
@@ -392,6 +421,7 @@ def audit_scope(
     hours_count = round(active_hours)
     energy = energy_equivalence(rounded_tokens)
     cost = api_cost_equivalence(raw_usage)
+    codexbar_cost = codexbar_cost_estimate(rounded_tokens)
 
     return {
         "commits": commit_count,
@@ -405,6 +435,7 @@ def audit_scope(
         "hours_label": str(hours_count),
         "energy_equivalence": energy,
         "api_cost_equivalence": cost,
+        "codexbar_cost_estimate": codexbar_cost,
     }
 
 
@@ -453,6 +484,7 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
     energy["public_note"] = public_desk_note(energy) if desk else public_energy_note(energy)
     next_scope["energy_equivalence"] = energy
     next_scope["api_cost_equivalence"] = result["api_cost_equivalence"]
+    next_scope["codexbar_cost_estimate"] = result["codexbar_cost_estimate"]
     return next_scope
 
 
@@ -500,6 +532,7 @@ def print_scope(name: str, result: dict[str, Any], current: dict[str, Any]) -> N
     current_scope = current.get(name, {}) if isinstance(current, dict) else {}
     energy = result["energy_equivalence"]
     cost = result["api_cost_equivalence"]
+    codexbar_cost = result["codexbar_cost_estimate"]
     print(f"\n[{name}]")
     for key in ("commits", "token_count", "tokens_label", "hours_count", "hours_label"):
         proposed = result[key]
@@ -521,6 +554,7 @@ def print_scope(name: str, result: dict[str, Any], current: dict[str, Any]) -> N
     print(f"cut_tree_midpoint: {energy['cut_tree_midpoint']}")
     print(f"cut_tree_range: {energy['cut_tree_range']}")
     print(f"api_cost_equivalence: {cost['usd_label']} ({cost['usd_range_label']} all-cached/all-uncached range)")
+    print(f"codexbar_cost_estimate: {codexbar_cost['usd_label']} ({codexbar_cost['usd_per_million_tokens']} USD / 1M tokens)")
 
 
 def build_json_output(root: Path, total: dict[str, Any], desk: dict[str, Any]) -> dict[str, Any]:
