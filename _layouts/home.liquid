@@ -52,21 +52,35 @@ layout: default
                     {{ total_energy.kg_co2e_midpoint }} kg CO2e. Tree math: {{ total_energy.kg_co2e_midpoint }} kg /
                     {{ total_energy.cut_tree_co2e_kg }} kg per ten-year urban tree &asymp; {{ total_energy.cut_tree_midpoint }} tree. Real trees vary.
                   </span>
-                  {% if total_cost %}
-                    <span class="home-agentic-money-gag">
-                      <img src="{{ '/assets/img/home/sam-money-cry.png' | relative_url }}" alt="" loading="lazy" decoding="async">
-                      <span>
-                        <strong>Sam's money waste so far: {{ total_cost.usd_label }}</strong>
-                        <small>CodexBar-ratio estimate, not an actual bill.</small>
-                      </span>
-                    </span>
-                  {% endif %}
                 </span>
               </span>
             </p>
             <dl class="home-agentic-grid">
               <div class="home-agentic-stat">
-                <dt>{{ agentic_usage.total.tokens_label }}</dt>
+                <dt>
+                  <span>{{ agentic_usage.total.tokens_label }}</span>
+                  {% if total_cost %}
+                    <span class="home-agentic-info-wrap home-agentic-info-wrap-cost">
+                      <button
+                        type="button"
+                        class="home-agentic-info home-agentic-info-cost"
+                        aria-label="How the Codex token cost joke is estimated"
+                        aria-describedby="home-agentic-cost-tooltip"
+                      >
+                        i
+                      </button>
+                      <span id="home-agentic-cost-tooltip" class="home-agentic-tooltip home-agentic-tooltip-cost" role="tooltip">
+                        <span class="home-agentic-money-gag">
+                          <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
+                          <span>
+                            <strong>Sam's money waste so far: {{ total_cost.usd_label }}</strong>
+                            <small>CodexBar-ratio estimate, not an actual bill.</small>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  {% endif %}
+                </dt>
                 <dd>Codex tokens</dd>
               </div>
               <div class="home-agentic-stat">
