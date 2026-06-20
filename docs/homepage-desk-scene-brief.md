@@ -14,7 +14,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 
 - The desk is a small polished room vignette inside the hero media footprint, not a fullscreen model.
 - The table has a turntable, elegant Autodesk mug, coffee surface, a single table stain, two non-overlapping artifact cards, and four album sleeves organized in a shelf or crate.
-- Albums are object-native controls. Clicking one should focus it, bring the record/cover toward the turntable, and start the meme vinyl spinning. Dragging or flicking can scatter an album and reveal a small song card.
+- Albums are object-native controls. Clicking one should focus it as a leaning "now playing" sleeve near the turntable, update the record label, and start the meme vinyl spinning. Dragging or flicking can scatter an album and reveal a small song card.
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
@@ -51,7 +51,8 @@ Interior and exterior should read as two scales of the same hut/desk world: warm
 - Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, blanket pattern, laptop screen, and record labels.
 - Favor cheap GPU motion before adding heavier simulation: scrolling texture offsets, small mesh bobbing, and eased object arcs already give ocean/sand/card motion without a particle system.
 - The outside view uses texture-offset ocean/foam motion plus a transparent sand-gust plane near the beach. This should read as shader-like coastal motion while staying cheap and only animating outside mode.
-- Next valuable additions would be a low-resolution water/foam shader plane for the beach and instanced dust/card glints. Avoid full fluid simulation unless it replaces the existing canvas-texture motion with a clearly better, still-fast effect.
+- The desk view uses a tiny instanced glint mesh on record/card/mug surfaces. Keep this as a single low-cost GPU accent that only animates while the scene is spinning, focused, hovered, or already tweening.
+- Next valuable additions would be a low-resolution water/foam shader plane for the beach and better depth-aware dust/glisten accents. Avoid full fluid simulation unless it replaces the existing canvas-texture motion with a clearly better, still-fast effect.
 - Keep renderer pixel ratio capped and animate only when visible, spinning, moving, or outside textures are active.
 
 ## Acceptance Checklist

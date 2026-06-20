@@ -691,6 +691,7 @@
     const songCardEntries = [];
     const tweens = [];
     const outsideMotionItems = [];
+    const accentMotionItems = [];
     const cleanupListeners = [];
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -1600,8 +1601,9 @@
     };
 
     const interactionPriority = (kind) => {
-      if (kind === "turntable") return 5;
-      if (kind === "album" || kind === "artifact") return 4;
+      if (kind === "turntable") return 6;
+      if (kind === "album") return 5;
+      if (kind === "artifact") return 4;
       if (kind === "windowJump" || kind === "returnInside") return 3;
       return 1;
     };
@@ -1703,6 +1705,29 @@
       return true;
     };
 
+    const updateAccentMotionItem = (item, seconds, active) => {
+      if (!item?.mesh || !item?.dummy) return;
+      item.specs.forEach((spec, index) => {
+        const pulse = active ? Math.sin(seconds * spec.speed + spec.phase) : Math.sin(spec.phase) * 0.18;
+        const glint = active ? 0.72 + pulse * 0.24 : 0.74;
+        const drift = active ? Math.sin(seconds * spec.driftSpeed + spec.phase * 0.63) * spec.drift : 0;
+        item.dummy.position.set(spec.x + drift, spec.y + Math.max(0, pulse) * spec.lift, spec.z - drift * 0.34);
+        item.dummy.rotation.set(spec.rx, spec.ry || 0, spec.rz + (active ? pulse * 0.055 : 0));
+        item.dummy.scale.set(spec.scaleX * glint, spec.scaleY * (0.82 + glint * 0.22), 1);
+        item.dummy.updateMatrix();
+        item.mesh.setMatrixAt(index, item.dummy.matrix);
+      });
+      item.mesh.instanceMatrix.needsUpdate = true;
+    };
+
+    const updateAccentMotion = (time) => {
+      if (!isVisible || activeView !== "desk" || reduceMotion || accentMotionItems.length === 0) return false;
+      const shouldAnimate = Boolean(isRecordSpinning || focusedEntry || hoveredEntry || tweens.length);
+      const seconds = time * 0.001;
+      accentMotionItems.forEach((item) => updateAccentMotionItem(item, seconds, shouldAnimate));
+      return shouldAnimate;
+    };
+
     const applyDeskPalette = () => {
       if (!THREE) return;
       const palette = readDeskPalette();
@@ -1731,6 +1756,8 @@
       if (themeMaterials.windowCue) themeMaterials.windowCue.opacity = palette.isDarkTheme ? 0.18 : 0.13;
       themeMaterials.windowSillGlint?.color.setHex(palette.isDarkTheme ? 0xffdfb0 : 0xd79b61);
       if (themeMaterials.windowSillGlint) themeMaterials.windowSillGlint.opacity = palette.isDarkTheme ? 0.22 : 0.16;
+      themeMaterials.deskGlints?.color.setHex(palette.isDarkTheme ? 0xffe0aa : 0xfff1c7);
+      if (themeMaterials.deskGlints) themeMaterials.deskGlints.opacity = palette.isDarkTheme ? 0.24 : 0.2;
       themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x5bb9cf);
       if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.56 : 0.46;
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
@@ -2193,6 +2220,7 @@
       const keepCameraMoving = applyCameraPose();
       const keepTweening = updateTweens(time);
       const keepOutsideMoving = updateOutsideMotion(time);
+      const keepAccentMoving = updateAccentMotion(time);
 
       if (recordGroup && isVisible && isRecordSpinning && !reduceMotion) {
         recordGroup.rotation.y = time * 0.00135;
@@ -2204,7 +2232,10 @@
 
       render();
 
-      if (isVisible && ((!reduceMotion && (isRecordSpinning || keepOutsideMoving)) || needsRotationFrame() || keepCameraMoving || keepTweening)) {
+      if (
+        isVisible &&
+        ((!reduceMotion && (isRecordSpinning || keepOutsideMoving || keepAccentMoving)) || needsRotationFrame() || keepCameraMoving || keepTweening)
+      ) {
         scheduleFrame();
       }
     }
@@ -2911,6 +2942,139 @@
       registerInteractive(returnHit, { kind: "returnInside", index: 0 }, returnEntry);
     };
 
+    const addDeskGlints = (table, palette) => {
+      const glintGeometry = new THREE.PlaneGeometry(0.12, 0.018);
+      const glintMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xffe0aa : 0xfff1c7,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.24 : 0.2,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+      });
+      themeMaterials.deskGlints = glintMaterial;
+      const specs = [
+        {
+          x: -1.5,
+          y: -0.088,
+          z: -0.08,
+          rx: -Math.PI / 2,
+          rz: -0.36,
+          scaleX: 0.78,
+          scaleY: 0.62,
+          phase: 0.2,
+          speed: 2.2,
+          driftSpeed: 0.8,
+          drift: 0.008,
+          lift: 0.004,
+        },
+        {
+          x: -1.06,
+          y: -0.12,
+          z: 0.18,
+          rx: -Math.PI / 2,
+          rz: 0.28,
+          scaleX: 0.56,
+          scaleY: 0.5,
+          phase: 1.1,
+          speed: 1.8,
+          driftSpeed: 0.7,
+          drift: 0.006,
+          lift: 0.004,
+        },
+        {
+          x: -0.18,
+          y: -0.214,
+          z: 0.36,
+          rx: -Math.PI / 2,
+          rz: -0.05,
+          scaleX: 0.52,
+          scaleY: 0.48,
+          phase: 2.2,
+          speed: 1.5,
+          driftSpeed: 0.9,
+          drift: 0.005,
+          lift: 0.003,
+        },
+        {
+          x: 0.48,
+          y: -0.216,
+          z: 0.5,
+          rx: -Math.PI / 2,
+          rz: -0.12,
+          scaleX: 0.62,
+          scaleY: 0.52,
+          phase: 2.8,
+          speed: 1.7,
+          driftSpeed: 0.74,
+          drift: 0.006,
+          lift: 0.003,
+        },
+        {
+          x: 0.98,
+          y: -0.212,
+          z: -0.1,
+          rx: -Math.PI / 2,
+          rz: 0.16,
+          scaleX: 0.58,
+          scaleY: 0.5,
+          phase: 3.6,
+          speed: 1.9,
+          driftSpeed: 0.86,
+          drift: 0.006,
+          lift: 0.003,
+        },
+        {
+          x: 1.56,
+          y: 0.166,
+          z: 0.59,
+          rx: -Math.PI / 2,
+          rz: -0.26,
+          scaleX: 0.46,
+          scaleY: 0.42,
+          phase: 4.2,
+          speed: 2.4,
+          driftSpeed: 0.65,
+          drift: 0.004,
+          lift: 0.002,
+        },
+        {
+          x: 1.76,
+          y: -0.224,
+          z: 0.72,
+          rx: -Math.PI / 2,
+          rz: 0.32,
+          scaleX: 0.42,
+          scaleY: 0.38,
+          phase: 4.9,
+          speed: 2.0,
+          driftSpeed: 0.82,
+          drift: 0.004,
+          lift: 0.002,
+        },
+        {
+          x: -1.38,
+          y: -0.152,
+          z: -0.67,
+          rx: -Math.PI / 2,
+          rz: 0.08,
+          scaleX: 0.4,
+          scaleY: 0.38,
+          phase: 5.7,
+          speed: 1.6,
+          driftSpeed: 0.72,
+          drift: 0.004,
+          lift: 0.003,
+        },
+      ];
+      const glintMesh = new THREE.InstancedMesh(glintGeometry, glintMaterial, specs.length);
+      glintMesh.renderOrder = 14;
+      table.add(glintMesh);
+      const item = { mesh: glintMesh, material: glintMaterial, specs, dummy: new THREE.Object3D() };
+      accentMotionItems.push(item);
+      updateAccentMotionItem(item, 0, false);
+    };
+
     const buildScene = () => {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
       renderer.domElement.className = "home-desk-corner-canvas";
@@ -3230,8 +3394,8 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(0.28, 0.68, 0.54);
-        entry.playRotation = new THREE.Euler(-Math.PI / 2 + 0.035, 0.018, 0.02);
+        entry.playPosition = new THREE.Vector3(0.38, 0.64, 0.4);
+        entry.playRotation = new THREE.Euler(0.16, -0.035, 0.025);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -3253,8 +3417,9 @@
         albumCue.visible = false;
         entry.group.add(albumCue);
         entry.cue = albumCue;
-        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.9), hitMaterial);
-        albumHit.position.set(0, 0.02, 0.055);
+        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 1.08), hitMaterial);
+        albumHit.position.set(0, 0.03, 0.07);
+        albumHit.rotation.x = -0.06;
         entry.group.add(albumHit);
         registerInteractive(sleeveBack, { kind: "album", index }, entry);
         registerInteractive(cover, { kind: "album", index }, entry);
@@ -3400,6 +3565,8 @@
       mark.position.set(0, -0.038, 0);
       cup.add(mark);
 
+      addDeskGlints(table, palette);
+
       setActiveRecordInternal(activeRecordIndex);
       setToneArm(isRecordSpinning, true);
       setDroppedRecordState(droppedRecordIndices, { immediate: true });
@@ -3421,6 +3588,7 @@
       const canvas = renderer.domElement;
       const onPointerDown = (event) => {
         if (!isVisible || (event.pointerType === "mouse" && event.button !== 0)) return;
+        window.getSelection?.()?.removeAllRanges?.();
         if (document.activeElement instanceof HTMLElement && document.activeElement.closest("[data-home-desk-controls]")) {
           document.activeElement.blur();
         }
@@ -3548,6 +3716,7 @@
         activeEntry = null;
         pointerId = null;
         pointerMode = "";
+        window.getSelection?.()?.removeAllRanges?.();
         container.classList.remove("is-dragging");
         setHoverEntry(null);
         scheduleFrame();
