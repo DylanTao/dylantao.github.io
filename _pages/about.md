@@ -69,7 +69,7 @@ hero:
     url: https://www.linkedin.com/in/siruitao/
     external: true
   inspiration_credit:
-    label: desk-motion cue inspired by Jackie Hu
+    label: coffee stain inspired by Jackie Hu
     url: https://jackiehu.design/
   artifacts:
     - label: Design loop
