@@ -7,7 +7,7 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 239
+  commits: 240
   token_count: 2010000000
   tokens_label: 2.01B
   hours_count: 182
@@ -30,11 +30,11 @@ total:
     cut_tree_range: 0.25-2.5
     public_note: "Tree lens: about 1206 kWh, or ~0.7 ten-year urban trees' stored carbon. Range: 0.25-2.5."
   token_usage:
-    input_tokens: 2000111259
-    cached_input_tokens: 1880510676
-    output_tokens: 7689946
-    reasoning_output_tokens: 2765508
-    total_tokens: 2007792022
+    input_tokens: 2006342847
+    cached_input_tokens: 1886304340
+    output_tokens: 7711362
+    reasoning_output_tokens: 2775227
+    total_tokens: 2014045026
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -43,12 +43,12 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 2000111259
-    cached_input_tokens: 1880510676
-    uncached_input_tokens: 119600583
-    output_tokens: 7689946
-    reasoning_output_tokens: 2765508
-    total_tokens: 2007792022
+    input_tokens: 2006342847
+    cached_input_tokens: 1886304340
+    uncached_input_tokens: 120038507
+    output_tokens: 7711362
+    reasoning_output_tokens: 2775227
+    total_tokens: 2014045026
     usd_midpoint: 650
     usd_label: ~$650 API cosplay
     usd_range_label: $460-$3.6K
@@ -71,11 +71,11 @@ desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 82
-  token_count: 950000000
-  tokens_label: 950M
-  hours_count: 67
-  hours_label: "67"
+  commits: 83
+  token_count: 960000000
+  tokens_label: 960M
+  hours_count: 68
+  hours_label: "68"
   confidence: estimate
   note: Scoped to the homepage vinyl, desk, coffee mug, and 3D scene burst.
   energy_equivalence:
@@ -84,21 +84,21 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 570
-    kg_co2e_midpoint: 213
-    tree_years_midpoint: 3.5
-    tree_years_range: 1.2-11.8
+    kwh_midpoint: 576
+    kg_co2e_midpoint: 215
+    tree_years_midpoint: 3.6
+    tree_years_range: 1.2-11.9
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.4
     cut_tree_range: 0.12-1.2
     public_note: roughly 0.4 trees cut
   token_usage:
-    input_tokens: 946239044
-    cached_input_tokens: 893921055
-    output_tokens: 3593902
-    reasoning_output_tokens: 1260543
-    total_tokens: 949832946
+    input_tokens: 952470632
+    cached_input_tokens: 899714719
+    output_tokens: 3615318
+    reasoning_output_tokens: 1270262
+    total_tokens: 956085950
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -107,12 +107,12 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 946239044
-    cached_input_tokens: 893921055
-    uncached_input_tokens: 52317989
-    output_tokens: 3593902
-    reasoning_output_tokens: 1260543
-    total_tokens: 949832946
+    input_tokens: 952470632
+    cached_input_tokens: 899714719
+    uncached_input_tokens: 52755913
+    output_tokens: 3615318
+    reasoning_output_tokens: 1270262
+    total_tokens: 956085950
     usd_midpoint: 300
     usd_label: ~$300 API cosplay
     usd_range_label: $220-$1.7K
@@ -126,8 +126,8 @@ desk_scene:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 950000000
-    usd_midpoint: 830
-    usd_label: ~$830
+    token_count: 960000000
+    usd_midpoint: 840
+    usd_label: ~$840
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
-    public_note: "Sam's money waste so far: ~$830"
+    public_note: "Sam's money waste so far: ~$840"

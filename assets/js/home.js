@@ -557,7 +557,6 @@
       applyRecordTexture(currentRecord);
       render();
       container.classList.add("is-three-record");
-      if (fallback) fallback.hidden = true;
 
       resizeObserver = "ResizeObserver" in window ? new ResizeObserver(resize) : null;
       if (resizeObserver) {
