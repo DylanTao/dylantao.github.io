@@ -20,6 +20,8 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - The focused "now playing" album should read as a sleeve propped on a small desk/easel ledge near the turntable, with a front-facing pose and enough room context still visible. Replacement clicks should favor nearby visible rack sleeves over the enlarged focused sleeve so the interaction feels like swapping records, not fighting the hitbox.
 - On desktop, the focused sleeve should separate from the rack and read as the featured now-playing object: larger than rack sleeves, slightly forward/right on the easel, and nearly front-facing. Mobile can keep a tighter pose so the sleeve does not crowd the controls or window.
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
+- Desk cards should read as scaled white A4 papers: same project or song identity as their 2D source, with readable hand-drawn text, messy ruled scribbles, doodles, and small real-cover/source identity cues where relevant.
+- Album selection should feel like a sleeve-disc swap: show the real cover, lift/remove the meme disc, insert the replacement, start the vinyl, and return the sleeve to the rack rather than leaving it stranded in a giant focused pose.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
 - Dropped albums and song cards should feel like flat paper objects losing energy: shallow arcs, short slides, deterministic fan slots, thin card edges, and visible floor contact shadows. Avoid high bounces, hovering rest poses, or generic object-view lifts that make sleeves look like rigid blocks.
@@ -59,6 +61,7 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 
 - The window should read as a real window with frame, sill, glass, and a view plane.
 - Zooming toward the window reveals a faint object-native jump affordance. The outside scene should be a stylized San Diego cliff-beach diorama with ocean, beach, cliff-side house, and time-of-day lighting.
+- Once outside, scroll/trackpad zoom should explore the exterior view without automatically re-entering the room; only the intentional return affordance should move the user back inside.
 - In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
 - The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the bed/head/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
 - Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.

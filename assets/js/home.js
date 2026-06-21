@@ -680,7 +680,6 @@
     let focusedEntryAt = 0;
     let hoveredEntry = null;
     let pointerMoved = false;
-    let windowAutoEntryBlockedUntil = 0;
     let outsideViewportCheckFrame = 0;
     let droppedRecordIndices = [];
     const callbacks = {};
@@ -786,7 +785,7 @@
 
     const updateWindowJumpVisibility = () => {
       if (!windowJumpGroup) return;
-      const shouldShow = activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.24;
+      const shouldShow = activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.34;
       if (windowJumpGroup.visible !== shouldShow) {
         windowJumpGroup.visible = shouldShow;
         render();
@@ -1465,51 +1464,117 @@
       );
 
     const createArtifactTexture = (artifact, index, palette) =>
-      makeCanvasTexture((context, width, height) => {
-        const accent = index === 0 ? "#6f9d87" : "#6f98ad";
-        context.clearRect(0, 0, width, height);
-        drawRoundedRect(context, 20, 24, width - 40, height - 48, 34);
-        context.fillStyle = palette.isDarkTheme ? "#f8faf6" : index === 0 ? "#fffdf8" : "#fbfdff";
-        context.fill();
-        context.lineWidth = 7;
-        context.strokeStyle = index === 0 ? "rgba(111,157,135,0.34)" : "rgba(111,152,173,0.34)";
-        context.stroke();
-        context.fillStyle = accent;
-        context.globalAlpha = 0.14;
-        context.beginPath();
-        context.arc(width - 116, 106, 78, 0, Math.PI * 2);
-        context.fill();
-        context.globalAlpha = 1;
-        context.fillStyle = "#66727a";
-        context.font = "700 34px ui-monospace, SFMono-Regular, Consolas, monospace";
-        context.fillText((artifact.label || "Desk card").toUpperCase(), 62, 126);
-        context.fillStyle = "#202528";
-        context.font = "800 52px Inter, system-ui, sans-serif";
-        drawWrappedText(context, artifact.title || "Research card", 62, 210, width - 138, 62, 3);
-      });
+      makeCanvasTexture(
+        (context, width, height) => {
+          const accent = index === 0 ? "#6f9d87" : "#6f98ad";
+          context.clearRect(0, 0, width, height);
+          drawRoundedRect(context, 24, 18, width - 48, height - 36, 18);
+          const paper = context.createLinearGradient(0, 0, width, height);
+          paper.addColorStop(0, "#fffefd");
+          paper.addColorStop(1, "#f4eddf");
+          context.fillStyle = paper;
+          context.fill();
+          context.lineWidth = 5;
+          context.strokeStyle = index === 0 ? "rgba(111,157,135,0.28)" : "rgba(111,152,173,0.28)";
+          context.stroke();
+
+          context.save();
+          context.strokeStyle = "rgba(80,96,100,0.14)";
+          context.lineWidth = 2;
+          for (let line = 124; line < height - 72; line += 34) {
+            context.beginPath();
+            context.moveTo(52, line + (index ? 3 : -2));
+            context.bezierCurveTo(width * 0.32, line - 8, width * 0.66, line + 7, width - 64, line - 2);
+            context.stroke();
+          }
+          context.strokeStyle = index === 0 ? "rgba(111,157,135,0.34)" : "rgba(111,152,173,0.34)";
+          context.lineWidth = 6;
+          context.beginPath();
+          context.arc(width - 100, 108, 48, 0.18, Math.PI * 1.78);
+          context.stroke();
+          context.beginPath();
+          context.moveTo(width - 166, 178);
+          context.bezierCurveTo(width - 116, 132, width - 68, 218, width - 36, 166);
+          context.stroke();
+          context.strokeStyle = "rgba(45,58,62,0.28)";
+          context.lineWidth = 3;
+          context.beginPath();
+          context.moveTo(62, height - 136);
+          context.lineTo(92, height - 104);
+          context.lineTo(128, height - 148);
+          context.stroke();
+          context.restore();
+
+          context.fillStyle = accent;
+          context.globalAlpha = 0.14;
+          context.beginPath();
+          context.arc(width - 116, 106, 78, 0, Math.PI * 2);
+          context.fill();
+          context.globalAlpha = 1;
+          context.fillStyle = "#66727a";
+          context.font = "700 32px Comic Sans MS, Segoe Print, cursive";
+          context.fillText(artifact.label || "Desk card", 58, 94);
+          context.fillStyle = "#202528";
+          context.font = "800 48px Comic Sans MS, Segoe Print, cursive";
+          drawWrappedText(context, artifact.title || "Research card", 58, 178, width - 116, 54, 4);
+        },
+        420,
+        594
+      );
 
     const createSongCardTexture = (record) =>
       makeCanvasTexture(
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
           drawRoundedRect(context, 18, 18, width - 36, height - 36, 22);
-          context.fillStyle = "#fffaf1";
+          const paper = context.createLinearGradient(0, 0, width, height);
+          paper.addColorStop(0, "#fffefd");
+          paper.addColorStop(1, "#f7f0e3");
+          context.fillStyle = paper;
           context.fill();
           context.strokeStyle = "rgba(138,92,49,0.28)";
           context.lineWidth = 5;
           context.stroke();
+
+          context.save();
+          context.strokeStyle = "rgba(66,77,82,0.16)";
+          context.lineWidth = 2;
+          for (let line = 128; line < height - 74; line += 36) {
+            context.beginPath();
+            context.moveTo(44 + ((line / 9) % 11), line);
+            context.bezierCurveTo(width * 0.34, line - 7, width * 0.62, line + 8, width - 54, line - 2);
+            context.stroke();
+          }
+          context.strokeStyle = "rgba(170,102,54,0.28)";
+          context.lineWidth = 5;
+          context.beginPath();
+          context.arc(width - 92, 88, 34, 0.2, Math.PI * 1.72);
+          context.stroke();
+          context.beginPath();
+          context.moveTo(width - 158, 142);
+          context.bezierCurveTo(width - 108, 106, width - 70, 170, width - 34, 126);
+          context.stroke();
+          context.strokeStyle = "rgba(42,63,68,0.32)";
+          context.lineWidth = 3;
+          context.beginPath();
+          context.moveTo(58, height - 132);
+          context.lineTo(88, height - 100);
+          context.lineTo(124, height - 144);
+          context.stroke();
+          context.restore();
+
           context.fillStyle = "#8d6847";
-          context.font = "700 28px ui-monospace, SFMono-Regular, Consolas, monospace";
-          context.fillText("MEME VINYL", 44, 74);
+          context.font = "700 30px Comic Sans MS, Segoe Print, cursive";
+          context.fillText("found in the album shake", 44, 82);
           context.fillStyle = "#202528";
-          context.font = "800 44px Inter, system-ui, sans-serif";
-          drawWrappedText(context, record.title, 44, 138, width - 86, 48, 2);
-          context.fillStyle = "#6c7375";
-          context.font = "600 30px Inter, system-ui, sans-serif";
-          context.fillText(record.artist || "Sirui Tao", 44, height - 52);
+          context.font = "800 46px Comic Sans MS, Segoe Print, cursive";
+          drawWrappedText(context, record.title, 44, 172, width - 96, 50, 3);
+          context.fillStyle = "#5f686b";
+          context.font = "700 30px Comic Sans MS, Segoe Print, cursive";
+          context.fillText(record.artist || "Sirui Tao", 44, height - 58);
         },
-        520,
-        320
+        420,
+        594
       );
 
     const loadTexture = (src, material, options = {}) => {
@@ -1618,8 +1683,8 @@
           lerp(tween.fromScale.z, tween.toScale.z, progress)
         );
         if (raw >= 1) {
-          tween.onComplete?.();
           tweens.splice(index, 1);
+          tween.onComplete?.();
         }
       }
       return tweens.length > 0;
@@ -1677,14 +1742,13 @@
       return dx * dx + dy * dy;
     };
 
-    const pickProjectedRackReplacement = () => {
-      if (focusedEntry?.kind !== "album") return null;
-      const threshold = isCompactScene ? 0.042 : 0.032;
+    const pickProjectedRackAlbum = (excludedEntry = null, options = {}) => {
+      const threshold = options.threshold ?? (isCompactScene ? 0.042 : 0.032);
       let bestCandidate = null;
       let bestDistance = threshold;
 
       albumEntries.forEach((entry) => {
-        if (!entry || entry === focusedEntry || entry.thrown || entry.rackSlotHit?.visible === false) return;
+        if (!entry || entry === excludedEntry || entry.thrown || entry.rackSlotHit?.visible === false) return;
         const data = entry.rackSlotHit?.userData;
         if (!data || !isObjectVisibleForPicking(entry.rackSlotHit)) return;
         const distance = projectedInteractiveDistance(data);
@@ -1695,6 +1759,36 @@
       });
 
       return bestCandidate;
+    };
+
+    const pickUpperRackCapAlbum = (excludedEntry = null) => {
+      if (!pointerNdc) return null;
+      const insideUpperCap =
+        pointerNdc.y > (isCompactScene ? 0.42 : 0.46) &&
+        pointerNdc.x > (isCompactScene ? -0.62 : -0.48) &&
+        pointerNdc.x < (isCompactScene ? 0.18 : 0.08);
+      if (!insideUpperCap) return null;
+      const exposedEntry = albumEntries
+        .filter((entry) => entry && entry !== excludedEntry && !entry.thrown && entry.rackSlotHit?.visible !== false)
+        .sort((first, second) => second.index - first.index)[0];
+      const data = exposedEntry?.rackSlotHit?.userData;
+      return data && isObjectVisibleForPicking(exposedEntry.rackSlotHit) ? data : null;
+    };
+
+    const pickActiveRackFaceAlbum = (entry = null) => {
+      if (!pointerNdc || !entry || entry.thrown || entry.rackSlotHit?.visible === false) return null;
+      const insideRackFace =
+        pointerNdc.y > (isCompactScene ? -0.02 : 0.02) &&
+        pointerNdc.y < (isCompactScene ? 0.42 : 0.42) &&
+        pointerNdc.x > (isCompactScene ? -0.68 : -0.66) &&
+        pointerNdc.x < (isCompactScene ? -0.2 : -0.22);
+      const data = insideRackFace ? entry.rackSlotHit?.userData : null;
+      return data && isObjectVisibleForPicking(entry.rackSlotHit) ? data : null;
+    };
+
+    const pickProjectedRackReplacement = () => {
+      if (focusedEntry?.kind !== "album") return null;
+      return pickProjectedRackAlbum(focusedEntry);
     };
 
     const pickObject = (event) => {
@@ -1716,7 +1810,15 @@
           return activeView === "desk";
         });
       const projectedRackReplacement = pickProjectedRackReplacement();
-      if (!hits.length) return projectedRackReplacement;
+      const activeAlbumEntry = Number.isInteger(activeRecordIndex) ? albumEntries[activeRecordIndex] : null;
+      const projectedActiveFace = !focusedEntry && activeAlbumEntry ? pickActiveRackFaceAlbum(activeAlbumEntry) : null;
+      const isUpperRackPointer = pointerNdc.y > (isCompactScene ? 0.26 : 0.38);
+      const projectedActiveNeighbor =
+        !focusedEntry && activeAlbumEntry && isUpperRackPointer
+          ? pickUpperRackCapAlbum(activeAlbumEntry) || pickProjectedRackAlbum(activeAlbumEntry, { threshold: isCompactScene ? 0.058 : 0.05 })
+          : null;
+      if (projectedActiveFace) return projectedActiveFace;
+      if (!hits.length) return projectedRackReplacement || projectedActiveNeighbor;
       hits.sort((first, second) => {
         const priorityDelta = interactionPriority(second.data.kind) - interactionPriority(first.data.kind);
         if (priorityDelta) return priorityDelta;
@@ -1733,6 +1835,9 @@
       });
       if (projectedRackReplacement && hits[0].data.kind === "album" && hits[0].data.homeDeskEntry === focusedEntry) {
         return projectedRackReplacement;
+      }
+      if (projectedActiveNeighbor && hits[0].data.kind === "album" && hits[0].data.homeDeskEntry === activeAlbumEntry) {
+        return projectedActiveNeighbor;
       }
       return hits[0].data;
     };
@@ -1955,7 +2060,7 @@
       themeMaterials.windowRecess?.color.setHex(palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae);
       themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
       themeMaterials.windowCue?.color.setHex(palette.isDarkTheme ? 0xf2c994 : 0xb97942);
-      if (themeMaterials.windowCue) themeMaterials.windowCue.opacity = palette.isDarkTheme ? 0.18 : 0.13;
+      if (themeMaterials.windowCue) themeMaterials.windowCue.opacity = palette.isDarkTheme ? 0.12 : 0.08;
       themeMaterials.windowSillGlint?.color.setHex(palette.isDarkTheme ? 0xffdfb0 : 0xd79b61);
       if (themeMaterials.windowSillGlint) themeMaterials.windowSillGlint.opacity = palette.isDarkTheme ? 0.22 : 0.16;
       themeMaterials.deskGlints?.color.setHex(palette.isDarkTheme ? 0xffe0aa : 0xfff1c7);
@@ -2066,8 +2171,8 @@
 
     const setToneArm = (playing, immediate = false) => {
       if (!toneArmGroup) return;
-      const targetY = playing ? -0.43 : 0.38;
-      const targetZ = playing ? -0.17 : -0.36;
+      const targetY = playing ? -0.34 : 0.42;
+      const targetZ = playing ? -0.12 : -0.34;
       if (immediate || reduceMotion) {
         toneArmGroup.rotation.y = targetY;
         toneArmGroup.position.z = targetZ;
@@ -2108,6 +2213,36 @@
         duration
       );
       return true;
+    };
+
+    const runRecordSwapCue = () => {
+      if (!recordGroup || reduceMotion) return;
+      const homePosition = new THREE.Vector3(-0.24, 0.224, 0.0);
+      const liftedPosition = homePosition.clone().add(new THREE.Vector3(0.03, 0.17, 0.02));
+      const sleevePosition = homePosition.clone().add(new THREE.Vector3(0.72, 0.22, 0.4));
+      const insertPosition = homePosition.clone().add(new THREE.Vector3(0.08, 0.2, 0.04));
+
+      addTween(recordGroup, { position: liftedPosition }, 180, {
+        arcHeight: 0.018,
+        easing: easeOutCubic,
+        onComplete: () => {
+          addTween(recordGroup, { position: sleevePosition }, 260, {
+            arcHeight: 0.08,
+            wobbleZ: 0.014,
+            easing: easeOutQuart,
+            onComplete: () => {
+              addTween(recordGroup, { position: insertPosition }, 280, {
+                arcHeight: 0.06,
+                wobbleZ: -0.012,
+                easing: easeOutCubic,
+                onComplete: () => {
+                  addTween(recordGroup, { position: homePosition }, 220, { easing: easeOutQuart });
+                },
+              });
+            },
+          });
+        },
+      });
     };
 
     const returnToRoomView = () => {
@@ -2370,6 +2505,28 @@
         isRecordSpinning = true;
         setToneArm(true);
       }
+      runRecordSwapCue();
+      let releaseStarted = false;
+      const releaseAlbumToRack = () => {
+        if (releaseStarted || focusedEntry !== entry) return;
+        releaseStarted = true;
+        focusedEntry = null;
+        focusedEntryAt = 0;
+        container.removeAttribute("data-focused-desk-object");
+        setEntryCue(entry, false);
+        if (entry.rackSlotHit && !entry.thrown) entry.rackSlotHit.visible = true;
+        const returnScale = entry.index === activeRecordIndex ? 1.06 : 1;
+        addTween(
+          entry.group,
+          {
+            position: entry.basePosition.clone(),
+            rotation: entry.baseRotation.clone(),
+            scale: new THREE.Vector3(returnScale, returnScale, returnScale),
+          },
+          520,
+          { arcHeight: 0.06, wobbleZ: -0.01, easing: easeOutQuart }
+        );
+      };
       addTween(
         entry.group,
         {
@@ -2377,9 +2534,15 @@
           rotation: playRotation.clone(),
           scale: new THREE.Vector3(playScale, playScale, playScale),
         },
-        560
+        500,
+        {
+          arcHeight: 0.08,
+          wobbleZ: 0.012,
+          onComplete: releaseAlbumToRack,
+        }
       );
-      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.2 : 0.3);
+      window.setTimeout(releaseAlbumToRack, reduceMotion ? 40 : 560);
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.18 : 0.22);
       targetRotationX = -0.026;
       targetRotationY = isCompactScene ? -0.13 : -0.08;
       scheduleFrame();
@@ -2479,7 +2642,7 @@
     };
 
     const getOutsideEntryZoom = () => (isCompactScene ? 0.16 : 0.36);
-    const getOutsideMaxZoom = () => (isCompactScene ? 0.24 : 0.54);
+    const getOutsideMaxZoom = () => (isCompactScene ? 0.42 : 0.82);
 
     const enterDeskFromOutside = () => {
       setSceneView("desk");
@@ -2487,7 +2650,6 @@
       zoomLevel = isCompactScene ? 0.24 : 0.32;
       targetRotationX = defaultRotation.x;
       targetRotationY = defaultRotation.y;
-      windowAutoEntryBlockedUntil = Date.now() + 1200;
       updateWindowJumpVisibility();
       scheduleFrame();
     };
@@ -2609,7 +2771,7 @@
       const windowCueMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf2c994 : 0xb97942,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.18 : 0.13,
+        opacity: palette.isDarkTheme ? 0.12 : 0.08,
         depthWrite: false,
       });
       themeMaterials.windowCue = windowCueMaterial;
@@ -2742,8 +2904,8 @@
         depthWrite: false,
       });
       themeMaterials.outsideBackdrop = backdropMaterial;
-      const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 4.02), backdropMaterial);
-      backdrop.position.set(0.1, 0.34, -1.9);
+      const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(9.2, 5.0), backdropMaterial);
+      backdrop.position.set(0.18, 0.32, -2.18);
       backdrop.renderOrder = -6;
       outsideGroup.add(backdrop);
 
@@ -2756,16 +2918,16 @@
         depthWrite: false,
       });
       themeMaterials.outsideOcean = oceanMaterial;
-      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 1.06), oceanMaterial);
+      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(8.2, 1.22), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(-0.92, -1.36, -1.4);
+      ocean.position.set(-1.05, -1.37, -1.44);
       ocean.renderOrder = -5;
       outsideGroup.add(ocean);
 
-      const nearOcean = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 0.34), oceanMaterial);
+      const nearOcean = new THREE.Mesh(new THREE.PlaneGeometry(5.35, 0.42), oceanMaterial);
       nearOcean.rotation.x = -Math.PI / 2;
       nearOcean.rotation.z = 0.052;
-      nearOcean.position.set(-1.26, -1.305, 0.34);
+      nearOcean.position.set(-1.42, -1.305, 0.32);
       nearOcean.renderOrder = -4;
       outsideGroup.add(nearOcean);
 
@@ -2888,45 +3050,45 @@
       themeMaterials.laptopScreen = screenMaterial;
       themeMaterials.catBlanket = blanketMaterial;
 
-      const beach = new THREE.Mesh(new THREE.PlaneGeometry(3.58, 0.24), beachMaterial);
+      const beach = new THREE.Mesh(new THREE.PlaneGeometry(4.3, 0.34), beachMaterial);
       beach.rotation.x = -Math.PI / 2;
       beach.rotation.z = 0.025;
-      beach.position.set(-1.78, -1.235, 1.08);
+      beach.position.set(-1.94, -1.238, 1.12);
       beach.renderOrder = -3;
       outsideGroup.add(beach);
 
-      const foam = new THREE.Mesh(new THREE.PlaneGeometry(3.46, 0.12), foamMaterial);
+      const foam = new THREE.Mesh(new THREE.PlaneGeometry(4.14, 0.14), foamMaterial);
       foam.rotation.x = -Math.PI / 2;
       foam.rotation.z = -0.04;
-      foam.position.set(-1.8, -1.18, 0.96);
+      foam.position.set(-1.95, -1.18, 0.95);
       foam.renderOrder = -2;
       outsideGroup.add(foam);
-      const tideFoam = new THREE.Mesh(new THREE.PlaneGeometry(2.84, 0.07), foamMaterial);
+      const tideFoam = new THREE.Mesh(new THREE.PlaneGeometry(3.35, 0.08), foamMaterial);
       tideFoam.rotation.x = -Math.PI / 2;
       tideFoam.rotation.z = 0.035;
-      tideFoam.position.set(-1.52, -1.17, 1.12);
+      tideFoam.position.set(-1.72, -1.17, 1.15);
       tideFoam.renderOrder = -1;
       outsideGroup.add(tideFoam);
-      const sandGust = new THREE.Mesh(new THREE.PlaneGeometry(3.9, 0.42), sandGustMaterial);
+      const sandGust = new THREE.Mesh(new THREE.PlaneGeometry(4.45, 0.48), sandGustMaterial);
       sandGust.rotation.x = -Math.PI / 2;
       sandGust.rotation.z = -0.035;
-      sandGust.position.set(-1.72, -1.105, 1.08);
+      sandGust.position.set(-1.92, -1.105, 1.1);
       sandGust.renderOrder = 0;
       outsideGroup.add(sandGust);
       const foamShaderMaterial = createCoastalShaderMaterial(palette, "foam");
-      const foamShader = new THREE.Mesh(new THREE.PlaneGeometry(3.72, 0.34, 48, 6), foamShaderMaterial);
+      const foamShader = new THREE.Mesh(new THREE.PlaneGeometry(4.5, 0.36, 56, 6), foamShaderMaterial);
       foamShader.rotation.x = -Math.PI / 2;
       foamShader.rotation.z = -0.036;
-      foamShader.position.set(-1.76, -1.104, 1.02);
+      foamShader.position.set(-1.94, -1.104, 1.02);
       foamShader.renderOrder = 2;
       outsideGroup.add(foamShader);
       themeMaterials.outsideFoamShader = foamShaderMaterial;
 
       const sandShaderMaterial = createCoastalShaderMaterial(palette, "sand");
-      const sandShader = new THREE.Mesh(new THREE.PlaneGeometry(3.44, 0.28, 36, 4), sandShaderMaterial);
+      const sandShader = new THREE.Mesh(new THREE.PlaneGeometry(4.08, 0.32, 44, 4), sandShaderMaterial);
       sandShader.rotation.x = -Math.PI / 2;
       sandShader.rotation.z = 0.018;
-      sandShader.position.set(-1.72, -1.098, 1.26);
+      sandShader.position.set(-1.92, -1.098, 1.27);
       sandShader.renderOrder = 1;
       outsideGroup.add(sandShader);
       themeMaterials.outsideSandShader = sandShaderMaterial;
@@ -3067,12 +3229,12 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.72, 0.26],
-          [2.04, 0.3],
-          [2.16, 0.5],
-          [1.6, 0.72],
-          [0.88, 0.66],
-          [0.56, 0.46],
+          [0.82, 0.28],
+          [1.78, 0.32],
+          [1.94, 0.54],
+          [1.54, 0.72],
+          [0.92, 0.68],
+          [0.58, 0.48],
         ],
         -0.81,
         0.12,
@@ -3081,11 +3243,11 @@
       [
         {
           points: [
-            [0.48, 0.42],
-            [2.18, 0.46],
-            [2.28, 0.72],
-            [1.68, 0.96],
-            [0.7, 0.9],
+            [0.52, 0.42],
+            [1.96, 0.48],
+            [2.08, 0.74],
+            [1.58, 0.96],
+            [0.72, 0.9],
             [0.34, 0.62],
           ],
           yTop: -0.93,
@@ -3095,9 +3257,9 @@
         {
           points: [
             [0.78, 0.62],
-            [1.92, 0.68],
-            [2.06, 0.9],
-            [1.48, 1.08],
+            [1.72, 0.7],
+            [1.86, 0.92],
+            [1.38, 1.08],
             [0.92, 0.98],
             [0.58, 0.78],
           ],
@@ -3120,23 +3282,23 @@
       addIrregularSlab(
         outsideGroup,
         [
-          [0.24, 0.18],
-          [2.22, 0.2],
-          [2.38, 0.42],
-          [2.08, 0.66],
-          [1.18, 0.72],
-          [0.46, 0.6],
+          [0.28, 0.2],
+          [1.76, 0.24],
+          [1.94, 0.44],
+          [1.58, 0.64],
+          [0.94, 0.68],
+          [0.42, 0.56],
         ],
-        -0.66,
-        0.085,
+        -0.76,
+        0.06,
         cliffMaterial
       );
       addIrregularSlab(
         outsideGroup,
         [
           [0.62, 0.7],
-          [2.0, 0.73],
-          [2.16, 0.95],
+          [1.72, 0.74],
+          [1.88, 0.96],
           [1.42, 1.16],
           [0.72, 1.02],
         ],
@@ -3268,40 +3430,40 @@
       room.scale.set(1.34, 1.18, 1.24);
       house.add(room);
       addBox(room, { x: 1.02, y: 0.035, z: 0.54 }, { x: -0.02, y: -0.34, z: 0.0 }, roomFloorMaterial);
-      addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.1, y: -0.305, z: 0.06 }, blanketMaterial);
-      addBox(room, { x: 0.1, y: 0.25, z: 0.5 }, { x: -0.48, y: -0.08, z: -0.02 }, trimMaterial);
-      addBox(room, { x: 0.95, y: 0.045, z: 0.06 }, { x: -0.02, y: -0.235, z: -0.28 }, trimMaterial);
-      addBox(room, { x: 0.06, y: 0.2, z: 0.52 }, { x: 0.48, y: -0.12, z: 0.0 }, trimMaterial);
-      addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: 0.0 }, bedMaterial);
-      addBox(room, { x: 0.84, y: 0.1, z: 0.46 }, { x: -0.02, y: -0.18, z: -0.01 }, bedMaterial);
-      addBox(room, { x: 0.34, y: 0.075, z: 0.22 }, { x: -0.34, y: -0.1, z: -0.06 }, pillowMaterial);
-      addBox(room, { x: 0.42, y: 0.065, z: 0.16 }, { x: -0.07, y: -0.055, z: 0.02 }, shirtMaterial);
-      addBox(room, { x: 0.72, y: 0.095, z: 0.4 }, { x: 0.07, y: -0.032, z: 0.035 }, blanketMaterial);
+      addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.1, y: -0.305, z: -0.08 }, blanketMaterial);
+      addBox(room, { x: 0.1, y: 0.25, z: 0.5 }, { x: -0.48, y: -0.08, z: -0.16 }, trimMaterial);
+      addBox(room, { x: 0.95, y: 0.045, z: 0.06 }, { x: -0.02, y: -0.235, z: -0.42 }, trimMaterial);
+      addBox(room, { x: 0.06, y: 0.2, z: 0.52 }, { x: 0.48, y: -0.12, z: -0.14 }, trimMaterial);
+      addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: -0.14 }, bedMaterial);
+      addBox(room, { x: 0.84, y: 0.1, z: 0.46 }, { x: -0.02, y: -0.18, z: -0.15 }, bedMaterial);
+      addBox(room, { x: 0.34, y: 0.075, z: 0.22 }, { x: -0.34, y: -0.1, z: -0.2 }, pillowMaterial);
+      addBox(room, { x: 0.42, y: 0.065, z: 0.16 }, { x: -0.07, y: -0.055, z: -0.12 }, shirtMaterial);
+      addBox(room, { x: 0.72, y: 0.095, z: 0.4 }, { x: 0.07, y: -0.032, z: -0.105 }, blanketMaterial);
       [
-        { x: -0.12, z: -0.1, w: 0.5 },
-        { x: 0.08, z: 0.02, w: 0.56 },
-        { x: 0.2, z: 0.13, w: 0.46 },
+        { x: -0.12, z: -0.24, w: 0.5 },
+        { x: 0.08, z: -0.12, w: 0.56 },
+        { x: 0.2, z: -0.01, w: 0.46 },
       ].forEach((fold) => addBox(room, { x: fold.w, y: 0.011, z: 0.012 }, { x: fold.x, y: 0.025, z: fold.z }, curtainMaterial));
-      addBox(room, { x: 0.18, y: 0.018, z: 0.46 }, { x: 0.28, y: 0.025, z: 0.02 }, pillowMaterial);
+      addBox(room, { x: 0.18, y: 0.018, z: 0.46 }, { x: 0.28, y: 0.025, z: -0.12 }, pillowMaterial);
       const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
       head.scale.set(1.06, 0.88, 0.82);
-      head.position.set(-0.32, 0.04, 0.12);
+      head.position.set(-0.32, 0.04, -0.02);
       room.add(head);
       const hair = new THREE.Mesh(new THREE.SphereGeometry(0.095, 24, 18), hairMaterial);
       hair.scale.set(1.2, 0.64, 0.9);
-      hair.position.set(-0.35, 0.07, 0.11);
+      hair.position.set(-0.35, 0.07, -0.03);
       room.add(hair);
       addBox(
         room,
         { x: 0.28, y: 0.016, z: 0.19 },
-        { x: -0.43, y: 0.02, z: 0.18 },
+        { x: -0.43, y: 0.02, z: 0.06 },
         new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
       );
       const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.16), screenMaterial);
-      laptopScreen.position.set(-0.43, 0.16, 0.2);
+      laptopScreen.position.set(-0.43, 0.16, 0.08);
       laptopScreen.rotation.set(-0.52, -0.08, 0);
       room.add(laptopScreen);
-      addBox(room, { x: 0.14, y: 0.01, z: 0.018 }, { x: -0.36, y: 0.018, z: 0.275 }, trimMaterial);
+      addBox(room, { x: 0.14, y: 0.01, z: 0.018 }, { x: -0.36, y: 0.018, z: 0.155 }, trimMaterial);
       const lampGlow = new THREE.Mesh(new THREE.SphereGeometry(0.044, 24, 14), lampMaterial);
       lampGlow.scale.set(1, 0.62, 1);
       lampGlow.position.set(-0.2, 0.075, 0.26);
@@ -3309,7 +3471,7 @@
       addBox(room, { x: 0.018, y: 0.08, z: 0.018 }, { x: -0.2, y: 0.018, z: 0.26 }, trimMaterial);
 
       const roomDesk = new THREE.Group();
-      roomDesk.position.set(0.34, -0.14, -0.02);
+      roomDesk.position.set(0.34, -0.14, 0.16);
       roomDesk.rotation.y = -0.46;
       roomDesk.scale.setScalar(1.04);
       room.add(roomDesk);
@@ -3616,11 +3778,11 @@
       const floorShadow = new THREE.Mesh(new THREE.CircleGeometry(2.22, 80), floorShadowMaterial);
       floorShadow.rotation.x = -Math.PI / 2;
       floorShadow.scale.set(1.2, 0.36, 1);
-      floorShadow.position.set(0.08, -1.205, 1.02);
+      floorShadow.position.set(0.08, -1.205, 0.82);
       rootGroup.add(floorShadow);
 
       const table = new THREE.Group();
-      table.position.set(0, 0, 0.1);
+      table.position.set(0, 0, -0.16);
       rootGroup.add(table);
       addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
@@ -3632,7 +3794,7 @@
       ].forEach(([x, z]) => addBox(table, { x: 0.14, y: 0.72, z: 0.14 }, { x, y: -0.84, z }, woodEdgeMaterial));
 
       const player = new THREE.Group();
-      player.position.set(-1.18, -0.31, -0.04);
+      player.position.set(-0.84, -0.31, 0.02);
       table.add(player);
       const playerBase = addBox(player, { x: 1.5, y: 0.16, z: 1.08 }, { x: 0, y: 0.02, z: 0 }, recordBaseMaterial);
       registerInteractive(playerBase, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
@@ -3739,8 +3901,8 @@
       registerInteractive(recordLabel, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
 
       toneArmGroup = new THREE.Group();
-      toneArmGroup.position.set(0.43, 0.27, -0.36);
-      toneArmGroup.rotation.y = 0.38;
+      toneArmGroup.position.set(0.55, 0.35, -0.34);
+      toneArmGroup.rotation.y = 0.42;
       player.add(toneArmGroup);
       const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.08, 36), metalMaterial);
       toneArmGroup.add(pivot);
@@ -3843,7 +4005,7 @@
       themeMaterials.stylusContact = stylusShadow.material;
 
       const albumRack = new THREE.Group();
-      albumRack.position.set(-1.76, -0.2, -0.66);
+      albumRack.position.set(-1.84, -0.2, -0.86);
       table.add(albumRack);
       addBox(albumRack, { x: 1.42, y: 0.08, z: 0.24 }, { x: 0.02, y: 0.02, z: -0.07 }, woodEdgeMaterial);
       addBox(albumRack, { x: 1.48, y: 0.08, z: 0.08 }, { x: 0.02, y: 0.42, z: -0.19 }, woodEdgeMaterial);
@@ -3851,11 +4013,11 @@
       addBox(albumRack, { x: 0.08, y: 0.56, z: 0.12 }, { x: 0.74, y: 0.24, z: -0.08 }, woodEdgeMaterial);
       records.slice(0, 4).forEach((recordItem, index) => {
         const entry = { kind: "album", index, group: new THREE.Group(), thrown: false };
-        entry.group.position.set(-0.45 + index * 0.3, 0.36 + index * 0.01, 0.01 - index * 0.018);
-        entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
+        entry.group.position.set(-0.58 + index * 0.38, 0.36 + index * 0.01, 0.01 - index * 0.018);
+        entry.group.rotation.set(-0.02, -0.23 + index * 0.075, -0.065 + index * 0.032);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(2.34, 0.94, 1.42);
+        entry.playPosition = new THREE.Vector3(2.08, 0.9, 1.36);
         entry.playRotation = new THREE.Euler(0.06, -0.035, 0.018);
         entry.compactPlayPosition = new THREE.Vector3(1.52, 0.88, 1.1);
         entry.compactPlayRotation = new THREE.Euler(0.06, -0.16, 0.035);
@@ -3900,11 +4062,11 @@
         albumShadow.renderOrder = -1;
         albumRack.add(albumShadow);
         entry.floorShadow = albumShadow;
-        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(1.02, 1.24), hitMaterial);
+        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.82, 1.18), hitMaterial);
         albumHit.position.set(0, 0.04, 0.09);
         albumHit.rotation.x = -0.04;
         entry.group.add(albumHit);
-        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.74, 1.02), hitMaterial);
+        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.52, 1.02), hitMaterial);
         rackSlotHit.position.copy(entry.basePosition).add(new THREE.Vector3(0, 0.02, 0.084));
         rackSlotHit.rotation.copy(entry.baseRotation);
         albumRack.add(rackSlotHit);
@@ -3938,7 +4100,7 @@
         songShadow.renderOrder = -1;
         table.add(songShadow);
         songEntry.floorShadow = songShadow;
-        addBox(songEntry.group, { x: 0.68, y: 0.018, z: 0.42 }, { x: 0, y: -0.014, z: 0 }, cardEdgeMaterial);
+        addBox(songEntry.group, { x: 0.54, y: 0.018, z: 0.76 }, { x: 0, y: -0.014, z: 0 }, cardEdgeMaterial);
         const songMaterial = new THREE.MeshStandardMaterial({
           map: createSongCardTexture(recordItem),
           roughness: 0.62,
@@ -3946,24 +4108,30 @@
           side: THREE.DoubleSide,
           transparent: true,
         });
-        const song = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.4), songMaterial);
+        const song = new THREE.Mesh(new THREE.PlaneGeometry(0.52, 0.74), songMaterial);
         song.rotation.x = -Math.PI / 2;
         song.position.y = 0.006;
         songEntry.group.add(song);
+        const songCoverMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.56, metalness: 0.01, side: THREE.DoubleSide });
+        const songCover = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 0.18), songCoverMaterial);
+        songCover.rotation.x = -Math.PI / 2;
+        songCover.position.set(0.13, 0.016, -0.24);
+        songEntry.group.add(songCover);
+        loadTexture(recordItem.cover || recordItem.src, songCoverMaterial);
         songCardEntries.push(songEntry);
       });
 
       artifacts.slice(0, 2).forEach((artifact, index) => {
         const entry = { kind: "artifact", index, url: artifact.url || "", group: new THREE.Group(), lifted: false };
-        entry.group.position.set(index === 0 ? 0.42 : 0.98, -0.265 + index * 0.006, index === 0 ? 0.56 : -0.22);
+        entry.group.position.set(index === 0 ? 0.38 : 1.06, -0.265 + index * 0.006, index === 0 ? 0.5 : -0.22);
         entry.group.rotation.set(0, 0, index === 0 ? -0.045 : 0.04);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.04 : 0.14, 0.72, index === 0 ? 0.28 : 0.06);
+        entry.focusPosition = new THREE.Vector3(index === 0 ? -0.04 : 0.14, 0.72, index === 0 ? 0.26 : 0.04);
         entry.focusRotation = new THREE.Euler(1.13, -0.018, index === 0 ? -0.02 : 0.026);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
-        const base = addBox(entry.group, { x: 1.38, y: 0.035, z: 0.62 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
+        const base = addBox(entry.group, { x: 0.66, y: 0.035, z: 0.94 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
         const topMaterial = new THREE.MeshStandardMaterial({
           map: createArtifactTexture(artifact, index, palette),
           roughness: 0.64,
@@ -3971,7 +4139,7 @@
           side: THREE.DoubleSide,
           transparent: true,
         });
-        const top = new THREE.Mesh(new THREE.PlaneGeometry(1.38, 0.62), topMaterial);
+        const top = new THREE.Mesh(new THREE.PlaneGeometry(0.64, 0.92), topMaterial);
         top.rotation.x = -Math.PI / 2;
         top.position.y = 0.026;
         entry.group.add(top);
@@ -3990,18 +4158,18 @@
         artifactCue.visible = false;
         entry.group.add(artifactCue);
         entry.cue = artifactCue;
-        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(2.04, 1.12), hitMaterial);
+        const cardHit = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.34), hitMaterial);
         cardHit.rotation.x = -Math.PI / 2;
         cardHit.position.y = 0.082;
         entry.group.add(cardHit);
-        const readingHit = new THREE.Mesh(new THREE.PlaneGeometry(1.72, 0.74), hitMaterial);
+        const readingHit = new THREE.Mesh(new THREE.PlaneGeometry(0.96, 1.12), hitMaterial);
         readingHit.position.set(0, 0.26, 0.02);
         entry.group.add(readingHit);
         registerInteractive(base, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(top, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(cardHit, { kind: "artifact", index, url: entry.url }, entry);
         registerInteractive(readingHit, { kind: "artifact", index, url: entry.url }, entry);
-        const tableReadingHit = new THREE.Mesh(new THREE.PlaneGeometry(1.72, 0.82), hitMaterial);
+        const tableReadingHit = new THREE.Mesh(new THREE.PlaneGeometry(0.96, 1.18), hitMaterial);
         tableReadingHit.position.set(entry.basePosition.x, 0.08, entry.basePosition.z + 0.08);
         tableReadingHit.rotation.z = entry.baseRotation.z;
         table.add(tableReadingHit);
@@ -4206,8 +4374,6 @@
           setSceneView("outside");
         } else if (pointerMode === "returnInside" && !movedEnough) {
           enterDeskFromOutside();
-        } else if (pointerMode === "rotate" && !movedEnough && activeView === "outside") {
-          enterDeskFromOutside();
         } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && isPointerInWindowRegion(event)) {
           setSceneView("outside");
         } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && (focusedEntry || targetZoomLevel > 0.04)) {
@@ -4254,18 +4420,9 @@
         if (!delta) return;
         if (activeView === "outside") {
           const outsideEntryZoom = getOutsideEntryZoom();
-          if (delta < 0) {
-            targetZoomLevel = clamp(targetZoomLevel - delta * 0.00115, outsideEntryZoom, getOutsideMaxZoom());
-            event.preventDefault();
-            scheduleFrame();
-            return;
-          }
-          if (delta > 0) {
-            enterDeskFromOutside();
-            event.preventDefault();
-            scheduleFrame();
-            return;
-          }
+          targetZoomLevel = clamp(targetZoomLevel - delta * 0.00115, outsideEntryZoom, getOutsideMaxZoom());
+          event.preventDefault();
+          scheduleFrame();
           return;
         }
         if (delta > 0 && (focusedEntry || targetZoomLevel > 0.04)) {
@@ -4283,7 +4440,7 @@
           targetRotationX = defaultRotation.x;
           targetRotationY = defaultRotation.y;
         }
-        if (delta < 0 && targetZoomLevel > 0.56 && Date.now() > windowAutoEntryBlockedUntil && isPointerInWindowRegion(event)) {
+        if (delta < 0 && targetZoomLevel > 0.56 && isPointerInWindowRegion(event)) {
           setSceneView("outside");
           event.preventDefault();
           return;
@@ -4491,6 +4648,19 @@
       return fromIndex;
     };
 
+    const resetDroppedRecordsForReplay = () => {
+      if (droppedRecords.size < records.length) return false;
+      closeActiveCard({ bringToTop: false });
+      droppedRecords.clear();
+      droppedRecordOrder.splice(0, droppedRecordOrder.length);
+      if (pile) {
+        pile.querySelectorAll("[data-home-record-card]").forEach((card) => card.remove());
+      }
+      syncDroppedRecordsToDesk({ immediate: true });
+      syncPileState();
+      return true;
+    };
+
     const setDeskMode = (mode, userInitiated = false) => {
       const is3D = mode === "3d";
       if (stage) {
@@ -4676,29 +4846,29 @@
     };
 
     const getRecordCardLayoutProfile = (isCompactPile) => ({
-      baseHeight: isCompactPile ? 8.35 : 10.2,
-      bottomPad: isCompactPile ? 1.15 : 1.35,
-      collisionGap: isCompactPile ? 0.28 : 0.34,
-      collisionStep: isCompactPile ? 2.42 : 2.82,
-      collisionXDrift: isCompactPile ? 0.16 : 0.22,
-      projectedHeight: isCompactPile ? 2.86 : 3.12,
-      projectedWidth: isCompactPile ? 16.2 : 18.25,
+      baseHeight: isCompactPile ? 18.4 : 22.6,
+      bottomPad: isCompactPile ? 1.28 : 1.42,
+      collisionGap: isCompactPile ? 0.42 : 0.5,
+      collisionStep: isCompactPile ? 4.98 : 5.56,
+      collisionXDrift: isCompactPile ? 0.22 : 0.28,
+      projectedHeight: isCompactPile ? 7.9 : 9.2,
+      projectedWidth: isCompactPile ? 9.0 : 10.25,
       zBase: isCompactPile ? 0.42 : 0.5,
       zStep: 0.045,
       slots: isCompactPile
         ? [
-            { x: 0, y: 0.48, rotate: -1.2, tilt: 55.8, scale: 1 },
-            { x: -1.12, y: 2.9, rotate: -5.2, tilt: 56.8, scale: 0.986 },
-            { x: 1.08, y: 5.32, rotate: 4.8, tilt: 56.2, scale: 0.98 },
-            { x: -0.52, y: 7.64, rotate: 2.5, tilt: 57.4, scale: 0.974 },
-            { x: 0.78, y: 9.86, rotate: -3.9, tilt: 57, scale: 0.968 },
+            { x: -4.62, y: 0.38, rotate: -3.2, tilt: 55.8, scale: 0.986 },
+            { x: 4.62, y: 0.84, rotate: 3.6, tilt: 56.5, scale: 0.974 },
+            { x: -3.72, y: 9.42, rotate: 4.2, tilt: 56.1, scale: 0.972 },
+            { x: 3.92, y: 9.88, rotate: -4.6, tilt: 56.8, scale: 0.966 },
+            { x: 0.2, y: 16.12, rotate: -1.6, tilt: 57, scale: 0.958 },
           ]
         : [
-            { x: 0, y: 0.52, rotate: -1.1, tilt: 55.8, scale: 1 },
-            { x: -1.42, y: 3.32, rotate: -5.6, tilt: 56.9, scale: 0.986 },
-            { x: 1.48, y: 6.12, rotate: 5.2, tilt: 56.4, scale: 0.98 },
-            { x: -0.72, y: 8.82, rotate: 2.8, tilt: 57.6, scale: 0.974 },
-            { x: 0.96, y: 11.42, rotate: -4.2, tilt: 57.1, scale: 0.968 },
+            { x: -11.2, y: 0.44, rotate: -3.4, tilt: 55.8, scale: 0.988 },
+            { x: 11.2, y: 0.98, rotate: 3.8, tilt: 56.4, scale: 0.976 },
+            { x: -7.82, y: 11.42, rotate: 4.4, tilt: 56.1, scale: 0.974 },
+            { x: 8.18, y: 11.92, rotate: -4.8, tilt: 56.8, scale: 0.968 },
+            { x: 0.26, y: 18.32, rotate: -1.8, tilt: 57.1, scale: 0.96 },
           ],
     });
 
@@ -4864,6 +5034,7 @@
       card.dataset.homeRecordCard = String(index);
       card.dataset.dropSequence = String(dropSequence);
       card.setAttribute("data-record-index", String(index));
+      card.setAttribute("data-record-tone", record.tone || "");
       card.setAttribute("aria-expanded", "false");
       card.setAttribute("aria-label", `${record.title} by ${record.artist}`);
       card.style.setProperty(
@@ -4887,13 +5058,17 @@
       const body = document.createElement("span");
       body.className = "home-record-card-body";
 
+      const eyebrow = document.createElement("span");
+      eyebrow.className = "home-record-card-eyebrow";
+      eyebrow.textContent = "found in the album shake";
+
       const title = document.createElement("strong");
       title.textContent = record.title;
 
       const artist = document.createElement("em");
       artist.textContent = record.artist;
 
-      body.append(title, artist);
+      body.append(eyebrow, title, artist);
 
       if (record.source) {
         const source = document.createElement("a");
@@ -5044,7 +5219,10 @@
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
-      if (droppedRecords.has(recordIndex)) {
+      if (droppedRecords.size >= records.length) {
+        resetDroppedRecordsForReplay();
+        selectRecord(0);
+      } else if (droppedRecords.has(recordIndex)) {
         const nextIndex = getNextUndroppedRecordIndex(recordIndex);
         if (nextIndex !== recordIndex) selectRecord(nextIndex);
       }

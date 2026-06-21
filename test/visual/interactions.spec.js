@@ -53,12 +53,18 @@ async function shakeCurrentRecord(page) {
   await page.mouse.up();
 }
 
-async function clickDeskCanvasAt(page, xRatio, yRatio) {
+async function clickDeskCanvasAt(page, xRatio, yRatio, options = {}) {
   const canvas = page.locator(".home-desk-corner-canvas");
   await expect(canvas).toBeVisible();
   const box = await canvas.boundingBox();
   expect(box).not.toBeNull();
-  await page.mouse.click(box.x + box.width * xRatio, box.y + box.height * yRatio);
+  const targetX = box.x + box.width * xRatio;
+  const targetY = box.y + box.height * yRatio;
+  if (options.hoverMs) {
+    await page.mouse.move(targetX, targetY);
+    await page.waitForTimeout(options.hoverMs);
+  }
+  await page.mouse.click(targetX, targetY);
 }
 
 async function dragDeskCanvasAt(page, fromXRatio, fromYRatio, toXRatio, toYRatio) {
@@ -255,17 +261,21 @@ test("home profile bubbles hover independently", async ({ page }, testInfo) => {
 
 test("home dropped meme record cards resolve into separate 2D lanes", async ({ page }) => {
   await preparePage(page, "dark");
-  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
   const stage = page.locator("[data-home-artifact-stage]");
+  const cards = page.locator("[data-home-record-card]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
 
   await dropRecordCardsUntil(page, 1);
   await dropRecordCardsUntil(page, 2);
+  await dropRecordCardsUntil(page, 3);
+  await dropRecordCardsUntil(page, 4);
   await page.waitForTimeout(120);
 
-  const maxOverlapRatio = await page.locator("[data-home-record-card]").evaluateAll((cards) => {
+  const maxOverlapRatio = await cards.evaluateAll((cards) => {
     const rects = cards.map((card) => {
       const rect = card.getBoundingClientRect();
       return {
@@ -293,6 +303,11 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
   });
 
   expect(maxOverlapRatio).toBeLessThan(0.08);
+
+  await shakeCurrentRecord(page);
+  await page.waitForTimeout(900);
+  await expect(cards).toHaveCount(1);
+  await expect(stage).toHaveAttribute("data-dropped-records", "0");
 });
 
 test("home opened meme record cards settle back on top of the 2D pile", async ({ page }) => {
@@ -309,7 +324,7 @@ test("home opened meme record cards settle back on top of the 2D pile", async ({
 
   const firstCard = cards.nth(0);
   const openedIndex = await firstCard.getAttribute("data-record-index");
-  await firstCard.click();
+  await firstCard.locator(".home-record-card-eyebrow").click();
   await expect(firstCard).toHaveAttribute("aria-expanded", "true");
 
   await page.keyboard.press("Escape");
@@ -351,22 +366,29 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(stage).toHaveAttribute("data-desk-mode", "3d");
   await page.waitForTimeout(1200);
 
-  await clickDeskCanvasAt(page, 0.26, 0.36);
+  await page.click('[data-home-desk-control="previous"]');
+  await expect(stage).toHaveAttribute("data-record-tone", "jude");
+
+  await clickDeskCanvasAt(page, 0.24, 0.36);
   await page.waitForTimeout(420);
+  await expect(stage).toHaveAttribute("data-record-tone", "jude");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", "album-0");
 
-  await clickDeskCanvasAt(page, 0.32, 0.36);
-  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-2");
+  await clickDeskCanvasAt(page, 0.32, 0.4);
+  await page.waitForTimeout(640);
   await expect(stage).toHaveAttribute("data-record-tone", "wind");
+  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
+  await page.waitForTimeout(1800);
 
-  await clickDeskCanvasAt(page, 0.38, 0.36);
-  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-3");
-  await expect(stage).toHaveAttribute("data-record-tone", "sunday");
-  await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
-
-  await dragDeskCanvasAt(page, 0.32, 0.36, 0.2, 0.61);
+  await dragDeskCanvasAt(page, 0.32, 0.4, 0.2, 0.61);
   await page.waitForTimeout(920);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2");
+  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
+
+  await clickDeskCanvasAt(page, 0.39, 0.23, { hoverMs: 180 });
+  await page.waitForTimeout(640);
+  await expect(stage).toHaveAttribute("data-record-tone", "sunday");
+  await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
 });
 
@@ -385,6 +407,16 @@ test("home 3D outside view returns to the room when the hero scrolls away", asyn
   await page.waitForTimeout(1200);
 
   await clickDeskCanvasAt(page, 0.78, 0.28);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await page.mouse.wheel(0, -900);
+  await page.waitForTimeout(240);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await page.mouse.wheel(0, 700);
+  await page.waitForTimeout(240);
   await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
   await expect(scene).toHaveClass(/is-outside-view/);
 
