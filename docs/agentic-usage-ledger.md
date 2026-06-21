@@ -16,17 +16,17 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 Published total baseline, estimated on June 20, 2026:
 
-- 240 commits since the revamp cutoff, including the focused 3D album/easel interaction milestone, the 2D vinyl legibility milestone, and the usage refresh.
-- 2.01B estimated Codex tokens.
+- 241 commits since the revamp cutoff, including the focused 3D album/easel interaction milestone, the 2D vinyl legibility milestone, the rack-flick focus-clear milestone, and the usage refresh.
+- 2.02B estimated Codex tokens.
 - 182 estimated active agent-hours.
 - Public money joke: about $1.8K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
 - API-cost reference: about $650 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1206 kWh, 450 kg CO2e, or a stored-carbon equivalent of about 0.7 ten-year urban trees. Range: 0.25-2.5 trees.
+- Tree-cut lens: about 1212 kWh, 452 kg CO2e, or a stored-carbon equivalent of about 0.8 ten-year urban trees. Range: 0.25-2.5 trees.
 
 Evidence behind the total:
 
 - `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 51 sessions after the revamp cutoff.
-- The audit showed about 2.014B raw tokens and 181.84 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
+- The audit showed about 2.021B raw tokens and 182.27 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 - The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
@@ -34,7 +34,7 @@ Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the
 
 Published 3D desk baseline:
 
-- 83 commits touching the homepage desk/vinyl/coffee scene paths, including the focused 3D album/easel interaction milestone and the 2D vinyl legibility milestone.
+- 84 commits touching the homepage desk/vinyl/coffee scene paths, including the focused 3D album/easel interaction milestone, the 2D vinyl legibility milestone, and the rack-flick focus-clear milestone.
 - 960M estimated Codex tokens.
 - 68 estimated active agent-hours.
 - Public money joke reference: about $840 from the CodexBar screenshot ratio.
@@ -44,7 +44,7 @@ Published 3D desk baseline:
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 16 Codex sessions after the 3D cutoff, about 956.1M raw tokens, and about 67.78 active hours, rounded for the public UI.
+- The audit counted 16 Codex sessions after the 3D cutoff, about 962.8M raw tokens, and about 68.21 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -189,6 +189,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path _sass/_home.scss --pending-path _includes/home/hero.liquid --pending-path docs/homepage-desk-scene-brief.md --pending-path test/visual/interactions.spec.js`, then a post-commit `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write`, scanned `C:\Users\dylan\.codex\sessions\2026`, found 78 repo sessions, counted 51 sessions after the revamp cutoff and 16 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this desk paper-physics and room-texture sync commit.
 - 2D vinyl record legibility pass: public total moved to 240 commits while rounded total tokens, hours, energy, tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter moved to 83 commits, 960M tokens, 68 hours, 576 kWh, roughly 0.4 trees cut, about $300 API cosplay, and about $840 on the CodexBar-ratio money joke.
 - Evidence: `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 78 repo sessions, counted 51 sessions after the revamp cutoff and 16 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending 2D vinyl record legibility commit.
+- Rack-flick focus-clear pass: public total moved to 241 commits, 2.02B tokens, 1212 kWh, and roughly 0.8 trees while rounded total hours, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter moved to 84 commits while rounded desk tokens, hours, energy, tree midpoint, API-cost, and CodexBar labels stayed unchanged.
+- Evidence: `C:\Users\dylan\.conda\envs\dw\python.exe bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md --pending-path test/visual/interactions.spec.js` scanned `C:\Users\dylan\.codex\sessions\2026`, found 78 repo sessions, counted 51 sessions after the revamp cutoff and 16 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending rack-flick focus-clear commit.
 
 ## Future Entry Template
 

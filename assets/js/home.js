@@ -2412,6 +2412,8 @@
         focusedEntry = null;
         focusedEntryAt = 0;
         container.removeAttribute("data-focused-desk-object");
+      } else if (focusedEntry) {
+        clearFocusedEntry(320);
       }
       setEntryCue(entry, false);
       entry.dropDirection = deltaX >= 0 ? 1 : -1;

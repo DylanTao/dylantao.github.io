@@ -61,6 +61,24 @@ async function clickDeskCanvasAt(page, xRatio, yRatio) {
   await page.mouse.click(box.x + box.width * xRatio, box.y + box.height * yRatio);
 }
 
+async function dragDeskCanvasAt(page, fromXRatio, fromYRatio, toXRatio, toYRatio) {
+  const canvas = page.locator(".home-desk-corner-canvas");
+  await expect(canvas).toBeVisible();
+  const box = await canvas.boundingBox();
+  expect(box).not.toBeNull();
+
+  const startX = box.x + box.width * fromXRatio;
+  const startY = box.y + box.height * fromYRatio;
+  const endX = box.x + box.width * toXRatio;
+  const endY = box.y + box.height * toYRatio;
+
+  await page.mouse.move(startX, startY);
+  await page.mouse.down();
+  await page.mouse.move((startX + endX) / 2, (startY + endY) / 2, { steps: 8 });
+  await page.mouse.move(endX, endY, { steps: 8 });
+  await page.mouse.up();
+}
+
 async function dropRecordCardsUntil(page, expectedCount) {
   const cards = page.locator("[data-home-record-card]");
 
@@ -345,6 +363,11 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(scene).toHaveAttribute("data-focused-desk-object", "album-3");
   await expect(stage).toHaveAttribute("data-record-tone", "sunday");
   await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
+
+  await dragDeskCanvasAt(page, 0.32, 0.36, 0.2, 0.61);
+  await page.waitForTimeout(920);
+  await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2");
+  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
 });
 
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {
