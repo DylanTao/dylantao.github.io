@@ -304,6 +304,19 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
 
   expect(maxOverlapRatio).toBeLessThan(0.08);
 
+  const cardShape = await cards.first().evaluate((card) => {
+    const computed = window.getComputedStyle(card);
+    return {
+      columns: computed.gridTemplateColumns.split(" ").filter(Boolean).length,
+      minHeight: Number.parseFloat(computed.minHeight),
+      radius: Number.parseFloat(computed.borderTopLeftRadius),
+    };
+  });
+
+  expect(cardShape.columns).toBeGreaterThanOrEqual(2);
+  expect(cardShape.minHeight).toBeLessThan(150);
+  expect(cardShape.radius).toBeGreaterThan(6);
+
   await shakeCurrentRecord(page);
   await page.waitForTimeout(900);
   await expect(cards).toHaveCount(1);
@@ -346,6 +359,57 @@ test("home opened meme record cards settle back on top of the 2D pile", async ({
   expect(topIndex).toBe(openedIndex);
 });
 
+test("home 3D outside view uses explicit window clicks and scroll-away reset", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
+
+  await preparePage(page, "light");
+  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const stage = page.locator("[data-home-artifact-stage]");
+  const scene = page.locator("[data-home-desk-scene]");
+  await page.click('[data-home-desk-mode="3d"]');
+  await expect(stage).toHaveAttribute("data-desk-mode", "3d");
+  await page.waitForTimeout(1200);
+
+  const canvas = page.locator(".home-desk-corner-canvas");
+  const box = await canvas.boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.move(box.x + box.width * 0.78, box.y + box.height * 0.28);
+  await page.mouse.wheel(0, -1600);
+  await page.waitForTimeout(320);
+  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
+  await expect(scene).not.toHaveClass(/is-outside-view/);
+
+  await clickDeskCanvasAt(page, 0.86, 0.38);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await page.mouse.wheel(0, -2400);
+  await page.waitForTimeout(240);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await page.mouse.wheel(0, 1400);
+  await page.waitForTimeout(240);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await clickDeskCanvasAt(page, 0.5, 0.46);
+  await page.waitForTimeout(240);
+  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
+  await expect(scene).not.toHaveClass(/is-outside-view/);
+
+  await clickDeskCanvasAt(page, 0.86, 0.38);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await page.locator(".home-agentic-tally").scrollIntoViewIfNeeded();
+  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
+  await expect(scene).not.toHaveClass(/is-outside-view/);
+});
+
 test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
 
@@ -374,55 +438,22 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", "album-0");
 
-  await clickDeskCanvasAt(page, 0.32, 0.4);
-  await page.waitForTimeout(640);
+  await clickDeskCanvasAt(page, 0.36, 0.34);
+  await page.waitForTimeout(1120);
   await expect(stage).toHaveAttribute("data-record-tone", "wind");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
-  await page.waitForTimeout(1800);
+  await page.waitForTimeout(900);
 
-  await dragDeskCanvasAt(page, 0.32, 0.4, 0.2, 0.61);
+  await dragDeskCanvasAt(page, 0.36, 0.34, 0.2, 0.61);
   await page.waitForTimeout(920);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
 
-  await clickDeskCanvasAt(page, 0.39, 0.23, { hoverMs: 180 });
-  await page.waitForTimeout(640);
+  await clickDeskCanvasAt(page, 0.4, 0.28, { hoverMs: 180 });
+  await page.waitForTimeout(1120);
   await expect(stage).toHaveAttribute("data-record-tone", "sunday");
   await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
-});
-
-test("home 3D outside view returns to the room when the hero scrolls away", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
-
-  await preparePage(page, "light");
-  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
-  await page.goto(homeRoute, { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
-
-  const stage = page.locator("[data-home-artifact-stage]");
-  const scene = page.locator("[data-home-desk-scene]");
-  await page.click('[data-home-desk-mode="3d"]');
-  await expect(stage).toHaveAttribute("data-desk-mode", "3d");
-  await page.waitForTimeout(1200);
-
-  await clickDeskCanvasAt(page, 0.78, 0.28);
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
-
-  await page.mouse.wheel(0, -900);
-  await page.waitForTimeout(240);
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
-
-  await page.mouse.wheel(0, 700);
-  await page.waitForTimeout(240);
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
-
-  await page.locator(".home-agentic-tally").scrollIntoViewIfNeeded();
-  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
-  await expect(scene).not.toHaveClass(/is-outside-view/);
 });
 
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {

@@ -1,8 +1,8 @@
 metadata:
-  last_synced: 2026-06-19
+  last_synced: 2026-06-21
   scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
   yearly_note: Annual bars follow the Google Scholar snapshot; hover a year or paper to connect the evidence.
-  total_citations: 211
+  total_citations: 212
   credits:
     tool:
       label: Google Scholar Author Highlighter
@@ -40,7 +40,7 @@ papers:
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 162
+    citation_total: 163
 citation_years:
   - year: 2020
     total: 1

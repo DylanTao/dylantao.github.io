@@ -20,7 +20,8 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - The focused "now playing" album should read as a sleeve propped on a small desk/easel ledge near the turntable, with a front-facing pose and enough room context still visible. Replacement clicks should favor nearby visible rack sleeves over the enlarged focused sleeve so the interaction feels like swapping records, not fighting the hitbox.
 - On desktop, the focused sleeve should separate from the rack and read as the featured now-playing object: larger than rack sleeves, slightly forward/right on the easel, and nearly front-facing. Mobile can keep a tighter pose so the sleeve does not crowd the controls or window.
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
-- Desk cards should read as scaled white A4 papers: same project or song identity as their 2D source, with readable hand-drawn text, messy ruled scribbles, doodles, and small real-cover/source identity cues where relevant.
+- Only the 3D project artifact cards should read as scaled white A4 papers: readable hand-drawn project labels, messy ruled scribbles, doodles, and a slightly tactile paper edge.
+- Dropped meme-record discoveries are album/source cards, not A4 papers. In 2D they should look like compact collected music cards with real cover art, title/artist, and the Spotify/source affordance. In 3D they should match that compact card language when they settle on the floor.
 - Album selection should feel like a sleeve-disc swap: show the real cover, lift/remove the meme disc, insert the replacement, start the vinyl, and return the sleeve to the rack rather than leaving it stranded in a giant focused pose.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
@@ -42,10 +43,12 @@ Top-down schematic for the shared room language, with `+x` moving right, `+z` mo
 ```text
 z
 ^
-|  W W W       window: four-pane frame, thick sill, warm wood trim
+|  W W W       floor-to-ceiling window wall: big designer frame, thick sill, warm wood trim
 |  W W W       outside view: same horizon, ocean, sand/cliff palette
 |
-|  [albums] [turntable]        rear-left desk zone
+|  [low bed]                  deeper warm Japandi room zone
+|
+|  [albums] [turntable]        desk pulled closer to the window
 |
 |        [paper cards] [mug]   front-right working zone
 |
@@ -53,15 +56,16 @@ z
 +--------------------------------------------------------------> +x
 ```
 
-Interior and exterior should read as two scales of the same hut/desk world: warm wood framing, lightly gridded floor/wall board textures, four-pane windows, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the four-pane window language and the same generated floor/wall texture vocabulary rather than switching to a different facade style.
+Interior and exterior should read as two scales of the same cliff-house world: warm Japandi wood, soft stone/plaster, a sculptural carved-rock nook, floor-to-ceiling framed glass, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the same big-window language and the same floor/stone/wood vocabulary rather than switching to a different facade style.
 
-The grid is descriptive, not a mandate for photoreal geometry. Keep the room stylized and graphic, but preserve the stable anchors: rear window, rear-left record shelf/turntable, front-right paper/mug work zone, and the dropped-card fan on the near floor.
+The grid is descriptive, not a mandate for photoreal geometry. Keep the room stylized and graphic, but preserve the stable anchors: big rear window, desk close to the glass, bed deeper in the room, rear-left record shelf/turntable on the desk, front-right paper/mug work zone, and the dropped-card fan on the near floor.
 
 ## Outside Vignette
 
-- The window should read as a real window with frame, sill, glass, and a view plane.
-- Zooming toward the window reveals a faint object-native jump affordance. The outside scene should be a stylized San Diego cliff-beach diorama with ocean, beach, cliff-side house, and time-of-day lighting.
-- Once outside, scroll/trackpad zoom should explore the exterior view without automatically re-entering the room; only the intentional return affordance should move the user back inside.
+- The window should read as a floor-to-ceiling designer window with frame, sill, glass, and a view plane.
+- Zooming toward the window reveals a faint object-native hint, but zooming must not automatically enter or leave the room. Clicking the inside window enters outside.
+- Once outside, scroll/trackpad zoom should explore the exterior view and zoom closer into the window without automatically re-entering the room; clicking the visible window/glow returns inside.
+- The outside scene should be a stylized San Diego cliff-beach diorama with layered water, shoreline foam, sand, irregular cliff terraces, cliff-side house, and time-of-day lighting.
 - In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
 - The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the bed/head/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
 - Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.
@@ -82,4 +86,6 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 - 3D canvas prewarms, renders nonblank, and drag/zoom produce visible pixel changes.
 - Four albums are in an organized shelf; discovered song cards settle on the floor in the same order as the 2D pile.
 - Album click, card focus, 2D shake discovery, 3D album flick discovery, album-drop room return, scroll-back, reset, window jump, and outside return all work.
+- Inside wheel/trackpad zoom never auto-enters outside; outside wheel/trackpad zoom never auto-enters inside. Window clicks are the deliberate mode switch.
+- 2D dropped meme discoveries read as compact album/source cards; only the 3D project artifacts read as A4 papers.
 - Mobile keeps the scene usable without cropping the window, controls, or artifact focus states.
