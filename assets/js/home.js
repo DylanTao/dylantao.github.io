@@ -820,11 +820,11 @@
         if (focusedEntry?.kind === "album") {
           camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 32 : 29, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.62 : 3, zoom),
-            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.72 : 1.84, zoom),
-            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.82 : 5.12, zoom)
+            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.62 : 2.84, zoom),
+            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.72 : 1.82, zoom),
+            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.82 : 4.92, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.2 : -0.26, zoom), lerp(-0.04, 0.22, zoom), lerp(0.02, 0.18, zoom));
+          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.2 : 0.32, zoom), lerp(-0.04, 0.26, zoom), lerp(0.02, 0.42, zoom));
         } else if (focusedEntry?.kind === "artifact") {
           camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 31 : 29, zoom);
           camera.position.set(
@@ -2092,6 +2092,7 @@
       entry.lifted = false;
       setEntryCue(entry, false);
       const droppedPose = entry.kind === "album" ? getAlbumDroppedRestPose(entry) : null;
+      if (entry.kind === "album" && entry.rackSlotHit) entry.rackSlotHit.visible = !droppedPose;
       const position = droppedPose?.position || entry.basePosition;
       const rotation = droppedPose?.rotation || entry.baseRotation;
       const scale = droppedPose?.scale || new THREE.Vector3(1, 1, 1);
@@ -2130,30 +2131,26 @@
       const side = entry.dropDirection || (orderIndex % 2 === 0 ? -1 : 1);
       const row = Math.floor(orderIndex / 2);
       const jitter = (((entry.index * 37) % 11) - 5) * 0.012;
-      const fan = side * (0.14 + row * 0.05) + jitter;
+      const fan = side * (0.19 + row * 0.07) + jitter;
       const floorLift = orderIndex * 0.0025;
+      const albumX = 1.18 + side * (0.28 + row * 0.1) + jitter;
+      const albumZ = 1.28 + row * 0.18 + (entry.index % 2) * 0.052;
+      const cardX = -0.12 + side * (0.26 + row * 0.11) + jitter;
+      const cardZ = 1.02 + row * 0.15 + (entry.index % 2) * 0.05;
 
       return {
-        albumPosition: new THREE.Vector3(
-          0.42 + side * (0.18 + row * 0.08) + jitter,
-          -0.985 + orderIndex * 0.01,
-          1.08 + row * 0.14 + (entry.index % 2) * 0.045
-        ),
-        albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.024, side * 0.02, fan),
+        albumPosition: new THREE.Vector3(albumX, -1.0 + orderIndex * 0.008, albumZ),
+        albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.034, side * 0.026, fan),
         albumScale: new THREE.Vector3(0.95, 0.95, 0.95),
-        cardPosition: new THREE.Vector3(
-          -0.18 + side * (0.2 + row * 0.08) + jitter,
-          -1.16 + orderIndex * 0.012,
-          0.94 + row * 0.13 + (entry.index % 2) * 0.045
-        ),
-        cardRotation: new THREE.Euler(side * 0.018, side * 0.018, side * (0.12 + row * 0.05) - jitter),
+        cardPosition: new THREE.Vector3(cardX, -1.165 + orderIndex * 0.01, cardZ),
+        cardRotation: new THREE.Euler(side * 0.026, side * 0.022, side * (0.16 + row * 0.065) - jitter),
         cardScale: new THREE.Vector3(1, 1, 1),
-        albumShadowPosition: new THREE.Vector3(0.42 + side * (0.18 + row * 0.08) + jitter, -1.018 + floorLift, 1.08 + row * 0.14),
+        albumShadowPosition: new THREE.Vector3(albumX, -1.018 + floorLift, albumZ),
         albumShadowRotation: new THREE.Euler(-Math.PI / 2, 0, fan * 0.84),
-        albumShadowScale: new THREE.Vector3(0.64 + row * 0.045, 0.34, 1),
-        cardShadowPosition: new THREE.Vector3(-0.18 + side * (0.2 + row * 0.08) + jitter, -1.216 + floorLift, 0.94 + row * 0.13),
-        cardShadowRotation: new THREE.Euler(-Math.PI / 2, 0, side * (0.1 + row * 0.04) - jitter),
-        cardShadowScale: new THREE.Vector3(0.52 + row * 0.03, 0.23, 1),
+        albumShadowScale: new THREE.Vector3(0.74 + row * 0.055, 0.36, 1),
+        cardShadowPosition: new THREE.Vector3(cardX, -1.216 + floorLift, cardZ),
+        cardShadowRotation: new THREE.Euler(-Math.PI / 2, 0, side * (0.13 + row * 0.05) - jitter),
+        cardShadowScale: new THREE.Vector3(0.58 + row * 0.035, 0.25, 1),
       };
     };
 
@@ -2355,8 +2352,14 @@
       focusedEntryAt = performance.now();
       container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
       setEntryCue(entry, true);
-      const playPosition = entry.playPosition || entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
-      const playRotation = entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
+      if (entry.rackSlotHit) entry.rackSlotHit.visible = false;
+      const playPosition =
+        (isCompactScene ? entry.compactPlayPosition : entry.playPosition) ||
+        entry.playPosition ||
+        entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
+      const playRotation =
+        (isCompactScene ? entry.compactPlayRotation : entry.playRotation) || entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
+      const playScale = isCompactScene ? 1.5 : 1.92;
       entry.currentRestY = playPosition.y;
       setActiveRecordInternal(entry.index, false);
       if (callbacks.playRecord) {
@@ -2371,13 +2374,13 @@
         {
           position: playPosition.clone(),
           rotation: playRotation.clone(),
-          scale: new THREE.Vector3(1.5, 1.5, 1.5),
+          scale: new THREE.Vector3(playScale, playScale, playScale),
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.2 : 0.22);
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.2 : 0.3);
       targetRotationX = -0.026;
-      targetRotationY = -0.13;
+      targetRotationY = isCompactScene ? -0.13 : -0.08;
       scheduleFrame();
     };
 
@@ -3825,8 +3828,10 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(1.52, 0.88, 1.1);
-        entry.playRotation = new THREE.Euler(0.06, -0.16, 0.035);
+        entry.playPosition = new THREE.Vector3(2.34, 0.94, 1.42);
+        entry.playRotation = new THREE.Euler(0.06, -0.035, 0.018);
+        entry.compactPlayPosition = new THREE.Vector3(1.52, 0.88, 1.1);
+        entry.compactPlayRotation = new THREE.Euler(0.06, -0.16, 0.035);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -5003,7 +5008,7 @@
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
-      if (!isRecordEngaged && !isSpinning && droppedRecords.has(recordIndex)) {
+      if (droppedRecords.has(recordIndex)) {
         const nextIndex = getNextUndroppedRecordIndex(recordIndex);
         if (nextIndex !== recordIndex) selectRecord(nextIndex);
       }
