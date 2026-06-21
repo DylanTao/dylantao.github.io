@@ -13,6 +13,8 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 ## 3D Desk Vignette
 
 - The desk is a small polished room vignette inside the hero media footprint, not a fullscreen model.
+- The current 3D target is a warm Japandi cliff-house nook, not a literal office desk render: carved stone/plaster side forms, a warm wood desk/floor, a low bed deeper in the room, and a large floor-to-ceiling window wall should all read together.
+- The room should feel explorable from the first view. The desk sits closer to the glass, while deeper room cues such as bed, stone ribs, ceiling mass, sill, and decor prevent the scene from collapsing into a flat tabletop.
 - The table has a turntable, elegant Autodesk mug, coffee surface, a single table stain, two non-overlapping artifact cards, and four album sleeves organized in a shelf or crate.
 - Albums are object-native controls. Clicking one should focus it as a leaning "now playing" sleeve near the turntable, update the record label, and start the meme vinyl spinning. Dragging or flicking can scatter an album and reveal a small song card.
 - Album rack hit targets should follow the visible left-to-right sleeve order, including while another sleeve is focused; dropped/empty rack slots must not remain clickable.
@@ -22,6 +24,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
 - Only the 3D project artifact cards should read as scaled white A4 papers: readable hand-drawn project labels, messy ruled scribbles, doodles, and a slightly tactile paper edge.
 - Dropped meme-record discoveries are album/source cards, not A4 papers. In 2D they should look like compact collected music cards with real cover art, title/artist, and the Spotify/source affordance. In 3D they should match that compact card language when they settle on the floor.
+- Once all four meme-record discoveries have been found, a successful shake should replay all four album/source cards in one burst. Do not clear the pile on pointer-down or regress to one-card replay.
 - Album selection should feel like a sleeve-disc swap: show the real cover, lift/remove the meme disc, insert the replacement, start the vinyl, and return the sleeve to the rack rather than leaving it stranded in a giant focused pose.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
@@ -63,9 +66,11 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 ## Outside Vignette
 
 - The window should read as a floor-to-ceiling designer window with frame, sill, glass, and a view plane.
+- The exterior should show the same house, not a separate miniature world: the large glass wall, desk by the window, low bed behind it, roof overhang, stone plinth, and wood/stone material language must correspond to the interior view.
 - Zooming toward the window reveals a faint object-native hint, but zooming must not automatically enter or leave the room. Clicking the inside window enters outside.
 - Once outside, scroll/trackpad zoom should explore the exterior view and zoom closer into the window without automatically re-entering the room; clicking the visible window/glow returns inside.
 - The outside scene should be a stylized San Diego cliff-beach diorama with layered water, shoreline foam, sand, irregular cliff terraces, cliff-side house, and time-of-day lighting.
+- Prefer layered terrain and shader/canvas motion over flat planes: overlapping water bands, irregular cliff shelves, foreground rocks, shore foam, sand gusts, and a narrower headland backdrop should create depth.
 - In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
 - The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the bed/head/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
 - Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.
@@ -76,6 +81,7 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 - Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, blanket pattern, laptop screen, and record labels.
 - Favor cheap GPU motion before adding heavier simulation: scrolling texture offsets, small mesh bobbing, and eased object arcs already give ocean/sand/card motion without a particle system.
 - The outside view uses texture-offset ocean/foam motion, transparent sand-gust planes, small instanced shoreline glints, and low-resolution shader overlays for foam/sand shimmer near the beach. This should read as living coastal motion while staying cheap and only animating outside mode.
+- The current implementation also uses repeated simple mesh primitives for the house, cliff shelves, stone ribs, and roof/floor framing. Future work should improve these with better shared anchors and materials before introducing a heavy asset pipeline.
 - The desk view uses a tiny instanced glint mesh on record/card/mug surfaces. Keep this as a single low-cost GPU accent that only animates while the scene is spinning, focused, hovered, or already tweening.
 - Next valuable additions would be depth-aware dust/glisten accents or a physically richer water shader if it clearly improves the current lightweight shader-overlay stack. Avoid full fluid simulation unless it replaces the existing canvas-texture, shader-overlay, and instanced-accent motion with a clearly better, still-fast effect.
 - Keep renderer pixel ratio capped and animate only when visible, spinning, moving, or outside textures are active.

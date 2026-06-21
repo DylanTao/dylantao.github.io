@@ -319,8 +319,20 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
 
   await shakeCurrentRecord(page);
   await page.waitForTimeout(900);
-  await expect(cards).toHaveCount(1);
-  await expect(stage).toHaveAttribute("data-dropped-records", "0");
+  await expect(cards).toHaveCount(4);
+  await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2,3");
+
+  const replayedOrder = await cards.evaluateAll((cardNodes) =>
+    cardNodes
+      .map((card) => ({
+        index: card.getAttribute("data-record-index"),
+        sequence: Number(card.getAttribute("data-drop-sequence") || card.dataset.dropSequence || 0),
+      }))
+      .sort((first, second) => first.sequence - second.sequence)
+      .map((card) => card.index)
+      .join(",")
+  );
+  expect(replayedOrder).toBe("0,1,2,3");
 });
 
 test("home opened meme record cards settle back on top of the 2D pile", async ({ page }) => {

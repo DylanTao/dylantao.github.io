@@ -814,11 +814,11 @@
         const zoom = easeOutCubic(zoomLevel);
         camera.fov = lerp(isCompactScene ? 38 : 32, isCompactScene ? 26 : 21.5, zoom);
         camera.position.set(
-          lerp(isCompactScene ? 2.68 : 3.08, isCompactScene ? 1.24 : 1.34, zoom),
-          lerp(isCompactScene ? 1.4 : 1.58, isCompactScene ? 0.88 : 0.9, zoom),
-          lerp(isCompactScene ? 4.95 : 4.95, isCompactScene ? 2.86 : 2.68, zoom)
+          lerp(isCompactScene ? 2.5 : 2.82, isCompactScene ? 1.18 : 1.22, zoom),
+          lerp(isCompactScene ? 1.34 : 1.5, isCompactScene ? 0.84 : 0.86, zoom),
+          lerp(isCompactScene ? 4.58 : 4.42, isCompactScene ? 2.72 : 2.48, zoom)
         );
-        camera.lookAt(lerp(isCompactScene ? 0.34 : 0.58, isCompactScene ? 1.0 : 1.08, zoom), lerp(-0.14, -0.04, zoom), lerp(0.08, 0.42, zoom));
+        camera.lookAt(lerp(isCompactScene ? 0.34 : 0.62, isCompactScene ? 0.98 : 1.08, zoom), lerp(-0.14, -0.02, zoom), lerp(0.12, 0.52, zoom));
       } else {
         const zoom = easeOutCubic(zoomLevel);
         if (focusedEntry?.kind === "album") {
@@ -992,15 +992,15 @@
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
           context.fillStyle = palette.isDarkTheme ? "rgba(255,235,205,0.56)" : "rgba(82,57,34,0.54)";
-          context.font = "700 30px Inter, system-ui, sans-serif";
+          context.font = "700 24px Inter, system-ui, sans-serif";
           context.textAlign = "center";
           context.textBaseline = "middle";
           context.fillText("click window to go outside", width * 0.5, height * 0.52);
           context.strokeStyle = palette.isDarkTheme ? "rgba(255,214,162,0.28)" : "rgba(150,103,58,0.2)";
           context.lineWidth = 3;
           context.beginPath();
-          context.moveTo(width * 0.22, height * 0.74);
-          context.bezierCurveTo(width * 0.36, height * 0.82, width * 0.64, height * 0.66, width * 0.78, height * 0.74);
+          context.moveTo(width * 0.26, height * 0.72);
+          context.bezierCurveTo(width * 0.38, height * 0.8, width * 0.62, height * 0.66, width * 0.74, height * 0.72);
           context.stroke();
         },
         520,
@@ -1160,25 +1160,35 @@
           context.stroke();
         }
 
+        context.fillStyle = isEvening ? "rgba(47,58,49,0.58)" : "rgba(150,131,96,0.46)";
+        context.beginPath();
+        context.moveTo(0, height * 0.86);
+        context.quadraticCurveTo(width * 0.1, height * 0.76, width * 0.24, height * 0.8);
+        context.quadraticCurveTo(width * 0.36, height * 0.84, width * 0.48, height * 0.78);
+        context.lineTo(width * 0.58, height);
+        context.lineTo(0, height);
+        context.closePath();
+        context.fill();
+
         context.fillStyle = isEvening ? "#2b332b" : "#8d7b5c";
         context.beginPath();
-        context.moveTo(width * 0.58, height);
+        context.moveTo(width * 0.68, height);
         context.lineTo(width, height);
-        context.lineTo(width, height * 0.43);
-        context.lineTo(width * 0.94, height * 0.49);
-        context.quadraticCurveTo(width * 0.86, height * 0.54, width * 0.8, height * 0.64);
-        context.quadraticCurveTo(width * 0.72, height * 0.74, width * 0.69, height * 0.86);
-        context.quadraticCurveTo(width * 0.64, height * 0.94, width * 0.58, height);
+        context.lineTo(width, height * 0.5);
+        context.lineTo(width * 0.95, height * 0.53);
+        context.quadraticCurveTo(width * 0.9, height * 0.56, width * 0.84, height * 0.66);
+        context.quadraticCurveTo(width * 0.77, height * 0.78, width * 0.75, height * 0.9);
+        context.quadraticCurveTo(width * 0.72, height * 0.96, width * 0.68, height);
         context.fill();
         context.save();
         context.beginPath();
-        context.moveTo(width * 0.58, height);
+        context.moveTo(width * 0.68, height);
         context.lineTo(width, height);
-        context.lineTo(width, height * 0.43);
-        context.lineTo(width * 0.94, height * 0.49);
-        context.quadraticCurveTo(width * 0.86, height * 0.54, width * 0.8, height * 0.64);
-        context.quadraticCurveTo(width * 0.72, height * 0.74, width * 0.69, height * 0.86);
-        context.quadraticCurveTo(width * 0.64, height * 0.94, width * 0.58, height);
+        context.lineTo(width, height * 0.5);
+        context.lineTo(width * 0.95, height * 0.53);
+        context.quadraticCurveTo(width * 0.9, height * 0.56, width * 0.84, height * 0.66);
+        context.quadraticCurveTo(width * 0.77, height * 0.78, width * 0.75, height * 0.9);
+        context.quadraticCurveTo(width * 0.72, height * 0.96, width * 0.68, height);
         context.clip();
         context.fillStyle = isEvening ? "rgba(18,24,21,0.18)" : "rgba(95,76,51,0.2)";
         [
@@ -2143,7 +2153,7 @@
       if (themeMaterials.windowSillGlint) themeMaterials.windowSillGlint.opacity = palette.isDarkTheme ? 0.22 : 0.16;
       themeMaterials.windowHint?.color.setHex(palette.isDarkTheme ? 0xffe3bd : 0x6a4c32);
       if (themeMaterials.windowHint) {
-        themeMaterials.windowHint.opacity = palette.isDarkTheme ? 0.3 : 0.22;
+        themeMaterials.windowHint.opacity = palette.isDarkTheme ? 0.16 : 0.11;
         replaceMaterialMap(themeMaterials.windowHint, createWindowHintTexture(palette));
       }
       themeMaterials.deskGlints?.color.setHex(palette.isDarkTheme ? 0xffe0aa : 0xfff1c7);
@@ -2254,8 +2264,8 @@
 
     const setToneArm = (playing, immediate = false) => {
       if (!toneArmGroup) return;
-      const targetY = playing ? -0.34 : 0.42;
-      const targetZ = playing ? 0.08 : 0.36;
+      const targetY = playing ? -0.3 : 0.46;
+      const targetZ = playing ? 0.13 : 0.42;
       if (immediate || reduceMotion) {
         toneArmGroup.rotation.y = targetY;
         toneArmGroup.position.z = targetZ;
@@ -2306,9 +2316,9 @@
         return;
       }
       const homePosition = new THREE.Vector3(-0.24, 0.224, 0.0);
-      const liftedPosition = homePosition.clone().add(new THREE.Vector3(0.03, 0.17, 0.02));
-      const sleevePosition = homePosition.clone().add(new THREE.Vector3(0.64, 0.24, 0.32));
-      const insertPosition = homePosition.clone().add(new THREE.Vector3(0.08, 0.2, 0.04));
+      const liftedPosition = homePosition.clone().add(new THREE.Vector3(0.03, 0.2, 0.03));
+      const sleevePosition = homePosition.clone().add(new THREE.Vector3(0.5, 0.28, 0.42));
+      const insertPosition = homePosition.clone().add(new THREE.Vector3(0.06, 0.22, 0.05));
 
       addTween(recordGroup, { position: liftedPosition }, 180, {
         arcHeight: 0.018,
@@ -2586,7 +2596,7 @@
         entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
       const playRotation =
         (isCompactScene ? entry.compactPlayRotation : entry.playRotation) || entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
-      const playScale = isCompactScene ? 1.18 : 1.36;
+      const playScale = isCompactScene ? 1.1 : 1.22;
       entry.currentRestY = playPosition.y;
       setActiveRecordInternal(entry.index, false);
       if (callbacks.playRecord) {
@@ -2816,8 +2826,8 @@
         depthWrite: false,
       });
       themeMaterials.wall = wallMaterial;
-      const wall = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 3.08), wallMaterial);
-      wall.position.set(0.22, 0.2, -1.78);
+      const wall = new THREE.Mesh(new THREE.PlaneGeometry(6.12, 3.32), wallMaterial);
+      wall.position.set(0.16, 0.22, -1.84);
       wall.renderOrder = -3;
       rootGroup.add(wall);
 
@@ -2834,32 +2844,32 @@
       themeMaterials.windowRecess = recessMaterial;
       themeMaterials.windowGlass = glassMaterial;
 
-      addBox(rootGroup, { x: 5.72, y: 0.08, z: 0.12 }, { x: 0.22, y: -1.17, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 2.76, y: 2.54, z: 0.1 }, { x: 1.06, y: 0.12, z: -1.765 }, recessMaterial);
+      addBox(rootGroup, { x: 5.92, y: 0.1, z: 0.14 }, { x: 0.16, y: -1.2, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 3.32, y: 2.76, z: 0.1 }, { x: 0.96, y: 0.08, z: -1.795 }, recessMaterial);
 
       windowMaterial = new THREE.MeshBasicMaterial({ map: createWindowTexture(palette), transparent: true });
-      const view = new THREE.Mesh(new THREE.PlaneGeometry(2.34, 2.14), windowMaterial);
-      view.position.set(1.06, 0.12, -1.708);
+      const view = new THREE.Mesh(new THREE.PlaneGeometry(2.92, 2.42), windowMaterial);
+      view.position.set(0.96, 0.08, -1.708);
       view.renderOrder = -2;
       rootGroup.add(view);
 
-      const glass = new THREE.Mesh(new THREE.PlaneGeometry(2.24, 2.04), glassMaterial);
-      glass.position.set(1.06, 0.12, -1.69);
+      const glass = new THREE.Mesh(new THREE.PlaneGeometry(2.82, 2.32), glassMaterial);
+      glass.position.set(0.96, 0.08, -1.69);
       glass.renderOrder = -1;
       rootGroup.add(glass);
 
-      addBox(rootGroup, { x: 2.62, y: 0.095, z: 0.14 }, { x: 1.06, y: 1.25, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 2.62, y: 0.11, z: 0.18 }, { x: 1.06, y: -1.04, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 0.11, y: 2.34, z: 0.14 }, { x: -0.3, y: 0.1, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 0.11, y: 2.34, z: 0.14 }, { x: 2.42, y: 0.1, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 0.07, y: 2.08, z: 0.08 }, { x: 1.06, y: 0.12, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 2.32, y: 0.052, z: 0.08 }, { x: 1.06, y: 0.12, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 2.76, y: 0.16, z: 0.38 }, { x: 1.02, y: -1.09, z: -1.51 }, stoneTrimMaterial);
-      addBox(rootGroup, { x: 2.18, y: 0.046, z: 0.12 }, { x: 1.1, y: -0.92, z: -1.32 }, frameMaterial);
+      addBox(rootGroup, { x: 3.18, y: 0.105, z: 0.16 }, { x: 0.96, y: 1.36, z: -1.65 }, frameMaterial);
+      addBox(rootGroup, { x: 3.18, y: 0.12, z: 0.2 }, { x: 0.96, y: -1.15, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 0.12, y: 2.56, z: 0.16 }, { x: -0.68, y: 0.08, z: -1.65 }, frameMaterial);
+      addBox(rootGroup, { x: 0.12, y: 2.56, z: 0.16 }, { x: 2.6, y: 0.08, z: -1.65 }, frameMaterial);
+      addBox(rootGroup, { x: 0.08, y: 2.32, z: 0.09 }, { x: 0.96, y: 0.08, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 2.9, y: 0.056, z: 0.09 }, { x: 0.96, y: 0.08, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 3.34, y: 0.18, z: 0.42 }, { x: 0.92, y: -1.2, z: -1.5 }, stoneTrimMaterial);
+      addBox(rootGroup, { x: 2.58, y: 0.05, z: 0.14 }, { x: 1, y: -1.02, z: -1.28 }, frameMaterial);
 
       windowJumpGroup = new THREE.Group();
       windowJumpGroup.visible = false;
-      windowJumpGroup.position.set(1.06, 0.08, -1.42);
+      windowJumpGroup.position.set(0.96, 0.06, -1.42);
       rootGroup.add(windowJumpGroup);
       const windowCueMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf2c994 : 0xb97942,
@@ -2869,10 +2879,10 @@
       });
       themeMaterials.windowCue = windowCueMaterial;
       [
-        { size: { x: 2.32, y: 0.018, z: 0.012 }, position: { x: 0, y: 1.02, z: 0.018 } },
-        { size: { x: 2.32, y: 0.018, z: 0.012 }, position: { x: 0, y: -1.02, z: 0.018 } },
-        { size: { x: 0.018, y: 2.02, z: 0.012 }, position: { x: -1.16, y: 0, z: 0.018 } },
-        { size: { x: 0.018, y: 2.02, z: 0.012 }, position: { x: 1.16, y: 0, z: 0.018 } },
+        { size: { x: 2.82, y: 0.014, z: 0.012 }, position: { x: 0, y: 1.14, z: 0.018 } },
+        { size: { x: 2.82, y: 0.014, z: 0.012 }, position: { x: 0, y: -1.14, z: 0.018 } },
+        { size: { x: 0.014, y: 2.24, z: 0.012 }, position: { x: -1.41, y: 0, z: 0.018 } },
+        { size: { x: 0.014, y: 2.24, z: 0.012 }, position: { x: 1.41, y: 0, z: 0.018 } },
       ].forEach((cue) => addBox(windowJumpGroup, cue.size, cue.position, windowCueMaterial));
       const sillGlint = new THREE.Mesh(
         new THREE.PlaneGeometry(0.74, 0.08),
@@ -2892,17 +2902,17 @@
         color: palette.isDarkTheme ? 0xffe3bd : 0x6a4c32,
         map: createWindowHintTexture(palette),
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.3 : 0.22,
+        opacity: palette.isDarkTheme ? 0.16 : 0.11,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
       themeMaterials.windowHint = hintMaterial;
-      const hint = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.14), hintMaterial);
-      hint.position.set(0.38, -0.83, 0.034);
+      const hint = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.105), hintMaterial);
+      hint.position.set(0.48, -0.98, 0.034);
       hint.renderOrder = 4;
       windowJumpGroup.add(hint);
       const buttonHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(2.56, 2.16),
+        new THREE.PlaneGeometry(3.02, 2.42),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       buttonHit.position.z = 0.01;
@@ -3332,6 +3342,112 @@
         }
       );
 
+      [
+        { width: 8.4, depth: 0.1, x: -1.44, y: -1.116, z: 0.63, rz: -0.072, opacity: 0.34 },
+        { width: 7.2, depth: 0.08, x: -1.62, y: -1.112, z: 0.82, rz: -0.038, opacity: 0.4 },
+        { width: 6.2, depth: 0.065, x: -1.92, y: -1.108, z: 1.04, rz: 0.018, opacity: 0.32 },
+        { width: 4.6, depth: 0.05, x: -2.22, y: -1.104, z: 1.28, rz: 0.066, opacity: 0.26 },
+      ].forEach((band) => {
+        const wave = new THREE.Mesh(
+          new THREE.PlaneGeometry(band.width, band.depth),
+          new THREE.MeshBasicMaterial({
+            map: foamTexture,
+            transparent: true,
+            opacity: band.opacity,
+            depthWrite: false,
+            depthTest: false,
+            side: THREE.DoubleSide,
+          })
+        );
+        wave.rotation.x = -Math.PI / 2;
+        wave.rotation.z = band.rz;
+        wave.position.set(band.x, band.y, band.z);
+        wave.renderOrder = 2;
+        outsideGroup.add(wave);
+        outsideMotionItems.push({
+          key: `shoreBand-${band.z}`,
+          texture: null,
+          mesh: wave,
+          baseY: wave.position.y,
+          speedX: 0,
+          speedY: 0,
+          offsetX: 0,
+          offsetY: 0,
+          amplitude: 0.01,
+          frequency: 1.7 + band.z * 0.5,
+          phase: band.z,
+          baseRotationZ: wave.rotation.z,
+          rotationAmplitude: 0.012,
+          baseScaleX: wave.scale.x,
+          baseScaleY: wave.scale.y,
+          baseScaleZ: wave.scale.z,
+          scaleAmplitude: 0.014,
+          scaleFrequency: 1.6,
+        });
+      });
+
+      [
+        {
+          points: [
+            [-3.56, 0.78],
+            [-1.88, 0.88],
+            [-1.56, 1.22],
+            [-2.3, 1.68],
+            [-3.62, 1.5],
+          ],
+          yTop: -1.02,
+          height: 0.2,
+          material: cliffFaceMaterial,
+        },
+        {
+          points: [
+            [-3.28, 0.42],
+            [-2.06, 0.5],
+            [-1.78, 0.78],
+            [-2.42, 1.02],
+            [-3.42, 0.92],
+          ],
+          yTop: -0.86,
+          height: 0.16,
+          material: cliffMaterial,
+        },
+        {
+          points: [
+            [0.08, -0.06],
+            [2.56, 0.02],
+            [2.82, 0.42],
+            [2.2, 0.78],
+            [0.18, 0.66],
+            [-0.08, 0.24],
+          ],
+          yTop: -0.62,
+          height: 0.22,
+          material: cliffMaterial,
+        },
+        {
+          points: [
+            [0.18, 0.58],
+            [2.38, 0.72],
+            [2.58, 1.1],
+            [1.84, 1.46],
+            [0.34, 1.24],
+          ],
+          yTop: -0.98,
+          height: 0.2,
+          material: cliffFaceMaterial,
+        },
+      ].forEach((terrace) => addIrregularSlab(outsideGroup, terrace.points, terrace.yTop, terrace.height, terrace.material));
+      [
+        { x: -3.06, y: -0.96, z: 1.1, sx: 0.42, sy: 0.18, sz: 0.12, ry: -0.34 },
+        { x: -2.52, y: -0.88, z: 0.7, sx: 0.32, sy: 0.14, sz: 0.1, ry: 0.28 },
+        { x: -1.92, y: -1.08, z: 1.34, sx: 0.38, sy: 0.1, sz: 0.13, ry: -0.18 },
+        { x: 2.36, y: -0.7, z: 0.62, sx: 0.42, sy: 0.28, sz: 0.13, ry: 0.22 },
+        { x: 2.12, y: -1.08, z: 1.18, sx: 0.36, sy: 0.12, sz: 0.16, ry: -0.2 },
+      ].forEach((rock) => {
+        const mesh = addBox(outsideGroup, { x: rock.sx, y: rock.sy, z: rock.sz }, rock, rock.y < -0.95 ? cliffFaceMaterial : cliffLineMaterial);
+        mesh.rotation.y = rock.ry;
+      });
+
       addIrregularSlab(
         outsideGroup,
         [
@@ -3503,31 +3619,42 @@
       });
 
       const house = new THREE.Group();
-      house.position.set(1.1, 0.13, 0.16);
-      house.scale.setScalar(1.2);
+      house.position.set(1.02, 0.14, 0.08);
+      house.scale.setScalar(1.34);
       outsideGroup.add(house);
+      addBox(house, { x: 0.18, y: 0.92, z: 1.02 }, { x: -0.96, y: -0.08, z: 0.08 }, cliffFaceMaterial);
+      addBox(house, { x: 0.16, y: 0.82, z: 0.96 }, { x: 0.92, y: -0.12, z: 0.08 }, cliffFaceMaterial);
+      addBox(house, { x: 1.78, y: 0.12, z: 0.94 }, { x: -0.02, y: -0.58, z: 0.1 }, cliffMaterial);
+      [
+        { x: -0.74, y: -0.44, z: 0.62, sx: 0.28, sy: 0.12, sz: 0.14, ry: -0.18 },
+        { x: 0.58, y: -0.46, z: 0.66, sx: 0.32, sy: 0.1, sz: 0.12, ry: 0.16 },
+        { x: -0.86, y: 0.36, z: -0.34, sx: 0.18, sy: 0.28, sz: 0.1, ry: 0.12 },
+      ].forEach((stone) => {
+        const mesh = addBox(house, { x: stone.sx, y: stone.sy, z: stone.sz }, stone, cliffLineMaterial);
+        mesh.rotation.y = stone.ry;
+      });
       addBox(house, { x: 1.52, y: 0.08, z: 0.78 }, { x: 0, y: -0.47, z: 0 }, trimMaterial);
       addBox(house, { x: 1.34, y: 0.035, z: 0.62 }, { x: -0.06, y: -0.4, z: 0.02 }, roomFloorMaterial);
       addBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial);
       addBox(house, { x: 1.2, y: 0.58, z: 0.035 }, { x: -0.06, y: -0.08, z: -0.31 }, roomWallMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial);
       addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial);
-      addBox(house, { x: 1.78, y: 0.1, z: 0.92 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
-      addBox(house, { x: 1.72, y: 0.035, z: 0.88 }, { x: 0, y: 0.415, z: 0.02 }, roofShadowMaterial);
-      addBox(house, { x: 1.9, y: 0.04, z: 1.0 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
+      addBox(house, { x: 1.92, y: 0.1, z: 1.04 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
+      addBox(house, { x: 1.82, y: 0.035, z: 0.96 }, { x: 0, y: 0.415, z: 0.02 }, roofShadowMaterial);
+      addBox(house, { x: 2.1, y: 0.04, z: 1.12 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
       [-0.68, -0.34, 0, 0.34, 0.68].forEach((x) => {
         const rib = addBox(house, { x: 0.034, y: 0.035, z: 0.86 }, { x, y: 0.545, z: 0.04 }, roofShadowMaterial);
         rib.rotation.y = x * 0.035;
       });
-      addBox(house, { x: 1.94, y: 0.05, z: 0.065 }, { x: 0, y: 0.505, z: 0.565 }, roofShadowMaterial);
-      addBox(house, { x: 1.94, y: 0.045, z: 0.055 }, { x: 0, y: 0.505, z: -0.495 }, roofShadowMaterial);
-      addBox(house, { x: 0.07, y: 0.09, z: 1.02 }, { x: -0.98, y: 0.49, z: 0.04 }, roofShadowMaterial);
-      addBox(house, { x: 0.07, y: 0.09, z: 1.02 }, { x: 0.98, y: 0.49, z: 0.04 }, roofShadowMaterial);
-      addBox(house, { x: 1.9, y: 0.045, z: 0.075 }, { x: 0, y: 0.43, z: 0.53 }, trimMaterial);
+      addBox(house, { x: 2.14, y: 0.05, z: 0.065 }, { x: 0, y: 0.505, z: 0.625 }, roofShadowMaterial);
+      addBox(house, { x: 2.08, y: 0.045, z: 0.055 }, { x: 0, y: 0.505, z: -0.535 }, roofShadowMaterial);
+      addBox(house, { x: 0.07, y: 0.09, z: 1.14 }, { x: -1.06, y: 0.49, z: 0.04 }, roofShadowMaterial);
+      addBox(house, { x: 0.07, y: 0.09, z: 1.14 }, { x: 1.06, y: 0.49, z: 0.04 }, roofShadowMaterial);
+      addBox(house, { x: 2.06, y: 0.045, z: 0.075 }, { x: 0, y: 0.43, z: 0.58 }, trimMaterial);
       addBox(house, { x: 1.78, y: 0.035, z: 0.075 }, { x: 0, y: 0.39, z: -0.42 }, trimMaterial);
       addBox(house, { x: 1.82, y: 0.032, z: 0.07 }, { x: 0, y: 0.36, z: 0.37 }, roofShadowMaterial);
-      addBox(house, { x: 1.48, y: 0.075, z: 0.14 }, { x: -0.02, y: -0.57, z: 0.36 }, roofMaterial);
-      addBox(house, { x: 1.42, y: 0.045, z: 0.05 }, { x: -0.02, y: -0.47, z: 0.51 }, trimMaterial);
+      addBox(house, { x: 1.64, y: 0.075, z: 0.16 }, { x: -0.02, y: -0.57, z: 0.42 }, roofMaterial);
+      addBox(house, { x: 1.56, y: 0.045, z: 0.055 }, { x: -0.02, y: -0.47, z: 0.58 }, trimMaterial);
       [
         [-0.73, 0.39],
         [0.61, 0.39],
@@ -3541,27 +3668,27 @@
       addBox(house, { x: 1.5, y: 0.03, z: 0.05 }, { x: -0.06, y: -0.39, z: -0.255 }, roofShadowMaterial);
       addBox(
         house,
-        { x: 1.26, y: 0.82, z: 0.04 },
-        { x: -0.06, y: -0.02, z: -0.29 },
+        { x: 1.5, y: 0.9, z: 0.04 },
+        { x: -0.08, y: -0.02, z: -0.29 },
         new THREE.MeshStandardMaterial({ color: 0x172225, roughness: 0.65 })
       );
-      addBox(house, { x: 1.24, y: 0.8, z: 0.018 }, { x: -0.06, y: -0.02, z: 0.416 }, interiorMaterial);
-      addBox(house, { x: 1.3, y: 0.045, z: 0.048 }, { x: -0.06, y: 0.4, z: 0.43 }, trimMaterial);
-      addBox(house, { x: 1.3, y: 0.045, z: 0.048 }, { x: -0.06, y: -0.43, z: 0.43 }, trimMaterial);
-      addBox(house, { x: 0.045, y: 0.78, z: 0.048 }, { x: -0.72, y: -0.02, z: 0.43 }, trimMaterial);
-      addBox(house, { x: 0.045, y: 0.78, z: 0.048 }, { x: 0.6, y: -0.02, z: 0.43 }, trimMaterial);
-      addBox(house, { x: 1.22, y: 0.72, z: 0.012 }, { x: -0.06, y: -0.02, z: 0.454 }, glassMaterial);
-      addBox(house, { x: 0.042, y: 0.7, z: 0.052 }, { x: -0.06, y: -0.02, z: 0.466 }, trimMaterial);
-      addBox(house, { x: 1.2, y: 0.034, z: 0.052 }, { x: -0.06, y: -0.02, z: 0.47 }, trimMaterial);
-      addBox(house, { x: 1.36, y: 0.042, z: 0.09 }, { x: -0.06, y: -0.51, z: 0.48 }, trimMaterial);
-      addBox(house, { x: 1.08, y: 0.03, z: 0.09 }, { x: -0.06, y: -0.4, z: 0.57 }, roofShadowMaterial);
-      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.22, 0.72), interiorGlowMaterial);
-      interiorGlow.position.set(-0.06, -0.02, 0.474);
+      addBox(house, { x: 1.46, y: 0.86, z: 0.018 }, { x: -0.08, y: -0.02, z: 0.428 }, interiorMaterial);
+      addBox(house, { x: 1.52, y: 0.045, z: 0.052 }, { x: -0.08, y: 0.43, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 1.52, y: 0.045, z: 0.052 }, { x: -0.08, y: -0.47, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 0.048, y: 0.86, z: 0.052 }, { x: -0.86, y: -0.02, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 0.048, y: 0.86, z: 0.052 }, { x: 0.7, y: -0.02, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 1.42, y: 0.78, z: 0.012 }, { x: -0.08, y: -0.02, z: 0.474 }, glassMaterial);
+      addBox(house, { x: 0.044, y: 0.76, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.486 }, trimMaterial);
+      addBox(house, { x: 1.4, y: 0.034, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.49 }, trimMaterial);
+      addBox(house, { x: 1.54, y: 0.042, z: 0.1 }, { x: -0.08, y: -0.54, z: 0.5 }, trimMaterial);
+      addBox(house, { x: 1.22, y: 0.03, z: 0.1 }, { x: -0.08, y: -0.43, z: 0.59 }, roofShadowMaterial);
+      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.42, 0.78), interiorGlowMaterial);
+      interiorGlow.position.set(-0.08, -0.02, 0.498);
       house.add(interiorGlow);
       [
         { x: -0.54, h: 0.46 },
         { x: 0.42, h: 0.42 },
-      ].forEach((curtain) => addBox(house, { x: 0.055, y: curtain.h, z: 0.018 }, { x: curtain.x, y: -0.02, z: 0.49 }, curtainMaterial));
+      ].forEach((curtain) => addBox(house, { x: 0.055, y: curtain.h, z: 0.018 }, { x: curtain.x, y: -0.02, z: 0.515 }, curtainMaterial));
       const balcony = new THREE.Group();
       balcony.position.set(-0.02, -0.48, 0.58);
       house.add(balcony);
@@ -3584,6 +3711,14 @@
       room.position.set(-0.08, -0.03, 0.28);
       room.scale.set(1.36, 1.2, 1.24);
       house.add(room);
+      [
+        { x: -0.58, y: -0.04, z: -0.04, sx: 0.045, sy: 0.58, sz: 0.58, ry: -0.16 },
+        { x: 0.52, y: -0.04, z: -0.04, sx: 0.04, sy: 0.54, sz: 0.54, ry: 0.14 },
+        { x: -0.02, y: 0.22, z: -0.47, sx: 0.92, sy: 0.05, sz: 0.08, ry: 0 },
+      ].forEach((rib) => {
+        const mesh = addBox(room, { x: rib.sx, y: rib.sy, z: rib.sz }, rib, roomWallMaterial);
+        mesh.rotation.y = rib.ry;
+      });
       addBox(room, { x: 1.02, y: 0.035, z: 0.54 }, { x: -0.02, y: -0.34, z: 0.0 }, roomFloorMaterial);
       addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.02, y: -0.305, z: -0.24 }, blanketMaterial);
       addBox(room, { x: 0.1, y: 0.25, z: 0.5 }, { x: -0.48, y: -0.08, z: -0.16 }, trimMaterial);
@@ -3626,7 +3761,7 @@
       addBox(room, { x: 0.018, y: 0.08, z: 0.018 }, { x: -0.2, y: 0.018, z: 0.22 }, trimMaterial);
 
       const roomDesk = new THREE.Group();
-      roomDesk.position.set(0.36, -0.14, 0.3);
+      roomDesk.position.set(0.38, -0.14, 0.34);
       roomDesk.rotation.y = -0.46;
       roomDesk.scale.setScalar(1.04);
       room.add(roomDesk);
@@ -3663,10 +3798,10 @@
       addBox(roomDesk, { x: 0.04, y: 0.012, z: 0.16 }, { x: 0.29, y: 0.07, z: -0.08 }, miniAccentMaterial);
 
       returnInsideGroup = new THREE.Group();
-      returnInsideGroup.position.set(1.04, 0.16, 0.9);
+      returnInsideGroup.position.set(0.92, 0.16, 0.92);
       outsideGroup.add(returnInsideGroup);
       const returnGlow = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.28, 0.78),
+        new THREE.PlaneGeometry(1.46, 0.86),
         new THREE.MeshBasicMaterial({
           color: palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca,
           transparent: true,
@@ -3705,7 +3840,7 @@
         opacityFrequency: 1.36,
       });
       const returnHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.48, 1.02),
+        new THREE.PlaneGeometry(1.62, 1.12),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       returnHit.position.z = 0.01;
@@ -3922,9 +4057,9 @@
       addWindow(palette);
       addOutsideVignette(palette);
 
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(7.8, 6.6), floorMaterial);
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(8.3, 7.05), floorMaterial);
       floor.rotation.x = -Math.PI / 2;
-      floor.position.set(0, -1.22, 0.62);
+      floor.position.set(0, -1.22, 0.46);
       rootGroup.add(floor);
 
       const roomFutonMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x405d62 : 0xc9d8d2, roughness: 0.78 });
@@ -3934,7 +4069,7 @@
 
       const leftNookWall = addBox(rootGroup, { x: 0.42, y: 2.56, z: 3.52 }, { x: -2.62, y: -0.04, z: -0.05 }, stoneMaterial);
       leftNookWall.rotation.y = 0.08;
-      const rearStoneShelf = addBox(rootGroup, { x: 2.42, y: 0.16, z: 0.42 }, { x: 0.58, y: -1.08, z: -1.34 }, stoneEdgeMaterial);
+      const rearStoneShelf = addBox(rootGroup, { x: 2.88, y: 0.16, z: 0.42 }, { x: 0.52, y: -1.08, z: -1.38 }, stoneEdgeMaterial);
       rearStoneShelf.rotation.y = -0.04;
       const stoneHearth = addBox(rootGroup, { x: 1.14, y: 0.18, z: 0.66 }, { x: -1.78, y: -1.075, z: -0.76 }, stoneEdgeMaterial);
       stoneHearth.rotation.y = 0.12;
@@ -3947,15 +4082,45 @@
         const mesh = addBox(rootGroup, { x: rib.sx, y: rib.sy, z: rib.sz }, rib, stoneMaterial);
         mesh.rotation.y = rib.ry;
       });
+      [
+        { x: -2.88, y: 0.1, z: 0.9, sx: 0.3, sy: 2.28, sz: 1.16, ry: -0.5 },
+        { x: -2.68, y: 0.24, z: 1.32, sx: 0.22, sy: 2.02, sz: 0.78, ry: -0.34 },
+        { x: -2.32, y: 0.56, z: 1.58, sx: 0.18, sy: 1.42, sz: 0.5, ry: -0.16 },
+        { x: 3.14, y: 0.12, z: -0.5, sx: 0.14, sy: 2.42, sz: 2.08, ry: 0.12 },
+      ].forEach((rib) => {
+        const mesh = addBox(rootGroup, { x: rib.sx, y: rib.sy, z: rib.sz }, rib, stoneMaterial);
+        mesh.rotation.y = rib.ry;
+      });
+      const carvedCeiling = addBox(rootGroup, { x: 5.84, y: 0.16, z: 2.66 }, { x: -0.06, y: 1.47, z: -0.2 }, stoneEdgeMaterial);
+      carvedCeiling.rotation.y = -0.035;
+      [
+        { x: -1.72, z: -1.32, w: 0.96, ry: 0.1 },
+        { x: -0.54, z: -1.38, w: 1.2, ry: 0.02 },
+        { x: 0.82, z: -1.35, w: 1.34, ry: -0.04 },
+        { x: 2.06, z: -1.2, w: 0.82, ry: -0.1 },
+      ].forEach((beam) => {
+        const mesh = addBox(rootGroup, { x: beam.w, y: 0.08, z: 0.12 }, { x: beam.x, y: 1.35, z: beam.z }, woodEdgeMaterial);
+        mesh.rotation.y = beam.ry;
+      });
+      const stoneWindowBench = addBox(rootGroup, { x: 3.05, y: 0.12, z: 0.44 }, { x: 0.96, y: -1.12, z: -1.12 }, stoneEdgeMaterial);
+      stoneWindowBench.rotation.y = -0.035;
 
       const lowBed = new THREE.Group();
-      lowBed.position.set(-1.8, -1.055, -0.96);
-      lowBed.rotation.y = 0.1;
+      lowBed.position.set(-2.34, -1.045, -0.82);
+      lowBed.rotation.y = 0.18;
       rootGroup.add(lowBed);
-      addBox(lowBed, { x: 1.16, y: 0.11, z: 0.68 }, { x: 0, y: 0.025, z: 0 }, woodEdgeMaterial);
-      addBox(lowBed, { x: 1.02, y: 0.12, z: 0.56 }, { x: 0.03, y: 0.13, z: -0.02 }, roomFutonMaterial);
-      addBox(lowBed, { x: 0.38, y: 0.09, z: 0.34 }, { x: -0.27, y: 0.23, z: -0.18 }, roomPillowMaterial);
-      addBox(lowBed, { x: 0.52, y: 0.026, z: 0.38 }, { x: 0.2, y: 0.25, z: 0.07 }, roomPillowMaterial);
+      addBox(lowBed, { x: 1.24, y: 0.11, z: 0.72 }, { x: 0, y: 0.025, z: 0 }, woodEdgeMaterial);
+      addBox(lowBed, { x: 1.08, y: 0.12, z: 0.6 }, { x: 0.03, y: 0.13, z: -0.02 }, roomFutonMaterial);
+      addBox(lowBed, { x: 0.4, y: 0.09, z: 0.34 }, { x: -0.28, y: 0.23, z: -0.2 }, roomPillowMaterial);
+      addBox(lowBed, { x: 0.52, y: 0.026, z: 0.4 }, { x: 0.22, y: 0.25, z: 0.08 }, roomPillowMaterial);
+      addBox(lowBed, { x: 1.1, y: 0.06, z: 0.05 }, { x: 0.04, y: 0.22, z: -0.38 }, woodMaterial);
+      const bedThrowMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x5d7f78 : 0x8fb7a7,
+        roughness: 0.74,
+        metalness: 0.01,
+      });
+      const bedThrow = addBox(lowBed, { x: 0.72, y: 0.026, z: 0.46 }, { x: 0.18, y: 0.285, z: 0.04 }, bedThrowMaterial);
+      bedThrow.rotation.y = -0.04;
 
       const floorShadowMaterial = new THREE.MeshBasicMaterial({
         color: palette.shadow,
@@ -3969,9 +4134,21 @@
       floorShadow.scale.set(1.2, 0.36, 1);
       floorShadow.position.set(0.08, -1.205, 0.82);
       rootGroup.add(floorShadow);
+      const wovenRugMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xe2c59e : 0xc89564,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.12 : 0.16,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const rug = new THREE.Mesh(new THREE.CircleGeometry(1.26, 64), wovenRugMaterial);
+      rug.rotation.x = -Math.PI / 2;
+      rug.scale.set(1.55, 0.42, 1);
+      rug.position.set(0.35, -1.202, 0.72);
+      rootGroup.add(rug);
 
       const table = new THREE.Group();
-      table.position.set(0.12, 0, -0.48);
+      table.position.set(0.16, 0, -0.66);
       rootGroup.add(table);
       addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
@@ -3981,6 +4158,32 @@
         [-1.72, -0.42],
         [1.72, -0.42],
       ].forEach(([x, z]) => addBox(table, { x: 0.14, y: 0.72, z: 0.14 }, { x, y: -0.84, z }, woodEdgeMaterial));
+      const shelfGlowMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xffc987 : 0xf5b067,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.16 : 0.12,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+      });
+      const shelfGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.24, 0.22), shelfGlowMaterial);
+      shelfGlow.position.set(-1.2, 0.16, -0.88);
+      shelfGlow.rotation.x = -0.12;
+      table.add(shelfGlow);
+      const branchMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4d684f : 0x597b52, roughness: 0.78 });
+      const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.09, 0.2, 24), ceramicMaterial);
+      vase.position.set(1.92, -0.2, -0.52);
+      table.add(vase);
+      [
+        { x: -0.04, y: 0.14, z: -0.03, rx: 0.18, rz: -0.42 },
+        { x: 0.02, y: 0.17, z: 0.0, rx: -0.12, rz: 0.28 },
+        { x: 0.05, y: 0.13, z: 0.04, rx: 0.1, rz: 0.5 },
+      ].forEach((leaf) => {
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.16, 0.012), branchMaterial);
+        mesh.position.set(1.92 + leaf.x, -0.07 + leaf.y, -0.52 + leaf.z);
+        mesh.rotation.set(leaf.rx, 0, leaf.rz);
+        table.add(mesh);
+      });
 
       const player = new THREE.Group();
       player.position.set(-0.84, -0.31, 0.02);
@@ -4090,8 +4293,8 @@
       registerInteractive(recordLabel, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
 
       toneArmGroup = new THREE.Group();
-      toneArmGroup.position.set(0.55, 0.35, 0.36);
-      toneArmGroup.rotation.y = 0.42;
+      toneArmGroup.position.set(0.58, 0.365, 0.42);
+      toneArmGroup.rotation.y = 0.46;
       player.add(toneArmGroup);
       const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.08, 36), metalMaterial);
       toneArmGroup.add(pivot);
@@ -4194,7 +4397,7 @@
       themeMaterials.stylusContact = stylusShadow.material;
 
       const albumRack = new THREE.Group();
-      albumRack.position.set(-1.84, -0.2, -0.86);
+      albumRack.position.set(-1.8, -0.2, -0.94);
       table.add(albumRack);
       addBox(albumRack, { x: 1.42, y: 0.08, z: 0.24 }, { x: 0.02, y: 0.02, z: -0.07 }, woodEdgeMaterial);
       addBox(albumRack, { x: 1.48, y: 0.08, z: 0.08 }, { x: 0.02, y: 0.42, z: -0.19 }, woodEdgeMaterial);
@@ -4206,10 +4409,10 @@
         entry.group.rotation.set(-0.02, -0.23 + index * 0.075, -0.065 + index * 0.032);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(1.58, 0.72, 0.86);
-        entry.playRotation = new THREE.Euler(0.04, -0.08, 0.014);
-        entry.compactPlayPosition = new THREE.Vector3(1.12, 0.72, 0.74);
-        entry.compactPlayRotation = new THREE.Euler(0.05, -0.18, 0.026);
+        entry.playPosition = new THREE.Vector3(1.28, 0.66, 0.72);
+        entry.playRotation = new THREE.Euler(0.05, -0.1, 0.012);
+        entry.compactPlayPosition = new THREE.Vector3(1.0, 0.66, 0.66);
+        entry.compactPlayRotation = new THREE.Euler(0.06, -0.2, 0.024);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -4802,6 +5005,7 @@
     let shakeSuppressionTimer = 0;
     let reflowRecordCardsFrame = 0;
     let recordDropSequence = 0;
+    let shakeShouldReplayAllRecords = false;
 
     const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
@@ -4832,15 +5036,41 @@
       return fromIndex;
     };
 
-    const resetDroppedRecordsForReplay = () => {
-      if (droppedRecords.size < records.length) return false;
+    const clearDroppedRecordCards = () => {
       closeActiveCard({ bringToTop: false });
       droppedRecords.clear();
       droppedRecordOrder.splice(0, droppedRecordOrder.length);
       if (pile) {
         pile.querySelectorAll("[data-home-record-card]").forEach((card) => card.remove());
       }
-      syncDroppedRecordsToDesk({ immediate: true });
+    };
+
+    const replayAllDroppedRecordCards = (options = {}) => {
+      if (!pile || droppedRecords.size < records.length) return false;
+      clearDroppedRecordCards();
+      pile.hidden = false;
+      ensureRecordHalo();
+
+      records.forEach((record, index) => {
+        recordDropSequence += 1;
+        markRecordDropped(index, { syncDesk: false });
+        const card = createRecordCard(record, index, recordDropSequence);
+        if (!reduceMotion) card.style.animationDelay = `${index * 80}ms`;
+        pile.appendChild(card);
+        const clearDropState = () => {
+          card.classList.remove("is-dropping");
+          card.style.removeProperty("animation-delay");
+        };
+        if (reduceMotion) {
+          clearDropState();
+        } else {
+          card.addEventListener("animationend", clearDropState, { once: true });
+          window.setTimeout(clearDropState, 1560 + index * 80);
+        }
+      });
+
+      syncDroppedRecordsToDesk({ animate: options.animate3D, focusIndex: records.length - 1 });
+      reflowRecordCards();
       syncPileState();
       return true;
     };
@@ -5376,6 +5606,7 @@
       if (activePointerId === null) return;
       activePointerId = null;
       activePointerStartedOnPlayButton = false;
+      shakeShouldReplayAllRecords = false;
       lastShakeDirection = 0;
       portrait.classList.remove("is-dragging-record");
       portrait.removeAttribute("data-record-shakes");
@@ -5403,8 +5634,8 @@
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
+      shakeShouldReplayAllRecords = droppedRecords.size >= records.length;
       if (droppedRecords.size >= records.length) {
-        resetDroppedRecordsForReplay();
         selectRecord(0);
       } else if (droppedRecords.has(recordIndex)) {
         const nextIndex = getNextUndroppedRecordIndex(recordIndex);
@@ -5437,7 +5668,11 @@
           shakeCount += 1;
           portrait.setAttribute("data-record-shakes", String(Math.min(shakeCount, 3)));
           if (shakeCount >= 3) {
-            dropRecordCard({ animate3D: true });
+            if (shakeShouldReplayAllRecords) {
+              replayAllDroppedRecordCards({ animate3D: true });
+            } else {
+              dropRecordCard({ animate3D: true });
+            }
             endShakeGesture();
             event.preventDefault();
             return;
