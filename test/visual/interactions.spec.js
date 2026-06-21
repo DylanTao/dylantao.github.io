@@ -370,6 +370,29 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
 });
 
+test("home 3D outside view returns to the room when the hero scrolls away", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
+
+  await preparePage(page, "light");
+  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const stage = page.locator("[data-home-artifact-stage]");
+  const scene = page.locator("[data-home-desk-scene]");
+  await page.click('[data-home-desk-mode="3d"]');
+  await expect(stage).toHaveAttribute("data-desk-mode", "3d");
+  await page.waitForTimeout(1200);
+
+  await clickDeskCanvasAt(page, 0.78, 0.28);
+  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
+  await expect(scene).toHaveClass(/is-outside-view/);
+
+  await page.locator(".home-agentic-tally").scrollIntoViewIfNeeded();
+  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
+  await expect(scene).not.toHaveClass(/is-outside-view/);
+});
+
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "navbar search/theme controls are collapsed under mobile menu");
 

@@ -681,6 +681,7 @@
     let hoveredEntry = null;
     let pointerMoved = false;
     let windowAutoEntryBlockedUntil = 0;
+    let outsideViewportCheckFrame = 0;
     let droppedRecordIndices = [];
     const callbacks = {};
     const textureCache = new Map();
@@ -2491,6 +2492,32 @@
       scheduleFrame();
     };
 
+    const clearOutsideView = () => {
+      if (activeView === "outside") {
+        setSceneView("desk");
+        return;
+      }
+      container.classList.remove("is-outside-view");
+      root.classList.remove("home-desk-outside-active");
+    };
+
+    const runOutsideViewportCheck = () => {
+      outsideViewportCheckFrame = 0;
+      if (!isVisible || activeView !== "outside") return;
+
+      const rect = container.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      const exitInset = Math.min(180, Math.max(96, viewportHeight * 0.14));
+      if (rect.bottom < exitInset || rect.top > viewportHeight - exitInset) {
+        clearOutsideView();
+      }
+    };
+
+    const scheduleOutsideViewportCheck = () => {
+      if (!isVisible || activeView !== "outside" || outsideViewportCheckFrame) return;
+      outsideViewportCheckFrame = window.requestAnimationFrame(runOutsideViewportCheck);
+    };
+
     const resetSceneView = () => {
       setSceneView("desk");
       targetZoomLevel = 0;
@@ -4270,12 +4297,16 @@
       canvas.addEventListener("pointerup", onPointerUp);
       canvas.addEventListener("pointercancel", onPointerCancel);
       container.addEventListener("wheel", onWheel, { passive: false });
+      window.addEventListener("scroll", scheduleOutsideViewportCheck, { passive: true });
+      window.addEventListener("resize", scheduleOutsideViewportCheck);
       cleanupListeners.push(
         () => canvas.removeEventListener("pointerdown", onPointerDown),
         () => canvas.removeEventListener("pointermove", onPointerMove),
         () => canvas.removeEventListener("pointerup", onPointerUp),
         () => canvas.removeEventListener("pointercancel", onPointerCancel),
-        () => container.removeEventListener("wheel", onWheel)
+        () => container.removeEventListener("wheel", onWheel),
+        () => window.removeEventListener("scroll", scheduleOutsideViewportCheck),
+        () => window.removeEventListener("resize", scheduleOutsideViewportCheck)
       );
     };
 
@@ -4305,7 +4336,11 @@
           await ensureLoaded();
           scheduleFrame();
         } else {
-          root.classList.remove("home-desk-outside-active");
+          clearOutsideView();
+          if (outsideViewportCheckFrame) {
+            window.cancelAnimationFrame(outsideViewportCheckFrame);
+            outsideViewportCheckFrame = 0;
+          }
           stopLoop();
           render();
         }
@@ -4331,7 +4366,8 @@
       },
       dispose() {
         stopLoop();
-        root.classList.remove("home-desk-outside-active");
+        clearOutsideView();
+        if (outsideViewportCheckFrame) window.cancelAnimationFrame(outsideViewportCheckFrame);
         cleanupListeners.forEach((cleanup) => cleanup());
         if (resizeObserver) resizeObserver.disconnect();
         if (!resizeObserver) window.removeEventListener("resize", resize);
