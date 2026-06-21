@@ -16,17 +16,17 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 Published total baseline, estimated on June 20, 2026:
 
-- 222 commits since the revamp cutoff, including the agentic cost tooltip polish milestone and the usage refresh.
-- 1.81B estimated Codex tokens.
-- 167 estimated active agent-hours.
-- Public money joke: about $1.6K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
-- API-cost reference: about $590 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1086 kWh, 405 kg CO2e, or a stored-carbon equivalent of about 0.7 ten-year urban trees. Range: 0.23-2.3 trees.
+- 239 commits since the revamp cutoff, including the focused 3D album/easel interaction milestone and the usage refresh.
+- 2.01B estimated Codex tokens.
+- 182 estimated active agent-hours.
+- Public money joke: about $1.8K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
+- API-cost reference: about $650 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 1206 kWh, 450 kg CO2e, or a stored-carbon equivalent of about 0.7 ten-year urban trees. Range: 0.25-2.5 trees.
 
 Evidence behind the total:
 
-- `python bin/audit_agentic_usage.py --write` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 47 sessions after the revamp cutoff.
-- The audit showed about 1.808B raw tokens and 167.17 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
+- `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 51 sessions after the revamp cutoff.
+- The audit showed about 2.008B raw tokens and 181.52 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 - The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
@@ -34,17 +34,17 @@ Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the
 
 Published 3D desk baseline:
 
-- 70 commits touching the homepage desk/vinyl/coffee scene paths, including the agentic cost tooltip polish milestone.
-- 750M estimated Codex tokens.
-- 53 estimated active agent-hours.
-- Public money joke reference: about $650 from the CodexBar screenshot ratio.
-- API-cost reference: about $240 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 450 kWh, 168 kg CO2e, or a stored-carbon equivalent of about 0.28 ten-year urban trees. Range: 0.09-0.9 trees.
+- 82 commits touching the homepage desk/vinyl/coffee scene paths, including the focused 3D album/easel interaction milestone.
+- 950M estimated Codex tokens.
+- 67 estimated active agent-hours.
+- Public money joke reference: about $830 from the CodexBar screenshot ratio.
+- API-cost reference: about $300 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 570 kWh, 213 kg CO2e, or a stored-carbon equivalent of about 0.4 ten-year urban trees. Range: 0.12-1.2 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 12 Codex sessions after the 3D cutoff, about 746.0M raw tokens, and about 52.95 active hours, rounded for the public UI.
+- The audit counted 16 Codex sessions after the 3D cutoff, about 949.8M raw tokens, and about 67.46 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 

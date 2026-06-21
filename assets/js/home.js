@@ -825,7 +825,7 @@
             lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.72 : 1.84, zoom),
             lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.82 : 5.12, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.24 : -0.3, zoom), lerp(-0.06, 0.1, zoom), lerp(0.02, 0.12, zoom));
+          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.2 : -0.26, zoom), lerp(-0.04, 0.22, zoom), lerp(0.02, 0.18, zoom));
         } else if (focusedEntry?.kind === "artifact") {
           camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 31 : 29, zoom);
           camera.position.set(
@@ -1677,6 +1677,26 @@
       return dx * dx + dy * dy;
     };
 
+    const pickProjectedRackReplacement = () => {
+      if (focusedEntry?.kind !== "album") return null;
+      const threshold = isCompactScene ? 0.042 : 0.032;
+      let bestCandidate = null;
+      let bestDistance = threshold;
+
+      albumEntries.forEach((entry) => {
+        if (!entry || entry === focusedEntry || entry.thrown || entry.rackSlotHit?.visible === false) return;
+        const data = entry.rackSlotHit?.userData;
+        if (!data || !isObjectVisibleForPicking(entry.rackSlotHit)) return;
+        const distance = projectedInteractiveDistance(data);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestCandidate = data;
+        }
+      });
+
+      return bestCandidate;
+    };
+
     const pickObject = (event) => {
       if (!raycaster || !pointerNdc || !camera || !renderer) return null;
       const rect = renderer.domElement.getBoundingClientRect();
@@ -1695,7 +1715,8 @@
           if (candidate.data.kind === "returnInside") return activeView === "outside";
           return activeView === "desk";
         });
-      if (!hits.length) return null;
+      const projectedRackReplacement = pickProjectedRackReplacement();
+      if (!hits.length) return projectedRackReplacement;
       hits.sort((first, second) => {
         const priorityDelta = interactionPriority(second.data.kind) - interactionPriority(first.data.kind);
         if (priorityDelta) return priorityDelta;
@@ -1710,14 +1731,18 @@
         }
         return first.hit.distance - second.hit.distance;
       });
+      if (projectedRackReplacement && hits[0].data.kind === "album" && hits[0].data.homeDeskEntry === focusedEntry) {
+        return projectedRackReplacement;
+      }
       return hits[0].data;
     };
 
     const setEntryCue = (entry, active) => {
       if (!entry?.cue) return;
       entry.cue.visible = active;
+      if (entry.playLedge) entry.playLedge.visible = active;
       if (entry.cue.material) {
-        entry.cue.material.opacity = active ? (entry.kind === "artifact" ? 0.13 : 0.22) : 0;
+        entry.cue.material.opacity = active ? (entry.kind === "artifact" ? 0.13 : 0.26) : 0;
       }
     };
 
@@ -2347,13 +2372,13 @@
         {
           position: playPosition.clone(),
           rotation: playRotation.clone(),
-          scale: new THREE.Vector3(1.42, 1.42, 1.42),
+          scale: new THREE.Vector3(1.5, 1.5, 1.5),
         },
         560
       );
-      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.22 : 0.24);
-      targetRotationX = -0.036;
-      targetRotationY = -0.18;
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.2 : 0.22);
+      targetRotationX = -0.026;
+      targetRotationY = -0.13;
       scheduleFrame();
     };
 
@@ -3799,8 +3824,8 @@
         entry.group.rotation.set(-0.02, -0.18 + index * 0.06, -0.055 + index * 0.028);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(1.28, 0.82, 0.98);
-        entry.playRotation = new THREE.Euler(0.08, -0.33, 0.05);
+        entry.playPosition = new THREE.Vector3(1.52, 0.88, 1.1);
+        entry.playRotation = new THREE.Euler(0.06, -0.16, 0.035);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
@@ -3809,7 +3834,7 @@
         cover.position.set(0, 0.01, 0.008);
         entry.group.add(cover);
         const albumCue = new THREE.Mesh(
-          new THREE.PlaneGeometry(0.58, 0.78),
+          new THREE.PlaneGeometry(0.64, 0.84),
           new THREE.MeshBasicMaterial({
             color: palette.isDarkTheme ? 0xf2c38d : 0xb76f38,
             transparent: true,
@@ -3822,6 +3847,12 @@
         albumCue.visible = false;
         entry.group.add(albumCue);
         entry.cue = albumCue;
+        const albumPlayLedge = new THREE.Group();
+        albumPlayLedge.visible = false;
+        addBox(albumPlayLedge, { x: 0.56, y: 0.035, z: 0.07 }, { x: 0, y: -0.335, z: 0.036 }, woodEdgeMaterial);
+        addBox(albumPlayLedge, { x: 0.44, y: 0.018, z: 0.04 }, { x: 0, y: -0.29, z: 0.058 }, warmArmMaterial);
+        entry.group.add(albumPlayLedge);
+        entry.playLedge = albumPlayLedge;
         const albumShadow = new THREE.Mesh(
           new THREE.CircleGeometry(0.5, 48),
           new THREE.MeshBasicMaterial({

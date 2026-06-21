@@ -772,7 +772,12 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-scene-note {
+  top: 4.1rem;
+  right: 1.05rem;
+  bottom: auto;
+  left: auto;
   opacity: 0.72;
+  text-align: right;
   transform: translateY(0);
 }
 
@@ -782,12 +787,12 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 @media (min-width: 768px) {
   .home-hero-media.is-desk-3d .home-desk-scene-note {
-    bottom: 4.15rem;
+    top: 4.45rem;
     right: 1.05rem;
   }
 
   .home-hero-media.is-desk-3d .home-desk-scene-note span {
-    max-width: min(100%, 32rem);
+    max-width: min(30rem, calc(100vw - 2.1rem));
   }
 
   .home-hero-media.is-desk-3d .home-desk-scene-note-primary {
@@ -3824,12 +3829,19 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-hero-media.is-desk-3d .home-desk-scene-note,
   html.home-desk-outside-active .home-hero-media.is-desk-3d .home-desk-scene-note {
-    bottom: 4.62rem;
+    top: 4.32rem;
+    right: auto;
+    bottom: auto;
+    left: 0.72rem;
+    max-width: min(11.5rem, calc(100% - 1.44rem));
     opacity: 0.42;
+    font-size: 0.49rem;
+    text-align: left;
   }
 
   .home-desk-scene-note span {
     display: inline-block;
+    max-width: 100%;
     margin-top: 0.08rem;
     padding: 0.2rem 0.44rem;
     border-radius: 0.42rem;

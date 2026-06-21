@@ -17,6 +17,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - Albums are object-native controls. Clicking one should focus it as a leaning "now playing" sleeve near the turntable, update the record label, and start the meme vinyl spinning. Dragging or flicking can scatter an album and reveal a small song card.
 - Album rack hit targets should follow the visible left-to-right sleeve order, including while another sleeve is focused; dropped/empty rack slots must not remain clickable.
 - Thrown or dropped albums are floor evidence, not record-replacement controls. Picking must ignore hidden rack proxies and thrown album entries, and a click on a visible rack sleeve should replace the currently focused sleeve instead of reselecting the enlarged now-playing album.
+- The focused "now playing" album should read as a sleeve propped on a small desk/easel ledge near the turntable, with a front-facing pose and enough room context still visible. Replacement clicks should favor nearby visible rack sleeves over the enlarged focused sleeve so the interaction feels like swapping records, not fighting the hitbox.
 - Artifact cards are object-native controls. First activation lifts the selected card to a readable front-facing angle; second activation or keyboard confirmation opens the project link.
 - Scroll or wheel back over the scene restores the default camera and object positions before letting the page feel stuck.
 - The 2D and 3D views share one logical state: current meme record, spin state, and dropped meme-card order. A card discovered in one view must be visible as already discovered in the other.
@@ -25,6 +26,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - In 2D, the discovered-card pile should remain visibly paper-like after repeated drops: separated fan slots, slight elevation cues, and enough offset for individual card edges to read instead of becoming a single glossy slab.
 - In 3D mode, hidden 2D portrait/card/artifact layers must not stay in the hero grid flow. The room canvas, usage note, and 3D controls should all remain visible together on laptop-height desktop viewports and mobile after switching modes; on mobile, keep the usage note above the control strip rather than letting the two overlays collide.
 - The 3D usage note should behave like a compact counter overlay, not a prose caption crossing the table. Keep the commit/token/hour/tree line visible in scene, and reserve the explanatory model-damage sentence for non-3D or fuller ledger contexts.
+- On mobile, keep that 3D counter as a small upper-wall tag, not a full-width caption across the window, table, or floor-card zone.
 - Focused album and artifact views should keep enough of the room in frame to feel like reading an object on the desk, not a hard crop into a separate inspection scene.
 - Dark mode must not collapse the room floor into a black slab. The generated floorboard texture should stay visible through a warm material tint, with low-opacity contact shadows and enough wall/floor separation for the dropped cards to read as paper lying on a room surface.
 
