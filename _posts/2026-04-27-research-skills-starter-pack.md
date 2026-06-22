@@ -199,8 +199,19 @@ looking for reasons to reject borderline papers. Your job is not to hope they
 figure out your point. Your job is to make the problem, contribution, evidence,
 limitations, and relationship to prior work easy to see.
 
+I would also read Marco Tulio Ribeiro's
+[_Writing, part 1 — the process_](https://medium.com/@marcotcr/writing-part-1-the-process-6bb92cb522eb).
+It is useful because it treats writing as a process for discovering and
+organizing thought, not as a final cleanup pass. His loop is deliberately
+concrete: dump raw material, outline both top down and bottom up, write an
+imperfect draft from that outline, reverse-outline what you actually wrote,
+rewrite at multiple levels, and ask for feedback. I like this because it makes
+confusion less shameful. If a paragraph collapses when I outline it backward,
+that is not a sign that writing failed. That is the writing doing its job.
+
 My practical takeaway from [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)'s
-advice, the Durand/Freeman resources he recommended, and my own writing habits:
+advice, the Durand/Freeman resources he recommended, Ribeiro's process essay,
+and my own writing habits:
 
 - Draft the outline before drafting polished paragraphs.
 - Make the central figure earlier than feels comfortable.
@@ -379,6 +390,8 @@ who wrote those resources:
   [_Notes on writing_](https://people.csail.mit.edu/fredo/PUBLI/writing.pdf)
   and [Bill Freeman](https://billf.mit.edu/)'s
   [_How to write a good CVPR submission_](https://www.cs.ryerson.ca/~wangcs/resources/How-to-write-a-good-CVPR-submission.pdf).
+- [Marco Tulio Ribeiro](https://medium.com/@marcotcr) for writing
+  [_Writing, part 1 — the process_](https://medium.com/@marcotcr/writing-part-1-the-process-6bb92cb522eb).
 - Jo Vermeulen for sharing Marco Tulio Ribeiro's
   [_Coming up with research ideas_](https://medium.com/@marcotcr/coming-up-with-research-ideas-3032682e5852)
   and
@@ -412,4 +425,4 @@ before anyone gives you permission.
 
 ---
 
-Last updated: June 21, 2026.
+Last updated: June 22, 2026.
