@@ -84,6 +84,7 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 - The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the onsen/lizard/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
 - Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.
 - Outside mode is scoped to the hero. If the user scrolls the hero mostly out of view, the scene should automatically return to the room state while preserving the current record, spin state, and discovered-card order.
+- The interior ocean/window view plane must never be fully hidden by orbit cutaway logic. Side and rear orbit angles may fade the glass/recess, but the coastal view should remain visible enough to preserve the room/exterior continuity.
 
 ## WebGL / Three.js Direction
 
@@ -106,6 +107,7 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 - Inside wheel/trackpad zoom never auto-enters outside; outside wheel/trackpad zoom never auto-enters inside. Window clicks are the deliberate mode switch.
 - 2D dropped meme discoveries read as compact album/source cards; only the 3D project artifacts read as A4 papers.
 - Mobile keeps the scene usable without cropping the window, controls, or artifact focus states.
+- For the onsen/chair layout, a passing default view shows the onsen as a left-midground pool and the Eames-inspired chair/ottoman as a smaller back-right reading/work corner, with neither object colliding with the desk controls.
 
 ## 2026-06-21 Long-Run QA Loop Notes
 

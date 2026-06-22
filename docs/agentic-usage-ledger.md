@@ -16,17 +16,17 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 Published total baseline, estimated on June 22, 2026:
 
-- 257 commits since the revamp cutoff, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, album-disc swap, outside-coast, mobile card-tap milestones, the long-run room/exterior improvement pass, and the onsen lounge scene pass.
-- 2.27B estimated Codex tokens.
-- 203 estimated active agent-hours.
+- 258 commits since the revamp cutoff, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, album-disc swap, outside-coast, mobile card-tap milestones, the long-run room/exterior improvement pass, the onsen lounge scene pass, and the follow-up layout/window stability pass.
+- 2.28B estimated Codex tokens.
+- 204 estimated active agent-hours.
 - Public money joke: about $2.0K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
 - API-cost reference: about $730 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1362 kWh, 508 kg CO2e, or a stored-carbon equivalent of about 0.8 ten-year urban trees. Range: 0.28-2.8 trees.
+- Tree-cut lens: about 1368 kWh, 510 kg CO2e, or a stored-carbon equivalent of about 0.9 ten-year urban trees. Range: 0.28-2.8 trees.
 
 Evidence behind the total:
 
-- `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 57 sessions after the revamp cutoff.
-- The audit showed about 2.267B raw tokens and 202.77 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
+- `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 57 sessions after the revamp cutoff.
+- The audit showed about 2.284B raw tokens and 203.92 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 - The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
@@ -34,17 +34,17 @@ Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the
 
 Published 3D desk baseline:
 
-- 95 commits touching the homepage desk/vinyl/coffee scene paths, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, A4 project artifacts, album-disc swap, outside-coast, mobile card-tap milestones, the long-run room/exterior improvement pass, and the onsen lounge scene pass.
-- 1.21B estimated Codex tokens.
-- 89 estimated active agent-hours.
+- 96 commits touching the homepage desk/vinyl/coffee scene paths, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, A4 project artifacts, album-disc swap, outside-coast, mobile card-tap milestones, the long-run room/exterior improvement pass, the onsen lounge scene pass, and the follow-up layout/window stability pass.
+- 1.23B estimated Codex tokens.
+- 90 estimated active agent-hours.
 - Public money joke reference: about $1.1K from the CodexBar screenshot ratio.
-- API-cost reference: about $380 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 726 kWh, 271 kg CO2e, or a stored-carbon equivalent of about 0.5 ten-year urban trees. Range: 0.15-1.5 trees.
+- API-cost reference: about $390 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 738 kWh, 275 kg CO2e, or a stored-carbon equivalent of about 0.5 ten-year urban trees. Range: 0.15-1.5 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 22 Codex sessions after the 3D cutoff, about 1.207B raw tokens, and about 88.52 active hours, rounded for the public UI.
+- The audit counted 22 Codex sessions after the 3D cutoff, about 1.226B raw tokens, and about 89.86 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -210,6 +210,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 
 - Onsen lounge scene pass: public total moved to 257 commits, 2.27B tokens, 203 hours, 1362 kWh, about $730 API cosplay, and about $2.0K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 95 commits, 1.21B tokens, 89 hours, 726 kWh, roughly 0.5 trees cut, about $380 API cosplay, and about $1.1K on the CodexBar-ratio money joke.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 84 repo sessions, counted 57 sessions after the revamp cutoff and 22 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending onsen lounge scene commit.
+- Onsen/chair layout and window stability pass: public total moved to 258 commits, 2.28B tokens, 204 hours, 1368 kWh, and roughly 0.9 trees while the public API-cost and CodexBar labels stayed rounded at about $730 API cosplay and about $2.0K; the path-scoped desk counter moved to 96 commits, 1.23B tokens, 90 hours, 738 kWh, roughly 0.5 trees cut, about $390 API cosplay, and about $1.1K on the CodexBar-ratio money joke.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 84 repo sessions, counted 57 sessions after the revamp cutoff and 22 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending onsen/chair layout and window stability commit.
 
 ## Future Entry Template
 

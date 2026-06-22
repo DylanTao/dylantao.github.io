@@ -715,18 +715,18 @@
     const outsideDefaultRotation = { x: -0.03, y: 0.16 };
     const sceneAnchors = {
       room: {
-        orbitTarget: { x: 0.28, y: -0.16, z: -0.18 },
-        defaultCamera: { desktop: { x: 3.32, y: 2.08, z: 6.18 }, compact: { x: 2.62, y: 2.04, z: 6.04 } },
-        zoomCamera: { desktop: { x: 1.46, y: 1.62, z: 3.6 }, compact: { x: 1.22, y: 1.42, z: 3.5 } },
+        orbitTarget: { x: 0.08, y: -0.18, z: -0.16 },
+        defaultCamera: { desktop: { x: 2.92, y: 2.06, z: 6.48 }, compact: { x: 2.36, y: 2.0, z: 6.22 } },
+        zoomCamera: { desktop: { x: 1.34, y: 1.58, z: 3.72 }, compact: { x: 1.12, y: 1.42, z: 3.64 } },
         window: { x: 0.96, y: 0.04, z: -1.7, width: 3.62, height: 2.7 },
         desk: { x: 0.28, y: 0, z: -0.84 },
-        onsen: { x: -2.08, y: -1.045, z: -0.42 },
-        chair: { x: 2.14, y: -1.08, z: 0.48 },
+        onsen: { x: -1.48, y: -1.035, z: 0.04 },
+        chair: { x: 1.92, y: -1.09, z: -0.3 },
       },
       outside: {
         orbitTarget: { x: 1.08, y: -0.03, z: 0.42 },
         defaultCamera: { desktop: { x: 2.58, y: 1.38, z: 3.48 }, compact: { x: 2.34, y: 1.24, z: 3.64 } },
-        zoomCamera: { desktop: { x: 1.68, y: 0.96, z: 2.72 }, compact: { x: 1.44, y: 0.88, z: 2.84 } },
+        zoomCamera: { desktop: { x: 1.68, y: 0.98, z: 3.02 }, compact: { x: 1.44, y: 0.9, z: 3.12 } },
         house: { x: 1.08, y: -0.22, z: 0.42 },
         window: { x: -0.08, y: -0.02, z: 0.47, width: 1.72, height: 0.92 },
         shoreline: { x: -1.9, y: -1.11, z: 1.12 },
@@ -914,7 +914,7 @@
           y: lerp(target.y, sceneAnchors.outside.window.y, zoom),
           z: lerp(target.z, sceneAnchors.outside.house.z, zoom),
         });
-        camera.fov = lerp(isCompactScene ? 40 : 35, isCompactScene ? 28 : 24, zoom);
+        camera.fov = lerp(isCompactScene ? 40 : 35, isCompactScene ? 31 : 28, zoom);
         setOrbitCamera("outside", baseCamera, baseTarget, rotationY, rotationX, zoom);
       } else {
         const zoom = easeOutCubic(zoomLevel);
@@ -961,7 +961,7 @@
             y: lerp(target.y, 0.5, zoom),
             z: lerp(target.z, sceneAnchors.room.window.z + 0.6, zoom),
           });
-          camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
+          camera.fov = lerp(isCompactScene ? 36 : 32, isCompactScene ? 29 : 26, zoom);
           setOrbitCamera("desk", baseCamera, baseTarget, rotationY, rotationX, zoom);
         }
       }
@@ -2315,7 +2315,8 @@
     const setHoverEntry = (entry) => {
       if (hoveredEntry === entry) return;
       if (hoveredEntry && !hoveredEntry.isDragging && hoveredEntry !== focusedEntry) {
-        hoveredEntry.group.position.y = hoveredEntry.currentRestY ?? hoveredEntry.basePosition.y;
+        const restY = hoveredEntry.currentRestY ?? hoveredEntry.basePosition?.y;
+        if (Number.isFinite(restY)) hoveredEntry.group.position.y = restY;
         setEntryCue(hoveredEntry, false);
       }
       hoveredEntry = entry;
@@ -3317,7 +3318,14 @@
       wall.renderOrder = -3;
       rootGroup.add(wall);
 
-      const recessMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae, roughness: 0.86, metalness: 0.01 });
+      const recessMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.42 : 0.36,
+        depthWrite: false,
+        roughness: 0.86,
+        metalness: 0.01,
+      });
       const frameMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047, roughness: 0.62 });
       const stoneTrimMaterial = new THREE.MeshStandardMaterial({ color: palette.stoneEdge, roughness: 0.88, metalness: 0.01 });
       const glassMaterial = new THREE.MeshBasicMaterial({
@@ -3341,20 +3349,26 @@
           bevel: 0.018,
         }
       );
+      windowRecessBlock.renderOrder = -2;
       registerOrbitCutaway(windowRecessBlock, { occludedOpacity: 0.02, hideBelow: 0.03, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
 
-      windowMaterial = new THREE.MeshBasicMaterial({ map: createWindowTexture(palette), transparent: true });
+      windowMaterial = new THREE.MeshBasicMaterial({
+        map: createWindowTexture(palette),
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
       const view = new THREE.Mesh(new THREE.PlaneGeometry(roomWindow.width - 0.24, roomWindow.height - 0.06), windowMaterial);
       view.position.set(roomWindow.x, roomWindow.y, -1.708);
-      view.renderOrder = -2;
+      view.renderOrder = -1.5;
       rootGroup.add(view);
-      registerOrbitCutaway(view, { cloneMaterial: false, baseOpacity: 1, occludedOpacity: 0.01, hideBelow: 0.03 });
+      registerOrbitCutaway(view, { cloneMaterial: false, baseOpacity: 1, occludedOpacity: 0.34 });
 
       const glass = new THREE.Mesh(new THREE.BoxGeometry(roomWindow.width - 0.34, roomWindow.height - 0.16, 0.018), glassMaterial);
       glass.position.set(roomWindow.x, roomWindow.y, -1.684);
       glass.renderOrder = -1;
       rootGroup.add(glass);
-      registerOrbitCutaway(glass, { cloneMaterial: false, baseOpacity: glassMaterial.opacity ?? 0.22, occludedOpacity: 0.01, hideBelow: 0.02 });
+      registerOrbitCutaway(glass, { cloneMaterial: false, baseOpacity: glassMaterial.opacity ?? 0.22, occludedOpacity: 0.035 });
 
       [
         addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.105, z: 0.18 }, { x: roomWindow.x, y: 1.43, z: -1.65 }, frameMaterial, { bevel: 0.015 }),
@@ -5188,7 +5202,8 @@
 
       const onsen = new THREE.Group();
       onsen.position.set(sceneAnchors.room.onsen.x, sceneAnchors.room.onsen.y, sceneAnchors.room.onsen.z);
-      onsen.rotation.y = 0.18;
+      onsen.rotation.y = 0.06;
+      onsen.scale.setScalar(0.92);
       rootGroup.add(onsen);
 
       const onsenBase = addBeveledBox(onsen, { x: 1.72, y: 0.18, z: 1.12 }, { x: 0, y: 0.02, z: 0 }, stoneEdgeMaterial, { bevel: 0.026 });
@@ -5339,8 +5354,8 @@
 
       const loungeCorner = new THREE.Group();
       loungeCorner.position.set(sceneAnchors.room.chair.x, sceneAnchors.room.chair.y, sceneAnchors.room.chair.z);
-      loungeCorner.rotation.y = -0.7;
-      loungeCorner.scale.setScalar(0.72);
+      loungeCorner.rotation.y = -0.86;
+      loungeCorner.scale.setScalar(0.62);
       rootGroup.add(loungeCorner);
       const chairShadow = new THREE.Mesh(
         new THREE.CircleGeometry(0.96, 64),
