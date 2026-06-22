@@ -20,6 +20,8 @@ After the talk, I got to chat with him, get the famous Yellow Book ([The Design 
 
 If you are into design, go check out the charity and buy his newer book, [_Design for a Better World_](https://www.nngroup.com/books/design-for-a-better-world-meaningful-sustainable-h/) - he told us it is much more correct than _The Design of Everyday Things_!
 
+Update: I also just read Don's recent Substack piece, [_Why I Am Against STEM Education_](https://donnorman1.substack.com/p/why-i-am-against-stem-education), and it made the education part of his DLab talk click a little more for me. The title is mischievous: he is not against science, technology, engineering, or math as knowledge. He is against education that turns them into isolated specialties, teaches at students instead of helping them learn actively, and treats collaboration as suspicious even though real work is collaborative. I was especially interested in his cautious optimism about AI tutors. I have been wary of that idea, but his framing made me feel more positive about AI as scaffolding: not to make students narrower or more dependent, but to help them connect across areas, debug their thinking, and become a little more generalist. That also connects to project-based classrooms and to Don's larger point that we should teach problems rather than disconnected disciplines. Don's original piece says all of this much better than my tiny summary; go read it.
+
 <div class="row mt-3">
     <div class="col-sm-6 mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/don-norman-talk-2026/book-cover.jpg" class="img-fluid rounded z-depth-1" zoomable=true alt="Cover of The Design of Everyday Things by Don Norman" caption="The Yellow Book, now much cooler." %}
