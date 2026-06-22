@@ -14,12 +14,15 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 
 - The desk is a small polished room vignette inside the hero media footprint, not a fullscreen model.
 - High-level revamp aim for future Codex/model passes: turn the scene into a continuous 360 Japandi cliff-house environment, where the interior and exterior are two views of one house/environment rather than separate stage sets.
-- The spatial contract is anchor-first: window wall, floor slab, desk, bed, album shelf, roof/plinth, shell, cliff shelves, shoreline, and camera targets should share one coordinate language. If the interior window moves or scales, the exterior house window and visible room anchors must move or scale with it.
+- The spatial contract is anchor-first: window wall, floor slab, desk, onsen pool, lounge chair corner, album shelf, roof/plinth, shell, cliff shelves, shoreline, and camera targets should share one coordinate language. If the interior window moves or scales, the exterior house window and visible room anchors must move or scale with it.
 - 360 viewing is part of the design target. Dragging in 3D should orbit around the active room/exterior anchor through a full yaw range, with bounded pitch and no automatic inside/outside transition. Wheel/trackpad only explores zoom/dolly.
-- Flat stand-ins should be treated as temporary failures. Albums, source cards, A4 papers, floor slab, window frame, bed, desk, mug, turntable, laptop, roof/plinth, and shell surfaces need visible thickness, bevels, or curved mesh geometry so orbiting does not reveal cardboard cutouts.
+- Flat stand-ins should be treated as temporary failures. Albums, source cards, A4 papers, floor slab, window frame, onsen pool, lizard Sirui, lounge chair, ottoman, desk, mug, turntable, laptop, roof/plinth, and shell surfaces need visible thickness, bevels, or curved mesh geometry so orbiting does not reveal cardboard cutouts.
 - Water/sand motion should read physically motivated without becoming a heavy simulation: waves advect foam, wet sand darkens near the wave reach, sand ripples/gusts move along the shoreline, and lightweight heightfield/shader motion replaces purely sliding flat planes.
-- The current 3D target is a warm Japandi cliff-house nook, not a literal office desk render: carved stone/plaster side forms, a warm wood desk/floor, a low bed deeper in the room, and a large floor-to-ceiling window wall should all read together.
-- The room should feel explorable from the first view. The desk sits closer to the glass, while deeper room cues such as bed, stone ribs, ceiling mass, sill, and decor prevent the scene from collapsing into a flat tabletop.
+- The current 3D target is a warm Japandi cliff-house nook, not a literal office desk render: carved stone/plaster side forms, a warm wood desk/floor, a small stone-clad Japanese onsen-style soaking pool, a cozy reading/work lounge corner, and a large floor-to-ceiling window wall should all read together.
+- The room should feel explorable from the first view. The desk sits closer to the glass, while deeper room cues such as the onsen, lizard Sirui, chair/ottoman, stone ribs, ceiling mass, sill, and decor prevent the scene from collapsing into a flat tabletop.
+- The onsen replaces the old bed cue. It should read as a small-scale soaking pool with stone cladding, warm water, steam, a cocktail ledge, and a waterproof/lap desk setup showing a tiny VS Code/Codex screen.
+- Lizard Sirui should visibly relax in the onsen rather than sit as a generic prop: head, body, tail, eyes, resting arms, and water contact should make the scale and action legible.
+- The lounge corner should be Herman Miller Eames Lounge Chair + Ottoman inspired, with molded wood shells, cream cushions, a black swivel/star base, and rounded 3D cushions/shells rather than flat panels.
 - The table has a turntable, elegant Autodesk mug, coffee surface, a single table stain, two non-overlapping artifact cards, and four album sleeves organized in a shelf or crate.
 - Personal Sirui photo art is part of the 3D room language: the lizard meme is a large framed art piece on the wall opposite the window, the dog photo is a small framed desk object, and the capy photo is framed on a side wall. Each should be real textured 3D geometry with frame depth, glass/mat cues, and click-to-admire focus.
 - Albums are object-native controls. Clicking one should first focus it in a top-down inspection pose over the turntable/rack without changing the playing record; clicking that focused sleeve again swaps the current vinyl, starts the meme record, and returns the sleeve to the rack. Dragging or flicking can scatter an album and reveal a small song card.
@@ -55,7 +58,7 @@ z
 |  W W W       floor-to-ceiling window wall: big designer frame, thick sill, warm wood trim
 |  W W W       outside view: same horizon, ocean, sand/cliff palette
 |
-|  [low bed]                  deeper warm Japandi room zone
+|  [onsen pool] [lounge chair] deeper warm Japandi room zone
 |
 |  [albums] [turntable]        desk pulled closer to the window
 |
@@ -67,24 +70,24 @@ z
 
 Interior and exterior should read as two scales of the same cliff-house world: warm Japandi wood, soft stone/plaster, a sculptural carved-rock nook, floor-to-ceiling framed glass, sandy coastal light, and soft non-photoreal shading. The outside cutaway house should reuse the same big-window language and the same floor/stone/wood vocabulary rather than switching to a different facade style.
 
-The grid is descriptive, not a mandate for photoreal geometry. Keep the room stylized and graphic, but preserve the stable anchors: big rear window, desk close to the glass, bed deeper in the room, rear-left record shelf/turntable on the desk, front-right paper/mug work zone, and the dropped-card fan on the near floor.
+The grid is descriptive, not a mandate for photoreal geometry. Keep the room stylized and graphic, but preserve the stable anchors: big rear window, desk close to the glass, onsen and lounge corner deeper in the room, rear-left record shelf/turntable on the desk, front-right paper/mug work zone, and the dropped-card fan on the near floor.
 
 ## Outside Vignette
 
 - The window should read as a floor-to-ceiling designer window with frame, sill, glass, and a view plane.
-- The exterior should show the same house, not a separate miniature world: the large glass wall, desk by the window, low bed behind it, roof overhang, stone plinth, and wood/stone material language must correspond to the interior view.
+- The exterior should show the same house, not a separate miniature world: the large glass wall, desk by the window, onsen/lizard/lap-desk cue behind it, lounge corner massing, roof overhang, stone plinth, and wood/stone material language must correspond to the interior view.
 - Zooming toward the window reveals a faint object-native hint, but zooming must not automatically enter or leave the room. Clicking the inside window enters outside.
 - Once outside, scroll/trackpad zoom should explore the exterior view and zoom closer into the window without automatically re-entering the room; clicking the visible window/glow returns inside.
 - The outside scene should be a stylized San Diego cliff-beach diorama with layered water, shoreline foam, sand, irregular cliff terraces, cliff-side house, and time-of-day lighting.
 - Prefer layered terrain and shader/canvas motion over flat planes: overlapping water bands, irregular cliff shelves, foreground rocks, shore foam, sand gusts, and a narrower headland backdrop should create depth.
-- In the house cutaway, Sirui sleeps sideways. The laptop sits next to Sirui's head and shows a small VS Code/Codex hint. The blanket has a cute cartoon cat pattern.
-- The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the bed/head/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
+- In the house cutaway, lizard Sirui relaxes in the mini onsen. The lap desk/laptop sits near the pool and shows a small VS Code/Codex hint.
+- The cutaway room details should be readable at the default outside camera: soften glass/glow wash, keep the onsen/lizard/laptop forward enough to see, and avoid dark pier/foundation pieces overpowering the window.
 - Outside mode should keep a subtle way back inside through the house/window itself: a warm, gently pulsing interior glow plus the existing keyboard-accessible controls.
 - Outside mode is scoped to the hero. If the user scrolls the hero mostly out of view, the scene should automatically return to the room state while preserving the current record, spin state, and discovered-card order.
 
 ## WebGL / Three.js Direction
 
-- Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, blanket pattern, laptop screen, and record labels.
+- Keep the core scene in Three.js and use generated canvas textures for painterly material detail: floorboards, ocean foam, sand, cliff striation, onsen water/steam cues, laptop screen, chair wood/cushion surfaces, and record labels.
 - Favor cheap GPU motion before adding heavier simulation: scrolling texture offsets, small mesh bobbing, and eased object arcs already give ocean/sand/card motion without a particle system.
 - The outside view uses texture-offset ocean/foam motion, transparent sand-gust planes, small instanced shoreline glints, and low-resolution shader overlays for foam/sand shimmer near the beach. This should read as living coastal motion while staying cheap and only animating outside mode.
 - The current implementation also uses repeated simple mesh primitives for the house, cliff shelves, stone ribs, and roof/floor framing. Future work should improve these with better shared anchors and materials before introducing a heavy asset pipeline.
@@ -96,6 +99,8 @@ The grid is descriptive, not a mandate for photoreal geometry. Keep the room sty
 
 - One visible coffee stain, organic and non-circular, not clipped, readable on light and dark themes.
 - 3D canvas prewarms, renders nonblank, and drag/zoom produce visible pixel changes.
+- The bed is gone from the active interior/exterior cue. The onsen, lizard Sirui, cocktail ledge, lap desk, warm water, and steam read at default and closer views.
+- The lounge chair and ottoman read as an Eames-inspired 3D object with molded wood, cream cushions, and black base, not as flat rectangles.
 - Four albums are in an organized shelf; discovered song cards settle on the floor in the same order as the 2D pile.
 - Album click, card focus, 2D shake discovery, 3D album flick discovery, album-drop room return, scroll-back, reset, window jump, and outside return all work.
 - Inside wheel/trackpad zoom never auto-enters outside; outside wheel/trackpad zoom never auto-enters inside. Window clicks are the deliberate mode switch.
@@ -123,4 +128,4 @@ Screenshot sets were captured under `.jekyll-cache/home-scene-qa/loop00` through
 | 12   | Stable pass: 2D cards, interior, outside, outside zoom, and album settled states held across desktop/mobile.                                     | No source change.                                                                                                                                         |
 | 13   | Stable pass repeated with the same framing and interaction states.                                                                               | Accepted as the second consecutive stable visual pass.                                                                                                    |
 
-Final visual read: the interior now has a larger framed glass wall, a softer carved shell, a warmer wood desk/floor relationship, a more visible side bed cue, and stable click-only window navigation. The exterior keeps the matching big window, desk/bed/record anchors through glass, layered coastal water/sand/cliff terraces, and no wheel-triggered inside/outside transition.
+Final visual read before the onsen/chair pass: the interior had a larger framed glass wall, a softer carved shell, a warmer wood desk/floor relationship, a more visible side bed cue, and stable click-only window navigation. The exterior kept the matching big window, desk/bed/record anchors through glass, layered coastal water/sand/cliff terraces, and no wheel-triggered inside/outside transition. Treat that as historical baseline, not the current completion state.

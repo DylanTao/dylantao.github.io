@@ -720,7 +720,8 @@
         zoomCamera: { desktop: { x: 1.46, y: 1.62, z: 3.6 }, compact: { x: 1.22, y: 1.42, z: 3.5 } },
         window: { x: 0.96, y: 0.04, z: -1.7, width: 3.62, height: 2.7 },
         desk: { x: 0.28, y: 0, z: -0.84 },
-        bed: { x: -2.08, y: -1.045, z: -0.42 },
+        onsen: { x: -2.08, y: -1.045, z: -0.42 },
+        chair: { x: 2.14, y: -1.08, z: 0.48 },
       },
       outside: {
         orbitTarget: { x: 1.08, y: -0.03, z: 0.42 },
@@ -2535,6 +2536,13 @@
       themeMaterials.stoneEdge?.color.setHex(palette.stoneEdge);
       themeMaterials.roomFuton?.color.setHex(palette.isDarkTheme ? 0x405d62 : 0xc9d8d2);
       themeMaterials.roomPillow?.color.setHex(palette.isDarkTheme ? 0xf2e0c9 : 0xfff0de);
+      themeMaterials.onsenWater?.color.setHex(palette.isDarkTheme ? 0x5aa4b8 : 0x9fdbe6);
+      if (themeMaterials.onsenWater) themeMaterials.onsenWater.opacity = palette.isDarkTheme ? 0.66 : 0.7;
+      themeMaterials.onsenSteam?.color.setHex(palette.isDarkTheme ? 0xf9dfc3 : 0xffffff);
+      if (themeMaterials.onsenSteam) themeMaterials.onsenSteam.opacity = palette.isDarkTheme ? 0.2 : 0.24;
+      themeMaterials.chairWood?.color.setHex(palette.isDarkTheme ? 0x8a5f3a : 0x9a663b);
+      themeMaterials.chairCushion?.color.setHex(palette.isDarkTheme ? 0xf2e8d6 : 0xfff5e6);
+      themeMaterials.chairBase?.color.setHex(palette.isDarkTheme ? 0x15191a : 0x1d2021);
       themeMaterials.windowCue?.color.setHex(palette.isDarkTheme ? 0xf2c994 : 0xb97942);
       if (themeMaterials.windowCue) themeMaterials.windowCue.opacity = palette.isDarkTheme ? 0.12 : 0.08;
       themeMaterials.windowSillGlint?.color.setHex(palette.isDarkTheme ? 0xffdfb0 : 0xd79b61);
@@ -2613,7 +2621,8 @@
       replaceMaterialMap(themeMaterials.outsideCliff, createCliffSurfaceTexture(palette));
       replaceMaterialMap(themeMaterials.outsideCliffFace, createCliffSurfaceTexture(palette, true));
       replaceMaterialMap(themeMaterials.catBlanket, createCatBlanketTexture(palette));
-      replaceMaterialMap(themeMaterials.laptopScreen, createLaptopScreenTexture(palette));
+      const laptopScreenMaterials = themeMaterials.laptopScreens || (themeMaterials.laptopScreen ? [themeMaterials.laptopScreen] : []);
+      laptopScreenMaterials.forEach((material) => replaceMaterialMap(material, createLaptopScreenTexture(palette)));
       render();
     };
 
@@ -3378,15 +3387,7 @@
         { x: roomWindow.x, y: roomWindow.y, z: -1.62 },
         frameMaterial
       );
-      const crossMullion = addBox(
-        rootGroup,
-        { x: roomWindow.width - 0.38, y: 0.056, z: 0.1 },
-        { x: roomWindow.x, y: roomWindow.y, z: -1.62 },
-        frameMaterial
-      );
-      [centerMullion, crossMullion].forEach((mesh) =>
-        registerOrbitCutaway(mesh, { occludedOpacity: 0.06, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 })
-      );
+      registerOrbitCutaway(centerMullion, { occludedOpacity: 0.06, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
       const stoneSill = addBeveledBox(
         rootGroup,
         { x: roomWindow.width + 0.1, y: 0.18, z: 0.46 },
@@ -3642,6 +3643,15 @@
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
+      const outsideWaterMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x5aa4b8 : 0x9fdbe6,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.62 : 0.68,
+        roughness: 0.36,
+        metalness: 0.02,
+      });
+      const outsideLizardMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x81a565 : 0x5f9d52, roughness: 0.72 });
+      const outsideLizardBellyMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe7c990 : 0xf3d7a1, roughness: 0.68 });
       const roomFloorMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5,
         map: createRoomFloorTexture(palette),
@@ -3712,6 +3722,8 @@
       const screenMaterial = new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture(palette), side: THREE.DoubleSide });
       const blanketMaterial = new THREE.MeshStandardMaterial({ map: createCatBlanketTexture(palette), roughness: 0.78 });
       themeMaterials.laptopScreen = screenMaterial;
+      themeMaterials.laptopScreens = themeMaterials.laptopScreens || [];
+      themeMaterials.laptopScreens.push(screenMaterial);
       themeMaterials.catBlanket = blanketMaterial;
 
       const beach = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 0.52), beachMaterial);
@@ -4484,45 +4496,66 @@
         mesh.rotation.y = rib.ry;
       });
       addBox(room, { x: 1.02, y: 0.035, z: 0.54 }, { x: -0.02, y: -0.34, z: 0.0 }, roomFloorMaterial);
-      addBox(room, { x: 0.72, y: 0.018, z: 0.36 }, { x: 0.02, y: -0.305, z: -0.24 }, blanketMaterial);
-      addBox(room, { x: 0.1, y: 0.25, z: 0.5 }, { x: -0.48, y: -0.08, z: -0.16 }, trimMaterial);
-      addBox(room, { x: 0.95, y: 0.045, z: 0.06 }, { x: -0.02, y: -0.235, z: -0.42 }, trimMaterial);
-      addBox(room, { x: 0.06, y: 0.2, z: 0.52 }, { x: 0.48, y: -0.12, z: -0.14 }, trimMaterial);
-      addBox(room, { x: 0.9, y: 0.055, z: 0.48 }, { x: -0.02, y: -0.26, z: -0.28 }, bedMaterial);
-      addBox(room, { x: 0.84, y: 0.1, z: 0.46 }, { x: -0.02, y: -0.18, z: -0.29 }, bedMaterial);
-      addBox(room, { x: 0.34, y: 0.075, z: 0.22 }, { x: -0.34, y: -0.1, z: -0.34 }, pillowMaterial);
-      addBox(room, { x: 0.42, y: 0.065, z: 0.16 }, { x: -0.07, y: -0.055, z: -0.26 }, shirtMaterial);
-      addBox(room, { x: 0.72, y: 0.095, z: 0.4 }, { x: 0.07, y: -0.032, z: -0.245 }, blanketMaterial);
-      [
-        { x: -0.12, z: -0.24, w: 0.5 },
-        { x: 0.08, z: -0.12, w: 0.56 },
-        { x: 0.2, z: -0.01, w: 0.46 },
-      ].forEach((fold) => addBox(room, { x: fold.w, y: 0.011, z: 0.012 }, { x: fold.x, y: 0.025, z: fold.z }, curtainMaterial));
-      addBox(room, { x: 0.18, y: 0.018, z: 0.46 }, { x: 0.28, y: 0.025, z: -0.26 }, pillowMaterial);
-      const head = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 18), skinMaterial);
-      head.scale.set(1.06, 0.88, 0.82);
-      head.position.set(-0.32, 0.04, -0.16);
-      room.add(head);
-      const hair = new THREE.Mesh(new THREE.SphereGeometry(0.095, 24, 18), hairMaterial);
-      hair.scale.set(1.2, 0.64, 0.9);
-      hair.position.set(-0.35, 0.07, -0.17);
-      room.add(hair);
+      const miniOnsen = new THREE.Group();
+      miniOnsen.position.set(-0.22, -0.25, -0.22);
+      miniOnsen.rotation.y = 0.14;
+      miniOnsen.scale.set(0.7, 0.72, 0.7);
+      room.add(miniOnsen);
+      addBeveledBox(miniOnsen, { x: 0.9, y: 0.06, z: 0.58 }, { x: 0, y: 0, z: 0 }, trimMaterial, { bevel: 0.006 });
+      const miniPoolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.42, 0.18, 48, 1, true), cliffLineMaterial);
+      miniPoolWall.scale.set(1.18, 1, 0.78);
+      miniPoolWall.position.set(0, 0.12, 0);
+      miniOnsen.add(miniPoolWall);
+      const miniWater = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.32, 0.018, 48), outsideWaterMaterial);
+      miniWater.scale.set(1.18, 1, 0.78);
+      miniWater.position.set(0, 0.21, 0);
+      miniOnsen.add(miniWater);
+      for (let index = 0; index < 10; index += 1) {
+        const angle = (index / 10) * Math.PI * 2;
+        const block = addBox(
+          miniOnsen,
+          { x: 0.08, y: 0.04, z: 0.05 },
+          { x: Math.cos(angle) * 0.45, y: 0.21, z: Math.sin(angle) * 0.28 },
+          index % 2 ? cliffLineMaterial : trimMaterial
+        );
+        block.rotation.y = -angle;
+      }
+      const miniLizard = new THREE.Group();
+      miniLizard.position.set(-0.08, 0.24, -0.02);
+      miniLizard.rotation.y = -0.36;
+      miniOnsen.add(miniLizard);
+      const miniBody = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 12), outsideLizardMaterial);
+      miniBody.scale.set(1.34, 0.38, 0.84);
+      miniLizard.add(miniBody);
+      const miniHead = new THREE.Mesh(new THREE.SphereGeometry(0.062, 18, 12), outsideLizardMaterial);
+      miniHead.scale.set(1.1, 0.92, 0.9);
+      miniHead.position.set(-0.14, 0.055, -0.04);
+      miniLizard.add(miniHead);
+      const miniSnout = new THREE.Mesh(new THREE.SphereGeometry(0.038, 14, 10), outsideLizardBellyMaterial);
+      miniSnout.scale.set(1.2, 0.6, 0.86);
+      miniSnout.position.set(-0.19, 0.048, -0.045);
+      miniLizard.add(miniSnout);
+      [-0.16, -0.22].forEach((x) => {
+        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 8), hairMaterial);
+        eye.position.set(x, 0.08, -0.09 + (x + 0.19) * 0.28);
+        miniLizard.add(eye);
+      });
+      addBox(miniOnsen, { x: 0.36, y: 0.02, z: 0.14 }, { x: 0.28, y: 0.29, z: -0.1 }, roofMaterial);
       addBox(
-        room,
-        { x: 0.28, y: 0.016, z: 0.19 },
-        { x: -0.43, y: 0.02, z: -0.06 },
+        miniOnsen,
+        { x: 0.2, y: 0.012, z: 0.12 },
+        { x: 0.22, y: 0.315, z: -0.1 },
         new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
       );
-      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.16), screenMaterial);
-      laptopScreen.position.set(-0.43, 0.16, -0.04);
-      laptopScreen.rotation.set(-0.52, -0.08, 0);
-      room.add(laptopScreen);
-      addBox(room, { x: 0.14, y: 0.01, z: 0.018 }, { x: -0.36, y: 0.018, z: 0.035 }, trimMaterial);
+      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.13), screenMaterial);
+      laptopScreen.position.set(0.22, 0.39, -0.16);
+      laptopScreen.rotation.set(-0.46, -0.08, 0);
+      miniOnsen.add(laptopScreen);
       const lampGlow = new THREE.Mesh(new THREE.SphereGeometry(0.044, 24, 14), lampMaterial);
       lampGlow.scale.set(1, 0.62, 1);
-      lampGlow.position.set(-0.2, 0.075, 0.22);
+      lampGlow.position.set(-0.46, -0.02, 0.2);
       room.add(lampGlow);
-      addBox(room, { x: 0.018, y: 0.08, z: 0.018 }, { x: -0.2, y: 0.018, z: 0.22 }, trimMaterial);
+      addBox(room, { x: 0.018, y: 0.08, z: 0.018 }, { x: -0.46, y: -0.08, z: 0.2 }, trimMaterial);
 
       const roomDesk = new THREE.Group();
       roomDesk.position.set(0.38, -0.14, 0.34);
@@ -4874,11 +4907,46 @@
         rootGroup.add(mesh);
       });
 
-      const roomFutonMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x405d62 : 0xc9d8d2, roughness: 0.78 });
-      const roomPillowMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf2e0c9 : 0xfff0de, roughness: 0.72 });
-      const blanketAccentMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xd6a874 : 0xd59763, roughness: 0.72 });
-      themeMaterials.roomFuton = roomFutonMaterial;
-      themeMaterials.roomPillow = roomPillowMaterial;
+      const onsenStoneAccentMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x746756 : 0xc6b59f,
+        roughness: 0.94,
+        metalness: 0.01,
+      });
+      const onsenWaterMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x5aa4b8 : 0x9fdbe6,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.66 : 0.7,
+        roughness: 0.32,
+        metalness: 0.02,
+      });
+      const onsenSteamMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xf9dfc3 : 0xffffff,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.2 : 0.24,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const lizardMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x7fa55f : 0x5a9b4e, roughness: 0.72 });
+      const lizardBellyMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe7c990 : 0xf3d7a1, roughness: 0.68 });
+      const lizardDarkMaterial = new THREE.MeshStandardMaterial({ color: 0x101514, roughness: 0.58 });
+      const lizardTowelMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf1d6b7 : 0xf7dec4, roughness: 0.76 });
+      const chairWoodMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x8a5f3a : 0x9a663b, roughness: 0.5, metalness: 0.03 });
+      const chairCushionMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xf2e8d6 : 0xfff5e6,
+        roughness: 0.78,
+        metalness: 0.01,
+      });
+      const chairBaseMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x15191a : 0x1d2021,
+        roughness: 0.44,
+        metalness: 0.32,
+      });
+      themeMaterials.onsenStone = onsenStoneAccentMaterial;
+      themeMaterials.onsenWater = onsenWaterMaterial;
+      themeMaterials.onsenSteam = onsenSteamMaterial;
+      themeMaterials.chairWood = chairWoodMaterial;
+      themeMaterials.chairCushion = chairCushionMaterial;
+      themeMaterials.chairBase = chairBaseMaterial;
 
       const leftNookWall = addBox(rootGroup, { x: 0.42, y: 2.56, z: 3.52 }, { x: -2.62, y: -0.04, z: -0.05 }, stoneMaterial);
       leftNookWall.rotation.y = 0.08;
@@ -5076,31 +5144,287 @@
         }
       );
 
-      const lowBed = new THREE.Group();
-      lowBed.position.set(-2.08, -1.045, -0.42);
-      lowBed.rotation.y = 0.18;
-      rootGroup.add(lowBed);
-      addBox(lowBed, { x: 1.5, y: 0.11, z: 0.84 }, { x: 0, y: 0.025, z: 0 }, woodEdgeMaterial);
-      addBox(lowBed, { x: 1.3, y: 0.12, z: 0.7 }, { x: 0.03, y: 0.13, z: -0.02 }, roomFutonMaterial);
-      addBox(lowBed, { x: 0.5, y: 0.09, z: 0.34 }, { x: -0.34, y: 0.23, z: -0.22 }, roomPillowMaterial);
-      addBox(lowBed, { x: 0.66, y: 0.026, z: 0.44 }, { x: 0.28, y: 0.25, z: 0.08 }, roomPillowMaterial);
-      addBox(lowBed, { x: 1.24, y: 0.06, z: 0.05 }, { x: 0.04, y: 0.22, z: -0.42 }, woodMaterial);
-      const bedThrowMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x5d7f78 : 0x8fb7a7,
-        roughness: 0.74,
-        metalness: 0.01,
+      const addScaledSphere = (group, radius, position, scale, material, segments = 24) => {
+        const mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, segments, Math.max(12, Math.floor(segments * 0.66))), material);
+        mesh.scale.set(scale.x, scale.y, scale.z);
+        mesh.position.set(position.x, position.y, position.z);
+        group.add(mesh);
+        return mesh;
+      };
+
+      const addTube = (group, points, radius, material, segments = 24) => {
+        const curve = new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.5);
+        const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, segments, radius, 8, false), material);
+        group.add(mesh);
+        return mesh;
+      };
+
+      const addStarBase = (group, center, radius, material, options = {}) => {
+        const hub = new THREE.Mesh(
+          new THREE.CylinderGeometry(options.hubRadius || 0.1, options.hubRadius || 0.1, options.hubHeight || 0.11, 32),
+          material
+        );
+        hub.position.set(center.x, center.y + 0.08, center.z);
+        group.add(hub);
+        for (let index = 0; index < (options.legs || 5); index += 1) {
+          const angle = (index / (options.legs || 5)) * Math.PI * 2 + (options.phase || 0);
+          const leg = addBox(
+            group,
+            { x: radius, y: options.legHeight || 0.038, z: options.legDepth || 0.052 },
+            {
+              x: center.x + Math.cos(angle) * radius * 0.36,
+              y: center.y,
+              z: center.z + Math.sin(angle) * radius * 0.36,
+            },
+            material
+          );
+          leg.rotation.y = -angle;
+          const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.042, 0.022, 18), material);
+          foot.position.set(center.x + Math.cos(angle) * radius * 0.82, center.y - 0.02, center.z + Math.sin(angle) * radius * 0.82);
+          group.add(foot);
+        }
+        return hub;
+      };
+
+      const onsen = new THREE.Group();
+      onsen.position.set(sceneAnchors.room.onsen.x, sceneAnchors.room.onsen.y, sceneAnchors.room.onsen.z);
+      onsen.rotation.y = 0.18;
+      rootGroup.add(onsen);
+
+      const onsenBase = addBeveledBox(onsen, { x: 1.72, y: 0.18, z: 1.12 }, { x: 0, y: 0.02, z: 0 }, stoneEdgeMaterial, { bevel: 0.026 });
+      onsenBase.rotation.y = -0.035;
+      const poolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.74, 0.82, 0.34, 72, 1, true), onsenStoneAccentMaterial);
+      poolWall.scale.set(1.18, 1, 0.78);
+      poolWall.position.set(-0.02, 0.24, 0.01);
+      onsen.add(poolWall);
+      const basinShadow = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.58, 0.64, 0.16, 72),
+        new THREE.MeshBasicMaterial({ color: 0x182323, transparent: true, opacity: 0.18 })
+      );
+      basinShadow.scale.set(1.18, 1, 0.78);
+      basinShadow.position.set(-0.02, 0.25, 0.01);
+      onsen.add(basinShadow);
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.045, 12, 96), stoneEdgeMaterial);
+      rim.rotation.x = Math.PI / 2;
+      rim.scale.set(1.18, 0.78, 1);
+      rim.position.set(-0.02, 0.43, 0.01);
+      onsen.add(rim);
+      for (let index = 0; index < 16; index += 1) {
+        const angle = (index / 16) * Math.PI * 2;
+        const block = addBox(
+          onsen,
+          { x: 0.18 + (index % 3) * 0.018, y: 0.08 + (index % 2) * 0.018, z: 0.12 },
+          {
+            x: -0.02 + Math.cos(angle) * 0.82,
+            y: 0.38 + (index % 2) * 0.01,
+            z: 0.01 + Math.sin(angle) * 0.53,
+          },
+          index % 2 ? stoneMaterial : onsenStoneAccentMaterial
+        );
+        block.rotation.y = -angle + 0.08 * Math.sin(index);
+      }
+      const water = new THREE.Mesh(new THREE.CylinderGeometry(0.57, 0.6, 0.034, 96), onsenWaterMaterial);
+      water.scale.set(1.18, 1, 0.78);
+      water.position.set(-0.02, 0.43, 0.01);
+      onsen.add(water);
+      [0.26, 0.39, 0.5].forEach((radius, index) => {
+        const ripple = new THREE.Mesh(
+          new THREE.TorusGeometry(radius, 0.004, 8, 72),
+          new THREE.MeshBasicMaterial({
+            color: palette.isDarkTheme ? 0xd4f2ff : 0xffffff,
+            transparent: true,
+            opacity: 0.18 - index * 0.035,
+            depthWrite: false,
+          })
+        );
+        ripple.rotation.x = Math.PI / 2;
+        ripple.scale.set(1.18, 0.78, 1);
+        ripple.position.set(-0.04 + index * 0.04, 0.455 + index * 0.004, -0.03 + index * 0.02);
+        onsen.add(ripple);
       });
-      const bedThrow = addBox(lowBed, { x: 0.84, y: 0.026, z: 0.5 }, { x: 0.18, y: 0.285, z: 0.04 }, bedThrowMaterial);
-      bedThrow.rotation.y = -0.04;
+
+      const steamSpecs = [
+        { x: -0.42, z: -0.06, h: 0.54, drift: -0.1 },
+        { x: -0.12, z: 0.18, h: 0.62, drift: 0.08 },
+        { x: 0.2, z: -0.1, h: 0.5, drift: 0.11 },
+        { x: 0.44, z: 0.12, h: 0.46, drift: -0.06 },
+      ];
+      steamSpecs.forEach((steam, index) => {
+        const mesh = addTube(
+          onsen,
+          [
+            new THREE.Vector3(steam.x, 0.48, steam.z),
+            new THREE.Vector3(steam.x + steam.drift * 0.34, 0.6 + index * 0.015, steam.z + 0.03),
+            new THREE.Vector3(steam.x + steam.drift, 0.48 + steam.h, steam.z - 0.02),
+          ],
+          0.007 + index * 0.001,
+          onsenSteamMaterial,
+          22
+        );
+        mesh.renderOrder = 2;
+      });
+
+      const lizard = new THREE.Group();
+      lizard.position.set(-0.17, 0.48, -0.02);
+      lizard.rotation.y = -0.34;
+      onsen.add(lizard);
+      addScaledSphere(lizard, 1, { x: 0, y: -0.03, z: 0.02 }, { x: 0.3, y: 0.075, z: 0.18 }, lizardMaterial, 28);
+      addScaledSphere(lizard, 1, { x: -0.23, y: 0.065, z: -0.07 }, { x: 0.14, y: 0.105, z: 0.12 }, lizardMaterial, 24);
+      addScaledSphere(lizard, 1, { x: -0.31, y: 0.06, z: -0.08 }, { x: 0.07, y: 0.045, z: 0.06 }, lizardBellyMaterial, 18);
+      addScaledSphere(lizard, 1, { x: -0.215, y: 0.085, z: -0.155 }, { x: 0.018, y: 0.022, z: 0.018 }, lizardDarkMaterial, 12);
+      addScaledSphere(lizard, 1, { x: -0.31, y: 0.09, z: -0.125 }, { x: 0.018, y: 0.022, z: 0.018 }, lizardDarkMaterial, 12);
+      addTube(
+        lizard,
+        [new THREE.Vector3(0.22, -0.02, 0.05), new THREE.Vector3(0.42, 0.0, 0.18), new THREE.Vector3(0.5, 0.04, 0.34)],
+        0.025,
+        lizardMaterial,
+        22
+      );
       [
-        { x: -0.22, z: 0.08, w: 0.36 },
-        { x: 0.2, z: -0.04, w: 0.42 },
-      ].forEach((fold) => {
-        const mesh = addBox(lowBed, { x: fold.w, y: 0.012, z: 0.034 }, { x: fold.x, y: 0.315, z: fold.z }, blanketAccentMaterial);
-        mesh.rotation.y = fold.x * 0.08;
+        [new THREE.Vector3(-0.12, 0.02, -0.1), new THREE.Vector3(-0.28, 0.03, -0.32), new THREE.Vector3(-0.42, 0.04, -0.42)],
+        [new THREE.Vector3(0.04, 0.01, 0.12), new THREE.Vector3(0.2, 0.035, 0.34), new THREE.Vector3(0.36, 0.04, 0.42)],
+      ].forEach((points) => addTube(lizard, points, 0.018, lizardMaterial, 18));
+      const towel = new THREE.Mesh(new THREE.TorusGeometry(0.14, 0.015, 8, 44, Math.PI * 1.1), lizardTowelMaterial);
+      towel.rotation.set(Math.PI / 2.2, 0.1, -0.42);
+      towel.position.set(-0.23, 0.13, -0.08);
+      lizard.add(towel);
+
+      const ledge = new THREE.Group();
+      ledge.position.set(0.74, 0.46, 0.36);
+      ledge.rotation.y = -0.18;
+      onsen.add(ledge);
+      addBeveledBox(ledge, { x: 0.46, y: 0.055, z: 0.22 }, { x: 0, y: 0, z: 0 }, woodEdgeMaterial, { bevel: 0.012 });
+      const cocktailGlassMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xcce8ef : 0xf4ffff,
+        transparent: true,
+        opacity: 0.38,
+        roughness: 0.18,
+        metalness: 0.02,
       });
-      const bedHeadboard = addBox(lowBed, { x: 0.12, y: 0.7, z: 0.86 }, { x: -0.8, y: 0.34, z: -0.02 }, woodEdgeMaterial);
-      bedHeadboard.rotation.y = -0.08;
+      const cocktail = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.036, 0.13, 28), cocktailGlassMaterial);
+      cocktail.position.set(0.1, 0.094, 0.01);
+      ledge.add(cocktail);
+      const drink = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.044, 0.034, 0.04, 28),
+        new THREE.MeshBasicMaterial({ color: 0xf0a75a, transparent: true, opacity: 0.62 })
+      );
+      drink.position.set(0.1, 0.13, 0.01);
+      ledge.add(drink);
+      const straw = addBox(ledge, { x: 0.012, y: 0.19, z: 0.012 }, { x: 0.145, y: 0.18, z: -0.01 }, warmArmMaterial);
+      straw.rotation.z = -0.34;
+      const citrus = addScaledSphere(ledge, 1, { x: 0.045, y: 0.155, z: 0.052 }, { x: 0.035, y: 0.01, z: 0.035 }, warmArmMaterial, 14);
+      citrus.rotation.x = Math.PI / 2;
+
+      const lapDesk = new THREE.Group();
+      lapDesk.position.set(0.28, 0.55, -0.12);
+      lapDesk.rotation.y = -0.16;
+      onsen.add(lapDesk);
+      addBeveledBox(lapDesk, { x: 0.78, y: 0.045, z: 0.34 }, { x: 0, y: 0, z: 0 }, woodMaterial, { bevel: 0.012 });
+      addBox(lapDesk, { x: 0.72, y: 0.018, z: 0.035 }, { x: 0, y: 0.04, z: 0.17 }, warmArmMaterial);
+      [-0.34, 0.34].forEach((x) => {
+        const support = addBox(lapDesk, { x: 0.032, y: 0.24, z: 0.032 }, { x, y: -0.1, z: -0.12 }, chairBaseMaterial);
+        support.rotation.z = x > 0 ? -0.1 : 0.1;
+      });
+      const onsenScreenMaterial = new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture(palette), side: THREE.DoubleSide });
+      themeMaterials.laptopScreens = themeMaterials.laptopScreens || [];
+      themeMaterials.laptopScreens.push(onsenScreenMaterial);
+      addBeveledBox(lapDesk, { x: 0.42, y: 0.025, z: 0.27 }, { x: -0.08, y: 0.052, z: 0.0 }, darkArmMaterial, { bevel: 0.006 });
+      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.27), onsenScreenMaterial);
+      laptopScreen.position.set(-0.08, 0.205, -0.13);
+      laptopScreen.rotation.x = -0.42;
+      lapDesk.add(laptopScreen);
+      [0, 1, 2, 3].forEach((row) =>
+        addBox(lapDesk, { x: 0.28 - row * 0.04, y: 0.006, z: 0.01 }, { x: -0.08, y: 0.074 + row * 0.002, z: -0.03 + row * 0.035 }, warmArmMaterial)
+      );
+
+      const loungeCorner = new THREE.Group();
+      loungeCorner.position.set(sceneAnchors.room.chair.x, sceneAnchors.room.chair.y, sceneAnchors.room.chair.z);
+      loungeCorner.rotation.y = -0.7;
+      loungeCorner.scale.setScalar(0.72);
+      rootGroup.add(loungeCorner);
+      const chairShadow = new THREE.Mesh(
+        new THREE.CircleGeometry(0.96, 64),
+        new THREE.MeshBasicMaterial({ color: palette.shadow, transparent: true, opacity: palette.isDarkTheme ? 0.11 : 0.075, depthWrite: false })
+      );
+      chairShadow.rotation.x = -Math.PI / 2;
+      chairShadow.scale.set(1.28, 0.62, 1);
+      chairShadow.position.set(0.18, -0.12, 0.12);
+      loungeCorner.add(chairShadow);
+      addStarBase(loungeCorner, { x: 0, y: 0, z: 0 }, 0.62, chairBaseMaterial, {
+        hubRadius: 0.078,
+        hubHeight: 0.13,
+        legHeight: 0.034,
+        legDepth: 0.05,
+      });
+      const swivelPost = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.062, 0.34, 28), chairBaseMaterial);
+      swivelPost.position.set(0, 0.18, 0);
+      loungeCorner.add(swivelPost);
+      const seatShell = addCurvedShell(loungeCorner, 0.5, 0.78, Math.PI * 0.18, Math.PI * 0.66, { x: 0, y: 0.42, z: 0.02 }, chairWoodMaterial, {
+        rz: Math.PI / 2,
+        rx: -0.12,
+        scaleX: 1.04,
+        scaleZ: 0.86,
+        radialSegments: 56,
+      });
+      seatShell.rotation.y = -0.02;
+      addScaledSphere(loungeCorner, 1, { x: 0.02, y: 0.48, z: 0.08 }, { x: 0.43, y: 0.11, z: 0.34 }, chairCushionMaterial, 28);
+      const backShell = addCurvedShell(loungeCorner, 0.56, 0.78, Math.PI * 0.08, Math.PI * 0.68, { x: -0.06, y: 0.78, z: -0.36 }, chairWoodMaterial, {
+        rz: Math.PI / 2,
+        rx: -0.74,
+        scaleX: 1.05,
+        scaleZ: 0.74,
+        radialSegments: 56,
+      });
+      backShell.rotation.y = -0.03;
+      addScaledSphere(loungeCorner, 1, { x: -0.06, y: 0.82, z: -0.26 }, { x: 0.42, y: 0.16, z: 0.22 }, chairCushionMaterial, 28).rotation.x = -0.32;
+      const headShell = addCurvedShell(loungeCorner, 0.42, 0.62, Math.PI * 0.06, Math.PI * 0.62, { x: -0.08, y: 1.08, z: -0.54 }, chairWoodMaterial, {
+        rz: Math.PI / 2,
+        rx: -0.82,
+        scaleX: 1.08,
+        scaleZ: 0.66,
+        radialSegments: 48,
+      });
+      headShell.rotation.y = -0.04;
+      addScaledSphere(loungeCorner, 1, { x: -0.08, y: 1.12, z: -0.47 }, { x: 0.32, y: 0.1, z: 0.16 }, chairCushionMaterial, 24).rotation.x = -0.28;
+      [
+        { x: -0.42, y: 0.62, z: -0.08, side: -1 },
+        { x: 0.42, y: 0.62, z: -0.08, side: 1 },
+      ].forEach((arm) => {
+        addTube(
+          loungeCorner,
+          [new THREE.Vector3(arm.x, 0.35, 0.18), new THREE.Vector3(arm.x + arm.side * 0.02, 0.54, -0.08), new THREE.Vector3(arm.x, 0.7, -0.3)],
+          0.022,
+          chairBaseMaterial,
+          26
+        );
+        const pad = addBeveledBox(loungeCorner, { x: 0.15, y: 0.055, z: 0.38 }, { x: arm.x, y: 0.67, z: -0.08 }, chairCushionMaterial, {
+          bevel: 0.018,
+        });
+        pad.rotation.y = arm.side * 0.04;
+      });
+
+      const ottoman = new THREE.Group();
+      ottoman.position.set(0.68, 0.02, 0.58);
+      ottoman.rotation.y = 0.14;
+      loungeCorner.add(ottoman);
+      addStarBase(ottoman, { x: 0, y: -0.01, z: 0 }, 0.4, chairBaseMaterial, {
+        hubRadius: 0.052,
+        hubHeight: 0.09,
+        legHeight: 0.026,
+        legDepth: 0.04,
+        phase: 0.32,
+      });
+      const ottomanPost = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.046, 0.24, 24), chairBaseMaterial);
+      ottomanPost.position.set(0, 0.12, 0);
+      ottoman.add(ottomanPost);
+      addCurvedShell(ottoman, 0.38, 0.58, Math.PI * 0.12, Math.PI * 0.72, { x: 0, y: 0.32, z: 0.02 }, chairWoodMaterial, {
+        rz: Math.PI / 2,
+        rx: -0.08,
+        scaleX: 1.12,
+        scaleZ: 0.78,
+        radialSegments: 44,
+      });
+      addScaledSphere(ottoman, 1, { x: 0, y: 0.38, z: 0.04 }, { x: 0.35, y: 0.085, z: 0.24 }, chairCushionMaterial, 24);
 
       const floorShadowMaterial = new THREE.MeshBasicMaterial({
         color: palette.shadow,
