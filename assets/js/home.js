@@ -5,6 +5,11 @@
   const homeScriptSrc = document.currentScript?.src || new URL("/assets/js/home.js", window.location.origin).href;
   const homeScriptBase = homeScriptSrc.split("?")[0];
   const threeModuleUrl = new URL("three.module.min.js", homeScriptBase).href;
+  const siruiPhotoAssets = {
+    dog: new URL("../img/home/sirui_dog.jpg", homeScriptBase).href,
+    lizard: new URL("../img/home/sirui_lizard.jpg", homeScriptBase).href,
+    capy: new URL("../img/home/sirui_capy.jpg", homeScriptBase).href,
+  };
   const revealItems = Array.from(document.querySelectorAll(".home-reveal"));
 
   const isAlreadyReadable = (item) => {
@@ -663,6 +668,10 @@
     let isRecordSpinning = false;
     let pointerId = null;
     let pointerMode = "";
+    let pointerActionKind = "";
+    let pointerTargetEntry = null;
+    let suppressNextSceneClick = false;
+    let suppressSceneNativeClicksUntil = 0;
     let pointerStartX = 0;
     let pointerStartY = 0;
     let rotationStartX = -0.05;
@@ -683,14 +692,18 @@
     let outsideViewportCheckFrame = 0;
     let droppedRecordIndices = [];
     const callbacks = {};
+    const stageElement = container.closest("[data-home-artifact-stage]") || container.parentElement;
     const textureCache = new Map();
     const themeMaterials = {};
     const interactiveObjects = [];
     const albumEntries = [];
     const artifactEntries = [];
+    const photoEntries = [];
     const songCardEntries = [];
     const tweens = [];
     const outsideMotionItems = [];
+    const orbitOcclusionItems = [];
+    const photoVisibilityItems = [];
     const accentMotionItems = [];
     const cleanupListeners = [];
 
@@ -699,6 +712,25 @@
     const easeOutQuart = (value) => 1 - Math.pow(1 - value, 4);
     const lerp = (from, to, progress) => from + (to - from) * progress;
     const defaultRotation = { x: -0.05, y: -0.28 };
+    const outsideDefaultRotation = { x: -0.03, y: 0.16 };
+    const sceneAnchors = {
+      room: {
+        orbitTarget: { x: 0.28, y: -0.16, z: -0.18 },
+        defaultCamera: { desktop: { x: 3.32, y: 2.08, z: 6.18 }, compact: { x: 2.62, y: 2.04, z: 6.04 } },
+        zoomCamera: { desktop: { x: 1.46, y: 1.62, z: 3.6 }, compact: { x: 1.22, y: 1.42, z: 3.5 } },
+        window: { x: 0.96, y: 0.04, z: -1.7, width: 3.62, height: 2.7 },
+        desk: { x: 0.28, y: 0, z: -0.84 },
+        bed: { x: -2.08, y: -1.045, z: -0.42 },
+      },
+      outside: {
+        orbitTarget: { x: 1.08, y: -0.03, z: 0.42 },
+        defaultCamera: { desktop: { x: 2.58, y: 1.38, z: 3.48 }, compact: { x: 2.34, y: 1.24, z: 3.64 } },
+        zoomCamera: { desktop: { x: 1.68, y: 0.96, z: 2.72 }, compact: { x: 1.44, y: 0.88, z: 2.84 } },
+        house: { x: 1.08, y: -0.22, z: 0.42 },
+        window: { x: -0.08, y: -0.02, z: 0.47, width: 1.72, height: 0.92 },
+        shoreline: { x: -1.9, y: -1.11, z: 1.12 },
+      },
+    };
 
     const readDeskPalette = () => {
       const isDarkTheme = root.getAttribute("data-theme") === "dark";
@@ -783,8 +815,23 @@
         rotationX = targetRotationX;
         rotationY = targetRotationY;
       }
-      activeGroup.rotation.x = rotationX;
-      activeGroup.rotation.y = rotationY;
+      activeGroup.rotation.x = 0;
+      activeGroup.rotation.y = 0;
+      const yawBase = activeView === "outside" ? outsideDefaultRotation.y : defaultRotation.y;
+      const yaw = (((rotationY - yawBase) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      const rearView = yaw > Math.PI * 0.62 && yaw < Math.PI * 1.38;
+      const isYawInRange = (start, end) => (start <= end ? yaw >= start && yaw <= end : yaw >= start || yaw <= end);
+      orbitOcclusionItems.forEach((item) => {
+        if (!item?.material) return;
+        const inRange = item.yawStart === undefined ? rearView : isYawInRange(item.yawStart, item.yawEnd);
+        const targetOpacity = item.entry && item.entry === focusedEntry ? item.baseOpacity : inRange ? item.occludedOpacity : item.baseOpacity;
+        if (item.object && item.hideBelow !== undefined) item.object.visible = targetOpacity > item.hideBelow;
+        item.material.opacity += (targetOpacity - item.material.opacity) * (immediate || reduceMotion ? 1 : 0.22);
+      });
+      photoVisibilityItems.forEach((item) => {
+        if (!item?.entry?.group) return;
+        item.entry.group.visible = focusedEntry === item.entry || isYawInRange(item.yawStart, item.yawEnd);
+      });
     };
 
     const updateWindowJumpVisibility = () => {
@@ -804,6 +851,47 @@
       return x > 0.52 && x < 1.02 && y > 0.03 && y < 0.74;
     };
 
+    const isPointerInOutsideReturnRegion = (event) => {
+      if (!renderer) return false;
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / Math.max(1, rect.width);
+      const y = (event.clientY - rect.top) / Math.max(1, rect.height);
+      return x > 0.34 && x < 0.72 && y > 0.22 && y < 0.68;
+    };
+
+    const isPointerInFocusedAlbumInspectRegion = (event) => {
+      if (focusedEntry?.kind !== "album" || !renderer) return false;
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / Math.max(1, rect.width);
+      const y = (event.clientY - rect.top) / Math.max(1, rect.height);
+      return (
+        x > (isCompactScene ? 0.18 : 0.24) &&
+        x < (isCompactScene ? 0.76 : 0.68) &&
+        y > (isCompactScene ? 0.46 : 0.5) &&
+        y < (isCompactScene ? 0.95 : 0.96)
+      );
+    };
+
+    const copyAnchorVector = (anchor) => new THREE.Vector3(anchor.x, anchor.y, anchor.z);
+
+    const setOrbitCamera = (view, baseCamera, baseTarget, yaw, pitch, zoom) => {
+      const defaultYaw = view === "outside" ? outsideDefaultRotation.y : defaultRotation.y;
+      const defaultPitch = view === "outside" ? outsideDefaultRotation.x : defaultRotation.x;
+      const offset = baseCamera.clone().sub(baseTarget);
+      const planarRadius = Math.max(0.001, Math.hypot(offset.x, offset.z));
+      const baseAngle = Math.atan2(offset.x, offset.z);
+      const yawDelta = yaw - defaultYaw;
+      const pitchDelta = pitch - defaultPitch;
+      const vertical = offset.y + pitchDelta * (view === "outside" ? 3.15 : 3.7) * (1 - zoom * 0.34);
+      const radius = planarRadius * (1 - Math.min(0.34, Math.abs(pitchDelta) * 0.18));
+      camera.position.set(
+        baseTarget.x + Math.sin(baseAngle + yawDelta) * radius,
+        baseTarget.y + vertical,
+        baseTarget.z + Math.cos(baseAngle + yawDelta) * radius
+      );
+      camera.lookAt(baseTarget);
+    };
+
     const applyCameraPose = (immediate = false) => {
       if (!camera) return false;
       const speed = immediate || reduceMotion ? 1 : 0.18;
@@ -812,23 +900,31 @@
 
       if (activeView === "outside") {
         const zoom = easeOutCubic(zoomLevel);
-        camera.fov = lerp(isCompactScene ? 38 : 32, isCompactScene ? 26 : 21.5, zoom);
-        camera.position.set(
-          lerp(isCompactScene ? 2.5 : 2.82, isCompactScene ? 1.18 : 1.22, zoom),
-          lerp(isCompactScene ? 1.34 : 1.5, isCompactScene ? 0.84 : 0.86, zoom),
-          lerp(isCompactScene ? 4.58 : 4.42, isCompactScene ? 2.72 : 2.48, zoom)
-        );
-        camera.lookAt(lerp(isCompactScene ? 0.34 : 0.62, isCompactScene ? 0.98 : 1.08, zoom), lerp(-0.14, -0.02, zoom), lerp(0.12, 0.52, zoom));
+        const defaultCamera = isCompactScene ? sceneAnchors.outside.defaultCamera.compact : sceneAnchors.outside.defaultCamera.desktop;
+        const zoomCamera = isCompactScene ? sceneAnchors.outside.zoomCamera.compact : sceneAnchors.outside.zoomCamera.desktop;
+        const target = sceneAnchors.outside.orbitTarget;
+        const baseCamera = copyAnchorVector({
+          x: lerp(defaultCamera.x, zoomCamera.x, zoom),
+          y: lerp(defaultCamera.y, zoomCamera.y, zoom),
+          z: lerp(defaultCamera.z, zoomCamera.z, zoom),
+        });
+        const baseTarget = copyAnchorVector({
+          x: lerp(target.x, sceneAnchors.outside.house.x, zoom),
+          y: lerp(target.y, sceneAnchors.outside.window.y, zoom),
+          z: lerp(target.z, sceneAnchors.outside.house.z, zoom),
+        });
+        camera.fov = lerp(isCompactScene ? 40 : 35, isCompactScene ? 28 : 24, zoom);
+        setOrbitCamera("outside", baseCamera, baseTarget, rotationY, rotationX, zoom);
       } else {
         const zoom = easeOutCubic(zoomLevel);
         if (focusedEntry?.kind === "album") {
-          camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 32 : 29, zoom);
+          camera.fov = lerp(isCompactScene ? 36 : 32, isCompactScene ? 27 : 24, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 3.05 : 3.7, isCompactScene ? 2.62 : 2.84, zoom),
-            lerp(isCompactScene ? 2.1 : 2.2, isCompactScene ? 1.72 : 1.82, zoom),
-            lerp(isCompactScene ? 6.45 : 6.7, isCompactScene ? 4.82 : 4.92, zoom)
+            lerp(isCompactScene ? 2.74 : 3.26, isCompactScene ? -0.24 : -0.48, zoom),
+            lerp(isCompactScene ? 2.12 : 2.2, isCompactScene ? 3.05 : 3.28, zoom),
+            lerp(isCompactScene ? 6.18 : 6.42, isCompactScene ? 1.64 : 1.72, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.08 : -0.02, isCompactScene ? -0.2 : 0.32, zoom), lerp(-0.04, 0.26, zoom), lerp(0.02, 0.42, zoom));
+          camera.lookAt(lerp(isCompactScene ? -0.1 : -0.16, isCompactScene ? -0.82 : -0.98, zoom), lerp(-0.04, -0.08, zoom), lerp(0.02, 0.08, zoom));
         } else if (focusedEntry?.kind === "artifact") {
           camera.fov = lerp(isCompactScene ? 35 : 31, isCompactScene ? 31 : 29, zoom);
           camera.position.set(
@@ -837,14 +933,35 @@
             lerp(isCompactScene ? 6.55 : 6.85, isCompactScene ? 4.38 : 4.68, zoom)
           );
           camera.lookAt(isCompactScene ? -0.04 : 0.02, 0.34, 0.16);
-        } else {
-          camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
+        } else if (focusedEntry?.kind === "photo") {
+          const pose = (isCompactScene ? focusedEntry.compactCamera : focusedEntry.camera) || focusedEntry.camera || {};
+          const fromPosition = pose.from || (isCompactScene ? sceneAnchors.room.defaultCamera.compact : sceneAnchors.room.defaultCamera.desktop);
+          const toPosition = pose.to || fromPosition;
+          const fromTarget = pose.lookFrom || sceneAnchors.room.orbitTarget;
+          const toTarget = pose.lookAt || focusedEntry.focusLookAt || sceneAnchors.room.orbitTarget;
+          camera.fov = lerp(pose.fovFrom || (isCompactScene ? 36 : 31), pose.fovTo || (isCompactScene ? 28 : 24), zoom);
           camera.position.set(
-            lerp(isCompactScene ? 2.58 : 3.24, isCompactScene ? 1.24 : 1.52, zoom),
-            lerp(isCompactScene ? 2.02 : 2.08, isCompactScene ? 1.42 : 1.62, zoom),
-            lerp(isCompactScene ? 6.02 : 6.14, isCompactScene ? 3.48 : 3.68, zoom)
+            lerp(fromPosition.x, toPosition.x, zoom),
+            lerp(fromPosition.y, toPosition.y, zoom),
+            lerp(fromPosition.z, toPosition.z, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? -0.04 : -0.14, 1.02, zoom), lerp(-0.24, 0.5, zoom), lerp(-0.08, -1.1, zoom));
+          camera.lookAt(lerp(fromTarget.x, toTarget.x, zoom), lerp(fromTarget.y, toTarget.y, zoom), lerp(fromTarget.z, toTarget.z, zoom));
+        } else {
+          const defaultCamera = isCompactScene ? sceneAnchors.room.defaultCamera.compact : sceneAnchors.room.defaultCamera.desktop;
+          const zoomCamera = isCompactScene ? sceneAnchors.room.zoomCamera.compact : sceneAnchors.room.zoomCamera.desktop;
+          const target = sceneAnchors.room.orbitTarget;
+          const baseCamera = copyAnchorVector({
+            x: lerp(defaultCamera.x, zoomCamera.x, zoom),
+            y: lerp(defaultCamera.y, zoomCamera.y, zoom),
+            z: lerp(defaultCamera.z, zoomCamera.z, zoom),
+          });
+          const baseTarget = copyAnchorVector({
+            x: lerp(target.x, sceneAnchors.room.window.x, zoom),
+            y: lerp(target.y, 0.5, zoom),
+            z: lerp(target.z, sceneAnchors.room.window.z + 0.6, zoom),
+          });
+          camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
+          setOrbitCamera("desk", baseCamera, baseTarget, rotationY, rotationX, zoom);
         }
       }
       camera.updateProjectionMatrix();
@@ -1698,6 +1815,232 @@
       return mesh;
     };
 
+    const addBeveledBox = (group, size, position, material, options = {}) => {
+      if (!THREE.Shape || !THREE.ExtrudeGeometry) return addBox(group, size, position, material);
+      const bevel = options.bevel ?? Math.min(size.x, size.y, size.z) * 0.16;
+      const shape = new THREE.Shape();
+      shape.moveTo(-size.x / 2, -size.y / 2);
+      shape.lineTo(size.x / 2, -size.y / 2);
+      shape.lineTo(size.x / 2, size.y / 2);
+      shape.lineTo(-size.x / 2, size.y / 2);
+      shape.lineTo(-size.x / 2, -size.y / 2);
+      const geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: size.z,
+        bevelEnabled: true,
+        bevelThickness: bevel,
+        bevelSize: bevel,
+        bevelSegments: options.segments ?? 1,
+      });
+      geometry.translate(0, 0, -size.z / 2);
+      geometry.computeVertexNormals();
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(position.x, position.y, position.z);
+      group.add(mesh);
+      return mesh;
+    };
+
+    const addCurvedShell = (group, radius, height, thetaStart, thetaLength, position, material, options = {}) => {
+      const geometry = new THREE.CylinderGeometry(radius, radius, height, options.radialSegments || 48, 1, true, thetaStart, thetaLength);
+      geometry.scale(options.scaleX || 1, 1, options.scaleZ || 1);
+      geometry.computeVertexNormals();
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(position.x, position.y, position.z);
+      mesh.rotation.set(options.rx || 0, options.ry || 0, options.rz || 0);
+      group.add(mesh);
+      return mesh;
+    };
+
+    const registerOrbitCutaway = (mesh, options = {}) => {
+      if (!mesh?.material) return mesh;
+      if (options.cloneMaterial !== false) mesh.material = mesh.material.clone();
+      mesh.material.transparent = true;
+      mesh.material.opacity = options.baseOpacity ?? mesh.material.opacity ?? 1;
+      orbitOcclusionItems.push({
+        object: mesh,
+        material: mesh.material,
+        entry: options.entry || null,
+        baseOpacity: mesh.material.opacity,
+        occludedOpacity: options.occludedOpacity ?? 0.06,
+        hideBelow: options.hideBelow,
+        yawStart: options.yawStart ?? 0.18,
+        yawEnd: options.yawEnd ?? Math.PI * 2 - 0.18,
+      });
+      return mesh;
+    };
+
+    const createFramedPhotoEntry = (parent, config, materials) => {
+      const frame = config.frame ?? 0.08;
+      const depth = config.depth ?? 0.05;
+      const outerWidth = config.width + frame * 2;
+      const outerHeight = config.height + frame * 2;
+      const entry = {
+        kind: "photo",
+        id: config.id,
+        src: config.src,
+        index: photoEntries.length,
+        group: new THREE.Group(),
+        lifted: false,
+        camera: config.camera,
+        compactCamera: config.compactCamera,
+        focusLookAt: config.focusLookAt,
+        focusPosition: config.focusPosition,
+        compactFocusPosition: config.compactFocusPosition,
+        focusRotation: config.focusRotation,
+        compactFocusRotation: config.compactFocusRotation,
+        focusScale: config.focusScale || new THREE.Vector3(1.04, 1.04, 1.04),
+        targetRotationX: config.targetRotationX,
+        targetRotationY: config.targetRotationY,
+      };
+
+      entry.group.position.set(config.position.x, config.position.y, config.position.z);
+      entry.group.rotation.set(config.rotation?.x || 0, config.rotation?.y || 0, config.rotation?.z || 0);
+      entry.group.scale.setScalar(config.scale || 1);
+      entry.basePosition = entry.group.position.clone();
+      entry.baseRotation = entry.group.rotation.clone();
+      entry.baseScale = entry.group.scale.clone();
+      entry.currentRestY = entry.basePosition.y;
+      parent.add(entry.group);
+
+      const meshes = [];
+      const collect = (mesh) => {
+        meshes.push(mesh);
+        return mesh;
+      };
+      entry.meshes = meshes;
+
+      collect(
+        addBeveledBox(entry.group, { x: outerWidth, y: outerHeight, z: depth }, { x: 0, y: 0, z: -depth * 0.14 }, materials.back, { bevel: 0.012 })
+      );
+      collect(
+        addBeveledBox(entry.group, { x: outerWidth, y: frame, z: depth * 1.28 }, { x: 0, y: outerHeight / 2 - frame / 2, z: 0 }, materials.frame, {
+          bevel: 0.014,
+        })
+      );
+      collect(
+        addBeveledBox(entry.group, { x: outerWidth, y: frame, z: depth * 1.28 }, { x: 0, y: -outerHeight / 2 + frame / 2, z: 0 }, materials.frame, {
+          bevel: 0.014,
+        })
+      );
+      collect(
+        addBeveledBox(entry.group, { x: frame, y: outerHeight, z: depth * 1.28 }, { x: -outerWidth / 2 + frame / 2, y: 0, z: 0 }, materials.frame, {
+          bevel: 0.014,
+        })
+      );
+      collect(
+        addBeveledBox(entry.group, { x: frame, y: outerHeight, z: depth * 1.28 }, { x: outerWidth / 2 - frame / 2, y: 0, z: 0 }, materials.frame, {
+          bevel: 0.014,
+        })
+      );
+
+      const mat = collect(new THREE.Mesh(new THREE.PlaneGeometry(config.width + 0.08, config.height + 0.08), materials.mat));
+      mat.position.z = depth * 0.56;
+      entry.group.add(mat);
+
+      const imageMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+      const image = collect(new THREE.Mesh(new THREE.PlaneGeometry(config.width, config.height), imageMaterial));
+      image.position.z = depth * 1.34;
+      entry.group.add(image);
+      entry.imageMesh = image;
+      let backImage = null;
+      if (config.doubleSidedArt) {
+        backImage = collect(
+          new THREE.Mesh(
+            new THREE.PlaneGeometry(config.width, config.height),
+            new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+          )
+        );
+        backImage.position.z = -depth * 1.72;
+        backImage.rotation.y = Math.PI;
+        entry.group.add(backImage);
+        entry.backImageMesh = backImage;
+      }
+
+      const glass = collect(
+        new THREE.Mesh(
+          new THREE.PlaneGeometry(config.width, config.height),
+          new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: config.glassOpacity ?? 0.085,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          })
+        )
+      );
+      glass.position.z = depth * 1.42;
+      entry.group.add(glass);
+
+      const sheen = collect(
+        new THREE.Mesh(
+          new THREE.PlaneGeometry(config.width * 0.34, config.height * 0.92),
+          new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: config.sheenOpacity ?? 0.12,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+          })
+        )
+      );
+      sheen.position.set(config.width * 0.18, config.height * 0.02, depth * 1.48);
+      sheen.rotation.z = -0.18;
+      entry.group.add(sheen);
+
+      const cue = collect(
+        new THREE.Mesh(
+          new THREE.PlaneGeometry(outerWidth + 0.16, outerHeight + 0.16),
+          new THREE.MeshBasicMaterial({
+            color: materials.cueColor,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          })
+        )
+      );
+      cue.position.z = depth * 1.54;
+      cue.visible = false;
+      entry.group.add(cue);
+      entry.cue = cue;
+
+      if (config.easel) {
+        [
+          { x: -outerWidth * 0.32, z: -0.052, rz: -0.12 },
+          { x: outerWidth * 0.32, z: -0.052, rz: 0.12 },
+        ].forEach((leg) => {
+          const mesh = collect(
+            addBox(entry.group, { x: 0.028, y: outerHeight * 0.72, z: 0.028 }, { x: leg.x, y: -outerHeight * 0.2, z: leg.z }, materials.frame)
+          );
+          mesh.rotation.z = leg.rz;
+        });
+        collect(addBox(entry.group, { x: outerWidth * 0.78, y: 0.03, z: 0.08 }, { x: 0, y: -outerHeight * 0.56, z: 0.01 }, materials.frame));
+      }
+
+      const hit = new THREE.Mesh(new THREE.PlaneGeometry(outerWidth + 0.22, outerHeight + 0.22), materials.hit);
+      hit.position.z = depth * 1.62;
+      entry.group.add(hit);
+      registerInteractive(hit, { kind: "photo", id: config.id, index: entry.index, projectionObject: hit }, entry);
+      registerInteractive(image, { kind: "photo", id: config.id, index: entry.index, projectionObject: hit }, entry);
+
+      if (config.cutawayOptions) {
+        meshes.push(hit);
+        meshes.forEach((mesh) => registerOrbitCutaway(mesh, { ...config.cutawayOptions, entry }));
+      }
+      if (config.visibilityOptions) {
+        photoVisibilityItems.push({
+          entry,
+          yawStart: config.visibilityOptions.yawStart,
+          yawEnd: config.visibilityOptions.yawEnd,
+        });
+      }
+      loadTexture(config.src, image.material);
+      if (backImage) loadTexture(config.src, backImage.material);
+
+      photoEntries.push(entry);
+      return entry;
+    };
+
     const addIrregularSlab = (group, points, yTop, height, material) => {
       const positions = [];
       points.forEach(([x, z]) => positions.push(x, yTop, z));
@@ -1810,6 +2153,7 @@
     const interactionPriority = (kind) => {
       if (kind === "album") return 7;
       if (kind === "turntable") return 6;
+      if (kind === "photo") return 5;
       if (kind === "artifact") return 4;
       if (kind === "windowJump" || kind === "returnInside") return 3;
       return 1;
@@ -1875,12 +2219,43 @@
       return pickProjectedRackAlbum(focusedEntry);
     };
 
+    const pickProjectedFirstUndroppedRackAlbum = () => {
+      if (!pointerNdc || focusedEntry?.kind === "album" || droppedRecordIndices.length === 0) return null;
+      const insideFirstUndroppedLane =
+        pointerNdc.x > (isCompactScene ? -0.42 : -0.38) &&
+        pointerNdc.x < (isCompactScene ? -0.16 : -0.18) &&
+        pointerNdc.y > (isCompactScene ? 0.18 : 0.2) &&
+        pointerNdc.y < (isCompactScene ? 0.42 : 0.38);
+      if (!insideFirstUndroppedLane) return null;
+      const droppedSet = new Set(droppedRecordIndices);
+      const startIndex = Number.isInteger(activeRecordIndex) ? activeRecordIndex : 0;
+      for (let step = 0; step < albumEntries.length; step += 1) {
+        const index = (startIndex + step) % albumEntries.length;
+        if (!droppedSet.has(index)) {
+          const entry = albumEntries[index];
+          const data = entry?.rackSlotHit?.userData;
+          return data && isObjectVisibleForPicking(entry.rackSlotHit) ? data : null;
+        }
+      }
+      return null;
+    };
+
     const pickObject = (event) => {
       if (!raycaster || !pointerNdc || !camera || !renderer) return null;
       const rect = renderer.domElement.getBoundingClientRect();
       pointerNdc.x = ((event.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
       pointerNdc.y = -(((event.clientY - rect.top) / Math.max(1, rect.height)) * 2 - 1);
+      const isDroppedPileGuard =
+        activeView === "desk" &&
+        droppedRecordIndices.length > 0 &&
+        !focusedEntry &&
+        pointerNdc.x < (isCompactScene ? -0.48 : -0.45) &&
+        pointerNdc.y > (isCompactScene ? 0.06 : 0.08) &&
+        pointerNdc.y < (isCompactScene ? 0.46 : 0.42);
+      if (isDroppedPileGuard) return null;
       raycaster.setFromCamera(pointerNdc, camera);
+      const projectedFirstUndropped = pickProjectedFirstUndroppedRackAlbum();
+      if (projectedFirstUndropped) return projectedFirstUndropped;
       const hits = raycaster
         .intersectObjects(interactiveObjects, true)
         .map((hit) => ({ hit, data: findInteractiveData(hit.object) }))
@@ -1931,7 +2306,8 @@
       entry.cue.visible = active;
       if (entry.playLedge) entry.playLedge.visible = active;
       if (entry.cue.material) {
-        entry.cue.material.opacity = active ? (entry.kind === "artifact" ? 0.13 : 0.26) : 0;
+        const activeOpacity = entry.kind === "artifact" ? 0.13 : entry.kind === "photo" ? 0.18 : 0.26;
+        entry.cue.material.opacity = active ? activeOpacity : 0;
       }
     };
 
@@ -1943,7 +2319,7 @@
       }
       hoveredEntry = entry;
       if (renderer?.domElement) {
-        const isButton = entry?.kind === "turntable" || entry?.kind === "windowJump" || entry?.kind === "returnInside";
+        const isButton = entry?.kind === "turntable" || entry?.kind === "windowJump" || entry?.kind === "returnInside" || entry?.kind === "photo";
         renderer.domElement.style.cursor = entry ? (isButton ? "pointer" : "grab") : "grab";
       }
       if (
@@ -1980,6 +2356,7 @@
       material.uniforms.uColorB.value.setHex(isFoam ? (palette.isDarkTheme ? 0x94d4e6 : 0xbff5ff) : palette.isDarkTheme ? 0xd6a56d : 0xf0c987);
       material.uniforms.uBandOffset.value = isFoam ? 0.24 : 0.36;
       material.uniforms.uBandSpread.value = isFoam ? 0.24 : 0.18;
+      if (material.uniforms.uWetReach) material.uniforms.uWetReach.value = isFoam ? 0.16 : 0.28;
       material.needsUpdate = true;
     };
 
@@ -1997,6 +2374,7 @@
           uColorB: { value: new THREE.Color(0xbff5ff) },
           uBandOffset: { value: 0.24 },
           uBandSpread: { value: 0.24 },
+          uWetReach: { value: 0.16 },
         },
         vertexShader: `
           varying vec2 vUv;
@@ -2013,6 +2391,7 @@
           uniform vec3 uColorB;
           uniform float uBandOffset;
           uniform float uBandSpread;
+          uniform float uWetReach;
           varying vec2 vUv;
 
           float lineBand(float y, float center, float width) {
@@ -2022,18 +2401,23 @@
           void main() {
             float x = vUv.x;
             float y = vUv.y;
-            float curve = sin((x + uTime * 0.045) * 11.0) * 0.036 + sin((x * 24.0) - uTime * 0.34) * 0.014;
-            float tide = lineBand(y, uBandOffset + curve, 0.032);
-            tide += lineBand(y, uBandOffset + uBandSpread + curve * 0.72 + sin(x * 16.0 + uTime * 0.28) * 0.014, 0.022) * 0.62;
-            tide += lineBand(y, uBandOffset + uBandSpread * 1.72 + curve * 0.42, 0.018) * 0.34;
+            float waveFront = uBandOffset + sin((x + uTime * 0.045) * 11.0) * 0.036 + sin((x * 24.0) - uTime * 0.34) * 0.014;
+            float backwash = waveFront + uBandSpread + sin(x * 16.0 + uTime * 0.28) * 0.014;
+            float crest = lineBand(y, waveFront, 0.034);
+            crest += lineBand(y, backwash, 0.022) * 0.6;
+            crest += lineBand(y, waveFront + uBandSpread * 1.72, 0.018) * 0.32;
 
-            float grains = sin(x * 78.0 + y * 41.0 + uTime * 2.4) * sin(x * 31.0 - y * 59.0 - uTime * 1.8);
-            float sparkle = smoothstep(0.82, 1.0, grains) * 0.18;
+            float wetBand = smoothstep(waveFront - uWetReach, waveFront + 0.015, y) * (1.0 - smoothstep(waveFront + 0.12, waveFront + 0.28, y));
+            float ripple = sin((x * 48.0 + y * 17.0) - uTime * 0.82) * 0.5 + sin((x * 19.0 - y * 43.0) + uTime * 0.44) * 0.5;
+            float grains = sin(x * 78.0 + y * 41.0 + uTime * 1.55) * sin(x * 31.0 - y * 59.0 - uTime * 1.15);
+            float sandLift = smoothstep(0.5, 1.0, ripple) * wetBand * 0.16;
+            float sparkle = smoothstep(0.82, 1.0, grains) * (0.12 + wetBand * 0.12);
             float edgeFade = smoothstep(0.02, 0.14, x) * (1.0 - smoothstep(0.86, 1.0, x));
             edgeFade *= smoothstep(0.04, 0.16, y) * (1.0 - smoothstep(0.88, 1.0, y));
 
-            float alpha = clamp((tide + sparkle) * uOpacity * edgeFade, 0.0, 0.72);
-            vec3 color = mix(uColorB, uColorA, clamp(tide + sparkle, 0.0, 1.0));
+            float alpha = clamp((crest + wetBand * 0.28 + sandLift + sparkle) * uOpacity * edgeFade, 0.0, 0.74);
+            vec3 wetColor = uColorB * (0.78 + wetBand * 0.14);
+            vec3 color = mix(wetColor, uColorA, clamp(crest + sparkle, 0.0, 1.0));
             gl_FragColor = vec4(color, alpha);
           }
         `,
@@ -2121,6 +2505,8 @@
       replaceMaterialMap(themeMaterials.wall, createRoomWallTexture(palette));
       themeMaterials.shellRib?.color.setHex(palette.isDarkTheme ? 0xcdb79a : 0xc8b59f);
       if (themeMaterials.shellRib) themeMaterials.shellRib.opacity = palette.isDarkTheme ? 0.54 : 0.42;
+      themeMaterials.shellSkin?.color.setHex(palette.isDarkTheme ? 0xd6c3a7 : 0xe5d6c2);
+      if (themeMaterials.shellSkin) themeMaterials.shellSkin.opacity = palette.isDarkTheme ? 0.28 : 0.22;
       themeMaterials.wood?.color.setHex(palette.wood);
       themeMaterials.woodEdge?.color.setHex(palette.woodEdge);
       themeMaterials.coffee?.color.setHex(palette.coffee);
@@ -2258,7 +2644,7 @@
       const record = records[activeRecordIndex];
       if (recordLabelMaterial) loadTexture(record?.src || record?.cover, recordLabelMaterial);
       albumEntries.forEach((entry) => {
-        if (!entry.thrown) entry.group.scale.setScalar(entry.index === activeRecordIndex ? 1.06 : 1);
+        if (!entry.thrown && entry !== focusedEntry) entry.group.scale.setScalar(entry.index === activeRecordIndex ? 1.06 : 1);
       });
       if (notify && callbacks.selectRecord) callbacks.selectRecord(activeRecordIndex);
       scheduleFrame();
@@ -2296,7 +2682,15 @@
       if (entry.kind === "album" && entry.rackSlotHit) entry.rackSlotHit.visible = !droppedPose;
       const position = droppedPose?.position || entry.basePosition;
       const rotation = droppedPose?.rotation || entry.baseRotation;
-      const scale = droppedPose?.scale || new THREE.Vector3(1, 1, 1);
+      const scale =
+        droppedPose?.scale ||
+        (entry.kind === "album"
+          ? new THREE.Vector3(
+              entry.index === activeRecordIndex ? 1.06 : 1,
+              entry.index === activeRecordIndex ? 1.06 : 1,
+              entry.index === activeRecordIndex ? 1.06 : 1
+            )
+          : entry.baseScale || new THREE.Vector3(1, 1, 1));
       entry.currentRestY = position.y;
       addTween(
         entry.group,
@@ -2370,26 +2764,31 @@
       const side = entry.dropDirection || (orderIndex % 2 === 0 ? -1 : 1);
       const row = Math.floor(orderIndex / 2);
       const jitter = (((entry.index * 37) % 11) - 5) * 0.012;
-      const fan = side * (0.19 + row * 0.07) + jitter;
+      const gravitySettle = 1 - Math.pow(0.58, orderIndex + 1);
+      const frictionSlide = (0.18 + row * 0.055) * gravitySettle;
+      const restitution = Math.max(0.06, 0.2 - orderIndex * 0.028);
+      const fan = side * (0.15 + row * 0.058 + frictionSlide * 0.18) + jitter * 0.82;
       const floorLift = orderIndex * 0.0025;
-      const albumX = 1.18 + side * (0.28 + row * 0.1) + jitter;
-      const albumZ = 1.28 + row * 0.18 + (entry.index % 2) * 0.052;
-      const cardX = -0.12 + side * (0.26 + row * 0.11) + jitter;
-      const cardZ = 1.02 + row * 0.15 + (entry.index % 2) * 0.05;
+      const albumX = 1.18 + side * (0.22 + row * 0.086 + frictionSlide) + jitter;
+      const albumZ = 1.25 + row * 0.16 + (entry.index % 2) * 0.048 + restitution * 0.12;
+      const cardX = -0.12 + side * (0.22 + row * 0.095 + frictionSlide * 0.72) + jitter;
+      const cardZ = 1.0 + row * 0.14 + (entry.index % 2) * 0.045 + restitution * 0.09;
+      const settlePitch = side * (0.018 + restitution * 0.04);
+      const settleRoll = side * (0.016 + row * 0.012);
 
       return {
-        albumPosition: new THREE.Vector3(albumX, -1.0 + orderIndex * 0.008, albumZ),
-        albumRotation: new THREE.Euler(-Math.PI / 2 + side * 0.034, side * 0.026, fan),
+        albumPosition: new THREE.Vector3(albumX, -1.012 + orderIndex * 0.006, albumZ),
+        albumRotation: new THREE.Euler(-Math.PI / 2 + settlePitch, settleRoll, fan),
         albumScale: new THREE.Vector3(0.95, 0.95, 0.95),
-        cardPosition: new THREE.Vector3(cardX, -1.165 + orderIndex * 0.01, cardZ),
-        cardRotation: new THREE.Euler(side * 0.026, side * 0.022, side * (0.16 + row * 0.065) - jitter),
+        cardPosition: new THREE.Vector3(cardX, -1.17 + orderIndex * 0.008, cardZ),
+        cardRotation: new THREE.Euler(side * (0.014 + restitution * 0.04), side * 0.016, side * (0.13 + row * 0.055 + frictionSlide * 0.08) - jitter),
         cardScale: new THREE.Vector3(1, 1, 1),
         albumShadowPosition: new THREE.Vector3(albumX, -1.018 + floorLift, albumZ),
         albumShadowRotation: new THREE.Euler(-Math.PI / 2, 0, fan * 0.84),
-        albumShadowScale: new THREE.Vector3(0.74 + row * 0.055, 0.36, 1),
+        albumShadowScale: new THREE.Vector3(0.72 + row * 0.05 + gravitySettle * 0.04, 0.34, 1),
         cardShadowPosition: new THREE.Vector3(cardX, -1.216 + floorLift, cardZ),
         cardShadowRotation: new THREE.Euler(-Math.PI / 2, 0, side * (0.13 + row * 0.05) - jitter),
-        cardShadowScale: new THREE.Vector3(0.58 + row * 0.035, 0.25, 1),
+        cardShadowScale: new THREE.Vector3(0.56 + row * 0.032 + gravitySettle * 0.035, 0.23, 1),
       };
     };
 
@@ -2495,9 +2894,9 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 780 : 420,
-                arcHeight: animateThisDrop ? 0.026 : 0,
-                wobbleZ: animateThisDrop ? 0.006 : 0,
+                duration: animateThisDrop ? 820 : 420,
+                arcHeight: animateThisDrop ? 0.018 : 0,
+                wobbleZ: animateThisDrop ? 0.004 : 0,
                 easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
@@ -2530,9 +2929,9 @@
               },
               immediate && !animateThisDrop,
               {
-                duration: animateThisDrop ? 740 : 360,
-                arcHeight: animateThisDrop ? 0.03 : 0,
-                wobbleZ: animateThisDrop ? 0.006 : 0,
+                duration: animateThisDrop ? 760 : 360,
+                arcHeight: animateThisDrop ? 0.02 : 0,
+                wobbleZ: animateThisDrop ? 0.004 : 0,
                 easing: animateThisDrop ? easeOutCubic : easeOutQuart,
               }
             );
@@ -2592,14 +2991,53 @@
       container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
       setEntryCue(entry, true);
       if (entry.rackSlotHit) entry.rackSlotHit.visible = false;
-      const playPosition =
-        (isCompactScene ? entry.compactPlayPosition : entry.playPosition) ||
-        entry.playPosition ||
-        entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
-      const playRotation =
-        (isCompactScene ? entry.compactPlayRotation : entry.playRotation) || entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
-      const playScale = isCompactScene ? 1.36 : 1.58;
-      entry.currentRestY = playPosition.y;
+      const inspectPosition =
+        (isCompactScene ? entry.compactInspectPosition : entry.inspectPosition) ||
+        entry.inspectPosition ||
+        entry.basePosition.clone().add(new THREE.Vector3(0.4, 0.46, 0.62));
+      const inspectRotation =
+        (isCompactScene ? entry.compactInspectRotation : entry.inspectRotation) || entry.inspectRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
+      const inspectScale = isCompactScene ? 1.45 : 1.72;
+      entry.currentRestY = inspectPosition.y;
+      addTween(
+        entry.group,
+        {
+          position: inspectPosition.clone(),
+          rotation: inspectRotation.clone(),
+          scale: new THREE.Vector3(inspectScale, inspectScale, inspectScale),
+        },
+        500,
+        {
+          arcHeight: 0.07,
+          wobbleZ: 0.01,
+        }
+      );
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.34 : 0.38);
+      targetRotationX = -0.14;
+      targetRotationY = isCompactScene ? -0.12 : -0.08;
+      scheduleFrame();
+    };
+
+    const releaseAlbumToRack = (entry, duration = 520) => {
+      if (!entry) return;
+      setEntryCue(entry, false);
+      if (entry.rackSlotHit && !entry.thrown) entry.rackSlotHit.visible = true;
+      const returnScale = entry.index === activeRecordIndex ? 1.06 : 1;
+      entry.currentRestY = entry.basePosition.y;
+      addTween(
+        entry.group,
+        {
+          position: entry.basePosition.clone(),
+          rotation: entry.baseRotation.clone(),
+          scale: new THREE.Vector3(returnScale, returnScale, returnScale),
+        },
+        duration,
+        { arcHeight: 0.06, wobbleZ: -0.01, easing: easeOutQuart }
+      );
+    };
+
+    const swapFocusedAlbum = (entry) => {
+      if (!entry) return;
       setActiveRecordInternal(entry.index, false);
       if (callbacks.playRecord) {
         callbacks.playRecord(entry.index);
@@ -2609,44 +3047,18 @@
         setToneArm(true);
       }
       runRecordSwapCue();
-      let releaseStarted = false;
-      const releaseAlbumToRack = () => {
-        if (releaseStarted || focusedEntry !== entry) return;
-        releaseStarted = true;
-        focusedEntry = null;
-        focusedEntryAt = 0;
-        container.removeAttribute("data-focused-desk-object");
-        setEntryCue(entry, false);
-        if (entry.rackSlotHit && !entry.thrown) entry.rackSlotHit.visible = true;
-        const returnScale = entry.index === activeRecordIndex ? 1.06 : 1;
-        addTween(
-          entry.group,
-          {
-            position: entry.basePosition.clone(),
-            rotation: entry.baseRotation.clone(),
-            scale: new THREE.Vector3(returnScale, returnScale, returnScale),
-          },
-          520,
-          { arcHeight: 0.06, wobbleZ: -0.01, easing: easeOutQuart }
-        );
-      };
-      addTween(
-        entry.group,
-        {
-          position: playPosition.clone(),
-          rotation: playRotation.clone(),
-          scale: new THREE.Vector3(playScale, playScale, playScale),
+      window.setTimeout(
+        () => {
+          if (focusedEntry !== entry) return;
+          focusedEntry = null;
+          focusedEntryAt = 0;
+          container.removeAttribute("data-focused-desk-object");
+          releaseAlbumToRack(entry, 520);
+          targetZoomLevel = Math.min(targetZoomLevel, isCompactScene ? 0.22 : 0.24);
+          scheduleFrame();
         },
-        500,
-        {
-          arcHeight: 0.08,
-          wobbleZ: 0.012,
-        }
+        reduceMotion ? 180 : 760
       );
-      window.setTimeout(releaseAlbumToRack, 980);
-      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.14 : 0.16);
-      targetRotationX = -0.026;
-      targetRotationY = isCompactScene ? -0.13 : -0.08;
       scheduleFrame();
     };
 
@@ -2673,6 +3085,45 @@
       targetZoomLevel = isCompactScene ? 0.23 : 0.22;
       targetRotationX = -0.028;
       targetRotationY = -0.11;
+      scheduleFrame();
+    };
+
+    const focusPhoto = (entry) => {
+      if (!entry) return;
+      if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
+      focusedEntry = entry;
+      focusedEntryAt = performance.now();
+      container.setAttribute("data-focused-desk-object", `photo-${entry.id}`);
+      setEntryCue(entry, true);
+      entry.lifted = true;
+      entry.meshes?.forEach((mesh) => {
+        mesh.visible = true;
+      });
+      [entry.imageMesh, entry.backImageMesh].forEach((mesh) => {
+        if (mesh?.material) mesh.material.opacity = 1;
+      });
+      if (entry.src) {
+        loadTexture(entry.src, entry.imageMesh?.material);
+        loadTexture(entry.src, entry.backImageMesh?.material);
+      }
+
+      const focusPosition = (isCompactScene ? entry.compactFocusPosition : entry.focusPosition) || entry.focusPosition || entry.basePosition;
+      const focusRotation = (isCompactScene ? entry.compactFocusRotation : entry.focusRotation) || entry.focusRotation || entry.baseRotation;
+      const focusScale = entry.focusScale || entry.baseScale || new THREE.Vector3(1.04, 1.04, 1.04);
+      entry.currentRestY = focusPosition.y;
+      addTween(
+        entry.group,
+        {
+          position: focusPosition.clone(),
+          rotation: focusRotation.clone(),
+          scale: focusScale.clone(),
+        },
+        520,
+        { arcHeight: entry.id === "dog" ? 0.04 : 0, wobbleZ: entry.id === "dog" ? 0.01 : 0 }
+      );
+      targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.44 : 0.5);
+      targetRotationX = entry.targetRotationX ?? targetRotationX;
+      targetRotationY = entry.targetRotationY ?? targetRotationY;
       scheduleFrame();
     };
 
@@ -2710,7 +3161,29 @@
         setEntryCue(entry, false);
         entry.lifted = false;
         entry.currentRestY = entry.basePosition.y;
-        addTween(entry.group, { position: entry.basePosition.clone(), rotation: entry.baseRotation.clone(), scale: new THREE.Vector3(1, 1, 1) }, 420);
+        addTween(
+          entry.group,
+          {
+            position: entry.basePosition.clone(),
+            rotation: entry.baseRotation.clone(),
+            scale: entry.baseScale?.clone() || new THREE.Vector3(1, 1, 1),
+          },
+          420
+        );
+      });
+      photoEntries.forEach((entry) => {
+        setEntryCue(entry, false);
+        entry.lifted = false;
+        entry.currentRestY = entry.basePosition.y;
+        addTween(
+          entry.group,
+          {
+            position: entry.basePosition.clone(),
+            rotation: entry.baseRotation.clone(),
+            scale: entry.baseScale?.clone() || new THREE.Vector3(1, 1, 1),
+          },
+          420
+        );
       });
       songCardEntries.forEach((entry) => {
         entry.group.visible = false;
@@ -2733,8 +3206,8 @@
       const entryZoom = activeView === "outside" ? getOutsideEntryZoom() : 0;
       targetZoomLevel = entryZoom;
       zoomLevel = entryZoom;
-      targetRotationX = activeView === "outside" ? -0.03 : defaultRotation.x;
-      targetRotationY = activeView === "outside" ? 0.16 : defaultRotation.y;
+      targetRotationX = activeView === "outside" ? outsideDefaultRotation.x : defaultRotation.x;
+      targetRotationY = activeView === "outside" ? outsideDefaultRotation.y : defaultRotation.y;
       rotationX = targetRotationX;
       rotationY = targetRotationY;
       applyRootRotation(true);
@@ -2752,6 +3225,8 @@
       zoomLevel = isCompactScene ? 0.24 : 0.32;
       targetRotationX = defaultRotation.x;
       targetRotationY = defaultRotation.y;
+      rotationX = defaultRotation.x;
+      rotationY = defaultRotation.y;
       updateWindowJumpVisibility();
       scheduleFrame();
     };
@@ -2819,6 +3294,7 @@
     }
 
     const addWindow = (palette) => {
+      const roomWindow = sceneAnchors.room.window;
       const wallMaterial = new THREE.MeshBasicMaterial({
         color: palette.wall,
         map: createRoomWallTexture(palette),
@@ -2845,32 +3321,96 @@
       themeMaterials.windowRecess = recessMaterial;
       themeMaterials.windowGlass = glassMaterial;
 
-      addBox(rootGroup, { x: 6.16, y: 0.1, z: 0.14 }, { x: 0.16, y: -1.2, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 3.82, y: 2.96, z: 0.1 }, { x: 0.96, y: 0.04, z: -1.795 }, recessMaterial);
+      const windowBaseFrame = addBeveledBox(rootGroup, { x: 6.16, y: 0.1, z: 0.18 }, { x: 0.16, y: -1.2, z: -1.62 }, frameMaterial, { bevel: 0.018 });
+      registerOrbitCutaway(windowBaseFrame, { occludedOpacity: 0.08, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.24 });
+      const windowRecessBlock = addBeveledBox(
+        rootGroup,
+        { x: roomWindow.width + 0.2, y: roomWindow.height + 0.26, z: 0.12 },
+        { x: roomWindow.x, y: roomWindow.y, z: -1.795 },
+        recessMaterial,
+        {
+          bevel: 0.018,
+        }
+      );
+      registerOrbitCutaway(windowRecessBlock, { occludedOpacity: 0.02, hideBelow: 0.03, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
 
       windowMaterial = new THREE.MeshBasicMaterial({ map: createWindowTexture(palette), transparent: true });
-      const view = new THREE.Mesh(new THREE.PlaneGeometry(3.38, 2.64), windowMaterial);
-      view.position.set(0.96, 0.04, -1.708);
+      const view = new THREE.Mesh(new THREE.PlaneGeometry(roomWindow.width - 0.24, roomWindow.height - 0.06), windowMaterial);
+      view.position.set(roomWindow.x, roomWindow.y, -1.708);
       view.renderOrder = -2;
       rootGroup.add(view);
+      registerOrbitCutaway(view, { cloneMaterial: false, baseOpacity: 1, occludedOpacity: 0.01, hideBelow: 0.03 });
 
-      const glass = new THREE.Mesh(new THREE.PlaneGeometry(3.28, 2.54), glassMaterial);
-      glass.position.set(0.96, 0.04, -1.69);
+      const glass = new THREE.Mesh(new THREE.BoxGeometry(roomWindow.width - 0.34, roomWindow.height - 0.16, 0.018), glassMaterial);
+      glass.position.set(roomWindow.x, roomWindow.y, -1.684);
       glass.renderOrder = -1;
       rootGroup.add(glass);
+      registerOrbitCutaway(glass, { cloneMaterial: false, baseOpacity: glassMaterial.opacity ?? 0.22, occludedOpacity: 0.01, hideBelow: 0.02 });
 
-      addBox(rootGroup, { x: 3.62, y: 0.105, z: 0.16 }, { x: 0.96, y: 1.43, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 3.62, y: 0.12, z: 0.2 }, { x: 0.96, y: -1.24, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 0.12, y: 2.82, z: 0.16 }, { x: -0.88, y: 0.04, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 0.12, y: 2.82, z: 0.16 }, { x: 2.8, y: 0.04, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 0.08, y: 2.52, z: 0.09 }, { x: 0.96, y: 0.04, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 3.24, y: 0.056, z: 0.09 }, { x: 0.96, y: 0.04, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 3.72, y: 0.18, z: 0.42 }, { x: 0.92, y: -1.23, z: -1.5 }, stoneTrimMaterial);
-      addBox(rootGroup, { x: 2.92, y: 0.05, z: 0.14 }, { x: 1, y: -1.04, z: -1.28 }, frameMaterial);
+      [
+        addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.105, z: 0.18 }, { x: roomWindow.x, y: 1.43, z: -1.65 }, frameMaterial, { bevel: 0.015 }),
+        addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.12, z: 0.22 }, { x: roomWindow.x, y: -1.24, z: -1.62 }, frameMaterial, { bevel: 0.015 }),
+      ].forEach((mesh) => registerOrbitCutaway(mesh, { occludedOpacity: 0.08, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.24 }));
+      const leftWindowPost = addBeveledBox(
+        rootGroup,
+        { x: 0.12, y: roomWindow.height + 0.12, z: 0.18 },
+        { x: roomWindow.x - roomWindow.width / 2, y: roomWindow.y, z: -1.65 },
+        frameMaterial,
+        {
+          bevel: 0.015,
+        }
+      );
+      const rightWindowPost = addBeveledBox(
+        rootGroup,
+        { x: 0.12, y: roomWindow.height + 0.12, z: 0.18 },
+        { x: roomWindow.x + roomWindow.width / 2, y: roomWindow.y, z: -1.65 },
+        frameMaterial,
+        {
+          bevel: 0.015,
+        }
+      );
+      [leftWindowPost, rightWindowPost].forEach((mesh) =>
+        registerOrbitCutaway(mesh, { occludedOpacity: 0.08, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 })
+      );
+      const centerMullion = addBox(
+        rootGroup,
+        { x: 0.08, y: roomWindow.height - 0.18, z: 0.1 },
+        { x: roomWindow.x, y: roomWindow.y, z: -1.62 },
+        frameMaterial
+      );
+      const crossMullion = addBox(
+        rootGroup,
+        { x: roomWindow.width - 0.38, y: 0.056, z: 0.1 },
+        { x: roomWindow.x, y: roomWindow.y, z: -1.62 },
+        frameMaterial
+      );
+      [centerMullion, crossMullion].forEach((mesh) =>
+        registerOrbitCutaway(mesh, { occludedOpacity: 0.06, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 })
+      );
+      const stoneSill = addBeveledBox(
+        rootGroup,
+        { x: roomWindow.width + 0.1, y: 0.18, z: 0.46 },
+        { x: roomWindow.x - 0.04, y: -1.23, z: -1.5 },
+        stoneTrimMaterial,
+        {
+          bevel: 0.02,
+        }
+      );
+      registerOrbitCutaway(stoneSill, { occludedOpacity: 0.08, yawStart: 0.28, yawEnd: Math.PI * 2 - 0.24 });
+      const innerSill = addBeveledBox(
+        rootGroup,
+        { x: roomWindow.width - 0.7, y: 0.05, z: 0.16 },
+        { x: roomWindow.x + 0.04, y: -1.04, z: -1.28 },
+        frameMaterial,
+        {
+          bevel: 0.012,
+        }
+      );
+      registerOrbitCutaway(innerSill, { occludedOpacity: 0.08, yawStart: 0.28, yawEnd: Math.PI * 2 - 0.24 });
 
       windowJumpGroup = new THREE.Group();
       windowJumpGroup.visible = false;
-      windowJumpGroup.position.set(0.96, 0.06, -1.42);
+      windowJumpGroup.position.set(roomWindow.x, roomWindow.y + 0.02, -1.42);
       rootGroup.add(windowJumpGroup);
       const windowCueMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf2c994 : 0xb97942,
@@ -2880,10 +3420,10 @@
       });
       themeMaterials.windowCue = windowCueMaterial;
       [
-        { size: { x: 2.82, y: 0.014, z: 0.012 }, position: { x: 0, y: 1.14, z: 0.018 } },
-        { size: { x: 2.82, y: 0.014, z: 0.012 }, position: { x: 0, y: -1.14, z: 0.018 } },
-        { size: { x: 0.014, y: 2.24, z: 0.012 }, position: { x: -1.41, y: 0, z: 0.018 } },
-        { size: { x: 0.014, y: 2.24, z: 0.012 }, position: { x: 1.41, y: 0, z: 0.018 } },
+        { size: { x: roomWindow.width - 0.8, y: 0.014, z: 0.012 }, position: { x: 0, y: 1.14, z: 0.018 } },
+        { size: { x: roomWindow.width - 0.8, y: 0.014, z: 0.012 }, position: { x: 0, y: -1.14, z: 0.018 } },
+        { size: { x: 0.014, y: roomWindow.height - 0.46, z: 0.012 }, position: { x: -1.41, y: 0, z: 0.018 } },
+        { size: { x: 0.014, y: roomWindow.height - 0.46, z: 0.012 }, position: { x: 1.41, y: 0, z: 0.018 } },
       ].forEach((cue) => addBox(windowJumpGroup, cue.size, cue.position, windowCueMaterial));
       const sillGlint = new THREE.Mesh(
         new THREE.PlaneGeometry(0.74, 0.08),
@@ -2913,7 +3453,7 @@
       hint.renderOrder = 4;
       windowJumpGroup.add(hint);
       const buttonHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(3.46, 2.62),
+        new THREE.PlaneGeometry(roomWindow.width - 0.16, roomWindow.height - 0.08),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       buttonHit.position.z = 0.01;
@@ -3022,7 +3562,7 @@
       });
       themeMaterials.outsideBackdrop = backdropMaterial;
       const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(10.4, 5.6), backdropMaterial);
-      backdrop.position.set(0.02, 0.34, -2.34);
+      backdrop.position.set(0.02, 0.34, -5.2);
       backdrop.renderOrder = -6;
       outsideGroup.add(backdrop);
 
@@ -3047,6 +3587,13 @@
       nearOcean.position.set(-1.62, -1.305, 0.18);
       nearOcean.renderOrder = -4;
       outsideGroup.add(nearOcean);
+
+      const sideOcean = new THREE.Mesh(new THREE.PlaneGeometry(5.8, 0.7), oceanMaterial);
+      sideOcean.rotation.x = -Math.PI / 2;
+      sideOcean.rotation.z = -0.46;
+      sideOcean.position.set(1.24, -1.318, 1.95);
+      sideOcean.renderOrder = -4;
+      outsideGroup.add(sideOcean);
 
       const foamTexture = createFoamSurfaceTexture(palette);
       const foamMaterial = new THREE.MeshBasicMaterial({
@@ -3180,6 +3727,20 @@
       coveSand.position.set(-1.42, -1.246, 1.58);
       coveSand.renderOrder = -3;
       outsideGroup.add(coveSand);
+
+      const sideBeach = new THREE.Mesh(new THREE.PlaneGeometry(4.8, 0.54), beachMaterial);
+      sideBeach.rotation.x = -Math.PI / 2;
+      sideBeach.rotation.z = -0.42;
+      sideBeach.position.set(0.72, -1.228, 2.12);
+      sideBeach.renderOrder = -3;
+      outsideGroup.add(sideBeach);
+
+      const rearBeach = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 0.5), beachMaterial);
+      rearBeach.rotation.x = -Math.PI / 2;
+      rearBeach.rotation.z = 0.64;
+      rearBeach.position.set(2.18, -1.236, -0.28);
+      rearBeach.renderOrder = -3;
+      outsideGroup.add(rearBeach);
       outsideMotionItems.push({
         key: "coveSand",
         texture: null,
@@ -3213,6 +3774,12 @@
       tideFoam.position.set(-1.76, -1.17, 1.22);
       tideFoam.renderOrder = -1;
       outsideGroup.add(tideFoam);
+      const sideFoam = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 0.14), foamMaterial);
+      sideFoam.rotation.x = -Math.PI / 2;
+      sideFoam.rotation.z = -0.43;
+      sideFoam.position.set(0.52, -1.158, 1.88);
+      sideFoam.renderOrder = -1;
+      outsideGroup.add(sideFoam);
       const sandGust = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 0.58), sandGustMaterial);
       sandGust.rotation.x = -Math.PI / 2;
       sandGust.rotation.z = -0.035;
@@ -3677,7 +4244,9 @@
       addBox(outsideGroup, { x: 1.72, y: 0.035, z: 0.28 }, { x: 1.08, y: -0.77, z: 0.78 }, cliffLineMaterial);
 
       const house = new THREE.Group();
-      house.position.set(1.02, 0.14, 0.08);
+      const outsideHouse = sceneAnchors.outside.house;
+      const outsideWindow = sceneAnchors.outside.window;
+      house.position.set(outsideHouse.x - 0.06, outsideHouse.y + 0.36, outsideHouse.z - 0.34);
       house.scale.setScalar(1.34);
       outsideGroup.add(house);
       addBox(house, { x: 0.18, y: 0.92, z: 1.02 }, { x: -0.96, y: -0.08, z: 0.08 }, cliffFaceMaterial);
@@ -3691,15 +4260,32 @@
         const mesh = addBox(house, { x: stone.sx, y: stone.sy, z: stone.sz }, stone, cliffLineMaterial);
         mesh.rotation.y = stone.ry;
       });
-      addBox(house, { x: 1.52, y: 0.08, z: 0.78 }, { x: 0, y: -0.47, z: 0 }, trimMaterial);
-      addBox(house, { x: 1.34, y: 0.035, z: 0.62 }, { x: -0.06, y: -0.4, z: 0.02 }, roomFloorMaterial);
-      addBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial);
+      addBeveledBox(house, { x: 1.52, y: 0.08, z: 0.78 }, { x: 0, y: -0.47, z: 0 }, trimMaterial, { bevel: 0.018 });
+      addBeveledBox(house, { x: 1.34, y: 0.035, z: 0.62 }, { x: -0.06, y: -0.4, z: 0.02 }, roomFloorMaterial, { bevel: 0.012 });
+      addBeveledBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial, { bevel: 0.014 });
       addBox(house, { x: 1.2, y: 0.58, z: 0.035 }, { x: -0.06, y: -0.08, z: -0.31 }, roomWallMaterial);
-      addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial);
-      addBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial);
-      addBox(house, { x: 1.92, y: 0.1, z: 1.04 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial);
+      addBeveledBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 1.72, y: 0.68, z: 0.09 }, { x: -0.02, y: -0.08, z: -0.58 }, houseMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.12, y: 0.72, z: 0.86 }, { x: -0.98, y: -0.08, z: -0.02 }, houseMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.12, y: 0.72, z: 0.86 }, { x: 0.98, y: -0.08, z: -0.02 }, houseMaterial, { bevel: 0.014 });
+      addBox(house, { x: 1.42, y: 0.03, z: 0.07 }, { x: -0.02, y: 0.22, z: -0.635 }, trimMaterial);
+      addBox(house, { x: 1.42, y: 0.025, z: 0.07 }, { x: -0.02, y: -0.38, z: -0.635 }, roofShadowMaterial);
+      [
+        { x: -0.52, y: -0.06, z: -0.665, sx: 0.32, sy: 0.42, sz: 0.035 },
+        { x: 0.02, y: -0.08, z: -0.67, sx: 0.38, sy: 0.36, sz: 0.035 },
+        { x: 0.52, y: -0.04, z: -0.665, sx: 0.3, sy: 0.46, sz: 0.035 },
+      ].forEach((panel) => addBox(house, { x: panel.sx, y: panel.sy, z: panel.sz }, panel, roomWallMaterial));
+      [-0.54, 0.54].forEach((x) => addBox(house, { x: 0.045, y: 0.52, z: 0.052 }, { x, y: -0.06, z: -0.628 }, trimMaterial));
+      addBox(house, { x: 0.72, y: 0.16, z: 0.018 }, { x: -0.04, y: 0.02, z: -0.602 }, glassMaterial);
+      addBox(house, { x: 0.78, y: 0.025, z: 0.036 }, { x: -0.04, y: 0.125, z: -0.59 }, trimMaterial);
+      addBox(house, { x: 0.78, y: 0.025, z: 0.036 }, { x: -0.04, y: -0.085, z: -0.59 }, trimMaterial);
+      addBox(house, { x: 0.034, y: 0.19, z: 0.04 }, { x: -0.34, y: 0.02, z: -0.586 }, trimMaterial);
+      addBox(house, { x: 0.034, y: 0.19, z: 0.04 }, { x: 0.26, y: 0.02, z: -0.586 }, trimMaterial);
+      addBeveledBox(house, { x: 1.92, y: 0.1, z: 1.04 }, { x: 0, y: 0.48, z: 0.02 }, roofMaterial, { bevel: 0.018 });
       addBox(house, { x: 1.82, y: 0.035, z: 0.96 }, { x: 0, y: 0.415, z: 0.02 }, roofShadowMaterial);
-      addBox(house, { x: 2.1, y: 0.04, z: 1.12 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial);
+      addBeveledBox(house, { x: 2.1, y: 0.04, z: 1.12 }, { x: 0, y: 0.56, z: 0.04 }, roofMaterial, { bevel: 0.012 });
+      addBeveledBox(house, { x: 2.18, y: 0.055, z: 0.26 }, { x: 0, y: 0.525, z: -0.69 }, roofMaterial, { bevel: 0.012 });
       [-0.68, -0.34, 0, 0.34, 0.68].forEach((x) => {
         const rib = addBox(house, { x: 0.034, y: 0.035, z: 0.86 }, { x, y: 0.545, z: 0.04 }, roofShadowMaterial);
         rib.rotation.y = x * 0.035;
@@ -3722,31 +4308,151 @@
       addBox(house, { x: 0.05, y: 0.54, z: 0.52 }, { x: 0.7, y: -0.08, z: 0.08 }, roomWallMaterial);
       addBox(house, { x: 0.042, y: 0.58, z: 0.64 }, { x: 0.76, y: -0.06, z: 0.08 }, trimMaterial);
       addBox(house, { x: 0.035, y: 0.42, z: 0.42 }, { x: 0.79, y: -0.06, z: 0.18 }, interiorMaterial);
+      [
+        { side: 1, windowY: -0.02, windowZ: 0.08 },
+        { side: -1, windowY: -0.035, windowZ: 0.02 },
+      ].forEach((sideWall) => {
+        const sideX = sideWall.side * 0.988;
+        addBox(house, { x: 0.018, y: 0.32, z: 0.46 }, { x: sideX, y: sideWall.windowY, z: sideWall.windowZ }, glassMaterial);
+        addBox(
+          house,
+          { x: 0.038, y: 0.38, z: 0.034 },
+          { x: sideX + sideWall.side * 0.014, y: sideWall.windowY, z: sideWall.windowZ - 0.24 },
+          trimMaterial
+        );
+        addBox(
+          house,
+          { x: 0.038, y: 0.38, z: 0.034 },
+          { x: sideX + sideWall.side * 0.014, y: sideWall.windowY, z: sideWall.windowZ + 0.24 },
+          trimMaterial
+        );
+        addBox(
+          house,
+          { x: 0.038, y: 0.034, z: 0.52 },
+          { x: sideX + sideWall.side * 0.014, y: sideWall.windowY + 0.19, z: sideWall.windowZ },
+          trimMaterial
+        );
+        addBox(
+          house,
+          { x: 0.038, y: 0.034, z: 0.52 },
+          { x: sideX + sideWall.side * 0.014, y: sideWall.windowY - 0.19, z: sideWall.windowZ },
+          trimMaterial
+        );
+        addBox(
+          house,
+          { x: 0.022, y: 0.27, z: 0.15 },
+          { x: sideX + sideWall.side * 0.028, y: sideWall.windowY - 0.02, z: sideWall.windowZ - 0.03 },
+          interiorMaterial
+        );
+        addBox(
+          house,
+          { x: 0.026, y: 0.08, z: 0.22 },
+          { x: sideX + sideWall.side * 0.04, y: sideWall.windowY - 0.13, z: sideWall.windowZ + 0.1 },
+          blanketMaterial
+        );
+      });
+      addBeveledBox(house, { x: 0.42, y: 0.055, z: 0.82 }, { x: 1.06, y: -0.52, z: 0.12 }, roofShadowMaterial, { bevel: 0.01 });
+      addBeveledBox(house, { x: 0.36, y: 0.032, z: 0.72 }, { x: -1.06, y: -0.515, z: 0.05 }, cliffLineMaterial, { bevel: 0.01 });
+      [
+        { x: 1.05, z: -0.2, r: 0.18 },
+        { x: 1.04, z: 0.34, r: -0.08 },
+        { x: -1.04, z: -0.28, r: -0.12 },
+      ].forEach((brace) => {
+        const mesh = addBox(house, { x: 0.028, y: 0.4, z: 0.028 }, { x: brace.x, y: -0.32, z: brace.z }, roofShadowMaterial);
+        mesh.rotation.z = brace.r;
+      });
       addBox(house, { x: 1.5, y: 0.036, z: 0.05 }, { x: -0.06, y: 0.34, z: -0.255 }, trimMaterial);
       addBox(house, { x: 1.5, y: 0.03, z: 0.05 }, { x: -0.06, y: -0.39, z: -0.255 }, roofShadowMaterial);
+      addBeveledBox(
+        house,
+        { x: outsideWindow.width - 0.04, y: outsideWindow.height + 0.04, z: 0.04 },
+        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z - 0.76 },
+        new THREE.MeshStandardMaterial({ color: 0x172225, roughness: 0.65 }),
+        { bevel: 0.008 }
+      );
       addBox(
         house,
-        { x: 1.68, y: 0.96, z: 0.04 },
-        { x: -0.08, y: -0.02, z: -0.29 },
-        new THREE.MeshStandardMaterial({ color: 0x172225, roughness: 0.65 })
+        { x: outsideWindow.width - 0.1, y: outsideWindow.height - 0.02, z: 0.018 },
+        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z - 0.042 },
+        interiorMaterial
       );
-      addBox(house, { x: 1.62, y: 0.9, z: 0.018 }, { x: -0.08, y: -0.02, z: 0.428 }, interiorMaterial);
-      addBox(house, { x: 1.72, y: 0.045, z: 0.052 }, { x: -0.08, y: 0.46, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 1.72, y: 0.045, z: 0.052 }, { x: -0.08, y: -0.5, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 0.048, y: 0.92, z: 0.052 }, { x: -0.96, y: -0.02, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 0.048, y: 0.92, z: 0.052 }, { x: 0.8, y: -0.02, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 1.58, y: 0.84, z: 0.012 }, { x: -0.08, y: -0.02, z: 0.474 }, glassMaterial);
-      addBox(house, { x: 0.044, y: 0.8, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.486 }, trimMaterial);
-      addBox(house, { x: 1.54, y: 0.034, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.49 }, trimMaterial);
-      addBox(house, { x: 1.72, y: 0.042, z: 0.1 }, { x: -0.08, y: -0.57, z: 0.5 }, trimMaterial);
-      addBox(house, { x: 1.38, y: 0.03, z: 0.1 }, { x: -0.08, y: -0.45, z: 0.59 }, roofShadowMaterial);
-      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.58, 0.84), interiorGlowMaterial);
-      interiorGlow.position.set(-0.08, -0.02, 0.498);
+      addBeveledBox(
+        house,
+        { x: outsideWindow.width, y: 0.045, z: 0.058 },
+        { x: outsideWindow.x, y: outsideWindow.y + outsideWindow.height / 2 + 0.02, z: outsideWindow.z - 0.024 },
+        trimMaterial,
+        { bevel: 0.008 }
+      );
+      addBeveledBox(
+        house,
+        { x: outsideWindow.width, y: 0.045, z: 0.058 },
+        { x: outsideWindow.x, y: outsideWindow.y - outsideWindow.height / 2 - 0.02, z: outsideWindow.z - 0.024 },
+        trimMaterial,
+        { bevel: 0.008 }
+      );
+      addBeveledBox(
+        house,
+        { x: 0.048, y: outsideWindow.height, z: 0.058 },
+        { x: outsideWindow.x - outsideWindow.width / 2 - 0.02, y: outsideWindow.y, z: outsideWindow.z - 0.024 },
+        trimMaterial,
+        {
+          bevel: 0.008,
+        }
+      );
+      addBeveledBox(
+        house,
+        { x: 0.048, y: outsideWindow.height, z: 0.058 },
+        { x: outsideWindow.x + outsideWindow.width / 2 + 0.02, y: outsideWindow.y, z: outsideWindow.z - 0.024 },
+        trimMaterial,
+        {
+          bevel: 0.008,
+        }
+      );
+      addBox(
+        house,
+        { x: outsideWindow.width - 0.14, y: outsideWindow.height - 0.08, z: 0.014 },
+        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z + 0.004 },
+        glassMaterial
+      );
+      addBox(
+        house,
+        { x: 0.044, y: outsideWindow.height - 0.12, z: 0.054 },
+        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z + 0.014 },
+        trimMaterial
+      );
+      addBox(
+        house,
+        { x: outsideWindow.width - 0.18, y: 0.034, z: 0.054 },
+        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z + 0.018 },
+        trimMaterial
+      );
+      addBeveledBox(
+        house,
+        { x: outsideWindow.width, y: 0.042, z: 0.1 },
+        { x: outsideWindow.x, y: outsideWindow.y - outsideWindow.height / 2 - 0.09, z: outsideWindow.z + 0.028 },
+        trimMaterial,
+        {
+          bevel: 0.009,
+        }
+      );
+      addBeveledBox(
+        house,
+        { x: outsideWindow.width - 0.34, y: 0.03, z: 0.1 },
+        { x: outsideWindow.x, y: outsideWindow.y - outsideWindow.height / 2 + 0.03, z: outsideWindow.z + 0.118 },
+        roofShadowMaterial,
+        {
+          bevel: 0.008,
+        }
+      );
+      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(outsideWindow.width - 0.14, outsideWindow.height - 0.08), interiorGlowMaterial);
+      interiorGlow.position.set(outsideWindow.x, outsideWindow.y, outsideWindow.z + 0.028);
       house.add(interiorGlow);
       [
         { x: -0.54, h: 0.46 },
         { x: 0.42, h: 0.42 },
-      ].forEach((curtain) => addBox(house, { x: 0.055, y: curtain.h, z: 0.018 }, { x: curtain.x, y: -0.02, z: 0.515 }, curtainMaterial));
+      ].forEach((curtain) =>
+        addBox(house, { x: 0.055, y: curtain.h, z: 0.018 }, { x: curtain.x, y: outsideWindow.y, z: outsideWindow.z + 0.045 }, curtainMaterial)
+      );
       const balcony = new THREE.Group();
       balcony.position.set(-0.02, -0.48, 0.58);
       house.add(balcony);
@@ -3846,11 +4552,15 @@
       miniCup.position.set(0.31, 0.072, 0.08);
       roomDesk.add(miniCup);
       records.slice(0, 4).forEach((recordItem, index) => {
+        const sleeveGroup = new THREE.Group();
+        sleeveGroup.position.set(-0.06 + index * 0.055, 0.12 + index * 0.002, -0.18 - index * 0.01);
+        sleeveGroup.rotation.set(-0.1, -0.24 + index * 0.08, 0.04);
+        roomDesk.add(sleeveGroup);
+        addBeveledBox(sleeveGroup, { x: 0.116, y: 0.15, z: 0.014 }, { x: 0, y: 0, z: -0.006 }, miniPaperMaterial, { bevel: 0.003 });
         const sleeveMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.58, side: THREE.DoubleSide });
-        const sleeve = new THREE.Mesh(new THREE.PlaneGeometry(0.11, 0.15), sleeveMaterial);
-        sleeve.position.set(-0.06 + index * 0.055, 0.12 + index * 0.002, -0.18 - index * 0.01);
-        sleeve.rotation.set(-0.1, -0.24 + index * 0.08, 0.04);
-        roomDesk.add(sleeve);
+        const sleeve = new THREE.Mesh(new THREE.PlaneGeometry(0.106, 0.14), sleeveMaterial);
+        sleeve.position.set(0, 0, 0.004);
+        sleeveGroup.add(sleeve);
         loadTexture(recordItem.cover || recordItem.src, sleeveMaterial);
       });
       addBox(roomDesk, { x: 0.04, y: 0.012, z: 0.16 }, { x: 0.29, y: 0.07, z: -0.08 }, miniAccentMaterial);
@@ -4098,6 +4808,7 @@
         side: THREE.DoubleSide,
         depthWrite: false,
       });
+      const hitMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
       themeMaterials.floor = floorMaterial;
       themeMaterials.wood = woodMaterial;
       themeMaterials.woodEdge = woodEdgeMaterial;
@@ -4119,6 +4830,8 @@
       floor.rotation.x = -Math.PI / 2;
       floor.position.set(0, -1.22, 0.46);
       rootGroup.add(floor);
+      const floorSlab = addBeveledBox(rootGroup, { x: 8.34, y: 0.16, z: 7.08 }, { x: 0, y: -1.31, z: 0.46 }, woodEdgeMaterial, { bevel: 0.035 });
+      floorSlab.rotation.y = -0.012;
 
       const shellRibMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0xcdb79a : 0xc8b59f,
@@ -4128,6 +4841,28 @@
         metalness: 0.01,
       });
       themeMaterials.shellRib = shellRibMaterial;
+      const shellSkinMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xd6c3a7 : 0xe5d6c2,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.28 : 0.22,
+        roughness: 0.96,
+        metalness: 0.01,
+        side: THREE.DoubleSide,
+      });
+      themeMaterials.shellSkin = shellSkinMaterial;
+      const rearShell = addCurvedShell(rootGroup, 3.12, 3.25, Math.PI * 0.08, Math.PI * 0.86, { x: -0.08, y: 0.04, z: -0.78 }, shellSkinMaterial, {
+        scaleX: 1.18,
+        scaleZ: 0.62,
+        ry: Math.PI / 2,
+        radialSegments: 72,
+      });
+      registerOrbitCutaway(rearShell, {
+        cloneMaterial: false,
+        baseOpacity: shellSkinMaterial.opacity,
+        occludedOpacity: palette.isDarkTheme ? 0.1 : 0.07,
+        yawStart: 0.18,
+        yawEnd: Math.PI * 2 - 0.18,
+      });
       [
         { radius: 2.94, tube: 0.04, y: -1.18, z: -1.62, sx: 1.02, rz: 0.01 },
         { radius: 2.58, tube: 0.026, y: -1.16, z: -1.34, sx: 0.96, rz: -0.018 },
@@ -4147,6 +4882,7 @@
 
       const leftNookWall = addBox(rootGroup, { x: 0.42, y: 2.56, z: 3.52 }, { x: -2.62, y: -0.04, z: -0.05 }, stoneMaterial);
       leftNookWall.rotation.y = 0.08;
+      registerOrbitCutaway(leftNookWall, { occludedOpacity: 0.08, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.2 });
       const rearStoneShelf = addBox(rootGroup, { x: 2.88, y: 0.16, z: 0.42 }, { x: 0.52, y: -1.08, z: -1.38 }, stoneEdgeMaterial);
       rearStoneShelf.rotation.y = -0.04;
       const stoneHearth = addBox(rootGroup, { x: 1.14, y: 0.18, z: 0.66 }, { x: -1.78, y: -1.075, z: -0.76 }, stoneEdgeMaterial);
@@ -4168,9 +4904,11 @@
       ].forEach((rib) => {
         const mesh = addBox(rootGroup, { x: rib.sx, y: rib.sy, z: rib.sz }, rib, stoneMaterial);
         mesh.rotation.y = rib.ry;
+        if (rib.x > 2.8 || rib.z > 0.8) registerOrbitCutaway(mesh, { occludedOpacity: 0.07, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
       });
       const carvedCeiling = addBox(rootGroup, { x: 5.84, y: 0.16, z: 2.66 }, { x: -0.06, y: 1.47, z: -0.2 }, stoneEdgeMaterial);
       carvedCeiling.rotation.y = -0.035;
+      registerOrbitCutaway(carvedCeiling, { occludedOpacity: 0.12, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.32 });
       [
         { x: -1.72, z: -1.32, w: 0.96, ry: 0.1 },
         { x: -0.54, z: -1.38, w: 1.2, ry: 0.02 },
@@ -4182,6 +4920,161 @@
       });
       const stoneWindowBench = addBox(rootGroup, { x: 3.05, y: 0.12, z: 0.44 }, { x: 0.96, y: -1.12, z: -1.12 }, stoneEdgeMaterial);
       stoneWindowBench.rotation.y = -0.035;
+
+      const galleryMatMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xf6ead6 : 0xfff5e8,
+        roughness: 0.7,
+        side: THREE.DoubleSide,
+      });
+      const galleryBackMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x3e352c : 0x5f452d,
+        roughness: 0.62,
+        metalness: 0.08,
+      });
+      const galleryFrameMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xcda15c : 0xb78a42,
+        roughness: 0.42,
+        metalness: 0.18,
+      });
+      const sidePhotoFrameMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x7b5f43 : 0x8a6040,
+        roughness: 0.58,
+        metalness: 0.04,
+      });
+      const sidePhotoBackMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x2e3130 : 0x4d4035,
+        roughness: 0.78,
+        metalness: 0.02,
+      });
+      const frontWallCutaway = {
+        baseOpacity: 1,
+        occludedOpacity: 0.015,
+        hideBelow: 0.03,
+        yawStart: Math.PI * 1.76,
+        yawEnd: Math.PI * 0.24,
+      };
+      const galleryWallMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xd9c6aa : 0xe7d6c0,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.78 : 0.72,
+        roughness: 0.9,
+        metalness: 0.01,
+      });
+      const galleryWall = addBeveledBox(rootGroup, { x: 2.44, y: 2.1, z: 0.12 }, { x: -0.32, y: 0.06, z: 2.26 }, galleryWallMaterial, {
+        bevel: 0.018,
+      });
+      registerOrbitCutaway(galleryWall, {
+        cloneMaterial: false,
+        baseOpacity: galleryWallMaterial.opacity,
+        occludedOpacity: 0.015,
+        hideBelow: 0.03,
+        yawStart: frontWallCutaway.yawStart,
+        yawEnd: frontWallCutaway.yawEnd,
+      });
+      createFramedPhotoEntry(
+        rootGroup,
+        {
+          id: "lizard",
+          src: siruiPhotoAssets.lizard,
+          width: 1.08,
+          height: 1.08,
+          frame: 0.115,
+          depth: 0.07,
+          doubleSidedArt: true,
+          position: { x: -0.32, y: 0.16, z: 2.175 },
+          rotation: { y: Math.PI },
+          visibilityOptions: { yawStart: Math.PI * 0.72, yawEnd: Math.PI * 1.62 },
+          focusPosition: new THREE.Vector3(0.44, 0.48, -0.14),
+          compactFocusPosition: new THREE.Vector3(0.28, 0.46, -0.06),
+          focusRotation: new THREE.Euler(0, 0.02, 0),
+          compactFocusRotation: new THREE.Euler(0, 0.02, 0),
+          focusScale: new THREE.Vector3(1.22, 1.22, 1.22),
+          targetRotationX: -0.03,
+          targetRotationY: -0.1,
+          focusLookAt: { x: 0.32, y: 0.48, z: -0.14 },
+          camera: {
+            from: sceneAnchors.room.defaultCamera.desktop,
+            to: { x: 2.2, y: 1.14, z: 3.04 },
+            lookFrom: sceneAnchors.room.orbitTarget,
+            lookAt: { x: 0.32, y: 0.48, z: -0.14 },
+            fovFrom: 31,
+            fovTo: 24,
+          },
+          compactCamera: {
+            from: sceneAnchors.room.defaultCamera.compact,
+            to: { x: 1.9, y: 1.04, z: 2.92 },
+            lookFrom: sceneAnchors.room.orbitTarget,
+            lookAt: { x: 0.16, y: 0.46, z: -0.06 },
+            fovFrom: 36,
+            fovTo: 28,
+          },
+        },
+        {
+          frame: galleryFrameMaterial,
+          back: galleryBackMaterial,
+          mat: galleryMatMaterial,
+          hit: hitMaterial,
+          cueColor: palette.isDarkTheme ? 0xffd08b : 0xb76f38,
+        }
+      );
+
+      const capyWallMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xcab69a : 0xddc7ad,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.7 : 0.62,
+        roughness: 0.9,
+        metalness: 0.01,
+      });
+      const capyWall = addBeveledBox(rootGroup, { x: 0.12, y: 1.58, z: 1.52 }, { x: 2.76, y: 0.08, z: 0.56 }, capyWallMaterial, {
+        bevel: 0.016,
+      });
+      registerOrbitCutaway(capyWall, {
+        cloneMaterial: false,
+        baseOpacity: capyWallMaterial.opacity,
+        occludedOpacity: 0.08,
+        yawStart: 0.08,
+        yawEnd: 1.3,
+      });
+      createFramedPhotoEntry(
+        rootGroup,
+        {
+          id: "capy",
+          src: siruiPhotoAssets.capy,
+          width: 0.62,
+          height: 0.62,
+          frame: 0.065,
+          depth: 0.052,
+          position: { x: 2.685, y: 0.16, z: 0.58 },
+          rotation: { y: -Math.PI / 2 },
+          focusScale: new THREE.Vector3(1.08, 1.08, 1.08),
+          targetRotationX: -0.02,
+          targetRotationY: defaultRotation.y + Math.PI * 0.62,
+          focusLookAt: { x: 2.66, y: 0.16, z: 0.58 },
+          camera: {
+            from: sceneAnchors.room.defaultCamera.desktop,
+            to: { x: 1.24, y: 0.56, z: 1.16 },
+            lookFrom: sceneAnchors.room.orbitTarget,
+            lookAt: { x: 2.66, y: 0.16, z: 0.58 },
+            fovFrom: 31,
+            fovTo: 25,
+          },
+          compactCamera: {
+            from: sceneAnchors.room.defaultCamera.compact,
+            to: { x: 1.2, y: 0.6, z: 1.22 },
+            lookFrom: sceneAnchors.room.orbitTarget,
+            lookAt: { x: 2.66, y: 0.16, z: 0.58 },
+            fovFrom: 36,
+            fovTo: 28,
+          },
+        },
+        {
+          frame: sidePhotoFrameMaterial,
+          back: sidePhotoBackMaterial,
+          mat: galleryMatMaterial,
+          hit: hitMaterial,
+          cueColor: palette.isDarkTheme ? 0xffd08b : 0xb76f38,
+        }
+      );
 
       const lowBed = new THREE.Group();
       lowBed.position.set(-2.08, -1.045, -0.42);
@@ -4273,12 +5166,78 @@
         table.add(mesh);
       });
 
+      const dogFrameMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x1f2425 : 0x222729, roughness: 0.5, metalness: 0.22 });
+      const dogBackMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x0f1415 : 0x3c3027, roughness: 0.76, metalness: 0.03 });
+      const dogMatMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xf4eadb : 0xfff8ed,
+        roughness: 0.7,
+        side: THREE.DoubleSide,
+      });
+      const dogPhoto = createFramedPhotoEntry(
+        table,
+        {
+          id: "dog",
+          src: siruiPhotoAssets.dog,
+          width: 0.42,
+          height: 0.42,
+          frame: 0.045,
+          depth: 0.04,
+          position: { x: 1.14, y: 0.02, z: -0.42 },
+          rotation: { x: -0.08, y: -0.18, z: 0.02 },
+          easel: true,
+          focusPosition: new THREE.Vector3(0.78, 0.54, -0.08),
+          compactFocusPosition: new THREE.Vector3(0.62, 0.46, -0.02),
+          focusRotation: new THREE.Euler(0.01, -0.06, 0.0),
+          compactFocusRotation: new THREE.Euler(0.02, -0.04, 0.0),
+          focusScale: new THREE.Vector3(1.52, 1.52, 1.52),
+          targetRotationX: -0.03,
+          targetRotationY: -0.1,
+          focusLookAt: { x: 1.04, y: 0.42, z: -0.92 },
+          camera: {
+            from: sceneAnchors.room.defaultCamera.desktop,
+            to: { x: 2.2, y: 1.16, z: 2.96 },
+            lookFrom: sceneAnchors.room.orbitTarget,
+            lookAt: { x: 1.04, y: 0.42, z: -0.92 },
+            fovFrom: 31,
+            fovTo: 24,
+          },
+          compactCamera: {
+            from: sceneAnchors.room.defaultCamera.compact,
+            to: { x: 1.92, y: 1.02, z: 2.9 },
+            lookFrom: sceneAnchors.room.orbitTarget,
+            lookAt: { x: 0.92, y: 0.38, z: -0.86 },
+            fovFrom: 36,
+            fovTo: 27,
+          },
+        },
+        {
+          frame: dogFrameMaterial,
+          back: dogBackMaterial,
+          mat: dogMatMaterial,
+          hit: hitMaterial,
+          cueColor: palette.isDarkTheme ? 0xffd08b : 0xb76f38,
+        }
+      );
+      const dogPhotoShadow = new THREE.Mesh(
+        new THREE.CircleGeometry(0.34, 40),
+        new THREE.MeshBasicMaterial({
+          color: palette.shadow,
+          transparent: true,
+          opacity: palette.isDarkTheme ? 0.16 : 0.1,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        })
+      );
+      dogPhotoShadow.rotation.x = -Math.PI / 2;
+      dogPhotoShadow.scale.set(1.22, 0.42, 1);
+      dogPhotoShadow.position.set(dogPhoto.basePosition.x, -0.266, dogPhoto.basePosition.z + 0.03);
+      table.add(dogPhotoShadow);
+
       const player = new THREE.Group();
       player.position.set(-0.84, -0.31, 0.02);
       table.add(player);
       const playerBase = addBox(player, { x: 1.5, y: 0.16, z: 1.08 }, { x: 0, y: 0.02, z: 0 }, recordBaseMaterial);
       registerInteractive(playerBase, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
-      const hitMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
       const turntableHit = new THREE.Mesh(new THREE.PlaneGeometry(1.34, 1.08), hitMaterial);
       turntableHit.rotation.x = -Math.PI / 2;
       turntableHit.position.set(-0.12, 0.28, 0.02);
@@ -4503,11 +5462,13 @@
         entry.compactPlayRotation = new THREE.Euler(0.05, -0.04, 0.024);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
-        const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
+        const sleeveBack = addBeveledBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial, { bevel: 0.01 });
         const coverMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55, side: THREE.DoubleSide });
         const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.43, 0.61), coverMaterial);
         cover.position.set(0, 0.01, 0.008);
         entry.group.add(cover);
+        addBox(entry.group, { x: 0.032, y: 0.6, z: 0.056 }, { x: -0.246, y: 0, z: -0.006 }, cardEdgeMaterial);
+        addBox(entry.group, { x: 0.4, y: 0.03, z: 0.054 }, { x: 0, y: -0.335, z: -0.006 }, cardEdgeMaterial);
         const albumCue = new THREE.Mesh(
           new THREE.PlaneGeometry(0.64, 0.84),
           new THREE.MeshBasicMaterial({
@@ -4580,7 +5541,7 @@
         songShadow.renderOrder = -1;
         table.add(songShadow);
         songEntry.floorShadow = songShadow;
-        addBox(songEntry.group, { x: 0.72, y: 0.018, z: 0.48 }, { x: 0, y: -0.014, z: 0 }, cardEdgeMaterial);
+        addBeveledBox(songEntry.group, { x: 0.72, y: 0.018, z: 0.48 }, { x: 0, y: -0.014, z: 0 }, cardEdgeMaterial, { bevel: 0.006 });
         const songMaterial = new THREE.MeshStandardMaterial({
           map: createSongCardTexture(recordItem),
           roughness: 0.62,
@@ -4611,7 +5572,7 @@
         entry.focusRotation = new THREE.Euler(1.13, -0.018, index === 0 ? -0.02 : 0.026);
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
-        const base = addBox(entry.group, { x: 0.66, y: 0.035, z: 0.94 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial);
+        const base = addBeveledBox(entry.group, { x: 0.66, y: 0.035, z: 0.94 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial, { bevel: 0.008 });
         const topMaterial = new THREE.MeshStandardMaterial({
           map: createArtifactTexture(artifact, index, palette),
           roughness: 0.64,
@@ -4739,6 +5700,12 @@
       }
 
       const canvas = renderer.domElement;
+      const armSceneNativeClickSuppressor = (duration = 360) => {
+        suppressNextSceneClick = true;
+        suppressSceneNativeClicksUntil = performance.now() + duration;
+        container.setAttribute("data-desk-mode-lock-until", String(Date.now() + duration + 160));
+      };
+
       const onPointerDown = (event) => {
         if (!isVisible || (event.pointerType === "mouse" && event.button !== 0)) return;
         window.getSelection?.()?.removeAllRanges?.();
@@ -4746,12 +5713,17 @@
           document.activeElement.blur();
         }
         const hit = pickObject(event);
+        const hitEntry = hit?.homeDeskEntry || null;
+        const draggableEntry = hitEntry && (hitEntry.kind === "album" || hitEntry.kind === "artifact") ? hitEntry : null;
+        armSceneNativeClickSuppressor();
         pointerId = event.pointerId;
         pointerStartX = event.clientX;
         pointerStartY = event.clientY;
         pointerMoved = false;
-        activeEntry = hit?.homeDeskEntry || null;
-        pointerMode = hit?.kind || "rotate";
+        activeEntry = draggableEntry;
+        pointerTargetEntry = hitEntry;
+        pointerActionKind = hit?.kind || "rotate";
+        pointerMode = draggableEntry ? hit?.kind || draggableEntry.kind : "rotate";
         rotationStartX = targetRotationX;
         rotationStartY = targetRotationY;
         if (activeEntry) {
@@ -4774,8 +5746,8 @@
         pointerMoved = pointerMoved || Math.abs(deltaX) + Math.abs(deltaY) > 7;
 
         if (pointerMode === "rotate") {
-          targetRotationY = clamp(rotationStartY + deltaX * 0.006, -0.96, 0.46);
-          targetRotationX = clamp(rotationStartX + deltaY * 0.0035, -0.28, 0.22);
+          targetRotationY = rotationStartY + deltaX * 0.003;
+          targetRotationX = clamp(rotationStartX + deltaY * 0.0035, activeView === "outside" ? -0.42 : -0.34, activeView === "outside" ? 0.34 : 0.28);
         } else if (activeEntry?.kind === "album") {
           const lift = clamp(0.035 + Math.hypot(deltaX, deltaY) * 0.0003, 0.046, 0.11);
           activeEntry.group.position.set(
@@ -4806,13 +5778,22 @@
         const deltaY = event.clientY - pointerStartY;
         const movedEnough = pointerMoved || Math.abs(deltaX) + Math.abs(deltaY) > 10;
         const releasedEntry = activeEntry;
+        const clickedFocusedAlbum = !movedEnough && isPointerInFocusedAlbumInspectRegion(event);
+        const clickedEntry = !movedEnough ? releasedEntry || pointerTargetEntry || (clickedFocusedAlbum ? focusedEntry : null) : releasedEntry;
+        const clickedWindowRegion = !movedEnough && activeView === "desk" && isPointerInWindowRegion(event);
 
-        if (releasedEntry?.kind === "album") {
+        if (!movedEnough && activeView === "outside" && isPointerInOutsideReturnRegion(event)) {
+          enterDeskFromOutside();
+        } else if (clickedEntry?.kind === "album") {
           if (movedEnough && Math.abs(deltaX) + Math.abs(deltaY) > 32) {
-            throwAlbum(releasedEntry, deltaX || 1);
+            throwAlbum(clickedEntry, deltaX || 1);
+          } else if (focusedEntry === clickedEntry) {
+            swapFocusedAlbum(clickedEntry);
           } else {
-            focusAlbum(releasedEntry);
+            focusAlbum(clickedEntry);
           }
+        } else if (clickedEntry?.kind === "photo" && !movedEnough) {
+          focusPhoto(clickedEntry);
         } else if (releasedEntry?.kind === "artifact") {
           const focusedLongEnough = performance.now() - focusedEntryAt > 1200;
           if (!movedEnough && focusedEntry === releasedEntry && releasedEntry.url && focusedLongEnough) {
@@ -4844,18 +5825,27 @@
               { arcHeight: 0.05, wobbleZ: 0.025 }
             );
           }
-        } else if (pointerMode === "turntable" && !movedEnough) {
+        } else if (clickedWindowRegion) {
+          setSceneView("outside");
+        } else if (
+          !movedEnough &&
+          activeView === "desk" &&
+          isPointerInWindowRegion(event) &&
+          pointerActionKind !== "album" &&
+          pointerActionKind !== "artifact" &&
+          pointerActionKind !== "turntable"
+        ) {
+          setSceneView("outside");
+        } else if (pointerActionKind === "turntable" && !movedEnough) {
           if (callbacks.toggleSpin) callbacks.toggleSpin();
           else {
             isRecordSpinning = !isRecordSpinning;
             setToneArm(isRecordSpinning);
           }
-        } else if (pointerMode === "windowJump" && !movedEnough) {
+        } else if (pointerActionKind === "windowJump" && !movedEnough) {
           setSceneView("outside");
-        } else if (pointerMode === "returnInside" && !movedEnough) {
+        } else if (pointerActionKind === "returnInside" && !movedEnough) {
           enterDeskFromOutside();
-        } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && isPointerInWindowRegion(event)) {
-          setSceneView("outside");
         } else if (pointerMode === "rotate" && !movedEnough && activeView === "desk" && (focusedEntry || targetZoomLevel > 0.04)) {
           clearFocusedEntry();
           targetZoomLevel = 0;
@@ -4867,10 +5857,14 @@
         activeEntry = null;
         pointerId = null;
         pointerMode = "";
+        pointerActionKind = "";
+        pointerTargetEntry = null;
         window.getSelection?.()?.removeAllRanges?.();
         container.classList.remove("is-dragging");
         setHoverEntry(null);
         scheduleFrame();
+        armSceneNativeClickSuppressor();
+        event.preventDefault();
       };
 
       const onPointerCancel = (event) => {
@@ -4891,7 +5885,22 @@
         activeEntry = null;
         pointerId = null;
         pointerMode = "";
+        pointerActionKind = "";
+        pointerTargetEntry = null;
         container.classList.remove("is-dragging");
+        armSceneNativeClickSuppressor();
+        event.preventDefault();
+      };
+
+      const suppressCanvasClick = (event) => {
+        const eventTarget = event.target;
+        const isStageClick = !stageElement || (eventTarget instanceof Node && stageElement.contains(eventTarget));
+        if (!suppressNextSceneClick && (!isStageClick || performance.now() > suppressSceneNativeClicksUntil)) return;
+        suppressNextSceneClick = false;
+        suppressSceneNativeClicksUntil = 0;
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
       };
 
       const onWheel = (event) => {
@@ -4928,6 +5937,7 @@
       canvas.addEventListener("pointermove", onPointerMove);
       canvas.addEventListener("pointerup", onPointerUp);
       canvas.addEventListener("pointercancel", onPointerCancel);
+      document.addEventListener("click", suppressCanvasClick, true);
       container.addEventListener("wheel", onWheel, { passive: false });
       window.addEventListener("scroll", scheduleOutsideViewportCheck, { passive: true });
       window.addEventListener("resize", scheduleOutsideViewportCheck);
@@ -4936,6 +5946,7 @@
         () => canvas.removeEventListener("pointermove", onPointerMove),
         () => canvas.removeEventListener("pointerup", onPointerUp),
         () => canvas.removeEventListener("pointercancel", onPointerCancel),
+        () => document.removeEventListener("click", suppressCanvasClick, true),
         () => container.removeEventListener("wheel", onWheel),
         () => window.removeEventListener("scroll", scheduleOutsideViewportCheck),
         () => window.removeEventListener("resize", scheduleOutsideViewportCheck)
@@ -5094,6 +6105,7 @@
     let reflowRecordCardsFrame = 0;
     let recordDropSequence = 0;
     let shakeShouldReplayAllRecords = false;
+    let deskModePointerTarget = null;
 
     const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
@@ -5164,6 +6176,10 @@
     };
 
     const setDeskMode = (mode, userInitiated = false) => {
+      if (mode !== "3d") {
+        const lockedUntil = Number(deskSceneElement?.getAttribute("data-desk-mode-lock-until") || 0);
+        if (lockedUntil && Date.now() < lockedUntil) return;
+      }
       const is3D = mode === "3d";
       if (stage) {
         stage.classList.toggle("is-desk-3d", is3D);
@@ -5776,7 +6792,22 @@
     selectRecord(0);
     setDeskMode("2d");
     deskModeButtons.forEach((button) => {
-      button.addEventListener("click", () => setDeskMode(button.getAttribute("data-home-desk-mode") || "2d", true));
+      button.addEventListener(
+        "pointerdown",
+        (event) => {
+          deskModePointerTarget = event.currentTarget;
+        },
+        true
+      );
+      button.addEventListener("click", (event) => {
+        if (event.defaultPrevented) return;
+        if (event.detail !== 0 && deskModePointerTarget !== event.currentTarget) {
+          deskModePointerTarget = null;
+          return;
+        }
+        deskModePointerTarget = null;
+        setDeskMode(button.getAttribute("data-home-desk-mode") || "2d", true);
+      });
     });
     if (deskControls) {
       deskControls.addEventListener("click", (event) => event.stopPropagation());

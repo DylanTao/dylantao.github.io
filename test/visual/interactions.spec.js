@@ -451,6 +451,11 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", "album-0");
 
   await clickDeskCanvasAt(page, 0.36, 0.34);
+  await page.waitForTimeout(620);
+  await expect(stage).toHaveAttribute("data-record-tone", "jude");
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-2");
+
+  await clickDeskCanvasAt(page, 0.5, 0.88);
   await page.waitForTimeout(1120);
   await expect(stage).toHaveAttribute("data-record-tone", "wind");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
@@ -462,6 +467,11 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
 
   await clickDeskCanvasAt(page, 0.4, 0.28, { hoverMs: 180 });
+  await page.waitForTimeout(620);
+  await expect(stage).toHaveAttribute("data-record-tone", "wind");
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-3");
+
+  await clickDeskCanvasAt(page, 0.5, 0.88);
   await page.waitForTimeout(1120);
   await expect(stage).toHaveAttribute("data-record-tone", "sunday");
   await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
