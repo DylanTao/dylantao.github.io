@@ -2,7 +2,7 @@
 layout: post
 title: research skills starter pack
 date: 2026-04-27 09:00:00
-description: An ongoing self-study list for learning research reading, writing, reviewing, Ph.D. life, and empirical methods.
+description: An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods.
 tags: research writing phd methods qualitative statistics modeling mentorship
 categories: guides
 related_posts: false
@@ -17,7 +17,7 @@ permalink: /blog/2026/research-skills-starter-pack/
 Getting started in research is not just about joining a lab.
 
 It is also about slowly building the invisible skills that make research work
-feel less mysterious: how to write, how to read, how to scope a project, how to
+feel less mysterious: how to read, how to scope a project, how to write, how to
 run a study, how to interpret evidence, and how to stay alive through long,
 uncertain projects.
 
@@ -69,7 +69,98 @@ When you read a paper, try to answer:
 
 Reading well is not passive. You are reconstructing the research.
 
-## 2. Learn to write research clearly
+## 2. Learn to define and refine a research direction
+
+A topic, a technology, or a proposed system is not yet a research problem. If I
+say, "use technique X to do Y," I have mostly described a solution shape. A
+problem-shaped version sounds more like: "people currently cannot do Y reliably
+under these conditions." Those are different decisions. Choosing a direction is
+about deciding what gap, confusion, or possibility is worth understanding.
+Implementing a solution is only one way to test whether that direction is real.
+
+[Marco Tulio Ribeiro's essay on coming up with research ideas](https://medium.com/@marcotcr/coming-up-with-research-ideas-3032682e5852)
+helped me put language around this. One way to find directions is to expand the
+"adjacent possible": build broad awareness of nearby areas, while going deep
+enough in your own area that you can notice non-obvious connections. I also
+like the practice of keeping a list of important problems or questions that
+keep pulling my attention back. That list changes what I notice when I read,
+watch talks, or debug prototypes.
+
+Failures are especially useful here. When something breaks, behaves strangely,
+or keeps annoying me, the easy move is to find a workaround and forget it. A
+better research habit is to write it down before it normalizes. Confusing
+observations often point to a missing concept, weak assumption, or hidden
+workflow that other people may also be struggling with. Analogies can help too,
+but not as "apply technique X to domain Y." The useful work is asking where the
+analogy holds, where it breaks, and what the break teaches. Similarly,
+challenging a status quo is only interesting after I understand why it became
+the status quo in the first place.
+
+Ribeiro gives a nice example from the path to
+[LIME](https://arxiv.org/abs/1602.04938). During a Google internship, he had a
+model with strong cross-validation accuracy that behaved badly "in the wild,"
+and the frustrating part was how much effort it took to understand what the
+model was doing. That annoyance became a productive interpretability problem:
+how might people understand and evaluate the behavior of models they otherwise
+experience as black boxes?
+
+Once I have a possible direction, I want to define it before choosing an
+implementation. Ribeiro's
+[organizing and evaluating research ideas](https://medium.com/@marcotcr/organizing-and-evaluating-research-ideas-e137637b599e)
+framework can be compressed into a checklist:
+
+- What is the problem?
+- Why is it important?
+- What existing approaches could address it, and why are they insufficient for
+  this problem?
+- If a useful solution existed, what would it make possible? Describe the
+  needed capability before prematurely choosing an implementation.
+- How would we know that the problem had been meaningfully addressed?
+
+I would add two follow-on checks:
+
+- What assumptions or uncertainties could invalidate the project?
+- What is the cheapest first probe that could reduce the most consequential
+  uncertainty?
+
+That probe does not have to be a full system or study. It might be a targeted
+literature review, skeptical feedback from collaborators, manually simulating
+part of a workflow, testing a crude lower bound, or doing a focused hacking
+session. Skeptical feedback is information, not an automatic verdict. If
+someone says the idea is flawed, I should ask what would have to be true for
+that criticism to be fatal. This also helps with sunk-cost risk: while I am
+still reducing uncertainty, I should keep calling the direction a possibility,
+not "the project," until there is enough evidence to commit.
+
+### A four-sentence compression test
+
+[Kent Beck's OOPSLA advice](https://www.cs.utexas.edu/~wcook/papers/HowToGetaPaperAcceptedToOOPSLA/HowToGetAPaperAcceptedToOOPSLA.htm)
+offers a useful clarity test for a research direction: state the problem,
+explain why it matters, state what the work achieves or changes, and state the
+implication of that achievement. I like this because it makes vagueness hard to
+hide. But it is not a rigid gate. Ribeiro notes that early project formulations
+usually change, and his template is more naturally problem-oriented than
+exploratory. For exploratory or descriptive work, I would treat the four
+sentences as a provisional hypothesis that should evolve as the research teaches
+me what the real problem is.
+
+Project selection also has to fit the researcher. A good project for a summer
+intern may not be the same as a good project for a Ph.D. student building a
+thesis direction. I would look at my goals, available time, skills,
+collaborators, data, and institutional resources. For an internship, I value
+high upside, fast learning, early tests of fatal assumptions, and credible
+partial-success paths. I would not reduce the decision to simple publication
+maximization. A safer project is not automatically better, and a high-upside
+project is not automatically feasible.
+
+This connects to my companion note on
+[prototyping to understand humans]({% link _posts/2026-05-13-prototyping-to-understand-humans.md %}).
+After I define the problem, the next question is what reusable knowledge the
+artifact, study, or method will produce, and what evidence should support that
+claim. The project direction tells me what I am trying to learn before the
+prototype makes the answer look obvious.
+
+## 3. Learn to write research clearly
 
 Research writing is not decoration after the "real work" is done. Writing is
 where you discover what your contribution actually is, what evidence you still
@@ -124,7 +215,7 @@ advice, the Durand/Freeman resources he recommended, and my own writing habits:
 Good writing is not about sounding fancy. It is about making the reader's job
 easier.
 
-## 3. Learn to review papers generously
+## 4. Learn to review papers generously
 
 Reviewing is another way to learn research taste. A good review does not just
 find flaws. It identifies what is valuable, what is missing, what is overstated,
@@ -155,7 +246,7 @@ When practicing reviews, ask:
 Writing reviews is also a sneaky way to become a better author. You start to
 feel what makes a paper easy or hard to evaluate.
 
-## 4. Learn what Ph.D. life can feel like
+## 5. Learn what Ph.D. life can feel like
 
 If you are considering a Ph.D., you should read about the lived experience, not
 just the application process or the highlight reel.
@@ -188,7 +279,7 @@ Useful questions to ask while reading:
 A Ph.D. can be meaningful and joyful. It can also be hard in ways that are not
 obvious from the outside. Both can be true.
 
-## 5. Learn empirical methods, qualitative research, and statistics
+## 6. Learn empirical methods, qualitative research, and statistics
 
 For HCI, design, psychology, education, and human-centered AI, methods matter a
 lot. If you want to study people, you need to learn how evidence gets made.
@@ -269,7 +360,7 @@ with practice. Take a paper you like and reverse-engineer the study:
 This exercise is slow at first, but it builds the kind of judgment that makes
 you a much stronger collaborator.
 
-## 6. A note on credit
+## 7. A note on credit
 
 This list credits both the people who recommended resources to me and the people
 who wrote those resources:
@@ -288,6 +379,14 @@ who wrote those resources:
   [_Notes on writing_](https://people.csail.mit.edu/fredo/PUBLI/writing.pdf)
   and [Bill Freeman](https://billf.mit.edu/)'s
   [_How to write a good CVPR submission_](https://www.cs.ryerson.ca/~wangcs/resources/How-to-write-a-good-CVPR-submission.pdf).
+- Jo Vermeulen for sharing Marco Tulio Ribeiro's
+  [_Coming up with research ideas_](https://medium.com/@marcotcr/coming-up-with-research-ideas-3032682e5852)
+  and
+  [_Organizing and evaluating research ideas_](https://medium.com/@marcotcr/organizing-and-evaluating-research-ideas-e137637b599e)
+  with our Autodesk summer intern group, and for connecting Ribeiro's questions
+  to Kent Beck's
+  [_How to Get a Paper Accepted at OOPSLA_](https://www.cs.utexas.edu/~wcook/papers/HowToGetaPaperAcceptedToOOPSLA/HowToGetAPaperAcceptedToOOPSLA.htm).
+  Thanks, Jo, as always, for another thoughtful pointer.
 - [Ken Hinckley](https://www.microsoft.com/en-us/research/people/kenh/publications/)
   for recommending and writing
   [_So You're a Program Committee Member Now_](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/10/Excellence-in-Reviews-MobileHCI-2015-Web-Site.pdf).
@@ -313,4 +412,4 @@ before anyone gives you permission.
 
 ---
 
-Last updated: May 29, 2026.
+Last updated: June 21, 2026.
