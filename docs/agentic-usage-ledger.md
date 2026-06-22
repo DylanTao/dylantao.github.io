@@ -16,17 +16,17 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 Published total baseline, estimated on June 21, 2026:
 
-- 247 commits since the revamp cutoff, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, album-disc swap, outside-coast, and mobile card-tap milestones.
-- 2.11B estimated Codex tokens.
-- 188 estimated active agent-hours.
-- Public money joke: about $1.8K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
-- API-cost reference: about $680 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1266 kWh, 472 kg CO2e, or a stored-carbon equivalent of about 0.8 ten-year urban trees. Range: 0.26-2.6 trees.
+- 251 commits since the revamp cutoff, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, album-disc swap, outside-coast, mobile card-tap milestones, and the long-run room/exterior improvement pass.
+- 2.17B estimated Codex tokens.
+- 193 estimated active agent-hours.
+- Public money joke: about $1.9K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
+- API-cost reference: about $700 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 1302 kWh, 486 kg CO2e, or a stored-carbon equivalent of about 0.8 ten-year urban trees. Range: 0.27-2.7 trees.
 
 Evidence behind the total:
 
-- `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path _data/citations.yml --pending-path _data/publication_lens.yml --pending-path _sass/_home.scss --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md --pending-path test/visual/interactions.spec.js` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 54 sessions after the revamp cutoff.
-- The audit showed about 2.107B raw tokens and 187.87 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
+- `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 55 sessions after the revamp cutoff.
+- The audit showed about 2.170B raw tokens and 193.01 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
 - The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
 - The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
@@ -34,17 +34,17 @@ Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the
 
 Published 3D desk baseline:
 
-- 90 commits touching the homepage desk/vinyl/coffee scene paths, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, A4 project artifacts, album-disc swap, outside-coast, and mobile card-tap milestones.
-- 1.05B estimated Codex tokens.
-- 74 estimated active agent-hours.
-- Public money joke reference: about $920 from the CodexBar screenshot ratio.
-- API-cost reference: about $330 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 630 kWh, 235 kg CO2e, or a stored-carbon equivalent of about 0.4 ten-year urban trees. Range: 0.13-1.3 trees.
+- 93 commits touching the homepage desk/vinyl/coffee scene paths, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, A4 project artifacts, album-disc swap, outside-coast, mobile card-tap milestones, and the long-run room/exterior improvement pass.
+- 1.11B estimated Codex tokens.
+- 79 estimated active agent-hours.
+- Public money joke reference: about $970 from the CodexBar screenshot ratio.
+- API-cost reference: about $350 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
+- Tree-cut lens: about 666 kWh, 248 kg CO2e, or a stored-carbon equivalent of about 0.4 ten-year urban trees. Range: 0.14-1.4 trees.
 
 Evidence behind the 3D desk baseline:
 
 - Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 19 Codex sessions after the 3D cutoff, about 1.049B raw tokens, and about 73.81 active hours, rounded for the public UI.
+- The audit counted 20 Codex sessions after the 3D cutoff, about 1.112B raw tokens, and about 78.95 active hours, rounded for the public UI.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -203,6 +203,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Japandi cliff-house room and outside-polish pass: public total moved to 247 commits, 2.11B tokens, 188 hours, 1266 kWh, about $680 API cosplay, and about $1.8K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 90 commits, 1.05B tokens, 74 hours, 630 kWh, roughly 0.4 trees cut, about $330 API cosplay, and about $920 on the CodexBar-ratio money joke.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path _data/citations.yml --pending-path _data/publication_lens.yml --pending-path _sass/_home.scss --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md --pending-path test/visual/interactions.spec.js` scanned `C:\Users\dylan\.codex\sessions\2026`, found 81 repo sessions, counted 54 sessions after the revamp cutoff and 19 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending 3D room/outside/cards commit.
 - Scholar freshness gate: `python bin/update_scholar_citations.py --force` refreshed `_data/citations.yml` and `_data/publication_lens.yml` on June 21; total citations moved to 212 after the Physion citation count moved to 163.
+- Long-run room/exterior improvement pass: public total moved to 251 commits, 2.17B tokens, 193 hours, 1302 kWh, about $700 API cosplay, and about $1.9K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 93 commits, 1.11B tokens, 79 hours, 666 kWh, roughly 0.4 trees cut, about $350 API cosplay, and about $970 on the CodexBar-ratio money joke.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 82 repo sessions, counted 55 sessions after the revamp cutoff and 20 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending long-run room/exterior improvement commit.
 
 ## Future Entry Template
 

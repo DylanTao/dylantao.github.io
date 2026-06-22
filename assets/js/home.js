@@ -840,11 +840,11 @@
         } else {
           camera.fov = lerp(isCompactScene ? 34 : 29, isCompactScene ? 28 : 25, zoom);
           camera.position.set(
-            lerp(isCompactScene ? 2.56 : 3.18, isCompactScene ? 1.24 : 1.48, zoom),
-            lerp(isCompactScene ? 1.96 : 2.0, isCompactScene ? 1.42 : 1.58, zoom),
-            lerp(isCompactScene ? 5.86 : 5.98, isCompactScene ? 3.45 : 3.62, zoom)
+            lerp(isCompactScene ? 2.58 : 3.24, isCompactScene ? 1.24 : 1.52, zoom),
+            lerp(isCompactScene ? 2.02 : 2.08, isCompactScene ? 1.42 : 1.62, zoom),
+            lerp(isCompactScene ? 6.02 : 6.14, isCompactScene ? 3.48 : 3.68, zoom)
           );
-          camera.lookAt(lerp(isCompactScene ? 0.06 : -0.02, 1.08, zoom), lerp(-0.38, 0.52, zoom), lerp(0.04, -1.1, zoom));
+          camera.lookAt(lerp(isCompactScene ? -0.04 : -0.14, 1.02, zoom), lerp(-0.24, 0.5, zoom), lerp(-0.08, -1.1, zoom));
         }
       }
       camera.updateProjectionMatrix();
@@ -2119,6 +2119,8 @@
       replaceMaterialMap(themeMaterials.floor, createRoomFloorTexture(palette));
       themeMaterials.wall?.color.setHex(palette.wall);
       replaceMaterialMap(themeMaterials.wall, createRoomWallTexture(palette));
+      themeMaterials.shellRib?.color.setHex(palette.isDarkTheme ? 0xcdb79a : 0xc8b59f);
+      if (themeMaterials.shellRib) themeMaterials.shellRib.opacity = palette.isDarkTheme ? 0.54 : 0.42;
       themeMaterials.wood?.color.setHex(palette.wood);
       themeMaterials.woodEdge?.color.setHex(palette.woodEdge);
       themeMaterials.coffee?.color.setHex(palette.coffee);
@@ -2159,9 +2161,9 @@
       themeMaterials.deskGlints?.color.setHex(palette.isDarkTheme ? 0xffe0aa : 0xfff1c7);
       if (themeMaterials.deskGlints) themeMaterials.deskGlints.opacity = palette.isDarkTheme ? 0.24 : 0.2;
       themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x5bb9cf);
-      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.56 : 0.46;
+      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.6 : 0.52;
       themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
-      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.58 : 0.44;
+      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.66 : 0.58;
       if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
       themeMaterials.outsideShoreGlints?.color.setHex(palette.isDarkTheme ? 0xdff8ff : 0xffffff);
       if (themeMaterials.outsideShoreGlints) themeMaterials.outsideShoreGlints.opacity = palette.isDarkTheme ? 0.46 : 0.56;
@@ -2178,7 +2180,7 @@
       themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xe0c48e);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
-      themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x5b4635 : 0x7f5637);
+      themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x756049 : 0xb1865e);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
       themeMaterials.outsideRoomFloor?.color.setHex(palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5);
       if (themeMaterials.outsideRoomFloor) replaceMaterialMap(themeMaterials.outsideRoomFloor, createRoomFloorTexture(palette));
@@ -2186,17 +2188,17 @@
       if (themeMaterials.outsideRoomWall) replaceMaterialMap(themeMaterials.outsideRoomWall, createRoomWallTexture(palette));
       themeMaterials.outsideTrim?.color.setHex(palette.isDarkTheme ? 0xffead0 : 0xe9d2b4);
       themeMaterials.outsideInterior?.color.setHex(palette.isDarkTheme ? 0xf6c98b : 0xffdeb0);
-      if (themeMaterials.outsideInterior) themeMaterials.outsideInterior.opacity = palette.isDarkTheme ? 0.24 : 0.18;
+      if (themeMaterials.outsideInterior) themeMaterials.outsideInterior.opacity = palette.isDarkTheme ? 0.13 : 0.085;
       themeMaterials.outsideGlass?.color.setHex(palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6);
-      if (themeMaterials.outsideGlass) themeMaterials.outsideGlass.opacity = palette.isDarkTheme ? 0.07 : 0.09;
+      if (themeMaterials.outsideGlass) themeMaterials.outsideGlass.opacity = palette.isDarkTheme ? 0.08 : 0.1;
       themeMaterials.outsideInteriorGlow?.color.setHex(palette.isDarkTheme ? 0xffc98f : 0xffddb0);
-      if (themeMaterials.outsideInteriorGlow) themeMaterials.outsideInteriorGlow.opacity = palette.isDarkTheme ? 0.12 : 0.08;
+      if (themeMaterials.outsideInteriorGlow) themeMaterials.outsideInteriorGlow.opacity = palette.isDarkTheme ? 0.055 : 0.028;
       themeMaterials.outsideCurtain?.color.setHex(palette.isDarkTheme ? 0xf5dfc8 : 0xffead4);
       if (themeMaterials.outsideCurtain) themeMaterials.outsideCurtain.opacity = palette.isDarkTheme ? 0.58 : 0.5;
       themeMaterials.outsideLamp?.color.setHex(palette.isDarkTheme ? 0xffcb78 : 0xf2b15f);
       if (themeMaterials.outsideLamp) themeMaterials.outsideLamp.opacity = palette.isDarkTheme ? 0.86 : 0.68;
       themeMaterials.outsideReturnGlow?.color.setHex(palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca);
-      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.18 : 0.22;
+      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.12 : 0.12;
       ambientLight?.color.setHex(palette.ambientColor);
       if (ambientLight) ambientLight.intensity = palette.ambientIntensity;
       if (keyLight) keyLight.intensity = palette.keyIntensity;
@@ -2596,7 +2598,7 @@
         entry.basePosition.clone().add(new THREE.Vector3(0, 0.08, 0));
       const playRotation =
         (isCompactScene ? entry.compactPlayRotation : entry.playRotation) || entry.playRotation || new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
-      const playScale = isCompactScene ? 1.1 : 1.22;
+      const playScale = isCompactScene ? 1.36 : 1.58;
       entry.currentRestY = playPosition.y;
       setActiveRecordInternal(entry.index, false);
       if (callbacks.playRecord) {
@@ -2639,10 +2641,9 @@
         {
           arcHeight: 0.08,
           wobbleZ: 0.012,
-          onComplete: releaseAlbumToRack,
         }
       );
-      window.setTimeout(releaseAlbumToRack, reduceMotion ? 40 : 780);
+      window.setTimeout(releaseAlbumToRack, 980);
       targetZoomLevel = Math.max(targetZoomLevel, isCompactScene ? 0.14 : 0.16);
       targetRotationX = -0.026;
       targetRotationY = isCompactScene ? -0.13 : -0.08;
@@ -2826,8 +2827,8 @@
         depthWrite: false,
       });
       themeMaterials.wall = wallMaterial;
-      const wall = new THREE.Mesh(new THREE.PlaneGeometry(6.12, 3.32), wallMaterial);
-      wall.position.set(0.16, 0.22, -1.84);
+      const wall = new THREE.Mesh(new THREE.PlaneGeometry(6.48, 3.48), wallMaterial);
+      wall.position.set(0.16, 0.18, -1.84);
       wall.renderOrder = -3;
       rootGroup.add(wall);
 
@@ -2844,28 +2845,28 @@
       themeMaterials.windowRecess = recessMaterial;
       themeMaterials.windowGlass = glassMaterial;
 
-      addBox(rootGroup, { x: 5.92, y: 0.1, z: 0.14 }, { x: 0.16, y: -1.2, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 3.32, y: 2.76, z: 0.1 }, { x: 0.96, y: 0.08, z: -1.795 }, recessMaterial);
+      addBox(rootGroup, { x: 6.16, y: 0.1, z: 0.14 }, { x: 0.16, y: -1.2, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 3.82, y: 2.96, z: 0.1 }, { x: 0.96, y: 0.04, z: -1.795 }, recessMaterial);
 
       windowMaterial = new THREE.MeshBasicMaterial({ map: createWindowTexture(palette), transparent: true });
-      const view = new THREE.Mesh(new THREE.PlaneGeometry(2.92, 2.42), windowMaterial);
-      view.position.set(0.96, 0.08, -1.708);
+      const view = new THREE.Mesh(new THREE.PlaneGeometry(3.38, 2.64), windowMaterial);
+      view.position.set(0.96, 0.04, -1.708);
       view.renderOrder = -2;
       rootGroup.add(view);
 
-      const glass = new THREE.Mesh(new THREE.PlaneGeometry(2.82, 2.32), glassMaterial);
-      glass.position.set(0.96, 0.08, -1.69);
+      const glass = new THREE.Mesh(new THREE.PlaneGeometry(3.28, 2.54), glassMaterial);
+      glass.position.set(0.96, 0.04, -1.69);
       glass.renderOrder = -1;
       rootGroup.add(glass);
 
-      addBox(rootGroup, { x: 3.18, y: 0.105, z: 0.16 }, { x: 0.96, y: 1.36, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 3.18, y: 0.12, z: 0.2 }, { x: 0.96, y: -1.15, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 0.12, y: 2.56, z: 0.16 }, { x: -0.68, y: 0.08, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 0.12, y: 2.56, z: 0.16 }, { x: 2.6, y: 0.08, z: -1.65 }, frameMaterial);
-      addBox(rootGroup, { x: 0.08, y: 2.32, z: 0.09 }, { x: 0.96, y: 0.08, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 2.9, y: 0.056, z: 0.09 }, { x: 0.96, y: 0.08, z: -1.62 }, frameMaterial);
-      addBox(rootGroup, { x: 3.34, y: 0.18, z: 0.42 }, { x: 0.92, y: -1.2, z: -1.5 }, stoneTrimMaterial);
-      addBox(rootGroup, { x: 2.58, y: 0.05, z: 0.14 }, { x: 1, y: -1.02, z: -1.28 }, frameMaterial);
+      addBox(rootGroup, { x: 3.62, y: 0.105, z: 0.16 }, { x: 0.96, y: 1.43, z: -1.65 }, frameMaterial);
+      addBox(rootGroup, { x: 3.62, y: 0.12, z: 0.2 }, { x: 0.96, y: -1.24, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 0.12, y: 2.82, z: 0.16 }, { x: -0.88, y: 0.04, z: -1.65 }, frameMaterial);
+      addBox(rootGroup, { x: 0.12, y: 2.82, z: 0.16 }, { x: 2.8, y: 0.04, z: -1.65 }, frameMaterial);
+      addBox(rootGroup, { x: 0.08, y: 2.52, z: 0.09 }, { x: 0.96, y: 0.04, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 3.24, y: 0.056, z: 0.09 }, { x: 0.96, y: 0.04, z: -1.62 }, frameMaterial);
+      addBox(rootGroup, { x: 3.72, y: 0.18, z: 0.42 }, { x: 0.92, y: -1.23, z: -1.5 }, stoneTrimMaterial);
+      addBox(rootGroup, { x: 2.92, y: 0.05, z: 0.14 }, { x: 1, y: -1.04, z: -1.28 }, frameMaterial);
 
       windowJumpGroup = new THREE.Group();
       windowJumpGroup.visible = false;
@@ -2902,7 +2903,7 @@
         color: palette.isDarkTheme ? 0xffe3bd : 0x6a4c32,
         map: createWindowHintTexture(palette),
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.16 : 0.11,
+        opacity: palette.isDarkTheme ? 0.13 : 0.085,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
@@ -2912,7 +2913,7 @@
       hint.renderOrder = 4;
       windowJumpGroup.add(hint);
       const buttonHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(3.02, 2.42),
+        new THREE.PlaneGeometry(3.46, 2.62),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
       buttonHit.position.z = 0.01;
@@ -3030,7 +3031,7 @@
         color: palette.isDarkTheme ? 0x183648 : 0x5bb9cf,
         map: oceanTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.56 : 0.46,
+        opacity: palette.isDarkTheme ? 0.6 : 0.52,
         depthWrite: false,
       });
       themeMaterials.outsideOcean = oceanMaterial;
@@ -3063,7 +3064,7 @@
         color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6,
         map: beachTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.58 : 0.44,
+        opacity: palette.isDarkTheme ? 0.66 : 0.58,
         depthWrite: false,
         roughness: 0.9,
       });
@@ -3108,7 +3109,7 @@
       const interiorMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf6c98b : 0xffdeb0,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.24 : 0.18,
+        opacity: palette.isDarkTheme ? 0.16 : 0.11,
         depthWrite: false,
       });
       const glassMaterial = new THREE.MeshBasicMaterial({
@@ -3120,7 +3121,7 @@
       const interiorGlowMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xffc98f : 0xffddb0,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.12 : 0.08,
+        opacity: palette.isDarkTheme ? 0.055 : 0.028,
         depthWrite: false,
         side: THREE.DoubleSide,
       });
@@ -3136,7 +3137,7 @@
         opacity: palette.isDarkTheme ? 0.86 : 0.68,
       });
       const roofShadowMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x5b4635 : 0x7f5637,
+        color: palette.isDarkTheme ? 0x756049 : 0xb1865e,
         roughness: 0.82,
         metalness: 0.01,
       });
@@ -3172,6 +3173,33 @@
       beach.position.set(-1.98, -1.238, 1.22);
       beach.renderOrder = -3;
       outsideGroup.add(beach);
+
+      const coveSand = new THREE.Mesh(new THREE.PlaneGeometry(6.8, 0.58), beachMaterial);
+      coveSand.rotation.x = -Math.PI / 2;
+      coveSand.rotation.z = -0.055;
+      coveSand.position.set(-1.42, -1.246, 1.58);
+      coveSand.renderOrder = -3;
+      outsideGroup.add(coveSand);
+      outsideMotionItems.push({
+        key: "coveSand",
+        texture: null,
+        mesh: coveSand,
+        baseY: coveSand.position.y,
+        speedX: 0,
+        speedY: 0,
+        offsetX: 0,
+        offsetY: 0,
+        amplitude: 0.003,
+        frequency: 0.86,
+        phase: 0.42,
+        baseRotationZ: coveSand.rotation.z,
+        rotationAmplitude: 0.003,
+        baseScaleX: coveSand.scale.x,
+        baseScaleY: coveSand.scale.y,
+        baseScaleZ: coveSand.scale.z,
+        scaleAmplitude: 0.004,
+        scaleFrequency: 0.72,
+      });
 
       const foam = new THREE.Mesh(new THREE.PlaneGeometry(4.9, 0.18), foamMaterial);
       foam.rotation.x = -Math.PI / 2;
@@ -3596,6 +3624,33 @@
         [0.46, 0.78],
         [1.74, 0.78],
       ].forEach(([x, z]) => addBox(outsideGroup, { x: 0.045, y: 0.42, z: 0.045 }, { x, y: -0.72, z }, roofMaterial));
+      addIrregularSlab(
+        outsideGroup,
+        [
+          [0.12, 0.2],
+          [2.08, 0.24],
+          [2.34, 0.58],
+          [1.72, 0.9],
+          [0.46, 0.78],
+          [-0.04, 0.44],
+        ],
+        -0.74,
+        0.28,
+        cliffMaterial
+      );
+      addIrregularSlab(
+        outsideGroup,
+        [
+          [0.26, 0.78],
+          [1.82, 0.84],
+          [2.08, 1.12],
+          [1.42, 1.36],
+          [0.44, 1.2],
+        ],
+        -1.04,
+        0.16,
+        cliffFaceMaterial
+      );
       [
         { x: 1.1, z: 0.62, w: 1.28 },
         { x: 1.08, z: 0.9, w: 0.92 },
@@ -3617,6 +3672,9 @@
         mesh.rotation.y = brace.ry;
         mesh.rotation.z = brace.ry > 0 ? 0.32 : -0.32;
       });
+      const cliffApron = addBox(outsideGroup, { x: 2.16, y: 0.18, z: 0.42 }, { x: 1.08, y: -0.89, z: 0.66 }, cliffMaterial);
+      cliffApron.rotation.y = -0.035;
+      addBox(outsideGroup, { x: 1.72, y: 0.035, z: 0.28 }, { x: 1.08, y: -0.77, z: 0.78 }, cliffLineMaterial);
 
       const house = new THREE.Group();
       house.position.set(1.02, 0.14, 0.08);
@@ -3668,21 +3726,21 @@
       addBox(house, { x: 1.5, y: 0.03, z: 0.05 }, { x: -0.06, y: -0.39, z: -0.255 }, roofShadowMaterial);
       addBox(
         house,
-        { x: 1.5, y: 0.9, z: 0.04 },
+        { x: 1.68, y: 0.96, z: 0.04 },
         { x: -0.08, y: -0.02, z: -0.29 },
         new THREE.MeshStandardMaterial({ color: 0x172225, roughness: 0.65 })
       );
-      addBox(house, { x: 1.46, y: 0.86, z: 0.018 }, { x: -0.08, y: -0.02, z: 0.428 }, interiorMaterial);
-      addBox(house, { x: 1.52, y: 0.045, z: 0.052 }, { x: -0.08, y: 0.43, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 1.52, y: 0.045, z: 0.052 }, { x: -0.08, y: -0.47, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 0.048, y: 0.86, z: 0.052 }, { x: -0.86, y: -0.02, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 0.048, y: 0.86, z: 0.052 }, { x: 0.7, y: -0.02, z: 0.446 }, trimMaterial);
-      addBox(house, { x: 1.42, y: 0.78, z: 0.012 }, { x: -0.08, y: -0.02, z: 0.474 }, glassMaterial);
-      addBox(house, { x: 0.044, y: 0.76, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.486 }, trimMaterial);
-      addBox(house, { x: 1.4, y: 0.034, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.49 }, trimMaterial);
-      addBox(house, { x: 1.54, y: 0.042, z: 0.1 }, { x: -0.08, y: -0.54, z: 0.5 }, trimMaterial);
-      addBox(house, { x: 1.22, y: 0.03, z: 0.1 }, { x: -0.08, y: -0.43, z: 0.59 }, roofShadowMaterial);
-      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.42, 0.78), interiorGlowMaterial);
+      addBox(house, { x: 1.62, y: 0.9, z: 0.018 }, { x: -0.08, y: -0.02, z: 0.428 }, interiorMaterial);
+      addBox(house, { x: 1.72, y: 0.045, z: 0.052 }, { x: -0.08, y: 0.46, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 1.72, y: 0.045, z: 0.052 }, { x: -0.08, y: -0.5, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 0.048, y: 0.92, z: 0.052 }, { x: -0.96, y: -0.02, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 0.048, y: 0.92, z: 0.052 }, { x: 0.8, y: -0.02, z: 0.446 }, trimMaterial);
+      addBox(house, { x: 1.58, y: 0.84, z: 0.012 }, { x: -0.08, y: -0.02, z: 0.474 }, glassMaterial);
+      addBox(house, { x: 0.044, y: 0.8, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.486 }, trimMaterial);
+      addBox(house, { x: 1.54, y: 0.034, z: 0.052 }, { x: -0.08, y: -0.02, z: 0.49 }, trimMaterial);
+      addBox(house, { x: 1.72, y: 0.042, z: 0.1 }, { x: -0.08, y: -0.57, z: 0.5 }, trimMaterial);
+      addBox(house, { x: 1.38, y: 0.03, z: 0.1 }, { x: -0.08, y: -0.45, z: 0.59 }, roofShadowMaterial);
+      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.58, 0.84), interiorGlowMaterial);
       interiorGlow.position.set(-0.08, -0.02, 0.498);
       house.add(interiorGlow);
       [
@@ -3805,7 +3863,7 @@
         new THREE.MeshBasicMaterial({
           color: palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca,
           transparent: true,
-          opacity: palette.isDarkTheme ? 0.18 : 0.22,
+          opacity: palette.isDarkTheme ? 0.12 : 0.12,
           depthWrite: false,
           depthTest: false,
           side: THREE.DoubleSide,
@@ -4062,8 +4120,28 @@
       floor.position.set(0, -1.22, 0.46);
       rootGroup.add(floor);
 
+      const shellRibMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xcdb79a : 0xc8b59f,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.54 : 0.42,
+        roughness: 0.92,
+        metalness: 0.01,
+      });
+      themeMaterials.shellRib = shellRibMaterial;
+      [
+        { radius: 2.94, tube: 0.04, y: -1.18, z: -1.62, sx: 1.02, rz: 0.01 },
+        { radius: 2.58, tube: 0.026, y: -1.16, z: -1.34, sx: 0.96, rz: -0.018 },
+      ].forEach((arch) => {
+        const mesh = new THREE.Mesh(new THREE.TorusGeometry(arch.radius, arch.tube, 10, 96, Math.PI), shellRibMaterial);
+        mesh.position.set(-0.08, arch.y, arch.z);
+        mesh.rotation.z = arch.rz;
+        mesh.scale.x = arch.sx;
+        rootGroup.add(mesh);
+      });
+
       const roomFutonMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x405d62 : 0xc9d8d2, roughness: 0.78 });
       const roomPillowMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf2e0c9 : 0xfff0de, roughness: 0.72 });
+      const blanketAccentMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xd6a874 : 0xd59763, roughness: 0.72 });
       themeMaterials.roomFuton = roomFutonMaterial;
       themeMaterials.roomPillow = roomPillowMaterial;
 
@@ -4106,21 +4184,30 @@
       stoneWindowBench.rotation.y = -0.035;
 
       const lowBed = new THREE.Group();
-      lowBed.position.set(-2.34, -1.045, -0.82);
+      lowBed.position.set(-2.08, -1.045, -0.42);
       lowBed.rotation.y = 0.18;
       rootGroup.add(lowBed);
-      addBox(lowBed, { x: 1.24, y: 0.11, z: 0.72 }, { x: 0, y: 0.025, z: 0 }, woodEdgeMaterial);
-      addBox(lowBed, { x: 1.08, y: 0.12, z: 0.6 }, { x: 0.03, y: 0.13, z: -0.02 }, roomFutonMaterial);
-      addBox(lowBed, { x: 0.4, y: 0.09, z: 0.34 }, { x: -0.28, y: 0.23, z: -0.2 }, roomPillowMaterial);
-      addBox(lowBed, { x: 0.52, y: 0.026, z: 0.4 }, { x: 0.22, y: 0.25, z: 0.08 }, roomPillowMaterial);
-      addBox(lowBed, { x: 1.1, y: 0.06, z: 0.05 }, { x: 0.04, y: 0.22, z: -0.38 }, woodMaterial);
+      addBox(lowBed, { x: 1.5, y: 0.11, z: 0.84 }, { x: 0, y: 0.025, z: 0 }, woodEdgeMaterial);
+      addBox(lowBed, { x: 1.3, y: 0.12, z: 0.7 }, { x: 0.03, y: 0.13, z: -0.02 }, roomFutonMaterial);
+      addBox(lowBed, { x: 0.5, y: 0.09, z: 0.34 }, { x: -0.34, y: 0.23, z: -0.22 }, roomPillowMaterial);
+      addBox(lowBed, { x: 0.66, y: 0.026, z: 0.44 }, { x: 0.28, y: 0.25, z: 0.08 }, roomPillowMaterial);
+      addBox(lowBed, { x: 1.24, y: 0.06, z: 0.05 }, { x: 0.04, y: 0.22, z: -0.42 }, woodMaterial);
       const bedThrowMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0x5d7f78 : 0x8fb7a7,
         roughness: 0.74,
         metalness: 0.01,
       });
-      const bedThrow = addBox(lowBed, { x: 0.72, y: 0.026, z: 0.46 }, { x: 0.18, y: 0.285, z: 0.04 }, bedThrowMaterial);
+      const bedThrow = addBox(lowBed, { x: 0.84, y: 0.026, z: 0.5 }, { x: 0.18, y: 0.285, z: 0.04 }, bedThrowMaterial);
       bedThrow.rotation.y = -0.04;
+      [
+        { x: -0.22, z: 0.08, w: 0.36 },
+        { x: 0.2, z: -0.04, w: 0.42 },
+      ].forEach((fold) => {
+        const mesh = addBox(lowBed, { x: fold.w, y: 0.012, z: 0.034 }, { x: fold.x, y: 0.315, z: fold.z }, blanketAccentMaterial);
+        mesh.rotation.y = fold.x * 0.08;
+      });
+      const bedHeadboard = addBox(lowBed, { x: 0.12, y: 0.7, z: 0.86 }, { x: -0.8, y: 0.34, z: -0.02 }, woodEdgeMaterial);
+      bedHeadboard.rotation.y = -0.08;
 
       const floorShadowMaterial = new THREE.MeshBasicMaterial({
         color: palette.shadow,
@@ -4148,7 +4235,8 @@
       rootGroup.add(rug);
 
       const table = new THREE.Group();
-      table.position.set(0.16, 0, -0.66);
+      table.position.set(0.28, 0, -0.84);
+      table.scale.set(0.94, 1, 0.95);
       rootGroup.add(table);
       addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
@@ -4409,10 +4497,10 @@
         entry.group.rotation.set(-0.02, -0.23 + index * 0.075, -0.065 + index * 0.032);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
-        entry.playPosition = new THREE.Vector3(1.28, 0.66, 0.72);
-        entry.playRotation = new THREE.Euler(0.05, -0.1, 0.012);
-        entry.compactPlayPosition = new THREE.Vector3(1.0, 0.66, 0.66);
-        entry.compactPlayRotation = new THREE.Euler(0.06, -0.2, 0.024);
+        entry.playPosition = new THREE.Vector3(2.12, 0.84, 0.9);
+        entry.playRotation = new THREE.Euler(0.04, 0.02, 0.012);
+        entry.compactPlayPosition = new THREE.Vector3(1.72, 0.8, 0.82);
+        entry.compactPlayRotation = new THREE.Euler(0.05, -0.04, 0.024);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBox(entry.group, { x: 0.46, y: 0.64, z: 0.045 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial);
