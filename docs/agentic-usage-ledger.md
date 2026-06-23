@@ -221,6 +221,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Cliff-cave room pass: public total moved to 263 commits, 2.35B tokens, 210 hours, 1410 kWh, about $750 API cosplay, and about $2.0K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 100 commits, 1.29B tokens, 96 hours, 774 kWh, roughly 0.5 trees cut, about $410 API cosplay, and about $1.1K on the CodexBar-ratio money joke.
 - Evidence: `python bin\audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 87 repo sessions, counted 60 sessions after the revamp cutoff and 25 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this cave-room geometry, card-grounding, and cliff-cutaway commit.
 - Scholar freshness gate: `python bin/update_scholar_citations.py --force` refreshed `_data/citations.yml` and `_data/publication_lens.yml` on June 22; citation counts moved to 165 for Physion, 35 for DesignWeaver, 15 for Hotspot, and 0 for the remaining tracked publications.
+- Vinyl player visibility pass: public total moved to 264 commits, 2.36B tokens, 211 hours, 1416 kWh, about $760 API cosplay, and about $2.1K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 101 commits, 1.3B tokens, 97 hours, and 780 kWh while rounded desk tree midpoint, API-cost, and CodexBar labels stayed unchanged.
+- Evidence: `python bin\audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 87 repo sessions, counted 60 sessions after the revamp cutoff and 25 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this visible turntable and rear-left album-niche commit.
 
 ## Future Entry Template
 

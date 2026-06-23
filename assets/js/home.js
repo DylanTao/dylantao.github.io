@@ -5729,7 +5729,7 @@
       table.add(dogPhotoShadow);
 
       const player = new THREE.Group();
-      player.position.set(-0.84, -0.31, 0.02);
+      player.position.set(-1.02, -0.29, 0.46);
       table.add(player);
       const playerBase = addBox(player, { x: 1.5, y: 0.16, z: 1.08 }, { x: 0, y: 0.02, z: 0 }, recordBaseMaterial);
       registerInteractive(playerBase, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
@@ -5939,7 +5939,9 @@
       themeMaterials.stylusContact = stylusShadow.material;
 
       const albumRack = new THREE.Group();
-      albumRack.position.set(-0.78, -0.18, 0.78);
+      albumRack.position.set(-1.34, -0.18, -0.22);
+      albumRack.rotation.y = -0.08;
+      albumRack.scale.setScalar(0.88);
       table.add(albumRack);
       addBox(albumRack, { x: 1.46, y: 0.08, z: 0.24 }, { x: 0.02, y: 0.02, z: -0.07 }, woodEdgeMaterial);
       addBox(albumRack, { x: 1.5, y: 0.08, z: 0.08 }, { x: 0.02, y: 0.43, z: -0.19 }, woodEdgeMaterial);
