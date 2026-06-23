@@ -10,6 +10,18 @@
         </span>
         <span class="site-brand-name">{{ brand_name }}</span>
       </a>
+      <div class="navbar-actions" role="group" aria-label="Site actions">
+        {% if site.search_enabled %}
+          <button id="search-toggle" type="button" title="Search (Ctrl K)" aria-label="Search" onclick="openSearchModal()">
+            <span class="nav-link nav-control-link"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
+          </button>
+        {% endif %}
+        {% if site.enable_darkmode %}
+          <div class="toggle-container theme-mode-container navbar-action">
+            {% include theme_mode_control.liquid id_prefix='theme' class='theme-mode-control-nav' %}
+          </div>
+        {% endif %}
+      </div>
       <!-- Navbar Toggle -->
       <button
         class="navbar-toggler collapsed ml-auto"
@@ -27,7 +39,7 @@
       </button>
 
       <div class="navbar-collapse text-right" id="navbarNav">
-        <ul class="navbar-nav ml-auto flex-nowrap">
+        <ul class="navbar-nav navbar-menu-list ml-auto flex-nowrap">
           {% for page in site.pages %}
             {% if page.permalink == '/' %} {% assign about_title = page.title %} {% endif %}
           {% endfor %}
@@ -103,20 +115,6 @@
               {% endif %}
             {% endif %}
           {% endfor %}
-          {% if site.search_enabled %}
-            <!-- Search -->
-            <li class="nav-item">
-              <button id="search-toggle" type="button" title="Search (Ctrl K)" aria-label="Search" onclick="openSearchModal()">
-                <span class="nav-link nav-control-link"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
-              </button>
-            </li>
-          {% endif %}
-          {% if site.enable_darkmode %}
-            <!-- Theme mode -->
-            <li class="nav-item toggle-container theme-mode-container">
-              {% include theme_mode_control.liquid id_prefix='theme' class='theme-mode-control-nav' %}
-            </li>
-          {% endif %}
         </ul>
       </div>
     </div>

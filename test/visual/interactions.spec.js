@@ -134,12 +134,33 @@ test("mobile navbar can expand/collapse", async ({ page }, testInfo) => {
   const toggle = page.locator(".navbar-toggler").first();
   await expect(toggle).toBeVisible();
 
-  const nav = page.locator(".navbar-collapse").first();
+  const nav = page.locator("#navbarNav");
+  const search = page.locator("#search-toggle");
+  const themeToggle = page.locator("#theme-toggle");
+
+  await expect(nav).not.toHaveClass(/show/);
+  await expect(nav).toBeHidden();
+  await expect(search).toBeVisible();
+  await expect(themeToggle).toBeVisible();
+
+  const searchCursor = await search.evaluate((el) => window.getComputedStyle(el).cursor);
+  const themeCursor = await themeToggle.evaluate((el) => window.getComputedStyle(el).cursor);
+  expect(searchCursor).toBe("pointer");
+  expect(themeCursor).toBe("pointer");
+
+  await themeToggle.click();
+  await expect(page.locator("#theme-menu")).toBeVisible();
+  await expect(nav).not.toHaveClass(/show/);
+  await themeToggle.click();
+
   await toggle.click();
   await expect(nav).toHaveClass(/show/);
+  await expect(nav).toBeVisible();
+  await expect(page.locator("#navbarNav .navbar-menu-list .nav-link").first()).toBeVisible();
 
   await toggle.click();
   await expect(nav).not.toHaveClass(/show/);
+  await expect(nav).toBeHidden();
 });
 
 test("repositories page renders external stat cards with deterministic fixtures", async ({ page }) => {
@@ -187,23 +208,29 @@ test("navbar menu stays right-aligned on desktop pages", async ({ page }, testIn
   await preparePage(page, "light");
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
+  await expect(page.locator("#navbarNav .navbar-menu-list .nav-link").first()).toBeVisible();
 
   const alignment = await page.evaluate(() => {
     const container = document.querySelector("#navbar .container");
     const menu = document.querySelector("#navbarNav .navbar-menu-list");
-    if (!container || !menu) {
+    const actions = document.querySelector("#navbar .navbar-actions");
+    if (!container || !menu || !actions) {
       return null;
     }
     const containerBox = container.getBoundingClientRect();
     const menuBox = menu.getBoundingClientRect();
+    const actionsBox = actions.getBoundingClientRect();
     return {
       containerRight: containerBox.right,
       menuRight: menuBox.right,
+      actionsLeft: actionsBox.left,
+      actionsRight: actionsBox.right,
     };
   });
 
   expect(alignment).not.toBeNull();
-  expect(Math.abs(alignment.menuRight - alignment.containerRight)).toBeLessThanOrEqual(24);
+  expect(Math.abs(alignment.actionsRight - alignment.containerRight)).toBeLessThanOrEqual(24);
+  expect(alignment.menuRight).toBeLessThanOrEqual(alignment.actionsLeft + 12);
 });
 
 test("home profile bubbles hover independently", async ({ page }, testInfo) => {
@@ -478,9 +505,7 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
 });
 
-test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "navbar search/theme controls are collapsed under mobile menu");
-
+test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
@@ -503,9 +528,12 @@ test("navbar search button opens modal and toggle buttons use pointer cursor", a
   expect(modalOpened).toBeTruthy();
 
   const searchCursor = await page.locator("#search-toggle").evaluate((el) => window.getComputedStyle(el).cursor);
-  const themeCursor = await page.locator("#light-toggle").evaluate((el) => window.getComputedStyle(el).cursor);
+  const themeCursor = await page.locator("#theme-toggle").evaluate((el) => window.getComputedStyle(el).cursor);
   expect(searchCursor).toBe("pointer");
   expect(themeCursor).toBe("pointer");
+
+  const navExpanded = await page.locator("#navbarNav").evaluate((el) => el.classList.contains("show"));
+  expect(navExpanded).toBeFalsy();
 });
 
 test("related posts are wrapped in a valid list", async ({ page }) => {
