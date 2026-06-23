@@ -2691,8 +2691,8 @@
 
     const setToneArm = (playing, immediate = false) => {
       if (!toneArmGroup) return;
-      const targetY = playing ? -0.3 : 0.46;
-      const targetZ = playing ? 0.13 : 0.42;
+      const targetY = playing ? 0.46 : -0.3;
+      const targetZ = playing ? 0.42 : 0.13;
       if (immediate || reduceMotion) {
         toneArmGroup.rotation.y = targetY;
         toneArmGroup.position.z = targetZ;
@@ -5939,24 +5939,31 @@
       themeMaterials.stylusContact = stylusShadow.material;
 
       const albumRack = new THREE.Group();
-      albumRack.position.set(-1.34, -0.18, -0.22);
-      albumRack.rotation.y = -0.08;
-      albumRack.scale.setScalar(0.88);
-      table.add(albumRack);
-      addBox(albumRack, { x: 1.46, y: 0.08, z: 0.24 }, { x: 0.02, y: 0.02, z: -0.07 }, woodEdgeMaterial);
-      addBox(albumRack, { x: 1.5, y: 0.08, z: 0.08 }, { x: 0.02, y: 0.43, z: -0.19 }, woodEdgeMaterial);
-      addBox(albumRack, { x: 0.08, y: 0.58, z: 0.12 }, { x: -0.72, y: 0.25, z: -0.08 }, woodEdgeMaterial);
-      addBox(albumRack, { x: 0.08, y: 0.58, z: 0.12 }, { x: 0.78, y: 0.25, z: -0.08 }, woodEdgeMaterial);
+      rootGroup.add(albumRack);
+      const rackWallX = -2.34;
+      const rackCenterY = 0.12;
+      const rackCenterZ = 0.55;
+      const rackSleeveYaw = Math.PI / 2 - 0.34;
+      const rackSleeveNormal = new THREE.Vector3(Math.sin(rackSleeveYaw), 0, Math.cos(rackSleeveYaw));
+      addBox(albumRack, { x: 0.08, y: 0.76, z: 1.28 }, { x: rackWallX - 0.04, y: rackCenterY + 0.12, z: rackCenterZ }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.16, y: 0.08, z: 1.3 }, { x: rackWallX + 0.08, y: rackCenterY - 0.23, z: rackCenterZ }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.16, y: 0.08, z: 1.22 }, { x: rackWallX + 0.09, y: rackCenterY + 0.49, z: rackCenterZ }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.14, y: 0.68, z: 0.08 }, { x: rackWallX + 0.08, y: rackCenterY + 0.1, z: rackCenterZ - 0.66 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.14, y: 0.68, z: 0.08 }, { x: rackWallX + 0.08, y: rackCenterY + 0.1, z: rackCenterZ + 0.66 }, woodEdgeMaterial);
       records.slice(0, 4).forEach((recordItem, index) => {
         const entry = { kind: "album", index, group: new THREE.Group(), thrown: false };
-        entry.group.position.set(-0.54 + index * 0.36, 0.37 + index * 0.012, 0.02 + index * 0.016);
-        entry.group.rotation.set(-0.014, -0.05 + index * 0.024, -0.052 + index * 0.026);
+        entry.group.position.set(rackWallX + 0.14 + index * 0.01, rackCenterY + 0.1 + index * 0.012, rackCenterZ - 0.36 + index * 0.24);
+        entry.group.rotation.set(-0.014, rackSleeveYaw + index * 0.014, -0.052 + index * 0.022);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
         entry.playPosition = new THREE.Vector3(2.12, 0.84, 0.9);
         entry.playRotation = new THREE.Euler(0.04, 0.02, 0.012);
         entry.compactPlayPosition = new THREE.Vector3(1.72, 0.8, 0.82);
         entry.compactPlayRotation = new THREE.Euler(0.05, -0.04, 0.024);
+        entry.inspectPosition = new THREE.Vector3(-0.78, 0.62, 0.28);
+        entry.inspectRotation = new THREE.Euler(-Math.PI / 2, 0.04, 0.08);
+        entry.compactInspectPosition = new THREE.Vector3(-0.72, 0.54, 0.3);
+        entry.compactInspectRotation = new THREE.Euler(-Math.PI / 2, 0.02, 0.06);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
         const sleeveBack = addBeveledBox(entry.group, { x: 0.44, y: 0.62, z: 0.048 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial, { bevel: 0.011 });
@@ -6006,7 +6013,10 @@
         albumHit.rotation.x = -0.04;
         entry.group.add(albumHit);
         const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.96), hitMaterial);
-        rackSlotHit.position.copy(entry.basePosition).add(new THREE.Vector3(0, 0.02, 0.084));
+        rackSlotHit.position
+          .copy(entry.basePosition)
+          .add(rackSleeveNormal.clone().multiplyScalar(0.07))
+          .add(new THREE.Vector3(0, 0.02, 0));
         rackSlotHit.rotation.copy(entry.baseRotation);
         albumRack.add(rackSlotHit);
         entry.rackSlotHit = rackSlotHit;
