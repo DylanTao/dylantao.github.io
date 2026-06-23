@@ -713,22 +713,18 @@
     const lerp = (from, to, progress) => from + (to - from) * progress;
     const defaultRotation = { x: -0.05, y: -0.2 };
     const outsideDefaultRotation = { x: -0.03, y: 0.16 };
-    const roomRotationBounds = {
-      x: { min: defaultRotation.x - 0.16, max: defaultRotation.x + 0.16 },
-      y: { min: defaultRotation.y - 0.34, max: defaultRotation.y + 0.34 },
-    };
-    const clampRoomRotationX = (value) => clamp(value, roomRotationBounds.x.min, roomRotationBounds.x.max);
-    const clampRoomRotationY = (value) => clamp(value, roomRotationBounds.y.min, roomRotationBounds.y.max);
+    const roomPitchBounds = { min: -0.34, max: 0.28 };
+    const clampRoomPitch = (value) => clamp(value, roomPitchBounds.min, roomPitchBounds.max);
     const sceneAnchors = {
       room: {
-        orbitTarget: { x: 0.04, y: -0.12, z: -0.02 },
-        zoomTarget: { x: 0.18, y: 0.18, z: -0.4 },
-        defaultCamera: { desktop: { x: 2.12, y: 1.92, z: 5.92 }, compact: { x: 1.58, y: 1.86, z: 5.76 } },
-        zoomCamera: { desktop: { x: 0.9, y: 1.46, z: 3.74 }, compact: { x: 0.62, y: 1.34, z: 3.66 } },
+        orbitTarget: { x: 0.08, y: -0.04, z: -0.62 },
+        zoomTarget: { x: 0.2, y: 0.1, z: -0.52 },
+        defaultCamera: { desktop: { x: 0.08, y: 1.26, z: 2.46 }, compact: { x: 0.06, y: 1.08, z: 2.5 } },
+        zoomCamera: { desktop: { x: 0.14, y: 1.04, z: 1.42 }, compact: { x: 0.08, y: 0.98, z: 1.56 } },
         window: { x: 0.76, y: 0.04, z: -1.7, width: 3.72, height: 2.7 },
-        desk: { x: 0.18, y: 0, z: -0.76 },
-        onsen: { x: -1.42, y: -1.035, z: -0.22 },
-        chair: { x: 2.04, y: -1.02, z: -1.08 },
+        desk: { x: 0.16, y: 0, z: -0.72 },
+        onsen: { x: -0.96, y: -0.9, z: 0.78 },
+        chair: { x: 2.48, y: -1.08, z: 0.32 },
       },
       outside: {
         orbitTarget: { x: 1.08, y: -0.03, z: 0.42 },
@@ -882,16 +878,31 @@
 
     const copyAnchorVector = (anchor) => new THREE.Vector3(anchor.x, anchor.y, anchor.z);
 
+    const setInteriorLookCamera = (baseCamera, baseTarget, yaw, pitch, zoom) => {
+      const boundedPitch = clampRoomPitch(pitch);
+      const offset = baseTarget.clone().sub(baseCamera);
+      const planarRadius = Math.max(0.9, Math.hypot(offset.x, offset.z));
+      const baseAngle = Math.atan2(offset.x, offset.z);
+      const yawDelta = yaw - defaultRotation.y;
+      const pitchDelta = boundedPitch - defaultRotation.x;
+      const lookRadius = planarRadius * (1 - zoom * 0.08);
+      const vertical = offset.y + pitchDelta * 2.45 * (1 - zoom * 0.24);
+      camera.position.copy(baseCamera);
+      camera.lookAt(
+        baseCamera.x + Math.sin(baseAngle + yawDelta) * lookRadius,
+        baseCamera.y + vertical,
+        baseCamera.z + Math.cos(baseAngle + yawDelta) * lookRadius
+      );
+    };
+
     const setOrbitCamera = (view, baseCamera, baseTarget, yaw, pitch, zoom) => {
       const defaultYaw = view === "outside" ? outsideDefaultRotation.y : defaultRotation.y;
       const defaultPitch = view === "outside" ? outsideDefaultRotation.x : defaultRotation.x;
       const offset = baseCamera.clone().sub(baseTarget);
       const planarRadius = Math.max(0.001, Math.hypot(offset.x, offset.z));
       const baseAngle = Math.atan2(offset.x, offset.z);
-      const boundedYaw = view === "outside" ? yaw : clampRoomRotationY(yaw);
-      const boundedPitch = view === "outside" ? pitch : clampRoomRotationX(pitch);
-      const yawDelta = boundedYaw - defaultYaw;
-      const pitchDelta = boundedPitch - defaultPitch;
+      const yawDelta = yaw - defaultYaw;
+      const pitchDelta = pitch - defaultPitch;
       const vertical = offset.y + pitchDelta * (view === "outside" ? 3.15 : 3.7) * (1 - zoom * 0.34);
       const radius = planarRadius * (1 - Math.min(0.34, Math.abs(pitchDelta) * 0.18));
       camera.position.set(
@@ -971,8 +982,8 @@
             y: lerp(target.y, zoomTarget.y, zoom),
             z: lerp(target.z, zoomTarget.z, zoom),
           });
-          camera.fov = lerp(isCompactScene ? 36 : 32, isCompactScene ? 29 : 26, zoom);
-          setOrbitCamera("desk", baseCamera, baseTarget, rotationY, rotationX, zoom);
+          camera.fov = lerp(isCompactScene ? 58 : 52, isCompactScene ? 46 : 42, zoom);
+          setInteriorLookCamera(baseCamera, baseTarget, rotationY, rotationX, zoom);
         }
       }
       camera.updateProjectionMatrix();
@@ -1727,11 +1738,11 @@
           context.fill();
           context.globalAlpha = 1;
           context.fillStyle = "#66727a";
-          context.font = "700 32px Comic Sans MS, Segoe Print, cursive";
+          context.font = "800 38px Comic Sans MS, Segoe Print, cursive";
           context.fillText(artifact.label || "Desk card", 58, 94);
-          context.fillStyle = "#202528";
-          context.font = "800 48px Comic Sans MS, Segoe Print, cursive";
-          drawWrappedText(context, artifact.title || "Research card", 58, 178, width - 116, 54, 4);
+          context.fillStyle = "#181d20";
+          context.font = "900 52px Comic Sans MS, Segoe Print, cursive";
+          drawWrappedText(context, artifact.title || "Research card", 58, 176, width - 116, 58, 4);
         },
         420,
         594
@@ -2648,8 +2659,8 @@
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       if (rootGroup) {
-        rootGroup.scale.setScalar(isCompact ? 0.84 : 1.14);
-        rootGroup.position.set(isCompact ? -0.2 : -0.18, isCompact ? -0.13 : -0.08, isCompact ? 0.2 : 0.02);
+        rootGroup.scale.setScalar(isCompact ? 0.76 : 0.98);
+        rootGroup.position.set(isCompact ? -0.12 : -0.04, isCompact ? -0.1 : -0.06, isCompact ? 0.18 : 0.06);
       }
       if (outsideGroup) {
         outsideGroup.scale.setScalar(isCompact ? 0.58 : 1.02);
@@ -5212,8 +5223,8 @@
 
       const onsen = new THREE.Group();
       onsen.position.set(sceneAnchors.room.onsen.x, sceneAnchors.room.onsen.y, sceneAnchors.room.onsen.z);
-      onsen.rotation.y = 0.12;
-      onsen.scale.setScalar(0.86);
+      onsen.rotation.y = -0.18;
+      onsen.scale.setScalar(0.48);
       rootGroup.add(onsen);
 
       const onsenBase = addBeveledBox(onsen, { x: 1.72, y: 0.18, z: 1.12 }, { x: 0, y: 0.02, z: 0 }, stoneEdgeMaterial, { bevel: 0.026 });
@@ -5364,8 +5375,8 @@
 
       const loungeCorner = new THREE.Group();
       loungeCorner.position.set(sceneAnchors.room.chair.x, sceneAnchors.room.chair.y, sceneAnchors.room.chair.z);
-      loungeCorner.rotation.y = -1.02;
-      loungeCorner.scale.setScalar(0.76);
+      loungeCorner.rotation.y = -0.68;
+      loungeCorner.scale.setScalar(0.56);
       rootGroup.add(loungeCorner);
       const chairShadow = new THREE.Mesh(
         new THREE.CircleGeometry(0.96, 64),
@@ -5478,7 +5489,7 @@
 
       const table = new THREE.Group();
       table.position.set(sceneAnchors.room.desk.x, sceneAnchors.room.desk.y, sceneAnchors.room.desk.z);
-      table.scale.set(0.99, 1, 0.98);
+      table.scale.set(0.92, 1, 0.9);
       rootGroup.add(table);
       addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
@@ -5793,16 +5804,16 @@
       themeMaterials.stylusContact = stylusShadow.material;
 
       const albumRack = new THREE.Group();
-      albumRack.position.set(-1.72, -0.2, -0.94);
+      albumRack.position.set(-0.78, -0.18, 0.78);
       table.add(albumRack);
-      addBox(albumRack, { x: 1.62, y: 0.085, z: 0.26 }, { x: 0.04, y: 0.02, z: -0.07 }, woodEdgeMaterial);
-      addBox(albumRack, { x: 1.66, y: 0.085, z: 0.085 }, { x: 0.04, y: 0.46, z: -0.2 }, woodEdgeMaterial);
-      addBox(albumRack, { x: 0.085, y: 0.62, z: 0.13 }, { x: -0.8, y: 0.27, z: -0.08 }, woodEdgeMaterial);
-      addBox(albumRack, { x: 0.085, y: 0.62, z: 0.13 }, { x: 0.88, y: 0.27, z: -0.08 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 1.46, y: 0.08, z: 0.24 }, { x: 0.02, y: 0.02, z: -0.07 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 1.5, y: 0.08, z: 0.08 }, { x: 0.02, y: 0.43, z: -0.19 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.08, y: 0.58, z: 0.12 }, { x: -0.72, y: 0.25, z: -0.08 }, woodEdgeMaterial);
+      addBox(albumRack, { x: 0.08, y: 0.58, z: 0.12 }, { x: 0.78, y: 0.25, z: -0.08 }, woodEdgeMaterial);
       records.slice(0, 4).forEach((recordItem, index) => {
         const entry = { kind: "album", index, group: new THREE.Group(), thrown: false };
-        entry.group.position.set(-0.62 + index * 0.42, 0.39 + index * 0.01, 0.01 - index * 0.018);
-        entry.group.rotation.set(-0.02, -0.23 + index * 0.075, -0.065 + index * 0.032);
+        entry.group.position.set(-0.54 + index * 0.36, 0.37 + index * 0.012, 0.02 + index * 0.016);
+        entry.group.rotation.set(-0.014, -0.05 + index * 0.024, -0.052 + index * 0.026);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
         entry.playPosition = new THREE.Vector3(2.12, 0.84, 0.9);
@@ -5811,13 +5822,14 @@
         entry.compactPlayRotation = new THREE.Euler(0.05, -0.04, 0.024);
         entry.currentRestY = entry.basePosition.y;
         albumRack.add(entry.group);
-        const sleeveBack = addBeveledBox(entry.group, { x: 0.5, y: 0.7, z: 0.048 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial, { bevel: 0.011 });
-        const coverMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55, side: THREE.DoubleSide });
-        const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.47, 0.67), coverMaterial);
-        cover.position.set(0, 0.01, 0.008);
+        const sleeveBack = addBeveledBox(entry.group, { x: 0.44, y: 0.62, z: 0.048 }, { x: 0, y: 0, z: -0.018 }, cardEdgeMaterial, { bevel: 0.011 });
+        const coverMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+        const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.41, 0.59), coverMaterial);
+        cover.position.set(0, 0.01, 0.034);
+        cover.renderOrder = 2;
         entry.group.add(cover);
-        addBox(entry.group, { x: 0.034, y: 0.66, z: 0.058 }, { x: -0.268, y: 0, z: -0.006 }, cardEdgeMaterial);
-        addBox(entry.group, { x: 0.44, y: 0.032, z: 0.056 }, { x: 0, y: -0.367, z: -0.006 }, cardEdgeMaterial);
+        addBox(entry.group, { x: 0.032, y: 0.58, z: 0.056 }, { x: -0.238, y: 0, z: -0.006 }, cardEdgeMaterial);
+        addBox(entry.group, { x: 0.38, y: 0.03, z: 0.054 }, { x: 0, y: -0.323, z: -0.006 }, cardEdgeMaterial);
         const albumCue = new THREE.Mesh(
           new THREE.PlaneGeometry(0.64, 0.84),
           new THREE.MeshBasicMaterial({
@@ -5852,11 +5864,11 @@
         albumShadow.renderOrder = -1;
         albumRack.add(albumShadow);
         entry.floorShadow = albumShadow;
-        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.88, 1.24), hitMaterial);
+        const albumHit = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 1.1), hitMaterial);
         albumHit.position.set(0, 0.04, 0.09);
         albumHit.rotation.x = -0.04;
         entry.group.add(albumHit);
-        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 1.08), hitMaterial);
+        const rackSlotHit = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.96), hitMaterial);
         rackSlotHit.position.copy(entry.basePosition).add(new THREE.Vector3(0, 0.02, 0.084));
         rackSlotHit.rotation.copy(entry.baseRotation);
         albumRack.add(rackSlotHit);
@@ -5913,8 +5925,8 @@
 
       artifacts.slice(0, 2).forEach((artifact, index) => {
         const entry = { kind: "artifact", index, url: artifact.url || "", group: new THREE.Group(), lifted: false };
-        entry.group.position.set(index === 0 ? 0.4 : 1.16, -0.262 + index * 0.006, index === 0 ? 0.42 : -0.08);
-        entry.group.rotation.set(0, 0, index === 0 ? -0.06 : 0.035);
+        entry.group.position.set(index === 0 ? 0.42 : 1.22, -0.262 + index * 0.006, index === 0 ? 0.58 : 0.28);
+        entry.group.rotation.set(index === 0 ? -0.08 : -0.06, 0, index === 0 ? -0.07 : 0.045);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
         entry.focusPosition = new THREE.Vector3(index === 0 ? -0.06 : 0.18, 0.72, index === 0 ? 0.2 : 0.0);
@@ -5922,16 +5934,16 @@
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
         const base = addBeveledBox(entry.group, { x: 0.72, y: 0.038, z: 1.02 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial, { bevel: 0.009 });
-        const topMaterial = new THREE.MeshStandardMaterial({
+        const topMaterial = new THREE.MeshBasicMaterial({
           map: createArtifactTexture(artifact, index, palette),
-          roughness: 0.64,
-          metalness: 0.01,
           side: THREE.DoubleSide,
           transparent: true,
+          depthWrite: false,
         });
         const top = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 1), topMaterial);
         top.rotation.x = -Math.PI / 2;
-        top.position.y = 0.026;
+        top.position.y = 0.045;
+        top.renderOrder = 2;
         entry.group.add(top);
         const artifactCue = new THREE.Mesh(
           new THREE.PlaneGeometry(1.72, 0.9),
@@ -5969,12 +5981,12 @@
 
       const tableRing = new THREE.Mesh(new THREE.RingGeometry(0.33, 0.48, 72), stainMaterial);
       tableRing.rotation.x = -Math.PI / 2;
-      tableRing.position.set(1.55, -0.271, 0.6);
+      tableRing.position.set(1.72, -0.271, 0.86);
       table.add(tableRing);
       [
-        { x: 1.2, z: 0.74, s: 0.052 },
-        { x: 1.86, z: 0.7, s: 0.04 },
-        { x: 1.42, z: 0.2, s: 0.032 },
+        { x: 1.34, z: 0.96, s: 0.052 },
+        { x: 2.02, z: 0.9, s: 0.04 },
+        { x: 1.54, z: 0.5, s: 0.032 },
       ].forEach((drop) => {
         const droplet = new THREE.Mesh(new THREE.CircleGeometry(drop.s, 24), stainMaterial);
         droplet.rotation.x = -Math.PI / 2;
@@ -5984,7 +5996,7 @@
       });
 
       const cup = new THREE.Group();
-      cup.position.set(1.58, -0.08, 0.68);
+      cup.position.set(1.9, -0.08, 0.92);
       table.add(cup);
       const cupBody = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.21, 0.44, 64, 1, true), ceramicMaterial);
       cup.add(cupBody);
@@ -6099,8 +6111,8 @@
             targetRotationY = rotationStartY + deltaX * 0.003;
             targetRotationX = clamp(rotationStartX + deltaY * 0.0035, -0.42, 0.34);
           } else {
-            targetRotationY = clampRoomRotationY(rotationStartY + deltaX * 0.0022);
-            targetRotationX = clampRoomRotationX(rotationStartX + deltaY * 0.0028);
+            targetRotationY = rotationStartY + deltaX * 0.003;
+            targetRotationX = clampRoomPitch(rotationStartX + deltaY * 0.0035);
           }
         } else if (activeEntry?.kind === "album") {
           const lift = clamp(0.035 + Math.hypot(deltaX, deltaY) * 0.0003, 0.046, 0.11);
