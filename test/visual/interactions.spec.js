@@ -421,7 +421,7 @@ test("home 3D outside view uses explicit window clicks and scroll-away reset", a
   await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
   await expect(scene).not.toHaveClass(/is-outside-view/);
 
-  await clickDeskCanvasAt(page, 0.86, 0.38);
+  await clickDeskCanvasAt(page, 0.78, 0.34);
   await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
   await expect(scene).toHaveClass(/is-outside-view/);
 
@@ -440,7 +440,7 @@ test("home 3D outside view uses explicit window clicks and scroll-away reset", a
   await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
   await expect(scene).not.toHaveClass(/is-outside-view/);
 
-  await clickDeskCanvasAt(page, 0.86, 0.38);
+  await clickDeskCanvasAt(page, 0.78, 0.34);
   await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
   await expect(scene).toHaveClass(/is-outside-view/);
 

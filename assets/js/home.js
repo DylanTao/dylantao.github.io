@@ -711,6 +711,10 @@
     const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
     const easeOutQuart = (value) => 1 - Math.pow(1 - value, 4);
     const lerp = (from, to, progress) => from + (to - from) * progress;
+    const roomFloorY = -1.22;
+    const roomCeilingY = 1.46;
+    const droppedPaperY = roomFloorY + 0.082;
+    const droppedPaperShadowY = roomFloorY + 0.008;
     const defaultRotation = { x: -0.05, y: -0.2 };
     const outsideDefaultRotation = { x: -0.03, y: 0.16 };
     const roomPitchBounds = { min: -0.34, max: 0.28 };
@@ -719,19 +723,19 @@
       room: {
         orbitTarget: { x: 0.08, y: -0.04, z: -0.62 },
         zoomTarget: { x: 0.2, y: 0.1, z: -0.52 },
-        defaultCamera: { desktop: { x: 0.12, y: 1.18, z: 2.05 }, compact: { x: 0.08, y: 1.08, z: 2.18 } },
-        zoomCamera: { desktop: { x: 0.14, y: 1.04, z: 1.42 }, compact: { x: 0.08, y: 0.98, z: 1.56 } },
-        window: { x: 0.76, y: 0.04, z: -1.7, width: 3.72, height: 2.7 },
+        defaultCamera: { desktop: { x: 0.12, y: 1.3, z: 2.28 }, compact: { x: 0.08, y: 1.16, z: 2.34 } },
+        zoomCamera: { desktop: { x: 0.14, y: 1.08, z: 1.54 }, compact: { x: 0.08, y: 1.0, z: 1.68 } },
+        window: { x: 0.52, y: 0.13, z: -1.7, width: 3.08, height: 2.92 },
         desk: { x: 0.16, y: 0, z: -0.72 },
         onsen: { x: -0.96, y: -0.9, z: 0.78 },
-        chair: { x: 2.48, y: -1.08, z: 0.32 },
+        chair: { x: 2.16, y: -1.08, z: 0.34 },
       },
       outside: {
         orbitTarget: { x: 1.08, y: -0.03, z: 0.42 },
         defaultCamera: { desktop: { x: 2.58, y: 1.38, z: 3.48 }, compact: { x: 2.34, y: 1.24, z: 3.64 } },
         zoomCamera: { desktop: { x: 1.68, y: 0.98, z: 3.02 }, compact: { x: 1.44, y: 0.9, z: 3.12 } },
         house: { x: 1.08, y: -0.22, z: 0.42 },
-        window: { x: -0.08, y: -0.02, z: 0.47, width: 1.72, height: 0.92 },
+        window: { x: -0.04, y: -0.01, z: 0.48, width: 1.34, height: 1.08 },
         shoreline: { x: -1.9, y: -1.11, z: 1.12 },
       },
     };
@@ -982,7 +986,7 @@
             y: lerp(target.y, zoomTarget.y, zoom),
             z: lerp(target.z, zoomTarget.z, zoom),
           });
-          camera.fov = lerp(isCompactScene ? 58 : 52, isCompactScene ? 46 : 42, zoom);
+          camera.fov = lerp(isCompactScene ? 61 : 56, isCompactScene ? 48 : 44, zoom);
           setInteriorLookCamera(baseCamera, baseTarget, rotationY, rotationX, zoom);
         }
       }
@@ -2589,10 +2593,13 @@
       applyCoastalShaderPalette(themeMaterials.outsideSandShader, palette, "sand");
       themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x675a46 : 0xc2a775);
       themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x5a4f3e : 0xad9365);
+      themeMaterials.outsideCaveFace?.color.setHex(palette.isDarkTheme ? 0x9b876c : 0xd6bd94);
       themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x2c241a : 0xc4a26d);
       themeMaterials.outsideCliffFace?.emissive?.setHex(palette.isDarkTheme ? 0x261f18 : 0xa98555);
+      themeMaterials.outsideCaveFace?.emissive?.setHex(palette.isDarkTheme ? 0x342a1f : 0xb8905d);
       if (themeMaterials.outsideCliff) themeMaterials.outsideCliff.emissiveIntensity = palette.isDarkTheme ? 0.08 : 0.2;
       if (themeMaterials.outsideCliffFace) themeMaterials.outsideCliffFace.emissiveIntensity = palette.isDarkTheme ? 0.06 : 0.16;
+      if (themeMaterials.outsideCaveFace) themeMaterials.outsideCaveFace.emissiveIntensity = palette.isDarkTheme ? 0.1 : 0.18;
       themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x867458 : 0xe0c48e);
       themeMaterials.outsideHouse?.color.setHex(palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
@@ -2642,6 +2649,7 @@
       setOutsideMotionTexture("sandGust", sandGustTexture);
       replaceMaterialMap(themeMaterials.outsideCliff, createCliffSurfaceTexture(palette));
       replaceMaterialMap(themeMaterials.outsideCliffFace, createCliffSurfaceTexture(palette, true));
+      replaceMaterialMap(themeMaterials.outsideCaveFace, createCliffSurfaceTexture(palette, true));
       replaceMaterialMap(themeMaterials.catBlanket, createCatBlanketTexture(palette));
       const laptopScreenMaterials = themeMaterials.laptopScreens || (themeMaterials.laptopScreen ? [themeMaterials.laptopScreen] : []);
       laptopScreenMaterials.forEach((material) => replaceMaterialMap(material, createLaptopScreenTexture(palette)));
@@ -2808,16 +2816,20 @@
       const settleRoll = side * (0.016 + row * 0.012);
 
       return {
-        albumPosition: new THREE.Vector3(albumX, -1.012 + orderIndex * 0.006, albumZ),
+        albumPosition: new THREE.Vector3(albumX, roomFloorY + 0.21 + orderIndex * 0.006, albumZ),
         albumRotation: new THREE.Euler(-Math.PI / 2 + settlePitch, settleRoll, fan),
         albumScale: new THREE.Vector3(0.95, 0.95, 0.95),
-        cardPosition: new THREE.Vector3(cardX, -1.17 + orderIndex * 0.008, cardZ),
-        cardRotation: new THREE.Euler(side * (0.014 + restitution * 0.04), side * 0.016, side * (0.13 + row * 0.055 + frictionSlide * 0.08) - jitter),
-        cardScale: new THREE.Vector3(1, 1, 1),
-        albumShadowPosition: new THREE.Vector3(albumX, -1.018 + floorLift, albumZ),
+        cardPosition: new THREE.Vector3(cardX, droppedPaperY + orderIndex * 0.006, cardZ),
+        cardRotation: new THREE.Euler(
+          side * (0.006 + restitution * 0.018),
+          side * 0.006,
+          side * (0.13 + row * 0.055 + frictionSlide * 0.08) - jitter
+        ),
+        cardScale: new THREE.Vector3(1.02, 1.02, 1.02),
+        albumShadowPosition: new THREE.Vector3(albumX, roomFloorY + 0.2 + floorLift, albumZ),
         albumShadowRotation: new THREE.Euler(-Math.PI / 2, 0, fan * 0.84),
         albumShadowScale: new THREE.Vector3(0.72 + row * 0.05 + gravitySettle * 0.04, 0.34, 1),
-        cardShadowPosition: new THREE.Vector3(cardX, -1.216 + floorLift, cardZ),
+        cardShadowPosition: new THREE.Vector3(cardX, droppedPaperShadowY + floorLift, cardZ),
         cardShadowRotation: new THREE.Euler(-Math.PI / 2, 0, side * (0.13 + row * 0.05) - jitter),
         cardShadowScale: new THREE.Vector3(0.56 + row * 0.032 + gravitySettle * 0.035, 0.23, 1),
       };
@@ -3326,6 +3338,10 @@
 
     const addWindow = (palette) => {
       const roomWindow = sceneAnchors.room.window;
+      const windowTopY = roomWindow.y + roomWindow.height / 2 + 0.035;
+      const windowBottomY = roomWindow.y - roomWindow.height / 2 - 0.035;
+      const windowLeftX = roomWindow.x - roomWindow.width / 2 - 0.035;
+      const windowRightX = roomWindow.x + roomWindow.width / 2 + 0.035;
       const wallMaterial = new THREE.MeshBasicMaterial({
         color: palette.wall,
         map: createRoomWallTexture(palette),
@@ -3334,8 +3350,8 @@
         depthWrite: false,
       });
       themeMaterials.wall = wallMaterial;
-      const wall = new THREE.Mesh(new THREE.PlaneGeometry(6.48, 3.48), wallMaterial);
-      wall.position.set(0.16, 0.18, -1.84);
+      const wall = new THREE.Mesh(new THREE.PlaneGeometry(5.86, 3.56), wallMaterial);
+      wall.position.set(0.08, 0.16, -1.84);
       wall.renderOrder = -3;
       rootGroup.add(wall);
 
@@ -3349,6 +3365,14 @@
       });
       const frameMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047, roughness: 0.62 });
       const stoneTrimMaterial = new THREE.MeshStandardMaterial({ color: palette.stoneEdge, roughness: 0.88, metalness: 0.01 });
+      const caveMouthMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x8b7a63 : 0xd2bea5,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.56 : 0.48,
+        depthWrite: false,
+        roughness: 0.96,
+        metalness: 0.01,
+      });
       const glassMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff,
         transparent: true,
@@ -3359,7 +3383,48 @@
       themeMaterials.windowRecess = recessMaterial;
       themeMaterials.windowGlass = glassMaterial;
 
-      const windowBaseFrame = addBeveledBox(rootGroup, { x: 6.16, y: 0.1, z: 0.18 }, { x: 0.16, y: -1.2, z: -1.62 }, frameMaterial, { bevel: 0.018 });
+      const caveLintel = addBeveledBox(
+        rootGroup,
+        { x: roomWindow.width + 0.92, y: 0.18, z: 0.34 },
+        { x: roomWindow.x, y: windowTopY + 0.2, z: -1.86 },
+        caveMouthMaterial,
+        { bevel: 0.04, segments: 2 }
+      );
+      caveLintel.rotation.y = -0.02;
+      registerOrbitCutaway(caveLintel, { occludedOpacity: 0.06, yawStart: 0.28, yawEnd: Math.PI * 2 - 0.22 });
+      [
+        { x: windowLeftX - 0.22, ry: 0.08, sx: 0.42 },
+        { x: windowRightX + 0.22, ry: -0.08, sx: 0.42 },
+      ].forEach((column) => {
+        const mesh = addBeveledBox(
+          rootGroup,
+          { x: column.sx, y: roomWindow.height + 0.42, z: 0.36 },
+          { x: column.x, y: roomWindow.y - 0.02, z: -1.86 },
+          caveMouthMaterial,
+          { bevel: 0.045, segments: 2 }
+        );
+        mesh.rotation.y = column.ry;
+        registerOrbitCutaway(mesh, { occludedOpacity: 0.06, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.22 });
+      });
+      [0, 1, 2].forEach((index) => {
+        const arch = new THREE.Mesh(
+          new THREE.TorusGeometry(roomWindow.width / 2 + 0.32 + index * 0.16, 0.034 + index * 0.008, 8, 96, Math.PI),
+          caveMouthMaterial
+        );
+        arch.position.set(roomWindow.x, roomWindow.y - 0.2 + index * 0.02, -1.84 + index * 0.018);
+        arch.rotation.z = 0;
+        arch.scale.y = 0.86 + index * 0.035;
+        rootGroup.add(arch);
+        registerOrbitCutaway(arch, { occludedOpacity: 0.07, yawStart: 0.26, yawEnd: Math.PI * 2 - 0.22 });
+      });
+
+      const windowBaseFrame = addBeveledBox(
+        rootGroup,
+        { x: roomWindow.width + 0.72, y: 0.1, z: 0.18 },
+        { x: roomWindow.x, y: windowBottomY, z: -1.62 },
+        frameMaterial,
+        { bevel: 0.018 }
+      );
       registerOrbitCutaway(windowBaseFrame, { occludedOpacity: 0.08, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.24 });
       const windowRecessBlock = addBeveledBox(
         rootGroup,
@@ -3392,13 +3457,17 @@
       registerOrbitCutaway(glass, { cloneMaterial: false, baseOpacity: glassMaterial.opacity ?? 0.22, occludedOpacity: 0.035 });
 
       [
-        addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.105, z: 0.18 }, { x: roomWindow.x, y: 1.43, z: -1.65 }, frameMaterial, { bevel: 0.015 }),
-        addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.12, z: 0.22 }, { x: roomWindow.x, y: -1.24, z: -1.62 }, frameMaterial, { bevel: 0.015 }),
+        addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.105, z: 0.18 }, { x: roomWindow.x, y: windowTopY, z: -1.65 }, frameMaterial, {
+          bevel: 0.015,
+        }),
+        addBeveledBox(rootGroup, { x: roomWindow.width, y: 0.12, z: 0.22 }, { x: roomWindow.x, y: windowBottomY, z: -1.62 }, frameMaterial, {
+          bevel: 0.015,
+        }),
       ].forEach((mesh) => registerOrbitCutaway(mesh, { occludedOpacity: 0.08, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.24 }));
       const leftWindowPost = addBeveledBox(
         rootGroup,
         { x: 0.12, y: roomWindow.height + 0.12, z: 0.18 },
-        { x: roomWindow.x - roomWindow.width / 2, y: roomWindow.y, z: -1.65 },
+        { x: windowLeftX, y: roomWindow.y, z: -1.65 },
         frameMaterial,
         {
           bevel: 0.015,
@@ -3407,7 +3476,7 @@
       const rightWindowPost = addBeveledBox(
         rootGroup,
         { x: 0.12, y: roomWindow.height + 0.12, z: 0.18 },
-        { x: roomWindow.x + roomWindow.width / 2, y: roomWindow.y, z: -1.65 },
+        { x: windowRightX, y: roomWindow.y, z: -1.65 },
         frameMaterial,
         {
           bevel: 0.015,
@@ -3426,7 +3495,7 @@
       const stoneSill = addBeveledBox(
         rootGroup,
         { x: roomWindow.width + 0.1, y: 0.18, z: 0.46 },
-        { x: roomWindow.x - 0.04, y: -1.23, z: -1.5 },
+        { x: roomWindow.x - 0.04, y: windowBottomY - 0.02, z: -1.5 },
         stoneTrimMaterial,
         {
           bevel: 0.02,
@@ -3675,6 +3744,13 @@
         roughness: 0.94,
       });
       const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x867458 : 0xe0c48e, roughness: 0.86 });
+      const caveFaceMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x9b876c : 0xd6bd94,
+        map: createCliffSurfaceTexture(palette, true),
+        emissive: palette.isDarkTheme ? 0x342a1f : 0xb8905d,
+        emissiveIntensity: palette.isDarkTheme ? 0.1 : 0.18,
+        roughness: 0.94,
+      });
       const houseMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xefe2d0 : 0xfff7e9, roughness: 0.72 });
       const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
       const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
@@ -3737,6 +3813,7 @@
       themeMaterials.outsideSandGust = sandGustMaterial;
       themeMaterials.outsideCliff = cliffMaterial;
       themeMaterials.outsideCliffFace = cliffFaceMaterial;
+      themeMaterials.outsideCaveFace = caveFaceMaterial;
       themeMaterials.outsideCliffLine = cliffLineMaterial;
       themeMaterials.outsideHouse = houseMaterial;
       themeMaterials.outsideRoof = roofMaterial;
@@ -4296,8 +4373,46 @@
       house.position.set(outsideHouse.x - 0.06, outsideHouse.y + 0.36, outsideHouse.z - 0.34);
       house.scale.setScalar(1.34);
       outsideGroup.add(house);
-      addBox(house, { x: 0.18, y: 0.92, z: 1.02 }, { x: -0.96, y: -0.08, z: 0.08 }, cliffFaceMaterial);
-      addBox(house, { x: 0.16, y: 0.82, z: 0.96 }, { x: 0.92, y: -0.12, z: 0.08 }, cliffFaceMaterial);
+      const caveWindowTop = outsideWindow.y + outsideWindow.height / 2 + 0.05;
+      const caveWindowBottom = outsideWindow.y - outsideWindow.height / 2 - 0.05;
+      const caveWindowLeft = outsideWindow.x - outsideWindow.width / 2 - 0.06;
+      const caveWindowRight = outsideWindow.x + outsideWindow.width / 2 + 0.06;
+      [
+        {
+          size: { x: outsideWindow.width + 0.72, y: 0.16, z: 0.34 },
+          position: { x: outsideWindow.x, y: caveWindowTop + 0.1, z: outsideWindow.z - 0.08 },
+          ry: -0.02,
+        },
+        {
+          size: { x: outsideWindow.width + 0.58, y: 0.12, z: 0.3 },
+          position: { x: outsideWindow.x, y: caveWindowBottom - 0.04, z: outsideWindow.z - 0.02 },
+          ry: 0.025,
+        },
+        {
+          size: { x: 0.22, y: outsideWindow.height + 0.36, z: 0.36 },
+          position: { x: caveWindowLeft - 0.06, y: outsideWindow.y, z: outsideWindow.z - 0.08 },
+          ry: 0.08,
+        },
+        {
+          size: { x: 0.24, y: outsideWindow.height + 0.34, z: 0.36 },
+          position: { x: caveWindowRight + 0.06, y: outsideWindow.y - 0.02, z: outsideWindow.z - 0.08 },
+          ry: -0.08,
+        },
+      ].forEach((stone) => {
+        const mesh = addBeveledBox(house, stone.size, stone.position, caveFaceMaterial, { bevel: 0.022, segments: 2 });
+        mesh.rotation.y = stone.ry;
+      });
+      [0, 1, 2].forEach((index) => {
+        const arch = new THREE.Mesh(
+          new THREE.TorusGeometry(outsideWindow.width / 2 + 0.18 + index * 0.08, 0.022 + index * 0.004, 8, 72, Math.PI),
+          cliffLineMaterial
+        );
+        arch.position.set(outsideWindow.x, outsideWindow.y - 0.18 + index * 0.015, outsideWindow.z + 0.03 + index * 0.018);
+        arch.scale.y = 0.84 + index * 0.04;
+        house.add(arch);
+      });
+      addBox(house, { x: 0.16, y: 0.86, z: 0.94 }, { x: -0.96, y: -0.08, z: 0.08 }, caveFaceMaterial);
+      addBox(house, { x: 0.14, y: 0.78, z: 0.88 }, { x: 0.92, y: -0.12, z: 0.08 }, caveFaceMaterial);
       addBox(house, { x: 1.78, y: 0.12, z: 0.94 }, { x: -0.02, y: -0.58, z: 0.1 }, cliffMaterial);
       [
         { x: -0.74, y: -0.44, z: 0.62, sx: 0.28, sy: 0.12, sz: 0.14, ry: -0.18 },
@@ -4309,13 +4424,13 @@
       });
       addBeveledBox(house, { x: 1.52, y: 0.08, z: 0.78 }, { x: 0, y: -0.47, z: 0 }, trimMaterial, { bevel: 0.018 });
       addBeveledBox(house, { x: 1.34, y: 0.035, z: 0.62 }, { x: -0.06, y: -0.4, z: 0.02 }, roomFloorMaterial, { bevel: 0.012 });
-      addBeveledBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, houseMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 1.52, y: 0.78, z: 0.08 }, { x: 0, y: -0.05, z: -0.36 }, caveFaceMaterial, { bevel: 0.014 });
       addBox(house, { x: 1.2, y: 0.58, z: 0.035 }, { x: -0.06, y: -0.08, z: -0.31 }, roomWallMaterial);
-      addBeveledBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, houseMaterial, { bevel: 0.014 });
-      addBeveledBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, houseMaterial, { bevel: 0.014 });
-      addBeveledBox(house, { x: 1.72, y: 0.68, z: 0.09 }, { x: -0.02, y: -0.08, z: -0.58 }, houseMaterial, { bevel: 0.014 });
-      addBeveledBox(house, { x: 0.12, y: 0.72, z: 0.86 }, { x: -0.98, y: -0.08, z: -0.02 }, houseMaterial, { bevel: 0.014 });
-      addBeveledBox(house, { x: 0.12, y: 0.72, z: 0.86 }, { x: 0.98, y: -0.08, z: -0.02 }, houseMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: -0.8, y: -0.05, z: 0.02 }, caveFaceMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.08, y: 0.78, z: 0.76 }, { x: 0.8, y: -0.05, z: 0.02 }, caveFaceMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 1.72, y: 0.68, z: 0.09 }, { x: -0.02, y: -0.08, z: -0.58 }, caveFaceMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.12, y: 0.72, z: 0.86 }, { x: -0.98, y: -0.08, z: -0.02 }, caveFaceMaterial, { bevel: 0.014 });
+      addBeveledBox(house, { x: 0.12, y: 0.72, z: 0.86 }, { x: 0.98, y: -0.08, z: -0.02 }, caveFaceMaterial, { bevel: 0.014 });
       addBox(house, { x: 1.42, y: 0.03, z: 0.07 }, { x: -0.02, y: 0.22, z: -0.635 }, trimMaterial);
       addBox(house, { x: 1.42, y: 0.025, z: 0.07 }, { x: -0.02, y: -0.38, z: -0.635 }, roofShadowMaterial);
       [
@@ -4894,11 +5009,13 @@
       addWindow(palette);
       addOutsideVignette(palette);
 
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(8.3, 8.2), floorMaterial);
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(5.88, 5.88), floorMaterial);
       floor.rotation.x = -Math.PI / 2;
-      floor.position.set(0, -1.22, 0.56);
+      floor.position.set(0, roomFloorY, 0.56);
       rootGroup.add(floor);
-      const floorSlab = addBeveledBox(rootGroup, { x: 8.34, y: 0.16, z: 8.23 }, { x: 0, y: -1.31, z: 0.56 }, woodEdgeMaterial, { bevel: 0.035 });
+      const floorSlab = addBeveledBox(rootGroup, { x: 5.94, y: 0.16, z: 5.94 }, { x: 0, y: roomFloorY - 0.09, z: 0.56 }, woodEdgeMaterial, {
+        bevel: 0.035,
+      });
       floorSlab.rotation.y = -0.012;
 
       const shellRibMaterial = new THREE.MeshStandardMaterial({
@@ -4932,8 +5049,8 @@
         yawEnd: Math.PI * 2 - 0.18,
       });
       [
-        { radius: 2.94, tube: 0.04, y: -1.18, z: -1.62, sx: 1.02, rz: 0.01 },
-        { radius: 2.58, tube: 0.026, y: -1.16, z: -1.34, sx: 0.96, rz: -0.018 },
+        { radius: 2.94, tube: 0.04, y: roomFloorY + 0.04, z: -1.62, sx: 1.02, rz: 0.01 },
+        { radius: 2.58, tube: 0.026, y: roomFloorY + 0.06, z: -1.34, sx: 0.96, rz: -0.018 },
       ].forEach((arch) => {
         const mesh = new THREE.Mesh(new THREE.TorusGeometry(arch.radius, arch.tube, 10, 96, Math.PI), shellRibMaterial);
         mesh.position.set(-0.08, arch.y, arch.z);
@@ -5009,7 +5126,7 @@
         mesh.rotation.y = rib.ry;
         if (rib.x > 2.8 || rib.z > 0.8) registerOrbitCutaway(mesh, { occludedOpacity: 0.07, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
       });
-      const carvedCeiling = addBox(rootGroup, { x: 5.84, y: 0.16, z: 2.66 }, { x: -0.06, y: 1.47, z: -0.2 }, stoneEdgeMaterial);
+      const carvedCeiling = addBox(rootGroup, { x: 5.84, y: 0.09, z: 2.36 }, { x: -0.06, y: roomCeilingY + 0.22, z: -0.26 }, stoneEdgeMaterial);
       carvedCeiling.rotation.y = -0.035;
       registerOrbitCutaway(carvedCeiling, { occludedOpacity: 0.12, yawStart: 0.32, yawEnd: Math.PI * 2 - 0.32 });
       [
@@ -5018,7 +5135,7 @@
         { x: 0.82, z: -1.35, w: 1.34, ry: -0.04 },
         { x: 2.06, z: -1.2, w: 0.82, ry: -0.1 },
       ].forEach((beam) => {
-        const mesh = addBox(rootGroup, { x: beam.w, y: 0.08, z: 0.12 }, { x: beam.x, y: 1.35, z: beam.z }, woodEdgeMaterial);
+        const mesh = addBox(rootGroup, { x: beam.w, y: 0.055, z: 0.1 }, { x: beam.x, y: roomCeilingY + 0.08, z: beam.z }, woodEdgeMaterial);
         mesh.rotation.y = beam.ry;
       });
       const stoneWindowBench = addBox(rootGroup, { x: 3.05, y: 0.12, z: 0.44 }, { x: 0.96, y: -1.12, z: -1.12 }, stoneEdgeMaterial);
@@ -5490,7 +5607,7 @@
       const floorShadow = new THREE.Mesh(new THREE.CircleGeometry(2.22, 80), floorShadowMaterial);
       floorShadow.rotation.x = -Math.PI / 2;
       floorShadow.scale.set(1.2, 0.36, 1);
-      floorShadow.position.set(0.08, -1.205, 0.82);
+      floorShadow.position.set(0.08, roomFloorY + 0.015, 0.82);
       rootGroup.add(floorShadow);
       const wovenRugMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xe2c59e : 0xc89564,
@@ -5502,12 +5619,12 @@
       const rug = new THREE.Mesh(new THREE.CircleGeometry(1.26, 64), wovenRugMaterial);
       rug.rotation.x = -Math.PI / 2;
       rug.scale.set(1.55, 0.42, 1);
-      rug.position.set(0.35, -1.202, 0.72);
+      rug.position.set(0.35, roomFloorY + 0.018, 0.72);
       rootGroup.add(rug);
 
       const table = new THREE.Group();
       table.position.set(sceneAnchors.room.desk.x, sceneAnchors.room.desk.y, sceneAnchors.room.desk.z);
-      table.scale.set(0.92, 1, 0.9);
+      table.scale.set(0.86, 1, 0.82);
       rootGroup.add(table);
       addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
@@ -6176,6 +6293,8 @@
           } else {
             focusAlbum(clickedEntry);
           }
+        } else if (clickedWindowRegion && pointerActionKind !== "album" && pointerActionKind !== "artifact" && pointerActionKind !== "turntable") {
+          setSceneView("outside");
         } else if (clickedEntry?.kind === "photo" && !movedEnough) {
           focusPhoto(clickedEntry);
         } else if (releasedEntry?.kind === "artifact") {
@@ -6209,8 +6328,6 @@
               { arcHeight: 0.05, wobbleZ: 0.025 }
             );
           }
-        } else if (clickedWindowRegion) {
-          setSceneView("outside");
         } else if (
           !movedEnough &&
           activeView === "desk" &&
