@@ -710,12 +710,13 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 .home-desk-corner-scene {
   position: absolute;
-  inset: 2.35rem -0.1rem 0.25rem -0.1rem;
+  inset: 2.18rem -0.16rem 0.12rem -0.16rem;
   z-index: 9;
   overflow: visible;
   opacity: 0;
   pointer-events: none;
   touch-action: none;
+  filter: drop-shadow(0 1.05rem 1.65rem rgba(73, 45, 30, 0.075));
   transform: translateY(0.6rem) scale(0.982);
   transition:
     opacity var(--motion-slow),
@@ -726,7 +727,7 @@ html[data-theme="dark"] .home-desk-control-strip {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 27.5rem;
+  min-height: 28.2rem;
   cursor: grab;
   user-select: none;
 }
@@ -737,19 +738,20 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 .home-desk-corner-fallback {
   position: absolute;
-  inset: 5% 4% 4%;
+  inset: 4% 3.2% 3%;
   z-index: 0;
   border-radius: 46% 42% 48% 40% / 42% 50% 38% 50%;
   background:
-    radial-gradient(ellipse at 52% 66%, rgba(73, 45, 30, 0.082), transparent 58%),
-    linear-gradient(145deg, color-mix(in srgb, var(--home-paper-warm) 46%, transparent), transparent 56%);
-  opacity: 0.42;
+    linear-gradient(180deg, color-mix(in srgb, var(--home-sky) 16%, transparent), transparent 38%),
+    radial-gradient(ellipse at 52% 72%, rgba(73, 45, 30, 0.09), transparent 60%),
+    linear-gradient(145deg, color-mix(in srgb, var(--home-paper-warm) 52%, transparent), transparent 58%);
+  opacity: 0.46;
   pointer-events: none;
   filter: blur(0.05rem);
 }
 
 .home-hero-media.is-desk-3d {
-  min-height: 30.2rem;
+  min-height: 30.9rem;
   user-select: none;
 }
 
@@ -760,8 +762,8 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-control-strip {
-  bottom: 1.15rem;
-  opacity: 0.68;
+  bottom: 0.98rem;
+  opacity: 0.76;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -772,7 +774,7 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-scene-note {
-  top: 4.1rem;
+  top: 4rem;
   right: 1.05rem;
   bottom: auto;
   left: auto;
@@ -790,7 +792,7 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 @media (min-width: 768px) {
   .home-hero-media.is-desk-3d .home-desk-scene-note {
-    top: 4.45rem;
+    top: 4.32rem;
     right: 1.05rem;
   }
 
@@ -3727,7 +3729,7 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-hero-media.is-desk-3d {
-    min-height: 26.4rem;
+    min-height: 27.2rem;
   }
 
   .home-desk-mode-switch {
@@ -3737,11 +3739,11 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-desk-corner-scene {
-    inset: 1.42rem -0.15rem 0.25rem -0.15rem;
+    inset: 1.2rem -0.2rem 0.22rem -0.2rem;
   }
 
   .home-desk-corner-canvas {
-    min-height: 24.2rem;
+    min-height: 25rem;
   }
 
   .home-desk-control-strip {
@@ -3778,13 +3780,13 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-hero-media.is-desk-3d .home-desk-scene-note,
   html.home-desk-outside-active .home-hero-media.is-desk-3d .home-desk-scene-note {
-    top: 4.32rem;
+    top: 4.7rem;
     right: auto;
     bottom: auto;
-    left: 0.72rem;
-    max-width: min(11.5rem, calc(100% - 1.44rem));
-    opacity: 0.42;
-    font-size: 0.49rem;
+    left: 0.56rem;
+    max-width: min(8.8rem, calc(100% - 1.12rem));
+    opacity: 0.48;
+    font-size: 0.43rem;
     text-align: left;
   }
 
@@ -3792,12 +3794,16 @@ html.home-motion-ready .home-reveal.home-visible {
     display: inline-block;
     max-width: 100%;
     margin-top: 0.08rem;
-    padding: 0.2rem 0.44rem;
+    padding: 0.18rem 0.36rem;
     border-radius: 0.42rem;
   }
 
+  .home-hero-media.is-desk-3d .home-desk-scene-note-secondary {
+    display: none;
+  }
+
   .home-hero-media.is-desk-3d .home-desk-scene-note {
-    opacity: 0.36;
+    opacity: 0.44;
   }
 
   .home-portrait-frame,
