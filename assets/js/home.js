@@ -719,7 +719,7 @@
       room: {
         orbitTarget: { x: 0.08, y: -0.04, z: -0.62 },
         zoomTarget: { x: 0.2, y: 0.1, z: -0.52 },
-        defaultCamera: { desktop: { x: 0.08, y: 1.26, z: 2.46 }, compact: { x: 0.06, y: 1.08, z: 2.5 } },
+        defaultCamera: { desktop: { x: 0.12, y: 1.18, z: 2.05 }, compact: { x: 0.08, y: 1.08, z: 2.18 } },
         zoomCamera: { desktop: { x: 0.14, y: 1.04, z: 1.42 }, compact: { x: 0.08, y: 0.98, z: 1.56 } },
         window: { x: 0.76, y: 0.04, z: -1.7, width: 3.72, height: 2.7 },
         desk: { x: 0.16, y: 0, z: -0.72 },
@@ -4894,11 +4894,11 @@
       addWindow(palette);
       addOutsideVignette(palette);
 
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(8.3, 7.05), floorMaterial);
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(8.3, 8.2), floorMaterial);
       floor.rotation.x = -Math.PI / 2;
-      floor.position.set(0, -1.22, 0.46);
+      floor.position.set(0, -1.22, 0.56);
       rootGroup.add(floor);
-      const floorSlab = addBeveledBox(rootGroup, { x: 8.34, y: 0.16, z: 7.08 }, { x: 0, y: -1.31, z: 0.46 }, woodEdgeMaterial, { bevel: 0.035 });
+      const floorSlab = addBeveledBox(rootGroup, { x: 8.34, y: 0.16, z: 8.23 }, { x: 0, y: -1.31, z: 0.56 }, woodEdgeMaterial, { bevel: 0.035 });
       floorSlab.rotation.y = -0.012;
 
       const shellRibMaterial = new THREE.MeshStandardMaterial({
@@ -5063,7 +5063,7 @@
         roughness: 0.9,
         metalness: 0.01,
       });
-      const galleryWall = addBeveledBox(rootGroup, { x: 2.44, y: 2.1, z: 0.12 }, { x: -0.32, y: 0.06, z: 2.26 }, galleryWallMaterial, {
+      const galleryWall = addBeveledBox(rootGroup, { x: 2.78, y: 2.12, z: 0.12 }, { x: -0.38, y: 0.04, z: 3.68 }, galleryWallMaterial, {
         bevel: 0.018,
       });
       registerOrbitCutaway(galleryWall, {
@@ -5074,17 +5074,35 @@
         yawStart: frontWallCutaway.yawStart,
         yawEnd: frontWallCutaway.yawEnd,
       });
+      const rearBaseboard = addBeveledBox(rootGroup, { x: 2.94, y: 0.12, z: 0.16 }, { x: -0.38, y: -1.12, z: 3.57 }, woodEdgeMaterial, {
+        bevel: 0.014,
+      });
+      rearBaseboard.rotation.y = -0.018;
+      registerOrbitCutaway(rearBaseboard, {
+        occludedOpacity: 0.025,
+        yawStart: frontWallCutaway.yawStart,
+        yawEnd: frontWallCutaway.yawEnd,
+      });
+      const rearTopTrim = addBeveledBox(rootGroup, { x: 2.66, y: 0.07, z: 0.12 }, { x: -0.38, y: 1.12, z: 3.58 }, stoneEdgeMaterial, {
+        bevel: 0.012,
+      });
+      rearTopTrim.rotation.y = -0.018;
+      registerOrbitCutaway(rearTopTrim, {
+        occludedOpacity: 0.025,
+        yawStart: frontWallCutaway.yawStart,
+        yawEnd: frontWallCutaway.yawEnd,
+      });
       createFramedPhotoEntry(
         rootGroup,
         {
           id: "lizard",
           src: siruiPhotoAssets.lizard,
-          width: 1.08,
-          height: 1.08,
-          frame: 0.115,
+          width: 0.5,
+          height: 0.5,
+          frame: 0.065,
           depth: 0.07,
           doubleSidedArt: true,
-          position: { x: -0.32, y: 0.16, z: 2.175 },
+          position: { x: 0.22, y: 1.08, z: 3.55 },
           rotation: { y: Math.PI },
           visibilityOptions: { yawStart: Math.PI * 0.72, yawEnd: Math.PI * 1.62 },
           focusPosition: new THREE.Vector3(0.44, 0.48, -0.14),
