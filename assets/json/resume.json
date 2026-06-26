@@ -480,12 +480,17 @@
   "academicService": [
     {
       "date": "2026",
-      "title": "UIST 2026 Full Paper Reviewer",
-      "summary": "5 papers; Special Recognition for 1 + Highly Useful for 2."
+      "title": "IEEE Computer Graphics and Applications 2026 Journal Reviewer",
+      "summary": "1 paper."
     },
     {
       "date": "2026",
-      "title": "HCI Journal Reviewer",
+      "title": "UIST 2026 Full Paper Reviewer",
+      "summary": "5 papers; Special Recognition for 1 + Highly Useful for 1."
+    },
+    {
+      "date": "2026",
+      "title": "Human-Computer Interaction 2026 Journal Reviewer",
       "summary": "1 paper."
     },
     {
