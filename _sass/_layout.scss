@@ -274,18 +274,22 @@ body.sticky-bottom-footer {
   white-space: nowrap;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1600px) {
   .section-reading-aid-mobile {
     display: none;
   }
 
   .section-reading-aid-desktop {
+    --section-reading-aid-anchor-width: min(var(--measure-panel), calc(100vw - 2rem));
+    --section-reading-aid-gap: clamp(1.5rem, 2.8vw, 3rem);
+    --section-reading-aid-width: 10.75rem;
+
     position: fixed;
     top: 9.25rem;
-    left: max(1rem, calc(50vw - (var(--measure-prose) / 2) - 13.5rem));
+    left: max(1rem, calc(50vw - (var(--section-reading-aid-anchor-width) / 2) - var(--section-reading-aid-gap) - var(--section-reading-aid-width)));
     z-index: 8;
     display: block;
-    width: 10.75rem;
+    width: var(--section-reading-aid-width);
     max-height: min(calc(100vh - 10.5rem), var(--section-reading-aid-visible-height, calc(100vh - 10.5rem)));
     overflow: hidden;
     opacity: 0;
@@ -303,11 +307,9 @@ body.sticky-bottom-footer {
   }
 
   .blog-post .section-reading-aid-desktop {
-    --section-reading-aid-gap: clamp(1.5rem, 4vw, 4.5rem);
+    --section-reading-aid-anchor-width: min(var(--measure-notebook), calc(100vw - 2rem));
+    --section-reading-aid-gap: clamp(2rem, 3.5vw, 4rem);
     --section-reading-aid-width: clamp(11.15rem, 14vw, 13rem);
-
-    left: max(1rem, calc(50vw - (var(--measure-prose) / 2) - var(--section-reading-aid-gap) - var(--section-reading-aid-width)));
-    width: var(--section-reading-aid-width);
 
     .section-reading-aid-link {
       grid-template-columns: 1.35rem minmax(0, 1fr);
@@ -324,20 +326,7 @@ body.sticky-bottom-footer {
   }
 }
 
-@media (min-width: 1280px) and (max-width: 1359.98px) {
-  .blog-post .section-reading-aid-desktop {
-    display: none;
-  }
-
-  .blog-post .section-reading-aid-mobile {
-    position: sticky;
-    top: 4.35rem;
-    z-index: 12;
-    display: block;
-  }
-}
-
-@media (max-width: 1279.98px) {
+@media (max-width: 1599.98px) {
   .section-reading-aid-mobile {
     position: sticky;
     top: 4.35rem;

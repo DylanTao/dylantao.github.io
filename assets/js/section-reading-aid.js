@@ -116,6 +116,8 @@
       return title && !SKIPPED_HEADINGS.has(title.toLowerCase());
     });
 
+  const uniqueElements = (elements) => [...new Set(elements.filter(Boolean))];
+
   const scrollToHeading = (heading) => {
     heading.scrollIntoView({
       behavior: reduceMotion ? "auto" : "smooth",
@@ -169,17 +171,24 @@
       });
     });
 
-    let wideBlocks = [];
+    let railAvoidanceBlocks = [];
 
-    const refreshWideBlocks = () => {
+    const refreshRailAvoidanceBlocks = () => {
       const proseWidth = Math.max(...sections.map((section) => section.heading.getBoundingClientRect().width), 0);
+      const children = Array.from(contentRoot.children);
+      const firstHeadingIndex = children.indexOf(sections[0].heading);
+      const topContent = firstHeadingIndex > 0 ? children.slice(0, firstHeadingIndex) : [];
+      const header = pageRoot.querySelector(":scope > .post-header");
+      const projectHero = contentRoot.querySelector(":scope > .project-case-hero");
 
-      wideBlocks = Array.from(contentRoot.children).filter((element) => {
+      const measuredBlocks = children.filter((element) => {
         if (element === mobileNav || element.classList.contains("section-reading-aid")) return false;
 
         const rect = element.getBoundingClientRect();
         return rect.width > proseWidth + 48;
       });
+
+      railAvoidanceBlocks = uniqueElements([header, projectHero, ...topContent, ...measuredBlocks]);
     };
 
     const setActiveSection = (activeSection) => {
@@ -203,7 +212,7 @@
 
       let availableHeight = window.innerHeight - navRect.top - 32;
 
-      const isCovered = wideBlocks.some((block) => {
+      const isCovered = railAvoidanceBlocks.some((block) => {
         const rect = block.getBoundingClientRect();
         const overlapsRailColumn = rect.left < navRect.right && rect.right > navRect.left;
         if (!overlapsRailColumn || rect.bottom <= navRect.top + 8) return false;
@@ -239,7 +248,8 @@
 
       const firstHeadingTop = sections[0].heading.getBoundingClientRect().top;
       const contentBottom = contentRoot.getBoundingClientRect().bottom;
-      const inReadableZone = firstHeadingTop < window.innerHeight * 0.62 && contentBottom > window.innerHeight * 0.22;
+      const bodyEntryThreshold = Math.min(window.innerHeight * 0.28, 260);
+      const inReadableZone = firstHeadingTop <= bodyEntryThreshold && contentBottom > window.innerHeight * 0.22;
       const isObscured = inReadableZone && updateDesktopRailClearance();
 
       desktopNav.classList.toggle("is-readable", inReadableZone);
@@ -257,17 +267,17 @@
       });
     };
 
-    refreshWideBlocks();
+    refreshRailAvoidanceBlocks();
     updateReadingAid();
 
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", () => {
-      refreshWideBlocks();
+      refreshRailAvoidanceBlocks();
       requestUpdate();
     });
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".post.project-case-page, .post.blog-post").forEach(initReadingAid);
+    document.querySelectorAll(".post.blog-post, .post.project-detail").forEach(initReadingAid);
   });
 })();

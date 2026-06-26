@@ -97,6 +97,77 @@ async function dropRecordCardsUntil(page, expectedCount) {
   await expect(cards).toHaveCount(expectedCount);
 }
 
+async function getContentReadingAidState(page, protectedSelectors) {
+  return page.evaluate((selectors) => {
+    const rectFor = (element) => {
+      if (!element) return null;
+
+      const rect = element.getBoundingClientRect();
+      return {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+      };
+    };
+    const intersects = (a, b) =>
+      Boolean(
+        a &&
+        b &&
+        a.width > 0 &&
+        a.height > 0 &&
+        b.width > 0 &&
+        b.height > 0 &&
+        a.left < b.right &&
+        a.right > b.left &&
+        a.top < b.bottom &&
+        a.bottom > b.top
+      );
+    const isDisplayed = (element) => {
+      if (!element) return false;
+
+      const style = window.getComputedStyle(element);
+      const rect = rectFor(element);
+      return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+    };
+
+    const desktop = document.querySelector(".section-reading-aid-desktop");
+    const mobile = document.querySelector(".section-reading-aid-mobile");
+    const desktopStyle = desktop ? window.getComputedStyle(desktop) : null;
+    const desktopRect = rectFor(desktop);
+    const protectedRects = selectors.flatMap((selector) => Array.from(document.querySelectorAll(selector)).map(rectFor)).filter(Boolean);
+    const desktopVisible = isDisplayed(desktop) && desktopStyle.pointerEvents !== "none" && Number.parseFloat(desktopStyle.opacity || "0") > 0.5;
+
+    return {
+      desktopDisplay: desktopStyle?.display || null,
+      desktopOpacity: desktopStyle?.opacity || null,
+      desktopVisible,
+      intersectsProtected: desktopVisible && protectedRects.some((protectedRect) => intersects(desktopRect, protectedRect)),
+      mobileDisplay: mobile ? window.getComputedStyle(mobile).display : null,
+      mobileUsable: isDisplayed(mobile),
+    };
+  }, protectedSelectors);
+}
+
+async function scrollFirstReadableHeadingIntoRailZone(page) {
+  await page.evaluate(() => {
+    const heading = document.querySelector("#markdown-content h2, article h2");
+    if (!heading) return;
+
+    const targetTop = heading.getBoundingClientRect().top + window.scrollY - 150;
+    window.scrollTo(0, Math.max(0, targetTop));
+  });
+  await page.waitForTimeout(500);
+}
+
+function visualRoute(path) {
+  const visualBase = process.env.VISUAL_BASE_URL || "http://127.0.0.1:4000/al-folio";
+  const normalizedBase = visualBase.endsWith("/") ? visualBase : `${visualBase}/`;
+  return new URL(path, normalizedBase).toString();
+}
+
 test("publications Abs toggle opens and closes", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });
@@ -200,6 +271,50 @@ test("blog pagination uses core Tailwind-native styling contract", async ({ page
   expect(styles.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   expect(styles.paddingTop).not.toBe("0px");
   expect(styles.paddingLeft).not.toBe("0px");
+});
+
+test("content reading aid avoids headers and uses inline fallback on medium desktops", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop viewport contract");
+
+  const routes = [
+    {
+      path: "blog/2026/research-skills-starter-pack/",
+      protectedSelectors: [".blog-post > .post-header"],
+    },
+    {
+      path: "projects/designweaver/",
+      protectedSelectors: [".project-case-hero"],
+    },
+    {
+      path: "projects/website-revamp/",
+      protectedSelectors: [".project-case-hero"],
+    },
+  ];
+
+  await preparePage(page, "light");
+
+  for (const route of routes) {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.goto(visualRoute(route.path), { waitUntil: "domcontentloaded" });
+    await page.waitForSelector(".section-reading-aid-mobile", { state: "attached" });
+    await stabilizeVisuals(page);
+    await page.waitForTimeout(500);
+
+    const topState = await getContentReadingAidState(page, route.protectedSelectors);
+    expect(topState.desktopVisible && topState.intersectsProtected, `${route.path} rail overlaps protected header at top`).toBe(false);
+
+    await scrollFirstReadableHeadingIntoRailZone(page);
+    const sectionState = await getContentReadingAidState(page, route.protectedSelectors);
+    expect(sectionState.desktopVisible, `${route.path} rail is visible after entering body sections`).toBe(true);
+    expect(sectionState.intersectsProtected, `${route.path} rail overlaps protected header near first section`).toBe(false);
+
+    await page.setViewportSize({ width: 1366, height: 900 });
+    await page.waitForTimeout(300);
+
+    const mediumState = await getContentReadingAidState(page, route.protectedSelectors);
+    expect(mediumState.desktopDisplay, `${route.path} fixed rail should be hidden on medium desktop`).toBe("none");
+    expect(mediumState.mobileUsable, `${route.path} inline helper should remain available on medium desktop`).toBe(true);
+  }
 });
 
 test("navbar menu stays right-aligned on desktop pages", async ({ page }, testInfo) => {
