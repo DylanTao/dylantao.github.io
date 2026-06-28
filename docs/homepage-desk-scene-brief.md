@@ -2,6 +2,11 @@
 
 This brief records the intended 2D and 3D homepage desk scene so a future model or agent can rerun the same target and compare alignment.
 
+## Interaction Discoverability
+
+- Keep the `2D | 3D` switch always visible but visually quiet. The 3D mode should feel discoverable without forcing users to hover or already know the album interaction, especially on touch devices.
+- Hide only the extra 3D transport/reset controls until 3D mode is active.
+
 ## 2D Artifact Stain
 
 - Use one coffee stain, not two separate marks.
@@ -24,6 +29,7 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 - The onsen replaces the old bed cue. It should read as a small-scale soaking pool with stone cladding, warm water, steam, a cocktail ledge, and a waterproof/lap desk setup showing a tiny VS Code/Codex screen.
 - Lizard Sirui should visibly relax in the onsen rather than sit as a generic prop: head, body, tail, eyes, resting arms, and water contact should make the scale and action legible.
 - The lounge corner should be Herman Miller Eames Lounge Chair + Ottoman inspired, with molded wood shells, cream cushions, a black swivel/star base, and rounded 3D cushions/shells rather than flat panels.
+- Chair material reference: use warm walnut-like molded plywood shells with visible curved edge thickness and subtle grain, soft cream leather-like cushions with rounded volume and gentle seams, and a black metal swivel/star base. Treat any local product image as a private reference unless explicitly approved for the public repo; preserve the material/color description here as the durable reference for future model passes.
 - The table has a visible turntable, elegant Autodesk mug, coffee surface, a single table stain, and two non-overlapping artifact cards. In the default 3D desk view, the vinyl player platter, label, tonearm, and base must remain readable rather than being hidden by the album shelf.
 - The vinyl tonearm/stylus must rest on the record only while the meme disk is playing. When stopped or paused, it must be visibly parked away from the vinyl.
 - The four album sleeves live in a wall-mounted shelf on the wall opposite the capy photo wall, not beside the turntable; the shelf should stay clear of the tonearm sweep while keeping the sleeves clickable.
@@ -135,3 +141,11 @@ Screenshot sets were captured under `.jekyll-cache/home-scene-qa/loop00` through
 | 13   | Stable pass repeated with the same framing and interaction states.                                                                               | Accepted as the second consecutive stable visual pass.                                                                                                    |
 
 Final visual read before the onsen/chair pass: the interior had a larger framed glass wall, a softer carved shell, a warmer wood desk/floor relationship, a more visible side bed cue, and stable click-only window navigation. The exterior kept the matching big window, desk/bed/record anchors through glass, layered coastal water/sand/cliff terraces, and no wheel-triggered inside/outside transition. Treat that as historical baseline, not the current completion state.
+
+## Future Model Handoff Prompt
+
+```text
+Work in D:\dev\dylantao.github.io. Revamp only the homepage 2D/3D interactive desk/album widget. Read AGENTS.md, .github/copilot-instructions.md, docs/homepage-desk-scene-brief.md, _includes/home/hero.liquid, _sass/_home.scss, and assets/js/home.js.
+
+Keep the 2D | 3D switch visible but quiet. Preserve shared state across modes: current meme record, spin state, and discovered album/source-card order. Improve through repeated screenshot QA: 2D should keep tactile readable album/source cards; 3D should become a coherent warm Japandi cliff-cave room with continuous inside/outside geometry, readable rack/turntable/cards, onsen/lizard/laptop cues, and an Eames Lounge Chair + Ottoman-inspired corner with cream cushions, walnut shells, and black base.
+```

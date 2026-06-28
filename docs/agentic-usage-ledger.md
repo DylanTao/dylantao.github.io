@@ -229,6 +229,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Vinyl tonearm and wall-mounted album-shelf pass: public total moved to 265 commits and 213 hours while rounded public tokens, energy, tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter moved to 102 commits, 1.31B tokens, 99 hours, and 786 kWh while rounded desk tree midpoint, API-cost, and CodexBar labels stayed unchanged.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path docs/homepage-desk-scene-brief.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 87 repo sessions, counted 60 sessions after the revamp cutoff and 25 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending tonearm and opposite-wall shelf commit.
 
+### 2026-06-27
+
+- Homepage desk-scene reference brief: public total moved to 269 commits, 216 hours, and about $770 API cosplay while rounded public tokens, energy, tree midpoint, and CodexBar labels stayed unchanged; the path-scoped desk counter moved to 103 commits, 1.33B tokens, 102 hours, and 798 kWh while rounded desk tree midpoint, API-cost, and CodexBar labels stayed unchanged.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 90 repo sessions, counted 63 sessions after the revamp cutoff and 28 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending desk-scene reference commit.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD
