@@ -233,6 +233,8 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 
 - Homepage desk-scene reference brief: public total moved to 269 commits, 216 hours, and about $770 API cosplay while rounded public tokens, energy, tree midpoint, and CodexBar labels stayed unchanged; the path-scoped desk counter moved to 103 commits, 1.33B tokens, 102 hours, and 798 kWh while rounded desk tree midpoint, API-cost, and CodexBar labels stayed unchanged.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 90 repo sessions, counted 63 sessions after the revamp cutoff and 28 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending desk-scene reference commit.
+- Remote Prettier follow-up: public total moved to 270 commits, 2.39B tokens, and 1434 kWh while rounded public hours, tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 103 commits, 1.33B tokens, 102 hours, and 798 kWh.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 90 repo sessions, counted 63 sessions after the revamp cutoff and 28 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending YAML-formatting follow-up.
 
 ## Future Entry Template
 
