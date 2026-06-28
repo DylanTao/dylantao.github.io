@@ -210,6 +210,18 @@ preserve useful ambiguity.
 The artifact becomes valuable when it makes the mechanism concrete enough to
 inspect, use, and evaluate.
 
+This is also how I read Karla Felix Navarro, Eugene Syriani, and Ian Arawjo's
+guidelines for reporting LLM-integrated systems in HCI. Their practical advice
+is not just "document every prompt." It is to help reviewers understand what
+the LLM is doing, why it belongs in the system, and how much the claim depends
+on it. That feels like the reporting version of prototype-as-probe: frame the
+work around the human process or interaction idea, not around "an LLM solved
+X." If the LLM is central, then the paper owes readers enough detail about
+prompts, configuration, engineering process, robustness, and failure modes to
+judge the claim. If the LLM is only an implementation detail, then maybe the
+more durable contribution is the user understanding, design principle, or
+interaction pattern that will still matter when the model changes.
+
 This also changes how I think about studies. The study is not only product
 validation. It is a way to stress-test a claim about human activity. A prototype
 can help reveal what users notice, what they ignore, how they make decisions,
@@ -376,10 +388,14 @@ Main references:
 - Saul Greenberg and Bill Buxton.
   [_Usability Evaluation Considered Harmful (Some of the Time)_](https://dl.acm.org/doi/10.1145/1357054.1357074).
   CHI 2008.
+- Karla Felix Navarro, Eugene Syriani, and Ian Arawjo.
+  [_Reporting and Reviewing LLM-Integrated Systems in HCI: Challenges and Considerations_](https://arxiv.org/abs/2602.05128).
+  arXiv preprint, 2026.
+  [Companion guidelines](https://ianarawjo.github.io/Guidelines-for-Reporting-LLM-Integrated-Systems-in-HCI/).
 - Minas Karamanis.
   [_The machines are fine. I'm worried about us._](https://ergosphere.blog/posts/the-machines-are-fine/).
   March 30, 2026.
 
 ---
 
-Last updated: May 29, 2026.
+Last updated: June 28, 2026.
