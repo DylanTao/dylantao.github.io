@@ -91,8 +91,13 @@ Agents can use repo-local skills for common v1 workflows:
 
 - `.agents/skills/al-folio-bootstrap/SKILL.md` for new site setup and safe starter customization.
 - `.agents/skills/al-folio-v1-migration/SKILL.md` for customized fork migration and override drift auditing.
+- `.codex/skills/tacit-knowledge-to-skill/SKILL.md` for deciding whether living heuristics should stay in Markdown, become a new skill, or update an existing skill.
+- `.codex/skills/website-design-critique/SKILL.md` for the customized site's design critique and responsive-polish loops.
+- `.codex/skills/portfolio-writing-voice/SKILL.md` for blog, project, and site-copy edits that need Sirui's research voice and credit habits.
+- `.codex/skills/homepage-desk-scene/SKILL.md` for the homepage 2D/3D desk, album, and cliff-cave scene.
+- `.codex/skills/agentic-usage-ledger/SKILL.md` for the customized site's public Codex usage counters.
 
-The canonical skill files live in `.agents/skills/`. `.codex/skills/` and `.claude/skills/` are symlinks for agent-specific discovery.
+Starter workflow skills live in `.agents/skills/`; customized-site Codex overlays live in `.codex/skills/`. Keep long, human-facing heuristics in their canonical Markdown docs and let Codex skills link to them instead of duplicating them.
 
 ### Customization Agent
 

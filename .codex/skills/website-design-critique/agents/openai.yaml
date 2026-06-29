@@ -1,0 +1,4 @@
+interface:
+  display_name: "Website Design Critique"
+  short_description: "Critique site visuals with living heuristics"
+  default_prompt: "Use $website-design-critique to audit the homepage screenshots and propose a restrained design pass."

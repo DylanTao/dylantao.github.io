@@ -1,0 +1,4 @@
+interface:
+  display_name: "Homepage Desk Scene"
+  short_description: "Maintain the 2D and 3D desk scene"
+  default_prompt: "Use $homepage-desk-scene to improve the homepage 3D desk scene and verify the interaction states."

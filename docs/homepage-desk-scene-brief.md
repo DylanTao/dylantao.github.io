@@ -2,6 +2,8 @@
 
 This brief records the intended 2D and 3D homepage desk scene so a future model or agent can rerun the same target and compare alignment.
 
+Agent-facing Codex overlay: `.codex/skills/homepage-desk-scene/SKILL.md`. This brief remains the canonical copy-pastable scene contract and handoff source.
+
 ## Interaction Discoverability
 
 - Keep the `2D | 3D` switch always visible but visually quiet. The 3D mode should feel discoverable without forcing users to hover or already know the album interaction, especially on touch devices.

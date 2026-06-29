@@ -2,6 +2,8 @@
 
 This ledger keeps the visible homepage AI-work counters honest enough to be useful without pretending the old runs were measured perfectly.
 
+Agent-facing Codex overlay: `.codex/skills/agentic-usage-ledger/SKILL.md`. This document remains the canonical source for usage-counter math, evidence, and update history.
+
 ## Public Data File
 
 The homepage reads `_data/agentic_usage.yml`.
@@ -235,6 +237,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 90 repo sessions, counted 63 sessions after the revamp cutoff and 28 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending desk-scene reference commit.
 - Remote Prettier follow-up: public total moved to 270 commits, 2.39B tokens, and 1434 kWh while rounded public hours, tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 103 commits, 1.33B tokens, 102 hours, and 798 kWh.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 90 repo sessions, counted 63 sessions after the revamp cutoff and 28 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending YAML-formatting follow-up.
+
+### 2026-06-29
+
+- Repo-local Codex skills conversion: public total moved to 272 commits, 2.41B tokens, 219 hours, 1446 kWh, about $770 API cosplay, and about $2.1K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 104 commits, 1.35B tokens, 105 hours, 810 kWh, about $430 API cosplay, and about $1.2K on the CodexBar-ratio money joke while rounded tree midpoints stayed unchanged.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 92 repo sessions, counted 65 sessions after the revamp cutoff and 30 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending repo-local skill conversion commit.
 
 ## Future Entry Template
 

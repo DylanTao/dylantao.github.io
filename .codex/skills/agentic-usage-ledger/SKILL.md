@@ -1,3 +1,8 @@
+---
+name: agentic-usage-ledger
+description: Update, audit, and display Codex or agentic usage counters for this customized DylanTao/Sirui `dylantao.github.io` site. Use when touching homepage Codex token, agent-hour, commit, energy, tree-equivalence, API-cost, CodexBar-ratio money-joke labels, freshness hooks, `_data/agentic_usage.yml`, `docs/agentic-usage-ledger.md`, or the homepage usage counter, especially before committing or pushing site changes.
+---
+
 # Agentic Usage Ledger
 
 Use this skill when updating, auditing, or displaying Codex/agentic usage counters for this customized `dylantao.github.io` site.

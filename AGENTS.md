@@ -10,6 +10,10 @@
 - Use `.agents/skills/al-folio-bootstrap/SKILL.md` for new-site setup tasks.
 - Use `.agents/skills/al-folio-v1-migration/SKILL.md` when planning a full customized-fork migration.
 - Use `.codex/skills/agentic-usage-ledger/SKILL.md` when updating Codex token, agent-hour, or commit counters for this customized site.
+- Use `.codex/skills/tacit-knowledge-to-skill/SKILL.md` when deciding whether a living heuristic should stay human-facing, become a new Codex skill, or update an existing skill.
+- Use `.codex/skills/website-design-critique/SKILL.md` for homepage/sitewide visual critique, responsive polish, and restrained design passes.
+- Use `.codex/skills/portfolio-writing-voice/SKILL.md` for blog, project, case-study, and site-copy edits that need Sirui's research voice and source-credit habits.
+- Use `.codex/skills/homepage-desk-scene/SKILL.md` for the homepage 2D/3D desk, album, coffee-stain, and cliff-cave scene.
 - Use `.github/agents/customize.agent.md` for site customization work.
 - Use `.github/agents/docs.agent.md` for documentation work.
 
@@ -49,6 +53,13 @@ docker compose down
 ```
 
 For this customized personal site, also verify `http://localhost:8080/` with empty `baseurl`.
+
+## Living Heuristics And Codex Skills
+
+- `WEBSITE_DESIGN_HEURISTICS.md` remains the canonical human-readable, copy-pastable design and writing memory.
+- `docs/homepage-desk-scene-brief.md` remains the canonical desk-scene brief and handoff prompt.
+- `docs/agentic-usage-ledger.md` remains the canonical usage-counter math and evidence log.
+- Repo-local `.codex/skills/` files are concise Codex overlays that read those living docs by heading or path. Do not duplicate the long heuristic lists into skills unless the user explicitly asks for a source-of-truth migration.
 
 ## Publish Freshness Gate
 

@@ -356,7 +356,7 @@ The bundled v1 plugin repos are:
 
 For existing customized forks, the recommended migration path is to ask an agent to use the [al-folio v1 migration skill](.agents/skills/al-folio-v1-migration/SKILL.md). The skill walks through creating a disposable migration branch, bringing site-owned content/config/data onto the v1 starter contract, running `al_folio_upgrade`, auditing local overrides, and validating the build. This is preferred over a manual file-by-file upgrade because v1 runtime ownership moved into plugins and local overrides need explicit drift tracking.
 
-The canonical skills live in [.agents/skills/](.agents/skills/). They are also exposed through `.codex/skills/` and `.claude/skills/` symlinks for agents that discover skills from tool-specific directories.
+Starter workflow skills live in [.agents/skills/](.agents/skills/). This customized fork also keeps Codex-only operational overlays in `.codex/skills/` for site-specific design, writing, desk-scene, and usage-ledger work.
 
 ### Codex
 
@@ -364,6 +364,11 @@ Codex can use the repo-local skills:
 
 - [al-folio bootstrap](.agents/skills/al-folio-bootstrap/SKILL.md): create and configure a new v1 site.
 - [al-folio v1 migration](.agents/skills/al-folio-v1-migration/SKILL.md): migrate customized forks and audit local overrides.
+- [tacit knowledge to skill](.codex/skills/tacit-knowledge-to-skill/SKILL.md): decide whether living heuristics should stay in Markdown, become a new skill, or update an existing skill.
+- [website design critique](.codex/skills/website-design-critique/SKILL.md): apply the living design heuristics to restrained visual and responsive passes.
+- [portfolio writing voice](.codex/skills/portfolio-writing-voice/SKILL.md): keep posts, project pages, and site copy specific, research-grounded, and credit-aware.
+- [homepage desk scene](.codex/skills/homepage-desk-scene/SKILL.md): maintain the homepage 2D/3D desk, album, and cliff-cave scene.
+- [agentic usage ledger](.codex/skills/agentic-usage-ledger/SKILL.md): refresh public Codex usage counters before publishing site work.
 
 Useful first prompts:
 
