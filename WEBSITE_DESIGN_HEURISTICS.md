@@ -42,6 +42,7 @@ Agent-facing Codex overlays live in `.codex/skills/website-design-critique/SKILL
 - Time-of-day themes should default from the visitor's local time. Manual changes can be remembered within the current session, then return to the time-based rule on a future visit.
 - If a page stays open across a time boundary, automatic theme changes are allowed only when the visitor has not manually picked a theme in that session.
 - Theme backgrounds should stay clean. Use pastel atmosphere as a soft field, not as muddy color spread across every surface.
+- In dark mode, keep orange bright by role and tone instead of darkening the same hue into brown: use a clear tangerine primary, a separate on-primary text color, restrained primary-container tints, and neutral surface containers.
 
 ## Project Images
 

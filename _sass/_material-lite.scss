@@ -19,20 +19,20 @@
   --md-lite-orange-shadow-1: 0 0.45rem 1.05rem rgba(var(--global-accent-rgb), 0.12);
   --md-lite-orange-shadow-2: 0 0.72rem 1.55rem rgba(var(--global-accent-rgb), 0.18);
 
-  --md-lite-state-hover: rgba(var(--global-accent-rgb), 0.08);
-  --md-lite-state-focus: rgba(var(--global-accent-rgb), 0.16);
+  --md-lite-state-hover: rgba(var(--global-accent-rgb), 0.075);
+  --md-lite-state-focus: rgba(var(--global-accent-rgb), 0.14);
   --md-lite-state-pressed: rgba(var(--global-accent-rgb), 0.18);
-  --md-lite-state-muted: rgba(var(--global-accent-rgb), 0.05);
+  --md-lite-state-muted: rgba(var(--global-accent-rgb), 0.045);
 
-  --md-lite-surface-tonal: color-mix(in srgb, var(--global-accent-soft) 38%, var(--global-card-bg-color));
-  --md-lite-surface-tonal-strong: color-mix(in srgb, var(--global-accent-soft) 58%, var(--global-card-bg-color));
+  --md-lite-surface-tonal: color-mix(in srgb, var(--global-primary-container-color) 42%, var(--global-card-bg-color));
+  --md-lite-surface-tonal-strong: color-mix(in srgb, var(--global-primary-container-color) 62%, var(--global-card-bg-color));
   --md-lite-surface-coastal: color-mix(in srgb, var(--global-sky-soft) 48%, var(--global-card-bg-color));
   --md-lite-surface-mint: color-mix(in srgb, var(--global-mint-soft) 46%, var(--global-card-bg-color));
-  --md-lite-card-bg: color-mix(in srgb, var(--global-card-bg-color) 98%, var(--global-bg-color));
+  --md-lite-card-bg: color-mix(in srgb, var(--global-card-bg-color) 96%, var(--global-surface-container-low-color));
   --md-lite-card-border: color-mix(in srgb, var(--global-divider-color) 78%, transparent);
-  --md-lite-card-accent-line: color-mix(in srgb, var(--global-theme-color) 42%, transparent);
-  --md-lite-card-accent-wash: color-mix(in srgb, var(--global-accent-soft) 16%, transparent);
-  --md-lite-divider-tonal: color-mix(in srgb, var(--global-theme-color) 22%, var(--global-divider-color));
+  --md-lite-card-accent-line: color-mix(in srgb, var(--global-primary-color) 44%, transparent);
+  --md-lite-card-accent-wash: color-mix(in srgb, var(--global-primary-container-color) 12%, transparent);
+  --md-lite-divider-tonal: color-mix(in srgb, var(--global-primary-color) 20%, var(--global-divider-color));
   --md-lite-focus-ring: 2px solid rgba(var(--global-accent-rgb), 0.5);
   --md-lite-focus-shadow: 0 0 0 0.18rem rgba(var(--global-accent-rgb), 0.18);
 
@@ -63,7 +63,13 @@ html[data-theme-mode="evening"] {
   --md-lite-elevation-3: 0 1.05rem 2.4rem rgba(0, 0, 0, 0.34);
   --md-lite-orange-shadow-1: 0 0.45rem 1.05rem rgba(var(--global-accent-rgb), 0.13);
   --md-lite-orange-shadow-2: 0 0.72rem 1.55rem rgba(var(--global-accent-rgb), 0.2);
-  --md-lite-state-hover: rgba(var(--global-accent-rgb), 0.12);
-  --md-lite-state-focus: rgba(var(--global-accent-rgb), 0.2);
-  --md-lite-state-pressed: rgba(var(--global-accent-rgb), 0.24);
+  --md-lite-state-hover: rgba(var(--global-accent-rgb), 0.1);
+  --md-lite-state-focus: rgba(var(--global-accent-rgb), 0.18);
+  --md-lite-state-pressed: rgba(var(--global-accent-rgb), 0.22);
+  --md-lite-surface-tonal: color-mix(in srgb, var(--global-primary-color) 8%, var(--global-surface-container-color));
+  --md-lite-surface-tonal-strong: color-mix(in srgb, var(--global-primary-color) 12%, var(--global-surface-container-high-color));
+  --md-lite-card-bg: color-mix(in srgb, var(--global-card-bg-color) 86%, var(--global-surface-container-low-color));
+  --md-lite-card-border: color-mix(in srgb, var(--global-divider-color) 70%, transparent);
+  --md-lite-card-accent-line: color-mix(in srgb, var(--global-primary-color) 34%, transparent);
+  --md-lite-card-accent-wash: rgba(var(--global-accent-rgb), 0.045);
 }

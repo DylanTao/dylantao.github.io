@@ -1,17 +1,17 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-06-29"
+updated_at: "2026-06-30"
 source_note: Estimated from local Codex logs plus git history; audit with python bin/audit_agentic_usage.py before publish.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 279
+  commits: 280
   token_count: 2470000000
   tokens_label: 2.47B
-  hours_count: 224
-  hours_label: "224"
+  hours_count: 226
+  hours_label: "226"
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -30,11 +30,11 @@ total:
     cut_tree_range: 0.3-3.1
     public_note: "Tree lens: about 1482 kWh, or ~0.9 ten-year urban trees' stored carbon. Range: 0.3-3.1."
   token_usage:
-    input_tokens: 2456125183
-    cached_input_tokens: 2309671508
-    output_tokens: 9326283
-    reasoning_output_tokens: 3403804
-    total_tokens: 2465442283
+    input_tokens: 2458208735
+    cached_input_tokens: 2311735252
+    output_tokens: 9329060
+    reasoning_output_tokens: 3405970
+    total_tokens: 2467528612
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -43,12 +43,12 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 2456125183
-    cached_input_tokens: 2309671508
-    uncached_input_tokens: 146453675
-    output_tokens: 9326283
-    reasoning_output_tokens: 3403804
-    total_tokens: 2465442283
+    input_tokens: 2458208735
+    cached_input_tokens: 2311735252
+    uncached_input_tokens: 146473483
+    output_tokens: 9329060
+    reasoning_output_tokens: 3405970
+    total_tokens: 2467528612
     usd_midpoint: 790
     usd_label: ~$790 API cosplay
     usd_range_label: $560-$4.4K
@@ -71,11 +71,11 @@ desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 106
+  commits: 107
   token_count: 1410000000
   tokens_label: 1.41B
-  hours_count: 110
-  hours_label: "110"
+  hours_count: 112
+  hours_label: "112"
   confidence: estimate
   note: Scoped to the homepage vinyl, desk, coffee mug, and 3D scene burst.
   energy_equivalence:
@@ -94,11 +94,11 @@ desk_scene:
     cut_tree_range: 0.18-1.8
     public_note: roughly 0.5 trees cut
   token_usage:
-    input_tokens: 1402252968
-    cached_input_tokens: 1323081887
-    output_tokens: 5230239
-    reasoning_output_tokens: 1898839
-    total_tokens: 1407483207
+    input_tokens: 1404336520
+    cached_input_tokens: 1325145631
+    output_tokens: 5233016
+    reasoning_output_tokens: 1901005
+    total_tokens: 1409569536
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -107,12 +107,12 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 1402252968
-    cached_input_tokens: 1323081887
-    uncached_input_tokens: 79171081
-    output_tokens: 5230239
-    reasoning_output_tokens: 1898839
-    total_tokens: 1407483207
+    input_tokens: 1404336520
+    cached_input_tokens: 1325145631
+    uncached_input_tokens: 79190889
+    output_tokens: 5233016
+    reasoning_output_tokens: 1901005
+    total_tokens: 1409569536
     usd_midpoint: 440
     usd_label: ~$440 API cosplay
     usd_range_label: $320-$2.5K

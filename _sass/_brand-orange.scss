@@ -15,16 +15,16 @@
 }
 
 .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffd58f;
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 68%, #ff8f3d);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 58%, #e66522);
-  --brand-orange-outline: color-mix(in srgb, var(--global-hover-color) 58%, transparent);
+  --brand-orange-highlight: #ffd07a;
+  --brand-orange-rind: #f47d20;
+  --brand-orange-deep: #c85214;
+  --brand-orange-outline: rgba(132, 54, 15, 0.36);
   --brand-orange-detail: rgba(255, 247, 232, 0.58);
-  --brand-orange-pore: color-mix(in srgb, var(--global-hover-color) 58%, #fff7ec);
-  --brand-orange-pore-shadow: color-mix(in srgb, var(--global-hover-color) 62%, #6d3518);
-  --brand-orange-leaf: #6fa85a;
-  --brand-orange-leaf-deep: #3d7641;
-  --brand-orange-stem: #7a5330;
+  --brand-orange-pore: rgba(255, 219, 160, 0.72);
+  --brand-orange-pore-shadow: rgba(122, 53, 16, 0.26);
+  --brand-orange-leaf: #72a95b;
+  --brand-orange-leaf-deep: #3e7640;
+  --brand-orange-stem: #81552e;
   --brand-orange-scale: 1;
   --brand-orange-tilt: 0deg;
   --brand-orange-nudge-x: 0px;
@@ -48,33 +48,36 @@
 }
 
 html[data-theme-mode="morning"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 66%, #ff9a47);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 58%, #e76a27);
+  --brand-orange-highlight: #ffd382;
+  --brand-orange-rind: #f58220;
+  --brand-orange-deep: #c95417;
   --brand-orange-leaf: #75a962;
 }
 
 html[data-theme-mode="noon"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffdaa2;
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 64%, #ff9340);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 56%, #df6121);
+  --brand-orange-highlight: #ffd07a;
+  --brand-orange-rind: #f47d20;
+  --brand-orange-deep: #c85214;
 }
 
 html[data-theme-mode="afternoon"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 70%, #f79451);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 58%, #d45d2a);
+  --brand-orange-highlight: #ffd08a;
+  --brand-orange-rind: #ef7a24;
+  --brand-orange-deep: #bf501b;
   --brand-orange-leaf: #6d8c4d;
 }
 
 html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: rgba(255, 221, 179, 0.92);
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 60%, #fb8238);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 46%, #a13c16);
-  --brand-orange-outline: rgba(var(--global-accent-rgb), 0.42);
-  --brand-orange-detail: rgba(255, 245, 231, 0.5);
-  --brand-orange-pore-shadow: rgba(116, 53, 24, 0.34);
-  --brand-orange-leaf: #8eae74;
-  --brand-orange-leaf-deep: #476b42;
-  --brand-orange-stem: #ad7441;
+  --brand-orange-highlight: #ffd189;
+  --brand-orange-rind: #ff9838;
+  --brand-orange-deep: #f06f18;
+  --brand-orange-outline: rgba(255, 177, 95, 0.48);
+  --brand-orange-detail: rgba(255, 246, 231, 0.56);
+  --brand-orange-pore: rgba(255, 213, 137, 0.58);
+  --brand-orange-pore-shadow: rgba(132, 61, 19, 0.22);
+  --brand-orange-leaf: #9ec179;
+  --brand-orange-leaf-deep: #577c44;
+  --brand-orange-stem: #bd8042;
 }
 
 .navbar.navbar-light .site-brand:hover .brand-orange,

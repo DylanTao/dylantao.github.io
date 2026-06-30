@@ -21,11 +21,14 @@
   --home-ink: var(--global-text-color);
   --home-muted: var(--global-text-color-light);
   --home-surface: var(--global-card-bg-color);
+  --home-surface-low: var(--global-surface-container-low-color);
+  --home-surface-container: var(--global-surface-container-color);
+  --home-surface-high: var(--global-surface-container-high-color);
   --home-line: var(--global-divider-color);
   --home-card-border: color-mix(in srgb, var(--home-line) 78%, transparent);
   --home-card-shadow: 0 0.38rem 0.92rem rgba(35, 28, 24, 0.055);
   --home-card-shadow-hover: 0 0.72rem 1.4rem rgba(35, 28, 24, 0.075);
-  --home-card-wash: color-mix(in srgb, var(--home-accent-soft) 14%, transparent);
+  --home-card-wash: color-mix(in srgb, var(--global-primary-container-color) 10%, transparent);
   --home-shadow: 0 18px 42px rgba(35, 28, 24, 0.08);
   --home-coffee-stain-blend: multiply;
   --home-coffee-stain-image: url("../img/home/coffee-stain-noon.svg");
@@ -81,9 +84,9 @@ html[data-theme="dark"] .home-page {
   --home-card-border: color-mix(in srgb, var(--home-line) 80%, transparent);
   --home-card-shadow: 0 0.42rem 0.96rem rgba(0, 0, 0, 0.22);
   --home-card-shadow-hover: 0 0.78rem 1.45rem rgba(0, 0, 0, 0.3);
-  --home-card-wash: color-mix(in srgb, var(--home-accent-soft) 12%, transparent);
-  --home-paper: color-mix(in srgb, var(--home-surface) 94%, #f4eadc 6%);
-  --home-paper-warm: color-mix(in srgb, var(--home-surface) 89%, #f4eadc 11%);
+  --home-card-wash: rgba(var(--global-accent-rgb), 0.045);
+  --home-paper: color-mix(in srgb, var(--home-surface-high) 92%, var(--global-on-primary-container-color) 8%);
+  --home-paper-warm: color-mix(in srgb, var(--home-surface-container) 90%, var(--global-on-primary-container-color) 10%);
   --home-paper-edge: rgba(232, 220, 204, 0.18);
   --home-paper-shadow: 0 0.48rem 1rem rgba(0, 0, 0, 0.24);
   --home-coffee-stain-blend: normal;
@@ -247,7 +250,7 @@ html[data-theme="dark"] .home-story-rail ol {
   border-radius: inherit;
   background:
     linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.055) 40%, transparent 68%),
-    color-mix(in srgb, var(--home-accent-soft) 22%, transparent);
+    color-mix(in srgb, var(--global-primary-container-color) 14%, transparent);
   box-shadow:
     0 0.24rem 0.52rem rgba(73, 45, 30, 0.032),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -2774,7 +2777,7 @@ html[data-theme="dark"] .home-artifact-mark {
   aspect-ratio: var(--home-work-image-aspect, 4 / 3);
   overflow: hidden;
   border-bottom: 1px solid var(--home-line);
-  background: #fffefd;
+  background: var(--global-surface-color);
 }
 
 .home-work-image-wrap img {

@@ -338,11 +338,11 @@ html.site-motion-ready .hoverable.site-visible:hover {
   .project-card {
     --project-accent: var(--project-accent-morning, var(--global-theme-color));
     --project-accent-line: color-mix(in srgb, var(--project-accent) 52%, var(--global-divider-color));
-    --project-accent-wash: color-mix(in srgb, var(--project-accent) 8%, transparent);
-    --project-accent-panel: color-mix(in srgb, var(--project-accent) 26%, var(--global-card-bg-color));
-    --project-accent-panel-strong: color-mix(in srgb, var(--project-accent) 48%, var(--global-card-bg-color));
+    --project-accent-wash: color-mix(in srgb, var(--project-accent) 6%, transparent);
+    --project-accent-panel: color-mix(in srgb, var(--project-accent) 10%, var(--global-surface-container-low-color));
+    --project-accent-panel-strong: color-mix(in srgb, var(--project-accent) 16%, var(--global-surface-container-color));
     --md-lite-card-accent-line: color-mix(in srgb, var(--project-accent) 48%, transparent);
-    --md-lite-card-accent-wash: color-mix(in srgb, var(--project-accent) 10%, transparent);
+    --md-lite-card-accent-wash: color-mix(in srgb, var(--project-accent) 7%, transparent);
     min-width: 0;
     transform-origin: top left;
 
@@ -406,6 +406,16 @@ html.site-motion-ready .hoverable.site-visible:hover {
     &.is-expanded .project-card-media img {
       transform: scale(1.025);
     }
+  }
+
+  html[data-theme="dark"] & .project-card,
+  html[data-theme-mode="evening"] & .project-card {
+    --project-accent-line: color-mix(in srgb, var(--project-accent) 40%, var(--global-divider-color));
+    --project-accent-wash: color-mix(in srgb, var(--project-accent) 5%, transparent);
+    --project-accent-panel: color-mix(in srgb, var(--project-accent) 8%, var(--global-surface-container-color));
+    --project-accent-panel-strong: color-mix(in srgb, var(--project-accent) 12%, var(--global-surface-container-high-color));
+    --md-lite-card-accent-line: color-mix(in srgb, var(--project-accent) 34%, transparent);
+    --md-lite-card-accent-wash: color-mix(in srgb, var(--project-accent) 5%, transparent);
   }
 
   .project-card-preview {

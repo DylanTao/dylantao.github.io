@@ -24,15 +24,25 @@
   --type-page-title: clamp(2.2rem, 4.2vw, 3.75rem);
   --type-case-title: clamp(2.35rem, 3.8vw, 3.65rem);
 
-  --global-bg-color: #fffdf9;
+  --global-bg-color: #fffefd;
   --global-code-bg-color: #{v.$code-bg-color-light};
-  --global-text-color: #241914;
-  --global-text-color-light: #75665d;
-  --global-theme-color: #ad4f20;
-  --global-hover-color: #873a16;
-  --global-hover-text-color: #fffaf6;
-  --global-accent-rgb: 173, 79, 32;
-  --global-accent-soft: #ffead8;
+  --global-text-color: #211a16;
+  --global-text-color-light: #6d6a62;
+  --global-primary-color: #b84f12;
+  --global-primary-hover-color: #84360f;
+  --global-on-primary-color: #fffefd;
+  --global-primary-container-color: #fff0e2;
+  --global-on-primary-container-color: #7a3510;
+  --global-surface-color: #fffefd;
+  --global-surface-container-low-color: #fffaf6;
+  --global-surface-container-color: #f8f4ee;
+  --global-surface-container-high-color: #f3eee6;
+  --global-outline-color: rgba(90, 88, 72, 0.16);
+  --global-theme-color: var(--global-primary-color);
+  --global-hover-color: var(--global-primary-hover-color);
+  --global-hover-text-color: var(--global-on-primary-color);
+  --global-accent-rgb: 184, 79, 18;
+  --global-accent-soft: var(--global-primary-container-color);
   --global-mint-soft: #e2f1eb;
   --global-mint-strong: #437a67;
   --global-sky-soft: #dfeff4;
@@ -41,7 +51,7 @@
   --global-footer-text-color: #{v.$grey-color-light};
   --global-footer-link-color: #{v.$white-color};
   --global-distill-app-color: #{v.$grey-color};
-  --global-divider-color: rgba(120, 76, 50, 0.17);
+  --global-divider-color: var(--global-outline-color);
   --global-card-bg-color: #ffffff;
   --global-highlight-color: #{v.$red-color-dark};
   --global-back-to-top-bg-color: rgba(
@@ -109,16 +119,26 @@ html[data-theme-mode="morning"] {
   --global-bg-color: #fffdf9;
   --global-text-color: #241914;
   --global-text-color-light: #74655e;
-  --global-theme-color: #b15423;
-  --global-hover-color: #8b3c18;
-  --global-hover-text-color: #fffaf6;
-  --global-accent-rgb: 177, 84, 35;
-  --global-accent-soft: #ffecdc;
+  --global-primary-color: #b95718;
+  --global-primary-hover-color: #873a10;
+  --global-on-primary-color: #fffdf9;
+  --global-primary-container-color: #fff0e4;
+  --global-on-primary-container-color: #7b3712;
+  --global-surface-color: #fffdf9;
+  --global-surface-container-low-color: #fff9f3;
+  --global-surface-container-color: #f8f3ec;
+  --global-surface-container-high-color: #f2ebe2;
+  --global-outline-color: rgba(125, 82, 54, 0.16);
+  --global-theme-color: var(--global-primary-color);
+  --global-hover-color: var(--global-primary-hover-color);
+  --global-hover-text-color: var(--global-on-primary-color);
+  --global-accent-rgb: 185, 87, 24;
+  --global-accent-soft: var(--global-primary-container-color);
   --global-mint-soft: #e4f1eb;
   --global-mint-strong: #407864;
   --global-sky-soft: #e4f3fa;
   --global-sky-strong: #487f93;
-  --global-divider-color: rgba(125, 82, 54, 0.16);
+  --global-divider-color: var(--global-outline-color);
   --global-card-bg-color: #ffffff;
 
   --research-motion-bg-a: #fffdf9;
@@ -135,16 +155,26 @@ html[data-theme-mode="noon"] {
   --global-bg-color: #fffefd;
   --global-text-color: #211a16;
   --global-text-color-light: #6d6a62;
-  --global-theme-color: #a94b1d;
-  --global-hover-color: #813713;
-  --global-hover-text-color: #ffffff;
-  --global-accent-rgb: 169, 75, 29;
-  --global-accent-soft: #ffe9d7;
+  --global-primary-color: #b84f12;
+  --global-primary-hover-color: #84360f;
+  --global-on-primary-color: #fffefd;
+  --global-primary-container-color: #fff0e2;
+  --global-on-primary-container-color: #7a3510;
+  --global-surface-color: #fffefd;
+  --global-surface-container-low-color: #fffaf6;
+  --global-surface-container-color: #f8f4ee;
+  --global-surface-container-high-color: #f3eee6;
+  --global-outline-color: rgba(90, 88, 72, 0.16);
+  --global-theme-color: var(--global-primary-color);
+  --global-hover-color: var(--global-primary-hover-color);
+  --global-hover-text-color: var(--global-on-primary-color);
+  --global-accent-rgb: 184, 79, 18;
+  --global-accent-soft: var(--global-primary-container-color);
   --global-mint-soft: #e4f3ee;
   --global-mint-strong: #387768;
   --global-sky-soft: #dff1fb;
   --global-sky-strong: #357f9e;
-  --global-divider-color: rgba(90, 88, 72, 0.16);
+  --global-divider-color: var(--global-outline-color);
   --global-card-bg-color: #ffffff;
 
   --research-motion-bg-a: #fffefd;
@@ -161,16 +191,26 @@ html[data-theme-mode="afternoon"] {
   --global-bg-color: #fffaf6;
   --global-text-color: #231814;
   --global-text-color-light: #77655d;
-  --global-theme-color: #a94e2e;
-  --global-hover-color: #80361d;
-  --global-hover-text-color: #fffaf6;
-  --global-accent-rgb: 169, 78, 46;
-  --global-accent-soft: #ffe4d4;
+  --global-primary-color: #ad5424;
+  --global-primary-hover-color: #813b18;
+  --global-on-primary-color: #fffaf6;
+  --global-primary-container-color: #ffe9dc;
+  --global-on-primary-container-color: #743713;
+  --global-surface-color: #fffaf6;
+  --global-surface-container-low-color: #fff7f0;
+  --global-surface-container-color: #f8f1e8;
+  --global-surface-container-high-color: #f1e8dd;
+  --global-outline-color: rgba(132, 73, 57, 0.17);
+  --global-theme-color: var(--global-primary-color);
+  --global-hover-color: var(--global-primary-hover-color);
+  --global-hover-text-color: var(--global-on-primary-color);
+  --global-accent-rgb: 173, 84, 36;
+  --global-accent-soft: var(--global-primary-container-color);
   --global-mint-soft: #e8f0e4;
   --global-mint-strong: #597d60;
   --global-sky-soft: #e5f2f5;
   --global-sky-strong: #5d8291;
-  --global-divider-color: rgba(132, 73, 57, 0.17);
+  --global-divider-color: var(--global-outline-color);
   --global-card-bg-color: #ffffff;
 
   --research-motion-bg-a: #fffaf6;
@@ -186,15 +226,25 @@ html[data-theme-mode="afternoon"] {
 html[data-theme="dark"],
 html[data-theme-mode="evening"] {
   color-scheme: dark;
-  --global-bg-color: #141a1d;
+  --global-bg-color: #12181b;
   --global-code-bg-color: #{v.$code-bg-color-dark};
   --global-text-color: #f7f1ea;
   --global-text-color-light: #c8d0cc;
-  --global-theme-color: #ffb071;
-  --global-hover-color: #ffd0a6;
-  --global-hover-text-color: #141a1d;
-  --global-accent-rgb: 255, 176, 113;
-  --global-accent-soft: rgba(255, 176, 113, 0.16);
+  --global-primary-color: #ffb15f;
+  --global-primary-hover-color: #ffd1a3;
+  --global-on-primary-color: #241006;
+  --global-primary-container-color: #3b2619;
+  --global-on-primary-container-color: #ffd9b5;
+  --global-surface-color: #12181b;
+  --global-surface-container-low-color: #171e21;
+  --global-surface-container-color: #1f272b;
+  --global-surface-container-high-color: #273034;
+  --global-outline-color: rgba(154, 196, 205, 0.2);
+  --global-theme-color: var(--global-primary-color);
+  --global-hover-color: var(--global-primary-hover-color);
+  --global-hover-text-color: var(--global-on-primary-color);
+  --global-accent-rgb: 255, 177, 95;
+  --global-accent-soft: rgba(255, 177, 95, 0.14);
   --global-mint-soft: rgba(126, 184, 156, 0.16);
   --global-mint-strong: #b4e4d0;
   --global-sky-soft: rgba(117, 177, 206, 0.17);
@@ -203,8 +253,8 @@ html[data-theme-mode="evening"] {
   --global-footer-text-color: #d5ddda;
   --global-footer-link-color: #fff6ef;
   --global-distill-app-color: #d0d6d4;
-  --global-divider-color: rgba(154, 196, 205, 0.2);
-  --global-card-bg-color: #1e2528;
+  --global-divider-color: var(--global-outline-color);
+  --global-card-bg-color: #1b2226;
   --global-back-to-top-bg-color: rgba(
     #{color.channel(v.$white-color, "red", v.$space: rgb)},
     #{color.channel(v.$white-color, "green", v.$space: rgb)},
@@ -215,9 +265,9 @@ html[data-theme-mode="evening"] {
   --global-newsletter-bg-color: #{v.$grey-color-light};
   --global-newsletter-text-color: #{v.$grey-color-dark};
 
-  --research-motion-bg-a: #141a1d;
+  --research-motion-bg-a: #12181b;
   --research-motion-bg-b: rgba(80, 108, 158, 0.42);
-  --research-motion-bg-c: #1b2227;
+  --research-motion-bg-c: #1f272b;
   --research-motion-line-a: #8cc7ff;
   --research-motion-line-b: #ffbe88;
   --research-motion-line-c: #91ddc7;

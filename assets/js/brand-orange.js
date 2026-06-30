@@ -42,32 +42,7 @@
     return Number(value.toFixed(precision));
   }
 
-  function hsl(hue, saturation, lightness, alpha = 1) {
-    const base = `hsl(${number(hue, 1)}deg ${number(saturation, 1)}% ${number(lightness, 1)}%`;
-    return alpha < 1 ? `${base} / ${number(alpha, 2)})` : `${base})`;
-  }
-
-  function setVariantColors(mark, random) {
-    const hue = randomBetween(random, 24, 34);
-    const saturation = randomBetween(random, 79, 91);
-    const rindLightness = randomBetween(random, 48, 58);
-    const leafHue = randomBetween(random, 92, 126);
-    const leafSaturation = randomBetween(random, 32, 48);
-    const leafLightness = randomBetween(random, 39, 50);
-
-    mark.style.setProperty("--brand-orange-highlight", hsl(hue + randomBetween(random, 4, 12), 88, randomBetween(random, 69, 78), 0.96));
-    mark.style.setProperty("--brand-orange-rind", hsl(hue, saturation, rindLightness));
-    mark.style.setProperty(
-      "--brand-orange-deep",
-      hsl(hue - randomBetween(random, 4, 9), saturation + 2, rindLightness - randomBetween(random, 13, 19))
-    );
-    mark.style.setProperty("--brand-orange-outline", hsl(hue - 5, 76, Math.max(31, rindLightness - 21), 0.38));
-    mark.style.setProperty("--brand-orange-detail", hsl(hue + 16, 92, 82, randomBetween(random, 0.42, 0.62)));
-    mark.style.setProperty("--brand-orange-pore", hsl(hue + 8, 85, randomBetween(random, 68, 78), 0.72));
-    mark.style.setProperty("--brand-orange-pore-shadow", hsl(hue - 8, 78, randomBetween(random, 31, 39), 0.3));
-    mark.style.setProperty("--brand-orange-leaf", hsl(leafHue, leafSaturation, leafLightness));
-    mark.style.setProperty("--brand-orange-leaf-deep", hsl(leafHue - 10, leafSaturation + 5, leafLightness - 15));
-    mark.style.setProperty("--brand-orange-stem", hsl(randomBetween(random, 26, 36), randomBetween(random, 42, 56), randomBetween(random, 31, 41)));
+  function setVariantScale(mark, random) {
     mark.style.setProperty("--brand-orange-scale", number(randomBetween(random, 0.95, 1.07)));
   }
 
@@ -339,7 +314,7 @@
     const bodyClip = mark.querySelector("[data-brand-body-clip]");
     const bodyShape = makeBodyPath(random);
 
-    setVariantColors(mark, random);
+    setVariantScale(mark, random);
     updateGradient(mark, random);
     if (body) body.setAttribute("d", bodyShape.path);
     if (bodyClip) bodyClip.setAttribute("d", bodyShape.path);
