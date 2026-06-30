@@ -24,7 +24,7 @@
   --type-page-title: clamp(2.2rem, 4.2vw, 3.75rem);
   --type-case-title: clamp(2.35rem, 3.8vw, 3.65rem);
 
-  --global-bg-color: #fff8f0;
+  --global-bg-color: #fffdf9;
   --global-code-bg-color: #{v.$code-bg-color-light};
   --global-text-color: #241914;
   --global-text-color-light: #75665d;
@@ -32,8 +32,8 @@
   --global-hover-color: #873a16;
   --global-hover-text-color: #fffaf6;
   --global-accent-rgb: 173, 79, 32;
-  --global-accent-soft: #ffe6cf;
-  --global-mint-soft: #dceee7;
+  --global-accent-soft: #ffead8;
+  --global-mint-soft: #e2f1eb;
   --global-mint-strong: #437a67;
   --global-sky-soft: #dfeff4;
   --global-sky-strong: #4d8190;
@@ -42,7 +42,7 @@
   --global-footer-link-color: #{v.$white-color};
   --global-distill-app-color: #{v.$grey-color};
   --global-divider-color: rgba(120, 76, 50, 0.17);
-  --global-card-bg-color: #fffdfa;
+  --global-card-bg-color: #ffffff;
   --global-highlight-color: #{v.$red-color-dark};
   --global-back-to-top-bg-color: rgba(
     #{color.channel(v.$black-color, "red", v.$space: rgb)},
@@ -54,7 +54,7 @@
   --global-newsletter-bg-color: #{v.$white-color};
   --global-newsletter-text-color: #{v.$black-color};
 
-  --research-motion-bg-a: #fff8f0;
+  --research-motion-bg-a: #fffdf9;
   --research-motion-bg-b: rgba(178, 214, 242, 0.36);
   --research-motion-bg-c: #f7fbfb;
   --research-motion-line-a: #4f9bd8;
@@ -106,22 +106,22 @@
 }
 
 html[data-theme-mode="morning"] {
-  --global-bg-color: #fff8f1;
+  --global-bg-color: #fffdf9;
   --global-text-color: #241914;
   --global-text-color-light: #74655e;
   --global-theme-color: #b15423;
   --global-hover-color: #8b3c18;
   --global-hover-text-color: #fffaf6;
   --global-accent-rgb: 177, 84, 35;
-  --global-accent-soft: #ffe9d5;
-  --global-mint-soft: #e0f0e7;
+  --global-accent-soft: #ffecdc;
+  --global-mint-soft: #e4f1eb;
   --global-mint-strong: #407864;
   --global-sky-soft: #e4f3fa;
   --global-sky-strong: #487f93;
   --global-divider-color: rgba(125, 82, 54, 0.16);
-  --global-card-bg-color: #fffdfa;
+  --global-card-bg-color: #ffffff;
 
-  --research-motion-bg-a: #fff8f1;
+  --research-motion-bg-a: #fffdf9;
   --research-motion-bg-b: rgba(174, 214, 244, 0.34);
   --research-motion-bg-c: #f7fbfa;
   --research-motion-line-a: #4c98d2;
@@ -132,14 +132,14 @@ html[data-theme-mode="morning"] {
 }
 
 html[data-theme-mode="noon"] {
-  --global-bg-color: #fffdf8;
+  --global-bg-color: #fffefd;
   --global-text-color: #211a16;
   --global-text-color-light: #6d6a62;
   --global-theme-color: #a94b1d;
   --global-hover-color: #813713;
   --global-hover-text-color: #ffffff;
   --global-accent-rgb: 169, 75, 29;
-  --global-accent-soft: #ffe8d2;
+  --global-accent-soft: #ffe9d7;
   --global-mint-soft: #e4f3ee;
   --global-mint-strong: #387768;
   --global-sky-soft: #dff1fb;
@@ -147,9 +147,9 @@ html[data-theme-mode="noon"] {
   --global-divider-color: rgba(90, 88, 72, 0.16);
   --global-card-bg-color: #ffffff;
 
-  --research-motion-bg-a: #fffdf8;
+  --research-motion-bg-a: #fffefd;
   --research-motion-bg-b: rgba(171, 214, 248, 0.4);
-  --research-motion-bg-c: #fffdf8;
+  --research-motion-bg-c: #fffefd;
   --research-motion-line-a: #2b8bd2;
   --research-motion-line-b: #edaa52;
   --research-motion-line-c: #31a27e;
@@ -158,24 +158,24 @@ html[data-theme-mode="noon"] {
 }
 
 html[data-theme-mode="afternoon"] {
-  --global-bg-color: #fff4eb;
+  --global-bg-color: #fffaf6;
   --global-text-color: #231814;
   --global-text-color-light: #77655d;
   --global-theme-color: #a94e2e;
   --global-hover-color: #80361d;
   --global-hover-text-color: #fffaf6;
   --global-accent-rgb: 169, 78, 46;
-  --global-accent-soft: #ffddca;
-  --global-mint-soft: #e7eee0;
+  --global-accent-soft: #ffe4d4;
+  --global-mint-soft: #e8f0e4;
   --global-mint-strong: #597d60;
   --global-sky-soft: #e5f2f5;
   --global-sky-strong: #5d8291;
   --global-divider-color: rgba(132, 73, 57, 0.17);
-  --global-card-bg-color: #fffdfb;
+  --global-card-bg-color: #ffffff;
 
-  --research-motion-bg-a: #fff4eb;
+  --research-motion-bg-a: #fffaf6;
   --research-motion-bg-b: rgba(229, 194, 165, 0.36);
-  --research-motion-bg-c: #fffdf8;
+  --research-motion-bg-c: #fffefd;
   --research-motion-line-a: #588fd0;
   --research-motion-line-b: #dc8754;
   --research-motion-line-c: #6ea79a;

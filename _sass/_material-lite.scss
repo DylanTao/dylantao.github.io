@@ -28,6 +28,10 @@
   --md-lite-surface-tonal-strong: color-mix(in srgb, var(--global-accent-soft) 58%, var(--global-card-bg-color));
   --md-lite-surface-coastal: color-mix(in srgb, var(--global-sky-soft) 48%, var(--global-card-bg-color));
   --md-lite-surface-mint: color-mix(in srgb, var(--global-mint-soft) 46%, var(--global-card-bg-color));
+  --md-lite-card-bg: color-mix(in srgb, var(--global-card-bg-color) 98%, var(--global-bg-color));
+  --md-lite-card-border: color-mix(in srgb, var(--global-divider-color) 78%, transparent);
+  --md-lite-card-accent-line: color-mix(in srgb, var(--global-theme-color) 42%, transparent);
+  --md-lite-card-accent-wash: color-mix(in srgb, var(--global-accent-soft) 16%, transparent);
   --md-lite-divider-tonal: color-mix(in srgb, var(--global-theme-color) 22%, var(--global-divider-color));
   --md-lite-focus-ring: 2px solid rgba(var(--global-accent-rgb), 0.5);
   --md-lite-focus-shadow: 0 0 0 0.18rem rgba(var(--global-accent-rgb), 0.18);

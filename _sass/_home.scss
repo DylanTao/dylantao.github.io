@@ -22,7 +22,11 @@
   --home-muted: var(--global-text-color-light);
   --home-surface: var(--global-card-bg-color);
   --home-line: var(--global-divider-color);
-  --home-shadow: 0 18px 42px rgba(73, 45, 30, 0.1);
+  --home-card-border: color-mix(in srgb, var(--home-line) 78%, transparent);
+  --home-card-shadow: 0 0.38rem 0.92rem rgba(35, 28, 24, 0.055);
+  --home-card-shadow-hover: 0 0.72rem 1.4rem rgba(35, 28, 24, 0.075);
+  --home-card-wash: color-mix(in srgb, var(--home-accent-soft) 14%, transparent);
+  --home-shadow: 0 18px 42px rgba(35, 28, 24, 0.08);
   --home-coffee-stain-blend: multiply;
   --home-coffee-stain-image: url("../img/home/coffee-stain-noon.svg");
   --home-coffee-stain-opacity: 0.88;
@@ -74,6 +78,10 @@ html[data-theme="dark"] body.home-body .theme-toggle {
 
 html[data-theme="dark"] .home-page {
   --home-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  --home-card-border: color-mix(in srgb, var(--home-line) 80%, transparent);
+  --home-card-shadow: 0 0.42rem 0.96rem rgba(0, 0, 0, 0.22);
+  --home-card-shadow-hover: 0 0.78rem 1.45rem rgba(0, 0, 0, 0.3);
+  --home-card-wash: color-mix(in srgb, var(--home-accent-soft) 12%, transparent);
   --home-paper: color-mix(in srgb, var(--home-surface) 94%, #f4eadc 6%);
   --home-paper-warm: color-mix(in srgb, var(--home-surface) 89%, #f4eadc 11%);
   --home-paper-edge: rgba(232, 220, 204, 0.18);
@@ -113,7 +121,7 @@ html[data-theme-mode="evening"] .home-page {
   top: clamp(18.8rem, 45vh, 26rem);
   left: var(--home-rail-anchor);
   z-index: 28;
-  display: block;
+  display: none;
   width: var(--home-rail-collapsed-width);
   margin: 0;
   padding: 0;
@@ -272,7 +280,13 @@ html[data-theme="dark"] .home-story-rail ol {
   border-color: color-mix(in srgb, var(--home-accent) 15%, transparent);
 }
 
-@media (min-width: 1680px) {
+@media (min-width: 1760px) and (min-aspect-ratio: 1 / 1) {
+  .home-story-rail {
+    display: block;
+  }
+}
+
+@media (min-width: 1680px) and (min-aspect-ratio: 1 / 1) {
   .home-story-rail {
     --home-rail-anchor: max(calc(env(safe-area-inset-left) + 6.5rem), calc((100vw - var(--home-shell-max)) / 2 - 1.8rem));
   }
@@ -449,11 +463,10 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-cred-item {
   min-height: 5.05rem;
   padding: 0.82rem 0.9rem;
-  border: 1px solid rgba(92, 70, 48, 0.085);
+  border: 1px solid var(--home-card-border);
   border-radius: var(--md-lite-radius-sm);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0) 54%), color-mix(in srgb, var(--home-surface) 84%, transparent);
-  box-shadow: var(--md-lite-elevation-1);
+  background: linear-gradient(135deg, var(--home-card-wash), transparent 58%), var(--home-surface);
+  box-shadow: var(--home-card-shadow);
 }
 
 html[data-theme="dark"] .home-cred-item {
@@ -2102,10 +2115,11 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-thesis-note {
   padding: 1.1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
   border-left: 3px solid var(--home-sky-strong);
   border-radius: 0.5rem;
   background: var(--home-surface);
+  box-shadow: var(--home-card-shadow);
 }
 
 .home-thesis-note > span {
@@ -2186,10 +2200,11 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-influence-note {
   margin-top: 1.25rem;
   padding: 1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
   border-left: 3px solid var(--home-accent);
   border-radius: 0.5rem;
   background: var(--home-surface);
+  box-shadow: var(--home-card-shadow);
 }
 
 .home-influence-note blockquote {
@@ -2219,9 +2234,11 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-why-now-claims article {
   min-height: 14rem;
   padding: 1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
+  border-top-color: color-mix(in srgb, var(--home-accent) 28%, var(--home-card-border));
   border-radius: 0.5rem;
-  background: var(--home-surface);
+  background: linear-gradient(180deg, var(--home-card-wash), transparent 3.2rem), var(--home-surface);
+  box-shadow: var(--home-card-shadow);
 }
 
 .home-why-now-claims span {
@@ -2320,9 +2337,10 @@ html[data-theme="dark"] .home-artifact-mark {
   width: 100%;
   min-height: 8.2rem;
   padding: 0.95rem 1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
   border-radius: 0.5rem;
-  background: var(--home-surface);
+  background: linear-gradient(180deg, var(--home-card-wash), transparent 3.4rem), var(--home-surface);
+  box-shadow: var(--home-card-shadow);
   color: var(--home-ink);
   text-align: left;
   overflow-wrap: anywhere;
@@ -2359,8 +2377,8 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-motion-mode:focus-visible,
 .home-motion-mode.is-active {
   border-color: rgba(var(--global-accent-rgb), 0.38);
-  background: color-mix(in srgb, var(--home-accent-soft) 64%, var(--home-surface));
-  box-shadow: 0 10px 24px rgba(73, 45, 30, 0.08);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--home-accent-soft) 38%, transparent), transparent 4rem), var(--home-surface);
+  box-shadow: var(--home-card-shadow-hover);
   transform: translateY(-1px);
 }
 
@@ -2404,7 +2422,7 @@ html[data-theme="dark"] .home-artifact-mark {
     linear-gradient(180deg, var(--research-motion-bg-a), var(--research-motion-bg-c));
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--home-surface) 72%, transparent),
-    0 16px 34px rgba(73, 45, 30, 0.06);
+    var(--home-card-shadow-hover);
   isolation: isolate;
 }
 
@@ -2586,9 +2604,9 @@ html[data-theme="dark"] .home-artifact-mark {
   gap: 1.15rem;
   align-items: start;
   padding: 1.1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
   border-radius: 0.5rem;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--home-surface) 92%, var(--home-accent-soft)), var(--home-surface));
+  background: linear-gradient(180deg, var(--home-card-wash), transparent 3.8rem), var(--home-surface);
   transition:
     border-color var(--motion-standard),
     box-shadow var(--motion-standard),
@@ -2701,7 +2719,7 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-motion-detail.is-active {
   border-color: rgba(var(--global-accent-rgb), 0.28);
-  box-shadow: 0 12px 28px rgba(73, 45, 30, 0.06);
+  box-shadow: var(--home-card-shadow-hover);
   animation: home-detail-enter 260ms ease both;
 }
 
@@ -2719,7 +2737,7 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-work-card:hover {
   border-color: rgba(var(--global-accent-rgb), 0.42);
-  box-shadow: var(--home-shadow);
+  box-shadow: var(--home-card-shadow-hover);
   transform: translateY(-2px);
 }
 
@@ -2729,9 +2747,11 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-work-card {
   overflow: hidden;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
+  border-top-color: color-mix(in srgb, var(--home-accent) 24%, var(--home-card-border));
   border-radius: 0.5rem;
   background: var(--home-surface);
+  box-shadow: var(--home-card-shadow);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -2809,9 +2829,11 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-news-item {
   min-height: 10.5rem;
   padding: 1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
+  border-top-color: color-mix(in srgb, var(--home-accent) 24%, var(--home-card-border));
   border-radius: 0.5rem;
-  background: var(--home-surface);
+  background: linear-gradient(180deg, var(--home-card-wash), transparent 3rem), var(--home-surface);
+  box-shadow: var(--home-card-shadow);
 }
 
 .home-news-item time {
@@ -2895,7 +2917,7 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-recruiting-growth span {
   padding: 0.34rem 0.55rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
   border-radius: 999px;
   background: var(--home-surface);
   color: var(--home-muted);
@@ -2907,9 +2929,11 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-recruiting-steps {
   padding: 1.1rem;
-  border: 1px solid var(--home-line);
+  border: 1px solid var(--home-card-border);
+  border-left: 3px solid var(--home-accent);
   border-radius: 0.5rem;
-  background: var(--home-accent-soft);
+  background: linear-gradient(135deg, var(--home-card-wash), transparent 60%), var(--home-surface);
+  box-shadow: var(--home-card-shadow);
 }
 
 .home-recruiting-steps h3 {

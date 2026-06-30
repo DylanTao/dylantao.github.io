@@ -280,7 +280,7 @@ body.sticky-bottom-footer {
   white-space: nowrap;
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1600px) and (min-aspect-ratio: 1 / 1) {
   .section-reading-aid-mobile {
     display: none;
   }
@@ -332,7 +332,7 @@ body.sticky-bottom-footer {
   }
 }
 
-@media (max-width: 1599.98px) {
+@media (max-width: 1599.98px), (max-aspect-ratio: 1 / 1) {
   .section-reading-aid-mobile {
     position: sticky;
     top: 4.35rem;

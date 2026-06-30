@@ -15,71 +15,60 @@
 }
 
 .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #fff3d7;
-  --brand-orange-glint: rgba(255, 252, 231, 0.92);
-  --brand-orange-glint-fade: rgba(255, 247, 218, 0);
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 74%, #f7ad5e);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 72%, #6b2c10);
-  --brand-orange-outline: rgba(var(--global-accent-rgb), 0.26);
-  --brand-orange-pore: color-mix(in srgb, var(--global-hover-color) 76%, #fff1d6);
-  --brand-orange-letter: #54240d;
-  --brand-orange-letter-stroke: rgba(255, 244, 222, 0.45);
-  --brand-orange-leaf: #5f8e48;
-  --brand-orange-leaf-deep: #315c36;
-  --brand-orange-stem: #7a4b27;
+  --brand-orange-highlight: #ffd58f;
+  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 68%, #ff8f3d);
+  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 58%, #e66522);
+  --brand-orange-outline: color-mix(in srgb, var(--global-hover-color) 58%, transparent);
+  --brand-orange-detail: rgba(255, 247, 232, 0.58);
+  --brand-orange-pore: color-mix(in srgb, var(--global-hover-color) 58%, #fff7ec);
+  --brand-orange-leaf: #6fa85a;
+  --brand-orange-leaf-deep: #3d7641;
+  --brand-orange-stem: #7a5330;
   --brand-orange-tilt: 0deg;
   --brand-orange-nudge-x: 0px;
   --brand-orange-nudge-y: 0px;
-  --brand-orange-shine-x: 0px;
-  --brand-orange-shine-y: 0px;
 
   position: relative;
-  flex: 0 0 2.05rem;
-  width: 2.05rem;
-  height: 2.05rem;
+  flex: 0 0 2.12rem;
+  width: 2.12rem;
+  height: 2.12rem;
   overflow: visible;
   border: 0;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 31% 24%, var(--brand-orange-highlight) 0 16%, transparent 34%),
-    radial-gradient(circle at 54% 60%, var(--brand-orange-rind) 0 50%, var(--brand-orange-deep) 100%);
-  box-shadow: var(--md-lite-orange-shadow-1);
-  color: var(--brand-orange-letter);
+  border-radius: 0;
+  background: transparent;
+  filter: drop-shadow(0 0.16rem 0.22rem rgba(var(--global-accent-rgb), 0.16));
   font-family: var(--font-mono);
   transform: translateY(0) rotate(var(--brand-orange-tilt));
   transform-origin: 50% 58%;
   transition:
-    box-shadow var(--motion-standard),
     filter var(--motion-standard),
     transform var(--motion-standard);
 }
 
 html[data-theme-mode="morning"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 72%, #ffc074);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 68%, #8d3d16);
-  --brand-orange-leaf: #6d9653;
+  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 66%, #ff9a47);
+  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 58%, #e76a27);
+  --brand-orange-leaf: #75a962;
 }
 
 html[data-theme-mode="noon"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #fff8df;
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 70%, #ffbc63);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 70%, #76310f);
+  --brand-orange-highlight: #ffdaa2;
+  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 64%, #ff9340);
+  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 56%, #df6121);
 }
 
 html[data-theme-mode="afternoon"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 78%, #f4a66c);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 74%, #6f2a15);
-  --brand-orange-leaf: #5d7c42;
+  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 70%, #f79451);
+  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 58%, #d45d2a);
+  --brand-orange-leaf: #6d8c4d;
 }
 
 html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: rgba(255, 221, 184, 0.96);
-  --brand-orange-glint: rgba(255, 242, 222, 0.86);
-  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 78%, #ff7e3f);
-  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 52%, #8a371b);
-  --brand-orange-outline: rgba(var(--global-accent-rgb), 0.38);
-  --brand-orange-letter: #fff7ed;
-  --brand-orange-letter-stroke: rgba(75, 27, 9, 0.58);
+  --brand-orange-highlight: rgba(255, 221, 179, 0.92);
+  --brand-orange-rind: color-mix(in srgb, var(--global-theme-color) 60%, #fb8238);
+  --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 46%, #a13c16);
+  --brand-orange-outline: rgba(var(--global-accent-rgb), 0.42);
+  --brand-orange-detail: rgba(255, 245, 231, 0.5);
   --brand-orange-leaf: #8eae74;
   --brand-orange-leaf-deep: #476b42;
   --brand-orange-stem: #ad7441;
@@ -87,22 +76,18 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 
 .navbar.navbar-light .site-brand:hover .brand-orange,
 .navbar.navbar-light .site-brand:focus-visible .brand-orange {
-  box-shadow: var(--md-lite-orange-shadow-2);
-  filter: saturate(1.04);
+  filter: drop-shadow(0 0.22rem 0.32rem rgba(var(--global-accent-rgb), 0.22)) saturate(1.04);
   transform: translateY(-1px) rotate(var(--brand-orange-tilt));
 }
 
 .brand-orange-text-fallback {
   position: absolute;
   inset: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--brand-orange-letter);
-  font-size: 0.74rem;
-  font-weight: 800;
-  line-height: 1;
-  text-shadow: 0 1px 0 var(--brand-orange-letter-stroke);
+  display: block;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--brand-orange-rind);
+  clip-path: circle(0);
 }
 
 .brand-orange-svg {
@@ -126,14 +111,6 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
   stop-color: var(--brand-orange-deep);
 }
 
-.brand-orange-stop-glint {
-  stop-color: var(--brand-orange-glint);
-}
-
-.brand-orange-stop-glint-fade {
-  stop-color: var(--brand-orange-glint-fade);
-}
-
 .brand-orange-body-shell {
   transform: translate(var(--brand-orange-nudge-x), var(--brand-orange-nudge-y)) rotate(var(--brand-orange-tilt));
   transform-box: view-box;
@@ -144,31 +121,29 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 .brand-orange-body {
   fill: url("#brand-orange-body-gradient");
   stroke: var(--brand-orange-outline);
-  stroke-width: 1.2;
+  stroke-width: 1.45;
 }
 
 .brand-orange-highlight {
-  fill: url("#brand-orange-highlight-gradient");
-  opacity: 0.92;
-  transform: translate(var(--brand-orange-shine-x), var(--brand-orange-shine-y));
-  transition: transform var(--motion-standard);
+  fill: none;
+  stroke: var(--brand-orange-detail);
+  stroke-linecap: round;
+  stroke-width: 2.3;
+  opacity: 0.66;
+}
+
+.brand-orange-segment {
+  display: none;
+  fill: none;
+  stroke: var(--brand-orange-detail);
+  stroke-linecap: round;
+  stroke-width: 1.45;
+  opacity: 0.46;
 }
 
 .brand-orange-pore {
   fill: var(--brand-orange-pore);
-  opacity: 0.18;
-}
-
-.brand-orange-initials {
-  fill: var(--brand-orange-letter);
-  font-family: var(--font-mono);
-  font-size: 15.2px;
-  font-weight: 850;
-  letter-spacing: -0.6px;
-  paint-order: stroke;
-  stroke: var(--brand-orange-letter-stroke);
-  stroke-linejoin: round;
-  stroke-width: 1.05px;
+  opacity: 0.24;
 }
 
 .brand-orange-stem {
@@ -181,7 +156,7 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 .brand-orange-leaf {
   fill: var(--brand-orange-leaf);
   stroke: var(--brand-orange-leaf-deep);
-  stroke-width: 0.7;
+  stroke-width: 0.82;
   transform-box: fill-box;
   transform-origin: 18% 86%;
   animation: brand-orange-leaf-wind 5.8s ease-in-out infinite;
@@ -195,11 +170,6 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 .site-brand:hover .brand-orange-leaf,
 .site-brand:focus-visible .brand-orange-leaf {
   animation-duration: 4.1s;
-}
-
-.brand-orange--leafless .brand-orange-leaf,
-.brand-orange--leafless .brand-orange-stem {
-  opacity: 0;
 }
 
 .brand-orange--pressed {
@@ -219,8 +189,7 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 
 @media (prefers-reduced-motion: reduce) {
   .navbar.navbar-light .site-brand .site-brand-mark.brand-orange,
-  .brand-orange-body-shell,
-  .brand-orange-highlight {
+  .brand-orange-body-shell {
     transition-duration: 0.001ms !important;
   }
 

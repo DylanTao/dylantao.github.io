@@ -16,7 +16,7 @@ This site keeps its al-folio academic/editorial identity while borrowing a small
 - `_sass/_themes.scss`: four time-of-day palettes. Keep morning, noon, afternoon, and evening visually distinct.
 - `_sass/_components.scss`, `_sass/_publications.scss`, `_sass/_blog.scss`, `_sass/_utilities.scss`: broad card, chip, button, and surface usage.
 - `_sass/_navbar.scss`, `_sass/_home.scss`, `_sass/_layout.scss`, `_sass/_cv.scss`: global chrome and page-specific polish.
-- `_includes/brand-orange.liquid`, `_sass/_brand-orange.scss`, `assets/js/brand-orange.js`: procedural orange ST mark.
+- `_includes/brand-orange.liquid`, `_sass/_brand-orange.scss`, `assets/js/brand-orange.js`: procedural 2D orange mark.
 
 ## Token Use
 
@@ -34,12 +34,14 @@ Use filled orange for the primary action in a local cluster. Use tonal surfaces 
 
 ## Brand Mark
 
-The navbar mark is an inline SVG with a no-JS text fallback. JavaScript only varies the orange shape, peel pores, optional leaves, and subtle pointer response. The home link owns the accessible label; the SVG remains decorative.
+The navbar mark is an inline SVG with a no-JS SVG fallback. JavaScript only varies the orange shape, peel pores, leaves, and subtle pointer response. The home link owns the accessible label; the SVG remains decorative.
+
+Do not engrave `ST` into the fruit at navbar size. At roughly 32px, initials made the orange read like a glossy app icon instead of a crisp site mark. Prefer a flat 2D citrus silhouette with one or two small fruit details.
 
 Keep these behaviors intact:
 
 - no layout shift when JavaScript loads;
-- ST remains readable in all four themes;
+- the orange silhouette remains readable in all four themes;
 - leaf motion and pointer parallax stop under `prefers-reduced-motion: reduce`;
 - clicking the logo still navigates home;
 - no heavy animation or 3D dependency for the navbar mark.

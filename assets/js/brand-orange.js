@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "sirui-brand-orange-seed-v1";
+  const STORAGE_KEY = "sirui-brand-orange-seed-v2";
   const SVG_NS = "http://www.w3.org/2000/svg";
 
   function hashString(value) {
@@ -40,13 +40,13 @@
   function makeBlobPath(random) {
     const cx = 32;
     const cy = 35;
-    const rx = randomBetween(random, 19.4, 21.6);
-    const ry = randomBetween(random, 19.2, 21.8);
+    const rx = randomBetween(random, 19.2, 20.9);
+    const ry = randomBetween(random, 19.1, 20.8);
     const points = [];
 
-    for (let index = 0; index < 14; index += 1) {
-      const angle = (Math.PI * 2 * index) / 14 - Math.PI / 2;
-      const organic = randomBetween(random, 0.93, 1.075);
+    for (let index = 0; index < 12; index += 1) {
+      const angle = (Math.PI * 2 * index) / 12 - Math.PI / 2;
+      const organic = randomBetween(random, 0.965, 1.045);
       const x = cx + Math.cos(angle) * rx * organic;
       const y = cy + Math.sin(angle) * ry * organic;
       points.push({ x, y });
@@ -72,11 +72,11 @@
   }
 
   function pointInsideFruit(random) {
-    const radius = Math.sqrt(random()) * randomBetween(random, 0.18, 0.86);
+    const radius = Math.sqrt(random()) * randomBetween(random, 0.24, 0.78);
     const angle = randomBetween(random, 0, Math.PI * 2);
     return {
-      x: 32 + Math.cos(angle) * 18.5 * radius,
-      y: 35 + Math.sin(angle) * 17.5 * radius,
+      x: 32 + Math.cos(angle) * 17.8 * radius,
+      y: 35 + Math.sin(angle) * 16.8 * radius,
     };
   }
 
@@ -85,15 +85,15 @@
     if (!pores) return;
     pores.textContent = "";
 
-    const count = Math.round(randomBetween(random, 11, 19));
+    const count = Math.round(randomBetween(random, 5, 9));
     for (let index = 0; index < count; index += 1) {
       const point = pointInsideFruit(random);
       const circle = document.createElementNS(SVG_NS, "circle");
       circle.setAttribute("class", "brand-orange-pore");
       circle.setAttribute("cx", point.x.toFixed(2));
       circle.setAttribute("cy", point.y.toFixed(2));
-      circle.setAttribute("r", randomBetween(random, 0.34, 0.78).toFixed(2));
-      circle.setAttribute("opacity", randomBetween(random, 0.1, 0.22).toFixed(2));
+      circle.setAttribute("r", randomBetween(random, 0.32, 0.62).toFixed(2));
+      circle.setAttribute("opacity", randomBetween(random, 0.16, 0.3).toFixed(2));
       pores.appendChild(circle);
     }
   }
@@ -123,19 +123,17 @@
     if (!leaves) return;
     leaves.textContent = "";
 
-    const leafRoll = random();
-    const leafCount = leafRoll < 0.14 ? 0 : leafRoll < 0.72 ? 1 : 2;
-    mark.classList.toggle("brand-orange--leafless", leafCount === 0);
+    const leafCount = random() < 0.78 ? 1 : 2;
 
     for (let index = 0; index < leafCount; index += 1) {
       const path = document.createElementNS(SVG_NS, "path");
       const side = index === 0 ? 1 : -1;
-      const angle = randomBetween(random, -1.02, -0.52) * side + (side < 0 ? Math.PI : 0);
+      const angle = randomBetween(random, -0.9, -0.46) * side + (side < 0 ? Math.PI : 0);
       const baseX = randomBetween(random, 30.8, 34.4);
-      const baseY = randomBetween(random, 15.1, 16.8);
-      const length = randomBetween(random, 12.2, 17.4);
-      const width = randomBetween(random, 3.1, 4.9);
-      const curve = randomBetween(random, -1.5, 1.8);
+      const baseY = randomBetween(random, 14.3, 16.1);
+      const length = randomBetween(random, 14.4, 18.2);
+      const width = randomBetween(random, 4.2, 6.0);
+      const curve = randomBetween(random, -1.1, 1.4);
       path.setAttribute("class", `brand-orange-leaf brand-orange-leaf-${index === 0 ? "a" : "b"}`);
       path.setAttribute("d", makeLeafPath(baseX, baseY, length, width, angle, curve));
       path.style.animationDelay = `${randomBetween(random, -5.6, -0.4).toFixed(2)}s`;
@@ -145,21 +143,22 @@
 
   function enhanceMark(mark, seed) {
     const random = mulberry32(seed);
-    const initials = mark.getAttribute("data-brand-initials") || "ST";
     const body = mark.querySelector("[data-brand-body]");
-    const text = mark.querySelector("[data-brand-initials-text]");
+    const bodyClip = mark.querySelector("[data-brand-body-clip]");
     const highlight = mark.querySelector("[data-brand-highlight]");
 
-    if (body) body.setAttribute("d", makeBlobPath(random));
-    if (text) text.textContent = initials;
+    const bodyPath = makeBlobPath(random);
+    if (body) body.setAttribute("d", bodyPath);
+    if (bodyClip) bodyClip.setAttribute("d", bodyPath);
     if (highlight) {
-      const cx = randomBetween(random, 23.2, 27.6);
-      const cy = randomBetween(random, 22.8, 27.4);
-      highlight.setAttribute("cx", cx.toFixed(2));
-      highlight.setAttribute("cy", cy.toFixed(2));
-      highlight.setAttribute("rx", randomBetween(random, 6.8, 8.8).toFixed(2));
-      highlight.setAttribute("ry", randomBetween(random, 4.4, 5.9).toFixed(2));
-      highlight.setAttribute("transform", `rotate(${randomBetween(random, -31, -17).toFixed(1)} ${cx.toFixed(2)} ${cy.toFixed(2)})`);
+      const startX = randomBetween(random, 18.2, 21.4);
+      const startY = randomBetween(random, 24.2, 27.2);
+      const endX = randomBetween(random, 27.4, 30.8);
+      const endY = randomBetween(random, 18.8, 22.0);
+      highlight.setAttribute(
+        "d",
+        `M${startX.toFixed(2)} ${startY.toFixed(2)}C${(startX + 1.2).toFixed(2)} ${(startY - 3.7).toFixed(2)} ${(endX - 4.2).toFixed(2)} ${(endY - 1.2).toFixed(2)} ${endX.toFixed(2)} ${endY.toFixed(2)}`
+      );
     }
 
     rebuildPores(mark, random);
@@ -175,8 +174,6 @@
       mark.style.setProperty("--brand-orange-tilt", "0deg");
       mark.style.setProperty("--brand-orange-nudge-x", "0px");
       mark.style.setProperty("--brand-orange-nudge-y", "0px");
-      mark.style.setProperty("--brand-orange-shine-x", "0px");
-      mark.style.setProperty("--brand-orange-shine-y", "0px");
       mark.classList.remove("brand-orange--pressed");
     }
 
@@ -187,10 +184,8 @@
       const dy = (event.clientY - bounds.top) / bounds.height - 0.5;
 
       mark.style.setProperty("--brand-orange-tilt", `${(dx * 7).toFixed(2)}deg`);
-      mark.style.setProperty("--brand-orange-nudge-x", `${(dx * 0.72).toFixed(2)}px`);
-      mark.style.setProperty("--brand-orange-nudge-y", `${(dy * 0.5).toFixed(2)}px`);
-      mark.style.setProperty("--brand-orange-shine-x", `${(dx * 1.25).toFixed(2)}px`);
-      mark.style.setProperty("--brand-orange-shine-y", `${(dy * 0.95).toFixed(2)}px`);
+      mark.style.setProperty("--brand-orange-nudge-x", `${(dx * 0.42).toFixed(2)}px`);
+      mark.style.setProperty("--brand-orange-nudge-y", `${(dy * 0.32).toFixed(2)}px`);
     });
 
     link.addEventListener("pointerleave", resetTilt);
