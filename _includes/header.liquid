@@ -3,11 +3,11 @@
   <nav id="navbar" class="navbar navbar-light navbar-expand-md {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}" role="navigation">
     <div class="container panel-shell">
       {% assign brand_name = site.first_name | append: ' ' | append: site.last_name | strip %}
+      {% assign brand_first_initial = site.first_name | slice: 0 %}
+      {% assign brand_last_initial = site.last_name | slice: 0 %}
+      {% assign brand_initials = brand_first_initial | append: brand_last_initial %}
       <a class="navbar-brand title site-brand" href="{{ '/' | relative_url }}" aria-label="{{ brand_name }} home">
-        <span class="site-brand-mark" aria-hidden="true">
-          {{- site.first_name | slice: 0 -}}
-          {{- site.last_name | slice: 0 -}}
-        </span>
+        {% include brand-orange.liquid initials=brand_initials %}
         <span class="site-brand-name">{{ brand_name }}</span>
       </a>
       <div class="navbar-actions" role="group" aria-label="Site actions">
