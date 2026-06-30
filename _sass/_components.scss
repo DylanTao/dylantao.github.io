@@ -68,6 +68,10 @@ ul.task-list input[type="checkbox"] {
   }
 }
 
+html.site-motion-ready .hoverable.site-visible:hover {
+  transform: translateY(-2px);
+}
+
 // Profile
 
 .profile {
@@ -2436,6 +2440,10 @@ html[data-theme="dark"] {
   .projects .project-card.is-expanded .project-card-takeaways,
   .projects .project-card.is-expanded .project-card-panel {
     animation: none;
+  }
+
+  html.site-motion-ready .hoverable.site-visible:hover {
+    transform: none;
   }
 }
 
