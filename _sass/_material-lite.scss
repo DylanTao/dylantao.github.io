@@ -1,0 +1,49 @@
+/*******************************************************************************
+ * Material-lite tokens for the customized Sirui/Dylan site.
+ *
+ * These variables borrow Material 3 ideas without importing a component system:
+ * tonal surfaces, rounded shape, soft elevation, state layers, and calm motion.
+ ******************************************************************************/
+
+:root {
+  --md-lite-radius-sm: 0.45rem;
+  --md-lite-radius-md: 0.72rem;
+  --md-lite-radius-lg: 0.95rem;
+  --md-lite-radius-xl: 1.25rem;
+  --md-lite-radius-pill: 999px;
+
+  --md-lite-elevation-0: none;
+  --md-lite-elevation-1: 0 0.28rem 0.75rem rgba(32, 25, 22, 0.06);
+  --md-lite-elevation-2: 0 0.65rem 1.55rem rgba(32, 25, 22, 0.09);
+  --md-lite-elevation-3: 0 1rem 2.35rem rgba(32, 25, 22, 0.12);
+  --md-lite-orange-shadow-1: 0 0.45rem 1.05rem rgba(var(--global-accent-rgb), 0.12);
+  --md-lite-orange-shadow-2: 0 0.72rem 1.55rem rgba(var(--global-accent-rgb), 0.18);
+
+  --md-lite-state-hover: rgba(var(--global-accent-rgb), 0.08);
+  --md-lite-state-focus: rgba(var(--global-accent-rgb), 0.16);
+  --md-lite-state-pressed: rgba(var(--global-accent-rgb), 0.18);
+  --md-lite-state-muted: rgba(var(--global-accent-rgb), 0.05);
+
+  --md-lite-surface-tonal: color-mix(in srgb, var(--global-accent-soft) 38%, var(--global-card-bg-color));
+  --md-lite-surface-tonal-strong: color-mix(in srgb, var(--global-accent-soft) 58%, var(--global-card-bg-color));
+  --md-lite-surface-coastal: color-mix(in srgb, var(--global-sky-soft) 48%, var(--global-card-bg-color));
+  --md-lite-surface-mint: color-mix(in srgb, var(--global-mint-soft) 46%, var(--global-card-bg-color));
+  --md-lite-divider-tonal: color-mix(in srgb, var(--global-theme-color) 22%, var(--global-divider-color));
+  --md-lite-focus-ring: 2px solid rgba(var(--global-accent-rgb), 0.5);
+  --md-lite-focus-shadow: 0 0 0 0.18rem rgba(var(--global-accent-rgb), 0.18);
+
+  --md-lite-motion-emphasized: 260ms cubic-bezier(0.2, 0, 0, 1);
+  --md-lite-motion-standard: var(--motion-standard);
+}
+
+html[data-theme="dark"],
+html[data-theme-mode="evening"] {
+  --md-lite-elevation-1: 0 0.32rem 0.8rem rgba(0, 0, 0, 0.2);
+  --md-lite-elevation-2: 0 0.72rem 1.6rem rgba(0, 0, 0, 0.26);
+  --md-lite-elevation-3: 0 1.05rem 2.4rem rgba(0, 0, 0, 0.34);
+  --md-lite-orange-shadow-1: 0 0.45rem 1.05rem rgba(var(--global-accent-rgb), 0.13);
+  --md-lite-orange-shadow-2: 0 0.72rem 1.55rem rgba(var(--global-accent-rgb), 0.2);
+  --md-lite-state-hover: rgba(var(--global-accent-rgb), 0.12);
+  --md-lite-state-focus: rgba(var(--global-accent-rgb), 0.2);
+  --md-lite-state-pressed: rgba(var(--global-accent-rgb), 0.24);
+}

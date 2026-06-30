@@ -16,6 +16,7 @@
 /* Your project partials — convert these files to `@use "variables";`
    (or `@use "variables" as *;`) inside each file and qualify variables if needed. */
 @use "themes";
+@use "material-lite";
 @use "layout";
 
 // Core styles organized by usage
