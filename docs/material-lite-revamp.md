@@ -34,9 +34,9 @@ Use filled orange for the primary action in a local cluster. Use tonal surfaces 
 
 ## Brand Mark
 
-The navbar mark is an inline SVG with a no-JS SVG fallback. JavaScript only varies the orange shape, peel pores, leaves, and subtle pointer response. The home link owns the accessible label; the SVG remains decorative.
+The navbar mark is an inline SVG with a no-JS SVG fallback. JavaScript varies the orange shape, size inside the fixed viewbox, rind gradient, peel pores, small navel/calyx details, leaves, and subtle pointer response on each page load. The home link owns the accessible label; the SVG remains decorative. Add `?orangeSeed=...` to a URL when a specific generated mark needs repeatable visual inspection.
 
-Do not engrave `ST` into the fruit at navbar size. At roughly 32px, initials made the orange read like a glossy app icon instead of a crisp site mark. Prefer a flat 2D citrus silhouette with one or two small fruit details.
+Do not engrave `ST` into the fruit at navbar size. At roughly 32px, initials made the orange read like a glossy app icon instead of a crisp site mark. Prefer a flat 2D citrus silhouette with enough orange-specific anchors to avoid category drift: round or slightly oval body, dimpled rind, warm orange gradient, small calyx/navel cues, and optional green leaves.
 
 Keep these behaviors intact:
 

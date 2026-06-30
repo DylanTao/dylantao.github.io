@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Procedural orange ST brand mark
+ * Procedural orange brand mark
  ******************************************************************************/
 
 .navbar.navbar-light .site-brand {
@@ -21,9 +21,11 @@
   --brand-orange-outline: color-mix(in srgb, var(--global-hover-color) 58%, transparent);
   --brand-orange-detail: rgba(255, 247, 232, 0.58);
   --brand-orange-pore: color-mix(in srgb, var(--global-hover-color) 58%, #fff7ec);
+  --brand-orange-pore-shadow: color-mix(in srgb, var(--global-hover-color) 62%, #6d3518);
   --brand-orange-leaf: #6fa85a;
   --brand-orange-leaf-deep: #3d7641;
   --brand-orange-stem: #7a5330;
+  --brand-orange-scale: 1;
   --brand-orange-tilt: 0deg;
   --brand-orange-nudge-x: 0px;
   --brand-orange-nudge-y: 0px;
@@ -69,6 +71,7 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
   --brand-orange-deep: color-mix(in srgb, var(--global-hover-color) 46%, #a13c16);
   --brand-orange-outline: rgba(var(--global-accent-rgb), 0.42);
   --brand-orange-detail: rgba(255, 245, 231, 0.5);
+  --brand-orange-pore-shadow: rgba(116, 53, 24, 0.34);
   --brand-orange-leaf: #8eae74;
   --brand-orange-leaf-deep: #476b42;
   --brand-orange-stem: #ad7441;
@@ -112,7 +115,7 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 }
 
 .brand-orange-body-shell {
-  transform: translate(var(--brand-orange-nudge-x), var(--brand-orange-nudge-y)) rotate(var(--brand-orange-tilt));
+  transform: translate(var(--brand-orange-nudge-x), var(--brand-orange-nudge-y)) rotate(var(--brand-orange-tilt)) scale(var(--brand-orange-scale));
   transform-box: view-box;
   transform-origin: 32px 36px;
   transition: transform var(--motion-standard);
@@ -146,11 +149,50 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
   opacity: 0.24;
 }
 
+.brand-orange-pore-shadow {
+  fill: var(--brand-orange-pore-shadow);
+}
+
+.brand-orange-navel-dot {
+  fill: var(--brand-orange-pore-shadow);
+  opacity: 0.42;
+}
+
+.brand-orange-navel-crease {
+  fill: none;
+  stroke: var(--brand-orange-pore-shadow);
+  stroke-linecap: round;
+  stroke-width: 0.68;
+  opacity: 0.36;
+}
+
+.brand-orange-calyx {
+  opacity: 0.96;
+}
+
+.brand-orange-calyx-sepal {
+  fill: var(--brand-orange-leaf-deep);
+  stroke: color-mix(in srgb, var(--brand-orange-leaf-deep) 72%, #1f2b1a);
+  stroke-linejoin: round;
+  stroke-width: 0.32;
+}
+
 .brand-orange-stem {
   fill: none;
   stroke: var(--brand-orange-stem);
   stroke-linecap: round;
   stroke-width: 2.7;
+}
+
+.brand-orange-leaf-group {
+  transform-box: fill-box;
+  transform-origin: 18% 86%;
+  animation: brand-orange-leaf-wind 5.8s ease-in-out infinite;
+}
+
+.brand-orange-leaf-group-b {
+  animation-delay: -2.2s;
+  opacity: 0.94;
 }
 
 .brand-orange-leaf {
@@ -162,13 +204,27 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
   animation: brand-orange-leaf-wind 5.8s ease-in-out infinite;
 }
 
+.brand-orange-leaf-group .brand-orange-leaf {
+  animation: none;
+}
+
 .brand-orange-leaf-b {
   animation-delay: -2.2s;
   opacity: 0.94;
 }
 
+.brand-orange-leaf-vein {
+  fill: none;
+  stroke: color-mix(in srgb, var(--brand-orange-leaf-deep) 64%, #f7ffe6);
+  stroke-linecap: round;
+  stroke-width: 0.52;
+  opacity: 0.5;
+}
+
 .site-brand:hover .brand-orange-leaf,
-.site-brand:focus-visible .brand-orange-leaf {
+.site-brand:hover .brand-orange-leaf-group,
+.site-brand:focus-visible .brand-orange-leaf,
+.site-brand:focus-visible .brand-orange-leaf-group {
   animation-duration: 4.1s;
 }
 
@@ -193,7 +249,8 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
     transition-duration: 0.001ms !important;
   }
 
-  .brand-orange-leaf {
+  .brand-orange-leaf,
+  .brand-orange-leaf-group {
     animation: none !important;
   }
 }
