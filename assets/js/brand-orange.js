@@ -121,10 +121,18 @@
     gradient.setAttribute("y2", number(y2));
   }
 
-  function pointInsideFruit(random, body) {
-    const radius = Math.sqrt(random()) * randomBetween(random, 0.16, 0.86);
+  function pointInsideFruit(random, body, options = {}) {
+    const minRadius = options.minRadius ?? 0.16;
+    const maxRadius = options.maxRadius ?? 0.86;
+    const radius = Math.sqrt(random()) * (maxRadius - minRadius) + minRadius;
     const angle = randomBetween(random, 0, Math.PI * 2);
     return pointOnBody({ cx: body.cx, cy: body.cy, rx: body.rx * 0.86, ry: body.ry * 0.84, angle, radius });
+  }
+
+  function poreShade(point, body) {
+    const side = (point.x - body.cx) / body.rx;
+    const vertical = (point.y - body.cy) / body.ry;
+    return side * 0.42 + vertical * 0.34;
   }
 
   function rebuildPores(mark, random, body) {
@@ -132,16 +140,31 @@
     if (!pores) return;
     pores.textContent = "";
 
-    const count = Math.round(randomBetween(random, 13, 24));
+    const count = Math.round(randomBetween(random, 46, 68));
     for (let index = 0; index < count; index += 1) {
-      const point = pointInsideFruit(random, body);
+      const point = pointInsideFruit(random, body, { minRadius: 0.08, maxRadius: 0.9 });
       const circle = document.createElementNS(SVG_NS, "circle");
-      const shadow = random() < 0.26;
-      circle.setAttribute("class", shadow ? "brand-orange-pore brand-orange-pore-shadow" : "brand-orange-pore");
+      const shade = poreShade(point, body);
+      const shadowChance = 0.16 + Math.max(0, shade) * 0.22;
+      const glintChance = 0.24 + Math.max(0, -shade) * 0.16;
+      const roll = random();
+      const isShadow = roll < shadowChance;
+      const isGlint = !isShadow && roll < shadowChance + glintChance;
+      const className = isShadow
+        ? random() < 0.58
+          ? "brand-orange-pore brand-orange-pore-dimple"
+          : "brand-orange-pore brand-orange-pore-shadow"
+        : isGlint
+          ? "brand-orange-pore brand-orange-pore-glint"
+          : "brand-orange-pore brand-orange-pore-soft";
+      const maxRadius = isShadow ? 0.48 : isGlint ? 0.42 : 0.54;
+      const minRadius = isGlint ? 0.18 : 0.22;
+      const opacity = isShadow ? randomBetween(random, 0.18, 0.34) : isGlint ? randomBetween(random, 0.24, 0.46) : randomBetween(random, 0.18, 0.36);
+      circle.setAttribute("class", className);
       circle.setAttribute("cx", number(point.x));
       circle.setAttribute("cy", number(point.y));
-      circle.setAttribute("r", number(randomBetween(random, 0.24, shadow ? 0.42 : 0.58)));
-      circle.setAttribute("opacity", number(randomBetween(random, shadow ? 0.08 : 0.14, shadow ? 0.2 : 0.34)));
+      circle.setAttribute("r", number(randomBetween(random, minRadius, maxRadius)));
+      circle.style.setProperty("--brand-orange-pore-opacity", number(opacity, 3));
       pores.appendChild(circle);
     }
   }

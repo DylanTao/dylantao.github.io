@@ -20,8 +20,10 @@
   --brand-orange-deep: #c85214;
   --brand-orange-outline: rgba(132, 54, 15, 0.36);
   --brand-orange-detail: rgba(255, 247, 232, 0.58);
-  --brand-orange-pore: rgba(255, 219, 160, 0.72);
-  --brand-orange-pore-shadow: rgba(122, 53, 16, 0.26);
+  --brand-orange-pore: #ffd487;
+  --brand-orange-pore-glint: #fff0c4;
+  --brand-orange-pore-shadow: #9a4512;
+  --brand-orange-pore-dimple: #71310d;
   --brand-orange-leaf: #72a95b;
   --brand-orange-leaf-deep: #3e7640;
   --brand-orange-stem: #81552e;
@@ -73,8 +75,10 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
   --brand-orange-deep: #f06f18;
   --brand-orange-outline: rgba(255, 177, 95, 0.48);
   --brand-orange-detail: rgba(255, 246, 231, 0.56);
-  --brand-orange-pore: rgba(255, 213, 137, 0.58);
-  --brand-orange-pore-shadow: rgba(132, 61, 19, 0.22);
+  --brand-orange-pore: #ffd589;
+  --brand-orange-pore-glint: #ffe9b1;
+  --brand-orange-pore-shadow: #9f4a14;
+  --brand-orange-pore-dimple: #662c0b;
   --brand-orange-leaf: #9ec179;
   --brand-orange-leaf-deep: #577c44;
   --brand-orange-stem: #bd8042;
@@ -149,11 +153,23 @@ html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-
 
 .brand-orange-pore {
   fill: var(--brand-orange-pore);
-  opacity: 0.24;
+  opacity: var(--brand-orange-pore-opacity, 0.24);
+}
+
+.brand-orange-pore-glint {
+  fill: var(--brand-orange-pore-glint);
+}
+
+.brand-orange-pore-soft {
+  fill: var(--brand-orange-pore);
 }
 
 .brand-orange-pore-shadow {
   fill: var(--brand-orange-pore-shadow);
+}
+
+.brand-orange-pore-dimple {
+  fill: var(--brand-orange-pore-dimple);
 }
 
 .brand-orange-navel-dot {
