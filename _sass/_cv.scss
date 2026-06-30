@@ -18,7 +18,7 @@ table.table-cv {
 a.btncv {
   color: var(--global-text-color) !important;
   border: 1px solid var(--global-text-color) !important;
-  border-radius: 0.125rem;
+  border-radius: var(--md-lite-radius-pill);
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.25rem;
@@ -32,7 +32,9 @@ a.btncv {
   text-transform: uppercase;
   white-space: nowrap;
   transition:
+    background-color var(--motion-standard),
     border-color var(--motion-standard),
+    box-shadow var(--motion-standard),
     color var(--motion-standard),
     transform var(--motion-standard);
 }
@@ -40,8 +42,15 @@ a.btncv {
 a.btncv:hover {
   color: var(--global-theme-color) !important;
   border-color: var(--global-theme-color) !important;
+  background-color: var(--md-lite-state-hover);
   text-decoration: none !important;
   transform: translateY(-1px);
+}
+
+a.btncv:focus-visible {
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 2px;
+  box-shadow: var(--md-lite-focus-shadow);
 }
 
 .cv-pdf-link {
@@ -52,8 +61,8 @@ a.btncv:hover {
   min-height: 2.3rem;
   padding: 0.4rem 0.62rem;
   border: 1px solid rgba(var(--global-accent-rgb), 0.32);
-  border-radius: 0.45rem;
-  background: rgba(var(--global-accent-rgb), 0.08);
+  border-radius: var(--md-lite-radius-pill);
+  background: var(--md-lite-surface-tonal);
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
@@ -71,6 +80,7 @@ a.btncv:hover {
   &:focus-visible {
     border-color: var(--global-theme-color);
     background: var(--global-theme-color);
+    box-shadow: var(--md-lite-orange-shadow-1);
     color: var(--global-hover-text-color);
     text-decoration: none;
     transform: translateY(-1px);
@@ -81,8 +91,8 @@ a.btncv:hover {
   max-width: 68rem;
 
   .card {
-    border-radius: 0.45rem;
-    box-shadow: none;
+    border-radius: var(--md-lite-radius-md);
+    box-shadow: var(--md-lite-elevation-1);
     margin-top: 0.9rem !important;
     overflow: hidden;
     padding: 1.1rem !important;
@@ -447,7 +457,7 @@ ul.timeline li {
 span.badge-toc {
   color: var(--global-bg-color);
   background-color: var(--global-theme-color);
-  border-radius: 0.125rem;
+  border-radius: var(--md-lite-radius-pill);
   padding: 0.125rem 0.5rem 0.125rem 0.5rem;
   font-weight: 700 !important;
   display: inline-block;

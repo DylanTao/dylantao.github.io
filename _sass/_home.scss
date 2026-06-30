@@ -378,7 +378,7 @@ html[data-theme="dark"] .home-story-rail ol {
   min-height: 2.75rem;
   padding: 0.72rem 1.05rem;
   border: 1px solid var(--home-line);
-  border-radius: 0.5rem;
+  border-radius: var(--md-lite-radius-pill);
   font-weight: 750;
   line-height: 1.2;
   text-decoration: none;
@@ -399,13 +399,14 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-btn-primary {
   border-color: var(--home-accent);
   background: var(--home-accent);
+  box-shadow: var(--md-lite-orange-shadow-1);
   color: var(--global-hover-text-color) !important;
 }
 
 .home-btn-secondary,
 .home-btn-contact,
 .home-btn-quiet {
-  background: var(--home-surface);
+  background: var(--md-lite-surface-tonal);
   color: var(--home-accent-strong) !important;
 }
 
@@ -423,7 +424,12 @@ html[data-theme="dark"] .home-story-rail ol {
 .home-btn:focus-visible {
   text-decoration: none;
   transform: translateY(-1px);
-  box-shadow: var(--home-shadow);
+  box-shadow: var(--md-lite-orange-shadow-2);
+}
+
+.home-btn:focus-visible {
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 2px;
 }
 
 .home-btn:hover i,
@@ -444,12 +450,10 @@ html[data-theme="dark"] .home-story-rail ol {
   min-height: 5.05rem;
   padding: 0.82rem 0.9rem;
   border: 1px solid rgba(92, 70, 48, 0.085);
-  border-radius: 0.32rem;
+  border-radius: var(--md-lite-radius-sm);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0) 54%), color-mix(in srgb, var(--home-surface) 84%, transparent);
-  box-shadow:
-    0 0.18rem 0.42rem rgba(73, 45, 30, 0.032),
-    0 1px 0 rgba(255, 255, 255, 0.74) inset;
+  box-shadow: var(--md-lite-elevation-1);
 }
 
 html[data-theme="dark"] .home-cred-item {
@@ -458,7 +462,7 @@ html[data-theme="dark"] .home-cred-item {
     linear-gradient(135deg, color-mix(in srgb, var(--home-accent-soft) 12%, transparent), transparent 58%),
     color-mix(in srgb, var(--home-surface) 82%, transparent);
   box-shadow:
-    0 0.28rem 0.62rem rgba(0, 0, 0, 0.14),
+    var(--md-lite-elevation-1),
     0 1px 0 rgba(255, 255, 255, 0.04) inset;
   color: var(--home-ink);
 }

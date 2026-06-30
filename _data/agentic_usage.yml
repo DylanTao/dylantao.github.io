@@ -7,9 +7,9 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 275
-  token_count: 2430000000
-  tokens_label: 2.43B
+  commits: 276
+  token_count: 2440000000
+  tokens_label: 2.44B
   hours_count: 221
   hours_label: "221"
   confidence: estimate
@@ -20,21 +20,21 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 1458
-    kg_co2e_midpoint: 544
+    kwh_midpoint: 1464
+    kg_co2e_midpoint: 546
     tree_years_midpoint: 9.1
-    tree_years_range: 3-30.2
+    tree_years_range: 3-30.3
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.9
     cut_tree_range: 0.3-3
-    public_note: "Tree lens: about 1458 kWh, or ~0.9 ten-year urban trees' stored carbon. Range: 0.3-3."
+    public_note: "Tree lens: about 1464 kWh, or ~0.9 ten-year urban trees' stored carbon. Range: 0.3-3."
   token_usage:
-    input_tokens: 2422083430
-    cached_input_tokens: 2277334356
-    output_tokens: 9203431
-    reasoning_output_tokens: 3367281
-    total_tokens: 2431277678
+    input_tokens: 2431441304
+    cached_input_tokens: 2286144468
+    output_tokens: 9223369
+    reasoning_output_tokens: 3372619
+    total_tokens: 2440655490
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -43,12 +43,12 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 2422083430
-    cached_input_tokens: 2277334356
-    uncached_input_tokens: 144749074
-    output_tokens: 9203431
-    reasoning_output_tokens: 3367281
-    total_tokens: 2431277678
+    input_tokens: 2431441304
+    cached_input_tokens: 2286144468
+    uncached_input_tokens: 145296836
+    output_tokens: 9223369
+    reasoning_output_tokens: 3372619
+    total_tokens: 2440655490
     usd_midpoint: 780
     usd_label: ~$780 API cosplay
     usd_range_label: $550-$4.4K
@@ -62,7 +62,7 @@ total:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 2430000000
+    token_count: 2440000000
     usd_midpoint: 2100
     usd_label: ~$2.1K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
@@ -71,9 +71,9 @@ desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 104
-  token_count: 1370000000
-  tokens_label: 1.37B
+  commits: 105
+  token_count: 1380000000
+  tokens_label: 1.38B
   hours_count: 107
   hours_label: "107"
   confidence: estimate
@@ -84,21 +84,21 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 822
-    kg_co2e_midpoint: 307
+    kwh_midpoint: 828
+    kg_co2e_midpoint: 309
     tree_years_midpoint: 5.1
-    tree_years_range: 1.7-17
+    tree_years_range: 1.7-17.2
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.5
     cut_tree_range: 0.17-1.7
     public_note: roughly 0.5 trees cut
   token_usage:
-    input_tokens: 1368211215
-    cached_input_tokens: 1290744735
-    output_tokens: 5107387
-    reasoning_output_tokens: 1862316
-    total_tokens: 1373318602
+    input_tokens: 1377569089
+    cached_input_tokens: 1299554847
+    output_tokens: 5127325
+    reasoning_output_tokens: 1867654
+    total_tokens: 1382696414
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
@@ -107,17 +107,17 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 1368211215
-    cached_input_tokens: 1290744735
-    uncached_input_tokens: 77466480
-    output_tokens: 5107387
-    reasoning_output_tokens: 1862316
-    total_tokens: 1373318602
-    usd_midpoint: 430
-    usd_label: ~$430 API cosplay
+    input_tokens: 1377569089
+    cached_input_tokens: 1299554847
+    uncached_input_tokens: 78014242
+    output_tokens: 5127325
+    reasoning_output_tokens: 1867654
+    total_tokens: 1382696414
+    usd_midpoint: 440
+    usd_label: ~$440 API cosplay
     usd_range_label: $310-$2.5K
     caveat: API list-price equivalence only; actual Codex product or subscription cost is not exposed.
-    public_note: ~$430 API cosplay. API list-price equivalence only; actual Codex product or subscription cost is not exposed.
+    public_note: ~$440 API cosplay. API list-price equivalence only; actual Codex product or subscription cost is not exposed.
   codexbar_cost_estimate:
     label: CodexBar cost lens
     source: CodexBar local dashboard screenshot
@@ -126,7 +126,7 @@ desk_scene:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 1370000000
+    token_count: 1380000000
     usd_midpoint: 1200
     usd_label: ~$1.2K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.

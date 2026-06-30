@@ -214,9 +214,9 @@ body.sticky-bottom-footer {
   max-width: var(--measure-prose);
   margin: 1.3rem auto 1.5rem;
   border: 1px solid var(--global-divider-color);
-  border-radius: 0.55rem;
-  background: var(--global-card-bg-color);
-  box-shadow: 0 0.55rem 1.5rem rgba(32, 25, 22, 0.05);
+  border-radius: var(--md-lite-radius-md);
+  background: var(--md-lite-surface-tonal);
+  box-shadow: var(--md-lite-elevation-1);
 
   summary {
     display: grid;
@@ -230,6 +230,12 @@ body.sticky-bottom-footer {
 
     &::-webkit-details-marker {
       display: none;
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+      box-shadow: var(--md-lite-focus-shadow);
     }
 
     &::after {
