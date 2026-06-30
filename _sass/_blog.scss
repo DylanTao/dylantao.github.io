@@ -261,11 +261,31 @@
     padding-bottom: 1rem;
 
     a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.45rem;
+      margin: 0.12rem 0.22rem 0.12rem 0;
+      padding: 0.12rem 0.46rem;
+      border: 1px solid var(--global-divider-color);
+      border-radius: var(--md-lite-radius-pill);
+      background: var(--md-lite-state-muted);
       color: var(--global-text-color-light);
       text-decoration: none;
+      transition:
+        background-color var(--motion-standard),
+        border-color var(--motion-standard),
+        color var(--motion-standard);
 
-      &:hover {
+      &:hover,
+      &:focus-visible {
+        border-color: color-mix(in srgb, var(--global-theme-color) 38%, var(--global-divider-color));
+        background: var(--md-lite-surface-tonal);
         color: var(--global-theme-color);
+      }
+
+      &:focus-visible {
+        outline: var(--md-lite-focus-ring);
+        outline-offset: 2px;
       }
     }
   }

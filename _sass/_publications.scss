@@ -1819,6 +1819,7 @@ html[data-theme="dark"] .scholar-lens-card {
         width: 100%;
         max-width: 15rem;
         border: 1px solid color-mix(in srgb, var(--global-divider-color) 82%, transparent);
+        border-radius: var(--md-lite-radius-md);
         background: color-mix(in srgb, var(--global-card-bg-color) 90%, var(--global-bg-color));
         object-fit: contain;
       }
@@ -1841,9 +1842,9 @@ html[data-theme="dark"] .scholar-lens-card {
 
         abbr {
           display: inline-block;
-          background-color: rgba(var(--global-accent-rgb), 0.1) !important;
+          background-color: var(--md-lite-state-muted) !important;
           border: 1px solid rgba(var(--global-accent-rgb), 0.22);
-          border-radius: 0.35rem;
+          border-radius: var(--md-lite-radius-sm);
           margin-bottom: 0.5rem;
           color: var(--global-theme-color) !important;
           font-family: var(--font-mono);
@@ -1912,7 +1913,8 @@ html[data-theme="dark"] .scholar-lens-card {
         a.btn {
           color: var(--global-text-color);
           border: 1px solid var(--global-divider-color);
-          border-radius: 0.25rem;
+          border-radius: var(--md-lite-radius-pill);
+          background: color-mix(in srgb, var(--global-card-bg-color) 82%, var(--md-lite-state-muted));
           padding-left: 1rem;
           padding-right: 1rem;
           padding-top: 0.25rem;
@@ -1920,14 +1922,24 @@ html[data-theme="dark"] .scholar-lens-card {
           margin-left: 0;
           font-weight: 650;
           transition:
+            background-color var(--motion-standard),
             border-color var(--motion-standard),
+            box-shadow var(--motion-standard),
             color var(--motion-standard),
             transform var(--motion-standard);
 
-          &:hover {
+          &:hover,
+          &:focus-visible {
+            background: var(--md-lite-surface-tonal);
             color: var(--global-theme-color);
             border-color: var(--global-theme-color);
+            box-shadow: var(--md-lite-orange-shadow-1);
             transform: translateY(-1px);
+          }
+
+          &:focus-visible {
+            outline: var(--md-lite-focus-ring);
+            outline-offset: 2px;
           }
         }
         a.award.btn {
@@ -2001,7 +2013,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
 .publication-lens-entry {
   border-left: 3px solid transparent;
-  border-radius: 0.45rem;
+  border-radius: var(--md-lite-radius-md);
   margin-left: -0.7rem;
   padding-left: 0.7rem;
   transition:
@@ -2011,7 +2023,7 @@ html[data-theme="dark"] .scholar-lens-card {
   &.publication-lens-selected,
   &.publication-lens-linked {
     border-left-color: color-mix(in srgb, var(--global-theme-color) 72%, var(--global-divider-color));
-    background: color-mix(in srgb, var(--global-accent-soft) 36%, transparent);
+    background: var(--md-lite-state-muted);
   }
 }
 
@@ -2027,7 +2039,8 @@ html[data-theme="dark"] .scholar-lens-card {
   align-items: center;
   min-height: 1.3rem;
   border: 1px solid var(--global-divider-color);
-  border-radius: 999px;
+  border-radius: var(--md-lite-radius-pill);
+  background: color-mix(in srgb, var(--global-card-bg-color) 86%, var(--md-lite-state-muted));
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
   font-size: 0.66rem;
@@ -2047,7 +2060,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
 .publication-lens-citation-linked {
   border-color: color-mix(in srgb, var(--global-theme-color) 42%, var(--global-divider-color));
-  background: var(--global-accent-soft);
+  background: var(--md-lite-surface-tonal-strong);
   color: var(--global-theme-color);
 }
 

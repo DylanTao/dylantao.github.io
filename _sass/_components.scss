@@ -39,6 +39,7 @@ ul.task-list input[type="checkbox"] {
 .card {
   background-color: var(--global-card-bg-color);
   border-color: var(--global-divider-color);
+  border-radius: var(--md-lite-radius-md);
 
   .card-img {
     width: 100%;
@@ -62,7 +63,7 @@ ul.task-list input[type="checkbox"] {
 
   &:hover {
     border-color: rgba(var(--global-accent-rgb), 0.32);
-    box-shadow: 0 0.65rem 1.6rem rgba(32, 25, 22, 0.08);
+    box-shadow: var(--md-lite-elevation-2);
     transform: translateY(-2px);
   }
 }
@@ -96,7 +97,7 @@ ul.task-list input[type="checkbox"] {
     }
 
     &.profile-image-rounded {
-      border-radius: 0.25rem;
+      border-radius: var(--md-lite-radius-sm);
     }
 
     .profile-image-hover-layer {
@@ -337,7 +338,7 @@ ul.task-list input[type="checkbox"] {
     &.is-expanded .card {
       border-color: var(--project-accent-line);
       background: linear-gradient(180deg, var(--project-accent-wash), transparent 42%), var(--global-card-bg-color);
-      box-shadow: 0 1rem 2.35rem rgba(32, 25, 22, 0.1);
+      box-shadow: var(--md-lite-elevation-3);
       opacity: 1;
       transform: none;
     }
@@ -443,8 +444,8 @@ ul.task-list input[type="checkbox"] {
     width: 1.85rem;
     height: 1.85rem;
     border: 1px solid var(--global-divider-color);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
+    border-radius: var(--md-lite-radius-pill);
+    background: var(--md-lite-state-muted);
     color: var(--global-text-color-light);
     font-size: 0.72rem;
     line-height: 1;
@@ -467,6 +468,7 @@ ul.task-list input[type="checkbox"] {
     border-color: var(--project-accent-line);
     background: var(--global-theme-color);
     color: var(--global-hover-text-color);
+    box-shadow: var(--md-lite-orange-shadow-1);
     opacity: 1;
     transform: translateY(-1px);
 
@@ -493,10 +495,11 @@ ul.task-list input[type="checkbox"] {
 
   .card {
     border: 1px solid var(--global-divider-color);
-    border-radius: 0.45rem;
+    border-radius: var(--md-lite-radius-md);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: var(--md-lite-elevation-1);
     transition:
       background var(--motion-standard),
       border-color var(--motion-standard),
@@ -517,8 +520,9 @@ ul.task-list input[type="checkbox"] {
     min-height: 0;
 
     &:focus-visible {
-      outline: 2px solid rgba(var(--global-accent-rgb), 0.5);
+      outline: var(--md-lite-focus-ring);
       outline-offset: 3px;
+      box-shadow: var(--md-lite-focus-shadow);
     }
 
     &:hover {
@@ -616,8 +620,8 @@ ul.task-list input[type="checkbox"] {
     width: 2rem;
     height: 2rem;
     border: 1px solid var(--global-divider-color);
-    border-radius: 999px;
-    background: var(--global-card-bg-color);
+    border-radius: var(--md-lite-radius-pill);
+    background: color-mix(in srgb, var(--global-card-bg-color) 84%, var(--md-lite-state-muted));
     color: var(--global-text-color-light);
     cursor: pointer;
     transition:
@@ -631,6 +635,7 @@ ul.task-list input[type="checkbox"] {
       background: color-mix(in srgb, var(--global-card-bg-color) 84%, var(--global-theme-color));
       border-color: var(--project-accent-line);
       color: var(--global-theme-color);
+      box-shadow: var(--md-lite-orange-shadow-1);
       transform: rotate(90deg);
     }
   }
@@ -651,7 +656,7 @@ ul.task-list input[type="checkbox"] {
     min-height: 2.35rem;
     padding: 0.55rem 0.95rem;
     border: 1px solid var(--global-theme-color);
-    border-radius: 999px;
+    border-radius: var(--md-lite-radius-pill);
     background: var(--global-theme-color);
     color: var(--global-hover-text-color);
     font-size: var(--type-meta);
@@ -664,8 +669,13 @@ ul.task-list input[type="checkbox"] {
       background: var(--global-hover-color);
       border-color: var(--global-hover-color);
       color: var(--global-hover-text-color);
-      box-shadow: 0 0.5rem 1.2rem rgba(var(--global-accent-rgb), 0.18);
+      box-shadow: var(--md-lite-orange-shadow-2);
       text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
     }
   }
 
@@ -678,13 +688,15 @@ ul.task-list input[type="checkbox"] {
     min-height: 2.35rem;
     padding: 0.52rem 0.78rem;
     border: 1px solid var(--global-divider-color);
-    border-radius: 999px;
+    border-radius: var(--md-lite-radius-pill);
+    background: var(--md-lite-state-muted);
     font-size: var(--type-meta);
     font-weight: 700;
 
     &:hover,
     &:focus-visible {
       border-color: rgba(var(--global-accent-rgb), 0.42);
+      background: var(--md-lite-surface-tonal);
       text-decoration: none;
     }
   }
@@ -717,7 +729,7 @@ ul.task-list input[type="checkbox"] {
     margin-top: 0.95rem;
     padding: 0.85rem 0.9rem;
     border: 1px solid var(--project-accent-line);
-    border-radius: 0.45rem;
+    border-radius: var(--md-lite-radius-md);
     background: linear-gradient(135deg, var(--project-accent-panel), var(--project-accent-panel-strong));
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
     color: var(--global-text-color);
@@ -825,7 +837,8 @@ ul.task-list input[type="checkbox"] {
   align-items: center;
   background: radial-gradient(circle at 100% 0%, rgba(var(--global-accent-rgb), 0.12), transparent 34%), var(--global-card-bg-color);
   border: 1px solid var(--global-divider-color);
-  border-radius: 0.85rem;
+  border-radius: var(--md-lite-radius-xl);
+  box-shadow: var(--md-lite-elevation-1);
   display: grid;
   gap: clamp(1.2rem, 3vw, 2.5rem);
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.82fr);
@@ -869,8 +882,8 @@ ul.task-list input[type="checkbox"] {
 .project-case-facts span,
 .project-author-strip a {
   border: 1px solid var(--global-divider-color);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
+  border-radius: var(--md-lite-radius-pill);
+  background: var(--md-lite-state-muted);
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
   padding: 0.35rem 0.7rem;
@@ -882,7 +895,7 @@ ul.task-list input[type="checkbox"] {
   a {
     align-items: center;
     border: 1px solid var(--global-theme-color);
-    border-radius: 999px;
+    border-radius: var(--md-lite-radius-pill);
     color: var(--global-theme-color);
     display: inline-flex;
     font-weight: 750;
@@ -903,7 +916,7 @@ ul.task-list input[type="checkbox"] {
 
     &:hover {
       background: rgba(var(--global-accent-rgb), 0.1);
-      box-shadow: 0 0.55rem 1.35rem rgba(32, 25, 22, 0.08);
+      box-shadow: var(--md-lite-orange-shadow-1);
       text-decoration: none;
       transform: translateY(-1px);
     }
@@ -916,7 +929,7 @@ ul.task-list input[type="checkbox"] {
     }
 
     &:focus-visible {
-      outline: 2px solid rgba(var(--global-accent-rgb), 0.5);
+      outline: var(--md-lite-focus-ring);
       outline-offset: 3px;
       text-decoration: none;
     }
@@ -926,7 +939,8 @@ ul.task-list input[type="checkbox"] {
 .project-case-media {
   background: #fff;
   border: 1px solid var(--global-divider-color);
-  border-radius: 0.65rem;
+  border-radius: var(--md-lite-radius-lg);
+  box-shadow: var(--md-lite-elevation-1);
   padding: 1rem;
 
   figure {
@@ -947,9 +961,9 @@ ul.task-list input[type="checkbox"] {
   margin-bottom: 1.35rem;
 
   div {
-    background: rgba(255, 255, 255, 0.45);
+    background: var(--md-lite-surface-tonal);
     border: 1px solid var(--global-divider-color);
-    border-radius: 0.65rem;
+    border-radius: var(--md-lite-radius-lg);
     padding: 1rem;
   }
 
@@ -2083,11 +2097,11 @@ ul.task-list input[type="checkbox"] {
 
 html[data-theme="dark"] {
   .hoverable:hover {
-    box-shadow: 0 0.65rem 1.6rem rgba(0, 0, 0, 0.18);
+    box-shadow: var(--md-lite-elevation-2);
   }
 
   .projects .project-card.is-expanded .card {
-    box-shadow: 0 1rem 2.35rem rgba(0, 0, 0, 0.22);
+    box-shadow: var(--md-lite-elevation-3);
   }
 
   .spooder-video-card.is-active {

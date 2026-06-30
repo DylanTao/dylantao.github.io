@@ -169,6 +169,7 @@ html.transition *:after {
 
   .btn-secondary.dropdown-toggle {
     border: 1px solid var(--global-divider-color);
+    border-radius: var(--md-lite-radius-pill);
 
     .page-size {
       color: inherit;
@@ -182,6 +183,12 @@ html.transition *:after {
     &:hover {
       background-color: var(--global-hover-color) !important;
       color: var(--global-hover-text-color) !important;
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+      box-shadow: var(--md-lite-focus-shadow);
     }
   }
 }

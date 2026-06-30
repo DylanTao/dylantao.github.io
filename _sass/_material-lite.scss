@@ -36,6 +36,22 @@
   --md-lite-motion-standard: var(--motion-standard);
 }
 
+.btn,
+a.btn,
+button.btn {
+  border-radius: var(--md-lite-radius-pill);
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+    box-shadow: var(--md-lite-focus-shadow);
+  }
+}
+
+.badge {
+  border-radius: var(--md-lite-radius-pill);
+}
+
 html[data-theme="dark"],
 html[data-theme-mode="evening"] {
   --md-lite-elevation-1: 0 0.32rem 0.8rem rgba(0, 0, 0, 0.2);
