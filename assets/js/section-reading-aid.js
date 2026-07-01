@@ -1,5 +1,6 @@
 (() => {
   const MIN_SECTION_COUNT = 2;
+  const SECTION_CUE_DURATION_MS = 2200;
   const SKIPPED_HEADINGS = new Set(["bibtex", "references"]);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const mobileReadingAidQuery = window.matchMedia("(max-width: 1599.98px), (max-aspect-ratio: 1/1)");
@@ -162,6 +163,7 @@
     const desktopNav = createDesktopNav(sections);
     const mobileInlineNav = createMobileNav(sections, "inline");
     const mobileDockNav = createMobileNav(sections, "dock");
+    const siteFooter = document.querySelector("footer");
     const mobileNavs = [mobileInlineNav, mobileDockNav];
     const currentLabels = mobileNavs.map((nav) => nav.querySelector("[data-reading-aid-current]"));
     const links = [...desktopNav.querySelectorAll("a"), ...mobileNavs.flatMap((nav) => [...nav.querySelectorAll("a")])];
@@ -232,6 +234,10 @@
     });
 
     let railAvoidanceBlocks = [];
+    let cueHideTimer = null;
+    let lastActiveSectionId = sections[0].id;
+    let lastNavigationCueAt = 0;
+    let lastScrollY = window.scrollY;
 
     const refreshRailAvoidanceBlocks = () => {
       const proseWidth = Math.max(...sections.map((section) => section.heading.getBoundingClientRect().width), 0);
@@ -290,6 +296,9 @@
     };
 
     const updateReadingAid = () => {
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      const isScrollingUp = scrollDelta < -4;
       const threshold = Math.min(window.innerHeight * 0.34, 240);
       let activeSection = sections[0];
 
@@ -308,24 +317,57 @@
 
       setActiveSection(activeSection);
 
+      const activeSectionChanged = activeSection.id !== lastActiveSectionId;
+
+      if (activeSectionChanged) {
+        lastActiveSectionId = activeSection.id;
+      }
+
+      if (activeSectionChanged || isScrollingUp) {
+        lastNavigationCueAt = Date.now();
+
+        window.clearTimeout(cueHideTimer);
+        cueHideTimer = window.setTimeout(requestUpdate, SECTION_CUE_DURATION_MS + 80);
+      }
+
       const firstHeadingTop = sections[0].heading.getBoundingClientRect().top;
       const contentBottom = contentRoot.getBoundingClientRect().bottom;
       const inlineNavRect = mobileInlineNav.getBoundingClientRect();
+      const footerTop = siteFooter ? siteFooter.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+      const dockIsOpen = mobileDockNav.classList.contains("is-open");
+      const dockHasFocus = mobileDockNav.matches(":focus-within");
       const bodyEntryThreshold = Math.min(window.innerHeight * 0.28, 260);
       const dockEntryThreshold = Math.min(window.innerHeight * 0.18, 180);
+      const footerClearance = Math.min(window.innerHeight * 0.38, 420);
+      const readerExitThreshold = Math.min(window.innerHeight * 0.28, 320);
       const inReadableZone = firstHeadingTop <= bodyEntryThreshold && contentBottom > window.innerHeight * 0.22;
       const inlineNavInView = inlineNavRect.top < window.innerHeight * 0.88 && inlineNavRect.bottom > 72;
+      const nearPageEnd = currentScrollY + window.innerHeight >= document.documentElement.scrollHeight - footerClearance;
+      const footerInView = footerTop < window.innerHeight;
+      const articleEndingInView = contentBottom < window.innerHeight - readerExitThreshold;
+      const nearReaderExit = footerInView || articleEndingInView || nearPageEnd;
+      const dockIsEngaged = dockIsOpen || (dockHasFocus && !nearReaderExit);
+      const hasRecentNavigationCue = Date.now() - lastNavigationCueAt < SECTION_CUE_DURATION_MS;
+      const hasNavigationIntent = hasRecentNavigationCue || dockIsEngaged;
       const shouldShowMobileDock =
-        mobileReadingAidQuery.matches && window.scrollY > dockEntryThreshold && contentBottom > window.innerHeight * 0.35 && !inlineNavInView;
+        mobileReadingAidQuery.matches &&
+        currentScrollY > dockEntryThreshold &&
+        contentBottom > window.innerHeight * 0.55 &&
+        !inlineNavInView &&
+        (!nearReaderExit || dockIsEngaged) &&
+        hasNavigationIntent;
       const isObscured = inReadableZone && updateDesktopRailClearance();
 
       desktopNav.classList.toggle("is-readable", inReadableZone);
       desktopNav.classList.toggle("is-obscured", isObscured);
-      mobileDockNav.classList.toggle("is-readable", shouldShowMobileDock);
+      mobileDockNav.classList.toggle("is-reader-exit", nearReaderExit && !dockIsOpen);
+      mobileDockNav.classList.toggle("is-readable", shouldShowMobileDock || dockIsEngaged);
 
-      if (!shouldShowMobileDock) {
+      if (!shouldShowMobileDock && !dockIsEngaged) {
         setMobileNavOpen(mobileDockNav, false);
       }
+
+      lastScrollY = currentScrollY;
     };
 
     let ticking = false;

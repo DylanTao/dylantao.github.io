@@ -329,6 +329,68 @@ body.sticky-bottom-footer {
   }
 }
 
+.section-reading-aid-mobile-dock.is-reader-exit {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition-delay: 0s;
+}
+
+@media (min-width: 768px) and (max-width: 1599.98px), (min-width: 768px) and (max-aspect-ratio: 1 / 1) {
+  .section-reading-aid-mobile-dock {
+    top: clamp(7rem, 54vh, calc(100vh - 8rem));
+    right: 0;
+    bottom: auto;
+    transform: translateX(0.42rem);
+
+    &.is-readable {
+      transform: translateX(0);
+    }
+
+    &:not(.is-open) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      .section-reading-aid-mobile-toggle {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        width: 2.65rem;
+        min-height: 7.2rem;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 0.7rem 0.42rem;
+
+        &::after {
+          justify-self: center;
+          transform: rotate(135deg);
+        }
+      }
+
+      .section-reading-aid-mobile-label {
+        letter-spacing: 0.04em;
+        transform: rotate(180deg);
+        writing-mode: vertical-rl;
+      }
+    }
+
+    &.is-open {
+      top: clamp(5.5rem, 20vh, 9.25rem);
+      right: max(1rem, env(safe-area-inset-right, 0px));
+      width: min(22rem, calc(100vw - 2rem));
+      transform: translateX(0);
+
+      .section-reading-aid-mobile-toggle {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+
+      .section-reading-aid-mobile-label {
+        transform: none;
+        writing-mode: horizontal-tb;
+      }
+    }
+  }
+}
+
 .section-reading-aid-mobile-label {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
