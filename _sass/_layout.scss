@@ -218,45 +218,114 @@ body.sticky-bottom-footer {
   background: var(--md-lite-surface-tonal);
   box-shadow: var(--md-lite-elevation-1);
 
-  summary {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 0.8rem;
-    align-items: center;
-    min-height: 2.85rem;
-    padding: 0.7rem 0.85rem;
-    cursor: pointer;
-    list-style: none;
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-
-    &:focus-visible {
-      outline: var(--md-lite-focus-ring);
-      outline-offset: 2px;
-      box-shadow: var(--md-lite-focus-shadow);
-    }
-
-    &::after {
-      color: var(--global-theme-color);
-      content: "+";
-      font-family: var(--font-mono);
-      font-weight: 700;
-    }
-  }
-
-  &[open] {
-    position: relative;
-    top: auto;
-
-    summary::after {
-      content: "-";
-    }
-  }
-
   .section-reading-aid-list {
     padding: 0 0.85rem 0.75rem;
+  }
+
+  .section-reading-aid-list[hidden] {
+    display: none;
+  }
+}
+
+.section-reading-aid-mobile-toggle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+  width: 100%;
+  min-height: 2.85rem;
+  border: 0;
+  padding: 0.7rem 0.85rem;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+
+  &::after {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    color: var(--global-theme-color);
+    content: "";
+    transform: rotate(45deg) translateY(-0.08rem);
+    transition: transform var(--motion-standard);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+    box-shadow: var(--md-lite-focus-shadow);
+  }
+}
+
+.section-reading-aid-mobile.is-open .section-reading-aid-mobile-toggle::after {
+  transform: rotate(225deg) translate(-0.08rem, -0.08rem);
+}
+
+.section-reading-aid-mobile-inline {
+  position: relative;
+}
+
+.section-reading-aid-mobile-dock {
+  position: fixed;
+  right: max(0.85rem, #{v.$back-to-top-right});
+  bottom: calc(#{v.$back-to-top-bottom} + #{v.$back-to-top-diameter} + 0.85rem + env(safe-area-inset-bottom, 0px));
+  z-index: v.$back-to-top-z-index + 1;
+  width: min(16rem, calc(100vw - 6rem));
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.45rem);
+  transform-origin: bottom right;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-standard),
+    transform var(--motion-standard),
+    width var(--motion-standard),
+    visibility 0s linear 180ms;
+
+  &.is-readable {
+    opacity: 0.94;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  &:hover,
+  &:focus-within,
+  &.is-open {
+    opacity: 1;
+  }
+
+  &:not(.is-open) {
+    width: auto;
+    border-radius: 999px;
+    box-shadow: var(--md-lite-elevation-2);
+
+    .section-reading-aid-mobile-toggle {
+      grid-template-columns: auto auto;
+      min-height: 2.55rem;
+      border-radius: 999px;
+      padding: 0.6rem 0.78rem;
+    }
+
+    .section-reading-aid-current {
+      display: none;
+    }
+  }
+
+  &.is-open {
+    width: min(22rem, calc(100vw - 1.5rem));
+
+    .section-reading-aid-list {
+      max-height: min(48vh, 19rem);
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
   }
 }
 
@@ -334,9 +403,22 @@ body.sticky-bottom-footer {
 
 @media (max-width: 1599.98px), (max-aspect-ratio: 1 / 1) {
   .section-reading-aid-mobile {
-    position: sticky;
-    top: 4.35rem;
-    z-index: 12;
+    display: block;
+  }
+}
+
+@media (max-width: 575px) {
+  .section-reading-aid-mobile {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .section-reading-aid-mobile-dock {
+    right: max(0.75rem, env(safe-area-inset-right, 0px));
+
+    &.is-open {
+      width: min(21rem, calc(100vw - 1.25rem));
+    }
   }
 }
 
@@ -464,6 +546,11 @@ html.site-motion-ready .site-reveal.site-visible {
   html.site-motion-ready .site-reveal {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+
+  .section-reading-aid-mobile-dock,
+  .section-reading-aid-mobile-toggle::after {
     transition: none;
   }
 }

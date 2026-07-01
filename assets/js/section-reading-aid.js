@@ -2,6 +2,8 @@
   const MIN_SECTION_COUNT = 2;
   const SKIPPED_HEADINGS = new Set(["bibtex", "references"]);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileReadingAidQuery = window.matchMedia("(max-width: 1599.98px), (max-aspect-ratio: 1/1)");
+  let mobileNavId = 0;
 
   const normalizeText = (text) => text.trim().replace(/\s+/g, " ");
 
@@ -70,25 +72,36 @@
     return nav;
   };
 
-  const createMobileNav = (sections) => {
-    const details = document.createElement("details");
-    details.className = "section-reading-aid section-reading-aid-mobile";
+  const createMobileNav = (sections, variant) => {
+    mobileNavId += 1;
 
-    const summary = document.createElement("summary");
+    const nav = document.createElement("nav");
+    nav.className = `section-reading-aid section-reading-aid-mobile section-reading-aid-mobile-${variant}`;
+    nav.setAttribute("aria-label", "On this page");
+
+    const listId = `section-reading-aid-mobile-list-${mobileNavId}`;
+    const button = document.createElement("button");
+    button.className = "section-reading-aid-mobile-toggle";
+    button.type = "button";
+    button.setAttribute("aria-controls", listId);
+    button.setAttribute("aria-expanded", "false");
+
     const label = document.createElement("span");
     label.className = "section-reading-aid-mobile-label";
-    label.textContent = "On this page";
+    label.textContent = variant === "dock" ? "Sections" : "On this page";
 
     const current = document.createElement("strong");
     current.className = "section-reading-aid-current";
     current.dataset.readingAidCurrent = "";
     current.textContent = sections[0].title;
 
-    summary.append(label, current);
-    details.appendChild(summary);
+    button.append(label, current);
+    nav.appendChild(button);
 
     const list = document.createElement("ol");
     list.className = "section-reading-aid-list";
+    list.id = listId;
+    list.hidden = true;
 
     sections.forEach((section) => {
       const item = document.createElement("li");
@@ -96,8 +109,8 @@
       list.appendChild(item);
     });
 
-    details.appendChild(list);
-    return details;
+    nav.appendChild(list);
+    return nav;
   };
 
   const getContentRoot = (pageRoot) => {
@@ -147,12 +160,59 @@
     });
 
     const desktopNav = createDesktopNav(sections);
-    const mobileNav = createMobileNav(sections);
-    const currentLabel = mobileNav.querySelector("[data-reading-aid-current]");
-    const links = [...desktopNav.querySelectorAll("a"), ...mobileNav.querySelectorAll("a")];
+    const mobileInlineNav = createMobileNav(sections, "inline");
+    const mobileDockNav = createMobileNav(sections, "dock");
+    const mobileNavs = [mobileInlineNav, mobileDockNav];
+    const currentLabels = mobileNavs.map((nav) => nav.querySelector("[data-reading-aid-current]"));
+    const links = [...desktopNav.querySelectorAll("a"), ...mobileNavs.flatMap((nav) => [...nav.querySelectorAll("a")])];
 
     pageRoot.appendChild(desktopNav);
-    contentRoot.insertBefore(mobileNav, sections[0].heading);
+    pageRoot.appendChild(mobileDockNav);
+    contentRoot.insertBefore(mobileInlineNav, sections[0].heading);
+
+    const setMobileNavOpen = (nav, isOpen, { restoreFocus = false } = {}) => {
+      const toggle = nav.querySelector(".section-reading-aid-mobile-toggle");
+      const list = nav.querySelector(".section-reading-aid-list");
+      if (!toggle || !list) return;
+
+      nav.classList.toggle("is-open", isOpen);
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      list.hidden = !isOpen;
+
+      if (restoreFocus) {
+        toggle.focus({ preventScroll: true });
+      }
+    };
+
+    const closeMobileNavs = ({ restoreFocusNav = null } = {}) => {
+      mobileNavs.forEach((nav) => {
+        setMobileNavOpen(nav, false, { restoreFocus: nav === restoreFocusNav });
+      });
+    };
+
+    mobileNavs.forEach((nav) => {
+      const toggle = nav.querySelector(".section-reading-aid-mobile-toggle");
+      if (!toggle) return;
+
+      toggle.addEventListener("click", () => {
+        const willOpen = toggle.getAttribute("aria-expanded") !== "true";
+        closeMobileNavs();
+        setMobileNavOpen(nav, willOpen);
+      });
+
+      nav.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+
+        event.preventDefault();
+        closeMobileNavs({ restoreFocusNav: nav });
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (mobileNavs.some((nav) => nav.contains(event.target))) return;
+
+      closeMobileNavs();
+    });
 
     links.forEach((link) => {
       link.addEventListener("click", (event) => {
@@ -161,7 +221,7 @@
         const section = sections.find((item) => item.id === link.dataset.sectionId);
         if (!section) return;
 
-        if (mobileNav.contains(link)) mobileNav.open = false;
+        if (mobileNavs.some((nav) => nav.contains(link))) closeMobileNavs();
         setActiveSection(section);
         scrollToHeading(section.heading);
 
@@ -182,7 +242,7 @@
       const projectHero = contentRoot.querySelector(":scope > .project-case-hero");
 
       const measuredBlocks = children.filter((element) => {
-        if (element === mobileNav || element.classList.contains("section-reading-aid")) return false;
+        if (mobileNavs.includes(element) || element.classList.contains("section-reading-aid")) return false;
 
         const rect = element.getBoundingClientRect();
         return rect.width > proseWidth + 48;
@@ -192,7 +252,9 @@
     };
 
     const setActiveSection = (activeSection) => {
-      currentLabel.textContent = activeSection.title;
+      currentLabels.forEach((label) => {
+        label.textContent = activeSection.title;
+      });
 
       links.forEach((link) => {
         const isActive = link.dataset.sectionId === activeSection.id;
@@ -248,12 +310,22 @@
 
       const firstHeadingTop = sections[0].heading.getBoundingClientRect().top;
       const contentBottom = contentRoot.getBoundingClientRect().bottom;
+      const inlineNavRect = mobileInlineNav.getBoundingClientRect();
       const bodyEntryThreshold = Math.min(window.innerHeight * 0.28, 260);
+      const dockEntryThreshold = Math.min(window.innerHeight * 0.18, 180);
       const inReadableZone = firstHeadingTop <= bodyEntryThreshold && contentBottom > window.innerHeight * 0.22;
+      const inlineNavInView = inlineNavRect.top < window.innerHeight * 0.88 && inlineNavRect.bottom > 72;
+      const shouldShowMobileDock =
+        mobileReadingAidQuery.matches && window.scrollY > dockEntryThreshold && contentBottom > window.innerHeight * 0.35 && !inlineNavInView;
       const isObscured = inReadableZone && updateDesktopRailClearance();
 
       desktopNav.classList.toggle("is-readable", inReadableZone);
       desktopNav.classList.toggle("is-obscured", isObscured);
+      mobileDockNav.classList.toggle("is-readable", shouldShowMobileDock);
+
+      if (!shouldShowMobileDock) {
+        setMobileNavOpen(mobileDockNav, false);
+      }
     };
 
     let ticking = false;

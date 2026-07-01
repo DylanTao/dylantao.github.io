@@ -1,17 +1,17 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-06-30"
+updated_at: '2026-06-30'
 source_note: Estimated from local Codex logs plus git history; audit with python bin/audit_agentic_usage.py before publish.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 281
-  token_count: 2470000000
-  tokens_label: 2.47B
-  hours_count: 227
-  hours_label: "227"
+  commits: 282
+  token_count: 2480000000
+  tokens_label: 2.48B
+  hours_count: 228
+  hours_label: '228'
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -20,62 +20,62 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 1482
-    kg_co2e_midpoint: 553
-    tree_years_midpoint: 9.2
-    tree_years_range: 3.1-30.7
+    kwh_midpoint: 1488
+    kg_co2e_midpoint: 555
+    tree_years_midpoint: 9.3
+    tree_years_range: 3.1-30.8
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.9
     cut_tree_range: 0.3-3.1
-    public_note: "Tree lens: about 1482 kWh, or ~0.9 ten-year urban trees' stored carbon. Range: 0.3-3.1."
+    public_note: 'Tree lens: about 1488 kWh, or ~0.9 ten-year urban trees'' stored carbon. Range: 0.3-3.1.'
   token_usage:
-    input_tokens: 2460386444
-    cached_input_tokens: 2312765780
-    output_tokens: 9354235
-    reasoning_output_tokens: 3416849
-    total_tokens: 2469731496
+    input_tokens: 2469319056
+    cached_input_tokens: 2320886612
+    output_tokens: 9393049
+    reasoning_output_tokens: 3429606
+    total_tokens: 2478698242
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
-    pricing_as_of: "2026-06-19"
+    pricing_as_of: '2026-06-19'
     source_url: https://developers.openai.com/api/docs/pricing
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 2460386444
-    cached_input_tokens: 2312765780
-    uncached_input_tokens: 147620664
-    output_tokens: 9354235
-    reasoning_output_tokens: 3416849
-    total_tokens: 2469731496
-    usd_midpoint: 790
-    usd_label: ~$790 API cosplay
-    usd_range_label: $560-$4.4K
+    input_tokens: 2469319056
+    cached_input_tokens: 2320886612
+    uncached_input_tokens: 148432444
+    output_tokens: 9393049
+    reasoning_output_tokens: 3429606
+    total_tokens: 2478698242
+    usd_midpoint: 800
+    usd_label: ~$800 API cosplay
+    usd_range_label: $560-$4.5K
     caveat: API list-price equivalence only; actual Codex product or subscription cost is not exposed.
-    public_note: ~$790 API cosplay. API list-price equivalence only; actual Codex product or subscription cost is not exposed.
+    public_note: ~$800 API cosplay. API list-price equivalence only; actual Codex product or subscription cost is not exposed.
   codexbar_cost_estimate:
     label: CodexBar cost lens
     source: CodexBar local dashboard screenshot
-    source_as_of: "2026-06-19"
+    source_as_of: '2026-06-19'
     source_note: $2,616.40 / 3B tokens from the local CodexBar dashboard screenshot.
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 2470000000
+    token_count: 2480000000
     usd_midpoint: 2200
     usd_label: ~$2.2K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
-    public_note: "Sam's money waste so far: ~$2.2K"
+    public_note: 'Sam''s money waste so far: ~$2.2K'
 desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
   commits: 107
-  token_count: 1410000000
-  tokens_label: 1.41B
-  hours_count: 113
-  hours_label: "113"
+  token_count: 1420000000
+  tokens_label: 1.42B
+  hours_count: 114
+  hours_label: '114'
   confidence: estimate
   note: Scoped to the homepage vinyl, desk, coffee mug, and 3D scene burst.
   energy_equivalence:
@@ -84,50 +84,50 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 846
-    kg_co2e_midpoint: 316
+    kwh_midpoint: 852
+    kg_co2e_midpoint: 318
     tree_years_midpoint: 5.3
-    tree_years_range: 1.8-17.5
+    tree_years_range: 1.8-17.7
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.5
     cut_tree_range: 0.18-1.8
     public_note: roughly 0.5 trees cut
   token_usage:
-    input_tokens: 1406514229
-    cached_input_tokens: 1326176159
-    output_tokens: 5258191
-    reasoning_output_tokens: 1911884
-    total_tokens: 1411772420
+    input_tokens: 1415446841
+    cached_input_tokens: 1334296991
+    output_tokens: 5297005
+    reasoning_output_tokens: 1924641
+    total_tokens: 1420739166
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
-    pricing_as_of: "2026-06-19"
+    pricing_as_of: '2026-06-19'
     source_url: https://developers.openai.com/api/docs/pricing
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 1406514229
-    cached_input_tokens: 1326176159
-    uncached_input_tokens: 80338070
-    output_tokens: 5258191
-    reasoning_output_tokens: 1911884
-    total_tokens: 1411772420
+    input_tokens: 1415446841
+    cached_input_tokens: 1334296991
+    uncached_input_tokens: 81149850
+    output_tokens: 5297005
+    reasoning_output_tokens: 1924641
+    total_tokens: 1420739166
     usd_midpoint: 450
     usd_label: ~$450 API cosplay
-    usd_range_label: $320-$2.5K
+    usd_range_label: $320-$2.6K
     caveat: API list-price equivalence only; actual Codex product or subscription cost is not exposed.
     public_note: ~$450 API cosplay. API list-price equivalence only; actual Codex product or subscription cost is not exposed.
   codexbar_cost_estimate:
     label: CodexBar cost lens
     source: CodexBar local dashboard screenshot
-    source_as_of: "2026-06-19"
+    source_as_of: '2026-06-19'
     source_note: $2,616.40 / 3B tokens from the local CodexBar dashboard screenshot.
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 1410000000
+    token_count: 1420000000
     usd_midpoint: 1200
     usd_label: ~$1.2K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
-    public_note: "Sam's money waste so far: ~$1.2K"
+    public_note: 'Sam''s money waste so far: ~$1.2K'

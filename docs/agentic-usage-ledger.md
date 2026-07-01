@@ -243,6 +243,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Repo-local Codex skills conversion: public total moved to 272 commits, 2.41B tokens, 219 hours, 1446 kWh, about $770 API cosplay, and about $2.1K on the CodexBar-ratio money joke; the path-scoped desk counter moved to 104 commits, 1.35B tokens, 105 hours, 810 kWh, about $430 API cosplay, and about $1.2K on the CodexBar-ratio money joke while rounded tree midpoints stayed unchanged.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 92 repo sessions, counted 65 sessions after the revamp cutoff and 30 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending repo-local skill conversion commit.
 
+### 2026-06-30
+
+- Narrow reading-aid pass: public total moved to 282 commits, 2.48B tokens, 228 hours, 1488 kWh, about $800 API cosplay, and about $2.2K on the CodexBar-ratio money joke; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.42B tokens, 114 hours, and 852 kWh.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 93 repo sessions, counted 66 sessions after the revamp cutoff and 31 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending narrow reading-aid commit.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

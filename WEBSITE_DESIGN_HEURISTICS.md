@@ -108,6 +108,7 @@ Agent-facing Codex overlays live in `.codex/skills/website-design-critique/SKILL
 - Keep the global nav simple.
 - Use in-page navigation only when it helps a reader understand the story structure.
 - Desktop can support a compact story rail; mobile should stay clean and linear.
+- On narrow or vertical reading pages, keep in-page navigation inline or collapsed; after the top of the page, surface it as a compact on-demand control instead of a sticky top card.
 - Anchor links must land with enough top spacing below the fixed nav.
 - Active navigation state should match the section currently being read.
 
