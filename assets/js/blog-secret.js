@@ -90,7 +90,13 @@
 
   const mangoArt = (random, index) => {
     const id = `sirui-secret-mango-${index}`;
-    const body = makeOrganicOval(random, randomBetween(random, 33, 35), randomBetween(random, 32, 34), randomBetween(random, 18, 20), randomBetween(random, 21, 24));
+    const body = makeOrganicOval(
+      random,
+      randomBetween(random, 33, 35),
+      randomBetween(random, 32, 34),
+      randomBetween(random, 18, 20),
+      randomBetween(random, 21, 24)
+    );
     const cutX = number(randomBetween(random, 16, 19));
     const cutY = number(randomBetween(random, 37, 40));
 
@@ -115,13 +121,19 @@
         <path d="M18 38L30 53M25 34L34 48M14 44L25 56M17 48C23 45 31 43 38 41M13 43C20 41 28 38 35 36" fill="none" stroke="rgba(141, 83, 17, 0.28)" stroke-linecap="round" stroke-width="0.85"></path>
         <path d="M22 20C27 14 37 12 45 18" fill="none" opacity="0.72" stroke="rgba(255, 239, 172, 0.72)" stroke-linecap="round" stroke-width="2.6"></path>
         <path d="M33 12C39 8 46 8 50 13C43 17 37 17 33 12Z" fill="#6e944d" stroke="#3e6f39" stroke-width="0.8"></path>
-      `,
+      `
     );
   };
 
   const orangeArt = (random, index) => {
     const id = `sirui-secret-orange-${index}`;
-    const body = makeOrganicOval(random, randomBetween(random, 34, 35), randomBetween(random, 34, 35), randomBetween(random, 18.5, 20), randomBetween(random, 18, 19.5));
+    const body = makeOrganicOval(
+      random,
+      randomBetween(random, 34, 35),
+      randomBetween(random, 34, 35),
+      randomBetween(random, 18.5, 20),
+      randomBetween(random, 18, 19.5)
+    );
     const pores = Array.from({ length: Math.round(randomBetween(random, 30, 42)) }, () => {
       const point = pointOnEllipse(34, 35, 16, 15, randomBetween(random, 0, Math.PI * 2), Math.sqrt(randomBetween(random, 0.02, 0.86)));
       const opacity = number(randomBetween(random, 0.16, 0.38), 3);
@@ -148,7 +160,7 @@
         <path d="M34 14Q36 9 41 8" fill="none" stroke="#81552e" stroke-linecap="round" stroke-width="2.1"></path>
         <path d="M35 15Q39 11 45 14Q40 18 35 15Z" fill="#74a85c" stroke="#447840" stroke-width="0.8"></path>
         <circle cx="35" cy="49" r="1.1" fill="rgba(113, 49, 13, 0.48)"></circle>
-      `,
+      `
     );
   };
 
@@ -181,7 +193,7 @@
         <path d="M28 18Q31 13 34 9" fill="none" stroke="#81552e" stroke-linecap="round" stroke-width="1.7"></path>
         <g>${seeds}</g>
         <path d="M22 27C25 22 33 20 41 23" fill="none" opacity="0.38" stroke="#ffd0c2" stroke-linecap="round" stroke-width="2.6"></path>
-      `,
+      `
     );
   };
 
@@ -208,7 +220,7 @@
         <path d="M52 20Q56 18 58 21Q57 25 53 27Z" fill="#74421d"></path>
         <path d="M18 39C29 47 43 49 52 40M18 31C29 38 42 38 50 29" fill="none" opacity="0.42" stroke="#fff4a5" stroke-linecap="round" stroke-width="1.4"></path>
         <path d="M11 ${number(42 + lift)}Q9 39 11 36" fill="none" stroke="#74421d" stroke-linecap="round" stroke-width="2"></path>
-      `,
+      `
     );
   };
 
@@ -310,13 +322,13 @@
       JSON.stringify({
         fruit,
         unlockedAt: Date.now(),
-      }),
+      })
     );
     routeTimer = window.setTimeout(
       () => {
         window.location.assign(secretUrl);
       },
-      reducedMotion.matches ? 120 : 720,
+      reducedMotion.matches ? 120 : 720
     );
   };
 

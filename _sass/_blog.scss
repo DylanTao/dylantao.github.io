@@ -821,9 +821,7 @@
 
 .sirui-secret-fruit {
   align-items: center;
-  background:
-    linear-gradient(180deg, rgba(var(--global-accent-rgb), 0.055), transparent 64%),
-    var(--global-card-bg-color);
+  background: linear-gradient(180deg, rgba(var(--global-accent-rgb), 0.055), transparent 64%), var(--global-card-bg-color);
   border: 1px solid var(--global-divider-color);
   border-radius: 0.5rem;
   color: var(--global-text-color);
