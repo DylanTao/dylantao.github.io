@@ -139,13 +139,28 @@ pagination:
   <div id="sirui-secret-dialog" class="sirui-secret-dialog" hidden>
     <div class="sirui-secret-panel" role="dialog" aria-modal="true" aria-labelledby="sirui-secret-title">
       <button id="sirui-secret-close" class="sirui-secret-close" type="button" aria-label="close">&times;</button>
-      <h3 id="sirui-secret-title">the hidden gate</h3>
-      <form id="sirui-secret-form">
-        <label for="sirui-secret-password">speak the spell</label>
-        <div class="sirui-secret-row">
-          <input id="sirui-secret-password" type="password" autocomplete="current-password" required>
-          <button type="submit">unlock</button>
+      <h3 id="sirui-secret-title">fruit checkpoint</h3>
+      <form id="sirui-secret-form" class="sirui-secret-form" aria-describedby="sirui-secret-prompt sirui-secret-status">
+        <p id="sirui-secret-prompt" class="sirui-secret-prompt">what's a fruit Sirui likes?</p>
+        <div class="sirui-secret-fruit-grid" role="group" aria-label="fruit choices">
+          <button class="sirui-secret-fruit" type="submit" name="fruit" value="mango" data-sirui-fruit="mango">
+            <span class="sirui-secret-fruit-visual" data-sirui-fruit-art="mango" aria-hidden="true"></span>
+            <span class="sirui-secret-fruit-label">mango</span>
+          </button>
+          <button class="sirui-secret-fruit" type="submit" name="fruit" value="orange" data-sirui-fruit="orange">
+            <span class="sirui-secret-fruit-visual" data-sirui-fruit-art="orange" aria-hidden="true"></span>
+            <span class="sirui-secret-fruit-label">orange</span>
+          </button>
+          <button class="sirui-secret-fruit" type="submit" name="fruit" value="strawberry" data-sirui-fruit="strawberry">
+            <span class="sirui-secret-fruit-visual" data-sirui-fruit-art="strawberry" aria-hidden="true"></span>
+            <span class="sirui-secret-fruit-label">strawberry</span>
+          </button>
+          <button class="sirui-secret-fruit" type="submit" name="fruit" value="banana" data-sirui-fruit="banana">
+            <span class="sirui-secret-fruit-visual" data-sirui-fruit-art="banana" aria-hidden="true"></span>
+            <span class="sirui-secret-fruit-label">banana</span>
+          </button>
         </div>
+        <p id="sirui-secret-status" class="sirui-secret-status" aria-live="polite"></p>
       </form>
     </div>
   </div>

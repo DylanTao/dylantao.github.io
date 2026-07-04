@@ -2358,11 +2358,7 @@ hide_title: true
 
 <script>
   (() => {
-    const container = document.getElementById("sirui-private-note");
     const message = document.getElementById("sirui-private-message");
-    const payload = document.getElementById("sirui-private-payload");
-    const secretCopy = document.getElementById("sirui-secret-copy");
-    const secretNote = document.getElementById("sirui-secret-note-wrap");
     const map = document.getElementById("sirui-crack-map");
     const mapShell = map?.querySelector(".sirui-map-shell");
     const mapStage = map?.querySelector(".sirui-map-stage");
@@ -2409,7 +2405,8 @@ hide_title: true
 
     const logKey = "siruiResearchThoughtsCrackLog";
     const browserIdKey = "siruiResearchThoughtsBrowserId";
-    const passwordKey = "siruiResearchThoughtsPassword";
+    const fruitPassKey = "siruiSecretFruitPass";
+    const oldPasswordKey = "siruiResearchThoughtsPassword";
     const readoutVersion = "globe_v1";
     const visitorEndpoint = "{{ site.sirui_visitor_endpoint | default: '' }}".trim();
     const svgNamespace = "http://www.w3.org/2000/svg";
@@ -2490,37 +2487,6 @@ hide_title: true
     let celestialLayerRefreshPending = false;
     let lastSkySnapshot = null;
     const initialBodyPaddingBottom = document.body.style.paddingBottom;
-
-    const b64ToBytes = (value) =>
-      Uint8Array.from(atob(value.replace(/\s/g, "")), (char) =>
-        char.charCodeAt(0),
-      );
-
-    const deriveKey = async (password, salt) => {
-      const material = await crypto.subtle.importKey(
-        "raw",
-        new TextEncoder().encode(password),
-        "PBKDF2",
-        false,
-        ["deriveKey"],
-      );
-
-      return crypto.subtle.deriveKey(
-        {
-          name: "PBKDF2",
-          salt,
-          iterations: 250000,
-          hash: "SHA-256",
-        },
-        material,
-        {
-          name: "AES-GCM",
-          length: 256,
-        },
-        false,
-        ["decrypt"],
-      );
-    };
 
     const timezonePlaces = {
       "America/Anchorage": {
@@ -6801,38 +6767,9 @@ hide_title: true
 
     const sharpenLocation = () => requestBrowserPrecision();
 
-    const decryptSecret = async (password) => {
-      const key = await deriveKey(password, b64ToBytes(container.dataset.salt));
-      const decrypted = await crypto.subtle.decrypt(
-        {
-          name: "AES-GCM",
-          iv: b64ToBytes(container.dataset.iv),
-        },
-        key,
-        b64ToBytes(payload.textContent),
-      );
-
-      return new TextDecoder().decode(decrypted);
-    };
-
-    const unlock = async (password) => {
-      message.textContent = "checking access...";
-      message.classList.remove("is-unlocked", "sr-only");
-
-      let decryptedHtml = "";
-      try {
-        decryptedHtml = await decryptSecret(password);
-      } catch {
-        safeSessionRemove(passwordKey);
-        message.innerHTML =
-          'wrong password. go back to the <a href="{{ "/blog/" | relative_url }}">blog page</a> and try the dog again.';
-        return;
-      }
-
-      safeSessionRemove(passwordKey);
-      secretCopy.innerHTML = decryptedHtml;
-      secretNote.hidden = false;
+    const unlock = async () => {
       message.textContent = "access granted.";
+      message.classList.remove("is-unlocked", "sr-only");
       message.classList.add("is-unlocked", "sr-only");
 
       try {
@@ -6939,13 +6876,15 @@ hide_title: true
 
     setCelestialMode(celestialMode);
 
-    const storedPassword = safeSessionGet(passwordKey);
+    const storedFruitPass = safeSessionGet(fruitPassKey);
+    safeSessionRemove(fruitPassKey);
+    safeSessionRemove(oldPasswordKey);
 
-    if (storedPassword) {
-      unlock(storedPassword);
+    if (storedFruitPass) {
+      unlock();
     } else {
       message.innerHTML =
-        'locked. enter through the dog on the <a href="{{ "/blog/" | relative_url }}">blog page</a>.';
+        'locked. answer the fruit question through the dog on the <a href="{{ "/blog/" | relative_url }}">blog page</a>.';
     }
   })();
 </script>

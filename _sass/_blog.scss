@@ -775,7 +775,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.2);
   max-height: calc(100dvh - 2rem);
-  max-width: 22rem;
+  max-width: 30rem;
   overflow: auto;
   padding: 1.2rem;
   position: relative;
@@ -784,14 +784,19 @@
 
   h3 {
     font-size: 1.15rem;
-    margin: 0 1.5rem 1rem 0;
+    margin: 0 1.5rem 0.45rem 0;
   }
+}
 
-  label {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 0.35rem;
-  }
+.sirui-secret-form {
+  margin: 0;
+}
+
+.sirui-secret-prompt {
+  color: var(--global-text-color-light);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin: 0 0 0.85rem;
 }
 
 .sirui-secret-close {
@@ -806,29 +811,102 @@
   top: 0.55rem;
 }
 
-.sirui-secret-row {
-  display: flex;
-  gap: 0.5rem;
+.sirui-secret-fruit-grid {
+  display: grid;
+  gap: 0.62rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  min-width: 0;
+}
 
-  input {
-    flex: 1;
-    min-width: 0;
+.sirui-secret-fruit {
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(var(--global-accent-rgb), 0.055), transparent 64%),
+    var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.5rem;
+  color: var(--global-text-color);
+  cursor: pointer;
+  display: grid;
+  gap: 0.42rem;
+  justify-items: center;
+  min-height: 7rem;
+  min-width: 0;
+  padding: 0.7rem 0.58rem;
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    box-shadow var(--motion-standard),
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+
+  &:hover,
+  &:focus-visible {
+    border-color: rgba(var(--global-accent-rgb), 0.38);
+    box-shadow: 0 0.45rem 1.1rem rgba(38, 26, 16, 0.09);
+    color: var(--global-text-color);
+    transform: translateY(-1px);
   }
 
-  input,
-  button {
-    border: 1px solid var(--global-divider-color);
-    border-radius: 0.25rem;
-    font-size: 16px;
-    min-height: 44px;
-    padding: 0.55rem 0.75rem;
+  &:focus-visible {
+    outline: 2px solid rgba(var(--global-accent-rgb), 0.48);
+    outline-offset: 3px;
   }
 
-  button {
-    background: var(--global-theme-color);
-    color: var(--global-bg-color);
-    cursor: pointer;
+  &:disabled {
+    cursor: default;
   }
+
+  &.is-selected {
+    animation: sirui-secret-fruit-pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    border-color: rgba(var(--global-accent-rgb), 0.58);
+    box-shadow:
+      0 0.5rem 1.25rem rgba(var(--global-accent-rgb), 0.12),
+      inset 0 0 0 1px rgba(var(--global-accent-rgb), 0.12);
+  }
+}
+
+.sirui-secret-form.is-unlocked .sirui-secret-fruit:not(.is-selected) {
+  opacity: 0.5;
+}
+
+.sirui-secret-fruit-visual {
+  display: block;
+  height: 3.9rem;
+  pointer-events: none;
+  width: 3.9rem;
+}
+
+.sirui-secret-fruit-svg {
+  display: block;
+  filter: drop-shadow(0 0.3rem 0.25rem rgba(38, 26, 16, 0.13));
+  height: 100%;
+  overflow: visible;
+  width: 100%;
+}
+
+.sirui-secret-fruit-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+
+.sirui-secret-status {
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.35;
+  min-height: 1.2rem;
+  margin: 0.75rem 0 0;
+}
+
+.sirui-secret-form.is-unlocked .sirui-secret-status {
+  animation: sirui-secret-status-reveal 260ms ease-out both;
 }
 
 @keyframes sirui-secret-curious {
@@ -929,6 +1007,32 @@
   100% {
     filter: saturate(1.08) drop-shadow(0 0.06rem 0.12rem rgba(0, 0, 0, 0.11));
     transform: translateY(0) rotate(0deg) scale(1.03);
+  }
+}
+
+@keyframes sirui-secret-fruit-pop {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  55% {
+    transform: translateY(-0.1rem) scale(1.035);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sirui-secret-status-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.15rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -1049,18 +1153,29 @@
     margin-top: 0.75rem;
   }
 
-  .sirui-secret-row {
-    flex-direction: column;
+  .sirui-secret-fruit-grid {
+    grid-template-columns: 1fr;
+  }
 
-    button {
-      width: 100%;
-    }
+  .sirui-secret-fruit {
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    min-height: 4.85rem;
+    text-align: left;
+  }
+
+  .sirui-secret-fruit-visual {
+    height: 3.25rem;
+    width: 3.25rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .blog-start-link,
   .blog-start-meta i,
+  .sirui-secret-fruit,
+  .sirui-secret-fruit-svg,
+  .sirui-secret-form.is-unlocked .sirui-secret-status,
   .sirui-secret-dog img,
   .sirui-secret-dog.is-curious img,
   .sirui-secret-dog.is-suspicious img,
@@ -1073,7 +1188,9 @@
   }
 
   .blog-start-link:hover,
-  .blog-start-link:hover .blog-start-meta i {
+  .blog-start-link:hover .blog-start-meta i,
+  .sirui-secret-fruit:hover,
+  .sirui-secret-fruit:focus-visible {
     transform: none;
   }
 }
