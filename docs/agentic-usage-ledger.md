@@ -258,6 +258,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Sirui fruit-gate pass plus remote Prettier follow-up: public total moved to 285 commits, 2.5B tokens, 230 hours, and 1500 kWh while rounded API-cost, tree midpoint, and CodexBar labels stayed at about $800 API cosplay, roughly 0.9 trees, and about $2.2K; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.44B tokens, 116 hours, 864 kWh, about $460 API cosplay, and about $1.3K on the CodexBar-ratio money joke.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 94 repo sessions, counted 67 sessions after the revamp cutoff and 32 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the pending Sirui fruit-gate and formatter-fix commits.
 
+### 2026-07-04
+
+- Sirui fruit-gate art polish: public total moved to 286 commits, 2.51B tokens, 232 hours, 1506 kWh, and about $810 API cosplay while rounded tree midpoint and CodexBar labels stayed at roughly 0.9 trees and about $2.2K; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.45B tokens, 118 hours, and 870 kWh.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 94 repo sessions, counted 67 sessions after the revamp cutoff and 32 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending Sirui fruit-gate art polish commit.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

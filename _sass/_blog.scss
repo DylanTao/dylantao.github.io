@@ -829,9 +829,9 @@
   display: grid;
   gap: 0.42rem;
   justify-items: center;
-  min-height: 7rem;
+  min-height: 7.45rem;
   min-width: 0;
-  padding: 0.7rem 0.58rem;
+  padding: 0.74rem 0.62rem;
   transition:
     background-color var(--motion-standard),
     border-color var(--motion-standard),
@@ -871,9 +871,9 @@
 
 .sirui-secret-fruit-visual {
   display: block;
-  height: 3.9rem;
+  height: 4.45rem;
   pointer-events: none;
-  width: 3.9rem;
+  width: 4.45rem;
 }
 
 .sirui-secret-fruit-svg {
@@ -1158,13 +1158,13 @@
   .sirui-secret-fruit {
     grid-template-columns: auto minmax(0, 1fr);
     justify-items: start;
-    min-height: 4.85rem;
+    min-height: 5.35rem;
     text-align: left;
   }
 
   .sirui-secret-fruit-visual {
-    height: 3.25rem;
-    width: 3.25rem;
+    height: 3.9rem;
+    width: 3.9rem;
   }
 }
 
