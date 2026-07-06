@@ -1,17 +1,17 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-07-04"
+updated_at: '2026-07-05'
 source_note: Estimated from local Codex logs plus git history; audit with python bin/audit_agentic_usage.py before publish.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 286
-  token_count: 2510000000
-  tokens_label: 2.51B
-  hours_count: 232
-  hours_label: "232"
+  commits: 287
+  token_count: 2520000000
+  tokens_label: 2.52B
+  hours_count: 233
+  hours_label: '233'
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -20,35 +20,35 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 1506
-    kg_co2e_midpoint: 562
+    kwh_midpoint: 1512
+    kg_co2e_midpoint: 564
     tree_years_midpoint: 9.4
-    tree_years_range: 3.1-31.2
+    tree_years_range: 3.1-31.3
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.9
     cut_tree_range: 0.3-3.1
-    public_note: "Tree lens: about 1506 kWh, or ~0.9 ten-year urban trees' stored carbon. Range: 0.3-3.1."
+    public_note: 'Tree lens: about 1512 kWh, or ~0.9 ten-year urban trees'' stored carbon. Range: 0.3-3.1.'
   token_usage:
-    input_tokens: 2500516724
-    cached_input_tokens: 2349650516
-    output_tokens: 9516678
-    reasoning_output_tokens: 3480115
-    total_tokens: 2510024219
+    input_tokens: 2506549010
+    cached_input_tokens: 2355206612
+    output_tokens: 9545177
+    reasoning_output_tokens: 3491761
+    total_tokens: 2516085004
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
-    pricing_as_of: "2026-06-19"
+    pricing_as_of: '2026-06-19'
     source_url: https://developers.openai.com/api/docs/pricing
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 2500516724
-    cached_input_tokens: 2349650516
-    uncached_input_tokens: 150866208
-    output_tokens: 9516678
-    reasoning_output_tokens: 3480115
-    total_tokens: 2510024219
+    input_tokens: 2506549010
+    cached_input_tokens: 2355206612
+    uncached_input_tokens: 151342398
+    output_tokens: 9545177
+    reasoning_output_tokens: 3491761
+    total_tokens: 2516085004
     usd_midpoint: 810
     usd_label: ~$810 API cosplay
     usd_range_label: $570-$4.5K
@@ -57,25 +57,25 @@ total:
   codexbar_cost_estimate:
     label: CodexBar cost lens
     source: CodexBar local dashboard screenshot
-    source_as_of: "2026-06-19"
+    source_as_of: '2026-06-19'
     source_note: $2,616.40 / 3B tokens from the local CodexBar dashboard screenshot.
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 2510000000
+    token_count: 2520000000
     usd_midpoint: 2200
     usd_label: ~$2.2K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
-    public_note: "Sam's money waste so far: ~$2.2K"
+    public_note: 'Sam''s money waste so far: ~$2.2K'
 desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
   commits: 107
-  token_count: 1450000000
-  tokens_label: 1.45B
-  hours_count: 118
-  hours_label: "118"
+  token_count: 1460000000
+  tokens_label: 1.46B
+  hours_count: 119
+  hours_label: '119'
   confidence: estimate
   note: Scoped to the homepage vinyl, desk, coffee mug, and 3D scene burst.
   energy_equivalence:
@@ -84,35 +84,35 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 870
-    kg_co2e_midpoint: 325
+    kwh_midpoint: 876
+    kg_co2e_midpoint: 327
     tree_years_midpoint: 5.4
-    tree_years_range: 1.8-18
+    tree_years_range: 1.8-18.2
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 0.5
     cut_tree_range: 0.18-1.8
     public_note: roughly 0.5 trees cut
   token_usage:
-    input_tokens: 1446644509
-    cached_input_tokens: 1363060895
-    output_tokens: 5420634
-    reasoning_output_tokens: 1975150
-    total_tokens: 1452065143
+    input_tokens: 1452676795
+    cached_input_tokens: 1368616991
+    output_tokens: 5449133
+    reasoning_output_tokens: 1986796
+    total_tokens: 1458125928
   api_cost_equivalence:
     label: Codex API cost lens
     model: gpt-5.3-codex
-    pricing_as_of: "2026-06-19"
+    pricing_as_of: '2026-06-19'
     source_url: https://developers.openai.com/api/docs/pricing
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 1446644509
-    cached_input_tokens: 1363060895
-    uncached_input_tokens: 83583614
-    output_tokens: 5420634
-    reasoning_output_tokens: 1975150
-    total_tokens: 1452065143
+    input_tokens: 1452676795
+    cached_input_tokens: 1368616991
+    uncached_input_tokens: 84059804
+    output_tokens: 5449133
+    reasoning_output_tokens: 1986796
+    total_tokens: 1458125928
     usd_midpoint: 460
     usd_label: ~$460 API cosplay
     usd_range_label: $330-$2.6K
@@ -121,13 +121,13 @@ desk_scene:
   codexbar_cost_estimate:
     label: CodexBar cost lens
     source: CodexBar local dashboard screenshot
-    source_as_of: "2026-06-19"
+    source_as_of: '2026-06-19'
     source_note: $2,616.40 / 3B tokens from the local CodexBar dashboard screenshot.
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 1450000000
+    token_count: 1460000000
     usd_midpoint: 1300
     usd_label: ~$1.3K
     caveat: CodexBar-ratio estimate only; actual Codex product or subscription cost may differ.
-    public_note: "Sam's money waste so far: ~$1.3K"
+    public_note: 'Sam''s money waste so far: ~$1.3K'
