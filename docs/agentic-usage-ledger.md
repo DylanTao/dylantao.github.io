@@ -263,6 +263,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Sirui fruit-gate art polish: public total moved to 286 commits, 2.51B tokens, 232 hours, 1506 kWh, and about $810 API cosplay while rounded tree midpoint and CodexBar labels stayed at roughly 0.9 trees and about $2.2K; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.45B tokens, 118 hours, and 870 kWh.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 94 repo sessions, counted 67 sessions after the revamp cutoff and 32 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending Sirui fruit-gate art polish commit.
 
+### 2026-07-05
+
+- Technical papers reading-notes publish: public total moved to 287 commits, 2.53B tokens, 233 hours, and 1518 kWh while rounded tree midpoint, total API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.47B tokens, 119 hours, 882 kWh, and about $470 API cosplay.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path _posts/2026-05-13-prototyping-to-understand-humans.md --pending-path _posts/2026-07-05-technical-papers-i-want-to-remember.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending content commit.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

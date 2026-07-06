@@ -11,6 +11,7 @@ blog_nav_track: research
 blog_nav_stage: 3
 blog_nav_next:
   - /blog/2026/science-communication-is-kindness/
+  - /blog/2026/technical-papers-i-want-to-remember/
 permalink: /blog/2026/prototyping-to-understand-humans/
 toc:
   beginning: true
@@ -357,6 +358,15 @@ Two extra checks I want to add, especially when AI is involved:
 That is the distinction I want to keep in view: not whether a prototype is
 impressive by itself, but whether it helps articulate a piece of interaction
 knowledge that can outlive the prototype.
+
+## Related technical notes
+
+I started a small collection of
+[technical papers i want to remember](/blog/2026/technical-papers-i-want-to-remember/).
+The first note is on _Locality in Image Diffusion Models Emerges from Data
+Statistics_, which gave me a sharper way to ask where an AI system's behavior
+comes from: the model, the data, the interface, the task, the evaluation setup,
+or the larger arrangement around it.
 
 ## Credits and references
 
