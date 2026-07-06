@@ -12,6 +12,7 @@ blog_nav_stage: 3
 blog_nav_next:
   - /blog/2026/science-communication-is-kindness/
   - /blog/2026/specialists-generalists-ai-distributed-cognition/
+  - /blog/2026/technical-papers-i-want-to-remember/
 permalink: /blog/2026/prototyping-to-understand-humans/
 toc:
   beginning: true
@@ -359,13 +360,20 @@ That is the distinction I want to keep in view: not whether a prototype is
 impressive by itself, but whether it helps articulate a piece of interaction
 knowledge that can outlive the prototype.
 
-## Related note
+## Related notes
 
 Don Norman's [_Beyond Human Categories_](https://donnorman1.substack.com/p/beyond-human-categories)
 helped me think about this from another angle: maybe the important question is
 not whether AI is specialist or generalist, but what kind of distributed
 cognitive system we are building around it. I wrote a short follow-up here:
 [specialists, generalists, and AI as distributed cognition](/blog/2026/specialists-generalists-ai-distributed-cognition/).
+
+I started a small collection of
+[technical papers i want to remember](/blog/2026/technical-papers-i-want-to-remember/).
+The first note is on _Locality in Image Diffusion Models Emerges from Data
+Statistics_, which gave me a sharper way to ask where an AI system's behavior
+comes from: the model, the data, the interface, the task, the evaluation setup,
+or the larger arrangement around it.
 
 ## Credits and references
 
