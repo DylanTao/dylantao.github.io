@@ -268,6 +268,11 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Technical papers reading-notes publish: public total moved to 287 commits, 2.53B tokens, 233 hours, and 1518 kWh while rounded tree midpoint, total API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.47B tokens, 119 hours, 882 kWh, and about $470 API cosplay.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path _posts/2026-05-13-prototyping-to-understand-humans.md --pending-path _posts/2026-07-05-technical-papers-i-want-to-remember.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending content commit.
 
+### 2026-07-06
+
+- Technical papers reading-notes CI follow-up: public total moved to 288 commits, 234 hours, and about $820 API cosplay while rounded public tokens, kWh, tree midpoint, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.48B tokens, 120 hours, 888 kWh, roughly 0.6 trees cut, and about $470 API cosplay.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path .github/workflows/visual-regression.yml --pending-path _data/agentic_usage.yml --pending-path _posts/2026-03-04-don-norman-design-lab-talk.md --pending-path _posts/2026-05-13-prototyping-to-understand-humans.md --pending-path _posts/2026-07-05-technical-papers-i-want-to-remember.md --pending-path docs/agentic-usage-ledger.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending CI-formatting and visual-baseline commit.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD
