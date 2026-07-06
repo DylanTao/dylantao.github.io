@@ -263,6 +263,18 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Sirui fruit-gate art polish: public total moved to 286 commits, 2.51B tokens, 232 hours, 1506 kWh, and about $810 API cosplay while rounded tree midpoint and CodexBar labels stayed at roughly 0.9 trees and about $2.2K; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.45B tokens, 118 hours, and 870 kWh.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 94 repo sessions, counted 67 sessions after the revamp cutoff and 32 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending Sirui fruit-gate art polish commit.
 
+### 2026-07-05
+
+- Don Norman reading-note publish: public total moved to 287 commits, 2.52B tokens, 233 hours, and 1512 kWh while rounded tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.46B tokens, 119 hours, and 876 kWh.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending content commit.
+
+### 2026-07-06
+
+- Don Norman reading-note CI follow-up: public total moved to 288 commits, 2.53B tokens, 234 hours, and 1518 kWh while rounded tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.47B tokens, 120 hours, 882 kWh, and about $470 API cosplay.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path .github/workflows/visual-regression.yml --pending-path _data/agentic_usage.yml --pending-path _posts/2026-03-04-don-norman-design-lab-talk.md --pending-path _posts/2026-05-13-prototyping-to-understand-humans.md --pending-path _posts/2026-07-05-specialists-generalists-ai-distributed-cognition.md --pending-path docs/agentic-usage-ledger.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending CI-formatting and visual-baseline commit.
+- Customized visual-subset CI repair: public total moved to 289 commits, 2.54B tokens, 236 hours, and 1524 kWh while rounded tree midpoint, API-cost, and CodexBar labels stayed unchanged; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.49B tokens, 122 hours, 894 kWh, and about $470 API cosplay.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path .github/workflows/visual-regression.yml --pending-path _data/agentic_usage.yml --pending-path _posts/2026-03-04-don-norman-design-lab-talk.md --pending-path _posts/2026-05-13-prototyping-to-understand-humans.md --pending-path _posts/2026-07-05-specialists-generalists-ai-distributed-cognition.md --pending-path docs/agentic-usage-ledger.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending customized visual-subset and Markdown-formatting commit.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

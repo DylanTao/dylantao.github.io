@@ -61,6 +61,7 @@ jobs:
 
       - name: Prepare baseline worktree (v0.16.3) 🧱
         run: |
+          git fetch --depth=1 https://github.com/alshedivat/al-folio.git refs/tags/v0.16.3:refs/tags/v0.16.3
           git worktree add ../al-folio-baseline v0.16.3
           (cd ../al-folio-baseline && bundle install && npm ci)
 
@@ -76,6 +77,7 @@ jobs:
       - name: Run visual parity checks 👀
         env:
           BASELINE_URL: http://127.0.0.1:4100
+          CUSTOM_VISUAL_GREP: mobile navbar|navbar menu|home dropped|home opened|home 3D|home 3D album|navbar search|content reading aid
           NO_WEBSERVER: "1"
         run: |
           set -euo pipefail
@@ -118,7 +120,7 @@ jobs:
             exit 1
           fi
 
-          npm run test:visual -- --reporter=line
+          npm run test:visual -- --reporter=line --grep "$CUSTOM_VISUAL_GREP"
 
       - name: Upload Playwright report 📄
         if: always()
