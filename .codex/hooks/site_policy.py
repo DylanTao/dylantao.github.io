@@ -19,6 +19,7 @@ from typing import Any, Callable
 
 RunCommand = Callable[..., subprocess.CompletedProcess[str]]
 LEDGER_AUDIT_TIMEOUT_SECONDS = 75
+PUBLISH_BRANCHES = {"main", "master", "v1.0-dev"}
 
 DATE_RE = re.compile(r"\b{key}\s*:\s*['\"]?(?P<date>\d{{4}}-\d{{2}}-\d{{2}})")
 
@@ -190,6 +191,13 @@ def discover_repo_root(cwd: str | None, runner: RunCommand) -> Path:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "could not resolve git repository root")
     return Path(result.stdout.strip()).resolve()
+
+
+def current_branch(repo_root: Path, runner: RunCommand) -> str:
+    result = runner(["git", "branch", "--show-current"], cwd=repo_root, timeout=10)
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "could not resolve current git branch")
+    return result.stdout.strip()
 
 
 def run_ledger_check(repo_root: Path, *, include_pending_commit: bool, runner: RunCommand) -> str | None:
@@ -433,14 +441,19 @@ def handle_payload(payload: dict[str, Any], *, today: date | None = None, runner
         pending_paths = commit_target_paths(repo_root, args, runner)
         if only_hook_infrastructure(pending_paths):
             return None
-        ledger_error = run_stage_aware_ledger_check(
-            repo_root,
-            include_pending_commit=include_pending_commit,
-            pending_paths=pending_paths,
-            runner=runner,
-        )
-        if ledger_error:
-            return deny(ledger_error)
+        branch = current_branch(repo_root, runner)
+        # Temporary worker branches can checkpoint without racing the public
+        # ledger. The coordinator must integrate them into a publish branch,
+        # whose commit and every push still enforce a fresh ledger.
+        if not branch or branch in PUBLISH_BRANCHES:
+            ledger_error = run_stage_aware_ledger_check(
+                repo_root,
+                include_pending_commit=include_pending_commit,
+                pending_paths=pending_paths,
+                runner=runner,
+            )
+            if ledger_error:
+                return deny(ledger_error)
     else:
         pushed_paths = outgoing_paths(repo_root, runner)
         if not only_hook_infrastructure(pushed_paths):

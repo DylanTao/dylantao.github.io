@@ -61,6 +61,7 @@ class HookPolicyTest(unittest.TestCase):
         ledger_returncode: int = 0,
         staged_paths: list[str] | None = None,
         outgoing_paths: list[str] | None = None,
+        branch: str = "main",
     ):
         staged_paths = staged_paths or []
         outgoing_paths = outgoing_paths or []
@@ -74,6 +75,8 @@ class HookPolicyTest(unittest.TestCase):
                 return subprocess.CompletedProcess(args, 0, stdout=f"{self.repo}\n", stderr="")
             if args == ["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"]:
                 return subprocess.CompletedProcess(args, 0, stdout="origin/main\n", stderr="")
+            if args == ["git", "branch", "--show-current"]:
+                return subprocess.CompletedProcess(args, 0, stdout=f"{branch}\n", stderr="")
             if args[:5] == ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMRT"]:
                 return subprocess.CompletedProcess(args, 0, stdout="\n".join(staged_paths), stderr="")
             if args == ["git", "diff", "--name-only", "origin/main...HEAD"]:
@@ -117,6 +120,26 @@ class HookPolicyTest(unittest.TestCase):
             if any(str(part).endswith("audit_agentic_usage.py") for part in args)
         ]
         self.assertEqual(audit_timeouts, [site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS])
+
+    def test_worker_branch_commit_defers_ledger_to_publish_branch(self) -> None:
+        runner = self.runner(
+            ledger_returncode=1,
+            staged_paths=["_sass/_blog.scss"],
+            branch="codex/site-ui-content-sol",
+        )
+        response = site_policy.handle_payload(
+            self.payload('git commit -m "Polish blog index"'),
+            today=date(2026, 6, 20),
+            runner=runner,
+        )
+
+        self.assertIsNone(response)
+        audit_calls = [
+            call
+            for call in runner.calls
+            if any(str(part).endswith("audit_agentic_usage.py") for part in call)
+        ]
+        self.assertEqual(audit_calls, [])
 
     def test_amend_commit_uses_read_only_check_without_pending_commit(self) -> None:
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
