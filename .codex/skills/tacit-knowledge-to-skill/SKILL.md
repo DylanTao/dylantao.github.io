@@ -28,6 +28,8 @@ Keep the knowledge only in human Markdown when it is:
 
 Update an existing skill instead of creating a new one when the trigger, source docs, validation commands, or output style already fit a current skill.
 
+Do not create a new canonical document merely to shorten an existing one. Prefer a clear heading or index in the current source of truth unless the material has a genuinely different owner or lifecycle.
+
 ## Source Model
 
 Preserve canonical human files unless the user explicitly wants a migration:
@@ -38,6 +40,8 @@ Preserve canonical human files unless the user explicitly wants a migration:
 
 Skills should quote paths and headings, not copy whole sections. If a skill and a human doc disagree, treat the human doc as the source of truth and update the skill to point at the current heading or workflow.
 
+Use the `Agent Quick Index` in `WEBSITE_DESIGN_HEURISTICS.md`, the current-priority and evidence headings in `docs/homepage-desk-scene-brief.md`, and the update workflow in `docs/agentic-usage-ledger.md` as the stable retrieval surfaces. Prefer adding or correcting those indexes over duplicating prose in an overlay.
+
 ## Conversion Workflow
 
 1. Inspect the existing docs, skills, and agent guidance before deciding.
@@ -45,7 +49,9 @@ Skills should quote paths and headings, not copy whole sections. If a skill and 
 3. For each skill, write a trigger-rich frontmatter `description`; keep detailed source material in canonical docs.
 4. Add `agents/openai.yaml` with a literal `$skill-name` default prompt.
 5. Add or update a short routing note in `AGENTS.md` when the skill changes how future agents should start.
-6. Validate the skill with `python C:\Users\dylan\.codex\skills\.system\skill-creator\scripts\quick_validate.py <skill-folder>`.
+6. Update `test/test_agent_guidance.py` when the canonical source map, required headings, or skill set changes.
+7. Validate the skill with `python C:\Users\dylan\.codex\skills\.system\skill-creator\scripts\quick_validate.py <skill-folder>`.
+8. Run `python -m unittest discover -s test -p "test_*.py"` and a targeted Prettier check before handoff.
 
 ## Validation
 
@@ -57,3 +63,4 @@ Check for:
 - `agents/openai.yaml` default prompt that includes the literal `$skill-name`;
 - links from the skill to the canonical human docs it depends on;
 - no duplicated long heuristic lists that would drift.
+- required canonical headings and routing links remain covered by `test/test_agent_guidance.py`.

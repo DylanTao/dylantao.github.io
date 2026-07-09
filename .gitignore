@@ -8,6 +8,8 @@ _site
 .sass-cache
 .tweet-cache
 .venv
+__pycache__/
+*.pyc
 assets/libs/
 assets/rendercv/rendercv_output/*.typ
 al-folio-upgrade-report.md

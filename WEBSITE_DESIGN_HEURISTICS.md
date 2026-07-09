@@ -4,6 +4,29 @@ Use this file as the shared design memory for future homepage and portfolio refi
 
 Agent-facing Codex overlays live in `.codex/skills/website-design-critique/SKILL.md`, `.codex/skills/portfolio-writing-voice/SKILL.md`, and `.codex/skills/tacit-knowledge-to-skill/SKILL.md`. This file remains the canonical human-readable, copy-pastable source; skills should point here by heading instead of duplicating the full heuristics.
 
+## Decision Order
+
+When two heuristics compete, protect the earlier concern first:
+
+1. Research meaning, factual integrity, source credit, accessibility, and a working route.
+2. First-glance comprehension: who Sirui is, what the work asks, why it matters, and where to go next.
+3. Proof proximity, reading order, responsive layout, and legibility.
+4. Discoverable interaction state, bounded motion, and clear recovery paths.
+5. Materiality, atmosphere, personality, and delight.
+
+A more expressive result is not better if it weakens an earlier concern. Treat `must` and `never` rules as contracts; treat named visual references and opportunities as taste guidance that still needs rendered evidence.
+
+## Agent Quick Index
+
+| Task                                 | Start with these headings                                                                                                             | Agent overlay                                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Sitewide or homepage critique        | Decision Order; First-Glance Story; Visual Hierarchy; Accessibility And Quality Checks; Screenshot Critique Ritual; Responsive Layout | `$website-design-critique`                                      |
+| Blog, project, or case-study writing | Decision Order; Content; Page Archetypes; Blog Voice; Conservative Inspiration Boundaries; Process Artifacts                          | `$portfolio-writing-voice`                                      |
+| Homepage 2D/3D desk scene            | Decision Order; Motion; Playful Portfolio Lessons; Research Desk Materiality; Responsive Layout                                       | `$homepage-desk-scene` plus `docs/homepage-desk-scene-brief.md` |
+| Recording a durable lesson           | Decision Order; the affected topic heading; Maintenance And CI                                                                        | `$tacit-knowledge-to-skill`                                     |
+
+Begin with the rendered route and the visitor problem, not with a preferred effect. Keep one-off implementation notes in the owning file or temporary scratchpad; add to this document only when a lesson generalizes beyond the current patch.
+
 ## First-Glance Story
 
 - A rushed visitor should learn, within 15-30 seconds: who Sirui is, what problem space he studies, what he has built, why it matters, and where to click next.
@@ -151,6 +174,15 @@ For sitewide passes:
 3. Read each page through four lenses: rushed research peer, prospective student, interested non-specialist, and returning collaborator.
 4. Treat the page as a reflective practice artifact: make a change, observe what it clarifies or hides, then revise.
 5. Move durable lessons back into this file so future sessions start smarter.
+
+## Acceptance Evidence
+
+- Compare the same route, viewport, theme, and interaction state before and after the change.
+- Name the visitor problem and show how the result improves comprehension, proof proximity, reading, state clarity, or recovery.
+- For meaningful visual work, inspect 1440x1000, 1280x800, 768x1024, and 390x1000 rather than extrapolating from one desktop screenshot.
+- Check light and dark themes when color or surfaces changed; check keyboard focus and reduced motion when interaction changed.
+- Reject changes that introduce overlap, horizontal overflow, primary-media occlusion, broken links, console errors, or a weaker first-glance story.
+- A design pass is complete when the affected route is clearer and its important states are verified, not when every possible surface has been restyled.
 
 ## Page Archetypes
 

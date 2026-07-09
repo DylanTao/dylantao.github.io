@@ -1,4 +1,4 @@
 interface:
   display_name: "Portfolio Writing Voice"
   short_description: "Keep posts and project copy specific"
-  default_prompt: "Use $portfolio-writing-voice to revise this project page while preserving Sirui's research meaning and credit."
+  default_prompt: "Use $portfolio-writing-voice to revise the target page while preserving research claims, source credit, links, and rendered excerpts."

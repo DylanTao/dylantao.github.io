@@ -17,15 +17,17 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - rely on the daily Google Scholar workflow for routine citation freshness;
    - refresh Scholar locally with `python bin/update_scholar_citations.py --force` only when `_data/citations.yml` is more than one day stale or publication pages changed;
    - before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit` so the helper can estimate the pending commit and update `_data/agentic_usage.yml`;
+   - immediately format the generated ledger with `npx prettier _data/agentic_usage.yml --write`, then review and stage only the intended files;
    - after committing, rerun `python bin/audit_agentic_usage.py` read-only and update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
 4. Recount commits after the relevant work is committed when possible. Prefer the read-only helper over ad hoc scripts:
    - `python bin/audit_agentic_usage.py`
-5. Estimate Codex tokens from retained local session logs:
-   - include sessions whose `session_meta.payload.cwd` contains `dylantao.github.io`;
-   - dedupe by `session_meta.payload.id`;
-   - use cumulative `payload.info.total_token_usage.total_tokens` snapshots from `event_msg` entries where `payload.type` is `token_count`;
-   - clip or conservatively apportion sessions that cross a counter cutoff.
-6. Estimate active agent-hours by summing session timestamp gaps with each gap capped at 45 minutes.
+5. Estimate Codex tokens from every retained year under `~/.codex/sessions`:
+   - include a JSONL file when its **first** `session_meta.payload.cwd` contains `dylantao.github.io`; the first `session_meta.payload.id` is the leaf session identity, while later copied parent metadata is ancestry;
+   - read ordered `turn_context` records for `turn_id`, `model`, and `effort` attribution;
+   - globally dedupe copied ancestry by `(turn_id, full total_token_usage snapshot)`, keeping the earliest retained event;
+   - sum unique `payload.info.last_token_usage` deltas; use positive cumulative deltas only as a conservative fallback for legacy events without additive usage;
+   - keep missing-context usage visible as `unknown/unknown` rather than inventing model attribution.
+6. Estimate active agent-hours from the globally unique context and token-event timeline for each leaf session. Cap each gap at 45 minutes, keep parallel leaf sessions additive, and attribute a gap to the model/effort active at its start.
 7. If logs are missing, use a conservative commit-density estimate and record that assumption in `docs/agentic-usage-ledger.md`.
 8. Round public labels for readability, but keep the evidence trail in markdown.
 9. Recompute energy equivalence whenever token totals change:
@@ -36,19 +38,21 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - midpoint `Wh_per_token = 0.0006`
    - range `Wh_per_token = 0.0002-0.002`
    - cut-tree basis `600 kg CO2e`, derived from EPA's urban-tree annual sequestration over 10 years.
-10. Recompute both cost lenses whenever token totals change:
+10. Recompute all three price lenses whenever token totals change:
 
-- use `gpt-5.3-codex` standard API rates stored in `_data/agentic_usage.yml`;
-- compute `(input_tokens - cached_input_tokens) * input_rate + cached_input_tokens * cached_rate + output_tokens * output_rate`;
-- keep that as API-cost equivalence only, not actual Codex product spend;
-- compute `codexbar_cost_estimate` from the local CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`;
-- use the CodexBar-ratio label for the public `Sam's money waste so far` tooltip joke, with a caveat that it is not an actual bill.
+- `api_cost_equivalence` uses each logged model's Standard short-context rates: `gpt-5.5` and `gpt-5.6-sol` at $5 / 1M uncached input, $0.50 / 1M cached-read input, and $30 / 1M output;
+- record the documented `gpt-5.6-sol` $6.25 / 1M cache-write input rate, but do not apply it because retained logs do not identify cache-write tokens;
+- do not infer a long-context threshold or actual Codex billing;
+- retain the former `gpt-5.3-codex` math as `legacy_api_cost_equivalence` for historical comparison only;
+- keep `codexbar_cost_estimate` separate, using the local screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens` for the public `Sam's money waste so far` joke.
 
-11. Frame public environmental copy as a "tree-cut lens" only when it is a stored-carbon equivalence. Do not imply instant emissions from cutting a tree, and do not round small values up to one tree.
+11. Keep `model_tracking` aligned to the declared development default `gpt-5.6-sol` / `ultra` from `2026-07-09T21:28:23.394Z`. `--check` must fail if a retained post-cutover `turn_context` deviates, and report `unobserved` rather than `aligned` when no post-cutover contexts remain. Keep the homepage model note data-driven from `model_tracking.public_note`.
+
+12. Frame public environmental copy as a "tree-cut lens" only when it is a stored-carbon equivalence. Do not imply instant emissions from cutting a tree, and do not round small values up to one tree.
 
 ## Scope Rules
 
 - Full site revamp counter starts at May 22, 2026 6:05 PM Pacific.
 - 3D desk/vinyl counter starts at June 16, 2026 8:00 PM Pacific.
-- Update the 3D counter only for the homepage vinyl/desk/coffee/3D-scene work.
+- Keep 3D commit counts path-scoped to the homepage vinyl/desk/coffee/3D-scene work. Its token and hour labels are explicitly an all-repo retained-session time-window estimate after the desk cutoff, not desk-only attribution.
 - Keep energy/cut-tree copy understated and caveated; true Codex inference energy is not exposed in the logs, and tree carbon varies by species, age, wood fate, roots, soil, and future growth.

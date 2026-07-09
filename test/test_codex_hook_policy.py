@@ -65,9 +65,11 @@ class HookPolicyTest(unittest.TestCase):
         staged_paths = staged_paths or []
         outgoing_paths = outgoing_paths or []
         calls: list[list[str]] = []
+        timeouts: list[tuple[list[str], int]] = []
 
         def run(args: list[str], *, cwd: Path | str | None, timeout: int = 30):
             calls.append(args)
+            timeouts.append((args, timeout))
             if args == ["git", "rev-parse", "--show-toplevel"]:
                 return subprocess.CompletedProcess(args, 0, stdout=f"{self.repo}\n", stderr="")
             if args == ["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"]:
@@ -82,6 +84,7 @@ class HookPolicyTest(unittest.TestCase):
             self.fail(f"unexpected command: {args}")
 
         run.calls = calls  # type: ignore[attr-defined]
+        run.timeouts = timeouts  # type: ignore[attr-defined]
         return run
 
     def assert_denied(self, response: dict[str, Any] | None) -> str:
@@ -108,6 +111,12 @@ class HookPolicyTest(unittest.TestCase):
         response = site_policy.handle_payload(self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), runner=runner)
 
         self.assertIsNone(response)
+        audit_timeouts = [
+            timeout
+            for args, timeout in runner.timeouts
+            if any(str(part).endswith("audit_agentic_usage.py") for part in args)
+        ]
+        self.assertEqual(audit_timeouts, [site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS])
 
     def test_amend_commit_uses_read_only_check_without_pending_commit(self) -> None:
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])

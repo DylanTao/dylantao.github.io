@@ -6,6 +6,12 @@
 
 This repo owns starter configuration, docs, sample content, integration tests, and visual parity checks.
 
+## Customized-Fork Precedence
+
+This checkout is also Dylan/Sirui's deployed personal site. Intentional local content, identity, analytics, SEO, layouts, includes, Sass, scripts, interactions, and assets remain owned here even when the same path category is normally plugin-owned. Use `docs/BOUNDARIES.md` to distinguish a site-specific override from a shared runtime fix; do not remove a local contract merely to make the repository resemble a pristine starter.
+
+Read `AGENTS.md` for the first-run checklist, parallel-work contract, skill routing, and publish freshness gate before implementation.
+
 ## Ownership Boundaries
 
 Follow `docs/BOUNDARIES.md`.
@@ -48,6 +54,8 @@ Do not reintroduce plugin-owned runtime assets into starter paths unless intenti
 - `.agents/skills/al-folio-bootstrap/SKILL.md` - canonical agent workflow for new site setup
 - `.agents/skills/al-folio-v1-migration/SKILL.md` - canonical agent workflow for customized fork migration
 - `.codex/skills` - customized repo-local Codex overlays for this site; keep them linked to canonical human docs
+- `WEBSITE_DESIGN_HEURISTICS.md` - canonical human design and writing memory
+- `docs/homepage-desk-scene-brief.md` - canonical 2D/3D desk-scene contract and handoff
 - `.claude/skills` - symlink to `.agents/skills` when present
 
 ## Validated Commands
@@ -56,6 +64,7 @@ Do not reintroduce plugin-owned runtime assets into starter paths unless intenti
 npm ci
 npm run lint:prettier
 npm run lint:style-contract
+python -m unittest discover -s test -p "test_*.py"
 bundle exec jekyll build --baseurl /al-folio
 bash test/integration_comments.sh
 bash test/integration_plugin_toggles.sh
@@ -86,5 +95,7 @@ Keep these workflows aligned when changing starter behavior:
 
 - Prefer starter wiring/docs/content changes in this repo.
 - Route runtime/layout/feature fixes to owning plugin repos.
+- Preserve intentional Dylan/Sirui site behavior locally; port only genuinely shared fixes to plugin repos.
+- Do not let parallel agents write the same worktree or overlapping homepage files concurrently; follow the coordinator contract in `AGENTS.md`.
 - Keep all contributor guidance consistent with v1 ownership boundaries.
 - When a site keeps local overrides of plugin-owned files, run `bundle exec al-folio upgrade overrides audit` and update `.al-folio-overrides.yml` after reviewing diffs.

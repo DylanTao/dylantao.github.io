@@ -4,8 +4,13 @@
     "format:check": "prettier . --check",
     "lint:prettier": "prettier . --check",
     "lint:style-contract": "node test/style_contract.js",
-    "test:visual": "playwright test --config test/visual/playwright.config.js",
-    "test:visual:update": "playwright test --config test/visual/playwright.config.js --update-snapshots"
+    "test:visual": "npm run test:visual:public && npm run test:visual:legacy",
+    "test:visual:public": "playwright test --config test/visual/public.config.js",
+    "test:visual:site": "playwright test --config test/visual/public.config.js sitewide.spec.js",
+    "test:visual:scene": "playwright test --config test/visual/public.config.js desk-scene.spec.js",
+    "test:visual:legacy": "playwright test --config test/visual/playwright.config.js",
+    "test:visual:update": "npm run test:visual:legacy:update",
+    "test:visual:legacy:update": "playwright test --config test/visual/playwright.config.js --update-snapshots"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",

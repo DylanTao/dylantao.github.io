@@ -4,6 +4,60 @@ This brief records the intended 2D and 3D homepage desk scene so a future model 
 
 Agent-facing Codex overlay: `.codex/skills/homepage-desk-scene/SKILL.md`. This brief remains the canonical copy-pastable scene contract and handoff source.
 
+## Current Priority Order
+
+Protect these concerns in order when a scene improvement creates a tradeoff:
+
+1. Preserve working, accessible 2D/3D state and deliberate recovery paths.
+2. Make the room and exterior read as one continuous anchored cliff-cave environment.
+3. Keep albums, project papers, turntable, onsen/lizard/laptop, lounge chair, controls, and usage note legible in their important states.
+4. Keep the hero usable at laptop, tablet, and narrow-mobile dimensions without hiding the research story.
+5. Improve thickness, materials, lighting, and physically motivated motion only when the earlier contracts remain stable and the scene stays lightweight.
+
+## Known Inspection Targets
+
+Treat these as unresolved until current rendered evidence proves them complete:
+
+- Full 360 room yaw, especially believable rear-wall clearance at 180 degrees.
+- Shared interior/exterior anchors: cave opening, window, floor, desk, onsen, lounge massing, plinth, cliff, and camera targets.
+- Visible thickness or curved geometry when orbiting albums, papers, furniture, room shell, floor, pool, desk objects, and exterior forms.
+- Default-view legibility of the turntable/tonearm, four rack sleeves, A4 project titles, onsen/lizard/lap desk, and lounge chair/ottoman.
+- Mobile 2D/3D switching, controls, usage tag, object focus, window transition, and return path without overlap or cropped primary media.
+- Coastal water, foam, wet sand, and gust motion that feels physically motivated without a heavy simulation or constant offscreen work.
+
+## Non-Goals
+
+- Do not turn the vignette into a fullscreen scene, photoreal renderer, or general-purpose 3D engine.
+- Do not add a heavy asset or fluid-simulation pipeline unless it clearly replaces the current lightweight approach and remains fast.
+- Do not add unlicensed audio, autoplay, fake player chrome, or interaction that implies copyrighted music is playing.
+- Do not redesign unrelated homepage narrative, posts, projects, global navigation, or footer while working on the scene.
+- Do not change usage-counter math inside scene code; route accounting changes through `$agentic-usage-ledger` at the coordinated publish checkpoint.
+- Do not replace the whole scene before preserving and testing shared state, object order, keyboard paths, and deliberate inside/outside transitions.
+
+## Acceptance Evidence Map
+
+| Contract                 | Required evidence                                                                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stable render and camera | Nonblank canvas plus before/after pixel evidence that drag and zoom visibly change the scene without automatic inside/outside transitions                            |
+| Shared 2D/3D state       | Current record, spin state, and discovered-card order survive mode changes and match in both representations                                                         |
+| Room/exterior continuity | Comparable interior, side/rear-yaw, outside-default, outside-zoom, and return screenshots showing the same anchors and material language                             |
+| Object interaction       | Album focus/swap/drop, artifact focus/open, reset, scroll-back, window jump, outside return, and four-card replay complete without stale focus or hidden hit targets |
+| Responsive layout        | Screenshots at 1440x1000, 1280x800, 768x1024, and 390x1000; controls, usage note, window, focused objects, and primary media remain visible                          |
+| Theme and access         | Light/dark surfaces remain legible; keyboard focus and reduced-motion paths retain all content and controls                                                          |
+| Runtime quality          | No horizontal overflow or new console errors; animation idles when hidden and the renderer pixel ratio remains capped                                                |
+
+Run the targeted source and behavior checks before accepting scene work:
+
+```powershell
+npm run lint:prettier
+npm run lint:style-contract
+bundle exec jekyll build
+npm run test:visual:scene
+npm run test:visual:legacy -- --grep "home dropped|home opened|home 3D"
+```
+
+The existing automated 3D hit-zone checks are desktop-weighted. Until mobile interaction coverage is automated, mobile browser screenshots and direct touch/control checks remain required. Use the Docker/root-site verification in `AGENTS.md` before publish.
+
 ## Interaction Discoverability
 
 - Keep the `2D | 3D` switch always visible but visually quiet. The 3D mode should feel discoverable without forcing users to hover or already know the album interaction, especially on touch devices.
@@ -147,7 +201,13 @@ Final visual read before the onsen/chair pass: the interior had a larger framed 
 ## Future Model Handoff Prompt
 
 ```text
-Work in D:\dev\dylantao.github.io. Revamp only the homepage 2D/3D interactive desk/album widget. Read AGENTS.md, .github/copilot-instructions.md, docs/homepage-desk-scene-brief.md, _includes/home/hero.liquid, _sass/_home.scss, and assets/js/home.js.
+Work in D:\dev\dylantao.github.io on the homepage 2D/3D desk, album room, and cliff-cave environment only. Use $homepage-desk-scene. Read AGENTS.md, .github/copilot-instructions.md, WEBSITE_DESIGN_HEURISTICS.md, docs/homepage-desk-scene-brief.md, _includes/home/hero.liquid, _sass/_home.scss, assets/js/home.js, and the existing home interaction tests before editing.
 
-Keep the 2D | 3D switch visible but quiet. Preserve shared state across modes: current meme record, spin state, and discovered album/source-card order. Improve through repeated screenshot QA: 2D should keep tactile readable album/source cards; 3D should become a coherent warm Japandi cliff-cave room with continuous inside/outside geometry, readable rack/turntable/cards, onsen/lizard/laptop cues, and an Eames Lounge Chair + Ottoman-inspired corner with cream cushions, walnut shells, and black base.
+Start by checking git status and inspecting the live 2D, 3D interior, rear-yaw, outside, album-focus/drop, and mobile states. Record the top visible or behavioral failures against Current Priority Order, Known Inspection Targets, Non-Goals, and the Acceptance Evidence Map. Preserve current record, spin state, discovered-card order, keyboard paths, deliberate click-only inside/outside transitions, and the quiet always-visible 2D | 3D switch.
+
+Improve the smallest coherent set of scene-owned problems. The target is a readable warm Japandi cliff-cave room whose interior and exterior share anchors and materials; four rack albums, turntable/tonearm, A4 project papers, onsen/lizard/laptop, lounge chair/ottoman, window, dropped cards, controls, and usage tag must remain understandable. Add geometry, material, lighting, or coastal motion only when it strengthens that reading without making the scene heavy.
+
+Do not rewrite posts, projects, general homepage narrative, global chrome, usage math, or unrelated styles. In a parallel run, reserve shared files through the coordinator and do not edit a file another agent is writing.
+
+Iterate with comparable screenshots at 1440x1000, 1280x800, 768x1024, and 390x1000. Check light/dark when surfaces change, reduced motion and keyboard focus when interactions change, nonblank WebGL, visible drag/zoom pixel differences, console errors, overflow, and every mapped interaction state. Run the targeted checks in this brief plus the production Docker/root-site verification from AGENTS.md. Hand back exact files, before/after evidence, remaining limitations, and verification results; do not push independently.
 ```

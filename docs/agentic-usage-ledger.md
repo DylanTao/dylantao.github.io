@@ -14,39 +14,24 @@ The homepage contact ledger should render the playful tree-sacrifice estimate in
 
 ## Current Baseline
 
-Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clear homepage redesign commit.
+Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clear homepage redesign commit. The current public values live in `_data/agentic_usage.yml`; the final July 9 parser checkpoint measured 2.698B raw retained-log tokens and 242.96 active agent-hours, published as 2.7B tokens and 243 hours.
 
-Published total baseline, estimated on June 22, 2026:
+Evidence and counting contract:
 
-- 260 commits since the revamp cutoff, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, album-disc swap, outside-coast, mobile card-tap milestones, the long-run room/exterior improvement pass, the onsen lounge scene pass, the follow-up layout/window stability pass, and the center-pinned room-view pass.
-- 2.3B estimated Codex tokens.
-- 206 estimated active agent-hours.
-- Public money joke: about $2.0K from the CodexBar screenshot ratio, treated as a local estimate rather than an actual bill.
-- API-cost reference: about $740 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 1380 kWh, 515 kg CO2e, or a stored-carbon equivalent of about 0.9 ten-year urban trees. Range: 0.29-2.9 trees.
-
-Evidence behind the total:
-
-- `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path assets/js/home.js --pending-path _sass/_home.scss --pending-path docs/homepage-desk-scene-brief.md` scanned retained local Codex session logs for this repo, deduped by `session_meta.payload.id`, and counted 59 sessions after the revamp cutoff.
-- The audit showed about 2.299B raw tokens and 205.79 active hours after clipping sessions to the cutoff, then rounded those values for the public UI.
-- The audit tracks input, cached input, output, reasoning-output, and total tokens; interpolates token snapshots for sessions crossing a cutoff; and caps timestamp gaps at 45 minutes to avoid counting long idle periods.
-- The public money joke uses the CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
+- The audit recursively scans every retained year under `~/.codex/sessions`, then includes JSONL files whose **first** `session_meta.payload.cwd` contains `dylantao.github.io`. The first metadata record is the leaf identity; later session metadata can be copied parent ancestry.
+- Ordered `turn_context` records supply `turn_id`, `model`, and `effort`. For modern logs, token ancestry is globally deduped by `(turn_id, full total_token_usage snapshot)`, retaining the earliest event, and the unique `last_token_usage` deltas are summed.
+- Legacy events without `last_token_usage` use positive cumulative deltas. Their complete five-field snapshots are conservatively deduped across files; an accidental exact collision between independent legacy sessions could undercount, but this avoids the larger known error of summing copied fork ancestry.
+- An explicit `forked_from_id` (or the unambiguous nested subagent `parent_thread_id` fallback) marks contextless token events before the leaf's first `turn_context` as copied fork preamble. These are counted as skipped ancestry, not `unknown/unknown` child usage.
+- Active agent-hours use globally unique context/token events per leaf session, with gaps capped at 45 minutes. Parallel leaf sessions remain additive. A gap belongs to the model/effort active at its start, so a new context does not claim the time preceding it.
+- Missing-context tokens remain visible as `unknown/unknown` and are not silently assigned to a model. Truncated, deleted, or unretained local logs cannot be reconstructed.
+- The public money joke uses the independent CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
 
 Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the meme-record and desk-scene burst began.
 
-Published 3D desk baseline:
+- Desk commits are path-scoped to `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
+- Desk tokens and hours are **not** path-attributed. They are an all-repo retained-session time-window estimate after the desk cutoff, because session logs do not reliably map each token to a changed file.
 
-- 97 commits touching the homepage desk/vinyl/coffee scene paths, including the Japandi cliff-house room, click-only window transitions, compact album/source cards, A4 project artifacts, album-disc swap, outside-coast, mobile card-tap milestones, the long-run room/exterior improvement pass, the onsen lounge scene pass, the follow-up layout/window stability pass, and the center-pinned room-view pass.
-- 1.24B estimated Codex tokens.
-- 92 estimated active agent-hours.
-- Public money joke reference: about $1.1K from the CodexBar screenshot ratio.
-- API-cost reference: about $390 at `gpt-5.3-codex` list prices, kept as API cosplay rather than an actual Codex bill.
-- Tree-cut lens: about 744 kWh, 278 kg CO2e, or a stored-carbon equivalent of about 0.5 ten-year urban trees. Range: 0.15-1.5 trees.
-
-Evidence behind the 3D desk baseline:
-
-- Relevant commit paths: `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
-- The audit counted 24 Codex sessions after the 3D cutoff, about 1.241B raw tokens, and about 91.73 active hours, rounded for the public UI.
+Model cutover: July 9, 2026 at 2:28:23 PM Pacific (`2026-07-09T21:28:23.394Z`). Development work is intended to use `gpt-5.6-sol` with `ultra` effort from that point. The `since_gpt_5_6` scope measures all-repo retained-session usage after this boundary, and `--check` fails if a retained post-cutover `turn_context` names another model or effort. If no post-cutover contexts remain, tracking is `unobserved` and the check fails rather than claiming alignment.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -71,7 +56,7 @@ Factors:
 
 Sources:
 
-- OpenAI API pricing, `gpt-5.3-codex` list rates: https://developers.openai.com/api/docs/pricing
+- OpenAI API pricing, used for the logged-model short-context Standard lens and the retained legacy `gpt-5.3-codex` lens: https://developers.openai.com/api/docs/pricing
 - CodexBar local dashboard screenshot, June 19, 2026: `$2,616.40 / 3B tokens`, used only as a public joke estimate.
 - Epoch AI, "How much energy does ChatGPT use?": https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use
 - EPA Greenhouse Gas Equivalencies Calculator calculations and references: https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
@@ -85,15 +70,18 @@ Prefer the helper for future updates:
 ```bash
 python bin/audit_agentic_usage.py
 python bin/audit_agentic_usage.py --write --include-pending-commit
+npx prettier _data/agentic_usage.yml --write
 ```
 
-The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to scopes that currently have worktree changes, which lets a final combined commit carry fresh public counters before it exists on `HEAD`.
+The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to repo-wide scopes that have worktree changes and to the desk scope only when a desk path changed. `--check` also enforces the post-cutover `gpt-5.6-sol` / `ultra` contract.
+
+The scanner prefilters JSONL lines to session metadata, turn contexts, and token-count events before decoding them. The Codex publish hook allows 75 seconds for the retained-session audit inside a 90-second hook budget so an all-years scan cannot deadlock commits merely because the log archive grew.
 
 Use this freshness gate before pushing site changes:
 
 1. Run the normal relevant checks for the change.
 2. If `_data/citations.yml` is more than one day stale or publication pages changed, run `python bin/update_scholar_citations.py --force` and review `_data/citations.yml` plus `_data/publication_lens.yml`. Otherwise rely on the daily GitHub workflow.
-3. Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit` and review the visible-label deltas.
+3. Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit`, format the generated file with `npx prettier _data/agentic_usage.yml --write`, and review the visible-label deltas.
 4. Commit the intended work and refreshed ledger together when feasible.
 5. After the commit, rerun `python bin/audit_agentic_usage.py` read-only. Update again only if visible labels, commit counts, rounded hours, rounded kWh/tree, or rounded cost labels changed.
 6. Stage only intended files; do not sweep unrelated dirty files into a stats update.
@@ -119,13 +107,13 @@ git rev-list --count --since="2026-05-22 18:00" HEAD -- .
 git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/_home.scss _includes/home/hero.liquid docs/homepage-desk-scene-brief.md assets/img/home
 ```
 
-2. Parse retained Codex sessions under `C:\Users\dylan\.codex\sessions\2026`. Include sessions whose `session_meta.payload.cwd` contains `dylantao.github.io`.
+2. Parse every retained year under `C:\Users\dylan\.codex\sessions`. Use the first `session_meta` for leaf id and repo cwd; do not overwrite it with copied parent metadata later in a fork file.
 
-3. For token totals, use the last `event_msg` with `payload.type == "token_count"` in each session and read `payload.info.total_token_usage.total_tokens`. Deduplicate by `session_meta.payload.id`; if multiple files share an id, keep the highest/latest token snapshot.
+3. Walk contexts and token events in file order. Globally keep the earliest event for each `(turn_id, full total snapshot)` and sum unique `last_token_usage`. For a legacy event without additive usage, subtract its previous cumulative snapshot within the leaf file and keep only positive deltas.
 
-4. For active agent-hours, sum timestamp gaps within each retained session, capping each gap at 45 minutes to avoid counting idle time. Give very small one-shot sessions a 0.05 hour floor.
+4. For active agent-hours, rebuild each leaf timeline from globally unique contexts and usage events, cap gaps at 45 minutes, and give very small one-shot leaf sessions a 0.05 hour floor. Parallel leaf sessions are additive; copied ancestry is not.
 
-5. If a session spans a cutoff and exact apportionment is not worth the complexity, add a short note and a conservative manual estimate rather than silently overcounting.
+5. Cutoffs operate at retained event timestamps. A response whose token event lands just after a cutoff is counted after it; do not claim billing-grade sub-response apportionment.
 
 6. Round public labels to readable units:
 
@@ -138,7 +126,13 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 
 8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy compact: show the cut-tree midpoint in the top caption, show kWh as the fourth stat cell, and keep the stored-carbon caveats in the docs and info tooltip.
 
-9. Recompute both cost lenses when token totals change: keep `api_cost_equivalence` as the OpenAI `gpt-5.3-codex` list-price reference, and use `codexbar_cost_estimate` for the public `Sam's money waste so far` joke. Both are estimates, not actual Codex product spend.
+9. Recompute three separate cost lenses when token totals change:
+
+- `api_cost_equivalence`: logged `gpt-5.5` and `gpt-5.6-sol` Standard short-context rates of $5 / 1M uncached input, $0.50 / 1M cached-read input, and $30 / 1M output. The `gpt-5.6-sol` $6.25 / 1M cache-write input rate is recorded but not applied because cache-write tokens are unavailable.
+- `legacy_api_cost_equivalence`: the former `gpt-5.3-codex` lens, retained only for comparison.
+- `codexbar_cost_estimate`: the separate local screenshot ratio used by the public joke.
+
+Do not assume a long-context threshold, cache-write quantity, or actual Codex product bill from these logs.
 
 ## Update Log
 
@@ -276,6 +270,15 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path .github/workflows/visual-regression.yml --pending-path _data/agentic_usage.yml --pending-path _posts/2026-03-04-don-norman-design-lab-talk.md --pending-path _posts/2026-05-13-prototyping-to-understand-humans.md --pending-path _posts/2026-07-05-specialists-generalists-ai-distributed-cognition.md --pending-path docs/agentic-usage-ledger.md` scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for this pending customized visual-subset and Markdown-formatting commit.
 - Combined blog-post publish to main: public total moved to 294 commits, 2.55B tokens, 238 hours, 1530 kWh, and roughly 1.0 ten-year urban tree stored-carbon equivalent while API-cost and CodexBar labels stayed rounded at about $820 API cosplay and about $2.2K; the path-scoped desk counter stayed at 107 commits, while retained-session desk-window totals moved to 1.5B tokens, 124 hours, 900 kWh, and about $470 API cosplay.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit --pending-path _data/agentic_usage.yml --pending-path docs/agentic-usage-ledger.md` after merging both blog branches into main scanned `C:\Users\dylan\.codex\sessions\2026`, found 95 repo sessions, counted 68 sessions after the revamp cutoff and 33 after the desk cutoff, and refreshed `_data/agentic_usage.yml` for the committed main merge plus pending counter follow-up that publish both July 5 blog posts.
+
+### 2026-07-09
+
+- Usage/model parser checkpoint: switched from per-file cumulative maxima to first-metadata leaf identity, ordered turn-context attribution, global copied-ancestry deduplication, and additive `last_token_usage` accounting. Added all-year discovery, a conservative legacy cumulative fallback, and copied-ancestry-safe active hours.
+- Retained turn inventory after the revamp cutoff: 560 unique `gpt-5.5/xhigh` turns, 6 `gpt-5.5/medium` turns, and 10 `gpt-5.6-sol/ultra` turns. The post-cutover check found zero deviations.
+- Published total: 296 revamp commits including the pending combined checkpoint, 2.698B raw / 2.7B rounded tokens, 242.96 / 243 rounded agent-hours, 1620 kWh, about 1.0 ten-year urban tree stored-carbon equivalent, about $2.4K at logged-model Standard short rates, about $860 under the retained legacy `gpt-5.3-codex` lens, and about $2.4K under the separate CodexBar ratio.
+- Desk window: 108 path-scoped commits including the pending hero binding, but 1.613B raw / 1.61B rounded tokens and 128.97 / 129 rounded hours are explicitly an all-repo retained-session time-window estimate, not desk-only attribution.
+- Since-`gpt-5.6-sol` window: 89.23M raw / 89M rounded tokens and 3.90 / 4 rounded hours, all attributed to the 10 retained `gpt-5.6-sol/ultra` turns; the corrected fork-preamble rule leaves no post-cutover `unknown/unknown` bucket.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned 104 repo leaf sessions across `C:\Users\dylan\.codex\sessions`, retained 21,844 unique additive events, skipped 788 copied or repeated snapshots plus 385 explicit fork-preamble events, and wrote `_data/agentic_usage.yml`. The session logs were still growing during the run, so exact raw totals can drift while rounded public labels stay stable.
 
 ## Future Entry Template
 

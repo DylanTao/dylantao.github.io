@@ -1,4 +1,4 @@
 interface:
   display_name: "al-folio Upstream Sync"
-  short_description: "Merge al-folio updates into this customized site"
-  default_prompt: "Use $al-folio-upstream-sync to pull the latest al-folio upstream changes into this customized site."
+  short_description: "Curate safe al-folio updates into this fork"
+  default_prompt: "Use $al-folio-upstream-sync to inspect upstream drift and selectively integrate only safe, verified changes into this customized site."

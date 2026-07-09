@@ -19,29 +19,41 @@ Get-Content -Raw WEBSITE_DESIGN_HEURISTICS.md
 
 For targeted work, focus on these headings:
 
-- First-glance story, Visual Hierarchy, Color, Motion
+- Decision Order, Agent Quick Index, Acceptance Evidence
+- First-Glance Story, Visual Hierarchy, Color, Motion
 - Accessibility And Quality Checks, Screenshot Critique Ritual
 - Page Archetypes, Occam's Razor For UI, Responsive Layout
 - Footer And Global Chrome, Conservative Inspiration Boundaries
 
 For homepage desk or 3D-widget work, switch to `$homepage-desk-scene` instead of treating the scene as generic page decoration.
 
+For copy changes in posts, projects, case studies, or homepage narrative, also use `$portfolio-writing-voice`.
+
+## Parallel Scope
+
+- Own the affected public routes, page hierarchy, general content presentation, and non-scene responsive behavior.
+- Do not change desk-scene geometry, state, album behavior, hit targets, or scene-only selectors. Route those changes to `$homepage-desk-scene`.
+- Treat `assets/js/home.js`, `_sass/_home.scss`, and `_includes/home/hero.liquid` as high-conflict shared files. Reserve and serialize any necessary edit through the coordinator; never write one while a scene agent is editing it.
+- Do not refresh or push the usage ledger from a worker stream. The coordinator performs the final publish audit after integration.
+
 ## Workflow
 
-1. Inspect the actual page, screenshots, or affected templates before changing taste-level details.
+1. Inspect the rendered affected routes and capture comparable baseline states before changing taste-level details.
 2. State the visitor problem: what is unclear, too loud, hidden, cramped, overlapping, or unsupported by evidence?
-3. Prefer the smallest change that improves hierarchy, readability, responsive behavior, proof proximity, or interaction state.
-4. Preserve approved copy when layout can solve the issue.
-5. Keep motion explanatory, bounded, reduced-motion aware, and quieter than the words.
-6. Update `WEBSITE_DESIGN_HEURISTICS.md` only when a durable new design lesson emerges.
+3. Declare the route/file scope and non-goals, especially any excluded desk-scene or shared files.
+4. Prefer the smallest change that improves hierarchy, readability, responsive behavior, proof proximity, or interaction state.
+5. Preserve approved copy when layout can solve the issue.
+6. Keep motion explanatory, bounded, reduced-motion aware, and quieter than the words.
+7. Capture the same rendered states after the change and explain what became clearer.
+8. Update `WEBSITE_DESIGN_HEURISTICS.md` only when a durable new design lesson emerges.
 
 ## Verification
 
-For meaningful visual passes, verify at least:
+For meaningful visual passes, rendered verification is required. Verify at least:
 
-- desktop, laptop/tablet, and narrow mobile screenshots;
+- 1440x1000, 1280x800, 768x1024, and 390x1000 screenshots;
 - light and dark modes when theme-sensitive UI changed;
 - keyboard focus and reduced-motion behavior for interactive elements;
-- no text overlap, primary-media occlusion, or horizontal overflow.
+- no text overlap, primary-media occlusion, horizontal overflow, broken route, or new console error.
 
-Use repo commands from `AGENTS.md`; run Docker or Playwright visual checks when rendered UI changed enough that source inspection is not reliable.
+Use the change-type matrix in `AGENTS.md`. Run targeted Playwright checks and inspect the production Docker/root-site render before publishing public UI changes; source inspection alone is not acceptance evidence.

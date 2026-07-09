@@ -294,10 +294,13 @@ exclude:
   - lighthouse_results/
   - package.json
   - package-lock.json
+  - playwright-report/
   - _pages/about_einstein.md
   - purgecss.config.js
   - README.md
   - readme_preview/
+  - test/
+  - test-results/
   - gems/
   - migrations/
   - vendor

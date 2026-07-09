@@ -17,6 +17,8 @@ const webServer = process.env.NO_WEBSERVER
 
 module.exports = {
   testDir: __dirname,
+  testMatch: ["parity.spec.js", "interactions.spec.js", "distill.spec.js"],
+  outputDir: path.join(repoRoot, "test-results", "legacy-visual"),
   timeout: 120000,
   expect: {
     timeout: 10000,

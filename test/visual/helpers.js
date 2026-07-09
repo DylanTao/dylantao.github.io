@@ -35,7 +35,7 @@ async function applyNetworkStubs(page) {
       return;
     }
     if (matchesBlockedHost(url)) {
-      route.abort();
+      route.fulfill({ status: 204, contentType: "text/plain", body: "" });
       return;
     }
     route.continue();
@@ -44,9 +44,23 @@ async function applyNetworkStubs(page) {
 
 async function preparePage(page, themeSetting = "light") {
   await page.addInitScript((setting) => {
+    const normalizedSetting = setting === "dark" ? "evening" : setting === "light" ? "noon" : setting;
+    window.sessionStorage.setItem("theme", normalizedSetting);
+    window.sessionStorage.setItem("theme-manual", "true");
     window.localStorage.setItem("theme", setting);
   }, themeSetting);
   await applyNetworkStubs(page);
+}
+
+function collectRuntimeErrors(page) {
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      errors.push(`console.error: ${message.text()}`);
+    }
+  });
+  return errors;
 }
 
 async function stabilizeVisuals(page) {
@@ -88,6 +102,63 @@ function diffRatio(actualPng, baselinePng) {
     includeAA: false,
   });
   return changed / (width * height);
+}
+
+function screenshotDiffRatio(actualBuffer, baselineBuffer) {
+  return diffRatio(PNG.sync.read(actualBuffer), PNG.sync.read(baselineBuffer));
+}
+
+function screenshotMetrics(buffer) {
+  const png = PNG.sync.read(buffer);
+  const colors = new Set();
+  let sampledPixels = 0;
+  let opaquePixels = 0;
+  let luminanceTotal = 0;
+  let luminanceSquaredTotal = 0;
+  const sampleStep = Math.max(1, Math.floor(Math.min(png.width, png.height) / 180));
+
+  for (let y = 0; y < png.height; y += sampleStep) {
+    for (let x = 0; x < png.width; x += sampleStep) {
+      const offset = (y * png.width + x) * 4;
+      const red = png.data[offset];
+      const green = png.data[offset + 1];
+      const blue = png.data[offset + 2];
+      const alpha = png.data[offset + 3];
+      const luminance = red * 0.2126 + green * 0.7152 + blue * 0.0722;
+
+      sampledPixels += 1;
+      if (alpha > 8) opaquePixels += 1;
+      luminanceTotal += luminance;
+      luminanceSquaredTotal += luminance * luminance;
+      if (colors.size < 4096) colors.add(`${red},${green},${blue},${alpha}`);
+    }
+  }
+
+  const meanLuminance = luminanceTotal / Math.max(1, sampledPixels);
+  const luminanceVariance = luminanceSquaredTotal / Math.max(1, sampledPixels) - meanLuminance * meanLuminance;
+
+  return {
+    height: png.height,
+    luminanceVariance,
+    opaqueRatio: opaquePixels / Math.max(1, sampledPixels),
+    sampledPixels,
+    uniqueColors: colors.size,
+    width: png.width,
+  };
+}
+
+async function attachScreenshot(page, testInfo, name, options = {}) {
+  const outputPath = testInfo.outputPath(`${name.replace(/[^a-z0-9._-]+/gi, "-")}.png`);
+  const body = options.locator
+    ? await options.locator.screenshot({ animations: "disabled", path: outputPath })
+    : await page.screenshot({ animations: "disabled", fullPage: options.fullPage !== false, path: outputPath });
+
+  await testInfo.attach(name, {
+    path: outputPath,
+    contentType: "image/png",
+  });
+
+  return body;
 }
 
 async function compareWithBaseline(context, currentPage, route, themeSetting, options = {}) {
@@ -153,7 +224,11 @@ async function compareWithBaseline(context, currentPage, route, themeSetting, op
 }
 
 module.exports = {
+  attachScreenshot,
+  collectRuntimeErrors,
   preparePage,
+  screenshotDiffRatio,
+  screenshotMetrics,
   stabilizeVisuals,
   compareWithBaseline,
 };

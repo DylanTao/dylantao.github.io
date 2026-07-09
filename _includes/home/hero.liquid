@@ -111,7 +111,9 @@
             {%- if desk_energy %} &middot; ~{{ desk_energy.cut_tree_midpoint }} trees cut{% endif -%}
             .
           </span>
-          <span class="home-desk-scene-note-secondary">Codex 5.5 tried its best. Ideally future models design better and do less harm.</span>
+          <span class="home-desk-scene-note-secondary">
+            {{- site.data.agentic_usage.model_tracking.public_note | default: 'Model tracking refresh pending.' -}}
+          </span>
         </span>
       {% else %}
         <span>

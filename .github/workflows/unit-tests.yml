@@ -7,14 +7,25 @@ on:
       - main
       - v1.0-dev
     paths:
+      - ".al-folio-overrides.yml"
+      - ".codex/**"
+      - ".github/agents/**"
+      - ".github/copilot-instructions.md"
       - "Gemfile"
       - "Gemfile.lock"
+      - "AGENTS.md"
+      - "WEBSITE_DESIGN_HEURISTICS.md"
       - "_config.yml"
       - "_data/**"
+      - "_includes/**"
+      - "_layouts/**"
       - "_pages/**"
       - "_posts/**"
       - "_projects/**"
+      - "_sass/**"
       - "assets/**"
+      - "bin/**"
+      - "docs/**"
       - "test/**"
       - "package.json"
       - "package-lock.json"
@@ -25,14 +36,25 @@ on:
       - main
       - v1.0-dev
     paths:
+      - ".al-folio-overrides.yml"
+      - ".codex/**"
+      - ".github/agents/**"
+      - ".github/copilot-instructions.md"
       - "Gemfile"
       - "Gemfile.lock"
+      - "AGENTS.md"
+      - "WEBSITE_DESIGN_HEURISTICS.md"
       - "_config.yml"
       - "_data/**"
+      - "_includes/**"
+      - "_layouts/**"
       - "_pages/**"
       - "_posts/**"
       - "_projects/**"
+      - "_sass/**"
       - "assets/**"
+      - "bin/**"
+      - "docs/**"
       - "test/**"
       - "package.json"
       - "package-lock.json"
@@ -68,6 +90,9 @@ jobs:
 
       - name: Run style contract lint 🧷
         run: npm run lint:style-contract
+
+      - name: Run Python policy and agent guidance tests
+        run: python -m unittest discover -s test -p "test_*.py"
 
       - name: Install build prerequisites 🔧
         run: |

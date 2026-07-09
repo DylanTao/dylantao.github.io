@@ -1,4 +1,4 @@
 interface:
   display_name: "Agentic Usage Ledger"
   short_description: "Keep public Codex usage counters fresh"
-  default_prompt: "Use $agentic-usage-ledger to refresh the homepage Codex usage counters before publishing this site change."
+  default_prompt: "Use $agentic-usage-ledger to refresh the homepage Codex usage, model/effort, and price lenses before publishing this site change."

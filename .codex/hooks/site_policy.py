@@ -18,6 +18,7 @@ from typing import Any, Callable
 
 
 RunCommand = Callable[..., subprocess.CompletedProcess[str]]
+LEDGER_AUDIT_TIMEOUT_SECONDS = 75
 
 DATE_RE = re.compile(r"\b{key}\s*:\s*['\"]?(?P<date>\d{{4}}-\d{{2}}-\d{{2}})")
 
@@ -199,7 +200,7 @@ def run_ledger_check(repo_root: Path, *, include_pending_commit: bool, runner: R
         remediation += " --include-pending-commit"
 
     try:
-        result = runner(command, cwd=repo_root, timeout=35)
+        result = runner(command, cwd=repo_root, timeout=LEDGER_AUDIT_TIMEOUT_SECONDS)
     except subprocess.TimeoutExpired:
         return (
             "Agentic usage freshness check timed out before commit/push. "
@@ -235,7 +236,7 @@ def run_stage_aware_ledger_check(
             command.extend(["--pending-path", path])
 
     try:
-        result = runner(command, cwd=repo_root, timeout=35)
+        result = runner(command, cwd=repo_root, timeout=LEDGER_AUDIT_TIMEOUT_SECONDS)
     except subprocess.TimeoutExpired:
         return (
             "Agentic usage freshness check timed out before commit/push. "
