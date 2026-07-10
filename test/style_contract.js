@@ -98,6 +98,18 @@ for (const requiredPath of ["test/visual", "test/integration_plugin_toggles.sh",
   }
 }
 
+const visualWorkflow = read(".github/workflows/visual-regression.yml");
+const browserInstallCommand = visualWorkflow.match(/^\s*run:\s*npx playwright install --with-deps ([^\r\n]+)$/m);
+if (!browserInstallCommand) {
+  failures.push("Visual regression workflow must install the Playwright browsers used by its projects.");
+} else {
+  for (const requiredBrowser of ["chromium", "webkit"]) {
+    if (!new RegExp(`\\b${requiredBrowser}\\b`).test(browserInstallCommand[1])) {
+      failures.push(`Visual regression workflow must install Playwright ${requiredBrowser}.`);
+    }
+  }
+}
+
 if (failures.length > 0) {
   console.error("Starter style contract check failed:");
   failures.forEach((message) => console.error(`- ${message}`));

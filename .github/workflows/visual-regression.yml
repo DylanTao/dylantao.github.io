@@ -73,14 +73,17 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm ci
 
+      - name: Verify starter and visual contracts
+        run: npm run lint:style-contract
+
       - name: Install Jekyll and image runtime dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick python3-pip
           pip3 install --user jupyter nbconvert
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Run public route and desk-scene checkpoints
         env:
