@@ -2,7 +2,7 @@
 layout: page
 title: projects
 permalink: /projects/
-description: "Research artifacts, prototypes, and studies that make research questions concrete: build the artifact, study the friction, and keep the figure readable enough that someone can inspect the claim."
+description: "Research artifacts, prototypes, and studies that make questions concrete. Open a card to inspect the artifact, contribution, and links."
 nav: true
 nav_order: 2
 panel_wide: true

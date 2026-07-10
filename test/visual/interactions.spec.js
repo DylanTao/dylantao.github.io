@@ -1,5 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { preparePage, stabilizeVisuals } = require("./helpers");
+const { getPublicBaseURL, usesExternalVisualServer } = require("./public-routes");
 
 async function shakeCurrentRecord(page) {
   const portrait = page.locator("#home-profile-image-container");
@@ -163,7 +164,7 @@ async function scrollFirstReadableHeadingIntoRailZone(page) {
 }
 
 function visualRoute(path) {
-  const visualBase = process.env.VISUAL_BASE_URL || "http://127.0.0.1:4000/al-folio";
+  const visualBase = getPublicBaseURL();
   const normalizedBase = visualBase.endsWith("/") ? visualBase : `${visualBase}/`;
   return new URL(path, normalizedBase).toString();
 }
@@ -403,7 +404,7 @@ test("home profile bubbles hover independently", async ({ page }, testInfo) => {
 
 test("home dropped meme record cards resolve into separate 2D lanes", async ({ page }) => {
   await preparePage(page, "dark");
-  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
@@ -479,7 +480,7 @@ test("home dropped meme record cards resolve into separate 2D lanes", async ({ p
 
 test("home opened meme record cards settle back on top of the 2D pile", async ({ page }) => {
   await preparePage(page, "light");
-  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
@@ -517,7 +518,7 @@ test("home 3D outside view uses explicit window clicks and scroll-away reset", a
   test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
 
   await preparePage(page, "light");
-  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
@@ -568,7 +569,7 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
 
   await preparePage(page, "light");
-  const homeRoute = process.env.NO_WEBSERVER && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 

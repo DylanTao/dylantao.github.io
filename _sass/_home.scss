@@ -708,7 +708,7 @@ html[data-theme="dark"] .home-desk-control-strip {
     transform var(--motion-standard);
 }
 
-.home-desk-scene-note span {
+.home-desk-scene-note > span {
   display: inline-block;
   max-width: min(100%, 34rem);
   padding: 0.16rem 0.42rem;
@@ -726,6 +726,16 @@ html[data-theme="dark"] .home-desk-control-strip {
 
 .home-desk-scene-note-secondary {
   margin-top: 0.04rem;
+}
+
+.home-desk-scene-note-compact {
+  display: none;
+}
+
+.home-desk-scene-model-compact {
+  display: block;
+  margin-top: 0.02rem;
+  opacity: 0.68;
 }
 
 .home-desk-corner-scene {
@@ -794,30 +804,35 @@ html[data-theme="dark"] .home-desk-control-strip {
 }
 
 .home-hero-media.is-desk-3d .home-desk-scene-note {
-  top: 4rem;
-  right: 1.05rem;
+  top: 3.72rem;
+  right: 0.72rem;
   bottom: auto;
   left: auto;
-  opacity: 0.72;
+  opacity: 0.58;
   text-align: right;
   transform: translateY(0);
 }
 
 .home-hero-media.is-desk-3d .home-desk-scene-note-secondary {
+  display: none;
+}
+
+.home-hero-media.is-desk-3d .home-desk-scene-note-full {
+  display: none;
+}
+
+.home-hero-media.is-desk-3d .home-desk-scene-note-compact {
   display: block;
-  max-width: 24rem;
-  margin-top: 0.05rem;
-  opacity: 0.76;
 }
 
 @media (min-width: 768px) {
   .home-hero-media.is-desk-3d .home-desk-scene-note {
-    top: 4.32rem;
-    right: 1.05rem;
+    top: 3.72rem;
+    right: 0.72rem;
   }
 
-  .home-hero-media.is-desk-3d .home-desk-scene-note span {
-    max-width: min(28rem, calc(100vw - 2.1rem));
+  .home-hero-media.is-desk-3d .home-desk-scene-note > span {
+    max-width: min(21rem, calc(100vw - 1.44rem));
   }
 
   .home-hero-media.is-desk-3d .home-desk-scene-note-primary {
@@ -3811,17 +3826,17 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-hero-media.is-desk-3d .home-desk-scene-note,
   html.home-desk-outside-active .home-hero-media.is-desk-3d .home-desk-scene-note {
-    top: 4.7rem;
-    right: auto;
+    top: 2.4rem;
+    right: 0.42rem;
     bottom: auto;
-    left: 0.56rem;
-    max-width: min(8.8rem, calc(100% - 1.12rem));
-    opacity: 0.48;
+    left: auto;
+    max-width: min(9.4rem, calc(100% - 0.84rem));
+    opacity: 0.5;
     font-size: 0.43rem;
-    text-align: left;
+    text-align: right;
   }
 
-  .home-desk-scene-note span {
+  .home-desk-scene-note > span {
     display: inline-block;
     max-width: 100%;
     margin-top: 0.08rem;

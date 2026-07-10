@@ -1,4 +1,16 @@
-const DEFAULT_PUBLIC_BASE_URL = "http://127.0.0.1:4000/al-folio";
+const DEFAULT_VISUAL_PORT = 4000;
+
+function getVisualPort() {
+  const parsedPort = Number(process.env.VISUAL_PORT || DEFAULT_VISUAL_PORT);
+  if (!Number.isInteger(parsedPort) || parsedPort < 1 || parsedPort > 65535) {
+    throw new Error(`VISUAL_PORT must be an integer from 1 to 65535; received "${process.env.VISUAL_PORT}".`);
+  }
+  return parsedPort;
+}
+
+function usesExternalVisualServer() {
+  return process.env.NO_WEBSERVER === "1";
+}
 
 const SITEWIDE_ROUTES = [
   {
@@ -45,7 +57,10 @@ const SITEWIDE_ROUTES = [
 const DESK_ROUTE = SITEWIDE_ROUTES[0];
 
 function getPublicBaseURL() {
-  return process.env.VISUAL_BASE_URL || DEFAULT_PUBLIC_BASE_URL;
+  if (process.env.VISUAL_BASE_URL && !usesExternalVisualServer()) {
+    throw new Error("VISUAL_BASE_URL requires NO_WEBSERVER=1 so Playwright cannot start one server and inspect another.");
+  }
+  return process.env.VISUAL_BASE_URL || `http://127.0.0.1:${getVisualPort()}/al-folio`;
 }
 
 function publicRouteUrl(routePath, baseURL = getPublicBaseURL()) {
@@ -55,9 +70,11 @@ function publicRouteUrl(routePath, baseURL = getPublicBaseURL()) {
 }
 
 module.exports = {
-  DEFAULT_PUBLIC_BASE_URL,
+  DEFAULT_VISUAL_PORT,
   DESK_ROUTE,
   SITEWIDE_ROUTES,
   getPublicBaseURL,
+  getVisualPort,
   publicRouteUrl,
+  usesExternalVisualServer,
 };

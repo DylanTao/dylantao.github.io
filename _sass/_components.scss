@@ -1003,12 +1003,23 @@ html.site-motion-ready .hoverable.site-visible:hover {
 }
 
 .project-author-strip {
-  margin: 0 0 2rem;
+  gap: 0.3rem 0.7rem;
+  margin: 0 0 1.55rem;
+
+  a {
+    padding: 0.12rem 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--global-divider-color) 72%, transparent);
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.18em;
+  }
 
   a:hover {
-    border-color: var(--global-theme-color);
     color: var(--global-theme-color);
-    text-decoration: none;
+    text-decoration-color: currentColor;
   }
 }
 
@@ -2315,6 +2326,8 @@ html[data-theme="dark"] {
   }
 
   .projects {
+    margin-top: 0.35rem;
+
     .project-category-heading {
       grid-template-columns: 1fr;
       gap: 0.25rem;
@@ -2418,6 +2431,10 @@ html[data-theme="dark"] {
 
   .project-case-summary div {
     padding: 0.85rem;
+  }
+
+  .project-author-strip {
+    margin-bottom: 1.25rem;
   }
 
   .news-timeline-item {

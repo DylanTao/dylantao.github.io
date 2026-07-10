@@ -1,17 +1,18 @@
 const path = require("path");
 const { devices } = require("@playwright/test");
-const { getPublicBaseURL } = require("./public-routes");
+const { getPublicBaseURL, getVisualPort, usesExternalVisualServer } = require("./public-routes");
 
 const repoRoot = path.resolve(__dirname, "../..");
 const baseURL = getPublicBaseURL();
+const visualPort = getVisualPort();
 
-const webServer = process.env.NO_WEBSERVER
+const webServer = usesExternalVisualServer()
   ? undefined
   : {
-      command: "bundle exec jekyll serve --host 127.0.0.1 --port 4000 --baseurl /al-folio --trace --no-watch",
+      command: `bundle exec jekyll serve --host 127.0.0.1 --port ${visualPort} --baseurl /al-folio --trace --no-watch`,
       cwd: repoRoot,
       url: `${baseURL.replace(/\/$/, "")}/`,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: process.env.VISUAL_REUSE_SERVER === "1",
       stdout: "pipe",
       stderr: "pipe",
       timeout: 600000,

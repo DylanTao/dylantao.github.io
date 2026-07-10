@@ -193,7 +193,7 @@ pagination:
 
   <section class="featured-posts" aria-labelledby="blog-pinned-title">
     <div class="blog-section-label" id="blog-pinned-title">Pinned notes</div>
-    <div class="blog-pinned-grid">
+    <div class="blog-pinned-grid{% if featured_posts.size == 1 %} blog-pinned-grid-single{% endif %}">
       {% for start_post in featured_posts limit: 3 %}
         {% if start_post.external_source == blank %}
           {% assign start_read_time = start_post.content | number_of_words | divided_by: 180 | plus: 1 %}
@@ -287,32 +287,24 @@ pagination:
         &nbsp; &middot; &nbsp; {{ post.external_source }}
         {% endif %}
       </p>
-      <p class="post-tags">
+      <div class="post-tags" role="group" aria-label="Post topics">
         <a href="{{ year | prepend: '/blog/' | relative_url }}">
           <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
 
           {% if tags != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for tag in display_tags %}
+            {% for tag in display_tags limit: 4 %}
             <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">
               <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
-              {% unless forloop.last %}
-                &nbsp;
-              {% endunless %}
-              {% endfor %}
+            {% endfor %}
           {% endif %}
 
           {% if categories != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for category in post.categories %}
+            {% for category in post.categories limit: 1 %}
             <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">
               <i class="fa-solid fa-tag fa-sm"></i> {{ category }}</a>
-              {% unless forloop.last %}
-                &nbsp;
-              {% endunless %}
-              {% endfor %}
+            {% endfor %}
           {% endif %}
-    </p>
+    </div>
 
 {% if post.thumbnail %}
 
