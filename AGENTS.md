@@ -31,6 +31,7 @@ Before changing this customized site:
 
 - Use `$website-design-critique` with `$portfolio-writing-voice` for the sitewide UI/content stream. Use `$homepage-desk-scene` for the 2D/3D album-room stream.
 - Parallel agents may inspect the same site, but they must not write the same worktree or file concurrently. Use separate named worktrees/branches for independent implementation, or serialize edits in one shared Codex worktree.
+- Give every concurrently served visual worktree a unique `VISUAL_PORT` (for example, `$env:VISUAL_PORT=4101; npm run test:visual:site`). Server reuse is off by default so a collision fails clearly; set `VISUAL_REUSE_SERVER=1` only when you intentionally own the existing server on that port. Use `NO_WEBSERVER=1` with `VISUAL_BASE_URL` for an externally managed server; the harness rejects that URL otherwise so it cannot start one server and inspect another.
 - Treat `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, and desk-scene interaction tests as high-conflict paths. Reserve each overlapping file to one writer at a time and hand it back through the coordinator before another stream edits it.
 - The sitewide stream must not change desk-scene state, geometry, album behavior, or scene-only selectors. The desk-scene stream must not rewrite posts, projects, general homepage narrative, or global chrome.
 - Integrate verified checkpoints onto `main` through one coordinator. Worker branches do not push independently.
