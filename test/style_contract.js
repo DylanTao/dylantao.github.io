@@ -19,6 +19,16 @@ for (const forbiddenScript of ["build:css", "build:tailwind", "build:tailwind:wa
   }
 }
 
+const publicVisualOutputs = {
+  "test:visual:site": "test-results/public-visual-site",
+  "test:visual:scene": "test-results/public-visual-scene",
+};
+for (const [scriptName, outputPath] of Object.entries(publicVisualOutputs)) {
+  if (!scripts[scriptName]?.includes(`--output=${outputPath}`)) {
+    failures.push(`\`package.json\` script \`${scriptName}\` must preserve evidence in \`${outputPath}\`.`);
+  }
+}
+
 const config = read("_config.yml");
 if (!/^\s*theme:\s*al_folio_core\s*$/m.test(config)) {
   failures.push("`_config.yml` must keep `theme: al_folio_core` for thin-starter wiring.");
@@ -99,6 +109,8 @@ for (const requiredPath of ["test/visual", "test/integration_plugin_toggles.sh",
 }
 
 const visualWorkflow = read(".github/workflows/visual-regression.yml");
+const publicVisualConfig = read("test/visual/public.config.js");
+const legacyVisualConfig = read("test/visual/playwright.config.js");
 const browserInstallCommand = visualWorkflow.match(/^\s*run:\s*npx playwright install --with-deps ([^\r\n]+)$/m);
 if (!browserInstallCommand) {
   failures.push("Visual regression workflow must install the Playwright browsers used by its projects.");
@@ -107,6 +119,26 @@ if (!browserInstallCommand) {
     if (!new RegExp(`\\b${requiredBrowser}\\b`).test(browserInstallCommand[1])) {
       failures.push(`Visual regression workflow must install Playwright ${requiredBrowser}.`);
     }
+  }
+}
+
+if (!publicVisualConfig.includes("`public-visual-${suiteName}`")) {
+  failures.push("Public visual config must isolate direct-run output by suite name.");
+}
+
+for (const browserName of ["chromium", "webkit"]) {
+  if (!legacyVisualConfig.includes(`browserName: "${browserName}"`)) {
+    failures.push(`Legacy interaction projects must exercise installed browser ${browserName}.`);
+  }
+}
+
+if (!legacyVisualConfig.includes("workers: process.env.CI ? 1 : 2")) {
+  failures.push("Mixed-engine legacy interactions must serialize CI workers for deterministic evidence.");
+}
+
+for (const outputPath of Object.values(publicVisualOutputs)) {
+  if (!visualWorkflow.includes(outputPath)) {
+    failures.push(`Visual regression workflow must upload \`${outputPath}\`.`);
   }
 }
 

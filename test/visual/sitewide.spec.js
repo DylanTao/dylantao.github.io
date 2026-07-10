@@ -32,6 +32,23 @@ async function expectMobileChromeInViewport(page, routePath) {
   );
 }
 
+async function expectCompactBlogOpening(page) {
+  const toc = page.locator("details.blog-inline-toc");
+  await expect(toc).toBeVisible();
+  await expect(toc.locator("summary")).toHaveText("On this page");
+  await expect(toc).not.toHaveAttribute("open", "");
+
+  const separators = page.locator(".blog-post .post-meta-separator");
+  expect(await separators.count()).toBeGreaterThan(0);
+  await expect(separators.first()).toBeHidden();
+
+  const openingParagraph = page.locator(".blog-post #markdown-content > p").first();
+  await expect(openingParagraph).toBeVisible();
+  const openingBox = await openingParagraph.boundingBox();
+  expect(openingBox, "mobile blog opening paragraph has no rendered box").not.toBeNull();
+  expect(openingBox.y, "mobile blog chrome delays the opening paragraph too far down").toBeLessThan(780);
+}
+
 async function exercisePublicRoute(page, route, theme, testInfo) {
   const runtimeErrors = collectRuntimeErrors(page);
 
@@ -71,6 +88,9 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   if (testInfo.project.name === "mobile-390") {
     await expectMobileChromeInViewport(page, route.path);
+    if (route.id === "blog-distributed-cognition") {
+      await expectCompactBlogOpening(page);
+    }
   }
 
   await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}`, { fullPage: false });

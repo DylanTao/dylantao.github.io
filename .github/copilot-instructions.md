@@ -60,10 +60,12 @@ Do not reintroduce plugin-owned runtime assets into starter paths unless intenti
 
 ## Validated Commands
 
-```bash
-npm ci
-npm run lint:prettier
-npm run lint:style-contract
+On Windows PowerShell, use the explicit executable names below; bare `npm` or `curl` may resolve to a wrapper or alias. Run the Bash integration scripts only through a working Git Bash or WSL environment.
+
+```powershell
+npm.cmd ci
+npm.cmd run lint:prettier
+npm.cmd run lint:style-contract
 python -m unittest discover -s test -p "test_*.py"
 bundle exec jekyll build --baseurl /al-folio
 bash test/integration_comments.sh
@@ -71,13 +73,13 @@ bash test/integration_plugin_toggles.sh
 bash test/integration_distill.sh
 bash test/integration_bootstrap_compat.sh
 bash test/integration_upgrade_cli.sh
-npx playwright install chromium webkit
-npm run test:visual
+npx.cmd playwright install chromium webkit
+npm.cmd run test:visual
 bundle exec al-folio upgrade audit
 bundle exec al-folio upgrade overrides audit
 bundle exec al-folio upgrade report
 docker compose up -d
-curl -fsS http://127.0.0.1:8080/al-folio/ >/dev/null
+curl.exe -fsS http://127.0.0.1:8080/ | Out-Null
 docker compose logs --tail=80
 docker compose down
 ```

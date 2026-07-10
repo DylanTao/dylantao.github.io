@@ -50,10 +50,10 @@ Keep these behaviors intact:
 
 For visual changes, use Docker and screenshots before pushing:
 
-```bash
+```powershell
 docker compose up -d
 docker compose exec -T jekyll bundle exec jekyll build
-curl -fsS http://127.0.0.1:8080/ >/dev/null
+curl.exe -fsS http://127.0.0.1:8080/ | Out-Null
 ```
 
 Recommended screenshot coverage:
@@ -70,9 +70,9 @@ Recommended screenshot coverage:
 
 Run the repo checks that match the touched files:
 
-```bash
-npm run lint:style-contract
-npm run lint:prettier
+```powershell
+npm.cmd run lint:style-contract
+npm.cmd run lint:prettier
 bundle exec al-folio upgrade overrides audit
 python bin/audit_agentic_usage.py --write --include-pending-commit
 ```

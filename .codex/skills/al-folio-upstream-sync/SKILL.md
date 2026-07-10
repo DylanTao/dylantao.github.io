@@ -103,8 +103,8 @@ prints nothing.
 Run checks proportional to the selected batch, including:
 
 ```powershell
-npm run lint:prettier
-npm run lint:style-contract
+npm.cmd run lint:prettier
+npm.cmd run lint:style-contract
 python -m unittest discover -s test -p "test_*.py"
 $env:JEKYLL_ENV = "production"
 bundle exec jekyll build

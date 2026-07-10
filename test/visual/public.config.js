@@ -5,6 +5,11 @@ const { getPublicBaseURL, getVisualPort, usesExternalVisualServer } = require(".
 const repoRoot = path.resolve(__dirname, "../..");
 const baseURL = getPublicBaseURL();
 const visualPort = getVisualPort();
+const suiteName = process.argv.some((argument) => argument.includes("desk-scene.spec.js"))
+  ? "scene"
+  : process.argv.some((argument) => argument.includes("sitewide.spec.js"))
+    ? "site"
+    : "combined";
 
 const webServer = usesExternalVisualServer()
   ? undefined
@@ -31,8 +36,10 @@ module.exports = {
   // concurrent capture. package.json also separates site and WebGL runs so
   // each stream receives a fresh browser process.
   workers: process.env.CI ? 1 : 2,
-  reporter: process.env.CI ? [["line"], ["html", { open: "never" }]] : "line",
-  outputDir: path.join(repoRoot, "test-results", "public-visual"),
+  reporter: process.env.CI
+    ? [["line"], ["html", { open: "never", outputFolder: path.join(repoRoot, "playwright-report", `public-${suiteName}`) }]]
+    : "line",
+  outputDir: path.join(repoRoot, "test-results", `public-visual-${suiteName}`),
   use: {
     baseURL,
     browserName: "chromium",

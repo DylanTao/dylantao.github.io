@@ -52,8 +52,8 @@ For research-skills resource updates, also inspect the existing structure and cr
 For Markdown/content-only work, usually run:
 
 ```powershell
-npm run lint:prettier
-npm run lint:style-contract
+npm.cmd run lint:prettier
+npm.cmd run lint:style-contract
 bundle exec jekyll build
 ```
 

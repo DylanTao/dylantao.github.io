@@ -59,7 +59,7 @@ Do not add duplicate component-level correctness tests to this starter when the 
 
 ## Local Validation
 
-Before opening/updating a PR in `v1.x`, run:
+Before opening/updating a PR in `v1.x`, run the commands below. On Windows PowerShell in this checkout, use `npm.cmd` and `npx.cmd`; the platform-neutral names are shown for contributors using other shells.
 
 ```bash
 npm ci

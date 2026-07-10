@@ -42,6 +42,7 @@ CANONICAL_HEADINGS = {
     },
     "docs/agentic-usage-ledger.md": {
         "Public Data File",
+        "Current Snapshot Authority",
         "Update Heuristic",
         "Codex hook behavior",
         "Future Entry Template",
@@ -157,6 +158,7 @@ class AgentGuidanceContractTest(unittest.TestCase):
     def test_parallel_and_customized_fork_contracts_are_visible(self) -> None:
         agents_text = read("AGENTS.md")
         copilot_text = read(".github/copilot-instructions.md")
+        claude_text = read("CLAUDE.md")
         design_skill = read(".codex/skills/website-design-critique/SKILL.md")
         scene_skill = read(".codex/skills/homepage-desk-scene/SKILL.md")
 
@@ -169,10 +171,25 @@ class AgentGuidanceContractTest(unittest.TestCase):
             self.assertIn(phrase, agents_text)
 
         self.assertIn("## Customized-Fork Precedence", copilot_text)
+        self.assertIn("customized fork", claude_text.lower())
+        self.assertIn("curl.exe -fsS http://127.0.0.1:8080/", claude_text)
+        self.assertNotIn("must **not** own `_includes`", claude_text)
         self.assertIn("## Parallel Scope", design_skill)
         self.assertIn("## Parallel Scope", scene_skill)
         self.assertIn("one writer at a time", agents_text)
         self.assertIn("coordinator", agents_text.lower())
+
+    def test_repo_local_skills_use_windows_safe_node_commands(self) -> None:
+        bare_node_command = re.compile(r"(?<![\w.])(?:npm|npx) (?=(?:run|prettier|playwright)\b)")
+
+        for skill_directory in self.skill_directories():
+            skill_text = (skill_directory / "SKILL.md").read_text(encoding="utf-8")
+            with self.subTest(skill=skill_directory.name):
+                self.assertNotRegex(skill_text, bare_node_command)
+
+    def test_agent_entrypoint_changes_trigger_unit_contract(self) -> None:
+        unit_workflow = read(".github/workflows/unit-tests.yml")
+        self.assertGreaterEqual(unit_workflow.count('- "CLAUDE.md"'), 2)
 
 
 if __name__ == "__main__":

@@ -40,7 +40,9 @@ layout: default
       {% if page.author %} by {{ page.author }}{% endif %}
       {% assign last_date = page.last_modified_at | default: page.last_updated %}
       {% if last_date %}, last updated on {{ last_date | date: '%B %d, %Y' }}{% endif %}
-      {% if page.meta %}• {{ page.meta }}{% endif %}
+      {% if page.meta -%}
+        <span class="post-meta-separator" aria-hidden="true">&middot;</span>{{ page.meta -}}
+      {%- endif %}
     </p>
     <p class="post-tags">
       {% if url_beginning == '/blog/' %}
@@ -49,7 +51,7 @@ layout: default
         <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
       {% endif %}
       {% if tags != '' %}
-        &nbsp; &middot; &nbsp;
+        <span class="post-meta-separator" aria-hidden="true">&middot;</span>
         {% for tag in display_tags %}
           {% if url_beginning == '/blog/' %}
             <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}"> <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
@@ -63,7 +65,7 @@ layout: default
       {% endif %}
 
       {% if categories != '' %}
-        &nbsp; &middot; &nbsp;
+        <span class="post-meta-separator" aria-hidden="true">&middot;</span>
         {% for category in page.categories %}
           {% if url_beginning == '/blog/' %}
             <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}"> <i class="fa-solid fa-tag fa-sm"></i> {{ category -}}</a>
@@ -80,9 +82,12 @@ layout: default
 
   <article class="post-content">
     {% if page.toc and page.toc.beginning %}
-      <div id="table-of-contents">
-        {% toc %}
-      </div>
+      <details id="table-of-contents" class="blog-inline-toc" open>
+        <summary>On this page</summary>
+        <div class="blog-inline-toc-list">
+          {% toc %}
+        </div>
+      </details>
       <hr>
     {% endif %}
     <div id="markdown-content">

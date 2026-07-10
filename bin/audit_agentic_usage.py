@@ -474,10 +474,21 @@ def git_commit_count(repo_root: Path, since: str, paths: list[str]) -> int:
 
 
 def has_pending_changes(repo_root: Path, paths: list[str]) -> bool:
-    command = ["git", "status", "--porcelain=v1", "--untracked-files=all", "--", *paths]
-    result = subprocess.run(command, cwd=repo_root, capture_output=True, text=True, check=False)
+    diff_commands = [
+        ["git", "diff", "--quiet", "--", *paths],
+        ["git", "diff", "--cached", "--quiet", "--", *paths],
+    ]
+    for command in diff_commands:
+        result = subprocess.run(command, cwd=repo_root, capture_output=True, text=True, check=False)
+        if result.returncode == 1:
+            return True
+        if result.returncode != 0:
+            raise RuntimeError(result.stderr.strip() or f"git command failed: {' '.join(command)}")
+
+    untracked_command = ["git", "ls-files", "--others", "--exclude-standard", "--", *paths]
+    result = subprocess.run(untracked_command, cwd=repo_root, capture_output=True, text=True, check=False)
     if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or f"git command failed: {' '.join(command)}")
+        raise RuntimeError(result.stderr.strip() or f"git command failed: {' '.join(untracked_command)}")
     return bool(result.stdout.strip())
 
 

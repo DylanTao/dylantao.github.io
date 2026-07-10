@@ -29,6 +29,12 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".blog-post #markdown-content",
   },
   {
+    id: "blog-distributed-cognition",
+    path: "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+    readySelector: ".blog-post .post-title",
+    contentSelector: ".blog-post #markdown-content",
+  },
+  {
     id: "projects-index",
     path: "/projects/",
     readySelector: ".projects [data-project-card-grid]",

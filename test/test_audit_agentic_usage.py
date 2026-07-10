@@ -279,6 +279,26 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertEqual(len(audit.model_tracking_check_messages(tracking)), 1)
 
 
+class PendingChangesTests(unittest.TestCase):
+    def test_ignores_status_only_noise_but_detects_unstaged_staged_and_untracked_changes(self) -> None:
+        clean = mock.Mock(returncode=0, stdout="", stderr="")
+        dirty = mock.Mock(returncode=1, stdout="", stderr="")
+        untracked = mock.Mock(returncode=0, stdout="new.txt\n", stderr="")
+
+        with mock.patch.object(audit.subprocess, "run", side_effect=[clean, clean, clean]) as run:
+            self.assertFalse(audit.has_pending_changes(REPO_ROOT, ["tracked.txt"]))
+            self.assertEqual(run.call_args_list[0].args[0][:3], ["git", "diff", "--quiet"])
+            self.assertEqual(run.call_args_list[1].args[0][:4], ["git", "diff", "--cached", "--quiet"])
+            self.assertEqual(run.call_args_list[2].args[0][:4], ["git", "ls-files", "--others", "--exclude-standard"])
+
+        with mock.patch.object(audit.subprocess, "run", side_effect=[dirty]):
+            self.assertTrue(audit.has_pending_changes(REPO_ROOT, ["tracked.txt"]))
+        with mock.patch.object(audit.subprocess, "run", side_effect=[clean, dirty]):
+            self.assertTrue(audit.has_pending_changes(REPO_ROOT, ["tracked.txt"]))
+        with mock.patch.object(audit.subprocess, "run", side_effect=[clean, clean, untracked]):
+            self.assertTrue(audit.has_pending_changes(REPO_ROOT, ["tracked.txt"]))
+
+
 class PriceLensTests(unittest.TestCase):
     def test_public_money_rounding_does_not_churn_on_single_dollar_drift(self) -> None:
         self.assertEqual(audit.rounded_money(71.1), 70)

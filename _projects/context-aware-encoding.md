@@ -5,7 +5,7 @@ description: A tree-of-thoughts context encoding experiment for improving retrie
 img: assets/img/project_pics/context-aware-encoding/context-aware-encoding-teaser.png
 image_aspect: 16 / 9
 importance: 1
-category: fun
+category: research
 year: 2023
 role: Builder
 status: Prototype

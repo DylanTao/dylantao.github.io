@@ -20,6 +20,10 @@ module.exports = {
   testDir: __dirname,
   testMatch: ["parity.spec.js", "interactions.spec.js", "distill.spec.js"],
   outputDir: path.join(repoRoot, "test-results", "legacy-visual"),
+  // Chromium desktop and WebKit mobile share animation-heavy homepage cases.
+  // Serialize CI for deterministic pointer/settling evidence; local runs may
+  // keep two workers for faster exploratory checks.
+  workers: process.env.CI ? 1 : 2,
   timeout: 120000,
   expect: {
     timeout: 10000,
@@ -39,6 +43,7 @@ module.exports = {
     {
       name: "desktop",
       use: {
+        browserName: "chromium",
         viewport: { width: 1366, height: 1800 },
       },
     },
@@ -46,6 +51,7 @@ module.exports = {
       name: "mobile",
       use: {
         ...devices["iPhone 12"],
+        browserName: "webkit",
       },
     },
   ],

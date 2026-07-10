@@ -89,6 +89,7 @@
 {% endunless %}
 {% if page.url contains '/blog/' %}
   <script defer src="{{ '/assets/js/blog-read-counter.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+  <script defer src="{{ '/assets/js/blog-post.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <script defer src="{{ '/assets/js/blog-secret.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
 {% if page.heuristics_preview %}

@@ -17,7 +17,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - rely on the daily Google Scholar workflow for routine citation freshness;
    - refresh Scholar locally with `python bin/update_scholar_citations.py --force` only when `_data/citations.yml` is more than one day stale or publication pages changed;
    - before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit` so the helper can estimate the pending commit and update `_data/agentic_usage.yml`;
-   - immediately format the generated ledger with `npx prettier _data/agentic_usage.yml --write`, then review and stage only the intended files;
+   - immediately format the generated ledger with `npx.cmd prettier _data/agentic_usage.yml --write`, then review and stage only the intended files;
    - after committing, rerun `python bin/audit_agentic_usage.py` read-only and update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
 4. Recount commits after the relevant work is committed when possible. Prefer the read-only helper over ad hoc scripts:
    - `python bin/audit_agentic_usage.py`

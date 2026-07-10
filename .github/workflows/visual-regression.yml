@@ -141,8 +141,10 @@ jobs:
         with:
           name: visual-checkpoint-artifacts
           path: |
-            playwright-report
-            test-results/public-visual
+            playwright-report/public-site
+            playwright-report/public-scene
+            test-results/public-visual-site
+            test-results/public-visual-scene
             test-results/legacy-visual
           if-no-files-found: ignore
 

@@ -5,7 +5,7 @@ description: A graph neural network architecture prototype for modeling long-ran
 img: assets/img/project_pics/graphhscn/graphhscn-teaser.png
 image_aspect: 16 / 9
 importance: 2
-category: fun
+category: research
 year: 2023
 role: Undergraduate researcher
 status: Research prototype
