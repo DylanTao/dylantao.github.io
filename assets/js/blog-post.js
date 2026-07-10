@@ -1,0 +1,1 @@
+(()=>{const e=document.querySelector("details.blog-inline-toc");if(!e)return;const t=window.matchMedia("(max-width: 576px)"),n=t=>{e.open=!t.matches};n(t),t.addEventListener?.("change",n)})();

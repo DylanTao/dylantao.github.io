@@ -31,8 +31,8 @@ Before changing this customized site:
 
 - Use `$website-design-critique` with `$portfolio-writing-voice` for the sitewide UI/content stream. Use `$homepage-desk-scene` for the 2D/3D album-room stream.
 - Parallel agents may inspect the same site, but they must not write the same worktree or file concurrently. Use separate named worktrees/branches for independent implementation, or serialize edits in one shared Codex worktree.
-- Give every concurrently served visual worktree a unique `VISUAL_PORT` (for example, `$env:VISUAL_PORT=4101; npm run test:visual:site`). Server reuse is off by default so a collision fails clearly; set `VISUAL_REUSE_SERVER=1` only when you intentionally own the existing server on that port. Use `NO_WEBSERVER=1` with `VISUAL_BASE_URL` for an externally managed server; the harness rejects that URL otherwise so it cannot start one server and inspect another.
-- The public Playwright command intentionally runs sitewide routes and WebGL scene cases as separate browser processes, with one worker per process in CI. Linux Chromium can reject later page captures after image-heavy and WebGL work share a process; keep this isolation unless a Linux full-matrix run proves combined capture stable.
+- Give every concurrently served visual worktree a unique `VISUAL_PORT` (for example, `$env:VISUAL_PORT=4101; npm.cmd run test:visual:site`). Server reuse is off by default so a collision fails clearly; set `VISUAL_REUSE_SERVER=1` only when you intentionally own the existing server on that port. Use `NO_WEBSERVER=1` with `VISUAL_BASE_URL` for an externally managed server; the harness rejects that URL otherwise so it cannot start one server and inspect another.
+- The public Playwright command intentionally runs sitewide routes and WebGL scene cases as separate Chromium processes, with one worker per process in CI. Linux Chromium can reject later page captures after image-heavy and WebGL work share a process; keep this isolation unless a Linux full-matrix run proves combined capture stable. Keep their output and HTML-report directories separate so the second process cannot erase the first process's acceptance evidence. The legacy interaction projects provide the second-engine check: Chromium desktop and WebKit/iPhone mobile, so both browser installs are intentional.
 - Treat `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, and desk-scene interaction tests as high-conflict paths. Reserve each overlapping file to one writer at a time and hand it back through the coordinator before another stream edits it.
 - The sitewide stream must not change desk-scene state, geometry, album behavior, or scene-only selectors. The desk-scene stream must not rewrite posts, projects, general homepage narrative, or global chrome.
 - Integrate verified checkpoints onto `main` through one coordinator. Worker branches do not push independently.
@@ -54,12 +54,12 @@ This repository is both a v1 starter and Dylan/Sirui's deployed personal site. F
 
 ## Validated Local Command Set
 
-Run from repo root:
+Run from repo root. Windows PowerShell is the primary local shell for this checkout: call `npm.cmd`, `npx.cmd`, and `curl.exe` explicitly because bare `npm` and `curl` can resolve to PowerShell wrappers or aliases instead of the intended executables. The integration scripts require a working Git Bash or WSL `bash`; a missing or misconfigured Bash runtime is a failure, not a skipped/pass result.
 
-```bash
-npm ci
-npm run lint:prettier
-npm run lint:style-contract
+```powershell
+npm.cmd ci
+npm.cmd run lint:prettier
+npm.cmd run lint:style-contract
 python -m unittest discover -s test -p "test_*.py"
 bundle exec jekyll build --baseurl /al-folio
 bash test/integration_comments.sh
@@ -67,18 +67,18 @@ bash test/integration_plugin_toggles.sh
 bash test/integration_distill.sh
 bash test/integration_bootstrap_compat.sh
 bash test/integration_upgrade_cli.sh
-npx playwright install chromium webkit
-npm run test:visual
+npx.cmd playwright install chromium webkit
+npm.cmd run test:visual
 bundle exec al-folio upgrade audit
 bundle exec al-folio upgrade overrides audit
 bundle exec al-folio upgrade report
 docker compose up -d
-curl -fsS http://127.0.0.1:8080/al-folio/ >/dev/null
+curl.exe -fsS http://127.0.0.1:8080/ | Out-Null
 docker compose logs --tail=80
 docker compose down
 ```
 
-For this customized personal site, also verify `http://localhost:8080/` with empty `baseurl`.
+The checked-in Docker Compose configuration serves this customized personal site at `http://localhost:8080/` with an empty `baseurl`. The separate production Jekyll build above covers the starter-compatible `/al-folio` baseurl.
 
 ## Verification By Change Type
 
@@ -106,7 +106,7 @@ Before pushing changes to this customized site:
 - Use `.codex/skills/agentic-usage-ledger/SKILL.md` and `docs/agentic-usage-ledger.md` for the homepage Codex token, agent-hour, commit, energy, and tree-equivalence counters.
 - Google Scholar runs daily in `.github/workflows/update-citations.yml`; locally run `python bin/update_scholar_citations.py --force` only if `_data/citations.yml` is more than one day stale or publication pages changed.
 - Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit`; the helper estimates the pending commit and updates `_data/agentic_usage.yml`.
-- Format the generated ledger with `npx prettier _data/agentic_usage.yml --write` before staging it.
+- Format the generated ledger with `npx.cmd prettier _data/agentic_usage.yml --write` before staging it.
 - After commit, rerun `python bin/audit_agentic_usage.py` read-only; update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
 - Stage only intended files; do not sweep unrelated dirty files into a stats refresh.
 - This repo has a project-local Codex hook in `.codex/hooks.json` that checks `git commit`/`git push` freshness. Review and trust it with `/hooks` when Codex reports a new or changed hook.

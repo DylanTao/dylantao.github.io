@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 @AGENTS.md
 
-The import above (`AGENTS.md`, which itself defers to `.github/copilot-instructions.md` and `docs/BOUNDARIES.md`) is the canonical short entry point: ownership boundaries, the validated command set, and PR-routing rules. Keep `AGENTS.md` short and ecosystem-neutral — put Claude-specific or longer-form guidance here instead. Everything below is the cross-repo "big picture" that those files assume but don't spell out.
+The import above (`AGENTS.md`, which itself defers to `.github/copilot-instructions.md` and `docs/BOUNDARIES.md`) is the canonical short entry point: ownership boundaries, the validated command set, and routing rules. `AGENTS.md` takes precedence if any generic starter guidance below drifts. This checkout is also Dylan/Sirui's deployed personal site, so its intentional local content, layouts, includes, Sass, scripts, interactions, analytics, SEO, and assets are first-class site-owned contracts.
 
 ## What this repo is
 
-`al-folio` v1.x is a **thin Jekyll starter**, not a theme. It owns only: starter wiring (`Gemfile`, `_config.yml`, `_data/featured_plugins.yml`), example content (`_pages`, `_posts`, `_projects`, `_news`, `_teachings`, `_books`, `_bibliography`), docs (`docs/`), cross-gem integration tests (`test/integration_*.sh`), and visual/parity tests (`test/visual/`). **All runtime, layouts, includes, Sass, tags, filters, and feature JS live in versioned gems**, published independently on RubyGems. `docs/BOUNDARIES.md` is the authoritative area→gem ownership table.
+Upstream `al-folio` v1.x is a **thin Jekyll starter**, not a theme. This customized fork owns starter wiring and tests plus Dylan/Sirui's site identity, content, analytics, SEO, local layouts, includes, Sass, scripts, interactions, and assets. Shared runtime belongs in the versioned gems; deliberate site-specific overrides remain here and are tracked with the override audit. `docs/BOUNDARIES.md` is the authoritative area-to-gem ownership table, and the customized-fork precedence in `AGENTS.md` governs ambiguous cases.
 
-The biggest recurring mistake is editing runtime here. If a change is layout/include/tag/filter/feature-behavior, it belongs in the owning gem (see routing below), not in this repo.
+The biggest recurring mistake is applying the thin-starter rule mechanically and erasing an intentional local site contract. Route behavior shared by all al-folio users to the owning gem; keep Dylan/Sirui-specific presentation and interaction behavior in this repo.
 
 ## The plugin ecosystem (read this before routing any change)
 
@@ -47,22 +47,24 @@ Architectural facts that span repos:
 
 ## Daily dev loop (not in the AGENTS.md command set)
 
-```bash
+```powershell
 bundle install                                # ruby gems
-bundle exec jekyll serve                      # dev server → http://localhost:4000/al-folio/  (NOTE baseurl)
+bundle exec jekyll serve                      # customized site → http://localhost:4000/
 bundle exec jekyll build --baseurl /al-folio  # production-style build to _site/
 bash test/integration_distill.sh             # run ONE integration test (any of the five)
-npm run test:visual:update                    # refresh playwright snapshots after intentional UI change
+npm.cmd run test:visual:update                # refresh snapshots after an intentional UI change
 bundle exec al-folio upgrade apply --safe     # deterministic codemods (font-weight-* → font-*, remote→local URLs)
 bundle exec al-folio upgrade overrides diff <path>    # then `overrides accept <path>` to acknowledge an override
 ```
+
+As in `AGENTS.md`, use explicit `.cmd` Node executables on Windows and run Bash scripts only through a working Git Bash or WSL environment.
 
 `bin/setup-python-deps` installs the optional Python toolchain in `requirements.txt` (`nbconvert` for `jekyll-jupyter-notebook`, `rendercv[full]` for CV rendering, `scholarly` for `bin/update_scholar_citations.py`). Responsive-image generation (`imagemagick.enabled: true`) needs ImageMagick `convert` on PATH. `bin/deploy` is the manual `gh-pages` build+purgecss+force-push path (CI normally deploys).
 
 ## Docker serving model (v1-specific)
 
-`docker compose up -d` bind-mounts the repo to `/srv/jekyll` and runs `bin/entry_point.sh`, which serves with `--force_polling --destination /tmp/_site`. The build output deliberately goes to **container-local `/tmp/_site`, not the bind-mounted `_site`** — writing `_site` back across the host bind mount caused write deadlocks. The container also `inotifywait`s `_config.yml` and restarts Jekyll on change (config edits aren't hot-reloaded by `--watch`). Verify with the `/al-folio` baseurl: `curl -fsS http://127.0.0.1:8080/al-folio/`. `docker-compose-slim.yml` pulls a prebuilt `:slim` image instead of building locally.
+`docker compose up -d` bind-mounts the repo to `/srv/jekyll` and runs `bin/entry_point.sh`, which serves with `--force_polling --destination /tmp/_site`. The build output deliberately goes to **container-local `/tmp/_site`, not the bind-mounted `_site`**—writing `_site` back across the host bind mount caused write deadlocks. The container also `inotifywait`s `_config.yml` and restarts Jekyll on change (config edits aren't hot-reloaded by `--watch`). This checkout's Compose configuration serves the customized site at the root; verify it with `curl.exe -fsS http://127.0.0.1:8080/ | Out-Null`. The separate production build covers `/al-folio` compatibility. `docker-compose-slim.yml` pulls a prebuilt `:slim` image instead of building locally.
 
 ## CI gates and the style contract
 
-`npm run lint:style-contract` (`test/style_contract.js`) is the automated enforcement of the thin-starter boundary, and it will fail CI if you cross it: the starter must **not** define `build:css`/`build:tailwind` npm scripts, must **not** own `_includes`/`_layouts`/`_sass`/`_scripts`/`assets/tailwind`/`tailwind.config.js`/icon-font artifacts, must keep `theme: al_folio_core` and the required plugins in `_config.yml`, and must keep the `third_party_libraries` SRI pins and `al_math` Gemfile pin. Other gates: `unit-tests.yml` (style contract + the five integration scripts), `visual-regression.yml` (Playwright chromium+webkit, diffs candidate against a v0.16.3 baseline served on :4100 via `BASELINE_URL`), `upgrade-check.yml` (`al-folio upgrade audit`), `prettier.yml`. Prettier uses `@shopify/prettier-plugin-liquid` with `printWidth: 150`; run `npm run lint:prettier` before pushing.
+`npm.cmd run lint:style-contract` (`test/style_contract.js`) enforces starter wiring, required plugin/config contracts, visual-evidence routing, and the ban on starter-local theme build scripts. It does not forbid this customized fork's intentional local overrides; review those with `bundle exec al-folio upgrade overrides audit`. Other gates include `unit-tests.yml`, the separate Chromium public-route/WebGL processes plus Chromium-desktop and WebKit-mobile interaction checks in `visual-regression.yml`, `upgrade-check.yml`, and `prettier.yml`. Prettier uses `@shopify/prettier-plugin-liquid` with `printWidth: 150`; run `npm.cmd run lint:prettier` before pushing.
