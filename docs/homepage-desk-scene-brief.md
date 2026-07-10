@@ -49,14 +49,14 @@ Treat these as unresolved until current rendered evidence proves them complete:
 Run the targeted source and behavior checks before accepting scene work:
 
 ```powershell
-npm run lint:prettier
-npm run lint:style-contract
+npm.cmd run lint:prettier
+npm.cmd run lint:style-contract
 bundle exec jekyll build
-npm run test:visual:scene
-npm run test:visual:legacy -- --grep "home dropped|home opened|home 3D"
+npm.cmd run test:visual:scene
+npm.cmd run test:visual:legacy -- --grep "home dropped|home opened|home 3D"
 ```
 
-The existing automated 3D hit-zone checks are desktop-weighted. Until mobile interaction coverage is automated, mobile browser screenshots and direct touch/control checks remain required. Use the Docker/root-site verification in `AGENTS.md` before publish.
+Automated mobile coverage now exercises coarse-pointer mode switching and controls, while the detailed 3D object hit zones remain desktop-weighted. Keep mobile browser screenshots and direct touch/control checks for scene geometry, object focus/drop, window return, and real-device confidence. Use the Docker/root-site verification in `AGENTS.md` before publish.
 
 ## Interaction Discoverability
 

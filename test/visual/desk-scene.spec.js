@@ -155,6 +155,69 @@ test("desk scene reduced-motion mode keeps a visible still composition", async (
   expect(runtimeErrors, "desk reduced-motion state raised browser runtime errors").toEqual([]);
 });
 
+test("desk mode switch keeps a visible keyboard focus ring", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "representative keyboard-focus checkpoint");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await openDeskHome(page);
+
+  const twoDimensionalToggle = page.locator('[data-home-desk-mode="2d"]');
+  const threeDimensionalToggle = page.locator('[data-home-desk-mode="3d"]');
+  await twoDimensionalToggle.focus();
+  await page.keyboard.press("Tab");
+  await expect(threeDimensionalToggle).toBeFocused();
+
+  const focusState = await threeDimensionalToggle.evaluate((element) => {
+    const style = window.getComputedStyle(element);
+    return {
+      boxShadow: style.boxShadow,
+      focusVisible: element.matches(":focus-visible"),
+      outlineStyle: style.outlineStyle,
+      outlineWidth: Number.parseFloat(style.outlineWidth) || 0,
+    };
+  });
+
+  expect(focusState.focusVisible).toBe(true);
+  expect((focusState.outlineStyle !== "none" && focusState.outlineWidth >= 2) || focusState.boxShadow !== "none").toBe(true);
+  expect(runtimeErrors, "desk mode keyboard focus raised browser runtime errors").toEqual([]);
+});
+
+test("offscreen desk animation idles and resumes without losing spin state", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "representative offscreen-animation checkpoint");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await openDeskHome(page);
+  const scene = await switchTo3D(page);
+  const spinControl = page.locator('[data-home-desk-control="spin"]');
+  if ((await spinControl.getAttribute("aria-pressed")) !== "true") await spinControl.click();
+  await expect(spinControl).toHaveAttribute("aria-pressed", "true");
+
+  const visibleFrame = await scene.canvas.evaluate((canvas) => canvas.toDataURL("image/png"));
+  await expect.poll(async () => (await scene.canvas.evaluate((canvas) => canvas.toDataURL("image/png"))) !== visibleFrame).toBe(true);
+
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect
+    .poll(async () => {
+      const rect = await scene.stage.boundingBox();
+      return Boolean(rect && rect.y + rect.height < -120);
+    })
+    .toBe(true);
+  await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-desk-scene-in-viewport", "false");
+
+  await page.waitForTimeout(320);
+  const offscreenFrame = await scene.canvas.evaluate((canvas) => canvas.toDataURL("image/png"));
+  await page.waitForTimeout(320);
+  const laterOffscreenFrame = await scene.canvas.evaluate((canvas) => canvas.toDataURL("image/png"));
+  expect(laterOffscreenFrame).toBe(offscreenFrame);
+  await expect(spinControl).toHaveAttribute("aria-pressed", "true");
+
+  await scene.stage.scrollIntoViewIfNeeded();
+  await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-desk-scene-in-viewport", "true");
+  const returnedFrame = await scene.canvas.evaluate((canvas) => canvas.toDataURL("image/png"));
+  await expect.poll(async () => (await scene.canvas.evaluate((canvas) => canvas.toDataURL("image/png"))) !== returnedFrame).toBe(true);
+  expect(runtimeErrors, "desk offscreen idle/resume raised browser runtime errors").toEqual([]);
+});
+
 test("mobile coarse-pointer controls work through touch input", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-390", "touch-specific mobile checkpoint");
 

@@ -564,7 +564,7 @@ html[data-theme="dark"] .home-cred-item strong {
   margin: 0;
   padding: 0.16rem 0;
   border: 0;
-  border-radius: 0;
+  border-radius: 0.18rem;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -593,6 +593,7 @@ html[data-theme="dark"] .home-cred-item strong {
 }
 
 .home-desk-mode-switch button:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--home-accent) 28%, transparent);
   text-decoration: underline;
   text-underline-offset: 0.18rem;
 }
