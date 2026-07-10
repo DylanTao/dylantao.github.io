@@ -305,8 +305,13 @@ test("content reading aid avoids headers and uses inline fallback on medium desk
     expect(topState.desktopVisible && topState.intersectsProtected, `${route.path} rail overlaps protected header at top`).toBe(false);
 
     await scrollFirstReadableHeadingIntoRailZone(page);
+    await expect
+      .poll(async () => (await getContentReadingAidState(page, route.protectedSelectors)).desktopVisible, {
+        message: `${route.path} rail becomes visible after entering body sections`,
+        timeout: 5000,
+      })
+      .toBe(true);
     const sectionState = await getContentReadingAidState(page, route.protectedSelectors);
-    expect(sectionState.desktopVisible, `${route.path} rail is visible after entering body sections`).toBe(true);
     expect(sectionState.intersectsProtected, `${route.path} rail overlaps protected header near first section`).toBe(false);
 
     await page.setViewportSize({ width: 1366, height: 900 });
@@ -626,22 +631,11 @@ test("navbar search button opens modal and toggle buttons use pointer cursor", a
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
-  await page.evaluate(() => {
-    const ninjaKeys = document.querySelector("ninja-keys");
-    if (!ninjaKeys || typeof ninjaKeys.open !== "function") {
-      return;
-    }
-    ninjaKeys.__openCalled = false;
-    const originalOpen = ninjaKeys.open.bind(ninjaKeys);
-    ninjaKeys.open = () => {
-      ninjaKeys.__openCalled = true;
-      return originalOpen();
-    };
-  });
+  await page.waitForFunction(() => typeof document.querySelector("ninja-keys")?.open === "function");
+  await expect.poll(() => page.evaluate(() => document.querySelector("ninja-keys")?.visible)).toBe(false);
 
   await page.click("#search-toggle");
-  const modalOpened = await page.evaluate(() => Boolean(document.querySelector("ninja-keys")?.__openCalled));
-  expect(modalOpened).toBeTruthy();
+  await expect.poll(() => page.evaluate(() => document.querySelector("ninja-keys")?.visible)).toBe(true);
 
   const searchCursor = await page.locator("#search-toggle").evaluate((el) => window.getComputedStyle(el).cursor);
   const themeCursor = await page.locator("#theme-toggle").evaluate((el) => window.getComputedStyle(el).cursor);
