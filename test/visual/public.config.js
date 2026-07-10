@@ -27,7 +27,10 @@ module.exports = {
   },
   forbidOnly: Boolean(process.env.CI),
   preserveOutput: "always",
-  workers: 2,
+  // GitHub's Linux Chromium runner intermittently rejects screenshots under
+  // concurrent capture. package.json also separates site and WebGL runs so
+  // each stream receives a fresh browser process.
+  workers: process.env.CI ? 1 : 2,
   reporter: process.env.CI ? [["line"], ["html", { open: "never" }]] : "line",
   outputDir: path.join(repoRoot, "test-results", "public-visual"),
   use: {

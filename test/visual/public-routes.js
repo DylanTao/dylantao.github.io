@@ -12,14 +12,9 @@ function usesExternalVisualServer() {
   return process.env.NO_WEBSERVER === "1";
 }
 
+// Keep the homepage last: its canvas/compositing work can leave Linux
+// Chromium unable to capture the next image-heavy route in the same worker.
 const SITEWIDE_ROUTES = [
-  {
-    id: "home",
-    path: "/",
-    readySelector: "#home-title",
-    contentSelector: ".home-page",
-    fullPage: true,
-  },
   {
     id: "blog-index",
     path: "/blog/",
@@ -52,9 +47,16 @@ const SITEWIDE_ROUTES = [
     readySelector: ".project-detail .project-case-hero",
     contentSelector: ".project-detail article",
   },
+  {
+    id: "home",
+    path: "/",
+    readySelector: "#home-title",
+    contentSelector: ".home-page",
+    fullPage: true,
+  },
 ];
 
-const DESK_ROUTE = SITEWIDE_ROUTES[0];
+const DESK_ROUTE = SITEWIDE_ROUTES.find((route) => route.id === "home");
 
 function getPublicBaseURL() {
   if (process.env.VISUAL_BASE_URL && !usesExternalVisualServer()) {
