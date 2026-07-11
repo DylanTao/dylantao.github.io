@@ -16,9 +16,9 @@ hide_title: true
   data-salt="iJoDMgLewA59OFlKJNkqyA=="
   data-iv="l6gF7cRta+KJfOKq"
 >
-  <p id="sirui-private-message" class="sirui-private-message" aria-live="polite">
+  <div id="sirui-private-message" class="sirui-private-message" aria-live="polite">
     checking access...
-  </p>
+  </div>
 
   <section id="sirui-crack-map" class="sirui-crack-map" hidden aria-labelledby="sirui-map-title">
     <div class="sirui-map-shell">
@@ -189,7 +189,7 @@ hide_title: true
               </div>
             </dl>
             <div class="sirui-location-actions">
-              <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>precise location</button>
+              <button id="sirui-sharpen-location" class="sirui-sharpen-location" type="button" hidden>use precise location</button>
               <button
                 id="sirui-street-details-toggle"
                 class="sirui-street-details-toggle"
@@ -255,6 +255,50 @@ hide_title: true
 
   .sirui-private-message {
     min-height: 1.5rem;
+  }
+
+  .sirui-private-message.is-locked {
+    align-items: start;
+    background:
+      linear-gradient(135deg, rgba(var(--global-accent-rgb), 0.06), transparent 58%),
+      var(--global-card-bg-color);
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.7rem;
+    box-shadow: 0 0.65rem 1.6rem rgba(35, 26, 19, 0.06);
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 0.8rem;
+    max-width: 32rem;
+    padding: 1.1rem 1.2rem 1.2rem;
+  }
+
+  .sirui-private-lock-kicker {
+    color: var(--global-theme-color);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sirui-private-lock-title {
+    margin: 0;
+    font-size: clamp(1.55rem, 4vw, 2rem);
+    line-height: 1.05;
+  }
+
+  .sirui-private-lock-copy {
+    margin: 0;
+    color: var(--global-text-color-light);
+    line-height: 1.55;
+  }
+
+  .sirui-private-lock-action {
+    align-items: center;
+    border-bottom: 1px solid currentColor;
+    display: inline-flex;
+    justify-self: start;
+    padding-bottom: 0.08rem;
   }
 
   .sirui-private-message.is-unlocked {
@@ -3105,7 +3149,7 @@ hide_title: true
       try {
         const eventParams = {
           secret_id: "sirui_research_thoughts",
-          unlock_method: "dog_password",
+          unlock_method: "fruit_checkpoint",
           unlock_timezone: entry.timezone || "unknown",
           unlock_count_for_browser: Number(entry.browserUnlockCount || entry.count) || 1,
           readout_version: readoutVersion,
@@ -6755,9 +6799,12 @@ hide_title: true
       if (lastUnlockRecord.activeEntry.coordinateSource === "browser geolocation") return;
 
       const permissionState = await readGeolocationPermissionState();
-      if (permissionState === "denied") {
-        setText(locationSource, "browser precision blocked");
-        setSharpenButtonText("retry precise location");
+      if (permissionState !== "granted") {
+        setText(
+          locationSource,
+          permissionState === "denied" ? "browser precision blocked" : "approximate signal; precise location is opt in",
+        );
+        setSharpenButtonText(permissionState === "denied" ? "retry precise location" : "use precise location");
         if (sharpenLocationButton) sharpenLocationButton.hidden = false;
         return;
       }
@@ -6769,7 +6816,7 @@ hide_title: true
 
     const unlock = async () => {
       message.textContent = "access granted.";
-      message.classList.remove("is-unlocked", "sr-only");
+      message.classList.remove("is-locked", "is-unlocked", "sr-only");
       message.classList.add("is-unlocked", "sr-only");
 
       try {
@@ -6877,14 +6924,26 @@ hide_title: true
     setCelestialMode(celestialMode);
 
     const storedFruitPass = safeSessionGet(fruitPassKey);
-    safeSessionRemove(fruitPassKey);
     safeSessionRemove(oldPasswordKey);
+    const validFruits = new Set(["mango", "orange", "strawberry", "banana"]);
+    let fruitPass;
 
-    if (storedFruitPass) {
+    try {
+      fruitPass = storedFruitPass ? JSON.parse(storedFruitPass) : null;
+    } catch {
+      fruitPass = null;
+    }
+
+    const hasValidFruitPass =
+      validFruits.has(fruitPass?.fruit) && Number.isFinite(Number(fruitPass?.unlockedAt)) && Number(fruitPass.unlockedAt) > 0;
+
+    if (hasValidFruitPass) {
       unlock();
     } else {
+      safeSessionRemove(fruitPassKey);
+      message.classList.add("is-locked");
       message.innerHTML =
-        'locked. answer the fruit question through the dog on the <a href="{{ "/blog/" | relative_url }}">blog page</a>.';
+        '<span class="sirui-private-lock-kicker">private route</span><h1 class="sirui-private-lock-title">locked.</h1><p class="sirui-private-lock-copy">this page opens from the fruit checkpoint tucked into the blog title.</p><a class="sirui-private-lock-action" href="{{ "/blog/" | relative_url }}">return to the blog</a>';
     }
   })();
 </script>

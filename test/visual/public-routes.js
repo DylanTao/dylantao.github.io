@@ -23,6 +23,13 @@ const SITEWIDE_ROUTES = [
     fullPage: true,
   },
   {
+    id: "blog-page-2",
+    path: "/blog/page/2/",
+    readySelector: ".blog-index .header-bar",
+    contentSelector: ".blog-index",
+    fullPage: true,
+  },
+  {
     id: "blog-research-skills",
     path: "/blog/2026/research-skills-starter-pack/",
     readySelector: ".blog-post .post-title",
@@ -42,6 +49,34 @@ const SITEWIDE_ROUTES = [
     fullPage: true,
   },
   {
+    id: "publications",
+    path: "/publications/",
+    readySelector: "[data-publication-workbench]",
+    contentSelector: "[data-publication-workbench]",
+    fullPage: true,
+  },
+  {
+    id: "cv",
+    path: "/cv/",
+    readySelector: ".cv .card",
+    contentSelector: ".cv",
+    fullPage: true,
+  },
+  {
+    id: "news",
+    path: "/news/",
+    readySelector: ".news .news-timeline-item",
+    contentSelector: ".news",
+    fullPage: true,
+  },
+  {
+    id: "blog-archive-2026",
+    path: "/blog/2026/",
+    readySelector: ".archive table tr",
+    contentSelector: ".archive",
+    fullPage: true,
+  },
+  {
     id: "project-designweaver",
     path: "/projects/designweaver/",
     readySelector: ".project-detail .project-case-hero",
@@ -52,6 +87,13 @@ const SITEWIDE_ROUTES = [
     path: "/projects/website-revamp/",
     readySelector: ".project-detail .project-case-hero",
     contentSelector: ".project-detail article",
+  },
+  {
+    id: "secret-locked",
+    path: "/blog/2026/sirui-research-thoughts/",
+    readySelector: "#sirui-private-message",
+    contentSelector: ".sirui-private-note",
+    minContentHeight: 20,
   },
   {
     id: "home",

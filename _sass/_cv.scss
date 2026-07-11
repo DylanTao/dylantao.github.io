@@ -87,6 +87,10 @@ a.btncv:focus-visible {
   }
 }
 
+.cv-mobile-sections {
+  display: none;
+}
+
 .cv {
   max-width: 68rem;
 
@@ -253,6 +257,55 @@ p.location {
 }
 
 @media (max-width: 767.98px) {
+  .cv-mobile-sections {
+    position: sticky;
+    z-index: 12;
+    top: 4.2rem;
+    display: block;
+    margin: 0.65rem 0 0.85rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: var(--md-lite-radius-md);
+    background: color-mix(in srgb, var(--global-bg-color) 94%, transparent);
+    box-shadow: var(--md-lite-elevation-1);
+    backdrop-filter: blur(0.65rem);
+
+    summary {
+      min-height: 2.65rem;
+      padding: 0.62rem 0.82rem;
+      color: var(--global-text-color);
+      cursor: pointer;
+      font-weight: 750;
+    }
+
+    summary:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+    }
+
+    nav {
+      max-height: min(56vh, 26rem);
+      overflow-y: auto;
+      border-top: 1px solid var(--global-divider-color);
+      padding: 0.62rem 0.82rem 0.78rem;
+    }
+
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.32rem 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    a {
+      display: block;
+      padding: 0.28rem 0;
+      font-size: 0.88rem;
+      line-height: 1.3;
+    }
+  }
+
   .cv-pdf-link {
     margin-top: 0.25rem;
   }

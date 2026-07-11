@@ -319,10 +319,49 @@ document.addEventListener("DOMContentLoaded", () => {
     window.AlFolioUi.initPopovers(document);
   }
 
+  const cvSectionControl = document.querySelector("[data-cv-mobile-sections]");
+  const cvSectionLinks = cvSectionControl?.querySelector("[data-cv-section-links]");
+  if (cvSectionControl && cvSectionLinks) {
+    const cvHeadings = Array.from(document.querySelectorAll(".cv .card-title"));
+    const links = cvHeadings
+      .map((heading, index) => {
+        const card = heading.closest(".card");
+        if (!card) return null;
+
+        const previousAnchor = card.previousElementSibling?.matches?.(".anchor[id]") ? card.previousElementSibling : null;
+        const target = previousAnchor || card;
+        if (!target.id) {
+          const slug = (heading.textContent || "section")
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+          target.id = `cv-${slug || "section"}-${index + 1}`;
+        }
+
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `#${target.id}`;
+        link.textContent = heading.textContent.trim();
+        item.append(link);
+        return item;
+      })
+      .filter(Boolean);
+
+    if (links.length) {
+      cvSectionLinks.replaceChildren(...links);
+      cvSectionLinks.addEventListener("click", (event) => {
+        if (event.target.closest("a")) cvSectionControl.open = false;
+      });
+    } else {
+      cvSectionControl.hidden = true;
+    }
+  }
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const revealItems = Array.from(
     document.querySelectorAll(
-      ".featured-posts, .post-list > li, .publications ol.bibliography > li, .projects .grid-item, .card, .news table tr, .cv .card"
+      ".featured-posts, .post-list > li, .publications ol.bibliography > li, .projects .grid-item, .card, .news-timeline-item, .archive table tr, .cv .card"
     )
   ).filter((item) => !item.closest(".home-page"));
 

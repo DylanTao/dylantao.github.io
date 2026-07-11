@@ -20,6 +20,7 @@
   let activeAnimation = "";
   let resetTimer;
   let routeTimer;
+  let returnFocusElement = trigger;
 
   const hashString = (value) => {
     let hash = 2166136261;
@@ -320,18 +321,31 @@
     });
   };
 
+  const getFocusableDialogControls = () =>
+    Array.from(
+      dialog.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((element) => !element.hidden && element.getClientRects().length > 0);
+
   const openDialog = () => {
     pulseTrigger();
     resetFruitState();
+    returnFocusElement = document.activeElement instanceof HTMLElement ? document.activeElement : trigger;
     dialog.hidden = false;
+    document.body.classList.add("sirui-secret-dialog-open");
     trigger.setAttribute("aria-expanded", "true");
     window.setTimeout(() => fruitButtons[0]?.focus(), 0);
   };
 
   const closeDialog = () => {
+    if (dialog.hidden) return;
+
+    resetFruitState();
     dialog.hidden = true;
+    document.body.classList.remove("sirui-secret-dialog-open");
     trigger.setAttribute("aria-expanded", "false");
-    trigger.focus({ preventScroll: true });
+    returnFocusElement?.focus({ preventScroll: true });
   };
 
   const selectFruit = (button) => {
@@ -343,7 +357,7 @@
       fruitButton.setAttribute("aria-pressed", selected ? "true" : "false");
     });
     form.classList.add("is-unlocked");
-    status.textContent = "wow, you guessed correctly!";
+    status.textContent = `good pick — ${fruit} is on Sirui's list.`;
     safeSessionSet(
       FRUIT_PASS_KEY,
       JSON.stringify({
@@ -372,7 +386,33 @@
     if (event.target === dialog) closeDialog();
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !dialog.hidden) closeDialog();
+    if (dialog.hidden) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeDialog();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+
+    const focusableControls = getFocusableDialogControls();
+    if (!focusableControls.length) {
+      event.preventDefault();
+      return;
+    }
+
+    const firstControl = focusableControls[0];
+    const lastControl = focusableControls[focusableControls.length - 1];
+    const activeElement = document.activeElement;
+
+    if (event.shiftKey && (activeElement === firstControl || !dialog.contains(activeElement))) {
+      event.preventDefault();
+      lastControl.focus();
+    } else if (!event.shiftKey && (activeElement === lastControl || !dialog.contains(activeElement))) {
+      event.preventDefault();
+      firstControl.focus();
+    }
   });
   form.addEventListener("submit", (event) => {
     event.preventDefault();

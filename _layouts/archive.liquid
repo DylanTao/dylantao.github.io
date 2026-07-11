@@ -20,7 +20,13 @@ layout: default
       <table class="table table-sm table-borderless">
         {% for document in page.documents %}
           <tr>
-            <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
+            <th scope="row">
+              {% if page.type == 'year' %}
+                {{ document.date | date: '%b %d' }}
+              {% else %}
+                {{ document.date | date: '%b %d, %Y' }}
+              {% endif %}
+            </th>
             <td>
               {% if document.redirect == blank %}
                 <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>

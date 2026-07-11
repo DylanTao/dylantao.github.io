@@ -2424,6 +2424,14 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 }
 
+@media (max-width: 480px) {
+  .publication-workbench {
+    grid-template-areas:
+      "list"
+      "lens";
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rejection-badge,
   .rejection-wall-view-button,

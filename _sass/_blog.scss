@@ -854,6 +854,10 @@
   display: none;
 }
 
+body.sirui-secret-dialog-open {
+  overflow: hidden;
+}
+
 .sirui-secret-dialog {
   align-items: center;
   background: rgba(0, 0, 0, 0.42);

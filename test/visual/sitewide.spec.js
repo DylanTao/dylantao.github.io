@@ -52,6 +52,9 @@ async function expectCompactBlogOpening(page) {
 async function exercisePublicRoute(page, route, theme, testInfo) {
   const runtimeErrors = collectRuntimeErrors(page);
 
+  if (route.id === "secret-locked") {
+    await page.addInitScript(() => sessionStorage.removeItem("siruiSecretFruitPass"));
+  }
   await preparePage(page, theme);
   const response = await page.goto(publicRouteUrl(route.path), { waitUntil: "domcontentloaded" });
 
@@ -83,13 +86,41 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   expect(geometry.scrollWidth - geometry.clientWidth, `${route.path} has horizontal document overflow`).toBeLessThanOrEqual(1);
   expect(geometry.scrollHeight, `${route.path} has no meaningful document height`).toBeGreaterThan(400);
   expect(contentBox, `${route.path} content has no rendered box`).not.toBeNull();
-  expect(contentBox.height, `${route.path} content box is unexpectedly short`).toBeGreaterThan(120);
+  expect(contentBox.height, `${route.path} content box is unexpectedly short`).toBeGreaterThan(route.minContentHeight ?? 120);
   expect(runtimeErrors, `${route.path} raised browser runtime errors`).toEqual([]);
+
+  if (route.id === "secret-locked") {
+    await expect(ready).toContainText("locked.");
+    await expect(ready.locator("h1")).toHaveText("locked.");
+    await expect(page.locator("#sirui-crack-map")).toBeHidden();
+  }
+
+  if (route.id === "blog-archive-2026") {
+    const firstArchiveDate = page.locator(".archive th").first();
+    await expect(firstArchiveDate).toContainText("Jul 05");
+    await expect(firstArchiveDate).not.toContainText("2026");
+  }
 
   if (testInfo.project.name === "mobile-390") {
     await expectMobileChromeInViewport(page, route.path);
     if (route.id === "blog-distributed-cognition") {
       await expectCompactBlogOpening(page);
+    }
+    if (route.id === "blog-page-2") {
+      await expect(page.locator(".featured-posts")).toHaveCount(0);
+    }
+    if (route.id === "cv") {
+      const sections = page.locator("[data-cv-mobile-sections]");
+      await expect(sections).toBeVisible();
+      await expect(sections).not.toHaveAttribute("open", "");
+      await sections.locator("summary").click();
+      expect(await sections.locator("a").count()).toBeGreaterThan(4);
+      await sections.locator("summary").click();
+    }
+    if (route.id === "publications") {
+      const paperTop = await page.locator(".publication-list-column").evaluate((element) => element.getBoundingClientRect().top);
+      const lensTop = await page.locator(".publication-lens-column").evaluate((element) => element.getBoundingClientRect().top);
+      expect(paperTop, "mobile publications should place papers before the Scholar lens").toBeLessThan(lensTop);
     }
   }
 
@@ -150,4 +181,80 @@ test("home research motion responds locally and keeps a reduced-motion still", a
   expect(screenshotDiffRatio(stillAfter, stillBefore), "reduced motion should render a stable still composition").toBeLessThan(0.0001);
   await attachScreenshot(page, testInfo, "research-motion-reduced-desktop-1440", { locator: stage });
   expect(runtimeErrors, "research motion raised browser runtime errors").toEqual([]);
+});
+
+// Keep this last: unlocking starts the secret route's Three/WebGL work.
+test("secret checkpoint tells the truth, contains focus, and survives a refresh", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "representative hidden-route journey checkpoint");
+
+  await page.addInitScript(() => {
+    window.__siruiGeolocationRequests = 0;
+    Object.defineProperty(navigator, "permissions", {
+      configurable: true,
+      value: {
+        query: async ({ name }) => (name === "geolocation" ? { state: "prompt" } : { state: "denied" }),
+      },
+    });
+    Object.defineProperty(navigator, "geolocation", {
+      configurable: true,
+      value: {
+        getCurrentPosition: (_success, error) => {
+          window.__siruiGeolocationRequests += 1;
+          error?.({ code: 1, message: "test prompt" });
+        },
+      },
+    });
+  });
+
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/blog/"), { waitUntil: "domcontentloaded" });
+
+  const trigger = page.locator("#sirui-secret-dog");
+  const dialog = page.locator("#sirui-secret-dialog");
+  const close = page.locator("#sirui-secret-close");
+  const mango = page.locator('[data-sirui-fruit="mango"]');
+  const banana = page.locator('[data-sirui-fruit="banana"]');
+
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+  await expect(page.locator("body")).toHaveClass(/sirui-secret-dialog-open/);
+  await expect(mango).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(close).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(banana).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(close).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(page.locator("body")).not.toHaveClass(/sirui-secret-dialog-open/);
+
+  await trigger.click();
+  await mango.click();
+  const status = page.locator("#sirui-secret-status");
+  await expect(status).toContainText("mango is on Sirui's list.");
+  expect(await status.textContent()).not.toMatch(/guess|correct/i);
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(800);
+  await expect(page).toHaveURL(/\/blog\/?$/);
+
+  await trigger.click();
+  await mango.click();
+  await page.waitForURL(/sirui-research-thoughts\/?$/);
+  await expect(page.locator("#sirui-crack-map")).toBeVisible({ timeout: 20_000 });
+  await expect(page.locator("#sirui-sharpen-location")).toHaveText("use precise location");
+  await expect(page.locator("#sirui-sharpen-location")).toBeVisible();
+  await page.waitForTimeout(650);
+  expect(await page.evaluate(() => window.__siruiGeolocationRequests)).toBe(0);
+  await page.locator("#sirui-sharpen-location").click();
+  await expect.poll(() => page.evaluate(() => window.__siruiGeolocationRequests)).toBe(1);
+  const storedPass = await page.evaluate(() => JSON.parse(sessionStorage.getItem("siruiSecretFruitPass")));
+  expect(storedPass.fruit).toBe("mango");
+  expect(storedPass.unlockedAt).toBeGreaterThan(0);
+
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator("#sirui-crack-map")).toBeVisible({ timeout: 20_000 });
+  expect(await page.evaluate(() => sessionStorage.getItem("siruiSecretFruitPass"))).not.toBeNull();
 });

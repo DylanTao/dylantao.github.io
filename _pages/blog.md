@@ -189,7 +189,11 @@ pagination:
 {% assign featured_posts_string = active_posts | where: "featured", "true" %}
 {% assign featured_posts_boolean = active_posts | where: "featured", true %}
 {% assign featured_posts = featured_posts_string | concat: featured_posts_boolean | uniq %}
-{% if featured_posts.size > 0 %}
+{% assign show_featured_posts = true %}
+{% if paginator and paginator.page > 1 %}
+{% assign show_featured_posts = false %}
+{% endif %}
+{% if featured_posts.size > 0 and show_featured_posts %}
 
   <section class="featured-posts" aria-labelledby="blog-pinned-title">
     <div class="blog-section-label" id="blog-pinned-title">Pinned notes</div>
