@@ -304,7 +304,7 @@ Do not assume a long-context threshold, cache-write quantity, or actual Codex pr
 ### 2026-07-11
 
 - Research-grounded GitHub activity checkpoint: added a site-native focus-and-context view, keyboard inspection, exact weekly table, readable/literal scale controls, a privacy-safe fallback snapshot, and responsive coverage; the personal and Autodesk profile cards were redesigned in the same bounded visual system.
-- Published total after the formatter follow-up: 309 revamp commits, 3.12B rounded tokens, and 259 rounded agent-hours. Since-`gpt-5.6-sol`: 14 commits, 520M rounded tokens, and 20 rounded hours. Token, energy, tree, API-cost, and CodexBar labels stayed unchanged at this checkpoint.
+- Published total after the formatter and local-preview follow-ups: 310 revamp commits, 3.12B rounded tokens, and 259 rounded agent-hours. Since-`gpt-5.6-sol`: 15 commits, 520M rounded tokens, and 20 rounded hours. Token, energy, tree, API-cost, and CodexBar labels stayed unchanged at this checkpoint.
 - Evidence: the task-local goal snapshot at 2026-07-11 14:36 PDT reported 862,105 tokens and 3,270 elapsed seconds. Because the task began in the shared `misc` workspace rather than this checkout, the pending commit and elapsed time were added manually; detailed retained-log model buckets remain at the prior audited snapshot.
 
 ## Future Entry Template

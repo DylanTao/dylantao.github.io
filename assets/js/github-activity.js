@@ -30,7 +30,8 @@
   }
 
   const remoteSource = root.dataset.source;
-  if (remoteSource) {
+  const isLocalPreview = /^(?:localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname);
+  if (remoteSource && !isLocalPreview) {
     try {
       const response = await fetch(remoteSource, { cache: "no-store", credentials: "same-origin" });
       const remote = response.ok ? await response.json() : null;
