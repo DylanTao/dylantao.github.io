@@ -280,6 +280,25 @@ For sitewide passes:
 - Stop animation when offscreen or when the tab is hidden.
 - Local theme controls can sit near the thing they affect, but they must mirror the global theme state exactly. No second, hidden source of truth.
 
+### Research-Grounded Motion Intention
+
+Before keeping an effect, record the visitor problem, trigger, semantic meaning, stop or recovery condition, reduced-motion or static equivalent, and acceptance evidence.
+
+- Motion is justified when it preserves object identity, reveals a real change, clarifies an affordance, or encodes a truthful interaction or measured state.
+- Use one coordinated transition by default. Stage only when separating meaningful changes makes their relationship easier to understand.
+- Kinetic intensity is information: particle count, velocity, direction, and trail strength may change only with a named interaction or truthful state. If they do not, remove them as decoration.
+- Keep particles inside bounded diagrams or evidence surfaces, not as persistent page-wide confetti or cursor trails.
+- Progressive or changing values must expose freshness and provenance; never animate a static snapshot as if it were live activity.
+- Global consistency means shared timing, state clarity, accessibility, interruption, and recovery rules, not the same visual trick on every route.
+- Interactive motion must settle into a valid state after interruption and retain a readable still state, equivalent text, keyboard path, and reduced-motion treatment.
+- Research grounding: object constancy and simple staging from [Jeffrey Heer and George Robertson](https://idl.cs.washington.edu/files/2007-AnimatedTransitions-InfoVis.pdf); narrative checkpoints from [Edward Segel and Jeffrey Heer](https://idl.cs.washington.edu/files/2010-Narrative-InfoVis.pdf); animation-state recovery from [CMU DIG's Counterpoint](https://dig.cmu.edu/publications/2024-counterpoint.html); accessible alternatives from [Chartability](https://www.frank.computer/chartability/). These are principle-level influences; no source assets, layouts, or code are copied.
+
+Current accepted intent record:
+
+- Research-motion kinetic response: the existing particles did not make local engagement or a mode change easy to perceive. Pointer proximity and explicit mode selection now briefly increase travel speed and trail clarity to show attention moving through the selected research loop; the field settles when engagement stops, pauses offscreen or in a hidden tab, keeps a stable particle count, and becomes a still composition under reduced motion.
+- Desk tally wording: compact abbreviations made provenance harder to parse, so the in-scene note uses only explicit `commits` and `tokens`; it does not count up or imply live activity.
+- Coffee-ring hierarchy: the stain should connect the two proof slips without becoming the first thing a visitor sees, so its scale and opacity stay below the artifact titles in light and dark themes.
+
 ## Maintenance And CI
 
 - Formatter drift is design debt. Pin formatter versions locally and in CI so the same file does not pass on one machine and fail on GitHub.
