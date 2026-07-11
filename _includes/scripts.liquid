@@ -201,3 +201,7 @@
     {% include plugins/al_newsletter_scripts.liquid %}
   {% endif %}
 {% endif %}
+
+{% if page.github_activity %}
+  <script defer src="{{ '/assets/js/github-activity.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+{% endif %}

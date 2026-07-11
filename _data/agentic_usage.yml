@@ -1,17 +1,17 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-07-10"
-source_note: Estimated from retained local Codex turn/token logs plus git history; audit with python bin/audit_agentic_usage.py before publish.
+updated_at: "2026-07-11"
+source_note: Estimated from retained local Codex turn/token logs plus git history; the Jul 11 pending site commit and current-goal elapsed time are included manually because this task began outside the site checkout. Audit with python bin/audit_agentic_usage.py before the next publish.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 307
+  commits: 308
   token_count: 3120000000
   tokens_label: 3.12B
-  hours_count: 258
-  hours_label: "258"
+  hours_count: 259
+  hours_label: "259"
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -359,11 +359,11 @@ model_tracking:
   public_note: "Dev work now: gpt-5.6-sol · ultra."
   caveat: Checks retained turn_context records; missing or deleted local logs cannot be reconstructed.
 since_gpt_5_6:
-  commits: 12
+  commits: 13
   token_count: 520000000
   tokens_label: 520M
-  hours_count: 19
-  hours_label: "19"
+  hours_count: 20
+  hours_label: "20"
   token_usage:
     input_tokens: 515622765
     cached_input_tokens: 501736704

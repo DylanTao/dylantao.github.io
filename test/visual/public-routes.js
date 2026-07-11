@@ -70,6 +70,13 @@ const SITEWIDE_ROUTES = [
     fullPage: true,
   },
   {
+    id: "github-activity",
+    path: "/github-activity/",
+    readySelector: "[data-github-activity][data-state='ready']",
+    contentSelector: ".github-activity-page",
+    fullPage: true,
+  },
+  {
     id: "blog-archive-2026",
     path: "/blog/2026/",
     readySelector: ".archive table tr",

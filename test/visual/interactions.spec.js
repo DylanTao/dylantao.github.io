@@ -169,6 +169,38 @@ function visualRoute(path) {
   return new URL(path, normalizedBase).toString();
 }
 
+test("github activity exposes scale, scope, keyboard inspection, and exact values", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const activity = page.locator("[data-github-activity]");
+  await expect(activity).toHaveAttribute("data-state", "ready");
+  await page.getByRole("button", { name: "5 years" }).click();
+  await expect(page.locator("#github-activity-range-summary")).toContainText("5 years");
+
+  const readable = page.getByRole("button", { name: "Readable" });
+  const literal = page.getByRole("button", { name: "Literal" });
+  await expect(readable).toHaveAttribute("aria-pressed", "true");
+  await literal.click();
+  await expect(literal).toHaveAttribute("aria-pressed", "true");
+
+  await page.getByRole("button", { name: "1 year" }).click();
+  await expect(page.locator("#github-activity-range-summary")).toContainText("1 year");
+
+  const selectedDate = page.locator("#github-activity-selected-date");
+  const latest = await selectedDate.textContent();
+  const inspector = page.locator(".github-activity-inspector");
+  await inspector.focus();
+  await page.keyboard.press("ArrowLeft");
+  await expect(selectedDate).not.toHaveText(latest);
+  await expect(inspector).toHaveAttribute("aria-valuetext", /added, .*removed/);
+
+  await page.getByText("How this view works", { exact: true }).click();
+  await expect(page.locator("#github-activity-table-body tr").first()).toBeVisible();
+  expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
+});
+
 test("publications Abs toggle opens and closes", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });

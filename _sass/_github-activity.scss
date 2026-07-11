@@ -1,0 +1,364 @@
+/*******************************************************************************
+ * Privacy-safe GitHub activity page
+ ******************************************************************************/
+
+.post:has(> article > .github-activity-page) {
+  max-width: var(--measure-notebook);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.github-activity-page {
+  --github-activity-added: var(--global-sky-strong);
+  --github-activity-removed: var(--global-mint-strong);
+  --github-activity-added-text: color-mix(in srgb, var(--global-sky-strong) 78%, var(--global-text-color));
+  --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 78%, var(--global-text-color));
+  --github-activity-grid: var(--global-divider-color);
+
+  width: 100%;
+  padding: clamp(1.5rem, 4vw, 3.5rem) 0 2rem;
+}
+
+.github-activity-page button {
+  color: var(--global-text-color);
+}
+
+.github-activity-hero {
+  max-width: var(--measure-prose);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.github-activity-eyebrow,
+.github-activity-readout-label,
+.github-activity-overview-labels,
+.github-activity-source {
+  font-family: var(--font-mono);
+}
+
+.github-activity-eyebrow {
+  margin: 0 0 0.7rem;
+  color: var(--global-primary-color);
+  font-size: var(--type-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.github-activity-hero h1 {
+  max-width: 13ch;
+  margin: 0;
+  font-size: var(--type-page-title);
+  line-height: 0.98;
+}
+
+.github-activity-lede {
+  max-width: 46rem;
+  margin: 1.1rem 0 0;
+  font-size: var(--type-lede);
+  line-height: 1.6;
+}
+
+.github-activity-boundary {
+  margin: 0.7rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
+.github-activity-workbench {
+  width: 100%;
+}
+
+.github-activity-controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.github-activity-control-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.github-activity-control-group legend {
+  margin-bottom: 0.45rem;
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+}
+
+.github-activity-segments {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.github-activity-segments button,
+.github-activity-latest {
+  min-height: 2.5rem;
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.45rem;
+  background: var(--global-surface-color);
+  font-size: var(--type-meta);
+  transition:
+    border-color var(--motion-standard),
+    background-color var(--motion-standard),
+    color var(--motion-standard),
+    transform var(--motion-standard);
+}
+
+.github-activity-segments button {
+  padding: 0.5rem 0.78rem;
+}
+
+.github-activity-segments button:hover,
+.github-activity-latest:hover {
+  border-color: var(--global-primary-color);
+  color: var(--global-primary-hover-color);
+}
+
+.github-activity-segments button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--global-primary-color) 40%, transparent);
+  background: var(--global-primary-container-color);
+  color: var(--global-on-primary-container-color);
+}
+
+.github-activity-segments button:focus-visible,
+.github-activity-latest:focus-visible,
+.github-activity-chart .github-activity-inspector:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--global-primary-color) 58%, transparent);
+  outline-offset: 3px;
+}
+
+.github-activity-readout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 5.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.72rem;
+  background: var(--global-surface-container-low-color);
+}
+
+.github-activity-readout p {
+  margin: 0;
+}
+
+.github-activity-readout-label {
+  color: var(--global-text-color-light);
+  font-size: var(--type-label);
+  letter-spacing: 0.02em;
+}
+
+.github-activity-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  margin-top: 0.25rem !important;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-added {
+  color: var(--github-activity-added-text);
+}
+
+.github-activity-removed {
+  color: var(--github-activity-removed-text);
+}
+
+.github-activity-latest {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.85rem;
+}
+
+.github-activity-range-summary {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-chart-shell {
+  margin-top: 0.35rem;
+  border-top: 1px solid var(--global-outline-color);
+  border-bottom: 1px solid var(--global-outline-color);
+}
+
+.github-activity-chart {
+  display: block;
+  width: 100%;
+  height: clamp(24rem, 50vw, 31rem);
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.github-activity-chart text,
+.github-activity-overview text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.github-activity-chart .github-activity-inspector {
+  cursor: crosshair;
+}
+
+.github-activity-annotation {
+  min-height: 1.5rem;
+  margin: -0.25rem 0 0.8rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-overview-shell {
+  margin-top: 1rem;
+}
+
+.github-activity-overview-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-label);
+}
+
+.github-activity-overview {
+  display: block;
+  width: 100%;
+  height: 4.5rem;
+  margin-top: 0.25rem;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.github-activity-method {
+  margin-top: clamp(2rem, 5vw, 3.25rem);
+  border-top: 1px solid var(--global-outline-color);
+  border-bottom: 1px solid var(--global-outline-color);
+}
+
+.github-activity-method summary {
+  padding: 1rem 0;
+  color: var(--global-text-color);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.github-activity-method summary::marker {
+  color: var(--global-primary-color);
+}
+
+.github-activity-method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding: 0.4rem 0 1.5rem;
+}
+
+.github-activity-method-grid h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+}
+
+.github-activity-method-grid p {
+  margin: 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  line-height: 1.55;
+}
+
+.github-activity-table-wrap {
+  max-height: 28rem;
+  margin-bottom: 1.5rem;
+  overflow: auto;
+  border-top: 1px solid var(--global-outline-color);
+}
+
+.github-activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-table caption {
+  padding: 0.8rem 0;
+  color: var(--global-text-color-light);
+  text-align: left;
+}
+
+.github-activity-table th,
+.github-activity-table td {
+  padding: 0.55rem 0.75rem 0.55rem 0;
+  border-bottom: 1px solid var(--global-outline-color);
+  text-align: right;
+}
+
+.github-activity-table th:first-child,
+.github-activity-table td:first-child {
+  text-align: left;
+}
+
+.github-activity-source {
+  max-width: var(--measure-prose);
+  margin: 1.25rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-label);
+  line-height: 1.55;
+}
+
+@media (max-width: 700px) {
+  .github-activity-page {
+    padding-top: 1rem;
+  }
+
+  .github-activity-hero {
+    margin-bottom: 1.5rem;
+  }
+
+  .github-activity-lede {
+    line-height: 1.5;
+  }
+
+  .github-activity-controls,
+  .github-activity-readout {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .github-activity-control-group,
+  .github-activity-segments {
+    width: 100%;
+  }
+
+  .github-activity-segments button {
+    flex: 1 1 auto;
+  }
+
+  .github-activity-latest {
+    align-self: flex-start;
+  }
+
+  .github-activity-chart {
+    height: 22rem;
+  }
+
+  .github-activity-method-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-activity-page *,
+  .github-activity-page *::before,
+  .github-activity-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,1501 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-07-11T19:41:05+00:00",
+  "weeks": [
+    {
+      "week": "2020-10-18",
+      "additions": 202,
+      "deletions": 171
+    },
+    {
+      "week": "2020-10-25",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-11-01",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-11-08",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-11-15",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-11-22",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-11-29",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-12-06",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-12-13",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-12-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2020-12-27",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-01-03",
+      "additions": 47,
+      "deletions": 1
+    },
+    {
+      "week": "2021-01-10",
+      "additions": 425,
+      "deletions": 43
+    },
+    {
+      "week": "2021-01-17",
+      "additions": 1777,
+      "deletions": 165
+    },
+    {
+      "week": "2021-01-24",
+      "additions": 1655,
+      "deletions": 149
+    },
+    {
+      "week": "2021-01-31",
+      "additions": 1173,
+      "deletions": 102
+    },
+    {
+      "week": "2021-02-07",
+      "additions": 1158,
+      "deletions": 129
+    },
+    {
+      "week": "2021-02-14",
+      "additions": 1233,
+      "deletions": 118
+    },
+    {
+      "week": "2021-02-21",
+      "additions": 682,
+      "deletions": 113
+    },
+    {
+      "week": "2021-02-28",
+      "additions": 2299,
+      "deletions": 416
+    },
+    {
+      "week": "2021-03-07",
+      "additions": 411,
+      "deletions": 54
+    },
+    {
+      "week": "2021-03-14",
+      "additions": 1501,
+      "deletions": 63
+    },
+    {
+      "week": "2021-03-21",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-03-28",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-04-04",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-04-11",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-04-18",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-04-25",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-05-02",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-05-09",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-05-16",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-05-23",
+      "additions": 2062,
+      "deletions": 1
+    },
+    {
+      "week": "2021-05-30",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-06-06",
+      "additions": 4364,
+      "deletions": 2508
+    },
+    {
+      "week": "2021-06-13",
+      "additions": 3,
+      "deletions": 1
+    },
+    {
+      "week": "2021-06-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-06-27",
+      "additions": 230071,
+      "deletions": 12238
+    },
+    {
+      "week": "2021-07-04",
+      "additions": 3110,
+      "deletions": 2317
+    },
+    {
+      "week": "2021-07-11",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-07-18",
+      "additions": 16,
+      "deletions": 15
+    },
+    {
+      "week": "2021-07-25",
+      "additions": 341,
+      "deletions": 42
+    },
+    {
+      "week": "2021-08-01",
+      "additions": 208,
+      "deletions": 187
+    },
+    {
+      "week": "2021-08-08",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-08-15",
+      "additions": 15,
+      "deletions": 10
+    },
+    {
+      "week": "2021-08-22",
+      "additions": 133,
+      "deletions": 130
+    },
+    {
+      "week": "2021-08-29",
+      "additions": 245,
+      "deletions": 38
+    },
+    {
+      "week": "2021-09-05",
+      "additions": 17,
+      "deletions": 10
+    },
+    {
+      "week": "2021-09-12",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "week": "2021-09-19",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-09-26",
+      "additions": 5,
+      "deletions": 2
+    },
+    {
+      "week": "2021-10-03",
+      "additions": 42,
+      "deletions": 4
+    },
+    {
+      "week": "2021-10-10",
+      "additions": 72474,
+      "deletions": 321
+    },
+    {
+      "week": "2021-10-17",
+      "additions": 135677,
+      "deletions": 10021
+    },
+    {
+      "week": "2021-10-24",
+      "additions": 2332,
+      "deletions": 111
+    },
+    {
+      "week": "2021-10-31",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-11-07",
+      "additions": 118,
+      "deletions": 16
+    },
+    {
+      "week": "2021-11-14",
+      "additions": 36,
+      "deletions": 36
+    },
+    {
+      "week": "2021-11-21",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "week": "2021-11-28",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-12-05",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2021-12-12",
+      "additions": 143,
+      "deletions": 59
+    },
+    {
+      "week": "2021-12-19",
+      "additions": 17,
+      "deletions": 15
+    },
+    {
+      "week": "2021-12-26",
+      "additions": 4,
+      "deletions": 3
+    },
+    {
+      "week": "2022-01-02",
+      "additions": 331542,
+      "deletions": 8
+    },
+    {
+      "week": "2022-01-09",
+      "additions": 352,
+      "deletions": 9
+    },
+    {
+      "week": "2022-01-16",
+      "additions": 55691,
+      "deletions": 3588
+    },
+    {
+      "week": "2022-01-23",
+      "additions": 27314,
+      "deletions": 1306
+    },
+    {
+      "week": "2022-01-30",
+      "additions": 20497,
+      "deletions": 17
+    },
+    {
+      "week": "2022-02-06",
+      "additions": 82079,
+      "deletions": 180
+    },
+    {
+      "week": "2022-02-13",
+      "additions": 20579,
+      "deletions": 935
+    },
+    {
+      "week": "2022-02-20",
+      "additions": 577053,
+      "deletions": 35071
+    },
+    {
+      "week": "2022-02-27",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-03-06",
+      "additions": 28166,
+      "deletions": 115
+    },
+    {
+      "week": "2022-03-13",
+      "additions": 6637,
+      "deletions": 283
+    },
+    {
+      "week": "2022-03-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-03-27",
+      "additions": 6142,
+      "deletions": 197
+    },
+    {
+      "week": "2022-04-03",
+      "additions": 22064,
+      "deletions": 3200
+    },
+    {
+      "week": "2022-04-10",
+      "additions": 184,
+      "deletions": 24
+    },
+    {
+      "week": "2022-04-17",
+      "additions": 24532,
+      "deletions": 281
+    },
+    {
+      "week": "2022-04-24",
+      "additions": 2080,
+      "deletions": 0
+    },
+    {
+      "week": "2022-05-01",
+      "additions": 33313,
+      "deletions": 103
+    },
+    {
+      "week": "2022-05-08",
+      "additions": 13832,
+      "deletions": 3429
+    },
+    {
+      "week": "2022-05-15",
+      "additions": 43942,
+      "deletions": 66409
+    },
+    {
+      "week": "2022-05-22",
+      "additions": 61274,
+      "deletions": 40474
+    },
+    {
+      "week": "2022-05-29",
+      "additions": 10685,
+      "deletions": 2193
+    },
+    {
+      "week": "2022-06-05",
+      "additions": 1154,
+      "deletions": 740
+    },
+    {
+      "week": "2022-06-12",
+      "additions": 29,
+      "deletions": 4
+    },
+    {
+      "week": "2022-06-19",
+      "additions": 254,
+      "deletions": 137
+    },
+    {
+      "week": "2022-06-26",
+      "additions": 3,
+      "deletions": 2
+    },
+    {
+      "week": "2022-07-03",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-07-10",
+      "additions": 32,
+      "deletions": 27
+    },
+    {
+      "week": "2022-07-17",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "week": "2022-07-24",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-07-31",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-08-07",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "week": "2022-08-14",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-08-21",
+      "additions": 20,
+      "deletions": 11
+    },
+    {
+      "week": "2022-08-28",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "week": "2022-09-04",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-09-11",
+      "additions": 14,
+      "deletions": 67
+    },
+    {
+      "week": "2022-09-18",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "week": "2022-09-25",
+      "additions": 17015,
+      "deletions": 506
+    },
+    {
+      "week": "2022-10-02",
+      "additions": 749,
+      "deletions": 21
+    },
+    {
+      "week": "2022-10-09",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-10-16",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-10-23",
+      "additions": 145077,
+      "deletions": 141
+    },
+    {
+      "week": "2022-10-30",
+      "additions": 2694,
+      "deletions": 703
+    },
+    {
+      "week": "2022-11-06",
+      "additions": 9372,
+      "deletions": 82
+    },
+    {
+      "week": "2022-11-13",
+      "additions": 87522,
+      "deletions": 89
+    },
+    {
+      "week": "2022-11-20",
+      "additions": 22438,
+      "deletions": 143
+    },
+    {
+      "week": "2022-11-27",
+      "additions": 2389,
+      "deletions": 167
+    },
+    {
+      "week": "2022-12-04",
+      "additions": 3891,
+      "deletions": 3799
+    },
+    {
+      "week": "2022-12-11",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-12-18",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2022-12-25",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-01-01",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-01-08",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "week": "2023-01-15",
+      "additions": 37093,
+      "deletions": 21520
+    },
+    {
+      "week": "2023-01-22",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-01-29",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-02-05",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-02-12",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-02-19",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-02-26",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-03-05",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-03-12",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-03-19",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-03-26",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-04-02",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-04-09",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-04-16",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-04-23",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-04-30",
+      "additions": 12,
+      "deletions": 8
+    },
+    {
+      "week": "2023-05-07",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "week": "2023-05-14",
+      "additions": 139,
+      "deletions": 24
+    },
+    {
+      "week": "2023-05-21",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-05-28",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-06-04",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-06-11",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-06-18",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-06-25",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-07-02",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-07-09",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-07-16",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-07-23",
+      "additions": 761,
+      "deletions": 0
+    },
+    {
+      "week": "2023-07-30",
+      "additions": 30,
+      "deletions": 0
+    },
+    {
+      "week": "2023-08-06",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-08-13",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-08-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-08-27",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-09-03",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "week": "2023-09-10",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-09-17",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-09-24",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-10-01",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-10-08",
+      "additions": 22,
+      "deletions": 0
+    },
+    {
+      "week": "2023-10-15",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-10-22",
+      "additions": 112,
+      "deletions": 25
+    },
+    {
+      "week": "2023-10-29",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-11-05",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-11-12",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-11-19",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-11-26",
+      "additions": 384,
+      "deletions": 2
+    },
+    {
+      "week": "2023-12-03",
+      "additions": 1883,
+      "deletions": 604
+    },
+    {
+      "week": "2023-12-10",
+      "additions": 2093,
+      "deletions": 822
+    },
+    {
+      "week": "2023-12-17",
+      "additions": 180716,
+      "deletions": 22
+    },
+    {
+      "week": "2023-12-24",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2023-12-31",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-01-07",
+      "additions": 23,
+      "deletions": 0
+    },
+    {
+      "week": "2024-01-14",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-01-21",
+      "additions": 22,
+      "deletions": 0
+    },
+    {
+      "week": "2024-01-28",
+      "additions": 91782,
+      "deletions": 202
+    },
+    {
+      "week": "2024-02-04",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-02-11",
+      "additions": 25,
+      "deletions": 3619
+    },
+    {
+      "week": "2024-02-18",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-02-25",
+      "additions": 3763,
+      "deletions": 29138
+    },
+    {
+      "week": "2024-03-03",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-03-10",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-03-17",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-03-24",
+      "additions": 1,
+      "deletions": 138
+    },
+    {
+      "week": "2024-03-31",
+      "additions": 696,
+      "deletions": 736
+    },
+    {
+      "week": "2024-04-07",
+      "additions": 937,
+      "deletions": 221
+    },
+    {
+      "week": "2024-04-14",
+      "additions": 22,
+      "deletions": 0
+    },
+    {
+      "week": "2024-04-21",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-04-28",
+      "additions": 27015,
+      "deletions": 1031
+    },
+    {
+      "week": "2024-05-05",
+      "additions": 51154,
+      "deletions": 27447
+    },
+    {
+      "week": "2024-05-12",
+      "additions": 5229,
+      "deletions": 8
+    },
+    {
+      "week": "2024-05-19",
+      "additions": 64,
+      "deletions": 19
+    },
+    {
+      "week": "2024-05-26",
+      "additions": 129902,
+      "deletions": 268
+    },
+    {
+      "week": "2024-06-02",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-06-09",
+      "additions": 16543,
+      "deletions": 25469
+    },
+    {
+      "week": "2024-06-16",
+      "additions": 792,
+      "deletions": 5888460
+    },
+    {
+      "week": "2024-06-23",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-06-30",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-07-07",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-07-14",
+      "additions": 3230,
+      "deletions": 1150
+    },
+    {
+      "week": "2024-07-21",
+      "additions": 403,
+      "deletions": 472
+    },
+    {
+      "week": "2024-07-28",
+      "additions": 7,
+      "deletions": 4
+    },
+    {
+      "week": "2024-08-04",
+      "additions": 1674,
+      "deletions": 1462
+    },
+    {
+      "week": "2024-08-11",
+      "additions": 16772,
+      "deletions": 9969
+    },
+    {
+      "week": "2024-08-18",
+      "additions": 2610,
+      "deletions": 882
+    },
+    {
+      "week": "2024-08-25",
+      "additions": 147128,
+      "deletions": 2965
+    },
+    {
+      "week": "2024-09-01",
+      "additions": 23433,
+      "deletions": 7124
+    },
+    {
+      "week": "2024-09-08",
+      "additions": 10398,
+      "deletions": 5424
+    },
+    {
+      "week": "2024-09-15",
+      "additions": 1083,
+      "deletions": 536
+    },
+    {
+      "week": "2024-09-22",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-09-29",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-10-06",
+      "additions": 10,
+      "deletions": 2
+    },
+    {
+      "week": "2024-10-13",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-10-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-10-27",
+      "additions": 181293,
+      "deletions": 54319
+    },
+    {
+      "week": "2024-11-03",
+      "additions": 23,
+      "deletions": 0
+    },
+    {
+      "week": "2024-11-10",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-11-17",
+      "additions": 89652,
+      "deletions": 628
+    },
+    {
+      "week": "2024-11-24",
+      "additions": 318819,
+      "deletions": 1473
+    },
+    {
+      "week": "2024-12-01",
+      "additions": 50925,
+      "deletions": 50631
+    },
+    {
+      "week": "2024-12-08",
+      "additions": 3416,
+      "deletions": 581
+    },
+    {
+      "week": "2024-12-15",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2024-12-22",
+      "additions": 40,
+      "deletions": 37
+    },
+    {
+      "week": "2024-12-29",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-01-05",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-01-12",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-01-19",
+      "additions": 632,
+      "deletions": 793
+    },
+    {
+      "week": "2025-01-26",
+      "additions": 79,
+      "deletions": 71
+    },
+    {
+      "week": "2025-02-02",
+      "additions": 19,
+      "deletions": 17
+    },
+    {
+      "week": "2025-02-09",
+      "additions": 2469,
+      "deletions": 894
+    },
+    {
+      "week": "2025-02-16",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "week": "2025-02-23",
+      "additions": 3330,
+      "deletions": 16
+    },
+    {
+      "week": "2025-03-02",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-03-09",
+      "additions": 631792,
+      "deletions": 827
+    },
+    {
+      "week": "2025-03-16",
+      "additions": 225,
+      "deletions": 121
+    },
+    {
+      "week": "2025-03-23",
+      "additions": 106,
+      "deletions": 58
+    },
+    {
+      "week": "2025-03-30",
+      "additions": 455,
+      "deletions": 144
+    },
+    {
+      "week": "2025-04-06",
+      "additions": 51,
+      "deletions": 35
+    },
+    {
+      "week": "2025-04-13",
+      "additions": 20,
+      "deletions": 16
+    },
+    {
+      "week": "2025-04-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-04-27",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "week": "2025-05-04",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-05-11",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-05-18",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-05-25",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-06-01",
+      "additions": 42,
+      "deletions": 3
+    },
+    {
+      "week": "2025-06-08",
+      "additions": 1,
+      "deletions": 0
+    },
+    {
+      "week": "2025-06-15",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-06-22",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-06-29",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-07-06",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-07-13",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-07-20",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-07-27",
+      "additions": 4814,
+      "deletions": 3742
+    },
+    {
+      "week": "2025-08-03",
+      "additions": 2939,
+      "deletions": 492
+    },
+    {
+      "week": "2025-08-10",
+      "additions": 3248,
+      "deletions": 2150
+    },
+    {
+      "week": "2025-08-17",
+      "additions": 7764,
+      "deletions": 1389
+    },
+    {
+      "week": "2025-08-24",
+      "additions": 34826,
+      "deletions": 20
+    },
+    {
+      "week": "2025-08-31",
+      "additions": 1965,
+      "deletions": 341
+    },
+    {
+      "week": "2025-09-07",
+      "additions": 5365,
+      "deletions": 2152
+    },
+    {
+      "week": "2025-09-14",
+      "additions": 83,
+      "deletions": 63
+    },
+    {
+      "week": "2025-09-21",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-09-28",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-10-05",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-10-12",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-10-19",
+      "additions": 57,
+      "deletions": 27
+    },
+    {
+      "week": "2025-10-26",
+      "additions": 400,
+      "deletions": 156
+    },
+    {
+      "week": "2025-11-02",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-11-09",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-11-16",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-11-23",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-11-30",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-12-07",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-12-14",
+      "additions": 5,
+      "deletions": 1
+    },
+    {
+      "week": "2025-12-21",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2025-12-28",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2026-01-04",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2026-01-11",
+      "additions": 3,
+      "deletions": 0
+    },
+    {
+      "week": "2026-01-18",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2026-01-25",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2026-02-01",
+      "additions": 0,
+      "deletions": 0
+    },
+    {
+      "week": "2026-02-08",
+      "additions": 432,
+      "deletions": 193
+    },
+    {
+      "week": "2026-02-15",
+      "additions": 9539,
+      "deletions": 1210
+    },
+    {
+      "week": "2026-02-22",
+      "additions": 43350,
+      "deletions": 11053
+    },
+    {
+      "week": "2026-03-01",
+      "additions": 55198,
+      "deletions": 12642
+    },
+    {
+      "week": "2026-03-08",
+      "additions": 22516,
+      "deletions": 3725
+    },
+    {
+      "week": "2026-03-15",
+      "additions": 3625,
+      "deletions": 510
+    },
+    {
+      "week": "2026-03-22",
+      "additions": 6230,
+      "deletions": 924
+    },
+    {
+      "week": "2026-03-29",
+      "additions": 18584,
+      "deletions": 3817
+    },
+    {
+      "week": "2026-04-05",
+      "additions": 13,
+      "deletions": 0
+    },
+    {
+      "week": "2026-04-12",
+      "additions": 12079,
+      "deletions": 779
+    },
+    {
+      "week": "2026-04-19",
+      "additions": 3703,
+      "deletions": 1153
+    },
+    {
+      "week": "2026-04-26",
+      "additions": 515,
+      "deletions": 9
+    },
+    {
+      "week": "2026-05-03",
+      "additions": 1887,
+      "deletions": 166
+    },
+    {
+      "week": "2026-05-10",
+      "additions": 17325,
+      "deletions": 4477
+    },
+    {
+      "week": "2026-05-17",
+      "additions": 15588,
+      "deletions": 4292
+    },
+    {
+      "week": "2026-05-24",
+      "additions": 24148,
+      "deletions": 5428
+    },
+    {
+      "week": "2026-05-31",
+      "additions": 66164,
+      "deletions": 3736
+    },
+    {
+      "week": "2026-06-07",
+      "additions": 215454,
+      "deletions": 20053
+    },
+    {
+      "week": "2026-06-14",
+      "additions": 25895,
+      "deletions": 11145
+    },
+    {
+      "week": "2026-06-21",
+      "additions": 21214,
+      "deletions": 5261
+    },
+    {
+      "week": "2026-06-28",
+      "additions": 343277,
+      "deletions": 104165
+    },
+    {
+      "week": "2026-07-05",
+      "additions": 24217881,
+      "deletions": 21991971
+    }
+  ]
+}
