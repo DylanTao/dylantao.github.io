@@ -102,34 +102,17 @@
       {% endif %}
     </div>
     {% assign desk_usage = site.data.agentic_usage.desk_scene %}
-    {% assign desk_model = site.data.agentic_usage.model_tracking %}
     <p class="home-desk-scene-note" data-home-desk-note aria-hidden="true">
       {% if desk_usage %}
-        {% assign desk_energy = desk_usage.energy_equivalence %}
         <span>
           <span class="home-desk-scene-note-primary">
             <span class="home-desk-scene-note-full">
-              3D desk tally: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens &middot; {{ desk_usage.hours_label }}h
-              {%- if desk_energy %} &middot; ~{{ desk_energy.cut_tree_midpoint }} trees cut{% endif -%}
-              .
+              3D desk tally: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens.
             </span>
             <span class="home-desk-scene-note-compact" aria-hidden="true">
-              {{- desk_usage.commits }}c &middot; {{ desk_usage.tokens_label }} tok &middot; {{ desk_usage.hours_label }}h
-              {%- if desk_energy %} &middot; ~{{ desk_energy.cut_tree_midpoint }} trees{% endif -%}
-              {%- if desk_model -%}
-                <span class="home-desk-scene-model-compact">
-                  {{- desk_model.intended_model | default: 'model pending' | replace: 'gpt-', '' | replace: '-sol', ' Sol' }} &middot;
-                  {{ desk_model.intended_effort | default: 'effort pending' -}}
-                </span>
-              {%- endif -%}
+              {{- desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens
             </span>
           </span>
-          {% if desk_model %}
-            <span class="home-desk-scene-note-secondary">
-              {{- desk_model.intended_model | default: 'model pending' | replace: 'gpt-', '' | replace: '-sol', ' Sol' }} &middot;
-              {{ desk_model.intended_effort | default: 'effort pending' -}}
-            </span>
-          {% endif %}
         </span>
       {% else %}
         <span>

@@ -124,6 +124,18 @@
           and
           <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
         </span>
+        {% if page.research_motion.credit.research_sources %}
+          <span class="home-motion-credit-copy">
+            {{- page.research_motion.credit.research_text | default: 'Interaction rules grounded by' }}
+            {% for source in page.research_motion.credit.research_sources %}
+              {% unless forloop.first -%}
+                {%- if forloop.last %} and {% else %}, {% endif -%}
+              {%- endunless %}
+              <a href="{{ source.url }}">{{ source.label }}</a>
+            {% endfor -%}
+            .
+          </span>
+        {% endif %}
       </p>
     {% endif %}
   </section>

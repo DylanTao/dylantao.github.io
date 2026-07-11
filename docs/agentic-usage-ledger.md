@@ -288,6 +288,14 @@ Do not assume a long-context threshold, cache-write quantity, or actual Codex pr
 - Since-`gpt-5.6-sol` window: 431.728M raw / 430M rounded tokens and 16.05 / 16 rounded hours across 20 retained sessions and 29 retained `gpt-5.6-sol/ultra` turns. The alignment check found zero post-cutover deviations.
 - Evidence: the pending-commit audit scanned 118 repo leaf sessions, retained 21,688 unique usage events, and wrote `_data/agentic_usage.yml`. Public pricing was checked on July 9, 2026. Cache writes remain unpriced because the retained logs do not expose a distinct cache-write bucket.
 
+### 2026-07-10
+
+- Research-grounded homepage motion checkpoint: added interaction-driven kinetic response to the bounded Design/Evaluate/Situate diagram, explicit `commits` and `tokens` wording in the 3D overlay, a quieter proof-card coffee ring, source credit, an intent record, and a reduced-motion visual contract.
+- Published total: 306 revamp commits including the pending checkpoint, 3.1B rounded tokens, 257 rounded agent-hours, 1860 kWh, about 1.2 ten-year urban trees' stored-carbon equivalent, about $2.6K at logged-model Standard short-context rates, and about $2.7K under the separate CodexBar ratio.
+- Desk window: 111 path-scoped commits including the now-committed hero/Sass change; retained-session totals moved to 2.02B rounded tokens, 143 rounded hours, 1212 kWh, and about 0.8 ten-year urban trees' stored-carbon equivalent. Tokens and hours remain an all-repo time-window estimate, not desk-only attribution.
+- Since-`gpt-5.6-sol` window: 11 commits including the pending checkpoint, 490M rounded tokens, and 18 rounded hours across 34 retained `gpt-5.6-sol/ultra` turns; the alignment check found zero deviations.
+- Evidence: the pending-commit audit followed by the post-commit `python bin/audit_agentic_usage.py --write` refresh scanned 123 repo leaf sessions across retained years, counted 24,334 additive usage events before ancestry deduplication, and refreshed `_data/agentic_usage.yml` after the four-viewport scene checks, light/dark sitewide matrix, Docker render, and production Jekyll build passed.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

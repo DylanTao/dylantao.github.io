@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { attachScreenshot, collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
+const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio, stabilizeVisuals } = require("./helpers");
 const { SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
 async function expectMobileChromeInViewport(page, routePath) {
@@ -112,3 +112,42 @@ for (const route of SITEWIDE_ROUTES) {
     }
   });
 }
+
+test("home research motion responds locally and keeps a reduced-motion still", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "representative semantic-motion checkpoint");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  const response = await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  expect(response).not.toBeNull();
+  expect(response.status()).toBeLessThan(400);
+
+  const stage = page.locator("[data-research-motion]");
+  const canvas = page.locator("[data-research-motion-canvas]");
+  await stage.scrollIntoViewIfNeeded();
+  await expect(canvas).toBeVisible();
+  await expect(stage).toHaveAttribute("data-motion-energy", "resting");
+  await attachScreenshot(page, testInfo, "research-motion-resting-desktop-1440", { locator: stage });
+
+  await page.locator('[data-research-mode="evaluate"]').click();
+  await expect(page.locator("[data-research-motion-readout]")).toHaveText("Evaluate");
+  await expect(stage).toHaveAttribute("data-motion-energy", "engaged");
+  await page.mouse.move(2, 2);
+  await expect(stage).toHaveAttribute("data-motion-energy", "resting", { timeout: 2400 });
+
+  const box = await canvas.boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.move(box.x + box.width * 0.54, box.y + box.height * 0.48);
+  await expect(stage).toHaveAttribute("data-motion-energy", "engaged");
+  await attachScreenshot(page, testInfo, "research-motion-engaged-desktop-1440", { locator: stage });
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(stage).toHaveAttribute("data-motion-energy", "resting");
+  await page.waitForTimeout(180);
+  const stillBefore = await canvas.screenshot();
+  await page.waitForTimeout(260);
+  const stillAfter = await canvas.screenshot();
+  expect(screenshotDiffRatio(stillAfter, stillBefore), "reduced motion should render a stable still composition").toBeLessThan(0.0001);
+  await attachScreenshot(page, testInfo, "research-motion-reduced-desktop-1440", { locator: stage });
+  expect(runtimeErrors, "research motion raised browser runtime errors").toEqual([]);
+});

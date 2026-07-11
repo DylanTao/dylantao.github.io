@@ -173,6 +173,12 @@ research_motion:
     stripe_url: https://stripe.com/
     katie_label: Katie Dill at Stripe Sessions
     katie_url: https://stripe.com/at/sessions/2024/craft-and-beauty-the-business-value-of-form-in-function
+    research_text: Interaction rules grounded by
+    research_sources:
+      - label: Jeffrey Heer and collaborators on animated transitions
+        url: https://idl.cs.washington.edu/files/2007-AnimatedTransitions-InfoVis.pdf
+      - label: CMU's Data Interaction Group
+        url: https://dig.cmu.edu/publications/2024-counterpoint.html
   modes:
     - id: design
       label: Design

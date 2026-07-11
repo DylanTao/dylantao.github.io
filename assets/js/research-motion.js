@@ -26,6 +26,8 @@
       previousMode: null,
       transitionStart: 0,
       transitionMs: 420,
+      pulseStartedAt: Number.NEGATIVE_INFINITY,
+      kineticEnergy: 0,
       width: 0,
       height: 0,
       dpr: 1,
@@ -167,27 +169,30 @@
       ctx.restore();
     };
 
-    const drawTraceParticle = (x, y, radius, fill, alpha = 1, angle = 0) => {
+    const drawTraceParticle = (x, y, radius, fill, alpha = 1, angle = 0, energy = 0) => {
+      const boundedEnergy = clamp(energy, 0, 1);
+      const trailLength = lerp(4.6, 7.2, boundedEnergy);
+      const glowRadius = lerp(3, 3.8, boundedEnergy);
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
-      ctx.globalAlpha = alpha * 0.28;
+      ctx.globalAlpha = alpha * lerp(0.24, 0.42, boundedEnergy);
       ctx.strokeStyle = fill;
-      ctx.lineWidth = Math.max(0.7, radius * 0.42);
+      ctx.lineWidth = Math.max(0.7, radius * lerp(0.4, 0.54, boundedEnergy));
       ctx.lineCap = "round";
       ctx.beginPath();
-      ctx.moveTo(-radius * 5.2, 0);
+      ctx.moveTo(-radius * trailLength, 0);
       ctx.lineTo(-radius * 1.5, 0);
       ctx.stroke();
 
       ctx.globalAlpha = alpha;
-      const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 3.2);
+      const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * glowRadius);
       glow.addColorStop(0, fill);
       glow.addColorStop(0.34, fill);
       glow.addColorStop(1, transparentColor(fill));
       ctx.fillStyle = glow;
       ctx.beginPath();
-      ctx.arc(0, 0, radius * 3.2, 0, Math.PI * 2);
+      ctx.arc(0, 0, radius * glowRadius, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.globalAlpha = Math.min(1, alpha + 0.12);
@@ -274,6 +279,20 @@
       state.pointer.intent = lerp(state.pointer.intent, state.pointer.targetIntent, state.pointer.targetIntent > 0 ? 0.066 : 0.09);
     };
 
+    const updateKineticEnergy = (now) => {
+      if (state.reduceMotion) {
+        state.kineticEnergy = 0;
+      } else {
+        const modePulse = clamp(1 - (now - state.pulseStartedAt) / 860, 0, 1);
+        state.kineticEnergy = clamp(Math.max(state.pointer.intent, modePulse * 0.72), 0, 1);
+      }
+
+      const energyState = state.kineticEnergy > 0.12 ? "engaged" : "resting";
+      if (wrap.getAttribute("data-motion-energy") !== energyState) {
+        wrap.setAttribute("data-motion-energy", energyState);
+      }
+    };
+
     const strokeGradient = (pal) => {
       const gradient = ctx.createLinearGradient(0, 0, state.width, state.height);
       gradient.addColorStop(0, pal.lineA);
@@ -299,6 +318,7 @@
       const b = plotBounds();
       const series = state.geometry.design || [];
       const intent = state.pointer.intent;
+      const kineticEnergy = state.kineticEnergy;
       const pointerX = (state.pointer.x - 0.5) * lerp(12, 52, intent);
       const pointerY = (state.pointer.y - 0.5) * lerp(6, 28, intent);
       const centerX = b.cx + pointerX;
@@ -344,7 +364,8 @@
       designParticles.forEach((particle) => {
         const laneCount = state.width < 560 ? 3 : 5;
         const laneT = clamp((particle.lane + 0.55) / laneCount, 0.08, 0.92);
-        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.035 * particle.speed);
+        const routeSpeed = lerp(0.9, 1.58, kineticEnergy);
+        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.035 * particle.speed * routeSpeed);
         const y0 = lerp(top, bottom, laneT) + Math.sin(time * 0.48 + particle.phase) * b.height * 0.015;
         const y1 = lerp(bottom, top, laneT) - Math.sin(time * 0.44 + particle.phase) * b.height * 0.012;
         const compareLift = Math.sin(laneT * Math.PI) * b.height * 0.11;
@@ -359,7 +380,15 @@
           : cubic(centerY, centerY - pointerPull, y1 - compareLift, y1, localT);
         const angle = firstHalf ? Math.atan2(centerY - y0, centerX - leftX) : Math.atan2(y1 - centerY, rightX - centerX);
         const particleAlpha = state.reduceMotion ? 0.34 : 0.3 + 0.22 * Math.sin(routeT * Math.PI);
-        drawTraceParticle(x, y, state.width < 560 ? 1 : 1.25, particle.lane % 2 ? pal.lineC : pal.lineB, particleAlpha * alpha, angle);
+        drawTraceParticle(
+          x,
+          y,
+          state.width < 560 ? 1 : 1.25,
+          particle.lane % 2 ? pal.lineC : pal.lineB,
+          particleAlpha * lerp(0.92, 1.16, kineticEnergy) * alpha,
+          angle,
+          kineticEnergy
+        );
       });
 
       drawDot(centerX, centerY, state.width < 560 ? 2.8 : 3.6, pal.lineB, 0.74 * alpha);
@@ -375,7 +404,8 @@
       const floor = b.bottom - b.height * 0.05;
       const top = b.top + b.height * 0.07;
       const pointerLift = (0.5 - state.pointer.y) * b.height * 0.18 * state.pointer.intent;
-      const scanT = state.reduceMotion ? 0.58 : wrap01(time * 0.11);
+      const kineticEnergy = state.kineticEnergy;
+      const scanT = state.reduceMotion ? 0.58 : wrap01(time * 0.11 * lerp(0.9, 1.46, kineticEnergy));
       const scanX = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, scanT);
 
       beginMode(pal, 0.14 * alpha, 1);
@@ -438,13 +468,21 @@
 
       const evaluateParticles = state.geometry.particles?.evaluate || [];
       evaluateParticles.forEach((particle) => {
-        const progress = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.085 * particle.speed);
+        const progress = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.085 * particle.speed * lerp(0.9, 1.62, kineticEnergy));
         const x = lerp(b.left + b.width * 0.06, b.right - b.width * 0.06, progress);
         const evidence = 0.22 + 0.34 * Math.sin(progress * Math.PI) + 0.035 * Math.sin(time * 1.8 + particle.phase);
         const y = floor - b.height * evidence + pointerLift * Math.sin(progress * Math.PI) * 0.7;
         const pulse = state.reduceMotion ? 0.58 : 0.5 + 0.5 * Math.sin(time * 3.2 + particle.phase);
         const color = particle.lane % 3 === 0 ? pal.lineB : particle.lane % 3 === 1 ? pal.lineA : pal.lineC;
-        drawTraceParticle(x, clamp(y, top, floor), state.width < 560 ? 1 : 1.25 + pulse * 0.28, color, (0.22 + pulse * 0.22) * alpha, -Math.PI / 2);
+        drawTraceParticle(
+          x,
+          clamp(y, top, floor),
+          state.width < 560 ? 1 : 1.25 + pulse * 0.28,
+          color,
+          (0.22 + pulse * 0.22) * lerp(0.92, 1.14, kineticEnergy) * alpha,
+          -Math.PI / 2,
+          kineticEnergy
+        );
       });
 
       drawGuideLabel("trace", b.left + b.width * 0.05, floor + 20, pal, "left", alpha);
@@ -456,6 +494,7 @@
       const b = plotBounds();
       const series = state.geometry.situated || [];
       const intent = state.pointer.intent;
+      const kineticEnergy = state.kineticEnergy;
       const centerX = b.cx + (state.pointer.x - 0.5) * lerp(b.width * 0.02, b.width * 0.082, intent);
       const centerY = b.cy + (state.pointer.y - 0.5) * lerp(b.height * 0.02, b.height * 0.088, intent);
       const radiusX = b.width * 0.36;
@@ -516,8 +555,9 @@
       const situatedParticles = state.geometry.particles?.situated || [];
       situatedParticles.forEach((particle) => {
         const source = anchors[particle.lane % anchors.length];
-        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.032 * particle.speed);
-        const travel = state.reduceMotion ? wrap01(particle.seed + 0.28) : wrap01(particle.seed + time * 0.072 * particle.speed);
+        const speedScale = lerp(0.9, 1.56, kineticEnergy);
+        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.032 * particle.speed * speedScale);
+        const travel = state.reduceMotion ? wrap01(particle.seed + 0.28) : wrap01(particle.seed + time * 0.072 * particle.speed * speedScale);
         const angle = Math.PI * 2 * orbit + Math.sin(time * 0.38 + particle.phase) * 0.06;
         const targetX = clamp(centerX + Math.cos(angle) * radiusX, b.left, b.right);
         const targetY = clamp(centerY + Math.sin(angle) * radiusY, b.top, b.bottom);
@@ -531,8 +571,9 @@
           y,
           state.width < 560 ? 1 : 1.2,
           particle.lane % 2 ? pal.lineC : pal.lineA,
-          0.28 * alpha,
-          Math.atan2(nextY - y, nextX - x)
+          0.28 * lerp(0.92, 1.2, kineticEnergy) * alpha,
+          Math.atan2(nextY - y, nextX - x),
+          kineticEnergy
         );
       });
 
@@ -555,6 +596,7 @@
       const pal = palette();
 
       updatePointer();
+      updateKineticEnergy(now);
       ctx.clearRect(0, 0, state.width, state.height);
       drawBackground(pal);
 
@@ -601,6 +643,7 @@
       if (nextMode !== state.mode) {
         state.previousMode = canCrossfadeModes() ? state.mode : null;
         state.transitionStart = now;
+        state.pulseStartedAt = now;
         state.mode = nextMode;
       }
 

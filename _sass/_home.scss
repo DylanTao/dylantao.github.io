@@ -1791,16 +1791,16 @@ html[data-theme="dark"] .home-record-card-link {
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -4.05rem;
-  right: clamp(-1.35rem, -1.75vw, -0.55rem);
-  width: min(18.2rem, 50%);
+  top: -1.75rem;
+  right: clamp(-1.45rem, -1.6vw, -0.62rem);
+  width: min(13.8rem, 43%);
   aspect-ratio: 1 / 1;
   z-index: 9;
   background: var(--home-coffee-stain-image) center / contain no-repeat;
   content: "";
   filter: saturate(1.08) contrast(1.04);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.42);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.28);
   pointer-events: none;
   transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, -12deg))
     scale(var(--home-coffee-stain-scale, 1));
