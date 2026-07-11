@@ -80,6 +80,7 @@ github_activity: true
         aria-label="Full history overview with the selected time window highlighted"
       ></svg>
     </div>
+
   </section>
 
   <details class="github-activity-method">

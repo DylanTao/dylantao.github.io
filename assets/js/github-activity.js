@@ -140,18 +140,9 @@
     const deletions = data.reduce((sum, item) => sum + item.deletions, 0);
     const scope = range === "all" ? "All history" : range + (range === "1" ? " year" : " years");
     rangeSummary.textContent =
-      scope +
-      " · " +
-      number.format(active.length) +
-      " active weeks · +" +
-      compact(additions) +
-      " added · −" +
-      compact(deletions) +
-      " removed";
+      scope + " · " + number.format(active.length) + " active weeks · +" + compact(additions) + " added · −" + compact(deletions) + " removed";
 
-    const largest = data.reduce((best, item) =>
-      Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best
-    );
+    const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
     const medianMagnitude = percentile(
       active.map((item) => Math.max(item.additions, item.deletions)),
       0.5
@@ -223,7 +214,9 @@
         addText(grid, (direction > 0 ? "+" : "−") + compact(tick), left - 8, yy + 4, "end", palette.muted, 500);
       });
     });
-    grid.append(element("line", { x1: left, y1: baseline, x2: width - right, y2: baseline, stroke: palette.text, "stroke-opacity": 0.38, "stroke-width": 1.4 }));
+    grid.append(
+      element("line", { x1: left, y1: baseline, x2: width - right, y2: baseline, stroke: palette.text, "stroke-opacity": 0.38, "stroke-width": 1.4 })
+    );
 
     const yearTicks = new Set();
     data.forEach((row) => {
@@ -245,7 +238,9 @@
 
     const addPoints = data.map((row) => [x(row.date), y(row.additions)]);
     const removePoints = data.map((row) => [x(row.date), y(-row.deletions)]);
-    const addStems = data.map((row) => "M " + x(row.date).toFixed(2) + " " + baseline.toFixed(2) + " L " + x(row.date).toFixed(2) + " " + y(row.additions).toFixed(2)).join(" ");
+    const addStems = data
+      .map((row) => "M " + x(row.date).toFixed(2) + " " + baseline.toFixed(2) + " L " + x(row.date).toFixed(2) + " " + y(row.additions).toFixed(2))
+      .join(" ");
     const removeStems = data
       .map((row) => "M " + x(row.date).toFixed(2) + " " + baseline.toFixed(2) + " L " + x(row.date).toFixed(2) + " " + y(-row.deletions).toFixed(2))
       .join(" ");
@@ -263,9 +258,7 @@
       })
     );
 
-    const largest = data.reduce((best, item) =>
-      Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best
-    );
+    const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
     const largestX = x(largest.date);
     chart.append(
       element("line", {
@@ -401,7 +394,9 @@
       })
     );
     overview.append(element("line", { x1: left, y1: baseline, x2: width - right, y2: baseline, stroke: palette.grid, "stroke-width": 1 }));
-    const addStems = rows.map((row) => "M " + x(row.date).toFixed(2) + " " + baseline + " L " + x(row.date).toFixed(2) + " " + y(row.additions).toFixed(2)).join(" ");
+    const addStems = rows
+      .map((row) => "M " + x(row.date).toFixed(2) + " " + baseline + " L " + x(row.date).toFixed(2) + " " + y(row.additions).toFixed(2))
+      .join(" ");
     const removeStems = rows
       .map((row) => "M " + x(row.date).toFixed(2) + " " + baseline + " L " + x(row.date).toFixed(2) + " " + y(-row.deletions).toFixed(2))
       .join(" ");
