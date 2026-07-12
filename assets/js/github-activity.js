@@ -102,8 +102,7 @@
 
   const compact = (value) => short.format(Math.abs(value));
   const signed = (value, positive) => (positive ? "+" : "\u2212") + number.format(Math.abs(value));
-  const pathFor = (points) =>
-    points.map((point, index) => (index ? "L " : "M ") + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ");
+  const pathFor = (points) => points.map((point, index) => (index ? "L " : "M ") + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ");
   const areaPath = (points, baseline) =>
     points.length
       ? "M " +
@@ -182,9 +181,7 @@
       compact(deletions) +
       " removed";
 
-    const largest = data.reduce((best, item) =>
-      Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best
-    );
+    const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
     const busiest = hasCommitData ? data.reduce((best, item) => (item.commits > best.commits ? item : best)) : null;
     const medianMagnitude = percentile(
       active.map((item) => Math.max(item.additions, item.deletions)),
@@ -197,9 +194,7 @@
       compact(largest.additions) +
       " / \u2212" +
       compact(largest.deletions) +
-      (hasCommitData
-        ? ". Highest commit week \u00b7 " + dateLabel.format(busiest.date) + " \u00b7 " + number.format(busiest.commits)
-        : "") +
+      (hasCommitData ? ". Highest commit week \u00b7 " + dateLabel.format(busiest.date) + " \u00b7 " + number.format(busiest.commits) : "") +
       ". Median active-week line magnitude \u00b7 " +
       compact(medianMagnitude) +
       ".";
@@ -356,9 +351,7 @@
       );
     }
 
-    const largest = data.reduce((best, item) =>
-      Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best
-    );
+    const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
     const largestX = x(largest.date);
     chart.append(
       element("line", {
