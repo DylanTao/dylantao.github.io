@@ -7,7 +7,7 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 315
+  commits: 316
   token_count: 3120000000
   tokens_label: 3.12B
   hours_count: 259
@@ -359,7 +359,7 @@ model_tracking:
   public_note: "Dev work now: gpt-5.6-sol · ultra."
   caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed.
 since_gpt_5_6:
-  commits: 20
+  commits: 21
   token_count: 520000000
   tokens_label: 520M
   hours_count: 20
@@ -486,18 +486,18 @@ since_gpt_5_6:
 local_lifetime:
   sessions: 314
   turns: 1136
-  usage_events: 50060
-  raw_token_count: 7376338172
-  token_count: 7380000000
-  tokens_label: 7.38B
-  hours_count: 359
-  hours_label: "359"
+  usage_events: 50318
+  raw_token_count: 7417721920
+  token_count: 7420000000
+  tokens_label: 7.42B
+  hours_count: 360
+  hours_label: "360"
   token_usage:
-    input_tokens: 7353061633
-    cached_input_tokens: 7013188992
-    output_tokens: 22620628
-    reasoning_output_tokens: 7164081
-    total_tokens: 7376338172
+    input_tokens: 7394378700
+    cached_input_tokens: 7053849472
+    output_tokens: 22687309
+    reasoning_output_tokens: 7186733
+    total_tokens: 7417721920
   model_effort_breakdown:
     gpt-5.5/xhigh:
       model: gpt-5.5
@@ -517,12 +517,12 @@ local_lifetime:
       turns: 428
       sessions: 256
       token_usage:
-        input_tokens: 2874843811
-        cached_input_tokens: 2768601600
-        output_tokens: 7276710
-        reasoning_output_tokens: 2947970
-        total_tokens: 2882120521
-      raw_hours: 137.6584
+        input_tokens: 2916160878
+        cached_input_tokens: 2809262080
+        output_tokens: 7343391
+        reasoning_output_tokens: 2970622
+        total_tokens: 2923504269
+      raw_hours: 138.7852
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, short context
@@ -542,11 +542,11 @@ local_lifetime:
     cache_write_tokens: null
     cache_write_note: gpt-5.6-sol cache writes are listed at $6.25 / 1M input tokens, but retained logs do not expose cache-write tokens, so that rate is not applied.
     priced_token_usage:
-      input_tokens: 7353061633
-      cached_input_tokens: 7013188992
-      output_tokens: 22620628
-      reasoning_output_tokens: 7164081
-      total_tokens: 7376338172
+      input_tokens: 7394378700
+      cached_input_tokens: 7053849472
+      output_tokens: 22687309
+      reasoning_output_tokens: 7186733
+      total_tokens: 7417721920
     unpriced_token_usage:
       input_tokens: 0
       cached_input_tokens: 0
@@ -569,14 +569,14 @@ local_lifetime:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 2874843811
-          cached_input_tokens: 2768601600
-          output_tokens: 7276710
-          reasoning_output_tokens: 2947970
-          total_tokens: 2882120521
-        uncached_input_tokens: 106242211
-        usd_estimate: 2133.81
-    usd_estimate: 5884.58
+          input_tokens: 2916160878
+          cached_input_tokens: 2809262080
+          output_tokens: 7343391
+          reasoning_output_tokens: 2970622
+          total_tokens: 2923504269
+        uncached_input_tokens: 106898798
+        usd_estimate: 2159.43
+    usd_estimate: 5910.19
     usd_midpoint: 5900
     usd_label: ~$5.9K API cosplay
     caveat: API list-price equivalence from logged short-context model rates only; cache-write tokens, long-context thresholds, and actual Codex billing are not exposed.

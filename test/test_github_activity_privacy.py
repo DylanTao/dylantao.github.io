@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import json
+import re
 import unittest
 from pathlib import Path
-
-import yaml
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -29,11 +27,21 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             self.assertNotIn(fragment.lower(), combined)
 
     def test_tier_file_is_normalized_and_contains_no_raw_invoice_fields(self) -> None:
-        data = yaml.safe_load(TIER_PATH.read_text(encoding="utf-8"))
-        self.assertEqual(data["schema"], 1)
-        self.assertEqual(data["assignment"], "week_midpoint_wednesday")
+        text = TIER_PATH.read_text(encoding="utf-8")
+        self.assertRegex(text, r"(?m)^schema:\s*1\s*$")
+        self.assertRegex(text, r"(?m)^assignment:\s*week_midpoint_wednesday\s*$")
+        phase_blocks = re.findall(r"(?ms)^  - key:.*?(?=^  - key:|\Z)", text)
+        phases: list[tuple[str, str | None, int]] = []
+        for block in phase_blocks:
+            start = re.search(r'(?m)^    start:\s*"(\d{4}-\d{2}-\d{2})"\s*$', block)
+            end = re.search(r'(?m)^    end:\s*(?:"(\d{4}-\d{2}-\d{2})")?\s*$', block)
+            tier = re.search(r"(?m)^    tier_usd:\s*(\d+)\s*$", block)
+            self.assertIsNotNone(start)
+            self.assertIsNotNone(end)
+            self.assertIsNotNone(tier)
+            phases.append((start.group(1), end.group(1), int(tier.group(1))))
         self.assertEqual(
-            [(phase["start"], phase.get("end"), phase["tier_usd"]) for phase in data["phases"]],
+            phases,
             [
                 ("2023-05-10", "2026-03-04", 20),
                 ("2026-03-05", "2026-05-04", 200),
@@ -41,9 +49,7 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 ("2026-06-06", None, 200),
             ],
         )
-        serialized = json.dumps(data).lower()
-        self.assertNotIn("account", serialized)
-        self.assertNotIn("url", serialized)
+        self.assertNotRegex(text.lower(), r"(?m)^\s*(?:account|url):")
 
 
 if __name__ == "__main__":

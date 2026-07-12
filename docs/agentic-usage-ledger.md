@@ -315,10 +315,10 @@ Do not assume a long-context threshold, cache-write quantity, or actual Codex pr
 
 ### 2026-07-12
 
-- Retained-local history became a separate public context scope with a Jun 19 boundary: 7,376,338,172 raw / 7.38B rounded tracked tokens across 314 counted sessions and 359 rounded agent-hours, with a ~$5.9K logged-model Standard short-context API equivalence. This is retained device history, not OpenAI account lifetime usage or an actual bill; unobserved cache writes and long-context premiums are excluded.
-- Model mix in that retained-local scope: 4,494,217,651 tokens attributed to `gpt-5.5/xhigh` and 2,882,120,521 to `gpt-5.6-sol/ultra`. The all-local post-cutover policy check observed 424 retained contexts with zero deviations.
+- Retained-local history became a separate public context scope with a Jun 19 boundary: 7,417,721,920 raw / 7.42B rounded tracked tokens across 314 counted sessions and 360 rounded agent-hours, with a ~$5.9K logged-model Standard short-context API equivalence. This is retained device history, not OpenAI account lifetime usage or an actual bill; unobserved cache writes and long-context premiums are excluded.
+- Model mix in that retained-local scope: 4,494,217,651 tokens attributed to `gpt-5.5/xhigh` and 2,923,504,269 to `gpt-5.6-sol/ultra`. The all-local post-cutover policy check observed 424 retained contexts with zero deviations.
 - The site-only public snapshot remains preserved at 3.12B rounded tokens and 259 hours because this machine had no first-cwd site sessions; its complete git history still refreshed independently. The cumulative retained-local scope now also fails closed on empty or lower partial archives so cross-machine or deleted-log gaps cannot make lifetime evidence shrink.
-- Evidence: the final post-commit `python bin/audit_agentic_usage.py --write` scan covered 316 retained local leaf sessions across all cwd values, counted 50,060 post-boundary usage events, and refreshed `_data/agentic_usage.yml` after the responsive, interaction, privacy, and reduced-motion QA pass.
+- Evidence: the final follow-up `python bin/audit_agentic_usage.py --write` scan covered 316 retained local leaf sessions across all cwd values, counted 50,318 post-boundary usage events, and refreshed `_data/agentic_usage.yml` after the responsive, interaction, privacy, and reduced-motion QA pass.
 
 ## Future Entry Template
 
