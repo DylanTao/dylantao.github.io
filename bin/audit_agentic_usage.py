@@ -100,26 +100,42 @@ LOCAL_LIFETIME_CHECK_FIELDS = (
     ("api_cost_equivalence", "usd_label"),
     ("api_cost_equivalence", "unpriced_token_usage", "total_tokens"),
 )
+ACCOUNT_LIFETIME_CHECK_FIELDS = (
+    ("token_count",),
+    ("tokens_label",),
+    ("api_cost_equivalence", "usd_midpoint"),
+    ("api_cost_equivalence", "usd_label"),
+    ("api_cost_equivalence", "observed_usd_per_million_tokens"),
+    ("recent_activity", "sparkline_points"),
+)
 
 PRICE_SOURCE_URL = "https://developers.openai.com/api/docs/pricing"
-MODEL_PRICE_AS_OF = "2026-07-09"
+MODEL_PRICE_AS_OF = "2026-07-12"
+LONG_CONTEXT_THRESHOLD_INPUT_TOKENS = 272_000
 MODEL_STANDARD_RATES: dict[str, dict[str, float | None]] = {
     "gpt-5.5": {
         "input_usd_per_million": 5.00,
         "cached_input_usd_per_million": 0.50,
         "output_usd_per_million": 30.00,
         "cache_write_input_usd_per_million": None,
+        "long_context_input_usd_per_million": 10.00,
+        "long_context_cached_input_usd_per_million": 1.00,
+        "long_context_output_usd_per_million": 45.00,
+        "long_context_cache_write_input_usd_per_million": None,
     },
     "gpt-5.6-sol": {
         "input_usd_per_million": 5.00,
         "cached_input_usd_per_million": 0.50,
         "output_usd_per_million": 30.00,
         "cache_write_input_usd_per_million": 6.25,
+        "long_context_input_usd_per_million": 10.00,
+        "long_context_cached_input_usd_per_million": 1.00,
+        "long_context_output_usd_per_million": 45.00,
+        "long_context_cache_write_input_usd_per_million": 12.50,
     },
 }
 API_COST_CAVEAT = (
-    "API list-price equivalence from logged short-context model rates only; "
-    "cache-write tokens, long-context thresholds, and actual Codex billing are not exposed."
+    "API list-price replay from logged request tokens; cache writes and actual Codex billing are not included."
 )
 LEGACY_PRICE_MODEL = "gpt-5.3-codex"
 LEGACY_PRICE_AS_OF = "2026-06-19"
@@ -134,7 +150,7 @@ CODEXBAR_COST_SOURCE = "CodexBar local dashboard screenshot"
 CODEXBAR_COST_SOURCE_AS_OF = "2026-06-19"
 CODEXBAR_REFERENCE_USD = 2616.40
 CODEXBAR_REFERENCE_TOKENS = 3_000_000_000
-CODEXBAR_COST_CAVEAT = "CodexBar-ratio estimate only; actual Codex product or subscription cost may differ."
+CODEXBAR_COST_CAVEAT = "Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history."
 LEDGER_HEADER = """# Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 """
@@ -621,7 +637,7 @@ def money_amount_label(value: float) -> str:
 
 
 def money_label(value: float) -> str:
-    return f"{money_amount_label(value)} API cosplay"
+    return f"{money_amount_label(value)} API-rate replay"
 
 
 def money_range_label(low: float, high: float) -> str:
@@ -635,7 +651,7 @@ def codexbar_cost_estimate(token_count: int) -> dict[str, Any]:
     usd_midpoint = token_count * usd_per_million / 1_000_000
     usd_label = money_amount_label(usd_midpoint)
     return {
-        "label": "CodexBar cost lens",
+        "label": "Legacy CodexBar ratio",
         "source": CODEXBAR_COST_SOURCE,
         "source_as_of": CODEXBAR_COST_SOURCE_AS_OF,
         "source_note": "$2,616.40 / 3B tokens from the local CodexBar dashboard screenshot.",
@@ -646,54 +662,82 @@ def codexbar_cost_estimate(token_count: int) -> dict[str, Any]:
         "usd_midpoint": rounded_money(usd_midpoint),
         "usd_label": usd_label,
         "caveat": CODEXBAR_COST_CAVEAT,
-        "public_note": f"Sam's money waste so far: {usd_label}",
+        "public_note": f"Legacy CodexBar ratio: {usd_label} (diagnostic only).",
     }
 
 
-def api_cost_equivalence(model_breakdown: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    """Price model-attributed tokens at logged-model Standard short rates."""
+def api_cost_equivalence(scoped_events: Iterable[CountedUsageEvent]) -> dict[str, Any]:
+    """Replay logged requests against current Standard short/long-context rates."""
 
     usd_estimate = 0.0
     priced_usage = empty_usage()
     unpriced_usage = empty_usage()
     price_breakdown: dict[str, dict[str, Any]] = {}
+    long_context_usage = empty_usage()
+    long_context_request_count = 0
+    long_context_usd_estimate = 0.0
 
-    for key, bucket in sorted(model_breakdown.items()):
-        usage = normalized_usage(bucket.get("token_usage"))
-        model = str(bucket.get("model") or "unknown")
-        effort = str(bucket.get("effort") or "unknown")
+    for event in scoped_events:
+        usage = normalized_usage(event.usage)
+        model = str(event.model or "unknown")
+        effort = str(event.effort or "unknown")
+        key = model_effort_key(model, effort)
         rates = MODEL_STANDARD_RATES.get(model)
         if rates is None:
             add_usage(unpriced_usage, usage)
             continue
 
         uncached_input = max(0, usage["input_tokens"] - usage["cached_input_tokens"])
+        is_long_context = usage["input_tokens"] > LONG_CONTEXT_THRESHOLD_INPUT_TOKENS
+        prefix = "long_context_" if is_long_context else ""
         bucket_cost = (
-            uncached_input * float(rates["input_usd_per_million"] or 0)
-            + usage["cached_input_tokens"] * float(rates["cached_input_usd_per_million"] or 0)
-            + usage["output_tokens"] * float(rates["output_usd_per_million"] or 0)
+            uncached_input * float(rates[f"{prefix}input_usd_per_million"] or 0)
+            + usage["cached_input_tokens"] * float(rates[f"{prefix}cached_input_usd_per_million"] or 0)
+            + usage["output_tokens"] * float(rates[f"{prefix}output_usd_per_million"] or 0)
         ) / 1_000_000
         usd_estimate += bucket_cost
         add_usage(priced_usage, usage)
-        price_breakdown[key] = {
-            "model": model,
-            "effort": effort,
-            "token_usage": usage,
-            "uncached_input_tokens": uncached_input,
-            "usd_estimate": round(bucket_cost, 2),
-        }
+        bucket = price_breakdown.setdefault(
+            key,
+            {
+                "model": model,
+                "effort": effort,
+                "token_usage": empty_usage(),
+                "uncached_input_tokens": 0,
+                "request_count": 0,
+                "long_context_request_count": 0,
+                "long_context_token_usage": empty_usage(),
+                "usd_estimate": 0.0,
+            },
+        )
+        add_usage(bucket["token_usage"], usage)
+        bucket["uncached_input_tokens"] += uncached_input
+        bucket["request_count"] += 1
+        bucket["usd_estimate"] += bucket_cost
+        if is_long_context:
+            long_context_request_count += 1
+            long_context_usd_estimate += bucket_cost
+            add_usage(long_context_usage, usage)
+            bucket["long_context_request_count"] += 1
+            add_usage(bucket["long_context_token_usage"], usage)
+
+    for bucket in price_breakdown.values():
+        bucket["usd_estimate"] = round(bucket["usd_estimate"], 2)
 
     usd_label = money_label(usd_estimate)
     return {
         "label": "Logged-model API cost lens",
-        "pricing_tier": "Standard, short context",
+        "pricing_tier": "Standard, request-aware",
         "pricing_as_of": MODEL_PRICE_AS_OF,
         "source_url": PRICE_SOURCE_URL,
         "model_rates": copy.deepcopy(MODEL_STANDARD_RATES),
+        "long_context_threshold_input_tokens": LONG_CONTEXT_THRESHOLD_INPUT_TOKENS,
+        "long_context_request_count": long_context_request_count,
+        "long_context_token_usage": long_context_usage,
+        "long_context_usd_estimate": round(long_context_usd_estimate, 2),
         "cache_write_tokens": None,
         "cache_write_note": (
-            "gpt-5.6-sol cache writes are listed at $6.25 / 1M input tokens, "
-            "but retained logs do not expose cache-write tokens, so that rate is not applied."
+            "Retained logs do not identify cache-write tokens, so cache-write rates are not applied."
         ),
         "priced_token_usage": priced_usage,
         "unpriced_token_usage": unpriced_usage,
@@ -935,7 +979,7 @@ def audit_scope(dataset: UsageDataset, cutoff: datetime, commit_count: int) -> d
         "hours_label": str(hours_count),
         "model_effort_breakdown": model_breakdown,
         "energy_equivalence": energy,
-        "api_cost_equivalence": api_cost_equivalence(model_breakdown),
+        "api_cost_equivalence": api_cost_equivalence(scoped_events),
         "legacy_api_cost_equivalence": legacy_api_cost_equivalence(raw_usage),
         "codexbar_cost_estimate": codexbar_cost_estimate(rounded_tokens),
     }
@@ -1076,17 +1120,64 @@ def merge_local_lifetime_data(current: dict[str, Any], result: dict[str, Any]) -
     next_scope["api_cost_equivalence"] = result["api_cost_equivalence"]
     next_scope.update(
         {
-            "label": "Retained local Codex history",
+            "label": "Local Codex replay",
             "since": "2026-06-19 00:00 PDT",
             "since_label": "Jun 19, 2026",
-            "confidence": "retained-local-history estimate",
-            "note": (
-                "Deduplicated retained local Codex sessions since Jun 19, 2026. "
-                "This is not account lifetime usage or an actual bill; ChatGPT exposes usage limits, "
-                "not a lifetime token counter."
-            ),
+            "confidence": "deduplicated retained-log slice",
+            "note": "Deduplicated request usage replayed from retained logs on this machine since Jun 19, 2026.",
         }
     )
+    return next_scope
+
+
+def sparkline_points(daily: list[dict[str, Any]], width: float = 112, height: float = 28) -> str:
+    values = [max(0, int(row.get("tokens") or 0)) for row in daily]
+    if not values:
+        return ""
+    maximum = max(values) or 1
+    step = width / max(1, len(values) - 1)
+    padding = 2.0
+    usable_height = height - padding * 2
+    return " ".join(
+        f"{index * step:.2f},{height - padding - (value / maximum) * usable_height:.2f}"
+        for index, value in enumerate(values)
+    )
+
+
+def refresh_account_lifetime_data(current: dict[str, Any], local_replay: dict[str, Any]) -> dict[str, Any]:
+    """Keep the manual account snapshot and refresh its public API-rate replay."""
+
+    next_scope = copy.deepcopy(current)
+    account_tokens = int(next_scope.get("token_count") or 0)
+    local_cost = local_replay.get("api_cost_equivalence") or {}
+    priced_tokens = int(nested_value(local_cost, ("priced_token_usage", "total_tokens")) or 0)
+    observed_cost = float(local_cost.get("usd_estimate") or 0)
+    if account_tokens > 0 and priced_tokens > 0 and observed_cost > 0:
+        observed_usd_per_million = observed_cost * 1_000_000 / priced_tokens
+        account_cost = account_tokens * observed_usd_per_million / 1_000_000
+        next_scope["api_cost_equivalence"] = {
+            "label": "Account-lifetime API-rate replay",
+            "pricing_as_of": MODEL_PRICE_AS_OF,
+            "source_url": PRICE_SOURCE_URL,
+            "method": "Account tokens scaled by the retained local model, cache-read, and long-context request mix.",
+            "observed_local_token_count": priced_tokens,
+            "observed_local_usd_estimate": round(observed_cost, 2),
+            "observed_usd_per_million_tokens": round(observed_usd_per_million, 3),
+            "usd_estimate": round(account_cost, 2),
+            "usd_midpoint": rounded_money(account_cost),
+            "usd_label": money_amount_label(account_cost),
+        }
+
+    recent = copy.deepcopy(next_scope.get("recent_activity") or {})
+    daily = recent.get("daily") if isinstance(recent.get("daily"), list) else []
+    if daily:
+        recent["sparkline_points"] = sparkline_points(daily)
+        recent["start_date"] = str(daily[0].get("date") or "")
+        recent["end_date"] = str(daily[-1].get("date") or "")
+        peak = max(daily, key=lambda row: int(row.get("tokens") or 0))
+        recent["peak_date"] = str(peak.get("date") or "")
+        recent["peak_tokens"] = int(peak.get("tokens") or 0)
+        next_scope["recent_activity"] = recent
     return next_scope
 
 
@@ -1101,8 +1192,8 @@ def build_ledger_data(
     next_data = copy.deepcopy(current)
     next_data["updated_at"] = date.today().isoformat()
     next_data["source_note"] = (
-        "Estimated from retained local Codex turn/token logs plus git history; "
-        "audit with python bin/audit_agentic_usage.py before publish."
+        "Codex account activity supplies lifetime totals; retained local logs and git history "
+        "supply scoped estimates. Audit with python bin/audit_agentic_usage.py before publish."
     )
     next_data["model_tracking"] = copy.deepcopy(model_tracking)
     next_data["total"] = merge_scope_data(next_data.get("total", {}), total)
@@ -1131,6 +1222,10 @@ def build_ledger_data(
     next_data["local_lifetime"] = merge_local_lifetime_data(
         next_data.get("local_lifetime", {}),
         local_lifetime,
+    )
+    next_data["account_lifetime"] = refresh_account_lifetime_data(
+        next_data.get("account_lifetime", {}),
+        next_data["local_lifetime"],
     )
     return next_data
 
@@ -1163,6 +1258,15 @@ def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) ->
         proposed_value = nested_value(proposed_lifetime, field_path)
         if current_value != proposed_value:
             label = ".".join(("local_lifetime", *field_path))
+            mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
+
+    current_account = current.get("account_lifetime", {}) if isinstance(current, dict) else {}
+    proposed_account = proposed.get("account_lifetime", {}) if isinstance(proposed, dict) else {}
+    for field_path in ACCOUNT_LIFETIME_CHECK_FIELDS:
+        current_value = nested_value(current_account, field_path)
+        proposed_value = nested_value(proposed_account, field_path)
+        if current_value != proposed_value:
+            label = ".".join(("account_lifetime", *field_path))
             mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
 
     for field_path in MODEL_TRACKING_CHECK_FIELDS:
@@ -1251,7 +1355,7 @@ def print_scope(
     print(f"kg_co2e_midpoint: {energy['kg_co2e_midpoint']}")
     print(f"cut_tree_midpoint: {energy['cut_tree_midpoint']}")
     print(f"cut_tree_range: {energy['cut_tree_range']}")
-    print(f"api_cost_equivalence: {cost['usd_label']} (logged-model Standard short rates)")
+    print(f"api_cost_equivalence: {cost['usd_label']} (request-aware Standard rates)")
     print(f"legacy_api_cost_equivalence: {legacy_cost['usd_label']} ({LEGACY_PRICE_MODEL})")
     print(
         f"codexbar_cost_estimate: {codexbar_cost['usd_label']} "

@@ -89,6 +89,27 @@ def write_log(path: Path, events: list[dict]) -> None:
     path.write_text("\n".join(json.dumps(event) for event in events) + "\n", encoding="utf-8")
 
 
+def counted_event(
+    token_usage: dict[str, int],
+    *,
+    model: str = "gpt-5.5",
+    effort: str = "xhigh",
+    ordinal: int = 1,
+) -> object:
+    return audit.CountedUsageEvent(
+        timestamp=datetime(2026, 7, 12, tzinfo=timezone.utc),
+        leaf_session_id="session",
+        turn_id=f"turn-{ordinal}",
+        model=model,
+        effort=effort,
+        usage=token_usage,
+        total_usage=token_usage,
+        source="last_token_usage",
+        path=Path(f"session-{ordinal}.jsonl"),
+        ordinal=ordinal,
+    )
+
+
 class SessionAccountingTests(unittest.TestCase):
     def test_parent_and_two_forks_keep_leaf_identity_and_add_parallel_deltas(self) -> None:
         base = datetime(2026, 5, 24, tzinfo=timezone.utc)
@@ -473,43 +494,71 @@ class PriceLensTests(unittest.TestCase):
         self.assertEqual(audit.rounded_money(27.4), 25)
         self.assertEqual(audit.rounded_money(8.6), 9)
 
-    def test_logged_model_short_standard_rates_and_legacy_lens_are_separate(self) -> None:
-        breakdown = {
-            "gpt-5.5/xhigh": {
-                "model": "gpt-5.5",
-                "effort": "xhigh",
-                "token_usage": usage(1_100_000, cached=400_000, output=100_000),
-            },
-            "gpt-5.6-sol/ultra": {
-                "model": "gpt-5.6-sol",
-                "effort": "ultra",
-                "token_usage": usage(2_200_000, cached=1_000_000, output=200_000),
-            },
-        }
-        current = audit.api_cost_equivalence(breakdown)
+    def test_logged_model_request_aware_rates_and_legacy_lens_are_separate(self) -> None:
+        current = audit.api_cost_equivalence(
+            [
+                counted_event(usage(1_100_000, cached=400_000, output=100_000)),
+                counted_event(
+                    usage(2_200_000, cached=1_000_000, output=200_000),
+                    model="gpt-5.6-sol",
+                    effort="ultra",
+                    ordinal=2,
+                ),
+            ]
+        )
         legacy = audit.legacy_api_cost_equivalence(
             usage(1_100_000, cached=400_000, output=100_000)
         )
 
-        self.assertAlmostEqual(current["usd_estimate"], 17.70)
+        self.assertAlmostEqual(current["usd_estimate"], 30.90)
+        self.assertEqual(current["long_context_request_count"], 2)
+        self.assertEqual(current["long_context_token_usage"]["total_tokens"], 3_300_000)
+        self.assertEqual(current["long_context_threshold_input_tokens"], 272_000)
         self.assertEqual(current["model_rates"]["gpt-5.6-sol"]["cache_write_input_usd_per_million"], 6.25)
+        self.assertEqual(current["model_rates"]["gpt-5.6-sol"]["long_context_cache_write_input_usd_per_million"], 12.5)
         self.assertIsNone(current["cache_write_tokens"])
-        self.assertIn("long-context thresholds", current["caveat"])
+        self.assertIn("cache writes", current["caveat"])
         self.assertAlmostEqual(legacy["usd_estimate"], 2.52)
         self.assertEqual(legacy["model"], "gpt-5.3-codex")
 
+    def test_short_context_request_keeps_short_rates(self) -> None:
+        current = audit.api_cost_equivalence(
+            [counted_event(usage(200_000, cached=100_000, output=20_000))]
+        )
+        self.assertAlmostEqual(current["usd_estimate"], 1.05)
+        self.assertEqual(current["long_context_request_count"], 0)
+
     def test_unlogged_model_tokens_remain_visible_and_unpriced(self) -> None:
         current = audit.api_cost_equivalence(
-            {
-                "unknown/unknown": {
-                    "model": "unknown",
-                    "effort": "unknown",
-                    "token_usage": usage(1234),
-                }
-            }
+            [counted_event(usage(1234), model="unknown", effort="unknown")]
         )
         self.assertEqual(current["usd_estimate"], 0)
         self.assertEqual(current["unpriced_token_usage"]["total_tokens"], 1234)
+
+    def test_account_snapshot_scales_from_local_request_mix_and_builds_sparkline(self) -> None:
+        local = {
+            "api_cost_equivalence": {
+                "priced_token_usage": {"total_tokens": 10_000_000},
+                "usd_estimate": 8.4,
+            }
+        }
+        current = {
+            "token_count": 20_860_271_364,
+            "tokens_label": "20.9B",
+            "recent_activity": {
+                "daily": [
+                    {"date": "2026-07-10", "tokens": 100},
+                    {"date": "2026-07-11", "tokens": 200},
+                    {"date": "2026-07-12", "tokens": 50},
+                ]
+            },
+        }
+        account = audit.refresh_account_lifetime_data(current, local)
+        self.assertEqual(account["tokens_label"], "20.9B")
+        self.assertEqual(account["api_cost_equivalence"]["observed_usd_per_million_tokens"], 0.84)
+        self.assertEqual(account["api_cost_equivalence"]["usd_midpoint"], 17_500)
+        self.assertEqual(account["recent_activity"]["peak_date"], "2026-07-11")
+        self.assertEqual(len(account["recent_activity"]["sparkline_points"].split()), 3)
 
 
 if __name__ == "__main__":

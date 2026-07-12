@@ -373,7 +373,32 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await page.getByRole("button", { name: "Clear selection" }).click();
 
   await expect(activity).toHaveAttribute("data-has-tier-context", "true");
-  await expect(page.locator("#github-activity-selected-tier")).toContainText(/Subscription context|Before the tracked/);
+  await expect(page.locator("#github-activity-selected-tier")).toContainText(/^Plan ·/);
+  const tierLegend = page.locator(".github-activity-tier-legend");
+  await expect(tierLegend).toBeVisible();
+  await expect(tierLegend.locator("li")).toHaveCount(3);
+  await expect(tierLegend).toContainText("$20/mo");
+  await expect(tierLegend).toContainText("$100/mo");
+  await expect(tierLegend).toContainText("$200/mo");
+  const tierIntensity = await tierLegend.evaluate((legend) => {
+    const sample = (value) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = value;
+      context.fillRect(0, 0, 1, 1);
+      return Array.from(context.getImageData(0, 0, 1, 1).data.slice(0, 3));
+    };
+    const surface = sample(getComputedStyle(document.querySelector("[data-github-activity]")).getPropertyValue("--global-surface-color"));
+    return Array.from(legend.querySelectorAll(".github-activity-tier-swatch")).map((swatch) => {
+      const color = sample(getComputedStyle(swatch).backgroundColor);
+      return Math.hypot(...color.map((channel, index) => channel - surface[index]));
+    });
+  });
+  expect(tierIntensity[0]).toBeLessThan(tierIntensity[1]);
+  expect(tierIntensity[1]).toBeLessThan(tierIntensity[2]);
   await expect(page.locator("#github-activity-tier-table-body tr")).toHaveCount(3);
   await expect(page.locator("#github-activity-chart")).toHaveCSS("touch-action", "pan-y");
 
@@ -440,7 +465,35 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
     expect(actualRun.width).toBeCloseTo(expectedRun.width, 3);
   });
   expect(ribbonState.directLabels).toBeLessThan(ribbonState.actual.length);
-  await expect(page.locator("#github-activity-selected-tier")).toContainText("Subscription context");
+  const tierHits = page.locator(".github-activity-tier-hit");
+  await expect(tierHits).toHaveCount(ribbonState.actual.length);
+  expect(
+    await tierHits.evaluateAll((nodes) =>
+      nodes.every((node) => Number(node.getAttribute("width")) >= 24 && Number(node.getAttribute("height")) >= 24 && node.querySelector("title"))
+    )
+  ).toBe(true);
+  const hundredHit = page.locator('.github-activity-tier-hit[data-tier-key="tier-100"]');
+  await hundredHit.hover();
+  await expect(page.locator("#github-activity-selected-tier")).toContainText("Plan · $100/mo · May 5, 2026 — Jun 5, 2026");
+  const latestTwoHundredHit = page.locator('.github-activity-tier-hit[data-tier-key="tier-200-b"]');
+  await latestTwoHundredHit.focus();
+  await page.keyboard.press("Space");
+  await expect(page.locator("#github-activity-selected-tier")).toContainText("Plan · $200/mo · since Jun 6, 2026");
+  await expect(latestTwoHundredHit).toHaveAttribute("aria-label", /Plan \$200\/mo · since Jun 6, 2026/);
+  await hundredHit.evaluate((node) => {
+    node.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        bubbles: true,
+        cancelable: true,
+        isPrimary: true,
+        pointerId: 903,
+        pointerType: "touch",
+        button: 0,
+        buttons: 1,
+      })
+    );
+  });
+  await expect(page.locator("#github-activity-selected-tier")).toContainText("$100/mo");
   await expect(page.locator("#github-activity-tier-table-body tr")).toHaveCount(3);
   const expectedTwoHundredMedian = await page.evaluate(() => {
     const activityData = JSON.parse(document.getElementById("github-activity-data").textContent);
@@ -461,7 +514,7 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
       lines: new Intl.NumberFormat("en-US").format(median(active.map((row) => row.additions + row.deletions))),
     };
   });
-  const twoHundredRow = page.locator("#github-activity-tier-table-body tr", { hasText: "$200 tier" });
+  const twoHundredRow = page.locator("#github-activity-tier-table-body tr", { hasText: "$200/mo" });
   await expect(twoHundredRow.locator("td").nth(1)).toHaveText(expectedTwoHundredMedian.commits);
   await expect(twoHundredRow.locator("td").nth(2)).toHaveText(expectedTwoHundredMedian.lines);
 
@@ -518,7 +571,7 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await page.mouse.down();
   await page.mouse.move(earlyEnd.x, earlyEnd.y, { steps: 6 });
   await page.mouse.up();
-  await expect(page.locator("#github-activity-tier-table-body")).toContainText("No tracked subscription tier overlaps this scope.");
+  await expect(page.locator("#github-activity-tier-table-body")).toContainText("No tracked plan price overlaps this scope.");
   await page.getByRole("button", { name: "Clear selection" }).click();
 
   await page.getByText("How this view works", { exact: true }).click();
@@ -526,7 +579,7 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
 });
 
-test("home agentic heartbeat routes to retained-local and all-GitHub context", async ({ page }) => {
+test("home agentic heartbeat uses the account lifetime and real daily sparkline", async ({ page }) => {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
@@ -536,14 +589,26 @@ test("home agentic heartbeat routes to retained-local and all-GitHub context", a
   await heartbeat.scrollIntoViewIfNeeded();
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
-  await expect(heartbeat).toContainText(/retained-local tokens/);
-  await expect(heartbeat).toContainText("3110 all-GitHub commits");
+  await expect(heartbeat).toContainText("20.9B Codex lifetime");
+  await expect(heartbeat).toContainText("~$17.5K at API list rates");
+  await expect(heartbeat).toContainText("3110 GitHub commits");
+  const sparkline = heartbeat.locator(".home-agentic-heartbeat-sparkline polyline");
+  await expect(sparkline).toHaveCount(1);
+  expect((await sparkline.getAttribute("points")).trim().split(/\s+/)).toHaveLength(30);
+  const heartbeatFrame = await heartbeat.evaluate((node) => {
+    const style = getComputedStyle(node);
+    return { borderTopWidth: style.borderTopWidth, backgroundColor: style.backgroundColor, minHeight: style.minHeight };
+  });
+  expect(heartbeatFrame.borderTopWidth).toBe("0px");
+  expect(heartbeatFrame.backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  expect(Number.parseFloat(heartbeatFrame.minHeight)).toBeGreaterThanOrEqual(44);
   const pulseMotion = await heartbeat.locator(".home-agentic-heartbeat-pulse").evaluate((node) => {
     const style = getComputedStyle(node);
     return { animationName: style.animationName, animationDuration: style.animationDuration };
   });
   expect(pulseMotion.animationName).toBe("none");
   expect(pulseMotion.animationDuration).toBe("0s");
+  expect(await sparkline.evaluate((node) => getComputedStyle(node).transitionDuration)).toBe("0s");
 });
 
 test("publications Abs toggle opens and closes", async ({ page }) => {

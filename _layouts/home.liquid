@@ -22,7 +22,7 @@ layout: default
         {% assign agentic_usage = site.data.agentic_usage %}
         {% if agentic_usage.total %}
           {% assign total_energy = agentic_usage.total.energy_equivalence %}
-          {% assign total_cost = agentic_usage.total.codexbar_cost_estimate %}
+          {% assign total_cost = agentic_usage.total.api_cost_equivalence %}
           <div class="home-agentic-tally" aria-label="Estimated Codex and agentic work used for this site revamp">
             <p class="home-agentic-kicker">
               <span class="home-agentic-tree-label home-agentic-kicker-copy">
@@ -64,7 +64,7 @@ layout: default
                       <button
                         type="button"
                         class="home-agentic-info home-agentic-info-cost"
-                        aria-label="How the Codex token cost joke is estimated"
+                        aria-label="How the site-build token cost is estimated"
                         aria-describedby="home-agentic-cost-tooltip"
                       >
                         i
@@ -73,15 +73,15 @@ layout: default
                         <span class="home-agentic-money-gag">
                           <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
                           <span>
-                            <strong>Sam's money waste so far: {{ total_cost.usd_label }}</strong>
-                            <small>CodexBar-ratio estimate, not an actual bill.</small>
+                            <strong>Sam's imaginary invoice: {{ total_cost.usd_label | remove: ' API-rate replay' }}</strong>
+                            <small>Same workload at public API rates.</small>
                           </span>
                         </span>
                       </span>
                     </span>
                   {% endif %}
                 </dt>
-                <dd>Codex tokens</dd>
+                <dd>site-build tokens</dd>
               </div>
               <div class="home-agentic-stat">
                 <dt>{{ agentic_usage.total.hours_label }}</dt>
@@ -98,19 +98,31 @@ layout: default
                 </div>
               {% endif %}
             </dl>
-            {% assign local_lifetime = agentic_usage.local_lifetime %}
+            {% assign account_lifetime = agentic_usage.account_lifetime %}
             {% assign all_github_commits = 0 %}
             {% for week in site.data.github_activity.weeks %}
               {% assign all_github_commits = all_github_commits | plus: week.commits %}
             {% endfor %}
-            {% if local_lifetime and all_github_commits > 0 %}
-              <a class="home-agentic-heartbeat" href="{{ '/github-activity/' | relative_url }}">
+            {% if account_lifetime and all_github_commits > 0 %}
+              <a
+                class="home-agentic-heartbeat"
+                href="{{ '/github-activity/' | relative_url }}"
+                aria-label="Open Codex and GitHub activity"
+              >
                 <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
-                <span>
-                  <strong>{{ local_lifetime.tokens_label }} retained-local tokens</strong>
-                  <small>since {{ local_lifetime.since_label }} · {{ all_github_commits }} all-GitHub commits</small>
+                <span class="home-agentic-heartbeat-copy">
+                  <strong>{{ account_lifetime.tokens_label }} Codex lifetime</strong>
+                  <small>{{ account_lifetime.api_cost_equivalence.usd_label }} at API list rates · {{ all_github_commits }} GitHub commits</small>
                 </span>
-                <span class="home-agentic-heartbeat-route" aria-hidden="true">Open rhythm →</span>
+                <svg
+                  class="home-agentic-heartbeat-sparkline"
+                  viewBox="0 0 112 28"
+                  role="img"
+                  aria-label="Last 30 calendar days of Codex token activity; Jul 12 is partial"
+                >
+                  <polyline pathLength="1" points="{{ account_lifetime.recent_activity.sparkline_points }}"></polyline>
+                </svg>
+                <span class="home-agentic-heartbeat-route" aria-hidden="true">Follow the pulse →</span>
               </a>
             {% endif %}
           </div>

@@ -223,6 +223,7 @@
       tier20: style.getPropertyValue("--github-activity-tier-20").trim() || "#d6a273",
       tier100: style.getPropertyValue("--github-activity-tier-100").trim() || "#c97836",
       tier200: style.getPropertyValue("--github-activity-tier-200").trim() || "#9f4c18",
+      tier200Text: style.getPropertyValue("--github-activity-tier-200-text").trim() || "#ffffff",
     };
   };
   const setPressedState = () => {
@@ -230,14 +231,19 @@
     scaleButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.scale === scale ? "true" : "false"));
   };
 
+  const tierDateRange = (tier) => {
+    const start = dateLabel.format(new Date(tier.start + "T00:00:00Z"));
+    return tier.end ? start + " — " + dateLabel.format(new Date(tier.end + "T00:00:00Z")) : "since " + start;
+  };
+  const updateTierReadout = (tier) => {
+    selectedTier.textContent = tier ? "Plan · " + tier.label + " · " + tierDateRange(tier) : "Plan · before tracked price history";
+  };
   const updateWeekReadout = (row) => {
     selectedDate.textContent = "Week of " + dateLabel.format(row.date);
     if (hasCommitData) selectedCommits.textContent = number.format(row.commits) + (row.commits === 1 ? " commit" : " commits");
     selectedAdditions.textContent = signed(row.additions, true) + " added";
     selectedDeletions.textContent = signed(row.deletions, false) + " removed";
-    selectedTier.textContent = row.tier
-      ? "Subscription context \u00b7 " + row.tier.label + " \u00b7 billing tier, not measured AI use"
-      : "Before the tracked subscription-tier timeline";
+    updateTierReadout(row.tier);
   };
   const updateTable = (data) => {
     const fragment = document.createDocumentFragment();
@@ -268,7 +274,7 @@
       if (!row.tier) return;
       const key = String(row.tier.tier_usd);
       const group = groups.get(key) || {
-        label: row.tier.tier_usd === 20 ? "Plus $20" : "$" + row.tier.tier_usd + " tier",
+        label: row.tier.label,
         tier: row.tier.tier_usd,
         observed: 0,
         active: [],
@@ -283,7 +289,7 @@
       const cell = document.createElement("td");
       cell.colSpan = 4;
       cell.className = "github-activity-tier-empty";
-      cell.textContent = "No tracked subscription tier overlaps this scope.";
+      cell.textContent = "No tracked plan price overlaps this scope.";
       tr.append(cell);
       fragment.append(tr);
     }
@@ -319,9 +325,7 @@
         fragment.append(tr);
       });
     tierTableBody.replaceChildren(fragment);
-    tierTableCaption.textContent = selection
-      ? "Subscription-tier comparison for the selected range"
-      : "Subscription-tier comparison for the current time window";
+    tierTableCaption.textContent = selection ? "Plan-price comparison for the selected range" : "Plan-price comparison for the current time window";
   };
   const updateAggregate = (data, announce = false) => {
     const scoped = analysisRows(data);
@@ -453,6 +457,7 @@
 
     if (tierSource) {
       const ribbon = element("g", { class: "github-activity-tier-ribbon", "aria-hidden": "true" });
+      const tierHits = element("g", { class: "github-activity-tier-hit-layer", "aria-label": "Plan price ribbon" });
       ribbon.append(
         element("rect", {
           class: "github-activity-tier-track",
@@ -471,25 +476,77 @@
         const x1 = data.length === 1 ? left : x(new Date(boundaryStart));
         const x2 = data.length === 1 ? width - right : x(new Date(boundaryEnd));
         const fill = run.tier.tier_usd === 20 ? palette.tier20 : run.tier.tier_usd === 100 ? palette.tier100 : palette.tier200;
-        ribbon.append(
-          element("rect", {
-            class: "github-activity-tier-run",
-            "data-tier-key": run.key,
-            "data-first-week": run.first.week,
-            "data-last-week": run.last.week,
-            x: x1,
-            y: ribbonTop,
-            width: Math.max(1, x2 - x1),
-            height: ribbonHeight,
-            fill,
-            "fill-opacity": 0.58,
-          })
-        );
+        const visualRun = element("rect", {
+          class: "github-activity-tier-run",
+          "data-tier-key": run.key,
+          "data-first-week": run.first.week,
+          "data-last-week": run.last.week,
+          x: x1,
+          y: ribbonTop,
+          width: Math.max(1, x2 - x1),
+          height: ribbonHeight,
+          fill,
+        });
+        ribbon.append(visualRun);
         if (x2 - x1 >= (narrow ? 52 : 64)) {
-          addText(ribbon, run.tier.label, (x1 + x2) / 2, ribbonTop + 8, "middle", palette.text, 650, "github-activity-tier-label");
+          addText(
+            ribbon,
+            run.tier.label,
+            (x1 + x2) / 2,
+            ribbonTop + 8,
+            "middle",
+            run.tier.tier_usd === 200 ? palette.tier200Text : palette.text,
+            650,
+            "github-activity-tier-label"
+          );
         }
+        const segmentWidth = Math.max(1, x2 - x1);
+        const hitWidth = Math.min(width - left - right, Math.max(24, segmentWidth));
+        const hitX = Math.max(left, Math.min(width - right - hitWidth, (x1 + x2 - hitWidth) / 2));
+        const titleText = run.tier.label + " · " + tierDateRange(run.tier);
+        const hit = element("rect", {
+          class: "github-activity-tier-hit",
+          "data-tier-key": run.key,
+          x: hitX,
+          y: ribbonTop - 7,
+          width: hitWidth,
+          height: 24,
+          tabindex: 0,
+          focusable: "true",
+          role: "button",
+          "aria-label": "Plan " + titleText,
+        });
+        const title = element("title");
+        title.textContent = titleText;
+        hit.append(title);
+        const inspectTier = () => {
+          ribbon.querySelectorAll(".github-activity-tier-run").forEach((node) => node.classList.remove("is-inspected"));
+          visualRun.classList.add("is-inspected");
+          updateTierReadout(run.tier);
+        };
+        const restoreWeekTier = () => {
+          visualRun.classList.remove("is-inspected");
+          updateTierReadout(rows[selectedIndex].tier);
+        };
+        hit.addEventListener("pointerenter", inspectTier);
+        hit.addEventListener("pointerdown", (event) => {
+          root.dataset.inputModality = "pointer";
+          inspectTier();
+          if (event.pointerType !== "mouse") hit.focus({ preventScroll: true });
+        });
+        hit.addEventListener("pointerleave", () => {
+          if (document.activeElement !== hit) restoreWeekTier();
+        });
+        hit.addEventListener("focus", inspectTier);
+        hit.addEventListener("blur", restoreWeekTier);
+        hit.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          inspectTier();
+        });
+        tierHits.append(hit);
       });
-      chart.append(ribbon);
+      chart.append(ribbon, tierHits);
     }
 
     let renderPeak = () => {};
@@ -708,7 +765,7 @@
           " added, " +
           signed(row.deletions, false) +
           " removed" +
-          (row.tier ? ", subscription context " + row.tier.label : "")
+          (row.tier ? ", plan " + row.tier.label : "")
       );
       updateWeekReadout(row);
     };

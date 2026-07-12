@@ -3197,28 +3197,28 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-agentic-heartbeat {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) minmax(4.5rem, 7rem) auto;
   gap: 0.56rem;
   align-items: center;
   width: min(100%, 31.5rem);
   margin: 0.12rem auto 0;
-  padding: 0.5rem 0.65rem;
-  border: 1px solid color-mix(in srgb, var(--home-line) 46%, transparent);
-  border-radius: 0.52rem;
-  background: color-mix(in srgb, var(--home-surface) 72%, transparent);
+  min-height: 2.75rem;
+  padding: 0.42rem 0.12rem;
+  border: 0;
+  border-radius: 0.2rem;
+  background: transparent;
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--home-line) 38%, transparent);
   color: var(--home-muted);
   text-align: left;
   text-decoration: none;
   transition:
-    border-color 160ms ease,
-    background 160ms ease,
+    box-shadow 160ms ease,
     transform 160ms ease;
 }
 
 .home-agentic-heartbeat:hover,
 .home-agentic-heartbeat:focus-visible {
-  border-color: color-mix(in srgb, var(--home-accent) 54%, var(--home-line));
-  background: color-mix(in srgb, var(--home-accent-soft) 18%, var(--home-surface));
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--home-accent) 68%, var(--home-line));
   color: var(--home-muted);
   text-decoration: none;
   transform: translateY(-0.04rem);
@@ -3229,7 +3229,7 @@ html[data-theme="dark"] .home-artifact-mark {
   outline-offset: 2px;
 }
 
-.home-agentic-heartbeat > span:nth-child(2) {
+.home-agentic-heartbeat-copy {
   display: grid;
   min-width: 0;
   gap: 0.1rem;
@@ -3257,7 +3257,40 @@ html[data-theme="dark"] .home-artifact-mark {
   color: color-mix(in srgb, var(--home-accent-strong) 64%, var(--home-muted));
   font-size: 0.55rem;
   font-weight: 680;
+  transition: transform 160ms ease;
   white-space: nowrap;
+}
+
+.home-agentic-heartbeat:hover .home-agentic-heartbeat-route,
+.home-agentic-heartbeat:focus-visible .home-agentic-heartbeat-route {
+  transform: translateX(0.12rem);
+}
+
+.home-agentic-heartbeat-sparkline {
+  display: block;
+  width: 100%;
+  height: 1.75rem;
+  overflow: visible;
+}
+
+.home-agentic-heartbeat-sparkline polyline {
+  fill: none;
+  stroke: color-mix(in srgb, var(--home-accent) 72%, var(--home-muted));
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0.055;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+  transition:
+    stroke 160ms ease,
+    stroke-dashoffset 420ms ease-out;
+  vector-effect: non-scaling-stroke;
+}
+
+.home-agentic-heartbeat:hover .home-agentic-heartbeat-sparkline polyline,
+.home-agentic-heartbeat:focus-visible .home-agentic-heartbeat-sparkline polyline {
+  stroke: var(--home-accent-strong);
+  stroke-dashoffset: 0;
 }
 
 .home-agentic-heartbeat-pulse {
@@ -4128,13 +4161,18 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-agentic-heartbeat {
-    grid-template-columns: auto minmax(0, 1fr);
-    width: min(100%, 17.5rem);
-    padding: 0.48rem 0.54rem;
+    grid-template-columns: auto minmax(0, 1fr) 4.5rem auto;
+    width: min(100%, 20rem);
+    padding: 0.44rem 0.08rem;
   }
 
   .home-agentic-heartbeat-route {
-    display: none;
+    font-size: 0;
+  }
+
+  .home-agentic-heartbeat-route::after {
+    content: "→";
+    font-size: 0.78rem;
   }
 
   .home-agentic-tree-mark {
@@ -4254,6 +4292,8 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-artifact-card,
   .home-artifact-thumb img,
   .home-agentic-heartbeat-pulse,
+  .home-agentic-heartbeat-route,
+  .home-agentic-heartbeat-sparkline polyline,
   html.home-motion-ready .home-reveal {
     animation: none;
     transition: none;
@@ -4291,6 +4331,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-artifact-card:focus-visible .home-artifact-thumb img,
   .home-agentic-heartbeat,
   .home-agentic-heartbeat-pulse,
+  .home-agentic-heartbeat-route,
   html.home-motion-ready .home-reveal {
     transform: none;
   }

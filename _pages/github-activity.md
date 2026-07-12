@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: A privacy-safe, outlier-aware view of Sirui Tao's weekly GitHub commits and code changes.
+description: A five-year view of Sirui Tao's weekly GitHub commits and code changes.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -14,18 +14,29 @@ github_activity: true
     <p class="github-activity-eyebrow">GITHUB ACTIVITY</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Weekly commits and lines touched across owned repositories. Aligned panels keep the units honest; the readable line scale keeps
-      ordinary weeks visible beside rare, unusually large changes.
+      Five years of commits and lines changed, one week at a time. Huge code drops can flatten everything else, so Readable keeps the
+      quieter weeks in view.
     </p>
-    <p class="github-activity-boundary">Lines touched are evidence of change, not a productivity score.</p>
+    {% assign account_lifetime = site.data.agentic_usage.account_lifetime %}
     {% assign local_lifetime = site.data.agentic_usage.local_lifetime %}
-    {% if local_lifetime %}
-      <p class="github-activity-local-history">
-        Retained local Codex history since {{ local_lifetime.since_label }}:
-        <strong>{{ local_lifetime.tokens_label }} tracked tokens</strong> across {{ local_lifetime.sessions }} sessions · about
-        {{ local_lifetime.api_cost_equivalence.usd_label | remove: ' API cosplay' }} at logged-model Standard short-context API rates,
-        excluding unobserved cache writes and long-context premiums.
-        This is retained device history, not account lifetime usage or an actual bill; ChatGPT exposes usage limits, not a lifetime token counter.
+    {% if account_lifetime and local_lifetime %}
+      <dl class="github-activity-codex-ledger" aria-label="Codex usage snapshot">
+        <div>
+          <dt>{{ account_lifetime.tokens_label }}</dt>
+          <dd>Codex lifetime</dd>
+        </div>
+        <div>
+          <dt>{{ account_lifetime.api_cost_equivalence.usd_label }}</dt>
+          <dd>API-rate estimate</dd>
+        </div>
+        <div>
+          <dt>{{ local_lifetime.tokens_label }}</dt>
+          <dd>local replay since {{ local_lifetime.since_label }}</dd>
+        </div>
+      </dl>
+      <p class="github-activity-ledger-note">
+        The account total gets the headline; the local replay keeps the receipts. Cost follows the observed model and cache mix, not the bill.
+        Jul 12 is partial.
       </p>
     {% endif %}
   </header>
@@ -60,7 +71,7 @@ github_activity: true
           <span aria-hidden="true">·</span>
           <span class="github-activity-removed" id="github-activity-selected-deletions">−0 removed</span>
         </p>
-        <p class="github-activity-tier-context" id="github-activity-selected-tier"></p>
+        <p class="github-activity-tier-context" id="github-activity-selected-tier" aria-live="polite"></p>
       </div>
       <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
     </div>
@@ -69,6 +80,15 @@ github_activity: true
       <p class="github-activity-range-summary" id="github-activity-range-summary"></p>
       <button type="button" class="github-activity-clear-selection" data-clear-selection hidden>Clear selection</button>
       <span class="sr-only" id="github-activity-selection-announcement" aria-live="polite"></span>
+    </div>
+
+    <div class="github-activity-tier-legend" aria-label="Monthly plan price ribbon legend">
+      <span>Plan price</span>
+      <ul>
+        <li><span class="github-activity-tier-swatch" data-tier-value="20" aria-hidden="true"></span>$20/mo</li>
+        <li><span class="github-activity-tier-swatch" data-tier-value="100" aria-hidden="true"></span>$100/mo</li>
+        <li><span class="github-activity-tier-swatch" data-tier-value="200" aria-hidden="true"></span>$200/mo</li>
+      </ul>
     </div>
 
     <div class="github-activity-chart-shell">
@@ -92,45 +112,30 @@ github_activity: true
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Aligned, not dual-axis</h2>
-        <p>
-          Commits use a compact panel above the line-change panel. The shared time axis supports exact-week hover, click-to-pin, and a
-          snapped drag selection without pretending commits and lines share a unit.
-        </p>
+        <h2>Two units, two panels</h2>
+        <p>Commits sit above lines changed. They share a calendar, not a unit.</p>
       </div>
       <div>
-        <h2>Readable and literal</h2>
-        <p>
-          Readable uses log1p for commits and a symmetric-log transform for added and removed lines, preserving zero while compressing
-          extremes. Literal switches both panels to independent linear scales. Exact values never change.
-        </p>
+        <h2>Readable or literal</h2>
+        <p>Readable keeps quieter weeks visible. Literal shows the full linear range. The numbers stay the same.</p>
       </div>
       <div>
-        <h2>Scope and privacy</h2>
-        <p>
-          The data is aggregated from owned repositories' default-branch activity. Repository identities are never published.
-        </p>
+        <h2>What's counted</h2>
+        <p>Owned public + private repositories, rolled up by week on their default branches. Only the totals leave the generator.</p>
       </div>
       <div>
-        <h2>GitHub boundaries</h2>
-        <p>
-          Default-branch activity uses GitHub contributor statistics, with a commit-history fallback when those statistics are
-          unavailable. GitHub's statistics exclude merge commits; the fallback also excludes true empty commits. The contributor-stat
-          source zeroes line totals for repositories with 10,000 or more commits.
-        </p>
+        <h2>GitHub's edges</h2>
+        <p>Contributor stats supply the totals; commit history fills gaps. Merge commits are skipped, and very large repositories may not report line totals.</p>
       </div>
       <div>
-        <h2>Subscription context</h2>
-        <p>
-          The thin timeline ribbon uses user-supplied billing dates rounded to Plus $20, $100, or $200 tiers. A week is assigned by its
-          Wednesday midpoint. Billing tier is context—not measured AI use, causation, or productivity—and raw invoices are not published.
-        </p>
+        <h2>Plan-price ribbon</h2>
+        <p>The ribbon lines up each week with the monthly price paid at the time. Calendar context, nothing fancier.</p>
       </div>
     </div>
     <section class="github-activity-tier-comparison" aria-labelledby="github-activity-tier-title">
       <div>
-        <h2 id="github-activity-tier-title">Observed active weeks by subscription tier in this scope</h2>
-        <p>Median active-week values update with the time window or drag selection. They reduce unequal-duration and outlier effects; association only.</p>
+        <h2 id="github-activity-tier-title">Active weeks by plan price</h2>
+        <p>Medians follow the current window or your drag selection.</p>
       </div>
       <div class="github-activity-table-wrap github-activity-tier-table-wrap">
         <table class="github-activity-table github-activity-tier-table">
