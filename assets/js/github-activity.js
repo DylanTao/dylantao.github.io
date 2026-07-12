@@ -4,18 +4,20 @@
   if (!root || !dataNode) return;
 
   const isValidSource = (candidate) =>
-    candidate?.schema === 1 &&
+    (candidate?.schema === 1 || candidate?.schema === 2) &&
     typeof candidate.generatedAt === "string" &&
     Array.isArray(candidate.weeks) &&
     candidate.weeks.length > 0 &&
     candidate.weeks.every(
       (row) =>
         /^\d{4}-\d{2}-\d{2}$/.test(row?.week) &&
-        Number.isFinite(Number(row.additions)) &&
-        Number(row.additions) >= 0 &&
-        Number.isFinite(Number(row.deletions)) &&
-        Number(row.deletions) >= 0
+        (candidate.schema === 1 || (Number.isInteger(row.commits) && row.commits >= 0)) &&
+        Number.isInteger(row.additions) &&
+        row.additions >= 0 &&
+        Number.isInteger(row.deletions) &&
+        row.deletions >= 0
     );
+
   let source;
   try {
     source = JSON.parse(dataNode.textContent);
@@ -23,7 +25,6 @@
     root.setAttribute("data-state", "error");
     return;
   }
-
   if (!isValidSource(source)) {
     root.setAttribute("data-state", "error");
     return;
@@ -42,16 +43,26 @@
     }
   }
 
+  const hasCommitData = source.schema === 2;
+  root.setAttribute("data-source-schema", String(source.schema));
+  root.setAttribute("data-has-commits", String(hasCommitData));
+  root.querySelectorAll("[data-commit-only]").forEach((node) => {
+    node.hidden = !hasCommitData;
+  });
+
   const rows = source.weeks.map((row, index) => ({
     index,
     week: row.week,
     date: new Date(row.week + "T00:00:00Z"),
-    additions: Number(row.additions),
-    deletions: Number(row.deletions),
+    commits: hasCommitData ? row.commits : null,
+    additions: row.additions,
+    deletions: row.deletions,
   }));
   const NS = "http://www.w3.org/2000/svg";
   const chart = document.getElementById("github-activity-chart");
+  const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
+  const selectedCommits = document.getElementById("github-activity-selected-commits");
   const selectedAdditions = document.getElementById("github-activity-selected-additions");
   const selectedDeletions = document.getElementById("github-activity-selected-deletions");
   const rangeSummary = document.getElementById("github-activity-range-summary");
@@ -90,7 +101,29 @@
   };
 
   const compact = (value) => short.format(Math.abs(value));
-  const signed = (value, positive) => (positive ? "+" : "−") + number.format(Math.abs(value));
+  const signed = (value, positive) => (positive ? "+" : "\u2212") + number.format(Math.abs(value));
+  const pathFor = (points) =>
+    points.map((point, index) => (index ? "L " : "M ") + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ");
+  const areaPath = (points, baseline) =>
+    points.length
+      ? "M " +
+        points[0][0].toFixed(2) +
+        " " +
+        baseline.toFixed(2) +
+        " " +
+        points.map((point) => "L " + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ") +
+        " L " +
+        points.at(-1)[0].toFixed(2) +
+        " " +
+        baseline.toFixed(2) +
+        " Z"
+      : "";
+
+  const percentile = (values, p) => {
+    const ordered = [...values].sort((a, b) => a - b);
+    if (ordered.length === 0) return 0;
+    return ordered[Math.min(ordered.length - 1, Math.max(0, Math.round((ordered.length - 1) * p)))];
+  };
 
   const selectedRows = () => {
     if (range === "all") return rows;
@@ -115,14 +148,6 @@
     };
   };
 
-  const pathFor = (points) => points.map((point, index) => (index ? "L " : "M ") + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ");
-
-  const percentile = (values, p) => {
-    const ordered = [...values].sort((a, b) => a - b);
-    if (ordered.length === 0) return 0;
-    return ordered[Math.min(ordered.length - 1, Math.max(0, Math.round((ordered.length - 1) * p)))];
-  };
-
   const setPressedState = () => {
     rangeButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.range === range ? "true" : "false"));
     scaleButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.scale === scale ? "true" : "false"));
@@ -131,39 +156,51 @@
   const updateReadout = (data) => {
     const row = rows[selectedIndex];
     selectedDate.textContent = "Week of " + dateLabel.format(row.date);
+    if (hasCommitData) {
+      selectedCommits.textContent = number.format(row.commits) + (row.commits === 1 ? " commit" : " commits");
+    }
     selectedAdditions.textContent = signed(row.additions, true) + " added";
     selectedDeletions.textContent = signed(row.deletions, false) + " removed";
 
-    const active = data.filter((item) => item.additions || item.deletions);
+    const active = data.filter((item) => (hasCommitData && item.commits) || item.additions || item.deletions);
+    const commits = hasCommitData ? data.reduce((sum, item) => sum + item.commits, 0) : null;
     const additions = data.reduce((sum, item) => sum + item.additions, 0);
     const deletions = data.reduce((sum, item) => sum + item.deletions, 0);
     const scope = range === "all" ? "All history" : range + (range === "1" ? " year" : " years");
-    const dateRange = dateLabel.format(data[0].date) + " — " + dateLabel.format(data.at(-1).date);
+    const dateRange = dateLabel.format(data[0].date) + " \u2014 " + dateLabel.format(data.at(-1).date);
     rangeSummary.textContent =
       scope +
-      " · " +
+      " \u00b7 " +
       dateRange +
-      " · " +
+      " \u00b7 " +
       number.format(active.length) +
-      " active weeks · +" +
+      " active weeks \u00b7 " +
+      (hasCommitData ? number.format(commits) + " commits \u00b7 " : "") +
+      "+" +
       compact(additions) +
-      " added · −" +
+      " added \u00b7 \u2212" +
       compact(deletions) +
       " removed";
 
-    const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
+    const largest = data.reduce((best, item) =>
+      Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best
+    );
+    const busiest = hasCommitData ? data.reduce((best, item) => (item.commits > best.commits ? item : best)) : null;
     const medianMagnitude = percentile(
       active.map((item) => Math.max(item.additions, item.deletions)),
       0.5
     );
     annotation.textContent =
-      "Largest observed week · " +
+      "Largest line-change week \u00b7 " +
       dateLabel.format(largest.date) +
-      " · +" +
+      " \u00b7 +" +
       compact(largest.additions) +
-      " / −" +
+      " / \u2212" +
       compact(largest.deletions) +
-      ". Median active-week magnitude · " +
+      (hasCommitData
+        ? ". Highest commit week \u00b7 " + dateLabel.format(busiest.date) + " \u00b7 " + number.format(busiest.commits)
+        : "") +
+      ". Median active-week line magnitude \u00b7 " +
       compact(medianMagnitude) +
       ".";
   };
@@ -172,7 +209,13 @@
     const fragment = document.createDocumentFragment();
     [...data].reverse().forEach((row) => {
       const tr = document.createElement("tr");
-      const values = [row.week, "+" + number.format(row.additions), "−" + number.format(row.deletions), number.format(row.additions + row.deletions)];
+      const values = [
+        row.week,
+        ...(hasCommitData ? [number.format(row.commits)] : []),
+        "+" + number.format(row.additions),
+        "\u2212" + number.format(row.deletions),
+        number.format(row.additions + row.deletions),
+      ];
       values.forEach((value, index) => {
         const cell = document.createElement(index === 0 ? "th" : "td");
         if (index === 0) cell.scope = "row";
@@ -192,22 +235,30 @@
     chart.replaceChildren();
     const palette = colors();
     const width = chart.clientWidth || 920;
-    const height = chart.clientHeight || 480;
+    const height = chart.clientHeight || 560;
     const narrow = width < 620;
     const left = narrow ? 58 : 74;
     const right = narrow ? 14 : 24;
-    const top = 42;
     const bottom = narrow ? 48 : 54;
-    const baseline = top + (height - top - bottom) / 2;
-    const half = (height - top - bottom) / 2 - 12;
+    const commitTop = 43;
+    const commitHeight = hasCommitData ? Math.max(68, Math.min(96, height * 0.16)) : 0;
+    const commitBottom = commitTop + commitHeight;
+    const lineTop = hasCommitData ? commitBottom + (narrow ? 42 : 48) : commitTop;
+    const lineBottom = height - bottom;
+    const plotTop = hasCommitData ? commitTop : lineTop;
+    const baseline = (lineTop + lineBottom) / 2;
+    const half = (lineBottom - lineTop) / 2 - 12;
     const start = data[0].date.getTime();
     const end = data.at(-1).date.getTime();
     const span = Math.max(1, end - start);
     const maximum = Math.max(...data.flatMap((row) => [row.additions, row.deletions]), 1);
+    const maxCommits = hasCommitData ? Math.max(...data.map((row) => row.commits), 1) : 1;
     const logMaximum = Math.log1p(maximum);
+    const commitLogMaximum = Math.log1p(maxCommits);
     const x = (date) => left + ((date.getTime() - start) / span) * (width - left - right);
     const transform = (value) => (scale === "linear" ? value / maximum : Math.log1p(value) / logMaximum);
     const y = (value) => baseline - Math.sign(value) * transform(Math.abs(value)) * half;
+    const commitY = (value) => commitBottom - (Math.log1p(value) / commitLogMaximum) * commitHeight;
     chart.setAttribute("viewBox", "0 0 " + width + " " + height);
 
     const grid = element("g", { "aria-hidden": "true" });
@@ -220,7 +271,7 @@
       [1, -1].forEach((direction) => {
         const yy = y(direction * tick);
         grid.append(element("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: palette.grid, "stroke-width": 1 }));
-        addText(grid, (direction > 0 ? "+" : "−") + compact(tick), left - 8, yy + 4, "end", palette.muted, 500);
+        addText(grid, (direction > 0 ? "+" : "\u2212") + compact(tick), left - 8, yy + 4, "end", palette.muted, 500);
       });
     });
     grid.append(
@@ -233,7 +284,7 @@
       if (!yearTicks.has(year) && row.date.getUTCMonth() === 0) {
         yearTicks.add(year);
         const xx = x(row.date);
-        grid.append(element("line", { x1: xx, y1: top, x2: xx, y2: height - bottom, stroke: palette.grid, "stroke-width": 1 }));
+        grid.append(element("line", { x1: xx, y1: plotTop, x2: xx, y2: lineBottom, stroke: palette.grid, "stroke-width": 1 }));
         addText(grid, String(year), xx, height - 18, "middle", palette.muted, 500);
       }
     });
@@ -242,8 +293,16 @@
       addText(grid, data.at(-1).week, width - right, height - 18, "end", palette.muted, 500);
     }
 
-    addText(chart, "+ added", left, 23, "start", palette.addedText, 650);
-    addText(chart, "− removed", width - right, 23, "end", palette.removedText, 650);
+    addText(chart, "+ added", left, lineTop - 14, "start", palette.addedText, 650);
+    addText(
+      chart,
+      "\u2212 removed \u00b7 " + (scale === "linear" ? "literal" : "readable symlog"),
+      width - right,
+      lineTop - 14,
+      "end",
+      palette.removedText,
+      650
+    );
 
     const addPoints = data.map((row) => [x(row.date), y(row.additions)]);
     const removePoints = data.map((row) => [x(row.date), y(-row.deletions)]);
@@ -267,14 +326,46 @@
       })
     );
 
-    const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
+    if (hasCommitData) {
+      grid.append(element("line", { x1: left, y1: commitTop, x2: width - right, y2: commitTop, stroke: palette.grid, "stroke-width": 1 }));
+      grid.append(
+        element("line", {
+          x1: left,
+          y1: commitBottom,
+          x2: width - right,
+          y2: commitBottom,
+          stroke: palette.text,
+          "stroke-opacity": 0.38,
+          "stroke-width": 1.2,
+        })
+      );
+      addText(grid, compact(maxCommits), left - 8, commitTop + 4, "end", palette.muted, 500);
+      addText(grid, "0", left - 8, commitBottom + 4, "end", palette.muted, 500);
+      addText(chart, "commits \u00b7 readable log1p", left, 23, "start", palette.accent, 650);
+      const commitPoints = data.map((row) => [x(row.date), commitY(row.commits)]);
+      chart.append(element("path", { d: areaPath(commitPoints, commitBottom), fill: palette.accent, "fill-opacity": 0.1 }));
+      chart.append(
+        element("path", {
+          class: "github-activity-commit-line",
+          d: pathFor(commitPoints),
+          fill: "none",
+          stroke: palette.accent,
+          "stroke-width": 1.7,
+          "stroke-linejoin": "round",
+        })
+      );
+    }
+
+    const largest = data.reduce((best, item) =>
+      Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best
+    );
     const largestX = x(largest.date);
     chart.append(
       element("line", {
         x1: largestX,
-        y1: top,
+        y1: lineTop,
         x2: largestX,
-        y2: height - bottom,
+        y2: lineBottom,
         stroke: palette.accent,
         "stroke-width": 1.3,
         "stroke-dasharray": "3 4",
@@ -282,16 +373,42 @@
       })
     );
 
+    if (hasCommitData) {
+      chart.append(
+        element("line", {
+          x1: largestX,
+          y1: commitTop,
+          x2: largestX,
+          y2: commitBottom,
+          stroke: palette.accent,
+          "stroke-width": 1.3,
+          "stroke-dasharray": "3 4",
+          "stroke-opacity": 0.85,
+        })
+      );
+    }
+
     const guide = element("line", {
-      y1: top,
-      y2: height - bottom,
+      y1: plotTop,
+      y2: lineBottom,
       stroke: palette.text,
       "stroke-width": 1.2,
       "stroke-opacity": 0.68,
     });
+    const commitDot = hasCommitData
+      ? element("circle", {
+          class: "github-activity-commit-marker",
+          r: narrow ? 3.6 : 4,
+          fill: palette.surface,
+          stroke: palette.accent,
+          "stroke-width": 2.1,
+        })
+      : null;
     const addDot = element("circle", { r: narrow ? 4 : 4.5, fill: palette.surface, stroke: palette.added, "stroke-width": 2.2 });
     const removeDot = element("circle", { r: narrow ? 4 : 4.5, fill: palette.surface, stroke: palette.removed, "stroke-width": 2.2 });
-    chart.append(guide, addDot, removeDot);
+    chart.append(guide);
+    if (commitDot) chart.append(commitDot);
+    chart.append(addDot, removeDot);
 
     const showIndex = (index) => {
       const next = Math.max(data[0].index, Math.min(data.at(-1).index, index));
@@ -300,6 +417,10 @@
       const xx = x(row.date);
       guide.setAttribute("x1", xx);
       guide.setAttribute("x2", xx);
+      if (commitDot) {
+        commitDot.setAttribute("cx", xx);
+        commitDot.setAttribute("cy", commitY(row.commits));
+      }
       addDot.setAttribute("cx", xx);
       addDot.setAttribute("cy", y(row.additions));
       removeDot.setAttribute("cx", xx);
@@ -307,7 +428,14 @@
       overlay.setAttribute("aria-valuenow", String(selectedIndex - data[0].index));
       overlay.setAttribute(
         "aria-valuetext",
-        "Week of " + row.week + ", " + signed(row.additions, true) + " added, " + signed(row.deletions, false) + " removed"
+        "Week of " +
+          row.week +
+          ", " +
+          (hasCommitData ? number.format(row.commits) + " commits, " : "") +
+          signed(row.additions, true) +
+          " added, " +
+          signed(row.deletions, false) +
+          " removed"
       );
       updateReadout(data);
     };
@@ -327,14 +455,14 @@
     const overlay = element("rect", {
       class: "github-activity-inspector",
       x: left,
-      y: top,
+      y: plotTop,
       width: width - left - right,
-      height: height - top - bottom,
+      height: lineBottom - plotTop,
       fill: "transparent",
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Weekly activity inspector",
+      "aria-label": hasCommitData ? "Weekly commit and line-change inspector" : "Weekly line-change inspector",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
@@ -402,6 +530,7 @@
 
   updated.dateTime = source.generatedAt;
   updated.textContent = String(source.generatedAt).slice(0, 10);
+  chartTitle.textContent = hasCommitData ? "Weekly commits, additions, and deletions" : "Weekly additions and deletions";
   setPressedState();
   drawChart();
   root.setAttribute("data-state", "ready");

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: A privacy-safe, outlier-aware view of Sirui Tao's weekly GitHub code changes.
+description: A privacy-safe, outlier-aware view of Sirui Tao's weekly GitHub commits and code changes.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -14,8 +14,8 @@ github_activity: true
     <p class="github-activity-eyebrow">GITHUB ACTIVITY</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Weekly lines touched across owned repositories. The readable scale keeps ordinary weeks visible beside rare, unusually large
-      changes; the literal view preserves their full magnitude.
+      Weekly commits and lines touched across owned repositories. Aligned panels keep the units honest; the readable line scale keeps
+      ordinary weeks visible beside rare, unusually large changes.
     </p>
     <p class="github-activity-boundary">Lines touched are evidence of change, not a productivity score.</p>
   </header>
@@ -32,7 +32,7 @@ github_activity: true
         </div>
       </fieldset>
       <fieldset class="github-activity-control-group">
-        <legend>Scale</legend>
+        <legend>Line scale</legend>
         <div class="github-activity-segments" data-scale-controls>
           <button type="button" data-scale="symlog" aria-pressed="true">Readable</button>
           <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
@@ -44,6 +44,8 @@ github_activity: true
       <div>
         <p class="github-activity-readout-label" id="github-activity-selected-date">Latest week</p>
         <p class="github-activity-values">
+          <span class="github-activity-commits" id="github-activity-selected-commits" data-commit-only hidden></span>
+          <span data-commit-only aria-hidden="true" hidden>·</span>
           <span class="github-activity-added" id="github-activity-selected-additions">+0 added</span>
           <span aria-hidden="true">·</span>
           <span class="github-activity-removed" id="github-activity-selected-deletions">−0 removed</span>
@@ -74,24 +76,31 @@ github_activity: true
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
+        <h2>Aligned, not dual-axis</h2>
+        <p>
+          Commits use a compact zero-preserving log1p panel above the line-change panel. Rare mass-commit weeks no longer flatten
+          ordinary weeks; exact counts remain literal in the readout and table.
+        </p>
+      </div>
+      <div>
         <h2>Readable and literal</h2>
         <p>
-          Readable uses a symmetric logarithmic transform that preserves zero and sign while compressing extremes. Literal uses one
-          linear scale, so the largest weeks occupy their full visual weight.
+          Readable uses a symmetric logarithmic transform for added and removed lines, preserving zero and sign while compressing
+          extremes. Literal gives those line changes one linear scale. The commit panel stays on its readable log1p scale in both views.
         </p>
       </div>
       <div>
         <h2>Scope and privacy</h2>
         <p>
-          The data is aggregated from owned repositories' default-branch contributor statistics. Repository identities are never
-          published.
+          The data is aggregated from owned repositories' default-branch activity. Repository identities are never published.
         </p>
       </div>
       <div>
         <h2>GitHub boundaries</h2>
         <p>
-          GitHub caches statistics against each default-branch SHA. Merge and empty commits are excluded, and line totals are zeroed
-          for repositories with 10,000 or more commits.
+          Default-branch activity uses GitHub contributor statistics, with a commit-history fallback when those statistics are
+          unavailable. GitHub's statistics exclude merge commits; the fallback also excludes true empty commits. The contributor-stat
+          source zeroes line totals for repositories with 10,000 or more commits.
         </p>
       </div>
     </div>
@@ -103,6 +112,7 @@ github_activity: true
         <thead>
           <tr>
             <th scope="col">Week</th>
+            <th scope="col" data-commit-only hidden>Commits</th>
             <th scope="col">Added</th>
             <th scope="col">Removed</th>
             <th scope="col">Lines touched</th>

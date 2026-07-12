@@ -181,12 +181,21 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await expect(rangeSummary).toContainText("5 years");
   await expect(rangeSummary).toContainText(/[A-Z][a-z]{2} \d{1,2}, \d{4} — [A-Z][a-z]{2} \d{1,2}, \d{4}/);
   const fiveYearSummary = await rangeSummary.textContent();
+  const hasCommitData = (await activity.getAttribute("data-has-commits")) === "true";
+  const commitPath = page.locator(".github-activity-commit-line");
+  let commitPathBeforeScaleChange = null;
+  if (hasCommitData) {
+    await expect(page.locator("#github-activity-chart").getByText("commits · readable log1p", { exact: true })).toBeVisible();
+    await expect(commitPath).toHaveCount(1);
+    commitPathBeforeScaleChange = await commitPath.getAttribute("d");
+  }
 
   const readable = page.getByRole("button", { name: "Readable" });
   const literal = page.getByRole("button", { name: "Literal" });
   await expect(readable).toHaveAttribute("aria-pressed", "true");
   await literal.click();
   await expect(literal).toHaveAttribute("aria-pressed", "true");
+  if (hasCommitData) await expect(commitPath).toHaveAttribute("d", commitPathBeforeScaleChange);
 
   await page.getByRole("button", { name: "1 year" }).click();
   await expect(rangeSummary).toContainText("1 year");
@@ -199,7 +208,14 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
   await expect(selectedDate).not.toHaveText(latest);
-  await expect(inspector).toHaveAttribute("aria-valuetext", /added, .*removed/);
+  if (hasCommitData) {
+    await expect(inspector).toHaveAttribute("aria-valuetext", /commits, .*added, .*removed/);
+    await expect(page.locator("#github-activity-selected-commits")).toContainText("commits");
+  } else {
+    await expect(inspector).toHaveAttribute("aria-valuetext", /added, .*removed/);
+    await expect(inspector).not.toHaveAttribute("aria-valuetext", /commits/);
+    await expect(page.locator("#github-activity-selected-commits")).toBeHidden();
+  }
 
   await page.getByText("How this view works", { exact: true }).click();
   await expect(page.locator("#github-activity-table-body tr").first()).toBeVisible();

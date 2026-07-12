@@ -167,6 +167,10 @@
   color: var(--github-activity-added-text);
 }
 
+.github-activity-commits {
+  color: var(--global-primary-color);
+}
+
 .github-activity-removed {
   color: var(--github-activity-removed-text);
 }
@@ -193,7 +197,7 @@
 .github-activity-chart {
   display: block;
   width: 100%;
-  height: clamp(24rem, 50vw, 31rem);
+  height: clamp(32rem, 58vw, 38rem);
   overflow: visible;
   touch-action: pan-y;
 }
@@ -234,7 +238,7 @@
 
 .github-activity-method-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
   padding: 0.4rem 0 1.5rem;
 }
@@ -323,7 +327,7 @@
   }
 
   .github-activity-chart {
-    height: 22rem;
+    height: 30rem;
   }
 
   .github-activity-method-grid {
