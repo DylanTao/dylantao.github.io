@@ -111,6 +111,7 @@
   const updated = document.getElementById("github-activity-updated");
   const rangeButtons = Array.from(root.querySelectorAll("[data-range]"));
   const scaleButtons = Array.from(root.querySelectorAll("[data-scale]"));
+  const tierLegendButtons = Array.from(root.querySelectorAll("[data-tier-inspector]"));
   const latestButton = root.querySelector("[data-jump-latest]");
   const clearSelectionButton = root.querySelector("[data-clear-selection]");
   const number = new Intl.NumberFormat("en-US");
@@ -237,6 +238,20 @@
   };
   const updateTierReadout = (tier) => {
     selectedTier.textContent = tier ? "Plan · " + tier.label + " · " + tierDateRange(tier) : "Plan · before tracked price history";
+  };
+  const clearTierInspection = () => {
+    chart.querySelectorAll(".github-activity-tier-run").forEach((node) => node.classList.remove("is-inspected"));
+  };
+  const inspectTierValue = (value) => {
+    const phases = tierPhases.filter((phase) => phase.tier_usd === value);
+    if (!phases.length) return;
+    clearTierInspection();
+    chart.querySelectorAll(`.github-activity-tier-run[data-tier-value="${value}"]`).forEach((node) => node.classList.add("is-inspected"));
+    selectedTier.textContent = "Plan · " + phases[0].label + " · " + phases.map(tierDateRange).join("; ");
+  };
+  const restoreSelectedWeekTier = () => {
+    clearTierInspection();
+    updateTierReadout(rows[selectedIndex].tier);
   };
   const updateWeekReadout = (row) => {
     selectedDate.textContent = "Week of " + dateLabel.format(row.date);
@@ -479,6 +494,7 @@
         const visualRun = element("rect", {
           class: "github-activity-tier-run",
           "data-tier-key": run.key,
+          "data-tier-value": run.tier.tier_usd,
           "data-first-week": run.first.week,
           "data-last-week": run.last.week,
           x: x1,
@@ -500,14 +516,14 @@
             "github-activity-tier-label"
           );
         }
-        const segmentWidth = Math.max(1, x2 - x1);
-        const hitWidth = Math.min(width - left - right, Math.max(24, segmentWidth));
-        const hitX = Math.max(left, Math.min(width - right - hitWidth, (x1 + x2 - hitWidth) / 2));
+        // Match the visual run exactly: adjacent phases share a boundary, so
+        // expanding short hit areas would make one tap select two tiers.
+        const hitWidth = Math.max(1, x2 - x1);
         const titleText = run.tier.label + " · " + tierDateRange(run.tier);
         const hit = element("rect", {
           class: "github-activity-tier-hit",
           "data-tier-key": run.key,
-          x: hitX,
+          x: x1,
           y: ribbonTop - 7,
           width: hitWidth,
           height: 24,
@@ -520,13 +536,12 @@
         title.textContent = titleText;
         hit.append(title);
         const inspectTier = () => {
-          ribbon.querySelectorAll(".github-activity-tier-run").forEach((node) => node.classList.remove("is-inspected"));
+          clearTierInspection();
           visualRun.classList.add("is-inspected");
           updateTierReadout(run.tier);
         };
         const restoreWeekTier = () => {
-          visualRun.classList.remove("is-inspected");
-          updateTierReadout(rows[selectedIndex].tier);
+          restoreSelectedWeekTier();
         };
         hit.addEventListener("pointerenter", inspectTier);
         hit.addEventListener("pointerdown", (event) => {
@@ -929,6 +944,16 @@
       setPressedState();
       drawChart();
     });
+  });
+  tierLegendButtons.forEach((button) => {
+    const inspect = () => inspectTierValue(Number(button.dataset.tierInspector));
+    button.addEventListener("pointerenter", inspect);
+    button.addEventListener("pointerleave", () => {
+      if (document.activeElement !== button) restoreSelectedWeekTier();
+    });
+    button.addEventListener("focus", inspect);
+    button.addEventListener("blur", restoreSelectedWeekTier);
+    button.addEventListener("click", inspect);
   });
   latestButton.addEventListener("click", (event) => {
     selection = null;

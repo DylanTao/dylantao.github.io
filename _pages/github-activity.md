@@ -36,7 +36,7 @@ github_activity: true
       </dl>
       <p class="github-activity-ledger-note">
         The account total gets the headline; the local replay keeps the receipts. Cost follows the observed model and cache mix, not the bill.
-        Jul 12 is partial.
+        {% if account_lifetime.recent_activity.partial_last_day %}{{ account_lifetime.recent_activity.end_label }} is partial.{% endif %}
       </p>
     {% endif %}
   </header>
@@ -85,11 +85,24 @@ github_activity: true
     <div class="github-activity-tier-legend" aria-label="Monthly plan price ribbon legend">
       <span>Plan price</span>
       <ul>
-        <li><span class="github-activity-tier-swatch" data-tier-value="20" aria-hidden="true"></span>$20/mo</li>
-        <li><span class="github-activity-tier-swatch" data-tier-value="100" aria-hidden="true"></span>$100/mo</li>
-        <li><span class="github-activity-tier-swatch" data-tier-value="200" aria-hidden="true"></span>$200/mo</li>
+        <li>
+          <button type="button" class="github-activity-tier-legend-button" data-tier-inspector="20" aria-controls="github-activity-selected-tier">
+            <span class="github-activity-tier-swatch" data-tier-value="20" aria-hidden="true"></span>$20/mo
+          </button>
+        </li>
+        <li>
+          <button type="button" class="github-activity-tier-legend-button" data-tier-inspector="100" aria-controls="github-activity-selected-tier">
+            <span class="github-activity-tier-swatch" data-tier-value="100" aria-hidden="true"></span>$100/mo
+          </button>
+        </li>
+        <li>
+          <button type="button" class="github-activity-tier-legend-button" data-tier-inspector="200" aria-controls="github-activity-selected-tier">
+            <span class="github-activity-tier-swatch" data-tier-value="200" aria-hidden="true"></span>$200/mo
+          </button>
+        </li>
       </ul>
     </div>
+    <p class="github-activity-tier-caveat">{{ site.data.github_ai_tiers.caveat }}</p>
 
     <div class="github-activity-chart-shell">
       <h2 class="sr-only" id="github-activity-chart-title">Weekly additions and deletions</h2>
@@ -129,7 +142,7 @@ github_activity: true
       </div>
       <div>
         <h2>Plan-price ribbon</h2>
-        <p>The ribbon lines up each week with the monthly price paid at the time. Calendar context, nothing fancier.</p>
+        <p>The ribbon lines up each week with the monthly price paid at the time. Price is context—not measured AI use, productivity, or causation.</p>
       </div>
     </div>
     <section class="github-activity-tier-comparison" aria-labelledby="github-activity-tier-title">

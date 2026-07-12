@@ -16,7 +16,7 @@ import subprocess
 import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -101,13 +101,22 @@ LOCAL_LIFETIME_CHECK_FIELDS = (
     ("api_cost_equivalence", "unpriced_token_usage", "total_tokens"),
 )
 ACCOUNT_LIFETIME_CHECK_FIELDS = (
+    ("source_as_of",),
     ("token_count",),
     ("tokens_label",),
+    ("tasks",),
+    ("peak_daily_tokens",),
+    ("peak_daily_date",),
     ("api_cost_equivalence", "usd_midpoint"),
     ("api_cost_equivalence", "usd_label"),
     ("api_cost_equivalence", "observed_usd_per_million_tokens"),
+    ("recent_activity", "end_date"),
+    ("recent_activity", "end_label"),
+    ("recent_activity", "partial_last_day"),
     ("recent_activity", "sparkline_points"),
 )
+
+ACCOUNT_SNAPSHOT_MAX_AGE = timedelta(hours=36)
 
 PRICE_SOURCE_URL = "https://developers.openai.com/api/docs/pricing"
 MODEL_PRICE_AS_OF = "2026-07-12"
@@ -575,7 +584,8 @@ def rounded_token_count(raw_tokens: int) -> int:
 
 def token_label(tokens: int) -> str:
     if tokens >= 1_000_000_000:
-        label = f"{tokens / 1_000_000_000:.2f}".rstrip("0").rstrip(".")
+        decimals = 1 if tokens >= 10_000_000_000 else 2
+        label = f"{tokens / 1_000_000_000:.{decimals}f}".rstrip("0").rstrip(".")
         return f"{label}B"
     if tokens >= 1_000_000:
         return f"{round(tokens / 1_000_000):.0f}M"
@@ -1144,6 +1154,11 @@ def sparkline_points(daily: list[dict[str, Any]], width: float = 112, height: fl
     )
 
 
+def short_date_label(value: str) -> str:
+    parsed = date.fromisoformat(value)
+    return f"{parsed.strftime('%b')} {parsed.day}"
+
+
 def refresh_account_lifetime_data(current: dict[str, Any], local_replay: dict[str, Any]) -> dict[str, Any]:
     """Keep the manual account snapshot and refresh its public API-rate replay."""
 
@@ -1174,11 +1189,112 @@ def refresh_account_lifetime_data(current: dict[str, Any], local_replay: dict[st
         recent["sparkline_points"] = sparkline_points(daily)
         recent["start_date"] = str(daily[0].get("date") or "")
         recent["end_date"] = str(daily[-1].get("date") or "")
+        try:
+            recent["end_label"] = short_date_label(recent["end_date"])
+        except ValueError:
+            recent["end_label"] = recent["end_date"]
         peak = max(daily, key=lambda row: int(row.get("tokens") or 0))
         recent["peak_date"] = str(peak.get("date") or "")
         recent["peak_tokens"] = int(peak.get("tokens") or 0)
         next_scope["recent_activity"] = recent
     return next_scope
+
+
+def account_snapshot_check_messages(
+    account: dict[str, Any],
+    *,
+    now: datetime | None = None,
+) -> list[str]:
+    """Validate the manual account snapshot independently of local-log replay."""
+
+    issues: list[str] = []
+    observed_at = parse_timestamp(account.get("source_as_of"))
+    current_time = now or datetime.now(timezone.utc)
+    if current_time.tzinfo is None:
+        current_time = current_time.replace(tzinfo=timezone.utc)
+    else:
+        current_time = current_time.astimezone(timezone.utc)
+
+    if observed_at is None:
+        issues.append("account_lifetime.source_as_of must be an ISO timestamp.")
+    else:
+        age = current_time - observed_at
+        if age > ACCOUNT_SNAPSHOT_MAX_AGE:
+            issues.append(
+                "account_lifetime.source_as_of is stale "
+                f"({age.total_seconds() / 3600:.1f} hours old; maximum is 36 hours)."
+            )
+        elif age < -timedelta(minutes=5):
+            issues.append("account_lifetime.source_as_of is in the future.")
+
+    token_count = account.get("token_count")
+    if not isinstance(token_count, int) or token_count <= 0:
+        issues.append("account_lifetime.token_count must be a positive integer.")
+    elif account.get("tokens_label") != token_label(token_count):
+        issues.append(
+            "account_lifetime.tokens_label does not match token_count "
+            f"(expected {token_label(token_count)!r})."
+        )
+
+    if not isinstance(account.get("tasks"), int) or account["tasks"] <= 0:
+        issues.append("account_lifetime.tasks must be a positive integer.")
+    if not isinstance(account.get("peak_daily_tokens"), int) or account["peak_daily_tokens"] <= 0:
+        issues.append("account_lifetime.peak_daily_tokens must be a positive integer.")
+    try:
+        date.fromisoformat(str(account.get("peak_daily_date") or ""))
+    except ValueError:
+        issues.append("account_lifetime.peak_daily_date must be an ISO date.")
+
+    recent = account.get("recent_activity")
+    if not isinstance(recent, dict):
+        issues.append("account_lifetime.recent_activity must be a mapping.")
+        return issues
+    daily = recent.get("daily")
+    if not isinstance(daily, list) or len(daily) != 30:
+        issues.append("account_lifetime.recent_activity.daily must contain exactly 30 rows.")
+        daily = daily if isinstance(daily, list) else []
+
+    parsed_dates: list[date] = []
+    for index, row in enumerate(daily):
+        if not isinstance(row, dict):
+            issues.append(f"account_lifetime.recent_activity.daily[{index}] must be a mapping.")
+            continue
+        try:
+            parsed_dates.append(date.fromisoformat(str(row.get("date") or "")))
+        except ValueError:
+            issues.append(f"account_lifetime.recent_activity.daily[{index}].date must be an ISO date.")
+        tokens = row.get("tokens")
+        if not isinstance(tokens, int) or tokens < 0:
+            issues.append(
+                f"account_lifetime.recent_activity.daily[{index}].tokens must be a non-negative integer."
+            )
+
+    partial_last_day = recent.get("partial_last_day")
+    if not isinstance(partial_last_day, bool):
+        issues.append("account_lifetime.recent_activity.partial_last_day must be a boolean.")
+
+    if len(parsed_dates) == len(daily) and parsed_dates:
+        for previous, current in zip(parsed_dates, parsed_dates[1:]):
+            if current != previous + timedelta(days=1):
+                issues.append("account_lifetime.recent_activity.daily dates must be sequential.")
+                break
+        expected_start = parsed_dates[0].isoformat()
+        expected_end = parsed_dates[-1].isoformat()
+        if recent.get("start_date") != expected_start:
+            issues.append("account_lifetime.recent_activity.start_date does not match its first row.")
+        if recent.get("end_date") != expected_end:
+            issues.append("account_lifetime.recent_activity.end_date does not match its final row.")
+        if recent.get("end_label") != short_date_label(expected_end):
+            issues.append("account_lifetime.recent_activity.end_label does not match its final row.")
+        if partial_last_day is True and observed_at and observed_at.date() != parsed_dates[-1]:
+            issues.append(
+                "account_lifetime.recent_activity.partial_last_day requires source_as_of and the final row to share a date."
+            )
+
+    points = str(recent.get("sparkline_points") or "").split()
+    if len(points) != len(daily):
+        issues.append("account_lifetime.recent_activity.sparkline_points must match the daily row count.")
+    return issues
 
 
 def build_ledger_data(
@@ -1477,17 +1593,25 @@ def main() -> int:
         proposed = build_ledger_data(current, total, desk, since_gpt_5_6, local_lifetime, model_tracking)
         mismatches = check_public_freshness(current, proposed)
         model_issues = model_tracking_check_messages(model_tracking)
-        if mismatches or model_issues:
+        account_issues = account_snapshot_check_messages(current.get("account_lifetime", {}))
+        if mismatches or model_issues or account_issues:
             if mismatches:
                 print("Agentic usage ledger public fields are stale:")
                 for mismatch in mismatches:
                     print(f"- {mismatch}")
+            if account_issues:
+                print("Codex account snapshot is stale or malformed:")
+                for issue in account_issues:
+                    print(f"- {issue}")
             if model_issues:
                 print("Post-cutover model/effort check is not aligned:")
                 for issue in model_issues:
                     print(f"- {issue}")
             return 1
-        print("Agentic usage ledger public fields are fresh; post-cutover model/effort check is aligned.")
+        print(
+            "Agentic usage ledger public fields and account snapshot are fresh; "
+            "post-cutover model/effort check is aligned."
+        )
         return 0
 
     if args.json:

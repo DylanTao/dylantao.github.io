@@ -488,6 +488,29 @@ class PendingChangesTests(unittest.TestCase):
 
 
 class PriceLensTests(unittest.TestCase):
+    @staticmethod
+    def account_snapshot(source_as_of: str = "2026-07-12T18:40:36Z") -> dict[str, object]:
+        start = datetime(2026, 6, 13, tzinfo=timezone.utc)
+        daily = [
+            {
+                "date": (start + timedelta(days=index)).date().isoformat(),
+                "tokens": (index + 1) * 100,
+            }
+            for index in range(30)
+        ]
+        return audit.refresh_account_lifetime_data(
+            {
+                "source_as_of": source_as_of,
+                "token_count": 20_860_271_364,
+                "tokens_label": "20.9B",
+                "tasks": 797,
+                "peak_daily_tokens": 1_748_633_377,
+                "peak_daily_date": "2026-07-01",
+                "recent_activity": {"partial_last_day": True, "daily": daily},
+            },
+            {},
+        )
+
     def test_public_money_rounding_does_not_churn_on_single_dollar_drift(self) -> None:
         self.assertEqual(audit.rounded_money(71.1), 70)
         self.assertEqual(audit.rounded_money(72.4), 70)
@@ -558,7 +581,38 @@ class PriceLensTests(unittest.TestCase):
         self.assertEqual(account["api_cost_equivalence"]["observed_usd_per_million_tokens"], 0.84)
         self.assertEqual(account["api_cost_equivalence"]["usd_midpoint"], 17_500)
         self.assertEqual(account["recent_activity"]["peak_date"], "2026-07-11")
+        self.assertEqual(account["recent_activity"]["end_label"], "Jul 12")
         self.assertEqual(len(account["recent_activity"]["sparkline_points"].split()), 3)
+
+    def test_account_snapshot_validation_accepts_fresh_complete_series(self) -> None:
+        account = self.account_snapshot()
+        issues = audit.account_snapshot_check_messages(
+            account,
+            now=datetime(2026, 7, 12, 19, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(issues, [])
+
+    def test_account_snapshot_validation_rejects_stale_source(self) -> None:
+        account = self.account_snapshot("2026-07-10T06:00:00Z")
+        issues = audit.account_snapshot_check_messages(
+            account,
+            now=datetime(2026, 7, 12, 19, 0, tzinfo=timezone.utc),
+        )
+        self.assertTrue(any("stale" in issue for issue in issues))
+
+    def test_account_snapshot_validation_rejects_malformed_daily_series(self) -> None:
+        account = self.account_snapshot()
+        account["recent_activity"]["daily"][4]["date"] = "not-a-date"
+        account["recent_activity"]["daily"].pop()
+        account["recent_activity"]["partial_last_day"] = "yes"
+        issues = audit.account_snapshot_check_messages(
+            account,
+            now=datetime(2026, 7, 12, 19, 0, tzinfo=timezone.utc),
+        )
+        self.assertTrue(any("exactly 30 rows" in issue for issue in issues))
+        self.assertTrue(any("must be an ISO date" in issue for issue in issues))
+        self.assertTrue(any("partial_last_day must be a boolean" in issue for issue in issues))
+        self.assertTrue(any("sparkline_points" in issue for issue in issues))
 
 
 if __name__ == "__main__":

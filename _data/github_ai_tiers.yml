@@ -1,7 +1,7 @@
 schema: 1
 assignment: week_midpoint_wednesday
 source_note: Monthly plan prices from the user's subscription history; credits do not create a new tier.
-caveat: Calendar context only.
+caveat: Plan price is calendar context—not measured AI use, productivity, or causation.
 phases:
   - key: plus-20
     label: $20/mo

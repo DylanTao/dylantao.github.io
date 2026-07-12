@@ -467,11 +467,35 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   expect(ribbonState.directLabels).toBeLessThan(ribbonState.actual.length);
   const tierHits = page.locator(".github-activity-tier-hit");
   await expect(tierHits).toHaveCount(ribbonState.actual.length);
+  const hitGeometry = await tierHits.evaluateAll((nodes) =>
+    nodes.map((node) => ({
+      x: Number(node.getAttribute("x")),
+      width: Number(node.getAttribute("width")),
+      height: Number(node.getAttribute("height")),
+      hasTitle: Boolean(node.querySelector("title")),
+    }))
+  );
+  expect(hitGeometry.every((hit) => hit.width >= 1 && hit.height >= 24 && hit.hasTitle)).toBe(true);
+  hitGeometry.slice(1).forEach((hit, index) => {
+    const previous = hitGeometry[index];
+    expect(previous.x + previous.width).toBeLessThanOrEqual(hit.x + 0.001);
+  });
+  const legendButtons = page.locator(".github-activity-tier-legend-button");
+  await expect(legendButtons).toHaveCount(3);
   expect(
-    await tierHits.evaluateAll((nodes) =>
-      nodes.every((node) => Number(node.getAttribute("width")) >= 24 && Number(node.getAttribute("height")) >= 24 && node.querySelector("title"))
+    await legendButtons.evaluateAll((nodes) =>
+      nodes.every((node) => {
+        const box = node.getBoundingClientRect();
+        return box.width >= 24 && box.height >= 24;
+      })
     )
   ).toBe(true);
+  const legendHundred = page.locator('[data-tier-inspector="100"]');
+  await legendHundred.click();
+  await expect(page.locator("#github-activity-selected-tier")).toContainText("Plan · $100/mo · May 5, 2026 — Jun 5, 2026");
+  const legendTwoHundred = page.locator('[data-tier-inspector="200"]');
+  await legendTwoHundred.focus();
+  await expect(page.locator("#github-activity-selected-tier")).toContainText("Mar 5, 2026 — May 4, 2026; since Jun 6, 2026");
   const hundredHit = page.locator('.github-activity-tier-hit[data-tier-key="tier-100"]');
   await hundredHit.hover();
   await expect(page.locator("#github-activity-selected-tier")).toContainText("Plan · $100/mo · May 5, 2026 — Jun 5, 2026");
@@ -590,7 +614,7 @@ test("home agentic heartbeat uses the account lifetime and real daily sparkline"
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
   await expect(heartbeat).toContainText("20.9B Codex lifetime");
-  await expect(heartbeat).toContainText("~$17.5K at API list rates");
+  await expect(heartbeat).toContainText("~$17.5K API-rate estimate from local mix");
   await expect(heartbeat).toContainText("3110 GitHub commits");
   const sparkline = heartbeat.locator(".home-agentic-heartbeat-sparkline polyline");
   await expect(sparkline).toHaveCount(1);

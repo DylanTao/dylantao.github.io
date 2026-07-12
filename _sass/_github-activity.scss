@@ -270,8 +270,28 @@
 .github-activity-tier-legend li {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
   white-space: nowrap;
+}
+
+.github-activity-tier-legend-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.github-activity-tier-legend-button:hover,
+.github-activity-tier-legend-button:focus-visible {
+  border-color: var(--global-primary-color);
+  color: var(--global-text-color);
+  outline: none;
 }
 
 .github-activity-tier-swatch {
@@ -291,6 +311,12 @@
 
 .github-activity-tier-swatch[data-tier-value="200"] {
   background: var(--github-activity-tier-200);
+}
+
+.github-activity-tier-caveat {
+  margin: 0.15rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-label);
 }
 
 .github-activity-clear-selection {

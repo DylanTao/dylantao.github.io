@@ -107,18 +107,19 @@ layout: default
               <a
                 class="home-agentic-heartbeat"
                 href="{{ '/github-activity/' | relative_url }}"
-                aria-label="Open Codex and GitHub activity"
               >
                 <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
                 <span class="home-agentic-heartbeat-copy">
                   <strong>{{ account_lifetime.tokens_label }} Codex lifetime</strong>
-                  <small>{{ account_lifetime.api_cost_equivalence.usd_label }} at API list rates · {{ all_github_commits }} GitHub commits</small>
+                  <small>
+                    {{- account_lifetime.api_cost_equivalence.usd_label }} API-rate estimate from local mix · {{ all_github_commits }} GitHub commits</small
+                  >
                 </span>
                 <svg
                   class="home-agentic-heartbeat-sparkline"
                   viewBox="0 0 112 28"
                   role="img"
-                  aria-label="Last 30 calendar days of Codex token activity; Jul 12 is partial"
+                  aria-label="Last 30 calendar days of Codex token activity{% if account_lifetime.recent_activity.partial_last_day %}; {{ account_lifetime.recent_activity.end_label }} is partial{% endif %}"
                 >
                   <polyline pathLength="1" points="{{ account_lifetime.recent_activity.sparkline_points }}"></polyline>
                 </svg>
