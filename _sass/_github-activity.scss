@@ -30,7 +30,6 @@
 
 .github-activity-eyebrow,
 .github-activity-readout-label,
-.github-activity-overview-labels,
 .github-activity-source {
   font-family: var(--font-mono);
 }
@@ -199,8 +198,7 @@
   touch-action: pan-y;
 }
 
-.github-activity-chart text,
-.github-activity-overview text {
+.github-activity-chart text {
   font-family: var(--font-mono);
   font-size: 12px;
 }
@@ -215,27 +213,6 @@
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
   font-variant-numeric: tabular-nums;
-}
-
-.github-activity-overview-shell {
-  margin-top: 1rem;
-}
-
-.github-activity-overview-labels {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  color: var(--global-text-color-light);
-  font-size: var(--type-label);
-}
-
-.github-activity-overview {
-  display: block;
-  width: 100%;
-  height: 4.5rem;
-  margin-top: 0.25rem;
-  overflow: visible;
-  touch-action: pan-y;
 }
 
 .github-activity-method {

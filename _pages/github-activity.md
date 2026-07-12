@@ -68,19 +68,6 @@ github_activity: true
       <p class="github-activity-annotation" id="github-activity-annotation"></p>
     </div>
 
-    <div class="github-activity-overview-shell">
-      <div class="github-activity-overview-labels">
-        <span>Full history · literal scale</span>
-        <span id="github-activity-overview-window">Selected window</span>
-      </div>
-      <svg
-        id="github-activity-overview"
-        class="github-activity-overview"
-        role="img"
-        aria-label="Full history overview with the selected time window highlighted"
-      ></svg>
-    </div>
-
   </section>
 
   <details class="github-activity-method">
@@ -127,7 +114,7 @@ github_activity: true
   </details>
 
   <p class="github-activity-source">
-    Aggregate snapshot updated <time id="github-activity-updated"></time>. The focus-and-context treatment draws on
+    Aggregate snapshot updated <time id="github-activity-updated"></time>. The time-window and scale controls draw on
     <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>

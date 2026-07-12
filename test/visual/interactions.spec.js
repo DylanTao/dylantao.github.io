@@ -176,8 +176,11 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
 
   const activity = page.locator("[data-github-activity]");
   await expect(activity).toHaveAttribute("data-state", "ready");
+  const rangeSummary = page.locator("#github-activity-range-summary");
   await page.getByRole("button", { name: "5 years" }).click();
-  await expect(page.locator("#github-activity-range-summary")).toContainText("5 years");
+  await expect(rangeSummary).toContainText("5 years");
+  await expect(rangeSummary).toContainText(/[A-Z][a-z]{2} \d{1,2}, \d{4} — [A-Z][a-z]{2} \d{1,2}, \d{4}/);
+  const fiveYearSummary = await rangeSummary.textContent();
 
   const readable = page.getByRole("button", { name: "Readable" });
   const literal = page.getByRole("button", { name: "Literal" });
@@ -186,7 +189,9 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await expect(literal).toHaveAttribute("aria-pressed", "true");
 
   await page.getByRole("button", { name: "1 year" }).click();
-  await expect(page.locator("#github-activity-range-summary")).toContainText("1 year");
+  await expect(rangeSummary).toContainText("1 year");
+  await expect(rangeSummary).not.toHaveText(fiveYearSummary);
+  await expect(page.locator("#github-activity-overview")).toHaveCount(0);
 
   const selectedDate = page.locator("#github-activity-selected-date");
   const latest = await selectedDate.textContent();

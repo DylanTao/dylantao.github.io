@@ -51,13 +51,11 @@
   }));
   const NS = "http://www.w3.org/2000/svg";
   const chart = document.getElementById("github-activity-chart");
-  const overview = document.getElementById("github-activity-overview");
   const selectedDate = document.getElementById("github-activity-selected-date");
   const selectedAdditions = document.getElementById("github-activity-selected-additions");
   const selectedDeletions = document.getElementById("github-activity-selected-deletions");
   const rangeSummary = document.getElementById("github-activity-range-summary");
   const annotation = document.getElementById("github-activity-annotation");
-  const overviewWindow = document.getElementById("github-activity-overview-window");
   const tableBody = document.getElementById("github-activity-table-body");
   const updated = document.getElementById("github-activity-updated");
   const rangeButtons = Array.from(root.querySelectorAll("[data-range]"));
@@ -140,8 +138,18 @@
     const additions = data.reduce((sum, item) => sum + item.additions, 0);
     const deletions = data.reduce((sum, item) => sum + item.deletions, 0);
     const scope = range === "all" ? "All history" : range + (range === "1" ? " year" : " years");
+    const dateRange = dateLabel.format(data[0].date) + " — " + dateLabel.format(data.at(-1).date);
     rangeSummary.textContent =
-      scope + " · " + number.format(active.length) + " active weeks · +" + compact(additions) + " added · −" + compact(deletions) + " removed";
+      scope +
+      " · " +
+      dateRange +
+      " · " +
+      number.format(active.length) +
+      " active weeks · +" +
+      compact(additions) +
+      " added · −" +
+      compact(deletions) +
+      " removed";
 
     const largest = data.reduce((best, item) => (Math.max(item.additions, item.deletions) > Math.max(best.additions, best.deletions) ? item : best));
     const medianMagnitude = percentile(
@@ -302,7 +310,6 @@
         "Week of " + row.week + ", " + signed(row.additions, true) + " added, " + signed(row.deletions, false) + " removed"
       );
       updateReadout(data);
-      drawOverview();
     };
 
     const pointerIndex = (event) => {
@@ -356,73 +363,6 @@
     chart.append(overlay);
     showIndex(selectedIndex);
     updateTable(data);
-    overviewWindow.textContent = data[0].week + " — " + data.at(-1).week;
-  };
-
-  const drawOverview = () => {
-    overview.replaceChildren();
-    const palette = colors();
-    const width = overview.clientWidth || 920;
-    const height = overview.clientHeight || 72;
-    const left = 2;
-    const right = 2;
-    const top = 6;
-    const bottom = 6;
-    const baseline = height / 2;
-    const half = (height - top - bottom) / 2;
-    const start = rows[0].date.getTime();
-    const end = rows.at(-1).date.getTime();
-    const span = Math.max(1, end - start);
-    const maximum = Math.max(...rows.flatMap((row) => [row.additions, row.deletions]), 1);
-    const x = (date) => left + ((date.getTime() - start) / span) * (width - left - right);
-    const y = (value) => baseline - Math.sign(value) * (Math.abs(value) / maximum) * half;
-    overview.setAttribute("viewBox", "0 0 " + width + " " + height);
-
-    const visible = selectedRows();
-    const selectionStart = x(visible[0].date);
-    const selectionEnd = x(visible.at(-1).date);
-    overview.append(
-      element("rect", {
-        x: selectionStart,
-        y: top,
-        width: Math.max(2, selectionEnd - selectionStart),
-        height: height - top - bottom,
-        rx: 3,
-        fill: palette.accent,
-        "fill-opacity": 0.11,
-        stroke: palette.accent,
-        "stroke-opacity": 0.45,
-      })
-    );
-    overview.append(element("line", { x1: left, y1: baseline, x2: width - right, y2: baseline, stroke: palette.grid, "stroke-width": 1 }));
-    const addStems = rows
-      .map((row) => "M " + x(row.date).toFixed(2) + " " + baseline + " L " + x(row.date).toFixed(2) + " " + y(row.additions).toFixed(2))
-      .join(" ");
-    const removeStems = rows
-      .map((row) => "M " + x(row.date).toFixed(2) + " " + baseline + " L " + x(row.date).toFixed(2) + " " + y(-row.deletions).toFixed(2))
-      .join(" ");
-    overview.append(element("path", { d: addStems, fill: "none", stroke: palette.added, "stroke-width": 1, "stroke-opacity": 0.7 }));
-    overview.append(element("path", { d: removeStems, fill: "none", stroke: palette.removed, "stroke-width": 1, "stroke-opacity": 0.7 }));
-    const selectedX = x(rows[selectedIndex].date);
-    overview.append(element("line", { x1: selectedX, y1: top, x2: selectedX, y2: height - bottom, stroke: palette.text, "stroke-width": 1.4 }));
-
-    const overlay = element("rect", {
-      x: left,
-      y: top,
-      width: width - left - right,
-      height: height - top - bottom,
-      fill: "transparent",
-      cursor: "crosshair",
-    });
-    overlay.addEventListener("pointerdown", (event) => {
-      const box = overview.getBoundingClientRect();
-      const fraction = Math.max(0, Math.min(1, (event.clientX - box.left) / Math.max(1, box.width)));
-      selectedIndex = Math.round(fraction * (rows.length - 1));
-      const data = selectedRows();
-      if (!data.some((row) => row.index === selectedIndex)) selectedIndex = data[0].index;
-      drawChart();
-    });
-    overview.append(overlay);
   };
 
   rangeButtons.forEach((button) => {
