@@ -266,6 +266,60 @@ class SessionAccountingTests(unittest.TestCase):
             self.assertEqual(root, codex_home / "sessions")
             self.assertEqual({path.name for path in root.iterdir()}, {"2025", "2026"})
 
+    def test_local_history_scan_keeps_all_cwds_while_repo_scope_stays_filtered(self) -> None:
+        base = datetime(2026, 6, 20, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            write_log(
+                root / "site.jsonl",
+                [
+                    session_meta(base, "site"),
+                    turn_context(base + timedelta(seconds=1), "site-turn"),
+                    token_event(base + timedelta(seconds=2), usage(10), usage(10)),
+                ],
+            )
+            write_log(
+                root / "other.jsonl",
+                [
+                    session_meta(base, "other", cwd=r"D:\dev\another-project"),
+                    turn_context(base + timedelta(seconds=1), "other-turn"),
+                    token_event(base + timedelta(seconds=2), usage(20), usage(20)),
+                ],
+            )
+            all_sessions = audit.scan_sessions(root, None)
+            site_sessions = audit.sessions_matching_repo(all_sessions, audit.REPO_NEEDLE)
+
+        self.assertEqual(set(all_sessions), {"site", "other"})
+        self.assertEqual(set(site_sessions), {"site"})
+        local = audit.audit_scope(
+            audit.prepare_usage_dataset(all_sessions),
+            base - timedelta(seconds=1),
+            commit_count=0,
+        )
+        self.assertEqual(local["raw_token_count"], 30)
+        self.assertEqual(local["sessions"], 2)
+
+    def test_model_tracking_uses_all_local_contexts_when_repo_scope_is_empty(self) -> None:
+        base = audit.GPT_5_6_CUTOVER_UTC + timedelta(minutes=1)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            write_log(
+                root / "other.jsonl",
+                [
+                    session_meta(base, "other", cwd=r"D:\dev\another-project"),
+                    turn_context(base + timedelta(seconds=1), "other-turn", "gpt-5.6-sol", "ultra"),
+                    token_event(base + timedelta(seconds=2), usage(20), usage(20)),
+                ],
+            )
+            all_sessions = audit.scan_sessions(root, None)
+            repo_sessions = audit.sessions_matching_repo(all_sessions, audit.REPO_NEEDLE)
+            local_tracking = audit.build_model_tracking(audit.prepare_usage_dataset(all_sessions))
+
+        self.assertEqual(repo_sessions, {})
+        self.assertEqual(local_tracking["status"], "aligned")
+        self.assertEqual(local_tracking["post_cutover_turns_observed"], 1)
+        self.assertEqual(local_tracking["post_cutover_deviation_count"], 0)
+
     def test_missing_post_cutover_context_is_unobserved_not_aligned(self) -> None:
         dataset = audit.UsageDataset(
             sessions={},
@@ -297,6 +351,119 @@ class PendingChangesTests(unittest.TestCase):
             self.assertTrue(audit.has_pending_changes(REPO_ROOT, ["tracked.txt"]))
         with mock.patch.object(audit.subprocess, "run", side_effect=[clean, clean, untracked]):
             self.assertTrue(audit.has_pending_changes(REPO_ROOT, ["tracked.txt"]))
+
+    def test_shallow_history_fails_closed_before_ledger_math(self) -> None:
+        shallow = mock.Mock(returncode=0, stdout="true\n", stderr="")
+        with mock.patch.object(audit.subprocess, "run", return_value=shallow):
+            with self.assertRaisesRegex(RuntimeError, "complete git history"):
+                audit.require_complete_git_history(REPO_ROOT)
+
+    def test_missing_repo_usage_preserves_previous_audited_totals(self) -> None:
+        empty_dataset = audit.UsageDataset(
+            sessions={},
+            usage_events=[],
+            contexts_by_turn={},
+            source_counts={},
+        )
+        result = audit.audit_scope(empty_dataset, audit.REVAMP_CUTOFF_UTC, commit_count=42)
+        previous = {
+            "commits": 41,
+            "token_count": 3_120_000_000,
+            "tokens_label": "3.12B",
+            "hours_count": 259,
+            "hours_label": "259",
+        }
+        merged = audit.merge_scope_data(previous, result)
+        self.assertEqual(merged["commits"], 42)
+        self.assertEqual(merged["token_count"], 3_120_000_000)
+        self.assertEqual(merged["tokens_label"], "3.12B")
+
+    def test_missing_local_usage_preserves_previous_retained_snapshot(self) -> None:
+        empty_dataset = audit.UsageDataset(
+            sessions={},
+            usage_events=[],
+            contexts_by_turn={},
+            source_counts={},
+        )
+        result = audit.audit_scope(empty_dataset, audit.LOCAL_LIFETIME_CUTOFF_UTC, commit_count=0)
+        previous = {
+            "sessions": 305,
+            "turns": 1_100,
+            "usage_events": 48_000,
+            "raw_token_count": 7_020_000_000,
+            "token_count": 7_020_000_000,
+            "tokens_label": "7.02B",
+            "hours_count": 347,
+            "hours_label": "347",
+        }
+        merged = audit.merge_local_lifetime_data(previous, result)
+        self.assertEqual(merged, previous)
+
+    def test_partial_lower_local_scan_preserves_previous_retained_snapshot(self) -> None:
+        previous = {
+            "sessions": 305,
+            "usage_events": 48_000,
+            "raw_token_count": 7_020_000_000,
+            "token_count": 7_020_000_000,
+            "tokens_label": "7.02B",
+        }
+        partial_result = {
+            "usage_events": 100,
+            "raw_token_count": 6_500_000_000,
+            "token_count": 6_500_000_000,
+        }
+        self.assertEqual(audit.merge_local_lifetime_data(previous, partial_result), previous)
+
+    def test_genuinely_higher_local_scan_refreshes_retained_snapshot(self) -> None:
+        base = audit.LOCAL_LIFETIME_CUTOFF_UTC + timedelta(days=1)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            write_log(
+                root / "fresh.jsonl",
+                [
+                    session_meta(base, "fresh", cwd=r"D:\dev\another-project"),
+                    turn_context(base + timedelta(seconds=1), "fresh-turn", "gpt-5.5", "xhigh"),
+                    token_event(base + timedelta(seconds=2), usage(8_100_000_000), usage(8_100_000_000)),
+                ],
+            )
+            result = audit.audit_scope(
+                audit.prepare_usage_dataset(audit.scan_sessions(root, None)),
+                audit.LOCAL_LIFETIME_CUTOFF_UTC,
+                commit_count=0,
+            )
+
+        previous = {
+            "raw_token_count": 7_020_000_000,
+            "token_count": 7_020_000_000,
+            "tokens_label": "7.02B",
+        }
+        merged = audit.merge_local_lifetime_data(previous, result)
+        self.assertEqual(merged["raw_token_count"], 8_100_000_000)
+        self.assertEqual(merged["token_count"], 8_100_000_000)
+        self.assertEqual(merged["usage_events"], 1)
+
+    def test_fresh_global_model_tracking_replaces_stale_value_without_repo_usage(self) -> None:
+        empty_dataset = audit.UsageDataset(
+            sessions={},
+            usage_events=[],
+            contexts_by_turn={},
+            source_counts={},
+        )
+        empty_result = audit.audit_scope(empty_dataset, audit.REVAMP_CUTOFF_UTC, commit_count=0)
+        fresh_tracking = {
+            "status": "aligned",
+            "post_cutover_turns_observed": 9,
+            "post_cutover_deviation_count": 0,
+        }
+        proposed = audit.build_ledger_data(
+            {"model_tracking": {"status": "unobserved", "post_cutover_turns_observed": 0}},
+            empty_result,
+            empty_result,
+            empty_result,
+            empty_result,
+            fresh_tracking,
+        )
+        self.assertEqual(proposed["model_tracking"], fresh_tracking)
 
 
 class PriceLensTests(unittest.TestCase):

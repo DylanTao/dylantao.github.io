@@ -1,13 +1,13 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-07-11"
-source_note: Estimated from retained local Codex turn/token logs plus git history; the Jul 11 pending site commit and current-goal elapsed time are included manually because this task began outside the site checkout. Audit with python bin/audit_agentic_usage.py before the next publish.
+updated_at: "2026-07-12"
+source_note: Estimated from retained local Codex turn/token logs plus git history; audit with python bin/audit_agentic_usage.py before publish.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 311
+  commits: 315
   token_count: 3120000000
   tokens_label: 3.12B
   hours_count: 259
@@ -178,7 +178,7 @@ desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 111
+  commits: 112
   token_count: 2040000000
   tokens_label: 2.04B
   hours_count: 144
@@ -350,16 +350,16 @@ model_tracking:
   intended_effort: ultra
   cutover_at: "2026-07-09T21:28:23.394Z"
   cutover_label: Jul 9, 2026 at 2:28 PM PDT
-  post_cutover_turns_observed: 37
+  post_cutover_turns_observed: 424
   post_cutover_observed_breakdown:
-    gpt-5.6-sol/ultra: 37
+    gpt-5.6-sol/ultra: 424
   post_cutover_deviation_count: 0
   post_cutover_deviations: []
   status: aligned
   public_note: "Dev work now: gpt-5.6-sol · ultra."
-  caveat: Checks retained turn_context records; missing or deleted local logs cannot be reconstructed.
+  caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed.
 since_gpt_5_6:
-  commits: 16
+  commits: 20
   token_count: 520000000
   tokens_label: 520M
   hours_count: 20
@@ -483,3 +483,106 @@ since_gpt_5_6:
   since_label: Jul 9, 2026
   confidence: retained-log estimate
   note: All-repo retained-session usage after the model cutover; commits are repo-wide and usage is attributed from ordered turn_context records.
+local_lifetime:
+  sessions: 314
+  turns: 1136
+  usage_events: 50060
+  raw_token_count: 7376338172
+  token_count: 7380000000
+  tokens_label: 7.38B
+  hours_count: 359
+  hours_label: "359"
+  token_usage:
+    input_tokens: 7353061633
+    cached_input_tokens: 7013188992
+    output_tokens: 22620628
+    reasoning_output_tokens: 7164081
+    total_tokens: 7376338172
+  model_effort_breakdown:
+    gpt-5.5/xhigh:
+      model: gpt-5.5
+      effort: xhigh
+      turns: 721
+      sessions: 60
+      token_usage:
+        input_tokens: 4478217822
+        cached_input_tokens: 4244587392
+        output_tokens: 15343918
+        reasoning_output_tokens: 4216111
+        total_tokens: 4494217651
+      raw_hours: 221.2661
+    gpt-5.6-sol/ultra:
+      model: gpt-5.6-sol
+      effort: ultra
+      turns: 428
+      sessions: 256
+      token_usage:
+        input_tokens: 2874843811
+        cached_input_tokens: 2768601600
+        output_tokens: 7276710
+        reasoning_output_tokens: 2947970
+        total_tokens: 2882120521
+      raw_hours: 137.6584
+  api_cost_equivalence:
+    label: Logged-model API cost lens
+    pricing_tier: Standard, short context
+    pricing_as_of: "2026-07-09"
+    source_url: https://developers.openai.com/api/docs/pricing
+    model_rates:
+      gpt-5.5:
+        input_usd_per_million: 5.0
+        cached_input_usd_per_million: 0.5
+        output_usd_per_million: 30.0
+        cache_write_input_usd_per_million: null
+      gpt-5.6-sol:
+        input_usd_per_million: 5.0
+        cached_input_usd_per_million: 0.5
+        output_usd_per_million: 30.0
+        cache_write_input_usd_per_million: 6.25
+    cache_write_tokens: null
+    cache_write_note: gpt-5.6-sol cache writes are listed at $6.25 / 1M input tokens, but retained logs do not expose cache-write tokens, so that rate is not applied.
+    priced_token_usage:
+      input_tokens: 7353061633
+      cached_input_tokens: 7013188992
+      output_tokens: 22620628
+      reasoning_output_tokens: 7164081
+      total_tokens: 7376338172
+    unpriced_token_usage:
+      input_tokens: 0
+      cached_input_tokens: 0
+      output_tokens: 0
+      reasoning_output_tokens: 0
+      total_tokens: 0
+    model_effort_price_breakdown:
+      gpt-5.5/xhigh:
+        model: gpt-5.5
+        effort: xhigh
+        token_usage:
+          input_tokens: 4478217822
+          cached_input_tokens: 4244587392
+          output_tokens: 15343918
+          reasoning_output_tokens: 4216111
+          total_tokens: 4494217651
+        uncached_input_tokens: 233630430
+        usd_estimate: 3750.76
+      gpt-5.6-sol/ultra:
+        model: gpt-5.6-sol
+        effort: ultra
+        token_usage:
+          input_tokens: 2874843811
+          cached_input_tokens: 2768601600
+          output_tokens: 7276710
+          reasoning_output_tokens: 2947970
+          total_tokens: 2882120521
+        uncached_input_tokens: 106242211
+        usd_estimate: 2133.81
+    usd_estimate: 5884.58
+    usd_midpoint: 5900
+    usd_label: ~$5.9K API cosplay
+    caveat: API list-price equivalence from logged short-context model rates only; cache-write tokens, long-context thresholds, and actual Codex billing are not exposed.
+    public_note: ~$5.9K API cosplay. API list-price equivalence from logged short-context model rates only; cache-write tokens, long-context thresholds, and actual Codex billing are not exposed.
+  label: Retained local Codex history
+  since: 2026-06-19 00:00 PDT
+  since_label: Jun 19, 2026
+  confidence: retained-local-history estimate
+  note: Deduplicated retained local Codex sessions since Jun 19, 2026. This is not account lifetime usage or an actual bill; ChatGPT exposes usage limits, not a lifetime token counter.

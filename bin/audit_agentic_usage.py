@@ -32,6 +32,7 @@ ONE_SHOT_SESSION_HOURS = 0.05
 
 REVAMP_CUTOFF_UTC = datetime(2026, 5, 23, 1, 5, tzinfo=timezone.utc)
 DESK_CUTOFF_UTC = datetime(2026, 6, 17, 3, 0, tzinfo=timezone.utc)
+LOCAL_LIFETIME_CUTOFF_UTC = datetime(2026, 6, 19, 7, 0, tzinfo=timezone.utc)
 GPT_5_6_CUTOVER_UTC = datetime(2026, 7, 9, 21, 28, 23, 394000, tzinfo=timezone.utc)
 REVAMP_GIT_SINCE = "2026-05-22T18:05:00-07:00"
 DESK_GIT_SINCE = "2026-06-16T20:00:00-07:00"
@@ -90,6 +91,14 @@ MODEL_TRACKING_CHECK_FIELDS = (
     ("status",),
     ("post_cutover_deviation_count",),
     ("public_note",),
+)
+LOCAL_LIFETIME_CHECK_FIELDS = (
+    ("sessions",),
+    ("token_count",),
+    ("tokens_label",),
+    ("api_cost_equivalence", "usd_midpoint"),
+    ("api_cost_equivalence", "usd_label"),
+    ("api_cost_equivalence", "unpriced_token_usage", "total_tokens"),
 )
 
 PRICE_SOURCE_URL = "https://developers.openai.com/api/docs/pricing"
@@ -247,7 +256,7 @@ def sessions_root_from_args(value: str | None) -> Path:
     return Path.home() / ".codex" / "sessions"
 
 
-def scan_sessions(root: Path, repo_needle: str) -> dict[str, SessionRecord]:
+def scan_sessions(root: Path, repo_needle: str | None) -> dict[str, SessionRecord]:
     """Read every retained year and keep the first session_meta as leaf identity."""
 
     sessions: dict[str, SessionRecord] = {}
@@ -378,7 +387,7 @@ def scan_sessions(root: Path, repo_needle: str) -> dict[str, SessionRecord]:
             print(f"warning: could not read {path}: {error}", file=sys.stderr)
             continue
 
-        if leaf_id is None or repo_needle.lower() not in leaf_cwd.lower():
+        if leaf_id is None or (repo_needle and repo_needle.lower() not in leaf_cwd.lower()):
             continue
 
         record = sessions.setdefault(leaf_id, SessionRecord(session_id=leaf_id, cwd=leaf_cwd))
@@ -390,6 +399,17 @@ def scan_sessions(root: Path, repo_needle: str) -> dict[str, SessionRecord]:
         record.fork_preamble_events_skipped += fork_preamble_events_skipped
 
     return sessions
+
+
+def sessions_matching_repo(sessions: dict[str, SessionRecord], repo_needle: str) -> dict[str, SessionRecord]:
+    """Return retained leaf sessions whose first cwd names the requested repo."""
+
+    needle = repo_needle.lower()
+    return {
+        session_id: record
+        for session_id, record in sessions.items()
+        if needle in record.cwd.lower()
+    }
 
 
 def earliest_contexts(sessions: dict[str, SessionRecord]) -> dict[str, TurnContextRecord]:
@@ -471,6 +491,27 @@ def git_commit_count(repo_root: Path, since: str, paths: list[str]) -> int:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or f"git command failed: {' '.join(command)}")
     return int(result.stdout.strip())
+
+
+def is_shallow_repository(repo_root: Path) -> bool:
+    result = subprocess.run(
+        ["git", "rev-parse", "--is-shallow-repository"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "could not determine whether the repository is shallow")
+    return result.stdout.strip().lower() == "true"
+
+
+def require_complete_git_history(repo_root: Path) -> None:
+    if is_shallow_repository(repo_root):
+        raise RuntimeError(
+            "Agentic usage audit requires complete git history; this checkout is shallow. "
+            "Run `git fetch --unshallow origin` before checking or writing the ledger."
+        )
 
 
 def has_pending_changes(repo_root: Path, paths: list[str]) -> bool:
@@ -938,7 +979,10 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
         "post_cutover_deviations": deviations,
         "status": status,
         "public_note": f"Dev work now: {INTENDED_MODEL} · {INTENDED_EFFORT}.",
-        "caveat": "Checks retained turn_context records; missing or deleted local logs cannot be reconstructed.",
+        "caveat": (
+            "Checks all deduplicated retained-local turn_context records; missing or deleted local logs "
+            "cannot be reconstructed."
+        ),
     }
 
 
@@ -970,8 +1014,14 @@ def public_desk_note(energy: dict[str, Any]) -> str:
 
 def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: bool = False) -> dict[str, Any]:
     next_scope = copy.deepcopy(current)
+    next_scope["commits"] = result["commits"]
+    # A checkout can have complete git history while retained session logs live
+    # on another machine or were started from a parent workspace. Keep the
+    # previously audited usage snapshot in that case instead of publishing a
+    # destructive zero. Commit counts remain independently refreshable.
+    if result.get("usage_events", 0) == 0 and int(current.get("token_count") or 0) > 0:
+        return next_scope
     for field_name in (
-        "commits",
         "token_count",
         "tokens_label",
         "hours_count",
@@ -996,11 +1046,56 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
     return next_scope
 
 
+def merge_local_lifetime_data(current: dict[str, Any], result: dict[str, Any]) -> dict[str, Any]:
+    next_scope = copy.deepcopy(current)
+    # Retained sessions can be unavailable on another machine or when the
+    # configured sessions root is missing or partial. This is cumulative
+    # retained-local evidence, so fail closed on a zero or lower scan instead
+    # of letting cross-machine/deleted-log gaps shrink the public lifetime.
+    current_raw = int(current.get("raw_token_count") or current.get("token_count") or 0)
+    current_rounded = int(current.get("token_count") or 0)
+    result_raw = int(result.get("raw_token_count") or 0)
+    result_rounded = int(result.get("token_count") or 0)
+    if current_rounded > 0 and (
+        result.get("usage_events", 0) == 0 or result_raw < current_raw or result_rounded < current_rounded
+    ):
+        return next_scope
+    for field_name in (
+        "sessions",
+        "turns",
+        "usage_events",
+        "raw_token_count",
+        "token_count",
+        "tokens_label",
+        "hours_count",
+        "hours_label",
+        "token_usage",
+        "model_effort_breakdown",
+    ):
+        next_scope[field_name] = result[field_name]
+    next_scope["api_cost_equivalence"] = result["api_cost_equivalence"]
+    next_scope.update(
+        {
+            "label": "Retained local Codex history",
+            "since": "2026-06-19 00:00 PDT",
+            "since_label": "Jun 19, 2026",
+            "confidence": "retained-local-history estimate",
+            "note": (
+                "Deduplicated retained local Codex sessions since Jun 19, 2026. "
+                "This is not account lifetime usage or an actual bill; ChatGPT exposes usage limits, "
+                "not a lifetime token counter."
+            ),
+        }
+    )
+    return next_scope
+
+
 def build_ledger_data(
     current: dict[str, Any],
     total: dict[str, Any],
     desk: dict[str, Any],
     since_gpt_5_6: dict[str, Any],
+    local_lifetime: dict[str, Any],
     model_tracking: dict[str, Any],
 ) -> dict[str, Any]:
     next_data = copy.deepcopy(current)
@@ -1033,6 +1128,10 @@ def build_ledger_data(
             ),
         }
     )
+    next_data["local_lifetime"] = merge_local_lifetime_data(
+        next_data.get("local_lifetime", {}),
+        local_lifetime,
+    )
     return next_data
 
 
@@ -1056,6 +1155,15 @@ def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) ->
             if current_value != proposed_value:
                 label = ".".join((scope_name, *field_path))
                 mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
+
+    current_lifetime = current.get("local_lifetime", {}) if isinstance(current, dict) else {}
+    proposed_lifetime = proposed.get("local_lifetime", {}) if isinstance(proposed, dict) else {}
+    for field_path in LOCAL_LIFETIME_CHECK_FIELDS:
+        current_value = nested_value(current_lifetime, field_path)
+        proposed_value = nested_value(proposed_lifetime, field_path)
+        if current_value != proposed_value:
+            label = ".".join(("local_lifetime", *field_path))
+            mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
 
     for field_path in MODEL_TRACKING_CHECK_FIELDS:
         current_value = nested_value(current.get("model_tracking", {}), field_path)
@@ -1097,14 +1205,26 @@ def delta_text(current: Any, proposed: Any) -> str:
     return f"was {current!r}"
 
 
-def print_scope(name: str, result: dict[str, Any], current: dict[str, Any]) -> None:
+def print_scope(
+    name: str,
+    result: dict[str, Any],
+    current: dict[str, Any],
+    *,
+    include_commits: bool = True,
+) -> None:
     current_scope = current.get(name, {}) if isinstance(current, dict) else {}
     energy = result["energy_equivalence"]
     cost = result["api_cost_equivalence"]
     legacy_cost = result["legacy_api_cost_equivalence"]
     codexbar_cost = result["codexbar_cost_estimate"]
     print(f"\n[{name}]")
-    for key in ("commits", "token_count", "tokens_label", "hours_count", "hours_label"):
+    keys = ("commits", "token_count", "tokens_label", "hours_count", "hours_label") if include_commits else (
+        "token_count",
+        "tokens_label",
+        "hours_count",
+        "hours_label",
+    )
+    for key in keys:
         proposed = result[key]
         current_value = current_scope.get(key)
         print(f"{key}: {proposed} ({delta_text(current_value, proposed)})")
@@ -1145,6 +1265,7 @@ def build_json_output(
     total: dict[str, Any],
     desk: dict[str, Any],
     since_gpt_5_6: dict[str, Any],
+    local_lifetime: dict[str, Any],
     model_tracking: dict[str, Any],
 ) -> dict[str, Any]:
     return {
@@ -1155,6 +1276,7 @@ def build_json_output(
         "total": total,
         "desk_scene": desk,
         "since_gpt_5_6": since_gpt_5_6,
+        "local_lifetime": local_lifetime,
     }
 
 
@@ -1211,8 +1333,16 @@ def main() -> int:
     repo_root = Path(args.repo_root).resolve()
     sessions_root = sessions_root_from_args(args.sessions_root)
 
-    sessions = scan_sessions(sessions_root, REPO_NEEDLE)
+    try:
+        require_complete_git_history(repo_root)
+    except RuntimeError as error:
+        print(str(error), file=sys.stderr)
+        return 2
+
+    all_sessions = scan_sessions(sessions_root, None)
+    sessions = sessions_matching_repo(all_sessions, REPO_NEEDLE)
     dataset = prepare_usage_dataset(sessions)
+    local_dataset = prepare_usage_dataset(all_sessions)
     total_commits = git_commit_count(repo_root, REVAMP_GIT_SINCE, ["."])
     desk_commits = git_commit_count(repo_root, DESK_GIT_SINCE, DESK_PATHS)
     since_gpt_5_6_commits = git_commit_count(repo_root, GPT_5_6_GIT_SINCE, ["."])
@@ -1228,14 +1358,19 @@ def main() -> int:
     total = audit_scope(dataset, REVAMP_CUTOFF_UTC, total_commits)
     desk = audit_scope(dataset, DESK_CUTOFF_UTC, desk_commits)
     since_gpt_5_6 = audit_scope(dataset, GPT_5_6_CUTOVER_UTC, since_gpt_5_6_commits)
-    model_tracking = build_model_tracking(dataset)
+    local_lifetime = audit_scope(local_dataset, LOCAL_LIFETIME_CUTOFF_UTC, commit_count=0)
+    # The declared model/effort default applies to all retained local Codex
+    # development work, not only sessions whose first cwd matches this repo.
+    # Site usage scopes remain repo-filtered; policy tracking uses the complete
+    # deduplicated retained-local context inventory.
+    model_tracking = build_model_tracking(local_dataset)
 
     if args.check:
         if yaml is None:
             print("PyYAML is required for --check.", file=sys.stderr)
             return 2
         current = load_current_ledger(repo_root)
-        proposed = build_ledger_data(current, total, desk, since_gpt_5_6, model_tracking)
+        proposed = build_ledger_data(current, total, desk, since_gpt_5_6, local_lifetime, model_tracking)
         mismatches = check_public_freshness(current, proposed)
         model_issues = model_tracking_check_messages(model_tracking)
         if mismatches or model_issues:
@@ -1260,6 +1395,7 @@ def main() -> int:
                     total,
                     desk,
                     since_gpt_5_6,
+                    local_lifetime,
                     model_tracking,
                 ),
                 indent=2,
@@ -1270,6 +1406,7 @@ def main() -> int:
 
     print("Agentic usage audit")
     print(f"sessions_root: {sessions_root}")
+    print(f"local_sessions: {len(all_sessions)}")
     print(f"repo_sessions: {len(sessions)}")
     print(f"usage_event_sources: {json.dumps(dataset.source_counts, sort_keys=True)}")
     print(
@@ -1285,8 +1422,9 @@ def main() -> int:
     print_scope("total", total, current)
     print_scope("desk_scene", desk, current)
     print_scope("since_gpt_5_6", since_gpt_5_6, current)
+    print_scope("local_lifetime", local_lifetime, current, include_commits=False)
     if args.write or args.dry_run:
-        next_data = build_ledger_data(current, total, desk, since_gpt_5_6, model_tracking)
+        next_data = build_ledger_data(current, total, desk, since_gpt_5_6, local_lifetime, model_tracking)
         write_ledger(repo_root, next_data, dry_run=args.dry_run)
     else:
         print("\nThis was a read-only audit. Use --write after reviewing the deltas to update _data/agentic_usage.yml.")

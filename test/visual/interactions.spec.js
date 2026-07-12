@@ -183,19 +183,37 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   const fiveYearSummary = await rangeSummary.textContent();
   const hasCommitData = (await activity.getAttribute("data-has-commits")) === "true";
   const commitPath = page.locator(".github-activity-commit-line");
+  const addPath = page.locator(".github-activity-add-line");
+  const removePath = page.locator(".github-activity-remove-line");
+  await expect(addPath).toHaveCount(1);
+  await expect(removePath).toHaveCount(1);
+  const addPathBeforeScaleChange = await addPath.getAttribute("d");
+  const removePathBeforeScaleChange = await removePath.getAttribute("d");
   let commitPathBeforeScaleChange = null;
   if (hasCommitData) {
-    await expect(page.locator("#github-activity-chart").getByText("commits · readable log1p", { exact: true })).toBeVisible();
+    await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · READABLE LOG1P", { exact: true })).toBeVisible();
     await expect(commitPath).toHaveCount(1);
+    expect(await page.locator(".github-activity-commit-tick").count()).toBeGreaterThanOrEqual(4);
     commitPathBeforeScaleChange = await commitPath.getAttribute("d");
   }
+  await expect(page.locator("#github-activity-chart").getByText("LINES CHANGED / WEEK · READABLE SYMLOG", { exact: true })).toBeVisible();
 
   const readable = page.getByRole("button", { name: "Readable" });
   const literal = page.getByRole("button", { name: "Literal" });
   await expect(readable).toHaveAttribute("aria-pressed", "true");
+  const exactWeekBeforeScaleChange = await page.locator(".github-activity-values").textContent();
   await literal.click();
   await expect(literal).toHaveAttribute("aria-pressed", "true");
-  if (hasCommitData) await expect(commitPath).toHaveAttribute("d", commitPathBeforeScaleChange);
+  await expect(page.locator("#github-activity-chart").getByText("LINES CHANGED / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
+  if (hasCommitData) {
+    await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
+    expect(await commitPath.getAttribute("d")).not.toBe(commitPathBeforeScaleChange);
+    expect(await page.locator(".github-activity-commit-tick").count()).toBeGreaterThanOrEqual(4);
+  }
+  expect(await addPath.getAttribute("d")).not.toBe(addPathBeforeScaleChange);
+  expect(await removePath.getAttribute("d")).not.toBe(removePathBeforeScaleChange);
+  await expect(page.locator(".github-activity-values")).toHaveText(exactWeekBeforeScaleChange);
+  await readable.click();
 
   await page.getByRole("button", { name: "1 year" }).click();
   await expect(rangeSummary).toContainText("1 year");
@@ -208,6 +226,8 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
   await expect(selectedDate).not.toHaveText(latest);
+  await expect(page.locator("#github-activity-chart")).toHaveClass(/is-keyboard-focused/);
+  expect(await inspector.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe("none");
   if (hasCommitData) {
     await expect(inspector).toHaveAttribute("aria-valuetext", /commits, .*added, .*removed/);
     await expect(page.locator("#github-activity-selected-commits")).toContainText("commits");
@@ -217,9 +237,313 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
     await expect(page.locator("#github-activity-selected-commits")).toBeHidden();
   }
 
+  const box = await inspector.boundingBox();
+  expect(box).not.toBeNull();
+  const point = (ratio) => ({ x: box.x + box.width * ratio, y: box.y + box.height * 0.35 });
+  const pinnedPoint = point(0.24);
+  await page.mouse.click(pinnedPoint.x, pinnedPoint.y);
+  const pinnedWeek = await selectedDate.textContent();
+  expect(await inspector.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe("none");
+  const hoverPoint = point(0.7);
+  await page.mouse.move(hoverPoint.x, hoverPoint.y);
+  await expect(selectedDate).not.toHaveText(pinnedWeek);
+  await page.mouse.move(2, 2);
+  await expect(selectedDate).toHaveText(pinnedWeek);
+
+  const dragStart = point(0.18);
+  const dragEnd = point(0.43);
+  await page.mouse.move(dragStart.x, dragStart.y);
+  await page.mouse.down();
+  await page.mouse.move(dragEnd.x, dragEnd.y, { steps: 8 });
+  await page.mouse.up();
+  const selectionBand = page.locator(".github-activity-selection-band");
+  await expect(selectionBand).toHaveAttribute("visibility", "visible");
+  await expect(rangeSummary).toContainText(/^Selected \d+ weeks/);
+  const selectedSummary = await rangeSummary.textContent();
+  const selectedTableRows = await page.locator("#github-activity-table-body tr").count();
+  expect(selectedTableRows).toBeGreaterThan(1);
+  expect(selectedTableRows).toBeLessThan(60);
+  await page.mouse.move(point(0.82).x, point(0.82).y);
+  await expect(rangeSummary).toHaveText(selectedSummary);
+  await expect(page.getByRole("button", { name: "Clear selection" })).toBeVisible();
+  expect(await page.locator("#github-activity-tier-table-body tr").count()).toBeLessThanOrEqual(3);
+  await inspector.evaluate((overlay) => {
+    const rect = overlay.getBoundingClientRect();
+    const originalCapture = overlay.setPointerCapture;
+    const originalHasCapture = overlay.hasPointerCapture;
+    const originalRelease = overlay.releasePointerCapture;
+    overlay.setPointerCapture = () => {};
+    overlay.hasPointerCapture = () => false;
+    overlay.releasePointerCapture = () => {};
+    const dispatch = (type, x, y, pointerId, buttons) =>
+      overlay.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          isPrimary: true,
+          pointerId,
+          pointerType: "touch",
+          button: type === "pointerdown" ? 0 : -1,
+          buttons,
+          clientX: x,
+          clientY: y,
+        })
+      );
+
+    const startX = rect.left + rect.width * 0.56;
+    const startY = rect.top + rect.height * 0.25;
+    dispatch("pointerdown", startX, startY, 901, 1);
+    dispatch("pointermove", startX + 2, startY + 42, 901, 1);
+
+    overlay.setPointerCapture = originalCapture;
+    overlay.hasPointerCapture = originalHasCapture;
+    overlay.releasePointerCapture = originalRelease;
+  });
+  await expect(rangeSummary).toHaveText(selectedSummary);
+  await expect(selectionBand).toHaveAttribute("visibility", "visible");
+  await expect(page.locator("#github-activity-chart")).not.toHaveClass(/is-selecting/);
+  await inspector.evaluate((overlay) => {
+    const rect = overlay.getBoundingClientRect();
+    const originalCapture = overlay.setPointerCapture;
+    const originalHasCapture = overlay.hasPointerCapture;
+    const originalRelease = overlay.releasePointerCapture;
+    overlay.setPointerCapture = () => {};
+    overlay.hasPointerCapture = () => false;
+    overlay.releasePointerCapture = () => {};
+    const dispatch = (type, x, y, buttons) =>
+      overlay.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          isPrimary: true,
+          pointerId: 902,
+          pointerType: "touch",
+          button: type === "pointerdown" ? 0 : -1,
+          buttons,
+          clientX: x,
+          clientY: y,
+        })
+      );
+    const startX = rect.left + rect.width * 0.56;
+    const startY = rect.top + rect.height * 0.25;
+    dispatch("pointerdown", startX, startY, 1);
+    dispatch("pointermove", startX + 90, startY + 2, 1);
+    overlay.setPointerCapture = originalCapture;
+    overlay.hasPointerCapture = originalHasCapture;
+    overlay.releasePointerCapture = originalRelease;
+  });
+  await expect(rangeSummary).not.toHaveText(selectedSummary);
+  await expect(page.locator("#github-activity-chart")).toHaveClass(/is-selecting/);
+  await inspector.evaluate((overlay) => {
+    const rect = overlay.getBoundingClientRect();
+    overlay.dispatchEvent(
+      new PointerEvent("pointercancel", {
+        bubbles: true,
+        cancelable: true,
+        isPrimary: true,
+        pointerId: 902,
+        pointerType: "touch",
+        button: -1,
+        buttons: 0,
+        clientX: rect.left + rect.width * 0.56 + 90,
+        clientY: rect.top + rect.height * 0.25 + 2,
+      })
+    );
+  });
+  await expect(rangeSummary).toHaveText(selectedSummary);
+  await expect(selectionBand).toHaveAttribute("visibility", "visible");
+  await expect(page.locator("#github-activity-chart")).not.toHaveClass(/is-selecting/);
+  const replacementPin = point(0.62);
+  await page.mouse.click(replacementPin.x, replacementPin.y);
+  await expect(selectionBand).toHaveAttribute("visibility", "hidden");
+  await expect(rangeSummary).not.toContainText(/^Selected/);
+
+  await page.mouse.move(dragStart.x, dragStart.y);
+  await page.mouse.down();
+  await page.mouse.move(dragEnd.x, dragEnd.y, { steps: 8 });
+  await page.mouse.up();
+  await expect(selectionBand).toHaveAttribute("visibility", "visible");
+  await inspector.focus();
+  await page.keyboard.press("Escape");
+  await expect(selectionBand).toHaveAttribute("visibility", "hidden");
+  await expect(page.getByRole("button", { name: "Clear selection" })).toBeHidden();
+  await page.keyboard.press("Shift+ArrowLeft");
+  await expect(selectionBand).toHaveAttribute("visibility", "visible");
+  await expect(rangeSummary).toContainText(/^Selected 2 weeks/);
+  await page.getByRole("button", { name: "Clear selection" }).click();
+
+  await expect(activity).toHaveAttribute("data-has-tier-context", "true");
+  await expect(page.locator("#github-activity-selected-tier")).toContainText(/Subscription context|Before the tracked/);
+  await expect(page.locator("#github-activity-tier-table-body tr")).toHaveCount(3);
+  await expect(page.locator("#github-activity-chart")).toHaveCSS("touch-action", "pan-y");
+
+  for (const windowName of ["3 years", "5 years", "All"]) {
+    await page.getByRole("button", { name: windowName, exact: true }).click();
+    await expect(page.locator("#github-activity-tier-caption")).toContainText("current time window");
+    await expect(page.locator("#github-activity-tier-table-body tr")).toHaveCount(3);
+  }
+  const ribbonState = await page.evaluate(() => {
+    const activityData = JSON.parse(document.getElementById("github-activity-data").textContent);
+    const tierData = JSON.parse(document.getElementById("github-activity-ai-tiers").textContent);
+    const day = 86_400_000;
+    const halfWeek = 3.5 * day;
+    const assigned = activityData.weeks.map((row) => {
+      const date = new Date(`${row.week}T00:00:00Z`);
+      const midpoint = new Date(date.getTime() + 3 * day).toISOString().slice(0, 10);
+      const tier = tierData.phases.find((phase) => midpoint >= phase.start && (phase.end == null || midpoint <= phase.end));
+      return { ...row, date, tier: tier || null };
+    });
+    const expectedRuns = assigned.reduce((runs, row, index) => {
+      const key = row.tier?.key ?? null;
+      const previous = runs.at(-1);
+      const priorRow = assigned[index - 1];
+      const adjacent = !priorRow || row.date.getTime() - priorRow.date.getTime() === 7 * day;
+      if (!previous || previous.key !== key || !adjacent) runs.push({ key, tier: row.tier, first: row, last: row });
+      else previous.last = row;
+      return runs;
+    }, []);
+    const track = document.querySelector(".github-activity-tier-track");
+    const trackX = Number(track.getAttribute("x"));
+    const trackWidth = Number(track.getAttribute("width"));
+    const start = assigned[0].date.getTime();
+    const end = assigned.at(-1).date.getTime();
+    const x = (value) => trackX + ((value - start) / (end - start)) * trackWidth;
+    const expected = expectedRuns
+      .filter((run) => run.tier)
+      .map((run) => {
+        const x1 = x(Math.max(start, run.first.date.getTime() - halfWeek));
+        const x2 = x(Math.min(end, run.last.date.getTime() + halfWeek));
+        return {
+          key: run.key,
+          first: run.first.week,
+          last: run.last.week,
+          x: x1,
+          width: Math.max(1, x2 - x1),
+        };
+      });
+    const actual = Array.from(document.querySelectorAll(".github-activity-tier-run")).map((run) => ({
+      key: run.dataset.tierKey,
+      first: run.dataset.firstWeek,
+      last: run.dataset.lastWeek,
+      x: Number(run.getAttribute("x")),
+      width: Number(run.getAttribute("width")),
+    }));
+    return { expected, actual, directLabels: document.querySelectorAll(".github-activity-tier-label").length };
+  });
+  expect(ribbonState.actual).toHaveLength(ribbonState.expected.length);
+  ribbonState.expected.forEach((expectedRun, index) => {
+    const actualRun = ribbonState.actual[index];
+    expect(actualRun.key).toBe(expectedRun.key);
+    expect(actualRun.first).toBe(expectedRun.first);
+    expect(actualRun.last).toBe(expectedRun.last);
+    expect(actualRun.x).toBeCloseTo(expectedRun.x, 3);
+    expect(actualRun.width).toBeCloseTo(expectedRun.width, 3);
+  });
+  expect(ribbonState.directLabels).toBeLessThan(ribbonState.actual.length);
+  await expect(page.locator("#github-activity-selected-tier")).toContainText("Subscription context");
+  await expect(page.locator("#github-activity-tier-table-body tr")).toHaveCount(3);
+  const expectedTwoHundredMedian = await page.evaluate(() => {
+    const activityData = JSON.parse(document.getElementById("github-activity-data").textContent);
+    const tierData = JSON.parse(document.getElementById("github-activity-ai-tiers").textContent);
+    const day = 86_400_000;
+    const active = activityData.weeks.filter((row) => {
+      if (!(row.commits || row.additions || row.deletions)) return false;
+      const midpoint = new Date(new Date(`${row.week}T00:00:00Z`).getTime() + 3 * day).toISOString().slice(0, 10);
+      return tierData.phases.some((phase) => phase.tier_usd === 200 && midpoint >= phase.start && (phase.end == null || midpoint <= phase.end));
+    });
+    const median = (values) => {
+      const ordered = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(ordered.length / 2);
+      return ordered.length % 2 ? ordered[middle] : (ordered[middle - 1] + ordered[middle]) / 2;
+    };
+    return {
+      commits: new Intl.NumberFormat("en-US").format(median(active.map((row) => row.commits))),
+      lines: new Intl.NumberFormat("en-US").format(median(active.map((row) => row.additions + row.deletions))),
+    };
+  });
+  const twoHundredRow = page.locator("#github-activity-tier-table-body tr", { hasText: "$200 tier" });
+  await expect(twoHundredRow.locator("td").nth(1)).toHaveText(expectedTwoHundredMedian.commits);
+  await expect(twoHundredRow.locator("td").nth(2)).toHaveText(expectedTwoHundredMedian.lines);
+
+  const inactiveRun = await page.evaluate(() => {
+    const activityData = JSON.parse(document.getElementById("github-activity-data").textContent);
+    const tierData = JSON.parse(document.getElementById("github-activity-ai-tiers").textContent);
+    const day = 86_400_000;
+    const tierForWeek = (week) => {
+      const midpoint = new Date(new Date(`${week}T00:00:00Z`).getTime() + 3 * day).toISOString().slice(0, 10);
+      return tierData.phases.find((phase) => midpoint >= phase.start && (phase.end == null || midpoint <= phase.end));
+    };
+    const runs = [];
+    let start = null;
+    activityData.weeks.forEach((row, index) => {
+      const inactive = row.commits === 0 && row.additions === 0 && row.deletions === 0 && Boolean(tierForWeek(row.week));
+      if (inactive && start == null) start = index;
+      if (start != null && (!inactive || index === activityData.weeks.length - 1)) {
+        const end = inactive && index === activityData.weeks.length - 1 ? index : index - 1;
+        if (end - start >= 2) runs.push({ start, end });
+        start = null;
+      }
+    });
+    const run = runs.sort((a, b) => b.end - b.start - (a.end - a.start))[0];
+    const first = new Date(`${activityData.weeks[0].week}T00:00:00Z`).getTime();
+    const last = new Date(`${activityData.weeks.at(-1).week}T00:00:00Z`).getTime();
+    const ratio = (index) => (new Date(`${activityData.weeks[index].week}T00:00:00Z`).getTime() - first) / (last - first);
+    return { startRatio: ratio(run.start), endRatio: ratio(run.end), weeks: run.end - run.start + 1 };
+  });
+  const inactiveInspector = page.locator(".github-activity-inspector");
+  const inactiveBox = await inactiveInspector.boundingBox();
+  await page.mouse.move(inactiveBox.x + inactiveBox.width * inactiveRun.startRatio, inactiveBox.y + inactiveBox.height * 0.32);
+  await page.mouse.down();
+  await page.mouse.move(inactiveBox.x + inactiveBox.width * inactiveRun.endRatio, inactiveBox.y + inactiveBox.height * 0.32, {
+    steps: 8,
+  });
+  await page.mouse.up();
+  await expect(rangeSummary).toContainText(`Selected ${inactiveRun.weeks} weeks`);
+  await expect(rangeSummary).toContainText("0 active weeks");
+  await expect(page.locator("#github-activity-annotation")).toHaveText("No active weeks in this scope. Median active-week line magnitude · —.");
+  const inactiveTierRow = page.locator("#github-activity-tier-table-body tr");
+  await expect(inactiveTierRow).toHaveCount(1);
+  await expect(inactiveTierRow).toContainText(`0 / ${inactiveRun.weeks}`);
+  const inactiveTierCells = inactiveTierRow.locator("td");
+  await expect(inactiveTierCells).toHaveCount(3);
+  await expect(inactiveTierCells.nth(1)).toHaveText("—");
+  await expect(inactiveTierCells.nth(2)).toHaveText("—");
+  await page.getByRole("button", { name: "Clear selection" }).click();
+
+  const allInspector = page.locator(".github-activity-inspector");
+  const allBox = await allInspector.boundingBox();
+  const earlyStart = { x: allBox.x + allBox.width * 0.01, y: allBox.y + allBox.height * 0.32 };
+  const earlyEnd = { x: allBox.x + allBox.width * 0.09, y: allBox.y + allBox.height * 0.32 };
+  await page.mouse.move(earlyStart.x, earlyStart.y);
+  await page.mouse.down();
+  await page.mouse.move(earlyEnd.x, earlyEnd.y, { steps: 6 });
+  await page.mouse.up();
+  await expect(page.locator("#github-activity-tier-table-body")).toContainText("No tracked subscription tier overlaps this scope.");
+  await page.getByRole("button", { name: "Clear selection" }).click();
+
   await page.getByText("How this view works", { exact: true }).click();
   await expect(page.locator("#github-activity-table-body tr").first()).toBeVisible();
   expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
+});
+
+test("home agentic heartbeat routes to retained-local and all-GitHub context", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const heartbeat = page.locator(".home-agentic-heartbeat");
+  await heartbeat.scrollIntoViewIfNeeded();
+  await expect(heartbeat).toBeVisible();
+  await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
+  await expect(heartbeat).toContainText(/retained-local tokens/);
+  await expect(heartbeat).toContainText("3110 all-GitHub commits");
+  const pulseMotion = await heartbeat.locator(".home-agentic-heartbeat-pulse").evaluate((node) => {
+    const style = getComputedStyle(node);
+    return { animationName: style.animationName, animationDuration: style.animationDuration };
+  });
+  expect(pulseMotion.animationName).toBe("none");
+  expect(pulseMotion.animationDuration).toBe("0s");
 });
 
 test("publications Abs toggle opens and closes", async ({ page }) => {

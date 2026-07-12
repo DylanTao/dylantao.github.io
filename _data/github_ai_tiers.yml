@@ -1,0 +1,25 @@
+schema: 1
+assignment: week_midpoint_wednesday
+source_note: User-supplied paid subscription history normalized to approximate monthly tiers; zero-dollar invoices are treated as credits.
+caveat: Subscription billing is context, not measured AI use, causation, or productivity.
+phases:
+  - key: plus-20
+    label: Plus $20
+    start: "2023-05-10"
+    end: "2026-03-04"
+    tier_usd: 20
+  - key: tier-200-a
+    label: $200 tier
+    start: "2026-03-05"
+    end: "2026-05-04"
+    tier_usd: 200
+  - key: tier-100
+    label: $100 tier
+    start: "2026-05-05"
+    end: "2026-06-05"
+    tier_usd: 100
+  - key: tier-200-b
+    label: $200 tier
+    start: "2026-06-06"
+    end:
+    tier_usd: 200

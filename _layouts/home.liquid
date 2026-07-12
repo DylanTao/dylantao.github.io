@@ -98,6 +98,21 @@ layout: default
                 </div>
               {% endif %}
             </dl>
+            {% assign local_lifetime = agentic_usage.local_lifetime %}
+            {% assign all_github_commits = 0 %}
+            {% for week in site.data.github_activity.weeks %}
+              {% assign all_github_commits = all_github_commits | plus: week.commits %}
+            {% endfor %}
+            {% if local_lifetime and all_github_commits > 0 %}
+              <a class="home-agentic-heartbeat" href="{{ '/github-activity/' | relative_url }}">
+                <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
+                <span>
+                  <strong>{{ local_lifetime.tokens_label }} retained-local tokens</strong>
+                  <small>since {{ local_lifetime.since_label }} · {{ all_github_commits }} all-GitHub commits</small>
+                </span>
+                <span class="home-agentic-heartbeat-route" aria-hidden="true">Open rhythm →</span>
+              </a>
+            {% endif %}
           </div>
         {% endif %}
         <div class="contact-note">{{ site.contact_note }}</div>

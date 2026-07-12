@@ -12,6 +12,8 @@ Update that file when a future Codex or agentic run materially changes this site
 
 The homepage contact ledger should render the playful tree-sacrifice estimate in the top caption, then four compact stat cells for tokens, agent-hours, commits, and estimated kWh. Keep detailed conversion caveats in this document and in the small homepage info tooltip, not as extra ledger paragraphs. The headline line may use light archaic copy, but the numbers and tooltip math should stay plain.
 
+A separate homepage heartbeat may route to the GitHub activity page using `_data/agentic_usage.yml.local_lifetime`. That scope counts deduplicated retained local Codex history since June 19, 2026 across all local project directories. It is not OpenAI account lifetime usage, and its logged-model Standard short-context price is an API-equivalence rather than an actual bill. ChatGPT exposes usage limits, but not a lifetime token counter.
+
 ## Current Baseline
 
 Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clear homepage redesign commit.
@@ -29,13 +31,15 @@ Evidence and counting contract:
 - Active agent-hours use globally unique context/token events per leaf session, with gaps capped at 45 minutes. Parallel leaf sessions remain additive. A gap belongs to the model/effort active at its start, so a new context does not claim the time preceding it.
 - Missing-context tokens remain visible as `unknown/unknown` and are not silently assigned to a model. Truncated, deleted, or unretained local logs cannot be reconstructed.
 - The public money joke uses the independent CodexBar screenshot ratio `$2,616.40 / 3B tokens = ~$0.872 per 1M tokens`, applied to the rounded public token count.
+- `local_lifetime` runs the same ancestry-deduplication and additive-event pipeline across every retained leaf session, without the site-cwd filter, beginning June 19, 2026 at 12:00 AM Pacific. Its session count and model mix are part of the public evidence boundary.
+- The helper refuses to check or write from a shallow git checkout. Fetch full history first so repo commit counts cannot collapse to the shallow boundary.
 
 Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the meme-record and desk-scene burst began.
 
 - Desk commits are path-scoped to `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
 - Desk tokens and hours are **not** path-attributed. They are an all-repo retained-session time-window estimate after the desk cutoff, because session logs do not reliably map each token to a changed file.
 
-Model cutover: July 9, 2026 at 2:28:23 PM Pacific (`2026-07-09T21:28:23.394Z`). Development work is intended to use `gpt-5.6-sol` with `ultra` effort from that point. The `since_gpt_5_6` scope measures all-repo retained-session usage after this boundary, and `--check` fails if a retained post-cutover `turn_context` names another model or effort. If no post-cutover contexts remain, tracking is `unobserved` and the check fails rather than claiming alignment.
+Model cutover: July 9, 2026 at 2:28:23 PM Pacific (`2026-07-09T21:28:23.394Z`). Development work is intended to use `gpt-5.6-sol` with `ultra` effort from that point. `model_tracking` checks the deduplicated all-local retained context inventory so the global development-default policy remains observable even when this repo's cwd-attributed sessions are unavailable; site usage scopes remain repo-filtered and preserve their last audited nonzero snapshot. The `since_gpt_5_6` scope measures repo-attributed retained-session usage after this boundary, and `--check` fails if any retained-local post-cutover `turn_context` names another model or effort. If no post-cutover contexts remain anywhere in retained local history, tracking is `unobserved` and the check fails rather than claiming alignment.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -77,7 +81,9 @@ python bin/audit_agentic_usage.py --write --include-pending-commit
 npx.cmd prettier _data/agentic_usage.yml --write
 ```
 
-The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to repo-wide scopes that have worktree changes and to the desk scope only when a desk path changed. `--check` also enforces the post-cutover `gpt-5.6-sol` / `ultra` contract.
+The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to repo-wide scopes that have worktree changes and to the desk scope only when a desk path changed. `--check` also enforces the post-cutover `gpt-5.6-sol` / `ultra` contract against all retained-local contexts.
+
+If no retained site-cwd usage can be attributed on the current machine, the helper preserves the previously audited site-revamp token/hour snapshot while still refreshing commit counts. It never replaces a nonzero audited scope with zeros merely because local session attribution is unavailable. The cumulative `local_lifetime` scope is monotonic and fails closed more strictly: an empty or lower retained-archive scan preserves the last audited snapshot, while a genuinely nondecreasing scan refreshes it. This prevents cross-machine or deleted-log gaps from making retained lifetime evidence silently shrink.
 
 The scanner prefilters JSONL lines to session metadata, turn contexts, and token-count events before decoding them. The Codex publish hook allows 75 seconds for the retained-session audit inside a 90-second hook budget so an all-years scan cannot deadlock commits merely because the log archive grew.
 
@@ -306,6 +312,13 @@ Do not assume a long-context threshold, cache-write quantity, or actual Codex pr
 - Research-grounded GitHub activity checkpoint: added a site-native focus-and-context view, keyboard inspection, exact weekly table, readable/literal scale controls, a privacy-safe fallback snapshot, and responsive coverage; the personal and Autodesk profile cards were redesigned in the same bounded visual system.
 - Published total after the formatter and local-preview follow-ups: 310 revamp commits, 3.12B rounded tokens, and 259 rounded agent-hours. Since-`gpt-5.6-sol`: 15 commits, 520M rounded tokens, and 20 rounded hours. Token, energy, tree, API-cost, and CodexBar labels stayed unchanged at this checkpoint.
 - Evidence: the task-local goal snapshot at 2026-07-11 14:36 PDT reported 862,105 tokens and 3,270 elapsed seconds. Because the task began in the shared `misc` workspace rather than this checkout, the pending commit and elapsed time were added manually; detailed retained-log model buckets remain at the prior audited snapshot.
+
+### 2026-07-12
+
+- Retained-local history became a separate public context scope with a Jun 19 boundary: 7,376,338,172 raw / 7.38B rounded tracked tokens across 314 counted sessions and 359 rounded agent-hours, with a ~$5.9K logged-model Standard short-context API equivalence. This is retained device history, not OpenAI account lifetime usage or an actual bill; unobserved cache writes and long-context premiums are excluded.
+- Model mix in that retained-local scope: 4,494,217,651 tokens attributed to `gpt-5.5/xhigh` and 2,882,120,521 to `gpt-5.6-sol/ultra`. The all-local post-cutover policy check observed 424 retained contexts with zero deviations.
+- The site-only public snapshot remains preserved at 3.12B rounded tokens and 259 hours because this machine had no first-cwd site sessions; its complete git history still refreshed independently. The cumulative retained-local scope now also fails closed on empty or lower partial archives so cross-machine or deleted-log gaps cannot make lifetime evidence shrink.
+- Evidence: the final post-commit `python bin/audit_agentic_usage.py --write` scan covered 316 retained local leaf sessions across all cwd values, counted 50,060 post-boundary usage events, and refreshed `_data/agentic_usage.yml` after the responsive, interaction, privacy, and reduced-motion QA pass.
 
 ## Future Entry Template
 

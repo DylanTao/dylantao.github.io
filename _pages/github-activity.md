@@ -18,6 +18,16 @@ github_activity: true
       ordinary weeks visible beside rare, unusually large changes.
     </p>
     <p class="github-activity-boundary">Lines touched are evidence of change, not a productivity score.</p>
+    {% assign local_lifetime = site.data.agentic_usage.local_lifetime %}
+    {% if local_lifetime %}
+      <p class="github-activity-local-history">
+        Retained local Codex history since {{ local_lifetime.since_label }}:
+        <strong>{{ local_lifetime.tokens_label }} tracked tokens</strong> across {{ local_lifetime.sessions }} sessions · about
+        {{ local_lifetime.api_cost_equivalence.usd_label | remove: ' API cosplay' }} at logged-model Standard short-context API rates,
+        excluding unobserved cache writes and long-context premiums.
+        This is retained device history, not account lifetime usage or an actual bill; ChatGPT exposes usage limits, not a lifetime token counter.
+      </p>
+    {% endif %}
   </header>
 
   <section class="github-activity-workbench" aria-labelledby="github-activity-chart-title">
@@ -32,7 +42,7 @@ github_activity: true
         </div>
       </fieldset>
       <fieldset class="github-activity-control-group">
-        <legend>Line scale</legend>
+        <legend>Scale</legend>
         <div class="github-activity-segments" data-scale-controls>
           <button type="button" data-scale="symlog" aria-pressed="true">Readable</button>
           <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
@@ -40,7 +50,7 @@ github_activity: true
       </fieldset>
     </div>
 
-    <div class="github-activity-readout" aria-live="polite">
+    <div class="github-activity-readout">
       <div>
         <p class="github-activity-readout-label" id="github-activity-selected-date">Latest week</p>
         <p class="github-activity-values">
@@ -50,16 +60,22 @@ github_activity: true
           <span aria-hidden="true">·</span>
           <span class="github-activity-removed" id="github-activity-selected-deletions">−0 removed</span>
         </p>
+        <p class="github-activity-tier-context" id="github-activity-selected-tier"></p>
       </div>
       <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
     </div>
 
-    <p class="github-activity-range-summary" id="github-activity-range-summary"></p>
+    <div class="github-activity-range-status">
+      <p class="github-activity-range-summary" id="github-activity-range-summary"></p>
+      <button type="button" class="github-activity-clear-selection" data-clear-selection hidden>Clear selection</button>
+      <span class="sr-only" id="github-activity-selection-announcement" aria-live="polite"></span>
+    </div>
 
     <div class="github-activity-chart-shell">
       <h2 class="sr-only" id="github-activity-chart-title">Weekly additions and deletions</h2>
       <p class="sr-only" id="github-activity-chart-instructions">
-        Focus the chart and use arrow keys to inspect weeks, Home or End to jump, and Page Up or Page Down to move four weeks.
+        Hover or click to inspect a week. Drag horizontally to select a range. With keyboard focus, use arrow keys to inspect, Shift plus
+        an arrow key to extend a range, Home or End to jump, Page Up or Page Down to move four weeks, and Escape to clear a selection.
       </p>
       <svg
         id="github-activity-chart"
@@ -78,15 +94,15 @@ github_activity: true
       <div>
         <h2>Aligned, not dual-axis</h2>
         <p>
-          Commits use a compact zero-preserving log1p panel above the line-change panel. Rare mass-commit weeks no longer flatten
-          ordinary weeks; exact counts remain literal in the readout and table.
+          Commits use a compact panel above the line-change panel. The shared time axis supports exact-week hover, click-to-pin, and a
+          snapped drag selection without pretending commits and lines share a unit.
         </p>
       </div>
       <div>
         <h2>Readable and literal</h2>
         <p>
-          Readable uses a symmetric logarithmic transform for added and removed lines, preserving zero and sign while compressing
-          extremes. Literal gives those line changes one linear scale. The commit panel stays on its readable log1p scale in both views.
+          Readable uses log1p for commits and a symmetric-log transform for added and removed lines, preserving zero while compressing
+          extremes. Literal switches both panels to independent linear scales. Exact values never change.
         </p>
       </div>
       <div>
@@ -103,10 +119,37 @@ github_activity: true
           source zeroes line totals for repositories with 10,000 or more commits.
         </p>
       </div>
+      <div>
+        <h2>Subscription context</h2>
+        <p>
+          The thin timeline ribbon uses user-supplied billing dates rounded to Plus $20, $100, or $200 tiers. A week is assigned by its
+          Wednesday midpoint. Billing tier is context—not measured AI use, causation, or productivity—and raw invoices are not published.
+        </p>
+      </div>
     </div>
+    <section class="github-activity-tier-comparison" aria-labelledby="github-activity-tier-title">
+      <div>
+        <h2 id="github-activity-tier-title">Observed active weeks by subscription tier in this scope</h2>
+        <p>Median active-week values update with the time window or drag selection. They reduce unequal-duration and outlier effects; association only.</p>
+      </div>
+      <div class="github-activity-table-wrap github-activity-tier-table-wrap">
+        <table class="github-activity-table github-activity-tier-table">
+          <caption id="github-activity-tier-caption">Subscription-tier comparison for the current time window</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tier</th>
+              <th scope="col">Active / observed</th>
+              <th scope="col">Median commits</th>
+              <th scope="col">Median lines touched</th>
+            </tr>
+          </thead>
+          <tbody id="github-activity-tier-table-body"></tbody>
+        </table>
+      </div>
+    </section>
     <div class="github-activity-table-wrap">
       <table class="github-activity-table">
-        <caption>
+        <caption id="github-activity-table-caption">
           Exact weekly values in the selected time window
         </caption>
         <thead>
@@ -131,5 +174,8 @@ github_activity: true
 
   <script id="github-activity-data" type="application/json">
     {{ site.data.github_activity | jsonify }}
+  </script>
+  <script id="github-activity-ai-tiers" type="application/json">
+    {{ site.data.github_ai_tiers | jsonify }}
   </script>
 </section>
