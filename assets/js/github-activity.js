@@ -504,10 +504,10 @@
           fill,
         });
         ribbon.append(visualRun);
-        if (x2 - x1 >= (narrow ? 52 : 64)) {
+        if (x2 - x1 >= (narrow ? 30 : 36)) {
           addText(
             ribbon,
-            run.tier.label,
+            "$" + run.tier.tier_usd,
             (x1 + x2) / 2,
             ribbonTop + 8,
             "middle",

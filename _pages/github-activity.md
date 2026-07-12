@@ -23,19 +23,19 @@ github_activity: true
       <dl class="github-activity-codex-ledger" aria-label="Codex usage snapshot">
         <div>
           <dt>{{ account_lifetime.tokens_label }}</dt>
-          <dd>Codex lifetime</dd>
+          <dd>Codex tokens, all time</dd>
         </div>
         <div>
           <dt>{{ account_lifetime.api_cost_equivalence.usd_label }}</dt>
-          <dd>API-rate estimate</dd>
+          <dd>if priced through the public API</dd>
         </div>
         <div>
           <dt>{{ local_lifetime.tokens_label }}</dt>
-          <dd>local replay since {{ local_lifetime.since_label }}</dd>
+          <dd>still in local logs since {{ local_lifetime.since_label }}</dd>
         </div>
       </dl>
       <p class="github-activity-ledger-note">
-        The account total gets the headline; the local replay keeps the receipts. Cost follows the observed model and cache mix, not the bill.
+        Codex reports {{ account_lifetime.tokens_label }}. Local logs still hold {{ local_lifetime.tokens_label }}. The dollar number is a what-if, not a bill.
         {% if account_lifetime.recent_activity.partial_last_day %}{{ account_lifetime.recent_activity.end_label }} is partial.{% endif %}
       </p>
     {% endif %}
@@ -87,17 +87,17 @@ github_activity: true
       <ul>
         <li>
           <button type="button" class="github-activity-tier-legend-button" data-tier-inspector="20" aria-controls="github-activity-selected-tier">
-            <span class="github-activity-tier-swatch" data-tier-value="20" aria-hidden="true"></span>$20/mo
+            <span class="github-activity-tier-swatch" data-tier-value="20" aria-hidden="true"></span>$20
           </button>
         </li>
         <li>
           <button type="button" class="github-activity-tier-legend-button" data-tier-inspector="100" aria-controls="github-activity-selected-tier">
-            <span class="github-activity-tier-swatch" data-tier-value="100" aria-hidden="true"></span>$100/mo
+            <span class="github-activity-tier-swatch" data-tier-value="100" aria-hidden="true"></span>$100
           </button>
         </li>
         <li>
           <button type="button" class="github-activity-tier-legend-button" data-tier-inspector="200" aria-controls="github-activity-selected-tier">
-            <span class="github-activity-tier-swatch" data-tier-value="200" aria-hidden="true"></span>$200/mo
+            <span class="github-activity-tier-swatch" data-tier-value="200" aria-hidden="true"></span>$200
           </button>
         </li>
       </ul>
@@ -142,7 +142,7 @@ github_activity: true
       </div>
       <div>
         <h2>Plan-price ribbon</h2>
-        <p>The ribbon lines up each week with the monthly price paid at the time. Price is context—not measured AI use, productivity, or causation.</p>
+        <p>The ribbon shows which monthly plan was active each week. It does not explain changes in the chart.</p>
       </div>
     </div>
     <section class="github-activity-tier-comparison" aria-labelledby="github-activity-tier-title">

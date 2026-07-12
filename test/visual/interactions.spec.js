@@ -377,9 +377,10 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   const tierLegend = page.locator(".github-activity-tier-legend");
   await expect(tierLegend).toBeVisible();
   await expect(tierLegend.locator("li")).toHaveCount(3);
-  await expect(tierLegend).toContainText("$20/mo");
-  await expect(tierLegend).toContainText("$100/mo");
-  await expect(tierLegend).toContainText("$200/mo");
+  await expect(tierLegend).toContainText("$20");
+  await expect(tierLegend).toContainText("$100");
+  await expect(tierLegend).toContainText("$200");
+  await expect(tierLegend).not.toContainText("/mo");
   const tierIntensity = await tierLegend.evaluate((legend) => {
     const sample = (value) => {
       const canvas = document.createElement("canvas");
@@ -465,6 +466,10 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
     expect(actualRun.width).toBeCloseTo(expectedRun.width, 3);
   });
   expect(ribbonState.directLabels).toBeLessThan(ribbonState.actual.length);
+  const directTierLabels = await page.locator(".github-activity-tier-label").allTextContents();
+  expect(directTierLabels.length).toBeGreaterThan(0);
+  expect(directTierLabels.every((label) => ["$20", "$100", "$200"].includes(label))).toBe(true);
+  expect(directTierLabels.every((label) => !label.includes("/mo"))).toBe(true);
   const tierHits = page.locator(".github-activity-tier-hit");
   await expect(tierHits).toHaveCount(ribbonState.actual.length);
   const hitGeometry = await tierHits.evaluateAll((nodes) =>
@@ -613,8 +618,8 @@ test("home agentic heartbeat uses the account lifetime and real daily sparkline"
   await heartbeat.scrollIntoViewIfNeeded();
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
-  await expect(heartbeat).toContainText("20.9B Codex lifetime");
-  await expect(heartbeat).toContainText("~$17.5K API-rate estimate from local mix");
+  await expect(heartbeat).toContainText("20.9B Codex tokens");
+  await expect(heartbeat).toContainText("~$17.5K if priced through the public API");
   await expect(heartbeat).toContainText("3110 GitHub commits");
   const sparkline = heartbeat.locator(".home-agentic-heartbeat-sparkline polyline");
   await expect(sparkline).toHaveCount(1);

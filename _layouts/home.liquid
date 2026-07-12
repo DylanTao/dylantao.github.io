@@ -64,7 +64,7 @@ layout: default
                       <button
                         type="button"
                         class="home-agentic-info home-agentic-info-cost"
-                        aria-label="How the site-build token cost is estimated"
+                        aria-label="How the site-build dollar comparison is calculated"
                         aria-describedby="home-agentic-cost-tooltip"
                       >
                         i
@@ -74,7 +74,7 @@ layout: default
                           <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
                           <span>
                             <strong>Sam's imaginary invoice: {{ total_cost.usd_label | remove: ' API-rate replay' }}</strong>
-                            <small>Same workload at public API rates.</small>
+                            <small>What the same workload would cost through the public API—not my bill.</small>
                           </span>
                         </span>
                       </span>
@@ -110,9 +110,9 @@ layout: default
               >
                 <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
                 <span class="home-agentic-heartbeat-copy">
-                  <strong>{{ account_lifetime.tokens_label }} Codex lifetime</strong>
+                  <strong>{{ account_lifetime.tokens_label }} Codex tokens</strong>
                   <small>
-                    {{- account_lifetime.api_cost_equivalence.usd_label }} API-rate estimate from local mix · {{ all_github_commits }} GitHub commits</small
+                    {{- account_lifetime.api_cost_equivalence.usd_label }} if priced through the public API · {{ all_github_commits }} GitHub commits</small
                   >
                 </span>
                 <svg
