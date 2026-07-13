@@ -201,6 +201,7 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   const codexScopeBadge = page.locator("[data-codex-scope]");
   const githubScopeBadge = page.locator("[data-github-scope]");
   await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · DAILY");
+  await expect(githubScopeBadge).toHaveText("5 YEARS · WEEKLY");
   const codexLedger = page.locator(".github-activity-codex-ledger");
   await expect(codexLedger.locator("div")).toHaveCount(2);
   await expect(page.locator(".github-activity-hero .github-activity-codex-ledger")).toHaveCount(0);

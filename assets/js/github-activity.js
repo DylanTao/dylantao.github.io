@@ -485,7 +485,7 @@
   const short = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
   const dateLabel = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
   const mobile = window.matchMedia("(max-width: 700px)");
-  let range = mobile.matches ? "1" : "5";
+  let range = "5";
   let scale = "symlog";
   let selectedIndex = rows.length - 1;
   let pinnedIndex = rows.length - 1;
