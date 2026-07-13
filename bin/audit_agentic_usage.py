@@ -117,7 +117,8 @@ ACCOUNT_LIFETIME_CHECK_FIELDS = (
     ("recent_activity", "weekly"),
 )
 
-ACCOUNT_SNAPSHOT_MAX_AGE = timedelta(hours=36)
+ACCOUNT_SNAPSHOT_MAX_AGE = timedelta(hours=24)
+METRICS_BOT_EMAILS = frozenset({"metrics-bot@users.noreply.github.com"})
 
 PRICE_SOURCE_URL = "https://developers.openai.com/api/docs/pricing"
 MODEL_PRICE_AS_OF = "2026-07-12"
@@ -267,14 +268,43 @@ def parse_timestamp(value: Any) -> datetime | None:
 
 
 def timestamp_calendar_date(value: Any) -> date | None:
-    """Return the calendar date encoded by a timestamp before UTC normalization."""
+    """Return the Pacific calendar date represented by an account timestamp.
+
+    Account activity timestamps are currently emitted in UTC while the daily
+    buckets follow the account's Pacific calendar.  Keep this dependency-free
+    for the Windows refresher by applying the post-2007 US daylight-saving
+    rules directly instead of requiring the optional ``tzdata`` package.
+    """
 
     if not isinstance(value, str) or not value:
         return None
     try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00")).date()
+        observed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         return None
+    if observed.tzinfo is None:
+        observed = observed.replace(tzinfo=timezone.utc)
+    observed_utc = observed.astimezone(timezone.utc)
+    year = observed_utc.year
+
+    march_first = date(year, 3, 1)
+    first_sunday_offset = (6 - march_first.weekday()) % 7
+    second_sunday = march_first + timedelta(days=first_sunday_offset + 7)
+    dst_start_utc = datetime.combine(
+        second_sunday,
+        datetime.min.time(),
+        tzinfo=timezone.utc,
+    ) + timedelta(hours=10)
+
+    november_first = date(year, 11, 1)
+    first_sunday = november_first + timedelta(days=(6 - november_first.weekday()) % 7)
+    dst_end_utc = datetime.combine(
+        first_sunday,
+        datetime.min.time(),
+        tzinfo=timezone.utc,
+    ) + timedelta(hours=9)
+    offset_hours = -7 if dst_start_utc <= observed_utc < dst_end_utc else -8
+    return (observed_utc + timedelta(hours=offset_hours)).date()
 
 
 def format_timestamp_utc(timestamp: datetime) -> str:
@@ -523,11 +553,15 @@ def prepare_usage_dataset(sessions: dict[str, SessionRecord]) -> UsageDataset:
 
 
 def git_commit_count(repo_root: Path, since: str, paths: list[str]) -> int:
-    command = ["git", "rev-list", "--count", f"--since={since}", "HEAD", "--", *paths]
+    command = ["git", "log", "--format=%ae", f"--since={since}", "HEAD", "--", *paths]
     result = subprocess.run(command, cwd=repo_root, capture_output=True, text=True, check=False)
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or f"git command failed: {' '.join(command)}")
-    return int(result.stdout.strip())
+    return sum(
+        1
+        for email in result.stdout.splitlines()
+        if email.strip().casefold() not in METRICS_BOT_EMAILS
+    )
 
 
 def is_shallow_repository(repo_root: Path) -> bool:
@@ -1620,7 +1654,10 @@ def merge_account_history(history: dict[str, Any], account: dict[str, Any]) -> d
             )
         return next_history
     snapshots.append(snapshot)
-    snapshots.sort(key=lambda item: str(item.get("sourceAsOf") or ""))
+    snapshots.sort(
+        key=lambda item: parse_timestamp(item.get("sourceAsOf"))
+        or datetime.min.replace(tzinfo=timezone.utc)
+    )
     return next_history
 
 
@@ -1684,7 +1721,10 @@ def account_history_check_messages(
             expected_days = [parsed_days[0] + timedelta(days=offset) for offset in range(30)]
             if parsed_days != expected_days:
                 issues.append(f"{label}.daily dates must be sequential.")
-            if observed_at is not None and observed_at.date() != parsed_days[-1]:
+            if (
+                observed_at is not None
+                and timestamp_calendar_date(snapshot.get("sourceAsOf")) != parsed_days[-1]
+            ):
                 issues.append(f"{label}.sourceAsOf must share the final daily date.")
 
     if len(parsed_timestamps) == len(snapshots):

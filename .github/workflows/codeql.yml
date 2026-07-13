@@ -14,8 +14,18 @@ name: "CodeQL Advanced"
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "_data/agentic_usage.yml"
+      - "_data/codex_account_history.json"
+      - "_data/github_activity.json"
+      - "assets/data/codex-profile-usage.json"
   pull_request:
     branches: ["main"]
+    paths-ignore:
+      - "_data/agentic_usage.yml"
+      - "_data/codex_account_history.json"
+      - "_data/github_activity.json"
+      - "assets/data/codex-profile-usage.json"
   schedule:
     - cron: "45 4 * * 3"
 

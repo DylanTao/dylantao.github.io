@@ -31,6 +31,10 @@ on:
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/unit-tests.yml"
+      - "!_data/agentic_usage.yml"
+      - "!_data/codex_account_history.json"
+      - "!_data/github_activity.json"
+      - "!assets/data/codex-profile-usage.json"
   pull_request:
     branches:
       - master
@@ -61,6 +65,10 @@ on:
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/unit-tests.yml"
+      - "!_data/agentic_usage.yml"
+      - "!_data/codex_account_history.json"
+      - "!_data/github_activity.json"
+      - "!assets/data/codex-profile-usage.json"
 
 jobs:
   comments-integration-tests:

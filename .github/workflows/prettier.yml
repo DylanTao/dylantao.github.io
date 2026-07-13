@@ -5,10 +5,20 @@ on:
     branches:
       - master
       - main
+    paths-ignore:
+      - "_data/agentic_usage.yml"
+      - "_data/codex_account_history.json"
+      - "_data/github_activity.json"
+      - "assets/data/codex-profile-usage.json"
   push:
     branches:
       - master
       - main
+    paths-ignore:
+      - "_data/agentic_usage.yml"
+      - "_data/codex_account_history.json"
+      - "_data/github_activity.json"
+      - "assets/data/codex-profile-usage.json"
 
 jobs:
   check:

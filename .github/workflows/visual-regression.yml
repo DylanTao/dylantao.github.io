@@ -25,6 +25,10 @@ on:
       - "package-lock.json"
       - "Gemfile"
       - "Gemfile.lock"
+      - "!_data/agentic_usage.yml"
+      - "!_data/codex_account_history.json"
+      - "!_data/github_activity.json"
+      - "!assets/data/codex-profile-usage.json"
   push:
     branches: [main, v1.0-dev]
     paths:
@@ -49,6 +53,12 @@ on:
       - "package-lock.json"
       - "Gemfile"
       - "Gemfile.lock"
+      - "!_data/agentic_usage.yml"
+      - "!_data/codex_account_history.json"
+      - "!_data/github_activity.json"
+      - "!assets/data/codex-profile-usage.json"
+  schedule:
+    - cron: "23 8 * * 0"
 
 jobs:
   visual-checkpoints:

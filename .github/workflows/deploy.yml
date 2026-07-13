@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_data/codex_account_history.json"
+      - "_data/github_activity.json"
       - "**.bib"
       - "**.html"
       - "**.js"
@@ -36,6 +38,8 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_data/codex_account_history.json"
+      - "_data/github_activity.json"
       - "**.bib"
       - "**.html"
       - "**.js"

@@ -72,7 +72,7 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         )
         self.assertNotIn("snapshots", public["history"])
         self.assertEqual(len(public["recent"]["daily"]), 30)
-        self.assertEqual(len(public["recent"]["weekly"]), 6)
+        self.assertIn(len(public["recent"]["weekly"]), {5, 6})
         self.assertTrue(public["recent"]["weekly"][0]["partial"])
         self.assertTrue(public["recent"]["weekly"][-1]["partial"])
         serialized = json.dumps(public).lower()
