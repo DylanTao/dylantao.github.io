@@ -18,7 +18,10 @@ from typing import Any, Callable
 
 
 RunCommand = Callable[..., subprocess.CompletedProcess[str]]
-LEDGER_AUDIT_TIMEOUT_SECONDS = 75
+# Retained-session history is intentionally scanned across all years and now
+# takes a little over 100 seconds on the primary Windows checkout. Keep this
+# below the outer hook timeout while leaving enough headroom for archive growth.
+LEDGER_AUDIT_TIMEOUT_SECONDS = 150
 PUBLISH_BRANCHES = {"main", "master", "v1.0-dev"}
 
 DATE_RE = re.compile(r"\b{key}\s*:\s*['\"]?(?P<date>\d{{4}}-\d{{2}}-\d{{2}})")

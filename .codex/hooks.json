@@ -8,7 +8,7 @@
             "type": "command",
             "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/site_policy.py\"",
             "commandWindows": "python \"$(git rev-parse --show-toplevel)\\.codex\\hooks\\site_policy.py\"",
-            "timeout": 90,
+            "timeout": 180,
             "statusMessage": "Checking site publish freshness"
           }
         ]

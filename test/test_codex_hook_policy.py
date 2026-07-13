@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import subprocess
 import tempfile
 import unittest
@@ -96,6 +97,13 @@ class HookPolicyTest(unittest.TestCase):
         self.assertEqual(output["hookEventName"], "PreToolUse")
         self.assertEqual(output["permissionDecision"], "deny")
         return output["permissionDecisionReason"]
+
+    def test_outer_hook_budget_exceeds_retained_session_audit_budget(self) -> None:
+        hooks = json.loads((REPO_ROOT / ".codex" / "hooks.json").read_text(encoding="utf-8"))
+        outer_timeout = hooks["hooks"]["PreToolUse"][0]["hooks"][0]["timeout"]
+
+        self.assertGreaterEqual(site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS, 120)
+        self.assertGreater(outer_timeout, site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS)
 
     def test_normal_commit_blocks_when_ledger_is_stale(self) -> None:
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
