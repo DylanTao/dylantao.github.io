@@ -8,13 +8,15 @@ Agent-facing Codex overlay: `.codex/skills/agentic-usage-ledger/SKILL.md`. This 
 
 The homepage reads `_data/agentic_usage.yml`.
 
+`_data/codex_account_history.json` preserves each authenticated 30-day account snapshot as an append-only, timestamped record. A newer snapshot may add evidence, but `--check` requires the committed `HEAD` snapshots to remain an immutable exact prefix. `assets/data/codex-profile-usage.json` is the sanitized public projection used by the activity page and profile-card generators; it contains lifetime summary values, the latest daily series, audited Sunday buckets, and only bounded history metadata (`grain`, snapshot count, first timestamp, and latest timestamp). Full historical snapshots remain private to `_data`. The projection never exposes retained-local or CodexBar fields.
+
 Update that file when a future Codex or agentic run materially changes this site, especially if the work touches homepage visuals, custom layouts, custom scripts, publications/CV polish, or the 3D desk scene.
 
 The homepage contact ledger should render the playful tree-sacrifice estimate in the top caption, then four compact stat cells for tokens, agent-hours, commits, and estimated kWh. Keep detailed conversion caveats in this document and in the small homepage info tooltip, not as extra ledger paragraphs. The headline line may use light archaic copy, but the numbers and tooltip math should stay plain.
 
 For whole-account Codex activity, `_data/agentic_usage.yml.account_lifetime` is primary. It is a verified snapshot from authenticated Codex account activity at `GET /wham/profiles/me`, not an inference from local files. The July 12, 2026 checkpoint reports 20,860,271,364 lifetime tokens across 797 unique conversations, with a 1,748,633,377-token peak on July 1; July 12 is a partial day.
 
-`local_lifetime` is a secondary, fork-aware retained-log replay across local project directories since June 19, 2026. Its current roughly 7.7B tokens are only the slice still retained on this machine, not account lifetime. Win-CodexBar 0.42's raw 30-day total is also noncanonical: it counts files and forks and sums cumulative token snapshots, so copied ancestry and repeated snapshots inflate the result.
+`local_lifetime` is a secondary, fork-aware retained-log replay across local project directories since June 19, 2026. It is retained only as an internal audit and pricing-mix sample; it is not an account total and is never rendered as a public KPI. Win-CodexBar 0.42's raw 30-day total is also noncanonical: it counts files and forks and repeatedly restarts cumulative token deltas, so copied ancestry and counter resets inflate the result.
 
 ## Current Baseline
 
@@ -328,8 +330,9 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 - The site-only public snapshot remains preserved at 3.12B rounded tokens and 259 hours because this machine had no first-cwd site sessions; its complete git history still refreshed independently. The cumulative retained-local scope now also fails closed on empty or lower partial archives so cross-machine or deleted-log gaps cannot make lifetime evidence shrink.
 - Evidence: the final follow-up `python bin/audit_agentic_usage.py --write` scan covered 316 retained local leaf sessions across all cwd values, counted 50,318 post-boundary usage events, and refreshed `_data/agentic_usage.yml` after the responsive, interaction, privacy, and reduced-motion QA pass.
 - Canonical account-activity checkpoint: the authenticated `GET /wham/profiles/me` response verified at `2026-07-12T18:40:36.5724510Z` reported 20,860,271,364 lifetime tokens across 797 unique conversations. Its recent-daily series peaks at 1,748,633,377 tokens on July 1, and the July 12 value is partial.
-- Later fork-aware local replay: retained logs since June 19 cover roughly 7.7B tokens and replay to about $6.4K at request-aware API rates. Scaling the account total by that observed local model, cache-read, and long-context mix gives approximately $17.5K; neither value is an actual bill.
-- Win-CodexBar 0.42 raw 30-day output was rejected as canonical evidence because it counts files/forks and cumulative snapshots, inflating duplicated ancestry and intermediate totals.
+- Later fork-aware local replay: retained logs since June 19 are kept only as an internal pricing-mix sample. Scaling the account total by that observed model, cache-read, and long-context mix gives approximately $17.5K; the retained-log subtotal is not a useful public KPI and is not rendered.
+- Win-CodexBar 0.42 reconciliation: its Jun 13–Jul 12 scan reported 45.24B tokens and $36.66K, versus 16.98B tokens in the account-owned 30-day series and 7.94B in a fork-aware replay of the same retained local window. The effective rates were close ($0.81/M in CodexBar versus $0.84/M in the site estimate), so the discrepancy is token duplication rather than pricing.
+- Source-level cause: the Windows scanner starts cumulative deltas from zero for every JSONL file and clamps every counter decrease to zero before continuing. Across 344 files, shared fork ancestry lifted summed final counters to 35.03B and 1,319 counter resets in one replay-heavy file added another 10.24B. The original CodexBar project documents fork-inheritance and replay-overcount fixes, but the Win-CodexBar 0.42 Rust scanner does not carry the equivalent cross-file/row deduplication.
 
 ## Future Entry Template
 

@@ -62,7 +62,7 @@
 
 .github-activity-codex-ledger {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.55rem 1.25rem;
   max-width: 42rem;
   margin: 1rem 0 0;
@@ -99,6 +99,143 @@
 .github-activity-ledger-note {
   max-width: 46rem;
   margin: 0.55rem 0 0;
+}
+
+.github-activity-codex-trend {
+  width: 100%;
+  margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+  padding: 1rem 0 0.8rem;
+  border-top: 1px solid var(--global-outline-color);
+  border-bottom: 1px solid var(--global-outline-color);
+}
+
+.github-activity-codex-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+}
+
+.github-activity-codex-heading h2,
+.github-activity-codex-heading p,
+.github-activity-codex-readout,
+.github-activity-codex-note {
+  margin: 0;
+}
+
+.github-activity-codex-heading h2 {
+  font-size: clamp(1.25rem, 2.7vw, 1.7rem);
+}
+
+.github-activity-codex-heading > div:first-child > p:last-child {
+  max-width: 45rem;
+  margin-top: 0.35rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
+.github-activity-codex-kicker {
+  color: var(--global-primary-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.github-activity-codex-grain {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.3rem;
+}
+
+.github-activity-codex-grain button {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.45rem;
+  background: transparent;
+  font-size: var(--type-meta);
+}
+
+.github-activity-codex-grain button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--global-primary-color) 54%, var(--global-outline-color));
+  background: color-mix(in srgb, var(--global-primary-color) 9%, transparent);
+  color: var(--global-primary-color);
+}
+
+.github-activity-codex-grain button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.github-activity-codex-grain button:focus-visible {
+  outline: 2px solid var(--global-primary-color);
+  outline-offset: 3px;
+}
+
+.github-activity-codex-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.8rem;
+  min-height: 2rem;
+  margin-top: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-codex-readout > span:first-child,
+.github-activity-codex-readout > span:last-child {
+  color: var(--global-text-color-light);
+}
+
+.github-activity-codex-readout strong {
+  color: var(--global-primary-color);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.github-activity-codex-chart {
+  display: block;
+  width: 100%;
+  height: clamp(11rem, 24vw, 13rem);
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.github-activity-codex-chart text {
+  fill: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.github-activity-codex-chart .github-activity-codex-inspector {
+  cursor: crosshair;
+  outline: none;
+}
+
+.github-activity-codex-guide {
+  stroke-opacity: 0.66;
+  transition:
+    stroke 120ms ease,
+    stroke-width 120ms ease,
+    stroke-opacity 120ms ease;
+}
+
+.github-activity-codex-chart.is-keyboard-focused .github-activity-codex-guide {
+  stroke: var(--global-primary-color);
+  stroke-width: 2.4px;
+  stroke-opacity: 1;
+}
+
+.github-activity-codex-point.is-partial {
+  stroke-dasharray: 2 1;
+}
+
+.github-activity-codex-note {
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  line-height: 1.5;
 }
 
 .github-activity-workbench {
@@ -463,6 +600,32 @@
   padding: 0 0 1.4rem;
 }
 
+.github-activity-codex-table-section {
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.45fr) minmax(0, 1.55fr);
+  gap: 1rem 1.5rem;
+  padding: 0 0 1.5rem;
+}
+
+.github-activity-codex-table-section[hidden] {
+  display: none;
+}
+
+.github-activity-codex-table-section h2,
+.github-activity-codex-table-section p {
+  margin: 0;
+}
+
+.github-activity-codex-table-section h2 {
+  font-size: 1rem;
+}
+
+.github-activity-codex-table-section p {
+  margin-top: 0.35rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
 .github-activity-tier-comparison > div:first-child {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(16rem, 1.35fr);
@@ -550,9 +713,14 @@
 
   .github-activity-controls,
   .github-activity-readout,
-  .github-activity-range-status {
+  .github-activity-range-status,
+  .github-activity-codex-heading {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .github-activity-codex-grain {
+    align-self: flex-start;
   }
 
   .github-activity-control-group,
@@ -579,6 +747,10 @@
   }
 
   .github-activity-method-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .github-activity-codex-table-section {
     grid-template-columns: 1fr;
   }
 

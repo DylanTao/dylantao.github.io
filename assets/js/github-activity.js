@@ -1,4 +1,368 @@
 (async () => {
+  const initCodexUsageTrend = async () => {
+    const trendRoot = document.querySelector("[data-codex-usage]");
+    if (!trendRoot) return;
+    const chart = document.getElementById("github-activity-codex-chart");
+    const selectedDate = document.getElementById("github-activity-codex-date");
+    const selectedTokens = document.getElementById("github-activity-codex-tokens");
+    const selectedCost = document.getElementById("github-activity-codex-cost");
+    const selectedCoverage = document.getElementById("github-activity-codex-coverage");
+    const status = trendRoot.querySelector("[data-codex-status]");
+    const tableSection = document.querySelector("[data-codex-table]");
+    const tableBody = document.getElementById("github-activity-codex-table-body");
+    const tableCaption = document.getElementById("github-activity-codex-table-caption");
+    const grainButtons = Array.from(trendRoot.querySelectorAll("[data-codex-grain]"));
+    if (!chart || !selectedDate || !selectedTokens || !selectedCost || !selectedCoverage || !status || !trendRoot.dataset.source) return;
+
+    const selectionReadout = [selectedDate, selectedTokens, selectedCost, selectedCoverage];
+    const setUnavailable = () => {
+      trendRoot.dataset.state = "error";
+      trendRoot.setAttribute("aria-busy", "false");
+      status.textContent = "Recent Codex token data is unavailable.";
+      status.hidden = false;
+      selectionReadout.forEach((node) => {
+        node.hidden = true;
+        node.textContent = "";
+      });
+      grainButtons.forEach((button) => {
+        button.disabled = true;
+      });
+      if (tableSection) tableSection.hidden = true;
+      chart.replaceChildren();
+    };
+
+    const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+    const validRows = (rows, key) =>
+      Array.isArray(rows) && rows.length > 0 && rows.every((row) => isIsoDate(row?.[key]) && Number.isInteger(row.tokens) && row.tokens >= 0);
+    const validSource = (candidate) =>
+      candidate?.schema === 1 &&
+      typeof candidate.sourceAsOf === "string" &&
+      Number.isInteger(candidate?.lifetime?.tokens) &&
+      candidate.lifetime.tokens > 0 &&
+      Number.isFinite(candidate?.lifetime?.apiEquivalent?.usd) &&
+      validRows(candidate?.recent?.daily, "date") &&
+      validRows(candidate?.recent?.weekly, "week") &&
+      typeof candidate?.recent?.partialLastDay === "boolean";
+
+    let source;
+    try {
+      const response = await fetch(trendRoot.dataset.source, {
+        cache: "no-store",
+        credentials: "same-origin",
+      });
+      source = response.ok ? await response.json() : null;
+    } catch {
+      source = null;
+    }
+    if (!validSource(source)) {
+      setUnavailable();
+      return;
+    }
+
+    const NS = "http://www.w3.org/2000/svg";
+    const number = new Intl.NumberFormat("en-US");
+    const compact = new Intl.NumberFormat("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 1,
+    });
+    const money = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    });
+    const fullDate = new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+    const shortDate = new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    });
+    const usdPerToken = source.lifetime.apiEquivalent.usd / source.lifetime.tokens;
+    let grain = "daily";
+    let selectedIndex = source.recent.daily.length - 1;
+    let pinnedIndex = selectedIndex;
+    let resizeFrame = 0;
+
+    const svgElement = (name, attributes = {}) => {
+      const node = document.createElementNS(NS, name);
+      Object.entries(attributes).forEach(([key, value]) => node.setAttribute(key, String(value)));
+      return node;
+    };
+    const addText = (parent, value, x, y, anchor, className) => {
+      const node = svgElement("text", {
+        x,
+        y,
+        "text-anchor": anchor || "start",
+        ...(className ? { class: className } : {}),
+      });
+      node.textContent = value;
+      parent.append(node);
+      return node;
+    };
+    const linePath = (points) => points.map((point, index) => (index ? "L " : "M ") + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ");
+    const areaPath = (points, baseline) =>
+      "M " +
+      points[0][0].toFixed(2) +
+      " " +
+      baseline.toFixed(2) +
+      " " +
+      points.map((point) => "L " + point[0].toFixed(2) + " " + point[1].toFixed(2)).join(" ") +
+      " L " +
+      points.at(-1)[0].toFixed(2) +
+      " " +
+      baseline.toFixed(2) +
+      " Z";
+    const dateFrom = (value) => new Date(value + "T00:00:00Z");
+    const coverageLabel = (row) => {
+      if (grain === "daily") return row.partial ? "Partial day" : "Observed day";
+      if (!row.partial) return "7 of 7 days";
+      if (row.partialReason === "range-start") return row.observedDays + " of 7 days · range starts here";
+      return row.observedDays + " of 7 days · week in progress";
+    };
+    const rowsForGrain = () => {
+      if (grain === "weekly") {
+        return source.recent.weekly.map((row) => ({
+          ...row,
+          key: row.week,
+          date: dateFrom(row.week),
+          apiEquivalentUsd: row.apiEquivalentUsd,
+        }));
+      }
+      return source.recent.daily.map((row, index, rows) => ({
+        ...row,
+        key: row.date,
+        date: dateFrom(row.date),
+        observedDays: 1,
+        partial: index === rows.length - 1 && source.recent.partialLastDay,
+        partialReason: index === rows.length - 1 && source.recent.partialLastDay ? "range-end" : null,
+        apiEquivalentUsd: row.tokens * usdPerToken,
+      }));
+    };
+    const updateTable = (rows) => {
+      if (!tableBody) return;
+      const fragment = document.createDocumentFragment();
+      rows.forEach((row) => {
+        const tr = document.createElement("tr");
+        const period = grain === "daily" ? fullDate.format(row.date) : "Week of " + fullDate.format(row.date);
+        [period, coverageLabel(row), number.format(row.tokens), "≈" + money.format(row.apiEquivalentUsd)].forEach((value, index) => {
+          const cell = document.createElement(index === 0 ? "th" : "td");
+          if (index === 0) cell.scope = "row";
+          cell.textContent = value;
+          tr.append(cell);
+        });
+        fragment.append(tr);
+      });
+      tableBody.replaceChildren(fragment);
+      if (tableCaption) tableCaption.textContent = (grain === "daily" ? "Daily" : "Sunday-week") + " Codex account tokens";
+    };
+    const updateReadout = (row) => {
+      selectedDate.textContent = (grain === "daily" ? "Day of " : "Week of ") + fullDate.format(row.date);
+      selectedTokens.textContent = number.format(row.tokens) + " tokens";
+      selectedCost.textContent = "≈" + money.format(row.apiEquivalentUsd) + " through the public API";
+      selectedCoverage.textContent = coverageLabel(row);
+    };
+    const setPressedState = () => {
+      grainButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.codexGrain === grain ? "true" : "false"));
+    };
+    const draw = () => {
+      const rows = rowsForGrain();
+      if (!rows.length) return;
+      selectedIndex = Math.max(0, Math.min(rows.length - 1, selectedIndex));
+      pinnedIndex = Math.max(0, Math.min(rows.length - 1, pinnedIndex));
+      const restoreFocus = chart.contains(document.activeElement);
+      chart.replaceChildren();
+      const style = getComputedStyle(trendRoot);
+      const accent = style.getPropertyValue("--global-primary-color").trim() || "#b84f12";
+      const text = style.getPropertyValue("--global-text-color").trim() || "#211a16";
+      const muted = style.getPropertyValue("--global-text-color-light").trim() || "#6d6a62";
+      const gridColor = style.getPropertyValue("--global-divider-color").trim() || "rgba(90,88,72,.16)";
+      const surface = style.getPropertyValue("--global-surface-color").trim() || "#fffaf6";
+      const width = chart.clientWidth || 920;
+      const height = chart.clientHeight || 210;
+      const narrow = width < 620;
+      const left = narrow ? 54 : 66;
+      const right = narrow ? 10 : 18;
+      const top = 18;
+      const bottom = 34;
+      const baseline = height - bottom;
+      const plotHeight = baseline - top;
+      const maximum = Math.max(...rows.map((row) => row.tokens), 1);
+      const magnitude = 10 ** Math.floor(Math.log10(maximum));
+      const domainMaximum = Math.max(magnitude, Math.ceil(maximum / magnitude) * magnitude);
+      const x = (index) => left + (index / Math.max(1, rows.length - 1)) * (width - left - right);
+      const y = (value) => baseline - (value / domainMaximum) * plotHeight;
+      chart.setAttribute("viewBox", "0 0 " + width + " " + height);
+
+      const grid = svgElement("g", { class: "github-activity-codex-grid", "aria-hidden": "true" });
+      [0, 0.25, 0.5, 0.75, 1].forEach((fraction) => {
+        const value = domainMaximum * fraction;
+        const yy = y(value);
+        grid.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: gridColor, "stroke-width": 1 }));
+        addText(grid, compact.format(value), left - 8, yy + 4, "end", "github-activity-codex-tick");
+      });
+      addText(grid, shortDate.format(rows[0].date), left, height - 10, "start", "github-activity-codex-axis-label");
+      addText(grid, shortDate.format(rows.at(-1).date), width - right, height - 10, "end", "github-activity-codex-axis-label");
+      chart.append(grid);
+
+      const points = rows.map((row, index) => [x(index), y(row.tokens)]);
+      chart.append(
+        svgElement("path", {
+          class: "github-activity-codex-area",
+          d: areaPath(points, baseline),
+          fill: accent,
+          "fill-opacity": 0.1,
+        }),
+        svgElement("path", {
+          class: "github-activity-codex-line",
+          d: linePath(points),
+          fill: "none",
+          stroke: accent,
+          "stroke-width": 2,
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+        })
+      );
+      rows.forEach((row, index) => {
+        chart.append(
+          svgElement("circle", {
+            class: "github-activity-codex-point" + (row.partial ? " is-partial" : ""),
+            cx: x(index),
+            cy: y(row.tokens),
+            r: row.partial ? 4.2 : 2.8,
+            fill: row.partial ? surface : accent,
+            stroke: accent,
+            "stroke-width": row.partial ? 2 : 1,
+          })
+        );
+      });
+
+      const guide = svgElement("line", {
+        class: "github-activity-codex-guide",
+        y1: top,
+        y2: baseline,
+        stroke: text,
+        "stroke-width": 1.2,
+      });
+      const marker = svgElement("circle", {
+        class: "github-activity-codex-marker",
+        r: 4.5,
+        fill: surface,
+        stroke: accent,
+        "stroke-width": 2.2,
+      });
+      const overlay = svgElement("rect", {
+        class: "github-activity-codex-inspector",
+        x: left,
+        y: top,
+        width: width - left - right,
+        height: plotHeight,
+        fill: "transparent",
+        tabindex: 0,
+        focusable: "true",
+        role: "slider",
+        "aria-label": (grain === "daily" ? "Daily" : "Weekly") + " Codex token inspector",
+        "aria-valuemin": 0,
+        "aria-valuemax": rows.length - 1,
+        "aria-describedby": "github-activity-codex-instructions",
+      });
+      chart.append(guide, marker, overlay);
+
+      const showIndex = (index, pin = false) => {
+        selectedIndex = Math.max(0, Math.min(rows.length - 1, index));
+        if (pin) pinnedIndex = selectedIndex;
+        const row = rows[selectedIndex];
+        const xx = x(selectedIndex);
+        guide.setAttribute("x1", xx);
+        guide.setAttribute("x2", xx);
+        marker.setAttribute("cx", xx);
+        marker.setAttribute("cy", y(row.tokens));
+        overlay.setAttribute("aria-valuenow", selectedIndex);
+        overlay.setAttribute(
+          "aria-valuetext",
+          (grain === "daily" ? "Day of " : "Week of ") +
+            row.key +
+            ", " +
+            number.format(row.tokens) +
+            " tokens, approximately " +
+            money.format(row.apiEquivalentUsd) +
+            " through the public API, " +
+            coverageLabel(row)
+        );
+        updateReadout(row);
+      };
+      const nearestIndex = (event) => {
+        const box = chart.getBoundingClientRect();
+        const px = ((event.clientX - box.left) / Math.max(1, box.width)) * width;
+        const fraction = Math.max(0, Math.min(1, (px - left) / Math.max(1, width - left - right)));
+        return Math.round(fraction * (rows.length - 1));
+      };
+      overlay.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "mouse" || event.pointerType === "pen") showIndex(nearestIndex(event));
+      });
+      overlay.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
+        showIndex(nearestIndex(event), true);
+        overlay.focus({ preventScroll: true });
+      });
+      overlay.addEventListener("pointerleave", (event) => {
+        if (event.pointerType === "mouse") showIndex(pinnedIndex);
+      });
+      overlay.addEventListener("focus", () => chart.classList.add("is-keyboard-focused"));
+      overlay.addEventListener("blur", () => chart.classList.remove("is-keyboard-focused"));
+      overlay.addEventListener("keydown", (event) => {
+        let next = selectedIndex;
+        if (event.key === "ArrowLeft" || event.key === "ArrowDown") next -= 1;
+        else if (event.key === "ArrowRight" || event.key === "ArrowUp") next += 1;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = rows.length - 1;
+        else return;
+        event.preventDefault();
+        showIndex(next, true);
+      });
+      showIndex(selectedIndex);
+      updateTable(rows);
+      if (restoreFocus) overlay.focus({ preventScroll: true });
+    };
+
+    grainButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        grain = button.dataset.codexGrain;
+        const rows = rowsForGrain();
+        selectedIndex = rows.length - 1;
+        pinnedIndex = selectedIndex;
+        setPressedState();
+        draw();
+        chart.querySelector(".github-activity-codex-inspector")?.focus({ preventScroll: true });
+      });
+    });
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(draw);
+    });
+    new MutationObserver(draw).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "data-theme-mode"],
+    });
+    status.hidden = true;
+    selectionReadout.forEach((node) => {
+      node.hidden = false;
+    });
+    grainButtons.forEach((button) => {
+      button.disabled = false;
+    });
+    if (tableSection) tableSection.hidden = false;
+    setPressedState();
+    draw();
+    trendRoot.dataset.state = "ready";
+    trendRoot.setAttribute("aria-busy", "false");
+  };
+
+  void initCodexUsageTrend();
+
   const root = document.querySelector("[data-github-activity]");
   const dataNode = document.getElementById("github-activity-data");
   const tierNode = document.getElementById("github-activity-ai-tiers");

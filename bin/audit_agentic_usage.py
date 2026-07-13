@@ -114,6 +114,7 @@ ACCOUNT_LIFETIME_CHECK_FIELDS = (
     ("recent_activity", "end_label"),
     ("recent_activity", "partial_last_day"),
     ("recent_activity", "sparkline_points"),
+    ("recent_activity", "weekly"),
 )
 
 ACCOUNT_SNAPSHOT_MAX_AGE = timedelta(hours=36)
@@ -1159,19 +1160,84 @@ def short_date_label(value: str) -> str:
     return f"{parsed.strftime('%b')} {parsed.day}"
 
 
+def sunday_week_start(value: date) -> date:
+    """Return the Sunday that starts the calendar week containing ``value``."""
+
+    return value - timedelta(days=(value.weekday() + 1) % 7)
+
+
+def weekly_account_activity(
+    daily: list[dict[str, Any]],
+    *,
+    lifetime_tokens: int,
+    lifetime_usd_estimate: float,
+    partial_last_day: bool,
+) -> list[dict[str, Any]]:
+    """Roll canonical account-day rows into Sunday buckets without filling gaps."""
+
+    buckets: dict[date, dict[str, Any]] = {}
+    for row in daily:
+        observed_date = date.fromisoformat(str(row["date"]))
+        week = sunday_week_start(observed_date)
+        bucket = buckets.setdefault(
+            week,
+            {
+                "week": week.isoformat(),
+                "observed_start": observed_date.isoformat(),
+                "observed_end": observed_date.isoformat(),
+                "observed_days": 0,
+                "tokens": 0,
+            },
+        )
+        bucket["observed_start"] = min(bucket["observed_start"], observed_date.isoformat())
+        bucket["observed_end"] = max(bucket["observed_end"], observed_date.isoformat())
+        bucket["observed_days"] += 1
+        bucket["tokens"] += int(row["tokens"])
+
+    ordered = [buckets[key] for key in sorted(buckets)]
+    usd_per_token = lifetime_usd_estimate / lifetime_tokens if lifetime_tokens > 0 else 0
+    for index, bucket in enumerate(ordered):
+        is_first = index == 0
+        is_last = index == len(ordered) - 1
+        missing_days = bucket["observed_days"] < 7
+        bucket["partial"] = missing_days or (is_last and partial_last_day)
+        if is_first and missing_days:
+            bucket["partial_reason"] = "range-start"
+        elif is_last and (missing_days or partial_last_day):
+            bucket["partial_reason"] = "range-end"
+        else:
+            bucket["partial_reason"] = None
+        bucket["api_equivalent_usd"] = round(bucket["tokens"] * usd_per_token, 2)
+    return ordered
+
+
 def refresh_account_lifetime_data(current: dict[str, Any], local_replay: dict[str, Any]) -> dict[str, Any]:
-    """Keep the manual account snapshot and refresh its public API-rate replay."""
+    """Keep the manual account snapshot and price each snapshot exactly once.
+
+    The local request mix is a moving diagnostic while this audit runs.  Repricing
+    an unchanged account snapshot on every check makes its weekly dollar
+    equivalents drift by cents and can prevent the publication hook from ever
+    reaching a stable state.  Bind the replay to the account source timestamp;
+    a newer account snapshot is repriced once, then remains immutable with it.
+    """
 
     next_scope = copy.deepcopy(current)
     account_tokens = int(next_scope.get("token_count") or 0)
+    account_source_as_of = str(next_scope.get("source_as_of") or "")
+    current_account_cost = next_scope.get("api_cost_equivalence") or {}
+    replay_is_current = bool(
+        account_source_as_of
+        and current_account_cost.get("account_source_as_of") == account_source_as_of
+    )
     local_cost = local_replay.get("api_cost_equivalence") or {}
     priced_tokens = int(nested_value(local_cost, ("priced_token_usage", "total_tokens")) or 0)
     observed_cost = float(local_cost.get("usd_estimate") or 0)
-    if account_tokens > 0 and priced_tokens > 0 and observed_cost > 0:
+    if not replay_is_current and account_tokens > 0 and priced_tokens > 0 and observed_cost > 0:
         observed_usd_per_million = observed_cost * 1_000_000 / priced_tokens
         account_cost = account_tokens * observed_usd_per_million / 1_000_000
         next_scope["api_cost_equivalence"] = {
             "label": "Account-lifetime API-rate replay",
+            "account_source_as_of": account_source_as_of,
             "pricing_as_of": MODEL_PRICE_AS_OF,
             "source_url": PRICE_SOURCE_URL,
             "method": "Account tokens scaled by the retained local model, cache-read, and long-context request mix.",
@@ -1196,6 +1262,13 @@ def refresh_account_lifetime_data(current: dict[str, Any], local_replay: dict[st
         peak = max(daily, key=lambda row: int(row.get("tokens") or 0))
         recent["peak_date"] = str(peak.get("date") or "")
         recent["peak_tokens"] = int(peak.get("tokens") or 0)
+        account_cost = next_scope.get("api_cost_equivalence") or {}
+        recent["weekly"] = weekly_account_activity(
+            daily,
+            lifetime_tokens=account_tokens,
+            lifetime_usd_estimate=float(account_cost.get("usd_estimate") or 0),
+            partial_last_day=bool(recent.get("partial_last_day")),
+        )
         next_scope["recent_activity"] = recent
     return next_scope
 
@@ -1294,6 +1367,30 @@ def account_snapshot_check_messages(
     points = str(recent.get("sparkline_points") or "").split()
     if len(points) != len(daily):
         issues.append("account_lifetime.recent_activity.sparkline_points must match the daily row count.")
+
+    weekly = recent.get("weekly")
+    if not isinstance(weekly, list):
+        issues.append("account_lifetime.recent_activity.weekly must be a list.")
+    elif len(parsed_dates) == len(daily) and parsed_dates:
+        try:
+            expected_weekly = weekly_account_activity(
+                daily,
+                lifetime_tokens=int(account.get("token_count") or 0),
+                lifetime_usd_estimate=float(
+                    nested_value(account, ("api_cost_equivalence", "usd_estimate")) or 0
+                ),
+                partial_last_day=partial_last_day is True,
+            )
+        except (KeyError, TypeError, ValueError):
+            expected_weekly = []
+        if weekly != expected_weekly:
+            issues.append(
+                "account_lifetime.recent_activity.weekly must match the audited Sunday rollup."
+            )
+    else:
+        issues.append(
+            "account_lifetime.recent_activity.weekly cannot be audited until daily rows are valid."
+        )
     return issues
 
 
@@ -1411,6 +1508,296 @@ def write_ledger(repo_root: Path, data: dict[str, Any], dry_run: bool = False) -
         return
     ledger_path.write_text(text, encoding="utf-8")
     print(f"\nUpdated {ledger_path}")
+
+
+def account_history_snapshot(account: dict[str, Any]) -> dict[str, Any]:
+    recent = account.get("recent_activity") or {}
+    return {
+        "sourceAsOf": account.get("source_as_of"),
+        "partialLastDay": recent.get("partial_last_day"),
+        "daily": [
+            {"date": row.get("date"), "tokens": row.get("tokens")}
+            for row in recent.get("daily", [])
+        ],
+    }
+
+
+def load_account_history(repo_root: Path) -> dict[str, Any]:
+    history_path = repo_root / "_data" / "codex_account_history.json"
+    if not history_path.exists():
+        return {"schema": 1, "grain": "calendar-day snapshots", "snapshots": []}
+    try:
+        history = json.loads(history_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise RuntimeError(f"Cannot read {history_path}: {error}") from error
+    if (
+        history.get("schema") != 1
+        or history.get("grain") != "calendar-day snapshots"
+        or not isinstance(history.get("snapshots"), list)
+    ):
+        raise RuntimeError(f"Invalid account history contract in {history_path}.")
+    return history
+
+
+def load_committed_account_history(repo_root: Path) -> dict[str, Any]:
+    """Read the immutable account-history baseline from the current HEAD."""
+
+    history_path = "_data/codex_account_history.json"
+    listing = subprocess.run(
+        ["git", "ls-tree", "--name-only", "HEAD", "--", history_path],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if listing.returncode != 0:
+        raise RuntimeError(
+            listing.stderr.strip() or "Cannot inspect committed Codex account history."
+        )
+    if not listing.stdout.strip():
+        return {"schema": 1, "grain": "calendar-day snapshots", "snapshots": []}
+
+    result = subprocess.run(
+        ["git", "show", f"HEAD:{history_path}"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            result.stderr.strip() or "Cannot read committed Codex account history."
+        )
+    try:
+        history = json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise RuntimeError(
+            "Committed _data/codex_account_history.json is not valid JSON."
+        ) from error
+    if (
+        history.get("schema") != 1
+        or history.get("grain") != "calendar-day snapshots"
+        or not isinstance(history.get("snapshots"), list)
+    ):
+        raise RuntimeError(
+            "Committed _data/codex_account_history.json has an invalid contract."
+        )
+    return history
+
+
+def merge_account_history(history: dict[str, Any], account: dict[str, Any]) -> dict[str, Any]:
+    """Append the current 30-day account snapshot without rewriting earlier evidence."""
+
+    next_history = copy.deepcopy(history)
+    snapshots = next_history.setdefault("snapshots", [])
+    snapshot = account_history_snapshot(account)
+    source_as_of = snapshot.get("sourceAsOf")
+    existing = next(
+        (item for item in snapshots if item.get("sourceAsOf") == source_as_of),
+        None,
+    )
+    if existing is not None:
+        if existing != snapshot:
+            raise RuntimeError(
+                "Account history already contains a different snapshot for "
+                f"{source_as_of}."
+            )
+        return next_history
+    snapshots.append(snapshot)
+    snapshots.sort(key=lambda item: str(item.get("sourceAsOf") or ""))
+    return next_history
+
+
+def account_history_check_messages(
+    history: dict[str, Any],
+    account: dict[str, Any],
+    committed_history: dict[str, Any] | None = None,
+) -> list[str]:
+    snapshots = history.get("snapshots")
+    if not isinstance(snapshots, list) or not snapshots:
+        issues = ["_data/codex_account_history.json has no account snapshots."]
+        if (committed_history or {}).get("snapshots"):
+            issues.append(
+                "_data/codex_account_history.json deletes committed account snapshots."
+            )
+        return issues
+
+    issues: list[str] = []
+    parsed_timestamps: list[datetime] = []
+    for index, snapshot in enumerate(snapshots):
+        label = f"_data/codex_account_history.json snapshots[{index}]"
+        if not isinstance(snapshot, dict) or set(snapshot) != {
+            "sourceAsOf",
+            "partialLastDay",
+            "daily",
+        }:
+            issues.append(f"{label} must use the exact public snapshot fields.")
+            continue
+        try:
+            observed_at = datetime.fromisoformat(
+                str(snapshot.get("sourceAsOf") or "").replace("Z", "+00:00")
+            )
+            if observed_at.tzinfo is None:
+                raise ValueError
+            parsed_timestamps.append(observed_at)
+        except ValueError:
+            issues.append(f"{label}.sourceAsOf must be an ISO timestamp with timezone.")
+            observed_at = None
+        if not isinstance(snapshot.get("partialLastDay"), bool):
+            issues.append(f"{label}.partialLastDay must be a boolean.")
+        daily = snapshot.get("daily")
+        if not isinstance(daily, list) or len(daily) != 30:
+            issues.append(f"{label}.daily must contain exactly 30 rows.")
+            continue
+        parsed_days: list[date] = []
+        for row_index, row in enumerate(daily):
+            if (
+                not isinstance(row, dict)
+                or set(row) != {"date", "tokens"}
+                or not isinstance(row.get("tokens"), int)
+                or isinstance(row.get("tokens"), bool)
+                or int(row["tokens"]) < 0
+            ):
+                issues.append(f"{label}.daily[{row_index}] is invalid.")
+                continue
+            try:
+                parsed_days.append(date.fromisoformat(str(row.get("date") or "")))
+            except ValueError:
+                issues.append(f"{label}.daily[{row_index}].date must be an ISO date.")
+        if len(parsed_days) == len(daily):
+            expected_days = [parsed_days[0] + timedelta(days=offset) for offset in range(30)]
+            if parsed_days != expected_days:
+                issues.append(f"{label}.daily dates must be sequential.")
+            if observed_at is not None and observed_at.date() != parsed_days[-1]:
+                issues.append(f"{label}.sourceAsOf must share the final daily date.")
+
+    if len(parsed_timestamps) == len(snapshots):
+        if parsed_timestamps != sorted(set(parsed_timestamps)):
+            issues.append("_data/codex_account_history.json snapshots must be unique and ordered.")
+    if snapshots[-1] != account_history_snapshot(account):
+        issues.append("_data/codex_account_history.json is missing the current account snapshot.")
+    committed_snapshots = (committed_history or {}).get("snapshots", [])
+    if isinstance(committed_snapshots, list) and committed_snapshots:
+        if len(snapshots) < len(committed_snapshots):
+            issues.append(
+                "_data/codex_account_history.json deletes committed account snapshots."
+            )
+        elif snapshots[: len(committed_snapshots)] != committed_snapshots:
+            issues.append(
+                "_data/codex_account_history.json rewrites committed account snapshots."
+            )
+    return issues
+
+
+def write_account_history(repo_root: Path, history: dict[str, Any], dry_run: bool = False) -> None:
+    history_path = repo_root / "_data" / "codex_account_history.json"
+    text = json.dumps(history, indent=2, ensure_ascii=False) + "\n"
+    if dry_run:
+        print("\n--- proposed _data/codex_account_history.json ---")
+        print(text.rstrip())
+        return
+    history_path.write_text(text, encoding="utf-8")
+    print(f"Updated {history_path}")
+
+
+def public_profile_usage_data(
+    account: dict[str, Any],
+    history: dict[str, Any],
+) -> dict[str, Any]:
+    """Return the strict, sanitized account subset shared by public profile cards."""
+
+    recent = account.get("recent_activity") or {}
+    api_equivalent = account.get("api_cost_equivalence") or {}
+    snapshots = history.get("snapshots") or []
+    return {
+        "schema": 1,
+        "source": "Codex account activity",
+        "sourceAsOf": account.get("source_as_of"),
+        "lifetime": {
+            "tokens": account.get("token_count"),
+            "tokensLabel": account.get("tokens_label"),
+            "apiEquivalent": {
+                "usd": api_equivalent.get("usd_estimate"),
+                "usdLabel": api_equivalent.get("usd_label"),
+                "note": "Public-API comparison, not a Codex bill.",
+            },
+        },
+        "recent": {
+            "label": recent.get("label"),
+            "start": recent.get("start_date"),
+            "end": recent.get("end_date"),
+            "partialLastDay": recent.get("partial_last_day"),
+            "peak": {
+                "date": recent.get("peak_date"),
+                "tokens": recent.get("peak_tokens"),
+            },
+            "daily": [
+                {"date": row.get("date"), "tokens": row.get("tokens")}
+                for row in recent.get("daily", [])
+            ],
+            "weekly": [
+                {
+                    "week": row.get("week"),
+                    "observedStart": row.get("observed_start"),
+                    "observedEnd": row.get("observed_end"),
+                    "observedDays": row.get("observed_days"),
+                    "tokens": row.get("tokens"),
+                    "apiEquivalentUsd": row.get("api_equivalent_usd"),
+                    "partial": row.get("partial"),
+                    "partialReason": row.get("partial_reason"),
+                }
+                for row in recent.get("weekly", [])
+            ],
+        },
+        "history": {
+            "grain": history.get("grain"),
+            "snapshotCount": len(snapshots),
+            "firstSourceAsOf": snapshots[0].get("sourceAsOf") if snapshots else None,
+            "latestSourceAsOf": snapshots[-1].get("sourceAsOf") if snapshots else None,
+        },
+    }
+
+
+def public_profile_usage_text(account: dict[str, Any], history: dict[str, Any]) -> str:
+    return json.dumps(
+        public_profile_usage_data(account, history),
+        indent=2,
+        ensure_ascii=False,
+    ) + "\n"
+
+
+def write_public_profile_usage(
+    repo_root: Path,
+    account: dict[str, Any],
+    history: dict[str, Any],
+    dry_run: bool = False,
+) -> None:
+    output_path = repo_root / "assets" / "data" / "codex-profile-usage.json"
+    text = public_profile_usage_text(account, history)
+    if dry_run:
+        print("\n--- proposed assets/data/codex-profile-usage.json ---")
+        print(text.rstrip())
+        return
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(text, encoding="utf-8")
+    print(f"Updated {output_path}")
+
+
+def public_profile_usage_check_messages(
+    repo_root: Path,
+    account: dict[str, Any],
+    history: dict[str, Any],
+) -> list[str]:
+    output_path = repo_root / "assets" / "data" / "codex-profile-usage.json"
+    if not output_path.exists():
+        return ["assets/data/codex-profile-usage.json is missing."]
+    try:
+        current = json.loads(output_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ["assets/data/codex-profile-usage.json is not valid JSON."]
+    if current != public_profile_usage_data(account, history):
+        return ["assets/data/codex-profile-usage.json is stale."]
+    return []
 
 
 def delta_text(current: Any, proposed: Any) -> str:
@@ -1591,10 +1978,26 @@ def main() -> int:
             return 2
         current = load_current_ledger(repo_root)
         proposed = build_ledger_data(current, total, desk, since_gpt_5_6, local_lifetime, model_tracking)
+        try:
+            account_history = load_account_history(repo_root)
+            committed_account_history = load_committed_account_history(repo_root)
+        except RuntimeError as error:
+            print(str(error), file=sys.stderr)
+            return 2
         mismatches = check_public_freshness(current, proposed)
         model_issues = model_tracking_check_messages(model_tracking)
         account_issues = account_snapshot_check_messages(current.get("account_lifetime", {}))
-        if mismatches or model_issues or account_issues:
+        history_issues = account_history_check_messages(
+            account_history,
+            proposed.get("account_lifetime", {}),
+            committed_account_history,
+        )
+        profile_issues = public_profile_usage_check_messages(
+            repo_root,
+            proposed.get("account_lifetime", {}),
+            account_history,
+        )
+        if mismatches or model_issues or account_issues or history_issues or profile_issues:
             if mismatches:
                 print("Agentic usage ledger public fields are stale:")
                 for mismatch in mismatches:
@@ -1602,6 +2005,14 @@ def main() -> int:
             if account_issues:
                 print("Codex account snapshot is stale or malformed:")
                 for issue in account_issues:
+                    print(f"- {issue}")
+            if profile_issues:
+                print("Public Codex profile snapshot is stale or malformed:")
+                for issue in profile_issues:
+                    print(f"- {issue}")
+            if history_issues:
+                print("Codex account history is stale or malformed:")
+                for issue in history_issues:
                     print(f"- {issue}")
             if model_issues:
                 print("Post-cutover model/effort check is not aligned:")
@@ -1653,7 +2064,18 @@ def main() -> int:
     print_scope("local_lifetime", local_lifetime, current, include_commits=False)
     if args.write or args.dry_run:
         next_data = build_ledger_data(current, total, desk, since_gpt_5_6, local_lifetime, model_tracking)
+        account_history = merge_account_history(
+            load_account_history(repo_root),
+            next_data.get("account_lifetime", {}),
+        )
         write_ledger(repo_root, next_data, dry_run=args.dry_run)
+        write_account_history(repo_root, account_history, dry_run=args.dry_run)
+        write_public_profile_usage(
+            repo_root,
+            next_data.get("account_lifetime", {}),
+            account_history,
+            dry_run=args.dry_run,
+        )
     else:
         print("\nThis was a read-only audit. Use --write after reviewing the deltas to update _data/agentic_usage.yml.")
     return 0

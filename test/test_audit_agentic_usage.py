@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import importlib.util
 import json
 import os
@@ -490,7 +491,8 @@ class PendingChangesTests(unittest.TestCase):
 class PriceLensTests(unittest.TestCase):
     @staticmethod
     def account_snapshot(source_as_of: str = "2026-07-12T18:40:36Z") -> dict[str, object]:
-        start = datetime(2026, 6, 13, tzinfo=timezone.utc)
+        observed_at = datetime.fromisoformat(source_as_of.replace("Z", "+00:00"))
+        start = observed_at - timedelta(days=29)
         daily = [
             {
                 "date": (start + timedelta(days=index)).date().isoformat(),
@@ -508,7 +510,12 @@ class PriceLensTests(unittest.TestCase):
                 "peak_daily_date": "2026-07-01",
                 "recent_activity": {"partial_last_day": True, "daily": daily},
             },
-            {},
+            {
+                "api_cost_equivalence": {
+                    "priced_token_usage": {"total_tokens": 10_000_000},
+                    "usd_estimate": 8.4,
+                }
+            },
         )
 
     def test_public_money_rounding_does_not_churn_on_single_dollar_drift(self) -> None:
@@ -558,7 +565,7 @@ class PriceLensTests(unittest.TestCase):
         self.assertEqual(current["usd_estimate"], 0)
         self.assertEqual(current["unpriced_token_usage"]["total_tokens"], 1234)
 
-    def test_account_snapshot_scales_from_local_request_mix_and_builds_sparkline(self) -> None:
+    def test_account_snapshot_scales_from_local_request_mix_and_builds_weekly_activity(self) -> None:
         local = {
             "api_cost_equivalence": {
                 "priced_token_usage": {"total_tokens": 10_000_000},
@@ -566,6 +573,7 @@ class PriceLensTests(unittest.TestCase):
             }
         }
         current = {
+            "source_as_of": "2026-07-12T18:40:36Z",
             "token_count": 20_860_271_364,
             "tokens_label": "20.9B",
             "recent_activity": {
@@ -578,11 +586,169 @@ class PriceLensTests(unittest.TestCase):
         }
         account = audit.refresh_account_lifetime_data(current, local)
         self.assertEqual(account["tokens_label"], "20.9B")
+        self.assertEqual(
+            account["api_cost_equivalence"]["account_source_as_of"],
+            current["source_as_of"],
+        )
         self.assertEqual(account["api_cost_equivalence"]["observed_usd_per_million_tokens"], 0.84)
         self.assertEqual(account["api_cost_equivalence"]["usd_midpoint"], 17_500)
         self.assertEqual(account["recent_activity"]["peak_date"], "2026-07-11")
         self.assertEqual(account["recent_activity"]["end_label"], "Jul 12")
         self.assertEqual(len(account["recent_activity"]["sparkline_points"].split()), 3)
+        self.assertEqual(
+            account["recent_activity"]["weekly"],
+            [
+                {
+                    "week": "2026-07-05",
+                    "observed_start": "2026-07-10",
+                    "observed_end": "2026-07-11",
+                    "observed_days": 2,
+                    "tokens": 300,
+                    "partial": True,
+                    "partial_reason": "range-start",
+                    "api_equivalent_usd": 0.0,
+                },
+                {
+                    "week": "2026-07-12",
+                    "observed_start": "2026-07-12",
+                    "observed_end": "2026-07-12",
+                    "observed_days": 1,
+                    "tokens": 50,
+                    "partial": True,
+                    "partial_reason": "range-end",
+                    "api_equivalent_usd": 0.0,
+                },
+            ],
+        )
+
+        changed_local = {
+            "api_cost_equivalence": {
+                "priced_token_usage": {"total_tokens": 10_000_000},
+                "usd_estimate": 12.0,
+            }
+        }
+        unchanged_snapshot = audit.refresh_account_lifetime_data(account, changed_local)
+        self.assertEqual(
+            unchanged_snapshot["api_cost_equivalence"],
+            account["api_cost_equivalence"],
+        )
+
+        next_snapshot = copy.deepcopy(account)
+        next_snapshot["source_as_of"] = "2026-07-13T18:40:36Z"
+        repriced = audit.refresh_account_lifetime_data(next_snapshot, changed_local)
+        self.assertEqual(
+            repriced["api_cost_equivalence"]["account_source_as_of"],
+            next_snapshot["source_as_of"],
+        )
+        self.assertEqual(repriced["api_cost_equivalence"]["observed_usd_per_million_tokens"], 1.2)
+
+    def test_weekly_account_activity_uses_sunday_buckets_and_exact_lifetime_ratio(self) -> None:
+        daily = [
+            {"date": "2026-06-13", "tokens": 6_055_884},
+            *[
+                {"date": f"2026-06-{day:02d}", "tokens": 100_000_000}
+                for day in range(14, 21)
+            ],
+            {"date": "2026-06-21", "tokens": 200_000_000},
+        ]
+        weekly = audit.weekly_account_activity(
+            daily,
+            lifetime_tokens=20_860_271_364,
+            lifetime_usd_estimate=17_513.64,
+            partial_last_day=True,
+        )
+        self.assertEqual([row["week"] for row in weekly], ["2026-06-07", "2026-06-14", "2026-06-21"])
+        self.assertEqual([row["observed_days"] for row in weekly], [1, 7, 1])
+        self.assertEqual([row["partial_reason"] for row in weekly], ["range-start", None, "range-end"])
+        self.assertEqual(sum(row["tokens"] for row in weekly), sum(row["tokens"] for row in daily))
+        self.assertEqual(weekly[1]["api_equivalent_usd"], 587.7)
+
+    def test_public_profile_usage_contract_is_sanitized_and_exact(self) -> None:
+        account = self.account_snapshot()
+        history = audit.merge_account_history(
+            {"schema": 1, "grain": "calendar-day snapshots", "snapshots": []},
+            account,
+        )
+        public = audit.public_profile_usage_data(account, history)
+        self.assertEqual(
+            set(public),
+            {"schema", "source", "sourceAsOf", "lifetime", "recent", "history"},
+        )
+        self.assertEqual(
+            set(public["lifetime"]),
+            {"tokens", "tokensLabel", "apiEquivalent"},
+        )
+        self.assertEqual(
+            set(public["recent"]),
+            {"label", "start", "end", "partialLastDay", "peak", "daily", "weekly"},
+        )
+        serialized = json.dumps(public).lower()
+        self.assertNotIn("local_lifetime", serialized)
+        self.assertNotIn("codexbar", serialized)
+        self.assertNotIn("observed_local", serialized)
+        self.assertEqual(
+            public["history"],
+            {
+                "grain": "calendar-day snapshots",
+                "snapshotCount": 1,
+                "firstSourceAsOf": account["source_as_of"],
+                "latestSourceAsOf": account["source_as_of"],
+            },
+        )
+        self.assertNotIn("snapshots", public["history"])
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            audit.write_public_profile_usage(root, account, history)
+            self.assertEqual(
+                json.loads((root / "assets" / "data" / "codex-profile-usage.json").read_text()),
+                public,
+            )
+            self.assertEqual(audit.public_profile_usage_check_messages(root, account, history), [])
+
+    def test_account_history_appends_snapshots_and_rejects_conflicting_rewrites(self) -> None:
+        first = self.account_snapshot("2026-07-12T18:40:36Z")
+        second = self.account_snapshot("2026-07-13T18:40:36Z")
+        history = {"schema": 1, "grain": "calendar-day snapshots", "snapshots": []}
+        history = audit.merge_account_history(history, first)
+        history = audit.merge_account_history(history, second)
+        history = audit.merge_account_history(history, second)
+        self.assertEqual(len(history["snapshots"]), 2)
+        self.assertEqual(audit.account_history_check_messages(history, second), [])
+        self.assertEqual(
+            [row["sourceAsOf"] for row in history["snapshots"]],
+            ["2026-07-12T18:40:36Z", "2026-07-13T18:40:36Z"],
+        )
+        conflicting = json.loads(json.dumps(second))
+        conflicting["recent_activity"]["daily"][-1]["tokens"] += 1
+        with self.assertRaisesRegex(RuntimeError, "different snapshot"):
+            audit.merge_account_history(history, conflicting)
+
+        rewritten = json.loads(json.dumps(history))
+        rewritten["snapshots"][0]["daily"][0]["tokens"] += 1
+        rewrite_issues = audit.account_history_check_messages(
+            rewritten,
+            second,
+            history,
+        )
+        self.assertTrue(any("rewrites committed" in issue for issue in rewrite_issues))
+
+        deleted = json.loads(json.dumps(history))
+        deleted["snapshots"].pop(0)
+        deletion_issues = audit.account_history_check_messages(
+            deleted,
+            second,
+            history,
+        )
+        self.assertTrue(any("deletes committed" in issue for issue in deletion_issues))
+
+        malformed = json.loads(json.dumps(history))
+        malformed["snapshots"][0]["daily"][4]["date"] = "not-a-date"
+        self.assertTrue(
+            any(
+                "daily[4].date" in issue
+                for issue in audit.account_history_check_messages(malformed, second)
+            )
+        )
 
     def test_account_snapshot_validation_accepts_fresh_complete_series(self) -> None:
         account = self.account_snapshot()
@@ -613,6 +779,7 @@ class PriceLensTests(unittest.TestCase):
         self.assertTrue(any("must be an ISO date" in issue for issue in issues))
         self.assertTrue(any("partial_last_day must be a boolean" in issue for issue in issues))
         self.assertTrue(any("sparkline_points" in issue for issue in issues))
+        self.assertTrue(any("weekly" in issue for issue in issues))
 
 
 if __name__ == "__main__":

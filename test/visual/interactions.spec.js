@@ -169,6 +169,24 @@ function visualRoute(path) {
   return new URL(path, normalizedBase).toString();
 }
 
+test("Codex activity fails closed when its public data is unavailable", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.route("**/assets/data/codex-profile-usage.json", (route) => route.fulfill({ status: 503, contentType: "application/json", body: "{}" }));
+  await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
+
+  const codexTrend = page.locator("[data-codex-usage]");
+  await expect(codexTrend).toHaveAttribute("data-state", "error");
+  await expect(codexTrend).toHaveAttribute("aria-busy", "false");
+  await expect(codexTrend.locator("[data-codex-status]")).toHaveText("Recent Codex token data is unavailable.");
+  await expect(page.getByRole("button", { name: "Daily", exact: true })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Weekly", exact: true })).toBeDisabled();
+  await expect(page.locator("#github-activity-codex-tokens")).toBeHidden();
+  await expect(page.locator("[data-codex-table]")).toBeHidden();
+  await expect(page.locator(".github-activity-codex-point")).toHaveCount(0);
+  await expect(page.locator(".github-activity-codex-readout")).not.toContainText("0 tokens");
+  await expect(page.locator(".github-activity-codex-readout")).not.toHaveAttribute("aria-live", /.+/);
+});
+
 test("github activity exposes scale, scope, keyboard inspection, and exact values", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
@@ -176,6 +194,66 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
 
   const activity = page.locator("[data-github-activity]");
   await expect(activity).toHaveAttribute("data-state", "ready");
+  const codexLedger = page.locator(".github-activity-codex-ledger");
+  await expect(codexLedger.locator("div")).toHaveCount(2);
+  await expect(codexLedger).not.toContainText("local logs");
+  await expect(page.locator(".github-activity-ledger-note")).not.toContainText("Local logs");
+  const codexTrend = page.locator("[data-codex-usage]");
+  await expect(codexTrend).toHaveAttribute("data-state", "ready");
+  const codexDaily = page.getByRole("button", { name: "Daily", exact: true });
+  const codexWeekly = page.getByRole("button", { name: "Weekly", exact: true });
+  await expect(codexDaily).toBeEnabled();
+  await expect(codexWeekly).toBeEnabled();
+  await expect(codexDaily).toHaveAttribute("aria-pressed", "true");
+  await expect(codexWeekly).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator(".github-activity-codex-readout")).not.toHaveAttribute("aria-live", /.+/);
+  await expect(page.locator("[data-codex-table]")).toBeVisible();
+  await expect(page.locator(".github-activity-codex-line")).toHaveCount(1);
+  await expect(page.locator(".github-activity-codex-point")).toHaveCount(30);
+  await expect(page.locator("#github-activity-codex-tokens")).toHaveText("582,688,404 tokens");
+  await expect(page.locator("#github-activity-codex-cost")).toContainText("≈$489 through the public API");
+  await expect(page.locator("#github-activity-codex-coverage")).toHaveText("Partial day");
+  const codexInspector = page.locator(".github-activity-codex-inspector");
+  const codexInspectorBox = await codexInspector.boundingBox();
+  await page.mouse.move(codexInspectorBox.x + codexInspectorBox.width * (18 / 29), codexInspectorBox.y + codexInspectorBox.height * 0.45);
+  await expect(page.locator("#github-activity-codex-tokens")).toHaveText("1,748,633,377 tokens");
+  await codexInspector.evaluate((node) => {
+    const box = node.getBoundingClientRect();
+    node.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        bubbles: true,
+        cancelable: true,
+        isPrimary: true,
+        pointerId: 904,
+        pointerType: "touch",
+        clientX: box.left + box.width * 0.5,
+        clientY: box.top + box.height * 0.5,
+        button: 0,
+        buttons: 1,
+      })
+    );
+  });
+  await expect(codexInspector).toHaveAttribute("aria-valuenow", "15");
+  await codexInspector.focus();
+  const latestCodexDate = await page.locator("#github-activity-codex-date").textContent();
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#github-activity-codex-date")).not.toHaveText(latestCodexDate);
+  await expect(codexInspector).toHaveAttribute("aria-valuetext", /tokens, approximately \$.* through the public API/);
+  await page.keyboard.press("End");
+  await codexWeekly.click();
+  await expect(codexWeekly).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".github-activity-codex-point")).toHaveCount(6);
+  await expect(page.locator("#github-activity-codex-table-body tr")).toHaveCount(6);
+  await expect(page.locator("#github-activity-codex-table-caption")).toContainText("Sunday-week");
+  const weeklyInspector = page.locator(".github-activity-codex-inspector");
+  await weeklyInspector.focus();
+  await page.keyboard.press("Home");
+  await expect(page.locator("#github-activity-codex-tokens")).toHaveText("6,055,884 tokens");
+  await expect(page.locator("#github-activity-codex-coverage")).toHaveText("1 of 7 days · range starts here");
+  await page.keyboard.press("End");
+  await expect(page.locator("#github-activity-codex-coverage")).toHaveText("1 of 7 days · week in progress");
+  await codexDaily.click();
+  await expect(page.locator("#github-activity-codex-table-body tr")).toHaveCount(30);
   const rangeSummary = page.locator("#github-activity-range-summary");
   await page.getByRole("button", { name: "5 years" }).click();
   await expect(rangeSummary).toContainText("5 years");

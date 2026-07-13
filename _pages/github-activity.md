@@ -18,8 +18,7 @@ github_activity: true
       quieter weeks in view.
     </p>
     {% assign account_lifetime = site.data.agentic_usage.account_lifetime %}
-    {% assign local_lifetime = site.data.agentic_usage.local_lifetime %}
-    {% if account_lifetime and local_lifetime %}
+    {% if account_lifetime %}
       <dl class="github-activity-codex-ledger" aria-label="Codex usage snapshot">
         <div>
           <dt>{{ account_lifetime.tokens_label }}</dt>
@@ -29,17 +28,56 @@ github_activity: true
           <dt>{{ account_lifetime.api_cost_equivalence.usd_label }}</dt>
           <dd>if priced through the public API</dd>
         </div>
-        <div>
-          <dt>{{ local_lifetime.tokens_label }}</dt>
-          <dd>still in local logs since {{ local_lifetime.since_label }}</dd>
-        </div>
       </dl>
       <p class="github-activity-ledger-note">
-        Codex reports {{ account_lifetime.tokens_label }}. Local logs still hold {{ local_lifetime.tokens_label }}. The dollar number is a what-if, not a bill.
+        Codex reports {{ account_lifetime.tokens_label }}. The dollar number is a public-API comparison, not a bill.
         {% if account_lifetime.recent_activity.partial_last_day %}{{ account_lifetime.recent_activity.end_label }} is partial.{% endif %}
       </p>
     {% endif %}
   </header>
+
+{% if account_lifetime %}
+
+<section
+      class="github-activity-codex-trend"
+      data-codex-usage
+      data-state="loading"
+      data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
+      aria-labelledby="github-activity-codex-title"
+      aria-busy="true"
+    >
+<div class="github-activity-codex-heading">
+<div>
+<p class="github-activity-codex-kicker">CODEX TOKENS</p>
+<h2 id="github-activity-codex-title">Recent Codex use</h2>
+<p>Account tokens over the latest 30 calendar days. Linear scale; the weekly view starts on Sunday.</p>
+</div>
+<div class="github-activity-codex-grain" aria-label="Codex token chart grain">
+<button type="button" data-codex-grain="daily" aria-pressed="true" disabled>Daily</button>
+<button type="button" data-codex-grain="weekly" aria-pressed="false" disabled>Weekly</button>
+</div>
+</div>
+<div class="github-activity-codex-readout">
+<span data-codex-status>Loading recent Codex use…</span>
+<span id="github-activity-codex-date" hidden></span>
+<strong id="github-activity-codex-tokens" hidden></strong>
+<span id="github-activity-codex-cost" hidden></span>
+<span id="github-activity-codex-coverage" hidden></span>
+</div>
+<p class="sr-only" id="github-activity-codex-instructions">
+Hover, tap, or focus the chart to inspect token use. With keyboard focus, use arrow keys to move one period and Home or End to jump.
+</p>
+<svg
+        id="github-activity-codex-chart"
+        class="github-activity-codex-chart"
+        role="group"
+        aria-labelledby="github-activity-codex-title github-activity-codex-instructions"
+      ></svg>
+<p class="github-activity-codex-note">
+The dollar readout applies the same account-wide public-API comparison to each period. It is not a Codex bill.
+</p>
+</section>
+{% endif %}
 
   <section class="github-activity-workbench" aria-labelledby="github-activity-chart-title">
     <div class="github-activity-controls" aria-label="Chart controls">
@@ -144,7 +182,36 @@ github_activity: true
         <h2>Plan-price ribbon</h2>
         <p>The ribbon shows which monthly plan was active each week. It does not explain changes in the chart.</p>
       </div>
+      <div>
+        <h2>Codex account history</h2>
+        <p>Daily account snapshots are kept as dated evidence. Weekly totals use Sunday buckets; incomplete edge weeks stay partial.</p>
+      </div>
     </div>
+    <section
+      class="github-activity-codex-table-section"
+      data-codex-table
+      aria-labelledby="github-activity-codex-table-title"
+      hidden
+    >
+      <div>
+        <h2 id="github-activity-codex-table-title">Exact recent Codex values</h2>
+        <p>The table follows the Daily or Weekly chart toggle.</p>
+      </div>
+      <div class="github-activity-table-wrap">
+        <table class="github-activity-table github-activity-codex-table">
+          <caption id="github-activity-codex-table-caption">Daily Codex account tokens</caption>
+          <thead>
+            <tr>
+              <th scope="col">Period</th>
+              <th scope="col">Coverage</th>
+              <th scope="col">Tokens</th>
+              <th scope="col">Public-API equivalent</th>
+            </tr>
+          </thead>
+          <tbody id="github-activity-codex-table-body"></tbody>
+        </table>
+      </div>
+    </section>
     <section class="github-activity-tier-comparison" aria-labelledby="github-activity-tier-title">
       <div>
         <h2 id="github-activity-tier-title">Active weeks by plan price</h2>

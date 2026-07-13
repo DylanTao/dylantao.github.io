@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -11,6 +12,8 @@ ACTIVITY_PATHS = (
     TIER_PATH,
     REPO_ROOT / "_pages" / "github-activity.md",
     REPO_ROOT / "assets" / "js" / "github-activity.js",
+    REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
+    REPO_ROOT / "_data" / "codex_account_history.json",
 )
 FORBIDDEN = (
     "invoice.stripe.com",
@@ -50,6 +53,31 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             ],
         )
         self.assertNotRegex(text.lower(), r"(?m)^\s*(?:account|url):")
+
+    def test_public_codex_profile_contract_is_sanitized_and_history_backed(self) -> None:
+        public = json.loads((REPO_ROOT / "assets" / "data" / "codex-profile-usage.json").read_text())
+        history = json.loads((REPO_ROOT / "_data" / "codex_account_history.json").read_text())
+        self.assertEqual(
+            set(public),
+            {"schema", "source", "sourceAsOf", "lifetime", "recent", "history"},
+        )
+        self.assertEqual(
+            public["history"],
+            {
+                "grain": "calendar-day snapshots",
+                "snapshotCount": len(history["snapshots"]),
+                "firstSourceAsOf": history["snapshots"][0]["sourceAsOf"],
+                "latestSourceAsOf": history["snapshots"][-1]["sourceAsOf"],
+            },
+        )
+        self.assertNotIn("snapshots", public["history"])
+        self.assertEqual(len(public["recent"]["daily"]), 30)
+        self.assertEqual(len(public["recent"]["weekly"]), 6)
+        self.assertTrue(public["recent"]["weekly"][0]["partial"])
+        self.assertTrue(public["recent"]["weekly"][-1]["partial"])
+        serialized = json.dumps(public).lower()
+        for fragment in ("local_lifetime", "observed_local", "codexbar", "model_effort"):
+            self.assertNotIn(fragment, serialized)
 
 
 if __name__ == "__main__":
