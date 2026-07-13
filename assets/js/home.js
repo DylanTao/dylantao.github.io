@@ -654,6 +654,8 @@
     let recordLabelMaterial = null;
     let toneArmGroup = null;
     let windowMaterial = null;
+    let windowViewMesh = null;
+    let windowBackdropMeshes = [];
     let windowJumpGroup = null;
     let windowHitObject = null;
     let outsideGroup = null;
@@ -712,6 +714,10 @@
     const photoVisibilityItems = [];
     const accentMotionItems = [];
     const cleanupListeners = [];
+    const compositionObjects = {
+      room: {},
+      coast: {},
+    };
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
     const easeInQuad = (value) => value * value;
@@ -724,31 +730,9 @@
       bounds: { minX: -2.94, maxX: 2.94, frontZ: -2.05, rearZ: 5.92 },
       window: { x: 0.52, y: 0.13, z: -1.7, width: 3.08, height: 2.92 },
       desk: { x: 0.16, y: 0, z: -0.72 },
-      onsen: { x: -1.14, y: -0.9, z: 0.36 },
-      chair: { x: 1.84, y: -1.08, z: 0.18 },
+      onsen: { x: -1.02, y: -1.18, z: 0.38, scale: 0.82 },
+      chair: { x: 1.44, y: -1.19, z: 0.05, scale: 0.62 },
       rack: { x: -1.82, y: 0.52, z: 0.3 },
-    };
-    const outsideRoomProjection = {
-      scale: 0.42,
-      windowCenter: { x: -0.04, y: -0.01, z: 0.48 },
-    };
-    const projectRoomPointOutside = (point) => ({
-      x: outsideRoomProjection.windowCenter.x + (point.x - roomBlueprint.window.x) * outsideRoomProjection.scale,
-      y: outsideRoomProjection.windowCenter.y + (point.y - roomBlueprint.window.y) * outsideRoomProjection.scale,
-      z: outsideRoomProjection.windowCenter.z + (point.z - roomBlueprint.window.z) * outsideRoomProjection.scale,
-    });
-    const outsideWindow = {
-      ...projectRoomPointOutside(roomBlueprint.window),
-      width: roomBlueprint.window.width * outsideRoomProjection.scale,
-      height: roomBlueprint.window.height * outsideRoomProjection.scale,
-    };
-    const outsideHouseTransform = { x: 1.02, y: 0.14, z: 0.08, scale: 1.34 };
-    const outsideWindowWorld = {
-      x: outsideHouseTransform.x + outsideWindow.x * outsideHouseTransform.scale,
-      y: outsideHouseTransform.y + outsideWindow.y * outsideHouseTransform.scale,
-      z: outsideHouseTransform.z + outsideWindow.z * outsideHouseTransform.scale,
-      width: outsideWindow.width * outsideHouseTransform.scale,
-      height: outsideWindow.height * outsideHouseTransform.scale,
     };
     const roomFloorY = roomBlueprint.floorY;
     const roomCeilingY = roomBlueprint.ceilingY;
@@ -763,8 +747,8 @@
       room: {
         orbitTarget: { x: 0.02, y: -0.12, z: -0.46 },
         zoomTarget: { x: 0.08, y: -0.02, z: -0.52 },
-        defaultCamera: { desktop: { x: 0.04, y: 1.06, z: 2.35 }, compact: { x: 0.02, y: 1.08, z: 2.68 } },
-        zoomCamera: { desktop: { x: 0.08, y: 0.95, z: 1.72 }, compact: { x: 0.04, y: 0.96, z: 1.9 } },
+        defaultCamera: { desktop: { x: 0.04, y: 1.18, z: 2.82 }, compact: { x: 0.02, y: 1.18, z: 3.08 } },
+        zoomCamera: { desktop: { x: 0.08, y: 1.02, z: 2.04 }, compact: { x: 0.04, y: 1.02, z: 2.24 } },
         window: roomBlueprint.window,
         desk: roomBlueprint.desk,
         onsen: roomBlueprint.onsen,
@@ -772,13 +756,12 @@
         rack: roomBlueprint.rack,
       },
       outside: {
-        orbitTarget: { x: outsideWindowWorld.x, y: outsideWindowWorld.y - 0.08, z: outsideWindowWorld.z - 0.08 },
-        defaultCamera: { desktop: { x: 3.76, y: 2.02, z: 6.34 }, compact: { x: 3.48, y: 1.9, z: 6.48 } },
-        zoomCamera: { desktop: { x: 1.86, y: 1.04, z: 3.18 }, compact: { x: 1.72, y: 0.98, z: 3.36 } },
-        house: outsideHouseTransform,
-        window: outsideWindow,
-        windowWorld: outsideWindowWorld,
-        shoreline: { x: -1.9, y: -1.11, z: 1.12 },
+        orbitTarget: { x: roomBlueprint.window.x, y: roomBlueprint.window.y - 0.12, z: roomBlueprint.window.z + 0.04 },
+        defaultCamera: { desktop: { x: 0.72, y: 2.42, z: -12.6 }, compact: { x: 0.68, y: 2.2, z: -11.86 } },
+        zoomCamera: { desktop: { x: 0.52, y: 1.72, z: -5.72 }, compact: { x: 0.5, y: 1.64, z: -5.9 } },
+        house: { x: 0, y: 0, z: 0, scale: 1 },
+        window: roomBlueprint.window,
+        windowWorld: roomBlueprint.window,
       },
     };
 
@@ -882,6 +865,54 @@
       else container.removeAttribute("data-window-screen-bounds");
       if (returnBounds) container.dataset.returnScreenBounds = JSON.stringify(returnBounds);
       else container.removeAttribute("data-return-screen-bounds");
+      const landmarkEvidence = Object.fromEntries(
+        Object.entries(compositionObjects.room).map(([key, object]) => [
+          key,
+          {
+            bounds: projectObjectBounds(object),
+            center: projectObjectCenter(object),
+          },
+        ])
+      );
+      const coastEvidence = Object.fromEntries(
+        Object.entries(compositionObjects.coast).map(([key, object]) => [
+          key,
+          {
+            bounds: projectObjectBounds(object),
+            center: projectObjectCenter(object),
+          },
+        ])
+      );
+      container.dataset.compositionEvidence = JSON.stringify({
+        view: activeView,
+        landmarks: landmarkEvidence,
+        coast: coastEvidence,
+        coastPalette: {
+          wetSand: themeMaterials.outsideWetSand
+            ? {
+                color: themeMaterials.outsideWetSand.color.getHexString(),
+                opacity: Number(themeMaterials.outsideWetSand.opacity.toFixed(3)),
+              }
+            : null,
+          foam: outsideMotionItems
+            .filter((item) => item.key?.startsWith("shoreFoam-") && item.material)
+            .map((item) => ({
+              key: item.key,
+              color: item.material.color.getHexString(),
+              opacity: Number(item.baseOpacity.toFixed(3)),
+            })),
+        },
+        roomPalette: {
+          sideWalls: (themeMaterials.roomSideWalls || []).map((material) => ({
+            color: material.color.getHexString(),
+            mapId: material.map?.uuid || null,
+          })),
+        },
+        photos: photoEntries.map((entry) => ({
+          id: entry.id,
+          textureReady: Boolean(entry.imageMesh?.material?.map),
+        })),
+      });
       scene?.updateMatrixWorld(true);
       camera?.updateMatrixWorld(true);
       container.dataset.albumScreenBounds = JSON.stringify(
@@ -968,6 +999,14 @@
       container.dataset.cameraYaw = yaw.toFixed(4);
       container.dataset.cameraPitch = rotationX.toFixed(4);
       const rearView = yaw > Math.PI * 0.62 && yaw < Math.PI * 1.38;
+      const showPaintedWindowBackdrop = activeView === "desk" && (yaw < 0.44 || yaw > Math.PI * 2 - 0.44);
+      windowBackdropMeshes.forEach((mesh) => {
+        if (mesh) mesh.visible = showPaintedWindowBackdrop;
+      });
+      if (windowViewMesh) windowViewMesh.visible = activeView === "desk";
+      const returnApertureVisible = activeView === "outside" && (yaw < Math.PI * 0.36 || yaw > Math.PI * 1.64);
+      if (returnInsideGroup) returnInsideGroup.visible = returnApertureVisible;
+      container.dataset.returnTargetVisible = String(returnApertureVisible);
       const isYawInRange = (start, end) => (start <= end ? yaw >= start && yaw <= end : yaw >= start || yaw <= end);
       orbitOcclusionItems.forEach((item) => {
         if (!item?.material) return;
@@ -1012,23 +1051,6 @@
       return new THREE.Vector3(anchor.x * scale + position.x, anchor.y * scale + position.y, anchor.z * scale + position.z);
     };
 
-    const setInteriorLookCamera = (baseCamera, baseTarget, yaw, pitch, zoom) => {
-      const boundedPitch = clampRoomPitch(pitch);
-      const offset = baseTarget.clone().sub(baseCamera);
-      const planarRadius = Math.max(0.9, Math.hypot(offset.x, offset.z));
-      const baseAngle = Math.atan2(offset.x, offset.z);
-      const yawDelta = yaw - defaultRotation.y;
-      const pitchDelta = boundedPitch - defaultRotation.x;
-      const lookRadius = planarRadius * (1 - zoom * 0.08);
-      const vertical = offset.y + pitchDelta * 2.45 * (1 - zoom * 0.24);
-      camera.position.copy(baseCamera);
-      camera.lookAt(
-        baseCamera.x + Math.sin(baseAngle + yawDelta) * lookRadius,
-        baseCamera.y + vertical,
-        baseCamera.z + Math.cos(baseAngle + yawDelta) * lookRadius
-      );
-    };
-
     const setOrbitCamera = (view, baseCamera, baseTarget, yaw, pitch, zoom) => {
       const defaultYaw = view === "outside" ? outsideDefaultRotation.y : defaultRotation.y;
       const defaultPitch = view === "outside" ? outsideDefaultRotation.x : defaultRotation.x;
@@ -1038,16 +1060,39 @@
       const yawDelta = yaw - defaultYaw;
       const pitchDelta = pitch - defaultPitch;
       const vertical = offset.y + pitchDelta * (view === "outside" ? 3.15 : 3.7) * (1 - zoom * 0.34);
-      const pitchRadius = planarRadius * (1 - Math.min(0.34, Math.abs(pitchDelta) * 0.18));
+      const roomRadius = lerp(isCompactScene ? 2.32 : 2.2, isCompactScene ? 1.78 : 1.62, zoom);
+      const orbitRadius = view === "outside" ? planarRadius : roomRadius;
+      const pitchRadius = orbitRadius * (1 - Math.min(0.34, Math.abs(pitchDelta) * 0.18));
       const rearClearance = view === "outside" ? 1 + Math.sin(yawDelta * 0.5) ** 2 * 0.62 : 1;
       const radius = pitchRadius * rearClearance;
-      camera.position.set(
-        baseTarget.x + Math.sin(baseAngle + yawDelta) * radius,
-        baseTarget.y + vertical,
-        baseTarget.z + Math.cos(baseAngle + yawDelta) * radius
-      );
-      camera.lookAt(baseTarget);
-      container.dataset.cameraDistance = camera.position.distanceTo(baseTarget).toFixed(4);
+      const orbitCenter =
+        view === "outside"
+          ? baseTarget.clone()
+          : new THREE.Vector3(baseCamera.x - Math.sin(baseAngle) * orbitRadius, baseTarget.y, baseCamera.z - Math.cos(baseAngle) * orbitRadius);
+      const orbitX = orbitCenter.x + Math.sin(baseAngle + yawDelta) * radius;
+      const orbitZ = orbitCenter.z + Math.cos(baseAngle + yawDelta) * radius;
+      camera.position.set(orbitX, baseTarget.y + vertical, orbitZ);
+      if (view === "desk") {
+        const roomScale = rootGroup?.scale?.x ?? 1;
+        const roomPosition = rootGroup?.position || { x: 0, z: 0 };
+        const roomMinX = roomBlueprint.bounds.minX * roomScale + roomPosition.x + 0.28;
+        const roomMaxX = roomBlueprint.bounds.maxX * roomScale + roomPosition.x - 0.28;
+        const insideWindowZ = roomBlueprint.window.z * roomScale + roomPosition.z + 0.18;
+        const insideRearZ = roomBlueprint.bounds.rearZ * roomScale + roomPosition.z - 0.32;
+        container.dataset.roomCameraBounds = JSON.stringify({
+          minX: Number(roomMinX.toFixed(4)),
+          maxX: Number(roomMaxX.toFixed(4)),
+          minZ: Number(insideWindowZ.toFixed(4)),
+          maxZ: Number(insideRearZ.toFixed(4)),
+        });
+        camera.position.x = clamp(camera.position.x, roomMinX, roomMaxX);
+        camera.position.z = clamp(camera.position.z, insideWindowZ, insideRearZ);
+      }
+      const rearWeight = view === "desk" ? Math.sin(yawDelta * 0.5) ** 2 : 0;
+      const roomLookTarget = new THREE.Vector3(orbitCenter.x, baseTarget.y + 0.32, orbitCenter.z + 0.72);
+      const lookTarget = baseTarget.clone().lerp(roomLookTarget, rearWeight * 0.82);
+      camera.lookAt(lookTarget);
+      container.dataset.cameraDistance = camera.position.distanceTo(lookTarget).toFixed(4);
     };
 
     const applyCameraPose = (immediate = false) => {
@@ -1123,9 +1168,14 @@
             z: lerp(target.z, zoomTarget.z, zoom),
           });
           camera.fov = lerp(isCompactScene ? 56 : 50, isCompactScene ? 44 : 38, zoom);
-          setInteriorLookCamera(baseCamera, baseTarget, rotationY, rotationX, zoom);
+          setOrbitCamera("desk", baseCamera, baseTarget, rotationY, rotationX, zoom);
         }
       }
+      container.dataset.cameraPosition = JSON.stringify({
+        x: Number(camera.position.x.toFixed(4)),
+        y: Number(camera.position.y.toFixed(4)),
+        z: Number(camera.position.z.toFixed(4)),
+      });
       camera.updateProjectionMatrix();
       updateWindowJumpVisibility();
       return needsZoomFrame();
@@ -1396,173 +1446,38 @@
         192
       );
 
-    const createOutsideBackdropTexture = (palette) =>
-      makeCanvasTexture((context, width, height) => {
-        const isEvening = palette.mode === "evening" || palette.isDarkTheme;
-        const isAfternoon = palette.mode === "afternoon";
-        const sky = context.createLinearGradient(0, 0, 0, height * 0.62);
-        sky.addColorStop(0, isEvening ? "#0f1d2c" : isAfternoon ? "#f1a96c" : "#8bc6e6");
-        sky.addColorStop(0.54, isEvening ? "#23364d" : isAfternoon ? "#ffd09a" : "#d8f0fb");
-        sky.addColorStop(1, isEvening ? "#455762" : "#f6efe2");
-        context.fillStyle = sky;
-        context.fillRect(0, 0, width, height);
-
-        if (isEvening) {
-          context.fillStyle = "rgba(255,246,210,0.82)";
-          [58, 142, 230, 302, 386, 494, 570, 690].forEach((x, index) => {
-            context.beginPath();
-            context.arc(x, 38 + ((index * 31) % 106), index % 3 === 0 ? 2.5 : 1.5, 0, Math.PI * 2);
-            context.fill();
-          });
-        } else {
-          context.fillStyle = isAfternoon ? "rgba(255,243,209,0.76)" : "rgba(255,255,255,0.82)";
-          context.beginPath();
-          context.ellipse(width * 0.78, height * 0.16, 52, 30, -0.18, 0, Math.PI * 2);
-          context.fill();
-        }
-
-        const ocean = context.createLinearGradient(0, height * 0.46, 0, height);
-        ocean.addColorStop(0, isEvening ? "#21465a" : "#257fa9");
-        ocean.addColorStop(0.64, isEvening ? "#153140" : "#52b5d3");
-        ocean.addColorStop(1, isEvening ? "#0f2733" : "#8fd2e2");
-        context.fillStyle = ocean;
-        context.fillRect(0, height * 0.46, width, height * 0.54);
-
-        context.strokeStyle = isEvening ? "rgba(216,234,238,0.16)" : "rgba(255,255,255,0.28)";
-        context.lineWidth = 2;
-        for (let index = 0; index < 5; index += 1) {
-          const y = height * (0.6 + index * 0.068);
-          context.beginPath();
-          context.moveTo(-20 + index * 42, y);
-          context.bezierCurveTo(width * 0.16, y - 26, width * 0.3, y + 28, width * 0.46, y - 2);
-          context.bezierCurveTo(width * 0.62, y - 24, width * 0.76, y + 18, width + 20, y - 8);
-          context.stroke();
-        }
-
-        context.fillStyle = isEvening ? "rgba(47,58,49,0.58)" : "rgba(150,131,96,0.46)";
-        context.beginPath();
-        context.moveTo(0, height * 0.86);
-        context.quadraticCurveTo(width * 0.1, height * 0.76, width * 0.24, height * 0.8);
-        context.quadraticCurveTo(width * 0.36, height * 0.84, width * 0.48, height * 0.78);
-        context.lineTo(width * 0.58, height);
-        context.lineTo(0, height);
-        context.closePath();
-        context.fill();
-
-        context.fillStyle = isEvening ? "#2b332b" : "#8d7b5c";
-        context.beginPath();
-        context.moveTo(width * 0.68, height);
-        context.lineTo(width, height);
-        context.lineTo(width, height * 0.5);
-        context.lineTo(width * 0.95, height * 0.53);
-        context.quadraticCurveTo(width * 0.9, height * 0.56, width * 0.84, height * 0.66);
-        context.quadraticCurveTo(width * 0.77, height * 0.78, width * 0.75, height * 0.9);
-        context.quadraticCurveTo(width * 0.72, height * 0.96, width * 0.68, height);
-        context.fill();
-        context.save();
-        context.beginPath();
-        context.moveTo(width * 0.68, height);
-        context.lineTo(width, height);
-        context.lineTo(width, height * 0.5);
-        context.lineTo(width * 0.95, height * 0.53);
-        context.quadraticCurveTo(width * 0.9, height * 0.56, width * 0.84, height * 0.66);
-        context.quadraticCurveTo(width * 0.77, height * 0.78, width * 0.75, height * 0.9);
-        context.quadraticCurveTo(width * 0.72, height * 0.96, width * 0.68, height);
-        context.clip();
-        context.fillStyle = isEvening ? "rgba(18,24,21,0.18)" : "rgba(95,76,51,0.2)";
-        [
-          [
-            [0.74, 0.62],
-            [0.98, 0.49],
-            [1.02, 0.64],
-            [0.84, 0.72],
-          ],
-          [
-            [0.7, 0.8],
-            [0.86, 0.7],
-            [1.02, 0.76],
-            [1.02, 0.92],
-            [0.66, 0.94],
-          ],
-          [
-            [0.82, 0.55],
-            [0.96, 0.46],
-            [1.02, 0.5],
-            [0.91, 0.58],
-          ],
-        ].forEach((points) => {
-          context.beginPath();
-          points.forEach(([x, y], index) => {
-            const px = width * x;
-            const py = height * y;
-            if (index === 0) context.moveTo(px, py);
-            else context.lineTo(px, py);
-          });
-          context.closePath();
-          context.fill();
-        });
-        context.strokeStyle = isEvening ? "rgba(226,204,164,0.22)" : "rgba(244,213,160,0.36)";
-        context.lineWidth = 3;
-        [0.58, 0.67, 0.77, 0.87].forEach((lineY, row) => {
-          context.beginPath();
-          context.moveTo(width * (0.7 - row * 0.025), height * lineY);
-          context.bezierCurveTo(width * 0.78, height * (lineY - 0.04), width * 0.9, height * (lineY + 0.04), width * 1.02, height * (lineY - 0.02));
-          context.stroke();
-        });
-        context.restore();
-
-        context.fillStyle = isEvening ? "#c8ae82" : "#edd5a7";
-        context.beginPath();
-        context.moveTo(0, height);
-        context.lineTo(width * 0.72, height);
-        context.quadraticCurveTo(width * 0.46, height * 0.88, width * 0.2, height * 0.86);
-        context.quadraticCurveTo(width * 0.08, height * 0.86, 0, height * 0.9);
-        context.closePath();
-        context.fill();
-
-        context.strokeStyle = isEvening ? "rgba(247,230,190,0.62)" : "rgba(31,68,80,0.56)";
-        context.lineWidth = 3;
-        context.beginPath();
-        context.moveTo(width * 0.2, height * 0.28);
-        context.quadraticCurveTo(width * 0.27, height * 0.18, width * 0.34, height * 0.28);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(width * 0.15, height * 0.68);
-        context.quadraticCurveTo(width * 0.2, height * 0.64, width * 0.26, height * 0.68);
-        context.stroke();
-
-        const fade = context.createRadialGradient(width * 0.58, height * 0.55, width * 0.18, width * 0.58, height * 0.55, width * 0.82);
-        fade.addColorStop(0, "rgba(0,0,0,1)");
-        fade.addColorStop(0.58, "rgba(0,0,0,0.98)");
-        fade.addColorStop(0.86, "rgba(0,0,0,0.62)");
-        fade.addColorStop(1, "rgba(0,0,0,0.42)");
-        context.globalCompositeOperation = "destination-in";
-        context.fillStyle = fade;
-        context.fillRect(0, 0, width, height);
-        context.globalCompositeOperation = "source-over";
-      });
-
-    const createOutsideDomeTexture = (palette) =>
+    const createCoastalDomeTexture = (palette) =>
       makeCanvasTexture(
         (context, width, height) => {
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
           const isAfternoon = palette.mode === "afternoon";
-          const sky = context.createLinearGradient(0, 0, 0, height * 0.58);
-          sky.addColorStop(0, isEvening ? "#0f1d2c" : isAfternoon ? "#e89b66" : "#84bddb");
-          sky.addColorStop(0.72, isEvening ? "#31475a" : isAfternoon ? "#f8c88f" : "#d8edf5");
-          sky.addColorStop(1, isEvening ? "#53636b" : "#f1eee5");
+          const sky = context.createLinearGradient(0, 0, 0, height);
+          sky.addColorStop(0, isEvening ? "#142735" : isAfternoon ? "#cb8569" : "#78a9bf");
+          sky.addColorStop(0.54, isEvening ? "#3d535d" : isAfternoon ? "#e7b18d" : "#b9d2d8");
+          sky.addColorStop(0.82, isEvening ? "#687477" : isAfternoon ? "#efd6b8" : "#e4eae3");
+          sky.addColorStop(1, isEvening ? "#727a78" : "#eee9dc");
           context.fillStyle = sky;
-          context.fillRect(0, 0, width, height * 0.58);
+          context.fillRect(0, 0, width, height);
 
-          const horizon = context.createLinearGradient(0, height * 0.48, 0, height);
-          horizon.addColorStop(0, isEvening ? "#29495a" : "#318caf");
-          horizon.addColorStop(0.42, isEvening ? "#183846" : "#58b5cc");
-          horizon.addColorStop(1, isEvening ? "#102a35" : "#8bcbd8");
-          context.fillStyle = horizon;
-          context.fillRect(0, height * 0.56, width, height * 0.44);
+          const sunX = width * 0.68;
+          const sunY = height * 0.28;
+          const sun = context.createRadialGradient(sunX, sunY, 1, sunX, sunY, width * 0.14);
+          sun.addColorStop(0, isEvening ? "rgba(255,222,171,0.58)" : "rgba(255,249,224,0.72)");
+          sun.addColorStop(0.36, isEvening ? "rgba(255,198,139,0.12)" : "rgba(255,246,218,0.16)");
+          sun.addColorStop(1, "rgba(255,255,255,0)");
+          context.fillStyle = sun;
+          context.fillRect(0, 0, width, height * 0.68);
 
-          context.fillStyle = isEvening ? "rgba(235,226,204,0.09)" : "rgba(255,250,235,0.28)";
-          context.fillRect(0, height * 0.545, width, height * 0.035);
+          context.fillStyle = isEvening ? "rgba(232,229,216,0.07)" : "rgba(255,255,255,0.14)";
+          [
+            [0.18, 0.32, 0.12, 0.018],
+            [0.45, 0.42, 0.09, 0.014],
+            [0.84, 0.36, 0.11, 0.016],
+          ].forEach(([x, y, radiusX, radiusY]) => {
+            context.beginPath();
+            context.ellipse(width * x, height * y, width * radiusX, height * radiusY, -0.03, 0, Math.PI * 2);
+            context.fill();
+          });
         },
         1024,
         512
@@ -1573,17 +1488,17 @@
         (context, width, height) => {
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
           const water = context.createLinearGradient(0, 0, width, height);
-          water.addColorStop(0, isEvening ? "#1a4657" : "#3197bd");
-          water.addColorStop(0.52, isEvening ? "#133342" : "#5bc0d9");
-          water.addColorStop(1, isEvening ? "#0d2633" : "#9bd7e5");
+          water.addColorStop(0, isEvening ? "#244b5a" : "#397f96");
+          water.addColorStop(0.52, isEvening ? "#183a48" : "#4f95a8");
+          water.addColorStop(1, isEvening ? "#102b37" : "#72aeba");
           context.fillStyle = water;
           context.fillRect(0, 0, width, height);
 
-          for (let row = 0; row < 7; row += 1) {
-            const y = 30 + row * 34;
-            const alpha = isEvening ? 0.14 + (row % 3) * 0.025 : 0.16 + (row % 2) * 0.025;
+          for (let row = 0; row < 6; row += 1) {
+            const y = 34 + row * 38;
+            const alpha = isEvening ? 0.1 + (row % 3) * 0.018 : 0.11 + (row % 2) * 0.018;
             context.strokeStyle = `rgba(255,255,255,${alpha})`;
-            context.lineWidth = row % 3 === 0 ? 1.6 : 1;
+            context.lineWidth = row % 3 === 0 ? 1.2 : 0.8;
             context.beginPath();
             context.moveTo(-32, y);
             for (let x = -32; x <= width + 40; x += 64) {
@@ -1593,9 +1508,9 @@
             context.stroke();
           }
 
-          context.strokeStyle = isEvening ? "rgba(141,196,210,0.12)" : "rgba(231,252,255,0.14)";
-          context.lineWidth = 0.9;
-          for (let row = 0; row < 5; row += 1) {
+          context.strokeStyle = isEvening ? "rgba(141,196,210,0.08)" : "rgba(231,252,255,0.09)";
+          context.lineWidth = 0.7;
+          for (let row = 0; row < 4; row += 1) {
             const y = 18 + row * 42;
             context.beginPath();
             context.moveTo(-18, y + 6);
@@ -1605,8 +1520,8 @@
             context.stroke();
           }
 
-          context.fillStyle = isEvening ? "rgba(255,241,201,0.09)" : "rgba(255,255,255,0.1)";
-          for (let index = 0; index < 34; index += 1) {
+          context.fillStyle = isEvening ? "rgba(255,241,201,0.055)" : "rgba(255,255,255,0.065)";
+          for (let index = 0; index < 24; index += 1) {
             const x = (index * 47) % width;
             const y = 18 + ((index * 71) % (height - 36));
             context.beginPath();
@@ -1616,8 +1531,8 @@
         },
         512,
         256,
-        1.6,
-        1.2
+        1.2,
+        1.05
       );
 
     const createFoamSurfaceTexture = (palette) =>
@@ -1662,12 +1577,7 @@
       makeRepeatingCanvasTexture(
         (context, width, height) => {
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
-          const sand = context.createLinearGradient(0, 0, width, height);
-          sand.addColorStop(0, isEvening ? "#c4a67a" : "#f1d9aa");
-          sand.addColorStop(0.34, isEvening ? "#b89a70" : "#eed2a0");
-          sand.addColorStop(0.66, isEvening ? "#958064" : "#d5b07c");
-          sand.addColorStop(1, isEvening ? "#6f5d47" : "#b88958");
-          context.fillStyle = sand;
+          context.fillStyle = isEvening ? "#ad936f" : "#e5c999";
           context.fillRect(0, 0, width, height);
 
           const wet = context.createLinearGradient(0, 0, width, 0);
@@ -1693,15 +1603,15 @@
             context.fill();
           }
 
-          context.strokeStyle = isEvening ? "rgba(255,238,199,0.22)" : "rgba(255,255,255,0.36)";
-          context.lineWidth = 2;
-          [24, 54, 86, 122].forEach((y, row) => {
+          context.fillStyle = isEvening ? "rgba(255,231,184,0.055)" : "rgba(255,250,228,0.12)";
+          [
+            { x: 0.14, y: 0.25, rx: 0.2, ry: 0.12, r: -0.08 },
+            { x: 0.5, y: 0.62, rx: 0.26, ry: 0.16, r: 0.05 },
+            { x: 0.84, y: 0.34, rx: 0.18, ry: 0.11, r: -0.04 },
+          ].forEach((patch) => {
             context.beginPath();
-            context.moveTo(-18, y);
-            for (let x = -18; x <= width + 24; x += 72) {
-              context.quadraticCurveTo(x + 34, y + (row % 2 ? 4 : -5), x + 72, y + Math.sin((x + row * 31) * 0.04) * 1.8);
-            }
-            context.stroke();
+            context.ellipse(width * patch.x, height * patch.y, width * patch.rx, height * patch.ry, patch.r, 0, Math.PI * 2);
+            context.fill();
           });
         },
         512,
@@ -1749,37 +1659,37 @@
         (context, width, height) => {
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
           const base = context.createLinearGradient(0, 0, width, height);
-          base.addColorStop(0, isEvening ? "#77736b" : "#c9c0b1");
-          base.addColorStop(0.56, isEvening ? "#5f5b54" : "#a99f90");
-          base.addColorStop(1, isEvening ? "#47443f" : "#81786c");
+          base.addColorStop(0, isEvening ? "#70685f" : "#c8b5a0");
+          base.addColorStop(0.56, isEvening ? "#5b5650" : "#aa9581");
+          base.addColorStop(1, isEvening ? "#46433f" : "#857466");
           context.fillStyle = base;
           context.fillRect(0, 0, width, height);
 
-          context.globalAlpha = face ? 0.24 : 0.18;
-          context.strokeStyle = isEvening ? "#b8ad9b" : "#e2d8c8";
-          context.lineWidth = face ? 4 : 3;
-          for (let row = 0; row < 7; row += 1) {
-            const y = 18 + row * 28;
+          context.globalAlpha = face ? 0.1 : 0.075;
+          context.strokeStyle = isEvening ? "#d1c3af" : "#eee2d2";
+          context.lineWidth = face ? 2 : 1.5;
+          for (let row = 0; row < 4; row += 1) {
+            const y = 34 + row * 48;
             context.beginPath();
             context.moveTo(-24, y);
-            for (let x = -24; x <= width + 32; x += 74) {
-              context.quadraticCurveTo(x + 34, y - 10 + ((row + x) % 3) * 5, x + 74, y + Math.sin((x + row) * 0.03) * 5);
+            for (let x = -24; x <= width + 48; x += 118) {
+              context.quadraticCurveTo(x + 52, y - 7 + (row % 2) * 4, x + 118, y + Math.sin((x + row * 19) * 0.018) * 4);
             }
             context.stroke();
           }
 
           context.globalAlpha = 1;
-          for (let index = 0; index < 90; index += 1) {
+          for (let index = 0; index < 70; index += 1) {
             const x = (index * 43) % width;
             const y = (index * 59) % height;
             context.fillStyle =
               index % 3 === 0
                 ? isEvening
-                  ? "rgba(28,27,25,0.2)"
-                  : "rgba(67,62,56,0.18)"
+                  ? "rgba(28,27,25,0.16)"
+                  : "rgba(74,66,58,0.11)"
                 : isEvening
                   ? "rgba(224,216,201,0.11)"
-                  : "rgba(246,239,225,0.18)";
+                  : "rgba(249,239,225,0.13)";
             context.beginPath();
             context.ellipse(x, y, 2.8 + (index % 4), 1.1 + (index % 3) * 0.35, (index % 5) * 0.4, 0, Math.PI * 2);
             context.fill();
@@ -1989,6 +1899,7 @@
           textureCache.set(src, texture);
           material.map = texture;
           material.needsUpdate = true;
+          sceneEvidenceDirty = true;
           render();
         },
         undefined,
@@ -2018,6 +1929,39 @@
         bevelThickness: bevel,
         bevelSize: bevel,
         bevelSegments: options.segments ?? 1,
+      });
+      geometry.translate(0, 0, -size.z / 2);
+      geometry.computeVertexNormals();
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(position.x, position.y, position.z);
+      group.add(mesh);
+      return mesh;
+    };
+
+    const addRoundedBox = (group, size, position, material, options = {}) => {
+      if (!THREE.Shape || !THREE.ExtrudeGeometry) return addBeveledBox(group, size, position, material, options);
+      const maxRadius = Math.max(0.002, Math.min(size.x, size.y) / 2 - 0.002);
+      const radius = Math.min(options.radius ?? Math.min(size.x, size.y) * 0.18, maxRadius);
+      const halfWidth = size.x / 2;
+      const halfHeight = size.y / 2;
+      const shape = new THREE.Shape();
+      shape.moveTo(-halfWidth + radius, -halfHeight);
+      shape.lineTo(halfWidth - radius, -halfHeight);
+      shape.quadraticCurveTo(halfWidth, -halfHeight, halfWidth, -halfHeight + radius);
+      shape.lineTo(halfWidth, halfHeight - radius);
+      shape.quadraticCurveTo(halfWidth, halfHeight, halfWidth - radius, halfHeight);
+      shape.lineTo(-halfWidth + radius, halfHeight);
+      shape.quadraticCurveTo(-halfWidth, halfHeight, -halfWidth, halfHeight - radius);
+      shape.lineTo(-halfWidth, -halfHeight + radius);
+      shape.quadraticCurveTo(-halfWidth, -halfHeight, -halfWidth + radius, -halfHeight);
+      const bevel = options.bevel ?? Math.min(size.z * 0.16, radius * 0.35);
+      const geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: size.z,
+        bevelEnabled: bevel > 0,
+        bevelThickness: bevel,
+        bevelSize: bevel,
+        bevelSegments: options.segments ?? 3,
+        curveSegments: options.curveSegments ?? 8,
       });
       geometry.translate(0, 0, -size.z / 2);
       geometry.computeVertexNormals();
@@ -2470,7 +2414,7 @@
       pointerNdc.x = ((event.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
       pointerNdc.y = -(((event.clientY - rect.top) / Math.max(1, rect.height)) * 2 - 1);
       raycaster.setFromCamera(pointerNdc, camera);
-      const projectedFirstUndropped = pickProjectedFirstUndroppedRackAlbum();
+      const projectedFirstUndropped = activeView === "desk" ? pickProjectedFirstUndroppedRackAlbum() : null;
       if (projectedFirstUndropped) return projectedFirstUndropped;
       const hits = raycaster
         .intersectObjects(interactiveObjects, true)
@@ -2482,12 +2426,12 @@
           if (candidate.data.kind === "returnInside") return activeView === "outside";
           return activeView === "desk";
         });
-      const projectedRackReplacement = pickProjectedRackReplacement();
+      const projectedRackReplacement = activeView === "desk" ? pickProjectedRackReplacement() : null;
       const activeAlbumEntry = Number.isInteger(activeRecordIndex) ? albumEntries[activeRecordIndex] : null;
-      const projectedActiveFace = !focusedEntry && activeAlbumEntry ? pickActiveRackFaceAlbum(activeAlbumEntry) : null;
+      const projectedActiveFace = activeView === "desk" && !focusedEntry && activeAlbumEntry ? pickActiveRackFaceAlbum(activeAlbumEntry) : null;
       const isUpperRackPointer = pointerNdc.y > (isCompactScene ? 0.26 : 0.38);
       const projectedActiveNeighbor =
-        !focusedEntry && activeAlbumEntry && isUpperRackPointer
+        activeView === "desk" && !focusedEntry && activeAlbumEntry && isUpperRackPointer
           ? pickUpperRackCapAlbum(activeAlbumEntry) || pickProjectedRackAlbum(activeAlbumEntry, { threshold: isCompactScene ? 0.058 : 0.05 })
           : null;
       if (projectedActiveFace) return projectedActiveFace;
@@ -2780,27 +2724,34 @@
       }
       themeMaterials.deskGlints?.color.setHex(palette.isDarkTheme ? 0xffe0aa : 0xfff1c7);
       if (themeMaterials.deskGlints) themeMaterials.deskGlints.opacity = palette.isDarkTheme ? 0.24 : 0.2;
-      themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x183648 : 0x5bb9cf);
-      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.6 : 0.52;
-      themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6);
-      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = palette.isDarkTheme ? 0.66 : 0.58;
-      if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.78 : 0.72;
+      themeMaterials.outsideOcean?.color.setHex(palette.isDarkTheme ? 0x315867 : 0x5f98a5);
+      if (themeMaterials.outsideOcean) themeMaterials.outsideOcean.opacity = palette.isDarkTheme ? 0.9 : 0.94;
+      themeMaterials.outsideBeach?.color.setHex(palette.isDarkTheme ? 0xb69b73 : 0xe2c596);
+      if (themeMaterials.outsideBeach) themeMaterials.outsideBeach.opacity = 1;
+      themeMaterials.outsideWetSand?.color.setHex(palette.isDarkTheme ? 0x776d61 : 0xaa9274);
+      if (themeMaterials.outsideWetSand) themeMaterials.outsideWetSand.opacity = palette.isDarkTheme ? 0.72 : 0.68;
+      const foamColor = palette.isDarkTheme ? 0xe7e1d5 : 0xfffdf5;
+      themeMaterials.outsideFoam?.color.setHex(foamColor);
+      if (themeMaterials.outsideFoam) themeMaterials.outsideFoam.opacity = palette.isDarkTheme ? 0.48 : 0.62;
+      outsideMotionItems.forEach((item) => {
+        if (!item.key?.startsWith("shoreFoam-") || !item.material) return;
+        const opacity = palette.isDarkTheme ? item.darkOpacity : item.lightOpacity;
+        item.material.color?.setHex(foamColor);
+        item.material.opacity = opacity;
+        item.baseOpacity = opacity;
+      });
       themeMaterials.outsideShoreGlints?.color.setHex(palette.isDarkTheme ? 0xdff8ff : 0xffffff);
       if (themeMaterials.outsideShoreGlints) themeMaterials.outsideShoreGlints.opacity = palette.isDarkTheme ? 0.46 : 0.56;
       themeMaterials.outsideSandGlints?.color.setHex(palette.isDarkTheme ? 0xffd6a0 : 0xfff0c7);
       if (themeMaterials.outsideSandGlints) themeMaterials.outsideSandGlints.opacity = palette.isDarkTheme ? 0.2 : 0.26;
       applyCoastalShaderPalette(themeMaterials.outsideFoamShader, palette, "foam");
       applyCoastalShaderPalette(themeMaterials.outsideSandShader, palette, "sand");
-      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0xe2dbd0 : 0xf7f3ec);
-      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0xc9c1b6 : 0xded8ce);
-      themeMaterials.outsideCaveFace?.color.setHex(palette.isDarkTheme ? 0xd5cec3 : 0xe8e2d8);
-      themeMaterials.outsideCliff?.emissive?.setHex(palette.isDarkTheme ? 0x211f1c : 0x4c4944);
-      themeMaterials.outsideCliffFace?.emissive?.setHex(palette.isDarkTheme ? 0x1a1917 : 0x3c3935);
-      themeMaterials.outsideCaveFace?.emissive?.setHex(palette.isDarkTheme ? 0x28241f : 0x423f3a);
-      if (themeMaterials.outsideCliff) themeMaterials.outsideCliff.emissiveIntensity = 0.06;
-      if (themeMaterials.outsideCliffFace) themeMaterials.outsideCliffFace.emissiveIntensity = 0.045;
-      if (themeMaterials.outsideCaveFace) themeMaterials.outsideCaveFace.emissiveIntensity = palette.isDarkTheme ? 0.07 : 0.06;
-      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0xb9b2a8 : 0xd6cec1);
+      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x756d63 : 0xc8b8a5);
+      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x655e55 : 0xb7a895);
+      themeMaterials.outsideCaveFace?.color.setHex(palette.isDarkTheme ? 0x655e55 : 0xb7a895);
+      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x655e55 : 0xb7a895);
+      themeMaterials.outsideCliffLight?.color.setHex(palette.isDarkTheme ? 0x7c7368 : 0xc8baa8);
+      themeMaterials.outsideCliffShade?.color.setHex(palette.isDarkTheme ? 0x6d655c : 0xb8aa98);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
       themeMaterials.outsideRoofShadow?.color.setHex(palette.isDarkTheme ? 0x756049 : 0xb1865e);
       themeMaterials.outsideBed?.color.setHex(palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee);
@@ -2832,8 +2783,7 @@
       if (mugMarkMaterial) {
         replaceMaterialMap(mugMarkMaterial, createMugMarkTexture(palette));
       }
-      replaceMaterialMap(themeMaterials.outsideBackdrop, createOutsideBackdropTexture(palette));
-      replaceMaterialMap(themeMaterials.outsideBackdropDome, createOutsideDomeTexture(palette));
+      replaceMaterialMap(themeMaterials.outsideBackdropDome, createCoastalDomeTexture(palette));
       const oceanTexture = createOceanSurfaceTexture(palette);
       replaceMaterialMap(themeMaterials.outsideOcean, oceanTexture);
       setOutsideMotionTexture("ocean", oceanTexture);
@@ -2841,17 +2791,26 @@
       replaceMaterialMap(themeMaterials.outsideFoam, foamTexture);
       setOutsideMotionTexture("foam", foamTexture);
       const sandTexture = createSandSurfaceTexture(palette);
-      replaceMaterialMap(themeMaterials.outsideBeach, sandTexture);
+      if (themeMaterials.outsideBeach?.userData?.useProceduralTexture !== false) {
+        replaceMaterialMap(themeMaterials.outsideBeach, sandTexture);
+      }
       setOutsideMotionTexture("sand", sandTexture);
       const sandGustTexture = createSandGustTexture(palette);
       replaceMaterialMap(themeMaterials.outsideSandGust, sandGustTexture);
       if (themeMaterials.outsideSandGust) themeMaterials.outsideSandGust.opacity = palette.isDarkTheme ? 0.2 : 0.24;
       setOutsideMotionTexture("sandGust", sandGustTexture);
-      replaceMaterialMap(themeMaterials.outsideCliff, createCliffSurfaceTexture(palette));
-      replaceMaterialMap(themeMaterials.outsideCliffFace, createCliffSurfaceTexture(palette, true));
-      replaceMaterialMap(themeMaterials.outsideCaveFace, createCliffSurfaceTexture(palette, true));
+      if (themeMaterials.outsideCliff?.userData?.useProceduralTexture !== false) {
+        replaceMaterialMap(themeMaterials.outsideCliff, createCliffSurfaceTexture(palette));
+      }
+      if (themeMaterials.outsideCliffFace?.userData?.useProceduralTexture !== false) {
+        replaceMaterialMap(themeMaterials.outsideCliffFace, createCliffSurfaceTexture(palette, true));
+      }
+      if (themeMaterials.outsideCaveFace?.userData?.useProceduralTexture !== false) {
+        replaceMaterialMap(themeMaterials.outsideCaveFace, createCliffSurfaceTexture(palette, true));
+      }
       const laptopScreenMaterials = themeMaterials.laptopScreens || (themeMaterials.laptopScreen ? [themeMaterials.laptopScreen] : []);
       laptopScreenMaterials.forEach((material) => replaceMaterialMap(material, createLaptopScreenTexture(palette)));
+      sceneEvidenceDirty = true;
       render();
     };
 
@@ -2866,13 +2825,19 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
+      const sharedWorldScale = isCompact ? (isNarrowScene ? 0.54 : 0.7) : 0.92;
+      const sharedWorldPosition = {
+        x: isCompact ? (isNarrowScene ? 0.12 : 0.04) : -0.04,
+        y: isCompact ? -0.08 : -0.06,
+        z: isCompact ? 0.14 : 0.06,
+      };
       if (rootGroup) {
-        rootGroup.scale.setScalar(isCompact ? (isNarrowScene ? 0.54 : 0.7) : 0.98);
-        rootGroup.position.set(isCompact ? (isNarrowScene ? 0.12 : 0.04) : -0.04, isCompact ? -0.08 : -0.06, isCompact ? 0.14 : 0.06);
+        rootGroup.scale.setScalar(sharedWorldScale);
+        rootGroup.position.set(sharedWorldPosition.x, sharedWorldPosition.y, sharedWorldPosition.z);
       }
       if (outsideGroup) {
-        outsideGroup.scale.setScalar(isCompact ? 0.5 : 1.02);
-        outsideGroup.position.set(isCompact ? 0.16 : 0.02, isCompact ? 0.02 : -0.08, isCompact ? 0.02 : -0.04);
+        outsideGroup.scale.setScalar(sharedWorldScale);
+        outsideGroup.position.set(sharedWorldPosition.x, sharedWorldPosition.y, sharedWorldPosition.z);
       }
       applyCameraPose(true);
       sceneEvidenceDirty = true;
@@ -3473,8 +3438,12 @@
       focusedEntryAt = 0;
       activeView = nextView === "outside" ? "outside" : "desk";
       sceneEvidenceDirty = true;
-      if (rootGroup) rootGroup.visible = activeView === "desk";
+      if (rootGroup) rootGroup.visible = true;
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
+      windowBackdropMeshes.forEach((mesh) => {
+        if (mesh) mesh.visible = activeView === "desk";
+      });
+      if (windowViewMesh) windowViewMesh.visible = activeView === "desk";
       container.classList.toggle("is-outside-view", activeView === "outside");
       root.classList.toggle("home-desk-outside-active", activeView === "outside");
       const entryZoom = activeView === "outside" ? getOutsideEntryZoom() : 0;
@@ -3490,7 +3459,7 @@
       scheduleFrame();
     };
 
-    const getOutsideEntryZoom = () => (isCompactScene ? 0.12 : 0.28);
+    const getOutsideEntryZoom = () => (isCompactScene ? 0.08 : 0.04);
     const getOutsideMaxZoom = () => (isCompactScene ? 0.74 : 0.84);
 
     const enterDeskFromOutside = () => {
@@ -3588,6 +3557,7 @@
       wall.position.set(0.08, 0.16, -1.84);
       wall.renderOrder = -3;
       rootGroup.add(wall);
+      windowBackdropMeshes.push(wall);
 
       const recessMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae,
@@ -3670,6 +3640,7 @@
         }
       );
       windowRecessBlock.renderOrder = -2;
+      windowBackdropMeshes.push(windowRecessBlock);
       registerOrbitCutaway(windowRecessBlock, { occludedOpacity: 0.02, hideBelow: 0.03, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
 
       windowMaterial = new THREE.MeshBasicMaterial({
@@ -3682,6 +3653,7 @@
       view.position.set(roomWindow.x, roomWindow.y, -1.708);
       view.renderOrder = -1.5;
       rootGroup.add(view);
+      windowViewMesh = view;
       registerOrbitCutaway(view, { cloneMaterial: false, baseOpacity: 1, occludedOpacity: 0.34 });
 
       const glass = new THREE.Mesh(new THREE.BoxGeometry(roomWindow.width - 0.34, roomWindow.height - 0.16, 0.018), glassMaterial);
@@ -3798,6 +3770,7 @@
       buttonHit.position.set(roomWindow.x, roomWindow.y + 0.02, -1.41);
       rootGroup.add(buttonHit);
       windowHitObject = buttonHit;
+      compositionObjects.room.window = buttonHit;
       const entry = {
         kind: "windowJump",
         group: windowJumpGroup,
@@ -3888,996 +3861,429 @@
       );
     };
 
-    const addOutsideVignette = (palette) => {
+    const addUnifiedOutsideVignette = (palette) => {
       outsideGroup = new THREE.Group();
       outsideGroup.visible = false;
       scene.add(outsideGroup);
       outsideMotionItems.length = 0;
 
-      const backdropMaterial = new THREE.MeshBasicMaterial({
-        map: createOutsideBackdropTexture(palette),
-        side: THREE.DoubleSide,
-        transparent: true,
-        depthWrite: false,
-      });
-      themeMaterials.outsideBackdrop = backdropMaterial;
-      const backdropDomeMaterial = new THREE.MeshBasicMaterial({
-        map: createOutsideDomeTexture(palette),
+      const domeMaterial = new THREE.MeshBasicMaterial({
+        map: createCoastalDomeTexture(palette),
         side: THREE.BackSide,
         depthWrite: false,
       });
-      themeMaterials.outsideBackdropDome = backdropDomeMaterial;
-      const backdropDome = new THREE.Mesh(new THREE.SphereGeometry(14, 64, 32), backdropDomeMaterial);
-      backdropDome.position.set(0, 0.4, 0);
-      backdropDome.scale.set(1, 0.74, 1);
-      backdropDome.renderOrder = -7;
-      outsideGroup.add(backdropDome);
-      const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(40, 24), backdropMaterial);
-      backdrop.position.set(0.02, -0.4, -7.4);
-      backdrop.renderOrder = -6;
-      outsideGroup.add(backdrop);
-      orbitOcclusionItems.push({
-        object: backdrop,
-        material: backdropMaterial,
-        baseOpacity: 1,
-        occludedOpacity: 0,
-        hideBelow: 0.02,
-        yawStart: 0.52,
-        yawEnd: Math.PI * 2 - 0.32,
-      });
+      themeMaterials.outsideBackdropDome = domeMaterial;
+      const dome = new THREE.Mesh(new THREE.SphereGeometry(18, 64, 36), domeMaterial);
+      dome.position.set(0, 1.4, 0.8);
+      dome.scale.set(1, 0.72, 1);
+      dome.renderOrder = -8;
+      outsideGroup.add(dome);
 
       const oceanTexture = createOceanSurfaceTexture(palette);
       const oceanMaterial = new THREE.MeshBasicMaterial({
-        color: palette.isDarkTheme ? 0x183648 : 0x5bb9cf,
+        color: palette.isDarkTheme ? 0x315867 : 0x5f98a5,
         map: oceanTexture,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.6 : 0.52,
+        opacity: palette.isDarkTheme ? 0.9 : 0.94,
         depthWrite: false,
+        side: THREE.DoubleSide,
       });
       themeMaterials.outsideOcean = oceanMaterial;
-      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(15.5, 2.6), oceanMaterial);
+      const ocean = new THREE.Mesh(new THREE.PlaneGeometry(28, 20), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(-1.2, -1.39, -1.92);
-      ocean.renderOrder = -5;
+      ocean.position.set(0, -1.72, -10.25);
+      ocean.renderOrder = -6;
       outsideGroup.add(ocean);
-
-      const nearOcean = new THREE.Mesh(new THREE.PlaneGeometry(10.4, 0.92), oceanMaterial);
-      nearOcean.rotation.x = -Math.PI / 2;
-      nearOcean.rotation.z = 0.052;
-      nearOcean.position.set(-1.62, -1.305, 0.18);
-      nearOcean.renderOrder = -4;
-      outsideGroup.add(nearOcean);
-
-      const foamTexture = createFoamSurfaceTexture(palette);
-      const foamMaterial = new THREE.MeshBasicMaterial({
-        map: foamTexture,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.78 : 0.72,
-        depthWrite: false,
-        depthTest: true,
-        side: THREE.DoubleSide,
-      });
-      themeMaterials.outsideFoam = foamMaterial;
-
-      const beachTexture = createSandSurfaceTexture(palette);
-      const beachMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xc7aa7e : 0xf0d6a6,
-        map: beachTexture,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.66 : 0.58,
-        depthWrite: false,
-        roughness: 0.9,
-      });
-      const sandGustTexture = createSandGustTexture(palette);
-      const sandGustMaterial = new THREE.MeshBasicMaterial({
-        map: sandGustTexture,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.2 : 0.24,
-        depthWrite: false,
-        depthTest: true,
-        side: THREE.DoubleSide,
-      });
-      const cliffMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xe2dbd0 : 0xf7f3ec,
-        map: createCliffSurfaceTexture(palette),
-        emissive: palette.isDarkTheme ? 0x211f1c : 0x4c4944,
-        emissiveIntensity: palette.isDarkTheme ? 0.06 : 0.06,
-        roughness: 0.9,
-      });
-      const cliffFaceMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xc9c1b6 : 0xded8ce,
-        map: createCliffSurfaceTexture(palette, true),
-        emissive: palette.isDarkTheme ? 0x1a1917 : 0x3c3935,
-        emissiveIntensity: palette.isDarkTheme ? 0.045 : 0.045,
-        roughness: 0.94,
-      });
-      const cliffLineMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xb9b2a8 : 0xd6cec1, roughness: 0.86 });
-      const caveFaceMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xd5cec3 : 0xe8e2d8,
-        map: createCliffSurfaceTexture(palette, true),
-        emissive: palette.isDarkTheme ? 0x28241f : 0x423f3a,
-        emissiveIntensity: palette.isDarkTheme ? 0.07 : 0.06,
-        roughness: 0.94,
-      });
-      const roofMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35, roughness: 0.78 });
-      const bedMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe9dfd2 : 0xfff8ee, roughness: 0.7 });
-      const outsideWaterMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x5aa4b8 : 0x9fdbe6,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.62 : 0.68,
-        roughness: 0.36,
-        metalness: 0.02,
-      });
-      const outsideLizardMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x81a565 : 0x5f9d52, roughness: 0.72 });
-      const outsideLizardBellyMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe7c990 : 0xf3d7a1, roughness: 0.68 });
-      const roomFloorMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xcfa171 : 0xf1d1a5,
-        map: createRoomFloorTexture(palette),
-        roughness: 0.76,
-      });
-      const roomWallMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xf4dcc1 : 0xffefe0,
-        map: createRoomWallTexture(palette),
-        roughness: 0.8,
-      });
-      const trimMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xffead0 : 0xe9d2b4, roughness: 0.58 });
-      const interiorMaterial = new THREE.MeshBasicMaterial({
-        color: palette.isDarkTheme ? 0xf6c98b : 0xffdeb0,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.11 : 0.075,
-        depthWrite: false,
-      });
-      const glassMaterial = new THREE.MeshBasicMaterial({
-        color: palette.isDarkTheme ? 0x9ec8d8 : 0xb8e8f6,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.07 : 0.09,
-        depthWrite: false,
-      });
-      const interiorGlowMaterial = new THREE.MeshBasicMaterial({
-        color: palette.isDarkTheme ? 0xffc98f : 0xffddb0,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.055 : 0.028,
-        depthWrite: false,
-        side: THREE.DoubleSide,
-      });
-      const curtainMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xf5dfc8 : 0xffead4,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.58 : 0.5,
-        roughness: 0.78,
-      });
-      const lampMaterial = new THREE.MeshBasicMaterial({
-        color: palette.isDarkTheme ? 0xffcb78 : 0xf2b15f,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.86 : 0.68,
-      });
-      const roofShadowMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x756049 : 0xb1865e,
-        roughness: 0.82,
-        metalness: 0.01,
-      });
-      themeMaterials.outsideBeach = beachMaterial;
-      themeMaterials.outsideSandGust = sandGustMaterial;
-      themeMaterials.outsideCliff = cliffMaterial;
-      themeMaterials.outsideCliffFace = cliffFaceMaterial;
-      themeMaterials.outsideCaveFace = caveFaceMaterial;
-      themeMaterials.outsideCliffLine = cliffLineMaterial;
-      themeMaterials.outsideRoof = roofMaterial;
-      themeMaterials.outsideRoofShadow = roofShadowMaterial;
-      themeMaterials.outsideBed = bedMaterial;
-      themeMaterials.outsideRoomFloor = roomFloorMaterial;
-      themeMaterials.outsideRoomWall = roomWallMaterial;
-      themeMaterials.outsideTrim = trimMaterial;
-      themeMaterials.outsideInterior = interiorMaterial;
-      themeMaterials.outsideGlass = glassMaterial;
-      themeMaterials.outsideInteriorGlow = interiorGlowMaterial;
-      themeMaterials.outsideCurtain = curtainMaterial;
-      themeMaterials.outsideLamp = lampMaterial;
-      const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe5b58e, roughness: 0.68 });
-      const hairMaterial = new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.8 });
-      const pillowMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xf2e6d5 : 0xfff2df, roughness: 0.72 });
-      const shirtMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x1d2527 : 0x2b3334, roughness: 0.78 });
-      const screenMaterial = new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture(palette), side: THREE.DoubleSide });
-      themeMaterials.laptopScreen = screenMaterial;
-      themeMaterials.laptopScreens = themeMaterials.laptopScreens || [];
-      themeMaterials.laptopScreens.push(screenMaterial);
-
-      const beach = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 0.52), beachMaterial);
-      beach.rotation.x = -Math.PI / 2;
-      beach.rotation.z = 0.025;
-      beach.position.set(-1.98, -1.238, 1.22);
-      beach.renderOrder = -3;
-      outsideGroup.add(beach);
-
-      const coveSand = new THREE.Mesh(new THREE.PlaneGeometry(6.8, 0.58), beachMaterial);
-      coveSand.rotation.x = -Math.PI / 2;
-      coveSand.rotation.z = -0.055;
-      coveSand.position.set(-1.42, -1.246, 1.58);
-      coveSand.renderOrder = -3;
-      outsideGroup.add(coveSand);
-
+      compositionObjects.coast.ocean = ocean;
       outsideMotionItems.push({
-        key: "coveSand",
-        texture: null,
-        mesh: coveSand,
-        baseY: coveSand.position.y,
-        speedX: 0,
-        speedY: 0,
+        key: "ocean",
+        texture: oceanTexture,
+        mesh: ocean,
+        baseY: ocean.position.y,
+        speedX: 0.018,
+        speedY: 0.006,
         offsetX: 0,
         offsetY: 0,
-        amplitude: 0.003,
-        frequency: 0.86,
-        phase: 0.42,
-        baseRotationZ: coveSand.rotation.z,
-        rotationAmplitude: 0.003,
-        baseScaleX: coveSand.scale.x,
-        baseScaleY: coveSand.scale.y,
-        baseScaleZ: coveSand.scale.z,
-        scaleAmplitude: 0.004,
-        scaleFrequency: 0.72,
+        amplitude: 0.012,
+        frequency: 0.72,
+        phase: 0.2,
+        baseRotationZ: ocean.rotation.z,
+        rotationAmplitude: 0,
+        baseScaleX: ocean.scale.x,
+        baseScaleY: ocean.scale.y,
+        baseScaleZ: ocean.scale.z,
+        scaleAmplitude: 0.002,
+        scaleFrequency: 0.58,
       });
 
-      const foam = new THREE.Mesh(new THREE.PlaneGeometry(4.9, 0.18), foamMaterial);
-      foam.rotation.x = -Math.PI / 2;
-      foam.rotation.z = -0.04;
-      foam.position.set(-2.05, -1.18, 0.96);
-      foam.renderOrder = -2;
-      outsideGroup.add(foam);
-      const tideFoam = new THREE.Mesh(new THREE.PlaneGeometry(3.9, 0.1), foamMaterial);
-      tideFoam.rotation.x = -Math.PI / 2;
-      tideFoam.rotation.z = 0.035;
-      tideFoam.position.set(-1.76, -1.17, 1.22);
-      tideFoam.renderOrder = -1;
-      outsideGroup.add(tideFoam);
-      const sandGust = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 0.58), sandGustMaterial);
-      sandGust.rotation.x = -Math.PI / 2;
-      sandGust.rotation.z = -0.035;
-      sandGust.position.set(-1.98, -1.105, 1.16);
-      sandGust.renderOrder = 0;
-      outsideGroup.add(sandGust);
-      const foamShaderMaterial = createCoastalShaderMaterial(palette, "foam");
-      const foamShader = new THREE.Mesh(new THREE.PlaneGeometry(5.1, 0.44, 64, 8), foamShaderMaterial);
-      foamShader.rotation.x = -Math.PI / 2;
-      foamShader.rotation.z = -0.036;
-      foamShader.position.set(-2.02, -1.104, 1.02);
-      foamShader.renderOrder = 2;
-      outsideGroup.add(foamShader);
-      themeMaterials.outsideFoamShader = foamShaderMaterial;
+      const sandMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0xb69b73 : 0xe2c596,
+        roughness: 0.96,
+        metalness: 0,
+        side: THREE.DoubleSide,
+      });
+      sandMaterial.userData.useProceduralTexture = false;
+      themeMaterials.outsideBeach = sandMaterial;
+      const wetSandMaterial = sandMaterial.clone();
+      wetSandMaterial.color.setHex(palette.isDarkTheme ? 0x776d61 : 0xaa9274);
+      wetSandMaterial.transparent = true;
+      wetSandMaterial.opacity = palette.isDarkTheme ? 0.72 : 0.68;
+      wetSandMaterial.depthWrite = false;
+      themeMaterials.outsideWetSand = wetSandMaterial;
 
-      const sandShaderMaterial = createCoastalShaderMaterial(palette, "sand");
-      const sandShader = new THREE.Mesh(new THREE.PlaneGeometry(4.7, 0.38, 52, 5), sandShaderMaterial);
-      sandShader.rotation.x = -Math.PI / 2;
-      sandShader.rotation.z = 0.018;
-      sandShader.position.set(-1.94, -1.098, 1.34);
-      sandShader.renderOrder = 1;
-      outsideGroup.add(sandShader);
-      themeMaterials.outsideSandShader = sandShaderMaterial;
-      addOutsideShorelineAccents(outsideGroup, palette);
-      outsideMotionItems.push(
-        {
-          key: "foamShader",
-          uniforms: foamShaderMaterial.uniforms,
-          timeOffset: 0,
-        },
-        {
-          key: "sandShader",
-          uniforms: sandShaderMaterial.uniforms,
-          timeOffset: 1.25,
-        },
-        {
-          key: "ocean",
-          texture: oceanTexture,
-          mesh: ocean,
-          baseY: ocean.position.y,
-          speedX: 0.066,
-          speedY: 0.14,
-          offsetX: 0,
-          offsetY: 0,
-          amplitude: 0.018,
-          frequency: 1.55,
-          phase: 0,
-          baseRotationZ: ocean.rotation.z,
-          rotationAmplitude: 0.006,
-          baseScaleX: ocean.scale.x,
-          baseScaleY: ocean.scale.y,
-          baseScaleZ: ocean.scale.z,
-          scaleAmplitude: 0.01,
-          scaleFrequency: 1.12,
-        },
-        {
-          key: "nearOcean",
-          texture: null,
-          mesh: nearOcean,
-          baseY: nearOcean.position.y,
+      const addCoastShape = (points, material, y, renderOrder) => {
+        const shape = new THREE.Shape();
+        points.forEach(([x, z], index) => {
+          if (index === 0) shape.moveTo(x, z);
+          else shape.lineTo(x, z);
+        });
+        shape.closePath();
+        const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shape, 24), material);
+        mesh.rotation.x = Math.PI / 2;
+        mesh.position.y = y;
+        mesh.renderOrder = renderOrder;
+        outsideGroup.add(mesh);
+        return mesh;
+      };
+
+      const dryBeach = addCoastShape(
+        [
+          [-6.2, -1.94],
+          [-3.9, -1.86],
+          [-1.8, -1.96],
+          [0.2, -2.08],
+          [2.1, -1.96],
+          [4.6, -2.22],
+          [5.1, -3.1],
+          [3.82, -3.58],
+          [2.06, -3.34],
+          [0.22, -3.72],
+          [-1.72, -3.42],
+          [-3.66, -3.84],
+          [-5.62, -3.52],
+          [-6.4, -2.72],
+        ],
+        sandMaterial,
+        -1.61,
+        -4
+      );
+      compositionObjects.coast.beach = dryBeach;
+      const wetBeach = addCoastShape(
+        [
+          [-6.3, -3.22],
+          [-5.25, -3.55],
+          [-3.62, -3.88],
+          [-1.7, -3.48],
+          [0.22, -3.78],
+          [2.08, -3.4],
+          [3.85, -3.64],
+          [5.18, -3.18],
+          [5.55, -3.92],
+          [3.92, -4.36],
+          [2.08, -4.18],
+          [0.18, -4.52],
+          [-1.78, -4.18],
+          [-3.72, -4.52],
+          [-5.5, -4.16],
+          [-6.48, -3.82],
+        ],
+        wetSandMaterial,
+        -1.595,
+        -3
+      );
+      compositionObjects.coast.wetSand = wetBeach;
+
+      const foamBaseMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xe7e1d5 : 0xfffdf5,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.48 : 0.62,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      themeMaterials.outsideFoam = foamBaseMaterial;
+      const shorelinePoints = [
+        [-6.12, -3.7],
+        [-4.92, -4.0],
+        [-3.58, -4.14],
+        [-1.76, -3.8],
+        [0.18, -4.12],
+        [2.08, -3.76],
+        [3.82, -4.02],
+        [5.34, -3.62],
+      ];
+      const addFoamLine = (points, radius, opacities, phase) => {
+        const opacity = palette.isDarkTheme ? opacities.dark : opacities.light;
+        const material = foamBaseMaterial.clone();
+        material.opacity = opacity;
+        const curve = new THREE.CatmullRomCurve3(
+          points.map(([x, z]) => new THREE.Vector3(x, -1.575, z)),
+          false,
+          "catmullrom",
+          0.42
+        );
+        const line = new THREE.Mesh(new THREE.TubeGeometry(curve, 128, radius, 8, false), material);
+        line.renderOrder = 2;
+        outsideGroup.add(line);
+        outsideMotionItems.push({
+          key: `shoreFoam-${phase}`,
+          mesh: line,
+          material,
+          baseY: line.position.y,
           speedX: 0,
           speedY: 0,
           offsetX: 0,
-          offsetY: 0,
-          amplitude: 0.01,
-          frequency: 1.9,
-          phase: 0.34,
-          baseRotationZ: nearOcean.rotation.z,
-          rotationAmplitude: 0.012,
-          baseScaleX: nearOcean.scale.x,
-          baseScaleY: nearOcean.scale.y,
-          baseScaleZ: nearOcean.scale.z,
-          scaleAmplitude: 0.008,
-          scaleFrequency: 1.42,
-        },
-        {
-          key: "foam",
-          texture: foamTexture,
-          mesh: foam,
-          baseY: foam.position.y,
-          speedX: -0.16,
-          speedY: 0.044,
-          offsetX: 0.18,
-          offsetY: 0,
-          amplitude: 0.014,
-          frequency: 2.4,
-          phase: 0.8,
-          baseRotationZ: foam.rotation.z,
-          rotationAmplitude: 0.018,
-          baseScaleX: foam.scale.x,
-          baseScaleY: foam.scale.y,
-          baseScaleZ: foam.scale.z,
-          scaleAmplitude: 0.018,
-          scaleFrequency: 2.1,
-        },
-        {
-          key: "tideFoam",
-          texture: null,
-          mesh: tideFoam,
-          baseY: tideFoam.position.y,
-          speedX: 0,
-          speedY: 0,
-          offsetX: 0,
-          offsetY: 0,
-          amplitude: 0.018,
-          frequency: 2.75,
-          phase: 1.42,
-          baseRotationZ: tideFoam.rotation.z,
-          rotationAmplitude: 0.02,
-          baseScaleX: tideFoam.scale.x,
-          baseScaleY: tideFoam.scale.y,
-          baseScaleZ: tideFoam.scale.z,
-          scaleAmplitude: 0.022,
-          scaleFrequency: 2.36,
-        },
-        {
-          key: "sand",
-          texture: beachTexture,
-          mesh: beach,
-          baseY: beach.position.y,
-          speedX: 0.024,
-          speedY: 0.035,
-          offsetX: 0.04,
-          offsetY: 0,
-          amplitude: 0.004,
-          frequency: 1.25,
-          phase: 1.7,
-          baseRotationZ: beach.rotation.z,
-          rotationAmplitude: 0.004,
-          baseScaleX: beach.scale.x,
-          baseScaleY: beach.scale.y,
-          baseScaleZ: beach.scale.z,
-          scaleAmplitude: 0.004,
-          scaleFrequency: 0.8,
-        },
-        {
-          key: "sandGust",
-          texture: sandGustTexture,
-          mesh: sandGust,
-          baseY: sandGust.position.y,
-          speedX: 0.18,
-          speedY: 0.026,
-          offsetX: 0.22,
           offsetY: 0,
           amplitude: 0.012,
-          frequency: 1.72,
-          phase: 2.15,
-          baseRotationZ: sandGust.rotation.z,
-          rotationAmplitude: 0.012,
-          baseScaleX: sandGust.scale.x,
-          baseScaleY: sandGust.scale.y,
-          baseScaleZ: sandGust.scale.z,
-          scaleAmplitude: 0.01,
-          scaleFrequency: 1.24,
-        }
-      );
-
-      [
-        {
-          points: [
-            [-3.56, 0.78],
-            [-1.88, 0.88],
-            [-1.56, 1.22],
-            [-2.3, 1.68],
-            [-3.62, 1.5],
-          ],
-          yTop: -1.02,
-          height: 0.2,
-          material: cliffFaceMaterial,
-        },
-        {
-          points: [
-            [-3.28, 0.42],
-            [-2.06, 0.5],
-            [-1.78, 0.78],
-            [-2.42, 1.02],
-            [-3.42, 0.92],
-          ],
-          yTop: -0.86,
-          height: 0.16,
-          material: cliffMaterial,
-        },
-        {
-          points: [
-            [0.08, -0.06],
-            [2.56, 0.02],
-            [2.82, 0.42],
-            [2.2, 0.78],
-            [0.18, 0.66],
-            [-0.08, 0.24],
-          ],
-          yTop: -0.62,
-          height: 0.22,
-          material: cliffMaterial,
-        },
-        {
-          points: [
-            [0.18, 0.58],
-            [2.38, 0.72],
-            [2.58, 1.1],
-            [1.84, 1.46],
-            [0.34, 1.24],
-          ],
-          yTop: -0.98,
-          height: 0.2,
-          material: cliffFaceMaterial,
-        },
-      ].forEach((terrace) => addIrregularSlab(outsideGroup, terrace.points, terrace.yTop, terrace.height, terrace.material));
-      [
-        { x: -3.06, y: -0.96, z: 1.1, sx: 0.42, sy: 0.18, sz: 0.12, ry: -0.34 },
-        { x: -2.52, y: -0.88, z: 0.7, sx: 0.32, sy: 0.14, sz: 0.1, ry: 0.28 },
-        { x: -1.92, y: -1.08, z: 1.34, sx: 0.38, sy: 0.1, sz: 0.13, ry: -0.18 },
-        { x: 2.36, y: -0.7, z: 0.62, sx: 0.42, sy: 0.28, sz: 0.13, ry: 0.22 },
-        { x: 2.12, y: -1.08, z: 1.18, sx: 0.36, sy: 0.12, sz: 0.16, ry: -0.2 },
-      ].forEach((rock) => {
-        const mesh = addBox(outsideGroup, { x: rock.sx, y: rock.sy, z: rock.sz }, rock, rock.y < -0.95 ? cliffFaceMaterial : cliffLineMaterial);
-        mesh.rotation.y = rock.ry;
-      });
-
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [0.82, 0.28],
-          [1.78, 0.32],
-          [1.94, 0.54],
-          [1.54, 0.72],
-          [0.92, 0.68],
-          [0.58, 0.48],
-        ],
-        -0.81,
-        0.12,
-        cliffMaterial
-      );
-      [
-        {
-          points: [
-            [0.52, 0.42],
-            [1.96, 0.48],
-            [2.08, 0.74],
-            [1.58, 0.96],
-            [0.72, 0.9],
-            [0.34, 0.62],
-          ],
-          yTop: -0.93,
-          height: 0.1,
-          material: cliffFaceMaterial,
-        },
-        {
-          points: [
-            [0.78, 0.62],
-            [1.72, 0.7],
-            [1.86, 0.92],
-            [1.38, 1.08],
-            [0.92, 0.98],
-            [0.58, 0.78],
-          ],
-          yTop: -1.08,
-          height: 0.08,
-          material: cliffMaterial,
-        },
-      ].forEach((terrace) => addIrregularSlab(outsideGroup, terrace.points, terrace.yTop, terrace.height, terrace.material));
-      [
-        {
-          points: [
-            [0.12, 0.06],
-            [2.18, 0.08],
-            [2.36, 0.34],
-            [1.96, 0.58],
-            [0.44, 0.54],
-            [0.08, 0.28],
-          ],
-          yTop: -0.66,
-          height: 0.09,
-          material: cliffMaterial,
-        },
-        {
-          points: [
-            [0.22, 0.98],
-            [1.88, 1.02],
-            [2.12, 1.26],
-            [1.58, 1.48],
-            [0.72, 1.36],
-            [0.16, 1.18],
-          ],
-          yTop: -1.18,
-          height: 0.1,
-          material: cliffFaceMaterial,
-        },
-        {
-          points: [
-            [1.76, 0.24],
-            [2.52, 0.32],
-            [2.64, 0.72],
-            [2.12, 0.9],
-            [1.82, 0.62],
-          ],
-          yTop: -0.9,
-          height: 0.18,
-          material: cliffFaceMaterial,
-        },
-      ].forEach((terrace) => addIrregularSlab(outsideGroup, terrace.points, terrace.yTop, terrace.height, terrace.material));
-      [
-        { x: 0.28, y: -0.82, z: 0.18, sx: 0.18, sy: 0.34, sz: 0.08, ry: -0.32 },
-        { x: 2.26, y: -0.86, z: 0.28, sx: 0.22, sy: 0.42, sz: 0.09, ry: 0.26 },
-        { x: 0.36, y: -1.15, z: 1.12, sx: 0.24, sy: 0.08, sz: 0.08, ry: -0.22 },
-        { x: 2.0, y: -1.18, z: 1.3, sx: 0.3, sy: 0.09, sz: 0.1, ry: 0.18 },
-      ].forEach((facet) => {
-        const mesh = addBox(outsideGroup, { x: facet.sx, y: facet.sy, z: facet.sz }, facet, cliffLineMaterial);
-        mesh.rotation.y = facet.ry;
-      });
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [0.12, 0.2],
-          [2.08, 0.24],
-          [2.34, 0.58],
-          [1.72, 0.9],
-          [0.46, 0.78],
-          [-0.04, 0.44],
-        ],
-        -0.58,
-        0.48,
-        caveFaceMaterial
-      );
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [0.26, 0.78],
-          [1.82, 0.84],
-          [2.08, 1.12],
-          [1.42, 1.36],
-          [0.44, 1.2],
-        ],
-        -1.04,
-        0.16,
-        cliffFaceMaterial
-      );
-      const carvedWindow = sceneAnchors.outside.windowWorld;
-      addIrregularSlab(
-        outsideGroup,
-        [
-          [carvedWindow.x - 1.72, carvedWindow.z - 0.48],
-          [carvedWindow.x + 1.66, carvedWindow.z - 0.44],
-          [carvedWindow.x + 1.94, carvedWindow.z + 0.08],
-          [carvedWindow.x + 1.32, carvedWindow.z + 0.72],
-          [carvedWindow.x - 1.08, carvedWindow.z + 0.78],
-          [carvedWindow.x - 1.9, carvedWindow.z + 0.24],
-        ],
-        carvedWindow.y - carvedWindow.height / 2 - 0.14,
-        0.3,
-        cliffFaceMaterial
-      );
-      const openingLeft = carvedWindow.x - carvedWindow.width / 2 - 0.14;
-      const openingRight = carvedWindow.x + carvedWindow.width / 2 + 0.14;
-      const openingBottom = carvedWindow.y - carvedWindow.height / 2 - 0.08;
-      const openingTop = carvedWindow.y + carvedWindow.height / 2 + 0.08;
-      const cliffDepth = 2.6;
-      const cliffFaceZ = carvedWindow.z + 0.12 - cliffDepth / 2;
-      addExtrudedFace(
-        outsideGroup,
-        [
-          [carvedWindow.x - 3.12, openingBottom - 0.48],
-          [openingLeft, openingBottom - 0.2],
-          [openingLeft, openingTop - 0.24],
-          [openingLeft - 0.28, openingTop + 0.22],
-          [carvedWindow.x - 1.36, openingTop + 1.08],
-          [carvedWindow.x - 2.5, openingTop + 0.76],
-          [carvedWindow.x - 3.24, openingTop - 0.16],
-        ],
-        cliffDepth,
-        cliffFaceZ,
-        caveFaceMaterial,
-        { bevel: 0.06, segments: 3 }
-      );
-      addExtrudedFace(
-        outsideGroup,
-        [
-          [openingRight, openingBottom - 0.2],
-          [carvedWindow.x + 2.46, openingBottom - 0.5],
-          [carvedWindow.x + 2.72, openingTop - 0.08],
-          [carvedWindow.x + 2.08, openingTop + 0.72],
-          [openingRight + 0.3, openingTop + 0.2],
-          [openingRight, openingTop - 0.24],
-        ],
-        cliffDepth,
-        cliffFaceZ,
-        cliffMaterial,
-        { bevel: 0.055, segments: 3 }
-      );
-      addExtrudedFace(
-        outsideGroup,
-        [
-          [carvedWindow.x - 1.56, openingTop + 0.38],
-          [carvedWindow.x - 0.86, openingTop + 1.18],
-          [carvedWindow.x + 0.3, openingTop + 1.34],
-          [carvedWindow.x + 1.48, openingTop + 0.78],
-          [carvedWindow.x + 1.74, openingTop + 0.26],
-          [openingRight, openingTop - 0.24],
-          [openingRight - 0.22, openingTop + 0.1],
-          [carvedWindow.x + 0.44, openingTop + 0.3],
-          [carvedWindow.x, openingTop + 0.38],
-          [carvedWindow.x - 0.44, openingTop + 0.3],
-          [openingLeft + 0.22, openingTop + 0.1],
-          [openingLeft, openingTop - 0.24],
-        ],
-        cliffDepth,
-        cliffFaceZ,
-        caveFaceMaterial,
-        { bevel: 0.06, segments: 3 }
-      );
-
-      const house = new THREE.Group();
-      const outsideHouse = sceneAnchors.outside.house;
-      const outsideWindow = sceneAnchors.outside.window;
-      const miniLandmark = (point) => {
-        const projected = projectRoomPointOutside(point);
-        return {
-          x: (projected.x - outsideWindow.x) * 0.62,
-          y: (projected.y - outsideWindow.y) * 0.55,
-          z: -(projected.z - outsideWindow.z) * 0.4,
-        };
+          frequency: 0.82,
+          phase,
+          baseRotationZ: line.rotation.z,
+          rotationAmplitude: 0,
+          baseScaleX: line.scale.x,
+          baseScaleY: line.scale.y,
+          baseScaleZ: line.scale.z,
+          scaleAmplitude: 0.012,
+          scaleFrequency: 0.7,
+          baseOpacity: opacity,
+          opacityAmplitude: 0.055,
+          opacityFrequency: 0.64,
+          darkOpacity: opacities.dark,
+          lightOpacity: opacities.light,
+        });
+        return line;
       };
-      house.position.set(outsideHouse.x, outsideHouse.y, outsideHouse.z);
-      house.scale.setScalar(outsideHouse.scale);
-      outsideGroup.add(house);
-      const caveWindowBottom = outsideWindow.y - outsideWindow.height / 2 - 0.05;
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width + 0.22, y: 0.07, z: 0.86 },
-        { x: outsideWindow.x, y: caveWindowBottom - 0.08, z: 0.08 },
-        roomFloorMaterial,
-        { bevel: 0.014 }
+      const primaryFoam = addFoamLine(shorelinePoints, 0.026, { dark: 0.46, light: 0.62 }, 0.2);
+      addFoamLine(
+        shorelinePoints.map(([x, z], index) => [x + (index % 2 ? 0.04 : -0.02), z - 0.18 - Math.sin(index * 0.8) * 0.04]),
+        0.012,
+        { dark: 0.24, light: 0.32 },
+        1.1
       );
-      addBox(
-        house,
-        { x: outsideWindow.width + 0.12, y: outsideWindow.height + 0.08, z: 0.035 },
-        { x: outsideWindow.x, y: outsideWindow.y, z: -0.31 },
-        roomWallMaterial
-      );
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width - 0.04, y: outsideWindow.height + 0.04, z: 0.04 },
-        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z - 0.76 },
-        new THREE.MeshStandardMaterial({ color: 0x172225, roughness: 0.65 }),
-        { bevel: 0.008 }
-      );
-      addBox(
-        house,
-        { x: outsideWindow.width - 0.1, y: outsideWindow.height - 0.02, z: 0.018 },
-        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z - 0.042 },
-        interiorMaterial
-      );
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width, y: 0.045, z: 0.058 },
-        { x: outsideWindow.x, y: outsideWindow.y + outsideWindow.height / 2 + 0.02, z: outsideWindow.z - 0.024 },
-        trimMaterial,
-        { bevel: 0.008 }
-      );
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width, y: 0.045, z: 0.058 },
-        { x: outsideWindow.x, y: outsideWindow.y - outsideWindow.height / 2 - 0.02, z: outsideWindow.z - 0.024 },
-        trimMaterial,
-        { bevel: 0.008 }
-      );
-      addBeveledBox(
-        house,
-        { x: 0.048, y: outsideWindow.height, z: 0.058 },
-        { x: outsideWindow.x - outsideWindow.width / 2 - 0.02, y: outsideWindow.y, z: outsideWindow.z - 0.024 },
-        trimMaterial,
-        {
-          bevel: 0.008,
-        }
-      );
-      addBeveledBox(
-        house,
-        { x: 0.048, y: outsideWindow.height, z: 0.058 },
-        { x: outsideWindow.x + outsideWindow.width / 2 + 0.02, y: outsideWindow.y, z: outsideWindow.z - 0.024 },
-        trimMaterial,
-        {
-          bevel: 0.008,
-        }
-      );
-      addBox(
-        house,
-        { x: outsideWindow.width - 0.14, y: outsideWindow.height - 0.08, z: 0.014 },
-        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z + 0.004 },
-        glassMaterial
-      );
-      addBox(
-        house,
-        { x: 0.044, y: outsideWindow.height - 0.12, z: 0.054 },
-        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z + 0.014 },
-        trimMaterial
-      );
-      addBox(
-        house,
-        { x: outsideWindow.width - 0.18, y: 0.034, z: 0.054 },
-        { x: outsideWindow.x, y: outsideWindow.y, z: outsideWindow.z + 0.018 },
-        trimMaterial
-      );
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width, y: 0.042, z: 0.1 },
-        { x: outsideWindow.x, y: outsideWindow.y - outsideWindow.height / 2 - 0.09, z: outsideWindow.z + 0.028 },
-        trimMaterial,
-        {
-          bevel: 0.009,
-        }
-      );
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width - 0.34, y: 0.03, z: 0.1 },
-        { x: outsideWindow.x, y: outsideWindow.y - outsideWindow.height / 2 + 0.03, z: outsideWindow.z + 0.118 },
-        roofShadowMaterial,
-        {
-          bevel: 0.008,
-        }
-      );
-      const interiorGlow = new THREE.Mesh(new THREE.PlaneGeometry(outsideWindow.width - 0.14, outsideWindow.height - 0.08), interiorGlowMaterial);
-      interiorGlow.position.set(outsideWindow.x, outsideWindow.y, outsideWindow.z + 0.028);
-      house.add(interiorGlow);
-      [
-        { x: -0.54, h: 0.46 },
-        { x: 0.42, h: 0.42 },
-      ].forEach((curtain) =>
-        addBox(house, { x: 0.055, y: curtain.h, z: 0.018 }, { x: curtain.x, y: outsideWindow.y, z: outsideWindow.z + 0.045 }, curtainMaterial)
-      );
-      addBeveledBox(
-        house,
-        { x: outsideWindow.width + 0.18, y: 0.07, z: 0.28 },
-        { x: outsideWindow.x, y: caveWindowBottom - 0.1, z: outsideWindow.z + 0.16 },
-        cliffLineMaterial,
-        { bevel: 0.012 }
-      );
+      compositionObjects.coast.shoreline = primaryFoam;
 
-      const room = new THREE.Group();
-      room.position.set(outsideWindow.x, outsideWindow.y, outsideWindow.z - 0.2);
-      room.scale.setScalar(1.24);
-      house.add(room);
-      const miniRoomWidth = (roomBlueprint.bounds.maxX - roomBlueprint.bounds.minX) * outsideRoomProjection.scale * 0.62;
-      const miniRoomDepth = Math.min(1.12, (roomBlueprint.bounds.rearZ - roomBlueprint.bounds.frontZ) * outsideRoomProjection.scale * 0.4);
-      const miniFloor = miniLandmark({ x: roomBlueprint.window.x, y: roomBlueprint.floorY, z: roomBlueprint.window.z });
-      [
-        { x: -miniRoomWidth / 2, y: -0.04, z: -miniRoomDepth / 2, sx: 0.045, sy: 0.58, sz: miniRoomDepth, ry: -0.08 },
-        { x: miniRoomWidth / 2, y: -0.04, z: -miniRoomDepth / 2, sx: 0.04, sy: 0.54, sz: miniRoomDepth, ry: 0.08 },
-        { x: 0, y: 0.22, z: -miniRoomDepth, sx: miniRoomWidth, sy: 0.05, sz: 0.08, ry: 0 },
-      ].forEach((rib) => {
-        const mesh = addBox(room, { x: rib.sx, y: rib.sy, z: rib.sz }, rib, roomWallMaterial);
-        mesh.rotation.y = rib.ry;
+      const cliffMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x756d63 : 0xc8b8a5,
+        roughness: 0.97,
+        metalness: 0,
       });
-      addBox(room, { x: miniRoomWidth, y: 0.035, z: miniRoomDepth }, { x: 0, y: miniFloor.y, z: -miniRoomDepth / 2 }, roomFloorMaterial);
-      const miniOnsen = new THREE.Group();
-      const miniOnsenAnchor = miniLandmark(roomBlueprint.onsen);
-      miniOnsen.position.set(miniOnsenAnchor.x + 0.04, miniOnsenAnchor.y + 0.015, miniOnsenAnchor.z + 0.14);
-      miniOnsen.rotation.y = 0.14;
-      miniOnsen.scale.set(0.82, 0.84, 0.82);
-      room.add(miniOnsen);
-      addBeveledBox(miniOnsen, { x: 0.9, y: 0.06, z: 0.58 }, { x: 0, y: 0, z: 0 }, trimMaterial, { bevel: 0.006 });
-      const miniPoolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.42, 0.18, 48, 1, true), cliffLineMaterial);
-      miniPoolWall.scale.set(1.18, 1, 0.78);
-      miniPoolWall.position.set(0, 0.12, 0);
-      miniOnsen.add(miniPoolWall);
-      const miniWater = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.32, 0.018, 48), outsideWaterMaterial);
-      miniWater.scale.set(1.18, 1, 0.78);
-      miniWater.position.set(0, 0.21, 0);
-      miniOnsen.add(miniWater);
-      for (let index = 0; index < 10; index += 1) {
-        const angle = (index / 10) * Math.PI * 2;
-        const block = addBox(
-          miniOnsen,
-          { x: 0.08, y: 0.04, z: 0.05 },
-          { x: Math.cos(angle) * 0.45, y: 0.21, z: Math.sin(angle) * 0.28 },
-          index % 2 ? cliffLineMaterial : trimMaterial
+      const cliffFaceMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x655e55 : 0xb7a895,
+        roughness: 0.98,
+        metalness: 0,
+      });
+      cliffMaterial.userData.useProceduralTexture = false;
+      cliffFaceMaterial.userData.useProceduralTexture = false;
+      themeMaterials.outsideCliff = cliffMaterial;
+      themeMaterials.outsideCliffFace = cliffFaceMaterial;
+      themeMaterials.outsideCaveFace = cliffFaceMaterial;
+      themeMaterials.outsideCliffLine = cliffFaceMaterial;
+
+      const cliffMass = new THREE.Group();
+      outsideGroup.add(cliffMass);
+      const cliffOutlinePoints = [
+        [-4.22, -2.04],
+        [-4.48, -0.78],
+        [-4.2, 0.86],
+        [-3.62, 2.1],
+        [-2.58, 2.66],
+        [-1.58, 2.44],
+        [-0.82, 2.98],
+        [0.18, 2.68],
+        [1.18, 3.18],
+        [2.12, 2.78],
+        [3.04, 2.94],
+        [3.86, 2.08],
+        [4.42, 0.88],
+        [4.58, -0.62],
+        [4.36, -2.02],
+      ];
+      const facadeShape = new THREE.Shape();
+      cliffOutlinePoints.forEach(([x, y], index) => {
+        if (index === 0) facadeShape.moveTo(x, y);
+        else facadeShape.lineTo(x, y);
+      });
+      facadeShape.closePath();
+      const openingLeft = roomBlueprint.window.x - roomBlueprint.window.width / 2 - 0.2;
+      const openingRight = roomBlueprint.window.x + roomBlueprint.window.width / 2 + 0.2;
+      const openingBottom = roomBlueprint.window.y - roomBlueprint.window.height / 2 - 0.18;
+      const openingTop = roomBlueprint.window.y + roomBlueprint.window.height / 2 + 0.18;
+      const openingRadius = 0.14;
+      const opening = new THREE.Path();
+      opening.moveTo(openingLeft + openingRadius, openingBottom);
+      opening.lineTo(openingRight - openingRadius, openingBottom);
+      opening.quadraticCurveTo(openingRight, openingBottom, openingRight, openingBottom + openingRadius);
+      opening.lineTo(openingRight, openingTop - openingRadius);
+      opening.quadraticCurveTo(openingRight, openingTop, openingRight - openingRadius, openingTop);
+      opening.lineTo(openingLeft + openingRadius, openingTop);
+      opening.quadraticCurveTo(openingLeft, openingTop, openingLeft, openingTop - openingRadius);
+      opening.lineTo(openingLeft, openingBottom + openingRadius);
+      opening.quadraticCurveTo(openingLeft, openingBottom, openingLeft + openingRadius, openingBottom);
+      facadeShape.holes.push(opening);
+      const facadeDepth = 3.5;
+      const facadeGeometry = new THREE.ExtrudeGeometry(facadeShape, {
+        depth: facadeDepth,
+        bevelEnabled: true,
+        bevelThickness: 0.1,
+        bevelSize: 0.1,
+        bevelSegments: 4,
+        curveSegments: 24,
+      });
+      facadeGeometry.translate(0, 0, -facadeDepth / 2);
+      facadeGeometry.computeVertexNormals();
+      const cliffFacade = new THREE.Mesh(facadeGeometry, [cliffMaterial, cliffFaceMaterial]);
+      cliffFacade.position.z = -0.02;
+      cliffMass.add(cliffFacade);
+
+      const cliffLightMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x7c7368 : 0xc8baa8,
+        roughness: 0.98,
+        metalness: 0,
+      });
+      const cliffShadeMaterial = new THREE.MeshStandardMaterial({
+        color: palette.isDarkTheme ? 0x6d655c : 0xb8aa98,
+        roughness: 0.98,
+        metalness: 0,
+      });
+      themeMaterials.outsideCliffLight = cliffLightMaterial;
+      themeMaterials.outsideCliffShade = cliffShadeMaterial;
+      [
+        {
+          points: [
+            [-4.14, 1.28],
+            [-3.56, 2.16],
+            [-2.58, 2.42],
+            [openingLeft - 0.16, 1.64],
+            [openingLeft - 0.16, 0.56],
+            [-2.68, 0.72],
+          ],
+          material: cliffLightMaterial,
+        },
+        {
+          points: [
+            [-4.26, -1.88],
+            [openingLeft - 0.16, -1.78],
+            [openingLeft - 0.16, -0.28],
+            [-2.74, -0.48],
+            [-3.86, -0.26],
+          ],
+          material: cliffShadeMaterial,
+        },
+        {
+          points: [
+            [openingRight + 0.16, 1.66],
+            [2.24, 2.72],
+            [3.26, 2.18],
+            [4.34, 1.58],
+            [3.7, 0.7],
+            [openingRight + 0.16, 0.48],
+          ],
+          material: cliffLightMaterial,
+        },
+        {
+          points: [
+            [openingRight + 0.16, -0.22],
+            [4.44, -0.7],
+            [4.22, -1.88],
+            [openingRight + 0.16, -1.78],
+          ],
+          material: cliffShadeMaterial,
+        },
+      ].forEach((facet) => addExtrudedFace(cliffMass, facet.points, 0.09, -1.86, facet.material, { bevel: 0.016, segments: 2 }));
+
+      const leftCliffFlank = addRoundedBox(cliffMass, { x: 0.88, y: 4.12, z: 3.84 }, { x: -3.72, y: 0.02, z: 3.46 }, cliffFaceMaterial, {
+        radius: 0.42,
+        bevel: 0.08,
+        segments: 4,
+      });
+      leftCliffFlank.rotation.y = -0.035;
+      const rightCliffFlank = addRoundedBox(cliffMass, { x: 0.9, y: 4.06, z: 3.78 }, { x: 4.28, y: 0.02, z: 3.48 }, cliffFaceMaterial, {
+        radius: 0.42,
+        bevel: 0.08,
+        segments: 4,
+      });
+      rightCliffFlank.rotation.y = 0.035;
+      const rearShape = new THREE.Shape();
+      cliffOutlinePoints.forEach(([x, y], index) => {
+        if (index === 0) rearShape.moveTo(x, y);
+        else rearShape.lineTo(x, y);
+      });
+      rearShape.closePath();
+      const rearDepth = 1.18;
+      const rearGeometry = new THREE.ExtrudeGeometry(rearShape, {
+        depth: rearDepth,
+        bevelEnabled: true,
+        bevelThickness: 0.09,
+        bevelSize: 0.09,
+        bevelSegments: 4,
+        curveSegments: 16,
+      });
+      rearGeometry.translate(0, 0, -rearDepth / 2);
+      rearGeometry.computeVertexNormals();
+      const rearCliffCap = new THREE.Mesh(rearGeometry, [cliffMaterial, cliffFaceMaterial]);
+      rearCliffCap.position.set(0.18, 0, 5.42);
+      rearCliffCap.rotation.y = 0.018;
+      cliffMass.add(rearCliffCap);
+      compositionObjects.coast.cliff = cliffFacade;
+
+      const rockShelf = addIrregularSlab(
+        outsideGroup,
+        [
+          [-3.55, -1.38],
+          [-1.8, -1.24],
+          [0.14, -1.3],
+          [2.04, -1.22],
+          [4.05, -1.42],
+          [4.24, -2.28],
+          [2.82, -2.72],
+          [0.72, -2.5],
+          [-1.22, -2.82],
+          [-3.38, -2.42],
+        ],
+        -1.34,
+        0.44,
+        cliffFaceMaterial
+      );
+      compositionObjects.coast.cliffFoot = rockShelf;
+      [
+        { x: -1.48, z: -2.72, sx: 1.1, sz: 0.58, ry: -0.12 },
+        { x: -0.32, z: -2.82, sx: 0.92, sz: 0.46, ry: 0.08 },
+        { x: 0.76, z: -2.7, sx: 0.8, sz: 0.42, ry: -0.04 },
+      ].forEach((step, index) => {
+        const stone = addRoundedBox(
+          outsideGroup,
+          { x: step.sx, y: 0.12, z: step.sz },
+          { x: step.x, y: -1.44 - index * 0.045, z: step.z - index * 0.16 },
+          cliffMaterial,
+          { radius: 0.08, bevel: 0.018, segments: 2 }
         );
-        block.rotation.y = -angle;
-      }
-      const miniLizard = new THREE.Group();
-      miniLizard.position.set(-0.08, 0.24, -0.02);
-      miniLizard.rotation.y = -0.36;
-      miniOnsen.add(miniLizard);
-      const miniBody = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 12), outsideLizardMaterial);
-      miniBody.scale.set(1.34, 0.38, 0.84);
-      miniLizard.add(miniBody);
-      const miniHead = new THREE.Mesh(new THREE.SphereGeometry(0.062, 18, 12), outsideLizardMaterial);
-      miniHead.scale.set(1.1, 0.92, 0.9);
-      miniHead.position.set(-0.14, 0.055, -0.04);
-      miniLizard.add(miniHead);
-      const miniSnout = new THREE.Mesh(new THREE.SphereGeometry(0.038, 14, 10), outsideLizardBellyMaterial);
-      miniSnout.scale.set(1.2, 0.6, 0.86);
-      miniSnout.position.set(-0.19, 0.048, -0.045);
-      miniLizard.add(miniSnout);
-      [-0.16, -0.22].forEach((x) => {
-        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 8), hairMaterial);
-        eye.position.set(x, 0.08, -0.09 + (x + 0.19) * 0.28);
-        miniLizard.add(eye);
+        stone.rotation.y = step.ry;
       });
-      addBox(miniOnsen, { x: 0.36, y: 0.02, z: 0.14 }, { x: 0.28, y: 0.29, z: -0.1 }, roofMaterial);
-      addBox(
-        miniOnsen,
-        { x: 0.2, y: 0.012, z: 0.12 },
-        { x: 0.22, y: 0.315, z: -0.1 },
-        new THREE.MeshStandardMaterial({ color: 0x1a1f22, roughness: 0.42, metalness: 0.2 })
-      );
-      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.13), screenMaterial);
-      laptopScreen.position.set(0.22, 0.39, -0.16);
-      laptopScreen.rotation.set(-0.46, -0.08, 0);
-      miniOnsen.add(laptopScreen);
-      const lampGlow = new THREE.Mesh(new THREE.SphereGeometry(0.044, 24, 14), lampMaterial);
-      lampGlow.scale.set(1, 0.62, 1);
-      lampGlow.position.set(-0.46, -0.02, 0.2);
-      room.add(lampGlow);
-      addBox(room, { x: 0.018, y: 0.08, z: 0.018 }, { x: -0.46, y: -0.08, z: 0.2 }, trimMaterial);
-      const miniPaperMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xfff3de : 0xfffbf2, roughness: 0.68 });
-
-      const miniAlbumShelf = new THREE.Group();
-      const miniRackAnchor = miniLandmark(roomBlueprint.rack);
-      miniAlbumShelf.position.set(miniRackAnchor.x, miniRackAnchor.y, miniRackAnchor.z);
-      miniAlbumShelf.rotation.y = 0.16;
-      room.add(miniAlbumShelf);
-      addBeveledBox(miniAlbumShelf, { x: 0.62, y: 0.34, z: 0.035 }, { x: 0, y: 0.02, z: -0.035 }, roomWallMaterial, { bevel: 0.004 });
-      addBox(miniAlbumShelf, { x: 0.66, y: 0.025, z: 0.09 }, { x: 0, y: -0.18, z: 0.015 }, trimMaterial);
-      records.slice(0, 4).forEach((recordItem, index) => {
-        const sleeveGroup = new THREE.Group();
-        sleeveGroup.position.set(-0.225 + index * 0.15, 0.02 + (index % 2) * 0.006, 0.02 + index * 0.004);
-        sleeveGroup.rotation.set(-0.015, -0.04 + index * 0.018, -0.035 + index * 0.022);
-        miniAlbumShelf.add(sleeveGroup);
-        addBeveledBox(sleeveGroup, { x: 0.13, y: 0.18, z: 0.016 }, { x: 0, y: 0, z: -0.006 }, miniPaperMaterial, { bevel: 0.003 });
-        const sleeveMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.58, side: THREE.DoubleSide });
-        const sleeve = new THREE.Mesh(new THREE.PlaneGeometry(0.118, 0.168), sleeveMaterial);
-        sleeve.position.set(0, 0, 0.006);
-        sleeveGroup.add(sleeve);
-        loadTexture(recordItem.cover || recordItem.src, sleeveMaterial);
-      });
-
-      const miniLounge = new THREE.Group();
-      const miniLoungeAnchor = miniLandmark(roomBlueprint.chair);
-      miniLounge.position.set(miniLoungeAnchor.x, miniLoungeAnchor.y, miniLoungeAnchor.z);
-      miniLounge.rotation.y = -0.48;
-      miniLounge.scale.setScalar(0.54);
-      room.add(miniLounge);
-      addBox(miniLounge, { x: 0.62, y: 0.045, z: 0.05 }, { x: 0, y: 0, z: 0 }, roofShadowMaterial).rotation.y = 0.22;
-      addBox(miniLounge, { x: 0.05, y: 0.28, z: 0.05 }, { x: 0, y: 0.13, z: 0 }, roofShadowMaterial);
-      const miniSeatShell = new THREE.Mesh(new THREE.SphereGeometry(0.32, 24, 16), roofMaterial);
-      miniSeatShell.scale.set(1.18, 0.28, 0.92);
-      miniSeatShell.position.set(0, 0.31, 0.04);
-      miniLounge.add(miniSeatShell);
-      const miniSeat = new THREE.Mesh(new THREE.SphereGeometry(0.29, 24, 16), bedMaterial);
-      miniSeat.scale.set(1.08, 0.22, 0.82);
-      miniSeat.position.set(0, 0.36, 0.07);
-      miniLounge.add(miniSeat);
-      const miniBackShell = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 16), roofMaterial);
-      miniBackShell.scale.set(1.08, 0.34, 0.44);
-      miniBackShell.rotation.x = -0.5;
-      miniBackShell.position.set(-0.02, 0.58, -0.2);
-      miniLounge.add(miniBackShell);
-      const miniBack = new THREE.Mesh(new THREE.SphereGeometry(0.3, 24, 16), bedMaterial);
-      miniBack.scale.set(1, 0.28, 0.36);
-      miniBack.rotation.x = -0.5;
-      miniBack.position.set(-0.02, 0.6, -0.15);
-      miniLounge.add(miniBack);
-      const miniOttoman = new THREE.Group();
-      miniOttoman.position.set(0.52, 0.02, 0.38);
-      miniLounge.add(miniOttoman);
-      addBox(miniOttoman, { x: 0.44, y: 0.035, z: 0.045 }, { x: 0, y: 0, z: 0 }, roofShadowMaterial).rotation.y = -0.18;
-      const miniOttomanCushion = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 14), bedMaterial);
-      miniOttomanCushion.scale.set(1.12, 0.26, 0.78);
-      miniOttomanCushion.position.set(0, 0.16, 0);
-      miniOttoman.add(miniOttomanCushion);
-
-      const roomDesk = new THREE.Group();
-      const miniDeskAnchor = miniLandmark(roomBlueprint.desk);
-      roomDesk.position.set(miniDeskAnchor.x, miniDeskAnchor.y, miniDeskAnchor.z);
-      roomDesk.rotation.y = -0.46;
-      roomDesk.scale.setScalar(1.04);
-      room.add(roomDesk);
-      const miniVinylMaterial = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.54, metalness: 0.04 });
-      const miniAccentMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0xe4b780 : 0xa96b3d, roughness: 0.52 });
-      addBox(roomDesk, { x: 0.72, y: 0.045, z: 0.36 }, { x: 0, y: -0.035, z: 0.0 }, roofMaterial);
-      [
-        [-0.3, -0.13],
-        [0.3, -0.13],
-        [-0.3, 0.13],
-        [0.3, 0.13],
-      ].forEach(([x, z]) => addBox(roomDesk, { x: 0.035, y: 0.28, z: 0.035 }, { x, y: -0.18, z }, trimMaterial));
-      addBox(roomDesk, { x: 0.28, y: 0.028, z: 0.2 }, { x: -0.2, y: 0.006, z: -0.02 }, trimMaterial);
-      const miniRecord = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.018, 48), miniVinylMaterial);
-      miniRecord.position.set(-0.22, 0.04, -0.02);
-      roomDesk.add(miniRecord);
-      const miniLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.021, 32), miniPaperMaterial);
-      miniLabel.position.set(-0.22, 0.054, -0.02);
-      roomDesk.add(miniLabel);
-      addBox(roomDesk, { x: 0.2, y: 0.012, z: 0.09 }, { x: 0.12, y: 0.035, z: -0.08 }, miniPaperMaterial);
-      addBox(roomDesk, { x: 0.2, y: 0.012, z: 0.09 }, { x: 0.18, y: 0.039, z: 0.05 }, miniPaperMaterial);
-      const miniCup = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.047, 0.11, 32), bedMaterial);
-      miniCup.position.set(0.31, 0.072, 0.08);
-      roomDesk.add(miniCup);
-      addBox(roomDesk, { x: 0.04, y: 0.012, z: 0.16 }, { x: 0.29, y: 0.07, z: -0.08 }, miniAccentMaterial);
 
       returnInsideGroup = new THREE.Group();
-      returnInsideGroup.position.set(outsideWindow.x, outsideWindow.y, outsideWindow.z + 0.07);
-      house.add(returnInsideGroup);
+      returnInsideGroup.position.set(roomBlueprint.window.x, roomBlueprint.window.y, roomBlueprint.window.z - 0.39);
+      outsideGroup.add(returnInsideGroup);
       const returnGlow = new THREE.Mesh(
-        new THREE.PlaneGeometry(outsideWindow.width * 0.92, outsideWindow.height * 0.72),
+        new THREE.PlaneGeometry(roomBlueprint.window.width * 0.94, roomBlueprint.window.height * 0.88),
         new THREE.MeshBasicMaterial({
-          color: palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca,
+          color: palette.isDarkTheme ? 0xffd7a6 : 0xfff0cf,
           transparent: true,
-          opacity: palette.isDarkTheme ? 0.09 : 0.07,
+          opacity: palette.isDarkTheme ? 0.055 : 0.038,
           depthWrite: false,
-          depthTest: false,
+          depthTest: true,
           side: THREE.DoubleSide,
           blending: THREE.AdditiveBlending,
         })
       );
       themeMaterials.outsideReturnGlow = returnGlow.material;
-      returnGlow.renderOrder = 3;
-      returnGlow.position.set(-0.06, 0.0, 0.018);
+      returnGlow.renderOrder = 5;
       returnInsideGroup.add(returnGlow);
-      outsideMotionItems.push({
-        key: "returnGlow",
-        mesh: returnGlow,
-        material: returnGlow.material,
-        baseY: returnGlow.position.y,
-        speedX: 0,
-        speedY: 0,
-        offsetX: 0,
-        offsetY: 0,
-        amplitude: 0.004,
-        frequency: 1.55,
-        phase: 0.65,
-        baseRotationZ: returnGlow.rotation.z,
-        rotationAmplitude: 0.004,
-        baseScaleX: returnGlow.scale.x,
-        baseScaleY: returnGlow.scale.y,
-        baseScaleZ: returnGlow.scale.z,
-        scaleAmplitude: 0.034,
-        scaleFrequency: 1.18,
-        baseOpacity: returnGlow.material.opacity,
-        opacityAmplitude: 0.045,
-        opacityFrequency: 1.36,
-      });
       const returnHit = new THREE.Mesh(
-        new THREE.PlaneGeometry(outsideWindow.width * 1.12, outsideWindow.height * 1.08),
+        new THREE.PlaneGeometry(roomBlueprint.window.width * 1.04, roomBlueprint.window.height * 1.02),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
       );
-      returnHit.position.z = 0.01;
+      returnHit.position.z = -0.015;
       returnInsideGroup.add(returnHit);
       returnHitObject = returnHit;
+      compositionObjects.coast.window = returnHit;
       const returnEntry = {
         kind: "returnInside",
         group: returnInsideGroup,
@@ -5105,15 +4511,23 @@
       themeMaterials.stain = stainMaterial;
 
       addWindow(palette);
-      addOutsideVignette(palette);
+      addUnifiedOutsideVignette(palette);
 
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(5.88, 8.72), floorMaterial);
+      const roomFloorDepth = rearRoomWallZ - roomBlueprint.bounds.frontZ - 0.06;
+      const roomFloorCenterZ = (rearRoomWallZ + roomBlueprint.bounds.frontZ) / 2;
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(5.88, roomFloorDepth), floorMaterial);
       floor.rotation.x = -Math.PI / 2;
-      floor.position.set(0, roomFloorY, 1.58);
+      floor.position.set(0, roomFloorY, roomFloorCenterZ);
       rootGroup.add(floor);
-      const floorSlab = addBeveledBox(rootGroup, { x: 5.94, y: 0.16, z: 8.76 }, { x: 0, y: roomFloorY - 0.09, z: 1.58 }, woodEdgeMaterial, {
-        bevel: 0.035,
-      });
+      const floorSlab = addBeveledBox(
+        rootGroup,
+        { x: 5.94, y: 0.16, z: roomFloorDepth + 0.08 },
+        { x: 0, y: roomFloorY - 0.09, z: roomFloorCenterZ },
+        woodEdgeMaterial,
+        {
+          bevel: 0.035,
+        }
+      );
       floorSlab.rotation.y = -0.012;
 
       const roomWallHeight = roomCeilingY - roomFloorY + 0.12;
@@ -5136,28 +4550,22 @@
       );
       leftSideWall.rotation.y = 0.012;
       rightSideWall.rotation.y = -0.012;
+      [leftSideWall, rightSideWall].forEach((wallMesh) =>
+        registerOrbitCutaway(wallMesh, {
+          cloneMaterial: false,
+          baseOpacity: 1,
+          occludedOpacity: 0.045,
+          hideBelow: 0.06,
+          yawStart: 0.46,
+          yawEnd: Math.PI * 2 - 0.46,
+        })
+      );
+      themeMaterials.roomSideWalls = [leftSideWall.material, rightSideWall.material];
       [roomBlueprint.bounds.minX + 0.08, roomBlueprint.bounds.maxX - 0.08].forEach((x) => {
         addBeveledBox(rootGroup, { x: 0.08, y: 0.11, z: roomSideDepth - 0.18 }, { x, y: roomFloorY + 0.08, z: roomSideCenterZ }, woodEdgeMaterial, {
           bevel: 0.012,
         });
       });
-      [
-        { x: roomBlueprint.bounds.minX + 0.09, z: 2.42 },
-        { x: roomBlueprint.bounds.maxX - 0.09, z: 3.62 },
-      ].forEach((panel) => {
-        addBeveledBox(rootGroup, { x: 0.035, y: 1.08, z: 1.08 }, { x: panel.x - Math.sign(panel.x) * 0.025, y: 0.1, z: panel.z }, stoneMaterial, {
-          bevel: 0.01,
-        });
-        [-0.58, 0.58].forEach((y) =>
-          addBeveledBox(rootGroup, { x: 0.055, y: 0.045, z: 1.18 }, { x: panel.x, y: 0.1 + y, z: panel.z }, stoneEdgeMaterial, {
-            bevel: 0.008,
-          })
-        );
-        [-0.57, 0.57].forEach((zOffset) =>
-          addBeveledBox(rootGroup, { x: 0.055, y: 1.2, z: 0.045 }, { x: panel.x, y: 0.1, z: panel.z + zOffset }, stoneEdgeMaterial, { bevel: 0.008 })
-        );
-      });
-
       const shellRibMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0xcdb79a : 0xc8b59f,
         transparent: true,
@@ -5439,23 +4847,6 @@
         }
       );
 
-      const capyWallMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0xcab69a : 0xddc7ad,
-        transparent: true,
-        opacity: palette.isDarkTheme ? 0.7 : 0.62,
-        roughness: 0.9,
-        metalness: 0.01,
-      });
-      const capyWall = addBeveledBox(rootGroup, { x: 0.12, y: 1.58, z: 1.52 }, { x: 2.76, y: 0.08, z: 0.56 }, capyWallMaterial, {
-        bevel: 0.016,
-      });
-      registerOrbitCutaway(capyWall, {
-        cloneMaterial: false,
-        baseOpacity: capyWallMaterial.opacity,
-        occludedOpacity: 0.08,
-        yawStart: 0.08,
-        yawEnd: 1.3,
-      });
       createFramedPhotoEntry(
         rootGroup,
         {
@@ -5465,7 +4856,7 @@
           height: 0.62,
           frame: 0.065,
           depth: 0.052,
-          position: { x: 2.685, y: 0.16, z: 0.58 },
+          position: { x: 2.83, y: 0.16, z: 0.58 },
           rotation: { y: -Math.PI / 2 },
           focusScale: new THREE.Vector3(1.08, 1.08, 1.08),
           targetRotationX: -0.02,
@@ -5542,26 +4933,37 @@
       const onsen = new THREE.Group();
       onsen.position.set(sceneAnchors.room.onsen.x, sceneAnchors.room.onsen.y, sceneAnchors.room.onsen.z);
       onsen.rotation.y = -0.18;
-      onsen.scale.setScalar(0.56);
+      onsen.scale.setScalar(roomBlueprint.onsen.scale);
       rootGroup.add(onsen);
+      compositionObjects.room.onsen = onsen;
 
-      const onsenBase = addBeveledBox(onsen, { x: 1.72, y: 0.18, z: 1.12 }, { x: 0, y: 0.02, z: 0 }, stoneEdgeMaterial, { bevel: 0.026 });
+      const onsenBase = addRoundedBox(onsen, { x: 1.92, y: 0.16, z: 1.28 }, { x: 0, y: 0.015, z: 0 }, stoneEdgeMaterial, {
+        radius: 0.12,
+        bevel: 0.026,
+        segments: 4,
+      });
       onsenBase.rotation.y = -0.035;
-      const poolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.74, 0.82, 0.34, 72, 1, true), onsenStoneAccentMaterial);
+      const builtInWing = addRoundedBox(onsen, { x: 0.92, y: 0.17, z: 1.34 }, { x: -1.39, y: 0.02, z: 0.02 }, stoneEdgeMaterial, {
+        radius: 0.1,
+        bevel: 0.024,
+        segments: 3,
+      });
+      builtInWing.rotation.y = 0.025;
+      const poolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.9, 0.3, 72, 1, true), onsenStoneAccentMaterial);
       poolWall.scale.set(1.18, 1, 0.78);
-      poolWall.position.set(-0.02, 0.24, 0.01);
+      poolWall.position.set(-0.02, 0.2, 0.01);
       onsen.add(poolWall);
       const basinShadow = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.58, 0.64, 0.16, 72),
+        new THREE.CylinderGeometry(0.66, 0.72, 0.14, 72),
         new THREE.MeshBasicMaterial({ color: 0x182323, transparent: true, opacity: 0.18 })
       );
       basinShadow.scale.set(1.18, 1, 0.78);
-      basinShadow.position.set(-0.02, 0.25, 0.01);
+      basinShadow.position.set(-0.02, 0.22, 0.01);
       onsen.add(basinShadow);
-      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.045, 12, 96), stoneEdgeMaterial);
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.04, 12, 96), stoneEdgeMaterial);
       rim.rotation.x = Math.PI / 2;
       rim.scale.set(1.18, 0.78, 1);
-      rim.position.set(-0.02, 0.43, 0.01);
+      rim.position.set(-0.02, 0.36, 0.01);
       onsen.add(rim);
       for (let index = 0; index < 16; index += 1) {
         const angle = (index / 16) * Math.PI * 2;
@@ -5569,17 +4971,17 @@
           onsen,
           { x: 0.18 + (index % 3) * 0.018, y: 0.08 + (index % 2) * 0.018, z: 0.12 },
           {
-            x: -0.02 + Math.cos(angle) * 0.82,
-            y: 0.38 + (index % 2) * 0.01,
-            z: 0.01 + Math.sin(angle) * 0.53,
+            x: -0.02 + Math.cos(angle) * 0.91,
+            y: 0.33 + (index % 2) * 0.01,
+            z: 0.01 + Math.sin(angle) * 0.59,
           },
           index % 2 ? stoneMaterial : onsenStoneAccentMaterial
         );
         block.rotation.y = -angle + 0.08 * Math.sin(index);
       }
-      const water = new THREE.Mesh(new THREE.CylinderGeometry(0.57, 0.6, 0.034, 96), onsenWaterMaterial);
+      const water = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.68, 0.034, 96), onsenWaterMaterial);
       water.scale.set(1.18, 1, 0.78);
-      water.position.set(-0.02, 0.43, 0.01);
+      water.position.set(-0.02, 0.36, 0.01);
       onsen.add(water);
       [0.26, 0.39, 0.5].forEach((radius, index) => {
         const ripple = new THREE.Mesh(
@@ -5593,7 +4995,7 @@
         );
         ripple.rotation.x = Math.PI / 2;
         ripple.scale.set(1.18, 0.78, 1);
-        ripple.position.set(-0.04 + index * 0.04, 0.455 + index * 0.004, -0.03 + index * 0.02);
+        ripple.position.set(-0.04 + index * 0.04, 0.385 + index * 0.004, -0.03 + index * 0.02);
         onsen.add(ripple);
       });
 
@@ -5607,9 +5009,9 @@
         const mesh = addTube(
           onsen,
           [
-            new THREE.Vector3(steam.x, 0.48, steam.z),
-            new THREE.Vector3(steam.x + steam.drift * 0.34, 0.6 + index * 0.015, steam.z + 0.03),
-            new THREE.Vector3(steam.x + steam.drift, 0.48 + steam.h, steam.z - 0.02),
+            new THREE.Vector3(steam.x, 0.41, steam.z),
+            new THREE.Vector3(steam.x + steam.drift * 0.34, 0.53 + index * 0.015, steam.z + 0.03),
+            new THREE.Vector3(steam.x + steam.drift, 0.41 + steam.h, steam.z - 0.02),
           ],
           0.007 + index * 0.001,
           onsenSteamMaterial,
@@ -5619,8 +5021,9 @@
       });
 
       const lizard = new THREE.Group();
-      lizard.position.set(-0.17, 0.48, -0.02);
+      lizard.position.set(-0.18, 0.41, -0.02);
       lizard.rotation.y = -0.34;
+      lizard.scale.setScalar(0.82);
       onsen.add(lizard);
       addScaledSphere(lizard, 1, { x: 0, y: -0.03, z: 0.02 }, { x: 0.3, y: 0.075, z: 0.18 }, lizardMaterial, 28);
       addScaledSphere(lizard, 1, { x: -0.23, y: 0.065, z: -0.07 }, { x: 0.14, y: 0.105, z: 0.12 }, lizardMaterial, 24);
@@ -5644,8 +5047,9 @@
       lizard.add(towel);
 
       const ledge = new THREE.Group();
-      ledge.position.set(0.74, 0.46, 0.36);
+      ledge.position.set(0.83, 0.39, 0.42);
       ledge.rotation.y = -0.18;
+      ledge.scale.setScalar(0.84);
       onsen.add(ledge);
       addBeveledBox(ledge, { x: 0.46, y: 0.055, z: 0.22 }, { x: 0, y: 0, z: 0 }, woodEdgeMaterial, { bevel: 0.012 });
       const cocktailGlassMaterial = new THREE.MeshStandardMaterial({
@@ -5670,8 +5074,9 @@
       citrus.rotation.x = Math.PI / 2;
 
       const lapDesk = new THREE.Group();
-      lapDesk.position.set(0.28, 0.55, -0.12);
+      lapDesk.position.set(0.3, 0.46, -0.14);
       lapDesk.rotation.y = -0.16;
+      lapDesk.scale.setScalar(0.82);
       onsen.add(lapDesk);
       addBeveledBox(lapDesk, { x: 0.78, y: 0.045, z: 0.34 }, { x: 0, y: 0, z: 0 }, woodMaterial, { bevel: 0.012 });
       addBox(lapDesk, { x: 0.72, y: 0.018, z: 0.035 }, { x: 0, y: 0.04, z: 0.17 }, warmArmMaterial);
@@ -5694,74 +5099,100 @@
       const loungeCorner = new THREE.Group();
       loungeCorner.position.set(sceneAnchors.room.chair.x, sceneAnchors.room.chair.y, sceneAnchors.room.chair.z);
       loungeCorner.rotation.y = -0.56;
-      loungeCorner.scale.setScalar(0.62);
+      loungeCorner.scale.setScalar(roomBlueprint.chair.scale);
       rootGroup.add(loungeCorner);
+      compositionObjects.room.chair = loungeCorner;
       const chairShadow = new THREE.Mesh(
-        new THREE.CircleGeometry(0.96, 64),
+        new THREE.CircleGeometry(0.94, 64),
         new THREE.MeshBasicMaterial({ color: palette.shadow, transparent: true, opacity: palette.isDarkTheme ? 0.11 : 0.075, depthWrite: false })
       );
       chairShadow.rotation.x = -Math.PI / 2;
       chairShadow.scale.set(1.28, 0.62, 1);
-      chairShadow.position.set(0.18, -0.12, 0.12);
+      chairShadow.position.set(0.24, -0.02, 0.24);
       loungeCorner.add(chairShadow);
-      addStarBase(loungeCorner, { x: 0, y: 0, z: 0 }, 0.62, chairBaseMaterial, {
-        hubRadius: 0.078,
-        hubHeight: 0.13,
-        legHeight: 0.034,
-        legDepth: 0.05,
+      addStarBase(loungeCorner, { x: 0, y: 0.015, z: 0 }, 0.52, chairBaseMaterial, {
+        hubRadius: 0.072,
+        hubHeight: 0.12,
+        legHeight: 0.03,
+        legDepth: 0.046,
       });
-      const swivelPost = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.062, 0.34, 28), chairBaseMaterial);
-      swivelPost.position.set(0, 0.18, 0);
+      const swivelPost = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.058, 0.32, 28), chairBaseMaterial);
+      swivelPost.position.set(0, 0.19, 0.02);
       loungeCorner.add(swivelPost);
-      const seatShell = addCurvedShell(loungeCorner, 0.5, 0.78, Math.PI * 0.18, Math.PI * 0.66, { x: 0, y: 0.42, z: 0.02 }, chairWoodMaterial, {
-        rz: Math.PI / 2,
-        rx: -0.12,
-        scaleX: 1.04,
-        scaleZ: 0.86,
-        radialSegments: 56,
+      const seatShell = addRoundedBox(loungeCorner, { x: 1.08, y: 0.16, z: 0.78 }, { x: 0, y: 0.43, z: 0.12 }, chairWoodMaterial, {
+        radius: 0.08,
+        bevel: 0.026,
+        segments: 4,
       });
-      seatShell.rotation.y = -0.02;
-      addScaledSphere(loungeCorner, 1, { x: 0.02, y: 0.48, z: 0.08 }, { x: 0.43, y: 0.11, z: 0.34 }, chairCushionMaterial, 28);
-      const backShell = addCurvedShell(loungeCorner, 0.56, 0.78, Math.PI * 0.08, Math.PI * 0.68, { x: -0.06, y: 0.78, z: -0.36 }, chairWoodMaterial, {
-        rz: Math.PI / 2,
-        rx: -0.74,
-        scaleX: 1.05,
-        scaleZ: 0.74,
-        radialSegments: 56,
+      seatShell.rotation.x = -0.08;
+      const seatCushion = addRoundedBox(loungeCorner, { x: 0.92, y: 0.14, z: 0.64 }, { x: 0, y: 0.53, z: 0.18 }, chairCushionMaterial, {
+        radius: 0.07,
+        bevel: 0.03,
+        segments: 4,
       });
-      backShell.rotation.y = -0.03;
-      addScaledSphere(loungeCorner, 1, { x: -0.06, y: 0.82, z: -0.26 }, { x: 0.42, y: 0.16, z: 0.22 }, chairCushionMaterial, 28).rotation.x = -0.32;
-      const headShell = addCurvedShell(loungeCorner, 0.42, 0.62, Math.PI * 0.06, Math.PI * 0.62, { x: -0.08, y: 1.08, z: -0.54 }, chairWoodMaterial, {
-        rz: Math.PI / 2,
-        rx: -0.82,
-        scaleX: 1.08,
-        scaleZ: 0.66,
-        radialSegments: 48,
+      seatCushion.rotation.x = -0.08;
+      const backShell = addRoundedBox(loungeCorner, { x: 1.08, y: 0.72, z: 0.14 }, { x: 0, y: 0.92, z: -0.3 }, chairWoodMaterial, {
+        radius: 0.13,
+        bevel: 0.024,
+        segments: 4,
       });
-      headShell.rotation.y = -0.04;
-      addScaledSphere(loungeCorner, 1, { x: -0.08, y: 1.12, z: -0.47 }, { x: 0.32, y: 0.1, z: 0.16 }, chairCushionMaterial, 24).rotation.x = -0.28;
+      backShell.rotation.x = -0.3;
+      const backCushion = addRoundedBox(loungeCorner, { x: 0.92, y: 0.56, z: 0.15 }, { x: 0, y: 0.96, z: -0.19 }, chairCushionMaterial, {
+        radius: 0.14,
+        bevel: 0.03,
+        segments: 4,
+      });
+      backCushion.rotation.x = -0.3;
+      const headShell = addRoundedBox(loungeCorner, { x: 0.92, y: 0.36, z: 0.13 }, { x: 0, y: 1.42, z: -0.52 }, chairWoodMaterial, {
+        radius: 0.13,
+        bevel: 0.024,
+        segments: 4,
+      });
+      headShell.rotation.x = -0.22;
+      const headCushion = addRoundedBox(loungeCorner, { x: 0.78, y: 0.25, z: 0.14 }, { x: 0, y: 1.43, z: -0.41 }, chairCushionMaterial, {
+        radius: 0.11,
+        bevel: 0.028,
+        segments: 4,
+      });
+      headCushion.rotation.x = -0.22;
+      [-0.5, 0.5].forEach((x) => {
+        addTube(
+          loungeCorner,
+          [
+            new THREE.Vector3(x, 0.38, 0.38),
+            new THREE.Vector3(x, 0.5, -0.02),
+            new THREE.Vector3(x, 0.9, -0.32),
+            new THREE.Vector3(x * 0.88, 1.45, -0.54),
+          ],
+          0.035,
+          chairWoodMaterial,
+          36
+        );
+      });
       [
-        { x: -0.42, y: 0.62, z: -0.08, side: -1 },
-        { x: 0.42, y: 0.62, z: -0.08, side: 1 },
+        { x: -0.46, side: -1 },
+        { x: 0.46, side: 1 },
       ].forEach((arm) => {
         addTube(
           loungeCorner,
-          [new THREE.Vector3(arm.x, 0.35, 0.18), new THREE.Vector3(arm.x + arm.side * 0.02, 0.54, -0.08), new THREE.Vector3(arm.x, 0.7, -0.3)],
-          0.022,
+          [new THREE.Vector3(arm.x, 0.38, 0.18), new THREE.Vector3(arm.x + arm.side * 0.02, 0.58, -0.04), new THREE.Vector3(arm.x, 0.73, -0.24)],
+          0.021,
           chairBaseMaterial,
           26
         );
-        const pad = addBeveledBox(loungeCorner, { x: 0.15, y: 0.055, z: 0.38 }, { x: arm.x, y: 0.67, z: -0.08 }, chairCushionMaterial, {
-          bevel: 0.018,
+        const pad = addRoundedBox(loungeCorner, { x: 0.13, y: 0.055, z: 0.34 }, { x: arm.x, y: 0.7, z: -0.08 }, chairWoodMaterial, {
+          radius: 0.026,
+          bevel: 0.012,
+          segments: 3,
         });
         pad.rotation.y = arm.side * 0.04;
       });
 
       const ottoman = new THREE.Group();
-      ottoman.position.set(0.68, 0.02, 0.58);
-      ottoman.rotation.y = 0.14;
+      ottoman.position.set(0.76, 0.025, 0.7);
+      ottoman.rotation.y = 0.12;
       loungeCorner.add(ottoman);
-      addStarBase(ottoman, { x: 0, y: -0.01, z: 0 }, 0.4, chairBaseMaterial, {
+      addStarBase(ottoman, { x: 0, y: -0.005, z: 0 }, 0.36, chairBaseMaterial, {
         hubRadius: 0.052,
         hubHeight: 0.09,
         legHeight: 0.026,
@@ -5771,14 +5202,18 @@
       const ottomanPost = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.046, 0.24, 24), chairBaseMaterial);
       ottomanPost.position.set(0, 0.12, 0);
       ottoman.add(ottomanPost);
-      addCurvedShell(ottoman, 0.38, 0.58, Math.PI * 0.12, Math.PI * 0.72, { x: 0, y: 0.32, z: 0.02 }, chairWoodMaterial, {
-        rz: Math.PI / 2,
-        rx: -0.08,
-        scaleX: 1.12,
-        scaleZ: 0.78,
-        radialSegments: 44,
+      const ottomanShell = addRoundedBox(ottoman, { x: 0.82, y: 0.14, z: 0.62 }, { x: 0, y: 0.31, z: 0.02 }, chairWoodMaterial, {
+        radius: 0.08,
+        bevel: 0.024,
+        segments: 4,
       });
-      addScaledSphere(ottoman, 1, { x: 0, y: 0.38, z: 0.04 }, { x: 0.35, y: 0.085, z: 0.24 }, chairCushionMaterial, 24);
+      ottomanShell.rotation.x = -0.04;
+      const ottomanCushion = addRoundedBox(ottoman, { x: 0.68, y: 0.12, z: 0.5 }, { x: 0, y: 0.4, z: 0.055 }, chairCushionMaterial, {
+        radius: 0.07,
+        bevel: 0.028,
+        segments: 4,
+      });
+      ottomanCushion.rotation.x = -0.04;
 
       const floorShadowMaterial = new THREE.MeshBasicMaterial({
         color: palette.shadow,
@@ -5809,6 +5244,7 @@
       table.position.set(sceneAnchors.room.desk.x, sceneAnchors.room.desk.y, sceneAnchors.room.desk.z);
       table.scale.set(0.86, 1, 0.82);
       rootGroup.add(table);
+      compositionObjects.room.desk = table;
       addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
       [
@@ -6123,6 +5559,7 @@
 
       const albumRack = new THREE.Group();
       rootGroup.add(albumRack);
+      compositionObjects.room.rack = albumRack;
       const { x: rackWallX, y: rackCenterY, z: rackCenterZ } = sceneAnchors.room.rack;
       const rackSleeveYaw = Math.PI / 2 - 0.78;
       const rackSleeveNormal = new THREE.Vector3(Math.sin(rackSleeveYaw), 0, Math.cos(rackSleeveYaw));

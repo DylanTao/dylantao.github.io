@@ -340,6 +340,14 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 - Since-`gpt-5.6-sol` window: 30 commits including the amended checkpoint, 780M rounded tokens, and 29 rounded hours. The all-local policy inventory truthfully records 140 `gpt-5.6-sol/ultra` contexts plus two retained July 11 `gpt-5.4-mini` deviations; the public development-default note remains a declared target rather than a claim that the retained archive is perfectly aligned.
 - Retained-local replay: 10.2B rounded tokens and 464 rounded hours since June 19, with an approximately $8.2K request-aware API-rate replay. Evidence: `python bin/audit_agentic_usage.py --write` scanned 369 local and 147 repo-attributed leaf sessions, counted 26,276 additive usage events after skipping 18,090 copied/repeated snapshots and 11,108 fork-preamble events, then refreshed the ledger, account-history snapshot, and public profile usage data.
 
+### 2026-07-13
+
+- Reciprocal cliff-room checkpoint: replaced the hand-matched exterior miniature with the actual room under reciprocal cameras; rebuilt the coast around one ocean and shoreline; corrected onsen/lounge scale, wall evidence, bounded rear orbit, live coastal theme recoloring, and album-settlement QA.
+- Integrated public totals: 332 revamp commits including this checkpoint and the concurrent metrics/interaction work preserved during rebase, 3.61B rounded retained-session tokens, 278 rounded agent-hours, 2166 kWh, about 1.3 ten-year urban trees' stored-carbon equivalent, and about $3.1K under the request-aware API-rate replay.
+- Desk window: 116 path-scoped commits, 2.52B rounded retained-session tokens, and 164 rounded hours. The compact 3D overlay intentionally renders only `116 commits · 2.52B tokens`; hours, energy, tree, and cost lenses remain in fuller ledger contexts.
+- Since-`gpt-5.6-sol` window: 37 commits including this checkpoint and the preserved concurrent work, 1B rounded tokens, and 39 rounded hours. The all-local policy inventory still records the two retained July 11 `gpt-5.4-mini` deviations rather than silently claiming perfect alignment.
+- Evidence: `python bin/audit_agentic_usage.py --write` scanned 382 local and 160 repo-attributed leaf sessions, retained 27,556 additive usage events after skipping 33,519 copied/repeated snapshots and 19,019 fork-preamble events, then refreshed `_data/agentic_usage.yml`. The production scene matrix passed 15 required states with 25 intentional viewport guards; the stabilized legacy slice passed 6 with 2 intentional mobile skips; the focused rear-orbit return-occlusion journey passed; the Docker-root keyboard-after-shake regression passed on desktop and mobile; and the production Jekyll build, Docker root scene, 64 Python tests, style contract, and override audit passed.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

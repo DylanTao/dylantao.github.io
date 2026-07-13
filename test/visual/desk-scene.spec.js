@@ -176,6 +176,114 @@ async function expectDroppedEvidenceClearOfControls(page, sceneContainer, canvas
   });
 }
 
+function projectedRectStats(bounds) {
+  if (!bounds) return null;
+  const width = Math.max(0, bounds.right - bounds.left);
+  const height = Math.max(0, bounds.bottom - bounds.top);
+  return {
+    width,
+    height,
+    area: width * height,
+    centerX: bounds.left + width / 2,
+    centerY: bounds.top + height / 2,
+  };
+}
+
+async function readCompositionEvidence(sceneContainer, expectedView) {
+  await expect
+    .poll(async () => {
+      const raw = await sceneContainer.getAttribute("data-composition-evidence");
+      if (!raw) return false;
+      try {
+        const evidence = JSON.parse(raw);
+        return evidence.view === expectedView && Object.keys(evidence.landmarks || {}).length >= 5;
+      } catch {
+        return false;
+      }
+    })
+    .toBe(true);
+  return JSON.parse((await sceneContainer.getAttribute("data-composition-evidence")) || "{}");
+}
+
+async function expectInteriorComposition(page, sceneContainer, canvas, projectName) {
+  const evidence = await readCompositionEvidence(sceneContainer, "desk");
+  const landmarks = evidence.landmarks || {};
+  const required = ["window", "onsen", "desk", "chair", "rack"];
+  required.forEach((key) => {
+    expect(landmarks[key]?.bounds, `${key} should expose rendered bounds`).toBeTruthy();
+    expect(landmarks[key]?.center, `${key} should expose a rendered center`).toBeTruthy();
+    expect(landmarks[key].center.x, `${key} should remain horizontally near the canvas`).toBeGreaterThan(-0.12);
+    expect(landmarks[key].center.x, `${key} should remain horizontally near the canvas`).toBeLessThan(1.12);
+    expect(landmarks[key].center.y, `${key} should remain vertically near the canvas`).toBeGreaterThan(-0.12);
+    expect(landmarks[key].center.y, `${key} should remain vertically near the canvas`).toBeLessThan(1.12);
+  });
+
+  expect(landmarks.onsen.center.x, "onsen should remain left of the desk").toBeLessThan(landmarks.desk.center.x);
+  expect(landmarks.desk.center.x, "desk should remain left of the lounge chair").toBeLessThan(landmarks.chair.center.x);
+  expect(landmarks.onsen.center.y, "onsen should remain below the desk").toBeGreaterThan(landmarks.desk.center.y);
+  expect(landmarks.chair.center.y, "chair should remain below the desk").toBeGreaterThan(landmarks.desk.center.y);
+
+  const onsenStats = projectedRectStats(landmarks.onsen.bounds);
+  const chairStats = projectedRectStats(landmarks.chair.bounds);
+  const compact = ["tablet-768", "mobile-390"].includes(projectName);
+  expect(onsenStats.area, "onsen should retain a legible projected footprint").toBeGreaterThan(compact ? 0.004 : 0.012);
+  expect(chairStats.area, "chair should retain a legible projected footprint").toBeGreaterThan(compact ? 0.003 : 0.008);
+  expect(chairStats.area, "chair should not dominate the interior frame").toBeLessThan(0.22);
+
+  await expect
+    .poll(async () => {
+      const raw = await sceneContainer.getAttribute("data-composition-evidence");
+      if (!raw) return false;
+      const current = JSON.parse(raw);
+      return current.view === "desk" && current.photos?.length >= 3 && current.photos.every((photo) => photo.textureReady);
+    })
+    .toBe(true);
+
+  if (projectName === "desktop-1440") {
+    const canvasBox = await canvas.boundingBox();
+    const controlsBox = await page.locator("[data-home-desk-controls]").boundingBox();
+    expect(canvasBox).not.toBeNull();
+    expect(controlsBox).not.toBeNull();
+    ["onsen", "chair"].forEach((key) => {
+      const bounds = landmarks[key].bounds;
+      const projected = {
+        left: canvasBox.x + bounds.left * canvasBox.width,
+        top: canvasBox.y + bounds.top * canvasBox.height,
+        right: canvasBox.x + bounds.right * canvasBox.width,
+        bottom: canvasBox.y + bounds.bottom * canvasBox.height,
+      };
+      const intersectionWidth = Math.max(0, Math.min(projected.right, controlsBox.x + controlsBox.width) - Math.max(projected.left, controlsBox.x));
+      const intersectionHeight = Math.max(0, Math.min(projected.bottom, controlsBox.y + controlsBox.height) - Math.max(projected.top, controlsBox.y));
+      const intersectionArea = intersectionWidth * intersectionHeight;
+      const projectedArea = Math.max(1, (projected.right - projected.left) * (projected.bottom - projected.top));
+      expect(intersectionArea / projectedArea, `${key} should remain clear of the control strip`).toBeLessThan(0.06);
+    });
+  }
+}
+
+async function expectOutsideComposition(sceneContainer) {
+  const evidence = await readCompositionEvidence(sceneContainer, "outside");
+  const landmarks = evidence.landmarks || {};
+  ["window", "onsen", "desk", "chair", "rack"].forEach((key) => {
+    expect(landmarks[key]?.bounds, `${key} should remain part of the shared outside view`).toBeTruthy();
+    expect(landmarks[key]?.center, `${key} should expose an outside-view center`).toBeTruthy();
+  });
+  expect(landmarks.chair.center.x, "reciprocal outside view should mirror chair-to-desk ordering").toBeLessThan(landmarks.desk.center.x);
+  expect(landmarks.desk.center.x, "reciprocal outside view should mirror desk-to-onsen ordering").toBeLessThan(landmarks.onsen.center.x);
+
+  const coast = evidence.coast || {};
+  ["cliff", "cliffFoot", "beach", "wetSand", "shoreline", "ocean"].forEach((key) => {
+    expect(coast[key]?.bounds, `${key} should expose coastal composition bounds`).toBeTruthy();
+  });
+  const cliffFootStats = projectedRectStats(coast.cliffFoot.bounds);
+  const shorelineStats = projectedRectStats(coast.shoreline.bounds);
+  expect(cliffFootStats, "rendered cliff-foot geometry should expose projected bounds").toBeTruthy();
+  expect(shorelineStats, "rendered shoreline geometry should expose projected bounds").toBeTruthy();
+  expect(shorelineStats.centerY, "rendered shoreline should sit below the rendered cliff foot").toBeGreaterThan(cliffFootStats.centerY);
+  const renderedContactGap = Math.max(0, shorelineStats.centerY - cliffFootStats.centerY - (shorelineStats.height + cliffFootStats.height) / 2);
+  expect(renderedContactGap, "rendered cliff-foot and shoreline geometry should stay visually connected").toBeLessThan(0.08);
+}
+
 async function attachBuffer(testInfo, name, body, contentType = "image/png") {
   const extension = contentType === "application/json" ? "json" : "png";
   const outputPath = testInfo.outputPath(`${name.replace(/[^a-z0-9._-]+/gi, "-")}.${extension}`);
@@ -200,8 +308,10 @@ test("desk scene 2D and 3D defaults react to drag and zoom", async ({ page }, te
   await attachScreenshot(page, testInfo, `desk-2d-default-${testInfo.project.name}`, { locator: stage });
 
   const scene = await switchTo3D(page);
+  const sceneContainer = page.locator("[data-home-desk-scene]");
   await expect(page.locator('[data-home-desk-mode="3d"]')).toHaveAttribute("aria-pressed", "true");
   await attachScreenshot(page, testInfo, `desk-3d-default-${testInfo.project.name}`, { locator: scene.stage });
+  await expectInteriorComposition(page, sceneContainer, scene.canvas, testInfo.project.name);
 
   const defaultCanvas = await scene.canvas.screenshot();
   const defaultMetrics = screenshotMetrics(defaultCanvas);
@@ -313,7 +423,7 @@ test("desk mode switch keeps a visible keyboard focus ring", async ({ page }, te
   expect(focusState.focusVisible).toBe(true);
   expect((focusState.outlineStyle !== "none" && focusState.outlineWidth >= 2) || focusState.boxShadow !== "none").toBe(true);
 
-  await shakeCurrentRecord(page);
+  await dropRecordCardsUntil(page, 1);
   const playButton = page.locator("[data-home-record-play]");
   await expect(playButton).toHaveCSS("pointer-events", "auto");
   await playButton.focus();
@@ -322,9 +432,11 @@ test("desk mode switch keeps a visible keyboard focus ring", async ({ page }, te
 
   const scene = await switchTo3D(page);
   const sceneContainer = page.locator("[data-home-desk-scene]");
+  await expectInteriorComposition(page, sceneContainer, scene.canvas, testInfo.project.name);
   await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-window-screen-bounds");
   await expect(sceneContainer).toHaveAttribute("data-last-raycast-kind", "windowJump");
   await expect(sceneContainer).toHaveClass(/is-outside-view/);
+  await expectOutsideComposition(sceneContainer);
   await page.keyboard.press("Escape");
   await expect(sceneContainer).not.toHaveClass(/is-outside-view/);
   await expect(page.locator('[data-home-desk-control="reset"]')).toBeFocused();
@@ -399,6 +511,7 @@ test("compact desk scene preserves the cliff window anchor and return path", asy
   await openDeskHome(page);
   const scene = await switchTo3D(page);
   const sceneContainer = page.locator("[data-home-desk-scene]");
+  await expectInteriorComposition(page, sceneContainer, scene.canvas, testInfo.project.name);
   await expect(sceneContainer).toHaveAttribute("data-album-screen-bounds", /^\[/);
   const compactAlbumEvidence = JSON.parse((await sceneContainer.getAttribute("data-album-screen-bounds")) || "[]");
   expect(compactAlbumEvidence).toHaveLength(4);
@@ -411,6 +524,7 @@ test("compact desk scene preserves the cliff window anchor and return path", asy
   await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-window-screen-bounds");
   await expect(sceneContainer).toHaveAttribute("data-last-raycast-kind", "windowJump");
   await expect(sceneContainer).toHaveClass(/is-outside-view/);
+  await expectOutsideComposition(sceneContainer);
   const outsideDefault = await scene.canvas.screenshot();
   await attachScreenshot(page, testInfo, `desk-continuity-outside-default-${testInfo.project.name}`, { locator: scene.stage });
 
@@ -435,6 +549,7 @@ test("desktop desk scene enters outside only by window click and returns", async
   await openDeskHome(page);
   const scene = await switchTo3D(page);
   const sceneContainer = page.locator("[data-home-desk-scene]");
+  await expectInteriorComposition(page, sceneContainer, scene.canvas, testInfo.project.name);
   const interiorDefault = await scene.canvas.screenshot();
   await attachScreenshot(page, testInfo, "desk-continuity-interior-default-desktop-1440", { locator: scene.stage });
 
@@ -452,6 +567,13 @@ test("desktop desk scene enters outside only by window click and returns", async
   const rearYaw = Number(await sceneContainer.getAttribute("data-camera-yaw"));
   expect(rearYaw).toBeGreaterThan(Math.PI * 0.62);
   expect(rearYaw).toBeLessThan(Math.PI * 1.38);
+  const rearCamera = JSON.parse((await sceneContainer.getAttribute("data-camera-position")) || "{}");
+  const cameraBounds = JSON.parse((await sceneContainer.getAttribute("data-room-camera-bounds")) || "{}");
+  expect(cameraBounds).toEqual({ minX: -1.738, maxX: 1.818, minZ: -0.87, maxZ: 3.964 });
+  expect(rearCamera.x, "rear orbit camera should remain inside the scaled side-wall footprint").toBeGreaterThanOrEqual(cameraBounds.minX);
+  expect(rearCamera.x, "rear orbit camera should remain inside the scaled side-wall footprint").toBeLessThanOrEqual(cameraBounds.maxX);
+  expect(rearCamera.z, "rear orbit camera should remain inside the scaled window plane").toBeGreaterThanOrEqual(cameraBounds.minZ);
+  expect(rearCamera.z, "rear orbit camera should remain inside the scaled rear boundary").toBeLessThanOrEqual(cameraBounds.maxZ);
   await expect(page.locator("[data-home-desk-scene]")).not.toHaveClass(/is-outside-view/);
   await attachScreenshot(page, testInfo, "desk-continuity-interior-rear-desktop-1440", { locator: scene.stage });
 
@@ -466,6 +588,9 @@ test("desktop desk scene enters outside only by window click and returns", async
   await expect(sceneContainer).toHaveAttribute("data-last-raycast-kind", "windowJump");
   await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
   await expect(page.locator("[data-home-desk-scene]")).toHaveClass(/is-outside-view/);
+  await expectOutsideComposition(sceneContainer);
+  await expect(sceneContainer).toHaveAttribute("data-return-target-visible", "true");
+  await expect(sceneContainer).toHaveAttribute("data-return-screen-bounds", /^\{/);
   await page.waitForTimeout(500);
   const outsideDefaultDistance = Number(await sceneContainer.getAttribute("data-camera-distance"));
   expect(outsideDefaultDistance).toBeGreaterThan(0);
@@ -489,6 +614,10 @@ test("desktop desk scene enters outside only by window click and returns", async
   const outsideRearMetrics = screenshotMetrics(outsideRear);
   expect(outsideRearMetrics.uniqueColors).toBeGreaterThan(32);
   expect(outsideRearMetrics.luminanceVariance).toBeGreaterThan(16);
+  await expect(sceneContainer).toHaveAttribute("data-return-target-visible", "false");
+  await expect(sceneContainer).not.toHaveAttribute("data-return-screen-bounds");
+  await clickCanvas(page, scene.canvas, 0.5, 0.5);
+  await expect(sceneContainer).not.toHaveAttribute("data-last-raycast-kind", "returnInside");
   await attachScreenshot(page, testInfo, "desk-continuity-outside-rear-desktop-1440", { locator: scene.stage });
 
   for (let step = 0; step < 3; step += 1) await orbitCanvas(page, scene.canvas, 0.82, 0.18);
@@ -499,6 +628,8 @@ test("desktop desk scene enters outside only by window click and returns", async
   await expect(page.locator("[data-home-desk-scene]")).toHaveClass(/is-outside-view/);
   await attachScreenshot(page, testInfo, "desk-continuity-outside-max-zoom-desktop-1440", { locator: scene.stage });
 
+  await expect(sceneContainer).toHaveAttribute("data-return-target-visible", "true");
+  await expect(sceneContainer).toHaveAttribute("data-return-screen-bounds", /^\{/);
   await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-return-screen-bounds");
   await expect(sceneContainer).toHaveAttribute("data-last-raycast-kind", "returnInside");
   await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
@@ -573,20 +704,47 @@ test("dark desk materials preserve interior, floor evidence, and cliff hierarchy
   test.skip(testInfo.project.name !== "desktop-1440", "representative dark-material checkpoint");
 
   const runtimeErrors = collectRuntimeErrors(page);
-  await openDeskHome(page, "dark");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await openDeskHome(page, "light");
   await dropRecordCardsUntil(page, 1);
   const scene = await switchTo3D(page);
+  const sceneContainer = page.locator("[data-home-desk-scene]");
+  const lightInteriorEvidence = await readCompositionEvidence(sceneContainer, "desk");
+  const lightSideWallMaps = lightInteriorEvidence.roomPalette?.sideWalls?.map((wall) => wall.mapId) || [];
+  expect(lightSideWallMaps).toHaveLength(2);
+  expect(lightSideWallMaps.every(Boolean), "rendered side walls should expose their live texture ids").toBe(true);
+  await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-window-screen-bounds");
+  await expect(sceneContainer).toHaveClass(/is-outside-view/);
+  const lightEvidence = await readCompositionEvidence(sceneContainer, "outside");
+  expect(lightEvidence.coastPalette?.wetSand?.color).toBe("aa9274");
+  expect(lightEvidence.coastPalette?.foam?.map((item) => item.color)).toEqual(["fffdf5", "fffdf5"]);
+  await page.keyboard.press("Escape");
+  await expect(sceneContainer).not.toHaveClass(/is-outside-view/);
+
+  await page.locator("#theme-toggle").click();
+  await page.locator('#theme-menu [data-theme-mode-option="evening"]').click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  const darkInteriorEvidence = await readCompositionEvidence(sceneContainer, "desk");
+  const darkSideWallMaps = darkInteriorEvidence.roomPalette?.sideWalls?.map((wall) => wall.mapId) || [];
+  expect(darkSideWallMaps).toHaveLength(2);
+  darkSideWallMaps.forEach((mapId, index) => {
+    expect(mapId, `side-wall ${index} should receive the live dark texture`).toBeTruthy();
+    expect(mapId, `side-wall ${index} should not keep the light-theme texture`).not.toBe(lightSideWallMaps[index]);
+  });
   const interior = await scene.canvas.screenshot();
   const interiorMetrics = screenshotMetrics(interior);
   expect(interiorMetrics.uniqueColors).toBeGreaterThan(32);
   expect(interiorMetrics.luminanceVariance).toBeGreaterThan(16);
   await attachScreenshot(page, testInfo, "desk-dark-interior-grounded-desktop-1440", { locator: scene.stage });
 
-  const sceneContainer = page.locator("[data-home-desk-scene]");
   await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-window-screen-bounds");
   await expect(sceneContainer).toHaveAttribute("data-last-raycast-kind", "windowJump");
   await expect(sceneContainer).toHaveClass(/is-outside-view/);
+  const darkEvidence = await readCompositionEvidence(sceneContainer, "outside");
+  expect(darkEvidence.coastPalette?.wetSand).toEqual({ color: "776d61", opacity: 0.72 });
+  expect(darkEvidence.coastPalette?.foam).toEqual([
+    { key: "shoreFoam-0.2", color: "e7e1d5", opacity: 0.46 },
+    { key: "shoreFoam-1.1", color: "e7e1d5", opacity: 0.24 },
+  ]);
   const outside = await scene.canvas.screenshot();
   const outsideMetrics = screenshotMetrics(outside);
   expect(outsideMetrics.uniqueColors).toBeGreaterThan(32);

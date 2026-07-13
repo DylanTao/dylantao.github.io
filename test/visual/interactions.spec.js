@@ -1017,6 +1017,24 @@ test("home profile bubbles hover independently", async ({ page }, testInfo) => {
   expect(secondaryWhilePrimaryHovered.borderColor).toBe(secondaryRest.borderColor);
 });
 
+test("home keyboard record playback survives shake suppression", async ({ page }) => {
+  await preparePage(page, "dark");
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const spinButton = page.locator("[data-home-record-play]");
+  await expect(spinButton).toHaveAttribute("aria-pressed", "false");
+
+  await shakeCurrentRecord(page);
+  await spinButton.focus();
+  await page.keyboard.press("Space");
+  await expect(spinButton).toHaveAttribute("aria-pressed", "true");
+
+  await page.keyboard.press("Enter");
+  await expect(spinButton).toHaveAttribute("aria-pressed", "false");
+});
+
 test("home dropped meme record cards resolve into an inspectable 2D fan", async ({ page }) => {
   await preparePage(page, "dark");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
@@ -1168,6 +1186,7 @@ test("home 3D outside view uses explicit window clicks and scroll-away reset", a
 
   const stage = page.locator("[data-home-artifact-stage]");
   const scene = page.locator("[data-home-desk-scene]");
+  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
   await page.click('[data-home-desk-mode="3d"]');
   await expect(stage).toHaveAttribute("data-desk-mode", "3d");
   await page.waitForTimeout(1200);
