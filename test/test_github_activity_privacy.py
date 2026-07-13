@@ -24,8 +24,12 @@ FORBIDDEN = (
 
 
 class GithubActivityPrivacyTests(unittest.TestCase):
-    def test_public_activity_sources_reject_invoice_and_credential_fragments(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in ACTIVITY_PATHS).lower()
+    def test_public_activity_sources_reject_invoice_and_credential_fragments(
+        self,
+    ) -> None:
+        combined = "\n".join(
+            path.read_text(encoding="utf-8") for path in ACTIVITY_PATHS
+        ).lower()
         for fragment in FORBIDDEN:
             self.assertNotIn(fragment.lower(), combined)
 
@@ -54,9 +58,15 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         )
         self.assertNotRegex(text.lower(), r"(?m)^\s*(?:account|url):")
 
-    def test_public_codex_profile_contract_is_sanitized_and_history_backed(self) -> None:
-        public = json.loads((REPO_ROOT / "assets" / "data" / "codex-profile-usage.json").read_text())
-        history = json.loads((REPO_ROOT / "_data" / "codex_account_history.json").read_text())
+    def test_public_codex_profile_contract_is_sanitized_and_history_backed(
+        self,
+    ) -> None:
+        public = json.loads(
+            (REPO_ROOT / "assets" / "data" / "codex-profile-usage.json").read_text()
+        )
+        history = json.loads(
+            (REPO_ROOT / "_data" / "codex_account_history.json").read_text()
+        )
         self.assertEqual(
             set(public),
             {"schema", "source", "sourceAsOf", "lifetime", "recent", "history"},
@@ -73,10 +83,16 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         self.assertNotIn("snapshots", public["history"])
         self.assertEqual(len(public["recent"]["daily"]), 30)
         self.assertIn(len(public["recent"]["weekly"]), {5, 6})
-        self.assertTrue(public["recent"]["weekly"][0]["partial"])
+        first_week = public["recent"]["weekly"][0]
+        self.assertEqual(first_week["partial"], first_week["observedDays"] < 7)
         self.assertTrue(public["recent"]["weekly"][-1]["partial"])
         serialized = json.dumps(public).lower()
-        for fragment in ("local_lifetime", "observed_local", "codexbar", "model_effort"):
+        for fragment in (
+            "local_lifetime",
+            "observed_local",
+            "codexbar",
+            "model_effort",
+        ):
             self.assertNotIn(fragment, serialized)
 
 

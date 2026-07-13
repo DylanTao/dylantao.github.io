@@ -151,8 +151,13 @@ class AccountRefreshTests(unittest.TestCase):
         self.assertTrue(candidate["recent_activity"]["partial_last_day"])
 
     def test_midnight_rollover_restores_an_omitted_zero_partial_day(self) -> None:
+        source = refresh.parse_aware_timestamp(
+            self.current_account["source_as_of"], "current source"
+        ) + timedelta(days=1)
+        expected_date = audit.timestamp_calendar_date(source.isoformat())
+        assert expected_date is not None
         raw = self.raw_fixture(
-            source_as_of="2026-07-13T07:20:00Z",
+            source_as_of=source.isoformat().replace("+00:00", "Z"),
             forced_zero_index=29,
         )
         daily = raw["stats"]["daily_usage_buckets"]
@@ -167,7 +172,7 @@ class AccountRefreshTests(unittest.TestCase):
             raw["stats"]["lifetime_tokens"] += bump
             raw["stats"]["peak_daily_tokens"] += bump
         validated = self.validate(raw)
-        self.assertEqual(validated["daily"][-1]["date"], "2026-07-13")
+        self.assertEqual(validated["daily"][-1]["date"], expected_date.isoformat())
         self.assertEqual(validated["daily"][-1]["tokens"], 0)
 
     def test_valid_unchanged_response_writes_nothing(self) -> None:
@@ -204,6 +209,9 @@ class AccountRefreshTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             self.make_repo(root)
+            initial_history = json.loads(
+                (root / "_data" / "codex_account_history.json").read_text()
+            )
             status = refresh.refresh(
                 root,
                 self.raw_fixture(
@@ -230,7 +238,10 @@ class AccountRefreshTests(unittest.TestCase):
             history = json.loads(
                 (root / "_data" / "codex_account_history.json").read_text()
             )
-            self.assertEqual(len(history["snapshots"]), 3)
+            self.assertEqual(
+                len(history["snapshots"]),
+                len(initial_history["snapshots"]) + 1,
+            )
             public = json.loads(
                 (root / "assets" / "data" / "codex-profile-usage.json").read_text()
             )
