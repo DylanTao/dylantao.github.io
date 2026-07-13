@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "source": "Codex account activity",
-  "sourceAsOf": "2026-07-12T18:40:36.5724510Z",
+  "sourceAsOf": "2026-07-12T21:40:56.486598-07:00",
   "lifetime": {
-    "tokens": 20860271364,
-    "tokensLabel": "20.9B",
+    "tokens": 21252042458,
+    "tokensLabel": "21.3B",
     "apiEquivalent": {
-      "usd": 17513.64,
-      "usdLabel": "~$17.5K",
+      "usd": 17149.13,
+      "usdLabel": "~$17.1K",
       "note": "Public-API comparison, not a Codex bill."
     }
   },
@@ -139,7 +139,7 @@
       },
       {
         "date": "2026-07-12",
-        "tokens": 582688404
+        "tokens": 974459498
       }
     ],
     "weekly": [
@@ -149,7 +149,7 @@
         "observedEnd": "2026-06-13",
         "observedDays": 1,
         "tokens": 6055884,
-        "apiEquivalentUsd": 5.08,
+        "apiEquivalentUsd": 4.89,
         "partial": true,
         "partialReason": "range-start"
       },
@@ -159,7 +159,7 @@
         "observedEnd": "2026-06-20",
         "observedDays": 7,
         "tokens": 1622149254,
-        "apiEquivalentUsd": 1361.91,
+        "apiEquivalentUsd": 1308.98,
         "partial": false,
         "partialReason": null
       },
@@ -169,7 +169,7 @@
         "observedEnd": "2026-06-27",
         "observedDays": 7,
         "tokens": 2306641635,
-        "apiEquivalentUsd": 1936.59,
+        "apiEquivalentUsd": 1861.32,
         "partial": false,
         "partialReason": null
       },
@@ -179,7 +179,7 @@
         "observedEnd": "2026-07-04",
         "observedDays": 7,
         "tokens": 7869966675,
-        "apiEquivalentUsd": 6607.38,
+        "apiEquivalentUsd": 6350.59,
         "partial": false,
         "partialReason": null
       },
@@ -189,7 +189,7 @@
         "observedEnd": "2026-07-11",
         "observedDays": 7,
         "tokens": 4588066029,
-        "apiEquivalentUsd": 3852.0,
+        "apiEquivalentUsd": 3702.3,
         "partial": false,
         "partialReason": null
       },
@@ -198,8 +198,8 @@
         "observedStart": "2026-07-12",
         "observedEnd": "2026-07-12",
         "observedDays": 1,
-        "tokens": 582688404,
-        "apiEquivalentUsd": 489.21,
+        "tokens": 974459498,
+        "apiEquivalentUsd": 786.33,
         "partial": true,
         "partialReason": "range-end"
       }
@@ -207,8 +207,8 @@
   },
   "history": {
     "grain": "calendar-day snapshots",
-    "snapshotCount": 1,
+    "snapshotCount": 2,
     "firstSourceAsOf": "2026-07-12T18:40:36.5724510Z",
-    "latestSourceAsOf": "2026-07-12T18:40:36.5724510Z"
+    "latestSourceAsOf": "2026-07-12T21:40:56.486598-07:00"
   }
 }

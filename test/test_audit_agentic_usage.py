@@ -758,6 +758,14 @@ class PriceLensTests(unittest.TestCase):
         )
         self.assertEqual(issues, [])
 
+    def test_account_snapshot_validation_preserves_source_calendar_date(self) -> None:
+        account = self.account_snapshot("2026-07-12T21:40:56-07:00")
+        issues = audit.account_snapshot_check_messages(
+            account,
+            now=datetime(2026, 7, 13, 4, 41, tzinfo=timezone.utc),
+        )
+        self.assertEqual(issues, [])
+
     def test_account_snapshot_validation_rejects_stale_source(self) -> None:
         account = self.account_snapshot("2026-07-10T06:00:00Z")
         issues = audit.account_snapshot_check_messages(

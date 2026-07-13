@@ -7,7 +7,7 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 325
+  commits: 326
   token_count: 3390000000
   tokens_label: 3.39B
   hours_count: 268
@@ -432,26 +432,16 @@ model_tracking:
   intended_effort: ultra
   cutover_at: "2026-07-09T21:28:23.394Z"
   cutover_label: Jul 9, 2026 at 2:28 PM PDT
-  post_cutover_turns_observed: 142
+  post_cutover_turns_observed: 606
   post_cutover_observed_breakdown:
-    gpt-5.4-mini/high: 1
-    gpt-5.4-mini/ultra: 1
-    gpt-5.6-sol/ultra: 140
-  post_cutover_deviation_count: 2
-  post_cutover_deviations:
-    - turn_id: 019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f
-      timestamp: "2026-07-11T05:00:19.703Z"
-      model: gpt-5.4-mini
-      effort: ultra
-    - turn_id: 019f4f8c-ae4b-7471-9ad5-333c04e74596
-      timestamp: "2026-07-11T05:00:49.076Z"
-      model: gpt-5.4-mini
-      effort: high
-  status: deviation_detected
+    gpt-5.6-sol/ultra: 606
+  post_cutover_deviation_count: 0
+  post_cutover_deviations: []
+  status: aligned
   public_note: "Dev work now: gpt-5.6-sol · ultra."
   caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed.
 since_gpt_5_6:
-  commits: 30
+  commits: 31
   token_count: 780000000
   tokens_label: 780M
   hours_count: 29
@@ -818,25 +808,25 @@ local_lifetime:
 account_lifetime:
   label: Codex lifetime
   source: Codex account activity
-  source_as_of: "2026-07-12T18:40:36.5724510Z"
-  token_count: 20860271364
-  tokens_label: 20.9B
-  tasks: 797
+  source_as_of: "2026-07-12T21:40:56.486598-07:00"
+  token_count: 21252042458
+  tokens_label: 21.3B
+  tasks: 805
   peak_daily_tokens: 1748633377
   peak_daily_date: "2026-07-01"
   model_note: Mostly GPT-5.5 Extra High and GPT-5.6 Sol Ultra.
   api_cost_equivalence:
     label: Account-lifetime API-rate replay
-    account_source_as_of: "2026-07-12T18:40:36.5724510Z"
+    account_source_as_of: "2026-07-12T21:40:56.486598-07:00"
     pricing_as_of: "2026-07-12"
     source_url: https://developers.openai.com/api/docs/pricing
     method: Account tokens scaled by the retained local model, cache-read, and long-context request mix.
-    observed_local_token_count: 8165783691
-    observed_local_usd_estimate: 6855.74
-    observed_usd_per_million_tokens: 0.84
-    usd_estimate: 17513.64
-    usd_midpoint: 17500
-    usd_label: ~$17.5K
+    observed_local_token_count: 10212120634
+    observed_local_usd_estimate: 8240.57
+    observed_usd_per_million_tokens: 0.807
+    usd_estimate: 17149.13
+    usd_midpoint: 17100
+    usd_label: ~$17.1K
   recent_activity:
     label: Last 30 calendar days
     partial_last_day: true
@@ -900,8 +890,8 @@ account_lifetime:
       - date: "2026-07-11"
         tokens: 1081155635
       - date: "2026-07-12"
-        tokens: 582688404
-    sparkline_points: 0.00,25.92 3.86,26.00 7.72,26.00 11.59,23.48 15.45,23.00 19.31,22.29 23.17,22.55 27.03,16.40 30.90,18.07 34.76,19.93 38.62,21.79 42.48,24.30 46.34,25.91 50.21,24.38 54.07,15.95 57.93,17.12 61.79,10.48 65.66,17.39 69.52,2.00 73.38,2.13 77.24,10.33 81.10,14.54 84.97,15.24 88.83,16.71 92.69,20.64 96.55,22.03 100.41,19.12 104.28,14.12 108.14,11.16 112.00,18.00
+        tokens: 974459498
+    sparkline_points: 0.00,25.92 3.86,26.00 7.72,26.00 11.59,23.48 15.45,23.00 19.31,22.29 23.17,22.55 27.03,16.40 30.90,18.07 34.76,19.93 38.62,21.79 42.48,24.30 46.34,25.91 50.21,24.38 54.07,15.95 57.93,17.12 61.79,10.48 65.66,17.39 69.52,2.00 73.38,2.13 77.24,10.33 81.10,14.54 84.97,15.24 88.83,16.71 92.69,20.64 96.55,22.03 100.41,19.12 104.28,14.12 108.14,11.16 112.00,12.63
     start_date: "2026-06-13"
     end_date: "2026-07-12"
     peak_date: "2026-07-01"
@@ -915,7 +905,7 @@ account_lifetime:
         tokens: 6055884
         partial: true
         partial_reason: range-start
-        api_equivalent_usd: 5.08
+        api_equivalent_usd: 4.89
       - week: "2026-06-14"
         observed_start: "2026-06-14"
         observed_end: "2026-06-20"
@@ -923,7 +913,7 @@ account_lifetime:
         tokens: 1622149254
         partial: false
         partial_reason: null
-        api_equivalent_usd: 1361.91
+        api_equivalent_usd: 1308.98
       - week: "2026-06-21"
         observed_start: "2026-06-21"
         observed_end: "2026-06-27"
@@ -931,7 +921,7 @@ account_lifetime:
         tokens: 2306641635
         partial: false
         partial_reason: null
-        api_equivalent_usd: 1936.59
+        api_equivalent_usd: 1861.32
       - week: "2026-06-28"
         observed_start: "2026-06-28"
         observed_end: "2026-07-04"
@@ -939,7 +929,7 @@ account_lifetime:
         tokens: 7869966675
         partial: false
         partial_reason: null
-        api_equivalent_usd: 6607.38
+        api_equivalent_usd: 6350.59
       - week: "2026-07-05"
         observed_start: "2026-07-05"
         observed_end: "2026-07-11"
@@ -947,12 +937,12 @@ account_lifetime:
         tokens: 4588066029
         partial: false
         partial_reason: null
-        api_equivalent_usd: 3852.0
+        api_equivalent_usd: 3702.3
       - week: "2026-07-12"
         observed_start: "2026-07-12"
         observed_end: "2026-07-12"
         observed_days: 1
-        tokens: 582688404
+        tokens: 974459498
         partial: true
         partial_reason: range-end
-        api_equivalent_usd: 489.21
+        api_equivalent_usd: 786.33

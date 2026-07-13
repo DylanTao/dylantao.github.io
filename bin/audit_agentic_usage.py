@@ -266,6 +266,17 @@ def parse_timestamp(value: Any) -> datetime | None:
     return timestamp.astimezone(timezone.utc)
 
 
+def timestamp_calendar_date(value: Any) -> date | None:
+    """Return the calendar date encoded by a timestamp before UTC normalization."""
+
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).date()
+    except ValueError:
+        return None
+
+
 def format_timestamp_utc(timestamp: datetime) -> str:
     timespec = "milliseconds" if timestamp.microsecond else "seconds"
     return timestamp.astimezone(timezone.utc).isoformat(timespec=timespec).replace("+00:00", "Z")
@@ -1282,6 +1293,7 @@ def account_snapshot_check_messages(
 
     issues: list[str] = []
     observed_at = parse_timestamp(account.get("source_as_of"))
+    observed_calendar_date = timestamp_calendar_date(account.get("source_as_of"))
     current_time = now or datetime.now(timezone.utc)
     if current_time.tzinfo is None:
         current_time = current_time.replace(tzinfo=timezone.utc)
@@ -1359,7 +1371,11 @@ def account_snapshot_check_messages(
             issues.append("account_lifetime.recent_activity.end_date does not match its final row.")
         if recent.get("end_label") != short_date_label(expected_end):
             issues.append("account_lifetime.recent_activity.end_label does not match its final row.")
-        if partial_last_day is True and observed_at and observed_at.date() != parsed_dates[-1]:
+        if (
+            partial_last_day is True
+            and observed_calendar_date
+            and observed_calendar_date != parsed_dates[-1]
+        ):
             issues.append(
                 "account_lifetime.recent_activity.partial_last_day requires source_as_of and the final row to share a date."
             )
