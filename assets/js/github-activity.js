@@ -12,6 +12,7 @@
     const tableBody = document.getElementById("github-activity-codex-table-body");
     const tableCaption = document.getElementById("github-activity-codex-table-caption");
     const grainButtons = Array.from(trendRoot.querySelectorAll("[data-codex-grain]"));
+    const scopeBadge = trendRoot.querySelector("[data-codex-scope]");
     if (!chart || !selectedDate || !selectedTokens || !selectedCost || !selectedCoverage || !status || !trendRoot.dataset.source) return;
 
     const selectionReadout = [selectedDate, selectedTokens, selectedCost, selectedCoverage];
@@ -167,6 +168,7 @@
     };
     const setPressedState = () => {
       grainButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.codexGrain === grain ? "true" : "false"));
+      if (scopeBadge) scopeBadge.textContent = "LAST 30 DAYS · " + grain.toUpperCase();
     };
     const draw = () => {
       const rows = rowsForGrain();
@@ -473,6 +475,7 @@
   const tierTableBody = document.getElementById("github-activity-tier-table-body");
   const tierTableCaption = document.getElementById("github-activity-tier-caption");
   const updated = document.getElementById("github-activity-updated");
+  const scopeBadge = root.querySelector("[data-github-scope]");
   const rangeButtons = Array.from(root.querySelectorAll("[data-range]"));
   const scaleButtons = Array.from(root.querySelectorAll("[data-scale]"));
   const tierLegendButtons = Array.from(root.querySelectorAll("[data-tier-inspector]"));
@@ -594,6 +597,10 @@
   const setPressedState = () => {
     rangeButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.range === range ? "true" : "false"));
     scaleButtons.forEach((button) => button.setAttribute("aria-pressed", button.dataset.scale === scale ? "true" : "false"));
+    if (scopeBadge) {
+      const rangeLabel = range === "all" ? "ALL HISTORY" : range + (range === "1" ? " YEAR" : " YEARS");
+      scopeBadge.textContent = rangeLabel + " · WEEKLY";
+    }
   };
 
   const tierDateRange = (tier) => {

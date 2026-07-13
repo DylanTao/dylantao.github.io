@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: A five-year view of Sirui Tao's weekly GitHub commits and code changes.
+description: Independent views of Sirui Tao's recent Codex use and long-term GitHub contributions.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,29 +11,12 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">GITHUB ACTIVITY</p>
+    <p class="github-activity-eyebrow">CODEX + GITHUB</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Five years of commits and lines changed, one week at a time. Huge code drops can flatten everything else, so Readable keeps the
-      quieter weeks in view.
+      Two independent views: recent Codex use and long-term GitHub contributions. Each keeps its own time horizon, units, and controls.
     </p>
     {% assign account_lifetime = site.data.agentic_usage.account_lifetime %}
-    {% if account_lifetime %}
-      <dl class="github-activity-codex-ledger" aria-label="Codex usage snapshot">
-        <div>
-          <dt>{{ account_lifetime.tokens_label }}</dt>
-          <dd>Codex tokens, all time</dd>
-        </div>
-        <div>
-          <dt>{{ account_lifetime.api_cost_equivalence.usd_label }}</dt>
-          <dd>if priced through the public API</dd>
-        </div>
-      </dl>
-      <p class="github-activity-ledger-note">
-        Codex reports {{ account_lifetime.tokens_label }}. The dollar number is a public-API comparison, not a bill.
-        {% if account_lifetime.recent_activity.partial_last_day %}{{ account_lifetime.recent_activity.end_label }} is partial.{% endif %}
-      </p>
-    {% endif %}
   </header>
 
 {% if account_lifetime %}
@@ -52,11 +35,28 @@ github_activity: true
 <h2 id="github-activity-codex-title">Recent Codex use</h2>
 <p>Account tokens over the latest 30 calendar days. Linear scale; the weekly view starts on Sunday.</p>
 </div>
+<div class="github-activity-module-actions">
+<span class="github-activity-scope-badge" data-codex-scope>LAST 30 DAYS · DAILY</span>
 <div class="github-activity-codex-grain" aria-label="Codex token chart grain">
 <button type="button" data-codex-grain="daily" aria-pressed="true" disabled>Daily</button>
 <button type="button" data-codex-grain="weekly" aria-pressed="false" disabled>Weekly</button>
 </div>
 </div>
+</div>
+<dl class="github-activity-codex-ledger" aria-label="Codex lifetime usage context">
+<div>
+<dt>{{ account_lifetime.tokens_label }}</dt>
+<dd>lifetime Codex tokens</dd>
+</div>
+<div>
+<dt>{{ account_lifetime.api_cost_equivalence.usd_label }}</dt>
+<dd>lifetime public-API equivalent</dd>
+</div>
+</dl>
+<p class="github-activity-ledger-note">
+Lifetime context for the 30-day chart. The dollar number is a public-API comparison, not a bill.
+{% if account_lifetime.recent_activity.partial_last_day %}{{ account_lifetime.recent_activity.end_label }} is partial.{% endif %}
+</p>
 <div class="github-activity-codex-readout">
 <span data-codex-status>Loading recent Codex use…</span>
 <span id="github-activity-codex-date" hidden></span>
@@ -79,10 +79,19 @@ The dollar readout applies the same account-wide public-API comparison to each p
 </section>
 {% endif %}
 
-  <section class="github-activity-workbench" aria-labelledby="github-activity-chart-title">
-    <div class="github-activity-controls" aria-label="Chart controls">
+  <section class="github-activity-workbench" aria-labelledby="github-activity-github-title">
+    <div class="github-activity-module-heading">
+      <div>
+        <p class="github-activity-module-kicker">GITHUB ACTIVITY</p>
+        <h2 id="github-activity-github-title">GitHub contribution history</h2>
+        <p>Weekly commits and lines changed. Readable keeps quieter weeks visible beside large code drops.</p>
+      </div>
+      <span class="github-activity-scope-badge" data-github-scope>5 YEARS · WEEKLY</span>
+    </div>
+
+    <div class="github-activity-controls" aria-label="GitHub chart controls">
       <fieldset class="github-activity-control-group">
-        <legend>Time window</legend>
+        <legend>GitHub time window</legend>
         <div class="github-activity-segments" data-range-controls>
           <button type="button" data-range="1" aria-pressed="false">1 year</button>
           <button type="button" data-range="3" aria-pressed="false">3 years</button>
@@ -91,7 +100,7 @@ The dollar readout applies the same account-wide public-API comparison to each p
         </div>
       </fieldset>
       <fieldset class="github-activity-control-group">
-        <legend>Scale</legend>
+        <legend>GitHub scale</legend>
         <div class="github-activity-segments" data-scale-controls>
           <button type="button" data-scale="symlog" aria-pressed="true">Readable</button>
           <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
@@ -163,8 +172,8 @@ The dollar readout applies the same account-wide public-API comparison to each p
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Two units, two panels</h2>
-        <p>Commits sit above lines changed. They share a calendar, not a unit.</p>
+        <h2>Three units, two horizons</h2>
+        <p>Codex tokens cover 30 days. GitHub commits and lines changed share a separate weekly calendar across the selected history.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>

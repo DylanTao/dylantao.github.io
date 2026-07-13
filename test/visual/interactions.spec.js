@@ -194,8 +194,17 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
 
   const activity = page.locator("[data-github-activity]");
   await expect(activity).toHaveAttribute("data-state", "ready");
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("CODEX + GITHUB");
+  await expect(page.getByRole("heading", { name: "Recent Codex use", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "GitHub contribution history", exact: true })).toBeVisible();
+  await expect(page.locator(".github-activity-method-grid")).toContainText("Three units, two horizons");
+  const codexScopeBadge = page.locator("[data-codex-scope]");
+  const githubScopeBadge = page.locator("[data-github-scope]");
+  await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · DAILY");
   const codexLedger = page.locator(".github-activity-codex-ledger");
   await expect(codexLedger.locator("div")).toHaveCount(2);
+  await expect(page.locator(".github-activity-hero .github-activity-codex-ledger")).toHaveCount(0);
+  await expect(page.locator(".github-activity-codex-trend .github-activity-codex-ledger")).toHaveCount(1);
   await expect(codexLedger).not.toContainText("local logs");
   await expect(page.locator(".github-activity-ledger-note")).not.toContainText("Local logs");
   const codexTrend = page.locator("[data-codex-usage]");
@@ -213,6 +222,8 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await expect(page.locator("#github-activity-codex-tokens")).toHaveText("582,688,404 tokens");
   await expect(page.locator("#github-activity-codex-cost")).toContainText("≈$489 through the public API");
   await expect(page.locator("#github-activity-codex-coverage")).toHaveText("Partial day");
+  const githubScopeBeforeCodexChange = await githubScopeBadge.textContent();
+  const githubLineBeforeCodexChange = await page.locator(".github-activity-add-line").getAttribute("d");
   const codexInspector = page.locator(".github-activity-codex-inspector");
   const codexInspectorBox = await codexInspector.boundingBox();
   await page.mouse.move(codexInspectorBox.x + codexInspectorBox.width * (18 / 29), codexInspectorBox.y + codexInspectorBox.height * 0.45);
@@ -242,6 +253,9 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await page.keyboard.press("End");
   await codexWeekly.click();
   await expect(codexWeekly).toHaveAttribute("aria-pressed", "true");
+  await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · WEEKLY");
+  await expect(githubScopeBadge).toHaveText(githubScopeBeforeCodexChange);
+  await expect(page.locator(".github-activity-add-line")).toHaveAttribute("d", githubLineBeforeCodexChange);
   await expect(page.locator(".github-activity-codex-point")).toHaveCount(6);
   await expect(page.locator("#github-activity-codex-table-body tr")).toHaveCount(6);
   await expect(page.locator("#github-activity-codex-table-caption")).toContainText("Sunday-week");
@@ -253,9 +267,16 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   await page.keyboard.press("End");
   await expect(page.locator("#github-activity-codex-coverage")).toHaveText("1 of 7 days · week in progress");
   await codexDaily.click();
+  await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · DAILY");
   await expect(page.locator("#github-activity-codex-table-body tr")).toHaveCount(30);
   const rangeSummary = page.locator("#github-activity-range-summary");
+  const codexLineBeforeGithubChange = await page.locator(".github-activity-codex-line").getAttribute("d");
+  await page.getByRole("button", { name: "3 years" }).click();
+  await expect(githubScopeBadge).toHaveText("3 YEARS · WEEKLY");
+  await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · DAILY");
+  await expect(page.locator(".github-activity-codex-line")).toHaveAttribute("d", codexLineBeforeGithubChange);
   await page.getByRole("button", { name: "5 years" }).click();
+  await expect(githubScopeBadge).toHaveText("5 YEARS · WEEKLY");
   await expect(rangeSummary).toContainText("5 years");
   await expect(rangeSummary).toContainText(/[A-Z][a-z]{2} \d{1,2}, \d{4} — [A-Z][a-z]{2} \d{1,2}, \d{4}/);
   const fiveYearSummary = await rangeSummary.textContent();
@@ -282,6 +303,8 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
   const exactWeekBeforeScaleChange = await page.locator(".github-activity-values").textContent();
   await literal.click();
   await expect(literal).toHaveAttribute("aria-pressed", "true");
+  await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · DAILY");
+  await expect(page.locator(".github-activity-codex-line")).toHaveAttribute("d", codexLineBeforeGithubChange);
   await expect(page.locator("#github-activity-chart").getByText("LINES CHANGED / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
   if (hasCommitData) {
     await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
@@ -483,6 +506,8 @@ test("github activity exposes scale, scope, keyboard inspection, and exact value
 
   for (const windowName of ["3 years", "5 years", "All"]) {
     await page.getByRole("button", { name: windowName, exact: true }).click();
+    await expect(githubScopeBadge).toHaveText(windowName === "All" ? "ALL HISTORY · WEEKLY" : windowName.toUpperCase() + " · WEEKLY");
+    await expect(codexScopeBadge).toHaveText("LAST 30 DAYS · DAILY");
     await expect(page.locator("#github-activity-tier-caption")).toContainText("current time window");
     await expect(page.locator("#github-activity-tier-table-body tr")).toHaveCount(3);
   }
