@@ -246,9 +246,9 @@ def validate_raw_account(
         raise ContractError("Peak tokens do not match daily activity")
 
     source_calendar_date = audit.timestamp_calendar_date(source_as_of)
-    if source_calendar_date is None or daily[-1]["date"] != source_calendar_date:
+    if source_calendar_date is None or daily[-1]["date"] > source_calendar_date:
         raise ContractError(
-            "Final daily bucket must match the source-local partial date"
+            "Final daily bucket cannot be later than the source-local partial date"
         )
     expected_recent_dates = [
         source_calendar_date - timedelta(days=29 - offset) for offset in range(30)

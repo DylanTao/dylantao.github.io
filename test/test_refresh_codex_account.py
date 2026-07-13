@@ -150,6 +150,26 @@ class AccountRefreshTests(unittest.TestCase):
         self.assertEqual(candidate["recent_activity"]["daily"][1]["tokens"], 0)
         self.assertTrue(candidate["recent_activity"]["partial_last_day"])
 
+    def test_midnight_rollover_restores_an_omitted_zero_partial_day(self) -> None:
+        raw = self.raw_fixture(
+            source_as_of="2026-07-13T07:20:00Z",
+            forced_zero_index=29,
+        )
+        daily = raw["stats"]["daily_usage_buckets"]
+        peak_index = max(range(len(daily)), key=lambda index: daily[index]["tokens"])
+        bump = (
+            self.current_account["peak_daily_tokens"] + 1 - daily[peak_index]["tokens"]
+        )
+        if bump > 0:
+            daily[peak_index]["tokens"] += bump
+            for row in raw["stats"]["cumulative_daily_usage_buckets"][peak_index:]:
+                row["tokens"] += bump
+            raw["stats"]["lifetime_tokens"] += bump
+            raw["stats"]["peak_daily_tokens"] += bump
+        validated = self.validate(raw)
+        self.assertEqual(validated["daily"][-1]["date"], "2026-07-13")
+        self.assertEqual(validated["daily"][-1]["tokens"], 0)
+
     def test_valid_unchanged_response_writes_nothing(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -280,14 +300,16 @@ class AccountRefreshTests(unittest.TestCase):
         with self.assertRaises(refresh.ContractError):
             self.validate(raw)
 
-    def test_partial_day_must_match_pacific_source_date(self) -> None:
+    def test_daily_bucket_cannot_be_later_than_pacific_source_date(self) -> None:
         raw = self.raw_fixture()
         source = refresh.parse_aware_timestamp(
-            raw["metadata"]["generated_at"],
-            "fixture generated_at",
-        ) + timedelta(hours=8)
-        raw["metadata"]["generated_at"] = source.isoformat().replace("+00:00", "Z")
-        raw["metadata"]["stats_as_of"] = source.date().isoformat()
+            raw["metadata"]["generated_at"], "fixture"
+        )
+        source_date = audit.timestamp_calendar_date(raw["metadata"]["generated_at"])
+        assert source_date is not None
+        future_date = (source_date + timedelta(days=1)).isoformat()
+        raw["stats"]["daily_usage_buckets"][-1]["start_date"] = future_date
+        raw["stats"]["cumulative_daily_usage_buckets"][-1]["start_date"] = future_date
         with self.assertRaises(refresh.ContractError):
             refresh.validate_raw_account(
                 raw,
