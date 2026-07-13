@@ -7577,10 +7577,17 @@
     if (spinButton) {
       spinButton.addEventListener("click", (event) => {
         event.stopPropagation();
-        if (suppressNextSpinClick) {
+        if (suppressNextSpinClick && event.detail > 0) {
           event.preventDefault();
           suppressNextSpinClick = false;
           return;
+        }
+        if (suppressNextSpinClick) {
+          suppressNextSpinClick = false;
+          if (shakeSuppressionTimer) {
+            window.clearTimeout(shakeSuppressionTimer);
+            shakeSuppressionTimer = 0;
+          }
         }
         toggleRecordPlayback();
       });
