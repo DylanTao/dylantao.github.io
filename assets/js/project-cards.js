@@ -4,9 +4,17 @@
 
   const cards = Array.from(document.querySelectorAll("[data-project-card]"));
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const status = document.querySelector("[data-project-card-status]");
   let activeCard = null;
 
   const prefersReducedMotion = () => reduceMotionQuery.matches;
+
+  const cardTitle = (card) => card?.querySelector(".card-title")?.textContent?.trim() || "Project";
+
+  const announceCardState = (card, isExpanded) => {
+    if (!status || !card) return;
+    status.textContent = `${cardTitle(card)} preview ${isExpanded ? "opened" : "closed"}.`;
+  };
 
   const measureCards = () => {
     const rects = new Map();
@@ -74,6 +82,8 @@
 
   const setActiveCard = (nextCard, options = {}) => {
     const firstRects = measureCards();
+    const previousCard = activeCard;
+    const shouldRestoreFocus = Boolean(previousCard && options.restoreFocus && previousCard.contains(document.activeElement));
     activeCard = nextCard;
 
     cards.forEach((card) => {
@@ -83,6 +93,11 @@
       grid.classList.toggle("has-expanded-project-card", Boolean(activeCard));
     });
     document.body.classList.toggle("project-card-preview-open", Boolean(activeCard));
+    if (activeCard) {
+      announceCardState(activeCard, true);
+    } else if (previousCard) {
+      announceCardState(previousCard, false);
+    }
 
     window.requestAnimationFrame(() => {
       animateLayout(firstRects);
@@ -102,6 +117,9 @@
           primaryAction.focus({ preventScroll: true });
         }
       }
+      if (!activeCard && previousCard && shouldRestoreFocus) {
+        previousCard.querySelector("[data-project-card-trigger]")?.focus({ preventScroll: true });
+      }
     });
   };
 
@@ -111,14 +129,17 @@
 
     if (trigger) {
       trigger.addEventListener("click", (event) => {
-        setActiveCard(activeCard === card ? null : card, { focusPrimaryAction: event.detail === 0, scroll: true });
+        setActiveCard(activeCard === card ? null : card, {
+          focusPrimaryAction: event.detail === 0,
+          restoreFocus: true,
+          scroll: true,
+        });
       });
     }
 
     if (closeButton) {
       closeButton.addEventListener("click", () => {
-        setActiveCard(null);
-        if (trigger) trigger.focus({ preventScroll: true });
+        setActiveCard(null, { restoreFocus: true });
       });
     }
   });
@@ -131,14 +152,12 @@
     if (target.closest("[data-project-card]")) return;
     if (target.closest("a, button, input, textarea, select, summary, [role='button']")) return;
 
-    setActiveCard(null);
+    setActiveCard(null, { restoreFocus: true });
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape" || !activeCard) return;
 
-    const trigger = activeCard.querySelector("[data-project-card-trigger]");
-    setActiveCard(null);
-    if (trigger) trigger.focus({ preventScroll: true });
+    setActiveCard(null, { restoreFocus: true });
   });
 })();

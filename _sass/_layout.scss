@@ -136,6 +136,72 @@ body.sticky-bottom-footer {
   scroll-margin-top: 6.5rem;
 }
 
+.site-anchor-arrival {
+  background-image: linear-gradient(90deg, var(--global-theme-color), color-mix(in srgb, var(--global-theme-color) 42%, transparent));
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  animation: site-anchor-arrival 1.8s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.route-recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.35rem;
+}
+
+.route-recovery-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.65rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 999px;
+  padding: 0.62rem 0.9rem;
+  color: var(--global-text-color);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--global-theme-color);
+    color: var(--global-theme-color);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.route-recovery-link-primary {
+  border-color: var(--global-theme-color);
+  background: var(--global-theme-color);
+  color: var(--global-hover-text-color);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--global-hover-color);
+    color: var(--global-hover-text-color);
+  }
+}
+
+@keyframes site-anchor-arrival {
+  0% {
+    background-size: 0 2px;
+  }
+
+  18%,
+  76% {
+    background-size: 3rem 2px;
+  }
+
+  100% {
+    background-size: 0 2px;
+  }
+}
+
 .section-reading-aid {
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
@@ -603,6 +669,11 @@ html.site-motion-ready .site-reveal.site-visible {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .site-anchor-arrival {
+    background-size: 3rem 2px;
+    animation: none;
   }
 
   html.site-motion-ready .site-reveal {

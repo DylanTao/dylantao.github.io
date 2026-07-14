@@ -1,3 +1,53 @@
+(() => {
+  const cueClass = "site-anchor-arrival";
+  const cueDuration = 1900;
+  let cueTimer = 0;
+  let cueTarget = null;
+
+  const clearAnchorArrival = () => {
+    window.clearTimeout(cueTimer);
+    cueTimer = 0;
+    cueTarget?.classList.remove(cueClass);
+    cueTarget = null;
+  };
+
+  const markAnchorArrival = (target, { focus = true } = {}) => {
+    if (!(target instanceof HTMLElement)) return;
+
+    clearAnchorArrival();
+    cueTarget = target;
+    cueTarget.classList.add(cueClass);
+
+    if (focus) {
+      const focusTarget = cueTarget;
+      if (!focusTarget.hasAttribute("tabindex")) {
+        focusTarget.tabIndex = -1;
+        focusTarget.dataset.siteArrivalTabindex = "temporary";
+        focusTarget.addEventListener(
+          "blur",
+          () => {
+            if (focusTarget.dataset.siteArrivalTabindex === "temporary") {
+              focusTarget.removeAttribute("tabindex");
+              delete focusTarget.dataset.siteArrivalTabindex;
+            }
+          },
+          { once: true }
+        );
+      }
+
+      focusTarget.focus({ preventScroll: true });
+    }
+
+    cueTimer = window.setTimeout(clearAnchorArrival, cueDuration);
+  };
+
+  window.SiteMotion = {
+    ...(window.SiteMotion || {}),
+    clearAnchorArrival,
+    markAnchorArrival,
+  };
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   const toggleSpecs = [
     { trigger: "a.abstract", target: ".abstract.hidden", panelClass: "abstract" },
@@ -226,6 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
         top: targetTop,
         behavior: prefersReducedMotion ? "auto" : "smooth",
       });
+      window.SiteMotion?.markAnchorArrival(target, { focus: true });
       window.setTimeout(updateActiveTocLink, 900);
       window.setTimeout(updateActiveTocLink, 1400);
 
@@ -351,7 +402,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (links.length) {
       cvSectionLinks.replaceChildren(...links);
       cvSectionLinks.addEventListener("click", (event) => {
-        if (event.target.closest("a")) cvSectionControl.open = false;
+        const link = event.target.closest("a");
+        if (!link) return;
+
+        cvSectionControl.open = false;
+        const targetId = decodeURIComponent(link.hash.replace(/^#/, ""));
+        const target = document.getElementById(targetId);
+        const card = target?.matches(".card") ? target : target?.nextElementSibling?.matches(".card") ? target.nextElementSibling : null;
+        const heading = card?.querySelector(".card-title");
+
+        window.requestAnimationFrame(() => {
+          window.SiteMotion?.markAnchorArrival(heading, { focus: true });
+        });
       });
     } else {
       cvSectionControl.hidden = true;

@@ -6,6 +6,8 @@ nav: false
 description: featured and bundled plugin ecosystem catalog for al-folio v1.x
 ---
 
+**Maintainer route.** This unlisted catalog documents the starter architecture behind Sirui's site. Looking for the public-facing work? [Browse the research projects]({{ '/projects/' | relative_url }}).
+
 `al-folio` `v1.x` is a starter with plugin-owned runtime features.
 This page lists plugins recognized in the ecosystem catalog (`_data/featured_plugins.yml`).
 

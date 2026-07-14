@@ -559,6 +559,47 @@ test("content reading aid avoids headers and uses inline fallback on medium desk
   }
 });
 
+test("explicit reading-aid navigation marks one destination while ordinary scroll stays passive", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop reading-aid contract");
+
+  await preparePage(page, "light");
+  await page.setViewportSize({ width: 1366, height: 900 });
+  await page.goto(visualRoute("projects/designweaver/"), { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".section-reading-aid-mobile-inline", { state: "attached" });
+  await stabilizeVisuals(page);
+
+  const inlineAid = page.locator(".section-reading-aid-mobile-inline");
+  const toggle = inlineAid.locator(".section-reading-aid-mobile-toggle");
+  await toggle.click();
+  const links = inlineAid.locator("a[data-section-id]");
+  const firstLink = links.first();
+  const firstId = await firstLink.getAttribute("data-section-id");
+  await firstLink.click();
+
+  const firstTarget = page.locator(`#${firstId}`);
+  await expect(firstTarget).toBeFocused();
+  await expect(firstTarget).toHaveClass(/site-anchor-arrival/);
+
+  await toggle.click();
+  const secondLink = links.nth(1);
+  const secondId = await secondLink.getAttribute("data-section-id");
+  await secondLink.click();
+  const secondTarget = page.locator(`#${secondId}`);
+  await expect(firstTarget).not.toHaveClass(/site-anchor-arrival/);
+  await expect(secondTarget).toBeFocused();
+  await expect(secondTarget).toHaveClass(/site-anchor-arrival/);
+  await expect(secondTarget).not.toHaveClass(/site-anchor-arrival/, { timeout: 2500 });
+
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".section-reading-aid-mobile-inline", { state: "attached" });
+  await page.evaluate(() => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    window.scrollTo({ top: 1200, behavior: "auto" });
+  });
+  await page.waitForTimeout(250);
+  await expect(page.locator(".site-anchor-arrival")).toHaveCount(0);
+});
+
 test("navbar menu stays right-aligned on desktop pages", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "desktop-only alignment contract");
 
@@ -994,6 +1035,52 @@ test("project cards hover with upward lift animation", async ({ page }, testInfo
   expect(before).not.toBeNull();
   expect(after).not.toBeNull();
   expect(after.y).toBeLessThan(before.y);
+});
+
+test("project previews announce state and recover focus before hiding controls", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.goto("/al-folio/projects/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const card = page.locator("[data-project-card]").first();
+  const trigger = card.locator("[data-project-card-trigger]");
+  const panel = card.locator("[data-project-card-panel]");
+  const primaryAction = card.locator("[data-project-card-primary-action]");
+  const status = page.locator("[data-project-card-status]");
+
+  await trigger.focus();
+  await trigger.press("Enter");
+  await expect(card).toHaveAttribute("data-project-card-state", "expanded");
+  await expect(panel).toBeVisible();
+  await expect(primaryAction).toBeFocused();
+  await expect(status).toContainText(/preview opened\.$/);
+
+  await page.keyboard.press("Escape");
+  await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(status).toContainText(/preview closed\.$/);
+
+  await trigger.click();
+  await primaryAction.focus();
+  await page
+    .locator("h1")
+    .first()
+    .click({ position: { x: 4, y: 4 } });
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+test("404 recovery stays put and opts out of indexing", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.goto("/al-folio/404.html", { waitUntil: "domcontentloaded" });
+
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, follow");
+  await expect(page.getByRole("link", { name: "Return home" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Browse projects" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Read research notes" })).toBeVisible();
+  await page.waitForTimeout(3500);
+  await expect(page).toHaveURL(/\/al-folio\/404\.html$/);
 });
 
 test("teaching calendar toggle has pointer cursor and toggles calendar visibility", async ({ page }) => {

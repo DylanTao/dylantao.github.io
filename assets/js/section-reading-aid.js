@@ -226,6 +226,7 @@
         if (mobileNavs.some((nav) => nav.contains(link))) closeMobileNavs();
         setActiveSection(section);
         scrollToHeading(section.heading);
+        window.SiteMotion?.markAnchorArrival(section.heading, { focus: true });
 
         if (history.pushState) {
           history.pushState(null, "", `#${section.id}`);

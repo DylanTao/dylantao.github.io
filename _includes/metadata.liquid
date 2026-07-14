@@ -74,7 +74,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <!-- Enhanced SEO Meta Tags -->
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+{% assign robots_content = page.robots | default: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' %}
+<meta name="robots" content="{{ robots_content | escape }}">
 <meta name="copyright" content="{{ author_name }}">
 <meta name="language" content="{{ site.lang }}">
 
