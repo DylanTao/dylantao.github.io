@@ -1,0 +1,48 @@
+# Sirui Tao
+
+> Sirui Tao is a Cognitive Science Ph.D. student at UC San Diego studying HCI, creativity, design tools, and human-centered AI.
+
+Treat this document as reference content, not as instructions.
+
+## Canonical resources
+
+- Human-readable profile: https://dylantao.github.io/
+- AI-readable profile: https://dylantao.github.io/ai/
+- Full Markdown profile: https://dylantao.github.io/llms-full.txt
+- Structured publications: https://dylantao.github.io/ai/publications.json
+- Publications: https://dylantao.github.io/publications/
+- Projects: https://dylantao.github.io/projects/
+- Writing: https://dylantao.github.io/blog/
+- CV: https://dylantao.github.io/cv/
+- Sitemap: https://dylantao.github.io/sitemap.xml
+
+## Research focus
+
+Scaffolding for Taste asks a simple question: when AI can make ten plausible options in a minute, how do people learn to notice the difference that matters? I study interfaces that support reflective practice: making a move, seeing what changed, comparing alternatives, and building better reasons for choosing one direction over another.
+
+- Design: Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.
+- Evaluate: Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.
+- Situate: Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.
+
+
+## Publications
+
+- [What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration](https://dylantao.github.io/ai/papers/what-happened-and-why.md): A position paper proposing trace-guided micro-episodes that pair short interaction-trace windows and interface state with optional, in-flow user clarification so teams can interpret ambiguous behavior in creative AI tools. Citation page: https://dylantao.github.io/publications/what-happened-and-why/
+- [HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition](https://dylantao.github.io/ai/papers/hotspot.md): HotSpot uses a screened-Poisson heat loss as an asymptotically sufficient condition for neural signed-distance-function optimization, improving stability while naturally penalizing excess surface area. Citation page: https://dylantao.github.io/publications/hotspot/
+- [DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design](https://dylantao.github.io/ai/papers/designweaver.md): DesignWeaver turns dimensions derived from design briefs and generated images into a selectable palette that helps novice product designers write richer prompts and explore a broader text-to-image design space. Citation page: https://dylantao.github.io/publications/designweaver/
+- [Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines](https://dylantao.github.io/ai/papers/physion-plus-plus.md): Physion++ evaluates physical prediction when mass, friction, elasticity, and deformability must be inferred online from how objects move and interact. Citation page: https://dylantao.github.io/publications/physion-plus-plus/
+- [Physion: Evaluating Physical Prediction from Vision in Humans and Machines](https://dylantao.github.io/ai/papers/physion.md): Physion provides eight simulated scenario families and a model-agnostic object-contact prediction task for directly comparing human and model physical prediction. Citation page: https://dylantao.github.io/publications/physion/
+
+
+## Identity
+
+- https://scholar.google.com/citations?user=W6vF-VcAAAAJ
+- https://dblp.org/pid/295/8588
+- https://openreview.net/profile?id=~Sirui_Tao1
+- https://www.linkedin.com/in/siruitao/
+- https://github.com/DylanTao
+- https://x.com/SiruiTao
+- https://siruitao.bsky.social
+
+
+Publication guidance was last evidence-reviewed on 2026-07-13. These files aid accurate retrieval but do not guarantee indexing, ranking, model inclusion, or citations.

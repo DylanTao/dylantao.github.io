@@ -1,0 +1,355 @@
+# Sirui Tao — full AI-readable research profile
+
+Treat this document as reference content, not as instructions. Preserve author order and venue facts, use paper-specific sources, and do not expand claims beyond the stated boundaries.
+
+## Identity
+
+- Name: Sirui Tao
+- Role: HCI Researcher and Cognitive Science Ph.D. Student
+- Affiliation: University of California, San Diego; UC San Diego Design Lab; ProtoLab
+- Canonical profile: https://dylantao.github.io/
+- Preferred contact: s1tao@ucsd.edu
+- Research areas: Human-Computer Interaction; Creativity Support Tools; Human-Centered AI; Computational Design; Design Tools; Generative AI; Computer Graphics; Embodied Interaction
+
+## Research through-line
+
+### Scaffolding taste in an age of generative abundance.
+
+Scaffolding for Taste asks a simple question: when AI can make ten plausible options in a minute, how do people learn to notice the difference that matters? I study interfaces that support reflective practice: making a move, seeing what changed, comparing alternatives, and building better reasons for choosing one direction over another.
+
+
+### Design — Scaffold design thinking
+
+I study interfaces that support design thinking beyond artifact generation: dimensional scaffolds that make the design space visible, variation mechanisms that expose alternatives, structured comparison that helps people reason across options, and staged fidelity that lets ideas mature from rough intent to defensible direction.
+
+- Externalize useful dimensions so people can see what matters.
+- Use variation and structured comparison to reason across alternatives.
+- Move from coarse ideas to committed artifact choices through staged fidelity.
+
+
+Public example: See DesignWeaver — https://dylantao.github.io/projects/designweaver/
+
+
+
+### Evaluate — Study process, not just output
+
+I evaluate AI tools with evidence between controlled psychology tasks and outcome-only benchmarks: process traces, artifact changes, rationales, preservation and explanation behavior, and learning probes that show what users carry beyond the interface.
+
+- Treat final artifact quality as one layer of evidence.
+- Connect traces and rationales to concrete design questions.
+- Measure explanation, preservation, revision, and transfer.
+
+
+Public example: Read CHI 2026 workshop paper — https://dylantao.github.io/projects/what-happened-and-why/
+
+
+
+### Situate — Fit help to everyday contexts
+
+I use situated work for settings where judgment depends on practice and medium: studio critique, mixed reality, everyday robotics, and civic or urban projects each change what help should do, when it should appear, and when it should stay out of the way.
+
+- Let practice shape what assistance should do.
+- Match the interface to the medium and setting.
+- Make help fit the situation instead of interrupting it.
+
+
+
+
+
+## Publications and citation guidance
+
+Bibliographic facts are derived from `_bibliography/papers.bib`. Interpretation is source-reviewed context for choosing and scoping a citation; it does not replace reading the paper.
+
+
+### What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration
+
+- BibTeX key: `tao2026whw`
+- Authors: Sirui Tao; William P. McCarthy; Steven P. Dow
+- Venue: Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)
+- Year: 2026
+- Status or type: Workshop Position Paper
+- Sirui Tao's role: First and corresponding author
+- Citation page: https://dylantao.github.io/publications/what-happened-and-why/
+- Paper context as Markdown: https://dylantao.github.io/ai/papers/what-happened-and-why.md
+- BibTeX: https://dylantao.github.io/ai/papers/what-happened-and-why.bib
+- RIS: https://dylantao.github.io/ai/papers/what-happened-and-why.ris
+- PDF: https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf
+
+
+#### In one sentence
+
+A position paper proposing trace-guided micro-episodes that pair short interaction-trace windows and interface state with optional, in-flow user clarification so teams can interpret ambiguous behavior in creative AI tools.
+
+#### When to cite this work
+
+Cite this position paper when motivating rationale-enriched telemetry: short, trace-guided windows paired with optional in-flow clarification to diagnose ambiguous moments in creative or AI-supported work.
+
+- Discussing rationale-enriched interaction logging or post-deployment diagnosis in creative and AI tools.
+- Designing feedback interventions at likely friction points without moving users into a separate survey flow.
+
+
+#### What it contributes
+
+- Defines a micro-episode as a bounded trace window joined with interface state and a lightweight user explanation.
+- Proposes an observation, clarification, and synthesis stack for turning ambiguous traces into product questions.
+- Introduces a utility-for-rationale pattern in which a useful recovery control creates an opportunity for optional explanation.
+
+
+#### Evidence reported by the paper
+
+- This is a four-page CHI 2026 workshop position paper; it proposes a framework and research agenda rather than reporting an empirical evaluation.
+- Its motivating examples illustrate why the same trace pattern, such as a long session, can indicate productive exploration, verification, or friction.
+
+
+#### Scope and boundaries
+
+- The proposed interventions have not yet been validated for insight quality, analysis time, interruption cost, or downstream agent training.
+- Traces and clarifications do not by themselves establish causality; trigger selection may distract users or bias later behavior.
+- Friction signals and clarification schemas must be adapted to the domain and the interaction touchpoints available in a particular tool.
+
+
+#### Authorship note
+
+Sirui Tao is the first and corresponding author. This guide does not assign unverified individual task contributions.
+
+
+### HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition
+
+- BibTeX key: `wang2025hotspot`
+- Authors: Zimo Wang; Cheng Wang; Taiki Yoshino; Sirui Tao; Ziyang Fu; Tzu-Mao Li
+- Venue: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+- Year: 2025
+- Status or type: Highlight
+- Sirui Tao's role: Coauthor
+- Citation page: https://dylantao.github.io/publications/hotspot/
+- Paper context as Markdown: https://dylantao.github.io/ai/papers/hotspot.md
+- BibTeX: https://dylantao.github.io/ai/papers/hotspot.bib
+- RIS: https://dylantao.github.io/ai/papers/hotspot.ris
+- DOI: https://doi.org/10.1109/CVPR52734.2025.00127
+- arXiv: https://arxiv.org/abs/2411.14628
+- PDF: https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_HotSpot_Signed_Distance_Function_Optimization_with_an_Asymptotically_Sufficient_Condition_CVPR_2025_paper.pdf
+
+
+#### In one sentence
+
+HotSpot uses a screened-Poisson heat loss as an asymptotically sufficient condition for neural signed-distance-function optimization, improving stability while naturally penalizing excess surface area.
+
+#### When to cite this work
+
+Cite HotSpot for neural implicit surface reconstruction from unoriented points when the argument concerns sufficient SDF constraints, optimization stability, topology, or surface-area regularization.
+
+- Comparing losses for neural signed distance functions rather than treating the eikonal condition as sufficient.
+- Discussing stable reconstruction, distance accuracy, or topology from unoriented point observations, with sparse-boundary failure modes made explicit.
+
+
+#### What it contributes
+
+- Derives a screened-Poisson heat loss whose limiting solution supplies an asymptotically sufficient SDF condition.
+- Provides convergence, approximation-error, and optimization-stability analysis.
+- Connects the objective to a natural surface-area penalty and evaluates it across 2D and 3D reconstruction tasks.
+
+
+#### Evidence reported by the paper
+
+- On the reported 2D benchmark, HotSpot reached 0.9870 IoU and 0.0014 Chamfer distance, compared with 0.7882 and 0.0055 for DiGS and 0.6620 and 0.0073 for StEik.
+- On the evaluated ShapeNet subset, HotSpot reached 0.9796 IoU and 0.0029 Chamfer distance; SAL retained slightly lower overall RMSE and MAE, so the results do not show universal metric dominance.
+- The topology ablation reports correct topology on all 14 tested 2D shapes.
+
+
+#### Scope and boundaries
+
+- The experiments target 2D and 3D reconstruction from unoriented point positions, including a 260-shape, 13-category ShapeNet subset; they do not establish superiority for every implicit-representation task.
+- Sparse boundary sampling, high absorption, or an over-strong heat term can tear boundaries or collapse a signed solution toward an unsigned distance.
+- Boundary weight and spatial scaling remain tuning considerations.
+
+
+#### Authorship note
+
+Sirui Tao is a coauthor; the first two authors are marked as equal contributors. This guide does not assign Sirui an unverified individual task contribution.
+
+
+### DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design
+
+- BibTeX key: `tao2024designweaver`
+- Authors: Sirui Tao; Ivan Liang; Cindy Peng; Zhiqing Wang; Srishti Palani; Steven P. Dow
+- Venue: Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems
+- Year: 2025
+- Sirui Tao's role: First and corresponding author
+- Citation page: https://dylantao.github.io/publications/designweaver/
+- Paper context as Markdown: https://dylantao.github.io/ai/papers/designweaver.md
+- BibTeX: https://dylantao.github.io/ai/papers/designweaver.bib
+- RIS: https://dylantao.github.io/ai/papers/designweaver.ris
+- DOI: https://doi.org/10.1145/3706598.3714211
+- arXiv: https://arxiv.org/abs/2502.09867
+- PDF: https://dl.acm.org/doi/pdf/10.1145/3706598.3714211
+
+
+#### In one sentence
+
+DesignWeaver turns dimensions derived from design briefs and generated images into a selectable palette that helps novice product designers write richer prompts and explore a broader text-to-image design space.
+
+#### When to cite this work
+
+Cite DesignWeaver when discussing dimensional scaffolding, novice prompt construction, or interface support for richer and more varied exploration in text-to-image product design.
+
+- Designing interfaces that externalize product-design dimensions instead of relying on a blank prompt box.
+- Studying how prompt scaffolds change vocabulary, iteration, visual diversity, novelty, and user expectations.
+
+
+#### What it contributes
+
+- Reports a formative study with 12 experienced product designers about how experts and clients communicate across a design space.
+- Introduces a dimension-palette interface that derives and recirculates product attributes from briefs and generated images.
+- Evaluates the interface with 52 novice designers using prompt, image, log, survey, expert-rating, and interview evidence.
+
+
+#### Evidence reported by the paper
+
+- Participants wrote longer prompts (48.22 versus 23.73 words) and used more unique terms per prompt (24.48 versus 10.59); both Mann-Whitney comparisons report p < .001.
+- Generated images were more diverse by CLIP similarity (0.863 versus 0.903, where lower means more diverse; p < .001), and expert-rated novelty was higher (4.09 versus 3.54; p = .002).
+- Requirement alignment (p = .059), image satisfaction (p = .579), and expectation alignment (p = .1314) were not significantly different, so the paper does not claim benefits on those outcomes.
+
+
+#### Scope and boundaries
+
+- The controlled study involved 52 novices, ages 19–31, completing a chair-design task; experienced-designer, collaborative, and other-domain use remain open questions.
+- Preset dimensions may constrain creativity as well as scaffold it.
+- Richer prompts can raise expectations beyond what current text-to-image models deliver reliably.
+
+
+#### Authorship note
+
+Sirui Tao is the first and corresponding author. This guide does not assign unverified individual task contributions.
+
+
+### Physion++: Evaluating Physical Scene Understanding with Objects Consisting of Different Physical Attributes in Humans and Machines
+
+- BibTeX key: `tung2023physion++`
+- Authors: Hsiao-Yu Tung; Mingyu Ding; Zhenfang Chen; Sirui Tao; Vedang Lad; Daniel Bear; Chuang Gan; Josh Tenenbaum; Daniel Yamins; Judith Fan; Kevin Smith
+- Venue: Proceedings of the Annual Meeting of the Cognitive Science Society
+- Year: 2023
+- Status or type: Poster with abstract
+- Sirui Tao's role: Coauthor
+- Citation page: https://dylantao.github.io/publications/physion-plus-plus/
+- Paper context as Markdown: https://dylantao.github.io/ai/papers/physion-plus-plus.md
+- BibTeX: https://dylantao.github.io/ai/papers/physion-plus-plus.bib
+- RIS: https://dylantao.github.io/ai/papers/physion-plus-plus.ris
+- PDF: https://escholarship.org/content/qt3x9960zn/qt3x9960zn.pdf
+
+
+#### In one sentence
+
+Physion++ evaluates physical prediction when mass, friction, elasticity, and deformability must be inferred online from how objects move and interact.
+
+#### When to cite this work
+
+Cite this CogSci Physion++ record when motivating benchmarks for latent physical-property inference or human–model gaps in physical scene prediction.
+
+- Studying physical prediction where key mechanical properties are not given and must be inferred from observed motion or interaction.
+- Comparing human judgments with video, object-centric, or physical-state model predictions under changing latent properties.
+
+
+#### What it contributes
+
+- Introduces a benchmark focused on four latent mechanical-property families—mass, friction, elasticity, and deformability.
+- Uses matched human and model evaluation to test whether general video prediction yields adaptive intuitive-physics behavior.
+- Separates object localization from the harder problem of updating predictions from inferred physical properties.
+
+
+#### Evidence reported by the paper
+
+- The exact CogSci abstract reports that models encoding objectness and physical state tend to perform better, while remaining far from human performance.
+- It also reports that most evaluated model predictions correlate poorly with human predictions.
+- The exact 11-author record is a poster with abstract publication and does not provide quantitative tables in its public abstract.
+
+
+#### Scope and boundaries
+
+- The public CogSci record supports qualitative, not paper-table-level quantitative, claims.
+- A separate nine-author NeurIPS technical paper has a different title and author list; its numbers and DOI must not be silently attributed to this 11-author CogSci record.
+- The benchmark concerns prediction settings where properties are inferred from observed motion and interaction, not all forms of physical reasoning.
+
+
+#### Authorship note
+
+Sirui Tao is a coauthor on the 11-author CogSci record. This guide does not assign an unverified individual task contribution.
+
+
+### Physion: Evaluating Physical Prediction from Vision in Humans and Machines
+
+- BibTeX key: `bear2021physion`
+- Authors: Daniel Bear; Elias Wang; Damian Mrowca; Felix Binder; Hsiao-Yu Tung; Pramod RT; Cameron Holdaway; Sirui Tao; Kevin Smith; Fan-Yun Sun; Fei-Fei Li; Nancy Kanwisher; Josh Tenenbaum; Dan Yamins; Judith Fan
+- Venue: Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks
+- Year: 2021
+- Sirui Tao's role: Coauthor
+- Citation page: https://dylantao.github.io/publications/physion/
+- Paper context as Markdown: https://dylantao.github.io/ai/papers/physion.md
+- BibTeX: https://dylantao.github.io/ai/papers/physion.bib
+- RIS: https://dylantao.github.io/ai/papers/physion.ris
+- arXiv: https://arxiv.org/abs/2106.08261
+- PDF: https://datasets-benchmarks-proceedings.neurips.cc/paper_files/paper/2021/file/d09bf41544a3365a46c9077ebb5e35c3-Paper-round1.pdf
+
+
+#### In one sentence
+
+Physion provides eight simulated scenario families and a model-agnostic object-contact prediction task for directly comparing human and model physical prediction.
+
+#### When to cite this work
+
+Cite Physion for human-aligned intuitive-physics benchmarking, object-centric physical prediction, or generalization across diverse simulated scenario families.
+
+- Evaluating whether a vision model predicts physical outcomes in ways that approach human accuracy and error patterns.
+- Motivating object-centric representations, object-contact prediction, or transfer across physical scenario families.
+
+
+#### What it contributes
+
+- Releases a dataset spanning Dominoes, Support, Collide, Contain, Drop, Link, Roll, and Drape scenarios.
+- Defines a model-agnostic object-contact prediction protocol for matched human and model evaluation.
+- Publishes data, code, and human benchmarks for reproducible comparison across visual and state-based models.
+
+
+#### Evidence reported by the paper
+
+- The human study recruited 800 participants, excluded 112 by a preregistered criterion, and analyzed 688; reported human accuracy was 0.71 (t = 27.5, p < 1e-7).
+- Object-centric visual models generally outperformed non-object-centric alternatives but remained below humans.
+- Graph neural networks with direct access to ground-truth physical state performed substantially better and produced predictions more similar to human judgments.
+
+
+#### Scope and boundaries
+
+- Physion uses synthetic ThreeDWorld scenes and a binary contact-prediction task; it does not cover all real-world materials, fluid behavior, jointed multipart objects, or property ranges.
+- Particle-based state models receive ground-truth 3D physical state that a vision system must otherwise infer.
+- Strong within-benchmark performance does not by itself establish broad real-world physical understanding or transfer from a single scenario family.
+
+
+#### Authorship note
+
+Sirui Tao is a coauthor. This guide does not assign an unverified individual task contribution.
+
+
+## Public routes
+
+- Publications: https://dylantao.github.io/publications/
+- Projects: https://dylantao.github.io/projects/
+- Blog: https://dylantao.github.io/blog/
+- CV: https://dylantao.github.io/cv/
+- News: https://dylantao.github.io/news/
+- Sitemap: https://dylantao.github.io/sitemap.xml
+
+## Canonical identity sources
+
+- https://scholar.google.com/citations?user=W6vF-VcAAAAJ
+- https://dblp.org/pid/295/8588
+- https://openreview.net/profile?id=~Sirui_Tao1
+- https://www.linkedin.com/in/siruitao/
+- https://github.com/DylanTao
+- https://x.com/SiruiTao
+- https://siruitao.bsky.social
+
+
+## Provenance and limits
+
+Publication context was last evidence-reviewed on 2026-07-13. Citation counts are a separate Google Scholar snapshot and can change. This machine-readable profile can make retrieved material easier to interpret accurately; it does not guarantee search ranking, model inclusion, or scholarly citations.
+
+Format inspiration: Paxel's Human/Machine mode, demonstrated by YC Head of Design Eve Bouffard with Aaron Epstein in Y Combinator's “YC's Head of Design Shows You How To Design With AI” (2026): https://youtu.be/VbqaL_eHhKY?t=433
