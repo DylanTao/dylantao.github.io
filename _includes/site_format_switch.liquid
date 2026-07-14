@@ -1,10 +1,55 @@
 {% assign ai_mode = page.ai_profile | default: false %}
-<nav class="site-format-switch" aria-label="Website format">
+{% assign ai_anchor = '' %}
+{% assign current_route = page.url | default: page.permalink %}
+{% assign current_route = current_route | remove: 'index.html' %}
+{% assign human_href = current_route | default: '/' %}
+{% assign ai_is_alternate = false %}
+{% if page.publication and page.publication.slug %}
+  {% assign ai_anchor = page.publication.slug | prepend: '#' %}
+  {% assign ai_is_alternate = true %}
+{% elsif current_route contains '/publications/' %}
+  {% assign ai_anchor = '#publications' %}
+  {% assign ai_is_alternate = true %}
+{% elsif current_route contains '/projects/' %}
+  {% assign ai_anchor = '#routes' %}
+{% elsif current_route contains '/blog/' %}
+  {% assign ai_anchor = '#routes' %}
+{% elsif current_route contains '/cv/' %}
+  {% assign ai_anchor = '#routes' %}
+{% elsif current_route contains '/news/' or current_route contains '/github-activity/' %}
+  {% assign ai_anchor = '#routes' %}
+{% endif %}
+{% if ai_mode %}
+  {% assign ai_anchor = '' %}
+  {% assign human_href = '/' %}
+{% elsif current_route == '/' %}
+  {% assign ai_is_alternate = true %}
+{% endif %}
+<nav
+  class="site-format-switch"
+  aria-label="Content format"
+  data-site-format-switch
+  {% unless ai_mode %}
+    {% if current_route == '/' %}
+      data-home-format-context
+      data-ai-home="{{ '/ai/' | relative_url }}"
+      data-ai-research="{{ '/ai/' | relative_url }}#research"
+    {% endif %}
+  {% endunless %}
+  {% if ai_mode %}
+    data-human-home="{{ '/' | relative_url }}"
+    data-human-research="{{ '/' | relative_url }}#focus"
+    data-human-publications="{{ '/publications/' | relative_url }}"
+  {% endif %}
+>
   <a
     class="site-format-link"
-    href="{{ '/' | relative_url }}"
+    href="{{ human_href | relative_url }}"
+    data-site-format="human"
     {% unless ai_mode %}
-      aria-current="true"
+      aria-current="page"
+    {% else %}
+      rel="alternate"
     {% endunless %}
     aria-label="Human-readable website"
   >
@@ -12,12 +57,20 @@
   </a>
   <a
     class="site-format-link"
-    href="{{ '/ai/' | relative_url }}"
+    href="{{ '/ai/' | relative_url }}{{ ai_anchor }}"
+    data-site-format="ai"
     {% if ai_mode %}
-      aria-current="true"
+      aria-current="page"
+    {% elsif ai_is_alternate %}
+      rel="alternate"
     {% endif %}
     aria-label="AI-readable research profile"
   >
     AI
   </a>
 </nav>
+{% unless ai_mode %}
+  {% if current_route == '/' %}
+    <script defer src="{{ '/assets/js/ai-view.js' | relative_url | bust_file_cache }}"></script>
+  {% endif %}
+{% endunless %}

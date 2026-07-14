@@ -68,7 +68,17 @@ async function clickDeskCanvasAt(page, xRatio, yRatio, options = {}) {
   await page.mouse.click(targetX, targetY);
 }
 
+async function requestDeskEvidence(scene) {
+  const revision = await scene.evaluate((element) => {
+    const before = Number(element.getAttribute("data-scene-evidence-revision") || 0);
+    element.dispatchEvent(new Event("home-desk-request-evidence"));
+    return { before, after: Number(element.getAttribute("data-scene-evidence-revision") || 0) };
+  });
+  expect(revision.after).toBeGreaterThan(revision.before);
+}
+
 async function clickDeskProjectedTarget(page, scene, boundsAttribute) {
+  await requestDeskEvidence(scene);
   await expect(scene).toHaveAttribute(boundsAttribute, /^\{/);
   const bounds = JSON.parse((await scene.getAttribute(boundsAttribute)) || "{}");
   const xRatio = (bounds.left + bounds.right) / 2;
@@ -83,12 +93,25 @@ async function clickDeskProjectedTarget(page, scene, boundsAttribute) {
 async function getDeskAlbumTarget(scene, index, targetKey) {
   await expect
     .poll(async () => {
+      await requestDeskEvidence(scene);
       const evidence = JSON.parse((await scene.getAttribute("data-album-screen-bounds")) || "[]");
       return Boolean(evidence.find((entry) => entry.index === index)?.[targetKey]);
     })
     .toBe(true);
   const evidence = JSON.parse((await scene.getAttribute("data-album-screen-bounds")) || "[]");
   return evidence.find((entry) => entry.index === index)?.[targetKey] || null;
+}
+
+async function getDeskArtifactTarget(scene, index) {
+  await expect
+    .poll(async () => {
+      await requestDeskEvidence(scene);
+      const evidence = JSON.parse((await scene.getAttribute("data-artifact-screen-bounds")) || "[]");
+      return Boolean(evidence.find((entry) => entry.index === index)?.objectPoint);
+    })
+    .toBe(true);
+  const evidence = JSON.parse((await scene.getAttribute("data-artifact-screen-bounds")) || "[]");
+  return evidence.find((entry) => entry.index === index)?.objectPoint || null;
 }
 
 async function clickDeskAlbumTarget(page, scene, index, targetKey) {
@@ -222,7 +245,7 @@ test("Codex activity fails closed when its public data is unavailable", async ({
   await expect(page.locator(".github-activity-codex-readout")).not.toHaveAttribute("aria-live", /.+/);
 });
 
-test("usage story exposes only tokens and commits with independent accessible views", async ({ page }) => {
+test("usage story keeps token and GitHub measures independent and accessible", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
@@ -231,17 +254,17 @@ test("usage story exposes only tokens and commits with independent accessible vi
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
-  await expect(page.locator(".github-activity-eyebrow")).toHaveText("CODEX TOKENS + GITHUB COMMITS");
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("CODEX TOKENS + GITHUB BUILD RHYTHM");
   await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(1);
   await expect(page.locator("#github-activity-codex-cost")).toHaveCount(0);
-  await expect(page.locator("#github-activity-selected-additions")).toHaveCount(0);
-  await expect(page.locator("#github-activity-selected-deletions")).toHaveCount(0);
+  await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
+  await expect(page.locator("#github-activity-selected-deletions")).toHaveText(/^\u2212[\d,]+ removed$/);
   await expect(page.locator("#github-activity-selected-tier")).toHaveCount(0);
   await expect(page.locator("#github-activity-ai-tiers")).toHaveCount(0);
-  await expect(page.locator(".github-activity-add-line, .github-activity-remove-line, .github-activity-tier-run")).toHaveCount(0);
-  await expect(activity).not.toContainText(
-    /agent-hours|kWh|trees?|public-API|plan price|lines changed|lines touched|added|removed|\$20|\$100|\$200/i
-  );
+  await expect(page.locator(".github-activity-add-line")).toHaveCount(1);
+  await expect(page.locator(".github-activity-remove-line")).toHaveCount(1);
+  await expect(page.locator(".github-activity-tier-run")).toHaveCount(0);
+  await expect(activity).not.toContainText(/agent-hours|kWh|trees?|public-API|plan price|\$20|\$100|\$200/i);
 
   const codexScope = page.locator("[data-codex-scope]");
   const githubScope = page.locator("[data-github-scope]");
@@ -265,16 +288,37 @@ test("usage story exposes only tokens and commits with independent accessible vi
   await codexDaily.click();
 
   const commitPath = page.locator(".github-activity-commit-line");
+  const addPath = page.locator(".github-activity-add-line");
+  const removePath = page.locator(".github-activity-remove-line");
   const rangeSummary = page.locator("#github-activity-range-summary");
   await expect(commitPath).toHaveCount(1);
   await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · READABLE LOG1P", { exact: true })).toBeVisible();
+  const compactActivityChart = (page.viewportSize()?.width ?? 0) < 620;
+  const readableLineHeading = compactActivityChart ? "LINES / WEEK · SYMLOG" : "LINES CHANGED / WEEK · READABLE SYMLOG";
+  await expect(page.locator("#github-activity-chart").getByText(readableLineHeading, { exact: true })).toBeVisible();
   await expect(rangeSummary).toContainText("5 years");
   await expect(rangeSummary).toContainText("commits");
+  const positiveLineTickY = await page
+    .locator(".github-activity-line-tick.is-positive")
+    .evaluateAll((nodes) => nodes.map((node) => Number(node.getAttribute("y"))).sort((a, b) => a - b));
+  const negativeLineTickCount = await page.locator(".github-activity-line-tick.is-negative").count();
+  expect(positiveLineTickY.length).toBeGreaterThan(2);
+  expect(negativeLineTickCount).toBe(positiveLineTickY.length);
+  const minimumTickGap = (page.viewportSize()?.width ?? 0) < 620 ? 15 : 18;
+  positiveLineTickY.slice(1).forEach((position, index) => {
+    expect(position - positiveLineTickY[index]).toBeGreaterThanOrEqual(minimumTickGap - 0.01);
+  });
   const readablePath = await commitPath.getAttribute("d");
+  const readableAddPath = await addPath.getAttribute("d");
+  const readableRemovePath = await removePath.getAttribute("d");
   const selectedValue = await page.locator("#github-activity-selected-commits").textContent();
   await page.getByRole("button", { name: "Literal", exact: true }).click();
   await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
+  const literalLineHeading = compactActivityChart ? "LINES / WEEK · LINEAR" : "LINES CHANGED / WEEK · LITERAL LINEAR";
+  await expect(page.locator("#github-activity-chart").getByText(literalLineHeading, { exact: true })).toBeVisible();
   expect(await commitPath.getAttribute("d")).not.toBe(readablePath);
+  expect(await addPath.getAttribute("d")).not.toBe(readableAddPath);
+  expect(await removePath.getAttribute("d")).not.toBe(readableRemovePath);
   await expect(page.locator("#github-activity-selected-commits")).toHaveText(selectedValue);
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
@@ -283,19 +327,121 @@ test("usage story exposes only tokens and commits with independent accessible vi
   const inspector = page.locator(".github-activity-inspector");
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
-  await expect(inspector).toHaveAttribute("aria-valuetext", /Week of \d{4}-\d{2}-\d{2}, [\d,]+ commits/);
+  await expect(inspector).toHaveAttribute("aria-valuetext", /Week of \d{4}-\d{2}-\d{2}, [\d,]+ commits, \+[\d,]+ added, \u2212[\d,]+ removed/);
   await page.keyboard.press("Shift+ArrowLeft");
   await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "visible");
   await expect(rangeSummary).toContainText(/^Selected 2 weeks/);
   await page.keyboard.press("Escape");
   await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "hidden");
 
+  const lineChangeSemantics = await page.evaluate(() => {
+    const source = JSON.parse(document.getElementById("github-activity-data").textContent);
+    const rows = source.weeks.map((row) => ({ ...row, date: new Date(`${row.week}T00:00:00Z`) }));
+    const end = rows.at(-1).date;
+    const cutoff = new Date(Date.UTC(end.getUTCFullYear() - 1, end.getUTCMonth(), end.getUTCDate()));
+    const active = rows.filter((row) => row.date >= cutoff && (row.commits || row.additions || row.deletions));
+    const changes = (row) => row.additions + row.deletions;
+    const largest = active.reduce((best, row) => (changes(row) > changes(best) ? row : best));
+    const ordered = active.map(changes).sort((a, b) => a - b);
+    const position = (ordered.length - 1) * 0.5;
+    const lower = Math.floor(position);
+    const upper = Math.ceil(position);
+    const median = lower === upper ? ordered[lower] : ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower);
+    const latest = rows.at(-1);
+    return {
+      largestDate: new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(largest.date),
+      largestAdded: new Intl.NumberFormat("en-US").format(largest.additions),
+      largestRemoved: new Intl.NumberFormat("en-US").format(largest.deletions),
+      median: new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(median),
+      latestChanges: new Intl.NumberFormat("en-US").format(changes(latest)),
+    };
+  });
+  const annotation = page.locator("#github-activity-annotation");
+  await expect(annotation).toContainText(
+    `Largest line-change week · ${lineChangeSemantics.largestDate} · +${lineChangeSemantics.largestAdded} / −${lineChangeSemantics.largestRemoved}`
+  );
+  await expect(annotation).toContainText(`Median active-week line magnitude · ${lineChangeSemantics.median}`);
+
   await page.getByText("How this view works", { exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Four measures, two horizons" })).toBeVisible();
   const codexCells = page.locator("#github-activity-codex-table-body tr").first().locator("th, td");
   const commitCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
   await expect(codexCells).toHaveCount(3);
-  await expect(commitCells).toHaveCount(2);
+  await expect(commitCells).toHaveCount(5);
+  await expect(page.locator("#github-activity-table-caption")).toContainText("Reported weekly activity");
+  await expect(page.getByRole("columnheader", { name: "Line changes" })).toBeVisible();
+  await expect(commitCells.nth(4)).toHaveText(lineChangeSemantics.latestChanges);
   expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
+});
+
+test("GitHub line-change labels meet contrast in every light theme", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
+  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
+
+  const themes = await page.evaluate(async () => {
+    const parseColor = (value) => {
+      const match = value.match(/[\d.]+/g);
+      if (!match) return [];
+      const channels = match.slice(0, 3).map(Number);
+      return value.includes("color(srgb") ? channels.map((channel) => channel * 255) : channels;
+    };
+    const linear = (channel) => {
+      const value = channel / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    };
+    const luminance = (color) => 0.2126 * linear(color[0]) + 0.7152 * linear(color[1]) + 0.0722 * linear(color[2]);
+    const contrast = (foreground, background) => {
+      const [lighter, darker] = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+      return (lighter + 0.05) / (darker + 0.05);
+    };
+    const resolveColor = (value) => {
+      const probe = document.createElement("span");
+      probe.style.color = value;
+      document.body.append(probe);
+      const resolved = parseColor(getComputedStyle(probe).color);
+      probe.remove();
+      return resolved;
+    };
+
+    const results = [];
+    for (const mode of ["morning", "noon", "afternoon"]) {
+      document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.setAttribute("data-theme-mode", mode);
+      document.documentElement.setAttribute("data-theme-setting", mode);
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+      const activity = document.querySelector("[data-github-activity]");
+      const background = parseColor(getComputedStyle(document.querySelector(".github-activity-readout")).backgroundColor);
+      const addedText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-additions")).color);
+      const removedText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-deletions")).color);
+      const addedStroke = parseColor(getComputedStyle(document.querySelector(".github-activity-add-line")).stroke);
+      const removedStroke = parseColor(getComputedStyle(document.querySelector(".github-activity-remove-line")).stroke);
+      const rawAdded = resolveColor(getComputedStyle(activity).getPropertyValue("--global-sky-strong").trim());
+      const rawRemoved = resolveColor(getComputedStyle(activity).getPropertyValue("--global-mint-strong").trim());
+      results.push({
+        mode,
+        addedContrast: contrast(addedText, background),
+        removedContrast: contrast(removedText, background),
+        addedStroke,
+        removedStroke,
+        rawAdded,
+        rawRemoved,
+        addedText,
+        removedText,
+      });
+    }
+    return results;
+  });
+
+  themes.forEach((theme) => {
+    expect(theme.addedContrast, `${theme.mode} added-text contrast`).toBeGreaterThanOrEqual(4.5);
+    expect(theme.removedContrast, `${theme.mode} removed-text contrast`).toBeGreaterThanOrEqual(4.5);
+    expect(theme.addedStroke, `${theme.mode} added graph keeps the raw stroke`).toEqual(theme.rawAdded);
+    expect(theme.removedStroke, `${theme.mode} removed graph keeps the raw stroke`).toEqual(theme.rawRemoved);
+    expect(theme.addedText).not.toEqual(theme.addedStroke);
+    expect(theme.removedText).not.toEqual(theme.removedStroke);
+  });
 });
 
 test("home agentic heartbeat uses the account lifetime and real daily sparkline", async ({ page }) => {
@@ -312,10 +458,17 @@ test("home agentic heartbeat uses the account lifetime and real daily sparkline"
   await expect(heartbeat).toContainText(/\d+ GitHub commits/);
   await expect(heartbeat).not.toContainText(/\$|public API|cost/i);
   const tally = page.locator(".home-agentic-tally");
-  await expect(tally.locator(".home-agentic-stat")).toHaveCount(2);
+  await expect(tally).toHaveAttribute(
+    "aria-label",
+    "Site revamp ledger: estimated Codex tokens and agent-hours, exact Git commit count, and estimated energy-equivalence"
+  );
+  await expect(tally.locator(".home-agentic-stat")).toHaveCount(4);
   await expect(tally).toContainText("site-build tokens");
+  await expect(tally).toContainText("agent-hours");
   await expect(tally).toContainText("site commits");
-  await expect(tally).not.toContainText(/agent-hours|kWh|trees?|invoice|cost/i);
+  await expect(tally).toContainText("est. kWh");
+  await expect(tally).not.toContainText(/trees?|invoice|cost/i);
+  await expect(tally.locator("#home-agentic-tooltip")).toContainText("The commit count is exact from this repository's Git history.");
   const sparkline = heartbeat.locator(".home-agentic-heartbeat-sparkline polyline");
   await expect(sparkline).toHaveCount(1);
   expect((await sparkline.getAttribute("points")).trim().split(/\s+/)).toHaveLength(30);
@@ -397,7 +550,7 @@ test("AI profile is server-rendered and can copy canonical Markdown", async ({ p
   await stabilizeVisuals(page);
 
   await expect(page.locator("[data-publication-key]")).toHaveCount(5);
-  await expect(page.locator('.site-format-link[aria-current="true"]')).toHaveText("AI");
+  await expect(page.locator('.site-format-link[aria-current="page"]')).toHaveText("AI");
   await expect(page.getByRole("link", { name: "Concise index .txt" })).toBeVisible();
 
   const copyButton = page.locator("[data-ai-copy]");
@@ -413,11 +566,11 @@ test("AI profile is server-rendered and can copy canonical Markdown", async ({ p
 
   await page.getByRole("link", { name: "Human-readable website" }).click();
   await expect(page).toHaveURL(/\/al-folio\/$/);
-  await expect(page.locator('.site-format-link[aria-current="true"]')).toHaveText("Human");
+  await expect(page.locator('.site-format-link[aria-current="page"]')).toHaveText("Human");
 
   await page.getByRole("link", { name: "AI-readable research profile" }).click();
   await expect(page).toHaveURL(/\/al-folio\/ai\/$/);
-  await expect(page.locator('.site-format-link[aria-current="true"]')).toHaveText("AI");
+  await expect(page.locator('.site-format-link[aria-current="page"]')).toHaveText("AI");
   expect(runtimeErrors).toEqual([]);
 });
 
@@ -702,6 +855,29 @@ test("home keyboard record playback survives shake suppression", async ({ page }
   await expect(spinButton).toHaveAttribute("aria-pressed", "false");
 });
 
+test("home portrait offers a keyboard-equivalent record-card discovery", async ({ page }) => {
+  await preparePage(page, "dark");
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const stage = page.locator("[data-home-artifact-stage]");
+  const portrait = page.locator("#home-profile-image-container");
+  const cards = page.locator("[data-home-record-card]");
+  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
+  await expect(portrait).toHaveAttribute("aria-label", /press D to discover a record card/i);
+
+  await portrait.focus();
+  await page.keyboard.press("d");
+  await expect(cards).toHaveCount(1);
+  await expect(stage).toHaveAttribute("data-dropped-records", "0");
+
+  await portrait.focus();
+  await page.keyboard.press("D");
+  await expect(cards).toHaveCount(2);
+  await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
+});
+
 test("home dropped meme record cards resolve into an inspectable 2D fan", async ({ page }) => {
   await preparePage(page, "dark");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
@@ -917,6 +1093,7 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await page.click('[data-home-desk-mode="3d"]');
   await expect(stage).toHaveAttribute("data-desk-mode", "3d");
   await page.waitForTimeout(1200);
+  await requestDeskEvidence(scene);
   const initialAlbumEvidence = JSON.parse((await scene.getAttribute("data-album-screen-bounds")) || "[]");
   expect(initialAlbumEvidence.find((entry) => entry.index === 0)?.thrown).toBe(true);
   expect(initialAlbumEvidence.find((entry) => entry.index === 0)?.rack).toBeNull();
@@ -953,6 +1130,34 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(stage).toHaveAttribute("data-record-tone", "sunday");
   await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
+});
+
+test("home 3D artifacts focus before opening their project route", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop object-focus checkpoint; compact touch coverage lives in the scene matrix");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const scene = page.locator("[data-home-desk-scene]");
+  const firstArtifactLink = page.locator("[data-home-desk-artifact-link]").first();
+  const expectedPath = await firstArtifactLink.evaluate((link) => new URL(link.href).pathname);
+  const initialPath = new URL(page.url()).pathname;
+  await page.click('[data-home-desk-mode="3d"]');
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "3d");
+
+  const initialPoint = await getDeskArtifactTarget(scene, 0);
+  await clickDeskCanvasAt(page, initialPoint.x, initialPoint.y);
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "artifact-0");
+  expect(new URL(page.url()).pathname).toBe(initialPath);
+
+  await page.waitForTimeout(1320);
+  const focusedPoint = await getDeskArtifactTarget(scene, 0);
+  await Promise.all([page.waitForURL((url) => url.pathname === expectedPath), clickDeskCanvasAt(page, focusedPoint.x, focusedPoint.y)]);
+  expect(new URL(page.url()).pathname).toBe(expectedPath);
+  expect(runtimeErrors, "3D artifact focus/open journey raised browser runtime errors").toEqual([]);
 });
 
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }) => {

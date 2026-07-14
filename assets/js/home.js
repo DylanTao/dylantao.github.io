@@ -12,6 +12,73 @@
   };
   const revealItems = Array.from(document.querySelectorAll(".home-reveal"));
 
+  const setupBackToTopStageGuard = () => {
+    const stage = document.querySelector("[data-home-artifact-stage]");
+    const backToTop = document.getElementById("back-to-top");
+    if (!(stage instanceof HTMLElement) || !(backToTop instanceof HTMLElement)) return false;
+
+    const originalAriaHidden = backToTop.getAttribute("aria-hidden");
+    const originallyInert = backToTop.hasAttribute("inert");
+    let isSuppressed = null;
+
+    const setSuppressed = (nextSuppressed) => {
+      if (nextSuppressed === isSuppressed) return;
+      isSuppressed = nextSuppressed;
+
+      if (nextSuppressed) {
+        const activeElement = document.activeElement;
+        backToTop.setAttribute("data-home-stage-suppressed", "");
+        backToTop.setAttribute("aria-hidden", "true");
+        backToTop.setAttribute("inert", "");
+        if (activeElement instanceof HTMLElement && (activeElement === backToTop || backToTop.contains(activeElement))) {
+          activeElement.blur();
+        }
+        return;
+      }
+
+      backToTop.removeAttribute("data-home-stage-suppressed");
+      if (originalAriaHidden === null) {
+        backToTop.removeAttribute("aria-hidden");
+      } else {
+        backToTop.setAttribute("aria-hidden", originalAriaHidden);
+      }
+      if (!originallyInert) backToTop.removeAttribute("inert");
+    };
+
+    const stageIntersectsViewport = () => {
+      const rect = stage.getBoundingClientRect();
+      return rect.bottom > 0 && rect.top < window.innerHeight && rect.right > 0 && rect.left < window.innerWidth;
+    };
+    const syncSuppression = () => setSuppressed(stageIntersectsViewport());
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(([entry]) => setSuppressed(Boolean(entry?.isIntersecting && entry.intersectionRatio > 0)), {
+        threshold: 0,
+      });
+      observer.observe(stage);
+    } else {
+      let syncFrame = 0;
+      const scheduleSync = () => {
+        if (syncFrame) return;
+        syncFrame = window.requestAnimationFrame(() => {
+          syncFrame = 0;
+          syncSuppression();
+        });
+      };
+      window.addEventListener("scroll", scheduleSync, { passive: true });
+      window.addEventListener("resize", scheduleSync);
+    }
+
+    window.addEventListener("pagehide", () => setSuppressed(false));
+    window.addEventListener("pageshow", syncSuppression);
+    syncSuppression();
+    return true;
+  };
+
+  if (!setupBackToTopStageGuard() && document.readyState !== "complete") {
+    window.addEventListener("load", setupBackToTopStageGuard, { once: true });
+  }
+
   const isAlreadyReadable = (item) => {
     const rect = item.getBoundingClientRect();
     return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
@@ -44,8 +111,11 @@
   const railLinks = Array.from(document.querySelectorAll("[data-home-rail-link]"));
   const storyRail = document.querySelector(".home-story-rail");
   const homeTitle = document.querySelector(".home-title");
+  let activeRailSection = "";
 
   const setActiveRailLink = (sectionId) => {
+    if (!sectionId || sectionId === activeRailSection) return;
+    activeRailSection = sectionId;
     railLinks.forEach((link) => {
       const isActive = link.getAttribute("data-home-rail-link") === sectionId;
       link.classList.toggle("is-active", isActive);
@@ -55,6 +125,7 @@
         link.removeAttribute("aria-current");
       }
     });
+    window.dispatchEvent(new CustomEvent("home-active-section-change", { detail: { sectionId } }));
   };
 
   if (railLinks.length > 0 && sectionItems.length > 0 && "IntersectionObserver" in window) {
@@ -655,8 +726,13 @@
     let toneArmGroup = null;
     let windowMaterial = null;
     let windowViewMesh = null;
+    let windowGlassMesh = null;
     let windowBackdropMeshes = [];
     let windowJumpGroup = null;
+    let windowDefaultCueGroup = null;
+    let windowHintMesh = null;
+    let windowSillGlintMesh = null;
+    let windowCueMarkerMesh = null;
     let windowHitObject = null;
     let outsideGroup = null;
     let returnInsideGroup = null;
@@ -699,6 +775,25 @@
     let outsideViewportCheckFrame = 0;
     let droppedRecordIndices = [];
     let sceneEvidenceDirty = true;
+    let sceneEvidenceRefreshTimer = 0;
+    let sceneEvidenceRevision = 0;
+    let staticSceneTopology = null;
+    let currentCameraYaw = 0;
+    let windowGuidanceHovered = false;
+    let windowGuidancePulseStartedAt = 0;
+    let windowGuidancePulseUntil = 0;
+    let windowGuidanceHasPlayed = false;
+    let windowGuidanceWasPulsing = false;
+    let roomFloorMesh = null;
+    let shellCapMesh = null;
+    let welcomePaperGroup = null;
+    let welcomePaperMesh = null;
+    let lizardHeadMesh = null;
+    let sightlineRaycaster = null;
+    let sceneOccluderCandidates = null;
+    let hoverPickFrame = 0;
+    let pendingHoverPick = null;
+    let lastHoverPickAt = 0;
     const callbacks = {};
     const stageElement = container.closest("[data-home-artifact-stage]") || container.parentElement;
     const textureCache = new Map();
@@ -713,6 +808,9 @@
     const orbitOcclusionItems = [];
     const photoVisibilityItems = [];
     const accentMotionItems = [];
+    const shellPanels = [];
+    const caveMouthMaterials = [];
+    const landmarkVisibilityRoots = new WeakMap();
     const cleanupListeners = [];
     const compositionObjects = {
       room: {},
@@ -728,11 +826,34 @@
       floorY: -1.22,
       ceilingY: 1.46,
       bounds: { minX: -2.94, maxX: 2.94, frontZ: -2.05, rearZ: 5.92 },
+      footprint: [
+        [-2.72, -2.05],
+        [2.54, -2.05],
+        [2.9, -1.34],
+        [3.03, 0.65],
+        [2.96, 3.48],
+        [2.56, 5.2],
+        [1.58, 5.86],
+        [0, 6.06],
+        [-1.54, 5.8],
+        [-2.5, 5.05],
+        [-2.94, 3.25],
+        [-3.08, 0.9],
+        [-2.98, -1.2],
+      ],
       window: { x: 0.52, y: 0.13, z: -1.7, width: 3.08, height: 2.92 },
-      desk: { x: 0.16, y: 0, z: -0.72 },
-      onsen: { x: -1.02, y: -1.18, z: 0.38, scale: 0.82 },
-      chair: { x: 1.44, y: -1.19, z: 0.05, scale: 0.62 },
+      desk: { x: 1.18, y: 0, z: -0.9 },
+      onsen: { x: -0.78, y: -1.18, z: 0.45, scale: 0.94 },
+      chair: { x: 1.3, y: -1.19, z: 0.28, scale: 0.6 },
       rack: { x: -1.82, y: 0.52, z: 0.3 },
+    };
+    const cliffBlueprint = {
+      facadeBottomY: -4.22,
+      cliffFootTopY: -3.68,
+      beachY: -3.92,
+      wetSandY: -3.905,
+      shorelineY: -3.885,
+      oceanY: -4.04,
     };
     const roomFloorY = roomBlueprint.floorY;
     const roomCeilingY = roomBlueprint.ceilingY;
@@ -756,8 +877,8 @@
         rack: roomBlueprint.rack,
       },
       outside: {
-        orbitTarget: { x: roomBlueprint.window.x, y: roomBlueprint.window.y - 0.12, z: roomBlueprint.window.z + 0.04 },
-        defaultCamera: { desktop: { x: 0.72, y: 2.42, z: -12.6 }, compact: { x: 0.68, y: 2.2, z: -11.86 } },
+        orbitTarget: { x: roomBlueprint.window.x, y: roomBlueprint.window.y - 0.88, z: roomBlueprint.window.z + 0.04 },
+        defaultCamera: { desktop: { x: 0.22, y: 2.42, z: -11.4 }, compact: { x: 0.18, y: 2.2, z: -10.9 } },
         zoomCamera: { desktop: { x: 0.52, y: 1.72, z: -5.72 }, compact: { x: 0.5, y: 1.64, z: -5.9 } },
         house: { x: 0, y: 0, z: 0, scale: 1 },
         window: roomBlueprint.window,
@@ -855,22 +976,700 @@
       return { x: Number(((point.x + 1) / 2).toFixed(4)), y: Number(((1 - point.y) / 2).toFixed(4)) };
     };
 
-    const syncSceneEvidence = () => {
+    const roundEvidenceValue = (value) => Number(value.toFixed(4));
+
+    const colorEvidenceValue = (value) => Number(value).toString(16).padStart(6, "0");
+
+    const vectorEvidence = (vector) => ({
+      x: roundEvidenceValue(vector.x),
+      y: roundEvidenceValue(vector.y),
+      z: roundEvidenceValue(vector.z),
+    });
+
+    const getObjectWorldBoundsEvidence = (object, options = {}) => {
+      if (!THREE || !object || (options.requireVisible !== false && !isObjectVisibleForPicking(object))) return null;
+      object.updateWorldMatrix(true, true);
+      const bounds = new THREE.Box3().setFromObject(object);
+      if (bounds.isEmpty()) return null;
+      const size = bounds.getSize(new THREE.Vector3());
+      const center = bounds.getCenter(new THREE.Vector3());
+      return {
+        min: vectorEvidence(bounds.min),
+        max: vectorEvidence(bounds.max),
+        size: vectorEvidence(size),
+        center: vectorEvidence(center),
+      };
+    };
+
+    const pointInPolygon = (point, polygon) => {
+      let inside = false;
+      for (let index = 0, previous = polygon.length - 1; index < polygon.length; previous = index, index += 1) {
+        const currentPoint = polygon[index];
+        const previousPoint = polygon[previous];
+        const x = currentPoint.x ?? currentPoint[0];
+        const z = currentPoint.z ?? currentPoint[1];
+        const previousX = previousPoint.x ?? previousPoint[0];
+        const previousZ = previousPoint.z ?? previousPoint[1];
+        const crosses = z > point.z !== previousZ > point.z && point.x < ((previousX - x) * (point.z - z)) / (previousZ - z || 1e-6) + x;
+        if (crosses) inside = !inside;
+      }
+      return inside;
+    };
+
+    const polygonAreaXZ = (points) => {
+      let signedArea = 0;
+      points.forEach((point, index) => {
+        const next = points[(index + 1) % points.length];
+        const x = point.x ?? point[0];
+        const z = point.z ?? point[1];
+        const nextX = next.x ?? next[0];
+        const nextZ = next.z ?? next[1];
+        signedArea += x * nextZ - nextX * z;
+      });
+      return signedArea / 2;
+    };
+
+    const readLiveFloorBoundary = (mesh) => {
+      const geometry = mesh?.geometry;
+      const positionAttribute = geometry?.getAttribute?.("position");
+      if (!THREE || !mesh || !positionAttribute || positionAttribute.count < 3) return [];
+
+      mesh.updateWorldMatrix(true, false);
+      const rawVertexCount = positionAttribute.count;
+      const indexAttribute = geometry.getIndex?.();
+      const elementCount = indexAttribute?.count || rawVertexCount;
+      const rawToWelded = new Array(rawVertexCount);
+      const weldedByKey = new Map();
+      const weldedPoints = [];
+      const localPoint = new THREE.Vector3();
+      const worldPoint = new THREE.Vector3();
+      const weldTolerance = 1e-4;
+      let maxWorldY = Number.NEGATIVE_INFINITY;
+
+      for (let rawIndex = 0; rawIndex < rawVertexCount; rawIndex += 1) {
+        localPoint.fromBufferAttribute(positionAttribute, rawIndex);
+        worldPoint.copy(localPoint).applyMatrix4(mesh.matrixWorld);
+        maxWorldY = Math.max(maxWorldY, worldPoint.y);
+        const key = `${Math.round(worldPoint.x / weldTolerance)},${Math.round(worldPoint.y / weldTolerance)},${Math.round(worldPoint.z / weldTolerance)}`;
+        let weldedIndex = weldedByKey.get(key);
+        if (weldedIndex === undefined) {
+          weldedIndex = weldedPoints.length;
+          weldedByKey.set(key, weldedIndex);
+          weldedPoints.push(worldPoint.clone());
+        }
+        rawToWelded[rawIndex] = weldedIndex;
+      }
+
+      const edgeCounts = new Map();
+      const topTolerance = Math.max(2e-4, Math.abs(rootGroup?.scale?.y || 1) * 2e-4);
+      const edgeKey = (from, to) => (from < to ? `${from}:${to}` : `${to}:${from}`);
+      const incrementEdge = (from, to) => {
+        if (from === to) return;
+        const key = edgeKey(from, to);
+        const current = edgeCounts.get(key);
+        if (current) current.count += 1;
+        else edgeCounts.set(key, { from, to, count: 1 });
+      };
+
+      for (let offset = 0; offset + 2 < elementCount; offset += 3) {
+        const rawIndices = [0, 1, 2].map((triangleOffset) =>
+          indexAttribute ? indexAttribute.getX(offset + triangleOffset) : offset + triangleOffset
+        );
+        const weldedIndices = rawIndices.map((rawIndex) => rawToWelded[rawIndex]);
+        const [a, b, c] = weldedIndices.map((weldedIndex) => weldedPoints[weldedIndex]);
+        if (!a || !b || !c || [a, b, c].some((point) => Math.abs(maxWorldY - point.y) > topTolerance)) continue;
+        const normal = new THREE.Vector3().subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a));
+        if (normal.lengthSq() < 1e-10 || Math.abs(normal.normalize().y) < 0.8) continue;
+        incrementEdge(weldedIndices[0], weldedIndices[1]);
+        incrementEdge(weldedIndices[1], weldedIndices[2]);
+        incrementEdge(weldedIndices[2], weldedIndices[0]);
+      }
+
+      const boundaryEdges = [...edgeCounts.values()].filter((edge) => edge.count === 1);
+      const adjacency = new Map();
+      boundaryEdges.forEach(({ from, to }) => {
+        if (!adjacency.has(from)) adjacency.set(from, []);
+        if (!adjacency.has(to)) adjacency.set(to, []);
+        adjacency.get(from).push(to);
+        adjacency.get(to).push(from);
+      });
+
+      const visitedEdges = new Set();
+      const loops = [];
+      boundaryEdges.forEach(({ from, to }) => {
+        const initialKey = edgeKey(from, to);
+        if (visitedEdges.has(initialKey)) return;
+        const loop = [from];
+        let previous = from;
+        let current = to;
+        let guard = boundaryEdges.length + 2;
+        visitedEdges.add(initialKey);
+        while (guard > 0 && current !== from) {
+          guard -= 1;
+          loop.push(current);
+          const neighbors = adjacency.get(current) || [];
+          const next =
+            neighbors.find((candidate) => candidate !== previous && !visitedEdges.has(edgeKey(current, candidate))) ??
+            neighbors.find((candidate) => candidate !== previous);
+          if (next === undefined) break;
+          visitedEdges.add(edgeKey(current, next));
+          previous = current;
+          current = next;
+        }
+        if (current === from && loop.length >= 3) loops.push(loop.map((weldedIndex) => weldedPoints[weldedIndex].clone()));
+      });
+
+      return loops.sort((first, second) => Math.abs(polygonAreaXZ(second)) - Math.abs(polygonAreaXZ(first)))[0] || [];
+    };
+
+    const clipWorldPolygonToScreen = (points) => {
+      if (!THREE || !camera || points.length < 3) return null;
+      const viewProjection = new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      let clipped = points.map((point) => new THREE.Vector4(point.x, point.y, point.z, 1).applyMatrix4(viewProjection));
+      const clipPlanes = [
+        (point) => point.w + point.x,
+        (point) => point.w - point.x,
+        (point) => point.w + point.y,
+        (point) => point.w - point.y,
+        (point) => point.w + point.z,
+        (point) => point.w - point.z,
+      ];
+      clipPlanes.forEach((distanceToPlane) => {
+        if (clipped.length === 0) return;
+        const input = clipped;
+        clipped = [];
+        let previous = input[input.length - 1];
+        let previousDistance = distanceToPlane(previous);
+        input.forEach((current) => {
+          const currentDistance = distanceToPlane(current);
+          const previousInside = previousDistance >= -1e-7;
+          const currentInside = currentDistance >= -1e-7;
+          if (previousInside !== currentInside) {
+            const denominator = previousDistance - currentDistance;
+            const amount = Math.abs(denominator) < 1e-9 ? 0 : previousDistance / denominator;
+            clipped.push(previous.clone().lerp(current, clamp(amount, 0, 1)));
+          }
+          if (currentInside) clipped.push(current.clone());
+          previous = current;
+          previousDistance = currentDistance;
+        });
+      });
+
+      const projected = clipped
+        .filter((point) => Math.abs(point.w) > 1e-8)
+        .map((point) => ({ x: (point.x / point.w + 1) / 2, y: (1 - point.y / point.w) / 2 }));
+      if (projected.length < 3) {
+        return { sourceVertexCount: points.length, clippedVertexCount: projected.length, area: 0, width: 0, height: 0, bounds: null };
+      }
+      let minX = Number.POSITIVE_INFINITY;
+      let maxX = Number.NEGATIVE_INFINITY;
+      let minY = Number.POSITIVE_INFINITY;
+      let maxY = Number.NEGATIVE_INFINITY;
+      let signedArea = 0;
+      projected.forEach((point, index) => {
+        const next = projected[(index + 1) % projected.length];
+        signedArea += point.x * next.y - next.x * point.y;
+        minX = Math.min(minX, point.x);
+        maxX = Math.max(maxX, point.x);
+        minY = Math.min(minY, point.y);
+        maxY = Math.max(maxY, point.y);
+      });
+      return {
+        sourceVertexCount: points.length,
+        clippedVertexCount: projected.length,
+        area: roundEvidenceValue(Math.abs(signedArea) / 2),
+        width: roundEvidenceValue(maxX - minX),
+        height: roundEvidenceValue(maxY - minY),
+        bounds: {
+          left: roundEvidenceValue(minX),
+          top: roundEvidenceValue(minY),
+          right: roundEvidenceValue(maxX),
+          bottom: roundEvidenceValue(maxY),
+        },
+      };
+    };
+
+    const readMeshLocalXSpanWorld = (mesh) => {
+      const geometry = mesh?.geometry;
+      if (!THREE || !mesh || !geometry) return null;
+      geometry.computeBoundingBox?.();
+      const box = geometry.boundingBox;
+      if (!box || box.isEmpty()) return null;
+      mesh.updateWorldMatrix(true, false);
+      const center = box.getCenter(new THREE.Vector3());
+      const start = center.clone();
+      const end = center.clone();
+      start.x = box.min.x;
+      end.x = box.max.x;
+      return { start: start.applyMatrix4(mesh.matrixWorld), end: end.applyMatrix4(mesh.matrixWorld) };
+    };
+
+    const distanceXZ = (first, second) => Math.hypot(first.x - second.x, first.z - second.z);
+
+    const orientShellSpans = (spans, flipFirst) => {
+      const oriented = spans.map((span) => ({ ...span, start: span.start.clone(), end: span.end.clone() }));
+      if (flipFirst && oriented[0]) [oriented[0].start, oriented[0].end] = [oriented[0].end, oriented[0].start];
+      for (let index = 1; index < oriented.length; index += 1) {
+        const previous = oriented[index - 1];
+        const current = oriented[index];
+        if (distanceXZ(previous.end, current.end) < distanceXZ(previous.end, current.start)) {
+          [current.start, current.end] = [current.end, current.start];
+        }
+      }
+      const totalOffset = oriented.slice(0, -1).reduce((sum, span, index) => sum + distanceXZ(span.end, oriented[index + 1].start), 0);
+      return { spans: oriented, totalOffset };
+    };
+
+    const readShellTopologyEvidence = () => {
+      const rawSpans = shellPanels
+        .map((panel) => {
+          const span = readMeshLocalXSpanWorld(panel.object);
+          return span ? { id: panel.id, object: panel.object, ...span } : null;
+        })
+        .filter(Boolean);
+      if (rawSpans.length === 0) return null;
+      const forward = orientShellSpans(rawSpans, false);
+      const reversed = orientShellSpans(rawSpans, true);
+      const spans = (forward.totalOffset <= reversed.totalOffset ? forward : reversed).spans;
+      const rootScale = rootGroup?.getWorldScale(new THREE.Vector3()) || new THREE.Vector3(1, 1, 1);
+      const roomScale = Math.max(0.001, Math.abs(rootScale.x));
+      const structuralJoints = spans.slice(0, -1).map((span, index) => {
+        const offset = distanceXZ(span.end, spans[index + 1].start);
+        return {
+          from: span.id,
+          to: spans[index + 1].id,
+          offset: roundEvidenceValue(offset),
+          offsetRoomUnits: roundEvidenceValue(offset / roomScale),
+        };
+      });
+      const maxStructuralJointOffset = Math.max(0, ...structuralJoints.map((joint) => joint.offset));
+      const maxStructuralJointOffsetRoomUnits = Math.max(0, ...structuralJoints.map((joint) => joint.offsetRoomUnits));
+      return {
+        topology: "open-front-aperture",
+        wallSegmentCount: spans.length,
+        structuralJointCount: structuralJoints.length,
+        maxStructuralJointOffset: roundEvidenceValue(maxStructuralJointOffset),
+        maxStructuralJointOffsetRoomUnits: roundEvidenceValue(maxStructuralJointOffsetRoomUnits),
+        openEndCount: 2,
+        geometricallyClosed: false,
+        structuralJoints,
+        panels: spans.map((span) => ({
+          id: span.id,
+          start: vectorEvidence(span.start),
+          end: vectorEvidence(span.end),
+          length: roundEvidenceValue(distanceXZ(span.start, span.end)),
+        })),
+        openEnds: [vectorEvidence(spans[0].start), vectorEvidence(spans[spans.length - 1].end)],
+      };
+    };
+
+    const distancePointToSegmentXZ = (point, start, end) => {
+      const deltaX = end.x - start.x;
+      const deltaZ = end.z - start.z;
+      const lengthSquared = deltaX * deltaX + deltaZ * deltaZ;
+      if (lengthSquared <= 1e-9) return distanceXZ(point, start);
+      const amount = clamp(((point.x - start.x) * deltaX + (point.z - start.z) * deltaZ) / lengthSquared, 0, 1);
+      return Math.hypot(point.x - (start.x + deltaX * amount), point.z - (start.z + deltaZ * amount));
+    };
+
+    const readApertureTopologyEvidence = (floorBoundary) => {
+      const glassSpan = readMeshLocalXSpanWorld(windowGlassMesh);
+      if (!glassSpan || floorBoundary.length < 2) return null;
+      const glassCenter = glassSpan.start.clone().add(glassSpan.end).multiplyScalar(0.5);
+      const floorEdges = floorBoundary.map((start, index) => ({ start, end: floorBoundary[(index + 1) % floorBoundary.length] }));
+      const frontEdge = floorEdges.sort(
+        (first, second) =>
+          distancePointToSegmentXZ(glassCenter, first.start, first.end) - distancePointToSegmentXZ(glassCenter, second.start, second.end)
+      )[0];
+      const edgeDelta = frontEdge.end.clone().sub(frontEdge.start);
+      edgeDelta.y = 0;
+      const frontEdgeLength = Math.max(1e-6, edgeDelta.length());
+      const direction = edgeDelta.clone().divideScalar(frontEdgeLength);
+      const projections = [glassSpan.start, glassSpan.end]
+        .map((point) => clamp(point.clone().sub(frontEdge.start).dot(direction), 0, frontEdgeLength))
+        .sort((first, second) => first - second);
+      const coveredLength = Math.max(0, projections[1] - projections[0]);
+      const revealDepth =
+        (distancePointToSegmentXZ(glassSpan.start, frontEdge.start, frontEdge.end) +
+          distancePointToSegmentXZ(glassSpan.end, frontEdge.start, frontEdge.end)) /
+        2;
+      return {
+        source: "live-window-glass-and-floor-boundary",
+        glassWorldBounds: getObjectWorldBoundsEvidence(windowGlassMesh, { requireVisible: false }),
+        glassSpan: { start: vectorEvidence(glassSpan.start), end: vectorEvidence(glassSpan.end) },
+        frontEdge: { start: vectorEvidence(frontEdge.start), end: vectorEvidence(frontEdge.end) },
+        frontEdgeLength: roundEvidenceValue(frontEdgeLength),
+        coverageRatio: roundEvidenceValue(coveredLength / frontEdgeLength),
+        sideGaps: [roundEvidenceValue(projections[0]), roundEvidenceValue(frontEdgeLength - projections[1])],
+        revealDepth: roundEvidenceValue(revealDepth),
+      };
+    };
+
+    const readFloorTopologyEvidence = (points) => {
+      if (points.length < 3) return null;
+      let nonAxisAlignedEdges = 0;
+      let minX = Number.POSITIVE_INFINITY;
+      let maxX = Number.NEGATIVE_INFINITY;
+      let minZ = Number.POSITIVE_INFINITY;
+      let maxZ = Number.NEGATIVE_INFINITY;
+      points.forEach((point, index) => {
+        const next = points[(index + 1) % points.length];
+        if (Math.abs(next.x - point.x) > 0.04 && Math.abs(next.z - point.z) > 0.04) nonAxisAlignedEdges += 1;
+        minX = Math.min(minX, point.x);
+        maxX = Math.max(maxX, point.x);
+        minZ = Math.min(minZ, point.z);
+        maxZ = Math.max(maxZ, point.z);
+      });
+      const area = Math.abs(polygonAreaXZ(points));
+      const boundingArea = Math.max(0.001, (maxX - minX) * (maxZ - minZ));
+      const dropCenters = albumEntries.map((entry, orderIndex) => {
+        const pose = getDroppedRecordPose(entry, orderIndex);
+        return [pose.albumPosition, pose.cardPosition];
+      });
+      rootGroup?.updateWorldMatrix(true, false);
+      const dropFanInside = dropCenters.every((pair) =>
+        pair.every((position) => pointInPolygon(position.clone().applyMatrix4(rootGroup.matrixWorld), points))
+      );
+      return {
+        vertexCount: points.length,
+        area: roundEvidenceValue(area),
+        boundingArea: roundEvidenceValue(boundingArea),
+        fillRatio: roundEvidenceValue(area / boundingArea),
+        nonAxisAlignedEdges,
+        dropFanInside,
+        boundaryWorld: points.map(vectorEvidence),
+        worldBounds: getObjectWorldBoundsEvidence(roomFloorMesh),
+      };
+    };
+
+    const readDynamicShellEvidence = (staticShellEvidence) => {
+      if (!staticShellEvidence) return null;
+      const panelEvidence = shellPanels.map((panel, index) => {
+        const material = Array.isArray(panel.object?.material) ? panel.object.material[0] : panel.object?.material;
+        return {
+          ...(staticShellEvidence.panels[index] || { id: panel.id }),
+          visible: Boolean(panel.object && isObjectVisibleForPicking(panel.object)),
+          opacity: Number.isFinite(material?.opacity) ? roundEvidenceValue(material.opacity) : 1,
+          bounds: projectObjectBounds(panel.object),
+        };
+      });
+      return {
+        ...staticShellEvidence,
+        visibleSegmentCount: panelEvidence.filter((panel) => panel.visible && panel.opacity > 0.05).length,
+        cutawaySegmentIds: panelEvidence.filter((panel) => !panel.visible || panel.opacity <= 0.05).map((panel) => panel.id),
+        capVisible: Boolean(shellCapMesh && isObjectVisibleForPicking(shellCapMesh)),
+        panels: panelEvidence,
+      };
+    };
+
+    const hasEvidenceFlagInAncestors = (object, key) => {
+      let current = object;
+      while (current) {
+        if (current.userData?.[key]) return true;
+        current = current.parent;
+      }
+      return false;
+    };
+
+    const isDescendantOf = (object, possibleAncestor) => {
+      let current = object;
+      while (current) {
+        if (current === possibleAncestor) return true;
+        current = current.parent;
+      }
+      return false;
+    };
+
+    const evidenceObjectId = (object) => {
+      let current = object;
+      while (current) {
+        if (current.userData?.sightlineId) return current.userData.sightlineId;
+        if (current.userData?.homeDeskEvidenceId) return current.userData.homeDeskEvidenceId;
+        current = current.parent;
+      }
+      return object?.name || `${object?.geometry?.type || "mesh"}-${String(object?.uuid || "unknown").slice(0, 8)}`;
+    };
+
+    const collectSceneOccluders = () => {
+      const occluders = [];
+      let visibleMeshCount = 0;
+      let transparentEffectCount = 0;
+      if (!sceneOccluderCandidates) {
+        sceneOccluderCandidates = [];
+        scene?.traverse((object) => {
+          if (object?.isMesh) sceneOccluderCandidates.push(object);
+        });
+      }
+      sceneOccluderCandidates.forEach((object) => {
+        if (!object?.isMesh || !isObjectVisibleForPicking(object)) return;
+        visibleMeshCount += 1;
+        const materials = (Array.isArray(object.material) ? object.material : [object.material]).filter(Boolean);
+        const sufficientlyTransparent =
+          materials.length > 0 &&
+          materials.every((material) => material.transparent) &&
+          Math.max(...materials.map((material) => (Number.isFinite(material.opacity) ? material.opacity : 1))) <= 0.3;
+        if (sufficientlyTransparent) {
+          transparentEffectCount += 1;
+          return;
+        }
+        occluders.push(object);
+      });
+      return { occluders, visibleMeshCount, transparentEffectCount };
+    };
+
+    const isNearFrontOutsideAperture = () => activeView === "outside" && (currentCameraYaw < Math.PI * 0.22 || currentCameraYaw > Math.PI * 1.78);
+
+    const isTargetInsideLiveAperture = (target, apertureBounds = null) => {
+      if (!THREE || !camera || !target || !isNearFrontOutsideAperture()) return false;
+      const bounds = apertureBounds || projectObjectBounds(windowGlassMesh);
+      if (!bounds) return false;
+      const projected = target.clone().project(camera);
+      if (projected.z < -1 || projected.z > 1) return false;
+      const screenX = (projected.x + 1) / 2;
+      const screenY = (1 - projected.y) / 2;
+      const edgeInset = 0.012;
+      return (
+        screenX >= bounds.left + edgeInset &&
+        screenX <= bounds.right - edgeInset &&
+        screenY >= bounds.top + edgeInset &&
+        screenY <= bounds.bottom - edgeInset
+      );
+    };
+
+    const filterApertureShellOccluders = (occluders, target, apertureBounds = null) => {
+      if (!isTargetInsideLiveAperture(target, apertureBounds)) return { occluders, ignoredApertureShellCount: 0 };
+      const filtered = occluders.filter((object) => object.userData?.homeDeskApertureShell !== "front");
+      return { occluders: filtered, ignoredApertureShellCount: occluders.length - filtered.length };
+    };
+
+    const readRaycastEvidence = (origin, target, occluders) => {
+      const direction = target.clone().sub(origin);
+      const targetDistance = direction.length();
+      if (targetDistance <= 0.001) return null;
+      direction.normalize();
+      sightlineRaycaster = sightlineRaycaster || new THREE.Raycaster();
+      sightlineRaycaster.set(origin, direction);
+      sightlineRaycaster.near = 0.01;
+      sightlineRaycaster.far = Math.max(0.011, targetDistance - 0.025);
+      const hit = sightlineRaycaster
+        .intersectObjects(occluders, false)
+        .find((candidate) => candidate.object?.visible !== false && candidate.distance < targetDistance - 0.025);
+      return {
+        clear: !hit,
+        targetDistance: roundEvidenceValue(targetDistance),
+        nearestOccluder: hit ? evidenceObjectId(hit.object) : null,
+        nearestOccluderDistance: hit ? roundEvidenceValue(hit.distance) : null,
+        remainingDistance: roundEvidenceValue(hit ? Math.max(0, targetDistance - hit.distance) : targetDistance),
+      };
+    };
+
+    const readCameraLandmarkVisibility = (targetObject, sceneOccluders) => {
+      if (!THREE || !camera || !targetObject) return null;
+      const bounds = new THREE.Box3().setFromObject(targetObject);
+      if (bounds.isEmpty()) return null;
+      const origin = camera.getWorldPosition(new THREE.Vector3());
+      const visibilityRoot = landmarkVisibilityRoots.get(targetObject) || targetObject;
+      const baseOccluders = sceneOccluders.occluders.filter((object) => !isDescendantOf(object, visibilityRoot));
+      const apertureBounds = projectObjectBounds(windowGlassMesh);
+      const horizontalSamples = [0.26, 0.5, 0.74];
+      const verticalSamples = [0.26, 0.5, 0.74];
+      const targetZ = (bounds.min.z + bounds.max.z) / 2;
+      const samples = verticalSamples
+        .flatMap((vertical) =>
+          horizontalSamples.map((horizontal) => {
+            const target = new THREE.Vector3(lerp(bounds.min.x, bounds.max.x, horizontal), lerp(bounds.max.y, bounds.min.y, vertical), targetZ);
+            const filtered = filterApertureShellOccluders(baseOccluders, target, apertureBounds);
+            const raycast = readRaycastEvidence(origin, target, filtered.occluders);
+            return raycast
+              ? {
+                  horizontal,
+                  vertical,
+                  ...raycast,
+                  target: vectorEvidence(target),
+                  ignoredApertureShellCount: filtered.ignoredApertureShellCount,
+                }
+              : null;
+          })
+        )
+        .filter(Boolean);
+      if (samples.length === 0) return null;
+      const clearSamples = samples.filter((sample) => sample.clear);
+      const blockedSamples = samples.filter((sample) => !sample.clear);
+      const clearSampleCount = clearSamples.length;
+      const requiredClearSampleCount = Math.min(3, samples.length);
+      const visiblyClear = clearSampleCount >= requiredClearSampleCount;
+      const representative = visiblyClear
+        ? clearSamples[0]
+        : blockedSamples.find((sample) => sample.horizontal === 0.5 && sample.vertical === 0.5) || blockedSamples[0] || samples[0];
+      return {
+        method: "camera-to-live-landmark-raycast",
+        samplingSource: "live-landmark-world-bounds-3x3",
+        ...representative,
+        clear: visiblyClear,
+        nearestOccluder: visiblyClear ? null : representative.nearestOccluder,
+        nearestOccluderDistance: visiblyClear ? null : representative.nearestOccluderDistance,
+        origin: vectorEvidence(origin),
+        sampleCount: samples.length,
+        clearSampleCount,
+        clearRatio: clearSampleCount / samples.length,
+        requiredClearSampleCount,
+        apertureShellIgnoredSampleCount: samples.filter((sample) => sample.ignoredApertureShellCount > 0).length,
+        samples,
+        occluderMeshCount: baseOccluders.length,
+      };
+    };
+
+    const readOnsenSightlineEvidence = (sceneOccluders) => {
+      if (!THREE || !lizardHeadMesh || !windowViewMesh || activeView !== "desk") return null;
+      lizardHeadMesh.updateWorldMatrix(true, false);
+      windowViewMesh.updateWorldMatrix(true, false);
+      const origin = lizardHeadMesh.getWorldPosition(new THREE.Vector3());
+      const windowGeometry = windowViewMesh.geometry;
+      windowGeometry?.computeBoundingBox?.();
+      const windowLocalBounds = windowGeometry?.boundingBox;
+      if (!windowLocalBounds || windowLocalBounds.isEmpty()) return null;
+      const occluders = sceneOccluders.occluders.filter(
+        (object) =>
+          object !== windowViewMesh &&
+          object !== windowGlassMesh &&
+          !hasEvidenceFlagInAncestors(object, "homeDeskSightlineIgnore") &&
+          !isDescendantOf(object, windowViewMesh)
+      );
+      const horizontalSamples = [0.18, 0.27, 0.36];
+      const imageYSamples = [0.44, 0.48, 0.52];
+      const localDepth = (windowLocalBounds.min.z + windowLocalBounds.max.z) / 2;
+      const samples = imageYSamples
+        .flatMap((imageY) =>
+          horizontalSamples.map((horizontal) => {
+            const target = new THREE.Vector3(
+              lerp(windowLocalBounds.min.x, windowLocalBounds.max.x, horizontal),
+              lerp(windowLocalBounds.max.y, windowLocalBounds.min.y, imageY),
+              localDepth
+            );
+            windowViewMesh.localToWorld(target);
+            const raycast = readRaycastEvidence(origin, target, occluders);
+            return raycast
+              ? {
+                  horizontal,
+                  imageY,
+                  ...raycast,
+                  target: vectorEvidence(target),
+                }
+              : null;
+          })
+        )
+        .filter(Boolean);
+      const representative = samples.find((sample) => sample.horizontal === 0.27 && sample.imageY === 0.48);
+      if (!representative) return null;
+      const clearSampleCount = samples.filter((sample) => sample.clear).length;
+      return {
+        method: "live-scene-mesh-traversal",
+        samplingSource: "live-window-view-local-geometry-grid",
+        targetSurface: "window-ocean-left-pane-horizon",
+        ...representative,
+        origin: vectorEvidence(origin),
+        sampleCount: samples.length,
+        clearSampleCount,
+        coneClear: samples.length === horizontalSamples.length * imageYSamples.length && clearSampleCount === samples.length,
+        samples,
+        visibleSceneMeshCount: sceneOccluders.visibleMeshCount,
+        transparentEffectCount: sceneOccluders.transparentEffectCount,
+        occluderMeshCount: occluders.length,
+      };
+    };
+
+    const getStaticSceneTopology = () => {
+      if (staticSceneTopology) return staticSceneTopology;
+      scene?.updateMatrixWorld(true);
+      const floorBoundary = readLiveFloorBoundary(roomFloorMesh);
+      const aperture = readApertureTopologyEvidence(floorBoundary);
+      const cliffFootWorldBounds = getObjectWorldBoundsEvidence(compositionObjects.coast.cliffFoot, { requireVisible: false });
+      const cliffFacadeWorldBounds = getObjectWorldBoundsEvidence(compositionObjects.coast.cliffFacade, { requireVisible: false });
+      const rootScale = rootGroup?.getWorldScale(new THREE.Vector3()) || new THREE.Vector3(1, 1, 1);
+      const cliffDropWorld = aperture?.glassWorldBounds && cliffFootWorldBounds ? aperture.glassWorldBounds.min.y - cliffFootWorldBounds.max.y : null;
+      const apertureCenterWorldY = aperture?.glassWorldBounds ? (aperture.glassWorldBounds.min.y + aperture.glassWorldBounds.max.y) / 2 : null;
+      const cliffElevationSpan = cliffFacadeWorldBounds && cliffFootWorldBounds ? cliffFacadeWorldBounds.max.y - cliffFootWorldBounds.max.y : null;
+      const apertureElevationRatio =
+        apertureCenterWorldY !== null && cliffElevationSpan > 0 ? (apertureCenterWorldY - cliffFootWorldBounds.max.y) / cliffElevationSpan : null;
+      staticSceneTopology = {
+        floorBoundary,
+        floor: readFloorTopologyEvidence(floorBoundary),
+        shell: readShellTopologyEvidence(),
+        aperture,
+        cliff: {
+          source: "live-window-glass-cliff-facade-and-foot-geometry",
+          footWorldBounds: cliffFootWorldBounds,
+          facadeWorldBounds: cliffFacadeWorldBounds,
+          apertureCenterWorldY: apertureCenterWorldY === null ? null : roundEvidenceValue(apertureCenterWorldY),
+          apertureElevationRatio: apertureElevationRatio === null ? null : roundEvidenceValue(apertureElevationRatio),
+          dropWorld: cliffDropWorld === null ? null : roundEvidenceValue(cliffDropWorld),
+          dropRoomUnits: cliffDropWorld === null ? null : roundEvidenceValue(cliffDropWorld / Math.max(0.001, Math.abs(rootScale.y))),
+        },
+      };
+      return staticSceneTopology;
+    };
+
+    const syncSceneStateDatasets = () => {
       container.dataset.sceneView = activeView;
       container.dataset.sceneActiveRecord = String(activeRecordIndex);
       container.dataset.sceneDroppedRecords = droppedRecordIndices.join(",");
+    };
+
+    const refreshInteractionEvidence = () => {
+      if (!renderer || !scene || !camera) return;
+      syncSceneStateDatasets();
+      scene.updateMatrixWorld(true);
+      camera.updateMatrixWorld(true);
       const windowBounds = projectObjectBounds(windowHitObject);
       const returnBounds = projectObjectBounds(returnHitObject);
       if (windowBounds) container.dataset.windowScreenBounds = JSON.stringify(windowBounds);
       else container.removeAttribute("data-window-screen-bounds");
       if (returnBounds) container.dataset.returnScreenBounds = JSON.stringify(returnBounds);
       else container.removeAttribute("data-return-screen-bounds");
+      container.dataset.albumScreenBounds = JSON.stringify(
+        albumEntries.map((entry) => ({
+          index: entry.index,
+          thrown: Boolean(entry.thrown),
+          focused: focusedEntry === entry,
+          rack: projectObjectBounds(entry.rackSlotHit),
+          object: projectObjectBounds(entry.projectionObject || entry.group),
+          rackPoint: projectObjectCenter(entry.rackSlotHit),
+          objectPoint: projectObjectCenter(entry.projectionObject || entry.group),
+        }))
+      );
+      container.dataset.artifactScreenBounds = JSON.stringify(
+        artifactEntries.map((entry) => ({
+          index: entry.index,
+          focused: focusedEntry === entry,
+          object: projectObjectBounds(entry.group),
+          objectPoint: projectObjectCenter(entry.group),
+        }))
+      );
+      if (activeView !== "desk" || droppedRecordIndices.length === 0) {
+        container.removeAttribute("data-dropped-screen-bounds");
+      } else {
+        const evidence = droppedRecordIndices.map((index) => ({
+          index,
+          album: projectObjectBounds(albumEntries[index]?.projectionObject || albumEntries[index]?.group),
+          card: projectObjectBounds(songCardEntries[index]?.projectionObject || songCardEntries[index]?.group),
+        }));
+        container.dataset.droppedScreenBounds = JSON.stringify(evidence);
+      }
+      sceneEvidenceDirty = false;
+    };
+
+    const refreshCompositionEvidence = () => {
+      if (!renderer || !scene || !camera) return;
+      refreshInteractionEvidence();
+      const staticTopology = getStaticSceneTopology();
+      const sceneOccluders = collectSceneOccluders();
       const landmarkEvidence = Object.fromEntries(
         Object.entries(compositionObjects.room).map(([key, object]) => [
           key,
           {
             bounds: projectObjectBounds(object),
             center: projectObjectCenter(object),
+            visibility: readCameraLandmarkVisibility(key === "window" ? windowGlassMesh : object, sceneOccluders),
           },
         ])
       );
@@ -883,10 +1682,62 @@
           },
         ])
       );
+      const apertureScreenBounds = projectObjectBounds(windowGlassMesh);
+      const cliffFootScreenBounds = projectObjectBounds(compositionObjects.coast.cliffFoot);
+      const guidancePulseActive =
+        !reduceMotion && activeView === "desk" && Boolean(windowDefaultCueGroup?.visible) && performance.now() < windowGuidancePulseUntil;
+      const welcomeBounds = projectObjectBounds(welcomePaperMesh);
+      const architectureEvidence = {
+        aperture: {
+          ...staticTopology.aperture,
+          screenBounds: apertureScreenBounds,
+        },
+        cliff: {
+          ...staticTopology.cliff,
+          projectedGap:
+            apertureScreenBounds && cliffFootScreenBounds
+              ? roundEvidenceValue(Math.max(0, cliffFootScreenBounds.top - apertureScreenBounds.bottom))
+              : null,
+        },
+        floor: staticTopology.floor
+          ? {
+              ...staticTopology.floor,
+              screenBounds: projectObjectBounds(roomFloorMesh),
+              screenSilhouette: clipWorldPolygonToScreen(staticTopology.floorBoundary),
+            }
+          : null,
+        shell: readDynamicShellEvidence(staticTopology.shell),
+        welcomePaper: {
+          text: welcomePaperMesh?.userData?.message || "",
+          textureReady: Boolean(welcomePaperMesh?.material?.map),
+          visible: Boolean(welcomePaperMesh && isObjectVisibleForPicking(welcomePaperMesh)),
+          bounds: welcomeBounds,
+          headlineFontPx: welcomePaperMesh?.userData?.headlineFontPx || 0,
+          textureHeightPx: welcomePaperMesh?.userData?.textureHeightPx || 0,
+          headlineFontRatio:
+            welcomePaperMesh?.userData?.headlineFontPx && welcomePaperMesh?.userData?.textureHeightPx
+              ? roundEvidenceValue(welcomePaperMesh.userData.headlineFontPx / welcomePaperMesh.userData.textureHeightPx)
+              : 0,
+        },
+        windowGuidance: {
+          visible: Boolean(windowDefaultCueGroup?.visible),
+          hintVisible: Boolean(windowHintMesh?.visible),
+          hintBounds: projectObjectBounds(windowHintMesh),
+          hintOpacity: Number.isFinite(windowHintMesh?.material?.opacity) ? roundEvidenceValue(windowHintMesh.material.opacity) : null,
+          mode: windowHintMesh?.visible ? "zoom-label" : guidancePulseActive ? "pulse" : "static",
+          opacity: Number.isFinite(themeMaterials.windowCue?.opacity) ? roundEvidenceValue(themeMaterials.windowCue.opacity) : null,
+          bounds: projectObjectBounds(windowDefaultCueGroup),
+          markerVisible: Boolean(windowCueMarkerMesh && isObjectVisibleForPicking(windowCueMarkerMesh)),
+          markerOpacity: Number.isFinite(windowCueMarkerMesh?.material?.opacity) ? roundEvidenceValue(windowCueMarkerMesh.material.opacity) : null,
+          markerBounds: projectObjectBounds(windowCueMarkerMesh),
+        },
+        onsenSightline: readOnsenSightlineEvidence(sceneOccluders),
+      };
       container.dataset.compositionEvidence = JSON.stringify({
         view: activeView,
         landmarks: landmarkEvidence,
         coast: coastEvidence,
+        architecture: architectureEvidence,
         coastPalette: {
           wetSand: themeMaterials.outsideWetSand
             ? {
@@ -907,45 +1758,54 @@
             color: material.color.getHexString(),
             mapId: material.map?.uuid || null,
           })),
+          caveMouth: caveMouthMaterials.map((material, index) => ({
+            index,
+            state: activeView === "outside" ? "outside" : "inside",
+            color: material.color.getHexString(),
+            opacity: roundEvidenceValue(material.opacity),
+            insideColor: colorEvidenceValue(material.userData.homeDeskInsideColor),
+            outsideColor: colorEvidenceValue(material.userData.homeDeskOutsideColor),
+            insideOpacity: roundEvidenceValue(material.userData.homeDeskInsideOpacity),
+            outsideOpacity: roundEvidenceValue(material.userData.homeDeskOutsideOpacity),
+          })),
         },
         photos: photoEntries.map((entry) => ({
           id: entry.id,
           textureReady: Boolean(entry.imageMesh?.material?.map),
         })),
       });
-      scene?.updateMatrixWorld(true);
-      camera?.updateMatrixWorld(true);
-      container.dataset.albumScreenBounds = JSON.stringify(
-        albumEntries.map((entry) => ({
-          index: entry.index,
-          thrown: Boolean(entry.thrown),
-          focused: focusedEntry === entry,
-          rack: projectObjectBounds(entry.rackSlotHit),
-          object: projectObjectBounds(entry.projectionObject || entry.group),
-          rackPoint: projectObjectCenter(entry.rackSlotHit),
-          objectPoint: projectObjectCenter(entry.projectionObject || entry.group),
-        }))
-      );
-      if (activeView !== "desk" || droppedRecordIndices.length === 0) {
-        container.removeAttribute("data-dropped-screen-bounds");
-        return;
-      }
+      sceneEvidenceRevision += 1;
+      container.dataset.sceneEvidenceRevision = String(sceneEvidenceRevision);
+    };
 
-      const evidence = droppedRecordIndices.map((index) => ({
-        index,
-        album: projectObjectBounds(albumEntries[index]?.projectionObject || albumEntries[index]?.group),
-        card: projectObjectBounds(songCardEntries[index]?.projectionObject || songCardEntries[index]?.group),
-      }));
-      container.dataset.droppedScreenBounds = JSON.stringify(evidence);
+    const cancelScheduledSceneEvidenceRefresh = () => {
+      if (!sceneEvidenceRefreshTimer) return;
+      window.clearTimeout(sceneEvidenceRefreshTimer);
+      sceneEvidenceRefreshTimer = 0;
+    };
+
+    const scheduleSceneEvidenceRefresh = (delay = 160) => {
+      if (!isLoaded || !isVisible) return;
+      cancelScheduledSceneEvidenceRefresh();
+      sceneEvidenceRefreshTimer = window.setTimeout(
+        () => {
+          sceneEvidenceRefreshTimer = 0;
+          if (sceneEvidenceDirty) refreshInteractionEvidence();
+        },
+        reduceMotion ? 0 : delay
+      );
+    };
+
+    const markSceneEvidenceDirty = (options = {}) => {
+      if (options.staticTopology) staticSceneTopology = null;
+      sceneEvidenceDirty = true;
+      if (options.syncState !== false) syncSceneStateDatasets();
+      scheduleSceneEvidenceRefresh(options.delay);
     };
 
     const render = () => {
       if (!renderer || !scene || !camera) return;
       renderer.render(scene, camera);
-      if (sceneEvidenceDirty) {
-        syncSceneEvidence();
-        sceneEvidenceDirty = false;
-      }
     };
 
     const stopLoop = () => {
@@ -996,6 +1856,7 @@
       activeGroup.rotation.y = 0;
       const yawBase = activeView === "outside" ? outsideDefaultRotation.y : defaultRotation.y;
       const yaw = (((rotationY - yawBase) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      currentCameraYaw = yaw;
       container.dataset.cameraYaw = yaw.toFixed(4);
       container.dataset.cameraPitch = rotationX.toFixed(4);
       const rearView = yaw > Math.PI * 0.62 && yaw < Math.PI * 1.38;
@@ -1004,14 +1865,42 @@
         if (mesh) mesh.visible = showPaintedWindowBackdrop;
       });
       if (windowViewMesh) windowViewMesh.visible = activeView === "desk";
-      const returnApertureVisible = activeView === "outside" && (yaw < Math.PI * 0.36 || yaw > Math.PI * 1.64);
+      const returnApertureVisible = isNearFrontOutsideAperture();
       if (returnInsideGroup) returnInsideGroup.visible = returnApertureVisible;
       container.dataset.returnTargetVisible = String(returnApertureVisible);
       const isYawInRange = (start, end) => (start <= end ? yaw >= start && yaw <= end : yaw >= start || yaw <= end);
       orbitOcclusionItems.forEach((item) => {
         if (!item?.material) return;
         const inRange = item.yawStart === undefined ? rearView : isYawInRange(item.yawStart, item.yawEnd);
-        const targetOpacity = item.entry && item.entry === focusedEntry ? item.baseOpacity : inRange ? item.occludedOpacity : item.baseOpacity;
+        const outsideCaveMouth = activeView === "outside" && item.material.userData.homeDeskCaveMouth;
+        const outsideWindowGlass = activeView === "outside" && item.material === themeMaterials.windowGlass;
+        const caveMouthMaterial = item.material.userData.homeDeskCaveMouth;
+        const baseOpacity = caveMouthMaterial
+          ? outsideCaveMouth
+            ? item.material.userData.homeDeskOutsideOpacity
+            : item.material.userData.homeDeskInsideOpacity
+          : outsideWindowGlass
+            ? 0.055
+            : item.baseOpacity;
+        const occludedOpacity = caveMouthMaterial
+          ? outsideCaveMouth
+            ? item.material.userData.homeDeskOutsideOccludedOpacity
+            : item.material.userData.homeDeskInsideOccludedOpacity
+          : outsideWindowGlass
+            ? 0.025
+            : item.occludedOpacity;
+        const hiddenOutsideBackdrop = activeView === "outside" && windowBackdropMeshes.includes(item.object);
+        const targetOpacity = hiddenOutsideBackdrop
+          ? 0
+          : item.entry && item.entry === focusedEntry
+            ? baseOpacity
+            : inRange
+              ? occludedOpacity
+              : baseOpacity;
+        if (caveMouthMaterial) {
+          item.material.depthWrite = outsideCaveMouth;
+          item.material.color.setHex(outsideCaveMouth ? item.material.userData.homeDeskOutsideColor : item.material.userData.homeDeskInsideColor);
+        }
         if (item.object && item.hideBelow !== undefined) item.object.visible = targetOpacity > item.hideBelow;
         item.material.opacity += (targetOpacity - item.material.opacity) * (immediate || reduceMotion ? 1 : 0.22);
       });
@@ -1023,11 +1912,41 @@
 
     const updateWindowJumpVisibility = () => {
       if (!windowJumpGroup) return;
-      const shouldShow = activeView === "desk" && Math.max(zoomLevel, targetZoomLevel) > 0.22;
-      if (windowJumpGroup.visible !== shouldShow) {
-        windowJumpGroup.visible = shouldShow;
+      const apertureFacing = currentCameraYaw < Math.PI * 0.2 || currentCameraYaw > Math.PI * 1.8;
+      const shouldShowCue = activeView === "desk" && apertureFacing;
+      const shouldShowHint = shouldShowCue && (windowGuidanceHovered || Math.max(zoomLevel, targetZoomLevel) > 0.22);
+      const visibilityChanged =
+        windowJumpGroup.visible !== shouldShowCue || windowDefaultCueGroup?.visible !== shouldShowCue || windowHintMesh?.visible !== shouldShowHint;
+      windowJumpGroup.visible = shouldShowCue;
+      if (windowDefaultCueGroup) windowDefaultCueGroup.visible = shouldShowCue;
+      if (windowHintMesh) windowHintMesh.visible = shouldShowHint;
+      container.dataset.windowGuidanceVisible = String(shouldShowCue);
+      container.dataset.windowGuidanceHintVisible = String(shouldShowHint);
+      if (visibilityChanged) {
+        markSceneEvidenceDirty();
         render();
       }
+    };
+
+    const updateWindowGuidanceMotion = (time) => {
+      if (!windowDefaultCueGroup?.visible || !themeMaterials.windowCue || !windowSillGlintMesh?.material) return false;
+      const cueBase = themeMaterials.windowCue.userData.baseOpacity ?? themeMaterials.windowCue.opacity;
+      const glintBase = windowSillGlintMesh.material.userData.baseOpacity ?? windowSillGlintMesh.material.opacity;
+      const pulseActive = !reduceMotion && activeView === "desk" && time < windowGuidancePulseUntil;
+      const pulse = pulseActive ? (Math.sin((time - windowGuidancePulseStartedAt) * 0.0062) + 1) / 2 : 0.5;
+      const hoverLift = windowGuidanceHovered ? 0.06 : 0;
+      themeMaterials.windowCue.opacity = cueBase + hoverLift + (pulseActive ? pulse * 0.035 : 0);
+      windowSillGlintMesh.material.opacity = glintBase + hoverLift * 0.72 + (pulseActive ? pulse * 0.08 : 0);
+      windowSillGlintMesh.scale.x = pulseActive ? 1 + pulse * 0.08 : 1;
+      if (windowCueMarkerMesh?.material) {
+        const markerBase = windowCueMarkerMesh.material.userData.baseOpacity ?? windowCueMarkerMesh.material.opacity;
+        windowCueMarkerMesh.material.opacity = markerBase + hoverLift * 0.65 + (pulseActive ? pulse * 0.08 : 0);
+        windowCueMarkerMesh.scale.setScalar(pulseActive ? 1 + pulse * 0.12 : 1);
+      }
+      container.dataset.windowGuidanceMode = windowHintMesh?.visible ? "zoom-label" : pulseActive ? "pulse" : "static";
+      if (windowGuidanceWasPulsing !== pulseActive) markSceneEvidenceDirty();
+      windowGuidanceWasPulsing = pulseActive;
+      return pulseActive;
     };
 
     const isPointerInFocusedAlbumInspectRegion = (event) => {
@@ -1320,12 +2239,12 @@
       makeCanvasTexture(
         (context, width, height) => {
           context.clearRect(0, 0, width, height);
-          context.fillStyle = palette.isDarkTheme ? "rgba(255,235,205,0.56)" : "rgba(82,57,34,0.54)";
-          context.font = "700 24px Inter, system-ui, sans-serif";
+          context.fillStyle = palette.isDarkTheme ? "rgba(255,235,205,0.82)" : "rgba(82,57,34,0.8)";
+          context.font = "700 48px Inter, system-ui, sans-serif";
           context.textAlign = "center";
           context.textBaseline = "middle";
-          context.fillText("click window to go outside", width * 0.5, height * 0.52);
-          context.strokeStyle = palette.isDarkTheme ? "rgba(255,214,162,0.28)" : "rgba(150,103,58,0.2)";
+          context.fillText("Step outside", width * 0.5, height * 0.52);
+          context.strokeStyle = palette.isDarkTheme ? "rgba(255,214,162,0.38)" : "rgba(150,103,58,0.32)";
           context.lineWidth = 3;
           context.beginPath();
           context.moveTo(width * 0.26, height * 0.72);
@@ -1658,16 +2577,12 @@
       makeRepeatingCanvasTexture(
         (context, width, height) => {
           const isEvening = palette.mode === "evening" || palette.isDarkTheme;
-          const base = context.createLinearGradient(0, 0, width, height);
-          base.addColorStop(0, isEvening ? "#70685f" : "#c8b5a0");
-          base.addColorStop(0.56, isEvening ? "#5b5650" : "#aa9581");
-          base.addColorStop(1, isEvening ? "#46433f" : "#857466");
-          context.fillStyle = base;
+          context.fillStyle = isEvening ? (face ? "#655e55" : "#756d63") : face ? "#b7a895" : "#c8b8a5";
           context.fillRect(0, 0, width, height);
 
-          context.globalAlpha = face ? 0.1 : 0.075;
+          context.globalAlpha = face ? 0.052 : 0.038;
           context.strokeStyle = isEvening ? "#d1c3af" : "#eee2d2";
-          context.lineWidth = face ? 2 : 1.5;
+          context.lineWidth = face ? 1.6 : 1.2;
           for (let row = 0; row < 4; row += 1) {
             const y = 34 + row * 48;
             context.beginPath();
@@ -1685,11 +2600,11 @@
             context.fillStyle =
               index % 3 === 0
                 ? isEvening
-                  ? "rgba(28,27,25,0.16)"
-                  : "rgba(74,66,58,0.11)"
+                  ? "rgba(28,27,25,0.055)"
+                  : "rgba(74,66,58,0.04)"
                 : isEvening
-                  ? "rgba(224,216,201,0.11)"
-                  : "rgba(249,239,225,0.13)";
+                  ? "rgba(224,216,201,0.045)"
+                  : "rgba(249,239,225,0.05)";
             context.beginPath();
             context.ellipse(x, y, 2.8 + (index % 4), 1.1 + (index % 3) * 0.35, (index % 5) * 0.4, 0, Math.PI * 2);
             context.fill();
@@ -1763,6 +2678,39 @@
         },
         480,
         320
+      );
+
+    const createWelcomePaperTexture = (palette) =>
+      makeCanvasTexture(
+        (context, width, height) => {
+          const isEvening = palette.mode === "evening" || palette.isDarkTheme;
+          const paper = context.createLinearGradient(0, 0, width, height);
+          paper.addColorStop(0, isEvening ? "#f8ead4" : "#fffdf5");
+          paper.addColorStop(1, isEvening ? "#dfc8aa" : "#f1dfc8");
+          context.fillStyle = paper;
+          context.fillRect(0, 0, width, height);
+
+          context.strokeStyle = isEvening ? "rgba(94,68,45,0.34)" : "rgba(133,89,51,0.26)";
+          context.lineWidth = 5;
+          context.strokeRect(18, 18, width - 36, height - 36);
+          context.fillStyle = isEvening ? "#805838" : "#9b5d32";
+          context.font = "800 22px ui-monospace, SFMono-Regular, Consolas, monospace";
+          context.fillText("ROOM NOTE  /  01", 48, 66);
+          context.fillStyle = isEvening ? "#241d18" : "#27211c";
+          context.font = "820 104px Inter, system-ui, sans-serif";
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText("Welcome to", width / 2, height * 0.42);
+          context.fillText("Sirui’s cave.", width / 2, height * 0.64);
+          context.strokeStyle = isEvening ? "rgba(128,88,56,0.38)" : "rgba(155,93,50,0.28)";
+          context.lineWidth = 4;
+          context.beginPath();
+          context.moveTo(width * 0.31, height * 0.78);
+          context.bezierCurveTo(width * 0.42, height * 0.82, width * 0.58, height * 0.74, width * 0.69, height * 0.78);
+          context.stroke();
+        },
+        640,
+        420
       );
 
     const createArtifactTexture = (artifact, index, palette) =>
@@ -1899,7 +2847,7 @@
           textureCache.set(src, texture);
           material.map = texture;
           material.needsUpdate = true;
-          sceneEvidenceDirty = true;
+          markSceneEvidenceDirty();
           render();
         },
         undefined,
@@ -2196,6 +3144,72 @@
       return mesh;
     };
 
+    const addOrganicFloorSlab = (group, points, yTop, height, topMaterial, edgeMaterial) => {
+      const shape = new THREE.Shape();
+      points.forEach(([x, z], index) => {
+        if (index === 0) shape.moveTo(x, z);
+        else shape.lineTo(x, z);
+      });
+      shape.closePath();
+      const geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: height,
+        bevelEnabled: true,
+        bevelThickness: 0.035,
+        bevelSize: 0.055,
+        bevelSegments: 3,
+        curveSegments: 18,
+      });
+      geometry.computeVertexNormals();
+      const mesh = new THREE.Mesh(geometry, [topMaterial, edgeMaterial]);
+      mesh.rotation.x = Math.PI / 2;
+      mesh.position.y = yTop;
+      mesh.userData.footprintRoom = points.map(([x, z]) => [x, z]);
+      mesh.userData.homeDeskOrganicFloor = true;
+      group.add(mesh);
+      return mesh;
+    };
+
+    const addShellWallSegment = (group, start, end, y, height, material, id) => {
+      const deltaX = end[0] - start[0];
+      const deltaZ = end[1] - start[1];
+      const length = Math.hypot(deltaX, deltaZ);
+      const mesh = addBeveledBox(
+        group,
+        { x: length + 0.08, y: height, z: 0.18 },
+        { x: (start[0] + end[0]) / 2, y, z: (start[1] + end[1]) / 2 },
+        material,
+        { bevel: 0.022, segments: 2 }
+      );
+      mesh.rotation.y = -Math.atan2(deltaZ, deltaX);
+      mesh.userData.shellPanelId = id;
+      shellPanels.push({ id, object: mesh });
+      return mesh;
+    };
+
+    const addShellCap = (group, points, y, material) => {
+      const centroid = points.reduce((sum, [x, z]) => ({ x: sum.x + x / points.length, z: sum.z + z / points.length }), { x: 0, z: 0 });
+      const shape = new THREE.Shape();
+      points.forEach(([x, z], index) => {
+        if (index === 0) shape.moveTo(x, z);
+        else shape.lineTo(x, z);
+      });
+      shape.closePath();
+      const innerPoints = points.map(([x, z]) => [centroid.x + (x - centroid.x) * 0.79, centroid.z + (z - centroid.z) * 0.79]).reverse();
+      const cutaway = new THREE.Path();
+      innerPoints.forEach(([x, z], index) => {
+        if (index === 0) cutaway.moveTo(x, z);
+        else cutaway.lineTo(x, z);
+      });
+      cutaway.closePath();
+      shape.holes.push(cutaway);
+      const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shape, 24), material);
+      mesh.rotation.x = Math.PI / 2;
+      mesh.position.y = y;
+      mesh.userData.homeDeskCameraCutaway = true;
+      group.add(mesh);
+      return mesh;
+    };
+
     const addExtrudedFace = (group, points, depth, z, material, options = {}) => {
       if (!THREE.Shape || !THREE.ExtrudeGeometry) return null;
 
@@ -2333,20 +3347,69 @@
       if (!projectedHitCenter.vector) projectedHitCenter.vector = new THREE.Vector3();
       target.getWorldPosition(projectedHitCenter.vector);
       projectedHitCenter.vector.project(camera);
+      if (
+        projectedHitCenter.vector.z < -1 ||
+        projectedHitCenter.vector.z > 1 ||
+        Math.abs(projectedHitCenter.vector.x) > 1.08 ||
+        Math.abs(projectedHitCenter.vector.y) > 1.08
+      ) {
+        return Number.POSITIVE_INFINITY;
+      }
       const dx = projectedHitCenter.vector.x - pointerNdc.x;
       const dy = projectedHitCenter.vector.y - pointerNdc.y;
       return dx * dx + dy * dy;
     };
 
-    const pickProjectedRackAlbum = (excludedEntry = null, options = {}) => {
-      const threshold = options.threshold ?? (isCompactScene ? 0.042 : 0.032);
+    const getInteractiveVisibilityRoot = (data) => data?.homeDeskEntry?.group || data?.homeDeskProjectionObject || null;
+
+    const getInteractiveProjectionObject = (data) =>
+      data?.homeDeskProjectionObject ||
+      data?.homeDeskEntry?.projectionObject ||
+      data?.homeDeskEntry?.rackSlotHit ||
+      data?.homeDeskEntry?.group ||
+      null;
+
+    const filterInteractiveOccluders = (occluders, data, targetObject = null) => {
+      const visibilityRoot = getInteractiveVisibilityRoot(data);
+      return occluders.filter((object) => object !== targetObject && (!visibilityRoot || !isDescendantOf(object, visibilityRoot)));
+    };
+
+    const isProjectedInteractiveVisible = (data, occluders, options = {}) => {
+      const targetObject = getInteractiveProjectionObject(data);
+      if (!THREE || !camera || !targetObject || !isObjectVisibleForPicking(targetObject)) return false;
+      const target = targetObject.getWorldPosition(new THREE.Vector3());
+      const projected = target.clone().project(camera);
+      if (projected.z < -1 || projected.z > 1 || Math.abs(projected.x) > 1.08 || Math.abs(projected.y) > 1.08) return false;
+      const origin = camera.getWorldPosition(new THREE.Vector3());
+      let baseOccluders = filterInteractiveOccluders(occluders, data, targetObject);
+      if (options.ignoreRackSleeves) {
+        baseOccluders = baseOccluders.filter(
+          (object) => !albumEntries.some((entry) => entry !== data.homeDeskEntry && isDescendantOf(object, entry.group))
+        );
+      }
+      const filtered = filterApertureShellOccluders(baseOccluders, target);
+      const raycast = readRaycastEvidence(origin, target, filtered.occluders);
+      return Boolean(raycast?.clear);
+    };
+
+    const isInteractiveHitVisible = (candidate, occluders) => {
+      if (!candidate?.hit || !candidate.data) return false;
+      const baseOccluders = filterInteractiveOccluders(occluders, candidate.data, candidate.hit.object);
+      const filtered = filterApertureShellOccluders(baseOccluders, candidate.hit.point);
+      const blockers = raycaster.intersectObjects(filtered.occluders, false);
+      return !blockers.some((blocker) => blocker.object?.visible !== false && blocker.distance < candidate.hit.distance - 0.018);
+    };
+
+    const pickProjectedRackAlbum = (excludedEntry = null, options = {}, occluders = []) => {
+      const radius = options.radius ?? (isCompactScene ? 0.064 : 0.05);
       let bestCandidate = null;
-      let bestDistance = threshold;
+      let bestDistance = radius * radius;
 
       albumEntries.forEach((entry) => {
         if (!entry || entry === excludedEntry || entry.thrown || entry.rackSlotHit?.visible === false) return;
         const data = entry.rackSlotHit?.userData;
-        if (!data || !isObjectVisibleForPicking(entry.rackSlotHit)) return;
+        if (!data || !isObjectVisibleForPicking(entry.rackSlotHit) || !isProjectedInteractiveVisible(data, occluders, { ignoreRackSleeves: true }))
+          return;
         const distance = projectedInteractiveDistance(data);
         if (distance < bestDistance) {
           bestDistance = distance;
@@ -2357,7 +3420,7 @@
       return bestCandidate;
     };
 
-    const pickUpperRackCapAlbum = (excludedEntry = null) => {
+    const pickUpperRackCapAlbum = (excludedEntry = null, occluders = []) => {
       if (!pointerNdc) return null;
       const insideUpperCap =
         pointerNdc.y > (isCompactScene ? 0.42 : 0.46) &&
@@ -2368,10 +3431,12 @@
         .filter((entry) => entry && entry !== excludedEntry && !entry.thrown && entry.rackSlotHit?.visible !== false)
         .sort((first, second) => second.index - first.index)[0];
       const data = exposedEntry?.rackSlotHit?.userData;
-      return data && isObjectVisibleForPicking(exposedEntry.rackSlotHit) ? data : null;
+      if (!data || !isObjectVisibleForPicking(exposedEntry.rackSlotHit)) return null;
+      if (projectedInteractiveDistance(data) > (isCompactScene ? 0.14 : 0.12)) return null;
+      return isProjectedInteractiveVisible(data, occluders) ? data : null;
     };
 
-    const pickActiveRackFaceAlbum = (entry = null) => {
+    const pickActiveRackFaceAlbum = (entry = null, occluders = []) => {
       if (!pointerNdc || !entry || entry.thrown || entry.rackSlotHit?.visible === false) return null;
       const insideRackFace =
         pointerNdc.y > (isCompactScene ? -0.02 : 0.02) &&
@@ -2379,15 +3444,17 @@
         pointerNdc.x > (isCompactScene ? -0.68 : -0.66) &&
         pointerNdc.x < (isCompactScene ? -0.2 : -0.22);
       const data = insideRackFace ? entry.rackSlotHit?.userData : null;
-      return data && isObjectVisibleForPicking(entry.rackSlotHit) ? data : null;
+      if (!data || !isObjectVisibleForPicking(entry.rackSlotHit)) return null;
+      if (projectedInteractiveDistance(data) > (isCompactScene ? 0.12 : 0.1)) return null;
+      return isProjectedInteractiveVisible(data, occluders) ? data : null;
     };
 
-    const pickProjectedRackReplacement = () => {
+    const pickProjectedRackReplacement = (occluders = []) => {
       if (focusedEntry?.kind !== "album") return null;
-      return pickProjectedRackAlbum(focusedEntry);
+      return pickProjectedRackAlbum(focusedEntry, {}, occluders);
     };
 
-    const pickProjectedFirstUndroppedRackAlbum = () => {
+    const pickProjectedFirstUndroppedRackAlbum = (occluders = []) => {
       if (!pointerNdc || focusedEntry?.kind === "album" || droppedRecordIndices.length === 0) return null;
       const insideFirstUndroppedLane =
         pointerNdc.x > (isCompactScene ? -0.42 : -0.38) &&
@@ -2402,7 +3469,9 @@
         if (!droppedSet.has(index)) {
           const entry = albumEntries[index];
           const data = entry?.rackSlotHit?.userData;
-          return data && isObjectVisibleForPicking(entry.rackSlotHit) ? data : null;
+          if (!data || !isObjectVisibleForPicking(entry.rackSlotHit)) return null;
+          if (projectedInteractiveDistance(data) > (isCompactScene ? 0.09 : 0.075)) return null;
+          return isProjectedInteractiveVisible(data, occluders) ? data : null;
         }
       }
       return null;
@@ -2414,7 +3483,11 @@
       pointerNdc.x = ((event.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
       pointerNdc.y = -(((event.clientY - rect.top) / Math.max(1, rect.height)) * 2 - 1);
       raycaster.setFromCamera(pointerNdc, camera);
-      const projectedFirstUndropped = activeView === "desk" ? pickProjectedFirstUndroppedRackAlbum() : null;
+      const pickingOccluders = collectSceneOccluders().occluders;
+      const projectedCompactRackAlbum =
+        activeView === "desk" && isCompactScene ? pickProjectedRackAlbum(focusedEntry, { radius: 0.064 }, pickingOccluders) : null;
+      if (projectedCompactRackAlbum) return projectedCompactRackAlbum;
+      const projectedFirstUndropped = activeView === "desk" ? pickProjectedFirstUndroppedRackAlbum(pickingOccluders) : null;
       if (projectedFirstUndropped) return projectedFirstUndropped;
       const hits = raycaster
         .intersectObjects(interactiveObjects, true)
@@ -2422,17 +3495,20 @@
         .filter((candidate) => {
           if (!candidate.data || !isObjectVisibleForPicking(candidate.hit.object)) return false;
           if (candidate.data.kind === "album" && candidate.data.homeDeskEntry?.thrown) return false;
-          if (candidate.data.kind === "windowJump") return activeView === "desk";
-          if (candidate.data.kind === "returnInside") return activeView === "outside";
+          if (candidate.data.kind === "windowJump") return activeView === "desk" && Boolean(windowJumpGroup?.visible);
+          if (candidate.data.kind === "returnInside") return isNearFrontOutsideAperture() && Boolean(returnInsideGroup?.visible);
           return activeView === "desk";
-        });
-      const projectedRackReplacement = activeView === "desk" ? pickProjectedRackReplacement() : null;
+        })
+        .filter((candidate) => isInteractiveHitVisible(candidate, pickingOccluders));
+      const projectedRackReplacement = activeView === "desk" ? pickProjectedRackReplacement(pickingOccluders) : null;
       const activeAlbumEntry = Number.isInteger(activeRecordIndex) ? albumEntries[activeRecordIndex] : null;
-      const projectedActiveFace = activeView === "desk" && !focusedEntry && activeAlbumEntry ? pickActiveRackFaceAlbum(activeAlbumEntry) : null;
+      const projectedActiveFace =
+        activeView === "desk" && !focusedEntry && activeAlbumEntry ? pickActiveRackFaceAlbum(activeAlbumEntry, pickingOccluders) : null;
       const isUpperRackPointer = pointerNdc.y > (isCompactScene ? 0.26 : 0.38);
       const projectedActiveNeighbor =
         activeView === "desk" && !focusedEntry && activeAlbumEntry && isUpperRackPointer
-          ? pickUpperRackCapAlbum(activeAlbumEntry) || pickProjectedRackAlbum(activeAlbumEntry, { threshold: isCompactScene ? 0.058 : 0.05 })
+          ? pickUpperRackCapAlbum(activeAlbumEntry, pickingOccluders) ||
+            pickProjectedRackAlbum(activeAlbumEntry, { radius: isCompactScene ? 0.076 : 0.062 }, pickingOccluders)
           : null;
       if (projectedActiveFace) return projectedActiveFace;
       if (!hits.length) return projectedRackReplacement || projectedActiveNeighbor;
@@ -2470,6 +3546,13 @@
     };
 
     const setHoverEntry = (entry) => {
+      const nextWindowGuidanceHovered = entry?.kind === "windowJump";
+      if (windowGuidanceHovered !== nextWindowGuidanceHovered) {
+        windowGuidanceHovered = nextWindowGuidanceHovered;
+        updateWindowJumpVisibility();
+        markSceneEvidenceDirty();
+        scheduleFrame();
+      }
       if (hoveredEntry === entry) return;
       if (hoveredEntry && !hoveredEntry.isDragging && hoveredEntry !== focusedEntry) {
         const restY = hoveredEntry.currentRestY ?? hoveredEntry.basePosition?.y;
@@ -2702,6 +3785,12 @@
       themeMaterials.windowFrame?.color.setHex(palette.isDarkTheme ? 0xe5d2b8 : 0x7e6047);
       themeMaterials.windowRecess?.color.setHex(palette.isDarkTheme ? 0x0b1416 : 0xd7c5ae);
       themeMaterials.windowGlass?.color.setHex(palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff);
+      caveMouthMaterials.forEach((material) => {
+        material.userData.homeDeskInsideColor = palette.isDarkTheme ? 0x8b7a63 : 0xd2bea5;
+        material.userData.homeDeskOutsideColor = palette.isDarkTheme ? 0x74695d : 0xac9a84;
+        material.userData.homeDeskInsideOpacity = palette.isDarkTheme ? 0.56 : 0.48;
+        material.userData.homeDeskOutsideOpacity = 0.78;
+      });
       themeMaterials.stone?.color.setHex(palette.stone);
       themeMaterials.stoneEdge?.color.setHex(palette.stoneEdge);
       themeMaterials.roomFuton?.color.setHex(palette.isDarkTheme ? 0x405d62 : 0xc9d8d2);
@@ -2714,12 +3803,23 @@
       themeMaterials.chairCushion?.color.setHex(palette.isDarkTheme ? 0xf2e8d6 : 0xfff5e6);
       themeMaterials.chairBase?.color.setHex(palette.isDarkTheme ? 0x15191a : 0x1d2021);
       themeMaterials.windowCue?.color.setHex(palette.isDarkTheme ? 0xf2c994 : 0xb97942);
-      if (themeMaterials.windowCue) themeMaterials.windowCue.opacity = palette.isDarkTheme ? 0.12 : 0.08;
+      if (themeMaterials.windowCue) {
+        themeMaterials.windowCue.userData.baseOpacity = palette.isDarkTheme ? 0.075 : 0.048;
+        themeMaterials.windowCue.opacity = themeMaterials.windowCue.userData.baseOpacity;
+      }
       themeMaterials.windowSillGlint?.color.setHex(palette.isDarkTheme ? 0xffdfb0 : 0xd79b61);
-      if (themeMaterials.windowSillGlint) themeMaterials.windowSillGlint.opacity = palette.isDarkTheme ? 0.22 : 0.16;
+      if (themeMaterials.windowSillGlint) {
+        themeMaterials.windowSillGlint.userData.baseOpacity = palette.isDarkTheme ? 0.18 : 0.12;
+        themeMaterials.windowSillGlint.opacity = themeMaterials.windowSillGlint.userData.baseOpacity;
+      }
+      themeMaterials.windowCueMarker?.color.setHex(palette.isDarkTheme ? 0xffd49c : 0xa85f2f);
+      if (themeMaterials.windowCueMarker) {
+        themeMaterials.windowCueMarker.userData.baseOpacity = palette.isDarkTheme ? 0.34 : 0.24;
+        themeMaterials.windowCueMarker.opacity = themeMaterials.windowCueMarker.userData.baseOpacity;
+      }
       themeMaterials.windowHint?.color.setHex(palette.isDarkTheme ? 0xffe3bd : 0x6a4c32);
       if (themeMaterials.windowHint) {
-        themeMaterials.windowHint.opacity = palette.isDarkTheme ? 0.16 : 0.11;
+        themeMaterials.windowHint.opacity = palette.isDarkTheme ? 0.72 : 0.62;
         replaceMaterialMap(themeMaterials.windowHint, createWindowHintTexture(palette));
       }
       themeMaterials.deskGlints?.color.setHex(palette.isDarkTheme ? 0xffe0aa : 0xfff1c7);
@@ -2746,10 +3846,10 @@
       if (themeMaterials.outsideSandGlints) themeMaterials.outsideSandGlints.opacity = palette.isDarkTheme ? 0.2 : 0.26;
       applyCoastalShaderPalette(themeMaterials.outsideFoamShader, palette, "foam");
       applyCoastalShaderPalette(themeMaterials.outsideSandShader, palette, "sand");
-      themeMaterials.outsideCliff?.color.setHex(palette.isDarkTheme ? 0x756d63 : 0xc8b8a5);
-      themeMaterials.outsideCliffFace?.color.setHex(palette.isDarkTheme ? 0x655e55 : 0xb7a895);
-      themeMaterials.outsideCaveFace?.color.setHex(palette.isDarkTheme ? 0x655e55 : 0xb7a895);
-      themeMaterials.outsideCliffLine?.color.setHex(palette.isDarkTheme ? 0x655e55 : 0xb7a895);
+      themeMaterials.outsideCliff?.color.setHex(0xffffff);
+      themeMaterials.outsideCliffFace?.color.setHex(0xffffff);
+      themeMaterials.outsideCaveFace?.color.setHex(0xffffff);
+      themeMaterials.outsideCliffLine?.color.setHex(0xffffff);
       themeMaterials.outsideCliffLight?.color.setHex(palette.isDarkTheme ? 0x7c7368 : 0xc8baa8);
       themeMaterials.outsideCliffShade?.color.setHex(palette.isDarkTheme ? 0x6d655c : 0xb8aa98);
       themeMaterials.outsideRoof?.color.setHex(palette.isDarkTheme ? 0x4e3a2d : 0x8b5a35);
@@ -2771,7 +3871,7 @@
       themeMaterials.outsideLamp?.color.setHex(palette.isDarkTheme ? 0xffcb78 : 0xf2b15f);
       if (themeMaterials.outsideLamp) themeMaterials.outsideLamp.opacity = palette.isDarkTheme ? 0.86 : 0.68;
       themeMaterials.outsideReturnGlow?.color.setHex(palette.isDarkTheme ? 0xffd6a1 : 0xfff0ca);
-      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.09 : 0.07;
+      if (themeMaterials.outsideReturnGlow) themeMaterials.outsideReturnGlow.opacity = palette.isDarkTheme ? 0.038 : 0.024;
       ambientLight?.color.setHex(palette.ambientColor);
       if (ambientLight) ambientLight.intensity = palette.ambientIntensity;
       if (keyLight) keyLight.intensity = palette.keyIntensity;
@@ -2810,7 +3910,10 @@
       }
       const laptopScreenMaterials = themeMaterials.laptopScreens || (themeMaterials.laptopScreen ? [themeMaterials.laptopScreen] : []);
       laptopScreenMaterials.forEach((material) => replaceMaterialMap(material, createLaptopScreenTexture(palette)));
-      sceneEvidenceDirty = true;
+      themeMaterials.welcomePaperBack?.color.setHex(palette.isDarkTheme ? 0xe6d5bd : 0xf1e2cf);
+      if (themeMaterials.welcomePaper) replaceMaterialMap(themeMaterials.welcomePaper, createWelcomePaperTexture(palette));
+      applyRootRotation(true);
+      markSceneEvidenceDirty();
       render();
     };
 
@@ -2839,14 +3942,20 @@
         outsideGroup.scale.setScalar(sharedWorldScale);
         outsideGroup.position.set(sharedWorldPosition.x, sharedWorldPosition.y, sharedWorldPosition.z);
       }
+      if (compositionObjects.room.onsen) {
+        compositionObjects.room.onsen.scale.setScalar(roomBlueprint.onsen.scale * (isCompact ? 1.04 : 1));
+      }
+      if (welcomePaperGroup) {
+        welcomePaperGroup.position.x = isCompact ? 0.62 : 0.78;
+      }
       applyCameraPose(true);
-      sceneEvidenceDirty = true;
+      markSceneEvidenceDirty({ staticTopology: true });
       render();
     };
 
     const setActiveRecordInternal = (index, notify = false) => {
       activeRecordIndex = (index + records.length) % records.length;
-      sceneEvidenceDirty = true;
+      markSceneEvidenceDirty();
       const record = records[activeRecordIndex];
       if (recordLabelMaterial) loadTexture(record?.src || record?.cover, recordLabelMaterial);
       albumEntries.forEach((entry) => {
@@ -2881,7 +3990,7 @@
       const entry = focusedEntry;
       focusedEntry = null;
       focusedEntryAt = 0;
-      sceneEvidenceDirty = true;
+      markSceneEvidenceDirty();
       container.removeAttribute("data-focused-desk-object");
       entry.lifted = false;
       setEntryCue(entry, false);
@@ -2976,10 +4085,11 @@
       const restitution = Math.max(0.06, 0.2 - orderIndex * 0.028);
       const fan = side * (0.15 + row * 0.058 + frictionSlide * 0.18) + jitter * 0.82;
       const floorLift = orderIndex * 0.0015;
+      const controlLanePullback = row > 0 && side > 0 ? 0.08 : 0;
       const albumX = -0.28 + side * (0.14 + row * 0.05 + frictionSlide * 0.5) + jitter;
       const albumZ = 0.1 + row * 0.1 + (entry.index % 2) * 0.034 + restitution * 0.07;
-      const cardX = -0.28 + side * (0.2 + row * 0.08 + frictionSlide * 0.68) + jitter;
-      const cardZ = 0.68 + row * 0.12 + (entry.index % 2) * 0.04 + restitution * 0.08;
+      const cardX = 0.18 + side * (0.28 + row * 0.22 + frictionSlide * 0.78) + jitter;
+      const cardZ = 0.43 + row * 0.14 + (entry.index % 2) * 0.045 + restitution * 0.08 - controlLanePullback;
       const settlePitch = side * (0.018 + restitution * 0.04);
       const settleRoll = side * (0.016 + row * 0.012);
 
@@ -2991,9 +4101,9 @@
         cardRotation: new THREE.Euler(
           side * (0.006 + restitution * 0.018),
           side * 0.006,
-          side * (0.13 + row * 0.055 + frictionSlide * 0.08) - jitter
+          side * (0.13 + row * 0.075 + frictionSlide * 0.08) - jitter
         ),
-        cardScale: new THREE.Vector3(1.02, 1.02, 1.02),
+        cardScale: new THREE.Vector3(1.12, 1.12, 1.12),
         albumShadowPosition: new THREE.Vector3(albumX, roomFloorY + 0.003 + floorLift, albumZ),
         albumShadowRotation: new THREE.Euler(-Math.PI / 2, 0, fan * 0.84),
         albumShadowScale: new THREE.Vector3(0.72 + row * 0.05 + gravitySettle * 0.04, 0.34, 1),
@@ -3082,7 +4192,7 @@
 
     const setDroppedRecordState = (indices = [], options = {}) => {
       droppedRecordIndices = normalizeDroppedRecordIndices(indices);
-      sceneEvidenceDirty = true;
+      markSceneEvidenceDirty();
       if (!THREE || albumEntries.length === 0) return;
 
       const droppedOrder = new Map(droppedRecordIndices.map((index, order) => [index, order]));
@@ -3222,7 +4332,7 @@
       if (focusedEntry && focusedEntry !== entry) clearFocusedEntry(360);
       focusedEntry = entry;
       focusedEntryAt = performance.now();
-      sceneEvidenceDirty = true;
+      markSceneEvidenceDirty();
       container.setAttribute("data-focused-desk-object", `album-${entry.index}`);
       setEntryCue(entry, true);
       if (entry.rackSlotHit) entry.rackSlotHit.visible = false;
@@ -3287,7 +4397,7 @@
           if (focusedEntry !== entry) return;
           focusedEntry = null;
           focusedEntryAt = 0;
-          sceneEvidenceDirty = true;
+          markSceneEvidenceDirty();
           container.removeAttribute("data-focused-desk-object");
           releaseAlbumToRack(entry, 520);
           targetZoomLevel = 0;
@@ -3437,9 +4547,10 @@
       if (focusedEntry) clearFocusedEntry(360);
       focusedEntryAt = 0;
       activeView = nextView === "outside" ? "outside" : "desk";
-      sceneEvidenceDirty = true;
+      markSceneEvidenceDirty();
       if (rootGroup) rootGroup.visible = true;
       if (outsideGroup) outsideGroup.visible = activeView === "outside";
+      if (welcomePaperGroup) welcomePaperGroup.visible = activeView === "desk";
       windowBackdropMeshes.forEach((mesh) => {
         if (mesh) mesh.visible = activeView === "desk";
       });
@@ -3459,7 +4570,7 @@
       scheduleFrame();
     };
 
-    const getOutsideEntryZoom = () => (isCompactScene ? 0.08 : 0.04);
+    const getOutsideEntryZoom = () => (isCompactScene ? (isNarrowScene ? 0.08 : 0.1) : 0.06);
     const getOutsideMaxZoom = () => (isCompactScene ? 0.74 : 0.84);
 
     const enterDeskFromOutside = () => {
@@ -3519,6 +4630,7 @@
       const keepTweening = updateTweens(time);
       const keepOutsideMoving = updateOutsideMotion(time);
       const keepAccentMoving = updateAccentMotion(time);
+      const keepWindowGuidanceMoving = updateWindowGuidanceMotion(time);
 
       if (recordGroup && isAnimationActive() && isRecordSpinning && !reduceMotion) {
         recordGroup.rotation.y = time * 0.00135;
@@ -3528,12 +4640,15 @@
         toneArmGroup.rotation.z = Math.sin(time * 0.0018) * 0.01;
       }
 
-      if (wasCameraMoving || keepCameraMoving || wasTweening || keepTweening) sceneEvidenceDirty = true;
+      if (wasCameraMoving || keepCameraMoving || wasTweening || keepTweening) markSceneEvidenceDirty({ syncState: false });
       render();
 
       if (
         isAnimationActive() &&
-        ((!reduceMotion && (isRecordSpinning || keepOutsideMoving || keepAccentMoving)) || needsRotationFrame() || keepCameraMoving || keepTweening)
+        ((!reduceMotion && (isRecordSpinning || keepOutsideMoving || keepAccentMoving || keepWindowGuidanceMoving)) ||
+          needsRotationFrame() ||
+          keepCameraMoving ||
+          keepTweening)
       ) {
         scheduleFrame();
       }
@@ -3577,6 +4692,18 @@
         roughness: 0.96,
         metalness: 0.01,
       });
+      const markCaveMouthMaterial = (mesh) => {
+        const material = mesh.material;
+        const orbitItem = orbitOcclusionItems.find((item) => item.material === material);
+        material.userData.homeDeskCaveMouth = true;
+        material.userData.homeDeskInsideColor = material.color.getHex();
+        material.userData.homeDeskOutsideColor = palette.isDarkTheme ? 0x74695d : 0xac9a84;
+        material.userData.homeDeskInsideOpacity = orbitItem?.baseOpacity ?? material.opacity;
+        material.userData.homeDeskInsideOccludedOpacity = orbitItem?.occludedOpacity ?? 0.06;
+        material.userData.homeDeskOutsideOpacity = 0.78;
+        material.userData.homeDeskOutsideOccludedOpacity = 0.12;
+        caveMouthMaterials.push(material);
+      };
       const glassMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xa7d0dd : 0xd8f6ff,
         transparent: true,
@@ -3596,6 +4723,7 @@
       );
       caveLintel.rotation.y = -0.02;
       registerOrbitCutaway(caveLintel, { occludedOpacity: 0.06, yawStart: 0.28, yawEnd: Math.PI * 2 - 0.22 });
+      markCaveMouthMaterial(caveLintel);
       [
         { x: windowLeftX - 0.22, ry: 0.08, sx: 0.42 },
         { x: windowRightX + 0.22, ry: -0.08, sx: 0.42 },
@@ -3609,6 +4737,7 @@
         );
         mesh.rotation.y = column.ry;
         registerOrbitCutaway(mesh, { occludedOpacity: 0.06, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.22 });
+        markCaveMouthMaterial(mesh);
       });
       [0, 1, 2].forEach((index) => {
         const arch = new THREE.Mesh(
@@ -3620,6 +4749,7 @@
         arch.scale.y = 0.86 + index * 0.035;
         rootGroup.add(arch);
         registerOrbitCutaway(arch, { occludedOpacity: 0.07, yawStart: 0.26, yawEnd: Math.PI * 2 - 0.22 });
+        markCaveMouthMaterial(arch);
       });
 
       const windowBaseFrame = addBeveledBox(
@@ -3640,6 +4770,7 @@
         }
       );
       windowRecessBlock.renderOrder = -2;
+      windowRecessBlock.userData.homeDeskEvidenceId = "window-recess-block";
       windowBackdropMeshes.push(windowRecessBlock);
       registerOrbitCutaway(windowRecessBlock, { occludedOpacity: 0.02, hideBelow: 0.03, yawStart: 0.24, yawEnd: Math.PI * 2 - 0.24 });
 
@@ -3660,6 +4791,7 @@
       glass.position.set(roomWindow.x, roomWindow.y, -1.684);
       glass.renderOrder = -1;
       rootGroup.add(glass);
+      windowGlassMesh = glass;
       registerOrbitCutaway(glass, { cloneMaterial: false, baseOpacity: glassMaterial.opacity ?? 0.22, occludedOpacity: 0.035 });
 
       [
@@ -3720,49 +4852,72 @@
       registerOrbitCutaway(innerSill, { occludedOpacity: 0.08, yawStart: 0.28, yawEnd: Math.PI * 2 - 0.24 });
 
       windowJumpGroup = new THREE.Group();
-      windowJumpGroup.visible = false;
+      windowJumpGroup.visible = true;
       windowJumpGroup.position.set(roomWindow.x, roomWindow.y + 0.02, -1.42);
       rootGroup.add(windowJumpGroup);
+      windowDefaultCueGroup = new THREE.Group();
+      windowJumpGroup.add(windowDefaultCueGroup);
       const windowCueMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xf2c994 : 0xb97942,
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.12 : 0.08,
+        opacity: palette.isDarkTheme ? 0.075 : 0.048,
         depthWrite: false,
       });
+      windowCueMaterial.userData.baseOpacity = windowCueMaterial.opacity;
       themeMaterials.windowCue = windowCueMaterial;
       [
         { size: { x: roomWindow.width - 0.8, y: 0.014, z: 0.012 }, position: { x: 0, y: 1.14, z: 0.018 } },
         { size: { x: roomWindow.width - 0.8, y: 0.014, z: 0.012 }, position: { x: 0, y: -1.14, z: 0.018 } },
         { size: { x: 0.014, y: roomWindow.height - 0.46, z: 0.012 }, position: { x: -1.41, y: 0, z: 0.018 } },
         { size: { x: 0.014, y: roomWindow.height - 0.46, z: 0.012 }, position: { x: 1.41, y: 0, z: 0.018 } },
-      ].forEach((cue) => addBox(windowJumpGroup, cue.size, cue.position, windowCueMaterial));
+      ].forEach((cue) => addBox(windowDefaultCueGroup, cue.size, cue.position, windowCueMaterial));
       const sillGlint = new THREE.Mesh(
         new THREE.PlaneGeometry(0.74, 0.08),
         new THREE.MeshBasicMaterial({
           color: palette.isDarkTheme ? 0xffdfb0 : 0xd79b61,
           transparent: true,
-          opacity: palette.isDarkTheme ? 0.22 : 0.16,
+          opacity: palette.isDarkTheme ? 0.18 : 0.12,
           depthWrite: false,
           side: THREE.DoubleSide,
         })
       );
+      sillGlint.material.userData.baseOpacity = sillGlint.material.opacity;
       themeMaterials.windowSillGlint = sillGlint.material;
-      sillGlint.position.set(0.54, -1.07, 0.024);
+      sillGlint.position.set(-0.72, -1.02, 0.024);
       sillGlint.rotation.z = -0.08;
-      windowJumpGroup.add(sillGlint);
+      windowDefaultCueGroup.add(sillGlint);
+      windowSillGlintMesh = sillGlint;
+      const markerMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xffd49c : 0xa85f2f,
+        transparent: true,
+        opacity: palette.isDarkTheme ? 0.34 : 0.24,
+        depthWrite: false,
+        depthTest: true,
+        side: THREE.DoubleSide,
+      });
+      markerMaterial.userData.baseOpacity = markerMaterial.opacity;
+      themeMaterials.windowCueMarker = markerMaterial;
+      const cueMarker = new THREE.Mesh(new THREE.RingGeometry(0.055, 0.085, 32), markerMaterial);
+      cueMarker.position.set(-1.1, -0.96, 0.042);
+      cueMarker.renderOrder = 6;
+      windowDefaultCueGroup.add(cueMarker);
+      windowCueMarkerMesh = cueMarker;
       const hintMaterial = new THREE.MeshBasicMaterial({
         color: palette.isDarkTheme ? 0xffe3bd : 0x6a4c32,
         map: createWindowHintTexture(palette),
         transparent: true,
-        opacity: palette.isDarkTheme ? 0.13 : 0.085,
+        opacity: palette.isDarkTheme ? 0.72 : 0.62,
         depthWrite: false,
+        depthTest: false,
         side: THREE.DoubleSide,
       });
       themeMaterials.windowHint = hintMaterial;
-      const hint = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.105), hintMaterial);
-      hint.position.set(0.48, -0.98, 0.034);
-      hint.renderOrder = 4;
+      const hint = new THREE.Mesh(new THREE.PlaneGeometry(0.82, 0.18), hintMaterial);
+      hint.position.set(-0.82, -0.78, 0.16);
+      hint.renderOrder = 7;
+      hint.visible = false;
       windowJumpGroup.add(hint);
+      windowHintMesh = hint;
       const buttonHit = new THREE.Mesh(
         new THREE.PlaneGeometry(roomWindow.width - 0.16, roomWindow.height - 0.08),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
@@ -3812,11 +4967,11 @@
       };
 
       const foamSpecs = [
-        { x: -3.16, y: -1.116, z: 0.86, rz: -0.19, scaleX: 2.35, scaleY: 1.02, phase: 0.1 },
-        { x: -2.7, y: -1.114, z: 0.93, rz: -0.09, scaleX: 1.72, scaleY: 0.88, phase: 0.74 },
-        { x: -2.22, y: -1.112, z: 1.01, rz: 0.04, scaleX: 2.45, scaleY: 0.96, phase: 1.36 },
-        { x: -1.78, y: -1.11, z: 1.09, rz: 0.08, scaleX: 1.85, scaleY: 0.82, phase: 2.02 },
-        { x: -1.4, y: -1.108, z: 1.16, rz: -0.02, scaleX: 1.62, scaleY: 0.72, phase: 2.68 },
+        { x: -3.16, y: cliffBlueprint.shorelineY + 0.012, z: 0.86, rz: -0.19, scaleX: 2.35, scaleY: 1.02, phase: 0.1 },
+        { x: -2.7, y: cliffBlueprint.shorelineY + 0.014, z: 0.93, rz: -0.09, scaleX: 1.72, scaleY: 0.88, phase: 0.74 },
+        { x: -2.22, y: cliffBlueprint.shorelineY + 0.016, z: 1.01, rz: 0.04, scaleX: 2.45, scaleY: 0.96, phase: 1.36 },
+        { x: -1.78, y: cliffBlueprint.shorelineY + 0.018, z: 1.09, rz: 0.08, scaleX: 1.85, scaleY: 0.82, phase: 2.02 },
+        { x: -1.4, y: cliffBlueprint.shorelineY + 0.02, z: 1.16, rz: -0.02, scaleX: 1.62, scaleY: 0.72, phase: 2.68 },
       ].map((spec) => ({
         rx: -Math.PI / 2,
         frequency: 2.7,
@@ -3830,11 +4985,11 @@
       }));
 
       const sandSpecs = [
-        { x: -2.96, y: -1.06, z: 1.14, rz: 0.1, scaleX: 0.82, scaleY: 0.58, phase: 0.44 },
-        { x: -2.5, y: -1.058, z: 1.22, rz: -0.18, scaleX: 0.68, scaleY: 0.5, phase: 1.08 },
-        { x: -2.1, y: -1.056, z: 1.31, rz: 0.22, scaleX: 0.78, scaleY: 0.52, phase: 1.64 },
-        { x: -1.68, y: -1.054, z: 1.28, rz: -0.08, scaleX: 0.58, scaleY: 0.44, phase: 2.36 },
-        { x: -1.28, y: -1.052, z: 1.36, rz: 0.18, scaleX: 0.7, scaleY: 0.46, phase: 3.2 },
+        { x: -2.96, y: cliffBlueprint.beachY + 0.08, z: 1.14, rz: 0.1, scaleX: 0.82, scaleY: 0.58, phase: 0.44 },
+        { x: -2.5, y: cliffBlueprint.beachY + 0.082, z: 1.22, rz: -0.18, scaleX: 0.68, scaleY: 0.5, phase: 1.08 },
+        { x: -2.1, y: cliffBlueprint.beachY + 0.084, z: 1.31, rz: 0.22, scaleX: 0.78, scaleY: 0.52, phase: 1.64 },
+        { x: -1.68, y: cliffBlueprint.beachY + 0.086, z: 1.28, rz: -0.08, scaleX: 0.58, scaleY: 0.44, phase: 2.36 },
+        { x: -1.28, y: cliffBlueprint.beachY + 0.088, z: 1.36, rz: 0.18, scaleX: 0.7, scaleY: 0.46, phase: 3.2 },
       ].map((spec) => ({
         rx: -Math.PI / 2,
         frequency: 1.72,
@@ -3891,7 +5046,7 @@
       themeMaterials.outsideOcean = oceanMaterial;
       const ocean = new THREE.Mesh(new THREE.PlaneGeometry(28, 20), oceanMaterial);
       ocean.rotation.x = -Math.PI / 2;
-      ocean.position.set(0, -1.72, -10.25);
+      ocean.position.set(0, cliffBlueprint.oceanY, -10.25);
       ocean.renderOrder = -6;
       outsideGroup.add(ocean);
       compositionObjects.coast.ocean = ocean;
@@ -3964,7 +5119,7 @@
           [-6.4, -2.72],
         ],
         sandMaterial,
-        -1.61,
+        cliffBlueprint.beachY,
         -4
       );
       compositionObjects.coast.beach = dryBeach;
@@ -3988,7 +5143,7 @@
           [-6.48, -3.82],
         ],
         wetSandMaterial,
-        -1.595,
+        cliffBlueprint.wetSandY,
         -3
       );
       compositionObjects.coast.wetSand = wetBeach;
@@ -4016,7 +5171,7 @@
         const material = foamBaseMaterial.clone();
         material.opacity = opacity;
         const curve = new THREE.CatmullRomCurve3(
-          points.map(([x, z]) => new THREE.Vector3(x, -1.575, z)),
+          points.map(([x, z]) => new THREE.Vector3(x, cliffBlueprint.shorelineY, z)),
           false,
           "catmullrom",
           0.42
@@ -4061,17 +5216,17 @@
       compositionObjects.coast.shoreline = primaryFoam;
 
       const cliffMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x756d63 : 0xc8b8a5,
+        color: 0xffffff,
+        map: createCliffSurfaceTexture(palette),
         roughness: 0.97,
         metalness: 0,
       });
       const cliffFaceMaterial = new THREE.MeshStandardMaterial({
-        color: palette.isDarkTheme ? 0x655e55 : 0xb7a895,
+        color: 0xffffff,
+        map: createCliffSurfaceTexture(palette, true),
         roughness: 0.98,
         metalness: 0,
       });
-      cliffMaterial.userData.useProceduralTexture = false;
-      cliffFaceMaterial.userData.useProceduralTexture = false;
       themeMaterials.outsideCliff = cliffMaterial;
       themeMaterials.outsideCliffFace = cliffFaceMaterial;
       themeMaterials.outsideCaveFace = cliffFaceMaterial;
@@ -4080,21 +5235,21 @@
       const cliffMass = new THREE.Group();
       outsideGroup.add(cliffMass);
       const cliffOutlinePoints = [
-        [-4.22, -2.04],
-        [-4.48, -0.78],
-        [-4.2, 0.86],
-        [-3.62, 2.1],
-        [-2.58, 2.66],
-        [-1.58, 2.44],
-        [-0.82, 2.98],
-        [0.18, 2.68],
-        [1.18, 3.18],
-        [2.12, 2.78],
-        [3.04, 2.94],
-        [3.86, 2.08],
-        [4.42, 0.88],
-        [4.58, -0.62],
-        [4.36, -2.02],
+        [-4.22, cliffBlueprint.facadeBottomY],
+        [-4.48, -1.2],
+        [-4.2, 0.3],
+        [-3.62, 1.45],
+        [-2.58, 2.02],
+        [-1.58, 1.9],
+        [-0.82, 2.18],
+        [0.18, 2.02],
+        [1.18, 2.25],
+        [2.12, 2.08],
+        [3.04, 2.16],
+        [3.86, 1.45],
+        [4.42, 0.32],
+        [4.58, -1.08],
+        [4.36, cliffBlueprint.facadeBottomY + 0.02],
       ];
       const facadeShape = new THREE.Shape();
       cliffOutlinePoints.forEach(([x, y], index) => {
@@ -4131,7 +5286,10 @@
       facadeGeometry.computeVertexNormals();
       const cliffFacade = new THREE.Mesh(facadeGeometry, [cliffMaterial, cliffFaceMaterial]);
       cliffFacade.position.z = -0.02;
+      cliffFacade.userData.homeDeskApertureShell = "front";
+      cliffFacade.userData.homeDeskEvidenceId = "cliff-aperture-shell";
       cliffMass.add(cliffFacade);
+      compositionObjects.coast.cliffFacade = cliffFacade;
 
       const cliffLightMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0x7c7368 : 0xc8baa8,
@@ -4148,54 +5306,64 @@
       [
         {
           points: [
-            [-4.14, 1.28],
-            [-3.56, 2.16],
-            [-2.58, 2.42],
-            [openingLeft - 0.16, 1.64],
-            [openingLeft - 0.16, 0.56],
-            [-2.68, 0.72],
+            [-2.82, openingTop + 0.22],
+            [-1.44, openingTop + 0.12],
+            [0.08, openingTop + 0.28],
+            [1.66, openingTop + 0.14],
+            [3.12, openingTop + 0.3],
+            [2.98, openingTop + 0.06],
+            [1.62, openingTop - 0.02],
+            [0.08, openingTop + 0.1],
+            [-1.42, openingTop - 0.04],
+            [-2.7, openingTop + 0.02],
           ],
           material: cliffLightMaterial,
         },
         {
           points: [
-            [-4.26, -1.88],
-            [openingLeft - 0.16, -1.78],
-            [openingLeft - 0.16, -0.28],
-            [-2.74, -0.48],
-            [-3.86, -0.26],
+            [-4.08, openingBottom - 0.16],
+            [-2.74, openingBottom - 0.08],
+            [-1.34, openingBottom - 0.2],
+            [0.12, openingBottom - 0.1],
+            [1.62, openingBottom - 0.22],
+            [3.02, openingBottom - 0.08],
+            [4.18, openingBottom - 0.18],
+            [4.08, openingBottom - 0.44],
+            [2.92, openingBottom - 0.36],
+            [1.58, openingBottom - 0.5],
+            [0.08, openingBottom - 0.38],
+            [-1.42, openingBottom - 0.5],
+            [-2.82, openingBottom - 0.34],
+            [-4.12, openingBottom - 0.46],
           ],
           material: cliffShadeMaterial,
         },
         {
           points: [
-            [openingRight + 0.16, 1.66],
-            [2.24, 2.72],
-            [3.26, 2.18],
-            [4.34, 1.58],
-            [3.7, 0.7],
-            [openingRight + 0.16, 0.48],
+            [-3.92, cliffBlueprint.cliffFootTopY + 0.58],
+            [-2.46, cliffBlueprint.cliffFootTopY + 0.68],
+            [-0.94, cliffBlueprint.cliffFootTopY + 0.54],
+            [0.66, cliffBlueprint.cliffFootTopY + 0.68],
+            [2.22, cliffBlueprint.cliffFootTopY + 0.56],
+            [4.04, cliffBlueprint.cliffFootTopY + 0.7],
+            [3.96, cliffBlueprint.cliffFootTopY + 0.4],
+            [2.18, cliffBlueprint.cliffFootTopY + 0.3],
+            [0.62, cliffBlueprint.cliffFootTopY + 0.42],
+            [-0.98, cliffBlueprint.cliffFootTopY + 0.28],
+            [-2.5, cliffBlueprint.cliffFootTopY + 0.4],
+            [-3.98, cliffBlueprint.cliffFootTopY + 0.28],
           ],
           material: cliffLightMaterial,
         },
-        {
-          points: [
-            [openingRight + 0.16, -0.22],
-            [4.44, -0.7],
-            [4.22, -1.88],
-            [openingRight + 0.16, -1.78],
-          ],
-          material: cliffShadeMaterial,
-        },
-      ].forEach((facet) => addExtrudedFace(cliffMass, facet.points, 0.09, -1.86, facet.material, { bevel: 0.016, segments: 2 }));
+      ].forEach((stratum) => addExtrudedFace(cliffMass, stratum.points, 0.065, -1.86, stratum.material, { bevel: 0.01, segments: 1 }));
 
-      const leftCliffFlank = addRoundedBox(cliffMass, { x: 0.88, y: 4.12, z: 3.84 }, { x: -3.72, y: 0.02, z: 3.46 }, cliffFaceMaterial, {
+      const leftCliffFlank = addRoundedBox(cliffMass, { x: 0.88, y: 6.0, z: 3.84 }, { x: -3.72, y: -0.72, z: 3.46 }, cliffFaceMaterial, {
         radius: 0.42,
         bevel: 0.08,
         segments: 4,
       });
       leftCliffFlank.rotation.y = -0.035;
-      const rightCliffFlank = addRoundedBox(cliffMass, { x: 0.9, y: 4.06, z: 3.78 }, { x: 4.28, y: 0.02, z: 3.48 }, cliffFaceMaterial, {
+      const rightCliffFlank = addRoundedBox(cliffMass, { x: 0.9, y: 5.94, z: 3.78 }, { x: 4.28, y: -0.72, z: 3.48 }, cliffFaceMaterial, {
         radius: 0.42,
         bevel: 0.08,
         segments: 4,
@@ -4238,8 +5406,8 @@
           [-1.22, -2.82],
           [-3.38, -2.42],
         ],
-        -1.34,
-        0.44,
+        cliffBlueprint.cliffFootTopY,
+        0.5,
         cliffFaceMaterial
       );
       compositionObjects.coast.cliffFoot = rockShelf;
@@ -4251,7 +5419,7 @@
         const stone = addRoundedBox(
           outsideGroup,
           { x: step.sx, y: 0.12, z: step.sz },
-          { x: step.x, y: -1.44 - index * 0.045, z: step.z - index * 0.16 },
+          { x: step.x, y: cliffBlueprint.cliffFootTopY - 0.1 - index * 0.045, z: step.z - index * 0.16 },
           cliffMaterial,
           { radius: 0.08, bevel: 0.018, segments: 2 }
         );
@@ -4266,7 +5434,7 @@
         new THREE.MeshBasicMaterial({
           color: palette.isDarkTheme ? 0xffd7a6 : 0xfff0cf,
           transparent: true,
-          opacity: palette.isDarkTheme ? 0.055 : 0.038,
+          opacity: palette.isDarkTheme ? 0.034 : 0.022,
           depthWrite: false,
           depthTest: true,
           side: THREE.DoubleSide,
@@ -4513,59 +5681,25 @@
       addWindow(palette);
       addUnifiedOutsideVignette(palette);
 
-      const roomFloorDepth = rearRoomWallZ - roomBlueprint.bounds.frontZ - 0.06;
-      const roomFloorCenterZ = (rearRoomWallZ + roomBlueprint.bounds.frontZ) / 2;
-      const floor = new THREE.Mesh(new THREE.PlaneGeometry(5.88, roomFloorDepth), floorMaterial);
-      floor.rotation.x = -Math.PI / 2;
-      floor.position.set(0, roomFloorY, roomFloorCenterZ);
-      rootGroup.add(floor);
-      const floorSlab = addBeveledBox(
-        rootGroup,
-        { x: 5.94, y: 0.16, z: roomFloorDepth + 0.08 },
-        { x: 0, y: roomFloorY - 0.09, z: roomFloorCenterZ },
-        woodEdgeMaterial,
-        {
-          bevel: 0.035,
-        }
-      );
-      floorSlab.rotation.y = -0.012;
-
+      roomFloorMesh = addOrganicFloorSlab(rootGroup, roomBlueprint.footprint, roomFloorY, 0.18, floorMaterial, stoneEdgeMaterial);
+      compositionObjects.room.floor = roomFloorMesh;
       const roomWallHeight = roomCeilingY - roomFloorY + 0.12;
       const roomWallY = roomFloorY + roomWallHeight / 2 - 0.03;
-      const roomSideDepth = rearRoomWallZ - roomBlueprint.bounds.frontZ - 0.12;
-      const roomSideCenterZ = (rearRoomWallZ + roomBlueprint.bounds.frontZ) / 2;
-      const leftSideWall = addBeveledBox(
-        rootGroup,
-        { x: 0.14, y: roomWallHeight, z: roomSideDepth },
-        { x: roomBlueprint.bounds.minX, y: roomWallY, z: roomSideCenterZ },
-        sideWallMaterial,
-        { bevel: 0.018 }
-      );
-      const rightSideWall = addBeveledBox(
-        rootGroup,
-        { x: 0.14, y: roomWallHeight, z: roomSideDepth },
-        { x: roomBlueprint.bounds.maxX, y: roomWallY, z: roomSideCenterZ },
-        sideWallMaterial,
-        { bevel: 0.018 }
-      );
-      leftSideWall.rotation.y = 0.012;
-      rightSideWall.rotation.y = -0.012;
-      [leftSideWall, rightSideWall].forEach((wallMesh) =>
-        registerOrbitCutaway(wallMesh, {
-          cloneMaterial: false,
-          baseOpacity: 1,
-          occludedOpacity: 0.045,
-          hideBelow: 0.06,
-          yawStart: 0.46,
-          yawEnd: Math.PI * 2 - 0.46,
-        })
-      );
-      themeMaterials.roomSideWalls = [leftSideWall.material, rightSideWall.material];
-      [roomBlueprint.bounds.minX + 0.08, roomBlueprint.bounds.maxX - 0.08].forEach((x) => {
-        addBeveledBox(rootGroup, { x: 0.08, y: 0.11, z: roomSideDepth - 0.18 }, { x, y: roomFloorY + 0.08, z: roomSideCenterZ }, woodEdgeMaterial, {
-          bevel: 0.012,
-        });
-      });
+      for (let index = 1; index < roomBlueprint.footprint.length; index += 1) {
+        const start = roomBlueprint.footprint[index];
+        const end = roomBlueprint.footprint[(index + 1) % roomBlueprint.footprint.length];
+        const wall = addShellWallSegment(rootGroup, start, end, roomWallY, roomWallHeight, sideWallMaterial, `shell-${index}`);
+        const length = Math.hypot(end[0] - start[0], end[1] - start[1]);
+        const trim = addBeveledBox(
+          rootGroup,
+          { x: length + 0.04, y: 0.1, z: 0.1 },
+          { x: (start[0] + end[0]) / 2, y: roomFloorY + 0.07, z: (start[1] + end[1]) / 2 },
+          woodEdgeMaterial,
+          { bevel: 0.012 }
+        );
+        trim.rotation.y = wall.rotation.y;
+      }
+      themeMaterials.roomSideWalls = [sideWallMaterial];
       const shellRibMaterial = new THREE.MeshStandardMaterial({
         color: palette.isDarkTheme ? 0xcdb79a : 0xc8b59f,
         transparent: true,
@@ -4583,19 +5717,7 @@
         side: THREE.DoubleSide,
       });
       themeMaterials.shellSkin = shellSkinMaterial;
-      const rearShell = addCurvedShell(rootGroup, 3.12, 3.25, Math.PI * 0.08, Math.PI * 0.86, { x: -0.08, y: 0.04, z: -0.78 }, shellSkinMaterial, {
-        scaleX: 1.18,
-        scaleZ: 0.62,
-        ry: Math.PI / 2,
-        radialSegments: 72,
-      });
-      registerOrbitCutaway(rearShell, {
-        cloneMaterial: false,
-        baseOpacity: shellSkinMaterial.opacity,
-        occludedOpacity: palette.isDarkTheme ? 0.1 : 0.07,
-        yawStart: 0.18,
-        yawEnd: Math.PI * 2 - 0.18,
-      });
+      shellCapMesh = addShellCap(rootGroup, roomBlueprint.footprint, roomCeilingY + 0.18, shellSkinMaterial);
       [
         { radius: 2.94, tube: 0.04, y: roomFloorY + 0.04, z: -1.62, sx: 1.02, rz: 0.01 },
         { radius: 2.58, tube: 0.026, y: roomFloorY + 0.06, z: -1.34, sx: 0.96, rz: -0.018 },
@@ -4937,32 +6059,32 @@
       rootGroup.add(onsen);
       compositionObjects.room.onsen = onsen;
 
-      const onsenBase = addRoundedBox(onsen, { x: 1.92, y: 0.16, z: 1.28 }, { x: 0, y: 0.015, z: 0 }, stoneEdgeMaterial, {
+      const onsenBase = addRoundedBox(onsen, { x: 2.16, y: 0.16, z: 1.42 }, { x: 0, y: 0.015, z: 0 }, stoneEdgeMaterial, {
         radius: 0.12,
         bevel: 0.026,
         segments: 4,
       });
       onsenBase.rotation.y = -0.035;
-      const builtInWing = addRoundedBox(onsen, { x: 0.92, y: 0.17, z: 1.34 }, { x: -1.39, y: 0.02, z: 0.02 }, stoneEdgeMaterial, {
+      const builtInWing = addRoundedBox(onsen, { x: 0.72, y: 0.17, z: 1.18 }, { x: -1.18, y: 0.02, z: 0.08 }, stoneEdgeMaterial, {
         radius: 0.1,
         bevel: 0.024,
         segments: 3,
       });
       builtInWing.rotation.y = 0.025;
-      const poolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.9, 0.3, 72, 1, true), onsenStoneAccentMaterial);
-      poolWall.scale.set(1.18, 1, 0.78);
+      const poolWall = new THREE.Mesh(new THREE.CylinderGeometry(0.86, 0.94, 0.3, 72, 1, true), onsenStoneAccentMaterial);
+      poolWall.scale.set(1.2, 1, 0.82);
       poolWall.position.set(-0.02, 0.2, 0.01);
       onsen.add(poolWall);
       const basinShadow = new THREE.Mesh(
         new THREE.CylinderGeometry(0.66, 0.72, 0.14, 72),
         new THREE.MeshBasicMaterial({ color: 0x182323, transparent: true, opacity: 0.18 })
       );
-      basinShadow.scale.set(1.18, 1, 0.78);
+      basinShadow.scale.set(1.2, 1, 0.82);
       basinShadow.position.set(-0.02, 0.22, 0.01);
       onsen.add(basinShadow);
-      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.04, 12, 96), stoneEdgeMaterial);
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.84, 0.04, 12, 96), stoneEdgeMaterial);
       rim.rotation.x = Math.PI / 2;
-      rim.scale.set(1.18, 0.78, 1);
+      rim.scale.set(1.2, 0.82, 1);
       rim.position.set(-0.02, 0.36, 0.01);
       onsen.add(rim);
       for (let index = 0; index < 16; index += 1) {
@@ -4971,16 +6093,16 @@
           onsen,
           { x: 0.18 + (index % 3) * 0.018, y: 0.08 + (index % 2) * 0.018, z: 0.12 },
           {
-            x: -0.02 + Math.cos(angle) * 0.91,
+            x: -0.02 + Math.cos(angle) * 0.97,
             y: 0.33 + (index % 2) * 0.01,
-            z: 0.01 + Math.sin(angle) * 0.59,
+            z: 0.01 + Math.sin(angle) * 0.66,
           },
           index % 2 ? stoneMaterial : onsenStoneAccentMaterial
         );
         block.rotation.y = -angle + 0.08 * Math.sin(index);
       }
-      const water = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.68, 0.034, 96), onsenWaterMaterial);
-      water.scale.set(1.18, 1, 0.78);
+      const water = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.73, 0.034, 96), onsenWaterMaterial);
+      water.scale.set(1.2, 1, 0.82);
       water.position.set(-0.02, 0.36, 0.01);
       onsen.add(water);
       [0.26, 0.39, 0.5].forEach((radius, index) => {
@@ -4994,7 +6116,7 @@
           })
         );
         ripple.rotation.x = Math.PI / 2;
-        ripple.scale.set(1.18, 0.78, 1);
+        ripple.scale.set(1.2, 0.82, 1);
         ripple.position.set(-0.04 + index * 0.04, 0.385 + index * 0.004, -0.03 + index * 0.02);
         onsen.add(ripple);
       });
@@ -5021,12 +6143,13 @@
       });
 
       const lizard = new THREE.Group();
-      lizard.position.set(-0.18, 0.41, -0.02);
-      lizard.rotation.y = -0.34;
-      lizard.scale.setScalar(0.82);
+      lizard.userData.homeDeskSightlineIgnore = true;
+      lizard.position.set(-0.32, 0.42, -0.02);
+      lizard.rotation.y = -1.72;
+      lizard.scale.setScalar(1.06);
       onsen.add(lizard);
       addScaledSphere(lizard, 1, { x: 0, y: -0.03, z: 0.02 }, { x: 0.3, y: 0.075, z: 0.18 }, lizardMaterial, 28);
-      addScaledSphere(lizard, 1, { x: -0.23, y: 0.065, z: -0.07 }, { x: 0.14, y: 0.105, z: 0.12 }, lizardMaterial, 24);
+      lizardHeadMesh = addScaledSphere(lizard, 1, { x: -0.23, y: 0.065, z: -0.07 }, { x: 0.14, y: 0.105, z: 0.16 }, lizardMaterial, 24);
       addScaledSphere(lizard, 1, { x: -0.31, y: 0.06, z: -0.08 }, { x: 0.07, y: 0.045, z: 0.06 }, lizardBellyMaterial, 18);
       addScaledSphere(lizard, 1, { x: -0.215, y: 0.085, z: -0.155 }, { x: 0.018, y: 0.022, z: 0.018 }, lizardDarkMaterial, 12);
       addScaledSphere(lizard, 1, { x: -0.31, y: 0.09, z: -0.125 }, { x: 0.018, y: 0.022, z: 0.018 }, lizardDarkMaterial, 12);
@@ -5045,6 +6168,8 @@
       towel.rotation.set(Math.PI / 2.2, 0.1, -0.42);
       towel.position.set(-0.23, 0.13, -0.08);
       lizard.add(towel);
+      landmarkVisibilityRoots.set(lizardHeadMesh, lizard);
+      compositionObjects.room.lizard = lizardHeadMesh;
 
       const ledge = new THREE.Group();
       ledge.position.set(0.83, 0.39, 0.42);
@@ -5074,9 +6199,9 @@
       citrus.rotation.x = Math.PI / 2;
 
       const lapDesk = new THREE.Group();
-      lapDesk.position.set(0.3, 0.46, -0.14);
-      lapDesk.rotation.y = -0.16;
-      lapDesk.scale.setScalar(0.82);
+      lapDesk.position.set(0.28, 0.46, 0.16);
+      lapDesk.rotation.y = -0.34;
+      lapDesk.scale.setScalar(0.94);
       onsen.add(lapDesk);
       addBeveledBox(lapDesk, { x: 0.78, y: 0.045, z: 0.34 }, { x: 0, y: 0, z: 0 }, woodMaterial, { bevel: 0.012 });
       addBox(lapDesk, { x: 0.72, y: 0.018, z: 0.035 }, { x: 0, y: 0.04, z: 0.17 }, warmArmMaterial);
@@ -5087,11 +6212,13 @@
       const onsenScreenMaterial = new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture(palette), side: THREE.DoubleSide });
       themeMaterials.laptopScreens = themeMaterials.laptopScreens || [];
       themeMaterials.laptopScreens.push(onsenScreenMaterial);
-      addBeveledBox(lapDesk, { x: 0.42, y: 0.025, z: 0.27 }, { x: -0.08, y: 0.052, z: 0.0 }, darkArmMaterial, { bevel: 0.006 });
-      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.27), onsenScreenMaterial);
+      addBeveledBox(lapDesk, { x: 0.52, y: 0.025, z: 0.34 }, { x: -0.08, y: 0.052, z: 0.0 }, darkArmMaterial, { bevel: 0.006 });
+      const laptopScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.34), onsenScreenMaterial);
       laptopScreen.position.set(-0.08, 0.205, -0.13);
       laptopScreen.rotation.x = -0.42;
       lapDesk.add(laptopScreen);
+      landmarkVisibilityRoots.set(laptopScreen, lapDesk);
+      compositionObjects.room.laptop = laptopScreen;
       [0, 1, 2, 3].forEach((row) =>
         addBox(lapDesk, { x: 0.28 - row * 0.04, y: 0.006, z: 0.01 }, { x: -0.08, y: 0.074 + row * 0.002, z: -0.03 + row * 0.035 }, warmArmMaterial)
       );
@@ -5143,12 +6270,14 @@
         segments: 4,
       });
       backCushion.rotation.x = -0.3;
-      const headShell = addRoundedBox(loungeCorner, { x: 0.92, y: 0.36, z: 0.13 }, { x: 0, y: 1.42, z: -0.52 }, chairWoodMaterial, {
+      const headShell = addRoundedBox(loungeCorner, { x: 0.92, y: 0.38, z: 0.13 }, { x: 0, y: 1.42, z: -0.52 }, chairWoodMaterial, {
         radius: 0.13,
         bevel: 0.024,
         segments: 4,
       });
       headShell.rotation.x = -0.22;
+      landmarkVisibilityRoots.set(headShell, loungeCorner);
+      compositionObjects.room.chair = headShell;
       const headCushion = addRoundedBox(loungeCorner, { x: 0.78, y: 0.25, z: 0.14 }, { x: 0, y: 1.43, z: -0.41 }, chairCushionMaterial, {
         radius: 0.11,
         bevel: 0.028,
@@ -5242,10 +6371,12 @@
 
       const table = new THREE.Group();
       table.position.set(sceneAnchors.room.desk.x, sceneAnchors.room.desk.y, sceneAnchors.room.desk.z);
-      table.scale.set(0.86, 1, 0.82);
+      table.scale.set(0.75, 1, 0.8);
       rootGroup.add(table);
-      compositionObjects.room.desk = table;
-      addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
+      const tableTop = addBox(table, { x: 4.08, y: 0.16, z: 1.68 }, { x: 0, y: -0.46, z: 0.18 }, woodMaterial);
+      tableTop.userData.sightlineId = "desk-tabletop";
+      landmarkVisibilityRoots.set(tableTop, table);
+      compositionObjects.room.desk = tableTop;
       addBox(table, { x: 4.14, y: 0.08, z: 0.08 }, { x: 0, y: -0.39, z: 1.05 }, woodEdgeMaterial);
       [
         [-1.72, 0.82],
@@ -5280,6 +6411,48 @@
         table.add(mesh);
       });
 
+      welcomePaperGroup = new THREE.Group();
+      welcomePaperGroup.position.set(0.78, -0.025, -0.64);
+      welcomePaperGroup.rotation.set(-0.025, 0.055, -0.014);
+      table.add(welcomePaperGroup);
+      const welcomePaperMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        map: createWelcomePaperTexture(palette),
+        side: THREE.DoubleSide,
+        toneMapped: false,
+      });
+      themeMaterials.welcomePaper = welcomePaperMaterial;
+      const welcomePaperBackMaterial = new THREE.MeshBasicMaterial({
+        color: palette.isDarkTheme ? 0xe6d5bd : 0xf1e2cf,
+        side: THREE.DoubleSide,
+        toneMapped: false,
+      });
+      themeMaterials.welcomePaperBack = welcomePaperBackMaterial;
+      const welcomePaperBacking = addBeveledBox(welcomePaperGroup, { x: 1.42, y: 0.92, z: 0.03 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial, {
+        bevel: 0.01,
+      });
+      welcomePaperBacking.userData.sightlineId = "welcome-paper-backing";
+      const welcomeFace = new THREE.Mesh(new THREE.PlaneGeometry(1.36, 0.86), welcomePaperMaterial);
+      welcomeFace.position.z = 0.034;
+      welcomeFace.renderOrder = 3;
+      welcomeFace.userData.message = "Welcome to Sirui’s cave.";
+      welcomeFace.userData.headlineFontPx = 104;
+      welcomeFace.userData.textureHeightPx = 420;
+      welcomeFace.userData.sightlineId = "welcome-paper-face";
+      welcomePaperGroup.add(welcomeFace);
+      const welcomeBackFace = new THREE.Mesh(new THREE.PlaneGeometry(1.36, 0.86), welcomePaperBackMaterial);
+      welcomeBackFace.position.z = -0.034;
+      welcomeBackFace.rotation.y = Math.PI;
+      welcomeBackFace.renderOrder = 3;
+      welcomeBackFace.userData.sightlineId = "welcome-paper-back-face";
+      welcomePaperGroup.add(welcomeBackFace);
+      const welcomePaperStand = addBeveledBox(welcomePaperGroup, { x: 1.16, y: 0.05, z: 0.2 }, { x: 0, y: -0.485, z: -0.04 }, woodEdgeMaterial, {
+        bevel: 0.012,
+      });
+      welcomePaperStand.userData.sightlineId = "welcome-paper-stand";
+      welcomePaperMesh = welcomeFace;
+      compositionObjects.room.welcomePaper = welcomeFace;
+
       const dogFrameMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x1f2425 : 0x222729, roughness: 0.5, metalness: 0.22 });
       const dogBackMaterial = new THREE.MeshStandardMaterial({ color: palette.isDarkTheme ? 0x0f1415 : 0x3c3027, roughness: 0.76, metalness: 0.03 });
       const dogMatMaterial = new THREE.MeshStandardMaterial({
@@ -5296,7 +6469,7 @@
           height: 0.42,
           frame: 0.045,
           depth: 0.04,
-          position: { x: 1.14, y: 0.02, z: -0.42 },
+          position: { x: -0.35, y: 0.02, z: -0.42 },
           rotation: { x: -0.08, y: -0.18, z: 0.02 },
           easel: true,
           focusPosition: new THREE.Vector3(0.78, 0.54, -0.08),
@@ -5351,6 +6524,7 @@
       player.position.set(-1.02, -0.29, 0.46);
       table.add(player);
       const playerBase = addBox(player, { x: 1.5, y: 0.16, z: 1.08 }, { x: 0, y: 0.02, z: 0 }, recordBaseMaterial);
+      playerBase.userData.sightlineId = "turntable-base";
       registerInteractive(playerBase, { kind: "turntable", index: 0 }, { kind: "turntable", group: player });
       const turntableHit = new THREE.Mesh(new THREE.PlaneGeometry(1.34, 1.08), hitMaterial);
       turntableHit.rotation.x = -Math.PI / 2;
@@ -5653,7 +6827,7 @@
         songEntry.group.visible = false;
         songEntry.basePosition = songEntry.group.position.clone();
         songEntry.baseRotation = songEntry.group.rotation.clone();
-        table.add(songEntry.group);
+        rootGroup.add(songEntry.group);
         const songShadow = new THREE.Mesh(
           new THREE.CircleGeometry(0.5, 48),
           new THREE.MeshBasicMaterial({
@@ -5666,7 +6840,7 @@
         );
         songShadow.visible = false;
         songShadow.renderOrder = -1;
-        table.add(songShadow);
+        rootGroup.add(songShadow);
         songEntry.floorShadow = songShadow;
         addBeveledBox(songEntry.group, { x: 0.72, y: 0.018, z: 0.48 }, { x: 0, y: -0.014, z: 0 }, cardEdgeMaterial, { bevel: 0.006 });
         const songMaterial = new THREE.MeshStandardMaterial({
@@ -5692,7 +6866,7 @@
 
       artifacts.slice(0, 2).forEach((artifact, index) => {
         const entry = { kind: "artifact", index, url: artifact.url || "", group: new THREE.Group(), lifted: false };
-        entry.group.position.set(index === 0 ? 0.42 : 1.22, -0.262 + index * 0.006, index === 0 ? 0.58 : 0.28);
+        entry.group.position.set(index === 0 ? 0.75 : 1.55, -0.262 + index * 0.006, index === 0 ? 0.58 : 0.28);
         entry.group.rotation.set(index === 0 ? -0.08 : -0.06, 0, index === 0 ? -0.07 : 0.045);
         entry.basePosition = entry.group.position.clone();
         entry.baseRotation = entry.group.rotation.clone();
@@ -5701,6 +6875,7 @@
         entry.currentRestY = entry.basePosition.y;
         table.add(entry.group);
         const base = addBeveledBox(entry.group, { x: 0.72, y: 0.038, z: 1.02 }, { x: 0, y: 0, z: 0 }, cardEdgeMaterial, { bevel: 0.009 });
+        base.userData.sightlineId = `artifact-paper-${index}`;
         const topMaterial = new THREE.MeshBasicMaterial({
           map: createArtifactTexture(artifact, index, palette),
           side: THREE.DoubleSide,
@@ -5708,6 +6883,7 @@
           depthWrite: false,
         });
         const top = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 1), topMaterial);
+        top.userData.sightlineId = `artifact-paper-face-${index}`;
         top.rotation.x = -Math.PI / 2;
         top.position.y = 0.045;
         top.renderOrder = 2;
@@ -5766,6 +6942,7 @@
       cup.position.set(1.9, -0.08, 0.92);
       table.add(cup);
       const cupBody = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.21, 0.44, 64, 1, true), ceramicMaterial);
+      cupBody.userData.sightlineId = "desk-mug";
       cup.add(cupBody);
       const cupTop = new THREE.Mesh(new THREE.TorusGeometry(0.245, 0.018, 12, 64), ceramicMaterial);
       cupTop.rotation.x = Math.PI / 2;
@@ -5837,6 +7014,12 @@
       }
       document.addEventListener("visibilitychange", handleDocumentVisibility);
       cleanupListeners.push(() => document.removeEventListener("visibilitychange", handleDocumentVisibility));
+      const handleSceneEvidenceRequest = () => {
+        cancelScheduledSceneEvidenceRefresh();
+        refreshCompositionEvidence();
+      };
+      container.addEventListener("home-desk-request-evidence", handleSceneEvidenceRequest);
+      cleanupListeners.push(() => container.removeEventListener("home-desk-request-evidence", handleSceneEvidenceRequest));
 
       const canvas = renderer.domElement;
       const armSceneNativeClickSuppressor = (duration = 360) => {
@@ -5879,7 +7062,25 @@
 
       const onPointerMove = (event) => {
         if (pointerId === null || event.pointerId !== pointerId) {
-          setHoverEntry(pickObject(event)?.homeDeskEntry || null);
+          pendingHoverPick = { clientX: event.clientX, clientY: event.clientY };
+          if (!hoverPickFrame) {
+            const flushHoverPick = (time) => {
+              if (!pendingHoverPick) {
+                hoverPickFrame = 0;
+                return;
+              }
+              if (time - lastHoverPickAt < 40) {
+                hoverPickFrame = window.requestAnimationFrame(flushHoverPick);
+                return;
+              }
+              const hoverPoint = pendingHoverPick;
+              pendingHoverPick = null;
+              hoverPickFrame = 0;
+              lastHoverPickAt = time;
+              setHoverEntry(pickObject(hoverPoint)?.homeDeskEntry || null);
+            };
+            hoverPickFrame = window.requestAnimationFrame(flushHoverPick);
+          }
           return;
         }
         const deltaX = event.clientX - pointerStartX;
@@ -5916,6 +7117,14 @@
         }
         scheduleFrame();
         event.preventDefault();
+      };
+
+      const onPointerLeave = () => {
+        if (hoverPickFrame) window.cancelAnimationFrame(hoverPickFrame);
+        hoverPickFrame = 0;
+        pendingHoverPick = null;
+        setHoverEntry(null);
+        scheduleFrame();
       };
 
       const onPointerUp = (event) => {
@@ -6066,6 +7275,7 @@
 
       canvas.addEventListener("pointerdown", onPointerDown);
       canvas.addEventListener("pointermove", onPointerMove);
+      canvas.addEventListener("pointerleave", onPointerLeave);
       canvas.addEventListener("pointerup", onPointerUp);
       canvas.addEventListener("pointercancel", onPointerCancel);
       document.addEventListener("click", suppressCanvasClick, true);
@@ -6075,6 +7285,7 @@
       cleanupListeners.push(
         () => canvas.removeEventListener("pointerdown", onPointerDown),
         () => canvas.removeEventListener("pointermove", onPointerMove),
+        () => canvas.removeEventListener("pointerleave", onPointerLeave),
         () => canvas.removeEventListener("pointerup", onPointerUp),
         () => canvas.removeEventListener("pointercancel", onPointerCancel),
         () => document.removeEventListener("click", suppressCanvasClick, true),
@@ -6108,8 +7319,18 @@
         container.setAttribute("aria-hidden", String(!isVisible));
         if (isVisible) {
           await ensureLoaded();
+          if (!windowGuidanceHasPlayed) {
+            windowGuidanceHasPlayed = true;
+            windowGuidancePulseStartedAt = performance.now();
+            windowGuidancePulseUntil = reduceMotion ? windowGuidancePulseStartedAt : windowGuidancePulseStartedAt + 2400;
+          }
+          updateWindowJumpVisibility();
+          updateWindowGuidanceMotion(performance.now());
+          markSceneEvidenceDirty();
           scheduleFrame();
         } else {
+          windowGuidanceHovered = false;
+          cancelScheduledSceneEvidenceRefresh();
           clearOutsideView();
           if (outsideViewportCheckFrame) {
             window.cancelAnimationFrame(outsideViewportCheckFrame);
@@ -6140,8 +7361,12 @@
       },
       dispose() {
         stopLoop();
+        cancelScheduledSceneEvidenceRefresh();
         clearOutsideView();
         if (outsideViewportCheckFrame) window.cancelAnimationFrame(outsideViewportCheckFrame);
+        if (hoverPickFrame) window.cancelAnimationFrame(hoverPickFrame);
+        hoverPickFrame = 0;
+        pendingHoverPick = null;
         cleanupListeners.forEach((cleanup) => cleanup());
         if (resizeObserver) resizeObserver.disconnect();
         if (viewportObserver) viewportObserver.disconnect();
@@ -7029,6 +8254,16 @@
         toggleRecordPlayback();
       });
     }
+
+    portrait.addEventListener("keydown", (event) => {
+      if (event.key.toLowerCase() !== "d" || stage?.dataset.deskMode !== "2d") return;
+      event.preventDefault();
+      if (droppedRecords.size >= records.length) {
+        replayAllDroppedRecordCards({ animate3D: true });
+      } else {
+        dropRecordCard({ animate3D: true });
+      }
+    });
 
     document.addEventListener("click", (event) => {
       const clickedInsidePortrait = portrait.contains(event.target);

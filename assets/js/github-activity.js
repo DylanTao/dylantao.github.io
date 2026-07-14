@@ -43,6 +43,8 @@
       .join(" ")} L ${points.at(-1)[0].toFixed(2)} ${baseline.toFixed(2)} Z`;
   };
   const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
+  const lineChanges = (row) => row.additions + row.deletions;
 
   const initCodexUsageTrend = async () => {
     const trendRoot = document.querySelector("[data-codex-usage]");
@@ -352,12 +354,21 @@
   const dataNode = document.getElementById("github-activity-data");
   if (!root || !dataNode) return;
 
-  const validCommitSource = (candidate) =>
+  const validActivitySource = (candidate) =>
     candidate?.schema === 2 &&
     typeof candidate.generatedAt === "string" &&
     Array.isArray(candidate.weeks) &&
     candidate.weeks.length > 0 &&
-    candidate.weeks.every((row) => isIsoDate(row?.week) && Number.isInteger(row.commits) && row.commits >= 0);
+    candidate.weeks.every(
+      (row) =>
+        isIsoDate(row?.week) &&
+        Number.isInteger(row.commits) &&
+        row.commits >= 0 &&
+        Number.isInteger(row.additions) &&
+        row.additions >= 0 &&
+        Number.isInteger(row.deletions) &&
+        row.deletions >= 0
+    );
 
   let source;
   try {
@@ -366,7 +377,7 @@
     root.dataset.state = "error";
     return;
   }
-  if (!validCommitSource(source)) {
+  if (!validActivitySource(source)) {
     root.dataset.state = "error";
     return;
   }
@@ -377,7 +388,7 @@
     try {
       const response = await fetch(remoteSource, { cache: "no-store", credentials: "same-origin" });
       const remote = response.ok ? await response.json() : null;
-      if (validCommitSource(remote)) source = remote;
+      if (validActivitySource(remote)) source = remote;
       else root.dataset.sourceState = "fallback";
     } catch {
       root.dataset.sourceState = "fallback";
@@ -389,11 +400,15 @@
     week: row.week,
     date: new Date(`${row.week}T00:00:00Z`),
     commits: row.commits,
+    additions: row.additions,
+    deletions: row.deletions,
   }));
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
   const selectedCommits = document.getElementById("github-activity-selected-commits");
+  const selectedAdditions = document.getElementById("github-activity-selected-additions");
+  const selectedDeletions = document.getElementById("github-activity-selected-deletions");
   const rangeSummary = document.getElementById("github-activity-range-summary");
   const selectionAnnouncement = document.getElementById("github-activity-selection-announcement");
   const annotation = document.getElementById("github-activity-annotation");
@@ -410,6 +425,8 @@
     !chartTitle ||
     !selectedDate ||
     !selectedCommits ||
+    !selectedAdditions ||
+    !selectedDeletions ||
     !rangeSummary ||
     !selectionAnnouncement ||
     !annotation ||
@@ -476,6 +493,10 @@
   const colors = () => {
     const style = getComputedStyle(root);
     return {
+      added: style.getPropertyValue("--global-sky-strong").trim() || "#357f9e",
+      removed: style.getPropertyValue("--global-mint-strong").trim() || "#387768",
+      addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#316980",
+      removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#326b5d",
       accent: style.getPropertyValue("--global-primary-color").trim() || "#b84f12",
       text: style.getPropertyValue("--global-text-color").trim() || "#211a16",
       muted: style.getPropertyValue("--global-text-color-light").trim() || "#6d6a62",
@@ -494,46 +515,52 @@
   const updateWeekReadout = (row) => {
     selectedDate.textContent = `Week of ${dateLabel.format(row.date)}`;
     selectedCommits.textContent = `${number.format(row.commits)} ${row.commits === 1 ? "commit" : "commits"}`;
+    selectedAdditions.textContent = `${signed(row.additions, true)} added`;
+    selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
   };
   const updateTable = (data) => {
     const fragment = document.createDocumentFragment();
     [...data].reverse().forEach((row) => {
       const tr = document.createElement("tr");
-      [row.week, number.format(row.commits)].forEach((value, index) => {
-        const cell = document.createElement(index === 0 ? "th" : "td");
-        if (index === 0) cell.scope = "row";
-        cell.textContent = value;
-        tr.append(cell);
-      });
+      [row.week, number.format(row.commits), signed(row.additions, true), signed(row.deletions, false), number.format(lineChanges(row))].forEach(
+        (value, index) => {
+          const cell = document.createElement(index === 0 ? "th" : "td");
+          if (index === 0) cell.scope = "row";
+          cell.textContent = value;
+          tr.append(cell);
+        }
+      );
       fragment.append(tr);
     });
     tableBody.replaceChildren(fragment);
-    tableCaption.textContent = selection ? "Exact weekly commits in the selected range" : "Exact weekly commits in the selected time window";
+    tableCaption.textContent = selection ? "Reported weekly activity in the selected range" : "Reported weekly activity in the selected time window";
   };
-  const updateAggregate = (data, announce = false) => {
+  const updateAggregate = (data, announce = false, refreshTable = true) => {
     const scoped = analysisRows(data);
-    const active = scoped.filter((row) => row.commits > 0);
+    const active = scoped.filter((row) => row.commits > 0 || row.additions > 0 || row.deletions > 0);
     const totalCommits = scoped.reduce((sum, row) => sum + row.commits, 0);
+    const totalAdditions = scoped.reduce((sum, row) => sum + row.additions, 0);
+    const totalDeletions = scoped.reduce((sum, row) => sum + row.deletions, 0);
     const scope = selection
       ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "week" : "weeks"}`
       : range === "all"
         ? "All history"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active weeks \u00b7 ${number.format(totalCommits)} commits`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active weeks \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
       const busiest = active.reduce((best, row) => (row.commits > best.commits ? row : best));
-      const median = percentile(
-        active.map((row) => row.commits),
-        0.5
-      );
-      annotation.textContent = `Highest commit week \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active week \u00b7 ${number.format(median)} commits.`;
+      const largest = active.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
+      const medianMagnitude = percentile(active.map(lineChanges), 0.5);
+      annotation.textContent = `Largest line-change week \u00b7 ${dateLabel.format(largest.date)} \u00b7 ${signed(largest.additions, true)} / ${signed(largest.deletions, false)}. Highest commit week \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active-week line magnitude \u00b7 ${compactNumber.format(medianMagnitude)}.`;
     } else {
-      annotation.textContent = "No active weeks in this scope. Median active week \u00b7 \u2014.";
+      annotation.textContent = "No active weeks in this scope. Median active-week line magnitude \u00b7 \u2014.";
     }
-    updateTable(scoped);
+    // Range feedback follows the pointer, while the reported-value table only
+    // rebuilds after the selection is finalized.
+    if (refreshTable) updateTable(scoped);
     if (announce) selectionAnnouncement.textContent = selection ? rangeSummary.textContent : "Selection cleared.";
   };
 
@@ -547,53 +574,116 @@
 
     const palette = colors();
     const width = chart.clientWidth || 920;
-    const height = chart.clientHeight || 384;
+    const height = chart.clientHeight || 608;
     const narrow = width < 620;
-    const left = narrow ? 58 : 72;
-    const right = narrow ? 10 : 18;
-    const top = 48;
-    const bottom = narrow ? 44 : 48;
-    const baseline = height - bottom;
-    const plotHeight = baseline - top;
+    const left = narrow ? 66 : 82;
+    const right = narrow ? 12 : 22;
+    const bottom = narrow ? 46 : 52;
+    const commitTop = 42;
+    const commitHeight = Math.max(92, Math.min(118, height * 0.19));
+    const commitBottom = commitTop + commitHeight;
+    const lineTop = commitBottom + (narrow ? 58 : 64);
+    const lineBottom = height - bottom;
+    const plotTop = commitTop;
+    const baseline = (lineTop + lineBottom) / 2;
+    const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
     const start = data[0].date.getTime();
     const end = data.at(-1).date.getTime();
     const span = Math.max(1, end - start);
-    const rawMaximum = Math.max(...data.map((row) => row.commits), 1);
-    const linear = niceLinearScale(rawMaximum, narrow ? 3 : 4);
-    const domainMaximum = scale === "linear" ? linear.domainMaximum : niceLogMaximum(rawMaximum);
-    const logMaximum = Math.log1p(domainMaximum);
+    const rawLineMaximum = Math.max(...data.flatMap((row) => [row.additions, row.deletions]), 1);
+    const rawCommitMaximum = Math.max(...data.map((row) => row.commits), 1);
+    const lineLinear = niceLinearScale(rawLineMaximum, narrow ? 3 : 4);
+    const commitLinear = niceLinearScale(rawCommitMaximum, narrow ? 3 : 4);
+    const lineDomainMaximum = scale === "linear" ? lineLinear.domainMaximum : niceLogMaximum(rawLineMaximum);
+    const commitDomainMaximum = scale === "linear" ? commitLinear.domainMaximum : niceLogMaximum(rawCommitMaximum);
+    const lineLogMaximum = Math.log1p(lineDomainMaximum);
+    const commitLogMaximum = Math.log1p(commitDomainMaximum);
     const x = (date) => left + ((date.getTime() - start) / span) * (width - left - right);
-    const y = (value) => baseline - (scale === "linear" ? value / domainMaximum : Math.log1p(value) / logMaximum) * plotHeight;
+    const lineTransform = (value) => (scale === "linear" ? value / lineDomainMaximum : Math.log1p(value) / lineLogMaximum);
+    const lineY = (value) => baseline - Math.sign(value) * lineTransform(Math.abs(value)) * lineHalf;
+    const commitY = (value) =>
+      commitBottom - (scale === "linear" ? value / commitDomainMaximum : Math.log1p(value) / commitLogMaximum) * commitHeight;
     chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const grid = svgElement("g", { "aria-hidden": "true" });
-    let ticks;
+    let lineTicks;
     if (scale === "linear") {
-      ticks = [0, ...linear.ticks];
+      lineTicks = lineLinear.ticks;
     } else {
-      const candidates = new Set([0, domainMaximum]);
-      for (let power = 0; 10 ** power <= domainMaximum; power += 1) {
+      const candidates = new Set([0, lineDomainMaximum]);
+      for (let power = 0; 10 ** power <= lineDomainMaximum; power += 1) {
         [1, 2, 5].forEach((multiple) => {
           const value = multiple * 10 ** power;
-          if (value <= domainMaximum) candidates.add(value);
+          if (value <= lineDomainMaximum) candidates.add(value);
         });
       }
-      ticks = [];
+      lineTicks = [];
       [...candidates]
         .sort((a, b) => a - b)
         .forEach((value) => {
-          const previous = ticks.at(-1);
-          if (previous == null || Math.abs(y(previous) - y(value)) >= (narrow ? 15 : 18)) ticks.push(value);
+          const previous = lineTicks.at(-1);
+          if (previous == null || Math.abs(lineY(previous) - lineY(value)) >= (narrow ? 15 : 18)) lineTicks.push(value);
         });
-      if (!ticks.includes(domainMaximum)) {
-        if (Math.abs(y(ticks.at(-1)) - y(domainMaximum)) < 15) ticks.pop();
-        ticks.push(domainMaximum);
+      if (!lineTicks.includes(lineDomainMaximum)) {
+        if (Math.abs(lineY(lineTicks.at(-1)) - lineY(lineDomainMaximum)) < (narrow ? 15 : 18)) lineTicks.pop();
+        lineTicks.push(lineDomainMaximum);
+      }
+      lineTicks = lineTicks.filter((value) => value > 0);
+    }
+    lineTicks.forEach((tick) => {
+      [1, -1].forEach((direction) => {
+        const yy = lineY(direction * tick);
+        grid.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: palette.grid, "stroke-width": 1 }));
+        addText(grid, `${direction > 0 ? "+" : "\u2212"}${compactNumber.format(tick)}`, left - 8, yy + 4, {
+          anchor: "end",
+          color: palette.muted,
+          className: `github-activity-line-tick is-${direction > 0 ? "positive" : "negative"}`,
+        });
+      });
+    });
+    grid.append(
+      svgElement("line", {
+        x1: left,
+        y1: baseline,
+        x2: width - right,
+        y2: baseline,
+        stroke: palette.text,
+        "stroke-opacity": 0.38,
+        "stroke-width": 1.4,
+      })
+    );
+
+    let commitTicks;
+    if (scale === "linear") {
+      commitTicks = [0, ...commitLinear.ticks];
+    } else {
+      const candidates = new Set([0, commitDomainMaximum]);
+      for (let power = 0; 10 ** power <= commitDomainMaximum; power += 1) {
+        [1, 2, 5].forEach((multiple) => {
+          const value = multiple * 10 ** power;
+          if (value <= commitDomainMaximum) candidates.add(value);
+        });
+      }
+      commitTicks = [];
+      [...candidates]
+        .sort((a, b) => a - b)
+        .forEach((value) => {
+          const previous = commitTicks.at(-1);
+          if (previous == null || Math.abs(commitY(previous) - commitY(value)) >= (narrow ? 14 : 17)) commitTicks.push(value);
+        });
+      if (!commitTicks.includes(commitDomainMaximum)) {
+        if (Math.abs(commitY(commitTicks.at(-1)) - commitY(commitDomainMaximum)) < 14) commitTicks.pop();
+        commitTicks.push(commitDomainMaximum);
       }
     }
-    ticks.forEach((tick) => {
-      const yy = y(tick);
+    commitTicks.forEach((tick) => {
+      const yy = commitY(tick);
       grid.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: palette.grid, "stroke-width": 1 }));
-      addText(grid, compactNumber.format(tick), left - 8, yy + 4, { anchor: "end", color: palette.muted, className: "github-activity-commit-tick" });
+      addText(grid, compactNumber.format(tick), left - 8, yy + 4, {
+        anchor: "end",
+        color: palette.muted,
+        className: "github-activity-commit-tick",
+      });
     });
 
     const yearTicks = new Set();
@@ -602,7 +692,7 @@
       if (yearTicks.has(year) || row.date.getUTCMonth() !== 0) return;
       yearTicks.add(year);
       const xx = x(row.date);
-      grid.append(svgElement("line", { x1: xx, y1: top, x2: xx, y2: baseline, stroke: palette.grid, "stroke-width": 1 }));
+      grid.append(svgElement("line", { x1: xx, y1: plotTop, x2: xx, y2: lineBottom, stroke: palette.grid, "stroke-width": 1 }));
       addText(grid, String(year), xx, height - 15, { anchor: "middle", color: palette.muted });
     });
     if (yearTicks.size < 2) {
@@ -610,16 +700,27 @@
       addText(grid, data.at(-1).week, width - right, height - 15, { anchor: "end", color: palette.muted });
     }
     chart.append(grid);
-    addText(chart, `COMMITS / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 22, {
+    addText(chart, `COMMITS / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 20, {
       color: palette.accent,
       weight: 700,
     });
+    const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
+    const lineHeading = narrow
+      ? `LINES / WEEK \u00b7 ${lineScaleLabel}`
+      : `LINES CHANGED / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
+    addText(chart, lineHeading, left, lineTop - 34, {
+      color: palette.muted,
+      weight: 700,
+      className: "github-activity-line-heading",
+    });
+    addText(chart, "+ added", left, lineTop - 14, { color: palette.addedText, weight: 650 });
+    addText(chart, "\u2212 removed", left + (narrow ? 76 : 86), lineTop - 14, { color: palette.removedText, weight: 650 });
 
     let renderPeak = () => {};
     const selectionBand = svgElement("rect", {
       class: "github-activity-selection-band",
-      y: top,
-      height: plotHeight,
+      y: plotTop,
+      height: lineBottom - plotTop,
       fill: palette.accent,
       "fill-opacity": 0.1,
       stroke: palette.accent,
@@ -630,20 +731,63 @@
     });
     chart.append(selectionBand);
 
-    const points = data.map((row) => [x(row.date), y(row.commits)]);
+    const commitPoints = data.map((row) => [x(row.date), commitY(row.commits)]);
+    const addPoints = data.map((row) => [x(row.date), lineY(row.additions)]);
+    const removePoints = data.map((row) => [x(row.date), lineY(-row.deletions)]);
+    const addStems = data
+      .map((row) => `M ${x(row.date).toFixed(2)} ${baseline.toFixed(2)} L ${x(row.date).toFixed(2)} ${lineY(row.additions).toFixed(2)}`)
+      .join(" ");
+    const removeStems = data
+      .map((row) => `M ${x(row.date).toFixed(2)} ${baseline.toFixed(2)} L ${x(row.date).toFixed(2)} ${lineY(-row.deletions).toFixed(2)}`)
+      .join(" ");
     chart.append(
       svgElement("path", {
         class: "github-activity-commit-area",
-        d: areaPath(points, baseline),
+        d: areaPath(commitPoints, commitBottom),
         fill: palette.accent,
         "fill-opacity": 0.1,
       }),
       svgElement("path", {
         class: "github-activity-commit-line",
-        d: linePath(points),
+        d: linePath(commitPoints),
         fill: "none",
         stroke: palette.accent,
         "stroke-width": 1.9,
+        "stroke-linejoin": "round",
+        "stroke-linecap": "round",
+      }),
+      svgElement("path", {
+        class: "github-activity-add-stems",
+        d: addStems,
+        fill: "none",
+        stroke: palette.added,
+        "stroke-opacity": 0.18,
+        "stroke-width": 1,
+      }),
+      svgElement("path", {
+        class: "github-activity-remove-stems",
+        d: removeStems,
+        fill: "none",
+        stroke: palette.removed,
+        "stroke-opacity": 0.18,
+        "stroke-width": 1,
+      }),
+      svgElement("path", {
+        class: "github-activity-add-line",
+        d: linePath(addPoints),
+        fill: "none",
+        stroke: palette.added,
+        "stroke-width": 1.7,
+        "stroke-linejoin": "round",
+        "stroke-linecap": "round",
+      }),
+      svgElement("path", {
+        class: "github-activity-remove-line",
+        d: linePath(removePoints),
+        fill: "none",
+        stroke: palette.removed,
+        "stroke-width": 1.7,
+        "stroke-dasharray": "4 2",
         "stroke-linejoin": "round",
         "stroke-linecap": "round",
       })
@@ -651,8 +795,8 @@
 
     const peakGuide = svgElement("line", {
       class: "github-activity-peak-guide",
-      y1: top,
-      y2: baseline,
+      y1: plotTop,
+      y2: lineBottom,
       stroke: palette.accent,
       "stroke-width": 1.3,
       "stroke-dasharray": "3 4",
@@ -661,13 +805,13 @@
     chart.append(peakGuide);
     renderPeak = () => {
       const scoped = analysisRows(data);
-      const active = scoped.filter((row) => row.commits > 0);
+      const active = scoped.filter((row) => row.commits > 0 || row.additions > 0 || row.deletions > 0);
       if (!active.length) {
         peakGuide.setAttribute("visibility", "hidden");
         return;
       }
-      const busiest = active.reduce((best, row) => (row.commits > best.commits ? row : best));
-      const xx = x(busiest.date);
+      const largest = active.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
+      const xx = x(largest.date);
       peakGuide.setAttribute("x1", xx);
       peakGuide.setAttribute("x2", xx);
       peakGuide.setAttribute("visibility", "visible");
@@ -697,35 +841,49 @@
 
     const guide = svgElement("line", {
       class: "github-activity-guide",
-      y1: top,
-      y2: baseline,
+      y1: plotTop,
+      y2: lineBottom,
       stroke: palette.text,
       "stroke-width": 1.2,
       "stroke-opacity": 0.68,
     });
-    const marker = svgElement("circle", {
+    const commitMarker = svgElement("circle", {
       class: "github-activity-commit-marker",
       r: narrow ? 3.8 : 4.2,
       fill: palette.surface,
       stroke: palette.accent,
       "stroke-width": 2.1,
     });
+    const addMarker = svgElement("circle", {
+      class: "github-activity-add-marker",
+      r: narrow ? 4 : 4.5,
+      fill: palette.surface,
+      stroke: palette.added,
+      "stroke-width": 2.2,
+    });
+    const removeMarker = svgElement("circle", {
+      class: "github-activity-remove-marker",
+      r: narrow ? 4 : 4.5,
+      fill: palette.surface,
+      stroke: palette.removed,
+      "stroke-width": 2.2,
+    });
     const overlay = svgElement("rect", {
       class: "github-activity-inspector",
       x: left,
-      y: top,
+      y: plotTop,
       width: width - left - right,
-      height: plotHeight,
+      height: lineBottom - plotTop,
       fill: "transparent",
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Weekly commit inspector",
+      "aria-label": "Weekly commit and line-change inspector",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
     });
-    chart.append(guide, marker, overlay);
+    chart.append(guide, commitMarker, addMarker, removeMarker, overlay);
 
     const showIndex = (index, { pin = false } = {}) => {
       selectedIndex = clamp(index, data[0].index, data.at(-1).index);
@@ -734,10 +892,17 @@
       const xx = x(row.date);
       guide.setAttribute("x1", xx);
       guide.setAttribute("x2", xx);
-      marker.setAttribute("cx", xx);
-      marker.setAttribute("cy", y(row.commits));
+      commitMarker.setAttribute("cx", xx);
+      commitMarker.setAttribute("cy", commitY(row.commits));
+      addMarker.setAttribute("cx", xx);
+      addMarker.setAttribute("cy", lineY(row.additions));
+      removeMarker.setAttribute("cx", xx);
+      removeMarker.setAttribute("cy", lineY(-row.deletions));
       overlay.setAttribute("aria-valuenow", String(selectedIndex - data[0].index));
-      overlay.setAttribute("aria-valuetext", `Week of ${row.week}, ${number.format(row.commits)} commits`);
+      overlay.setAttribute(
+        "aria-valuetext",
+        `Week of ${row.week}, ${number.format(row.commits)} commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed`
+      );
       updateWeekReadout(row);
     };
     const nearestRow = (event) => {
@@ -802,7 +967,7 @@
       };
       showIndex(row.index);
       renderSelection();
-      updateAggregate(data);
+      updateAggregate(data, false, false);
     });
     overlay.addEventListener("pointerup", (event) => {
       if (!dragState || dragState.pointerId !== event.pointerId) return;
@@ -925,7 +1090,7 @@
 
   updated.dateTime = source.generatedAt;
   updated.textContent = String(source.generatedAt).slice(0, 10);
-  chartTitle.textContent = "Weekly GitHub commits";
+  chartTitle.textContent = "Weekly GitHub commits, additions, and deletions";
   setPressedState();
   drawChart();
   root.dataset.state = "ready";

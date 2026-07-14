@@ -29,7 +29,7 @@ sitemap: true
     </p>
   </aside>
 
-  <div class="ai-format-actions" aria-label="Available machine-readable formats">
+  <div class="ai-format-actions" role="group" aria-label="Available machine-readable formats">
     <a href="{{ '/llms.txt' | relative_url }}">Concise index <span>.txt</span></a>
     <a href="{{ '/llms-full.txt' | relative_url }}">Full profile <span>.txt</span></a>
     <a href="{{ '/ai/publications.json' | relative_url }}">Publications <span>.json</span></a>
@@ -38,15 +38,16 @@ sitemap: true
       <span data-ai-copy-label>Copy full Markdown</span>
     </button>
   </div>
+  <noscript>
+    <nav class="ai-format-actions ai-noscript-nav" aria-label="AI profile sections">
+      <a href="#identity">Identity</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#routes">Routes</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </noscript>
   <p class="ai-copy-status" data-ai-copy-status aria-live="polite"></p>
-
-  <nav class="ai-jump-nav" aria-label="AI profile sections">
-    <a href="#identity">Identity</a>
-    <a href="#research">Research</a>
-    <a href="#publications">Publications</a>
-    <a href="#routes">Public routes</a>
-    <a href="#sources">Sources</a>
-  </nav>
 </header>
 
 <section id="identity" class="ai-section">
@@ -121,7 +122,7 @@ sitemap: true
       <article class="ai-paper" id="{{ paper.slug }}" data-publication-key="{{ paper.key }}">
         <header>
           <p class="ai-paper-index">{{ forloop.index | prepend: '0' }} / {{ catalog.papers.size | prepend: '0' }}</p>
-          <h3><a href="{{ paper.links.citation_page_path }}">{{ paper.title }}</a></h3>
+          <h3><a href="#{{ paper.slug }}" aria-label="Link to {{ paper.title }} on this AI profile">{{ paper.title }}</a></h3>
           <p class="ai-paper-meta">
             {{ paper.year }} · {{ paper.venue }}{% if paper.note %} · {{ paper.note }}{% endif %} · {{ paper.authorship.role_label }} · BibTeX key
             <code>{{ paper.key }}</code>
@@ -176,8 +177,8 @@ sitemap: true
           <div>
             <dt>Canonical files</dt>
             <dd class="ai-paper-links">
-              <a href="{{ paper.links.citation_page_path }}">Citation page</a>
-              <a href="{{ paper.links.markdown_path }}">Markdown</a>
+              <a href="{{ paper.links.citation_page_path }}">Human citation page</a>
+              <a href="{{ paper.links.markdown_path }}">Machine-readable Markdown</a>
               <a href="{{ paper.links.bibtex_path }}">BibTeX</a>
               <a href="{{ paper.links.ris_path }}">RIS</a>
               {% if paper.links.pdf %}<a href="{{ paper.links.pdf }}">PDF</a>{% endif %}
@@ -193,15 +194,22 @@ sitemap: true
 
 <section id="routes" class="ai-section">
   <p class="ai-section-label">04 · Public routes</p>
-  <h2>Where to continue</h2>
-  <div class="ai-route-grid">
-    <a href="{{ '/publications/' | relative_url }}"><span>Research record</span><strong>Publications</strong></a>
-    <a href="{{ '/projects/' | relative_url }}"><span>Artifacts and case studies</span><strong>Projects</strong></a>
-    <a href="{{ '/blog/' | relative_url }}"><span>Working notes and reflections</span><strong>Blog</strong></a>
-    <a href="{{ '/cv/' | relative_url }}"><span>Roles, education, and service</span><strong>CV</strong></a>
-    <a href="{{ '/news/' | relative_url }}"><span>Dated activity</span><strong>News</strong></a>
-    <a href="{{ '/sitemap.xml' | relative_url }}"><span>Crawlable public URL index</span><strong>Sitemap</strong></a>
-  </div>
+  <h2 id="public-route-heading">Where to continue</h2>
+  <p class="ai-section-lede">These links intentionally leave the AI profile and open the corresponding human site section.</p>
+  <nav class="ai-route-grid" aria-labelledby="public-route-heading">
+    <a href="{{ '/publications/' | relative_url }}" aria-label="Open the human publications page">
+      <span>Open human research record</span><strong>Publications</strong>
+    </a>
+    <a href="{{ '/projects/' | relative_url }}" aria-label="Open the human projects page">
+      <span>Open human artifacts and case studies</span><strong>Projects</strong>
+    </a>
+    <a href="{{ '/blog/' | relative_url }}" aria-label="Open the human blog page">
+      <span>Open human working notes and reflections</span><strong>Blog</strong>
+    </a>
+    <a href="{{ '/cv/' | relative_url }}" aria-label="Open the human CV page"><span>Open human roles, education, and service</span><strong>CV</strong></a>
+    <a href="{{ '/news/' | relative_url }}" aria-label="Open the human news page"><span>Open human dated activity</span><strong>News</strong></a>
+    <a href="{{ '/sitemap.xml' | relative_url }}"><span>Open crawlable public URL index</span><strong>Sitemap</strong></a>
+  </nav>
 </section>
 
 <section id="sources" class="ai-section">

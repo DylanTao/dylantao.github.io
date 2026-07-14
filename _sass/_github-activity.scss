@@ -10,6 +10,8 @@
 
 .github-activity-page {
   --github-activity-grid: var(--global-divider-color);
+  --github-activity-added-text: color-mix(in srgb, var(--global-sky-strong) 85%, var(--global-text-color));
+  --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 85%, var(--global-text-color));
 
   width: 100%;
   padding: clamp(1.5rem, 4vw, 3.5rem) 0 2rem;
@@ -395,8 +397,23 @@
   font-variant-numeric: tabular-nums;
 }
 
+.github-activity-value-group {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
 .github-activity-commits {
   color: var(--global-primary-color);
+}
+
+.github-activity-added {
+  color: var(--github-activity-added-text);
+}
+
+.github-activity-removed {
+  color: var(--github-activity-removed-text);
 }
 
 .github-activity-latest {
@@ -447,9 +464,16 @@
 .github-activity-chart {
   display: block;
   width: 100%;
-  height: clamp(20rem, 36vw, 24rem);
+  height: clamp(31rem, 56vw, 38rem);
   overflow: visible;
   touch-action: pan-y;
+}
+
+.github-activity-add-line,
+.github-activity-remove-line,
+.github-activity-add-stems,
+.github-activity-remove-stems {
+  vector-effect: non-scaling-stroke;
 }
 
 .github-activity-chart text {
@@ -560,6 +584,19 @@
   border-top: 1px solid var(--global-outline-color);
 }
 
+.github-activity-table-wrap:focus {
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 3px;
+}
+
+.github-activity-table-scroll-hint {
+  display: none;
+  margin: 0 0 0.5rem;
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+}
+
 .github-activity-table {
   width: 100%;
   border-collapse: collapse;
@@ -644,7 +681,7 @@
   }
 
   .github-activity-chart {
-    height: 22rem;
+    height: 34rem;
   }
 
   .github-activity-method-grid {
@@ -653,6 +690,12 @@
 
   .github-activity-codex-table-section {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .github-activity-table-scroll-hint {
+    display: block;
   }
 }
 

@@ -1,17 +1,17 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-07-13"
+updated_at: "2026-07-14"
 source_note: Codex account activity supplies lifetime totals; retained local logs and git history supply scoped estimates. Audit with python bin/audit_agentic_usage.py before publish.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 334
-  token_count: 4070000000
-  tokens_label: 4.07B
-  hours_count: 299
-  hours_label: "299"
+  commits: 336
+  token_count: 5130000000
+  tokens_label: 5.13B
+  hours_count: 364
+  hours_label: "364"
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -20,21 +20,21 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 2442
-    kg_co2e_midpoint: 911
-    tree_years_midpoint: 15.2
-    tree_years_range: 5.1-50.6
+    kwh_midpoint: 3078
+    kg_co2e_midpoint: 1148
+    tree_years_midpoint: 19.1
+    tree_years_range: 6.4-63.8
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
-    cut_tree_midpoint: 1.5
-    cut_tree_range: 0.5-5.1
-    public_note: "Tree lens: about 2442 kWh, or ~1.5 ten-year urban trees' stored carbon. Range: 0.5-5.1."
+    cut_tree_midpoint: 1.9
+    cut_tree_range: 0.6-6.4
+    public_note: "Tree lens: about 3078 kWh, or ~1.9 ten-year urban trees' stored carbon. Range: 0.6-6.4."
   token_usage:
-    input_tokens: 4059761144
-    cached_input_tokens: 3855181184
-    output_tokens: 12754358
-    reasoning_output_tokens: 5018735
-    total_tokens: 4072626956
+    input_tokens: 5117712590
+    cached_input_tokens: 4876034944
+    output_tokens: 14753360
+    reasoning_output_tokens: 6023111
+    total_tokens: 5132644646
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -60,22 +60,22 @@ total:
         long_context_output_usd_per_million: 45.0
         long_context_cache_write_input_usd_per_million: 12.5
     long_context_threshold_input_tokens: 272000
-    long_context_request_count: 1058
+    long_context_request_count: 1830
     long_context_token_usage:
-      input_tokens: 310040621
-      cached_input_tokens: 299014912
-      output_tokens: 346856
-      reasoning_output_tokens: 151494
-      total_tokens: 310387477
-    long_context_usd_estimate: 424.88
+      input_tokens: 534061781
+      cached_input_tokens: 513978880
+      output_tokens: 566721
+      reasoning_output_tokens: 256567
+      total_tokens: 534628502
+    long_context_usd_estimate: 740.31
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 4059761144
-      cached_input_tokens: 3855181184
-      output_tokens: 12754358
-      reasoning_output_tokens: 5018735
-      total_tokens: 4072626956
+      input_tokens: 5117712590
+      cached_input_tokens: 4876034944
+      output_tokens: 14753360
+      reasoning_output_tokens: 6023111
+      total_tokens: 5132644646
     unpriced_token_usage:
       input_tokens: 0
       cached_input_tokens: 0
@@ -125,26 +125,26 @@ total:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 1461339951
-          cached_input_tokens: 1413015552
-          output_tokens: 2891913
-          reasoning_output_tokens: 1398951
-          total_tokens: 1464276999
-        uncached_input_tokens: 48324399
-        request_count: 9123
-        long_context_request_count: 1058
+          input_tokens: 2519291397
+          cached_input_tokens: 2433869312
+          output_tokens: 4890915
+          reasoning_output_tokens: 2403327
+          total_tokens: 2524294689
+        uncached_input_tokens: 85422085
+        request_count: 15228
+        long_context_request_count: 1830
         long_context_token_usage:
-          input_tokens: 310040621
-          cached_input_tokens: 299014912
-          output_tokens: 346856
-          reasoning_output_tokens: 151494
-          total_tokens: 310387477
-        usd_estimate: 1244.73
-    usd_estimate: 3542.96
-    usd_midpoint: 3500
-    usd_label: ~$3.5K API-rate replay
+          input_tokens: 534061781
+          cached_input_tokens: 513978880
+          output_tokens: 566721
+          reasoning_output_tokens: 256567
+          total_tokens: 534628502
+        usd_estimate: 2156.68
+    usd_estimate: 4454.91
+    usd_midpoint: 4500
+    usd_label: ~$4.5K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$3.5K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$4.5K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -153,11 +153,11 @@ total:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 4070000000
-    usd_midpoint: 3500
-    usd_label: ~$3.5K
+    token_count: 5130000000
+    usd_midpoint: 4500
+    usd_label: ~$4.5K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$3.5K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$4.5K (diagnostic only)."
   model_effort_breakdown:
     gpt-5.5/medium:
       model: gpt-5.5
@@ -186,15 +186,15 @@ total:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 141
-      sessions: 81
+      turns: 244
+      sessions: 124
       token_usage:
-        input_tokens: 1461339951
-        cached_input_tokens: 1413015552
-        output_tokens: 2891913
-        reasoning_output_tokens: 1398951
-        total_tokens: 1464276999
-      raw_hours: 59.7327
+        input_tokens: 2519291397
+        cached_input_tokens: 2433869312
+        output_tokens: 4890915
+        reasoning_output_tokens: 2403327
+        total_tokens: 2524294689
+      raw_hours: 124.5707
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -203,27 +203,27 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 4059761144
-    cached_input_tokens: 3855181184
-    uncached_input_tokens: 204579960
-    output_tokens: 12754358
-    reasoning_output_tokens: 5018735
-    total_tokens: 4072626956
-    usd_estimate: 1211.23
-    usd_midpoint: 1200
-    usd_label: ~$1.2K API-rate replay
-    usd_range_label: $890-$7.3K
+    input_tokens: 5117712590
+    cached_input_tokens: 4876034944
+    uncached_input_tokens: 241677646
+    output_tokens: 14753360
+    reasoning_output_tokens: 6023111
+    total_tokens: 5132644646
+    usd_estimate: 1482.79
+    usd_midpoint: 1500
+    usd_label: ~$1.5K API-rate replay
+    usd_range_label: $1.1K-$9.2K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
-    public_note: ~$1.2K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
+    public_note: ~$1.5K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
 desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 116
-  token_count: 2990000000
-  tokens_label: 2.99B
-  hours_count: 185
-  hours_label: "185"
+  commits: 117
+  token_count: 4050000000
+  tokens_label: 4.05B
+  hours_count: 250
+  hours_label: "250"
   confidence: estimate
   note: Desk commits are path-scoped; tokens and hours are an all-repo retained-session time-window estimate since the desk cutoff, not desk-only attribution.
   energy_equivalence:
@@ -232,21 +232,21 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 1794
-    kg_co2e_midpoint: 669
-    tree_years_midpoint: 11.2
-    tree_years_range: 3.7-37.2
+    kwh_midpoint: 2430
+    kg_co2e_midpoint: 906
+    tree_years_midpoint: 15.1
+    tree_years_range: 5-50.4
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
-    cut_tree_midpoint: 1.1
-    cut_tree_range: 0.4-3.7
-    public_note: roughly 1.1 trees cut
+    cut_tree_midpoint: 1.5
+    cut_tree_range: 0.5-5
+    public_note: roughly 1.5 trees cut
   token_usage:
-    input_tokens: 2979594130
-    cached_input_tokens: 2843777664
-    output_tokens: 8563990
-    reasoning_output_tokens: 3471480
-    total_tokens: 2988248274
+    input_tokens: 4037545576
+    cached_input_tokens: 3864631424
+    output_tokens: 10562992
+    reasoning_output_tokens: 4475856
+    total_tokens: 4048265964
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -272,22 +272,22 @@ desk_scene:
         long_context_output_usd_per_million: 45.0
         long_context_cache_write_input_usd_per_million: 12.5
     long_context_threshold_input_tokens: 272000
-    long_context_request_count: 1058
+    long_context_request_count: 1830
     long_context_token_usage:
-      input_tokens: 310040621
-      cached_input_tokens: 299014912
-      output_tokens: 346856
-      reasoning_output_tokens: 151494
-      total_tokens: 310387477
-    long_context_usd_estimate: 424.88
+      input_tokens: 534061781
+      cached_input_tokens: 513978880
+      output_tokens: 566721
+      reasoning_output_tokens: 256567
+      total_tokens: 534628502
+    long_context_usd_estimate: 740.31
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 2979594130
-      cached_input_tokens: 2843777664
-      output_tokens: 8563990
-      reasoning_output_tokens: 3471480
-      total_tokens: 2988248274
+      input_tokens: 4037545576
+      cached_input_tokens: 3864631424
+      output_tokens: 10562992
+      reasoning_output_tokens: 4475856
+      total_tokens: 4048265964
     unpriced_token_usage:
       input_tokens: 0
       cached_input_tokens: 0
@@ -337,26 +337,26 @@ desk_scene:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 1461339951
-          cached_input_tokens: 1413015552
-          output_tokens: 2891913
-          reasoning_output_tokens: 1398951
-          total_tokens: 1464276999
-        uncached_input_tokens: 48324399
-        request_count: 9123
-        long_context_request_count: 1058
+          input_tokens: 2519291397
+          cached_input_tokens: 2433869312
+          output_tokens: 4890915
+          reasoning_output_tokens: 2403327
+          total_tokens: 2524294689
+        uncached_input_tokens: 85422085
+        request_count: 15228
+        long_context_request_count: 1830
         long_context_token_usage:
-          input_tokens: 310040621
-          cached_input_tokens: 299014912
-          output_tokens: 346856
-          reasoning_output_tokens: 151494
-          total_tokens: 310387477
-        usd_estimate: 1244.73
-    usd_estimate: 2567.73
-    usd_midpoint: 2600
-    usd_label: ~$2.6K API-rate replay
+          input_tokens: 534061781
+          cached_input_tokens: 513978880
+          output_tokens: 566721
+          reasoning_output_tokens: 256567
+          total_tokens: 534628502
+        usd_estimate: 2156.68
+    usd_estimate: 3479.68
+    usd_midpoint: 3500
+    usd_label: ~$3.5K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$2.6K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$3.5K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -365,11 +365,11 @@ desk_scene:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 2990000000
-    usd_midpoint: 2600
-    usd_label: ~$2.6K
+    token_count: 4050000000
+    usd_midpoint: 3500
+    usd_label: ~$3.5K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$2.6K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$3.5K (diagnostic only)."
   model_effort_breakdown:
     gpt-5.5/medium:
       model: gpt-5.5
@@ -398,15 +398,15 @@ desk_scene:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 141
-      sessions: 81
+      turns: 244
+      sessions: 124
       token_usage:
-        input_tokens: 1461339951
-        cached_input_tokens: 1413015552
-        output_tokens: 2891913
-        reasoning_output_tokens: 1398951
-        total_tokens: 1464276999
-      raw_hours: 59.7327
+        input_tokens: 2519291397
+        cached_input_tokens: 2433869312
+        output_tokens: 4890915
+        reasoning_output_tokens: 2403327
+        total_tokens: 2524294689
+      raw_hours: 124.5707
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -415,81 +415,133 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 2979594130
-    cached_input_tokens: 2843777664
-    uncached_input_tokens: 135816466
-    output_tokens: 8563990
-    reasoning_output_tokens: 3471480
-    total_tokens: 2988248274
-    usd_estimate: 855.24
-    usd_midpoint: 860
-    usd_label: ~$860 API-rate replay
-    usd_range_label: $640-$5.3K
+    input_tokens: 4037545576
+    cached_input_tokens: 3864631424
+    uncached_input_tokens: 172914152
+    output_tokens: 10562992
+    reasoning_output_tokens: 4475856
+    total_tokens: 4048265964
+    usd_estimate: 1126.79
+    usd_midpoint: 1100
+    usd_label: ~$1.1K API-rate replay
+    usd_range_label: $850-$7.2K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
-    public_note: ~$860 API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
+    public_note: ~$1.1K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
 model_tracking:
   intended_model: gpt-5.6-sol
   intended_effort: ultra
   cutover_at: "2026-07-09T21:28:23.394Z"
   cutover_label: Jul 9, 2026 at 2:28 PM PDT
-  post_cutover_turns_observed: 222
+  acknowledgment_policy_version: 1
+  post_cutover_turns_observed: 435
   post_cutover_observed_breakdown:
     gpt-5.4-mini/high: 1
     gpt-5.4-mini/ultra: 1
-    gpt-5.6-sol/ultra: 220
-  post_cutover_deviation_count: 2
+    gpt-5.6-sol/high: 1
+    gpt-5.6-sol/medium: 2
+    gpt-5.6-sol/ultra: 430
+  post_cutover_deviation_count: 5
+  post_cutover_acknowledged_deviation_count: 5
+  post_cutover_unacknowledged_deviation_count: 0
   post_cutover_deviations:
     - turn_id: 019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f
       timestamp: "2026-07-11T05:00:19.703Z"
       model: gpt-5.4-mini
       effort: ultra
+      acknowledged: true
+      acknowledgment:
+        policy_version: 1
+        acknowledged_at: "2026-07-14"
+        reason: One-shot Codex-LB routing smoke test requested an exact OK response; retained as historical non-site development evidence.
+        provenance: Retained Codex-LB turn_context and user prompt, audited 2026-07-14.
+        signature_matches: true
     - turn_id: 019f4f8c-ae4b-7471-9ad5-333c04e74596
       timestamp: "2026-07-11T05:00:49.076Z"
       model: gpt-5.4-mini
       effort: high
-  status: deviation_detected
+      acknowledged: true
+      acknowledgment:
+        policy_version: 1
+        acknowledged_at: "2026-07-14"
+        reason: One-shot Codex-LB routing smoke test requested an exact OK response; retained as historical non-site development evidence.
+        provenance: Retained Codex-LB turn_context and user prompt, audited 2026-07-14.
+        signature_matches: true
+    - turn_id: 019f613b-3b92-7a42-9676-8fe24bb0b808
+      timestamp: "2026-07-14T15:24:59.814Z"
+      model: gpt-5.6-sol
+      effort: medium
+      acknowledged: true
+      acknowledgment:
+        policy_version: 1
+        acknowledged_at: "2026-07-14"
+        reason: Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used host-selected effort and was interrupted before completion.
+        provenance: Retained turn_context, exact Codex-LB usage-reset planning prompt, and interrupted-turn event, audited 2026-07-14.
+        signature_matches: true
+    - turn_id: 019f613b-902a-75c1-a544-f1c27c606778
+      timestamp: "2026-07-14T15:25:22.541Z"
+      model: gpt-5.6-sol
+      effort: medium
+      acknowledged: true
+      acknowledgment:
+        policy_version: 1
+        acknowledged_at: "2026-07-14"
+        reason: Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used host-selected effort rather than the declared interactive development default.
+        provenance: Retained turn_context and exact Codex-LB usage-reset planning prompt, audited 2026-07-14.
+        signature_matches: true
+    - turn_id: 019f615c-e9f3-7891-b9ee-e2e7317c4da3
+      timestamp: "2026-07-14T16:01:47.515Z"
+      model: gpt-5.6-sol
+      effort: high
+      acknowledged: true
+      acknowledgment:
+        policy_version: 1
+        acknowledged_at: "2026-07-14"
+        reason: Provider-managed verification or automation worker used host-selected effort rather than changing the declared interactive development default.
+        provenance: Retained turn_context and 2026-07-14 coordinator verification audit.
+        signature_matches: true
+  status: acknowledged_deviations
   public_note: "Dev work now: gpt-5.6-sol · ultra."
-  caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed.
+  caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed. Exact acknowledged deviations remain visible and do not alter their observed model or effort.
 since_gpt_5_6:
-  commits: 39
-  token_count: 1460000000
-  tokens_label: 1.46B
-  hours_count: 60
-  hours_label: "60"
+  commits: 41
+  token_count: 2520000000
+  tokens_label: 2.52B
+  hours_count: 125
+  hours_label: "125"
   token_usage:
-    input_tokens: 1461339951
-    cached_input_tokens: 1413015552
-    output_tokens: 2891913
-    reasoning_output_tokens: 1398951
-    total_tokens: 1464276999
+    input_tokens: 2519291397
+    cached_input_tokens: 2433869312
+    output_tokens: 4890915
+    reasoning_output_tokens: 2403327
+    total_tokens: 2524294689
   model_effort_breakdown:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 141
-      sessions: 81
+      turns: 244
+      sessions: 124
       token_usage:
-        input_tokens: 1461339951
-        cached_input_tokens: 1413015552
-        output_tokens: 2891913
-        reasoning_output_tokens: 1398951
-        total_tokens: 1464276999
-      raw_hours: 59.7327
+        input_tokens: 2519291397
+        cached_input_tokens: 2433869312
+        output_tokens: 4890915
+        reasoning_output_tokens: 2403327
+        total_tokens: 2524294689
+      raw_hours: 124.5707
   energy_equivalence:
     wh_per_token_midpoint: 0.0006
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 876
-    kg_co2e_midpoint: 327
-    tree_years_midpoint: 5.4
-    tree_years_range: 1.8-18.2
+    kwh_midpoint: 1512
+    kg_co2e_midpoint: 564
+    tree_years_midpoint: 9.4
+    tree_years_range: 3.1-31.3
     cut_tree_co2e_kg: 600
-    cut_tree_midpoint: 0.5
-    cut_tree_range: 0.18-1.8
+    cut_tree_midpoint: 0.9
+    cut_tree_range: 0.3-3.1
     label: Energy lens
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
-    public_note: "Tree lens: about 876 kWh, or ~0.5 ten-year urban trees' stored carbon. Range: 0.18-1.8."
+    public_note: "Tree lens: about 1512 kWh, or ~0.9 ten-year urban trees' stored carbon. Range: 0.3-3.1."
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -515,22 +567,22 @@ since_gpt_5_6:
         long_context_output_usd_per_million: 45.0
         long_context_cache_write_input_usd_per_million: 12.5
     long_context_threshold_input_tokens: 272000
-    long_context_request_count: 1058
+    long_context_request_count: 1830
     long_context_token_usage:
-      input_tokens: 310040621
-      cached_input_tokens: 299014912
-      output_tokens: 346856
-      reasoning_output_tokens: 151494
-      total_tokens: 310387477
-    long_context_usd_estimate: 424.88
+      input_tokens: 534061781
+      cached_input_tokens: 513978880
+      output_tokens: 566721
+      reasoning_output_tokens: 256567
+      total_tokens: 534628502
+    long_context_usd_estimate: 740.31
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 1461339951
-      cached_input_tokens: 1413015552
-      output_tokens: 2891913
-      reasoning_output_tokens: 1398951
-      total_tokens: 1464276999
+      input_tokens: 2519291397
+      cached_input_tokens: 2433869312
+      output_tokens: 4890915
+      reasoning_output_tokens: 2403327
+      total_tokens: 2524294689
     unpriced_token_usage:
       input_tokens: 0
       cached_input_tokens: 0
@@ -542,26 +594,26 @@ since_gpt_5_6:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 1461339951
-          cached_input_tokens: 1413015552
-          output_tokens: 2891913
-          reasoning_output_tokens: 1398951
-          total_tokens: 1464276999
-        uncached_input_tokens: 48324399
-        request_count: 9123
-        long_context_request_count: 1058
+          input_tokens: 2519291397
+          cached_input_tokens: 2433869312
+          output_tokens: 4890915
+          reasoning_output_tokens: 2403327
+          total_tokens: 2524294689
+        uncached_input_tokens: 85422085
+        request_count: 15228
+        long_context_request_count: 1830
         long_context_token_usage:
-          input_tokens: 310040621
-          cached_input_tokens: 299014912
-          output_tokens: 346856
-          reasoning_output_tokens: 151494
-          total_tokens: 310387477
-        usd_estimate: 1244.73
-    usd_estimate: 1244.73
-    usd_midpoint: 1200
-    usd_label: ~$1.2K API-rate replay
+          input_tokens: 534061781
+          cached_input_tokens: 513978880
+          output_tokens: 566721
+          reasoning_output_tokens: 256567
+          total_tokens: 534628502
+        usd_estimate: 2156.68
+    usd_estimate: 2156.68
+    usd_midpoint: 2200
+    usd_label: ~$2.2K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$1.2K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$2.2K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -570,18 +622,18 @@ since_gpt_5_6:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 1461339951
-    cached_input_tokens: 1413015552
-    uncached_input_tokens: 48324399
-    output_tokens: 2891913
-    reasoning_output_tokens: 1398951
-    total_tokens: 1464276999
-    usd_estimate: 372.33
-    usd_midpoint: 370
-    usd_label: ~$370 API-rate replay
-    usd_range_label: $300-$2.6K
+    input_tokens: 2519291397
+    cached_input_tokens: 2433869312
+    uncached_input_tokens: 85422085
+    output_tokens: 4890915
+    reasoning_output_tokens: 2403327
+    total_tokens: 2524294689
+    usd_estimate: 643.89
+    usd_midpoint: 640
+    usd_label: ~$640 API-rate replay
+    usd_range_label: $510-$4.5K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
-    public_note: ~$370 API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
+    public_note: ~$640 API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -590,31 +642,31 @@ since_gpt_5_6:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 1460000000
-    usd_midpoint: 1300
-    usd_label: ~$1.3K
+    token_count: 2520000000
+    usd_midpoint: 2200
+    usd_label: ~$2.2K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$1.3K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$2.2K (diagnostic only)."
   label: Since gpt-5.6-sol cutover
   since: 2026-07-09 14:28 PDT
   since_label: Jul 9, 2026
   confidence: retained-log estimate
   note: All-repo retained-session usage after the model cutover; commits are repo-wide and usage is attributed from ordered turn_context records.
 local_lifetime:
-  sessions: 185
-  turns: 1511
-  usage_events: 75854
-  raw_token_count: 10951249688
-  token_count: 10950000000
-  tokens_label: 10.9B
-  hours_count: 499
-  hours_label: "499"
+  sessions: 272
+  turns: 1718
+  usage_events: 89824
+  raw_token_count: 13318477788
+  token_count: 13320000000
+  tokens_label: 13.3B
+  hours_count: 642
+  hours_label: "642"
   token_usage:
-    input_tokens: 10915611463
-    cached_input_tokens: 10428188672
-    output_tokens: 33289557
-    reasoning_output_tokens: 10619679
-    total_tokens: 10951249688
+    input_tokens: 13278127644
+    cached_input_tokens: 12704848896
+    output_tokens: 37856052
+    reasoning_output_tokens: 12706176
+    total_tokens: 13318477788
   model_effort_breakdown:
     gpt-5.3-codex-spark/high:
       model: gpt-5.3-codex-spark
@@ -688,18 +740,42 @@ local_lifetime:
         reasoning_output_tokens: 8430928
         total_tokens: 8947099324
       raw_hours: 411.2596
+    gpt-5.6-sol/high:
+      model: gpt-5.6-sol
+      effort: high
+      turns: 1
+      sessions: 1
+      token_usage:
+        input_tokens: 4624865
+        cached_input_tokens: 4475136
+        output_tokens: 20546
+        reasoning_output_tokens: 10332
+        total_tokens: 4645411
+      raw_hours: 0.6575
+    gpt-5.6-sol/medium:
+      model: gpt-5.6-sol
+      effort: medium
+      turns: 2
+      sessions: 1
+      token_usage:
+        input_tokens: 2521418
+        cached_input_tokens: 2380544
+        output_tokens: 4511
+        reasoning_output_tokens: 1363
+        total_tokens: 2525929
+      raw_hours: 0.4891
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 220
-      sessions: 127
+      turns: 430
+      sessions: 213
       token_usage:
-        input_tokens: 1957057671
-        cached_input_tokens: 1892513280
-        output_tokens: 4429531
-        reasoning_output_tokens: 2096073
-        total_tokens: 1962148363
-      raw_hours: 83.8972
+        input_tokens: 4312427569
+        cached_input_tokens: 4162317824
+        output_tokens: 8970969
+        reasoning_output_tokens: 4170875
+        total_tokens: 4322205123
+      raw_hours: 225.7601
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -725,22 +801,22 @@ local_lifetime:
         long_context_output_usd_per_million: 45.0
         long_context_cache_write_input_usd_per_million: 12.5
     long_context_threshold_input_tokens: 272000
-    long_context_request_count: 1210
+    long_context_request_count: 2998
     long_context_token_usage:
-      input_tokens: 353648988
-      cached_input_tokens: 339895424
-      output_tokens: 416779
-      reasoning_output_tokens: 184874
-      total_tokens: 354065767
-    long_context_usd_estimate: 496.19
+      input_tokens: 872050763
+      cached_input_tokens: 835290240
+      output_tokens: 1017583
+      reasoning_output_tokens: 435351
+      total_tokens: 873068346
+    long_context_usd_estimate: 1248.69
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 10906606678
-      cached_input_tokens: 10420060032
-      output_tokens: 33192603
-      reasoning_output_tokens: 10550638
-      total_tokens: 10942147949
+      input_tokens: 13269122859
+      cached_input_tokens: 12696720256
+      output_tokens: 37759098
+      reasoning_output_tokens: 12637135
+      total_tokens: 13309376049
     unpriced_token_usage:
       input_tokens: 9004785
       cached_input_tokens: 8128640
@@ -790,26 +866,64 @@ local_lifetime:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 1957057671
-          cached_input_tokens: 1892513280
-          output_tokens: 4429531
-          reasoning_output_tokens: 2096073
-          total_tokens: 1962148363
-        uncached_input_tokens: 64544391
-        request_count: 12879
-        long_context_request_count: 1209
+          input_tokens: 4312427569
+          cached_input_tokens: 4162317824
+          output_tokens: 8970969
+          reasoning_output_tokens: 4170875
+          total_tokens: 4322205123
+        uncached_input_tokens: 150109745
+        request_count: 26764
+        long_context_request_count: 2997
         long_context_token_usage:
-          input_tokens: 353373380
-          cached_input_tokens: 339892992
-          output_tokens: 416167
-          reasoning_output_tokens: 184566
-          total_tokens: 353789547
-        usd_estimate: 1645.46
-    usd_estimate: 8883.51
-    usd_midpoint: 8900
-    usd_label: ~$8.9K API-rate replay
+          input_tokens: 871775155
+          cached_input_tokens: 835287808
+          output_tokens: 1016971
+          reasoning_output_tokens: 435043
+          total_tokens: 872792126
+        usd_estimate: 3716.17
+      gpt-5.6-sol/medium:
+        model: gpt-5.6-sol
+        effort: medium
+        token_usage:
+          input_tokens: 2521418
+          cached_input_tokens: 2380544
+          output_tokens: 4511
+          reasoning_output_tokens: 1363
+          total_tokens: 2525929
+        uncached_input_tokens: 140874
+        request_count: 30
+        long_context_request_count: 0
+        long_context_token_usage:
+          input_tokens: 0
+          cached_input_tokens: 0
+          output_tokens: 0
+          reasoning_output_tokens: 0
+          total_tokens: 0
+        usd_estimate: 2.03
+      gpt-5.6-sol/high:
+        model: gpt-5.6-sol
+        effort: high
+        token_usage:
+          input_tokens: 4624865
+          cached_input_tokens: 4475136
+          output_tokens: 20546
+          reasoning_output_tokens: 10332
+          total_tokens: 4645411
+        uncached_input_tokens: 149729
+        request_count: 55
+        long_context_request_count: 0
+        long_context_token_usage:
+          input_tokens: 0
+          cached_input_tokens: 0
+          output_tokens: 0
+          reasoning_output_tokens: 0
+          total_tokens: 0
+        usd_estimate: 3.6
+    usd_estimate: 10959.86
+    usd_midpoint: 11000
+    usd_label: ~$11.0K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$8.9K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$11.0K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   label: Local Codex replay
   since: 2026-06-19 00:00 PDT
   since_label: Jun 19, 2026
@@ -818,31 +932,29 @@ local_lifetime:
 account_lifetime:
   label: Codex lifetime
   source: Codex account activity
-  source_as_of: "2026-07-13T19:15:21.977504Z"
-  token_count: 22638835401
-  tokens_label: 22.6B
-  tasks: 818
-  peak_daily_tokens: 1748633377
-  peak_daily_date: "2026-07-01"
+  source_as_of: "2026-07-14T16:52:11.252952Z"
+  token_count: 24113293841
+  tokens_label: 24.1B
+  tasks: 838
+  peak_daily_tokens: 2158343669
+  peak_daily_date: "2026-07-13"
   model_note: Mostly GPT-5.5 Extra High and GPT-5.6 Sol Ultra.
   api_cost_equivalence:
     label: Account-lifetime API-rate replay
-    account_source_as_of: "2026-07-13T19:15:21.977504Z"
+    account_source_as_of: "2026-07-14T16:52:11.252952Z"
     pricing_as_of: "2026-07-12"
     source_url: https://developers.openai.com/api/docs/pricing
     method: Account tokens scaled by the retained local model, cache-read, and long-context request mix.
     observed_local_token_count: 10212120634
     observed_local_usd_estimate: 8240.57
     observed_usd_per_million_tokens: 0.807
-    usd_estimate: 18268.18
-    usd_midpoint: 18300
-    usd_label: ~$18.3K
+    usd_estimate: 19457.98
+    usd_midpoint: 19500
+    usd_label: ~$19.5K
   recent_activity:
     label: Last 30 calendar days
     partial_last_day: true
     daily:
-      - date: "2026-06-14"
-        tokens: 0
       - date: "2026-06-15"
         tokens: 0
       - date: "2026-06-16"
@@ -900,21 +1012,23 @@ account_lifetime:
       - date: "2026-07-12"
         tokens: 1220875673
       - date: "2026-07-13"
-        tokens: 1140376768
-    sparkline_points: 0.00,26.00 3.86,26.00 7.72,23.48 11.59,23.00 15.45,22.29 19.31,22.55 23.17,16.40 27.03,18.07 30.90,19.93 34.76,21.79 38.62,24.30 42.48,25.91 46.34,24.38 50.21,15.95 54.07,17.12 57.93,10.48 61.79,17.39 65.66,2.00 69.52,2.13 73.38,10.33 77.24,14.54 81.10,15.24 84.97,16.71 88.83,20.64 92.69,22.03 96.55,19.12 100.41,14.12 104.28,11.16 108.14,9.24 112.00,10.35
-    start_date: "2026-06-14"
-    end_date: "2026-07-13"
-    end_label: Jul 13
-    peak_date: "2026-07-01"
-    peak_tokens: 1748633377
+        tokens: 2158343669
+      - date: "2026-07-14"
+        tokens: 456491539
+    sparkline_points: 0.00,26.00 3.86,23.96 7.72,23.57 11.59,22.99 15.45,23.21 19.31,18.23 23.17,19.58 27.03,21.08 30.90,22.59 34.76,24.62 38.62,25.93 42.48,24.69 46.34,17.86 50.21,18.81 54.07,13.42 57.93,19.02 61.79,6.56 65.66,6.66 69.52,13.31 73.38,16.71 77.24,17.28 81.10,18.47 84.97,21.66 88.83,22.79 92.69,20.43 96.55,16.37 100.41,13.98 104.28,12.42 108.14,2.00 112.00,20.92
+    start_date: "2026-06-15"
+    end_date: "2026-07-14"
+    end_label: Jul 14
+    peak_date: "2026-07-13"
+    peak_tokens: 2158343669
     weekly:
       - week: "2026-06-14"
-        observed_start: "2026-06-14"
+        observed_start: "2026-06-15"
         observed_end: "2026-06-20"
-        observed_days: 7
+        observed_days: 6
         tokens: 1622149254
-        partial: false
-        partial_reason: null
+        partial: true
+        partial_reason: range-start
         api_equivalent_usd: 1308.98
       - week: "2026-06-21"
         observed_start: "2026-06-21"
@@ -942,9 +1056,9 @@ account_lifetime:
         api_equivalent_usd: 3702.29
       - week: "2026-07-12"
         observed_start: "2026-07-12"
-        observed_end: "2026-07-13"
-        observed_days: 2
-        tokens: 2361252441
+        observed_end: "2026-07-14"
+        observed_days: 3
+        tokens: 3835710881
         partial: true
         partial_reason: range-end
-        api_equivalent_usd: 1905.39
+        api_equivalent_usd: 3095.19

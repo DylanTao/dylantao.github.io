@@ -471,8 +471,9 @@ html[data-theme-mode="afternoon"] .navbar {
   }
 
   .navbar.navbar-light .navbar-brand {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-width: 0;
+    margin-right: 0;
   }
 
   .navbar-actions {
@@ -564,5 +565,19 @@ html[data-theme-mode="afternoon"] .navbar {
     padding-right: 0.72rem;
     padding-left: 0.72rem;
     white-space: nowrap;
+  }
+}
+
+@media (max-width: 388px) {
+  .navbar .container.panel-shell {
+    gap: 0.3rem;
+  }
+
+  .navbar.navbar-light .site-brand-name {
+    display: none;
+  }
+
+  .navbar-actions {
+    gap: 0.08rem;
   }
 }

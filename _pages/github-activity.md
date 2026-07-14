@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Independent views of Sirui Tao's recent Codex tokens and long-term GitHub commits.
+description: Independent views of Sirui Tao's recent Codex tokens and long-term GitHub build rhythm.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,10 +11,10 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">CODEX TOKENS + GITHUB COMMITS</p>
+    <p class="github-activity-eyebrow">CODEX TOKENS + GITHUB BUILD RHYTHM</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Two independent measures: recent Codex tokens and long-term GitHub commits. Each keeps its own time horizon, source, and controls.
+      Two independent views: recent Codex tokens and long-term GitHub activity. Each keeps its own time horizon, units, source, and controls.
     </p>
     {% assign account_lifetime = site.data.agentic_usage.account_lifetime %}
   </header>
@@ -77,14 +77,14 @@ The chart and exact table share the same dated token snapshot. Partial days and 
   <section class="github-activity-workbench" aria-labelledby="github-activity-github-title">
     <div class="github-activity-module-heading">
       <div>
-        <p class="github-activity-module-kicker">GITHUB COMMITS</p>
+        <p class="github-activity-module-kicker">GITHUB ACTIVITY</p>
         <h2 id="github-activity-github-title">GitHub contribution history</h2>
-        <p>Weekly commits across the selected history. Readable keeps quieter weeks visible beside large release bursts.</p>
+        <p>Weekly commits, additions, and deletions. Readable keeps quieter weeks visible beside large release bursts.</p>
       </div>
       <span class="github-activity-scope-badge" data-github-scope>5 YEARS · WEEKLY</span>
     </div>
 
-    <div class="github-activity-controls" aria-label="GitHub commit chart controls">
+    <div class="github-activity-controls" aria-label="GitHub activity chart controls">
       <fieldset class="github-activity-control-group">
         <legend>GitHub time window</legend>
         <div class="github-activity-segments" data-range-controls>
@@ -95,7 +95,7 @@ The chart and exact table share the same dated token snapshot. Partial days and 
         </div>
       </fieldset>
       <fieldset class="github-activity-control-group">
-        <legend>Commit scale</legend>
+        <legend>Chart scale</legend>
         <div class="github-activity-segments" data-scale-controls>
           <button type="button" data-scale="log" aria-pressed="true">Readable</button>
           <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
@@ -107,7 +107,15 @@ The chart and exact table share the same dated token snapshot. Partial days and 
       <div>
         <p class="github-activity-readout-label" id="github-activity-selected-date">Latest week</p>
         <p class="github-activity-values">
-          <span class="github-activity-commits" id="github-activity-selected-commits"></span>
+          <span class="github-activity-value-group"><span class="github-activity-commits" id="github-activity-selected-commits"></span></span>
+          <span class="github-activity-value-group">
+            <span aria-hidden="true">&middot;</span>
+            <span class="github-activity-added" id="github-activity-selected-additions"></span>
+          </span>
+          <span class="github-activity-value-group">
+            <span aria-hidden="true">&middot;</span>
+            <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
+          </span>
         </p>
       </div>
       <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
@@ -120,7 +128,7 @@ The chart and exact table share the same dated token snapshot. Partial days and 
     </div>
 
     <div class="github-activity-chart-shell">
-      <h2 class="sr-only" id="github-activity-chart-title">Weekly GitHub commits</h2>
+      <h2 class="sr-only" id="github-activity-chart-title">Weekly GitHub commits, additions, and deletions</h2>
       <p class="sr-only" id="github-activity-chart-instructions">
         Hover or click to inspect a week. Drag horizontally to select a range. With keyboard focus, use arrow keys to inspect, Shift plus
         an arrow key to extend a range, Home or End to jump, Page Up or Page Down to move four weeks, and Escape to clear a selection.
@@ -140,20 +148,20 @@ The chart and exact table share the same dated token snapshot. Partial days and 
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Two units, two horizons</h2>
-        <p>Codex tokens cover 30 days. GitHub commits use a separate weekly calendar across the selected repository history.</p>
+        <h2>Four measures, two horizons</h2>
+        <p>Codex tokens cover 30 days. GitHub commits, additions, and deletions use a separate weekly calendar across the selected history.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>
-        <p>Readable uses a log1p commit scale so quieter weeks remain visible. Literal uses the full linear range. Exact values never change.</p>
+        <p>Readable uses log1p for commits and a symmetric log view for line changes. Literal uses the full linear range. Reported values never change.</p>
       </div>
       <div>
         <h2>What's counted</h2>
-        <p>Owned public and private repositories, rolled up by week on their default branches. Only aggregate commit totals leave the generator.</p>
+        <p>Owned public and private repositories, rolled up by week on their default branches. Only weekly aggregate totals leave the generator.</p>
       </div>
       <div>
         <h2>GitHub's edges</h2>
-        <p>Contributor statistics supply totals and commit history fills gaps. Merge commits are skipped, so this is a build-rhythm view rather than a productivity score.</p>
+        <p>Contributor statistics supply totals and commit history fills gaps. Merge commits are skipped, and very large repositories may omit line totals.</p>
       </div>
       <div>
         <h2>Codex account history</h2>
@@ -188,13 +196,23 @@ The chart and exact table share the same dated token snapshot. Partial days and 
         </table>
       </div>
     </section>
-    <div class="github-activity-table-wrap">
+    <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally for all columns.</p>
+    <div
+      class="github-activity-table-wrap"
+      role="region"
+      aria-label="Weekly GitHub activity table"
+      aria-describedby="github-activity-table-scroll-hint"
+      tabindex="0"
+    >
       <table class="github-activity-table">
-        <caption id="github-activity-table-caption">Exact weekly commits in the selected time window</caption>
+        <caption id="github-activity-table-caption">Reported weekly activity in the selected time window</caption>
         <thead>
           <tr>
             <th scope="col">Week</th>
             <th scope="col">Commits</th>
+            <th scope="col">Added</th>
+            <th scope="col">Removed</th>
+            <th scope="col">Line changes</th>
           </tr>
         </thead>
         <tbody id="github-activity-table-body"></tbody>

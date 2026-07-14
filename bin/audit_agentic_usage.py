@@ -47,6 +47,72 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 1
+# Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
+# A new turn id or any changed signature remains unacknowledged and fails closed.
+MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
+    "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f": {
+        "timestamp": "2026-07-11T05:00:19.703Z",
+        "model": "gpt-5.4-mini",
+        "effort": "ultra",
+        "acknowledged_at": "2026-07-14",
+        "reason": (
+            "One-shot Codex-LB routing smoke test requested an exact OK response; retained as "
+            "historical non-site development evidence."
+        ),
+        "provenance": "Retained Codex-LB turn_context and user prompt, audited 2026-07-14.",
+    },
+    "019f4f8c-ae4b-7471-9ad5-333c04e74596": {
+        "timestamp": "2026-07-11T05:00:49.076Z",
+        "model": "gpt-5.4-mini",
+        "effort": "high",
+        "acknowledged_at": "2026-07-14",
+        "reason": (
+            "One-shot Codex-LB routing smoke test requested an exact OK response; retained as "
+            "historical non-site development evidence."
+        ),
+        "provenance": "Retained Codex-LB turn_context and user prompt, audited 2026-07-14.",
+    },
+    "019f613b-3b92-7a42-9676-8fe24bb0b808": {
+        "timestamp": "2026-07-14T15:24:59.814Z",
+        "model": "gpt-5.6-sol",
+        "effort": "medium",
+        "acknowledged_at": "2026-07-14",
+        "reason": (
+            "Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used "
+            "host-selected effort and was interrupted before completion."
+        ),
+        "provenance": (
+            "Retained turn_context, exact Codex-LB usage-reset planning prompt, and interrupted-turn "
+            "event, audited 2026-07-14."
+        ),
+    },
+    "019f613b-902a-75c1-a544-f1c27c606778": {
+        "timestamp": "2026-07-14T15:25:22.541Z",
+        "model": "gpt-5.6-sol",
+        "effort": "medium",
+        "acknowledged_at": "2026-07-14",
+        "reason": (
+            "Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used "
+            "host-selected effort rather than the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained turn_context and exact Codex-LB usage-reset planning prompt, audited "
+            "2026-07-14."
+        ),
+    },
+    "019f615c-e9f3-7891-b9ee-e2e7317c4da3": {
+        "timestamp": "2026-07-14T16:01:47.515Z",
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "acknowledged_at": "2026-07-14",
+        "reason": (
+            "Provider-managed verification or automation worker used host-selected effort rather "
+            "than changing the declared interactive development default."
+        ),
+        "provenance": "Retained turn_context and 2026-07-14 coordinator verification audit.",
+    },
+}
 
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
@@ -88,8 +154,12 @@ MODEL_TRACKING_CHECK_FIELDS = (
     ("intended_model",),
     ("intended_effort",),
     ("cutover_at",),
+    ("acknowledgment_policy_version",),
     ("status",),
     ("post_cutover_deviation_count",),
+    ("post_cutover_acknowledged_deviation_count",),
+    ("post_cutover_unacknowledged_deviation_count",),
+    ("post_cutover_deviations",),
     ("public_note",),
 )
 LOCAL_LIFETIME_CHECK_FIELDS = (
@@ -1041,6 +1111,29 @@ def audit_scope(dataset: UsageDataset, cutoff: datetime, commit_count: int) -> d
     }
 
 
+def model_deviation_acknowledgment(deviation: dict[str, Any]) -> tuple[bool, dict[str, Any] | None]:
+    policy = MODEL_DEVIATION_ACKNOWLEDGMENTS.get(deviation["turn_id"])
+    if policy is None:
+        return False, None
+
+    signature_matches = all(
+        deviation[field_name] == policy.get(field_name)
+        for field_name in ("timestamp", "model", "effort")
+    )
+    reason = policy.get("reason", "").strip()
+    provenance = policy.get("provenance", "").strip()
+    acknowledged_at = policy.get("acknowledged_at", "").strip()
+    complete = bool(reason and provenance and acknowledged_at)
+    acknowledgment = {
+        "policy_version": MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION,
+        "acknowledged_at": acknowledged_at,
+        "reason": reason,
+        "provenance": provenance,
+        "signature_matches": signature_matches,
+    }
+    return signature_matches and complete, acknowledgment
+
+
 def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
     contexts = [
         context
@@ -1053,19 +1146,27 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
     for context in contexts:
         observed[model_effort_key(context.model, context.effort)] += 1
         if context.model != INTENDED_MODEL or context.effort != INTENDED_EFFORT:
-            deviations.append(
-                {
-                    "turn_id": context.turn_id,
-                    "timestamp": format_timestamp_utc(context.timestamp),
-                    "model": context.model,
-                    "effort": context.effort,
-                }
-            )
+            deviation: dict[str, Any] = {
+                "turn_id": context.turn_id,
+                "timestamp": format_timestamp_utc(context.timestamp),
+                "model": context.model,
+                "effort": context.effort,
+            }
+            acknowledged, acknowledgment = model_deviation_acknowledgment(deviation)
+            deviation["acknowledged"] = acknowledged
+            if acknowledgment is not None:
+                deviation["acknowledgment"] = acknowledgment
+            deviations.append(deviation)
+
+    acknowledged_count = sum(bool(item["acknowledged"]) for item in deviations)
+    unacknowledged_count = len(deviations) - acknowledged_count
 
     if not contexts:
         status = "unobserved"
-    elif deviations:
+    elif unacknowledged_count:
         status = "deviation_detected"
+    elif deviations:
+        status = "acknowledged_deviations"
     else:
         status = "aligned"
     return {
@@ -1073,15 +1174,19 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
         "intended_effort": INTENDED_EFFORT,
         "cutover_at": format_timestamp_utc(GPT_5_6_CUTOVER_UTC),
         "cutover_label": "Jul 9, 2026 at 2:28 PM PDT",
+        "acknowledgment_policy_version": MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION,
         "post_cutover_turns_observed": len(contexts),
         "post_cutover_observed_breakdown": dict(sorted(observed.items())),
         "post_cutover_deviation_count": len(deviations),
+        "post_cutover_acknowledged_deviation_count": acknowledged_count,
+        "post_cutover_unacknowledged_deviation_count": unacknowledged_count,
         "post_cutover_deviations": deviations,
         "status": status,
         "public_note": f"Dev work now: {INTENDED_MODEL} · {INTENDED_EFFORT}.",
         "caveat": (
             "Checks all deduplicated retained-local turn_context records; missing or deleted local logs "
-            "cannot be reconstructed."
+            "cannot be reconstructed. Exact acknowledged deviations remain visible and do not alter "
+            "their observed model or effort."
         ),
     }
 
@@ -1954,7 +2059,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Exit non-zero if public ledger fields are stale or post-cutover model/effort deviations exist.",
+        help=(
+            "Exit non-zero if public ledger fields are stale, model tracking is unobserved, or "
+            "post-cutover model/effort deviations are unacknowledged."
+        ),
     )
     parser.add_argument("--write", action="store_true", help="Update _data/agentic_usage.yml with the proposed values.")
     parser.add_argument("--dry-run", action="store_true", help="Show the proposed write output without changing files.")
@@ -1976,9 +2084,11 @@ def model_deviation_messages(model_tracking: dict[str, Any]) -> list[str]:
     return [
         (
             f"{item['timestamp']} turn {item['turn_id']} used "
-            f"{item['model']}/{item['effort']} instead of {INTENDED_MODEL}/{INTENDED_EFFORT}"
+            f"{item['model']}/{item['effort']} instead of {INTENDED_MODEL}/{INTENDED_EFFORT}; "
+            f"not acknowledged by model-deviation policy v{MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION}"
         )
         for item in model_tracking.get("post_cutover_deviations", [])
+        if not item.get("acknowledged", False)
     ]
 
 
@@ -2071,13 +2181,13 @@ def main() -> int:
                 for issue in history_issues:
                     print(f"- {issue}")
             if model_issues:
-                print("Post-cutover model/effort check is not aligned:")
+                print("Post-cutover model/effort policy is not accepted:")
                 for issue in model_issues:
                     print(f"- {issue}")
             return 1
         print(
             "Agentic usage ledger public fields and account snapshot are fresh; "
-            "post-cutover model/effort check is aligned."
+            "post-cutover model/effort policy is accepted."
         )
         return 0
 
@@ -2108,7 +2218,9 @@ def main() -> int:
         "model_tracking: "
         f"{model_tracking['status']} "
         f"({model_tracking['post_cutover_turns_observed']} retained turns, "
-        f"{model_tracking['post_cutover_deviation_count']} deviations)"
+        f"{model_tracking['post_cutover_deviation_count']} deviations: "
+        f"{model_tracking['post_cutover_acknowledged_deviation_count']} acknowledged, "
+        f"{model_tracking['post_cutover_unacknowledged_deviation_count']} unacknowledged)"
     )
     current = load_current_ledger(repo_root)
     if yaml is None:

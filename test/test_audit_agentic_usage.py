@@ -275,8 +275,140 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertGreater(result["model_effort_breakdown"]["gpt-5.5/medium"]["raw_hours"], 0)
         self.assertEqual(tracking["post_cutover_turns_observed"], 2)
         self.assertEqual(tracking["post_cutover_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 1)
         self.assertEqual(tracking["status"], "deviation_detected")
         self.assertEqual(len(audit.model_deviation_messages(tracking)), 1)
+
+    def test_exact_known_deviation_is_acknowledged_without_hiding_observed_values(self) -> None:
+        turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
+        policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+        timestamp = audit.parse_timestamp(policy["timestamp"])
+        assert timestamp is not None
+        context = audit.TurnContextRecord(
+            timestamp=timestamp,
+            leaf_session_id="known-deviation",
+            turn_id=turn_id,
+            model=policy["model"],
+            effort=policy["effort"],
+            path=Path("known-deviation.jsonl"),
+            ordinal=1,
+        )
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn={turn_id: context},
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        rendered = tracking["post_cutover_deviations"][0]
+        self.assertEqual(rendered["model"], "gpt-5.4-mini")
+        self.assertEqual(rendered["effort"], "ultra")
+        self.assertTrue(rendered["acknowledged"])
+        self.assertTrue(rendered["acknowledgment"]["signature_matches"])
+        self.assertTrue(rendered["acknowledgment"]["reason"])
+        self.assertTrue(rendered["acknowledgment"]["provenance"])
+
+    def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 1)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 5)
+        required_fields = {
+            "timestamp",
+            "model",
+            "effort",
+            "acknowledged_at",
+            "reason",
+            "provenance",
+        }
+        for turn_id, policy in audit.MODEL_DEVIATION_ACKNOWLEDGMENTS.items():
+            with self.subTest(turn_id=turn_id):
+                self.assertTrue(required_fields.issubset(policy))
+                self.assertTrue(all(policy[field_name].strip() for field_name in required_fields))
+                self.assertIsNotNone(audit.parse_timestamp(policy["timestamp"]))
+                self.assertEqual(
+                    datetime.strptime(policy["acknowledged_at"], "%Y-%m-%d").strftime("%Y-%m-%d"),
+                    policy["acknowledged_at"],
+                )
+
+    def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
+        turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
+        policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+        timestamp = audit.parse_timestamp(policy["timestamp"])
+        assert timestamp is not None
+
+        mutations = {
+            "timestamp": timestamp + timedelta(seconds=1),
+            "model": "gpt-5.5",
+            "effort": "high",
+        }
+        for field_name, replacement in mutations.items():
+            with self.subTest(field_name=field_name):
+                fields = {
+                    "timestamp": timestamp,
+                    "model": policy["model"],
+                    "effort": policy["effort"],
+                }
+                fields[field_name] = replacement
+                context = audit.TurnContextRecord(
+                    timestamp=fields["timestamp"],
+                    leaf_session_id=f"mutated-{field_name}",
+                    turn_id=turn_id,
+                    model=fields["model"],
+                    effort=fields["effort"],
+                    path=Path(f"mutated-{field_name}.jsonl"),
+                    ordinal=1,
+                )
+                tracking = audit.build_model_tracking(
+                    audit.UsageDataset(
+                        sessions={},
+                        usage_events=[],
+                        contexts_by_turn={turn_id: context},
+                        source_counts={},
+                    )
+                )
+
+                self.assertEqual(tracking["status"], "deviation_detected")
+                self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 0)
+                self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 1)
+                rendered = tracking["post_cutover_deviations"][0]
+                self.assertFalse(rendered["acknowledged"])
+                self.assertFalse(rendered["acknowledgment"]["signature_matches"])
+                self.assertEqual(len(audit.model_tracking_check_messages(tracking)), 1)
+
+    def test_new_unknown_deviation_fails_closed(self) -> None:
+        turn_id = "new-provider-managed-worker"
+        context = audit.TurnContextRecord(
+            timestamp=audit.GPT_5_6_CUTOVER_UTC + timedelta(minutes=1),
+            leaf_session_id="unknown-deviation",
+            turn_id=turn_id,
+            model="gpt-5.6-sol",
+            effort="medium",
+            path=Path("unknown-deviation.jsonl"),
+            ordinal=1,
+        )
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn={turn_id: context},
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "deviation_detected")
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 1)
+        issues = audit.model_tracking_check_messages(tracking)
+        self.assertEqual(len(issues), 1)
+        self.assertIn(turn_id, issues[0])
+        self.assertIn("not acknowledged", issues[0])
 
     def test_default_sessions_root_scans_all_year_directories(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

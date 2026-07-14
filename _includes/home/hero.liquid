@@ -128,7 +128,8 @@
         class="home-portrait-frame{% if meme_records %} home-profile-recordable{% elsif page.profile.image_hovers %} home-profile-swappable{% endif %}"
         id="home-profile-image-container"
         tabindex="0"
-        aria-label="Sirui Tao portrait meme-record preview"
+        aria-label="Sirui Tao portrait meme-record preview. Shake or press D to discover a record card."
+        title="Shake, swipe, or press D to discover a record card"
         {% if meme_records %}
           data-record-images="{% for record in meme_records %}{{ record.image | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
           data-record-titles="{% for record in meme_records %}{{ record.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"

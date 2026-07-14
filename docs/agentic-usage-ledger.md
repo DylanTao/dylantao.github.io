@@ -47,7 +47,15 @@ Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the
 - Desk commits are path-scoped to `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, and `assets/img/home`.
 - Desk tokens and hours are **not** path-attributed. They are an all-repo retained-session time-window estimate after the desk cutoff, because session logs do not reliably map each token to a changed file.
 
-Model cutover: July 9, 2026 at 2:28:23 PM Pacific (`2026-07-09T21:28:23.394Z`). Development work is intended to use `gpt-5.6-sol` with `ultra` effort from that point. `model_tracking` checks the deduplicated all-local retained context inventory so the global development-default policy remains observable even when this repo's cwd-attributed sessions are unavailable; site usage scopes remain repo-filtered and preserve their last audited nonzero snapshot. The `since_gpt_5_6` scope measures repo-attributed retained-session usage after this boundary, and `--check` fails if any retained-local post-cutover `turn_context` names another model or effort. If no post-cutover contexts remain anywhere in retained local history, tracking is `unobserved` and the check fails rather than claiming alignment.
+Model cutover: July 9, 2026 at 2:28:23 PM Pacific (`2026-07-09T21:28:23.394Z`). Development work is intended to use `gpt-5.6-sol` with `ultra` effort from that point. `model_tracking` checks the deduplicated all-local retained context inventory so the global development-default policy remains observable even when this repo's cwd-attributed sessions are unavailable; site usage scopes remain repo-filtered and preserve their last audited nonzero snapshot. The `since_gpt_5_6` scope measures repo-attributed retained-session usage after this boundary. If no post-cutover contexts remain anywhere in retained local history, tracking is `unobserved` and the check fails rather than claiming alignment.
+
+### Model-Deviation Acknowledgment Contract
+
+- `bin/audit_agentic_usage.py` owns the versioned `MODEL_DEVIATION_ACKNOWLEDGMENTS` mapping. Every entry is turn-specific and records the exact retained timestamp, model, effort, acknowledgment date, reason, and provenance. It is not a model-wide exception or an environment bypass.
+- A mapped turn is acknowledged only when its complete `(turn_id, timestamp, model, effort)` signature still matches. A new turn id, a changed signature, or an incomplete reason/provenance remains unacknowledged and fails closed.
+- `model_tracking` always renders every observed deviation with its original model and effort, plus total, acknowledged, and unacknowledged counts. `acknowledged_deviations` means the retained evidence is accepted under the named policy version; it does not mean the turns were aligned or relabeled.
+- `--check` fails when tracking is `unobserved` or any deviation is unacknowledged. Adding another acknowledgment requires a reviewed per-turn entry, a policy-version bump, updated focused tests, and a regenerated ledger.
+- The public note remains the declared current default, `gpt-5.6-sol` / `ultra`; it is not a claim that every historical retained turn matched that default.
 
 ## Energy and Cut-Tree Equivalence
 
@@ -91,7 +99,7 @@ python bin/audit_agentic_usage.py --write --include-pending-commit
 npx.cmd prettier _data/agentic_usage.yml --write
 ```
 
-The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to repo-wide scopes that have worktree changes and to the desk scope only when a desk path changed. `--check` also enforces the post-cutover `gpt-5.6-sol` / `ultra` contract against all retained-local contexts.
+The helper is read-only by default. With `--write`, it updates `_data/agentic_usage.yml`; with `--include-pending-commit`, it adds one pending commit to repo-wide scopes that have worktree changes and to the desk scope only when a desk path changed. `--check` also enforces the post-cutover `gpt-5.6-sol` / `ultra` contract against all retained-local contexts, accepting only exact deviations recorded in the versioned acknowledgment mapping.
 
 If no retained site-cwd usage can be attributed on the current machine, the helper preserves the previously audited site-revamp token/hour snapshot while still refreshing commit counts. It never replaces a nonzero audited scope with zeros merely because local session attribution is unavailable. The cumulative `local_lifetime` scope is monotonic and fails closed more strictly: an empty or lower retained-archive scan preserves the last audited snapshot, while a genuinely nondecreasing scan refreshes it. This prevents cross-machine or deleted-log gaps from making retained lifetime evidence silently shrink.
 
@@ -114,6 +122,7 @@ This repo has a project-local Codex `PreToolUse` hook in `.codex/hooks.json`. It
 
 - Normal `git commit` runs `python bin/audit_agentic_usage.py --check --include-pending-commit`; `git commit --amend` and `git push` run `python bin/audit_agentic_usage.py --check`.
 - If public ledger fields are stale, the hook blocks and asks Codex to run the matching `--write` audit command, review `_data/agentic_usage.yml`, and stage only intended files.
+- If model tracking is unobserved or contains any unacknowledged deviation, the hook blocks. There is no command-line or environment bypass; acknowledgment requires a reviewed source-mapping change.
 - If staged paths touch publication or citation surfaces, the hook requires today's `_data/citations.yml` snapshot and keeps `_data/citations.yml` plus `_data/publication_lens.yml` staged together.
 - For unrelated work, Scholar data more than one day stale becomes model-visible context instead of a block, because the daily GitHub workflow remains the routine refresh path.
 - Codex requires changed repo-local hooks to be reviewed and trusted through `/hooks`.
@@ -350,6 +359,14 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 - Public-CV truth checkpoint: replaced the four-page public PDF, synchronized the web and downloadable JSON projections, and corrected UIST 2026 service to `Special Recognition for 2 + Highly Useful for 2`.
 - Pending public totals: 333 revamp commits, 3.83B rounded retained-session tokens, 289 rounded agent-hours, 2298 kWh, about 1.4 ten-year urban trees' stored-carbon equivalent, and about $3.3K under the request-aware API-rate replay. The desk path remains 116 commits; its all-repo post-cutoff estimate moved to 2.75B tokens and 175 hours.
 - Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned 393 retained local and 171 repo-attributed leaf sessions, retained 28,902 additive usage events after skipping 58,937 copied/repeated snapshots and 21,447 fork-preamble events, and refreshed `_data/agentic_usage.yml`. The two JSON projections matched, the service line rendered in the production `/al-folio` build, and all four PDF pages were rendered and inspected without clipping or overlap.
+
+### 2026-07-14
+
+- Restrained-motion and reciprocal-navigation checkpoint: bounded the research-motion response to its canvas, restored the four-stat homepage ledger and additions/deletions build-rhythm evidence, refined Human/AI route counterparts and no-JavaScript navigation, accepted the reciprocal cliff-room architecture after current-source scene QA, and fixed a desktop initial-anchor race found by the final sitewide matrix.
+- Account-owned snapshot: the authenticated refresh at `2026-07-14T16:52:11.252952Z` reported 24,113,293,841 lifetime tokens across 838 conversations. The recent series peaks at 2,158,343,669 tokens on July 13; July 14 remains partial.
+- Published public totals: 336 revamp commits, 5.13B rounded retained-session tokens, 364 rounded agent-hours, 3078 kWh, about 1.9 ten-year urban trees' stored-carbon equivalent, and about $4.5K under the request-aware API-rate replay. The desk window is 117 path-scoped commits, 4.05B rounded retained-session tokens, and 250 rounded hours; its compact scene note still renders only commits and tokens.
+- Model-policy inventory: 435 retained post-cutover contexts include 430 `gpt-5.6-sol/ultra` contexts, the two previously recorded July 11 `gpt-5.4-mini` routing-smoke deviations, two July 14 provider-managed Plan-mode usage-reset planning turns recorded as `gpt-5.6-sol/medium` (the first was interrupted), and one July 14 provider-managed automation worker recorded as `gpt-5.6-sol/high`. Policy v1 acknowledges those five exact retained-turn signatures with per-turn reason and provenance, so the computed status is `acknowledged_deviations` with five acknowledged and zero unacknowledged. Their original values remain visible; any new or mismatched deviation still fails the publish hook closed.
+- Evidence: the post-commit `python bin/audit_agentic_usage.py --write` scanned 490 local and 222 repo-attributed leaf sessions, retained 36,466 additive usage-event sources after skipping 179,248 copied/repeated snapshots and 86,029 fork-preamble events, and refreshed the ledger, account history, and public projection. The final production scene matrix passed 18 required states with 34 intentional viewport guards; the legacy homepage slice passed 7 states with 3 intentional mobile skips; the sitewide matrix passed 71 states with 21 intentional skips; and the Human/AI counterpart stress repeated cleanly 5/5. The targeted production-baseurl bundle passed seven cases, generated publication/AI-readable outputs validated, and the production Jekyll build completed with only the documented citation, `jupyter-nbconvert`, and Rails deprecation warnings.
 
 ## Future Entry Template
 

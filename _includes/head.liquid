@@ -29,6 +29,15 @@
     --max-content-width: {{ site.max_width | default: '930px' }};
   }
 </style>
+{% if page.ai_profile %}
+  <noscript>
+    <style>
+      html {
+        scroll-behavior: auto !important;
+      }
+    </style>
+  </noscript>
+{% endif %}
 
 <!-- Tailwind-first core styles -->
 <link rel="stylesheet" href="{{ '/assets/css/tailwind.css' | relative_url | bust_file_cache }}">
@@ -106,9 +115,11 @@
 {% if page.layout == 'cv' and site.plugins contains 'al_folio_cv' and site.al_folio.features.cv.enabled != false %}
   <link rel="stylesheet" href="{{ '/assets/css/al-folio-cv.css' | relative_url | bust_file_cache }}">
 {% endif %}
-<link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="Sirui Tao AI-readable site index">
 {% if page.ai_profile %}
   <link rel="alternate" type="text/plain" href="{{ '/llms-full.txt' | absolute_url }}" title="Sirui Tao full AI-readable profile">
+{% elsif page.permalink == '/' %}
+  <link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="Sirui Tao AI-readable site index">
+{% elsif page.permalink == '/publications/' %}
   <link rel="alternate" type="application/json" href="{{ '/ai/publications.json' | absolute_url }}" title="Sirui Tao publications JSON">
 {% elsif page.publication %}
   <link rel="alternate" type="text/markdown" href="{{ page.publication.links.markdown }}" title="Publication context as Markdown">

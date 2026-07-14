@@ -13,6 +13,9 @@
     const readoutSummary = section.querySelector(".home-motion-readout strong");
     const status = section.querySelector("[data-research-motion-status]");
     const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const hasIntersectionObserver = "IntersectionObserver" in window;
+    const MAX_INTERACTION_INTENT = 0.72;
+    const POINTER_EDGE_RAMP = 0.08;
 
     const knownModes = new Set(["design", "evaluate", "situated"]);
     const buttonForMode = (mode) => buttons.find((button) => button.getAttribute("data-research-mode") === mode);
@@ -32,7 +35,7 @@
       height: 0,
       dpr: 1,
       raf: null,
-      visible: true,
+      visible: !hasIntersectionObserver,
       reduceMotion: reduceMotionQuery.matches,
       geometry: {},
       pointer: {
@@ -80,6 +83,22 @@
       return "transparent";
     };
     const canCrossfadeModes = () => !state.reduceMotion && state.width >= 560;
+    const resetPointerTarget = () => {
+      state.pointer.active = false;
+      state.pointer.targetIntent = 0;
+      state.pointer.tx = 0.5;
+      state.pointer.ty = 0.5;
+    };
+    const motionSnapshot = () => ({
+      active: state.pointer.active,
+      intent: state.pointer.intent,
+      targetIntent: state.pointer.targetIntent,
+      kineticEnergy: state.kineticEnergy,
+      maxInteractionIntent: MAX_INTERACTION_INTENT,
+      visible: state.visible,
+      reducedMotion: state.reduceMotion,
+      running: Boolean(state.raf),
+    });
 
     const palette = () => ({
       bgA: cssVar("--research-motion-bg-a", "#fffaf6"),
@@ -273,10 +292,13 @@
     };
 
     const updatePointer = () => {
-      const speed = state.pointer.targetIntent > 0 ? 0.092 : 0.055;
-      state.pointer.x = lerp(state.pointer.x, state.pointer.tx, speed);
-      state.pointer.y = lerp(state.pointer.y, state.pointer.ty, speed);
-      state.pointer.intent = lerp(state.pointer.intent, state.pointer.targetIntent, state.pointer.targetIntent > 0 ? 0.066 : 0.09);
+      const hasTarget = state.pointer.targetIntent > 0;
+      const positionSpeed = hasTarget ? 0.07 : 0.045;
+      const intentSpeed = hasTarget ? 0.055 : 0.072;
+      state.pointer.x = lerp(state.pointer.x, state.pointer.tx, positionSpeed);
+      state.pointer.y = lerp(state.pointer.y, state.pointer.ty, positionSpeed);
+      state.pointer.intent = clamp(lerp(state.pointer.intent, state.pointer.targetIntent, intentSpeed), 0, MAX_INTERACTION_INTENT);
+      if (!hasTarget && state.pointer.intent < 0.001) state.pointer.intent = 0;
     };
 
     const updateKineticEnergy = (now) => {
@@ -284,7 +306,7 @@
         state.kineticEnergy = 0;
       } else {
         const modePulse = clamp(1 - (now - state.pulseStartedAt) / 860, 0, 1);
-        state.kineticEnergy = clamp(Math.max(state.pointer.intent, modePulse * 0.72), 0, 1);
+        state.kineticEnergy = clamp(Math.max(state.pointer.intent, modePulse * MAX_INTERACTION_INTENT), 0, MAX_INTERACTION_INTENT);
       }
 
       const energyState = state.kineticEnergy > 0.12 ? "engaged" : "resting";
@@ -676,38 +698,44 @@
 
     const updatePointerFromEvent = (event) => {
       if (state.reduceMotion) return;
-      const rect = wrap.getBoundingClientRect();
-      const dx = event.clientX < rect.left ? rect.left - event.clientX : event.clientX > rect.right ? event.clientX - rect.right : 0;
-      const dy = event.clientY < rect.top ? rect.top - event.clientY : event.clientY > rect.bottom ? event.clientY - rect.bottom : 0;
-      const distance = Math.hypot(dx, dy);
-      const cushion = clamp(Math.min(rect.width, rect.height) * 0.82, 160, 320);
-      const proximity = clamp(1 - distance / cushion, 0, 1);
-      const intent = easeOutCubic(proximity);
+      const rect = canvas.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / Math.max(1, rect.width);
+      const y = (event.clientY - rect.top) / Math.max(1, rect.height);
+      const insideCanvas = x >= 0 && x <= 1 && y >= 0 && y <= 1;
 
-      state.pointer.active = intent > 0.02;
+      if (!insideCanvas) {
+        resetPointerTarget();
+        start();
+        return;
+      }
+
+      const edgeDistance = Math.min(x, 1 - x, y, 1 - y);
+      const interiorIntent = easeOutCubic(clamp(edgeDistance / POINTER_EDGE_RAMP, 0, 1));
+      const intent = clamp(interiorIntent * MAX_INTERACTION_INTENT, 0, MAX_INTERACTION_INTENT);
+
+      state.pointer.active = intent > 0.01;
       state.pointer.targetIntent = intent;
-      state.pointer.tx = clamp((event.clientX - rect.left) / rect.width, 0, 1);
-      state.pointer.ty = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+      state.pointer.tx = clamp(x, 0, 1);
+      state.pointer.ty = clamp(y, 0, 1);
       if (state.pointer.active) start();
     };
 
-    section.addEventListener("pointermove", updatePointerFromEvent);
+    canvas.addEventListener("pointermove", updatePointerFromEvent);
 
-    section.addEventListener("pointerleave", () => {
-      state.pointer.active = false;
-      state.pointer.targetIntent = 0;
-      state.pointer.tx = 0.5;
-      state.pointer.ty = 0.5;
+    canvas.addEventListener("pointerleave", () => {
+      resetPointerTarget();
+      start();
+    });
+
+    wrap.addEventListener("research-motion-request-state", () => {
+      wrap.dispatchEvent(new CustomEvent("research-motion-state", { detail: motionSnapshot() }));
     });
 
     reduceMotionQuery.addEventListener("change", (event) => {
       state.reduceMotion = event.matches;
       state.previousMode = null;
-      state.pointer.active = false;
+      resetPointerTarget();
       state.pointer.intent = 0;
-      state.pointer.targetIntent = 0;
-      state.pointer.tx = 0.5;
-      state.pointer.ty = 0.5;
       if (state.reduceMotion) {
         stop();
         render(performance.now());
@@ -726,13 +754,17 @@
 
     window.addEventListener("siteThemeChange", () => render(performance.now()));
 
-    if ("IntersectionObserver" in window) {
+    if (hasIntersectionObserver) {
       const observer = new IntersectionObserver(
         (entries) => {
           state.visible = entries.some((entry) => entry.isIntersecting);
           if (state.visible) {
             start();
           } else {
+            resetPointerTarget();
+            state.pointer.intent = 0;
+            state.kineticEnergy = 0;
+            wrap.setAttribute("data-motion-energy", "resting");
             stop();
           }
         },

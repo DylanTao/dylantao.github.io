@@ -21,22 +21,27 @@ layout: default
         <div class="contact-icons">{% social_links %}</div>
         {% assign agentic_usage = site.data.agentic_usage %}
         {% if agentic_usage.total %}
-          <div class="home-agentic-tally" aria-label="Codex tokens and site commits used for this site revamp">
+          {% assign total_energy = agentic_usage.total.energy_equivalence %}
+          <div
+            class="home-agentic-tally"
+            aria-label="Site revamp ledger: estimated Codex tokens and agent-hours, exact Git commit count, and estimated energy-equivalence"
+          >
             <p class="home-agentic-kicker">
               <span class="home-agentic-kicker-copy">Build ledger · since {{ agentic_usage.total.since_label }}</span>
               <span class="home-agentic-info-wrap home-agentic-info-wrap-kicker">
                 <button
                   type="button"
                   class="home-agentic-info"
-                  aria-label="How the site-build token and commit totals are calculated"
+                  aria-label="How the site-build usage totals are calculated"
                   aria-describedby="home-agentic-tooltip"
                 >
                   i
                 </button>
                 <span id="home-agentic-tooltip" class="home-agentic-tooltip" role="tooltip">
                   <span class="home-agentic-tooltip-main">
-                    Site-build tokens are estimated from retained Codex logs. Site commits come from this repository's Git history. The activity page
-                    keeps account-wide Codex tokens and GitHub commits on their own time horizons.
+                    Site-build tokens and agent-hours are estimated from retained Codex logs. The commit count is exact from this repository's Git
+                    history. Energy is an estimated equivalence using a midpoint of {{ total_energy.wh_per_token_midpoint }} Wh per token, not
+                    measured electricity use.
                   </span>
                 </span>
               </span>
@@ -47,9 +52,19 @@ layout: default
                 <dd>site-build tokens</dd>
               </div>
               <div class="home-agentic-stat">
+                <dt>{{ agentic_usage.total.hours_label }}</dt>
+                <dd>agent-hours</dd>
+              </div>
+              <div class="home-agentic-stat">
                 <dt>{{ agentic_usage.total.commits }}</dt>
                 <dd>site commits</dd>
               </div>
+              {% if total_energy %}
+                <div class="home-agentic-stat">
+                  <dt>{{ total_energy.kwh_midpoint }}</dt>
+                  <dd>est. kWh</dd>
+                </div>
+              {% endif %}
             </dl>
             {% assign account_lifetime = agentic_usage.account_lifetime %}
             {% assign all_github_commits = 0 %}
