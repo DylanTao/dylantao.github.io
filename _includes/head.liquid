@@ -106,7 +106,15 @@
 {% if page.layout == 'cv' and site.plugins contains 'al_folio_cv' and site.al_folio.features.cv.enabled != false %}
   <link rel="stylesheet" href="{{ '/assets/css/al-folio-cv.css' | relative_url | bust_file_cache }}">
 {% endif %}
-<link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+<link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="Sirui Tao AI-readable site index">
+{% if page.ai_profile %}
+  <link rel="alternate" type="text/plain" href="{{ '/llms-full.txt' | absolute_url }}" title="Sirui Tao full AI-readable profile">
+  <link rel="alternate" type="application/json" href="{{ '/ai/publications.json' | absolute_url }}" title="Sirui Tao publications JSON">
+{% elsif page.publication %}
+  <link rel="alternate" type="text/markdown" href="{{ page.publication.links.markdown }}" title="Publication context as Markdown">
+  <link rel="alternate" type="application/x-bibtex" href="{{ page.publication.links.bibtex }}" title="Publication BibTeX">
+  <link rel="alternate" type="application/x-research-info-systems" href="{{ page.publication.links.ris }}" title="Publication RIS">
+{% endif %}
 
 {% if site.enable_darkmode %}
   <!-- Dark Mode -->

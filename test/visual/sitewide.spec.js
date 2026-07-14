@@ -49,6 +49,20 @@ async function expectCompactBlogOpening(page) {
   expect(openingBox.y, "mobile blog chrome delays the opening paragraph too far down").toBeLessThan(780);
 }
 
+async function exerciseScrollReveals(page, selector) {
+  const items = page.locator(selector);
+  const count = await items.count();
+
+  for (let index = 0; index < count; index += 1) {
+    await items.nth(index).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(60);
+  }
+
+  await expect(page.locator(`${selector}.site-reveal:not(.site-visible)`)).toHaveCount(0);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.waitForTimeout(450);
+}
+
 async function exercisePublicRoute(page, route, theme, testInfo) {
   const runtimeErrors = collectRuntimeErrors(page);
 
@@ -122,11 +136,18 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       const lensTop = await page.locator(".publication-lens-column").evaluate((element) => element.getBoundingClientRect().top);
       expect(paperTop, "mobile publications should place papers before the Scholar lens").toBeLessThan(lensTop);
     }
+    if (route.id === "ai-profile") {
+      await expect(page.locator("[data-publication-key]")).toHaveCount(5);
+      await expect(page.locator('.site-format-link[aria-current="true"]')).toHaveText("AI");
+    }
   }
 
   await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}`, { fullPage: false });
 
   if (theme === "light" && route.fullPage && ["desktop-1440", "mobile-390"].includes(testInfo.project.name)) {
+    if (route.id === "publications") {
+      await exerciseScrollReveals(page, ".publications ol.bibliography > li");
+    }
     await attachScreenshot(page, testInfo, `${route.id}-light-${testInfo.project.name}-full-page`, { fullPage: true });
   }
 }

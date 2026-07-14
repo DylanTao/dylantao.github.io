@@ -1,0 +1,127 @@
+---
+layout: page
+---
+{% assign paper = page.publication %}
+<div class="publication-context-page" data-publication-context-page="{{ paper.key }}">
+  <header class="publication-context-hero">
+    <div class="publication-context-hero-copy">
+      <p class="publication-context-kicker">
+        {{ paper.abbreviation }}
+        {{ paper.year }} · Source-reviewed citation guide
+      </p>
+      <h1>{{ paper.title }}</h1>
+      <p class="publication-context-byline">
+        {% for author in paper.authors %}
+          {{ author.name -}}
+          {%- unless forloop.last %}; {% endunless %}
+        {% endfor %}
+      </p>
+      <p class="publication-context-venue">
+        {{ paper.venue -}}
+        {%- if paper.note %} · {{ paper.note }}{% endif %}
+      </p>
+      <p class="publication-context-tldr">{{ paper.tldr }}</p>
+      <div class="publication-context-actions" aria-label="Publication resources">
+        {% if paper.links.pdf -%}
+          <a href="{{ paper.links.pdf }}">PDF</a>
+        {%- endif %}
+        {% if paper.links.doi -%}
+          <a href="{{ paper.links.doi }}">DOI</a>
+        {%- endif %}
+        {% if paper.links.arxiv -%}
+          <a href="{{ paper.links.arxiv }}">arXiv</a>
+        {%- endif %}
+        {% if paper.links.website -%}
+          <a href="{{ paper.links.website }}">Paper site</a>
+        {%- endif %}
+        {% if paper.links.code -%}
+          <a href="{{ paper.links.code }}">Code</a>
+        {%- endif %}
+        <a href="{{ paper.links.markdown_path }}">Markdown</a>
+        <a href="{{ paper.links.bibtex_path }}">BibTeX</a>
+        <a href="{{ paper.links.ris_path }}">RIS</a>
+      </div>
+    </div>
+
+    <aside class="publication-context-trust" aria-label="Citation guide provenance">
+      <span>Use this guide for</span>
+      <strong>Choosing and scoping a citation</strong>
+      <p>Claims below were checked against the paper or its official project record on {{ paper.provenance.reviewed_on }}.</p>
+    </aside>
+  </header>
+
+  <section class="publication-context-section publication-context-why" aria-labelledby="when-to-cite-heading">
+    <p class="publication-context-label">When to cite this work</p>
+    <h2 id="when-to-cite-heading">{{ paper.why_cite.statement }}</h2>
+    <ul class="publication-context-cite-when">
+      {% for item in paper.why_cite.cite_when %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <div class="publication-context-evidence-grid">
+    <section class="publication-context-section" aria-labelledby="contributions-heading">
+      <p class="publication-context-label">Contribution</p>
+      <h2 id="contributions-heading">What this paper adds</h2>
+      <ul>
+        {% for item in paper.why_cite.contributions %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="publication-context-section" aria-labelledby="evidence-heading">
+      <p class="publication-context-label">Evidence</p>
+      <h2 id="evidence-heading">What the paper reports</h2>
+      <ul>
+        {% for item in paper.why_cite.evidence %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="publication-context-section publication-context-boundary" aria-labelledby="boundaries-heading">
+      <p class="publication-context-label">Boundary</p>
+      <h2 id="boundaries-heading">What it does not establish</h2>
+      <ul>
+        {% for item in paper.why_cite.boundaries %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+
+  <section class="publication-context-section publication-context-abstract" aria-labelledby="abstract-heading">
+    <p class="publication-context-label">Paper abstract</p>
+    <h2 id="abstract-heading">The authors' summary</h2>
+    <p>{{ paper.abstract }}</p>
+  </section>
+
+  <section class="publication-context-section publication-context-citation" aria-labelledby="citation-heading">
+    <div>
+      <p class="publication-context-label">Canonical citation data</p>
+      <h2 id="citation-heading">Use the source, not a guessed citation.</h2>
+      <p>
+        The downloadable BibTeX and RIS are derived from this site's canonical bibliography entry. The contextual guidance is editorial and is not
+        part of the paper's formal citation.
+      </p>
+    </div>
+    <div class="publication-context-code-links">
+      <a href="{{ paper.links.bibtex_path }}"><span>.bib</span> BibTeX</a>
+      <a href="{{ paper.links.ris_path }}"><span>.ris</span> RIS</a>
+      <a href="{{ paper.links.markdown_path }}"><span>.md</span> Context</a>
+    </div>
+  </section>
+
+  <footer class="publication-context-footer">
+    <p><strong>Sirui's authorship role:</strong> {{ paper.authorship.statement }}</p>
+    <p>
+      <a href="{{ '/publications/' | relative_url }}">All publications</a>
+      <span aria-hidden="true">·</span>
+      <a href="{{ '/ai/' | relative_url }}">AI-friendly profile</a>
+      <span aria-hidden="true">·</span>
+      <a href="{{ '/ai/publications.json' | relative_url }}">Publications JSON</a>
+    </p>
+  </footer>
+</div>

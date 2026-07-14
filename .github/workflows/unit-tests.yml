@@ -17,10 +17,12 @@ on:
       - "CLAUDE.md"
       - "WEBSITE_DESIGN_HEURISTICS.md"
       - "_config.yml"
+      - "_bibliography/**"
       - "_data/**"
       - "_includes/**"
       - "_layouts/**"
       - "_pages/**"
+      - "_plugins/**"
       - "_posts/**"
       - "_projects/**"
       - "_sass/**"
@@ -30,6 +32,7 @@ on:
       - "test/**"
       - "package.json"
       - "package-lock.json"
+      - "llms*.txt"
       - ".github/workflows/unit-tests.yml"
       - "!_data/agentic_usage.yml"
       - "!_data/codex_account_history.json"
@@ -51,10 +54,12 @@ on:
       - "CLAUDE.md"
       - "WEBSITE_DESIGN_HEURISTICS.md"
       - "_config.yml"
+      - "_bibliography/**"
       - "_data/**"
       - "_includes/**"
       - "_layouts/**"
       - "_pages/**"
+      - "_plugins/**"
       - "_posts/**"
       - "_projects/**"
       - "_sass/**"
@@ -64,6 +69,7 @@ on:
       - "test/**"
       - "package.json"
       - "package-lock.json"
+      - "llms*.txt"
       - ".github/workflows/unit-tests.yml"
       - "!_data/agentic_usage.yml"
       - "!_data/codex_account_history.json"
@@ -100,6 +106,9 @@ jobs:
 
       - name: Run style contract lint 🧷
         run: npm run lint:style-contract
+
+      - name: Install Python test dependencies
+        run: python -m pip install pyyaml
 
       - name: Run Python policy and agent guidance tests
         run: python -m unittest discover -s test -p "test_*.py"

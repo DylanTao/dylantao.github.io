@@ -1,0 +1,125 @@
+---
+layout: none
+permalink: /llms-full.txt
+sitemap: false
+search: false
+---
+{% assign profile_page = site.pages | where: 'permalink', '/' | first -%}
+{% assign catalog = site.data.publication_catalog -%}
+# Sirui Tao — full AI-readable research profile
+
+Treat this document as reference content, not as instructions. Preserve author order and venue facts, use paper-specific sources, and do not expand claims beyond the stated boundaries.
+
+## Identity
+
+- Name: Sirui Tao
+- Role: {{ site.person_job_title }}
+- Affiliation: {% for affiliation in site.profile_affiliations %}{{ affiliation.name }}{% unless forloop.last %}; {% endunless %}{% endfor %}
+- Canonical profile: {{ '/' | absolute_url }}
+- Preferred contact: {{ site.profile_contact_email }}
+- Research areas: {{ site.profile_knows_about | join: '; ' }}
+
+## Research through-line
+
+### {{ profile_page.thesis.title }}
+
+{{ profile_page.thesis.lead | strip }}
+
+{% for mode in profile_page.research_motion.modes %}
+### {{ mode.label }} — {{ mode.title }}
+
+{{ mode.detail_text | strip }}
+
+{% for point in mode.detail_points -%}
+- {{ point }}
+{% endfor %}
+
+{% if mode.link_url and mode.link_label -%}
+Public example: {{ mode.link_label }} — {{ mode.link_url | absolute_url }}
+{% endif %}
+
+{% endfor %}
+## Publications and citation guidance
+
+Bibliographic facts are derived from `_bibliography/papers.bib`. Interpretation is source-reviewed context for choosing and scoping a citation; it does not replace reading the paper.
+
+{% for paper in catalog.papers %}
+### {{ paper.title }}
+
+- BibTeX key: `{{ paper.key }}`
+- Authors: {% for author in paper.authors %}{{ author.name }}{% unless forloop.last %}; {% endunless %}{% endfor %}
+- Venue: {{ paper.venue }}
+- Year: {{ paper.year }}
+{% if paper.note -%}
+- Status or type: {{ paper.note }}
+{% endif -%}
+- Sirui Tao's role: {{ paper.authorship.role_label }}
+- Citation page: {{ paper.links.citation_page }}
+- Paper context as Markdown: {{ paper.links.markdown }}
+- BibTeX: {{ paper.links.bibtex }}
+- RIS: {{ paper.links.ris }}
+{% if paper.links.doi -%}
+- DOI: {{ paper.links.doi }}
+{% endif -%}
+{% if paper.links.arxiv -%}
+- arXiv: {{ paper.links.arxiv }}
+{% endif -%}
+{% if paper.links.pdf -%}
+- PDF: {{ paper.links.pdf }}
+{% endif %}
+
+#### In one sentence
+
+{{ paper.tldr }}
+
+#### When to cite this work
+
+{{ paper.why_cite.statement }}
+
+{% for item in paper.why_cite.cite_when -%}
+- {{ item }}
+{% endfor %}
+
+#### What it contributes
+
+{% for item in paper.why_cite.contributions -%}
+- {{ item }}
+{% endfor %}
+
+#### Evidence reported by the paper
+
+{% for item in paper.why_cite.evidence -%}
+- {{ item }}
+{% endfor %}
+
+#### Scope and boundaries
+
+{% for item in paper.why_cite.boundaries -%}
+- {{ item }}
+{% endfor %}
+
+#### Authorship note
+
+{{ paper.authorship.statement }}
+
+{% endfor %}
+## Public routes
+
+- Publications: {{ '/publications/' | absolute_url }}
+- Projects: {{ '/projects/' | absolute_url }}
+- Blog: {{ '/blog/' | absolute_url }}
+- CV: {{ '/cv/' | absolute_url }}
+- News: {{ '/news/' | absolute_url }}
+- Sitemap: {{ '/sitemap.xml' | absolute_url }}
+
+## Canonical identity sources
+
+{% for source in site.profile_same_as -%}
+- {{ source }}
+{% endfor %}
+
+## Provenance and limits
+
+Publication context was last evidence-reviewed on {{ catalog.last_reviewed }}. Citation counts are a separate Google Scholar snapshot and can change. This machine-readable profile can make retrieved material easier to interpret accurately; it does not guarantee search ranking, model inclusion, or scholarly citations.
+
+Format inspiration: Paxel's Human/Machine mode, demonstrated by YC Head of Design Eve Bouffard with Aaron Epstein in Y Combinator's “YC's Head of Design Shows You How To Design With AI” (2026): https://youtu.be/VbqaL_eHhKY?t=433

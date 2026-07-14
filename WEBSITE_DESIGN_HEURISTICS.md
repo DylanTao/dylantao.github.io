@@ -146,6 +146,16 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - A compact influence note can credit Katie Dill and AI in Design 2026, including the line: "AI is sparking a creative renaissance in design."
 - Keep the main page centered on Sirui's work, not on external inspiration.
 
+### Dual-Audience Publishing Intention
+
+- Machine-first content should be route-addressable, server-rendered, semantic, source-linked, and human-auditable. JavaScript may improve copying or state feedback, but it must never gate the research record.
+- A dark terminal aesthetic is not a synonym for AI readability. Preserve the site's theme, use normal reading typography for prose, and reserve monospace for labels, paths, identifiers, and format cues.
+- A why-cite guide must keep contribution, reported evidence, and scope together. It should help a reader decide whether a citation fits without turning an author interpretation into a paper result.
+- Keep bibliographic facts in the canonical bibliography and editorial interpretation in a separately validated overlay. Human cards, machine pages, structured data, and raw citation files should project from that shared contract rather than drift into parallel copies.
+- Treat `/llms.txt`, raw Markdown, and structured data as retrieval aids, not ranking promises. Crawlable HTML, stable paper URLs, searchable PDFs, canonical identifiers, and scholarly indexes remain the discovery foundation.
+- The Human/AI transition is a route change, so use ordinary links with visible current state and a usable mobile fallback. The machine view should remove visual decoding work while remaining welcoming to a human reader.
+- Design influence: the Human/Machine framing adapts [Paxel](https://paxel.ycombinator.com/) as demonstrated by YC Head of Design Eve Bouffard with Aaron Epstein in [Y Combinator's 2026 design walkthrough](https://youtu.be/VbqaL_eHhKY?t=433); the site adds static URLs, no-JavaScript readability, and explicit scholarly provenance.
+
 ## Accessibility And Quality Checks
 
 - Check light mode, dark mode, mobile, tablet, and desktop.

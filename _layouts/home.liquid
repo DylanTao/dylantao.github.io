@@ -21,82 +21,35 @@ layout: default
         <div class="contact-icons">{% social_links %}</div>
         {% assign agentic_usage = site.data.agentic_usage %}
         {% if agentic_usage.total %}
-          {% assign total_energy = agentic_usage.total.energy_equivalence %}
-          {% assign total_cost = agentic_usage.total.api_cost_equivalence %}
-          <div class="home-agentic-tally" aria-label="Estimated Codex and agentic work used for this site revamp">
+          <div class="home-agentic-tally" aria-label="Codex tokens and site commits used for this site revamp">
             <p class="home-agentic-kicker">
-              <span class="home-agentic-tree-label home-agentic-kicker-copy">
-                {% if total_energy %}
-                  <svg class="home-agentic-tree-mark" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
-                    <path d="M5.7 14.4h6.6" />
-                    <path d="M9 13.8V8.4" />
-                    <path d="M9 8.9c-2.1-.1-3.6-1.3-4.2-3.4 2.5-.3 4.2.8 4.7 2.8" />
-                    <path d="M9.1 8.8c1.8-.1 3.1-1.1 3.8-2.9-2.1-.3-3.7.6-4.2 2.3" />
-                    <path d="M6.5 14.3c.5-.9 1.3-1.4 2.5-1.4s2 .5 2.5 1.4" />
-                  </svg>
-                  <span>Trees sacrificed that thou mightest visit this humble hut: ~{{ total_energy.cut_tree_midpoint }}</span>
-                {% endif %}
-              </span>
+              <span class="home-agentic-kicker-copy">Build ledger · since {{ agentic_usage.total.since_label }}</span>
               <span class="home-agentic-info-wrap home-agentic-info-wrap-kicker">
                 <button
                   type="button"
                   class="home-agentic-info"
-                  aria-label="How this agentic ledger and tree estimate are calculated"
+                  aria-label="How the site-build token and commit totals are calculated"
                   aria-describedby="home-agentic-tooltip"
                 >
                   i
                 </button>
                 <span id="home-agentic-tooltip" class="home-agentic-tooltip" role="tooltip">
                   <span class="home-agentic-tooltip-main">
-                    Counted since {{ agentic_usage.total.since_label }}. Estimate: {{ total_energy.kwh_midpoint }} kWh &asymp;
-                    {{ total_energy.kg_co2e_midpoint }} kg CO2e. Tree math: {{ total_energy.kg_co2e_midpoint }} kg /
-                    {{ total_energy.cut_tree_co2e_kg }} kg per ten-year urban tree &asymp; {{ total_energy.cut_tree_midpoint }} tree. Real trees vary.
+                    Site-build tokens are estimated from retained Codex logs. Site commits come from this repository's Git history. The activity page
+                    keeps account-wide Codex tokens and GitHub commits on their own time horizons.
                   </span>
                 </span>
               </span>
             </p>
             <dl class="home-agentic-grid">
               <div class="home-agentic-stat">
-                <dt>
-                  <span>{{ agentic_usage.total.tokens_label }}</span>
-                  {% if total_cost %}
-                    <span class="home-agentic-info-wrap home-agentic-info-wrap-cost">
-                      <button
-                        type="button"
-                        class="home-agentic-info home-agentic-info-cost"
-                        aria-label="How the site-build dollar comparison is calculated"
-                        aria-describedby="home-agentic-cost-tooltip"
-                      >
-                        i
-                      </button>
-                      <span id="home-agentic-cost-tooltip" class="home-agentic-tooltip home-agentic-tooltip-cost" role="tooltip">
-                        <span class="home-agentic-money-gag">
-                          <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
-                          <span>
-                            <strong>Sam's imaginary invoice: {{ total_cost.usd_label | remove: ' API-rate replay' }}</strong>
-                            <small>What the same workload would cost through the public API—not my bill.</small>
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                  {% endif %}
-                </dt>
+                <dt>{{ agentic_usage.total.tokens_label }}</dt>
                 <dd>site-build tokens</dd>
-              </div>
-              <div class="home-agentic-stat">
-                <dt>{{ agentic_usage.total.hours_label }}</dt>
-                <dd>agent-hours</dd>
               </div>
               <div class="home-agentic-stat">
                 <dt>{{ agentic_usage.total.commits }}</dt>
                 <dd>site commits</dd>
               </div>
-              {% if total_energy %}
-                <div class="home-agentic-stat">
-                  <dt>{{ total_energy.kwh_midpoint }}</dt>
-                  <dd>est. kWh</dd>
-                </div>
-              {% endif %}
             </dl>
             {% assign account_lifetime = agentic_usage.account_lifetime %}
             {% assign all_github_commits = 0 %}
@@ -111,9 +64,7 @@ layout: default
                 <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
                 <span class="home-agentic-heartbeat-copy">
                   <strong>{{ account_lifetime.tokens_label }} Codex tokens</strong>
-                  <small>
-                    {{- account_lifetime.api_cost_equivalence.usd_label }} if priced through the public API · {{ all_github_commits }} GitHub commits</small
-                  >
+                  <small>{{ all_github_commits }} GitHub commits</small>
                 </span>
                 <svg
                   class="home-agentic-heartbeat-sparkline"

@@ -56,6 +56,20 @@ const SITEWIDE_ROUTES = [
     fullPage: true,
   },
   {
+    id: "ai-profile",
+    path: "/ai/",
+    readySelector: "[data-ai-view] .ai-profile-header",
+    contentSelector: "[data-ai-view]",
+    fullPage: true,
+  },
+  {
+    id: "publication-context-designweaver",
+    path: "/publications/designweaver/",
+    readySelector: '[data-publication-context-page="tao2024designweaver"]',
+    contentSelector: ".publication-context-page",
+    fullPage: true,
+  },
+  {
     id: "cv",
     path: "/cv/",
     readySelector: ".cv .card",

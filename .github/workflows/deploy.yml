@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_plugins/**"
       - "_data/codex_account_history.json"
       - "_data/github_activity.json"
       - "**.bib"
@@ -19,6 +20,8 @@ on:
       - "**.yml"
       - "Gemfile"
       - "Gemfile.lock"
+      - "llms*.txt"
+      - "test/validate_publication_outputs.py"
       - "!.github/workflows/axe.yml"
       - "!.github/workflows/broken-links.yml"
       - "!.github/workflows/deploy-docker-tag.yml"
@@ -38,6 +41,7 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_plugins/**"
       - "_data/codex_account_history.json"
       - "_data/github_activity.json"
       - "**.bib"
@@ -50,6 +54,8 @@ on:
       - "**.yml"
       - "Gemfile"
       - "Gemfile.lock"
+      - "llms*.txt"
+      - "test/validate_publication_outputs.py"
       - "!.github/workflows/axe.yml"
       - "!.github/workflows/broken-links.yml"
       - "!.github/workflows/deploy-docker-tag.yml"
@@ -105,6 +111,7 @@ jobs:
           pip3 install --upgrade nbconvert
           export JEKYLL_ENV=production
           bundle exec jekyll build
+          python test/validate_publication_outputs.py _site
       - name: Purge unused CSS 🧹
         run: |
           npm install -g purgecss

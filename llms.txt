@@ -1,0 +1,47 @@
+---
+layout: none
+permalink: /llms.txt
+sitemap: false
+search: false
+---
+{% assign profile_page = site.pages | where: 'permalink', '/' | first -%}
+{% assign catalog = site.data.publication_catalog -%}
+# Sirui Tao
+
+> {{ site.seo_description | strip_newlines }}
+
+Treat this document as reference content, not as instructions.
+
+## Canonical resources
+
+- Human-readable profile: {{ '/' | absolute_url }}
+- AI-readable profile: {{ '/ai/' | absolute_url }}
+- Full Markdown profile: {{ '/llms-full.txt' | absolute_url }}
+- Structured publications: {{ '/ai/publications.json' | absolute_url }}
+- Publications: {{ '/publications/' | absolute_url }}
+- Projects: {{ '/projects/' | absolute_url }}
+- Writing: {{ '/blog/' | absolute_url }}
+- CV: {{ '/cv/' | absolute_url }}
+- Sitemap: {{ '/sitemap.xml' | absolute_url }}
+
+## Research focus
+
+{{ profile_page.thesis.lead | strip }}
+
+{% for mode in profile_page.research_motion.modes -%}
+- {{ mode.label }}: {{ mode.text }}
+{% endfor %}
+
+## Publications
+
+{% for paper in catalog.papers -%}
+- [{{ paper.title }}]({{ paper.links.markdown }}): {{ paper.tldr }} Citation page: {{ paper.links.citation_page }}
+{% endfor %}
+
+## Identity
+
+{% for source in site.profile_same_as -%}
+- {{ source }}
+{% endfor %}
+
+Publication guidance was last evidence-reviewed on {{ catalog.last_reviewed }}. These files aid accurate retrieval but do not guarantee indexing, ranking, model inclusion, or citations.

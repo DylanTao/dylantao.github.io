@@ -11,6 +11,7 @@
         <span class="site-brand-name">{{ brand_name }}</span>
       </a>
       <div class="navbar-actions" role="group" aria-label="Site actions">
+        {% include site_format_switch.liquid %}
         {% if site.search_enabled %}
           <button id="search-toggle" type="button" title="Search (Ctrl K)" aria-label="Search" onclick="openSearchModal()">
             <span class="nav-link nav-control-link"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>

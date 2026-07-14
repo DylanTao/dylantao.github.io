@@ -9,15 +9,7 @@
 }
 
 .github-activity-page {
-  --github-activity-added: var(--global-sky-strong);
-  --github-activity-removed: var(--global-mint-strong);
-  --github-activity-added-text: color-mix(in srgb, var(--global-sky-strong) 78%, var(--global-text-color));
-  --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 78%, var(--global-text-color));
   --github-activity-grid: var(--global-divider-color);
-  --github-activity-tier-20: color-mix(in srgb, var(--global-primary-color) 28%, var(--global-surface-color));
-  --github-activity-tier-100: color-mix(in srgb, var(--global-primary-color) 64%, var(--global-surface-color));
-  --github-activity-tier-200: var(--global-primary-color);
-  --github-activity-tier-200-text: var(--global-on-primary-color);
 
   width: 100%;
   padding: clamp(1.5rem, 4vw, 3.5rem) 0 2rem;
@@ -62,9 +54,9 @@
 
 .github-activity-codex-ledger {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.55rem 1.25rem;
-  max-width: 46rem;
+  max-width: 22rem;
   margin: 1rem 0 0;
   padding-top: 0.7rem;
   border-top: 1px solid var(--global-outline-color);
@@ -403,23 +395,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-.github-activity-added {
-  color: var(--github-activity-added-text);
-}
-
 .github-activity-commits {
   color: var(--global-primary-color);
-}
-
-.github-activity-removed {
-  color: var(--github-activity-removed-text);
-}
-
-.github-activity-tier-context {
-  margin-top: 0.35rem !important;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
 }
 
 .github-activity-latest {
@@ -441,83 +418,6 @@
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
   font-variant-numeric: tabular-nums;
-}
-
-.github-activity-tier-legend {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem 0.9rem;
-  min-height: 2.25rem;
-  margin: 0.45rem 0 0;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-}
-
-.github-activity-tier-legend > span {
-  color: var(--global-text-color);
-  font-weight: 650;
-}
-
-.github-activity-tier-legend ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.8rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.github-activity-tier-legend li {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.github-activity-tier-legend-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  min-height: 2rem;
-  padding: 0.2rem 0.35rem;
-  border: 1px solid transparent;
-  border-radius: 0.45rem;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.github-activity-tier-legend-button:hover,
-.github-activity-tier-legend-button:focus-visible {
-  border-color: var(--global-primary-color);
-  color: var(--global-text-color);
-  outline: none;
-}
-
-.github-activity-tier-swatch {
-  width: 1.5rem;
-  height: 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--global-text-color) 14%, transparent);
-  border-radius: 999px;
-}
-
-.github-activity-tier-swatch[data-tier-value="20"] {
-  background: var(--github-activity-tier-20);
-}
-
-.github-activity-tier-swatch[data-tier-value="100"] {
-  background: var(--github-activity-tier-100);
-}
-
-.github-activity-tier-swatch[data-tier-value="200"] {
-  background: var(--github-activity-tier-200);
-}
-
-.github-activity-tier-caveat {
-  margin: 0.15rem 0 0;
-  color: var(--global-text-color-light);
-  font-size: var(--type-label);
 }
 
 .github-activity-clear-selection {
@@ -547,7 +447,7 @@
 .github-activity-chart {
   display: block;
   width: 100%;
-  height: clamp(32rem, 58vw, 38rem);
+  height: clamp(20rem, 36vw, 24rem);
   overflow: visible;
   touch-action: pan-y;
 }
@@ -580,39 +480,6 @@
 }
 
 .github-activity-selection-band {
-  vector-effect: non-scaling-stroke;
-}
-
-.github-activity-chart .github-activity-tier-label {
-  font-size: 9px;
-  letter-spacing: 0.01em;
-  pointer-events: none;
-}
-
-.github-activity-chart .github-activity-tier-run {
-  transition:
-    opacity 120ms ease,
-    stroke 120ms ease;
-}
-
-.github-activity-chart .github-activity-tier-run.is-inspected {
-  stroke: var(--global-text-color);
-  stroke-width: 1.4px;
-  vector-effect: non-scaling-stroke;
-}
-
-.github-activity-chart .github-activity-tier-hit {
-  fill: transparent;
-  cursor: pointer;
-  outline: none;
-  pointer-events: all;
-}
-
-.github-activity-chart .github-activity-tier-hit:focus-visible {
-  fill: var(--global-primary-color);
-  fill-opacity: 0.08;
-  stroke: var(--global-primary-color);
-  stroke-width: 2px;
   vector-effect: non-scaling-stroke;
 }
 
@@ -660,10 +527,6 @@
   line-height: 1.55;
 }
 
-.github-activity-tier-comparison {
-  padding: 0 0 1.4rem;
-}
-
 .github-activity-codex-table-section {
   display: grid;
   grid-template-columns: minmax(11rem, 0.45fr) minmax(0, 1.55fr);
@@ -688,35 +551,6 @@
   margin-top: 0.35rem;
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
-}
-
-.github-activity-tier-comparison > div:first-child {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(16rem, 1.35fr);
-  gap: 0.8rem 1.5rem;
-  align-items: baseline;
-  padding: 0.9rem 0 0.7rem;
-  border-top: 1px solid var(--global-outline-color);
-}
-
-.github-activity-tier-comparison h2,
-.github-activity-tier-comparison p {
-  margin: 0;
-}
-
-.github-activity-tier-comparison h2 {
-  font-size: 1rem;
-}
-
-.github-activity-tier-comparison p {
-  color: var(--global-text-color-light);
-  font-size: var(--type-label);
-  line-height: 1.5;
-}
-
-.github-activity-tier-table-wrap {
-  max-height: none;
-  margin-bottom: 0;
 }
 
 .github-activity-table-wrap {
@@ -772,7 +606,7 @@
   }
 
   .github-activity-codex-ledger {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .github-activity-controls,
@@ -809,14 +643,8 @@
     align-self: flex-start;
   }
 
-  .github-activity-tier-legend {
-    align-items: flex-start;
-    flex-direction: column;
-    margin-top: 0.65rem;
-  }
-
   .github-activity-chart {
-    height: 30rem;
+    height: 22rem;
   }
 
   .github-activity-method-grid {
@@ -825,14 +653,6 @@
 
   .github-activity-codex-table-section {
     grid-template-columns: 1fr;
-  }
-
-  .github-activity-tier-comparison > div:first-child {
-    grid-template-columns: 1fr;
-  }
-
-  .github-activity-tier-table {
-    min-width: 34rem;
   }
 }
 

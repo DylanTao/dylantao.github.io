@@ -24,9 +24,12 @@ citation_authors:
   - "Peng, Cindy"
   - "Wang, Zhiqing"
   - "Palani, Srishti"
-  - "Dow, Steven"
+  - "Dow, Steven P."
 citation_publication_date: "2025/04/26"
-citation_conference_title: "Conference on Human Factors in Computing Systems (CHI 2025)"
+citation_conference_title: "Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems"
+citation_firstpage: "1"
+citation_lastpage: "26"
+citation_publisher: ACM
 citation_pdf_url: "https://dl.acm.org/doi/pdf/10.1145/3706598.3714211"
 doi: "10.1145/3706598.3714211"
 ---
@@ -288,12 +291,6 @@ DesignWeaver's **dimensional scaffolding** bridges novice‑expert gaps by makin
 
 ## BibTeX
 
-{% raw %}
+{% assign designweaver_publication = site.data.publication_catalog.by_key['tao2024designweaver'] %}
 
-```html
-@inproceedings{tao2024designweaver, title = {DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design}, author = {Tao, Sirui and Liang,
-Ivan and Peng, Cindy and Wang, Zhiqing and Palani, Srishti and Dow, Steven}, booktitle = {Conference on Human Factors in Computing Systems}, year =
-{2025} }
-```
-
-{% endraw %}
+<pre><code>{{ designweaver_publication.citation.bibtex | escape }}</code></pre>

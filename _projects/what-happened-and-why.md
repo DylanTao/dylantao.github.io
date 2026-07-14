@@ -10,8 +10,8 @@ category: research
 venue: CHI 2026 Workshop
 year: 2026
 role: First author
-status: Accepted
-date: 2026-02-25
+status: Published
+date: 2026-04-15
 hide_title: true
 wide_layout: true
 keywords: What Happened and Why, trace-guided micro-episodes, elicited user explanations, product iteration, creative activity traces, CHI 2026 workshop, Herding CATs, generative AI, design tools, Sirui Tao, William P. McCarthy, Steven P. Dow
@@ -23,7 +23,7 @@ citation_authors:
   - "Tao, Sirui"
   - "McCarthy, William P."
   - "Dow, Steven P."
-citation_publication_date: "2026/02/25"
+citation_publication_date: "2026/04/15"
 citation_conference_title: "Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)"
 citation_pdf_url: "https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf"
 _styles: |
@@ -501,7 +501,7 @@ _styles: |
           </div>
           <div class="trace-meta-card">
             <span class="trace-meta-label">Publication Date</span>
-            <p class="trace-meta-value">February 25, 2026</p>
+            <p class="trace-meta-value">April 15, 2026</p>
           </div>
           <div class="trace-meta-card">
             <span class="trace-meta-label">Focus</span>
@@ -572,7 +572,7 @@ _styles: |
       </li>
       <li>
         <strong>Publication Date</strong>
-        February 25, 2026
+        April 15, 2026
       </li>
       <li>
         <strong>PDF</strong>
@@ -590,11 +590,8 @@ _styles: |
     </div>
 
     <h2 id="bibtex" style="margin-top: 1.5rem;">BibTeX</h2>
-    <pre class="trace-bibtex"><code>@article{taohappened,
-
-title={What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration},
-author={TAO, SIRUI and MCCARTHY, WILLIAM P and DOW, STEVEN P}
-}</code></pre>
+    {% assign whw_publication = site.data.publication_catalog.by_key['tao2026whw'] %}
+    <pre class="trace-bibtex"><code>{{ whw_publication.citation.bibtex | escape }}</code></pre>
 
   </section>
 </div>

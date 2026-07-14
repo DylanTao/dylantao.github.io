@@ -8,6 +8,7 @@ nav_order: 1
 panel_wide: true
 wall_of_rejection: true
 publication_lens: true
+publication_collection: true
 random_teasers: true
 ---
 

@@ -1,0 +1,23 @@
+{% assign ai_mode = page.ai_profile | default: false %}
+<nav class="site-format-switch" aria-label="Website format">
+  <a
+    class="site-format-link"
+    href="{{ '/' | relative_url }}"
+    {% unless ai_mode %}
+      aria-current="true"
+    {% endunless %}
+    aria-label="Human-readable website"
+  >
+    Human
+  </a>
+  <a
+    class="site-format-link"
+    href="{{ '/ai/' | relative_url }}"
+    {% if ai_mode %}
+      aria-current="true"
+    {% endif %}
+    aria-label="AI-readable research profile"
+  >
+    AI
+  </a>
+</nav>

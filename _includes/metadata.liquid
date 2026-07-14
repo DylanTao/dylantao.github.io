@@ -27,6 +27,7 @@
 {% assign site_description = site.seo_description | default: site.description | strip_newlines | strip %}
 {% assign page_description = page.seo_description | default: page.description | default: site_description | strip_newlines | strip %}
 {% assign canonical_url = page.url | prepend: site.baseurl | prepend: site.url | remove_first: 'index.html' %}
+{% assign profile_contact_email = site.profile_contact_email | default: site.email %}
 
 {% if page.seo_title %}
   {% assign document_title = page.seo_title %}
@@ -43,22 +44,28 @@
 {% endif %}
 {% assign document_title = document_title | strip %}
 
-{% assign og_image_source = page.og_image | default: page.img | default: site.og_image %}
+{% assign page_og_image_source = page.og_image | default: page.img %}
+{% assign og_image_source = page_og_image_source | default: site.og_image %}
 {% if og_image_source %}
   {% if og_image_source contains '://' %}
     {% assign og_image_url = og_image_source %}
   {% else %}
-    {% assign og_image_url = og_image_source | relative_url | absolute_url %}
+    {% assign og_image_url = og_image_source | absolute_url %}
   {% endif %}
 {% endif %}
-{% assign og_image_width = page.og_image_width | default: site.og_image_width %}
-{% assign og_image_height = page.og_image_height | default: site.og_image_height %}
+{% if page_og_image_source %}
+  {% assign og_image_width = page.og_image_width %}
+  {% assign og_image_height = page.og_image_height %}
+{% else %}
+  {% assign og_image_width = site.og_image_width %}
+  {% assign og_image_height = site.og_image_height %}
+{% endif %}
 
 {% assign person_image_source = site.person_image | default: site.og_image %}
 {% if person_image_source contains '://' %}
   {% assign person_image_url = person_image_source %}
 {% else %}
-  {% assign person_image_url = person_image_source | relative_url | absolute_url %}
+  {% assign person_image_url = person_image_source | absolute_url %}
 {% endif %}
 
 <!-- Standard metadata -->
@@ -98,6 +105,21 @@
 {% endif %}
 {% if page.citation_conference_title %}
   <meta name="citation_conference_title" content="{{ page.citation_conference_title | escape }}">
+{% endif %}
+{% if page.citation_firstpage %}
+  <meta name="citation_firstpage" content="{{ page.citation_firstpage | escape }}">
+{% endif %}
+{% if page.citation_lastpage %}
+  <meta name="citation_lastpage" content="{{ page.citation_lastpage | escape }}">
+{% endif %}
+{% if page.citation_volume %}
+  <meta name="citation_volume" content="{{ page.citation_volume | escape }}">
+{% endif %}
+{% if page.citation_publisher %}
+  <meta name="citation_publisher" content="{{ page.citation_publisher | escape }}">
+{% endif %}
+{% if page.citation_isbn %}
+  <meta name="citation_isbn" content="{{ page.citation_isbn | escape }}">
 {% endif %}
 {% if page.citation_pdf_url %}
   <meta name="citation_pdf_url" content="{{ page.citation_pdf_url | escape }}">
@@ -268,7 +290,7 @@
             "familyName": {{ site.last_name | jsonify }},
             "url": {{ site_root | jsonify }},
             "image": {{ person_image_url | jsonify }},
-            "email": {{ site.email | jsonify }},
+            "email": {{ profile_contact_email | jsonify }},
             "jobTitle": {{ site.person_job_title | default: 'HCI Researcher' | jsonify }},
             "worksFor": {{ site.profile_works_for | jsonify }},
             "affiliation": {{ site.profile_affiliations | jsonify }},
@@ -310,6 +332,7 @@
             "name": {{ author_name | jsonify }},
             "url": {{ site_root | jsonify }},
             "image": {{ person_image_url | jsonify }},
+            "email": {{ profile_contact_email | jsonify }},
             "jobTitle": {{ site.person_job_title | default: 'HCI Researcher' | jsonify }},
             "affiliation": {{ site.profile_affiliations | jsonify }},
             "knowsAbout": {{ site.profile_knows_about | jsonify }},
@@ -332,7 +355,17 @@
     </script>
   {% endif %}
 
-  {% if page.url contains '/publications/' or page.url contains '/projects/' %}
+  {% if page.publication_collection %}
+    <!-- CollectionPage, ItemList, and ScholarlyArticle graph for the publication index. -->
+    <script type="application/ld+json">
+      {{ site.data.publication_catalog.schema_org.collection | jsonify }}
+    </script>
+  {% elsif page.publication %}
+    <!-- ScholarlyArticle for a canonical publication context page. -->
+    <script type="application/ld+json">
+      {{ site.data.publication_catalog.schema_org.articles_by_key[page.publication.key] | jsonify }}
+    </script>
+  {% elsif page.url contains '/projects/' %}
     {% assign creative_same_as = '' | split: ',' %}
     {% if page.citation_pdf_url %}
       {% assign creative_same_as = creative_same_as | push: page.citation_pdf_url %}

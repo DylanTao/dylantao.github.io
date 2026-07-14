@@ -1,6 +1,7 @@
 ---
 ---
 {% assign publication_lens_entry = site.data.publication_lens.papers[entry.key] %}
+{% assign publication_context_entry = site.data.publication_catalog.by_key[entry.key] %}
 {% assign publication_work_type = publication_lens_entry.work_type | default: 'unclassified' %}
 {% assign publication_work_group = publication_lens_entry.work_group | default: publication_work_type %}
 {% assign publication_role = publication_lens_entry.role | default: 'role-unknown' %}
@@ -29,7 +30,7 @@
   {% when 'coauthor' %}
     {% assign publication_role_label = 'Coauthor' %}
 {% endcase %}
-<div
+<article
   class="row publication-lens-entry"
   data-publication-key="{{ entry.key }}"
   data-publication-type="{{ publication_work_type }}"
@@ -239,6 +240,41 @@
     <div class="periodical">
       {{ entry.note | strip }}
     </div>
+
+    {% if publication_context_entry %}
+      <details class="publication-why-cite" data-publication-why-cite="{{ entry.key }}">
+        <summary aria-label="Why cite {{ entry.title | escape }}">
+          <span class="publication-why-cite-title">Why cite this?</span>
+          <span class="publication-why-cite-meta">Source-reviewed guide</span>
+          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </summary>
+        <div class="publication-why-cite-body">
+          <p>{{ publication_context_entry.why_cite.statement }}</p>
+          <div class="publication-why-cite-grid">
+            <div>
+              <span>Useful when</span>
+              <ul>
+                {% for item in publication_context_entry.why_cite.cite_when %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div>
+              <span>Scope</span>
+              <ul>
+                {% for item in publication_context_entry.why_cite.boundaries %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          <a class="publication-why-cite-more" href="{{ publication_context_entry.links.citation_page_path }}">
+            Full citation context
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </details>
+    {% endif %}
 
     <!-- Links/Buttons -->
     {% assign entry_dom_id = entry.key | slugify %}
@@ -462,14 +498,9 @@
 
     {% if entry.bibtex_show %}
       <!-- Hidden bibtex block -->
-      {% assign bibtex_override = site.data.bibtex_overrides[entry.key] %}
       <div id="{{ entry_dom_id }}-bibtex" class="bibtex hidden" aria-hidden="true">
         {% highlight bibtex %}
-        {% if bibtex_override %}
-          {{- bibtex_override -}}
-        {% else %}
-          {{- entry.bibtex | hideCustomBibtex -}}
-        {% endif %}
+        {{- publication_context_entry.citation.bibtex -}}
         {% endhighlight %}
       </div>
     {% endif %}
@@ -481,4 +512,4 @@
       </div>
     {% endif %}
   </div>
-</div>
+</article>
