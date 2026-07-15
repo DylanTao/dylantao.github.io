@@ -879,6 +879,9 @@ test("home portrait offers a keyboard-equivalent record-card discovery", async (
 });
 
 test("home dropped meme record cards resolve into an inspectable 2D fan", async ({ page }) => {
+  // WebKit mobile exercises four drops, four keyboard inspections, and the all-card replay;
+  // keep the full journey rather than trimming coverage to the shared two-minute default.
+  test.setTimeout(180000);
   await preparePage(page, "dark");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });

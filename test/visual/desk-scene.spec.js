@@ -1015,7 +1015,8 @@ test("desktop desk scene enters outside only by window click and returns", async
   await expect(sceneContainer).not.toHaveClass(/is-outside-view/);
 
   await page.locator('[data-home-desk-control="reset"]').click();
-  await page.waitForTimeout(520);
+  await expect.poll(async () => Math.abs(Number(await sceneContainer.getAttribute("data-camera-yaw")))).toBeLessThan(0.02);
+  await expect(sceneContainer).toHaveAttribute("data-window-guidance-visible", "true");
 
   const defaultOcclusionEvidence = await readCompositionEvidence(sceneContainer, "desk");
   const deskCenter = defaultOcclusionEvidence.landmarks?.desk?.center;
@@ -1024,7 +1025,8 @@ test("desktop desk scene enters outside only by window click and returns", async
   await expect(sceneContainer).not.toHaveAttribute("data-last-raycast-kind", "windowJump");
   await expect(sceneContainer).not.toHaveClass(/is-outside-view/);
   await page.locator('[data-home-desk-control="reset"]').click();
-  await page.waitForTimeout(320);
+  await expect.poll(async () => Math.abs(Number(await sceneContainer.getAttribute("data-camera-yaw")))).toBeLessThan(0.02);
+  await expect(sceneContainer).toHaveAttribute("data-window-guidance-visible", "true");
 
   await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-window-screen-bounds");
   await expect(sceneContainer).toHaveAttribute("data-last-raycast-kind", "windowJump");

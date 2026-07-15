@@ -795,7 +795,6 @@
     let pendingHoverPick = null;
     let lastHoverPickAt = 0;
     const callbacks = {};
-    const stageElement = container.closest("[data-home-artifact-stage]") || container.parentElement;
     const textureCache = new Map();
     const themeMaterials = {};
     const interactiveObjects = [];
@@ -1620,7 +1619,7 @@
       syncSceneStateDatasets();
       scene.updateMatrixWorld(true);
       camera.updateMatrixWorld(true);
-      const windowBounds = projectObjectBounds(windowHitObject);
+      const windowBounds = activeView === "desk" && windowJumpGroup?.visible ? projectObjectBounds(windowHitObject) : null;
       const returnBounds = projectObjectBounds(returnHitObject);
       if (windowBounds) container.dataset.windowScreenBounds = JSON.stringify(windowBounds);
       else container.removeAttribute("data-window-screen-bounds");
@@ -7233,9 +7232,9 @@
       };
 
       const suppressCanvasClick = (event) => {
-        const eventTarget = event.target;
-        const isStageClick = !stageElement || (eventTarget instanceof Node && stageElement.contains(eventTarget));
-        if (!suppressNextSceneClick && (!isStageClick || performance.now() > suppressSceneNativeClicksUntil)) return;
+        const isCanvasClick = event.target === canvas || event.composedPath().includes(canvas);
+        if (!isCanvasClick) return;
+        if (!suppressNextSceneClick && performance.now() > suppressSceneNativeClicksUntil) return;
         suppressNextSceneClick = false;
         suppressSceneNativeClicksUntil = 0;
         event.preventDefault();

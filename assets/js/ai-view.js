@@ -111,7 +111,10 @@
         return;
       }
       const readingLine = (navbar?.getBoundingClientRect().bottom || 0) + Math.min(120, window.innerHeight * 0.2);
-      const atDocumentEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      // The fixed-nav progress helper can add a few pixels of body padding after load.
+      // Keep the final section current when a reader was already clamped to the old document end.
+      const documentEndTolerance = 8;
+      const atDocumentEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - documentEndTolerance;
       const active = atDocumentEnd
         ? aiSections[aiSections.length - 1]
         : aiSections.reduce((current, section) => (section.getBoundingClientRect().top <= readingLine ? section : current), aiSections[0]);
