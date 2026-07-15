@@ -8,6 +8,8 @@ card_image_fit: cover
 card_image_position: center
 importance: -10
 category: fun
+site_experiment: true
+debut_date: 2026-05-30T19:29:43-07:00
 year: 2026
 role: OG HCI Spooder-Man
 status: Remix guide

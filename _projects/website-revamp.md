@@ -8,6 +8,8 @@ card_image_fit: cover
 card_image_position: top center
 importance: -1
 category: fun
+site_experiment: true
+debut_date: 2026-05-23T18:37:36-07:00
 year: 2026
 role: Designer, writer, reviewer
 status: Living case study

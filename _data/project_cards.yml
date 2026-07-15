@@ -48,6 +48,66 @@ website-revamp:
     - "Portfolio becomes a research argument."
     - "Heuristics become reusable design memory."
 
+build-rhythm:
+  accents:
+    morning: "#bf754c"
+    noon: "#4f7896"
+    afternoon: "#d39562"
+    evening: "#91a9bc"
+  takeaways:
+    - "Cadence and magnitude stay distinct."
+    - "Two clocks keep provenance honest."
+
+homepage-desk-scene:
+  accents:
+    morning: "#b7825f"
+    noon: "#4f8096"
+    afternoon: "#c99c78"
+    evening: "#9eafba"
+  takeaways:
+    - "2D and 3D share one state."
+    - "Inside and outside share one room."
+
+scholar-lens:
+  accents:
+    morning: "#b88962"
+    noon: "#5c769b"
+    afternoon: "#c89a6f"
+    evening: "#a8b2c3"
+  takeaways:
+    - "Citation context stays dated."
+    - "The bibliography remains canonical."
+
+wall-of-rejection:
+  accents:
+    morning: "#c46f62"
+    noon: "#8c6c85"
+    afternoon: "#d49574"
+    evening: "#b6a8b5"
+  takeaways:
+    - "Receipts stay close to each badge."
+    - "Failure stays visible, not ranked."
+
+ikea-project-cards:
+  accents:
+    morning: "#c79759"
+    noon: "#5d82a0"
+    afternoon: "#d7aa6a"
+    evening: "#a9b7c3"
+  takeaways:
+    - "One card opens in context."
+    - "FLIP preserves object identity."
+
+dogtor-portal:
+  accents:
+    morning: "#c68a5e"
+    noon: "#71966f"
+    afternoon: "#d0a16d"
+    evening: "#a8b19d"
+  takeaways:
+    - "Hidden delight keeps recovery visible."
+    - "Consent precedes precise location."
+
 not-a-good-driver:
   accents:
     morning: "#c07461"
