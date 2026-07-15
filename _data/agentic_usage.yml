@@ -1,7 +1,7 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: '2026-07-14'
+updated_at: '2026-07-15'
 source_note: Codex account activity supplies lifetime totals; retained local logs and git history supply scoped estimates. Audit with python bin/audit_agentic_usage.py before publish.
 total:
   label: Site revamp
@@ -932,31 +932,29 @@ local_lifetime:
 account_lifetime:
   label: Codex lifetime
   source: Codex account activity
-  source_as_of: '2026-07-15T05:59:43.830933Z'
-  token_count: 24579141450
+  source_as_of: '2026-07-15T09:53:48.628553Z'
+  token_count: 24636817636
   tokens_label: 24.6B
-  tasks: 842
+  tasks: 847
   peak_daily_tokens: 2158343669
   peak_daily_date: '2026-07-13'
   model_note: Mostly GPT-5.5 Extra High and GPT-5.6 Sol Ultra.
   api_cost_equivalence:
     label: Account-lifetime API-rate replay
-    account_source_as_of: '2026-07-15T05:59:43.830933Z'
+    account_source_as_of: '2026-07-15T09:53:48.628553Z'
     pricing_as_of: '2026-07-12'
     source_url: https://developers.openai.com/api/docs/pricing
     method: Account tokens scaled by the retained local model, cache-read, and long-context request mix.
     observed_local_token_count: 10212120634
     observed_local_usd_estimate: 8240.57
     observed_usd_per_million_tokens: 0.807
-    usd_estimate: 19833.89
-    usd_midpoint: 19800
-    usd_label: ~$19.8K
+    usd_estimate: 19880.43
+    usd_midpoint: 19900
+    usd_label: ~$19.9K
   recent_activity:
     label: Last 30 calendar days
     partial_last_day: true
     daily:
-      - date: '2026-06-15'
-        tokens: 0
       - date: '2026-06-16'
         tokens: 183385212
       - date: '2026-06-17'
@@ -1014,18 +1012,20 @@ account_lifetime:
       - date: '2026-07-13'
         tokens: 2158343669
       - date: '2026-07-14'
-        tokens: 922339148
-    sparkline_points: 0.00,26.00 3.86,23.96 7.72,23.57 11.59,22.99 15.45,23.21 19.31,18.23 23.17,19.58 27.03,21.08 30.90,22.59 34.76,24.62 38.62,25.93 42.48,24.69 46.34,17.86 50.21,18.81 54.07,13.42 57.93,19.02 61.79,6.56 65.66,6.66 69.52,13.31 73.38,16.71 77.24,17.28 81.10,18.47 84.97,21.66 88.83,22.79 92.69,20.43 96.55,16.37 100.41,13.98 104.28,12.42 108.14,2.00 112.00,15.74
-    start_date: '2026-06-15'
-    end_date: '2026-07-14'
-    end_label: Jul 14
+        tokens: 980015334
+      - date: '2026-07-15'
+        tokens: 0
+    sparkline_points: 0.00,23.96 3.86,23.57 7.72,22.99 11.59,23.21 15.45,18.23 19.31,19.58 23.17,21.08 27.03,22.59 30.90,24.62 34.76,25.93 38.62,24.69 42.48,17.86 46.34,18.81 50.21,13.42 54.07,19.02 57.93,6.56 61.79,6.66 65.66,13.31 69.52,16.71 73.38,17.28 77.24,18.47 81.10,21.66 84.97,22.79 88.83,20.43 92.69,16.37 96.55,13.98 100.41,12.42 104.28,2.00 108.14,15.10 112.00,26.00
+    start_date: '2026-06-16'
+    end_date: '2026-07-15'
+    end_label: Jul 15
     peak_date: '2026-07-13'
     peak_tokens: 2158343669
     weekly:
       - week: '2026-06-14'
-        observed_start: '2026-06-15'
+        observed_start: '2026-06-16'
         observed_end: '2026-06-20'
-        observed_days: 6
+        observed_days: 5
         tokens: 1622149254
         partial: true
         partial_reason: range-start
@@ -1056,9 +1056,9 @@ account_lifetime:
         api_equivalent_usd: 3702.29
       - week: '2026-07-12'
         observed_start: '2026-07-12'
-        observed_end: '2026-07-14'
-        observed_days: 3
-        tokens: 4301558490
+        observed_end: '2026-07-15'
+        observed_days: 4
+        tokens: 4359234676
         partial: true
         partial_reason: range-end
-        api_equivalent_usd: 3471.1
+        api_equivalent_usd: 3517.64
