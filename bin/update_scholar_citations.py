@@ -150,8 +150,8 @@ def sync_publication_lens(citation_data: dict, sync_date: date) -> None:
             changed = True
 
     metadata = publication_lens.setdefault("metadata", {})
-    if not date_matches(metadata.get("last_synced"), sync_date):
-        metadata["last_synced"] = sync_date
+    if not date_matches(metadata.get("totals_last_synced"), sync_date):
+        metadata["totals_last_synced"] = sync_date
         changed = True
 
     if metadata.get("total_citations") != total_citations:

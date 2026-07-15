@@ -42,9 +42,9 @@ class HookPolicyTest(unittest.TestCase):
             encoding="utf-8",
         )
 
-    def write_publication_lens(self, last_synced: str) -> None:
+    def write_publication_lens(self, totals_last_synced: str) -> None:
         (self.repo / "_data" / "publication_lens.yml").write_text(
-            f"metadata:\n  last_synced: {last_synced}\npapers: {{}}\n",
+            f"metadata:\n  totals_last_synced: {totals_last_synced}\npapers: {{}}\n",
             encoding="utf-8",
         )
 

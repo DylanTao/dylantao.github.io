@@ -8,6 +8,7 @@ nav_order: 1
 panel_wide: true
 wall_of_rejection: true
 publication_lens: true
+publication_constellation: true
 publication_collection: true
 random_teasers: true
 ---
@@ -26,18 +27,50 @@ random_teasers: true
 
 {% include publications/wall_of_rejection.liquid %}
 
-<div class="publication-workbench" data-publication-workbench>
+<div class="publication-view-switcher" data-publication-view-switcher hidden>
+  <div role="group" aria-label="Choose publication view">
+    <button
+      class="publication-view-button publication-view-button-active"
+      type="button"
+      data-publication-view-button="list"
+      aria-controls="publication-list-view"
+      aria-pressed="true"
+    >
+      <i class="fa-solid fa-list" aria-hidden="true"></i>
+      <span>Paper List</span>
+    </button>
+    <button
+      class="publication-view-button"
+      type="button"
+      data-publication-view-button="constellation"
+      aria-controls="paper-constellation-view"
+      aria-pressed="false"
+    >
+      <i class="fa-solid fa-circle-nodes" aria-hidden="true"></i>
+      <span>Paper Constellation</span>
+    </button>
+  </div>
+  <p class="sr-only" data-publication-view-status aria-live="polite">Paper List shown.</p>
+</div>
+
+<div class="publication-workbench" data-publication-workbench data-publication-view="list">
   <div class="publication-lens-column">
     {% include publications/scholar_lens.liquid %}
   </div>
 
   <div class="publication-list-column">
-    {% include bib_search.liquid %}
+    <div id="publication-list-view" data-publication-view-panel="list">
+      {% include bib_search.liquid %}
 
-    <div class="publications">
+      <div class="publications">
 
-    {% bibliography %}
+      {% bibliography %}
 
+      </div>
+    </div>
+
+    <div id="paper-constellation-view" data-publication-view-panel="constellation" hidden>
+      {% include publications/paper_constellation.liquid %}
     </div>
 
   </div>

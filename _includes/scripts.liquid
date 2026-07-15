@@ -107,6 +107,9 @@
 {% if page.publication_lens %}
   <script defer src="{{ '/assets/js/publication-lens.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
+{% if page.publication_constellation %}
+  <script defer src="{{ '/assets/js/paper-constellation.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+{% endif %}
 {% if page.spooder_project %}
   <script defer src="{{ '/assets/js/spooder-project.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}

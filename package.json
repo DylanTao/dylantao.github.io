@@ -6,7 +6,7 @@
     "lint:style-contract": "node test/style_contract.js",
     "test:visual": "npm run test:visual:public && npm run test:visual:legacy",
     "test:visual:public": "npm run test:visual:site && npm run test:visual:scene",
-    "test:visual:site": "playwright test --config test/visual/public.config.js --output=test-results/public-visual-site sitewide.spec.js",
+    "test:visual:site": "playwright test --config test/visual/public.config.js --output=test-results/public-visual-site sitewide.spec.js paper-constellation.spec.js",
     "test:visual:scene": "playwright test --config test/visual/public.config.js --output=test-results/public-visual-scene desk-scene.spec.js",
     "test:visual:legacy": "playwright test --config test/visual/playwright.config.js",
     "test:visual:update": "npm run test:visual:legacy:update",

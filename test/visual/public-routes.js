@@ -110,6 +110,12 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-paper-constellation",
+    path: "/projects/paper-constellation/",
+    readySelector: ".project-detail .project-case-hero",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "secret-locked",
     path: "/blog/2026/sirui-research-thoughts/",
     readySelector: "#sirui-private-message",

@@ -17,7 +17,7 @@
     {% assign paper_group = paper_data.work_group | default: paper_data.work_type %}
     {% assign total_papers = total_papers | plus: 1 %}
     {% assign total_citations = total_citations | plus: paper_citations %}
-    {% if paper_data.role == 'first-author' or paper_data.role == 'co-first' %}
+    {% if paper_data.role == 'first-author' %}
       {% assign first_author_papers = first_author_papers | plus: 1 %}
       {% assign first_author_citations = first_author_citations | plus: paper_citations %}
     {% endif %}
@@ -37,7 +37,7 @@
   <aside
     class="publication-scholar-lens"
     data-scholar-lens
-    data-last-synced="{{ publication_lens.metadata.last_synced }}"
+    data-totals-last-synced="{{ publication_lens.metadata.totals_last_synced }}"
     aria-labelledby="scholar-lens-title"
   >
     <div class="scholar-lens-card">
@@ -46,18 +46,30 @@
           <p class="scholar-lens-kicker">Google Scholar</p>
           <h2 id="scholar-lens-title">Publication snapshot</h2>
         </div>
-        <a
-          href="{{ publication_lens.metadata.scholar_profile }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open Google Scholar profile"
-        >
-          <i class="ai ai-google-scholar" aria-hidden="true"></i>
-        </a>
+        <div class="scholar-lens-heading-actions">
+          <a
+            class="widget-origin-link"
+            href="{{ '/projects/scholar-lens/' | relative_url }}"
+            aria-label="Want to learn the Scholar Lens widget's origin?"
+          >
+            <span class="widget-origin-mark" aria-hidden="true">?</span>
+            <span class="widget-origin-tooltip" aria-hidden="true">Want to learn the Scholar Lens widget's origin?</span>
+          </a>
+          <a
+            class="scholar-lens-profile-link"
+            href="{{ publication_lens.metadata.scholar_profile }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Google Scholar profile"
+          >
+            <i class="ai ai-google-scholar" aria-hidden="true"></i>
+          </a>
+        </div>
       </div>
 
       <p class="scholar-lens-sync">
-        Filter papers by authorship or format. Citations synced {{ publication_lens.metadata.last_synced | date: '%b %-d, %Y' }}.
+        Filter papers by authorship or format. Lifetime citation totals synced
+        {{ publication_lens.metadata.totals_last_synced | date: '%b %-d, %Y' }}.
       </p>
 
       <div class="scholar-lens-controls" aria-label="Publication lens filters">

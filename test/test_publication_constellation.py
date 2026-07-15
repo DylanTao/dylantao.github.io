@@ -9,8 +9,18 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CONSTELLATION_PATH = REPO_ROOT / "_data" / "publication_constellation.yml"
+LENS_PATH = REPO_ROOT / "_data" / "publication_lens.yml"
 BIB_PATH = REPO_ROOT / "_bibliography" / "papers.bib"
 WALL_PATH = REPO_ROOT / "_data" / "wall_of_rejection.yml"
+PUBLICATIONS_PAGE_PATH = REPO_ROOT / "_pages" / "publications.md"
+CONSTELLATION_INCLUDE_PATH = REPO_ROOT / "_includes" / "publications" / "paper_constellation.liquid"
+SCHOLAR_INCLUDE_PATH = REPO_ROOT / "_includes" / "publications" / "scholar_lens.liquid"
+WALL_INCLUDE_PATH = REPO_ROOT / "_includes" / "publications" / "wall_of_rejection.liquid"
+CONSTELLATION_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "paper-constellation.js"
+LENS_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "publication-lens.js"
+PROJECT_PATH = REPO_ROOT / "_projects" / "paper-constellation.md"
+REPRODUCTION_GUIDE_PATH = REPO_ROOT / "assets" / "downloads" / "site-experiments" / "paper-constellation-reproduction.md"
+TEASER_PATH = REPO_ROOT / "assets" / "img" / "project_pics" / "paper-constellation" / "paper-constellation-teaser.png"
 
 EXPECTED_THREADS = {"design", "evaluate", "situate"}
 EXPECTED_FUTURE_IDS = {
@@ -49,6 +59,7 @@ class PublicationConstellationContractTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.constellation = load_yaml(CONSTELLATION_PATH)
+        cls.lens = load_yaml(LENS_PATH)
         cls.wall = load_yaml(WALL_PATH)
         cls.paper_keys = bibtex_keys()
 
@@ -145,6 +156,120 @@ class PublicationConstellationContractTest(unittest.TestCase):
 
         self.assertEqual(set(future_targets), EXPECTED_FUTURE_IDS)
         self.assertEqual(len(future_targets), len(set(future_targets)))
+
+    def test_lifetime_and_annual_citation_freshness_are_truthfully_separate(self) -> None:
+        metadata = self.lens["metadata"]
+        self.assertIn("totals_last_synced", metadata)
+        self.assertIn("yearly_snapshot_as_of", metadata)
+        self.assertNotIn("last_synced", metadata)
+        self.assertEqual(
+            metadata["total_citations"],
+            sum(paper["citation_total"] for paper in self.lens["papers"].values()),
+        )
+        annual_snapshot_total = sum(bucket["total"] for bucket in self.lens["citation_years"])
+        self.assertLessEqual(annual_snapshot_total, metadata["total_citations"])
+        self.assertIn("snapshot", metadata["yearly_note"].lower())
+        self.assertIn("separately", metadata["yearly_note"].lower())
+
+    def test_authorship_roles_use_one_canonical_first_author_value(self) -> None:
+        roles = {paper["role"] for paper in self.lens["papers"].values()}
+        self.assertLessEqual(roles, {"first-author", "coauthor"})
+        self.assertIn("first-author", roles)
+        rendered_sources = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in (SCHOLAR_INCLUDE_PATH, LENS_SCRIPT_PATH, CONSTELLATION_INCLUDE_PATH)
+        )
+        self.assertNotIn("co-first", rendered_sources)
+
+    def test_page_is_list_first_and_constellation_is_progressive_enhancement(self) -> None:
+        page = PUBLICATIONS_PAGE_PATH.read_text(encoding="utf-8")
+        self.assertRegex(page, r'data-publication-view-switcher[^>]* hidden>')
+        self.assertRegex(page, r'id="publication-list-view" data-publication-view-panel="list">')
+        self.assertRegex(
+            page,
+            r'id="paper-constellation-view" data-publication-view-panel="constellation" hidden>',
+        )
+        self.assertLess(
+            page.index("{% bibliography %}"),
+            page.index('<div id="paper-constellation-view"'),
+        )
+        self.assertIn("{% include publications/paper_constellation.liquid %}", page)
+
+    def test_constellation_runtime_is_deterministic_and_filtered_nodes_are_inert(self) -> None:
+        script = CONSTELLATION_SCRIPT_PATH.read_text(encoding="utf-8")
+        for forbidden_runtime in ("forceSimulation", "Math.random", "d3.", "requestIdleCallback"):
+            with self.subTest(forbidden_runtime=forbidden_runtime):
+                self.assertNotIn(forbidden_runtime, script)
+        self.assertIn("paperButton.disabled = filtered", script)
+        self.assertIn("paperButton.tabIndex = filtered ? -1 : 0", script)
+        self.assertIn('node.setAttribute("aria-hidden", filtered ? "true" : "false")', script)
+        self.assertIn('event.key !== "Escape"', script)
+        self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', script)
+
+    def test_future_work_rendering_has_an_allowlisted_public_vocabulary(self) -> None:
+        allowed_values = {
+            "?",
+            "major",
+            "minor",
+            "design",
+            "situate",
+            "chi-rejection",
+            "uist-rejection",
+        }
+
+        def string_values(value) -> set[str]:
+            if isinstance(value, str):
+                return {value}
+            if isinstance(value, dict):
+                values: set[str] = set()
+                for child in value.values():
+                    values.update(string_values(child))
+                return values
+            if isinstance(value, list):
+                values = set()
+                for child in value:
+                    values.update(string_values(child))
+                return values
+            return set()
+
+        self.assertLessEqual(string_values(self.constellation["future"]), allowed_values)
+
+        include = CONSTELLATION_INCLUDE_PATH.read_text(encoding="utf-8")
+        script = CONSTELLATION_SCRIPT_PATH.read_text(encoding="utf-8")
+        self.assertNotRegex(include, r"future_record\.(?:name|title|author|collaborator|draft|venue|hint)")
+        for analytics_token in ("dataLayer", "gtag(", "analytics", "telemetry"):
+            with self.subTest(analytics_token=analytics_token):
+                self.assertNotIn(analytics_token, script)
+
+    def test_origin_routes_and_reproduction_artifact_are_real_and_semantic(self) -> None:
+        self.assertTrue(PROJECT_PATH.is_file())
+        self.assertTrue(REPRODUCTION_GUIDE_PATH.is_file())
+        self.assertTrue(TEASER_PATH.is_file())
+
+        project = PROJECT_PATH.read_text(encoding="utf-8")
+        guide = REPRODUCTION_GUIDE_PATH.read_text(encoding="utf-8")
+        self.assertIn("{{ '/publications/' | relative_url }}", project)
+        self.assertNotIn("?view=constellation", project)
+        self.assertIn("assets/img/project_pics/paper-constellation/paper-constellation-teaser.png", project)
+        self.assertEqual(TEASER_PATH.read_bytes()[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertIn("totals_last_synced", guide)
+        self.assertIn("yearly_snapshot_as_of", guide)
+
+        expected_origins = {
+            CONSTELLATION_INCLUDE_PATH: "/projects/paper-constellation/",
+            SCHOLAR_INCLUDE_PATH: "/projects/scholar-lens/",
+            WALL_INCLUDE_PATH: "/projects/wall-of-rejection/",
+        }
+        for path, route in expected_origins.items():
+            with self.subTest(path=path.name):
+                source = path.read_text(encoding="utf-8")
+                self.assertIn(route, source)
+                self.assertIn('class="widget-origin-link"', source)
+                self.assertIn('class="widget-origin-mark"', source)
+                self.assertIn('class="widget-origin-tooltip"', source)
+
+        self.assertIn("scholar-lens-heading-actions", SCHOLAR_INCLUDE_PATH.read_text(encoding="utf-8"))
+        self.assertIn("rejection-wall-heading-actions", WALL_INCLUDE_PATH.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

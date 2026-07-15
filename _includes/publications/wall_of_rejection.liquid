@@ -14,33 +14,43 @@
             <h2 id="wall-of-rejection-title">{{ rejection_wall.section.title }}</h2>
             <p>{{ rejection_wall.section.description }}</p>
           </div>
-          {% if rejection_wall.views.size > 1 %}
-            <div class="rejection-wall-view-switcher" role="group" aria-label="Choose rejection badge view">
-              {% for view in rejection_wall.views %}
-                <button
-                  class="rejection-wall-view-button{% if forloop.first %} rejection-wall-view-button-active{% endif %}"
-                  type="button"
-                  data-rejection-view-button
-                  data-rejection-view-target="{{ view.id }}"
-                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-                  aria-label="{{ view.aria_label | default: view.label }}"
-                  title="{{ view.label }}"
-                >
-                  {% case view.icon %}
-                    {% when 'star' %}
-                      <i class="fa-solid fa-star" aria-hidden="true"></i>
-                    {% when 'layer-group' %}
-                      <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
-                    {% when 'building-columns' %}
-                      <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
-                    {% else %}
-                      <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
-                  {% endcase %}
-                  <span class="sr-only">{{ view.label }}</span>
-                </button>
-              {% endfor %}
-            </div>
-          {% endif %}
+          <div class="rejection-wall-heading-actions">
+            <a
+              class="widget-origin-link"
+              href="{{ '/projects/wall-of-rejection/' | relative_url }}"
+              aria-label="Want to learn the Wall of Rejection widget's origin?"
+            >
+              <span class="widget-origin-mark" aria-hidden="true">?</span>
+              <span class="widget-origin-tooltip" aria-hidden="true">Want to learn the Wall of Rejection widget's origin?</span>
+            </a>
+            {% if rejection_wall.views.size > 1 %}
+              <div class="rejection-wall-view-switcher" role="group" aria-label="Choose rejection badge view">
+                {% for view in rejection_wall.views %}
+                  <button
+                    class="rejection-wall-view-button{% if forloop.first %} rejection-wall-view-button-active{% endif %}"
+                    type="button"
+                    data-rejection-view-button
+                    data-rejection-view-target="{{ view.id }}"
+                    aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                    aria-label="{{ view.aria_label | default: view.label }}"
+                    title="{{ view.label }}"
+                  >
+                    {% case view.icon %}
+                      {% when 'star' %}
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                      {% when 'layer-group' %}
+                        <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                      {% when 'building-columns' %}
+                        <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+                      {% else %}
+                        <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
+                    {% endcase %}
+                    <span class="sr-only">{{ view.label }}</span>
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
         </div>
         <div class="rejection-badge-zone">
           {% for view in rejection_wall.views %}

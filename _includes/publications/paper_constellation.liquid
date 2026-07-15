@@ -1,0 +1,330 @@
+{% assign constellation = site.data.publication_constellation %}
+{% assign publication_catalog = site.data.publication_catalog.by_key %}
+{% assign publication_lens = site.data.publication_lens %}
+{% assign rejection_wall = site.data.wall_of_rejection %}
+
+{% if constellation and constellation.papers and publication_catalog %}
+  <section class="paper-constellation" data-paper-constellation aria-labelledby="paper-constellation-title">
+    <header class="paper-constellation-heading">
+      <div>
+        <p class="paper-constellation-kicker">Research lineage</p>
+        <h2 id="paper-constellation-title">{{ constellation.metadata.title }}</h2>
+        <p>{{ constellation.metadata.summary }}</p>
+      </div>
+      <a
+        class="widget-origin-link"
+        href="{{ '/projects/paper-constellation/' | relative_url }}"
+        aria-label="Want to learn the Paper Constellation widget's origin?"
+      >
+        <span class="widget-origin-mark" aria-hidden="true">?</span>
+        <span class="widget-origin-tooltip" aria-hidden="true">Want to learn the Paper Constellation widget's origin?</span>
+      </a>
+    </header>
+
+    <div class="paper-constellation-legend" aria-label="Constellation legend">
+      {% for thread_pair in constellation.threads %}
+        {% assign thread_id = thread_pair[0] %}
+        {% assign thread = thread_pair[1] %}
+        <span class="paper-constellation-legend-thread paper-constellation-tone-{{ thread_id }}">
+          <i aria-hidden="true"></i>
+          {{ thread.label }}
+        </span>
+      {% endfor %}
+      <span class="paper-constellation-legend-halo">
+        <i aria-hidden="true"></i>
+        Citation halo
+      </span>
+      <span class="paper-constellation-legend-future">
+        <i aria-hidden="true">?</i>
+        Unannounced work
+      </span>
+    </div>
+
+    <p id="paper-constellation-future-note" class="paper-constellation-future-note">{{ constellation.metadata.future_note }}</p>
+
+    <div
+      class="paper-constellation-map"
+      data-constellation-desktop
+      role="group"
+      aria-label="Published papers arranged by research thread and year, followed by anonymous future-work markers"
+      aria-describedby="paper-constellation-future-note"
+    >
+      <svg class="paper-constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line class="paper-constellation-future-boundary" x1="7" y1="31" x2="94" y2="31"></line>
+        {% for thread_pair in constellation.threads %}
+          {% assign thread_id = thread_pair[0] %}
+          {% assign thread = thread_pair[1] %}
+          <line
+            class="paper-constellation-thread-line paper-constellation-tone-{{ thread_id }}"
+            x1="{{ thread.position.x }}"
+            y1="5"
+            x2="{{ thread.position.x }}"
+            y2="94"
+          ></line>
+        {% endfor %}
+        {% for edge in constellation.edges %}
+          {% if edge.source.kind == 'paper' %}
+            {% assign source_position = constellation.papers[edge.source.id].position %}
+          {% elsif edge.source.kind == 'thread' %}
+            {% assign source_position = constellation.threads[edge.source.id].position %}
+          {% else %}
+            {% assign source_position = constellation.future[edge.source.id].position %}
+          {% endif %}
+          {% if edge.target.kind == 'paper' %}
+            {% assign target_position = constellation.papers[edge.target.id].position %}
+          {% elsif edge.target.kind == 'thread' %}
+            {% assign target_position = constellation.threads[edge.target.id].position %}
+          {% else %}
+            {% assign target_position = constellation.future[edge.target.id].position %}
+          {% endif %}
+          {% assign source_y = source_position.y | default: source_position.anchor_y %}
+          {% assign target_y = target_position.y | default: target_position.anchor_y %}
+          {% assign control_y = source_y | plus: target_y | divided_by: 2 %}
+          <path
+            class="paper-constellation-edge paper-constellation-edge-{{ edge.relation }}"
+            d="M {{ source_position.x }} {{ source_y }} C {{ source_position.x }} {{ control_y }}, {{ target_position.x }} {{ control_y }}, {{ target_position.x }} {{ target_y }}"
+            data-constellation-edge
+            data-edge-source="{{ edge.source.id }}"
+            data-edge-source-kind="{{ edge.source.kind }}"
+            data-edge-target="{{ edge.target.id }}"
+            data-edge-target-kind="{{ edge.target.kind }}"
+          ></path>
+        {% endfor %}
+        <text class="paper-constellation-era-label" x="2" y="7">In progress</text>
+        <text class="paper-constellation-year-label" x="2" y="39">2026</text>
+        <text class="paper-constellation-year-label" x="2" y="56">2025</text>
+        <text class="paper-constellation-year-label" x="2" y="73">2023</text>
+        <text class="paper-constellation-year-label" x="2" y="89">2021</text>
+      </svg>
+
+      {% for thread_pair in constellation.threads %}
+        {% assign thread_id = thread_pair[0] %}
+        {% assign thread = thread_pair[1] %}
+        <div
+          class="paper-constellation-thread-label paper-constellation-tone-{{ thread_id }}"
+          style="--node-x: {{ thread.position.x }}%;"
+        >
+          <strong>{{ thread.label }}</strong>
+          <span>{{ thread.summary }}</span>
+        </div>
+      {% endfor %}
+
+      <ol class="paper-constellation-node-layer">
+        {% for paper_pair in constellation.papers %}
+          {% assign paper_key = paper_pair[0] %}
+          {% assign paper_record = paper_pair[1] %}
+          {% assign paper = publication_catalog[paper_key] %}
+          {% assign lens_record = publication_lens.papers[paper_key] %}
+          {% assign citation_total = lens_record.citation_total | default: 0 %}
+          {% assign citation_band = 'none' %}
+          {% if citation_total >= 100 %}
+            {% assign citation_band = 'high' %}
+          {% elsif citation_total >= 25 %}
+            {% assign citation_band = 'medium' %}
+          {% elsif citation_total > 0 %}
+            {% assign citation_band = 'low' %}
+          {% endif %}
+          {% capture membership_label %}
+            {%- for membership in paper_record.memberships -%}
+              {{ constellation.threads[membership.thread].label }} {{ membership.relation }}{% unless forloop.last %}, {% endunless %}
+            {%- endfor -%}
+          {% endcapture %}
+          <li
+            class="paper-constellation-node-position paper-constellation-paper-position"
+            data-constellation-node-id="{{ paper_key }}"
+            style="--node-x: {{ paper_record.position.x }}%; --node-y: {{ paper_record.position.y }}%;"
+          >
+            <button
+              class="paper-constellation-paper paper-constellation-citation-{{ citation_band }} paper-constellation-format-{{ lens_record.work_group }}"
+              type="button"
+              data-constellation-paper
+              data-publication-key="{{ paper_key }}"
+              data-publication-role="{{ lens_record.role }}"
+              data-publication-group="{{ lens_record.work_group }}"
+              data-publication-citations="{{ citation_total }}"
+              aria-pressed="false"
+              aria-controls="paper-constellation-detail"
+              aria-label="{{ paper.title | escape }}. {{ membership_label | strip }}. {{ citation_total }} citations. Select to inspect its connections."
+            >
+              <span class="paper-constellation-citation-halo" aria-hidden="true"></span>
+              <span class="paper-constellation-paper-core" aria-hidden="true"></span>
+              <span class="paper-constellation-paper-copy">
+                <strong>{{ paper_record.display_label }}</strong>
+                <small>{{ paper.year }} · {{ paper.abbreviation }}</small>
+              </span>
+            </button>
+          </li>
+        {% endfor %}
+
+        {% for future_pair in constellation.future %}
+          {% assign future_id = future_pair[0] %}
+          {% assign future_record = future_pair[1] %}
+          {% assign future_thread = constellation.threads[future_record.thread] %}
+          {% capture future_aria %}
+            Unannounced {{ future_record.size }} future work on the {{ future_thread.label }} thread.
+            {%- for rejection_id in future_record.rejection_records -%}
+              {%- for badge in rejection_wall.badges -%}
+                {%- if badge.id == rejection_id %} Rejected at {{ badge.venue }} {{ badge.year }}.{% endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          {% endcapture %}
+          <li
+            class="paper-constellation-node-position paper-constellation-future-position"
+            data-constellation-node-id="{{ future_id }}"
+            data-constellation-future
+            data-constellation-thread="{{ future_record.thread }}"
+            style="--node-x: {{ future_record.position.x }}%; --node-y: {{ future_record.position.y }}%;"
+          >
+            <div
+              class="paper-constellation-future paper-constellation-future-{{ future_record.size }} paper-constellation-tone-{{ future_record.thread }}"
+              role="img"
+              aria-label="{{ future_aria | strip | normalize_whitespace }}"
+            >
+              <span class="paper-constellation-future-mark" aria-hidden="true">{{ future_record.label }}</span>
+              {% if future_record.rejection_records %}
+                <span class="paper-constellation-rejection-tags" aria-hidden="true">
+                  {% for rejection_id in future_record.rejection_records %}
+                    {% for badge in rejection_wall.badges %}
+                      {% if badge.id == rejection_id %}
+                        {% assign badge_year = badge.year | append: '' %}
+                        <span>{{ badge.venue }} ’{{ badge_year | slice: -2, 2 }} · rejected</span>
+                      {% endif %}
+                    {% endfor %}
+                  {% endfor %}
+                </span>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+
+    <div class="paper-constellation-mobile" data-constellation-mobile>
+      {% for thread_pair in constellation.threads %}
+        {% assign thread_id = thread_pair[0] %}
+        {% assign thread = thread_pair[1] %}
+        <section
+          class="paper-constellation-mobile-thread paper-constellation-tone-{{ thread_id }}"
+          aria-labelledby="constellation-mobile-{{ thread_id }}"
+        >
+          <header>
+            <h3 id="constellation-mobile-{{ thread_id }}">{{ thread.label }}</h3>
+            <p>{{ thread.summary }}</p>
+          </header>
+          <ol>
+            {% for paper_pair in constellation.papers %}
+              {% assign paper_key = paper_pair[0] %}
+              {% assign paper_record = paper_pair[1] %}
+              {% if paper_record.mobile_thread == thread_id %}
+                {% assign paper = publication_catalog[paper_key] %}
+                {% assign lens_record = publication_lens.papers[paper_key] %}
+                {% assign citation_total = lens_record.citation_total | default: 0 %}
+                {% assign citation_band = 'none' %}
+                {% if citation_total >= 100 %}
+                  {% assign citation_band = 'high' %}
+                {% elsif citation_total >= 25 %}
+                  {% assign citation_band = 'medium' %}
+                {% elsif citation_total > 0 %}
+                  {% assign citation_band = 'low' %}
+                {% endif %}
+                <li data-constellation-node-id="{{ paper_key }}">
+                  <button
+                    class="paper-constellation-mobile-paper paper-constellation-citation-{{ citation_band }}"
+                    type="button"
+                    data-constellation-paper
+                    data-publication-key="{{ paper_key }}"
+                    data-publication-role="{{ lens_record.role }}"
+                    data-publication-group="{{ lens_record.work_group }}"
+                    data-publication-citations="{{ citation_total }}"
+                    aria-pressed="false"
+                    aria-controls="paper-constellation-detail"
+                  >
+                    <span class="paper-constellation-mobile-dot" aria-hidden="true"></span>
+                    <span>
+                      <strong>{{ paper_record.display_label }}</strong>
+                      <small>{{ paper.year }} · {{ paper.abbreviation }} · {{ citation_total }} cites</small>
+                    </span>
+                  </button>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% for future_pair in constellation.future %}
+              {% assign future_id = future_pair[0] %}
+              {% assign future_record = future_pair[1] %}
+              {% if future_record.thread == thread_id %}
+                {% capture future_mobile_aria %}
+                  Unannounced {{ future_record.size }} future work.
+                  {%- for rejection_id in future_record.rejection_records -%}
+                    {%- for badge in rejection_wall.badges -%}
+                      {%- if badge.id == rejection_id %} Rejected at {{ badge.venue }} {{ badge.year }}.{% endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                {% endcapture %}
+                <li
+                  class="paper-constellation-mobile-future paper-constellation-mobile-future-{{ future_record.size }}"
+                  data-constellation-node-id="{{ future_id }}"
+                  data-constellation-future
+                  aria-label="{{ future_mobile_aria | strip | normalize_whitespace }}"
+                >
+                  <span aria-hidden="true">{{ future_record.label }}</span>
+                  {% if future_record.rejection_records %}
+                    <small aria-hidden="true">
+                      {% for rejection_id in future_record.rejection_records %}
+                        {% for badge in rejection_wall.badges %}
+                          {% if badge.id == rejection_id %}
+                            {{ badge.venue }}
+                            {{ badge.year }} rejected{% unless forloop.parentloop.last %} · {% endunless %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    </small>
+                  {% endif %}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ol>
+        </section>
+      {% endfor %}
+    </div>
+
+    <section id="paper-constellation-detail" class="paper-constellation-detail" data-constellation-detail aria-live="polite">
+      <div class="paper-constellation-detail-empty" data-constellation-detail-empty>
+        <span>Inspect a paper</span>
+        <p>Hover or focus to trace its neighborhood. Select it to keep the evidence open.</p>
+      </div>
+      {% for paper_pair in constellation.papers %}
+        {% assign paper_key = paper_pair[0] %}
+        {% assign paper_record = paper_pair[1] %}
+        {% assign paper = publication_catalog[paper_key] %}
+        {% assign lens_record = publication_lens.papers[paper_key] %}
+        <article data-constellation-detail-paper="{{ paper_key }}" hidden>
+          <div>
+            <p class="paper-constellation-detail-kicker">{{ paper.year }} · {{ paper.abbreviation }} · {{ lens_record.citation_total }} citations</p>
+            <h3>{{ paper.title }}</h3>
+            <p>{{ paper.tldr }}</p>
+            {% if paper_record.qualifier %}
+              <p class="paper-constellation-detail-qualifier">{{ paper_record.qualifier }}</p>
+            {% endif %}
+          </div>
+          <div class="paper-constellation-detail-actions">
+            <a href="{{ paper.links.citation_page_path }}">Citation context</a>
+            {% if paper.related_project %}
+              <a href="{{ paper.related_project }}">Project</a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+      <button class="paper-constellation-clear" type="button" data-constellation-clear hidden>Clear selection</button>
+    </section>
+
+    <p class="paper-constellation-credit">
+      Interaction approach inspired by
+      <a href="{{ constellation.metadata.inspiration.url }}" target="_blank" rel="noopener noreferrer">
+        {{ constellation.metadata.inspiration.label }} by {{ constellation.metadata.inspiration.creator }} </a
+      >; thanks to
+      <a href="{{ constellation.metadata.shared_by.url }}" target="_blank" rel="noopener noreferrer">{{ constellation.metadata.shared_by.label }}</a>
+      for sharing the reference. Read the
+      <a href="{{ constellation.metadata.inspiration.process_url }}" target="_blank" rel="noopener noreferrer">original process story</a>.
+    </p>
+  </section>
+{% endif %}

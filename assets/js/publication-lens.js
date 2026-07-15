@@ -43,7 +43,7 @@
     const role = activeRole();
     const type = activeType();
     const entryRole = entry.dataset.publicationRole;
-    const roleMatches = role === "all" || entryRole === role || (role === "first-author" && entryRole === "co-first");
+    const roleMatches = role === "all" || entryRole === role;
     const typeMatches = type === "all" || entry.dataset.publicationGroup === type;
     return roleMatches && typeMatches;
   };
@@ -121,7 +121,7 @@
   const updateStats = () => {
     const selected = matchingEntries();
     const citations = selected.reduce((sum, entry) => sum + Number(entry.dataset.publicationCitations || 0), 0);
-    const firstAuthor = selected.filter((entry) => entry.dataset.publicationRole === "first-author" || entry.dataset.publicationRole === "co-first");
+    const firstAuthor = selected.filter((entry) => entry.dataset.publicationRole === "first-author");
     const firstAuthorCitations = firstAuthor.reduce((sum, entry) => sum + Number(entry.dataset.publicationCitations || 0), 0);
     const fullPapers = selected.filter((entry) => entry.dataset.publicationGroup === "full-paper").length;
     const shortPapers = selected.filter((entry) => entry.dataset.publicationGroup === "short-form").length;
@@ -162,6 +162,16 @@
 
     updateStats();
     updateYearBars();
+    document.dispatchEvent(
+      new CustomEvent("publication:filter", {
+        detail: {
+          visiblePaperKeys: matchingEntries().map((entry) => entry.dataset.publicationKey),
+          role: activeRole(),
+          type: activeType(),
+          source: "publication-lens",
+        },
+      })
+    );
   };
 
   const setLinkedPapers = (paperKeys, sourceLabel, activeYearBar = null, options = {}) => {
@@ -203,9 +213,16 @@
     } else if (activeYearLabel && sourceLabel) {
       activeYearLabel.textContent = sourceLabel;
     }
+    if (options.broadcast !== false) {
+      document.dispatchEvent(
+        new CustomEvent("publication:focus", {
+          detail: { paperKeys: Array.from(keys), label: sourceLabel, source: "publication-lens" },
+        })
+      );
+    }
   };
 
-  const clearLinkedPapers = () => {
+  const clearLinkedPapers = (options = {}) => {
     delete workbench.dataset.activePublication;
     if (activeYearLabel) activeYearLabel.textContent = "All papers";
     resetYearPaperShares();
@@ -216,6 +233,9 @@
       entry.querySelector("[data-publication-citation-chip]")?.classList.remove("publication-lens-citation-linked");
     });
     yearBars.forEach((bar) => bar.classList.remove("scholar-lens-year-linked", "scholar-lens-year-muted-by-link", "scholar-lens-year-active"));
+    if (options.broadcast !== false) {
+      document.dispatchEvent(new CustomEvent("publication:clear", { detail: { source: "publication-lens" } }));
+    }
   };
 
   const setActiveYear = (bar) => {
@@ -265,6 +285,18 @@
   roleInputs.forEach((input) => input.addEventListener("change", updateFilters));
   typeInputs.forEach((input) => input.addEventListener("change", updateFilters));
   typeSelect?.addEventListener("change", updateFilters);
+
+  document.addEventListener("publication:focus", (event) => {
+    if (event.detail?.source !== "paper-constellation") return;
+    const paperKeys = event.detail.paperKeys || [];
+    const paperEntry = entryByKey.get(paperKeys[0]);
+    setLinkedPapers(paperKeys, event.detail.label, null, { paperEntry, broadcast: false });
+  });
+
+  document.addEventListener("publication:clear", (event) => {
+    if (event.detail?.source !== "paper-constellation") return;
+    clearLinkedPapers({ broadcast: false });
+  });
 
   const setupAdaptiveLens = () => {
     const desktopQuery = window.matchMedia("(min-width: 992px)");
