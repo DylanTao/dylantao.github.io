@@ -34,6 +34,84 @@ ul.task-list input[type="checkbox"] {
   text-align: center;
 }
 
+.widget-origin-link {
+  position: relative;
+  z-index: 6;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid color-mix(in srgb, var(--global-outline-color) 82%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--global-card-bg-color) 88%, transparent);
+  color: color-mix(in srgb, var(--global-text-color-light) 72%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 760;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard),
+    color var(--motion-standard),
+    opacity var(--motion-standard),
+    transform var(--motion-standard);
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(in srgb, var(--global-theme-color) 54%, var(--global-outline-color));
+    background: var(--global-accent-soft);
+    color: var(--global-theme-color);
+    opacity: 1;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+.widget-origin-mark {
+  transform: translateY(-0.01em);
+}
+
+.widget-origin-tooltip {
+  position: absolute;
+  right: -0.2rem;
+  bottom: calc(100% + 0.55rem);
+  width: max-content;
+  max-width: min(15.5rem, 72vw);
+  padding: 0.42rem 0.58rem;
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.48rem;
+  background: var(--global-card-bg-color);
+  box-shadow: var(--md-lite-elevation-2);
+  color: var(--global-text-color);
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 650;
+  line-height: 1.35;
+  opacity: 0;
+  pointer-events: none;
+  text-align: left;
+  transform: translateY(0.2rem);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+  visibility: hidden;
+}
+
+.widget-origin-link:hover .widget-origin-tooltip,
+.widget-origin-link:focus-visible .widget-origin-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
 // Card
 
 .card {

@@ -19,6 +19,94 @@ github_activity: true
     {% assign account_lifetime = site.data.agentic_usage.account_lifetime %}
   </header>
 
+  <section
+    class="build-rhythm-story"
+    data-build-rhythm-story
+    data-state="loading"
+    data-story-static="true"
+    aria-labelledby="build-rhythm-story-title"
+  >
+    <header class="build-rhythm-story-heading">
+      <p class="build-rhythm-story-kicker">A SCROLL-LED READING</p>
+      <div class="build-rhythm-story-title-row">
+        <h2 id="build-rhythm-story-title">One page, two clocks.</h2>
+        {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Want to learn this widget's origin?" %}
+      </div>
+      <p>
+        Commits and line changes describe a long build rhythm. Codex tokens describe a separate, recent account snapshot. Scroll through the
+        distinction, then use the explorer for every reported value.
+      </p>
+    </header>
+
+    <div class="build-rhythm-story-layout">
+      <div class="build-rhythm-story-stage-wrap" aria-hidden="true">
+        <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
+          <div class="build-rhythm-story-stage-heading">
+            <span data-build-rhythm-story-label>COMPLETE VIEW</span>
+            <span data-build-rhythm-story-scope>5 YEARS + LAST 30 DAYS</span>
+          </div>
+          <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
+          <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
+            GitHub build rhythm above. The separate Codex clock below.
+          </p>
+        </div>
+      </div>
+
+      <div class="build-rhythm-story-steps">
+        <article class="build-rhythm-story-step" data-build-rhythm-step="cadence">
+          <p class="build-rhythm-story-step-number">01 · CADENCE</p>
+          <h3>A commit is a beat, not a score.</h3>
+          <p>
+            Weekly commits show when building clustered and when it went quiet. They describe cadence, not effort, quality, or productivity.
+          </p>
+        </article>
+
+        <article class="build-rhythm-story-step" data-build-rhythm-step="magnitude">
+          <p class="build-rhythm-story-step-number">02 · MAGNITUDE + DIRECTION</p>
+          <h3>The same week can carry a different amount of change.</h3>
+          <p>
+            Additions rise above the baseline and deletions fall below it. These measures stay synchronized to the same week, but neither
+            explains why the change happened.
+          </p>
+        </article>
+
+        <article class="build-rhythm-story-step" data-build-rhythm-step="bursts">
+          <p class="build-rhythm-story-step-number">03 · READABLE + LITERAL</p>
+          <h3>Large releases can flatten the quieter weeks.</h3>
+          <p>
+            The readable transform gives smaller bursts room to remain visible. Literal restores the full linear distance. The underlying
+            reported values never change.
+          </p>
+        </article>
+
+        <article class="build-rhythm-story-step" data-build-rhythm-step="codex">
+          <p class="build-rhythm-story-step-number">04 · RESET THE CLOCK</p>
+          <h3>Codex tokens belong to a different horizon.</h3>
+          <p>
+            This view covers only the latest 30 calendar days from a dated account snapshot. The visual resets its units and time span instead
+            of implying that tokens caused the GitHub rhythm.
+          </p>
+        </article>
+
+        <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
+          <p class="build-rhythm-story-step-number">05 · EXACT EXPLORATION</p>
+          <h3>The story chooses a few views. The explorer keeps the record.</h3>
+          <p>
+            Continue for range and scale controls, selected-week keyboard inspection, source notes, and the exact reported-value tables.
+          </p>
+          <a class="build-rhythm-story-explore" href="#github-activity-github-title">Explore the full build rhythm</a>
+        </article>
+      </div>
+    </div>
+
+    <p class="build-rhythm-story-credit">
+      Interaction direction inspired by
+      <a href="https://rhythm-of-food.net/" target="_blank" rel="noopener noreferrer"><em>The Rhythm of Food</em></a>
+      by Google News Lab and Truth &amp; Beauty, shared with me by <a href="https://jrthomp.com/" target="_blank" rel="noopener noreferrer">John Thompson</a>.
+    </p>
+
+  </section>
+
 {% if account_lifetime %}
 
 <section

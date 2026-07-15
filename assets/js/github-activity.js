@@ -46,9 +46,464 @@
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
   const lineChanges = (row) => row.additions + row.deletions;
 
+  const initBuildRhythmStory = ({ githubRows, codexSourcePromise }) => {
+    const storyRoot = document.querySelector("[data-build-rhythm-story]");
+    if (!storyRoot || !githubRows.length) return;
+
+    const stage = storyRoot.querySelector("[data-build-rhythm-story-stage]");
+    const chart = storyRoot.querySelector("[data-build-rhythm-story-chart]");
+    const sceneLabel = storyRoot.querySelector("[data-build-rhythm-story-label]");
+    const sceneScope = storyRoot.querySelector("[data-build-rhythm-story-scope]");
+    const sceneReadout = storyRoot.querySelector("[data-build-rhythm-story-readout]");
+    const steps = Array.from(storyRoot.querySelectorAll("[data-build-rhythm-step]"));
+    if (!stage || !chart || !sceneLabel || !sceneScope || !sceneReadout || !steps.length) return;
+
+    const compactQuery = window.matchMedia("(max-width: 820px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const latestGithubDate = githubRows.at(-1).date;
+    const githubCutoff = new Date(Date.UTC(latestGithubDate.getUTCFullYear() - 5, latestGithubDate.getUTCMonth(), latestGithubDate.getUTCDate()));
+    const storyGithubRows = githubRows.filter((row) => row.date >= githubCutoff);
+    let codexSource = null;
+    let activeScene = "cadence";
+    let renderedScene = null;
+    let pendingScene = null;
+    let transitionFrame = 0;
+    let resizeFrame = 0;
+    let storyVisible = true;
+    let stepObserver = null;
+    let rootObserver = null;
+
+    const isStaticStory = () => compactQuery.matches || reducedMotionQuery.matches || !("IntersectionObserver" in window);
+    const palette = () => {
+      const style = getComputedStyle(storyRoot);
+      return {
+        accent: style.getPropertyValue("--global-primary-color").trim() || "#b84f12",
+        added: style.getPropertyValue("--global-sky-strong").trim() || "#357f9e",
+        removed: style.getPropertyValue("--global-mint-strong").trim() || "#387768",
+        text: style.getPropertyValue("--global-text-color").trim() || "#211a16",
+        muted: style.getPropertyValue("--global-text-color-light").trim() || "#6d6a62",
+        grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(90,88,72,.16)",
+        surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#fffaf6",
+      };
+    };
+    const dimensions = () => ({
+      width: Math.max(300, Math.round(chart.getBoundingClientRect().width || storyRoot.getBoundingClientRect().width || 720)),
+      height: Math.max(300, Math.round(chart.getBoundingClientRect().height || 368)),
+    });
+    const drawSeries = (group, rows, valueForRow, bounds, options) => {
+      const values = rows.map(valueForRow);
+      const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
+      const transformedMaximum = options.scale === "linear" ? maximum : Math.log1p(maximum);
+      const x = (index) => bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
+      const y = (value) => {
+        const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
+        if (options.signed) return bounds.baseline - Math.sign(value) * transformed * (bounds.bottom - bounds.top) * 0.45;
+        return bounds.bottom - transformed * (bounds.bottom - bounds.top);
+      };
+      const points = values.map((value, index) => [x(index), y(value)]);
+      if (options.fillOpacity) {
+        group.append(
+          svgElement("path", {
+            d: areaPath(points, options.signed ? bounds.baseline : bounds.bottom),
+            fill: options.color,
+            "fill-opacity": options.fillOpacity,
+          })
+        );
+      }
+      group.append(
+        svgElement("path", {
+          d: linePath(points),
+          fill: "none",
+          stroke: options.color,
+          "stroke-width": options.strokeWidth || 1.8,
+          ...(options.dash ? { "stroke-dasharray": options.dash } : {}),
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+        })
+      );
+      return { maximum, values, x, y };
+    };
+
+    const drawCadence = (group, width, height, colors) => {
+      const left = width < 620 ? 42 : 50;
+      const right = 14;
+      const top = 40;
+      const bottom = 30;
+      const baseline = height - bottom;
+
+      addText(group, "COMMITS / WEEK \u00b7 READABLE LOG1P", left, 20, { color: colors.accent, weight: 700 });
+      drawSeries(
+        group,
+        storyGithubRows,
+        (row) => row.commits,
+        { left, right: width - right, top, bottom: baseline },
+        { color: colors.accent, fillOpacity: 0.12, scale: "log", strokeWidth: 2 }
+      );
+      const busiest = storyGithubRows.reduce((best, row) => (row.commits > best.commits ? row : best));
+      return `Highest commit week in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Cadence is not a productivity score.`;
+    };
+
+    const drawMagnitude = (group, width, height, colors) => {
+      const left = width < 620 ? 46 : 54;
+      const right = 14;
+      const top = 45;
+      const bottom = 30;
+      const baseline = (top + height - bottom) / 2;
+      const maximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
+
+      addText(group, "LINES CHANGED / WEEK \u00b7 READABLE SYMLOG", left, 20, { color: colors.text, weight: 700 });
+      addText(group, "+ added", left, 38, { color: colors.added, weight: 650 });
+      addText(group, "\u2212 removed", left + 78, 38, { color: colors.removed, weight: 650 });
+      group.append(
+        svgElement("line", {
+          x1: left,
+          y1: baseline,
+          x2: width - right,
+          y2: baseline,
+          stroke: colors.text,
+          "stroke-opacity": 0.4,
+          "stroke-width": 1.4,
+        })
+      );
+      const bounds = { left, right: width - right, top, bottom: height - bottom, baseline };
+      drawSeries(group, storyGithubRows, (row) => row.additions, bounds, {
+        color: colors.added,
+        maximum,
+        scale: "log",
+        signed: true,
+      });
+      drawSeries(group, storyGithubRows, (row) => -row.deletions, bounds, {
+        color: colors.removed,
+        dash: "4 2",
+        maximum,
+        scale: "log",
+        signed: true,
+      });
+      const largest = storyGithubRows.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
+      return `Largest reported line-change week \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
+    };
+
+    const drawBursts = (group, width, height, colors) => {
+      const outer = 10;
+      const gap = 16;
+      const panelWidth = (width - outer * 2 - gap) / 2;
+      const panelTop = 32;
+      const panelBottom = height - 26;
+      const values = storyGithubRows.map(lineChanges);
+      const maximum = Math.max(...values, 1);
+      const peakIndex = values.indexOf(maximum);
+
+      [
+        { label: "READABLE LOG1P", mode: "log", x: outer },
+        { label: "LITERAL LINEAR", mode: "linear", x: outer + panelWidth + gap },
+      ].forEach((panel) => {
+        addText(group, panel.label, panel.x + 10, 20, { color: panel.mode === "log" ? colors.accent : colors.muted, weight: 700 });
+        const left = panel.x + 10;
+        const right = panel.x + panelWidth - 10;
+        const bottom = panelBottom - 18;
+        drawSeries(
+          group,
+          storyGithubRows,
+          lineChanges,
+          { left, right, top: panelTop + 14, bottom },
+          { color: colors.accent, fillOpacity: panel.mode === "log" ? 0.12 : 0.07, maximum, scale: panel.mode }
+        );
+      });
+      const peak = storyGithubRows[peakIndex];
+      return `Same reported values in both panels \u00b7 largest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(maximum)} lines changed.`;
+    };
+
+    const codexRows = () =>
+      codexSource?.recent?.daily?.map((row, index, rows) => ({
+        ...row,
+        date: new Date(`${row.date}T00:00:00Z`),
+        partial: index === rows.length - 1 && codexSource.recent.partialLastDay,
+      })) || [];
+
+    const appendDateRange = (group, rows, left, right, width, height, colors) => {
+      if (!rows.length) return;
+      const labelY = height - 8;
+      addText(group, shortDate.format(rows[0].date), left, labelY, { color: colors.muted });
+      addText(group, shortDate.format(rows.at(-1).date), width - right, labelY, {
+        anchor: "end",
+        color: colors.muted,
+      });
+    };
+
+    const drawCodex = (group, width, height, colors) => {
+      const rows = codexRows();
+      const left = width < 620 ? 46 : 54;
+      const right = 14;
+      const top = 42;
+      const bottom = 30;
+      const baseline = height - bottom;
+      if (!rows.length) {
+        addText(group, "RECENT CODEX SNAPSHOT UNAVAILABLE", left, 24, { color: colors.accent, weight: 700 });
+        addText(group, "The story does not substitute a zero or estimate.", left, 62, { color: colors.muted });
+        return "Recent Codex token data is unavailable. The GitHub explorer remains available below.";
+      }
+      addText(group, "CODEX TOKENS \u00b7 LAST 30 DAYS \u00b7 LINEAR", left, 20, { color: colors.accent, weight: 700 });
+      [0, 0.5, 1].forEach((fraction) => {
+        const yy = baseline - fraction * (baseline - top);
+        group.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: colors.grid, "stroke-width": 1 }));
+      });
+      const series = drawSeries(
+        group,
+        rows,
+        (row) => row.tokens,
+        { left, right: width - right, top, bottom: baseline },
+        { color: colors.accent, fillOpacity: 0.12, scale: "linear", strokeWidth: 2 }
+      );
+      const latest = rows.at(-1);
+      group.append(
+        svgElement("circle", {
+          cx: series.x(rows.length - 1),
+          cy: series.y(latest.tokens),
+          r: latest.partial ? 4.5 : 3.5,
+          fill: latest.partial ? colors.surface : colors.accent,
+          stroke: colors.accent,
+          "stroke-width": latest.partial ? 2.2 : 1,
+          ...(latest.partial ? { "stroke-dasharray": "2 1" } : {}),
+        })
+      );
+      appendDateRange(group, rows, left, right, width, height, colors);
+      return `Latest snapshot day \u00b7 ${fullDate.format(latest.date)} \u00b7 ${number.format(latest.tokens)} tokens${latest.partial ? " \u00b7 partial day" : ""}. This is a separate clock.`;
+    };
+
+    const drawComplete = (group, width, height, colors) => {
+      const left = 42;
+      const right = 12;
+      const commitTop = 28;
+      const commitBottom = Math.max(92, height * 0.25);
+      addText(group, "GITHUB \u00b7 COMMITS / WEEK", left, 16, { color: colors.accent, weight: 700 });
+      drawSeries(
+        group,
+        storyGithubRows,
+        (row) => row.commits,
+        { left, right: width - right, top: commitTop, bottom: commitBottom },
+        { color: colors.accent, scale: "log" }
+      );
+
+      const lineTop = commitBottom + 36;
+      const lineBottom = Math.max(lineTop + 68, height * 0.66);
+      const lineBaseline = (lineTop + lineBottom) / 2;
+      const lineMaximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
+      addText(group, "SAME WEEKS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, { color: colors.muted, weight: 700 });
+      group.append(
+        svgElement("line", {
+          x1: left,
+          y1: lineBaseline,
+          x2: width - right,
+          y2: lineBaseline,
+          stroke: colors.grid,
+          "stroke-width": 1.2,
+        })
+      );
+      const lineBounds = { left, right: width - right, top: lineTop, bottom: lineBottom, baseline: lineBaseline };
+      drawSeries(group, storyGithubRows, (row) => row.additions, lineBounds, {
+        color: colors.added,
+        maximum: lineMaximum,
+        scale: "log",
+        signed: true,
+      });
+      drawSeries(group, storyGithubRows, (row) => -row.deletions, lineBounds, {
+        color: colors.removed,
+        dash: "4 2",
+        maximum: lineMaximum,
+        scale: "log",
+        signed: true,
+      });
+
+      const rows = codexRows();
+      const codexTop = lineBottom + 32;
+      const codexBottom = height - 18;
+      addText(group, "SEPARATE CLOCK \u00b7 CODEX TOKENS / DAY", left, codexTop - 10, { color: colors.accent, weight: 700 });
+      if (rows.length && codexBottom > codexTop) {
+        drawSeries(
+          group,
+          rows,
+          (row) => row.tokens,
+          { left, right: width - right, top: codexTop, bottom: codexBottom },
+          { color: colors.accent, fillOpacity: 0.09, scale: "linear" }
+        );
+      } else {
+        addText(group, "Snapshot unavailable; no substitute value is drawn.", left, Math.min(height - 8, codexTop + 18), { color: colors.muted });
+      }
+      return "Static summary \u00b7 GitHub cadence and line direction share one weekly clock. Codex tokens use a separate 30-day clock.";
+    };
+
+    const metadata = {
+      cadence: { label: "CADENCE", scope: "5 YEARS \u00b7 WEEKLY" },
+      magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
+      bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
+      codex: { label: "RESET THE CLOCK", scope: "LAST 30 DAYS \u00b7 DAILY" },
+      explore: { label: "HANDOFF", scope: "EXACT EXPLORER BELOW" },
+      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + LAST 30 DAYS" },
+    };
+
+    const renderScene = (scene) => {
+      const targetScene = scene === "explore" ? "complete" : scene;
+      const { width, height } = dimensions();
+      const colors = palette();
+      const group = svgElement("g", { "data-build-rhythm-story-layer": targetScene });
+      chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      chart.replaceChildren(group);
+      let readout;
+      if (targetScene === "cadence") readout = drawCadence(group, width, height, colors);
+      else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
+      else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
+      else if (targetScene === "codex") readout = drawCodex(group, width, height, colors);
+      else readout = drawComplete(group, width, height, colors);
+
+      const copy = metadata[scene] || metadata.complete;
+      sceneLabel.textContent = copy.label;
+      sceneScope.textContent = copy.scope;
+      sceneReadout.textContent = readout;
+      stage.dataset.scene = scene;
+      renderedScene = scene;
+    };
+
+    const finishTransition = (scene) => {
+      if (transitionFrame) cancelAnimationFrame(transitionFrame);
+      transitionFrame = 0;
+      pendingScene = null;
+      stage.style.opacity = "1";
+      stage.dataset.transitioning = "false";
+      if (renderedScene !== scene) renderScene(scene);
+    };
+
+    const cancelTransition = ({ settle = true } = {}) => {
+      if (transitionFrame) cancelAnimationFrame(transitionFrame);
+      transitionFrame = 0;
+      const target = pendingScene;
+      pendingScene = null;
+      stage.style.opacity = "1";
+      stage.dataset.transitioning = "false";
+      if (settle && target && renderedScene !== target) renderScene(target);
+    };
+
+    const transitionTo = (requestedScene, { animate = true } = {}) => {
+      const scene = isStaticStory() ? "complete" : requestedScene;
+      if (scene === pendingScene || (scene === renderedScene && !pendingScene)) return;
+      cancelTransition({ settle: false });
+      if (!animate || isStaticStory() || !storyVisible || renderedScene == null) {
+        renderScene(scene);
+        return;
+      }
+
+      pendingScene = scene;
+      stage.dataset.transitioning = "true";
+      const startedAt = performance.now();
+      const duration = 320;
+      let swapped = false;
+      const tick = (now) => {
+        if (!storyVisible) {
+          finishTransition(scene);
+          return;
+        }
+        const progress = clamp((now - startedAt) / duration, 0, 1);
+        if (progress < 0.42) {
+          stage.style.opacity = String(1 - (progress / 0.42) * 0.72);
+        } else {
+          if (!swapped) {
+            renderScene(scene);
+            swapped = true;
+          }
+          stage.style.opacity = String(0.28 + ((progress - 0.42) / 0.58) * 0.72);
+        }
+        if (progress < 1) transitionFrame = requestAnimationFrame(tick);
+        else finishTransition(scene);
+      };
+      transitionFrame = requestAnimationFrame(tick);
+    };
+
+    const nearestStep = () => {
+      const viewportCenter = window.innerHeight * 0.5;
+      return steps
+        .map((step) => {
+          const box = step.getBoundingClientRect();
+          return { distance: Math.abs((box.top + box.bottom) / 2 - viewportCenter), step };
+        })
+        .sort((a, b) => a.distance - b.distance)[0]?.step;
+    };
+
+    const activateStep = (step, { animate = true } = {}) => {
+      if (!step) return;
+      activeScene = step.dataset.buildRhythmStep || "cadence";
+      steps.forEach((candidate) => candidate.classList.toggle("is-active", candidate === step));
+      transitionTo(activeScene, { animate });
+    };
+
+    const connectStepObserver = () => {
+      stepObserver?.disconnect();
+      stepObserver = null;
+      if (isStaticStory()) {
+        steps.forEach((step) => step.classList.remove("is-active"));
+        transitionTo("complete", { animate: false });
+        return;
+      }
+      stepObserver = new IntersectionObserver(
+        () => {
+          if (!storyVisible) return;
+          activateStep(nearestStep());
+        },
+        { rootMargin: "-28% 0px -28% 0px", threshold: [0, 0.25, 0.5, 0.75] }
+      );
+      steps.forEach((step) => stepObserver.observe(step));
+      activateStep(nearestStep(), { animate: false });
+    };
+
+    const refreshMode = () => {
+      const staticStory = isStaticStory();
+      storyRoot.dataset.storyStatic = String(staticStory);
+      cancelTransition({ settle: false });
+      connectStepObserver();
+      if (staticStory) transitionTo("complete", { animate: false });
+      else activateStep(nearestStep(), { animate: false });
+    };
+
+    storyRoot.dataset.state = "ready";
+    const initialBox = storyRoot.getBoundingClientRect();
+    storyVisible = initialBox.bottom > 0 && initialBox.top < window.innerHeight;
+    storyRoot.dataset.storyVisible = String(storyVisible);
+    refreshMode();
+
+    if ("IntersectionObserver" in window) {
+      rootObserver = new IntersectionObserver(
+        ([entry]) => {
+          storyVisible = Boolean(entry?.isIntersecting);
+          storyRoot.dataset.storyVisible = String(storyVisible);
+          if (!storyVisible) cancelTransition();
+        },
+        { threshold: 0.01 }
+      );
+      rootObserver.observe(storyRoot);
+    }
+
+    codexSourcePromise.then((source) => {
+      codexSource = source;
+      if (renderedScene === "codex" || renderedScene === "complete" || renderedScene === "explore") renderScene(renderedScene);
+    });
+    [compactQuery, reducedMotionQuery].forEach((query) => query.addEventListener("change", refreshMode));
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        refreshMode();
+        renderScene(isStaticStory() ? "complete" : activeScene);
+      });
+    });
+    new MutationObserver(() => {
+      cancelTransition({ settle: false });
+      renderScene(isStaticStory() ? "complete" : activeScene);
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "data-theme-mode"],
+    });
+  };
+
   const initCodexUsageTrend = async () => {
     const trendRoot = document.querySelector("[data-codex-usage]");
-    if (!trendRoot) return;
+    if (!trendRoot) return null;
 
     const chart = document.getElementById("github-activity-codex-chart");
     const selectedDate = document.getElementById("github-activity-codex-date");
@@ -60,7 +515,7 @@
     const tableCaption = document.getElementById("github-activity-codex-table-caption");
     const grainButtons = Array.from(trendRoot.querySelectorAll("[data-codex-grain]"));
     const scopeBadge = trendRoot.querySelector("[data-codex-scope]");
-    if (!chart || !selectedDate || !selectedTokens || !selectedCoverage || !status || !trendRoot.dataset.source) return;
+    if (!chart || !selectedDate || !selectedTokens || !selectedCoverage || !status || !trendRoot.dataset.source) return null;
 
     const selectionReadout = [selectedDate, selectedTokens, selectedCoverage];
     const setUnavailable = () => {
@@ -101,7 +556,7 @@
     }
     if (!validSource(source)) {
       setUnavailable();
-      return;
+      return null;
     }
 
     const dateFrom = (value) => new Date(`${value}T00:00:00Z`);
@@ -346,9 +801,10 @@
     draw();
     trendRoot.dataset.state = "ready";
     trendRoot.setAttribute("aria-busy", "false");
+    return source;
   };
 
-  void initCodexUsageTrend();
+  const codexSourcePromise = initCodexUsageTrend();
 
   const root = document.querySelector("[data-github-activity]");
   const dataNode = document.getElementById("github-activity-data");
@@ -1093,5 +1549,6 @@
   chartTitle.textContent = "Weekly GitHub commits, additions, and deletions";
   setPressedState();
   drawChart();
+  initBuildRhythmStory({ githubRows: rows, codexSourcePromise });
   root.dataset.state = "ready";
 })();

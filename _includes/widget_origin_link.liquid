@@ -1,0 +1,9 @@
+{% assign widget_origin_label = include.label | default: "Want to learn this widget's origin?" %}
+<a
+  class="widget-origin-link{% if include.class %} {{ include.class }}{% endif %}"
+  href="{{ include.href | relative_url }}"
+  aria-label="{{ widget_origin_label }}"
+>
+  <span class="widget-origin-mark" aria-hidden="true">?</span>
+  <span class="widget-origin-tooltip" aria-hidden="true">{{ widget_origin_label }}</span>
+</a>
