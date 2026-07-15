@@ -5,7 +5,12 @@
   const cards = Array.from(document.querySelectorAll("[data-project-card]"));
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const status = document.querySelector("[data-project-card-status]");
+  const flipTiming = {
+    duration: 430,
+    easing: "cubic-bezier(.18, .84, .22, 1)",
+  };
   let activeCard = null;
+  let flipClock = null;
 
   const prefersReducedMotion = () => reduceMotionQuery.matches;
 
@@ -22,28 +27,53 @@
     return rects;
   };
 
-  const animateLayout = (firstRects) => {
-    if (prefersReducedMotion() || !("animate" in Element.prototype)) return;
+  const cancelFlipClock = () => {
+    const clock = flipClock;
+    if (!clock) return;
 
-    cards.forEach((card) => {
-      if ("getAnimations" in card) {
-        card.getAnimations().forEach((animation) => animation.cancel());
+    flipClock = null;
+    if (clock.frame) window.cancelAnimationFrame(clock.frame);
+    clock.animations.forEach((animation) => animation.cancel());
+  };
+
+  const runFlipClock = (firstRects, { onLayout, onSettled } = {}) => {
+    const clock = {
+      animations: [],
+      frame: 0,
+    };
+    flipClock = clock;
+
+    clock.frame = window.requestAnimationFrame(() => {
+      clock.frame = 0;
+      if (flipClock !== clock) return;
+
+      if (!prefersReducedMotion() && "animate" in Element.prototype) {
+        cards.forEach((card) => {
+          const first = firstRects.get(card);
+          const last = card.getBoundingClientRect();
+          if (!first || !last.width || !last.height) return;
+
+          const dx = first.left - last.left;
+          const dy = first.top - last.top;
+          if (Math.abs(dx) <= 0.5 && Math.abs(dy) <= 0.5) return;
+
+          clock.animations.push(card.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }], flipTiming));
+        });
       }
 
-      const first = firstRects.get(card);
-      const last = card.getBoundingClientRect();
-      if (!first || !last.width || !last.height) return;
+      const didAnimate = clock.animations.length > 0;
+      onLayout?.(didAnimate);
 
-      const dx = first.left - last.left;
-      const dy = first.top - last.top;
-      const sx = first.width / last.width;
-      const sy = first.height / last.height;
-      const moved = Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5 || Math.abs(1 - sx) > 0.01 || Math.abs(1 - sy) > 0.01;
-      if (!moved) return;
+      if (!didAnimate) {
+        flipClock = null;
+        return;
+      }
 
-      card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` }, { transform: "translate(0, 0) scale(1, 1)" }], {
-        duration: 430,
-        easing: "cubic-bezier(.18, .84, .22, 1)",
+      Promise.allSettled(clock.animations.map((animation) => animation.finished)).then(() => {
+        if (flipClock !== clock) return;
+
+        flipClock = null;
+        onSettled?.();
       });
     });
   };
@@ -84,6 +114,11 @@
     const firstRects = measureCards();
     const previousCard = activeCard;
     const shouldRestoreFocus = Boolean(previousCard && options.restoreFocus && previousCard.contains(document.activeElement));
+    const focusReturnTarget = !nextCard && shouldRestoreFocus ? previousCard.querySelector("[data-project-card-trigger]") : null;
+    cancelFlipClock();
+
+    focusReturnTarget?.focus({ preventScroll: true });
+
     activeCard = nextCard;
 
     cards.forEach((card) => {
@@ -99,27 +134,20 @@
       announceCardState(previousCard, false);
     }
 
-    window.requestAnimationFrame(() => {
-      animateLayout(firstRects);
-      if (activeCard && options.scroll) {
-        const cardToReveal = activeCard;
-        revealCard(cardToReveal);
+    const cardToReveal = activeCard && options.scroll ? activeCard : null;
+    runFlipClock(firstRects, {
+      onLayout: () => {
+        if (cardToReveal && activeCard === cardToReveal) revealCard(cardToReveal);
 
-        if (!prefersReducedMotion()) {
-          window.setTimeout(() => {
-            if (activeCard === cardToReveal) revealCard(cardToReveal);
-          }, 460);
+        if (activeCard && options.focusPrimaryAction) {
+          activeCard.querySelector("[data-project-card-primary-action]")?.focus({ preventScroll: true });
         }
-      }
-      if (activeCard && options.focusPrimaryAction) {
-        const primaryAction = activeCard.querySelector("[data-project-card-primary-action]");
-        if (primaryAction) {
-          primaryAction.focus({ preventScroll: true });
-        }
-      }
-      if (!activeCard && previousCard && shouldRestoreFocus) {
-        previousCard.querySelector("[data-project-card-trigger]")?.focus({ preventScroll: true });
-      }
+
+        if (!activeCard) focusReturnTarget?.focus({ preventScroll: true });
+      },
+      onSettled: () => {
+        if (cardToReveal && activeCard === cardToReveal) revealCard(cardToReveal);
+      },
     });
   };
 

@@ -1256,18 +1256,37 @@ test("project previews announce state and recover focus before hiding controls",
   const primaryAction = card.locator("[data-project-card-primary-action]");
   const status = page.locator("[data-project-card-status]");
 
+  await expect(trigger).toHaveAttribute("aria-controls", await panel.getAttribute("id"));
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(status).toHaveAttribute("aria-live", "polite");
+  await expect(status).toHaveAttribute("aria-atomic", "true");
+
   await trigger.focus();
   await trigger.press("Enter");
   await expect(card).toHaveAttribute("data-project-card-state", "expanded");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(panel).toBeVisible();
   await expect(primaryAction).toBeFocused();
   await expect(status).toContainText(/preview opened\.$/);
 
+  await page.evaluate(() => {
+    const observedPanel = document.querySelector("[data-project-card-panel]");
+    const observedTrigger = document.querySelector("[data-project-card-trigger]");
+    window.__projectCardFocusReturnedBeforeHide = null;
+    new MutationObserver(() => {
+      if (observedPanel?.hidden) {
+        window.__projectCardFocusReturnedBeforeHide = document.activeElement === observedTrigger;
+      }
+    }).observe(observedPanel, { attributeFilter: ["hidden"], attributes: true });
+  });
+
   await page.keyboard.press("Escape");
   await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
   await expect(panel).toBeHidden();
   await expect(trigger).toBeFocused();
   await expect(status).toContainText(/preview closed\.$/);
+  await expect.poll(() => page.evaluate(() => window.__projectCardFocusReturnedBeforeHide)).toBe(true);
 
   await trigger.click();
   await primaryAction.focus();
@@ -1277,6 +1296,119 @@ test("project previews announce state and recover focus before hiding controls",
     .click({ position: { x: 4, y: 4 } });
   await expect(panel).toBeHidden();
   await expect(trigger).toBeFocused();
+});
+
+test("project preview FLIP cancels stale runs and only translates cards", async ({ page }) => {
+  await page.addInitScript(() => {
+    const originalAnimate = Element.prototype.animate;
+    window.__projectCardMotionAudit = { animations: [], cancellations: 0 };
+
+    Element.prototype.animate = function (keyframes, options) {
+      const animation = originalAnimate.call(this, keyframes, options);
+      if (this.matches?.("[data-project-card]")) {
+        window.__projectCardMotionAudit.animations.push({
+          duration: typeof options === "number" ? options : options?.duration,
+          easing: typeof options === "object" ? options?.easing : undefined,
+          transforms: Array.from(keyframes || [], (frame) => frame.transform || ""),
+        });
+        animation.addEventListener("cancel", () => {
+          window.__projectCardMotionAudit.cancellations += 1;
+        });
+      }
+      return animation;
+    };
+  });
+
+  await preparePage(page, "light");
+  await page.goto("/al-folio/projects/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const cards = page.locator("[data-project-card]");
+  const firstCard = cards.nth(0);
+  const secondCard = cards.nth(1);
+
+  await firstCard.locator("[data-project-card-trigger]").click();
+  await expect(firstCard).toHaveAttribute("data-project-card-state", "expanded");
+  await page.waitForTimeout(60);
+
+  await firstCard.locator("[data-project-card-trigger]").evaluate((trigger) => trigger.click());
+  await expect(firstCard).toHaveAttribute("data-project-card-state", "collapsed");
+  await page.waitForTimeout(60);
+
+  await secondCard.locator("[data-project-card-trigger]").evaluate((trigger) => trigger.click());
+  await expect(secondCard).toHaveAttribute("data-project-card-state", "expanded");
+  await page.waitForTimeout(500);
+
+  const audit = await page.evaluate(() => window.__projectCardMotionAudit);
+  expect(audit.animations.length).toBeGreaterThan(0);
+  expect(audit.cancellations).toBeGreaterThan(0);
+  expect(audit.animations.every((entry) => entry.duration === 430)).toBe(true);
+  expect(audit.animations.every((entry) => entry.easing === "cubic-bezier(.18, .84, .22, 1)")).toBe(true);
+  expect(audit.animations.flatMap((entry) => entry.transforms).every((transform) => !transform.includes("scale"))).toBe(true);
+  await expect(firstCard).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect(secondCard).toHaveAttribute("data-project-card-state", "expanded");
+
+  const settledTransforms = await page.evaluate(() => {
+    const firstSurface = document.querySelector("[data-project-card] .card");
+    const expandedImage = document.querySelector("[data-project-card-state='expanded'] .project-card-media img");
+    const transform = firstSurface ? getComputedStyle(firstSurface).transform : "none";
+    const matrix = transform === "none" ? { a: 1, d: 1 } : new DOMMatrixReadOnly(transform);
+    return {
+      expandedImage: expandedImage ? getComputedStyle(expandedImage).transform : null,
+      siblingScaleX: matrix.a,
+      siblingScaleY: matrix.d,
+    };
+  });
+  expect(settledTransforms.expandedImage).toBe("none");
+  expect(settledTransforms.siblingScaleX).toBe(1);
+  expect(settledTransforms.siblingScaleY).toBe(1);
+  expect(await cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations().length, 0))).toBe(0);
+});
+
+test("project previews preserve keyboard state with reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, "light");
+  await page.goto("/al-folio/projects/", { waitUntil: "networkidle" });
+  await stabilizeVisuals(page);
+
+  const cards = page.locator("[data-project-card]");
+  const card = cards.first();
+  const trigger = card.locator("[data-project-card-trigger]");
+  const panel = card.locator("[data-project-card-panel]");
+  const primaryAction = card.locator("[data-project-card-primary-action]");
+  const status = page.locator("[data-project-card-status]");
+
+  await trigger.focus();
+  await trigger.press("Enter");
+  await expect(card).toHaveAttribute("data-project-card-state", "expanded");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(panel).toBeVisible();
+  await expect(primaryAction).toBeFocused();
+  await expect(status).toContainText(/preview opened\.$/);
+
+  const reducedMotionState = await page.evaluate(() => {
+    const projectCards = Array.from(document.querySelectorAll("[data-project-card]"));
+    const expandedPanel = document.querySelector("[data-project-card-panel]");
+    const siblingSurface = projectCards[1]?.querySelector(".card");
+    const expandedImage = projectCards[0]?.querySelector(".project-card-media img");
+    return {
+      cardAnimations: projectCards.reduce((count, item) => count + item.getAnimations().length, 0),
+      imageTransitionDuration: expandedImage ? getComputedStyle(expandedImage).transitionDuration : null,
+      panelAnimationName: expandedPanel ? getComputedStyle(expandedPanel).animationName : null,
+      siblingTransform: siblingSurface ? getComputedStyle(siblingSurface).transform : null,
+    };
+  });
+
+  expect(reducedMotionState.cardAnimations).toBe(0);
+  expect(reducedMotionState.imageTransitionDuration).toBe("0s");
+  expect(reducedMotionState.panelAnimationName).toBe("none");
+  expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(reducedMotionState.siblingTransform);
+
+  await page.keyboard.press("Escape");
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(status).toContainText(/preview closed\.$/);
 });
 
 test("404 recovery stays put and opts out of indexing", async ({ page }) => {

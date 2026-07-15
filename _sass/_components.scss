@@ -422,7 +422,6 @@ html.site-motion-ready .hoverable.site-visible:hover {
     --md-lite-card-accent-line: color-mix(in srgb, var(--project-accent) 48%, transparent);
     --md-lite-card-accent-wash: color-mix(in srgb, var(--project-accent) 7%, transparent);
     min-width: 0;
-    transform-origin: top left;
 
     &.is-expanded {
       grid-column: span 2;
@@ -430,7 +429,6 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
     &.is-dimmed .card {
       opacity: 0.78;
-      transform: scale(0.992);
     }
 
     &.is-expanded .card {
@@ -479,9 +477,8 @@ html.site-motion-ready .hoverable.site-visible:hover {
       opacity: 0.42;
     }
 
-    &:not(.is-dimmed) .project-card-preview:hover .project-card-media img,
-    &:not(.is-dimmed) .project-card-preview:focus-within .project-card-media img,
-    &.is-expanded .project-card-media img {
+    &:not(.is-expanded):not(.is-dimmed) .project-card-preview:hover .project-card-media img,
+    &:not(.is-expanded):not(.is-dimmed) .project-card-preview:focus-within .project-card-media img {
       transform: scale(1.025);
     }
   }
@@ -2546,11 +2543,9 @@ html[data-theme="dark"] {
     }
   }
 
-  .projects .project-card.is-dimmed .card,
   .projects .project-card.is-expanded .project-card-preview-affordance,
   .projects .project-card-preview:hover .project-card-preview-affordance,
   .projects .project-card-preview:focus-within .project-card-preview-affordance,
-  .projects .project-card.is-expanded .project-card-media img,
   .projects .project-card-preview:hover .project-card-media img,
   .projects .project-card-preview:focus-within .project-card-media img,
   .projects .project-card-close:hover,
