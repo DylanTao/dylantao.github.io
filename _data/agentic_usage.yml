@@ -932,23 +932,23 @@ local_lifetime:
 account_lifetime:
   label: Codex lifetime
   source: Codex account activity
-  source_as_of: '2026-07-15T05:31:47.337828Z'
-  token_count: 24540296668
-  tokens_label: 24.5B
-  tasks: 841
+  source_as_of: '2026-07-15T05:59:43.830933Z'
+  token_count: 24579141450
+  tokens_label: 24.6B
+  tasks: 842
   peak_daily_tokens: 2158343669
   peak_daily_date: '2026-07-13'
   model_note: Mostly GPT-5.5 Extra High and GPT-5.6 Sol Ultra.
   api_cost_equivalence:
     label: Account-lifetime API-rate replay
-    account_source_as_of: '2026-07-15T05:31:47.337828Z'
+    account_source_as_of: '2026-07-15T05:59:43.830933Z'
     pricing_as_of: '2026-07-12'
     source_url: https://developers.openai.com/api/docs/pricing
     method: Account tokens scaled by the retained local model, cache-read, and long-context request mix.
     observed_local_token_count: 10212120634
     observed_local_usd_estimate: 8240.57
     observed_usd_per_million_tokens: 0.807
-    usd_estimate: 19802.54
+    usd_estimate: 19833.89
     usd_midpoint: 19800
     usd_label: ~$19.8K
   recent_activity:
@@ -1014,8 +1014,8 @@ account_lifetime:
       - date: '2026-07-13'
         tokens: 2158343669
       - date: '2026-07-14'
-        tokens: 883494366
-    sparkline_points: 0.00,26.00 3.86,23.96 7.72,23.57 11.59,22.99 15.45,23.21 19.31,18.23 23.17,19.58 27.03,21.08 30.90,22.59 34.76,24.62 38.62,25.93 42.48,24.69 46.34,17.86 50.21,18.81 54.07,13.42 57.93,19.02 61.79,6.56 65.66,6.66 69.52,13.31 73.38,16.71 77.24,17.28 81.10,18.47 84.97,21.66 88.83,22.79 92.69,20.43 96.55,16.37 100.41,13.98 104.28,12.42 108.14,2.00 112.00,16.18
+        tokens: 922339148
+    sparkline_points: 0.00,26.00 3.86,23.96 7.72,23.57 11.59,22.99 15.45,23.21 19.31,18.23 23.17,19.58 27.03,21.08 30.90,22.59 34.76,24.62 38.62,25.93 42.48,24.69 46.34,17.86 50.21,18.81 54.07,13.42 57.93,19.02 61.79,6.56 65.66,6.66 69.52,13.31 73.38,16.71 77.24,17.28 81.10,18.47 84.97,21.66 88.83,22.79 92.69,20.43 96.55,16.37 100.41,13.98 104.28,12.42 108.14,2.00 112.00,15.74
     start_date: '2026-06-15'
     end_date: '2026-07-14'
     end_label: Jul 14
@@ -1058,7 +1058,7 @@ account_lifetime:
         observed_start: '2026-07-12'
         observed_end: '2026-07-14'
         observed_days: 3
-        tokens: 4262713708
+        tokens: 4301558490
         partial: true
         partial_reason: range-end
-        api_equivalent_usd: 3439.75
+        api_equivalent_usd: 3471.1
