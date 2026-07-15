@@ -1,0 +1,220 @@
+schema_version: 1
+
+metadata:
+  title: Paper Constellation
+  summary: Follow the research threads that connect the published work, then look ahead without turning work in progress into a publication claim.
+  future_note: Larger question marks hint at nearer-term work. Smaller marks hold space for earlier-stage directions.
+  inspiration:
+    label: Royal Constellations
+    creator: Nadieh Bremer / Visual Cinnamon
+    url: https://royalconstellations.visualcinnamon.com/
+    process_url: https://www.datasketch.es/project/royal-constellations
+  shared_by:
+    label: John Thompson
+    url: https://jrthomp.com/
+
+threads:
+  design:
+    label: Design
+    summary: Make alternatives and useful dimensions easier to see and work with.
+    position:
+      x: 24
+      anchor_y: 31
+  evaluate:
+    label: Evaluate
+    summary: Use evidence from people, artifacts, and traces to sharpen the next question.
+    position:
+      x: 50
+      anchor_y: 31
+  situate:
+    label: Situate
+    summary: Fit representations and assistance to the physical or practical context.
+    position:
+      x: 76
+      anchor_y: 31
+
+papers:
+  tao2026whw:
+    display_label: What Happened and Why?
+    memberships:
+      - thread: evaluate
+        relation: primary
+      - thread: design
+        relation: bridge
+    position:
+      x: 47
+      y: 38
+    mobile_thread: evaluate
+  wang2025hotspot:
+    display_label: HotSpot
+    memberships:
+      - thread: design
+        relation: adjacent
+      - thread: situate
+        relation: adjacent
+    position:
+      x: 70
+      y: 55
+    mobile_thread: situate
+    qualifier: Technical graphics adjacency, not an interaction-study claim.
+  tao2024designweaver:
+    display_label: DesignWeaver
+    memberships:
+      - thread: design
+        relation: primary
+      - thread: evaluate
+        relation: bridge
+    position:
+      x: 28
+      y: 55
+    mobile_thread: design
+  tung2023physion++:
+    display_label: Physion++
+    memberships:
+      - thread: evaluate
+        relation: primary
+      - thread: situate
+        relation: bridge
+    position:
+      x: 59
+      y: 72
+    mobile_thread: evaluate
+  bear2021physion:
+    display_label: Physion
+    memberships:
+      - thread: evaluate
+        relation: primary
+      - thread: situate
+        relation: bridge
+    position:
+      x: 55
+      y: 88
+    mobile_thread: evaluate
+
+future:
+  future-major-01:
+    label: "?"
+    size: major
+    thread: design
+    position:
+      x: 18
+      y: 25
+    rejection_records:
+      - chi-rejection
+      - uist-rejection
+  future-major-02:
+    label: "?"
+    size: major
+    thread: design
+    position:
+      x: 31
+      y: 17
+  future-major-03:
+    label: "?"
+    size: major
+    thread: design
+    position:
+      x: 43
+      y: 24
+  future-minor-01:
+    label: "?"
+    size: minor
+    thread: design
+    position:
+      x: 14
+      y: 10
+  future-minor-02:
+    label: "?"
+    size: minor
+    thread: design
+    position:
+      x: 37
+      y: 9
+  future-minor-03:
+    label: "?"
+    size: minor
+    thread: situate
+    position:
+      x: 72
+      y: 18
+  future-minor-04:
+    label: "?"
+    size: minor
+    thread: situate
+    position:
+      x: 84
+      y: 10
+
+edges:
+  - id: edge-01
+    source:
+      kind: paper
+      id: bear2021physion
+    target:
+      kind: paper
+      id: tung2023physion++
+    relation: extends
+  - id: edge-02
+    source:
+      kind: paper
+      id: tao2024designweaver
+    target:
+      kind: paper
+      id: tao2026whw
+    relation: bridge
+  - id: edge-03
+    source:
+      kind: paper
+      id: tao2024designweaver
+    target:
+      kind: future
+      id: future-major-01
+    relation: future
+  - id: edge-04
+    source:
+      kind: paper
+      id: tao2024designweaver
+    target:
+      kind: future
+      id: future-major-02
+    relation: future
+  - id: edge-05
+    source:
+      kind: paper
+      id: tao2026whw
+    target:
+      kind: future
+      id: future-major-03
+    relation: future
+  - id: edge-06
+    source:
+      kind: paper
+      id: tao2024designweaver
+    target:
+      kind: future
+      id: future-minor-01
+    relation: future
+  - id: edge-07
+    source:
+      kind: paper
+      id: tao2024designweaver
+    target:
+      kind: future
+      id: future-minor-02
+    relation: future
+  - id: edge-08
+    source:
+      kind: thread
+      id: situate
+    target:
+      kind: future
+      id: future-minor-03
+    relation: future
+  - id: edge-09
+    source:
+      kind: thread
+      id: situate
+    target:
+      kind: future
+      id: future-minor-04
+    relation: future
