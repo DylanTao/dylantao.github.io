@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "source": "Codex account activity",
-  "sourceAsOf": "2026-07-15T19:26:17.612040Z",
+  "sourceAsOf": "2026-07-15T20:34:07.691744Z",
   "lifetime": {
-    "tokens": 25226920735,
-    "tokensLabel": "25.2B",
+    "tokens": 25263877667,
+    "tokensLabel": "25.3B",
     "apiEquivalent": {
-      "usd": 20356.61,
+      "usd": 20386.43,
       "usdLabel": "~$20.4K",
       "note": "Public-API comparison, not a Codex bill."
     }
@@ -139,7 +139,7 @@
       },
       {
         "date": "2026-07-15",
-        "tokens": 590103099
+        "tokens": 627060031
       }
     ],
     "weekly": [
@@ -188,8 +188,8 @@
         "observedStart": "2026-07-12",
         "observedEnd": "2026-07-15",
         "observedDays": 4,
-        "tokens": 4949337775,
-        "apiEquivalentUsd": 3993.82,
+        "tokens": 4986294707,
+        "apiEquivalentUsd": 4023.64,
         "partial": true,
         "partialReason": "range-end"
       }
@@ -197,8 +197,8 @@
   },
   "history": {
     "grain": "calendar-day snapshots",
-    "snapshotCount": 11,
+    "snapshotCount": 12,
     "firstSourceAsOf": "2026-07-12T18:40:36.5724510Z",
-    "latestSourceAsOf": "2026-07-15T19:26:17.612040Z"
+    "latestSourceAsOf": "2026-07-15T20:34:07.691744Z"
   }
 }
