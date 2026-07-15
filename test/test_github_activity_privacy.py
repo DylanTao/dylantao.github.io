@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import unittest
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 
@@ -14,12 +15,18 @@ ACTIVITY_PATHS = (
     REPO_ROOT / "assets" / "js" / "github-activity.js",
     REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
     REPO_ROOT / "_data" / "codex_account_history.json",
+    REPO_ROOT / "_data" / "github_activity.json",
 )
 FORBIDDEN = (
     "invoice.stripe.com",
     "acct_",
     "live_",
     "ghp_",
+    "github_pat_",
+    "access_token",
+    "refresh_token",
+    "account_id",
+    "autodesk",
 )
 
 
@@ -94,6 +101,34 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             "model_effort",
         ):
             self.assertNotIn(fragment, serialized)
+
+    def test_checked_in_github_fallback_has_exact_privacy_contract(self) -> None:
+        activity = json.loads(
+            (REPO_ROOT / "_data" / "github_activity.json").read_text()
+        )
+        self.assertEqual(set(activity), {"schema", "generatedAt", "weeks"})
+        self.assertEqual(activity["schema"], 2)
+        generated_at = datetime.fromisoformat(
+            activity["generatedAt"].replace("Z", "+00:00")
+        )
+        self.assertIsNotNone(generated_at.tzinfo)
+        self.assertEqual(len(activity["weeks"]), 300)
+
+        previous: date | None = None
+        for row in activity["weeks"]:
+            self.assertEqual(
+                set(row),
+                {"week", "additions", "deletions", "commits"},
+            )
+            observed = date.fromisoformat(row["week"])
+            self.assertEqual(observed.weekday(), 6)
+            if previous is not None:
+                self.assertEqual(observed, previous + timedelta(days=7))
+            for field in ("additions", "deletions", "commits"):
+                self.assertIsInstance(row[field], int)
+                self.assertNotIsInstance(row[field], bool)
+                self.assertGreaterEqual(row[field], 0)
+            previous = observed
 
 
 if __name__ == "__main__":

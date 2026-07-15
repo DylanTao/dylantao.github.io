@@ -29,6 +29,7 @@ ACCOUNT_ENDPOINT = "https://chatgpt.com/backend-api/wham/profiles/me"
 GITHUB_ACTIVITY_ENDPOINT = (
     "https://raw.githubusercontent.com/DylanTao/DylanTao/main/docs/github-activity.json"
 )
+GITHUB_WEEK_COUNT = 300
 HEARTBEAT_AFTER = timedelta(hours=18)
 MAX_SOURCE_AGE = timedelta(hours=6)
 MAX_RESPONSE_BYTES = 5 * 1024 * 1024
@@ -105,7 +106,7 @@ def read_auth() -> tuple[str, str]:
     auth_path = Path.home() / ".codex" / "auth.json"
     try:
         payload = json.loads(auth_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
         raise AuthError("Codex authentication is unavailable") from error
     tokens = payload.get("tokens") if isinstance(payload, dict) else None
     access_token = tokens.get("access_token") if isinstance(tokens, dict) else None
@@ -153,7 +154,7 @@ def fetch_json(
 def load_json_file(path: Path) -> Any:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
         raise ContractError("Input fixture is not valid JSON") from error
 
 
@@ -389,8 +390,10 @@ def validate_github_activity(raw: Any) -> dict[str, Any]:
         raise ContractError("GitHub activity schema is unsupported")
     parse_aware_timestamp(raw.get("generatedAt"), "github generatedAt")
     weeks = raw.get("weeks")
-    if not isinstance(weeks, list) or not weeks:
-        raise ContractError("GitHub activity weeks must be non-empty")
+    if not isinstance(weeks, list) or len(weeks) != GITHUB_WEEK_COUNT:
+        raise ContractError(
+            f"GitHub activity must contain exactly {GITHUB_WEEK_COUNT} weeks"
+        )
     previous: date | None = None
     for index, row in enumerate(weeks):
         if not isinstance(row, dict) or set(row) != {
@@ -412,6 +415,16 @@ def validate_github_activity(raw: Any) -> dict[str, Any]:
             require_int(row.get(field), f"GitHub activity week {index}.{field}")
         previous = week
     return copy.deepcopy(raw)
+
+
+def github_sync_failure(error: RefreshError) -> str:
+    """Return a sanitized status for a non-blocking GitHub fallback failure."""
+
+    if error.exit_code in {EXIT_AUTH, EXIT_ENDPOINT}:
+        return "unavailable"
+    if error.exit_code == EXIT_STALE:
+        return "stale"
+    return "invalid"
 
 
 def ledger_text(data: dict[str, Any]) -> str:
@@ -517,22 +530,32 @@ def refresh(
     github_changed = False
     github_text: str | None = None
     if raw_github is not None:
-        github = validate_github_activity(raw_github)
-        current_github = load_json_file(github_path)
-        current_github = validate_github_activity(current_github)
-        incoming_at = parse_aware_timestamp(github["generatedAt"], "github generatedAt")
-        current_at = parse_aware_timestamp(
-            current_github["generatedAt"], "current github generatedAt"
-        )
-        if incoming_at < current_at:
-            raise StaleError("GitHub activity response predates the embedded fallback")
-        if incoming_at == current_at and github != current_github:
-            raise ContractError(
-                "GitHub activity response conflicts at the published timestamp"
+        try:
+            github = validate_github_activity(raw_github)
+            current_github = load_json_file(github_path)
+            current_github = validate_github_activity(current_github)
+            incoming_at = parse_aware_timestamp(
+                github["generatedAt"], "github generatedAt"
             )
-        github_changed = github != current_github
-        if github_changed:
-            github_text = json.dumps(github, indent=2, ensure_ascii=False) + "\n"
+            current_at = parse_aware_timestamp(
+                current_github["generatedAt"], "current github generatedAt"
+            )
+            if incoming_at < current_at:
+                raise StaleError(
+                    "GitHub activity response predates the embedded fallback"
+                )
+            if incoming_at == current_at and github != current_github:
+                raise ContractError(
+                    "GitHub activity response conflicts at the published timestamp"
+                )
+            github_changed = github != current_github
+            if github_changed:
+                github_text = json.dumps(github, indent=2, ensure_ascii=False) + "\n"
+            github_sync = "validated"
+        except RefreshError as error:
+            # The public GitHub aggregate is an independent, last-good surface.
+            # Its failure must never suppress a valid account publication.
+            github_sync = github_sync_failure(error)
 
     changed = account_publish or github_changed
     if account_reason == "data":
@@ -634,10 +657,10 @@ def main() -> int:
                     else fetch_json(GITHUB_ACTIVITY_ENDPOINT)
                 )
                 github_sync = "validated"
-            except EndpointError:
-                # Account publication remains independent from a transient
-                # public GitHub endpoint failure; the last good fallback stays.
-                github_sync = "unavailable"
+            except RefreshError as error:
+                # Fetch and fixture failures are isolated from the account
+                # surface.  The existing embedded fallback remains untouched.
+                github_sync = github_sync_failure(error)
 
         status = refresh(
             Path(args.repo_root).resolve(),
