@@ -241,6 +241,66 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}`, { fullPage: false });
 
+  if (route.id === "projects-index") {
+    const card = page.locator("[data-site-experiment-grid] [data-project-card]").first();
+    const trigger = card.locator("[data-project-card-trigger]");
+    const panel = card.locator("[data-project-card-panel]");
+    const primaryAction = card.locator("[data-project-card-primary-action]");
+    const closeButton = card.locator("[data-project-card-close]");
+
+    await card.scrollIntoViewIfNeeded();
+    await trigger.click();
+    await expect(card).toHaveAttribute("data-project-card-state", "expanded");
+    await expect(panel).toBeVisible();
+    await expect(primaryAction).toBeVisible();
+    await expect
+      .poll(() => card.evaluate((element) => element.getAnimations({ subtree: true }).length), {
+        message: `${testInfo.project.name} project preview did not settle`,
+      })
+      .toBe(0);
+
+    const expandedGeometry = await card.evaluate((element) => {
+      const cardBounds = element.getBoundingClientRect();
+      const actionBounds = element.querySelector("[data-project-card-primary-action]")?.getBoundingClientRect();
+      const closeBounds = element.querySelector("[data-project-card-close]")?.getBoundingClientRect();
+      const panelElement = element.querySelector("[data-project-card-panel]");
+      const surface = element.querySelector(".card");
+      return {
+        actionHeight: actionBounds?.height ?? 0,
+        actionWidth: actionBounds?.width ?? 0,
+        cardLeft: cardBounds.left,
+        cardRight: cardBounds.right,
+        closeHeight: closeBounds?.height ?? 0,
+        closeWidth: closeBounds?.width ?? 0,
+        documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        panelAnimationName: panelElement ? getComputedStyle(panelElement).animationName : null,
+        surfaceClipPath: surface ? getComputedStyle(surface).clipPath : null,
+      };
+    });
+    expect(expandedGeometry.actionHeight).toBeGreaterThanOrEqual(44);
+    expect(expandedGeometry.actionWidth).toBeGreaterThan(80);
+    expect(expandedGeometry.cardLeft).toBeGreaterThanOrEqual(-1);
+    expect(expandedGeometry.cardRight).toBeLessThanOrEqual(page.viewportSize().width + 1);
+    expect(expandedGeometry.closeHeight).toBeGreaterThanOrEqual(44);
+    expect(expandedGeometry.closeWidth).toBeGreaterThanOrEqual(44);
+    expect(expandedGeometry.documentOverflow).toBeLessThanOrEqual(1);
+    expect(expandedGeometry.panelAnimationName).toBe("none");
+    expect(expandedGeometry.surfaceClipPath).toBe("none");
+
+    await card.evaluate((element) => {
+      const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
+      const cardTop = element.getBoundingClientRect().top;
+      window.scrollBy({ top: cardTop - navBottom - 12, behavior: "instant" });
+    });
+    await attachScreenshot(page, testInfo, `projects-index-expanded-${theme}-${testInfo.project.name}`, { fullPage: false });
+
+    await closeButton.evaluate((button) => button.click());
+    await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
+    await expect(panel).toBeHidden();
+    await expect.poll(() => card.evaluate((element) => element.getAnimations({ subtree: true }).length)).toBe(0);
+    expect(runtimeErrors, `${route.path} project preview raised browser runtime errors`).toEqual([]);
+  }
+
   if (theme === "light" && route.fullPage && ["desktop-1440", "mobile-390"].includes(testInfo.project.name)) {
     if (route.id === "home") {
       await exerciseScrollReveals(page, { selector: ".home-reveal", visibleClass: "home-visible" });

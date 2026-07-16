@@ -149,7 +149,7 @@ jobs:
           python3 test/validate_publication_outputs.py _site
           npm run test:visual:public
 
-          LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|AI profile is server-rendered'
+          LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
           VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP"
 
       - name: Upload Playwright screenshots and traces

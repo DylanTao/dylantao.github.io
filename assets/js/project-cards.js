@@ -23,7 +23,12 @@
 
   const measureCards = () => {
     const rects = new Map();
-    cards.forEach((card) => rects.set(card, card.getBoundingClientRect()));
+    cards.forEach((card) => {
+      rects.set(card, {
+        card: card.getBoundingClientRect(),
+        surface: card.querySelector(".card")?.getBoundingClientRect() || null,
+      });
+    });
     return rects;
   };
 
@@ -36,7 +41,7 @@
     clock.animations.forEach((animation) => animation.cancel());
   };
 
-  const runFlipClock = (firstRects, { onLayout, onSettled } = {}) => {
+  const runFlipClock = (firstRects, { openingCard, onSettled } = {}) => {
     const clock = {
       animations: [],
       frame: 0,
@@ -49,7 +54,7 @@
 
       if (!prefersReducedMotion() && "animate" in Element.prototype) {
         cards.forEach((card) => {
-          const first = firstRects.get(card);
+          const first = firstRects.get(card)?.card;
           const last = card.getBoundingClientRect();
           if (!first || !last.width || !last.height) return;
 
@@ -59,22 +64,39 @@
 
           clock.animations.push(card.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }], flipTiming));
         });
+
+        const openingSurface = openingCard?.querySelector(".card");
+        const firstSurface = openingCard ? firstRects.get(openingCard)?.surface : null;
+        const lastSurface = openingSurface?.getBoundingClientRect();
+        if (openingSurface && firstSurface && lastSurface?.width && lastSurface.height) {
+          const rightInset = Math.max(0, lastSurface.width - firstSurface.width);
+          const bottomInset = Math.max(0, lastSurface.height - firstSurface.height);
+          if (rightInset > 0.5 || bottomInset > 0.5) {
+            clock.animations.push(
+              openingSurface.animate([{ clipPath: `inset(0 ${rightInset}px ${bottomInset}px 0)` }, { clipPath: "inset(0)" }], flipTiming)
+            );
+          }
+        }
       }
 
       const didAnimate = clock.animations.length > 0;
-      onLayout?.(didAnimate);
+
+      const settle = () => {
+        if (flipClock !== clock) return;
+
+        clock.animations.forEach((animation) => {
+          if (animation.playState !== "idle") animation.cancel();
+        });
+        flipClock = null;
+        onSettled?.();
+      };
 
       if (!didAnimate) {
-        flipClock = null;
+        settle();
         return;
       }
 
-      Promise.allSettled(clock.animations.map((animation) => animation.finished)).then(() => {
-        if (flipClock !== clock) return;
-
-        flipClock = null;
-        onSettled?.();
-      });
+      Promise.allSettled(clock.animations.map((animation) => animation.finished)).then(settle);
     });
   };
 
@@ -113,6 +135,9 @@
   const setActiveCard = (nextCard, options = {}) => {
     const firstRects = measureCards();
     const previousCard = activeCard;
+    const openingCard = nextCard && nextCard !== previousCard ? nextCard : null;
+    const openingTrigger = openingCard?.querySelector("[data-project-card-trigger]") || null;
+    const shouldFocusPrimaryAction = Boolean(options.focusPrimaryAction && openingTrigger && document.activeElement === openingTrigger);
     const shouldRestoreFocus = Boolean(previousCard && options.restoreFocus && previousCard.contains(document.activeElement));
     const focusReturnTarget = !nextCard && shouldRestoreFocus ? previousCard.querySelector("[data-project-card-trigger]") : null;
     cancelFlipClock();
@@ -136,16 +161,19 @@
 
     const cardToReveal = activeCard && options.scroll ? activeCard : null;
     runFlipClock(firstRects, {
-      onLayout: () => {
-        if (cardToReveal && activeCard === cardToReveal) revealCard(cardToReveal);
-
-        if (activeCard && options.focusPrimaryAction) {
-          activeCard.querySelector("[data-project-card-primary-action]")?.focus({ preventScroll: true });
-        }
-
-        if (!activeCard) focusReturnTarget?.focus({ preventScroll: true });
-      },
+      openingCard,
       onSettled: () => {
+        const activeElement = document.activeElement;
+        if (
+          !activeCard &&
+          focusReturnTarget &&
+          (activeElement === focusReturnTarget || activeElement === document.body || activeElement === document.documentElement)
+        ) {
+          focusReturnTarget.focus({ preventScroll: true });
+        }
+        if (openingCard && activeCard === openingCard && shouldFocusPrimaryAction && document.activeElement === openingTrigger) {
+          openingCard.querySelector("[data-project-card-primary-action]")?.focus({ preventScroll: true });
+        }
         if (cardToReveal && activeCard === cardToReveal) revealCard(cardToReveal);
       },
     });

@@ -294,30 +294,6 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
 // Projects
 
-@keyframes project-takeaway-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.3rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes project-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-0.22rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .projects {
   max-width: var(--measure-notebook);
   margin-top: 0.75rem;
@@ -515,12 +491,10 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
     &.is-expanded .project-card-panel {
       display: block;
-      animation: project-panel-in 220ms ease-out both;
     }
 
     &.is-expanded .project-card-takeaways {
       display: block;
-      animation: project-takeaway-in 260ms ease-out both;
     }
 
     &.is-expanded .project-card-preview-affordance {
@@ -530,11 +504,6 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
     &.is-dimmed .project-card-preview-affordance {
       opacity: 0.42;
-    }
-
-    &:not(.is-expanded):not(.is-dimmed) .project-card-preview:hover .project-card-media img,
-    &:not(.is-expanded):not(.is-dimmed) .project-card-preview:focus-within .project-card-media img {
-      transform: scale(1.025);
     }
   }
 
@@ -714,7 +683,6 @@ html.site-motion-ready .hoverable.site-visible:hover {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      transition: transform 220ms ease;
     }
   }
 
@@ -777,8 +745,8 @@ html.site-motion-ready .hoverable.site-visible:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border: 1px solid var(--global-divider-color);
     border-radius: var(--md-lite-radius-pill);
     background: color-mix(in srgb, var(--global-card-bg-color) 84%, var(--md-lite-state-muted));
@@ -803,9 +771,9 @@ html.site-motion-ready .hoverable.site-visible:hover {
   .project-card-actions-expanded {
     flex-wrap: wrap;
     gap: 0.65rem;
-    min-height: 3.6rem;
+    min-height: 4rem;
     margin-top: 0;
-    padding: 0.85rem 3rem 0.9rem 1rem;
+    padding: 0.85rem 3.65rem 0.9rem 1rem;
   }
 
   .project-card-open-link {
@@ -813,7 +781,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    min-height: 2.35rem;
+    min-height: 2.75rem;
     padding: 0.55rem 0.95rem;
     border: 1px solid var(--global-theme-color);
     border-radius: var(--md-lite-radius-pill);
@@ -845,7 +813,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
   .project-card-secondary-link {
     gap: 0.4rem;
-    min-height: 2.35rem;
+    min-height: 2.75rem;
     padding: 0.52rem 0.78rem;
     border: 1px solid var(--global-divider-color);
     border-radius: var(--md-lite-radius-pill);
@@ -895,9 +863,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-text-color);
     transition:
       background var(--motion-standard),
-      border-color var(--motion-standard),
-      opacity var(--motion-standard),
-      transform var(--motion-standard);
+      border-color var(--motion-standard);
   }
 
   .project-card-takeaways-label {
@@ -2490,7 +2456,7 @@ html[data-theme="dark"] {
     }
 
     .project-card-actions-expanded {
-      padding: 0.9rem 3rem 0.9rem 1rem;
+      padding: 0.9rem 3.65rem 0.9rem 1rem;
     }
 
     .project-card-open-link {
@@ -2590,7 +2556,6 @@ html[data-theme="dark"] {
   .projects .project-card-panel,
   .projects .project-card-preview-affordance,
   .projects .project-card-takeaways,
-  .projects .project-card-media img,
   .hci-spooder-gallery-slide,
   .spooder-video-card {
     transition: none;
@@ -2613,16 +2578,9 @@ html[data-theme="dark"] {
   .projects .project-card.is-expanded .project-card-preview-affordance,
   .projects .project-card-preview:hover .project-card-preview-affordance,
   .projects .project-card-preview:focus-within .project-card-preview-affordance,
-  .projects .project-card-preview:hover .project-card-media img,
-  .projects .project-card-preview:focus-within .project-card-media img,
   .projects .project-card-close:hover,
   .projects .project-card-close:focus-visible {
     transform: none;
-  }
-
-  .projects .project-card.is-expanded .project-card-takeaways,
-  .projects .project-card.is-expanded .project-card-panel {
-    animation: none;
   }
 
   html.site-motion-ready .hoverable.site-visible:hover {

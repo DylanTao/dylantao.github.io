@@ -1322,21 +1322,39 @@ test("project previews announce state and recover focus before hiding controls",
 test("project preview FLIP cancels stale runs and only translates cards", async ({ page }) => {
   await page.addInitScript(() => {
     const originalAnimate = Element.prototype.animate;
-    window.__projectCardMotionAudit = { animations: [], cancellations: 0 };
+    const originalScrollIntoView = Element.prototype.scrollIntoView;
+    window.__projectCardMotionAudit = { animations: [], cancellations: [], scrollCorrections: [] };
 
     Element.prototype.animate = function (keyframes, options) {
       const animation = originalAnimate.call(this, keyframes, options);
-      if (this.matches?.("[data-project-card]")) {
+      const kind = this.matches?.("[data-project-card]") ? "layout" : this.matches?.(".project-card > .card") ? "reveal" : null;
+      if (kind) {
+        const frames = Array.from(keyframes || []);
         window.__projectCardMotionAudit.animations.push({
+          kind,
           duration: typeof options === "number" ? options : options?.duration,
           easing: typeof options === "object" ? options?.easing : undefined,
-          transforms: Array.from(keyframes || [], (frame) => frame.transform || ""),
+          transforms: frames.map((frame) => frame.transform || ""),
+          clipPaths: frames.map((frame) => frame.clipPath || ""),
         });
-        animation.addEventListener("cancel", () => {
-          window.__projectCardMotionAudit.cancellations += 1;
-        });
+        const originalCancel = animation.cancel.bind(animation);
+        animation.cancel = (...args) => {
+          window.__projectCardMotionAudit.cancellations.push(kind);
+          return originalCancel(...args);
+        };
       }
       return animation;
+    };
+
+    Element.prototype.scrollIntoView = function (...args) {
+      if (this.closest?.("[data-project-card]")) {
+        window.__projectCardMotionAudit.scrollCorrections.push({
+          options: args[0],
+          stack: new Error().stack,
+          target: this.className,
+        });
+      }
+      return originalScrollIntoView.apply(this, args);
     };
   });
 
@@ -1348,45 +1366,106 @@ test("project preview FLIP cancels stale runs and only translates cards", async 
   const firstCard = cards.nth(0);
   const secondCard = cards.nth(1);
 
-  await firstCard.locator("[data-project-card-trigger]").click();
-  await expect(firstCard).toHaveAttribute("data-project-card-state", "expanded");
-  await page.waitForTimeout(60);
-
-  await firstCard.locator("[data-project-card-trigger]").evaluate((trigger) => trigger.click());
+  await page.evaluate(() => {
+    window.__projectCardMotionAudit.scrollCorrections = [];
+  });
+  await page.evaluate(async () => {
+    const triggers = Array.from(document.querySelectorAll("[data-project-card-trigger]"));
+    const delay = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+    triggers[0]?.click();
+    await delay(60);
+    triggers[0]?.click();
+    await delay(60);
+    triggers[1]?.click();
+  });
+  await expect.poll(() => page.evaluate(() => window.__projectCardMotionAudit.cancellations)).toEqual(expect.arrayContaining(["layout", "reveal"]));
   await expect(firstCard).toHaveAttribute("data-project-card-state", "collapsed");
-  await page.waitForTimeout(60);
-
-  await secondCard.locator("[data-project-card-trigger]").evaluate((trigger) => trigger.click());
   await expect(secondCard).toHaveAttribute("data-project-card-state", "expanded");
   await page.waitForTimeout(500);
 
   const audit = await page.evaluate(() => window.__projectCardMotionAudit);
-  expect(audit.animations.length).toBeGreaterThan(0);
-  expect(audit.cancellations).toBeGreaterThan(0);
+  const layoutAnimations = audit.animations.filter((entry) => entry.kind === "layout");
+  const revealAnimations = audit.animations.filter((entry) => entry.kind === "reveal");
+  expect(layoutAnimations.length).toBeGreaterThan(0);
+  expect(revealAnimations.length).toBeGreaterThan(0);
+  expect(audit.cancellations).toEqual(expect.arrayContaining(["layout", "reveal"]));
   expect(audit.animations.every((entry) => entry.duration === 430)).toBe(true);
   expect(audit.animations.every((entry) => entry.easing === "cubic-bezier(.18, .84, .22, 1)")).toBe(true);
-  expect(audit.animations.flatMap((entry) => entry.transforms).every((transform) => !transform.includes("scale"))).toBe(true);
+  expect(layoutAnimations.flatMap((entry) => entry.transforms).every((transform) => !transform.includes("scale"))).toBe(true);
+  expect(revealAnimations.flatMap((entry) => entry.transforms).every((transform) => transform === "")).toBe(true);
+  expect(revealAnimations.every((entry) => entry.clipPaths.at(-1) === "inset(0)")).toBe(true);
+  expect(revealAnimations.some((entry) => entry.clipPaths[0] !== "inset(0)" && entry.clipPaths[0].includes("px"))).toBe(true);
+  expect(audit.scrollCorrections.length, JSON.stringify(audit.scrollCorrections, null, 2)).toBeLessThanOrEqual(1);
   await expect(firstCard).toHaveAttribute("data-project-card-state", "collapsed");
   await expect(secondCard).toHaveAttribute("data-project-card-state", "expanded");
 
-  const settledTransforms = await page.evaluate(() => {
+  const settledMotion = await page.evaluate(() => {
     const firstSurface = document.querySelector("[data-project-card] .card");
+    const expandedSurface = document.querySelector("[data-project-card-state='expanded'] .card");
     const expandedImage = document.querySelector("[data-project-card-state='expanded'] .project-card-media img");
+    const expandedPanel = document.querySelector("[data-project-card-state='expanded'] [data-project-card-panel]");
+    const expandedTakeaways = document.querySelector("[data-project-card-state='expanded'] .project-card-takeaways");
     const transform = firstSurface ? getComputedStyle(firstSurface).transform : "none";
     const matrix = transform === "none" ? { a: 1, d: 1 } : new DOMMatrixReadOnly(transform);
     return {
       expandedImage: expandedImage ? getComputedStyle(expandedImage).transform : null,
+      imageTransitionDuration: expandedImage ? getComputedStyle(expandedImage).transitionDuration : null,
+      panelAnimationName: expandedPanel ? getComputedStyle(expandedPanel).animationName : null,
+      surfaceClipPath: expandedSurface ? getComputedStyle(expandedSurface).clipPath : null,
       siblingScaleX: matrix.a,
       siblingScaleY: matrix.d,
+      takeawayAnimationName: expandedTakeaways ? getComputedStyle(expandedTakeaways).animationName : null,
     };
   });
-  expect(settledTransforms.expandedImage).toBe("none");
-  expect(settledTransforms.siblingScaleX).toBe(1);
-  expect(settledTransforms.siblingScaleY).toBe(1);
-  expect(await cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations().length, 0))).toBe(0);
+  expect(settledMotion.expandedImage).toBe("none");
+  expect(settledMotion.imageTransitionDuration).toBe("0s");
+  expect(settledMotion.panelAnimationName).toBe("none");
+  expect(settledMotion.surfaceClipPath).toBe("none");
+  expect(settledMotion.siblingScaleX).toBe(1);
+  expect(settledMotion.siblingScaleY).toBe(1);
+  expect(settledMotion.takeawayAnimationName).toBe("none");
+  expect(await cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations({ subtree: true }).length, 0))).toBe(0);
+
+  await secondCard.locator("[data-project-card-trigger]").click();
+  await expect(secondCard).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect
+    .poll(() => cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations({ subtree: true }).length, 0)))
+    .toBe(0);
+
+  const thirdCard = cards.nth(2);
+  const thirdTrigger = thirdCard.locator("[data-project-card-trigger]");
+  const thirdPrimaryAction = thirdCard.locator("[data-project-card-primary-action]");
+  const navigationLink = page.locator("#theme-toggle");
+  await thirdTrigger.focus();
+  await thirdTrigger.press("Enter");
+  await navigationLink.focus();
+  await expect
+    .poll(() => cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations({ subtree: true }).length, 0)))
+    .toBe(0);
+  await expect(navigationLink).toBeFocused();
+  await expect(thirdPrimaryAction).not.toBeFocused();
 });
 
 test("project previews preserve keyboard state with reduced motion", async ({ page }) => {
+  await page.addInitScript(() => {
+    const originalAnimate = Element.prototype.animate;
+    const originalScrollIntoView = Element.prototype.scrollIntoView;
+    window.__projectCardReducedMotionAudit = { animations: 0, scrollCorrections: 0 };
+
+    Element.prototype.animate = function (...args) {
+      if (this.matches?.("[data-project-card], .project-card > .card")) {
+        window.__projectCardReducedMotionAudit.animations += 1;
+      }
+      return originalAnimate.apply(this, args);
+    };
+
+    Element.prototype.scrollIntoView = function (...args) {
+      if (this.closest?.("[data-project-card]")) {
+        window.__projectCardReducedMotionAudit.scrollCorrections += 1;
+      }
+      return originalScrollIntoView.apply(this, args);
+    };
+  });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await preparePage(page, "light");
   await page.goto("/al-folio/projects/", { waitUntil: "networkidle" });
@@ -1411,19 +1490,28 @@ test("project previews preserve keyboard state with reduced motion", async ({ pa
     const projectCards = Array.from(document.querySelectorAll("[data-project-card]"));
     const expandedPanel = document.querySelector("[data-project-card-panel]");
     const siblingSurface = projectCards[1]?.querySelector(".card");
+    const expandedSurface = projectCards[0]?.querySelector(".card");
     const expandedImage = projectCards[0]?.querySelector(".project-card-media img");
+    const expandedTakeaways = projectCards[0]?.querySelector(".project-card-takeaways");
     return {
+      audit: window.__projectCardReducedMotionAudit,
       cardAnimations: projectCards.reduce((count, item) => count + item.getAnimations().length, 0),
       imageTransitionDuration: expandedImage ? getComputedStyle(expandedImage).transitionDuration : null,
       panelAnimationName: expandedPanel ? getComputedStyle(expandedPanel).animationName : null,
       siblingTransform: siblingSurface ? getComputedStyle(siblingSurface).transform : null,
+      surfaceClipPath: expandedSurface ? getComputedStyle(expandedSurface).clipPath : null,
+      takeawayAnimationName: expandedTakeaways ? getComputedStyle(expandedTakeaways).animationName : null,
     };
   });
 
+  expect(reducedMotionState.audit.animations).toBe(0);
+  expect(reducedMotionState.audit.scrollCorrections).toBeLessThanOrEqual(1);
   expect(reducedMotionState.cardAnimations).toBe(0);
   expect(reducedMotionState.imageTransitionDuration).toBe("0s");
   expect(reducedMotionState.panelAnimationName).toBe("none");
   expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(reducedMotionState.siblingTransform);
+  expect(reducedMotionState.surfaceClipPath).toBe("none");
+  expect(reducedMotionState.takeawayAnimationName).toBe("none");
 
   await page.keyboard.press("Escape");
   await expect(panel).toBeHidden();
