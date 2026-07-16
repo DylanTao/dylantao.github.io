@@ -15,7 +15,7 @@ status: Site experiment
 hide_title: true
 ---
 
-<section class="project-case-hero site-experiment-hero site-experiment-hero-text">
+<section class="project-case-hero site-experiment-hero">
   <div class="project-case-copy">
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
@@ -33,6 +33,10 @@ hide_title: true
       <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download reproduction MD</a>
     </div>
   </div>
+  <figure class="project-case-media site-experiment-evidence-figure">
+    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-stage.png' | relative_url }}" alt="Build Rhythm explorer showing a selected chapter, an annotated activity chart, and the exact evidence table" loading="eager">
+    <figcaption>The current explorer teaches one signal at a time before handing control to the complete record.</figcaption>
+  </figure>
 </section>
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">

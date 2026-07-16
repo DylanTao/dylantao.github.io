@@ -176,6 +176,35 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   expect(contentBox.height, `${route.path} content box is unexpectedly short`).toBeGreaterThan(route.minContentHeight ?? 120);
   expect(runtimeErrors, `${route.path} raised browser runtime errors`).toEqual([]);
 
+  if (["project-build-rhythm", "project-paper-constellation", "project-scholar-lens"].includes(route.id)) {
+    const hero = page.locator(".project-case-hero").first();
+    const copy = hero.locator(":scope > .project-case-copy");
+    const media = hero.locator(":scope > .project-case-media");
+    await expect(copy).toBeVisible();
+    await expect(media).toBeVisible();
+    await expect(media.locator("img")).toHaveJSProperty("complete", true);
+
+    const heroGeometry = await hero.evaluate((element) => {
+      const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
+      const mediaBox = element.querySelector(":scope > .project-case-media").getBoundingClientRect();
+      return {
+        copyTop: copyBox.top,
+        copyWidth: copyBox.width,
+        mediaTop: mediaBox.top,
+        mediaWidth: mediaBox.width,
+        heroWidth: element.getBoundingClientRect().width,
+      };
+    });
+    expect(heroGeometry.copyWidth).toBeGreaterThan(220);
+    expect(heroGeometry.mediaWidth).toBeGreaterThan(220);
+    if ((page.viewportSize()?.width ?? 0) <= 991) {
+      expect(heroGeometry.mediaTop).toBeGreaterThan(heroGeometry.copyTop);
+    } else {
+      expect(Math.abs(heroGeometry.mediaTop - heroGeometry.copyTop)).toBeLessThan(90);
+      expect(heroGeometry.copyWidth + heroGeometry.mediaWidth).toBeGreaterThan(heroGeometry.heroWidth * 0.75);
+    }
+  }
+
   if (route.id === "project-ikea-project-cards") {
     const figure = page.locator(".site-experiment-evidence-figure");
     const image = figure.locator("img");
@@ -810,6 +839,55 @@ test("head alternates are scoped to equivalent machine-readable documents", asyn
       expect(machineAlternates.some((link) => link.type === type && link.pathname.endsWith(pathnameSuffix))).toBe(true);
     }
   }
+});
+
+test("home Build Rhythm ledger stays readable and truthful", async ({ page }, testInfo) => {
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  await stabilizeVisuals(page);
+
+  const ledger = page.locator(".home-agentic-heartbeat");
+  await ledger.scrollIntoViewIfNeeded();
+  await expect(ledger).toBeVisible();
+  await expect(ledger).toHaveAccessibleName("Open Build Rhythm");
+  await expect(ledger).toContainText("History: 1 of 2 accounts");
+  await expect(ledger).toContainText(/(?:\d+\/\d+ accounts healthy|Account check pending)/);
+  await expect(ledger).toContainText(/\d+ GitHub commits/);
+  await expect(ledger).not.toContainText("2-account quota health");
+  await expect(ledger.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
+
+  const geometry = await ledger.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const statusStyle = getComputedStyle(element.querySelector(".home-agentic-heartbeat-status"));
+    const groups = Array.from(element.querySelectorAll(".home-agentic-heartbeat-meta > span")).map((group) => ({
+      rectCount: group.getClientRects().length,
+      width: group.getBoundingClientRect().width,
+    }));
+    return {
+      left: bounds.left,
+      right: bounds.right,
+      height: bounds.height,
+      groups,
+      statusAnimation: statusStyle.animationName,
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    };
+  });
+  expect(geometry.left).toBeGreaterThanOrEqual(-1);
+  expect(geometry.right).toBeLessThanOrEqual(geometry.clientWidth + 1);
+  expect(geometry.height).toBeGreaterThanOrEqual(44);
+  expect(geometry.groups).toHaveLength(3);
+  expect(geometry.groups.every((group) => group.rectCount === 1 && group.width > 0)).toBe(true);
+  expect(geometry.statusAnimation).toBe("none");
+  expect(geometry.scrollWidth - geometry.clientWidth).toBeLessThanOrEqual(1);
+
+  await ledger.focus();
+  await expect(ledger).toBeFocused();
+  expect(await ledger.evaluate((element) => Number.parseFloat(getComputedStyle(element).outlineWidth))).toBeGreaterThanOrEqual(2);
+  await attachScreenshot(page, testInfo, `home-build-rhythm-ledger-${testInfo.project.name}`, { locator: ledger });
+  expect(runtimeErrors).toEqual([]);
 });
 
 test("Build Rhythm narrow table exposes its horizontal reading path", async ({ page }, testInfo) => {

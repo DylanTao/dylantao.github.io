@@ -51,7 +51,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 10
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 19
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -384,6 +384,623 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
             "Retained auto-review turn_context, exact planned git worktree remove --force command, "
             "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
             "2026-07-16."
+        ),
+    },
+    "019f6ca5-8281-7ed2-b963-77d28d4b3104": {
+        "timestamp": "2026-07-16T20:36:59.135Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed the Dockerized production "
+            "Jekyll build for this site's first responsive-polish checkpoint; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose run Jekyll build command, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ca9-2a5e-7790-a17f-1afba84e4ee4": {
+        "timestamp": "2026-07-16T20:40:54.009Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a localhost smoke request "
+            "while the responsive-polish verification server was starting; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact localhost curl command, reviewed session "
+            "019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6ca9-9daa-7e60-8e65-f4d6b0e25cf0": {
+        "timestamp": "2026-07-16T20:41:23.224Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a repeated localhost smoke "
+            "request while the same verification server was building; the review lane did not "
+            "change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact repeated localhost curl command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6cae-9658-7710-81f9-48e92dfc7f19": {
+        "timestamp": "2026-07-16T20:46:49.626Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed the final localhost smoke "
+            "request after the responsive-polish verification server finished building; the "
+            "review lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact final localhost curl command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6cb0-db9e-7290-8a2c-44a5baf0f190": {
+        "timestamp": "2026-07-16T20:49:17.801Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed the targeted four-viewport "
+            "Playwright acceptance run for the responsive-polish checkpoint; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact targeted Playwright command, reviewed session "
+            "019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6cb3-9957-7a21-8619-4a70291aa361": {
+        "timestamp": "2026-07-16T20:52:17.487Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed the four-viewport ledger "
+            "screenshot acceptance run for the responsive-polish checkpoint; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact ledger screenshot Playwright command, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cc4-4f77-7b02-ba9f-8130494b3be5": {
+        "timestamp": "2026-07-16T21:10:33.395Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a read-only Crossref DOI "
+            "lookup for the separate semantic-scaffolding-map metadata audit; it did not perform "
+            "site development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact C&C 2026 Crossref DOI lookup command, "
+            "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cc4-ba09-7973-874b-71b69d748e96": {
+        "timestamp": "2026-07-16T21:11:00.401Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a read-only Crossref "
+            "proceedings query for the separate semantic-scaffolding-map metadata audit; it did "
+            "not perform site development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact C&C 2026 Crossref proceedings query, "
+            "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cc5-1365-7710-a5d9-62256cbf68fd": {
+        "timestamp": "2026-07-16T21:11:22.915Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a read-only official C&C "
+            "proceedings fetch for the separate semantic-scaffolding-map metadata audit; it did "
+            "not perform site development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact official C&C 2026 proceedings fetch and "
+            "session-count command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and "
+            "allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6cc6-7865-7ee0-81ab-7bfe242eba33": {
+        "timestamp": "2026-07-16T21:12:59.253Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a retry of an exact copy-only patch in "
+            "the separate VariationWeaver-Canvas study interface; it did not perform site "
+            "development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact StudySurveyPage autosave-copy patch, reviewed "
+            "session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and retry assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cc6-c2b0-7752-99ac-088af26452e6": {
+        "timestamp": "2026-07-16T21:13:18.566Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a narrowly scoped cache cleanup in the "
+            "separate semantic-scaffolding-map repository; it did not perform site development "
+            "work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact tools/__pycache__ removal command, reviewed "
+            "session 019f69b1-73e5-7303-9229-8de060348501, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cd1-ba67-76f2-a4d7-3ffbb7aa950f": {
+        "timestamp": "2026-07-16T21:25:12.044Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a local responsive-layout verification "
+            "server and test command in the separate VariationWeaver-Canvas study interface; it "
+            "did not perform site development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact local Vite and responsive-layout test "
+            "command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval "
+            "assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cd0-fe68-7a33-b358-009d7fab6fbd": {
+        "timestamp": "2026-07-16T21:24:29.063Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a workspace-bounded test-cache cleanup "
+            "in the separate semantic-scaffolding-map repository; it did not perform site "
+            "development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact resolved-path tests/__pycache__ removal "
+            "command, reviewed session 019f6cc9-917c-7f60-a3ec-dada060ad21a, and approval "
+            "assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cd9-179f-7b31-be7d-91fb86144f19": {
+        "timestamp": "2026-07-16T21:33:20.048Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a read-only process inspection of the "
+            "checkpoint-two Jekyll container; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cd9-f8c2-7391-8dc7-0f927c7901e5": {
+        "timestamp": "2026-07-16T21:34:12.330Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a Git fetch in the separate "
+            "VariationWeaver-Canvas repository; it did not perform site development work or "
+            "change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git fetch origin main command, reviewed "
+            "session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cda-4d6e-7781-9c31-c7a0fde96b64": {
+        "timestamp": "2026-07-16T21:34:34.425Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a read-only CPU-aware process "
+            "inspection of the checkpoint-two Jekyll container; the review lane did not change "
+            "the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose CPU process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cda-dae6-7aa1-9b30-385a1fe3e029": {
+        "timestamp": "2026-07-16T21:35:10.577Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a read-only memory-aware process "
+            "inspection of the checkpoint-two Jekyll container; the review lane did not change "
+            "the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose memory process command, "
+            "reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6cdb-219d-7e90-bade-d4e741d80a95": {
+        "timestamp": "2026-07-16T21:35:33.298Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a workspace-bounded cache cleanup in "
+            "the separate semantic-scaffolding-map repository; it did not perform site "
+            "development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact resolved-path tools/__pycache__ removal "
+            "command, reviewed session 019f6cb6-ccdd-7560-b08c-2162e9c5c64e, and approval "
+            "assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cdb-c44b-7f61-8de3-b1b6473ab70b": {
+        "timestamp": "2026-07-16T21:36:10.067Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated another read-only process inspection of "
+            "the checkpoint-two Jekyll container; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cdc-2690-7943-b56e-b0e085559cda": {
+        "timestamp": "2026-07-16T21:36:35.180Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the focused mobile Paper Constellation "
+            "Playwright run; the review lane did not change the declared interactive development "
+            "default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact externally served mobile-390 Playwright "
+            "command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval "
+            "assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cdc-d93b-7ff3-baa3-2bd3f63b58da": {
+        "timestamp": "2026-07-16T21:37:20.981Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a repeated workspace-bounded cache "
+            "cleanup in the separate semantic-scaffolding-map repository; it did not perform site "
+            "development work or change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact repeated resolved-path tools/__pycache__ "
+            "removal command, reviewed session 019f6cb6-ccdd-7560-b08c-2162e9c5c64e, and "
+            "approval assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cdf-38ad-7de1-bc02-497a474c0580": {
+        "timestamp": "2026-07-16T21:39:56.789Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a restart of the checkpoint-two Jekyll "
+            "verification container after the receipt-layout correction; the review lane did not "
+            "change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose restart command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cdf-c644-7ca2-88ac-ab80a8bc2dde": {
+        "timestamp": "2026-07-16T21:40:32.931Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a read-only process check during the "
+            "checkpoint-two rebuild; the review lane did not change the declared interactive "
+            "development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ce0-543e-7bc3-81e9-f79afe93f230": {
+        "timestamp": "2026-07-16T21:41:09.436Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a final read-only process check during "
+            "the checkpoint-two rebuild; the review lane did not change the declared interactive "
+            "development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ce1-4469-73b0-a978-ced69caa8546": {
+        "timestamp": "2026-07-16T21:42:10.626Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the final process-and-log inspection for "
+            "the checkpoint-two Jekyll rebuild; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process and tail-log command, "
+            "reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6ce1-d540-7332-8e5f-35b3d104a153": {
+        "timestamp": "2026-07-16T21:42:47.545Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a repeated Git fetch in the separate "
+            "VariationWeaver-Canvas repository; it did not perform site development work or "
+            "change the declared site-development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git fetch origin main command, reviewed "
+            "session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ce1-d70d-7f43-b33f-c1369f05d646": {
+        "timestamp": "2026-07-16T21:42:48.008Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a final read-only process check while "
+            "the checkpoint-two Jekyll build settled; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ce2-9724-7f70-a576-d0b79e4a66d2": {
+        "timestamp": "2026-07-16T21:43:37.289Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the last read-only process check before "
+            "the checkpoint-two Jekyll container was stopped; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose process command, reviewed "
+            "session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cec-ff9f-7cf3-8e21-4d3cffd501ae": {
+        "timestamp": "2026-07-16T21:54:59.440Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the fetch required after a safe "
+            "non-fast-forward push rejection; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git fetch origin main command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ced-564a-7521-9aac-35730bda91b8": {
+        "timestamp": "2026-07-16T21:55:21.371Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated an attempted full-blob fetch using the "
+            "abbreviated remote commit identifier; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact abbreviated-ref no-filter fetch command, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and failed-ref result, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ced-9145-7e33-8dc9-46a41eb57b91": {
+        "timestamp": "2026-07-16T21:55:36.677Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the exact full-ref fetch used to inspect "
+            "the remote metrics commit; the review lane did not change the declared interactive "
+            "development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact full-ref no-filter fetch command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cf1-30e4-7690-983d-5ab2b466ef4d": {
+        "timestamp": "2026-07-16T21:59:34.102Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated creation of the detached checkpoint-one "
+            "publish worktree used to protect unstaged checkpoint-two work; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git worktree add command, reviewed session "
+            "019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cf1-854e-7992-be60-a922e221b1d2": {
+        "timestamp": "2026-07-16T21:59:55.516Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated replay of the single verified "
+            "checkpoint onto the refreshed remote history; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact checkpoint cherry-pick command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and clean cherry-pick result, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cf1-ba70-7211-99a2-6c1b7aa9a062": {
+        "timestamp": "2026-07-16T22:00:09.131Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the exact-history ledger refresh in the "
+            "isolated publish worktree; the review lane did not change the declared interactive "
+            "development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact audit write command and isolated worktree, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6cf3-6891-7fe2-aa20-dbcc8047d5b2": {
+        "timestamp": "2026-07-16T22:01:59.756Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a read-only query of the isolated "
+            "worktree ledger used to identify exact integration deviations; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact ripgrep acknowledgment query, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cf4-9ba3-7041-a683-d93dde25ef91": {
+        "timestamp": "2026-07-16T22:03:17.844Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated copying the exact policy and policy-test "
+            "files into the isolated publish worktree; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact two-file Copy-Item command, reviewed session "
+            "019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6cf5-39f7-7350-826e-085b6c34bf4f": {
+        "timestamp": "2026-07-16T22:03:58.583Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the explicit seven-file stash used to "
+            "protect checkpoint-two work before rebasing; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact path-scoped git stash command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cf5-609e-76b1-a4b4-b6dd7ad2cce4": {
+        "timestamp": "2026-07-16T22:04:08.276Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated rebasing the single checkpoint onto the "
+            "inspected metrics-bot refresh; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git rebase origin/main command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and clean rebase result, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6cf5-83ef-7710-8986-a4ee2087b8df": {
+        "timestamp": "2026-07-16T22:04:17.309Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated restoring the exact checkpoint-two "
+            "stash after the clean rebase; the review lane did not change the declared "
+            "interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git stash pop command, reviewed session "
+            "019f652f-7154-7822-ad1c-daa5a066134b, and clean restore result, audited 2026-07-16."
         ),
     },
 }

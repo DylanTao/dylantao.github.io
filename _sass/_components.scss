@@ -972,6 +972,10 @@ html.site-motion-ready .hoverable.site-visible:hover {
   padding: clamp(1.2rem, 3vw, 2.2rem);
 }
 
+.project-case-hero > :only-child {
+  grid-column: 1 / -1;
+}
+
 .project-case-kicker,
 .project-case-summary span {
   color: var(--global-theme-color);
@@ -2343,6 +2347,14 @@ html[data-theme="dark"] {
 }
 
 @media (max-width: 991px) {
+  .project-case-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .project-case-media {
+    order: initial;
+  }
+
   .hci-spooder-gallery-stage {
     aspect-ratio: 16 / 10;
   }
@@ -2524,7 +2536,7 @@ html[data-theme="dark"] {
   }
 
   .project-case-media {
-    order: -1;
+    order: initial;
   }
 
   .project-case-hero {

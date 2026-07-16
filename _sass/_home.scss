@@ -3197,7 +3197,7 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-agentic-heartbeat {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) minmax(4.5rem, 7rem) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.56rem;
   align-items: center;
   width: min(100%, 31.5rem);
@@ -3253,6 +3253,17 @@ html[data-theme="dark"] .home-artifact-mark {
   line-height: 1.35;
 }
 
+.home-agentic-heartbeat-meta {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.52rem;
+  row-gap: 0.08rem;
+}
+
+.home-agentic-heartbeat-meta > span {
+  white-space: nowrap;
+}
+
 .home-agentic-heartbeat-route {
   color: color-mix(in srgb, var(--home-accent-strong) 64%, var(--home-muted));
   font-size: 0.55rem;
@@ -3266,53 +3277,12 @@ html[data-theme="dark"] .home-artifact-mark {
   transform: translateX(0.12rem);
 }
 
-.home-agentic-heartbeat-sparkline {
-  display: block;
-  width: 100%;
-  height: 1.75rem;
-  overflow: visible;
-}
-
-.home-agentic-heartbeat-sparkline polyline {
-  fill: none;
-  stroke: color-mix(in srgb, var(--home-accent) 72%, var(--home-muted));
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0.055;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.55;
-  transition:
-    stroke 160ms ease,
-    stroke-dashoffset 420ms ease-out;
-  vector-effect: non-scaling-stroke;
-}
-
-.home-agentic-heartbeat:hover .home-agentic-heartbeat-sparkline polyline,
-.home-agentic-heartbeat:focus-visible .home-agentic-heartbeat-sparkline polyline {
-  stroke: var(--home-accent-strong);
-  stroke-dashoffset: 0;
-}
-
-.home-agentic-heartbeat-pulse {
+.home-agentic-heartbeat-status {
   width: 0.5rem;
   height: 0.5rem;
   border: 1px solid color-mix(in srgb, var(--home-accent) 72%, transparent);
   border-radius: 50%;
   background: color-mix(in srgb, var(--home-accent) 68%, var(--home-surface));
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--home-accent) 24%, transparent);
-  animation: home-heartbeat 2.8s ease-out infinite;
-}
-
-@keyframes home-heartbeat {
-  0%,
-  38%,
-  100% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--home-accent) 24%, transparent);
-  }
-
-  18% {
-    box-shadow: 0 0 0 0.28rem transparent;
-  }
 }
 
 .home-agentic-tree-label {
@@ -4162,18 +4132,9 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-agentic-heartbeat {
-    grid-template-columns: auto minmax(0, 1fr) 4.5rem auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     width: min(100%, 20rem);
     padding: 0.44rem 0.08rem;
-  }
-
-  .home-agentic-heartbeat-route {
-    font-size: 0;
-  }
-
-  .home-agentic-heartbeat-route::after {
-    content: "→";
-    font-size: 0.78rem;
   }
 
   .home-agentic-tree-mark {
@@ -4288,9 +4249,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-artifact-stack.has-coffee-stain::before,
   .home-artifact-card,
   .home-artifact-thumb img,
-  .home-agentic-heartbeat-pulse,
   .home-agentic-heartbeat-route,
-  .home-agentic-heartbeat-sparkline polyline,
   html.home-motion-ready .home-reveal {
     animation: none;
     transition: none;
@@ -4327,7 +4286,6 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-artifact-card:hover .home-artifact-thumb img,
   .home-artifact-card:focus-visible .home-artifact-thumb img,
   .home-agentic-heartbeat,
-  .home-agentic-heartbeat-pulse,
   .home-agentic-heartbeat-route,
   html.home-motion-ready .home-reveal {
     transform: none;

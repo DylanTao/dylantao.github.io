@@ -15,7 +15,7 @@ debut_date: 2026-07-15T16:51:26-07:00
 hide_title: true
 ---
 
-<section class="project-case-hero">
+<section class="project-case-hero site-experiment-hero">
   <div class="project-case-copy">
     <p class="project-case-kicker">Site experiment · Publication orientation</p>
     <h1>Paper Constellation</h1>
@@ -33,6 +33,10 @@ hide_title: true
       <a href="{{ '/assets/downloads/site-experiments/paper-constellation-reproduction.md' | relative_url }}" download>Download the reproduction guide</a>
     </div>
   </div>
+  <figure class="project-case-media site-experiment-evidence-figure">
+    <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-teaser.png' | relative_url }}" alt="Paper Constellation connecting five published papers and anonymous future nodes across Design, Evaluate, and Situate research threads" loading="eager">
+    <figcaption>Published papers keep their names; future directions remain anonymous and reveal only thread and relative size.</figcaption>
+  </figure>
 </section>
 
 <section class="project-case-summary" aria-label="Paper Constellation summary">

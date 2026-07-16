@@ -119,7 +119,7 @@ body.sticky-bottom-footer {
 .post.project-case-page article > ul,
 .post.project-case-page article > ol,
 .post.project-case-page article > blockquote {
-  max-width: var(--measure-prose);
+  max-width: min(var(--measure-prose), 68ch);
   margin-right: auto;
   margin-left: auto;
 }

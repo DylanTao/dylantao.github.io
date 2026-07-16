@@ -476,9 +476,12 @@ test("home agentic heartbeat shows the separate rounded checkpoint and tracker c
   await heartbeat.scrollIntoViewIfNeeded();
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
+  await expect(heartbeat).toHaveAccessibleName("Open Build Rhythm");
   await expect(heartbeat).toContainText("20.9B Personal rounded checkpoint");
-  await expect(heartbeat).toContainText("direct 2-account health pending");
-  await expect(heartbeat).toContainText("2-account quota health");
+  await expect(heartbeat).toContainText("History: 1 of 2 accounts");
+  await expect(heartbeat).toContainText(/(?:\d+\/\d+ accounts healthy|Account check pending)/);
+  await expect(heartbeat).toContainText("Build Rhythm");
+  await expect(heartbeat).not.toContainText("2-account quota health");
   await expect(heartbeat).toContainText(/\d+ GitHub commits/);
   await expect(heartbeat).not.toContainText(/\$|public API|cost/i);
   const tally = page.locator(".home-agentic-tally");
@@ -493,9 +496,8 @@ test("home agentic heartbeat shows the separate rounded checkpoint and tracker c
   await expect(tally).toContainText("est. kWh");
   await expect(tally).not.toContainText(/trees?|invoice|cost/i);
   await expect(tally.locator("#home-agentic-tooltip")).toContainText("The commit count is exact from this repository's Git history.");
-  const sparkline = heartbeat.locator(".home-agentic-heartbeat-sparkline polyline");
-  await expect(sparkline).toHaveCount(1);
-  expect((await sparkline.getAttribute("points")).trim().split(/\s+/)).toHaveLength(30);
+  await expect(heartbeat.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
+  await expect(heartbeat.locator(".home-agentic-heartbeat-meta > span")).toHaveCount(3);
   const heartbeatFrame = await heartbeat.evaluate((node) => {
     const style = getComputedStyle(node);
     return { borderTopWidth: style.borderTopWidth, backgroundColor: style.backgroundColor, minHeight: style.minHeight };
@@ -503,13 +505,12 @@ test("home agentic heartbeat shows the separate rounded checkpoint and tracker c
   expect(heartbeatFrame.borderTopWidth).toBe("0px");
   expect(heartbeatFrame.backgroundColor).toBe("rgba(0, 0, 0, 0)");
   expect(Number.parseFloat(heartbeatFrame.minHeight)).toBeGreaterThanOrEqual(44);
-  const pulseMotion = await heartbeat.locator(".home-agentic-heartbeat-pulse").evaluate((node) => {
+  const statusMotion = await heartbeat.locator(".home-agentic-heartbeat-status").evaluate((node) => {
     const style = getComputedStyle(node);
     return { animationName: style.animationName, animationDuration: style.animationDuration };
   });
-  expect(pulseMotion.animationName).toBe("none");
-  expect(pulseMotion.animationDuration).toBe("0s");
-  expect(await sparkline.evaluate((node) => getComputedStyle(node).transitionDuration)).toBe("0s");
+  expect(statusMotion.animationName).toBe("none");
+  expect(statusMotion.animationDuration).toBe("0s");
 });
 
 test("publications Abs toggle opens and closes", async ({ page }) => {

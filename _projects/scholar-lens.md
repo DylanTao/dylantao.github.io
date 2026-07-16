@@ -16,7 +16,7 @@ status: Site experiment
 hide_title: true
 ---
 
-<section class="project-case-hero site-experiment-hero site-experiment-hero-text">
+<section class="project-case-hero site-experiment-hero">
   <div class="project-case-copy">
     <p class="project-case-kicker">Site experiment · first seen May 30, 2026</p>
     <h1>Scholar Lens</h1>
@@ -34,6 +34,10 @@ hide_title: true
       <a href="{{ '/assets/downloads/site-experiments/scholar-lens-reproduction.md' | relative_url }}" download>Download reproduction MD</a>
     </div>
   </div>
+  <figure class="project-case-media site-experiment-evidence-figure">
+    <img src="{{ '/assets/img/project_pics/site-experiments/scholar-lens.png' | relative_url }}" alt="Scholar Lens showing dated citation totals, annual bars, and filters beside the publication record" loading="eager">
+    <figcaption>A dated evidence overlay helps visitors navigate; the bibliography remains the publication record.</figcaption>
+  </figure>
 </section>
 
 <section class="project-case-summary" aria-label="Scholar Lens summary">

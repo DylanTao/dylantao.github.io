@@ -7,11 +7,11 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 367
-  token_count: 6090000000
-  tokens_label: 6.09B
-  hours_count: 430
-  hours_label: "430"
+  commits: 368
+  token_count: 6180000000
+  tokens_label: 6.18B
+  hours_count: 435
+  hours_label: "435"
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -20,21 +20,21 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 3654
-    kg_co2e_midpoint: 1363
-    tree_years_midpoint: 22.7
-    tree_years_range: 7.6-75.7
+    kwh_midpoint: 3708
+    kg_co2e_midpoint: 1383
+    tree_years_midpoint: 23.1
+    tree_years_range: 7.7-76.8
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 2.3
-    cut_tree_range: 0.8-7.6
-    public_note: "Tree lens: about 3654 kWh, or ~2.3 ten-year urban trees' stored carbon. Range: 0.8-7.6."
+    cut_tree_range: 0.8-7.7
+    public_note: "Tree lens: about 3708 kWh, or ~2.3 ten-year urban trees' stored carbon. Range: 0.8-7.7."
   token_usage:
-    input_tokens: 6069006560
-    cached_input_tokens: 5796124288
-    output_tokens: 16659585
-    reasoning_output_tokens: 6909704
-    total_tokens: 6085844841
+    input_tokens: 6166479099
+    cached_input_tokens: 5890895744
+    output_tokens: 16904411
+    reasoning_output_tokens: 7024608
+    total_tokens: 6183562206
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -71,17 +71,17 @@ total:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 6069006560
-      cached_input_tokens: 5796124288
-      output_tokens: 16659585
-      reasoning_output_tokens: 6909704
-      total_tokens: 6085844841
+      input_tokens: 6165474236
+      cached_input_tokens: 5890047872
+      output_tokens: 16901916
+      reasoning_output_tokens: 7023317
+      total_tokens: 6182554848
     unpriced_token_usage:
-      input_tokens: 0
-      cached_input_tokens: 0
-      output_tokens: 0
-      reasoning_output_tokens: 0
-      total_tokens: 0
+      input_tokens: 1004863
+      cached_input_tokens: 847872
+      output_tokens: 2495
+      reasoning_output_tokens: 1291
+      total_tokens: 1007358
     model_effort_price_breakdown:
       gpt-5.5/xhigh:
         model: gpt-5.5
@@ -125,13 +125,13 @@ total:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 3470585367
-          cached_input_tokens: 3353958656
-          output_tokens: 6797140
-          reasoning_output_tokens: 3289920
-          total_tokens: 3477494884
-        uncached_input_tokens: 116626711
-        request_count: 22025
+          input_tokens: 3567053043
+          cached_input_tokens: 3447882240
+          output_tokens: 7039471
+          reasoning_output_tokens: 3403533
+          total_tokens: 3574204891
+        uncached_input_tokens: 119170803
+        request_count: 22780
         long_context_request_count: 2084
         long_context_token_usage:
           input_tokens: 607714933
@@ -139,12 +139,12 @@ total:
           output_tokens: 707270
           reasoning_output_tokens: 303204
           total_tokens: 608422203
-        usd_estimate: 2892.3
-    usd_estimate: 5190.53
-    usd_midpoint: 5200
-    usd_label: ~$5.2K API-rate replay
+        usd_estimate: 2959.25
+    usd_estimate: 5257.48
+    usd_midpoint: 5300
+    usd_label: ~$5.3K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$5.2K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$5.3K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -153,12 +153,24 @@ total:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 6090000000
-    usd_midpoint: 5300
-    usd_label: ~$5.3K
+    token_count: 6180000000
+    usd_midpoint: 5400
+    usd_label: ~$5.4K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$5.3K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$5.4K (diagnostic only)."
   model_effort_breakdown:
+    codex-auto-review/low:
+      model: codex-auto-review
+      effort: low
+      turns: 28
+      sessions: 2
+      token_usage:
+        input_tokens: 1004863
+        cached_input_tokens: 847872
+        output_tokens: 2495
+        reasoning_output_tokens: 1291
+        total_tokens: 1007358
+      raw_hours: 1.3342
     gpt-5.5/medium:
       model: gpt-5.5
       effort: medium
@@ -186,15 +198,15 @@ total:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 355
-      sessions: 181
+      turns: 364
+      sessions: 188
       token_usage:
-        input_tokens: 3470585367
-        cached_input_tokens: 3353958656
-        output_tokens: 6797140
-        reasoning_output_tokens: 3289920
-        total_tokens: 3477494884
-      raw_hours: 190.524
+        input_tokens: 3567053043
+        cached_input_tokens: 3447882240
+        output_tokens: 7039471
+        reasoning_output_tokens: 3403533
+        total_tokens: 3574204891
+      raw_hours: 194.903
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -203,16 +215,16 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 6069006560
-    cached_input_tokens: 5796124288
-    uncached_input_tokens: 272882272
-    output_tokens: 16659585
-    reasoning_output_tokens: 6909704
-    total_tokens: 6085844841
-    usd_estimate: 1725.1
+    input_tokens: 6166479099
+    cached_input_tokens: 5890895744
+    uncached_input_tokens: 275583355
+    output_tokens: 16904411
+    reasoning_output_tokens: 7024608
+    total_tokens: 6183562206
+    usd_estimate: 1749.84
     usd_midpoint: 1700
     usd_label: ~$1.7K API-rate replay
-    usd_range_label: $1.3K-$10.9K
+    usd_range_label: $1.3K-$11.0K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
     public_note: ~$1.7K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
   token_rhythm:
@@ -393,17 +405,17 @@ total:
         token_count: 5660000000
         tokens_label: 5.66B
       - date: "2026-07-16"
-        token_count: 6090000000
-        tokens_label: 6.09B
+        token_count: 6180000000
+        tokens_label: 6.18B
 desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 119
-  token_count: 5000000000
-  tokens_label: 5B
-  hours_count: 316
-  hours_label: "316"
+  commits: 120
+  token_count: 5100000000
+  tokens_label: 5.1B
+  hours_count: 321
+  hours_label: "321"
   confidence: estimate
   note: Desk commits are path-scoped; tokens and hours are an all-repo retained-session time-window estimate since the desk cutoff, not desk-only attribution.
   energy_equivalence:
@@ -412,21 +424,21 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 3000
-    kg_co2e_midpoint: 1119
-    tree_years_midpoint: 18.6
-    tree_years_range: 6.2-62.2
+    kwh_midpoint: 3060
+    kg_co2e_midpoint: 1141
+    tree_years_midpoint: 19.0
+    tree_years_range: 6.3-63.4
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 1.9
-    cut_tree_range: 0.6-6.2
+    cut_tree_range: 0.6-6.3
     public_note: roughly 1.9 trees cut
   token_usage:
-    input_tokens: 4988839546
-    cached_input_tokens: 4784720768
-    output_tokens: 12469217
-    reasoning_output_tokens: 5362449
-    total_tokens: 5001466159
+    input_tokens: 5086312085
+    cached_input_tokens: 4879492224
+    output_tokens: 12714043
+    reasoning_output_tokens: 5477353
+    total_tokens: 5099183524
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -463,17 +475,17 @@ desk_scene:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 4988839546
-      cached_input_tokens: 4784720768
-      output_tokens: 12469217
-      reasoning_output_tokens: 5362449
-      total_tokens: 5001466159
+      input_tokens: 5085307222
+      cached_input_tokens: 4878644352
+      output_tokens: 12711548
+      reasoning_output_tokens: 5476062
+      total_tokens: 5098176166
     unpriced_token_usage:
-      input_tokens: 0
-      cached_input_tokens: 0
-      output_tokens: 0
-      reasoning_output_tokens: 0
-      total_tokens: 0
+      input_tokens: 1004863
+      cached_input_tokens: 847872
+      output_tokens: 2495
+      reasoning_output_tokens: 1291
+      total_tokens: 1007358
     model_effort_price_breakdown:
       gpt-5.5/xhigh:
         model: gpt-5.5
@@ -517,13 +529,13 @@ desk_scene:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 3470585367
-          cached_input_tokens: 3353958656
-          output_tokens: 6797140
-          reasoning_output_tokens: 3289920
-          total_tokens: 3477494884
-        uncached_input_tokens: 116626711
-        request_count: 22025
+          input_tokens: 3567053043
+          cached_input_tokens: 3447882240
+          output_tokens: 7039471
+          reasoning_output_tokens: 3403533
+          total_tokens: 3574204891
+        uncached_input_tokens: 119170803
+        request_count: 22780
         long_context_request_count: 2084
         long_context_token_usage:
           input_tokens: 607714933
@@ -531,12 +543,12 @@ desk_scene:
           output_tokens: 707270
           reasoning_output_tokens: 303204
           total_tokens: 608422203
-        usd_estimate: 2892.3
-    usd_estimate: 4215.3
-    usd_midpoint: 4200
-    usd_label: ~$4.2K API-rate replay
+        usd_estimate: 2959.25
+    usd_estimate: 4282.25
+    usd_midpoint: 4300
+    usd_label: ~$4.3K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$4.2K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$4.3K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -545,12 +557,24 @@ desk_scene:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 5000000000
+    token_count: 5100000000
     usd_midpoint: 4400
     usd_label: ~$4.4K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
     public_note: "Legacy CodexBar ratio: ~$4.4K (diagnostic only)."
   model_effort_breakdown:
+    codex-auto-review/low:
+      model: codex-auto-review
+      effort: low
+      turns: 28
+      sessions: 2
+      token_usage:
+        input_tokens: 1004863
+        cached_input_tokens: 847872
+        output_tokens: 2495
+        reasoning_output_tokens: 1291
+        total_tokens: 1007358
+      raw_hours: 1.3342
     gpt-5.5/medium:
       model: gpt-5.5
       effort: medium
@@ -578,15 +602,15 @@ desk_scene:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 355
-      sessions: 181
+      turns: 364
+      sessions: 188
       token_usage:
-        input_tokens: 3470585367
-        cached_input_tokens: 3353958656
-        output_tokens: 6797140
-        reasoning_output_tokens: 3289920
-        total_tokens: 3477494884
-      raw_hours: 190.524
+        input_tokens: 3567053043
+        cached_input_tokens: 3447882240
+        output_tokens: 7039471
+        reasoning_output_tokens: 3403533
+        total_tokens: 3574204891
+      raw_hours: 194.903
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -595,16 +619,16 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 4988839546
-    cached_input_tokens: 4784720768
-    uncached_input_tokens: 204118778
-    output_tokens: 12469217
-    reasoning_output_tokens: 5362449
-    total_tokens: 5001466159
-    usd_estimate: 1369.1
+    input_tokens: 5086312085
+    cached_input_tokens: 4879492224
+    uncached_input_tokens: 206819861
+    output_tokens: 12714043
+    reasoning_output_tokens: 5477353
+    total_tokens: 5099183524
+    usd_estimate: 1393.84
     usd_midpoint: 1400
     usd_label: ~$1.4K API-rate replay
-    usd_range_label: $1.0K-$8.9K
+    usd_range_label: $1.1K-$9.1K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
     public_note: ~$1.4K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
 model_tracking:
@@ -612,19 +636,19 @@ model_tracking:
   intended_effort: ultra
   cutover_at: "2026-07-09T21:28:23.394Z"
   cutover_label: Jul 9, 2026 at 2:28 PM PDT
-  acknowledgment_policy_version: 10
-  post_cutover_turns_observed: 831
+  acknowledgment_policy_version: 19
+  post_cutover_turns_observed: 898
   post_cutover_observed_breakdown:
-    codex-auto-review/low: 15
+    codex-auto-review/low: 54
     gpt-5.4-mini/high: 1
     gpt-5.4-mini/ultra: 1
     gpt-5.6-sol/high: 1
     gpt-5.6-sol/low: 1
     gpt-5.6-sol/medium: 2
-    gpt-5.6-sol/ultra: 808
+    gpt-5.6-sol/ultra: 836
     gpt-5.6-sol/xhigh: 2
-  post_cutover_deviation_count: 23
-  post_cutover_acknowledged_deviation_count: 23
+  post_cutover_deviation_count: 62
+  post_cutover_acknowledged_deviation_count: 62
   post_cutover_unacknowledged_deviation_count: 0
   post_cutover_deviations:
     - turn_id: 019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f
@@ -633,7 +657,7 @@ model_tracking:
       effort: ultra
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-14"
         reason: One-shot Codex-LB routing smoke test requested an exact OK response; retained as historical non-site development evidence.
         provenance: Retained Codex-LB turn_context and user prompt, audited 2026-07-14.
@@ -644,7 +668,7 @@ model_tracking:
       effort: high
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-14"
         reason: One-shot Codex-LB routing smoke test requested an exact OK response; retained as historical non-site development evidence.
         provenance: Retained Codex-LB turn_context and user prompt, audited 2026-07-14.
@@ -655,7 +679,7 @@ model_tracking:
       effort: medium
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-14"
         reason: Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used host-selected effort and was interrupted before completion.
         provenance: Retained turn_context, exact Codex-LB usage-reset planning prompt, and interrupted-turn event, audited 2026-07-14.
@@ -666,7 +690,7 @@ model_tracking:
       effort: medium
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-14"
         reason: Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used host-selected effort rather than the declared interactive development default.
         provenance: Retained turn_context and exact Codex-LB usage-reset planning prompt, audited 2026-07-14.
@@ -677,7 +701,7 @@ model_tracking:
       effort: high
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-14"
         reason: Provider-managed verification or automation worker used host-selected effort rather than changing the declared interactive development default.
         provenance: Retained turn_context and 2026-07-14 coordinator verification audit.
@@ -688,7 +712,7 @@ model_tracking:
       effort: xhigh
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-15"
         reason: Read-only Codex-LB direct-routing smoke requested the exact DIRECT_OK response and did not perform site development work.
         provenance: Retained turn_context and exact no-tools DIRECT_OK prompt, audited 2026-07-15.
@@ -699,7 +723,7 @@ model_tracking:
       effort: xhigh
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-15"
         reason: Explicit direct-OpenAI maintenance lane performed a read-only audit for the private Codex-LB usage tracker, separate from the declared site-development default.
         provenance: Retained turn_context and exact direct-OpenAI maintenance-lane prompt, audited 2026-07-15.
@@ -710,7 +734,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: A separate personal-metrics and Codex-LB migration startup turn was recorded at low before higher-effort thread settings applied, then interrupted before any work; it did not perform site development.
         provenance: Retained turn_context, exact personal-metrics status prompt, later thread-settings event, and turn_aborted event, audited 2026-07-16.
@@ -721,7 +745,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a VariationWeaver-Canvas tool-action request and returned an allow decision; it did not perform site development.
         provenance: Retained auto-review turn_context, exact untrusted-transcript review prompt, and allow decision, audited 2026-07-16.
@@ -732,7 +756,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a VariationWeaver-Canvas process-level inspection request and returned a deny decision; it did not perform site development.
         provenance: Retained auto-review turn_context, exact untrusted-transcript review prompt, and deny decision, audited 2026-07-16.
@@ -743,7 +767,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a semantic-scaffolding-map process termination request and returned an allow decision; it did not perform site development.
         provenance: Retained auto-review turn_context, exact untrusted-transcript review prompt, and allow decision, audited 2026-07-16.
@@ -754,7 +778,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a VariationWeaver-Canvas request to start a temporary local Vite server; it did not perform site development.
         provenance: Retained auto-review turn_context, exact first local Vite Start-Process request, and allow decision, audited 2026-07-16.
@@ -765,7 +789,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a VariationWeaver-Canvas retry that started a temporary local Vite server; it did not perform site development.
         provenance: Retained auto-review turn_context, exact second local Vite Start-Process request, and allow decision, audited 2026-07-16.
@@ -776,7 +800,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed an escalated VariationWeaver-Canvas retry that started a temporary local Vite server; it did not perform site development.
         provenance: Retained auto-review turn_context, exact escalated local Vite Start-Process request, and allow decision, audited 2026-07-16.
@@ -787,7 +811,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove a workspace __pycache__ directory; it did not perform site development.
         provenance: Retained auto-review turn_context, exact workspace-bounded Remove-Item request, reviewed session id, and allow decision, audited 2026-07-16.
@@ -798,7 +822,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded VariationWeaver-Canvas request to remove its temporary local-server runtime directory; it did not perform site development.
         provenance: Retained auto-review turn_context, exact workspace-bounded Remove-Item request, reviewed session id, and allow decision, audited 2026-07-16.
@@ -809,7 +833,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove its tools/__pycache__ directory after a resolved-path workspace guard; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned Remove-Item command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -820,7 +844,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to create a temporary detached Git worktree for fresh-checkout portability proof; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree add command for commit b6a273eb, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -831,7 +855,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove its temporary failed portability-proof worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree remove --force command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -842,7 +866,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove a regenerated tools/__pycache__ after canonical validation; it did not perform site development.
         provenance: Retained auto-review turn_context, exact resolved-path-guarded Remove-Item command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -853,7 +877,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove tools/__pycache__ after a resolved-path workspace guard; it did not perform site development.
         provenance: Retained auto-review turn_context, exact guarded Remove-Item command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -864,7 +888,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to create a corrected temporary detached worktree for final fresh-checkout portability proof; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree add command for commit e2bbe996, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -875,54 +899,495 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 10
+        policy_version: 19
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove the now-passing temporary portability proof worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree remove --force command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ca5-8281-7ed2-b963-77d28d4b3104
+      timestamp: "2026-07-16T20:36:59.135Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the Dockerized production Jekyll build for this site's first responsive-polish checkpoint; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose run Jekyll build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ca9-2a5e-7790-a17f-1afba84e4ee4
+      timestamp: "2026-07-16T20:40:54.009Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a localhost smoke request while the responsive-polish verification server was starting; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact localhost curl command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ca9-9daa-7e60-8e65-f4d6b0e25cf0
+      timestamp: "2026-07-16T20:41:23.224Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a repeated localhost smoke request while the same verification server was building; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact repeated localhost curl command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cae-9658-7710-81f9-48e92dfc7f19
+      timestamp: "2026-07-16T20:46:49.626Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the final localhost smoke request after the responsive-polish verification server finished building; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact final localhost curl command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cb0-db9e-7290-8a2c-44a5baf0f190
+      timestamp: "2026-07-16T20:49:17.801Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the targeted four-viewport Playwright acceptance run for the responsive-polish checkpoint; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact targeted Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cb3-9957-7a21-8619-4a70291aa361
+      timestamp: "2026-07-16T20:52:17.487Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the four-viewport ledger screenshot acceptance run for the responsive-polish checkpoint; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact ledger screenshot Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cc4-4f77-7b02-ba9f-8130494b3be5
+      timestamp: "2026-07-16T21:10:33.395Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a read-only Crossref DOI lookup for the separate semantic-scaffolding-map metadata audit; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact C&C 2026 Crossref DOI lookup command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cc4-ba09-7973-874b-71b69d748e96
+      timestamp: "2026-07-16T21:11:00.401Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a read-only Crossref proceedings query for the separate semantic-scaffolding-map metadata audit; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact C&C 2026 Crossref proceedings query, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cc5-1365-7710-a5d9-62256cbf68fd
+      timestamp: "2026-07-16T21:11:22.915Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a read-only official C&C proceedings fetch for the separate semantic-scaffolding-map metadata audit; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact official C&C 2026 proceedings fetch and session-count command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cc6-7865-7ee0-81ab-7bfe242eba33
+      timestamp: "2026-07-16T21:12:59.253Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a retry of an exact copy-only patch in the separate VariationWeaver-Canvas study interface; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact StudySurveyPage autosave-copy patch, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and retry assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cc6-c2b0-7752-99ac-088af26452e6
+      timestamp: "2026-07-16T21:13:18.566Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a narrowly scoped cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact tools/__pycache__ removal command, reviewed session 019f69b1-73e5-7303-9229-8de060348501, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cd0-fe68-7a33-b358-009d7fab6fbd
+      timestamp: "2026-07-16T21:24:29.063Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a workspace-bounded test-cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact resolved-path tests/__pycache__ removal command, reviewed session 019f6cc9-917c-7f60-a3ec-dada060ad21a, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cd1-ba67-76f2-a4d7-3ffbb7aa950f
+      timestamp: "2026-07-16T21:25:12.044Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a local responsive-layout verification server and test command in the separate VariationWeaver-Canvas study interface; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact local Vite and responsive-layout test command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cd9-179f-7b31-be7d-91fb86144f19
+      timestamp: "2026-07-16T21:33:20.048Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a read-only process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cd9-f8c2-7391-8dc7-0f927c7901e5
+      timestamp: "2026-07-16T21:34:12.330Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a Git fetch in the separate VariationWeaver-Canvas repository; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact git fetch origin main command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cda-4d6e-7781-9c31-c7a0fde96b64
+      timestamp: "2026-07-16T21:34:34.425Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a read-only CPU-aware process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose CPU process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cda-dae6-7aa1-9b30-385a1fe3e029
+      timestamp: "2026-07-16T21:35:10.577Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a read-only memory-aware process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose memory process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cdb-219d-7e90-bade-d4e741d80a95
+      timestamp: "2026-07-16T21:35:33.298Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a workspace-bounded cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact resolved-path tools/__pycache__ removal command, reviewed session 019f6cb6-ccdd-7560-b08c-2162e9c5c64e, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cdb-c44b-7f61-8de3-b1b6473ab70b
+      timestamp: "2026-07-16T21:36:10.067Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated another read-only process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cdc-2690-7943-b56e-b0e085559cda
+      timestamp: "2026-07-16T21:36:35.180Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the focused mobile Paper Constellation Playwright run; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact externally served mobile-390 Playwright command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cdc-d93b-7ff3-baa3-2bd3f63b58da
+      timestamp: "2026-07-16T21:37:20.981Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a repeated workspace-bounded cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact repeated resolved-path tools/__pycache__ removal command, reviewed session 019f6cb6-ccdd-7560-b08c-2162e9c5c64e, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cdf-38ad-7de1-bc02-497a474c0580
+      timestamp: "2026-07-16T21:39:56.789Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a restart of the checkpoint-two Jekyll verification container after the receipt-layout correction; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose restart command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cdf-c644-7ca2-88ac-ab80a8bc2dde
+      timestamp: "2026-07-16T21:40:32.931Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a read-only process check during the checkpoint-two rebuild; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ce0-543e-7bc3-81e9-f79afe93f230
+      timestamp: "2026-07-16T21:41:09.436Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a final read-only process check during the checkpoint-two rebuild; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ce1-4469-73b0-a978-ced69caa8546
+      timestamp: "2026-07-16T21:42:10.626Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the final process-and-log inspection for the checkpoint-two Jekyll rebuild; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process and tail-log command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ce1-d540-7332-8e5f-35b3d104a153
+      timestamp: "2026-07-16T21:42:47.545Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a repeated Git fetch in the separate VariationWeaver-Canvas repository; it did not perform site development work or change the declared site-development default.
+        provenance: Retained auto-review turn_context, exact git fetch origin main command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ce1-d70d-7f43-b33f-c1369f05d646
+      timestamp: "2026-07-16T21:42:48.008Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a final read-only process check while the checkpoint-two Jekyll build settled; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ce2-9724-7f70-a576-d0b79e4a66d2
+      timestamp: "2026-07-16T21:43:37.289Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the last read-only process check before the checkpoint-two Jekyll container was stopped; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cec-ff9f-7cf3-8e21-4d3cffd501ae
+      timestamp: "2026-07-16T21:54:59.440Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the fetch required after a safe non-fast-forward push rejection; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git fetch origin main command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ced-564a-7521-9aac-35730bda91b8
+      timestamp: "2026-07-16T21:55:21.371Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated an attempted full-blob fetch using the abbreviated remote commit identifier; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact abbreviated-ref no-filter fetch command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and failed-ref result, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ced-9145-7e33-8dc9-46a41eb57b91
+      timestamp: "2026-07-16T21:55:36.677Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the exact full-ref fetch used to inspect the remote metrics commit; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact full-ref no-filter fetch command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf1-30e4-7690-983d-5ab2b466ef4d
+      timestamp: "2026-07-16T21:59:34.102Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated creation of the detached checkpoint-one publish worktree used to protect unstaged checkpoint-two work; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git worktree add command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf1-854e-7992-be60-a922e221b1d2
+      timestamp: "2026-07-16T21:59:55.516Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated replay of the single verified checkpoint onto the refreshed remote history; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact checkpoint cherry-pick command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and clean cherry-pick result, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf1-ba70-7211-99a2-6c1b7aa9a062
+      timestamp: "2026-07-16T22:00:09.131Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the exact-history ledger refresh in the isolated publish worktree; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact audit write command and isolated worktree, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf3-6891-7fe2-aa20-dbcc8047d5b2
+      timestamp: "2026-07-16T22:01:59.756Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated a read-only query of the isolated worktree ledger used to identify exact integration deviations; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact ripgrep acknowledgment query, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf4-9ba3-7041-a683-d93dde25ef91
+      timestamp: "2026-07-16T22:03:17.844Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated copying the exact policy and policy-test files into the isolated publish worktree; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact two-file Copy-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf5-39f7-7350-826e-085b6c34bf4f
+      timestamp: "2026-07-16T22:03:58.583Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated the explicit seven-file stash used to protect checkpoint-two work before rebasing; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact path-scoped git stash command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf5-609e-76b1-a4b4-b6dd7ad2cce4
+      timestamp: "2026-07-16T22:04:08.276Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated rebasing the single checkpoint onto the inspected metrics-bot refresh; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git rebase origin/main command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and clean rebase result, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6cf5-83ef-7710-8986-a4ee2087b8df
+      timestamp: "2026-07-16T22:04:17.309Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 19
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated restoring the exact checkpoint-two stash after the clean rebase; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git stash pop command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and clean restore result, audited 2026-07-16.
         signature_matches: true
   status: acknowledged_deviations
   public_note: "Dev work now: gpt-5.6-sol · ultra."
   caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed. Exact acknowledged deviations remain visible and do not alter their observed model or effort.
 since_gpt_5_6:
-  commits: 72
-  token_count: 3480000000
-  tokens_label: 3.48B
-  hours_count: 191
-  hours_label: "191"
+  commits: 73
+  token_count: 3580000000
+  tokens_label: 3.58B
+  hours_count: 196
+  hours_label: "196"
   token_usage:
-    input_tokens: 3470585367
-    cached_input_tokens: 3353958656
-    output_tokens: 6797140
-    reasoning_output_tokens: 3289920
-    total_tokens: 3477494884
+    input_tokens: 3568057906
+    cached_input_tokens: 3448730112
+    output_tokens: 7041966
+    reasoning_output_tokens: 3404824
+    total_tokens: 3575212249
   model_effort_breakdown:
+    codex-auto-review/low:
+      model: codex-auto-review
+      effort: low
+      turns: 28
+      sessions: 2
+      token_usage:
+        input_tokens: 1004863
+        cached_input_tokens: 847872
+        output_tokens: 2495
+        reasoning_output_tokens: 1291
+        total_tokens: 1007358
+      raw_hours: 1.3342
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 355
-      sessions: 181
+      turns: 364
+      sessions: 188
       token_usage:
-        input_tokens: 3470585367
-        cached_input_tokens: 3353958656
-        output_tokens: 6797140
-        reasoning_output_tokens: 3289920
-        total_tokens: 3477494884
-      raw_hours: 190.5239
+        input_tokens: 3567053043
+        cached_input_tokens: 3447882240
+        output_tokens: 7039471
+        reasoning_output_tokens: 3403533
+        total_tokens: 3574204891
+      raw_hours: 194.903
   energy_equivalence:
     wh_per_token_midpoint: 0.0006
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 2088
-    kg_co2e_midpoint: 779
-    tree_years_midpoint: 13.0
-    tree_years_range: 4.3-43.3
+    kwh_midpoint: 2148
+    kg_co2e_midpoint: 801
+    tree_years_midpoint: 13.4
+    tree_years_range: 4.5-44.5
     cut_tree_co2e_kg: 600
     cut_tree_midpoint: 1.3
-    cut_tree_range: 0.4-4.3
+    cut_tree_range: 0.4-4.5
     label: Energy lens
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
-    public_note: "Tree lens: about 2088 kWh, or ~1.3 ten-year urban trees' stored carbon. Range: 0.4-4.3."
+    public_note: "Tree lens: about 2148 kWh, or ~1.3 ten-year urban trees' stored carbon. Range: 0.4-4.5."
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -959,29 +1424,29 @@ since_gpt_5_6:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 3470585367
-      cached_input_tokens: 3353958656
-      output_tokens: 6797140
-      reasoning_output_tokens: 3289920
-      total_tokens: 3477494884
+      input_tokens: 3567053043
+      cached_input_tokens: 3447882240
+      output_tokens: 7039471
+      reasoning_output_tokens: 3403533
+      total_tokens: 3574204891
     unpriced_token_usage:
-      input_tokens: 0
-      cached_input_tokens: 0
-      output_tokens: 0
-      reasoning_output_tokens: 0
-      total_tokens: 0
+      input_tokens: 1004863
+      cached_input_tokens: 847872
+      output_tokens: 2495
+      reasoning_output_tokens: 1291
+      total_tokens: 1007358
     model_effort_price_breakdown:
       gpt-5.6-sol/ultra:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 3470585367
-          cached_input_tokens: 3353958656
-          output_tokens: 6797140
-          reasoning_output_tokens: 3289920
-          total_tokens: 3477494884
-        uncached_input_tokens: 116626711
-        request_count: 22025
+          input_tokens: 3567053043
+          cached_input_tokens: 3447882240
+          output_tokens: 7039471
+          reasoning_output_tokens: 3403533
+          total_tokens: 3574204891
+        uncached_input_tokens: 119170803
+        request_count: 22780
         long_context_request_count: 2084
         long_context_token_usage:
           input_tokens: 607714933
@@ -989,12 +1454,12 @@ since_gpt_5_6:
           output_tokens: 707270
           reasoning_output_tokens: 303204
           total_tokens: 608422203
-        usd_estimate: 2892.3
-    usd_estimate: 2892.3
-    usd_midpoint: 2900
-    usd_label: ~$2.9K API-rate replay
+        usd_estimate: 2959.25
+    usd_estimate: 2959.25
+    usd_midpoint: 3000
+    usd_label: ~$3.0K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$2.9K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$3.0K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -1003,18 +1468,18 @@ since_gpt_5_6:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 3470585367
-    cached_input_tokens: 3353958656
-    uncached_input_tokens: 116626711
-    output_tokens: 6797140
-    reasoning_output_tokens: 3289920
-    total_tokens: 3477494884
-    usd_estimate: 886.2
-    usd_midpoint: 890
-    usd_label: ~$890 API-rate replay
-    usd_range_label: $700-$6.2K
+    input_tokens: 3568057906
+    cached_input_tokens: 3448730112
+    uncached_input_tokens: 119327794
+    output_tokens: 7041966
+    reasoning_output_tokens: 3404824
+    total_tokens: 3575212249
+    usd_estimate: 910.94
+    usd_midpoint: 910
+    usd_label: ~$910 API-rate replay
+    usd_range_label: $720-$6.3K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
-    public_note: ~$890 API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
+    public_note: ~$910 API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -1023,44 +1488,44 @@ since_gpt_5_6:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 3480000000
-    usd_midpoint: 3000
-    usd_label: ~$3.0K
+    token_count: 3580000000
+    usd_midpoint: 3100
+    usd_label: ~$3.1K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$3.0K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$3.1K (diagnostic only)."
   label: Since gpt-5.6-sol cutover
   since: 2026-07-09 14:28 PDT
   since_label: Jul 9, 2026
   confidence: retained-log estimate
   note: All-repo retained-session usage after the model cutover; commits are repo-wide and usage is attributed from ordered turn_context records.
 local_lifetime:
-  sessions: 455
-  turns: 2084
-  usage_events: 112665
-  raw_token_count: 16518891051
-  token_count: 16520000000
-  tokens_label: 16.5B
-  hours_count: 883
-  hours_label: "883"
+  sessions: 477
+  turns: 2151
+  usage_events: 114826
+  raw_token_count: 16799334963
+  token_count: 16800000000
+  tokens_label: 16.8B
+  hours_count: 901
+  hours_label: "901"
   token_usage:
-    input_tokens: 16470342584
-    cached_input_tokens: 15802886528
-    output_tokens: 45639232
-    reasoning_output_tokens: 16139615
-    total_tokens: 16518891051
+    input_tokens: 16749966003
+    cached_input_tokens: 16073892608
+    output_tokens: 46459725
+    reasoning_output_tokens: 16466086
+    total_tokens: 16799334963
   model_effort_breakdown:
     codex-auto-review/low:
       model: codex-auto-review
       effort: low
-      turns: 15
-      sessions: 2
+      turns: 54
+      sessions: 8
       token_usage:
-        input_tokens: 560554
-        cached_input_tokens: 424064
-        output_tokens: 1645
-        reasoning_output_tokens: 957
-        total_tokens: 562199
-      raw_hours: 3.2589
+        input_tokens: 2059411
+        cached_input_tokens: 1580544
+        output_tokens: 5517
+        reasoning_output_tokens: 3029
+        total_tokens: 2064928
+      raw_hours: 6.0051
     gpt-5.3-codex-spark/high:
       model: gpt-5.3-codex-spark
       effort: high
@@ -1172,15 +1637,15 @@ local_lifetime:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 808
-      sessions: 395
+      turns: 836
+      sessions: 411
       token_usage:
-        input_tokens: 7496887063
-        cached_input_tokens: 7252976896
-        output_tokens: 16704055
-        reasoning_output_tokens: 7577457
-        total_tokens: 7514812846
-      raw_hours: 461.9581
+        input_tokens: 7775011625
+        cached_input_tokens: 7522826496
+        output_tokens: 17520676
+        reasoning_output_tokens: 7901856
+        total_tokens: 7793754029
+      raw_hours: 478.1374
     gpt-5.6-sol/xhigh:
       model: gpt-5.6-sol
       effort: xhigh
@@ -1229,17 +1694,17 @@ local_lifetime:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 16460777245
-      cached_input_tokens: 15794333824
-      output_tokens: 45540633
-      reasoning_output_tokens: 16069617
-      total_tokens: 16509227113
+      input_tokens: 16738901807
+      cached_input_tokens: 16064183424
+      output_tokens: 46357254
+      reasoning_output_tokens: 16394016
+      total_tokens: 16788168296
     unpriced_token_usage:
-      input_tokens: 9565339
-      cached_input_tokens: 8552704
-      output_tokens: 98599
-      reasoning_output_tokens: 69998
-      total_tokens: 9663938
+      input_tokens: 11064196
+      cached_input_tokens: 9709184
+      output_tokens: 102471
+      reasoning_output_tokens: 72070
+      total_tokens: 11166667
     model_effort_price_breakdown:
       gpt-5.5/xhigh:
         model: gpt-5.5
@@ -1283,13 +1748,13 @@ local_lifetime:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 7496887063
-          cached_input_tokens: 7252976896
-          output_tokens: 16704055
-          reasoning_output_tokens: 7577457
-          total_tokens: 7514812846
-        uncached_input_tokens: 243910167
-        request_count: 49528
+          input_tokens: 7775011625
+          cached_input_tokens: 7522826496
+          output_tokens: 17520676
+          reasoning_output_tokens: 7901856
+          total_tokens: 7793754029
+        uncached_input_tokens: 252185129
+        request_count: 51648
         long_context_request_count: 4196
         long_context_token_usage:
           input_tokens: 1218361004
@@ -1297,7 +1762,7 @@ local_lifetime:
           output_tokens: 1529763
           reasoning_output_tokens: 627923
           total_tokens: 1219890767
-        usd_estimate: 6216.84
+        usd_estimate: 6417.64
       gpt-5.6-sol/medium:
         model: gpt-5.6-sol
         effort: medium
@@ -1355,11 +1820,11 @@ local_lifetime:
           reasoning_output_tokens: 0
           total_tokens: 0
         usd_estimate: 6.13
-    usd_estimate: 13466.66
-    usd_midpoint: 13500
-    usd_label: ~$13.5K API-rate replay
+    usd_estimate: 13667.45
+    usd_midpoint: 13700
+    usd_label: ~$13.7K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$13.5K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$13.7K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   label: Local Codex replay
   since: 2026-06-19 00:00 PDT
   since_label: Jun 19, 2026

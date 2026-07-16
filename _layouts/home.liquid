@@ -76,22 +76,30 @@ layout: default
               <a
                 class="home-agentic-heartbeat"
                 href="{{ '/github-activity/' | relative_url }}"
+                aria-label="Open Build Rhythm"
               >
-                <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
+                <span class="home-agentic-heartbeat-status" aria-hidden="true"></span>
                 <span class="home-agentic-heartbeat-copy">
                   <strong>{{ personal_baseline.tokens_label }} Personal rounded checkpoint</strong>
-                  <small>
+                  <small class="home-agentic-heartbeat-meta">
+                    <span>History: {{ personal_baseline.coverage }}</span>
                     {% if direct_tracker.coverage.complete %}
-                      {{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }} healthy at last complete observation
-                      <time datetime="{{ direct_tracker.updated_at }}">{{ direct_tracker.updated_at | date: '%Y-%m-%d %H:%M UTC' }}</time>
+                      <span>
+                        {{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }} accounts healthy ·
+                        <time
+                          datetime="{{ direct_tracker.updated_at }}"
+                          title="Last complete observation: {{ direct_tracker.updated_at | date: '%Y-%m-%d %H:%M UTC' }}"
+                        >
+                          {{- direct_tracker.updated_at | date: '%b %-d' -}}
+                        </time>
+                      </span>
                     {% else %}
-                      direct 2-account health pending
+                      <span>Account check pending</span>
                     {% endif %}
-                    · {{ all_github_commits }} GitHub commits
+                    <span>{{ all_github_commits }} GitHub commits</span>
                   </small>
                 </span>
-                <span class="home-agentic-heartbeat-sparkline" aria-hidden="true">2-account quota health</span>
-                <span class="home-agentic-heartbeat-route" aria-hidden="true">Follow the pulse →</span>
+                <span class="home-agentic-heartbeat-route">Build Rhythm <span aria-hidden="true">→</span></span>
               </a>
             {% endif %}
           </div>
