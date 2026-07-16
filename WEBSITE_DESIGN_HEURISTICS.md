@@ -97,6 +97,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Hover should preview the current state; explicit controls should change state. If hovering a portrait changes the selected record before the visitor can click play, the interaction feels slippery instead of polished.
 - Playful metadata belongs behind a deliberate reveal. A hover preview can tease the disk/object, but titles, artists, durations, and catalog notes should stay hidden until the visitor opens the liner note.
 - If a playful object has multiple states, provide a small explicit control for touch and keyboard users. Hover can preview; it should not be the only way to reach the full set.
+- Give substantial site widgets one quiet, explicit origin route near the widget heading or mode control. A small `?` may preview "How this got here" on hover, but its accessible name should identify the destination, and touch/keyboard activation must open the same concrete case study or reproduction note.
 - Put state-changing controls where the state lives. Record switching belongs beside the disk, not inside a progress bar where it can be mistaken for play/pause.
 - Put one or two concrete proof routes above the fold, but do not let proof cards compete with the thesis headline.
 - Small rotations, lifts, image zooms, and caption emphasis are enough. If the motion becomes the thing a visitor remembers more than the work, simplify it.
@@ -270,6 +271,7 @@ For sitewide passes:
 - Process writing should be reusable by students: include the heuristics, prompts, constraints, and reflective-practice lessons that helped the work improve.
 - Teaching artifacts should let students inspect the method, not only admire the result. If a heuristic file is central, preview it before asking people to download it.
 - When using AI coding help, describe the human design judgment and review loop. The agent is part of the workflow, not the author of taste.
+- For model-to-model re-review, hold the brief, viewports, interaction states, and acceptance rubric steady. Record the model/effort, commit, attempted change, what was kept or reverted, and comparable evidence; attribute the outcome to the model, prompt, retained context, implementation history, and human critique together rather than treating a model label as the cause.
 
 ## Stripe Lessons, Adapted
 
@@ -306,6 +308,8 @@ Before keeping an effect, record the visitor problem, trigger, semantic meaning,
 - Progressive or changing values must expose freshness and provenance; never animate a static snapshot as if it were live activity.
 - Global consistency means shared timing, state clarity, accessibility, interruption, and recovery rules, not the same visual trick on every route.
 - Interactive motion must settle into a valid state after interruption and retain a readable still state, equivalent text, keyboard path, and reduced-motion treatment.
+- A data story should teach one visual relationship at a time, move from a plain-language question through annotated examples, and then hand control to the complete explorer and exact table. Scroll may choose an explanatory state, but it must not hijack the wheel, rewrite reported values, or become the only route to the evidence.
+- Small editorial constellations should use deterministic semantic axes and a few source-reviewed edges instead of force simulation. Keep node size, citation influence, status, and future-work timing as separate visual channels; preserve the authoritative list by default, and turn desktop geometry into labeled thread trails on narrow screens rather than shrinking it into illegibility.
 - Research grounding: object constancy and simple staging from [Jeffrey Heer and George Robertson](https://idl.cs.washington.edu/files/2007-AnimatedTransitions-InfoVis.pdf); narrative checkpoints from [Edward Segel and Jeffrey Heer](https://idl.cs.washington.edu/files/2010-Narrative-InfoVis.pdf); interruptible intermediate/final animation-state management from [CMU DIG's Counterpoint](https://dig.cmu.edu/publications/2024-counterpoint.html); accessible alternatives and animation control from [Chartability](https://www.frank.computer/chartability/). These are principle-level influences; no source assets, layouts, or code are copied.
 
 Current accepted intent record:
