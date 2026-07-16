@@ -56,7 +56,7 @@ The [IKEA PS 2026 collection story](https://www.ikea.com/global/en/stories/desig
   <li><time datetime="2026-05-27">May 27</time><code>fc5b8a444</code><span>Added project-specific accents and short takeaways, but also layered several competing motions.</span></li>
   <li><time datetime="2026-07-13">Jul 13</time><code>c363fda85</code><span>Made announcements and hidden-control focus recovery deterministic.</span></li>
   <li><time datetime="2026-07-15">Jul 15</time><code>192bcc00c</code><span>Replaced scale-based FLIP with a cancelable, translation-only layout pass and added interruption, focus, and reduced-motion checks.</span></li>
-  <li><time datetime="2026-07-16">Jul 16</time><code>8d98dc902</code><span>Put the opening clip on the same clock, removed competing content keyframes and image zoom, cleaned up finished WebKit animations, and verified 44-pixel actions across the responsive matrix.</span></li>
+  <li><time datetime="2026-07-16">Jul 16</time><code>9fa9403e4</code><span>Put the opening clip on the same clock, removed competing content keyframes and image zoom, cleaned up finished WebKit animations, and verified 44-pixel actions across the responsive matrix.</span></li>
 </ol>
 
 The accepted refinement removes nonuniform content scaling, sibling shrink, expanded-image zoom, staggered content keyframes, and the double scroll correction. One 430 ms clock now translates cards and clips only the newly opening surface, cancels stale work when a visitor retargets, and performs one visibility check after settlement. Closing changes the semantic state immediately; reduced motion applies the same final layout without animation. The ordinary collapsed-card hover lift remains.

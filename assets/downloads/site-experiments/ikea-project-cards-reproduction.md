@@ -35,7 +35,7 @@ Apply the final layout immediately, move focus normally, and skip transform, cli
 ## Accepted checkpoints
 
 - `192bcc00c` established the 430 ms translation-only FLIP pass, stale-run cancellation, deterministic focus-before-hide, and reduced-motion checks.
-- `8d98dc902` added the shared opening clip, removed descendant keyframes and image zoom, guarded delayed keyboard focus against interruption, explicitly cleared finished animations across Chromium and WebKit, and put the expanded light/dark state into the four-viewport CI matrix.
+- `9fa9403e4` added the shared opening clip, removed descendant keyframes and image zoom, guarded delayed keyboard focus against interruption, explicitly cleared finished animations across Chromium and WebKit, and put the expanded light/dark state into the four-viewport CI matrix.
 
 ## Copy-ready coding-agent prompt
 
