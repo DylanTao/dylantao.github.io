@@ -47,7 +47,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 3
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 5
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -195,6 +195,64 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
         "provenance": (
             "Retained auto-review turn_context, exact untrusted-transcript review prompt, and "
             "allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6a05-b982-7fa3-af7f-e912da833d7e": {
+        "timestamp": "2026-07-16T08:23:08.269Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a VariationWeaver-Canvas "
+            "request to start a temporary local Vite server; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact first local Vite Start-Process request, and "
+            "allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6a07-76dd-7612-a6a3-9f7d83d4e557": {
+        "timestamp": "2026-07-16T08:25:02.089Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a VariationWeaver-Canvas "
+            "retry that started a temporary local Vite server; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact second local Vite Start-Process request, and "
+            "allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6a07-f9dd-79a3-ab62-1babf3823a37": {
+        "timestamp": "2026-07-16T08:25:36.182Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed an escalated "
+            "VariationWeaver-Canvas retry that started a temporary local Vite server; it did not "
+            "perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact escalated local Vite Start-Process request, "
+            "and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6a0d-b77c-70e1-8de2-e30efc43c880": {
+        "timestamp": "2026-07-16T08:31:51.847Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to remove a workspace __pycache__ directory; it "
+            "did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact workspace-bounded Remove-Item request, "
+            "reviewed session id, and allow decision, audited 2026-07-16."
         ),
     },
 }
