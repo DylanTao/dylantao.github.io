@@ -23,7 +23,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - `python bin/audit_agentic_usage.py`
    - The helper fails closed in a shallow checkout. Fetch complete history before checking or writing; never accept shallow `git rev-list` counts as ledger truth.
 5. Establish the source hierarchy, then estimate scoped Codex tokens:
-   - For whole-account activity, `account_lifetime` from authenticated Codex account activity at `GET /wham/profiles/me` is primary. Preserve its source timestamp and mark the current day partial when applicable. The verified July 12, 2026 checkpoint is 20,860,271,364 lifetime tokens, 797 unique conversations, and a 1,748,633,377-token peak on July 1; July 12 is partial.
+   - Direct account publication is anonymous, non-additive quota health only. `_data/direct_usage_tracker.json` is primary for that surface; its separate Personal `20.9B` rounded checkpoint covers 1 of 2 accounts and is never combined.
    - For repo-attributed usage, scan every retained year under `~/.codex/sessions` and include a JSONL file when its **first** `session_meta.payload.cwd` contains `dylantao.github.io`; the first `session_meta.payload.id` is the leaf session identity, while later copied parent metadata is ancestry.
    - read ordered `turn_context` records for `turn_id`, `model`, and `effort` attribution;
    - globally dedupe copied ancestry by `(turn_id, full total_token_usage snapshot)`, keeping the earliest retained event;
@@ -48,7 +48,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 - `gpt-5.5` and `gpt-5.6-sol` use the same short-context rates: $5 / 1M uncached input, $0.50 / 1M cached-read input, and $30 / 1M output;
 - when a request has more than 272,000 input tokens, use the long-context rates of $10 / 1M uncached input, $1 / 1M cached-read input, and $45 / 1M output;
 - `xhigh` and `ultra` do not add a separate price; they are effort labels, not pricing tiers;
-- `account_lifetime.api_cost_equivalence` scales the account total by the observed retained-local model, cache-read, and long-context request mix; its current estimate is approximately $17.5K;
+- direct account health and the Personal rounded checkpoint never receive an API-cost conversion;
 - record the documented `gpt-5.6-sol` cache-write rates, but do not apply them because retained logs do not identify cache-write tokens;
 - retain the former `gpt-5.3-codex` math as `legacy_api_cost_equivalence` for historical comparison only;
 - retain `codexbar_cost_estimate` only as historical diagnostic provenance; never render it or use it to price current public stats.
@@ -61,7 +61,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 ## Scope Rules
 
 - Full site revamp counter starts at May 22, 2026 6:05 PM Pacific.
-- Account lifetime from authenticated `GET /wham/profiles/me` is the primary whole-account scope.
+- `_data/direct_usage_tracker.json` is the only public direct-account surface and contains anonymous account counts, explicit coverage, and the separate rounded Personal checkpoint.
 - Retained local history starts at June 19, 2026 12:00 AM Pacific and spans every locally retained Codex session after global ancestry deduplication. Keep its session count and model mix visible in the data file, label its request-aware price replay as an estimate rather than a bill, and never present this retained slice as account lifetime.
 - Win-CodexBar 0.42 raw 30-day aggregation is diagnostic provenance only, not a canonical usage or price source.
 - 3D desk/vinyl counter starts at June 16, 2026 8:00 PM Pacific.

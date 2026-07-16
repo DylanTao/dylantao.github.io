@@ -213,61 +213,46 @@
       return `Same reported values in both panels \u00b7 largest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(maximum)} lines changed.`;
     };
 
-    const codexRows = () =>
-      codexSource?.recent?.daily?.map((row, index, rows) => ({
-        ...row,
-        date: new Date(`${row.date}T00:00:00Z`),
-        partial: index === rows.length - 1 && codexSource.recent.partialLastDay,
-      })) || [];
-
-    const appendDateRange = (group, rows, left, right, width, height, colors) => {
-      if (!rows.length) return;
-      const labelY = height - 8;
-      addText(group, shortDate.format(rows[0].date), left, labelY, { color: colors.muted });
-      addText(group, shortDate.format(rows.at(-1).date), width - right, labelY, {
-        anchor: "end",
+    const drawCodex = (group, width, height, colors) => {
+      const left = width < 620 ? 46 : 54;
+      if (!codexSource?.coverage?.complete) {
+        addText(group, "DIRECT CODEX HEALTH PENDING", left, 28, { color: colors.accent, weight: 700 });
+        addText(group, "No live two-account cycle has completed; zero is not implied.", left, 66, { color: colors.muted });
+        return "Direct two-account quota health is pending. No substitute observation is shown.";
+      }
+      addText(group, "DIRECT CODEX TRACKER \u00b7 2 ACCOUNTS \u00b7 NON-ADDITIVE", left, 24, {
+        color: colors.accent,
+        weight: 700,
+      });
+      const metrics = [
+        ["HEALTHY", codexSource.healthyAccountCount],
+        ["FRESH", codexSource.freshAccountCount],
+        ["QUOTA DATA", codexSource.accountsWithQuotaData],
+      ];
+      metrics.forEach(([label, count], index) => {
+        const y = 78 + index * 66;
+        addText(group, label, left, y, { color: colors.muted, weight: 700 });
+        for (let account = 0; account < codexSource.accountCount; account += 1) {
+          group.append(
+            svgElement("circle", {
+              cx: Math.min(width - 22, left + 140 + account * 34),
+              cy: y - 5,
+              r: 10,
+              fill: account < count ? colors.accent : colors.surface,
+              stroke: colors.accent,
+              "stroke-width": 2,
+            })
+          );
+        }
+        addText(group, `${count}/${codexSource.accountCount}`, Math.min(width - 12, left + 225), y, {
+          color: colors.text,
+          weight: 700,
+        });
+      });
+      addText(group, "Personal rounded checkpoint: 20.9B tokens \u00b7 coverage 1 of 2 \u00b7 not combined", left, height - 24, {
         color: colors.muted,
       });
-    };
-
-    const drawCodex = (group, width, height, colors) => {
-      const rows = codexRows();
-      const left = width < 620 ? 46 : 54;
-      const right = 14;
-      const top = 42;
-      const bottom = 30;
-      const baseline = height - bottom;
-      if (!rows.length) {
-        addText(group, "RECENT CODEX SNAPSHOT UNAVAILABLE", left, 24, { color: colors.accent, weight: 700 });
-        addText(group, "The story does not substitute a zero or estimate.", left, 62, { color: colors.muted });
-        return "Recent Codex token data is unavailable. The GitHub explorer remains available below.";
-      }
-      addText(group, "CODEX TOKENS \u00b7 LAST 30 DAYS \u00b7 LINEAR", left, 20, { color: colors.accent, weight: 700 });
-      [0, 0.5, 1].forEach((fraction) => {
-        const yy = baseline - fraction * (baseline - top);
-        group.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: colors.grid, "stroke-width": 1 }));
-      });
-      const series = drawSeries(
-        group,
-        rows,
-        (row) => row.tokens,
-        { left, right: width - right, top, bottom: baseline },
-        { color: colors.accent, fillOpacity: 0.12, scale: "linear", strokeWidth: 2 }
-      );
-      const latest = rows.at(-1);
-      group.append(
-        svgElement("circle", {
-          cx: series.x(rows.length - 1),
-          cy: series.y(latest.tokens),
-          r: latest.partial ? 4.5 : 3.5,
-          fill: latest.partial ? colors.surface : colors.accent,
-          stroke: colors.accent,
-          "stroke-width": latest.partial ? 2.2 : 1,
-          ...(latest.partial ? { "stroke-dasharray": "2 1" } : {}),
-        })
-      );
-      appendDateRange(group, rows, left, right, width, height, colors);
-      return `Latest snapshot day \u00b7 ${fullDate.format(latest.date)} \u00b7 ${number.format(latest.tokens)} tokens${latest.partial ? " \u00b7 partial day" : ""}. This is a separate clock.`;
+      return `${codexSource.healthyAccountCount} of ${codexSource.accountCount} accounts healthy; ${codexSource.freshAccountCount} fresh; quota windows remain per-account and non-additive.`;
     };
 
     const drawComplete = (group, width, height, colors) => {
@@ -314,31 +299,31 @@
         signed: true,
       });
 
-      const rows = codexRows();
       const codexTop = lineBottom + 32;
-      const codexBottom = height - 18;
-      addText(group, "SEPARATE CLOCK \u00b7 CODEX TOKENS / DAY", left, codexTop - 10, { color: colors.accent, weight: 700 });
-      if (rows.length && codexBottom > codexTop) {
-        drawSeries(
+      addText(group, "SEPARATE MEASURE \u00b7 DIRECT CODEX QUOTA HEALTH", left, codexTop - 10, { color: colors.accent, weight: 700 });
+      if (codexSource?.coverage?.complete) {
+        addText(
           group,
-          rows,
-          (row) => row.tokens,
-          { left, right: width - right, top: codexTop, bottom: codexBottom },
-          { color: colors.accent, fillOpacity: 0.09, scale: "linear" }
+          `${codexSource.healthyAccountCount}/${codexSource.accountCount} healthy \u00b7 ${codexSource.freshAccountCount}/${codexSource.accountCount} fresh \u00b7 non-additive`,
+          left,
+          Math.min(height - 8, codexTop + 18),
+          { color: colors.text, weight: 700 }
         );
       } else {
-        addText(group, "Snapshot unavailable; no substitute value is drawn.", left, Math.min(height - 8, codexTop + 18), { color: colors.muted });
+        addText(group, "First complete two-account cycle pending; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
+          color: colors.muted,
+        });
       }
-      return "Static summary \u00b7 GitHub cadence and line direction share one weekly clock. Codex tokens use a separate 30-day clock.";
+      return "Static summary \u00b7 GitHub cadence uses a weekly clock. Direct Codex quota health is a separate non-additive account-count measure.";
     };
 
     const metadata = {
       cadence: { label: "CADENCE", scope: "5 YEARS \u00b7 WEEKLY" },
       magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
       bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
-      codex: { label: "RESET THE CLOCK", scope: "LAST 30 DAYS \u00b7 DAILY" },
-      explore: { label: "HANDOFF", scope: "EXACT EXPLORER BELOW" },
-      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + LAST 30 DAYS" },
+      codex: { label: "CHANGE THE MEASURE", scope: "2 ACCOUNTS \u00b7 NON-ADDITIVE" },
+      explore: { label: "HANDOFF", scope: "GITHUB EXPLORER BELOW" },
+      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + 2-ACCOUNT HEALTH" },
     };
 
     const renderScene = (scene) => {
@@ -505,44 +490,89 @@
     const trendRoot = document.querySelector("[data-codex-usage]");
     if (!trendRoot) return null;
 
-    const chart = document.getElementById("github-activity-codex-chart");
-    const selectedDate = document.getElementById("github-activity-codex-date");
-    const selectedTokens = document.getElementById("github-activity-codex-tokens");
-    const selectedCoverage = document.getElementById("github-activity-codex-coverage");
     const status = trendRoot.querySelector("[data-codex-status]");
-    const tableSection = document.querySelector("[data-codex-table]");
-    const tableBody = document.getElementById("github-activity-codex-table-body");
-    const tableCaption = document.getElementById("github-activity-codex-table-caption");
-    const grainButtons = Array.from(trendRoot.querySelectorAll("[data-codex-grain]"));
+    const healthy = trendRoot.querySelector("[data-codex-healthy]");
+    const fresh = trendRoot.querySelector("[data-codex-fresh]");
+    const quota = trendRoot.querySelector("[data-codex-quota]");
     const scopeBadge = trendRoot.querySelector("[data-codex-scope]");
-    if (!chart || !selectedDate || !selectedTokens || !selectedCoverage || !status || !trendRoot.dataset.source) return null;
+    if (!status || !healthy || !fresh || !quota || !trendRoot.dataset.source) return null;
 
-    const selectionReadout = [selectedDate, selectedTokens, selectedCoverage];
-    const setUnavailable = () => {
-      trendRoot.dataset.state = "error";
-      trendRoot.setAttribute("aria-busy", "false");
-      status.textContent = "Recent Codex token data is unavailable.";
-      status.hidden = false;
-      selectionReadout.forEach((node) => {
-        node.hidden = true;
-        node.textContent = "";
-      });
-      grainButtons.forEach((button) => {
-        button.disabled = true;
-      });
-      if (tableSection) tableSection.hidden = true;
-      chart.replaceChildren();
+    const exactKeys = (value, keys) =>
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value).length === keys.length &&
+      keys.every((key) => Object.hasOwn(value, key));
+    const count = (value) => Number.isInteger(value) && value >= 0;
+    const validSource = (candidate) => {
+      const keys = [
+        "schema",
+        "accountCount",
+        "healthyAccountCount",
+        "freshAccountCount",
+        "accountsWithQuotaData",
+        "accountsAtLimit",
+        "units",
+        "method",
+        "coverage",
+        "confidence",
+        "updated_at",
+        "personalRoundedLifetimeBaseline",
+      ];
+      if (!exactKeys(candidate, keys) || candidate.schema !== 2 || candidate.accountCount !== 2) return false;
+      if (
+        !count(candidate.healthyAccountCount) ||
+        !count(candidate.freshAccountCount) ||
+        !count(candidate.accountsWithQuotaData) ||
+        candidate.accountsAtLimit !== null ||
+        [candidate.healthyAccountCount, candidate.freshAccountCount, candidate.accountsWithQuotaData].some((value) => value > candidate.accountCount)
+      )
+        return false;
+      if (
+        !exactKeys(candidate.units, ["accounts", "health", "freshness"]) ||
+        candidate.units.accounts !== "count" ||
+        candidate.units.health !== "count" ||
+        candidate.units.freshness !== "utc_timestamp" ||
+        candidate.method !== "codex_app_server_rate_limits_non_additive_no_model_turns"
+      )
+        return false;
+      if (
+        !exactKeys(candidate.coverage, ["complete", "requiredAccountCount", "healthyAccountCount"]) ||
+        typeof candidate.coverage.complete !== "boolean" ||
+        candidate.coverage.requiredAccountCount !== 2 ||
+        candidate.coverage.healthyAccountCount !== candidate.healthyAccountCount
+      )
+        return false;
+      const baseline = candidate.personalRoundedLifetimeBaseline;
+      if (
+        !exactKeys(baseline, ["token_count", "tokens_label", "units", "method", "coverage", "aggregation", "captured_at"]) ||
+        baseline.token_count !== 20900000000 ||
+        baseline.tokens_label !== "20.9B" ||
+        baseline.units !== "tokens" ||
+        baseline.method !== "manual_rounded_profile_baseline" ||
+        baseline.coverage !== "1 of 2 accounts" ||
+        baseline.aggregation !== "non_additive" ||
+        typeof baseline.captured_at !== "string"
+      )
+        return false;
+      if (!["high", "medium", "low", "direct", "complete", "direct complete observation", "unavailable"].includes(candidate.confidence)) return false;
+      if (candidate.coverage.complete) {
+        return (
+          typeof candidate.updated_at === "string" &&
+          !Number.isNaN(Date.parse(candidate.updated_at)) &&
+          candidate.healthyAccountCount === 2 &&
+          candidate.freshAccountCount === 2 &&
+          candidate.accountsWithQuotaData === 2
+        );
+      }
+      return (
+        candidate.updated_at === null &&
+        candidate.confidence === "unavailable" &&
+        candidate.healthyAccountCount === 0 &&
+        candidate.freshAccountCount === 0 &&
+        candidate.accountsWithQuotaData === 0
+      );
     };
-    const validRows = (rows, key) =>
-      Array.isArray(rows) && rows.length > 0 && rows.every((row) => isIsoDate(row?.[key]) && Number.isInteger(row.tokens) && row.tokens >= 0);
-    const validSource = (candidate) =>
-      candidate?.schema === 1 &&
-      typeof candidate.sourceAsOf === "string" &&
-      Number.isInteger(candidate?.lifetime?.tokens) &&
-      candidate.lifetime.tokens > 0 &&
-      validRows(candidate?.recent?.daily, "date") &&
-      validRows(candidate?.recent?.weekly, "week") &&
-      typeof candidate?.recent?.partialLastDay === "boolean";
 
     let source;
     try {
@@ -555,251 +585,33 @@
       source = null;
     }
     if (!validSource(source)) {
-      setUnavailable();
+      trendRoot.dataset.state = "error";
+      trendRoot.setAttribute("aria-busy", "false");
+      status.textContent = "Direct Codex tracker is unavailable; the last rendered page does not substitute data.";
       return null;
     }
 
-    const dateFrom = (value) => new Date(`${value}T00:00:00Z`);
-    let grain = "daily";
-    let selectedIndex = source.recent.daily.length - 1;
-    let pinnedIndex = selectedIndex;
-    let resizeFrame = 0;
-
-    const coverageLabel = (row) => {
-      if (grain === "daily") return row.partial ? "Partial day" : "Observed day";
-      if (!row.partial) return "7 of 7 days";
-      if (row.partialReason === "range-start") return `${row.observedDays} of 7 days \u00b7 range starts here`;
-      return `${row.observedDays} of 7 days \u00b7 week in progress`;
-    };
-    const rowsForGrain = () => {
-      if (grain === "weekly") {
-        return source.recent.weekly.map((row) => ({
-          ...row,
-          key: row.week,
-          date: dateFrom(row.week),
-        }));
-      }
-      return source.recent.daily.map((row, index, rows) => ({
-        ...row,
-        key: row.date,
-        date: dateFrom(row.date),
-        observedDays: 1,
-        partial: index === rows.length - 1 && source.recent.partialLastDay,
-        partialReason: index === rows.length - 1 && source.recent.partialLastDay ? "range-end" : null,
-      }));
-    };
-    const updateTable = (rows) => {
-      if (!tableBody) return;
-      const fragment = document.createDocumentFragment();
-      rows.forEach((row) => {
-        const tr = document.createElement("tr");
-        const period = grain === "daily" ? fullDate.format(row.date) : `Week of ${fullDate.format(row.date)}`;
-        [period, coverageLabel(row), number.format(row.tokens)].forEach((value, index) => {
-          const cell = document.createElement(index === 0 ? "th" : "td");
-          if (index === 0) cell.scope = "row";
-          cell.textContent = value;
-          tr.append(cell);
-        });
-        fragment.append(tr);
-      });
-      tableBody.replaceChildren(fragment);
-      if (tableCaption) tableCaption.textContent = `${grain === "daily" ? "Daily" : "Sunday-week"} Codex account tokens`;
-    };
-    const updateReadout = (row) => {
-      selectedDate.textContent = `${grain === "daily" ? "Day of" : "Week of"} ${fullDate.format(row.date)}`;
-      selectedTokens.textContent = `${number.format(row.tokens)} tokens`;
-      selectedCoverage.textContent = coverageLabel(row);
-    };
-    const setPressedState = () => {
-      grainButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.codexGrain === grain)));
-      if (scopeBadge) scopeBadge.textContent = `LAST 30 DAYS \u00b7 ${grain.toUpperCase()}`;
-    };
-    const draw = () => {
-      const rows = rowsForGrain();
-      if (!rows.length) return;
-      selectedIndex = clamp(selectedIndex, 0, rows.length - 1);
-      pinnedIndex = clamp(pinnedIndex, 0, rows.length - 1);
-      const restoreFocus = chart.contains(document.activeElement);
-      chart.replaceChildren();
-
-      const style = getComputedStyle(trendRoot);
-      const accent = style.getPropertyValue("--global-primary-color").trim() || "#b84f12";
-      const text = style.getPropertyValue("--global-text-color").trim() || "#211a16";
-      const gridColor = style.getPropertyValue("--global-divider-color").trim() || "rgba(90,88,72,.16)";
-      const surface = style.getPropertyValue("--global-surface-color").trim() || "#fffaf6";
-      const width = chart.clientWidth || 920;
-      const height = chart.clientHeight || 210;
-      const narrow = width < 620;
-      const left = narrow ? 54 : 66;
-      const right = narrow ? 10 : 18;
-      const top = 18;
-      const bottom = 34;
-      const baseline = height - bottom;
-      const plotHeight = baseline - top;
-      const maximum = Math.max(...rows.map((row) => row.tokens), 1);
-      const magnitude = 10 ** Math.floor(Math.log10(maximum));
-      const domainMaximum = Math.max(magnitude, Math.ceil(maximum / magnitude) * magnitude);
-      const x = (index) => left + (index / Math.max(1, rows.length - 1)) * (width - left - right);
-      const y = (value) => baseline - (value / domainMaximum) * plotHeight;
-      chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
-
-      const grid = svgElement("g", { class: "github-activity-codex-grid", "aria-hidden": "true" });
-      [0, 0.25, 0.5, 0.75, 1].forEach((fraction) => {
-        const value = domainMaximum * fraction;
-        const yy = y(value);
-        grid.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: gridColor, "stroke-width": 1 }));
-        addText(grid, compactNumber.format(value), left - 8, yy + 4, { anchor: "end", className: "github-activity-codex-tick" });
-      });
-      addText(grid, shortDate.format(rows[0].date), left, height - 10, { className: "github-activity-codex-axis-label" });
-      addText(grid, shortDate.format(rows.at(-1).date), width - right, height - 10, {
-        anchor: "end",
-        className: "github-activity-codex-axis-label",
-      });
-      chart.append(grid);
-
-      const points = rows.map((row, index) => [x(index), y(row.tokens)]);
-      chart.append(
-        svgElement("path", {
-          class: "github-activity-codex-area",
-          d: areaPath(points, baseline),
-          fill: accent,
-          "fill-opacity": 0.1,
-        }),
-        svgElement("path", {
-          class: "github-activity-codex-line",
-          d: linePath(points),
-          fill: "none",
-          stroke: accent,
-          "stroke-width": 2,
-          "stroke-linejoin": "round",
-          "stroke-linecap": "round",
-        })
-      );
-      rows.forEach((row, index) => {
-        chart.append(
-          svgElement("circle", {
-            class: `github-activity-codex-point${row.partial ? " is-partial" : ""}`,
-            cx: x(index),
-            cy: y(row.tokens),
-            r: row.partial ? 4.2 : 2.8,
-            fill: row.partial ? surface : accent,
-            stroke: accent,
-            "stroke-width": row.partial ? 2 : 1,
-          })
-        );
-      });
-
-      const guide = svgElement("line", {
-        class: "github-activity-codex-guide",
-        y1: top,
-        y2: baseline,
-        stroke: text,
-        "stroke-width": 1.2,
-      });
-      const marker = svgElement("circle", {
-        class: "github-activity-codex-marker",
-        r: 4.5,
-        fill: surface,
-        stroke: accent,
-        "stroke-width": 2.2,
-      });
-      const overlay = svgElement("rect", {
-        class: "github-activity-codex-inspector",
-        x: left,
-        y: top,
-        width: width - left - right,
-        height: plotHeight,
-        fill: "transparent",
-        tabindex: 0,
-        focusable: "true",
-        role: "slider",
-        "aria-label": `${grain === "daily" ? "Daily" : "Weekly"} Codex token inspector`,
-        "aria-valuemin": 0,
-        "aria-valuemax": rows.length - 1,
-        "aria-describedby": "github-activity-codex-instructions",
-      });
-      chart.append(guide, marker, overlay);
-
-      const showIndex = (index, pin = false) => {
-        selectedIndex = clamp(index, 0, rows.length - 1);
-        if (pin) pinnedIndex = selectedIndex;
-        const row = rows[selectedIndex];
-        const xx = x(selectedIndex);
-        guide.setAttribute("x1", xx);
-        guide.setAttribute("x2", xx);
-        marker.setAttribute("cx", xx);
-        marker.setAttribute("cy", y(row.tokens));
-        overlay.setAttribute("aria-valuenow", selectedIndex);
-        overlay.setAttribute(
-          "aria-valuetext",
-          `${grain === "daily" ? "Day of" : "Week of"} ${row.key}, ${number.format(row.tokens)} tokens, ${coverageLabel(row)}`
-        );
-        updateReadout(row);
-      };
-      const nearestIndex = (event) => {
-        const box = chart.getBoundingClientRect();
-        const px = ((event.clientX - box.left) / Math.max(1, box.width)) * width;
-        const fraction = clamp((px - left) / Math.max(1, width - left - right), 0, 1);
-        return Math.round(fraction * (rows.length - 1));
-      };
-      overlay.addEventListener("pointermove", (event) => {
-        if (event.pointerType === "mouse" || event.pointerType === "pen") showIndex(nearestIndex(event));
-      });
-      overlay.addEventListener("pointerdown", (event) => {
-        if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
-        showIndex(nearestIndex(event), true);
-        overlay.focus({ preventScroll: true });
-      });
-      overlay.addEventListener("pointerleave", (event) => {
-        if (event.pointerType === "mouse") showIndex(pinnedIndex);
-      });
-      overlay.addEventListener("focus", () => chart.classList.add("is-keyboard-focused"));
-      overlay.addEventListener("blur", () => chart.classList.remove("is-keyboard-focused"));
-      overlay.addEventListener("keydown", (event) => {
-        let next = selectedIndex;
-        if (event.key === "ArrowLeft" || event.key === "ArrowDown") next -= 1;
-        else if (event.key === "ArrowRight" || event.key === "ArrowUp") next += 1;
-        else if (event.key === "Home") next = 0;
-        else if (event.key === "End") next = rows.length - 1;
-        else return;
-        event.preventDefault();
-        showIndex(next, true);
-      });
-      showIndex(selectedIndex);
-      updateTable(rows);
-      if (restoreFocus) overlay.focus({ preventScroll: true });
-    };
-
-    grainButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        grain = button.dataset.codexGrain;
-        selectedIndex = rowsForGrain().length - 1;
-        pinnedIndex = selectedIndex;
-        setPressedState();
-        draw();
-        chart.querySelector(".github-activity-codex-inspector")?.focus({ preventScroll: true });
-      });
-    });
-    window.addEventListener("resize", () => {
-      cancelAnimationFrame(resizeFrame);
-      resizeFrame = requestAnimationFrame(draw);
-    });
-    new MutationObserver(draw).observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme", "data-theme-mode"],
-    });
-
-    status.hidden = true;
-    selectionReadout.forEach((node) => {
-      node.hidden = false;
-    });
-    grainButtons.forEach((button) => {
-      button.disabled = false;
-    });
-    if (tableSection) tableSection.hidden = false;
-    setPressedState();
-    draw();
-    trendRoot.dataset.state = "ready";
+    healthy.textContent = source.healthyAccountCount + "/" + source.accountCount;
+    fresh.textContent = source.freshAccountCount + "/" + source.accountCount;
+    quota.textContent = source.accountsWithQuotaData + "/" + source.accountCount;
+    if (source.coverage.complete) {
+      const observed = new Date(source.updated_at);
+      status.textContent =
+        "Complete 2-of-2 observation · updated " +
+        observed.toLocaleString("en-US", {
+          dateStyle: "medium",
+          timeStyle: "short",
+          timeZone: "UTC",
+        }) +
+        " UTC · " +
+        source.confidence +
+        " confidence.";
+      trendRoot.dataset.state = "ready";
+    } else {
+      status.textContent = "First complete two-account collection is pending; no live health observation is claimed.";
+      trendRoot.dataset.state = "pending";
+    }
+    scopeBadge.textContent = "2 ACCOUNTS · NON-ADDITIVE";
     trendRoot.setAttribute("aria-busy", "false");
     return source;
   };

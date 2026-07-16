@@ -7,7 +7,7 @@ on:
       - main
     paths-ignore:
       - "_data/agentic_usage.yml"
-      - "_data/codex_account_history.json"
+      - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
       - "assets/data/codex-profile-usage.json"
   push:
@@ -16,7 +16,7 @@ on:
       - main
     paths-ignore:
       - "_data/agentic_usage.yml"
-      - "_data/codex_account_history.json"
+      - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
       - "assets/data/codex-profile-usage.json"
 

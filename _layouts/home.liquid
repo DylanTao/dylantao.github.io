@@ -66,29 +66,31 @@ layout: default
                 </div>
               {% endif %}
             </dl>
-            {% assign account_lifetime = agentic_usage.account_lifetime %}
+            {% assign direct_tracker = site.data.direct_usage_tracker %}
+            {% assign personal_baseline = direct_tracker.personalRoundedLifetimeBaseline %}
             {% assign all_github_commits = 0 %}
             {% for week in site.data.github_activity.weeks %}
               {% assign all_github_commits = all_github_commits | plus: week.commits %}
             {% endfor %}
-            {% if account_lifetime and all_github_commits > 0 %}
+            {% if direct_tracker and personal_baseline and all_github_commits > 0 %}
               <a
                 class="home-agentic-heartbeat"
                 href="{{ '/github-activity/' | relative_url }}"
               >
                 <span class="home-agentic-heartbeat-pulse" aria-hidden="true"></span>
                 <span class="home-agentic-heartbeat-copy">
-                  <strong>{{ account_lifetime.tokens_label }} Codex tokens</strong>
-                  <small>{{ all_github_commits }} GitHub commits</small>
+                  <strong>{{ personal_baseline.tokens_label }} Personal rounded checkpoint</strong>
+                  <small>
+                    {% if direct_tracker.coverage.complete %}
+                      {{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }} healthy at last complete observation
+                      <time datetime="{{ direct_tracker.updated_at }}">{{ direct_tracker.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</time>
+                    {% else %}
+                      direct 2-account health pending
+                    {% endif %}
+                    · {{ all_github_commits }} GitHub commits
+                  </small>
                 </span>
-                <svg
-                  class="home-agentic-heartbeat-sparkline"
-                  viewBox="0 0 112 28"
-                  role="img"
-                  aria-label="Last 30 calendar days of Codex token activity{% if account_lifetime.recent_activity.partial_last_day %}; {{ account_lifetime.recent_activity.end_label }} is partial{% endif %}"
-                >
-                  <polyline pathLength="1" points="{{ account_lifetime.recent_activity.sparkline_points }}"></polyline>
-                </svg>
+                <span class="home-agentic-heartbeat-sparkline" aria-hidden="true">2-account quota health</span>
                 <span class="home-agentic-heartbeat-route" aria-hidden="true">Follow the pulse →</span>
               </a>
             {% endif %}

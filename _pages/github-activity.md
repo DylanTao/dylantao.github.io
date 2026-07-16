@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Independent views of Sirui Tao's recent Codex tokens and long-term GitHub build rhythm.
+description: Independent views of anonymous direct Codex quota health and long-term GitHub build rhythm.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,12 +11,13 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">CODEX TOKENS + GITHUB BUILD RHYTHM</p>
+    <p class="github-activity-eyebrow">DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Two independent views: recent Codex tokens and long-term GitHub activity. Each keeps its own time horizon, units, source, and controls.
+      Two independent views: non-additive two-account Codex quota health and long-term GitHub activity. Each keeps its own units, source, and coverage.
     </p>
-    {% assign account_lifetime = site.data.agentic_usage.account_lifetime %}
+    {% assign direct_tracker = site.data.direct_usage_tracker %}
+    {% assign personal_baseline = direct_tracker.personalRoundedLifetimeBaseline %}
   </header>
 
   <section
@@ -33,8 +34,8 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Want to learn this widget's origin?" %}
       </div>
       <p>
-        Commits and line changes describe a long build rhythm. Codex tokens describe a separate, recent account snapshot. Scroll through the
-        distinction, then use the explorer for every reported value.
+        Commits and line changes describe a long build rhythm. The direct Codex tracker describes a separate quota-health observation across
+        two anonymous accounts. The measures are not added together.
       </p>
     </header>
 
@@ -43,11 +44,11 @@ github_activity: true
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
             <span data-build-rhythm-story-label>COMPLETE VIEW</span>
-            <span data-build-rhythm-story-scope>5 YEARS + LAST 30 DAYS</span>
+            <span data-build-rhythm-story-scope>5 YEARS + 2-ACCOUNT HEALTH</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            GitHub build rhythm above. The separate Codex clock below.
+            GitHub build rhythm above. Separate Codex quota health below.
           </p>
         </div>
       </div>
@@ -80,19 +81,19 @@ github_activity: true
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="codex">
-          <p class="build-rhythm-story-step-number">04 · RESET THE CLOCK</p>
-          <h3>Codex tokens belong to a different horizon.</h3>
+          <p class="build-rhythm-story-step-number">04 · CHANGE THE MEASURE</p>
+          <h3>Quota health is a count, not a token total.</h3>
           <p>
-            This view covers only the latest 30 calendar days from a dated account snapshot. The visual resets its units and time span instead
-            of implying that tokens caused the GitHub rhythm.
+            The direct tracker reports anonymous healthy, fresh, and quota-observed account counts. Windows remain per-account and
+            non-additive; no combined lifetime or reset timestamp is published.
           </p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">05 · EXACT EXPLORATION</p>
+          <p class="build-rhythm-story-step-number">05 · GITHUB EXPLORATION</p>
           <h3>The story chooses a few views. The explorer keeps the record.</h3>
           <p>
-            Continue for range and scale controls, selected-week keyboard inspection, source notes, and the exact reported-value tables.
+            Continue for GitHub range and scale controls, selected-week keyboard inspection, source notes, and exact weekly aggregate tables.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Explore the full build rhythm</a>
         </article>
@@ -107,7 +108,7 @@ github_activity: true
 
   </section>
 
-{% if account_lifetime %}
+{% if direct_tracker and personal_baseline %}
 
 <section
       class="github-activity-codex-trend"
@@ -119,45 +120,41 @@ github_activity: true
     >
 <div class="github-activity-codex-heading">
 <div>
-<p class="github-activity-codex-kicker">CODEX TOKENS</p>
-<h2 id="github-activity-codex-title">Recent Codex use</h2>
-<p>Account tokens over the latest 30 calendar days. The weekly view starts on Sunday.</p>
+<p class="github-activity-codex-kicker">DIRECT CODEX TRACKER</p>
+<h2 id="github-activity-codex-title">Two-account quota health</h2>
+<p>Anonymous account counts from direct app-server rate-limit reads. Quota windows are never summed.</p>
 </div>
 <div class="github-activity-module-actions">
-<span class="github-activity-scope-badge" data-codex-scope>LAST 30 DAYS · DAILY</span>
-<div class="github-activity-codex-grain" aria-label="Codex token chart grain">
-<button type="button" data-codex-grain="daily" aria-pressed="true" disabled>Daily</button>
-<button type="button" data-codex-grain="weekly" aria-pressed="false" disabled>Weekly</button>
+<span class="github-activity-scope-badge" data-codex-scope>2 ACCOUNTS · NON-ADDITIVE</span>
 </div>
 </div>
-</div>
-<dl class="github-activity-codex-ledger" aria-label="Codex lifetime token context">
+<dl class="github-activity-codex-ledger" aria-label="Direct Codex quota-health coverage">
 <div>
-<dt>{{ account_lifetime.tokens_label }}</dt>
-<dd>lifetime Codex tokens</dd>
+<dt data-codex-healthy>{{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }}</dt>
+<dd>accounts healthy at last complete observation</dd>
+</div>
+<div>
+<dt data-codex-fresh>{{ direct_tracker.freshAccountCount }}/{{ direct_tracker.accountCount }}</dt>
+<dd>accounts fresh at collection</dd>
+</div>
+<div>
+<dt data-codex-quota>{{ direct_tracker.accountsWithQuotaData }}/{{ direct_tracker.accountCount }}</dt>
+<dd>accounts with quota data</dd>
+</div>
+<div>
+<dt>{{ personal_baseline.tokens_label }}</dt>
+<dd>Personal rounded checkpoint · {{ personal_baseline.coverage }}</dd>
 </div>
 </dl>
 <p class="github-activity-ledger-note">
-Lifetime context comes from authenticated Codex account activity; this chart is a dated 30-day snapshot.
-{% if account_lifetime.recent_activity.partial_last_day %}{{ account_lifetime.recent_activity.end_label }} is partial.{% endif %}
+The {{ personal_baseline.tokens_label }} checkpoint was captured {{ personal_baseline.captured_at | date: "%b %-d, %Y" }}. It is separate historical context,
+not a two-account total and not added to quota health.
 </p>
 <div class="github-activity-codex-readout">
-<span data-codex-status>Loading recent Codex use…</span>
-<span id="github-activity-codex-date" hidden></span>
-<strong id="github-activity-codex-tokens" hidden></strong>
-<span id="github-activity-codex-coverage" hidden></span>
+<span data-codex-status>Loading direct tracker health…</span>
 </div>
-<p class="sr-only" id="github-activity-codex-instructions">
-Hover, tap, or focus the chart to inspect token use. With keyboard focus, use arrow keys to move one period and Home or End to jump.
-</p>
-<svg
-        id="github-activity-codex-chart"
-        class="github-activity-codex-chart"
-        role="group"
-        aria-labelledby="github-activity-codex-title github-activity-codex-instructions"
-      ></svg>
 <p class="github-activity-codex-note">
-The chart and exact table share the same dated token snapshot. Partial days and weeks stay visibly labeled; values do not count up as if live.
+No aliases, account identifiers, plans, raw percentages, reset times, exact account usage, daily histories, or API-cost conversions are published.
 </p>
 </section>
 {% endif %}
@@ -236,8 +233,8 @@ The chart and exact table share the same dated token snapshot. Partial days and 
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Four measures, two horizons</h2>
-        <p>Codex tokens cover 30 days. GitHub commits, additions, and deletions use a separate weekly calendar across the selected history.</p>
+        <h2>Two independent surfaces</h2>
+        <p>Codex reports anonymous quota-health counts for two accounts. GitHub commits, additions, and deletions use a separate weekly calendar.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>
@@ -252,38 +249,14 @@ The chart and exact table share the same dated token snapshot. Partial days and 
         <p>Contributor statistics supply totals and commit history fills gaps. Merge commits are skipped, and very large repositories may omit line totals.</p>
       </div>
       <div>
-        <h2>Codex account history</h2>
-        <p>Daily account snapshots remain dated evidence. Weekly token totals use Sunday buckets; incomplete edge weeks stay partial.</p>
+        <h2>Codex privacy boundary</h2>
+        <p>Only a complete sanitized collector projection can update the public tracker. The dated Personal 20.9B rounded checkpoint covers one of two accounts and remains non-additive.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>
         <p>Changing range or scale redraws the selected view once. The chart settles immediately, keeps exact tables, and remains static under reduced motion.</p>
       </div>
     </div>
-    <section
-      class="github-activity-codex-table-section"
-      data-codex-table
-      aria-labelledby="github-activity-codex-table-title"
-      hidden
-    >
-      <div>
-        <h2 id="github-activity-codex-table-title">Exact recent Codex values</h2>
-        <p>The table follows the Daily or Weekly chart toggle.</p>
-      </div>
-      <div class="github-activity-table-wrap">
-        <table class="github-activity-table github-activity-codex-table">
-          <caption id="github-activity-codex-table-caption">Daily Codex account tokens</caption>
-          <thead>
-            <tr>
-              <th scope="col">Period</th>
-              <th scope="col">Coverage</th>
-              <th scope="col">Tokens</th>
-            </tr>
-          </thead>
-          <tbody id="github-activity-codex-table-body"></tbody>
-        </table>
-      </div>
-    </section>
     <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally for all columns.</p>
     <div
       class="github-activity-table-wrap"
@@ -309,7 +282,7 @@ The chart and exact table share the same dated token snapshot. Partial days and 
   </details>
 
   <p class="github-activity-source">
-    Aggregate GitHub snapshot updated <time id="github-activity-updated"></time>. The Codex chart identifies its own dated coverage above. Time-window and
+    Aggregate GitHub snapshot updated <time id="github-activity-updated"></time>. The Codex tracker identifies its own coverage above. Time-window and
     scale controls draw on <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>

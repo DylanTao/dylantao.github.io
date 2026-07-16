@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "_data/agentic_usage.yml"
-      - "_data/codex_account_history.json"
+      - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
       - "assets/data/codex-profile-usage.json"
       - ".github/workflows/generated-metrics.yml"
@@ -13,7 +13,7 @@ on:
     branches: [main]
     paths:
       - "_data/agentic_usage.yml"
-      - "_data/codex_account_history.json"
+      - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
       - "assets/data/codex-profile-usage.json"
       - ".github/workflows/generated-metrics.yml"
@@ -38,7 +38,7 @@ jobs:
       - name: Install contract dependency
         run: python -m pip install pyyaml==6.0.3
 
-      - name: Validate account, history, and privacy contracts
+      - name: Validate direct tracker and privacy contracts
         run: python -m unittest discover -s test -p 'test_*.py'
 
       - name: Validate generated diff whitespace
@@ -49,9 +49,10 @@ jobs:
         run: |
           if git grep -nEi '(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|sk-(proj-)?[A-Za-z0-9_-]{20,}|access[_-]?token|refresh[_-]?token|account[_-]?id|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
             _data/agentic_usage.yml \
-            _data/codex_account_history.json \
+            _data/direct_usage_tracker.json \
             _data/github_activity.json \
-            assets/data/codex-profile-usage.json; then
+            assets/data/codex-profile-usage.json \
+            docs/agentic-usage-ledger.md; then
             echo "Generated metrics contain a forbidden credential-shaped field." >&2
             exit 1
           fi
@@ -61,7 +62,7 @@ jobs:
         run: |
           if git grep -niE '(autodesk|github\.autodesk|git\.autodesk)' -- \
             _data/agentic_usage.yml \
-            _data/codex_account_history.json \
+            _data/direct_usage_tracker.json \
             _data/github_activity.json \
             assets/data/codex-profile-usage.json; then
             echo "Generated metrics contain a forbidden work boundary." >&2

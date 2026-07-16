@@ -65,7 +65,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
         frozen_page_selectors = (
             'data-github-activity',
             'data-codex-usage',
-            'id="github-activity-codex-chart"',
+            'data-codex-healthy',
+            'data-codex-fresh',
+            'data-codex-quota',
             'id="github-activity-chart"',
             'id="github-activity-selected-commits"',
             'id="github-activity-selected-additions"',

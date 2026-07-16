@@ -35,7 +35,7 @@ on:
       - "llms*.txt"
       - ".github/workflows/unit-tests.yml"
       - "!_data/agentic_usage.yml"
-      - "!_data/codex_account_history.json"
+      - "!_data/direct_usage_tracker.json"
       - "!_data/github_activity.json"
       - "!assets/data/codex-profile-usage.json"
   pull_request:
@@ -72,7 +72,7 @@ on:
       - "llms*.txt"
       - ".github/workflows/unit-tests.yml"
       - "!_data/agentic_usage.yml"
-      - "!_data/codex_account_history.json"
+      - "!_data/direct_usage_tracker.json"
       - "!_data/github_activity.json"
       - "!assets/data/codex-profile-usage.json"
 

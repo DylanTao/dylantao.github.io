@@ -14,7 +14,7 @@ ACTIVITY_PATHS = (
     REPO_ROOT / "_pages" / "github-activity.md",
     REPO_ROOT / "assets" / "js" / "github-activity.js",
     REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
-    REPO_ROOT / "_data" / "codex_account_history.json",
+    REPO_ROOT / "_data" / "direct_usage_tracker.json",
     REPO_ROOT / "_data" / "github_activity.json",
 )
 FORBIDDEN = (
@@ -65,42 +65,74 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         )
         self.assertNotRegex(text.lower(), r"(?m)^\s*(?:account|url):")
 
-    def test_public_codex_profile_contract_is_sanitized_and_history_backed(
+    def test_public_codex_profile_contract_is_sanitized_and_non_additive(
         self,
     ) -> None:
         public = json.loads(
             (REPO_ROOT / "assets" / "data" / "codex-profile-usage.json").read_text()
         )
-        history = json.loads(
-            (REPO_ROOT / "_data" / "codex_account_history.json").read_text()
+        site_copy = json.loads(
+            (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text()
         )
+        self.assertEqual(public, site_copy)
         self.assertEqual(
             set(public),
-            {"schema", "source", "sourceAsOf", "lifetime", "recent", "history"},
-        )
-        self.assertEqual(
-            public["history"],
             {
-                "grain": "calendar-day snapshots",
-                "snapshotCount": len(history["snapshots"]),
-                "firstSourceAsOf": history["snapshots"][0]["sourceAsOf"],
-                "latestSourceAsOf": history["snapshots"][-1]["sourceAsOf"],
+                "schema",
+                "accountCount",
+                "healthyAccountCount",
+                "freshAccountCount",
+                "accountsWithQuotaData",
+                "accountsAtLimit",
+                "units",
+                "method",
+                "coverage",
+                "confidence",
+                "updated_at",
+                "personalRoundedLifetimeBaseline",
             },
         )
-        self.assertNotIn("snapshots", public["history"])
-        self.assertEqual(len(public["recent"]["daily"]), 30)
-        self.assertIn(len(public["recent"]["weekly"]), {5, 6})
-        first_week = public["recent"]["weekly"][0]
-        self.assertEqual(first_week["partial"], first_week["observedDays"] < 7)
-        self.assertTrue(public["recent"]["weekly"][-1]["partial"])
+        self.assertEqual(public["schema"], 2)
+        self.assertEqual(public["accountCount"], 2)
+        self.assertIsNone(public["accountsAtLimit"])
+        self.assertTrue(public["coverage"]["complete"])
+        self.assertEqual(public["coverage"]["requiredAccountCount"], 2)
+        self.assertEqual(public["coverage"]["healthyAccountCount"], 2)
+        self.assertEqual(public["healthyAccountCount"], 2)
+        self.assertEqual(public["freshAccountCount"], 2)
+        self.assertEqual(public["accountsWithQuotaData"], 2)
+        updated_at = datetime.fromisoformat(public["updated_at"].replace("Z", "+00:00"))
+        self.assertIsNotNone(updated_at.tzinfo)
+        baseline = public["personalRoundedLifetimeBaseline"]
+        self.assertEqual(baseline["tokens_label"], "20.9B")
+        self.assertEqual(baseline["coverage"], "1 of 2 accounts")
+        self.assertEqual(baseline["aggregation"], "non_additive")
         serialized = json.dumps(public).lower()
         for fragment in (
-            "local_lifetime",
-            "observed_local",
-            "codexbar",
-            "model_effort",
+            "email",
+            "account_id",
+            "plan_type",
+            "reset",
+            "daily",
+            "history",
+            "api_cost",
+            "combined_lifetime",
         ):
             self.assertNotIn(fragment, serialized)
+
+    def test_public_ledger_omits_machine_paths_and_retired_account_exactness(self) -> None:
+        text = (REPO_ROOT / "docs" / "agentic-usage-ledger.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotRegex(text, r"(?i)\b[A-Z]:[\\/](?:Users|dev)[\\/]")
+        for fragment in (
+            "24,113,293,841",
+            "2,158,343,669",
+            "16.98B tokens in the account-owned",
+            "45.24B tokens",
+            "scaling the account total",
+        ):
+            self.assertNotIn(fragment, text)
 
     def test_checked_in_github_fallback_has_exact_privacy_contract(self) -> None:
         activity = json.loads(

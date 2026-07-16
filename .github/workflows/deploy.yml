@@ -8,7 +8,7 @@ on:
     paths:
       - "assets/**"
       - "_plugins/**"
-      - "_data/codex_account_history.json"
+      - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
       - "**.bib"
       - "**.html"
@@ -42,7 +42,7 @@ on:
     paths:
       - "assets/**"
       - "_plugins/**"
-      - "_data/codex_account_history.json"
+      - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
       - "**.bib"
       - "**.html"

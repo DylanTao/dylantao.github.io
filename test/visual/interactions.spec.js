@@ -235,18 +235,47 @@ test("Codex activity fails closed when its public data is unavailable", async ({
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(codexTrend).toHaveAttribute("data-state", "error");
   await expect(codexTrend).toHaveAttribute("aria-busy", "false");
-  await expect(codexTrend.locator("[data-codex-status]")).toHaveText("Recent Codex token data is unavailable.");
-  await expect(page.getByRole("button", { name: "Daily", exact: true })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Weekly", exact: true })).toBeDisabled();
-  await expect(page.locator("#github-activity-codex-tokens")).toBeHidden();
-  await expect(page.locator("[data-codex-table]")).toBeHidden();
+  await expect(codexTrend.locator("[data-codex-status]")).toHaveText(
+    "Direct Codex tracker is unavailable; the last rendered page does not substitute data."
+  );
+  await expect(page.getByRole("button", { name: "Daily", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Weekly", exact: true })).toHaveCount(0);
+  await expect(page.locator("[data-codex-table]")).toHaveCount(0);
   await expect(page.locator(".github-activity-codex-point")).toHaveCount(0);
-  await expect(page.locator(".github-activity-codex-readout")).not.toContainText("0 tokens");
+  await expect(page.locator(".github-activity-codex-readout")).not.toContainText("complete 2-of-2");
   await expect(page.locator(".github-activity-codex-readout")).not.toHaveAttribute("aria-live", /.+/);
 });
 
-test("usage story keeps token and GitHub measures independent and accessible", async ({ page }) => {
+test("usage story keeps direct quota health and GitHub measures independent and accessible", async ({ page }) => {
   await preparePage(page, "light");
+  await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        schema: 2,
+        accountCount: 2,
+        healthyAccountCount: 2,
+        freshAccountCount: 2,
+        accountsWithQuotaData: 2,
+        accountsAtLimit: null,
+        units: { accounts: "count", health: "count", freshness: "utc_timestamp" },
+        method: "codex_app_server_rate_limits_non_additive_no_model_turns",
+        coverage: { complete: true, requiredAccountCount: 2, healthyAccountCount: 2 },
+        confidence: "direct complete observation",
+        updated_at: "2026-07-16T18:55:00Z",
+        personalRoundedLifetimeBaseline: {
+          token_count: 20900000000,
+          tokens_label: "20.9B",
+          units: "tokens",
+          method: "manual_rounded_profile_baseline",
+          coverage: "1 of 2 accounts",
+          aggregation: "non_additive",
+          captured_at: "2026-07-12T18:40:36.572451Z",
+        },
+      }),
+    })
+  );
   await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
@@ -254,8 +283,8 @@ test("usage story keeps token and GitHub measures independent and accessible", a
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
-  await expect(page.locator(".github-activity-eyebrow")).toHaveText("CODEX TOKENS + GITHUB BUILD RHYTHM");
-  await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(1);
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM");
+  await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(4);
   await expect(page.locator("#github-activity-codex-cost")).toHaveCount(0);
   await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
   await expect(page.locator("#github-activity-selected-deletions")).toHaveText(/^\u2212[\d,]+ removed$/);
@@ -268,24 +297,15 @@ test("usage story keeps token and GitHub measures independent and accessible", a
 
   const codexScope = page.locator("[data-codex-scope]");
   const githubScope = page.locator("[data-github-scope]");
-  const codexDaily = page.getByRole("button", { name: "Daily", exact: true });
-  const codexWeekly = page.getByRole("button", { name: "Weekly", exact: true });
-  await expect(codexScope).toHaveText("LAST 30 DAYS · DAILY");
+  await expect(codexScope).toHaveText("2 ACCOUNTS · NON-ADDITIVE");
   await expect(githubScope).toHaveText("5 YEARS · WEEKLY");
-  await expect(page.locator(".github-activity-codex-point")).toHaveCount(30);
-  await expect(page.locator("#github-activity-codex-tokens")).toHaveText(/^[\d,]+ tokens$/);
-  const codexInspector = page.locator(".github-activity-codex-inspector");
-  await codexInspector.focus();
-  await page.keyboard.press("ArrowLeft");
-  await expect(codexInspector).toHaveAttribute("aria-valuetext", /tokens, (?:Observed|Partial) day/);
-  await expect(codexInspector).not.toHaveAttribute("aria-valuetext", /\$|cost|public API/i);
-  await codexWeekly.click();
-  await expect(codexScope).toHaveText("LAST 30 DAYS · WEEKLY");
-  await expect(githubScope).toHaveText("5 YEARS · WEEKLY");
-  const weeklyPointCount = await page.locator(".github-activity-codex-point").count();
-  expect(weeklyPointCount).toBeGreaterThanOrEqual(5);
-  await expect(page.locator("#github-activity-codex-table-body tr")).toHaveCount(weeklyPointCount);
-  await codexDaily.click();
+  await expect(page.locator("[data-codex-healthy]")).toHaveText("2/2");
+  await expect(page.locator("[data-codex-fresh]")).toHaveText("2/2");
+  await expect(page.locator("[data-codex-quota]")).toHaveText("2/2");
+  await expect(codexTrend.locator("[data-codex-status]")).toContainText("Complete 2-of-2 observation");
+  await expect(codexTrend).toContainText("20.9B");
+  await expect(codexTrend).toContainText("1 of 2 accounts");
+  await expect(codexTrend).not.toContainText(/daily|reset|API-cost|combined lifetime/i);
 
   const commitPath = page.locator(".github-activity-commit-line");
   const addPath = page.locator(".github-activity-add-line");
@@ -323,7 +343,7 @@ test("usage story keeps token and GitHub measures independent and accessible", a
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
   await expect(githubScope).toHaveText("1 YEAR · WEEKLY");
-  await expect(codexScope).toHaveText("LAST 30 DAYS · DAILY");
+  await expect(codexScope).toHaveText("2 ACCOUNTS · NON-ADDITIVE");
   const inspector = page.locator(".github-activity-inspector");
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
@@ -363,10 +383,9 @@ test("usage story keeps token and GitHub measures independent and accessible", a
   await expect(annotation).toContainText(`Median active-week line magnitude · ${lineChangeSemantics.median}`);
 
   await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Four measures, two horizons" })).toBeVisible();
-  const codexCells = page.locator("#github-activity-codex-table-body tr").first().locator("th, td");
+  await expect(page.getByRole("heading", { name: "Two independent surfaces" })).toBeVisible();
   const commitCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
-  await expect(codexCells).toHaveCount(3);
+  await expect(page.locator("#github-activity-codex-table-body")).toHaveCount(0);
   await expect(commitCells).toHaveCount(5);
   await expect(page.locator("#github-activity-table-caption")).toContainText("Reported weekly activity");
   await expect(page.getByRole("columnheader", { name: "Line changes" })).toBeVisible();
@@ -444,7 +463,7 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
   });
 });
 
-test("home agentic heartbeat uses the account lifetime and real daily sparkline", async ({ page }) => {
+test("home agentic heartbeat shows the separate rounded checkpoint and tracker coverage", async ({ page }) => {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
@@ -454,7 +473,9 @@ test("home agentic heartbeat uses the account lifetime and real daily sparkline"
   await heartbeat.scrollIntoViewIfNeeded();
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
-  await expect(heartbeat).toContainText(/\d+(?:\.\d+)?[BM] Codex tokens/);
+  await expect(heartbeat).toContainText("20.9B Personal rounded checkpoint");
+  await expect(heartbeat).toContainText("direct 2-account health pending");
+  await expect(heartbeat).toContainText("2-account quota health");
   await expect(heartbeat).toContainText(/\d+ GitHub commits/);
   await expect(heartbeat).not.toContainText(/\$|public API|cost/i);
   const tally = page.locator(".home-agentic-tally");
