@@ -83,7 +83,7 @@ layout: default
                   <small>
                     {% if direct_tracker.coverage.complete %}
                       {{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }} healthy at last complete observation
-                      <time datetime="{{ direct_tracker.updated_at }}">{{ direct_tracker.updated_at | date: "%Y-%m-%d %H:%M UTC" }}</time>
+                      <time datetime="{{ direct_tracker.updated_at }}">{{ direct_tracker.updated_at | date: '%Y-%m-%d %H:%M UTC' }}</time>
                     {% else %}
                       direct 2-account health pending
                     {% endif %}
