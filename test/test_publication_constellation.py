@@ -271,6 +271,31 @@ class PublicationConstellationContractTest(unittest.TestCase):
         self.assertIn("scholar-lens-heading-actions", SCHOLAR_INCLUDE_PATH.read_text(encoding="utf-8"))
         self.assertIn("rejection-wall-heading-actions", WALL_INCLUDE_PATH.read_text(encoding="utf-8"))
 
+    def test_inspiration_credit_and_debut_provenance_are_exact(self) -> None:
+        project = PROJECT_PATH.read_text(encoding="utf-8")
+        guide = REPRODUCTION_GUIDE_PATH.read_text(encoding="utf-8")
+        for artifact_name, artifact in (("project", project), ("guide", guide)):
+            for source in (
+                "Nadieh Bremer",
+                "https://royalconstellations.visualcinnamon.com/",
+                "https://www.datasketch.es/project/royal-constellations",
+                "John Thompson",
+                "https://jrthomp.com/",
+                "D3 force-directed SVG implementation",
+            ):
+                with self.subTest(artifact=artifact_name, source=source):
+                    self.assertIn(source, artifact)
+
+            self.assertNotIn("canvas implementation", artifact.lower())
+            for provenance in (
+                "855f1bce8",
+                "2026-07-15T04:10:52-07:00",
+                "eeb0a5764",
+                "2026-07-15T16:51:26-07:00",
+            ):
+                with self.subTest(artifact=artifact_name, provenance=provenance):
+                    self.assertIn(provenance, artifact)
+
 
 if __name__ == "__main__":
     unittest.main()

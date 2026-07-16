@@ -87,6 +87,15 @@ At minimum, verify:
 - origin, citation-context, project, and download links resolve;
 - the built HTML and outgoing changes contain no private future-work identity.
 
-## 8. Credit the interaction lineage
+## 8. Record schema inception and public debut separately
 
-This pattern adapts interaction principles from Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) and its [process story](https://www.datasketch.es/project/royal-constellations), shared with Sirui by [John Thompson](https://jrthomp.com/). It does not copy their data, visual assets, layout, code, or canvas implementation.
+Keep the first reviewed data contract distinct from the visitor-facing implementation checkpoint. For this site:
+
+- the privacy-safe data-contract commit `855f1bce8` has author timestamp `2026-07-15T04:10:52-07:00`;
+- the list/constellation implementation commit `eeb0a5764` has author timestamp `2026-07-15T16:51:26-07:00`.
+
+The chronological project card uses the second author timestamp because every experiment card uses its originating feature commit's author time. Git records `eeb0a5764` landing at `2026-07-15T16:58:59-07:00`, and the first matching `gh-pages` artifact at `2026-07-15T18:03:16-07:00`; do not describe the author timestamp as deployment or first visitor availability. Preserve the checkpoints separately so later agents do not confuse schema inception, implementation, commit landing, and deployment.
+
+## 9. Credit the interaction lineage
+
+This pattern adapts interaction principles from Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) and its [process story](https://www.datasketch.es/project/royal-constellations), shared with Sirui by [John Thompson](https://jrthomp.com/). It does not copy their data, visual assets, layout, code, D3 force-directed SVG implementation, or shortest-path behavior.

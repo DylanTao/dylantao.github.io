@@ -13,15 +13,15 @@ PROJECTS_DIR = REPO_ROOT / "_projects"
 GUIDES_DIR = REPO_ROOT / "assets" / "downloads" / "site-experiments"
 
 EXPECTED_CHRONOLOGY = [
-    ("paper-constellation", "Paper Constellation"),
-    ("build-rhythm", "Build Rhythm"),
-    ("homepage-desk-scene", "The Desk That Learned Depth"),
-    ("hci-spooder-man", "HCI Spooder-Man"),
-    ("scholar-lens", "Scholar Lens"),
-    ("wall-of-rejection", "Wall of Rejection"),
-    ("ikea-project-cards", "The IKEA Card Experiment"),
-    ("website-revamp", "Vibe-Coding a Research Portfolio"),
-    ("dogtor-portal", "Dogtor's Hidden Portal"),
+    ("paper-constellation", "Paper Constellation", "2026-07-15T16:51:26-07:00"),
+    ("build-rhythm", "Build Rhythm", "2026-07-11T14:46:58-07:00"),
+    ("homepage-desk-scene", "The Desk That Learned Depth", "2026-06-17T20:55:49-07:00"),
+    ("hci-spooder-man", "HCI Spooder-Man", "2026-05-30T19:29:43-07:00"),
+    ("scholar-lens", "Scholar Lens", "2026-05-30T15:19:54-07:00"),
+    ("wall-of-rejection", "Wall of Rejection", "2026-05-29T15:24:23-07:00"),
+    ("ikea-project-cards", "The IKEA Card Experiment", "2026-05-27T19:20:51-07:00"),
+    ("website-revamp", "Vibe-Coding a Research Portfolio", "2026-05-23T18:37:36-07:00"),
+    ("dogtor-portal", "Dogtor's Hidden Portal", "2026-05-13T19:41:53-07:00"),
 ]
 
 REPRODUCTION_GUIDES = [
@@ -52,7 +52,7 @@ def frontmatter(path: Path) -> dict[str, str]:
 class SiteExperimentsTests(unittest.TestCase):
     def test_site_experiments_have_truthful_chronological_metadata(self) -> None:
         records = []
-        for slug, expected_title in EXPECTED_CHRONOLOGY:
+        for slug, expected_title, expected_debut in EXPECTED_CHRONOLOGY:
             values = frontmatter(PROJECTS_DIR / f"{slug}.md")
             self.assertEqual(values.get("title"), expected_title)
             self.assertEqual(values.get("category"), "fun")
@@ -60,11 +60,12 @@ class SiteExperimentsTests(unittest.TestCase):
             teaser = values.get("img")
             self.assertTrue(teaser, f"{slug} is missing a project-card teaser")
             self.assertTrue((REPO_ROOT / teaser).is_file(), f"{slug} teaser does not exist: {teaser}")
-            debut = datetime.fromisoformat(values["debut_date"])
+            self.assertEqual(values.get("debut_date"), expected_debut)
+            debut = datetime.fromisoformat(expected_debut)
             records.append((debut, expected_title))
 
         actual = [title for _, title in sorted(records, reverse=True)]
-        self.assertEqual(actual, [title for _, title in EXPECTED_CHRONOLOGY])
+        self.assertEqual(actual, [title for _, title, _ in EXPECTED_CHRONOLOGY])
 
     def test_projects_index_groups_experiments_once_and_sorts_by_debut(self) -> None:
         source = PROJECTS_PAGE.read_text(encoding="utf-8")

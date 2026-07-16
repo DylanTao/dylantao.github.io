@@ -11,7 +11,7 @@ year: 2026
 role: Designer, writer, reviewer
 status: Site experiment
 site_experiment: true
-debut_date: 2026-07-15T09:00:00-07:00
+debut_date: 2026-07-15T16:51:26-07:00
 hide_title: true
 ---
 
@@ -72,12 +72,13 @@ The implementation treats this as a privacy boundary, not a copywriting choice. 
 
 ## What I borrowed, and what I changed
 
-John Thompson shared Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) with me. Bremer's work made the useful interaction lesson vivid: stable semantic axes, contextual dimming, and a neighborhood that becomes legible through hover and selection. Her [process story](https://www.datasketch.es/project/royal-constellations) also shows how much care sits behind an apparently effortless map.
+[John Thompson](https://jrthomp.com/) shared Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) with me. Bremer's work made the useful interaction lesson vivid: stable semantic axes, contextual dimming, and a neighborhood that becomes legible through hover and selection. Her [process story](https://www.datasketch.es/project/royal-constellations) also shows how much care sits behind an apparently effortless map.
 
-I borrowed those principles, not the royal-family data, layout, assets, canvas implementation, or shortest-path behavior. This version uses ordinary server-rendered HTML and SVG, keeps the bibliography as the default, gives touch and keyboard users equivalent controls, and turns the graph into stacked thread lists on narrow screens.
+I borrowed those principles, not the royal-family data, layout, assets, D3 force-directed SVG implementation, or shortest-path behavior. This version uses ordinary server-rendered HTML and SVG, keeps the bibliography as the default, gives touch and keyboard users equivalent controls, and turns the graph into stacked thread lists on narrow screens.
 
 ## Iteration ledger
 
+- **July 15, 2026 — Traceable implementation checkpoint.** The privacy-safe data-contract commit `855f1bce8` carries an author timestamp of <time datetime="2026-07-15T04:10:52-07:00">4:10 AM PDT</time>; the visitor-facing implementation commit `eeb0a5764` carries an author timestamp of <time datetime="2026-07-15T16:51:26-07:00">4:51 PM PDT</time>. The project card uses the latter to match the other experiments' author-time chronology; deployment happened later.
 - **July 15, 2026 — List before constellation.** Kept the bibliography visible by default and hid the mode switch unless JavaScript successfully initialized.
 - **July 15, 2026 — Stable threads, stable coordinates.** Replaced any temptation toward force-directed motion with reviewed Design/Evaluate/Situate positions and nine explicit edges.
 - **July 15, 2026 — Privacy as schema.** Restricted future records to neutral IDs, size, thread, position, and an allowlisted public-rejection field.
