@@ -9,6 +9,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PAGE_PATH = REPO_ROOT / "_pages" / "github-activity.md"
 CASE_STUDY_PATH = REPO_ROOT / "_projects" / "build-rhythm.md"
 REPRODUCTION_PATH = REPO_ROOT / "assets" / "downloads" / "site-experiments" / "build-rhythm-reproduction.md"
+HEURISTICS_PATH = REPO_ROOT / "WEBSITE_DESIGN_HEURISTICS.md"
+LEDGER_DOC_PATH = REPO_ROOT / "docs" / "agentic-usage-ledger.md"
 SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "github-activity.js"
 STYLE_PATH = REPO_ROOT / "_sass" / "_github-activity.scss"
 PACKAGE_PATH = REPO_ROOT / "package.json"
@@ -22,6 +24,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.page = PAGE_PATH.read_text(encoding="utf-8")
         cls.case_study = CASE_STUDY_PATH.read_text(encoding="utf-8")
         cls.reproduction = REPRODUCTION_PATH.read_text(encoding="utf-8")
+        cls.heuristics = HEURISTICS_PATH.read_text(encoding="utf-8")
+        cls.ledger_doc = LEDGER_DOC_PATH.read_text(encoding="utf-8")
         cls.script = SCRIPT_PATH.read_text(encoding="utf-8")
         cls.style = STYLE_PATH.read_text(encoding="utf-8")
         cls.package = PACKAGE_PATH.read_text(encoding="utf-8")
@@ -109,12 +113,16 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('class: "github-activity-add-line"', self.script)
         self.assertIn('class: "github-activity-remove-line"', self.script)
 
-    def test_case_study_and_reproduction_match_the_direct_tracker(self) -> None:
+    def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
             "two-account Codex quota health",
             "complete two-account quota-health observation",
             "one-account historical context",
             "7e224db12",
+            "Three sources, never one score",
+            "deduplicated retained logs attributed to this repo",
+            "Differences between adjacent points are rounded increases",
+            "6edea07f4",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.case_study)
@@ -124,14 +132,23 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "Quota windows remain per-account and non-additive",
             "rounded personal token checkpoint",
             "missing observation must never render as a false zero",
+            "The exact point keys are `date`, `token_count`, and `tokens_label`",
+            "three separate clocks",
+            "server-rendered daily token summary and table",
+            "Differences between adjacent rounded points are rounded increases, not exact daily usage.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
+
+        self.assertIn("change provenance, not the privacy boundary", self.heuristics)
+        self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
+        self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)
 
         for stale_phrase in (
             "dated 30-day Codex snapshot",
             "shorter clock of recent Codex use",
             "Keep tool-use tokens on their own truthful horizon",
+            "two-measure data boundary",
         ):
             with self.subTest(stale_phrase=stale_phrase):
                 self.assertNotIn(stale_phrase, self.case_study)

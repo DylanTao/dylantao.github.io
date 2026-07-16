@@ -1,9 +1,9 @@
 ---
 layout: page
 title: Build Rhythm
-description: A privacy-safe activity view that keeps anonymous two-account Codex quota health separate from long-term GitHub build rhythm.
+description: A privacy-safe activity story that keeps repo-scoped retained-session tokens, anonymous two-account Codex quota health, and long-term GitHub build rhythm on separate clocks.
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
-image_aspect: 3 / 2
+image_aspect: 351 / 254
 card_avoid_scaling: true
 importance: -30
 category: fun
@@ -20,13 +20,13 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      A public record of building cadence without pretending commits, changed lines, or account health measure productivity. The page keeps GitHub history and a dated, anonymous Codex quota-health observation on visibly different clocks, then lets visitors inspect the exact aggregate evidence.
+      A public record of building cadence without pretending commits, changed lines, retained-session tokens, or account health measure productivity. The page keeps weekly GitHub history, a rounded daily cumulative repo estimate, and a dated anonymous Codex quota-health observation on visibly different clocks.
     </p>
     <div class="project-case-facts">
       <span>Cadence, not productivity</span>
       <span>Aggregate data only</span>
-      <span>Two measures, never one score</span>
-      <span>Exact GitHub table</span>
+      <span>Three sources, never one score</span>
+      <span>Exact GitHub + rounded token tables</span>
     </div>
     <div class="project-case-actions">
       <a href="{{ '/github-activity/' | relative_url }}">Open Build Rhythm</a>
@@ -37,8 +37,8 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
   <div><span>Question</span><p>How can a public activity page show cadence and change without turning them into a score?</p></div>
-  <div><span>Evidence</span><p>Weekly commits, additions, and deletions stay separate from a dated, complete two-account quota-health observation; one rounded personal checkpoint remains labeled as one-account historical context.</p></div>
-  <div><span>Boundary</span><p>No repository names, account identifiers, raw quota percentages, reset times, cost theater, causal claims, or productivity ranking.</p></div>
+  <div><span>Evidence</span><p>Weekly commits and line changes, a rounded daily cumulative repo-token estimate, and a dated complete two-account quota-health observation remain visibly separate; one rounded personal checkpoint stays labeled as one-account historical context.</p></div>
+  <div><span>Boundary</span><p>No repository names, session or account identities, event-level records, raw quota percentages, reset times, cost theater, causal claims, or productivity ranking.</p></div>
 </section>
 
 ## Origin
@@ -47,7 +47,9 @@ The first version began as a research-grounded activity workbench. John Thompson
 
 ## What the page protects
 
-Commits describe cadence. Additions and deletions describe the magnitude and direction of a change. The direct Codex tracker counts anonymous accounts that were healthy, fresh, and able to report quota windows at one complete observation; those windows remain per-account and non-additive. A rounded personal lifetime checkpoint stays separately dated and scoped to one of two accounts. None of these measures explains quality or cause, so the interface keeps units, coverage, and provenance visible instead of morphing them into one synthetic score.
+Commits describe cadence. Additions and deletions describe the magnitude and direction of a change. The token rhythm comes from deduplicated retained logs attributed to this repo, grouped on a Pacific daily clock and published only as rounded cumulative points. Differences between adjacent points are rounded increases, not exact daily usage, and the estimate can revise when retained local evidence changes.
+
+The direct Codex tracker counts anonymous accounts that were healthy, fresh, and able to report quota windows at one complete observation; those windows remain per-account and non-additive. A rounded personal lifetime checkpoint stays separately dated and scoped to one of two accounts. No session, turn, model, path, account, or event-level identity enters the daily series. None of these measures explains quality or cause, so the interface keeps units, coverage, and provenance visible instead of morphing them into one synthetic score.
 
 <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
   <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
@@ -56,12 +58,13 @@ Commits describe cadence. Additions and deletions describe the magnitude and dir
   <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Restored additions and deletions with readable and literal scales plus stronger responsive evidence.</span></li>
   <li><time datetime="2026-07-15">Jul 15</time><code>6b4b7bd59</code><span>Added a scroll-led reading that teaches cadence, magnitude, scale, and the separate Codex clock before handing control to the exact explorer.</span></li>
   <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Replaced account-linked token history with anonymous two-account quota-health counts, retaining only a clearly scoped one-account personal checkpoint as historical context.</span></li>
+  <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the token-over-time story as a rounded daily cumulative repo estimate from deduplicated retained logs, without restoring the account-linked history removed earlier that day.</span></li>
 </ol>
 
 <aside class="site-experiment-reproduce" aria-labelledby="build-rhythm-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
   <h2 id="build-rhythm-reproduce-title">Use your own aggregate record.</h2>
-  <p>The downloadable guide covers the two-measure data boundary, narrative chapters, accessible explorer, reduced-motion state, and acceptance checks for another site.</p>
+  <p>The downloadable guide covers the three-source data boundary, narrative chapters, accessible evidence, reduced-motion state, and acceptance checks for another site.</p>
   <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 

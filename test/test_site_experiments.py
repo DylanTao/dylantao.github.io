@@ -116,11 +116,13 @@ class SiteExperimentsTests(unittest.TestCase):
                 self.assertTrue(path.is_file(), f"missing {relative_path}")
                 self.assertGreater(path.stat().st_size, 20_000)
 
-    def test_build_rhythm_teaser_matches_the_approved_quota_health_capture(self) -> None:
+    def test_build_rhythm_teaser_matches_the_approved_token_rhythm_capture(self) -> None:
         teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-stage.png"
         payload = teaser.read_bytes()
+        self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (702, 508))
         blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
-        self.assertEqual(blob_hash, "b0f16d22afc48d04ec972cafd9b74a0bd20f111b")
+        self.assertEqual(blob_hash, "a85dfb18c584fdd064e92afe59a07daee37884a6")
 
     def test_homepage_desk_capture_pair_has_pinned_state_and_provenance(self) -> None:
         asset_root = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments"
