@@ -56,7 +56,39 @@ The first 3D mode extended the existing paper-and-record desk without replacing 
   <li><time datetime="2026-06-21">Jun 21</time><code>588e36509</code><span>Checked in comparable 2D, room, outside, zoom, and album-state captures. They preserved evidence of the shallow room and separate miniature.</span></li>
   <li><time datetime="2026-07-12">Jul 12</time><code>840a3e1cb</code><span>Under GPT-5.6 Sol/ultra, rebuilt anchors, rear-orbit clearance, compact framing, raycasts, and grounded card recovery.</span></li>
   <li><time datetime="2026-07-13">Jul 13</time><code>a765c5291</code><span>Replaced the hand-matched exterior miniature with the actual room graph under reciprocal cameras.</span></li>
+  <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Accepted the organic room shell, high cliff aperture, welcome and window cues, and live-geometry/raycast evidence across the full matrix. Material realism remains open headroom; the topology does not need another rewrite.</span></li>
+  <li><time datetime="2026-07-14">Jul 14</time><code>2ffd379af</code><span>Stabilized the shared controls and their tests without claiming another visual-model advance.</span></li>
 </ol>
+
+## Same state, two representations
+
+These two frames came from one fresh homepage context. Yellow Submarine remained queued, playback stayed stopped, and the discovery pile stayed empty while only the representation changed.
+
+<div
+  class="project-case-evidence-pair desk-scene-evidence-pair"
+  data-capture-date="2026-07-16"
+  data-capture-source="8fc9bf7d3"
+  data-scene-checkpoint="1b07cea4c"
+  data-capture-viewport="1440x1000"
+  data-capture-theme="light"
+  data-capture-state="yellow-submarine-stopped-zero-discoveries"
+  data-capture-device-pixel-ratio="3"
+>
+  <div>
+    <figure class="project-case-media site-experiment-evidence-figure" data-desk-evidence-mode="2d">
+      <img src="{{ '/assets/img/project_pics/site-experiments/homepage-desk-2d-2026-07-16.png' | relative_url }}" alt="Current homepage in its light-theme 2D desk representation with Sirui's portrait, paper research slips, Yellow Submarine queued, and no discovered record cards" loading="lazy" width="1440" height="1000">
+      <figcaption>2D default — light theme at 1440 × 1000, before any record or discovery interaction.</figcaption>
+    </figure>
+  </div>
+  <div>
+    <figure class="project-case-media site-experiment-evidence-figure" data-desk-evidence-mode="3d">
+      <img src="{{ '/assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16.png' | relative_url }}" alt="Current homepage in its light-theme 3D desk representation showing the reciprocal cliff room, onsen, lounge chair, record player, welcome note, and ocean window" loading="lazy" width="1440" height="1000">
+      <figcaption>3D default — the same logical desk state after switching representations.</figcaption>
+    </figure>
+  </div>
+</div>
+
+Captured July 16, 2026 from runtime source `8fc9bf7d3`; the accepted reciprocal cliff-room architecture landed in `1b07cea4c`. The desktop QA lane simulates device-pixel ratio 3 while capping the WebGL buffer near 2×; both published viewport frames remain exactly 1440 × 1000 pixels.
 
 The model label is context, not a causal performance claim. Prompt, retained context, task scope, implementation history, and human critique changed too. The fair comparison is the evidence contract: same routes, same viewports, same important states, and an honest record of both accepted and reverted work.
 

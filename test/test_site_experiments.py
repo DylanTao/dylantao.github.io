@@ -122,6 +122,41 @@ class SiteExperimentsTests(unittest.TestCase):
         blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
         self.assertEqual(blob_hash, "b0f16d22afc48d04ec972cafd9b74a0bd20f111b")
 
+    def test_homepage_desk_capture_pair_has_pinned_state_and_provenance(self) -> None:
+        asset_root = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments"
+        expected_blobs = {
+            "homepage-desk-2d-2026-07-16.png": "9d166020439832fd05f5db910003f37a7b307e6f",
+            "homepage-desk-3d-2026-07-16.png": "5ef2444654bbaff5a8f5692e96e2d344e7db79ba",
+        }
+        payloads: dict[str, bytes] = {}
+
+        for filename, expected_blob in expected_blobs.items():
+            with self.subTest(filename=filename):
+                payload = (asset_root / filename).read_bytes()
+                payloads[filename] = payload
+                self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+                self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (1440, 1000))
+                blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
+                self.assertEqual(blob_hash, expected_blob)
+
+        self.assertNotEqual(payloads["homepage-desk-2d-2026-07-16.png"], payloads["homepage-desk-3d-2026-07-16.png"])
+        self.assertEqual((asset_root / "homepage-desk-depth.png").read_bytes(), payloads["homepage-desk-3d-2026-07-16.png"])
+
+        case_study = (PROJECTS_DIR / "homepage-desk-scene.md").read_text(encoding="utf-8")
+        for phrase in (
+            "homepage-desk-2d-2026-07-16.png",
+            "homepage-desk-3d-2026-07-16.png",
+            'data-capture-source="8fc9bf7d3"',
+            'data-scene-checkpoint="1b07cea4c"',
+            'data-capture-viewport="1440x1000"',
+            'data-capture-theme="light"',
+            'data-capture-state="yellow-submarine-stopped-zero-discoveries"',
+            'data-capture-device-pixel-ratio="3"',
+            "2ffd379af",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, case_study)
+
     def test_widget_origin_routes_are_explicit_and_contextual(self) -> None:
         expectations = {
             "_pages/github-activity.md": "/projects/build-rhythm/",

@@ -213,6 +213,63 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     ).toEqual({ complete: true, naturalHeight: 650, naturalWidth: 1200 });
   }
 
+  if (route.id === "project-homepage-desk-scene") {
+    const evidence = page.locator(".desk-scene-evidence-pair");
+    await expect(evidence).toHaveAttribute("data-capture-date", "2026-07-16");
+    await expect(evidence).toHaveAttribute("data-capture-source", "8fc9bf7d3");
+    await expect(evidence).toHaveAttribute("data-scene-checkpoint", "1b07cea4c");
+    await expect(evidence).toHaveAttribute("data-capture-viewport", "1440x1000");
+    await expect(evidence).toHaveAttribute("data-capture-theme", "light");
+    await expect(evidence).toHaveAttribute("data-capture-state", "yellow-submarine-stopped-zero-discoveries");
+    await expect(evidence).toHaveAttribute("data-capture-device-pixel-ratio", "3");
+    await evidence.scrollIntoViewIfNeeded();
+
+    const figures = evidence.locator("[data-desk-evidence-mode]");
+    await expect(figures).toHaveCount(2);
+    expect(await figures.evaluateAll((elements) => elements.map((element) => element.getAttribute("data-desk-evidence-mode")))).toEqual(["2d", "3d"]);
+
+    const images = figures.locator("img");
+    await expect(images).toHaveCount(2);
+    const expectedImagePaths = [
+      "assets/img/project_pics/site-experiments/homepage-desk-2d-2026-07-16.png",
+      "assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16.png",
+    ].map((path) => new URL(path, publicRouteUrl("/")).pathname);
+    expect(await images.evaluateAll((elements) => elements.map((element) => new URL(element.src).pathname))).toEqual(expectedImagePaths);
+    expect(await images.evaluateAll((elements) => elements.map((element) => element.alt))).toEqual([
+      "Current homepage in its light-theme 2D desk representation with Sirui's portrait, paper research slips, Yellow Submarine queued, and no discovered record cards",
+      "Current homepage in its light-theme 3D desk representation showing the reciprocal cliff room, onsen, lounge chair, record player, welcome note, and ocean window",
+    ]);
+    expect(await figures.locator("figcaption").allTextContents()).toEqual([
+      "2D default — light theme at 1440 × 1000, before any record or discovery interaction.",
+      "3D default — the same logical desk state after switching representations.",
+    ]);
+    await expect.poll(() => images.evaluateAll((elements) => elements.every((element) => element.complete && element.naturalWidth > 0))).toBe(true);
+    expect(
+      await images.evaluateAll((elements) =>
+        elements.map((element) => ({
+          naturalHeight: element.naturalHeight,
+          naturalWidth: element.naturalWidth,
+        }))
+      )
+    ).toEqual([
+      { naturalHeight: 1000, naturalWidth: 1440 },
+      { naturalHeight: 1000, naturalWidth: 1440 },
+    ]);
+
+    const evidenceBoxes = await figures.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, left: box.left, right: box.right, top: box.top };
+      })
+    );
+    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+      expect(Math.abs(evidenceBoxes[0].top - evidenceBoxes[1].top), "desktop evidence should compare in one row").toBeLessThanOrEqual(2);
+      expect(evidenceBoxes[0].right, "desktop evidence cards should not overlap").toBeLessThanOrEqual(evidenceBoxes[1].left);
+    } else {
+      expect(evidenceBoxes[1].top, "compact evidence should stack in reading order").toBeGreaterThan(evidenceBoxes[0].bottom);
+    }
+  }
+
   if (route.id === "secret-locked") {
     await expect(ready).toContainText("locked.");
     await expect(ready.locator("h1")).toHaveText("locked.");

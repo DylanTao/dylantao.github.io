@@ -525,6 +525,13 @@ test("desk scene 2D and 3D defaults react to drag and zoom", async ({ page }, te
   const twoDimensionalStage = await stage.boundingBox();
   expect(twoDimensionalStage).not.toBeNull();
   await attachScreenshot(page, testInfo, `desk-2d-default-${testInfo.project.name}`, { locator: stage });
+  if (testInfo.project.name === "desktop-1440") {
+    expect(page.viewportSize()).toEqual({ height: 1000, width: 1440 });
+    await expect(stage).toHaveAttribute("data-record-tone", "submarine");
+    await expect(page.locator("[data-home-record-card]")).toHaveCount(0);
+    await expect(page.locator("[data-home-record-play]")).toHaveAttribute("aria-pressed", "false");
+    await attachScreenshot(page, testInfo, "desk-2d-default-viewport-desktop-1440", { fullPage: false });
+  }
 
   const scene = await switchTo3D(page);
   const threeDimensionalStage = await stage.boundingBox();
@@ -536,6 +543,13 @@ test("desk scene 2D and 3D defaults react to drag and zoom", async ({ page }, te
   const sceneContainer = page.locator("[data-home-desk-scene]");
   await expect(page.locator('[data-home-desk-mode="3d"]')).toHaveAttribute("aria-pressed", "true");
   await attachScreenshot(page, testInfo, `desk-3d-default-${testInfo.project.name}`, { locator: scene.stage });
+  if (testInfo.project.name === "desktop-1440") {
+    await expect(sceneContainer).toHaveAttribute("data-window-guidance-mode", "static");
+    await expect(stage).toHaveAttribute("data-record-tone", "submarine");
+    await expect(page.locator("[data-home-record-card]")).toHaveCount(0);
+    await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "false");
+    await attachScreenshot(page, testInfo, "desk-3d-default-viewport-desktop-1440", { fullPage: false });
+  }
   await expectInteriorComposition(page, sceneContainer, scene.canvas, testInfo.project.name);
   const defaultArchitectureEvidence = await expectInteriorArchitecture(sceneContainer);
   await attachScreenshot(page, testInfo, `desk-architecture-welcome-cue-sightline-${testInfo.project.name}`, { locator: scene.stage });

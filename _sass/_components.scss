@@ -1084,6 +1084,22 @@ html.site-motion-ready .hoverable.site-visible:hover {
   }
 }
 
+.project-case-evidence-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 0.35rem;
+
+  > * {
+    min-width: 0;
+  }
+
+  .project-case-media {
+    height: 100%;
+    margin: 0;
+  }
+}
+
 .project-case-summary {
   display: grid;
   gap: 0.8rem;

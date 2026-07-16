@@ -122,6 +122,12 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-homepage-desk-scene",
+    path: "/projects/homepage-desk-scene/",
+    readySelector: ".desk-scene-evidence-pair",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-ikea-project-cards",
     path: "/projects/ikea-project-cards/",
     readySelector: ".site-experiment-evidence-figure img",
