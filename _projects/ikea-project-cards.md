@@ -3,7 +3,7 @@ layout: page
 title: The IKEA Card Experiment
 description: An in-place project preview that keeps the surrounding evidence grid visible while one artifact opens.
 img: assets/img/project_pics/site-experiments/ikea-card-expanded.png
-image_aspect: 2 / 1
+image_aspect: 24 / 13
 card_image_fit: contain
 card_avoid_scaling: true
 importance: -26
@@ -16,7 +16,7 @@ status: Site experiment
 hide_title: true
 ---
 
-<section class="project-case-hero site-experiment-hero site-experiment-hero-text">
+<section class="project-case-hero site-experiment-hero">
   <div class="project-case-copy">
     <p class="project-case-kicker">Site experiment · first seen May 27, 2026</p>
     <h1>The IKEA Card Experiment</h1>
@@ -34,6 +34,10 @@ hide_title: true
       <a href="{{ '/assets/downloads/site-experiments/ikea-project-cards-reproduction.md' | relative_url }}" download>Download reproduction MD</a>
     </div>
   </div>
+  <figure class="project-case-media site-experiment-evidence-figure">
+    <img src="{{ '/assets/img/project_pics/site-experiments/ikea-card-expanded.png' | relative_url }}" alt="Projects index with Paper Constellation expanded beside Build Rhythm while other project cards remain visible">
+    <figcaption>One preview opens in place; the surrounding collection remains readable.</figcaption>
+  </figure>
 </section>
 
 <section class="project-case-summary" aria-label="IKEA card experiment summary">
@@ -51,9 +55,11 @@ The [IKEA PS 2026 collection story](https://www.ikea.com/global/en/stories/desig
   <li><time datetime="2026-05-27">May 27</time><code>ee95cc681</code><span>Added keyboard focus movement and recovery when a preview closes.</span></li>
   <li><time datetime="2026-05-27">May 27</time><code>fc5b8a444</code><span>Added project-specific accents and short takeaways, but also layered several competing motions.</span></li>
   <li><time datetime="2026-07-13">Jul 13</time><code>c363fda85</code><span>Made announcements and hidden-control focus recovery deterministic.</span></li>
+  <li><time datetime="2026-07-15">Jul 15</time><code>192bcc00c</code><span>Replaced scale-based FLIP with a cancelable, translation-only layout pass and added interruption, focus, and reduced-motion checks.</span></li>
+  <li><time datetime="2026-07-16">Jul 16</time><code>8d98dc902</code><span>Put the opening clip on the same clock, removed competing content keyframes and image zoom, cleaned up finished WebKit animations, and verified 44-pixel actions across the responsive matrix.</span></li>
 </ol>
 
-The current refinement removes nonuniform content scaling, expanded-image zoom, staggered panel keyframes, and the double scroll correction. Sibling cards translate only; the active card reveals within the same cancelable clock; the ordinary collapsed-card hover lift remains.
+The accepted refinement removes nonuniform content scaling, sibling shrink, expanded-image zoom, staggered content keyframes, and the double scroll correction. One 430 ms clock now translates cards and clips only the newly opening surface, cancels stale work when a visitor retargets, and performs one visibility check after settlement. Closing changes the semantic state immediately; reduced motion applies the same final layout without animation. The ordinary collapsed-card hover lift remains.
 
 <aside class="site-experiment-reproduce" aria-labelledby="ikea-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>

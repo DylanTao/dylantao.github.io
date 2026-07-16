@@ -116,6 +116,12 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-ikea-project-cards",
+    path: "/projects/ikea-project-cards/",
+    readySelector: ".site-experiment-evidence-figure img",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "secret-locked",
     path: "/blog/2026/sirui-research-thoughts/",
     readySelector: "#sirui-private-message",

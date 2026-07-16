@@ -176,6 +176,43 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   expect(contentBox.height, `${route.path} content box is unexpectedly short`).toBeGreaterThan(route.minContentHeight ?? 120);
   expect(runtimeErrors, `${route.path} raised browser runtime errors`).toEqual([]);
 
+  if (route.id === "project-ikea-project-cards") {
+    const figure = page.locator(".site-experiment-evidence-figure");
+    const image = figure.locator("img");
+    await expect(image).toHaveAttribute("src", /\/assets\/img\/project_pics\/site-experiments\/ikea-card-expanded\.png$/);
+    await expect(image).toHaveAttribute(
+      "alt",
+      "Projects index with Paper Constellation expanded beside Build Rhythm while other project cards remain visible"
+    );
+    const caption = figure.locator("figcaption");
+    await expect(caption).toHaveText("One preview opens in place; the surrounding collection remains readable.");
+    const captionContrast = await caption.evaluate((element) => {
+      const channels = (value) =>
+        value
+          .match(/[\d.]+/g)
+          .slice(0, 3)
+          .map(Number);
+      const luminance = (value) => {
+        const linear = channels(value).map((channel) => {
+          const normalized = channel / 255;
+          return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+      };
+      const foreground = luminance(getComputedStyle(element).color);
+      const background = luminance(getComputedStyle(element.parentElement).backgroundColor);
+      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+    });
+    expect(captionContrast).toBeGreaterThanOrEqual(4.5);
+    expect(
+      await image.evaluate((element) => ({
+        complete: element.complete,
+        naturalHeight: element.naturalHeight,
+        naturalWidth: element.naturalWidth,
+      }))
+    ).toEqual({ complete: true, naturalHeight: 650, naturalWidth: 1200 });
+  }
+
   if (route.id === "secret-locked") {
     await expect(ready).toContainText("locked.");
     await expect(ready.locator("h1")).toHaveText("locked.");
@@ -923,6 +960,18 @@ test("projects keep the nine site experiments in debut order", async ({ page }, 
   expect(imageEvidence.count).toBe(9);
   expect(imageEvidence.loaded).toBe(true);
   expect(imageEvidence.overflow).toBeLessThanOrEqual(0);
+
+  const ikeaCard = cards.filter({ has: page.getByRole("heading", { name: "The IKEA Card Experiment", exact: true }) });
+  await expect(ikeaCard).toHaveCount(1);
+  const ikeaImage = ikeaCard.locator("img");
+  await expect(ikeaImage).toHaveAttribute("src", /\/assets\/img\/project_pics\/site-experiments\/ikea-card-expanded\.png$/);
+  expect(
+    await ikeaImage.evaluate((element) => ({
+      complete: element.complete,
+      naturalHeight: element.naturalHeight,
+      naturalWidth: element.naturalWidth,
+    }))
+  ).toEqual({ complete: true, naturalHeight: 650, naturalWidth: 1200 });
 
   await attachScreenshot(page, testInfo, `projects-site-experiments-${testInfo.project.name}`, { fullPage: true });
 });
