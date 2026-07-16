@@ -1381,7 +1381,11 @@ test("project preview FLIP cancels stale runs and only translates cards", async 
   await expect.poll(() => page.evaluate(() => window.__projectCardMotionAudit.cancellations)).toEqual(expect.arrayContaining(["layout", "reveal"]));
   await expect(firstCard).toHaveAttribute("data-project-card-state", "collapsed");
   await expect(secondCard).toHaveAttribute("data-project-card-state", "expanded");
-  await page.waitForTimeout(500);
+  await expect
+    .poll(() => cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations({ subtree: true }).length, 0)), {
+      message: "project card animations should settle before computed-style checks",
+    })
+    .toBe(0);
 
   const audit = await page.evaluate(() => window.__projectCardMotionAudit);
   const layoutAnimations = audit.animations.filter((entry) => entry.kind === "layout");
