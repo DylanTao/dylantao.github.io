@@ -139,6 +139,9 @@ async function dropRecordCardsUntil(page, expectedCount) {
 }
 
 async function clickCanvas(page, canvas, xRatio, yRatio) {
+  // Locator screenshots can leave the scene above the viewport; normalize it
+  // before converting projected scene ratios into absolute mouse coordinates.
+  await canvas.scrollIntoViewIfNeeded();
   const box = await canvas.boundingBox();
   expect(box).not.toBeNull();
   const coarsePointer = await page.evaluate(() => window.matchMedia("(pointer: coarse)").matches);

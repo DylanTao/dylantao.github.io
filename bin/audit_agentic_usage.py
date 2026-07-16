@@ -47,7 +47,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 2
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 3
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -137,6 +137,64 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
         "provenance": (
             "Retained turn_context and exact direct-OpenAI maintenance-lane prompt, audited "
             "2026-07-15."
+        ),
+    },
+    "019f693b-c505-72b2-9b99-a7c1a6ce7a90": {
+        "timestamp": "2026-07-16T04:42:37.790Z",
+        "model": "gpt-5.6-sol",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "A separate personal-metrics and Codex-LB migration startup turn was recorded at low "
+            "before higher-effort thread settings applied, then interrupted before any work; it "
+            "did not perform site development."
+        ),
+        "provenance": (
+            "Retained turn_context, exact personal-metrics status prompt, later thread-settings "
+            "event, and turn_aborted event, audited 2026-07-16."
+        ),
+    },
+    "019f69a3-ad73-7fa3-8461-3f1bbe3f7fad": {
+        "timestamp": "2026-07-16T06:36:07.459Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a VariationWeaver-Canvas tool-action "
+            "request and returned an allow decision; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact untrusted-transcript review prompt, and "
+            "allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f69a6-0518-7960-acb7-f4400305fdd8": {
+        "timestamp": "2026-07-16T06:38:36.667Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a VariationWeaver-Canvas process-level "
+            "inspection request and returned a deny decision; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact untrusted-transcript review prompt, and deny "
+            "decision, audited 2026-07-16."
+        ),
+    },
+    "019f69bd-d860-7e60-b4b2-b78a26fada2d": {
+        "timestamp": "2026-07-16T07:04:42.676Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a semantic-scaffolding-map process "
+            "termination request and returned an allow decision; it did not perform site "
+            "development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact untrusted-transcript review prompt, and "
+            "allow decision, audited 2026-07-16."
         ),
     },
 }
