@@ -47,7 +47,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 6
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 10
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -268,6 +268,118 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
         "provenance": (
             "Retained auto-review turn_context, exact workspace-bounded Remove-Item request, "
             "reviewed session id, and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6aa1-0d01-7630-9fef-bf549e7fd7f1": {
+        "timestamp": "2026-07-16T11:12:47.576Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to remove its tools/__pycache__ directory after a "
+            "resolved-path workspace guard; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact planned Remove-Item command, reviewed "
+            "session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6aa2-acbf-72c1-b413-78170ed853fa": {
+        "timestamp": "2026-07-16T11:14:34.052Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to create a temporary detached Git worktree for "
+            "fresh-checkout portability proof; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact planned git worktree add command for commit "
+            "b6a273eb, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6aa4-de12-7203-ab31-e2d77b99c441": {
+        "timestamp": "2026-07-16T11:16:57.557Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to remove its temporary failed portability-proof "
+            "worktree; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact planned git worktree remove --force command, "
+            "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ab3-70b8-7523-a871-9c5801e7ee36": {
+        "timestamp": "2026-07-16T11:32:52.778Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to remove a regenerated tools/__pycache__ after "
+            "canonical validation; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact resolved-path-guarded Remove-Item command, "
+            "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ac3-093a-7763-ac61-b1749d1e7b31": {
+        "timestamp": "2026-07-16T11:49:54.711Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to remove tools/__pycache__ after a resolved-path "
+            "workspace guard; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact guarded Remove-Item command, reviewed "
+            "session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6ac3-f40b-7283-a602-c23a523fab09": {
+        "timestamp": "2026-07-16T11:50:54.823Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to create a corrected temporary detached worktree "
+            "for final fresh-checkout portability proof; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact planned git worktree add command for commit "
+            "e2bbe996, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6ac5-1dad-7621-89d1-8ad8b20be6f2": {
+        "timestamp": "2026-07-16T11:52:11.001Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "semantic-scaffolding-map request to remove the now-passing temporary portability "
+            "proof worktree; it did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact planned git worktree remove --force command, "
+            "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited "
+            "2026-07-16."
         ),
     },
 }

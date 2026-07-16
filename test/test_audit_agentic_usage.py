@@ -317,8 +317,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 6)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 16)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 10)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 23)
         required_fields = {
             "timestamp",
             "model",
@@ -380,6 +380,13 @@ class SessionAccountingTests(unittest.TestCase):
             "019f69a6-0518-7960-acb7-f4400305fdd8",
             "019f69bd-d860-7e60-b4b2-b78a26fada2d",
             "019f6a0d-b77c-70e1-8de2-e30efc43c880",
+            "019f6aa1-0d01-7630-9fef-bf549e7fd7f1",
+            "019f6aa2-acbf-72c1-b413-78170ed853fa",
+            "019f6aa4-de12-7203-ab31-e2d77b99c441",
+            "019f6ab3-70b8-7523-a871-9c5801e7ee36",
+            "019f6ac3-093a-7763-ac61-b1749d1e7b31",
+            "019f6ac3-f40b-7283-a602-c23a523fab09",
+            "019f6ac5-1dad-7621-89d1-8ad8b20be6f2",
         )
         contexts = {}
         for ordinal, turn_id in enumerate(turn_ids, start=1):
@@ -406,11 +413,11 @@ class SessionAccountingTests(unittest.TestCase):
         )
 
         self.assertEqual(tracking["status"], "acknowledged_deviations")
-        self.assertEqual(tracking["post_cutover_deviation_count"], 5)
-        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 5)
+        self.assertEqual(tracking["post_cutover_deviation_count"], 12)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 12)
         self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
         self.assertEqual(tracking["post_cutover_observed_breakdown"]["gpt-5.6-sol/low"], 1)
-        self.assertEqual(tracking["post_cutover_observed_breakdown"]["codex-auto-review/low"], 4)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["codex-auto-review/low"], 11)
         self.assertEqual(audit.model_tracking_check_messages(tracking), [])
         self.assertTrue(all(item["acknowledged"] for item in tracking["post_cutover_deviations"]))
 
