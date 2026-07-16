@@ -116,6 +116,12 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-build-rhythm",
+    path: "/projects/build-rhythm/",
+    readySelector: ".project-detail .project-case-hero",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-ikea-project-cards",
     path: "/projects/ikea-project-cards/",
     readySelector: ".site-experiment-evidence-figure img",

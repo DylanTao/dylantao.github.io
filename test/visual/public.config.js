@@ -25,7 +25,7 @@ const webServer = usesExternalVisualServer()
 
 module.exports = {
   testDir: __dirname,
-  testMatch: ["sitewide.spec.js", "paper-constellation.spec.js", "desk-scene.spec.js"],
+  testMatch: ["sitewide.spec.js", "paper-constellation.spec.js", "build-rhythm-story.spec.js", "desk-scene.spec.js"],
   timeout: 300000,
   expect: {
     timeout: 15000,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import re
 import unittest
 from datetime import datetime
@@ -113,6 +114,12 @@ class SiteExperimentsTests(unittest.TestCase):
                 path = REPO_ROOT / relative_path
                 self.assertTrue(path.is_file(), f"missing {relative_path}")
                 self.assertGreater(path.stat().st_size, 20_000)
+
+    def test_build_rhythm_teaser_matches_the_approved_quota_health_capture(self) -> None:
+        teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-stage.png"
+        payload = teaser.read_bytes()
+        blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
+        self.assertEqual(blob_hash, "b0f16d22afc48d04ec972cafd9b74a0bd20f111b")
 
     def test_widget_origin_routes_are_explicit_and_contextual(self) -> None:
         expectations = {
