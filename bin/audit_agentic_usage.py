@@ -51,7 +51,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 19
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 20
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -1001,6 +1001,132 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
         "provenance": (
             "Retained auto-review turn_context, exact git stash pop command, reviewed session "
             "019f652f-7154-7822-ad1c-daa5a066134b, and clean restore result, audited 2026-07-16."
+        ),
+    },
+    "019f6cfc-57d4-7ca1-93e6-66875e905369": {
+        "timestamp": "2026-07-16T22:11:45.039Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the Dockerized fast Jekyll build used "
+            "to render the final mobile constellation for interaction QA; the review lane did "
+            "not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose build command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and successful build result, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6d02-ba0c-7ed0-98c8-e217f1183b41": {
+        "timestamp": "2026-07-16T22:18:43.195Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the focused mobile Playwright run that "
+            "loaded the site's declared external assets; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact external-server Playwright command, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and two-pass one-skip result, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6d05-8325-7963-a4c1-8a3980c57b5b": {
+        "timestamp": "2026-07-16T22:21:50.681Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated a requested Python-cache cleanup in the "
+            "separate semantic-scaffolding-map workspace; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact Remove-Item request, reviewed session "
+            "019f6cb7-2ec2-7363-86a5-e43f65fff4bc, and approval assessment, audited 2026-07-16."
+        ),
+    },
+    "019f6d06-7cef-75b3-b928-f3e9d27de2f7": {
+        "timestamp": "2026-07-16T22:22:49.886Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review rejected force-removing a dirty temporary "
+            "checkpoint worktree; no removal occurred and the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact git worktree remove --force request, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and explicit rejection, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6d08-d0d0-7fe2-9738-d59f8d7fc4d6": {
+        "timestamp": "2026-07-16T22:25:22.178Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the path-verified Python-cache cleanup "
+            "in the separate semantic-scaffolding-map workspace; the review lane did not change "
+            "the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact Resolve-Path and Remove-Item request, "
+            "reviewed session 019f6cb7-2ec2-7363-86a5-e43f65fff4bc, and approval assessment, "
+            "audited 2026-07-16."
+        ),
+    },
+    "019f6d0b-96ae-77c3-9851-9b05708a6305": {
+        "timestamp": "2026-07-16T22:28:24.006Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated use of the configured user Python "
+            "environment for the full site test suite; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact unittest discovery command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and 102-test pass, audited 2026-07-16."
+        ),
+    },
+    "019f6d11-0ffd-7b92-a8fc-be5a6a2eadff": {
+        "timestamp": "2026-07-16T22:34:22.785Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the Dockerized production-baseurl "
+            "Jekyll build with image conversion disabled; the review lane did not change the "
+            "declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact docker compose Jekyll command, reviewed "
+            "session 019f652f-7154-7822-ad1c-daa5a066134b, and successful rendered build, audited "
+            "2026-07-16."
+        ),
+    },
+    "019f6d14-b745-7353-b61f-c4b716347d8d": {
+        "timestamp": "2026-07-16T22:38:22.285Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated the required pre-publish retained-log "
+            "ledger refresh; the review lane did not change the declared interactive development "
+            "default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact pending-commit audit write command, "
+            "reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and successful refresh, "
+            "audited 2026-07-16."
         ),
     },
 }

@@ -6,11 +6,15 @@ import unittest
 from datetime import datetime
 from pathlib import Path
 
+import yaml
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_PAGE = REPO_ROOT / "_pages" / "projects.md"
 PROJECTS_DIR = REPO_ROOT / "_projects"
 GUIDES_DIR = REPO_ROOT / "assets" / "downloads" / "site-experiments"
+PROJECT_CARD_DATA = REPO_ROOT / "_data" / "project_cards.yml"
+PROJECT_CARD_INCLUDE = REPO_ROOT / "_includes" / "projects.liquid"
 
 EXPECTED_CHRONOLOGY = [
     ("paper-constellation", "Paper Constellation", "2026-07-15T16:51:26-07:00"),
@@ -115,6 +119,26 @@ class SiteExperimentsTests(unittest.TestCase):
                 path = REPO_ROOT / relative_path
                 self.assertTrue(path.is_file(), f"missing {relative_path}")
                 self.assertGreater(path.stat().st_size, 20_000)
+
+    def test_paper_constellation_uses_a_truthful_mobile_runtime_crop(self) -> None:
+        project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
+        relative_path = project_cards["paper-constellation"]["mobile_teaser"].lstrip("/")
+        self.assertEqual(
+            relative_path,
+            "assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png",
+        )
+
+        payload = (REPO_ROOT / relative_path).read_bytes()
+        self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (360, 270))
+        blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
+        self.assertEqual(blob_hash, "57454076a5d55411c56a16dc3886d79333039c9a")
+
+        card_include = PROJECT_CARD_INCLUDE.read_text(encoding="utf-8")
+        self.assertEqual(card_include.count("data-project-card-mobile-teaser"), 1)
+        self.assertIn('media="(max-width: 767px)"', card_include)
+        self.assertIn('srcset="{{ project_card_data.mobile_teaser | relative_url }}"', card_include)
+        self.assertIn('alt="{{ project.title | escape }}"', card_include)
 
     def test_build_rhythm_teaser_matches_the_approved_token_rhythm_capture(self) -> None:
         teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-stage.png"

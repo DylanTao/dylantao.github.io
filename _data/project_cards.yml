@@ -48,6 +48,10 @@ website-revamp:
     - "Portfolio becomes a research argument."
     - "Heuristics become reusable design memory."
 
+paper-constellation:
+  # Literal crop from the 390x1000 light runtime capture on 2026-07-16.
+  mobile_teaser: /assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png
+
 build-rhythm:
   accents:
     morning: "#bf754c"

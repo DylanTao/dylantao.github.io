@@ -3303,6 +3303,10 @@ html[data-theme="dark"] .scholar-lens-card {
   display: none;
 }
 
+.paper-constellation-detail-dock {
+  min-width: 0;
+}
+
 .paper-constellation-detail {
   position: relative;
   min-height: 7.1rem;
@@ -3448,79 +3452,285 @@ html[data-theme="dark"] .scholar-lens-card {
     display: none;
   }
 
-  .paper-constellation-mobile {
-    display: grid;
-    gap: 0.55rem;
+  .paper-constellation-future-note {
+    display: none;
   }
 
-  .paper-constellation-mobile-thread {
+  .paper-constellation-mobile {
+    --mobile-rail-gutter: 4.8rem;
+
+    display: block;
+  }
+
+  .paper-constellation-mobile-trail {
+    position: relative;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, currentcolor 25%, var(--global-divider-color));
-    border-radius: 0.72rem;
-    background: color-mix(in srgb, var(--global-card-bg-color) 82%, transparent);
+    border: 1px solid color-mix(in srgb, var(--global-divider-color) 82%, transparent);
+    border-radius: 0.9rem;
+    background:
+      radial-gradient(circle at 24% 20%, color-mix(in srgb, var(--constellation-design) 7%, transparent), transparent 25%),
+      radial-gradient(circle at 76% 22%, color-mix(in srgb, var(--constellation-situate) 7%, transparent), transparent 23%),
+      color-mix(in srgb, var(--global-card-bg-color) 76%, var(--global-bg-color));
+    isolation: isolate;
+  }
+
+  .paper-constellation-mobile-lines {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .paper-constellation-mobile-rail {
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-width: 1.5;
+    opacity: 0.42;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .paper-constellation-mobile-edge {
+    stroke-width: 1;
+  }
+
+  .paper-constellation-mobile-edge.paper-constellation-edge-active {
+    stroke-width: 2;
+  }
+
+  .paper-constellation-mobile-membership {
+    fill: none;
+    stroke: color-mix(in srgb, var(--global-text-color-light) 48%, transparent);
+    stroke-dasharray: 3 3;
+    stroke-linecap: round;
+    stroke-width: 1.15;
+    opacity: 0.48;
+    transition:
+      opacity 180ms ease,
+      stroke 180ms ease,
+      stroke-width 180ms ease;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .paper-constellation-mobile-membership-active {
+    stroke: var(--global-theme-color);
+    stroke-width: 1.8;
+    opacity: 0.95;
+  }
+
+  .paper-constellation-mobile-membership-muted,
+  .paper-constellation-mobile-membership-filtered {
+    opacity: 0.08;
+  }
+
+  .paper-constellation-mobile-rail-key,
+  .paper-constellation-mobile-future-field,
+  .paper-constellation-mobile-published-divider,
+  .paper-constellation-mobile-papers {
+    position: relative;
+    z-index: 1;
+  }
+
+  .paper-constellation-mobile-rail-key {
+    height: 3.15rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--global-divider-color) 65%, transparent);
+  }
+
+  .paper-constellation-mobile-rail-label {
+    position: absolute;
+    top: 0.72rem;
+    left: var(--thread-x);
+    display: inline-flex;
+    transform: translateX(-50%);
+    gap: 0.3rem;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: clamp(0.58rem, 2.6vw, 0.68rem);
+    font-weight: 760;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+
+    i {
+      width: 0.52rem;
+      height: 0.52rem;
+      border: 2px solid var(--global-card-bg-color);
+      border-radius: 50%;
+      background: currentcolor;
+      box-shadow: 0 0 0 1px currentcolor;
+    }
+  }
+
+  .paper-constellation-mobile-future-field {
+    padding-top: 0.82rem;
 
     > header {
-      padding: 0.65rem 0.72rem 0.52rem;
-      border-bottom: 1px solid color-mix(in srgb, currentcolor 18%, var(--global-divider-color));
-    }
+      padding: 0 0.78rem;
 
-    h3 {
-      margin: 0;
-      color: currentcolor;
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    p {
-      margin: 0.22rem 0 0;
-      color: var(--global-text-color-light);
-      font-size: 0.68rem;
-      line-height: 1.42;
+      p:last-child {
+        max-width: 19rem;
+        margin: 0.14rem 0 0;
+        color: var(--global-text-color-light);
+        font-size: 0.68rem;
+        line-height: 1.45;
+      }
     }
 
     ol {
-      display: grid;
+      position: relative;
+      height: 11rem;
       margin: 0;
-      padding: 0.18rem 0;
+      padding: 0;
       list-style: none;
     }
+  }
 
-    li + li {
-      border-top: 1px solid color-mix(in srgb, var(--global-divider-color) 62%, transparent);
+  .paper-constellation-mobile-future {
+    position: absolute;
+    top: var(--future-y);
+    left: var(--future-x);
+    width: 0;
+    height: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .paper-constellation-mobile-future-mark {
+    position: absolute;
+    display: grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    transform: translate(-50%, -50%);
+    place-items: center;
+    border: 1px solid currentcolor;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--global-card-bg-color) 92%, transparent);
+    box-shadow: 0 0.16rem 0.55rem rgba(35, 28, 24, 0.09);
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    font-weight: 760;
+  }
+
+  .paper-constellation-mobile-future-major .paper-constellation-mobile-future-mark {
+    width: 2.45rem;
+    height: 2.45rem;
+    font-size: 1.08rem;
+  }
+
+  .paper-constellation-mobile-rejection-callout {
+    display: grid;
+    margin: 0.05rem 0.72rem 0.8rem;
+    padding: 0.5rem 0.58rem;
+    border-left: 2px solid color-mix(in srgb, var(--global-theme-color) 55%, transparent);
+    background: color-mix(in srgb, var(--global-card-bg-color) 82%, transparent);
+    gap: 0.36rem;
+
+    p {
+      margin: 0;
+      color: var(--global-text-color-light);
+      font-size: 0.64rem;
+      line-height: 1.4;
+    }
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.22rem;
+    }
+
+    span {
+      padding: 0.16rem 0.3rem;
+      border: 1px solid color-mix(in srgb, var(--global-theme-color) 34%, var(--global-divider-color));
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--global-card-bg-color) 96%, transparent);
+      color: var(--global-text-color-light);
+      font-family: var(--font-mono);
+      font-size: 0.48rem;
+      font-weight: 720;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+  }
+
+  .paper-constellation-mobile-published-divider {
+    height: 2.65rem;
+    border-top: 1px dashed color-mix(in srgb, var(--global-divider-color) 78%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--global-divider-color) 68%, transparent);
+
+    > span {
+      position: absolute;
+      top: 50%;
+      left: calc(var(--mobile-rail-gutter) + 0.62rem);
+      transform: translateY(-50%);
+      color: var(--global-text-color-light);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 720;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    > i {
+      position: absolute;
+      top: 50%;
+      left: calc(0.72rem + var(--rail-index) * 1.55rem);
+      width: 0.52rem;
+      height: 0.52rem;
+      transform: translate(-50%, -50%);
+      border: 2px solid var(--global-card-bg-color);
+      border-radius: 50%;
+      background: currentcolor;
+      box-shadow: 0 0 0 1px currentcolor;
+    }
+  }
+
+  .paper-constellation-mobile-papers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .paper-constellation-mobile-paper-row {
+    min-width: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--global-divider-color) 62%, transparent);
+    background: linear-gradient(
+      90deg,
+      transparent 0 var(--mobile-rail-gutter),
+      color-mix(in srgb, var(--global-card-bg-color) 72%, transparent) var(--mobile-rail-gutter)
+    );
+    transition: opacity 180ms ease;
+
+    &:last-child {
+      border-bottom: 0;
     }
   }
 
   .paper-constellation-mobile-paper {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: var(--mobile-rail-gutter) minmax(0, 1fr);
     gap: 0.62rem;
     align-items: center;
     width: 100%;
-    min-height: 3.4rem;
-    padding: 0.5rem 0.72rem;
+    min-height: 4.75rem;
+    padding: 0.5rem 0.62rem 0.5rem 0;
     border: 0;
     background: transparent;
     color: var(--global-text-color);
     cursor: pointer;
     text-align: left;
 
-    > span:last-child {
-      display: grid;
-      gap: 0.1rem;
-      min-width: 0;
-    }
-
     strong {
-      font-size: 0.78rem;
-      line-height: 1.2;
+      color: var(--global-text-color);
+      font-size: clamp(0.9rem, 4vw, 1rem);
+      line-height: 1.24;
     }
 
     small {
       color: var(--global-text-color-light);
       font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.61rem;
+      line-height: 1.35;
     }
 
     &:focus-visible {
@@ -3529,13 +3739,27 @@ html[data-theme="dark"] .scholar-lens-card {
     }
 
     &[aria-pressed="true"] {
-      background: color-mix(in srgb, currentcolor 8%, transparent);
+      background: linear-gradient(
+        90deg,
+        transparent 0 var(--mobile-rail-gutter),
+        color-mix(in srgb, currentcolor 9%, transparent) var(--mobile-rail-gutter)
+      );
     }
   }
 
+  .paper-constellation-mobile-node-gutter {
+    position: relative;
+    align-self: stretch;
+    min-width: 0;
+  }
+
   .paper-constellation-mobile-dot {
+    position: absolute;
+    top: 50%;
+    left: calc(0.72rem + var(--rail-index) * 1.55rem);
     width: 1.15rem;
     height: 1.15rem;
+    transform: translate(-50%, -50%);
     border: 0.16rem solid var(--global-card-bg-color);
     border-radius: 50%;
     background: currentcolor;
@@ -3550,35 +3774,34 @@ html[data-theme="dark"] .scholar-lens-card {
     box-shadow: 0 0 0 0.3rem color-mix(in srgb, currentcolor 30%, transparent);
   }
 
-  .paper-constellation-mobile-future {
-    display: flex;
-    gap: 0.55rem;
-    align-items: center;
-    min-height: 3rem;
-    padding: 0.45rem 0.72rem;
-    color: var(--global-text-color-light);
-
-    > span {
-      display: grid;
-      width: 1.5rem;
-      height: 1.5rem;
-      place-items: center;
-      border: 1px solid currentcolor;
-      border-radius: 50%;
-      color: var(--global-theme-color);
-      font-family: var(--font-mono);
-      font-weight: 760;
-    }
-
-    small {
-      font-family: var(--font-mono);
-      font-size: 0.56rem;
-    }
+  .paper-constellation-mobile-copy {
+    display: grid;
+    gap: 0.12rem;
+    min-width: min(220px, 100%);
+    overflow-wrap: anywhere;
   }
 
-  .paper-constellation-mobile-future-major > span {
-    width: 1.9rem;
-    height: 1.9rem;
+  .paper-constellation-node-active .paper-constellation-mobile-paper,
+  .paper-constellation-node-related .paper-constellation-mobile-paper {
+    background: linear-gradient(
+      90deg,
+      transparent 0 var(--mobile-rail-gutter),
+      color-mix(in srgb, currentcolor 8%, transparent) var(--mobile-rail-gutter)
+    );
+  }
+
+  .paper-constellation-node-active .paper-constellation-mobile-dot,
+  .paper-constellation-node-related .paper-constellation-mobile-dot,
+  .paper-constellation-node-related .paper-constellation-mobile-future-mark {
+    box-shadow:
+      0 0 0 0.18rem var(--global-card-bg-color),
+      0 0 0 0.32rem currentcolor;
+  }
+
+  .paper-constellation-mobile-detail-slot:not(:empty) {
+    position: relative;
+    z-index: 2;
+    padding: 0 0.62rem 0.72rem;
   }
 
   .paper-constellation-detail {
@@ -3591,6 +3814,27 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .paper-constellation-detail-actions {
     justify-content: flex-start;
+
+    a {
+      display: inline-flex;
+      min-height: 2.75rem;
+      align-items: center;
+    }
+  }
+
+  .paper-constellation-mobile-detail-slot .paper-constellation-detail {
+    margin-top: 0;
+    border-color: color-mix(in srgb, currentcolor 24%, var(--global-divider-color));
+    background: color-mix(in srgb, var(--global-card-bg-color) 96%, transparent);
+    color: var(--global-text-color);
+  }
+
+  .paper-constellation-clear {
+    position: static;
+    display: inline-flex;
+    min-height: 2.75rem;
+    margin-top: 0.45rem;
+    align-items: center;
   }
 }
 
@@ -3608,11 +3852,23 @@ html[data-theme="dark"] .scholar-lens-card {
   .paper-constellation-legend {
     gap: 0.32rem 0.55rem;
   }
+
+  .paper-constellation-mobile {
+    --mobile-rail-gutter: 4.35rem;
+  }
+
+  .paper-constellation-mobile-published-divider > i,
+  .paper-constellation-mobile-dot {
+    left: calc(0.62rem + var(--rail-index) * 1.38rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .publication-view-button,
   .paper-constellation-edge,
+  .paper-constellation-mobile-membership,
+  .paper-constellation-mobile-future,
+  .paper-constellation-mobile-paper-row,
   .paper-constellation-node-position,
   .paper-constellation-paper-core,
   .paper-constellation-citation-halo {

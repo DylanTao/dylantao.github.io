@@ -27,6 +27,67 @@
   | slugify
 %}
 {% assign project_card_data = site.data.project_cards[project_file_slug] %}
+{% assign project_card_image_sizes = '250px' %}
+{% if page.project_cards_interactive %}
+  {% assign project_card_image_sizes = '(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw' %}
+{% endif %}
+{% capture project_card_figure_markup %}
+  {% if project.img %}
+    {% if project_card_data.mobile_teaser %}
+      {% assign project_img_path = project.img
+        | remove: '.jpg'
+        | remove: '.jpeg'
+        | remove: '.png'
+        | remove: '.tiff'
+        | remove: '.gif'
+      %}
+      {% assign project_img_parts = project.img | split: '.' %}
+      {% assign project_img_ext = project_img_parts.last %}
+      <figure>
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcset="{{ project_card_data.mobile_teaser | relative_url }}"
+            type="image/png"
+            data-project-card-mobile-teaser
+          >
+          {% if site.imagemagick.enabled %}
+            {% unless project.card_avoid_scaling %}
+              <source
+                class="responsive-img-srcset"
+                {% if project_img_ext == 'gif'
+                  or project_img_ext == 'jpeg'
+                  or project_img_ext == 'jpg'
+                  or project_img_ext == 'png'
+                  or project_img_ext == 'tiff'
+                %}
+                  srcset="{% for width in site.imagemagick.widths %}{{ project_img_path | relative_url }}-{{ width }}.webp {{ width }}w,{% endfor %}"
+                  type="image/webp"
+                {% else %}
+                  srcset="{{ project.img | relative_url }}"
+                {% endif %}
+                sizes="{{ project_card_image_sizes }}"
+              >
+            {% endunless %}
+          {% endif %}
+          <img
+            src="{{ project.img | relative_url }}"
+            class="card-img-top project-card-img"
+            width="100%"
+            height="auto"
+            alt="{{ project.title | escape }}"
+            loading="eager"
+            onerror="this.onerror=null; document.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); });"
+          >
+        </picture>
+      </figure>
+    {% elsif page.project_cards_interactive %}
+      {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project.title class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
+    {% else %}
+      {% include figure.liquid loading="eager" path=project.img sizes="250px" alt="project thumbnail" class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
+    {% endif %}
+  {% endif %}
+{% endcapture %}
 {% capture project_random_teaser_paths %}
   {% if project_card_data.teasers %}
     {% for teaser in project_card_data.teasers %}
@@ -66,7 +127,7 @@
               "
             {% endif %}
           >
-            {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project.title class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
+            {{ project_card_figure_markup }}
           </div>
         {% endif %}
         <div class="card-body project-card-body">
@@ -177,7 +238,7 @@
               "
             {% endif %}
           >
-            {% include figure.liquid loading="eager" path=project.img sizes="250px" alt="project thumbnail" class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
+            {{ project_card_figure_markup }}
           </div>
         {% endif %}
         <div class="card-body">

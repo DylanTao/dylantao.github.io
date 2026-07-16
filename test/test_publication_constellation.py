@@ -205,6 +205,27 @@ class PublicationConstellationContractTest(unittest.TestCase):
         self.assertIn('node.setAttribute("aria-hidden", filtered ? "true" : "false")', script)
         self.assertIn('event.key !== "Escape"', script)
         self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', script)
+        self.assertIn('window.matchMedia("(max-width: 767px)")', script)
+        self.assertIn('new ResizeObserver(scheduleMobileGeometry)', script)
+        self.assertIn("document.fonts?.ready.then(scheduleMobileGeometry)", script)
+
+    def test_mobile_constellation_is_one_measured_trail_not_three_thread_cards(self) -> None:
+        include = CONSTELLATION_INCLUDE_PATH.read_text(encoding="utf-8")
+        script = CONSTELLATION_SCRIPT_PATH.read_text(encoding="utf-8")
+
+        self.assertNotIn("paper-constellation-mobile-thread", include)
+        self.assertIn('class="paper-constellation-mobile-trail"', include)
+        self.assertIn("data-constellation-mobile-rail", include)
+        self.assertIn("data-constellation-mobile-edge", include)
+        self.assertIn("data-constellation-mobile-membership", include)
+        self.assertIn("data-constellation-mobile-paper-row", include)
+        self.assertIn("data-constellation-detail-slot", include)
+        self.assertIn("data-constellation-detail-dock", include)
+        self.assertIn('aria-label="Seven anonymous future-work nodes"', include)
+        self.assertIn('aria-label="Published papers, newest first"', include)
+        self.assertIn("mobileCurve", script)
+        self.assertIn("placeMobileDetail", script)
+        self.assertNotIn("setInterval", script)
 
     def test_future_work_rendering_has_an_allowlisted_public_vocabulary(self) -> None:
         allowed_values = {
