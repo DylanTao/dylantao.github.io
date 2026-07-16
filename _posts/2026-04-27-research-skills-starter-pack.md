@@ -51,11 +51,10 @@ getting stuck on page one.
 
 The second is [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)'s
 [_Catchy Titles Are Good: But Avoid Being Cute_](https://faculty.washington.edu/wobbrock/pubs/Wobbrock-2015.pdf),
-which is a very useful guide to how SIGCHI-style HCI papers are typically
-structured. Even though it is written as a paper-writing guide, it is also great
-for reading because it teaches you what each section is trying to do: abstract,
-introduction, related work, method, results, discussion, limitations, and
-contribution.
+which I first learned as a guide to SIGCHI-style HCI writing. It is also useful
+when reading because it gives you a quick map of what each section is supposed
+to accomplish. I come back to it constantly when I write HCI papers, so I unpack
+its writing lessons in [section 3](#3-learn-to-write-research-clearly).
 
 When you read a paper, try to answer:
 
@@ -166,7 +165,27 @@ Research writing is not decoration after the "real work" is done. Writing is
 where you discover what your contribution actually is, what evidence you still
 need, and what your reader is likely to misunderstand.
 
-For technical writing, start with [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)'s
+### Start with the paper's architecture
+
+For HCI papers, the section-by-section guide I come back to most is
+[Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)'s
+[_Catchy Titles Are Good: But Avoid Being Cute_](https://faculty.washington.edu/wobbrock/pubs/Wobbrock-2015.pdf).
+The title advice is memorable, but the guide is really about the promises each
+part of a paper makes to its reader. The abstract says what you did and found.
+The introduction moves from the state of the world and the "big but" to what you
+did, found, and contributed. Related work teaches and differentiates. The method
+gives an expert enough detail to understand or repeat the work. Results report
+what happened; the discussion explains why it matters.
+
+I keep this guide nearby while outlining because it helps me see whether the
+argument is carrying its weight from one section to the next. I use it as a
+diagnostic map, not a rigid template: different kinds of HCI papers need
+different structures, but every section should still have a clear job.
+
+### Make the argument easy to follow
+
+Wobbrock gives me the paper-level map. For the writing decisions inside that
+map, I start with [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)'s
 [writing tips](https://cseweb.ucsd.edu/~tzli/writing_tips.html).
 I like this page because it is short, direct, and very practical. A few lessons
 I especially want students to absorb:
@@ -199,6 +218,8 @@ looking for reasons to reject borderline papers. Your job is not to hope they
 figure out your point. Your job is to make the problem, contribution, evidence,
 limitations, and relationship to prior work easy to see.
 
+### Use writing to discover the research
+
 I would also read Marco Tulio Ribeiro's
 [_Writing, part 1 — the process_](https://medium.com/@marcotcr/writing-part-1-the-process-6bb92cb522eb).
 It is useful because it treats writing as a process for discovering and
@@ -211,7 +232,7 @@ that is not a sign that writing failed. That is the writing doing its job.
 
 My practical takeaway from [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)'s
 advice, the Durand/Freeman resources he recommended, Ribeiro's process essay,
-and my own writing habits:
+Wobbrock's paper map, and my own writing habits:
 
 - Draft the outline before drafting polished paragraphs.
 - Make the central figure earlier than feels comfortable.
@@ -425,4 +446,4 @@ before anyone gives you permission.
 
 ---
 
-Last updated: June 22, 2026.
+Last updated: July 16, 2026.
