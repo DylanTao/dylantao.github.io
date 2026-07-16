@@ -47,7 +47,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 5
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 6
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -249,6 +249,21 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
             "Provider-managed Codex auto-review evaluated and allowed a bounded "
             "semantic-scaffolding-map request to remove a workspace __pycache__ directory; it "
             "did not perform site development."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, exact workspace-bounded Remove-Item request, "
+            "reviewed session id, and allow decision, audited 2026-07-16."
+        ),
+    },
+    "019f6a16-6582-7d42-b41d-36e74ef95324": {
+        "timestamp": "2026-07-16T08:41:20.984Z",
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            "Provider-managed Codex auto-review evaluated and allowed a bounded "
+            "VariationWeaver-Canvas request to remove its temporary local-server runtime "
+            "directory; it did not perform site development."
         ),
         "provenance": (
             "Retained auto-review turn_context, exact workspace-bounded Remove-Item request, "
