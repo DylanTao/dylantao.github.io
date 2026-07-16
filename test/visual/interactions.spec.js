@@ -283,7 +283,7 @@ test("usage story keeps direct quota health and GitHub measures independent and 
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
-  await expect(page.locator(".github-activity-eyebrow")).toHaveText("DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM");
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("REPO TOKEN RHYTHM + DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM");
   await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(4);
   await expect(page.locator("#github-activity-codex-cost")).toHaveCount(0);
   await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
@@ -305,7 +305,10 @@ test("usage story keeps direct quota health and GitHub measures independent and 
   await expect(codexTrend.locator("[data-codex-status]")).toContainText("Complete 2-of-2 observation");
   await expect(codexTrend).toContainText("20.9B");
   await expect(codexTrend).toContainText("1 of 2 accounts");
-  await expect(codexTrend).not.toContainText(/daily|reset|API-cost|combined lifetime/i);
+  await expect(codexTrend).toContainText(
+    "No direct-account aliases, identifiers, plans, raw percentages, reset times, exact usage, daily histories, or API-cost conversions are published."
+  );
+  await expect(codexTrend).not.toContainText(/combined lifetime|resets? (?:at|in)|API-cost estimate/i);
 
   const commitPath = page.locator(".github-activity-commit-line");
   const addPath = page.locator(".github-activity-add-line");
@@ -383,7 +386,7 @@ test("usage story keeps direct quota health and GitHub measures independent and 
   await expect(annotation).toContainText(`Median active-week line magnitude · ${lineChangeSemantics.median}`);
 
   await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Two independent surfaces" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Three bounded sources" })).toBeVisible();
   const commitCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
   await expect(page.locator("#github-activity-codex-table-body")).toHaveCount(0);
   await expect(commitCells).toHaveCount(5);

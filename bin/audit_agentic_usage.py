@@ -29,6 +29,10 @@ except ImportError:  # pragma: no cover - handled in compare output.
 REPO_NEEDLE = "dylantao.github.io"
 MAX_IDLE_GAP_SECONDS = 45 * 60
 ONE_SHOT_SESSION_HOURS = 0.05
+TOKEN_RHYTHM_LABEL = "Site revamp retained-session estimate"
+TOKEN_RHYTHM_PRIVACY_NOTE = (
+    "Rounded daily cumulative estimates only; private identities and event-level detail are not published."
+)
 
 REVAMP_CUTOFF_UTC = datetime(2026, 5, 23, 1, 5, tzinfo=timezone.utc)
 DESK_CUTOFF_UTC = datetime(2026, 6, 17, 3, 0, tzinfo=timezone.utc)
@@ -420,6 +424,7 @@ PUBLIC_CHECK_FIELDS = (
     ("codexbar_cost_estimate", "usd_label"),
     ("codexbar_cost_estimate", "public_note"),
 )
+TOTAL_ONLY_PUBLIC_CHECK_FIELDS = (("token_rhythm",),)
 MODEL_TRACKING_CHECK_FIELDS = (
     ("intended_model",),
     ("intended_effort",),
@@ -962,6 +967,68 @@ def token_label(tokens: int) -> str:
     return str(tokens)
 
 
+def build_token_rhythm(
+    dataset: UsageDataset,
+    cutoff: datetime,
+    *,
+    updated_at: date | None = None,
+) -> dict[str, Any] | None:
+    """Build a privacy-safe cumulative daily series from deduplicated repo events."""
+
+    scoped_events = [event for event in dataset.usage_events if event.timestamp >= cutoff]
+    if not scoped_events:
+        return None
+
+    since_date = timestamp_calendar_date(format_timestamp_utc(cutoff))
+    if since_date is None:  # pragma: no cover - ``cutoff`` is already a datetime.
+        raise ValueError("Token-rhythm cutoff must resolve to a Pacific calendar date.")
+
+    daily_tokens: dict[date, int] = defaultdict(int)
+    for event in scoped_events:
+        event_date = timestamp_calendar_date(format_timestamp_utc(event.timestamp))
+        if event_date is None:  # pragma: no cover - counted events carry parsed datetimes.
+            continue
+        daily_tokens[event_date] += max(0, int(event.usage.get("total_tokens") or 0))
+
+    if not daily_tokens:
+        return None
+
+    if updated_at is None:
+        updated_at = timestamp_calendar_date(format_timestamp_utc(datetime.now(timezone.utc)))
+    if updated_at is None:  # pragma: no cover - current UTC time always parses.
+        raise ValueError("Token-rhythm update time must resolve to a Pacific calendar date.")
+
+    final_date = max(updated_at, max(daily_tokens))
+    points: list[dict[str, Any]] = []
+    cumulative_tokens = 0
+    current_date = since_date
+    while current_date <= final_date:
+        cumulative_tokens += daily_tokens.get(current_date, 0)
+        rounded_tokens = rounded_token_count(cumulative_tokens)
+        points.append(
+            {
+                "date": current_date.isoformat(),
+                "token_count": rounded_tokens,
+                "tokens_label": token_label(rounded_tokens),
+            }
+        )
+        current_date += timedelta(days=1)
+
+    return {
+        "schema": 1,
+        "label": TOKEN_RHYTHM_LABEL,
+        "units": "estimated tokens",
+        "grain": "day",
+        "aggregation": "cumulative",
+        "method": "deduplicated_repo_retained_logs",
+        "since": since_date.isoformat(),
+        "updated_at": final_date.isoformat(),
+        "confidence": "estimate",
+        "privacy_note": TOKEN_RHYTHM_PRIVACY_NOTE,
+        "points": points,
+    }
+
+
 def compact_decimal(value: float, small_threshold: float = 0.3) -> float:
     if abs(value) < small_threshold:
         return round(value, 2)
@@ -1476,7 +1543,15 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
     # on another machine or were started from a parent workspace. Keep the
     # previously audited usage snapshot in that case instead of publishing a
     # destructive zero. Commit counts remain independently refreshable.
-    if result.get("usage_events", 0) == 0 and int(current.get("token_count") or 0) > 0:
+    current_rhythm = current.get("token_rhythm") if isinstance(current, dict) else None
+    has_published_rhythm = bool(
+        isinstance(current_rhythm, dict)
+        and isinstance(current_rhythm.get("points"), list)
+        and current_rhythm["points"]
+    )
+    if result.get("usage_events", 0) == 0 and (
+        int(current.get("token_count") or 0) > 0 or has_published_rhythm
+    ):
         return next_scope
     for field_name in (
         "token_count",
@@ -1500,6 +1575,8 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
     next_scope["api_cost_equivalence"] = result["api_cost_equivalence"]
     next_scope["legacy_api_cost_equivalence"] = result["legacy_api_cost_equivalence"]
     next_scope["codexbar_cost_estimate"] = result["codexbar_cost_estimate"]
+    if isinstance(result.get("token_rhythm"), dict):
+        next_scope["token_rhythm"] = copy.deepcopy(result["token_rhythm"])
     return next_scope
 
 
@@ -1624,7 +1701,10 @@ def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) ->
     for scope_name in ("total", "desk_scene", "since_gpt_5_6"):
         current_scope = current.get(scope_name, {}) if isinstance(current, dict) else {}
         proposed_scope = proposed.get(scope_name, {}) if isinstance(proposed, dict) else {}
-        for field_path in PUBLIC_CHECK_FIELDS:
+        check_fields = PUBLIC_CHECK_FIELDS + (
+            TOTAL_ONLY_PUBLIC_CHECK_FIELDS if scope_name == "total" else ()
+        )
+        for field_path in check_fields:
             current_value = nested_value(current_scope, field_path)
             proposed_value = nested_value(proposed_scope, field_path)
             if current_value != proposed_value:
@@ -1836,6 +1916,9 @@ def main() -> int:
             desk_commits += 1
 
     total = audit_scope(dataset, REVAMP_CUTOFF_UTC, total_commits)
+    token_rhythm = build_token_rhythm(dataset, REVAMP_CUTOFF_UTC)
+    if token_rhythm is not None:
+        total["token_rhythm"] = token_rhythm
     desk = audit_scope(dataset, DESK_CUTOFF_UTC, desk_commits)
     since_gpt_5_6 = audit_scope(dataset, GPT_5_6_CUTOVER_UTC, since_gpt_5_6_commits)
     local_lifetime = audit_scope(local_dataset, LOCAL_LIFETIME_CUTOFF_UTC, commit_count=0)

@@ -7,7 +7,7 @@ import os
 import sys
 import tempfile
 import unittest
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from unittest import mock
 
@@ -96,9 +96,10 @@ def counted_event(
     model: str = "gpt-5.5",
     effort: str = "xhigh",
     ordinal: int = 1,
+    timestamp: datetime | None = None,
 ) -> object:
     return audit.CountedUsageEvent(
-        timestamp=datetime(2026, 7, 12, tzinfo=timezone.utc),
+        timestamp=timestamp or datetime(2026, 7, 12, tzinfo=timezone.utc),
         leaf_session_id="session",
         turn_id=f"turn-{ordinal}",
         model=model,
@@ -608,6 +609,224 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertEqual(tracking["status"], "unobserved")
         self.assertEqual(tracking["post_cutover_turns_observed"], 0)
         self.assertEqual(len(audit.model_tracking_check_messages(tracking)), 1)
+
+
+class TokenRhythmTests(unittest.TestCase):
+    @staticmethod
+    def dataset_with_events(events: list[object]) -> object:
+        return audit.UsageDataset(
+            sessions={},
+            usage_events=events,
+            contexts_by_turn={},
+            source_counts={"last_token_usage": len(events)},
+        )
+
+    def test_daily_points_fill_the_pacific_calendar_and_carry_quiet_days(self) -> None:
+        dataset = self.dataset_with_events(
+            [
+                counted_event(
+                    usage(1_400_000),
+                    ordinal=1,
+                    timestamp=datetime(2026, 5, 23, 6, 30, tzinfo=timezone.utc),
+                ),
+                counted_event(
+                    usage(2_600_000),
+                    ordinal=2,
+                    timestamp=datetime(2026, 5, 25, 8, 0, tzinfo=timezone.utc),
+                ),
+            ]
+        )
+
+        rhythm = audit.build_token_rhythm(
+            dataset,
+            audit.REVAMP_CUTOFF_UTC,
+            updated_at=date(2026, 5, 26),
+        )
+
+        self.assertIsNotNone(rhythm)
+        assert rhythm is not None
+        self.assertEqual(
+            [point["date"] for point in rhythm["points"]],
+            ["2026-05-22", "2026-05-23", "2026-05-24", "2026-05-25", "2026-05-26"],
+        )
+        self.assertEqual(
+            [point["token_count"] for point in rhythm["points"]],
+            [1_000_000, 1_000_000, 1_000_000, 4_000_000, 4_000_000],
+        )
+
+    def test_cumulative_rounding_stays_monotonic_across_rounding_steps(self) -> None:
+        base = audit.REVAMP_CUTOFF_UTC + timedelta(hours=1)
+        dataset = self.dataset_with_events(
+            [
+                counted_event(usage(99_600_000), ordinal=1, timestamp=base),
+                counted_event(usage(600_000), ordinal=2, timestamp=base + timedelta(days=1)),
+                counted_event(usage(4_800_000), ordinal=3, timestamp=base + timedelta(days=2)),
+            ]
+        )
+
+        rhythm = audit.build_token_rhythm(
+            dataset,
+            audit.REVAMP_CUTOFF_UTC,
+            updated_at=date(2026, 5, 24),
+        )
+
+        assert rhythm is not None
+        counts = [point["token_count"] for point in rhythm["points"]]
+        self.assertEqual(counts, [100_000_000, 100_000_000, 110_000_000])
+        self.assertEqual(counts, sorted(counts))
+
+    def test_latest_point_matches_the_public_total(self) -> None:
+        base = audit.REVAMP_CUTOFF_UTC + timedelta(hours=1)
+        dataset = self.dataset_with_events(
+            [
+                counted_event(usage(2_400_000), ordinal=1, timestamp=base),
+                counted_event(usage(3_200_000), ordinal=2, timestamp=base + timedelta(days=2)),
+            ]
+        )
+        total = audit.audit_scope(dataset, audit.REVAMP_CUTOFF_UTC, commit_count=0)
+        rhythm = audit.build_token_rhythm(
+            dataset,
+            audit.REVAMP_CUTOFF_UTC,
+            updated_at=date(2026, 5, 25),
+        )
+
+        assert rhythm is not None
+        self.assertEqual(rhythm["points"][-1]["token_count"], total["token_count"])
+        self.assertEqual(rhythm["points"][-1]["tokens_label"], total["tokens_label"])
+
+    def test_public_schema_is_exact_private_and_total_only(self) -> None:
+        dataset = self.dataset_with_events(
+            [
+                counted_event(
+                    usage(2_400_000),
+                    timestamp=audit.REVAMP_CUTOFF_UTC + timedelta(hours=1),
+                )
+            ]
+        )
+        rhythm = audit.build_token_rhythm(
+            dataset,
+            audit.REVAMP_CUTOFF_UTC,
+            updated_at=date(2026, 5, 22),
+        )
+
+        assert rhythm is not None
+        self.assertEqual(
+            set(rhythm),
+            {
+                "schema",
+                "label",
+                "units",
+                "grain",
+                "aggregation",
+                "method",
+                "since",
+                "updated_at",
+                "confidence",
+                "privacy_note",
+                "points",
+            },
+        )
+        self.assertEqual(
+            {key for key, value in rhythm.items() if isinstance(value, list)},
+            {"points"},
+        )
+        self.assertEqual(set(rhythm["points"][0]), {"date", "token_count", "tokens_label"})
+        self.assertEqual(rhythm["label"], "Site revamp retained-session estimate")
+        self.assertEqual(rhythm["method"], "deduplicated_repo_retained_logs")
+        self.assertEqual(rhythm["since"], "2026-05-22")
+        self.assertEqual(rhythm["updated_at"], "2026-05-22")
+        self.assertEqual(rhythm["confidence"], "estimate")
+
+        public_keys = set(rhythm)
+        public_keys.update(key for point in rhythm["points"] for key in point)
+        for private_key in (
+            "session_id",
+            "account",
+            "quota",
+            "model",
+            "raw_event",
+            "raw_token_count",
+            "cost",
+            "turn_id",
+            "path",
+        ):
+            self.assertNotIn(private_key, public_keys)
+
+        total = audit.audit_scope(dataset, audit.REVAMP_CUTOFF_UTC, commit_count=1)
+        total["token_rhythm"] = rhythm
+        other_scope = audit.audit_scope(dataset, audit.REVAMP_CUTOFF_UTC, commit_count=0)
+        proposed = audit.build_ledger_data(
+            {},
+            total,
+            other_scope,
+            other_scope,
+            other_scope,
+            {"status": "aligned"},
+        )
+        self.assertEqual(proposed["total"]["token_rhythm"], rhythm)
+        for scope_name in ("desk_scene", "since_gpt_5_6", "local_lifetime"):
+            self.assertNotIn("token_rhythm", proposed[scope_name])
+
+    def test_zero_repo_evidence_preserves_published_history(self) -> None:
+        previous_rhythm = {
+            "schema": 1,
+            "label": "Site revamp retained-session estimate",
+            "units": "estimated tokens",
+            "grain": "day",
+            "aggregation": "cumulative",
+            "method": "deduplicated_repo_retained_logs",
+            "since": "2026-05-22",
+            "updated_at": "2026-07-15",
+            "confidence": "estimate",
+            "privacy_note": "Rounded daily cumulative estimates only.",
+            "points": [
+                {"date": "2026-07-15", "token_count": 5_600_000_000, "tokens_label": "5.6B"}
+            ],
+        }
+        previous = {
+            "commits": 100,
+            "token_count": 5_600_000_000,
+            "tokens_label": "5.6B",
+            "token_rhythm": previous_rhythm,
+        }
+        empty_dataset = self.dataset_with_events([])
+        result = audit.audit_scope(empty_dataset, audit.REVAMP_CUTOFF_UTC, commit_count=101)
+
+        self.assertIsNone(
+            audit.build_token_rhythm(
+                empty_dataset,
+                audit.REVAMP_CUTOFF_UTC,
+                updated_at=date(2026, 7, 16),
+            )
+        )
+        merged = audit.merge_scope_data(previous, result)
+        self.assertEqual(merged["commits"], 101)
+        self.assertEqual(merged["token_rhythm"], previous_rhythm)
+
+    def test_freshness_reports_any_token_rhythm_mismatch(self) -> None:
+        rhythm = {
+            "schema": 1,
+            "label": "Site revamp retained-session estimate",
+            "units": "estimated tokens",
+            "grain": "day",
+            "aggregation": "cumulative",
+            "method": "deduplicated_repo_retained_logs",
+            "since": "2026-05-22",
+            "updated_at": "2026-07-16",
+            "confidence": "estimate",
+            "privacy_note": "Rounded daily cumulative estimates only.",
+            "points": [
+                {"date": "2026-07-16", "token_count": 5_600_000_000, "tokens_label": "5.6B"}
+            ],
+        }
+        current = {"total": {"token_rhythm": rhythm}}
+        proposed = copy.deepcopy(current)
+        proposed["total"]["token_rhythm"]["points"][0]["token_count"] = 5_610_000_000
+
+        mismatches = audit.check_public_freshness(current, proposed)
+
+        self.assertEqual(len(mismatches), 1)
+        self.assertTrue(mismatches[0].startswith("total.token_rhythm:"))
 
 
 class PendingChangesTests(unittest.TestCase):

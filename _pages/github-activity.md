@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Independent views of anonymous direct Codex quota health and long-term GitHub build rhythm.
+description: Independent views of repo-scoped retained-session token rhythm, anonymous direct Codex quota health, and long-term GitHub build rhythm.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,13 +11,26 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM</p>
+    <p class="github-activity-eyebrow">REPO TOKEN RHYTHM + DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Two independent views: non-additive two-account Codex quota health and long-term GitHub activity. Each keeps its own units, source, and coverage.
+      Three bounded views: a repo-scoped retained-session token estimate, non-additive two-account Codex quota health, and long-term GitHub activity. Each keeps its own units, source, and coverage.
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
     {% assign personal_baseline = direct_tracker.personalRoundedLifetimeBaseline %}
+    {% assign token_rhythm = site.data.agentic_usage.total.token_rhythm %}
+    {% assign token_latest = token_rhythm.points | last %}
+    {% assign token_previous_count = 0 %}
+    {% assign token_largest_increase = 0 %}
+    {% assign token_largest_increase_date = token_rhythm.since %}
+    {% for token_point in token_rhythm.points %}
+      {% assign token_daily_increase = token_point.token_count | minus: token_previous_count %}
+      {% if token_daily_increase > token_largest_increase %}
+        {% assign token_largest_increase = token_daily_increase %}
+        {% assign token_largest_increase_date = token_point.date %}
+      {% endif %}
+      {% assign token_previous_count = token_point.token_count %}
+    {% endfor %}
   </header>
 
   <section
@@ -30,12 +43,12 @@ github_activity: true
     <header class="build-rhythm-story-heading">
       <p class="build-rhythm-story-kicker">A SCROLL-LED READING</p>
       <div class="build-rhythm-story-title-row">
-        <h2 id="build-rhythm-story-title">One page, two clocks.</h2>
+        <h2 id="build-rhythm-story-title">Two rhythms, one health snapshot.</h2>
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Want to learn this widget's origin?" %}
       </div>
       <p>
-        Commits and line changes describe a long build rhythm. The direct Codex tracker describes a separate quota-health observation across
-        two anonymous accounts. The measures are not added together.
+        Commits and line changes describe a long build rhythm. Retained-session tokens trace this site's estimated build history on a daily
+        clock. The direct tracker adds a separate quota-health observation across two anonymous accounts. The measures are not added together.
       </p>
     </header>
 
@@ -44,11 +57,11 @@ github_activity: true
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
             <span data-build-rhythm-story-label>COMPLETE VIEW</span>
-            <span data-build-rhythm-story-scope>5 YEARS + 2-ACCOUNT HEALTH</span>
+            <span data-build-rhythm-story-scope>5 YEARS + DAILY TOKENS + 2-ACCOUNT HEALTH</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            GitHub build rhythm above. Separate Codex quota health below.
+            GitHub cadence, repo-scoped token rhythm, and separate Codex quota health.
           </p>
         </div>
       </div>
@@ -80,8 +93,20 @@ github_activity: true
           </p>
         </article>
 
+        <article class="build-rhythm-story-step" data-build-rhythm-step="tokens">
+          <p class="build-rhythm-story-step-number">04 · RETAINED-SESSION TOKENS</p>
+          <h3>Token accumulation is a trace, not a score.</h3>
+          <p>
+            Daily cumulative points use the same deduplicated, repo-scoped retained-log estimate as the homepage ledger. They never include
+            direct-account quota windows and can revise when retained local evidence changes. The current rounded endpoint is
+            <strong>{{ token_latest.tokens_label }}</strong> through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time>;
+            the largest rounded adjacent-point increase is <data value="{{ token_largest_increase }}">{{ token_largest_increase }}</data>
+            estimated tokens on <time datetime="{{ token_largest_increase_date }}">{{ token_largest_increase_date | date: "%b %-d, %Y" }}</time>.
+          </p>
+        </article>
+
         <article class="build-rhythm-story-step" data-build-rhythm-step="codex">
-          <p class="build-rhythm-story-step-number">04 · CHANGE THE MEASURE</p>
+          <p class="build-rhythm-story-step-number">05 · CHANGE THE MEASURE</p>
           <h3>Quota health is a count, not a token total.</h3>
           <p>
             The direct tracker reports anonymous healthy, fresh, and quota-observed account counts. Windows remain per-account and
@@ -90,7 +115,7 @@ github_activity: true
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">05 · GITHUB EXPLORATION</p>
+          <p class="build-rhythm-story-step-number">06 · GITHUB EXPLORATION</p>
           <h3>The story chooses a few views. The explorer keeps the record.</h3>
           <p>
             Continue for GitHub range and scale controls, selected-week keyboard inspection, source notes, and exact weekly aggregate tables.
@@ -154,7 +179,7 @@ not a two-account total and not added to quota health.
 <span data-codex-status>Loading direct tracker health…</span>
 </div>
 <p class="github-activity-codex-note">
-No aliases, account identifiers, plans, raw percentages, reset times, exact account usage, daily histories, or API-cost conversions are published.
+No direct-account aliases, identifiers, plans, raw percentages, reset times, exact usage, daily histories, or API-cost conversions are published.
 </p>
 </section>
 {% endif %}
@@ -233,8 +258,12 @@ No aliases, account identifiers, plans, raw percentages, reset times, exact acco
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Two independent surfaces</h2>
-        <p>Codex reports anonymous quota-health counts for two accounts. GitHub commits, additions, and deletions use a separate weekly calendar.</p>
+        <h2>Three bounded sources</h2>
+        <p>Repo-scoped retained-session tokens, anonymous two-account quota health, and GitHub activity keep separate units and clocks.</p>
+      </div>
+      <div>
+        <h2>Token rhythm</h2>
+        <p>Rounded cumulative daily points come from deduplicated retained logs attributed to this site since the revamp cutoff. They are estimates, not direct-account totals.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>
@@ -242,11 +271,7 @@ No aliases, account identifiers, plans, raw percentages, reset times, exact acco
       </div>
       <div>
         <h2>What's counted</h2>
-        <p>Owned public and private repositories, rolled up by week on their default branches. Only weekly aggregate totals leave the generator.</p>
-      </div>
-      <div>
-        <h2>GitHub's edges</h2>
-        <p>Contributor statistics supply totals and commit history fills gaps. Merge commits are skipped, and very large repositories may omit line totals.</p>
+        <p>Owned public and private repositories are rolled up by week on default branches. Contributor statistics supply totals, commit history fills gaps, merge commits are skipped, and very large repositories may omit line totals.</p>
       </div>
       <div>
         <h2>Codex privacy boundary</h2>
@@ -257,6 +282,40 @@ No aliases, account identifiers, plans, raw percentages, reset times, exact acco
         <p>Changing range or scale redraws the selected view once. The chart settles immediately, keeps exact tables, and remains static under reduced motion.</p>
       </div>
     </div>
+    <section class="github-activity-token-evidence" aria-labelledby="github-activity-token-table-title">
+      <h2 id="github-activity-token-table-title">Daily repo-token estimate</h2>
+      <p>
+        These server-rendered points remain available without JavaScript. They are rounded cumulative estimates, so differences between rows
+        are rounded increases rather than exact daily usage.
+      </p>
+      <div
+        class="github-activity-table-wrap"
+        role="region"
+        aria-label="Daily cumulative repo-token estimate table"
+        tabindex="0"
+      >
+        <table class="github-activity-table">
+          <caption>
+            Rounded cumulative retained-session estimate from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
+            {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Cumulative estimate</th>
+            </tr>
+          </thead>
+          <tbody id="github-activity-token-table-body">
+            {% for token_point in token_rhythm.points %}
+              <tr>
+                <th scope="row"><time datetime="{{ token_point.date }}">{{ token_point.date | date: "%b %-d, %Y" }}</time></th>
+                <td><data value="{{ token_point.token_count }}">{{ token_point.tokens_label }} estimated tokens</data></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
     <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally for all columns.</p>
     <div
       class="github-activity-table-wrap"
@@ -282,12 +341,16 @@ No aliases, account identifiers, plans, raw percentages, reset times, exact acco
   </details>
 
   <p class="github-activity-source">
-    Aggregate GitHub snapshot updated <time id="github-activity-updated"></time>. The Codex tracker identifies its own coverage above. Time-window and
-    scale controls draw on <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
+    Aggregate GitHub snapshot updated <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
+    agentic-usage ledger; the direct tracker identifies its own coverage above. Time-window and scale controls draw on
+    <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>
 
   <script id="github-activity-data" type="application/json">
     {{ site.data.github_activity | jsonify }}
+  </script>
+  <script id="build-rhythm-token-data" type="application/json">
+    {{ token_rhythm | jsonify }}
   </script>
 </section>

@@ -32,7 +32,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
         self.assertEqual(
             steps,
-            ["cadence", "magnitude", "bursts", "codex", "explore"],
+            ["cadence", "magnitude", "bursts", "tokens", "codex", "explore"],
         )
         self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
         self.assertLess(
@@ -65,6 +65,21 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertNotIn("scrollTo(", self.script)
         self.assertNotIn("scrollIntoView(", self.script)
 
+    def test_token_rhythm_uses_the_public_repo_estimate_without_account_history(self) -> None:
+        self.assertIn('id="build-rhythm-token-data"', self.page)
+        self.assertIn("site.data.agentic_usage.total.token_rhythm", self.page)
+        self.assertIn('data-build-rhythm-step="tokens"', self.page)
+        self.assertIn("Token accumulation is a trace, not a score.", self.page)
+        self.assertIn('id="github-activity-token-table-body"', self.page)
+        self.assertIn("These server-rendered points remain available without JavaScript.", self.page)
+        self.assertIn("largest rounded adjacent-point increase", self.page)
+        self.assertIn('candidate.method !== "deduplicated_repo_retained_logs"', self.script)
+        self.assertIn('candidate.units !== "estimated tokens"', self.script)
+        self.assertIn("Number.isSafeInteger(point.token_count)", self.script)
+        self.assertIn('root.dataset.tokenState = tokenSource ? "ready" : "error"', self.script)
+        self.assertIn("Tokens trace retained work, not quality.", self.script)
+        self.assertNotIn("account_lifetime", self.page)
+
     def test_static_and_reduced_motion_styles_remain_complete(self) -> None:
         self.assertIn('@media (max-width: 820px)', self.style)
         self.assertIn('@media (prefers-reduced-motion: reduce)', self.style)
@@ -85,6 +100,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             'id="github-activity-table-scroll-hint"',
             'id="github-activity-table-body"',
             'id="github-activity-data"',
+            'id="build-rhythm-token-data"',
         )
         for selector in frozen_page_selectors:
             with self.subTest(selector=selector):

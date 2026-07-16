@@ -56,11 +56,21 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await expect(page.locator(".paper-constellation-node-filtered")).toHaveCount(0);
 
   const designWeaver = activeSurface.locator('[data-constellation-paper][data-publication-key="tao2024designweaver"]');
+  const designWeaverEntry = page.locator('.publication-lens-entry[data-publication-key="tao2024designweaver"]');
+  const designWeaverCitationChip = designWeaverEntry.locator("[data-publication-citation-chip]");
+  const designWeaverCitationYearBars = page.locator('[data-scholar-year-bar][data-year-papers*="tao2024designweaver:"]');
   await page.mouse.move(0, 0);
   await designWeaver.focus();
   await expect(designWeaver).toBeFocused();
   await expect(designWeaver.locator("..")).toHaveClass(/paper-constellation-node-active/);
   await expect(activeSurface.locator('[data-constellation-node-id="future-major-01"]')).toHaveClass(/paper-constellation-node-related/);
+  await expect(designWeaverEntry).toHaveClass(/publication-lens-linked/);
+  await expect(designWeaverCitationChip).toHaveClass(/publication-lens-citation-linked/);
+  await expect
+    .poll(() =>
+      designWeaverCitationYearBars.evaluateAll((bars) => bars.length > 0 && bars.every((bar) => bar.classList.contains("scholar-lens-year-linked")))
+    )
+    .toBe(true);
   await designWeaver.press("Enter");
   await expect(designWeaver).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator('[data-constellation-detail-paper="tao2024designweaver"]')).toBeVisible();
@@ -71,6 +81,9 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await expect(page.locator("[data-constellation-detail-empty]")).toBeVisible();
   await expect(designWeaver).toBeFocused();
   await expect(page.locator(".paper-constellation-node-active")).toHaveCount(0);
+  await expect(designWeaverEntry).not.toHaveClass(/publication-lens-linked/);
+  await expect(designWeaverCitationChip).not.toHaveClass(/publication-lens-citation-linked/);
+  await expect(page.locator(".scholar-lens-year-linked")).toHaveCount(0);
 
   const renderedFutureNodes = await page.locator("[data-constellation-desktop] [data-constellation-future]").evaluateAll((nodes) =>
     nodes.map((node) => ({

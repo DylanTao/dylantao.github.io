@@ -128,9 +128,27 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-scholar-lens",
+    path: "/projects/scholar-lens/",
+    readySelector: '.project-case-summary[aria-label="Scholar Lens summary"]',
+    contentSelector: ".project-detail article",
+  },
+  {
+    id: "project-wall-of-rejection",
+    path: "/projects/wall-of-rejection/",
+    readySelector: '.project-case-summary[aria-label="Wall of Rejection summary"]',
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-ikea-project-cards",
     path: "/projects/ikea-project-cards/",
     readySelector: ".site-experiment-evidence-figure img",
+    contentSelector: ".project-detail article",
+  },
+  {
+    id: "project-dogtor-portal",
+    path: "/projects/dogtor-portal/",
+    readySelector: ".project-detail .dogtor-project-hero",
     contentSelector: ".project-detail article",
   },
   {

@@ -46,9 +46,9 @@
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
   const lineChanges = (row) => row.additions + row.deletions;
 
-  const initBuildRhythmStory = ({ githubRows, codexSourcePromise }) => {
+  const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise }) => {
     const storyRoot = document.querySelector("[data-build-rhythm-story]");
-    if (!storyRoot || !githubRows.length) return;
+    if (!storyRoot || !githubRows.length || !tokenRows.length) return;
 
     const stage = storyRoot.querySelector("[data-build-rhythm-story-stage]");
     const chart = storyRoot.querySelector("[data-build-rhythm-story-chart]");
@@ -213,6 +213,42 @@
       return `Same reported values in both panels \u00b7 largest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(maximum)} lines changed.`;
     };
 
+    const drawTokens = (group, width, height, colors) => {
+      const left = width < 620 ? 46 : 54;
+      const right = 14;
+      const split = Math.round(height * 0.58);
+      const latest = tokenRows.at(-1);
+      const dailyDeltas = tokenRows.map((row, index) => Math.max(0, row.tokenCount - (tokenRows[index - 1]?.tokenCount || 0)));
+
+      addText(group, "SITE REVAMP · CUMULATIVE RETAINED-SESSION ESTIMATE", left, 20, {
+        color: colors.accent,
+        weight: 700,
+      });
+      addText(group, latest.tokensLabel, width - right, 20, { anchor: "end", color: colors.text, weight: 700 });
+      drawSeries(
+        group,
+        tokenRows,
+        (row) => row.tokenCount,
+        { left, right: width - right, top: 44, bottom: split - 20 },
+        { color: colors.accent, fillOpacity: 0.1, scale: "linear", strokeWidth: 2 }
+      );
+
+      addText(group, "ROUNDED DAILY INCREASE · READABLE LOG1P", left, split + 8, {
+        color: colors.muted,
+        weight: 700,
+      });
+      drawSeries(
+        group,
+        tokenRows,
+        (_row, index) => dailyDeltas[index],
+        { left, right: width - right, top: split + 30, bottom: height - 28 },
+        { color: colors.added, fillOpacity: 0.1, scale: "log" }
+      );
+
+      const largestIndex = dailyDeltas.indexOf(Math.max(...dailyDeltas));
+      return `Latest rounded estimate · ${latest.tokensLabel} · ${fullDate.format(latest.date)}. Largest rounded daily increase · ${compactNumber.format(dailyDeltas[largestIndex])} · ${fullDate.format(tokenRows[largestIndex].date)}. Tokens trace retained work, not quality.`;
+    };
+
     const drawCodex = (group, width, height, colors) => {
       const left = width < 620 ? 46 : 54;
       if (!codexSource?.coverage?.complete) {
@@ -258,8 +294,8 @@
     const drawComplete = (group, width, height, colors) => {
       const left = 42;
       const right = 12;
-      const commitTop = 28;
-      const commitBottom = Math.max(92, height * 0.25);
+      const commitTop = 26;
+      const commitBottom = Math.max(76, height * 0.2);
       addText(group, "GITHUB \u00b7 COMMITS / WEEK", left, 16, { color: colors.accent, weight: 700 });
       drawSeries(
         group,
@@ -269,8 +305,8 @@
         { color: colors.accent, scale: "log" }
       );
 
-      const lineTop = commitBottom + 36;
-      const lineBottom = Math.max(lineTop + 68, height * 0.66);
+      const lineTop = commitBottom + 30;
+      const lineBottom = Math.max(lineTop + 62, height * 0.52);
       const lineBaseline = (lineTop + lineBottom) / 2;
       const lineMaximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
       addText(group, "SAME WEEKS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, { color: colors.muted, weight: 700 });
@@ -299,7 +335,27 @@
         signed: true,
       });
 
-      const codexTop = lineBottom + 32;
+      const tokenTop = lineBottom + 30;
+      const tokenBottom = Math.max(tokenTop + 44, height * 0.79);
+      const latestToken = tokenRows.at(-1);
+      addText(group, width < 620 ? "REPO TOKEN ESTIMATE" : "SEPARATE CLOCK · REPO RETAINED-SESSION TOKENS", left, tokenTop - 10, {
+        color: colors.muted,
+        weight: 700,
+      });
+      addText(group, latestToken.tokensLabel, width - right, tokenTop - 10, {
+        anchor: "end",
+        color: colors.text,
+        weight: 700,
+      });
+      drawSeries(
+        group,
+        tokenRows,
+        (row) => row.tokenCount,
+        { left, right: width - right, top: tokenTop, bottom: tokenBottom },
+        { color: colors.added, scale: "linear", strokeWidth: 1.8 }
+      );
+
+      const codexTop = tokenBottom + 30;
       addText(group, "SEPARATE MEASURE \u00b7 DIRECT CODEX QUOTA HEALTH", left, codexTop - 10, { color: colors.accent, weight: 700 });
       if (codexSource?.coverage?.complete) {
         addText(
@@ -314,16 +370,17 @@
           color: colors.muted,
         });
       }
-      return "Static summary \u00b7 GitHub cadence uses a weekly clock. Direct Codex quota health is a separate non-additive account-count measure.";
+      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently ${latestToken.tokensLabel}, and direct Codex health is a separate non-additive account-count measure.`;
     };
 
     const metadata = {
       cadence: { label: "CADENCE", scope: "5 YEARS \u00b7 WEEKLY" },
       magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
       bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
+      tokens: { label: "TOKEN RHYTHM", scope: "SITE REVAMP \u00b7 DAILY ESTIMATE" },
       codex: { label: "CHANGE THE MEASURE", scope: "2 ACCOUNTS \u00b7 NON-ADDITIVE" },
       explore: { label: "HANDOFF", scope: "GITHUB EXPLORER BELOW" },
-      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + 2-ACCOUNT HEALTH" },
+      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + DAILY TOKENS + 2-ACCOUNT HEALTH" },
     };
 
     const renderScene = (scene) => {
@@ -337,6 +394,7 @@
       if (targetScene === "cadence") readout = drawCadence(group, width, height, colors);
       else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
       else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
+      else if (targetScene === "tokens") readout = drawTokens(group, width, height, colors);
       else if (targetScene === "codex") readout = drawCodex(group, width, height, colors);
       else readout = drawComplete(group, width, height, colors);
 
@@ -620,6 +678,7 @@
 
   const root = document.querySelector("[data-github-activity]");
   const dataNode = document.getElementById("github-activity-data");
+  const tokenDataNode = document.getElementById("build-rhythm-token-data");
   if (!root || !dataNode) return;
 
   const validActivitySource = (candidate) =>
@@ -638,6 +697,57 @@
         row.deletions >= 0
     );
 
+  const validTokenRhythmSource = (candidate) => {
+    const keys = ["schema", "label", "units", "grain", "aggregation", "method", "since", "updated_at", "confidence", "privacy_note", "points"];
+    if (
+      !candidate ||
+      typeof candidate !== "object" ||
+      Array.isArray(candidate) ||
+      Object.keys(candidate).length !== keys.length ||
+      !keys.every((key) => Object.hasOwn(candidate, key)) ||
+      candidate.schema !== 1 ||
+      candidate.label !== "Site revamp retained-session estimate" ||
+      candidate.units !== "estimated tokens" ||
+      candidate.grain !== "day" ||
+      candidate.aggregation !== "cumulative" ||
+      candidate.method !== "deduplicated_repo_retained_logs" ||
+      candidate.confidence !== "estimate" ||
+      !isIsoDate(candidate.since) ||
+      !isIsoDate(candidate.updated_at) ||
+      typeof candidate.privacy_note !== "string" ||
+      !candidate.privacy_note ||
+      !Array.isArray(candidate.points) ||
+      candidate.points.length < 2
+    )
+      return false;
+
+    let previousDate = null;
+    let previousCount = -1;
+    const validPoints = candidate.points.every((point) => {
+      const pointKeys = ["date", "token_count", "tokens_label"];
+      if (
+        !point ||
+        typeof point !== "object" ||
+        Array.isArray(point) ||
+        Object.keys(point).length !== pointKeys.length ||
+        !pointKeys.every((key) => Object.hasOwn(point, key)) ||
+        !isIsoDate(point.date) ||
+        !Number.isSafeInteger(point.token_count) ||
+        point.token_count < 0 ||
+        point.token_count < previousCount ||
+        typeof point.tokens_label !== "string" ||
+        !point.tokens_label
+      )
+        return false;
+      const date = new Date(`${point.date}T00:00:00Z`);
+      if (previousDate && date.getTime() - previousDate.getTime() !== 86_400_000) return false;
+      previousDate = date;
+      previousCount = point.token_count;
+      return true;
+    });
+    return validPoints && candidate.since === candidate.points[0].date && candidate.updated_at === candidate.points.at(-1).date;
+  };
+
   let source;
   try {
     source = JSON.parse(dataNode.textContent);
@@ -649,6 +759,17 @@
     root.dataset.state = "error";
     return;
   }
+
+  let tokenSource = null;
+  if (tokenDataNode) {
+    try {
+      const candidate = JSON.parse(tokenDataNode.textContent);
+      if (validTokenRhythmSource(candidate)) tokenSource = candidate;
+    } catch {
+      tokenSource = null;
+    }
+  }
+  root.dataset.tokenState = tokenSource ? "ready" : "error";
 
   const remoteSource = root.dataset.source;
   const isLocalPreview = /^(?:localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname);
@@ -671,6 +792,14 @@
     additions: row.additions,
     deletions: row.deletions,
   }));
+  const tokenRows = tokenSource
+    ? tokenSource.points.map((point, index) => ({
+        index,
+        date: new Date(`${point.date}T00:00:00Z`),
+        tokenCount: point.token_count,
+        tokensLabel: point.tokens_label,
+      }))
+    : [];
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
@@ -1361,6 +1490,6 @@
   chartTitle.textContent = "Weekly GitHub commits, additions, and deletions";
   setPressedState();
   drawChart();
-  initBuildRhythmStory({ githubRows: rows, codexSourcePromise });
+  initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });
   root.dataset.state = "ready";
 })();
