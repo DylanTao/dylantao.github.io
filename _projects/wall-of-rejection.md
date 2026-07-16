@@ -2,10 +2,11 @@
 layout: page
 title: Wall of Rejection
 description: A rejection-only receipt wall that makes failed submissions visible without turning research life into a leaderboard.
-img: assets/img/website-revamp/wall-of-rejection-steam-reference.png
-image_aspect: 16 / 9
-card_image_fit: cover
+img: assets/img/project_pics/site-experiments/wall-of-rejection.png
+image_aspect: 4 / 3
+card_image_fit: contain
 card_image_position: center
+card_avoid_scaling: true
 importance: -27
 category: fun
 site_experiment: true

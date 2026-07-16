@@ -2,10 +2,11 @@
 layout: page
 title: The Desk That Learned Depth
 description: A model-to-model record of how the homepage's shared-state 2D desk became a reciprocal 3D cliff-room scene.
-img: output/home-desk-qa/desktop-3d-room-after-coast.png
+img: assets/img/project_pics/site-experiments/homepage-desk-depth.png
 image_aspect: 16 / 9
 card_image_fit: cover
 card_image_position: top center
+card_avoid_scaling: true
 importance: -29
 category: fun
 site_experiment: true

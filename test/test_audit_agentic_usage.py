@@ -317,8 +317,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 1)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 5)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 2)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 7)
         required_fields = {
             "timestamp",
             "model",
@@ -336,6 +336,42 @@ class SessionAccountingTests(unittest.TestCase):
                     datetime.strptime(policy["acknowledged_at"], "%Y-%m-%d").strftime("%Y-%m-%d"),
                     policy["acknowledged_at"],
                 )
+
+    def test_direct_lane_deviations_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = (
+            "019f648d-aeb5-7f50-97ac-4c8761cba158",
+            "019f64a1-6822-7ef1-87b9-2bb6c7224a5e",
+        )
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"direct-lane-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"direct-lane-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 2)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 2)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(all(item["acknowledged"] for item in tracking["post_cutover_deviations"]))
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"

@@ -251,6 +251,12 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
         visibleClass: "site-visible",
       });
     }
+    if (route.id === "projects-index") {
+      await exerciseScrollReveals(page, {
+        selector: ".projects .card.site-reveal",
+        visibleClass: "site-visible",
+      });
+    }
     await attachScreenshot(page, testInfo, `${route.id}-light-${testInfo.project.name}-full-page`, { fullPage: true });
   }
 }
@@ -822,6 +828,119 @@ test("home research motion responds locally and keeps a reduced-motion still", a
   expect(runtimeErrors, "research motion raised browser runtime errors").toEqual([]);
 });
 
+test("projects keep the nine site experiments in debut order", async ({ page }, testInfo) => {
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/projects/"), { waitUntil: "domcontentloaded" });
+
+  const grid = page.locator("[data-site-experiment-grid]");
+  await expect(grid).toBeVisible();
+  await exerciseScrollReveals(page, {
+    selector: "[data-site-experiment-grid] .card.site-reveal",
+    visibleClass: "site-visible",
+  });
+
+  const cards = grid.locator("[data-project-card]");
+  await expect(cards).toHaveCount(9);
+  await expect(cards.locator("h4.card-title")).toHaveCount(9);
+  await expect(cards.locator("h3.card-title")).toHaveCount(0);
+  expect(await cards.locator(".card-title").allTextContents()).toEqual([
+    "Paper Constellation",
+    "Build Rhythm",
+    "The Desk That Learned Depth",
+    "HCI Spooder-Man",
+    "Scholar Lens",
+    "Wall of Rejection",
+    "The IKEA Card Experiment",
+    "Vibe-Coding a Research Portfolio",
+    "Dogtor's Hidden Portal",
+  ]);
+
+  const imageEvidence = await cards.locator("img").evaluateAll((images) => ({
+    count: images.length,
+    loaded: images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0),
+    overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  }));
+  expect(imageEvidence.count).toBe(9);
+  expect(imageEvidence.loaded).toBe(true);
+  expect(imageEvidence.overflow).toBeLessThanOrEqual(0);
+
+  await attachScreenshot(page, testInfo, `projects-site-experiments-${testInfo.project.name}`, { fullPage: true });
+});
+
+test("desk origin stays bounded and still under reduced motion", async ({ page }, testInfo) => {
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+
+  const switcher = page.locator("[data-home-desk-mode-switch]");
+  const origin = switcher.getByRole("link", { name: "Want to learn this desk scene's origin?" });
+  const tooltip = origin.locator(".widget-origin-tooltip");
+  await expect(origin).toBeVisible();
+  await expect(origin).toHaveAttribute("href", /\/projects\/homepage-desk-scene\/$/);
+  await origin.focus();
+  await expect(tooltip).toBeVisible();
+
+  const geometry = await page.evaluate(() => {
+    const modeSwitcher = document.querySelector("[data-home-desk-mode-switch]");
+    const link = modeSwitcher?.querySelector(".home-desk-origin-link");
+    const tip = link?.querySelector(".widget-origin-tooltip");
+    const contact = Array.from(document.querySelectorAll("a")).find((candidate) => candidate.textContent?.trim() === "Contact");
+    const controls = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode], .home-desk-origin-link") ?? []);
+    const centers = controls.map((control) => {
+      const rect = control.getBoundingClientRect();
+      return rect.top + rect.height / 2;
+    });
+    const linkRect = link?.getBoundingClientRect();
+    const tipRect = tip?.getBoundingClientRect();
+    const contactRect = contact?.getBoundingClientRect();
+    const overlap =
+      tipRect && contactRect
+        ? Math.max(0, Math.min(tipRect.right, contactRect.right) - Math.max(tipRect.left, contactRect.left)) *
+          Math.max(0, Math.min(tipRect.bottom, contactRect.bottom) - Math.max(tipRect.top, contactRect.top))
+        : 0;
+    return {
+      documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      tooltipOverflow: tip ? tip.scrollWidth - tip.clientWidth : null,
+      originWidth: linkRect?.width ?? 0,
+      originHeight: linkRect?.height ?? 0,
+      sameRow: centers.length === 3 && Math.max(...centers) - Math.min(...centers) <= 2,
+      mobileTooltipBelow: linkRect && tipRect ? tipRect.top >= linkRect.bottom : false,
+      contactOverlap: overlap,
+    };
+  });
+
+  expect(geometry.documentOverflow).toBeLessThanOrEqual(0);
+  expect(geometry.tooltipOverflow).toBeLessThanOrEqual(1);
+  expect(geometry.originWidth).toBeGreaterThanOrEqual(24);
+  expect(geometry.originHeight).toBeGreaterThanOrEqual(24);
+  expect(geometry.sameRow).toBe(true);
+  if (testInfo.project.name === "mobile-390") {
+    expect(geometry.mobileTooltipBelow).toBe(true);
+    expect(geometry.contactOverlap).toBe(0);
+  }
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await origin.focus();
+  const reducedMotion = await origin.evaluate((link) => {
+    const tooltipElement = link.querySelector(".widget-origin-tooltip");
+    const linkStyle = getComputedStyle(link);
+    const tooltipStyle = tooltipElement ? getComputedStyle(tooltipElement) : null;
+    return {
+      linkDuration: linkStyle.transitionDuration,
+      linkTransform: linkStyle.transform,
+      tooltipDuration: tooltipStyle?.transitionDuration,
+      tooltipTransform: tooltipStyle?.transform,
+    };
+  });
+  expect(reducedMotion).toEqual({
+    linkDuration: "0s",
+    linkTransform: "none",
+    tooltipDuration: "0s",
+    tooltipTransform: "none",
+  });
+
+  await attachScreenshot(page, testInfo, `desk-origin-${testInfo.project.name}`, { fullPage: false });
+});
+
 // Keep this last: unlocking starts the secret route's Three/WebGL work.
 test("secret checkpoint tells the truth, contains focus, and survives a refresh", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "representative hidden-route journey checkpoint");
@@ -853,6 +972,9 @@ test("secret checkpoint tells the truth, contains focus, and survives a refresh"
   const close = page.locator("#sirui-secret-close");
   const mango = page.locator('[data-sirui-fruit="mango"]');
   const banana = page.locator('[data-sirui-fruit="banana"]');
+  const origin = page.locator("[data-sirui-secret-origin]");
+
+  await expect(origin).toBeHidden();
 
   await trigger.click();
   await expect(dialog).toBeVisible();
@@ -875,9 +997,12 @@ test("secret checkpoint tells the truth, contains focus, and survives a refresh"
   const status = page.locator("#sirui-secret-status");
   await expect(status).toContainText("mango is on Sirui's list.");
   expect(await status.textContent()).not.toMatch(/guess|correct/i);
+  await expect(origin).toBeVisible();
+  await expect(origin.getByRole("link", { name: "Want to learn this portal's origin?" })).toHaveAttribute("href", /\/projects\/dogtor-portal\/$/);
   await page.keyboard.press("Escape");
   await page.waitForTimeout(800);
   await expect(page).toHaveURL(/\/blog\/?$/);
+  await expect(origin).toBeVisible();
 
   await trigger.click();
   await mango.click();

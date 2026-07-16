@@ -47,7 +47,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 1
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 2
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -111,6 +111,33 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
             "than changing the declared interactive development default."
         ),
         "provenance": "Retained turn_context and 2026-07-14 coordinator verification audit.",
+    },
+    "019f648d-aeb5-7f50-97ac-4c8761cba158": {
+        "timestamp": "2026-07-15T06:54:09.815Z",
+        "model": "gpt-5.6-sol",
+        "effort": "xhigh",
+        "acknowledged_at": "2026-07-15",
+        "reason": (
+            "Read-only Codex-LB direct-routing smoke requested the exact DIRECT_OK response and "
+            "did not perform site development work."
+        ),
+        "provenance": (
+            "Retained turn_context and exact no-tools DIRECT_OK prompt, audited 2026-07-15."
+        ),
+    },
+    "019f64a1-6822-7ef1-87b9-2bb6c7224a5e": {
+        "timestamp": "2026-07-15T07:15:27.525Z",
+        "model": "gpt-5.6-sol",
+        "effort": "xhigh",
+        "acknowledged_at": "2026-07-15",
+        "reason": (
+            "Explicit direct-OpenAI maintenance lane performed a read-only audit for the private "
+            "Codex-LB usage tracker, separate from the declared site-development default."
+        ),
+        "provenance": (
+            "Retained turn_context and exact direct-OpenAI maintenance-lane prompt, audited "
+            "2026-07-15."
+        ),
     },
 }
 

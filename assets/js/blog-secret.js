@@ -8,6 +8,7 @@
   const closeButton = document.getElementById("sirui-secret-close");
   const form = document.getElementById("sirui-secret-form");
   const status = document.getElementById("sirui-secret-status");
+  const originLink = document.querySelector("[data-sirui-secret-origin]");
   const fruitButtons = Array.from(document.querySelectorAll("[data-sirui-fruit]"));
 
   if (!trigger || !dialog || !closeButton || !form || !status || !fruitButtons.length) return;
@@ -279,6 +280,29 @@
     }
   };
 
+  const safeSessionGet = (key) => {
+    try {
+      return sessionStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  };
+
+  const hasDiscoveredPortal = () => {
+    const storedPass = safeSessionGet(FRUIT_PASS_KEY);
+    if (!storedPass) return false;
+    try {
+      const parsed = JSON.parse(storedPass);
+      return typeof parsed?.fruit === "string" && Number(parsed?.unlockedAt) > 0;
+    } catch {
+      return false;
+    }
+  };
+
+  const revealOrigin = () => {
+    if (originLink) originLink.hidden = false;
+  };
+
   const clearAnimation = () => {
     animationClassSet.forEach((className) => trigger.classList.remove(className));
     activeAnimation = "";
@@ -365,6 +389,7 @@
         unlockedAt: Date.now(),
       })
     );
+    revealOrigin();
     routeTimer = window.setTimeout(
       () => {
         window.location.assign(secretUrl);
@@ -373,6 +398,7 @@
     );
   };
 
+  if (hasDiscoveredPortal()) revealOrigin();
   renderFruitArt();
   fruitButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
 

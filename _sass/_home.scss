@@ -604,8 +604,26 @@ html[data-theme="dark"] .home-cred-item strong {
   text-underline-offset: 0.18rem;
 }
 
-.home-desk-mode-switch span {
+.home-desk-mode-switch > .home-desk-mode-divider {
   opacity: 0.34;
+}
+
+.home-desk-mode-switch .home-desk-origin-link {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-color: color-mix(in srgb, var(--home-line) 68%, transparent);
+  background: color-mix(in srgb, var(--home-surface) 72%, transparent);
+  color: var(--home-muted);
+  font-size: 0.58rem;
+  opacity: 0.72;
+}
+
+@media (max-width: 480px) {
+  .home-desk-mode-switch .home-desk-origin-link .widget-origin-tooltip {
+    top: calc(100% + 0.35rem);
+    right: -0.2rem;
+    bottom: auto;
+  }
 }
 
 .home-desk-control-strip {

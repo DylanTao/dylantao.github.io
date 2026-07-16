@@ -66,11 +66,15 @@
               "
             {% endif %}
           >
-            {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project.title class="card-img-top project-card-img" %}
+            {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project.title class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
           </div>
         {% endif %}
         <div class="card-body project-card-body">
-          <h3 class="card-title">{{ project.title }}</h3>
+          {% if include.heading_level == 4 %}
+            <h4 class="card-title">{{ project.title }}</h4>
+          {% else %}
+            <h3 class="card-title">{{ project.title }}</h3>
+          {% endif %}
           {% if project.venue or project.year or project.role or project_status_label != '' %}
             <p class="project-card-meta">
               {% if project.venue %}
@@ -173,7 +177,7 @@
               "
             {% endif %}
           >
-            {% include figure.liquid loading="eager" path=project.img sizes="250px" alt="project thumbnail" class="card-img-top project-card-img" %}
+            {% include figure.liquid loading="eager" path=project.img sizes="250px" alt="project thumbnail" class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
           </div>
         {% endif %}
         <div class="card-body">

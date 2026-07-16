@@ -371,6 +371,13 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 - Published public totals: 337 revamp commits, 5.26B rounded retained-session tokens, 372 rounded agent-hours, and 3156 kWh. The desk window is 118 path-scoped commits, 4.17B rounded retained-session tokens, and 258 rounded hours; its compact scene note continues to render only commits and tokens.
 - Evidence: `python bin/audit_agentic_usage.py --write` scanned 526 local and 228 repo-attributed leaf sessions, retained 37,223 additive usage-event sources after skipping 214,107 copied/repeated snapshots and 86,029 fork-preamble events, and found 504 retained post-cutover turns with five acknowledged and zero unacknowledged deviations.
 
+### 2026-07-15
+
+- Portfolio-experiment evidence checkpoint: completed the nine-project hero-debut chronology, one parent-page rationale for model-to-model re-review, quiet origin routes for the desk/card/portal widgets, truthful participant-visible teaser captures, and mobile/reduced-motion contracts. The Build Rhythm page now carries the full John Thompson, Autodesk HCI internship, Google News Lab, and Truth & Beauty credit chain.
+- Model-policy v2 adds exact acknowledgments for two retained `gpt-5.6-sol/xhigh` turns: a no-tools `DIRECT_OK` Codex-LB routing smoke and an explicitly direct-OpenAI, read-only Codex-LB maintenance audit. Both retain their original model/effort values and per-turn provenance; the fail-closed inventory reports seven acknowledged and zero unacknowledged deviations.
+- First pending-checkpoint audit: 346 revamp commits, 5.59B rounded retained-session tokens, 402 rounded agent-hours, 3354 kWh, about 2.1 ten-year urban trees' stored-carbon equivalent, and about $4.8K under the request-aware API-rate replay. The desk window remains 119 path-scoped commits; its time-window estimate moved to 4.51B rounded tokens and 288 rounded hours.
+- Evidence: `python bin/audit_agentic_usage.py --write --include-pending-commit` scanned 599 local and 248 repo-attributed leaf sessions, retained 39,345 additive usage-event sources after skipping 217,546 copied/repeated snapshots and 86,029 fork-preamble events, and observed 700 post-cutover turns. The final source suite passed 109 tests plus Prettier, style, JavaScript syntax, publication-output validation, and the local-override audit; the Docker-root project chronology, desk-origin, and Dogtor journey passed nine viewport cases with three intentional non-desktop journey skips.
+
 ## Future Entry Template
 
 ### YYYY-MM-DD

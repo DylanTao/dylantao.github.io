@@ -4,6 +4,7 @@ title: Paper Constellation
 description: A list-first publication browser that maps five accepted papers across Design, Evaluate, and Situate while keeping unannounced work deliberately anonymous.
 img: assets/img/project_pics/paper-constellation/paper-constellation-teaser.png
 image_aspect: 4 / 3
+card_avoid_scaling: true
 importance: -31
 category: fun
 year: 2026

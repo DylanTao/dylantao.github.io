@@ -2,6 +2,10 @@
 layout: page
 title: The IKEA Card Experiment
 description: An in-place project preview that keeps the surrounding evidence grid visible while one artifact opens.
+img: assets/img/project_pics/site-experiments/ikea-card-expanded.png
+image_aspect: 2 / 1
+card_image_fit: contain
+card_avoid_scaling: true
 importance: -26
 category: fun
 site_experiment: true

@@ -2,6 +2,9 @@
 layout: page
 title: Build Rhythm
 description: A privacy-safe activity view that separates long-term GitHub cadence from the shorter clock of recent Codex use.
+img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
+image_aspect: 3 / 2
+card_avoid_scaling: true
 importance: -30
 category: fun
 site_experiment: true
@@ -40,7 +43,7 @@ hide_title: true
 
 ## Origin
 
-The first version began as a research-grounded activity workbench. John Thompson later shared [The Rhythm of Food](https://rhythm-of-food.net/) during an HCI intern design session about balancing performance, interactivity, and effort across SVG, Canvas, and WebGL. The transferable lesson was pacing: reveal one relationship at a time, then hand the reader the exact record. This site adapts that narrative principle to aggregate build data without copying its visual language or code.
+The first version began as a research-grounded activity workbench. John Thompson later shared [The Rhythm of Food](https://rhythm-of-food.net/) during our Autodesk HCI internship Wednesday design session, “Balancing Performance, Interactivity and Effort: SVG, Canvas, and WebGL.” The transferable lesson was pacing: reveal one relationship at a time, then hand the reader the exact record. This site adapts that narrative principle to aggregate build data without copying its visual language or code.
 
 ## What the page protects
 
@@ -51,6 +54,7 @@ Commits describe cadence. Additions and deletions describe the magnitude and dir
   <li><time datetime="2026-07-12">Jul 12</time><code>ed0d3ba40</code><span>Separated the Codex and GitHub horizons after one combined overview implied a relationship the data could not support.</span></li>
   <li><time datetime="2026-07-13">Jul 13</time><code>d3f13be35</code><span>Removed causal and cost clutter so the evidence returned to cadence and change.</span></li>
   <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Restored additions and deletions with readable and literal scales plus stronger responsive evidence.</span></li>
+  <li><time datetime="2026-07-15">Jul 15</time><code>6b4b7bd59</code><span>Added a scroll-led reading that teaches cadence, magnitude, scale, and the separate Codex clock before handing control to the exact explorer.</span></li>
 </ol>
 
 <aside class="site-experiment-reproduce" aria-labelledby="build-rhythm-reproduce-title">
@@ -62,4 +66,4 @@ Commits describe cadence. Additions and deletions describe the magnitude and dir
 
 ## Credits
 
-[The Rhythm of Food](https://rhythm-of-food.net/) was made by Google News Lab and Truth & Beauty. Thanks to [John Thompson](https://jrthomp.com/) for sharing it and starting the conversation about storytelling across web rendering systems.
+[The Rhythm of Food](https://rhythm-of-food.net/) was made by Google News Lab and Truth & Beauty. Thanks to [John Thompson](https://jrthomp.com/) for sharing it during the Autodesk HCI internship Wednesday design session and starting the conversation about storytelling across web rendering systems.

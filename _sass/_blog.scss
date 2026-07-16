@@ -850,6 +850,25 @@
   }
 }
 
+.sirui-secret-origin {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.04em;
+  font-size: 1rem;
+  vertical-align: middle;
+
+  &[hidden] {
+    display: none;
+  }
+
+  .widget-origin-link {
+    width: 1.55rem;
+    height: 1.55rem;
+    font-size: 0.64rem;
+    opacity: 0.72;
+  }
+}
+
 .sirui-secret-dialog[hidden] {
   display: none;
 }

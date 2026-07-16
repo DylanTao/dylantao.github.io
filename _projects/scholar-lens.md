@@ -2,6 +2,10 @@
 layout: page
 title: Scholar Lens
 description: A site-native citation highlighter that connects authorship, paper format, annual citation context, and the accepted-paper list.
+img: assets/img/project_pics/site-experiments/scholar-lens.png
+image_aspect: 3 / 2
+card_image_fit: contain
+card_avoid_scaling: true
 importance: -28
 category: fun
 site_experiment: true

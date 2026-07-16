@@ -98,11 +98,14 @@ ul.task-list input[type="checkbox"] {
   opacity: 0;
   pointer-events: none;
   text-align: left;
+  text-transform: none;
   transform: translateY(0.2rem);
   transition:
     opacity 150ms ease,
     transform 150ms ease;
   visibility: hidden;
+  white-space: normal;
+  letter-spacing: normal;
 }
 
 .widget-origin-link:hover .widget-origin-tooltip,
@@ -333,6 +336,19 @@ html.site-motion-ready .hoverable.site-visible:hover {
     margin-left: -0.5rem;
   }
 
+  .project-browser-origin {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    margin: -0.25rem 0 0.45rem;
+    color: color-mix(in srgb, var(--global-text-color-light) 76%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
   .project-category-heading {
     display: grid;
     align-items: end;
@@ -359,6 +375,45 @@ html.site-motion-ready .hoverable.site-visible:hover {
       h2.category {
         color: var(--global-theme-color);
       }
+    }
+  }
+
+  .site-experiment-index-heading {
+    max-width: var(--measure-prose);
+    margin: 0 0 1.15rem;
+
+    h3,
+    p {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    h3 {
+      margin-top: 0.2rem;
+      margin-bottom: 0.45rem;
+      font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    }
+
+    > p:last-child {
+      max-width: 48rem;
+      margin-bottom: 0;
+      color: var(--global-text-color-light);
+      line-height: 1.6;
+    }
+  }
+
+  .project-subsection {
+    margin-top: 1.85rem;
+  }
+
+  .project-subsection-heading {
+    margin-bottom: 0.95rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--global-divider-color);
+
+    h3 {
+      margin: 0;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
     }
   }
 
@@ -2527,6 +2582,8 @@ html[data-theme="dark"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .widget-origin-link,
+  .widget-origin-tooltip,
   .hoverable,
   .project-case-actions a,
   .projects .card,
@@ -2541,6 +2598,16 @@ html[data-theme="dark"] {
     &:hover {
       transform: none;
     }
+  }
+
+  .widget-origin-link:hover,
+  .widget-origin-link:focus-visible {
+    transform: none;
+  }
+
+  .widget-origin-link:hover .widget-origin-tooltip,
+  .widget-origin-link:focus-visible .widget-origin-tooltip {
+    transform: none;
   }
 
   .projects .project-card.is-expanded .project-card-preview-affordance,
