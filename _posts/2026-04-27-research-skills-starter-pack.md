@@ -51,10 +51,10 @@ getting stuck on page one.
 
 The second is [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)'s
 [_Catchy Titles Are Good: But Avoid Being Cute_](https://faculty.washington.edu/wobbrock/pubs/Wobbrock-2015.pdf),
-which I first learned as a guide to SIGCHI-style HCI writing. It is also useful
-when reading because it gives you a quick map of what each section is supposed
-to accomplish. I come back to it constantly when I write HCI papers, so I unpack
-its writing lessons in [section 3](#3-learn-to-write-research-clearly).
+which I first learned as a guide to SIGCHI-style HCI writing. When I am reading,
+its section map helps me ask what job each part of a paper is trying to do. I use
+it even more often while writing HCI papers, so the fuller version of that map
+lives in [section 3](#3-learn-to-write-research-clearly).
 
 When you read a paper, try to answer:
 
@@ -165,24 +165,33 @@ Research writing is not decoration after the "real work" is done. Writing is
 where you discover what your contribution actually is, what evidence you still
 need, and what your reader is likely to misunderstand.
 
-### Start with the paper's architecture
+### Keep Wobbrock's paper map beside you
 
-For HCI papers, the section-by-section guide I come back to most is
+The writing resource I reopen most often while outlining an HCI paper is
 [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)'s
 [_Catchy Titles Are Good: But Avoid Being Cute_](https://faculty.washington.edu/wobbrock/pubs/Wobbrock-2015.pdf).
 The title advice is memorable, but the guide is really about the promises each
-part of a paper makes to its reader. The abstract says what you did and found.
-The introduction moves from the state of the world and the "big but" to what you
-did, found, and contributed. Related work teaches and differentiates. The method
-gives an expert enough detail to understand or repeat the work. Results report
-what happened; the discussion explains why it matters.
+part of a paper makes to its reader. My shorthand version is:
+
+- **Abstract:** Tell me what you did and what you found.
+- **Introduction:** Move from the state of the world and the "big but" to what
+  you did, what you found, and what you contributed. Wobbrock credits this
+  five-part pattern as building on advice from Scott E. Hudson.
+- **Related work:** Teach me the landscape and differentiate the work fairly.
+- **System or artifact:** Explain the goals, rationale, operation, tradeoffs,
+  and limits that matter to the research claim.
+- **Method:** Give an expert enough detail to understand or repeat the work.
+- **Results:** Report what happened in a sequence the reader can follow.
+- **Discussion:** Explain why the findings matter, including implications,
+  surprises, and limits.
+- **Conclusion:** Show that the paper delivered on the promises it opened with.
 
 I keep this guide nearby while outlining because it helps me see whether the
 argument is carrying its weight from one section to the next. I use it as a
 diagnostic map, not a rigid template: different kinds of HCI papers need
 different structures, but every section should still have a clear job.
 
-### Make the argument easy to follow
+### Shape the argument for a tired reader
 
 Wobbrock gives me the paper-level map. For the writing decisions inside that
 map, I start with [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)'s
@@ -218,7 +227,7 @@ looking for reasons to reject borderline papers. Your job is not to hope they
 figure out your point. Your job is to make the problem, contribution, evidence,
 limitations, and relationship to prior work easy to see.
 
-### Use writing to discover the research
+### Use the draft to discover missing research
 
 I would also read Marco Tulio Ribeiro's
 [_Writing, part 1 — the process_](https://medium.com/@marcotcr/writing-part-1-the-process-6bb92cb522eb).
@@ -229,6 +238,8 @@ imperfect draft from that outline, reverse-outline what you actually wrote,
 rewrite at multiple levels, and ask for feedback. I like this because it makes
 confusion less shameful. If a paragraph collapses when I outline it backward,
 that is not a sign that writing failed. That is the writing doing its job.
+
+### My repeatable writing loop
 
 My practical takeaway from [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/)'s
 advice, the Durand/Freeman resources he recommended, Ribeiro's process essay,
@@ -404,6 +415,9 @@ who wrote those resources:
   [_Catchy Titles Are Good: But Avoid Being Cute_](https://faculty.washington.edu/wobbrock/pubs/Wobbrock-2015.pdf),
   and for writing
   [_The Ph.D. Grind_](https://cacm.acm.org/blogcacm/the-ph-d-grind-main-grinds-and-side-grinds/).
+- [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/) for writing the
+  HCI paper guide I keep beside my drafts, and Scott E. Hudson for the
+  introduction structure Wobbrock credits and extends.
 - [Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) for his
   [writing tips](https://cseweb.ucsd.edu/~tzli/writing_tips.html) and the
   writing resources he recommended there:

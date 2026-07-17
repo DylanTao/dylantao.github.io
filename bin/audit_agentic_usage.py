@@ -51,7 +51,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 29
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 30
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -2018,6 +2018,338 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS[
 )
 
 del _checkpoint_four_auto_review_acknowledgment
+
+
+def _post_checkpoint_four_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    reason_action: str,
+    provenance_action: str,
+) -> dict[str, str]:
+    """Build one exact post-checkpoint-four provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed {reason_action}; the review "
+            "lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            f"Retained auto-review turn_context, exact {provenance_action}, reviewed session "
+            f"{reviewed_session}, and allow decision, audited 2026-07-16."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6e36-5727-7652-b74f-5f704c25d5a4": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:54:43.299Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the initial read-only GitHub Actions run-list status query for checkpoint commit 2070991b0",
+            "Invoke-RestMethod actions/runs query filtered to head SHA 2070991b0d2046694e1179968a57173f02dd16f8",
+        ),
+        "019f6e37-dfff-78d1-bf2b-14bcf95d4aea": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:56:23.826Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a repeated read-only GitHub Actions run-list status query for exact checkpoint SHA 2070991b0",
+            "sorted Invoke-RestMethod actions/runs query selecting id, name, status, conclusion, and updated_at",
+        ),
+        "019f6e38-b8ad-7c91-85a8-ad7c75581ae5": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:57:19.269Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a repeated read-only GitHub Actions run-list status query for exact checkpoint SHA 2070991b0",
+            "sorted Invoke-RestMethod actions/runs query selecting id, name, status, conclusion, and updated_at",
+        ),
+        "019f6e39-006f-77d1-848c-80ca56176ec1": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:57:42.306Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "the raw read-only GitHub Actions run-list request for exact checkpoint SHA 2070991b0",
+            "curl request to the public actions/runs endpoint filtered to the exact checkpoint SHA",
+        ),
+        "019f6e39-59e6-7d40-a19f-c34c80191e78": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:58:00.253Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "the full-metadata read-only GitHub Actions run-list poll for checkpoint commit 2070991b0",
+            "Invoke-RestMethod actions/runs query selecting event, timestamps, and workflow URLs",
+        ),
+        "019f6e39-e2ab-7d92-91f7-773d7b422b40": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:58:35.766Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a repeated read-only GitHub Actions run-list status query for exact checkpoint SHA 2070991b0",
+            "sorted Invoke-RestMethod actions/runs query selecting id, name, status, conclusion, and updated_at",
+        ),
+        "019f6e3a-02c0-7292-8eb6-656c8542396e": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:58:43.499Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated compact read-only GitHub Actions status poll for checkpoint commit 2070991b0",
+            "sorted Invoke-RestMethod actions/runs query selecting compact status fields",
+        ),
+        "019f6e3a-f32b-7731-9702-9d9d00a17624": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:59:45.437Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated compact read-only GitHub Actions status poll for checkpoint commit 2070991b0",
+            "sorted Invoke-RestMethod actions/runs query selecting compact status fields",
+        ),
+        "019f6e3b-35ac-7df0-9519-71fc2059ae2e": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:00:02.111Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the read-only GitHub Actions query filtered to remaining nonterminal checkpoint runs",
+            "Invoke-RestMethod actions/runs query with status and conclusion filtering",
+        ),
+        "019f6e3b-f22b-7d71-b35d-4afd8213bf76": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:00:50.318Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e3c-dd0e-7fa2-b52a-44388c0d90e6": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:01:50.865Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e3d-aeff-7343-9eb8-c9ef49663757": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:02:44.549Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e3d-bae8-7f63-92e7-4b35d6521173": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:02:47.223Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the cache-busted read-only deployment smoke check for the homepage, project index, and Build Rhythm route",
+            "Invoke-WebRequest checks for checkpoint usage labels and storytelling markers on three public routes",
+        ),
+        "019f6e3e-b132-71b0-be95-97a47f66af1d": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:03:50.314Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e3f-9961-7aa2-8b82-ede898dc6e93": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:04:49.741Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e40-2f29-7941-808a-362d9605e932": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:05:28.394Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the read-only deployed marker smoke test across all ten fun-project routes",
+            "cache-busted Invoke-WebRequest loop checking each public fun-project route and its expected story marker",
+        ),
+        "019f6e40-c904-7202-b4c0-543972150fa9": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:06:07.507Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e40-f6ad-78c2-8f3f-e5072169c1d5": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:06:19.231Z",
+            "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+            "workspace-bounded removal of the tools and tests Python bytecode caches in semantic-scaffolding-map",
+            "resolved-root and StartsWith-guarded Remove-Item command for tools/__pycache__ and tests/__pycache__",
+        ),
+        "019f6e41-e3a9-77a2-a2bb-8dd52a7f9d2f": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:07:20.490Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e43-0795-7202-a08a-e18d79451a60": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:08:35.026Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e43-e28d-7fc1-8337-d97592cf9b59": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:09:30.640Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the read-only deployed HTML contract checks for project-card fields, mobile constellation structure, and Dogtor privacy",
+            "cache-busted requests to projects, publications, and Dogtor pages with structural counts and private-fragment absence checks",
+        ),
+        "019f6e44-334a-7d62-b6f1-fc07dedb732f": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:09:51.248Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e45-4468-7570-8fef-a1295d68da4f": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:11:01.218Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e46-7fbc-7601-9054-663826efea12": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:12:22.418Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e47-b46e-77a0-bd98-a8bda2c2a1d7": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:13:41.165Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e48-caf0-7451-934a-2b2e83819e8e": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:14:52.983Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e49-457c-7030-8d21-c7aea43e7e9c": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:15:23.621Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the read-only GitHub Actions job-detail inspection for visual job 87800802047",
+            "Invoke-RestMethod actions/jobs/87800802047 query for current step and elapsed-state fields",
+        ),
+        "019f6e4a-12ad-7bd0-bc42-2376d9e11f75": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:16:16.482Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e4b-2d8f-7030-b5a8-bb48c227801b": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:17:28.969Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e4b-5696-73a0-a71f-828c02572ba4": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:17:44.037Z",
+            "019f6e49-9e2c-7790-94a8-53dcefe8e5cf",
+            "download of prior visual-checkpoint artifact 8364713474 into the temporary directory for trace inspection",
+            "curl download to the exact temporary visual-checkpoint-artifacts-8364713474.zip path using the issued short-lived artifact URL",
+        ),
+        "019f6e4c-5475-7793-a72f-eb96d140a0f1": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:18:44.492Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e4d-33d1-7000-b9ab-5a9c7812876c": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:19:41.561Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the read-only GitHub Actions job-detail inspection for visual job 87800802047",
+            "Invoke-RestMethod actions/jobs/87800802047 query for current step and elapsed-state fields",
+        ),
+        "019f6e4d-6a96-74d1-ace5-23bfbd9d9828": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:19:55.315Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e4e-8145-7cc0-8b1b-c36bd0b6632c": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:21:06.761Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e52-9316-79a1-8f10-bbee1dfe763e": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:25:33.780Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "a repeated read-only status poll for final visual workflow run 29553496287",
+            "Invoke-RestMethod actions/runs/29553496287 query selecting status, conclusion, timestamp, and URL fields",
+        ),
+        "019f6e52-e4b1-7c12-bab5-44d26ff0bf2d": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T04:25:54.533Z",
+            "019f6e36-b098-7ab2-bf6a-f5a7fc65a0ed",
+            "the final read-only GitHub Actions run-list query recording terminal evidence for checkpoint commit 2070991b0",
+            "sorted Invoke-RestMethod actions/runs query selecting terminal status, timestamps, and workflow URLs",
+        ),
+    }
+)
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6e76-fc20-7610-9dad-1d9575c02124": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:05:24.456Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a read-only inventory of relevant Windows Scheduled Tasks to identify installed usage-refresh automation",
+            "filtered Get-ScheduledTask inventory command",
+        ),
+        "019f6e77-4fe6-7e03-8549-adf3fe7667ee": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:05:40.874Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "read-only inspection of the direct-account task schedule, action, principal, settings, and latest result",
+            "Get-ScheduledTask and Get-ScheduledTaskInfo command for Dylan Codex Direct Account Usage",
+        ),
+        "019f6e77-bbcc-7302-ab73-5714950f29cc": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:06:08.519Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "read-only inspection of the protected tracker file inventory and configuration shape without credential or account values",
+            "protected tracker Get-ChildItem and config-property-type command",
+        ),
+        "019f6e78-2e72-7061-9536-889f19632c46": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:06:37.877Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a key-only view of tracker configuration structure to map collection and publication targets without account values",
+            "tracker config Shape function and key-only JSON projection command",
+        ),
+        "019f6e78-64d2-7f00-9c6f-277d4af18f91": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:06:51.851Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a read-only runtime-source search for publication targets, cadence, and exit-code behavior",
+            "scoped rg command over the installed tracker runtime",
+        ),
+        "019f6e78-9d3a-7341-b06b-0e96d9d6f449": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:07:06.244Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a read-only view of non-identity tracker paths and cadence values to determine its publication flow",
+            "sanitized tracker path and timing JSON projection command",
+        ),
+        "019f6e78-d4eb-7832-b613-4351986648d4": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:07:24.654Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a read-only scan of scheduled-task action strings for tracker, website, profile, and GitHub publishers",
+            "filtered Get-ScheduledTask action-string scan",
+        ),
+        "019f6e7d-0da5-7501-9443-aaafe70ee46a": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:12:02.260Z",
+            "019f6e7c-1481-7cc1-b2a1-ba5bdb45be78",
+            "read-only inspection of matching Windows task definitions and latest results to diagnose stale token refresh",
+            "filtered Get-ScheduledTask plus Get-ScheduledTaskInfo diagnostic command",
+        ),
+        "019f6e7e-d3a0-7fd0-89fc-b12ac5f67216": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:13:53.704Z",
+            "019f6e7c-1481-7cc1-b2a1-ba5bdb45be78",
+            "a read-only inventory of protected direct-account tracker files to verify its collection mechanism",
+            "protected tracker Get-ChildItem file-list command",
+        ),
+        "019f6e7f-3ea0-7320-80e4-45d31563269c": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:14:20.766Z",
+            "019f6e7c-1481-7cc1-b2a1-ba5bdb45be78",
+            "a redacted read-only diagnostic of tracker configuration, runtime matches, public projection, attempt health, and publication state",
+            "sanitized tracker config, runtime, state, and public-projection inspection command",
+        ),
+        "019f6e81-10a9-70e2-911b-a3e6c67abc86": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:16:22.057Z",
+            "019f6e7c-1481-7cc1-b2a1-ba5bdb45be78",
+            "a read-only installed-schema search for account/usage/read and lifetimeTokens support",
+            "scoped rg command over tracker and installed Codex schemas",
+        ),
+        "019f6e81-5298-74b2-8c01-9852aabac068": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:16:36.968Z",
+            "019f6e7c-1481-7cc1-b2a1-ba5bdb45be78",
+            "read-only inspection of generated account/usage/read request and response schemas to confirm parameters and lifetimeTokens type",
+            "exact GetAccountTokenUsageResponse and ClientRequest schema read command",
+        ),
+        "019f6e9c-6481-76a3-951c-c86ee4709d8c": _post_checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T05:46:11.106Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "restoration of only two generated tracker files whose line endings were normalized during a Prettier check, preserving the intentional blog edit",
+            "two-path git restore followed by a read-only status command",
+        ),
+    }
+)
+
+del _post_checkpoint_four_auto_review_acknowledgment
+
 
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
