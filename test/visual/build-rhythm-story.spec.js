@@ -37,7 +37,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(stage).toContainText(latestTokenLabel);
   } else {
     await expect(story).toHaveAttribute("data-story-static", "false");
-    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "codex", "explore"]) {
+    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"]) {
       const step = page.locator(`[data-build-rhythm-step="${scene}"]`);
       await step.scrollIntoViewIfNeeded();
       await expect(step).toHaveClass(/is-active/);
@@ -58,6 +58,31 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await attachScreenshot(page, testInfo, `build-rhythm-stage-${testInfo.project.name}`, { locator: stage });
   await attachScreenshot(page, testInfo, `build-rhythm-story-${testInfo.project.name}`, { locator: story });
   expect(runtimeErrors).toEqual([]);
+});
+
+test("Build Rhythm refreshes the visible lifetime scene after a delayed snapshot", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
+
+  await preparePage(page, "light");
+  let releaseSnapshot;
+  const snapshotGate = new Promise((resolve) => {
+    releaseSnapshot = resolve;
+  });
+  await page.route("**/assets/data/codex-profile-usage.json", async (route) => {
+    await snapshotGate;
+    await route.continue();
+  });
+
+  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
+  const story = page.locator("[data-build-rhythm-story]");
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  await expect(story).toHaveAttribute("data-state", "ready");
+  await page.locator('[data-build-rhythm-step="lifetime"]').scrollIntoViewIfNeeded();
+  await expect(stage).toHaveAttribute("data-scene", "lifetime");
+  await expect(stage).toContainText("LIFETIME CODEX TOTAL UNAVAILABLE");
+
+  releaseSnapshot();
+  await expect(stage).toContainText("32.8B");
 });
 
 test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {

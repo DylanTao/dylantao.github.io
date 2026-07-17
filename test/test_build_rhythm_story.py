@@ -36,7 +36,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
         self.assertEqual(
             steps,
-            ["cadence", "magnitude", "bursts", "tokens", "codex", "explore"],
+            ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"],
         )
         self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
         self.assertLess(
@@ -94,9 +94,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         frozen_page_selectors = (
             'data-github-activity',
             'data-codex-usage',
-            'data-codex-healthy',
-            'data-codex-fresh',
-            'data-codex-quota',
+            'data-codex-lifetime',
             'id="github-activity-chart"',
             'id="github-activity-selected-commits"',
             'id="github-activity-selected-additions"',
@@ -115,9 +113,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
 
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
-            "two-account Codex quota health",
-            "complete observation of two-account Codex quota health",
-            "one-account historical context",
+            "rounded lifetime Codex checkpoint",
+            "Lifetime checkpoint",
             "7e224db12",
             "Three sources, never one score",
             "deduplicated retained logs attributed to this repo",
@@ -128,9 +125,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
                 self.assertIn(phrase, self.case_study)
 
         for phrase in (
-            "anonymous account counts",
-            "Quota windows remain per-account and non-additive",
-            "rounded personal token checkpoint",
+            "rounded lifetime total",
+            "Never add it to the repo-scoped retained-session estimate",
+            "rounded, anonymous, and separate from the repo estimate",
             "missing observation must never render as a false zero",
             "The exact point keys are `date`, `token_count`, and `tokens_label`",
             "three separate clocks",
@@ -153,6 +150,23 @@ class BuildRhythmStoryTests(unittest.TestCase):
             with self.subTest(stale_phrase=stale_phrase):
                 self.assertNotIn(stale_phrase, self.case_study)
                 self.assertNotIn(stale_phrase, self.reproduction)
+
+    def test_retired_quota_health_ui_and_copy_are_absent(self) -> None:
+        public_surfaces = "\n".join((self.page, self.case_study, self.reproduction, self.script)).lower()
+        for retired in (
+            "2-account quota health",
+            "two-account quota health",
+            "quota-health",
+            "data-codex-healthy",
+            "data-codex-fresh",
+            "data-codex-quota",
+            "personalroundedlifetimebaseline",
+        ):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, public_surfaces)
+        self.assertIn("Combined lifetime Codex tokens", self.page)
+        self.assertIn("automatic refresh pending", self.page)
+        self.assertIn("never\nadded to the repo-scoped retained-session estimate", self.page)
 
     def test_build_rhythm_visual_contract_runs_in_the_public_site_matrix(self) -> None:
         spec = "build-rhythm-story.spec.js"

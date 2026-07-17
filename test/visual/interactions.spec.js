@@ -246,33 +246,27 @@ test("Codex activity fails closed when its public data is unavailable", async ({
   await expect(page.locator(".github-activity-codex-readout")).not.toHaveAttribute("aria-live", /.+/);
 });
 
-test("usage story keeps direct quota health and GitHub measures independent and accessible", async ({ page }) => {
+test("usage story keeps rounded lifetime Codex usage and repo measures independent and accessible", async ({ page }) => {
   await preparePage(page, "light");
   await page.route("**/assets/data/codex-profile-usage.json", (route) =>
     route.fulfill({
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({
-        schema: 2,
-        accountCount: 2,
-        healthyAccountCount: 2,
-        freshAccountCount: 2,
-        accountsWithQuotaData: 2,
-        accountsAtLimit: null,
-        units: { accounts: "count", health: "count", freshness: "utc_timestamp" },
-        method: "codex_app_server_rate_limits_non_additive_no_model_turns",
-        coverage: { complete: true, requiredAccountCount: 2, healthyAccountCount: 2 },
-        confidence: "direct complete observation",
-        updated_at: "2026-07-16T18:55:00Z",
-        personalRoundedLifetimeBaseline: {
-          token_count: 20900000000,
-          tokens_label: "20.9B",
+        schema: 3,
+        combined_lifetime: {
+          token_count: 32800000000,
+          tokens_label: "32.8B",
           units: "tokens",
-          method: "manual_rounded_profile_baseline",
-          coverage: "1 of 2 accounts",
-          aggregation: "non_additive",
-          captured_at: "2026-07-12T18:40:36.572451Z",
+          aggregation: "sum_of_sources",
+          rounding: "nearest_0.1B",
+          source_count: 2,
         },
+        method: "user_reported_rounded_lifetime_checkpoint",
+        confidence: "user reported",
+        observed_on: "2026-07-16",
+        updated_at: null,
+        automated_refresh: false,
       }),
     })
   );
@@ -283,8 +277,8 @@ test("usage story keeps direct quota health and GitHub measures independent and 
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
-  await expect(page.locator(".github-activity-eyebrow")).toHaveText("REPO TOKEN RHYTHM + DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM");
-  await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(4);
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("REPO TOKEN RHYTHM + LIFETIME CODEX USAGE + GITHUB BUILD RHYTHM");
+  await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(1);
   await expect(page.locator("#github-activity-codex-cost")).toHaveCount(0);
   await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
   await expect(page.locator("#github-activity-selected-deletions")).toHaveText(/^\u2212[\d,]+ removed$/);
@@ -297,18 +291,17 @@ test("usage story keeps direct quota health and GitHub measures independent and 
 
   const codexScope = page.locator("[data-codex-scope]");
   const githubScope = page.locator("[data-github-scope]");
-  await expect(codexScope).toHaveText("2 ACCOUNTS · NON-ADDITIVE");
+  await expect(codexScope).toHaveText("LIFETIME · ROUNDED");
   await expect(githubScope).toHaveText("5 YEARS · WEEKLY");
-  await expect(page.locator("[data-codex-healthy]")).toHaveText("2/2");
-  await expect(page.locator("[data-codex-fresh]")).toHaveText("2/2");
-  await expect(page.locator("[data-codex-quota]")).toHaveText("2/2");
-  await expect(codexTrend.locator("[data-codex-status]")).toContainText("Complete 2-of-2 observation");
-  await expect(codexTrend).toContainText("20.9B");
-  await expect(codexTrend).toContainText("1 of 2 accounts");
+  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32.8B");
+  await expect(codexTrend.locator("[data-codex-status]")).toContainText("User-reported checkpoint");
+  await expect(codexTrend.locator("[data-codex-status]")).toContainText("automatic refresh pending");
+  await expect(codexTrend).toContainText("32.8B");
   await expect(codexTrend).toContainText(
-    "No direct-account aliases, identifiers, plans, raw percentages, reset times, exact usage, daily histories, or API-cost conversions are published."
+    "Rounded before publication. No source-level identity, plan, history, reset time, or cost conversion reaches this page"
   );
-  await expect(codexTrend).not.toContainText(/combined lifetime|resets? (?:at|in)|API-cost estimate/i);
+  await expect(codexTrend).toContainText("never added to the repo-scoped retained-session estimate");
+  await expect(codexTrend).not.toContainText(/quota health|accounts healthy|1 of 2 accounts|resets? (?:at|in)|API-cost estimate/i);
 
   const commitPath = page.locator(".github-activity-commit-line");
   const addPath = page.locator(".github-activity-add-line");
@@ -346,7 +339,7 @@ test("usage story keeps direct quota health and GitHub measures independent and 
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
   await expect(githubScope).toHaveText("1 YEAR · WEEKLY");
-  await expect(codexScope).toHaveText("2 ACCOUNTS · NON-ADDITIVE");
+  await expect(codexScope).toHaveText("LIFETIME · ROUNDED");
   const inspector = page.locator(".github-activity-inspector");
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
@@ -466,7 +459,7 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
   });
 });
 
-test("home agentic heartbeat shows the separate rounded checkpoint and tracker coverage", async ({ page }) => {
+test("home agentic heartbeat shows the rounded lifetime checkpoint without account-health ink", async ({ page }) => {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
@@ -477,9 +470,8 @@ test("home agentic heartbeat shows the separate rounded checkpoint and tracker c
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
   await expect(heartbeat).toHaveAccessibleName("Open Build Rhythm");
-  await expect(heartbeat).toContainText("20.9B Personal rounded checkpoint");
-  await expect(heartbeat).toContainText("History: 1 of 2 accounts");
-  await expect(heartbeat).toContainText(/(?:\d+\/\d+ accounts healthy|Account check pending)/);
+  await expect(heartbeat).toContainText("32.8B combined lifetime Codex tokens");
+  await expect(heartbeat).toContainText("Observed Jul 16");
   await expect(heartbeat).toContainText("Build Rhythm");
   await expect(heartbeat).not.toContainText("2-account quota health");
   await expect(heartbeat).toContainText(/\d+ GitHub commits/);
@@ -497,7 +489,7 @@ test("home agentic heartbeat shows the separate rounded checkpoint and tracker c
   await expect(tally).not.toContainText(/trees?|invoice|cost/i);
   await expect(tally.locator("#home-agentic-tooltip")).toContainText("The commit count is exact from this repository's Git history.");
   await expect(heartbeat.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
-  await expect(heartbeat.locator(".home-agentic-heartbeat-meta > span")).toHaveCount(3);
+  await expect(heartbeat.locator(".home-agentic-heartbeat-meta > span")).toHaveCount(2);
   const heartbeatFrame = await heartbeat.evaluate((node) => {
     const style = getComputedStyle(node);
     return { borderTopWidth: style.borderTopWidth, backgroundColor: style.backgroundColor, minHeight: style.minHeight };

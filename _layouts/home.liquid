@@ -67,12 +67,12 @@ layout: default
               {% endif %}
             </dl>
             {% assign direct_tracker = site.data.direct_usage_tracker %}
-            {% assign personal_baseline = direct_tracker.personalRoundedLifetimeBaseline %}
+            {% assign combined_lifetime = direct_tracker.combined_lifetime %}
             {% assign all_github_commits = 0 %}
             {% for week in site.data.github_activity.weeks %}
               {% assign all_github_commits = all_github_commits | plus: week.commits %}
             {% endfor %}
-            {% if direct_tracker and personal_baseline and all_github_commits > 0 %}
+            {% if direct_tracker.schema == 3 and combined_lifetime and all_github_commits > 0 %}
               <a
                 class="home-agentic-heartbeat"
                 href="{{ '/github-activity/' | relative_url }}"
@@ -80,22 +80,21 @@ layout: default
               >
                 <span class="home-agentic-heartbeat-status" aria-hidden="true"></span>
                 <span class="home-agentic-heartbeat-copy">
-                  <strong>{{ personal_baseline.tokens_label }} Personal rounded checkpoint</strong>
+                  <strong>{{ combined_lifetime.tokens_label }} combined lifetime Codex tokens</strong>
                   <small class="home-agentic-heartbeat-meta">
-                    <span>History: {{ personal_baseline.coverage }}</span>
-                    {% if direct_tracker.coverage.complete %}
-                      <span>
-                        {{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }} accounts healthy ·
+                    <span>
+                      {% if direct_tracker.automated_refresh %}
+                        Refreshed
                         <time
                           datetime="{{ direct_tracker.updated_at }}"
-                          title="Last complete observation: {{ direct_tracker.updated_at | date: '%Y-%m-%d %H:%M UTC' }}"
+                          title="Rounded lifetime total refreshed {{ direct_tracker.updated_at | date: '%Y-%m-%d %H:%M UTC' }}"
                         >
                           {{- direct_tracker.updated_at | date: '%b %-d' -}}
                         </time>
-                      </span>
-                    {% else %}
-                      <span>Account check pending</span>
-                    {% endif %}
+                      {% else %}
+                        Observed <time datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: '%b %-d' }}</time>
+                      {% endif %}
+                    </span>
                     <span>{{ all_github_commits }} GitHub commits</span>
                   </small>
                 </span>

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Independent views of repo-scoped retained-session token rhythm, anonymous direct Codex quota health, and long-term GitHub build rhythm.
+description: Independent views of repo-scoped retained-session token rhythm, rounded lifetime Codex usage, and long-term GitHub build rhythm.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,13 +11,13 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">REPO TOKEN RHYTHM + DIRECT CODEX HEALTH + GITHUB BUILD RHYTHM</p>
+    <p class="github-activity-eyebrow">REPO TOKEN RHYTHM + LIFETIME CODEX USAGE + GITHUB BUILD RHYTHM</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Three bounded views: a repo-scoped retained-session token estimate, non-additive two-account Codex quota health, and long-term GitHub activity. Each keeps its own units, source, and coverage.
+      Three bounded views: a repo-scoped retained-session token estimate, one rounded lifetime Codex total, and long-term GitHub activity. They share a page, not a denominator.
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
-    {% assign personal_baseline = direct_tracker.personalRoundedLifetimeBaseline %}
+    {% assign combined_lifetime = direct_tracker.combined_lifetime %}
     {% assign token_rhythm = site.data.agentic_usage.total.token_rhythm %}
     {% assign token_latest = token_rhythm.points | last %}
     {% assign token_previous_count = 0 %}
@@ -43,12 +43,12 @@ github_activity: true
     <header class="build-rhythm-story-heading">
       <p class="build-rhythm-story-kicker">A SCROLL-LED READING</p>
       <div class="build-rhythm-story-title-row">
-        <h2 id="build-rhythm-story-title">Two rhythms, one health snapshot.</h2>
+        <h2 id="build-rhythm-story-title">Three clocks, no one score.</h2>
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Want to learn this widget's origin?" %}
       </div>
       <p>
         Commits and line changes describe a long build rhythm. Retained-session tokens trace this site's estimated build history on a daily
-        clock. The direct tracker adds a separate quota-health observation across two anonymous accounts. The measures are not added together.
+        clock. The direct tracker adds one rounded lifetime Codex total. It stays separate from the repo-scoped estimate.
       </p>
     </header>
 
@@ -57,11 +57,11 @@ github_activity: true
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
             <span data-build-rhythm-story-label>COMPLETE VIEW</span>
-            <span data-build-rhythm-story-scope>5 YEARS + DAILY TOKENS + 2-ACCOUNT HEALTH</span>
+            <span data-build-rhythm-story-scope>5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            GitHub cadence, repo-scoped token rhythm, and separate Codex quota health.
+            GitHub cadence, repo-scoped token rhythm, and separate lifetime Codex usage.
           </p>
         </div>
       </div>
@@ -105,12 +105,12 @@ github_activity: true
           </p>
         </article>
 
-        <article class="build-rhythm-story-step" data-build-rhythm-step="codex">
+        <article class="build-rhythm-story-step" data-build-rhythm-step="lifetime">
           <p class="build-rhythm-story-step-number">05 · CHANGE THE MEASURE</p>
-          <h3>Quota health is a count, not a token total.</h3>
+          <h3>A lifetime total is not this repo's trace.</h3>
           <p>
-            The direct tracker reports anonymous healthy, fresh, and quota-observed account counts. Windows remain per-account and
-            non-additive; no combined lifetime or reset timestamp is published.
+            The direct tracker publishes one anonymous total, rounded before it reaches the site. It describes lifetime Codex usage, while the
+            daily trace above estimates work retained for this repository. Do not add them together.
           </p>
         </article>
 
@@ -133,7 +133,7 @@ github_activity: true
 
   </section>
 
-{% if direct_tracker and personal_baseline %}
+{% if direct_tracker.schema == 3 and combined_lifetime %}
 
 <section
       class="github-activity-codex-trend"
@@ -145,41 +145,30 @@ github_activity: true
     >
 <div class="github-activity-codex-heading">
 <div>
-<p class="github-activity-codex-kicker">DIRECT CODEX TRACKER</p>
-<h2 id="github-activity-codex-title">Two-account quota health</h2>
-<p>Anonymous account counts from direct app-server rate-limit reads. Quota windows are never summed.</p>
+<p class="github-activity-codex-kicker">LIFETIME CODEX SNAPSHOT</p>
+<h2 id="github-activity-codex-title">Combined lifetime Codex tokens</h2>
+<p>One rounded total, refreshed independently from this repository's retained-session estimate.</p>
 </div>
 <div class="github-activity-module-actions">
-<span class="github-activity-scope-badge" data-codex-scope>2 ACCOUNTS · NON-ADDITIVE</span>
+<span class="github-activity-scope-badge" data-codex-scope>LIFETIME · ROUNDED</span>
 </div>
 </div>
-<dl class="github-activity-codex-ledger" aria-label="Direct Codex quota-health coverage">
+<dl class="github-activity-codex-ledger" aria-label="Combined lifetime Codex usage">
 <div>
-<dt data-codex-healthy>{{ direct_tracker.healthyAccountCount }}/{{ direct_tracker.accountCount }}</dt>
-<dd>accounts healthy at last complete observation</dd>
-</div>
-<div>
-<dt data-codex-fresh>{{ direct_tracker.freshAccountCount }}/{{ direct_tracker.accountCount }}</dt>
-<dd>accounts fresh at collection</dd>
-</div>
-<div>
-<dt data-codex-quota>{{ direct_tracker.accountsWithQuotaData }}/{{ direct_tracker.accountCount }}</dt>
-<dd>accounts with quota data</dd>
-</div>
-<div>
-<dt>{{ personal_baseline.tokens_label }}</dt>
-<dd>Personal rounded checkpoint · {{ personal_baseline.coverage }}</dd>
+<dt data-codex-lifetime>{{ combined_lifetime.tokens_label }}</dt>
+<dd>combined lifetime Codex tokens</dd>
 </div>
 </dl>
-<p class="github-activity-ledger-note">
-The {{ personal_baseline.tokens_label }} checkpoint was captured {{ personal_baseline.captured_at | date: "%b %-d, %Y" }}. It is separate historical context,
-not a two-account total and not added to quota health.
+<p class="github-activity-codex-readout" data-codex-status>
+{% if direct_tracker.automated_refresh %}
+  Refreshed <time datetime="{{ direct_tracker.updated_at }}">{{ direct_tracker.updated_at | date: "%b %-d, %Y at %-I:%M %p UTC" }}</time>.
+{% else %}
+  User-reported checkpoint · <time datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time> · automatic refresh pending.
+{% endif %}
 </p>
-<div class="github-activity-codex-readout">
-<span data-codex-status>Loading direct tracker health…</span>
-</div>
 <p class="github-activity-codex-note">
-No direct-account aliases, identifiers, plans, raw percentages, reset times, exact usage, daily histories, or API-cost conversions are published.
+Rounded before publication. No source-level identity, plan, history, reset time, or cost conversion reaches this page, and this total is never
+added to the repo-scoped retained-session estimate.
 </p>
 </section>
 {% endif %}
@@ -259,7 +248,7 @@ No direct-account aliases, identifiers, plans, raw percentages, reset times, exa
     <div class="github-activity-method-grid">
       <div>
         <h2>Three bounded sources</h2>
-        <p>Repo-scoped retained-session tokens, anonymous two-account quota health, and GitHub activity keep separate units and clocks.</p>
+        <p>Repo-scoped retained-session tokens, rounded lifetime Codex usage, and GitHub activity keep separate clocks and provenance.</p>
       </div>
       <div>
         <h2>Token rhythm</h2>
@@ -275,7 +264,7 @@ No direct-account aliases, identifiers, plans, raw percentages, reset times, exa
       </div>
       <div>
         <h2>Codex privacy boundary</h2>
-        <p>Only a complete sanitized collector projection can update the public tracker. The dated Personal 20.9B rounded checkpoint covers one of two accounts and remains non-additive.</p>
+        <p>Only a fresh sanitized collector projection can update the public total. It contains one rounded sum and no source-level readings.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>

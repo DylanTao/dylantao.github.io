@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Publish a sanitized, non-additive Codex tracker snapshot.
+"""Publish a sanitized, rounded Codex lifetime-usage snapshot.
 
-The input is the identity-free projection produced by the direct two-account
-collector. This module intentionally has no knowledge of Codex credentials,
-account identities, token histories, reset times, or billing equivalents.
+The input is the identity-free projection produced by the protected collector.
+This module intentionally has no knowledge of Codex credentials, account
+identities, per-source readings, token histories, reset times, or billing
+equivalents.
 """
 
 from __future__ import annotations
@@ -17,36 +18,24 @@ from pathlib import Path
 from typing import Any
 
 
-EXPECTED_ACCOUNT_COUNT = 2
-EXPECTED_METHOD = "codex_app_server_rate_limits_non_additive_no_model_turns"
-EXPECTED_UNITS = {
-    "accounts": "count",
-    "health": "count",
-    "freshness": "utc_timestamp",
+EXPECTED_SOURCE_COUNT = 2
+ROUNDING_QUANTUM = 100_000_000
+JAVASCRIPT_SAFE_INTEGER = 9_007_199_254_740_991
+EXPECTED_METHOD = "rounded_sum_of_verified_account_lifetime_readings"
+EXPECTED_LIFETIME = {
+    "units": "tokens",
+    "aggregation": "sum_of_sources",
+    "rounding": "nearest_0.1B",
 }
 TOP_LEVEL_KEYS = {
     "schemaVersion",
-    "accountCount",
-    "health",
-    "units",
+    "combinedLifetime",
     "method",
-    "coverage",
     "confidence",
     "updated_at",
 }
-BASELINE = {
-    "token_count": 20_900_000_000,
-    "tokens_label": "20.9B",
-    "units": "tokens",
-    "method": "manual_rounded_profile_baseline",
-    "coverage": "1 of 2 accounts",
-    "aggregation": "non_additive",
-    "captured_at": "2026-07-12T18:40:36.572451Z",
-}
 SAFE_CONFIDENCE_LABELS = {
     "high",
-    "medium",
-    "low",
     "direct",
     "complete",
     "direct complete observation",
@@ -86,57 +75,56 @@ def _parse_utc_timestamp(value: Any, label: str) -> datetime:
     return parsed.astimezone(timezone.utc)
 
 
+def _tokens_label(token_count: int) -> str:
+    billions, remainder = divmod(token_count, 1_000_000_000)
+    return f"{billions}.{remainder // ROUNDING_QUANTUM}B"
+
+
 def build_public_snapshot(
     source: Any,
     *,
     now: datetime | None = None,
     max_age: timedelta = timedelta(minutes=20),
 ) -> dict[str, Any]:
-    """Validate a collector projection and return the public schema-2 snapshot."""
+    """Validate a collector projection and return the public schema-3 snapshot."""
 
     source = _exact_keys(source, TOP_LEVEL_KEYS, "snapshot")
-    if source["schemaVersion"] != 1:
-        raise SnapshotError("snapshot.schemaVersion must be 1")
-    account_count = _count(source["accountCount"], "snapshot.accountCount")
-    if account_count != EXPECTED_ACCOUNT_COUNT:
-        raise SnapshotError(f"snapshot.accountCount must be {EXPECTED_ACCOUNT_COUNT}")
+    if source["schemaVersion"] != 3:
+        raise SnapshotError("snapshot.schemaVersion must be 3")
 
-    health = _exact_keys(
-        source["health"],
-        {"healthyAccountCount", "unavailableAccountCount"},
-        "snapshot.health",
+    lifetime = _exact_keys(
+        source["combinedLifetime"],
+        {"tokenCount", "sourceCount", "units", "aggregation", "rounding"},
+        "snapshot.combinedLifetime",
     )
-    healthy = _count(health["healthyAccountCount"], "snapshot.health.healthyAccountCount")
-    unavailable = _count(
-        health["unavailableAccountCount"],
-        "snapshot.health.unavailableAccountCount",
+    token_count = _count(
+        lifetime["tokenCount"],
+        "snapshot.combinedLifetime.tokenCount",
     )
-    if healthy + unavailable != account_count:
-        raise SnapshotError("snapshot.health counts must cover both accounts")
+    if token_count > JAVASCRIPT_SAFE_INTEGER:
+        raise SnapshotError(
+            "snapshot.combinedLifetime.tokenCount must be a JavaScript-safe integer"
+        )
+    if token_count == 0 or token_count % ROUNDING_QUANTUM != 0:
+        raise SnapshotError(
+            "snapshot.combinedLifetime.tokenCount must be a positive nearest-0.1B rounded total"
+        )
+    source_count = _count(
+        lifetime["sourceCount"],
+        "snapshot.combinedLifetime.sourceCount",
+    )
+    if source_count != EXPECTED_SOURCE_COUNT:
+        raise SnapshotError(
+            f"snapshot.combinedLifetime.sourceCount must be {EXPECTED_SOURCE_COUNT}"
+        )
+    for field, expected in EXPECTED_LIFETIME.items():
+        if lifetime[field] != expected:
+            raise SnapshotError(
+                f"snapshot.combinedLifetime.{field} does not match the public collector contract"
+            )
 
-    if source["units"] != EXPECTED_UNITS:
-        raise SnapshotError("snapshot.units does not match the public collector contract")
     if source["method"] != EXPECTED_METHOD:
-        raise SnapshotError("snapshot.method does not match the direct non-additive method")
-
-    coverage = _exact_keys(
-        source["coverage"],
-        {"complete", "requiredAccountCount", "healthyAccountCount"},
-        "snapshot.coverage",
-    )
-    if coverage["complete"] is not True:
-        raise SnapshotError("snapshot.coverage.complete must be true")
-    required = _count(
-        coverage["requiredAccountCount"],
-        "snapshot.coverage.requiredAccountCount",
-    )
-    covered_healthy = _count(
-        coverage["healthyAccountCount"],
-        "snapshot.coverage.healthyAccountCount",
-    )
-    if required != account_count or covered_healthy != healthy or healthy != account_count:
-        raise SnapshotError("snapshot.coverage must be a complete healthy 2-of-2 observation")
-
+        raise SnapshotError("snapshot.method does not match the rounded lifetime method")
     confidence = source["confidence"]
     if confidence not in SAFE_CONFIDENCE_LABELS:
         raise SnapshotError("snapshot.confidence is not a safe public label")
@@ -150,22 +138,20 @@ def build_public_snapshot(
         raise SnapshotError("snapshot.updated_at is stale")
 
     return {
-        "schema": 2,
-        "accountCount": account_count,
-        "healthyAccountCount": healthy,
-        "freshAccountCount": account_count,
-        "accountsWithQuotaData": healthy,
-        "accountsAtLimit": None,
-        "units": dict(EXPECTED_UNITS),
-        "method": EXPECTED_METHOD,
-        "coverage": {
-            "complete": True,
-            "requiredAccountCount": required,
-            "healthyAccountCount": covered_healthy,
+        "schema": 3,
+        "combined_lifetime": {
+            "token_count": token_count,
+            "tokens_label": _tokens_label(token_count),
+            "units": EXPECTED_LIFETIME["units"],
+            "aggregation": EXPECTED_LIFETIME["aggregation"],
+            "rounding": EXPECTED_LIFETIME["rounding"],
+            "source_count": source_count,
         },
+        "method": EXPECTED_METHOD,
         "confidence": confidence,
+        "observed_on": observed_at.date().isoformat(),
         "updated_at": source["updated_at"],
-        "personalRoundedLifetimeBaseline": dict(BASELINE),
+        "automated_refresh": True,
     }
 
 

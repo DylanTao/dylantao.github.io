@@ -6,11 +6,11 @@ Agent-facing Codex overlay: `.codex/skills/agentic-usage-ledger/SKILL.md`. This 
 
 ## Public Data File
 
-The homepage reads `_data/agentic_usage.yml` for repo-scoped retained-log estimates and `_data/direct_usage_tracker.json` for the independent direct-account health surface. `assets/data/codex-profile-usage.json` is a byte-equivalent public copy for the private profile renderer.
+The homepage reads `_data/agentic_usage.yml` for repo-scoped retained-log estimates and `_data/direct_usage_tracker.json` for the independent rounded lifetime Codex surface. `assets/data/codex-profile-usage.json` is a byte-equivalent public copy for the private profile renderer.
 
-The direct tracker is intentionally non-additive. It publishes only `accountCount`, anonymous healthy/fresh/quota-data counts, an unknown (`null`) at-limit count, explicit units/method/coverage/confidence/timestamp fields, and the separate dated Personal `20.9B` rounded checkpoint with `1 of 2 accounts` coverage. It never publishes aliases, emails, identifiers, plan types, raw percentages, reset timestamps, exact account usage, daily histories, API-cost conversions, or a combined lifetime.
+The direct tracker publishes one rounded combined lifetime total with its units, neutral aggregation label, rounding rule, source count, provenance, and observation date. It never publishes aliases, emails, identifiers, plan types, source-level readings, reset timestamps, histories, or API-cost conversions. The combined lifetime total remains independent from—and must never be added to—the repo-scoped retained-session estimate.
 
-`bin/import_direct_usage_snapshot.py` is the only site-side account publication boundary. It consumes the exact identity-free collector schema, requires a fresh complete healthy 2-of-2 result, rejects extra fields, and replaces both public copies atomically. Invalid, incomplete, stale, or future input leaves the last valid outputs untouched. Until the first live two-account cycle succeeds, both files explicitly publish incomplete coverage, zero observed counts, unavailable confidence, and a null timestamp; those zeros mean no observation, not unhealthy accounts.
+`bin/import_direct_usage_snapshot.py` is the only site-side direct publication boundary. It consumes strict schema v3, requires a fresh identity-free projection with two verified sources and a nearest-0.1B total, rejects extra fields, and replaces both public copies atomically. Invalid, stale, future, incorrectly rounded, or wrong-source-count input leaves the last valid outputs untouched. The checked-in `32.8B` value is explicitly a user-reported checkpoint observed on July 16, 2026; `updated_at` remains null and `automated_refresh` remains false until a valid protected-collector projection replaces it.
 
 Update that file when a future Codex or agentic run materially changes this site, especially if the work touches homepage visuals, custom layouts, custom scripts, publications/CV polish, or the 3D desk scene.
 
@@ -18,7 +18,7 @@ The homepage contact ledger should render the playful tree-sacrifice estimate in
 
 The site does not read Codex authentication files and does not call private account endpoints. Direct collection belongs outside this public repository and must hand the importer only the sanitized collector projection. The former exact account-history publication path is retired and no per-account history file is published going forward.
 
-`local_lifetime` remains a fork-aware retained-log replay across local project directories since June 19, 2026. It is a separate repo-development audit and pricing-mix sample, not an account total, quota metric, or input to the direct tracker. Win-CodexBar 0.42's raw 30-day total remains historical diagnostic evidence only.
+`local_lifetime` remains a fork-aware retained-log replay across local project directories since June 19, 2026. It is a separate repo-development audit and pricing-mix sample, not an account-lifetime total or input to the direct tracker. Win-CodexBar 0.42's raw 30-day total remains historical diagnostic evidence only.
 
 ## Current Baseline
 
@@ -26,7 +26,7 @@ Cutoff for the full site revamp: May 22, 2026 at 6:05 PM Pacific, the first clea
 
 ### Current Snapshot Authority
 
-There are two independent numeric authorities. `_data/agentic_usage.yml` owns repo-scoped retained-log estimates; `_data/direct_usage_tracker.json` owns anonymous direct-account quota health and the separate dated Personal rounded checkpoint. Never sum or reconcile them. Direct-account exact readings are not retained in this public ledger.
+There are two independent numeric authorities. `_data/agentic_usage.yml` owns repo-scoped retained-log estimates; `_data/direct_usage_tracker.json` owns the anonymous rounded combined lifetime checkpoint. Never sum or reconcile them. Source-level lifetime readings are not retained in this public ledger.
 
 Evidence and counting contract:
 
@@ -37,10 +37,10 @@ Evidence and counting contract:
 - An explicit `forked_from_id` (or the unambiguous nested subagent `parent_thread_id` fallback) marks contextless token events before the leaf's first `turn_context` as copied fork preamble. These are counted as skipped ancestry, not `unknown/unknown` child usage.
 - Active agent-hours use globally unique context/token events per leaf session, with gaps capped at 45 minutes. Parallel leaf sessions remain additive. A gap belongs to the model/effort active at its start, so a new context does not claim the time preceding it.
 - Missing-context tokens remain visible as `unknown/unknown` and are not silently assigned to a model. Truncated, deleted, or unretained local logs cannot be reconstructed.
-- Direct account publication is account-count-only and non-additive. Import a fresh complete sanitized projection with `python bin/import_direct_usage_snapshot.py PATH_TO_PROJECTION.json`; do not expose collector credentials or per-account detail to this repository.
+- Direct lifetime publication is one rounded combined total. Import a fresh sanitized schema-v3 projection with `python bin/import_direct_usage_snapshot.py PATH_TO_PROJECTION.json`; do not expose collector credentials, identities, or source-level readings to this repository.
 - `local_lifetime` runs the same ancestry-deduplication and additive-event pipeline across every retained leaf session, without the site-cwd filter, beginning June 19, 2026 at 12:00 AM Pacific. It is a retained-device slice and a model/cache/request-mix sample, not a substitute for the account counter.
 - Win-CodexBar 0.42 raw 30-day aggregation is diagnostic only. Its file/fork counting and cumulative-snapshot summation duplicate copied ancestry and intermediate totals, so it must not feed canonical lifetime or daily numbers.
-- Repo-scoped estimate cards may keep their documented equivalence lenses, but direct account health and the Personal 20.9B rounded checkpoint never receive an API-cost conversion.
+- Repo-scoped estimate cards may keep their documented equivalence lenses, but the rounded combined lifetime checkpoint never receives an API-cost conversion.
 - The helper refuses to check or write from a shallow git checkout. Fetch full history first so repo commit counts cannot collapse to the shallow boundary.
 
 Cutoff for the 3D desk/vinyl counter: June 16, 2026 at 8:00 PM Pacific, when the meme-record and desk-scene burst began.
@@ -81,7 +81,7 @@ Factors:
 
 Sources:
 
-- Direct Codex app-server rate-limit collector projection, used only for anonymous two-account health/fresh/quota-data counts.
+- Protected Codex account-usage collector projection, used only for one rounded combined lifetime total and its publication provenance.
 - OpenAI API pricing, used for the request-aware Standard short/long-context replay and the retained legacy `gpt-5.3-codex` lens: https://developers.openai.com/api/docs/pricing
 - CodexBar local dashboard screenshot, June 19, 2026: `$2,616.40 / 3B tokens`, retained only as historical diagnostic provenance.
 - Win-CodexBar 0.42 raw 30-day scan, retained only as noncanonical diagnostic provenance because it counts files/forks and cumulative snapshots.
@@ -420,6 +420,7 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 - Evidence: the post-commit audit scanned 721 local and 299 repo-attributed leaf sessions, retained 46,872 additive usage-event sources after skipping 282,783 copied/repeated snapshots and 150,550 fork-preamble events, and observed 1,048 retained post-cutover turns with 161 acknowledged and zero unacknowledged deviations. The production `/al-folio` build and override audit passed; the ten-route four-viewport light/dark story matrix, focused provenance/44-pixel-action checks, and the final Chromium/WebKit project-card interaction trio passed after temporary-server fixture corrections.
 - Research-writing structure checkpoint: moved Jacob O. Wobbrock's _Catchy Titles Are Good: But Avoid Being Cute_ from a passing reading reference into the writing section where it is actually reused, kept a concise reading bridge, added an eight-part paper-promise map, credited Scott E. Hudson's introduction pattern, and separated paper architecture, tired-reader argument shaping, research discovery, and the repeatable drafting loop without changing the post's main section anchors.
 - Model-policy v30 adds 49 exact provider-managed `codex-auto-review/low` signatures from checkpoint-four CI and deployed-smoke monitoring, one separate guarded cache cleanup, the read-only two-account usage-pipeline audit, and restoration of two generated tracker files after an unintended line-ending normalization. Every original signature, exact action, reviewed-session provenance, and allow decision remains visible; the reviewed inventory reports 210 acknowledged and zero unacknowledged deviations, with no model-wide exception.
+- Model-policy v31 adds 55 exact signatures: 53 provider-managed `codex-auto-review/low` reviews from writing-checkpoint deployment and CI monitoring, the failed-visual-job rerun and ten-repeat focus reproduction, the current direct-usage collector and publisher audit, the schema-v3 wording patch, verification and cleanup, coastal-theme worktree creation and patching, and the direct Python-runtime probe; plus two explicitly requested `gpt-5.6-sol/max` no-tools runtime-attestation canaries in the separate `semantic-scaffolding-map` repository. Every entry individually names its exact retained action or prompt and reviewed-session or leaf-session provenance; the reviewed inventory reports 265 acknowledged and zero unacknowledged deviations, with no model-wide exception.
 - Research-writing checkpoint totals: 374 revamp commits including the follow-up ledger commit, 6.65B rounded retained-session tokens, 471 rounded agent-hours, 3990 kWh, about 2.5 ten-year urban trees' stored-carbon equivalent, and about $5.6K under the request-aware API-rate replay. The desk window remains 120 path-scoped commits and moved to 5.56B rounded tokens and 357 hours; the since-`gpt-5.6-sol` window moved to 79 commits, 4.04B tokens, and 232 hours. The separate retained-local replay is 17.8B rounded tokens and 963 hours.
 - Evidence: the pending audit scanned 749 local and 314 repo-attributed leaf sessions, retained 47,629 additive usage-event sources after skipping 333,030 copied/repeated snapshots and 154,244 fork-preamble events, and observed 1,129 retained post-cutover turns with 210 acknowledged and zero unacknowledged deviations. The full 119-test Python suite, target-post Prettier, style contract, production `/al-folio` build, `git diff --check`, and rendered desktop, mobile, and 200%-zoom inspections passed.
 

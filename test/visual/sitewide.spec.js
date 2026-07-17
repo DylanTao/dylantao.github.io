@@ -1277,8 +1277,8 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   await ledger.scrollIntoViewIfNeeded();
   await expect(ledger).toBeVisible();
   await expect(ledger).toHaveAccessibleName("Open Build Rhythm");
-  await expect(ledger).toContainText("History: 1 of 2 accounts");
-  await expect(ledger).toContainText(/(?:\d+\/\d+ accounts healthy|Account check pending)/);
+  await expect(ledger).toContainText("32.8B combined lifetime Codex tokens");
+  await expect(ledger).toContainText("Observed Jul 16");
   await expect(ledger).toContainText(/\d+ GitHub commits/);
   await expect(ledger).not.toContainText("2-account quota health");
   await expect(ledger.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
@@ -1303,7 +1303,7 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   expect(geometry.left).toBeGreaterThanOrEqual(-1);
   expect(geometry.right).toBeLessThanOrEqual(geometry.clientWidth + 1);
   expect(geometry.height).toBeGreaterThanOrEqual(44);
-  expect(geometry.groups).toHaveLength(3);
+  expect(geometry.groups).toHaveLength(2);
   expect(geometry.groups.every((group) => group.rectCount === 1 && group.width > 0)).toBe(true);
   expect(geometry.statusAnimation).toBe("none");
   expect(geometry.scrollWidth - geometry.clientWidth).toBeLessThanOrEqual(1);

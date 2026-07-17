@@ -5,7 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest import mock
 
@@ -24,50 +24,52 @@ class DirectUsageImportTests(unittest.TestCase):
 
     def source(self) -> dict:
         return {
-            "schemaVersion": 1,
-            "accountCount": 2,
-            "health": {"healthyAccountCount": 2, "unavailableAccountCount": 0},
-            "units": {
-                "accounts": "count",
-                "health": "count",
-                "freshness": "utc_timestamp",
+            "schemaVersion": 3,
+            "combinedLifetime": {
+                "tokenCount": 32_800_000_000,
+                "sourceCount": 2,
+                "units": "tokens",
+                "aggregation": "sum_of_sources",
+                "rounding": "nearest_0.1B",
             },
-            "method": "codex_app_server_rate_limits_non_additive_no_model_turns",
-            "coverage": {
-                "complete": True,
-                "requiredAccountCount": 2,
-                "healthyAccountCount": 2,
-            },
+            "method": "rounded_sum_of_verified_account_lifetime_readings",
             "confidence": "direct complete observation",
             "updated_at": "2026-07-16T18:55:00Z",
         }
 
-    def test_builds_only_non_additive_anonymous_public_fields(self) -> None:
+    def test_builds_only_rounded_anonymous_public_fields(self) -> None:
         public = tracker.build_public_snapshot(self.source(), now=self.NOW)
         self.assertEqual(
             set(public),
             {
                 "schema",
-                "accountCount",
-                "healthyAccountCount",
-                "freshAccountCount",
-                "accountsWithQuotaData",
-                "accountsAtLimit",
-                "units",
+                "combined_lifetime",
                 "method",
-                "coverage",
                 "confidence",
+                "observed_on",
                 "updated_at",
-                "personalRoundedLifetimeBaseline",
+                "automated_refresh",
             },
         )
-        self.assertEqual(public["healthyAccountCount"], 2)
-        self.assertEqual(public["freshAccountCount"], 2)
-        self.assertEqual(public["accountsWithQuotaData"], 2)
-        self.assertIsNone(public["accountsAtLimit"])
-        self.assertEqual(public["personalRoundedLifetimeBaseline"]["tokens_label"], "20.9B")
-        self.assertEqual(public["personalRoundedLifetimeBaseline"]["coverage"], "1 of 2 accounts")
-        self.assertEqual(public["personalRoundedLifetimeBaseline"]["aggregation"], "non_additive")
+        self.assertEqual(public["schema"], 3)
+        lifetime = public["combined_lifetime"]
+        self.assertEqual(
+            set(lifetime),
+            {
+                "token_count",
+                "tokens_label",
+                "units",
+                "aggregation",
+                "rounding",
+                "source_count",
+            },
+        )
+        self.assertEqual(lifetime["token_count"], 32_800_000_000)
+        self.assertEqual(lifetime["tokens_label"], "32.8B")
+        self.assertEqual(lifetime["source_count"], 2)
+        self.assertEqual(lifetime["aggregation"], "sum_of_sources")
+        self.assertEqual(public["observed_on"], "2026-07-16")
+        self.assertTrue(public["automated_refresh"])
         serialized = json.dumps(public).lower()
         for forbidden in (
             "email",
@@ -75,8 +77,10 @@ class DirectUsageImportTests(unittest.TestCase):
             "plan_type",
             "reset",
             "daily",
+            "history",
             "api_cost",
-            "combined_lifetime",
+            "healthyaccount",
+            "quota",
         ):
             self.assertNotIn(forbidden, serialized)
 
@@ -85,6 +89,7 @@ class DirectUsageImportTests(unittest.TestCase):
             ("email", "someone@example.com"),
             ("daily", []),
             ("resetAt", "2026-07-17T00:00:00Z"),
+            ("perAccount", [26_600_000_000, 6_200_000_000]),
         ):
             with self.subTest(key=key):
                 source = self.source()
@@ -92,12 +97,23 @@ class DirectUsageImportTests(unittest.TestCase):
                 with self.assertRaisesRegex(tracker.SnapshotError, "invalid keys"):
                     tracker.build_public_snapshot(source, now=self.NOW)
 
-    def test_rejects_incomplete_stale_or_future_input(self) -> None:
-        incomplete = self.source()
-        incomplete["coverage"]["complete"] = False
-        with self.assertRaisesRegex(tracker.SnapshotError, "complete must be true"):
-            tracker.build_public_snapshot(incomplete, now=self.NOW)
+    def test_rejects_wrong_source_count_or_unrounded_total(self) -> None:
+        wrong_count = self.source()
+        wrong_count["combinedLifetime"]["sourceCount"] = 1
+        with self.assertRaisesRegex(tracker.SnapshotError, "sourceCount must be 2"):
+            tracker.build_public_snapshot(wrong_count, now=self.NOW)
 
+        unrounded = self.source()
+        unrounded["combinedLifetime"]["tokenCount"] = 32_812_345_678
+        with self.assertRaisesRegex(tracker.SnapshotError, "nearest-0.1B rounded"):
+            tracker.build_public_snapshot(unrounded, now=self.NOW)
+
+        unsafe = self.source()
+        unsafe["combinedLifetime"]["tokenCount"] = 9_100_000_000_000_000
+        with self.assertRaisesRegex(tracker.SnapshotError, "JavaScript-safe integer"):
+            tracker.build_public_snapshot(unsafe, now=self.NOW)
+
+    def test_rejects_stale_or_future_input(self) -> None:
         stale = self.source()
         stale["updated_at"] = "2026-07-16T18:00:00Z"
         with self.assertRaisesRegex(tracker.SnapshotError, "stale"):
@@ -107,6 +123,15 @@ class DirectUsageImportTests(unittest.TestCase):
         future["updated_at"] = "2026-07-16T19:06:00Z"
         with self.assertRaisesRegex(tracker.SnapshotError, "future"):
             tracker.build_public_snapshot(future, now=self.NOW)
+
+    def test_rejects_legacy_quota_health_projection(self) -> None:
+        legacy = {
+            "schemaVersion": 1,
+            "accountCount": 2,
+            "health": {"healthyAccountCount": 2, "unavailableAccountCount": 0},
+        }
+        with self.assertRaisesRegex(tracker.SnapshotError, "invalid keys"):
+            tracker.build_public_snapshot(legacy, now=self.NOW)
 
     def test_publishes_identical_site_and_profile_copies(self) -> None:
         public = tracker.build_public_snapshot(self.source(), now=self.NOW)

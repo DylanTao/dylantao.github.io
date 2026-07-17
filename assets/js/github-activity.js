@@ -29,6 +29,7 @@
       "text-anchor": options.anchor || "start",
       ...(options.color ? { fill: options.color } : {}),
       ...(options.weight ? { "font-weight": options.weight } : {}),
+      ...(options.size ? { "font-size": options.size } : {}),
       ...(options.className ? { class: options.className } : {}),
     });
     node.textContent = value;
@@ -249,46 +250,30 @@
       return `Latest rounded estimate · ${latest.tokensLabel} · ${fullDate.format(latest.date)}. Largest rounded daily increase · ${compactNumber.format(dailyDeltas[largestIndex])} · ${fullDate.format(tokenRows[largestIndex].date)}. Tokens trace retained work, not quality.`;
     };
 
-    const drawCodex = (group, width, height, colors) => {
+    const drawLifetime = (group, width, height, colors) => {
       const left = width < 620 ? 46 : 54;
-      if (!codexSource?.coverage?.complete) {
-        addText(group, "DIRECT CODEX HEALTH PENDING", left, 28, { color: colors.accent, weight: 700 });
-        addText(group, "No live two-account cycle has completed; zero is not implied.", left, 66, { color: colors.muted });
-        return "Direct two-account quota health is pending. No substitute observation is shown.";
+      if (!codexSource?.combined_lifetime) {
+        addText(group, "LIFETIME CODEX TOTAL UNAVAILABLE", left, 28, { color: colors.accent, weight: 700 });
+        addText(group, "No substitute observation is shown.", left, 66, { color: colors.muted });
+        return "The direct lifetime Codex snapshot is unavailable. No substitute observation is shown.";
       }
-      addText(group, "DIRECT CODEX TRACKER \u00b7 2 ACCOUNTS \u00b7 NON-ADDITIVE", left, 24, {
+      addText(group, "LIFETIME CODEX SNAPSHOT \u00b7 ROUNDED", left, 24, {
         color: colors.accent,
         weight: 700,
       });
-      const metrics = [
-        ["HEALTHY", codexSource.healthyAccountCount],
-        ["FRESH", codexSource.freshAccountCount],
-        ["QUOTA DATA", codexSource.accountsWithQuotaData],
-      ];
-      metrics.forEach(([label, count], index) => {
-        const y = 78 + index * 66;
-        addText(group, label, left, y, { color: colors.muted, weight: 700 });
-        for (let account = 0; account < codexSource.accountCount; account += 1) {
-          group.append(
-            svgElement("circle", {
-              cx: Math.min(width - 22, left + 140 + account * 34),
-              cy: y - 5,
-              r: 10,
-              fill: account < count ? colors.accent : colors.surface,
-              stroke: colors.accent,
-              "stroke-width": 2,
-            })
-          );
-        }
-        addText(group, `${count}/${codexSource.accountCount}`, Math.min(width - 12, left + 225), y, {
-          color: colors.text,
-          weight: 700,
-        });
+      addText(group, codexSource.combined_lifetime.tokens_label, left, Math.min(112, height * 0.38), {
+        color: colors.text,
+        weight: 700,
+        size: width < 620 ? 34 : 48,
       });
-      addText(group, "Personal rounded checkpoint: 20.9B tokens \u00b7 coverage 1 of 2 \u00b7 not combined", left, height - 24, {
+      addText(group, "COMBINED LIFETIME CODEX TOKENS", left, Math.min(142, height * 0.5), {
+        color: colors.muted,
+        weight: 700,
+      });
+      addText(group, "Rounded before publication \u00b7 separate from the repo-scoped trace", left, height - 24, {
         color: colors.muted,
       });
-      return `${codexSource.healthyAccountCount} of ${codexSource.accountCount} accounts healthy; ${codexSource.freshAccountCount} fresh; quota windows remain per-account and non-additive.`;
+      return `${codexSource.combined_lifetime.tokens_label} combined lifetime Codex tokens. This rounded total stays separate from the repo-scoped retained-session estimate.`;
     };
 
     const drawComplete = (group, width, height, colors) => {
@@ -356,21 +341,21 @@
       );
 
       const codexTop = tokenBottom + 30;
-      addText(group, "SEPARATE MEASURE \u00b7 DIRECT CODEX QUOTA HEALTH", left, codexTop - 10, { color: colors.accent, weight: 700 });
-      if (codexSource?.coverage?.complete) {
+      addText(group, "SEPARATE MEASURE \u00b7 LIFETIME CODEX TOKENS", left, codexTop - 10, { color: colors.accent, weight: 700 });
+      if (codexSource?.combined_lifetime) {
         addText(
           group,
-          `${codexSource.healthyAccountCount}/${codexSource.accountCount} healthy \u00b7 ${codexSource.freshAccountCount}/${codexSource.accountCount} fresh \u00b7 non-additive`,
+          `${codexSource.combined_lifetime.tokens_label} combined \u00b7 rounded \u00b7 not added to the repo trace`,
           left,
           Math.min(height - 8, codexTop + 18),
           { color: colors.text, weight: 700 }
         );
       } else {
-        addText(group, "First complete two-account cycle pending; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
+        addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
           color: colors.muted,
         });
       }
-      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently ${latestToken.tokensLabel}, and direct Codex health is a separate non-additive account-count measure.`;
+      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently ${latestToken.tokensLabel}, and lifetime Codex usage is a separate rounded total.`;
     };
 
     const metadata = {
@@ -378,9 +363,9 @@
       magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
       bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
       tokens: { label: "TOKEN RHYTHM", scope: "SITE REVAMP \u00b7 DAILY ESTIMATE" },
-      codex: { label: "CHANGE THE MEASURE", scope: "2 ACCOUNTS \u00b7 NON-ADDITIVE" },
+      lifetime: { label: "CHANGE THE MEASURE", scope: "LIFETIME \u00b7 ROUNDED" },
       explore: { label: "HANDOFF", scope: "GITHUB EXPLORER BELOW" },
-      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + DAILY TOKENS + 2-ACCOUNT HEALTH" },
+      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL" },
     };
 
     const renderScene = (scene) => {
@@ -395,7 +380,7 @@
       else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
       else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
       else if (targetScene === "tokens") readout = drawTokens(group, width, height, colors);
-      else if (targetScene === "codex") readout = drawCodex(group, width, height, colors);
+      else if (targetScene === "lifetime") readout = drawLifetime(group, width, height, colors);
       else readout = drawComplete(group, width, height, colors);
 
       const copy = metadata[scene] || metadata.complete;
@@ -525,7 +510,7 @@
 
     codexSourcePromise.then((source) => {
       codexSource = source;
-      if (renderedScene === "codex" || renderedScene === "complete" || renderedScene === "explore") renderScene(renderedScene);
+      if (renderedScene === "lifetime" || renderedScene === "complete" || renderedScene === "explore") renderScene(renderedScene);
     });
     [compactQuery, reducedMotionQuery].forEach((query) => query.addEventListener("change", refreshMode));
     window.addEventListener("resize", () => {
@@ -549,11 +534,9 @@
     if (!trendRoot) return null;
 
     const status = trendRoot.querySelector("[data-codex-status]");
-    const healthy = trendRoot.querySelector("[data-codex-healthy]");
-    const fresh = trendRoot.querySelector("[data-codex-fresh]");
-    const quota = trendRoot.querySelector("[data-codex-quota]");
+    const lifetime = trendRoot.querySelector("[data-codex-lifetime]");
     const scopeBadge = trendRoot.querySelector("[data-codex-scope]");
-    if (!status || !healthy || !fresh || !quota || !trendRoot.dataset.source) return null;
+    if (!status || !lifetime || !scopeBadge || !trendRoot.dataset.source) return null;
 
     const exactKeys = (value, keys) =>
       value &&
@@ -561,74 +544,44 @@
       !Array.isArray(value) &&
       Object.keys(value).length === keys.length &&
       keys.every((key) => Object.hasOwn(value, key));
-    const count = (value) => Number.isInteger(value) && value >= 0;
+    const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
+    const tokensLabel = (tokenCount) => {
+      const billions = Math.floor(tokenCount / 1000000000);
+      const tenths = Math.floor((tokenCount % 1000000000) / 100000000);
+      return `${billions}.${tenths}B`;
+    };
     const validSource = (candidate) => {
-      const keys = [
-        "schema",
-        "accountCount",
-        "healthyAccountCount",
-        "freshAccountCount",
-        "accountsWithQuotaData",
-        "accountsAtLimit",
-        "units",
-        "method",
-        "coverage",
-        "confidence",
-        "updated_at",
-        "personalRoundedLifetimeBaseline",
-      ];
-      if (!exactKeys(candidate, keys) || candidate.schema !== 2 || candidate.accountCount !== 2) return false;
+      const keys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
+      if (!exactKeys(candidate, keys) || candidate.schema !== 3) return false;
+      const combined = candidate.combined_lifetime;
       if (
-        !count(candidate.healthyAccountCount) ||
-        !count(candidate.freshAccountCount) ||
-        !count(candidate.accountsWithQuotaData) ||
-        candidate.accountsAtLimit !== null ||
-        [candidate.healthyAccountCount, candidate.freshAccountCount, candidate.accountsWithQuotaData].some((value) => value > candidate.accountCount)
+        !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
+        !Number.isSafeInteger(combined.token_count) ||
+        combined.token_count <= 0 ||
+        combined.token_count % 100000000 !== 0 ||
+        combined.tokens_label !== tokensLabel(combined.token_count) ||
+        combined.units !== "tokens" ||
+        combined.aggregation !== "sum_of_sources" ||
+        combined.rounding !== "nearest_0.1B" ||
+        combined.source_count !== 2 ||
+        !isIsoDate(candidate.observed_on) ||
+        typeof candidate.automated_refresh !== "boolean"
       )
         return false;
-      if (
-        !exactKeys(candidate.units, ["accounts", "health", "freshness"]) ||
-        candidate.units.accounts !== "count" ||
-        candidate.units.health !== "count" ||
-        candidate.units.freshness !== "utc_timestamp" ||
-        candidate.method !== "codex_app_server_rate_limits_non_additive_no_model_turns"
-      )
-        return false;
-      if (
-        !exactKeys(candidate.coverage, ["complete", "requiredAccountCount", "healthyAccountCount"]) ||
-        typeof candidate.coverage.complete !== "boolean" ||
-        candidate.coverage.requiredAccountCount !== 2 ||
-        candidate.coverage.healthyAccountCount !== candidate.healthyAccountCount
-      )
-        return false;
-      const baseline = candidate.personalRoundedLifetimeBaseline;
-      if (
-        !exactKeys(baseline, ["token_count", "tokens_label", "units", "method", "coverage", "aggregation", "captured_at"]) ||
-        baseline.token_count !== 20900000000 ||
-        baseline.tokens_label !== "20.9B" ||
-        baseline.units !== "tokens" ||
-        baseline.method !== "manual_rounded_profile_baseline" ||
-        baseline.coverage !== "1 of 2 accounts" ||
-        baseline.aggregation !== "non_additive" ||
-        typeof baseline.captured_at !== "string"
-      )
-        return false;
-      if (!["high", "medium", "low", "direct", "complete", "direct complete observation", "unavailable"].includes(candidate.confidence)) return false;
-      if (candidate.coverage.complete) {
+      if (candidate.automated_refresh) {
         return (
+          candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
+          ["high", "direct", "complete", "direct complete observation"].includes(candidate.confidence) &&
           typeof candidate.updated_at === "string" &&
           !Number.isNaN(Date.parse(candidate.updated_at)) &&
-          candidate.healthyAccountCount === 2 &&
-          candidate.freshAccountCount === 2 &&
-          candidate.accountsWithQuotaData === 2
+          candidate.updated_at.slice(0, 10) === candidate.observed_on
         );
       }
       return (
+        candidate.method === "user_reported_rounded_lifetime_checkpoint" &&
+        candidate.confidence === "user reported" &&
         candidate.updated_at === null &&
-        candidate.confidence === "unavailable" &&
-        candidate.healthyAccountCount === 0 &&
-        candidate.freshAccountCount === 0 &&
-        candidate.accountsWithQuotaData === 0
+        candidate.automated_refresh === false
       );
     };
 
@@ -645,31 +598,33 @@
     if (!validSource(source)) {
       trendRoot.dataset.state = "error";
       trendRoot.setAttribute("aria-busy", "false");
-      status.textContent = "Direct Codex tracker is unavailable; the last rendered page does not substitute data.";
+      status.textContent = "Lifetime Codex snapshot is unavailable; the last rendered page does not substitute data.";
       return null;
     }
 
-    healthy.textContent = source.healthyAccountCount + "/" + source.accountCount;
-    fresh.textContent = source.freshAccountCount + "/" + source.accountCount;
-    quota.textContent = source.accountsWithQuotaData + "/" + source.accountCount;
-    if (source.coverage.complete) {
+    lifetime.textContent = source.combined_lifetime.tokens_label;
+    if (source.automated_refresh) {
       const observed = new Date(source.updated_at);
       status.textContent =
-        "Complete 2-of-2 observation · updated " +
+        "Refreshed " +
         observed.toLocaleString("en-US", {
           dateStyle: "medium",
           timeStyle: "short",
           timeZone: "UTC",
         }) +
-        " UTC · " +
-        source.confidence +
-        " confidence.";
-      trendRoot.dataset.state = "ready";
+        " UTC.";
     } else {
-      status.textContent = "First complete two-account collection is pending; no live health observation is claimed.";
-      trendRoot.dataset.state = "pending";
+      const observed = new Date(`${source.observed_on}T00:00:00Z`);
+      status.textContent =
+        "User-reported checkpoint · " +
+        observed.toLocaleDateString("en-US", {
+          dateStyle: "medium",
+          timeZone: "UTC",
+        }) +
+        " · automatic refresh pending.";
     }
-    scopeBadge.textContent = "2 ACCOUNTS · NON-ADDITIVE";
+    trendRoot.dataset.state = "ready";
+    scopeBadge.textContent = "LIFETIME · ROUNDED";
     trendRoot.setAttribute("aria-busy", "false");
     return source;
   };

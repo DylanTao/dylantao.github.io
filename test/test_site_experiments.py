@@ -304,7 +304,7 @@ class SiteExperimentsTests(unittest.TestCase):
             "How to read the rhythm",
             "GitHub cadence",
             "Site-token rhythm",
-            "Account observation",
+            "Lifetime checkpoint",
             "What stays private",
             "A pacing lesson, not a borrowed style",
             "Full technical revision record",

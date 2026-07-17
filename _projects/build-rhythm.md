@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build Rhythm
-description: "A privacy-safe story of how this site gets built: GitHub changes, rounded site-token rhythm, and a dated account-health check kept on honest, separate clocks."
+description: "A privacy-safe story of how this site gets built: GitHub changes, rounded site-token rhythm, and lifetime Codex usage kept on honest, separate clocks."
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
 image_aspect: 351 / 254
 card_avoid_scaling: true
@@ -20,7 +20,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      I wanted to make long patterns of building readable without turning busyness into merit. Build Rhythm separates three things that are easy to collapse—long-term GitHub cadence, a rounded daily repo-token estimate, and the latest dated anonymous quota-health observation—then keeps each signal’s clock, unit, and evidence visible.
+      I wanted to make long patterns of building readable without turning busyness into merit. Build Rhythm separates three things that are easy to collapse—long-term GitHub cadence, a rounded daily repo-token estimate, and one rounded lifetime Codex total—then keeps each signal’s clock and evidence visible.
     </p>
     <div class="project-case-facts">
       <span>Cadence, not productivity</span>
@@ -41,7 +41,7 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
   <div><span>Why</span><p>A long activity record can reveal cadence, but activity alone cannot explain effort, quality, or cause.</p></div>
-  <div><span>What</span><p>A guided explorer for weekly GitHub cadence, a rounded daily repo-token rhythm, and one dated, complete observation of two-account Codex quota health.</p></div>
+  <div><span>What</span><p>A guided explorer for weekly GitHub cadence, a rounded daily repo-token rhythm, and one rounded lifetime Codex checkpoint.</p></div>
   <div><span>How</span><p>Each signal keeps its own unit and clock, with exact or explicitly rounded evidence available after the story.</p></div>
 </section>
 
@@ -49,7 +49,7 @@ hide_title: true
 
 The first public version was a GitHub workbench. As Codex evidence entered the page, keeping measures close together made comparison feel like explanation—even when the text said otherwise. I split the horizons, removed cost and causal theater, and later removed account-linked history altogether.
 
-That privacy reset did not mean every token trace had to disappear. The current page restores only a rounded estimate attributable to retained sessions for this repo. It remains separate from the latest complete dated account-health observation and the longer GitHub record. The result is harder to collapse into one number, which is precisely the point.
+That privacy reset did not mean every token trace had to disappear. The current page restores only a rounded estimate attributable to retained sessions for this repo. It keeps that estimate separate from lifetime Codex usage and the longer GitHub record. The result is harder to collapse into one number, which is precisely the point.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">
@@ -60,7 +60,7 @@ That privacy reset did not mean every token trace had to disappear. The current 
   <li class="project-story-beat">
     <p class="project-case-kicker">Turn</p>
     <h3>Separate the clocks, then reset the boundary.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> split Codex and GitHub horizons. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, account-linked history left the public record in favor of one anonymous health observation.</p>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> split Codex and GitHub horizons. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, account-linked history left the public record in favor of one identity-free direct checkpoint.</p>
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Now</p>
@@ -83,8 +83,8 @@ The combined view can still be reproduced at <a href="https://github.com/DylanTa
     <p>Rounded cumulative points come from deduplicated retained logs attributed to this repo. Differences between adjacent points are rounded increases, not exact daily usage, and can revise with retained evidence.</p>
   </div>
   <div>
-    <h3>Account observation</h3>
-    <p>The latest complete dated observation reports separate anonymous counts for healthy accounts, fresh accounts, and accounts with quota data. The windows stay per-account and non-additive; one rounded personal checkpoint remains separately dated as one-account historical context.</p>
+    <h3>Lifetime checkpoint</h3>
+    <p>One anonymous rounded total summarizes lifetime Codex usage. It is refreshed on its own clock and never added to the repo-scoped retained-session estimate.</p>
   </div>
 </section>
 
@@ -93,7 +93,7 @@ The cards above are an annotated anatomy of the accepted current state. Earlier 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Boundary</p>
   <h2 id="build-rhythm-privacy-title">What stays private</h2>
-  <p>Within the Build Rhythm data, repository names; session, turn, model, path, account, and event-level identifiers; account aliases and plans; raw quota percentages; reset times; exact per-account usage; and daily account histories do not enter the public series. None of the visible measures is presented as an explanation of effort, quality, or cause.</p>
+  <p>Repository names; session, turn, model, path, source, and event-level identifiers; source-level readings; plans; histories; reset times; and cost conversions do not enter the public series. None of the visible measures is presented as an explanation of effort, quality, or cause.</p>
 </aside>
 
 ## A pacing lesson, not a borrowed style
@@ -110,7 +110,7 @@ The first version began as a research-grounded activity workbench. John Thompson
       <li><time datetime="2026-07-13">Jul 13</time><code>d3f13be35</code><span>Removed causal and cost clutter so the evidence returned to cadence and change.</span></li>
       <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Restored additions and deletions with readable and literal scales plus stronger responsive evidence.</span></li>
       <li><time datetime="2026-07-15">Jul 15</time><code>6b4b7bd59</code><span>Added a scroll-led reading that teaches cadence, magnitude, scale, and the separate Codex clock before handing control to the exact explorer.</span></li>
-      <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Replaced account-linked token history with anonymous two-account quota-health counts, retaining only a clearly scoped one-account personal checkpoint as historical context.</span></li>
+      <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Removed account-linked token history and replaced it with an identity-free direct checkpoint.</span></li>
       <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the token-over-time story as a rounded daily cumulative repo estimate from deduplicated retained logs, without restoring the account-linked history removed earlier that day.</span></li>
     </ol>
   </div>

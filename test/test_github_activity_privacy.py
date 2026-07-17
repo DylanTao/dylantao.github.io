@@ -65,7 +65,7 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         )
         self.assertNotRegex(text.lower(), r"(?m)^\s*(?:account|url):")
 
-    def test_public_codex_profile_contract_is_sanitized_and_non_additive(
+    def test_public_codex_profile_contract_is_rounded_anonymous_and_separate(
         self,
     ) -> None:
         public = json.loads(
@@ -79,34 +79,25 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             set(public),
             {
                 "schema",
-                "accountCount",
-                "healthyAccountCount",
-                "freshAccountCount",
-                "accountsWithQuotaData",
-                "accountsAtLimit",
-                "units",
+                "combined_lifetime",
                 "method",
-                "coverage",
                 "confidence",
+                "observed_on",
                 "updated_at",
-                "personalRoundedLifetimeBaseline",
+                "automated_refresh",
             },
         )
-        self.assertEqual(public["schema"], 2)
-        self.assertEqual(public["accountCount"], 2)
-        self.assertIsNone(public["accountsAtLimit"])
-        self.assertTrue(public["coverage"]["complete"])
-        self.assertEqual(public["coverage"]["requiredAccountCount"], 2)
-        self.assertEqual(public["coverage"]["healthyAccountCount"], 2)
-        self.assertEqual(public["healthyAccountCount"], 2)
-        self.assertEqual(public["freshAccountCount"], 2)
-        self.assertEqual(public["accountsWithQuotaData"], 2)
-        updated_at = datetime.fromisoformat(public["updated_at"].replace("Z", "+00:00"))
-        self.assertIsNotNone(updated_at.tzinfo)
-        baseline = public["personalRoundedLifetimeBaseline"]
-        self.assertEqual(baseline["tokens_label"], "20.9B")
-        self.assertEqual(baseline["coverage"], "1 of 2 accounts")
-        self.assertEqual(baseline["aggregation"], "non_additive")
+        self.assertEqual(public["schema"], 3)
+        lifetime = public["combined_lifetime"]
+        self.assertEqual(lifetime["tokens_label"], "32.8B")
+        self.assertEqual(lifetime["token_count"], 32_800_000_000)
+        self.assertEqual(lifetime["source_count"], 2)
+        self.assertEqual(lifetime["aggregation"], "sum_of_sources")
+        self.assertEqual(lifetime["rounding"], "nearest_0.1B")
+        self.assertEqual(public["method"], "user_reported_rounded_lifetime_checkpoint")
+        self.assertEqual(public["observed_on"], "2026-07-16")
+        self.assertFalse(public["automated_refresh"])
+        self.assertIsNone(public["updated_at"])
         serialized = json.dumps(public).lower()
         for fragment in (
             "email",
@@ -116,7 +107,9 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             "daily",
             "history",
             "api_cost",
-            "combined_lifetime",
+            "healthyaccount",
+            "quota",
+            "per_account",
         ):
             self.assertNotIn(fragment, serialized)
 

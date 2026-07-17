@@ -51,7 +51,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 30
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 31
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -2351,6 +2351,450 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
 del _post_checkpoint_four_auto_review_acknowledgment
 
 
+def _usage_checkpoint_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    reason_action: str,
+    provenance_action: str,
+) -> dict[str, str]:
+    """Build one exact usage-checkpoint provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed {reason_action}; the review "
+            "lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            f"Retained auto-review turn_context, exact {provenance_action}, reviewed session "
+            f"{reviewed_session}, and allow decision, audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6ec5-6af5-7523-b406-82d37c95a2dd": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:30:59.731Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the initial read-only public GitHub Actions run-list query for writing checkpoint commit 9e05b3dd4",
+            "Invoke-RestMethod actions/runs query filtered to head SHA 9e05b3dd442e1d9aeb0417f4f324ebe1e355bbfc and selecting workflow ids, names, status, conclusion, timestamps, and URLs",
+        ),
+        "019f6ec6-001e-7250-8f85-c3322869c64c": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:31:38.055Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a compact JSON repeat of the public GitHub Actions run-list query for writing checkpoint commit 9e05b3dd4",
+            "Invoke-RestMethod actions/runs query filtered to head SHA 9e05b3dd442e1d9aeb0417f4f324ebe1e355bbfc and selecting id, name, status, conclusion, and updated_at fields",
+        ),
+        "019f6ec6-a940-7790-9fd5-f41ffdca03de": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:32:21.132Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "another compact JSON status poll for the writing checkpoint workflows",
+            "repeated Invoke-RestMethod actions/runs query for exact head SHA 9e05b3dd442e1d9aeb0417f4f324ebe1e355bbfc with id, name, status, conclusion, and updated_at projection",
+        ),
+        "019f6ec6-e1d2-73c3-ba92-21f1c6779c27": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:32:35.610Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the first cache-busted deployed blog and homepage marker smoke for the writing checkpoint",
+            "Invoke-WebRequest checks for the Wobbrock map, repeatable loop, Scott E. Hudson credit, and 6.65B plus 471 homepage labels",
+        ),
+        "019f6ec7-25ee-79f0-9ec3-7d315f14f740": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:32:53.036Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the corrected cache-busted deployed blog and homepage marker smoke for the writing checkpoint",
+            "corrected Invoke-WebRequest checks using the homepage variable for the Wobbrock map, repeatable loop, Scott E. Hudson credit, and 6.65B plus 471 labels",
+        ),
+        "019f6ec7-5f2f-7533-a84e-51752a6922f8": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:33:07.696Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a cache-busted deployment-propagation recheck of the public blog and homepage",
+            "Invoke-WebRequest status, content-length, Wobbrock and repeatable-text counts, and 6.64B versus 6.65B homepage marker checks",
+        ),
+        "019f6ec8-08a8-7dc2-9e17-365b58c3a448": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:33:51.079Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "another compact JSON GitHub Actions status poll for writing checkpoint commit 9e05b3dd4",
+            "Invoke-RestMethod actions/runs query for exact head SHA 9e05b3dd442e1d9aeb0417f4f324ebe1e355bbfc with id, name, status, conclusion, and updated_at projection",
+        ),
+        "019f6ec9-daf5-7152-8650-47deb5765af2": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:35:50.452Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a later compact JSON GitHub Actions status poll for writing checkpoint commit 9e05b3dd4",
+            "later Invoke-RestMethod actions/runs query for exact head SHA 9e05b3dd442e1d9aeb0417f4f324ebe1e355bbfc with id, name, status, conclusion, and updated_at projection",
+        ),
+        "019f6eca-552e-7733-8735-edc91c3d1ce8": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:36:21.780Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the final cache-busted deployed blog and homepage content-marker recheck",
+            "Invoke-WebRequest checks for Keep Wobbrock, My repeatable writing loop, Scott E. Hudson, and the 6.65B plus 471 homepage labels",
+        ),
+        "019f6eca-e3de-7fb2-b689-6deeb8669784": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:37:03.245Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a targeted status query for the Dylan Codex Direct Account Usage and Dylan Metrics Refresh scheduled-task names",
+            "Get-ScheduledTask and Get-ScheduledTaskInfo projection of state, latest result, next run, trigger count, and action executable for both exact task names",
+        ),
+        "019f6eca-fabc-7112-b494-2662e584e050": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:37:04.126Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a further compact JSON GitHub Actions status poll for the writing checkpoint",
+            "Invoke-RestMethod actions/runs query for exact head SHA 9e05b3dd442e1d9aeb0417f4f324ebe1e355bbfc with id, name, status, conclusion, and updated_at projection",
+        ),
+        "019f6ecb-3995-7891-ba24-46bddb3617f0": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:37:20.242Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "the corrected JSON-form status query for the Dylan Codex Direct Account Usage and Dylan Metrics Refresh task names",
+            "Get-ScheduledTask and Get-ScheduledTaskInfo JSON array of state, latest result, next run, trigger count, and action executable for both exact task names",
+        ),
+        "019f6ecb-8923-7012-869e-9c183609d250": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:37:40.923Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a broader read-only inventory of scheduled tasks whose names matched Dylan, Codex, Metric, Profile, or Usage",
+            "filtered Get-ScheduledTask inventory with path, state, latest result, next run, and action-executable fields",
+        ),
+        "019f6ecc-2e82-7080-82fa-6d75f718035a": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:38:22.939Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the read-only Visual checkpoints workflow status query for writing checkpoint commit 9e05b3dd4",
+            "Invoke-RestMethod actions/runs query filtered to the Visual checkpoints workflow with id, status, conclusion, updated_at, and URL fields",
+        ),
+        "019f6ecc-6534-7453-98ca-a049c3a75608": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:38:36.946Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a sanitized read-only diagnostic of the protected direct-usage tracker configuration, attempt health, runtime manifest, and last-valid projection",
+            "protected tracker PowerShell projection limited to task-safe schema, count, path-match, and health metadata",
+        ),
+        "019f6ecd-3c49-7dd3-afea-8597274a9bd9": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:39:32.016Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a two-isolated-home Codex app-server diagnostic using the installed direct-usage collector",
+            "Python _poll_account_via_app_server probe emitting account ordinals, response shapes, identity distinctness, and sanitized failure categories",
+        ),
+        "019f6ecd-9946-7253-a8c1-360d401c5acf": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:39:55.800Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a generated-schema search for the account/usage/read method",
+            "Select-String account/usage/read search with bounded context across configured Codex schema files",
+        ),
+        "019f6ecd-d85e-7e40-8d9e-b828d2572c1f": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:40:11.976Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a generated-schema search for lifetimeTokens and AccountUsage response types",
+            "Select-String lifetimeTokens or AccountUsage search with bounded context across configured Codex schema files",
+        ),
+        "019f6ece-0fc5-70c0-94c7-2a03ab842cd8": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:40:26.135Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a bounded exact slice of the generated account-usage protocol schema",
+            "lines 12566 through 12700 of codex_app_server_protocol.v2.schemas.json selected after resolving the configured schema directory",
+        ),
+        "019f6ece-801d-7823-8f5e-a893e2a1d40f": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:40:55.110Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a two-home account/usage/read diagnostic using temporary in-memory method allowlists",
+            "Python account/usage/read probe emitting only validation booleans, response field names, identity distinctness, and sanitized failures",
+        ),
+        "019f6ecf-1286-7441-a23a-1f37b82eb3df": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:41:32.405Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a follow-up two-home usage-read diagnostic that classified remote protocol errors safely",
+            "Python account/usage/read probe with SafeRemoteError sanitization and no identity, secret, or raw usage output",
+        ),
+        "019f6ed0-56aa-7ce0-938c-0194a891d008": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:42:55.399Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a read-only publisher-task, state-file, and latest-30-log-line diagnostic",
+            "Dylan Personal Metrics Refresh task metadata, protected state projection, and refresh.log tail of 30 lines",
+        ),
+        "019f6ed1-31a1-7290-b6b5-b1a41f04067d": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:43:51.632Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a narrower publisher-state and latest-20-log-line failure diagnostic",
+            "protected DylanPersonalMetricsRefresh state projection and refresh.log tail of 20 lines",
+        ),
+        "019f6ed1-bc0c-7f13-b388-7d17d628b3aa": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:44:26.832Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a top-level file inventory of the protected personal-metrics publisher runtime",
+            "Get-ChildItem over DylanPersonalMetricsRefresh selecting name, length, and last-write time",
+        ),
+        "019f6ed1-fd5a-7592-870d-9029b5d735a8": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:44:43.558Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a sanitized publisher-state and log-file metadata projection",
+            "protected publisher state fields plus log filenames, lengths, and last-write times without log content",
+        ),
+        "019f6ed2-417c-7d93-ba80-fd204fe2995c": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:45:01.002Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a read-only inspection of the final 24 personal-metrics refresh log lines",
+            "ReadAllLines on protected refresh.log followed by an exact 24-line tail",
+        ),
+        "019f6ed2-8494-7653-a8e5-cab170cd3333": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:45:18.164Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a function-name inventory of the installed personal-metrics PowerShell module",
+            "ReadAllLines over DylanMetricsRefresh.psm1 selecting only function declarations and total line count",
+        ),
+        "019f6ed2-b5b0-7622-b665-5c6e20c1033d": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:45:30.759Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a bounded inspection of the installed publisher module's importer failure path",
+            "lines 551 through 660 of the protected DylanMetricsRefresh.psm1 module",
+        ),
+        "019f6ed2-fe3a-7c73-86ef-1dc07df5422e": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:45:49.306Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a read-only schedule and execution-settings projection for Dylan Personal Metrics Refresh",
+            "Get-ScheduledTask trigger intervals, duration, instance policy, execution limit, restart settings, and network condition",
+        ),
+        "019f6ed4-39d4-7c73-9c5c-b4c15f9200c5": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:47:10.861Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a filename-only inventory of generated schemas whose names matched Usage or Token",
+            "Get-ChildItem over the configured schema directory filtered to Usage or Token filenames",
+        ),
+        "019f6ed4-f4ee-7d01-b37f-19c82404c9d1": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:47:58.028Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a SHA-256 drift comparison between three installed direct-usage runtime files and their Codex-LB source copies",
+            "Get-FileHash comparisons for direct_account_usage.py, direct_account_usage_runner.py, and Invoke-DirectAccountUsageTracker.ps1",
+        ),
+        "019f6ed5-441a-79e2-94f2-c2440465fe74": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:48:18.275Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a normalized equality comparison of the installed publisher module against local main and origin/main source",
+            "DylanMetricsRefresh.psm1 installed-versus-local and installed-versus-origin boolean comparison",
+        ),
+        "019f6ed5-9b4b-7ba3-9fcb-ae79c41d0a42": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:48:45.636Z",
+            "019f6ec8-7e75-7713-9bc5-021a2bf9c15a",
+            "the three-file direct-lifetime schema-v3 wording patch for the ledger docs, skill, and audit helper",
+            "apply_patch replacing quota-health wording with the anonymous rounded combined-lifetime contract in docs/agentic-usage-ledger.md, .codex/skills/agentic-usage-ledger/SKILL.md, and bin/audit_agentic_usage.py",
+        ),
+        "019f6ed5-eb9f-7343-9c13-12744a65a608": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:49:01.280Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a bounded inspection of the installed publisher module's scheduling logic",
+            "lines 284 through 317 of the protected DylanMetricsRefresh.psm1 module",
+        ),
+        "019f6ed6-b517-7c62-bf68-e9c3d7433923": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:49:52.993Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a ten-repeat deployed desktop Playwright reproduction of reciprocal Human and AI research-link focus",
+            "NO_WEBSERVER public.config.js desktop-1440 test filtered to Human focus and AI research keep reciprocal format context with repeat-each 10",
+        ),
+        "019f6ed8-73fb-7820-ad3d-6a601bf54d0c": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:51:47.213Z",
+            "019f6ec8-e248-7110-a674-448a432d1005",
+            "a read-only trigger, execution-setting, principal, and latest-result projection for Dylan Codex Direct Account Usage",
+            "Get-ScheduledTask and Get-ScheduledTaskInfo diagnostic covering trigger intervals, instance policy, limits, principal, and latest result",
+        ),
+        "019f6edb-ea18-75e0-b92d-370966c6d40d": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T06:55:34.513Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the GitHub connector request to rerun only failed jobs for visual workflow run 29560193398",
+            "github.rerun_failed_workflow_run_jobs call for DylanTao/dylantao.github.io run 29560193398",
+        ),
+        "019f6eea-c7b2-78f0-901b-eb2a47a3d85f": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T07:11:48.581Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the repository's full Python unit-test discovery run",
+            "python -m unittest discover -s test -p test_*.py command",
+        ),
+        "019f6ef0-81f2-7950-90d4-898782853b00": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T07:18:03.846Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "guarded removal of the generated playwright-report directory inside the site workspace",
+            "resolved-root containment check, recursive Remove-Item of playwright-report, and follow-up git status command",
+        ),
+        "019f6ef1-e61b-7d53-983a-bad9ba5a709f": _usage_checkpoint_auto_review_acknowledgment(
+            "2026-07-17T07:19:35.181Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the pending-commit write audit for the current website usage checkpoint",
+            "python bin/audit_agentic_usage.py --write --include-pending-commit command",
+        ),
+    }
+)
+
+del _usage_checkpoint_auto_review_acknowledgment
+
+
+def _policy_tail_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    reason_action: str,
+    provenance_action: str,
+) -> dict[str, str]:
+    """Build one exact tail-closure provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed {reason_action}; the review "
+            "lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            f"Retained auto-review turn_context, exact {provenance_action}, reviewed session "
+            f"{reviewed_session}, and allow decision, audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6eff-464d-7743-8451-3b4a8d047425": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:34:16.336Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "a same-value no-op patch probe on the isolated coastal-theme worktree's global background token",
+            "apply_patch replacing #fffefd with the identical #fffefd value in D:/dev/dylantao-coastal-theme/_sass/_themes.scss",
+        ),
+        "019f6f01-c5f8-7b82-aab4-cd502670c4f2": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:36:55.177Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the four-phase pastel-orange coastal token rewrite in the isolated theme worktree",
+            "apply_patch updating global backgrounds, text, primary colors, surfaces, outlines, shadows, mint and sky accents, nav glass, footer, and evening tokens in D:/dev/dylantao-coastal-theme/_sass/_themes.scss",
+        ),
+        "019f6f02-3cc4-7b71-a774-7ea7c58485ad": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:37:25.867Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the navbar migration to the new phase-aware navigation background token in the isolated theme worktree",
+            "apply_patch replacing hard-coded light and evening navbar backgrounds with --global-nav-bg-color in D:/dev/dylantao-coastal-theme/_sass/_navbar.scss",
+        ),
+        "019f6f02-9e4e-73c3-b0ef-6219dbf01fba": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:37:50.789Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the material-lite elevation and focus-ring migration to global shadow and primary tokens in the isolated theme worktree",
+            "apply_patch updating --md-lite elevation, focus-color, focus-ring, and focus-shadow variables in D:/dev/dylantao-coastal-theme/_sass/_material-lite.scss",
+        ),
+        "019f6f02-e1d0-71d0-98d3-f63bd90702cd": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:38:07.828Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the shared component shadow migration to the global shadow token in the isolated theme worktree",
+            "apply_patch replacing three hard-coded component shadow colors with --global-shadow-color in D:/dev/dylantao-coastal-theme/_sass/_components.scss",
+        ),
+        "019f6f03-6e08-7c72-8839-ad7ad1436d32": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:38:43.739Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the publication-surface shadow migration to the phase-aware global shadow RGB token in the isolated theme worktree",
+            "apply_patch replacing publication shadow RGB literals with rgba(var(--global-shadow-rgb), alpha) in D:/dev/dylantao-coastal-theme/_sass/_publications.scss",
+        ),
+        "019f6f04-172d-7030-9a2a-e7652c1f54e3": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:39:27.050Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the homepage paper, card, and general shadow migration to phase-aware surface and shadow tokens in the isolated theme worktree",
+            "apply_patch updating home paper color-mixes and shadow declarations in D:/dev/dylantao-coastal-theme/_sass/_home.scss while retaining material-specific scene colors",
+        ),
+        "019f6f04-16e7-7eb1-ba5f-b49b2891d77c": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:39:31.943Z",
+            "019f6ef6-2f10-7c42-a7bd-477d779c8088",
+            "the direct installed-WindowsApps Python probe used to locate a PyYAML-capable interpreter for the required ledger audit",
+            "PowerShell invocation of the exact PythonSoftwareFoundation.Python.3.12 WindowsApps python.exe path with a sys.executable and yaml.__version__ import probe",
+        ),
+        "019f6f04-f2ff-75b1-b8cd-8d55049ef030": _policy_tail_auto_review_acknowledgment(
+            "2026-07-17T07:40:23.340Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the fruit-specific orange and leaf palette lift across all four phases in the isolated theme worktree",
+            "apply_patch updating highlight, rind, deep-orange, outline, pore, and leaf tokens in D:/dev/dylantao-coastal-theme/_sass/_brand-orange.scss",
+        ),
+    }
+)
+
+del _policy_tail_auto_review_acknowledgment
+
+
+def _final_tail_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    reason_action: str,
+    provenance_action: str,
+) -> dict[str, str]:
+    """Build one exact final-tail provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed {reason_action}; the review "
+            "lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            f"Retained auto-review turn_context, exact {provenance_action}, reviewed session "
+            f"{reviewed_session}, and allow decision, audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6efa-35ec-7a93-a9e8-d8e06003d84f": _final_tail_auto_review_acknowledgment(
+            "2026-07-17T07:28:39.823Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "creation of the isolated coastal-theme branch worktree from origin/main",
+            "git worktree add -b codex/coastal-theme D:/dev/dylantao-coastal-theme origin/main command",
+        ),
+        "019f6efd-29ae-75b0-8ba0-1e3097e867b4": {
+            "timestamp": "2026-07-17T07:31:55.274Z",
+            "model": "gpt-5.6-sol",
+            "effort": "max",
+            "acknowledged_at": "2026-07-17",
+            "reason": (
+                "Explicit no-tools semantic-scaffolding-map runtime-attestation canary requested "
+                "max effort and an exact all-zero nonce response; it did not perform site development."
+            ),
+            "provenance": (
+                "Retained leaf session 019f6efd-1ca1-70c3-877f-ea7febcd5f6a, exact prompt "
+                "requesting runtime-attestation-canary:00000000000000000000000000000000, matching "
+                "one-line response, and turn_context, audited 2026-07-17."
+            ),
+        },
+        "019f6efd-9cb1-7b93-9411-d815d528a14b": {
+            "timestamp": "2026-07-17T07:32:24.039Z",
+            "model": "gpt-5.6-sol",
+            "effort": "max",
+            "acknowledged_at": "2026-07-17",
+            "reason": (
+                "Explicit no-tools semantic-scaffolding-map runtime-attestation canary requested "
+                "max effort and an exact nonce-bound response; it did not perform site development."
+            ),
+            "provenance": (
+                "Retained leaf session 019f6efd-9304-7bd2-91a1-7f1c129f9fe2, exact prompt "
+                "requesting runtime-attestation-canary:b8da737f6860218cf2977c5f8147577b, matching "
+                "one-line response, and turn_context, audited 2026-07-17."
+            ),
+        },
+        "019f6f05-aaee-7df1-a766-1c014a00ee60": _final_tail_auto_review_acknowledgment(
+            "2026-07-17T07:41:10.673Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the JavaScript fallback-color alignment with the coastal theme in the isolated worktree",
+            "apply_patch updating fallback accents, mint, sky, text, grid, surfaces, and research-motion colors in D:/dev/dylantao-coastal-theme/assets/js/github-activity.js and assets/js/research-motion.js",
+        ),
+        "019f6f06-3c3c-7763-bcd2-214e3c756711": _final_tail_auto_review_acknowledgment(
+            "2026-07-17T07:41:47.587Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the What Happened and Why page's migration from rust literals to global theme roles in the isolated worktree",
+            "apply_patch replacing trace accents, borders, shadows, focus echoes, and evening selectors with global theme tokens in D:/dev/dylantao-coastal-theme/_projects/what-happened-and-why.md",
+        ),
+        "019f6f06-de17-7523-9f0f-64f853d060be": _final_tail_auto_review_acknowledgment(
+            "2026-07-17T07:42:29.001Z",
+            "019f6efa-b036-7cd2-8338-84bf041e7185",
+            "the four-phase project-card palette rebalance in the isolated coastal-theme worktree",
+            "apply_patch updating morning, noon, afternoon, and evening card colors in D:/dev/dylantao-coastal-theme/_data/project_cards.yml",
+        ),
+    }
+)
+
+del _final_tail_auto_review_acknowledgment
+
+
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
 WH_PER_TOKEN_HIGH = 0.002
@@ -3614,7 +4058,7 @@ def build_ledger_data(
     next_data["updated_at"] = date.today().isoformat()
     next_data["source_note"] = (
         "Retained local logs and git history supply repo-scoped estimates. "
-        "Direct account quota health is published separately from sanitized collector output."
+        "Rounded lifetime Codex usage is published separately from sanitized collector output."
     )
     next_data["model_tracking"] = copy.deepcopy(model_tracking)
     next_data["total"] = merge_scope_data(next_data.get("total", {}), total)
@@ -3644,8 +4088,9 @@ def build_ledger_data(
         next_data.get("local_lifetime", {}),
         local_lifetime,
     )
-    # Account-level usage is not part of this public ledger. The independent
-    # direct tracker publishes only anonymous, non-additive quota health.
+    # Account-level usage is not part of this public ledger. The direct tracker
+    # publishes one anonymous rounded lifetime total, kept
+    # separate from every retained-session estimate.
     next_data.pop("account_lifetime", None)
     return next_data
 
