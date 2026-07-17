@@ -92,7 +92,7 @@ async function stabilizeVisuals(page) {
   });
 }
 
-function diffRatio(actualPng, baselinePng) {
+function diffRatio(actualPng, baselinePng, options = {}) {
   const width = Math.min(actualPng.width, baselinePng.width);
   const height = Math.min(actualPng.height, baselinePng.height);
   const actual = new PNG({ width, height });
@@ -101,14 +101,14 @@ function diffRatio(actualPng, baselinePng) {
   PNG.bitblt(baselinePng, baseline, 0, 0, width, height, 0, 0);
   const diff = new PNG({ width, height });
   const changed = pixelmatch(actual.data, baseline.data, diff.data, width, height, {
-    threshold: 0.1,
+    threshold: options.threshold ?? 0.1,
     includeAA: false,
   });
   return changed / (width * height);
 }
 
-function screenshotDiffRatio(actualBuffer, baselineBuffer) {
-  return diffRatio(PNG.sync.read(actualBuffer), PNG.sync.read(baselineBuffer));
+function screenshotDiffRatio(actualBuffer, baselineBuffer, options = {}) {
+  return diffRatio(PNG.sync.read(actualBuffer), PNG.sync.read(baselineBuffer), options);
 }
 
 function screenshotMetrics(buffer) {

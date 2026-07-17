@@ -474,7 +474,7 @@
 
   &:hover {
     border-color: var(--global-theme-color);
-    box-shadow: 0 0.45rem 1.25rem rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0.45rem 1.25rem var(--global-shadow-color);
     color: var(--global-theme-color);
     transform: translateY(-2px);
 
@@ -736,7 +736,7 @@
 
   &:hover {
     border-color: rgba(var(--global-accent-rgb), 0.36);
-    box-shadow: 0 0.65rem 1.6rem rgba(32, 25, 22, 0.08);
+    box-shadow: 0 0.65rem 1.6rem var(--global-shadow-color);
     color: var(--global-text-color);
     text-decoration: none;
     transform: translateY(-1px);

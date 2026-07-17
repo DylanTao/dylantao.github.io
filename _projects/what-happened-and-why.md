@@ -28,25 +28,26 @@ citation_conference_title: "Herding CATs: Making Sense of Creative Activity Trac
 citation_pdf_url: "https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf"
 _styles: |
   .trace-paper-page {
-    --trace-accent: #9f4f2f;
-    --trace-accent-deep: #6f2f1c;
-    --trace-accent-soft: rgba(159, 79, 47, 0.1);
-    --trace-accent-softer: rgba(159, 79, 47, 0.06);
-    --trace-border: rgba(159, 79, 47, 0.18);
-    --trace-shadow: 0 24px 60px rgba(22, 21, 18, 0.08);
+    --trace-accent: var(--global-primary-color);
+    --trace-accent-deep: var(--global-hover-color);
+    --trace-accent-soft: rgba(var(--global-accent-rgb), 0.1);
+    --trace-accent-softer: rgba(var(--global-accent-rgb), 0.055);
+    --trace-border: rgba(var(--global-accent-rgb), 0.2);
+    --trace-shadow: 0 24px 60px var(--global-shadow-color);
     max-width: 1380px;
     margin: 0 auto;
     padding-bottom: 1.25rem;
     color: var(--global-text-color);
   }
 
-  html[data-theme='dark'] .trace-paper-page {
-    --trace-accent: #f3a26f;
-    --trace-accent-deep: #ffcfad;
-    --trace-accent-soft: rgba(243, 162, 111, 0.16);
-    --trace-accent-softer: rgba(243, 162, 111, 0.08);
-    --trace-border: rgba(243, 162, 111, 0.22);
-    --trace-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  html[data-theme='dark'] .trace-paper-page,
+  html[data-theme-mode='evening'] .trace-paper-page {
+    --trace-accent: var(--global-primary-color);
+    --trace-accent-deep: var(--global-primary-hover-color);
+    --trace-accent-soft: rgba(var(--global-accent-rgb), 0.16);
+    --trace-accent-softer: rgba(var(--global-accent-rgb), 0.08);
+    --trace-border: rgba(var(--global-accent-rgb), 0.24);
+    --trace-shadow: 0 24px 60px var(--global-shadow-strong-color);
   }
 
   .trace-paper-page a {
@@ -95,8 +96,8 @@ _styles: |
     border-radius: 50%;
     background: var(--trace-accent);
     box-shadow:
-      1.15rem 0 0 rgba(159, 79, 47, 0.32),
-      2.3rem 0 0 rgba(159, 79, 47, 0.16);
+      1.15rem 0 0 rgba(var(--global-accent-rgb), 0.32),
+      2.3rem 0 0 rgba(var(--global-accent-rgb), 0.16);
   }
 
   .trace-title {
@@ -264,7 +265,7 @@ _styles: |
     color: var(--trace-accent-deep);
     background: rgba(255, 255, 255, 0.92);
     transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(22, 21, 18, 0.1);
+    box-shadow: 0 10px 22px var(--global-shadow-color);
   }
 
   html[data-theme='dark'] .trace-btn {

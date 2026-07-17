@@ -101,16 +101,16 @@
     });
 
     const palette = () => ({
-      bgA: cssVar("--research-motion-bg-a", "#fffaf6"),
-      bgB: cssVar("--research-motion-bg-b", "rgba(178, 214, 242, 0.36)"),
-      bgC: cssVar("--research-motion-bg-c", "#f7fbfb"),
-      lineA: cssVar("--research-motion-line-a", "#4f9bd8"),
-      lineB: cssVar("--research-motion-line-b", "#f2b36a"),
-      lineC: cssVar("--research-motion-line-c", "#5daea3"),
-      dot: cssVar("--research-motion-dot", "#2f7ec7"),
-      glow: cssVar("--research-motion-glow", "rgba(79, 155, 216, 0.1)"),
-      ink: cssVar("--global-text-color", "#201916"),
-      muted: cssVar("--global-text-color-light", "#746760"),
+      bgA: cssVar("--research-motion-bg-a", "#fffefa"),
+      bgB: cssVar("--research-motion-bg-b", "rgba(160, 214, 241, 0.38)"),
+      bgC: cssVar("--research-motion-bg-c", "#f7fbf8"),
+      lineA: cssVar("--research-motion-line-a", "#338bc0"),
+      lineB: cssVar("--research-motion-line-b", "#f09c52"),
+      lineC: cssVar("--research-motion-line-c", "#3b9b7d"),
+      dot: cssVar("--research-motion-dot", "#1f72aa"),
+      glow: cssVar("--research-motion-glow", "rgba(51, 139, 192, 0.11)"),
+      ink: cssVar("--global-text-color", "#252321"),
+      muted: cssVar("--global-text-color-light", "#625f5a"),
     });
 
     const plotBounds = () => {

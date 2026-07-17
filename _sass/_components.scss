@@ -1302,7 +1302,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   border: 1px solid var(--global-divider-color);
   border-radius: 0.32rem;
   background: var(--global-card-bg-color);
-  box-shadow: 0 0.18rem 0.45rem rgba(31, 27, 24, 0.06);
+  box-shadow: 0 0.18rem 0.45rem var(--global-shadow-color);
 
   &::before,
   &::after {
@@ -1993,7 +1993,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   border-radius: 0.72rem;
   background: #0e1418;
   aspect-ratio: 16 / 9;
-  box-shadow: 0 0.9rem 2.1rem rgba(22, 20, 18, 0.08);
+  box-shadow: 0 0.9rem 2.1rem var(--global-shadow-color);
 
   &:focus-visible {
     outline: 2px solid color-mix(in srgb, var(--global-theme-color) 55%, transparent);
@@ -2417,7 +2417,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   border: 1px solid var(--global-divider-color);
   border-radius: 0.78rem;
   background: #0e1418;
-  box-shadow: 0 0.9rem 2.1rem rgba(22, 20, 18, 0.08);
+  box-shadow: 0 0.9rem 2.1rem var(--global-shadow-color);
 }
 
 .spooder-video-track {

@@ -78,13 +78,13 @@
     const palette = () => {
       const style = getComputedStyle(storyRoot);
       return {
-        accent: style.getPropertyValue("--global-primary-color").trim() || "#b84f12",
-        added: style.getPropertyValue("--global-sky-strong").trim() || "#357f9e",
-        removed: style.getPropertyValue("--global-mint-strong").trim() || "#387768",
-        text: style.getPropertyValue("--global-text-color").trim() || "#211a16",
-        muted: style.getPropertyValue("--global-text-color-light").trim() || "#6d6a62",
-        grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(90,88,72,.16)",
-        surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#fffaf6",
+        accent: style.getPropertyValue("--global-primary-color").trim() || "#bf470f",
+        added: style.getPropertyValue("--global-sky-strong").trim() || "#2c7290",
+        removed: style.getPropertyValue("--global-mint-strong").trim() || "#2f7562",
+        text: style.getPropertyValue("--global-text-color").trim() || "#252321",
+        muted: style.getPropertyValue("--global-text-color-light").trim() || "#625f5a",
+        grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(69,86,82,.17)",
+        surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#fbfcf8",
       };
     };
     const dimensions = () => ({
@@ -845,15 +845,15 @@
   const colors = () => {
     const style = getComputedStyle(root);
     return {
-      added: style.getPropertyValue("--global-sky-strong").trim() || "#357f9e",
-      removed: style.getPropertyValue("--global-mint-strong").trim() || "#387768",
-      addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#316980",
-      removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#326b5d",
-      accent: style.getPropertyValue("--global-primary-color").trim() || "#b84f12",
-      text: style.getPropertyValue("--global-text-color").trim() || "#211a16",
-      muted: style.getPropertyValue("--global-text-color-light").trim() || "#6d6a62",
-      grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(90,88,72,.16)",
-      surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#fffaf6",
+      added: style.getPropertyValue("--global-sky-strong").trim() || "#2c7290",
+      removed: style.getPropertyValue("--global-mint-strong").trim() || "#2f7562",
+      addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#28657d",
+      removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#286b58",
+      accent: style.getPropertyValue("--global-primary-color").trim() || "#bf470f",
+      text: style.getPropertyValue("--global-text-color").trim() || "#252321",
+      muted: style.getPropertyValue("--global-text-color-light").trim() || "#625f5a",
+      grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(69,86,82,.17)",
+      surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#fbfcf8",
     };
   };
   const setPressedState = () => {

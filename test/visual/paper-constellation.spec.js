@@ -211,6 +211,105 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   expect(runtimeErrors, "Paper Constellation raised browser runtime errors").toEqual([]);
 });
 
+test("mobile constellation information strokes clear 3:1 in every coastal mode", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-390", "the mobile trail exposes rails, graph edges, and secondary memberships together");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  const { constellationPanel } = await openConstellation(page, "morning");
+  const root = page.locator("html");
+  await expect(page.locator("[data-paper-constellation]")).toHaveClass(/paper-constellation-entered/);
+
+  for (const mode of ["morning", "noon", "afternoon", "evening"]) {
+    if ((await root.getAttribute("data-theme-mode")) !== mode) {
+      await page.locator("#theme-toggle").click();
+      await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+    }
+    await expect(root).toHaveAttribute("data-theme-mode", mode);
+    await page.mouse.move(0, 0);
+    await expect
+      .poll(() =>
+        page
+          .locator("[data-constellation-mobile-rail], [data-constellation-mobile-edge], [data-constellation-mobile-membership]")
+          .evaluateAll(
+            (elements) => elements.length === 17 && elements.every((element) => Number.parseFloat(getComputedStyle(element).opacity) >= 0.899)
+          )
+      )
+      .toBe(true);
+
+    const contrastEvidence = await page.locator("[data-constellation-mobile]").evaluate((surface) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      const parseColor = (value) => {
+        context.clearRect(0, 0, 1, 1);
+        context.fillStyle = "rgba(0, 0, 0, 0)";
+        context.fillStyle = value;
+        context.fillRect(0, 0, 1, 1);
+        return Array.from(context.getImageData(0, 0, 1, 1).data);
+      };
+      const resolveToken = (token) => {
+        const probe = document.createElement("i");
+        probe.style.color = `var(${token})`;
+        surface.append(probe);
+        const color = getComputedStyle(probe).color;
+        probe.remove();
+        return color;
+      };
+      const linear = (channel) => {
+        const normalized = channel / 255;
+        return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+      };
+      const luminance = (color) => 0.2126 * linear(color[0]) + 0.7152 * linear(color[1]) + 0.0722 * linear(color[2]);
+      const contrast = (first, second) => {
+        const [lighter, darker] = [luminance(first), luminance(second)].sort((a, b) => b - a);
+        return (lighter + 0.05) / (darker + 0.05);
+      };
+      const backgrounds = [resolveToken("--global-card-bg-color"), resolveToken("--global-bg-color")].map(parseColor);
+      const roles = [
+        ["rail", "[data-constellation-mobile-rail]"],
+        ["edge", "[data-constellation-mobile-edge]"],
+        ["membership", "[data-constellation-mobile-membership]"],
+      ];
+
+      return roles.flatMap(([role, selector]) =>
+        Array.from(surface.querySelectorAll(selector)).map((element, index) => {
+          const style = getComputedStyle(element);
+          const stroke = parseColor(style.stroke);
+          const effectiveAlpha = (stroke[3] / 255) * Number.parseFloat(style.opacity || "1") * Number.parseFloat(style.strokeOpacity || "1");
+          const ratios = backgrounds.map((background) => {
+            const composited = stroke
+              .slice(0, 3)
+              .map((channel, channelIndex) => channel * effectiveAlpha + background[channelIndex] * (1 - effectiveAlpha));
+            return contrast(composited, background);
+          });
+          return {
+            index,
+            minContrast: Math.min(...ratios),
+            opacity: effectiveAlpha,
+            role,
+            stroke: style.stroke,
+          };
+        })
+      );
+    });
+
+    expect(contrastEvidence.filter((item) => item.role === "rail")).toHaveLength(3);
+    expect(contrastEvidence.filter((item) => item.role === "edge")).toHaveLength(9);
+    expect(contrastEvidence.filter((item) => item.role === "membership")).toHaveLength(5);
+    for (const evidence of contrastEvidence) {
+      expect(evidence.opacity, `${mode} ${evidence.role} ${evidence.index} has no visible composited stroke`).toBeGreaterThan(0);
+      expect(
+        evidence.minContrast,
+        `${mode} ${evidence.role} ${evidence.index} (${evidence.stroke} at ${evidence.opacity.toFixed(3)} opacity)`
+      ).toBeGreaterThanOrEqual(3);
+    }
+    await attachScreenshot(page, testInfo, `paper-constellation-stroke-contrast-${mode}-mobile-390`, { locator: constellationPanel });
+  }
+
+  expect(runtimeErrors, "coastal constellation contrast checks raised browser runtime errors").toEqual([]);
+});
+
 test("Paper List is the complete no-JavaScript publication view", async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one browser verifies the deterministic no-JavaScript contract");
 

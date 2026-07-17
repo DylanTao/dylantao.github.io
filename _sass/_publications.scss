@@ -292,7 +292,7 @@ html[data-theme="dark"] .wall-of-rejection {
     font-weight: 740;
     line-height: 1.32;
     text-align: left;
-    box-shadow: 0 0.55rem 1.15rem rgba(32, 25, 22, 0.12);
+    box-shadow: 0 0.55rem 1.15rem rgba(var(--global-shadow-rgb), 0.12);
   }
 
   &:hover,
@@ -302,7 +302,7 @@ html[data-theme="dark"] .wall-of-rejection {
     border-color: color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
     box-shadow:
       inset 0 1px 0 var(--rejection-badge-inset-highlight-active),
-      0 0.55rem 1.25rem rgba(32, 25, 22, 0.1);
+      0 0.55rem 1.25rem rgba(var(--global-shadow-rgb), 0.1);
     transform: translateY(-2px);
   }
 
@@ -375,7 +375,7 @@ html[data-theme="dark"] .rejection-badge.rejection-badge-pinned {
   color: var(--global-theme-color);
   font-size: 1rem;
   line-height: 1;
-  box-shadow: 0 0.24rem 0.5rem rgba(32, 25, 22, 0.08);
+  box-shadow: 0 0.24rem 0.5rem rgba(var(--global-shadow-rgb), 0.08);
 }
 
 .rejection-badge-icon-crossed-reviewer-pens {
@@ -850,7 +850,7 @@ html[data-theme="dark"] .rejection-xp-ledger-item {
   border: 1px solid var(--global-divider-color);
   border-radius: 0.55rem;
   background: var(--global-card-bg-color);
-  box-shadow: 0 0.7rem 1.6rem rgba(32, 25, 22, 0.12);
+  box-shadow: 0 0.7rem 1.6rem rgba(var(--global-shadow-rgb), 0.12);
 
   p {
     margin: 0 0 0.65rem;
@@ -1167,7 +1167,7 @@ body.rejection-meme-viewer-open {
   background:
     linear-gradient(135deg, rgba(var(--global-accent-rgb), 0.08), transparent 46%),
     color-mix(in srgb, var(--global-card-bg-color) 90%, var(--global-bg-color));
-  box-shadow: 0 0.55rem 1.35rem rgba(32, 25, 22, 0.045);
+  box-shadow: 0 0.55rem 1.35rem rgba(var(--global-shadow-rgb), 0.045);
 }
 
 .publication-spooder-cta figure {
@@ -1284,7 +1284,7 @@ body.rejection-meme-viewer-open {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.2)), color-mix(in srgb, var(--global-card-bg-color) 78%, transparent);
   padding: 0.95rem;
-  box-shadow: 0 0.75rem 1.8rem rgba(32, 25, 22, 0.065);
+  box-shadow: 0 0.75rem 1.8rem rgba(var(--global-shadow-rgb), 0.065);
   backdrop-filter: blur(18px) saturate(1.28);
   transition:
     border-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -1296,7 +1296,7 @@ body.rejection-meme-viewer-open {
 
 .publication-workbench-paper-focus .scholar-lens-card {
   border-color: color-mix(in srgb, var(--global-theme-color) 22%, var(--global-divider-color));
-  box-shadow: 0 0.9rem 2.05rem rgba(32, 25, 22, 0.08);
+  box-shadow: 0 0.9rem 2.05rem rgba(var(--global-shadow-rgb), 0.08);
 }
 
 html[data-theme="dark"] .scholar-lens-card {
@@ -1754,7 +1754,7 @@ html[data-theme="dark"] .scholar-lens-card {
   color: var(--global-theme-color);
   font-size: 0.66rem;
   font-weight: 800;
-  box-shadow: 0 0.18rem 0.46rem rgba(32, 25, 22, 0.08);
+  box-shadow: 0 0.18rem 0.46rem rgba(var(--global-shadow-rgb), 0.08);
 }
 
 .scholar-lens-year-paper-share:hover .scholar-lens-year-count,
@@ -2872,7 +2872,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
 .publication-view-button-active {
   background: var(--global-card-bg-color);
-  box-shadow: 0 0.18rem 0.65rem rgba(35, 28, 24, 0.1);
+  box-shadow: 0 0.18rem 0.65rem rgba(var(--global-shadow-rgb), 0.1);
   color: var(--global-theme-color);
 }
 
@@ -2885,6 +2885,8 @@ html[data-theme="dark"] .scholar-lens-card {
   --constellation-design: var(--global-theme-color);
   --constellation-evaluate: var(--global-sky-strong);
   --constellation-situate: var(--global-mint-strong);
+  --constellation-information-stroke: var(--global-text-color-light);
+  --constellation-information-opacity: 0.9;
 
   min-width: 0;
 }
@@ -3029,7 +3031,7 @@ html[data-theme="dark"] .scholar-lens-card {
   stroke-dasharray: 0.5 1.8;
   stroke-linecap: round;
   stroke-width: 0.22;
-  opacity: 0.22;
+  opacity: var(--constellation-information-opacity);
 }
 
 .paper-constellation-future-boundary {
@@ -3040,7 +3042,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
 .paper-constellation-edge {
   fill: none;
-  stroke: color-mix(in srgb, var(--global-text-color-light) 35%, transparent);
+  stroke: var(--constellation-information-stroke);
   stroke-linecap: round;
   stroke-width: 0.26;
   opacity: 0;
@@ -3052,7 +3054,7 @@ html[data-theme="dark"] .scholar-lens-card {
 }
 
 .paper-constellation-entered .paper-constellation-edge {
-  opacity: 0.44;
+  opacity: var(--constellation-information-opacity);
 }
 
 .paper-constellation-edge-bridge {
@@ -3167,7 +3169,7 @@ html[data-theme="dark"] .scholar-lens-card {
 .paper-constellation-paper-core {
   border: 0.18rem solid var(--global-card-bg-color);
   background: color-mix(in srgb, var(--global-theme-color) 68%, var(--global-sky-strong));
-  box-shadow: 0 0.25rem 0.8rem rgba(35, 28, 24, 0.16);
+  box-shadow: 0 0.25rem 0.8rem rgba(var(--global-shadow-rgb), 0.16);
 }
 
 .paper-constellation-format-short-form .paper-constellation-paper-core {
@@ -3236,7 +3238,7 @@ html[data-theme="dark"] .scholar-lens-card {
   border: 1px solid currentcolor;
   border-radius: 50%;
   background: color-mix(in srgb, var(--global-card-bg-color) 90%, transparent);
-  box-shadow: 0 0.18rem 0.65rem rgba(35, 28, 24, 0.08);
+  box-shadow: 0 0.18rem 0.65rem rgba(var(--global-shadow-rgb), 0.08);
   font-family: var(--font-mono);
   font-size: 1rem;
   font-weight: 760;
@@ -3489,7 +3491,7 @@ html[data-theme="dark"] .scholar-lens-card {
     stroke: currentcolor;
     stroke-linecap: round;
     stroke-width: 1.5;
-    opacity: 0.42;
+    opacity: var(--constellation-information-opacity);
     vector-effect: non-scaling-stroke;
   }
 
@@ -3503,11 +3505,11 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .paper-constellation-mobile-membership {
     fill: none;
-    stroke: color-mix(in srgb, var(--global-text-color-light) 48%, transparent);
+    stroke: var(--constellation-information-stroke);
     stroke-dasharray: 3 3;
     stroke-linecap: round;
     stroke-width: 1.15;
-    opacity: 0.48;
+    opacity: var(--constellation-information-opacity);
     transition:
       opacity 180ms ease,
       stroke 180ms ease,
@@ -3606,7 +3608,7 @@ html[data-theme="dark"] .scholar-lens-card {
     border: 1px solid currentcolor;
     border-radius: 50%;
     background: color-mix(in srgb, var(--global-card-bg-color) 92%, transparent);
-    box-shadow: 0 0.16rem 0.55rem rgba(35, 28, 24, 0.09);
+    box-shadow: 0 0.16rem 0.55rem rgba(var(--global-shadow-rgb), 0.09);
     font-family: var(--font-mono);
     font-size: 0.86rem;
     font-weight: 760;

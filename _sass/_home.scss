@@ -10,10 +10,10 @@
   --home-accent: var(--global-theme-color);
   --home-accent-strong: var(--global-hover-color);
   --home-accent-soft: var(--global-accent-soft);
-  --home-paper: #fffefb;
-  --home-paper-warm: #fbf7ef;
+  --home-paper: color-mix(in srgb, #ffffff 92%, var(--global-bg-color));
+  --home-paper-warm: color-mix(in srgb, #ffffff 84%, var(--global-primary-container-color));
   --home-paper-edge: rgba(117, 88, 58, 0.14);
-  --home-paper-shadow: 0 0.42rem 0.95rem rgba(73, 45, 30, 0.065);
+  --home-paper-shadow: 0 0.42rem 0.95rem rgba(var(--global-shadow-rgb), 0.075);
   --home-mint: var(--global-mint-soft);
   --home-mint-strong: var(--global-mint-strong);
   --home-sky: var(--global-sky-soft);
@@ -26,10 +26,10 @@
   --home-surface-high: var(--global-surface-container-high-color);
   --home-line: var(--global-divider-color);
   --home-card-border: color-mix(in srgb, var(--home-line) 78%, transparent);
-  --home-card-shadow: 0 0.38rem 0.92rem rgba(35, 28, 24, 0.055);
-  --home-card-shadow-hover: 0 0.72rem 1.4rem rgba(35, 28, 24, 0.075);
+  --home-card-shadow: 0 0.38rem 0.92rem rgba(var(--global-shadow-rgb), 0.065);
+  --home-card-shadow-hover: 0 0.72rem 1.4rem rgba(var(--global-shadow-rgb), 0.095);
   --home-card-wash: color-mix(in srgb, var(--global-primary-container-color) 10%, transparent);
-  --home-shadow: 0 18px 42px rgba(35, 28, 24, 0.08);
+  --home-shadow: 0 18px 42px rgba(var(--global-shadow-rgb), 0.1);
   --home-coffee-stain-blend: multiply;
   --home-coffee-stain-image: url("../img/home/coffee-stain-noon.svg");
   --home-coffee-stain-opacity: 0.88;
@@ -86,15 +86,15 @@ html[data-theme="dark"] body.home-body .theme-toggle {
 }
 
 html[data-theme="dark"] .home-page {
-  --home-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  --home-shadow: 0 18px 44px rgba(var(--global-shadow-rgb), 0.34);
   --home-card-border: color-mix(in srgb, var(--home-line) 80%, transparent);
-  --home-card-shadow: 0 0.42rem 0.96rem rgba(0, 0, 0, 0.22);
-  --home-card-shadow-hover: 0 0.78rem 1.45rem rgba(0, 0, 0, 0.3);
+  --home-card-shadow: 0 0.42rem 0.96rem rgba(var(--global-shadow-rgb), 0.28);
+  --home-card-shadow-hover: 0 0.78rem 1.45rem rgba(var(--global-shadow-rgb), 0.38);
   --home-card-wash: rgba(var(--global-accent-rgb), 0.045);
   --home-paper: color-mix(in srgb, var(--home-surface-high) 92%, var(--global-on-primary-container-color) 8%);
   --home-paper-warm: color-mix(in srgb, var(--home-surface-container) 90%, var(--global-on-primary-container-color) 10%);
   --home-paper-edge: rgba(232, 220, 204, 0.18);
-  --home-paper-shadow: 0 0.48rem 1rem rgba(0, 0, 0, 0.24);
+  --home-paper-shadow: 0 0.48rem 1rem rgba(var(--global-shadow-rgb), 0.3);
   --home-coffee-stain-blend: normal;
   --home-coffee-stain-image: url("../img/home/coffee-stain-evening.svg");
   --home-coffee-stain-opacity: 0.92;
@@ -160,7 +160,7 @@ html[data-theme-mode="evening"] .home-page {
     linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08) 46%, transparent),
     color-mix(in srgb, var(--home-surface) 46%, transparent);
   box-shadow:
-    0 0.52rem 1.18rem rgba(73, 45, 30, 0.045),
+    0 0.52rem 1.18rem rgba(var(--global-shadow-rgb), 0.055),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
   list-style: none;
   scrollbar-width: none;
@@ -177,7 +177,7 @@ html[data-theme="dark"] .home-story-rail ol {
     linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.018) 48%, transparent),
     color-mix(in srgb, var(--home-surface) 52%, transparent);
   box-shadow:
-    0 0.62rem 1.38rem rgba(0, 0, 0, 0.22),
+    0 0.62rem 1.38rem rgba(var(--global-shadow-rgb), 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
@@ -258,7 +258,7 @@ html[data-theme="dark"] .home-story-rail ol {
     linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.055) 40%, transparent 68%),
     color-mix(in srgb, var(--global-primary-container-color) 14%, transparent);
   box-shadow:
-    0 0.24rem 0.52rem rgba(73, 45, 30, 0.032),
+    0 0.24rem 0.52rem rgba(var(--global-shadow-rgb), 0.045),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   content: "";
   opacity: 0;
@@ -641,7 +641,7 @@ html[data-theme="dark"] .home-cred-item strong {
     linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.06) 48%, transparent),
     color-mix(in srgb, var(--home-surface) 58%, transparent);
   box-shadow:
-    0 0.48rem 1.1rem rgba(73, 45, 30, 0.055),
+    0 0.48rem 1.1rem rgba(var(--global-shadow-rgb), 0.07),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   opacity: 0;
   pointer-events: none;
@@ -657,7 +657,7 @@ html[data-theme="dark"] .home-desk-control-strip {
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.018) 48%, transparent),
     color-mix(in srgb, var(--home-surface) 62%, transparent);
   box-shadow:
-    0 0.62rem 1.38rem rgba(0, 0, 0, 0.24),
+    0 0.62rem 1.38rem rgba(var(--global-shadow-rgb), 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
@@ -975,7 +975,7 @@ html.home-desk-outside-active .home-story-rail {
 .home-portrait-frame:hover,
 .home-portrait-frame:focus-visible {
   border-color: color-mix(in srgb, var(--home-accent) 38%, var(--home-line));
-  box-shadow: 0 22px 48px rgba(73, 45, 30, 0.13);
+  box-shadow: 0 22px 48px rgba(var(--global-shadow-rgb), 0.15);
   transform: translateY(-2px);
 }
 
@@ -2488,7 +2488,7 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-motion-theme-control .theme-toggle {
   border: 1px solid rgba(var(--global-accent-rgb), 0.18);
   background: color-mix(in srgb, var(--home-surface) 82%, transparent);
-  box-shadow: 0 10px 22px rgba(73, 45, 30, 0.1);
+  box-shadow: 0 10px 22px rgba(var(--global-shadow-rgb), 0.12);
   backdrop-filter: blur(14px);
 }
 
@@ -2514,7 +2514,7 @@ html[data-theme="dark"] .home-artifact-mark {
   border: 1px solid rgba(var(--global-accent-rgb), 0.22);
   border-radius: 0.5rem;
   background: color-mix(in srgb, var(--home-surface) 86%, transparent);
-  box-shadow: 0 12px 26px rgba(73, 45, 30, 0.12);
+  box-shadow: 0 12px 26px rgba(var(--global-shadow-rgb), 0.14);
   backdrop-filter: blur(14px);
 }
 
@@ -3380,7 +3380,7 @@ html[data-theme="dark"] .home-artifact-mark {
   border: 1px solid color-mix(in srgb, var(--home-line) 82%, transparent);
   border-radius: 0.55rem;
   background: color-mix(in srgb, var(--home-surface) 98%, var(--home-paper));
-  box-shadow: 0 0.84rem 1.8rem rgba(21, 23, 24, 0.17);
+  box-shadow: 0 0.84rem 1.8rem var(--global-shadow-strong-color);
   color: color-mix(in srgb, var(--home-ink) 70%, var(--home-muted));
   font-family: var(--font-body);
   font-size: 0.74rem;
@@ -3495,7 +3495,7 @@ html[data-theme="dark"] .home-agentic-tally::before {
 html[data-theme="dark"] .home-agentic-tooltip {
   border-color: color-mix(in srgb, var(--home-line) 58%, rgba(255, 255, 255, 0.18));
   background: color-mix(in srgb, var(--home-surface) 86%, #ffffff 14%);
-  box-shadow: 0 0.72rem 1.6rem rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0.72rem 1.6rem var(--global-shadow-strong-color);
   color: color-mix(in srgb, var(--home-ink) 82%, #ffffff 18%);
 }
 

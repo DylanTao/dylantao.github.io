@@ -1662,7 +1662,9 @@ test("secret checkpoint tells the truth, contains focus, and survives a refresh"
   await expect(page.locator("body")).not.toHaveClass(/sirui-secret-dialog-open/);
 
   await trigger.click();
-  await mango.click();
+  // Dispatch synchronously so Playwright does not absorb the deliberately delayed
+  // route transition into click auto-waiting on a loaded CI runner.
+  await mango.evaluate((button) => button.click());
   const status = page.locator("#sirui-secret-status");
   await expect(status).toContainText("mango is on Sirui's list.");
   expect(await status.textContent()).not.toMatch(/guess|correct/i);

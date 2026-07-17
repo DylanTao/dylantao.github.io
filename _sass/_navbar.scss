@@ -11,7 +11,7 @@
   --nav-glass-shadow: rgba(var(--global-accent-rgb), 0.045);
 
   border-bottom: 1px solid color-mix(in srgb, var(--global-divider-color) 72%, transparent);
-  background-color: rgba(255, 250, 246, 0.82);
+  background-color: var(--global-nav-bg-color);
   box-shadow: none;
   min-height: 3.45rem;
   opacity: 1;
@@ -30,27 +30,22 @@
   min-width: 0;
 }
 
-html[data-theme="dark"] .navbar {
+html[data-theme="dark"] .navbar,
+html[data-theme-mode="evening"] .navbar {
   --nav-glass-fill: rgba(var(--global-accent-rgb), 0.045);
   --nav-glass-rim: rgba(var(--global-accent-rgb), 0.14);
   --nav-glass-shine: rgba(255, 255, 255, 0.055);
   --nav-glass-shadow: rgba(0, 0, 0, 0.14);
-
-  background-color: rgba(22, 28, 31, 0.8);
 }
 
 html[data-theme-mode="noon"] .navbar {
   --nav-glass-fill: rgba(var(--global-accent-rgb), 0.03);
   --nav-glass-rim: rgba(var(--global-accent-rgb), 0.085);
-
-  background-color: rgba(251, 253, 255, 0.82);
 }
 
 html[data-theme-mode="afternoon"] .navbar {
   --nav-glass-fill: rgba(var(--global-accent-rgb), 0.036);
   --nav-glass-rim: rgba(var(--global-accent-rgb), 0.1);
-
-  background-color: rgba(255, 248, 241, 0.82);
 }
 
 .navbar .dropdown-menu,

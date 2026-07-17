@@ -886,57 +886,117 @@
     };
 
     const readDeskPalette = () => {
-      const isDarkTheme = root.getAttribute("data-theme") === "dark";
-      const mode = root.getAttribute("data-theme-mode") || (isDarkTheme ? "evening" : "morning");
-      return isDarkTheme
-        ? {
-            mode,
-            isDarkTheme,
-            floor: 0xf0d4ad,
-            wall: 0xe7d8c5,
-            wood: 0x8f6947,
-            woodEdge: 0x6f4b2f,
-            stone: 0x8a7d6b,
-            stoneEdge: 0x5d5246,
-            coffee: 0x58351f,
-            ceramic: 0xf5eadb,
-            recordBase: 0xc6b89e,
-            metal: 0x7d817e,
-            cardEdge: 0x213133,
-            shadow: 0x0a1112,
-            shadowOpacity: 0.085,
-            stain: 0xb47a47,
-            stainOpacity: 0.18,
-            ambientColor: 0xded4c6,
-            ambientIntensity: 0.94,
-            keyIntensity: 2.08,
-            sideColor: 0xb79270,
-            sideIntensity: 0.42,
-          }
-        : {
-            mode,
-            isDarkTheme,
-            floor: 0xf6eee6,
-            wall: 0xfffaf2,
-            wood: 0xad7b50,
-            woodEdge: 0x8b5a35,
-            stone: 0xd8cab7,
-            stoneEdge: 0xad9c88,
-            coffee: 0x5f3921,
-            ceramic: 0xfffbf2,
-            recordBase: 0xd4c7ab,
-            metal: 0x787c7a,
-            cardEdge: 0xd0bda8,
-            shadow: 0x6d4630,
-            shadowOpacity: 0.055,
-            stain: 0x8e552c,
-            stainOpacity: 0.16,
-            ambientColor: 0xfffbf1,
-            ambientIntensity: 0.82,
-            keyIntensity: 2.18,
-            sideColor: 0xffd6aa,
-            sideIntensity: 0.46,
-          };
+      const darkSetting = root.getAttribute("data-theme") === "dark";
+      const requestedMode = root.getAttribute("data-theme-mode");
+      const supportedModes = new Set(["morning", "noon", "afternoon", "evening"]);
+      const mode = darkSetting ? "evening" : supportedModes.has(requestedMode) ? requestedMode : "noon";
+      const palettes = {
+        morning: {
+          floor: 0xf5dfd2,
+          wall: 0xfff0e7,
+          wood: 0xaa7850,
+          woodEdge: 0x855632,
+          stone: 0xdec8b8,
+          stoneEdge: 0xaa8f7b,
+          coffee: 0x5f3921,
+          ceramic: 0xfffbf5,
+          recordBase: 0xd9cbb4,
+          metal: 0x7a807d,
+          cardEdge: 0xd9bba6,
+          shadow: 0x623923,
+          shadowOpacity: 0.052,
+          stain: 0x99562e,
+          stainOpacity: 0.15,
+          ambientColor: 0xffdfcf,
+          ambientIntensity: 0.88,
+          keyIntensity: 2.08,
+          sideColor: 0xb7d9e7,
+          sideIntensity: 0.36,
+        },
+        noon: {
+          floor: 0xeaf1ec,
+          wall: 0xfffffa,
+          wood: 0xad7b50,
+          woodEdge: 0x8b5a35,
+          stone: 0xcbd5cf,
+          stoneEdge: 0x91a29b,
+          coffee: 0x5f3921,
+          ceramic: 0xfffcf6,
+          recordBase: 0xd3c8b2,
+          metal: 0x747c7a,
+          cardEdge: 0xbecdc7,
+          shadow: 0x1d3236,
+          shadowOpacity: 0.05,
+          stain: 0x95572e,
+          stainOpacity: 0.15,
+          ambientColor: 0xf0fffb,
+          ambientIntensity: 0.8,
+          keyIntensity: 2.18,
+          sideColor: 0x8fd8ef,
+          sideIntensity: 0.52,
+        },
+        afternoon: {
+          floor: 0xf3dfca,
+          wall: 0xfff4e9,
+          wood: 0xad7147,
+          woodEdge: 0x874b2c,
+          stone: 0xcfbba8,
+          stoneEdge: 0xa28773,
+          coffee: 0x5b341f,
+          ceramic: 0xfff8ef,
+          recordBase: 0xd1bda3,
+          metal: 0x7d7974,
+          cardEdge: 0xc9aa91,
+          shadow: 0x5b3320,
+          shadowOpacity: 0.06,
+          stain: 0x9b532c,
+          stainOpacity: 0.17,
+          ambientColor: 0xffe6d0,
+          ambientIntensity: 0.86,
+          keyIntensity: 2.2,
+          sideColor: 0xffbd82,
+          sideIntensity: 0.48,
+        },
+        evening: {
+          floor: 0xf0d4ad,
+          wall: 0xe7d8c5,
+          wood: 0x8f6947,
+          woodEdge: 0x6f4b2f,
+          stone: 0x8a7d6b,
+          stoneEdge: 0x5d5246,
+          coffee: 0x58351f,
+          ceramic: 0xf5eadb,
+          recordBase: 0xc6b89e,
+          metal: 0x7d817e,
+          cardEdge: 0x213133,
+          shadow: 0x0a1112,
+          shadowOpacity: 0.085,
+          stain: 0xb47a47,
+          stainOpacity: 0.18,
+          ambientColor: 0xcbd9d9,
+          ambientIntensity: 0.94,
+          keyIntensity: 2.08,
+          sideColor: 0xffa466,
+          sideIntensity: 0.42,
+        },
+      };
+      return { mode, isDarkTheme: mode === "evening", ...palettes[mode] };
+    };
+
+    const deskPaletteSignature = (palette) =>
+      [palette.mode, palette.floor, palette.wall, palette.ambientColor, palette.sideColor]
+        .map((value, index) => (index === 0 ? value : Number(value).toString(16).padStart(6, "0")))
+        .join(":");
+
+    const markDeskPalettePending = (palette) => {
+      container.dataset.scenePaletteMode = palette.mode;
+      delete container.dataset.scenePaletteSettled;
+      delete container.dataset.scenePaletteSignature;
+    };
+
+    const markDeskPaletteSettled = (palette) => {
+      container.dataset.scenePaletteSettled = palette.mode;
+      container.dataset.scenePaletteSignature = deskPaletteSignature(palette);
     };
 
     const projectObjectBounds = (object) => {
@@ -3751,6 +3811,7 @@
     const applyDeskPalette = () => {
       if (!THREE) return;
       const palette = readDeskPalette();
+      markDeskPalettePending(palette);
       themeMaterials.floor?.color.setHex(palette.floor);
       replaceFloorTexture(themeMaterials.floor, createRoomFloorTexture(palette));
       themeMaterials.wall?.color.setHex(palette.wall);
@@ -3914,6 +3975,7 @@
       applyRootRotation(true);
       markSceneEvidenceDirty();
       render();
+      markDeskPaletteSettled(palette);
     };
 
     const resize = () => {
@@ -5611,6 +5673,7 @@
       pointerNdc = new THREE.Vector2();
 
       const palette = readDeskPalette();
+      markDeskPalettePending(palette);
 
       ambientLight = new THREE.AmbientLight(palette.ambientColor, palette.ambientIntensity);
       keyLight = new THREE.DirectionalLight(0xffffff, palette.keyIntensity);
@@ -6991,6 +7054,7 @@
       applyRootRotation(true);
       resize();
       render();
+      markDeskPaletteSettled(palette);
 
       resizeObserver = "ResizeObserver" in window ? new ResizeObserver(resize) : null;
       if (resizeObserver) {

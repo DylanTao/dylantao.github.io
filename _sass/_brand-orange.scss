@@ -15,17 +15,17 @@
 }
 
 .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffd07a;
-  --brand-orange-rind: #f47d20;
-  --brand-orange-deep: #c85214;
-  --brand-orange-outline: rgba(132, 54, 15, 0.36);
+  --brand-orange-highlight: #ffdc92;
+  --brand-orange-rind: #ff8426;
+  --brand-orange-deep: #dc5d0d;
+  --brand-orange-outline: rgba(142, 50, 8, 0.34);
   --brand-orange-detail: rgba(255, 247, 232, 0.58);
-  --brand-orange-pore: #ffd487;
-  --brand-orange-pore-glint: #fff0c4;
-  --brand-orange-pore-shadow: #9a4512;
-  --brand-orange-pore-dimple: #71310d;
-  --brand-orange-leaf: #72a95b;
-  --brand-orange-leaf-deep: #3e7640;
+  --brand-orange-pore: #ffcf72;
+  --brand-orange-pore-glint: #fff1c8;
+  --brand-orange-pore-shadow: #b64a0b;
+  --brand-orange-pore-dimple: #7f2e07;
+  --brand-orange-leaf: #67ad69;
+  --brand-orange-leaf-deep: #347044;
   --brand-orange-stem: #81552e;
   --brand-orange-scale: 1;
   --brand-orange-tilt: 0deg;
@@ -50,30 +50,31 @@
 }
 
 html[data-theme-mode="morning"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffd382;
-  --brand-orange-rind: #f58220;
-  --brand-orange-deep: #c95417;
-  --brand-orange-leaf: #75a962;
+  --brand-orange-highlight: #ffe0a0;
+  --brand-orange-rind: #ff9230;
+  --brand-orange-deep: #de6115;
+  --brand-orange-leaf: #72b577;
 }
 
 html[data-theme-mode="noon"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffd07a;
-  --brand-orange-rind: #f47d20;
-  --brand-orange-deep: #c85214;
+  --brand-orange-highlight: #ffdc92;
+  --brand-orange-rind: #ff8426;
+  --brand-orange-deep: #dc5d0d;
 }
 
 html[data-theme-mode="afternoon"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffd08a;
-  --brand-orange-rind: #ef7a24;
-  --brand-orange-deep: #bf501b;
-  --brand-orange-leaf: #6d8c4d;
+  --brand-orange-highlight: #ffda91;
+  --brand-orange-rind: #f98830;
+  --brand-orange-deep: #cf5716;
+  --brand-orange-leaf: #6f9f59;
 }
 
-html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
-  --brand-orange-highlight: #ffd189;
-  --brand-orange-rind: #ff9838;
-  --brand-orange-deep: #f06f18;
-  --brand-orange-outline: rgba(255, 177, 95, 0.48);
+html[data-theme="dark"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange,
+html[data-theme-mode="evening"] .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
+  --brand-orange-highlight: #ffdda2;
+  --brand-orange-rind: #ff9a3d;
+  --brand-orange-deep: #f57217;
+  --brand-orange-outline: rgba(255, 154, 61, 0.5);
   --brand-orange-detail: rgba(255, 246, 231, 0.56);
   --brand-orange-pore: #ffd589;
   --brand-orange-pore-glint: #ffe9b1;

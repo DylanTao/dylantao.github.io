@@ -1,9 +1,9 @@
 what-happened-and-why:
   accents:
-    morning: "#b6c2cc"
-    noon: "#cdd6df"
-    afternoon: "#bcc2cb"
-    evening: "#dfe7ef"
+    morning: "#89adbc"
+    noon: "#5b91a8"
+    afternoon: "#d79a72"
+    evening: "#a9d4e4"
   takeaways:
     - "Trace data needs user intent."
     - "Micro-episodes capture why in flow."
@@ -30,10 +30,10 @@ designweaver:
 
 physion:
   accents:
-    morning: "#4c2f27"
-    noon: "#2d4051"
-    afternoon: "#5a3b31"
-    evening: "#6f8295"
+    morning: "#7fa8b8"
+    noon: "#4f7892"
+    afternoon: "#c88767"
+    evening: "#9bbccb"
   takeaways:
     - "Models predict physical scene dynamics."
     - "Human judgments anchor plausibility."
@@ -43,10 +43,10 @@ website-revamp:
   evolution_line: "An archived site became a research-first redesign, then a living system of experiments and reusable heuristics."
   icon: archive
   accents:
-    morning: "#ca906d"
-    noon: "#a76441"
-    afternoon: "#e0baa1"
-    evening: "#dfdad2"
+    morning: "#f0a27a"
+    noon: "#e17845"
+    afternoon: "#f4b37f"
+    evening: "#ffb876"
   takeaways:
     - "Portfolio becomes a research argument."
     - "Heuristics become reusable design memory."
@@ -65,10 +65,10 @@ build-rhythm:
   evolution_line: "One combined view split into honest clocks, then regained a privacy-safe repo rhythm without reconnecting account history."
   icon: pulse
   accents:
-    morning: "#bf754c"
-    noon: "#4f7896"
-    afternoon: "#d39562"
-    evening: "#91a9bc"
+    morning: "#e88754"
+    noon: "#4f91ab"
+    afternoon: "#ef9b5c"
+    evening: "#91c9dd"
   takeaways:
     - "Cadence and magnitude stay distinct."
     - "Separate clocks keep provenance honest."
@@ -78,10 +78,10 @@ homepage-desk-scene:
   evolution_line: "A shared-state 2D scene gained a reciprocal 3D room while keeping one set of discoveries and controls."
   icon: desk
   accents:
-    morning: "#b7825f"
-    noon: "#4f8096"
-    afternoon: "#c99c78"
-    evening: "#9eafba"
+    morning: "#e8a06f"
+    noon: "#5996a7"
+    afternoon: "#e5a56f"
+    evening: "#9bc4cd"
   takeaways:
     - "2D and 3D share one state."
     - "Inside and outside share one room."
@@ -91,10 +91,10 @@ scholar-lens:
   evolution_line: "One paper cue now stays synchronized across its bibliography row, citation chip, and annual bar."
   icon: citation
   accents:
-    morning: "#b88962"
-    noon: "#5c769b"
-    afternoon: "#c89a6f"
-    evening: "#a8b2c3"
+    morning: "#d99b6b"
+    noon: "#648eab"
+    afternoon: "#e5a477"
+    evening: "#a9c4d4"
   takeaways:
     - "Citation context stays dated."
     - "The bibliography remains canonical."
@@ -104,10 +104,10 @@ wall-of-rejection:
   evolution_line: "The meme became a rejection-only wall built from event, badge, receipt, and non-additive combo."
   icon: receipt
   accents:
-    morning: "#c46f62"
-    noon: "#8c6c85"
-    afternoon: "#d49574"
-    evening: "#b6a8b5"
+    morning: "#dc6a5d"
+    noon: "#4f80a5"
+    afternoon: "#e09962"
+    evening: "#b7cee0"
   takeaways:
     - "Receipts stay close to each badge."
     - "Failure stays visible, not ranked."
@@ -117,10 +117,10 @@ ikea-project-cards:
   evolution_line: "A first FLIP transition survived competing effects by moving onto one cancelable motion clock."
   icon: expand
   accents:
-    morning: "#c79759"
-    noon: "#5d82a0"
-    afternoon: "#d7aa6a"
-    evening: "#a9b7c3"
+    morning: "#e9a65f"
+    noon: "#4f91b0"
+    afternoon: "#f0ad62"
+    evening: "#a9c9d9"
   takeaways:
     - "One card opens in context."
     - "FLIP preserves object identity."
@@ -130,10 +130,10 @@ dogtor-portal:
   evolution_line: "The joke became a fruit-choice recovery path that asks for consent before anything precise."
   icon: paw
   accents:
-    morning: "#c68a5e"
-    noon: "#71966f"
-    afternoon: "#d0a16d"
-    evening: "#a8b19d"
+    morning: "#e99c62"
+    noon: "#62a77d"
+    afternoon: "#e7aa6c"
+    evening: "#acceb8"
   takeaways:
     - "Hidden delight keeps recovery visible."
     - "Consent precedes precise location."
@@ -142,10 +142,10 @@ not-a-good-driver:
   origin_line: "I wanted to test how a deliberately bad driver could turn a VR world into a social performance for passengers and spectators."
   icon: wheel
   accents:
-    morning: "#c07461"
-    noon: "#7d98bc"
-    afternoon: "#f3d4b8"
-    evening: "#b8c8dc"
+    morning: "#df725d"
+    noon: "#6b9ccc"
+    afternoon: "#f2a66d"
+    evening: "#b8d4e8"
   takeaways:
     - "VR worlds become social experiments."
     - "AI-assisted prototypes meet public play."

@@ -1290,3 +1290,241 @@ test("dark desk materials preserve interior, floor evidence, and cliff hierarchy
   });
   expect(runtimeErrors, "dark desk material states raised browser runtime errors").toEqual([]);
 });
+
+test("four coastal desk palettes stay distinct and readable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop scene proves all four static palette modes");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await openDeskHome(page, "morning");
+  const scene = await switchTo3D(page);
+  const sceneContainer = page.locator("[data-home-desk-scene]");
+  const root = page.locator("html");
+  const expected = {
+    morning: {
+      background: "#fff9f4",
+      text: "#29221f",
+      primary: "#c24614",
+      sceneSignature: "morning:f5dfd2:fff0e7:ffdfcf:b7d9e7",
+    },
+    noon: { background: "#fffefa", text: "#252321", primary: "#bf470f", sceneSignature: "noon:eaf1ec:fffffa:f0fffb:8fd8ef" },
+    afternoon: {
+      background: "#fff7ef",
+      text: "#2d211d",
+      primary: "#b94b18",
+      sceneSignature: "afternoon:f3dfca:fff4e9:ffe6d0:ffbd82",
+    },
+    evening: {
+      background: "#111c22",
+      text: "#f8f3ec",
+      primary: "#ff9a3d",
+      sceneSignature: "evening:f0d4ad:e7d8c5:cbd9d9:ffa466",
+    },
+  };
+  const captures = [];
+
+  for (const mode of Object.keys(expected)) {
+    if ((await root.getAttribute("data-theme-mode")) !== mode) {
+      await page.locator("#theme-toggle").click();
+      await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+    }
+    await expect(root).toHaveAttribute("data-theme-mode", mode);
+    await expect(root).toHaveAttribute("data-theme", mode === "evening" ? "dark" : "light");
+    await expect(sceneContainer).toHaveAttribute("data-scene-palette-mode", mode);
+    await expect(sceneContainer).toHaveAttribute("data-scene-palette-settled", mode);
+    await expect(sceneContainer).toHaveAttribute("data-scene-palette-signature", expected[mode].sceneSignature);
+
+    const palette = await root.evaluate((element) => {
+      const style = getComputedStyle(element);
+      const value = (name) => style.getPropertyValue(name).trim().toLowerCase();
+      const rgb = (hex) => [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
+      const linear = (channel) => {
+        const normalized = channel / 255;
+        return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+      };
+      const luminance = (hex) => {
+        const channels = rgb(hex).map(linear);
+        return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+      };
+      const contrast = (first, second) => {
+        const [lighter, darker] = [luminance(first), luminance(second)].sort((a, b) => b - a);
+        return (lighter + 0.05) / (darker + 0.05);
+      };
+      const background = value("--global-bg-color");
+      const text = value("--global-text-color");
+      const primary = value("--global-primary-color");
+      const muted = value("--global-text-color-light");
+      return {
+        background,
+        text,
+        primary,
+        textContrast: contrast(text, background),
+        mutedContrast: contrast(muted, background),
+        primaryContrast: contrast(primary, background),
+      };
+    });
+    expect(palette).toMatchObject({
+      background: expected[mode].background,
+      text: expected[mode].text,
+      primary: expected[mode].primary,
+    });
+    expect(palette.textContrast, `${mode} body-text contrast`).toBeGreaterThanOrEqual(7);
+    expect(palette.mutedContrast, `${mode} secondary-text contrast`).toBeGreaterThanOrEqual(4.5);
+    expect(palette.primaryContrast, `${mode} action contrast`).toBeGreaterThanOrEqual(4.5);
+
+    await page.waitForTimeout(180);
+    const canvas = await scene.canvas.screenshot();
+    captures.push({ mode, canvas });
+    await attachScreenshot(page, testInfo, `desk-coastal-${mode}-desktop-1440`, { locator: scene.stage });
+  }
+
+  for (let index = 1; index < captures.length; index += 1) {
+    const previous = captures[index - 1];
+    const current = captures[index];
+    expect(
+      screenshotDiffRatio(previous.canvas, current.canvas, { threshold: 0.05 }),
+      `${previous.mode} and ${current.mode} desk palettes should visibly differ`
+    ).toBeGreaterThan(0.001);
+  }
+  expect(runtimeErrors, "coastal desk palette switching raised browser runtime errors").toEqual([]);
+});
+
+test("morning and noon desk palettes settle distinctly across repeated switches", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one reduced-motion desktop scene proves deterministic repeated settlement");
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const runtimeErrors = collectRuntimeErrors(page);
+  await openDeskHome(page, "morning");
+  const scene = await switchTo3D(page);
+  const sceneContainer = page.locator("[data-home-desk-scene]");
+  const root = page.locator("html");
+  const signatures = {
+    morning: "morning:f5dfd2:fff0e7:ffdfcf:b7d9e7",
+    noon: "noon:eaf1ec:fffffa:f0fffb:8fd8ef",
+  };
+  const captures = { morning: [], noon: [] };
+
+  for (let pass = 0; pass < 3; pass += 1) {
+    for (const mode of ["morning", "noon"]) {
+      if ((await root.getAttribute("data-theme-mode")) !== mode) {
+        await page.locator("#theme-toggle").click();
+        await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+      }
+      await expect(root).toHaveAttribute("data-theme-mode", mode);
+      await expect(sceneContainer).toHaveAttribute("data-scene-palette-settled", mode);
+      await expect(sceneContainer).toHaveAttribute("data-scene-palette-signature", signatures[mode]);
+      captures[mode].push(await scene.canvas.screenshot());
+    }
+  }
+
+  for (let pass = 0; pass < 3; pass += 1) {
+    expect(
+      screenshotDiffRatio(captures.morning[pass], captures.noon[pass], { threshold: 0.05 }),
+      `morning and noon should remain materially distinct on repeated pass ${pass + 1}`
+    ).toBeGreaterThan(0.01);
+  }
+  expect(runtimeErrors, "repeated coastal palette settlement raised browser runtime errors").toEqual([]);
+});
+
+test("coastal theme chrome fits a 720px high-DPR viewport", async ({ browser }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one 720px DPR2 context covers all four modes");
+
+  const context = await browser.newContext({
+    deviceScaleFactor: 2,
+    locale: "en-US",
+    screen: { width: 1440, height: 1000 },
+    timezoneId: "America/Los_Angeles",
+    viewport: { width: 720, height: 500 },
+  });
+  const page = await context.newPage();
+  const runtimeErrors = collectRuntimeErrors(page);
+
+  try {
+    await preparePage(page, "morning");
+    const response = await page.goto(publicRouteUrl(DESK_ROUTE.path), { waitUntil: "domcontentloaded" });
+    expect(response).not.toBeNull();
+    expect(response.status()).toBeLessThan(400);
+    await stabilizeVisuals(page);
+    await expect(page.locator("#home-title")).toBeVisible();
+
+    for (const mode of ["morning", "noon", "afternoon", "evening"]) {
+      if ((await page.locator("html").getAttribute("data-theme-mode")) !== mode) {
+        await page.locator("#theme-toggle").click();
+        await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+      }
+      await expect(page.locator("html")).toHaveAttribute("data-theme-mode", mode);
+      const geometry = await page.evaluate(() => ({
+        clientWidth: document.documentElement.clientWidth,
+        devicePixelRatio: window.devicePixelRatio,
+        scrollWidth: document.documentElement.scrollWidth,
+      }));
+      expect(geometry).toMatchObject({ clientWidth: 720, devicePixelRatio: 2 });
+      expect(geometry.scrollWidth - geometry.clientWidth, `${mode} overflows at 720px with DPR2`).toBeLessThanOrEqual(1);
+
+      const themeToggle = page.locator("#theme-toggle");
+      await page.keyboard.press("Tab");
+      await themeToggle.focus();
+      await expect(themeToggle).toBeFocused();
+      const focus = await themeToggle.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) || 0 };
+      });
+      expect(focus.style).not.toBe("none");
+      expect(focus.width).toBeGreaterThanOrEqual(2);
+      await attachScreenshot(page, testInfo, `coastal-${mode}-dpr2-720x500`, { fullPage: false });
+    }
+    expect(runtimeErrors, "high-DPR coastal theme checks raised browser runtime errors").toEqual([]);
+  } finally {
+    await context.close();
+  }
+});
+
+test("coastal chrome reflows at 200% text resize with genuine keyboard order", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop viewport verifies 200% text resize and DOM keyboard order");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "morning");
+  const response = await page.goto(publicRouteUrl(DESK_ROUTE.path), { waitUntil: "domcontentloaded" });
+  expect(response).not.toBeNull();
+  expect(response.status()).toBeLessThan(400);
+  await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
+  await stabilizeVisuals(page);
+  await expect(page.locator("#home-title")).toBeVisible();
+
+  const reflow = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    fontSize: Number.parseFloat(getComputedStyle(document.documentElement).fontSize),
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(reflow.fontSize).toBeGreaterThanOrEqual(32);
+  expect(reflow.scrollWidth - reflow.clientWidth, "homepage overflows at 200% text resize").toBeLessThanOrEqual(1);
+
+  const tabOrder = [];
+  for (let index = 0; index < 12; index += 1) {
+    await page.keyboard.press("Tab");
+    const focused = await page.evaluate(() => {
+      const element = document.activeElement;
+      if (!(element instanceof HTMLElement)) return "none";
+      if (element.matches(".site-brand")) return "site-brand";
+      if (element.id) return `#${element.id}`;
+      return `${element.tagName.toLowerCase()}:${element.getAttribute("aria-label") || element.textContent?.trim() || "unlabelled"}`;
+    });
+    tabOrder.push(focused);
+    if (focused === "#theme-toggle") break;
+  }
+  expect(tabOrder[0]).toBe("site-brand");
+  expect(tabOrder).toContain("#search-toggle");
+  expect(tabOrder).toContain("#theme-toggle");
+  expect(tabOrder.indexOf("#search-toggle")).toBeLessThan(tabOrder.indexOf("#theme-toggle"));
+  expect(new Set(tabOrder).size, "Tab traversal should not loop or skip through duplicate controls").toBe(tabOrder.length);
+
+  const themeToggle = page.locator("#theme-toggle");
+  await expect(themeToggle).toBeFocused();
+  const focus = await themeToggle.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) || 0 };
+  });
+  expect(focus.style).not.toBe("none");
+  expect(focus.width).toBeGreaterThanOrEqual(2);
+  await attachScreenshot(page, testInfo, "coastal-morning-text-zoom-200-tab-focus", { fullPage: false });
+  expect(runtimeErrors, "200% text resize keyboard traversal raised browser runtime errors").toEqual([]);
+});

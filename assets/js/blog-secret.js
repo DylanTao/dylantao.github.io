@@ -390,12 +390,9 @@
       })
     );
     revealOrigin();
-    routeTimer = window.setTimeout(
-      () => {
-        window.location.assign(secretUrl);
-      },
-      reducedMotion.matches ? 120 : 720
-    );
+    routeTimer = window.setTimeout(() => {
+      window.location.assign(secretUrl);
+    }, 1600);
   };
 
   if (hasDiscoveredPortal()) revealOrigin();
