@@ -15,6 +15,7 @@ PROJECTS_DIR = REPO_ROOT / "_projects"
 GUIDES_DIR = REPO_ROOT / "assets" / "downloads" / "site-experiments"
 PROJECT_CARD_DATA = REPO_ROOT / "_data" / "project_cards.yml"
 PROJECT_CARD_INCLUDE = REPO_ROOT / "_includes" / "projects.liquid"
+PROJECT_CARD_ICON_INCLUDE = REPO_ROOT / "_includes" / "project_card_icon.liquid"
 STORY_COMPONENTS = REPO_ROOT / "_sass" / "_components.scss"
 STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 
@@ -88,6 +89,192 @@ class SiteExperimentsTests(unittest.TestCase):
         card_include = (REPO_ROOT / "_includes" / "projects.liquid").read_text(encoding="utf-8")
         self.assertIn("{% if include.heading_level == 4 %}", card_include)
         self.assertIn('<h4 class="card-title">{{ project.title }}</h4>', card_include)
+
+    def test_fun_project_cards_have_evidence_bound_origins_and_one_icon_family(self) -> None:
+        project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
+        expected_icons = {
+            "paper-constellation": "constellation",
+            "build-rhythm": "pulse",
+            "homepage-desk-scene": "desk",
+            "hci-spooder-man": "spooder",
+            "scholar-lens": "citation",
+            "wall-of-rejection": "receipt",
+            "ikea-project-cards": "expand",
+            "website-revamp": "archive",
+            "dogtor-portal": "paw",
+            "not-a-good-driver": "wheel",
+        }
+
+        for slug, icon in expected_icons.items():
+            with self.subTest(slug=slug):
+                card = project_cards[slug]
+                self.assertGreater(len(card["origin_line"]), 30)
+                self.assertEqual(card["icon"], icon)
+
+        evolved_projects = set(expected_icons) - {"not-a-good-driver"}
+        for slug in evolved_projects:
+            with self.subTest(evolution=slug):
+                self.assertGreater(len(project_cards[slug]["evolution_line"]), 30)
+        self.assertNotIn("evolution_line", project_cards["not-a-good-driver"])
+
+        card_include = PROJECT_CARD_INCLUDE.read_text(encoding="utf-8")
+        self.assertIn("project_card_icon.liquid icon=project_card_data.icon", card_include)
+        self.assertIn('class="project-card-story" data-project-card-story', card_include)
+        self.assertIn('class="project-card-story-label">Why it began</p>', card_include)
+        self.assertIn('{% if project_card_data.evolution_line %}', card_include)
+        self.assertIn('class="project-card-story-label">What changed</p>', card_include)
+
+        icon_include = PROJECT_CARD_ICON_INCLUDE.read_text(encoding="utf-8")
+        self.assertIn('viewBox="0 0 24 24"', icon_include)
+        self.assertIn('stroke="currentColor"', icon_include)
+        self.assertIn('aria-hidden="true"', icon_include)
+        self.assertIn('focusable="false"', icon_include)
+        for icon in expected_icons.values():
+            with self.subTest(icon=icon):
+                self.assertEqual(icon_include.count(f"{{% when '{icon}' %}}"), 1)
+
+    def test_scholar_lens_traces_one_paper_without_merging_citation_clocks(self) -> None:
+        source = (PROJECTS_DIR / "scholar-lens.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertEqual(source.count('class="project-storyboard-step"'), 3)
+        for phrase in (
+            "Follow DesignWeaver through the lens",
+            "Bibliography row",
+            "Lifetime citation chip",
+            "Annual bars",
+            "July 16, 2026",
+            "June 17, 2026",
+            "not presented as a reconstruction of the later lifetime total",
+            "Navigation evidence, not an impact score",
+            "Technical provenance and exact ledger",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+
+    def test_wall_of_rejection_keeps_events_receipts_and_combo_math_distinct(self) -> None:
+        source = (PROJECTS_DIR / "wall-of-rejection.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertEqual(source.count('class="project-storyboard-step"'), 4)
+        self.assertEqual(source.count("wall-of-rejection-steam-reference.png"), 1)
+        for phrase in (
+            "From meme to receipt wall",
+            "origin-source-image",
+            "wall-of-rejection.png",
+            "Event",
+            "Badge",
+            "Receipt",
+            "Non-additive combo",
+            "38 XP from four events",
+            "contributes <strong>0 XP</strong>",
+            "same rejection event never earns points twice",
+            "fictional joke copy, not measurements",
+            "Selected failures, not a hidden-paper index",
+            "/projects/hci-spooder-man/",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+
+    def test_ikea_story_uses_current_anatomy_when_exact_history_cannot_build(self) -> None:
+        source = (PROJECTS_DIR / "ikea-project-cards.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertEqual(source.count('class="project-storyboard-step"'), 0)
+        self.assertEqual(source.count('class="ikea-state-frame"'), 3)
+        for phrase in (
+            "Collapsed",
+            "Moving",
+            "Open",
+            "The first FLIP",
+            "More signals, then less motion",
+            "One cancelable clock",
+            "No invented historical pixels",
+            'data-evidence-kind="annotated-current-state-anatomy"',
+            'data-runtime-contract="9fa9403e4"',
+            "static, reduced-motion-safe anatomy",
+            "did not finish a build within a bounded four-minute run",
+            'data-capture-viewport="not-retained"',
+            "Full technical revision record",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+
+    def test_dogtor_story_explains_recovery_without_publishing_the_destination(self) -> None:
+        source = (PROJECTS_DIR / "dogtor-portal.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-storyboard-step"'), 4)
+        for phrase in (
+            "Notice the clue",
+            "Choose a fruit",
+            "Recover cleanly",
+            "Ask before precision",
+            "What stays private",
+            "The story explains the contract, not the destination",
+            'data-artifact-type="public-clue-art"',
+            'data-artifact-sha256="11b59deb8de4fa08fe8b0485d6703813adeeef032c13f25ab741cbee55e11741"',
+            "Exact source-commit links stay out of this public case study",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+        for private_fragment in (
+            "siruiSecretFruitPass",
+            "sirui-research-thoughts",
+            "sirui-private-message",
+            "blog-secret.js",
+            "517914d12",
+            "f692637b0",
+            "643493599",
+            "6bf1bdea0",
+        ):
+            with self.subTest(private_fragment=private_fragment):
+                self.assertNotIn(private_fragment, source)
+
+    def test_website_revamp_separates_archive_checkpoint_and_live_children(self) -> None:
+        source = (PROJECTS_DIR / "website-revamp.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertIn("Archive, redesign, living system", source)
+        self.assertIn('data-archive-wayback-timestamp="20260209013429"', source)
+        self.assertIn('data-archive-site-commit="not-preserved"', source)
+        self.assertIn('data-june-artifact-status="historical-checkpoint-not-current"', source)
+        self.assertIn('data-website-child-experiments', source)
+        for route in (
+            "/projects/homepage-desk-scene/",
+            "/projects/build-rhythm/",
+            "/projects/paper-constellation/",
+            "/projects/ikea-project-cards/",
+            "/projects/wall-of-rejection/",
+            "/projects/dogtor-portal/",
+        ):
+            with self.subTest(route=route):
+                self.assertEqual(source.count(route), 1)
+        self.assertIn("No static image on this page is labeled as a current capture", source)
+        self.assertIn("hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner", source)
+
+    def test_spooder_story_marks_remix_art_and_keeps_wall_one_link_away(self) -> None:
+        source = (PROJECTS_DIR / "hci-spooder-man.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertIn('data-spooder-artwork-boundary="remix-material-not-history"', source)
+        self.assertIn("These frames are remix material, not documentary history", source)
+        self.assertIn("Remix provenance and technical record", source)
+        self.assertIn("Playful HCI Spooder-Man remix artwork from a set of city scenes, character lineups, and title cards", source)
+        self.assertGreaterEqual(source.count("/projects/wall-of-rejection/"), 2)
+        for commit in ("95acdb781", "5b6ae82ea", "c91889bd5"):
+            with self.subTest(commit=commit):
+                self.assertIn(commit, source)
+
+    def test_driver_story_has_three_roles_and_no_fabricated_evolution(self) -> None:
+        source = (PROJECTS_DIR / "not-a-good-driver.md").read_text(encoding="utf-8")
+        self.assertEqual(source.count('class="project-storyboard-step"'), 3)
+        for phrase in (
+            "Driver · create the action",
+            "Passenger · share the ride",
+            "Spectator · make it a show",
+            'data-driver-teaser-kind="illustrative-concept-art"',
+            'data-driver-runtime-capture="not-preserved"',
+            'data-driver-historical-comparison="not-supported"',
+            "The teaser is concept art, not a runtime screenshot",
+            "no honest before-and-after comparison",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+        self.assertNotIn("## What changed", source)
 
     def test_reproduction_guides_and_case_study_routes_exist(self) -> None:
         for filename in REPRODUCTION_GUIDES:
@@ -230,7 +417,11 @@ class SiteExperimentsTests(unittest.TestCase):
             project_cards["paper-constellation"]["mobile_teaser_alt"],
             "Mobile Paper Constellation teaser with three thread rails, anonymous future nodes, public rejection receipts, and the first accepted-paper row",
         )
-        self.assertIn('alt="{{ project_card_data.mobile_teaser_alt | default: project.title | escape }}"', card_include)
+        self.assertEqual(
+            project_cards["paper-constellation"]["teaser_alt"],
+            "Paper Constellation teaser connecting accepted papers and anonymous future nodes across three research threads",
+        )
+        self.assertIn('alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"', card_include)
 
     def test_build_rhythm_teaser_matches_the_approved_token_rhythm_capture(self) -> None:
         teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-stage.png"

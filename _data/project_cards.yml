@@ -39,6 +39,9 @@ physion:
     - "Human judgments anchor plausibility."
 
 website-revamp:
+  origin_line: "My old portfolio made visitors assemble the research story for themselves."
+  evolution_line: "An archived site became a research-first redesign, then a living system of experiments and reusable heuristics."
+  icon: archive
   accents:
     morning: "#ca906d"
     noon: "#a76441"
@@ -49,11 +52,18 @@ website-revamp:
     - "Heuristics become reusable design memory."
 
 paper-constellation:
+  origin_line: "A chronological paper list showed outcomes, but not the relationships that shaped the work."
+  evolution_line: "Three research threads became a desktop atlas and a deliberately chronological mobile trail."
+  icon: constellation
+  teaser_alt: Paper Constellation teaser connecting accepted papers and anonymous future nodes across three research threads
   # Literal crop from the 390x1000 light runtime capture on 2026-07-16.
   mobile_teaser: /assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png
   mobile_teaser_alt: Mobile Paper Constellation teaser with three thread rails, anonymous future nodes, public rejection receipts, and the first accepted-paper row
 
 build-rhythm:
+  origin_line: "Dense activity logs could count the work, but they could not make its rhythm legible at a glance."
+  evolution_line: "One combined view split into honest clocks, then regained a privacy-safe repo rhythm without reconnecting account history."
+  icon: pulse
   accents:
     morning: "#bf754c"
     noon: "#4f7896"
@@ -61,9 +71,12 @@ build-rhythm:
     evening: "#91a9bc"
   takeaways:
     - "Cadence and magnitude stay distinct."
-    - "Two clocks keep provenance honest."
+    - "Separate clocks keep provenance honest."
 
 homepage-desk-scene:
+  origin_line: "The flat desk already held personal clues, but it had no spatial memory beyond the page."
+  evolution_line: "A shared-state 2D scene gained a reciprocal 3D room while keeping one set of discoveries and controls."
+  icon: desk
   accents:
     morning: "#b7825f"
     noon: "#4f8096"
@@ -74,6 +87,9 @@ homepage-desk-scene:
     - "Inside and outside share one room."
 
 scholar-lens:
+  origin_line: "A highlighter suggestion exposed a gap: citation context was scattered across the bibliography."
+  evolution_line: "One paper cue now stays synchronized across its bibliography row, citation chip, and annual bar."
+  icon: citation
   accents:
     morning: "#b88962"
     noon: "#5c769b"
@@ -84,6 +100,9 @@ scholar-lens:
     - "The bibliography remains canonical."
 
 wall-of-rejection:
+  origin_line: "Two conference rejections became a lab meme worth keeping instead of hiding."
+  evolution_line: "The meme became a rejection-only wall built from event, badge, receipt, and non-additive combo."
+  icon: receipt
   accents:
     morning: "#c46f62"
     noon: "#8c6c85"
@@ -94,6 +113,9 @@ wall-of-rejection:
     - "Failure stays visible, not ranked."
 
 ikea-project-cards:
+  origin_line: "I wanted project cards to open where they were discovered, without replacing the surrounding evidence grid."
+  evolution_line: "A first FLIP transition survived competing effects by moving onto one cancelable motion clock."
+  icon: expand
   accents:
     morning: "#c79759"
     noon: "#5d82a0"
@@ -104,6 +126,9 @@ ikea-project-cards:
     - "FLIP preserves object identity."
 
 dogtor-portal:
+  origin_line: "A meme dog in the blog became a small clue for readers curious enough to follow it."
+  evolution_line: "The joke became a fruit-choice recovery path that asks for consent before anything precise."
+  icon: paw
   accents:
     morning: "#c68a5e"
     noon: "#71966f"
@@ -114,6 +139,8 @@ dogtor-portal:
     - "Consent precedes precise location."
 
 not-a-good-driver:
+  origin_line: "I wanted to test how a deliberately bad driver could turn a VR world into a social performance for passengers and spectators."
+  icon: wheel
   accents:
     morning: "#c07461"
     noon: "#7d98bc"
@@ -124,6 +151,9 @@ not-a-good-driver:
     - "AI-assisted prototypes meet public play."
 
 hci-spooder-man:
+  origin_line: "Back-to-back CHI and UIST rejections needed a form that could hold both disappointment and lab humor."
+  evolution_line: "A one-off Steam-style meme grew into a small remix kit, with the serious rejection record still one link away."
+  icon: spooder
   accents:
     morning: "#d7675b"
     noon: "#2f75a8"

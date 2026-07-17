@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build Rhythm
-description: A privacy-safe activity story that keeps repo-scoped retained-session tokens, anonymous two-account Codex quota health, and long-term GitHub build rhythm on separate clocks.
+description: "A privacy-safe story of how this site gets built: GitHub changes, rounded site-token rhythm, and a dated account-health check kept on honest, separate clocks."
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
 image_aspect: 351 / 254
 card_avoid_scaling: true
@@ -41,7 +41,7 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
   <div><span>Why</span><p>A long activity record can reveal cadence, but activity alone cannot explain effort, quality, or cause.</p></div>
-  <div><span>What</span><p>A guided explorer for weekly GitHub cadence, a rounded daily repo-token rhythm, and one dated, complete two-account quota-health observation.</p></div>
+  <div><span>What</span><p>A guided explorer for weekly GitHub cadence, a rounded daily repo-token rhythm, and one dated, complete observation of two-account Codex quota health.</p></div>
   <div><span>How</span><p>Each signal keeps its own unit and clock, with exact or explicitly rounded evidence available after the story.</p></div>
 </section>
 

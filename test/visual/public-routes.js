@@ -152,6 +152,18 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-hci-spooder-man",
+    path: "/projects/hci-spooder-man/",
+    readySelector: ".project-detail .hci-spooder-hero",
+    contentSelector: ".project-detail article",
+  },
+  {
+    id: "project-not-a-good-driver",
+    path: "/projects/not-a-good-driver/",
+    readySelector: '.project-case-summary[aria-label="Not A Good Driver summary"]',
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "secret-locked",
     path: "/blog/2026/sirui-research-thoughts/",
     readySelector: "#sirui-private-message",

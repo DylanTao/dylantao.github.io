@@ -534,6 +534,32 @@ html.site-motion-ready .hoverable.site-visible:hover {
     position: relative;
   }
 
+  .project-card-heading {
+    display: flex;
+    min-width: 0;
+    gap: 0.62rem;
+    align-items: flex-start;
+    margin-bottom: 0.55rem;
+
+    .card-title {
+      min-width: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .project-card-icon {
+    flex: 0 0 1.8rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-top: -0.18rem;
+    padding: 0.2rem;
+    border: 1px solid color-mix(in srgb, var(--project-accent) 40%, var(--global-divider-color));
+    border-radius: var(--md-lite-radius-sm);
+    background: color-mix(in srgb, var(--project-accent) 7%, transparent);
+    color: color-mix(in srgb, var(--project-accent) 78%, var(--global-text-color));
+    pointer-events: none;
+  }
+
   .project-card:not(.is-expanded) .project-card-body {
     padding-right: 3.45rem;
   }
@@ -866,6 +892,41 @@ html.site-motion-ready .hoverable.site-visible:hover {
       border-color var(--motion-standard);
   }
 
+  .project-card-story {
+    display: none;
+    gap: 0.72rem;
+    margin-top: 1rem;
+  }
+
+  .project-card.is-expanded .project-card-story {
+    display: grid;
+  }
+
+  .project-card-story-beat {
+    min-width: 0;
+    padding: 0.72rem 0 0.05rem 0.78rem;
+    border-top: 1px solid var(--project-accent-line);
+    border-left: 0.16rem solid color-mix(in srgb, var(--project-accent) 68%, var(--global-theme-color));
+
+    > p:last-child {
+      margin: 0;
+      color: var(--global-text-color);
+      font-size: var(--type-meta);
+      line-height: 1.5;
+    }
+  }
+
+  .project-card-story-label {
+    margin: 0 0 0.32rem;
+    color: var(--global-theme-color);
+    font-family: var(--font-mono);
+    font-size: var(--type-label);
+    font-weight: 750;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
   .project-card-takeaways-label {
     margin: 0 0 0.45rem;
     color: var(--global-text-color);
@@ -1029,7 +1090,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-theme-color);
     display: inline-flex;
     font-weight: 750;
-    min-height: 2.45rem;
+    min-height: 2.75rem;
     padding: 0.55rem 0.9rem;
     text-decoration: none;
     transition:
@@ -1171,6 +1232,161 @@ html.site-motion-ready .hoverable.site-visible:hover {
   }
 }
 
+.ikea-state-anatomy {
+  overflow: hidden;
+  padding: clamp(0.85rem, 1.8vw, 1.15rem);
+  border: 1px solid var(--global-divider-color);
+  border-radius: var(--md-lite-radius-xl);
+  background: color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
+
+  > figcaption {
+    margin-top: 0.8rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    line-height: 1.5;
+  }
+}
+
+.ikea-state-anatomy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.ikea-state-frame {
+  min-width: 0;
+  padding: 0.78rem;
+  border: 1px solid color-mix(in srgb, var(--global-divider-color) 82%, var(--global-card-bg-color));
+  border-radius: var(--md-lite-radius-lg);
+  background: color-mix(in srgb, var(--global-bg-color) 54%, var(--global-card-bg-color));
+
+  h3 {
+    margin: 0.75rem 0 0.28rem;
+    color: var(--global-text-color);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  > p:last-child {
+    margin: 0;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    line-height: 1.45;
+  }
+}
+
+.ikea-state-diagram {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.38rem;
+  height: 8.5rem;
+  margin-top: 0.55rem;
+  padding: 0.55rem;
+  overflow: hidden;
+  border: 1px solid var(--global-divider-color);
+  border-radius: var(--md-lite-radius-md);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--global-divider-color) 38%, transparent) 1px, transparent 1px) 0 0 / 1.15rem 1.15rem,
+    linear-gradient(color-mix(in srgb, var(--global-divider-color) 38%, transparent) 1px, transparent 1px) 0 0 / 1.15rem 1.15rem,
+    color-mix(in srgb, var(--global-card-bg-color) 90%, var(--global-bg-color));
+}
+
+.ikea-state-card {
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.32rem;
+  background: var(--global-card-bg-color);
+  box-shadow: 0 0.18rem 0.45rem rgba(31, 27, 24, 0.06);
+
+  &::before,
+  &::after {
+    position: absolute;
+    right: 0.36rem;
+    left: 0.36rem;
+    border-radius: 0.14rem;
+    content: "";
+  }
+
+  &::before {
+    top: 0.34rem;
+    height: 42%;
+    border: 1px solid color-mix(in srgb, var(--project-accent, var(--global-theme-color)) 20%, var(--global-divider-color));
+    background: color-mix(in srgb, var(--project-accent, var(--global-theme-color)) 9%, var(--global-bg-color));
+  }
+
+  &::after {
+    bottom: 0.38rem;
+    height: 0.52rem;
+    background: repeating-linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--global-text-color-light) 42%, transparent) 0 1px,
+      transparent 1px 0.24rem
+    );
+  }
+
+  &.is-selected {
+    border-color: color-mix(in srgb, var(--global-theme-color) 60%, var(--global-divider-color));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--global-theme-color) 16%, transparent);
+  }
+}
+
+.ikea-state-diagram--moving .is-moving {
+  z-index: 3;
+  clip-path: inset(0 0 18% 0 round 0.32rem);
+  transform: translate(0.52rem, 0.42rem);
+}
+
+.ikea-state-origin-outline {
+  position: absolute;
+  z-index: 2;
+  top: 0.55rem;
+  left: 0.55rem;
+  width: calc(50% - 0.74rem);
+  height: calc(50% - 0.74rem);
+  border: 1px dashed color-mix(in srgb, var(--global-theme-color) 62%, var(--global-divider-color));
+  border-radius: 0.32rem;
+}
+
+.ikea-state-motion-vector {
+  position: absolute;
+  z-index: 4;
+  right: 0.4rem;
+  bottom: 0.28rem;
+  padding: 0.12rem 0.28rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--global-card-bg-color) 86%, transparent);
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.ikea-state-diagram--open .is-open {
+  grid-column: 1 / -1;
+
+  &::before {
+    right: auto;
+    bottom: 0.34rem;
+    width: 38%;
+    height: auto;
+  }
+
+  &::after {
+    top: 0.55rem;
+    right: 0.45rem;
+    bottom: auto;
+    left: 44%;
+    height: 1.2rem;
+  }
+}
+
 .project-story-signal-grid h3 {
   margin: 0;
   color: var(--global-theme-color);
@@ -1222,8 +1438,13 @@ html.site-motion-ready .hoverable.site-visible:hover {
   line-height: 1.5;
 }
 
+.project-case-media .project-story-provenance {
+  color: #514640;
+}
+
 .project-storyboard {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  list-style: none;
   counter-reset: project-storyboard;
 }
 
@@ -1857,8 +2078,8 @@ html.site-motion-ready .hoverable.site-visible:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(2.2rem, 4vw, 3rem);
-  height: clamp(2.2rem, 4vw, 3rem);
+  width: clamp(2.75rem, 4vw, 3rem);
+  height: clamp(2.75rem, 4vw, 3rem);
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 999px;
   background: rgba(8, 12, 16, 0.26);
@@ -1875,8 +2096,12 @@ html.site-motion-ready .hoverable.site-visible:hover {
   &:focus-visible {
     border-color: rgba(255, 255, 255, 0.9);
     background: rgba(8, 12, 16, 0.48);
-    outline: none;
     transform: translateY(-50%) scale(1.04);
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in srgb, #ffffff 78%, var(--global-theme-color));
+    outline-offset: 2px;
   }
 }
 
@@ -1907,6 +2132,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   background: var(--global-card-bg-color);
   cursor: pointer;
   aspect-ratio: 16 / 9;
+  min-height: 2.75rem;
 
   img {
     display: block;
@@ -1935,12 +2161,16 @@ html.site-motion-ready .hoverable.site-visible:hover {
   &:focus-visible,
   &.is-active {
     border-color: var(--global-theme-color);
-    outline: none;
 
     img {
       filter: saturate(1);
       opacity: 1;
     }
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
   }
 }
 
@@ -2677,6 +2907,14 @@ html[data-theme="dark"] {
 }
 
 @media (max-width: 767px) {
+  .ikea-state-anatomy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ikea-state-diagram {
+    height: 9.5rem;
+  }
+
   .hci-spooder-asset-grid {
     grid-template-columns: 1fr;
   }
@@ -2686,8 +2924,13 @@ html[data-theme="dark"] {
   }
 
   .hci-spooder-gallery-arrow {
-    width: 2.15rem;
-    height: 2.15rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .hci-spooder-gallery-slide img {
+    background: #0e1418;
+    object-fit: contain;
   }
 
   .hci-spooder-gallery-thumbs button {
@@ -2847,7 +3090,7 @@ html[data-theme="dark"] {
     gap: 0.5rem;
 
     a {
-      min-height: 2.45rem;
+      min-height: 2.75rem;
     }
   }
 

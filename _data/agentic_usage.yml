@@ -7,11 +7,11 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 371
-  token_count: 6430000000
-  tokens_label: 6.43B
-  hours_count: 450
-  hours_label: "450"
+  commits: 372
+  token_count: 6570000000
+  tokens_label: 6.57B
+  hours_count: 464
+  hours_label: "464"
   confidence: estimate
   note: Estimated from retained Codex logs clipped to the revamp cutoff.
   energy_equivalence:
@@ -20,21 +20,21 @@ total:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 3858
-    kg_co2e_midpoint: 1439
-    tree_years_midpoint: 24.0
-    tree_years_range: 8-79.9
+    kwh_midpoint: 3942
+    kg_co2e_midpoint: 1470
+    tree_years_midpoint: 24.5
+    tree_years_range: 8.2-81.7
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
-    cut_tree_midpoint: 2.4
-    cut_tree_range: 0.8-8
-    public_note: "Tree lens: about 3858 kWh, or ~2.4 ten-year urban trees' stored carbon. Range: 0.8-8."
+    cut_tree_midpoint: 2.5
+    cut_tree_range: 0.8-8.2
+    public_note: "Tree lens: about 3942 kWh, or ~2.5 ten-year urban trees' stored carbon. Range: 0.8-8.2."
   token_usage:
-    input_tokens: 6414260660
-    cached_input_tokens: 6131808640
-    output_tokens: 17421936
-    reasoning_output_tokens: 7244000
-    total_tokens: 6431999164
+    input_tokens: 6553842406
+    cached_input_tokens: 6266521216
+    output_tokens: 17757690
+    reasoning_output_tokens: 7378471
+    total_tokens: 6571952054
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -71,17 +71,17 @@ total:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 6409245357
-      cached_input_tokens: 6127608704
-      output_tokens: 17415847
-      reasoning_output_tokens: 7241072
-      total_tokens: 6426977772
+      input_tokens: 6544236769
+      cached_input_tokens: 6258567808
+      output_tokens: 17747801
+      reasoning_output_tokens: 7374088
+      total_tokens: 6562336528
     unpriced_token_usage:
-      input_tokens: 5015303
-      cached_input_tokens: 4199936
-      output_tokens: 6089
-      reasoning_output_tokens: 2928
-      total_tokens: 5021392
+      input_tokens: 9605637
+      cached_input_tokens: 7953408
+      output_tokens: 9889
+      reasoning_output_tokens: 4383
+      total_tokens: 9615526
     model_effort_price_breakdown:
       gpt-5.5/xhigh:
         model: gpt-5.5
@@ -125,13 +125,13 @@ total:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 3810824164
-          cached_input_tokens: 3685443072
-          output_tokens: 7553402
-          reasoning_output_tokens: 3621288
-          total_tokens: 3818627815
-        uncached_input_tokens: 125381092
-        request_count: 24576
+          input_tokens: 3945815576
+          cached_input_tokens: 3816402176
+          output_tokens: 7885356
+          reasoning_output_tokens: 3754304
+          total_tokens: 3953986571
+        uncached_input_tokens: 129413400
+        request_count: 25534
         long_context_request_count: 2084
         long_context_token_usage:
           input_tokens: 607714933
@@ -139,12 +139,12 @@ total:
           output_tokens: 707270
           reasoning_output_tokens: 303204
           total_tokens: 608422203
-        usd_estimate: 3124.5
-    usd_estimate: 5422.73
-    usd_midpoint: 5400
-    usd_label: ~$5.4K API-rate replay
+        usd_estimate: 3220.1
+    usd_estimate: 5518.33
+    usd_midpoint: 5500
+    usd_label: ~$5.5K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$5.4K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$5.5K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -153,24 +153,24 @@ total:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 6430000000
-    usd_midpoint: 5600
-    usd_label: ~$5.6K
+    token_count: 6570000000
+    usd_midpoint: 5700
+    usd_label: ~$5.7K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$5.6K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$5.7K (diagnostic only)."
   model_effort_breakdown:
     codex-auto-review/low:
       model: codex-auto-review
       effort: low
-      turns: 56
-      sessions: 2
+      turns: 100
+      sessions: 3
       token_usage:
-        input_tokens: 5015303
-        cached_input_tokens: 4199936
-        output_tokens: 6089
-        reasoning_output_tokens: 2928
-        total_tokens: 5021392
-      raw_hours: 4.2386
+        input_tokens: 9605637
+        cached_input_tokens: 7953408
+        output_tokens: 9889
+        reasoning_output_tokens: 4383
+        total_tokens: 9615526
+      raw_hours: 7.9442
     gpt-5.5/medium:
       model: gpt-5.5
       effort: medium
@@ -198,15 +198,15 @@ total:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 389
-      sessions: 196
+      turns: 403
+      sessions: 198
       token_usage:
-        input_tokens: 3810824164
-        cached_input_tokens: 3685443072
-        output_tokens: 7553402
-        reasoning_output_tokens: 3621288
-        total_tokens: 3818627815
-      raw_hours: 206.7825
+        input_tokens: 3945815576
+        cached_input_tokens: 3816402176
+        output_tokens: 7885356
+        reasoning_output_tokens: 3754304
+        total_tokens: 3953986571
+      raw_hours: 217.2036
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -215,16 +215,16 @@ total:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 6414260660
-    cached_input_tokens: 6131808640
-    uncached_input_tokens: 282452020
-    output_tokens: 17421936
-    reasoning_output_tokens: 7244000
-    total_tokens: 6431999164
-    usd_estimate: 1811.26
+    input_tokens: 6553842406
+    cached_input_tokens: 6266521216
+    uncached_input_tokens: 287321190
+    output_tokens: 17757690
+    reasoning_output_tokens: 7378471
+    total_tokens: 6571952054
+    usd_estimate: 1848.06
     usd_midpoint: 1800
     usd_label: ~$1.8K API-rate replay
-    usd_range_label: $1.4K-$11.5K
+    usd_range_label: $1.4K-$11.7K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
     public_note: ~$1.8K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
   token_rhythm:
@@ -405,17 +405,17 @@ total:
         token_count: 5660000000
         tokens_label: 5.66B
       - date: "2026-07-16"
-        token_count: 6430000000
-        tokens_label: 6.43B
+        token_count: 6570000000
+        tokens_label: 6.57B
 desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
   commits: 120
-  token_count: 5350000000
-  tokens_label: 5.35B
-  hours_count: 336
-  hours_label: "336"
+  token_count: 5490000000
+  tokens_label: 5.49B
+  hours_count: 350
+  hours_label: "350"
   confidence: estimate
   note: Desk commits are path-scoped; tokens and hours are an all-repo retained-session time-window estimate since the desk cutoff, not desk-only attribution.
   energy_equivalence:
@@ -424,21 +424,21 @@ desk_scene:
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 3210
-    kg_co2e_midpoint: 1197
-    tree_years_midpoint: 20.0
-    tree_years_range: 6.7-66.5
+    kwh_midpoint: 3294
+    kg_co2e_midpoint: 1229
+    tree_years_midpoint: 20.5
+    tree_years_range: 6.8-68.3
     cut_tree_co2e_kg: 600
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
     cut_tree_midpoint: 2.0
-    cut_tree_range: 0.7-6.7
+    cut_tree_range: 0.7-6.8
     public_note: roughly 2.0 trees cut
   token_usage:
-    input_tokens: 5334093646
-    cached_input_tokens: 5120405120
-    output_tokens: 13231568
-    reasoning_output_tokens: 5696745
-    total_tokens: 5347620482
+    input_tokens: 5473675392
+    cached_input_tokens: 5255117696
+    output_tokens: 13567322
+    reasoning_output_tokens: 5831216
+    total_tokens: 5487573372
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -475,17 +475,17 @@ desk_scene:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 5329078343
-      cached_input_tokens: 5116205184
-      output_tokens: 13225479
-      reasoning_output_tokens: 5693817
-      total_tokens: 5342599090
+      input_tokens: 5464069755
+      cached_input_tokens: 5247164288
+      output_tokens: 13557433
+      reasoning_output_tokens: 5826833
+      total_tokens: 5477957846
     unpriced_token_usage:
-      input_tokens: 5015303
-      cached_input_tokens: 4199936
-      output_tokens: 6089
-      reasoning_output_tokens: 2928
-      total_tokens: 5021392
+      input_tokens: 9605637
+      cached_input_tokens: 7953408
+      output_tokens: 9889
+      reasoning_output_tokens: 4383
+      total_tokens: 9615526
     model_effort_price_breakdown:
       gpt-5.5/xhigh:
         model: gpt-5.5
@@ -529,13 +529,13 @@ desk_scene:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 3810824164
-          cached_input_tokens: 3685443072
-          output_tokens: 7553402
-          reasoning_output_tokens: 3621288
-          total_tokens: 3818627815
-        uncached_input_tokens: 125381092
-        request_count: 24576
+          input_tokens: 3945815576
+          cached_input_tokens: 3816402176
+          output_tokens: 7885356
+          reasoning_output_tokens: 3754304
+          total_tokens: 3953986571
+        uncached_input_tokens: 129413400
+        request_count: 25534
         long_context_request_count: 2084
         long_context_token_usage:
           input_tokens: 607714933
@@ -543,12 +543,12 @@ desk_scene:
           output_tokens: 707270
           reasoning_output_tokens: 303204
           total_tokens: 608422203
-        usd_estimate: 3124.5
-    usd_estimate: 4447.5
-    usd_midpoint: 4400
-    usd_label: ~$4.4K API-rate replay
+        usd_estimate: 3220.1
+    usd_estimate: 4543.1
+    usd_midpoint: 4500
+    usd_label: ~$4.5K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$4.4K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$4.5K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -557,24 +557,24 @@ desk_scene:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 5350000000
-    usd_midpoint: 4700
-    usd_label: ~$4.7K
+    token_count: 5490000000
+    usd_midpoint: 4800
+    usd_label: ~$4.8K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$4.7K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$4.8K (diagnostic only)."
   model_effort_breakdown:
     codex-auto-review/low:
       model: codex-auto-review
       effort: low
-      turns: 56
-      sessions: 2
+      turns: 100
+      sessions: 3
       token_usage:
-        input_tokens: 5015303
-        cached_input_tokens: 4199936
-        output_tokens: 6089
-        reasoning_output_tokens: 2928
-        total_tokens: 5021392
-      raw_hours: 4.2386
+        input_tokens: 9605637
+        cached_input_tokens: 7953408
+        output_tokens: 9889
+        reasoning_output_tokens: 4383
+        total_tokens: 9615526
+      raw_hours: 7.9442
     gpt-5.5/medium:
       model: gpt-5.5
       effort: medium
@@ -602,15 +602,15 @@ desk_scene:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 389
-      sessions: 196
+      turns: 403
+      sessions: 198
       token_usage:
-        input_tokens: 3810824164
-        cached_input_tokens: 3685443072
-        output_tokens: 7553402
-        reasoning_output_tokens: 3621288
-        total_tokens: 3818627815
-      raw_hours: 206.7825
+        input_tokens: 3945815576
+        cached_input_tokens: 3816402176
+        output_tokens: 7885356
+        reasoning_output_tokens: 3754304
+        total_tokens: 3953986571
+      raw_hours: 217.2036
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -619,16 +619,16 @@ desk_scene:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 5334093646
-    cached_input_tokens: 5120405120
-    uncached_input_tokens: 213688526
-    output_tokens: 13231568
-    reasoning_output_tokens: 5696745
-    total_tokens: 5347620482
-    usd_estimate: 1455.27
+    input_tokens: 5473675392
+    cached_input_tokens: 5255117696
+    uncached_input_tokens: 218557696
+    output_tokens: 13567322
+    reasoning_output_tokens: 5831216
+    total_tokens: 5487573372
+    usd_estimate: 1492.06
     usd_midpoint: 1500
     usd_label: ~$1.5K API-rate replay
-    usd_range_label: $1.1K-$9.5K
+    usd_range_label: $1.1K-$9.8K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
     public_note: ~$1.5K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
 model_tracking:
@@ -636,19 +636,20 @@ model_tracking:
   intended_effort: ultra
   cutover_at: "2026-07-09T21:28:23.394Z"
   cutover_label: Jul 9, 2026 at 2:28 PM PDT
-  acknowledgment_policy_version: 24
-  post_cutover_turns_observed: 963
+  acknowledgment_policy_version: 29
+  post_cutover_turns_observed: 1048
   post_cutover_observed_breakdown:
-    codex-auto-review/low: 90
+    codex-auto-review/low: 151
     gpt-5.4-mini/high: 1
     gpt-5.4-mini/ultra: 1
     gpt-5.6-sol/high: 1
     gpt-5.6-sol/low: 1
+    gpt-5.6-sol/max: 2
     gpt-5.6-sol/medium: 2
-    gpt-5.6-sol/ultra: 865
+    gpt-5.6-sol/ultra: 887
     gpt-5.6-sol/xhigh: 2
-  post_cutover_deviation_count: 98
-  post_cutover_acknowledged_deviation_count: 98
+  post_cutover_deviation_count: 161
+  post_cutover_acknowledged_deviation_count: 161
   post_cutover_unacknowledged_deviation_count: 0
   post_cutover_deviations:
     - turn_id: 019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f
@@ -657,7 +658,7 @@ model_tracking:
       effort: ultra
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-14"
         reason: One-shot Codex-LB routing smoke test requested an exact OK response; retained as historical non-site development evidence.
         provenance: Retained Codex-LB turn_context and user prompt, audited 2026-07-14.
@@ -668,7 +669,7 @@ model_tracking:
       effort: high
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-14"
         reason: One-shot Codex-LB routing smoke test requested an exact OK response; retained as historical non-site development evidence.
         provenance: Retained Codex-LB turn_context and user prompt, audited 2026-07-14.
@@ -679,7 +680,7 @@ model_tracking:
       effort: medium
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-14"
         reason: Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used host-selected effort and was interrupted before completion.
         provenance: Retained turn_context, exact Codex-LB usage-reset planning prompt, and interrupted-turn event, audited 2026-07-14.
@@ -690,7 +691,7 @@ model_tracking:
       effort: medium
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-14"
         reason: Provider-managed Plan-mode turn for a Codex-LB usage-reset planning request used host-selected effort rather than the declared interactive development default.
         provenance: Retained turn_context and exact Codex-LB usage-reset planning prompt, audited 2026-07-14.
@@ -701,7 +702,7 @@ model_tracking:
       effort: high
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-14"
         reason: Provider-managed verification or automation worker used host-selected effort rather than changing the declared interactive development default.
         provenance: Retained turn_context and 2026-07-14 coordinator verification audit.
@@ -712,7 +713,7 @@ model_tracking:
       effort: xhigh
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-15"
         reason: Read-only Codex-LB direct-routing smoke requested the exact DIRECT_OK response and did not perform site development work.
         provenance: Retained turn_context and exact no-tools DIRECT_OK prompt, audited 2026-07-15.
@@ -723,7 +724,7 @@ model_tracking:
       effort: xhigh
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-15"
         reason: Explicit direct-OpenAI maintenance lane performed a read-only audit for the private Codex-LB usage tracker, separate from the declared site-development default.
         provenance: Retained turn_context and exact direct-OpenAI maintenance-lane prompt, audited 2026-07-15.
@@ -734,7 +735,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: A separate personal-metrics and Codex-LB migration startup turn was recorded at low before higher-effort thread settings applied, then interrupted before any work; it did not perform site development.
         provenance: Retained turn_context, exact personal-metrics status prompt, later thread-settings event, and turn_aborted event, audited 2026-07-16.
@@ -745,7 +746,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a VariationWeaver-Canvas tool-action request and returned an allow decision; it did not perform site development.
         provenance: Retained auto-review turn_context, exact untrusted-transcript review prompt, and allow decision, audited 2026-07-16.
@@ -756,7 +757,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a VariationWeaver-Canvas process-level inspection request and returned a deny decision; it did not perform site development.
         provenance: Retained auto-review turn_context, exact untrusted-transcript review prompt, and deny decision, audited 2026-07-16.
@@ -767,7 +768,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a semantic-scaffolding-map process termination request and returned an allow decision; it did not perform site development.
         provenance: Retained auto-review turn_context, exact untrusted-transcript review prompt, and allow decision, audited 2026-07-16.
@@ -778,7 +779,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a VariationWeaver-Canvas request to start a temporary local Vite server; it did not perform site development.
         provenance: Retained auto-review turn_context, exact first local Vite Start-Process request, and allow decision, audited 2026-07-16.
@@ -789,7 +790,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a VariationWeaver-Canvas retry that started a temporary local Vite server; it did not perform site development.
         provenance: Retained auto-review turn_context, exact second local Vite Start-Process request, and allow decision, audited 2026-07-16.
@@ -800,7 +801,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed an escalated VariationWeaver-Canvas retry that started a temporary local Vite server; it did not perform site development.
         provenance: Retained auto-review turn_context, exact escalated local Vite Start-Process request, and allow decision, audited 2026-07-16.
@@ -811,7 +812,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove a workspace __pycache__ directory; it did not perform site development.
         provenance: Retained auto-review turn_context, exact workspace-bounded Remove-Item request, reviewed session id, and allow decision, audited 2026-07-16.
@@ -822,7 +823,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded VariationWeaver-Canvas request to remove its temporary local-server runtime directory; it did not perform site development.
         provenance: Retained auto-review turn_context, exact workspace-bounded Remove-Item request, reviewed session id, and allow decision, audited 2026-07-16.
@@ -833,7 +834,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove its tools/__pycache__ directory after a resolved-path workspace guard; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned Remove-Item command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -844,7 +845,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to create a temporary detached Git worktree for fresh-checkout portability proof; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree add command for commit b6a273eb, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -855,7 +856,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove its temporary failed portability-proof worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree remove --force command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -866,7 +867,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove a regenerated tools/__pycache__ after canonical validation; it did not perform site development.
         provenance: Retained auto-review turn_context, exact resolved-path-guarded Remove-Item command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -877,7 +878,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove tools/__pycache__ after a resolved-path workspace guard; it did not perform site development.
         provenance: Retained auto-review turn_context, exact guarded Remove-Item command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -888,7 +889,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to create a corrected temporary detached worktree for final fresh-checkout portability proof; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree add command for commit e2bbe996, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -899,7 +900,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a bounded semantic-scaffolding-map request to remove the now-passing temporary portability proof worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact planned git worktree remove --force command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -910,7 +911,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the Dockerized production Jekyll build for this site's first responsive-polish checkpoint; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose run Jekyll build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
@@ -921,7 +922,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a localhost smoke request while the responsive-polish verification server was starting; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact localhost curl command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
@@ -932,7 +933,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a repeated localhost smoke request while the same verification server was building; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact repeated localhost curl command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
@@ -943,7 +944,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the final localhost smoke request after the responsive-polish verification server finished building; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact final localhost curl command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
@@ -954,7 +955,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the targeted four-viewport Playwright acceptance run for the responsive-polish checkpoint; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact targeted Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
@@ -965,7 +966,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the four-viewport ledger screenshot acceptance run for the responsive-polish checkpoint; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact ledger screenshot Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
@@ -976,7 +977,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a read-only Crossref DOI lookup for the separate semantic-scaffolding-map metadata audit; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact C&C 2026 Crossref DOI lookup command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -987,7 +988,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a read-only Crossref proceedings query for the separate semantic-scaffolding-map metadata audit; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact C&C 2026 Crossref proceedings query, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -998,7 +999,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a read-only official C&C proceedings fetch for the separate semantic-scaffolding-map metadata audit; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact official C&C 2026 proceedings fetch and session-count command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -1009,7 +1010,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a retry of an exact copy-only patch in the separate VariationWeaver-Canvas study interface; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact StudySurveyPage autosave-copy patch, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and retry assessment, audited 2026-07-16.
@@ -1020,7 +1021,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a narrowly scoped cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact tools/__pycache__ removal command, reviewed session 019f69b1-73e5-7303-9229-8de060348501, and approval assessment, audited 2026-07-16.
@@ -1031,7 +1032,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a workspace-bounded test-cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact resolved-path tests/__pycache__ removal command, reviewed session 019f6cc9-917c-7f60-a3ec-dada060ad21a, and approval assessment, audited 2026-07-16.
@@ -1042,7 +1043,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a local responsive-layout verification server and test command in the separate VariationWeaver-Canvas study interface; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact local Vite and responsive-layout test command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited 2026-07-16.
@@ -1053,7 +1054,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a read-only process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1064,7 +1065,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a Git fetch in the separate VariationWeaver-Canvas repository; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact git fetch origin main command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited 2026-07-16.
@@ -1075,7 +1076,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a read-only CPU-aware process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose CPU process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1086,7 +1087,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a read-only memory-aware process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose memory process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1097,7 +1098,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a workspace-bounded cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact resolved-path tools/__pycache__ removal command, reviewed session 019f6cb6-ccdd-7560-b08c-2162e9c5c64e, and approval assessment, audited 2026-07-16.
@@ -1108,7 +1109,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated another read-only process inspection of the checkpoint-two Jekyll container; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1119,7 +1120,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the focused mobile Paper Constellation Playwright run; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact externally served mobile-390 Playwright command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1130,7 +1131,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a repeated workspace-bounded cache cleanup in the separate semantic-scaffolding-map repository; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact repeated resolved-path tools/__pycache__ removal command, reviewed session 019f6cb6-ccdd-7560-b08c-2162e9c5c64e, and approval assessment, audited 2026-07-16.
@@ -1141,7 +1142,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a restart of the checkpoint-two Jekyll verification container after the receipt-layout correction; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose restart command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1152,7 +1153,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a read-only process check during the checkpoint-two rebuild; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1163,7 +1164,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a final read-only process check during the checkpoint-two rebuild; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1174,7 +1175,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the final process-and-log inspection for the checkpoint-two Jekyll rebuild; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process and tail-log command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1185,7 +1186,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a repeated Git fetch in the separate VariationWeaver-Canvas repository; it did not perform site development work or change the declared site-development default.
         provenance: Retained auto-review turn_context, exact git fetch origin main command, reviewed session 019f6a1d-9cd2-7d42-a736-a06f6ef2ac9c, and approval assessment, audited 2026-07-16.
@@ -1196,7 +1197,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a final read-only process check while the checkpoint-two Jekyll build settled; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1207,7 +1208,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the last read-only process check before the checkpoint-two Jekyll container was stopped; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose process command, reviewed session 019f6cca-4709-7a40-9ea1-dfa0ce6a5845, and approval assessment, audited 2026-07-16.
@@ -1218,7 +1219,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the fetch required after a safe non-fast-forward push rejection; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git fetch origin main command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1229,7 +1230,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated an attempted full-blob fetch using the abbreviated remote commit identifier; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact abbreviated-ref no-filter fetch command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and failed-ref result, audited 2026-07-16.
@@ -1240,7 +1241,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the exact full-ref fetch used to inspect the remote metrics commit; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact full-ref no-filter fetch command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1251,7 +1252,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated creation of the detached checkpoint-one publish worktree used to protect unstaged checkpoint-two work; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git worktree add command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1262,7 +1263,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated replay of the single verified checkpoint onto the refreshed remote history; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact checkpoint cherry-pick command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and clean cherry-pick result, audited 2026-07-16.
@@ -1273,7 +1274,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the exact-history ledger refresh in the isolated publish worktree; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact audit write command and isolated worktree, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1284,7 +1285,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a read-only query of the isolated worktree ledger used to identify exact integration deviations; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact ripgrep acknowledgment query, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1295,7 +1296,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated copying the exact policy and policy-test files into the isolated publish worktree; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact two-file Copy-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1306,7 +1307,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the explicit seven-file stash used to protect checkpoint-two work before rebasing; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact path-scoped git stash command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and approval assessment, audited 2026-07-16.
@@ -1317,7 +1318,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated rebasing the single checkpoint onto the inspected metrics-bot refresh; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git rebase origin/main command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and clean rebase result, audited 2026-07-16.
@@ -1328,7 +1329,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated restoring the exact checkpoint-two stash after the clean rebase; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git stash pop command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and clean restore result, audited 2026-07-16.
@@ -1339,7 +1340,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the Dockerized fast Jekyll build used to render the final mobile constellation for interaction QA; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and successful build result, audited 2026-07-16.
@@ -1350,7 +1351,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the focused mobile Playwright run that loaded the site's declared external assets; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact external-server Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and two-pass one-skip result, audited 2026-07-16.
@@ -1361,7 +1362,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a requested Python-cache cleanup in the separate semantic-scaffolding-map workspace; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact Remove-Item request, reviewed session 019f6cb7-2ec2-7363-86a5-e43f65fff4bc, and approval assessment, audited 2026-07-16.
@@ -1372,7 +1373,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review rejected force-removing a dirty temporary checkpoint worktree; no removal occurred and the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git worktree remove --force request, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and explicit rejection, audited 2026-07-16.
@@ -1383,7 +1384,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the path-verified Python-cache cleanup in the separate semantic-scaffolding-map workspace; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact Resolve-Path and Remove-Item request, reviewed session 019f6cb7-2ec2-7363-86a5-e43f65fff4bc, and approval assessment, audited 2026-07-16.
@@ -1394,7 +1395,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated use of the configured user Python environment for the full site test suite; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact unittest discovery command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and 102-test pass, audited 2026-07-16.
@@ -1405,7 +1406,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the Dockerized production-baseurl Jekyll build with image conversion disabled; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose Jekyll command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and successful rendered build, audited 2026-07-16.
@@ -1416,7 +1417,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the required pre-publish retained-log ledger refresh; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact pending-commit audit write command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and successful refresh, audited 2026-07-16.
@@ -1427,7 +1428,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the Dockerized production-baseurl Jekyll verification build for checkpoint-three story pages and compiled Sass; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose Jekyll command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow assessment, audited 2026-07-16.
@@ -1438,7 +1439,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the incremental root-site Docker build used to refresh checkpoint-three pages for responsive QA; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact incremental docker compose Jekyll command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow assessment, audited 2026-07-16.
@@ -1449,7 +1450,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the full root-site Docker build used to refresh checkpoint-three pages for browser QA; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact docker compose Jekyll command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow assessment, and successful build result, audited 2026-07-16.
@@ -1460,7 +1461,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the focused checkpoint-three Playwright matrix against a local production-baseurl build; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact external-server Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow assessment, and harness-only base-path failure, audited 2026-07-16.
@@ -1471,7 +1472,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated starting a localhost-only static server and probing the Paper Constellation route to diagnose the checkpoint-three harness; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact hidden localhost server and curl probe, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow assessment, and HTTP 200 result, audited 2026-07-16.
@@ -1482,7 +1483,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated a localhost-served desktop Playwright slice for the three checkpoint-three stories; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact temporary-server desktop Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow assessment, and sandbox-only external-asset failure, audited 2026-07-16.
@@ -1493,7 +1494,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the network-enabled desktop Playwright retry needed to distinguish sandbox-only asset failures from page regressions; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact temporary-server desktop Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow assessment, and three-pass result, audited 2026-07-16.
@@ -1504,7 +1505,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated the complete network-enabled checkpoint-three responsive Playwright matrix served from localhost; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact temporary-server full Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow assessment, audited 2026-07-16.
@@ -1515,7 +1516,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated removal of one path-verified Build Rhythm capture after its SHA-256 was recorded; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact hash-and-Remove-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, bare allow decision, and successful exact-file removal result, audited 2026-07-16.
@@ -1526,7 +1527,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated path-verified removal of the generated _site_codex build directory after checkpoint-three verification; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact guarded _site_codex Remove-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow assessment, and successful cleanup result, audited 2026-07-16.
@@ -1537,7 +1538,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a scoped restore of content-equal-to-HEAD paths before the checkpoint-three rebase; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact ten-path git restore command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and subsequent scoped status, audited 2026-07-16.
@@ -1548,7 +1549,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed explicit staging of the verified checkpoint-three paths for safe integration; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact path-scoped git add command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and staged status, audited 2026-07-16.
@@ -1559,7 +1560,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed rebasing the staged checkpoint over the inspected anonymous-tracker refresh using autostash; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact autostash rebase command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and subsequent rebased checkpoint workflow, audited 2026-07-16.
@@ -1570,7 +1571,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the Dockerized Jekyll verification build for checkpoint three; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact Docker Jekyll command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and successful rendered build, audited 2026-07-16.
@@ -1581,7 +1582,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed a read-only Docker status check while the checkpoint-three Jekyll build was running; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact Docker status commands, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and running-container result, audited 2026-07-16.
@@ -1592,7 +1593,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the targeted three-route responsive Playwright verification against a temporary localhost server; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact localhost-server and Playwright command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, server cleanup, and passing responsive-matrix report, audited 2026-07-16.
@@ -1603,7 +1604,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed workspace-bounded cleanup of a rejected privacy-sensitive historical capture and generated Playwright report; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact resolved-path-guarded Remove-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and subsequent clean artifact status, audited 2026-07-16.
@@ -1614,7 +1615,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed explicit restaging of the verified checkpoint-three files before ledger accounting; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact path-scoped git add command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and staged status, audited 2026-07-16.
@@ -1625,7 +1626,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the required pending-commit usage-ledger refresh, which reads retained local evidence and writes aggregate in-repo counters; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact Python ledger-audit command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, allow decision, and resulting retained-log deviation inventory, audited 2026-07-16.
@@ -1636,7 +1637,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the final regenerated Python-cache cleanup after completed canonical validation and browser QA; it did not perform site development.
         provenance: Retained auto-review turn_context, exact Remove-Item request, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -1647,7 +1648,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed explicit restaging of the checkpoint-three text files after formatting normalization; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact path-scoped git add command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, low-risk allow decision, and staged status, audited 2026-07-16.
@@ -1658,7 +1659,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the pre-push fetch and ancestry inspection used to detect a new anonymous tracker commit; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git fetch and read-only ancestry command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and low-risk allow decision, audited 2026-07-16.
@@ -1669,7 +1670,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed replaying the single verified checkpoint-three commit over the newly fetched anonymous tracker refresh; the review lane did not change the declared interactive development default.
         provenance: Retained auto-review turn_context, exact git rebase command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, medium-risk allow decision, and successful one-commit rebase result, audited 2026-07-16.
@@ -1680,7 +1681,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed removal of a regenerated Python cache after a successful canonical export and validation in the separate semantic-scaffolding-map workspace; it did not perform site development.
         provenance: Retained auto-review turn_context, exact Remove-Item request, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -1691,7 +1692,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed creation of a temporary detached worktree for a fresh-checkout canonical-pipeline proof in the separate semantic-scaffolding-map workspace; it did not perform site development.
         provenance: Retained auto-review turn_context, exact git worktree add command for commit 1832ec76, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -1702,7 +1703,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the read-only canonical validator in that temporary fresh worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact validate-canonical-pipeline command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -1713,7 +1714,7 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed the read-only clean-status and resolved-path check before removing that temporary proof worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact git status and Resolve-Path command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
@@ -1724,66 +1725,759 @@ model_tracking:
       effort: low
       acknowledged: true
       acknowledgment:
-        policy_version: 24
+        policy_version: 29
         acknowledged_at: "2026-07-16"
         reason: Provider-managed Codex auto-review evaluated and allowed removal of the verified clean temporary portability-proof worktree; it did not perform site development.
         provenance: Retained auto-review turn_context, exact git worktree remove command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6da5-a128-74b0-b83e-100b4039a088
+      timestamp: "2026-07-17T01:16:44.129Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed creation of the temporary detached exact-commit IKEA capture worktree; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git worktree add command for commit 15d94c048, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6da5-f9dd-7c32-a7a2-95c1dfd55f18
+      timestamp: "2026-07-17T01:17:02.200Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the first Dockerized exact-commit IKEA historical build; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Docker Compose historical Jekyll build with an empty base URL, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6da6-9b17-78c2-8bb7-6e5a6372180b
+      timestamp: "2026-07-17T01:17:43.374Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the corrected exact-commit IKEA historical build retry; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Docker Compose historical Jekyll build retry using the commit's own configuration, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6daa-7fc9-7b92-869d-256018d9c3f3
+      timestamp: "2026-07-17T01:21:58.284Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a read-only status check for the timed-out historical-build container; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose -p ikea-capture-first ps -a command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6daa-a98e-7f21-84d0-e91b12cbaff9
+      timestamp: "2026-07-17T01:22:09.035Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed shutdown of the temporary historical-replay Compose project after the bounded build failed; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose -p ikea-capture-first down --remove-orphans command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6daa-ce23-7570-a441-5aa1e260baa8
+      timestamp: "2026-07-17T01:22:18.364Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the read-only check that the temporary historical-replay container had stopped; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact repeated Docker Compose status command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6daa-f2cc-7db0-8480-6d059d648ea3
+      timestamp: "2026-07-17T01:22:27.729Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed stopping the still-running one-off historical-build container; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact docker compose -p ikea-capture-first stop command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dab-1544-7183-920d-b722792252ed
+      timestamp: "2026-07-17T01:22:36.623Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the read-only confirmation that the one-off historical-build container was stopped; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact post-stop Docker Compose status command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dab-3f28-7a71-8ac9-eee60a7e9ee4
+      timestamp: "2026-07-17T01:22:47.354Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed force-removal of the single named temporary Docker build container left by the timeout; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact one-container docker rm -f command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dab-655c-7b63-bc35-3c588a2beeba
+      timestamp: "2026-07-17T01:22:57.367Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of the now-unused temporary historical-replay Docker network; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact final Docker Compose down command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dad-71c6-7110-a4a8-e21dcdbd5b30
+      timestamp: "2026-07-17T01:25:11.385Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the one-shot read-only READY-05 runtime-attestation canary in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact codex exec gpt-5.6-sol/max read-only runtime-attestation canary command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dad-a6ff-7b22-b476-ea80afa56658
+      timestamp: "2026-07-17T01:25:25.818Z"
+      model: gpt-5.6-sol
+      effort: max
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: One-shot read-only READY-05 runtime-attestation canary used explicitly requested maximum effort in the separate semantic-scaffolding-map repository, returned only the required canary string, and performed no site development or substantive research.
+        provenance: Retained turn_context, exact runtime-attestation prompt and response, completed leaf session 019f6dad-9fe6-7de0-8778-c5eecf005a2a, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6db0-9f8a-7ec2-9d4d-cb69cb75bb05
+      timestamp: "2026-07-17T01:28:39.613Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of the verified temporary detached IKEA capture worktree after the replay attempt; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git worktree remove --force command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6db0-c734-71b1-8241-ebb30d463cba
+      timestamp: "2026-07-17T01:28:49.777Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the final read-only confirmation that temporary IKEA capture resources were gone; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Test-Path, git worktree list, and filtered docker ps command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6db3-bd37-7ba0-bde8-731c1770971b
+      timestamp: "2026-07-17T01:32:08.916Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a configured one-request Crossref metadata canary in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact run-metadata-canary command with one bounded HTTPS request, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6db9-573b-71f2-bbc1-13c77e0948ce
+      timestamp: "2026-07-17T01:38:16.029Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of two explicitly named path-guarded temporary SQLite artifacts in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact canonical-storage-bounded Remove-Item command, reviewed session 019f6da4-7fbc-7c33-a592-d71d430822c2, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dba-4d15-7cb1-a611-c246f07852cc
+      timestamp: "2026-07-17T01:39:14.393Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the Dockerized checkpoint-four rendered-page verification build; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Docker Jekyll fast-build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc2-a9ac-7b61-bc43-eebd57212f9d
+      timestamp: "2026-07-17T01:48:22.087Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed path-bounded removal of regenerated SQLite temporary files in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact guarded two-file Remove-Item command, reviewed session 019f6da4-7fbc-7c33-a592-d71d430822c2, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc4-1887-78d1-8ded-9faa68c4de70
+      timestamp: "2026-07-17T01:49:55.831Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the focused MetadataCanaryTests run in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact python unittest MetadataCanaryTests command, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc4-c2ca-7d71-bc96-48452e63c76b
+      timestamp: "2026-07-17T01:50:39.540Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the official-track review of the cached C&C metadata canary; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact review-metadata-canary command with reviewer, timestamp, track, and evidence URL, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc5-2a81-7063-b155-5ec711714fa6
+      timestamp: "2026-07-17T01:51:05.929Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a read-only rendering of the metadata canary summary; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Python metadata_canary_summary command, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc5-856b-75e3-807f-a970980a6e75
+      timestamp: "2026-07-17T01:51:29.293Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the Dockerized fast Jekyll build used for checkpoint-four rendered QA; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Docker Compose fast Jekyll build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc6-fb62-7811-bed6-89f2ea186125
+      timestamp: "2026-07-17T01:53:05.155Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed resolved-workspace-guarded removal of the semantic-scaffolding-map tools bytecode cache; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Resolve-Path, StartsWith, and Remove-Item command, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dc7-e17b-72b1-9c62-3b8feabac4cf
+      timestamp: "2026-07-17T01:54:04.074Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the hidden local server and focused Playwright matrix for all ten fun-project stories; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact port-4114 Start-Process, Playwright, and guaranteed-stop command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd0-eba6-7f22-b128-af3bfc02a84a
+      timestamp: "2026-07-17T02:03:56.584Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the hidden local server and focused IKEA and Dogtor Playwright repair run; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact port-4115 Start-Process, Playwright, and guaranteed-stop command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd1-98d3-7d72-95b6-870d2e2df137
+      timestamp: "2026-07-17T02:04:40.673Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed path-bounded cleanup of regenerated canonical-storage SQLite temporary files; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact guarded temporary-SQLite Remove-Item command, reviewed session 019f6da4-7fbc-7c33-a592-d71d430822c2, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd4-6a5c-7741-ac80-cd54cfdc8de2
+      timestamp: "2026-07-17T02:07:45.300Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed rebasing checkpoint-four work onto the inspected origin/main with autostash; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git rebase with autostash and status command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd4-f6e1-7c32-96cd-aa6b95dbbc47
+      timestamp: "2026-07-17T02:08:21.536Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed starting a hidden loopback HTTP server for deployed-shape smoke verification; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Python http.server Start-Process command on port 4178, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd5-bcf7-74b3-9aad-670b05af18fd
+      timestamp: "2026-07-17T02:09:11.989Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a third path-bounded cleanup of regenerated canonical-storage SQLite temporary files; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact guarded temporary-SQLite Remove-Item command, reviewed session 019f6da4-7fbc-7c33-a592-d71d430822c2, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd7-6da7-7d91-a779-985f9cdc95e9
+      timestamp: "2026-07-17T02:11:03.440Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed read-only inspection of the Gemfile and local al-folio Docker image identity; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Gemfile read and docker image inspect command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd8-24b9-7bd2-bd84-a6d906c1714f
+      timestamp: "2026-07-17T02:11:49.937Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a Dockerized Jekyll build from a read-only repo bind into a unique temporary destination; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact temporary-directory creation and two-bind docker run Jekyll command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd7-db90-7211-9ad4-785ab6e457e7
+      timestamp: "2026-07-17T02:11:52.089Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the full site Python unittest suite in the configured user environment; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact python unittest discovery command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd8-7e0d-7643-935b-000edf4afe3e
+      timestamp: "2026-07-17T02:12:12.525Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the Dockerized fast Jekyll verification build after checkpoint-four integration; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Docker Compose fast Jekyll build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dd8-7f1e-7732-bc18-6bd7a460a919
+      timestamp: "2026-07-17T02:12:12.883Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the no-disk-cache Dockerized Jekyll retry into the temporary QA destination; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact read-only-repo and writable-temp bind docker run Jekyll command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dda-c552-7ff0-a910-5e712496c892
+      timestamp: "2026-07-17T02:14:42.053Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed starting a hidden localhost-only static server for the temporary rendered QA site; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Python http.server Start-Process command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6ddb-0536-7762-8003-e637b7bcdfb3
+      timestamp: "2026-07-17T02:14:58.210Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed checking the localhost QA listener and rendered IKEA route; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Get-NetTCPConnection and curl command, reviewed session 019f6d31-a4ba-7df3-8b5c-a52e53dd7d90, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dea-0a81-7002-9858-6fd81fe22fd1
+      timestamp: "2026-07-17T02:31:22.636Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of the verified repo-local generated Playwright report after an exact-path guard; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Resolve-Path and Remove-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dea-7005-7933-b628-569122dbbaf2
+      timestamp: "2026-07-17T02:31:48.759Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed stopping the specific localhost QA server process; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Stop-Process command for PID 25280, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dea-e2d8-75b2-aef3-d3791f7db31c
+      timestamp: "2026-07-17T02:32:18.538Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of the exact resolved Python bytecode cache in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Resolve-Path guard and Remove-Item command, reviewed session 019f6da4-7fbc-7c33-a592-d71d430822c2, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6deb-4d5a-7f20-81e3-440ae59c8c0d
+      timestamp: "2026-07-17T02:32:45.418Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the full Python test suite after final audit-driven corrections; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact unittest-discovery command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6deb-9d22-74a2-9522-e62a6e42eaea
+      timestamp: "2026-07-17T02:33:05.754Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed a bounded Docker Jekyll fast render for final accessibility verification; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Docker Compose Jekyll fast-build command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dee-ddfb-7e50-ab70-e3f8df55b118
+      timestamp: "2026-07-17T02:36:39.091Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed starting the final hidden localhost-only QA server on a checked-free port; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact port-4179 check and Python http.server Start-Process command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df0-5d51-7651-8f8c-a52ae5da0d77
+      timestamp: "2026-07-17T02:38:16.974Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed six focused public-route Playwright cases against localhost with outbound asset access; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact desktop-1440 and mobile-390 Playwright command with route grep, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df1-955a-7371-818c-62eb66d3da48
+      timestamp: "2026-07-17T02:39:37.108Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed focused desktop-Chromium and mobile-WebKit project-card interaction checks; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Playwright interaction-test command with three-case grep, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df6-45b7-79a0-a432-45460669cc8d
+      timestamp: "2026-07-17T02:44:44.460Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed stopping the first QA server and creating a temporary repo-local prefixed-site junction; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Stop-Process and New-Item junction command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df6-8fa7-74f2-aaa7-130693f44c88
+      timestamp: "2026-07-17T02:45:03.114Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed starting the remounted hidden localhost-only QA server on port 4180; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Python http.server Start-Process command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df6-c662-7c42-a0a0-d7dc52abbf49
+      timestamp: "2026-07-17T02:45:17.093Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed six focused project-card interaction cases against the correctly prefixed local build; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact prefixed Playwright interaction-test command with three-case grep, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df8-3916-7073-a31a-f53ccd4c5dbe
+      timestamp: "2026-07-17T02:46:52.029Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed creation of the checked temporary root-relative asset junction required by the fast-build fixture; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Test-Path and New-Item junction command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df8-6a62-7260-b2a9-24fc48342300
+      timestamp: "2026-07-17T02:47:04.894Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the focused project-card interaction trio after prefixed pages and assets became available; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact prefixed Playwright interaction-test command with three-case grep, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df9-6f50-7922-8f19-263d100e9e83
+      timestamp: "2026-07-17T02:48:11.644Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed stopping the final localhost QA server after the interaction tests passed; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Stop-Process command for PID 28644, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6df9-f51e-7d51-bcc2-15fdbf3dc5a1
+      timestamp: "2026-07-17T02:48:45.660Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of the verified temporary repo-local junctions and empty mount root; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact path and link-type guards plus Remove-Item command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6dfc-5e0f-7b43-8382-d2814daf9906
+      timestamp: "2026-07-17T02:51:23.950Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed path-scoped staging and checkout of three semantic-scaffolding-map canary manifests for LF normalization; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact three-path git add and git checkout-index command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e01-eba1-77f3-9ba2-46b47a8bcf4c
+      timestamp: "2026-07-17T02:57:28.061Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of the semantic-scaffolding-map tools Python bytecode cache; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Remove-Item command, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e04-eda3-7102-8b59-216a89c76d6b
+      timestamp: "2026-07-17T03:00:45.060Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed refreshing origin/main and inspecting branch divergence before the final ledger audit; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git fetch, status, and log command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e05-348c-7f63-b0ec-f1ce1980c261
+      timestamp: "2026-07-17T03:01:02.792Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the required pending-commit agentic-ledger refresh before staging checkpoint four; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact scoped PYTHONPATH and Miniconda ledger-audit command, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e0f-212c-70c2-8ceb-4b6607f3481c
+      timestamp: "2026-07-17T03:11:53.757Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed workspace-bounded removal of Python bytecode caches in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact existence-guarded tools and tests __pycache__ Remove-Item command, reviewed session 019f6da4-4359-7d60-83a8-a3ae9e1bd333, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e10-f63b-7ab1-b94b-1d7656e05a9b
+      timestamp: "2026-07-17T03:13:53.311Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the fresh nonce-bound read-only READY-05 runtime-attestation canary in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact nonce-generating read-only gpt-5.6-sol/max Codex canary command, reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e11-1bd4-7033-8d18-58b03fafff3b
+      timestamp: "2026-07-17T03:14:04.346Z"
+      model: gpt-5.6-sol
+      effort: max
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: One-shot read-only READY-05 runtime-attestation canary used explicitly requested maximum effort in the separate semantic-scaffolding-map repository, returned only the nonce-bound canary string, and performed no site development, tool use, or substantive research.
+        provenance: Retained turn_context, exact nonce-bound runtime-attestation prompt and matching response, completed leaf session 019f6e11-1390-7a03-b9de-c01f1faafeff, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e1c-f573-7a50-8462-598ff5921474
+      timestamp: "2026-07-17T03:27:04.583Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the deterministic event-ledger split in semantic-scaffolding-map, moving retained build and snapshot rows to the generated ledger while preserving operational canary events; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact apply_patch limited to map/data/pipeline_build_events.jsonl and map/data/pipeline_events.jsonl, reviewed session 019f6e10-9c08-7b21-9859-e0baf08a73d1, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e1e-dc0a-73b3-a55f-952ff1b03749
+      timestamp: "2026-07-17T03:29:04.171Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed an index refresh for four named Prettier-normalized files with unchanged content; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact four-path git add followed by read-only status and staged-name checks, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e1f-0b4f-7b20-b91c-36b8eb56cccc
+      timestamp: "2026-07-17T03:29:16.433Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the scoped checkpoint-four rebase over one inspected anonymous tracker refresh; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact git rebase with autostash followed by a read-only branch-status check, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e24-79fa-7951-a8c9-fc6d1a6aac64
+      timestamp: "2026-07-17T03:35:17.160Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed removal of one exact generated canonical_batch bytecode file in semantic-scaffolding-map; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact Remove-Item command limited to tools/__pycache__/canonical_batch.cpython-312.pyc, reviewed session 019f6d27-749c-7fa3-bfb7-bee6cd5c7ced, and allow decision, audited 2026-07-16.
+        signature_matches: true
+    - turn_id: 019f6e2b-4052-70c1-ac45-8173d77c1e9e
+      timestamp: "2026-07-17T03:42:36.565Z"
+      model: codex-auto-review
+      effort: low
+      acknowledged: true
+      acknowledgment:
+        policy_version: 29
+        acknowledged_at: "2026-07-16"
+        reason: Provider-managed Codex auto-review evaluated and allowed the explicit checkpoint-four staging and staged-diff integrity review; the review lane did not change the declared interactive development default.
+        provenance: Retained auto-review turn_context, exact named-path git add followed by branch status, staged stat, and staged diff checks, reviewed session 019f652f-7154-7822-ad1c-daa5a066134b, and allow decision, audited 2026-07-16.
         signature_matches: true
   status: acknowledged_deviations
   public_note: "Dev work now: gpt-5.6-sol · ultra."
   caveat: Checks all deduplicated retained-local turn_context records; missing or deleted local logs cannot be reconstructed. Exact acknowledged deviations remain visible and do not alter their observed model or effort.
 since_gpt_5_6:
-  commits: 76
-  token_count: 3820000000
-  tokens_label: 3.82B
-  hours_count: 211
-  hours_label: "211"
+  commits: 77
+  token_count: 3960000000
+  tokens_label: 3.96B
+  hours_count: 225
+  hours_label: "225"
   token_usage:
-    input_tokens: 3815839467
-    cached_input_tokens: 3689643008
-    output_tokens: 7559491
-    reasoning_output_tokens: 3624216
-    total_tokens: 3823649207
+    input_tokens: 3955421213
+    cached_input_tokens: 3824355584
+    output_tokens: 7895245
+    reasoning_output_tokens: 3758687
+    total_tokens: 3963602097
   model_effort_breakdown:
     codex-auto-review/low:
       model: codex-auto-review
       effort: low
-      turns: 56
-      sessions: 2
+      turns: 100
+      sessions: 3
       token_usage:
-        input_tokens: 5015303
-        cached_input_tokens: 4199936
-        output_tokens: 6089
-        reasoning_output_tokens: 2928
-        total_tokens: 5021392
-      raw_hours: 4.2386
+        input_tokens: 9605637
+        cached_input_tokens: 7953408
+        output_tokens: 9889
+        reasoning_output_tokens: 4383
+        total_tokens: 9615526
+      raw_hours: 7.9442
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 389
-      sessions: 196
+      turns: 403
+      sessions: 198
       token_usage:
-        input_tokens: 3810824164
-        cached_input_tokens: 3685443072
-        output_tokens: 7553402
-        reasoning_output_tokens: 3621288
-        total_tokens: 3818627815
-      raw_hours: 206.7825
+        input_tokens: 3945815576
+        cached_input_tokens: 3816402176
+        output_tokens: 7885356
+        reasoning_output_tokens: 3754304
+        total_tokens: 3953986571
+      raw_hours: 217.2036
   energy_equivalence:
     wh_per_token_midpoint: 0.0006
     wh_per_token_range: 0.0002-0.002
     kg_co2e_per_kwh: 0.373
     tree_year_metric_tons_co2e: 0.06
-    kwh_midpoint: 2292
-    kg_co2e_midpoint: 855
-    tree_years_midpoint: 14.2
-    tree_years_range: 4.7-47.5
+    kwh_midpoint: 2376
+    kg_co2e_midpoint: 886
+    tree_years_midpoint: 14.8
+    tree_years_range: 4.9-49.2
     cut_tree_co2e_kg: 600
-    cut_tree_midpoint: 1.4
-    cut_tree_range: 0.5-4.7
+    cut_tree_midpoint: 1.5
+    cut_tree_range: 0.5-4.9
     label: Energy lens
     cut_tree_basis: EPA urban tree annual sequestration over 10 years; stored-carbon basis if removed and eventually released.
-    public_note: "Tree lens: about 2292 kWh, or ~1.4 ten-year urban trees' stored carbon. Range: 0.5-4.7."
+    public_note: "Tree lens: about 2376 kWh, or ~1.5 ten-year urban trees' stored carbon. Range: 0.5-4.9."
   api_cost_equivalence:
     label: Logged-model API cost lens
     pricing_tier: Standard, request-aware
@@ -1820,29 +2514,29 @@ since_gpt_5_6:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 3810824164
-      cached_input_tokens: 3685443072
-      output_tokens: 7553402
-      reasoning_output_tokens: 3621288
-      total_tokens: 3818627815
+      input_tokens: 3945815576
+      cached_input_tokens: 3816402176
+      output_tokens: 7885356
+      reasoning_output_tokens: 3754304
+      total_tokens: 3953986571
     unpriced_token_usage:
-      input_tokens: 5015303
-      cached_input_tokens: 4199936
-      output_tokens: 6089
-      reasoning_output_tokens: 2928
-      total_tokens: 5021392
+      input_tokens: 9605637
+      cached_input_tokens: 7953408
+      output_tokens: 9889
+      reasoning_output_tokens: 4383
+      total_tokens: 9615526
     model_effort_price_breakdown:
       gpt-5.6-sol/ultra:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 3810824164
-          cached_input_tokens: 3685443072
-          output_tokens: 7553402
-          reasoning_output_tokens: 3621288
-          total_tokens: 3818627815
-        uncached_input_tokens: 125381092
-        request_count: 24576
+          input_tokens: 3945815576
+          cached_input_tokens: 3816402176
+          output_tokens: 7885356
+          reasoning_output_tokens: 3754304
+          total_tokens: 3953986571
+        uncached_input_tokens: 129413400
+        request_count: 25534
         long_context_request_count: 2084
         long_context_token_usage:
           input_tokens: 607714933
@@ -1850,12 +2544,12 @@ since_gpt_5_6:
           output_tokens: 707270
           reasoning_output_tokens: 303204
           total_tokens: 608422203
-        usd_estimate: 3124.5
-    usd_estimate: 3124.5
-    usd_midpoint: 3100
-    usd_label: ~$3.1K API-rate replay
+        usd_estimate: 3220.1
+    usd_estimate: 3220.1
+    usd_midpoint: 3200
+    usd_label: ~$3.2K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$3.1K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$3.2K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   legacy_api_cost_equivalence:
     label: Legacy Codex API cost lens
     model: gpt-5.3-codex
@@ -1864,18 +2558,18 @@ since_gpt_5_6:
     input_usd_per_million: 1.75
     cached_input_usd_per_million: 0.175
     output_usd_per_million: 14.0
-    input_tokens: 3815839467
-    cached_input_tokens: 3689643008
-    uncached_input_tokens: 126196459
-    output_tokens: 7559491
-    reasoning_output_tokens: 3624216
-    total_tokens: 3823649207
-    usd_estimate: 972.36
-    usd_midpoint: 970
-    usd_label: ~$970 API-rate replay
-    usd_range_label: $770-$6.8K
+    input_tokens: 3955421213
+    cached_input_tokens: 3824355584
+    uncached_input_tokens: 131065629
+    output_tokens: 7895245
+    reasoning_output_tokens: 3758687
+    total_tokens: 3963602097
+    usd_estimate: 1009.16
+    usd_midpoint: 1000
+    usd_label: ~$1.0K API-rate replay
+    usd_range_label: $800-$7.0K
     caveat: Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
-    public_note: ~$970 API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
+    public_note: ~$1.0K API-rate replay. Legacy gpt-5.3-codex API list-price lens retained for continuity; it is not the logged-model estimate or an actual Codex bill.
   codexbar_cost_estimate:
     label: Legacy CodexBar ratio
     source: CodexBar local dashboard screenshot
@@ -1884,44 +2578,44 @@ since_gpt_5_6:
     reference_usd: 2616.4
     reference_tokens: 3000000000
     usd_per_million_tokens: 0.872
-    token_count: 3820000000
-    usd_midpoint: 3300
-    usd_label: ~$3.3K
+    token_count: 3960000000
+    usd_midpoint: 3500
+    usd_label: ~$3.5K
     caveat: Historical diagnostic only; Win-CodexBar 0.42 overcounts forked and replayed local history.
-    public_note: "Legacy CodexBar ratio: ~$3.3K (diagnostic only)."
+    public_note: "Legacy CodexBar ratio: ~$3.5K (diagnostic only)."
   label: Since gpt-5.6-sol cutover
   since: 2026-07-09 14:28 PDT
   since_label: Jul 9, 2026
   confidence: retained-log estimate
   note: All-repo retained-session usage after the model cutover; commits are repo-wide and usage is attributed from ordered turn_context records.
 local_lifetime:
-  sessions: 489
-  turns: 2216
-  usage_events: 117573
-  raw_token_count: 17184932150
-  token_count: 17180000000
-  tokens_label: 17.2B
-  hours_count: 922
-  hours_label: "922"
+  sessions: 501
+  turns: 2301
+  usage_events: 120064
+  raw_token_count: 17531396467
+  token_count: 17530000000
+  tokens_label: 17.5B
+  hours_count: 948
+  hours_label: "948"
   token_usage:
-    input_tokens: 17134658830
-    cached_input_tokens: 16449135872
-    output_tokens: 47226213
-    reasoning_output_tokens: 16784633
-    total_tokens: 17184932150
+    input_tokens: 17480201659
+    cached_input_tokens: 16785061888
+    output_tokens: 48112311
+    reasoning_output_tokens: 17132822
+    total_tokens: 17531396467
   model_effort_breakdown:
     codex-auto-review/low:
       model: codex-auto-review
       effort: low
-      turns: 90
-      sessions: 9
+      turns: 151
+      sessions: 14
       token_usage:
-        input_tokens: 6746214
-        cached_input_tokens: 5325056
-        output_tokens: 9862
-        reasoning_output_tokens: 5009
-        total_tokens: 6756076
-      raw_hours: 10.5026
+        input_tokens: 12311293
+        cached_input_tokens: 9589248
+        output_tokens: 15978
+        reasoning_output_tokens: 8099
+        total_tokens: 12327271
+      raw_hours: 18.0365
     gpt-5.3-codex-spark/high:
       model: gpt-5.3-codex-spark
       effort: high
@@ -2018,6 +2712,18 @@ local_lifetime:
         reasoning_output_tokens: 0
         total_tokens: 0
       raw_hours: 0.75
+    gpt-5.6-sol/max:
+      model: gpt-5.6-sol
+      effort: max
+      turns: 2
+      sessions: 2
+      token_usage:
+        input_tokens: 43750
+        cached_input_tokens: 19968
+        output_tokens: 38
+        reasoning_output_tokens: 0
+        total_tokens: 43788
+      raw_hours: 0.1
     gpt-5.6-sol/medium:
       model: gpt-5.6-sol
       effort: medium
@@ -2033,15 +2739,15 @@ local_lifetime:
     gpt-5.6-sol/ultra:
       model: gpt-5.6-sol
       effort: ultra
-      turns: 865
-      sessions: 422
+      turns: 887
+      sessions: 427
       token_usage:
-        input_tokens: 8155017649
-        cached_input_tokens: 7894325248
-        output_tokens: 18282819
-        reasoning_output_tokens: 8218423
-        total_tokens: 8174660068
-      raw_hours: 494.4998
+        input_tokens: 8494951649
+        cached_input_tokens: 8225967104
+        output_tokens: 19162763
+        reasoning_output_tokens: 8563522
+        total_tokens: 8515509402
+      raw_hours: 512.8976
     gpt-5.6-sol/xhigh:
       model: gpt-5.6-sol
       effort: xhigh
@@ -2090,17 +2796,17 @@ local_lifetime:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 17118907831
-      cached_input_tokens: 16435682176
-      output_tokens: 47119397
-      reasoning_output_tokens: 16710583
-      total_tokens: 17169074335
+      input_tokens: 17458885581
+      cached_input_tokens: 16767344000
+      output_tokens: 47999379
+      reasoning_output_tokens: 17055682
+      total_tokens: 17509967457
     unpriced_token_usage:
-      input_tokens: 15750999
-      cached_input_tokens: 13453696
-      output_tokens: 106816
-      reasoning_output_tokens: 74050
-      total_tokens: 15857815
+      input_tokens: 21316078
+      cached_input_tokens: 17717888
+      output_tokens: 112932
+      reasoning_output_tokens: 77140
+      total_tokens: 21429010
     model_effort_price_breakdown:
       gpt-5.5/xhigh:
         model: gpt-5.5
@@ -2144,13 +2850,13 @@ local_lifetime:
         model: gpt-5.6-sol
         effort: ultra
         token_usage:
-          input_tokens: 8155017649
-          cached_input_tokens: 7894325248
-          output_tokens: 18282819
-          reasoning_output_tokens: 8218423
-          total_tokens: 8174660068
-        uncached_input_tokens: 260692401
-        request_count: 54357
+          input_tokens: 8494951649
+          cached_input_tokens: 8225967104
+          output_tokens: 19162763
+          reasoning_output_tokens: 8563522
+          total_tokens: 8515509402
+        uncached_input_tokens: 268984545
+        request_count: 56784
         long_context_request_count: 4196
         long_context_token_usage:
           input_tokens: 1218361004
@@ -2158,7 +2864,7 @@ local_lifetime:
           output_tokens: 1529763
           reasoning_output_tokens: 627923
           total_tokens: 1219890767
-        usd_estimate: 6668.79
+        usd_estimate: 6902.47
       gpt-5.6-sol/medium:
         model: gpt-5.6-sol
         effort: medium
@@ -2216,11 +2922,30 @@ local_lifetime:
           reasoning_output_tokens: 0
           total_tokens: 0
         usd_estimate: 6.13
-    usd_estimate: 13918.6
-    usd_midpoint: 13900
-    usd_label: ~$13.9K API-rate replay
+      gpt-5.6-sol/max:
+        model: gpt-5.6-sol
+        effort: max
+        token_usage:
+          input_tokens: 43750
+          cached_input_tokens: 19968
+          output_tokens: 38
+          reasoning_output_tokens: 0
+          total_tokens: 43788
+        uncached_input_tokens: 23782
+        request_count: 2
+        long_context_request_count: 0
+        long_context_token_usage:
+          input_tokens: 0
+          cached_input_tokens: 0
+          output_tokens: 0
+          reasoning_output_tokens: 0
+          total_tokens: 0
+        usd_estimate: 0.13
+    usd_estimate: 14152.41
+    usd_midpoint: 14200
+    usd_label: ~$14.2K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$13.9K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$14.2K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   label: Local Codex replay
   since: 2026-06-19 00:00 PDT
   since_label: Jun 19, 2026

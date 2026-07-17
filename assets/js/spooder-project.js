@@ -113,13 +113,13 @@
       event.preventDefault();
 
       if (event.key === "ArrowLeft") {
-        setActiveImage(activeImageIndex - 1);
+        setActiveImage(activeImageIndex - 1, { scrollThumb: true });
       } else if (event.key === "ArrowRight") {
-        setActiveImage(activeImageIndex + 1);
+        setActiveImage(activeImageIndex + 1, { scrollThumb: true });
       } else if (event.key === "Home") {
-        setActiveImage(0);
+        setActiveImage(0, { scrollThumb: true });
       } else {
-        setActiveImage(slides.length - 1);
+        setActiveImage(slides.length - 1, { scrollThumb: true });
       }
     });
 
@@ -129,13 +129,13 @@
       event.preventDefault();
 
       if (event.key === "ArrowLeft") {
-        setActiveImage(activeImageIndex - 1, { focusThumb: true });
+        setActiveImage(activeImageIndex - 1, { focusThumb: true, scrollThumb: true });
       } else if (event.key === "ArrowRight") {
-        setActiveImage(activeImageIndex + 1, { focusThumb: true });
+        setActiveImage(activeImageIndex + 1, { focusThumb: true, scrollThumb: true });
       } else if (event.key === "Home") {
-        setActiveImage(0, { focusThumb: true });
+        setActiveImage(0, { focusThumb: true, scrollThumb: true });
       } else {
-        setActiveImage(slides.length - 1, { focusThumb: true });
+        setActiveImage(slides.length - 1, { focusThumb: true, scrollThumb: true });
       }
     });
 

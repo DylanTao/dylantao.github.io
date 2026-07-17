@@ -318,8 +318,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 24)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 98)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 29)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 161)
         required_fields = {
             "timestamp",
             "model",
@@ -525,6 +525,213 @@ class SessionAccountingTests(unittest.TestCase):
         rendered = tracking["post_cutover_deviations"]
         self.assertEqual({item["turn_id"] for item in rendered}, set(turn_ids))
         self.assertTrue(all(item["acknowledgment"]["signature_matches"] for item in rendered))
+
+    def test_checkpoint_four_reviews_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = (
+            "019f6da5-a128-74b0-b83e-100b4039a088",
+            "019f6da5-f9dd-7c32-a7a2-95c1dfd55f18",
+            "019f6da6-9b17-78c2-8bb7-6e5a6372180b",
+            "019f6daa-7fc9-7b92-869d-256018d9c3f3",
+            "019f6daa-a98e-7f21-84d0-e91b12cbaff9",
+            "019f6daa-ce23-7570-a441-5aa1e260baa8",
+            "019f6daa-f2cc-7db0-8480-6d059d648ea3",
+            "019f6dab-1544-7183-920d-b722792252ed",
+            "019f6dab-3f28-7a71-8ac9-eee60a7e9ee4",
+            "019f6dab-655c-7b63-bc35-3c588a2beeba",
+            "019f6dad-71c6-7110-a4a8-e21dcdbd5b30",
+            "019f6dad-a6ff-7b22-b476-ea80afa56658",
+            "019f6db0-9f8a-7ec2-9d4d-cb69cb75bb05",
+            "019f6db0-c734-71b1-8241-ebb30d463cba",
+            "019f6db3-bd37-7ba0-bde8-731c1770971b",
+            "019f6db9-573b-71f2-bbc1-13c77e0948ce",
+            "019f6dba-4d15-7cb1-a611-c246f07852cc",
+            "019f6dc2-a9ac-7b61-bc43-eebd57212f9d",
+            "019f6dc4-1887-78d1-8ded-9faa68c4de70",
+            "019f6dc4-c2ca-7d71-bc96-48452e63c76b",
+            "019f6dc5-2a81-7063-b155-5ec711714fa6",
+            "019f6dc5-856b-75e3-807f-a970980a6e75",
+            "019f6dc6-fb62-7811-bed6-89f2ea186125",
+            "019f6dc7-e17b-72b1-9c62-3b8feabac4cf",
+            "019f6dd0-eba6-7f22-b128-af3bfc02a84a",
+            "019f6dd1-98d3-7d72-95b6-870d2e2df137",
+            "019f6dd4-6a5c-7741-ac80-cd54cfdc8de2",
+            "019f6dd4-f6e1-7c32-96cd-aa6b95dbbc47",
+            "019f6dd5-bcf7-74b3-9aad-670b05af18fd",
+            "019f6dd7-6da7-7d91-a779-985f9cdc95e9",
+            "019f6dd8-24b9-7bd2-bd84-a6d906c1714f",
+            "019f6dd7-db90-7211-9ad4-785ab6e457e7",
+            "019f6dd8-7e0d-7643-935b-000edf4afe3e",
+            "019f6dd8-7f1e-7732-bc18-6bd7a460a919",
+            "019f6dda-c552-7ff0-a910-5e712496c892",
+            "019f6ddb-0536-7762-8003-e637b7bcdfb3",
+            "019f6dea-0a81-7002-9858-6fd81fe22fd1",
+            "019f6dea-7005-7933-b628-569122dbbaf2",
+            "019f6dea-e2d8-75b2-aef3-d3791f7db31c",
+            "019f6deb-4d5a-7f20-81e3-440ae59c8c0d",
+            "019f6deb-9d22-74a2-9522-e62a6e42eaea",
+            "019f6dee-ddfb-7e50-ab70-e3f8df55b118",
+            "019f6df0-5d51-7651-8f8c-a52ae5da0d77",
+            "019f6df1-955a-7371-818c-62eb66d3da48",
+            "019f6df6-45b7-79a0-a432-45460669cc8d",
+            "019f6df6-8fa7-74f2-aaa7-130693f44c88",
+            "019f6df6-c662-7c42-a0a0-d7dc52abbf49",
+            "019f6df8-3916-7073-a31a-f53ccd4c5dbe",
+            "019f6df8-6a62-7260-b2a9-24fc48342300",
+            "019f6df9-6f50-7922-8f19-263d100e9e83",
+            "019f6df9-f51e-7d51-bcc2-15fdbf3dc5a1",
+            "019f6dfc-5e0f-7b43-8382-d2814daf9906",
+            "019f6e01-eba1-77f3-9ba2-46b47a8bcf4c",
+            "019f6e04-eda3-7102-8b59-216a89c76d6b",
+            "019f6e05-348c-7f63-b0ec-f1ce1980c261",
+        )
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"checkpoint-four-review-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"checkpoint-four-review-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 55)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 55)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["codex-auto-review/low"], 54)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["gpt-5.6-sol/max"], 1)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        rendered = tracking["post_cutover_deviations"]
+        self.assertEqual({item["turn_id"] for item in rendered}, set(turn_ids))
+        self.assertTrue(all(item["acknowledgment"]["signature_matches"] for item in rendered))
+
+    def test_post_checkpoint_four_canaries_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = (
+            "019f6e0f-212c-70c2-8ceb-4b6607f3481c",
+            "019f6e10-f63b-7ab1-b94b-1d7656e05a9b",
+            "019f6e11-1bd4-7033-8d18-58b03fafff3b",
+        )
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"post-checkpoint-four-canary-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"post-checkpoint-four-canary-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["codex-auto-review/low"], 2)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["gpt-5.6-sol/max"], 1)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        rendered = tracking["post_cutover_deviations"]
+        self.assertEqual({item["turn_id"] for item in rendered}, set(turn_ids))
+        self.assertTrue(all(item["acknowledgment"]["signature_matches"] for item in rendered))
+
+    def test_checkpoint_four_publish_reviews_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = (
+            "019f6e1c-f573-7a50-8462-598ff5921474",
+            "019f6e1e-dc0a-73b3-a55f-952ff1b03749",
+            "019f6e1f-0b4f-7b20-b91c-36b8eb56cccc",
+            "019f6e2b-4052-70c1-ac45-8173d77c1e9e",
+        )
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"checkpoint-four-publish-review-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"checkpoint-four-publish-review-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 4)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 4)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["codex-auto-review/low"], 4)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        rendered = tracking["post_cutover_deviations"]
+        self.assertEqual({item["turn_id"] for item in rendered}, set(turn_ids))
+        self.assertTrue(all(item["acknowledgment"]["signature_matches"] for item in rendered))
+
+    def test_late_semantic_cache_cleanup_is_acknowledged_by_exact_signature(self) -> None:
+        turn_id = "019f6e24-79fa-7951-a8c9-fc6d1a6aac64"
+        policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+        timestamp = audit.parse_timestamp(policy["timestamp"])
+        assert timestamp is not None
+        context = audit.TurnContextRecord(
+            timestamp=timestamp,
+            leaf_session_id="late-semantic-cache-cleanup",
+            turn_id=turn_id,
+            model=policy["model"],
+            effort=policy["effort"],
+            path=Path("late-semantic-cache-cleanup.jsonl"),
+            ordinal=1,
+        )
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn={turn_id: context},
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        rendered = tracking["post_cutover_deviations"][0]
+        self.assertEqual(rendered["turn_id"], turn_id)
+        self.assertTrue(rendered["acknowledgment"]["signature_matches"])
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"

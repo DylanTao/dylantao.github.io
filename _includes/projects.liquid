@@ -75,7 +75,7 @@
             class="card-img-top project-card-img"
             width="100%"
             height="auto"
-            alt="{{ project_card_data.mobile_teaser_alt | default: project.title | escape }}"
+            alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"
             loading="eager"
             onerror="this.onerror=null; document.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); });"
           >
@@ -131,11 +131,14 @@
           </div>
         {% endif %}
         <div class="card-body project-card-body">
-          {% if include.heading_level == 4 %}
-            <h4 class="card-title">{{ project.title }}</h4>
-          {% else %}
-            <h3 class="card-title">{{ project.title }}</h3>
-          {% endif %}
+          <div class="project-card-heading{% if project_card_data.icon %} project-card-heading--with-icon{% endif %}">
+            {% include project_card_icon.liquid icon=project_card_data.icon %}
+            {% if include.heading_level == 4 %}
+              <h4 class="card-title">{{ project.title }}</h4>
+            {% else %}
+              <h3 class="card-title">{{ project.title }}</h3>
+            {% endif %}
+          </div>
           {% if project.venue or project.year or project.role or project_status_label != '' %}
             <p class="project-card-meta">
               {% if project.venue %}
@@ -152,6 +155,20 @@
             </p>
           {% endif %}
           <p class="card-text">{{ project.description }}</p>
+          {% if project_card_data.origin_line %}
+            <div class="project-card-story" data-project-card-story>
+              <div class="project-card-story-beat" data-project-card-origin>
+                <p class="project-card-story-label">Why it began</p>
+                <p>{{ project_card_data.origin_line }}</p>
+              </div>
+              {% if project_card_data.evolution_line %}
+                <div class="project-card-story-beat" data-project-card-evolution>
+                  <p class="project-card-story-label">What changed</p>
+                  <p>{{ project_card_data.evolution_line }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
           <span class="project-card-preview-affordance" aria-hidden="true">
             <i class="fa-solid fa-plus"></i>
           </span>

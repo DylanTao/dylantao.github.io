@@ -38,12 +38,28 @@ spooder_project: true
     </div>
     <div class="project-case-actions">
       <a href="#spooder-origin-title">Read origin</a>
+      <a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Open the Wall</a>
       <a href="#spooder-agent-kit">Get spoody-suits</a>
       <a href="#spooder-capsule">Join in</a>
     </div>
   </div>
   <div class="project-case-media hci-spooder-hero-media" data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
-    {% include figure.liquid loading="eager" path=spooder.hero.teaser title="HCI Spooder-Man teaser" alt="A group of playful Spooder-Man characters moving through a city" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path=spooder.hero.teaser title="HCI Spooder-Man remix artwork" alt="Playful HCI Spooder-Man remix artwork from a set of city scenes, character lineups, and title cards" class="img-fluid" %}
+  </div>
+</section>
+
+<section class="project-case-summary" aria-label="HCI Spooder-Man summary">
+  <div>
+    <span>Why</span>
+    <p>Two paper rejections needed somewhere to go besides another private note about resilience.</p>
+  </div>
+  <div>
+    <span>What</span>
+    <p>A lab meme became a playful remix page, a downloadable prompt, and a set of visual placeholders.</p>
+  </div>
+  <div>
+    <span>How</span>
+    <p>Tell the real academic moment first, keep serious portfolio routes obvious, then invite someone else to adapt the bit to their own story.</p>
   </div>
 </section>
 
@@ -51,32 +67,38 @@ spooder_project: true
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">Origin story</p>
     <h2 id="spooder-origin-title">Two rejections, one Steam meme, then Spooder-Man.</h2>
-    <p>CHI said no. UIST said no. I made a Steam-style rejection badge meme, sent it to my labmates, then the Spooder-Man idea had too much chaotic energy to leave alone.</p>
+    <p>The order is the story: rejection event, lab artifact, then reusable invitation. The joke works only if the real academic moment stays legible.</p>
   </div>
-  <div class="hci-spooder-origin-grid">
-    <article>
-      <span>01</span>
-      <strong>Double reject.</strong>
-      <p>Same paper, two noes, still moving.</p>
-    </article>
-    <article>
-      <span>02</span>
-      <strong>Steam meme.</strong>
-      <p>The Wall of Rejection started as an achievement-card joke for labmates.</p>
-    </article>
-    <article>
-      <span>03</span>
-      <strong>Spooder turn.</strong>
-      <p>The meme became a remix page: assets, prompt, and a weird little invitation.</p>
-    </article>
-  </div>
+  <ol class="project-story-beats" aria-label="HCI Spooder-Man origin beats">
+    <li class="project-story-beat">
+      <p class="project-case-kicker">Spark</p>
+      <h3>Same paper, two noes.</h3>
+      <p>CHI said no. UIST said no. The factual origin is small: one paper, two rejection events, and the decision to turn the mood into something shareable.</p>
+    </li>
+    <li class="project-story-beat">
+      <p class="project-case-kicker">Turn</p>
+      <h3>Make the receipt funny enough to send.</h3>
+      <p>The Steam-style achievement image began as a labmate meme. It later became the starting artifact for the separate <a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a>, where badges open receipts instead of pretending rejection is a productivity score.</p>
+    </li>
+    <li class="project-story-beat">
+      <p class="project-case-kicker">Now</p>
+      <h3>Turn one private joke into a remix invitation.</h3>
+      <p>The Spooder-Man page adds visual frames, a prompt, a downloadable kit, and a path back to serious work. A remix should begin with the next person's real academic moment, not copy this page's surface.</p>
+    </li>
+  </ol>
 </section>
+
+<aside class="project-story-note" data-spooder-artwork-boundary="remix-material-not-history" aria-labelledby="spooder-artwork-boundary-title">
+  <p class="project-case-kicker">Artwork boundary</p>
+  <h2 id="spooder-artwork-boundary-title">These frames are remix material, not documentary history.</h2>
+  <p>The gallery contains playful scene and title frames for browsing, reference, and reuse. Their order is not a chronology, and the images are not photos of the rejection events, screenshots of an earlier interface, or evidence that a particular scene happened. The origin beats above carry the factual story; the source playlist carries the tonal credit.</p>
+</aside>
 
 <section id="spooder-capsule" class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">Spoody kit</p>
     <h2 id="spooder-gallery-title">Pick a spoody-suit.</h2>
-    <p>Use these frames as placeholders or references; swap in your own academic no.</p>
+    <p>Use these remix frames as placeholders or references; swap in your own academic no rather than reading their order as project history.</p>
   </div>
 
   <div class="hci-spooder-gallery-stage" tabindex="0" aria-label="HCI Spooder-Man recruitment capsule images">
@@ -195,7 +217,25 @@ spooder_project: true
   </p>
 </section>
 
+<details class="project-story-disclosure site-experiment-technical-details">
+  <summary id="spooder-technical-summary">Remix provenance and technical record</summary>
+  <div class="project-story-disclosure-body" aria-labelledby="spooder-technical-summary">
+    <ul>
+      <li><strong>Source of truth:</strong> <code>_data/spooder_man.yml</code> supplies the hero copy, gallery labels, remix steps, downloadable prompt, asset paths, and video list used by this page.</li>
+      <li><strong>Artwork status:</strong> the local gallery files and ZIP are current remix materials. This page makes no claim that their sequence documents historical versions or rejection events.</li>
+      <li><strong>Video boundary:</strong> thumbnails identify the credited source playlist. The privacy-enhanced YouTube player is created only after a visitor chooses <em>Load video</em>.</li>
+      <li><strong>Remix boundary:</strong> the downloadable prompt asks readers to start with their own real moment, preserve clear routes back to serious work, adapt the tone to their site, and credit the source idea.</li>
+    </ul>
+    <ol class="site-experiment-ledger" aria-label="HCI Spooder-Man revision record">
+      <li><time datetime="2026-05-30">May 30</time><code>95acdb781</code><span>Added the project page, structured Spooder data, and the first page interaction script.</span></li>
+      <li><time datetime="2026-05-31">May 31</time><code>5b6ae82ea</code><span>Added the downloadable remix ZIP and Markdown prompt, then reorganized the page around reuse.</span></li>
+      <li><time datetime="2026-05-31">May 31</time><code>c91889bd5</code><span>Refined the image and source-video carousels without changing the origin story.</span></li>
+      <li><time datetime="2026-07-15">Jul 15</time><code>f05f02b41</code><span>Registered the page as a site experiment with its original May 30 debut timestamp.</span></li>
+    </ol>
+  </div>
+</details>
+
 <section class="hci-spooder-credits" aria-label="Credits and invitation">
-  <p>Credit Sirui Tao as the OG HCI Spooder-Man. The original spark was a double rejection, a lab meme, and too much Spooder-Man energy.</p>
+  <p>Credit Sirui Tao as the OG HCI Spooder-Man. The original spark was a double rejection and a lab meme; the linked Spooder-Man trailers and playlist supplied the chaotic remix tone.</p>
   <strong>Become a Spooder-Man. Join the nerdy Spooder-Verse.</strong>
 </section>

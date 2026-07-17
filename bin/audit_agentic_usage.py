@@ -51,7 +51,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 24
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 29
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -1572,6 +1572,452 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
         ),
     },
 }
+
+
+def _checkpoint_four_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    reason_action: str,
+    provenance_action: str,
+) -> dict[str, str]:
+    """Build one exact checkpoint-four provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-16",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed {reason_action}; the review "
+            "lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            f"Retained auto-review turn_context, exact {provenance_action}, reviewed session "
+            f"{reviewed_session}, and allow decision, audited 2026-07-16."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6da5-a128-74b0-b83e-100b4039a088": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:16:44.129Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "creation of the temporary detached exact-commit IKEA capture worktree",
+            "git worktree add command for commit 15d94c048",
+        ),
+        "019f6da5-f9dd-7c32-a7a2-95c1dfd55f18": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:17:02.200Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "the first Dockerized exact-commit IKEA historical build",
+            "Docker Compose historical Jekyll build with an empty base URL",
+        ),
+        "019f6da6-9b17-78c2-8bb7-6e5a6372180b": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:17:43.374Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "the corrected exact-commit IKEA historical build retry",
+            "Docker Compose historical Jekyll build retry using the commit's own configuration",
+        ),
+        "019f6daa-7fc9-7b92-869d-256018d9c3f3": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:21:58.284Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "a read-only status check for the timed-out historical-build container",
+            "docker compose -p ikea-capture-first ps -a command",
+        ),
+        "019f6daa-a98e-7f21-84d0-e91b12cbaff9": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:22:09.035Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "shutdown of the temporary historical-replay Compose project after the bounded build failed",
+            "docker compose -p ikea-capture-first down --remove-orphans command",
+        ),
+        "019f6daa-ce23-7570-a441-5aa1e260baa8": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:22:18.364Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "the read-only check that the temporary historical-replay container had stopped",
+            "repeated Docker Compose status command",
+        ),
+        "019f6daa-f2cc-7db0-8480-6d059d648ea3": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:22:27.729Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "stopping the still-running one-off historical-build container",
+            "docker compose -p ikea-capture-first stop command",
+        ),
+        "019f6dab-1544-7183-920d-b722792252ed": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:22:36.623Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "the read-only confirmation that the one-off historical-build container was stopped",
+            "post-stop Docker Compose status command",
+        ),
+        "019f6dab-3f28-7a71-8ac9-eee60a7e9ee4": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:22:47.354Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "force-removal of the single named temporary Docker build container left by the timeout",
+            "one-container docker rm -f command",
+        ),
+        "019f6dab-655c-7b63-bc35-3c588a2beeba": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:22:57.367Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "removal of the now-unused temporary historical-replay Docker network",
+            "final Docker Compose down command",
+        ),
+        "019f6dad-71c6-7110-a4a8-e21dcdbd5b30": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:25:11.385Z",
+            "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+            "the one-shot read-only READY-05 runtime-attestation canary in semantic-scaffolding-map",
+            "codex exec gpt-5.6-sol/max read-only runtime-attestation canary command",
+        ),
+        "019f6dad-a6ff-7b22-b476-ea80afa56658": {
+            "timestamp": "2026-07-17T01:25:25.818Z",
+            "model": "gpt-5.6-sol",
+            "effort": "max",
+            "acknowledged_at": "2026-07-16",
+            "reason": (
+                "One-shot read-only READY-05 runtime-attestation canary used explicitly requested "
+                "maximum effort in the separate semantic-scaffolding-map repository, returned only "
+                "the required canary string, and performed no site development or substantive research."
+            ),
+            "provenance": (
+                "Retained turn_context, exact runtime-attestation prompt and response, completed leaf "
+                "session 019f6dad-9fe6-7de0-8778-c5eecf005a2a, audited 2026-07-16."
+            ),
+        },
+        "019f6db0-9f8a-7ec2-9d4d-cb69cb75bb05": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:28:39.613Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "removal of the verified temporary detached IKEA capture worktree after the replay attempt",
+            "git worktree remove --force command",
+        ),
+        "019f6db0-c734-71b1-8241-ebb30d463cba": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:28:49.777Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "the final read-only confirmation that temporary IKEA capture resources were gone",
+            "Test-Path, git worktree list, and filtered docker ps command",
+        ),
+        "019f6db3-bd37-7ba0-bde8-731c1770971b": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:32:08.916Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "a configured one-request Crossref metadata canary in semantic-scaffolding-map",
+            "run-metadata-canary command with one bounded HTTPS request",
+        ),
+        "019f6db9-573b-71f2-bbc1-13c77e0948ce": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:38:16.029Z",
+            "019f6da4-7fbc-7c33-a592-d71d430822c2",
+            "removal of two explicitly named path-guarded temporary SQLite artifacts in semantic-scaffolding-map",
+            "canonical-storage-bounded Remove-Item command",
+        ),
+        "019f6dba-4d15-7cb1-a611-c246f07852cc": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:39:14.393Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the Dockerized checkpoint-four rendered-page verification build",
+            "Docker Jekyll fast-build command",
+        ),
+        "019f6dc2-a9ac-7b61-bc43-eebd57212f9d": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:48:22.087Z",
+            "019f6da4-7fbc-7c33-a592-d71d430822c2",
+            "path-bounded removal of regenerated SQLite temporary files in semantic-scaffolding-map",
+            "guarded two-file Remove-Item command",
+        ),
+        "019f6dc4-1887-78d1-8ded-9faa68c4de70": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:49:55.831Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "the focused MetadataCanaryTests run in semantic-scaffolding-map",
+            "python unittest MetadataCanaryTests command",
+        ),
+        "019f6dc4-c2ca-7d71-bc96-48452e63c76b": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:50:39.540Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "the official-track review of the cached C&C metadata canary",
+            "review-metadata-canary command with reviewer, timestamp, track, and evidence URL",
+        ),
+        "019f6dc5-2a81-7063-b155-5ec711714fa6": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:51:05.929Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "a read-only rendering of the metadata canary summary",
+            "Python metadata_canary_summary command",
+        ),
+        "019f6dc5-856b-75e3-807f-a970980a6e75": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:51:29.293Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the Dockerized fast Jekyll build used for checkpoint-four rendered QA",
+            "Docker Compose fast Jekyll build command",
+        ),
+        "019f6dc6-fb62-7811-bed6-89f2ea186125": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:53:05.155Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "resolved-workspace-guarded removal of the semantic-scaffolding-map tools bytecode cache",
+            "Resolve-Path, StartsWith, and Remove-Item command",
+        ),
+        "019f6dc7-e17b-72b1-9c62-3b8feabac4cf": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T01:54:04.074Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the hidden local server and focused Playwright matrix for all ten fun-project stories",
+            "port-4114 Start-Process, Playwright, and guaranteed-stop command",
+        ),
+        "019f6dd0-eba6-7f22-b128-af3bfc02a84a": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:03:56.584Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the hidden local server and focused IKEA and Dogtor Playwright repair run",
+            "port-4115 Start-Process, Playwright, and guaranteed-stop command",
+        ),
+        "019f6dd1-98d3-7d72-95b6-870d2e2df137": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:04:40.673Z",
+            "019f6da4-7fbc-7c33-a592-d71d430822c2",
+            "path-bounded cleanup of regenerated canonical-storage SQLite temporary files",
+            "guarded temporary-SQLite Remove-Item command",
+        ),
+        "019f6dd4-6a5c-7741-ac80-cd54cfdc8de2": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:07:45.300Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "rebasing checkpoint-four work onto the inspected origin/main with autostash",
+            "git rebase with autostash and status command",
+        ),
+        "019f6dd4-f6e1-7c32-96cd-aa6b95dbbc47": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:08:21.536Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "starting a hidden loopback HTTP server for deployed-shape smoke verification",
+            "Python http.server Start-Process command on port 4178",
+        ),
+        "019f6dd5-bcf7-74b3-9aad-670b05af18fd": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:09:11.989Z",
+            "019f6da4-7fbc-7c33-a592-d71d430822c2",
+            "a third path-bounded cleanup of regenerated canonical-storage SQLite temporary files",
+            "guarded temporary-SQLite Remove-Item command",
+        ),
+        "019f6dd7-6da7-7d91-a779-985f9cdc95e9": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:11:03.440Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "read-only inspection of the Gemfile and local al-folio Docker image identity",
+            "Gemfile read and docker image inspect command",
+        ),
+        "019f6dd8-24b9-7bd2-bd84-a6d906c1714f": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:11:49.937Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "a Dockerized Jekyll build from a read-only repo bind into a unique temporary destination",
+            "temporary-directory creation and two-bind docker run Jekyll command",
+        ),
+        "019f6dd7-db90-7211-9ad4-785ab6e457e7": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:11:52.089Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the full site Python unittest suite in the configured user environment",
+            "python unittest discovery command",
+        ),
+        "019f6dd8-7e0d-7643-935b-000edf4afe3e": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:12:12.525Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the Dockerized fast Jekyll verification build after checkpoint-four integration",
+            "Docker Compose fast Jekyll build command",
+        ),
+        "019f6dd8-7f1e-7732-bc18-6bd7a460a919": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:12:12.883Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "the no-disk-cache Dockerized Jekyll retry into the temporary QA destination",
+            "read-only-repo and writable-temp bind docker run Jekyll command",
+        ),
+        "019f6dda-c552-7ff0-a910-5e712496c892": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:14:42.053Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "starting a hidden localhost-only static server for the temporary rendered QA site",
+            "Python http.server Start-Process command",
+        ),
+        "019f6ddb-0536-7762-8003-e637b7bcdfb3": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:14:58.210Z",
+            "019f6d31-a4ba-7df3-8b5c-a52e53dd7d90",
+            "checking the localhost QA listener and rendered IKEA route",
+            "Get-NetTCPConnection and curl command",
+        ),
+        "019f6dea-0a81-7002-9858-6fd81fe22fd1": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:31:22.636Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "removal of the verified repo-local generated Playwright report after an exact-path guard",
+            "Resolve-Path and Remove-Item command",
+        ),
+        "019f6dea-7005-7933-b628-569122dbbaf2": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:31:48.759Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "stopping the specific localhost QA server process",
+            "Stop-Process command for PID 25280",
+        ),
+        "019f6dea-e2d8-75b2-aef3-d3791f7db31c": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:32:18.538Z",
+            "019f6da4-7fbc-7c33-a592-d71d430822c2",
+            "removal of the exact resolved Python bytecode cache in semantic-scaffolding-map",
+            "Resolve-Path guard and Remove-Item command",
+        ),
+        "019f6deb-4d5a-7f20-81e3-440ae59c8c0d": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:32:45.418Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the full Python test suite after final audit-driven corrections",
+            "unittest-discovery command",
+        ),
+        "019f6deb-9d22-74a2-9522-e62a6e42eaea": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:33:05.754Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "a bounded Docker Jekyll fast render for final accessibility verification",
+            "Docker Compose Jekyll fast-build command",
+        ),
+        "019f6dee-ddfb-7e50-ab70-e3f8df55b118": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:36:39.091Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "starting the final hidden localhost-only QA server on a checked-free port",
+            "port-4179 check and Python http.server Start-Process command",
+        ),
+        "019f6df0-5d51-7651-8f8c-a52ae5da0d77": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:38:16.974Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "six focused public-route Playwright cases against localhost with outbound asset access",
+            "desktop-1440 and mobile-390 Playwright command with route grep",
+        ),
+        "019f6df1-955a-7371-818c-62eb66d3da48": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:39:37.108Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "focused desktop-Chromium and mobile-WebKit project-card interaction checks",
+            "Playwright interaction-test command with three-case grep",
+        ),
+        "019f6df6-45b7-79a0-a432-45460669cc8d": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:44:44.460Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "stopping the first QA server and creating a temporary repo-local prefixed-site junction",
+            "Stop-Process and New-Item junction command",
+        ),
+        "019f6df6-8fa7-74f2-aaa7-130693f44c88": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:45:03.114Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "starting the remounted hidden localhost-only QA server on port 4180",
+            "Python http.server Start-Process command",
+        ),
+        "019f6df6-c662-7c42-a0a0-d7dc52abbf49": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:45:17.093Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "six focused project-card interaction cases against the correctly prefixed local build",
+            "prefixed Playwright interaction-test command with three-case grep",
+        ),
+        "019f6df8-3916-7073-a31a-f53ccd4c5dbe": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:46:52.029Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "creation of the checked temporary root-relative asset junction required by the fast-build fixture",
+            "Test-Path and New-Item junction command",
+        ),
+        "019f6df8-6a62-7260-b2a9-24fc48342300": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:47:04.894Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the focused project-card interaction trio after prefixed pages and assets became available",
+            "prefixed Playwright interaction-test command with three-case grep",
+        ),
+        "019f6df9-6f50-7922-8f19-263d100e9e83": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:48:11.644Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "stopping the final localhost QA server after the interaction tests passed",
+            "Stop-Process command for PID 28644",
+        ),
+        "019f6df9-f51e-7d51-bcc2-15fdbf3dc5a1": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:48:45.660Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "removal of the verified temporary repo-local junctions and empty mount root",
+            "path and link-type guards plus Remove-Item command",
+        ),
+        "019f6dfc-5e0f-7b43-8382-d2814daf9906": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:51:23.950Z",
+            "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+            "path-scoped staging and checkout of three semantic-scaffolding-map canary manifests for LF normalization",
+            "three-path git add and git checkout-index command",
+        ),
+        "019f6e01-eba1-77f3-9ba2-46b47a8bcf4c": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T02:57:28.061Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "removal of the semantic-scaffolding-map tools Python bytecode cache",
+            "Remove-Item command",
+        ),
+        "019f6e04-eda3-7102-8b59-216a89c76d6b": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:00:45.060Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "refreshing origin/main and inspecting branch divergence before the final ledger audit",
+            "git fetch, status, and log command",
+        ),
+        "019f6e05-348c-7f63-b0ec-f1ce1980c261": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:01:02.792Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the required pending-commit agentic-ledger refresh before staging checkpoint four",
+            "scoped PYTHONPATH and Miniconda ledger-audit command",
+        ),
+    }
+)
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6e0f-212c-70c2-8ceb-4b6607f3481c": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:11:53.757Z",
+            "019f6da4-4359-7d60-83a8-a3ae9e1bd333",
+            "workspace-bounded removal of Python bytecode caches in semantic-scaffolding-map",
+            "existence-guarded tools and tests __pycache__ Remove-Item command",
+        ),
+        "019f6e10-f63b-7ab1-b94b-1d7656e05a9b": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:13:53.311Z",
+            "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+            "the fresh nonce-bound read-only READY-05 runtime-attestation canary in semantic-scaffolding-map",
+            "nonce-generating read-only gpt-5.6-sol/max Codex canary command",
+        ),
+        "019f6e11-1bd4-7033-8d18-58b03fafff3b": {
+            "timestamp": "2026-07-17T03:14:04.346Z",
+            "model": "gpt-5.6-sol",
+            "effort": "max",
+            "acknowledged_at": "2026-07-16",
+            "reason": (
+                "One-shot read-only READY-05 runtime-attestation canary used explicitly requested "
+                "maximum effort in the separate semantic-scaffolding-map repository, returned only "
+                "the nonce-bound canary string, and performed no site development, tool use, or "
+                "substantive research."
+            ),
+            "provenance": (
+                "Retained turn_context, exact nonce-bound runtime-attestation prompt and matching "
+                "response, completed leaf session 019f6e11-1390-7a03-b9de-c01f1faafeff, audited "
+                "2026-07-16."
+            ),
+        },
+    }
+)
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
+    {
+        "019f6e1c-f573-7a50-8462-598ff5921474": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:27:04.583Z",
+            "019f6e10-9c08-7b21-9859-e0baf08a73d1",
+            "the deterministic event-ledger split in semantic-scaffolding-map, moving retained build and snapshot rows to the generated ledger while preserving operational canary events",
+            "apply_patch limited to map/data/pipeline_build_events.jsonl and map/data/pipeline_events.jsonl",
+        ),
+        "019f6e1e-dc0a-73b3-a55f-952ff1b03749": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:29:04.171Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "an index refresh for four named Prettier-normalized files with unchanged content",
+            "four-path git add followed by read-only status and staged-name checks",
+        ),
+        "019f6e1f-0b4f-7b20-b91c-36b8eb56cccc": _checkpoint_four_auto_review_acknowledgment(
+            "2026-07-17T03:29:16.433Z",
+            "019f652f-7154-7822-ad1c-daa5a066134b",
+            "the scoped checkpoint-four rebase over one inspected anonymous tracker refresh",
+            "git rebase with autostash followed by a read-only branch-status check",
+        ),
+    }
+)
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS[
+    "019f6e24-79fa-7951-a8c9-fc6d1a6aac64"
+] = _checkpoint_four_auto_review_acknowledgment(
+    "2026-07-17T03:35:17.160Z",
+    "019f6d27-749c-7fa3-bfb7-bee6cd5c7ced",
+    "removal of one exact generated canonical_batch bytecode file in semantic-scaffolding-map",
+    "Remove-Item command limited to tools/__pycache__/canonical_batch.cpython-312.pyc",
+)
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS[
+    "019f6e2b-4052-70c1-ac45-8173d77c1e9e"
+] = _checkpoint_four_auto_review_acknowledgment(
+    "2026-07-17T03:42:36.565Z",
+    "019f652f-7154-7822-ad1c-daa5a066134b",
+    "the explicit checkpoint-four staging and staged-diff integrity review",
+    "named-path git add followed by branch status, staged stat, and staged diff checks",
+)
+
+del _checkpoint_four_auto_review_acknowledgment
 
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002

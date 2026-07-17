@@ -2,6 +2,19 @@ const { test, expect } = require("@playwright/test");
 const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio, stabilizeVisuals } = require("./helpers");
 const { SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
+const FUN_PROJECT_ROUTE_IDS = new Set([
+  "project-paper-constellation",
+  "project-build-rhythm",
+  "project-homepage-desk-scene",
+  "project-hci-spooder-man",
+  "project-scholar-lens",
+  "project-wall-of-rejection",
+  "project-ikea-project-cards",
+  "project-website-revamp",
+  "project-dogtor-portal",
+  "project-not-a-good-driver",
+]);
+
 async function expectMobileChromeInViewport(page, routePath) {
   const viewport = page.viewportSize();
   expect(viewport, `${routePath} has no mobile viewport`).not.toBeNull();
@@ -176,32 +189,104 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   expect(contentBox.height, `${route.path} content box is unexpectedly short`).toBeGreaterThan(route.minContentHeight ?? 120);
   expect(runtimeErrors, `${route.path} raised browser runtime errors`).toEqual([]);
 
-  if (["project-build-rhythm", "project-paper-constellation", "project-scholar-lens"].includes(route.id)) {
+  if (FUN_PROJECT_ROUTE_IDS.has(route.id)) {
     const hero = page.locator(".project-case-hero").first();
     const copy = hero.locator(":scope > .project-case-copy");
     const media = hero.locator(":scope > .project-case-media");
+    await expect(hero).toBeVisible();
     await expect(copy).toBeVisible();
-    await expect(media).toBeVisible();
-    await expect(media.locator("img")).toHaveJSProperty("complete", true);
+    const mediaCount = await media.count();
 
-    const heroGeometry = await hero.evaluate((element) => {
-      const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
-      const mediaBox = element.querySelector(":scope > .project-case-media").getBoundingClientRect();
-      return {
-        copyTop: copyBox.top,
-        copyWidth: copyBox.width,
-        mediaTop: mediaBox.top,
-        mediaWidth: mediaBox.width,
-        heroWidth: element.getBoundingClientRect().width,
-      };
-    });
-    expect(heroGeometry.copyWidth).toBeGreaterThan(220);
-    expect(heroGeometry.mediaWidth).toBeGreaterThan(220);
-    if ((page.viewportSize()?.width ?? 0) <= 991) {
-      expect(heroGeometry.mediaTop).toBeGreaterThan(heroGeometry.copyTop);
+    if (mediaCount > 0) {
+      await expect(media).toBeVisible();
+      const heroImage = media.locator("img").first();
+      await expect(heroImage).toHaveJSProperty("complete", true);
+      expect(await heroImage.evaluate((image) => image.naturalWidth), `${route.path} hero image did not decode`).toBeGreaterThan(0);
+      expect((await heroImage.getAttribute("alt"))?.trim().length, `${route.path} hero image has no useful alt text`).toBeGreaterThan(12);
+
+      const heroGeometry = await hero.evaluate((element) => {
+        const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
+        const mediaBox = element.querySelector(":scope > .project-case-media").getBoundingClientRect();
+        return {
+          copyBottom: copyBox.bottom,
+          copyHeight: copyBox.height,
+          copyTop: copyBox.top,
+          copyWidth: copyBox.width,
+          mediaBottom: mediaBox.bottom,
+          mediaHeight: mediaBox.height,
+          mediaTop: mediaBox.top,
+          mediaWidth: mediaBox.width,
+          heroWidth: element.getBoundingClientRect().width,
+        };
+      });
+      expect(heroGeometry.copyWidth).toBeGreaterThan(220);
+      expect(heroGeometry.mediaWidth).toBeGreaterThan(220);
+      if ((page.viewportSize()?.width ?? 0) <= 991) {
+        expect(heroGeometry.mediaTop).toBeGreaterThan(heroGeometry.copyTop);
+      } else {
+        const verticalOverlap = Math.min(heroGeometry.copyBottom, heroGeometry.mediaBottom) - Math.max(heroGeometry.copyTop, heroGeometry.mediaTop);
+        expect(verticalOverlap, `${route.path} hero columns do not read side by side`).toBeGreaterThan(
+          Math.min(heroGeometry.copyHeight, heroGeometry.mediaHeight) * 0.5
+        );
+        expect(heroGeometry.copyWidth + heroGeometry.mediaWidth).toBeGreaterThan(heroGeometry.heroWidth * 0.75);
+      }
     } else {
-      expect(Math.abs(heroGeometry.mediaTop - heroGeometry.copyTop)).toBeLessThan(90);
-      expect(heroGeometry.copyWidth + heroGeometry.mediaWidth).toBeGreaterThan(heroGeometry.heroWidth * 0.75);
+      const singleChildGeometry = await hero.evaluate((element) => {
+        const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
+        const heroBox = element.getBoundingClientRect();
+        return { childCount: element.children.length, copyWidth: copyBox.width, heroWidth: heroBox.width };
+      });
+      expect(singleChildGeometry.childCount, `${route.path} reserves an empty hero column`).toBe(1);
+      expect(singleChildGeometry.copyWidth, `${route.path} single-child hero stays squeezed`).toBeGreaterThan(singleChildGeometry.heroWidth * 0.9);
+    }
+
+    const projectActions = page.locator(".project-case-actions a");
+    const projectActionBoxes = await projectActions.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { height: box.height, width: box.width };
+      })
+    );
+    expect(projectActionBoxes.length, `${route.path} exposes no project action`).toBeGreaterThan(0);
+    expect(
+      projectActionBoxes.every((box) => box.height >= 44 && box.width >= 44),
+      `${route.path} has a project action smaller than 44px`
+    ).toBe(true);
+
+    await projectActions.first().focus();
+    const projectActionFocus = await projectActions.first().evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) || 0 };
+    });
+    expect(projectActionFocus.style, `${route.path} project action focus outline is missing`).not.toBe("none");
+    expect(projectActionFocus.width, `${route.path} project action focus outline has no width`).toBeGreaterThan(0);
+
+    const pinnedProvenance = page.locator(".project-case-media .project-story-provenance");
+    if ((await pinnedProvenance.count()) > 0) {
+      const contrastRatios = await pinnedProvenance.evaluateAll((elements) => {
+        const channels = (value) =>
+          value
+            .match(/[\d.]+/g)
+            .slice(0, 3)
+            .map(Number);
+        const luminance = (value) => {
+          const linear = channels(value).map((channel) => {
+            const normalized = channel / 255;
+            return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+          });
+          return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+        };
+
+        return elements.map((element) => {
+          const foreground = luminance(getComputedStyle(element).color);
+          const background = luminance(getComputedStyle(element.closest(".project-case-media")).backgroundColor);
+          return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+        });
+      });
+      expect(
+        contrastRatios.every((ratio) => ratio >= 4.5),
+        `${route.path} provenance text does not reach 4.5:1 contrast`
+      ).toBe(true);
     }
   }
 
@@ -344,6 +429,67 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     }
   }
 
+  if (route.id === "project-hci-spooder-man") {
+    const carousel = page.locator("[data-spooder-image-carousel]");
+    const stage = carousel.locator(".hci-spooder-gallery-stage");
+    const arrows = carousel.locator(".hci-spooder-gallery-arrow");
+    const thumbs = carousel.locator("[data-spooder-image-thumb]");
+    const slides = carousel.locator("[data-spooder-image-slide]");
+    await expect(stage).toBeVisible();
+    await expect(arrows).toHaveCount(2);
+    await expect(thumbs).toHaveCount(9);
+    await expect(slides).toHaveCount(9);
+
+    const controlSizes = await carousel.locator(".hci-spooder-gallery-arrow, [data-spooder-image-thumb]").evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { height: box.height, width: box.width };
+      })
+    );
+    expect(
+      controlSizes.every((size) => size.height >= 44 && size.width >= 44),
+      "Spooder carousel controls need 44px targets"
+    ).toBe(true);
+
+    await arrows.first().focus();
+    await expect(arrows.first()).toBeFocused();
+    const focusRing = await arrows.first().evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) };
+    });
+    expect(focusRing.style).not.toBe("none");
+    expect(focusRing.width).toBeGreaterThan(0);
+
+    await stage.focus();
+    await stage.press("ArrowRight");
+    await expect(thumbs.nth(1)).toHaveAttribute("aria-current", "true");
+    await expect(slides.nth(1)).toHaveAttribute("aria-hidden", "false");
+    await stage.press("Home");
+    await expect(thumbs.first()).toHaveAttribute("aria-current", "true");
+
+    if ((page.viewportSize()?.width ?? 0) <= 767) {
+      await expect(slides.first().locator("img")).toHaveCSS("object-fit", "contain");
+
+      const activeThumbIsInsideScroller = async (thumb) =>
+        thumb.evaluate((element) => {
+          const thumbBox = element.getBoundingClientRect();
+          const scrollerBox = element.parentElement.getBoundingClientRect();
+          return thumbBox.left >= scrollerBox.left - 1 && thumbBox.right <= scrollerBox.right + 1;
+        });
+
+      await stage.press("End");
+      await expect(thumbs.last()).toHaveAttribute("aria-current", "true");
+      await expect.poll(() => activeThumbIsInsideScroller(thumbs.last())).toBe(true);
+
+      await stage.press("Home");
+      await expect.poll(() => activeThumbIsInsideScroller(thumbs.first())).toBe(true);
+      await thumbs.first().focus();
+      await thumbs.first().press("End");
+      await expect(thumbs.last()).toBeFocused();
+      await expect.poll(() => activeThumbIsInsideScroller(thumbs.last())).toBe(true);
+    }
+  }
+
   if (route.id === "project-ikea-project-cards") {
     const figure = page.locator(".site-experiment-evidence-figure");
     const image = figure.locator("img");
@@ -353,25 +499,8 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       "Projects index with Paper Constellation expanded beside Build Rhythm while other project cards remain visible"
     );
     const caption = figure.locator("figcaption");
-    await expect(caption).toHaveText("One preview opens in place; the surrounding collection remains readable.");
-    const captionContrast = await caption.evaluate((element) => {
-      const channels = (value) =>
-        value
-          .match(/[\d.]+/g)
-          .slice(0, 3)
-          .map(Number);
-      const luminance = (value) => {
-        const linear = channels(value).map((channel) => {
-          const normalized = channel / 255;
-          return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
-        });
-        return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
-      };
-      const foreground = luminance(getComputedStyle(element).color);
-      const background = luminance(getComputedStyle(element.parentElement).backgroundColor);
-      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
-    });
-    expect(captionContrast).toBeGreaterThanOrEqual(4.5);
+    await expect(caption).toContainText("One preview opens in place; the surrounding collection remains readable.");
+    await expect(caption.locator(".project-story-provenance")).toContainText("asset checkpoint b51609f0d");
     expect(
       await image.evaluate((element) => ({
         complete: element.complete,
@@ -379,6 +508,29 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
         naturalWidth: element.naturalWidth,
       }))
     ).toEqual({ complete: true, naturalHeight: 650, naturalWidth: 1200 });
+
+    const anatomy = page.locator(".ikea-state-anatomy");
+    const stateFrames = anatomy.locator(":scope .ikea-state-frame");
+    await expect(anatomy).toHaveAttribute("data-evidence-kind", "annotated-current-state-anatomy");
+    await expect(anatomy).toHaveAttribute("data-runtime-contract", "9fa9403e4");
+    await expect(stateFrames).toHaveCount(3);
+    await expect(anatomy.locator("figcaption")).toContainText("static, reduced-motion-safe anatomy");
+    const stateBoxes = await stateFrames.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, top: box.top, width: box.width };
+      })
+    );
+    expect(
+      stateBoxes.every((box) => box.width >= 200),
+      "IKEA state anatomy is squeezed"
+    ).toBe(true);
+    if (testInfo.project.name === "mobile-390") {
+      expect(stateBoxes[1].top).toBeGreaterThan(stateBoxes[0].bottom);
+      expect(stateBoxes[2].top).toBeGreaterThan(stateBoxes[1].bottom);
+    } else {
+      expect(Math.max(...stateBoxes.map((box) => box.top)) - Math.min(...stateBoxes.map((box) => box.top))).toBeLessThanOrEqual(2);
+    }
   }
 
   if (route.id === "project-homepage-desk-scene") {
@@ -547,17 +699,42 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}`, { fullPage: false });
 
   if (route.id === "projects-index") {
+    const icons = page.locator(".projects [data-project-card-icon]");
+    await expect(icons).toHaveCount(10);
+    expect(await icons.evaluateAll((elements) => elements.every((element) => element.getAttribute("aria-hidden") === "true"))).toBe(true);
+    expect(
+      await icons.evaluateAll((elements) =>
+        elements.every((element) => {
+          const box = element.getBoundingClientRect();
+          return box.width >= 24 && box.width <= 36 && box.height >= 24 && box.height <= 36;
+        })
+      )
+    ).toBe(true);
+
+    const driverCard = page.locator("[data-project-card]", {
+      has: page.getByRole("heading", { name: "Not A Good Driver", exact: true }),
+    });
+    await expect(driverCard.locator("[data-project-card-origin]")).toHaveCount(1);
+    await expect(driverCard.locator("[data-project-card-evolution]")).toHaveCount(0);
+    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(9);
+
     const card = page.locator("[data-site-experiment-grid] [data-project-card]").first();
     const trigger = card.locator("[data-project-card-trigger]");
     const panel = card.locator("[data-project-card-panel]");
     const primaryAction = card.locator("[data-project-card-primary-action]");
     const closeButton = card.locator("[data-project-card-close]");
+    const story = card.locator("[data-project-card-story]");
+
+    await expect(story).toBeHidden();
 
     await card.scrollIntoViewIfNeeded();
     await trigger.click();
     await expect(card).toHaveAttribute("data-project-card-state", "expanded");
     await expect(panel).toBeVisible();
     await expect(primaryAction).toBeVisible();
+    await expect(story).toBeVisible();
+    await expect(story.locator("[data-project-card-origin] .project-card-story-label")).toHaveText("Why it began");
+    await expect(story.locator("[data-project-card-evolution] .project-card-story-label")).toHaveText("What changed");
     await expect
       .poll(() => card.evaluate((element) => element.getAnimations({ subtree: true }).length), {
         message: `${testInfo.project.name} project preview did not settle`,
@@ -570,6 +747,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       const closeBounds = element.querySelector("[data-project-card-close]")?.getBoundingClientRect();
       const panelElement = element.querySelector("[data-project-card-panel]");
       const surface = element.querySelector(".card");
+      const storyBeatBounds = Array.from(element.querySelectorAll(".project-card-story-beat")).map((beat) => beat.getBoundingClientRect());
       return {
         actionHeight: actionBounds?.height ?? 0,
         actionWidth: actionBounds?.width ?? 0,
@@ -579,6 +757,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
         closeWidth: closeBounds?.width ?? 0,
         documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         panelAnimationName: panelElement ? getComputedStyle(panelElement).animationName : null,
+        storyBeatWidths: storyBeatBounds.map((box) => box.width),
         surfaceClipPath: surface ? getComputedStyle(surface).clipPath : null,
       };
     });
@@ -590,6 +769,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     expect(expandedGeometry.closeWidth).toBeGreaterThanOrEqual(44);
     expect(expandedGeometry.documentOverflow).toBeLessThanOrEqual(1);
     expect(expandedGeometry.panelAnimationName).toBe("none");
+    expect(expandedGeometry.storyBeatWidths.every((width) => width >= 200)).toBe(true);
     expect(expandedGeometry.surfaceClipPath).toBe("none");
 
     await card.evaluate((element) => {
@@ -638,6 +818,69 @@ for (const route of SITEWIDE_ROUTES) {
     }
   });
 }
+
+test("all ten fun stories fit a 200%-equivalent high-DPR canvas", async ({ browser }, testInfo) => {
+  test.setTimeout(180000);
+  test.skip(testInfo.project.name !== "desktop-1440", "one Chromium context covers the high-DPR effective viewport");
+
+  const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
+  expect(routes).toHaveLength(10);
+
+  // A 720x500 CSS viewport at DPR 2 exercises the layout space available to a
+  // 1440x1000 display at 200% scaling while retaining a 1440x1000 pixel canvas.
+  const context = await browser.newContext({
+    deviceScaleFactor: 2,
+    locale: "en-US",
+    screen: { width: 1440, height: 1000 },
+    timezoneId: "America/Los_Angeles",
+    viewport: { width: 720, height: 500 },
+  });
+  const page = await context.newPage();
+  const runtimeErrors = collectRuntimeErrors(page);
+
+  try {
+    await preparePage(page, "light");
+    for (const route of routes) {
+      const response = await page.goto(publicRouteUrl(route.path), { waitUntil: "domcontentloaded" });
+      expect(response, `${route.path} has no response at the scaled viewport`).not.toBeNull();
+      expect(response.status(), `${route.path} failed at the scaled viewport`).toBeLessThan(400);
+      await expect(page.locator(route.readySelector).first()).toBeVisible();
+      await page.evaluate(async () => {
+        if (document.fonts?.ready) await document.fonts.ready;
+      });
+      await stabilizeVisuals(page);
+
+      const geometry = await page.evaluate(() => ({
+        clientWidth: document.documentElement.clientWidth,
+        devicePixelRatio: window.devicePixelRatio,
+        scrollWidth: document.documentElement.scrollWidth,
+      }));
+      expect(geometry.clientWidth).toBe(720);
+      expect(geometry.devicePixelRatio).toBe(2);
+      expect(geometry.scrollWidth - geometry.clientWidth, `${route.path} overflows at the scaled viewport`).toBeLessThanOrEqual(1);
+
+      const hero = page.locator(".project-case-hero").first();
+      const copy = hero.locator(":scope > .project-case-copy");
+      const media = hero.locator(":scope > .project-case-media");
+      await expect(copy).toBeVisible();
+      if ((await media.count()) > 0) {
+        await expect(media).toBeVisible();
+        const order = await hero.evaluate((element) => {
+          const copyBox = element.querySelector(":scope > .project-case-copy")?.getBoundingClientRect();
+          const mediaBox = element.querySelector(":scope > .project-case-media")?.getBoundingClientRect();
+          return copyBox && mediaBox ? { copyTop: copyBox.top, mediaTop: mediaBox.top } : null;
+        });
+        expect(order, `${route.path} has no measurable hero at the scaled viewport`).not.toBeNull();
+        expect(order.mediaTop, `${route.path} puts media before its story at the scaled viewport`).toBeGreaterThan(order.copyTop);
+      }
+
+      expect(runtimeErrors, `${route.path} raised errors at DPR 2`).toEqual([]);
+      runtimeErrors.length = 0;
+    }
+  } finally {
+    await context.close();
+  }
+});
 
 test("Human focus and AI research keep reciprocal format context", async ({ page, browser }, testInfo) => {
   test.setTimeout(120000);

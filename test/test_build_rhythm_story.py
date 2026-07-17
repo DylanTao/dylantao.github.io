@@ -116,7 +116,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
             "two-account Codex quota health",
-            "complete two-account quota-health observation",
+            "complete observation of two-account Codex quota health",
             "one-account historical context",
             "7e224db12",
             "Three sources, never one score",
