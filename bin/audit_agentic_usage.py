@@ -55,7 +55,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 36
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 37
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4533,6 +4533,80 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V36_TURN_IDS = tuple(
 )
 
 del _policy_v36_runtime_canary_acknowledgment
+del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
+
+
+def _policy_v37_runtime_attestation_acknowledgment(
+    timestamp: str,
+    leaf_session: str,
+    exact_line: str,
+    completed_at: str,
+) -> dict[str, str]:
+    """Build one exact policy-v37 no-tools runtime-attestation acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            "An explicit no-tools runtime-attestation challenge or canary in the separate "
+            "semantic-scaffolding-map repository requested max effort and only an exact "
+            "one-line response; it did not perform site development."
+        ),
+        "provenance": (
+            f"Retained leaf session {leaf_session}, exact prompt and matching response "
+            f"{exact_line}, and task_complete at {completed_at}; audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V37_RUNTIME_ATTESTATION_TURNS = (
+    (
+        "019f7218-cdb3-7963-af9f-039bb4fbaa75",
+        "2026-07-17T22:00:57.369Z",
+        "019f7218-bb9f-7e00-b6bc-64f90502f12f",
+        "runtime-attestation:9262eb743968bd3d930c24a9516fe091",
+        "2026-07-17T22:01:00.639Z",
+    ),
+    (
+        "019f721a-4c89-7912-807a-908ce5e9ad38",
+        "2026-07-17T22:02:37.504Z",
+        "019f721a-4710-71a2-9c0a-0d2a0abec5a2",
+        "runtime-attestation-canary:5884bd8b542092aea171c82e26fb231b",
+        "2026-07-17T22:02:39.456Z",
+    ),
+    (
+        "019f721c-e6d7-7e91-9d3c-976618b2d636",
+        "2026-07-17T22:05:25.861Z",
+        "019f721c-e1b7-7751-ac3d-fcc2a921993f",
+        "runtime-attestation-canary:d1b74a3ee87f659fab57d5f583f9d12c",
+        "2026-07-17T22:05:29.244Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _exact_line,
+    _completed_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V37_RUNTIME_ATTESTATION_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = (
+        _policy_v37_runtime_attestation_acknowledgment(
+            _timestamp,
+            _leaf_session,
+            _exact_line,
+            _completed_at,
+        )
+    )
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V37_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V37_RUNTIME_ATTESTATION_TURNS
+)
+
+del _policy_v37_runtime_attestation_acknowledgment
 del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
 
 

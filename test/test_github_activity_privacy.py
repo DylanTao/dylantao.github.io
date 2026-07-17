@@ -89,15 +89,54 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         )
         self.assertEqual(public["schema"], 3)
         lifetime = public["combined_lifetime"]
-        self.assertEqual(lifetime["tokens_label"], "32.8B")
-        self.assertEqual(lifetime["token_count"], 32_800_000_000)
+        self.assertEqual(
+            set(lifetime),
+            {
+                "token_count",
+                "tokens_label",
+                "units",
+                "aggregation",
+                "rounding",
+                "source_count",
+            },
+        )
+        token_count = lifetime["token_count"]
+        self.assertIsInstance(token_count, int)
+        self.assertNotIsInstance(token_count, bool)
+        self.assertGreater(token_count, 0)
+        self.assertLessEqual(token_count, 9_007_199_254_740_991)
+        self.assertEqual(token_count % 100_000_000, 0)
+        billions, remainder = divmod(token_count, 1_000_000_000)
+        self.assertEqual(
+            lifetime["tokens_label"],
+            f"{billions}.{remainder // 100_000_000}B",
+        )
+        self.assertEqual(lifetime["units"], "tokens")
         self.assertEqual(lifetime["source_count"], 2)
         self.assertEqual(lifetime["aggregation"], "sum_of_sources")
         self.assertEqual(lifetime["rounding"], "nearest_0.1B")
-        self.assertEqual(public["method"], "user_reported_rounded_lifetime_checkpoint")
-        self.assertEqual(public["observed_on"], "2026-07-16")
-        self.assertFalse(public["automated_refresh"])
-        self.assertIsNone(public["updated_at"])
+        observed_on = date.fromisoformat(public["observed_on"])
+        self.assertIsInstance(public["automated_refresh"], bool)
+        if public["automated_refresh"]:
+            self.assertEqual(
+                public["method"],
+                "rounded_sum_of_verified_account_lifetime_readings",
+            )
+            self.assertEqual(public["confidence"], "high")
+            self.assertIsInstance(public["updated_at"], str)
+            refreshed_at = datetime.fromisoformat(
+                public["updated_at"].replace("Z", "+00:00")
+            )
+            self.assertIsNotNone(refreshed_at.tzinfo)
+            self.assertEqual(refreshed_at.utcoffset(), timedelta(0))
+            self.assertEqual(refreshed_at.date(), observed_on)
+        else:
+            self.assertEqual(
+                public["method"],
+                "user_reported_rounded_lifetime_checkpoint",
+            )
+            self.assertEqual(public["confidence"], "user reported")
+            self.assertIsNone(public["updated_at"])
         serialized = json.dumps(public).lower()
         for fragment in (
             "email",

@@ -39,22 +39,21 @@ Reading papers is its own skill. You are not supposed to understand every paper
 perfectly on the first pass, and you are not supposed to read every paper with
 the same level of attention.
 
-Prof. [Philip Guo](https://pg.ucsd.edu/) recommended two resources to me that
-are especially helpful here.
-
-The first is [Srinivasan Keshav](https://cs.uwaterloo.ca/about/people/srinivasan-keshav)'s
+Prof. [Philip Guo](https://pg.ucsd.edu/) recommended
+[Srinivasan Keshav](https://cs.uwaterloo.ca/about/people/srinivasan-keshav)'s
 [_How to Read a Paper_](https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf).
 Keshav describes a three-pass method: first get the shape of the paper, then
 understand the content, then go deep enough to reconstruct and critique it. This
 is useful because it gives you permission to read strategically instead of
 getting stuck on page one.
 
-The second is [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)'s
+Philip also recommended
+[Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/)'s
 [_Catchy Titles Are Good: But Avoid Being Cute_](https://faculty.washington.edu/wobbrock/pubs/Wobbrock-2015.pdf),
-which I first learned as a guide to SIGCHI-style HCI writing. When I am reading,
-its section map helps me ask what job each part of a paper is trying to do. I use
-it even more often while writing HCI papers, so the fuller version of that map
-lives in [section 3](#3-learn-to-write-research-clearly).
+which is primarily an HCI writing guide. Its section map also doubles as a
+useful reading check: what job is each part of this paper trying to do? I reach
+for it most while drafting HCI papers, so I unpack that map in
+[section 3](#3-learn-to-write-research-clearly).
 
 When you read a paper, try to answer:
 

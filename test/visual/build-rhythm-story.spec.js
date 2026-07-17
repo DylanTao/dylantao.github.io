@@ -64,6 +64,9 @@ test("Build Rhythm refreshes the visible lifetime scene after a delayed snapshot
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
 
   await preparePage(page, "light");
+  const usageResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
+  expect(usageResponse.ok()).toBe(true);
+  const usage = await usageResponse.json();
   let releaseSnapshot;
   const snapshotGate = new Promise((resolve) => {
     releaseSnapshot = resolve;
@@ -82,7 +85,7 @@ test("Build Rhythm refreshes the visible lifetime scene after a delayed snapshot
   await expect(stage).toContainText("LIFETIME CODEX TOTAL UNAVAILABLE");
 
   releaseSnapshot();
-  await expect(stage).toContainText("32.8B");
+  await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
 });
 
 test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {

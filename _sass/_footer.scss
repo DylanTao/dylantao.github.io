@@ -2,6 +2,10 @@
  * Footer styles
  ******************************************************************************/
 
+.mobile-back-to-top {
+  display: none;
+}
+
 footer.fixed-bottom {
   position: static;
   right: auto;
@@ -42,6 +46,21 @@ footer.sticky-bottom {
 }
 
 @media (max-width: 575px) {
+  #back-to-top {
+    display: none !important;
+  }
+
+  .mobile-back-to-top {
+    display: inline-flex;
+    gap: 0.28rem;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-left: 0.6rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
   footer.fixed-bottom {
     position: static;
 

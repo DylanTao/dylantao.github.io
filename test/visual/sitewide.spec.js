@@ -369,8 +369,10 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   if (route.id === "project-build-rhythm") {
     const signals = page.locator(".project-story-signal-grid").first();
     const cards = signals.locator(":scope > div");
+    const reproduce = page.locator(".site-experiment-reproduce").first();
     await expect(cards).toHaveCount(3);
     await expect(cards.locator("h3")).toHaveCount(3);
+    await expect(reproduce).toBeVisible();
     const boxes = await cards.evaluateAll((elements) =>
       elements.map((element) => {
         const box = element.getBoundingClientRect();
@@ -387,6 +389,14 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       expect(boxes[1].top).toBeGreaterThan(boxes[0].bottom);
       expect(boxes[2].top).toBeGreaterThan(boxes[1].bottom);
     }
+
+    const reproduceMeasure = await reproduce.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      const paragraphBox = element.querySelector("p:not(.project-case-kicker)").getBoundingClientRect();
+      return { width: box.width, paragraphWidth: paragraphBox.width };
+    });
+    expect(reproduceMeasure.width, "Build Rhythm reproduction prose is too wide").toBeLessThanOrEqual(800);
+    expect(reproduceMeasure.paragraphWidth, "Build Rhythm reproduction paragraph is too wide").toBeLessThanOrEqual(800);
   }
 
   if (route.id === "project-paper-constellation") {
@@ -1306,6 +1316,9 @@ test("head alternates are scoped to equivalent machine-readable documents", asyn
 
 test("home Build Rhythm ledger stays readable and truthful", async ({ page }, testInfo) => {
   const runtimeErrors = collectRuntimeErrors(page);
+  const usageResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
+  expect(usageResponse.ok()).toBe(true);
+  const usage = await usageResponse.json();
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
@@ -1315,8 +1328,9 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   await ledger.scrollIntoViewIfNeeded();
   await expect(ledger).toBeVisible();
   await expect(ledger).toHaveAccessibleName("Open Build Rhythm");
-  await expect(ledger).toContainText("32.8B combined lifetime Codex tokens");
-  await expect(ledger).toContainText("Observed Jul 16");
+  await expect(ledger).toContainText(`${usage.combined_lifetime.tokens_label} combined lifetime Codex tokens`);
+  await expect(ledger).toContainText(usage.automated_refresh ? "Refreshed" : "Observed");
+  await expect(ledger.locator("time")).toHaveAttribute("datetime", usage.automated_refresh ? usage.updated_at : usage.observed_on);
   await expect(ledger).toContainText(/\d+ GitHub commits/);
   await expect(ledger).not.toContainText("2-account quota health");
   await expect(ledger.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
@@ -1324,6 +1338,9 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   const geometry = await ledger.evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     const statusStyle = getComputedStyle(element.querySelector(".home-agentic-heartbeat-status"));
+    const title = element.querySelector(".home-agentic-heartbeat-copy strong");
+    const copyBounds = element.querySelector(".home-agentic-heartbeat-copy").getBoundingClientRect();
+    const routeBounds = element.querySelector(".home-agentic-heartbeat-route").getBoundingClientRect();
     const groups = Array.from(element.querySelectorAll(".home-agentic-heartbeat-meta > span")).map((group) => ({
       rectCount: group.getClientRects().length,
       width: group.getBoundingClientRect().width,
@@ -1333,7 +1350,12 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
       right: bounds.right,
       height: bounds.height,
       groups,
+      copyBottom: copyBounds.bottom,
+      copyLeft: copyBounds.left,
+      routeLeft: routeBounds.left,
+      routeTop: routeBounds.top,
       statusAnimation: statusStyle.animationName,
+      titleRectCount: title.getClientRects().length,
       clientWidth: document.documentElement.clientWidth,
       scrollWidth: document.documentElement.scrollWidth,
     };
@@ -1343,13 +1365,42 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   expect(geometry.height).toBeGreaterThanOrEqual(44);
   expect(geometry.groups).toHaveLength(2);
   expect(geometry.groups.every((group) => group.rectCount === 1 && group.width > 0)).toBe(true);
+  expect(geometry.titleRectCount).toBe(1);
   expect(geometry.statusAnimation).toBe("none");
   expect(geometry.scrollWidth - geometry.clientWidth).toBeLessThanOrEqual(1);
+  if (testInfo.project.name === "mobile-390") {
+    expect(geometry.routeTop).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
+    expect(geometry.routeLeft).toBeGreaterThanOrEqual(geometry.copyLeft - 1);
+  }
 
   await ledger.focus();
   await expect(ledger).toBeFocused();
   expect(await ledger.evaluate((element) => Number.parseFloat(getComputedStyle(element).outlineWidth))).toBeGreaterThanOrEqual(2);
   await attachScreenshot(page, testInfo, `home-build-rhythm-ledger-${testInfo.project.name}`, { locator: ledger });
+  expect(runtimeErrors).toEqual([]);
+});
+
+test("mobile back-to-top control yields the reading surface to an inline footer link", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-390", "the fixed control only risks narrow-screen prose");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/projects/paper-constellation/"), { waitUntil: "domcontentloaded" });
+  await stabilizeVisuals(page);
+  await page.locator(".site-experiment-reproduce").scrollIntoViewIfNeeded();
+
+  const floatingControl = page.locator("#back-to-top");
+  const footerControl = page.locator(".mobile-back-to-top");
+  await expect(floatingControl).toBeHidden();
+  await expect(footerControl).toBeVisible();
+  await expect(footerControl).toHaveAttribute("href", "#top");
+  await expect(footerControl).toHaveAccessibleName("Back to top");
+  const target = await footerControl.evaluate((element) => {
+    const box = element.getBoundingClientRect();
+    return { height: box.height, width: box.width };
+  });
+  expect(target.height).toBeGreaterThanOrEqual(44);
+  expect(target.width).toBeGreaterThanOrEqual(44);
   expect(runtimeErrors).toEqual([]);
 });
 

@@ -116,7 +116,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "rounded lifetime Codex checkpoint",
             "Lifetime checkpoint",
             "7e224db12",
-            "Three sources, never one score",
+            "Three signals, never one score",
             "deduplicated retained logs attributed to this repo",
             "Differences between adjacent points are rounded increases",
             "6edea07f4",

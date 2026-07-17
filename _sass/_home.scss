@@ -4132,9 +4132,29 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-agentic-heartbeat {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
     width: min(100%, 20rem);
     padding: 0.44rem 0.08rem;
+  }
+
+  .home-agentic-heartbeat-status {
+    grid-row: 1 / span 2;
+  }
+
+  .home-agentic-heartbeat-copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .home-agentic-heartbeat strong {
+    white-space: nowrap;
+  }
+
+  .home-agentic-heartbeat-route {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
   }
 
   .home-agentic-tree-mark {

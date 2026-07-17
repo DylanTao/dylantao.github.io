@@ -17,7 +17,7 @@ PROJECT_CARDS_PATH = REPO_ROOT / "_data" / "project_cards.yml"
 EXPECTED_ANCHORS = {
     "morning": {"bg": "#fff9f4", "text": "#29221f", "primary": "#c24614"},
     "noon": {"bg": "#fffefa", "text": "#252321", "primary": "#bf470f"},
-    "afternoon": {"bg": "#fff7ef", "text": "#2d211d", "primary": "#b94b18"},
+    "afternoon": {"bg": "#fffaf6", "text": "#292522", "primary": "#c64b0d"},
     "evening": {"bg": "#111c22", "text": "#f8f3ec", "primary": "#ff9a3d"},
 }
 

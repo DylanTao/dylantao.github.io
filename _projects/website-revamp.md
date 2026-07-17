@@ -202,7 +202,7 @@ This parent case study keeps the critique loop and archive. The experiments belo
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/build-rhythm/' | relative_url }}">Build Rhythm</a></h3>
-    <p>Cadence, rounded token evidence, and account health kept on separate clocks.</p>
+    <p>Cadence, the repo token rhythm, and one rounded lifetime checkpoint kept on separate clocks.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/paper-constellation/' | relative_url }}">Paper Constellation</a></h3>

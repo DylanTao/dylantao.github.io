@@ -319,7 +319,7 @@ class SiteExperimentsTests(unittest.TestCase):
             "Full technical revision record",
             "annotated anatomy of the accepted current state",
             "its data still belongs in the public boundary",
-            "I keep that capture out of the public artifact",
+            "I keep that capture out of the case study",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
@@ -389,6 +389,7 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertIn("outline: var(--md-lite-focus-ring)", components)
         self.assertIn("max-width: min(100%, 72rem)", layout)
         self.assertIn("max-width: min(var(--measure-prose), 68ch)", layout)
+        self.assertIn(".site-experiment-reproduce", layout)
 
     def test_truthful_teasers_are_tracked_for_newest_visual_experiments(self) -> None:
         for relative_path in (

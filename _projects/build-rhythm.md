@@ -25,7 +25,7 @@ hide_title: true
     <div class="project-case-facts">
       <span>Cadence, not productivity</span>
       <span>Aggregate data only</span>
-      <span>Three sources, never one score</span>
+      <span>Three signals, never one score</span>
       <span>Exact GitHub + rounded token tables</span>
     </div>
     <div class="project-case-actions">
@@ -47,29 +47,29 @@ hide_title: true
 
 ## Why this page had to change
 
-The first public version was a GitHub workbench. As Codex evidence entered the page, keeping measures close together made comparison feel like explanation—even when the text said otherwise. I split the horizons, removed cost and causal theater, and later removed account-linked history altogether.
+The first public version was a GitHub workbench. When token evidence arrived, placing everything together made proximity look like explanation—even though the measures ran on different clocks. I separated the views, removed cost and causal theater, and kept only the public aggregates each story actually needs.
 
-That privacy reset did not mean every token trace had to disappear. The current page restores only a rounded estimate attributable to retained sessions for this repo. It keeps that estimate separate from lifetime Codex usage and the longer GitHub record. The result is harder to collapse into one number, which is precisely the point.
+The current page answers three different questions: when the repository changed, how its retained token trace accumulated, and what the rounded lifetime total is. The signals can share one story without becoming one score.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">
     <p class="project-case-kicker">Spark</p>
     <h3>Make ordinary weeks readable.</h3>
-    <p>The GitHub-only workbench at <a href="https://github.com/DylanTao/dylantao.github.io/commit/b4203f3eab8361f45ccf14bbe6f307b3f5a7f191"><code>b4203f3ea</code></a> began with cadence. <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> then placed account-linked Codex history beside it, creating the combined view that needed to be untangled.</p>
+    <p>The GitHub-only workbench at <a href="https://github.com/DylanTao/dylantao.github.io/commit/b4203f3eab8361f45ccf14bbe6f307b3f5a7f191"><code>b4203f3ea</code></a> began by making ordinary weeks visible. <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> added Codex evidence beside it; that proximity exposed the need for a clearer story.</p>
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Turn</p>
     <h3>Separate the clocks, then reset the boundary.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> split Codex and GitHub horizons. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, account-linked history left the public record in favor of one identity-free direct checkpoint.</p>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> split the GitHub and Codex horizons. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, the lifetime view became one rounded, identity-free checkpoint.</p>
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Now</p>
     <h3>Restore only what the repo evidence supports.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back a rounded, repo-scoped token rhythm without restoring the account history removed earlier that day.</p>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> restored a rounded, repo-scoped token rhythm while keeping it separate from the lifetime checkpoint.</p>
   </li>
 </ol>
 
-The combined view can still be reproduced at <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a>, but its screen republishes the exact account-linked daily history and account-wide values that the privacy reset deliberately removed. I keep that capture out of the public artifact. Here, the exact source commit documents the structural turn; the current screenshot provides the visual anatomy without reopening the retired data boundary.
+The exact-era screen at <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> contains source-level daily history that the current public dataset no longer republishes, so I keep that capture out of the case study. The commit remains the provenance for the structural turn; the current screenshot shows the accepted anatomy without presenting that retired history as live data.
 
 ## How to read the rhythm
 
@@ -84,7 +84,7 @@ The combined view can still be reproduced at <a href="https://github.com/DylanTa
   </div>
   <div>
     <h3>Lifetime checkpoint</h3>
-    <p>One anonymous rounded total summarizes lifetime Codex usage. It is refreshed on its own clock and never added to the repo-scoped retained-session estimate.</p>
+    <p>A rounded total combines the two lifetime readings. It keeps its own observation date and is never added to the repo-scoped estimate.</p>
   </div>
 </section>
 
@@ -93,7 +93,7 @@ The cards above are an annotated anatomy of the accepted current state. Earlier 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Boundary</p>
   <h2 id="build-rhythm-privacy-title">What stays private</h2>
-  <p>Repository names; session, turn, model, path, source, and event-level identifiers; source-level readings; plans; histories; reset times; and cost conversions do not enter the public series. None of the visible measures is presented as an explanation of effort, quality, or cause.</p>
+  <p>The current page republishes only rounded aggregates and repo-scoped cumulative points. Its dataset omits source identities and source-level histories; session, model, path, and event details; reset times; and cost conversions. None of these measures explains effort, quality, or cause.</p>
 </aside>
 
 ## A pacing lesson, not a borrowed style
@@ -105,13 +105,13 @@ The first version began as a research-grounded activity workbench. John Thompson
   <div class="project-story-disclosure-body">
     <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
       <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
-      <li><time datetime="2026-07-12">Jul 12</time><code>71b8f4c89</code><span>Added account-linked Codex token history beside the GitHub view, creating the combined state that the next revision separated.</span></li>
+      <li><time datetime="2026-07-12">Jul 12</time><code>71b8f4c89</code><span>Added Codex token history beside the GitHub view, creating the combined state that the next revision separated.</span></li>
       <li><time datetime="2026-07-12">Jul 12</time><code>ed0d3ba40</code><span>Separated the Codex and GitHub horizons after one combined overview implied a relationship the data could not support.</span></li>
       <li><time datetime="2026-07-13">Jul 13</time><code>d3f13be35</code><span>Removed causal and cost clutter so the evidence returned to cadence and change.</span></li>
       <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Restored additions and deletions with readable and literal scales plus stronger responsive evidence.</span></li>
       <li><time datetime="2026-07-15">Jul 15</time><code>6b4b7bd59</code><span>Added a scroll-led reading that teaches cadence, magnitude, scale, and the separate Codex clock before handing control to the exact explorer.</span></li>
-      <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Removed account-linked token history and replaced it with an identity-free direct checkpoint.</span></li>
-      <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the token-over-time story as a rounded daily cumulative repo estimate from deduplicated retained logs, without restoring the account-linked history removed earlier that day.</span></li>
+      <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Replaced source-level lifetime history with one identity-free direct checkpoint.</span></li>
+      <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the rounded repo-scoped token rhythm without reopening the retired source-level history.</span></li>
     </ol>
   </div>
 </details>
@@ -119,7 +119,7 @@ The first version began as a research-grounded activity workbench. John Thompson
 <aside class="site-experiment-reproduce" aria-labelledby="build-rhythm-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
   <h2 id="build-rhythm-reproduce-title">Use your own aggregate record.</h2>
-  <p>The downloadable guide covers the three-source data boundary, narrative chapters, accessible evidence, reduced-motion state, and acceptance checks for another site.</p>
+  <p>The downloadable guide covers the three-signal data boundary, narrative chapters, accessible evidence, reduced-motion state, and acceptance checks for another site.</p>
   <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 

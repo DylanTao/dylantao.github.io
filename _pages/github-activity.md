@@ -97,8 +97,8 @@ github_activity: true
           <p class="build-rhythm-story-step-number">04 · RETAINED-SESSION TOKENS</p>
           <h3>Token accumulation is a trace, not a score.</h3>
           <p>
-            Daily cumulative points use the same deduplicated, repo-scoped retained-log estimate as the homepage ledger. They never include
-            direct-account quota windows and can revise when retained local evidence changes. The current rounded endpoint is
+            Daily cumulative points use the same deduplicated, repo-scoped retained-log estimate as the homepage ledger and can revise when
+            retained local evidence changes. The current rounded endpoint is
             <strong>{{ token_latest.tokens_label }}</strong> through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time>;
             the largest rounded adjacent-point increase is <data value="{{ token_largest_increase }}">{{ token_largest_increase }}</data>
             estimated tokens on <time datetime="{{ token_largest_increase_date }}">{{ token_largest_increase_date | date: "%b %-d, %Y" }}</time>.
@@ -109,8 +109,8 @@ github_activity: true
           <p class="build-rhythm-story-step-number">05 · CHANGE THE MEASURE</p>
           <h3>A lifetime total is not this repo's trace.</h3>
           <p>
-            The direct tracker publishes one anonymous total, rounded before it reaches the site. It describes lifetime Codex usage, while the
-            daily trace above estimates work retained for this repository. Do not add them together.
+            The direct tracker publishes one rounded combined total with its own observation date. The daily trace above estimates the retained-token
+            rhythm for this repository. They answer different questions, so the page never adds them.
           </p>
         </article>
 
@@ -247,12 +247,12 @@ added to the repo-scoped retained-session estimate.
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Three bounded sources</h2>
+        <h2>Three bounded signals</h2>
         <p>Repo-scoped retained-session tokens, rounded lifetime Codex usage, and GitHub activity keep separate clocks and provenance.</p>
       </div>
       <div>
         <h2>Token rhythm</h2>
-        <p>Rounded cumulative daily points come from deduplicated retained logs attributed to this site since the revamp cutoff. They are estimates, not direct-account totals.</p>
+        <p>Rounded cumulative daily points come from deduplicated retained logs attributed to this site since the revamp cutoff. They are estimates, not lifetime totals.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>

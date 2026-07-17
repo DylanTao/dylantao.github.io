@@ -14,7 +14,7 @@ Help a reader understand cadence, change, a repo-scoped token rhythm, and a sepa
 - The exact point keys are `date`, `token_count`, and `tokens_label`. Dates must be consecutive, counts must be nonnegative and nondecreasing, and the latest point must match the public rounded repo total. Differences between adjacent rounded points are rounded increases, not exact daily usage.
 - Fail closed if the token source is missing or malformed. Never include session, turn, model, path, raw-event, source, history, or cost fields in the series. The estimate may revise when retained evidence changes, so expose its cutoff, freshness, method, and estimate confidence.
 - Keep the rounded lifetime total on its own observation date and publish no source-level readings. Never add it to the repo-scoped retained-session estimate.
-- Do not combine the three sources into one score or animate a static snapshot as live activity.
+- Do not combine the three signals into one score or animate a static snapshot as live activity.
 
 ## Suggested structure
 

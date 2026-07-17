@@ -379,7 +379,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   await expect(annotation).toContainText(`Median active-week line magnitude · ${lineChangeSemantics.median}`);
 
   await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Three bounded sources" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Three bounded signals" })).toBeVisible();
   const commitCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
   await expect(page.locator("#github-activity-codex-table-body")).toHaveCount(0);
   await expect(commitCells).toHaveCount(5);
@@ -460,6 +460,9 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
 });
 
 test("home agentic heartbeat shows the rounded lifetime checkpoint without account-health ink", async ({ page }) => {
+  const usageResponse = await page.request.get(visualRoute("assets/data/codex-profile-usage.json"));
+  expect(usageResponse.ok()).toBe(true);
+  const usage = await usageResponse.json();
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
@@ -470,8 +473,9 @@ test("home agentic heartbeat shows the rounded lifetime checkpoint without accou
   await expect(heartbeat).toBeVisible();
   await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
   await expect(heartbeat).toHaveAccessibleName("Open Build Rhythm");
-  await expect(heartbeat).toContainText("32.8B combined lifetime Codex tokens");
-  await expect(heartbeat).toContainText("Observed Jul 16");
+  await expect(heartbeat).toContainText(`${usage.combined_lifetime.tokens_label} combined lifetime Codex tokens`);
+  await expect(heartbeat).toContainText(usage.automated_refresh ? "Refreshed" : "Observed");
+  await expect(heartbeat.locator("time")).toHaveAttribute("datetime", usage.automated_refresh ? usage.updated_at : usage.observed_on);
   await expect(heartbeat).toContainText("Build Rhythm");
   await expect(heartbeat).not.toContainText("2-account quota health");
   await expect(heartbeat).toContainText(/\d+ GitHub commits/);
