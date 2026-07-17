@@ -249,6 +249,10 @@ class SiteExperimentsTests(unittest.TestCase):
 
     def test_spooder_story_marks_remix_art_and_keeps_wall_one_link_away(self) -> None:
         source = (PROJECTS_DIR / "hci-spooder-man.md").read_text(encoding="utf-8")
+        script = (REPO_ROOT / "assets" / "js" / "spooder-project.js").read_text(
+            encoding="utf-8"
+        )
+        styles = STORY_COMPONENTS.read_text(encoding="utf-8")
         self.assertEqual(source.count('class="project-story-beat"'), 3)
         self.assertIn('data-spooder-artwork-boundary="remix-material-not-history"', source)
         self.assertIn("These frames are remix material, not documentary history", source)
@@ -258,6 +262,11 @@ class SiteExperimentsTests(unittest.TestCase):
         for commit in ("95acdb781", "5b6ae82ea", "c91889bd5"):
             with self.subTest(commit=commit):
                 self.assertIn(commit, source)
+        self.assertIn("const priorFocus = document.activeElement;", script)
+        self.assertIn("priorFocus.focus({ preventScroll: true });", script)
+        self.assertIn("body:has(.hci-spooder-hero) #back-to-top", styles)
+        self.assertIn("min-width: 2.75rem;", styles)
+        self.assertIn("min-height: 2.75rem;", styles)
 
     def test_driver_story_has_three_roles_and_no_fabricated_evolution(self) -> None:
         source = (PROJECTS_DIR / "not-a-good-driver.md").read_text(encoding="utf-8")

@@ -318,8 +318,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 31)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 265)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 35)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 447)
         required_fields = {
             "timestamp",
             "model",
@@ -986,6 +986,226 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertEqual({item["turn_id"] for item in rendered}, set(turn_ids))
         self.assertTrue(all(item["acknowledgment"]["signature_matches"] for item in rendered))
 
+    def test_policy_v32_turns_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V32_TURN_IDS
+        self.assertEqual(len(turn_ids), 168)
+        self.assertEqual(len(set(turn_ids)), 168)
+
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"policy-v32-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"policy-v32-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 168)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 168)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["codex-auto-review/low"], 167)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"]["gpt-5.6-sol/max"], 1)
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        decisions = [row[3] for row in audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V32_AUTO_REVIEW_TURNS]
+        self.assertEqual(decisions.count("allow"), 162)
+        self.assertEqual(decisions.count("deny"), 1)
+        self.assertEqual(decisions.count("no-retained-decision"), 4)
+        self.assertTrue(
+            all(item["acknowledgment"]["signature_matches"] for item in tracking["post_cutover_deviations"])
+        )
+
+        for turn_id in turn_ids[:-1]:
+            provenance = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]["provenance"]
+            self.assertRegex(provenance, r"canonical planned-action JSON SHA-256 [0-9a-f]{64}")
+            self.assertIn("reviewed session", provenance)
+        canary = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_ids[-1]]
+        self.assertIn("runtime-attestation-canary:", canary["provenance"])
+        self.assertIn("null last_agent_message", canary["provenance"])
+
+    def test_policy_v33_turns_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V33_TURN_IDS
+        self.assertEqual(
+            turn_ids,
+            (
+                "019f71ad-92b0-7a01-a770-2ee45eee1204",
+                "019f71ad-e0f1-7320-bb0c-467a54578041",
+                "019f71ae-1178-7aa2-9285-c52d7d381dba",
+                "019f71ae-b25e-7b81-88ca-5578604d32ac",
+                "019f71af-463e-73a3-900c-fd0253194c42",
+                "019f71b0-3b07-7f80-8e74-7723e5c4006f",
+            ),
+        )
+
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"policy-v33-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"policy-v33-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 6)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 6)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"codex-auto-review/low": 6})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(
+            all(item["acknowledgment"]["signature_matches"] for item in tracking["post_cutover_deviations"])
+        )
+
+        for row in audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V33_AUTO_REVIEW_TURNS:
+            turn_id, _timestamp, reviewed_session, decision, action_summary, action_digest = row
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            self.assertEqual(decision, "allow")
+            self.assertIn(action_summary, policy["reason"])
+            self.assertIn(f"canonical planned-action JSON SHA-256 {action_digest}", policy["provenance"])
+            self.assertIn(f"reviewed session {reviewed_session}", policy["provenance"])
+            self.assertIn("allow decision", policy["provenance"])
+
+    def test_policy_v34_turn_is_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V34_TURN_IDS
+        self.assertEqual(turn_ids, ("019f71b3-3d25-7210-a5f4-0c70071a3710",))
+        turn_id = turn_ids[0]
+        policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+        timestamp = audit.parse_timestamp(policy["timestamp"])
+        assert timestamp is not None
+        context = audit.TurnContextRecord(
+            timestamp=timestamp,
+            leaf_session_id="policy-v34-1",
+            turn_id=turn_id,
+            model=policy["model"],
+            effort=policy["effort"],
+            path=Path("policy-v34-1.jsonl"),
+            ordinal=1,
+        )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn={turn_id: context},
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"codex-auto-review/low": 1})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(tracking["post_cutover_deviations"][0]["acknowledgment"]["signature_matches"])
+        self.assertIn("temp-root", policy["reason"])
+        self.assertIn("clean-status guarded removal", policy["reason"])
+        self.assertIn(
+            "canonical planned-action JSON SHA-256 "
+            "5d671385afe0e2d5ff20f9816d744962ffb741b9852dd7a6243f284f52d65c23",
+            policy["provenance"],
+        )
+        self.assertIn("reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad", policy["provenance"])
+        self.assertIn("allow decision", policy["provenance"])
+        self.assertIn("exit-0 output", policy["provenance"])
+
+    def test_policy_v35_turns_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V35_TURN_IDS
+        self.assertEqual(
+            turn_ids,
+            (
+                "019f71bc-27be-7181-88f6-65024122a4a2",
+                "019f71bc-ab9e-7133-b0b0-3f5f2ce0398a",
+                "019f71bc-e532-7410-ab08-64fc729870ed",
+                "019f71be-fab3-7e00-afd9-86e6b070b15b",
+                "019f71bf-42bc-7ae1-bcc7-035ede05741c",
+                "019f71bf-a865-7e83-93c5-280bb20276ee",
+                "019f71bf-e54e-7241-ad46-1525f42ca4a4",
+            ),
+        )
+
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"policy-v35-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"policy-v35-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 7)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 7)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"codex-auto-review/low": 7})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(
+            all(item["acknowledgment"]["signature_matches"] for item in tracking["post_cutover_deviations"])
+        )
+
+        for row in audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V35_AUTO_REVIEW_TURNS:
+            (
+                turn_id,
+                _timestamp,
+                reviewed_session,
+                decision,
+                action_summary,
+                action_digest,
+                execution_summary,
+            ) = row
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            self.assertEqual(decision, "allow")
+            self.assertIn(action_summary, policy["reason"])
+            self.assertIn(f"canonical planned-action JSON SHA-256 {action_digest}", policy["provenance"])
+            self.assertIn(f"reviewed session {reviewed_session}", policy["provenance"])
+            self.assertIn("allow decision", policy["provenance"])
+            self.assertIn(execution_summary, policy["provenance"])
+
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
         policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
@@ -1058,6 +1278,110 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertEqual(len(issues), 1)
         self.assertIn(turn_id, issues[0])
         self.assertIn("not acknowledged", issues[0])
+
+    def test_auto_review_boundary_defers_only_new_provider_turns(self) -> None:
+        boundary = audit.MODEL_TRACKING_AUDIT_THROUGH_UTC
+        known_turn_id = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V35_TURN_IDS[0]
+        known_policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[known_turn_id]
+        contexts = {
+            known_turn_id: audit.TurnContextRecord(
+                timestamp=boundary + timedelta(seconds=1),
+                leaf_session_id="known-signature-drift",
+                turn_id=known_turn_id,
+                model=known_policy["model"],
+                effort=known_policy["effort"],
+                path=Path("known-signature-drift.jsonl"),
+                ordinal=1,
+            ),
+            "auto-review-at-boundary": audit.TurnContextRecord(
+                timestamp=boundary,
+                leaf_session_id="auto-review-at-boundary",
+                turn_id="auto-review-at-boundary",
+                model="codex-auto-review",
+                effort="low",
+                path=Path("auto-review-at-boundary.jsonl"),
+                ordinal=2,
+            ),
+            "auto-review-after-boundary": audit.TurnContextRecord(
+                timestamp=boundary + timedelta(seconds=2),
+                leaf_session_id="auto-review-after-boundary",
+                turn_id="auto-review-after-boundary",
+                model="codex-auto-review",
+                effort="low",
+                path=Path("auto-review-after-boundary.jsonl"),
+                ordinal=3,
+            ),
+            "interactive-after-boundary": audit.TurnContextRecord(
+                timestamp=boundary + timedelta(seconds=3),
+                leaf_session_id="interactive-after-boundary",
+                turn_id="interactive-after-boundary",
+                model="gpt-5.5",
+                effort="xhigh",
+                path=Path("interactive-after-boundary.jsonl"),
+                ordinal=4,
+            ),
+        }
+        dataset = audit.UsageDataset(
+            sessions={},
+            usage_events=[
+                counted_event(
+                    usage(123),
+                    ordinal=1,
+                    timestamp=boundary + timedelta(seconds=2),
+                ),
+                counted_event(
+                    usage(210),
+                    ordinal=2,
+                    timestamp=boundary + timedelta(seconds=3),
+                ),
+            ],
+            contexts_by_turn=contexts,
+            source_counts={},
+        )
+
+        live_contexts, deferred_contexts = audit.partition_model_tracking_contexts(dataset)
+        tracking = audit.build_model_tracking(dataset)
+        token_scope = audit.audit_scope(dataset, audit.REVAMP_CUTOFF_UTC, commit_count=0)
+
+        self.assertEqual(
+            {context.turn_id for context in live_contexts},
+            {
+                known_turn_id,
+                "auto-review-at-boundary",
+                "interactive-after-boundary",
+            },
+        )
+        self.assertEqual(
+            [context.turn_id for context in deferred_contexts],
+            ["auto-review-after-boundary"],
+        )
+        self.assertNotIn("auto-review-after-boundary", audit.MODEL_DEVIATION_ACKNOWLEDGMENTS)
+        self.assertEqual(
+            tracking["auto_review_audit_through_at"],
+            audit.format_timestamp_utc(boundary),
+        )
+        self.assertEqual(tracking["status"], "deviation_detected")
+        self.assertEqual(tracking["post_cutover_turns_observed"], 3)
+        self.assertEqual(tracking["post_cutover_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 3)
+        self.assertNotIn("post_audit_turns_deferred", tracking)
+        rendered = {item["turn_id"]: item for item in tracking["post_cutover_deviations"]}
+        self.assertEqual(
+            set(rendered),
+            {
+                known_turn_id,
+                "auto-review-at-boundary",
+                "interactive-after-boundary",
+            },
+        )
+        self.assertFalse(rendered[known_turn_id]["acknowledgment"]["signature_matches"])
+        self.assertFalse(rendered["auto-review-at-boundary"]["acknowledged"])
+        self.assertFalse(rendered["interactive-after-boundary"]["acknowledged"])
+        self.assertEqual(token_scope["raw_token_count"], 333)
+        self.assertIn("interactive tracking remains live", tracking["public_note"])
+        self.assertIn("inclusive audit boundary", tracking["caveat"])
+        self.assertIn("unfiltered", tracking["caveat"])
 
     def test_default_sessions_root_scans_all_year_directories(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

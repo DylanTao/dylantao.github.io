@@ -34,12 +34,7 @@ TOP_LEVEL_KEYS = {
     "confidence",
     "updated_at",
 }
-SAFE_CONFIDENCE_LABELS = {
-    "high",
-    "direct",
-    "complete",
-    "direct complete observation",
-}
+EXPECTED_CONFIDENCE = "high"
 
 
 class SnapshotError(ValueError):
@@ -89,7 +84,8 @@ def build_public_snapshot(
     """Validate a collector projection and return the public schema-3 snapshot."""
 
     source = _exact_keys(source, TOP_LEVEL_KEYS, "snapshot")
-    if source["schemaVersion"] != 3:
+    schema_version = source["schemaVersion"]
+    if not isinstance(schema_version, int) or isinstance(schema_version, bool) or schema_version != 3:
         raise SnapshotError("snapshot.schemaVersion must be 3")
 
     lifetime = _exact_keys(
@@ -126,8 +122,8 @@ def build_public_snapshot(
     if source["method"] != EXPECTED_METHOD:
         raise SnapshotError("snapshot.method does not match the rounded lifetime method")
     confidence = source["confidence"]
-    if confidence not in SAFE_CONFIDENCE_LABELS:
-        raise SnapshotError("snapshot.confidence is not a safe public label")
+    if confidence != EXPECTED_CONFIDENCE:
+        raise SnapshotError(f"snapshot.confidence must be {EXPECTED_CONFIDENCE!r}")
 
     observed_at = _parse_utc_timestamp(source["updated_at"], "snapshot.updated_at")
     checked_at = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)

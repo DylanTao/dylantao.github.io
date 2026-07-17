@@ -571,7 +571,7 @@
       if (candidate.automated_refresh) {
         return (
           candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
-          ["high", "direct", "complete", "direct complete observation"].includes(candidate.confidence) &&
+          candidate.confidence === "high" &&
           typeof candidate.updated_at === "string" &&
           !Number.isNaN(Date.parse(candidate.updated_at)) &&
           candidate.updated_at.slice(0, 10) === candidate.observed_on

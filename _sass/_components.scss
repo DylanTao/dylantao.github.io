@@ -1817,6 +1817,11 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color-mix(in srgb, var(--global-card-bg-color) 96%, var(--global-bg-color));
 }
 
+body:has(.hci-spooder-hero) #back-to-top {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
 .hci-spooder-hero .project-case-copy h1 {
   max-width: 13.5ch;
   font-size: clamp(2.35rem, 4.7vw, 4.25rem);
@@ -3055,6 +3060,12 @@ html[data-theme="dark"] {
   }
 
   body.project-card-preview-open #back-to-top {
+    opacity: 0 !important;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  body:has(.hci-spooder-hero) #back-to-top {
     opacity: 0 !important;
     pointer-events: none;
     visibility: hidden;

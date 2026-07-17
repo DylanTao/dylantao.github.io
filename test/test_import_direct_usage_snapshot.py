@@ -33,7 +33,7 @@ class DirectUsageImportTests(unittest.TestCase):
                 "rounding": "nearest_0.1B",
             },
             "method": "rounded_sum_of_verified_account_lifetime_readings",
-            "confidence": "direct complete observation",
+            "confidence": "high",
             "updated_at": "2026-07-16T18:55:00Z",
         }
 
@@ -132,6 +132,21 @@ class DirectUsageImportTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(tracker.SnapshotError, "invalid keys"):
             tracker.build_public_snapshot(legacy, now=self.NOW)
+
+    def test_rejects_non_integer_schema_version_and_legacy_confidence_aliases(self) -> None:
+        for schema_version in (3.0, True):
+            with self.subTest(schema_version=schema_version):
+                source = self.source()
+                source["schemaVersion"] = schema_version
+                with self.assertRaisesRegex(tracker.SnapshotError, "schemaVersion must be 3"):
+                    tracker.build_public_snapshot(source, now=self.NOW)
+
+        for confidence in ("direct", "complete", "direct complete observation"):
+            with self.subTest(confidence=confidence):
+                source = self.source()
+                source["confidence"] = confidence
+                with self.assertRaisesRegex(tracker.SnapshotError, "confidence must be 'high'"):
+                    tracker.build_public_snapshot(source, now=self.NOW)
 
     def test_publishes_identical_site_and_profile_copies(self) -> None:
         public = tracker.build_public_snapshot(self.source(), now=self.NOW)

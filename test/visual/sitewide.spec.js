@@ -240,6 +240,12 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       expect(singleChildGeometry.copyWidth, `${route.path} single-child hero stays squeezed`).toBeGreaterThan(singleChildGeometry.heroWidth * 0.9);
     }
 
+    if (route.id === "project-hci-spooder-man") {
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+      await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}-initial`, { fullPage: false });
+    }
+
     const projectActions = page.locator(".project-case-actions a");
     const projectActionBoxes = await projectActions.evaluateAll((elements) =>
       elements.map((element) => {
@@ -290,7 +296,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     }
   }
 
-  if (["project-build-rhythm", "project-paper-constellation", "project-homepage-desk-scene"].includes(route.id)) {
+  if (FUN_PROJECT_ROUTE_IDS.has(route.id)) {
     const disclosure = page.locator("details.project-story-disclosure").first();
     const summary = disclosure.locator(":scope > summary");
     await expect(disclosure).toBeVisible();
@@ -467,7 +473,19 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     await stage.press("Home");
     await expect(thumbs.first()).toHaveAttribute("aria-current", "true");
 
+    const backToTop = page.locator("#back-to-top");
+    await expect(backToTop).toHaveCount(1);
+    const backToTopSize = await backToTop.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      return { height: box.height, width: box.width };
+    });
+    expect(backToTopSize.height).toBeGreaterThanOrEqual(44);
+    expect(backToTopSize.width).toBeGreaterThanOrEqual(44);
+
     if ((page.viewportSize()?.width ?? 0) <= 767) {
+      await expect(backToTop).toHaveCSS("visibility", "hidden");
+      await expect(backToTop).toHaveCSS("pointer-events", "none");
+      await expect(backToTop).toHaveCSS("opacity", "0");
       await expect(slides.first().locator("img")).toHaveCSS("object-fit", "contain");
 
       const activeThumbIsInsideScroller = async (thumb) =>
@@ -487,7 +505,27 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       await thumbs.first().press("End");
       await expect(thumbs.last()).toBeFocused();
       await expect.poll(() => activeThumbIsInsideScroller(thumbs.last())).toBe(true);
+
+      const promptCopy = page.locator("[data-spooder-copy-prompt]").first();
+      await page.evaluate(() => {
+        Object.defineProperty(navigator, "clipboard", {
+          configurable: true,
+          value: {
+            writeText: async () => {
+              throw new Error("exercise selection fallback");
+            },
+          },
+        });
+        document.execCommand = () => true;
+      });
+      await promptCopy.scrollIntoViewIfNeeded();
+      await promptCopy.focus();
+      await promptCopy.press("Enter");
+      await expect(promptCopy).toBeFocused();
+      await expect(promptCopy).toHaveText("Copied");
     }
+
+    await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}-interaction`, { fullPage: false });
   }
 
   if (route.id === "project-ikea-project-cards") {

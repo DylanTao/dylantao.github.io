@@ -38,6 +38,10 @@ REVAMP_CUTOFF_UTC = datetime(2026, 5, 23, 1, 5, tzinfo=timezone.utc)
 DESK_CUTOFF_UTC = datetime(2026, 6, 17, 3, 0, tzinfo=timezone.utc)
 LOCAL_LIFETIME_CUTOFF_UTC = datetime(2026, 6, 19, 7, 0, tzinfo=timezone.utc)
 GPT_5_6_CUTOVER_UTC = datetime(2026, 7, 9, 21, 28, 23, 394000, tzinfo=timezone.utc)
+MODEL_TRACKING_AUDIT_THROUGH_UTC = datetime(
+    2026, 7, 17, 20, 23, 52, 285000, tzinfo=timezone.utc
+)
+MODEL_TRACKING_AUDIT_THROUGH_LABEL = "Jul 17, 2026 at 1:23:52 PM PDT"
 REVAMP_GIT_SINCE = "2026-05-22T18:05:00-07:00"
 DESK_GIT_SINCE = "2026-06-16T20:00:00-07:00"
 GPT_5_6_GIT_SINCE = "2026-07-09T14:28:23.394-07:00"
@@ -51,7 +55,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 31
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 35
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -2795,6 +2799,1678 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS.update(
 del _final_tail_auto_review_acknowledgment
 
 
+def _policy_v32_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    decision: str,
+    action_summary: str,
+    action_digest: str,
+) -> dict[str, str]:
+    """Build one exact policy-v32 provider-review acknowledgment."""
+
+    if decision == "allow":
+        decision_clause = "evaluated and allowed"
+        provenance_decision = "allow decision"
+    elif decision == "deny":
+        decision_clause = "evaluated and denied"
+        provenance_decision = "deny decision"
+    else:
+        decision_clause = "evaluated with no retained final decision"
+        provenance_decision = "no retained final decision"
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            f"Provider-managed Codex auto-review {decision_clause} the exact {action_summary}; "
+            "the review lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, canonical planned-action JSON SHA-256 "
+            f"{action_digest}, reviewed session {reviewed_session}, and {provenance_decision}; "
+            "audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V32_AUTO_REVIEW_TURNS = (
+    (
+        '019f6f17-8da2-7091-b80f-e4f8301d1f37',
+        '2026-07-17T08:00:42.924Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git -C D:\\dev\\github-metrics-private pull --ff-only origin main',
+        '9b4a7e6e1fcd9858f84e04bb88ed70518cffd5010625f8e9ed84b29bbaca2552',
+    ),
+    (
+        '019f6f17-f75c-7fe0-8827-318cb5cbb5b3',
+        '2026-07-17T08:01:09.656Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:/dev/dylantao-coastal-theme/assets/js/home.js',
+        '5be8aff2dbf5cdef392e17b8fba260511a4f94a166c67c6031097647807ed1c8',
+    ),
+    (
+        '019f6f18-055f-72f1-8694-9b4b573a866b',
+        '2026-07-17T08:01:13.248Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git -C D:\\dev\\github-metrics-private worktree add -b codex/schema3-lifetime D:\\dev\\dylantao.github.io\\.tmp\\github-metrics-schema3 main',
+        '483c9b2ca22f94d7d4b61e57a87b96fe51e81c71ae55ebc83b7ab13cddac2d64',
+    ),
+    (
+        '019f6f19-caa7-7683-8a4e-be692a3ffd5d',
+        '2026-07-17T08:03:09.343Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $api = 'https://api.github.com/repos/DylanTao/dylantao.github.io/actions/runs?head_sha=0ef291224fb ... tatus,conclusion,html_url | Format-Table -AutoSize",
+        '62ab42f3e6485eb0c2425a79351bbb5a809f137d266c41c95d1b76caab11c90f',
+    ),
+    (
+        '019f6f1a-469e-7f92-8811-ad5123ea0a31',
+        '2026-07-17T08:03:40.991Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $homeHtml = (curl.exe -fsS https://dylantao.github.io/) -join "`n"; $rhythmHtml = (curl.exe -fsS h ... efresh; UpdatedAt=$usage.updated_at} | Format-List',
+        '84058f6a3dda25cd4a102f75d2b7e146d012acb74cff071076c0cefb7644c602',
+    ),
+    (
+        '019f6f1a-6a0d-7783-938c-3e41d6cdb4f8',
+        '2026-07-17T08:03:50.051Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:/dev/dylantao-coastal-theme/test/test_theme_palette.py',
+        '4741b42946dfb74fc16fb1dea723a7bbc17647ca824f8327a9f28ec688bf34d7',
+    ),
+    (
+        '019f6f1b-5d86-76a3-8d0b-cca363bf3516',
+        '2026-07-17T08:04:52.725Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:/dev/dylantao-coastal-theme/test/test_theme_palette.py',
+        '611d66ae8485e88bb58233239ac265c1df9c921abcd95af8ffbe10be972bae08',
+    ),
+    (
+        '019f6f1c-85bd-74d3-abe0-56653c19a5b2',
+        '2026-07-17T08:06:08.167Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:/dev/dylantao-coastal-theme/test/visual/desk-scene.spec.js',
+        '019e445ead7f622a7a01e44514fc76b94d4177bc82913fceebc5f1d16c4a434b',
+    ),
+    (
+        '019f6f1d-2a5b-7cc2-aabc-9eee28492bb8',
+        '2026-07-17T08:06:50.369Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $api = 'https://api.github.com/repos/DylanTao/dylantao.github.io/actions/runs?head_sha=0ef291224fb ... lusion | Sort-Object name | Format-Table -AutoSize",
+        '19acc132a9d1f9cb1efb0286f4b80b2fdf568a8e6ec03dc03029697794184e0b',
+    ),
+    (
+        '019f6f1e-f844-7702-8884-d58300e15264',
+        '2026-07-17T08:08:48.589Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:/dev/dylantao-coastal-theme/.tmp-prettier.json',
+        'cb1204bf648c9340d0ce032c5f5672220b7a88623af909ccc931629c6267f401',
+    ),
+    (
+        '019f6f1f-0c4e-7432-8b93-34322612c552',
+        '2026-07-17T08:08:58.675Z',
+        '019f6efb-4b1f-7663-a621-8abd50f6b599',
+        'deny',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command npx.cmd --yes @fission-ai/openspec@latest --version',
+        'f060f57c6203fb4dde0dabdd8a510bf25dba24aa825495b05aa278b145d40641',
+    ),
+    (
+        '019f6f1f-96ff-7112-97ff-2565b5c4c5cc',
+        '2026-07-17T08:09:29.204Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd --config .tmp-prettier.json --plugin D:\\d ... h-motion.js test/visual/desk-scene.spec.js --write',
+        '6a7d5c43c6cc27840f778a30294fcfa96e911f8a5cbd48946207bf35f31530fa',
+    ),
+    (
+        '019f6f1f-e2e1-7e11-b9eb-8a36518ad7c0',
+        '2026-07-17T08:09:48.651Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: delete file D:/dev/dylantao-coastal-theme/.tmp-prettier.json',
+        '717a79cb087205e12aaf1e5927b6b178c02ddab140395d8fafd3c22daf7a6fc0',
+    ),
+    (
+        '019f6f21-c70e-70e1-934c-cbe393845fe1',
+        '2026-07-17T08:11:52.669Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command bundle exec jekyll build --baseurl /al-folio',
+        '84a76a6230c2f3427eaa8a33fe847e56bb31d6484e4caf644ab7e92a60eb7422',
+    ),
+    (
+        '019f6f22-7cab-7580-b369-eeab9e066d9e',
+        '2026-07-17T08:12:39.160Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $api = 'https://api.github.com/repos/DylanTao/dylantao.github.io/actions/runs?head_sha=0ef291224fb ... t id,name,status,conclusion,html_url | Format-List",
+        '46e649513ba3592e79079a40fc2a51a354d19e592bddc56ff2b18db568b0716b',
+    ),
+    (
+        '019f6f27-15be-72e3-8626-3e417dcad39a',
+        '2026-07-17T08:17:40.522Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH=\'D:\\dev\\dylantao.github.io\\node_modules\'; $env:NO_WEBSERVER=\'1\'; $env:VISUAL_BASE_U ... esktop-1440 -g "four coastal|coastal theme chrome"',
+        '264f6aac43336a86cedf86bd9c373e4b4346e0800200ad04aa5a645baf2d886d',
+    ),
+    (
+        '019f6f2c-78cd-7ee3-bb09-a04721b69495',
+        '2026-07-17T08:23:33.492Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:/dev/dylantao-coastal-theme/test/visual/desk-scene.spec.js',
+        '8a30d23133b2eb13d2f85a23db4de66cf2ca4c1700bf6344891ef06a1963715b',
+    ),
+    (
+        '019f6f2d-1f70-7c31-9346-f5c842e9a869',
+        '2026-07-17T08:24:16.117Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH=\'D:\\dev\\dylantao.github.io\\node_modules\'; $env:NO_WEBSERVER=\'1\'; $env:VISUAL_BASE_U ... esktop-1440 -g "four coastal|coastal theme chrome"',
+        '370d2d0253b4910422756ea790913de27800ed3d930695cc19932eed73b69988',
+    ),
+    (
+        '019f6f2f-fb63-74f0-b47e-c8a5b2a9b0ea',
+        '2026-07-17T08:27:23.552Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:/dev/dylantao-coastal-theme/assets/js/home.js',
+        'cde40bf9654346d0ee183c6252fec8bd057a874c7df81eb9b8791a456d7a71d8',
+    ),
+    (
+        '019f6f32-779e-7f60-a385-0d6677c74691',
+        '2026-07-17T08:30:06.374Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $api = 'https://api.github.com/repos/DylanTao/dylantao.github.io/actions/runs?head_sha=0ef291224fb ... ect-Object id,name,status,conclusion | Format-List",
+        '885f9755b2edfe88cd6606ec52070b2f3fa5078b97d162ef42e219dff00292ad',
+    ),
+    (
+        '019f6f33-b6eb-71a0-b46e-361b3b2022c1',
+        '2026-07-17T08:31:28.142Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\desk-scene.spec.js',
+        'd0a01e15ab35e7a320cedbe3df2b712a1d8728a8c15abd0eaf7cb68ded637e12',
+    ),
+    (
+        '019f6f37-8fd8-7e31-ad90-fb170bb78618',
+        '2026-07-17T08:35:40.240Z',
+        '019f6efb-4b1f-7663-a621-8abd50f6b599',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command uv.exe run --frozen ruff check codex-direct-migration\\direct_account_usage.py codex-direct-migrati ... igration\\tests\\test_direct_account_usage_runner.py',
+        '4ba5b76024c6ef719c190aa54534d1a7d84af4417f9f70ef09e41534b86aafec',
+    ),
+    (
+        '019f6f39-34ed-76d1-9eaa-f3925531a656',
+        '2026-07-17T08:37:28.016Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command New-Item -ItemType Junction -Path tmp-jekyll -Target C:\\Users\\dylan\\.local\\share\\gem\\ruby\\3.3.0\\gems\\jekyll-4.4.1 | Select-Object FullName,Target',
+        '41738182440534a5101273fdbe423262107852c1579fba680858628dd3eb1131',
+    ),
+    (
+        '019f6f39-6342-7572-a248-0e79074532e2',
+        '2026-07-17T08:37:40.469Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command C:\\Ruby33-x64\\bin\\bundle.bat exec C:\\Ruby33-x64\\bin\\ruby.exe -I D:\\dev\\dylantao-coastal-theme\\tmp- ... me\\tmp-jekyll\\exe\\jekyll build --baseurl /al-folio',
+        '414101bd86b86eb07d83455a927b489456c7d077452956091bfa49c3d0309ba7',
+    ),
+    (
+        '019f6f3a-0185-7b43-b0ba-421516738111',
+        '2026-07-17T08:38:20.737Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Remove-Item -LiteralPath D:\\dev\\dylantao-coastal-theme\\tmp-jekyll -Force; New-Item -ItemType Junct ... \\gems\\jekyll-4.4.1 | Select-Object FullName,Target',
+        'c6439bae8d84413dd8e5fc19ba74db14289990a0c71e2404d8943278543ea9c2',
+    ),
+    (
+        '019f6f3a-6151-7ec2-84bd-8999d7aa4db5',
+        '2026-07-17T08:38:45.293Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $target=[System.IO.Path]::GetFullPath('D:\\dev\\dylantao-coastal-theme\\tmp-jekyll'); if ($target -ne ... ]::Delete($target); Test-Path -LiteralPath $target",
+        'b7b591d714a272fa7fa67c263a80501c4261934b31dab17a8bfb13cfb84e0275',
+    ),
+    (
+        '019f6f3a-9130-7df3-aab1-f7b5003ca504',
+        '2026-07-17T08:38:57.213Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command C:\\Ruby33-x64\\bin\\bundle.bat exec C:\\Ruby33-x64\\bin\\ruby.exe -I D:\\dev\\dylantao-coastal-theme\\_tmp ... e\\_tmp-jekyll\\exe\\jekyll build --baseurl /al-folio',
+        'dd341d47cffb34a933deb14c0c08e9ecc20563f8dd4d9c8faf619a5b28175d82',
+    ),
+    (
+        '019f6f3d-be5b-7491-a189-17b377cedb79',
+        '2026-07-17T08:42:25.436Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Copy-Item -LiteralPath _site\\assets\\img\\sirui_pic.jpg -Destination _site\\assets\\img\\sirui_pic-1400 ... mg\\sirui_pic-1400.webp | Select-Object Name,Length',
+        '69f84e5c9539f0d37fa80a1622e2e476cc33a37b6f9b2d985636e67035cdc365',
+    ),
+    (
+        '019f6f3e-506f-7e71-8b02-7f93352cfd97',
+        '2026-07-17T08:43:02.855Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command C:\\Ruby33-x64\\bin\\ruby.exe -run -e httpd C:\\Users\\dylan\\AppData\\Local\\Temp\\dylantao-coastal-static-4199 -p 4199 -b 127.0.0.1',
+        '23771e01d0994bbfe1c683635dea6433c54f675277ce2cd30f2209bd0b6a2e71',
+    ),
+    (
+        '019f6f3e-fe28-7bb2-9202-2b1e5b8ab806',
+        '2026-07-17T08:43:47.642Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ...  --output=test-results/coastal-theme-focused-rerun",
+        '8a04d79bf75449275dd1f7f0aaa545b50956f0fe86c156b145856f380b20580f',
+    ),
+    (
+        '019f6f3f-17b8-7f20-8c3e-5c3c1fe2c318',
+        '2026-07-17T08:43:58.839Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Set-ExecutionPolicy -Scope Process Bypass -Force; $ErrorActionPreference='Stop'; Import-Module '.\\ ... eralPath $p -Force -ErrorAction SilentlyContinue }",
+        '8d9f08d7df64c5142aa0dfb05596f173a527e975b50fa1910e06b44af3786367',
+    ),
+    (
+        '019f6f3f-d5a8-7970-b7b6-6c3cbac0d66f',
+        '2026-07-17T08:44:42.464Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command uv run python -m unittest tests.test_public_profile_refresh tests.test_public_validators tests.test_render_line_history',
+        '8e270e97e648ff77cec1a36db69acb0c5a44aaa5af0f1dfb7de7f45397c9c11d',
+    ),
+    (
+        '019f6f40-7250-7100-8328-e25b351d579d',
+        '2026-07-17T08:45:22.685Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command uv run python -c "from pathlib import Path; from tempfile import TemporaryDirectory; from tests.te ... ); print(\'ACCEPTED_NON_UTC_AUTOMATED_PROVENANCE\')"',
+        '95ac3da14bf2d748d496eecf46556ac922550d2a54f7e5ea71b164344ba1e42f',
+    ),
+    (
+        '019f6f42-9c93-7662-975d-e9dcf38dba67',
+        '2026-07-17T08:47:44.487Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command uv run python -c "import json,tempfile; from pathlib import Path; from datetime import datetime,ti ... ; print(\'ACCEPTED_FLOAT_SCHEMA_AND_SOURCE_COUNT\')"',
+        '84d7ade306412b522668749ae32741e7958c697a5e769290d83081fd6d1daa05',
+    ),
+    (
+        '019f6f42-d5cb-7063-b2e6-c0204b475a30',
+        '2026-07-17T08:47:59.092Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\helpers.js; update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\desk-scene.spec.js',
+        'f0392421b0a8c68eb31541541cb1eade3bdb5481fd396db852657f35b9aeb226',
+    ),
+    (
+        '019f6f43-8171-76c1-a603-8dc60de4dbfc',
+        '2026-07-17T08:48:43.144Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ...  --output=test-results/coastal-theme-focused-final",
+        'd6728cfd9be9ef4a94bfafff34ead5b18a242b1e10f912a8bc2c6ccd1834f7eb',
+    ),
+    (
+        '019f6f45-7d40-7562-a49a-0219c341905f',
+        '2026-07-17T08:50:53.023Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Copy-Item -LiteralPath _site\\assets\\img\\sirui_pic.jpg -Destination _site\\assets\\img\\sirui_pic-480. ... s\\img\\sirui_pic-*.webp | Select-Object Name,Length',
+        '57a815bda2720e0ce330ebdefacdd3a77047947129864ec8b3b894800ebd1ffb',
+    ),
+    (
+        '019f6f45-bb37-7c13-a79c-48b8f238a013',
+        '2026-07-17T08:51:08.941Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ...  --output=test-results/coastal-theme-focused-clean",
+        '273c6f31ac5fc926aba95595d806e63d0738a2e15cee8ba4efd60d609a503d89',
+    ),
+    (
+        '019f6f46-e298-7cd2-91fb-54bce3d68f8a',
+        '2026-07-17T08:52:24.633Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $worktreeJunction=[System.IO.Path]::GetFullPath('D:\\dev\\dylantao-coastal-theme\\_tmp-jekyll'); if ( ... 4199 -State Listen -ErrorAction SilentlyContinue)}",
+        '430a84800035bdf60b1bc135057c137c31db30f42370d0f0bd85b6485938f4e7',
+    ),
+    (
+        '019f6f48-046e-7b80-9a71-5ac3ca3a02cb',
+        '2026-07-17T08:53:38.651Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '75105fe598c97c845bbee9e03fe54898c518417d5c81c50e7179344129ca7fbf',
+    ),
+    (
+        '019f6f48-680a-7760-be1c-ca3129f7dd3e',
+        '2026-07-17T08:54:04.173Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $files=@('_data/project_cards.yml','_projects/what-happened-and-why.md','_sass/_brand-orange.scss' ... er.cmd' --config .tmp-prettier.json --check $files",
+        '9e67ee122cb2899fe76926bd46cedd2c0fa6be1beeb33dfec6fff223bf49b54d',
+    ),
+    (
+        '019f6f48-ce2b-7ec1-88e4-92adbf1a14d7',
+        '2026-07-17T08:54:30.351Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config .tmp-prettier.json --write test/visual/helpers.js test/visual/desk-scene.spec.js",
+        'cbb163f3a6f689cb23f9755e13b089c0698a93078b730fa5df0b05126be40e0f',
+    ),
+    (
+        '019f6f49-1260-7fd1-8079-a0ab4c2cd46b',
+        '2026-07-17T08:54:47.806Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: delete file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '35a4a1311ac5d8d2348abd5aaef5dc2daa8b4a6fe758dd4b83794d694b0a0f43',
+    ),
+    (
+        '019f6f4e-eecf-7441-9ac9-703f9606b8d7',
+        '2026-07-17T09:01:11.889Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $p=Join-Path $env:TEMP ('acl-probe-'+[guid]::NewGuid().ToString('N')); New-Item -ItemType Director ... ly { Remove-Item -LiteralPath $p -Recurse -Force }",
+        '4b81b9b382ce3bfa2a5d1ac24a71e46381bee9fb3a0b088be081323fb36e9589',
+    ),
+    (
+        '019f6f5a-747e-7113-a27b-424059320ca0',
+        '2026-07-17T09:13:51.944Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\assets\\js\\home.js',
+        '5d98e830bec124de6834c7561832d1f792f856b1fa8f3398c475a89e80aa03e3',
+    ),
+    (
+        '019f6f5a-f54b-7dd3-8083-297c4b98abf7',
+        '2026-07-17T09:14:20.270Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\_sass\\_publications.scss; update file D:\\dev\\dylantao-coastal-theme\\_sass\\_blog.scss',
+        '7340ddb04275eb92727db97592d939d9faf8e88898d705641979493c44a8c3e5',
+    ),
+    (
+        '019f6f5c-4847-7d62-aa04-530452be4a53',
+        '2026-07-17T09:15:46.740Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\test_theme_palette.py',
+        '94cc9d2220711970d55ee7874b22cb8f77e017fad3ba6bec9fab494e992a75e6',
+    ),
+    (
+        '019f6f5d-b484-74b0-aff6-94e8afdd678d',
+        '2026-07-17T09:17:20.334Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\desk-scene.spec.js',
+        '08ddb5f998f932fe9502ba5ef2c9ff5955ca774fc6e653c5e830e4616478d6bb',
+    ),
+    (
+        '019f6f5e-8db7-7573-b5b5-2cb5b42018a3',
+        '2026-07-17T09:18:15.625Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\paper-constellation.spec.js',
+        '74fc3013be21a14769ff5f3ad8a6e639951919b8c68bf9e76c9e69d06b93839c',
+    ),
+    (
+        '019f6f5f-1fc5-7e42-b030-aefac088bf7c',
+        '2026-07-17T09:18:52.991Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '75105fe598c97c845bbee9e03fe54898c518417d5c81c50e7179344129ca7fbf',
+    ),
+    (
+        '019f6f5f-5cab-78b2-863e-5f85ce09cc40',
+        '2026-07-17T09:19:08.596Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config .tmp-prettier.json --write _ ... paper-constellation.spec.js test/visual/helpers.js",
+        'a55abcc6c55c551808e5e3085109c57d461cda3c69952e91c867e88d8eeb7979',
+    ),
+    (
+        '019f6f5f-9712-7092-ae1f-aa34ef1698a5',
+        '2026-07-17T09:19:23.565Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: delete file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '35a4a1311ac5d8d2348abd5aaef5dc2daa8b4a6fe758dd4b83794d694b0a0f43',
+    ),
+    (
+        '019f6f60-4af6-76b1-9faf-9177eec65342',
+        '2026-07-17T09:20:09.864Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command New-Item -ItemType Junction -Path D:\\dev\\dylantao-coastal-theme\\_tmp-jekyll -Target C:\\Users\\dylan ... \\gems\\jekyll-4.4.1 | Select-Object FullName,Target',
+        'a58ee6f4feb226152eec3adf3307e28c222c5b98fc15c64e6bf053a540ddff81',
+    ),
+    (
+        '019f6f60-849d-78e2-b27c-ba762f10ea71',
+        '2026-07-17T09:20:24.322Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command C:\\Ruby33-x64\\bin\\bundle.bat exec C:\\Ruby33-x64\\bin\\ruby.exe -I D:\\dev\\dylantao-coastal-theme\\_tmp ... e\\_tmp-jekyll\\exe\\jekyll build --baseurl /al-folio',
+        '8ef96dcc456faa959029f0e8f0afd19d19e77bcae88c87e109764d9e91ed46c5',
+    ),
+    (
+        '019f6f63-4130-7d40-8e63-3189c797234c',
+        '2026-07-17T09:23:23.925Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Copy-Item -LiteralPath _site\\assets\\img\\sirui_pic.jpg -Destination _site\\assets\\img\\sirui_pic-480. ...  -Destination _site\\assets\\img\\sirui_pic-1400.webp',
+        '7d54fe77d5c655acb0582e893a7112c43931601acb289c897f3387a7ee44a1e9',
+    ),
+    (
+        '019f6f63-7cce-7bb3-ad8a-66430695752c',
+        '2026-07-17T09:23:39.327Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $tempRoot=Join-Path $env:TEMP 'dylantao-coastal-static-4199'; if (Test-Path -LiteralPath $tempRoot ... oastal-theme\\_site | Select-Object FullName,Target",
+        'a6addd0f1eb7f317417712ecdef43ff1dc52530b59176ff1b898fc9f8cecfd59',
+    ),
+    (
+        '019f6f63-a4ef-77c2-8965-3cd22aa66fd8',
+        '2026-07-17T09:23:49.645Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command C:\\Ruby33-x64\\bin\\ruby.exe -run -e httpd C:\\Users\\dylan\\AppData\\Local\\Temp\\dylantao-coastal-static-4199 -p 4199 -b 127.0.0.1',
+        '55863d12a50b55cdd8c156fdc2c05accfa6817b8f7604859f267d1ed4ca189fa',
+    ),
+    (
+        '019f6f63-eee3-7043-97a3-b3a81237d302',
+        '2026-07-17T09:24:08.254Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ... ' --output=test-results/coastal-theme-review-scene",
+        'ab9d60bc71b32cd810c5161242b2f6f0603bedfb15c6efa0f4b19bd6ca79b7df',
+    ),
+    (
+        '019f6f65-c721-71a3-b3c6-c5be741852cc',
+        '2026-07-17T09:26:09.349Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ... ut=test-results/coastal-theme-review-constellation",
+        '2099bcecd02620f5dfa3b9d883dbf3fb9c495c7cc28bc73278330e3be807c93c',
+    ),
+    (
+        '019f6f68-da2d-7c52-bda0-a9ac08fec8b6',
+        '2026-07-17T09:29:30.905Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\paper-constellation.spec.js',
+        '8819ce1a11b46bc1c8d064d5377f6f536d74561302581335799d85d78efc67ca',
+    ),
+    (
+        '019f6f69-2597-7590-bf69-d2508c8f83ad',
+        '2026-07-17T09:29:49.835Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '75105fe598c97c845bbee9e03fe54898c518417d5c81c50e7179344129ca7fbf',
+    ),
+    (
+        '019f6f69-5f8c-7552-be32-684a0c906966',
+        '2026-07-17T09:30:04.721Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config .tmp-prettier.json --write test/visual/paper-constellation.spec.js",
+        'a77821169cc13fbd63b591b27b0792a130ff721af841c542a5feee8fa7a32553',
+    ),
+    (
+        '019f6f69-98a8-7a23-b6d7-16593cfc4554',
+        '2026-07-17T09:30:19.377Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: delete file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '35a4a1311ac5d8d2348abd5aaef5dc2daa8b4a6fe758dd4b83794d694b0a0f43',
+    ),
+    (
+        '019f6f6a-041a-7732-911e-d6786f438aa7',
+        '2026-07-17T09:30:46.858Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ... t-results/coastal-theme-review-constellation-final",
+        '4e1dfbde3772237b081fc6fb428f0264633dd953c17358886543f6b7b1a127ab',
+    ),
+    (
+        '019f6f6b-d8f0-70e2-91ca-752a79336b31',
+        '2026-07-17T09:32:46.865Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\paper-constellation.spec.js',
+        '3e295205548b4dcf6cfb4f8fe8928d0be2a89948baa557fc5a526a28ecc012db',
+    ),
+    (
+        '019f6f6c-51f7-7241-b958-ad8390c7ad30',
+        '2026-07-17T09:33:17.861Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ... -results/coastal-theme-review-constellation-final2",
+        'bc3d7ab08b88ed1aad5a897e7d247d01a80b91c0ac12ba06cd7bcaf0e0af83bc',
+    ),
+    (
+        '019f6f6d-bb35-7411-9e06-1736f5f17aa8',
+        '2026-07-17T09:34:50.565Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\visual\\paper-constellation.spec.js',
+        'c9258c245e35c5b57be44c29b8e25d351f7a0ddf5ada6f3ef3af66c7d371f5c7',
+    ),
+    (
+        '019f6f6e-12a2-7b61-9a7b-02a3976b0e47',
+        '2026-07-17T09:35:12.730Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ... t-results/coastal-theme-review-constellation-clean",
+        'f2e1c5bc086b166940888f0117734c938197de2c95efdd535b51c3b4571f4614',
+    ),
+    (
+        '019f6f6e-3a99-7133-8649-c2ff3ea8d49b',
+        '2026-07-17T09:35:23.037Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Get-Content -Raw 'C:\\Users\\dylan\\.codex\\attachments\\27559a73-8c20-4198-bb72-5fb301a88e7d\\goal-objective.md'",
+        'dda0797563c71a27e28e6c845d92e8b2f222351bcedaf20f104349f4aa1e8071',
+    ),
+    (
+        '019f6f6f-694f-7fd1-bfb1-d936044122a2',
+        '2026-07-17T09:36:40.453Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NODE_PATH='D:\\dev\\dylantao.github.io\\node_modules'; $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_U ... ults/coastal-theme-review-constellation-regression",
+        'b0fa52e580e37d93e5ebc33d10d0aeebb1d45403373ba6f8b71891d71d398bc9',
+    ),
+    (
+        '019f6f70-e29f-7150-b970-df2578acee8d',
+        '2026-07-17T09:38:17.278Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config D:\\dev\\dylantao.github.io\\.p ... helpers.js test/visual/paper-constellation.spec.js",
+        '7e0d3db3e244c24497b509b004ff57ac5721912668b8ccb13a2bb26f4e62343f',
+    ),
+    (
+        '019f6f71-2385-78c0-b269-f1216f3d9eac',
+        '2026-07-17T09:38:33.630Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '75105fe598c97c845bbee9e03fe54898c518417d5c81c50e7179344129ca7fbf',
+    ),
+    (
+        '019f6f71-8c5d-7980-b7f5-74d1ebfef886',
+        '2026-07-17T09:39:00.413Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config .tmp-prettier.json --check _ ... helpers.js test/visual/paper-constellation.spec.js",
+        'efe3817b03ffff64b7f8c4d2e0b7e817d38d9b28afabf6560b655ace8dad6e0b',
+    ),
+    (
+        '019f6f71-e646-7db3-bb8c-14c638fc273d',
+        '2026-07-17T09:39:23.492Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config .tmp-prettier.json --write test/visual/paper-constellation.spec.js",
+        '58645d986768d729735eb40d4dc847d46ef3203ab57b7f27d83747d235a671f2',
+    ),
+    (
+        '019f6f72-1732-78a3-b360-051a94829e2e',
+        '2026-07-17T09:39:35.989Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: delete file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '35a4a1311ac5d8d2348abd5aaef5dc2daa8b4a6fe758dd4b83794d694b0a0f43',
+    ),
+    (
+        '019f6f72-8fb3-7ed2-a69c-0ccf07c06512',
+        '2026-07-17T09:40:06.813Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $worktreeJunction=[System.IO.Path]::GetFullPath('D:\\dev\\dylantao-coastal-theme\\_tmp-jekyll'); if ( ... TempRootExists=(Test-Path -LiteralPath $tempRoot)}",
+        '0faf821c10dd1eb20f7e039bbef213747f19a5f32e675ccba17ff0b68c280858',
+    ),
+    (
+        '019f6f73-84dc-7881-868f-691ad8f1812a',
+        '2026-07-17T09:41:09.955Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\_sass\\_blog.scss',
+        'fdc818920a5bc794b40f75997717b1242f70cd2648093c7f3dabbb83a9a19aaa',
+    ),
+    (
+        '019f6f73-f52f-7c33-ae53-ba524065c13a',
+        '2026-07-17T09:41:38.321Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file D:\\dev\\dylantao-coastal-theme\\test\\test_theme_palette.py',
+        'd705331cca260dbb5a54936fecae095a80d0e2c589e1f5844fcd77e48b28ee87',
+    ),
+    (
+        '019f6f74-32a0-73b1-a8d8-25d72d1da452',
+        '2026-07-17T09:41:54.163Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: add file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '75105fe598c97c845bbee9e03fe54898c518417d5c81c50e7179344129ca7fbf',
+    ),
+    (
+        '019f6f74-71b8-7663-b1f3-7bcee87d5356',
+        '2026-07-17T09:42:10.194Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' --config .tmp-prettier.json --check _ ... helpers.js test/visual/paper-constellation.spec.js",
+        '46ce77ca9a488e6d5d3332b26f680be59dcc7dca20aa2e0b016d3794ab749e6f',
+    ),
+    (
+        '019f6f74-c04e-7c73-b15c-eea4b7c8b429',
+        '2026-07-17T09:42:30.367Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: delete file D:\\dev\\dylantao-coastal-theme\\.tmp-prettier.json',
+        '35a4a1311ac5d8d2348abd5aaef5dc2daa8b4a6fe758dd4b83794d694b0a0f43',
+    ),
+    (
+        '019f6f77-0721-7433-8ac4-34dd06bf9abc',
+        '2026-07-17T09:44:59.651Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git cherry-pick 1e9579eec',
+        '48c600e4b5e8d3959e22b771c78f4b1bbf2b7d10b36cfe4b037a1ecfad287f2d',
+    ),
+    (
+        '019f6f77-fc33-7712-8b0d-0fa5aaf45a30',
+        '2026-07-17T09:46:02.378Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -c "import sys, yaml; print(sys.executable); print(yaml.__version__)"',
+        'f9084609f62b0950994053a07c55292c68582a032bf321559724a0332878b1fd',
+    ),
+    (
+        '019f6f78-4511-7952-a084-0dd62824fdeb',
+        '2026-07-17T09:46:21.018Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest discover -s test -p "test_*.py"',
+        '0cb9ccacde3f4643dc746973e3b40b9076735b1dd266beba11ca6bfb0e6b65b2',
+    ),
+    (
+        '019f6f83-0e71-7bb2-9cc5-e6f648e58522',
+        '2026-07-17T09:58:07.890Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $static = Join-Path (Resolve-Path .tmp) "visual-static" $site = (Resolve-Path _site).Path New-Item ...  -w "%{http_code}" http://127.0.0.1:4215/al-folio/',
+        '3a2b93ca6fc1d4c75df2f8d187b26fa0f581465cb7291fdf3cdadb71879412f6',
+    ),
+    (
+        '019f6f87-6ab9-7891-b712-a1cfd3f1aaa4',
+        '2026-07-17T10:02:53.722Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER="1"; $env:VISUAL_BASE_URL="http://127.0.0.1:4215/al-folio"; npx.cmd playwright t ...  --grep "mobile constellation information strokes"',
+        'ca6a8c4b2ab0dc84d522daa71f0ef48621533cf1b333c6bad021c7cf3a3221ce',
+    ),
+    (
+        '019f6f89-3eba-7640-a1c7-71deaa5d065f',
+        '2026-07-17T10:04:53.941Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER="1"; $env:VISUAL_BASE_URL="http://127.0.0.1:4215/al-folio"; npm.cmd run test:visual',
+        'f101afd9fa66cf311517b1a48b7fae565b9bdd3e8e821f30988c5f1ecfa2fa48',
+    ),
+    (
+        '019f6f97-7423-7a42-9476-3a28f9a75484',
+        '2026-07-17T10:20:28.314Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER="1"; $env:VISUAL_BASE_URL="http://127.0.0.1:4215/al-folio"; npm.cmd run test:visual:site',
+        'fc9adb15110596b6c8d18bb456c8b2f6325829a02720587faff4fe0a874da993',
+    ),
+    (
+        '019f6fa1-06e3-7652-b388-a995e0d3559a',
+        '2026-07-17T10:30:52.689Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER="1"; $env:VISUAL_BASE_URL="http://127.0.0.1:4215/al-folio"; npx.cmd playwright t ... r-constellation.spec.js build-rhythm-story.spec.js',
+        '651289c5f9a0a1caf22979a91c81ee81326d3b5ed076f71a7df0092feb2e59ec',
+    ),
+    (
+        '019f6fa5-7bcc-7063-a7c9-0202d677c883',
+        '2026-07-17T10:35:44.519Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest test.test_import_direct_usage_snapshot',
+        '4abc6442c07265a76b4db0c93e3fe5c60391c37fb54fd69940f526132e7c2fdd',
+    ),
+    (
+        '019f6faa-0df4-71d2-b08b-ce68d8077185',
+        '2026-07-17T10:40:44.081Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m py_compile bin/import_direct_usage_snapshot.py; git diff --check',
+        'c9164a474e2ee4424096ead2df9f7898e41942678c7840ced687abad1688d089',
+    ),
+    (
+        '019f6fad-0205-7423-b910-9fbd4639bb1e',
+        '2026-07-17T10:44:02.632Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ..\\github-metrics-private\\scripts\\render_line_history.py; update file ..\\github-metrics-private\\scripts\\DylanMetricsRefresh.psm1; update file ..\\github-met ... etrics-private\\tests\\DylanMetricsRefresh.Tests.ps1',
+        'bb47d2b3c3002738c5c6f60a3c5df9e104bd9882af4fe559b79c58a54def3340',
+    ),
+    (
+        '019f6fad-f67d-70a2-aa8a-3cd7b4ee5058',
+        '2026-07-17T10:45:00.286Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER="1"; $env:VISUAL_BASE_URL="http://127.0.0.1:4215/al-folio"; npx.cmd playwright t ... r-constellation.spec.js build-rhythm-story.spec.js',
+        '16410d3f1a60fce205d7dcd67e9a16ba4b0c3edc5ae7bb4bfa3bcbd732c7cb5d',
+    ),
+    (
+        '019f6fae-b2ae-73c2-86a2-5266b94135a1',
+        '2026-07-17T10:45:48.498Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ../github-metrics-private/tests/test_public_validators.py',
+        'bb6fc2aded2339efa3caa5b89c9fc1b6d7d58d2ec94fba5a672bcbc9ee3df6bb',
+    ),
+    (
+        '019f6faf-4af3-7251-a2f3-ef0e117b84bc',
+        '2026-07-17T10:46:27.631Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest discover -s test -p "test_*.py"',
+        'e5ef8740212cd0d282e390a53dd98a6c4c4f3542ef9ae07769759c76db925e59',
+    ),
+    (
+        '019f6faf-809f-7883-8350-5554d443a173',
+        '2026-07-17T10:46:41.073Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ../github-metrics-private/tests/test_public_profile_refresh.py; update file ../github-metrics-private/tests/DylanMetricsRefresh.Tests.ps1',
+        'c6814c86576cb35061731f45f2599a797f67bf399f27da95369fac1efeab9bf5',
+    ),
+    (
+        '019f6fb4-e4f1-7c71-9586-d09ff4043412',
+        '2026-07-17T10:52:35.654Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest test.test_build_rhythm_story test.test_import_direct_usage_snapshot',
+        'd90a76863a37a2d4221df140fbd8837243b23011e51cb26028823db05ff37e66',
+    ),
+    (
+        '019f6fb5-e97f-7e20-a968-8bd345e0f352',
+        '2026-07-17T10:53:41.375Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ../github-metrics-private/tests/DylanMetricsRefresh.Tests.ps1',
+        '4949b7aca176b58e2d5f94193dc3588bb6de0baaee99b79d0e842e6fa3a3db04',
+    ),
+    (
+        '019f6fb6-74bb-7520-856e-bc425dd9b0b7',
+        '2026-07-17T10:54:16.623Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest discover -s test -p "test_*.py"',
+        'cff97d284d592ad5f9b045b7a47ab17ed54c8e0fc8866347ebd45ac4c84146ee',
+    ),
+    (
+        '019f6fbb-7296-7153-a8e1-ee39c20abbc8',
+        '2026-07-17T10:59:45.080Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest test.test_import_direct_usage_snapshot test.test_build_rhythm_story',
+        '712bd3fdef4d0c283dccf3f88bc6ff9ab2243506dceb9f5a225b85f01f315bc6',
+    ),
+    (
+        '019f6fbe-b0fa-7a90-9a82-77eed5612219',
+        '2026-07-17T11:03:16.300Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ../github-metrics-private/scripts/DylanMetricsRefresh.psm1; update file ../github-metrics-private/tests/test_render_line_history.py; update file ../github-metrics-private/tests/DylanMetricsRefresh.Tests.ps1',
+        'acc13561e388be73fdf5910cfd7419b0bf91b3e95b32ce35a423d2f72ac5274c',
+    ),
+    (
+        '019f6fbf-dfdb-7e12-ada7-de708de7bc90',
+        '2026-07-17T11:04:33.800Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ../github-metrics-private/tests/DylanMetricsRefresh.Tests.ps1',
+        '4ea9560f0aa0c14edce7308c8f966d9639b6c9409f4236596613797bf8922cc3',
+    ),
+    (
+        '019f6fcd-a104-70a2-af49-b0efbc5c7bc4',
+        '2026-07-17T11:19:40.189Z',
+        '019f6efa-b036-7cd2-8338-84bf041e7185',
+        'allow',
+        'apply_patch: update file ../github-metrics-private/scripts/DylanMetricsRefresh.psm1; update file ../github-metrics-private/tests/DylanMetricsRefresh.Tests.ps1',
+        'a8d1e15f29fd8af274fc22ebb86b1fede4fce384c5a7e0866e29f1589403e794',
+    ),
+    (
+        '019f6fd3-eff5-70c0-97d1-94c9c7f7af65',
+        '2026-07-17T11:26:29.096Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git add -- scripts/DylanMetricsRefresh.psm1 scripts/render_line_history.py tests/DylanMetricsRefre ... ommit -m "Harden public usage snapshot validation"',
+        'dc6c338808a6013ad00b002307a7f7e91d67443bf94e0eb433c8fce383276cf1',
+    ),
+    (
+        '019f6fd4-2471-7cf3-ac21-c5d16520bb89',
+        '2026-07-17T11:26:41.938Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git status --short --branch; git fetch origin main; git merge-base --is-ancestor origin/main HEAD; git rev-parse HEAD; git rev-parse origin/main',
+        '6c29ea06204231449e366b2f3e00a8efa217dd1414e021caa6b48558fa23ae57',
+    ),
+    (
+        '019f6fd6-9377-7f40-b949-7dec2370973a',
+        '2026-07-17T11:29:22.333Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python .tmp\\visual_server.py',
+        'd2bad4f3d4f65a9adc114875799d92d42bf7acd2ca65dd4ddb4b1da2b94f9055',
+    ),
+    (
+        '019f6fd6-fd01-79b0-b48a-bc95b5b3df8e',
+        '2026-07-17T11:29:48.421Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER=\'1\'; $env:VISUAL_BASE_URL=\'http://127.0.0.1:4215/al-folio\'; npx.cmd playwright t ... ide.spec.js -g "secret checkpoint tells the truth"',
+        'efa1b9508c18e30721750244635be7966d2bb04dec6740ea3c91b2df9022bce3',
+    ),
+    (
+        '019f6fd8-2a25-7e02-b501-d8f0b75a5113',
+        '2026-07-17T11:31:05.515Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_URL='http://127.0.0.1:4215/al-folio'; npx.cmd playwright t ... lic-visual-build-rhythm build-rhythm-story.spec.js",
+        '751ae64302c9799986ce9ebca90da1b84e65885a68085e0f8e0d712bdbdc5fac',
+    ),
+    (
+        '019f6fd9-bc64-7a20-9079-a9f31f6deb2b',
+        '2026-07-17T11:32:48.512Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_URL='http://127.0.0.1:4215/al-folio'; npx.cmd playwright t ... ts/public-visual-paper paper-constellation.spec.js",
+        '21e1646246f9cd9b184f7d559ca458a4b0bf9fe3a273350e63d0f1bd0fbef46e',
+    ),
+    (
+        '019f6fdc-2f27-7241-8ceb-9c19b7d94d8d',
+        '2026-07-17T11:35:29.232Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_URL='http://127.0.0.1:4215/al-folio'; npx.cmd playwright t ... -results/public-visual-site-final sitewide.spec.js",
+        '8defa41a979873a47cb83ebf32c5e7de602cf6f61f9e8b57bddb937a90af2259',
+    ),
+    (
+        '019f6fdc-a99d-7ca3-8a89-88c1e267d32c',
+        '2026-07-17T11:36:00.336Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git add -- assets/js/blog-secret.js test/visual/sitewide.spec.js; git diff --cached --check; git diff --cached --stat; git commit --amend --no-edit',
+        'f11ce82df65b50617cdb0223a35cb6915b1be731e178e82a2beda65775f764d4',
+    ),
+    (
+        '019f6fe2-1699-7890-84ec-d32b4f4e8a04',
+        '2026-07-17T11:41:55.980Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -m unittest discover -s test -p "test_*.py"',
+        '92f296af5cb8c7fa84a8ab0f821a0759c60505e741ea833568390b1e287972ac',
+    ),
+    (
+        '019f6fe8-dc6e-72b3-9f6d-3b491d847647',
+        '2026-07-17T11:49:19.889Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $names=@('Dylan Codex Direct Account Usage','Dylan Personal Metrics Refresh'); foreach($name in $n ... me=$null;LastTaskResult=$null;NextRunTime=$null}}}",
+        'f8a4e6bed90d72bade2446c6e65aec2280b97a1e1a3b4529c8b5bcfbca9a08fd',
+    ),
+    (
+        '019f6fe9-41d9-7591-b942-5a599dd97f62',
+        '2026-07-17T11:50:11.671Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $names=@('Dylan Codex Direct Account Usage','Dylan Personal Metrics Refresh'); foreach($name in $n ... ments;WorkingDirectory=$action.WorkingDirectory}}}",
+        '09e6d95e24ad323b16f65ecfb038adff419286871792aa042fa47f761c975055',
+    ),
+    (
+        '019f6fe9-fee2-7272-91b4-f3ab8eca0ee9',
+        '2026-07-17T11:50:34.531Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $names=@('Dylan Codex Direct Account Usage','Dylan Personal Metrics Refresh'); foreach($name in $n ... irectory=$action.WorkingDirectory} | Format-List}}",
+        '9eea1e9420620683a32548be0ac2366694ef3d84396059896539b47ba853132c',
+    ),
+    (
+        '019f6feb-5ef0-74b3-b573-1d0c93e82c91',
+        '2026-07-17T11:52:04.233Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command curl.exe -sS --max-time 15 -H "Accept: application/vnd.github+json" "https://api.github.com/repos/ ... 2e54b947e5d7&per_page=10" | Select-Object -First 1',
+        '4ddca5d8d434a25d30fc435ad68acd0bb2ac58c922edfcfbb6ff8c4bcdd5b57b',
+    ),
+    (
+        '019f6feb-9b81-7e82-92b6-166725d3fdab',
+        '2026-07-17T11:52:19.785Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $response=curl.exe -sS --max-time 15 -H "Accept: application/vnd.github+json" "https://api.github. ... esponse | Select-Object message,documentation_url}',
+        '3155c38827cbc0f9440f8d66d38e6cf726213bdc0899ec9e5061eddfd4c21d56',
+    ),
+    (
+        '019f6ff2-444d-7653-8430-05d3e9d95bf2',
+        '2026-07-17T11:59:36.541Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_URL='http://127.0.0.1:4215/al-folio'; npx.cmd playwright t ... sults/public-visual-scene-final desk-scene.spec.js",
+        'd18ded2d66434649641511b19de9f691664388ce1312f29cdd1649e86a718fe0',
+    ),
+    (
+        '019f7002-beb4-72d3-b133-43f362c9f562',
+        '2026-07-17T12:17:36.320Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'no-retained-decision',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $env:NO_WEBSERVER='1'; $env:VISUAL_BASE_URL='http://127.0.0.1:4215/al-folio'; npx.cmd playwright test --config test/visual/playwright.config.js --workers=1",
+        '65e926fe8a6361eaefc4ec366ed46056e000d080c6f164d79d95c6a4ee30b620',
+    ),
+    (
+        '019f7005-0c1e-7261-92e3-dd0094d0044e',
+        '2026-07-17T12:20:07.609Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'no-retained-decision',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $tmpRoot=[IO.Path]::GetFullPath((Join-Path (Get-Location) '.tmp')); $server=[IO.Path]::GetFullPath ... -LiteralPath .tmp -Force | Select-Object Name,Mode",
+        'f04d13c9415963c8c069ed1c6a1d6730ec3d6cb8839eef5469ac92ab0d53f3a4',
+    ),
+    (
+        '019f700f-120f-7050-b315-2550a0bfb90b',
+        '2026-07-17T12:31:04.021Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'no-retained-decision',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python bin/audit_agentic_usage.py --write --include-pending-commit',
+        '0fcda608dc045ad813a29d8163b186d52aa0505d363dcedd5ac0dfb3d1ef0a12',
+    ),
+    (
+        '019f713f-b0fd-7953-9ae2-86e8acf92f04',
+        '2026-07-17T18:03:52.387Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m py_compile tools/transition_identity_repair.py; python -B -m unittest tests.test_transition_identity_repair -v',
+        '5f8072ec4927d9c80a66cdb6bbbb4bd7f0fcc69228fe28116eeeeb6c137f207a',
+    ),
+    (
+        '019f7142-65af-71b3-be58-9dc3e82b9de4',
+        '2026-07-17T18:06:44.744Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m py_compile tools/transition_identity_repair.py; python -B -m unittest tests.test_transition_identity_repair -v',
+        'd3962218e1c853673fefb0ed6dfb87bf35fff62c99619684d6090af194f2b5af',
+    ),
+    (
+        '019f7143-5906-7c23-a3e5-2e054c9f2c8d',
+        '2026-07-17T18:07:47.009Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py',
+        '7dd36ed2cfd605c68eda643ec19029f722e827c639ef9222d3eea8529fc7d7fb',
+    ),
+    (
+        '019f7143-ab16-7383-b3a2-f79b7264db4a',
+        '2026-07-17T18:08:08.062Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py --write',
+        '3a4e09d06d92378bbcb983777c3a98faf06fdee73ad27a2f0dfd19a543021e1d',
+    ),
+    (
+        '019f7144-2c6d-7831-8aab-3b1f52d19a4c',
+        '2026-07-17T18:08:41.128Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py validate-data',
+        'b25c07bfe7681491c0e708c331260754f56c1dd3eea7ffec86a5ea66739f9963',
+    ),
+    (
+        '019f7145-a9f8-7481-be14-878efea03ed9',
+        '2026-07-17T18:10:18.812Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py validate-candidate-lineage; python -B tools/ssmap.py validate-metadata-corpus; python -B tools/ssmap.py validate-metadata-provenance',
+        '96bd6ae393cfc24d393c16adf97d609ef09596c02ca2a84597e230227fe76e98',
+    ),
+    (
+        '019f7148-a7ac-7092-9711-4e2a7ad4da9d',
+        '2026-07-17T18:13:34.921Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py',
+        '9ba86e9c76b81347a3196c53497bd19dc6d132e4a54cb7e95c1fbd2b1861eb6f',
+    ),
+    (
+        '019f7149-8e29-7a40-afdf-6b5d204cdfda',
+        '2026-07-17T18:14:33.849Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py',
+        'f1805f137c51f9571d467e9cd40f738ab570c994b9cb43d1b306a51d512c90e0',
+    ),
+    (
+        '019f7149-e886-7220-ac52-f3f18e745742',
+        '2026-07-17T18:14:57.256Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m py_compile tools/transition_identity_repair.py; python -B -m unittest tests.test_transition_identity_repair -v',
+        '005da3d98df6bac1c9f5f901ed0464bc050920bf5efa484b3da5850623e56165',
+    ),
+    (
+        '019f714b-6813-7a13-ad72-35683143ee3e',
+        '2026-07-17T18:16:35.220Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m unittest tests.test_transition_identity_repair -v',
+        'c1be2099245bdf195e4ba7a3e94f3ae3e39ccb6928d58c694bd32fab323c2146',
+    ),
+    (
+        '019f714c-973f-7921-9342-5e2809cc8558',
+        '2026-07-17T18:17:52.978Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py --write',
+        '1f8e13f4ecaeb603c04eaaefa3c29ccaf70e2cb9ae7e79ae422580c9a4a76c16',
+    ),
+    (
+        '019f714d-1771-7c30-a992-f771da9d9278',
+        '2026-07-17T18:18:25.598Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py validate-candidate-lineage; python -B tools/ssmap.py validate-metadata-corpus; python -B tools/ssmap.py validate-metadata-provenance',
+        '6d279dc14f9b90aaece0f408a191f280ca49d4aaae9bcd5aee44bf4807b9e961',
+    ),
+    (
+        '019f714d-91fe-7be2-8222-7d5254e8f397',
+        '2026-07-17T18:18:57.010Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py build-canonical-pipeline',
+        '43dc6327893b01343c1122d11564ceee8c797b462ee38f9c177f755ee9b0ee97',
+    ),
+    (
+        '019f714e-7624-7ab3-94ef-d1b283ec5681',
+        '2026-07-17T18:19:55.372Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py build-site; python -B tools/ssmap.py export-review',
+        'ede665babb4ceee80c8dd9377ae99e14764fcf08d7e9da470f4cee96f9fb3279',
+    ),
+    (
+        '019f7150-43e8-7ca1-a516-3ad0b22dc7b0',
+        '2026-07-17T18:21:53.595Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m py_compile tools/canonical_pipeline.py tools/canonical_storage.py tools/canonical_bat ... tools/transition_identity_repair.py tools/ssmap.py',
+        '53091138540d49f40372708400a29efa74a04ef3dc7ba90118afe42cd7cab46b',
+    ),
+    (
+        '019f7151-63f6-7e91-8496-84e8756c5a53',
+        '2026-07-17T18:23:07.357Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py validate-dashboard-accessibility',
+        '4fde7dd02cde3885a42369c913233e9189e0d40f03498e29c81023a90e5e54dc',
+    ),
+    (
+        '019f7151-ddf7-7ec2-a7a2-84946d31b222',
+        '2026-07-17T18:23:38.661Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py validate-anonymity',
+        'a1d579d3e73b1b63f579621dab35497c03196ea58f4f168a833427229b91cdf9',
+    ),
+    (
+        '019f7153-d791-7cc3-a689-0e9d863263cd',
+        '2026-07-17T18:25:47.965Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'no-retained-decision',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m unittest discover -s tests -v',
+        '31b56142dd712c6c5f6b6236d5e10d74d9986278f599475864ddcbb899e64311',
+    ),
+    (
+        '019f7156-6f12-7c10-9734-54895de5deed',
+        '2026-07-17T18:28:42.827Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m unittest discover -s tests -v',
+        '31b56142dd712c6c5f6b6236d5e10d74d9986278f599475864ddcbb899e64311',
+    ),
+    (
+        '019f7164-ae27-73c2-a011-7c72aed664d5',
+        '2026-07-17T18:44:11.507Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m unittest tests.test_transition_identity_repair tests.test_canonical_pipeline.CanonicalPipelineTests.test_baseline_count_reconciliation -v',
+        '63339b99eea9b520135a482422ceab1cdfcd7e593d9feed186571df0a6371186',
+    ),
+    (
+        '019f7165-e5a1-7f41-a7f1-a7fb11847234',
+        '2026-07-17T18:45:31.442Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py build-canonical-pipeline; python -B tools/ssmap.py build-site; python -B tools/ssmap.py export-review',
+        '9a7dd5d55205175218e37f778ed974fee24bd76037ef809ea2f77342e7df4c53',
+    ),
+    (
+        '019f7168-06cc-7f41-929f-bb5058615d3c',
+        '2026-07-17T18:47:52.061Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m py_compile tools/canonical_pipeline.py tools/canonical_storage.py tools/canonical_bat ... tools/transition_identity_repair.py tools/ssmap.py',
+        '246d89dd5cafea440d51880e22a5b83490569a5b7f3ac47b5e7ceed818c232bb',
+    ),
+    (
+        '019f716a-2746-7c50-a020-482b83dadd73',
+        '2026-07-17T18:50:10.201Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py canonical-readiness 2>&1; "EXIT_CODE=$LASTEXITCODE"',
+        'c93e7f3ca451e5e44b1d7244d8ade96a172cc0e2216d758b7e7d61c15a1acb82',
+    ),
+    (
+        '019f716b-0226-7cc0-a934-64525f5211ef',
+        '2026-07-17T18:51:06.655Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m unittest discover -s tests -v',
+        '9283affe358c09ff3dca461c4a30b4c1497edf4042c73c42def31935836a023c',
+    ),
+    (
+        '019f716c-72b0-7d00-9a25-90f56efdf660',
+        '2026-07-17T18:52:45.788Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Set-ExecutionPolicy -Scope Process Bypass -Force; Import-Module .\\codex-direct-migration\\TrackerSe ...  }; Remove-Item -LiteralPath $root -Recurse -Force',
+        '853658cdaf4faece4378410bf190d19721b91ef76df31911c3d719e58b3bbf26',
+    ),
+    (
+        '019f7171-1fe8-7f81-b74a-f87e677a0ab6',
+        '2026-07-17T18:57:47.104Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $code=@\' using System; using System.ComponentModel; using System.Runtime.InteropServices; using Sy ... on.Message)"} }; Remove-Item -Recurse -Force $root',
+        'db37398c3217f6e294504223d7de9a243d8d9a1f3eea3966bfc3e4566fa51e99',
+    ),
+    (
+        '019f7171-8a08-7b52-8ded-adfa67cf81e4',
+        '2026-07-17T18:58:14.211Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $code=@\' using System; using System.ComponentModel; using System.Runtime.InteropServices; using Sy ... tion.Message)"}; Remove-Item -Recurse -Force $root',
+        '2a8536102c14005a90f4fe2de50ad2db57f400bfdd10d062b0134e58b10fa644',
+    ),
+    (
+        '019f7174-c129-7361-9798-cf39168513ad',
+        '2026-07-17T19:01:45.098Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $process = Start-Process -FilePath node -ArgumentList '.tmp-spooder-server.js' -WorkingDirectory ( ... projects/hci-spooder-man/ | Select-Object -First 1",
+        '82ba0330f12d7da793e5095abd02dffcc6b99c8a3d63aa559a97f6f0e6360029',
+    ),
+    (
+        '019f7176-048a-7100-9d76-adfd8e28812b',
+        '2026-07-17T19:03:08.002Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $server = Start-Process -FilePath node -ArgumentList '.tmp-spooder-server.js' -WorkingDirectory (G ... Stop-Process -Id $server.Id -Force } }; exit $code",
+        '705c5207b338360cf462eea1f385a2c734754066e6a1c40cac7bbee1c7ed08aa',
+    ),
+    (
+        '019f7178-4495-73a1-a697-4bbbdde2fc53',
+        '2026-07-17T19:05:35.217Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' .tmp-spooder-check.js --write; $serve ... Stop-Process -Id $server.Id -Force } }; exit $code",
+        '53626cf40ea1dcfcffc89dc66baa4f463ee5553f9ae83cad66e3aa1367c6ad03',
+    ),
+    (
+        '019f717a-3029-71d3-a26a-eb2003b9a5ba',
+        '2026-07-17T19:07:41.041Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' .tmp-spooder-check.js --write; $serve ... Stop-Process -Id $server.Id -Force } }; exit $code",
+        '53626cf40ea1dcfcffc89dc66baa4f463ee5553f9ae83cad66e3aa1367c6ad03',
+    ),
+    (
+        '019f717a-d172-78a0-9f45-ac0574df891b',
+        '2026-07-17T19:08:22.324Z',
+        '019f652f-7154-7822-ad1c-daa5a066134b',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command & 'D:\\dev\\dylantao.github.io\\node_modules\\.bin\\prettier.cmd' .tmp-spooder-check.js --write; $serve ... Stop-Process -Id $server.Id -Force } }; exit $code",
+        '53626cf40ea1dcfcffc89dc66baa4f463ee5553f9ae83cad66e3aa1367c6ad03',
+    ),
+    (
+        '019f717c-dcc3-75b1-a5c4-d4a42e93e8c1',
+        '2026-07-17T19:10:36.306Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $root=(Resolve-Path .).Path; $target=(Resolve-Path tools\\__pycache__).Path; if (-not $target.Start ... ed to remove $target" } else { "Removed $target" }',
+        '3f81b2948d00424baf224d7864393171ccdaa7322c5a5e72eb6207a9207fe1d3',
+    ),
+    (
+        '019f717d-0234-7633-9d92-8db51a792ed0',
+        '2026-07-17T19:10:45.886Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command node 'C:\\Users\\dylan\\.codex\\skills\\.system\\openai-docs\\scripts\\fetch-codex-manual.mjs'",
+        '6c8180ec47fcb782b7780791fa317b37c4a687b0186943d4084c212e9e196e57',
+    ),
+    (
+        '019f717e-5ab9-78a2-9162-5f6f3b56a6db',
+        '2026-07-17T19:12:14.290Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Get-ScheduledTask | Where-Object { $_.TaskName -match 'Codex|Usage|Tracker|Dylan|GitHub' -or $_.Ta ... -Object TaskPath,TaskName | Format-Table -AutoSize",
+        '58c2025066babf913b44f0016fd7283849eb36ea37668d88ffdbea07f03749fa',
+    ),
+    (
+        '019f717e-ab79-7890-98d7-0fd070fc83aa',
+        '2026-07-17T19:12:34.771Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $names = @('Dylan Codex Direct Account Usage','Dylan Personal Metrics Refresh'); foreach ($name in ... t; NextRunTime=$info.NextRunTime } | Format-List }",
+        '4df8babae78b4ec70885abe6ac2407c1e7432ccc562723377393a5d376d7f184',
+    ),
+    (
+        '019f717f-48a7-7420-b54d-503464d88717',
+        '2026-07-17T19:13:15.194Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Get-ChildItem -Force 'C:\\Users\\dylan\\AppData\\Local\\DylanCodexAccounts\\direct-usage-tracker' -Recur ... me | Sort-Object FullName | Format-Table -AutoSize",
+        '236034ff4bae62bee224024a9577b6dcb7c81950fba16c6a4474eb637d47fbff',
+    ),
+    (
+        '019f717f-9a3e-7120-ab9d-278e2ed3210c',
+        '2026-07-17T19:13:35.895Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command $paths = @(\'C:\\Users\\dylan\\AppData\\Local\\DylanCodexAccounts\\direct-usage-tracker\\state\\attempt-hea ... s) { "===== $path ====="; Get-Content -Raw $path }',
+        '09a5f3493faf02e655ef6d8e000e09c608467623a36eb54e49dbbb6c5aeebe67',
+    ),
+    (
+        '019f717f-d890-7e51-9f35-54ce188eabf9',
+        '2026-07-17T19:13:51.829Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command Get-ChildItem -Force 'C:\\Users\\dylan\\AppData\\Local\\DylanPersonalMetricsRefresh' -Recurse -File | W ... | Select-Object -First 80 | Format-Table -AutoSize",
+        '5dc7a65f13d1e692e57fb681dcca4a5dd5db8d704d99f5575465f352ff3d196d',
+    ),
+    (
+        '019f7180-029f-7951-84f3-19b565aa4204',
+        '2026-07-17T19:14:03.041Z',
+        '019f6ef6-2f10-7c42-a7bd-477d779c8088',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command "===== state.json ====="; Get-Content -Raw \'C:\\Users\\dylan\\AppData\\Local\\DylanPersonalMetricsRefre ... PersonalMetricsRefresh\\logs\\refresh.log\' -Tail 100',
+        '8850f15ff22787455253495d7f5e67b2e82188875c58495ae68b40d3cc14fa61',
+    ),
+    (
+        '019f7180-11a0-7ae1-85c8-e7f6deb547d3',
+        '2026-07-17T19:14:06.604Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        "shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command git restore --worktree -- map/data/scholarly_metadata_provenance.csv; $index=(git rev-parse ':map/ ... ow 'working bytes still differ from staged blob' }",
+        '42d114389d614bc6213897cb6dffd3c83e77b51d546d47edcc9cf999e51e5a01',
+    ),
+    (
+        '019f7180-fa8b-7f00-8189-d54de8db1c68',
+        '2026-07-17T19:15:06.385Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/ssmap.py build-canonical-pipeline; python -B tools/ssmap.py build-site; python -B tools/ssmap.py export-review',
+        '602d837fbbcd6329f765f9ce9aa1c7b6397e8543bc9a2421b6973f31908b0b92',
+    ),
+    (
+        '019f7186-ee4e-7043-a90a-6faca6f0e2a4',
+        '2026-07-17T19:21:36.175Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py',
+        '0beae0050dc2fdb50460c1ace7505533dafee1972dce23a0e17b53ef4ea324c1',
+    ),
+    (
+        '019f7187-5f29-7bd2-b833-51b77b852166',
+        '2026-07-17T19:22:05.056Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py',
+        'ee53360c97fa3e643f66bb34dfcf01541c2645e56019a3963b24dbdbb3dc6bbe',
+    ),
+    (
+        '019f7188-5488-7891-b619-811d6c4541e0',
+        '2026-07-17T19:23:07.854Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B -m py_compile tools/transition_identity_repair.py tools/ssmap.py; python -B -m unittest tests.test_transition_identity_repair -v',
+        '962bedf6faf91d57b1683f0273a0627599488ab5ec0b3396701cec01a9a44b07',
+    ),
+    (
+        '019f718a-0924-7271-8540-043ae8f46385',
+        '2026-07-17T19:24:59.625Z',
+        '019f62bf-ce97-79c2-a6a9-21a59c04b3ad',
+        'allow',
+        'shell command: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command python -B tools/transition_identity_repair.py --write',
+        '8cce85ce5ff851d01382266785b4542cda3009ba6a5f23940bd5ae77f1eae1f0',
+    ),
+    # POLICY_V32_ROWS_END
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _reviewed_session,
+    _decision,
+    _action_summary,
+    _action_digest,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V32_AUTO_REVIEW_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = _policy_v32_auto_review_acknowledgment(
+        _timestamp,
+        _reviewed_session,
+        _decision,
+        _action_summary,
+        _action_digest,
+    )
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS["019f70b4-219a-7590-92a9-452249504c6e"] = {
+    "timestamp": "2026-07-17T15:31:30.930Z",
+    "model": "gpt-5.6-sol",
+    "effort": "max",
+    "acknowledged_at": "2026-07-17",
+    "reason": (
+        "An explicit no-tools runtime-attestation canary in the separate "
+        "semantic-scaffolding-map repository requested max effort, then completed without a "
+        "retained agent response; it did not perform site development."
+    ),
+    "provenance": (
+        "Retained leaf session 019f70b4-179b-77a3-8ddc-b7df194bfdfe, exact prompt "
+        "requesting only runtime-attestation-canary:, matching task_complete with a null "
+        "last_agent_message, and turn_context; audited 2026-07-17."
+    ),
+}
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V32_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V32_AUTO_REVIEW_TURNS
+) + ("019f70b4-219a-7590-92a9-452249504c6e",)
+
+del _policy_v32_auto_review_acknowledgment
+del _turn_id, _timestamp, _reviewed_session, _decision, _action_summary, _action_digest
+
+
+def _policy_v33_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    action_summary: str,
+    action_digest: str,
+) -> dict[str, str]:
+    """Build one exact policy-v33 provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed the exact {action_summary}; "
+            "the review lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, canonical planned-action JSON SHA-256 "
+            f"{action_digest}, reviewed session {reviewed_session}, and allow decision; "
+            "audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V33_AUTO_REVIEW_TURNS = (
+    (
+        "019f71ad-92b0-7a01-a770-2ee45eee1204",
+        "2026-07-17T20:03:48.819Z",
+        "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+        "allow",
+        "pdfinfo version probe outside the sandbox to initialize and read MiKTeX user configuration for calibration-PDF tests",
+        "5782284527989446061fdf521ed24363ca1c15462d7e711208d1962d77d1c25f",
+    ),
+    (
+        "019f71ad-e0f1-7320-bb0c-467a54578041",
+        "2026-07-17T20:04:08.614Z",
+        "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+        "allow",
+        "Get-Command and where.exe lookup of every installed pdfinfo executable",
+        "2c655d232472acac5ceabd53a0e37ae7c106e58f07b932904ecadddcb42d65bb",
+    ),
+    (
+        "019f71ae-1178-7aa2-9285-c52d7d381dba",
+        "2026-07-17T20:04:21.052Z",
+        "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+        "allow",
+        "dw-conda Python run of calibration-source-prep tests and the promoted-SQLite-authority recovery test outside the sandbox so pdfinfo could use MiKTeX configuration",
+        "0cd6947c3e07837076c2e18482f931f05abef387cfa0b7e3b63a36d9a5bde56b",
+    ),
+    (
+        "019f71ae-b25e-7b81-88ca-5578604d32ac",
+        "2026-07-17T20:05:02.228Z",
+        "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+        "allow",
+        "resolved-path-guarded removal of semantic-scaffolding-map/tools/__pycache__",
+        "dc137c676b44a389c745d025559b97386ea89748aab751f9d14f21c22cc623f0",
+    ),
+    (
+        "019f71af-463e-73a3-900c-fd0253194c42",
+        "2026-07-17T20:05:40.094Z",
+        "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+        "allow",
+        "fixed-file-list git staging of the reviewed semantic milestone paths followed by a short status check",
+        "0a1355173f08014de7ea830a9331253d037060efadd613c5ab87871bcd4d4b2a",
+    ),
+    (
+        "019f71b0-3b07-7f80-8e74-7723e5c4006f",
+        "2026-07-17T20:06:42.983Z",
+        "019f62bf-ce97-79c2-a6a9-21a59c04b3ad",
+        "allow",
+        "temporary detached semantic-scaffolding-map worktree creation from HEAD for a fresh-checkout portability proof",
+        "ee54fda4a9b9bd7788ee0bf48387e23a2d177d095a111a65bae3f943329286c4",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _reviewed_session,
+    _decision,
+    _action_summary,
+    _action_digest,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V33_AUTO_REVIEW_TURNS:
+    if _decision != "allow":
+        raise ValueError(f"Policy-v33 turn {_turn_id} must preserve its allow decision")
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = _policy_v33_auto_review_acknowledgment(
+        _timestamp,
+        _reviewed_session,
+        _action_summary,
+        _action_digest,
+    )
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V33_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V33_AUTO_REVIEW_TURNS
+)
+
+del _policy_v33_auto_review_acknowledgment
+del _turn_id, _timestamp, _reviewed_session, _decision, _action_summary, _action_digest
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENTS["019f71b3-3d25-7210-a5f4-0c70071a3710"] = {
+    "timestamp": "2026-07-17T20:09:59.902Z",
+    "model": "codex-auto-review",
+    "effort": "low",
+    "acknowledged_at": "2026-07-17",
+    "reason": (
+        "Provider-managed Codex auto-review evaluated and allowed the exact resolved-path, "
+        "temp-root, and clean-status guarded removal of the validated temporary detached "
+        "semantic-scaffolding-map worktree; the review lane did not change the declared "
+        "interactive development default."
+    ),
+    "provenance": (
+        "Retained auto-review turn_context, canonical planned-action JSON SHA-256 "
+        "5d671385afe0e2d5ff20f9816d744962ffb741b9852dd7a6243f284f52d65c23, "
+        "reviewed session 019f62bf-ce97-79c2-a6a9-21a59c04b3ad, allow decision, and "
+        "subsequent exit-0 output confirming removal of the clean temporary worktree; "
+        "audited 2026-07-17."
+    ),
+}
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V34_TURN_IDS = (
+    "019f71b3-3d25-7210-a5f4-0c70071a3710",
+)
+
+
+def _policy_v35_auto_review_acknowledgment(
+    timestamp: str,
+    reviewed_session: str,
+    action_summary: str,
+    action_digest: str,
+    execution_summary: str,
+) -> dict[str, str]:
+    """Build one exact policy-v35 provider-review acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "codex-auto-review",
+        "effort": "low",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            f"Provider-managed Codex auto-review evaluated and allowed the exact {action_summary}; "
+            "the review lane did not change the declared interactive development default."
+        ),
+        "provenance": (
+            "Retained auto-review turn_context, canonical planned-action JSON SHA-256 "
+            f"{action_digest}, reviewed session {reviewed_session}, allow decision, and "
+            f"{execution_summary}; audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V35_AUTO_REVIEW_TURNS = (
+    (
+        "019f71bc-27be-7181-88f6-65024122a4a2",
+        "2026-07-17T20:19:49.269Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "read-only fetch of the official UIST 2019 main and adjunct table-of-contents pages for status, byte, and link-count boundary evidence",
+        "17f0e9002bd7b2a93525c2b67c73b7cfc4629a11a5dcfc2f1ae67e00105a6332",
+        "subsequent exit-0 output reporting HTTP 200 for both official pages",
+    ),
+    (
+        "019f71bc-ab9e-7133-b0b0-3f5f2ce0398a",
+        "2026-07-17T20:20:18.091Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "read-only inspection of official UIST table-of-contents link syntax for ACM citation, authorize, and DOI markers",
+        "8d174313a8fa83b68fb5b5d1e3798f8289671a499811fcb95bbc1990d5e58fdd",
+        "subsequent exit-0 output listing the requested official link sample",
+    ),
+    (
+        "019f71bc-e532-7410-ab08-64fc729870ed",
+        "2026-07-17T20:20:33.234Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "read-only count of official UIST table-of-contents heading and link markers plus one representative entry",
+        "4e07cc292722814a418857a054caa0137c7305c4a1601ef99af920e7b6e568bc",
+        "subsequent exit-0 output reporting the marker counts and representative entry",
+    ),
+    (
+        "019f71be-fab3-7e00-afd9-86e6b070b15b",
+        "2026-07-17T20:22:49.417Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "read-only fetch and markup inspection of the official UIST 2019 program page to distinguish technical-paper sessions from front matter",
+        "87f3455fadf1e4c2e6354e91c2cde4e9d0db9d349879b9e7fc310efd9f458a5c",
+        "subsequent exit-0 HTTP-200 output reporting page and heading counts plus the requested markup",
+    ),
+    (
+        "019f71bf-42bc-7ae1-bcc7-035ede05741c",
+        "2026-07-17T20:23:07.856Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "mechanical read-only parse of official UIST 2019 technical-paper session headings and titles for the eligible denominator",
+        "25de45cf00834c5ff7e735ad37d14ec1b857ea2df0cd86ff0f2985277fc594e8",
+        "subsequent exit-0 output reporting 18 sessions and 93 unique technical-paper titles",
+    ),
+    (
+        "019f71bf-a865-7e83-93c5-280bb20276ee",
+        "2026-07-17T20:23:33.870Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "read-only normalized-title comparison between the official UIST program and table-of-contents pages",
+        "2a8b788c88e731acd713e7dbeb921b1487e5908d83f282ff95d83c7f55433778",
+        "subsequent exit-0 output reporting 93 eligible titles on each surface and the normalization differences",
+    ),
+    (
+        "019f71bf-e54e-7241-ad46-1525f42ca4a4",
+        "2026-07-17T20:23:49.825Z",
+        "019f71ba-92fb-7da3-8aa4-d7aabe2db85a",
+        "allow",
+        "read-only inspection of official UIST program markup around update badges and four title anomalies",
+        "2261df4a695f193e35bb26d51f2b4fc7cf92ecbfb1548ee3673409fb771337cb",
+        "subsequent exit-0 output emitting the requested official markup snippets",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _reviewed_session,
+    _decision,
+    _action_summary,
+    _action_digest,
+    _execution_summary,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V35_AUTO_REVIEW_TURNS:
+    if _decision != "allow":
+        raise ValueError(f"Policy-v35 turn {_turn_id} must preserve its allow decision")
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = _policy_v35_auto_review_acknowledgment(
+        _timestamp,
+        _reviewed_session,
+        _action_summary,
+        _action_digest,
+        _execution_summary,
+    )
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V35_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V35_AUTO_REVIEW_TURNS
+)
+
+del _policy_v35_auto_review_acknowledgment
+del (
+    _turn_id,
+    _timestamp,
+    _reviewed_session,
+    _decision,
+    _action_summary,
+    _action_digest,
+    _execution_summary,
+)
+
+
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
 WH_PER_TOKEN_HIGH = 0.002
@@ -2836,6 +4512,7 @@ MODEL_TRACKING_CHECK_FIELDS = (
     ("intended_model",),
     ("intended_effort",),
     ("cutover_at",),
+    ("auto_review_audit_through_at",),
     ("acknowledgment_policy_version",),
     ("status",),
     ("post_cutover_deviation_count",),
@@ -2843,6 +4520,7 @@ MODEL_TRACKING_CHECK_FIELDS = (
     ("post_cutover_unacknowledged_deviation_count",),
     ("post_cutover_deviations",),
     ("public_note",),
+    ("caveat",),
 )
 LOCAL_LIFETIME_CHECK_FIELDS = (
     ("sessions",),
@@ -3860,13 +5538,37 @@ def model_deviation_acknowledgment(deviation: dict[str, Any]) -> tuple[bool, dic
     return signature_matches and complete, acknowledgment
 
 
-def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
-    contexts = [
+def partition_model_tracking_contexts(
+    dataset: UsageDataset,
+) -> tuple[list[TurnContextRecord], list[TurnContextRecord]]:
+    """Split live model-policy evidence from the sealed provider-review tail."""
+
+    post_cutover_contexts = [
         context
         for context in dataset.contexts_by_turn.values()
         if context.timestamp >= GPT_5_6_CUTOVER_UTC
     ]
+    contexts = [
+        context
+        for context in post_cutover_contexts
+        if context.model != "codex-auto-review"
+        or context.timestamp <= MODEL_TRACKING_AUDIT_THROUGH_UTC
+        or context.turn_id in MODEL_DEVIATION_ACKNOWLEDGMENTS
+    ]
+    deferred_contexts = [
+        context
+        for context in post_cutover_contexts
+        if context.model == "codex-auto-review"
+        and context.timestamp > MODEL_TRACKING_AUDIT_THROUGH_UTC
+        and context.turn_id not in MODEL_DEVIATION_ACKNOWLEDGMENTS
+    ]
     contexts.sort(key=lambda item: (item.timestamp, item.turn_id))
+    deferred_contexts.sort(key=lambda item: (item.timestamp, item.turn_id))
+    return contexts, deferred_contexts
+
+
+def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
+    contexts, _deferred_contexts = partition_model_tracking_contexts(dataset)
     observed: dict[str, int] = defaultdict(int)
     deviations: list[dict[str, str]] = []
     for context in contexts:
@@ -3883,7 +5585,6 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
             if acknowledgment is not None:
                 deviation["acknowledgment"] = acknowledgment
             deviations.append(deviation)
-
     acknowledged_count = sum(bool(item["acknowledged"]) for item in deviations)
     unacknowledged_count = len(deviations) - acknowledged_count
 
@@ -3900,6 +5601,9 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
         "intended_effort": INTENDED_EFFORT,
         "cutover_at": format_timestamp_utc(GPT_5_6_CUTOVER_UTC),
         "cutover_label": "Jul 9, 2026 at 2:28 PM PDT",
+        "auto_review_audit_through_at": format_timestamp_utc(
+            MODEL_TRACKING_AUDIT_THROUGH_UTC
+        ),
         "acknowledgment_policy_version": MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION,
         "post_cutover_turns_observed": len(contexts),
         "post_cutover_observed_breakdown": dict(sorted(observed.items())),
@@ -3908,11 +5612,19 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
         "post_cutover_unacknowledged_deviation_count": unacknowledged_count,
         "post_cutover_deviations": deviations,
         "status": status,
-        "public_note": f"Dev work now: {INTENDED_MODEL} · {INTENDED_EFFORT}.",
+        "public_note": (
+            f"Development default: {INTENDED_MODEL} with {INTENDED_EFFORT} effort. "
+            "Provider-managed auto-review is audited through "
+            f"{MODEL_TRACKING_AUDIT_THROUGH_LABEL}; interactive tracking remains live."
+        ),
         "caveat": (
-            "Checks all deduplicated retained-local turn_context records; missing or deleted local logs "
-            "cannot be reconstructed. Exact acknowledged deviations remain visible and do not alter "
-            "their observed model or effort."
+            "Checks every deduplicated retained-local non-auto-review turn_context after the cutover "
+            "and exact mapped acknowledgment turn ids regardless of timestamp. New provider-managed "
+            "codex-auto-review contexts after the inclusive audit boundary are deferred to the next "
+            "explicit policy audit and are neither evaluated nor acknowledged. Token, hour, energy, "
+            "and cost totals remain current and unfiltered by this model-tracking-only boundary. "
+            "Missing or deleted local logs cannot be reconstructed; exact acknowledged deviations "
+            "remain visible and keep their observed model and effort."
         ),
     }
 
@@ -4386,7 +6098,9 @@ def main() -> int:
     print(
         "model_tracking: "
         f"{model_tracking['status']} "
-        f"({model_tracking['post_cutover_turns_observed']} retained turns, "
+        f"(provider auto-review audited through "
+        f"{model_tracking['auto_review_audit_through_at']}; "
+        f"{model_tracking['post_cutover_turns_observed']} retained turns, "
         f"{model_tracking['post_cutover_deviation_count']} deviations: "
         f"{model_tracking['post_cutover_acknowledged_deviation_count']} acknowledged, "
         f"{model_tracking['post_cutover_unacknowledged_deviation_count']} unacknowledged)"

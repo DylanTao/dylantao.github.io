@@ -168,6 +168,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("automatic refresh pending", self.page)
         self.assertIn("never\nadded to the repo-scoped retained-session estimate", self.page)
 
+    def test_automated_lifetime_snapshot_accepts_only_the_canonical_confidence(self) -> None:
+        self.assertIn('candidate.confidence === "high"', self.script)
+        self.assertNotIn(
+            '["high", "direct", "complete", "direct complete observation"]',
+            self.script,
+        )
+
     def test_build_rhythm_visual_contract_runs_in_the_public_site_matrix(self) -> None:
         spec = "build-rhythm-story.spec.js"
         self.assertIn(spec, self.package)

@@ -14,6 +14,7 @@
       }
     }
 
+    const priorFocus = document.activeElement;
     const fallback = document.createElement("textarea");
     fallback.value = text;
     fallback.readOnly = true;
@@ -33,6 +34,9 @@
     } finally {
       fallback.remove();
       window.getSelection()?.removeAllRanges();
+      if (priorFocus instanceof HTMLElement && priorFocus.isConnected) {
+        priorFocus.focus({ preventScroll: true });
+      }
     }
   };
 
