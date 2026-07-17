@@ -205,6 +205,145 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     }
   }
 
+  if (["project-build-rhythm", "project-paper-constellation", "project-homepage-desk-scene"].includes(route.id)) {
+    const disclosure = page.locator("details.project-story-disclosure").first();
+    const summary = disclosure.locator(":scope > summary");
+    await expect(disclosure).toBeVisible();
+    await expect(disclosure).not.toHaveAttribute("open", "");
+    await summary.scrollIntoViewIfNeeded();
+
+    const summaryGeometry = await summary.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      return { height: box.height, width: box.width };
+    });
+    expect(summaryGeometry.height, `${route.path} disclosure summary is shorter than 44px`).toBeGreaterThanOrEqual(44);
+    expect(summaryGeometry.width, `${route.path} disclosure summary has no usable width`).toBeGreaterThan(220);
+
+    await summary.press("Enter");
+    await expect(disclosure).toHaveAttribute("open", "");
+    await expect(summary).toBeFocused();
+    const focusRing = await summary.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) };
+    });
+    expect(focusRing.style, `${route.path} disclosure focus outline is missing`).not.toBe("none");
+    expect(focusRing.width, `${route.path} disclosure focus outline has no width`).toBeGreaterThan(0);
+
+    await summary.press("Enter");
+    await expect(disclosure).not.toHaveAttribute("open", "");
+    await expect(summary).toBeFocused();
+  }
+
+  if (["project-build-rhythm", "project-paper-constellation"].includes(route.id)) {
+    const story = page.locator(".project-story-beats").first();
+    const beats = story.locator(":scope > .project-story-beat");
+    const privacyNote = page.locator(".project-story-note--privacy").first();
+    await expect(story).toBeVisible();
+    await expect(beats).toHaveCount(3);
+    await expect(privacyNote).toBeVisible();
+
+    const beatBoxes = await beats.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, left: box.left, right: box.right, top: box.top, width: box.width };
+      })
+    );
+    expect(
+      beatBoxes.every((box) => box.width >= 220),
+      `${route.path} story beats are squeezed`
+    ).toBe(true);
+    expect(
+      beatBoxes.every((box, index) => index === 0 || box.top >= beatBoxes[index - 1].top),
+      `${route.path} story beats do not preserve source order`
+    ).toBe(true);
+    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+      expect(Math.max(...beatBoxes.map((box) => box.top)) - Math.min(...beatBoxes.map((box) => box.top))).toBeLessThanOrEqual(2);
+      expect(beatBoxes[0].right).toBeLessThanOrEqual(beatBoxes[1].left);
+      expect(beatBoxes[1].right).toBeLessThanOrEqual(beatBoxes[2].left);
+    } else if (testInfo.project.name === "mobile-390") {
+      expect(beatBoxes[1].top).toBeGreaterThan(beatBoxes[0].bottom);
+      expect(beatBoxes[2].top).toBeGreaterThan(beatBoxes[1].bottom);
+    }
+
+    const measure = await privacyNote.evaluate((element) => {
+      const articleBox = element.closest("article").getBoundingClientRect();
+      const box = element.getBoundingClientRect();
+      return { articleLeft: articleBox.left, articleRight: articleBox.right, left: box.left, right: box.right, width: box.width };
+    });
+    expect(measure.width, `${route.path} privacy note is squeezed`).toBeGreaterThanOrEqual(220);
+    expect(measure.left).toBeGreaterThanOrEqual(measure.articleLeft - 1);
+    expect(measure.right).toBeLessThanOrEqual(measure.articleRight + 1);
+  }
+
+  if (route.id === "project-build-rhythm") {
+    const signals = page.locator(".project-story-signal-grid").first();
+    const cards = signals.locator(":scope > div");
+    await expect(cards).toHaveCount(3);
+    await expect(cards.locator("h3")).toHaveCount(3);
+    const boxes = await cards.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, left: box.left, right: box.right, top: box.top, width: box.width };
+      })
+    );
+    expect(
+      boxes.every((box) => box.width >= 220),
+      "Build Rhythm signal cards are squeezed"
+    ).toBe(true);
+    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+      expect(Math.max(...boxes.map((box) => box.top)) - Math.min(...boxes.map((box) => box.top))).toBeLessThanOrEqual(2);
+    } else {
+      expect(boxes[1].top).toBeGreaterThan(boxes[0].bottom);
+      expect(boxes[2].top).toBeGreaterThan(boxes[1].bottom);
+    }
+  }
+
+  if (route.id === "project-paper-constellation") {
+    const comparison = page.locator(".paper-constellation-evidence-pair").first();
+    await expect(comparison).toHaveAttribute("data-desktop-checkpoint", "6832a6a05b5ff2b6c692bb3f5e3654a535e4401e");
+    await expect(comparison).toHaveAttribute("data-desktop-capture-date", "2026-07-16");
+    await expect(comparison).toHaveAttribute("data-desktop-source-viewport", "1440x1000");
+    await expect(comparison).toHaveAttribute("data-desktop-device-pixel-ratio", "1");
+    await expect(comparison).toHaveAttribute("data-desktop-theme", "light");
+    await expect(comparison).toHaveAttribute("data-desktop-view", "constellation-active");
+    await expect(comparison).toHaveAttribute("data-desktop-state", "no-paper-pinned");
+    await expect(comparison).toHaveAttribute("data-desktop-artifact-size", "1012x753");
+    await expect(comparison).toHaveAttribute("data-mobile-checkpoint", "6832a6a05b5ff2b6c692bb3f5e3654a535e4401e");
+    await expect(comparison).toHaveAttribute("data-mobile-capture-date", "2026-07-16");
+    await expect(comparison).toHaveAttribute("data-mobile-source-viewport", "390x1000");
+    await expect(comparison).toHaveAttribute("data-mobile-theme", "light");
+    await expect(comparison).toHaveAttribute("data-mobile-view", "constellation-active");
+    await expect(comparison).toHaveAttribute("data-mobile-state", "no-paper-pinned");
+    await expect(comparison).toHaveAttribute("data-mobile-artifact-size", "360x270");
+
+    const figures = comparison.locator(":scope > figure");
+    await expect(figures).toHaveCount(2);
+    const images = figures.locator("img");
+    await expect(images).toHaveCount(2);
+    const expectedImagePaths = [
+      "assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png",
+      "assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png",
+    ].map((path) => new URL(path, publicRouteUrl("/")).pathname);
+    expect(await images.evaluateAll((elements) => elements.map((element) => new URL(element.src).pathname))).toEqual(expectedImagePaths);
+    await expect.poll(() => images.evaluateAll((elements) => elements.every((element) => element.complete && element.naturalWidth > 0))).toBe(true);
+    const mobileImageBox = await images.nth(1).boundingBox();
+    expect(mobileImageBox, "mobile Paper Constellation evidence image has no rendered box").not.toBeNull();
+    expect(mobileImageBox.width, "mobile Paper Constellation evidence is upscaled past its source width").toBeLessThanOrEqual(361);
+
+    const figureBoxes = await figures.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, left: box.left, right: box.right, top: box.top };
+      })
+    );
+    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+      expect(Math.abs(figureBoxes[0].top - figureBoxes[1].top), "desktop atlas and mobile trail should compare in one row").toBeLessThanOrEqual(2);
+      expect(figureBoxes[0].right, "Paper Constellation evidence figures should not overlap").toBeLessThanOrEqual(figureBoxes[1].left);
+    } else {
+      expect(figureBoxes[1].top, "compact Paper Constellation evidence should stack in reading order").toBeGreaterThan(figureBoxes[0].bottom);
+    }
+  }
+
   if (route.id === "project-ikea-project-cards") {
     const figure = page.locator(".site-experiment-evidence-figure");
     const image = figure.locator("img");
@@ -243,34 +382,65 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   }
 
   if (route.id === "project-homepage-desk-scene") {
-    const evidence = page.locator(".desk-scene-evidence-pair");
-    await expect(evidence).toHaveAttribute("data-capture-date", "2026-07-16");
-    await expect(evidence).toHaveAttribute("data-capture-source", "8fc9bf7d3");
-    await expect(evidence).toHaveAttribute("data-scene-checkpoint", "1b07cea4c");
-    await expect(evidence).toHaveAttribute("data-capture-viewport", "1440x1000");
-    await expect(evidence).toHaveAttribute("data-capture-theme", "light");
-    await expect(evidence).toHaveAttribute("data-capture-state", "yellow-submarine-stopped-zero-discoveries");
-    await expect(evidence).toHaveAttribute("data-capture-device-pixel-ratio", "3");
-    await evidence.scrollIntoViewIfNeeded();
+    const comparison = page.locator(".desk-scene-evidence-pair").first();
+    await comparison.scrollIntoViewIfNeeded();
+    const eras = comparison.locator(":scope > .desk-scene-comparison-era");
+    await expect(eras).toHaveCount(2);
+    expect(await eras.evaluateAll((elements) => elements.map((element) => element.getAttribute("data-desk-comparison-era")))).toEqual([
+      "june-exact-commit-replay",
+      "july-current",
+    ]);
 
-    const figures = evidence.locator("[data-desk-evidence-mode]");
-    await expect(figures).toHaveCount(2);
-    expect(await figures.evaluateAll((elements) => elements.map((element) => element.getAttribute("data-desk-evidence-mode")))).toEqual(["2d", "3d"]);
+    const june = eras.nth(0);
+    await expect(june).toHaveAttribute("data-source-commit", "588e365090e883323d836f5da023f7d40632f096");
+    await expect(june).toHaveAttribute("data-source-commit-date", "2026-06-21");
+    await expect(june).toHaveAttribute("data-capture-date", "2026-07-16");
+    await expect(june).toHaveAttribute("data-capture-viewport", "1440x1000");
+    await expect(june).toHaveAttribute("data-capture-theme", "light");
+    await expect(june).toHaveAttribute("data-capture-rubric", "default-representation-view");
+    await expect(june).toHaveAttribute("data-capture-state", "yellow-submarine-stopped-zero-discoveries");
+    await expect(june).toHaveAttribute("data-capture-sequence", "2d-then-mode-switch-only");
+    await expect(june).toHaveAttribute("data-capture-device-pixel-ratio", "1");
+    await expect(june).toHaveAttribute("data-capture-browser", "Chromium 145.0.7632.6");
+    await expect(june).toHaveAttribute("data-model-provenance", "GPT-5.5/xhigh");
+    await expect(june.locator(".project-story-provenance")).toContainText("Source 588e36509 · captured July 16");
+
+    const july = eras.nth(1);
+    await expect(july).toHaveAttribute("data-capture-date", "2026-07-16");
+    await expect(july).toHaveAttribute("data-capture-source", "8fc9bf7d3");
+    await expect(july).toHaveAttribute("data-scene-checkpoint", "1b07cea4c");
+    await expect(july).toHaveAttribute("data-capture-viewport", "1440x1000");
+    await expect(july).toHaveAttribute("data-capture-theme", "light");
+    await expect(july).toHaveAttribute("data-capture-rubric", "default-representation-view");
+    await expect(july).toHaveAttribute("data-capture-state", "yellow-submarine-stopped-zero-discoveries");
+    await expect(july).toHaveAttribute("data-capture-device-pixel-ratio", "3");
+    await expect(july).toHaveAttribute("data-webgl-buffer-cap", "near-2x");
+    await expect(july).toHaveAttribute("data-model-provenance", "GPT-5.6 Sol/ultra");
+    await expect(july.locator(".project-story-provenance")).toContainText("Runtime source 8fc9bf7d3 · accepted scene 1b07cea4c");
+
+    const figures = comparison.locator("[data-desk-evidence-mode]");
+    await expect(figures).toHaveCount(4);
+    expect(await figures.evaluateAll((elements) => elements.map((element) => element.getAttribute("data-desk-evidence-mode")))).toEqual([
+      "2d",
+      "3d",
+      "2d",
+      "3d",
+    ]);
 
     const images = figures.locator("img");
-    await expect(images).toHaveCount(2);
+    await expect(images).toHaveCount(4);
     const expectedImagePaths = [
+      "assets/img/project_pics/site-experiments/homepage-desk-588e36509-2d-2026-07-16.png",
+      "assets/img/project_pics/site-experiments/homepage-desk-588e36509-3d-2026-07-16.png",
       "assets/img/project_pics/site-experiments/homepage-desk-2d-2026-07-16.png",
       "assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16.png",
     ].map((path) => new URL(path, publicRouteUrl("/")).pathname);
     expect(await images.evaluateAll((elements) => elements.map((element) => new URL(element.src).pathname))).toEqual(expectedImagePaths);
     expect(await images.evaluateAll((elements) => elements.map((element) => element.alt))).toEqual([
-      "Current homepage in its light-theme 2D desk representation with Sirui's portrait, paper research slips, Yellow Submarine queued, and no discovered record cards",
-      "Current homepage in its light-theme 3D desk representation showing the reciprocal cliff room, onsen, lounge chair, record player, welcome note, and ocean window",
-    ]);
-    expect(await figures.locator("figcaption").allTextContents()).toEqual([
-      "2D default — light theme at 1440 × 1000, before any record or discovery interaction.",
-      "3D default — the same logical desk state after switching representations.",
+      "Exact replay of commit 588e36509 in the light-theme 2D homepage view, with Sirui's portrait, research slips, and a coffee-stain desk cue",
+      "Exact replay of commit 588e36509 in the light-theme 3D homepage view, where a small desk-room stage occupies the right half while a black backdrop obscures much of the page",
+      "July 16 homepage capture in the light-theme 2D desk representation with Sirui's portrait, paper research slips, Yellow Submarine queued and stopped, and no discovered record cards",
+      "July 16 homepage capture in the light-theme 3D desk representation showing the reciprocal cliff room, onsen, lounge chair, record player, welcome note, and ocean window, with Yellow Submarine stopped and no discoveries",
     ]);
     await expect.poll(() => images.evaluateAll((elements) => elements.every((element) => element.complete && element.naturalWidth > 0))).toBe(true);
     expect(
@@ -283,19 +453,31 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     ).toEqual([
       { naturalHeight: 1000, naturalWidth: 1440 },
       { naturalHeight: 1000, naturalWidth: 1440 },
+      { naturalHeight: 1000, naturalWidth: 1440 },
+      { naturalHeight: 1000, naturalWidth: 1440 },
     ]);
 
-    const evidenceBoxes = await figures.evaluateAll((elements) =>
+    const eraBoxes = await eras.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, left: box.left, right: box.right, top: box.top };
+      })
+    );
+    const figureBoxes = await figures.evaluateAll((elements) =>
       elements.map((element) => {
         const box = element.getBoundingClientRect();
         return { bottom: box.bottom, left: box.left, right: box.right, top: box.top };
       })
     );
     if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
-      expect(Math.abs(evidenceBoxes[0].top - evidenceBoxes[1].top), "desktop evidence should compare in one row").toBeLessThanOrEqual(2);
-      expect(evidenceBoxes[0].right, "desktop evidence cards should not overlap").toBeLessThanOrEqual(evidenceBoxes[1].left);
+      expect(Math.abs(eraBoxes[0].top - eraBoxes[1].top), "desktop evidence eras should compare in one row").toBeLessThanOrEqual(2);
+      expect(eraBoxes[0].right, "desktop evidence eras should not overlap").toBeLessThanOrEqual(eraBoxes[1].left);
+      expect(Math.abs(figureBoxes[0].top - figureBoxes[2].top), "the two 2D frames should align as one comparison row").toBeLessThanOrEqual(2);
+      expect(Math.abs(figureBoxes[1].top - figureBoxes[3].top), "the two 3D frames should align as one comparison row").toBeLessThanOrEqual(2);
+      expect(figureBoxes[1].top, "June 3D should follow June 2D").toBeGreaterThan(figureBoxes[0].bottom);
+      expect(figureBoxes[3].top, "July 3D should follow July 2D").toBeGreaterThan(figureBoxes[2].bottom);
     } else {
-      expect(evidenceBoxes[1].top, "compact evidence should stack in reading order").toBeGreaterThan(evidenceBoxes[0].bottom);
+      expect(eraBoxes[1].top, "compact evidence eras should stack in reading order").toBeGreaterThan(eraBoxes[0].bottom);
     }
   }
 

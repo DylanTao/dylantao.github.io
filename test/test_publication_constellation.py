@@ -20,7 +20,14 @@ CONSTELLATION_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "paper-constellation.j
 LENS_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "publication-lens.js"
 PROJECT_PATH = REPO_ROOT / "_projects" / "paper-constellation.md"
 REPRODUCTION_GUIDE_PATH = REPO_ROOT / "assets" / "downloads" / "site-experiments" / "paper-constellation-reproduction.md"
-TEASER_PATH = REPO_ROOT / "assets" / "img" / "project_pics" / "paper-constellation" / "paper-constellation-teaser.png"
+TEASER_PATH = (
+    REPO_ROOT
+    / "assets"
+    / "img"
+    / "project_pics"
+    / "paper-constellation"
+    / "paper-constellation-desktop-surface-6832a6a05-1440-light.png"
+)
 
 EXPECTED_THREADS = {"design", "evaluate", "situate"}
 EXPECTED_FUTURE_IDS = {
@@ -271,7 +278,7 @@ class PublicationConstellationContractTest(unittest.TestCase):
         guide = REPRODUCTION_GUIDE_PATH.read_text(encoding="utf-8")
         self.assertIn("{{ '/publications/' | relative_url }}", project)
         self.assertNotIn("?view=constellation", project)
-        self.assertIn("assets/img/project_pics/paper-constellation/paper-constellation-teaser.png", project)
+        self.assertIn("assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png", project)
         self.assertEqual(TEASER_PATH.read_bytes()[:8], b"\x89PNG\r\n\x1a\n")
         self.assertIn("totals_last_synced", guide)
         self.assertIn("yearly_snapshot_as_of", guide)

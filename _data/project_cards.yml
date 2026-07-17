@@ -51,6 +51,7 @@ website-revamp:
 paper-constellation:
   # Literal crop from the 390x1000 light runtime capture on 2026-07-16.
   mobile_teaser: /assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png
+  mobile_teaser_alt: Mobile Paper Constellation teaser with three thread rails, anonymous future nodes, public rejection receipts, and the first accepted-paper row
 
 build-rhythm:
   accents:

@@ -15,6 +15,8 @@ PROJECTS_DIR = REPO_ROOT / "_projects"
 GUIDES_DIR = REPO_ROOT / "assets" / "downloads" / "site-experiments"
 PROJECT_CARD_DATA = REPO_ROOT / "_data" / "project_cards.yml"
 PROJECT_CARD_INCLUDE = REPO_ROOT / "_includes" / "projects.liquid"
+STORY_COMPONENTS = REPO_ROOT / "_sass" / "_components.scss"
+STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 
 EXPECTED_CHRONOLOGY = [
     ("paper-constellation", "Paper Constellation", "2026-07-15T16:51:26-07:00"),
@@ -106,6 +108,92 @@ class SiteExperimentsTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
 
+    def test_build_rhythm_uses_a_plain_language_story_before_the_technical_record(self) -> None:
+        source = (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8")
+        self.assertNotIn("What the page protects", source)
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        for phrase in (
+            "Why this page had to change",
+            "How to read the rhythm",
+            "GitHub cadence",
+            "Site-token rhythm",
+            "Account observation",
+            "What stays private",
+            "A pacing lesson, not a borrowed style",
+            "Full technical revision record",
+            "annotated anatomy of the accepted current state",
+            "its data still belongs in the public boundary",
+            "I keep that capture out of the public artifact",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+        self.assertIn('class="project-story-disclosure"', source)
+        self.assertEqual(source.count('class="site-experiment-ledger"'), 1)
+        for commit in ("b4203f3ea", "71b8f4c89", "ed0d3ba40", "d3f13be35", "1b07cea4c", "6b4b7bd59", "7e224db12", "6edea07f4"):
+            with self.subTest(commit=commit):
+                self.assertIn(commit, source)
+
+        self.assertNotIn("build-rhythm-combined-71b8f4c89-1440-light.png", source)
+        self.assertFalse(
+            (REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-combined-71b8f4c89-1440-light.png").exists()
+        )
+
+    def test_paper_constellation_story_preserves_lineage_privacy_and_two_geometries(self) -> None:
+        source = (PROJECTS_DIR / "paper-constellation.md").read_text(encoding="utf-8")
+        self.assertNotIn("stacked thread lists", source)
+        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertIn("A map for relationships, not credentials", source)
+        self.assertIn("DesignWeaver to What Happened and Why", source)
+        self.assertIn("chronological vertical thread trail", source)
+        self.assertIn("technical graphics adjacency, not an interaction-study claim", source)
+        self.assertIn('class="project-story-comparison paper-constellation-evidence-pair"', source)
+        self.assertIn('class="project-story-note project-story-note--privacy', source)
+        self.assertIn('class="project-story-disclosure', source)
+        for phrase in (
+            "five accepted papers",
+            "seven anonymous future nodes",
+            "nine canonical paths",
+            "Nadieh Bremer",
+            "Visual Cinnamon",
+            "John Thompson",
+            "6832a6a05b5ff2b6c692bb3f5e3654a535e4401e",
+            'data-desktop-capture-date="2026-07-16"',
+            'data-desktop-source-viewport="1440x1000"',
+            'data-desktop-device-pixel-ratio="1"',
+            'data-desktop-theme="light"',
+            'data-desktop-view="constellation-active"',
+            'data-desktop-state="no-paper-pinned"',
+            'data-desktop-artifact-size="1012x753"',
+            'data-mobile-source-viewport="390x1000"',
+            'data-mobile-theme="light"',
+            'data-mobile-state="no-paper-pinned"',
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+
+        desktop_asset = REPO_ROOT / "assets" / "img" / "project_pics" / "paper-constellation" / "paper-constellation-desktop-surface-6832a6a05-1440-light.png"
+        desktop_payload = desktop_asset.read_bytes()
+        self.assertEqual((int.from_bytes(desktop_payload[16:20], "big"), int.from_bytes(desktop_payload[20:24], "big")), (1012, 753))
+        self.assertEqual(hashlib.sha256(desktop_payload).hexdigest(), "9224cc710c1ffbe9d7e6b4be7471af098660b6490726b8d8671cc158b67b1bf8")
+
+    def test_story_primitives_keep_prose_and_evidence_on_separate_measures(self) -> None:
+        components = STORY_COMPONENTS.read_text(encoding="utf-8")
+        layout = STORY_LAYOUT.read_text(encoding="utf-8")
+        for selector in (
+            ".project-story-beats",
+            ".project-story-comparison",
+            ".project-storyboard",
+            ".project-story-note",
+            ".project-story-disclosure",
+        ):
+            with self.subTest(selector=selector):
+                self.assertIn(selector, components)
+                self.assertIn(selector, layout)
+        self.assertIn("min-height: 2.75rem", components)
+        self.assertIn("outline: var(--md-lite-focus-ring)", components)
+        self.assertIn("max-width: min(100%, 72rem)", layout)
+        self.assertIn("max-width: min(var(--measure-prose), 68ch)", layout)
+
     def test_truthful_teasers_are_tracked_for_newest_visual_experiments(self) -> None:
         for relative_path in (
             "assets/img/project_pics/paper-constellation/paper-constellation-teaser.png",
@@ -138,7 +226,11 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual(card_include.count("data-project-card-mobile-teaser"), 1)
         self.assertIn('media="(max-width: 767px)"', card_include)
         self.assertIn('srcset="{{ project_card_data.mobile_teaser | relative_url }}"', card_include)
-        self.assertIn('alt="{{ project.title | escape }}"', card_include)
+        self.assertEqual(
+            project_cards["paper-constellation"]["mobile_teaser_alt"],
+            "Mobile Paper Constellation teaser with three thread rails, anonymous future nodes, public rejection receipts, and the first accepted-paper row",
+        )
+        self.assertIn('alt="{{ project_card_data.mobile_teaser_alt | default: project.title | escape }}"', card_include)
 
     def test_build_rhythm_teaser_matches_the_approved_token_rhythm_capture(self) -> None:
         teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-stage.png"
@@ -168,15 +260,37 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertNotEqual(payloads["homepage-desk-2d-2026-07-16.png"], payloads["homepage-desk-3d-2026-07-16.png"])
         self.assertEqual((asset_root / "homepage-desk-depth.png").read_bytes(), payloads["homepage-desk-3d-2026-07-16.png"])
 
+        reproduced_sha256 = {
+            "homepage-desk-588e36509-2d-2026-07-16.png": "4f8389dbab217d95b8b21ca6efb1b21f3a00afe3df52a6edc0150b471c344756",
+            "homepage-desk-588e36509-3d-2026-07-16.png": "8e63f3d8d62e657c31e306e1bc76004ed694692e54914a87d4bbdb81c3b6a5f8",
+        }
+        for filename, expected_sha256 in reproduced_sha256.items():
+            with self.subTest(filename=filename):
+                payload = (asset_root / filename).read_bytes()
+                self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+                self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (1440, 1000))
+                self.assertEqual(hashlib.sha256(payload).hexdigest(), expected_sha256)
+
         case_study = (PROJECTS_DIR / "homepage-desk-scene.md").read_text(encoding="utf-8")
+        self.assertEqual(case_study.count("data-desk-comparison-era="), 2)
+        self.assertEqual(re.findall(r'data-desk-evidence-mode="([^"]+)"', case_study), ["2d", "3d", "2d", "3d"])
+        self.assertIn('class="project-story-comparison desk-scene-evidence-pair"', case_study)
+        self.assertIn('class="project-story-disclosure site-experiment-technical-details"', case_study)
+        self.assertIn("exact-commit replay", case_study)
+        self.assertIn("provenance labels. They are not causal performance claims", case_study)
         for phrase in (
+            "homepage-desk-588e36509-2d-2026-07-16.png",
+            "homepage-desk-588e36509-3d-2026-07-16.png",
             "homepage-desk-2d-2026-07-16.png",
             "homepage-desk-3d-2026-07-16.png",
+            'data-source-commit="588e365090e883323d836f5da023f7d40632f096"',
             'data-capture-source="8fc9bf7d3"',
             'data-scene-checkpoint="1b07cea4c"',
             'data-capture-viewport="1440x1000"',
             'data-capture-theme="light"',
             'data-capture-state="yellow-submarine-stopped-zero-discoveries"',
+            'data-capture-sequence="2d-then-mode-switch-only"',
+            'data-capture-device-pixel-ratio="1"',
             'data-capture-device-pixel-ratio="3"',
             "2ffd379af",
         ):

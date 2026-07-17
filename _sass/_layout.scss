@@ -132,6 +132,20 @@ body.sticky-bottom-footer {
   margin-left: auto;
 }
 
+.post.project-case-page article > .project-story-beats,
+.post.project-case-page article > .project-storyboard,
+.post.project-case-page article > .project-story-comparison {
+  max-width: min(100%, 72rem);
+  margin: 1.35rem auto 1.7rem;
+}
+
+.post.project-case-page article > .project-story-note,
+.post.project-case-page article > .project-story-disclosure {
+  width: 100%;
+  max-width: min(var(--measure-prose), 68ch);
+  margin: 1.25rem auto 1.6rem;
+}
+
 .section-reading-aid-target {
   scroll-margin-top: 6.5rem;
 }

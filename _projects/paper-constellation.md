@@ -1,8 +1,8 @@
 ---
 layout: page
 title: Paper Constellation
-description: A list-first publication browser that maps five accepted papers across Design, Evaluate, and Situate while keeping unannounced work deliberately anonymous.
-img: assets/img/project_pics/paper-constellation/paper-constellation-teaser.png
+description: A publication browser that turns five accepted papers, seven anonymous future nodes, and nine reviewed relationships into a desktop atlas and chronological mobile trail.
+img: assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png
 image_aspect: 4 / 3
 card_avoid_scaling: true
 importance: -31
@@ -20,75 +20,144 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · Publication orientation</p>
     <h1>Paper Constellation</h1>
     <p class="project-case-lede">
-      I wanted the publications page to show how my research questions move between designing alternatives, evaluating evidence, and fitting tools to context—without replacing the bibliography or pretending that work in progress is already a paper.
+      A bibliography is good at proving that a paper exists. It is less good at showing how one research question leans into the next. I built this optional map to make those relationships easier to follow without turning geometry into credentials or unfinished work into publication claims.
     </p>
     <div class="project-case-facts">
       <span>5 accepted papers</span>
-      <span>3 stable research threads</span>
-      <span>7 anonymous future markers</span>
-      <span>List-first fallback</span>
+      <span>3 research threads</span>
+      <span>7 anonymous future nodes</span>
+      <span>9 reviewed connections</span>
     </div>
     <div class="project-case-actions">
-      <a href="{{ '/publications/' | relative_url }}">Open the publication page</a>
+      <a href="{{ '/publications/' | relative_url }}">Explore the constellation</a>
       <a href="{{ '/assets/downloads/site-experiments/paper-constellation-reproduction.md' | relative_url }}" download>Download the reproduction guide</a>
     </div>
   </div>
   <figure class="project-case-media site-experiment-evidence-figure">
-    <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-teaser.png' | relative_url }}" alt="Paper Constellation connecting five published papers and anonymous future nodes across Design, Evaluate, and Situate research threads" loading="eager">
-    <figcaption>Published papers keep their names; future directions remain anonymous and reveal only thread and relative size.</figcaption>
+    <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png' | relative_url }}" alt="Desktop Paper Constellation connecting five accepted papers and seven anonymous future nodes across Design, Evaluate, and Situate" loading="eager" width="1012" height="753">
+    <figcaption>The desktop atlas keeps the three research threads spatially stable so the same relationships remain findable.</figcaption>
   </figure>
 </section>
 
 <section class="project-case-summary" aria-label="Paper Constellation summary">
   <div>
-    <span>Question</span>
-    <p>Can a playful publication view teach the connections among papers while leaving the canonical citation list intact?</p>
+    <span>Why</span>
+    <p>The publication list documented individual outputs, but it hid the questions and methods that recur between them.</p>
   </div>
   <div>
-    <span>Artifact</span>
-    <p>A deterministic, filter-aware map with hover neighborhoods, click-to-pin details, citation halos, and a compact mobile reading order.</p>
+    <span>What</span>
+    <p>An optional relationship map links five accepted papers to three threads while keeping seven future directions anonymous.</p>
   </div>
   <div>
-    <span>Boundary</span>
-    <p>Accepted work uses public bibliography data. Future work gets neutral IDs, question marks, coarse thread placement, and only already-public rejection receipts.</p>
+    <span>How</span>
+    <p>Reviewed coordinates and nine explicit edges power a desktop atlas and a separately composed chronological mobile trail.</p>
   </div>
 </section>
 
-## The bibliography stays in charge
+<h2 class="sr-only" id="paper-constellation-story-title">From list to trail</h2>
 
-The publication list is still the default view and the only no-JavaScript view. It carries the titles, authors, venues, links, citation context, and search behavior people expect from an academic site. The constellation is an optional way to orient before returning to that evidence.
+<ol class="project-story-beats" aria-labelledby="paper-constellation-story-title">
+  <li class="project-story-beat" data-story-beat="spark">
+    <p class="project-case-kicker">Spark</p>
+    <h3>The list could not show lineage.</h3>
+    <p>The bibliography could answer “what did you publish?” but not “how did this question become the next one?”</p>
+  </li>
+  <li class="project-story-beat" data-story-beat="turn">
+    <p class="project-case-kicker">Turn</p>
+    <h3>A compressed atlas stopped reading as a map.</h3>
+    <p>A spatial desktop map made relationships memorable, then failed on a narrow screen when its labels and paths were simply squeezed.</p>
+  </li>
+  <li class="project-story-beat" data-story-beat="now">
+    <p class="project-case-kicker">Now</p>
+    <h3>One graph, two deliberate geometries.</h3>
+    <p>The large screen remains an atlas; mobile becomes a chronological vertical thread trail with the same papers, memberships, edges, and privacy boundary.</p>
+  </li>
+</ol>
 
-This order matters. A constellation can make relationships memorable, but it should not make a reader decode geometry before they can verify a paper. The view switch appears only after the enhancement script starts, so a failed script or a text-only browser still receives the full bibliography.
+## A map for relationships, not credentials
 
-## One stable visual grammar
+The horizontal positions mean the same thing on every desktop visit: **Design** makes alternatives and useful dimensions visible; **Evaluate** uses evidence from people, artifacts, and traces to sharpen the next question; **Situate** fits representations and assistance to their physical or practical context. Those are reading aids, not rankings. Citation counts change only a quiet halo, and no position is generated from prestige, venue, or author order.
 
-The horizontal positions mean the same thing on every visit: **Design**, **Evaluate**, and **Situate**. Published papers have hand-reviewed coordinates and explicit primary, bridge, or technical-adjacency memberships. Citation totals change the size of a quiet halo; they do not push papers around.
+Published papers use hand-reviewed coordinates and explicit primary, bridge, or technical-adjacency memberships. I chose deterministic geometry instead of a force simulation because stability is part of the explanation: a returning reader should find DesignWeaver, Physion, or HotSpot in the same place and be able to compare screenshots across revisions. **HotSpot sits between Design and Situate as a technical graphics adjacency, not an interaction-study claim.**
 
-I chose deterministic geometry instead of a force simulation because stability is part of the explanation. A returning reader should find DesignWeaver, Physion, or HotSpot in the same place and be able to compare screenshots across revisions. HotSpot sits between Design and Situate as a technical graphics adjacency, not as a claim that it reports an HCI study.
+The canonical bibliography stays visible by default and remains the no-JavaScript experience. The constellation switch appears only after the enhancement starts successfully, so the visual story never becomes a gate to titles, authors, venues, links, or citation evidence.
 
-Hover or keyboard focus previews a paper's immediate neighborhood. Selecting it pins the same evidence and asks the existing Scholar lens to highlight the corresponding citation trace. Filters flow the other way: when the Scholar lens removes a paper from the active set, that node becomes dimmed, disabled, and unreachable by Tab.
+## Follow one line: DesignWeaver to What Happened and Why
 
-## Show direction without making a publication claim
+[DesignWeaver]({{ '/projects/designweaver/' | relative_url }}) began with a design problem: help novices surface and reuse the visual dimensions hidden inside prompts and generated concepts. It sits primarily in Design, with a bridge toward Evaluate, because making alternatives visible was only useful if people could compare and learn from them.
 
-Seven question marks hold space above the accepted-paper timeline: three larger near-term markers and four smaller earlier-stage markers. Five sit on the Design thread and two on Situate. Their identifiers are deliberately generic, and only one marker carries the already-public CHI '26 and UIST '26 rejection tags from the Wall of Rejection.
+The reviewed edge to [What Happened and Why?]({{ '/projects/what-happened-and-why/' | relative_url }}) carries that concern forward. The later position paper asks how traces of creative activity might locate consequential micro-episodes, then proposes pairing those traces with in-flow user explanations to help a team interpret what happened and why. Its primary home shifts toward Evaluate while retaining a Design bridge. The line does not claim one paper caused the other; it makes a shared question inspectable: **what evidence helps a designer make the next iteration more deliberate?**
 
-The implementation treats this as a privacy boundary, not a copywriting choice. Names, titles, collaborators, draft venues, and descriptive hints do not belong in the data file, HTML, JavaScript, downloads, analytics, alt text, comments, or commit messages. If a project becomes public, it should enter through the normal bibliography and project-page contracts instead of quietly gaining detail inside a future node.
+Hover or keyboard focus previews a paper's immediate neighborhood. Selecting it pins the same evidence and asks Scholar Lens to highlight that paper's citation chip and annual bar. Filtering flows back the other way: a removed paper dims, becomes disabled, and leaves the Tab order rather than pretending to remain selectable.
 
-## What I borrowed, and what I changed
+## One record, two reading shapes
 
-[John Thompson](https://jrthomp.com/) shared Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) with me. Bremer's work made the useful interaction lesson vivid: stable semantic axes, contextual dimming, and a neighborhood that becomes legible through hover and selection. Her [process story](https://www.datasketch.es/project/royal-constellations) also shows how much care sits behind an apparently effortless map.
+The first mobile version behaved like a compressed poster: labels fought for the sides, empty years dominated the page, and the constellation no longer felt connected. The fix was not to miniaturize the desktop canvas. It was to preserve the data contract while changing the reading shape.
 
-I borrowed those principles, not the royal-family data, layout, assets, D3 force-directed SVG implementation, or shortest-path behavior. This version uses ordinary server-rendered HTML and SVG, keeps the bibliography as the default, gives touch and keyboard users equivalent controls, and turns the graph into stacked thread lists on narrow screens.
+<section
+  class="project-story-comparison paper-constellation-evidence-pair"
+  data-desktop-checkpoint="6832a6a05b5ff2b6c692bb3f5e3654a535e4401e"
+  data-desktop-capture-date="2026-07-16"
+  data-desktop-source-viewport="1440x1000"
+  data-desktop-device-pixel-ratio="1"
+  data-desktop-theme="light"
+  data-desktop-view="constellation-active"
+  data-desktop-state="no-paper-pinned"
+  data-desktop-artifact-size="1012x753"
+  data-mobile-checkpoint="6832a6a05b5ff2b6c692bb3f5e3654a535e4401e"
+  data-mobile-capture-date="2026-07-16"
+  data-mobile-source-viewport="390x1000"
+  data-mobile-theme="light"
+  data-mobile-view="constellation-active"
+  data-mobile-state="no-paper-pinned"
+  data-mobile-artifact-size="360x270"
+  aria-label="Desktop atlas and mobile trail comparison"
+>
+  <figure class="project-case-media site-experiment-evidence-figure">
+    <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png' | relative_url }}" alt="Desktop publication atlas with Design, Evaluate, and Situate columns, five accepted-paper controls, seven anonymous future nodes, and connecting paths" loading="lazy" width="1012" height="753">
+    <figcaption><strong>Desktop atlas.</strong> Stable horizontal positions support scanning across threads and tracing nearby relationships. This 1012 × 753 crop comes from a 1440 × 1000 light-theme runtime at checkpoint <code>6832a6a05</code>, with the constellation active and no paper pinned.</figcaption>
+  </figure>
+  <figure class="project-case-media site-experiment-evidence-figure paper-constellation-mobile-evidence">
+    <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png' | relative_url }}" alt="Mobile teaser crop showing three vertical research-thread rails, four anonymous question-mark nodes, two public rejection receipts, and the first accepted-paper row" loading="lazy" width="360" height="270">
+    <figcaption><strong>Mobile trail.</strong> Chronological rows gain three persistent thread rails, membership stubs, and paths that keep the constellation visible without squeezing the copy.</figcaption>
+  </figure>
+</section>
 
-## Iteration ledger
+The mobile image is a literal 360 × 270 card crop from a 390 × 1000 light-theme runtime capture. It records the constellation active with no paper pinned at checkpoint <code>6832a6a05b5ff2b6c692bb3f5e3654a535e4401e</code>; the sticky site navigation is omitted from the crop because it is site chrome around the experiment, not evidence inside it.
 
-- **July 15, 2026 — Traceable implementation checkpoint.** The privacy-safe data-contract commit `855f1bce8` carries an author timestamp of <time datetime="2026-07-15T04:10:52-07:00">4:10 AM PDT</time>; the visitor-facing implementation commit `eeb0a5764` carries an author timestamp of <time datetime="2026-07-15T16:51:26-07:00">4:51 PM PDT</time>. The project card uses the latter to match the other experiments' author-time chronology; deployment happened later.
-- **July 15, 2026 — List before constellation.** Kept the bibliography visible by default and hid the mode switch unless JavaScript successfully initialized.
-- **July 15, 2026 — Stable threads, stable coordinates.** Replaced any temptation toward force-directed motion with reviewed Design/Evaluate/Situate positions and nine explicit edges.
-- **July 15, 2026 — Privacy as schema.** Restricted future records to neutral IDs, size, thread, position, and an allowlisted public-rejection field.
-- **July 15, 2026 — One evidence loop.** Connected constellation focus and filters to the existing Scholar lens instead of inventing a second citation model.
-- **July 15, 2026 — Responsive and interruptible.** Added mobile thread lists, visible focus, click-to-pin and Escape recovery, disabled filtered nodes, and a motion-free equivalent.
+On the live page, the trail still renders all three rails, five at-least-44-pixel paper controls, seven anonymous future nodes, five secondary-membership stubs, and all nine canonical paths. Selecting a paper places its detail directly below that row; Escape clears it and restores focus. A <code>ResizeObserver</code> measures the settled anchors after layout or font changes, then redraws fixed paths without force simulation or moving the nodes.
 
-## Reproduce the pattern
+<aside class="project-story-note project-story-note--privacy site-experiment-privacy-note" aria-labelledby="constellation-privacy-title">
+  <p class="project-case-kicker">Privacy boundary</p>
+  <h2 id="constellation-privacy-title">Future work stays less specific than curiosity wants it to be.</h2>
+  <p>Seven question marks reveal only a neutral ID, coarse thread, relative major/minor size, and allowlisted public rejection receipts. Names, titles, collaborators, draft venues, descriptive hints, and hidden routes do not enter the data, HTML, JavaScript, downloads, analytics, alt text, comments, or commit messages.</p>
+</aside>
 
-The [reproduction guide]({{ '/assets/downloads/site-experiments/paper-constellation-reproduction.md' | relative_url }}) documents the data schema, progressive-enhancement order, privacy checks, interaction contract, and acceptance evidence. The durable lesson is small: teach one stable visual grammar, keep authoritative evidence one click away, and make every speculative hint less specific than you first think it needs to be.
+## Credit, with boundaries
+
+[John Thompson](https://jrthomp.com/) shared Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) with me. Bremer's work at [Visual Cinnamon](https://www.visualcinnamon.com/) made a useful interaction lesson vivid: stable semantic structure, contextual dimming, and a neighborhood that becomes legible through focus and selection. Her [process story](https://www.datasketch.es/project/royal-constellations) also shows how much care sits behind an apparently effortless map.
+
+I borrowed those principles, not the royal-family data, visual layout, assets, D3 force-directed SVG implementation, or shortest-path behavior. This site uses server-rendered HTML plus a fixed SVG layer, preserves the bibliography as the authoritative default, and gives touch and keyboard readers equivalent control.
+
+<details class="project-story-disclosure site-experiment-technical-details">
+  <summary id="constellation-technical-summary">Technical provenance and exact ledger</summary>
+  <div class="project-story-disclosure-body" aria-labelledby="constellation-technical-summary">
+    <ul>
+      <li><strong>Privacy-safe data contract:</strong> <code>855f1bce857fc739bf16f206a0d19de10741c0f7</code>, authored <time datetime="2026-07-15T04:10:52-07:00">July 15, 2026 at 4:10 AM PDT</time>.</li>
+      <li><strong>Desktop implementation and card chronology:</strong> <code>eeb0a57641795897999f822519b390e2c30a7a3b</code>, authored <time datetime="2026-07-15T16:51:26-07:00">July 15, 2026 at 4:51 PM PDT</time>.</li>
+      <li><strong>Desktop capture:</strong> checkpoint <code>6832a6a05</code>, captured July 16 from a 1440 × 1000 Chromium viewport at device-pixel ratio 1, light theme, constellation active, no paper pinned; cropped to a 1012 × 753 artifact without moving nodes.</li>
+      <li><strong>Mobile trail checkpoint:</strong> <code>6832a6a05b5ff2b6c692bb3f5e3654a535e4401e</code>, authored <time datetime="2026-07-16T15:48:53-07:00">July 16, 2026 at 3:48 PM PDT</time>.</li>
+      <li><strong>Mobile capture:</strong> checkpoint <code>6832a6a05</code>, 390 × 1000 source viewport, light theme, constellation active, no paper pinned; cropped to a 360 × 270 card artifact.</li>
+      <li><strong>Graph contract:</strong> five accepted papers, seven anonymous future nodes (three major and four minor), three thread rails, five secondary memberships, and nine explicit nonzero edges.</li>
+      <li><strong>Interaction contract:</strong> hover and focus preview; click or activation pins; Escape clears and restores focus; Scholar Lens filtering, citation-chip focus, and annual-bar focus stay synchronized.</li>
+      <li><strong>Layout contract:</strong> reviewed desktop coordinates and measured mobile anchors; no force simulation, random placement, or moving-node animation.</li>
+    </ul>
+  </div>
+</details>
+
+<aside class="site-experiment-reproduce" aria-labelledby="constellation-reproduce-title">
+  <p class="project-case-kicker">Reproduce the pattern</p>
+  <h2 id="constellation-reproduce-title">Keep the evidence ordinary; let the optional view teach one relationship.</h2>
+  <p>The public guide documents the progressive-enhancement order, privacy schema, focus and filtering contract, deterministic geometry, and acceptance evidence. The reusable lesson is not this particular constellation: it is to give a large and small screen the same truth without forcing them into the same composition.</p>
+  <a href="{{ '/assets/downloads/site-experiments/paper-constellation-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
+</aside>
