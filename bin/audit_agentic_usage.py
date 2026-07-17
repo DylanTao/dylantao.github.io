@@ -55,7 +55,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 35
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 36
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4471,6 +4471,71 @@ del (
 )
 
 
+def _policy_v36_runtime_canary_acknowledgment(
+    timestamp: str,
+    leaf_session: str,
+    exact_line: str,
+    completed_at: str,
+) -> dict[str, str]:
+    """Build one exact policy-v36 no-tools runtime-canary acknowledgment."""
+
+    return {
+        "timestamp": timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-17",
+        "reason": (
+            "An explicit no-tools runtime-attestation canary in the separate "
+            "semantic-scaffolding-map repository requested max effort and only an exact "
+            "one-line response; it did not perform site development."
+        ),
+        "provenance": (
+            f"Retained leaf session {leaf_session}, exact prompt and matching response "
+            f"{exact_line}, and task_complete at {completed_at}; audited 2026-07-17."
+        ),
+    }
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V36_RUNTIME_CANARY_TURNS = (
+    (
+        "019f71d4-f753-7452-a720-a0206299ac09",
+        "2026-07-17T20:46:52.998Z",
+        "019f71d4-dda2-7a01-9bbc-4a27f9db38d4",
+        "runtime-attestation-canary:00000000000000000000000000000000",
+        "2026-07-17T20:46:55.236Z",
+    ),
+    (
+        "019f71d6-21f5-7ad0-8c5f-c2b47baa5c27",
+        "2026-07-17T20:48:08.973Z",
+        "019f71d6-1626-7d43-9ce5-69b5695cec04",
+        "runtime-attestation-canary:c26a920b901e483793a190c0f0f6423b",
+        "2026-07-17T20:48:11.494Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _exact_line,
+    _completed_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V36_RUNTIME_CANARY_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = _policy_v36_runtime_canary_acknowledgment(
+        _timestamp,
+        _leaf_session,
+        _exact_line,
+        _completed_at,
+    )
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V36_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V36_RUNTIME_CANARY_TURNS
+)
+
+del _policy_v36_runtime_canary_acknowledgment
+del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
+
+
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
 WH_PER_TOKEN_HIGH = 0.002
@@ -4523,12 +4588,9 @@ MODEL_TRACKING_CHECK_FIELDS = (
     ("caveat",),
 )
 LOCAL_LIFETIME_CHECK_FIELDS = (
-    ("sessions",),
-    ("token_count",),
     ("tokens_label",),
-    ("api_cost_equivalence", "usd_midpoint"),
+    ("hours_label",),
     ("api_cost_equivalence", "usd_label"),
-    ("api_cost_equivalence", "unpriced_token_usage", "total_tokens"),
 )
 METRICS_BOT_EMAILS = frozenset({"metrics-bot@users.noreply.github.com"})
 

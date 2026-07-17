@@ -318,8 +318,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 35)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 447)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 36)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 449)
         required_fields = {
             "timestamp",
             "model",
@@ -1206,6 +1206,58 @@ class SessionAccountingTests(unittest.TestCase):
             self.assertIn("allow decision", policy["provenance"])
             self.assertIn(execution_summary, policy["provenance"])
 
+    def test_policy_v36_turns_are_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V36_TURN_IDS
+        self.assertEqual(
+            turn_ids,
+            (
+                "019f71d4-f753-7452-a720-a0206299ac09",
+                "019f71d6-21f5-7ad0-8c5f-c2b47baa5c27",
+            ),
+        )
+
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"policy-v36-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"policy-v36-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 2)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 2)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"gpt-5.6-sol/max": 2})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(
+            all(item["acknowledgment"]["signature_matches"] for item in tracking["post_cutover_deviations"])
+        )
+
+        for row in audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V36_RUNTIME_CANARY_TURNS:
+            turn_id, _timestamp, leaf_session, exact_line, completed_at = row
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            self.assertIn(f"leaf session {leaf_session}", policy["provenance"])
+            self.assertIn(exact_line, policy["provenance"])
+            self.assertIn(f"task_complete at {completed_at}", policy["provenance"])
+            self.assertIn("no-tools runtime-attestation canary", policy["reason"])
+
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
         policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
@@ -1676,6 +1728,59 @@ class TokenRhythmTests(unittest.TestCase):
 
         self.assertEqual(len(mismatches), 1)
         self.assertTrue(mismatches[0].startswith("total.token_rhythm:"))
+
+    def test_local_lifetime_internal_drift_does_not_fail_when_public_labels_match(self) -> None:
+        current = {
+            "local_lifetime": {
+                "sessions": 612,
+                "token_count": 19_350_000_000,
+                "tokens_label": "19.4B",
+                "hours_count": 1046,
+                "hours_label": "1046",
+                "api_cost_equivalence": {
+                    "usd_midpoint": 15_300,
+                    "usd_label": "~$15.3K API-rate replay",
+                    "unpriced_token_usage": {"total_tokens": 27_393_580},
+                },
+            }
+        }
+        proposed = copy.deepcopy(current)
+        proposed_lifetime = proposed["local_lifetime"]
+        proposed_lifetime["sessions"] += 1
+        proposed_lifetime["token_count"] += 10_000_000
+        proposed_lifetime["hours_count"] += 1
+        proposed_lifetime["api_cost_equivalence"]["usd_midpoint"] += 1
+        proposed_lifetime["api_cost_equivalence"]["unpriced_token_usage"]["total_tokens"] += 1_000
+
+        self.assertEqual(audit.check_public_freshness(current, proposed), [])
+
+    def test_local_lifetime_public_label_drift_fails_freshness(self) -> None:
+        current = {
+            "local_lifetime": {
+                "tokens_label": "19.4B",
+                "hours_label": "1046",
+                "api_cost_equivalence": {"usd_label": "~$15.3K API-rate replay"},
+            }
+        }
+        cases = (
+            (("tokens_label",), "19.5B"),
+            (("hours_label",), "1047"),
+            (("api_cost_equivalence", "usd_label"), "~$15.4K API-rate replay"),
+        )
+
+        for field_path, value in cases:
+            with self.subTest(field_path=field_path):
+                proposed = copy.deepcopy(current)
+                target = proposed["local_lifetime"]
+                for key in field_path[:-1]:
+                    target = target[key]
+                target[field_path[-1]] = value
+
+                mismatches = audit.check_public_freshness(current, proposed)
+
+                label = ".".join(("local_lifetime", *field_path))
+                self.assertEqual(len(mismatches), 1)
+                self.assertTrue(mismatches[0].startswith(f"{label}:"))
 
 
 class PendingChangesTests(unittest.TestCase):
