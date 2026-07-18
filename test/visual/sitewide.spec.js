@@ -483,16 +483,19 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     await stage.press("Home");
     await expect(thumbs.first()).toHaveAttribute("aria-current", "true");
 
+    const viewportWidth = page.viewportSize()?.width ?? 0;
     const backToTop = page.locator("#back-to-top");
+    const backToTopTarget = viewportWidth <= 575 ? page.locator(".mobile-back-to-top") : backToTop;
     await expect(backToTop).toHaveCount(1);
-    const backToTopSize = await backToTop.evaluate((element) => {
+    await expect(backToTopTarget).toBeVisible();
+    const backToTopSize = await backToTopTarget.evaluate((element) => {
       const box = element.getBoundingClientRect();
       return { height: box.height, width: box.width };
     });
     expect(backToTopSize.height).toBeGreaterThanOrEqual(44);
     expect(backToTopSize.width).toBeGreaterThanOrEqual(44);
 
-    if ((page.viewportSize()?.width ?? 0) <= 767) {
+    if (viewportWidth <= 767) {
       await expect(backToTop).toHaveCSS("visibility", "hidden");
       await expect(backToTop).toHaveCSS("pointer-events", "none");
       await expect(backToTop).toHaveCSS("opacity", "0");
