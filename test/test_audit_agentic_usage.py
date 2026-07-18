@@ -318,8 +318,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 37)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 452)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 38)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 453)
         required_fields = {
             "timestamp",
             "model",
@@ -1310,6 +1310,62 @@ class SessionAccountingTests(unittest.TestCase):
             self.assertIn(exact_line, policy["provenance"])
             self.assertIn(f"task_complete at {completed_at}", policy["provenance"])
             self.assertIn("no-tools runtime-attestation challenge or canary", policy["reason"])
+
+    def test_policy_v38_turn_is_acknowledged_by_exact_signature(self) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V38_TURN_IDS
+        self.assertEqual(turn_ids, ("019f7469-762b-75a2-b4e7-391609beef4c",))
+        runtime_turns = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V38_RUNTIME_ATTESTATION_TURNS
+        self.assertEqual(
+            runtime_turns,
+            (
+                (
+                    "019f7469-762b-75a2-b4e7-391609beef4c",
+                    "2026-07-18T08:48:18.647Z",
+                    "019f7469-6ca7-7582-90da-aab3f724cd27",
+                    "runtime-attestation-canary:25c503c04cbf4d7a960c17df58ee915c",
+                    "2026-07-18T08:48:21.159Z",
+                ),
+            ),
+        )
+
+        turn_id = turn_ids[0]
+        policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+        timestamp = audit.parse_timestamp(policy["timestamp"])
+        assert timestamp is not None
+        context = audit.TurnContextRecord(
+            timestamp=timestamp,
+            leaf_session_id="policy-v38-1",
+            turn_id=turn_id,
+            model=policy["model"],
+            effort=policy["effort"],
+            path=Path("policy-v38-1.jsonl"),
+            ordinal=1,
+        )
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn={turn_id: context},
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"gpt-5.6-sol/max": 1})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(tracking["post_cutover_deviations"][0]["acknowledgment"]["signature_matches"])
+
+        _turn_id, _exact_timestamp, leaf_session, exact_line, completed_at = runtime_turns[0]
+        self.assertEqual(_turn_id, turn_id)
+        self.assertEqual(policy["model"], "gpt-5.6-sol")
+        self.assertEqual(policy["effort"], "max")
+        self.assertIn(f"leaf session {leaf_session}", policy["provenance"])
+        self.assertIn(exact_line, policy["provenance"])
+        self.assertIn(f"task_complete at {completed_at}", policy["provenance"])
+        self.assertIn("no-tools runtime-attestation canary", policy["reason"])
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"

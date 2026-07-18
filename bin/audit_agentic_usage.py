@@ -55,7 +55,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 37
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 38
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4607,6 +4607,47 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V37_TURN_IDS = tuple(
 )
 
 del _policy_v37_runtime_attestation_acknowledgment
+del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V38_RUNTIME_ATTESTATION_TURNS = (
+    (
+        "019f7469-762b-75a2-b4e7-391609beef4c",
+        "2026-07-18T08:48:18.647Z",
+        "019f7469-6ca7-7582-90da-aab3f724cd27",
+        "runtime-attestation-canary:25c503c04cbf4d7a960c17df58ee915c",
+        "2026-07-18T08:48:21.159Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _exact_line,
+    _completed_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V38_RUNTIME_ATTESTATION_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-18",
+        "reason": (
+            "An explicit no-tools runtime-attestation canary in the separate "
+            "semantic-scaffolding-map repository requested max effort and only an exact "
+            "one-line response; it did not perform site development."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, exact prompt and matching response "
+            f"{_exact_line}, and task_complete at {_completed_at}; audited 2026-07-18."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V38_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V38_RUNTIME_ATTESTATION_TURNS
+)
+
 del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
 
 
