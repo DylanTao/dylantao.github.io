@@ -27,11 +27,27 @@ const EXTERNAL_IMAGE_STUB_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="
 const EMPTY_EXTERNAL_STUB_SHA256 = "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=";
 
 function isExpectedExternalStubIntegrityError(message) {
-  const match = message.match(/resource '([^']+)' with computed SHA-256 integrity '([^']+)'/);
-  if (!match || match[2] !== EMPTY_EXTERNAL_STUB_SHA256) return false;
+  const computedMatch = message.match(/resource '([^']+)' with computed SHA-256 integrity '([^']+)'/);
+  if (computedMatch?.[2] === EMPTY_EXTERNAL_STUB_SHA256) {
+    try {
+      const hostname = new URL(computedMatch[1]).hostname.toLowerCase();
+      return DETERMINISTIC_EXTERNAL_STUB_HOSTS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+    } catch {
+      return false;
+    }
+  }
+
+  // Linux WebKit reports the same intentionally empty jsDelivr stub without
+  // the computed empty-body digest. Match only its exact no-content SRI
+  // diagnostic and the npm path that applyNetworkStubs intercepts.
+  const emptyStubMatch = message.match(
+    /^Cannot load (?:stylesheet|script) (https:\/\/\S+)\. Failed integrity metadata check\. Content length: \(no content\), Expected content length: 0, Expected metadata: sha256-[A-Za-z0-9+/]+={0,2}$/
+  );
+  if (!emptyStubMatch) return false;
+
   try {
-    const hostname = new URL(match[1]).hostname.toLowerCase();
-    return DETERMINISTIC_EXTERNAL_STUB_HOSTS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+    const url = new URL(emptyStubMatch[1]);
+    return url.hostname.toLowerCase() === "cdn.jsdelivr.net" && url.pathname.startsWith("/npm/");
   } catch {
     return false;
   }
@@ -280,6 +296,7 @@ async function compareWithBaseline(context, currentPage, route, themeSetting, op
 module.exports = {
   attachScreenshot,
   collectRuntimeErrors,
+  isExpectedExternalStubIntegrityError,
   preparePage,
   screenshotDiffRatio,
   screenshotMetrics,

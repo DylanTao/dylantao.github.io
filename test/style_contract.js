@@ -6,10 +6,33 @@ const root = process.cwd();
 const read = (relPath) => fs.readFileSync(path.join(root, relPath), "utf8");
 const exists = (relPath) => fs.existsSync(path.join(root, relPath));
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const { isExpectedExternalStubIntegrityError } = require("./visual/helpers");
 
 const failures = [];
 const overrideManifestPath = ".al-folio-overrides.yml";
 const hasOverrideManifest = exists(overrideManifestPath);
+
+const emptyStubSriMetadata = "sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=";
+const linuxEmptyStubMessages = [
+  `Cannot load stylesheet https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css. Failed integrity metadata check. Content length: (no content), Expected content length: 0, Expected metadata: ${emptyStubSriMetadata}`,
+  `Cannot load script https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js. Failed integrity metadata check. Content length: (no content), Expected content length: 0, Expected metadata: ${emptyStubSriMetadata}`,
+];
+for (const message of linuxEmptyStubMessages) {
+  if (!isExpectedExternalStubIntegrityError(message)) {
+    failures.push("Visual error collection must recognize exact Linux WebKit SRI diagnostics for deterministic empty jsDelivr stubs.");
+  }
+}
+
+for (const message of [
+  `Cannot load stylesheet http://127.0.0.1:4000/assets/main.css. Failed integrity metadata check. Content length: (no content), Expected content length: 0, Expected metadata: ${emptyStubSriMetadata}`,
+  `Cannot load stylesheet https://cdn.jsdelivr.net/npm/example.css. Failed integrity metadata check. Content length: 10, Expected content length: 0, Expected metadata: ${emptyStubSriMetadata}`,
+  `Cannot load stylesheet https://example.com/npm/example.css. Failed integrity metadata check. Content length: (no content), Expected content length: 0, Expected metadata: ${emptyStubSriMetadata}`,
+  "Failed to load resource: net::ERR_NETWORK_ACCESS_DENIED",
+]) {
+  if (isExpectedExternalStubIntegrityError(message)) {
+    failures.push("Visual error collection must keep local, nonempty, non-jsDelivr, and generic network failures actionable.");
+  }
+}
 
 const packageJson = JSON.parse(read("package.json"));
 const scripts = packageJson.scripts || {};
