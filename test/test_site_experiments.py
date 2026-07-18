@@ -423,14 +423,12 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual(card_include.count("data-project-card-mobile-teaser"), 1)
         self.assertIn('media="(max-width: 767px)"', card_include)
         self.assertIn('srcset="{{ project_card_data.mobile_teaser | relative_url }}"', card_include)
-        self.assertEqual(
-            project_cards["paper-constellation"]["mobile_teaser_alt"],
-            "Mobile Paper Constellation teaser with three thread rails, anonymous future nodes, public rejection receipts, and the first accepted-paper row",
-        )
+        self.assertNotIn("mobile_teaser_alt", project_cards["paper-constellation"])
         self.assertEqual(
             project_cards["paper-constellation"]["teaser_alt"],
-            "Paper Constellation teaser connecting accepted papers and anonymous future nodes across three research threads",
+            "Paper Constellation preview showing accepted papers and anonymous future nodes across the Design, Evaluate, and Situate research threads",
         )
+        self.assertNotIn("mobile_teaser_alt", card_include)
         self.assertIn('alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"', card_include)
 
     def test_build_rhythm_teaser_matches_the_approved_token_rhythm_capture(self) -> None:
@@ -440,6 +438,45 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (702, 508))
         blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
         self.assertEqual(blob_hash, "a85dfb18c584fdd064e92afe59a07daee37884a6")
+
+        source = (REPO_ROOT / "_projects" / "build-rhythm.md").read_text(encoding="utf-8")
+        for phrase in (
+            'data-evidence-kind="interface-anatomy-not-live-data"',
+            'data-asset-revision-commit="c613c7b0f3ef96e51e63321ad0b914dbef9add5d"',
+            'data-asset-revision-committed-at="2026-07-16T11:41:43-07:00"',
+            'data-capture-date="not-retained"',
+            'data-capture-viewport="not-retained"',
+            'data-capture-theme="not-retained"',
+            'data-capture-interaction-state="not-retained"',
+            "interface anatomy rather than live totals or an exact historical replay",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source)
+        self.assertNotIn("asset\u00e2", source)
+
+    def test_paper_constellation_reproduction_guide_matches_mobile_trail(self) -> None:
+        guide = (GUIDES_DIR / "paper-constellation-reproduction.md").read_text(encoding="utf-8")
+        self.assertNotIn("ordered thread sections", guide)
+        for phrase in (
+            "one chronological vertical trail",
+            "three visible Design, Evaluate, and Situate rails",
+            "five accepted-paper buttons",
+            "seven anonymous future nodes",
+            "five secondary-membership stubs",
+            "all nine canonical edges",
+            "measured anchors",
+            "`ResizeObserver`",
+            "immediately below its row",
+            "restores focus to that paper button",
+            "returns the detail panel to its neutral dock",
+            "Future nodes remain noninteractive",
+            "Scholar Lens synchronization",
+            "rejection receipts",
+            "major/minor sizing",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, guide)
+        self.assertNotIn("paper\u00e2", guide)
 
     def test_homepage_desk_capture_pair_has_pinned_state_and_provenance(self) -> None:
         asset_root = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments"

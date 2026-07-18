@@ -310,6 +310,165 @@ test("mobile constellation information strokes clear 3:1 in every coastal mode",
   expect(runtimeErrors, "coastal constellation contrast checks raised browser runtime errors").toEqual([]);
 });
 
+test("mobile trail recomputes at DPR2 with 200% root text reflow", async ({ browser }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one custom DPR2 context covers the mobile breakpoint");
+
+  const context = await browser.newContext({
+    deviceScaleFactor: 2,
+    locale: "en-US",
+    timezoneId: "America/Los_Angeles",
+    viewport: { width: 720, height: 1000 },
+  });
+  const page = await context.newPage();
+  const runtimeErrors = collectRuntimeErrors(page);
+
+  const readGeometry = () =>
+    page.locator("[data-constellation-mobile]").evaluate((surface) => {
+      const paths = (selector) =>
+        Array.from(surface.querySelectorAll(selector)).map((path) => ({
+          d: path.getAttribute("d") || "",
+          length: path.getTotalLength(),
+        }));
+      const graph = surface.querySelector("[data-constellation-mobile-graph]");
+      const trail = surface.querySelector("[data-constellation-mobile-trail]");
+      const trailRect = trail.getBoundingClientRect();
+      const viewBox = graph.viewBox.baseVal;
+
+      return {
+        copyWidths: Array.from(surface.querySelectorAll(".paper-constellation-mobile-copy")).map((copy) => copy.getBoundingClientRect().width),
+        edgePaths: paths("[data-constellation-mobile-edge]"),
+        futureCount: surface.querySelectorAll("[data-constellation-future]").length,
+        futureControlCount: surface.querySelectorAll(
+          "[data-constellation-future] a, [data-constellation-future] button, [data-constellation-future] [tabindex]"
+        ).length,
+        graphFitsTrail: Math.abs(viewBox.width - trailRect.width) <= 1 && Math.abs(viewBox.height - trailRect.height) <= 1,
+        membershipPaths: paths("[data-constellation-mobile-membership]"),
+        paperTargets: Array.from(surface.querySelectorAll("[data-constellation-paper]")).map((button) => {
+          const rect = button.getBoundingClientRect();
+          return { height: rect.height, width: rect.width };
+        }),
+        railPaths: paths("[data-constellation-mobile-rail]"),
+      };
+    });
+
+  const pathsAreReady = (state) =>
+    state.graphFitsTrail &&
+    state.railPaths.length === 3 &&
+    state.edgePaths.length === 9 &&
+    state.membershipPaths.length === 5 &&
+    [...state.railPaths, ...state.edgePaths, ...state.membershipPaths].every((path) => path.d.startsWith("M ") && path.length > 1);
+
+  try {
+    const { constellationPanel } = await openConstellation(page, "light");
+    const mobileSurface = page.locator("[data-constellation-mobile]");
+
+    await expect(mobileSurface).toBeVisible();
+    await expect(page.locator("[data-constellation-desktop]")).toBeHidden();
+    await expect.poll(() => page.evaluate(() => window.devicePixelRatio)).toBe(2);
+    await expect.poll(async () => pathsAreReady(await readGeometry())).toBe(true);
+
+    const initialGeometry = await readGeometry();
+
+    // Change the settled layout so ResizeObserver must redraw paths from the
+    // newly measured anchors rather than merely validating initial geometry.
+    await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
+    await expect.poll(() => page.evaluate(() => Number.parseFloat(getComputedStyle(document.documentElement).fontSize))).toBe(32);
+    await expect
+      .poll(async () => {
+        const current = await readGeometry();
+        return pathsAreReady(current) && current.edgePaths.some((path, index) => path.d !== initialGeometry.edgePaths[index]?.d);
+      })
+      .toBe(true);
+
+    const zoomedGeometry = await readGeometry();
+    expect(zoomedGeometry.paperTargets).toHaveLength(5);
+    expect(zoomedGeometry.paperTargets.every((target) => target.height >= 44)).toBe(true);
+    expect(zoomedGeometry.copyWidths).toHaveLength(5);
+    expect(zoomedGeometry.copyWidths.every((width) => width >= 220)).toBe(true);
+    expect(zoomedGeometry.futureCount).toBe(7);
+    expect(zoomedGeometry.futureControlCount).toBe(0);
+
+    const designWeaverRow = mobileSurface.locator('[data-constellation-mobile-paper-row][data-constellation-node-id="tao2024designweaver"]');
+    const designWeaver = designWeaverRow.locator("[data-constellation-paper]");
+
+    await designWeaver.focus();
+    await expect(designWeaver).toBeFocused();
+    await designWeaver.press("Enter");
+    await expect(page.locator('[data-constellation-detail-paper="tao2024designweaver"]')).toBeVisible();
+
+    const placement = await designWeaverRow.evaluate((row) => {
+      const button = row.querySelector("[data-constellation-paper]");
+      const detail = row.querySelector("[data-constellation-detail]");
+      const slot = row.querySelector("[data-constellation-detail-slot]");
+      const buttonRect = button.getBoundingClientRect();
+      const detailRect = detail.getBoundingClientRect();
+
+      return {
+        buttonBottom: buttonRect.bottom,
+        detailInSelectedSlot: detail.parentElement === slot,
+        panelTop: detailRect.top,
+      };
+    });
+    expect(placement.detailInSelectedSlot).toBe(true);
+    expect(placement.panelTop).toBeGreaterThanOrEqual(placement.buttonBottom - 1);
+    expect(placement.panelTop - placement.buttonBottom).toBeLessThanOrEqual(2);
+    await expect.poll(async () => pathsAreReady(await readGeometry())).toBe(true);
+
+    const visibleDetailTargetHeights = await page
+      .locator("[data-constellation-detail] a, [data-constellation-detail] button")
+      .evaluateAll((elements) =>
+        elements.filter((element) => element.getClientRects().length > 0).map((element) => element.getBoundingClientRect().height)
+      );
+    expect(visibleDetailTargetHeights.length).toBeGreaterThan(0);
+    expect(visibleDetailTargetHeights.every((height) => height >= 44)).toBe(true);
+
+    const overflow = await page.evaluate(() => {
+      const root = document.documentElement;
+      const body = document.body;
+      const surface = document.querySelector("[data-constellation-mobile]");
+      const trail = document.querySelector("[data-constellation-mobile-trail]");
+      const visibleControls = Array.from(surface.querySelectorAll("a, button")).filter((control) => control.getClientRects().length > 0);
+
+      return {
+        clippedCopies: Array.from(surface.querySelectorAll(".paper-constellation-mobile-copy")).filter(
+          (copy) => copy.scrollWidth > copy.clientWidth + 1
+        ).length,
+        documentOverflow: Math.max(root.scrollWidth, body.scrollWidth) - root.clientWidth,
+        outOfBoundsControls: visibleControls.filter((control) => {
+          const rect = control.getBoundingClientRect();
+          return rect.left < -1 || rect.right > root.clientWidth + 1;
+        }).length,
+        surfaceOverflow: surface.scrollWidth - surface.clientWidth,
+        trailOverflow: trail.scrollWidth - trail.clientWidth,
+      };
+    });
+    expect(overflow.documentOverflow).toBeLessThanOrEqual(1);
+    expect(overflow.surfaceOverflow).toBeLessThanOrEqual(1);
+    expect(overflow.trailOverflow).toBeLessThanOrEqual(1);
+    expect(overflow.clippedCopies).toBe(0);
+    expect(overflow.outOfBoundsControls).toBe(0);
+
+    await stabilizeVisuals(page);
+    await attachScreenshot(page, testInfo, "paper-constellation-dpr2-root-text-200", {
+      locator: constellationPanel,
+    });
+
+    await page.keyboard.press("Escape");
+    await expect(page.locator('[data-constellation-detail-paper="tao2024designweaver"]')).toBeHidden();
+    await expect(designWeaver).toBeFocused();
+    await expect
+      .poll(() =>
+        page.locator("[data-constellation-detail]").evaluate((panel) => panel.parentElement?.hasAttribute("data-constellation-detail-dock"))
+      )
+      .toBe(true);
+    await expect.poll(async () => pathsAreReady(await readGeometry())).toBe(true);
+
+    expect(runtimeErrors, "DPR2 and 200% root-text constellation raised runtime errors").toEqual([]);
+  } finally {
+    await context.close();
+  }
+});
+
 test("Paper List is the complete no-JavaScript publication view", async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one browser verifies the deterministic no-JavaScript contract");
 

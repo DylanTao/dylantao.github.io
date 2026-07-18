@@ -55,10 +55,9 @@ paper-constellation:
   origin_line: "A chronological paper list showed outcomes, but not the relationships that shaped the work."
   evolution_line: "Three research threads became a desktop atlas and a deliberately chronological mobile trail."
   icon: constellation
-  teaser_alt: Paper Constellation teaser connecting accepted papers and anonymous future nodes across three research threads
+  teaser_alt: Paper Constellation preview showing accepted papers and anonymous future nodes across the Design, Evaluate, and Situate research threads
   # Literal crop from the 390x1000 light runtime capture on 2026-07-16.
   mobile_teaser: /assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png
-  mobile_teaser_alt: Mobile Paper Constellation teaser with three thread rails, anonymous future nodes, public rejection receipts, and the first accepted-paper row
 
 build-rhythm:
   origin_line: "Dense activity logs could count the work, but they could not make its rhythm legible at a glance."

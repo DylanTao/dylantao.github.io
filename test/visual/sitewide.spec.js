@@ -870,15 +870,114 @@ for (const route of SITEWIDE_ROUTES) {
   });
 }
 
-test("all ten fun stories fit a 200%-equivalent high-DPR canvas", async ({ browser }, testInfo) => {
+test("all ten project cards disclose and recover their stories", async ({ page }, testInfo) => {
+  test.setTimeout(180000);
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "desktop and mobile exercise every expandable story");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, "light");
+  const response = await page.goto(publicRouteUrl("/projects/"), { waitUntil: "domcontentloaded" });
+  expect(response).not.toBeNull();
+  expect(response.status()).toBeLessThan(400);
+  await stabilizeVisuals(page);
+
+  const cards = page.locator(".projects [data-project-card]").filter({ has: page.locator("[data-project-card-story]") });
+  await expect(cards).toHaveCount(10);
+  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(10);
+  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(9);
+  await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
+
+  for (let index = 0; index < 10; index += 1) {
+    const card = cards.nth(index);
+    const title = (await card.locator(".card-title").innerText()).trim();
+    const trigger = card.locator("[data-project-card-trigger]");
+    const panel = card.locator("[data-project-card-panel]");
+    const primaryAction = card.locator("[data-project-card-primary-action]");
+    const closeButton = card.locator("[data-project-card-close]");
+    const story = card.locator("[data-project-card-story]");
+    const origin = story.locator("[data-project-card-origin]");
+    const evolution = story.locator("[data-project-card-evolution]");
+
+    await card.scrollIntoViewIfNeeded();
+    await trigger.focus();
+    await expect(trigger, `${title} preview trigger cannot receive focus`).toBeFocused();
+    await trigger.press("Enter");
+
+    await expect(card, `${title} did not expand`).toHaveAttribute("data-project-card-state", "expanded");
+    await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(1);
+    await expect(panel).toBeVisible();
+    await expect(story).toBeVisible();
+    await expect(primaryAction).toBeVisible();
+    await expect(primaryAction, `${title} keyboard expansion did not advance focus`).toBeFocused();
+    await expect(origin.locator(".project-card-story-label")).toHaveText("Why it began");
+    expect((await origin.locator("p:last-child").innerText()).trim().length, `${title} origin story is too slight`).toBeGreaterThan(30);
+
+    if (title === "Not A Good Driver") {
+      await expect(evolution).toHaveCount(0);
+    } else {
+      await expect(evolution).toHaveCount(1);
+      await expect(evolution.locator(".project-card-story-label")).toHaveText("What changed");
+      expect((await evolution.locator("p:last-child").innerText()).trim().length, `${title} evolution story is too slight`).toBeGreaterThan(30);
+    }
+
+    await expect
+      .poll(() => card.evaluate((element) => element.getAnimations({ subtree: true }).length), {
+        message: `${title} expanded preview did not settle`,
+      })
+      .toBe(0);
+
+    const geometry = await card.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const action = element.querySelector("[data-project-card-primary-action]")?.getBoundingClientRect();
+      const close = element.querySelector("[data-project-card-close]")?.getBoundingClientRect();
+      const storyBeats = Array.from(element.querySelectorAll(".project-card-story-beat"));
+      return {
+        actionHeight: action?.height ?? 0,
+        actionWidth: action?.width ?? 0,
+        cardLeft: bounds.left,
+        cardRight: bounds.right,
+        closeHeight: close?.height ?? 0,
+        closeWidth: close?.width ?? 0,
+        documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        clippedStoryBeats: storyBeats.filter((beat) => beat.scrollWidth > beat.clientWidth + 1 || beat.scrollHeight > beat.clientHeight + 1).length,
+        storyBeatWidths: storyBeats.map((beat) => beat.getBoundingClientRect().width),
+      };
+    });
+    expect(geometry.actionHeight, `${title} primary action is shorter than 44px`).toBeGreaterThanOrEqual(44);
+    expect(geometry.actionWidth, `${title} primary action is narrower than 44px`).toBeGreaterThanOrEqual(44);
+    expect(geometry.closeHeight, `${title} close action is shorter than 44px`).toBeGreaterThanOrEqual(44);
+    expect(geometry.closeWidth, `${title} close action is narrower than 44px`).toBeGreaterThanOrEqual(44);
+    expect(geometry.cardLeft, `${title} expands left of the viewport`).toBeGreaterThanOrEqual(-1);
+    expect(geometry.cardRight, `${title} expands right of the viewport`).toBeLessThanOrEqual((page.viewportSize()?.width ?? 0) + 1);
+    expect(geometry.documentOverflow, `${title} expansion creates horizontal overflow`).toBeLessThanOrEqual(1);
+    expect(geometry.clippedStoryBeats, `${title} clips expanded story copy`).toBe(0);
+    expect(
+      geometry.storyBeatWidths.every((width) => width >= 200),
+      `${title} expanded story is squeezed`
+    ).toBe(true);
+
+    await closeButton.focus();
+    await expect(closeButton).toBeFocused();
+    await closeButton.press("Enter");
+    await expect(card, `${title} did not close`).toHaveAttribute("data-project-card-state", "collapsed");
+    await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
+    await expect(panel).toBeHidden();
+    await expect(trigger, `${title} did not restore focus to its preview trigger`).toBeFocused();
+  }
+
+  expect(runtimeErrors, "all-ten project-card expansion raised browser runtime errors").toEqual([]);
+});
+
+test("all ten fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one Chromium context covers the high-DPR effective viewport");
 
   const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
   expect(routes).toHaveLength(10);
 
-  // A 720x500 CSS viewport at DPR 2 exercises the layout space available to a
-  // 1440x1000 display at 200% scaling while retaining a 1440x1000 pixel canvas.
+  // A 720x500 CSS viewport at DPR 2 retains a 1440x1000 pixel canvas while
+  // independently exercising the compact responsive layout.
   const context = await browser.newContext({
     deviceScaleFactor: 2,
     locale: "en-US",
@@ -930,6 +1029,72 @@ test("all ten fun stories fit a 200%-equivalent high-DPR canvas", async ({ brows
     }
   } finally {
     await context.close();
+  }
+});
+
+test("all ten fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
+  test.setTimeout(180000);
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop context covers text-only 200% reflow");
+
+  const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
+  expect(routes).toHaveLength(10);
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+
+  for (const route of routes) {
+    const response = await page.goto(publicRouteUrl(route.path), { waitUntil: "domcontentloaded" });
+    expect(response, `${route.path} has no response at 200% root text size`).not.toBeNull();
+    expect(response.status(), `${route.path} failed at 200% root text size`).toBeLessThan(400);
+    await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
+    await expect(page.locator(route.readySelector).first()).toBeVisible();
+    await page.evaluate(async () => {
+      if (document.fonts?.ready) await document.fonts.ready;
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    });
+    await stabilizeVisuals(page);
+
+    const geometry = await page.evaluate(() => {
+      const root = document.documentElement;
+      const textElements = Array.from(
+        document.querySelectorAll(
+          ".project-case-copy h1, .project-case-copy p, .project-case-summary p, .project-story-beat h3, .project-story-beat p, .project-story-note h2, .project-story-note p, .site-experiment-reproduce h2, .site-experiment-reproduce p, .site-experiment-evidence-figure figcaption"
+        )
+      ).filter((element) => element.getClientRects().length > 0);
+      const controls = Array.from(document.querySelectorAll(".project-case-actions a, details.project-story-disclosure > summary")).filter(
+        (element) => element.getClientRects().length > 0
+      );
+      return {
+        clippedText: textElements
+          .filter((element) => {
+            const style = getComputedStyle(element);
+            const clips = (value) => ["auto", "clip", "hidden", "scroll"].includes(value);
+            return (
+              (clips(style.overflowX) && element.scrollWidth > element.clientWidth + 1) ||
+              (clips(style.overflowY) && element.scrollHeight > element.clientHeight + 1)
+            );
+          })
+          .map((element) => element.textContent.replace(/\s+/g, " ").trim().slice(0, 80)),
+        controlSizes: controls.map((element) => {
+          const box = element.getBoundingClientRect();
+          return { height: box.height, width: box.width };
+        }),
+        fontSize: Number.parseFloat(getComputedStyle(root).fontSize),
+        overflow: Math.max(root.scrollWidth, document.body.scrollWidth) - root.clientWidth,
+        textCount: textElements.length,
+      };
+    });
+
+    expect(geometry.fontSize, `${route.path} did not receive 200% root text`).toBe(32);
+    expect(geometry.overflow, `${route.path} overflows with 200% root text`).toBeLessThanOrEqual(1);
+    expect(geometry.textCount, `${route.path} exposes too little story text for a reflow check`).toBeGreaterThan(5);
+    expect(geometry.clippedText, `${route.path} clips text at 200%: ${geometry.clippedText.join(" | ")}`).toEqual([]);
+    expect(geometry.controlSizes.length, `${route.path} exposes no story controls at 200%`).toBeGreaterThan(1);
+    expect(
+      geometry.controlSizes.every((box) => box.height >= 44 && box.width >= 44),
+      `${route.path} has an undersized control at 200% root text`
+    ).toBe(true);
+    expect(runtimeErrors, `${route.path} raised errors at 200% root text`).toEqual([]);
+    runtimeErrors.length = 0;
   }
 });
 

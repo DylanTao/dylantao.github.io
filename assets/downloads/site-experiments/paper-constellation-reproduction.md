@@ -54,10 +54,14 @@ Desktop interaction:
 
 Narrow-screen interaction:
 
-- replace the plotted map with ordered thread sections;
-- keep accepted papers as real buttons;
-- keep anonymous future markers noninteractive;
-- preserve the same filter, detail, and Escape behavior.
+- replace the plotted desktop atlas with one chronological vertical trail;
+- draw three visible Design, Evaluate, and Situate rails behind the rows;
+- render five accepted-paper buttons, seven anonymous future nodes, five secondary-membership stubs, and all nine canonical edges in the trail SVG;
+- derive every SVG path from measured anchors, then recompute after layout or font changes with `ResizeObserver`; do not use force simulation or move nodes at runtime;
+- place detail for the selected paper immediately below its row; Escape clears the selection, restores focus to that paper button, and returns the detail panel to its neutral dock;
+- preserve the same filtering, Scholar Lens synchronization, rejection receipts, major/minor sizing, and privacy boundary.
+
+Future nodes remain noninteractive and expose only the privacy-safe fields described above. The narrow layout changes the reading order, not the publication, filtering, citation, rejection-receipt, or privacy schemas.
 
 For reduced motion, render the final map immediately, remove transitions, and keep every state change understandable through text, color, and focus—not animation alone.
 
@@ -78,6 +82,9 @@ At minimum, verify:
 - exactly seven anonymous future records: five Design, two Situate; three major, four minor;
 - only one future record exposes the two allowlisted public rejection tags;
 - exactly nine valid edges;
+- the narrow trail exposes three visible rails, five nonzero secondary-membership stubs, and nine nonzero relationship paths;
+- the narrow trail keeps five accepted-paper controls at least 44px tall with readable copy, and pins detail directly below the selected row;
+- font and container resizing recompute the measured paths without moving the chronological rows;
 - Paper List is the initial JavaScript state and the only visible no-JavaScript state;
 - filtered nodes are disabled, have `tabindex=-1`, and are absent from the accessibility tree;
 - hover, focus, Enter, click, clear, and Escape reach equivalent states;

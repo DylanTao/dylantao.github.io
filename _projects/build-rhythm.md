@@ -33,9 +33,18 @@ hide_title: true
       <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download reproduction MD</a>
     </div>
   </div>
-  <figure class="project-case-media site-experiment-evidence-figure">
+  <figure
+    class="project-case-media site-experiment-evidence-figure"
+    data-evidence-kind="interface-anatomy-not-live-data"
+    data-asset-revision-commit="c613c7b0f3ef96e51e63321ad0b914dbef9add5d"
+    data-asset-revision-committed-at="2026-07-16T11:41:43-07:00"
+    data-capture-date="not-retained"
+    data-capture-viewport="not-retained"
+    data-capture-theme="not-retained"
+    data-capture-interaction-state="not-retained"
+  >
     <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-stage.png' | relative_url }}" alt="Build Rhythm token panel showing a rounded cumulative site estimate above a rounded daily increase chart" loading="eager" width="702" height="508">
-    <figcaption>The site-token chapter makes its estimate and rounding boundary visible before the full explorer.</figcaption>
+    <figcaption>The site-token chapter makes its estimate and rounding boundary visible. The current revision of this screenshot asset was committed on July 16, 2026 at <a href="https://github.com/DylanTao/dylantao.github.io/commit/c613c7b0f3ef96e51e63321ad0b914dbef9add5d"><code>c613c7b0f</code></a>; its original capture date, viewport, theme, and interaction state were not retained, so the image documents interface anatomy rather than live totals or an exact historical replay.</figcaption>
   </figure>
 </section>
 
