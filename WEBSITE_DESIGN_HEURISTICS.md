@@ -62,6 +62,8 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Colored ink should mean action, active state, status, or a deliberate semantic grouping. Do not use a tinted card because a section feels empty.
 - The global time-of-day themes should change atmosphere without changing the research story: morning is gentle, noon is clearest, afternoon is warmer and more exploratory, evening is quiet and dark.
 - Theme palettes need hue variety and contrast, not four versions of the same orange wash.
+- Keep accessible orange ink separate from brighter orange fills. Links and labels need a darker contrast-safe orange; lively buttons and decorative energy can use a brighter orange with its own on-fill text color.
+- A time mode should register through the whole surface hierarchy—page field, cards, elevated surfaces, outlines, shadows, and footer—not only through the logo or a few tiny accents. Verify representative routes in every mode before calling the palette sitewide.
 - Time-of-day themes should default from the visitor's local time. Manual changes can be remembered within the current session, then return to the time-based rule on a future visit.
 - If a page stays open across a time boundary, automatic theme changes are allowed only when the visitor has not manually picked a theme in that session.
 - Theme backgrounds should stay clean. Use pastel atmosphere as a soft field, not as muddy color spread across every surface.

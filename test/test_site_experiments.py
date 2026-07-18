@@ -517,6 +517,15 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertIn("exact-commit replay", case_study)
         self.assertIn("provenance labels. They are not causal performance claims", case_study)
         for phrase in (
+            'data-evidence-kind="historical-runtime-capture"',
+            'data-evidence-archive-commit="588e365090e883323d836f5da023f7d40632f096"',
+            'data-evidence-archive-date="2026-06-21"',
+            'data-evidence-capture-date="not-retained"',
+            'data-evidence-source-viewport="not-retained"',
+            'data-evidence-image-size="1440x1000"',
+            'data-evidence-theme="light"',
+            'data-evidence-interaction-state="not-retained"',
+            "its exact viewport, capture date, and interaction state were not retained",
             "homepage-desk-588e36509-2d-2026-07-16.png",
             "homepage-desk-588e36509-3d-2026-07-16.png",
             "homepage-desk-2d-2026-07-16.png",

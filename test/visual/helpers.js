@@ -4,15 +4,47 @@ const pixelmatch = pixelmatchModule.default || pixelmatchModule;
 
 const NON_ACTIONABLE_CONSOLE_ERRORS = new Set(["Permissions policy violation: compute-pressure is not allowed in this document."]);
 
+const DETERMINISTIC_EXTERNAL_STUB_HOSTS = [
+  "badge.dimensions.ai",
+  "badge.altmetric.com",
+  "bsz.saop.cc",
+  "cdn.jsdelivr.net",
+  "cdnjs.cloudflare.com",
+  "d1bxh8uas1mnw7.cloudfront.net",
+  "fonts.googleapis.com",
+  "fonts.gstatic.com",
+  "github.githubassets.com",
+  "img.shields.io",
+  "plausible.io",
+  "www.google-analytics.com",
+  "www.googletagmanager.com",
+  "www.youtube.com",
+  "www.youtube-nocookie.com",
+  "i.ytimg.com",
+];
+
+const EXTERNAL_IMAGE_STUB_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#d8e9e7"/></svg>`;
+const EMPTY_EXTERNAL_STUB_SHA256 = "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=";
+
+function isExpectedExternalStubIntegrityError(message) {
+  const match = message.match(/resource '([^']+)' with computed SHA-256 integrity '([^']+)'/);
+  if (!match || match[2] !== EMPTY_EXTERNAL_STUB_SHA256) return false;
+  try {
+    const hostname = new URL(match[1]).hostname.toLowerCase();
+    return DETERMINISTIC_EXTERNAL_STUB_HOSTS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+  } catch {
+    return false;
+  }
+}
+
 const REPO_STATS_STUB_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="180" viewBox="0 0 400 180"><rect width="400" height="180" fill="#f3f4f6"/><rect x="8" y="8" width="384" height="164" rx="8" fill="#ffffff" stroke="#d1d5db"/><text x="20" y="42" font-size="20" font-family="Arial, sans-serif" fill="#111827">Repository Stats (stub)</text><text x="20" y="76" font-size="14" font-family="Arial, sans-serif" fill="#6b7280">Deterministic fixture for visual parity</text></svg>`;
 const REPO_TROPHY_STUB_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="180" viewBox="0 0 400 180"><rect width="400" height="180" fill="#111827"/><rect x="8" y="8" width="384" height="164" rx="8" fill="#1f2937" stroke="#374151"/><text x="20" y="42" font-size="20" font-family="Arial, sans-serif" fill="#f9fafb">Repository Trophies (stub)</text><text x="20" y="76" font-size="14" font-family="Arial, sans-serif" fill="#d1d5db">Deterministic fixture for visual parity</text></svg>`;
 
 async function applyNetworkStubs(page) {
   const matchesBlockedHost = (requestUrl) => {
-    const blockedDomains = ["google-analytics.com", "plausible.io", "badge.dimensions.ai"];
     try {
       const hostname = new URL(requestUrl).hostname.toLowerCase();
-      return blockedDomains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+      return DETERMINISTIC_EXTERNAL_STUB_HOSTS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
     } catch {
       return false;
     }
@@ -20,6 +52,10 @@ async function applyNetworkStubs(page) {
 
   await page.route("**/*", (route) => {
     const url = route.request().url();
+    if (/^http:\/\/127\.0\.0\.1:35729\/livereload\.js(?:\?|$)/.test(url)) {
+      route.fulfill({ status: 200, contentType: "application/javascript", body: "" });
+      return;
+    }
     if (url.includes("github-readme-stats.vercel.app")) {
       route.fulfill({
         status: 200,
@@ -37,7 +73,22 @@ async function applyNetworkStubs(page) {
       return;
     }
     if (matchesBlockedHost(url)) {
-      route.fulfill({ status: 204, contentType: "text/plain", body: "" });
+      const resourceType = route.request().resourceType();
+      if (resourceType === "stylesheet") {
+        route.fulfill({ status: 200, contentType: "text/css", body: "" });
+      } else if (resourceType === "script") {
+        route.fulfill({ status: 200, contentType: "application/javascript", body: "" });
+      } else if (resourceType === "document") {
+        route.fulfill({
+          status: 200,
+          contentType: "text/html",
+          body: '<!doctype html><html lang="en"><title>Deterministic external embed stub</title><body></body></html>',
+        });
+      } else if (resourceType === "image") {
+        route.fulfill({ status: 200, contentType: "image/svg+xml", body: EXTERNAL_IMAGE_STUB_SVG });
+      } else {
+        route.fulfill({ status: 204, contentType: "text/plain", body: "" });
+      }
       return;
     }
     route.continue();
@@ -59,7 +110,7 @@ function collectRuntimeErrors(page) {
   page.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
   page.on("console", (message) => {
     const text = message.text();
-    if (message.type() === "error" && !NON_ACTIONABLE_CONSOLE_ERRORS.has(text)) {
+    if (message.type() === "error" && !NON_ACTIONABLE_CONSOLE_ERRORS.has(text) && !isExpectedExternalStubIntegrityError(text)) {
       errors.push(`console.error: ${text}`);
     }
   });

@@ -11,14 +11,16 @@ MATERIAL_PATH = REPO_ROOT / "_sass" / "_material-lite.scss"
 BLOG_PATH = REPO_ROOT / "_sass" / "_blog.scss"
 PUBLICATIONS_PATH = REPO_ROOT / "_sass" / "_publications.scss"
 HOME_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "home.js"
+HOME_STYLE_PATH = REPO_ROOT / "_sass" / "_home.scss"
+LAYOUT_PATH = REPO_ROOT / "_sass" / "_layout.scss"
 PROJECT_CARDS_PATH = REPO_ROOT / "_data" / "project_cards.yml"
 
 
 EXPECTED_ANCHORS = {
-    "morning": {"bg": "#fff9f4", "text": "#29221f", "primary": "#c24614"},
-    "noon": {"bg": "#fffefa", "text": "#252321", "primary": "#bf470f"},
-    "afternoon": {"bg": "#fffaf6", "text": "#292522", "primary": "#c64b0d"},
-    "evening": {"bg": "#111c22", "text": "#f8f3ec", "primary": "#ff9a3d"},
+    "morning": {"bg": "#fff5ec", "text": "#26282b", "primary": "#b9400d", "fill": "#ee8753"},
+    "noon": {"bg": "#fffefa", "text": "#23282a", "primary": "#b63d0a", "fill": "#f07a38"},
+    "afternoon": {"bg": "#fff0e2", "text": "#282629", "primary": "#b43a0a", "fill": "#ef6834"},
+    "evening": {"bg": "#111c22", "text": "#f8f3ec", "primary": "#ff9a3d", "fill": "#ff9a3d"},
 }
 
 
@@ -38,6 +40,17 @@ def mix_hex(foreground: str, background: str, foreground_weight: float) -> str:
     background_channels = [int(background[index : index + 2], 16) for index in (1, 3, 5)]
     channels = [round(front * foreground_weight + back * (1 - foreground_weight)) for front, back in zip(foreground_channels, background_channels)]
     return "#" + "".join(f"{channel:02x}" for channel in channels)
+
+
+def composite_page_wash(wash: str, background: str) -> str:
+    """Conservatively composite every declared wash stop at full overlap."""
+    stops = re.findall(r"rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)", wash)
+    composited = background
+    # CSS paints the first gradient on top, so composite from the last layer.
+    for red, green, blue, alpha in reversed(stops):
+        foreground = f"#{int(red):02x}{int(green):02x}{int(blue):02x}"
+        composited = mix_hex(foreground, composited, float(alpha))
+    return composited
 
 
 class CoastalThemePaletteTests(unittest.TestCase):
@@ -70,9 +83,12 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 self.assertEqual(self.token(declarations, "global-bg-color"), expected["bg"])
                 self.assertEqual(self.token(declarations, "global-text-color"), expected["text"])
                 self.assertEqual(self.token(declarations, "global-primary-color"), expected["primary"])
+                self.assertEqual(self.token(declarations, "global-primary-fill-color"), expected["fill"])
                 self.assertIn("--global-nav-bg-color:", declarations)
                 self.assertIn("--global-shadow-rgb:", declarations)
                 self.assertIn("--global-primary-hover-color:", declarations)
+                self.assertIn("--global-primary-fill-hover-color:", declarations)
+                self.assertIn("--global-on-primary-fill-color:", declarations)
                 self.assertIn("--global-primary-container-color:", declarations)
                 self.assertIn("--global-on-primary-container-color:", declarations)
                 self.assertIn("--global-mint-strong:", declarations)
@@ -85,6 +101,9 @@ class CoastalThemePaletteTests(unittest.TestCase):
             muted = self.token(declarations, "global-text-color-light")
             hover = self.token(declarations, "global-primary-hover-color")
             on_primary = self.token(declarations, "global-on-primary-color")
+            primary_fill = self.token(declarations, "global-primary-fill-color")
+            primary_fill_hover = self.token(declarations, "global-primary-fill-hover-color")
+            on_primary_fill = self.token(declarations, "global-on-primary-fill-color")
             primary_container = self.token(declarations, "global-primary-container-color")
             on_primary_container = self.token(declarations, "global-on-primary-container-color")
             surface_container = self.token(declarations, "global-surface-container-color")
@@ -93,6 +112,7 @@ class CoastalThemePaletteTests(unittest.TestCase):
             footer_bg = self.token(declarations, "global-footer-bg-color")
             footer_text = self.token(declarations, "global-footer-text-color")
             footer_link = self.token(declarations, "global-footer-link-color")
+            worst_case_wash = composite_page_wash(self.token(declarations, "global-page-wash"), anchors["bg"])
             focus = mix_hex(anchors["primary"], anchors["text"], 0.78)
             with self.subTest(mode=mode):
                 self.assertGreaterEqual(contrast_ratio(anchors["text"], anchors["bg"]), 7.0)
@@ -100,6 +120,8 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 self.assertGreaterEqual(contrast_ratio(anchors["primary"], anchors["bg"]), 4.5)
                 self.assertGreaterEqual(contrast_ratio(hover, anchors["bg"]), 4.5)
                 self.assertGreaterEqual(contrast_ratio(on_primary, anchors["primary"]), 4.5)
+                self.assertGreaterEqual(contrast_ratio(on_primary_fill, primary_fill), 4.5)
+                self.assertGreaterEqual(contrast_ratio(on_primary_fill, primary_fill_hover), 4.5)
                 self.assertGreaterEqual(contrast_ratio(on_primary_container, primary_container), 4.5)
                 self.assertGreaterEqual(contrast_ratio(anchors["text"], surface_container), 7.0)
                 self.assertGreaterEqual(contrast_ratio(mint, anchors["bg"]), 4.5)
@@ -107,9 +129,38 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 self.assertGreaterEqual(contrast_ratio(footer_text, footer_bg), 4.5)
                 self.assertGreaterEqual(contrast_ratio(footer_link, footer_bg), 4.5)
                 self.assertGreaterEqual(contrast_ratio(focus, anchors["bg"]), 3.0)
+                self.assertGreaterEqual(contrast_ratio(anchors["primary"], worst_case_wash), 4.5)
+                self.assertGreaterEqual(contrast_ratio(muted, worst_case_wash), 4.5)
                 if mode != "evening":
                     self.assertGreaterEqual(contrast_ratio(mint, self.token(declarations, "global-mint-soft")), 4.0)
                     self.assertGreaterEqual(contrast_ratio(sky, self.token(declarations, "global-sky-soft")), 4.0)
+
+    def test_light_modes_have_distinct_coastal_surface_hierarchies(self) -> None:
+        signatures: set[tuple[str, ...]] = set()
+        for mode in ("morning", "noon", "afternoon"):
+            declarations = self.mode_declarations(mode)
+            signature = tuple(
+                self.token(declarations, token)
+                for token in (
+                    "global-bg-color",
+                    "global-surface-container-low-color",
+                    "global-surface-container-color",
+                    "global-surface-container-high-color",
+                    "global-outline-color",
+                    "global-shadow-rgb",
+                    "global-footer-bg-color",
+                    "global-page-wash",
+                )
+            )
+            signatures.add(signature)
+            self.assertNotEqual(self.token(declarations, "global-primary-fill-color"), self.token(declarations, "global-primary-color"))
+
+        self.assertEqual(len(signatures), 3)
+        morning = self.mode_declarations("morning")
+        self.assertNotIn("#342925", morning)
+        self.assertNotIn("92, 54, 34", morning)
+        self.assertIn("rgba(111, 190, 220", morning)
+        self.assertIn("rgba(77, 158, 158", self.mode_declarations("afternoon"))
 
     def test_global_chrome_uses_theme_owned_nav_shadow_and_focus_roles(self) -> None:
         navbar = NAVBAR_PATH.read_text(encoding="utf-8")
@@ -125,6 +176,14 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertIn("box-shadow: 0 0.65rem 1.6rem var(--global-shadow-color);", blog)
         self.assertNotIn("box-shadow: 0 0.45rem 1.25rem rgba(0, 0, 0, 0.08);", blog)
         self.assertNotIn("box-shadow: 0 0.65rem 1.6rem rgba(32, 25, 22, 0.08);", blog)
+
+        layout = LAYOUT_PATH.read_text(encoding="utf-8")
+        home = HOME_STYLE_PATH.read_text(encoding="utf-8")
+        self.assertIn("background-image: var(--global-page-wash);", layout)
+        self.assertIn("--home-paper-edge: var(--global-paper-edge-color);", home)
+        self.assertNotIn("--home-paper-edge: rgba(117, 88, 58, 0.14);", home)
+        for token in ("--global-primary-fill-color", "--global-primary-fill-hover-color", "--global-on-primary-fill-color"):
+            self.assertIn(token, home)
 
     def test_desk_palette_has_four_static_modes_without_scene_geometry_changes(self) -> None:
         home_script = HOME_SCRIPT_PATH.read_text(encoding="utf-8")

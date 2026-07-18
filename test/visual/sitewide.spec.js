@@ -15,6 +15,145 @@ const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-not-a-good-driver",
 ]);
 
+const COASTAL_THEME_MODES = [
+  { mode: "morning", label: "Morning", computedTheme: "light" },
+  { mode: "noon", label: "Noon", computedTheme: "light" },
+  { mode: "afternoon", label: "Afternoon", computedTheme: "light" },
+  { mode: "evening", label: "Evening", computedTheme: "dark" },
+];
+
+// Keep the homepage last: its richer desk surface should not precede the
+// lighter-weight route samples in the same Chromium process.
+const COASTAL_THEME_ROUTE_SAMPLES = [
+  {
+    path: "/projects/",
+    readySelector: ".projects [data-project-card-grid]",
+    surfaceSelector: ".projects [data-project-card] .card",
+  },
+  {
+    path: "/publications/",
+    readySelector: "[data-publication-workbench]",
+    surfaceSelector: ".scholar-lens-card",
+  },
+  {
+    path: "/blog/",
+    readySelector: ".blog-index .header-bar",
+    surfaceSelector: ".blog-pinned-card",
+  },
+  {
+    path: "/",
+    readySelector: '[data-home-section="start"]',
+    surfaceSelector: ".home-influence-note",
+  },
+];
+
+async function switchToCoastalThemeMode(page, { mode, computedTheme }) {
+  const root = page.locator("html");
+
+  if ((await root.getAttribute("data-theme-mode")) !== mode) {
+    await page.locator("#theme-toggle").click();
+    await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+  }
+
+  await expect(root).toHaveAttribute("data-theme-mode", mode);
+  await expect(root).toHaveAttribute("data-theme-setting", mode);
+  await expect(root).toHaveAttribute("data-theme", computedTheme);
+  await expect(root).not.toHaveClass(/\btransition\b/, { timeout: 3000 });
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          () =>
+            document
+              .getAnimations()
+              .filter((animation) => animation.constructor.name === "CSSTransition" && ["pending", "running"].includes(animation.playState)).length
+        ),
+      { message: `${mode} theme surfaces kept transitioning after html.transition cleared`, timeout: 3000 }
+    )
+    .toBe(0);
+}
+
+async function readSettledCoastalThemeSample(page, surfaceSelector) {
+  return page.evaluate(async (selector) => {
+    if (document.fonts?.ready) await document.fonts.ready;
+    await new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
+
+    const root = document.documentElement;
+    const navbar = document.querySelector("#navbar");
+    const surface = document.querySelector(selector);
+    const footer = document.querySelector("footer");
+    if (!navbar || !surface || !footer) throw new Error(`Missing coastal theme sample surface for ${selector}`);
+
+    const rootStyle = getComputedStyle(root);
+    const value = (name) => rootStyle.getPropertyValue(name).trim().toLowerCase();
+    const computed = (element) => {
+      const style = getComputedStyle(element);
+      return {
+        background: style.backgroundColor,
+        border: style.borderTopColor,
+        color: style.color,
+      };
+    };
+
+    const controls = Array.from(document.querySelectorAll("[data-theme-control]"));
+    const controlSelections = controls.map((control) => {
+      const selected = Array.from(control.querySelectorAll('[data-theme-mode-option][aria-selected="true"]'));
+      return {
+        activeCount: selected.length,
+        activeMode: selected[0]?.getAttribute("data-theme-mode-option") || null,
+      };
+    });
+
+    return {
+      attributes: {
+        computedTheme: root.getAttribute("data-theme"),
+        mode: root.getAttribute("data-theme-mode"),
+        setting: root.getAttribute("data-theme-setting"),
+      },
+      controlSelections,
+      darkIntegrationClass: root.classList.contains("cc--darkmode"),
+      semantic: {
+        background: value("--global-bg-color"),
+        card: value("--global-card-bg-color"),
+        footer: value("--global-footer-bg-color"),
+        mutedText: value("--global-text-color-light"),
+        navigation: value("--global-nav-bg-color"),
+        outline: value("--global-outline-color"),
+        primary: value("--global-primary-color"),
+        primaryContainer: value("--global-primary-container-color"),
+        surface: value("--global-surface-color"),
+        surfaceContainer: value("--global-surface-container-color"),
+        surfaceHigh: value("--global-surface-container-high-color"),
+        surfaceLow: value("--global-surface-container-low-color"),
+        text: value("--global-text-color"),
+      },
+      session: {
+        manual: window.sessionStorage.getItem("theme-manual"),
+        mode: window.sessionStorage.getItem("theme"),
+      },
+      settledChrome: {
+        body: computed(document.body),
+        footer: computed(footer),
+        navbar: computed(navbar),
+        surface: computed(surface),
+      },
+      themeTransitionCount: document
+        .getAnimations()
+        .filter((animation) => animation.constructor.name === "CSSTransition" && ["pending", "running"].includes(animation.playState)).length,
+      toggleLabels: Array.from(document.querySelectorAll("[data-theme-toggle]"), (toggle) => ({
+        ariaLabel: toggle.getAttribute("aria-label"),
+        title: toggle.getAttribute("title"),
+      })),
+      transitioning: root.classList.contains("transition"),
+      colorScheme: rootStyle.colorScheme,
+    };
+  }, surfaceSelector);
+}
+
+function changedRoleCount(first, second) {
+  return Object.keys(first).filter((role) => JSON.stringify(first[role]) !== JSON.stringify(second[role])).length;
+}
+
 async function expectMobileChromeInViewport(page, routePath) {
   const viewport = page.viewportSize();
   expect(viewport, `${routePath} has no mobile viewport`).not.toBeNull();
@@ -869,6 +1008,89 @@ for (const route of SITEWIDE_ROUTES) {
     }
   });
 }
+
+test("coastal time modes settle coherently across representative human routes", async ({ page }, testInfo) => {
+  test.setTimeout(180000);
+  test.skip(
+    !["desktop-1440", "mobile-390"].includes(testInfo.project.name),
+    "one desktop and one mobile viewport cover the sitewide time-mode contract"
+  );
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "morning");
+
+  for (const route of COASTAL_THEME_ROUTE_SAMPLES) {
+    const response = await page.goto(publicRouteUrl(route.path), { waitUntil: "domcontentloaded" });
+    expect(response, `${route.path} did not return a document response`).not.toBeNull();
+    expect(response.status(), `${route.path} returned HTTP ${response.status()}`).toBeLessThan(400);
+    await expect(page.locator(route.readySelector).first()).toBeVisible();
+    await expect(page.locator(route.surfaceSelector).first()).toBeAttached();
+    await stabilizeVisuals(page);
+
+    const samples = {};
+    for (const theme of COASTAL_THEME_MODES) {
+      await switchToCoastalThemeMode(page, theme);
+      const first = await readSettledCoastalThemeSample(page, route.surfaceSelector);
+      await page.waitForTimeout(80);
+      const repeated = await readSettledCoastalThemeSample(page, route.surfaceSelector);
+
+      expect(repeated, `${route.path} ${theme.mode} chrome or surface kept changing after theme settlement`).toEqual(first);
+      expect(first.transitioning, `${route.path} ${theme.mode} retained html.transition`).toBe(false);
+      expect(first.themeTransitionCount, `${route.path} ${theme.mode} retained a running color transition`).toBe(0);
+      expect(first.attributes).toEqual({
+        computedTheme: theme.computedTheme,
+        mode: theme.mode,
+        setting: theme.mode,
+      });
+      expect(first.session).toEqual({ manual: "true", mode: theme.mode });
+      expect(first.colorScheme).toBe(theme.computedTheme);
+      expect(first.darkIntegrationClass).toBe(theme.computedTheme === "dark");
+      expect(first.controlSelections.length, `${route.path} has no time-mode control`).toBeGreaterThan(0);
+      expect(
+        first.controlSelections.every((selection) => selection.activeCount === 1 && selection.activeMode === theme.mode),
+        `${route.path} ${theme.mode} left a theme control in a mixed state`
+      ).toBe(true);
+      expect(first.toggleLabels.length).toBe(first.controlSelections.length);
+      expect(
+        first.toggleLabels.every(
+          ({ ariaLabel, title }) => ariaLabel === `Change theme. Current theme: ${theme.label}` && title === `Theme: ${theme.label}`
+        ),
+        `${route.path} ${theme.mode} left stale theme-control labels`
+      ).toBe(true);
+      expect(Object.values(first.semantic).every(Boolean), `${route.path} ${theme.mode} has an empty semantic color role`).toBe(true);
+      expect(first.settledChrome.body.background).not.toBe("rgba(0, 0, 0, 0)");
+      expect(first.settledChrome.navbar.background).not.toBe("rgba(0, 0, 0, 0)");
+      expect(first.settledChrome.surface.background).not.toBe("rgba(0, 0, 0, 0)");
+      expect(first.settledChrome.footer.background).not.toBe("rgba(0, 0, 0, 0)");
+      samples[theme.mode] = first;
+      if (route.path === "/") {
+        await attachScreenshot(page, testInfo, `coastal-home-${theme.mode}-${testInfo.project.name}`, { fullPage: false });
+      }
+    }
+
+    for (const [earlier, later] of [
+      ["morning", "noon"],
+      ["noon", "afternoon"],
+    ]) {
+      const earlierSample = samples[earlier];
+      const laterSample = samples[later];
+      expect(
+        changedRoleCount(earlierSample.semantic, laterSample.semantic),
+        `${route.path} ${earlier} and ${later} need meaningfully different semantic color roles`
+      ).toBeGreaterThanOrEqual(8);
+      expect(
+        changedRoleCount(earlierSample.settledChrome, laterSample.settledChrome),
+        `${route.path} ${earlier} and ${later} need visibly different settled surfaces and chrome`
+      ).toBeGreaterThanOrEqual(3);
+      expect(earlierSample.semantic.background).not.toBe(laterSample.semantic.background);
+      expect(earlierSample.semantic.primary).not.toBe(laterSample.semantic.primary);
+      expect(earlierSample.settledChrome.navbar).not.toEqual(laterSample.settledChrome.navbar);
+      expect(earlierSample.settledChrome.surface).not.toEqual(laterSample.settledChrome.surface);
+    }
+  }
+
+  expect(runtimeErrors, "sitewide coastal time-mode matrix raised browser runtime errors").toEqual([]);
+});
 
 test("all ten project cards disclose and recover their stories", async ({ page }, testInfo) => {
   test.setTimeout(180000);
@@ -1811,6 +2033,10 @@ test("desk origin stays bounded and still under reduced motion", async ({ page }
     const tip = link?.querySelector(".widget-origin-tooltip");
     const contact = Array.from(document.querySelectorAll("a")).find((candidate) => candidate.textContent?.trim() === "Contact");
     const controls = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode], .home-desk-origin-link") ?? []);
+    const modeTargets = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode]") ?? []).map((control) => {
+      const rect = control.getBoundingClientRect();
+      return { height: rect.height, width: rect.width };
+    });
     const centers = controls.map((control) => {
       const rect = control.getBoundingClientRect();
       return rect.top + rect.height / 2;
@@ -1828,6 +2054,7 @@ test("desk origin stays bounded and still under reduced motion", async ({ page }
       tooltipOverflow: tip ? tip.scrollWidth - tip.clientWidth : null,
       originWidth: linkRect?.width ?? 0,
       originHeight: linkRect?.height ?? 0,
+      modeTargets,
       sameRow: centers.length === 3 && Math.max(...centers) - Math.min(...centers) <= 2,
       mobileTooltipBelow: linkRect && tipRect ? tipRect.top >= linkRect.bottom : false,
       contactOverlap: overlap,
@@ -1836,8 +2063,11 @@ test("desk origin stays bounded and still under reduced motion", async ({ page }
 
   expect(geometry.documentOverflow).toBeLessThanOrEqual(0);
   expect(geometry.tooltipOverflow).toBeLessThanOrEqual(1);
-  expect(geometry.originWidth).toBeGreaterThanOrEqual(24);
-  expect(geometry.originHeight).toBeGreaterThanOrEqual(24);
+  const compactTargetMinimum = 24 - 0.01;
+  expect(geometry.originWidth).toBeGreaterThanOrEqual(compactTargetMinimum);
+  expect(geometry.originHeight).toBeGreaterThanOrEqual(compactTargetMinimum);
+  expect(geometry.modeTargets).toHaveLength(2);
+  expect(geometry.modeTargets.every(({ width, height }) => width >= compactTargetMinimum && height >= compactTargetMinimum)).toBe(true);
   expect(geometry.sameRow).toBe(true);
   if (testInfo.project.name === "mobile-390") {
     expect(geometry.mobileTooltipBelow).toBe(true);

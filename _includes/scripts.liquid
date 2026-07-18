@@ -158,15 +158,7 @@
 
 {% if site.back_to_top %}
   <!-- Back to Top -->
-  {% assign back_to_top_js = site.third_party_libraries['vanilla-back-to-top'].url.js
-    | default: 'https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js'
-  %}
-  {% assign back_to_top_integrity = site.third_party_libraries['vanilla-back-to-top'].integrity.js %}
-  {% if back_to_top_integrity %}
-    <script src="{{ back_to_top_js }}" integrity="{{ back_to_top_integrity }}" crossorigin="anonymous"></script>
-  {% else %}
-    <script src="{{ back_to_top_js }}"></script>
-  {% endif %}
+  <script src="{{ '/assets/js/vanilla-back-to-top.min.js' | relative_url | bust_file_cache }}"></script>
   <script>
     if (typeof addBackToTop === 'function') {
       addBackToTop();

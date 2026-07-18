@@ -1247,10 +1247,10 @@ body.rejection-meme-viewer-open {
   gap: 0.34rem;
   min-height: 2.05rem;
   padding: 0.42rem 0.68rem;
-  border: 1px solid var(--global-theme-color);
+  border: 1px solid var(--global-primary-fill-color);
   border-radius: 999px;
-  background: var(--global-theme-color);
-  color: var(--global-hover-text-color);
+  background: var(--global-primary-fill-color);
+  color: var(--global-on-primary-fill-color);
   font-size: var(--type-label);
   font-weight: 750;
   line-height: 1;
@@ -1258,9 +1258,9 @@ body.rejection-meme-viewer-open {
 
   &:hover,
   &:focus-visible {
-    border-color: var(--global-hover-color);
-    background: var(--global-hover-color);
-    color: var(--global-hover-text-color);
+    border-color: var(--global-primary-fill-hover-color);
+    background: var(--global-primary-fill-hover-color);
+    color: var(--global-on-primary-fill-color);
     text-decoration: none;
   }
 }

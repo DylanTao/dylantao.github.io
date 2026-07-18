@@ -77,11 +77,12 @@ html[data-theme-mode="afternoon"] .navbar {
 
 .dropdown-item.active,
 .dropdown-item:active {
-  background-color: var(--global-hover-color);
-  color: var(--global-hover-text-color) !important;
+  background-color: var(--global-primary-fill-color);
+  color: var(--global-on-primary-fill-color) !important;
 
   &:hover {
-    color: var(--global-hover-text-color);
+    background-color: var(--global-primary-fill-hover-color);
+    color: var(--global-on-primary-fill-color);
   }
 }
 

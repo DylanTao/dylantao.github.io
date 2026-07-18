@@ -1301,16 +1301,16 @@ test("four coastal desk palettes stay distinct and readable", async ({ page }, t
   const root = page.locator("html");
   const expected = {
     morning: {
-      background: "#fff9f4",
-      text: "#29221f",
-      primary: "#c24614",
+      background: "#fff5ec",
+      text: "#26282b",
+      primary: "#b9400d",
       sceneSignature: "morning:f5dfd2:fff0e7:ffdfcf:b7d9e7",
     },
-    noon: { background: "#fffefa", text: "#252321", primary: "#bf470f", sceneSignature: "noon:eaf1ec:fffffa:f0fffb:8fd8ef" },
+    noon: { background: "#fffefa", text: "#23282a", primary: "#b63d0a", sceneSignature: "noon:eaf1ec:fffffa:f0fffb:8fd8ef" },
     afternoon: {
-      background: "#fffaf6",
-      text: "#292522",
-      primary: "#c64b0d",
+      background: "#fff0e2",
+      text: "#282629",
+      primary: "#b43a0a",
       sceneSignature: "afternoon:f3dfca:fff4e9:ffe6d0:ffbd82",
     },
     evening: {
@@ -1332,6 +1332,9 @@ test("four coastal desk palettes stay distinct and readable", async ({ page }, t
     await expect(sceneContainer).toHaveAttribute("data-scene-palette-mode", mode);
     await expect(sceneContainer).toHaveAttribute("data-scene-palette-settled", mode);
     await expect(sceneContainer).toHaveAttribute("data-scene-palette-signature", expected[mode].sceneSignature);
+    await expect(scene.stage).toHaveAttribute("data-desk-mode", "3d");
+    await expect(scene.stage).toHaveClass(/\bis-desk-3d\b/);
+    await expect(scene.canvas).toBeVisible();
 
     const palette = await root.evaluate((element) => {
       const style = getComputedStyle(element);

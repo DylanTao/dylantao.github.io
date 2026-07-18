@@ -105,12 +105,12 @@
       bgB: cssVar("--research-motion-bg-b", "rgba(160, 214, 241, 0.38)"),
       bgC: cssVar("--research-motion-bg-c", "#f7fbf8"),
       lineA: cssVar("--research-motion-line-a", "#338bc0"),
-      lineB: cssVar("--research-motion-line-b", "#f09c52"),
+      lineB: cssVar("--research-motion-line-b", "#f07a38"),
       lineC: cssVar("--research-motion-line-c", "#3b9b7d"),
       dot: cssVar("--research-motion-dot", "#1f72aa"),
       glow: cssVar("--research-motion-glow", "rgba(51, 139, 192, 0.11)"),
-      ink: cssVar("--global-text-color", "#252321"),
-      muted: cssVar("--global-text-color-light", "#625f5a"),
+      ink: cssVar("--global-text-color", "#23282a"),
+      muted: cssVar("--global-text-color-light", "#5d6565"),
     });
 
     const plotBounds = () => {

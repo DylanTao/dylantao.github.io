@@ -621,8 +621,8 @@ html.site-motion-ready .hoverable.site-visible:hover {
   .project-card-preview:hover .project-card-preview-affordance,
   .project-card-preview:focus-within .project-card-preview-affordance {
     border-color: var(--project-accent-line);
-    background: var(--global-theme-color);
-    color: var(--global-hover-text-color);
+    background: var(--global-primary-fill-color);
+    color: var(--global-on-primary-fill-color);
     box-shadow: var(--md-lite-orange-shadow-1);
     opacity: 1;
     transform: translateY(-1px);
@@ -809,10 +809,10 @@ html.site-motion-ready .hoverable.site-visible:hover {
     gap: 0.45rem;
     min-height: 2.75rem;
     padding: 0.55rem 0.95rem;
-    border: 1px solid var(--global-theme-color);
+    border: 1px solid var(--global-primary-fill-color);
     border-radius: var(--md-lite-radius-pill);
-    background: var(--global-theme-color);
-    color: var(--global-hover-text-color);
+    background: var(--global-primary-fill-color);
+    color: var(--global-on-primary-fill-color);
     font-size: var(--type-meta);
     font-weight: 750;
     line-height: 1;
@@ -820,9 +820,9 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
     &:hover,
     &:focus-visible {
-      background: var(--global-hover-color);
-      border-color: var(--global-hover-color);
-      color: var(--global-hover-text-color);
+      background: var(--global-primary-fill-hover-color);
+      border-color: var(--global-primary-fill-hover-color);
+      color: var(--global-on-primary-fill-color);
       box-shadow: var(--md-lite-orange-shadow-2);
       text-decoration: none;
     }
@@ -1101,8 +1101,9 @@ html.site-motion-ready .hoverable.site-visible:hover {
       transform var(--motion-standard);
 
     &:first-child {
-      background: var(--global-theme-color);
-      color: var(--global-hover-text-color);
+      border-color: var(--global-primary-fill-color);
+      background: var(--global-primary-fill-color);
+      color: var(--global-on-primary-fill-color);
     }
 
     &:hover {
@@ -1114,9 +1115,9 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
     &:first-child:hover,
     &:first-child:focus-visible {
-      border-color: var(--global-hover-color);
-      background: var(--global-hover-color);
-      color: var(--global-hover-text-color);
+      border-color: var(--global-primary-fill-hover-color);
+      background: var(--global-primary-fill-hover-color);
+      color: var(--global-on-primary-fill-color);
     }
 
     &:focus-visible {
@@ -1737,13 +1738,21 @@ html.site-motion-ready .hoverable.site-visible:hover {
     text-decoration: none;
 
     &:first-child {
-      background: var(--global-theme-color);
-      color: var(--global-hover-text-color);
+      border-color: var(--global-primary-fill-color);
+      background: var(--global-primary-fill-color);
+      color: var(--global-on-primary-fill-color);
     }
 
     &:hover {
       background: rgba(var(--global-accent-rgb), 0.1);
       text-decoration: none;
+    }
+
+    &:first-child:hover,
+    &:first-child:focus-visible {
+      border-color: var(--global-primary-fill-hover-color);
+      background: var(--global-primary-fill-hover-color);
+      color: var(--global-on-primary-fill-color);
     }
   }
 }

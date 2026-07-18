@@ -19,6 +19,9 @@ body {
     "cv04" 1;
   font-optical-sizing: auto;
   background-color: var(--global-bg-color);
+  background-image: var(--global-page-wash);
+  background-repeat: no-repeat;
+  background-size: 100% min(64rem, 100vh);
 
   h1,
   h2,
@@ -192,14 +195,15 @@ body.sticky-bottom-footer {
 }
 
 .route-recovery-link-primary {
-  border-color: var(--global-theme-color);
-  background: var(--global-theme-color);
-  color: var(--global-hover-text-color);
+  border-color: var(--global-primary-fill-color);
+  background: var(--global-primary-fill-color);
+  color: var(--global-on-primary-fill-color);
 
   &:hover,
   &:focus-visible {
-    background: var(--global-hover-color);
-    color: var(--global-hover-text-color);
+    border-color: var(--global-primary-fill-hover-color);
+    background: var(--global-primary-fill-hover-color);
+    color: var(--global-on-primary-fill-color);
   }
 }
 
