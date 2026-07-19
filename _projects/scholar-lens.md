@@ -87,7 +87,7 @@ My friend [Howard](https://howardhan.com/) recommended the [Google Scholar Autho
 
 ## Follow DesignWeaver through the lens
 
-DesignWeaver makes the synchronization concrete. The three cues below refer to the same bibliography key, but they do different jobs and do not share one timestamp.
+DesignWeaver makes the synchronization concrete. The three cues below refer to the same bibliography key, but they do different jobs and do not share one timestamp. [Paper Constellation]({{ '/projects/paper-constellation/' | relative_url }}) uses that same key to send focus into the lens without creating a second publication record.
 
 <ol class="project-storyboard" aria-label="DesignWeaver evidence path">
   <li class="project-storyboard-step">

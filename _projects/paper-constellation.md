@@ -88,7 +88,7 @@ The canonical bibliography stays visible by default and remains the no-JavaScrip
 
 The reviewed edge to [What Happened and Why?]({{ '/projects/what-happened-and-why/' | relative_url }}) carries that concern forward. The later position paper asks how traces of creative activity might locate consequential micro-episodes, then proposes pairing those traces with in-flow user explanations to help a team interpret what happened and why. Its primary home shifts toward Evaluate while retaining a Design bridge. The line does not claim one paper caused the other; it makes a shared question inspectable: **what evidence helps a designer make the next iteration more deliberate?**
 
-Hover or keyboard focus previews a paper's immediate neighborhood. Selecting it pins the same evidence and asks Scholar Lens to highlight that paper's citation chip and annual bar. Filtering flows back the other way: a removed paper dims, becomes disabled, and leaves the Tab order rather than pretending to remain selectable.
+Hover or keyboard focus previews a paper's immediate neighborhood. Selecting it pins the same evidence and asks [Scholar Lens]({{ '/projects/scholar-lens/' | relative_url }}) to highlight that paper's citation chip and annual bar. Filtering flows back the other way: a removed paper dims, becomes disabled, and leaves the Tab order rather than pretending to remain selectable.
 
 ## One record, two reading shapes
 

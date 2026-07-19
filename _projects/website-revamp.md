@@ -193,7 +193,7 @@ Stripe's homepage inspired the restraint: a compact control, a proof-like visual
 
 ## Follow the child experiments
 
-This parent case study keeps the critique loop and archive. The experiments below own their own origin, evolution, evidence, and reproduction notes, so I link to them instead of flattening six different stories into one redesign recap.
+This parent case study keeps the critique loop and archive. The experiments below own their own origin, evolution, evidence, and reproduction notes, so I link to them instead of flattening eight different stories into one redesign recap.
 
 <nav class="project-storyboard" data-website-child-experiments aria-label="Website revamp child experiments">
   <article class="project-storyboard-step">
@@ -209,12 +209,20 @@ This parent case study keeps the critique loop and archive. The experiments belo
     <p>The same publication graph becomes a desktop atlas and a mobile trail.</p>
   </article>
   <article class="project-storyboard-step">
+    <h3><a href="{{ '/projects/scholar-lens/' | relative_url }}">Scholar Lens</a></h3>
+    <p>One paper key coordinates its bibliography row, lifetime citation chip, and dated annual bars.</p>
+  </article>
+  <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/ikea-project-cards/' | relative_url }}">IKEA project cards</a></h3>
     <p>One cancelable motion clock opens a project without losing the collection.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a></h3>
     <p>A lab meme became a rejection-only receipt wall without a productivity score.</p>
+  </article>
+  <article class="project-storyboard-step">
+    <h3><a href="{{ '/projects/hci-spooder-man/' | relative_url }}">HCI Spooder-Man</a></h3>
+    <p>A double-rejection meme became a small remix kit, with the serious receipt wall one link away.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/dogtor-portal/' | relative_url }}">Dogtor's portal</a></h3>

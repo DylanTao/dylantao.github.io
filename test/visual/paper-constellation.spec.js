@@ -40,6 +40,24 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await expect(activeSurface).toBeVisible();
 
   if (viewportWidth <= 767) {
+    const mobilePaperOrder = await page.locator("[data-constellation-mobile] [data-constellation-paper]").evaluateAll((papers) =>
+      papers.map((paper) => ({
+        key: paper.dataset.publicationKey,
+        year:
+          paper
+            .querySelector("small")
+            ?.textContent.trim()
+            .match(/^\d{4}/)?.[0] || "",
+      }))
+    );
+    expect(mobilePaperOrder).toEqual([
+      { key: "tao2026whw", year: "2026" },
+      { key: "wang2025hotspot", year: "2025" },
+      { key: "tao2024designweaver", year: "2025" },
+      { key: "tung2023physion++", year: "2023" },
+      { key: "bear2021physion", year: "2021" },
+    ]);
+
     await expect
       .poll(() =>
         page.locator("[data-constellation-mobile-edge]").evaluateAll((paths) =>

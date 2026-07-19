@@ -238,14 +238,22 @@ class SiteExperimentsTests(unittest.TestCase):
             "/projects/homepage-desk-scene/",
             "/projects/build-rhythm/",
             "/projects/paper-constellation/",
+            "/projects/scholar-lens/",
             "/projects/ikea-project-cards/",
             "/projects/wall-of-rejection/",
+            "/projects/hci-spooder-man/",
             "/projects/dogtor-portal/",
         ):
             with self.subTest(route=route):
                 self.assertEqual(source.count(route), 1)
         self.assertIn("No static image on this page is labeled as a current capture", source)
         self.assertIn("hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner", source)
+
+    def test_paper_constellation_and_scholar_lens_link_the_shared_record_both_ways(self) -> None:
+        constellation = (PROJECTS_DIR / "paper-constellation.md").read_text(encoding="utf-8")
+        scholar = (PROJECTS_DIR / "scholar-lens.md").read_text(encoding="utf-8")
+        self.assertEqual(constellation.count("/projects/scholar-lens/"), 1)
+        self.assertEqual(scholar.count("/projects/paper-constellation/"), 1)
 
     def test_spooder_story_marks_remix_art_and_keeps_wall_one_link_away(self) -> None:
         source = (PROJECTS_DIR / "hci-spooder-man.md").read_text(encoding="utf-8")
