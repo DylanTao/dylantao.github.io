@@ -1309,8 +1309,8 @@ test("four coastal desk palettes stay distinct and readable", async ({ page }, t
     noon: { background: "#fffefa", text: "#23282a", primary: "#b63d0a", sceneSignature: "noon:eaf1ec:fffffa:f0fffb:8fd8ef" },
     afternoon: {
       background: "#fbfaf7",
-      text: "#2b3032",
-      primary: "#9a4a30",
+      text: "#283234",
+      primary: "#3d6f73",
       sceneSignature: "afternoon:ece8df:fbf9f4:f3faf7:9bcbd7",
     },
     evening: {
