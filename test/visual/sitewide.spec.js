@@ -1063,6 +1063,9 @@ test("coastal time modes settle coherently across representative human routes", 
       expect(first.settledChrome.surface.background).not.toBe("rgba(0, 0, 0, 0)");
       expect(first.settledChrome.footer.background).not.toBe("rgba(0, 0, 0, 0)");
       samples[theme.mode] = first;
+      if (route.path === "/projects/" && theme.mode === "afternoon") {
+        await attachScreenshot(page, testInfo, `coastal-projects-afternoon-${testInfo.project.name}`, { fullPage: false });
+      }
       if (route.path === "/") {
         await attachScreenshot(page, testInfo, `coastal-home-${theme.mode}-${testInfo.project.name}`, { fullPage: false });
       }

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import colorsys
 import re
 import unittest
 from pathlib import Path
@@ -19,7 +20,7 @@ PROJECT_CARDS_PATH = REPO_ROOT / "_data" / "project_cards.yml"
 EXPECTED_ANCHORS = {
     "morning": {"bg": "#fff5ec", "text": "#26282b", "primary": "#b9400d", "fill": "#ee8753"},
     "noon": {"bg": "#fffefa", "text": "#23282a", "primary": "#b63d0a", "fill": "#f07a38"},
-    "afternoon": {"bg": "#fbfaf7", "text": "#2b3032", "primary": "#9a4a30", "fill": "#e18462"},
+    "afternoon": {"bg": "#fbfaf7", "text": "#283234", "primary": "#3d6f73", "fill": "#8ab8b2"},
     "evening": {"bg": "#111c22", "text": "#f8f3ec", "primary": "#ff9a3d", "fill": "#ff9a3d"},
 }
 
@@ -161,8 +162,10 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertNotIn("92, 54, 34", morning)
         self.assertIn("rgba(111, 190, 220", morning)
         afternoon = self.mode_declarations("afternoon")
-        self.assertIn("rgba(94, 164, 181", afternoon)
-        self.assertIn("rgba(225, 132, 98, 0.025)", afternoon)
+        self.assertIn("rgba(92, 151, 162, 0.07)", afternoon)
+        self.assertIn("rgba(218, 146, 112, 0.015)", afternoon)
+        self.assertNotIn("#9a4a30", afternoon)
+        self.assertNotIn("#e18462", afternoon)
         self.assertNotIn("#fff0e2", afternoon)
         self.assertNotIn("#ffe8d8", afternoon)
 
@@ -261,6 +264,19 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertGreaterEqual(len(accent_blocks), 10)
         for block in accent_blocks:
             self.assertEqual(set(re.findall(r"(?m)^    (morning|noon|afternoon|evening):", block)), set(EXPECTED_ANCHORS))
+
+    def test_afternoon_project_accents_do_not_return_to_an_orange_monoculture(self) -> None:
+        cards = PROJECT_CARDS_PATH.read_text(encoding="utf-8")
+        afternoon_accents = re.findall(r'(?m)^    afternoon: "(#[0-9a-f]{6})"$', cards)
+        orange_forward = []
+        for accent in afternoon_accents:
+            red, green, blue = (int(accent[index : index + 2], 16) / 255 for index in (1, 3, 5))
+            hue, saturation, _ = colorsys.rgb_to_hsv(red, green, blue)
+            if 20 <= hue * 360 <= 50 and saturation >= 0.25:
+                orange_forward.append(accent)
+
+        self.assertGreaterEqual(len(set(afternoon_accents)), 10)
+        self.assertLessEqual(len(orange_forward), 3)
 
 
 if __name__ == "__main__":

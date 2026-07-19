@@ -18,6 +18,7 @@ PROJECT_CARD_INCLUDE = REPO_ROOT / "_includes" / "projects.liquid"
 PROJECT_CARD_ICON_INCLUDE = REPO_ROOT / "_includes" / "project_card_icon.liquid"
 STORY_COMPONENTS = REPO_ROOT / "_sass" / "_components.scss"
 STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
+RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
 
 EXPECTED_CHRONOLOGY = [
     ("paper-constellation", "Paper Constellation", "2026-07-15T16:51:26-07:00"),
@@ -57,6 +58,12 @@ def frontmatter(path: Path) -> dict[str, str]:
 
 
 class SiteExperimentsTests(unittest.TestCase):
+    def test_research_skills_reading_bridge_reaches_the_writing_section(self) -> None:
+        source = RESEARCH_SKILLS_POST.read_text(encoding="utf-8")
+        self.assertIn("## 3. Learn to write research clearly", source)
+        self.assertIn("[section 3](#learn-to-write-research-clearly)", source)
+        self.assertNotIn("[section 3](#3-learn-to-write-research-clearly)", source)
+
     def test_site_experiments_have_truthful_chronological_metadata(self) -> None:
         records = []
         for slug, expected_title, expected_debut in EXPECTED_CHRONOLOGY:

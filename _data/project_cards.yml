@@ -2,7 +2,7 @@ what-happened-and-why:
   accents:
     morning: "#89adbc"
     noon: "#5b91a8"
-    afternoon: "#d79a72"
+    afternoon: "#6f9ca3"
     evening: "#a9d4e4"
   takeaways:
     - "Trace data needs user intent."
@@ -32,7 +32,7 @@ physion:
   accents:
     morning: "#7fa8b8"
     noon: "#4f7892"
-    afternoon: "#c88767"
+    afternoon: "#7897a6"
     evening: "#9bbccb"
   takeaways:
     - "Models predict physical scene dynamics."
@@ -45,7 +45,7 @@ website-revamp:
   accents:
     morning: "#f0a27a"
     noon: "#e17845"
-    afternoon: "#f4b37f"
+    afternoon: "#d49a7c"
     evening: "#ffb876"
   takeaways:
     - "Portfolio becomes a research argument."
@@ -61,12 +61,12 @@ paper-constellation:
 
 build-rhythm:
   origin_line: "Dense activity logs could count the work, but they could not make its rhythm legible at a glance."
-  evolution_line: "One combined view split into honest clocks, then regained a privacy-safe repo rhythm without reconnecting account history."
+  evolution_line: "One combined view split into honest clocks, then regained a privacy-safe repo rhythm that keeps the useful measures distinct."
   icon: pulse
   accents:
     morning: "#e88754"
     noon: "#4f91ab"
-    afternoon: "#ef9b5c"
+    afternoon: "#5f8f93"
     evening: "#91c9dd"
   takeaways:
     - "Cadence and magnitude stay distinct."
@@ -79,7 +79,7 @@ homepage-desk-scene:
   accents:
     morning: "#e8a06f"
     noon: "#5996a7"
-    afternoon: "#e5a56f"
+    afternoon: "#87a9a3"
     evening: "#9bc4cd"
   takeaways:
     - "2D and 3D share one state."
@@ -92,7 +92,7 @@ scholar-lens:
   accents:
     morning: "#d99b6b"
     noon: "#648eab"
-    afternoon: "#e5a477"
+    afternoon: "#7792aa"
     evening: "#a9c4d4"
   takeaways:
     - "Citation context stays dated."
@@ -105,7 +105,7 @@ wall-of-rejection:
   accents:
     morning: "#dc6a5d"
     noon: "#4f80a5"
-    afternoon: "#e09962"
+    afternoon: "#c47e70"
     evening: "#b7cee0"
   takeaways:
     - "Receipts stay close to each badge."
@@ -118,7 +118,7 @@ ikea-project-cards:
   accents:
     morning: "#e9a65f"
     noon: "#4f91b0"
-    afternoon: "#f0ad62"
+    afternoon: "#7fa6ad"
     evening: "#a9c9d9"
   takeaways:
     - "One card opens in context."
@@ -131,7 +131,7 @@ dogtor-portal:
   accents:
     morning: "#e99c62"
     noon: "#62a77d"
-    afternoon: "#e7aa6c"
+    afternoon: "#79a187"
     evening: "#acceb8"
   takeaways:
     - "Hidden delight keeps recovery visible."
@@ -143,7 +143,7 @@ not-a-good-driver:
   accents:
     morning: "#df725d"
     noon: "#6b9ccc"
-    afternoon: "#f2a66d"
+    afternoon: "#a08fae"
     evening: "#b8d4e8"
   takeaways:
     - "VR worlds become social experiments."

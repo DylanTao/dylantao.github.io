@@ -55,7 +55,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 39
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 40
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4690,6 +4690,59 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V39_TURN_IDS = tuple(
 )
 
 del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V40_EXTERNAL_RESEARCH_TURNS = (
+    (
+        "019f78f3-fc80-7c82-8f96-b818ab9e3812",
+        "2026-07-19T05:58:08.877Z",
+        "019f78f3-e799-7150-a24e-6fbfe331cb03",
+        "/root/calibration_sampling_contract",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-19T05:58:16.343Z",
+    ),
+    (
+        "019f78f7-d25d-7d70-967a-7ece7bc11968",
+        "2026-07-19T06:02:23.654Z",
+        "019f78f7-be56-7ed3-be50-d44fb8ab1c3a",
+        "/root/eusset_promotion_batch",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-19T06:03:03.282Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _spawn_task,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V40_EXTERNAL_RESEARCH_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-18",
+        "reason": (
+            "A substantive research/infrastructure subagent in the separate "
+            "semantic-scaffolding-map repository used max effort because that repository's "
+            "AGENTS model policy requires it; it did not perform site development or change "
+            "the site's declared default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, spawn task {_spawn_task}, exact runtime "
+            f"cwd {_runtime_cwd}, and first scoped assistant response at "
+            f"{_first_scoped_response_at}; audited 2026-07-18."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V40_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V40_EXTERNAL_RESEARCH_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _spawn_task, _runtime_cwd, _first_scoped_response_at
 
 
 WH_PER_TOKEN_MIDPOINT = 0.0006

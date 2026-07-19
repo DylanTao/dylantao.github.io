@@ -318,8 +318,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 39)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 454)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 40)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 456)
         required_fields = {
             "timestamp",
             "model",
@@ -1422,6 +1422,94 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertIn(exact_line, policy["provenance"])
         self.assertIn(f"task_complete at {completed_at}", policy["provenance"])
         self.assertIn("no-tools runtime-attestation canary", policy["reason"])
+
+    def test_policy_v40_external_research_turns_are_acknowledged_by_exact_signature(
+        self,
+    ) -> None:
+        turn_ids = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V40_TURN_IDS
+        self.assertEqual(
+            turn_ids,
+            (
+                "019f78f3-fc80-7c82-8f96-b818ab9e3812",
+                "019f78f7-d25d-7d70-967a-7ece7bc11968",
+            ),
+        )
+        research_turns = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V40_EXTERNAL_RESEARCH_TURNS
+        self.assertEqual(
+            research_turns,
+            (
+                (
+                    "019f78f3-fc80-7c82-8f96-b818ab9e3812",
+                    "2026-07-19T05:58:08.877Z",
+                    "019f78f3-e799-7150-a24e-6fbfe331cb03",
+                    "/root/calibration_sampling_contract",
+                    r"D:\dev\semantic-scaffolding-map",
+                    "2026-07-19T05:58:16.343Z",
+                ),
+                (
+                    "019f78f7-d25d-7d70-967a-7ece7bc11968",
+                    "2026-07-19T06:02:23.654Z",
+                    "019f78f7-be56-7ed3-be50-d44fb8ab1c3a",
+                    "/root/eusset_promotion_batch",
+                    r"D:\dev\semantic-scaffolding-map",
+                    "2026-07-19T06:03:03.282Z",
+                ),
+            ),
+        )
+
+        contexts = {}
+        for ordinal, turn_id in enumerate(turn_ids, start=1):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(policy["timestamp"])
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=f"policy-v40-{ordinal}",
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"policy-v40-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 2)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 2)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"gpt-5.6-sol/max": 2})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(
+            all(item["acknowledgment"]["signature_matches"] for item in tracking["post_cutover_deviations"])
+        )
+
+        for row in research_turns:
+            turn_id, _exact_timestamp, leaf_session, spawn_task, runtime_cwd, response_at = row
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            self.assertEqual(policy["model"], "gpt-5.6-sol")
+            self.assertEqual(policy["effort"], "max")
+            self.assertIn(f"leaf session {leaf_session}", policy["provenance"])
+            self.assertIn(f"spawn task {spawn_task}", policy["provenance"])
+            self.assertIn(f"exact runtime cwd {runtime_cwd}", policy["provenance"])
+            self.assertIn(
+                f"first scoped assistant response at {response_at}", policy["provenance"]
+            )
+            self.assertIn("substantive research/infrastructure subagent", policy["reason"])
+            self.assertIn("AGENTS model policy requires it", policy["reason"])
+            self.assertIn(
+                "did not perform site development or change the site's declared default",
+                policy["reason"],
+            )
+            self.assertNotIn("no-tools", policy["reason"])
+            self.assertNotIn("task_complete", policy["provenance"])
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
