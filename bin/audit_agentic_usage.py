@@ -55,7 +55,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 38
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 39
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4646,6 +4646,47 @@ for (
 
 MODEL_DEVIATION_ACKNOWLEDGMENT_V38_TURN_IDS = tuple(
     row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V38_RUNTIME_ATTESTATION_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V39_RUNTIME_ATTESTATION_TURNS = (
+    (
+        "019f758c-deb7-79b1-8aaf-7e3732bb9851",
+        "2026-07-18T14:06:35.663Z",
+        "019f758c-c4fd-7060-9e61-fe0d6b65c18e",
+        "runtime-attestation-canary:12b489cd4c80443292655118f350ec61",
+        "2026-07-18T14:06:37.735Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _exact_line,
+    _completed_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V39_RUNTIME_ATTESTATION_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-18",
+        "reason": (
+            "An explicit no-tools runtime-attestation canary in the separate "
+            "semantic-scaffolding-map repository requested max effort and only an exact "
+            "one-line response; it did not perform site development."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, exact prompt and matching response "
+            f"{_exact_line}, and task_complete at {_completed_at}; audited 2026-07-18."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V39_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V39_RUNTIME_ATTESTATION_TURNS
 )
 
 del _turn_id, _timestamp, _leaf_session, _exact_line, _completed_at
