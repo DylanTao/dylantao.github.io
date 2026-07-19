@@ -19,7 +19,7 @@ PROJECT_CARDS_PATH = REPO_ROOT / "_data" / "project_cards.yml"
 EXPECTED_ANCHORS = {
     "morning": {"bg": "#fff5ec", "text": "#26282b", "primary": "#b9400d", "fill": "#ee8753"},
     "noon": {"bg": "#fffefa", "text": "#23282a", "primary": "#b63d0a", "fill": "#f07a38"},
-    "afternoon": {"bg": "#fff0e2", "text": "#282629", "primary": "#b43a0a", "fill": "#ef6834"},
+    "afternoon": {"bg": "#fbfaf7", "text": "#2b3032", "primary": "#9a4a30", "fill": "#e18462"},
     "evening": {"bg": "#111c22", "text": "#f8f3ec", "primary": "#ff9a3d", "fill": "#ff9a3d"},
 }
 
@@ -160,7 +160,11 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertNotIn("#342925", morning)
         self.assertNotIn("92, 54, 34", morning)
         self.assertIn("rgba(111, 190, 220", morning)
-        self.assertIn("rgba(77, 158, 158", self.mode_declarations("afternoon"))
+        afternoon = self.mode_declarations("afternoon")
+        self.assertIn("rgba(94, 164, 181", afternoon)
+        self.assertIn("rgba(225, 132, 98, 0.025)", afternoon)
+        self.assertNotIn("#fff0e2", afternoon)
+        self.assertNotIn("#ffe8d8", afternoon)
 
     def test_global_chrome_uses_theme_owned_nav_shadow_and_focus_roles(self) -> None:
         navbar = NAVBAR_PATH.read_text(encoding="utf-8")
