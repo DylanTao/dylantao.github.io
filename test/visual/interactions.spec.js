@@ -459,7 +459,7 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
   });
 });
 
-test("home agentic heartbeat shows the rounded lifetime checkpoint without account-health ink", async ({ page }) => {
+test("home agentic heartbeat keeps lifetime usage separate from the site-build price replay", async ({ page }, testInfo) => {
   const usageResponse = await page.request.get(visualRoute("assets/data/codex-profile-usage.json"));
   expect(usageResponse.ok()).toBe(true);
   const usage = await usageResponse.json();
@@ -490,8 +490,59 @@ test("home agentic heartbeat shows the rounded lifetime checkpoint without accou
   await expect(tally).toContainText("agent-hours");
   await expect(tally).toContainText("site commits");
   await expect(tally).toContainText("est. kWh");
-  await expect(tally).not.toContainText(/trees?|invoice|cost/i);
+  await expect(tally).not.toContainText(/trees?/i);
   await expect(tally.locator("#home-agentic-tooltip")).toContainText("The commit count is exact from this repository's Git history.");
+
+  const costButton = tally.locator(".home-agentic-info-cost");
+  const costTooltip = tally.locator("#home-agentic-cost-tooltip");
+  const costArtwork = costTooltip.locator("img");
+  await expect(costButton).toHaveCount(1);
+  await expect(costButton).toHaveAccessibleName("Show the site-build API-rate comparison");
+  await expect(costTooltip).toContainText(/Sam's imaginary API invoice: ~\$[\d.]+K API-rate replay/);
+  await expect(costTooltip).toContainText("Request-aware replay of retained site-build logs at Standard public-API rates.");
+  await expect(costTooltip).toContainText("Not an actual Codex bill.");
+  await expect(costTooltip).toContainText("cache-write tokens");
+  await expect(costTooltip).toContainText("not included");
+  await expect(costArtwork).toHaveAttribute("alt", "");
+  await costArtwork.evaluate(async (image) => {
+    if (!image.complete) {
+      await new Promise((resolve) => image.addEventListener("load", resolve, { once: true }));
+    }
+    await image.decode();
+  });
+  expect(await costArtwork.evaluate((image) => image.naturalWidth)).toBeGreaterThan(0);
+
+  if (testInfo.project.name === "mobile") {
+    await costButton.tap();
+  } else {
+    await costButton.hover();
+  }
+  await expect(costTooltip).toBeVisible();
+  let tooltipFrame = await costTooltip.boundingBox();
+  let viewport = page.viewportSize();
+  expect(tooltipFrame).not.toBeNull();
+  expect(viewport).not.toBeNull();
+  expect(tooltipFrame.x).toBeGreaterThanOrEqual(-1);
+  expect(tooltipFrame.x + tooltipFrame.width).toBeLessThanOrEqual(viewport.width + 1);
+
+  await costButton.focus();
+  await expect(costTooltip).toBeVisible();
+  await expect(costButton).toBeFocused();
+
+  if (testInfo.project.name === "desktop") {
+    await page.setViewportSize({ width: 683, height: 900 });
+    await costButton.scrollIntoViewIfNeeded();
+    await costButton.focus();
+    tooltipFrame = await costTooltip.boundingBox();
+    viewport = page.viewportSize();
+    expect(tooltipFrame).not.toBeNull();
+    expect(viewport).not.toBeNull();
+    expect(tooltipFrame.x).toBeGreaterThanOrEqual(-1);
+    expect(tooltipFrame.x + tooltipFrame.width).toBeLessThanOrEqual(viewport.width + 1);
+    expect(tooltipFrame.y).toBeGreaterThanOrEqual(-1);
+    expect(tooltipFrame.y + tooltipFrame.height).toBeLessThanOrEqual(viewport.height + 1);
+  }
+
   await expect(heartbeat.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
   await expect(heartbeat.locator(".home-agentic-heartbeat-meta > span")).toHaveCount(2);
   const heartbeatFrame = await heartbeat.evaluate((node) => {

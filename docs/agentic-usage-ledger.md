@@ -14,7 +14,7 @@ The direct tracker publishes one rounded combined lifetime total with its units,
 
 Update that file when a future Codex or agentic run materially changes this site, especially if the work touches homepage visuals, custom layouts, custom scripts, publications/CV polish, or the 3D desk scene.
 
-The homepage contact ledger should render the playful tree-sacrifice estimate in the top caption, then four compact stat cells for tokens, agent-hours, commits, and estimated kWh. Keep detailed conversion caveats in this document and in the small homepage info tooltip, not as extra ledger paragraphs. The headline line may use light archaic copy, but the numbers and tooltip math should stay plain.
+The homepage contact ledger should render the quiet `Build ledger · since …` caption, then four compact stat cells for site-build tokens, agent-hours, commits, and estimated kWh. The site-build token value alone may carry a focusable price-replay disclosure sourced from `total.api_cost_equivalence.usd_label`; it must describe a request-aware Standard public-API rate replay of retained site-build logs, not an actual Codex bill, and must state that unavailable cache-write tokens are excluded. The separate rounded combined-lifetime heartbeat never receives or inherits a price. Keep detailed conversion caveats here and inside that compact disclosure rather than adding another stat cell or restoring the former tree-sacrifice headline.
 
 The site does not read Codex authentication files and does not call private account endpoints. Direct collection belongs outside this public repository and must hand the importer only the sanitized collector projection. The former exact account-history publication path is retired and no per-account history file is published going forward.
 
@@ -157,7 +157,7 @@ git rev-list --count --since="2026-06-16 20:00" HEAD -- assets/js/home.js _sass/
 
 7. Update `_data/agentic_usage.yml` and append a dated note here when the estimate changes materially.
 
-8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy compact: show the cut-tree midpoint in the top caption, show kWh as the fourth stat cell, and keep the stored-carbon caveats in the docs and info tooltip.
+8. Recompute the energy and cut-tree equivalence from the token totals using the formula above. Keep public copy compact: use estimated kWh as the fourth stat cell, retain cut-tree values as documented equivalence evidence, and do not restore the former tree-sacrifice headline.
 
 9. Recompute and keep the price estimates separate when token totals change:
 

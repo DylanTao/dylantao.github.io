@@ -3371,6 +3371,11 @@ html[data-theme="dark"] .home-artifact-mark {
     transform 140ms ease;
 }
 
+.home-agentic-info-cost {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
 .home-agentic-info:hover {
   border-color: color-mix(in srgb, var(--home-accent) 58%, transparent);
   background: color-mix(in srgb, var(--home-accent-soft) 36%, var(--home-surface));
@@ -3426,7 +3431,10 @@ html[data-theme="dark"] .home-artifact-mark {
   right: auto;
   left: 50%;
   width: min(21.5rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
   padding: 0.66rem 0.78rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   transform: translate(-50%, 0.18rem);
 }
 
@@ -3444,6 +3452,7 @@ html[data-theme="dark"] .home-artifact-mark {
   display: grid;
   min-width: 0;
   gap: 0.08rem;
+  overflow-wrap: anywhere;
 }
 
 .home-agentic-money-gag strong {
@@ -4183,6 +4192,11 @@ html.home-motion-ready .home-reveal.home-visible {
     font-size: 0.48rem;
   }
 
+  .home-agentic-info-cost {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
   .home-agentic-tooltip {
     right: 0;
     width: min(16.75rem, calc(100vw - 2.5rem));
@@ -4245,6 +4259,17 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-lineage-person + .home-lineage-person::before {
     display: none;
+  }
+}
+
+@media (max-width: 24rem) {
+  .home-agentic-money-gag {
+    grid-template-columns: 1fr;
+  }
+
+  .home-agentic-money-gag img {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 

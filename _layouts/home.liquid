@@ -22,6 +22,7 @@ layout: default
         {% assign agentic_usage = site.data.agentic_usage %}
         {% if agentic_usage.total %}
           {% assign total_energy = agentic_usage.total.energy_equivalence %}
+          {% assign total_cost_label = agentic_usage.total.api_cost_equivalence.usd_label %}
           <div
             class="home-agentic-tally"
             aria-label="Site revamp ledger: estimated Codex tokens and agent-hours, exact Git commit count, and estimated energy-equivalence"
@@ -48,7 +49,31 @@ layout: default
             </p>
             <dl class="home-agentic-grid">
               <div class="home-agentic-stat">
-                <dt>{{ agentic_usage.total.tokens_label }}</dt>
+                <dt>
+                  <span>{{ agentic_usage.total.tokens_label }}</span>
+                  {% if total_cost_label %}
+                    <span class="home-agentic-info-wrap home-agentic-info-wrap-cost" data-agentic-cost-scope="site-build">
+                      <button
+                        type="button"
+                        class="home-agentic-info home-agentic-info-cost"
+                        aria-label="Show the site-build API-rate comparison"
+                        aria-describedby="home-agentic-cost-tooltip"
+                      >
+                        i
+                      </button>
+                      <span id="home-agentic-cost-tooltip" class="home-agentic-tooltip home-agentic-tooltip-cost" role="tooltip">
+                        <span class="home-agentic-money-gag">
+                          <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
+                          <span>
+                            <strong>Sam's imaginary API invoice: {{ total_cost_label }}</strong>
+                            <em>Request-aware replay of retained site-build logs at Standard public-API rates.</em>
+                            <small> Not an actual Codex bill. Retained logs do not identify cache-write tokens, so those are not included. </small>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  {% endif %}
+                </dt>
                 <dd>site-build tokens</dd>
               </div>
               <div class="home-agentic-stat">
