@@ -353,6 +353,13 @@ Run the test yourself: [Google Lighthouse PageSpeed Insights](https://pagespeed.
 <!--ts-->
 
 - [al-folio](#al-folio)
+  - [OpenAI Build Week 2026: Scaffolding for Taste](#openai-build-week-2026-scaffolding-for-taste)
+    - [Eligibility boundary](#eligibility-boundary)
+    - [How Codex and GPT-5.6 were used](#how-codex-and-gpt-56-were-used)
+    - [Pre-existing and third-party foundation](#pre-existing-and-third-party-foundation)
+    - [Local setup](#local-setup)
+    - [Testing](#testing)
+    - [Claim boundary](#claim-boundary)
   - [User community](#user-community)
   - [Lighthouse PageSpeed Insights](#lighthouse-pagespeed-insights)
     - [Desktop](#desktop)
