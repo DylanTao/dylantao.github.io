@@ -1301,12 +1301,12 @@ test("four coastal desk palettes stay distinct and readable", async ({ page }, t
   const root = page.locator("html");
   const expected = {
     morning: {
-      background: "#fff5ec",
+      background: "#fffaf7",
       text: "#26282b",
-      primary: "#b9400d",
+      primary: "#9c4859",
       sceneSignature: "morning:f5dfd2:fff0e7:ffdfcf:b7d9e7",
     },
-    noon: { background: "#fffefa", text: "#23282a", primary: "#b63d0a", sceneSignature: "noon:eaf1ec:fffffa:f0fffb:8fd8ef" },
+    noon: { background: "#fffefa", text: "#23282a", primary: "#3b6a98", sceneSignature: "noon:eaf1ec:fffffa:f0fffb:8fd8ef" },
     afternoon: {
       background: "#fbfaf7",
       text: "#283234",
@@ -1316,7 +1316,7 @@ test("four coastal desk palettes stay distinct and readable", async ({ page }, t
     evening: {
       background: "#111c22",
       text: "#f8f3ec",
-      primary: "#ff9a3d",
+      primary: "#b7b2e3",
       sceneSignature: "evening:f0d4ad:e7d8c5:cbd9d9:ffa466",
     },
   };

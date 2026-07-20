@@ -7,6 +7,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 THEMES_PATH = REPO_ROOT / "_sass" / "_themes.scss"
+BRAND_ORANGE_PATH = REPO_ROOT / "_sass" / "_brand-orange.scss"
 NAVBAR_PATH = REPO_ROOT / "_sass" / "_navbar.scss"
 MATERIAL_PATH = REPO_ROOT / "_sass" / "_material-lite.scss"
 BLOG_PATH = REPO_ROOT / "_sass" / "_blog.scss"
@@ -18,10 +19,42 @@ PROJECT_CARDS_PATH = REPO_ROOT / "_data" / "project_cards.yml"
 
 
 EXPECTED_ANCHORS = {
-    "morning": {"bg": "#fff5ec", "text": "#26282b", "primary": "#b9400d", "fill": "#ee8753"},
-    "noon": {"bg": "#fffefa", "text": "#23282a", "primary": "#b63d0a", "fill": "#f07a38"},
-    "afternoon": {"bg": "#fbfaf7", "text": "#283234", "primary": "#3d6f73", "fill": "#8ab8b2"},
-    "evening": {"bg": "#111c22", "text": "#f8f3ec", "primary": "#ff9a3d", "fill": "#ff9a3d"},
+    "morning": {
+        "bg": "#fffaf7",
+        "text": "#26282b",
+        "primary": "#9c4859",
+        "hover": "#74333f",
+        "fill": "#dfa0ac",
+        "fill_hover": "#e9b3bd",
+        "container": "#f7e7e9",
+    },
+    "noon": {
+        "bg": "#fffefa",
+        "text": "#23282a",
+        "primary": "#3b6a98",
+        "hover": "#2c5074",
+        "fill": "#9bbde1",
+        "fill_hover": "#86acd4",
+        "container": "#e7eff8",
+    },
+    "afternoon": {
+        "bg": "#fbfaf7",
+        "text": "#283234",
+        "primary": "#3d6f73",
+        "hover": "#2d5559",
+        "fill": "#8ab8b2",
+        "fill_hover": "#76aaa3",
+        "container": "#f4e8e0",
+    },
+    "evening": {
+        "bg": "#111c22",
+        "text": "#f8f3ec",
+        "primary": "#b7b2e3",
+        "hover": "#d2cef2",
+        "fill": "#8d88c7",
+        "fill_hover": "#a29dd8",
+        "container": "#2b2942",
+    },
 }
 
 
@@ -41,6 +74,23 @@ def mix_hex(foreground: str, background: str, foreground_weight: float) -> str:
     background_channels = [int(background[index : index + 2], 16) for index in (1, 3, 5)]
     channels = [round(front * foreground_weight + back * (1 - foreground_weight)) for front, back in zip(foreground_channels, background_channels)]
     return "#" + "".join(f"{channel:02x}" for channel in channels)
+
+
+def hue_degrees(hex_color: str) -> float:
+    red, green, blue = (int(hex_color[index : index + 2], 16) / 255 for index in (1, 3, 5))
+    return colorsys.rgb_to_hsv(red, green, blue)[0] * 360
+
+
+def circular_hue_distance(first: float, second: float) -> float:
+    difference = abs(first - second)
+    return min(difference, 360 - difference)
+
+
+def rgb_distance(first: str, second: str) -> float:
+    channels = []
+    for index in (1, 3, 5):
+        channels.append((int(first[index : index + 2], 16) - int(second[index : index + 2], 16)) / 255)
+    return sum(channel**2 for channel in channels) ** 0.5
 
 
 def composite_page_wash(wash: str, background: str) -> str:
@@ -84,17 +134,45 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 self.assertEqual(self.token(declarations, "global-bg-color"), expected["bg"])
                 self.assertEqual(self.token(declarations, "global-text-color"), expected["text"])
                 self.assertEqual(self.token(declarations, "global-primary-color"), expected["primary"])
+                self.assertEqual(self.token(declarations, "global-primary-hover-color"), expected["hover"])
                 self.assertEqual(self.token(declarations, "global-primary-fill-color"), expected["fill"])
+                self.assertEqual(self.token(declarations, "global-primary-fill-hover-color"), expected["fill_hover"])
+                self.assertEqual(self.token(declarations, "global-primary-container-color"), expected["container"])
                 self.assertIn("--global-nav-bg-color:", declarations)
                 self.assertIn("--global-shadow-rgb:", declarations)
-                self.assertIn("--global-primary-hover-color:", declarations)
-                self.assertIn("--global-primary-fill-hover-color:", declarations)
                 self.assertIn("--global-on-primary-fill-color:", declarations)
-                self.assertIn("--global-primary-container-color:", declarations)
                 self.assertIn("--global-on-primary-container-color:", declarations)
                 self.assertIn("--global-mint-strong:", declarations)
                 self.assertIn("--global-sky-strong:", declarations)
                 self.assertIn("--global-footer-bg-color:", declarations)
+
+    def test_root_palette_is_the_noon_palette(self) -> None:
+        root_start = self.themes.index(":root {") + len(":root {")
+        root_end = self.themes.index("\n  .only-light", root_start)
+        root = self.themes[root_start:root_end]
+        noon = self.mode_declarations("noon")
+        for token in (
+            "global-bg-color",
+            "global-primary-color",
+            "global-primary-hover-color",
+            "global-primary-fill-color",
+            "global-primary-fill-hover-color",
+            "global-primary-container-color",
+            "global-accent-rgb",
+            "global-page-wash",
+        ):
+            with self.subTest(token=token):
+                self.assertEqual(self.token(root, token), self.token(noon, token))
+
+    def test_time_modes_have_distinct_non_orange_primary_hues(self) -> None:
+        hues = {mode: hue_degrees(anchors["primary"]) for mode, anchors in EXPECTED_ANCHORS.items()}
+        for mode, hue in hues.items():
+            with self.subTest(mode=mode):
+                self.assertFalse(15 <= hue <= 55)
+        for index, (first_mode, first_hue) in enumerate(hues.items()):
+            for second_mode, second_hue in list(hues.items())[index + 1 :]:
+                with self.subTest(first=first_mode, second=second_mode):
+                    self.assertGreaterEqual(circular_hue_distance(first_hue, second_hue), 24)
 
     def test_theme_text_actions_and_secondary_ink_clear_contrast_thresholds(self) -> None:
         for mode, anchors in EXPECTED_ANCHORS.items():
@@ -160,7 +238,8 @@ class CoastalThemePaletteTests(unittest.TestCase):
         morning = self.mode_declarations("morning")
         self.assertNotIn("#342925", morning)
         self.assertNotIn("92, 54, 34", morning)
-        self.assertIn("rgba(111, 190, 220", morning)
+        self.assertIn("rgba(223, 160, 172, 0.1)", morning)
+        self.assertIn("rgba(155, 189, 225, 0.05)", morning)
         afternoon = self.mode_declarations("afternoon")
         self.assertIn("rgba(92, 151, 162, 0.07)", afternoon)
         self.assertIn("rgba(218, 146, 112, 0.015)", afternoon)
@@ -168,6 +247,40 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertNotIn("#e18462", afternoon)
         self.assertNotIn("#fff0e2", afternoon)
         self.assertNotIn("#ffe8d8", afternoon)
+
+    def test_reading_surfaces_remain_near_the_neutral_page_field(self) -> None:
+        surface_tokens = (
+            "global-surface-color",
+            "global-surface-container-low-color",
+            "global-surface-container-color",
+            "global-surface-container-high-color",
+            "global-card-bg-color",
+        )
+        for mode, anchors in EXPECTED_ANCHORS.items():
+            declarations = self.mode_declarations(mode)
+            for token in surface_tokens:
+                surface = self.token(declarations, token)
+                with self.subTest(mode=mode, token=token):
+                    self.assertLessEqual(rgb_distance(surface, anchors["bg"]), 0.2)
+                    self.assertNotEqual(surface, anchors["container"])
+
+    def test_brand_orange_is_constant_and_not_derived_from_mode_accent(self) -> None:
+        root_start = self.themes.index(":root {") + len(":root {")
+        root_end = self.themes.index("\n  .only-light", root_start)
+        root = self.themes[root_start:root_end]
+        self.assertEqual(self.token(root, "global-brand-orange-color"), "#f07a38")
+        self.assertEqual(self.token(root, "global-brand-orange-rgb"), "240, 122, 56")
+        for mode in EXPECTED_ANCHORS:
+            declarations = self.mode_declarations(mode)
+            with self.subTest(mode=mode):
+                self.assertNotIn("--global-brand-orange-color", declarations)
+                self.assertNotIn("--global-brand-orange-rgb", declarations)
+
+        brand = BRAND_ORANGE_PATH.read_text(encoding="utf-8")
+        self.assertIn("--brand-orange-rind: var(--global-brand-orange-color);", brand)
+        self.assertGreaterEqual(brand.count("rgba(var(--global-brand-orange-rgb)"), 3)
+        self.assertNotIn("rgba(var(--global-accent-rgb)", brand)
+        self.assertNotIn('[data-theme-mode="', brand)
 
     def test_global_chrome_uses_theme_owned_nav_shadow_and_focus_roles(self) -> None:
         navbar = NAVBAR_PATH.read_text(encoding="utf-8")
@@ -205,6 +318,22 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertIn("const deskPaletteSignature", palette_source)
         self.assertIn("container.dataset.scenePaletteSettled = palette.mode", palette_source)
         self.assertIn("container.dataset.scenePaletteSignature = deskPaletteSignature(palette)", palette_source)
+        for signature in (
+            "morning:f5dfd2:fff0e7:ffdfcf:b7d9e7",
+            "noon:eaf1ec:fffffa:f0fffb:8fd8ef",
+            "afternoon:ece8df:fbf9f4:f3faf7:9bcbd7",
+            "evening:f0d4ad:e7d8c5:cbd9d9:ffa466",
+        ):
+            mode, floor, wall, ambient, side = signature.split(":")
+            mode_start = palette_source.index(f"        {mode}: {{")
+            next_mode = re.search(r"\n        [a-z]+: \{", palette_source[mode_start + 1 :])
+            mode_end = mode_start + 1 + next_mode.start() if next_mode else palette_source.index("\n      };", mode_start)
+            mode_source = palette_source[mode_start:mode_end]
+            with self.subTest(mode=mode):
+                self.assertIn(f"floor: 0x{floor}", mode_source)
+                self.assertIn(f"wall: 0x{wall}", mode_source)
+                self.assertIn(f"ambientColor: 0x{ambient}", mode_source)
+                self.assertIn(f"sideColor: 0x{side}", mode_source)
         for geometry_or_state_term in (
             "defaultCamera",
             "orbitTarget",
