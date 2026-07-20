@@ -13,6 +13,7 @@ HEURISTICS_PATH = REPO_ROOT / "WEBSITE_DESIGN_HEURISTICS.md"
 LEDGER_DOC_PATH = REPO_ROOT / "docs" / "agentic-usage-ledger.md"
 SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "github-activity.js"
 STYLE_PATH = REPO_ROOT / "_sass" / "_github-activity.scss"
+TOKEN_ENDPOINT_PATH = REPO_ROOT / "assets" / "data" / "build-rhythm-token-rhythm.json.liquid"
 PACKAGE_PATH = REPO_ROOT / "package.json"
 PUBLIC_VISUAL_CONFIG_PATH = REPO_ROOT / "test" / "visual" / "public.config.js"
 PUBLIC_ROUTES_PATH = REPO_ROOT / "test" / "visual" / "public-routes.js"
@@ -28,6 +29,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.ledger_doc = LEDGER_DOC_PATH.read_text(encoding="utf-8")
         cls.script = SCRIPT_PATH.read_text(encoding="utf-8")
         cls.style = STYLE_PATH.read_text(encoding="utf-8")
+        cls.token_endpoint = TOKEN_ENDPOINT_PATH.read_text(encoding="utf-8")
         cls.package = PACKAGE_PATH.read_text(encoding="utf-8")
         cls.public_visual_config = PUBLIC_VISUAL_CONFIG_PATH.read_text(encoding="utf-8")
         cls.public_routes = PUBLIC_ROUTES_PATH.read_text(encoding="utf-8")
@@ -46,6 +48,14 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertLess(
             self.page.index('data-build-rhythm-story'),
             self.page.index('class="github-activity-workbench"'),
+        )
+        self.assertLess(
+            self.page.index('class="github-activity-workbench"'),
+            self.page.index('class="github-activity-token-rhythm"'),
+        )
+        self.assertLess(
+            self.page.index('class="github-activity-token-rhythm"'),
+            self.page.index('class="github-activity-method"'),
         )
 
     def test_story_credit_and_origin_route_are_explicit(self) -> None:
@@ -75,6 +85,12 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('data-build-rhythm-step="tokens"', self.page)
         self.assertIn("Token accumulation is a trace, not a score.", self.page)
         self.assertIn('id="github-activity-token-table-body"', self.page)
+        self.assertIn('id="github-activity-token-rhythm-chart"', self.page)
+        self.assertIn('id="github-activity-token-table-scroll-hint"', self.page)
+        self.assertIn('data-token-rhythm', self.page)
+        self.assertIn("Site-build token rhythm", self.page)
+        self.assertIn("Exact daily reading path", self.page)
+        self.assertIn("Rounded increase", self.page)
         self.assertIn("These server-rendered points remain available without JavaScript.", self.page)
         self.assertIn("largest rounded adjacent-point increase", self.page)
         self.assertIn('candidate.method !== "deduplicated_repo_retained_logs"', self.script)
@@ -84,10 +100,31 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("Tokens trace retained work, not quality.", self.script)
         self.assertNotIn("account_lifetime", self.page)
 
+    def test_public_token_rhythm_endpoint_is_a_direct_ledger_projection(self) -> None:
+        self.assertIn("layout: null", self.token_endpoint)
+        self.assertIn("permalink: /assets/data/build-rhythm-token-rhythm.json", self.token_endpoint)
+        self.assertIn("{{ site.data.agentic_usage.total.token_rhythm | jsonify }}", self.token_endpoint)
+        self.assertNotIn("direct_usage_tracker", self.token_endpoint)
+        self.assertNotIn("account", self.token_endpoint.lower())
+
+    def test_persistent_token_chart_reuses_validated_data_and_resizes(self) -> None:
+        self.assertIn('const drawTokenRhythm = (group, tokenRows, width, height, colors)', self.script)
+        self.assertIn('className: "github-activity-token-cumulative-line"', self.script)
+        self.assertIn('className: "github-activity-token-delta-line"', self.script)
+        self.assertIn("new ResizeObserver(scheduleRender).observe(chart)", self.script)
+        self.assertIn('rhythmRoot.dataset.state = "ready"', self.script)
+        self.assertIn('rhythmRoot.dataset.state = "error"', self.script)
+
     def test_static_and_reduced_motion_styles_remain_complete(self) -> None:
         self.assertIn('@media (max-width: 820px)', self.style)
+        self.assertIn('@media (min-width: 821px) and (max-height: 720px)', self.style)
         self.assertIn('@media (prefers-reduced-motion: reduce)', self.style)
         self.assertIn('.build-rhythm-story-chart', self.style)
+        self.assertIn('grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 0.65fr);', self.style)
+        self.assertIn('height: clamp(23rem, 35vw, 28rem);', self.style)
+        self.assertIn('min-height: calc(100vh - 5.75rem);', self.style)
+        self.assertIn('.github-activity-token-evidence .github-activity-table', self.style)
+        self.assertIn('min-width: 38rem;', self.style)
         self.assertIn('opacity: 1 !important;', self.style)
 
     def test_authoritative_explorer_contract_stays_present(self) -> None:
@@ -164,6 +201,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
         ):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, public_surfaces)
+        for retired in ("per-account", "gmail", "ucsd email"):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, self.page.lower())
         self.assertIn("Combined lifetime Codex tokens", self.page)
         self.assertIn("automatic refresh pending", self.page)
         self.assertIn("never\nadded to the repo-scoped retained-session estimate", self.page)

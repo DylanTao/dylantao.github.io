@@ -23,6 +23,19 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(tokenSource.points.length).toBeGreaterThan(1);
   expect(Object.keys(tokenSource.points.at(-1)).sort()).toEqual(["date", "token_count", "tokens_label"].sort());
   const latestTokenLabel = tokenSource.points.at(-1).tokens_label;
+  const endpointResponse = await page.request.get(publicRouteUrl("/assets/data/build-rhythm-token-rhythm.json"));
+  expect(endpointResponse.ok()).toBe(true);
+  expect(await endpointResponse.json()).toEqual(tokenSource);
+
+  const tokenRhythm = page.locator("[data-token-rhythm]");
+  const tokenRhythmChart = page.locator("[data-token-rhythm-chart]");
+  await expect(tokenRhythm).toHaveAttribute("data-state", "ready");
+  await expect(tokenRhythmChart.locator(".github-activity-token-cumulative-line")).toHaveCount(1);
+  await expect(tokenRhythmChart.locator(".github-activity-token-delta-line")).toHaveCount(1);
+  expect((await tokenRhythmChart.locator(".github-activity-token-cumulative-line").getAttribute("d"))?.length).toBeGreaterThan(20);
+  expect((await tokenRhythmChart.locator(".github-activity-token-delta-line").getAttribute("d"))?.length).toBeGreaterThan(20);
+  expect(await page.locator("#github-activity-token-table-body tr").count()).toBe(tokenSource.points.length);
+  await expect(tokenRhythm).toContainText("separate from the lifetime Codex snapshot");
 
   await expect(story.getByRole("link", { name: "The Rhythm of Food" })).toHaveAttribute("href", "https://rhythm-of-food.net/");
   await expect(story.getByRole("link", { name: "John Thompson" })).toHaveAttribute("href", "https://jrthomp.com/");
@@ -35,6 +48,13 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(chart.locator('[data-build-rhythm-story-layer="complete"]')).toHaveCount(1);
     await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
     await expect(stage).toContainText(latestTokenLabel);
+    if (viewportWidth <= 420) {
+      await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
+      const tokenTableOverflow = await page
+        .getByRole("region", { name: "Daily cumulative repo-token estimate table" })
+        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      expect(tokenTableOverflow).toBeGreaterThan(100);
+    }
   } else {
     await expect(story).toHaveAttribute("data-story-static", "false");
     for (const scene of ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"]) {
@@ -44,9 +64,32 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
       await expect(stage).toHaveAttribute("data-scene", scene);
       await expect(stage).toHaveAttribute("data-transitioning", "false");
       if (scene === "tokens") {
-        await expect(chart).toContainText("SITE REVAMP · CUMULATIVE RETAINED-SESSION ESTIMATE");
+        await expect(chart).toContainText("SITE-BUILD · CUMULATIVE REPO ESTIMATE");
         await expect(stage).toContainText(latestTokenLabel);
         await attachScreenshot(page, testInfo, `build-rhythm-token-scene-${testInfo.project.name}`, { locator: stage });
+      }
+      if (scene === "magnitude") {
+        const geometry = await page.evaluate(() => {
+          const stageBox = document.querySelector("[data-build-rhythm-story-stage]").getBoundingClientRect();
+          const stepsBox = document.querySelector(".build-rhythm-story-steps").getBoundingClientRect();
+          const navBottom = Math.max(0, document.querySelector("nav")?.getBoundingClientRect().bottom || 0);
+          const usableHeight = window.innerHeight - navBottom;
+          return {
+            stageCenter: (stageBox.top + stageBox.bottom) / 2,
+            usableCenter: navBottom + usableHeight / 2,
+            usableHeight,
+            stageTop: stageBox.top,
+            stageBottom: stageBox.bottom,
+            stepsWidth: stepsBox.width,
+            chartHeight: document.querySelector("[data-build-rhythm-story-chart]").getBoundingClientRect().height,
+          };
+        });
+        expect(Math.abs(geometry.stageCenter - geometry.usableCenter)).toBeLessThanOrEqual(geometry.usableHeight * 0.08);
+        expect(geometry.stageTop).toBeGreaterThanOrEqual(0);
+        expect(geometry.stageBottom).toBeLessThanOrEqual((page.viewportSize()?.height || 0) + 1);
+        expect(geometry.stepsWidth).toBeGreaterThanOrEqual(319);
+        expect(geometry.chartHeight).toBeGreaterThanOrEqual(368);
+        expect(geometry.chartHeight).toBeLessThanOrEqual(449);
       }
     }
   }
@@ -55,6 +98,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(overflow, `${viewportWidth}px Build Rhythm page overflows`).toBeLessThanOrEqual(1);
   await expect(page.getByRole("button", { name: "Readable", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#github-activity-table-body")).toBeAttached();
+  await attachScreenshot(page, testInfo, `build-rhythm-persistent-tokens-${testInfo.project.name}`, { locator: tokenRhythm });
   await attachScreenshot(page, testInfo, `build-rhythm-stage-${testInfo.project.name}`, { locator: stage });
   await attachScreenshot(page, testInfo, `build-rhythm-story-${testInfo.project.name}`, { locator: story });
   expect(runtimeErrors).toEqual([]);
@@ -98,15 +142,19 @@ test("Build Rhythm reduced motion renders one complete still", async ({ page }, 
 
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
+  const tokenChart = page.locator("[data-token-rhythm-chart]");
   await expect(story).toHaveAttribute("data-state", "ready");
   await expect(story).toHaveAttribute("data-story-static", "true");
   await expect(stage).toHaveAttribute("data-scene", "complete");
   await expect(stage).toHaveAttribute("data-transitioning", "false");
   await page.waitForTimeout(120);
   const before = await stage.screenshot();
+  const tokenBefore = await tokenChart.screenshot();
   await page.waitForTimeout(260);
   const after = await stage.screenshot();
+  const tokenAfter = await tokenChart.screenshot();
   expect(screenshotDiffRatio(after, before), "reduced-motion story should remain pixel-stable").toBeLessThan(0.0001);
+  expect(screenshotDiffRatio(tokenAfter, tokenBefore), "reduced-motion token chart should remain pixel-stable").toBeLessThan(0.0001);
   expect(runtimeErrors).toEqual([]);
 });
 
@@ -128,7 +176,9 @@ test("Build Rhythm token-story failure leaves the GitHub explorer and server evi
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(activity).toHaveAttribute("data-token-state", "error");
   await expect(page.locator("[data-build-rhythm-story]")).toHaveAttribute("data-state", "loading");
+  await expect(page.locator("[data-token-rhythm]")).toHaveAttribute("data-state", "error");
   await expect(page.locator(".build-rhythm-story-stage-wrap")).toBeHidden();
+  await expect(page.locator("[data-token-rhythm-chart]")).toBeHidden();
   await expect(page.locator(".github-activity-commit-line")).toHaveCount(1);
   expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
   expect(await page.locator("#github-activity-token-table-body tr").count()).toBeGreaterThan(1);

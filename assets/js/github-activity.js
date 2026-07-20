@@ -46,6 +46,89 @@
   const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
   const lineChanges = (row) => row.additions + row.deletions;
+  const drawSeries = (group, rows, valueForRow, bounds, options) => {
+    const values = rows.map(valueForRow);
+    const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
+    const transformedMaximum = options.scale === "linear" ? maximum : Math.log1p(maximum);
+    const x = (index) => bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
+    const y = (value) => {
+      const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
+      if (options.signed) return bounds.baseline - Math.sign(value) * transformed * (bounds.bottom - bounds.top) * 0.45;
+      return bounds.bottom - transformed * (bounds.bottom - bounds.top);
+    };
+    const points = values.map((value, index) => [x(index), y(value)]);
+    if (options.fillOpacity) {
+      group.append(
+        svgElement("path", {
+          ...(options.className ? { class: `${options.className}-area` } : {}),
+          d: areaPath(points, options.signed ? bounds.baseline : bounds.bottom),
+          fill: options.color,
+          "fill-opacity": options.fillOpacity,
+        })
+      );
+    }
+    group.append(
+      svgElement("path", {
+        ...(options.className ? { class: options.className } : {}),
+        d: linePath(points),
+        fill: "none",
+        stroke: options.color,
+        "stroke-width": options.strokeWidth || 1.8,
+        ...(options.dash ? { "stroke-dasharray": options.dash } : {}),
+        "stroke-linejoin": "round",
+        "stroke-linecap": "round",
+      })
+    );
+    return { maximum, values, x, y };
+  };
+  const drawTokenRhythm = (group, tokenRows, width, height, colors) => {
+    const left = width < 620 ? 46 : 54;
+    const right = 14;
+    const split = Math.round(height * 0.58);
+    const latest = tokenRows.at(-1);
+    const dailyDeltas = tokenRows.map((row, index) => Math.max(0, row.tokenCount - (tokenRows[index - 1]?.tokenCount || 0)));
+
+    addText(group, "SITE-BUILD \u00b7 CUMULATIVE REPO ESTIMATE", left, 20, {
+      color: colors.accent,
+      weight: 700,
+    });
+    addText(group, latest.tokensLabel, width - right, 20, { anchor: "end", color: colors.text, weight: 700 });
+    drawSeries(
+      group,
+      tokenRows,
+      (row) => row.tokenCount,
+      { left, right: width - right, top: 44, bottom: split - 20 },
+      {
+        className: "github-activity-token-cumulative-line",
+        color: colors.accent,
+        fillOpacity: 0.1,
+        scale: "linear",
+        strokeWidth: 2,
+      }
+    );
+
+    addText(group, "ROUNDED DAILY INCREASE \u00b7 READABLE LOG1P", left, split + 8, {
+      color: colors.muted,
+      weight: 700,
+    });
+    drawSeries(
+      group,
+      tokenRows,
+      (_row, index) => dailyDeltas[index],
+      { left, right: width - right, top: split + 30, bottom: height - 34 },
+      {
+        className: "github-activity-token-delta-line",
+        color: colors.added,
+        fillOpacity: 0.1,
+        scale: "log",
+      }
+    );
+    addText(group, shortDate.format(tokenRows[0].date), left, height - 8, { color: colors.muted });
+    addText(group, shortDate.format(latest.date), width - right, height - 8, { anchor: "end", color: colors.muted });
+
+    const largestIndex = dailyDeltas.indexOf(Math.max(...dailyDeltas));
+    return `Latest rounded estimate \u00b7 ${latest.tokensLabel} \u00b7 ${fullDate.format(latest.date)}. Largest rounded daily increase \u00b7 ${compactNumber.format(dailyDeltas[largestIndex])} \u00b7 ${fullDate.format(tokenRows[largestIndex].date)}. Tokens trace retained work, not quality. This repo-scoped estimate stays separate from lifetime usage.`;
+  };
 
   const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise }) => {
     const storyRoot = document.querySelector("[data-build-rhythm-story]");
@@ -78,7 +161,7 @@
     const palette = () => {
       const style = getComputedStyle(storyRoot);
       return {
-        accent: style.getPropertyValue("--global-primary-color").trim() || "#b63d0a",
+        accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
         added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
         removed: style.getPropertyValue("--global-mint-strong").trim() || "#26735d",
         text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
@@ -91,40 +174,6 @@
       width: Math.max(300, Math.round(chart.getBoundingClientRect().width || storyRoot.getBoundingClientRect().width || 720)),
       height: Math.max(300, Math.round(chart.getBoundingClientRect().height || 368)),
     });
-    const drawSeries = (group, rows, valueForRow, bounds, options) => {
-      const values = rows.map(valueForRow);
-      const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
-      const transformedMaximum = options.scale === "linear" ? maximum : Math.log1p(maximum);
-      const x = (index) => bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
-      const y = (value) => {
-        const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
-        if (options.signed) return bounds.baseline - Math.sign(value) * transformed * (bounds.bottom - bounds.top) * 0.45;
-        return bounds.bottom - transformed * (bounds.bottom - bounds.top);
-      };
-      const points = values.map((value, index) => [x(index), y(value)]);
-      if (options.fillOpacity) {
-        group.append(
-          svgElement("path", {
-            d: areaPath(points, options.signed ? bounds.baseline : bounds.bottom),
-            fill: options.color,
-            "fill-opacity": options.fillOpacity,
-          })
-        );
-      }
-      group.append(
-        svgElement("path", {
-          d: linePath(points),
-          fill: "none",
-          stroke: options.color,
-          "stroke-width": options.strokeWidth || 1.8,
-          ...(options.dash ? { "stroke-dasharray": options.dash } : {}),
-          "stroke-linejoin": "round",
-          "stroke-linecap": "round",
-        })
-      );
-      return { maximum, values, x, y };
-    };
-
     const drawCadence = (group, width, height, colors) => {
       const left = width < 620 ? 42 : 50;
       const right = 14;
@@ -215,39 +264,7 @@
     };
 
     const drawTokens = (group, width, height, colors) => {
-      const left = width < 620 ? 46 : 54;
-      const right = 14;
-      const split = Math.round(height * 0.58);
-      const latest = tokenRows.at(-1);
-      const dailyDeltas = tokenRows.map((row, index) => Math.max(0, row.tokenCount - (tokenRows[index - 1]?.tokenCount || 0)));
-
-      addText(group, "SITE REVAMP · CUMULATIVE RETAINED-SESSION ESTIMATE", left, 20, {
-        color: colors.accent,
-        weight: 700,
-      });
-      addText(group, latest.tokensLabel, width - right, 20, { anchor: "end", color: colors.text, weight: 700 });
-      drawSeries(
-        group,
-        tokenRows,
-        (row) => row.tokenCount,
-        { left, right: width - right, top: 44, bottom: split - 20 },
-        { color: colors.accent, fillOpacity: 0.1, scale: "linear", strokeWidth: 2 }
-      );
-
-      addText(group, "ROUNDED DAILY INCREASE · READABLE LOG1P", left, split + 8, {
-        color: colors.muted,
-        weight: 700,
-      });
-      drawSeries(
-        group,
-        tokenRows,
-        (_row, index) => dailyDeltas[index],
-        { left, right: width - right, top: split + 30, bottom: height - 28 },
-        { color: colors.added, fillOpacity: 0.1, scale: "log" }
-      );
-
-      const largestIndex = dailyDeltas.indexOf(Math.max(...dailyDeltas));
-      return `Latest rounded estimate · ${latest.tokensLabel} · ${fullDate.format(latest.date)}. Largest rounded daily increase · ${compactNumber.format(dailyDeltas[largestIndex])} · ${fullDate.format(tokenRows[largestIndex].date)}. Tokens trace retained work, not quality.`;
+      return drawTokenRhythm(group, tokenRows, width, height, colors);
     };
 
     const drawLifetime = (group, width, height, colors) => {
@@ -343,13 +360,11 @@
       const codexTop = tokenBottom + 30;
       addText(group, "SEPARATE MEASURE \u00b7 LIFETIME CODEX TOKENS", left, codexTop - 10, { color: colors.accent, weight: 700 });
       if (codexSource?.combined_lifetime) {
-        addText(
-          group,
-          `${codexSource.combined_lifetime.tokens_label} combined \u00b7 rounded \u00b7 not added to the repo trace`,
-          left,
-          Math.min(height - 8, codexTop + 18),
-          { color: colors.text, weight: 700 }
-        );
+        const lifetimeSummary =
+          width < 620
+            ? `${codexSource.combined_lifetime.tokens_label} lifetime \u00b7 separate repo trace`
+            : `${codexSource.combined_lifetime.tokens_label} combined \u00b7 rounded \u00b7 not added to the repo trace`;
+        addText(group, lifetimeSummary, left, Math.min(height - 8, codexTop + 18), { color: colors.text, weight: 700 });
       } else {
         addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
           color: colors.muted,
@@ -362,7 +377,7 @@
       cadence: { label: "CADENCE", scope: "5 YEARS \u00b7 WEEKLY" },
       magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
       bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
-      tokens: { label: "TOKEN RHYTHM", scope: "SITE REVAMP \u00b7 DAILY ESTIMATE" },
+      tokens: { label: "TOKEN RHYTHM", scope: "SITE BUILD \u00b7 DAILY ESTIMATE" },
       lifetime: { label: "CHANGE THE MEASURE", scope: "LIFETIME \u00b7 ROUNDED" },
       explore: { label: "HANDOFF", scope: "GITHUB EXPLORER BELOW" },
       complete: { label: "COMPLETE VIEW", scope: "5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL" },
@@ -524,6 +539,52 @@
       cancelTransition({ settle: false });
       renderScene(isStaticStory() ? "complete" : activeScene);
     }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "data-theme-mode"],
+    });
+  };
+
+  const initTokenRhythmChart = ({ tokenRows }) => {
+    const rhythmRoot = document.querySelector("[data-token-rhythm]");
+    if (!rhythmRoot) return;
+
+    const chart = rhythmRoot.querySelector("[data-token-rhythm-chart]");
+    const readout = rhythmRoot.querySelector("[data-token-rhythm-readout]");
+    if (!chart || !readout || !tokenRows.length) {
+      rhythmRoot.dataset.state = "error";
+      if (readout) readout.textContent = "The chart is unavailable; the exact server-rendered table remains below.";
+      return;
+    }
+
+    let resizeFrame = 0;
+    const colors = () => {
+      const style = getComputedStyle(rhythmRoot);
+      return {
+        accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
+        added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
+        text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
+        muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
+      };
+    };
+    const render = () => {
+      const box = chart.getBoundingClientRect();
+      const width = Math.max(300, Math.round(box.width || rhythmRoot.getBoundingClientRect().width || 920));
+      const height = Math.max(300, Math.round(box.height || 368));
+      const group = svgElement("g", { "data-token-rhythm-layer": "complete" });
+      chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      chart.replaceChildren(group);
+      readout.textContent = drawTokenRhythm(group, tokenRows, width, height, colors());
+    };
+    const scheduleRender = () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(render);
+    };
+
+    rhythmRoot.dataset.state = "ready";
+    render();
+    if ("ResizeObserver" in window) new ResizeObserver(scheduleRender).observe(chart);
+    else window.addEventListener("resize", scheduleRender);
+    new MutationObserver(scheduleRender).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-theme", "data-theme-mode"],
     });
@@ -755,6 +816,7 @@
         tokensLabel: point.tokens_label,
       }))
     : [];
+  initTokenRhythmChart({ tokenRows });
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
@@ -849,7 +911,7 @@
       removed: style.getPropertyValue("--global-mint-strong").trim() || "#26735d",
       addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#28657d",
       removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#286b58",
-      accent: style.getPropertyValue("--global-primary-color").trim() || "#b63d0a",
+      accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
       text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
       muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
       grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",

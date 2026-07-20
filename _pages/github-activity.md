@@ -100,7 +100,14 @@ github_activity: true
             Daily cumulative points use the same deduplicated, repo-scoped retained-log estimate as the homepage ledger and can revise when
             retained local evidence changes. The current rounded endpoint is
             <strong>{{ token_latest.tokens_label }}</strong> through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time>;
-            the largest rounded adjacent-point increase is <data value="{{ token_largest_increase }}">{{ token_largest_increase }}</data>
+            the largest rounded adjacent-point increase is
+            <data value="{{ token_largest_increase }}">
+              {% if token_largest_increase >= 1000000000 %}
+                {{- token_largest_increase | divided_by: 1000000000.0 | round: 2 -}}B
+              {% else %}
+                {{- token_largest_increase | divided_by: 1000000 -}}M
+              {% endif %}
+            </data>
             estimated tokens on <time datetime="{{ token_largest_increase_date }}">{{ token_largest_increase_date | date: "%b %-d, %Y" }}</time>.
           </p>
         </article>
@@ -243,6 +250,109 @@ added to the repo-scoped retained-session estimate.
 
   </section>
 
+  <section
+    class="github-activity-token-rhythm"
+    data-token-rhythm
+    data-state="loading"
+    aria-labelledby="github-activity-token-rhythm-title"
+  >
+    <div class="github-activity-module-heading">
+      <div>
+        <p class="github-activity-module-kicker">SITE-BUILD TOKEN RHYTHM</p>
+        <h2 id="github-activity-token-rhythm-title">Estimated tokens accumulated while building this site</h2>
+        <p>
+          A repo-scoped daily trace from retained local logs. It is estimated, rounded, and separate from the lifetime Codex snapshot above.
+        </p>
+      </div>
+      <span class="github-activity-scope-badge">REPO-SCOPED &middot; DAILY</span>
+    </div>
+
+    <dl class="github-activity-token-summary" aria-label="Site-build token rhythm summary">
+      <div>
+        <dt>{{ token_latest.tokens_label }}</dt>
+        <dd>cumulative estimate through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time></dd>
+      </div>
+      <div>
+        <dt>
+          <data value="{{ token_largest_increase }}">
+            +{% if token_largest_increase >= 1000000000 %}
+              {{- token_largest_increase | divided_by: 1000000000.0 | round: 2 -}}B
+            {% else %}
+              {{- token_largest_increase | divided_by: 1000000 -}}M
+            {% endif %}
+          </data>
+        </dt>
+        <dd>largest rounded daily increase, on <time datetime="{{ token_largest_increase_date }}">{{ token_largest_increase_date | date: "%b %-d, %Y" }}</time></dd>
+      </div>
+    </dl>
+
+    <div class="github-activity-token-chart-shell">
+      <svg
+        id="github-activity-token-rhythm-chart"
+        class="github-activity-token-rhythm-chart"
+        data-token-rhythm-chart
+        aria-hidden="true"
+        focusable="false"
+      ></svg>
+      <p class="github-activity-token-annotation" data-token-rhythm-readout>
+        Cumulative estimated tokens and rounded daily increases from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
+        {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}.
+      </p>
+    </div>
+
+    <section class="github-activity-token-evidence" aria-labelledby="github-activity-token-table-title">
+      <h3 id="github-activity-token-table-title">Exact daily reading path</h3>
+      <p>
+        These server-rendered points remain available without JavaScript. Differences between adjacent rounded cumulative points are rounded
+        increases, not exact daily usage.
+      </p>
+      <p class="github-activity-table-scroll-hint" id="github-activity-token-table-scroll-hint">Scroll horizontally for all three columns.</p>
+      <div
+        class="github-activity-table-wrap"
+        role="region"
+        aria-label="Daily cumulative repo-token estimate table"
+        aria-describedby="github-activity-token-table-scroll-hint"
+        tabindex="0"
+      >
+        <table class="github-activity-table">
+          <caption>
+            Rounded cumulative retained-session estimate from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
+            {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Cumulative estimate</th>
+              <th scope="col">Rounded increase</th>
+            </tr>
+          </thead>
+          <tbody id="github-activity-token-table-body">
+            {% assign token_table_previous_count = 0 %}
+            {% for token_point in token_rhythm.points %}
+              {% assign token_table_increase = token_point.token_count | minus: token_table_previous_count %}
+              <tr>
+                <th scope="row"><time datetime="{{ token_point.date }}">{{ token_point.date | date: "%b %-d, %Y" }}</time></th>
+                <td><data value="{{ token_point.token_count }}">{{ token_point.tokens_label }} estimated tokens</data></td>
+                <td>
+                  <data value="{{ token_table_increase }}">
+                    +{% if token_table_increase >= 1000000000 %}
+                      {{- token_table_increase | divided_by: 1000000000.0 | round: 2 -}}B
+                    {% else %}
+                      {{- token_table_increase | divided_by: 1000000 -}}M
+                    {% endif %}
+                    estimated tokens
+                  </data>
+                </td>
+              </tr>
+              {% assign token_table_previous_count = token_point.token_count %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </section>
+
   <details class="github-activity-method">
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
@@ -271,40 +381,6 @@ added to the repo-scoped retained-session estimate.
         <p>Changing range or scale redraws the selected view once. The chart settles immediately, keeps exact tables, and remains static under reduced motion.</p>
       </div>
     </div>
-    <section class="github-activity-token-evidence" aria-labelledby="github-activity-token-table-title">
-      <h2 id="github-activity-token-table-title">Daily repo-token estimate</h2>
-      <p>
-        These server-rendered points remain available without JavaScript. They are rounded cumulative estimates, so differences between rows
-        are rounded increases rather than exact daily usage.
-      </p>
-      <div
-        class="github-activity-table-wrap"
-        role="region"
-        aria-label="Daily cumulative repo-token estimate table"
-        tabindex="0"
-      >
-        <table class="github-activity-table">
-          <caption>
-            Rounded cumulative retained-session estimate from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
-            {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Cumulative estimate</th>
-            </tr>
-          </thead>
-          <tbody id="github-activity-token-table-body">
-            {% for token_point in token_rhythm.points %}
-              <tr>
-                <th scope="row"><time datetime="{{ token_point.date }}">{{ token_point.date | date: "%b %-d, %Y" }}</time></th>
-                <td><data value="{{ token_point.token_count }}">{{ token_point.tokens_label }} estimated tokens</data></td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </section>
     <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally for all columns.</p>
     <div
       class="github-activity-table-wrap"
