@@ -95,6 +95,9 @@
 {% if page.heuristics_preview %}
   <script defer src="{{ '/assets/js/heuristics-preview.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
+{% if page.openai_build_week %}
+  <script defer src="{{ '/assets/js/openai-build-week.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+{% endif %}
 {% if page.project_cards_interactive or page.random_teasers %}
   <script defer src="{{ '/assets/js/random-teasers.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}

@@ -3,6 +3,7 @@ const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio
 const { SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
 const FUN_PROJECT_ROUTE_IDS = new Set([
+  "project-openai-build-week",
   "project-paper-constellation",
   "project-build-rhythm",
   "project-homepage-desk-scene",
@@ -332,20 +333,24 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     const hero = page.locator(".project-case-hero").first();
     const copy = hero.locator(":scope > .project-case-copy");
     const media = hero.locator(":scope > .project-case-media");
+    const visual = hero.locator(":scope > .project-case-media, :scope > .build-week-boundary-figure");
     await expect(hero).toBeVisible();
     await expect(copy).toBeVisible();
     const mediaCount = await media.count();
+    const visualCount = await visual.count();
 
-    if (mediaCount > 0) {
-      await expect(media).toBeVisible();
-      const heroImage = media.locator("img").first();
-      await expect(heroImage).toHaveJSProperty("complete", true);
-      expect(await heroImage.evaluate((image) => image.naturalWidth), `${route.path} hero image did not decode`).toBeGreaterThan(0);
-      expect((await heroImage.getAttribute("alt"))?.trim().length, `${route.path} hero image has no useful alt text`).toBeGreaterThan(12);
+    if (visualCount > 0) {
+      await expect(visual).toBeVisible();
+      if (mediaCount > 0) {
+        const heroImage = media.locator("img").first();
+        await expect(heroImage).toHaveJSProperty("complete", true);
+        expect(await heroImage.evaluate((image) => image.naturalWidth), `${route.path} hero image did not decode`).toBeGreaterThan(0);
+        expect((await heroImage.getAttribute("alt"))?.trim().length, `${route.path} hero image has no useful alt text`).toBeGreaterThan(12);
+      }
 
       const heroGeometry = await hero.evaluate((element) => {
         const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
-        const mediaBox = element.querySelector(":scope > .project-case-media").getBoundingClientRect();
+        const mediaBox = element.querySelector(":scope > .project-case-media, :scope > .build-week-boundary-figure").getBoundingClientRect();
         return {
           copyBottom: copyBox.bottom,
           copyHeight: copyBox.height,
@@ -503,6 +508,33 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     expect(measure.width, `${route.path} privacy note is squeezed`).toBeGreaterThanOrEqual(220);
     expect(measure.left).toBeGreaterThanOrEqual(measure.articleLeft - 1);
     expect(measure.right).toBeLessThanOrEqual(measure.articleRight + 1);
+  }
+
+  if (route.id === "project-openai-build-week") {
+    const story = page.locator("[data-openai-build-week-story]");
+    const storySteps = story.locator("[data-build-week-step]");
+    const receipts = page.locator(".build-week-receipts > li");
+    const constellationImages = page.locator(".build-week-constellation-pair img");
+
+    await expect(story).toHaveAttribute("data-state", "ready");
+    await expect(storySteps).toHaveCount(6);
+    await expect(receipts).toHaveCount(7);
+    await expect(constellationImages).toHaveCount(2);
+    await storySteps.nth(3).evaluate((step) => {
+      const targetTop = window.innerHeight * 0.22;
+      window.scrollBy({ top: step.getBoundingClientRect().top - targetTop, behavior: "instant" });
+    });
+    await expect.poll(() => story.getAttribute("data-active-chapter")).toBe("constellation");
+    await constellationImages.first().scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => constellationImages.evaluateAll((images) => images.every((image) => image.complete && image.naturalWidth > 0)), {
+        message: "Build Week constellation evidence did not decode",
+      })
+      .toBe(true);
+    expect(
+      await story.evaluate((element) => element.scrollWidth - element.clientWidth),
+      "Build Week story overflows its own canvas"
+    ).toBeLessThanOrEqual(1);
   }
 
   if (route.id === "project-build-rhythm") {
@@ -890,7 +922,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   if (route.id === "projects-index") {
     const icons = page.locator(".projects [data-project-card-icon]");
-    await expect(icons).toHaveCount(10);
+    await expect(icons).toHaveCount(11);
     expect(await icons.evaluateAll((elements) => elements.every((element) => element.getAttribute("aria-hidden") === "true"))).toBe(true);
     expect(
       await icons.evaluateAll((elements) =>
@@ -906,7 +938,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     });
     await expect(driverCard.locator("[data-project-card-origin]")).toHaveCount(1);
     await expect(driverCard.locator("[data-project-card-evolution]")).toHaveCount(0);
-    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(9);
+    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(10);
 
     const card = page.locator("[data-site-experiment-grid] [data-project-card]").first();
     const trigger = card.locator("[data-project-card-trigger]");
@@ -1009,6 +1041,33 @@ for (const route of SITEWIDE_ROUTES) {
   });
 }
 
+test("Build Week story exposes a complete reduced-motion view", async ({ page }, testInfo) => {
+  test.skip(
+    !["desktop-1440", "mobile-390"].includes(testInfo.project.name),
+    "one desktop and one mobile viewport cover the reduced-motion story contract"
+  );
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, "light");
+  const response = await page.goto(publicRouteUrl("/projects/openai-build-week/"), { waitUntil: "domcontentloaded" });
+  expect(response).not.toBeNull();
+  expect(response.status()).toBeLessThan(400);
+
+  const story = page.locator("[data-openai-build-week-story]");
+  await expect(story).toHaveAttribute("data-state", "ready");
+  await expect(story).toHaveAttribute("data-active-chapter", "all");
+  await expect(story.locator("[data-build-week-step]")).toHaveCount(6);
+  await expect(story.locator("[data-build-week-chapter]")).toHaveCount(6);
+  expect(await story.evaluate((element) => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await attachScreenshot(page, testInfo, `openai-build-week-hero-${testInfo.project.name}`, { fullPage: false });
+  await story.scrollIntoViewIfNeeded();
+  await attachScreenshot(page, testInfo, `openai-build-week-reduced-${testInfo.project.name}`, { fullPage: false });
+  expect(runtimeErrors, "Build Week reduced-motion view raised browser runtime errors").toEqual([]);
+});
+
 test("coastal time modes settle coherently across representative human routes", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(
@@ -1095,7 +1154,7 @@ test("coastal time modes settle coherently across representative human routes", 
   expect(runtimeErrors, "sitewide coastal time-mode matrix raised browser runtime errors").toEqual([]);
 });
 
-test("all ten project cards disclose and recover their stories", async ({ page }, testInfo) => {
+test("all eleven project cards disclose and recover their stories", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "desktop and mobile exercise every expandable story");
 
@@ -1108,12 +1167,12 @@ test("all ten project cards disclose and recover their stories", async ({ page }
   await stabilizeVisuals(page);
 
   const cards = page.locator(".projects [data-project-card]").filter({ has: page.locator("[data-project-card-story]") });
-  await expect(cards).toHaveCount(10);
-  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(10);
-  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(9);
+  await expect(cards).toHaveCount(11);
+  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(11);
+  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(10);
   await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
 
-  for (let index = 0; index < 10; index += 1) {
+  for (let index = 0; index < 11; index += 1) {
     const card = cards.nth(index);
     const title = (await card.locator(".card-title").innerText()).trim();
     const trigger = card.locator("[data-project-card-trigger]");
@@ -1191,10 +1250,10 @@ test("all ten project cards disclose and recover their stories", async ({ page }
     await expect(trigger, `${title} did not restore focus to its preview trigger`).toBeFocused();
   }
 
-  expect(runtimeErrors, "all-ten project-card expansion raised browser runtime errors").toEqual([]);
+  expect(runtimeErrors, "all-eleven project-card expansion raised browser runtime errors").toEqual([]);
 });
 
-test("all ten fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
+test("all eleven fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one Chromium context covers the high-DPR effective viewport");
 
@@ -1257,7 +1316,7 @@ test("all ten fun stories fit a high-DPR scaled canvas", async ({ browser }, tes
   }
 });
 
-test("all ten fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
+test("all eleven fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop context covers text-only 200% reflow");
 
@@ -1967,7 +2026,7 @@ test("home research motion responds locally and keeps a reduced-motion still", a
   expect(runtimeErrors, "research motion raised browser runtime errors").toEqual([]);
 });
 
-test("projects keep the nine site experiments in debut order", async ({ page }, testInfo) => {
+test("projects keep the ten site experiments in debut order", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/projects/"), { waitUntil: "domcontentloaded" });
 
@@ -1979,10 +2038,11 @@ test("projects keep the nine site experiments in debut order", async ({ page }, 
   });
 
   const cards = grid.locator("[data-project-card]");
-  await expect(cards).toHaveCount(9);
-  await expect(cards.locator("h4.card-title")).toHaveCount(9);
+  await expect(cards).toHaveCount(10);
+  await expect(cards.locator("h4.card-title")).toHaveCount(10);
   await expect(cards.locator("h3.card-title")).toHaveCount(0);
   expect(await cards.locator(".card-title").allTextContents()).toEqual([
+    "Scaffolding for Taste — OpenAI Build Week",
     "Paper Constellation",
     "Build Rhythm",
     "The Desk That Learned Depth",
@@ -1999,7 +2059,7 @@ test("projects keep the nine site experiments in debut order", async ({ page }, 
     loaded: images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   }));
-  expect(imageEvidence.count).toBe(9);
+  expect(imageEvidence.count).toBe(10);
   expect(imageEvidence.loaded).toBe(true);
   expect(imageEvidence.overflow).toBeLessThanOrEqual(0);
 

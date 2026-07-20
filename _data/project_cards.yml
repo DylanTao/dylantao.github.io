@@ -28,6 +28,20 @@ designweaver:
     - "Prompts become visible design dimensions."
     - "Novices compare and iterate deliberately."
 
+openai-build-week:
+  origin_line: "The portfolio existed before Build Week, but its post-cutoff extension needed one honest, judge-readable evidence trail."
+  evolution_line: "A commit boundary became a scroll-led story connecting public surfaces, verification, and reusable design memory."
+  icon: archive
+  teaser_alt: Timeline separating the pre-existing Scaffolding for Taste portfolio from four post-cutoff OpenAI Build Week evidence chapters
+  accents:
+    morning: "#e88754"
+    noon: "#4f91ab"
+    afternoon: "#ef9b5c"
+    evening: "#91c9dd"
+  takeaways:
+    - "The eligibility line stays visible."
+    - "Human critique decides what survives."
+
 physion:
   accents:
     morning: "#7fa8b8"

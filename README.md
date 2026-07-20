@@ -1,5 +1,104 @@
 # al-folio
 
+## OpenAI Build Week 2026: Scaffolding for Taste
+
+> **Codex accelerated iteration; human critique became reusable design memory.**
+
+This research portfolio is also an inspectable teaching artifact. Visitors can explore live interface experiments, inspect the evidence and limitations behind design decisions, download reproduction briefs, and reuse the same human-authored design heuristics that guided the work.
+
+- **Live project:** https://dylantao.github.io/
+- **Build Week evidence story:** https://dylantao.github.io/projects/openai-build-week/
+- **Design memory:** [`WEBSITE_DESIGN_HEURISTICS.md`](WEBSITE_DESIGN_HEURISTICS.md)
+- **Public demo:** https://youtu.be/9js8vU6cth4
+
+### Eligibility boundary
+
+This repository and portfolio predate OpenAI Build Week. Before **July 13, 2026 at 9:00 AM PT**, the project already included the research portfolio, its COGS 125 teaching framing, the living design-heuristics file, the shared-state 2D/3D desk—including the reciprocal cliff-room topology in pre-cutoff commit [`a765c5291`](https://github.com/DylanTao/dylantao.github.io/commit/a765c5291)—and the original activity workbench.
+
+The submission is only the meaningful extension built after that cutoff:
+
+| Evidence                                                                                                                                                                                                                                       | Build Week extension                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [`d3f13be35`](https://github.com/DylanTao/dylantao.github.io/commit/d3f13be35)                                                                                                                                                                 | Added a source-linked Human/AI research profile, publication catalog, text alternatives, and validation.            |
+| [`b183e4b75`](https://github.com/DylanTao/dylantao.github.io/commit/b183e4b75), [`6b4b7bd59`](https://github.com/DylanTao/dylantao.github.io/commit/6b4b7bd59), [`f05f02b41`](https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41) | Added reusable design lessons, a guided Build Rhythm teaching layer, six case studies, and six reproduction briefs. |
+| [`855f1bce8`](https://github.com/DylanTao/dylantao.github.io/commit/855f1bce8), [`eeb0a5764`](https://github.com/DylanTao/dylantao.github.io/commit/eeb0a5764), [`6832a6a05`](https://github.com/DylanTao/dylantao.github.io/commit/6832a6a05) | Built Paper Constellation and a deliberate chronological mobile representation from the same reviewed record.       |
+| [`739d2ba28`](https://github.com/DylanTao/dylantao.github.io/commit/739d2ba28), [`1ec5d5f4f`](https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f), [`2070991b0`](https://github.com/DylanTao/dylantao.github.io/commit/2070991b0) | Published paired 2D/3D evidence under a fixed capture rubric and completed provenance-rich experiment stories.      |
+| [`1ae1ead39`](https://github.com/DylanTao/dylantao.github.io/commit/1ae1ead39), [`c52de6932`](https://github.com/DylanTao/dylantao.github.io/commit/c52de6932)                                                                                 | Added responsive repairs and cross-engine visual verification.                                                      |
+
+The model label is provenance, not isolated causality. Prompts, retained context, implementation history, scope, and human critique also changed.
+
+### How Codex and GPT-5.6 were used
+
+Codex with GPT-5.6 was a development collaborator, not a runtime service inside the deployed website. The working loop was:
+
+1. Define what a rushed visitor should understand.
+2. Give Codex a bounded implementation and critique brief.
+3. Implement one focused pass.
+4. Compare rendered desktop, tablet, and mobile evidence.
+5. Critique from multiple visitor roles.
+6. Remove directions that weakened meaning, accessibility, or evidence.
+7. Convert the surviving human critique into an explicit heuristic or acceptance check.
+
+The human decisions included the research thesis, evidence boundaries, which directions to reject, when desktop and mobile needed different representations, and which lessons were durable enough to enter the shared design memory.
+
+Candidate primary build thread, pending `/feedback` confirmation: `019f652f-7154-7822-ad1c-daa5a066134b`. The retained thread ran GPT-5.6 Sol at ultra reasoning effort.
+
+### Pre-existing and third-party foundation
+
+This repository is a customized fork of the open-source [al-folio](https://github.com/alshedivat/al-folio) academic theme, used under its MIT license. Jekyll, Three.js, Playwright, and the other dependencies retain their respective licenses. The eligibility table above separates the pre-existing portfolio and framework foundation from the project-specific work completed during Build Week.
+
+### Local setup
+
+Requirements:
+
+- Ruby and Bundler
+- Node.js and npm
+- Git Bash or WSL Bash for the integration scripts
+- Chromium and WebKit for the full visual suite
+
+No OpenAI API key, test account, external sample-data download, or runtime AI service is required. The site content and the evidence needed for the public artifact are checked into the repository.
+
+From the repository root on Windows PowerShell:
+
+```powershell
+bundle install
+npm.cmd ci
+bundle exec jekyll serve
+```
+
+Open the local URL printed by Jekyll. The checked-in Docker configuration is an alternative:
+
+```powershell
+docker compose up -d
+curl.exe -fsS http://127.0.0.1:8080/
+```
+
+### Testing
+
+Fast source and contract checks:
+
+```powershell
+npm.cmd run lint:prettier
+npm.cmd run lint:style-contract
+python -m unittest discover -s test -p "test_*.py"
+bundle exec jekyll build --baseurl /al-folio
+```
+
+Rendered-state verification:
+
+```powershell
+npx.cmd playwright install chromium webkit
+npm.cmd run test:visual
+```
+
+The visual checks cover sitewide routes and the WebGL desk scene in isolated browser processes, including desktop/mobile states, keyboard focus, reduced motion, responsive layout, and nonblank 3D rendering.
+
+### Claim boundary
+
+This project does **not** claim measured student-learning gains, model fine-tuning, autonomous learning, or that commit/token volume proves productivity or quality. It establishes an inspectable artifact and method that can be evaluated with students next.
+
+---
+
 <div align="center">
 
 [![Preview](readme_preview/al-folio-preview.png)](https://alshedivat.github.io/al-folio/)

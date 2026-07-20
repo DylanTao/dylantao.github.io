@@ -110,6 +110,12 @@ const SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-openai-build-week",
+    path: "/projects/openai-build-week/",
+    readySelector: "[data-openai-build-week-story][data-state='ready']",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-paper-constellation",
     path: "/projects/paper-constellation/",
     readySelector: ".project-detail .project-case-hero",
