@@ -65,7 +65,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("https://jrthomp.com/", self.page)
         self.assertIn("John Thompson", self.page)
         self.assertIn('href="/projects/build-rhythm/"', self.page)
-        self.assertIn('label="Want to learn this widget\'s origin?"', self.page)
+        self.assertIn('label="Read how Build Rhythm began"', self.page)
         self.assertNotIn("autodesk", self.page.lower())
 
     def test_story_uses_native_scroll_and_bounded_progressive_enhancement(self) -> None:
@@ -89,8 +89,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('id="github-activity-token-table-scroll-hint"', self.page)
         self.assertIn('data-token-rhythm', self.page)
         self.assertIn("Site-build token rhythm", self.page)
-        self.assertIn("Exact daily reading path", self.page)
         self.assertIn("Rounded increase", self.page)
+        self.assertIn("Exact daily reading path", self.page)
         self.assertIn("These server-rendered points remain available without JavaScript.", self.page)
         self.assertIn("largest rounded adjacent-point increase", self.page)
         self.assertIn('candidate.method !== "deduplicated_repo_retained_logs"', self.script)
@@ -150,11 +150,11 @@ class BuildRhythmStoryTests(unittest.TestCase):
 
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
-            "rounded lifetime Codex checkpoint",
+            "rounded lifetime Codex snapshot",
             "Lifetime checkpoint",
             "7e224db12",
             "Three signals, never one score",
-            "deduplicated retained logs attributed to this repo",
+            "Deduplicated retained logs attributed to this repo",
             "Differences between adjacent points are rounded increases",
             "6edea07f4",
         ):

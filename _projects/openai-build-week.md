@@ -68,14 +68,14 @@ heuristics_preview: true
         </ul>
       </section>
     </div>
-    <figcaption>The line is the claim boundary, not decoration. Everything gray was already here; this page asks judges to evaluate only the extension.</figcaption>
+    <figcaption>The line marks the work judges should evaluate: the colored extension after July 13 at 9:00 AM. Everything gray was already here; this page asks judges to evaluate only the extension.</figcaption>
   </figure>
 </section>
 
 <section class="project-case-summary" aria-label="OpenAI Build Week project summary">
   <div>
     <span>Why</span>
-    <p>Fast AI-assisted production creates more options, but it does not make the judgment behind those options inspectable.</p>
+    <p>Fast AI-assisted production multiplies options; this project makes the human judgment behind them inspectable.</p>
   </div>
   <div>
     <span>What</span>
@@ -89,7 +89,7 @@ heuristics_preview: true
 
 <h2 id="build-week-story-title">What changed after the line?</h2>
 
-The strongest Build Week story is not the number of commits. It is the sequence of representational decisions those commits preserve. The plot below uses horizontal position only for date; its three lanes name the kind of public artifact produced, not a score or ranking.
+The Build Week story lives in the sequence of representational decisions preserved by the commits. Horizontal position marks date; each lane marks a kind of public artifact.
 
 <section
   class="build-week-data-story"
@@ -103,7 +103,7 @@ The strongest Build Week story is not the number of commits. It is the sequence 
     <div class="build-week-story-readout">
       <p class="project-case-kicker" data-build-week-story-kicker>Selected evidence · date on the horizontal axis</p>
       <h3 data-build-week-story-title>The foundation existed before the cutoff.</h3>
-      <p data-build-week-story-copy>The orange rule fixes the eligibility boundary. Equal-sized nodes are linked checkpoints, not measures of effort or merit.</p>
+      <p data-build-week-story-copy>The orange rule fixes the eligibility boundary. Equal-sized nodes mark linked checkpoints; horizontal position encodes date.</p>
     </div>
 
     <div class="build-week-story-plot" aria-hidden="true">
@@ -188,7 +188,7 @@ The strongest Build Week story is not the number of commits. It is the sequence 
       data-build-week-step="boundary"
       data-kicker="Eligibility boundary · July 13"
       data-title="The foundation existed before the cutoff."
-      data-copy="The reciprocal room, teaching frame, and original design memory remain visible for context—not as Build Week claims."
+      data-copy="The reciprocal room, teaching frame, and original design memory define the pre-cutoff foundation."
     >
       <p class="project-case-kicker">01 · Draw the boundary</p>
       <h3>Name the foundation before showing the extension.</h3>
@@ -203,8 +203,8 @@ The strongest Build Week story is not the number of commits. It is the sequence 
       data-copy="The new AI profile and raw alternatives stay source-linked and human-auditable; they do not promise ranking or model inclusion."
     >
       <p class="project-case-kicker">02 · Make the record readable</p>
-      <h3>Publish alternate representations without splitting the truth.</h3>
-      <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/d3f13be35"><code>d3f13be35</code></a> added the source-linked <a href="{{ '/ai/' | relative_url }}">Human/AI research profile</a>, publication catalog, and raw text alternatives. The canonical bibliography still owns bibliographic facts; the new routes reduce visual decoding work without making an AI-discovery claim.</p>
+      <h3>Publish alternate representations from one canonical record.</h3>
+      <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/d3f13be35"><code>d3f13be35</code></a> added the source-linked <a href="{{ '/ai/' | relative_url }}">Human/AI research profile</a>, publication catalog, and raw text alternatives. The canonical bibliography owns the facts; the new routes reduce visual decoding work.</p>
     </li>
 
     <li
@@ -227,8 +227,8 @@ The strongest Build Week story is not the number of commits. It is the sequence 
       data-copy="Five papers, three threads, seven anonymous future nodes, and nine reviewed connections stay constant while the geometry changes."
     >
       <p class="project-case-kicker">04 · Change the representation</p>
-      <h3>Build a desktop atlas, then stop shrinking it.</h3>
-      <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/855f1bce8"><code>855f1bce8</code></a> fixed the privacy-safe data contract; <a href="https://github.com/DylanTao/dylantao.github.io/commit/eeb0a5764"><code>eeb0a5764</code></a> built <a href="{{ '/projects/paper-constellation/' | relative_url }}">Paper Constellation</a>; and <a href="https://github.com/DylanTao/dylantao.github.io/commit/6832a6a05"><code>6832a6a05</code></a> replaced the compressed mobile map with a chronological trail. The relationships and coordinates were human-reviewed; GPT-5.6 did not discover the research lineage.</p>
+      <h3>Build a desktop atlas, then compose a mobile trail.</h3>
+      <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/855f1bce8"><code>855f1bce8</code></a> fixed the privacy-safe data contract; <a href="https://github.com/DylanTao/dylantao.github.io/commit/eeb0a5764"><code>eeb0a5764</code></a> built <a href="{{ '/projects/paper-constellation/' | relative_url }}">Paper Constellation</a>; and <a href="https://github.com/DylanTao/dylantao.github.io/commit/6832a6a05"><code>6832a6a05</code></a> replaced the compressed mobile map with a chronological trail. I reviewed every relationship and coordinate; GPT-5.6 did not discover the research lineage.</p>
     </li>
 
     <li
@@ -236,23 +236,23 @@ The strongest Build Week story is not the number of commits. It is the sequence 
       data-build-week-step="artifacts"
       data-kicker="Reusable teaching artifacts · July 15–16"
       data-title="Seven experiments gained receipts and reproduction paths."
-      data-copy="Most underlying interactions predated Build Week. Their origin stories, dated evidence, known limits, and downloadable guides did not."
+      data-copy="Most underlying interactions predated Build Week. The extension added origin stories, dated evidence, known limits, and downloadable guides."
     >
       <p class="project-case-kicker">05 · Make the process inspectable</p>
       <h3>Turn playful experiments into things another person can study.</h3>
-      <p>Across <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f"><code>1ec5d5f4f</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/2070991b0"><code>2070991b0</code></a>, and the constellation work, seven experiments gained project pages and seven downloadable reproduction guides. The new contribution is inspectability, not a claim that every underlying interaction was invented during the week.</p>
+      <p>Across <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f"><code>1ec5d5f4f</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/2070991b0"><code>2070991b0</code></a>, and the constellation work, seven existing experiments gained project pages and downloadable reproduction guides. The contribution is an inspectable record of where each began, what changed, and how to reuse the pattern.</p>
     </li>
 
     <li
       class="build-week-story-step"
       data-build-week-step="evidence"
       data-kicker="Acceptance evidence · July 16–18"
-      data-title="The final chapter is verification, not a victory claim."
+      data-title="The final chapter verifies the work."
       data-copy="Paired captures, responsive viewports, reduced-motion states, and two browser engines make the accepted boundary easier to inspect."
     >
       <p class="project-case-kicker">06 · Publish the proof</p>
       <h3>Test the representation outside one attractive screenshot.</h3>
-      <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/739d2ba28"><code>739d2ba28</code></a> published paired desk evidence under a fixed capture rubric. <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ae1ead39"><code>1ae1ead39</code></a> and <a href="https://github.com/DylanTao/dylantao.github.io/commit/c52de6932"><code>c52de6932</code></a> closed responsive and cross-engine gaps. Post-cutoff desk work polished controls and evidence; it did not create the reciprocal room.</p>
+      <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/739d2ba28"><code>739d2ba28</code></a> published paired desk evidence under a fixed capture rubric. <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ae1ead39"><code>1ae1ead39</code></a> and <a href="https://github.com/DylanTao/dylantao.github.io/commit/c52de6932"><code>c52de6932</code></a> closed responsive and cross-engine gaps. The reciprocal room was the baseline; post-cutoff work polished its controls and evidence—it did not create the reciprocal room.</p>
     </li>
 
   </ol>
@@ -265,11 +265,11 @@ Paper Constellation is the clearest example of the Build Week method. The data c
 <section class="project-story-comparison build-week-constellation-pair" aria-labelledby="build-week-two-shapes">
   <figure class="project-case-media site-experiment-evidence-figure">
     <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png' | relative_url }}" alt="Desktop Paper Constellation atlas arranging accepted papers and anonymous future nodes across three research threads" loading="lazy" width="1012" height="753">
-    <figcaption><strong>Desktop atlas.</strong> Stable, reviewed coordinates support relationship tracing. Node position is not prestige.</figcaption>
+    <figcaption><strong>Desktop atlas.</strong> Stable, reviewed coordinates support relationship tracing; position encodes thread membership.</figcaption>
   </figure>
   <figure class="project-case-media site-experiment-evidence-figure build-week-mobile-evidence">
     <img src="{{ '/assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png' | relative_url }}" alt="Mobile Paper Constellation trail preserving three thread rails, accepted papers, and anonymous future nodes in chronological order" loading="lazy" width="360" height="270">
-    <figcaption><strong>Mobile trail.</strong> The same record becomes a chronological path instead of an illegible miniature atlas.</figcaption>
+    <figcaption><strong>Mobile trail.</strong> The same record becomes a chronological path with readable labels and visible thread rails.</figcaption>
   </figure>
 </section>
 
@@ -283,13 +283,13 @@ The case-study layer makes a previously playful portfolio useful as a teaching a
   <li><a href="{{ '/projects/homepage-desk-scene/' | relative_url }}"><strong>Homepage desk</strong><span>2D → 3D → paired proof → reproduce</span></a></li>
   <li><a href="{{ '/projects/ikea-project-cards/' | relative_url }}"><strong>Project cards</strong><span>spark → FLIP → interruption → reproduce</span></a></li>
   <li><a href="{{ '/projects/scholar-lens/' | relative_url }}"><strong>Scholar Lens</strong><span>cue → synchronization → boundary → reproduce</span></a></li>
-  <li><a href="{{ '/projects/wall-of-rejection/' | relative_url }}"><strong>Wall of Rejection</strong><span>meme → receipts → no score → reproduce</span></a></li>
+  <li><a href="{{ '/projects/wall-of-rejection/' | relative_url }}"><strong>Wall of Rejection</strong><span>meme → receipts → event math → reproduce</span></a></li>
   <li><a href="{{ '/projects/dogtor-portal/' | relative_url }}"><strong>Dogtor’s portal</strong><span>clue → recovery → consent → reproduce</span></a></li>
 </ul>
 
 <h2 id="build-week-critique-loop">The loop GPT-5.6 accelerated</h2>
 
-GPT-5.6 Sol was useful because it made bounded implementation and re-review faster. It did not supply the project’s research meaning or make the acceptance decision.
+GPT-5.6 Sol accelerated bounded implementation and re-review; research meaning and acceptance remained human decisions.
 
 <ol class="build-week-critique-loop" aria-labelledby="build-week-critique-loop">
   <li><span>01</span><strong>Brief</strong><p>Name what a rushed visitor should understand.</p></li>
@@ -330,14 +330,14 @@ GPT-5.6 Sol was useful because it made bounded implementation and re-review fast
 
 <h2 id="build-week-design-memory">Reuse the design memory</h2>
 
-The durable output is not a model label or a single visual effect. It is the human-authored checklist that future students, collaborators, and agents can inspect, challenge, and adapt.
+The durable output is the human-authored checklist that future students, collaborators, and agents can inspect, challenge, and adapt.
 
 {% include heuristics_preview.liquid %}
 
 <details class="project-story-disclosure site-experiment-technical-details">
   <summary id="build-week-evidence-summary">Exact evidence ledger and Codex provenance</summary>
   <div class="project-story-disclosure-body" aria-labelledby="build-week-evidence-summary">
-    <p><strong>Primary retained build thread:</strong> <code>019f652f-7154-7822-ad1c-daa5a066134b</code>. The retained thread ran <strong>GPT-5.6 Sol</strong> at ultra reasoning effort. The model label records provenance, not isolated causality.</p>
+    <p><strong>Primary retained build thread:</strong> <code>019f652f-7154-7822-ad1c-daa5a066134b</code>. The retained thread ran <strong>GPT-5.6 Sol</strong> at ultra reasoning effort. The model label records provenance, not isolated causality; model, prompt, retained context, implementation history, and human critique all changed together.</p>
     <ol class="site-experiment-ledger" aria-label="OpenAI Build Week evidence record">
       <li><time datetime="2026-07-13T04:29:03-07:00">Before start</time><code>a765c5291</code><span>Named baseline: reciprocal cliff-room scene committed before the 9:00 AM eligibility line.</span></li>
       <li><time datetime="2026-07-13">Jul 13</time><code>d3f13be35</code><span>Added the source-linked Human/AI profile, publication catalog, and raw alternatives.</span></li>
@@ -356,4 +356,4 @@ The next step is a course-ready critique exercise: fixed viewports, a shared bri
 
 ## Credits
 
-This page documents work completed for [OpenAI Build Week](https://openai.devpost.com/) with Codex and GPT-5.6. The site is a customized fork of the open-source [al-folio](https://github.com/alshedivat/al-folio) academic theme. No OpenAI logo, third-party album artwork, or runtime OpenAI API is used on this page.
+This page documents work completed for [OpenAI Build Week](https://openai.devpost.com/) with Codex and GPT-5.6. The site is a customized fork of the open-source [al-folio](https://github.com/alshedivat/al-folio) academic theme and uses site-native graphics with static repository evidence.

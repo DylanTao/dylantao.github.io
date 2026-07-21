@@ -47,14 +47,7 @@
           <h2 id="scholar-lens-title">Publication snapshot</h2>
         </div>
         <div class="scholar-lens-heading-actions">
-          <a
-            class="widget-origin-link"
-            href="{{ '/projects/scholar-lens/' | relative_url }}"
-            aria-label="Want to learn the Scholar Lens widget's origin?"
-          >
-            <span class="widget-origin-mark" aria-hidden="true">?</span>
-            <span class="widget-origin-tooltip" aria-hidden="true">Want to learn the Scholar Lens widget's origin?</span>
-          </a>
+          {% include widget_origin_link.liquid href="/projects/scholar-lens/" label="Read how Scholar Lens began" %}
           <a
             class="scholar-lens-profile-link"
             href="{{ publication_lens.metadata.scholar_profile }}"

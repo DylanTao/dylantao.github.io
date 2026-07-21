@@ -30,12 +30,15 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         )
         self.assertIsNotNone(cost_block)
         cost_copy = cost_block.group(1)
+        self.assertIn('data-affordance="cost-estimate"', cost_copy)
+        self.assertIn('aria-label="Show the site-build API-rate comparison"', cost_copy)
+        self.assertRegex(cost_copy, r'<svg[^>]+class="home-agentic-cost-mark"[^>]+aria-hidden="true"')
         self.assertIn("{{ total_cost_label }}", cost_copy)
         self.assertIn("retained site-build logs", cost_copy)
         self.assertIn("Standard public-API rates", cost_copy)
         self.assertIn("Not an actual Codex bill", cost_copy)
         self.assertIn("cache-write tokens", cost_copy)
-        self.assertIn('sam-money-altman.png', cost_copy)
+        self.assertIn("sam-money-altman.png", cost_copy)
         self.assertRegex(cost_copy, r'<img[^>]+alt=""')
 
     def test_lifetime_heartbeat_has_no_price_language_or_control(self):
@@ -58,6 +61,8 @@ class HomeAgenticCostContractTests(unittest.TestCase):
             self.assertIn("combined-lifetime", source)
         self.assertIn("total.api_cost_equivalence.usd_label", self.ledger_doc)
         self.assertIn("total.api_cost_equivalence.usd_label", self.ledger_skill)
+        self.assertIn("price-replay disclosure", self.ledger_doc)
+        self.assertIn("price-replay disclosure", self.ledger_skill)
 
 
 if __name__ == "__main__":

@@ -11,14 +11,7 @@
         <h2 id="paper-constellation-title">{{ constellation.metadata.title }}</h2>
         <p>{{ constellation.metadata.summary }}</p>
       </div>
-      <a
-        class="widget-origin-link"
-        href="{{ '/projects/paper-constellation/' | relative_url }}"
-        aria-label="Want to learn the Paper Constellation widget's origin?"
-      >
-        <span class="widget-origin-mark" aria-hidden="true">?</span>
-        <span class="widget-origin-tooltip" aria-hidden="true">Want to learn the Paper Constellation widget's origin?</span>
-      </a>
+      {% include widget_origin_link.liquid href="/projects/paper-constellation/" label="Read how Paper Constellation began" %}
     </header>
 
     <div class="paper-constellation-legend" aria-label="Constellation legend">

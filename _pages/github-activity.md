@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Independent views of repo-scoped retained-session token rhythm, rounded lifetime Codex usage, and long-term GitHub build rhythm.
+description: Weekly GitHub activity, daily estimated site-build tokens, and one rounded lifetime Codex snapshot.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,10 +11,10 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">REPO TOKEN RHYTHM + LIFETIME CODEX USAGE + GITHUB BUILD RHYTHM</p>
+    <p class="github-activity-eyebrow">THREE SCALES OF BUILDING</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Three bounded views: a repo-scoped retained-session token estimate, one rounded lifetime Codex total, and long-term GitHub activity. They share a page, not a denominator.
+      Explore weekly GitHub activity, a daily estimate of tokens used to build this site, and one rounded lifetime Codex snapshot.
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
     {% assign combined_lifetime = direct_tracker.combined_lifetime %}
@@ -43,12 +43,11 @@ github_activity: true
     <header class="build-rhythm-story-heading">
       <p class="build-rhythm-story-kicker">A SCROLL-LED READING</p>
       <div class="build-rhythm-story-title-row">
-        <h2 id="build-rhythm-story-title">Three clocks, no one score.</h2>
-        {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Want to learn this widget's origin?" %}
+        <h2 id="build-rhythm-story-title">Read the rhythm at three scales.</h2>
+        {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        Commits and line changes describe a long build rhythm. Retained-session tokens trace this site's estimated build history on a daily
-        clock. The direct tracker adds one rounded lifetime Codex total. It stays separate from the repo-scoped estimate.
+        GitHub shows weekly cadence and change. Retained logs estimate this site's daily token rhythm. The direct tracker supplies a rounded lifetime snapshot.
       </p>
     </header>
 
@@ -69,18 +68,15 @@ github_activity: true
       <div class="build-rhythm-story-steps">
         <article class="build-rhythm-story-step" data-build-rhythm-step="cadence">
           <p class="build-rhythm-story-step-number">01 · CADENCE</p>
-          <h3>A commit is a beat, not a score.</h3>
-          <p>
-            Weekly commits show when building clustered and when it went quiet. They describe cadence, not effort, quality, or productivity.
-          </p>
+          <h3>Weekly commits reveal cadence.</h3>
+          <p>Clusters and quiet weeks show when building happened; additions and deletions add a sense of scale.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="magnitude">
           <p class="build-rhythm-story-step-number">02 · MAGNITUDE + DIRECTION</p>
           <h3>The same week can carry a different amount of change.</h3>
           <p>
-            Additions rise above the baseline and deletions fall below it. These measures stay synchronized to the same week, but neither
-            explains why the change happened.
+            Additions rise above the baseline and deletions fall below it, keeping the scale and direction of each week together.
           </p>
         </article>
 
@@ -88,8 +84,7 @@ github_activity: true
           <p class="build-rhythm-story-step-number">03 · READABLE + LITERAL</p>
           <h3>Large releases can flatten the quieter weeks.</h3>
           <p>
-            The readable transform gives smaller bursts room to remain visible. Literal restores the full linear distance. The underlying
-            reported values never change.
+            Readable gives smaller bursts room to remain visible. Literal restores the full linear distance. Both scales plot the same values.
           </p>
         </article>
 
@@ -114,10 +109,9 @@ github_activity: true
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="lifetime">
           <p class="build-rhythm-story-step-number">05 · CHANGE THE MEASURE</p>
-          <h3>A lifetime total is not this repo's trace.</h3>
+          <h3>Lifetime Codex usage has its own clock.</h3>
           <p>
-            The direct tracker publishes one rounded combined total with its own observation date. The daily trace above estimates the retained-token
-            rhythm for this repository. They answer different questions, so the page never adds them.
+            The direct tracker publishes one rounded total with its own observation date. The daily trace covers retained sessions attributed to this repository.
           </p>
         </article>
 
@@ -154,7 +148,7 @@ github_activity: true
 <div>
 <p class="github-activity-codex-kicker">LIFETIME CODEX SNAPSHOT</p>
 <h2 id="github-activity-codex-title">Combined lifetime Codex tokens</h2>
-<p>One rounded total, refreshed independently from this repository's retained-session estimate.</p>
+<p>One rounded total with its own observation date.</p>
 </div>
 <div class="github-activity-module-actions">
 <span class="github-activity-scope-badge" data-codex-scope>LIFETIME · ROUNDED</span>
@@ -174,7 +168,7 @@ github_activity: true
 {% endif %}
 </p>
 <p class="github-activity-codex-note">
-Rounded before publication. No source-level identity, plan, history, reset time, or cost conversion reaches this page, and this total is never
+Published as one rounded total with a dated observation. Source histories and reset times stay private; this total is never
 added to the repo-scoped retained-session estimate.
 </p>
 </section>
@@ -261,7 +255,7 @@ added to the repo-scoped retained-session estimate.
         <p class="github-activity-module-kicker">SITE-BUILD TOKEN RHYTHM</p>
         <h2 id="github-activity-token-rhythm-title">Estimated tokens accumulated while building this site</h2>
         <p>
-          A repo-scoped daily trace from retained local logs. It is estimated, rounded, and separate from the lifetime Codex snapshot above.
+          A rounded daily estimate from retained logs attributed to this repository, separate from the lifetime Codex snapshot above.
         </p>
       </div>
       <span class="github-activity-scope-badge">REPO-SCOPED &middot; DAILY</span>
@@ -357,16 +351,16 @@ added to the repo-scoped retained-session estimate.
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Three bounded signals</h2>
-        <p>Repo-scoped retained-session tokens, rounded lifetime Codex usage, and GitHub activity keep separate clocks and provenance.</p>
+        <h2>Three scales</h2>
+        <p>Weekly repository activity, daily site-build estimates, and lifetime Codex usage each carry their own units and dates.</p>
       </div>
       <div>
         <h2>Token rhythm</h2>
-        <p>Rounded cumulative daily points come from deduplicated retained logs attributed to this site since the revamp cutoff. They are estimates, not lifetime totals.</p>
+        <p>Deduplicated retained logs attributed to this repo produce rounded cumulative daily estimates for the site.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>
-        <p>Readable uses log1p for commits and a symmetric log view for line changes. Literal uses the full linear range. Reported values never change.</p>
+        <p>Readable uses log1p for commits and a symmetric log view for line changes. Literal uses the full linear range; both plot the same reported values.</p>
       </div>
       <div>
         <h2>What's counted</h2>
@@ -374,7 +368,7 @@ added to the repo-scoped retained-session estimate.
       </div>
       <div>
         <h2>Codex privacy boundary</h2>
-        <p>Only a fresh sanitized collector projection can update the public total. It contains one rounded sum and no source-level readings.</p>
+        <p>The collector publishes one rounded lifetime sum; source-level readings stay private.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>

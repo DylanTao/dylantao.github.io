@@ -3044,7 +3044,7 @@ html[data-theme="dark"] .scholar-lens-card {
   fill: none;
   stroke: var(--constellation-information-stroke);
   stroke-linecap: round;
-  stroke-width: 0.26;
+  stroke-width: 0.85;
   opacity: 0;
   transition:
     opacity 260ms ease,
@@ -3067,7 +3067,7 @@ html[data-theme="dark"] .scholar-lens-card {
 
 .paper-constellation-edge-active {
   stroke: var(--global-theme-color);
-  stroke-width: 0.42;
+  stroke-width: 1.6;
   opacity: 0.92 !important;
 }
 
@@ -3430,7 +3430,7 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 820px) {
   .publication-view-switcher {
     justify-content: stretch;
 

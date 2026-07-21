@@ -498,6 +498,9 @@ test("home agentic heartbeat keeps lifetime usage separate from the site-build p
   const costArtwork = costTooltip.locator("img");
   await expect(costButton).toHaveCount(1);
   await expect(costButton).toHaveAccessibleName("Show the site-build API-rate comparison");
+  await expect(costButton).toHaveAttribute("data-affordance", "cost-estimate");
+  await expect(costButton.locator("svg.home-agentic-cost-mark")).toHaveCount(1);
+  await expect(costButton).toHaveText("");
   await expect(costTooltip).toContainText(/Sam's imaginary API invoice: ~\$[\d.]+K API-rate replay/);
   await expect(costTooltip).toContainText("Request-aware replay of retained site-build logs at Standard public-API rates.");
   await expect(costTooltip).toContainText("Not an actual Codex bill.");
@@ -518,6 +521,14 @@ test("home agentic heartbeat keeps lifetime usage separate from the site-build p
     await costButton.hover();
   }
   await expect(costTooltip).toBeVisible();
+  const tooltipOverflow = await costTooltip.evaluate((node) => {
+    const style = getComputedStyle(node);
+    return {
+      horizontal: node.scrollWidth - node.clientWidth,
+      vertical: node.scrollHeight - node.clientHeight,
+    };
+  });
+  expect(tooltipOverflow.horizontal).toBeLessThanOrEqual(1);
   let tooltipFrame = await costTooltip.boundingBox();
   let viewport = page.viewportSize();
   expect(tooltipFrame).not.toBeNull();

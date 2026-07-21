@@ -107,7 +107,7 @@ The interaction is easiest to understand as a short sentence: **this card was he
       <p>The selected story gains room while its neighbors preserve the collection. Close, Escape, and focus return all resolve to one stable state.</p>
     </div>
   </div>
-  <figcaption>This is a static, reduced-motion-safe anatomy of the accepted <code>9fa9403e4</code> interaction contract—not a fabricated historical screenshot.</figcaption>
+  <figcaption>A static, reduced-motion-safe anatomy of the accepted <code>9fa9403e4</code> interaction contract.</figcaption>
 </figure>
 
 ## What changed
@@ -132,8 +132,8 @@ The interaction is easiest to understand as a short sentence: **this card was he
 
 <aside class="project-story-note" aria-labelledby="ikea-evidence-boundary-title">
   <p class="project-case-kicker">Evidence boundary</p>
-  <h3 id="ikea-evidence-boundary-title">No invented historical pixels.</h3>
-  <p>The dated May 27 build could not be reproduced faithfully, so this page shows current-state anatomy plus exact source history instead of pretending its runtime pixels survived.</p>
+  <h3 id="ikea-evidence-boundary-title">Current anatomy, exact source history</h3>
+  <p>The May 27 build could not be replayed faithfully, so this page pairs a reduced-motion anatomy of the accepted interaction with its exact source history.</p>
 </aside>
 
 <details class="project-story-disclosure">

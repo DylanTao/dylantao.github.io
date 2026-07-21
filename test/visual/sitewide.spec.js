@@ -616,6 +616,51 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     }
   }
 
+  if (route.id === "project-scholar-lens") {
+    const trace = page.locator("[data-scholar-story-trace]");
+    const steps = trace.locator(":scope > .scholar-story-trace-steps > .scholar-story-trace-step");
+    const annualBars = trace.locator(".scholar-story-year-bar");
+
+    await expect(trace).toBeVisible();
+    await expect(trace).toHaveAttribute("data-bibliography-key", "tao2024designweaver");
+    await expect(trace).toHaveAttribute("data-lifetime-sync", /^\d{4}-\d{2}-\d{2}$/);
+    await expect(trace).toHaveAttribute("data-annual-snapshot", /^\d{4}-\d{2}-\d{2}$/);
+    await expect(steps).toHaveCount(3);
+    await expect(steps.locator(":scope .scholar-story-trace-label svg")).toHaveCount(3);
+    expect(await annualBars.count(), "Scholar Lens trace exposes no dated annual contribution").toBeGreaterThan(0);
+
+    const traceValues = await trace.evaluate((element) => ({
+      annualSnapshot: element.dataset.annualSnapshot,
+      displayedLifetime: Number.parseInt(element.querySelector(".scholar-story-citation-cue strong")?.textContent || "", 10),
+      lifetimeCitations: Number.parseInt(element.dataset.lifetimeCitations || "", 10),
+      lifetimeSync: element.dataset.lifetimeSync,
+    }));
+    expect(traceValues.displayedLifetime).toBe(traceValues.lifetimeCitations);
+    expect(traceValues.lifetimeSync >= traceValues.annualSnapshot, "Lifetime sync predates the annual snapshot").toBe(true);
+
+    const stepBoxes = await steps.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return { bottom: box.bottom, left: box.left, right: box.right, top: box.top, width: box.width };
+      })
+    );
+    expect(
+      stepBoxes.every((box) => box.width >= 220),
+      "Scholar Lens evidence cues are squeezed"
+    ).toBe(true);
+    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+      expect(Math.max(...stepBoxes.map((box) => box.top)) - Math.min(...stepBoxes.map((box) => box.top))).toBeLessThanOrEqual(2);
+      expect(stepBoxes[0].right).toBeLessThanOrEqual(stepBoxes[1].left);
+      expect(stepBoxes[1].right).toBeLessThanOrEqual(stepBoxes[2].left);
+    } else {
+      expect(stepBoxes[1].top).toBeGreaterThan(stepBoxes[0].bottom);
+      expect(stepBoxes[2].top).toBeGreaterThan(stepBoxes[1].bottom);
+    }
+
+    const historicalHero = page.locator('.project-case-media[data-evidence-kind="runtime-crop"]');
+    await expect(historicalHero.locator("img")).toHaveAttribute("alt", /July 15.*227 lifetime citations/);
+  }
+
   if (route.id === "project-hci-spooder-man") {
     const carousel = page.locator("[data-spooder-image-carousel]");
     const stage = carousel.locator(".hci-spooder-gallery-stage");
@@ -1341,7 +1386,7 @@ test("all eleven fun stories reflow at 200% root text size", async ({ page }, te
       const root = document.documentElement;
       const textElements = Array.from(
         document.querySelectorAll(
-          ".project-case-copy h1, .project-case-copy p, .project-case-summary p, .project-story-beat h3, .project-story-beat p, .project-story-note h2, .project-story-note p, .site-experiment-reproduce h2, .site-experiment-reproduce p, .site-experiment-evidence-figure figcaption"
+          ".project-case-copy h1, .project-case-copy p, .project-case-summary p, .project-story-beat h3, .project-story-beat p, .scholar-story-trace h3, .scholar-story-trace p, .project-story-note h2, .project-story-note p, .site-experiment-reproduce h2, .site-experiment-reproduce p, .site-experiment-evidence-figure figcaption"
         )
       ).filter((element) => element.getClientRects().length > 0);
       const controls = Array.from(document.querySelectorAll(".project-case-actions a, details.project-story-disclosure > summary")).filter(
@@ -2083,7 +2128,7 @@ test("desk origin stays bounded and still under reduced motion", async ({ page }
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
 
   const switcher = page.locator("[data-home-desk-mode-switch]");
-  const origin = switcher.getByRole("link", { name: "Want to learn this desk scene's origin?" });
+  const origin = switcher.getByRole("link", { name: "Read how the desk scene began" });
   const tooltip = origin.locator(".widget-origin-tooltip");
   await expect(origin).toBeVisible();
   await expect(origin).toHaveAttribute("href", /\/projects\/homepage-desk-scene\/$/);
@@ -2219,7 +2264,7 @@ test("secret checkpoint tells the truth, contains focus, and survives a refresh"
   await expect(status).toContainText("mango is on Sirui's list.");
   expect(await status.textContent()).not.toMatch(/guess|correct/i);
   await expect(origin).toBeVisible();
-  await expect(origin.getByRole("link", { name: "Want to learn this portal's origin?" })).toHaveAttribute("href", /\/projects\/dogtor-portal\/$/);
+  await expect(origin.getByRole("link", { name: "Read how this portal began" })).toHaveAttribute("href", /\/projects\/dogtor-portal\/$/);
   await page.keyboard.press("Escape");
   await page.waitForTimeout(800);
   await expect(page).toHaveURL(/\/blog\/?$/);

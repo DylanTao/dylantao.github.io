@@ -16,6 +16,7 @@ PUBLICATIONS_PAGE_PATH = REPO_ROOT / "_pages" / "publications.md"
 CONSTELLATION_INCLUDE_PATH = REPO_ROOT / "_includes" / "publications" / "paper_constellation.liquid"
 SCHOLAR_INCLUDE_PATH = REPO_ROOT / "_includes" / "publications" / "scholar_lens.liquid"
 WALL_INCLUDE_PATH = REPO_ROOT / "_includes" / "publications" / "wall_of_rejection.liquid"
+WIDGET_ORIGIN_INCLUDE_PATH = REPO_ROOT / "_includes" / "widget_origin_link.liquid"
 CONSTELLATION_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "paper-constellation.js"
 LENS_SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "publication-lens.js"
 PROJECT_PATH = REPO_ROOT / "_projects" / "paper-constellation.md"
@@ -212,7 +213,7 @@ class PublicationConstellationContractTest(unittest.TestCase):
         self.assertIn('node.setAttribute("aria-hidden", filtered ? "true" : "false")', script)
         self.assertIn('event.key !== "Escape"', script)
         self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', script)
-        self.assertIn('window.matchMedia("(max-width: 767px)")', script)
+        self.assertIn('window.matchMedia("(max-width: 820px)")', script)
         self.assertIn('new ResizeObserver(scheduleMobileGeometry)', script)
         self.assertIn("document.fonts?.ready.then(scheduleMobileGeometry)", script)
 
@@ -284,17 +285,31 @@ class PublicationConstellationContractTest(unittest.TestCase):
         self.assertIn("yearly_snapshot_as_of", guide)
 
         expected_origins = {
-            CONSTELLATION_INCLUDE_PATH: "/projects/paper-constellation/",
-            SCHOLAR_INCLUDE_PATH: "/projects/scholar-lens/",
-            WALL_INCLUDE_PATH: "/projects/wall-of-rejection/",
+            CONSTELLATION_INCLUDE_PATH: ("/projects/paper-constellation/", "Read how Paper Constellation began"),
+            SCHOLAR_INCLUDE_PATH: ("/projects/scholar-lens/", "Read how Scholar Lens began"),
+            WALL_INCLUDE_PATH: ("/projects/wall-of-rejection/", "Read how the Wall of Rejection began"),
         }
-        for path, route in expected_origins.items():
+        for path, (route, label) in expected_origins.items():
             with self.subTest(path=path.name):
                 source = path.read_text(encoding="utf-8")
                 self.assertIn(route, source)
-                self.assertIn('class="widget-origin-link"', source)
-                self.assertIn('class="widget-origin-mark"', source)
-                self.assertIn('class="widget-origin-tooltip"', source)
+                self.assertIn("{% include widget_origin_link.liquid", source)
+                self.assertIn(f'label="{label}"', source)
+                origin_call = next(line for line in source.splitlines() if "widget_origin_link.liquid" in line)
+                self.assertNotIn("?", origin_call)
+
+        origin_include = WIDGET_ORIGIN_INCLUDE_PATH.read_text(encoding="utf-8")
+        self.assertIn('class="widget-origin-link', origin_include)
+        self.assertIn('data-affordance="origin"', origin_include)
+        self.assertIn('<svg class="widget-origin-mark"', origin_include)
+        self.assertIn('focusable="false"', origin_include)
+        self.assertIn('class="widget-origin-tooltip"', origin_include)
+        self.assertIn("How this began", origin_include)
+        self.assertNotRegex(origin_include, r">\s*\?\s*<")
+
+        constellation_include = CONSTELLATION_INCLUDE_PATH.read_text(encoding="utf-8")
+        self.assertIn("{{ future_record.label }}", constellation_include)
+        self.assertEqual({node["label"] for node in self.constellation["future"].values()}, {"?"})
 
         self.assertIn("scholar-lens-heading-actions", SCHOLAR_INCLUDE_PATH.read_text(encoding="utf-8"))
         self.assertIn("rejection-wall-heading-actions", WALL_INCLUDE_PATH.read_text(encoding="utf-8"))
@@ -309,7 +324,6 @@ class PublicationConstellationContractTest(unittest.TestCase):
                 "https://www.datasketch.es/project/royal-constellations",
                 "John Thompson",
                 "https://jrthomp.com/",
-                "D3 force-directed SVG implementation",
             ):
                 with self.subTest(artifact=artifact_name, source=source):
                     self.assertIn(source, artifact)
@@ -323,6 +337,10 @@ class PublicationConstellationContractTest(unittest.TestCase):
             ):
                 with self.subTest(artifact=artifact_name, provenance=provenance):
                     self.assertIn(provenance, artifact)
+
+        self.assertIn("D3 force-directed SVG implementation", guide)
+        self.assertIn("D3 force-directed SVG implementation", project)
+        self.assertIn("server-rendered HTML with fixed SVG geometry", project)
 
 
 if __name__ == "__main__":

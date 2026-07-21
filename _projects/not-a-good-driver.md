@@ -19,7 +19,7 @@ hide_title: true
     <p class="project-case-kicker">VRChat world - social play experiment</p>
     <h1>Not A Good Driver</h1>
     <p class="project-case-lede">
-      I built a small VRChat driving world around a social premise, not a solo score: someone drives, someone rides, and someone gets a good view of the chaos.
+      I built a small VRChat world around three ways into one joke: drive the road, share the ride, or watch the chaos unfold.
     </p>
     <div class="project-case-facts">
       <span>Driver</span>
@@ -29,6 +29,7 @@ hide_title: true
     </div>
     <div class="project-case-actions">
       <a href="https://vrchat.com/home/launch?worldId=wrld_ef581bd6-9d93-457e-b6a3-7d7f297f1cab" target="_blank" rel="noopener noreferrer">Try it in VRChat</a>
+      <a href="{{ '/assets/downloads/site-experiments/not-a-good-driver-reproduction.md' | relative_url }}" download>Download the role-map brief</a>
     </div>
   </div>
   <div class="project-case-media">
@@ -53,7 +54,7 @@ hide_title: true
 
 ## One road, three ways into the joke
 
-The world is easier to understand as a small cast than as a feature list. Each role needs a different relationship to the same road, and none of them is merely waiting for the “real” interaction to begin.
+The world is easiest to understand as a small cast. Each role gets a different relationship to the same road and a real way to participate.
 
 <div class="project-storyboard" data-driver-role-story role="list" aria-label="Driver passenger spectator story">
   <article class="project-storyboard-step" role="listitem">
@@ -70,11 +71,37 @@ The world is easier to understand as a small cast than as a feature list. Each r
   </article>
 </div>
 
+<figure class="driver-role-map" data-evidence-kind="conceptual-role-and-sightline-anatomy">
+  <svg viewBox="0 0 800 300" role="img" aria-labelledby="driver-role-map-title driver-role-map-description">
+    <title id="driver-role-map-title">Driver, passenger, and spectator relationship map</title>
+    <desc id="driver-role-map-description">A winding road carries a driver and passenger through the scene while a spectator lookout keeps the action visible.</desc>
+    <path class="driver-role-map-road" d="M52 228C168 116 266 252 384 160S612 58 748 132"></path>
+    <path class="driver-role-map-sightline" d="M651 92 452 157M651 92 542 118"></path>
+    <g class="driver-role-map-stop driver-role-map-stop--driver" transform="translate(245 198)">
+      <circle r="31"></circle>
+      <path d="M-15 4h30l-5-13H-8L-15 4Zm4 0v8m22-8v8M-18 12h36"></path>
+      <text x="0" y="53">DRIVER</text>
+    </g>
+    <g class="driver-role-map-stop driver-role-map-stop--passenger" transform="translate(390 151)">
+      <circle r="31"></circle>
+      <path d="M-12-7h24v17h-24zM-7-7v-7h14v7"></path>
+      <text x="0" y="53">PASSENGER</text>
+    </g>
+    <g class="driver-role-map-stop driver-role-map-stop--spectator" transform="translate(651 92)">
+      <circle r="31"></circle>
+      <path d="M-17 4s6-11 17-11S17 4 17 4 11 15 0 15-17 4-17 4Z"></path>
+      <circle cy="4" r="4"></circle>
+      <text x="0" y="53">SPECTATOR</text>
+    </g>
+  </svg>
+  <figcaption><strong>Design anatomy.</strong> The road creates action, the shared cab carries reaction, and the lookout turns both into a public scene.</figcaption>
+</figure>
+
 ## World design at room scale
 
-The useful design question was not whether the world looked elaborate. It was whether a newcomer could find the action, choose a relationship to it, and make a moment with other people. That is the same judgment I care about in research tools: make the situation legible, then leave room for people to act.
+The design question was whether a newcomer could find the action, choose a role, and make a moment with other people. That is the same judgment I care about in research tools: make the situation legible, then leave room for people to act.
 
-AI tools helped with rough production, but the experience still depended on human choices about participation, paths, sightlines, and what should remain unscripted. This page does not turn that workflow into a claim that AI designed the world or caused a particular outcome.
+AI tools supported rough production; I shaped participation, paths, sightlines, and what remained unscripted.
 
 <aside
   class="project-story-note"
@@ -84,8 +111,8 @@ AI tools helped with rough production, but the experience still depended on huma
   aria-labelledby="driver-evidence-boundary-title"
 >
   <p class="project-case-kicker">Evidence boundary</p>
-  <h2 id="driver-evidence-boundary-title">The teaser is concept art, not a runtime screenshot.</h2>
-  <p>The repository does not retain a capture manifest or an older reproducible world state, so there is no honest before-and-after comparison here. The role story describes the intended participation structure; it is not usage data, a playtest result, or evidence that every visitor behaved this way. The linked VRChat world is the current artifact to inspect.</p>
+  <h2 id="driver-evidence-boundary-title">What the surviving evidence supports</h2>
+  <p>The teaser is illustrative concept art, and the linked VRChat world is the current artifact. Because no historical runtime capture survives, the role story describes design intent rather than observed player behavior.</p>
 </aside>
 
 <details class="project-story-disclosure">
@@ -99,3 +126,12 @@ AI tools helped with rough production, but the experience still depended on huma
     </ul>
   </div>
 </details>
+
+<aside class="site-experiment-reproduce" aria-labelledby="driver-reproduce-title">
+  <p class="project-case-kicker">Reproduce the pattern</p>
+  <h2 id="driver-reproduce-title">Design the view around the roles.</h2>
+  <p>The reusable brief starts with control, co-presence, and spectating before it asks for scenery. It keeps the role map conceptual, requires live-world validation, and leaves unsupported history out.</p>
+  <div class="project-case-actions">
+    <a href="{{ '/assets/downloads/site-experiments/not-a-good-driver-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
+  </div>
+</aside>

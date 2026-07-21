@@ -370,7 +370,7 @@
           color: colors.muted,
         });
       }
-      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently ${latestToken.tokensLabel}, and lifetime Codex usage is a separate rounded total.`;
+      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently at ${latestToken.tokensLabel}, and lifetime Codex usage is a separate rounded total.`;
     };
 
     const metadata = {

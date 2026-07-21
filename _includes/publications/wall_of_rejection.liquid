@@ -15,14 +15,7 @@
             <p>{{ rejection_wall.section.description }}</p>
           </div>
           <div class="rejection-wall-heading-actions">
-            <a
-              class="widget-origin-link"
-              href="{{ '/projects/wall-of-rejection/' | relative_url }}"
-              aria-label="Want to learn the Wall of Rejection widget's origin?"
-            >
-              <span class="widget-origin-mark" aria-hidden="true">?</span>
-              <span class="widget-origin-tooltip" aria-hidden="true">Want to learn the Wall of Rejection widget's origin?</span>
-            </a>
+            {% include widget_origin_link.liquid href="/projects/wall-of-rejection/" label="Read how the Wall of Rejection began" %}
             {% if rejection_wall.views.size > 1 %}
               <div class="rejection-wall-view-switcher" role="group" aria-label="Choose rejection badge view">
                 {% for view in rejection_wall.views %}

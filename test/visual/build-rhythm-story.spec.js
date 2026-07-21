@@ -39,7 +39,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
 
   await expect(story.getByRole("link", { name: "The Rhythm of Food" })).toHaveAttribute("href", "https://rhythm-of-food.net/");
   await expect(story.getByRole("link", { name: "John Thompson" })).toHaveAttribute("href", "https://jrthomp.com/");
-  await expect(story.getByRole("link", { name: "Want to learn this widget's origin?" })).toHaveAttribute("href", /\/projects\/build-rhythm\/$/);
+  await expect(story.getByRole("link", { name: "Read how Build Rhythm began" })).toHaveAttribute("href", /\/projects\/build-rhythm\/$/);
 
   const viewportWidth = page.viewportSize()?.width || 0;
   if (viewportWidth <= 820) {

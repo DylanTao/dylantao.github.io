@@ -22,7 +22,7 @@
   const detailArticles = Array.from(constellation.querySelectorAll("[data-constellation-detail-paper]"));
   const clearButton = constellation.querySelector("[data-constellation-clear]");
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const mobileQuery = window.matchMedia("(max-width: 767px)");
+  const mobileQuery = window.matchMedia("(max-width: 820px)");
 
   let currentView = "list";
   let pinnedKey = null;

@@ -4928,6 +4928,7 @@ class SessionRecord:
     contexts: list[TurnContextRecord] = field(default_factory=list)
     token_events: list[TokenEvent] = field(default_factory=list)
     fork_preamble_events_skipped: int = 0
+    snapshots_compacted_during_scan: int = 0
 
 
 @dataclass
@@ -5010,6 +5011,7 @@ def scan_sessions(root: Path, repo_needle: str | None) -> dict[str, SessionRecor
     """Read every retained year and keep the first session_meta as leaf identity."""
 
     sessions: dict[str, SessionRecord] = {}
+    compacted_modern_events: dict[tuple[str, tuple[int, ...]], TokenEvent] = {}
     if not root.exists():
         return sessions
 
@@ -5066,6 +5068,11 @@ def scan_sessions(root: Path, repo_needle: str | None) -> dict[str, SessionRecor
                         leaf_id = str(candidate_id) if candidate_id else str(path)
                         leaf_cwd = str(payload.get("cwd") or "")
                         leaf_started_at = timestamp
+                        if repo_needle and repo_needle.lower() not in leaf_cwd.lower():
+                            # The first session_meta is the canonical leaf
+                            # identity, so a scoped audit can reject this file
+                            # without parsing its potentially large payloads.
+                            break
                         forked_from_id = payload.get("forked_from_id")
                         source = payload.get("source")
                         source_parent_id = None
@@ -5145,8 +5152,32 @@ def scan_sessions(root: Path, repo_needle: str | None) -> dict[str, SessionRecor
         if leaf_started_at and (record.started_at is None or leaf_started_at < record.started_at):
             record.started_at = leaf_started_at
         record.contexts.extend(contexts)
-        record.token_events.extend(token_events)
         record.fork_preamble_events_skipped += fork_preamble_events_skipped
+
+        # Legacy cumulative events depend on their preceding per-path baseline,
+        # so mixed files must reach prepare_usage_dataset intact. Pure-modern
+        # files can safely compact exact cumulative snapshots before the much
+        # larger cross-file accounting pass.
+        if any(event.last_usage is None for event in token_events):
+            record.token_events.extend(token_events)
+            continue
+
+        for event in token_events:
+            identity = event.turn_id or "__legacy_without_turn_id__"
+            dedupe_key = (identity, usage_signature(event.total_usage))
+            previous = compacted_modern_events.get(dedupe_key)
+            if previous is not None:
+                record.snapshots_compacted_during_scan += 1
+            event_order = (event.timestamp, str(event.path), event.ordinal)
+            if previous is None or event_order < (
+                previous.timestamp,
+                str(previous.path),
+                previous.ordinal,
+            ):
+                compacted_modern_events[dedupe_key] = event
+
+    for event in compacted_modern_events.values():
+        sessions[event.leaf_session_id].token_events.append(event)
 
     return sessions
 
@@ -5211,6 +5242,9 @@ def prepare_usage_dataset(sessions: dict[str, SessionRecord]) -> UsageDataset:
     source_counts: dict[str, int] = defaultdict(int)
     source_counts["fork_preamble_events_skipped"] = sum(
         record.fork_preamble_events_skipped for record in sessions.values()
+    )
+    source_counts["copied_or_repeated_snapshots_skipped"] = sum(
+        record.snapshots_compacted_during_scan for record in sessions.values()
     )
     ordered = sorted(candidates, key=lambda item: (item.timestamp, str(item.path), item.ordinal))
     for event in ordered:
@@ -6290,8 +6324,10 @@ def main() -> int:
         print(str(error), file=sys.stderr)
         return 2
 
+    # Run the repo and all-local scans independently so modern snapshot
+    # compaction remains scoped to the population each report measures.
+    sessions = scan_sessions(sessions_root, REPO_NEEDLE)
     all_sessions = scan_sessions(sessions_root, None)
-    sessions = sessions_matching_repo(all_sessions, REPO_NEEDLE)
     dataset = prepare_usage_dataset(sessions)
     local_dataset = prepare_usage_dataset(all_sessions)
     total_commits = git_commit_count(repo_root, REVAMP_GIT_SINCE, ["."])

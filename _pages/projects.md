@@ -16,7 +16,7 @@ project_cards_interactive: true
 <p class="sr-only" data-project-card-status aria-live="polite" aria-atomic="true"></p>
 <div class="project-browser-origin">
   <span>IN-PLACE CARD VIEW</span>
-  {% include widget_origin_link.liquid href="/projects/ikea-project-cards/" label="Want to learn this card view's origin?" %}
+  {% include widget_origin_link.liquid href="/projects/ikea-project-cards/" label="Read how this card view began" %}
 </div>
 {% if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->

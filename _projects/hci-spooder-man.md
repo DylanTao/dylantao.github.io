@@ -78,27 +78,27 @@ spooder_project: true
     <li class="project-story-beat">
       <p class="project-case-kicker">Turn</p>
       <h3>Make the receipt funny enough to send.</h3>
-      <p>The Steam-style achievement image began as a labmate meme. It later became the starting artifact for the separate <a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a>, where badges open receipts instead of pretending rejection is a productivity score.</p>
+      <p>The Steam-style achievement image began as a labmate meme. It later became the starting artifact for the separate <a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a>, where badges open receipts and XP comes from rejection events once.</p>
     </li>
     <li class="project-story-beat">
       <p class="project-case-kicker">Now</p>
       <h3>Turn one private joke into a remix invitation.</h3>
-      <p>The Spooder-Man page adds visual frames, a prompt, a downloadable kit, and a path back to serious work. A remix should begin with the next person's real academic moment, not copy this page's surface.</p>
+      <p>The Spooder-Man page adds visual frames, a prompt, a downloadable kit, and a path back to serious work. Each new remix begins with its maker's own academic moment.</p>
     </li>
   </ol>
 </section>
 
 <aside class="project-story-note" data-spooder-artwork-boundary="remix-material-not-history" aria-labelledby="spooder-artwork-boundary-title">
   <p class="project-case-kicker">Artwork boundary</p>
-  <h2 id="spooder-artwork-boundary-title">These frames are remix material, not documentary history.</h2>
-  <p>The gallery contains playful scene and title frames for browsing, reference, and reuse. Their order is not a chronology, and the images are not photos of the rejection events, screenshots of an earlier interface, or evidence that a particular scene happened. The origin beats above carry the factual story; the source playlist carries the tonal credit.</p>
+  <h2 id="spooder-artwork-boundary-title">Remix frames with a documented origin</h2>
+  <p>The gallery supplies scene and title frames for browsing and reuse. The factual chronology lives in the origin beats above; the source playlist carries the tonal credit.</p>
 </aside>
 
 <section id="spooder-capsule" class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">Spoody kit</p>
     <h2 id="spooder-gallery-title">Pick a spoody-suit.</h2>
-    <p>Use these remix frames as placeholders or references; swap in your own academic no rather than reading their order as project history.</p>
+    <p>Use these frames as placeholders or references, then swap in your own academic no.</p>
   </div>
 
   <div class="hci-spooder-gallery-stage" tabindex="0" aria-label="HCI Spooder-Man recruitment capsule images">
@@ -158,7 +158,7 @@ spooder_project: true
       <h2 id="spooder-agent-kit-title">Spoody-suit files.</h2>
       <button type="button" data-spooder-copy-prompt>Copy agent prompt</button>
     </div>
-    <p>Markdown prompt plus asset ZIP: enough structure, not a clone.</p>
+    <p>A Markdown prompt plus asset ZIP gives the next person enough structure to remix.</p>
     <div class="hci-spooder-agent-actions">
       <a href="{{ spooder.downloads.remix_kit_zip | relative_url }}" download>
         <i class="fa-solid fa-file-zipper" aria-hidden="true"></i>

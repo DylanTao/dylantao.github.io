@@ -3374,6 +3374,23 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-agentic-info-cost {
   width: 1.2rem;
   height: 1.2rem;
+  border-color: color-mix(in srgb, var(--global-brand-orange-color) 34%, transparent);
+  color: color-mix(in srgb, var(--global-brand-orange-color) 78%, var(--home-muted));
+}
+
+.home-agentic-cost-mark {
+  width: 0.82rem;
+  height: 0.82rem;
+  overflow: visible;
+}
+
+.home-agentic-cost-mark path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+  vector-effect: non-scaling-stroke;
 }
 
 .home-agentic-info:hover {
@@ -3381,6 +3398,12 @@ html[data-theme="dark"] .home-artifact-mark {
   background: color-mix(in srgb, var(--home-accent-soft) 36%, var(--home-surface));
   color: color-mix(in srgb, var(--home-accent-strong) 72%, var(--home-muted));
   transform: translateY(-0.03rem);
+}
+
+.home-agentic-info.home-agentic-info-cost:hover {
+  border-color: color-mix(in srgb, var(--global-brand-orange-color) 58%, transparent);
+  background: color-mix(in srgb, var(--global-brand-orange-color) 9%, var(--home-surface));
+  color: var(--global-brand-orange-color);
 }
 
 .home-agentic-info:focus-visible {

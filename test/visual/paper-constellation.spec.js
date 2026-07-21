@@ -27,7 +27,7 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   const runtimeErrors = collectRuntimeErrors(page);
   const { constellationPanel } = await openConstellation(page, "light");
   const viewportWidth = page.viewportSize()?.width || 1440;
-  const activeSurface = viewportWidth <= 767 ? page.locator("[data-constellation-mobile]") : page.locator("[data-constellation-desktop]");
+  const activeSurface = viewportWidth <= 820 ? page.locator("[data-constellation-mobile]") : page.locator("[data-constellation-desktop]");
 
   await expect(page.locator("[data-constellation-desktop] [data-constellation-paper]")).toHaveCount(5);
   await expect(page.locator("[data-constellation-mobile] [data-constellation-paper]")).toHaveCount(5);
@@ -39,7 +39,7 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await expect(page.locator("[data-constellation-mobile-membership]")).toHaveCount(5);
   await expect(activeSurface).toBeVisible();
 
-  if (viewportWidth <= 767) {
+  if (viewportWidth <= 820) {
     const mobilePaperOrder = await page.locator("[data-constellation-mobile] [data-constellation-paper]").evaluateAll((papers) =>
       papers.map((paper) => ({
         key: paper.dataset.publicationKey,
@@ -115,11 +115,60 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await page.locator('input[name="publication-role-filter"][value="all"]').check();
   await expect(page.locator(".paper-constellation-node-filtered")).toHaveCount(0);
 
+  if (viewportWidth >= 992) {
+    const workbench = page.locator("[data-publication-workbench]");
+    const physion = activeSurface.locator('[data-constellation-node-id="bear2021physion"]');
+    const physionPlus = activeSurface.locator('[data-constellation-node-id="tung2023physion++"]');
+    const physionYearBar = page.locator('[data-scholar-year-bar][data-year="2024"]');
+    await page.mouse.move(0, 0);
+    await physionYearBar.evaluate((bar) => bar.focus({ preventScroll: true }));
+    await expect(physionYearBar).toBeFocused();
+    await expect(physion).toHaveClass(/paper-constellation-node-active/);
+    await expect(physionPlus).toHaveClass(/paper-constellation-node-related/);
+    await expect(workbench).toHaveAttribute("data-active-publication", "bear2021physion");
+
+    await page.locator('[data-publication-view-button="constellation"]').focus();
+    await expect(page.locator(".paper-constellation-node-active")).toHaveCount(0);
+    await expect.poll(() => workbench.getAttribute("data-active-publication")).toBeNull();
+  }
+
   const designWeaver = activeSurface.locator('[data-constellation-paper][data-publication-key="tao2024designweaver"]');
   const designWeaverEntry = page.locator('.publication-lens-entry[data-publication-key="tao2024designweaver"]');
   const designWeaverCitationChip = designWeaverEntry.locator("[data-publication-citation-chip]");
   const designWeaverCitationYearBars = page.locator('[data-scholar-year-bar][data-year-papers*="tao2024designweaver:"]');
+  const designWeaverDetail = page.locator('[data-constellation-detail-paper="tao2024designweaver"]');
+
+  if (testInfo.project.name === "desktop-1440") {
+    await designWeaver.hover();
+    await expect(designWeaver.locator("..")).toHaveClass(/paper-constellation-node-active/);
+    await expect(activeSurface.locator('[data-constellation-node-id="future-major-01"]')).toHaveClass(/paper-constellation-node-related/);
+    await expect(designWeaverDetail).toBeHidden();
+    await page.mouse.move(0, 0);
+    await expect(page.locator(".paper-constellation-node-active")).toHaveCount(0);
+    await expect(designWeaverEntry).not.toHaveClass(/publication-lens-linked/);
+  }
+
+  await designWeaver.click();
+  await expect(designWeaver).toHaveAttribute("aria-pressed", "true");
+  await expect(designWeaverDetail).toBeVisible();
+  await designWeaver.click();
+  await expect(designWeaver).toHaveAttribute("aria-pressed", "false");
+  await expect(designWeaverDetail).toBeHidden();
+  await expect(designWeaver).toBeFocused();
+
+  await designWeaver.click();
+  const clearSelection = page.locator("[data-constellation-clear]");
+  await expect(clearSelection).toBeVisible();
+  await clearSelection.click();
+  await expect(designWeaver).toHaveAttribute("aria-pressed", "false");
+  await expect(designWeaverDetail).toBeHidden();
+  await expect(designWeaver).toBeFocused();
+  await expect
+    .poll(() => page.locator("[data-constellation-detail]").evaluate((panel) => panel.parentElement?.hasAttribute("data-constellation-detail-dock")))
+    .toBe(true);
+
   await page.mouse.move(0, 0);
+  await page.locator('[data-publication-view-button="constellation"]').focus();
   await designWeaver.focus();
   await expect(designWeaver).toBeFocused();
   await expect(designWeaver.locator("..")).toHaveClass(/paper-constellation-node-active/);
@@ -133,10 +182,10 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
     .toBe(true);
   await designWeaver.press("Enter");
   await expect(designWeaver).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator('[data-constellation-detail-paper="tao2024designweaver"]')).toBeVisible();
+  await expect(designWeaverDetail).toBeVisible();
   await expect(page.locator("[data-publication-workbench]")).toHaveAttribute("data-active-publication", "tao2024designweaver");
 
-  if (viewportWidth <= 767) {
+  if (viewportWidth <= 820) {
     const detail = page.locator("[data-constellation-detail]");
     await expect.poll(() => detail.evaluate((panel) => panel.parentElement?.dataset.constellationDetailSlot || "")).toBe("tao2024designweaver");
     const placement = await page
@@ -512,7 +561,7 @@ test("reduced motion reveals the settled constellation without transitional stat
   await openConstellation(page, "light");
   await expect(page.locator("[data-paper-constellation]")).toHaveClass(/paper-constellation-entered/);
   const viewportWidth = page.viewportSize()?.width || 1440;
-  const activeSurface = viewportWidth <= 767 ? page.locator("[data-constellation-mobile]") : page.locator("[data-constellation-desktop]");
+  const activeSurface = viewportWidth <= 820 ? page.locator("[data-constellation-mobile]") : page.locator("[data-constellation-desktop]");
   const motionState = await activeSurface.evaluate((map) => {
     const node = map.querySelector(".paper-constellation-node-position, .paper-constellation-mobile-paper-row");
     const edge = map.querySelector(".paper-constellation-edge");

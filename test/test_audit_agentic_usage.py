@@ -156,6 +156,11 @@ class SessionAccountingTests(unittest.TestCase):
 
             sessions = audit.scan_sessions(root, audit.REPO_NEEDLE)
             self.assertEqual(set(sessions), {"parent", "child-a", "child-b"})
+            self.assertEqual(sum(len(record.token_events) for record in sessions.values()), 4)
+            self.assertEqual(
+                sum(record.snapshots_compacted_during_scan for record in sessions.values()),
+                4,
+            )
             dataset = audit.prepare_usage_dataset(sessions)
             result = audit.audit_scope(dataset, base - timedelta(seconds=1), commit_count=0)
 
@@ -164,6 +169,86 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertEqual(result["model_effort_breakdown"]["gpt-5.5/xhigh"]["turns"], 3)
         self.assertEqual(dataset.source_counts["copied_or_repeated_snapshots_skipped"], 4)
         self.assertLess(result["raw_hours"], 0.5)
+
+    def test_modern_snapshot_compaction_remains_scope_local(self) -> None:
+        base = datetime(2026, 5, 24, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            write_log(
+                root / "2026" / "other.jsonl",
+                [
+                    session_meta(base, "other", cwd="D:/dev/other-repo"),
+                    turn_context(base + timedelta(seconds=1), "shared-turn"),
+                    token_event(base + timedelta(seconds=2), usage(100), usage(100)),
+                ],
+            )
+            write_log(
+                root / "2026" / "site.jsonl",
+                [
+                    session_meta(base + timedelta(minutes=1), "site"),
+                    turn_context(base + timedelta(minutes=1, seconds=1), "shared-turn"),
+                    token_event(base + timedelta(minutes=1, seconds=2), usage(100), usage(100)),
+                ],
+            )
+
+            scoped_dataset = audit.prepare_usage_dataset(
+                audit.scan_sessions(root, audit.REPO_NEEDLE)
+            )
+            all_dataset = audit.prepare_usage_dataset(audit.scan_sessions(root, None))
+
+        self.assertEqual(
+            sum(event.usage["total_tokens"] for event in scoped_dataset.usage_events),
+            100,
+        )
+        self.assertEqual(
+            scoped_dataset.source_counts["copied_or_repeated_snapshots_skipped"],
+            0,
+        )
+        self.assertEqual(
+            sum(event.usage["total_tokens"] for event in all_dataset.usage_events),
+            100,
+        )
+        self.assertEqual(
+            all_dataset.source_counts["copied_or_repeated_snapshots_skipped"],
+            1,
+        )
+
+    def test_modern_compaction_preserves_mixed_file_legacy_baseline(self) -> None:
+        base = datetime(2026, 5, 24, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            parent_event_time = base + timedelta(seconds=2)
+            write_log(
+                root / "2026" / "parent.jsonl",
+                [
+                    session_meta(base, "parent"),
+                    turn_context(base + timedelta(seconds=1), "shared-turn"),
+                    token_event(parent_event_time, usage(100), usage(100)),
+                ],
+            )
+            write_log(
+                root / "2026" / "mixed-child.jsonl",
+                [
+                    session_meta(base + timedelta(minutes=1), "mixed-child"),
+                    turn_context(base + timedelta(minutes=1, seconds=1), "shared-turn"),
+                    token_event(parent_event_time, usage(100), usage(100)),
+                    token_event(base + timedelta(minutes=1, seconds=2), usage(150), None),
+                ],
+            )
+
+            sessions = audit.scan_sessions(root, audit.REPO_NEEDLE)
+            dataset = audit.prepare_usage_dataset(sessions)
+            result = audit.audit_scope(dataset, base - timedelta(seconds=1), commit_count=0)
+
+        self.assertEqual(result["raw_token_count"], 150)
+        self.assertEqual(sum(len(record.token_events) for record in sessions.values()), 3)
+        self.assertEqual(
+            sum(record.snapshots_compacted_during_scan for record in sessions.values()),
+            0,
+        )
+        self.assertEqual(dataset.source_counts["copied_or_repeated_snapshots_skipped"], 1)
+        self.assertEqual(dataset.source_counts["last_token_usage"], 1)
+        self.assertEqual(dataset.source_counts["legacy_cumulative_delta"], 1)
 
     def test_legacy_cumulative_fallback_keeps_branch_delta_without_copy(self) -> None:
         base = datetime(2026, 5, 24, tzinfo=timezone.utc)

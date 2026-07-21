@@ -1,0 +1,136 @@
+{% assign scholar_story_lens = site.data.publication_lens %}
+{% assign scholar_story_designweaver = scholar_story_lens.papers.tao2024designweaver %}
+{% assign scholar_story_max_year_citations = 0 %}
+{% for year_bucket in scholar_story_lens.citation_years %}
+  {% for contribution in year_bucket.papers %}
+    {% if contribution.key == 'tao2024designweaver' and contribution.citations > scholar_story_max_year_citations %}
+      {% assign scholar_story_max_year_citations = contribution.citations %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+<section
+  class="scholar-story-trace"
+  data-scholar-story-trace
+  data-bibliography-key="tao2024designweaver"
+  data-lifetime-sync="{{ scholar_story_lens.metadata.totals_last_synced }}"
+  data-lifetime-citations="{{ scholar_story_designweaver.citation_total }}"
+  data-all-paper-citations="{{ scholar_story_lens.metadata.total_citations }}"
+  data-annual-snapshot="{{ scholar_story_lens.metadata.yearly_snapshot_as_of }}"
+  aria-labelledby="scholar-story-trace-title"
+>
+  <header class="scholar-story-trace-header">
+    <div>
+      <p class="project-case-kicker">Current data anatomy</p>
+      <h3 id="scholar-story-trace-title">One key, three cues.</h3>
+    </div>
+    <p>
+      This strip is rendered at build time from the same public lens data. It explains the current linkage without pretending to be a second
+      interactive bibliography.
+    </p>
+  </header>
+
+  <ol class="scholar-story-trace-steps">
+    <li class="scholar-story-trace-step">
+      <div class="scholar-story-trace-label">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M5 5h14M5 9h10M5 13h14M5 17h8"/>
+          <path d="m16 16 2 2 3-4"/>
+        </svg>
+        <span>Bibliography row</span>
+      </div>
+      <div class="scholar-story-paper-cue" aria-label="DesignWeaver bibliography cue">
+        <span>CHI 2025</span>
+        <strong>DesignWeaver</strong>
+        <small>
+          {{- scholar_story_designweaver.work_group | replace: '-', ' ' | capitalize }} &middot;
+          {{ scholar_story_designweaver.role | replace: '-', ' ' | capitalize -}}
+        </small>
+      </div>
+      <p>The canonical row owns the title, authors, venue, format, and links. The lens can emphasize or filter it; it cannot replace it.</p>
+    </li>
+
+    <li class="scholar-story-trace-step">
+      <div class="scholar-story-trace-label">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M6 5h12M6 9h8M6 13h5M6 17h7"/>
+          <circle cx="17" cy="16" r="3"/>
+          <path d="m19.2 18.2 2 2"/>
+        </svg>
+        <span>Lifetime citation chip</span>
+      </div>
+      <div class="scholar-story-citation-cue">
+        <strong>{{ scholar_story_designweaver.citation_total }}</strong>
+        <span>citations</span>
+        <time datetime="{{ scholar_story_lens.metadata.totals_last_synced }}">
+          synced {{ scholar_story_lens.metadata.totals_last_synced | date: '%b %-d, %Y' }}
+        </time>
+      </div>
+      <p>
+        Focusing the row highlights the latest published aggregate. Its date advances with the public totals instead of being frozen into this
+        case-study copy.
+      </p>
+    </li>
+
+    <li class="scholar-story-trace-step">
+      <div class="scholar-story-trace-label">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M5 20V9h3v11M11 20V4h3v16M17 20v-7h3v7M3 20h19"/>
+        </svg>
+        <span>Annual bars</span>
+      </div>
+      <div class="scholar-story-year-cue" aria-label="DesignWeaver annual citation contributions">
+        {% for year_bucket in scholar_story_lens.citation_years %}
+          {% assign scholar_story_year_citations = 0 %}
+          {% for contribution in year_bucket.papers %}
+            {% if contribution.key == 'tao2024designweaver' %}
+              {% assign scholar_story_year_citations = contribution.citations %}
+            {% endif %}
+          {% endfor %}
+          {% if scholar_story_year_citations > 0 %}
+            {% assign scholar_story_year_ratio = scholar_story_year_citations | times: 100.0 | divided_by: scholar_story_max_year_citations %}
+            <span class="scholar-story-year-bar" style="--scholar-story-year-ratio: {{ scholar_story_year_ratio }}%;">
+              <strong>{{ scholar_story_year_citations }}</strong>
+              <span aria-hidden="true"></span>
+              <small>{{ year_bucket.year }}</small>
+            </span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <p>
+        The bars retain the separately dated
+        <time datetime="{{ scholar_story_lens.metadata.yearly_snapshot_as_of }}">
+          {{- scholar_story_lens.metadata.yearly_snapshot_as_of | date: '%b %-d, %Y' -}}
+        </time>
+        per-paper snapshot. They are not reconstructed to equal the later lifetime chip.
+      </p>
+    </li>
+  </ol>
+</section>

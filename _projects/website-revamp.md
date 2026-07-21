@@ -49,7 +49,7 @@ research_motion:
         This lens asks what the artifact taught us after use: which traces, failures,
         and reactions should change the next version.
       detail_points:
-        - Show probes and measures without making the page feel like a dashboard.
+        - Show probes and measures in a readable editorial flow.
         - Connect speed with critique and reflection.
         - Keep evaluation close to the thing being evaluated.
       detail_points_label: Evidence loop
@@ -58,10 +58,10 @@ research_motion:
       title: Assist in context
       text: Let assistance change shape around people, tasks, tools, and physical context.
       detail_title: Context changes the shape of help
-      detail_text: This lens keeps the interface grounded in the actual situation where people act, not only in a clean abstract workflow.
+      detail_text: This lens grounds the interface in the actual situation where people act, alongside the abstract workflow.
       detail_points:
         - Draw anchors for people, tasks, tools, and spaces.
-        - Let pointer motion suggest context without snapping.
+        - Let pointer motion suggest context through gentle anchors.
         - Keep assistance calm enough to stay usable.
       detail_points_label: Situations
 ---
@@ -71,7 +71,7 @@ research_motion:
     <p class="project-case-kicker">Personal site redesign · teaching artifact · living system</p>
     <h1>Vibe-Coding a Research Portfolio</h1>
     <p class="project-case-lede">
-      This site did not move from “bad” to “done.” It moved from an archive that made visitors assemble the story, through a research-first redesign, into a living system where each playful experiment has to explain why it exists and show the evidence it can actually support.
+      This site evolved from an archive that made visitors assemble the story, through a research-first redesign, into a living system where each playful experiment explains why it exists and shows the evidence it can support.
     </p>
     <div class="project-case-facts">
       <span>Archive evidence</span>
@@ -105,12 +105,12 @@ research_motion:
 
 ## Archive, redesign, living system
 
-The useful history is not a victory lap from “before” to “after.” Each state answered a different need, and the static frames can only document the moments they actually preserve.
+Each archived state answered a different need, and each frame documents only what it preserved.
 
 <ol class="project-story-beats" aria-label="Website revamp story">
   <li class="project-story-beat">
     <p class="project-case-kicker">Archive</p>
-    <h3>Keep the old page as evidence, not as a straw person.</h3>
+    <h3>Keep the old page as evidence.</h3>
     <p>The <a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Wayback capture from February 9, 2026 at 01:34:29 UTC</a> shows a real older homepage. The 1440 × 1000 PNG entered this repository at <a href="https://github.com/DylanTao/dylantao.github.io/commit/e4f021520f05eba9a21a62366ca52443b801fd97"><code>e4f021520</code></a>; the exact historical site commit that produced the archived page was not preserved.</p>
   </li>
   <li class="project-story-beat">
@@ -152,19 +152,19 @@ The useful history is not a victory lap from “before” to “after.” Each s
   </figure>
   <figure class="project-case-media site-experiment-evidence-figure">
     <img src="{{ '/assets/img/website-revamp/current-home-desktop.png' | relative_url }}" alt="Historical artifact-stage homepage image with a research-first introduction, portrait, paper cards, and desk-like proof artifacts" loading="lazy" width="1440" height="1100">
-    <figcaption><strong>Artifact stage · repository change June 16.</strong> This 1440 × 1100 file last changed at <code>d5c636509</code>; its capture date was not recorded. It documents a historical checkpoint, not the current homepage.</figcaption>
+    <figcaption><strong>Artifact stage · repository change June 16.</strong> This 1440 × 1100 file last changed at <code>d5c636509</code>. It documents a historical checkpoint before the current homepage; its capture date was not recorded.</figcaption>
   </figure>
 </section>
 
 <aside class="project-story-note" aria-labelledby="website-evidence-boundary-title">
   <p class="project-case-kicker">Evidence boundary</p>
-  <h2 id="website-evidence-boundary-title">Two frames can show hierarchy, not prove causality.</h2>
-  <p>The comparison supports a design-history reading: the research claim and proof routes became more prominent. It is not a controlled A/B test, a usability result, or a complete reconstruction of the old site. Source viewport, theme, and interaction state were not recorded for either artifact; the June file's capture date, browser, and device-pixel ratio are also unknown, so this page does not invent them.</p>
+  <h2 id="website-evidence-boundary-title">What the two frames show</h2>
+  <p>The comparison documents a shift toward a clearer research claim and closer proof routes. Missing viewport, theme, interaction, browser, and DPR metadata limit it to design history rather than an A/B or usability result.</p>
 </aside>
 
 ## Taste as a loop
 
-The most useful part of working with Codex was not that it could generate code quickly. It was that speed created more chances to practice judgment. I used Codex with high-reasoning, plan-first implementation loops: make a plan, implement a small pass, inspect screenshots, critique the page from several visitor roles, then simplify.
+Working with Codex made small implementation passes fast enough to create more chances to practice judgment. My loop was plan, implement, inspect screenshots, critique from several visitor roles, then simplify.
 
 That loop is close to Donald Schön's idea in [_The Reflective Practitioner_](https://www.hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner/9780465068784/): the designer acts, sees what the situation says back, and reframes the next move. In this project, the website itself became the material talking back.
 

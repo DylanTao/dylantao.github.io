@@ -1,9 +1,15 @@
 {% assign widget_origin_label = include.label | default: "Want to learn this widget's origin?" %}
+{% assign widget_origin_tooltip = include.tooltip | default: 'How this began' %}
 <a
   class="widget-origin-link{% if include.class %} {{ include.class }}{% endif %}"
   href="{{ include.href | relative_url }}"
   aria-label="{{ widget_origin_label }}"
+  data-affordance="origin"
 >
-  <span class="widget-origin-mark" aria-hidden="true">?</span>
-  <span class="widget-origin-tooltip" aria-hidden="true">{{ widget_origin_label }}</span>
+  <svg class="widget-origin-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path>
+    <path d="M4.5 4.5v4.8h4.8"></path>
+    <path d="M12 8.2V12l2.8 1.8"></path>
+  </svg>
+  <span class="widget-origin-tooltip" aria-hidden="true">{{ widget_origin_tooltip }}</span>
 </a>

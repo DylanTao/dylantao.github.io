@@ -25,10 +25,10 @@ hide_title: true
       CHI said no. UIST said no. A lab meme made that sting funny for a minute; the website version turned the joke into a rejection-only record with badges, nearby receipts, and one rule that matters: the same rejection event never earns points twice.
     </p>
     <div class="project-case-facts">
-      <span>Rejection-only</span>
-      <span>Receipts close by</span>
-      <span>No double counting</span>
-      <span>No leaderboard</span>
+      <span>Rejection receipts</span>
+      <span>Event-based XP</span>
+      <span>Non-additive combos</span>
+      <span>Accepted papers stay primary</span>
     </div>
     <div class="project-case-actions">
       <a href="{{ '/publications/#wall-of-rejection-title' | relative_url }}">Open the wall</a>
@@ -39,7 +39,7 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Wall of Rejection summary">
   <div><span>Why</span><p>Research pages make accepted work easy to see and can accidentally make the failed attempts disappear.</p></div>
-  <div><span>What</span><p>Four selected rejection events become inspectable badges and receipts beside, but never inside, the accepted-paper record.</p></div>
+  <div><span>What</span><p>Four selected rejection events become inspectable badges and receipts beside the accepted-paper record.</p></div>
   <div><span>How</span><p>XP is calculated from events once; shelves, repeated views, and the Double Rejection combo add no extra points.</p></div>
 </section>
 
@@ -47,7 +47,7 @@ hide_title: true
 
 After one first-authored paper was rejected from CHI 2026 and UIST 2026, I made a Steam-style badge meme for labmates. The joke worked because it treated survival—not acceptance—as the achievement. It also exposed a gap in the publication page: the bibliography could show where work landed, but not the trying, revising, and trying again around it.
 
-The website did not need a fake game profile. It needed a small place where selected failures could remain visible without competing with the scholarship. That changed the design question from “How do I reproduce the meme?” to “What is the smallest honest record the joke can carry?”
+The website needed a compact place where selected failures could remain visible beside the scholarship. The new question became: “What is the smallest honest record the joke can carry?”
 
 ## What changed
 
@@ -88,7 +88,7 @@ The website did not need a fake game profile. It needed a small place where sele
     data-evidence-source-viewport="not-applicable"
   >
     <img src="{{ '/assets/img/website-revamp/wall-of-rejection-steam-reference.png' | relative_url }}" alt="Original Steam-style lab meme showing CHI and UIST rejection achievement cards in a fictional HCI researcher profile" loading="lazy" width="1672" height="941">
-    <figcaption><strong>Origin source.</strong> A supplied 1672 × 941 image, added at <code>77b8efbca</code> on May 29. It is a static lab meme, so viewport, theme, and interaction state do not apply. All precise profile statistics inside it are fictional joke copy, not measurements.</figcaption>
+    <figcaption><strong>Origin source.</strong> A supplied 1672 × 941 static lab meme, added at <code>77b8efbca</code> on May 29. Its profile statistics are fictional joke copy.</figcaption>
   </figure>
   <figure
     class="project-case-media site-experiment-evidence-figure"
@@ -135,8 +135,8 @@ The ledger currently contains two first-author paper rejections at 12 XP each, o
 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="wall-boundary-title">
   <p class="project-case-kicker">Publication boundary</p>
-  <h2 id="wall-boundary-title">Selected failures, not a hidden-paper index</h2>
-  <p>The public wall includes only allowlisted rejection events and deliberately brief receipts. It does not publish the rejected paper’s title, draft content, collaborator notes, future venues, or every rejection in Sirui’s history. Accepted work remains in the bibliography, and accepted outcomes earn 0 XP here.</p>
+  <h2 id="wall-boundary-title">A selected public record</h2>
+  <p>The wall contains four allowlisted rejection events with brief receipts. Accepted work remains in the bibliography; rejected titles, drafts, collaborator notes, and future venues stay private.</p>
 </aside>
 
 <details class="project-story-disclosure site-experiment-technical-details">

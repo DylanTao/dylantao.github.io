@@ -133,7 +133,7 @@ pagination:
         <img src="{{ '/assets/img/meme_dog.png' | relative_url }}" alt="">
       </button>
       <span class="sirui-secret-origin" data-sirui-secret-origin hidden>
-        {% include widget_origin_link.liquid href="/projects/dogtor-portal/" label="Want to learn this portal's origin?" %}
+        {% include widget_origin_link.liquid href="/projects/dogtor-portal/" label="Read how this portal began" %}
       </span>
     </h1>
     <h2>{{ site.blog_description }}</h2>

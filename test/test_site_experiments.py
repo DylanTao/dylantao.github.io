@@ -41,6 +41,7 @@ REPRODUCTION_GUIDES = [
     "scholar-lens-reproduction.md",
     "wall-of-rejection-reproduction.md",
     "ikea-project-cards-reproduction.md",
+    "not-a-good-driver-reproduction.md",
 ]
 
 
@@ -119,6 +120,7 @@ class SiteExperimentsTests(unittest.TestCase):
                 card = project_cards[slug]
                 self.assertGreater(len(card["origin_line"]), 30)
                 self.assertEqual(card["icon"], icon)
+                self.assertGreater(len(card["teaser_alt"]), 40)
 
         evolved_projects = set(expected_icons) - {"not-a-good-driver"}
         for slug in evolved_projects:
@@ -132,6 +134,8 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertIn('class="project-card-story-label">Why it began</p>', card_include)
         self.assertIn('{% if project_card_data.evolution_line %}', card_include)
         self.assertIn('class="project-card-story-label">What changed</p>', card_include)
+        self.assertIn("project_card_data.teaser_alt | default: project.title", card_include)
+        self.assertIn("alt=project_teaser_alt", card_include)
 
         icon_include = PROJECT_CARD_ICON_INCLUDE.read_text(encoding="utf-8")
         self.assertIn('viewBox="0 0 24 24"', icon_include)
@@ -144,21 +148,43 @@ class SiteExperimentsTests(unittest.TestCase):
 
     def test_scholar_lens_traces_one_paper_without_merging_citation_clocks(self) -> None:
         source = (PROJECTS_DIR / "scholar-lens.md").read_text(encoding="utf-8")
+        trace = (REPO_ROOT / "_includes" / "scholar_story_trace.liquid").read_text(encoding="utf-8")
         self.assertEqual(source.count('class="project-story-beat"'), 3)
-        self.assertEqual(source.count('class="project-storyboard-step"'), 3)
+        self.assertIn("{% include scholar_story_trace.liquid %}", source)
+        self.assertEqual(trace.count('class="scholar-story-trace-step"'), 3)
         for phrase in (
+            "{% assign scholar_lens_data = site.data.publication_lens %}",
+            "{% assign scholar_designweaver = scholar_lens_data.papers.tao2024designweaver %}",
             "Follow DesignWeaver through the lens",
-            "Bibliography row",
-            "Lifetime citation chip",
-            "Annual bars",
-            "July 16, 2026",
-            "June 17, 2026",
-            "not presented as a reconstruction of the later lifetime total",
-            "Navigation evidence, not an impact score",
+            "scholar_lens_data.metadata.totals_last_synced",
+            "scholar_lens_data.metadata.total_citations",
+            "Navigation context, not an impact score",
+            "does not infer paper quality, author contribution, causality, or reader interest",
+            "does not collect private Scholar history",
             "Technical provenance and exact ledger",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
+        for phrase in (
+            "Current data anatomy",
+            "One key, three cues",
+            "Bibliography row",
+            "Lifetime citation chip",
+            "Annual bars",
+            'data-bibliography-key="tao2024designweaver"',
+            'data-lifetime-sync="{{ scholar_story_lens.metadata.totals_last_synced }}"',
+            'data-lifetime-citations="{{ scholar_story_designweaver.citation_total }}"',
+            'data-all-paper-citations="{{ scholar_story_lens.metadata.total_citations }}"',
+            'data-annual-snapshot="{{ scholar_story_lens.metadata.yearly_snapshot_as_of }}"',
+            "{{ scholar_story_designweaver.citation_total }}",
+            "The bars retain the separately dated",
+            "They are not reconstructed to equal the later lifetime chip",
+        ):
+            with self.subTest(trace_phrase=phrase):
+                self.assertIn(phrase, trace)
+        self.assertNotIn("<strong>38 citations</strong>", source)
+        self.assertNotIn("<strong>38</strong>", trace)
+        self.assertNotIn("records 38 citations; all five listed papers total 227", source)
 
     def test_wall_of_rejection_keeps_events_receipts_and_combo_math_distinct(self) -> None:
         source = (PROJECTS_DIR / "wall-of-rejection.md").read_text(encoding="utf-8")
@@ -176,8 +202,10 @@ class SiteExperimentsTests(unittest.TestCase):
             "38 XP from four events",
             "contributes <strong>0 XP</strong>",
             "same rejection event never earns points twice",
-            "fictional joke copy, not measurements",
-            "Selected failures, not a hidden-paper index",
+            "profile statistics are fictional joke copy",
+            "A selected public record",
+            "four allowlisted rejection events",
+            "Accepted work remains in the bibliography",
             "/projects/hci-spooder-man/",
         ):
             with self.subTest(phrase=phrase):
@@ -195,7 +223,7 @@ class SiteExperimentsTests(unittest.TestCase):
             "The first FLIP",
             "More signals, then less motion",
             "One cancelable clock",
-            "No invented historical pixels",
+            "Current anatomy, exact source history",
             'data-evidence-kind="annotated-current-state-anatomy"',
             'data-runtime-contract="9fa9403e4"',
             "static, reduced-motion-safe anatomy",
@@ -209,13 +237,15 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_dogtor_story_explains_recovery_without_publishing_the_destination(self) -> None:
         source = (PROJECTS_DIR / "dogtor-portal.md").read_text(encoding="utf-8")
         self.assertEqual(source.count('class="project-storyboard-step"'), 4)
+        self.assertEqual(source.count('class="dogtor-story-icon"'), 4)
         for phrase in (
             "Notice the clue",
             "Choose a fruit",
             "Recover cleanly",
             "Ask before precision",
-            "What stays private",
-            "The story explains the contract, not the destination",
+            "Public boundary",
+            "Where the public story stops",
+            "Destination, access details, private writing, visitor records, and precise location remain outside the page",
             'data-artifact-type="public-clue-art"',
             'data-artifact-sha256="11b59deb8de4fa08fe8b0485d6703813adeeef032c13f25ab741cbee55e11741"',
             "Exact source-commit links stay out of this public case study",
@@ -272,7 +302,8 @@ class SiteExperimentsTests(unittest.TestCase):
         styles = STORY_COMPONENTS.read_text(encoding="utf-8")
         self.assertEqual(source.count('class="project-story-beat"'), 3)
         self.assertIn('data-spooder-artwork-boundary="remix-material-not-history"', source)
-        self.assertIn("These frames are remix material, not documentary history", source)
+        self.assertIn("Remix frames with a documented origin", source)
+        self.assertIn("The factual chronology lives in the origin beats above", source)
         self.assertIn("Remix provenance and technical record", source)
         self.assertIn("Playful HCI Spooder-Man remix artwork from a set of city scenes, character lineups, and title cards", source)
         self.assertGreaterEqual(source.count("/projects/wall-of-rejection/"), 2)
@@ -295,12 +326,23 @@ class SiteExperimentsTests(unittest.TestCase):
             'data-driver-teaser-kind="illustrative-concept-art"',
             'data-driver-runtime-capture="not-preserved"',
             'data-driver-historical-comparison="not-supported"',
-            "The teaser is concept art, not a runtime screenshot",
-            "no honest before-and-after comparison",
+            'data-evidence-kind="conceptual-role-and-sightline-anatomy"',
+            "What the surviving evidence supports",
+            "The teaser is illustrative concept art",
+            "the role story describes design intent rather than observed player behavior",
+            "Design the view around the roles",
+            "not-a-good-driver-reproduction.md",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
         self.assertNotIn("## What changed", source)
+
+    def test_paper_constellation_case_hero_uses_the_mobile_trail_on_phones(self) -> None:
+        source = (PROJECTS_DIR / "paper-constellation.md").read_text(encoding="utf-8")
+        self.assertIn('class="project-case-media site-experiment-evidence-figure paper-constellation-case-hero-media"', source)
+        self.assertIn('media="(max-width: 520px)"', source)
+        self.assertEqual(source.count("paper-constellation-mobile-trail-390-light-2026-07-16.png"), 2)
+        self.assertIn("purpose-built chronological trail on a narrow phone", source)
 
     def test_reproduction_guides_and_case_study_routes_exist(self) -> None:
         for filename in REPRODUCTION_GUIDES:
@@ -325,23 +367,26 @@ class SiteExperimentsTests(unittest.TestCase):
         source = (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8")
         self.assertNotIn("What the page protects", source)
         self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertEqual(source.count("<span>Why</span>"), 1)
+        self.assertEqual(source.count("<span>What</span>"), 1)
+        self.assertEqual(source.count("<span>How</span>"), 1)
         for phrase in (
-            "Why this page had to change",
             "How to read the rhythm",
             "GitHub cadence",
             "Site-token rhythm",
             "Lifetime checkpoint",
-            "What stays private",
-            "A pacing lesson, not a borrowed style",
+            "Source histories and session-level details stay private",
+            "The lesson I carried over was pacing",
             "Full technical revision record",
-            "annotated anatomy of the accepted current state",
-            "its data still belongs in the public boundary",
-            "I keep that capture out of the case study",
+            "source-level daily history retired from the public dataset",
+            "it documents interface anatomy",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
         self.assertIn('class="project-story-disclosure"', source)
         self.assertEqual(source.count('class="site-experiment-ledger"'), 1)
+        self.assertLess(source.index('aria-label="Build Rhythm summary"'), source.index('class="project-story-beats"'))
+        self.assertLess(source.index('class="project-story-beats"'), source.index('class="project-story-disclosure"'))
         for commit in ("b4203f3ea", "71b8f4c89", "ed0d3ba40", "d3f13be35", "1b07cea4c", "6b4b7bd59", "7e224db12", "6edea07f4"):
             with self.subTest(commit=commit):
                 self.assertIn(commit, source)
@@ -355,10 +400,13 @@ class SiteExperimentsTests(unittest.TestCase):
         source = (PROJECTS_DIR / "paper-constellation.md").read_text(encoding="utf-8")
         self.assertNotIn("stacked thread lists", source)
         self.assertEqual(source.count('class="project-story-beat"'), 3)
-        self.assertIn("A map for relationships, not credentials", source)
+        self.assertIn("Three recurring research threads", source)
         self.assertIn("DesignWeaver to What Happened and Why", source)
         self.assertIn("chronological vertical thread trail", source)
-        self.assertIn("technical graphics adjacency, not an interaction-study claim", source)
+        self.assertIn("These are reading aids, not rankings", source)
+        self.assertIn("not evidence that one paper caused the other", source)
+        self.assertIn("D3 force-directed SVG implementation", source)
+        self.assertIn("graphics adjacency rather than an interaction-study claim", source)
         self.assertIn('class="project-story-comparison paper-constellation-evidence-pair"', source)
         self.assertIn('class="project-story-note project-story-note--privacy', source)
         self.assertIn('class="project-story-disclosure', source)
@@ -465,7 +513,8 @@ class SiteExperimentsTests(unittest.TestCase):
             'data-capture-viewport="not-retained"',
             'data-capture-theme="not-retained"',
             'data-capture-interaction-state="not-retained"',
-            "interface anatomy rather than live totals or an exact historical replay",
+            "Annotated site-token chapter",
+            "it documents interface anatomy",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
@@ -532,7 +581,8 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertIn('class="project-story-comparison desk-scene-evidence-pair"', case_study)
         self.assertIn('class="project-story-disclosure site-experiment-technical-details"', case_study)
         self.assertIn("exact-commit replay", case_study)
-        self.assertIn("provenance labels. They are not causal performance claims", case_study)
+        self.assertIn("record the model context for each era", case_study)
+        self.assertIn("rather than isolated model performance", case_study)
         for phrase in (
             'data-evidence-kind="historical-runtime-capture"',
             'data-evidence-archive-commit="588e365090e883323d836f5da023f7d40632f096"',
@@ -575,6 +625,8 @@ class SiteExperimentsTests(unittest.TestCase):
             with self.subTest(relative_path=relative_path):
                 source = (REPO_ROOT / relative_path).read_text(encoding="utf-8")
                 self.assertIn(route, source)
+                self.assertIn("{% include widget_origin_link.liquid", source)
+                self.assertNotRegex(source, r'<span[^>]+widget-origin-mark[^>]*>\s*\?\s*</span>')
 
         dog_script = (REPO_ROOT / "assets" / "js" / "blog-secret.js").read_text(encoding="utf-8")
         self.assertIn("hasDiscoveredPortal", dog_script)

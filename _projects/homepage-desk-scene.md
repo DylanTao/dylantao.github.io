@@ -63,7 +63,7 @@ The first 3D mode extended the existing paper-and-record desk without replacing 
 
 ## Two eras, four frames
 
-These are repository evidence frames, not a controlled model benchmark. Across the two eras, the route, 1440 × 1000 viewport, light theme, stopped Yellow Submarine, zero discoveries, and capture sequence are held in common. Each pair came from one fresh browser context: 2D first, then 3D after changing only the representation. The June pair is a fresh replay of its exact source commit; the July pair is the accepted current checkpoint.
+This 2×2 grid documents two repository eras under one capture rubric: the same route, 1440 × 1000 viewport, light theme, stopped Yellow Submarine, zero discoveries, and capture sequence. Each pair came from one fresh browser context: 2D first, then 3D after changing only the representation. The June pair replays its exact source commit; the July pair records the accepted checkpoint.
 
 <div class="project-story-comparison desk-scene-evidence-pair" aria-label="Homepage desk evidence checkpoints">
 <section
@@ -86,7 +86,7 @@ These are repository evidence frames, not a controlled model benchmark. Across t
     <p class="project-case-kicker">GPT-5.5 / xhigh provenance</p>
     <h3 id="desk-comparison-june-title">June 21 exact-commit replay</h3>
     <p class="project-story-provenance">Source <code>588e36509</code> · captured July 16</p>
-    <p>Both frames come from one fresh replay with Yellow Submarine stopped and the discovery pile empty. The model label records provenance; it does not explain the outcome.</p>
+    <p>Both frames come from one fresh replay with Yellow Submarine stopped and the discovery pile empty.</p>
   </header>
   <div class="project-case-evidence-pair">
     <figure class="project-case-media site-experiment-evidence-figure" data-desk-evidence-mode="2d">
@@ -134,14 +134,14 @@ These are repository evidence frames, not a controlled model benchmark. Across t
 </section>
 </div>
 
-The labels identify provenance, not cause. Prompt, retained context, task scope, implementation history, and human critique changed too. The visual record supports a design-history comparison; it does not isolate model performance. The playful “Codex 5.5 tried its best” sentence visible inside the old 3D frame belongs to that historical interface; this page does not treat it as benchmark evidence.
+Model, prompt, retained context, task scope, implementation history, and human critique all changed between eras. The comparison documents design history rather than isolated model performance. “Codex 5.5 tried its best” remains visible because it belonged to that historical interface.
 
 ## What survived the re-review
 
 <section class="project-case-summary desk-scene-outcomes" aria-label="Desk scene decisions after re-review">
   <div><span>Kept</span><p>The visible 2D | 3D choice, shared record and discovery state, paper-and-record identity, and deliberate window and return controls.</p></div>
-  <div><span>Did not survive</span><p>The shallow stage, a separately hand-matched exterior miniature, floating-card recovery, and framing that hid furniture at ordinary viewports.</p></div>
-  <div><span>Still open</span><p>Material realism, warmer low-contrast stone variation, and real-device confidence remain headroom. The accepted topology does not need another rewrite.</p></div>
+  <div><span>Reverted</span><p>The shallow stage, a separately hand-matched exterior miniature, floating-card recovery, and framing that hid furniture at ordinary viewports.</p></div>
+  <div><span>Still open</span><p>The accepted topology stays; material realism, warmer low-contrast stone variation, and real-device confidence remain headroom.</p></div>
 </section>
 
 <details class="project-story-disclosure site-experiment-technical-details">
@@ -152,23 +152,23 @@ The labels identify provenance, not cause. Prompt, retained context, task scope,
       <li><strong>Common rubric:</strong> homepage route, 1440 × 1000 viewport, light theme, and default 2D or 3D view.</li>
       <li><strong>June replay:</strong> exact source <code>588e36509</code>, one fresh Chromium 145 context, Yellow Submarine stopped, zero discoveries, 2D then mode switch only, device-pixel ratio 1, no console or page errors.</li>
       <li><strong>July detail:</strong> runtime source <code>8fc9bf7d3</code> carried Yellow Submarine stopped, zero discoveries, a simulated device-pixel ratio of 3, and a WebGL buffer capped near 2×. The reciprocal architecture was accepted in <code>1b07cea4c</code>.</li>
-      <li><strong>Interpretation:</strong> GPT-5.5/xhigh and GPT-5.6 Sol/ultra are provenance labels. They are not causal performance claims.</li>
+      <li><strong>Interpretation:</strong> GPT-5.5/xhigh and GPT-5.6 Sol/ultra record the model context for each era; the comparison evaluates the resulting design history.</li>
     </ul>
     <ol class="site-experiment-ledger" aria-label="Homepage desk model iteration record">
       <li><time datetime="2026-06-17">Jun 17</time><code>c8ed8e5da</code><span>Added the visible 2D | 3D switch and the first Three.js desk room during the GPT-5.5/xhigh provenance period.</span></li>
-      <li><time datetime="2026-06-21">Jun 21</time><code>588e36509</code><span>Created an artifact/evidence checkpoint with 2D, room, outside, zoom, and album-state captures. It records what existed; it is not a controlled model benchmark.</span></li>
+      <li><time datetime="2026-06-21">Jun 21</time><code>588e36509</code><span>Created an artifact/evidence checkpoint with 2D, room, outside, zoom, and album-state captures.</span></li>
       <li><time datetime="2026-07-12">Jul 12</time><code>840a3e1cb</code><span>During the GPT-5.6 Sol/ultra provenance period, rebuilt anchors, rear-orbit clearance, compact framing, raycasts, and grounded card recovery.</span></li>
       <li><time datetime="2026-07-13">Jul 13</time><code>a765c5291</code><span>Replaced the hand-matched exterior miniature with the actual room graph under reciprocal cameras.</span></li>
-      <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Accepted the organic room shell, high cliff aperture, welcome and window cues, and live-geometry/raycast evidence across the full matrix. Material realism remains open headroom; the topology does not need another rewrite.</span></li>
-      <li><time datetime="2026-07-14">Jul 14</time><code>2ffd379af</code><span>Constrained window-hit bounds, canvas click suppression, and deterministic reset tests without claiming another visual-model advance.</span></li>
+      <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Accepted the organic room shell, high cliff aperture, welcome and window cues, and live-geometry/raycast evidence across the full matrix. Material realism remains open headroom.</span></li>
+      <li><time datetime="2026-07-14">Jul 14</time><code>2ffd379af</code><span>Stabilized window-hit bounds, canvas click suppression, and deterministic reset tests after visual acceptance.</span></li>
     </ol>
   </div>
 </details>
 
 <aside class="site-experiment-reproduce" aria-labelledby="desk-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="desk-reproduce-title">Start with state continuity, not geometry.</h2>
-  <p>The public brief explains the shared-state contract, lightweight scene direction, recovery paths, and screenshot matrix without asking another site to copy this room.</p>
+  <h2 id="desk-reproduce-title">Start with state continuity before geometry.</h2>
+  <p>The public brief explains the shared-state contract, lightweight scene direction, recovery paths, and screenshot matrix so another site can build its own room.</p>
   <a href="{{ '/assets/downloads/site-experiments/homepage-desk-scene-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 

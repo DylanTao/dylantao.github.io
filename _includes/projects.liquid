@@ -82,7 +82,8 @@
         </picture>
       </figure>
     {% elsif page.project_cards_interactive %}
-      {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project.title class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
+      {% assign project_teaser_alt = project_card_data.teaser_alt | default: project.title %}
+      {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project_teaser_alt class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
     {% else %}
       {% include figure.liquid loading="eager" path=project.img sizes="250px" alt="project thumbnail" class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
     {% endif %}
