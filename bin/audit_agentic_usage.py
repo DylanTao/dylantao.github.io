@@ -12,9 +12,12 @@ import argparse
 import copy
 import json
 import os
+import re
+import shutil
 import subprocess
 import sys
 from collections import defaultdict
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -55,7 +58,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 40
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 41
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4745,6 +4748,43 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V40_TURN_IDS = tuple(
 del _turn_id, _timestamp, _leaf_session, _spawn_task, _runtime_cwd, _first_scoped_response_at
 
 
+MODEL_DEVIATION_ACKNOWLEDGMENT_V41_PROFILE_REVIEW_TURN = (
+    "019f86b0-7be1-7983-9d61-08b3d44b5817",
+    "2026-07-21T21:59:01.852Z",
+    "019f86b0-4a32-7352-b56a-be25a02ba65a",
+    "/root/profile_metrics_review",
+    r"D:\dev\dylantao.github.io",
+    "2026-07-21T21:59:07.122Z",
+)
+
+(
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) = MODEL_DEVIATION_ACKNOWLEDGMENT_V41_PROFILE_REVIEW_TURN
+MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+    "timestamp": _timestamp,
+    "model": "gpt-5.6-terra",
+    "effort": "high",
+    "acknowledged_at": "2026-07-21",
+    "reason": (
+        "A delegated read-only profile-metrics review subagent used gpt-5.6-terra/high "
+        "while inspecting separate profile worktrees; it did not perform site development "
+        "or change the site's declared default."
+    ),
+    "provenance": (
+        f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime cwd "
+        f"{_runtime_cwd}, and first scoped assistant response at {_first_scoped_response_at}; "
+        "audited 2026-07-21."
+    ),
+}
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at
+
+
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
 WH_PER_TOKEN_HIGH = 0.002
@@ -5007,179 +5047,501 @@ def sessions_root_from_args(value: str | None) -> Path:
     return Path.home() / ".codex" / "sessions"
 
 
-def scan_sessions(root: Path, repo_needle: str | None) -> dict[str, SessionRecord]:
-    """Read every retained year and keep the first session_meta as leaf identity."""
+SESSION_RECORD_MARKERS = (
+    '"type":"session_meta"',
+    '"type": "session_meta"',
+    '"type":"turn_context"',
+    '"type": "turn_context"',
+    '"type":"token_count"',
+    '"type": "token_count"',
+)
+TOKEN_COUNT_MARKERS = ('"type":"token_count"', '"type": "token_count"')
+TOKEN_USAGE_OBJECT_SOURCE = (
+    r'\{\s*"input_tokens"\s*:\s*(\d+)\s*,'
+    r'\s*"cached_input_tokens"\s*:\s*(\d+)\s*,'
+    r'(?:\s*"cache_write_input_tokens"\s*:\s*\d+\s*,)?'
+    r'\s*"output_tokens"\s*:\s*(\d+)\s*,'
+    r'\s*"reasoning_output_tokens"\s*:\s*(\d+)\s*,'
+    r'\s*"total_tokens"\s*:\s*(\d+)\s*\}'
+)
+TOKEN_MODERN_SNAPSHOT_PATTERN = re.compile(
+    r'^\s*\{\s*"timestamp"\s*:\s*"([^"]+)"\s*,'
+    r'\s*"type"\s*:\s*"event_msg"\s*,'
+    r'\s*"payload"\s*:\s*\{\s*"type"\s*:\s*"token_count"'
+    r'\s*,\s*"info"\s*:\s*\{'
+    r'\s*"total_token_usage"\s*:\s*'
+    + TOKEN_USAGE_OBJECT_SOURCE
+    + r'\s*,\s*"last_token_usage"\s*:\s*'
+    + TOKEN_USAGE_OBJECT_SOURCE
+)
 
-    sessions: dict[str, SessionRecord] = {}
-    compacted_modern_events: dict[tuple[str, tuple[int, ...]], TokenEvent] = {}
-    if not root.exists():
-        return sessions
+
+def usage_from_signature(signature: tuple[int, ...]) -> dict[str, int]:
+    return dict(zip(TOKEN_USAGE_FIELDS, signature))
+
+
+def parse_token_snapshot(
+    line: str,
+) -> tuple[datetime, tuple[int, ...], tuple[int, ...] | None] | None:
+    """Parse the stable token-count shape quickly, with an exact JSON fallback."""
+
+    modern_match = TOKEN_MODERN_SNAPSHOT_PATTERN.match(line)
+    if modern_match is not None:
+        timestamp = parse_timestamp(modern_match.group(1))
+        if timestamp is not None:
+            values = tuple(map(int, modern_match.groups()[1:]))
+            total_usage = values[:5]
+            last_usage = values[5:]
+            if total_usage[-1] <= 0:
+                return None
+            return timestamp, total_usage, last_usage if last_usage[-1] > 0 else None
+
+    try:
+        event = json.loads(line)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(event, dict) or event.get("type") != "event_msg":
+        return None
+    payload = event.get("payload") or {}
+    if not isinstance(payload, dict) or payload.get("type") != "token_count":
+        return None
+    timestamp = parse_timestamp(event.get("timestamp"))
+    info = payload.get("info") or {}
+    if timestamp is None or not isinstance(info, dict):
+        return None
+    total_usage = usage_signature(normalized_usage(info.get("total_token_usage")))
+    if total_usage[-1] <= 0:
+        return None
+    raw_last_usage = info.get("last_token_usage")
+    last_usage = (
+        usage_signature(normalized_usage(raw_last_usage))
+        if isinstance(raw_last_usage, dict)
+        else None
+    )
+    if last_usage is not None and last_usage[-1] <= 0:
+        last_usage = None
+    return timestamp, total_usage, last_usage
+
+
+@dataclass(frozen=True, slots=True)
+class ScannedTokenEvent:
+    timestamp: datetime
+    leaf_session_id: str
+    turn_id: str | None
+    model: str
+    effort: str
+    total_usage: tuple[int, ...]
+    last_usage: tuple[int, ...] | None
+    path: Path
+    ordinal: int
+
+
+def materialize_token_event(event: ScannedTokenEvent) -> TokenEvent:
+    return TokenEvent(
+        timestamp=event.timestamp,
+        leaf_session_id=event.leaf_session_id,
+        turn_id=event.turn_id,
+        model=event.model,
+        effort=event.effort,
+        total_usage=usage_from_signature(event.total_usage),
+        last_usage=(
+            usage_from_signature(event.last_usage) if event.last_usage is not None else None
+        ),
+        path=event.path,
+        ordinal=event.ordinal,
+    )
+
+
+@dataclass
+class SessionFileState:
+    path: Path
+    leaf_id: str | None = None
+    leaf_cwd: str = ""
+    leaf_started_at: datetime | None = None
+    leaf_forked_from_id: str | None = None
+    seen_turn_context: bool = False
+    fork_preamble_events_skipped: int = 0
+    contexts: list[TurnContextRecord] = field(default_factory=list)
+    token_events: list[ScannedTokenEvent] = field(default_factory=list)
+    current_turn_id: str | None = None
+    current_model: str = "unknown"
+    current_effort: str = "unknown"
+
+
+def iter_python_session_records(root: Path) -> Iterable[tuple[Path, int, str]]:
+    """Yield only audit-relevant JSONL records using the portable fallback."""
 
     for path in sorted(root.rglob("*.jsonl")):
-        leaf_id: str | None = None
-        leaf_cwd = ""
-        leaf_started_at: datetime | None = None
-        leaf_forked_from_id: str | None = None
-        seen_turn_context = False
-        fork_preamble_events_skipped = 0
-        contexts: list[TurnContextRecord] = []
-        token_events: list[TokenEvent] = []
-        current_turn_id: str | None = None
-        current_model = "unknown"
-        current_effort = "unknown"
-
         try:
             with path.open("r", encoding="utf-8") as handle:
                 for ordinal, line in enumerate(handle):
                     line = line.strip()
-                    if not line:
-                        continue
-                    # JSONL response items can contain entire prompts and tool
-                    # outputs. The top-level type appears near the beginning,
-                    # so avoid decoding large irrelevant records.
-                    prefix = line[:256]
-                    # Most JSONL lines are messages or tool payloads and can be
-                    # very large. Parse only the three record shapes used by
-                    # this audit; looking for the generic event_msg wrapper
-                    # made the publish hook needlessly reparse every message.
-                    if not any(
-                        marker in prefix
-                        for marker in (
-                            '"type":"session_meta"',
-                            '"type": "session_meta"',
-                            '"type":"turn_context"',
-                            '"type": "turn_context"',
-                            '"type":"token_count"',
-                            '"type": "token_count"',
-                        )
-                    ):
-                        continue
-                    try:
-                        event = json.loads(line)
-                    except json.JSONDecodeError:
-                        continue
-
-                    timestamp = parse_timestamp(event.get("timestamp"))
-                    event_type = event.get("type")
-                    payload = event.get("payload") or {}
-
-                    if event_type == "session_meta" and leaf_id is None:
-                        candidate_id = payload.get("id")
-                        leaf_id = str(candidate_id) if candidate_id else str(path)
-                        leaf_cwd = str(payload.get("cwd") or "")
-                        leaf_started_at = timestamp
-                        if repo_needle and repo_needle.lower() not in leaf_cwd.lower():
-                            # The first session_meta is the canonical leaf
-                            # identity, so a scoped audit can reject this file
-                            # without parsing its potentially large payloads.
-                            break
-                        forked_from_id = payload.get("forked_from_id")
-                        source = payload.get("source")
-                        source_parent_id = None
-                        if isinstance(source, dict):
-                            subagent = source.get("subagent")
-                            if isinstance(subagent, dict):
-                                thread_spawn = subagent.get("thread_spawn")
-                                if isinstance(thread_spawn, dict):
-                                    source_parent_id = thread_spawn.get("parent_thread_id")
-                        parent_id = forked_from_id or source_parent_id
-                        leaf_forked_from_id = str(parent_id) if parent_id else None
-                        continue
-
-                    if leaf_id is None or timestamp is None:
-                        continue
-
-                    if event_type == "turn_context":
-                        turn_id = str(payload.get("turn_id") or "").strip()
-                        if not turn_id:
-                            continue
-                        current_turn_id = turn_id
-                        current_model = str(payload.get("model") or "unknown")
-                        current_effort = str(payload.get("effort") or "unknown")
-                        seen_turn_context = True
-                        contexts.append(
-                            TurnContextRecord(
-                                timestamp=timestamp,
-                                leaf_session_id=leaf_id,
-                                turn_id=turn_id,
-                                model=current_model,
-                                effort=current_effort,
-                                path=path,
-                                ordinal=ordinal,
-                            )
-                        )
-                        continue
-
-                    if event_type != "event_msg" or payload.get("type") != "token_count":
-                        continue
-                    info = payload.get("info") or {}
-                    total_usage = normalized_usage(info.get("total_token_usage"))
-                    if total_usage["total_tokens"] <= 0:
-                        continue
-                    # Some explicit forks replay cumulative parent token events
-                    # immediately after leaf metadata but omit the copied parent
-                    # turn_context. Those events are ancestry, not unknown child
-                    # usage. The first leaf context marks the end of the replay.
-                    if leaf_forked_from_id and not seen_turn_context:
-                        fork_preamble_events_skipped += 1
-                        continue
-                    raw_last_usage = info.get("last_token_usage")
-                    last_usage = normalized_usage(raw_last_usage) if isinstance(raw_last_usage, dict) else None
-                    if last_usage is not None and last_usage["total_tokens"] <= 0:
-                        last_usage = None
-                    token_events.append(
-                        TokenEvent(
-                            timestamp=timestamp,
-                            leaf_session_id=leaf_id,
-                            turn_id=current_turn_id,
-                            model=current_model,
-                            effort=current_effort,
-                            total_usage=total_usage,
-                            last_usage=last_usage,
-                            path=path,
-                            ordinal=ordinal,
-                        )
-                    )
+                    if line and any(marker in line[:256] for marker in SESSION_RECORD_MARKERS):
+                        yield path, ordinal, line
         except OSError as error:
             print(f"warning: could not read {path}: {error}", file=sys.stderr)
+
+
+def iter_rg_session_records(root: Path) -> Iterable[tuple[Path, int, str]]:
+    """Let ripgrep discard large message/tool records before Python sees them."""
+
+    command = [
+        "rg",
+        "--fixed-strings",
+        "--with-filename",
+        "--null",
+        "--line-number",
+        "--sort=path",
+        "--no-messages",
+        "--color=never",
+        "--glob=*.jsonl",
+    ]
+    for marker in SESSION_RECORD_MARKERS:
+        command.extend(("-e", marker))
+    command.append(str(root))
+
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    try:
+        if process.stdout is None:
+            raise RuntimeError("ripgrep session scan did not provide stdout")
+        previous_path_bytes: bytes | None = None
+        previous_path: Path | None = None
+        for raw_result in process.stdout:
+            raw_result = raw_result.rstrip(b"\r\n")
+            path_bytes, separator, numbered_line = raw_result.partition(b"\0")
+            line_number_bytes, number_separator, line_bytes = numbered_line.partition(b":")
+            if not separator or not number_separator:
+                continue
+            try:
+                ordinal = max(0, int(line_number_bytes) - 1)
+            except ValueError:
+                continue
+            if path_bytes != previous_path_bytes:
+                previous_path_bytes = path_bytes
+                previous_path = Path(os.fsdecode(path_bytes))
+            if previous_path is None:
+                continue
+            line = line_bytes.decode("utf-8", errors="replace")
+            if line:
+                yield previous_path, ordinal, line
+
+        return_code = process.wait()
+        if return_code not in (0, 1):
+            raise RuntimeError(f"ripgrep session scan exited with status {return_code}")
+    finally:
+        if process.stdout is not None:
+            process.stdout.close()
+        if process.poll() is None:
+            process.kill()
+            process.wait()
+
+
+def merge_scanned_session(
+    sessions: dict[str, SessionRecord],
+    compacted_modern_events: dict[tuple[str, tuple[int, ...]], ScannedTokenEvent],
+    state: SessionFileState,
+) -> None:
+    """Merge one file while retaining mixed modern/legacy path baselines."""
+
+    if state.leaf_id is None:
+        return
+    record = sessions.setdefault(
+        state.leaf_id,
+        SessionRecord(session_id=state.leaf_id, cwd=state.leaf_cwd),
+    )
+    record.paths.add(state.path)
+    if state.leaf_started_at and (
+        record.started_at is None or state.leaf_started_at < record.started_at
+    ):
+        record.started_at = state.leaf_started_at
+    record.contexts.extend(state.contexts)
+    record.fork_preamble_events_skipped += state.fork_preamble_events_skipped
+
+    # A modern snapshot can establish the preceding cumulative baseline for a
+    # later legacy event in the same file. Preserve the whole mixed path and
+    # let prepare_usage_dataset perform its ordered cross-file deduplication.
+    if any(event.last_usage is None for event in state.token_events):
+        record.token_events.extend(materialize_token_event(event) for event in state.token_events)
+        return
+
+    for event in state.token_events:
+        identity = event.turn_id or "__legacy_without_turn_id__"
+        dedupe_key = (identity, event.total_usage)
+        previous = compacted_modern_events.get(dedupe_key)
+        if previous is not None:
+            record.snapshots_compacted_during_scan += 1
+        event_order = (event.timestamp, str(event.path), event.ordinal)
+        if previous is None or event_order < (
+            previous.timestamp,
+            str(previous.path),
+            previous.ordinal,
+        ):
+            compacted_modern_events[dedupe_key] = event
+
+
+def scan_session_record_stream(
+    records: Iterable[tuple[Path, int, str]],
+    repo_needle: str,
+) -> tuple[dict[str, SessionRecord], dict[str, SessionRecord]]:
+    """Build all-local and repo-local scopes from one ordered record stream."""
+
+    all_sessions: dict[str, SessionRecord] = {}
+    repo_sessions: dict[str, SessionRecord] = {}
+    all_modern_events: dict[tuple[str, tuple[int, ...]], ScannedTokenEvent] = {}
+    repo_modern_events: dict[tuple[str, tuple[int, ...]], ScannedTokenEvent] = {}
+    needle = repo_needle.lower()
+    state: SessionFileState | None = None
+
+    def flush_state() -> None:
+        nonlocal state
+        if state is None or state.leaf_id is None:
+            state = None
+            return
+        merge_scanned_session(all_sessions, all_modern_events, state)
+        if needle in state.leaf_cwd.lower():
+            merge_scanned_session(repo_sessions, repo_modern_events, state)
+        state = None
+
+    for path, ordinal, line in records:
+        if state is None or path != state.path:
+            flush_state()
+            state = SessionFileState(path=path)
+
+        prefix = line[:256]
+        is_token_record = (
+            TOKEN_COUNT_MARKERS[0] in prefix or TOKEN_COUNT_MARKERS[1] in prefix
+        )
+        if not is_token_record and not any(
+            marker in prefix for marker in SESSION_RECORD_MARKERS[:4]
+        ):
+            continue
+        if is_token_record:
+            token_snapshot = parse_token_snapshot(line)
+            if token_snapshot is None:
+                continue
+            timestamp, total_usage, last_usage = token_snapshot
+            event_type = "token_count"
+            payload: dict[str, Any] = {}
+        else:
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(event, dict):
+                continue
+            timestamp = parse_timestamp(event.get("timestamp"))
+            event_type = str(event.get("type") or "")
+            raw_payload = event.get("payload") or {}
+            if not isinstance(raw_payload, dict):
+                continue
+            payload = raw_payload
+
+        if event_type == "session_meta" and state.leaf_id is None:
+            candidate_id = payload.get("id")
+            state.leaf_id = str(candidate_id) if candidate_id else str(path)
+            state.leaf_cwd = str(payload.get("cwd") or "")
+            state.leaf_started_at = timestamp
+            forked_from_id = payload.get("forked_from_id")
+            source = payload.get("source")
+            source_parent_id = None
+            if isinstance(source, dict):
+                subagent = source.get("subagent")
+                if isinstance(subagent, dict):
+                    thread_spawn = subagent.get("thread_spawn")
+                    if isinstance(thread_spawn, dict):
+                        source_parent_id = thread_spawn.get("parent_thread_id")
+            parent_id = forked_from_id or source_parent_id
+            state.leaf_forked_from_id = str(parent_id) if parent_id else None
             continue
 
-        if leaf_id is None or (repo_needle and repo_needle.lower() not in leaf_cwd.lower()):
+        if state.leaf_id is None or timestamp is None:
             continue
 
-        record = sessions.setdefault(leaf_id, SessionRecord(session_id=leaf_id, cwd=leaf_cwd))
-        record.paths.add(path)
-        if leaf_started_at and (record.started_at is None or leaf_started_at < record.started_at):
-            record.started_at = leaf_started_at
-        record.contexts.extend(contexts)
-        record.fork_preamble_events_skipped += fork_preamble_events_skipped
-
-        # Legacy cumulative events depend on their preceding per-path baseline,
-        # so mixed files must reach prepare_usage_dataset intact. Pure-modern
-        # files can safely compact exact cumulative snapshots before the much
-        # larger cross-file accounting pass.
-        if any(event.last_usage is None for event in token_events):
-            record.token_events.extend(token_events)
+        if event_type == "turn_context":
+            turn_id = str(payload.get("turn_id") or "").strip()
+            if not turn_id:
+                continue
+            state.current_turn_id = turn_id
+            state.current_model = str(payload.get("model") or "unknown")
+            state.current_effort = str(payload.get("effort") or "unknown")
+            state.seen_turn_context = True
+            state.contexts.append(
+                TurnContextRecord(
+                    timestamp=timestamp,
+                    leaf_session_id=state.leaf_id,
+                    turn_id=turn_id,
+                    model=state.current_model,
+                    effort=state.current_effort,
+                    path=path,
+                    ordinal=ordinal,
+                )
+            )
             continue
 
-        for event in token_events:
-            identity = event.turn_id or "__legacy_without_turn_id__"
-            dedupe_key = (identity, usage_signature(event.total_usage))
-            previous = compacted_modern_events.get(dedupe_key)
-            if previous is not None:
-                record.snapshots_compacted_during_scan += 1
-            event_order = (event.timestamp, str(event.path), event.ordinal)
-            if previous is None or event_order < (
-                previous.timestamp,
-                str(previous.path),
-                previous.ordinal,
-            ):
-                compacted_modern_events[dedupe_key] = event
+        if event_type != "token_count":
+            continue
+        # Explicit forks may replay parent snapshots before the first leaf
+        # context. They remain ancestry even on the fast token parser path.
+        if state.leaf_forked_from_id and not state.seen_turn_context:
+            state.fork_preamble_events_skipped += 1
+            continue
+        state.token_events.append(
+            ScannedTokenEvent(
+                timestamp=timestamp,
+                leaf_session_id=state.leaf_id,
+                turn_id=state.current_turn_id,
+                model=state.current_model,
+                effort=state.current_effort,
+                total_usage=total_usage,
+                last_usage=last_usage,
+                path=path,
+                ordinal=ordinal,
+            )
+        )
 
-    for event in compacted_modern_events.values():
-        sessions[event.leaf_session_id].token_events.append(event)
+    flush_state()
+    for sessions, compacted_events in (
+        (all_sessions, all_modern_events),
+        (repo_sessions, repo_modern_events),
+    ):
+        for event in compacted_events.values():
+            sessions[event.leaf_session_id].token_events.append(materialize_token_event(event))
+    return all_sessions, repo_sessions
 
-    return sessions
+
+PARALLEL_SCAN_MIN_BYTES = 512 * 1024 * 1024
+PARALLEL_SCAN_MAX_WORKERS = 6
+
+
+def scan_session_roots(
+    roots: list[Path],
+    repo_needle: str,
+    use_rg: bool,
+) -> tuple[dict[str, SessionRecord], dict[str, SessionRecord]]:
+    """Scan one balanced root group; retry the whole group on rg failure."""
+
+    def records_with_rg() -> Iterable[tuple[Path, int, str]]:
+        for scan_root in roots:
+            yield from iter_rg_session_records(scan_root)
+
+    def records_with_python() -> Iterable[tuple[Path, int, str]]:
+        for scan_root in roots:
+            yield from iter_python_session_records(scan_root)
+
+    if use_rg:
+        try:
+            return scan_session_record_stream(records_with_rg(), repo_needle)
+        except (OSError, RuntimeError) as error:
+            print(
+                f"warning: ripgrep session scan failed; using Python fallback: {error}",
+                file=sys.stderr,
+            )
+    return scan_session_record_stream(records_with_python(), repo_needle)
+
+
+def merge_session_collections(
+    target: dict[str, SessionRecord],
+    source: dict[str, SessionRecord],
+) -> None:
+    """Merge independently scanned partitions before the global dataset pass."""
+
+    for session_id, incoming in source.items():
+        record = target.setdefault(
+            session_id,
+            SessionRecord(session_id=session_id, cwd=incoming.cwd),
+        )
+        if not record.cwd:
+            record.cwd = incoming.cwd
+        record.paths.update(incoming.paths)
+        if incoming.started_at and (
+            record.started_at is None or incoming.started_at < record.started_at
+        ):
+            record.started_at = incoming.started_at
+        record.contexts.extend(incoming.contexts)
+        record.token_events.extend(incoming.token_events)
+        record.fork_preamble_events_skipped += incoming.fork_preamble_events_skipped
+        record.snapshots_compacted_during_scan += incoming.snapshots_compacted_during_scan
+
+
+def balanced_session_root_groups(root: Path, worker_count: int) -> list[list[Path]]:
+    """Greedily balance day directories by retained-log bytes."""
+
+    sizes_by_parent: dict[Path, int] = defaultdict(int)
+    for path in root.rglob("*.jsonl"):
+        try:
+            sizes_by_parent[path.parent] += path.stat().st_size
+        except OSError:
+            sizes_by_parent[path.parent] += 0
+    if not sizes_by_parent:
+        return []
+    group_count = min(worker_count, len(sizes_by_parent))
+    groups: list[list[Path]] = [[] for _ in range(group_count)]
+    group_sizes = [0] * group_count
+    for parent, size in sorted(
+        sizes_by_parent.items(),
+        key=lambda item: (-item[1], str(item[0])),
+    ):
+        group_index = min(range(group_count), key=group_sizes.__getitem__)
+        groups[group_index].append(parent)
+        group_sizes[group_index] += size
+    for group in groups:
+        group.sort()
+    return groups
+
+
+def scan_all_and_repo_sessions(
+    root: Path,
+    repo_needle: str,
+) -> tuple[dict[str, SessionRecord], dict[str, SessionRecord]]:
+    """Scan once per file while retaining independent all/repo scopes."""
+
+    if not root.exists():
+        return {}, {}
+    use_rg = shutil.which("rg") is not None
+    try:
+        archive_size = sum(
+            path.stat().st_size for path in root.rglob("*.jsonl") if path.is_file()
+        )
+    except OSError:
+        archive_size = 0
+    worker_count = min(PARALLEL_SCAN_MAX_WORKERS, os.cpu_count() or 1)
+    if use_rg and worker_count > 1 and archive_size >= PARALLEL_SCAN_MIN_BYTES:
+        groups = balanced_session_root_groups(root, worker_count)
+        if len(groups) > 1:
+            try:
+                all_sessions: dict[str, SessionRecord] = {}
+                repo_sessions: dict[str, SessionRecord] = {}
+                with ProcessPoolExecutor(max_workers=len(groups)) as executor:
+                    results = executor.map(
+                        scan_session_roots,
+                        groups,
+                        [repo_needle] * len(groups),
+                        [True] * len(groups),
+                    )
+                    for partition_all, partition_repo in results:
+                        merge_session_collections(all_sessions, partition_all)
+                        merge_session_collections(repo_sessions, partition_repo)
+                return all_sessions, repo_sessions
+            except (OSError, RuntimeError) as error:
+                print(
+                    f"warning: parallel session scan failed; retrying serially: {error}",
+                    file=sys.stderr,
+                )
+    return scan_session_roots([root], repo_needle, use_rg)
+
+
+def scan_sessions(root: Path, repo_needle: str | None) -> dict[str, SessionRecord]:
+    """Compatibility wrapper for callers that need a single accounting scope."""
+
+    all_sessions, repo_sessions = scan_all_and_repo_sessions(
+        root,
+        repo_needle or "__repo_scope_not_requested__",
+    )
+    return repo_sessions if repo_needle else all_sessions
 
 
 def sessions_matching_repo(sessions: dict[str, SessionRecord], repo_needle: str) -> dict[str, SessionRecord]:
@@ -6324,10 +6686,10 @@ def main() -> int:
         print(str(error), file=sys.stderr)
         return 2
 
-    # Run the repo and all-local scans independently so modern snapshot
-    # compaction remains scoped to the population each report measures.
-    sessions = scan_sessions(sessions_root, REPO_NEEDLE)
-    all_sessions = scan_sessions(sessions_root, None)
+    # Read the retained archive once while maintaining independent repo and
+    # all-local compaction scopes. Filtering one scope from the other after
+    # deduplication can discard the repo winner of a copied snapshot.
+    all_sessions, sessions = scan_all_and_repo_sessions(sessions_root, REPO_NEEDLE)
     dataset = prepare_usage_dataset(sessions)
     local_dataset = prepare_usage_dataset(all_sessions)
     total_commits = git_commit_count(repo_root, REVAMP_GIT_SINCE, ["."])

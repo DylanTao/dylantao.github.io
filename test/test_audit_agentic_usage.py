@@ -191,10 +191,12 @@ class SessionAccountingTests(unittest.TestCase):
                 ],
             )
 
-            scoped_dataset = audit.prepare_usage_dataset(
-                audit.scan_sessions(root, audit.REPO_NEEDLE)
+            all_sessions, scoped_sessions = audit.scan_all_and_repo_sessions(
+                root,
+                audit.REPO_NEEDLE,
             )
-            all_dataset = audit.prepare_usage_dataset(audit.scan_sessions(root, None))
+            scoped_dataset = audit.prepare_usage_dataset(scoped_sessions)
+            all_dataset = audit.prepare_usage_dataset(all_sessions)
 
         self.assertEqual(
             sum(event.usage["total_tokens"] for event in scoped_dataset.usage_events),
@@ -212,6 +214,219 @@ class SessionAccountingTests(unittest.TestCase):
             all_dataset.source_counts["copied_or_repeated_snapshots_skipped"],
             1,
         )
+
+    def test_small_archive_builds_both_scopes_from_one_record_traversal(self) -> None:
+        base = datetime(2026, 5, 24, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            write_log(
+                root / "2026" / "site.jsonl",
+                [
+                    session_meta(base, "site"),
+                    turn_context(base + timedelta(seconds=1), "turn"),
+                    token_event(base + timedelta(seconds=2), usage(100), usage(100)),
+                ],
+            )
+            with mock.patch.object(audit.shutil, "which", return_value=None), mock.patch.object(
+                audit,
+                "iter_python_session_records",
+                wraps=audit.iter_python_session_records,
+            ) as traversal:
+                all_sessions, repo_sessions = audit.scan_all_and_repo_sessions(
+                    root,
+                    audit.REPO_NEEDLE,
+                )
+
+        self.assertEqual(traversal.call_count, 1)
+        self.assertEqual(set(all_sessions), {"site"})
+        self.assertEqual(set(repo_sessions), {"site"})
+
+    def test_record_stream_groups_equal_paths_without_requiring_object_identity(self) -> None:
+        base = datetime(2026, 5, 24, tzinfo=timezone.utc)
+        events = [
+            session_meta(base, "site"),
+            turn_context(base + timedelta(seconds=1), "turn"),
+            token_event(base + timedelta(seconds=2), usage(100), usage(100)),
+        ]
+        records = [
+            (Path("same.jsonl"), ordinal, json.dumps(event, separators=(",", ":")))
+            for ordinal, event in enumerate(events)
+        ]
+
+        _, repo_sessions = audit.scan_session_record_stream(records, audit.REPO_NEEDLE)
+        dataset = audit.prepare_usage_dataset(repo_sessions)
+
+        self.assertEqual(len(repo_sessions["site"].contexts), 1)
+        self.assertEqual(len(repo_sessions["site"].token_events), 1)
+        self.assertEqual(
+            sum(event.usage["total_tokens"] for event in dataset.usage_events),
+            100,
+        )
+
+    def test_partition_merge_matches_serial_scope_accounting(self) -> None:
+        base = datetime(2026, 5, 24, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            first_root = root / "2026" / "05" / "24"
+            second_root = root / "2026" / "05" / "25"
+            shared_total = usage(100)
+            write_log(
+                first_root / "first.jsonl",
+                [
+                    session_meta(base, "first"),
+                    turn_context(base + timedelta(seconds=1), "shared-turn"),
+                    token_event(base + timedelta(seconds=2), shared_total, usage(100)),
+                ],
+            )
+            write_log(
+                second_root / "second.jsonl",
+                [
+                    session_meta(base + timedelta(days=1), "second"),
+                    turn_context(base + timedelta(days=1, seconds=1), "shared-turn"),
+                    token_event(
+                        base + timedelta(days=1, seconds=2),
+                        shared_total,
+                        usage(100),
+                    ),
+                    turn_context(base + timedelta(days=1, seconds=3), "new-turn"),
+                    token_event(
+                        base + timedelta(days=1, seconds=4),
+                        usage(130),
+                        usage(30),
+                    ),
+                ],
+            )
+
+            serial_all, serial_repo = audit.scan_session_roots(
+                [root],
+                audit.REPO_NEEDLE,
+                False,
+            )
+            merged_all: dict[str, audit.SessionRecord] = {}
+            merged_repo: dict[str, audit.SessionRecord] = {}
+            for scan_root in (first_root, second_root):
+                partition_all, partition_repo = audit.scan_session_roots(
+                    [scan_root],
+                    audit.REPO_NEEDLE,
+                    False,
+                )
+                audit.merge_session_collections(merged_all, partition_all)
+                audit.merge_session_collections(merged_repo, partition_repo)
+
+            serial_all_dataset = audit.prepare_usage_dataset(serial_all)
+            merged_all_dataset = audit.prepare_usage_dataset(merged_all)
+            serial_repo_dataset = audit.prepare_usage_dataset(serial_repo)
+            merged_repo_dataset = audit.prepare_usage_dataset(merged_repo)
+
+        for serial, merged in (
+            (serial_all_dataset, merged_all_dataset),
+            (serial_repo_dataset, merged_repo_dataset),
+        ):
+            self.assertEqual(
+                sum(event.usage["total_tokens"] for event in serial.usage_events),
+                sum(event.usage["total_tokens"] for event in merged.usage_events),
+            )
+            self.assertEqual(serial.source_counts, merged.source_counts)
+            self.assertEqual(
+                [(event.timestamp, event.model) for event in serial.usage_events],
+                [(event.timestamp, event.model) for event in merged.usage_events],
+            )
+
+    def test_token_snapshot_parser_falls_back_for_reordered_usage_fields(self) -> None:
+        timestamp = datetime(2026, 5, 24, tzinfo=timezone.utc)
+        reordered = {
+            "total_tokens": 100,
+            "reasoning_output_tokens": 5,
+            "output_tokens": 10,
+            "cached_input_tokens": 20,
+            "input_tokens": 90,
+        }
+        line = json.dumps(token_event(timestamp, reordered, reordered))
+
+        parsed = audit.parse_token_snapshot(line)
+
+        self.assertIsNotNone(parsed)
+        assert parsed is not None
+        parsed_timestamp, total_usage, last_usage = parsed
+        self.assertEqual(parsed_timestamp, timestamp)
+        self.assertEqual(total_usage, (90, 20, 10, 5, 100))
+        self.assertEqual(last_usage, (90, 20, 10, 5, 100))
+
+    def test_token_snapshot_fast_path_accepts_unpriced_cache_write_field(self) -> None:
+        timestamp = datetime(2026, 7, 21, tzinfo=timezone.utc)
+        current_shape = {
+            "input_tokens": 90,
+            "cached_input_tokens": 20,
+            "cache_write_input_tokens": 7,
+            "output_tokens": 10,
+            "reasoning_output_tokens": 5,
+            "total_tokens": 100,
+        }
+        line = json.dumps(token_event(timestamp, current_shape, current_shape), separators=(",", ":"))
+
+        with mock.patch.object(
+            audit.json,
+            "loads",
+            side_effect=AssertionError("current token shape should stay on the fast path"),
+        ):
+            parsed = audit.parse_token_snapshot(line)
+
+        self.assertIsNotNone(parsed)
+        assert parsed is not None
+        parsed_timestamp, total_usage, last_usage = parsed
+        self.assertEqual(parsed_timestamp, timestamp)
+        self.assertEqual(total_usage, (90, 20, 10, 5, 100))
+        self.assertEqual(last_usage, (90, 20, 10, 5, 100))
+
+    def test_token_snapshot_parser_rejects_nested_example_in_non_token_event(self) -> None:
+        timestamp = datetime(2026, 7, 21, tzinfo=timezone.utc)
+        nested = {
+            "timestamp": iso(timestamp),
+            "type": "event_msg",
+            "payload": {
+                "type": "agent_message",
+                "content": token_event(timestamp, usage(100), usage(100))["payload"],
+            },
+        }
+        line = json.dumps(nested, separators=(",", ":"))
+
+        self.assertIsNone(audit.parse_token_snapshot(line))
+
+    def test_token_snapshot_parser_rejects_nested_example_in_token_payload(self) -> None:
+        timestamp = datetime(2026, 7, 21, tzinfo=timezone.utc)
+        nested = {
+            "timestamp": iso(timestamp),
+            "type": "event_msg",
+            "payload": {
+                "type": "token_count",
+                "example": {
+                    "total_token_usage": usage(100),
+                    "last_token_usage": usage(100),
+                },
+            },
+        }
+        line = json.dumps(nested, separators=(",", ":"))
+
+        self.assertIsNone(audit.parse_token_snapshot(line))
+
+    def test_token_snapshot_parser_rejects_nested_example_inside_info(self) -> None:
+        timestamp = datetime(2026, 7, 21, tzinfo=timezone.utc)
+        nested = {
+            "timestamp": iso(timestamp),
+            "type": "event_msg",
+            "payload": {
+                "type": "token_count",
+                "info": {
+                    "example": {
+                        "total_token_usage": usage(100),
+                        "last_token_usage": usage(100),
+                    },
+                },
+            },
+        }
+        line = json.dumps(nested, separators=(",", ":"))
+
+        self.assertIsNone(audit.parse_token_snapshot(line))
 
     def test_modern_compaction_preserves_mixed_file_legacy_baseline(self) -> None:
         base = datetime(2026, 5, 24, tzinfo=timezone.utc)
@@ -403,8 +618,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 40)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 456)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 41)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 457)
         required_fields = {
             "timestamp",
             "model",
@@ -1595,6 +1810,55 @@ class SessionAccountingTests(unittest.TestCase):
             )
             self.assertNotIn("no-tools", policy["reason"])
             self.assertNotIn("task_complete", policy["provenance"])
+
+    def test_policy_v41_profile_review_turn_is_acknowledged_by_exact_signature(self) -> None:
+        (
+            turn_id,
+            exact_timestamp,
+            leaf_session,
+            agent_path,
+            runtime_cwd,
+            response_at,
+        ) = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V41_PROFILE_REVIEW_TURN
+        self.assertEqual(turn_id, "019f86b0-7be1-7983-9d61-08b3d44b5817")
+
+        policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+        timestamp = audit.parse_timestamp(exact_timestamp)
+        assert timestamp is not None
+        context = audit.TurnContextRecord(
+            timestamp=timestamp,
+            leaf_session_id="policy-v41",
+            turn_id=turn_id,
+            model=policy["model"],
+            effort=policy["effort"],
+            path=Path("policy-v41.jsonl"),
+            ordinal=1,
+        )
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn={turn_id: context},
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 41)
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"gpt-5.6-terra/high": 1})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+        self.assertTrue(tracking["post_cutover_deviations"][0]["acknowledgment"]["signature_matches"])
+        self.assertEqual(policy["model"], "gpt-5.6-terra")
+        self.assertEqual(policy["effort"], "high")
+        self.assertIn(f"leaf session {leaf_session}", policy["provenance"])
+        self.assertIn(f"agent path {agent_path}", policy["provenance"])
+        self.assertIn(f"exact runtime cwd {runtime_cwd}", policy["provenance"])
+        self.assertIn(f"first scoped assistant response at {response_at}", policy["provenance"])
+        self.assertIn("delegated read-only profile-metrics review subagent", policy["reason"])
+        self.assertIn("did not perform site development", policy["reason"])
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
