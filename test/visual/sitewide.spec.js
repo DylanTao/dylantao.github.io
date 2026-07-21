@@ -1028,19 +1028,6 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   }
 }
 
-for (const route of SITEWIDE_ROUTES) {
-  test(`public route: ${route.id}`, async ({ page, context }, testInfo) => {
-    await exercisePublicRoute(page, route, "light", testInfo);
-
-    const darkPage = await context.newPage();
-    try {
-      await exercisePublicRoute(darkPage, route, "dark", testInfo);
-    } finally {
-      await darkPage.close();
-    }
-  });
-}
-
 test("Build Week story exposes a complete reduced-motion view", async ({ page }, testInfo) => {
   test.skip(
     !["desktop-1440", "mobile-390"].includes(testInfo.project.name),
@@ -1067,6 +1054,19 @@ test("Build Week story exposes a complete reduced-motion view", async ({ page },
   await attachScreenshot(page, testInfo, `openai-build-week-reduced-${testInfo.project.name}`, { fullPage: false });
   expect(runtimeErrors, "Build Week reduced-motion view raised browser runtime errors").toEqual([]);
 });
+
+for (const route of SITEWIDE_ROUTES) {
+  test(`public route: ${route.id}`, async ({ page, context }, testInfo) => {
+    await exercisePublicRoute(page, route, "light", testInfo);
+
+    const darkPage = await context.newPage();
+    try {
+      await exercisePublicRoute(darkPage, route, "dark", testInfo);
+    } finally {
+      await darkPage.close();
+    }
+  });
+}
 
 test("coastal time modes settle coherently across representative human routes", async ({ page }, testInfo) => {
   test.setTimeout(180000);
