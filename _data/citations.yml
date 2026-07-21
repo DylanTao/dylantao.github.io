@@ -1,14 +1,14 @@
 metadata:
-  last_updated: '2026-07-16'
+  last_updated: '2026-07-21'
 papers:
   W6vF-VcAAAAJ:Se3iqnhoufwC:
     title: 'Physion: Evaluating physical prediction from vision in humans and machines'
     year: '2021'
-    citations: 172
+    citations: 174
   W6vF-VcAAAAJ:_FxGoFyzp5QC:
     title: 'DesignWeaver: dimensional scaffolding for text-to-image product design'
     year: '2025'
-    citations: 38
+    citations: 39
   W6vF-VcAAAAJ:roLk4NBRz8UC:
     title: 'Hotspot: Signed distance function optimization with an asymptotically sufficient condition'
     year: '2025'
