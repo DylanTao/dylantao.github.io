@@ -20,7 +20,7 @@ The site does not read Codex authentication files and does not call private acco
 
 `local_lifetime` remains a fork-aware retained-log replay across local project directories since June 19, 2026. It is a separate repo-development audit and pricing-mix sample, not an account-lifetime total or input to the direct tracker. Win-CodexBar 0.42's raw 30-day total remains historical diagnostic evidence only.
 
-Build Rhythm's `hypothetical_mix_matched_api_rate_replay` is derived at render time rather than added to direct tracker schema 3. It scales the rounded combined-lifetime token count by the retained-local replay's observed dollars-per-token only under the explicitly named assumption that lifetime use had the same model, cache, request-length, and input/output mix. It uses the linked Standard public API rates as of the retained replay's pricing date, excludes unavailable cache-write tokens, and is not an actual Codex bill.
+Build Rhythm's `hypothetical_mix_matched_api_rate_replay` is derived at render time rather than added to direct tracker schema 3. It scales the rounded combined-lifetime token count by the retained-local replay's priced dollars-per-priced-token only under the explicitly named assumption that lifetime use had the same model, cache, request-length, and input/output mix. The denominator is `local_lifetime.api_cost_equivalence.priced_token_usage.total_tokens`, never the larger raw retained total. It uses the linked Standard public API rates as of the retained replay's pricing date, excludes unsupported-model tokens and unavailable cache-write tokens from the reference sample, and is not an actual Codex bill.
 
 ## Current Baseline
 

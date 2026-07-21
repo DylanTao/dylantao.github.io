@@ -16,8 +16,8 @@ github_activity: true
 {% assign all_projects_rhythm = site.data.agentic_usage.local_lifetime.token_rhythm %}
 {% assign all_projects_latest = all_projects_rhythm.points | last %}
 {% assign local_replay = site.data.agentic_usage.local_lifetime.api_cost_equivalence %}
-{% assign local_replay_tokens = site.data.agentic_usage.local_lifetime.raw_token_count %}
-{% assign lifetime_mix_replay_usd = combined_lifetime.token_count | times: local_replay.usd_estimate | divided_by: local_replay_tokens %}
+{% assign local_replay_priced_tokens = local_replay.priced_token_usage.total_tokens %}
+{% assign lifetime_mix_replay_usd = combined_lifetime.token_count | times: local_replay.usd_estimate | divided_by: local_replay_priced_tokens %}
 {% assign lifetime_mix_replay_k = lifetime_mix_replay_usd | divided_by: 1000.0 | round: 1 %}
 {% assign token_previous_count = 0 %}
 {% assign token_latest_delta = 0 %}
@@ -113,10 +113,10 @@ User-reported checkpoint · <time datetime="{{ direct_tracker.observed_on }}">{{
 <p class="github-activity-lifetime-replay">
 <strong
           data-hypothetical-mix-matched-api-rate-replay
-          data-reference-token-count="{{ local_replay_tokens }}"
+          data-reference-token-count="{{ local_replay_priced_tokens }}"
           data-reference-usd="{{ local_replay.usd_estimate }}"
         >~${{ lifetime_mix_replay_k }}K API-rate replay</strong> if this rounded lifetime total matched the retained local slice's model, cache, request-length, and input/output mix. Uses
-<a href="{{ local_replay.source_url }}">Standard public API rates</a> as of {{ local_replay.pricing_as_of | date: "%b %-d, %Y" }}; unavailable cache-write tokens are excluded. Not an actual bill.
+<a href="{{ local_replay.source_url }}">Standard public API rates</a> as of {{ local_replay.pricing_as_of | date: "%b %-d, %Y" }}; unsupported-model tokens and unavailable cache-write tokens are excluded from the reference sample. Not an actual bill.
 </p>
 <p class="github-activity-codex-note">
 Published as one rounded total with a dated observation. Source histories stay private; this total is never added to either retained-session series.

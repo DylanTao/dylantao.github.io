@@ -145,10 +145,14 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "model, cache, request-length, and input/output mix",
             "local_replay.source_url",
             "local_replay.pricing_as_of",
-            "unavailable cache-write tokens are excluded",
+            "local_replay.priced_token_usage.total_tokens",
+            "divided_by: local_replay_priced_tokens",
+            "unsupported-model tokens and unavailable cache-write tokens are excluded",
             "Not an actual bill",
         ):
             self.assertIn(phrase, self.page)
+        self.assertNotIn("site.data.agentic_usage.local_lifetime.raw_token_count", self.page)
+        self.assertIn("priced dollars-per-priced-token", self.ledger_doc)
         self.assertIn("hypothetical_mix_matched_api_rate_replay", self.ledger_doc)
         self.assertIn("hypothetical_mix_matched_api_rate_replay", self.reproduction)
         self.assertNotIn("api_cost", (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text(encoding="utf-8"))
