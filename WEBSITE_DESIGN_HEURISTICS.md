@@ -100,7 +100,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Hover should preview the current state; explicit controls should change state. If hovering a portrait changes the selected record before the visitor can click play, the interaction feels slippery instead of polished.
 - Playful metadata belongs behind a deliberate reveal. A hover preview can tease the disk/object, but titles, artists, durations, and catalog notes should stay hidden until the visitor opens the liner note.
 - If a playful object has multiple states, provide a small explicit control for touch and keyboard users. Hover can preview; it should not be the only way to reach the full set.
-- Give substantial site widgets one quiet, explicit origin route near the widget heading or mode control. A small `?` may preview "How this got here" on hover, but its accessible name should identify the destination, and touch/keyboard activation must open the same concrete case study or reproduction note.
+- Give substantial site widgets one quiet, explicit origin route near the widget heading or mode control. Use a history mark for origin, `i` for methodology, and `?` only for a genuine unknown; the accessible name should identify the destination, and touch/keyboard activation must open the same concrete case study or reproduction note.
 - Put state-changing controls where the state lives. Record switching belongs beside the disk, not inside a progress bar where it can be mistaken for play/pause.
 - Put one or two concrete proof routes above the fold, but do not let proof cards compete with the thesis headline.
 - Small rotations, lifts, image zooms, and caption emphasis are enough. If the motion becomes the thing a visitor remembers more than the work, simplify it.
@@ -145,6 +145,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Keep Sirui's voice warm and specific.
 - Avoid generic AI/design language unless it is tied to a concrete research question or project.
 - Project and blog pages should tell the concrete story first. Keep design philosophy in process notes or heuristics, not as a substitute for what actually happened.
+- Lead with what a project does and why it matters. State privacy, provenance, or evidence limits once near the relevant claim; avoid repeating defensive “X, not Y” constructions through the main story.
 - Content polish must preserve research meaning. A tighter phrase is worse if it narrows the actual claim, erases scope, or turns a thesis into a UI slogan.
 - The AI in Design 2026 report is useful as context: it frames AI as changing tools, craft, and teams. Borrow the questions, not the corporate tone.
 - A compact influence note can credit Katie Dill and AI in Design 2026, including the line: "AI is sparking a creative renaissance in design."
