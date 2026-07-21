@@ -1258,7 +1258,7 @@ test("all eleven fun stories fit a high-DPR scaled canvas", async ({ browser }, 
   test.skip(testInfo.project.name !== "desktop-1440", "one Chromium context covers the high-DPR effective viewport");
 
   const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
-  expect(routes).toHaveLength(10);
+  expect(routes).toHaveLength(11);
 
   // A 720x500 CSS viewport at DPR 2 retains a 1440x1000 pixel canvas while
   // independently exercising the compact responsive layout.
@@ -1321,7 +1321,7 @@ test("all eleven fun stories reflow at 200% root text size", async ({ page }, te
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop context covers text-only 200% reflow");
 
   const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
-  expect(routes).toHaveLength(10);
+  expect(routes).toHaveLength(11);
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
 

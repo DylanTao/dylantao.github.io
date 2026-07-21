@@ -219,9 +219,22 @@ function screenshotMetrics(buffer) {
 
 async function attachScreenshot(page, testInfo, name, options = {}) {
   const outputPath = testInfo.outputPath(`${name.replace(/[^a-z0-9._-]+/gi, "-")}.png`);
-  const body = options.locator
-    ? await options.locator.screenshot({ animations: "disabled", path: outputPath })
-    : await page.screenshot({ animations: "disabled", fullPage: options.fullPage !== false, path: outputPath });
+  const capture = () =>
+    options.locator
+      ? options.locator.screenshot({ animations: "disabled", path: outputPath })
+      : page.screenshot({ animations: "disabled", fullPage: options.fullPage !== false, path: outputPath });
+
+  let body;
+  try {
+    body = await capture();
+  } catch (error) {
+    const isTransientChromiumCaptureFailure =
+      error instanceof Error && error.message.includes("Protocol error (Page.captureScreenshot): Unable to capture screenshot");
+    if (!isTransientChromiumCaptureFailure) throw error;
+
+    await page.waitForTimeout(100);
+    body = await capture();
+  }
 
   await testInfo.attach(name, {
     path: outputPath,
