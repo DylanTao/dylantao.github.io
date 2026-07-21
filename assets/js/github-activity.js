@@ -46,534 +46,233 @@
   const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
   const lineChanges = (row) => row.additions + row.deletions;
-  const drawSeries = (group, rows, valueForRow, bounds, options) => {
-    const values = rows.map(valueForRow);
-    const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
-    const transformedMaximum = options.scale === "linear" ? maximum : Math.log1p(maximum);
-    const x = (index) => bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
-    const y = (value) => {
-      const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
-      if (options.signed) return bounds.baseline - Math.sign(value) * transformed * (bounds.bottom - bounds.top) * 0.45;
-      return bounds.bottom - transformed * (bounds.bottom - bounds.top);
-    };
-    const points = values.map((value, index) => [x(index), y(value)]);
-    if (options.fillOpacity) {
-      group.append(
-        svgElement("path", {
-          ...(options.className ? { class: `${options.className}-area` } : {}),
-          d: areaPath(points, options.signed ? bounds.baseline : bounds.bottom),
-          fill: options.color,
-          "fill-opacity": options.fillOpacity,
-        })
-      );
+  const initDualTokenRhythmChart = ({ siteRows, allWorkRows }) => {
+    const rhythmRoot = document.querySelector("[data-token-rhythm]");
+    if (!rhythmRoot) return;
+
+    const chart = rhythmRoot.querySelector("[data-token-rhythm-chart]");
+    const readout = rhythmRoot.querySelector("[data-token-rhythm-readout]");
+    const announcement = rhythmRoot.querySelector("[data-token-rhythm-announcement]");
+    if (!chart || !readout || !announcement || siteRows.length < 2 || allWorkRows.length < 2) {
+      rhythmRoot.dataset.state = "error";
+      if (readout) readout.textContent = "The comparison is unavailable; the cumulative summaries and disclosure remain readable.";
+      return;
     }
-    group.append(
-      svgElement("path", {
-        ...(options.className ? { class: options.className } : {}),
-        d: linePath(points),
-        fill: "none",
-        stroke: options.color,
-        "stroke-width": options.strokeWidth || 1.8,
-        ...(options.dash ? { "stroke-dasharray": options.dash } : {}),
-        "stroke-linejoin": "round",
-        "stroke-linecap": "round",
-      })
-    );
-    return { maximum, values, x, y };
-  };
-  const drawTokenRhythm = (group, tokenRows, width, height, colors) => {
-    const left = width < 620 ? 46 : 54;
-    const right = 14;
-    const split = Math.round(height * 0.58);
-    const latest = tokenRows.at(-1);
-    const dailyDeltas = tokenRows.map((row, index) => Math.max(0, row.tokenCount - (tokenRows[index - 1]?.tokenCount || 0)));
 
-    addText(group, "SITE-BUILD \u00b7 CUMULATIVE REPO ESTIMATE", left, 20, {
-      color: colors.accent,
-      weight: 700,
-    });
-    addText(group, latest.tokensLabel, width - right, 20, { anchor: "end", color: colors.text, weight: 700 });
-    drawSeries(
-      group,
-      tokenRows,
-      (row) => row.tokenCount,
-      { left, right: width - right, top: 44, bottom: split - 20 },
-      {
-        className: "github-activity-token-cumulative-line",
-        color: colors.accent,
-        fillOpacity: 0.1,
-        scale: "linear",
-        strokeWidth: 2,
-      }
-    );
+    const withDeltas = (rows) =>
+      rows.map((row, index) => ({
+        ...row,
+        delta: index === 0 ? null : Math.max(0, row.tokenCount - rows[index - 1].tokenCount),
+      }));
+    const siteWithDeltas = withDeltas(siteRows);
+    const siteByDate = new Map(siteWithDeltas.slice(1).map((row) => [row.date.getTime(), row]));
+    const allWorkWithDeltas = withDeltas(allWorkRows);
+    const commonStart = Math.max(siteRows[1].date.getTime(), allWorkRows[1].date.getTime());
+    const commonEnd = Math.min(siteRows.at(-1).date.getTime(), allWorkRows.at(-1).date.getTime());
+    const rows = allWorkWithDeltas
+      .filter(
+        (row) => row.delta !== null && row.date.getTime() >= commonStart && row.date.getTime() <= commonEnd && siteByDate.has(row.date.getTime())
+      )
+      .map((row, index) => ({
+        index,
+        date: row.date,
+        allWorkDelta: row.delta,
+        allWorkTotal: row.tokenCount,
+        siteDelta: siteByDate.get(row.date.getTime()).delta,
+        siteTotal: siteByDate.get(row.date.getTime()).tokenCount,
+      }));
+    if (rows.length < 2) {
+      rhythmRoot.dataset.state = "error";
+      readout.textContent = "The two daily series do not share enough dates for a comparison.";
+      return;
+    }
 
-    addText(group, "ROUNDED DAILY INCREASE \u00b7 READABLE LOG1P", left, split + 8, {
-      color: colors.muted,
-      weight: 700,
-    });
-    drawSeries(
-      group,
-      tokenRows,
-      (_row, index) => dailyDeltas[index],
-      { left, right: width - right, top: split + 30, bottom: height - 34 },
-      {
-        className: "github-activity-token-delta-line",
-        color: colors.added,
-        fillOpacity: 0.1,
-        scale: "log",
-      }
-    );
-    addText(group, shortDate.format(tokenRows[0].date), left, height - 8, { color: colors.muted });
-    addText(group, shortDate.format(latest.date), width - right, height - 8, { anchor: "end", color: colors.muted });
-
-    const largestIndex = dailyDeltas.indexOf(Math.max(...dailyDeltas));
-    return `Latest rounded estimate \u00b7 ${latest.tokensLabel} \u00b7 ${fullDate.format(latest.date)}. Largest rounded daily increase \u00b7 ${compactNumber.format(dailyDeltas[largestIndex])} \u00b7 ${fullDate.format(tokenRows[largestIndex].date)}. Tokens trace retained work, not quality. This repo-scoped estimate stays separate from lifetime usage.`;
-  };
-
-  const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise }) => {
-    const storyRoot = document.querySelector("[data-build-rhythm-story]");
-    if (!storyRoot || !githubRows.length || !tokenRows.length) return;
-
-    const stage = storyRoot.querySelector("[data-build-rhythm-story-stage]");
-    const chart = storyRoot.querySelector("[data-build-rhythm-story-chart]");
-    const sceneLabel = storyRoot.querySelector("[data-build-rhythm-story-label]");
-    const sceneScope = storyRoot.querySelector("[data-build-rhythm-story-scope]");
-    const sceneReadout = storyRoot.querySelector("[data-build-rhythm-story-readout]");
-    const steps = Array.from(storyRoot.querySelectorAll("[data-build-rhythm-step]"));
-    if (!stage || !chart || !sceneLabel || !sceneScope || !sceneReadout || !steps.length) return;
-
-    const compactQuery = window.matchMedia("(max-width: 820px)");
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const latestGithubDate = githubRows.at(-1).date;
-    const githubCutoff = new Date(Date.UTC(latestGithubDate.getUTCFullYear() - 5, latestGithubDate.getUTCMonth(), latestGithubDate.getUTCDate()));
-    const storyGithubRows = githubRows.filter((row) => row.date >= githubCutoff);
-    let codexSource = null;
-    let activeScene = "cadence";
-    let renderedScene = null;
-    let pendingScene = null;
-    let transitionFrame = 0;
     let resizeFrame = 0;
-    let storyVisible = true;
-    let stepObserver = null;
-    let rootObserver = null;
-
-    const isStaticStory = () => compactQuery.matches || reducedMotionQuery.matches || !("IntersectionObserver" in window);
+    let selectedIndex = rows.length - 1;
+    let pinnedIndex = selectedIndex;
     const palette = () => {
-      const style = getComputedStyle(storyRoot);
+      const style = getComputedStyle(rhythmRoot);
       return {
-        accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
-        added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
-        removed: style.getPropertyValue("--global-mint-strong").trim() || "#26735d",
+        allWork: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
+        site: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
         text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
         muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
         grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
         surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#f7fbfa",
       };
     };
-    const dimensions = () => ({
-      width: Math.max(300, Math.round(chart.getBoundingClientRect().width || storyRoot.getBoundingClientRect().width || 720)),
-      height: Math.max(300, Math.round(chart.getBoundingClientRect().height || 368)),
-    });
-    const drawCadence = (group, width, height, colors) => {
-      const left = width < 620 ? 42 : 50;
-      const right = 14;
-      const top = 40;
-      const bottom = 30;
-      const baseline = height - bottom;
-
-      addText(group, "COMMITS / WEEK \u00b7 READABLE LOG1P", left, 20, { color: colors.accent, weight: 700 });
-      drawSeries(
-        group,
-        storyGithubRows,
-        (row) => row.commits,
-        { left, right: width - right, top, bottom: baseline },
-        { color: colors.accent, fillOpacity: 0.12, scale: "log", strokeWidth: 2 }
-      );
-      const busiest = storyGithubRows.reduce((best, row) => (row.commits > best.commits ? row : best));
-      return `Highest commit week in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Cadence is not a productivity score.`;
-    };
-
-    const drawMagnitude = (group, width, height, colors) => {
-      const left = width < 620 ? 46 : 54;
-      const right = 14;
-      const top = 45;
-      const bottom = 30;
-      const baseline = (top + height - bottom) / 2;
-      const maximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
-
-      addText(group, "LINES CHANGED / WEEK \u00b7 READABLE SYMLOG", left, 20, { color: colors.text, weight: 700 });
-      addText(group, "+ added", left, 38, { color: colors.added, weight: 650 });
-      addText(group, "\u2212 removed", left + 78, 38, { color: colors.removed, weight: 650 });
-      group.append(
-        svgElement("line", {
-          x1: left,
-          y1: baseline,
-          x2: width - right,
-          y2: baseline,
-          stroke: colors.text,
-          "stroke-opacity": 0.4,
-          "stroke-width": 1.4,
-        })
-      );
-      const bounds = { left, right: width - right, top, bottom: height - bottom, baseline };
-      drawSeries(group, storyGithubRows, (row) => row.additions, bounds, {
-        color: colors.added,
-        maximum,
-        scale: "log",
-        signed: true,
-      });
-      drawSeries(group, storyGithubRows, (row) => -row.deletions, bounds, {
-        color: colors.removed,
-        dash: "4 2",
-        maximum,
-        scale: "log",
-        signed: true,
-      });
-      const largest = storyGithubRows.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
-      return `Largest reported line-change week \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
-    };
-
-    const drawBursts = (group, width, height, colors) => {
-      const outer = 10;
-      const gap = 16;
-      const panelWidth = (width - outer * 2 - gap) / 2;
-      const panelTop = 32;
-      const panelBottom = height - 26;
-      const values = storyGithubRows.map(lineChanges);
-      const maximum = Math.max(...values, 1);
-      const peakIndex = values.indexOf(maximum);
-
-      [
-        { label: "READABLE LOG1P", mode: "log", x: outer },
-        { label: "LITERAL LINEAR", mode: "linear", x: outer + panelWidth + gap },
-      ].forEach((panel) => {
-        addText(group, panel.label, panel.x + 10, 20, { color: panel.mode === "log" ? colors.accent : colors.muted, weight: 700 });
-        const left = panel.x + 10;
-        const right = panel.x + panelWidth - 10;
-        const bottom = panelBottom - 18;
-        drawSeries(
-          group,
-          storyGithubRows,
-          lineChanges,
-          { left, right, top: panelTop + 14, bottom },
-          { color: colors.accent, fillOpacity: panel.mode === "log" ? 0.12 : 0.07, maximum, scale: panel.mode }
-        );
-      });
-      const peak = storyGithubRows[peakIndex];
-      return `Same reported values in both panels \u00b7 largest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(maximum)} lines changed.`;
-    };
-
-    const drawTokens = (group, width, height, colors) => {
-      return drawTokenRhythm(group, tokenRows, width, height, colors);
-    };
-
-    const drawLifetime = (group, width, height, colors) => {
-      const left = width < 620 ? 46 : 54;
-      if (!codexSource?.combined_lifetime) {
-        addText(group, "LIFETIME CODEX TOTAL UNAVAILABLE", left, 28, { color: colors.accent, weight: 700 });
-        addText(group, "No substitute observation is shown.", left, 66, { color: colors.muted });
-        return "The direct lifetime Codex snapshot is unavailable. No substitute observation is shown.";
-      }
-      addText(group, "LIFETIME CODEX SNAPSHOT \u00b7 ROUNDED", left, 24, {
-        color: colors.accent,
-        weight: 700,
-      });
-      addText(group, codexSource.combined_lifetime.tokens_label, left, Math.min(112, height * 0.38), {
-        color: colors.text,
-        weight: 700,
-        size: width < 620 ? 34 : 48,
-      });
-      addText(group, "COMBINED LIFETIME CODEX TOKENS", left, Math.min(142, height * 0.5), {
-        color: colors.muted,
-        weight: 700,
-      });
-      addText(group, "Rounded before publication \u00b7 separate from the repo-scoped trace", left, height - 24, {
-        color: colors.muted,
-      });
-      return `${codexSource.combined_lifetime.tokens_label} combined lifetime Codex tokens. This rounded total stays separate from the repo-scoped retained-session estimate.`;
-    };
-
-    const drawComplete = (group, width, height, colors) => {
-      const left = 42;
-      const right = 12;
-      const commitTop = 26;
-      const commitBottom = Math.max(76, height * 0.2);
-      addText(group, "GITHUB \u00b7 COMMITS / WEEK", left, 16, { color: colors.accent, weight: 700 });
-      drawSeries(
-        group,
-        storyGithubRows,
-        (row) => row.commits,
-        { left, right: width - right, top: commitTop, bottom: commitBottom },
-        { color: colors.accent, scale: "log" }
-      );
-
-      const lineTop = commitBottom + 30;
-      const lineBottom = Math.max(lineTop + 62, height * 0.52);
-      const lineBaseline = (lineTop + lineBottom) / 2;
-      const lineMaximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
-      addText(group, "SAME WEEKS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, { color: colors.muted, weight: 700 });
-      group.append(
-        svgElement("line", {
-          x1: left,
-          y1: lineBaseline,
-          x2: width - right,
-          y2: lineBaseline,
-          stroke: colors.grid,
-          "stroke-width": 1.2,
-        })
-      );
-      const lineBounds = { left, right: width - right, top: lineTop, bottom: lineBottom, baseline: lineBaseline };
-      drawSeries(group, storyGithubRows, (row) => row.additions, lineBounds, {
-        color: colors.added,
-        maximum: lineMaximum,
-        scale: "log",
-        signed: true,
-      });
-      drawSeries(group, storyGithubRows, (row) => -row.deletions, lineBounds, {
-        color: colors.removed,
-        dash: "4 2",
-        maximum: lineMaximum,
-        scale: "log",
-        signed: true,
-      });
-
-      const tokenTop = lineBottom + 30;
-      const tokenBottom = Math.max(tokenTop + 44, height * 0.79);
-      const latestToken = tokenRows.at(-1);
-      addText(group, width < 620 ? "REPO TOKEN ESTIMATE" : "SEPARATE CLOCK · REPO RETAINED-SESSION TOKENS", left, tokenTop - 10, {
-        color: colors.muted,
-        weight: 700,
-      });
-      addText(group, latestToken.tokensLabel, width - right, tokenTop - 10, {
-        anchor: "end",
-        color: colors.text,
-        weight: 700,
-      });
-      drawSeries(
-        group,
-        tokenRows,
-        (row) => row.tokenCount,
-        { left, right: width - right, top: tokenTop, bottom: tokenBottom },
-        { color: colors.added, scale: "linear", strokeWidth: 1.8 }
-      );
-
-      const codexTop = tokenBottom + 30;
-      addText(group, "SEPARATE MEASURE \u00b7 LIFETIME CODEX TOKENS", left, codexTop - 10, { color: colors.accent, weight: 700 });
-      if (codexSource?.combined_lifetime) {
-        const lifetimeSummary =
-          width < 620
-            ? `${codexSource.combined_lifetime.tokens_label} lifetime \u00b7 separate repo trace`
-            : `${codexSource.combined_lifetime.tokens_label} combined \u00b7 rounded \u00b7 not added to the repo trace`;
-        addText(group, lifetimeSummary, left, Math.min(height - 8, codexTop + 18), { color: colors.text, weight: 700 });
-      } else {
-        addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
-          color: colors.muted,
-        });
-      }
-      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently at ${latestToken.tokensLabel}, and lifetime Codex usage is a separate rounded total.`;
-    };
-
-    const metadata = {
-      cadence: { label: "CADENCE", scope: "5 YEARS \u00b7 WEEKLY" },
-      magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
-      bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
-      tokens: { label: "TOKEN RHYTHM", scope: "SITE BUILD \u00b7 DAILY ESTIMATE" },
-      lifetime: { label: "CHANGE THE MEASURE", scope: "LIFETIME \u00b7 ROUNDED" },
-      explore: { label: "HANDOFF", scope: "GITHUB EXPLORER BELOW" },
-      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL" },
-    };
-
-    const renderScene = (scene) => {
-      const targetScene = scene === "explore" ? "complete" : scene;
-      const { width, height } = dimensions();
-      const colors = palette();
-      const group = svgElement("g", { "data-build-rhythm-story-layer": targetScene });
-      chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
-      chart.replaceChildren(group);
-      let readout;
-      if (targetScene === "cadence") readout = drawCadence(group, width, height, colors);
-      else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
-      else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
-      else if (targetScene === "tokens") readout = drawTokens(group, width, height, colors);
-      else if (targetScene === "lifetime") readout = drawLifetime(group, width, height, colors);
-      else readout = drawComplete(group, width, height, colors);
-
-      const copy = metadata[scene] || metadata.complete;
-      sceneLabel.textContent = copy.label;
-      sceneScope.textContent = copy.scope;
-      sceneReadout.textContent = readout;
-      stage.dataset.scene = scene;
-      renderedScene = scene;
-    };
-
-    const finishTransition = (scene) => {
-      if (transitionFrame) cancelAnimationFrame(transitionFrame);
-      transitionFrame = 0;
-      pendingScene = null;
-      stage.style.opacity = "1";
-      stage.dataset.transitioning = "false";
-      if (renderedScene !== scene) renderScene(scene);
-    };
-
-    const cancelTransition = ({ settle = true } = {}) => {
-      if (transitionFrame) cancelAnimationFrame(transitionFrame);
-      transitionFrame = 0;
-      const target = pendingScene;
-      pendingScene = null;
-      stage.style.opacity = "1";
-      stage.dataset.transitioning = "false";
-      if (settle && target && renderedScene !== target) renderScene(target);
-    };
-
-    const transitionTo = (requestedScene, { animate = true } = {}) => {
-      const scene = isStaticStory() ? "complete" : requestedScene;
-      if (scene === pendingScene || (scene === renderedScene && !pendingScene)) return;
-      cancelTransition({ settle: false });
-      if (!animate || isStaticStory() || !storyVisible || renderedScene == null) {
-        renderScene(scene);
-        return;
-      }
-
-      pendingScene = scene;
-      stage.dataset.transitioning = "true";
-      const startedAt = performance.now();
-      const duration = 320;
-      let swapped = false;
-      const tick = (now) => {
-        if (!storyVisible) {
-          finishTransition(scene);
-          return;
-        }
-        const progress = clamp((now - startedAt) / duration, 0, 1);
-        if (progress < 0.42) {
-          stage.style.opacity = String(1 - (progress / 0.42) * 0.72);
-        } else {
-          if (!swapped) {
-            renderScene(scene);
-            swapped = true;
-          }
-          stage.style.opacity = String(0.28 + ((progress - 0.42) / 0.58) * 0.72);
-        }
-        if (progress < 1) transitionFrame = requestAnimationFrame(tick);
-        else finishTransition(scene);
-      };
-      transitionFrame = requestAnimationFrame(tick);
-    };
-
-    const nearestStep = () => {
-      const viewportCenter = window.innerHeight * 0.5;
-      return steps
-        .map((step) => {
-          const box = step.getBoundingClientRect();
-          return { distance: Math.abs((box.top + box.bottom) / 2 - viewportCenter), step };
-        })
-        .sort((a, b) => a.distance - b.distance)[0]?.step;
-    };
-
-    const activateStep = (step, { animate = true } = {}) => {
-      if (!step) return;
-      activeScene = step.dataset.buildRhythmStep || "cadence";
-      steps.forEach((candidate) => candidate.classList.toggle("is-active", candidate === step));
-      transitionTo(activeScene, { animate });
-    };
-
-    const connectStepObserver = () => {
-      stepObserver?.disconnect();
-      stepObserver = null;
-      if (isStaticStory()) {
-        steps.forEach((step) => step.classList.remove("is-active"));
-        transitionTo("complete", { animate: false });
-        return;
-      }
-      stepObserver = new IntersectionObserver(
-        () => {
-          if (!storyVisible) return;
-          activateStep(nearestStep());
-        },
-        { rootMargin: "-28% 0px -28% 0px", threshold: [0, 0.25, 0.5, 0.75] }
-      );
-      steps.forEach((step) => stepObserver.observe(step));
-      activateStep(nearestStep(), { animate: false });
-    };
-
-    const refreshMode = () => {
-      const staticStory = isStaticStory();
-      storyRoot.dataset.storyStatic = String(staticStory);
-      cancelTransition({ settle: false });
-      connectStepObserver();
-      if (staticStory) transitionTo("complete", { animate: false });
-      else activateStep(nearestStep(), { animate: false });
-    };
-
-    storyRoot.dataset.state = "ready";
-    const initialBox = storyRoot.getBoundingClientRect();
-    storyVisible = initialBox.bottom > 0 && initialBox.top < window.innerHeight;
-    storyRoot.dataset.storyVisible = String(storyVisible);
-    refreshMode();
-
-    if ("IntersectionObserver" in window) {
-      rootObserver = new IntersectionObserver(
-        ([entry]) => {
-          storyVisible = Boolean(entry?.isIntersecting);
-          storyRoot.dataset.storyVisible = String(storyVisible);
-          if (!storyVisible) cancelTransition();
-        },
-        { threshold: 0.01 }
-      );
-      rootObserver.observe(storyRoot);
-    }
-
-    codexSourcePromise.then((source) => {
-      codexSource = source;
-      if (renderedScene === "lifetime" || renderedScene === "complete" || renderedScene === "explore") renderScene(renderedScene);
-    });
-    [compactQuery, reducedMotionQuery].forEach((query) => query.addEventListener("change", refreshMode));
-    window.addEventListener("resize", () => {
-      cancelAnimationFrame(resizeFrame);
-      resizeFrame = requestAnimationFrame(() => {
-        refreshMode();
-        renderScene(isStaticStory() ? "complete" : activeScene);
-      });
-    });
-    new MutationObserver(() => {
-      cancelTransition({ settle: false });
-      renderScene(isStaticStory() ? "complete" : activeScene);
-    }).observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme", "data-theme-mode"],
-    });
-  };
-
-  const initTokenRhythmChart = ({ tokenRows }) => {
-    const rhythmRoot = document.querySelector("[data-token-rhythm]");
-    if (!rhythmRoot) return;
-
-    const chart = rhythmRoot.querySelector("[data-token-rhythm-chart]");
-    const readout = rhythmRoot.querySelector("[data-token-rhythm-readout]");
-    if (!chart || !readout || !tokenRows.length) {
-      rhythmRoot.dataset.state = "error";
-      if (readout) readout.textContent = "The chart is unavailable; the exact server-rendered table remains below.";
-      return;
-    }
-
-    let resizeFrame = 0;
-    const colors = () => {
-      const style = getComputedStyle(rhythmRoot);
-      return {
-        accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
-        added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
-        text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
-        muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
-      };
-    };
+    const valueLabel = (value) => `${compactNumber.format(value)} estimated tokens`;
     const render = () => {
+      const restoreFocus = document.activeElement === chart;
       const box = chart.getBoundingClientRect();
       const width = Math.max(300, Math.round(box.width || rhythmRoot.getBoundingClientRect().width || 920));
-      const height = Math.max(300, Math.round(box.height || 368));
-      const group = svgElement("g", { "data-token-rhythm-layer": "complete" });
+      const height = Math.max(300, Math.round(box.height || 400));
+      const narrow = width < 620;
+      const left = narrow ? 64 : 78;
+      const right = narrow ? 12 : 20;
+      const top = narrow ? 56 : 58;
+      const bottom = 42;
+      const colors = palette();
+      const maximum = Math.max(...rows.flatMap((row) => [row.allWorkDelta, row.siteDelta]), 1);
+      const transformedMaximum = Math.log1p(maximum);
+      const x = (index) => left + (index / Math.max(1, rows.length - 1)) * (width - left - right);
+      const y = (value) => height - bottom - (Math.log1p(value) / transformedMaximum) * (height - top - bottom);
       chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
-      chart.replaceChildren(group);
-      readout.textContent = drawTokenRhythm(group, tokenRows, width, height, colors());
+      chart.replaceChildren();
+
+      addText(chart, narrow ? "Y-AXIS: DAILY TOKENS · LOG1P" : "Y-AXIS: ROUNDED DAILY ESTIMATED TOKENS · READABLE LOG1P", left, 20, {
+        color: colors.muted,
+        weight: 700,
+        className: "github-activity-token-axis-heading",
+      });
+      const tickCandidates = new Set([0, maximum]);
+      for (let power = 3; 10 ** power <= maximum * 2; power += 1) {
+        [1, 2, 5].forEach((multiple) => {
+          const value = multiple * 10 ** power;
+          if (value <= maximum) tickCandidates.add(value);
+        });
+      }
+      const ticks = [];
+      [...tickCandidates]
+        .sort((a, b) => a - b)
+        .forEach((value) => {
+          const previous = ticks.at(-1);
+          if (previous == null || Math.abs(y(previous) - y(value)) >= (narrow ? 18 : 22)) ticks.push(value);
+        });
+      if (!ticks.includes(maximum)) {
+        if (Math.abs(y(ticks.at(-1)) - y(maximum)) < (narrow ? 18 : 22)) ticks.pop();
+        ticks.push(maximum);
+      }
+      ticks.forEach((tick) => {
+        const yy = y(tick);
+        chart.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: colors.grid, "stroke-width": 1 }));
+        addText(chart, compactNumber.format(tick), left - 8, yy + 4, { anchor: "end", color: colors.muted });
+      });
+      addText(chart, shortDate.format(rows[0].date), left, height - 13, { color: colors.muted });
+      addText(chart, shortDate.format(rows.at(-1).date), width - right, height - 13, { anchor: "end", color: colors.muted });
+
+      const allWorkPoints = rows.map((row) => [x(row.index), y(row.allWorkDelta)]);
+      const sitePoints = rows.map((row) => [x(row.index), y(row.siteDelta)]);
+      chart.append(
+        svgElement("path", {
+          class: "github-activity-token-all-work-line",
+          d: linePath(allWorkPoints),
+          fill: "none",
+          stroke: colors.allWork,
+          "stroke-width": 2.2,
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+        }),
+        svgElement("path", {
+          class: "github-activity-token-site-line",
+          d: linePath(sitePoints),
+          fill: "none",
+          stroke: colors.site,
+          "stroke-width": 2,
+          "stroke-dasharray": "5 3",
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+        })
+      );
+
+      const guide = svgElement("line", {
+        class: "github-activity-token-guide",
+        y1: top,
+        y2: height - bottom,
+        stroke: colors.text,
+        "stroke-width": 1.2,
+        "stroke-opacity": 0.68,
+      });
+      const allWorkMarker = svgElement("circle", {
+        class: "github-activity-token-all-work-marker",
+        r: narrow ? 4 : 4.5,
+        fill: colors.surface,
+        stroke: colors.allWork,
+        "stroke-width": 2.2,
+      });
+      const siteMarker = svgElement("circle", {
+        class: "github-activity-token-site-marker",
+        r: narrow ? 4 : 4.5,
+        fill: colors.surface,
+        stroke: colors.site,
+        "stroke-width": 2.2,
+      });
+      const overlay = svgElement("rect", {
+        class: "github-activity-token-inspector",
+        x: left,
+        y: top,
+        width: width - left - right,
+        height: height - top - bottom,
+        fill: "transparent",
+      });
+      chart.append(guide, allWorkMarker, siteMarker, overlay);
+      chart.tabIndex = 0;
+      chart.setAttribute("focusable", "true");
+      chart.setAttribute("role", "slider");
+      chart.setAttribute("aria-label", "Daily retained-token inspector");
+      chart.setAttribute("aria-valuemin", "0");
+      chart.setAttribute("aria-valuemax", String(rows.length - 1));
+      chart.setAttribute("aria-describedby", "github-activity-token-chart-instructions");
+
+      const showIndex = (index, { pin = false, cleared = false, announce = false } = {}) => {
+        selectedIndex = clamp(index, 0, rows.length - 1);
+        if (pin) pinnedIndex = selectedIndex;
+        const row = rows[selectedIndex];
+        const xx = x(selectedIndex);
+        guide.setAttribute("x1", xx);
+        guide.setAttribute("x2", xx);
+        allWorkMarker.setAttribute("cx", xx);
+        allWorkMarker.setAttribute("cy", y(row.allWorkDelta));
+        siteMarker.setAttribute("cx", xx);
+        siteMarker.setAttribute("cy", y(row.siteDelta));
+        chart.setAttribute("aria-valuenow", String(selectedIndex));
+        chart.setAttribute(
+          "aria-valuetext",
+          `${fullDate.format(row.date)}, all retained Codex work plus ${number.format(row.allWorkDelta)} estimated tokens, this website plus ${number.format(row.siteDelta)} estimated tokens`
+        );
+        readout.textContent = `${fullDate.format(row.date)} · all retained Codex work +${compactNumber.format(row.allWorkDelta)} · this website +${compactNumber.format(row.siteDelta)} estimated tokens${cleared ? " · pin cleared" : ""}.`;
+        if (announce) announcement.textContent = readout.textContent;
+      };
+      const nearestIndex = (event) => {
+        const bounds = chart.getBoundingClientRect();
+        const px = ((event.clientX - bounds.left) / Math.max(1, bounds.width)) * width;
+        return Math.round(clamp((px - left) / Math.max(1, width - left - right), 0, 1) * (rows.length - 1));
+      };
+      overlay.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "mouse" || event.pointerType === "pen") showIndex(nearestIndex(event));
+      });
+      overlay.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
+        showIndex(nearestIndex(event), { pin: true, announce: true });
+        chart.focus({ preventScroll: true });
+      });
+      overlay.addEventListener("pointerleave", (event) => {
+        if (event.pointerType === "mouse") showIndex(pinnedIndex ?? rows.length - 1);
+      });
+      chart.onfocus = () => {
+        chart.classList.add("is-keyboard-focused");
+        showIndex(pinnedIndex ?? rows.length - 1);
+      };
+      chart.onblur = () => chart.classList.remove("is-keyboard-focused");
+      chart.onkeydown = (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          pinnedIndex = null;
+          showIndex(rows.length - 1, { cleared: true, announce: true });
+          return;
+        }
+        let next = selectedIndex;
+        if (event.key === "ArrowLeft" || event.key === "ArrowDown") next -= 1;
+        else if (event.key === "ArrowRight" || event.key === "ArrowUp") next += 1;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = rows.length - 1;
+        else return;
+        event.preventDefault();
+        showIndex(next, { pin: true, announce: true });
+      };
+
+      showIndex(pinnedIndex ?? rows.length - 1);
+      if (restoreFocus) chart.focus({ preventScroll: true });
     };
     const scheduleRender = () => {
       cancelAnimationFrame(resizeFrame);
@@ -596,6 +295,7 @@
 
     const status = trendRoot.querySelector("[data-codex-status]");
     const lifetime = trendRoot.querySelector("[data-codex-lifetime]");
+    const hypotheticalReplay = trendRoot.querySelector("[data-hypothetical-mix-matched-api-rate-replay]");
     const scopeBadge = trendRoot.querySelector("[data-codex-scope]");
     if (!status || !lifetime || !scopeBadge || !trendRoot.dataset.source) return null;
 
@@ -664,6 +364,14 @@
     }
 
     lifetime.textContent = source.combined_lifetime.tokens_label;
+    if (hypotheticalReplay) {
+      const referenceTokens = Number(hypotheticalReplay.dataset.referenceTokenCount);
+      const referenceUsd = Number(hypotheticalReplay.dataset.referenceUsd);
+      if (Number.isFinite(referenceTokens) && referenceTokens > 0 && Number.isFinite(referenceUsd) && referenceUsd > 0) {
+        const estimate = (source.combined_lifetime.token_count / referenceTokens) * referenceUsd;
+        hypotheticalReplay.textContent = `~$${(estimate / 1000).toFixed(1)}K API-rate replay`;
+      }
+    }
     if (source.automated_refresh) {
       const observed = new Date(source.updated_at);
       status.textContent =
@@ -690,11 +398,12 @@
     return source;
   };
 
-  const codexSourcePromise = initCodexUsageTrend();
+  initCodexUsageTrend();
 
   const root = document.querySelector("[data-github-activity]");
   const dataNode = document.getElementById("github-activity-data");
   const tokenDataNode = document.getElementById("build-rhythm-token-data");
+  const allWorkTokenDataNode = document.getElementById("build-rhythm-all-work-token-data");
   if (!root || !dataNode) return;
 
   const validActivitySource = (candidate) =>
@@ -713,7 +422,7 @@
         row.deletions >= 0
     );
 
-  const validTokenRhythmSource = (candidate) => {
+  const validTokenRhythmSource = (candidate, { label, method }) => {
     const keys = ["schema", "label", "units", "grain", "aggregation", "method", "since", "updated_at", "confidence", "privacy_note", "points"];
     if (
       !candidate ||
@@ -722,11 +431,11 @@
       Object.keys(candidate).length !== keys.length ||
       !keys.every((key) => Object.hasOwn(candidate, key)) ||
       candidate.schema !== 1 ||
-      candidate.label !== "Site revamp retained-session estimate" ||
+      candidate.label !== label ||
       candidate.units !== "estimated tokens" ||
       candidate.grain !== "day" ||
       candidate.aggregation !== "cumulative" ||
-      candidate.method !== "deduplicated_repo_retained_logs" ||
+      candidate.method !== method ||
       candidate.confidence !== "estimate" ||
       !isIsoDate(candidate.since) ||
       !isIsoDate(candidate.updated_at) ||
@@ -780,12 +489,34 @@
   if (tokenDataNode) {
     try {
       const candidate = JSON.parse(tokenDataNode.textContent);
-      if (validTokenRhythmSource(candidate)) tokenSource = candidate;
+      if (
+        validTokenRhythmSource(candidate, {
+          label: "Site revamp retained-session estimate",
+          method: "deduplicated_repo_retained_logs",
+        })
+      )
+        tokenSource = candidate;
     } catch {
       tokenSource = null;
     }
   }
-  root.dataset.tokenState = tokenSource ? "ready" : "error";
+  let allWorkTokenSource = null;
+  if (allWorkTokenDataNode) {
+    try {
+      const candidate = JSON.parse(allWorkTokenDataNode.textContent);
+      if (
+        validTokenRhythmSource(candidate, {
+          label: "All retained Codex work estimate",
+          method: "deduplicated_all_retained_logs",
+        })
+      )
+        allWorkTokenSource = candidate;
+    } catch {
+      allWorkTokenSource = null;
+    }
+  }
+  root.dataset.allWorkTokenState = allWorkTokenSource ? "ready" : "error";
+  root.dataset.tokenState = tokenSource && allWorkTokenSource ? "ready" : "error";
 
   const remoteSource = root.dataset.source;
   const isLocalPreview = /^(?:localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname);
@@ -816,7 +547,15 @@
         tokensLabel: point.tokens_label,
       }))
     : [];
-  initTokenRhythmChart({ tokenRows });
+  const allWorkTokenRows = allWorkTokenSource
+    ? allWorkTokenSource.points.map((point, index) => ({
+        index,
+        date: new Date(`${point.date}T00:00:00Z`),
+        tokenCount: point.token_count,
+        tokensLabel: point.tokens_label,
+      }))
+    : [];
+  initDualTokenRhythmChart({ siteRows: tokenRows, allWorkRows: allWorkTokenRows });
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
@@ -1114,14 +853,17 @@
       addText(grid, data.at(-1).week, width - right, height - 15, { anchor: "end", color: palette.muted });
     }
     chart.append(grid);
-    addText(chart, `COMMITS / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 20, {
+    const commitHeading = narrow
+      ? `Y-AXIS: COMMITS/WK · ${scale === "linear" ? "LINEAR" : "LOG1P"}`
+      : `Y-AXIS: COMMITS / WEEK · ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`;
+    addText(chart, commitHeading, left, 20, {
       color: palette.accent,
       weight: 700,
     });
     const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
     const lineHeading = narrow
-      ? `LINES / WEEK \u00b7 ${lineScaleLabel}`
-      : `LINES CHANGED / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
+      ? `Y-AXIS: LINES/WK · ${lineScaleLabel}`
+      : `Y-AXIS: LINES CHANGED / WEEK · ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
     addText(chart, lineHeading, left, lineTop - 34, {
       color: palette.muted,
       weight: 700,
@@ -1507,6 +1249,5 @@
   chartTitle.textContent = "Weekly GitHub commits, additions, and deletions";
   setPressedState();
   drawChart();
-  initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });
   root.dataset.state = "ready";
 })();

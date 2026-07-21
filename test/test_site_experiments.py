@@ -373,9 +373,9 @@ class SiteExperimentsTests(unittest.TestCase):
         for phrase in (
             "How to read the rhythm",
             "GitHub cadence",
-            "Site-token rhythm",
+            "Daily token rhythm",
             "Lifetime checkpoint",
-            "Source histories and session-level details stay private",
+            "Source identities, paths, sessions, turns, models, raw events, and per-source history stay private",
             "The lesson I carried over was pacing",
             "Full technical revision record",
             "source-level daily history retired from the public dataset",
@@ -513,7 +513,7 @@ class SiteExperimentsTests(unittest.TestCase):
             'data-capture-viewport="not-retained"',
             'data-capture-theme="not-retained"',
             'data-capture-interaction-state="not-retained"',
-            "Annotated site-token chapter",
+            "Earlier single-scope anatomy",
             "it documents interface anatomy",
         ):
             with self.subTest(phrase=phrase):

@@ -36,6 +36,8 @@ TOKEN_RHYTHM_LABEL = "Site revamp retained-session estimate"
 TOKEN_RHYTHM_PRIVACY_NOTE = (
     "Rounded daily cumulative estimates only; private identities and event-level detail are not published."
 )
+ALL_WORK_TOKEN_RHYTHM_LABEL = "All retained Codex work estimate"
+ALL_WORK_TOKEN_RHYTHM_METHOD = "deduplicated_all_retained_logs"
 
 REVAMP_CUTOFF_UTC = datetime(2026, 5, 23, 1, 5, tzinfo=timezone.utc)
 DESK_CUTOFF_UTC = datetime(2026, 6, 17, 3, 0, tzinfo=timezone.utc)
@@ -4840,6 +4842,7 @@ LOCAL_LIFETIME_CHECK_FIELDS = (
     ("tokens_label",),
     ("hours_label",),
     ("api_cost_equivalence", "usd_label"),
+    ("token_rhythm",),
 )
 METRICS_BOT_EMAILS = frozenset({"metrics-bot@users.noreply.github.com"})
 
@@ -5724,8 +5727,10 @@ def build_token_rhythm(
     cutoff: datetime,
     *,
     updated_at: date | None = None,
+    label: str = TOKEN_RHYTHM_LABEL,
+    method: str = "deduplicated_repo_retained_logs",
 ) -> dict[str, Any] | None:
-    """Build a privacy-safe cumulative daily series from deduplicated repo events."""
+    """Build a privacy-safe cumulative daily series from deduplicated events."""
 
     scoped_events = [event for event in dataset.usage_events if event.timestamp >= cutoff]
     if not scoped_events:
@@ -5768,11 +5773,11 @@ def build_token_rhythm(
 
     return {
         "schema": 1,
-        "label": TOKEN_RHYTHM_LABEL,
+        "label": label,
         "units": "estimated tokens",
         "grain": "day",
         "aggregation": "cumulative",
-        "method": "deduplicated_repo_retained_logs",
+        "method": method,
         "since": since_date.isoformat(),
         "updated_at": final_date.isoformat(),
         "confidence": "estimate",
@@ -6394,6 +6399,8 @@ def merge_local_lifetime_data(current: dict[str, Any], result: dict[str, Any]) -
     ):
         next_scope[field_name] = result[field_name]
     next_scope["api_cost_equivalence"] = result["api_cost_equivalence"]
+    if isinstance(result.get("token_rhythm"), dict):
+        next_scope["token_rhythm"] = copy.deepcopy(result["token_rhythm"])
     next_scope.update(
         {
             "label": "Local Codex replay",
@@ -6711,6 +6718,14 @@ def main() -> int:
     desk = audit_scope(dataset, DESK_CUTOFF_UTC, desk_commits)
     since_gpt_5_6 = audit_scope(dataset, GPT_5_6_CUTOVER_UTC, since_gpt_5_6_commits)
     local_lifetime = audit_scope(local_dataset, LOCAL_LIFETIME_CUTOFF_UTC, commit_count=0)
+    all_work_token_rhythm = build_token_rhythm(
+        local_dataset,
+        LOCAL_LIFETIME_CUTOFF_UTC,
+        label=ALL_WORK_TOKEN_RHYTHM_LABEL,
+        method=ALL_WORK_TOKEN_RHYTHM_METHOD,
+    )
+    if all_work_token_rhythm is not None:
+        local_lifetime["token_rhythm"] = all_work_token_rhythm
     # The declared model/effort default applies to all retained local Codex
     # development work, not only sessions whose first cwd matches this repo.
     # Site usage scopes remain repo-filtered; policy tracking uses the complete

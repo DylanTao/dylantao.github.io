@@ -2270,6 +2270,50 @@ class TokenRhythmTests(unittest.TestCase):
         for scope_name in ("desk_scene", "since_gpt_5_6", "local_lifetime"):
             self.assertNotIn("token_rhythm", proposed[scope_name])
 
+    def test_all_work_rhythm_reuses_the_strict_public_schema_with_a_distinct_scope(self) -> None:
+        dataset = self.dataset_with_events(
+            [
+                counted_event(
+                    usage(2_400_000),
+                    timestamp=audit.LOCAL_LIFETIME_CUTOFF_UTC + timedelta(hours=1),
+                )
+            ]
+        )
+
+        rhythm = audit.build_token_rhythm(
+            dataset,
+            audit.LOCAL_LIFETIME_CUTOFF_UTC,
+            updated_at=date(2026, 6, 19),
+            label=audit.ALL_WORK_TOKEN_RHYTHM_LABEL,
+            method=audit.ALL_WORK_TOKEN_RHYTHM_METHOD,
+        )
+
+        assert rhythm is not None
+        self.assertEqual(
+            set(rhythm),
+            {
+                "schema",
+                "label",
+                "units",
+                "grain",
+                "aggregation",
+                "method",
+                "since",
+                "updated_at",
+                "confidence",
+                "privacy_note",
+                "points",
+            },
+        )
+        self.assertEqual(set(rhythm["points"][0]), {"date", "token_count", "tokens_label"})
+        self.assertEqual(rhythm["label"], "All retained Codex work estimate")
+        self.assertEqual(rhythm["method"], "deduplicated_all_retained_logs")
+        self.assertEqual(rhythm["since"], "2026-06-19")
+        self.assertEqual(rhythm["points"][-1]["token_count"], 2_000_000)
+        self.assertNotIn("project", rhythm)
+        self.assertNotIn("path", rhythm)
+        self.assertNotIn("account", rhythm)
+
     def test_zero_repo_evidence_preserves_published_history(self) -> None:
         previous_rhythm = {
             "schema": 1,
@@ -2384,6 +2428,31 @@ class TokenRhythmTests(unittest.TestCase):
                 self.assertEqual(len(mismatches), 1)
                 self.assertTrue(mismatches[0].startswith(f"{label}:"))
 
+    def test_local_lifetime_rhythm_drift_fails_freshness(self) -> None:
+        rhythm = {
+            "schema": 1,
+            "label": audit.ALL_WORK_TOKEN_RHYTHM_LABEL,
+            "units": "estimated tokens",
+            "grain": "day",
+            "aggregation": "cumulative",
+            "method": audit.ALL_WORK_TOKEN_RHYTHM_METHOD,
+            "since": "2026-06-19",
+            "updated_at": "2026-07-21",
+            "confidence": "estimate",
+            "privacy_note": "Rounded daily cumulative estimates only.",
+            "points": [
+                {"date": "2026-07-21", "token_count": 8_000_000_000, "tokens_label": "8B"}
+            ],
+        }
+        current = {"local_lifetime": {"token_rhythm": rhythm}}
+        proposed = copy.deepcopy(current)
+        proposed["local_lifetime"]["token_rhythm"]["points"][0]["token_count"] += 10_000_000
+
+        mismatches = audit.check_public_freshness(current, proposed)
+
+        self.assertEqual(len(mismatches), 1)
+        self.assertTrue(mismatches[0].startswith("local_lifetime.token_rhythm:"))
+
 
 class PendingChangesTests(unittest.TestCase):
     def test_ignores_status_only_noise_but_detects_unstaged_staged_and_untracked_changes(self) -> None:
@@ -2493,6 +2562,37 @@ class PendingChangesTests(unittest.TestCase):
         self.assertEqual(merged["raw_token_count"], 8_100_000_000)
         self.assertEqual(merged["token_count"], 8_100_000_000)
         self.assertEqual(merged["usage_events"], 1)
+
+    def test_genuinely_higher_local_scan_refreshes_the_all_work_rhythm_atomically(self) -> None:
+        previous = {
+            "raw_token_count": 7_020_000_000,
+            "token_count": 7_020_000_000,
+            "token_rhythm": {"points": [{"date": "2026-07-20", "token_count": 7_020_000_000}]},
+        }
+        result = {
+            "sessions": 1,
+            "turns": 1,
+            "usage_events": 1,
+            "raw_token_count": 8_100_000_000,
+            "token_count": 8_100_000_000,
+            "tokens_label": "8.1B",
+            "hours_count": 1,
+            "hours_label": "1",
+            "token_usage": {},
+            "model_effort_breakdown": {},
+            "api_cost_equivalence": {},
+            "token_rhythm": {
+                "schema": 1,
+                "label": audit.ALL_WORK_TOKEN_RHYTHM_LABEL,
+                "method": audit.ALL_WORK_TOKEN_RHYTHM_METHOD,
+                "points": [{"date": "2026-07-21", "token_count": 8_100_000_000}],
+            },
+        }
+
+        merged = audit.merge_local_lifetime_data(previous, result)
+
+        self.assertEqual(merged["token_rhythm"], result["token_rhythm"])
+        self.assertIsNot(merged["token_rhythm"], result["token_rhythm"])
 
     def test_fresh_global_model_tracking_replaces_stale_value_without_repo_usage(self) -> None:
         empty_dataset = audit.UsageDataset(

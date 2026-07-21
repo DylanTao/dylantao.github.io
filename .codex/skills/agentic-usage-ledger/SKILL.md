@@ -49,7 +49,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 - `gpt-5.5` and `gpt-5.6-sol` use the same short-context rates: $5 / 1M uncached input, $0.50 / 1M cached-read input, and $30 / 1M output;
 - when a request has more than 272,000 input tokens, use the long-context rates of $10 / 1M uncached input, $1 / 1M cached-read input, and $45 / 1M output;
 - `xhigh` and `ultra` do not add a separate price; they are effort labels, not pricing tiers;
-- the rounded combined lifetime checkpoint never receives an API-cost conversion;
+- the schema-3 rounded combined-lifetime evidence never receives a request-aware cost field or API-cost conversion; Build Rhythm may show only the separately named `hypothetical_mix_matched_api_rate_replay` thought experiment, with its mix assumptions, Standard API pricing source and date, cache-write exclusion, and explicit not-an-actual-bill caveat;
 - record the documented `gpt-5.6-sol` cache-write rates, but do not apply them because retained logs do not identify cache-write tokens;
 - retain the former `gpt-5.3-codex` math as `legacy_api_cost_equivalence` for historical comparison only;
 - retain `codexbar_cost_estimate` only as historical diagnostic provenance; never render it or use it to price current public stats.

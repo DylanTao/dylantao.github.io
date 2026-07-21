@@ -54,20 +54,21 @@
   line-height: 1.6;
 }
 
-.build-rhythm-story {
+.build-rhythm-guide {
   width: 100%;
-  margin: 0 0 clamp(2.75rem, 7vw, 5rem);
-  padding: 0 0 clamp(2rem, 5vw, 3.5rem);
+  margin: 0 0 clamp(2rem, 5vw, 3.25rem);
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
   border-bottom: 1px solid var(--global-outline-color);
 }
 
 .build-rhythm-story-heading {
   max-width: var(--measure-prose);
-  margin-bottom: clamp(1.35rem, 3vw, 2rem);
 }
 
 .build-rhythm-story-heading h2,
-.build-rhythm-story-heading p {
+.build-rhythm-story-heading p,
+.build-rhythm-guide-grid h3,
+.build-rhythm-guide-grid p {
   margin: 0;
 }
 
@@ -82,23 +83,21 @@
 }
 
 .build-rhythm-story-heading h2 {
-  max-width: 18ch;
-  font-size: clamp(1.65rem, 4vw, 2.65rem);
-  line-height: 1.05;
+  max-width: 20ch;
+  font-size: clamp(1.55rem, 3.5vw, 2.35rem);
+  line-height: 1.08;
 }
 
 .build-rhythm-story-heading > p:last-child {
   max-width: 46rem;
-  margin-top: 0.75rem;
+  margin-top: 0.7rem;
   color: var(--global-text-color-light);
-  font-size: var(--type-lede);
-  line-height: 1.55;
+  font-size: var(--type-meta);
+  line-height: 1.6;
 }
 
 .build-rhythm-story-kicker,
 .build-rhythm-story-step-number,
-.build-rhythm-story-stage-heading,
-.build-rhythm-story-readout,
 .build-rhythm-story-credit {
   font-family: var(--font-mono);
 }
@@ -111,145 +110,44 @@
   letter-spacing: 0.075em;
 }
 
-.build-rhythm-story-layout {
+.build-rhythm-guide-grid {
   display: grid;
-  gap: clamp(1.25rem, 4vw, 3rem);
-}
-
-.build-rhythm-story[data-state="loading"] .build-rhythm-story-stage-wrap {
-  display: none;
-}
-
-.build-rhythm-story-stage-wrap {
-  min-width: 0;
-}
-
-.build-rhythm-story-stage {
-  width: 100%;
-  padding: clamp(0.85rem, 2vw, 1.2rem);
-  border: 1px solid var(--global-outline-color);
-  border-radius: 0.8rem;
-  background: var(--global-surface-container-low-color);
-  box-shadow: var(--md-lite-elevation-1);
-  opacity: 1;
-}
-
-.build-rhythm-story-stage-heading {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.35rem 1rem;
-  min-height: 1.4rem;
-  color: var(--global-text-color-light);
-  font-size: var(--type-label);
-  font-weight: 650;
-  letter-spacing: 0.045em;
-}
-
-.build-rhythm-story-stage-heading > span:first-child {
-  color: var(--global-primary-color);
-}
-
-.build-rhythm-story-chart {
-  display: block;
-  width: 100%;
-  height: clamp(23rem, 35vw, 28rem);
-  overflow: visible;
-}
-
-.build-rhythm-story-chart text {
-  fill: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-
-.build-rhythm-story-chart path,
-.build-rhythm-story-chart line,
-.build-rhythm-story-chart circle {
-  vector-effect: non-scaling-stroke;
-}
-
-.build-rhythm-story-readout {
-  min-height: 2.8rem;
-  margin: 0;
-  color: var(--global-text-color-light);
-  font-size: var(--type-label);
-  line-height: 1.5;
-}
-
-.build-rhythm-story-steps {
-  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
+  margin-top: 1.25rem;
 }
 
-.build-rhythm-story-step {
-  padding: 1rem 0 1rem 1rem;
-  border-left: 2px solid var(--global-outline-color);
-  opacity: 1;
+.build-rhythm-guide-grid article {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--global-surface-color) 82%, transparent);
 }
 
-.build-rhythm-story-step.is-active {
-  border-left-color: var(--global-primary-color);
+.build-rhythm-guide-grid h3 {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.3;
 }
 
-.build-rhythm-story-step h3,
-.build-rhythm-story-step p {
-  margin: 0;
-}
-
-.build-rhythm-story-step h3 {
-  max-width: 28rem;
-  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
-  line-height: 1.25;
-}
-
-.build-rhythm-story-step > p:last-of-type {
-  max-width: 32rem;
-  margin-top: 0.55rem;
+.build-rhythm-guide-grid article > p:last-child {
+  margin-top: 0.45rem;
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
 .build-rhythm-story-step-number {
-  margin-bottom: 0.45rem !important;
+  margin-bottom: 0.4rem !important;
   color: var(--global-primary-color);
   font-size: var(--type-label);
   font-weight: 700;
-  letter-spacing: 0.055em;
-}
-
-.build-rhythm-story-explore {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.5rem;
-  margin-top: 0.85rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--global-primary-color) 44%, var(--global-outline-color));
-  border-radius: 0.45rem;
-  background: var(--global-primary-container-color);
-  color: var(--global-on-primary-container-color);
-  font-size: var(--type-meta);
-  font-weight: 650;
-  text-decoration: none;
-}
-
-.build-rhythm-story-explore:hover,
-.build-rhythm-story-explore:focus-visible {
-  border-color: var(--global-primary-color);
-  color: var(--global-primary-hover-color);
-  text-decoration: none;
-}
-
-.build-rhythm-story-explore:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--global-primary-color) 58%, transparent);
-  outline-offset: 3px;
+  letter-spacing: 0.04em;
 }
 
 .build-rhythm-story-credit {
   max-width: var(--measure-prose);
-  margin: 1.2rem 0 0;
+  margin: 1rem 0 0;
   color: var(--global-text-color-light);
   font-size: var(--type-label);
   line-height: 1.55;
@@ -265,68 +163,6 @@
 .build-rhythm-story-credit a:hover,
 .build-rhythm-story-credit a:focus-visible {
   color: var(--global-primary-hover-color);
-}
-
-@media (min-width: 821px) {
-  .build-rhythm-story[data-story-static="false"] .build-rhythm-story-layout {
-    grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 0.65fr);
-    align-items: start;
-  }
-
-  .build-rhythm-story[data-story-static="false"] .build-rhythm-story-stage-wrap {
-    position: sticky;
-    top: 4.75rem;
-    display: flex;
-    align-items: center;
-    min-height: calc(100vh - 5.75rem);
-  }
-
-  .build-rhythm-story[data-story-static="false"] .build-rhythm-story-step {
-    display: flex;
-    min-height: clamp(22rem, 66vh, 36rem);
-    justify-content: center;
-    flex-direction: column;
-    opacity: 0.5;
-  }
-
-  .build-rhythm-story[data-story-static="false"] .build-rhythm-story-step.is-active {
-    opacity: 1;
-  }
-}
-
-@media (min-width: 821px) and (max-height: 720px) {
-  .build-rhythm-story[data-story-static="false"] .build-rhythm-story-stage-wrap {
-    align-items: flex-start;
-    min-height: 0;
-  }
-
-  .build-rhythm-story-chart {
-    height: 23rem;
-  }
-}
-
-@media (max-width: 820px) {
-  .build-rhythm-story-chart {
-    height: 24rem;
-  }
-
-  .build-rhythm-story-readout {
-    padding-right: 3rem;
-  }
-
-  .build-rhythm-story-step {
-    padding-block: 0.85rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .build-rhythm-story-stage {
-    opacity: 1 !important;
-  }
-
-  .build-rhythm-story-step {
-    opacity: 1 !important;
-  }
 }
 
 .github-activity-codex-ledger {
@@ -534,6 +370,21 @@
   line-height: 1.5;
 }
 
+.github-activity-lifetime-replay {
+  max-width: var(--measure-prose);
+  margin: 0.8rem 0 0;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--global-outline-color);
+  border-bottom: 1px solid var(--global-outline-color);
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  line-height: 1.55;
+}
+
+.github-activity-lifetime-replay strong {
+  color: var(--global-text-color);
+}
+
 .github-activity-workbench {
   width: 100%;
   padding: clamp(1rem, 2.5vw, 1.5rem);
@@ -567,6 +418,34 @@
 .github-activity-token-summary dt,
 .github-activity-token-summary dd {
   margin: 0;
+}
+
+.github-activity-token-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.25rem;
+  margin-top: 0.9rem;
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+}
+
+.github-activity-token-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.github-activity-token-legend i {
+  display: inline-block;
+  width: 1.35rem;
+  height: 0;
+  border-top: 2px solid var(--global-primary-color);
+}
+
+.github-activity-token-legend i.is-site {
+  border-top-color: var(--global-sky-strong);
+  border-top-style: dashed;
 }
 
 .github-activity-token-summary dt {
@@ -607,8 +486,34 @@
 }
 
 .github-activity-token-rhythm-chart path,
-.github-activity-token-rhythm-chart line {
+.github-activity-token-rhythm-chart line,
+.github-activity-token-rhythm-chart circle {
   vector-effect: non-scaling-stroke;
+}
+
+.github-activity-token-inspector {
+  cursor: crosshair;
+  outline: none;
+  touch-action: pan-y;
+}
+
+.github-activity-token-guide {
+  transition:
+    stroke 120ms ease,
+    stroke-width 120ms ease,
+    stroke-opacity 120ms ease;
+}
+
+.github-activity-token-rhythm-chart.is-keyboard-focused .github-activity-token-guide {
+  stroke: var(--global-primary-color);
+  stroke-width: 2.6px;
+  stroke-opacity: 1;
+}
+
+.github-activity-token-rhythm-chart.is-keyboard-focused {
+  border-radius: 0.35rem;
+  outline: 3px solid color-mix(in srgb, var(--global-primary-color) 58%, transparent);
+  outline-offset: 3px;
 }
 
 .github-activity-token-annotation {
@@ -911,18 +816,31 @@
 
 .github-activity-token-evidence {
   margin-top: 1.25rem;
-  padding: 0 0 0.25rem;
+  padding: 0.1rem 0 0.25rem;
+  border-top: 1px solid var(--global-outline-color);
 }
 
-.github-activity-token-evidence h2,
-.github-activity-token-evidence h3,
+.github-activity-token-evidence summary,
 .github-activity-token-evidence p {
   margin: 0;
 }
 
-.github-activity-token-evidence h2,
-.github-activity-token-evidence h3 {
-  font-size: 1rem;
+.github-activity-token-evidence summary {
+  min-height: 2.75rem;
+  padding: 0.75rem 0;
+  color: var(--global-text-color);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.github-activity-token-evidence summary:focus-visible {
+  border-radius: 0.3rem;
+  outline: 3px solid color-mix(in srgb, var(--global-primary-color) 58%, transparent);
+  outline-offset: 3px;
+}
+
+.github-activity-token-evidence-body {
+  padding-bottom: 0.25rem;
 }
 
 .github-activity-token-evidence p {
@@ -938,7 +856,7 @@
 }
 
 .github-activity-token-evidence .github-activity-table {
-  min-width: 38rem;
+  min-width: 56rem;
 }
 
 .github-activity-codex-table-section {
@@ -1030,6 +948,10 @@
 
   .github-activity-lede {
     line-height: 1.5;
+  }
+
+  .build-rhythm-guide-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .github-activity-codex-ledger {

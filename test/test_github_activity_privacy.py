@@ -14,6 +14,8 @@ ACTIVITY_PATHS = (
     REPO_ROOT / "_pages" / "github-activity.md",
     REPO_ROOT / "assets" / "js" / "github-activity.js",
     REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
+    REPO_ROOT / "assets" / "data" / "build-rhythm-token-rhythm.json.liquid",
+    REPO_ROOT / "assets" / "data" / "build-rhythm-all-work-token-rhythm.json.liquid",
     REPO_ROOT / "_data" / "direct_usage_tracker.json",
     REPO_ROOT / "_data" / "github_activity.json",
 )
