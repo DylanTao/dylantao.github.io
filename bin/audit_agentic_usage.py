@@ -60,7 +60,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 43
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 44
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4899,6 +4899,83 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V43_TURN_IDS = tuple(
 )
 
 del _turn_id, _timestamp, _leaf_session, _spawn_task, _runtime_cwd, _first_scoped_response_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V44_CLEANUP_AUDIT_TURNS = (
+    (
+        "019f8783-712c-7d82-90d5-564856b90676",
+        "2026-07-22T01:49:27.615Z",
+        "019f86b0-4a32-7352-b56a-be25a02ba65a",
+        "/root/profile_metrics_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-22T01:49:38.575Z",
+    ),
+    (
+        "019f8785-2ed8-7123-a357-c39066a008bf",
+        "2026-07-22T01:51:21.522Z",
+        "019f86b0-4a32-7352-b56a-be25a02ba65a",
+        "/root/profile_metrics_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-22T01:51:26.560Z",
+    ),
+    (
+        "019f8786-98b0-74e3-bde8-d2f3d4dac1ed",
+        "2026-07-22T01:52:53.960Z",
+        "019f86b0-4a32-7352-b56a-be25a02ba65a",
+        "/root/profile_metrics_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-22T01:53:02.793Z",
+    ),
+    (
+        "019f8790-103a-7480-a940-63836fef4ca9",
+        "2026-07-22T02:03:14.774Z",
+        "019f86b0-4a32-7352-b56a-be25a02ba65a",
+        "/root/profile_metrics_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-22T02:03:23.358Z",
+    ),
+    (
+        "019f8793-d0c3-7551-a868-efe86c2043b0",
+        "2026-07-22T02:07:20.602Z",
+        "019f86b0-4a32-7352-b56a-be25a02ba65a",
+        "/root/profile_metrics_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-22T02:07:34.750Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V44_CLEANUP_AUDIT_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-terra",
+        "effort": "high",
+        "acknowledged_at": "2026-07-21",
+        "reason": (
+            "A delegated cleanup and provenance-audit agent used gpt-5.6-terra/high "
+            "while verifying temporary worktree retirement and comparing repository "
+            "history; these scoped final-cleanup turns did not perform site development "
+            "or change the site's declared default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, and first scoped assistant response at "
+            f"{_first_scoped_response_at}; audited 2026-07-21."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V44_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V44_CLEANUP_AUDIT_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at
 
 
 WH_PER_TOKEN_MIDPOINT = 0.0006
