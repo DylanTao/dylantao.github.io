@@ -36,8 +36,6 @@ TOKEN_RHYTHM_LABEL = "Site revamp retained-session estimate"
 TOKEN_RHYTHM_PRIVACY_NOTE = (
     "Rounded daily cumulative estimates only; private identities and event-level detail are not published."
 )
-ALL_WORK_TOKEN_RHYTHM_LABEL = "All retained Codex work estimate"
-ALL_WORK_TOKEN_RHYTHM_METHOD = "deduplicated_all_retained_logs"
 
 REVAMP_CUTOFF_UTC = datetime(2026, 5, 23, 1, 5, tzinfo=timezone.utc)
 DESK_CUTOFF_UTC = datetime(2026, 6, 17, 3, 0, tzinfo=timezone.utc)
@@ -60,7 +58,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 41
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 42
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4787,6 +4785,60 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at
 
 
+MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS = (
+    (
+        "019f8719-28fb-74b2-a6e9-0cae260fd279",
+        "2026-07-21T23:53:21.149Z",
+        "019f8718-fb46-7f21-b270-ccb1e3c7a2e4",
+        "/root/uist2026_cutoff_closure",
+        r"D:\dev\semantic-scaffolding-map",
+    ),
+    (
+        "019f8719-964d-77b3-9848-0991315c36ae",
+        "2026-07-21T23:53:49.097Z",
+        "019f8719-6d5f-7103-9579-cf9ed5594805",
+        "/root/eics_2024_2026_route",
+        r"D:\dev\semantic-scaffolding-map",
+    ),
+    (
+        "019f8724-536b-7cd0-a869-81acf4e37b67",
+        "2026-07-22T00:05:32.873Z",
+        "019f8724-2627-7cc3-8f7c-a8b4a6e7ab01",
+        "/root/iccc_2019_2025_route",
+        r"D:\dev\semantic-scaffolding-map",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-21",
+        "reason": (
+            "A delegated substantive semantic-scaffolding venue/cutoff review subagent used "
+            "gpt-5.6-sol/max under that external research repo's maximum-reasoning policy; "
+            "it did not perform site development or change the site's declared default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime cwd "
+            f"{_runtime_cwd}, and exact turn_context at {_timestamp}; audited 2026-07-21."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V42_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
+
+
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
 WH_PER_TOKEN_HIGH = 0.002
@@ -4842,7 +4894,6 @@ LOCAL_LIFETIME_CHECK_FIELDS = (
     ("tokens_label",),
     ("hours_label",),
     ("api_cost_equivalence", "usd_label"),
-    ("token_rhythm",),
 )
 METRICS_BOT_EMAILS = frozenset({"metrics-bot@users.noreply.github.com"})
 
@@ -5727,10 +5778,8 @@ def build_token_rhythm(
     cutoff: datetime,
     *,
     updated_at: date | None = None,
-    label: str = TOKEN_RHYTHM_LABEL,
-    method: str = "deduplicated_repo_retained_logs",
 ) -> dict[str, Any] | None:
-    """Build a privacy-safe cumulative daily series from deduplicated events."""
+    """Build a privacy-safe cumulative daily series from deduplicated repo events."""
 
     scoped_events = [event for event in dataset.usage_events if event.timestamp >= cutoff]
     if not scoped_events:
@@ -5773,11 +5822,11 @@ def build_token_rhythm(
 
     return {
         "schema": 1,
-        "label": label,
+        "label": TOKEN_RHYTHM_LABEL,
         "units": "estimated tokens",
         "grain": "day",
         "aggregation": "cumulative",
-        "method": method,
+        "method": "deduplicated_repo_retained_logs",
         "since": since_date.isoformat(),
         "updated_at": final_date.isoformat(),
         "confidence": "estimate",
@@ -6399,8 +6448,6 @@ def merge_local_lifetime_data(current: dict[str, Any], result: dict[str, Any]) -
     ):
         next_scope[field_name] = result[field_name]
     next_scope["api_cost_equivalence"] = result["api_cost_equivalence"]
-    if isinstance(result.get("token_rhythm"), dict):
-        next_scope["token_rhythm"] = copy.deepcopy(result["token_rhythm"])
     next_scope.update(
         {
             "label": "Local Codex replay",
@@ -6718,14 +6765,6 @@ def main() -> int:
     desk = audit_scope(dataset, DESK_CUTOFF_UTC, desk_commits)
     since_gpt_5_6 = audit_scope(dataset, GPT_5_6_CUTOVER_UTC, since_gpt_5_6_commits)
     local_lifetime = audit_scope(local_dataset, LOCAL_LIFETIME_CUTOFF_UTC, commit_count=0)
-    all_work_token_rhythm = build_token_rhythm(
-        local_dataset,
-        LOCAL_LIFETIME_CUTOFF_UTC,
-        label=ALL_WORK_TOKEN_RHYTHM_LABEL,
-        method=ALL_WORK_TOKEN_RHYTHM_METHOD,
-    )
-    if all_work_token_rhythm is not None:
-        local_lifetime["token_rhythm"] = all_work_token_rhythm
     # The declared model/effort default applies to all retained local Codex
     # development work, not only sessions whose first cwd matches this repo.
     # Site usage scopes remain repo-filtered; policy tracking uses the complete

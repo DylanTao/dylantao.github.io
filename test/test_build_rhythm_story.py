@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -12,8 +13,7 @@ HEURISTICS_PATH = REPO_ROOT / "WEBSITE_DESIGN_HEURISTICS.md"
 LEDGER_DOC_PATH = REPO_ROOT / "docs" / "agentic-usage-ledger.md"
 SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "github-activity.js"
 STYLE_PATH = REPO_ROOT / "_sass" / "_github-activity.scss"
-SITE_ENDPOINT_PATH = REPO_ROOT / "assets" / "data" / "build-rhythm-token-rhythm.json.liquid"
-ALL_WORK_ENDPOINT_PATH = REPO_ROOT / "assets" / "data" / "build-rhythm-all-work-token-rhythm.json.liquid"
+TOKEN_ENDPOINT_PATH = REPO_ROOT / "assets" / "data" / "build-rhythm-token-rhythm.json.liquid"
 PACKAGE_PATH = REPO_ROOT / "package.json"
 PUBLIC_VISUAL_CONFIG_PATH = REPO_ROOT / "test" / "visual" / "public.config.js"
 PUBLIC_ROUTES_PATH = REPO_ROOT / "test" / "visual" / "public-routes.js"
@@ -29,160 +29,193 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.ledger_doc = LEDGER_DOC_PATH.read_text(encoding="utf-8")
         cls.script = SCRIPT_PATH.read_text(encoding="utf-8")
         cls.style = STYLE_PATH.read_text(encoding="utf-8")
-        cls.site_endpoint = SITE_ENDPOINT_PATH.read_text(encoding="utf-8")
-        cls.all_work_endpoint = ALL_WORK_ENDPOINT_PATH.read_text(encoding="utf-8")
+        cls.token_endpoint = TOKEN_ENDPOINT_PATH.read_text(encoding="utf-8")
         cls.package = PACKAGE_PATH.read_text(encoding="utf-8")
         cls.public_visual_config = PUBLIC_VISUAL_CONFIG_PATH.read_text(encoding="utf-8")
         cls.public_routes = PUBLIC_ROUTES_PATH.read_text(encoding="utf-8")
 
-    def test_concise_scope_guide_replaces_the_redundant_scroll_story(self) -> None:
-        self.assertEqual(self.page.count('class="build-rhythm-guide-grid"'), 1)
-        self.assertEqual(self.page.count('class="build-rhythm-guide-grid"') + self.page.count("THREE SCOPE GUIDE"), 2)
-        for label in ("01 · LIFETIME SNAPSHOT", "02 · WEEKLY GITHUB", "03 · DAILY TOKENS"):
-            self.assertIn(label, self.page)
-        self.assertLess(self.page.index('class="build-rhythm-guide"'), self.page.index("data-codex-usage"))
-        self.assertLess(self.page.index("data-codex-usage"), self.page.index('class="github-activity-workbench"'))
-        self.assertLess(self.page.index('class="github-activity-workbench"'), self.page.index("data-token-rhythm"))
-        removed = (
-            "data-build-rhythm-story",
-            "data-build-rhythm-step",
-            "build-rhythm-story-stage",
-            "build-rhythm-story-layout",
-            "initBuildRhythmStory",
-            "drawTokenRhythm",
-            "drawSeries",
+    def test_story_chapters_are_server_rendered_in_order(self) -> None:
+        steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
+        self.assertEqual(
+            steps,
+            ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"],
         )
-        public_implementation = "\n".join((self.page, self.script, self.style))
-        for selector in removed:
-            with self.subTest(selector=selector):
-                self.assertNotIn(selector, public_implementation)
+        self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
+        self.assertLess(
+            self.page.index('data-build-rhythm-story'),
+            self.page.index('data-codex-usage'),
+        )
+        self.assertLess(
+            self.page.index('data-build-rhythm-story'),
+            self.page.index('class="github-activity-workbench"'),
+        )
+        self.assertLess(
+            self.page.index('class="github-activity-workbench"'),
+            self.page.index('class="github-activity-token-rhythm"'),
+        )
+        self.assertLess(
+            self.page.index('class="github-activity-token-rhythm"'),
+            self.page.index('class="github-activity-method"'),
+        )
 
-    def test_credit_and_origin_route_remain_explicit(self) -> None:
-        for phrase in ("https://rhythm-of-food.net/", "Google News Lab", "Truth &amp; Beauty", "https://jrthomp.com/", "John Thompson"):
-            self.assertIn(phrase, self.page)
+    def test_story_credit_and_origin_route_are_explicit(self) -> None:
+        self.assertIn("https://rhythm-of-food.net/", self.page)
+        self.assertIn("Google News Lab", self.page)
+        self.assertIn("Truth &amp; Beauty", self.page)
+        self.assertIn("https://jrthomp.com/", self.page)
+        self.assertIn("John Thompson", self.page)
         self.assertIn('href="/projects/build-rhythm/"', self.page)
         self.assertIn('label="Read how Build Rhythm began"', self.page)
+        self.assertNotIn("autodesk", self.page.lower())
 
-    def test_two_public_token_endpoints_are_direct_separate_ledger_projections(self) -> None:
-        self.assertIn("permalink: /assets/data/build-rhythm-token-rhythm.json", self.site_endpoint)
-        self.assertIn("{{ site.data.agentic_usage.total.token_rhythm | jsonify }}", self.site_endpoint)
-        self.assertIn("permalink: /assets/data/build-rhythm-all-work-token-rhythm.json", self.all_work_endpoint)
-        self.assertIn("{{ site.data.agentic_usage.local_lifetime.token_rhythm | jsonify }}", self.all_work_endpoint)
-        for endpoint in (self.site_endpoint, self.all_work_endpoint):
-            self.assertIn("layout: null", endpoint)
-            self.assertNotIn("direct_usage_tracker", endpoint)
-            self.assertNotIn("account", endpoint.lower())
+    def test_story_uses_native_scroll_and_bounded_progressive_enhancement(self) -> None:
+        self.assertIn("IntersectionObserver", self.script)
+        self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', self.script)
+        self.assertIn('window.matchMedia("(max-width: 820px)")', self.script)
+        self.assertIn("requestAnimationFrame(tick)", self.script)
+        self.assertIn('stage.dataset.transitioning = "false"', self.script)
+        self.assertIn('storyRoot.dataset.storyVisible = String(storyVisible)', self.script)
+        self.assertNotRegex(self.script, r'addEventListener\(\s*["\']wheel["\']')
+        self.assertNotIn("scrollTo(", self.script)
+        self.assertNotIn("scrollIntoView(", self.script)
 
-    def test_dual_daily_chart_has_strict_sources_and_one_authoritative_figure(self) -> None:
+    def test_token_rhythm_uses_the_public_repo_estimate_without_account_history(self) -> None:
         self.assertIn('id="build-rhythm-token-data"', self.page)
-        self.assertIn('id="build-rhythm-all-work-token-data"', self.page)
         self.assertIn("site.data.agentic_usage.total.token_rhythm", self.page)
-        self.assertIn("site.data.agentic_usage.local_lifetime.token_rhythm", self.page)
-        self.assertIn('id="github-activity-token-rhythm-chart"', self.page)
-        self.assertEqual(self.page.count('id="github-activity-token-rhythm-chart"'), 1)
-        self.assertIn('label: "Site revamp retained-session estimate"', self.script)
-        self.assertIn('method: "deduplicated_repo_retained_logs"', self.script)
-        self.assertIn('label: "All retained Codex work estimate"', self.script)
-        self.assertIn('method: "deduplicated_all_retained_logs"', self.script)
-        self.assertIn("Number.isSafeInteger(point.token_count)", self.script)
-        self.assertIn('class: "github-activity-token-all-work-line"', self.script)
-        self.assertIn('class: "github-activity-token-site-line"', self.script)
-        self.assertNotIn("github-activity-token-cumulative-line", self.script)
-        self.assertNotIn("github-activity-token-delta-line", self.script)
-
-    def test_every_chart_keeps_y_axis_units_and_transform_in_compact_copy(self) -> None:
-        for phrase in (
-            "Y-AXIS: DAILY TOKENS · LOG1P",
-            "Y-AXIS: ROUNDED DAILY ESTIMATED TOKENS · READABLE LOG1P",
-            "Y-AXIS: COMMITS/WK",
-            "Y-AXIS: LINES/WK",
-            "READABLE SYMLOG",
-            "LITERAL LINEAR",
-        ):
-            with self.subTest(phrase=phrase):
-                self.assertIn(phrase, self.page + self.script)
-
-    def test_daily_inspector_supports_pointer_keyboard_focus_and_quiet_announcements(self) -> None:
-        for phrase in (
-            'chart.tabIndex = 0',
-            'chart.setAttribute("role", "slider")',
-            'event.key === "ArrowLeft"',
-            'event.key === "ArrowRight"',
-            'event.key === "Home"',
-            'event.key === "End"',
-            'event.key === "Escape"',
-            'showIndex(nearestIndex(event), { pin: true, announce: true })',
-            'if (announce) announcement.textContent = readout.textContent',
-            'new ResizeObserver(scheduleRender).observe(chart)',
-        ):
-            with self.subTest(phrase=phrase):
-                self.assertIn(phrase, self.script)
-        self.assertIn(".github-activity-token-rhythm-chart.is-keyboard-focused", self.style)
-        self.assertIn("touch-action: pan-y", self.style)
-        self.assertNotIn('data-token-rhythm-readout aria-live="polite"', self.page)
-        self.assertIn('data-token-rhythm-announcement aria-live="polite"', self.page)
-
-    def test_daily_rows_are_collapsed_but_keep_a_native_no_js_path(self) -> None:
-        self.assertIn('<details class="github-activity-token-evidence">', self.page)
-        self.assertNotIn('<details class="github-activity-token-evidence" open>', self.page)
-        self.assertIn("Daily values for accessible and no-JavaScript reading", self.page)
+        self.assertIn('data-build-rhythm-step="tokens"', self.page)
+        self.assertIn("Token accumulation is a trace, not a score.", self.page)
         self.assertIn('id="github-activity-token-table-body"', self.page)
-        self.assertIn('aria-label="No prior all-work point for this date"', self.page)
-        self.assertIn('aria-label="No prior website point for this date"', self.page)
-        self.assertIn("min-width: 56rem", self.style)
+        self.assertIn('id="github-activity-token-rhythm-chart"', self.page)
+        self.assertIn('id="github-activity-token-table-scroll-hint"', self.page)
+        self.assertIn('data-token-rhythm', self.page)
+        self.assertIn("Site-build token rhythm", self.page)
+        self.assertIn("Rounded increase", self.page)
+        self.assertIn("Exact daily reading path", self.page)
+        self.assertIn("These server-rendered points remain available without JavaScript.", self.page)
+        self.assertIn("largest rounded adjacent-point increase", self.page)
+        self.assertIn('candidate.method !== "deduplicated_repo_retained_logs"', self.script)
+        self.assertIn('candidate.units !== "estimated tokens"', self.script)
+        self.assertIn("Number.isSafeInteger(point.token_count)", self.script)
+        self.assertIn('root.dataset.tokenState = tokenSource ? "ready" : "error"', self.script)
+        self.assertIn("Tokens trace retained work, not quality.", self.script)
+        self.assertNotIn("account_lifetime", self.page)
 
-    def test_daily_deltas_require_an_adjacent_published_point(self) -> None:
-        self.assertIn("delta: index === 0 ? null", self.script)
-        self.assertIn("siteWithDeltas.slice(1)", self.script)
-        self.assertIn("Math.max(siteRows[1].date.getTime(), allWorkRows[1].date.getTime())", self.script)
-        self.assertNotIn("rows[index - 1]?.tokenCount || 0", self.script)
-        self.assertIn("Each series' first cumulative point is only a baseline with no daily delta", self.reproduction)
-        self.assertIn("each series' first point is a baseline with no daily value", self.ledger_doc)
+    def test_public_token_rhythm_endpoint_is_a_direct_ledger_projection(self) -> None:
+        self.assertIn("layout: null", self.token_endpoint)
+        self.assertIn("permalink: /assets/data/build-rhythm-token-rhythm.json", self.token_endpoint)
+        self.assertIn("{{ site.data.agentic_usage.total.token_rhythm | jsonify }}", self.token_endpoint)
+        self.assertNotIn("direct_usage_tracker", self.token_endpoint)
+        self.assertNotIn("account", self.token_endpoint.lower())
 
-    def test_lifetime_replay_is_hypothetical_source_pinned_and_outside_direct_schema(self) -> None:
+    def test_persistent_token_chart_reuses_validated_data_and_resizes(self) -> None:
+        self.assertIn('const drawTokenRhythm = (group, tokenRows, width, height, colors)', self.script)
+        self.assertIn('className: "github-activity-token-cumulative-line"', self.script)
+        self.assertIn('className: "github-activity-token-delta-line"', self.script)
+        self.assertIn("new ResizeObserver(scheduleRender).observe(chart)", self.script)
+        self.assertIn('rhythmRoot.dataset.state = "ready"', self.script)
+        self.assertIn('rhythmRoot.dataset.state = "error"', self.script)
+
+    def test_static_and_reduced_motion_styles_remain_complete(self) -> None:
+        self.assertIn('@media (max-width: 820px)', self.style)
+        self.assertIn('@media (min-width: 821px) and (max-height: 720px)', self.style)
+        self.assertIn('@media (prefers-reduced-motion: reduce)', self.style)
+        self.assertIn('.build-rhythm-story-chart', self.style)
+        self.assertIn('grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 0.65fr);', self.style)
+        self.assertIn('height: clamp(23rem, 35vw, 28rem);', self.style)
+        self.assertIn('min-height: calc(100vh - 5.75rem);', self.style)
+        self.assertIn('.github-activity-token-evidence .github-activity-table', self.style)
+        self.assertIn('min-width: 38rem;', self.style)
+        self.assertIn('opacity: 1 !important;', self.style)
+
+    def test_authoritative_explorer_contract_stays_present(self) -> None:
+        frozen_page_selectors = (
+            'data-github-activity',
+            'data-codex-usage',
+            'data-codex-lifetime',
+            'id="github-activity-chart"',
+            'id="github-activity-selected-commits"',
+            'id="github-activity-selected-additions"',
+            'id="github-activity-selected-deletions"',
+            'id="github-activity-table-scroll-hint"',
+            'id="github-activity-table-body"',
+            'id="github-activity-data"',
+            'id="build-rhythm-token-data"',
+        )
+        for selector in frozen_page_selectors:
+            with self.subTest(selector=selector):
+                self.assertIn(selector, self.page)
+        self.assertIn('class: "github-activity-commit-line"', self.script)
+        self.assertIn('class: "github-activity-add-line"', self.script)
+        self.assertIn('class: "github-activity-remove-line"', self.script)
+
+    def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
-            "data-hypothetical-mix-matched-api-rate-replay",
-            "model, cache, request-length, and input/output mix",
-            "local_replay.source_url",
-            "local_replay.pricing_as_of",
-            "local_replay.priced_token_usage.total_tokens",
-            "divided_by: local_replay_priced_tokens",
-            "unsupported-model tokens and unavailable cache-write tokens are excluded",
-            "Not an actual bill",
+            "rounded lifetime Codex snapshot",
+            "Lifetime checkpoint",
+            "7e224db12",
+            "Three signals, never one score",
+            "Deduplicated retained logs attributed to this repo",
+            "Differences between adjacent points are rounded increases",
+            "6edea07f4",
         ):
-            self.assertIn(phrase, self.page)
-        self.assertNotIn("site.data.agentic_usage.local_lifetime.raw_token_count", self.page)
-        self.assertIn("priced dollars-per-priced-token", self.ledger_doc)
-        self.assertIn("hypothetical_mix_matched_api_rate_replay", self.ledger_doc)
-        self.assertIn("hypothetical_mix_matched_api_rate_replay", self.reproduction)
-        self.assertNotIn("api_cost", (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text(encoding="utf-8"))
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.case_study)
 
-    def test_case_study_and_reproduction_match_the_refined_story(self) -> None:
         for phrase in (
-            "concise scope guide",
-            "all retained Codex work",
-            "one dual daily-delta chart",
-            "labels its Y-axis as LOG1P",
-            "when a teaching figure repeats the explorer below",
+            "rounded lifetime total",
+            "Never add it to the repo-scoped retained-session estimate",
+            "rounded, anonymous, and separate from the repo estimate",
+            "missing observation must never render as a false zero",
+            "The exact point keys are `date`, `token_count`, and `tokens_label`",
+            "three separate clocks",
+            "server-rendered daily token summary and table",
+            "Differences between adjacent rounded points are rounded increases, not exact daily usage.",
         ):
-            self.assertIn(phrase, self.case_study)
-        for phrase in (
-            "two retained-token sources separate strict endpoints",
-            "Prefix every chart heading or badge with `Y-AXIS:`",
-            "Ordinary hover may update visible copy",
-            "collapsed native disclosure",
-            "not an actual bill",
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.reproduction)
+
+        self.assertIn("change provenance, not the privacy boundary", self.heuristics)
+        self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
+        self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)
+
+        for stale_phrase in (
+            "dated 30-day Codex snapshot",
+            "shorter clock of recent Codex use",
+            "Keep tool-use tokens on their own truthful horizon",
+            "two-measure data boundary",
         ):
-            self.assertIn(phrase, self.reproduction)
-        self.assertIn("Use one authoritative daily-delta figure", self.heuristics)
-        self.assertIn("local_lifetime.token_rhythm", self.ledger_doc)
+            with self.subTest(stale_phrase=stale_phrase):
+                self.assertNotIn(stale_phrase, self.case_study)
+                self.assertNotIn(stale_phrase, self.reproduction)
 
-    def test_retired_quota_health_and_source_identity_copy_are_absent(self) -> None:
-        surfaces = "\n".join((self.page, self.case_study, self.reproduction, self.script)).lower()
-        for retired in ("2-account quota health", "two-account quota health", "quota-health", "data-codex-quota", "gmail", "ucsd email"):
-            self.assertNotIn(retired, surfaces)
+    def test_retired_quota_health_ui_and_copy_are_absent(self) -> None:
+        public_surfaces = "\n".join((self.page, self.case_study, self.reproduction, self.script)).lower()
+        for retired in (
+            "2-account quota health",
+            "two-account quota health",
+            "quota-health",
+            "data-codex-healthy",
+            "data-codex-fresh",
+            "data-codex-quota",
+            "personalroundedlifetimebaseline",
+        ):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, public_surfaces)
+        for retired in ("per-account", "gmail", "ucsd email"):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, self.page.lower())
+        self.assertIn("Combined lifetime Codex tokens", self.page)
+        self.assertIn("automatic refresh pending", self.page)
+        self.assertIn("never\nadded to the repo-scoped retained-session estimate", self.page)
 
-    def test_visual_contract_runs_in_the_public_site_matrix(self) -> None:
+    def test_automated_lifetime_snapshot_accepts_only_the_canonical_confidence(self) -> None:
+        self.assertIn('candidate.confidence === "high"', self.script)
+        self.assertNotIn(
+            '["high", "direct", "complete", "direct complete observation"]',
+            self.script,
+        )
+
+    def test_build_rhythm_visual_contract_runs_in_the_public_site_matrix(self) -> None:
         spec = "build-rhythm-story.spec.js"
         self.assertIn(spec, self.package)
         self.assertIn(spec, self.public_visual_config)

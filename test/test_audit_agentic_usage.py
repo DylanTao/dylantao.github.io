@@ -618,8 +618,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 41)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 457)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 42)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 460)
         required_fields = {
             "timestamp",
             "model",
@@ -1843,7 +1843,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 41)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 42)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 1)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
@@ -1859,6 +1859,64 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertIn(f"first scoped assistant response at {response_at}", policy["provenance"])
         self.assertIn("delegated read-only profile-metrics review subagent", policy["reason"])
         self.assertIn("did not perform site development", policy["reason"])
+
+    def test_policy_v42_external_research_turns_are_acknowledged_by_exact_signature(
+        self,
+    ) -> None:
+        contexts = {}
+        for ordinal, row in enumerate(
+            audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS,
+            start=1,
+        ):
+            turn_id, exact_timestamp, leaf_session, agent_path, runtime_cwd = row
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            timestamp = audit.parse_timestamp(exact_timestamp)
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=leaf_session,
+                turn_id=turn_id,
+                model=policy["model"],
+                effort=policy["effort"],
+                path=Path(f"policy-v42-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 42)
+        self.assertEqual(
+            set(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V42_TURN_IDS),
+            set(contexts),
+        )
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(tracking["post_cutover_observed_breakdown"], {"gpt-5.6-sol/max": 3})
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+
+        for turn_id, exact_timestamp, leaf_session, agent_path, runtime_cwd in (
+            audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS
+        ):
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            self.assertEqual(policy["timestamp"], exact_timestamp)
+            self.assertEqual(policy["model"], "gpt-5.6-sol")
+            self.assertEqual(policy["effort"], "max")
+            self.assertIn(f"leaf session {leaf_session}", policy["provenance"])
+            self.assertIn(f"agent path {agent_path}", policy["provenance"])
+            self.assertIn(f"exact runtime cwd {runtime_cwd}", policy["provenance"])
+            self.assertIn(f"exact turn_context at {exact_timestamp}", policy["provenance"])
+            self.assertIn("semantic-scaffolding venue/cutoff review subagent", policy["reason"])
+            self.assertIn("external research repo's maximum-reasoning policy", policy["reason"])
+            self.assertIn("did not perform site development", policy["reason"])
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"
@@ -2270,50 +2328,6 @@ class TokenRhythmTests(unittest.TestCase):
         for scope_name in ("desk_scene", "since_gpt_5_6", "local_lifetime"):
             self.assertNotIn("token_rhythm", proposed[scope_name])
 
-    def test_all_work_rhythm_reuses_the_strict_public_schema_with_a_distinct_scope(self) -> None:
-        dataset = self.dataset_with_events(
-            [
-                counted_event(
-                    usage(2_400_000),
-                    timestamp=audit.LOCAL_LIFETIME_CUTOFF_UTC + timedelta(hours=1),
-                )
-            ]
-        )
-
-        rhythm = audit.build_token_rhythm(
-            dataset,
-            audit.LOCAL_LIFETIME_CUTOFF_UTC,
-            updated_at=date(2026, 6, 19),
-            label=audit.ALL_WORK_TOKEN_RHYTHM_LABEL,
-            method=audit.ALL_WORK_TOKEN_RHYTHM_METHOD,
-        )
-
-        assert rhythm is not None
-        self.assertEqual(
-            set(rhythm),
-            {
-                "schema",
-                "label",
-                "units",
-                "grain",
-                "aggregation",
-                "method",
-                "since",
-                "updated_at",
-                "confidence",
-                "privacy_note",
-                "points",
-            },
-        )
-        self.assertEqual(set(rhythm["points"][0]), {"date", "token_count", "tokens_label"})
-        self.assertEqual(rhythm["label"], "All retained Codex work estimate")
-        self.assertEqual(rhythm["method"], "deduplicated_all_retained_logs")
-        self.assertEqual(rhythm["since"], "2026-06-19")
-        self.assertEqual(rhythm["points"][-1]["token_count"], 2_000_000)
-        self.assertNotIn("project", rhythm)
-        self.assertNotIn("path", rhythm)
-        self.assertNotIn("account", rhythm)
-
     def test_zero_repo_evidence_preserves_published_history(self) -> None:
         previous_rhythm = {
             "schema": 1,
@@ -2428,31 +2442,6 @@ class TokenRhythmTests(unittest.TestCase):
                 self.assertEqual(len(mismatches), 1)
                 self.assertTrue(mismatches[0].startswith(f"{label}:"))
 
-    def test_local_lifetime_rhythm_drift_fails_freshness(self) -> None:
-        rhythm = {
-            "schema": 1,
-            "label": audit.ALL_WORK_TOKEN_RHYTHM_LABEL,
-            "units": "estimated tokens",
-            "grain": "day",
-            "aggregation": "cumulative",
-            "method": audit.ALL_WORK_TOKEN_RHYTHM_METHOD,
-            "since": "2026-06-19",
-            "updated_at": "2026-07-21",
-            "confidence": "estimate",
-            "privacy_note": "Rounded daily cumulative estimates only.",
-            "points": [
-                {"date": "2026-07-21", "token_count": 8_000_000_000, "tokens_label": "8B"}
-            ],
-        }
-        current = {"local_lifetime": {"token_rhythm": rhythm}}
-        proposed = copy.deepcopy(current)
-        proposed["local_lifetime"]["token_rhythm"]["points"][0]["token_count"] += 10_000_000
-
-        mismatches = audit.check_public_freshness(current, proposed)
-
-        self.assertEqual(len(mismatches), 1)
-        self.assertTrue(mismatches[0].startswith("local_lifetime.token_rhythm:"))
-
 
 class PendingChangesTests(unittest.TestCase):
     def test_ignores_status_only_noise_but_detects_unstaged_staged_and_untracked_changes(self) -> None:
@@ -2562,37 +2551,6 @@ class PendingChangesTests(unittest.TestCase):
         self.assertEqual(merged["raw_token_count"], 8_100_000_000)
         self.assertEqual(merged["token_count"], 8_100_000_000)
         self.assertEqual(merged["usage_events"], 1)
-
-    def test_genuinely_higher_local_scan_refreshes_the_all_work_rhythm_atomically(self) -> None:
-        previous = {
-            "raw_token_count": 7_020_000_000,
-            "token_count": 7_020_000_000,
-            "token_rhythm": {"points": [{"date": "2026-07-20", "token_count": 7_020_000_000}]},
-        }
-        result = {
-            "sessions": 1,
-            "turns": 1,
-            "usage_events": 1,
-            "raw_token_count": 8_100_000_000,
-            "token_count": 8_100_000_000,
-            "tokens_label": "8.1B",
-            "hours_count": 1,
-            "hours_label": "1",
-            "token_usage": {},
-            "model_effort_breakdown": {},
-            "api_cost_equivalence": {},
-            "token_rhythm": {
-                "schema": 1,
-                "label": audit.ALL_WORK_TOKEN_RHYTHM_LABEL,
-                "method": audit.ALL_WORK_TOKEN_RHYTHM_METHOD,
-                "points": [{"date": "2026-07-21", "token_count": 8_100_000_000}],
-            },
-        }
-
-        merged = audit.merge_local_lifetime_data(previous, result)
-
-        self.assertEqual(merged["token_rhythm"], result["token_rhythm"])
-        self.assertIsNot(merged["token_rhythm"], result["token_rhythm"])
 
     def test_fresh_global_model_tracking_replaces_stale_value_without_repo_usage(self) -> None:
         empty_dataset = audit.UsageDataset(

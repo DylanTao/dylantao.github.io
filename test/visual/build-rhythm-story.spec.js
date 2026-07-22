@@ -2,223 +2,202 @@ const { test, expect } = require("@playwright/test");
 const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 
-const RHYTHM_KEYS = [
-  "schema",
-  "label",
-  "units",
-  "grain",
-  "aggregation",
-  "method",
-  "since",
-  "updated_at",
-  "confidence",
-  "privacy_note",
-  "points",
-].sort();
-
-const readEmbeddedJson = (page, selector) => page.locator(selector).evaluate((element) => JSON.parse(element.textContent));
-
-test("Build Rhythm presents three distinct scopes and one inspectable daily comparison", async ({ page }, testInfo) => {
+test("Build Rhythm story stays truthful and responsive before exact exploration", async ({ page }, testInfo) => {
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
 
-  const activity = page.locator("[data-github-activity]");
-  const guide = page.locator(".build-rhythm-guide");
+  const story = page.locator("[data-build-rhythm-story]");
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  const chart = page.locator("[data-build-rhythm-story-chart]");
+  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
+  await expect(story).toHaveAttribute("data-state", "ready");
+  await expect(stage).toBeVisible();
+  await expect(chart.locator("[data-build-rhythm-story-layer]")).toHaveCount(1);
+
+  const tokenSource = await page.locator("#build-rhythm-token-data").evaluate((element) => JSON.parse(element.textContent));
+  expect(Object.keys(tokenSource).sort()).toEqual(
+    ["schema", "label", "units", "grain", "aggregation", "method", "since", "updated_at", "confidence", "privacy_note", "points"].sort()
+  );
+  expect(tokenSource.method).toBe("deduplicated_repo_retained_logs");
+  expect(tokenSource.points.length).toBeGreaterThan(1);
+  expect(Object.keys(tokenSource.points.at(-1)).sort()).toEqual(["date", "token_count", "tokens_label"].sort());
+  const latestTokenLabel = tokenSource.points.at(-1).tokens_label;
+  const endpointResponse = await page.request.get(publicRouteUrl("/assets/data/build-rhythm-token-rhythm.json"));
+  expect(endpointResponse.ok()).toBe(true);
+  expect(await endpointResponse.json()).toEqual(tokenSource);
+
   const tokenRhythm = page.locator("[data-token-rhythm]");
-  const tokenChart = page.locator("[data-token-rhythm-chart]");
-  await expect(activity).toHaveAttribute("data-state", "ready");
-  await expect(activity).toHaveAttribute("data-token-state", "ready");
-  await expect(guide.locator(".build-rhythm-guide-grid > article")).toHaveCount(3);
-  await expect(page.locator("[data-build-rhythm-story], [data-build-rhythm-story-stage]")).toHaveCount(0);
-
-  const siteSource = await readEmbeddedJson(page, "#build-rhythm-token-data");
-  const allWorkSource = await readEmbeddedJson(page, "#build-rhythm-all-work-token-data");
-  for (const source of [siteSource, allWorkSource]) {
-    expect(Object.keys(source).sort()).toEqual(RHYTHM_KEYS);
-    expect(source.points.length).toBeGreaterThan(1);
-    expect(Object.keys(source.points.at(-1)).sort()).toEqual(["date", "token_count", "tokens_label"].sort());
-  }
-  expect(siteSource.label).toBe("Site revamp retained-session estimate");
-  expect(siteSource.method).toBe("deduplicated_repo_retained_logs");
-  expect(allWorkSource.label).toBe("All retained Codex work estimate");
-  expect(allWorkSource.method).toBe("deduplicated_all_retained_logs");
-
-  const [siteEndpoint, allWorkEndpoint] = await Promise.all([
-    page.request.get(publicRouteUrl("/assets/data/build-rhythm-token-rhythm.json")),
-    page.request.get(publicRouteUrl("/assets/data/build-rhythm-all-work-token-rhythm.json")),
-  ]);
-  expect(siteEndpoint.ok()).toBe(true);
-  expect(allWorkEndpoint.ok()).toBe(true);
-  expect(await siteEndpoint.json()).toEqual(siteSource);
-  expect(await allWorkEndpoint.json()).toEqual(allWorkSource);
-
+  const tokenRhythmChart = page.locator("[data-token-rhythm-chart]");
   await expect(tokenRhythm).toHaveAttribute("data-state", "ready");
-  await expect(tokenRhythm).toContainText("Y-AXIS: DAILY TOKENS");
-  await expect(tokenChart.locator(".github-activity-token-all-work-line")).toHaveCount(1);
-  await expect(tokenChart.locator(".github-activity-token-site-line")).toHaveCount(1);
-  expect((await tokenChart.locator(".github-activity-token-all-work-line").getAttribute("d"))?.length).toBeGreaterThan(20);
-  expect((await tokenChart.locator(".github-activity-token-site-line").getAttribute("d"))?.length).toBeGreaterThan(20);
-  await expect(tokenChart).toHaveAttribute("role", "slider");
-  await expect(tokenChart).toHaveAttribute("tabindex", "0");
-  await expect(tokenChart.locator(".github-activity-token-axis-heading")).toContainText("Y-AXIS:");
-  await expect(tokenChart.locator(".github-activity-token-axis-heading")).toContainText("LOG1P");
-  await expect(page.locator(".github-activity-token-evidence")).not.toHaveAttribute("open", "");
-  const firstDailyRow = page.locator("#github-activity-token-table-body tr").first();
-  await expect(firstDailyRow.locator("td").first()).toHaveText("—");
-  await expect(firstDailyRow.locator('td [aria-label="No prior all-work point for this date"]')).toHaveCount(1);
+  await expect(tokenRhythmChart.locator(".github-activity-token-cumulative-line")).toHaveCount(1);
+  await expect(tokenRhythmChart.locator(".github-activity-token-delta-line")).toHaveCount(1);
+  expect((await tokenRhythmChart.locator(".github-activity-token-cumulative-line").getAttribute("d"))?.length).toBeGreaterThan(20);
+  expect((await tokenRhythmChart.locator(".github-activity-token-delta-line").getAttribute("d"))?.length).toBeGreaterThan(20);
+  expect(await page.locator("#github-activity-token-table-body tr").count()).toBe(tokenSource.points.length);
+  await expect(tokenRhythm).toContainText("separate from the lifetime Codex snapshot");
 
-  await expect(guide.getByRole("link", { name: "The Rhythm of Food" })).toHaveAttribute("href", "https://rhythm-of-food.net/");
-  await expect(guide.getByRole("link", { name: "John Thompson" })).toHaveAttribute("href", "https://jrthomp.com/");
-  await expect(guide.getByRole("link", { name: "Read how Build Rhythm began" })).toHaveAttribute("href", /\/projects\/build-rhythm\/$/);
+  await expect(story.getByRole("link", { name: "The Rhythm of Food" })).toHaveAttribute("href", "https://rhythm-of-food.net/");
+  await expect(story.getByRole("link", { name: "John Thompson" })).toHaveAttribute("href", "https://jrthomp.com/");
+  await expect(story.getByRole("link", { name: "Read how Build Rhythm began" })).toHaveAttribute("href", /\/projects\/build-rhythm\/$/);
 
-  const githubChart = page.locator("#github-activity-chart");
-  await expect(githubChart.locator("text").filter({ hasText: "Y-AXIS: COMMITS" })).toContainText("LOG1P");
-  await expect(githubChart.locator("text").filter({ hasText: "Y-AXIS: LINES" })).toContainText("SYMLOG");
-  await page.getByRole("button", { name: "Literal", exact: true }).click();
-  await expect(githubChart.locator("text").filter({ hasText: "Y-AXIS: COMMITS" })).toContainText("LINEAR");
-  await expect(githubChart.locator("text").filter({ hasText: "Y-AXIS: LINES" })).toContainText("LINEAR");
+  const viewportWidth = page.viewportSize()?.width || 0;
+  if (viewportWidth <= 820) {
+    await expect(story).toHaveAttribute("data-story-static", "true");
+    await expect(stage).toHaveAttribute("data-scene", "complete");
+    await expect(chart.locator('[data-build-rhythm-story-layer="complete"]')).toHaveCount(1);
+    await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
+    await expect(stage).toContainText(latestTokenLabel);
+    if (viewportWidth <= 420) {
+      await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
+      const tokenTableOverflow = await page
+        .getByRole("region", { name: "Daily cumulative repo-token estimate table" })
+        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      expect(tokenTableOverflow).toBeGreaterThan(100);
+    }
+  } else {
+    await expect(story).toHaveAttribute("data-story-static", "false");
+    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"]) {
+      const step = page.locator(`[data-build-rhythm-step="${scene}"]`);
+      await step.scrollIntoViewIfNeeded();
+      await expect(step).toHaveClass(/is-active/);
+      await expect(stage).toHaveAttribute("data-scene", scene);
+      await expect(stage).toHaveAttribute("data-transitioning", "false");
+      if (scene === "tokens") {
+        await expect(chart).toContainText("SITE-BUILD · CUMULATIVE REPO ESTIMATE");
+        await expect(stage).toContainText(latestTokenLabel);
+        await attachScreenshot(page, testInfo, `build-rhythm-token-scene-${testInfo.project.name}`, { locator: stage });
+      }
+      if (scene === "magnitude") {
+        const geometry = await page.evaluate(() => {
+          const stageBox = document.querySelector("[data-build-rhythm-story-stage]").getBoundingClientRect();
+          const stepsBox = document.querySelector(".build-rhythm-story-steps").getBoundingClientRect();
+          const navBottom = Math.max(0, document.querySelector("nav")?.getBoundingClientRect().bottom || 0);
+          const usableHeight = window.innerHeight - navBottom;
+          return {
+            stageCenter: (stageBox.top + stageBox.bottom) / 2,
+            usableCenter: navBottom + usableHeight / 2,
+            usableHeight,
+            stageTop: stageBox.top,
+            stageBottom: stageBox.bottom,
+            stepsWidth: stepsBox.width,
+            chartHeight: document.querySelector("[data-build-rhythm-story-chart]").getBoundingClientRect().height,
+          };
+        });
+        expect(Math.abs(geometry.stageCenter - geometry.usableCenter)).toBeLessThanOrEqual(geometry.usableHeight * 0.08);
+        expect(geometry.stageTop).toBeGreaterThanOrEqual(0);
+        expect(geometry.stageBottom).toBeLessThanOrEqual((page.viewportSize()?.height || 0) + 1);
+        expect(geometry.stepsWidth).toBeGreaterThanOrEqual(319);
+        expect(geometry.chartHeight).toBeGreaterThanOrEqual(368);
+        expect(geometry.chartHeight).toBeLessThanOrEqual(449);
+      }
+    }
+  }
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(overflow, `${page.viewportSize()?.width}px Build Rhythm page overflows`).toBeLessThanOrEqual(1);
-  await attachScreenshot(page, testInfo, `build-rhythm-guide-${testInfo.project.name}`, { locator: guide });
-  await attachScreenshot(page, testInfo, `build-rhythm-daily-tokens-${testInfo.project.name}`, { locator: tokenRhythm });
+  expect(overflow, `${viewportWidth}px Build Rhythm page overflows`).toBeLessThanOrEqual(1);
+  await expect(page.getByRole("button", { name: "Readable", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#github-activity-table-body")).toBeAttached();
+  await attachScreenshot(page, testInfo, `build-rhythm-persistent-tokens-${testInfo.project.name}`, { locator: tokenRhythm });
+  await attachScreenshot(page, testInfo, `build-rhythm-stage-${testInfo.project.name}`, { locator: stage });
+  await attachScreenshot(page, testInfo, `build-rhythm-story-${testInfo.project.name}`, { locator: story });
   expect(runtimeErrors).toEqual([]);
 });
 
-test("Build Rhythm daily inspector supports quiet hover, pinning, and keyboard focus", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the complete inspector contract");
+test("Build Rhythm refreshes the visible lifetime scene after a delayed snapshot", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
 
-  const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
-
-  const chart = page.locator("[data-token-rhythm-chart]");
-  const overlay = chart.locator(".github-activity-token-inspector");
-  const readout = page.locator("[data-token-rhythm-readout]");
-  const announcement = page.locator("[data-token-rhythm-announcement]");
-  await expect(page.locator("[data-token-rhythm]")).toHaveAttribute("data-state", "ready");
-
-  await chart.focus();
-  await expect(chart).toHaveClass(/is-keyboard-focused/);
-  const focusStyle = await chart.evaluate((element) => {
-    const style = getComputedStyle(element);
-    return { outlineStyle: style.outlineStyle, outlineWidth: style.outlineWidth };
-  });
-  expect(focusStyle.outlineStyle).not.toBe("none");
-  expect(focusStyle.outlineWidth).not.toBe("0px");
-
-  await chart.press("Home");
-  await expect(chart).toHaveAttribute("aria-valuenow", "0");
-  await chart.press("ArrowRight");
-  await expect(chart).toHaveAttribute("aria-valuenow", "1");
-  const keyboardAnnouncement = await announcement.textContent();
-  expect(keyboardAnnouncement).toContain("all retained Codex work");
-
-  await overlay.hover({ position: { x: 8, y: 40 } });
-  await expect(readout).not.toHaveText(keyboardAnnouncement);
-  expect(await announcement.textContent()).toBe(keyboardAnnouncement);
-
-  const overlayBox = await overlay.boundingBox();
-  expect(overlayBox).not.toBeNull();
-  await overlay.click({ position: { x: Math.round(overlayBox.width * 0.55), y: Math.round(overlayBox.height * 0.5) } });
-  await expect(announcement).not.toHaveText(keyboardAnnouncement);
-  await expect(chart).toHaveAttribute("aria-valuetext", /all retained Codex work plus .* this website plus/);
-
-  await chart.press("End");
-  await expect(chart).toHaveAttribute("aria-valuenow", await chart.getAttribute("aria-valuemax"));
-  await chart.press("Escape");
-  await expect(readout).toContainText("pin cleared");
-  expect(runtimeErrors).toEqual([]);
-});
-
-test("Build Rhythm lifetime price replay stays hypothetical and outside the direct schema", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the lifetime price boundary");
-
-  const runtimeErrors = collectRuntimeErrors(page);
-  await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
-
   const usageResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
   expect(usageResponse.ok()).toBe(true);
   const usage = await usageResponse.json();
-  expect(Object.keys(usage).sort()).toEqual(
-    ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"].sort()
-  );
-  expect(JSON.stringify(usage)).not.toContain("api_cost");
+  let releaseSnapshot;
+  const snapshotGate = new Promise((resolve) => {
+    releaseSnapshot = resolve;
+  });
+  await page.route("**/assets/data/codex-profile-usage.json", async (route) => {
+    await snapshotGate;
+    await route.continue();
+  });
 
-  const replay = page.locator("[data-hypothetical-mix-matched-api-rate-replay]");
-  await expect(replay).toContainText(/~\$[\d,.]+K API-rate replay/);
-  const replayCopy = page.locator(".github-activity-lifetime-replay");
-  await expect(replayCopy).toContainText("model, cache, request-length, and input/output mix");
-  await expect(replayCopy).toContainText("cache-write tokens are excluded");
-  await expect(replayCopy).toContainText("Not an actual bill");
-  await expect(replayCopy.getByRole("link", { name: "Standard public API rates" })).toHaveAttribute(
-    "href",
-    "https://developers.openai.com/api/docs/pricing"
-  );
-  expect(runtimeErrors).toEqual([]);
+  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
+  const story = page.locator("[data-build-rhythm-story]");
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  await expect(story).toHaveAttribute("data-state", "ready");
+  await page.locator('[data-build-rhythm-step="lifetime"]').scrollIntoViewIfNeeded();
+  await expect(stage).toHaveAttribute("data-scene", "lifetime");
+  await expect(stage).toContainText("LIFETIME CODEX TOTAL UNAVAILABLE");
+
+  releaseSnapshot();
+  await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
 });
 
-test("Build Rhythm reduced motion keeps the daily evidence pixel-stable", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the reduced-motion chart contract");
+test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the reduced-motion story contract");
 
   const runtimeErrors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
 
+  const story = page.locator("[data-build-rhythm-story]");
+  const stage = page.locator("[data-build-rhythm-story-stage]");
   const tokenChart = page.locator("[data-token-rhythm-chart]");
-  await expect(page.locator("[data-token-rhythm]")).toHaveAttribute("data-state", "ready");
+  await expect(story).toHaveAttribute("data-state", "ready");
+  await expect(story).toHaveAttribute("data-story-static", "true");
+  await expect(stage).toHaveAttribute("data-scene", "complete");
+  await expect(stage).toHaveAttribute("data-transitioning", "false");
   await page.waitForTimeout(120);
-  const before = await tokenChart.screenshot();
+  const before = await stage.screenshot();
+  const tokenBefore = await tokenChart.screenshot();
   await page.waitForTimeout(260);
-  const after = await tokenChart.screenshot();
-  expect(screenshotDiffRatio(after, before), "reduced-motion token chart should remain pixel-stable").toBeLessThan(0.0001);
+  const after = await stage.screenshot();
+  const tokenAfter = await tokenChart.screenshot();
+  expect(screenshotDiffRatio(after, before), "reduced-motion story should remain pixel-stable").toBeLessThan(0.0001);
+  expect(screenshotDiffRatio(tokenAfter, tokenBefore), "reduced-motion token chart should remain pixel-stable").toBeLessThan(0.0001);
   expect(runtimeErrors).toEqual([]);
 });
 
-test("Build Rhythm daily comparison stays legible in the evening theme", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the dark-theme redraw");
-
-  const runtimeErrors = collectRuntimeErrors(page);
-  await preparePage(page, "dark");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
-
-  const tokenRhythm = page.locator("[data-token-rhythm]");
-  const allWorkLine = page.locator(".github-activity-token-all-work-line");
-  const siteLine = page.locator(".github-activity-token-site-line");
-  await expect(tokenRhythm).toHaveAttribute("data-state", "ready");
-  const [allWorkStroke, siteStroke] = await Promise.all([allWorkLine.getAttribute("stroke"), siteLine.getAttribute("stroke")]);
-  expect(allWorkStroke).toBeTruthy();
-  expect(siteStroke).toBeTruthy();
-  expect(allWorkStroke).not.toBe(siteStroke);
-  await expect(page.locator(".github-activity-token-axis-heading")).toContainText("LOG1P");
-  await attachScreenshot(page, testInfo, "build-rhythm-daily-tokens-dark-desktop-1440", { locator: tokenRhythm });
-  expect(runtimeErrors).toEqual([]);
-});
-
-test("Malformed all-work rhythm leaves GitHub and the native daily table intact", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves token-source failure isolation");
+test("Build Rhythm token-story failure leaves the GitHub explorer and server evidence intact", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves token-story failure isolation");
 
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.route("**/github-activity/", async (route) => {
     const response = await route.fetch();
     const original = await response.text();
-    const body = original.replace(/(<script id="build-rhythm-all-work-token-data" type="application\/json">[\s\S]*?"token_count"\s*:\s*)\d+/, "$1-1");
+    const body = original.replace(/(<script id="build-rhythm-token-data" type="application\/json">[\s\S]*?"token_count"\s*:\s*)\d+/, "$1-1");
     expect(body).not.toBe(original);
     await route.fulfill({ response, body });
   });
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
 
-  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
-  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-token-state", "error");
+  const activity = page.locator("[data-github-activity]");
+  await expect(activity).toHaveAttribute("data-state", "ready");
+  await expect(activity).toHaveAttribute("data-token-state", "error");
+  await expect(page.locator("[data-build-rhythm-story]")).toHaveAttribute("data-state", "loading");
   await expect(page.locator("[data-token-rhythm]")).toHaveAttribute("data-state", "error");
+  await expect(page.locator(".build-rhythm-story-stage-wrap")).toBeHidden();
   await expect(page.locator("[data-token-rhythm-chart]")).toBeHidden();
   await expect(page.locator(".github-activity-commit-line")).toHaveCount(1);
   expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
   expect(await page.locator("#github-activity-token-table-body tr").count()).toBeGreaterThan(1);
-  await expect(page.locator(".github-activity-token-evidence")).toBeAttached();
   expect(runtimeErrors).toEqual([]);
+});
+
+test("Build Rhythm cancels its scene transition when the story leaves view", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the offscreen stop condition");
+
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  const story = page.locator("[data-build-rhythm-story]");
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  await expect(story).toHaveAttribute("data-state", "ready");
+  await page.locator('[data-build-rhythm-step="magnitude"]').scrollIntoViewIfNeeded();
+  await expect(stage).toHaveAttribute("data-scene", "magnitude");
+
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect(story).toHaveAttribute("data-story-visible", "false");
+  await expect(stage).toHaveAttribute("data-transitioning", "false");
+  await expect(stage).toHaveCSS("opacity", "1");
 });

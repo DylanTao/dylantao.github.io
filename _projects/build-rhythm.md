@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build Rhythm
-description: "A visual story of three building scales: a rounded lifetime snapshot, weekly GitHub change, and daily retained-token deltas."
+description: "A visual story of three building scales: weekly GitHub change, daily estimated site tokens, and a rounded lifetime Codex snapshot."
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
 image_aspect: 351 / 254
 card_avoid_scaling: true
@@ -20,11 +20,11 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      I wanted a quick way to see when work clustered, how this website compared with all retained Codex work, and where lifetime usage fits. Build Rhythm gives each signal its own clock, then lets a reader inspect the days and weeks that shaped it.
+      I wanted a quick way to see when work clustered, how this site's estimated token trace grew, and where lifetime Codex usage fits. Build Rhythm gives each signal its own clock, then opens into exact tables.
     </p>
     <div class="project-case-facts">
       <span>Weekly GitHub cadence</span>
-      <span>Daily all-work / website deltas</span>
+      <span>Daily repo-token estimate</span>
       <span>Rounded lifetime snapshot</span>
       <span>Accessible source tables</span>
     </div>
@@ -43,20 +43,20 @@ hide_title: true
     data-capture-theme="not-retained"
     data-capture-interaction-state="not-retained"
   >
-    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-stage.png' | relative_url }}" alt="Earlier Build Rhythm token panel with a cumulative site estimate above a daily increase chart" loading="eager" width="702" height="508">
-    <figcaption>Earlier single-scope anatomy, before the repeated cumulative figure became two endpoint summaries and one dual daily-delta chart. Asset revision <a href="https://github.com/DylanTao/dylantao.github.io/commit/c613c7b0f3ef96e51e63321ad0b914dbef9add5d"><code>c613c7b0f</code></a>; full provenance below.</figcaption>
+    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-stage.png' | relative_url }}" alt="Build Rhythm token panel showing a rounded cumulative site estimate above a rounded daily increase chart" loading="eager" width="702" height="508">
+    <figcaption>Annotated site-token chapter: cumulative estimate above rounded daily growth. Asset revision <a href="https://github.com/DylanTao/dylantao.github.io/commit/c613c7b0f3ef96e51e63321ad0b914dbef9add5d"><code>c613c7b0f</code></a>; full provenance below.</figcaption>
   </figure>
 </section>
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
   <div><span>Why</span><p>Long logs hide the tempo of making: bursts, pauses, and shifts in scale.</p></div>
-  <div><span>What</span><p>A concise scope guide, weekly GitHub explorer, and one daily comparison of all retained Codex work with this website.</p></div>
-  <div><span>How</span><p>Explicit Y-axis transforms, hover and tap pinning, keyboard inspection, endpoint summaries, and native disclosure tables.</p></div>
+  <div><span>What</span><p>A guided story across weekly GitHub cadence, daily estimated site tokens, and a lifetime Codex snapshot.</p></div>
+  <div><span>How</span><p>Progressive charts introduce each scale before the exact, keyboard-readable tables.</p></div>
 </section>
 
 ## Why the page changed
 
-The first public version was a GitHub workbench. Adding token evidence beside it muddied the scopes, so I separated the clocks. A later scroll story taught the same shapes that the explorer repeated below; the current version keeps its useful explanation as a short three-scope guide and reserves one figure for each distinct question.
+The first public version was a GitHub workbench. Adding token evidence beside it muddied the scopes, so I split the experience into three chapters and gave each its own unit, clock, and evidence.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">
@@ -71,8 +71,8 @@ The first public version was a GitHub workbench. Adding token evidence beside it
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Now</p>
-    <h3>Compare daily work without repeating cumulative shapes.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> restored a rounded, repo-scoped token rhythm. The current pass adds a separately generated all-retained-work series, plots both as daily deltas, and keeps their cumulative endpoints in text.</p>
+    <h3>Restore the repo-scoped token rhythm.</h3>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> restored a rounded, repo-scoped token rhythm alongside the dated lifetime checkpoint.</p>
   </li>
 </ol>
 
@@ -80,7 +80,7 @@ The exact-era screen at <a href="https://github.com/DylanTao/dylantao.github.io/
 
 ## How to read the rhythm
 
-Three scopes, never one score. Each answers a different question and keeps its own unit, scope, and clock.
+Three signals, never one score. Each answers a different question and keeps its own unit, scope, and clock.
 
 <section class="project-case-summary project-story-signal-grid" aria-label="How to read the three Build Rhythm signals">
   <div>
@@ -88,8 +88,8 @@ Three scopes, never one score. Each answers a different question and keeps its o
     <p>Commits show when work clustered. Additions and deletions show the scale and direction of change.</p>
   </div>
   <div>
-    <h3>Daily token rhythm</h3>
-    <p>Two strict endpoints publish rounded cumulative points: all retained Codex work since June 19 and this website since May 22. The chart derives adjacent daily deltas and labels its Y-axis as LOG1P; retained evidence can revise either series.</p>
+    <h3>Site-token rhythm</h3>
+    <p>Deduplicated retained logs attributed to this repo become rounded cumulative points. Differences between adjacent points are rounded increases, not exact daily usage; retained evidence can revise the series.</p>
   </div>
   <div>
     <h3>Lifetime checkpoint</h3>
@@ -102,12 +102,12 @@ Earlier turns remain inspectable through source commits; a historical screenshot
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
   <h2 id="build-rhythm-privacy-title">What stays private</h2>
-  <p>The page publishes rounded aggregates and two strict cumulative series. Source identities, paths, sessions, turns, models, raw events, and per-source history stay private.</p>
+  <p>The page publishes rounded aggregates and repo-scoped cumulative points. Source histories and session-level details stay private.</p>
 </aside>
 
 ## What _The Rhythm of Food_ changed
 
-The first version began as a research-grounded activity workbench. John Thompson later shared [The Rhythm of Food](https://rhythm-of-food.net/) during our Autodesk HCI internship Wednesday design session, “Balancing Performance, Interactivity and Effort: SVG, Canvas, and WebGL.” The lesson I carried over was pacing: reveal one relationship at a time, then hand the reader the inspectable record. The current refinement also records the inverse lesson: when a teaching figure repeats the explorer below, concise prose can do the handoff with less ink. The visual language and implementation remain this site's own.
+The first version began as a research-grounded activity workbench. John Thompson later shared [The Rhythm of Food](https://rhythm-of-food.net/) during our Autodesk HCI internship Wednesday design session, “Balancing Performance, Interactivity and Effort: SVG, Canvas, and WebGL.” The lesson I carried over was pacing: reveal one relationship at a time, then hand the reader the exact record. The visual language and implementation remain this site's own.
 
 <details class="project-story-disclosure">
   <summary>Full technical revision record</summary>
@@ -129,7 +129,7 @@ The first version began as a research-grounded activity workbench. John Thompson
 <aside class="site-experiment-reproduce" aria-labelledby="build-rhythm-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
   <h2 id="build-rhythm-reproduce-title">Use your own aggregate record.</h2>
-  <p>The downloadable guide covers the three-scope data boundary, explicit transforms, a dual daily inspector, accessible disclosures, reduced-motion state, and acceptance checks for another site.</p>
+  <p>The downloadable guide covers the three-signal data boundary, narrative chapters, accessible evidence, reduced-motion state, and acceptance checks for another site.</p>
   <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 
