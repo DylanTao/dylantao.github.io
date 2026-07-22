@@ -35,20 +35,6 @@ hide_title: true
       <a href="{{ '/assets/downloads/site-experiments/homepage-desk-scene-reproduction.md' | relative_url }}" download>Download reproduction MD</a>
     </div>
   </div>
-  <figure
-    class="project-case-media site-experiment-evidence-figure"
-    data-evidence-kind="historical-runtime-capture"
-    data-evidence-archive-commit="588e365090e883323d836f5da023f7d40632f096"
-    data-evidence-archive-date="2026-06-21"
-    data-evidence-capture-date="not-retained"
-    data-evidence-source-viewport="not-retained"
-    data-evidence-image-size="1440x1000"
-    data-evidence-theme="light"
-    data-evidence-interaction-state="not-retained"
-  >
-    <img src="{{ '/output/home-desk-qa/desktop-3d-room-after-coast.png' | relative_url }}" alt="June 21 artifact and evidence checkpoint showing an early 3D desk room before the reciprocal cliff-room rebuild" width="1440" height="1000">
-    <figcaption>June artifact/evidence checkpoint: the early room still read as a shallow stage. The 1440 × 1000-pixel light-theme image entered the repository at <a href="https://github.com/DylanTao/dylantao.github.io/commit/588e365090e883323d836f5da023f7d40632f096"><code>588e36509</code></a> on June 21; its exact viewport, capture date, and interaction state were not retained.</figcaption>
-  </figure>
 </section>
 
 <section class="project-case-summary" aria-label="Homepage desk experiment summary">
