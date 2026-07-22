@@ -3453,7 +3453,7 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-agentic-tooltip-cost {
   right: auto;
   left: 50%;
-  width: min(21.5rem, calc(100vw - 2rem));
+  width: min(18rem, calc(100vw - 2rem));
   max-height: calc(100vh - 2rem);
   padding: 0.66rem 0.78rem;
   overflow-y: auto;
@@ -3486,7 +3486,6 @@ html[data-theme="dark"] .home-artifact-mark {
   line-height: 1.24;
 }
 
-.home-agentic-money-gag em,
 .home-agentic-money-gag small {
   color: color-mix(in srgb, var(--home-muted) 82%, transparent);
   font-size: 0.64rem;
@@ -3510,6 +3509,10 @@ html[data-theme="dark"] .home-artifact-mark {
   background: inherit;
   content: "";
   transform: translateX(50%) rotate(45deg);
+}
+
+.home-agentic-tooltip-cost::after {
+  display: none;
 }
 
 .home-agentic-info-wrap:hover .home-agentic-tooltip,
@@ -4230,7 +4233,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-agentic-info-wrap-cost .home-agentic-tooltip {
     right: auto;
     left: 0;
-    width: min(20.25rem, calc(100vw - 3rem));
+    width: min(18rem, calc(100vw - 3rem));
     transform: translate(0, 0.18rem);
   }
 
@@ -4248,7 +4251,6 @@ html.home-motion-ready .home-reveal.home-visible {
     font-size: 0.66rem;
   }
 
-  .home-agentic-money-gag em,
   .home-agentic-money-gag small {
     font-size: 0.56rem;
   }
@@ -4287,7 +4289,8 @@ html.home-motion-ready .home-reveal.home-visible {
 
 @media (max-width: 24rem) {
   .home-agentic-money-gag {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 0.45rem;
   }
 
   .home-agentic-money-gag img {

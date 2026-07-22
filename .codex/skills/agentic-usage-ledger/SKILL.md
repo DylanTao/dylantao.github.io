@@ -12,7 +12,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 1. Read `docs/agentic-usage-ledger.md` and `_data/agentic_usage.yml`.
 2. Keep the visible homepage numbers powered by `_data/agentic_usage.yml`; do not hardcode duplicate totals in templates.
    - The homepage contact ledger renders the quiet `Build ledger · since …` caption above four compact stat cells for site-build tokens, agent-hours, commits, and estimated kWh; do not restore the former tree-sacrifice headline.
-   - The token cell may carry one focusable price-replay disclosure sourced only from `total.api_cost_equivalence.usd_label`. Label it as a Standard public-API rate replay of retained site-build logs, not an actual Codex bill, and note that unavailable cache-write tokens are excluded.
+   - The token cell may carry one focusable price-replay disclosure sourced only from `total.api_cost_equivalence.usd_label`. Keep the visible copy to the Sam-money punchline plus one plain footnote: it prices site-build tokens at public API rates and is not a real bill. Keep request-replay and unavailable cache-write methodology in `docs/agentic-usage-ledger.md`, not in the tooltip.
    - Never price or visually associate that disclosure with the independent rounded combined-lifetime heartbeat. Keep conversion detail and cutoff context in `docs/agentic-usage-ledger.md` and the compact disclosure, not as extra paragraphs or a fifth stat cell.
 3. Before pushing this customized site, run the publish freshness gate:
    - rely on the daily Google Scholar workflow for routine citation freshness;

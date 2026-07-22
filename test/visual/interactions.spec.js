@@ -501,11 +501,11 @@ test("home agentic heartbeat keeps lifetime usage separate from the site-build p
   await expect(costButton).toHaveAttribute("data-affordance", "cost-estimate");
   await expect(costButton.locator("svg.home-agentic-cost-mark")).toHaveCount(1);
   await expect(costButton).toHaveText("");
-  await expect(costTooltip).toContainText(/Sam's imaginary API invoice: ~\$[\d.]+K API-rate replay/);
-  await expect(costTooltip).toContainText("Request-aware replay of retained site-build logs at Standard public-API rates.");
-  await expect(costTooltip).toContainText("Not an actual Codex bill.");
-  await expect(costTooltip).toContainText("cache-write tokens");
-  await expect(costTooltip).toContainText("not included");
+  await expect(costTooltip).toContainText(/Burnt ~\$[\d.]+K of Sam's money\*/);
+  await expect(costTooltip).toContainText("*Site-build tokens at public API rates—not a real bill.");
+  await expect(costTooltip).not.toContainText("imaginary API invoice");
+  await expect(costTooltip).not.toContainText("retained site-build logs");
+  await expect(costTooltip).not.toContainText("cache-write tokens");
   await expect(costArtwork).toHaveAttribute("alt", "");
   await costArtwork.evaluate(async (image) => {
     if (!image.complete) {
@@ -529,6 +529,7 @@ test("home agentic heartbeat keeps lifetime usage separate from the site-build p
     };
   });
   expect(tooltipOverflow.horizontal).toBeLessThanOrEqual(1);
+  expect(tooltipOverflow.vertical).toBeLessThanOrEqual(1);
   let tooltipFrame = await costTooltip.boundingBox();
   let viewport = page.viewportSize();
   expect(tooltipFrame).not.toBeNull();

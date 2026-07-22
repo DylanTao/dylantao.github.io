@@ -19,6 +19,10 @@ class HomeAgenticCostContractTests(unittest.TestCase):
             "{% assign total_cost_label = agentic_usage.total.api_cost_equivalence.usd_label %}",
             self.layout,
         )
+        self.assertIn(
+            "{% assign total_cost_amount = total_cost_label | remove: ' API-rate replay' %}",
+            self.layout,
+        )
         self.assertNotIn("combined_lifetime.api_cost", self.layout)
         self.assertNotIn("direct_tracker.api_cost", self.layout)
         self.assertEqual(self.layout.count('class="home-agentic-stat"'), 4)
@@ -33,11 +37,11 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         self.assertIn('data-affordance="cost-estimate"', cost_copy)
         self.assertIn('aria-label="Show the site-build API-rate comparison"', cost_copy)
         self.assertRegex(cost_copy, r'<svg[^>]+class="home-agentic-cost-mark"[^>]+aria-hidden="true"')
-        self.assertIn("{{ total_cost_label }}", cost_copy)
-        self.assertIn("retained site-build logs", cost_copy)
-        self.assertIn("Standard public-API rates", cost_copy)
-        self.assertIn("Not an actual Codex bill", cost_copy)
-        self.assertIn("cache-write tokens", cost_copy)
+        self.assertIn("Burnt {{ total_cost_amount }} of Sam's money*", cost_copy)
+        self.assertIn("*Site-build tokens at public API rates—not a real bill.", cost_copy)
+        self.assertNotIn("Sam's imaginary API invoice", cost_copy)
+        self.assertNotIn("retained site-build logs", cost_copy)
+        self.assertNotIn("cache-write tokens", cost_copy)
         self.assertIn("sam-money-altman.png", cost_copy)
         self.assertRegex(cost_copy, r'<img[^>]+alt=""')
 
@@ -51,6 +55,7 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         self.assertIn("max-height: calc(100vh - 2rem);", self.styles)
         self.assertIn("overflow-y: auto;", self.styles)
         self.assertIn("overflow-wrap: anywhere;", self.styles)
+        self.assertIn("width: min(18rem, calc(100vw - 2rem));", self.styles)
         self.assertIn("@media (max-width: 24rem)", self.styles)
         self.assertTrue((ROOT / "assets" / "img" / "home" / "sam-money-altman.png").is_file())
 
@@ -63,6 +68,10 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         self.assertIn("total.api_cost_equivalence.usd_label", self.ledger_skill)
         self.assertIn("price-replay disclosure", self.ledger_doc)
         self.assertIn("price-replay disclosure", self.ledger_skill)
+        self.assertIn("Sam-money punchline plus one plain footnote", self.ledger_doc)
+        self.assertIn("Sam-money punchline plus one plain footnote", self.ledger_skill)
+        self.assertIn("rather than expanding the tooltip", self.ledger_doc)
+        self.assertIn("not in the tooltip", self.ledger_skill)
 
 
 if __name__ == "__main__":

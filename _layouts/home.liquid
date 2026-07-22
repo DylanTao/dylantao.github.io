@@ -23,6 +23,7 @@ layout: default
         {% if agentic_usage.total %}
           {% assign total_energy = agentic_usage.total.energy_equivalence %}
           {% assign total_cost_label = agentic_usage.total.api_cost_equivalence.usd_label %}
+          {% assign total_cost_amount = total_cost_label | remove: ' API-rate replay' %}
           <div
             class="home-agentic-tally"
             aria-label="Site revamp ledger: estimated Codex tokens and agent-hours, exact Git commit count, and estimated energy-equivalence"
@@ -68,9 +69,8 @@ layout: default
                         <span class="home-agentic-money-gag">
                           <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
                           <span>
-                            <strong>Sam's imaginary API invoice: {{ total_cost_label }}</strong>
-                            <em>Request-aware replay of retained site-build logs at Standard public-API rates.</em>
-                            <small>Not an actual Codex bill. Retained logs do not identify cache-write tokens, so those are not included.</small>
+                            <strong>Burnt {{ total_cost_amount }} of Sam's money*</strong>
+                            <small>*Site-build tokens at public API rates—not a real bill.</small>
                           </span>
                         </span>
                       </span>
