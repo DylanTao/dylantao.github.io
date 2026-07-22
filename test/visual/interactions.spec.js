@@ -277,7 +277,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
-  await expect(page.locator(".github-activity-eyebrow")).toHaveText("REPO TOKEN RHYTHM + LIFETIME CODEX USAGE + GITHUB BUILD RHYTHM");
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("BUILDING, WEEK BY WEEK");
   await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(1);
   await expect(page.locator("#github-activity-codex-cost")).toHaveCount(0);
   await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
@@ -297,10 +297,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   await expect(codexTrend.locator("[data-codex-status]")).toContainText("User-reported checkpoint");
   await expect(codexTrend.locator("[data-codex-status]")).toContainText("automatic refresh pending");
   await expect(codexTrend).toContainText("32.8B");
-  await expect(codexTrend).toContainText(
-    "Rounded before publication. No source-level identity, plan, history, reset time, or cost conversion reaches this page"
-  );
-  await expect(codexTrend).toContainText("never added to the repo-scoped retained-session estimate");
+  await expect(codexTrend).toContainText("One public checkpoint. Source histories and reset times stay private.");
   await expect(codexTrend).not.toContainText(/quota health|accounts healthy|1 of 2 accounts|resets? (?:at|in)|API-cost estimate/i);
 
   const commitPath = page.locator(".github-activity-commit-line");
@@ -320,6 +317,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   const negativeLineTickCount = await page.locator(".github-activity-line-tick.is-negative").count();
   expect(positiveLineTickY.length).toBeGreaterThan(2);
   expect(negativeLineTickCount).toBe(positiveLineTickY.length);
+  await expect(page.locator(".github-activity-line-tick.is-zero")).toHaveText("0");
   const minimumTickGap = (page.viewportSize()?.width ?? 0) < 620 ? 15 : 18;
   positiveLineTickY.slice(1).forEach((position, index) => {
     expect(position - positiveLineTickY[index]).toBeGreaterThanOrEqual(minimumTickGap - 0.01);

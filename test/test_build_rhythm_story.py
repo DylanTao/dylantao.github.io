@@ -83,22 +83,46 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('id="build-rhythm-token-data"', self.page)
         self.assertIn("site.data.agentic_usage.total.token_rhythm", self.page)
         self.assertIn('data-build-rhythm-step="tokens"', self.page)
-        self.assertIn("Token accumulation is a trace, not a score.", self.page)
+        self.assertIn("Then I follow the site build day by day.", self.page)
         self.assertIn('id="github-activity-token-table-body"', self.page)
         self.assertIn('id="github-activity-token-rhythm-chart"', self.page)
         self.assertIn('id="github-activity-token-table-scroll-hint"', self.page)
         self.assertIn('data-token-rhythm', self.page)
         self.assertIn("Site-build token rhythm", self.page)
         self.assertIn("Rounded increase", self.page)
-        self.assertIn("Exact daily reading path", self.page)
-        self.assertIn("These server-rendered points remain available without JavaScript.", self.page)
-        self.assertIn("largest rounded adjacent-point increase", self.page)
+        self.assertIn("Every daily point", self.page)
+        self.assertIn("The table keeps the same series readable without JavaScript.", self.page)
+        self.assertIn("biggest adjacent jump was", self.page)
         self.assertIn('candidate.method !== "deduplicated_repo_retained_logs"', self.script)
         self.assertIn('candidate.units !== "estimated tokens"', self.script)
         self.assertIn("Number.isSafeInteger(point.token_count)", self.script)
         self.assertIn('root.dataset.tokenState = tokenSource ? "ready" : "error"', self.script)
-        self.assertIn("Tokens trace retained work, not quality.", self.script)
+        self.assertIn("Biggest adjacent jump", self.script)
         self.assertNotIn("account_lifetime", self.page)
+
+    def test_story_voice_is_personal_concrete_and_not_repeatedly_defensive(self) -> None:
+        for phrase in (
+            "I wanted the logs to show where the work bunches up.",
+            "First, I look for the bursts.",
+            "Commit count tells me when. Line changes tell me how much.",
+            "One giant week was flattening everything else.",
+            "Finally, I zoom out to lifetime use.",
+            "Now poke at the weeks yourself.",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.page)
+
+        public_story = "\n".join((self.page, self.script))
+        for retired in (
+            "The same week can carry a different amount of change.",
+            "Additions rise above the baseline",
+            "Token accumulation is a trace, not a score.",
+            "Cadence is not a productivity score.",
+            "Tokens trace retained work, not quality.",
+            "The story chooses a few views.",
+        ):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, public_story)
 
     def test_public_token_rhythm_endpoint_is_a_direct_ledger_projection(self) -> None:
         self.assertIn("layout: null", self.token_endpoint)
@@ -111,9 +135,26 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('const drawTokenRhythm = (group, tokenRows, width, height, colors)', self.script)
         self.assertIn('className: "github-activity-token-cumulative-line"', self.script)
         self.assertIn('className: "github-activity-token-delta-line"', self.script)
+        self.assertIn('name: "token-cumulative"', self.script)
+        self.assertIn('name: "token-daily-increase"', self.script)
         self.assertIn("new ResizeObserver(scheduleRender).observe(chart)", self.script)
         self.assertIn('rhythmRoot.dataset.state = "ready"', self.script)
         self.assertIn('rhythmRoot.dataset.state = "error"', self.script)
+
+    def test_story_charts_have_visible_scale_anchors(self) -> None:
+        self.assertIn('const drawYAxis = (group, { name, ticks, y, left, right, colors', self.script)
+        self.assertIn('const spacedLogTicks = (domainMaximum, yForValue, minimumGap = 18)', self.script)
+        for axis_name in (
+            "story-cadence",
+            "story-magnitude",
+            "story-complete-commits",
+            "story-complete-lines",
+            "story-complete-tokens",
+        ):
+            with self.subTest(axis_name=axis_name):
+                self.assertIn(f'"{axis_name}"', self.script)
+        self.assertIn('name: `story-bursts-${panel.mode === "log" ? "readable" : "literal"}`', self.script)
+        self.assertIn('className: "github-activity-line-tick is-zero"', self.script)
 
     def test_static_and_reduced_motion_styles_remain_complete(self) -> None:
         self.assertIn('@media (max-width: 820px)', self.style)
@@ -206,7 +247,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
                 self.assertNotIn(retired, self.page.lower())
         self.assertIn("Combined lifetime Codex tokens", self.page)
         self.assertIn("automatic refresh pending", self.page)
-        self.assertIn("never\nadded to the repo-scoped retained-session estimate", self.page)
+        self.assertIn("One public checkpoint. Source histories and reset times stay private.", self.page)
 
     def test_automated_lifetime_snapshot_accepts_only_the_canonical_confidence(self) -> None:
         self.assertIn('candidate.confidence === "high"', self.script)

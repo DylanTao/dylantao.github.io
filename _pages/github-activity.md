@@ -11,10 +11,11 @@ github_activity: true
 
 <section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">THREE SCALES OF BUILDING</p>
+    <p class="github-activity-eyebrow">BUILDING, WEEK BY WEEK</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      Explore weekly GitHub activity, a daily estimate of tokens used to build this site, and one rounded lifetime Codex snapshot.
+      I wanted the logs to show where the work bunches up. Start with five years of GitHub weeks, follow this site's token trace,
+      then zoom out to one rounded lifetime checkpoint.
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
     {% assign combined_lifetime = direct_tracker.combined_lifetime %}
@@ -41,13 +42,13 @@ github_activity: true
     aria-labelledby="build-rhythm-story-title"
   >
     <header class="build-rhythm-story-heading">
-      <p class="build-rhythm-story-kicker">A SCROLL-LED READING</p>
+      <p class="build-rhythm-story-kicker">HOW I READ IT</p>
       <div class="build-rhythm-story-title-row">
-        <h2 id="build-rhythm-story-title">Read the rhythm at three scales.</h2>
+        <h2 id="build-rhythm-story-title">Start with the weeks. Then zoom out.</h2>
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        GitHub shows weekly cadence and change. Retained logs estimate this site's daily token rhythm. The direct tracker supplies a rounded lifetime snapshot.
+        I start with when the code changed and how much moved. Then I follow this site's token trace before zooming out to the lifetime total.
       </p>
     </header>
 
@@ -55,47 +56,42 @@ github_activity: true
       <div class="build-rhythm-story-stage-wrap" aria-hidden="true">
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
-            <span data-build-rhythm-story-label>COMPLETE VIEW</span>
+            <span data-build-rhythm-story-label>THE WHOLE RHYTHM</span>
             <span data-build-rhythm-story-scope>5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            GitHub cadence, repo-scoped token rhythm, and separate lifetime Codex usage.
+            Five years, week by week; this site's daily token trace; and the latest rounded lifetime checkpoint.
           </p>
         </div>
       </div>
 
       <div class="build-rhythm-story-steps">
         <article class="build-rhythm-story-step" data-build-rhythm-step="cadence">
-          <p class="build-rhythm-story-step-number">01 · CADENCE</p>
-          <h3>Weekly commits reveal cadence.</h3>
-          <p>Clusters and quiet weeks show when building happened; additions and deletions add a sense of scale.</p>
+          <p class="build-rhythm-story-step-number">01 · WHEN</p>
+          <h3>First, I look for the bursts.</h3>
+          <p>The commits bunch into bursts, with quieter stretches between. That uneven shape is the rhythm I was looking for.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="magnitude">
-          <p class="build-rhythm-story-step-number">02 · MAGNITUDE + DIRECTION</p>
-          <h3>The same week can carry a different amount of change.</h3>
-          <p>
-            Additions rise above the baseline and deletions fall below it, keeping the scale and direction of each week together.
-          </p>
+          <p class="build-rhythm-story-step-number">02 · HOW MUCH MOVED</p>
+          <h3>Commit count tells me when. Line changes tell me how much.</h3>
+          <p>Added lines climb above zero and removed lines fall below, so I can see how much code moved in each direction.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="bursts">
-          <p class="build-rhythm-story-step-number">03 · READABLE + LITERAL</p>
-          <h3>Large releases can flatten the quieter weeks.</h3>
-          <p>
-            Readable gives smaller bursts room to remain visible. Literal restores the full linear distance. Both scales plot the same values.
-          </p>
+          <p class="build-rhythm-story-step-number">03 · TWO SCALES</p>
+          <h3>One giant week was flattening everything else.</h3>
+          <p>Readable lets the ordinary weeks breathe. Literal restores the full distance to the biggest spike. I kept both.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="tokens">
-          <p class="build-rhythm-story-step-number">04 · RETAINED-SESSION TOKENS</p>
-          <h3>Token accumulation is a trace, not a score.</h3>
+          <p class="build-rhythm-story-step-number">04 · THIS SITE</p>
+          <h3>Then I follow the site build day by day.</h3>
           <p>
-            Daily cumulative points use the same deduplicated, repo-scoped retained-log estimate as the homepage ledger and can revise when
-            retained local evidence changes. The current rounded endpoint is
+            Some days barely nudge the line. Long build days make it jump. This site's rounded estimate now reaches
             <strong>{{ token_latest.tokens_label }}</strong> through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time>;
-            the largest rounded adjacent-point increase is
+            its biggest adjacent jump was
             <data value="{{ token_largest_increase }}">
               {% if token_largest_increase >= 1000000000 %}
                 {{- token_largest_increase | divided_by: 1000000000.0 | round: 2 -}}B
@@ -108,20 +104,16 @@ github_activity: true
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="lifetime">
-          <p class="build-rhythm-story-step-number">05 · CHANGE THE MEASURE</p>
-          <h3>Lifetime Codex usage has its own clock.</h3>
-          <p>
-            The direct tracker publishes one rounded total with its own observation date. The daily trace covers retained sessions attributed to this repository.
-          </p>
+          <p class="build-rhythm-story-step-number">05 · ZOOM OUT</p>
+          <h3>Finally, I zoom out to lifetime use.</h3>
+          <p>For the widest view, I keep one dated, rounded lifetime checkpoint.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">06 · GITHUB EXPLORATION</p>
-          <h3>The story chooses a few views. The explorer keeps the record.</h3>
-          <p>
-            Continue for GitHub range and scale controls, selected-week keyboard inspection, source notes, and exact weekly aggregate tables.
-          </p>
-          <a class="build-rhythm-story-explore" href="#github-activity-github-title">Explore the full build rhythm</a>
+          <p class="build-rhythm-story-step-number">06 · YOUR TURN</p>
+          <h3>Now poke at the weeks yourself.</h3>
+          <p>Change the range or scale, move week by week with the keyboard, or open the exact table when a spike catches your eye.</p>
+          <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
       </div>
     </div>
@@ -148,7 +140,7 @@ github_activity: true
 <div>
 <p class="github-activity-codex-kicker">LIFETIME CODEX SNAPSHOT</p>
 <h2 id="github-activity-codex-title">Combined lifetime Codex tokens</h2>
-<p>One rounded total with its own observation date.</p>
+<p>A single dated checkpoint for the bigger picture.</p>
 </div>
 <div class="github-activity-module-actions">
 <span class="github-activity-scope-badge" data-codex-scope>LIFETIME · ROUNDED</span>
@@ -167,10 +159,7 @@ github_activity: true
   User-reported checkpoint · <time datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time> · automatic refresh pending.
 {% endif %}
 </p>
-<p class="github-activity-codex-note">
-Published as one rounded total with a dated observation. Source histories and reset times stay private; this total is never
-added to the repo-scoped retained-session estimate.
-</p>
+<p class="github-activity-codex-note">One public checkpoint. Source histories and reset times stay private.</p>
 </section>
 {% endif %}
 
@@ -179,7 +168,7 @@ added to the repo-scoped retained-session estimate.
       <div>
         <p class="github-activity-module-kicker">GITHUB ACTIVITY</p>
         <h2 id="github-activity-github-title">GitHub contribution history</h2>
-        <p>Weekly commits, additions, and deletions. Readable keeps quieter weeks visible beside large release bursts.</p>
+        <p>The five-year record behind the opening story. Switch scales, inspect a week, or select a stretch of time.</p>
       </div>
       <span class="github-activity-scope-badge" data-github-scope>5 YEARS · WEEKLY</span>
     </div>
@@ -254,9 +243,7 @@ added to the repo-scoped retained-session estimate.
       <div>
         <p class="github-activity-module-kicker">SITE-BUILD TOKEN RHYTHM</p>
         <h2 id="github-activity-token-rhythm-title">Estimated tokens accumulated while building this site</h2>
-        <p>
-          A rounded daily estimate from retained logs attributed to this repository, separate from the lifetime Codex snapshot above.
-        </p>
+        <p>A rounded daily trace for this repository: the running total above and each day's increase below.</p>
       </div>
       <span class="github-activity-scope-badge">REPO-SCOPED &middot; DAILY</span>
     </div>
@@ -295,11 +282,8 @@ added to the repo-scoped retained-session estimate.
     </div>
 
     <section class="github-activity-token-evidence" aria-labelledby="github-activity-token-table-title">
-      <h3 id="github-activity-token-table-title">Exact daily reading path</h3>
-      <p>
-        These server-rendered points remain available without JavaScript. Differences between adjacent rounded cumulative points are rounded
-        increases, not exact daily usage.
-      </p>
+      <h3 id="github-activity-token-table-title">Every daily point</h3>
+      <p>The table keeps the same series readable without JavaScript. Each increase is the difference between neighboring rounded totals.</p>
       <p class="github-activity-table-scroll-hint" id="github-activity-token-table-scroll-hint">Scroll horizontally for all three columns.</p>
       <div
         class="github-activity-table-wrap"

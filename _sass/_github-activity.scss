@@ -170,6 +170,15 @@
   vector-effect: non-scaling-stroke;
 }
 
+.build-rhythm-axis-tick {
+  font-variant-numeric: tabular-nums;
+}
+
+.build-rhythm-axis-line,
+.build-rhythm-axis-grid {
+  shape-rendering: crispEdges;
+}
+
 .build-rhythm-story-readout {
   min-height: 2.8rem;
   margin: 0;

@@ -46,6 +46,89 @@
   const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
   const lineChanges = (row) => row.additions + row.deletions;
+  const niceLinearScale = (maximum, count = 4) => {
+    const rough = Math.max(1, maximum) / Math.max(1, count);
+    const power = 10 ** Math.floor(Math.log10(rough));
+    const fraction = rough / power;
+    const niceFraction = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 2.5 ? 2.5 : fraction <= 5 ? 5 : 10;
+    const step = niceFraction * power;
+    const domainMaximum = Math.max(step, Math.ceil(maximum / step) * step);
+    const ticks = [];
+    for (let tick = step; tick <= domainMaximum + step * 0.01; tick += step) ticks.push(tick);
+    return { domainMaximum, ticks };
+  };
+  const niceLogMaximum = (maximum) => {
+    const safe = Math.max(1, maximum);
+    const power = 10 ** Math.floor(Math.log10(safe));
+    const fraction = safe / power;
+    const niceFraction = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 5 ? 5 : 10;
+    return niceFraction * power;
+  };
+  const spacedLogTicks = (domainMaximum, yForValue, minimumGap = 18) => {
+    const candidates = new Set([0, domainMaximum]);
+    for (let power = 0; 10 ** power <= domainMaximum; power += 1) {
+      [1, 2, 5].forEach((multiple) => {
+        const value = multiple * 10 ** power;
+        if (value <= domainMaximum) candidates.add(value);
+      });
+    }
+    const ticks = [];
+    [...candidates]
+      .sort((a, b) => a - b)
+      .forEach((value) => {
+        const previous = ticks.at(-1);
+        if (previous == null || Math.abs(yForValue(previous) - yForValue(value)) >= minimumGap) ticks.push(value);
+      });
+    if (!ticks.includes(domainMaximum)) {
+      if (ticks.length > 1 && Math.abs(yForValue(ticks.at(-1)) - yForValue(domainMaximum)) < minimumGap) ticks.pop();
+      ticks.push(domainMaximum);
+    }
+    return ticks;
+  };
+  const drawYAxis = (group, { name, ticks, y, left, right, colors, format = (value) => compactNumber.format(value) }) => {
+    if (!ticks.length) return null;
+    const axis = svgElement("g", {
+      class: "build-rhythm-y-axis",
+      "data-build-rhythm-y-axis": name,
+      "aria-hidden": "true",
+    });
+    const positions = ticks.map(y);
+    axis.append(
+      svgElement("line", {
+        class: "build-rhythm-axis-line",
+        x1: left,
+        y1: Math.min(...positions),
+        x2: left,
+        y2: Math.max(...positions),
+        stroke: colors.text,
+        "stroke-opacity": 0.32,
+        "stroke-width": 1,
+      })
+    );
+    ticks.forEach((tick) => {
+      const yy = y(tick);
+      const isZero = tick === 0;
+      axis.append(
+        svgElement("line", {
+          class: `build-rhythm-axis-grid${isZero ? " is-zero" : ""}`,
+          x1: left,
+          y1: yy,
+          x2: right,
+          y2: yy,
+          stroke: isZero ? colors.text : colors.grid,
+          "stroke-opacity": isZero ? 0.42 : 1,
+          "stroke-width": isZero ? 1.2 : 1,
+        })
+      );
+      addText(axis, format(tick), left - 7, yy + 4, {
+        anchor: "end",
+        color: colors.muted,
+        className: `build-rhythm-axis-tick${isZero ? " is-zero" : ""}`,
+      }).dataset.axisValue = String(tick);
+    });
+    group.prepend(axis);
+    return axis;
+  };
   const drawSeries = (group, rows, valueForRow, bounds, options) => {
     const values = rows.map(valueForRow);
     const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
@@ -82,18 +165,20 @@
     return { maximum, values, x, y };
   };
   const drawTokenRhythm = (group, tokenRows, width, height, colors) => {
-    const left = width < 620 ? 46 : 54;
+    const left = width < 620 ? 58 : 64;
     const right = 14;
     const split = Math.round(height * 0.58);
     const latest = tokenRows.at(-1);
     const dailyDeltas = tokenRows.map((row, index) => Math.max(0, row.tokenCount - (tokenRows[index - 1]?.tokenCount || 0)));
+    const cumulativeScale = niceLinearScale(latest.tokenCount, width < 620 ? 2 : 3);
+    const dailyDomainMaximum = niceLogMaximum(Math.max(...dailyDeltas, 1));
 
     addText(group, "SITE-BUILD \u00b7 CUMULATIVE REPO ESTIMATE", left, 20, {
       color: colors.accent,
       weight: 700,
     });
     addText(group, latest.tokensLabel, width - right, 20, { anchor: "end", color: colors.text, weight: 700 });
-    drawSeries(
+    const cumulativeSeries = drawSeries(
       group,
       tokenRows,
       (row) => row.tokenCount,
@@ -102,16 +187,25 @@
         className: "github-activity-token-cumulative-line",
         color: colors.accent,
         fillOpacity: 0.1,
+        maximum: cumulativeScale.domainMaximum,
         scale: "linear",
         strokeWidth: 2,
       }
     );
+    drawYAxis(group, {
+      name: "token-cumulative",
+      ticks: [0, ...cumulativeScale.ticks],
+      y: cumulativeSeries.y,
+      left,
+      right: width - right,
+      colors,
+    });
 
     addText(group, "ROUNDED DAILY INCREASE \u00b7 READABLE LOG1P", left, split + 8, {
       color: colors.muted,
       weight: 700,
     });
-    drawSeries(
+    const dailySeries = drawSeries(
       group,
       tokenRows,
       (_row, index) => dailyDeltas[index],
@@ -120,14 +214,23 @@
         className: "github-activity-token-delta-line",
         color: colors.added,
         fillOpacity: 0.1,
+        maximum: dailyDomainMaximum,
         scale: "log",
       }
     );
+    drawYAxis(group, {
+      name: "token-daily-increase",
+      ticks: spacedLogTicks(dailyDomainMaximum, dailySeries.y, width < 620 ? 24 : 28),
+      y: dailySeries.y,
+      left,
+      right: width - right,
+      colors,
+    });
     addText(group, shortDate.format(tokenRows[0].date), left, height - 8, { color: colors.muted });
     addText(group, shortDate.format(latest.date), width - right, height - 8, { anchor: "end", color: colors.muted });
 
     const largestIndex = dailyDeltas.indexOf(Math.max(...dailyDeltas));
-    return `Latest rounded estimate \u00b7 ${latest.tokensLabel} \u00b7 ${fullDate.format(latest.date)}. Largest rounded daily increase \u00b7 ${compactNumber.format(dailyDeltas[largestIndex])} \u00b7 ${fullDate.format(tokenRows[largestIndex].date)}. Tokens trace retained work, not quality. This repo-scoped estimate stays separate from lifetime usage.`;
+    return `Latest rounded estimate \u00b7 ${latest.tokensLabel} \u00b7 ${fullDate.format(latest.date)}. Biggest adjacent jump \u00b7 ${compactNumber.format(dailyDeltas[largestIndex])} \u00b7 ${fullDate.format(tokenRows[largestIndex].date)}.`;
   };
 
   const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise }) => {
@@ -175,48 +278,46 @@
       height: Math.max(300, Math.round(chart.getBoundingClientRect().height || 368)),
     });
     const drawCadence = (group, width, height, colors) => {
-      const left = width < 620 ? 42 : 50;
+      const left = width < 620 ? 58 : 64;
       const right = 14;
       const top = 40;
       const bottom = 30;
       const baseline = height - bottom;
+      const domainMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
 
       addText(group, "COMMITS / WEEK \u00b7 READABLE LOG1P", left, 20, { color: colors.accent, weight: 700 });
-      drawSeries(
+      const series = drawSeries(
         group,
         storyGithubRows,
         (row) => row.commits,
         { left, right: width - right, top, bottom: baseline },
-        { color: colors.accent, fillOpacity: 0.12, scale: "log", strokeWidth: 2 }
+        { color: colors.accent, fillOpacity: 0.12, maximum: domainMaximum, scale: "log", strokeWidth: 2 }
       );
+      drawYAxis(group, {
+        name: "story-cadence",
+        ticks: spacedLogTicks(domainMaximum, series.y, width < 620 ? 22 : 26),
+        y: series.y,
+        left,
+        right: width - right,
+        colors,
+      });
       const busiest = storyGithubRows.reduce((best, row) => (row.commits > best.commits ? row : best));
-      return `Highest commit week in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Cadence is not a productivity score.`;
+      return `Busiest week in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits.`;
     };
 
     const drawMagnitude = (group, width, height, colors) => {
-      const left = width < 620 ? 46 : 54;
+      const left = width < 620 ? 62 : 68;
       const right = 14;
       const top = 45;
       const bottom = 30;
       const baseline = (top + height - bottom) / 2;
-      const maximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
+      const maximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
 
       addText(group, "LINES CHANGED / WEEK \u00b7 READABLE SYMLOG", left, 20, { color: colors.text, weight: 700 });
       addText(group, "+ added", left, 38, { color: colors.added, weight: 650 });
       addText(group, "\u2212 removed", left + 78, 38, { color: colors.removed, weight: 650 });
-      group.append(
-        svgElement("line", {
-          x1: left,
-          y1: baseline,
-          x2: width - right,
-          y2: baseline,
-          stroke: colors.text,
-          "stroke-opacity": 0.4,
-          "stroke-width": 1.4,
-        })
-      );
       const bounds = { left, right: width - right, top, bottom: height - bottom, baseline };
-      drawSeries(group, storyGithubRows, (row) => row.additions, bounds, {
+      const additionsSeries = drawSeries(group, storyGithubRows, (row) => row.additions, bounds, {
         color: colors.added,
         maximum,
         scale: "log",
@@ -229,8 +330,18 @@
         scale: "log",
         signed: true,
       });
+      const positiveTicks = spacedLogTicks(maximum, additionsSeries.y, width < 620 ? 24 : 28).filter((value) => value > 0);
+      drawYAxis(group, {
+        name: "story-magnitude",
+        ticks: [...positiveTicks.map((value) => -value), 0, ...positiveTicks],
+        y: additionsSeries.y,
+        left,
+        right: width - right,
+        colors,
+        format: (value) => (value === 0 ? "0" : `${value > 0 ? "+" : "\u2212"}${compactNumber.format(Math.abs(value))}`),
+      });
       const largest = storyGithubRows.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
-      return `Largest reported line-change week \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
+      return `Biggest line-change week \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
     };
 
     const drawBursts = (group, width, height, colors) => {
@@ -240,27 +351,37 @@
       const panelTop = 32;
       const panelBottom = height - 26;
       const values = storyGithubRows.map(lineChanges);
-      const maximum = Math.max(...values, 1);
-      const peakIndex = values.indexOf(maximum);
+      const rawMaximum = Math.max(...values, 1);
+      const maximum = Math.max(niceLogMaximum(rawMaximum), niceLinearScale(rawMaximum, 2).domainMaximum);
+      const peakIndex = values.indexOf(rawMaximum);
 
       [
         { label: "READABLE LOG1P", mode: "log", x: outer },
         { label: "LITERAL LINEAR", mode: "linear", x: outer + panelWidth + gap },
       ].forEach((panel) => {
         addText(group, panel.label, panel.x + 10, 20, { color: panel.mode === "log" ? colors.accent : colors.muted, weight: 700 });
-        const left = panel.x + 10;
+        const left = panel.x + (width < 620 ? 44 : 50);
         const right = panel.x + panelWidth - 10;
         const bottom = panelBottom - 18;
-        drawSeries(
+        const series = drawSeries(
           group,
           storyGithubRows,
           lineChanges,
           { left, right, top: panelTop + 14, bottom },
           { color: colors.accent, fillOpacity: panel.mode === "log" ? 0.12 : 0.07, maximum, scale: panel.mode }
         );
+        const ticks = panel.mode === "log" ? spacedLogTicks(maximum, series.y, 30) : [0, ...niceLinearScale(maximum, width < 620 ? 1 : 2).ticks];
+        drawYAxis(group, {
+          name: `story-bursts-${panel.mode === "log" ? "readable" : "literal"}`,
+          ticks,
+          y: series.y,
+          left,
+          right,
+          colors,
+        });
       });
       const peak = storyGithubRows[peakIndex];
-      return `Same reported values in both panels \u00b7 largest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(maximum)} lines changed.`;
+      return `Same weeks, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
     };
 
     const drawTokens = (group, width, height, colors) => {
@@ -287,47 +408,61 @@
         color: colors.muted,
         weight: 700,
       });
-      addText(group, "Rounded before publication \u00b7 separate from the repo-scoped trace", left, height - 24, {
+      const observed = fullDate.format(new Date(`${codexSource.observed_on}T00:00:00Z`));
+      addText(group, `Observed ${observed} \u00b7 rounded before publication`, left, height - 24, {
         color: colors.muted,
       });
-      return `${codexSource.combined_lifetime.tokens_label} combined lifetime Codex tokens. This rounded total stays separate from the repo-scoped retained-session estimate.`;
+      return `${codexSource.combined_lifetime.tokens_label} combined lifetime Codex tokens \u00b7 observed ${observed}.`;
     };
 
     const drawComplete = (group, width, height, colors) => {
-      const left = 42;
+      const compact = width < 620;
+      const left = compact ? 58 : 64;
       const right = 12;
       const commitTop = 26;
       const commitBottom = Math.max(76, height * 0.2);
-      addText(group, "GITHUB \u00b7 COMMITS / WEEK", left, 16, { color: colors.accent, weight: 700 });
-      drawSeries(
+      const commitMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
+      addText(group, compact ? "COMMITS / WEEK" : "GITHUB \u00b7 COMMITS / WEEK", left, 16, { color: colors.accent, weight: 700 });
+      const commitSeries = drawSeries(
         group,
         storyGithubRows,
         (row) => row.commits,
         { left, right: width - right, top: commitTop, bottom: commitBottom },
-        { color: colors.accent, scale: "log" }
+        { color: colors.accent, maximum: commitMaximum, scale: "log" }
       );
+      drawYAxis(group, {
+        name: "story-complete-commits",
+        ticks: compact ? [0, commitMaximum] : spacedLogTicks(commitMaximum, commitSeries.y, 16),
+        y: commitSeries.y,
+        left,
+        right: width - right,
+        colors,
+      });
 
       const lineTop = commitBottom + 30;
       const lineBottom = Math.max(lineTop + 62, height * 0.52);
       const lineBaseline = (lineTop + lineBottom) / 2;
-      const lineMaximum = Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1);
-      addText(group, "SAME WEEKS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, { color: colors.muted, weight: 700 });
-      group.append(
-        svgElement("line", {
-          x1: left,
-          y1: lineBaseline,
-          x2: width - right,
-          y2: lineBaseline,
-          stroke: colors.grid,
-          "stroke-width": 1.2,
-        })
-      );
+      const lineMaximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
+      addText(group, compact ? "+ ADDED / \u2212 REMOVED" : "SAME WEEKS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, {
+        color: colors.muted,
+        weight: 700,
+      });
       const lineBounds = { left, right: width - right, top: lineTop, bottom: lineBottom, baseline: lineBaseline };
-      drawSeries(group, storyGithubRows, (row) => row.additions, lineBounds, {
+      const additionsSeries = drawSeries(group, storyGithubRows, (row) => row.additions, lineBounds, {
         color: colors.added,
         maximum: lineMaximum,
         scale: "log",
         signed: true,
+      });
+      const completePositiveTicks = compact ? [lineMaximum] : spacedLogTicks(lineMaximum, additionsSeries.y, 18).filter((value) => value > 0);
+      drawYAxis(group, {
+        name: "story-complete-lines",
+        ticks: [...completePositiveTicks.map((value) => -value), 0, ...completePositiveTicks],
+        y: additionsSeries.y,
+        left,
+        right: width - right,
+        colors,
+        format: (value) => (value === 0 ? "0" : `${value > 0 ? "+" : "\u2212"}${compactNumber.format(Math.abs(value))}`),
       });
       drawSeries(group, storyGithubRows, (row) => -row.deletions, lineBounds, {
         color: colors.removed,
@@ -340,7 +475,8 @@
       const tokenTop = lineBottom + 30;
       const tokenBottom = Math.max(tokenTop + 44, height * 0.79);
       const latestToken = tokenRows.at(-1);
-      addText(group, width < 620 ? "REPO TOKEN ESTIMATE" : "SEPARATE CLOCK · REPO RETAINED-SESSION TOKENS", left, tokenTop - 10, {
+      const tokenScale = niceLinearScale(latestToken.tokenCount, compact ? 1 : 2);
+      addText(group, compact ? "SITE TOKENS \u00b7 ESTIMATE" : "SITE TOKENS \u00b7 CUMULATIVE ESTIMATE", left, tokenTop - 10, {
         color: colors.muted,
         weight: 700,
       });
@@ -349,38 +485,48 @@
         color: colors.text,
         weight: 700,
       });
-      drawSeries(
+      const tokenSeries = drawSeries(
         group,
         tokenRows,
         (row) => row.tokenCount,
         { left, right: width - right, top: tokenTop, bottom: tokenBottom },
-        { color: colors.added, scale: "linear", strokeWidth: 1.8 }
+        { color: colors.added, maximum: tokenScale.domainMaximum, scale: "linear", strokeWidth: 1.8 }
       );
+      drawYAxis(group, {
+        name: "story-complete-tokens",
+        ticks: compact ? [0, tokenScale.domainMaximum] : [0, ...tokenScale.ticks],
+        y: tokenSeries.y,
+        left,
+        right: width - right,
+        colors,
+      });
 
       const codexTop = tokenBottom + 30;
-      addText(group, "SEPARATE MEASURE \u00b7 LIFETIME CODEX TOKENS", left, codexTop - 10, { color: colors.accent, weight: 700 });
+      addText(group, "LIFETIME CODEX \u00b7 ROUNDED", left, codexTop - 10, { color: colors.accent, weight: 700 });
       if (codexSource?.combined_lifetime) {
-        const lifetimeSummary =
-          width < 620
-            ? `${codexSource.combined_lifetime.tokens_label} lifetime \u00b7 separate repo trace`
-            : `${codexSource.combined_lifetime.tokens_label} combined \u00b7 rounded \u00b7 not added to the repo trace`;
-        addText(group, lifetimeSummary, left, Math.min(height - 8, codexTop + 18), { color: colors.text, weight: 700 });
+        addText(group, `${codexSource.combined_lifetime.tokens_label} combined lifetime`, left, Math.min(height - 8, codexTop + 18), {
+          color: colors.text,
+          weight: 700,
+        });
       } else {
         addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
           color: colors.muted,
         });
       }
-      return `Static summary · GitHub cadence is weekly, the repo token estimate is daily and currently at ${latestToken.tokensLabel}, and lifetime Codex usage is a separate rounded total.`;
+      const lifetime = codexSource?.combined_lifetime?.tokens_label;
+      return lifetime
+        ? `Five years, week by week \u00b7 ${latestToken.tokensLabel} estimated for this site \u00b7 ${lifetime} lifetime.`
+        : `Five years, week by week \u00b7 ${latestToken.tokensLabel} estimated for this site \u00b7 lifetime checkpoint unavailable.`;
     };
 
     const metadata = {
-      cadence: { label: "CADENCE", scope: "5 YEARS \u00b7 WEEKLY" },
-      magnitude: { label: "MAGNITUDE + DIRECTION", scope: "5 YEARS \u00b7 WEEKLY" },
-      bursts: { label: "READABLE / LITERAL", scope: "SAME VALUES \u00b7 TWO SCALES" },
-      tokens: { label: "TOKEN RHYTHM", scope: "SITE BUILD \u00b7 DAILY ESTIMATE" },
-      lifetime: { label: "CHANGE THE MEASURE", scope: "LIFETIME \u00b7 ROUNDED" },
-      explore: { label: "HANDOFF", scope: "GITHUB EXPLORER BELOW" },
-      complete: { label: "COMPLETE VIEW", scope: "5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL" },
+      cadence: { label: "WHEN", scope: "5 YEARS \u00b7 WEEKLY" },
+      magnitude: { label: "HOW MUCH MOVED", scope: "5 YEARS \u00b7 WEEKLY" },
+      bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
+      tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
+      lifetime: { label: "ZOOM OUT", scope: "LIFETIME \u00b7 ROUNDED" },
+      explore: { label: "YOUR TURN", scope: "GITHUB EXPLORER BELOW" },
+      complete: { label: "THE WHOLE RHYTHM", scope: "5 YEARS + DAILY SITE TOKENS + LIFETIME TOTAL" },
     };
 
     const renderScene = (scene) => {
@@ -564,6 +710,7 @@
         added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
         text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
         muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
+        grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
       };
     };
     const render = () => {
@@ -878,24 +1025,6 @@
     if (lower === upper) return ordered[lower];
     return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower);
   };
-  const niceLinearScale = (maximum, count = 4) => {
-    const rough = Math.max(1, maximum) / Math.max(1, count);
-    const power = 10 ** Math.floor(Math.log10(rough));
-    const fraction = rough / power;
-    const niceFraction = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 2.5 ? 2.5 : fraction <= 5 ? 5 : 10;
-    const step = niceFraction * power;
-    const domainMaximum = Math.max(step, Math.ceil(maximum / step) * step);
-    const ticks = [];
-    for (let tick = step; tick <= domainMaximum + step * 0.01; tick += step) ticks.push(tick);
-    return { domainMaximum, ticks };
-  };
-  const niceLogMaximum = (maximum) => {
-    const safe = Math.max(1, maximum);
-    const power = 10 ** Math.floor(Math.log10(safe));
-    const fraction = safe / power;
-    const niceFraction = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 5 ? 5 : 10;
-    return niceFraction * power;
-  };
   const selectedRows = () => {
     if (range === "all") return rows;
     const years = Number(range);
@@ -1066,6 +1195,11 @@
         "stroke-width": 1.4,
       })
     );
+    addText(grid, "0", left - 8, baseline + 4, {
+      anchor: "end",
+      color: palette.muted,
+      className: "github-activity-line-tick is-zero",
+    });
 
     let commitTicks;
     if (scale === "linear") {
