@@ -60,7 +60,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 41
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 42
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4785,6 +4785,67 @@ MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
 }
 
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS = (
+    (
+        "019f8719-28fb-74b2-a6e9-0cae260fd279",
+        "2026-07-21T23:53:21.149Z",
+        "019f8718-fb46-7f21-b270-ccb1e3c7a2e4",
+        "/root/uist2026_cutoff_closure",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-21T23:53:28.929Z",
+    ),
+    (
+        "019f8719-964d-77b3-9848-0991315c36ae",
+        "2026-07-21T23:53:49.097Z",
+        "019f8719-6d5f-7103-9579-cf9ed5594805",
+        "/root/eics_2024_2026_route",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-21T23:53:59.374Z",
+    ),
+    (
+        "019f8724-536b-7cd0-a869-81acf4e37b67",
+        "2026-07-22T00:05:32.873Z",
+        "019f8724-2627-7cc3-8f7c-a8b4a6e7ab01",
+        "/root/iccc_2019_2025_route",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-22T00:06:41.791Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _spawn_task,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "max",
+        "acknowledged_at": "2026-07-21",
+        "reason": (
+            "A substantive research/acquisition subagent in the separate "
+            "semantic-scaffolding-map repository used max effort because that repository's "
+            "AGENTS model policy requires it; it did not perform site development or change "
+            "the site's declared default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, spawn task {_spawn_task}, exact runtime "
+            f"cwd {_runtime_cwd}, and first scoped assistant response at "
+            f"{_first_scoped_response_at}; audited 2026-07-21."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V42_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V42_EXTERNAL_RESEARCH_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _spawn_task, _runtime_cwd, _first_scoped_response_at
 
 
 WH_PER_TOKEN_MIDPOINT = 0.0006
