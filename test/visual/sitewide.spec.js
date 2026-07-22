@@ -1128,6 +1128,41 @@ for (const route of SITEWIDE_ROUTES) {
   });
 }
 
+test("Wall of Rejection capture state remains exactly reproducible", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one exact 700x1000 source viewport covers the archived Wall state");
+
+  await page.setViewportSize({ width: 700, height: 1000 });
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  const response = await page.goto(publicRouteUrl("/publications/#wall-of-rejection-title"), { waitUntil: "domcontentloaded" });
+  expect(response).not.toBeNull();
+  expect(response.status()).toBeLessThan(400);
+
+  const wall = page.locator(".wall-of-rejection");
+  const highlights = wall.locator('[data-rejection-view-button][data-rejection-view-target="highlights"]');
+  await expect(wall).toBeVisible();
+  await highlights.click();
+  await expect(highlights).toHaveAttribute("aria-pressed", "true");
+
+  const visibleCards = wall.locator("[data-rejection-card]:visible");
+  await expect(visibleCards).toHaveCount(5);
+  const chi = wall.locator('[data-rejection-card][data-rejection-source-id="chi-rejection"]:visible');
+  await chi.click();
+  await expect(chi).toHaveAttribute("aria-expanded", "true");
+  await expect(chi).toHaveClass(/rejection-badge-pinned/);
+
+  const receipt = wall.locator("[data-rejection-receipt-tray]");
+  await expect(receipt).toBeVisible();
+  await expect(receipt).toHaveClass(/rejection-receipt-tray-pinned/);
+  await expect(receipt).toContainText("CHI 2026 did not accept this paper");
+  await expect(wall.locator(".rejection-xp-panel")).toContainText("38 / 50 XP");
+  await expect(wall.locator("[data-rejected-title], [data-draft], [data-collaborator-note], [data-future-venue]")).toHaveCount(0);
+  expect(await wall.innerText()).not.toMatch(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+
+  await attachScreenshot(page, testInfo, "wall-of-rejection-dd801b99-700-noon-highlights-chi-open", { locator: wall });
+  expect(runtimeErrors, "Wall exact capture state raised browser runtime errors").toEqual([]);
+});
+
 test("coastal time modes settle coherently across representative human routes", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(

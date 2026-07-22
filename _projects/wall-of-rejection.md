@@ -2,7 +2,7 @@
 layout: page
 title: Wall of Rejection
 description: A rejection-only receipt wall that makes failed submissions visible without turning research life into a leaderboard.
-img: assets/img/project_pics/site-experiments/wall-of-rejection.png
+img: assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png
 image_aspect: 4 / 3
 card_image_fit: contain
 card_image_position: center
@@ -93,18 +93,20 @@ The website needed a compact place where selected failures could remain visible 
   <figure
     class="project-case-media site-experiment-evidence-figure"
     data-evidence-kind="runtime-crop"
-    data-evidence-archive-commit="c23d42e9d52b41d795a8fbb0de962d7fe7466c3f"
-    data-evidence-archive-date="2026-07-15"
-    data-evidence-capture-date="2026-07-15"
+    data-evidence-archive-commit="dd801b99ca48ba75991a5fb296919f7f7eb0dbc0"
+    data-evidence-archive-date="2026-07-22"
+    data-evidence-capture-date="2026-07-22"
     data-evidence-artifact-size="670x502"
     data-evidence-theme="light"
-    data-evidence-state="highlights-chi-rejection-receipt-open"
-    data-evidence-source-commit="not-recorded"
-    data-evidence-source-viewport="not-recorded"
-    data-evidence-browser="not-recorded"
+    data-evidence-theme-mode="noon"
+    data-evidence-state="highlights-chi-rejection-pinned-receipt-open"
+    data-evidence-source-commit="dd801b99ca48ba75991a5fb296919f7f7eb0dbc0"
+    data-evidence-source-viewport="700x1000"
+    data-evidence-device-pixel-ratio="1"
+    data-evidence-browser="Chromium 145.0.7632.6"
   >
-    <img src="{{ '/assets/img/project_pics/site-experiments/wall-of-rejection.png' | relative_url }}" alt="Light-theme Wall of Rejection with Highlights selected, CHI Rejection receipt open, four compact badge controls, and 38 of 50 Failure XP" loading="lazy" width="670" height="502">
-    <figcaption><strong>Receipt wall.</strong> A 670 × 502 light-theme crop archived at <code>c23d42e9d</code> on July 15, with Highlights selected and the CHI receipt open. The source viewport and browser were not recorded.</figcaption>
+    <img src="{{ '/assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png' | relative_url }}" alt="Noon-theme Wall of Rejection with Highlights selected, the CHI Rejection receipt pinned open, four source-event badges, one zero-XP combo badge, and 38 of 50 Failure XP" loading="lazy" width="670" height="502">
+    <figcaption><strong>Current wall.</strong> A 670 × 502 Noon/light runtime crop from <code>dd801b99c</code> on July 22: Highlights selected, the CHI receipt pinned open, and 38 XP from four source events; the fifth badge is a zero-XP combo.</figcaption>
   </figure>
 </section>
 
@@ -146,7 +148,7 @@ The ledger currently contains two first-author paper rejections at 12 XP each, o
       <li><strong>Event source:</strong> <code>_data/wall_of_rejection.yml</code> separates source events, display badges, receipts, shelves, and joke metrics so repeated presentation cannot inflate the count.</li>
       <li><strong>Current math:</strong> CHI 2026 12 + UIST 2026 12 + MSR AI and the New Future of Work CFP 7 + MSR Fellowship 7 = 38 XP. Combo and milestone badges add 0.</li>
       <li><strong>Origin image:</strong> 1672 × 941, SHA-256 <code>dc4d4e79d5d6444867dfc56b7d436a6439226208b2885a34d37cf22bcb4c4271</code>, archived at <code>77b8efbca</code> on May 29.</li>
-      <li><strong>Runtime crop:</strong> 670 × 502 light-theme Highlights state with the CHI receipt open, SHA-256 <code>95ef3942345477a49c5bb718b3b34a4111bd37d2876df0844953243c7da06206</code>, archived at <code>c23d42e9d</code> on July 15. Its source viewport and browser were not recorded.</li>
+      <li><strong>Runtime crop:</strong> 670 × 502 Noon/light Highlights state with the CHI receipt pinned open, SHA-256 <code>44605d2f71e9a771c390eef6986d35952dd8c11df933a3c4ccc6747b859941e0</code>, captured from <code>dd801b99c</code> at a 700 × 1000 CSS-pixel viewport in Chromium 145.0.7632.6 on July 22.</li>
       <li><strong>Reading order:</strong> the wall remains secondary to the accepted-paper list; changing shelves reorganizes badges but never changes the event ledger or XP.</li>
     </ul>
     <ol class="site-experiment-ledger" aria-label="Wall of Rejection iteration record">
@@ -156,6 +158,7 @@ The ledger currently contains two first-author paper rejections at 12 XP each, o
       <li><time datetime="2026-06-15">Jun 15</time><code>1dad10b5b</code><span>Added the rejection timeline and aligned the ledger with CV evidence while keeping accepted work out of the count.</span></li>
       <li><time datetime="2026-06-16">Jun 16</time><code>f51ff4f16</code><span>Quieted the evening hierarchy so the rejection wall stayed secondary to the papers.</span></li>
       <li><time datetime="2026-07-15">Jul 15</time><code>c23d42e9d</code><span>Archived the 670 × 502 current wall state for the project card and case-study evidence.</span></li>
+      <li><time datetime="2026-07-22">Jul 22</time><code>dd801b99c</code><span>Recaptured the same current-wall story state with its source commit, viewport, browser, theme mode, and pinned interaction recorded.</span></li>
     </ol>
   </div>
 </details>

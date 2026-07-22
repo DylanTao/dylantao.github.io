@@ -228,13 +228,32 @@ class SiteExperimentsTests(unittest.TestCase):
 
     def test_wall_of_rejection_keeps_events_receipts_and_combo_math_distinct(self) -> None:
         source = (PROJECTS_DIR / "wall-of-rejection.md").read_text(encoding="utf-8")
+        asset = (
+            REPO_ROOT
+            / "assets"
+            / "img"
+            / "project_pics"
+            / "wall-of-rejection"
+            / "wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png"
+        )
+        payload = asset.read_bytes()
+        self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (670, 502))
+        self.assertEqual(hashlib.sha256(payload).hexdigest(), "44605d2f71e9a771c390eef6986d35952dd8c11df933a3c4ccc6747b859941e0")
         self.assertEqual(source.count('class="project-story-beat"'), 3)
         self.assertEqual(source.count('class="project-storyboard-step"'), 4)
         self.assertEqual(source.count("wall-of-rejection-steam-reference.png"), 1)
         for phrase in (
             "From meme to receipt wall",
             "origin-source-image",
-            "wall-of-rejection.png",
+            "wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png",
+            'data-evidence-source-commit="dd801b99ca48ba75991a5fb296919f7f7eb0dbc0"',
+            'data-evidence-source-viewport="700x1000"',
+            'data-evidence-device-pixel-ratio="1"',
+            'data-evidence-browser="Chromium 145.0.7632.6"',
+            'data-evidence-theme-mode="noon"',
+            'data-evidence-state="highlights-chi-rejection-pinned-receipt-open"',
+            "four source-event badges, one zero-XP combo badge",
             "Event",
             "Badge",
             "Receipt",
@@ -250,6 +269,9 @@ class SiteExperimentsTests(unittest.TestCase):
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
+        self.assertNotIn('data-evidence-source-commit="not-recorded"', source)
+        self.assertNotIn('data-evidence-source-viewport="not-recorded"', source)
+        self.assertNotIn('data-evidence-browser="not-recorded"', source)
 
     def test_ikea_story_uses_current_anatomy_when_exact_history_cannot_build(self) -> None:
         source = (PROJECTS_DIR / "ikea-project-cards.md").read_text(encoding="utf-8")
@@ -502,7 +524,7 @@ class SiteExperimentsTests(unittest.TestCase):
             "assets/img/project_pics/site-experiments/build-rhythm-stage.png",
             "assets/img/project_pics/site-experiments/homepage-desk-depth.png",
             "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png",
-            "assets/img/project_pics/site-experiments/wall-of-rejection.png",
+            "assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png",
             "assets/img/project_pics/site-experiments/ikea-card-expanded.png",
         ):
             with self.subTest(relative_path=relative_path):
