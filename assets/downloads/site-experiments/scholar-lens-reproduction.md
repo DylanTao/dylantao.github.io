@@ -23,6 +23,11 @@ Use this brief to add a dated citation-context layer beside your own canonical p
 - On mobile, put the publication list before the supporting lens.
 - Treat citation counts as dated context, not impact rankings or claims of quality.
 
+## Runtime evidence contract
+
+- If you archive a current interaction state, record its source commit, capture date, source viewport, artifact crop, theme, browser, and exact interaction state.
+- Let responsive evidence differ honestly: a desktop capture may show a linked row and sticky chart together, while a mobile capture should preserve the real list-first reading order rather than fabricate the desktop composition.
+
 ## Acceptance checks
 
 - Every overlay key resolves to exactly one canonical paper.

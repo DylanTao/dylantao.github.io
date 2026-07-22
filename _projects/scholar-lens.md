@@ -2,7 +2,7 @@
 layout: page
 title: Scholar Lens
 description: A site-native citation highlighter that connects authorship, paper format, annual citation context, and the accepted-paper list.
-img: assets/img/project_pics/site-experiments/scholar-lens.png
+img: assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png
 image_aspect: 3 / 2
 card_image_fit: contain
 card_avoid_scaling: true
@@ -39,20 +39,26 @@ hide_title: true
   </div>
   <figure
     class="project-case-media site-experiment-evidence-figure"
-    data-evidence-kind="runtime-crop"
-    data-evidence-archive-commit="c23d42e9d52b41d795a8fbb0de962d7fe7466c3f"
-    data-evidence-archive-date="2026-07-15"
-    data-evidence-capture-date="2026-07-15"
-    data-evidence-data-sync="2026-07-15"
-    data-evidence-artifact-size="1330x900"
+    data-evidence-kind="responsive-runtime-crop"
+    data-evidence-capture-date="2026-07-22"
+    data-evidence-data-sync="2026-07-21"
+    data-evidence-desktop-artifact-size="1440x900"
+    data-evidence-mobile-artifact-size="360x270"
     data-evidence-theme="light"
-    data-evidence-state="all-papers-no-filter"
-    data-evidence-source-commit="not-recorded"
-    data-evidence-source-viewport="not-recorded"
-    data-evidence-browser="not-recorded"
+    data-evidence-theme-mode="noon"
+    data-evidence-interaction="keyboard-focus-on-designweaver-title-link"
+    data-evidence-desktop-state="linked-row-citation-chip-and-annual-bars"
+    data-evidence-mobile-state="focused-bibliography-row"
+    data-evidence-source-commit="497b222662fa198ad5e6a43d2727cdb06ec3babf"
+    data-evidence-desktop-source-viewport="1440x1000"
+    data-evidence-mobile-source-viewport="390x1000"
+    data-evidence-browser="Chromium 145.0.7632.6"
   >
-    <img src="{{ '/assets/img/project_pics/site-experiments/scholar-lens.png' | relative_url }}" alt="July 15 light-theme Scholar Lens artifact beside the accepted-paper bibliography, with all five papers selected, 227 lifetime citations, and annual citation bars" loading="eager" width="1330" height="900">
-    <figcaption>July 15 all-papers state with 227 lifetime citations. The archived crop is exact; detailed capture metadata appears in the provenance record below.</figcaption>
+    <picture>
+      <source media="(max-width: 767px)" srcset="{{ '/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light.png' | relative_url }}" type="image/png">
+      <img src="{{ '/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png' | relative_url }}" alt="DesignWeaver highlighted in Scholar Lens's responsive publication and citation view" loading="eager" width="1440" height="900">
+    </picture>
+    <figcaption>DesignWeaver in focus at the July 22 source checkpoint. Desktop shows the linked row, citation chip, and dated annual bars; mobile keeps the honest row-first view.</figcaption>
   </figure>
 </section>
 
@@ -107,7 +113,7 @@ DesignWeaver makes the synchronization concrete. Three cues share one bibliograp
       <li><strong>Canonical paper record:</strong> <code>_bibliography/papers.bib</code>; the lens joins through stable publication keys rather than duplicating titles or venue facts.</li>
       <li><strong>Lifetime totals:</strong> <code>_data/citations.yml</code> and <code>_data/publication_lens.yml</code>, synchronized <time datetime="{{ scholar_lens_data.metadata.totals_last_synced }}">{{ scholar_lens_data.metadata.totals_last_synced | date: '%B %-d, %Y' }}</time>. DesignWeaver records {{ scholar_designweaver.citation_total }} citations; all five listed papers total {{ scholar_lens_data.metadata.total_citations }}.</li>
       <li><strong>Annual snapshot:</strong> <code>_data/publication_lens.yml</code>, explicitly frozen as of <time datetime="2026-06-17">June 17, 2026</time>. DesignWeaver contributes 7 in 2025 and 28 in 2026 in that snapshot.</li>
-      <li><strong>Static artifact:</strong> 1330 × 900 light-theme, all-papers crop with July 15 data, SHA-256 <code>70ece335cce4eb25ff342dba57e8842e4296521090c9a5b9a53469fdfd29bbc6</code>. It entered the repository in <code>c23d42e9d</code> on July 15. The exact runtime source commit, browser, and source viewport were not recorded.</li>
+      <li><strong>Responsive runtime evidence:</strong> captured from <code>/publications/</code> at source commit <code>497b22266</code> on July 22 in Chromium 145.0.7632.6, Noon light theme, with keyboard focus on DesignWeaver. The 1440 × 1000 source viewport yielded a 1440 × 900 desktop crop showing the linked row, 39-citation chip, and 2025–2026 contribution bars (SHA-256 <code>064d8496d66fb0b7b362d99cc80c60fe57b2f7c750fc1ba064eac4ea8519ed73</code>). The 390 × 1000 source viewport yielded a 360 × 270 mobile row crop (SHA-256 <code>6cd988e461b996886e7a90cad758abc1ebb378ddcaec6d7192bdcec7505c59ae</code>); it does not pretend the desktop-only chart is present.</li>
       <li><strong>Progressive enhancement:</strong> the accepted-paper bibliography is complete in server-rendered HTML; JavaScript adds filters and linked focus states.</li>
     </ul>
     <ol class="site-experiment-ledger" aria-label="Scholar Lens iteration record">
@@ -117,6 +123,7 @@ DesignWeaver makes the synchronization concrete. Three cues share one bibliograp
       <li><time datetime="2026-07-15">Jul 15</time><code>eeb0a5764</code><span>Made the lifetime-total sync clock explicit while preserving the separately dated June 17 annual snapshot.</span></li>
       <li><time datetime="2026-07-15">Jul 15</time><code>c23d42e9d</code><span>Archived the current 1330 × 900 Scholar Lens artifact for the project card and case-study hero.</span></li>
       <li><time datetime="2026-07-16">Jul 16</time><code>fa19d29d5</code><span>Advanced the lifetime-total freshness date at that checkpoint; later syncs continue to update the current totals independently from the annual snapshot.</span></li>
+      <li><time datetime="2026-07-22">Jul 22</time><code>497b22266</code><span>Used this deployed source checkpoint to capture the DesignWeaver focus state at exact desktop and mobile viewports, replacing the generic all-papers artifact with story-specific evidence.</span></li>
     </ol>
   </div>
 </details>

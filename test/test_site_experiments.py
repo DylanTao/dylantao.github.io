@@ -149,6 +149,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_scholar_lens_traces_one_paper_without_merging_citation_clocks(self) -> None:
         source = (PROJECTS_DIR / "scholar-lens.md").read_text(encoding="utf-8")
         trace = (REPO_ROOT / "_includes" / "scholar_story_trace.liquid").read_text(encoding="utf-8")
+        project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
         self.assertEqual(source.count('class="project-story-beat"'), 3)
         self.assertIn("{% include scholar_story_trace.liquid %}", source)
         self.assertEqual(trace.count('class="scholar-story-trace-step"'), 3)
@@ -162,6 +163,17 @@ class SiteExperimentsTests(unittest.TestCase):
             "does not infer paper quality, author contribution, causality, or reader interest",
             "does not collect private Scholar history",
             "Technical provenance and exact ledger",
+            'data-evidence-kind="responsive-runtime-crop"',
+            'data-evidence-source-commit="497b222662fa198ad5e6a43d2727cdb06ec3babf"',
+            'data-evidence-desktop-source-viewport="1440x1000"',
+            'data-evidence-mobile-source-viewport="390x1000"',
+            'data-evidence-theme="light"',
+            'data-evidence-theme-mode="noon"',
+            'data-evidence-interaction="keyboard-focus-on-designweaver-title-link"',
+            'data-evidence-desktop-state="linked-row-citation-chip-and-annual-bars"',
+            'data-evidence-mobile-state="focused-bibliography-row"',
+            'data-evidence-browser="Chromium 145.0.7632.6"',
+            "does not pretend the desktop-only chart is present",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
@@ -185,6 +197,34 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertNotIn("<strong>38 citations</strong>", source)
         self.assertNotIn("<strong>38</strong>", trace)
         self.assertNotIn("records 38 citations; all five listed papers total 227", source)
+
+        evidence = {
+            "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png": (
+                (1440, 900),
+                "064d8496d66fb0b7b362d99cc80c60fe57b2f7c750fc1ba064eac4ea8519ed73",
+            ),
+            "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light.png": (
+                (360, 270),
+                "6cd988e461b996886e7a90cad758abc1ebb378ddcaec6d7192bdcec7505c59ae",
+            ),
+        }
+        for relative_path, (dimensions, expected_hash) in evidence.items():
+            with self.subTest(relative_path=relative_path):
+                payload = (REPO_ROOT / relative_path).read_bytes()
+                self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+                self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), dimensions)
+                self.assertEqual(hashlib.sha256(payload).hexdigest(), expected_hash)
+
+        scholar_card = project_cards["scholar-lens"]
+        self.assertEqual(
+            scholar_card["mobile_teaser"],
+            "/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light.png",
+        )
+        self.assertEqual(
+            scholar_card["teaser_alt"],
+            "DesignWeaver highlighted in Scholar Lens's responsive publication and citation view",
+        )
+        self.assertNotIn("site-experiments/scholar-lens.png", source)
 
     def test_wall_of_rejection_keeps_events_receipts_and_combo_math_distinct(self) -> None:
         source = (PROJECTS_DIR / "wall-of-rejection.md").read_text(encoding="utf-8")
@@ -461,7 +501,7 @@ class SiteExperimentsTests(unittest.TestCase):
             "assets/img/project_pics/paper-constellation/paper-constellation-teaser.png",
             "assets/img/project_pics/site-experiments/build-rhythm-stage.png",
             "assets/img/project_pics/site-experiments/homepage-desk-depth.png",
-            "assets/img/project_pics/site-experiments/scholar-lens.png",
+            "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png",
             "assets/img/project_pics/site-experiments/wall-of-rejection.png",
             "assets/img/project_pics/site-experiments/ikea-card-expanded.png",
         ):

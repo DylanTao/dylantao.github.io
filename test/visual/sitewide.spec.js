@@ -657,8 +657,23 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       expect(stepBoxes[2].top).toBeGreaterThan(stepBoxes[1].bottom);
     }
 
-    const historicalHero = page.locator('.project-case-media[data-evidence-kind="runtime-crop"]');
-    await expect(historicalHero.locator("img")).toHaveAttribute("alt", /July 15.*227 lifetime citations/);
+    const evidenceHero = page.locator('.project-case-media[data-evidence-kind="responsive-runtime-crop"]');
+    const evidenceImage = evidenceHero.locator("img");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-source-commit", "497b222662fa198ad5e6a43d2727cdb06ec3babf");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-desktop-source-viewport", "1440x1000");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-mobile-source-viewport", "390x1000");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-theme", "light");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-theme-mode", "noon");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-interaction", "keyboard-focus-on-designweaver-title-link");
+    await expect(evidenceHero).toHaveAttribute("data-evidence-browser", "Chromium 145.0.7632.6");
+    await expect(evidenceImage).toHaveAttribute("alt", "DesignWeaver highlighted in Scholar Lens's responsive publication and citation view");
+    await expect(evidenceHero.locator('source[media="(max-width: 767px)"]')).toHaveAttribute(
+      "srcset",
+      /scholar-lens-designweaver-497b22266-390-light\.png/
+    );
+    await expect
+      .poll(() => evidenceImage.evaluate((image) => new URL(image.currentSrc).pathname))
+      .toMatch(testInfo.project.name === "mobile-390" ? /497b22266-390-light\.png$/ : /497b22266-1440-light\.png$/);
   }
 
   if (route.id === "project-hci-spooder-man") {
@@ -1227,6 +1242,23 @@ test("all eleven project cards disclose and recover their stories", async ({ pag
     const story = card.locator("[data-project-card-story]");
     const origin = story.locator("[data-project-card-origin]");
     const evolution = story.locator("[data-project-card-evolution]");
+
+    if (title === "Scholar Lens") {
+      const image = card.locator(".project-card-img");
+      await image.evaluate((element) => element.decode());
+      const responsiveEvidence = await image.evaluate((element) => ({
+        currentPath: new URL(element.currentSrc).pathname,
+        naturalHeight: element.naturalHeight,
+        naturalWidth: element.naturalWidth,
+      }));
+      if (testInfo.project.name === "mobile-390") {
+        expect(responsiveEvidence.currentPath).toMatch(/scholar-lens-designweaver-497b22266-390-light\.png$/);
+        expect(responsiveEvidence).toMatchObject({ naturalHeight: 270, naturalWidth: 360 });
+      } else {
+        expect(responsiveEvidence.currentPath).toMatch(/scholar-lens-designweaver-497b22266-1440-light\.png$/);
+        expect(responsiveEvidence).toMatchObject({ naturalHeight: 900, naturalWidth: 1440 });
+      }
+    }
 
     await card.scrollIntoViewIfNeeded();
     await trigger.focus();
