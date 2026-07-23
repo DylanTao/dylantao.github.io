@@ -246,6 +246,32 @@ test("Codex activity fails closed when its public data is unavailable", async ({
   await expect(codexTrend).not.toHaveAttribute("aria-live", /.+/);
 });
 
+test("delayed lifetime snapshot keeps the currently selected chart scale", async ({ page }) => {
+  await preparePage(page, "light");
+  const usageResponse = await page.request.get(visualRoute("assets/data/codex-profile-usage.json"));
+  expect(usageResponse.ok()).toBe(true);
+  const usage = await usageResponse.json();
+  let releaseSnapshot;
+  const snapshotGate = new Promise((resolve) => {
+    releaseSnapshot = resolve;
+  });
+  await page.route("**/assets/data/codex-profile-usage.json", async (route) => {
+    await snapshotGate;
+    await route.continue();
+  });
+
+  await page.goto("/al-folio/github-activity/", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "Literal", exact: true }).click();
+  releaseSnapshot();
+
+  const codexSnapshot = page.locator("[data-codex-usage]");
+  await expect(codexSnapshot).toHaveAttribute("data-state", "ready");
+  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveText(
+    `${new Intl.NumberFormat("en-US").format(usage.combined_lifetime.token_count)} tokens`
+  );
+  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "literal");
+});
+
 test("usage story keeps rounded lifetime Codex usage and repo measures independent and accessible", async ({ page }) => {
   await preparePage(page, "light");
   await page.route("**/assets/data/codex-profile-usage.json", (route) =>
