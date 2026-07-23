@@ -796,7 +796,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     await expect(anatomy).toHaveAttribute("data-evidence-kind", "annotated-current-state-anatomy");
     await expect(anatomy).toHaveAttribute("data-runtime-contract", "9fa9403e4");
     await expect(stateFrames).toHaveCount(3);
-    await expect(anatomy.locator("figcaption")).toContainText("static, reduced-motion-safe anatomy");
+    await expect(anatomy.locator("figcaption")).toContainText("it remains readable with reduced motion");
     const stateBoxes = await stateFrames.evaluateAll((elements) =>
       elements.map((element) => {
         const box = element.getBoundingClientRect();
