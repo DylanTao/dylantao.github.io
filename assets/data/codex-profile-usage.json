@@ -1,8 +1,8 @@
 {
   "schema": 4,
   "combined_lifetime": {
-    "token_count": 50300000000,
-    "tokens_label": "50.3B",
+    "token_count": 50500000000,
+    "tokens_label": "50.5B",
     "units": "tokens",
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
@@ -11,14 +11,14 @@
   "method": "rounded_sum_of_verified_account_lifetime_readings",
   "confidence": "high",
   "observed_on": "2026-07-23",
-  "updated_at": "2026-07-23T05:39:14.741788Z",
+  "updated_at": "2026-07-23T09:51:29.808704Z",
   "automated_refresh": true,
   "cost": {
     "method": "flat_reference_rate_replay",
     "reference_scope": "current_site_build_blended_public_api_rate",
-    "usd_per_million_tokens": 0.796655,
+    "usd_per_million_tokens": 0.796269,
     "pricing_as_of": "2026-07-12",
-    "usd_midpoint": 40072,
-    "usd_label": "~$40.1K API-rate replay"
+    "usd_midpoint": 40212,
+    "usd_label": "~$40.2K API-rate replay"
   }
 }
