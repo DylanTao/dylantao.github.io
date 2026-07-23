@@ -281,53 +281,55 @@ github_activity: true
       </p>
     </div>
 
-    <section class="github-activity-token-evidence" aria-labelledby="github-activity-token-table-title">
-      <h3 id="github-activity-token-table-title">Every daily point</h3>
-      <p>The table keeps the same series readable without JavaScript. Each increase is the difference between neighboring rounded totals.</p>
-      <p class="github-activity-table-scroll-hint" id="github-activity-token-table-scroll-hint">Scroll horizontally for all three columns.</p>
-      <div
-        class="github-activity-table-wrap"
-        role="region"
-        aria-label="Daily cumulative repo-token estimate table"
-        aria-describedby="github-activity-token-table-scroll-hint"
-        tabindex="0"
-      >
-        <table class="github-activity-table">
-          <caption>
-            Rounded cumulative retained-session estimate from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
-            {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Cumulative estimate</th>
-              <th scope="col">Rounded increase</th>
-            </tr>
-          </thead>
-          <tbody id="github-activity-token-table-body">
-            {% assign token_table_previous_count = 0 %}
-            {% for token_point in token_rhythm.points %}
-              {% assign token_table_increase = token_point.token_count | minus: token_table_previous_count %}
+    <details class="github-activity-token-evidence" data-token-rhythm-details>
+      <summary id="github-activity-token-table-title">Exact daily values</summary>
+      <div class="github-activity-token-evidence-body">
+        <p>The same rounded series, row by row.</p>
+        <p class="github-activity-table-scroll-hint" id="github-activity-token-table-scroll-hint">Scroll horizontally for all three columns.</p>
+        <div
+          class="github-activity-table-wrap"
+          role="region"
+          aria-label="Daily cumulative repo-token estimate table"
+          aria-describedby="github-activity-token-table-scroll-hint"
+          tabindex="0"
+        >
+          <table class="github-activity-table">
+            <caption>
+              Rounded cumulative retained-session estimate from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
+              {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}
+            </caption>
+            <thead>
               <tr>
-                <th scope="row"><time datetime="{{ token_point.date }}">{{ token_point.date | date: "%b %-d, %Y" }}</time></th>
-                <td><data value="{{ token_point.token_count }}">{{ token_point.tokens_label }} estimated tokens</data></td>
-                <td>
-                  <data value="{{ token_table_increase }}">
-                    +{% if token_table_increase >= 1000000000 %}
-                      {{- token_table_increase | divided_by: 1000000000.0 | round: 2 -}}B
-                    {% else %}
-                      {{- token_table_increase | divided_by: 1000000 -}}M
-                    {% endif %}
-                    estimated tokens
-                  </data>
-                </td>
+                <th scope="col">Date</th>
+                <th scope="col">Cumulative estimate</th>
+                <th scope="col">Rounded increase</th>
               </tr>
-              {% assign token_table_previous_count = token_point.token_count %}
-            {% endfor %}
-          </tbody>
-        </table>
+            </thead>
+            <tbody id="github-activity-token-table-body">
+              {% assign token_table_previous_count = 0 %}
+              {% for token_point in token_rhythm.points %}
+                {% assign token_table_increase = token_point.token_count | minus: token_table_previous_count %}
+                <tr>
+                  <th scope="row"><time datetime="{{ token_point.date }}">{{ token_point.date | date: "%b %-d, %Y" }}</time></th>
+                  <td><data value="{{ token_point.token_count }}">{{ token_point.tokens_label }} estimated tokens</data></td>
+                  <td>
+                    <data value="{{ token_table_increase }}">
+                      +{% if token_table_increase >= 1000000000 %}
+                        {{- token_table_increase | divided_by: 1000000000.0 | round: 2 -}}B
+                      {% else %}
+                        {{- token_table_increase | divided_by: 1000000 -}}M
+                      {% endif %}
+                      estimated tokens
+                    </data>
+                  </td>
+                </tr>
+                {% assign token_table_previous_count = token_point.token_count %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </details>
 
   </section>
 

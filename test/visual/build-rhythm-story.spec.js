@@ -74,7 +74,25 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect((await tokenRhythmChart.locator(".github-activity-token-cumulative-line").getAttribute("d"))?.length).toBeGreaterThan(20);
   expect((await tokenRhythmChart.locator(".github-activity-token-delta-line").getAttribute("d"))?.length).toBeGreaterThan(20);
   await expectReadableAxes(tokenRhythmChart);
+  const tokenDetails = page.locator("[data-token-rhythm-details]");
+  const tokenDetailsSummary = tokenDetails.locator("summary");
+  const tokenTableRegion = page.getByRole("region", { name: "Daily cumulative repo-token estimate table" });
+  await expect(tokenDetails).not.toHaveAttribute("open", "");
+  await expect(tokenDetailsSummary).toBeVisible();
+  await expect(tokenDetailsSummary).toHaveText("Exact daily values");
+  await expect(tokenTableRegion).toBeHidden();
+  await tokenDetailsSummary.focus();
+  await expect(tokenDetailsSummary).toBeFocused();
+  await tokenDetailsSummary.press("Enter");
+  await expect(tokenDetails).toHaveAttribute("open", "");
+  const summaryOutline = await tokenDetailsSummary.evaluate((element) => getComputedStyle(element).outlineStyle);
+  expect(summaryOutline).not.toBe("none");
+  await expect(tokenTableRegion).toBeVisible();
   expect(await page.locator("#github-activity-token-table-body tr").count()).toBe(tokenSource.points.length);
+  await tokenDetailsSummary.press("Enter");
+  await expect(tokenDetails).not.toHaveAttribute("open", "");
+  await tokenDetailsSummary.click();
+  await expect(tokenDetails).toHaveAttribute("open", "");
   await expect(tokenRhythm).toContainText("the running total above and each day's increase below");
 
   await expect(story).toContainText("Commit count tells me when. Line changes tell me how much.");
@@ -96,9 +114,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(stage).toContainText(latestTokenLabel);
     if (viewportWidth <= 420) {
       await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
-      const tokenTableOverflow = await page
-        .getByRole("region", { name: "Daily cumulative repo-token estimate table" })
-        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      const tokenTableOverflow = await tokenTableRegion.evaluate((element) => element.scrollWidth - element.clientWidth);
       expect(tokenTableOverflow).toBeGreaterThan(100);
     }
   } else {

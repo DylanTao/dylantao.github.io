@@ -920,23 +920,36 @@
 
 .github-activity-token-evidence {
   margin-top: 1.25rem;
-  padding: 0 0 0.25rem;
+  border-top: 1px solid var(--global-outline-color);
+  border-bottom: 1px solid var(--global-outline-color);
 }
 
-.github-activity-token-evidence h2,
-.github-activity-token-evidence h3,
+.github-activity-token-evidence summary {
+  min-height: 3rem;
+  padding: 0.85rem 0;
+  color: var(--global-text-color);
+  font-size: 1rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.github-activity-token-evidence summary::marker {
+  color: var(--global-primary-color);
+}
+
+.github-activity-token-evidence summary:focus-visible {
+  border-radius: 0.2rem;
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 3px;
+}
+
+.github-activity-token-evidence-body {
+  padding: 0 0 1rem;
+}
+
 .github-activity-token-evidence p {
   margin: 0;
-}
-
-.github-activity-token-evidence h2,
-.github-activity-token-evidence h3 {
-  font-size: 1rem;
-}
-
-.github-activity-token-evidence p {
   max-width: var(--measure-prose);
-  margin-top: 0.35rem;
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
   line-height: 1.55;
