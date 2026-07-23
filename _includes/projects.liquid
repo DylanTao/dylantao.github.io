@@ -174,14 +174,21 @@
             <i class="fa-solid fa-plus"></i>
           </span>
           {% if project_card_data.takeaways %}
-            <div class="project-card-takeaways" aria-label="{{ project.title }} takeaways">
-              <p class="project-card-takeaways-label">What to notice</p>
-              <ul>
-                {% for takeaway in project_card_data.takeaways limit: 2 %}
-                  <li>{{ takeaway }}</li>
-                {% endfor %}
-              </ul>
-            </div>
+            {% if project_card_data.origin_line %}
+              <div class="project-card-takeaways project-card-outcome" aria-label="{{ project.title }} intended outcome">
+                <p class="project-card-takeaways-label">Intended outcome</p>
+                <p>{{ project_card_data.takeaways.first }}</p>
+              </div>
+            {% else %}
+              <div class="project-card-takeaways" aria-label="{{ project.title }} takeaways">
+                <p class="project-card-takeaways-label">What to notice</p>
+                <ul>
+                  {% for takeaway in project_card_data.takeaways limit: 2 %}
+                    <li>{{ takeaway }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
           {% endif %}
         </div>
         <button

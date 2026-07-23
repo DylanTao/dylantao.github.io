@@ -296,3 +296,23 @@ test("Build Rhythm cancels its scene transition when the story leaves view", asy
   await expect(stage).toHaveAttribute("data-transitioning", "false");
   await expect(stage).toHaveCSS("opacity", "1");
 });
+
+test("Build Rhythm re-syncs the nearest step when the story returns", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "laptop-1280", "the short desktop exposes the observer ordering race");
+
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  const story = page.locator("[data-build-rhythm-story]");
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  const cadence = page.locator('[data-build-rhythm-step="cadence"]');
+  await expect(story).toHaveAttribute("data-state", "ready");
+
+  await page.locator("[data-token-rhythm]").scrollIntoViewIfNeeded();
+  await expect(story).toHaveAttribute("data-story-visible", "false");
+  await cadence.evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
+
+  await expect(story).toHaveAttribute("data-story-visible", "true");
+  await expect(cadence).toHaveClass(/is-active/);
+  await expect(stage).toHaveAttribute("data-scene", "cadence");
+  await expect(stage).toHaveAttribute("data-transitioning", "false");
+});

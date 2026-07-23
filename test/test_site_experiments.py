@@ -16,6 +16,7 @@ GUIDES_DIR = REPO_ROOT / "assets" / "downloads" / "site-experiments"
 PROJECT_CARD_DATA = REPO_ROOT / "_data" / "project_cards.yml"
 PROJECT_CARD_INCLUDE = REPO_ROOT / "_includes" / "projects.liquid"
 PROJECT_CARD_ICON_INCLUDE = REPO_ROOT / "_includes" / "project_card_icon.liquid"
+SPOODER_DATA = REPO_ROOT / "_data" / "spooder_man.yml"
 STORY_COMPONENTS = REPO_ROOT / "_sass" / "_components.scss"
 STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
@@ -148,6 +149,9 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertIn('class="project-card-story-label">Why it began</p>', card_include)
         self.assertIn('{% if project_card_data.evolution_line %}', card_include)
         self.assertIn('class="project-card-story-label">What changed</p>', card_include)
+        self.assertIn('class="project-card-takeaways project-card-outcome"', card_include)
+        self.assertIn('class="project-card-takeaways-label">Intended outcome</p>', card_include)
+        self.assertIn("project_card_data.takeaways.first", card_include)
         self.assertIn("project_card_data.teaser_alt | default: project.title", card_include)
         self.assertIn("alt=project_teaser_alt", card_include)
 
@@ -187,6 +191,38 @@ class SiteExperimentsTests(unittest.TestCase):
                 for takeaway in card["takeaways"]:
                     self.assertGreaterEqual(len(takeaway), 20)
                     self.assertLessEqual(len(takeaway), 140)
+
+        self.assertIn(
+            "first combined version put GitHub activity and token history in one workbench",
+            (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "Each public rejection has one source event and one receipt",
+            (PROJECTS_DIR / "wall-of-rejection.md").read_text(encoding="utf-8"),
+        )
+        self.assertEqual(
+            project_cards["hci-spooder-man"]["teaser_alt"],
+            "HCI Spooder-Man remix artwork from the project's downloadable character, scene, and title-card set",
+        )
+        expected_outcomes = {
+            "openai-build-week": "Students can inspect which changes survived review",
+            "paper-constellation": "Readers can follow one research question across papers",
+            "build-rhythm": "Readers can see when work clustered",
+            "homepage-desk-scene": "Visitors can skim the research in 2D",
+            "scholar-lens": "Readers can follow one paper from bibliography entry to citation history",
+            "wall-of-rejection": "Visitors can see the rejected attempts around accepted work",
+            "ikea-project-cards": "Visitors can sample a project and return to the same place",
+        }
+        for slug, expected_outcome in expected_outcomes.items():
+            with self.subTest(outcome=slug):
+                self.assertIn(expected_outcome, project_cards[slug]["takeaways"][0])
+
+        spooder_data = yaml.safe_load(SPOODER_DATA.read_text(encoding="utf-8"))
+        gallery_captions = " ".join(item["caption"] for item in spooder_data["assets"])
+        for filler in ("Group-shot remix energy", "Deadline energy", "Before the next reply"):
+            with self.subTest(filler=filler):
+                self.assertNotIn(filler, gallery_captions)
+        self.assertIn("use this frame", gallery_captions)
 
     def test_scholar_lens_traces_one_paper_without_merging_citation_clocks(self) -> None:
         source = (PROJECTS_DIR / "scholar-lens.md").read_text(encoding="utf-8")

@@ -24,7 +24,7 @@ class OpenAIBuildWeekStoryTests(unittest.TestCase):
             "Everything gray was already here",
             "asks judges to evaluate only the extension",
             "The original workbench began on July 11",
-            "Most underlying interactions predated Build Week",
+            "Six interactions predated Build Week; Paper Constellation was new",
             "it did not create the reciprocal room",
             "An inspectable method is not a measured learning outcome",
             "0 runtime AI calls",
@@ -47,6 +47,7 @@ class OpenAIBuildWeekStoryTests(unittest.TestCase):
         )
         self.assertIsNotNone(receipts_match)
         self.assertEqual(receipts_match.group(0).count("<li>"), 7)
+        self.assertIn("six pre-existing interactions gained project pages alongside the new Paper Constellation", source)
 
         for chapter in (
             "boundary",

@@ -660,9 +660,11 @@
     if ("IntersectionObserver" in window) {
       rootObserver = new IntersectionObserver(
         ([entry]) => {
+          const wasVisible = storyVisible;
           storyVisible = Boolean(entry?.isIntersecting);
           storyRoot.dataset.storyVisible = String(storyVisible);
           if (!storyVisible) cancelTransition();
+          else if (!wasVisible && !isStaticStory()) activateStep(nearestStep(), { animate: false });
         },
         { threshold: 0.01 }
       );

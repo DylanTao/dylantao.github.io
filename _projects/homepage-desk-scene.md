@@ -105,9 +105,9 @@ The four frames hold everything I could keep constant: the same route, 1440 × 1
 >
   <header class="project-story-comparison-header">
     <p class="project-case-kicker">GPT-5.6 Sol/ultra provenance</p>
-    <h3 id="desk-comparison-july-title">July 16: one reciprocal room</h3>
+    <h3 id="desk-comparison-july-title">July 16: one room, viewed from both sides</h3>
     <p class="project-story-provenance">Runtime source <code>8fc9bf7d3</code> · accepted scene <code>1b07cea4c</code></p>
-    <p>The 2D state now carries into a room you can view from inside or outside. Yellow Submarine remains queued and the discovery pile remains empty in both frames.</p>
+    <p>The 2D state now carries into the same room viewed from inside or outside. Yellow Submarine remains queued and the discovery pile remains empty in both frames.</p>
   </header>
   <div class="project-case-evidence-pair">
     <figure class="project-case-media site-experiment-evidence-figure" data-desk-evidence-mode="2d">

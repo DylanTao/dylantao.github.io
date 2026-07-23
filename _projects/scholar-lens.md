@@ -58,7 +58,7 @@ hide_title: true
       <source media="(max-width: 767px)" srcset="{{ '/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light.png' | relative_url }}" type="image/png">
       <img src="{{ '/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png' | relative_url }}" alt="DesignWeaver highlighted in Scholar Lens's responsive publication and citation view" loading="eager" width="1440" height="900">
     </picture>
-    <figcaption>DesignWeaver in focus at the July 22 source checkpoint. Desktop shows the linked row, citation chip, and dated annual bars; mobile keeps the honest row-first view.</figcaption>
+    <figcaption>DesignWeaver in focus at the July 22 source checkpoint. Desktop shows the linked row, citation chip, and dated annual bars; mobile starts with the focused bibliography row.</figcaption>
   </figure>
 </section>
 

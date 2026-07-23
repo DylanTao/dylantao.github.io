@@ -39,7 +39,7 @@ openai-build-week:
     afternoon: "#ef9b5c"
     evening: "#91c9dd"
   takeaways:
-    - "The cutoff separates earlier work from event work."
+    - "Students can inspect which changes survived review and reuse the same screenshot checks on their own pages."
     - "Every claimed change links to evidence."
 
 physion:
@@ -64,7 +64,7 @@ website-revamp:
     evening: "#ffb876"
   takeaways:
     - "Visitors can see the research thread without reconstructing it."
-    - "Successful experiments become reusable site rules."
+    - "Experiments that survived review become reusable site rules."
 
 paper-constellation:
   origin_line: "A year-by-year paper list hid the questions that recur across projects."
@@ -74,7 +74,7 @@ paper-constellation:
   # Literal crop from the 390x1000 light runtime capture on 2026-07-16.
   mobile_teaser: /assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png
   takeaways:
-    - "Three colors track three different research questions."
+    - "Readers can follow one research question across papers instead of reading the bibliography year by year."
     - "Mobile follows time instead of shrinking the desktop map."
 
 build-rhythm:
@@ -88,11 +88,11 @@ build-rhythm:
     afternoon: "#5f8f93"
     evening: "#91c9dd"
   takeaways:
-    - "Weekly code, daily site-build tokens, and one dated lifetime total stay separate."
+    - "Readers can see when work clustered without mistaking GitHub activity, site-build estimates, and lifetime usage for one metric."
     - "The charts show when work arrived, not whether it was good."
 
 homepage-desk-scene:
-  origin_line: "The flat desk held personal clues, but visitors could not step inside it."
+  origin_line: "The flat desk held papers, records, and hidden cards, but visitors could not step inside the room."
   evolution_line: "I made 2D and 3D views of the same room, so music and discoveries remain when someone switches views."
   icon: desk
   teaser_alt: Research portfolio homepage with its interactive three-dimensional cliff-room desk beside the introduction
@@ -102,7 +102,7 @@ homepage-desk-scene:
     afternoon: "#87a9a3"
     evening: "#9bc4cd"
   takeaways:
-    - "2D and 3D share one state."
+    - "Visitors can skim the research in 2D, explore the room in 3D, and switch without losing their music or discoveries."
     - "Inside and outside share one room."
 
 scholar-lens:
@@ -117,7 +117,7 @@ scholar-lens:
     afternoon: "#7792aa"
     evening: "#a9c4d4"
   takeaways:
-    - "One selection connects the paper, total, and yearly history."
+    - "Readers can follow one paper from bibliography entry to citation history without hunting across the page."
     - "Every citation snapshot keeps its date visible."
 
 wall-of-rejection:
@@ -131,12 +131,12 @@ wall-of-rejection:
     afternoon: "#c47e70"
     evening: "#b7cee0"
   takeaways:
-    - "Receipts stay close to each badge."
+    - "Visitors can see the rejected attempts around accepted work and open the dated receipt behind each badge."
     - "Failure stays visible beside the work."
 
 ikea-project-cards:
   origin_line: "I wanted project previews to open inside the grid so visitors could keep seeing the other projects and return to the same card."
-  evolution_line: "The first transition scaled the whole card and squeezed its content. The current version uses one cancelable translation clock."
+  evolution_line: "The first transition scaled the whole card and squeezed its content. The current version moves the card without scaling its contents and cancels cleanly when another card opens."
   icon: expand
   teaser_alt: Expanded Paper Constellation project card opening in place while neighboring project cards remain visible
   accents:
@@ -145,7 +145,7 @@ ikea-project-cards:
     afternoon: "#7fa6ad"
     evening: "#a9c9d9"
   takeaways:
-    - "One card opens in context."
+    - "Visitors can sample a project and return to the same place in the collection without a navigation detour."
     - "The card expands without losing its place in the grid."
 
 dogtor-portal:
@@ -179,7 +179,7 @@ hci-spooder-man:
   origin_line: "The same paper was rejected by CHI and UIST, then became a Steam-style image passed around the lab."
   evolution_line: "A one-off Steam-style meme grew into a small remix kit, with the serious rejection record still one link away."
   icon: spooder
-  teaser_alt: Five Spider-Man characters gathering in a city street as playful remix material for HCI Spooder-Man
+  teaser_alt: HCI Spooder-Man remix artwork from the project's downloadable character, scene, and title-card set
   accents:
     morning: "#d7675b"
     noon: "#2f75a8"

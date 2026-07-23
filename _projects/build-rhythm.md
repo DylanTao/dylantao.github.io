@@ -56,7 +56,7 @@ hide_title: true
 
 ## Why I rebuilt it
 
-The first version put GitHub activity and token history in one workbench. They looked like one story even though they used different units and clocks. I split them: weeks for GitHub, days for this site, and one dated point for lifetime use.
+The first combined version put GitHub activity and token history in one workbench. They looked like one story even though they used different units and clocks. I split them: weeks for GitHub, days for this site, and one dated point for lifetime use.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">

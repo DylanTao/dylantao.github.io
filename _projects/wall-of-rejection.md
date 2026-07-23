@@ -110,9 +110,9 @@ For the website, I kept the joke small: selected public rejections beside the sc
   </figure>
 </section>
 
-The website keeps the joke to one “no,” one badge, and one receipt, then returns to the papers.
+Each public rejection has one source event and one receipt; shelves and combo badges never create another event.
 
-## How one no moves through the wall
+## How each no moves through the wall
 
 The ledger contains two first-author paper rejections at 12 XP each, one grant rejection at 7 XP, and one fellowship rejection at 7 XP: <strong>38 XP from four events</strong>.
 

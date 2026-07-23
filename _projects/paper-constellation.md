@@ -136,8 +136,6 @@ The first phone version simply compressed the atlas. Labels fought for the sides
   </figure>
 </section>
 
-The mobile image is a literal 360 × 270 crop from a 390 × 1000 light-theme runtime at checkpoint <code>6832a6a05b5ff2b6c692bb3f5e3654a535e4401e</code>, with the constellation open and no paper pinned. The crop leaves out the sticky site navigation.
-
 On the live page, select a paper to open its details below; press Escape to close it. The mobile trail keeps the same five papers, seven future nodes, and nine connections.
 
 <aside class="project-story-note project-story-note--privacy site-experiment-privacy-note" aria-labelledby="constellation-privacy-title">

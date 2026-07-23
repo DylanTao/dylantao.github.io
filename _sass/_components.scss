@@ -958,6 +958,13 @@ html.site-motion-ready .hoverable.site-visible:hover {
     list-style: none;
   }
 
+  .project-card-outcome > p:last-child {
+    margin: 0;
+    color: var(--global-text-color);
+    font-size: var(--type-meta);
+    line-height: 1.45;
+  }
+
   .project-card-takeaways li {
     position: relative;
     padding-left: 0.9rem;

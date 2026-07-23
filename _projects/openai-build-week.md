@@ -235,12 +235,12 @@ The timeline below links each public change to its commit. Read left to right by
       class="build-week-story-step"
       data-build-week-step="artifacts"
       data-kicker="Reusable teaching artifacts · July 15–16"
-      data-title="Seven experiments gained origin stories, evidence, and reuse guides."
-      data-copy="Most underlying interactions predated Build Week. The extension added origin stories, dated evidence, known limits, and downloadable guides."
+      data-title="Six earlier experiments and one new paper map gained inspectable stories."
+      data-copy="Six interactions predated Build Week; Paper Constellation was new. All seven gained origin stories, dated evidence, known limits, and downloadable guides."
     >
       <p class="project-case-kicker">05 · Show the work</p>
-      <h3>Give seven experiments their own case studies.</h3>
-      <p>Across <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f"><code>1ec5d5f4f</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/2070991b0"><code>2070991b0</code></a>, and the constellation work, seven existing experiments gained project pages and downloadable reproduction guides. Together they show where each experiment began, what changed, and how someone could reuse the pattern.</p>
+      <h3>Give six earlier experiments and one new paper map their own case studies.</h3>
+      <p>Across <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f"><code>1ec5d5f4f</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/2070991b0"><code>2070991b0</code></a>, and the constellation work, six pre-existing interactions gained project pages alongside the new Paper Constellation. All seven include evidence and downloadable reuse guides.</p>
     </li>
 
     <li
