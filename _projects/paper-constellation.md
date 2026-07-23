@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Paper Constellation
-description: A publication browser that turns five accepted papers, seven anonymous future nodes, and nine reviewed relationships into a desktop atlas and chronological mobile trail.
+description: A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous.
 img: assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png
 image_aspect: 4 / 3
 card_avoid_scaling: true
@@ -20,7 +20,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · Publication orientation</p>
     <h1>Paper Constellation</h1>
     <p class="project-case-lede">
-      A bibliography proves that each paper exists; a constellation shows how one question leans into the next. This optional map connects accepted papers through three recurring research threads and keeps future directions anonymous.
+      Paper Constellation is a second way to browse my publications. It connects five accepted papers through three questions I keep returning to—Design, Evaluate, and Situate—while future projects stay anonymous. On desktop it is an atlas; on a phone it becomes a chronological trail.
     </p>
     <div class="project-case-facts">
       <span>5 accepted papers</span>
@@ -49,57 +49,63 @@ hide_title: true
 <section class="project-case-summary" aria-label="Paper Constellation summary">
   <div>
     <span>Why</span>
-    <p>The publication list documented individual outputs, but it hid the questions and methods that recur between them.</p>
+    <p>The publication list showed what I published, but not why one paper sits near another.</p>
   </div>
   <div>
     <span>What</span>
-    <p>An optional relationship map links five accepted papers to three threads while keeping seven future directions anonymous.</p>
+    <p>I reviewed nine connections across five accepted papers and added seven anonymous future nodes.</p>
   </div>
   <div>
     <span>How</span>
-    <p>Reviewed coordinates and nine explicit edges power a desktop atlas and a separately composed chronological mobile trail.</p>
+    <p>The same graph becomes a spatial atlas on wide screens and a vertical thread trail on phones.</p>
   </div>
 </section>
 
-<h2 class="sr-only" id="paper-constellation-story-title">From list to trail</h2>
+<h2 class="sr-only" id="paper-constellation-story-title">How the map took shape</h2>
 
 <ol class="project-story-beats" aria-labelledby="paper-constellation-story-title">
   <li class="project-story-beat" data-story-beat="spark">
-    <p class="project-case-kicker">Spark</p>
-    <h3>The list hid the lineage.</h3>
-    <p>The bibliography answered “what did you publish?” The map adds “how did this question become the next one?”</p>
+    <p class="project-case-kicker">Starting point</p>
+    <h3>The bibliography had the papers, but not the through-line.</h3>
+    <p>I could answer “what did you publish?” but not “which question kept following you into the next paper?” The first map put those recurring questions on the page.</p>
   </li>
   <li class="project-story-beat" data-story-beat="turn">
-    <p class="project-case-kicker">Turn</p>
-    <h3>A compressed atlas stopped reading as a map.</h3>
-    <p>A spatial desktop map made relationships memorable, then failed on a narrow screen when its labels and paths were simply squeezed.</p>
+    <p class="project-case-kicker">First mobile attempt</p>
+    <h3>Squeezing the atlas made the constellation disappear.</h3>
+    <p>Desktop had room for clusters and paths. On a phone, the labels crowded the sides and long empty year gaps took over the screen.</p>
   </li>
   <li class="project-story-beat" data-story-beat="now">
-    <p class="project-case-kicker">Now</p>
-    <h3>One graph, two deliberate geometries.</h3>
-    <p>The large screen remains an atlas; mobile becomes a chronological vertical thread trail with the same papers, memberships, edges, and privacy boundary.</p>
+    <p class="project-case-kicker">Current version</p>
+    <h3>Desktop stays an atlas; mobile becomes a trail.</h3>
+    <p>The chronological vertical thread trail keeps the same papers, memberships, nine edges, and privacy boundary, but gives titles enough room to read.</p>
   </li>
 </ol>
 
 ## Three recurring research threads
 
-Horizontal position follows three stable reading threads. **Design** makes alternatives and useful dimensions visible. **Evaluate** uses evidence from people, artifacts, and traces to sharpen the next question. **Situate** fits representations and assistance to their physical or practical context. Citation counts affect only a quiet halo. These are reading aids, not rankings; position does not encode prestige, venue, author order, or impact.
+I placed each paper against three questions I keep asking:
 
-Published papers use hand-reviewed coordinates and explicit primary, bridge, or technical-adjacency memberships. Deterministic geometry gives returning readers the same DesignWeaver, Physion, and HotSpot positions across visits and screenshots.
+- **Design:** How can we make useful alternatives and dimensions visible?
+- **Evaluate:** What evidence from people, artifacts, or traces should change the next iteration?
+- **Situate:** How should a representation or assistant fit its physical and practical setting?
 
-The canonical bibliography is the server-rendered default. Once the enhancement starts, a view switch adds the constellation while titles, authors, venues, links, and citation evidence remain in the list.
+Citation counts affect only a quiet halo. These are reading aids, not rankings; position does not encode prestige, venue, author order, or impact.
+
+I reviewed the coordinates, thread memberships, and nine connections by hand. Their positions stay fixed, so DesignWeaver, Physion, and HotSpot do not wander between visits or screenshots.
+
+The ordinary bibliography still loads first and keeps every title, author, venue, and link. The constellation is an extra way to read that same record.
 
 ## Follow one line: DesignWeaver to What Happened and Why
 
-[DesignWeaver]({{ '/projects/designweaver/' | relative_url }}) began with a design problem: help novices surface and reuse the visual dimensions hidden inside prompts and generated concepts. It sits primarily in Design, with a bridge toward Evaluate, because making alternatives visible was only useful if people could compare and learn from them.
+[DesignWeaver]({{ '/projects/designweaver/' | relative_url }}) helps novices notice and reuse visual dimensions hidden inside prompts and generated concepts. I placed it mainly in Design, with a bridge to Evaluate: surfacing alternatives only helps when people can compare and learn from them.
 
-The reviewed edge to [What Happened and Why?]({{ '/projects/what-happened-and-why/' | relative_url }}) carries that concern forward. The later position paper asks how traces of creative activity might locate consequential micro-episodes, then pairs those traces with in-flow user explanations. Its primary home shifts toward Evaluate while retaining a Design bridge. The line makes one shared question inspectable: **what evidence helps a designer make the next iteration more deliberate?** The reviewed edge marks a shared question, not evidence that one paper caused the other.
+[What Happened and Why?]({{ '/projects/what-happened-and-why/' | relative_url }}) asks how traces of creative work might locate consequential moments, then pair those moments with in-flow explanations from the person doing the work. It moves toward Evaluate while keeping a Design bridge. The line between the papers marks a question I kept: **what evidence helps a designer make the next iteration more deliberate?** It is not evidence that one paper caused the other.
 
-Hover or keyboard focus previews a paper's immediate neighborhood. Selecting it pins that evidence and asks [Scholar Lens]({{ '/projects/scholar-lens/' | relative_url }}) to highlight the matching citation chip and annual bar. Scholar Lens filters flow back into the map, dimming filtered papers and removing them from the Tab order.
+Try hovering or focusing a paper to see its neighbors. Select it to keep that path open and highlight the same paper in [Scholar Lens]({{ '/projects/scholar-lens/' | relative_url }}). Filters travel in the other direction too, so the list and map stay on the same paper.
 
 ## One record, two reading shapes
 
-The first mobile version compressed the atlas until labels fought for the sides and empty years dominated the page. The new mobile trail preserves the graph while changing its reading shape: chronology runs downward and three colored rails keep the research threads visible.
+The first phone version simply compressed the atlas. Labels fought for the sides and empty years dominated the page. The replacement keeps chronology running downward while three colored rails carry the research threads behind each paper.
 
 <section
   class="project-story-comparison paper-constellation-evidence-pair"
@@ -130,21 +136,21 @@ The first mobile version compressed the atlas until labels fought for the sides 
   </figure>
 </section>
 
-The mobile image is a literal 360 × 270 card crop from a 390 × 1000 light-theme runtime capture. It records the constellation active with no paper pinned at checkpoint <code>6832a6a05b5ff2b6c692bb3f5e3654a535e4401e</code>; the sticky site navigation is omitted from the crop because it is site chrome around the experiment, not evidence inside it.
+The mobile image is a literal 360 × 270 crop from a 390 × 1000 light-theme runtime at checkpoint <code>6832a6a05b5ff2b6c692bb3f5e3654a535e4401e</code>, with the constellation open and no paper pinned. The crop leaves out the sticky site navigation.
 
-On the live page, the trail still renders all three rails, five at-least-44-pixel paper controls, seven anonymous future nodes, five secondary-membership stubs, and all nine canonical paths. Selecting a paper places its detail directly below that row; Escape clears it and restores focus. A <code>ResizeObserver</code> measures the settled anchors after layout or font changes, then redraws fixed paths without force simulation or moving the nodes.
+On the live page, the trail keeps all three rails, five paper controls, seven anonymous future nodes, five secondary memberships, and all nine canonical paths. Select a paper and its detail opens directly below the row; press Escape to close it and return focus. Each control is at least 44 pixels. The paths redraw from measured anchors after a layout or font change, without moving the papers around.
 
 <aside class="project-story-note project-story-note--privacy site-experiment-privacy-note" aria-labelledby="constellation-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
   <h2 id="constellation-privacy-title">Seven anonymous future directions</h2>
-  <p>Each question mark publishes only a neutral ID, coarse thread, relative size, and allowlisted public rejection receipts. Titles, collaborators, venues, descriptions, and routes stay private.</p>
+  <p>A question mark exposes only a neutral ID, broad thread, relative size, and allowlisted public rejection receipts. Its title, collaborators, venue, description, and route stay private.</p>
 </aside>
 
 ## Credit and adaptation
 
 [John Thompson](https://jrthomp.com/) shared Nadieh Bremer's [Royal Constellations](https://royalconstellations.visualcinnamon.com/) with me. Bremer's work at [Visual Cinnamon](https://www.visualcinnamon.com/) made a useful interaction lesson vivid: stable semantic structure, contextual dimming, and a neighborhood that becomes legible through focus and selection. Her [process story](https://www.datasketch.es/project/royal-constellations) also shows how much care sits behind an apparently effortless map.
 
-I carried over those interaction principles, not the royal-family data, visual layout, assets, D3 force-directed SVG implementation, or shortest-path behavior. This implementation adapts them into server-rendered HTML with fixed SVG geometry, keeps the bibliography authoritative, and gives touch and keyboard readers equivalent control.
+I carried over those interaction principles, not the royal-family data, visual layout, assets, D3 force-directed SVG implementation, or shortest-path behavior. This version uses server-rendered HTML and fixed SVG paths, keeps the bibliography complete, and gives touch and keyboard readers the same controls.
 
 <details class="project-story-disclosure site-experiment-technical-details">
   <summary id="constellation-technical-summary">Technical provenance and exact ledger</summary>
@@ -165,7 +171,7 @@ I carried over those interaction principles, not the royal-family data, visual l
 
 <aside class="site-experiment-reproduce" aria-labelledby="constellation-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="constellation-reproduce-title">Keep the evidence ordinary; let the optional view teach one relationship.</h2>
-  <p>The public guide documents the progressive-enhancement order, privacy schema, focus and filtering contract, deterministic geometry, and acceptance evidence. Its reusable lesson is to give large and small screens the same truth through deliberately different compositions.</p>
+  <h2 id="constellation-reproduce-title">Start with the list, then add the map.</h2>
+  <p>The guide documents the data boundary, focus and filtering rules, fixed geometry, and checks behind both layouts. The main lesson is simple: a phone can keep the same graph without pretending to be a tiny desktop.</p>
   <a href="{{ '/assets/downloads/site-experiments/paper-constellation-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: The Desk That Learned Depth
-description: An evidence-backed record of how the homepage's shared-state 2D desk became a reciprocal 3D cliff-room scene.
+description: How the homepage's paper collage became an explorable cliff room without losing the same desk, records, and discoveries.
 img: assets/img/project_pics/site-experiments/homepage-desk-depth.png
 image_aspect: 16 / 9
 card_image_fit: cover
@@ -22,7 +22,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen June 17, 2026</p>
     <h1>The Desk That Learned Depth</h1>
     <p class="project-case-lede">
-      The homepage keeps one logical desk in two representations: a quick 2D collage and an explorable 3D cliff room. This record follows what successive design passes changed, what they broke, and which decisions survived responsive, interaction, and human review.
+      The homepage desk is one set of objects in two views. The 2D collage gives you the portrait, papers, and records at a glance; the 3D cliff room lets you step inside them. Switching views keeps the same music and discoveries instead of starting over.
     </p>
     <div class="project-case-facts">
       <span>Shared 2D/3D state</span>
@@ -38,18 +38,20 @@ hide_title: true
 </section>
 
 <section class="project-case-summary" aria-label="Homepage desk experiment summary">
-  <div><span>Question</span><p>Can the same portrait, papers, records, and discoveries survive a switch from quick collage to small explorable world?</p></div>
-  <div><span>Method</span><p>Compare dated evidence under one narrow rubric, then record stronger state and renderer metadata only where it actually exists.</p></div>
-  <div><span>Decision</span><p>Keep only changes that survive screenshots, accessibility checks, telemetry grounded in live geometry, and human review.</p></div>
+  <div><span>Why</span><p>I wanted the paper desk to feel like a place without making the quick 2D homepage slower to read.</p></div>
+  <div><span>What</span><p>A shared-state 2D collage and 3D room with the same records, papers, and discovery pile.</p></div>
+  <div><span>Try</span><p>Switch views, play a record, find a hidden card, and check that it is still there when you switch back.</p></div>
 </section>
 
-## From a switch to one architectural world
+## Why the desk has two views
 
-The first 3D mode extended the existing paper-and-record desk without replacing the 2D view. Early screenshots made the failures useful: furniture disappeared at ordinary viewports, dropped cards floated, rear yaw fell into blank space, and the exterior looked like a separate dollhouse. Later passes stopped polishing two approximations and reused the actual room under reciprocal cameras.
+I liked how quickly the 2D collage introduced the papers, portrait, and records, but I also wanted visitors to wander through that little world. The first 3D version copied the desk into a small stage. At ordinary screen sizes, furniture disappeared, dropped cards floated, rear turns exposed blank space, and the outside looked like a separate dollhouse.
+
+The fix was not more decoration. I reused the actual room under reciprocal inside and outside cameras, then kept the record player and discovery state shared with 2D.
 
 ## Two eras, four frames
 
-This 2×2 grid documents two repository eras under one capture rubric: the same route, 1440 × 1000 viewport, light theme, stopped Yellow Submarine, zero discoveries, and capture sequence. Each pair came from one fresh browser context: 2D first, then 3D after changing only the representation. The June pair replays its exact source commit; the July pair records the accepted checkpoint.
+The four frames hold everything I could keep constant: the same route, 1440 × 1000 viewport, light theme, Yellow Submarine stopped, and an empty discovery pile. Each pair starts in 2D and changes only the view. The June pair is an exact-commit replay; the July pair is the accepted checkpoint.
 
 <div class="project-story-comparison desk-scene-evidence-pair" aria-label="Homepage desk evidence checkpoints">
 <section
@@ -70,9 +72,9 @@ This 2×2 grid documents two repository eras under one capture rubric: the same 
 >
   <header class="project-story-comparison-header">
     <p class="project-case-kicker">GPT-5.5 / xhigh provenance</p>
-    <h3 id="desk-comparison-june-title">June 21 exact-commit replay</h3>
+    <h3 id="desk-comparison-june-title">June 21: the first room</h3>
     <p class="project-story-provenance">Source <code>588e36509</code> · captured July 16</p>
-    <p>Both frames come from one fresh replay with Yellow Submarine stopped and the discovery pile empty.</p>
+    <p>The collage already read well. The 3D view was a small stage sitting inside a black field.</p>
   </header>
   <div class="project-case-evidence-pair">
     <figure class="project-case-media site-experiment-evidence-figure" data-desk-evidence-mode="2d">
@@ -103,9 +105,9 @@ This 2×2 grid documents two repository eras under one capture rubric: the same 
 >
   <header class="project-story-comparison-header">
     <p class="project-case-kicker">GPT-5.6 Sol/ultra provenance</p>
-    <h3 id="desk-comparison-july-title">July 16 accepted scene</h3>
+    <h3 id="desk-comparison-july-title">July 16: one reciprocal room</h3>
     <p class="project-story-provenance">Runtime source <code>8fc9bf7d3</code> · accepted scene <code>1b07cea4c</code></p>
-    <p>These two frames came from one fresh homepage context. Yellow Submarine remained queued, playback stayed stopped, and the discovery pile stayed empty while only the representation changed.</p>
+    <p>The 2D state now carries into a room you can view from inside or outside. Yellow Submarine remains queued and the discovery pile remains empty in both frames.</p>
   </header>
   <div class="project-case-evidence-pair">
     <figure class="project-case-media site-experiment-evidence-figure" data-desk-evidence-mode="2d">
@@ -120,14 +122,14 @@ This 2×2 grid documents two repository eras under one capture rubric: the same 
 </section>
 </div>
 
-Model, prompt, retained context, task scope, implementation history, and human critique all changed between eras. The comparison documents design history rather than isolated model performance. “Codex 5.5 tried its best” remains visible because it belonged to that historical interface.
+The labels record the model context for each era; this is a comparison of design history rather than isolated model performance. The prompt, retained context, task, implementation history, and my critique all changed too. “Codex 5.5 tried its best” remains visible because it belonged to the June interface.
 
-## What survived the re-review
+## What I kept, cut, and still want to improve
 
 <section class="project-case-summary desk-scene-outcomes" aria-label="Desk scene decisions after re-review">
-  <div><span>Kept</span><p>The visible 2D | 3D choice, shared record and discovery state, paper-and-record identity, and deliberate window and return controls.</p></div>
-  <div><span>Reverted</span><p>The shallow stage, a separately hand-matched exterior miniature, floating-card recovery, and framing that hid furniture at ordinary viewports.</p></div>
-  <div><span>Still open</span><p>The accepted topology stays; material realism, warmer low-contrast stone variation, and real-device confidence remain headroom.</p></div>
+  <div><span>Kept</span><p>The visible 2D | 3D switch, shared music and discoveries, paper-and-record identity, and clear ways to look outside and return.</p></div>
+  <div><span>Cut</span><p>The shallow stage, hand-matched exterior miniature, floating-card recovery, and camera framing that hid the furniture.</p></div>
+  <div><span>Next</span><p>Keep the room shape, then improve the stone, lighting, material realism, and confidence on more real devices.</p></div>
 </section>
 
 <details class="project-story-disclosure site-experiment-technical-details">
@@ -153,8 +155,8 @@ Model, prompt, retained context, task scope, implementation history, and human c
 
 <aside class="site-experiment-reproduce" aria-labelledby="desk-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="desk-reproduce-title">Start with state continuity before geometry.</h2>
-  <p>The public brief explains the shared-state contract, lightweight scene direction, recovery paths, and screenshot matrix so another site can build its own room.</p>
+  <h2 id="desk-reproduce-title">Make the two views share a memory first.</h2>
+  <p>The brief covers shared state, scene direction, recovery paths, and the screenshot matrix I used before spending time on more geometry.</p>
   <a href="{{ '/assets/downloads/site-experiments/homepage-desk-scene-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 

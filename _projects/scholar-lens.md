@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Scholar Lens
-description: A site-native citation highlighter that connects authorship, paper format, annual citation context, and the accepted-paper list.
+description: Filters and linked highlights that help readers follow one paper across my bibliography, citation total, and annual citation bars.
 img: assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png
 image_aspect: 3 / 2
 card_image_fit: contain
@@ -24,7 +24,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen May 30, 2026</p>
     <h1>Scholar Lens</h1>
     <p class="project-case-lede">
-      I wanted citation context to help someone find a paper. Scholar Lens keeps the bibliography primary, then lets one paper light up across its publication row, lifetime citation chip, and dated annual bars.
+      Scholar Lens adds filters and linked highlights to my publications page. Focus DesignWeaver, for example, and its bibliography row, citation total, and annual citation bars light up together. The list remains the record; the lens helps you follow one paper through it.
     </p>
     <div class="project-case-facts">
       <span>Dated citation evidence</span>
@@ -63,47 +63,47 @@ hide_title: true
 </section>
 
 <section class="project-case-summary" aria-label="Scholar Lens summary">
-  <div><span>Why</span><p>Readers need a fast path from a paper to its authorship, format, and dated citation context.</p></div>
-  <div><span>What</span><p>A public, dated overlay for filtering papers and seeing how one paper contributes to annual citation bars.</p></div>
-  <div><span>How</span><p>Focus and selection synchronize the canonical row, its lifetime citation chip, and the older annual snapshot.</p></div>
+  <div><span>Why</span><p>A long bibliography made it hard to trace first-author full papers or see which paper contributed to a year's citation bar.</p></div>
+  <div><span>What</span><p>Filters for authorship and format, plus one highlight shared by the row, citation chip, and annual bars.</p></div>
+  <div><span>Try</span><p>Choose a filter, then hover or focus a paper to follow its evidence across the page.</p></div>
 </section>
 
 ## Why it began
 
-The publication list already held the core facts: title, authors, venue, year, and links. Scholar Lens adds a fast way to follow one author role, paper format, or paper's place in the citation history.
+The publication list already had the core facts: title, authors, venue, year, and links. What it lacked was a quick way to answer questions such as “which full papers are first-authored?” or “which paper contributed to this year's citation bar?”
 
-My friend [Howard](https://howardhan.com/) recommended the [Google Scholar Author Highlighter](https://chromewebstore.google.com/detail/google-scholar-author-hig/ijmngekkpaccbbjimedfkjpigplaikah?hl=en). Its useful lesson was contextual emphasis: help someone follow a person through a dense record while keeping the surrounding record visible. Scholar Lens brings that principle into this bibliography.
+My friend [Howard](https://howardhan.com/) recommended the [Google Scholar Author Highlighter](https://chromewebstore.google.com/detail/google-scholar-author-hig/ijmngekkpaccbbjimedfkjpigplaikah?hl=en). I liked one thing about it: you could follow a person through a dense page without hiding everything around them. Scholar Lens applies that idea to papers on my own bibliography.
 
 ## What changed
 
 <ol class="project-story-beats" aria-label="Scholar Lens turning points">
   <li class="project-story-beat">
-    <p class="project-case-kicker">Spark</p>
-    <h3>The record was complete but hard to trace</h3>
-    <p>The bibliography answered “what did Sirui publish?” The lens adds two quick paths: “which full papers are first-authored?” and “which paper contributed to this year?”</p>
+    <p class="project-case-kicker">Starting point</p>
+    <h3>The bibliography had the facts.</h3>
+    <p>It already answered “what did Sirui publish?” I kept that list intact and added filters for authorship and paper format above it.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Turn</p>
-    <h3>Filtering became coordinated focus</h3>
-    <p>Authorship and format filters narrow the same accepted-paper list. Hovering or focusing a row then links its title, citation chip, and annual contributions instead of opening a second record.</p>
+    <p class="project-case-kicker">Interaction change</p>
+    <h3>One focus now travels across three views.</h3>
+    <p>Hovering or focusing a bibliography row also highlights its citation chip and annual contributions. There is no second paper record to keep in sync.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Now</p>
-    <h3>Lifetime totals and annual bars keep separate dates</h3>
-    <p>Lifetime totals can refresh while the annual snapshot stays fixed. Freshness labels make both dates visible.</p>
+    <p class="project-case-kicker">Data rule</p>
+    <h3>Current totals and annual bars keep their own dates.</h3>
+    <p>The lifetime count can refresh while the annual snapshot stays fixed. Both dates remain visible so an update to one does not quietly rewrite the other.</p>
   </li>
 </ol>
 
 ## Follow DesignWeaver through the lens
 
-DesignWeaver makes the synchronization concrete. Three cues share one bibliography key while carrying distinct jobs and dates. [Paper Constellation]({{ '/projects/paper-constellation/' | relative_url }}) uses that key to send focus into the lens.
+DesignWeaver makes the interaction easy to see. Its bibliography row, lifetime citation chip, and annual bars share one publication key, while each keeps its own job and date. [Paper Constellation]({{ '/projects/paper-constellation/' | relative_url }}) uses the same key to send focus here.
 
 {% include scholar_story_trace.liquid %}
 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="scholar-boundary-title">
   <p class="project-case-kicker">Freshness and scope</p>
   <h2 id="scholar-boundary-title">Navigation context, not an impact score</h2>
-  <p>The lens uses public aggregate citation counts, bibliography keys, authorship roles, paper formats, and explicit snapshot dates. It does not infer paper quality, author contribution, causality, or reader interest. Only the dated public aggregates shown here enter the overlay; the lens does not collect private Scholar history.</p>
+  <p>The lens uses public citation totals, bibliography keys, authorship roles, paper formats, and visible snapshot dates. It does not infer paper quality, author contribution, causality, or reader interest, and it does not collect private Scholar history.</p>
 </aside>
 
 <details class="project-story-disclosure site-experiment-technical-details">
@@ -130,7 +130,7 @@ DesignWeaver makes the synchronization concrete. Three cues share one bibliograp
 
 <aside class="site-experiment-reproduce" aria-labelledby="scholar-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="scholar-reproduce-title">Keep facts and overlays separate.</h2>
-  <p>The guide covers canonical keys, independently dated snapshots, synchronized focus, no-JavaScript fallbacks, and honest freshness labels.</p>
+  <h2 id="scholar-reproduce-title">Keep the bibliography; add the lens on top.</h2>
+  <p>The guide covers stable paper keys, separately dated snapshots, linked focus, no-JavaScript fallbacks, and freshness labels.</p>
   <a href="{{ '/assets/downloads/site-experiments/scholar-lens-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>

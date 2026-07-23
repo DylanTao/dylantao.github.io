@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build Rhythm
-description: "A visual story of three building scales: weekly GitHub change, daily estimated site tokens, and a rounded lifetime Codex snapshot."
+description: "A page for seeing when I build: weekly GitHub bursts, this site's daily token estimate, and one dated lifetime Codex total."
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
 image_aspect: 351 / 254
 card_avoid_scaling: true
@@ -20,7 +20,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      I wanted a quick way to see when work clustered, how this site's estimated token trace grew, and where lifetime Codex usage fits. Build Rhythm gives each signal its own clock, then opens into exact tables.
+      Build Rhythm is where I go to see when the work bunches up. It shows five years of GitHub activity by week, this site's rounded token estimate by day, and one dated lifetime Codex total. The charts give me the shape; the tables keep the exact values close by.
     </p>
     <div class="project-case-facts">
       <span>Weekly GitHub cadence</span>
@@ -49,70 +49,71 @@ hide_title: true
 </section>
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
-  <div><span>Why</span><p>Long logs hide the tempo of making: bursts, pauses, and shifts in scale.</p></div>
-  <div><span>What</span><p>A guided story across weekly GitHub cadence, daily estimated site tokens, and a lifetime Codex snapshot.</p></div>
-  <div><span>How</span><p>Progressive charts introduce each scale before the exact, keyboard-readable tables.</p></div>
+  <div><span>Why</span><p>I had plenty of logs, but no quick way to see the bursts and quiet stretches.</p></div>
+  <div><span>What</span><p>Three separate views: GitHub weeks, this site's token days, and one lifetime checkpoint.</p></div>
+  <div><span>How</span><p>Read the guided charts first, then open the keyboard-readable values behind them.</p></div>
 </section>
 
-## Why the page changed
+## Why I rebuilt it
 
-The first public version was a GitHub workbench. Adding token evidence beside it muddied the scopes, so I split the experience into three chapters and gave each its own unit, clock, and evidence.
+The first version put GitHub activity and token history in one workbench. They looked like one story even though they used different units and clocks. I split them: weeks for GitHub, days for this site, and one dated point for lifetime use.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">
-    <p class="project-case-kicker">Spark</p>
-    <h3>Make ordinary weeks readable.</h3>
-    <p>The GitHub-only workbench at <a href="https://github.com/DylanTao/dylantao.github.io/commit/b4203f3eab8361f45ccf14bbe6f307b3f5a7f191"><code>b4203f3ea</code></a> began by making ordinary weeks visible. <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> added Codex evidence beside it; that proximity exposed the need for a clearer story.</p>
+    <p class="project-case-kicker">First version</p>
+    <h3>I started with GitHub weeks.</h3>
+    <p>The GitHub-only workbench at <a href="https://github.com/DylanTao/dylantao.github.io/commit/b4203f3eab8361f45ccf14bbe6f307b3f5a7f191"><code>b4203f3ea</code></a> made ordinary weeks visible: commits for cadence, line changes for scale. <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> then placed Codex history beside it.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Turn</p>
-    <h3>Separate the clocks.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> split the GitHub and Codex horizons. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, the lifetime view became one rounded, identity-free checkpoint.</p>
+    <p class="project-case-kicker">What went wrong</p>
+    <h3>The side-by-side view blurred two different clocks.</h3>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> pulled the GitHub and Codex views apart. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, the lifetime view became one rounded checkpoint instead of a history that could expose its sources.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Now</p>
-    <h3>Restore the repo-scoped token rhythm.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> restored a rounded, repo-scoped token rhythm alongside the dated lifetime checkpoint.</p>
+    <p class="project-case-kicker">Current version</p>
+    <h3>Each signal gets its own view.</h3>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily rhythm without folding it into the lifetime total. A visitor can now follow one clock at a time.</p>
   </li>
 </ol>
 
-The exact-era screen at <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> contains source-level daily history retired from the public dataset, so I keep that capture out of the case study. The commit records the structural turn; the current screenshot is an annotated anatomy of the accepted current state.
+The screen at <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> contains source-level daily history retired from the public dataset, so I do not republish it here. The commit records the structural turn. The current figure uses data that still belongs on the public site; it documents interface anatomy rather than the retired history.
 
 ## How to read the rhythm
 
-Three signals, never one score. Each answers a different question and keeps its own unit, scope, and clock.
+Start with the question you have. Each chart uses the unit and clock that fit it.
 
 <section class="project-case-summary project-story-signal-grid" aria-label="How to read the three Build Rhythm signals">
   <div>
     <h3>GitHub cadence</h3>
-    <p>Commits show when work clustered. Additions and deletions show the scale and direction of change.</p>
+    <p><strong>When did the work bunch up?</strong> Commits mark active weeks. Added and deleted lines show how large each change was.</p>
   </div>
   <div>
     <h3>Site-token rhythm</h3>
-    <p>Deduplicated retained logs attributed to this repo become rounded cumulative points. Differences between adjacent points are rounded increases, not exact daily usage; retained evidence can revise the series.</p>
+    <p><strong>How did this website build grow?</strong> Retained logs attributed to this repo become rounded daily cumulative points. Day-to-day differences are estimates and can change when the retained record changes.</p>
   </div>
   <div>
     <h3>Lifetime checkpoint</h3>
-    <p>The direct tracker publishes a rounded lifetime Codex snapshot with its own observation date. It is never added to the repo-scoped estimate.</p>
+    <p><strong>What is the widest view?</strong> The tracker publishes one rounded lifetime Codex total with its observation date. It stays separate from the site estimate.</p>
   </div>
 </section>
 
-Earlier turns remain inspectable through source commits; a historical screenshot belongs here only when its runtime can be reproduced faithfully and its data still belongs in the public boundary.
+Earlier versions remain inspectable through their commits. I include a historical screenshot only when I can reproduce the runtime and the data still belongs in public.
 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
   <h2 id="build-rhythm-privacy-title">What stays private</h2>
-  <p>The page publishes rounded aggregates and repo-scoped cumulative points. Source histories and session-level details stay private.</p>
+  <p>The page publishes rounded totals and this site's cumulative points. Source histories and session-level details stay private.</p>
 </aside>
 
 ## What _The Rhythm of Food_ changed
 
-The first version began as a research-grounded activity workbench. John Thompson later shared [The Rhythm of Food](https://rhythm-of-food.net/) during our Autodesk HCI internship Wednesday design session, “Balancing Performance, Interactivity and Effort: SVG, Canvas, and WebGL.” The lesson I carried over was pacing: reveal one relationship at a time, then hand the reader the exact record. The visual language and implementation remain this site's own.
+John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during our Autodesk HCI internship Wednesday design session, “Balancing Performance, Interactivity and Effort: SVG, Canvas, and WebGL.” The lesson I carried over was pacing: show one relationship at a time, then let the reader inspect the record. I used that lesson without copying its visual language or implementation.
 
 <details class="project-story-disclosure">
   <summary>Full technical revision record</summary>
   <div class="project-story-disclosure-body">
     <p><strong>Hero evidence:</strong> the current screenshot asset was committed July 16 at <code>c613c7b0f</code>. Its original viewport, theme, and interaction state were not retained, so it documents interface anatomy.</p>
+    <p><strong>Data contract:</strong> Three signals, never one score. The lifetime module publishes a rounded lifetime Codex snapshot. Deduplicated retained logs attributed to this repo form the site rhythm. Differences between adjacent points are rounded increases rather than exact per-day usage.</p>
     <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
       <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
       <li><time datetime="2026-07-12">Jul 12</time><code>71b8f4c89</code><span>Added Codex token history beside the GitHub view, creating the combined state that the next revision separated.</span></li>
@@ -128,8 +129,8 @@ The first version began as a research-grounded activity workbench. John Thompson
 
 <aside class="site-experiment-reproduce" aria-labelledby="build-rhythm-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="build-rhythm-reproduce-title">Use your own aggregate record.</h2>
-  <p>The downloadable guide covers the three-signal data boundary, narrative chapters, accessible evidence, reduced-motion state, and acceptance checks for another site.</p>
+  <h2 id="build-rhythm-reproduce-title">Build it from your own aggregate record.</h2>
+  <p>The guide covers the three data scopes, chart sequence, accessible tables, reduced-motion state, and checks I used on this page.</p>
   <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 

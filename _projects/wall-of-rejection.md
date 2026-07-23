@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Wall of Rejection
-description: A rejection-only receipt wall that makes failed submissions visible without turning research life into a leaderboard.
+description: The Steam-style rejection meme I turned into a small public wall of badges, receipts, and deliberately silly Failure XP.
 img: assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png
 image_aspect: 4 / 3
 card_image_fit: contain
@@ -22,7 +22,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen May 29, 2026</p>
     <h1>Wall of Rejection</h1>
     <p class="project-case-lede">
-      CHI said no. UIST said no. A lab meme made that sting funny for a minute; the website version turned the joke into a rejection-only record with badges, nearby receipts, and one rule that matters: the same rejection event never earns points twice.
+      Wall of Rejection began as the Steam-style badge meme I sent to labmates after CHI and UIST said no. I turned it into a small public record: pick a badge, read the rejection receipt, and collect deliberately silly Failure XP. The same rejection event never earns points twice.
     </p>
     <div class="project-case-facts">
       <span>Rejection receipts</span>
@@ -38,34 +38,34 @@ hide_title: true
 </section>
 
 <section class="project-case-summary" aria-label="Wall of Rejection summary">
-  <div><span>Why</span><p>Research pages make accepted work easy to see and can accidentally make the failed attempts disappear.</p></div>
-  <div><span>What</span><p>Four selected rejection events become inspectable badges and receipts beside the accepted-paper record.</p></div>
-  <div><span>How</span><p>XP is calculated from events once; shelves, repeated views, and the Double Rejection combo add no extra points.</p></div>
+  <div><span>Why</span><p>The publication list showed where work landed, but hid the trying and revising around it.</p></div>
+  <div><span>What</span><p>Four selected rejections, each with a badge and a short receipt beside the accepted papers.</p></div>
+  <div><span>Try</span><p>Open a badge, move between shelves, and check that the 38 XP total never changes.</p></div>
 </section>
 
 ## Why it began
 
-After one first-authored paper was rejected from CHI 2026 and UIST 2026, I made a Steam-style badge meme for labmates. The joke worked because it treated survival—not acceptance—as the achievement. It also exposed a gap in the publication page: the bibliography could show where work landed, but not the trying, revising, and trying again around it.
+After one first-authored paper was rejected from CHI 2026 and UIST 2026, I made a Steam-style badge meme for labmates. The joke treated surviving the reviews—not getting accepted—as the achievement. It also pointed to something missing from the publication page: the bibliography showed where work landed, but none of the attempts around it.
 
-The website needed a compact place where selected failures could remain visible beside the scholarship. The new question became: “What is the smallest honest record the joke can carry?”
+For the website, I kept the joke small: selected public rejections beside the scholarship, with enough detail to understand each “no.”
 
 ## What changed
 
 <ol class="project-story-beats" aria-label="Wall of Rejection turning points">
   <li class="project-story-beat">
-    <p class="project-case-kicker">Spark</p>
-    <h3>A one-off lab meme</h3>
-    <p>The original image held two rejection achievements inside an intentionally overbuilt Steam-style profile. It was funny as a message, not usable as a publication record.</p>
+    <p class="project-case-kicker">Original</p>
+    <h3>The lab meme made two rejections into achievements.</h3>
+    <p>The intentionally overbuilt Steam-style profile was funny in a group chat. It was not a record someone could inspect or update.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Turn</p>
-    <h3>Achievements became receipts</h3>
-    <p>A generic review-achievement panel gave way to rejection-only events, quieter badges, and a receipt that keeps the date, stage, and explanation next to the selected no.</p>
+    <p class="project-case-kicker">Website version</p>
+    <h3>Each “no” became a badge with a receipt.</h3>
+    <p>I removed the generic achievement profile and kept only rejection events. Opening a badge now shows its date, decision stage, and a short reflection.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Now</p>
-    <h3>The joke has an accounting rule</h3>
-    <p>Four source events total 38 XP. Badges may appear on several shelves, and the Double Rejection combo can celebrate a pattern, but neither creates another failure.</p>
+    <p class="project-case-kicker">Counting rule</p>
+    <h3>38 XP means four rejection events.</h3>
+    <p>A badge can appear on several shelves, and the Double Rejection combo can connect CHI and UIST, but neither adds another event or another point.</p>
   </li>
 </ol>
 
@@ -110,35 +110,35 @@ The website needed a compact place where selected failures could remain visible 
   </figure>
 </section>
 
-The visual language changed completely, but the emotional unit stayed small: one “no,” one badge, one receipt, then back to the papers.
+The website keeps the joke to one “no,” one badge, and one receipt, then returns to the papers.
 
 ## How one no moves through the wall
 
-The ledger currently contains two first-author paper rejections at 12 XP each, one grant rejection at 7 XP, and one fellowship rejection at 7 XP: <strong>38 XP from four events</strong>. Everything visible is projected from those events.
+The ledger contains two first-author paper rejections at 12 XP each, one grant rejection at 7 XP, and one fellowship rejection at 7 XP: <strong>38 XP from four events</strong>.
 
 <ol class="project-storyboard" aria-label="Rejection event to non-additive combo">
   <li class="project-storyboard-step">
     <h3>Event</h3>
-    <p>A selected decision enters once with a type, public source label, rejected status, XP value, and the badges it can support.</p>
+    <p>I add a selected decision once, with its public label, rejection type, XP value, and eligible badges.</p>
   </li>
   <li class="project-storyboard-step">
     <h3>Badge</h3>
-    <p>The event becomes a compact control such as CHI Rejection. The same badge can appear in Highlights, Papers, or CHI without becoming three events.</p>
+    <p>The event becomes a control such as CHI Rejection. It can appear in Highlights, Papers, or CHI without becoming three events.</p>
   </li>
   <li class="project-storyboard-step">
     <h3>Receipt</h3>
-    <p>Opening the badge reveals its date, decision stage, short reflection, and category tags. Evidence stays close enough to check without crowding every shelf.</p>
+    <p>Open the badge to see its date, decision stage, short reflection, and category tags.</p>
   </li>
   <li class="project-storyboard-step">
     <h3>Non-additive combo</h3>
-    <p>Double Rejection connects the CHI and UIST pattern, then contributes <strong>0 XP</strong>. It celebrates the absurdity without counting either paper decision again.</p>
+    <p>Double Rejection connects the CHI and UIST pattern and contributes <strong>0 XP</strong>. The joke gets a combo; the ledger still has two decisions.</p>
   </li>
 </ol>
 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="wall-boundary-title">
   <p class="project-case-kicker">Publication boundary</p>
   <h2 id="wall-boundary-title">A selected public record</h2>
-  <p>The wall contains four allowlisted rejection events with brief receipts. Accepted work remains in the bibliography; rejected titles, drafts, collaborator notes, and future venues stay private.</p>
+  <p>The wall contains four allowlisted rejection events with brief receipts. Accepted work remains in the bibliography. Rejected titles, drafts, collaborator notes, and future venues stay private.</p>
 </aside>
 
 <details class="project-story-disclosure site-experiment-technical-details">
@@ -165,8 +165,8 @@ The ledger currently contains two first-author paper rejections at 12 XP each, o
 
 <aside class="site-experiment-reproduce" aria-labelledby="wall-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="wall-reproduce-title">Start with a truthful event ledger.</h2>
-  <p>The guide separates events, badges, shelves, receipts, and joke metrics so another academic site can adapt the idea without copying this history or a platform UI.</p>
+  <h2 id="wall-reproduce-title">Count the events before drawing the badges.</h2>
+  <p>The guide separates events, badges, shelves, receipts, and joke metrics so the interface cannot inflate the underlying count.</p>
   <a href="{{ '/assets/downloads/site-experiments/wall-of-rejection-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 
