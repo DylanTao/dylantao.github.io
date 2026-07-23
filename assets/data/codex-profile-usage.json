@@ -1,5 +1,5 @@
 {
-  "schema": 3,
+  "schema": 4,
   "combined_lifetime": {
     "token_count": 48900000000,
     "tokens_label": "48.9B",
@@ -12,5 +12,13 @@
   "confidence": "high",
   "observed_on": "2026-07-23",
   "updated_at": "2026-07-23T00:02:49.015599Z",
-  "automated_refresh": true
+  "automated_refresh": true,
+  "cost": {
+    "method": "flat_reference_rate_replay",
+    "reference_scope": "current_site_build_blended_public_api_rate",
+    "usd_per_million_tokens": 0.799215,
+    "pricing_as_of": "2026-07-12",
+    "usd_midpoint": 39082,
+    "usd_label": "~$39.1K API-rate replay"
+  }
 }

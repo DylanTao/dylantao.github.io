@@ -37,8 +37,19 @@ class DirectUsageImportTests(unittest.TestCase):
             "updated_at": "2026-07-16T18:55:00Z",
         }
 
+    def agentic_usage(self) -> dict:
+        return {
+            "total": {
+                "api_cost_equivalence": {
+                    "pricing_as_of": "2026-07-12",
+                    "usd_estimate": 7709.48,
+                    "priced_token_usage": {"total_tokens": 9_646_321_131},
+                }
+            }
+        }
+
     def test_builds_only_rounded_anonymous_public_fields(self) -> None:
-        public = tracker.build_public_snapshot(self.source(), now=self.NOW)
+        public = tracker.build_site_snapshot(self.source(), now=self.NOW)
         self.assertEqual(
             set(public),
             {
@@ -84,6 +95,60 @@ class DirectUsageImportTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, serialized)
 
+    def test_public_profile_adds_only_the_flat_reference_cost(self) -> None:
+        public = tracker.build_public_snapshot(
+            self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
+        )
+        self.assertEqual(public["schema"], 4)
+        self.assertEqual(
+            set(public),
+            {
+                "schema",
+                "combined_lifetime",
+                "method",
+                "confidence",
+                "observed_on",
+                "updated_at",
+                "automated_refresh",
+                "cost",
+            },
+        )
+        self.assertEqual(
+            public["cost"],
+            {
+                "method": "flat_reference_rate_replay",
+                "reference_scope": "current_site_build_blended_public_api_rate",
+                "usd_per_million_tokens": 0.799215,
+                "pricing_as_of": "2026-07-12",
+                "usd_midpoint": 26214,
+                "usd_label": "~$26.2K API-rate replay",
+            },
+        )
+
+    def test_public_profile_rejects_invalid_cost_basis(self) -> None:
+        invalid_cases = (
+            (float("nan"), "numeric"),
+            (float("inf"), "numeric"),
+            (0, "positive"),
+        )
+        for usd_estimate, message in invalid_cases:
+            with self.subTest(usd_estimate=usd_estimate):
+                usage = self.agentic_usage()
+                usage["total"]["api_cost_equivalence"]["usd_estimate"] = usd_estimate
+                with self.assertRaisesRegex(tracker.SnapshotError, message):
+                    tracker.build_public_snapshot(
+                        self.source(), agentic_usage=usage, now=self.NOW
+                    )
+
+        usage = self.agentic_usage()
+        usage["total"]["api_cost_equivalence"]["pricing_as_of"] = (
+            "2026-07-12T00:00:00"
+        )
+        with self.assertRaisesRegex(tracker.SnapshotError, "ISO date"):
+            tracker.build_public_snapshot(
+                self.source(), agentic_usage=usage, now=self.NOW
+            )
+
     def test_rejects_extra_identity_or_history_fields(self) -> None:
         for key, value in (
             ("email", "someone@example.com"),
@@ -95,34 +160,34 @@ class DirectUsageImportTests(unittest.TestCase):
                 source = self.source()
                 source[key] = value
                 with self.assertRaisesRegex(tracker.SnapshotError, "invalid keys"):
-                    tracker.build_public_snapshot(source, now=self.NOW)
+                    tracker.build_site_snapshot(source, now=self.NOW)
 
     def test_rejects_wrong_source_count_or_unrounded_total(self) -> None:
         wrong_count = self.source()
         wrong_count["combinedLifetime"]["sourceCount"] = 1
         with self.assertRaisesRegex(tracker.SnapshotError, "sourceCount must be 2"):
-            tracker.build_public_snapshot(wrong_count, now=self.NOW)
+            tracker.build_site_snapshot(wrong_count, now=self.NOW)
 
         unrounded = self.source()
         unrounded["combinedLifetime"]["tokenCount"] = 32_812_345_678
         with self.assertRaisesRegex(tracker.SnapshotError, "nearest-0.1B rounded"):
-            tracker.build_public_snapshot(unrounded, now=self.NOW)
+            tracker.build_site_snapshot(unrounded, now=self.NOW)
 
         unsafe = self.source()
         unsafe["combinedLifetime"]["tokenCount"] = 9_100_000_000_000_000
         with self.assertRaisesRegex(tracker.SnapshotError, "JavaScript-safe integer"):
-            tracker.build_public_snapshot(unsafe, now=self.NOW)
+            tracker.build_site_snapshot(unsafe, now=self.NOW)
 
     def test_rejects_stale_or_future_input(self) -> None:
         stale = self.source()
         stale["updated_at"] = "2026-07-16T18:00:00Z"
         with self.assertRaisesRegex(tracker.SnapshotError, "stale"):
-            tracker.build_public_snapshot(stale, now=self.NOW)
+            tracker.build_site_snapshot(stale, now=self.NOW)
 
         future = self.source()
         future["updated_at"] = "2026-07-16T19:06:00Z"
         with self.assertRaisesRegex(tracker.SnapshotError, "future"):
-            tracker.build_public_snapshot(future, now=self.NOW)
+            tracker.build_site_snapshot(future, now=self.NOW)
 
     def test_rejects_legacy_quota_health_projection(self) -> None:
         legacy = {
@@ -131,7 +196,7 @@ class DirectUsageImportTests(unittest.TestCase):
             "health": {"healthyAccountCount": 2, "unavailableAccountCount": 0},
         }
         with self.assertRaisesRegex(tracker.SnapshotError, "invalid keys"):
-            tracker.build_public_snapshot(legacy, now=self.NOW)
+            tracker.build_site_snapshot(legacy, now=self.NOW)
 
     def test_rejects_non_integer_schema_version_and_legacy_confidence_aliases(self) -> None:
         for schema_version in (3.0, True):
@@ -139,27 +204,34 @@ class DirectUsageImportTests(unittest.TestCase):
                 source = self.source()
                 source["schemaVersion"] = schema_version
                 with self.assertRaisesRegex(tracker.SnapshotError, "schemaVersion must be 3"):
-                    tracker.build_public_snapshot(source, now=self.NOW)
+                    tracker.build_site_snapshot(source, now=self.NOW)
 
         for confidence in ("direct", "complete", "direct complete observation"):
             with self.subTest(confidence=confidence):
                 source = self.source()
                 source["confidence"] = confidence
                 with self.assertRaisesRegex(tracker.SnapshotError, "confidence must be 'high'"):
-                    tracker.build_public_snapshot(source, now=self.NOW)
+                    tracker.build_site_snapshot(source, now=self.NOW)
 
-    def test_publishes_identical_site_and_profile_copies(self) -> None:
-        public = tracker.build_public_snapshot(self.source(), now=self.NOW)
+    def test_publishes_schema3_site_and_schema4_profile_atomically(self) -> None:
+        site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        profile_payload = tracker.build_public_snapshot(
+            self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
+        )
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
-            tracker.publish_atomically(root, public)
+            tracker.publish_atomically(root, site_payload, profile_payload)
             site = (root / "_data" / "direct_usage_tracker.json").read_bytes()
             profile = (root / "assets" / "data" / "codex-profile-usage.json").read_bytes()
-            self.assertEqual(site, profile)
-            self.assertEqual(json.loads(site), public)
+            self.assertNotEqual(site, profile)
+            self.assertEqual(json.loads(site), site_payload)
+            self.assertEqual(json.loads(profile), profile_payload)
 
     def test_second_replace_failure_restores_both_previous_outputs(self) -> None:
-        public = tracker.build_public_snapshot(self.source(), now=self.NOW)
+        site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        profile_payload = tracker.build_public_snapshot(
+            self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
+        )
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             targets = (
@@ -182,7 +254,7 @@ class DirectUsageImportTests(unittest.TestCase):
 
             with mock.patch.object(tracker.os, "replace", side_effect=fail_second):
                 with self.assertRaisesRegex(OSError, "synthetic"):
-                    tracker.publish_atomically(root, public)
+                    tracker.publish_atomically(root, site_payload, profile_payload)
             for path in targets:
                 self.assertEqual(path.read_text(encoding="utf-8"), '{"old":true}\n')
 

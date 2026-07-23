@@ -235,15 +235,15 @@ test("Codex activity fails closed when its public data is unavailable", async ({
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(codexTrend).toHaveAttribute("data-state", "error");
   await expect(codexTrend).toHaveAttribute("aria-busy", "false");
-  await expect(codexTrend.locator("[data-codex-status]")).toHaveText(
-    "Direct Codex tracker is unavailable; the last rendered page does not substitute data."
-  );
+  await expect(codexTrend.locator("[data-codex-status]")).toHaveText("Lifetime Codex snapshot unavailable; GitHub activity remains available.");
+  await expect(codexTrend.locator("[data-codex-lifetime]")).toHaveText("Unavailable");
+  await expect(codexTrend.locator("[data-codex-cost]")).toBeHidden();
   await expect(page.getByRole("button", { name: "Daily", exact: true })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Weekly", exact: true })).toHaveCount(0);
   await expect(page.locator("[data-codex-table]")).toHaveCount(0);
   await expect(page.locator(".github-activity-codex-point")).toHaveCount(0);
-  await expect(page.locator(".github-activity-codex-readout")).not.toContainText("complete 2-of-2");
-  await expect(page.locator(".github-activity-codex-readout")).not.toHaveAttribute("aria-live", /.+/);
+  await expect(codexTrend).not.toContainText("complete 2-of-2");
+  await expect(codexTrend).not.toHaveAttribute("aria-live", /.+/);
 });
 
 test("usage story keeps rounded lifetime Codex usage and repo measures independent and accessible", async ({ page }) => {
@@ -253,7 +253,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({
-        schema: 3,
+        schema: 4,
         combined_lifetime: {
           token_count: 32800000000,
           tokens_label: "32.8B",
@@ -267,6 +267,14 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
         observed_on: "2026-07-16",
         updated_at: null,
         automated_refresh: false,
+        cost: {
+          method: "flat_reference_rate_replay",
+          reference_scope: "current_site_build_blended_public_api_rate",
+          usd_per_million_tokens: 0.789,
+          pricing_as_of: "2026-07-16",
+          usd_midpoint: 25879,
+          usd_label: "~$25.9K API-rate replay",
+        },
       }),
     })
   );
@@ -278,8 +286,8 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
   await expect(page.locator(".github-activity-eyebrow")).toHaveText("BUILDING, WEEK BY WEEK");
-  await expect(page.locator(".github-activity-codex-ledger div")).toHaveCount(1);
-  await expect(page.locator("#github-activity-codex-cost")).toHaveCount(0);
+  await expect(page.locator(".github-activity-codex-trend")).toHaveCount(0);
+  await expect(page.locator("[data-codex-usage]")).toHaveCount(1);
   await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
   await expect(page.locator("#github-activity-selected-deletions")).toHaveText(/^\u2212[\d,]+ removed$/);
   await expect(page.locator("#github-activity-selected-tier")).toHaveCount(0);
@@ -287,17 +295,16 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   await expect(page.locator(".github-activity-add-line")).toHaveCount(1);
   await expect(page.locator(".github-activity-remove-line")).toHaveCount(1);
   await expect(page.locator(".github-activity-tier-run")).toHaveCount(0);
-  await expect(activity).not.toContainText(/agent-hours|kWh|trees?|public-API|plan price|\$20|\$100|\$200/i);
+  await expect(activity).not.toContainText(/agent-hours|kWh|trees?|plan price|\$20|\$100|\$200/i);
 
-  const codexScope = page.locator("[data-codex-scope]");
   const githubScope = page.locator("[data-github-scope]");
-  await expect(codexScope).toHaveText("LIFETIME · ROUNDED");
   await expect(githubScope).toHaveText("5 YEARS · WEEKLY");
-  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32.8B");
-  await expect(codexTrend.locator("[data-codex-status]")).toContainText("User-reported checkpoint");
-  await expect(codexTrend.locator("[data-codex-status]")).toContainText("automatic refresh pending");
-  await expect(codexTrend).toContainText("32.8B");
-  await expect(codexTrend).toContainText("One public checkpoint. Source histories and reset times stay private.");
+  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32.8B tokens");
+  await expect(codexTrend.locator("[data-codex-status]")).toContainText("Observed");
+  await expect(codexTrend.locator("[data-codex-status]")).toContainText("Jul 16, 2026");
+  await expect(codexTrend.locator("[data-codex-cost]")).toHaveText(
+    "~$25.9K rough API-rate replay at this site's current blended rate; not an actual bill."
+  );
   await expect(codexTrend).not.toContainText(/quota health|accounts healthy|1 of 2 accounts|resets? (?:at|in)|API-cost estimate/i);
 
   const commitPath = page.locator(".github-activity-commit-line");
@@ -327,6 +334,8 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   const readableRemovePath = await removePath.getAttribute("d");
   const selectedValue = await page.locator("#github-activity-selected-commits").textContent();
   await page.getByRole("button", { name: "Literal", exact: true }).click();
+  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32,800,000,000 tokens");
+  await expect(page.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "literal");
   await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
   const literalLineHeading = compactActivityChart ? "LINES / WEEK · LINEAR" : "LINES CHANGED / WEEK · LITERAL LINEAR";
   await expect(page.locator("#github-activity-chart").getByText(literalLineHeading, { exact: true })).toBeVisible();
@@ -337,7 +346,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
   await expect(githubScope).toHaveText("1 YEAR · WEEKLY");
-  await expect(codexScope).toHaveText("LIFETIME · ROUNDED");
+  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32,800,000,000 tokens");
   const inspector = page.locator(".github-activity-inspector");
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
@@ -377,7 +386,7 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   await expect(annotation).toContainText(`Median active-week line magnitude · ${lineChangeSemantics.median}`);
 
   await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Three bounded signals" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Three scales" })).toBeVisible();
   const commitCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
   await expect(page.locator("#github-activity-codex-table-body")).toHaveCount(0);
   await expect(commitCells).toHaveCount(5);

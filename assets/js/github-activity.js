@@ -737,14 +737,17 @@
     });
   };
 
-  const initCodexUsageTrend = async () => {
+  let renderCodexUsageScale = () => {};
+  const initCodexUsageSnapshot = async (readScale = () => "log") => {
     const trendRoot = document.querySelector("[data-codex-usage]");
     if (!trendRoot) return null;
 
     const status = trendRoot.querySelector("[data-codex-status]");
     const lifetime = trendRoot.querySelector("[data-codex-lifetime]");
-    const scopeBadge = trendRoot.querySelector("[data-codex-scope]");
-    if (!status || !lifetime || !scopeBadge || !trendRoot.dataset.source) return null;
+    const observedTime = trendRoot.querySelector("[data-codex-observed]");
+    const cost = trendRoot.querySelector("[data-codex-cost]");
+    const costValue = trendRoot.querySelector("[data-codex-cost-value]");
+    if (!status || !lifetime || !observedTime || !cost || !costValue || !trendRoot.dataset.source) return null;
 
     const exactKeys = (value, keys) =>
       value &&
@@ -758,9 +761,31 @@
       const tenths = Math.floor((tokenCount % 1000000000) / 100000000);
       return `${billions}.${tenths}B`;
     };
+    const costLabel = (usdMidpoint) => `~$${(usdMidpoint / 1000).toFixed(1)}K API-rate replay`;
+    const validCost = (candidate, tokenCount) => {
+      if (!exactKeys(candidate, ["method", "reference_scope", "usd_per_million_tokens", "pricing_as_of", "usd_midpoint", "usd_label"])) return false;
+      const replay = (tokenCount / 1000000) * candidate.usd_per_million_tokens;
+      const roundedReplay = Math.floor(replay + 0.5);
+      if (
+        candidate.method !== "flat_reference_rate_replay" ||
+        candidate.reference_scope !== "current_site_build_blended_public_api_rate" ||
+        typeof candidate.usd_per_million_tokens !== "number" ||
+        !Number.isFinite(candidate.usd_per_million_tokens) ||
+        candidate.usd_per_million_tokens <= 0 ||
+        !Number.isSafeInteger(candidate.usd_midpoint) ||
+        candidate.usd_midpoint <= 0 ||
+        candidate.usd_midpoint !== roundedReplay ||
+        candidate.usd_label !== costLabel(candidate.usd_midpoint) ||
+        !isIsoDate(candidate.pricing_as_of)
+      )
+        return false;
+      return true;
+    };
     const validSource = (candidate) => {
-      const keys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
-      if (!exactKeys(candidate, keys) || candidate.schema !== 3) return false;
+      const requiredKeys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
+      const validSchema3 = candidate?.schema === 3 && exactKeys(candidate, requiredKeys);
+      const validSchema4 = candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"]);
+      if (!validSchema3 && !validSchema4) return false;
       const combined = candidate.combined_lifetime;
       if (
         !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
@@ -776,6 +801,7 @@
         typeof candidate.automated_refresh !== "boolean"
       )
         return false;
+      if (candidate.schema === 4 && !validCost(candidate.cost, combined.token_count)) return false;
       if (candidate.automated_refresh) {
         return (
           candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
@@ -806,38 +832,34 @@
     if (!validSource(source)) {
       trendRoot.dataset.state = "error";
       trendRoot.setAttribute("aria-busy", "false");
-      status.textContent = "Lifetime Codex snapshot is unavailable; the last rendered page does not substitute data.";
+      lifetime.textContent = "Unavailable";
+      lifetime.dataset.format = "unavailable";
+      cost.hidden = true;
+      status.textContent = "Lifetime Codex snapshot unavailable; GitHub activity remains available.";
       return null;
     }
 
-    lifetime.textContent = source.combined_lifetime.tokens_label;
-    if (source.automated_refresh) {
-      const observed = new Date(source.updated_at);
-      status.textContent =
-        "Refreshed " +
-        observed.toLocaleString("en-US", {
-          dateStyle: "medium",
-          timeStyle: "short",
-          timeZone: "UTC",
-        }) +
-        " UTC.";
+    renderCodexUsageScale = (scaleMode) => {
+      const literal = scaleMode === "linear";
+      lifetime.textContent = literal
+        ? `${number.format(source.combined_lifetime.token_count)} tokens`
+        : `${source.combined_lifetime.tokens_label} tokens`;
+      lifetime.dataset.format = literal ? "literal" : "readable";
+    };
+    renderCodexUsageScale(readScale());
+    observedTime.dateTime = source.observed_on;
+    observedTime.textContent = fullDate.format(new Date(`${source.observed_on}T00:00:00Z`));
+    if (source.cost) {
+      costValue.textContent = source.cost.usd_label.replace(/ API-rate replay$/, "");
+      cost.hidden = false;
     } else {
-      const observed = new Date(`${source.observed_on}T00:00:00Z`);
-      status.textContent =
-        "User-reported checkpoint · " +
-        observed.toLocaleDateString("en-US", {
-          dateStyle: "medium",
-          timeZone: "UTC",
-        }) +
-        " · automatic refresh pending.";
+      costValue.textContent = "";
+      cost.hidden = true;
     }
     trendRoot.dataset.state = "ready";
-    scopeBadge.textContent = "LIFETIME · ROUNDED";
     trendRoot.setAttribute("aria-busy", "false");
     return source;
   };
-
-  const codexSourcePromise = initCodexUsageTrend();
 
   const root = document.querySelector("[data-github-activity]");
   const dataNode = document.getElementById("github-activity-data");
@@ -1011,6 +1033,7 @@
   });
   let range = "5";
   let scale = "log";
+  const codexSourcePromise = initCodexUsageSnapshot(() => scale);
   let selectedIndex = rows.length - 1;
   let pinnedIndex = selectedIndex;
   let selection = null;
@@ -1609,6 +1632,7 @@
     button.addEventListener("click", () => {
       scale = button.dataset.scale;
       setPressedState();
+      renderCodexUsageScale(scale);
       drawChart();
     });
   });

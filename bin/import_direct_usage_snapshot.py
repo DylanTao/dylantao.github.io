@@ -3,19 +3,23 @@
 
 The input is the identity-free projection produced by the protected collector.
 This module intentionally has no knowledge of Codex credentials, account
-identities, per-source readings, token histories, reset times, or billing
-equivalents.
+identities, per-source readings, token histories, or reset times. A rough cost
+comparison is derived separately from the site's already-public blended API
+rate; it is not supplied by the collector and is not an actual bill.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 
 EXPECTED_SOURCE_COUNT = 2
@@ -35,6 +39,8 @@ TOP_LEVEL_KEYS = {
     "updated_at",
 }
 EXPECTED_CONFIDENCE = "high"
+COST_METHOD = "flat_reference_rate_replay"
+COST_REFERENCE_SCOPE = "current_site_build_blended_public_api_rate"
 
 
 class SnapshotError(ValueError):
@@ -75,13 +81,59 @@ def _tokens_label(token_count: int) -> str:
     return f"{billions}.{remainder // ROUNDING_QUANTUM}B"
 
 
-def build_public_snapshot(
+def _cost_label(usd_midpoint: int) -> str:
+    thousands = usd_midpoint / 1_000
+    return f"~${thousands:.1f}K API-rate replay"
+
+
+def _cost_equivalence(token_count: int, agentic_usage: Any) -> dict[str, Any]:
+    if not isinstance(agentic_usage, dict):
+        raise SnapshotError("agentic usage cost basis must be an object")
+    try:
+        cost = agentic_usage["total"]["api_cost_equivalence"]
+        reference_tokens = cost["priced_token_usage"]["total_tokens"]
+        reference_usd = cost["usd_estimate"]
+        pricing_as_of = cost["pricing_as_of"]
+    except (KeyError, TypeError) as error:
+        raise SnapshotError("agentic usage cost basis is incomplete") from error
+    reference_tokens = _count(reference_tokens, "agentic usage priced tokens")
+    if (
+        not isinstance(reference_usd, (int, float))
+        or isinstance(reference_usd, bool)
+        or not math.isfinite(reference_usd)
+    ):
+        raise SnapshotError("agentic usage API replay dollars must be numeric")
+    if reference_tokens == 0 or reference_usd <= 0:
+        raise SnapshotError("agentic usage cost basis must be positive")
+    if not isinstance(pricing_as_of, str):
+        raise SnapshotError("agentic usage pricing_as_of must be an ISO date")
+    try:
+        parsed_pricing_date = datetime.strptime(pricing_as_of, "%Y-%m-%d")
+    except ValueError as error:
+        raise SnapshotError("agentic usage pricing_as_of must be an ISO date") from error
+    if parsed_pricing_date.date().isoformat() != pricing_as_of:
+        raise SnapshotError("agentic usage pricing_as_of must be an ISO date")
+
+    usd_per_million_tokens = round(reference_usd / reference_tokens * 1_000_000, 6)
+    replay = token_count / 1_000_000 * usd_per_million_tokens
+    usd_midpoint = int(replay + 0.5)
+    return {
+        "method": COST_METHOD,
+        "reference_scope": COST_REFERENCE_SCOPE,
+        "usd_per_million_tokens": usd_per_million_tokens,
+        "pricing_as_of": pricing_as_of,
+        "usd_midpoint": usd_midpoint,
+        "usd_label": _cost_label(usd_midpoint),
+    }
+
+
+def build_site_snapshot(
     source: Any,
     *,
     now: datetime | None = None,
     max_age: timedelta = timedelta(minutes=20),
 ) -> dict[str, Any]:
-    """Validate a collector projection and return the public schema-3 snapshot."""
+    """Validate the collector projection and return the schema-3 site snapshot."""
 
     source = _exact_keys(source, TOP_LEVEL_KEYS, "snapshot")
     schema_version = source["schemaVersion"]
@@ -151,6 +203,23 @@ def build_public_snapshot(
     }
 
 
+def build_public_snapshot(
+    source: Any,
+    *,
+    agentic_usage: Any,
+    now: datetime | None = None,
+    max_age: timedelta = timedelta(minutes=20),
+) -> dict[str, Any]:
+    """Project the validated site snapshot as the cost-bearing public schema 4."""
+
+    site = build_site_snapshot(source, now=now, max_age=max_age)
+    return {
+        **site,
+        "schema": 4,
+        "cost": _cost_equivalence(site["combined_lifetime"]["token_count"], agentic_usage),
+    }
+
+
 def _serialized(payload: dict[str, Any]) -> bytes:
     return (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
 
@@ -169,16 +238,19 @@ def _staged_file(path: Path, content: bytes) -> Path:
     return Path(temporary)
 
 
-def publish_atomically(repo_root: Path, payload: dict[str, Any]) -> None:
-    """Replace both public copies as one rollback-capable publication."""
+def publish_atomically(
+    repo_root: Path,
+    site_payload: dict[str, Any],
+    profile_payload: dict[str, Any],
+) -> None:
+    """Replace the schema-3 site and schema-4 profile snapshots atomically."""
 
-    targets = (
-        repo_root / "_data" / "direct_usage_tracker.json",
-        repo_root / "assets" / "data" / "codex-profile-usage.json",
-    )
-    content = _serialized(payload)
+    targets = {
+        repo_root / "_data" / "direct_usage_tracker.json": _serialized(site_payload),
+        repo_root / "assets" / "data" / "codex-profile-usage.json": _serialized(profile_payload),
+    }
     originals = {path: path.read_bytes() if path.exists() else None for path in targets}
-    staged = {path: _staged_file(path, content) for path in targets}
+    staged = {path: _staged_file(path, content) for path, content in targets.items()}
     replaced: list[Path] = []
     try:
         for path in targets:
@@ -211,16 +283,26 @@ def main() -> int:
     args = parse_args()
     try:
         source = json.loads(args.input.read_text(encoding="utf-8"))
-        payload = build_public_snapshot(
+        agentic_usage = yaml.safe_load(
+            (args.repo_root.resolve() / "_data" / "agentic_usage.yml").read_text(
+                encoding="utf-8"
+            )
+        )
+        site_payload = build_site_snapshot(
             source,
             max_age=timedelta(minutes=args.max_age_minutes),
         )
+        profile_payload = build_public_snapshot(
+            source,
+            agentic_usage=agentic_usage,
+            max_age=timedelta(minutes=args.max_age_minutes),
+        )
         if not args.check:
-            publish_atomically(args.repo_root.resolve(), payload)
+            publish_atomically(args.repo_root.resolve(), site_payload, profile_payload)
     except (OSError, json.JSONDecodeError, SnapshotError) as error:
         print(f"direct usage snapshot rejected: {error}", file=__import__("sys").stderr)
         return 1
-    print(json.dumps(payload, separators=(",", ":"), sort_keys=True))
+    print(json.dumps(profile_payload, separators=(",", ":"), sort_keys=True))
     return 0
 
 

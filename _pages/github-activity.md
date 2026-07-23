@@ -126,43 +126,6 @@ github_activity: true
 
   </section>
 
-{% if direct_tracker.schema == 3 and combined_lifetime %}
-
-<section
-      class="github-activity-codex-trend"
-      data-codex-usage
-      data-state="loading"
-      data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
-      aria-labelledby="github-activity-codex-title"
-      aria-busy="true"
-    >
-<div class="github-activity-codex-heading">
-<div>
-<p class="github-activity-codex-kicker">LIFETIME CODEX SNAPSHOT</p>
-<h2 id="github-activity-codex-title">Combined lifetime Codex tokens</h2>
-<p>A single dated checkpoint for the bigger picture.</p>
-</div>
-<div class="github-activity-module-actions">
-<span class="github-activity-scope-badge" data-codex-scope>LIFETIME · ROUNDED</span>
-</div>
-</div>
-<dl class="github-activity-codex-ledger" aria-label="Combined lifetime Codex usage">
-<div>
-<dt data-codex-lifetime>{{ combined_lifetime.tokens_label }}</dt>
-<dd>combined lifetime Codex tokens</dd>
-</div>
-</dl>
-<p class="github-activity-codex-readout" data-codex-status>
-{% if direct_tracker.automated_refresh %}
-  Refreshed <time datetime="{{ direct_tracker.updated_at }}">{{ direct_tracker.updated_at | date: "%b %-d, %Y at %-I:%M %p UTC" }}</time>.
-{% else %}
-  User-reported checkpoint · <time datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time> · automatic refresh pending.
-{% endif %}
-</p>
-<p class="github-activity-codex-note">One public checkpoint. Source histories and reset times stay private.</p>
-</section>
-{% endif %}
-
   <section class="github-activity-workbench" aria-labelledby="github-activity-github-title">
     <div class="github-activity-module-heading">
       <div>
@@ -193,7 +156,7 @@ github_activity: true
     </div>
 
     <div class="github-activity-readout">
-      <div>
+      <div class="github-activity-readout-content">
         <p class="github-activity-readout-label" id="github-activity-selected-date">Latest week</p>
         <p class="github-activity-values">
           <span class="github-activity-value-group"><span class="github-activity-commits" id="github-activity-selected-commits"></span></span>
@@ -206,6 +169,29 @@ github_activity: true
             <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
           </span>
         </p>
+        {% if direct_tracker.schema == 3 and combined_lifetime %}
+          <div
+            class="github-activity-lifetime-inline"
+            data-codex-usage
+            data-state="loading"
+            data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
+            aria-label="Separate lifetime Codex snapshot"
+            aria-describedby="github-activity-lifetime-status"
+            aria-busy="true"
+          >
+            <p class="github-activity-lifetime-value">
+              <span>LIFETIME CODEX SNAPSHOT</span>
+              <strong data-codex-lifetime data-format="readable">{{ combined_lifetime.tokens_label }} tokens</strong>
+            </p>
+            <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
+              Observed
+              <time data-codex-observed datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time>.
+            </p>
+            <p class="github-activity-lifetime-cost" data-codex-cost hidden>
+              <span data-codex-cost-value></span> rough API-rate replay at this site's current blended rate; not an actual bill.
+            </p>
+          </div>
+        {% endif %}
       </div>
       <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
     </div>

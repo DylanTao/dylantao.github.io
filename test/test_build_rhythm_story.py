@@ -43,11 +43,11 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
         self.assertLess(
             self.page.index('data-build-rhythm-story'),
-            self.page.index('data-codex-usage'),
+            self.page.index('class="github-activity-workbench"'),
         )
         self.assertLess(
-            self.page.index('data-build-rhythm-story'),
             self.page.index('class="github-activity-workbench"'),
+            self.page.index('data-codex-usage'),
         )
         self.assertLess(
             self.page.index('class="github-activity-workbench"'),
@@ -192,6 +192,46 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('class: "github-activity-add-line"', self.script)
         self.assertIn('class: "github-activity-remove-line"', self.script)
 
+    def test_lifetime_snapshot_is_one_separate_line_inside_the_explorer(self) -> None:
+        self.assertEqual(self.page.count("data-codex-usage"), 1)
+        self.assertNotIn("github-activity-codex-trend", self.page)
+        self.assertNotIn("Combined lifetime Codex tokens", self.page)
+        self.assertNotIn("One public checkpoint", self.page)
+        self.assertLess(
+            self.page.index('class="github-activity-readout"'),
+            self.page.index('class="github-activity-lifetime-inline"'),
+        )
+        self.assertLess(
+            self.page.index('class="github-activity-lifetime-inline"'),
+            self.page.index('data-jump-latest'),
+        )
+        self.assertIn('aria-label="Separate lifetime Codex snapshot"', self.page)
+        self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
+        self.assertIn('data-codex-lifetime data-format="readable"', self.page)
+        self.assertIn("initCodexUsageSnapshot(() => scale)", self.script)
+        self.assertIn("renderCodexUsageScale(readScale());", self.script)
+        self.assertIn("renderCodexUsageScale(scale);", self.script)
+        self.assertIn('lifetime.dataset.format = literal ? "literal" : "readable";', self.script)
+        self.assertIn('`${number.format(source.combined_lifetime.token_count)} tokens`', self.script)
+
+    def test_lifetime_cost_replay_is_schema4_sanitized_and_caveated(self) -> None:
+        self.assertIn('class="github-activity-lifetime-cost" data-codex-cost hidden', self.page)
+        self.assertIn(
+            "rough API-rate replay at this site's current blended rate; not an actual bill.",
+            self.page,
+        )
+        self.assertIn('data-codex-cost-value', self.page)
+        self.assertIn('candidate?.schema === 3 && exactKeys(candidate, requiredKeys)', self.script)
+        self.assertIn('candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"])', self.script)
+        self.assertIn('candidate.method !== "flat_reference_rate_replay"', self.script)
+        self.assertIn(
+            'candidate.reference_scope !== "current_site_build_blended_public_api_rate"',
+            self.script,
+        )
+        self.assertIn("candidate.usd_midpoint !== roundedReplay", self.script)
+        self.assertIn("cost.hidden = true;", self.script)
+        self.assertNotIn("site.data.agentic_usage.total.api_cost_equivalence", self.page)
+
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
             "rounded lifetime Codex snapshot",
@@ -248,9 +288,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for retired in ("per-account", "gmail", "ucsd email"):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page.lower())
-        self.assertIn("Combined lifetime Codex tokens", self.page)
-        self.assertIn("automatic refresh pending", self.page)
-        self.assertIn("One public checkpoint. Source histories and reset times stay private.", self.page)
+        self.assertIn("LIFETIME CODEX SNAPSHOT", self.page)
+        self.assertIn("Observed", self.page)
+        self.assertNotIn("automatic refresh pending", self.page)
 
     def test_automated_lifetime_snapshot_accepts_only_the_canonical_confidence(self) -> None:
         self.assertIn('candidate.confidence === "high"', self.script)

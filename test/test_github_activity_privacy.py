@@ -74,21 +74,22 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         site_copy = json.loads(
             (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text()
         )
-        self.assertEqual(public, site_copy)
-        self.assertEqual(
-            set(public),
-            {
-                "schema",
-                "combined_lifetime",
-                "method",
-                "confidence",
-                "observed_on",
-                "updated_at",
-                "automated_refresh",
-            },
-        )
-        self.assertEqual(public["schema"], 3)
-        lifetime = public["combined_lifetime"]
+        required_keys = {
+            "schema",
+            "combined_lifetime",
+            "method",
+            "confidence",
+            "observed_on",
+            "updated_at",
+            "automated_refresh",
+        }
+        self.assertEqual(site_copy["schema"], 3)
+        self.assertEqual(set(site_copy), required_keys)
+        self.assertEqual(public["schema"], 4)
+        self.assertEqual(set(public), required_keys | {"cost"})
+        for key in required_keys - {"schema"}:
+            self.assertEqual(public[key], site_copy[key])
+        lifetime = site_copy["combined_lifetime"]
         self.assertEqual(
             set(lifetime),
             {
@@ -115,29 +116,61 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         self.assertEqual(lifetime["source_count"], 2)
         self.assertEqual(lifetime["aggregation"], "sum_of_sources")
         self.assertEqual(lifetime["rounding"], "nearest_0.1B")
-        observed_on = date.fromisoformat(public["observed_on"])
-        self.assertIsInstance(public["automated_refresh"], bool)
-        if public["automated_refresh"]:
+        observed_on = date.fromisoformat(site_copy["observed_on"])
+        self.assertIsInstance(site_copy["automated_refresh"], bool)
+        if site_copy["automated_refresh"]:
             self.assertEqual(
-                public["method"],
+                site_copy["method"],
                 "rounded_sum_of_verified_account_lifetime_readings",
             )
-            self.assertEqual(public["confidence"], "high")
-            self.assertIsInstance(public["updated_at"], str)
+            self.assertEqual(site_copy["confidence"], "high")
+            self.assertIsInstance(site_copy["updated_at"], str)
             refreshed_at = datetime.fromisoformat(
-                public["updated_at"].replace("Z", "+00:00")
+                site_copy["updated_at"].replace("Z", "+00:00")
             )
             self.assertIsNotNone(refreshed_at.tzinfo)
             self.assertEqual(refreshed_at.utcoffset(), timedelta(0))
             self.assertEqual(refreshed_at.date(), observed_on)
         else:
             self.assertEqual(
-                public["method"],
+                site_copy["method"],
                 "user_reported_rounded_lifetime_checkpoint",
             )
-            self.assertEqual(public["confidence"], "user reported")
-            self.assertIsNone(public["updated_at"])
-        serialized = json.dumps(public).lower()
+            self.assertEqual(site_copy["confidence"], "user reported")
+            self.assertIsNone(site_copy["updated_at"])
+        replay = public["cost"]
+        self.assertEqual(
+            set(replay),
+            {
+                "method",
+                "reference_scope",
+                "usd_per_million_tokens",
+                "pricing_as_of",
+                "usd_midpoint",
+                "usd_label",
+            },
+        )
+        self.assertEqual(replay["method"], "flat_reference_rate_replay")
+        self.assertEqual(
+            replay["reference_scope"],
+            "current_site_build_blended_public_api_rate",
+        )
+        self.assertIsInstance(replay["usd_per_million_tokens"], (int, float))
+        self.assertGreater(replay["usd_per_million_tokens"], 0)
+        self.assertIsInstance(replay["usd_midpoint"], int)
+        self.assertGreater(replay["usd_midpoint"], 0)
+        self.assertRegex(
+            replay["usd_label"], r"^~\$\d+\.\dK API-rate replay$"
+        )
+        date.fromisoformat(replay["pricing_as_of"])
+        expected = int(
+            lifetime["token_count"]
+            / 1_000_000
+            * replay["usd_per_million_tokens"]
+            + 0.5
+        )
+        self.assertEqual(replay["usd_midpoint"], expected)
+        serialized = json.dumps((site_copy, public)).lower()
         for fragment in (
             "email",
             "account_id",
@@ -145,7 +178,6 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             "reset",
             "daily",
             "history",
-            "api_cost",
             "healthyaccount",
             "quota",
             "per_account",
