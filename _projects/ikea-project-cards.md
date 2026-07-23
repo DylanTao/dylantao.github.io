@@ -1,7 +1,7 @@
 ---
 layout: page
 title: The IKEA Card Experiment
-description: An in-place project preview that keeps the surrounding evidence grid visible while one artifact opens.
+description: Click a project card, read the full preview in place, then close it without losing your spot in the collection.
 img: assets/img/project_pics/site-experiments/ikea-card-expanded.png
 image_aspect: 24 / 13
 card_image_fit: contain
@@ -21,13 +21,13 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen May 27, 2026</p>
     <h1>The IKEA Card Experiment</h1>
     <p class="project-case-lede">
-      Open one project without leaving the collection. The selected card expands in place, surrounding cards preserve orientation, and the motion exists only to explain where the added evidence came from.
+      Click a project card and it opens right where it was. You can read the full preview without losing the projects around it, then close it and return to the same card.
     </p>
     <div class="project-case-facts">
-      <span>In-place preview</span>
-      <span>FLIP object constancy</span>
-      <span>Focus recovery</span>
-      <span>Instant reduced motion</span>
+      <span>Opens in place</span>
+      <span>Cards keep their place</span>
+      <span>Focus returns</span>
+      <span>No-motion fallback</span>
     </div>
     <div class="project-case-actions">
       <a href="{{ '/projects/' | relative_url }}">Try the project cards</a>
@@ -52,18 +52,18 @@ hide_title: true
 </section>
 
 <section class="project-case-summary" aria-label="IKEA card experiment summary">
-  <div><span>Question</span><p>How can visitors inspect one artifact without losing the shape of the project collection?</p></div>
-  <div><span>Motion</span><p>One cancelable FLIP clock translates cards to their new positions while the active surface reveals inside a clip.</p></div>
-  <div><span>Recovery</span><p>Escape, outside dismissal, close, focus restoration, polite status, and reduced motion all end in the same valid state.</p></div>
+  <div><span>Why</span><p>Opening a separate page made it too easy to lose the collection and forget which project you had chosen.</p></div>
+  <div><span>What</span><p>The selected card expands inside the grid while the neighboring projects remain visible.</p></div>
+  <div><span>What changed</span><p>The first version squeezed and zoomed content. The current one uses a single cancelable translation and one reliable final state.</p></div>
 </section>
 
 ## Why opening in place mattered
 
-The [IKEA PS 2026 collection story](https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/) suggested a useful reading pattern: let one object open where it already lives, while the rest of the collection remains context. For an academic portfolio, that means the animation should preserve card identity and reveal evidence—not perform a product-launch flourish.
+The [IKEA PS 2026 collection story](https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/) gave me the basic idea: let one object open where it already lives while the rest of the collection stays in view. On this portfolio, the animation should help people track the same card—not turn opening a project into a product launch.
 
-## Three states, one spatial promise
+## What the interaction does
 
-The interaction is easiest to understand as a short sentence: **this card was here, it is opening here, and it is still here when the motion ends.** The live project browser owns the interaction; this page names the three states without turning a transition into a decorative demo.
+The card starts in the grid, opens in that spot, and stays recognizable while everything settles. Try the live project browser for the interaction; the three frames below show the mechanics without replaying the motion.
 
 <figure
   class="ikea-state-anatomy"
@@ -81,7 +81,7 @@ The interaction is easiest to understand as a short sentence: **this card was he
         <span class="ikea-state-card"></span>
       </div>
       <h3>Same footprint</h3>
-      <p>Each card returns to the same compact footprint within its group. The preview names the artifact; a quiet plus signals that more evidence is available.</p>
+      <p>Every card starts at the same compact size in its group. A quiet plus says there is a longer preview to open.</p>
     </div>
     <div class="ikea-state-frame">
       <p class="project-case-kicker">02 · Moving</p>
@@ -94,7 +94,7 @@ The interaction is easiest to understand as a short sentence: **this card was he
         <span class="ikea-state-motion-vector">430 ms</span>
       </div>
       <h3>Translate, then reveal</h3>
-      <p>The semantic open state changes first. One 430 ms clock moves cards without scaling while a clip reveals only the newly opened surface.</p>
+      <p>The card becomes open first. One 430 ms clock moves the cards without scaling, while a clip reveals the new content.</p>
     </div>
     <div class="ikea-state-frame">
       <p class="project-case-kicker">03 · Open</p>
@@ -104,7 +104,7 @@ The interaction is easiest to understand as a short sentence: **this card was he
         <span class="ikea-state-card"></span>
       </div>
       <h3>Wider, still in place</h3>
-      <p>The selected story gains room while its neighbors preserve the collection. Close, Escape, and focus return all resolve to one stable state.</p>
+      <p>The selected story gets more room while its neighbors keep the collection visible. Close, Escape, and focus return all end at the same card.</p>
     </div>
   </div>
   <figcaption>A static, reduced-motion-safe anatomy of the accepted <code>9fa9403e4</code> interaction contract.</figcaption>
@@ -114,19 +114,19 @@ The interaction is easiest to understand as a short sentence: **this card was he
 
 <ol class="project-story-beats" aria-label="Project card motion evolution">
   <li class="project-story-beat">
-    <p class="project-case-kicker">Spark · <code>15d94c048</code></p>
+    <p class="project-case-kicker">First build · <code>15d94c048</code></p>
     <h3>The first FLIP</h3>
-    <p>The first pass measured each card before and after opening, then translated and scaled the whole card back toward its old rectangle. It established object constancy, but scaling also squeezed text and imagery during motion.</p>
+    <p>The first pass measured every card before and after opening, then translated and scaled the whole card toward its old rectangle. People could follow which card opened, but the scaling squeezed its text and images.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Turn · <code>fc5b8a444</code> → <code>192bcc00c</code></p>
+    <p class="project-case-kicker">July rethink · <code>fc5b8a444</code> → <code>192bcc00c</code></p>
     <h3>More signals, then less motion</h3>
-    <p>Accents, takeaways, image zoom, content keyframes, and smooth scrolling began competing for attention. The July pass removed nonuniform FLIP scaling and introduced a cancelable translation-only clock.</p>
+    <p>I added accents, takeaways, image zoom, content keyframes, and smooth scrolling. They competed for attention, so the July pass removed the uneven scaling and kept only a cancelable translation.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Now · <code>9fa9403e4</code></p>
+    <p class="project-case-kicker">Current behavior · <code>9fa9403e4</code></p>
     <h3>One cancelable clock</h3>
-    <p>The opening clip joined the same clock; descendant keyframes and image zoom left. Retargeting cancels stale work, reduced motion reaches the same final layout immediately, and one visibility check happens after settlement.</p>
+    <p>The opening clip now shares the same clock, and the extra keyframes and image zoom are gone. A new click cancels stale motion, while reduced motion jumps to the same final layout immediately.</p>
   </li>
 </ol>
 
@@ -154,8 +154,8 @@ The interaction is easiest to understand as a short sentence: **this card was he
 
 <aside class="site-experiment-reproduce" aria-labelledby="ikea-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="ikea-reproduce-title">Keep one source of motion truth.</h2>
-  <p>The guide includes the state machine, translation-only FLIP loop, clipped reveal, interruption behavior, focus contract, and responsive checks.</p>
+  <h2 id="ikea-reproduce-title">Use one clock for opening and moving.</h2>
+  <p>The guide includes the three states, translation-only FLIP loop, clipped reveal, interrupted clicks, focus return, and responsive checks.</p>
   <div class="project-case-actions">
     <a href="{{ '/assets/downloads/site-experiments/ikea-project-cards-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
   </div>

@@ -59,7 +59,7 @@ spooder_project: true
   </div>
   <div>
     <span>How</span>
-    <p>Tell the real academic moment first, keep serious portfolio routes obvious, then invite someone else to adapt the bit to their own story.</p>
+    <p>Keep the two rejections up front, link the serious receipt wall, and package the images, prompt, and playlist so someone else can remix the joke.</p>
   </div>
 </section>
 
@@ -67,23 +67,23 @@ spooder_project: true
   <div class="hci-spooder-section-heading">
     <p class="project-case-kicker">Origin story</p>
     <h2 id="spooder-origin-title">Two rejections, one Steam meme, then Spooder-Man.</h2>
-    <p>The order is the story: rejection event, lab artifact, then reusable invitation. The joke works only if the real academic moment stays legible.</p>
+    <p>The same paper was rejected by CHI and UIST. I made a Steam-style achievement image for my labmates, then turned that private joke into a page other researchers can remix.</p>
   </div>
   <ol class="project-story-beats" aria-label="HCI Spooder-Man origin beats">
     <li class="project-story-beat">
-      <p class="project-case-kicker">Spark</p>
+      <p class="project-case-kicker">Paper result</p>
       <h3>Same paper, two noes.</h3>
-      <p>CHI said no. UIST said no. The factual origin is small: one paper, two rejection events, and the decision to turn the mood into something shareable.</p>
+      <p>CHI said no. UIST said no. Instead of writing another private note about resilience, I turned the mood into something I could send to the lab.</p>
     </li>
     <li class="project-story-beat">
-      <p class="project-case-kicker">Turn</p>
+      <p class="project-case-kicker">Lab meme</p>
       <h3>Make the receipt funny enough to send.</h3>
-      <p>The Steam-style achievement image began as a labmate meme. It later became the starting artifact for the separate <a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a>, where badges open receipts and XP comes from rejection events once.</p>
+      <p>The Steam-style achievement image began as a labmate meme. It later became the first artifact in the separate <a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a>, where badges open serious receipts and each rejection event counts once.</p>
     </li>
     <li class="project-story-beat">
-      <p class="project-case-kicker">Now</p>
+      <p class="project-case-kicker">Remix page</p>
       <h3>Turn one private joke into a remix invitation.</h3>
-      <p>The Spooder-Man page adds visual frames, a prompt, a downloadable kit, and a path back to serious work. Each new remix begins with its maker's own academic moment.</p>
+      <p>This page adds visual frames, a prompt, a downloadable kit, and a clear path back to the serious work. A new remix should begin with its maker's own real academic moment.</p>
     </li>
   </ol>
 </section>

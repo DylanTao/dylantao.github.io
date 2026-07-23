@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Dogtor's Hidden Portal
-description: A meme dog, a fruit checkpoint, and a deliberate little doorway from the blog into a private research-map experiment.
+description: Find the dog by the blog title, choose a fruit, and see whether it lets you through—without exposing what waits behind it.
 img: assets/img/meme_dog.png
 image_aspect: 1 / 1
 card_image_fit: cover
@@ -21,13 +21,13 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen May 13, 2026</p>
     <h1>Dogtor’s Hidden Portal</h1>
     <p class="project-case-lede">
-      A suspiciously small dog beside the blog title opens a fruit checkpoint. This public story follows the clue, recovery path, and consent choices while the destination stays hidden.
+      There is a small dog next to the blog title. Click it, choose a fruit, and it may let you through. The joke also works with a keyboard, recovers cleanly after refresh, and asks before using precise location.
     </p>
     <div class="project-case-facts">
-      <span>Discoverable secret</span>
-      <span>Fruit checkpoint</span>
-      <span>Session recovery</span>
-      <span>Consent before precision</span>
+      <span>Dog-shaped clue</span>
+      <span>Four fruit choices</span>
+      <span>Refresh recovery</span>
+      <span>Location consent</span>
     </div>
     <div class="project-case-actions">
       <a href="{{ '/blog/' | relative_url }}">Look for the dog</a>
@@ -53,16 +53,16 @@ hide_title: true
 </section>
 
 <section class="project-case-summary" aria-label="Dogtor portal summary">
-  <div><span>Question</span><p>How can a secret page reward curiosity while keeping recovery, keyboard behavior, and privacy choices legible?</p></div>
-  <div><span>Entry</span><p>The public route is the blog. The dog and fruit dialog are the only intended path onward.</p></div>
-  <div><span>Boundary</span><p>The public story stops at visitor-visible behavior; destination and visitor details stay private.</p></div>
+  <div><span>Why</span><p>I wanted to reward curious readers without making the blog depend on solving a puzzle.</p></div>
+  <div><span>What</span><p>A dog-shaped clue opens a four-fruit gate, with truthful feedback for every choice.</p></div>
+  <div><span>What changed</span><p>A brittle passphrase became visible fruit choices, then gained reliable recovery and explicit location consent.</p></div>
 </section>
 
 ## Why hide a door at all?
 
-The portal began as a tiny dog-triggered dialog beside the blog title. The hidden page grew into a globe and approximate visitor-map experiment; the original passphrase later became a friendlier fruit checkpoint where every offered fruit is a truthful answer. The joke stays optional, and the public blog remains useful without finding it.
+The first version was a tiny dog-triggered passphrase dialog beside the blog title. I replaced the brittle answer with four visible fruits, made every response truthful, and kept the whole joke optional. Anyone who ignores the dog still gets the complete blog.
 
-## A four-step promise
+## What the visitor experiences
 
 <ol class="project-storyboard dogtor-storyboard" aria-label="Privacy-safe Dogtor portal journey">
   <li class="project-storyboard-step">
@@ -71,7 +71,7 @@ The portal began as a tiny dog-triggered dialog beside the blog title. The hidde
       <circle cx="12" cy="12" r="2.2"></circle>
     </svg>
     <h3>Notice the clue</h3>
-    <p>A small dog beside the blog title looks slightly out of place. Curious readers can investigate; everyone else still gets the complete blog.</p>
+    <p>The dog beside the blog title looks just out of place enough to invite a click. Readers who pass it by lose nothing.</p>
   </li>
   <li class="project-storyboard-step">
     <svg class="dogtor-story-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -79,7 +79,7 @@ The portal began as a tiny dog-triggered dialog beside the blog title. The hidde
       <path d="M12 7.2c0-2.5 1.4-4 3.8-4.3M12.5 5.2c-1.6-1.3-3.1-1.4-4.6-.4"></path>
     </svg>
     <h3>Choose a fruit</h3>
-    <p>The clue opens a keyboard-accessible dialog with four visible fruits. Every choice receives truthful feedback.</p>
+    <p>The clue opens a keyboard-accessible dialog with four visible fruits. Every choice gets an honest response.</p>
   </li>
   <li class="project-storyboard-step">
     <svg class="dogtor-story-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -88,7 +88,7 @@ The portal began as a tiny dog-triggered dialog beside the blog title. The hidde
       <path d="M9 12.2h6"></path>
     </svg>
     <h3>Recover cleanly</h3>
-    <p>Escape and Close return focus to the dog. A successful visit survives refresh and back navigation in the same tab.</p>
+    <p>Escape and Close return focus to the dog. A successful choice survives refresh and back navigation in the same tab.</p>
   </li>
   <li class="project-storyboard-step">
     <svg class="dogtor-story-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -96,7 +96,7 @@ The portal began as a tiny dog-triggered dialog beside the blog title. The hidde
       <path d="m8.8 11.8 2.1 2.1 4.4-4.5"></path>
     </svg>
     <h3>Ask before precision</h3>
-    <p>The experience begins approximate. Precise location requires an explicit action, and declining keeps the journey usable.</p>
+    <p>The experience starts with approximate information. Precise location needs an explicit yes, and saying no still leaves the journey usable.</p>
   </li>
 </ol>
 
@@ -121,8 +121,8 @@ The portal began as a tiny dog-triggered dialog beside the blog title. The hidde
 
 <aside class="site-experiment-reproduce" aria-labelledby="dogtor-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
-  <h2 id="dogtor-reproduce-title">Hide delight; keep recovery obvious.</h2>
-  <p>The public guide covers the discoverable trigger, modal focus contract, session-scoped pass, locked direct-entry fallback, and privacy boundaries with placeholder content only.</p>
+  <h2 id="dogtor-reproduce-title">Keep the surprise hidden and the exit obvious.</h2>
+  <p>The public guide covers the clue, dialog focus, same-tab recovery, locked direct-entry fallback, and privacy boundaries using placeholder content only.</p>
   <div class="project-case-actions">
     <a href="{{ '/assets/downloads/site-experiments/dogtor-portal-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
   </div>

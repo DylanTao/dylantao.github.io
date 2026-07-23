@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Scaffolding for Taste — OpenAI Build Week
-description: A cutoff-aware visual story of how Codex and GPT-5.6 helped turn a pre-existing research portfolio into a more inspectable teaching artifact.
+description: What I added to an existing research portfolio during OpenAI Build Week, with a clear cutoff, linked commits, and reusable project guides.
 img: assets/img/project_pics/openai-build-week/openai-build-week-extension.svg
 image_aspect: 3 / 2
 card_image_fit: contain
@@ -23,7 +23,7 @@ heuristics_preview: true
     <p class="project-case-kicker">OpenAI Build Week · Education track · July 2026</p>
     <h1>Scaffolding for Taste</h1>
     <p class="project-case-lede">
-      The portfolio existed before the competition clock started. During Build Week, Codex with GPT-5.6 Sol helped turn that foundation into a more inspectable studio: new representations, guided evidence stories, reproduction briefs, and design rules that preserve the human critique behind the polish.
+      This portfolio already existed before Build Week. After the cutoff, I used Codex with GPT-5.6 Sol to add the Human/AI route, Paper Constellation, guided project stories, reproduction briefs, and the tests behind them. This page separates that extension from the older foundation, which judges should not count.
     </p>
     <div class="project-case-facts">
       <span>12 post-cutoff checkpoints</span>
@@ -75,21 +75,21 @@ heuristics_preview: true
 <section class="project-case-summary" aria-label="OpenAI Build Week project summary">
   <div>
     <span>Why</span>
-    <p>Fast AI-assisted production multiplies options; this project makes the human judgment behind them inspectable.</p>
+    <p>Judges needed a clean line between the site I already had and the work I actually completed during Build Week.</p>
   </div>
   <div>
     <span>What</span>
-    <p>A research portfolio where experiments expose their origins, evidence, limits, reproduction paths, and reusable design lessons.</p>
+    <p>The extension added new reading routes, a publication map, guided case studies, reproduction guides, and responsive checks.</p>
   </div>
   <div>
     <span>How</span>
-    <p>Codex accelerated bounded implementation passes; rendered critique and human decisions determined what survived.</p>
+    <p>Codex accelerated bounded implementation passes; I reviewed fixed screenshots and decided what to keep, revise, or remove.</p>
   </div>
 </section>
 
 <h2 id="build-week-story-title">What changed after the line?</h2>
 
-The Build Week story lives in the sequence of representational decisions preserved by the commits. Horizontal position marks date; each lane marks a kind of public artifact.
+The timeline below links each public change to its commit. Read left to right by date; the three lanes separate public pages, evidence, and reusable notes.
 
 <section
   class="build-week-data-story"
@@ -191,7 +191,7 @@ The Build Week story lives in the sequence of representational decisions preserv
       data-copy="The reciprocal room, teaching frame, and original design memory define the pre-cutoff foundation."
     >
       <p class="project-case-kicker">01 · Draw the boundary</p>
-      <h3>Name the foundation before showing the extension.</h3>
+      <h3>Show what was already there.</h3>
       <p>The portfolio, COGS 125 framing, living heuristics, first 2D/3D desk, activity workbench, and reciprocal cliff-room topology all predate 9:00 AM. The last named baseline, <a href="https://github.com/DylanTao/dylantao.github.io/commit/a765c5291"><code>a765c5291</code></a>, was committed before the window opened.</p>
     </li>
 
@@ -203,7 +203,7 @@ The Build Week story lives in the sequence of representational decisions preserv
       data-copy="The new AI profile and raw alternatives stay source-linked and human-auditable; they do not promise ranking or model inclusion."
     >
       <p class="project-case-kicker">02 · Make the record readable</p>
-      <h3>Publish alternate representations from one canonical record.</h3>
+      <h3>Give the same research record two reading routes.</h3>
       <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/d3f13be35"><code>d3f13be35</code></a> added the source-linked <a href="{{ '/ai/' | relative_url }}">Human/AI research profile</a>, publication catalog, and raw text alternatives. The canonical bibliography owns the facts; the new routes reduce visual decoding work.</p>
     </li>
 
@@ -215,7 +215,7 @@ The Build Week story lives in the sequence of representational decisions preserv
       data-copy="Build Week added guided interpretation, an origin case study, a reproduction brief, and explicit evidence boundaries."
     >
       <p class="project-case-kicker">03 · Guide the interpretation</p>
-      <h3>Let cadence, magnitude, and model evidence keep separate clocks.</h3>
+      <h3>Explain commits, changed lines, and tokens separately.</h3>
       <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6b4b7bd59"><code>6b4b7bd59</code></a> added the scroll-led <a href="{{ '/github-activity/' | relative_url }}">Build Rhythm</a> story. <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a> added the first case-study and reproduction layer, while <a href="https://github.com/DylanTao/dylantao.github.io/commit/b183e4b75"><code>b183e4b75</code></a> wrote the surviving constraints into design memory. The original workbench began on July 11; the guided teaching layer is the Build Week extension.</p>
     </li>
 
@@ -227,7 +227,7 @@ The Build Week story lives in the sequence of representational decisions preserv
       data-copy="Five papers, three threads, seven anonymous future nodes, and nine reviewed connections stay constant while the geometry changes."
     >
       <p class="project-case-kicker">04 · Change the representation</p>
-      <h3>Build a desktop atlas, then compose a mobile trail.</h3>
+      <h3>Make a desktop atlas and a mobile trail.</h3>
       <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/855f1bce8"><code>855f1bce8</code></a> fixed the privacy-safe data contract; <a href="https://github.com/DylanTao/dylantao.github.io/commit/eeb0a5764"><code>eeb0a5764</code></a> built <a href="{{ '/projects/paper-constellation/' | relative_url }}">Paper Constellation</a>; and <a href="https://github.com/DylanTao/dylantao.github.io/commit/6832a6a05"><code>6832a6a05</code></a> replaced the compressed mobile map with a chronological trail. I reviewed every relationship and coordinate; GPT-5.6 did not discover the research lineage.</p>
     </li>
 
@@ -238,9 +238,9 @@ The Build Week story lives in the sequence of representational decisions preserv
       data-title="Seven experiments gained receipts and reproduction paths."
       data-copy="Most underlying interactions predated Build Week. The extension added origin stories, dated evidence, known limits, and downloadable guides."
     >
-      <p class="project-case-kicker">05 · Make the process inspectable</p>
-      <h3>Turn playful experiments into things another person can study.</h3>
-      <p>Across <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f"><code>1ec5d5f4f</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/2070991b0"><code>2070991b0</code></a>, and the constellation work, seven existing experiments gained project pages and downloadable reproduction guides. The contribution is an inspectable record of where each began, what changed, and how to reuse the pattern.</p>
+      <p class="project-case-kicker">05 · Show the work</p>
+      <h3>Give seven experiments their own case studies.</h3>
+      <p>Across <a href="https://github.com/DylanTao/dylantao.github.io/commit/f05f02b41"><code>f05f02b41</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ec5d5f4f"><code>1ec5d5f4f</code></a>, <a href="https://github.com/DylanTao/dylantao.github.io/commit/2070991b0"><code>2070991b0</code></a>, and the constellation work, seven existing experiments gained project pages and downloadable reproduction guides. Together they show where each experiment began, what changed, and how someone could reuse the pattern.</p>
     </li>
 
     <li
@@ -251,7 +251,7 @@ The Build Week story lives in the sequence of representational decisions preserv
       data-copy="Paired captures, responsive viewports, reduced-motion states, and two browser engines make the accepted boundary easier to inspect."
     >
       <p class="project-case-kicker">06 · Publish the proof</p>
-      <h3>Test the representation outside one attractive screenshot.</h3>
+      <h3>Test more than the best-looking screenshot.</h3>
       <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/739d2ba28"><code>739d2ba28</code></a> published paired desk evidence under a fixed capture rubric. <a href="https://github.com/DylanTao/dylantao.github.io/commit/1ae1ead39"><code>1ae1ead39</code></a> and <a href="https://github.com/DylanTao/dylantao.github.io/commit/c52de6932"><code>c52de6932</code></a> closed responsive and cross-engine gaps. The reciprocal room was the baseline; post-cutoff work polished its controls and evidence—it did not create the reciprocal room.</p>
     </li>
 
@@ -260,7 +260,7 @@ The Build Week story lives in the sequence of representational decisions preserv
 
 <h2 id="build-week-two-shapes">One record, two reading shapes</h2>
 
-Paper Constellation is the clearest example of the Build Week method. The data contract stays fixed while the presentation changes around the reading task. Desktop supports spatial comparison; mobile prioritizes chronology and legible labels.
+Paper Constellation is the clearest before-and-after within the Build Week extension. Both views use the same five papers, seven anonymous future nodes, three threads, and nine connections. Desktop makes comparison spatial; mobile puts chronology and readable titles first.
 
 <section class="project-story-comparison build-week-constellation-pair" aria-labelledby="build-week-two-shapes">
   <figure class="project-case-media site-experiment-evidence-figure">
@@ -273,36 +273,36 @@ Paper Constellation is the clearest example of the Build Week method. The data c
   </figure>
 </section>
 
-<h2 id="build-week-receipts">Seven experiments gained receipts</h2>
+<h2 id="build-week-receipts">Seven experiments got their own case studies</h2>
 
-The case-study layer makes a previously playful portfolio useful as a teaching artifact. Each page now exposes the same four questions: where did this begin, what changed, what evidence survives, and how could someone reproduce the pattern?
+Each page now answers four practical questions: why did I make this, what changed, what evidence survives, and what could someone else reuse?
 
 <ul class="build-week-receipts" aria-labelledby="build-week-receipts">
   <li><a href="{{ '/projects/build-rhythm/' | relative_url }}"><strong>Build Rhythm</strong><span>origin → clocks → evidence → reproduce</span></a></li>
   <li><a href="{{ '/projects/paper-constellation/' | relative_url }}"><strong>Paper Constellation</strong><span>contract → atlas → trail → reproduce</span></a></li>
   <li><a href="{{ '/projects/homepage-desk-scene/' | relative_url }}"><strong>Homepage desk</strong><span>2D → 3D → paired proof → reproduce</span></a></li>
-  <li><a href="{{ '/projects/ikea-project-cards/' | relative_url }}"><strong>Project cards</strong><span>spark → FLIP → interruption → reproduce</span></a></li>
+  <li><a href="{{ '/projects/ikea-project-cards/' | relative_url }}"><strong>Project cards</strong><span>first FLIP → simpler motion → reproduce</span></a></li>
   <li><a href="{{ '/projects/scholar-lens/' | relative_url }}"><strong>Scholar Lens</strong><span>cue → synchronization → boundary → reproduce</span></a></li>
   <li><a href="{{ '/projects/wall-of-rejection/' | relative_url }}"><strong>Wall of Rejection</strong><span>meme → receipts → event math → reproduce</span></a></li>
   <li><a href="{{ '/projects/dogtor-portal/' | relative_url }}"><strong>Dogtor’s portal</strong><span>clue → recovery → consent → reproduce</span></a></li>
 </ul>
 
-<h2 id="build-week-critique-loop">The loop GPT-5.6 accelerated</h2>
+<h2 id="build-week-critique-loop">How I used Codex during the week</h2>
 
-GPT-5.6 Sol accelerated bounded implementation and re-review; research meaning and acceptance remained human decisions.
+I gave Codex one bounded change at a time, inspected the rendered result, and decided whether it clarified the page. GPT-5.6 Sol made those build-and-review passes faster; it did not make the research or acceptance decisions.
 
 <ol class="build-week-critique-loop" aria-labelledby="build-week-critique-loop">
-  <li><span>01</span><strong>Brief</strong><p>Name what a rushed visitor should understand.</p></li>
-  <li><span>02</span><strong>Codex pass</strong><p>Implement one bounded change with GPT-5.6 Sol.</p></li>
-  <li><span>03</span><strong>Rendered evidence</strong><p>Compare fixed routes, viewports, themes, and states.</p></li>
-  <li><span>04</span><strong>Human decision</strong><p>Keep, revise, or revert based on meaning and access.</p></li>
-  <li><span>05</span><strong>Design memory</strong><p>Write the surviving critique as a reusable rule.</p></li>
+  <li><span>01</span><strong>Name the question</strong><p>Say what a rushed visitor should understand.</p></li>
+  <li><span>02</span><strong>Build one change</strong><p>Use Codex with GPT-5.6 Sol for a bounded implementation pass.</p></li>
+  <li><span>03</span><strong>Check the page</strong><p>Compare fixed routes, viewports, themes, and states.</p></li>
+  <li><span>04</span><strong>Decide</strong><p>Keep, revise, or revert based on meaning and access.</p></li>
+  <li><span>05</span><strong>Save the rule</strong><p>Write useful recurring critique into design memory.</p></li>
 </ol>
 
 <section class="build-week-agency-split" aria-label="Codex contribution and human judgment">
   <article>
     <p class="project-case-kicker">Codex + GPT-5.6 accelerated</p>
-    <h3>The iteration surface</h3>
+    <h3>The implementation work</h3>
     <ul>
       <li>Tracing routes and implementation history</li>
       <li>Building bounded visual and responsive passes</li>
@@ -312,7 +312,7 @@ GPT-5.6 Sol accelerated bounded implementation and re-review; research meaning a
   </article>
   <article>
     <p class="project-case-kicker">Human critique decided</p>
-    <h3>What deserved to survive</h3>
+    <h3>What to keep</h3>
     <ul>
       <li>The research claim and eligibility boundary</li>
       <li>Which visual relationships were defensible</li>
@@ -328,9 +328,9 @@ GPT-5.6 Sol accelerated bounded implementation and re-review; research meaning a
   <p>This project does not claim that students learned more, that GPT-5.6 autonomously learned the site’s taste, or that commit and token volume prove quality. It establishes a public artifact and critique method that can be evaluated with students next.</p>
 </aside>
 
-<h2 id="build-week-design-memory">Reuse the design memory</h2>
+<h2 id="build-week-design-memory">What another student can reuse</h2>
 
-The durable output is the human-authored checklist that future students, collaborators, and agents can inspect, challenge, and adapt.
+The design-memory checklist turns the critiques that kept helping into prompts another student, collaborator, or agent can inspect and adapt. It is a starting point, not an automatic judge of taste.
 
 {% include heuristics_preview.liquid %}
 
@@ -352,7 +352,7 @@ The durable output is the human-authored checklist that future students, collabo
 
 ## What comes next
 
-The next step is a course-ready critique exercise: fixed viewports, a shared brief, comparable evidence, and a worksheet for deciding which observations should become durable design memory. Any claim about learning waits for an actual evaluation.
+Next I want to turn this into a classroom critique exercise with fixed viewports, one shared brief, comparable screenshots, and a worksheet for deciding which observations are worth keeping. Any claim about learning waits for an actual evaluation.
 
 ## Credits
 

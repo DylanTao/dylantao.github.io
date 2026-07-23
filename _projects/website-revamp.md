@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Vibe-Coding a Research Portfolio
-description: How an academic archive became a research-first portfolio, then a living system of inspectable site experiments and teaching artifacts.
+description: How I rebuilt an academic archive so visitors can find the research question, inspect the work, and reuse the design lessons.
 img: assets/img/website-revamp/current-home-desktop.png
 image_aspect: 1440 / 1100
 card_image_fit: contain
@@ -33,12 +33,12 @@ research_motion:
       text: Turn possible directions into a comparison people can reason with.
       detail_title: Human-AI for design and taste
       detail_text: >-
-        This lens treats interface design as scaffolding for judgment: make the space
-        of options legible enough that students can see what changed and why it matters.
+        This lens makes design options visible enough for students to compare what
+        changed and decide why it matters.
       detail_points:
-        - Turn vague vibes into inspectable variables.
+        - Name the variable behind a vague vibe.
         - Keep alternatives comparable before critique.
-        - Use motion to show gathering, comparison, and reopening.
+        - Use motion to show how options gather, compare, and reopen.
       detail_points_label: Moves
     - id: evaluate
       label: Evaluate
@@ -46,8 +46,8 @@ research_motion:
       text: Turn messy traces into evidence for the next design move.
       detail_title: Evidence before iteration
       detail_text: >-
-        This lens asks what the artifact taught us after use: which traces, failures,
-        and reactions should change the next version.
+        After someone uses the artifact, this lens asks which traces, failures, and
+        reactions should change the next version.
       detail_points:
         - Show probes and measures in a readable editorial flow.
         - Connect speed with critique and reflection.
@@ -58,7 +58,7 @@ research_motion:
       title: Assist in context
       text: Let assistance change shape around people, tasks, tools, and physical context.
       detail_title: Context changes the shape of help
-      detail_text: This lens grounds the interface in the actual situation where people act, alongside the abstract workflow.
+      detail_text: This lens designs help around the people, tasks, tools, and spaces where the work actually happens.
       detail_points:
         - Draw anchors for people, tasks, tools, and spaces.
         - Let pointer motion suggest context through gentle anchors.
@@ -71,13 +71,13 @@ research_motion:
     <p class="project-case-kicker">Personal site redesign · teaching artifact · living system</p>
     <h1>Vibe-Coding a Research Portfolio</h1>
     <p class="project-case-lede">
-      This site evolved from an archive that made visitors assemble the story, through a research-first redesign, into a living system where each playful experiment explains why it exists and shows the evidence it can support.
+      My old site listed projects and papers, but it did not tell visitors what I was actually studying. I rebuilt the homepage around one research question, reviewed each pass in screenshots, and gave the most useful site experiments their own case studies and reusable briefs.
     </p>
     <div class="project-case-facts">
-      <span>Archive evidence</span>
-      <span>Research-first hierarchy</span>
-      <span>Screenshot critique</span>
-      <span>Living design heuristics</span>
+      <span>Old homepage saved</span>
+      <span>Research question first</span>
+      <span>Screenshot review</span>
+      <span>Reusable project notes</span>
     </div>
     <div class="project-case-actions">
       <a href="{{ '/' | relative_url }}">Open the live homepage</a>
@@ -91,37 +91,37 @@ research_motion:
 <section class="project-case-summary" aria-label="Website redesign summary">
   <div>
     <span>Why</span>
-    <p>The archive contained the work, but a rushed visitor still had to infer the research thesis and decide what mattered.</p>
+    <p>The old site had the work, but visitors still had to guess the question connecting it and what to open first.</p>
   </div>
   <div>
     <span>What</span>
-    <p>A research-first portfolio whose homepage, case studies, and child experiments keep claims close to inspectable proof.</p>
+    <p>The homepage now leads with my research question, then routes people to papers, projects, writing, and playful experiments.</p>
   </div>
   <div>
     <span>How</span>
-    <p>Plan, implement, inspect screenshots, critique from several visitor roles, remove weak decoration, and record the rule that survived.</p>
+    <p>I made small Codex-assisted passes, checked fixed screenshots, kept what clarified the story, and wrote down the rules worth reusing.</p>
   </div>
 </section>
 
 ## Archive, redesign, living system
 
-Each archived state answered a different need, and each frame documents only what it preserved.
+The two saved frames show where the redesign started and one later checkpoint. The live homepage shows where it is now.
 
 <ol class="project-story-beats" aria-label="Website revamp story">
   <li class="project-story-beat">
     <p class="project-case-kicker">Archive</p>
-    <h3>Keep the old page as evidence.</h3>
-    <p>The <a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Wayback capture from February 9, 2026 at 01:34:29 UTC</a> shows a real older homepage. The 1440 × 1000 PNG entered this repository at <a href="https://github.com/DylanTao/dylantao.github.io/commit/e4f021520f05eba9a21a62366ca52443b801fd97"><code>e4f021520</code></a>; the exact historical site commit that produced the archived page was not preserved.</p>
+    <h3>Save the page I was redesigning.</h3>
+    <p>The <a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Wayback capture from February 9, 2026 at 01:34:29 UTC</a> shows the older homepage visitors actually saw. The 1440 × 1000 PNG entered this repository at <a href="https://github.com/DylanTao/dylantao.github.io/commit/e4f021520f05eba9a21a62366ca52443b801fd97"><code>e4f021520</code></a>; the exact historical site commit that produced it was not preserved.</p>
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Research-first redesign</p>
-    <h3>Make the thesis easier to find than the decoration.</h3>
-    <p>The May redesign moved the research claim, affiliation, proof routes, and next actions closer together. The legacy-named artifact-stage PNG later recorded the warmer paper-and-desk direction; the file last changed in the repository on June 16 at <a href="https://github.com/DylanTao/dylantao.github.io/commit/d5c6365099eb97f72c779cc6dd0e031de44d89ac"><code>d5c636509</code></a>, but its capture date was not recorded.</p>
+    <h3>Put the research question before the decoration.</h3>
+    <p>The May redesign brought the research claim, affiliation, proof routes, and next actions together. A later PNG records the warmer paper-and-desk direction; the file last changed on June 16 at <a href="https://github.com/DylanTao/dylantao.github.io/commit/d5c6365099eb97f72c779cc6dd0e031de44d89ac"><code>d5c636509</code></a>, but its capture date was not recorded.</p>
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Living artifact system</p>
-    <h3>Let each experiment carry its own story and boundary.</h3>
-    <p>The homepage now points into separate experiments for the desk, publication map, project-card motion, build evidence, rejection receipts, and Dogtor journey. The <a href="{{ '/' | relative_url }}">live route</a> is the current state; a dated screenshot is a checkpoint, never a substitute for it.</p>
+    <h3>Give each experiment its own page.</h3>
+    <p>The homepage now points to separate stories for the desk, publication map, project-card motion, build evidence, rejection receipts, and Dogtor journey. The <a href="{{ '/' | relative_url }}">live route</a> is the current state; each screenshot is only a dated checkpoint.</p>
   </li>
 </ol>
 
@@ -162,30 +162,30 @@ Each archived state answered a different need, and each frame documents only wha
   <p>The comparison documents a shift toward a clearer research claim and closer proof routes. Missing viewport, theme, interaction, browser, and DPR metadata limit it to design history rather than an A/B or usability result.</p>
 </aside>
 
-## Taste as a loop
+## How I actually worked
 
-Working with Codex made small implementation passes fast enough to create more chances to practice judgment. My loop was plan, implement, inspect screenshots, critique from several visitor roles, then simplify.
+Codex made small implementation passes fast. I still decided what the page should say, inspected fixed screenshots as different visitors, and simplified anything that looked impressive but made the story harder to read.
 
-That loop is close to Donald Schön's idea in [_The Reflective Practitioner_](https://www.hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner/9780465068784/): the designer acts, sees what the situation says back, and reframes the next move. In this project, the website itself became the material talking back.
+Donald Schön describes a similar loop in [_The Reflective Practitioner_](https://www.hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner/9780465068784/): a designer acts, notices what the situation says back, and reframes the next move. Here, the rendered website was what talked back.
 
 <div class="project-storyboard" role="list" aria-label="Website critique loop">
   <article class="project-storyboard-step" role="listitem">
-    <h3>Make the claim visible.</h3>
-    <p>The homepage now says the research thesis before asking visitors to parse a long biography.</p>
+    <h3>Put the research question first.</h3>
+    <p>The homepage states what I study before asking anyone to parse a long biography.</p>
   </article>
   <article class="project-storyboard-step" role="listitem">
-    <h3>Use motion as explanation.</h3>
-    <p>The interactive sketch maps to design, evaluation, and situated assistance instead of acting as decoration.</p>
+    <h3>Make motion explain a change.</h3>
+    <p>The interactive sketch shows design, evaluation, and situated assistance as different lenses instead of moving only for decoration.</p>
   </article>
   <article class="project-storyboard-step" role="listitem">
-    <h3>Record the rule.</h3>
-    <p>Every critique that survived became part of a living heuristics file for future design sessions.</p>
+    <h3>Keep the useful critique.</h3>
+    <p>When a critique kept helping across pages, I added it to the living heuristics file for the next design session.</p>
   </article>
 </div>
 
 ## The motion sketch
 
-Stripe's homepage inspired the restraint: a compact control, a proof-like visual, and a calm relationship between claim and interaction. Katie Dill's craft framing and the AI in Design 2026 report helped sharpen the bigger point: when AI makes output cheap, taste, critique, and judgment become more important.
+Stripe's homepage showed me how a small control and a calm visual could support a claim without taking over the page. Katie Dill's writing on craft and the AI in Design 2026 report sharpened why I cared: when AI makes many versions cheap, choosing and critiquing them matters more.
 
 <div class="home-page website-revamp-motion-demo">
   {% include home/research_motion.liquid section_id='website-revamp-motion' section_key='website-revamp-motion' %}
@@ -193,7 +193,7 @@ Stripe's homepage inspired the restraint: a compact control, a proof-like visual
 
 ## Follow the child experiments
 
-This parent case study keeps the critique loop and archive. The experiments below own their own origin, evolution, evidence, and reproduction notes, so I link to them instead of flattening eight different stories into one redesign recap.
+This page tells the overall redesign. Each experiment below has its own origin, changes, evidence, and reproduction notes, so I link to those stories instead of repeating them here.
 
 <nav class="project-storyboard" data-website-child-experiments aria-label="Website revamp child experiments">
   <article class="project-storyboard-step">
@@ -232,9 +232,9 @@ This parent case study keeps the critique loop and archive. The experiments belo
 
 ## Use the heuristics
 
-The reusable part is the markdown file. My hope is that students in COGS 125, or anyone redesigning a portfolio, can give it to their own agent and ask for a critique pass grounded in the same design values. Preview it here before downloading; it should stay a living document as the site keeps changing.
+The reusable artifact is a Markdown checklist. A COGS 125 student—or anyone redesigning a portfolio—can give it to an agent, ask for a critique using the same design values, and then decide which advice actually helps.
 
-That file was built gradually during the redesign, distilled from my critiques, screenshot notes, and interface iterations where the site pushed back and made a design rule clearer.
+I built the file from screenshot notes and critiques that kept proving useful across iterations. It stays editable because the site and my judgment will keep changing.
 
 {% include heuristics_preview.liquid %}
 
@@ -257,7 +257,7 @@ That file was built gradually during the redesign, distilled from my critiques, 
 
 ## Credits
 
-This redesign borrows ideas, not assets, from work I admire: the AI in Design 2026 report, Katie Dill's writing and talks on craft, Stripe's interaction design, Jackie Hu's portfolio motion craft, and Donald Schön's reflective-practice framing. The point of credit is not formality. It is a design habit: know where your taste came from.
+This redesign borrows ideas, not assets, from work I admire: the AI in Design 2026 report, Katie Dill's writing and talks on craft, Stripe's interaction design, Jackie Hu's portfolio motion craft, and Donald Schön's reflective-practice framing. These links show where the design references came from.
 
 <ul class="website-revamp-sources">
   <li><a href="https://stateofaidesign.com/" target="_blank" rel="noopener noreferrer">AI in Design 2026</a></li>

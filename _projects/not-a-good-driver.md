@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Not A Good Driver
-description: "A VRChat social-play experiment organized around three ways into the same joke: driver, passenger, and spectator."
+description: "A small VRChat world where one person drives, one rides along, and everyone else watches the chaos."
 img: assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser.png
 image_aspect: 3 / 2
 card_image_fit: contain
@@ -40,34 +40,34 @@ hide_title: true
 <section class="project-case-summary" aria-label="Not A Good Driver summary">
   <div>
     <span>Why</span>
-    <p>I wanted to learn how a lightweight virtual place can make a shared activity legible without explaining away the joke.</p>
+    <p>Driving badly is funnier when a friend can ride along and someone else can watch the failure coming.</p>
   </div>
   <div>
     <span>What</span>
-    <p>A winding social driving world with three participation roles: take the wheel, ride along, or watch the action unfold.</p>
+    <p>A small VRChat world with a winding road, a shared cab, and a lookout for three ways into the same joke.</p>
   </div>
   <div>
     <span>How</span>
-    <p>Use paths and sightlines to put moving action and social reaction in the same readable scene.</p>
+    <p>I placed the road, passenger seat, and spectator view so all three roles could follow the same mishap.</p>
   </div>
 </section>
 
 ## One road, three ways into the joke
 
-The world is easiest to understand as a small cast. Each role gets a different relationship to the same road and a real way to participate.
+The world does not need a long tutorial. Pick a role: cause the trouble, ride through it, or watch it become a show.
 
 <div class="project-storyboard" data-driver-role-story role="list" aria-label="Driver passenger spectator story">
   <article class="project-storyboard-step" role="listitem">
     <h3>Driver · create the action</h3>
-    <p>The driver commits to the route and gives everyone else something to follow. The road has to read quickly enough that steering, surprise, and recovery can become part of the social moment.</p>
+    <p>The driver commits to the road and gives everyone else something to react to. The route needs to read fast enough that steering, surprise, and recovery can all happen in public.</p>
   </article>
   <article class="project-storyboard-step" role="listitem">
     <h3>Passenger · share the ride</h3>
-    <p>The passenger participates without owning the route. Riding close to the action creates room for reaction, conversation, and the pleasure of watching someone else's decisions arrive.</p>
+    <p>The passenger joins the action without choosing the route. Sitting next to the driver leaves room for conversation and for watching someone else's bad decision arrive.</p>
   </article>
   <article class="project-storyboard-step" role="listitem">
     <h3>Spectator · make it a show</h3>
-    <p>The spectator turns motion into a public event. A useful view lets someone understand the setup, anticipate trouble, and join the laugh without entering the vehicle.</p>
+    <p>The spectator sees enough of the road to understand the setup and spot trouble early. They can join the laugh without getting in the vehicle.</p>
   </article>
 </div>
 
@@ -97,11 +97,11 @@ The world is easiest to understand as a small cast. Each role gets a different r
   <figcaption><strong>Design anatomy.</strong> The road creates action, the shared cab carries reaction, and the lookout turns both into a public scene.</figcaption>
 </figure>
 
-## World design at room scale
+## What I designed
 
-The design question was whether a newcomer could find the action, choose a role, and make a moment with other people. That is the same judgment I care about in research tools: make the situation legible, then leave room for people to act.
+I placed the route, shared cab, and lookout so a newcomer could find the action and choose a role without reading much. The scenery supports that choice, then leaves the actual social moment unscripted.
 
-AI tools supported rough production; I shaped participation, paths, sightlines, and what remained unscripted.
+AI helped me block out rough world assets. I decided where people could drive, ride, watch, and what stayed unscripted.
 
 <aside
   class="project-story-note"
@@ -130,7 +130,7 @@ AI tools supported rough production; I shaped participation, paths, sightlines, 
 <aside class="site-experiment-reproduce" aria-labelledby="driver-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
   <h2 id="driver-reproduce-title">Design the view around the roles.</h2>
-  <p>The reusable brief starts with control, co-presence, and spectating before it asks for scenery. It keeps the role map conceptual, requires live-world validation, and leaves unsupported history out.</p>
+  <p>The brief starts with driving, riding, and watching before it asks for scenery. It keeps this role map conceptual, requires validation in the live world, and does not invent a version history.</p>
   <div class="project-case-actions">
     <a href="{{ '/assets/downloads/site-experiments/not-a-good-driver-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
   </div>
