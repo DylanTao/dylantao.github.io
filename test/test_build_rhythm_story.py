@@ -258,7 +258,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
 
-        self.assertIn("change provenance, not the privacy boundary", self.heuristics)
+        self.assertIn("A dated lifetime total is one snapshot, not a trend", self.heuristics)
+        self.assertIn("name both the rate basis and that it is not an actual bill", self.heuristics)
         self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
         self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)
 

@@ -60,7 +60,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 44
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 45
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -4973,6 +4973,59 @@ for (
 
 MODEL_DEVIATION_ACKNOWLEDGMENT_V44_TURN_IDS = tuple(
     row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V44_CLEANUP_AUDIT_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V45_LIFETIME_READOUT_TURNS = (
+    (
+        "019f8c9d-fe09-7a01-99c0-9d024d753cc2",
+        "2026-07-23T01:36:33.585Z",
+        "019f8c9d-c655-7b20-af3d-eebc3fb0c62e",
+        "/root/profile_snapshot_cleanup",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-23T01:36:45.314Z",
+    ),
+    (
+        "019f8c9e-c14d-7b32-8851-978c60ad94e0",
+        "2026-07-23T01:37:24.481Z",
+        "019f8c9e-9043-7bb0-8ae6-8c106fadecb5",
+        "/root/site_lifetime_readout",
+        r"D:\dev\dylantao.github.io",
+        "2026-07-23T01:37:34.114Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V45_LIFETIME_READOUT_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "acknowledged_at": "2026-07-22",
+        "reason": (
+            "The coordinator explicitly delegated two isolated implementation reviews at "
+            "high effort for the user's lifetime-token readout and privacy-safe cost-contract "
+            "request. This bounded override differed from the site's declared ultra default; "
+            "the original model and effort remain visible."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, and first scoped assistant response at "
+            f"{_first_scoped_response_at}; audited 2026-07-22."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V45_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V45_LIFETIME_READOUT_TURNS
 )
 
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at

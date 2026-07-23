@@ -4,16 +4,23 @@ import re
 import unittest
 from pathlib import Path
 
+import yaml
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = REPO_ROOT / "_projects"
 
 PROJECT_OPENINGS = {
+    "openai-build-week.md": "A polished homepage can hide the bad passes and judgment behind it.",
     "build-rhythm.md": "Build Rhythm is where I go to see when the work bunches up.",
     "paper-constellation.md": "Paper Constellation is a second way to browse my publications.",
     "homepage-desk-scene.md": "The homepage desk is one set of objects in two views.",
     "scholar-lens.md": "Scholar Lens adds filters and linked highlights to my publications page.",
     "wall-of-rejection.md": "Wall of Rejection began as the Steam-style badge meme",
+    "ikea-project-cards.md": "Click a project card and it opens right where it was.",
+    "website-revamp.md": "My old site listed projects and papers, but it did not tell visitors what I was actually studying.",
+    "dogtor-portal.md": "There is a small dog next to the blog title.",
+    "not-a-good-driver.md": "I built a small VRChat world around three ways into one joke",
 }
 
 
@@ -45,6 +52,19 @@ class FunProjectVoiceCoreRewriteTests(unittest.TestCase):
                 summary = source[summary_start:story_start]
                 self.assertIn("<span>Why</span>", summary)
                 self.assertIn("<span>What</span>", summary)
+
+    def test_data_backed_spooder_lede_names_the_rejection_and_remix_actions(self) -> None:
+        data = yaml.safe_load((REPO_ROOT / "_data" / "spooder_man.yml").read_text(encoding="utf-8"))
+        lede = data["hero"]["lede"]
+        for phrase in (
+            "same paper was rejected twice",
+            "Steam-style",
+            "browse the art",
+            "download the prompt and files",
+            "remix their own academic setback",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, lede)
 
     def test_visible_turning_points_use_project_specific_labels(self) -> None:
         ceremonial_label = re.compile(r'<p class="project-case-kicker">(?:Spark|Turn|Now)</p>')
