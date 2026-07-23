@@ -68,7 +68,7 @@ class OpenAIBuildWeekStoryTests(unittest.TestCase):
             "GPT-5.6 did not discover the research lineage",
             "The model label records provenance, not isolated causality",
             "019f652f-7154-7822-ad1c-daa5a066134b",
-            "This project does not claim that students learned more, that GPT-5.6 autonomously learned",
+            "This page documents a workflow, not a learning study",
             "they do not promise ranking or model inclusion",
         ):
             with self.subTest(phrase=phrase):

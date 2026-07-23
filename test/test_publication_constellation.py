@@ -340,7 +340,7 @@ class PublicationConstellationContractTest(unittest.TestCase):
 
         self.assertIn("D3 force-directed SVG implementation", guide)
         self.assertIn("D3 force-directed SVG implementation", project)
-        self.assertIn("server-rendered HTML with fixed SVG geometry", project)
+        self.assertIn("server-rendered HTML and fixed SVG paths", project)
 
 
 if __name__ == "__main__":

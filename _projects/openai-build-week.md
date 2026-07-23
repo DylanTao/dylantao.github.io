@@ -23,7 +23,7 @@ heuristics_preview: true
     <p class="project-case-kicker">OpenAI Build Week · Education track · July 2026</p>
     <h1>Scaffolding for Taste</h1>
     <p class="project-case-lede">
-      This portfolio already existed before Build Week. After the cutoff, I used Codex with GPT-5.6 Sol to add the Human/AI route, Paper Constellation, guided project stories, reproduction briefs, and the tests behind them. This page separates that extension from the older foundation, which judges should not count.
+      A polished homepage can hide the bad passes and judgment behind it. I wanted students to see what I kept, changed, and threw away, then reuse the same screenshot checks. After the cutoff, I used Codex with GPT-5.6 Sol to add the Human/AI route, Paper Constellation, guided project stories, reproduction briefs, and the tests behind them. The timeline keeps that new work separate from the site I already had.
     </p>
     <div class="project-case-facts">
       <span>12 post-cutoff checkpoints</span>
@@ -75,7 +75,7 @@ heuristics_preview: true
 <section class="project-case-summary" aria-label="OpenAI Build Week project summary">
   <div>
     <span>Why</span>
-    <p>Judges needed a clean line between the site I already had and the work I actually completed during Build Week.</p>
+    <p>I wanted visitors and students to see which design decisions survived review and reuse the checks behind them.</p>
   </div>
   <div>
     <span>What</span>
@@ -222,8 +222,8 @@ The timeline below links each public change to its commit. Read left to right by
     <li
       class="build-week-story-step"
       data-build-week-step="constellation"
-      data-kicker="New visual grammar · July 15–16"
-      data-title="One graph became two deliberate reading shapes."
+      data-kicker="Paper map · July 15–16"
+      data-title="The same paper graph now has a desktop atlas and a mobile trail."
       data-copy="Five papers, three threads, seven anonymous future nodes, and nine reviewed connections stay constant while the geometry changes."
     >
       <p class="project-case-kicker">04 · Change the representation</p>
@@ -235,7 +235,7 @@ The timeline below links each public change to its commit. Read left to right by
       class="build-week-story-step"
       data-build-week-step="artifacts"
       data-kicker="Reusable teaching artifacts · July 15–16"
-      data-title="Seven experiments gained receipts and reproduction paths."
+      data-title="Seven experiments gained origin stories, evidence, and reuse guides."
       data-copy="Most underlying interactions predated Build Week. The extension added origin stories, dated evidence, known limits, and downloadable guides."
     >
       <p class="project-case-kicker">05 · Show the work</p>
@@ -278,13 +278,13 @@ Paper Constellation is the clearest before-and-after within the Build Week exten
 Each page now answers four practical questions: why did I make this, what changed, what evidence survives, and what could someone else reuse?
 
 <ul class="build-week-receipts" aria-labelledby="build-week-receipts">
-  <li><a href="{{ '/projects/build-rhythm/' | relative_url }}"><strong>Build Rhythm</strong><span>origin → clocks → evidence → reproduce</span></a></li>
-  <li><a href="{{ '/projects/paper-constellation/' | relative_url }}"><strong>Paper Constellation</strong><span>contract → atlas → trail → reproduce</span></a></li>
-  <li><a href="{{ '/projects/homepage-desk-scene/' | relative_url }}"><strong>Homepage desk</strong><span>2D → 3D → paired proof → reproduce</span></a></li>
-  <li><a href="{{ '/projects/ikea-project-cards/' | relative_url }}"><strong>Project cards</strong><span>first FLIP → simpler motion → reproduce</span></a></li>
-  <li><a href="{{ '/projects/scholar-lens/' | relative_url }}"><strong>Scholar Lens</strong><span>cue → synchronization → boundary → reproduce</span></a></li>
-  <li><a href="{{ '/projects/wall-of-rejection/' | relative_url }}"><strong>Wall of Rejection</strong><span>meme → receipts → event math → reproduce</span></a></li>
-  <li><a href="{{ '/projects/dogtor-portal/' | relative_url }}"><strong>Dogtor’s portal</strong><span>clue → recovery → consent → reproduce</span></a></li>
+  <li><a href="{{ '/projects/build-rhythm/' | relative_url }}"><strong>Build Rhythm</strong><span>See when building arrived in bursts.</span></a></li>
+  <li><a href="{{ '/projects/paper-constellation/' | relative_url }}"><strong>Paper Constellation</strong><span>Trace five papers across three questions.</span></a></li>
+  <li><a href="{{ '/projects/homepage-desk-scene/' | relative_url }}"><strong>Homepage desk</strong><span>Step from the paper desk into the same room.</span></a></li>
+  <li><a href="{{ '/projects/ikea-project-cards/' | relative_url }}"><strong>Project cards</strong><span>Expand a project without losing its place.</span></a></li>
+  <li><a href="{{ '/projects/scholar-lens/' | relative_url }}"><strong>Scholar Lens</strong><span>Follow one paper through its citation history.</span></a></li>
+  <li><a href="{{ '/projects/wall-of-rejection/' | relative_url }}"><strong>Wall of Rejection</strong><span>Open each badge to read its rejection receipt.</span></a></li>
+  <li><a href="{{ '/projects/dogtor-portal/' | relative_url }}"><strong>Dogtor’s portal</strong><span>Follow a clue through recovery and consent.</span></a></li>
 </ul>
 
 <h2 id="build-week-critique-loop">How I used Codex during the week</h2>
@@ -325,12 +325,12 @@ I gave Codex one bounded change at a time, inspected the rendered result, and de
 <aside class="project-story-note" aria-labelledby="build-week-claim-boundary-title">
   <p class="project-case-kicker">Claim boundary</p>
   <h2 id="build-week-claim-boundary-title">An inspectable method is not a measured learning outcome.</h2>
-  <p>This project does not claim that students learned more, that GPT-5.6 autonomously learned the site’s taste, or that commit and token volume prove quality. It establishes a public artifact and critique method that can be evaluated with students next.</p>
+  <p>This page documents a workflow, not a learning study. I have not yet tested whether it helps students critique better; model and activity counts record provenance, not quality.</p>
 </aside>
 
 <h2 id="build-week-design-memory">What another student can reuse</h2>
 
-The design-memory checklist turns the critiques that kept helping into prompts another student, collaborator, or agent can inspect and adapt. It is a starting point, not an automatic judge of taste.
+The checklist turns recurring screenshot critiques into checks for hierarchy, mobile layout, accessibility, evidence, and provenance. Students can adapt the checks, then decide which ones improve their own page.
 
 {% include heuristics_preview.liquid %}
 

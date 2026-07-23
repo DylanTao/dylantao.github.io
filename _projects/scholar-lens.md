@@ -103,7 +103,7 @@ DesignWeaver makes the interaction easy to see. Its bibliography row, lifetime c
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="scholar-boundary-title">
   <p class="project-case-kicker">Freshness and scope</p>
   <h2 id="scholar-boundary-title">Navigation context, not an impact score</h2>
-  <p>The lens uses public citation totals, bibliography keys, authorship roles, paper formats, and visible snapshot dates. It does not infer paper quality, author contribution, causality, or reader interest, and it does not collect private Scholar history.</p>
+  <p>The dated numbers help readers navigate the bibliography; they are not ratings of paper quality or author contribution. The page uses only public citation data.</p>
 </aside>
 
 <details class="project-story-disclosure site-experiment-technical-details">

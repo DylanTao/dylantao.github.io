@@ -29,8 +29,8 @@ designweaver:
     - "Novices compare and iterate deliberately."
 
 openai-build-week:
-  origin_line: "The portfolio existed before Build Week, but its post-cutoff extension needed one honest, judge-readable evidence trail."
-  evolution_line: "A commit boundary became a scroll-led story connecting public surfaces, verification, and reusable design memory."
+  origin_line: "Most of the portfolio existed before Build Week. I needed to show exactly what changed during the event."
+  evolution_line: "I marked the cutoff on the timeline, then linked each change to the page and commit where it appears."
   icon: archive
   teaser_alt: Timeline separating the pre-existing Scaffolding for Taste portfolio from four post-cutoff OpenAI Build Week evidence chapters
   accents:
@@ -39,8 +39,8 @@ openai-build-week:
     afternoon: "#ef9b5c"
     evening: "#91c9dd"
   takeaways:
-    - "The eligibility line stays visible."
-    - "Human critique decides what survives."
+    - "The cutoff separates earlier work from event work."
+    - "Every claimed change links to evidence."
 
 physion:
   accents:
@@ -53,8 +53,8 @@ physion:
     - "Human judgments anchor plausibility."
 
 website-revamp:
-  origin_line: "My old portfolio made visitors assemble the research story for themselves."
-  evolution_line: "An archived site became a research-first redesign, then a living system of experiments and reusable heuristics."
+  origin_line: "My old portfolio listed projects and papers, but visitors could not see what I study or where to start."
+  evolution_line: "I reorganized the archive around my research questions, then kept the useful experiments as reusable site rules."
   icon: archive
   teaser_alt: Research-first portfolio homepage with a design-judgment headline, portrait, navigation, and thesis framing
   accents:
@@ -63,20 +63,23 @@ website-revamp:
     afternoon: "#d49a7c"
     evening: "#ffb876"
   takeaways:
-    - "Portfolio becomes a research argument."
-    - "Heuristics become reusable design memory."
+    - "Visitors can see the research thread without reconstructing it."
+    - "Successful experiments become reusable site rules."
 
 paper-constellation:
-  origin_line: "A chronological paper list showed outcomes, but not the relationships that shaped the work."
-  evolution_line: "Three research threads became a desktop atlas and a deliberately chronological mobile trail."
+  origin_line: "A year-by-year paper list hid the questions that recur across projects."
+  evolution_line: "I mapped three recurring research questions on desktop; mobile follows the same papers through time instead of shrinking the map."
   icon: constellation
   teaser_alt: Paper Constellation preview showing accepted papers and anonymous future nodes across the Design, Evaluate, and Situate research threads
   # Literal crop from the 390x1000 light runtime capture on 2026-07-16.
   mobile_teaser: /assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16.png
+  takeaways:
+    - "Three colors track three different research questions."
+    - "Mobile follows time instead of shrinking the desktop map."
 
 build-rhythm:
-  origin_line: "Dense activity logs recorded the work; Build Rhythm turns their cadence into a readable story."
-  evolution_line: "One combined dashboard evolved into three clearly scoped signals: GitHub activity, site-build tokens, and lifetime Codex usage."
+  origin_line: "The logs had totals, but they did not show when the work arrived in bursts."
+  evolution_line: "A later dashboard mixed unlike numbers. I split it into weekly code changes, daily site-build estimates, and one dated lifetime total."
   icon: pulse
   teaser_alt: Two stacked Build Rhythm charts showing cumulative estimated site-build tokens and rounded daily increases
   accents:
@@ -85,12 +88,12 @@ build-rhythm:
     afternoon: "#5f8f93"
     evening: "#91c9dd"
   takeaways:
-    - "See bursts, pauses, and scale."
-    - "Each signal carries its own clock."
+    - "Weekly code, daily site-build tokens, and one dated lifetime total stay separate."
+    - "The charts show when work arrived, not whether it was good."
 
 homepage-desk-scene:
-  origin_line: "The flat desk already held personal clues, but it had no spatial memory beyond the page."
-  evolution_line: "A shared-state 2D scene gained a reciprocal 3D room while keeping one set of discoveries and controls."
+  origin_line: "The flat desk held personal clues, but visitors could not step inside it."
+  evolution_line: "I made 2D and 3D views of the same room, so music and discoveries remain when someone switches views."
   icon: desk
   teaser_alt: Research portfolio homepage with its interactive three-dimensional cliff-room desk beside the introduction
   accents:
@@ -103,8 +106,8 @@ homepage-desk-scene:
     - "Inside and outside share one room."
 
 scholar-lens:
-  origin_line: "A highlighter suggestion exposed a gap: citation context was scattered across the bibliography."
-  evolution_line: "One paper cue now stays synchronized across its bibliography row, citation chip, and annual bar."
+  origin_line: "A highlighter suggestion made me notice that each paper's bibliography row, citation count, and yearly bars were far apart."
+  evolution_line: "Selecting DesignWeaver now highlights its bibliography row, lifetime citation chip, and yearly bars together."
   icon: citation
   mobile_teaser: /assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light.png
   teaser_alt: "DesignWeaver highlighted in Scholar Lens's responsive publication and citation view"
@@ -114,14 +117,14 @@ scholar-lens:
     afternoon: "#7792aa"
     evening: "#a9c4d4"
   takeaways:
-    - "Citation context stays dated."
-    - "The bibliography remains canonical."
+    - "One selection connects the paper, total, and yearly history."
+    - "Every citation snapshot keeps its date visible."
 
 wall-of-rejection:
   origin_line: "Two conference rejections became a lab meme worth keeping instead of hiding."
-  evolution_line: "The meme became a rejection-only wall built from event, badge, receipt, and non-additive combo."
+  evolution_line: "The meme became a wall where each rejection gets one dated badge and receipt, without being counted twice in the combo."
   icon: receipt
-  teaser_alt: Wall of Rejection interface showing a selected rejection receipt, event badges, and a non-additive experience bar
+  teaser_alt: Wall of Rejection with a selected rejection receipt, event badges, and a Failure XP total that counts each rejection once
   accents:
     morning: "#dc6a5d"
     noon: "#4f80a5"
@@ -132,8 +135,8 @@ wall-of-rejection:
     - "Failure stays visible beside the work."
 
 ikea-project-cards:
-  origin_line: "I wanted project cards to open where they were discovered, without replacing the surrounding evidence grid."
-  evolution_line: "A first FLIP transition survived competing effects by moving onto one cancelable motion clock."
+  origin_line: "I wanted project previews to open inside the grid so visitors could keep seeing the other projects and return to the same card."
+  evolution_line: "The first transition scaled the whole card and squeezed its content. The current version uses one cancelable translation clock."
   icon: expand
   teaser_alt: Expanded Paper Constellation project card opening in place while neighboring project cards remain visible
   accents:
@@ -143,11 +146,11 @@ ikea-project-cards:
     evening: "#a9c9d9"
   takeaways:
     - "One card opens in context."
-    - "FLIP preserves object identity."
+    - "The card expands without losing its place in the grid."
 
 dogtor-portal:
   origin_line: "A meme dog in the blog became a small clue for readers curious enough to follow it."
-  evolution_line: "The joke became a fruit-choice recovery path that asks for consent before anything precise."
+  evolution_line: "The clue became a short fruit-choice game with an obvious way back and a consent step before precise location."
   icon: paw
   teaser_alt: Illustrated corgi giving a suspicious, playful sideways glance
   accents:
@@ -156,11 +159,11 @@ dogtor-portal:
     afternoon: "#79a187"
     evening: "#acceb8"
   takeaways:
-    - "Hidden delight keeps recovery visible."
-    - "Consent precedes precise location."
+    - "The clue is optional, and the way back stays obvious."
+    - "Precise location appears only after consent."
 
 not-a-good-driver:
-  origin_line: "I wanted to test how a deliberately bad driver could turn a VR world into a social performance for passengers and spectators."
+  origin_line: "I wanted three people to share one VR joke: one steers badly, one rides along, and one watches from outside."
   icon: wheel
   teaser_alt: Low-poly driving scene with drivers on a winding suspended road while spectators watch from a cliff
   accents:
@@ -169,11 +172,11 @@ not-a-good-driver:
     afternoon: "#a08fae"
     evening: "#b8d4e8"
   takeaways:
-    - "VR worlds become social experiments."
-    - "AI-assisted prototypes meet public play."
+    - "Driver, passenger, and spectator get different parts of the same joke."
+    - "The goal is shared performance, not driving mastery."
 
 hci-spooder-man:
-  origin_line: "Back-to-back CHI and UIST rejections needed a form that could hold both disappointment and lab humor."
+  origin_line: "The same paper was rejected by CHI and UIST, then became a Steam-style image passed around the lab."
   evolution_line: "A one-off Steam-style meme grew into a small remix kit, with the serious rejection record still one link away."
   icon: spooder
   teaser_alt: Five Spider-Man characters gathering in a city street as playful remix material for HCI Spooder-Man
@@ -193,8 +196,8 @@ hci-spooder-man:
     - /assets/img/project_pics/hci-spooder-man/spooder-verse-title.png
     - /assets/img/project_pics/hci-spooder-man/spooder-man-title.png
   takeaways:
-    - "Academic websites can scaffold remixable play."
-    - "Assets and prompts help others join in."
+    - "The page gives people images and prompts they can actually remix."
+    - "The serious rejection record stays one click away from the joke."
 
 context-aware-encoding:
   accents:

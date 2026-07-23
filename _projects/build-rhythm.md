@@ -76,8 +76,6 @@ The first version put GitHub activity and token history in one workbench. They l
   </li>
 </ol>
 
-The screen at <a href="https://github.com/DylanTao/dylantao.github.io/commit/71b8f4c890f6d27b6c8da4b6f019af352c4882bd"><code>71b8f4c89</code></a> contains source-level daily history retired from the public dataset, so I do not republish it here. The commit records the structural turn. The current figure uses data that still belongs on the public site; it documents interface anatomy rather than the retired history.
-
 ## How to read the rhythm
 
 Start with the question you have. Each chart uses the unit and clock that fit it.
@@ -97,12 +95,10 @@ Start with the question you have. Each chart uses the unit and clock that fit it
   </div>
 </section>
 
-Earlier versions remain inspectable through their commits. I include a historical screenshot only when I can reproduce the runtime and the data still belongs in public.
-
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
   <h2 id="build-rhythm-privacy-title">What stays private</h2>
-  <p>The page publishes rounded totals and this site's cumulative points. Source histories and session-level details stay private.</p>
+  <p>Earlier source-level history stays private; the current chart uses only the public repo-scoped estimate.</p>
 </aside>
 
 ## What _The Rhythm of Food_ changed

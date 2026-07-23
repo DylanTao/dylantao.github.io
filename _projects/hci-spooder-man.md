@@ -1,7 +1,7 @@
 ---
 layout: page
 title: HCI Spooder-Man
-description: Double rejection, a Steam-style lab meme, and a small door into the nerdy Spooder-Verse.
+description: How two paper rejections became a Steam-style lab meme, a remix gallery, and a downloadable prompt-and-image kit.
 img: assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser.png
 image_aspect: 16 / 9
 card_image_fit: cover
@@ -91,7 +91,7 @@ spooder_project: true
 <aside class="project-story-note" data-spooder-artwork-boundary="remix-material-not-history" aria-labelledby="spooder-artwork-boundary-title">
   <p class="project-case-kicker">Artwork boundary</p>
   <h2 id="spooder-artwork-boundary-title">Remix frames with a documented origin</h2>
-  <p>The gallery supplies scene and title frames for browsing and reuse. The factual chronology lives in the origin beats above; the source playlist carries the tonal credit.</p>
+  <p>These images are remix materials, not a version history. The three steps above show how the project began; the playlist below credits the meme's tone.</p>
 </aside>
 
 <section id="spooder-capsule" class="hci-spooder-gallery" data-spooder-image-carousel aria-labelledby="spooder-gallery-title">

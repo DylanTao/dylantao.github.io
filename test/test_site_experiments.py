@@ -44,6 +44,20 @@ REPRODUCTION_GUIDES = [
     "not-a-good-driver-reproduction.md",
 ]
 
+FUN_PROJECT_SLUGS = (
+    "openai-build-week",
+    "paper-constellation",
+    "build-rhythm",
+    "homepage-desk-scene",
+    "hci-spooder-man",
+    "scholar-lens",
+    "wall-of-rejection",
+    "ikea-project-cards",
+    "website-revamp",
+    "dogtor-portal",
+    "not-a-good-driver",
+)
+
 
 def frontmatter(path: Path) -> dict[str, str]:
     source = path.read_text(encoding="utf-8")
@@ -146,6 +160,34 @@ class SiteExperimentsTests(unittest.TestCase):
             with self.subTest(icon=icon):
                 self.assertEqual(icon_include.count(f"{{% when '{icon}' %}}"), 1)
 
+    def test_fun_project_stories_lead_with_plain_what_and_why(self) -> None:
+        project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
+
+        for slug in FUN_PROJECT_SLUGS:
+            with self.subTest(slug=slug):
+                source = (PROJECTS_DIR / f"{slug}.md").read_text(encoding="utf-8")
+                values = frontmatter(PROJECTS_DIR / f"{slug}.md")
+                description = values.get("description", "")
+
+                self.assertGreaterEqual(len(description), 45)
+                self.assertLessEqual(len(description), 220)
+                self.assertIn('class="project-case-lede"', source)
+                self.assertIn('class="project-case-summary"', source)
+                self.assertLess(source.index('class="project-case-lede"'), source.index('class="project-case-summary"'))
+                self.assertIn("<span>Why</span>", source)
+                self.assertIn("<span>What</span>", source)
+                self.assertIn('class="project-case-actions"', source)
+                self.assertNotRegex(
+                    source,
+                    r'<p class="project-case-kicker">\s*(?:Spark|Turn|Now)\s*</p>',
+                )
+
+                card = project_cards[slug]
+                self.assertEqual(len(card.get("takeaways", [])), 2)
+                for takeaway in card["takeaways"]:
+                    self.assertGreaterEqual(len(takeaway), 20)
+                    self.assertLessEqual(len(takeaway), 140)
+
     def test_scholar_lens_traces_one_paper_without_merging_citation_clocks(self) -> None:
         source = (PROJECTS_DIR / "scholar-lens.md").read_text(encoding="utf-8")
         trace = (REPO_ROOT / "_includes" / "scholar_story_trace.liquid").read_text(encoding="utf-8")
@@ -160,8 +202,8 @@ class SiteExperimentsTests(unittest.TestCase):
             "scholar_lens_data.metadata.totals_last_synced",
             "scholar_lens_data.metadata.total_citations",
             "Navigation context, not an impact score",
-            "does not infer paper quality, author contribution, causality, or reader interest",
-            "does not collect private Scholar history",
+            "they are not ratings of paper quality or author contribution",
+            "uses only public citation data",
             "Technical provenance and exact ledger",
             'data-evidence-kind="responsive-runtime-crop"',
             'data-evidence-source-commit="497b222662fa198ad5e6a43d2727cdb06ec3babf"',
@@ -282,13 +324,13 @@ class SiteExperimentsTests(unittest.TestCase):
             "Collapsed",
             "Moving",
             "Open",
-            "The first FLIP",
+            "The first in-place transition",
             "More signals, then less motion",
             "One cancelable clock",
             "Current anatomy, exact source history",
             'data-evidence-kind="annotated-current-state-anatomy"',
             'data-runtime-contract="9fa9403e4"',
-            "static, reduced-motion-safe anatomy",
+            "remains readable with reduced motion",
             "did not finish a build within a bounded four-minute run",
             'data-capture-viewport="not-retained"',
             "Full technical revision record",
@@ -330,7 +372,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_website_revamp_separates_archive_checkpoint_and_live_children(self) -> None:
         source = (PROJECTS_DIR / "website-revamp.md").read_text(encoding="utf-8")
         self.assertEqual(source.count('class="project-story-beat"'), 3)
-        self.assertIn("Archive, redesign, living system", source)
+        self.assertIn("Archive, redesign, ongoing experiments", source)
         self.assertIn('data-archive-wayback-timestamp="20260209013429"', source)
         self.assertIn('data-archive-site-commit="not-preserved"', source)
         self.assertIn('data-june-artifact-status="historical-checkpoint-not-current"', source)
@@ -365,7 +407,7 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual(source.count('class="project-story-beat"'), 3)
         self.assertIn('data-spooder-artwork-boundary="remix-material-not-history"', source)
         self.assertIn("Remix frames with a documented origin", source)
-        self.assertIn("The factual chronology lives in the origin beats above", source)
+        self.assertIn("These images are remix materials, not a version history", source)
         self.assertIn("Remix provenance and technical record", source)
         self.assertIn("Playful HCI Spooder-Man remix artwork from a set of city scenes, character lineups, and title cards", source)
         self.assertGreaterEqual(source.count("/projects/wall-of-rejection/"), 2)
@@ -437,11 +479,10 @@ class SiteExperimentsTests(unittest.TestCase):
             "GitHub cadence",
             "Site-token rhythm",
             "Lifetime checkpoint",
-            "Source histories and session-level details stay private",
+            "Earlier source-level history stays private",
             "The lesson I carried over was pacing",
             "Full technical revision record",
-            "source-level daily history retired from the public dataset",
-            "it documents interface anatomy",
+            "current chart uses only the public repo-scoped estimate",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
@@ -475,7 +516,7 @@ class SiteExperimentsTests(unittest.TestCase):
         for phrase in (
             "five accepted papers",
             "seven anonymous future nodes",
-            "nine canonical paths",
+            "nine connections",
             "Nadieh Bremer",
             "Visual Cinnamon",
             "John Thompson",

@@ -25,7 +25,7 @@ hide_title: true
       <span>Driver</span>
       <span>Passenger</span>
       <span>Spectator</span>
-      <span>AI-assisted prototyping</span>
+      <span>Live VRChat world</span>
     </div>
     <div class="project-case-actions">
       <a href="https://vrchat.com/home/launch?worldId=wrld_ef581bd6-9d93-457e-b6a3-7d7f297f1cab" target="_blank" rel="noopener noreferrer">Try it in VRChat</a>

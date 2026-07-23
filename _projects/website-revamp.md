@@ -13,12 +13,12 @@ site_experiment: true
 debut_date: 2026-05-23T18:37:36-07:00
 year: 2026
 role: Designer, writer, reviewer
-status: Living artifact system
+status: Living portfolio
 hide_title: true
 heuristics_preview: true
 research_motion:
-  eyebrow: Interactive artifact
-  title: Play with the motion system.
+  eyebrow: Research sketch
+  title: Try the research sketch.
   intro: "This is the same small research sketch from the homepage: change the research lens, then change the time-of-day theme to see how motion, color, and hierarchy stay connected."
   credit:
     text: Inspired by motion craft from
@@ -30,7 +30,7 @@ research_motion:
     - id: design
       label: Design
       title: Compare options
-      text: Turn possible directions into a comparison people can reason with.
+      text: Put several design options side by side so people can name what changed and choose what to test.
       detail_title: Human-AI for design and taste
       detail_text: >-
         This lens makes design options visible enough for students to compare what
@@ -43,7 +43,7 @@ research_motion:
     - id: evaluate
       label: Evaluate
       title: Build -> measure
-      text: Turn messy traces into evidence for the next design move.
+      text: Group traces, failures, and reactions so the next test starts from evidence.
       detail_title: Evidence before iteration
       detail_text: >-
         After someone uses the artifact, this lens asks which traces, failures, and
@@ -56,7 +56,7 @@ research_motion:
     - id: situated
       label: Situated
       title: Assist in context
-      text: Let assistance change shape around people, tasks, tools, and physical context.
+      text: Move help toward the current person, task, tool, and place.
       detail_title: Context changes the shape of help
       detail_text: This lens designs help around the people, tasks, tools, and spaces where the work actually happens.
       detail_points:
@@ -68,7 +68,7 @@ research_motion:
 
 <section class="project-case-hero website-revamp-hero">
   <div class="project-case-copy">
-    <p class="project-case-kicker">Personal site redesign · teaching artifact · living system</p>
+    <p class="project-case-kicker">Personal site redesign · teaching artifact · living portfolio</p>
     <h1>Vibe-Coding a Research Portfolio</h1>
     <p class="project-case-lede">
       My old site listed projects and papers, but it did not tell visitors what I was actually studying. I rebuilt the homepage around one research question, reviewed each pass in screenshots, and gave the most useful site experiments their own case studies and reusable briefs.
@@ -103,7 +103,7 @@ research_motion:
   </div>
 </section>
 
-## Archive, redesign, living system
+## Archive, redesign, ongoing experiments
 
 The two saved frames show where the redesign started and one later checkpoint. The live homepage shows where it is now.
 
@@ -119,7 +119,7 @@ The two saved frames show where the redesign started and one later checkpoint. T
     <p>The May redesign brought the research claim, affiliation, proof routes, and next actions together. A later PNG records the warmer paper-and-desk direction; the file last changed on June 16 at <a href="https://github.com/DylanTao/dylantao.github.io/commit/d5c6365099eb97f72c779cc6dd0e031de44d89ac"><code>d5c636509</code></a>, but its capture date was not recorded.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Living artifact system</p>
+    <p class="project-case-kicker">Ongoing experiments</p>
     <h3>Give each experiment its own page.</h3>
     <p>The homepage now points to separate stories for the desk, publication map, project-card motion, build evidence, rejection receipts, and Dogtor journey. The <a href="{{ '/' | relative_url }}">live route</a> is the current state; each screenshot is only a dated checkpoint.</p>
   </li>
@@ -164,7 +164,7 @@ The two saved frames show where the redesign started and one later checkpoint. T
 
 ## How I actually worked
 
-Codex made small implementation passes fast. I still decided what the page should say, inspected fixed screenshots as different visitors, and simplified anything that looked impressive but made the story harder to read.
+Codex made small implementation passes fast. I still decided what the page should say. I checked the same page at desktop, tablet, and mobile sizes, then asked what a research peer, student, or collaborator would understand first.
 
 Donald Schön describes a similar loop in [_The Reflective Practitioner_](https://www.hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner/9780465068784/): a designer acts, notices what the situation says back, and reframes the next move. Here, the rendered website was what talked back.
 
@@ -202,7 +202,7 @@ This page tells the overall redesign. Each experiment below has its own origin, 
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/build-rhythm/' | relative_url }}">Build Rhythm</a></h3>
-    <p>Cadence, the repo token rhythm, and one rounded lifetime checkpoint kept on separate clocks.</p>
+    <p>Weekly code activity, daily site-build tokens, and a dated lifetime total stay separate because they measure different things.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/paper-constellation/' | relative_url }}">Paper Constellation</a></h3>
@@ -210,15 +210,15 @@ This page tells the overall redesign. Each experiment below has its own origin, 
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/scholar-lens/' | relative_url }}">Scholar Lens</a></h3>
-    <p>One paper key coordinates its bibliography row, lifetime citation chip, and dated annual bars.</p>
+    <p>Select a paper and its row, citation total, and yearly bars highlight together.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/ikea-project-cards/' | relative_url }}">IKEA project cards</a></h3>
-    <p>One cancelable motion clock opens a project without losing the collection.</p>
+    <p>A project expands in place, then closes back to the same spot.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/wall-of-rejection/' | relative_url }}">Wall of Rejection</a></h3>
-    <p>A lab meme became a rejection-only receipt wall without a productivity score.</p>
+    <p>Open a badge to read the receipt behind each rejection.</p>
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/hci-spooder-man/' | relative_url }}">HCI Spooder-Man</a></h3>
@@ -226,7 +226,7 @@ This page tells the overall redesign. Each experiment below has its own origin, 
   </article>
   <article class="project-storyboard-step">
     <h3><a href="{{ '/projects/dogtor-portal/' | relative_url }}">Dogtor's portal</a></h3>
-    <p>A clue, a truthful fruit choice, recovery, and explicit location consent.</p>
+    <p>Follow the hidden clue, choose a fruit, and decide whether to share precise location.</p>
   </article>
 </nav>
 

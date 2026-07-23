@@ -39,7 +39,7 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Homepage desk experiment summary">
   <div><span>Why</span><p>I wanted the paper desk to feel like a place without making the quick 2D homepage slower to read.</p></div>
-  <div><span>What</span><p>A shared-state 2D collage and 3D room with the same records, papers, and discovery pile.</p></div>
+  <div><span>What</span><p>Two views of the same room, with the same records, papers, music, and discoveries.</p></div>
   <div><span>Try</span><p>Switch views, play a record, find a hidden card, and check that it is still there when you switch back.</p></div>
 </section>
 
@@ -47,7 +47,7 @@ hide_title: true
 
 I liked how quickly the 2D collage introduced the papers, portrait, and records, but I also wanted visitors to wander through that little world. The first 3D version copied the desk into a small stage. At ordinary screen sizes, furniture disappeared, dropped cards floated, rear turns exposed blank space, and the outside looked like a separate dollhouse.
 
-The fix was not more decoration. I reused the actual room under reciprocal inside and outside cameras, then kept the record player and discovery state shared with 2D.
+The fix was not more decoration. I made inside and outside two camera views of the same room, then shared the record player and discoveries with the 2D desk.
 
 ## Two eras, four frames
 
@@ -129,7 +129,7 @@ The labels record the model context for each era; this is a comparison of design
 <section class="project-case-summary desk-scene-outcomes" aria-label="Desk scene decisions after re-review">
   <div><span>Kept</span><p>The visible 2D | 3D switch, shared music and discoveries, paper-and-record identity, and clear ways to look outside and return.</p></div>
   <div><span>Cut</span><p>The shallow stage, hand-matched exterior miniature, floating-card recovery, and camera framing that hid the furniture.</p></div>
-  <div><span>Next</span><p>Keep the room shape, then improve the stone, lighting, material realism, and confidence on more real devices.</p></div>
+  <div><span>Next</span><p>Keep the room shape, then test the stone, lighting, materials, and controls on more phones and high-DPI laptops.</p></div>
 </section>
 
 <details class="project-story-disclosure site-experiment-technical-details">

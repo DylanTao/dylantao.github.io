@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Paper Constellation
-description: A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous.
+description: "A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous."
 img: assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light.png
 image_aspect: 4 / 3
 card_avoid_scaling: true
@@ -138,7 +138,7 @@ The first phone version simply compressed the atlas. Labels fought for the sides
 
 The mobile image is a literal 360 × 270 crop from a 390 × 1000 light-theme runtime at checkpoint <code>6832a6a05b5ff2b6c692bb3f5e3654a535e4401e</code>, with the constellation open and no paper pinned. The crop leaves out the sticky site navigation.
 
-On the live page, the trail keeps all three rails, five paper controls, seven anonymous future nodes, five secondary memberships, and all nine canonical paths. Select a paper and its detail opens directly below the row; press Escape to close it and return focus. Each control is at least 44 pixels. The paths redraw from measured anchors after a layout or font change, without moving the papers around.
+On the live page, select a paper to open its details below; press Escape to close it. The mobile trail keeps the same five papers, seven future nodes, and nine connections.
 
 <aside class="project-story-note project-story-note--privacy site-experiment-privacy-note" aria-labelledby="constellation-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
@@ -164,7 +164,7 @@ I carried over those interaction principles, not the royal-family data, visual l
       <li><strong>Graph contract:</strong> five accepted papers, seven anonymous future nodes (three major and four minor), three thread rails, five secondary memberships, and nine explicit nonzero edges.</li>
       <li><strong>Edge semantics:</strong> relationships mark reviewed conceptual or technical adjacency. HotSpot's Design–Situate bridge records graphics adjacency rather than an interaction-study claim.</li>
       <li><strong>Interaction contract:</strong> hover and focus preview; click or activation pins; Escape clears and restores focus; Scholar Lens filtering, citation-chip focus, and annual-bar focus stay synchronized.</li>
-      <li><strong>Layout contract:</strong> reviewed desktop coordinates and measured mobile anchors; no force simulation, random placement, or moving-node animation.</li>
+      <li><strong>Layout contract:</strong> reviewed desktop coordinates and measured mobile anchors; controls are at least 44 pixels, and a <code>ResizeObserver</code> redraws paths after layout or font changes without force simulation, random placement, or moving-node animation.</li>
     </ul>
   </div>
 </details>

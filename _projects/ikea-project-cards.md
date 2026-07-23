@@ -54,7 +54,7 @@ hide_title: true
 <section class="project-case-summary" aria-label="IKEA card experiment summary">
   <div><span>Why</span><p>Opening a separate page made it too easy to lose the collection and forget which project you had chosen.</p></div>
   <div><span>What</span><p>The selected card expands inside the grid while the neighboring projects remain visible.</p></div>
-  <div><span>What changed</span><p>The first version squeezed and zoomed content. The current one uses a single cancelable translation and one reliable final state.</p></div>
+  <div><span>What changed</span><p>The first version squeezed the text and images. Now the card moves without scaling, and interrupted clicks settle cleanly.</p></div>
 </section>
 
 ## Why opening in place mattered
@@ -107,7 +107,7 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
       <p>The selected story gets more room while its neighbors keep the collection visible. Close, Escape, and focus return all end at the same card.</p>
     </div>
   </div>
-  <figcaption>A static, reduced-motion-safe anatomy of the accepted <code>9fa9403e4</code> interaction contract.</figcaption>
+  <figcaption>Static diagram of the current <code>9fa9403e4</code> interaction; it remains readable with reduced motion.</figcaption>
 </figure>
 
 ## What changed
@@ -115,7 +115,7 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
 <ol class="project-story-beats" aria-label="Project card motion evolution">
   <li class="project-story-beat">
     <p class="project-case-kicker">First build · <code>15d94c048</code></p>
-    <h3>The first FLIP</h3>
+    <h3>The first in-place transition</h3>
     <p>The first pass measured every card before and after opening, then translated and scaled the whole card toward its old rectangle. People could follow which card opened, but the scaling squeezed its text and images.</p>
   </li>
   <li class="project-story-beat">
@@ -133,7 +133,7 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
 <aside class="project-story-note" aria-labelledby="ikea-evidence-boundary-title">
   <p class="project-case-kicker">Evidence boundary</p>
   <h3 id="ikea-evidence-boundary-title">Current anatomy, exact source history</h3>
-  <p>The May 27 build could not be replayed faithfully, so this page pairs a reduced-motion anatomy of the accepted interaction with its exact source history.</p>
+  <p>The May 27 build would not replay faithfully, so these diagrams show how the current card works and the commit list below documents the earlier changes.</p>
 </aside>
 
 <details class="project-story-disclosure">
