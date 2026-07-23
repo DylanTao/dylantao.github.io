@@ -1,8 +1,8 @@
 {
   "schema": 3,
   "combined_lifetime": {
-    "token_count": 48800000000,
-    "tokens_label": "48.8B",
+    "token_count": 48900000000,
+    "tokens_label": "48.9B",
     "units": "tokens",
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
@@ -10,7 +10,7 @@
   },
   "method": "rounded_sum_of_verified_account_lifetime_readings",
   "confidence": "high",
-  "observed_on": "2026-07-22",
-  "updated_at": "2026-07-22T14:02:30.599337Z",
+  "observed_on": "2026-07-23",
+  "updated_at": "2026-07-23T00:02:49.015599Z",
   "automated_refresh": true
 }
