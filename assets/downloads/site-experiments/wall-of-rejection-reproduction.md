@@ -27,6 +27,7 @@ Each event should have a type, source label, public status, date, and optional e
 - Recompute displayed totals from unique events.
 - Verify combo and milestone badges add zero points.
 - Verify every badge has a readable receipt and public evidence boundary.
+- Record the source commit, capture date, viewport, theme, browser, and interaction state for every static runtime artifact.
 - Verify light, dark, keyboard, mobile, reduced-motion, and no-JavaScript reading states.
 
 ## Copy-ready coding-agent prompt
