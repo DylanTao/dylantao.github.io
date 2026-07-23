@@ -57,11 +57,11 @@ github_activity: true
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
             <span data-build-rhythm-story-label>THE WHOLE RHYTHM</span>
-            <span data-build-rhythm-story-scope>5 YEARS + DAILY REPO TOKENS + LIFETIME TOTAL</span>
+            <span data-build-rhythm-story-scope>COMMITS + LINES + LIFETIME TOKENS</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Five years, week by week; this site's daily token trace; and the latest rounded lifetime checkpoint.
+            Five years of weekly code activity beside one dated, rounded lifetime token snapshot.
           </p>
         </div>
       </div>
@@ -103,16 +103,13 @@ github_activity: true
           </p>
         </article>
 
-        <article class="build-rhythm-story-step" data-build-rhythm-step="lifetime">
-          <p class="build-rhythm-story-step-number">05 · ZOOM OUT</p>
-          <h3>Finally, I zoom out to lifetime use.</h3>
-          <p>For the widest view, I keep one dated, rounded lifetime checkpoint.</p>
-        </article>
-
         <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">06 · YOUR TURN</p>
-          <h3>Now poke at the weeks yourself.</h3>
-          <p>Change the range or scale, move week by week with the keyboard, or open the exact table when a spike catches your eye.</p>
+          <p class="build-rhythm-story-step-number">05 · YOUR TURN</p>
+          <h3>Now read the whole rhythm yourself.</h3>
+          <p>
+            Change the range or scale, move week by week with the keyboard, and keep the final rail in view: it is one dated lifetime
+            snapshot, not a made-up history.
+          </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
       </div>
@@ -169,26 +166,23 @@ github_activity: true
             <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
           </span>
         </p>
-        {% if direct_tracker.schema == 3 and combined_lifetime %}
+        {% if direct_tracker.schema >= 3 and combined_lifetime %}
           <div
             class="github-activity-lifetime-inline"
             data-codex-usage
             data-state="loading"
             data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
-            aria-label="Separate lifetime Codex snapshot"
+            aria-label="Lifetime token rail metadata"
             aria-describedby="github-activity-lifetime-status"
             aria-busy="true"
           >
-            <p class="github-activity-lifetime-value">
-              <span>LIFETIME CODEX SNAPSHOT</span>
-              <strong data-codex-lifetime data-format="readable">{{ combined_lifetime.tokens_label }} tokens</strong>
-            </p>
+            <span class="sr-only" data-codex-lifetime data-format="readable">{{ combined_lifetime.tokens_label }} tokens</span>
             <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
-              Observed
+              Lifetime rail: one rounded snapshot observed
               <time data-codex-observed datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time>.
             </p>
             <p class="github-activity-lifetime-cost" data-codex-cost hidden>
-              <span data-codex-cost-value></span> rough API-rate replay at this site's current blended rate; not an actual bill.
+              Burned <span data-codex-cost-value></span> of Sam's imaginary money &middot; public API-rate replay, not a bill.
             </p>
           </div>
         {% endif %}
@@ -203,7 +197,9 @@ github_activity: true
     </div>
 
     <div class="github-activity-chart-shell">
-      <h2 class="sr-only" id="github-activity-chart-title">Weekly GitHub commits, additions, and deletions</h2>
+      <h2 class="sr-only" id="github-activity-chart-title">
+        Weekly GitHub commits, additions and deletions, plus one dated lifetime token snapshot
+      </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
         Hover or click to inspect a week. Drag horizontally to select a range. With keyboard focus, use arrow keys to inspect, Shift plus
         an arrow key to extend a range, Home or End to jump, Page Up or Page Down to move four weeks, and Escape to clear a selection.

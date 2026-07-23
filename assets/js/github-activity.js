@@ -237,13 +237,14 @@
     const storyRoot = document.querySelector("[data-build-rhythm-story]");
     if (!storyRoot || !githubRows.length || !tokenRows.length) return;
 
+    const stageWrap = storyRoot.querySelector(".build-rhythm-story-stage-wrap");
     const stage = storyRoot.querySelector("[data-build-rhythm-story-stage]");
     const chart = storyRoot.querySelector("[data-build-rhythm-story-chart]");
     const sceneLabel = storyRoot.querySelector("[data-build-rhythm-story-label]");
     const sceneScope = storyRoot.querySelector("[data-build-rhythm-story-scope]");
     const sceneReadout = storyRoot.querySelector("[data-build-rhythm-story-readout]");
     const steps = Array.from(storyRoot.querySelectorAll("[data-build-rhythm-step]"));
-    if (!stage || !chart || !sceneLabel || !sceneScope || !sceneReadout || !steps.length) return;
+    if (!stageWrap || !stage || !chart || !sceneLabel || !sceneScope || !sceneReadout || !steps.length) return;
 
     const compactQuery = window.matchMedia("(max-width: 820px)");
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -259,6 +260,7 @@
     let storyVisible = true;
     let stepObserver = null;
     let rootObserver = null;
+    let stageResizeObserver = null;
 
     const isStaticStory = () => compactQuery.matches || reducedMotionQuery.matches || !("IntersectionObserver" in window);
     const palette = () => {
@@ -388,33 +390,6 @@
       return drawTokenRhythm(group, tokenRows, width, height, colors);
     };
 
-    const drawLifetime = (group, width, height, colors) => {
-      const left = width < 620 ? 46 : 54;
-      if (!codexSource?.combined_lifetime) {
-        addText(group, "LIFETIME CODEX TOTAL UNAVAILABLE", left, 28, { color: colors.accent, weight: 700 });
-        addText(group, "No substitute observation is shown.", left, 66, { color: colors.muted });
-        return "The direct lifetime Codex snapshot is unavailable. No substitute observation is shown.";
-      }
-      addText(group, "LIFETIME CODEX SNAPSHOT \u00b7 ROUNDED", left, 24, {
-        color: colors.accent,
-        weight: 700,
-      });
-      addText(group, codexSource.combined_lifetime.tokens_label, left, Math.min(112, height * 0.38), {
-        color: colors.text,
-        weight: 700,
-        size: width < 620 ? 34 : 48,
-      });
-      addText(group, "COMBINED LIFETIME CODEX TOKENS", left, Math.min(142, height * 0.5), {
-        color: colors.muted,
-        weight: 700,
-      });
-      const observed = fullDate.format(new Date(`${codexSource.observed_on}T00:00:00Z`));
-      addText(group, `Observed ${observed} \u00b7 rounded before publication`, left, height - 24, {
-        color: colors.muted,
-      });
-      return `${codexSource.combined_lifetime.tokens_label} combined lifetime Codex tokens \u00b7 observed ${observed}.`;
-    };
-
     const drawComplete = (group, width, height, colors) => {
       const compact = width < 620;
       const left = compact ? 58 : 64;
@@ -472,51 +447,61 @@
         signed: true,
       });
 
-      const tokenTop = lineBottom + 30;
-      const tokenBottom = Math.max(tokenTop + 44, height * 0.79);
-      const latestToken = tokenRows.at(-1);
-      const tokenScale = niceLinearScale(latestToken.tokenCount, compact ? 1 : 2);
-      addText(group, compact ? "SITE TOKENS \u00b7 ESTIMATE" : "SITE TOKENS \u00b7 CUMULATIVE ESTIMATE", left, tokenTop - 10, {
-        color: colors.muted,
+      const lifetimeTop = lineBottom + 44;
+      const lifetimeBottom = height - 20;
+      const lifetimeRailLeft = left + (width - left - right) * (compact ? 0.48 : 0.64);
+      addText(group, compact ? "LIFETIME \u00b7 SNAPSHOT" : "LIFETIME TOKENS \u00b7 ONE DATED SNAPSHOT, NOT HISTORY", left, lifetimeTop - 12, {
+        color: colors.accent,
         weight: 700,
       });
-      addText(group, latestToken.tokensLabel, width - right, tokenTop - 10, {
-        anchor: "end",
-        color: colors.text,
-        weight: 700,
-      });
-      const tokenSeries = drawSeries(
-        group,
-        tokenRows,
-        (row) => row.tokenCount,
-        { left, right: width - right, top: tokenTop, bottom: tokenBottom },
-        { color: colors.added, maximum: tokenScale.domainMaximum, scale: "linear", strokeWidth: 1.8 }
-      );
-      drawYAxis(group, {
-        name: "story-complete-tokens",
-        ticks: compact ? [0, tokenScale.domainMaximum] : [0, ...tokenScale.ticks],
-        y: tokenSeries.y,
-        left,
-        right: width - right,
-        colors,
-      });
-
-      const codexTop = tokenBottom + 30;
-      addText(group, "LIFETIME CODEX \u00b7 ROUNDED", left, codexTop - 10, { color: colors.accent, weight: 700 });
       if (codexSource?.combined_lifetime) {
-        addText(group, `${codexSource.combined_lifetime.tokens_label} combined lifetime`, left, Math.min(height - 8, codexTop + 18), {
+        const tokenCount = codexSource.combined_lifetime.token_count;
+        const valueY = lifetimeTop + 14;
+        const tokenY = (value) => (value === 0 ? lifetimeBottom : valueY);
+        drawYAxis(group, {
+          name: "story-complete-tokens",
+          ticks: [0, tokenCount],
+          y: tokenY,
+          left: lifetimeRailLeft,
+          right: width - right,
+          colors,
+          format: (value) => (value === 0 ? "0" : codexSource.combined_lifetime.tokens_label),
+        });
+        group.append(
+          svgElement("line", {
+            class: "build-rhythm-lifetime-snapshot-line",
+            x1: lifetimeRailLeft,
+            y1: valueY,
+            x2: width - right,
+            y2: valueY,
+            stroke: colors.accent,
+            "stroke-width": 2,
+          }),
+          svgElement("circle", {
+            class: "build-rhythm-lifetime-snapshot-marker",
+            cx: width - right,
+            cy: valueY,
+            r: compact ? 3.5 : 4,
+            fill: colors.surface,
+            stroke: colors.accent,
+            "stroke-width": 2,
+          })
+        );
+        addText(group, `${codexSource.combined_lifetime.tokens_label} tokens`, width - right, lifetimeTop - 12, {
+          anchor: "end",
           color: colors.text,
           weight: 700,
         });
       } else {
-        addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, Math.min(height - 8, codexTop + 18), {
+        addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, lifetimeTop + 18, {
           color: colors.muted,
         });
       }
       const lifetime = codexSource?.combined_lifetime?.tokens_label;
+      const observed = codexSource?.observed_on ? fullDate.format(new Date(`${codexSource.observed_on}T00:00:00Z`)) : null;
       return lifetime
-        ? `Five years, week by week \u00b7 ${latestToken.tokensLabel} estimated for this site \u00b7 ${lifetime} lifetime.`
-        : `Five years, week by week \u00b7 ${latestToken.tokensLabel} estimated for this site \u00b7 lifetime checkpoint unavailable.`;
+        ? `Five years, week by week \u00b7 commits and line movement \u00b7 ${lifetime} lifetime snapshot observed ${observed}.`
+        : "Five years, week by week \u00b7 commits and line movement \u00b7 lifetime snapshot unavailable.";
     };
 
     const metadata = {
@@ -524,9 +509,20 @@
       magnitude: { label: "HOW MUCH MOVED", scope: "5 YEARS \u00b7 WEEKLY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
       tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
-      lifetime: { label: "ZOOM OUT", scope: "LIFETIME \u00b7 ROUNDED" },
-      explore: { label: "YOUR TURN", scope: "GITHUB EXPLORER BELOW" },
-      complete: { label: "THE WHOLE RHYTHM", scope: "5 YEARS + DAILY SITE TOKENS + LIFETIME TOTAL" },
+      explore: { label: "YOUR TURN", scope: "COMMITS + LINES + LIFETIME TOKENS" },
+      complete: { label: "THE WHOLE RHYTHM", scope: "COMMITS + LINES + LIFETIME TOKENS" },
+    };
+
+    const syncStageOffset = () => {
+      if (isStaticStory()) {
+        stageWrap.style.removeProperty("--build-rhythm-sticky-top");
+        return;
+      }
+      const navBottom = Math.max(0, document.querySelector("nav")?.getBoundingClientRect().bottom || 0);
+      const usableHeight = Math.max(0, window.innerHeight - navBottom);
+      const stageHeight = stage.getBoundingClientRect().height;
+      const centeredTop = navBottom + (usableHeight - stageHeight) / 2;
+      stageWrap.style.setProperty("--build-rhythm-sticky-top", `${Math.round(Math.max(navBottom + 12, centeredTop))}px`);
     };
 
     const renderScene = (scene) => {
@@ -541,7 +537,6 @@
       else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
       else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
       else if (targetScene === "tokens") readout = drawTokens(group, width, height, colors);
-      else if (targetScene === "lifetime") readout = drawLifetime(group, width, height, colors);
       else readout = drawComplete(group, width, height, colors);
 
       const copy = metadata[scene] || metadata.complete;
@@ -550,13 +545,22 @@
       sceneReadout.textContent = readout;
       stage.dataset.scene = scene;
       renderedScene = scene;
+      requestAnimationFrame(syncStageOffset);
+    };
+
+    const resetTransitionStyles = () => {
+      stage.style.opacity = "1";
+      chart.style.opacity = "1";
+      chart.style.transform = "translateY(0)";
+      sceneReadout.style.opacity = "1";
+      sceneReadout.style.transform = "translateY(0)";
     };
 
     const finishTransition = (scene) => {
       if (transitionFrame) cancelAnimationFrame(transitionFrame);
       transitionFrame = 0;
       pendingScene = null;
-      stage.style.opacity = "1";
+      resetTransitionStyles();
       stage.dataset.transitioning = "false";
       if (renderedScene !== scene) renderScene(scene);
     };
@@ -566,7 +570,7 @@
       transitionFrame = 0;
       const target = pendingScene;
       pendingScene = null;
-      stage.style.opacity = "1";
+      resetTransitionStyles();
       stage.dataset.transitioning = "false";
       if (settle && target && renderedScene !== target) renderScene(target);
     };
@@ -582,24 +586,20 @@
 
       pendingScene = scene;
       stage.dataset.transitioning = "true";
+      renderScene(scene);
       const startedAt = performance.now();
-      const duration = 320;
-      let swapped = false;
+      const duration = 240;
       const tick = (now) => {
         if (!storyVisible) {
           finishTransition(scene);
           return;
         }
         const progress = clamp((now - startedAt) / duration, 0, 1);
-        if (progress < 0.42) {
-          stage.style.opacity = String(1 - (progress / 0.42) * 0.72);
-        } else {
-          if (!swapped) {
-            renderScene(scene);
-            swapped = true;
-          }
-          stage.style.opacity = String(0.28 + ((progress - 0.42) / 0.58) * 0.72);
-        }
+        const eased = 1 - (1 - progress) ** 3;
+        chart.style.opacity = String(0.38 + eased * 0.62);
+        chart.style.transform = `translateY(${((1 - eased) * 6).toFixed(2)}px)`;
+        sceneReadout.style.opacity = String(0.55 + eased * 0.45);
+        sceneReadout.style.transform = `translateY(${((1 - eased) * 3).toFixed(2)}px)`;
         if (progress < 1) transitionFrame = requestAnimationFrame(tick);
         else finishTransition(scene);
       };
@@ -607,11 +607,12 @@
     };
 
     const nearestStep = () => {
-      const viewportCenter = window.innerHeight * 0.5;
+      const stageBox = stage.getBoundingClientRect();
+      const stageCenter = (stageBox.top + stageBox.bottom) / 2;
       return steps
         .map((step) => {
           const box = step.getBoundingClientRect();
-          return { distance: Math.abs((box.top + box.bottom) / 2 - viewportCenter), step };
+          return { distance: Math.abs((box.top + box.bottom) / 2 - stageCenter), step };
         })
         .sort((a, b) => a.distance - b.distance)[0]?.step;
     };
@@ -646,6 +647,7 @@
       const staticStory = isStaticStory();
       storyRoot.dataset.storyStatic = String(staticStory);
       cancelTransition({ settle: false });
+      syncStageOffset();
       connectStepObserver();
       if (staticStory) transitionTo("complete", { animate: false });
       else activateStep(nearestStep(), { animate: false });
@@ -673,14 +675,22 @@
 
     codexSourcePromise.then((source) => {
       codexSource = source;
-      if (renderedScene === "lifetime" || renderedScene === "complete" || renderedScene === "explore") renderScene(renderedScene);
+      if (renderedScene === "complete" || renderedScene === "explore") renderScene(renderedScene);
     });
+    if ("ResizeObserver" in window) {
+      stageResizeObserver = new ResizeObserver(() => {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(syncStageOffset);
+      });
+      stageResizeObserver.observe(stage);
+    }
     [compactQuery, reducedMotionQuery].forEach((query) => query.addEventListener("change", refreshMode));
     window.addEventListener("resize", () => {
       cancelAnimationFrame(resizeFrame);
       resizeFrame = requestAnimationFrame(() => {
         refreshMode();
         renderScene(isStaticStory() ? "complete" : activeScene);
+        syncStageOffset();
       });
     });
     new MutationObserver(() => {
@@ -1035,6 +1045,8 @@
   });
   let range = "5";
   let scale = "log";
+  let codexSource = null;
+  let codexSourceSettled = false;
   const codexSourcePromise = initCodexUsageSnapshot(() => scale);
   let selectedIndex = rows.length - 1;
   let pinnedIndex = selectedIndex;
@@ -1146,12 +1158,19 @@
     const narrow = width < 620;
     const left = narrow ? 66 : 82;
     const right = narrow ? 12 : 22;
-    const bottom = narrow ? 46 : 52;
+    const bottom = 16;
+    const lifetimeBandHeight = narrow ? 92 : 104;
+    const lifetimeGap = narrow ? 32 : 38;
     const commitTop = 42;
     const commitHeight = Math.max(92, Math.min(118, height * 0.19));
     const commitBottom = commitTop + commitHeight;
     const lineTop = commitBottom + (narrow ? 58 : 64);
-    const lineBottom = height - bottom;
+    const lineBottom = height - bottom - lifetimeBandHeight - lifetimeGap;
+    const yearLabelY = lineBottom + (narrow ? 24 : 28);
+    const lifetimeHeadingY = yearLabelY + (narrow ? 27 : 32);
+    const lifetimeValueY = lifetimeHeadingY + 20;
+    const lifetimeBaselineY = height - bottom;
+    const lifetimeRailLeft = left + (width - left - right) * (narrow ? 0.48 : 0.64);
     const plotTop = commitTop;
     const baseline = (lineTop + lineBottom) / 2;
     const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
@@ -1266,11 +1285,11 @@
       yearTicks.add(year);
       const xx = x(row.date);
       grid.append(svgElement("line", { x1: xx, y1: plotTop, x2: xx, y2: lineBottom, stroke: palette.grid, "stroke-width": 1 }));
-      addText(grid, String(year), xx, height - 15, { anchor: "middle", color: palette.muted });
+      addText(grid, String(year), xx, yearLabelY, { anchor: "middle", color: palette.muted });
     });
     if (yearTicks.size < 2) {
-      addText(grid, data[0].week, left, height - 15, { color: palette.muted });
-      addText(grid, data.at(-1).week, width - right, height - 15, { anchor: "end", color: palette.muted });
+      addText(grid, data[0].week, left, yearLabelY, { color: palette.muted });
+      addText(grid, data.at(-1).week, width - right, yearLabelY, { anchor: "end", color: palette.muted });
     }
     chart.append(grid);
     addText(chart, `COMMITS / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 20, {
@@ -1365,6 +1384,60 @@
         "stroke-linecap": "round",
       })
     );
+
+    addText(chart, narrow ? "LIFETIME \u00b7 SNAPSHOT" : "LIFETIME TOKENS \u00b7 ONE DATED SNAPSHOT, NOT HISTORY", left, lifetimeHeadingY, {
+      color: palette.accent,
+      weight: 700,
+      className: "github-activity-lifetime-heading",
+    });
+    if (codexSource?.combined_lifetime) {
+      const tokenCount = codexSource.combined_lifetime.token_count;
+      const readableLabel = `${codexSource.combined_lifetime.tokens_label} tokens`;
+      const displayLabel = scale === "linear" ? `${number.format(tokenCount)} tokens` : readableLabel;
+      const tokenY = (value) => (value === 0 ? lifetimeBaselineY : lifetimeValueY);
+      drawYAxis(chart, {
+        name: "github-lifetime-snapshot",
+        ticks: [0, tokenCount],
+        y: tokenY,
+        left: lifetimeRailLeft,
+        right: width - right,
+        colors: palette,
+        format: (value) => (value === 0 ? "0" : scale === "linear" ? number.format(value) : codexSource.combined_lifetime.tokens_label),
+      });
+      chart.append(
+        svgElement("line", {
+          class: "github-activity-lifetime-snapshot-line",
+          x1: lifetimeRailLeft,
+          y1: lifetimeValueY,
+          x2: width - right,
+          y2: lifetimeValueY,
+          stroke: palette.accent,
+          "stroke-width": 2,
+        }),
+        svgElement("circle", {
+          class: "github-activity-lifetime-snapshot-marker",
+          cx: width - right,
+          cy: lifetimeValueY,
+          r: narrow ? 3.8 : 4.3,
+          fill: palette.surface,
+          stroke: palette.accent,
+          "stroke-width": 2.1,
+        })
+      );
+      addText(chart, displayLabel, width - right, lifetimeHeadingY, {
+        anchor: "end",
+        color: palette.text,
+        weight: 700,
+        className: "github-activity-lifetime-value",
+      });
+    } else {
+      addText(chart, codexSourceSettled ? "Snapshot unavailable" : "Snapshot loading", width - right, lifetimeHeadingY, {
+        anchor: "end",
+        color: palette.muted,
+        weight: 650,
+        className: "github-activity-lifetime-value",
+      });
+    }
 
     const peakGuide = svgElement("line", {
       class: "github-activity-peak-guide",
@@ -1604,6 +1677,12 @@
     if (restoreKeyboardFocus) overlay.focus({ preventScroll: true });
   };
 
+  codexSourcePromise.then((source) => {
+    codexSourceSettled = true;
+    codexSource = source;
+    drawChart();
+  });
+
   root.addEventListener(
     "pointerdown",
     () => {
@@ -1664,7 +1743,7 @@
 
   updated.dateTime = source.generatedAt;
   updated.textContent = String(source.generatedAt).slice(0, 10);
-  chartTitle.textContent = "Weekly GitHub commits, additions, and deletions";
+  chartTitle.textContent = "Weekly GitHub commits, additions and deletions, plus one dated lifetime token snapshot";
   setPressedState();
   drawChart();
   initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });

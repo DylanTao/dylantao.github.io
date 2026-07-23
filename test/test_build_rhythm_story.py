@@ -38,7 +38,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
         self.assertEqual(
             steps,
-            ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"],
+            ["cadence", "magnitude", "bursts", "tokens", "explore"],
         )
         self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
         self.assertLess(
@@ -108,8 +108,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "First, I look for the bursts.",
             "Commit count tells me when. Line changes tell me how much.",
             "One giant week was flattening everything else.",
-            "Finally, I zoom out to lifetime use.",
-            "Now poke at the weeks yourself.",
+            "Now read the whole rhythm yourself.",
+            "one dated lifetime",
+            "snapshot, not a made-up history.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
@@ -163,9 +164,11 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('@media (min-width: 821px) and (max-height: 720px)', self.style)
         self.assertIn('@media (prefers-reduced-motion: reduce)', self.style)
         self.assertIn('.build-rhythm-story-chart', self.style)
-        self.assertIn('grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 0.65fr);', self.style)
-        self.assertIn('height: clamp(23rem, 35vw, 28rem);', self.style)
-        self.assertIn('min-height: calc(100vh - 5.75rem);', self.style)
+        self.assertIn('grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.42fr);', self.style)
+        self.assertIn('height: clamp(25rem, 40vw, 32rem);', self.style)
+        self.assertIn('top: var(--build-rhythm-sticky-top, 4.75rem);', self.style)
+        self.assertIn('min-height: clamp(24rem, 70vh, 38rem);', self.style)
+        self.assertIn('will-change: opacity, transform;', self.style)
         self.assertIn('.github-activity-token-evidence .github-activity-table', self.style)
         self.assertIn('.github-activity-token-evidence summary:focus-visible', self.style)
         self.assertIn('min-width: 38rem;', self.style)
@@ -205,19 +208,26 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-lifetime-inline"'),
             self.page.index('data-jump-latest'),
         )
-        self.assertIn('aria-label="Separate lifetime Codex snapshot"', self.page)
+        self.assertIn('aria-label="Lifetime token rail metadata"', self.page)
         self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
-        self.assertIn('data-codex-lifetime data-format="readable"', self.page)
+        self.assertIn('class="sr-only" data-codex-lifetime data-format="readable"', self.page)
         self.assertIn("initCodexUsageSnapshot(() => scale)", self.script)
         self.assertIn("renderCodexUsageScale(readScale());", self.script)
         self.assertIn("renderCodexUsageScale(scale);", self.script)
         self.assertIn('lifetime.dataset.format = literal ? "literal" : "readable";', self.script)
         self.assertIn('`${number.format(source.combined_lifetime.token_count)} tokens`', self.script)
+        self.assertIn('class: "github-activity-lifetime-snapshot-line"', self.script)
+        self.assertIn('name: "github-lifetime-snapshot"', self.script)
+        self.assertIn("ONE DATED SNAPSHOT, NOT HISTORY", self.script)
+        self.assertIn("let codexSourceSettled = false;", self.script)
+        self.assertIn('codexSourceSettled ? "Snapshot unavailable" : "Snapshot loading"', self.script)
+        self.assertIn("scale === \"linear\" ? number.format(value)", self.script)
+        self.assertIn("render only a short endpoint rail outside the weekly time axis", self.heuristics)
 
     def test_lifetime_cost_replay_is_schema4_sanitized_and_caveated(self) -> None:
         self.assertIn('class="github-activity-lifetime-cost" data-codex-cost hidden', self.page)
         self.assertIn(
-            "rough API-rate replay at this site's current blended rate; not an actual bill.",
+            "Burned <span data-codex-cost-value></span> of Sam's imaginary money &middot; public API-rate replay, not a bill.",
             self.page,
         )
         self.assertIn('data-codex-cost-value', self.page)
@@ -289,8 +299,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for retired in ("per-account", "gmail", "ucsd email"):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page.lower())
-        self.assertIn("LIFETIME CODEX SNAPSHOT", self.page)
-        self.assertIn("Observed", self.page)
+        self.assertIn("Lifetime rail", self.page)
+        self.assertIn("data-codex-observed", self.page)
         self.assertNotIn("automatic refresh pending", self.page)
 
     def test_automated_lifetime_snapshot_accepts_only_the_canonical_confidence(self) -> None:

@@ -326,11 +326,9 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   const githubScope = page.locator("[data-github-scope]");
   await expect(githubScope).toHaveText("5 YEARS · WEEKLY");
   await expect(page.locator("[data-codex-lifetime]")).toHaveText("32.8B tokens");
-  await expect(codexTrend.locator("[data-codex-status]")).toContainText("Observed");
+  await expect(codexTrend.locator("[data-codex-status]")).toContainText(/observed/i);
   await expect(codexTrend.locator("[data-codex-status]")).toContainText("Jul 16, 2026");
-  await expect(codexTrend.locator("[data-codex-cost]")).toHaveText(
-    "~$25.9K rough API-rate replay at this site's current blended rate; not an actual bill."
-  );
+  await expect(codexTrend.locator("[data-codex-cost]")).toHaveText("Burned ~$25.9K of Sam's imaginary money · public API-rate replay, not a bill.");
   await expect(codexTrend).not.toContainText(/quota health|accounts healthy|1 of 2 accounts|resets? (?:at|in)|API-cost estimate/i);
 
   const commitPath = page.locator(".github-activity-commit-line");

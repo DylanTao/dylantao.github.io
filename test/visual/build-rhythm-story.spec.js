@@ -63,6 +63,9 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const endpointResponse = await page.request.get(publicRouteUrl("/assets/data/build-rhythm-token-rhythm.json"));
   expect(endpointResponse.ok()).toBe(true);
   expect(await endpointResponse.json()).toEqual(tokenSource);
+  const lifetimeResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
+  expect(lifetimeResponse.ok()).toBe(true);
+  const lifetimePayload = await lifetimeResponse.json();
 
   const tokenRhythm = page.locator("[data-token-rhythm]");
   const tokenRhythmChart = page.locator("[data-token-rhythm-chart]");
@@ -94,6 +97,16 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await tokenDetailsSummary.click();
   await expect(tokenDetails).toHaveAttribute("open", "");
   await expect(tokenRhythm).toContainText("the running total above and each day's increase below");
+  const lifetimeRail = page.locator(".github-activity-lifetime-snapshot-line");
+  await expect(lifetimeRail).toHaveCount(1);
+  const lifetimeAxis = page.locator('[data-build-rhythm-y-axis="github-lifetime-snapshot"]');
+  await expect(lifetimeAxis).toHaveCount(1);
+  const lifetimeRailGeometry = await lifetimeRail.evaluate((line) => ({
+    length: Number(line.getAttribute("x2")) - Number(line.getAttribute("x1")),
+    chartWidth: line.ownerSVGElement.viewBox.baseVal.width,
+  }));
+  expect(lifetimeRailGeometry.length).toBeGreaterThan(80);
+  expect(lifetimeRailGeometry.length).toBeLessThan(lifetimeRailGeometry.chartWidth * 0.55);
 
   await expect(story).toContainText("Commit count tells me when. Line changes tell me how much.");
   await expect(story).toContainText("One giant week was flattening everything else.");
@@ -111,7 +124,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(3);
     await expectReadableAxes(chart, 12);
     await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
-    await expect(stage).toContainText(latestTokenLabel);
+    await expect(stage).toContainText(lifetimePayload.combined_lifetime.tokens_label);
     if (viewportWidth <= 420) {
       await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
       const tokenTableOverflow = await tokenTableRegion.evaluate((element) => element.scrollWidth - element.clientWidth);
@@ -119,8 +132,8 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     }
   } else {
     await expect(story).toHaveAttribute("data-story-static", "false");
-    const sceneAxisCounts = { cadence: 1, magnitude: 1, bursts: 2, tokens: 2, lifetime: 0, explore: 3 };
-    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "lifetime", "explore"]) {
+    const sceneAxisCounts = { cadence: 1, magnitude: 1, bursts: 2, tokens: 2, explore: 3 };
+    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "explore"]) {
       const step = page.locator(`[data-build-rhythm-step="${scene}"]`);
       await step.scrollIntoViewIfNeeded();
       await expect(step).toHaveClass(/is-active/);
@@ -154,8 +167,12 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         expect(geometry.stageTop).toBeGreaterThanOrEqual(0);
         expect(geometry.stageBottom).toBeLessThanOrEqual((page.viewportSize()?.height || 0) + 1);
         expect(geometry.stepsWidth).toBeGreaterThanOrEqual(319);
-        expect(geometry.chartHeight).toBeGreaterThanOrEqual(368);
-        expect(geometry.chartHeight).toBeLessThanOrEqual(449);
+        expect(geometry.chartHeight).toBeGreaterThanOrEqual(400);
+        expect(geometry.chartHeight).toBeLessThanOrEqual(513);
+      }
+      if (scene === "explore") {
+        await expect(chart).toContainText("LIFETIME TOKENS");
+        await expect(chart).not.toContainText("SITE TOKENS");
       }
     }
   }
@@ -163,14 +180,21 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow, `${viewportWidth}px Build Rhythm page overflows`).toBeLessThanOrEqual(1);
   await expect(page.getByRole("button", { name: "Readable", exact: true })).toHaveAttribute("aria-pressed", "true");
+  const literalLifetimeLabel = new Intl.NumberFormat("en-US").format(lifetimePayload.combined_lifetime.token_count);
+  await page.getByRole("button", { name: "Literal", exact: true }).click();
+  await expect(lifetimeAxis.locator(".build-rhythm-axis-tick").filter({ hasText: literalLifetimeLabel })).toHaveCount(1);
+  await page.getByRole("button", { name: "Readable", exact: true }).click();
   await expect(page.locator("#github-activity-table-body")).toBeAttached();
   await attachScreenshot(page, testInfo, `build-rhythm-persistent-tokens-${testInfo.project.name}`, { locator: tokenRhythm });
+  await attachScreenshot(page, testInfo, `build-rhythm-explorer-${testInfo.project.name}`, {
+    locator: page.locator(".github-activity-workbench"),
+  });
   await attachScreenshot(page, testInfo, `build-rhythm-stage-${testInfo.project.name}`, { locator: stage });
   await attachScreenshot(page, testInfo, `build-rhythm-story-${testInfo.project.name}`, { locator: story });
   expect(runtimeErrors).toEqual([]);
 });
 
-test("Build Rhythm refreshes the visible lifetime scene after a delayed snapshot", async ({ page }, testInfo) => {
+test("Build Rhythm refreshes the final three-rail scene after a delayed snapshot", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
 
   await preparePage(page, "light");
@@ -190,12 +214,24 @@ test("Build Rhythm refreshes the visible lifetime scene after a delayed snapshot
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
   await expect(story).toHaveAttribute("data-state", "ready");
-  await page.locator('[data-build-rhythm-step="lifetime"]').scrollIntoViewIfNeeded();
-  await expect(stage).toHaveAttribute("data-scene", "lifetime");
-  await expect(stage).toContainText("LIFETIME CODEX TOTAL UNAVAILABLE");
+  await page.locator('[data-build-rhythm-step="explore"]').scrollIntoViewIfNeeded();
+  await expect(stage).toHaveAttribute("data-scene", "explore");
+  await expect(stage).toContainText("Direct lifetime snapshot unavailable");
 
   releaseSnapshot();
   await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
+});
+
+test("Build Rhythm settles a failed lifetime snapshot as unavailable", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the failed-snapshot label");
+
+  await preparePage(page, "light");
+  await page.route("**/assets/data/codex-profile-usage.json", (route) => route.fulfill({ status: 503, contentType: "application/json", body: "{}" }));
+  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+
+  await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
+  await expect(page.locator(".github-activity-lifetime-value")).toHaveText("Snapshot unavailable");
+  await expect(page.locator(".github-activity-lifetime-value")).not.toHaveText("Snapshot loading");
 });
 
 test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {
