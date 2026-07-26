@@ -10,8 +10,8 @@
   },
   "method": "rounded_sum_of_verified_account_lifetime_readings",
   "confidence": "high",
-  "observed_on": "2026-07-25",
-  "updated_at": "2026-07-25T00:26:11.939013Z",
+  "observed_on": "2026-07-26",
+  "updated_at": "2026-07-26T00:31:13.907850Z",
   "automated_refresh": true,
   "cost": {
     "method": "flat_reference_rate_replay",
