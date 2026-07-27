@@ -58,7 +58,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await expect(combinedDaily).toContainText("DAILY SNAPSHOTS · AGGREGATE ONLY");
   await expect(combinedDaily).toContainText("not reconstructed GitHub contribution events");
   await expect(combinedDaily.locator(".github-activity-daily-summary > div")).toHaveCount(3);
-  await expect(combinedDaily.locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
+  await expect(combinedDaily.locator(".github-activity-daily-date > time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
   const combinedOverflow = await combinedDaily.evaluate((element) => Math.max(0, element.scrollWidth - element.clientWidth));
   expect(combinedOverflow).toBeLessThanOrEqual(1);
   await attachScreenshot(page, testInfo, `combined-code-activity-${testInfo.project.name}`, {
