@@ -100,7 +100,11 @@ layout: default
             {% for week in site.data.github_activity.weeks %}
               {% assign all_github_commits = all_github_commits | plus: week.commits %}
             {% endfor %}
-            {% if direct_tracker.schema == 3 and combined_lifetime and all_github_commits > 0 %}
+            {% assign heartbeat_schema_supported = false %}
+            {% if direct_tracker.schema == 3 or direct_tracker.schema == 4 %}
+              {% assign heartbeat_schema_supported = true %}
+            {% endif %}
+            {% if heartbeat_schema_supported and combined_lifetime and all_github_commits > 0 %}
               <a
                 class="home-agentic-heartbeat"
                 href="{{ '/github-activity/' | relative_url }}"

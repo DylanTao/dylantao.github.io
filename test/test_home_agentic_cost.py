@@ -51,6 +51,16 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         self.assertNotRegex(heartbeat, r"(?i)invoice|public-api|api-rate|cost|\$")
         self.assertNotIn("home-agentic-info-cost", heartbeat)
 
+    def test_lifetime_heartbeat_accepts_snapshot_and_history_schemas(self):
+        self.assertIn(
+            "{% if direct_tracker.schema == 3 or direct_tracker.schema == 4 %}",
+            self.layout,
+        )
+        self.assertIn(
+            "{% if heartbeat_schema_supported and combined_lifetime and all_github_commits > 0 %}",
+            self.layout,
+        )
+
     def test_cost_tooltip_has_zoom_and_narrow_view_containment(self):
         self.assertIn("max-height: calc(100vh - 2rem);", self.styles)
         self.assertIn("overflow-y: auto;", self.styles)
