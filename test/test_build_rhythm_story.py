@@ -109,8 +109,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "Commit count tells me when. Line changes tell me how much.",
             "One giant week was flattening everything else.",
             "Now read the whole rhythm yourself.",
-            "one dated lifetime",
-            "snapshot, not a made-up history.",
+            "observed lifetime history",
+            "first real",
+            "earlier years unobserved.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
@@ -165,7 +166,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('@media (prefers-reduced-motion: reduce)', self.style)
         self.assertIn('.build-rhythm-story-chart', self.style)
         self.assertIn('grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.42fr);', self.style)
-        self.assertIn('height: clamp(25rem, 40vw, 32rem);', self.style)
+        self.assertIn('height: clamp(27rem, 42vw, 34rem);', self.style)
         self.assertIn('top: var(--build-rhythm-sticky-top, 4.75rem);', self.style)
         self.assertIn('min-height: clamp(24rem, 70vh, 38rem);', self.style)
         self.assertIn('will-change: opacity, transform;', self.style)
@@ -183,6 +184,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             'id="github-activity-selected-commits"',
             'id="github-activity-selected-additions"',
             'id="github-activity-selected-deletions"',
+            'id="github-activity-selected-tokens"',
             'id="github-activity-table-scroll-hint"',
             'id="github-activity-table-body"',
             'id="github-activity-data"',
@@ -195,11 +197,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('class: "github-activity-add-line"', self.script)
         self.assertIn('class: "github-activity-remove-line"', self.script)
 
-    def test_lifetime_snapshot_is_one_separate_line_inside_the_explorer(self) -> None:
+    def test_lifetime_history_is_a_shared_x_third_plot_with_snapshot_fallback(self) -> None:
         self.assertEqual(self.page.count("data-codex-usage"), 1)
         self.assertNotIn("github-activity-codex-trend", self.page)
-        self.assertNotIn("Combined lifetime Codex tokens", self.page)
-        self.assertNotIn("One public checkpoint", self.page)
         self.assertLess(
             self.page.index('class="github-activity-readout"'),
             self.page.index('class="github-activity-lifetime-inline"'),
@@ -208,7 +208,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-lifetime-inline"'),
             self.page.index('data-jump-latest'),
         )
-        self.assertIn('aria-label="Lifetime token rail metadata"', self.page)
+        self.assertIn('aria-label="Combined lifetime token history metadata"', self.page)
         self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
         self.assertIn('class="sr-only" data-codex-lifetime data-format="readable"', self.page)
         self.assertIn("initCodexUsageSnapshot(() => scale)", self.script)
@@ -216,13 +216,23 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("renderCodexUsageScale(scale);", self.script)
         self.assertIn('lifetime.dataset.format = literal ? "literal" : "readable";', self.script)
         self.assertIn('`${number.format(source.combined_lifetime.token_count)} tokens`', self.script)
+        self.assertIn('candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"])', self.script)
+        self.assertIn('candidate.grain !== "daily_last_observation"', self.script)
+        self.assertIn('candidate.coverage.before_start !== "unobserved"', self.script)
+        self.assertIn('className: "github-activity-lifetime-history"', self.script)
+        self.assertIn('axisName: "github-lifetime-history"', self.script)
+        self.assertIn("gapDays > 1", self.script)
+        self.assertIn('"stroke-dasharray": "4 3"', self.script)
+        self.assertIn("lifetimeObservationForWeek(codexSource, row)", self.script)
+        self.assertIn("observed endpoint change", self.script)
+        self.assertIn('y2: plotBottom', self.script)
+        self.assertIn('height: plotBottom - plotTop', self.script)
         self.assertIn('class: "github-activity-lifetime-snapshot-line"', self.script)
         self.assertIn('name: "github-lifetime-snapshot"', self.script)
-        self.assertIn("ONE DATED SNAPSHOT, NOT HISTORY", self.script)
+        self.assertIn("DATED SNAPSHOT FALLBACK", self.script)
         self.assertIn("let codexSourceSettled = false;", self.script)
-        self.assertIn('codexSourceSettled ? "Snapshot unavailable" : "Snapshot loading"', self.script)
-        self.assertIn("scale === \"linear\" ? number.format(value)", self.script)
-        self.assertIn("render only a short endpoint rail outside the weekly time axis", self.heuristics)
+        self.assertIn('codexSourceSettled ? "History unavailable" : "History loading"', self.script)
+        self.assertIn("leave pre-observation history blank instead of inventing zeros", self.heuristics)
 
     def test_lifetime_cost_replay_is_schema4_sanitized_and_caveated(self) -> None:
         self.assertIn('class="github-activity-lifetime-cost" data-codex-cost hidden', self.page)
@@ -233,6 +243,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('data-codex-cost-value', self.page)
         self.assertIn('candidate?.schema === 3 && exactKeys(candidate, requiredKeys)', self.script)
         self.assertIn('candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"])', self.script)
+        self.assertIn('candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"])', self.script)
         self.assertIn('candidate.method !== "flat_reference_rate_replay"', self.script)
         self.assertIn(
             'candidate.reference_scope !== "current_site_build_blended_public_api_rate"',
@@ -244,8 +255,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
 
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
-            "rounded lifetime Codex snapshot",
-            "Lifetime checkpoint",
+            "Observed lifetime history",
+            "The shared axis now carries only observations.",
             "7e224db12",
             "Three signals, never one score",
             "Deduplicated retained logs attributed to this repo",
@@ -256,19 +267,19 @@ class BuildRhythmStoryTests(unittest.TestCase):
                 self.assertIn(phrase, self.case_study)
 
         for phrase in (
-            "rounded lifetime total",
+            "observed combined-lifetime growth",
             "Never add it to the repo-scoped retained-session estimate",
-            "rounded, anonymous, and separate from the repo estimate",
+            "rounded, anonymous, nondecreasing, shared-x, and separate from the repo estimate",
             "missing observation must never render as a false zero",
             "The exact point keys are `date`, `token_count`, and `tokens_label`",
-            "three separate clocks",
+            "Publish only `date`, rounded `token_count`, `tokens_label`, and `observation`",
             "server-rendered daily token summary and table",
             "Differences between adjacent rounded points are rounded increases, not exact daily usage.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
 
-        self.assertIn("A dated lifetime total is one snapshot, not a trend", self.heuristics)
+        self.assertIn("A cumulative lifetime line may share the GitHub date axis", self.heuristics)
         self.assertIn("name both the rate basis and that it is not an actual bill", self.heuristics)
         self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
         self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)
@@ -299,7 +310,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for retired in ("per-account", "gmail", "ucsd email"):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page.lower())
-        self.assertIn("Lifetime rail", self.page)
+        self.assertIn("Combined lifetime history", self.page)
         self.assertIn("data-codex-observed", self.page)
         self.assertNotIn("automatic refresh pending", self.page)
 

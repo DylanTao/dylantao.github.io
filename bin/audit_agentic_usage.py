@@ -60,7 +60,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 45
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 46
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -5029,6 +5029,116 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V45_TURN_IDS = tuple(
 )
 
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd, _first_scoped_response_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V46_RESEARCH_WORKFLOW_TURNS = (
+    (
+        "019f9cd3-609d-7da3-a77a-30472cc45d11",
+        "2026-07-26T05:08:46.552Z",
+        "gpt-5.6-sol",
+        "max",
+        "019f9cd3-37b6-73c2-83d9-7aa24ece3da9",
+        "/root/streaming_amendment_review/current_schema_semantics",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-26T05:08:55.120Z",
+    ),
+    (
+        "019fa0f7-caab-7223-99f8-0cf985c1721c",
+        "2026-07-27T00:27:03.237Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa0f7-90b1-7b53-9dcd-5b7497e25eda",
+        "/root/projection_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T00:27:11.525Z",
+    ),
+    (
+        "019fa0f8-3d91-7323-9524-a282705ead94",
+        "2026-07-27T00:27:32.723Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa0f8-05a8-7970-a103-38ccdee51bda",
+        "/root/screening_gate_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T00:27:41.876Z",
+    ),
+    (
+        "019fa104-8380-79f1-8fba-f3f045d05ca6",
+        "2026-07-27T00:40:58.582Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa104-3e5e-7561-9586-a00e0f897dd9",
+        "/root/overlap_guard_fix",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T00:52:04.920Z",
+    ),
+    (
+        "019fa110-eb15-7032-b2dd-914e24e9bfd8",
+        "2026-07-27T00:54:30.801Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa0f8-05a8-7970-a103-38ccdee51bda",
+        "/root/screening_gate_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T00:54:51.895Z",
+    ),
+    (
+        "019fa115-5b13-7571-a7ed-a8b22f6db9a4",
+        "2026-07-27T00:59:22.493Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa104-3e5e-7561-9586-a00e0f897dd9",
+        "/root/overlap_guard_fix",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T01:03:28.036Z",
+    ),
+    (
+        "019fa119-3850-7791-9f1d-c6b6e10912de",
+        "2026-07-27T01:03:35.626Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa104-3e5e-7561-9586-a00e0f897dd9",
+        "/root/overlap_guard_fix",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T01:09:43.228Z",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _model,
+    _effort,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V46_RESEARCH_WORKFLOW_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": _model,
+        "effort": _effort,
+        "acknowledged_at": "2026-07-26",
+        "reason": (
+            "The separate semantic-scaffolding-map workflow delegated bounded schema, "
+            "projection, screening-gate, and overlap-guard work at max or high effort. "
+            "These turns did not perform site development or change this site's declared "
+            "default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, and first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}; audited 2026-07-26."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V46_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V46_RESEARCH_WORKFLOW_TURNS
+)
+
+del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at
 
 
 WH_PER_TOKEN_MIDPOINT = 0.0006

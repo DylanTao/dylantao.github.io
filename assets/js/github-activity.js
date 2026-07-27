@@ -17,6 +17,8 @@
     timeZone: "UTC",
   });
   const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
+  const DAY_MS = 86_400_000;
+  const utcDate = (value) => new Date(`${value}T00:00:00Z`);
   const svgElement = (name, attributes = {}) => {
     const node = document.createElementNS(NS, name);
     Object.entries(attributes).forEach(([key, value]) => node.setAttribute(key, String(value)));
@@ -133,7 +135,8 @@
     const values = rows.map(valueForRow);
     const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
     const transformedMaximum = options.scale === "linear" ? maximum : Math.log1p(maximum);
-    const x = (index) => bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
+    const x = (index) =>
+      options.xForRow ? options.xForRow(rows[index], index) : bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
     const y = (value) => {
       const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
       if (options.signed) return bounds.baseline - Math.sign(value) * transformed * (bounds.bottom - bounds.top) * 0.45;
@@ -163,6 +166,84 @@
       })
     );
     return { maximum, values, x, y };
+  };
+  const lifetimeHistoryRows = (source) =>
+    source?.combined_lifetime_history?.points?.map((point, index) => ({
+      index,
+      date: utcDate(point.date),
+      tokenCount: point.token_count,
+      tokensLabel: point.tokens_label,
+      observation: point.observation,
+    })) || [];
+  const lifetimeObservationForWeek = (source, week) => {
+    const end = week.date.getTime() + 7 * DAY_MS;
+    return lifetimeHistoryRows(source)
+      .filter((point) => point.date.getTime() < end)
+      .at(-1);
+  };
+  const drawLifetimeHistory = (
+    group,
+    { source, domainStart, domainEnd, x, top, bottom, left, right, colors, axisName, className, compact = false }
+  ) => {
+    const history = source?.combined_lifetime_history;
+    if (!history) return null;
+
+    const allPoints = lifetimeHistoryRows(source);
+    const points = allPoints.filter((point) => point.date >= domainStart && point.date <= domainEnd);
+    const linear = niceLinearScale(source.combined_lifetime.token_count, 3);
+    const y = (value) => bottom - (value / linear.domainMaximum) * (bottom - top);
+    drawYAxis(group, {
+      name: axisName,
+      ticks: [0, ...linear.ticks],
+      y,
+      left,
+      right,
+      colors,
+      format: (value) => compactNumber.format(value),
+    });
+
+    addText(group, `UNOBSERVED BEFORE ${fullDate.format(utcDate(history.coverage.starts_on)).toUpperCase()}`, left + 8, top + 13, {
+      color: colors.muted,
+      className: `${className}-coverage`,
+      size: compact ? 9 : 10,
+    });
+
+    points.slice(1).forEach((point, index) => {
+      const previous = points[index];
+      const gapDays = Math.round((point.date.getTime() - previous.date.getTime()) / DAY_MS);
+      group.append(
+        svgElement("path", {
+          class: `${className}-line${gapDays > 1 ? " is-gap" : ""}`,
+          d: linePath([
+            [x(previous.date), y(previous.tokenCount)],
+            [x(point.date), y(point.tokenCount)],
+          ]),
+          fill: "none",
+          stroke: colors.accent,
+          "stroke-width": 2,
+          ...(gapDays > 1 ? { "stroke-dasharray": "4 3", "data-gap-days": gapDays } : {}),
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+        })
+      );
+    });
+
+    points.forEach((point, index) => {
+      const isLatestVisible = index === points.length - 1;
+      group.append(
+        svgElement("circle", {
+          class: `${className}-marker${isLatestVisible ? " is-latest" : ""}`,
+          cx: x(point.date),
+          cy: y(point.tokenCount),
+          r: isLatestVisible ? (compact ? 3.4 : 4) : 2.1,
+          fill: isLatestVisible ? colors.surface : colors.accent,
+          stroke: colors.accent,
+          "stroke-width": isLatestVisible ? 2 : 1,
+        })
+      );
+    });
+
+    return { allPoints, points, y, domainMaximum: linear.domainMaximum };
   };
   const drawTokenRhythm = (group, tokenRows, width, height, colors) => {
     const left = width < 620 ? 58 : 64;
@@ -394,6 +475,10 @@
       const compact = width < 620;
       const left = compact ? 58 : 64;
       const right = 12;
+      const domainStart = storyGithubRows[0].date;
+      const domainEnd = new Date(storyGithubRows.at(-1).date.getTime() + 6 * DAY_MS);
+      const domainSpan = Math.max(1, domainEnd.getTime() - domainStart.getTime());
+      const sharedX = (date) => left + ((date.getTime() - domainStart.getTime()) / domainSpan) * (width - left - right);
       const commitTop = 26;
       const commitBottom = Math.max(76, height * 0.2);
       const commitMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
@@ -403,7 +488,7 @@
         storyGithubRows,
         (row) => row.commits,
         { left, right: width - right, top: commitTop, bottom: commitBottom },
-        { color: colors.accent, maximum: commitMaximum, scale: "log" }
+        { color: colors.accent, maximum: commitMaximum, scale: "log", xForRow: (row) => sharedX(row.date) }
       );
       drawYAxis(group, {
         name: "story-complete-commits",
@@ -428,6 +513,7 @@
         maximum: lineMaximum,
         scale: "log",
         signed: true,
+        xForRow: (row) => sharedX(row.date),
       });
       const completePositiveTicks = compact ? [lineMaximum] : spacedLogTicks(lineMaximum, additionsSeries.y, 18).filter((value) => value > 0);
       drawYAxis(group, {
@@ -445,16 +531,59 @@
         maximum: lineMaximum,
         scale: "log",
         signed: true,
+        xForRow: (row) => sharedX(row.date),
       });
 
       const lifetimeTop = lineBottom + 44;
-      const lifetimeBottom = height - 20;
+      const lifetimeBottom = height - 28;
       const lifetimeRailLeft = left + (width - left - right) * (compact ? 0.48 : 0.64);
-      addText(group, compact ? "LIFETIME \u00b7 SNAPSHOT" : "LIFETIME TOKENS \u00b7 ONE DATED SNAPSHOT, NOT HISTORY", left, lifetimeTop - 12, {
+      const timeGrid = svgElement("g", { class: "build-rhythm-shared-time-grid", "aria-hidden": "true" });
+      const yearTicks = new Set();
+      storyGithubRows.forEach((row) => {
+        const year = row.date.getUTCFullYear();
+        if (yearTicks.has(year) || row.date.getUTCMonth() !== 0) return;
+        yearTicks.add(year);
+        const xx = sharedX(row.date);
+        timeGrid.append(
+          svgElement("line", {
+            x1: xx,
+            y1: commitTop,
+            x2: xx,
+            y2: lifetimeBottom,
+            stroke: colors.grid,
+            "stroke-width": 1,
+          })
+        );
+        addText(timeGrid, String(year), xx, height - 5, { anchor: "middle", color: colors.muted });
+      });
+      group.prepend(timeGrid);
+
+      addText(group, compact ? "LIFETIME \u00b7 HISTORY" : "COMBINED LIFETIME TOKENS \u00b7 OBSERVED HISTORY", left, lifetimeTop - 12, {
         color: colors.accent,
         weight: 700,
       });
-      if (codexSource?.combined_lifetime) {
+      if (codexSource?.combined_lifetime_history) {
+        drawLifetimeHistory(group, {
+          source: codexSource,
+          domainStart,
+          domainEnd,
+          x: sharedX,
+          top: lifetimeTop,
+          bottom: lifetimeBottom,
+          left,
+          right: width - right,
+          colors,
+          axisName: "story-complete-tokens",
+          className: "build-rhythm-lifetime-history",
+          compact,
+        });
+        addText(group, `${codexSource.combined_lifetime.tokens_label} tokens`, width - right, lifetimeTop - 12, {
+          anchor: "end",
+          color: colors.text,
+          weight: 700,
+          className: "build-rhythm-lifetime-value",
+        });
+      } else if (codexSource?.combined_lifetime) {
         const tokenCount = codexSource.combined_lifetime.token_count;
         const valueY = lifetimeTop + 14;
         const tokenY = (value) => (value === 0 ? lifetimeBottom : valueY);
@@ -493,15 +622,19 @@
           weight: 700,
         });
       } else {
-        addText(group, "Direct lifetime snapshot unavailable; no substitute observation.", left, lifetimeTop + 18, {
+        addText(group, "Combined lifetime history unavailable; no substitute observation.", left, lifetimeTop + 18, {
           color: colors.muted,
         });
       }
       const lifetime = codexSource?.combined_lifetime?.tokens_label;
       const observed = codexSource?.observed_on ? fullDate.format(new Date(`${codexSource.observed_on}T00:00:00Z`)) : null;
+      if (codexSource?.combined_lifetime_history) {
+        const count = codexSource.combined_lifetime_history.points.length;
+        return `Five years, week by week \u00b7 commits and line movement \u00b7 ${lifetime} lifetime tokens across ${number.format(count)} dated observations through ${observed}.`;
+      }
       return lifetime
-        ? `Five years, week by week \u00b7 commits and line movement \u00b7 ${lifetime} lifetime snapshot observed ${observed}.`
-        : "Five years, week by week \u00b7 commits and line movement \u00b7 lifetime snapshot unavailable.";
+        ? `Five years, week by week \u00b7 commits and line movement \u00b7 ${lifetime} fallback snapshot observed ${observed}.`
+        : "Five years, week by week \u00b7 commits and line movement \u00b7 lifetime history unavailable.";
     };
 
     const metadata = {
@@ -767,7 +900,11 @@
       !Array.isArray(value) &&
       Object.keys(value).length === keys.length &&
       keys.every((key) => Object.hasOwn(value, key));
-    const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
+    const isIsoDate = (value) => {
+      if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+      const parsed = new Date(`${value}T00:00:00Z`);
+      return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+    };
     const tokensLabel = (tokenCount) => {
       const billions = Math.floor(tokenCount / 1000000000);
       const tenths = Math.floor((tokenCount % 1000000000) / 100000000);
@@ -793,11 +930,51 @@
         return false;
       return true;
     };
+    const validHistory = (candidate, combined) => {
+      if (
+        !exactKeys(candidate, ["schema", "label", "units", "grain", "aggregation", "rounding", "coverage", "points"]) ||
+        candidate.schema !== 1 ||
+        candidate.label !== "Combined lifetime tokens" ||
+        candidate.units !== "tokens" ||
+        candidate.grain !== "daily_last_observation" ||
+        candidate.aggregation !== "sum_of_sources" ||
+        candidate.rounding !== "nearest_0.1B" ||
+        !exactKeys(candidate.coverage, ["starts_on", "before_start"]) ||
+        !isIsoDate(candidate.coverage.starts_on) ||
+        candidate.coverage.before_start !== "unobserved" ||
+        !Array.isArray(candidate.points) ||
+        candidate.points.length === 0
+      )
+        return false;
+
+      let previousDate = null;
+      let previousCount = -1;
+      const validPoints = candidate.points.every((point) => {
+        if (
+          !exactKeys(point, ["date", "token_count", "tokens_label", "observation"]) ||
+          !isIsoDate(point.date) ||
+          !Number.isSafeInteger(point.token_count) ||
+          point.token_count <= 0 ||
+          point.token_count % 100_000_000 !== 0 ||
+          point.token_count < previousCount ||
+          point.tokens_label !== tokensLabel(point.token_count) ||
+          !["user_reported", "automated"].includes(point.observation)
+        )
+          return false;
+        const date = utcDate(point.date);
+        if (previousDate && date <= previousDate) return false;
+        previousDate = date;
+        previousCount = point.token_count;
+        return true;
+      });
+      return validPoints && candidate.coverage.starts_on === candidate.points[0].date && candidate.points.at(-1).token_count === combined.token_count;
+    };
     const validSource = (candidate) => {
       const requiredKeys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
       const validSchema3 = candidate?.schema === 3 && exactKeys(candidate, requiredKeys);
       const validSchema4 = candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"]);
-      if (!validSchema3 && !validSchema4) return false;
+      const validSchema5 = candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"]);
+      if (!validSchema3 && !validSchema4 && !validSchema5) return false;
       const combined = candidate.combined_lifetime;
       if (
         !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
@@ -813,7 +990,13 @@
         typeof candidate.automated_refresh !== "boolean"
       )
         return false;
-      if (candidate.schema === 4 && !validCost(candidate.cost, combined.token_count)) return false;
+      if (candidate.schema >= 4 && !validCost(candidate.cost, combined.token_count)) return false;
+      if (
+        candidate.schema === 5 &&
+        (!validHistory(candidate.combined_lifetime_history, combined) ||
+          candidate.combined_lifetime_history.points.at(-1).date !== candidate.observed_on)
+      )
+        return false;
       if (candidate.automated_refresh) {
         return (
           candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
@@ -847,7 +1030,7 @@
       lifetime.textContent = "Unavailable";
       lifetime.dataset.format = "unavailable";
       cost.hidden = true;
-      status.textContent = "Lifetime Codex snapshot unavailable; GitHub activity remains available.";
+      status.textContent = "Combined lifetime history unavailable; GitHub activity remains available.";
       return null;
     }
 
@@ -861,6 +1044,8 @@
     renderCodexUsageScale(readScale());
     observedTime.dateTime = source.observed_on;
     observedTime.textContent = fullDate.format(new Date(`${source.observed_on}T00:00:00Z`));
+    status.firstChild.textContent =
+      source.schema === 5 ? "Combined lifetime history observed through " : "Lifetime fallback: one rounded snapshot observed ";
     if (source.cost) {
       costValue.textContent = source.cost.usd_label.replace(/ API-rate replay$/, "");
       cost.hidden = false;
@@ -1004,6 +1189,7 @@
   const selectedCommits = document.getElementById("github-activity-selected-commits");
   const selectedAdditions = document.getElementById("github-activity-selected-additions");
   const selectedDeletions = document.getElementById("github-activity-selected-deletions");
+  const selectedTokens = document.getElementById("github-activity-selected-tokens");
   const rangeSummary = document.getElementById("github-activity-range-summary");
   const selectionAnnouncement = document.getElementById("github-activity-selection-announcement");
   const annotation = document.getElementById("github-activity-annotation");
@@ -1022,6 +1208,7 @@
     !selectedCommits ||
     !selectedAdditions ||
     !selectedDeletions ||
+    !selectedTokens ||
     !rangeSummary ||
     !selectionAnnouncement ||
     !annotation ||
@@ -1097,6 +1284,33 @@
     selectedCommits.textContent = `${number.format(row.commits)} ${row.commits === 1 ? "commit" : "commits"}`;
     selectedAdditions.textContent = `${signed(row.additions, true)} added`;
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
+    const tokenObservation = lifetimeObservationForWeek(codexSource, row);
+    if (tokenObservation) {
+      selectedTokens.textContent = `${tokenObservation.tokensLabel} lifetime tokens \u00b7 observed ${dateLabel.format(tokenObservation.date)}`;
+    } else if (!codexSourceSettled) {
+      selectedTokens.textContent = "Lifetime history loading";
+    } else {
+      selectedTokens.textContent = "Lifetime tokens \u00b7 unobserved";
+    }
+  };
+  const lifetimeRangeSummary = (data) => {
+    if (!codexSourceSettled) return "lifetime history loading";
+    if (!codexSource?.combined_lifetime_history) {
+      return codexSource?.combined_lifetime
+        ? `${codexSource.combined_lifetime.tokens_label} lifetime snapshot \u00b7 no history`
+        : "lifetime history unavailable";
+    }
+    const start = data[0].date.getTime();
+    const end = data.at(-1).date.getTime() + 7 * DAY_MS;
+    const observations = lifetimeHistoryRows(codexSource).filter((point) => {
+      const timestamp = point.date.getTime();
+      return timestamp >= start && timestamp < end;
+    });
+    if (!observations.length) return "lifetime tokens unobserved in this interval";
+    const first = observations[0];
+    const latest = observations.at(-1);
+    const change = latest.tokenCount - first.tokenCount;
+    return `${latest.tokensLabel} lifetime tokens \u00b7 +${compactNumber.format(change)} observed endpoint change`;
   };
   const updateTable = (data) => {
     const fragment = document.createDocumentFragment();
@@ -1127,7 +1341,7 @@
         ? "All history"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active weeks \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active weeks \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines \u00b7 ${lifetimeRangeSummary(scoped)}`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
@@ -1158,24 +1372,27 @@
     const narrow = width < 620;
     const left = narrow ? 66 : 82;
     const right = narrow ? 12 : 22;
-    const bottom = 16;
-    const lifetimeBandHeight = narrow ? 92 : 104;
-    const lifetimeGap = narrow ? 32 : 38;
+    const bottom = narrow ? 26 : 30;
+    const lifetimeBandHeight = narrow ? 92 : 106;
+    const lifetimeGap = narrow ? 42 : 48;
     const commitTop = 42;
     const commitHeight = Math.max(92, Math.min(118, height * 0.19));
     const commitBottom = commitTop + commitHeight;
     const lineTop = commitBottom + (narrow ? 58 : 64);
-    const lineBottom = height - bottom - lifetimeBandHeight - lifetimeGap;
-    const yearLabelY = lineBottom + (narrow ? 24 : 28);
-    const lifetimeHeadingY = yearLabelY + (narrow ? 27 : 32);
-    const lifetimeValueY = lifetimeHeadingY + 20;
-    const lifetimeBaselineY = height - bottom;
+    const lifetimeBottom = height - bottom;
+    const lifetimeTop = lifetimeBottom - lifetimeBandHeight;
+    const lifetimeHeadingY = lifetimeTop - 14;
+    const lineBottom = lifetimeHeadingY - lifetimeGap;
+    const yearLabelY = height - (narrow ? 5 : 7);
+    const lifetimeValueY = lifetimeTop + 14;
+    const lifetimeBaselineY = lifetimeBottom;
     const lifetimeRailLeft = left + (width - left - right) * (narrow ? 0.48 : 0.64);
     const plotTop = commitTop;
+    const plotBottom = lifetimeBottom;
     const baseline = (lineTop + lineBottom) / 2;
     const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
     const start = data[0].date.getTime();
-    const end = data.at(-1).date.getTime();
+    const end = data.at(-1).date.getTime() + 6 * DAY_MS;
     const span = Math.max(1, end - start);
     const rawLineMaximum = Math.max(...data.flatMap((row) => [row.additions, row.deletions]), 1);
     const rawCommitMaximum = Math.max(...data.map((row) => row.commits), 1);
@@ -1284,7 +1501,18 @@
       if (yearTicks.has(year) || row.date.getUTCMonth() !== 0) return;
       yearTicks.add(year);
       const xx = x(row.date);
-      grid.append(svgElement("line", { x1: xx, y1: plotTop, x2: xx, y2: lineBottom, stroke: palette.grid, "stroke-width": 1 }));
+      grid.append(
+        svgElement("line", {
+          class: "github-activity-year-grid",
+          "data-year": year,
+          x1: xx,
+          y1: plotTop,
+          x2: xx,
+          y2: plotBottom,
+          stroke: palette.grid,
+          "stroke-width": 1,
+        })
+      );
       addText(grid, String(year), xx, yearLabelY, { anchor: "middle", color: palette.muted });
     });
     if (yearTicks.size < 2) {
@@ -1312,7 +1540,7 @@
     const selectionBand = svgElement("rect", {
       class: "github-activity-selection-band",
       y: plotTop,
-      height: lineBottom - plotTop,
+      height: plotBottom - plotTop,
       fill: palette.accent,
       "fill-opacity": 0.1,
       stroke: palette.accent,
@@ -1385,15 +1613,49 @@
       })
     );
 
-    addText(chart, narrow ? "LIFETIME \u00b7 SNAPSHOT" : "LIFETIME TOKENS \u00b7 ONE DATED SNAPSHOT, NOT HISTORY", left, lifetimeHeadingY, {
-      color: palette.accent,
-      weight: 700,
-      className: "github-activity-lifetime-heading",
-    });
-    if (codexSource?.combined_lifetime) {
+    const historyAvailable = Boolean(codexSource?.combined_lifetime_history);
+    addText(
+      chart,
+      historyAvailable
+        ? narrow
+          ? "LIFETIME \u00b7 HISTORY"
+          : "COMBINED LIFETIME TOKENS \u00b7 OBSERVED HISTORY"
+        : narrow
+          ? "LIFETIME \u00b7 SNAPSHOT FALLBACK"
+          : "LIFETIME TOKENS \u00b7 DATED SNAPSHOT FALLBACK",
+      left,
+      lifetimeHeadingY,
+      {
+        color: palette.accent,
+        weight: 700,
+        className: "github-activity-lifetime-heading",
+      }
+    );
+    let lifetimePlot = null;
+    if (historyAvailable) {
+      lifetimePlot = drawLifetimeHistory(chart, {
+        source: codexSource,
+        domainStart: data[0].date,
+        domainEnd: new Date(end),
+        x,
+        top: lifetimeTop,
+        bottom: lifetimeBottom,
+        left,
+        right: width - right,
+        colors: palette,
+        axisName: "github-lifetime-history",
+        className: "github-activity-lifetime-history",
+        compact: narrow,
+      });
+      addText(chart, `${codexSource.combined_lifetime.tokens_label} tokens`, width - right, lifetimeHeadingY, {
+        anchor: "end",
+        color: palette.text,
+        weight: 700,
+        className: "github-activity-lifetime-value",
+      });
+    } else if (codexSource?.combined_lifetime) {
       const tokenCount = codexSource.combined_lifetime.token_count;
-      const readableLabel = `${codexSource.combined_lifetime.tokens_label} tokens`;
-      const displayLabel = scale === "linear" ? `${number.format(tokenCount)} tokens` : readableLabel;
+      const displayLabel = `${codexSource.combined_lifetime.tokens_label} tokens`;
       const tokenY = (value) => (value === 0 ? lifetimeBaselineY : lifetimeValueY);
       drawYAxis(chart, {
         name: "github-lifetime-snapshot",
@@ -1402,7 +1664,7 @@
         left: lifetimeRailLeft,
         right: width - right,
         colors: palette,
-        format: (value) => (value === 0 ? "0" : scale === "linear" ? number.format(value) : codexSource.combined_lifetime.tokens_label),
+        format: (value) => (value === 0 ? "0" : codexSource.combined_lifetime.tokens_label),
       });
       chart.append(
         svgElement("line", {
@@ -1431,7 +1693,7 @@
         className: "github-activity-lifetime-value",
       });
     } else {
-      addText(chart, codexSourceSettled ? "Snapshot unavailable" : "Snapshot loading", width - right, lifetimeHeadingY, {
+      addText(chart, codexSourceSettled ? "History unavailable" : "History loading", width - right, lifetimeHeadingY, {
         anchor: "end",
         color: palette.muted,
         weight: 650,
@@ -1488,7 +1750,7 @@
     const guide = svgElement("line", {
       class: "github-activity-guide",
       y1: plotTop,
-      y2: lineBottom,
+      y2: plotBottom,
       stroke: palette.text,
       "stroke-width": 1.2,
       "stroke-opacity": 0.68,
@@ -1514,22 +1776,30 @@
       stroke: palette.removed,
       "stroke-width": 2.2,
     });
+    const tokenMarker = svgElement("circle", {
+      class: "github-activity-lifetime-history-inspector-marker",
+      r: narrow ? 4 : 4.5,
+      fill: palette.surface,
+      stroke: palette.accent,
+      "stroke-width": 2.2,
+      visibility: "hidden",
+    });
     const overlay = svgElement("rect", {
       class: "github-activity-inspector",
       x: left,
       y: plotTop,
       width: width - left - right,
-      height: lineBottom - plotTop,
+      height: plotBottom - plotTop,
       fill: "transparent",
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Weekly commit and line-change inspector",
+      "aria-label": "Weekly commits, line changes, and lifetime token history inspector",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
     });
-    chart.append(guide, commitMarker, addMarker, removeMarker, overlay);
+    chart.append(guide, commitMarker, addMarker, removeMarker, tokenMarker, overlay);
 
     const showIndex = (index, { pin = false } = {}) => {
       selectedIndex = clamp(index, data[0].index, data.at(-1).index);
@@ -1544,10 +1814,21 @@
       addMarker.setAttribute("cy", lineY(row.additions));
       removeMarker.setAttribute("cx", xx);
       removeMarker.setAttribute("cy", lineY(-row.deletions));
+      const tokenObservation = lifetimeObservationForWeek(codexSource, row);
+      if (lifetimePlot && tokenObservation) {
+        tokenMarker.setAttribute("cx", xx);
+        tokenMarker.setAttribute("cy", lifetimePlot.y(tokenObservation.tokenCount));
+        tokenMarker.setAttribute("visibility", "visible");
+      } else {
+        tokenMarker.setAttribute("visibility", "hidden");
+      }
       overlay.setAttribute("aria-valuenow", String(selectedIndex - data[0].index));
+      const tokenValue = tokenObservation
+        ? `${tokenObservation.tokensLabel} lifetime tokens, observed ${fullDate.format(tokenObservation.date)}`
+        : "lifetime tokens unobserved";
       overlay.setAttribute(
         "aria-valuetext",
-        `Week of ${row.week}, ${number.format(row.commits)} commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed`
+        `Week of ${row.week}, ${number.format(row.commits)} commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed, ${tokenValue}`
       );
       updateWeekReadout(row);
     };
@@ -1743,7 +2024,7 @@
 
   updated.dateTime = source.generatedAt;
   updated.textContent = String(source.generatedAt).slice(0, 10);
-  chartTitle.textContent = "Weekly GitHub commits, additions and deletions, plus one dated lifetime token snapshot";
+  chartTitle.textContent = "Weekly GitHub commits, additions and deletions, plus combined lifetime token history";
   setPressedState();
   drawChart();
   initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });

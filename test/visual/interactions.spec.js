@@ -235,7 +235,7 @@ test("Codex activity fails closed when its public data is unavailable", async ({
   const codexTrend = page.locator("[data-codex-usage]");
   await expect(codexTrend).toHaveAttribute("data-state", "error");
   await expect(codexTrend).toHaveAttribute("aria-busy", "false");
-  await expect(codexTrend.locator("[data-codex-status]")).toHaveText("Lifetime Codex snapshot unavailable; GitHub activity remains available.");
+  await expect(codexTrend.locator("[data-codex-status]")).toHaveText("Combined lifetime history unavailable; GitHub activity remains available.");
   await expect(codexTrend.locator("[data-codex-lifetime]")).toHaveText("Unavailable");
   await expect(codexTrend.locator("[data-codex-cost]")).toBeHidden();
   await expect(page.getByRole("button", { name: "Daily", exact: true })).toHaveCount(0);
@@ -320,6 +320,11 @@ test("usage story keeps rounded lifetime Codex usage and repo measures independe
   await expect(page.locator("#github-activity-ai-tiers")).toHaveCount(0);
   await expect(page.locator(".github-activity-add-line")).toHaveCount(1);
   await expect(page.locator(".github-activity-remove-line")).toHaveCount(1);
+  await expect(page.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(1);
+  await expect(page.locator(".github-activity-lifetime-history-line")).toHaveCount(0);
+  await expect(page.locator('[data-build-rhythm-y-axis="github-lifetime-snapshot"]')).toHaveCount(1);
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Lifetime tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
   await expect(page.locator(".github-activity-tier-run")).toHaveCount(0);
   await expect(activity).not.toContainText(/agent-hours|kWh|trees?|plan price|\$20|\$100|\$200/i);
 

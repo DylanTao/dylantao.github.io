@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Weekly GitHub activity, daily estimated site-build tokens, and one rounded lifetime Codex snapshot.
+description: Weekly GitHub activity, daily estimated site-build tokens, and anonymous combined lifetime Codex history.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -15,7 +15,7 @@ github_activity: true
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
       I wanted the logs to show where the work bunches up. Start with five years of GitHub weeks, follow this site's token trace,
-      then zoom out to one rounded lifetime checkpoint.
+      then zoom out to the observed lifetime history.
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
     {% assign combined_lifetime = direct_tracker.combined_lifetime %}
@@ -48,7 +48,7 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        I start with when the code changed and how much moved. Then I follow this site's token trace before zooming out to the lifetime total.
+        I start with when the code changed and how much moved. Then I follow this site's token trace before zooming out to the lifetime history.
       </p>
     </header>
 
@@ -61,7 +61,7 @@ github_activity: true
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Five years of weekly code activity beside one dated, rounded lifetime token snapshot.
+            Five years of weekly code activity beside anonymous, dated lifetime token observations.
           </p>
         </div>
       </div>
@@ -107,8 +107,8 @@ github_activity: true
           <p class="build-rhythm-story-step-number">05 · YOUR TURN</p>
           <h3>Now read the whole rhythm yourself.</h3>
           <p>
-            Change the range or scale, move week by week with the keyboard, and keep the final rail in view: it is one dated lifetime
-            snapshot, not a made-up history.
+            Change the range or scale, move week by week with the keyboard, and inspect the final plot: it begins with the first real
+            observation and leaves the earlier years unobserved.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
@@ -165,6 +165,10 @@ github_activity: true
             <span aria-hidden="true">&middot;</span>
             <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
           </span>
+          <span class="github-activity-value-group github-activity-token-value-group">
+            <span aria-hidden="true">&middot;</span>
+            <span class="github-activity-selected-tokens" id="github-activity-selected-tokens"></span>
+          </span>
         </p>
         {% if direct_tracker.schema >= 3 and combined_lifetime %}
           <div
@@ -172,14 +176,19 @@ github_activity: true
             data-codex-usage
             data-state="loading"
             data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
-            aria-label="Lifetime token rail metadata"
+            aria-label="Combined lifetime token history metadata"
             aria-describedby="github-activity-lifetime-status"
             aria-busy="true"
           >
             <span class="sr-only" data-codex-lifetime data-format="readable">{{ combined_lifetime.tokens_label }} tokens</span>
             <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
-              Lifetime rail: one rounded snapshot observed
-              <time data-codex-observed datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time>.
+              {% if direct_tracker.combined_lifetime_history %}
+                Combined lifetime history observed through
+                <time data-codex-observed datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time>.
+              {% else %}
+                Lifetime fallback: one rounded snapshot observed
+                <time data-codex-observed datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time>.
+              {% endif %}
             </p>
             <p class="github-activity-lifetime-cost" data-codex-cost hidden>
               Burned <span data-codex-cost-value></span> of Sam's imaginary money &middot; public API-rate replay, not a bill.
@@ -198,11 +207,12 @@ github_activity: true
 
     <div class="github-activity-chart-shell">
       <h2 class="sr-only" id="github-activity-chart-title">
-        Weekly GitHub commits, additions and deletions, plus one dated lifetime token snapshot
+        Weekly GitHub commits, additions and deletions, plus combined lifetime token history
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
-        Hover or click to inspect a week. Drag horizontally to select a range. With keyboard focus, use arrow keys to inspect, Shift plus
-        an arrow key to extend a range, Home or End to jump, Page Up or Page Down to move four weeks, and Escape to clear a selection.
+        Hover or click to inspect a week and its last verified lifetime token observation. Drag horizontally to select a range. With
+        keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
+        to move four weeks, and Escape to clear a selection.
       </p>
       <svg
         id="github-activity-chart"
@@ -320,7 +330,7 @@ github_activity: true
     <div class="github-activity-method-grid">
       <div>
         <h2>Three scales</h2>
-        <p>Weekly repository activity, daily site-build estimates, and lifetime Codex usage each carry their own units and dates.</p>
+        <p>Weekly repository activity, daily site-build estimates, and combined lifetime Codex history each carry their own units and dates.</p>
       </div>
       <div>
         <h2>Token rhythm</h2>
@@ -336,7 +346,7 @@ github_activity: true
       </div>
       <div>
         <h2>Codex privacy boundary</h2>
-        <p>The collector publishes one rounded lifetime sum; source-level readings stay private.</p>
+        <p>The collector publishes one rounded lifetime sum. This site retains only anonymous dated totals; source-level readings stay private.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>
@@ -369,7 +379,7 @@ github_activity: true
 
   <p class="github-activity-source">
     Aggregate GitHub snapshot updated <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
-    agentic-usage ledger; the direct tracker identifies its own coverage above. Time-window and scale controls draw on
+    agentic-usage ledger; the combined lifetime plot identifies its separate observed coverage above. Time-window and scale controls draw on
     <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>

@@ -66,6 +66,12 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const lifetimeResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
   expect(lifetimeResponse.ok()).toBe(true);
   const lifetimePayload = await lifetimeResponse.json();
+  expect(lifetimePayload.schema).toBe(5);
+  expect(lifetimePayload.combined_lifetime_history.coverage).toEqual({
+    starts_on: "2026-07-16",
+    before_start: "unobserved",
+  });
+  expect(lifetimePayload.combined_lifetime_history.points.length).toBeGreaterThan(1);
 
   const tokenRhythm = page.locator("[data-token-rhythm]");
   const tokenRhythmChart = page.locator("[data-token-rhythm-chart]");
@@ -97,16 +103,12 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await tokenDetailsSummary.click();
   await expect(tokenDetails).toHaveAttribute("open", "");
   await expect(tokenRhythm).toContainText("the running total above and each day's increase below");
-  const lifetimeRail = page.locator(".github-activity-lifetime-snapshot-line");
-  await expect(lifetimeRail).toHaveCount(1);
-  const lifetimeAxis = page.locator('[data-build-rhythm-y-axis="github-lifetime-snapshot"]');
+  const explorerChart = page.locator("#github-activity-chart");
+  const lifetimeAxis = explorerChart.locator('[data-build-rhythm-y-axis="github-lifetime-history"]');
   await expect(lifetimeAxis).toHaveCount(1);
-  const lifetimeRailGeometry = await lifetimeRail.evaluate((line) => ({
-    length: Number(line.getAttribute("x2")) - Number(line.getAttribute("x1")),
-    chartWidth: line.ownerSVGElement.viewBox.baseVal.width,
-  }));
-  expect(lifetimeRailGeometry.length).toBeGreaterThan(80);
-  expect(lifetimeRailGeometry.length).toBeLessThan(lifetimeRailGeometry.chartWidth * 0.55);
+  await expect(explorerChart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
+  await expect(explorerChart.locator(".github-activity-lifetime-history-marker")).toHaveCount(1);
+  await expect(explorerChart).toContainText("UNOBSERVED BEFORE JUL 16, 2026");
 
   await expect(story).toContainText("Commit count tells me when. Line changes tell me how much.");
   await expect(story).toContainText("One giant week was flattening everything else.");
@@ -124,7 +126,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(3);
     await expectReadableAxes(chart, 12);
     await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
-    await expect(stage).toContainText(lifetimePayload.combined_lifetime.tokens_label);
+    await expect(stage).toContainText(`${lifetimePayload.combined_lifetime.tokens_label} tokens`);
     if (viewportWidth <= 420) {
       await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
       const tokenTableOverflow = await tokenTableRegion.evaluate((element) => element.scrollWidth - element.clientWidth);
@@ -168,7 +170,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         expect(geometry.stageBottom).toBeLessThanOrEqual((page.viewportSize()?.height || 0) + 1);
         expect(geometry.stepsWidth).toBeGreaterThanOrEqual(319);
         expect(geometry.chartHeight).toBeGreaterThanOrEqual(400);
-        expect(geometry.chartHeight).toBeLessThanOrEqual(513);
+        expect(geometry.chartHeight).toBeLessThanOrEqual(545);
       }
       if (scene === "explore") {
         await expect(chart).toContainText("LIFETIME TOKENS");
@@ -180,9 +182,9 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow, `${viewportWidth}px Build Rhythm page overflows`).toBeLessThanOrEqual(1);
   await expect(page.getByRole("button", { name: "Readable", exact: true })).toHaveAttribute("aria-pressed", "true");
-  const literalLifetimeLabel = new Intl.NumberFormat("en-US").format(lifetimePayload.combined_lifetime.token_count);
   await page.getByRole("button", { name: "Literal", exact: true }).click();
-  await expect(lifetimeAxis.locator(".build-rhythm-axis-tick").filter({ hasText: literalLifetimeLabel })).toHaveCount(1);
+  await expect(lifetimeAxis.locator(".build-rhythm-axis-tick.is-zero")).toHaveText("0");
+  expect(await lifetimeAxis.locator(".build-rhythm-axis-tick").count()).toBeGreaterThan(1);
   await page.getByRole("button", { name: "Readable", exact: true }).click();
   await expect(page.locator("#github-activity-table-body")).toBeAttached();
   await attachScreenshot(page, testInfo, `build-rhythm-persistent-tokens-${testInfo.project.name}`, { locator: tokenRhythm });
@@ -194,7 +196,65 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(runtimeErrors).toEqual([]);
 });
 
-test("Build Rhythm refreshes the final three-rail scene after a delayed snapshot", async ({ page }, testInfo) => {
+test("combined lifetime observations share the GitHub date axis without inventing prehistory", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the dated-history interaction contract");
+
+  await preparePage(page, "light");
+  const routeUrl = publicRouteUrl("/github-activity/");
+  const originalResponse = await page.request.get(routeUrl);
+  expect(originalResponse.ok()).toBe(true);
+  const original = await originalResponse.text();
+  const dataMatch = original.match(/<script id="github-activity-data" type="application\/json">([\s\S]*?)<\/script>/);
+  expect(dataMatch).not.toBeNull();
+  const activitySource = JSON.parse(dataMatch[1]);
+  for (const week of ["2026-07-19", "2026-07-26"]) {
+    if (!activitySource.weeks.some((row) => row.week === week)) {
+      activitySource.weeks.push({ week, commits: 0, additions: 0, deletions: 0 });
+    }
+  }
+  const body = original.replace(dataMatch[0], `<script id="github-activity-data" type="application/json">${JSON.stringify(activitySource)}</script>`);
+  await page.route(routeUrl, (route) => route.fulfill({ status: 200, contentType: "text/html", body }));
+  await page.goto(routeUrl, { waitUntil: "networkidle" });
+
+  const chart = page.locator("#github-activity-chart");
+  const historyLines = chart.locator(".github-activity-lifetime-history-line");
+  const historyMarkers = chart.locator(".github-activity-lifetime-history-marker");
+  await expect(historyLines).toHaveCount(9);
+  await expect(chart.locator(".github-activity-lifetime-history-line.is-gap")).toHaveCount(1);
+  await expect(historyMarkers).toHaveCount(10);
+  await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
+
+  const historyGeometry = await historyMarkers.first().evaluate((marker) => ({
+    x: Number(marker.getAttribute("cx")),
+    width: marker.ownerSVGElement.viewBox.baseVal.width,
+  }));
+  expect(historyGeometry.x).toBeGreaterThan(historyGeometry.width * 0.9);
+
+  const guide = chart.locator(".github-activity-guide");
+  const yearGrid = chart.locator(".github-activity-year-grid").last();
+  const sharedBottom = await Promise.all([guide, yearGrid].map((locator) => locator.getAttribute("y2")));
+  expect(sharedBottom[0]).toBe(sharedBottom[1]);
+  const selectionBand = chart.locator(".github-activity-selection-band");
+  expect(Number(await selectionBand.getAttribute("height"))).toBe(Number(await guide.getAttribute("y2")) - Number(await guide.getAttribute("y1")));
+
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("52.8B lifetime tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Jul 27, 2026");
+  const inspector = chart.locator(".github-activity-inspector");
+  await inspector.focus();
+  await expect(inspector).toHaveAttribute("aria-valuetext", /52\.8B lifetime tokens, observed Jul 27, 2026/);
+  await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "visible");
+
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("52.1B lifetime tokens");
+  await page.keyboard.press("Shift+ArrowLeft");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("observed endpoint change");
+  await expect(page.locator("#github-activity-range-summary")).not.toContainText(/summed|totaled/i);
+  await attachScreenshot(page, testInfo, "build-rhythm-observed-history-desktop-1440", {
+    locator: page.locator(".github-activity-workbench"),
+  });
+});
+
+test("Build Rhythm refreshes the final three-plot scene after delayed lifetime history", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
 
   await preparePage(page, "light");
@@ -216,13 +276,13 @@ test("Build Rhythm refreshes the final three-rail scene after a delayed snapshot
   await expect(story).toHaveAttribute("data-state", "ready");
   await page.locator('[data-build-rhythm-step="explore"]').scrollIntoViewIfNeeded();
   await expect(stage).toHaveAttribute("data-scene", "explore");
-  await expect(stage).toContainText("Direct lifetime snapshot unavailable");
+  await expect(stage).toContainText("Combined lifetime history unavailable");
 
   releaseSnapshot();
   await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
 });
 
-test("Build Rhythm settles a failed lifetime snapshot as unavailable", async ({ page }, testInfo) => {
+test("Build Rhythm settles failed lifetime history as unavailable", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the failed-snapshot label");
 
   await preparePage(page, "light");
@@ -230,8 +290,8 @@ test("Build Rhythm settles a failed lifetime snapshot as unavailable", async ({ 
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
 
   await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
-  await expect(page.locator(".github-activity-lifetime-value")).toHaveText("Snapshot unavailable");
-  await expect(page.locator(".github-activity-lifetime-value")).not.toHaveText("Snapshot loading");
+  await expect(page.locator(".github-activity-lifetime-value")).toHaveText("History unavailable");
+  await expect(page.locator(".github-activity-lifetime-value")).not.toHaveText("History loading");
 });
 
 test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {
