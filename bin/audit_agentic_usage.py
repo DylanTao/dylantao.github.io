@@ -60,7 +60,7 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 46
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 47
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -5138,6 +5138,46 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V46_TURN_IDS = tuple(
 )
 
 del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V47_PDF_QUEUE_REVIEW_TURN = (
+    "019fa21a-28a5-7d42-b958-3a8fa68efcbd",
+    "2026-07-27T05:44:12.477Z",
+    "019fa21a-1cc8-7111-a7da-75a8f26f6af7",
+    "/root/review_pdf_queue_patch",
+    r"D:\dev\semantic-scaffolding-map",
+    "2026-07-27T05:44:19.027Z",
+)
+
+(
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) = MODEL_DEVIATION_ACKNOWLEDGMENT_V47_PDF_QUEUE_REVIEW_TURN
+MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+    "timestamp": _timestamp,
+    "model": "gpt-5.6-sol",
+    "effort": "high",
+    "acknowledged_at": "2026-07-26",
+    "reason": (
+        "A delegated PDF-queue patch review in the separate semantic-scaffolding-map "
+        "research workflow used high effort. It did not perform site development or "
+        "change this site's declared default."
+    ),
+    "provenance": (
+        f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+        f"cwd {_runtime_cwd}, and first scoped assistant response at "
+        f"{_first_scoped_response_at}; audited 2026-07-26."
+    ),
+}
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V47_TURN_IDS = (_turn_id,)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
 del _first_scoped_response_at
 
 
