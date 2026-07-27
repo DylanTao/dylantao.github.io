@@ -495,10 +495,7 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
   });
 });
 
-test("home agentic heartbeat keeps lifetime usage separate from the site-build price replay", async ({ page }, testInfo) => {
-  const usageResponse = await page.request.get(visualRoute("assets/data/codex-profile-usage.json"));
-  expect(usageResponse.ok()).toBe(true);
-  const usage = await usageResponse.json();
+test("home agentic heartbeat keeps combined code activity separate from the site-build ledger", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
@@ -507,14 +504,15 @@ test("home agentic heartbeat keeps lifetime usage separate from the site-build p
   const heartbeat = page.locator(".home-agentic-heartbeat");
   await heartbeat.scrollIntoViewIfNeeded();
   await expect(heartbeat).toBeVisible();
-  await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/");
-  await expect(heartbeat).toHaveAccessibleName("Open Build Rhythm");
-  await expect(heartbeat).toContainText(`${usage.combined_lifetime.tokens_label} combined lifetime Codex tokens`);
-  await expect(heartbeat).toContainText(usage.automated_refresh ? "Refreshed" : "Observed");
-  await expect(heartbeat.locator("time")).toHaveAttribute("datetime", usage.automated_refresh ? usage.updated_at : usage.observed_on);
+  await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/#combined-code-activity");
+  await expect(heartbeat).toHaveAccessibleName("Open combined code activity in Build Rhythm");
+  await expect(heartbeat).toContainText(/\d+ combined commits ·/);
+  await expect(heartbeat.locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
+  await expect(heartbeat).toContainText(/\+\d+ added/);
+  await expect(heartbeat).toContainText(/−\d+ removed/);
+  await expect(heartbeat).toContainText("includes external work-account totals");
   await expect(heartbeat).toContainText("Build Rhythm");
   await expect(heartbeat).not.toContainText("2-account quota health");
-  await expect(heartbeat).toContainText(/\d+ GitHub commits/);
   await expect(heartbeat).not.toContainText(/\$|public API|cost/i);
   const tally = page.locator(".home-agentic-tally");
   await expect(tally).toHaveAttribute(

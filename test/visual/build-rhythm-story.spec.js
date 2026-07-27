@@ -52,6 +52,19 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await expect(stage).toBeVisible();
   await expect(chart.locator("[data-build-rhythm-story-layer]")).toHaveCount(1);
 
+  const combinedDaily = page.locator("#combined-code-activity");
+  await expect(combinedDaily).toBeVisible();
+  await expect(combinedDaily).toContainText("Daily cumulative tally");
+  await expect(combinedDaily).toContainText("DAILY SNAPSHOTS · AGGREGATE ONLY");
+  await expect(combinedDaily).toContainText("not reconstructed GitHub contribution events");
+  await expect(combinedDaily.locator(".github-activity-daily-summary > div")).toHaveCount(3);
+  await expect(combinedDaily.locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
+  const combinedOverflow = await combinedDaily.evaluate((element) => Math.max(0, element.scrollWidth - element.clientWidth));
+  expect(combinedOverflow).toBeLessThanOrEqual(1);
+  await attachScreenshot(page, testInfo, `combined-code-activity-${testInfo.project.name}`, {
+    locator: combinedDaily,
+  });
+
   const tokenSource = await page.locator("#build-rhythm-token-data").evaluate((element) => JSON.parse(element.textContent));
   expect(Object.keys(tokenSource).sort()).toEqual(
     ["schema", "label", "units", "grain", "aggregation", "method", "since", "updated_at", "confidence", "privacy_note", "points"].sort()

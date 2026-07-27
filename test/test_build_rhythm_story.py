@@ -7,6 +7,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PAGE_PATH = REPO_ROOT / "_pages" / "github-activity.md"
+HOME_PATH = REPO_ROOT / "_layouts" / "home.liquid"
 CASE_STUDY_PATH = REPO_ROOT / "_projects" / "build-rhythm.md"
 REPRODUCTION_PATH = REPO_ROOT / "assets" / "downloads" / "site-experiments" / "build-rhythm-reproduction.md"
 HEURISTICS_PATH = REPO_ROOT / "WEBSITE_DESIGN_HEURISTICS.md"
@@ -23,6 +24,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.page = PAGE_PATH.read_text(encoding="utf-8")
+        cls.home = HOME_PATH.read_text(encoding="utf-8")
         cls.case_study = CASE_STUDY_PATH.read_text(encoding="utf-8")
         cls.reproduction = REPRODUCTION_PATH.read_text(encoding="utf-8")
         cls.heuristics = HEURISTICS_PATH.read_text(encoding="utf-8")
@@ -51,11 +53,48 @@ class BuildRhythmStoryTests(unittest.TestCase):
         )
         self.assertLess(
             self.page.index('class="github-activity-workbench"'),
+            self.page.index('id="combined-code-activity"'),
+        )
+        self.assertLess(
+            self.page.index('id="combined-code-activity"'),
             self.page.index('class="github-activity-token-rhythm"'),
         )
         self.assertLess(
             self.page.index('class="github-activity-token-rhythm"'),
             self.page.index('class="github-activity-method"'),
+        )
+
+    def test_combined_daily_tally_is_server_rendered_and_separate(self) -> None:
+        for contract in (
+            "site.data.combined_code_activity",
+            'id="combined-code-activity"',
+            'aria-label="Combined cumulative code activity"',
+            "Daily cumulative tally",
+            "DAILY SNAPSHOTS &middot; AGGREGATE ONLY",
+            "not reconstructed GitHub contribution events",
+            "other internship or work accounts",
+            "exact timestamps are not published",
+            "a missing date is never filled with a guessed zero",
+            'aria-label="Combined daily cumulative code activity table"',
+            "Exact daily changes",
+            'aria-label="Baseline snapshot"',
+        ):
+            with self.subTest(contract=contract):
+                self.assertIn(contract, self.page)
+        self.assertNotIn("site.data.combined_code_activity", self.script)
+        self.assertIn(
+            'href="{{ \'/github-activity/#combined-code-activity\' | relative_url }}"',
+            self.home,
+        )
+        self.assertIn(
+            'aria-label="Open combined code activity in Build Rhythm"',
+            self.home,
+        )
+        self.assertIn("includes external work-account totals", self.home)
+        self.assertIn("{% assign all_github_commits = 0 %}", self.home)
+        self.assertGreater(
+            self.home.index("{% assign direct_tracker"),
+            self.home.index("{% assign combined_activity"),
         )
 
     def test_story_credit_and_origin_route_are_explicit(self) -> None:

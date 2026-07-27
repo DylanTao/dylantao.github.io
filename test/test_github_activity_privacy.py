@@ -9,8 +9,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TIER_PATH = REPO_ROOT / "_data" / "github_ai_tiers.yml"
+COMBINED_ACTIVITY_PATH = REPO_ROOT / "_data" / "combined_code_activity.json"
 ACTIVITY_PATHS = (
     TIER_PATH,
+    COMBINED_ACTIVITY_PATH,
     REPO_ROOT / "_pages" / "github-activity.md",
     REPO_ROOT / "assets" / "js" / "github-activity.js",
     REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
@@ -280,6 +282,65 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 self.assertNotIsInstance(row[field], bool)
                 self.assertGreaterEqual(row[field], 0)
             previous = observed
+
+    def test_combined_daily_snapshots_are_cumulative_and_identity_free(self) -> None:
+        activity = json.loads(COMBINED_ACTIVITY_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(
+            set(activity),
+            {
+                "schema",
+                "timezone",
+                "scope",
+                "aggregation",
+                "updated_on",
+                "points",
+            },
+        )
+        self.assertEqual(activity["schema"], 1)
+        self.assertEqual(activity["timezone"], "America/Los_Angeles")
+        self.assertEqual(activity["scope"], "combined_code_activity")
+        self.assertEqual(
+            activity["aggregation"],
+            "cumulative_daily_snapshots",
+        )
+        self.assertGreaterEqual(len(activity["points"]), 1)
+
+        previous_date: date | None = None
+        previous_counts: dict[str, int] | None = None
+        for point in activity["points"]:
+            self.assertEqual(
+                set(point),
+                {"date", "commits", "additions", "deletions"},
+            )
+            observed = date.fromisoformat(point["date"])
+            self.assertLessEqual(observed, date.today())
+            if previous_date is not None:
+                self.assertGreater(observed, previous_date)
+            counts = {}
+            for field in ("commits", "additions", "deletions"):
+                self.assertIsInstance(point[field], int)
+                self.assertNotIsInstance(point[field], bool)
+                self.assertGreaterEqual(point[field], 0)
+                counts[field] = point[field]
+            if previous_counts is not None:
+                for field in ("commits", "additions", "deletions"):
+                    self.assertGreaterEqual(counts[field], previous_counts[field])
+            previous_date = observed
+            previous_counts = counts
+
+        self.assertEqual(activity["updated_on"], activity["points"][-1]["date"])
+        serialized = json.dumps(activity).lower()
+        for fragment in (
+            "account",
+            "employer",
+            "repository",
+            "email",
+            "host",
+            "sha",
+            "message",
+            "timestamp",
+        ):
+            self.assertNotIn(fragment, serialized)
 
 
 if __name__ == "__main__":

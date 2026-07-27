@@ -389,6 +389,76 @@
   background: var(--global-surface-container-low-color);
 }
 
+.github-activity-combined-daily {
+  width: 100%;
+  margin-top: clamp(2rem, 5vw, 3.25rem);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.8rem;
+  background: var(--global-surface-container-low-color);
+}
+
+.github-activity-daily-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 1rem 0 0;
+}
+
+.github-activity-daily-summary div {
+  min-width: 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--global-outline-color);
+}
+
+.github-activity-daily-summary dt,
+.github-activity-daily-summary dd {
+  margin: 0;
+}
+
+.github-activity-daily-summary dt {
+  color: var(--global-primary-color);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.github-activity-daily-summary dt.github-activity-added {
+  color: var(--github-activity-added-text);
+}
+
+.github-activity-daily-summary dt.github-activity-removed {
+  color: var(--github-activity-removed-text);
+}
+
+.github-activity-daily-summary dd {
+  margin-top: 0.2rem;
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  line-height: 1.45;
+}
+
+.github-activity-daily-date,
+.github-activity-daily-boundary {
+  max-width: var(--measure-prose);
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  line-height: 1.55;
+}
+
+.github-activity-daily-date {
+  margin: 1rem 0 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-daily-boundary {
+  margin: 0.65rem 0 0;
+}
+
 .github-activity-token-summary {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -801,13 +871,15 @@
   line-height: 1.55;
 }
 
-.github-activity-token-evidence {
+.github-activity-token-evidence,
+.github-activity-daily-evidence {
   margin-top: 1.25rem;
   border-top: 1px solid var(--global-outline-color);
   border-bottom: 1px solid var(--global-outline-color);
 }
 
-.github-activity-token-evidence summary {
+.github-activity-token-evidence summary,
+.github-activity-daily-evidence summary {
   min-height: 3rem;
   padding: 0.85rem 0;
   color: var(--global-text-color);
@@ -816,21 +888,25 @@
   cursor: pointer;
 }
 
-.github-activity-token-evidence summary::marker {
+.github-activity-token-evidence summary::marker,
+.github-activity-daily-evidence summary::marker {
   color: var(--global-primary-color);
 }
 
-.github-activity-token-evidence summary:focus-visible {
+.github-activity-token-evidence summary:focus-visible,
+.github-activity-daily-evidence summary:focus-visible {
   border-radius: 0.2rem;
   outline: var(--md-lite-focus-ring);
   outline-offset: 3px;
 }
 
-.github-activity-token-evidence-body {
+.github-activity-token-evidence-body,
+.github-activity-daily-evidence-body {
   padding: 0 0 1rem;
 }
 
-.github-activity-token-evidence p {
+.github-activity-token-evidence p,
+.github-activity-daily-evidence p {
   margin: 0;
   max-width: var(--measure-prose);
   color: var(--global-text-color-light);
@@ -838,12 +914,17 @@
   line-height: 1.55;
 }
 
-.github-activity-token-evidence .github-activity-table-wrap {
+.github-activity-token-evidence .github-activity-table-wrap,
+.github-activity-daily-evidence .github-activity-table-wrap {
   margin-top: 0.65rem;
 }
 
 .github-activity-token-evidence .github-activity-table {
   min-width: 38rem;
+}
+
+.github-activity-daily-evidence .github-activity-table {
+  min-width: 32rem;
 }
 
 .github-activity-codex-table-section {
@@ -938,6 +1019,10 @@
   }
 
   .github-activity-token-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .github-activity-daily-summary {
     grid-template-columns: minmax(0, 1fr);
   }
 

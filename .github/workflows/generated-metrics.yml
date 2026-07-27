@@ -7,7 +7,11 @@ on:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
+      - "_data/combined_code_activity.json"
       - "assets/data/codex-profile-usage.json"
+      - "bin/import_combined_code_activity.py"
+      - "test/test_import_combined_code_activity.py"
+      - ".github/workflows/update-code-activity.yml"
       - ".github/workflows/generated-metrics.yml"
   pull_request:
     branches: [main]
@@ -15,7 +19,11 @@ on:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
+      - "_data/combined_code_activity.json"
       - "assets/data/codex-profile-usage.json"
+      - "bin/import_combined_code_activity.py"
+      - "test/test_import_combined_code_activity.py"
+      - ".github/workflows/update-code-activity.yml"
       - ".github/workflows/generated-metrics.yml"
   workflow_dispatch:
 
@@ -51,20 +59,18 @@ jobs:
             _data/agentic_usage.yml \
             _data/direct_usage_tracker.json \
             _data/github_activity.json \
+            _data/combined_code_activity.json \
             assets/data/codex-profile-usage.json \
             docs/agentic-usage-ledger.md; then
             echo "Generated metrics contain a forbidden credential-shaped field." >&2
             exit 1
           fi
 
-      - name: Enforce personal-only generated surfaces
+      - name: Enforce identity-free combined activity
         shell: bash
         run: |
-          if git grep -niE '(autodesk|github\.autodesk|git\.autodesk)' -- \
-            _data/agentic_usage.yml \
-            _data/direct_usage_tracker.json \
-            _data/github_activity.json \
-            assets/data/codex-profile-usage.json; then
-            echo "Generated metrics contain a forbidden work boundary." >&2
+          if git grep -niE '(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp)' -- \
+            _data/combined_code_activity.json; then
+            echo "Combined code activity contains forbidden source metadata." >&2
             exit 1
           fi

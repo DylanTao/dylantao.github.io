@@ -1880,9 +1880,6 @@ test("head alternates are scoped to equivalent machine-readable documents", asyn
 
 test("home Build Rhythm ledger stays readable and truthful", async ({ page }, testInfo) => {
   const runtimeErrors = collectRuntimeErrors(page);
-  const usageResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
-  expect(usageResponse.ok()).toBe(true);
-  const usage = await usageResponse.json();
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
@@ -1891,11 +1888,13 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   const ledger = page.locator(".home-agentic-heartbeat");
   await ledger.scrollIntoViewIfNeeded();
   await expect(ledger).toBeVisible();
-  await expect(ledger).toHaveAccessibleName("Open Build Rhythm");
-  await expect(ledger).toContainText(`${usage.combined_lifetime.tokens_label} combined lifetime Codex tokens`);
-  await expect(ledger).toContainText(usage.automated_refresh ? "Refreshed" : "Observed");
-  await expect(ledger.locator("time")).toHaveAttribute("datetime", usage.automated_refresh ? usage.updated_at : usage.observed_on);
-  await expect(ledger).toContainText(/\d+ GitHub commits/);
+  await expect(ledger).toHaveAccessibleName("Open combined code activity in Build Rhythm");
+  await expect(ledger).toContainText(/\d+ combined commits ·/);
+  await expect(ledger.locator("time")).toHaveText("Daily cumulative");
+  await expect(ledger.locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
+  await expect(ledger).toContainText(/\+\d+ added/);
+  await expect(ledger).toContainText(/−\d+ removed/);
+  await expect(ledger).toContainText("includes external work-account totals");
   await expect(ledger).not.toContainText("2-account quota health");
   await expect(ledger.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
 
@@ -1927,7 +1926,7 @@ test("home Build Rhythm ledger stays readable and truthful", async ({ page }, te
   expect(geometry.left).toBeGreaterThanOrEqual(-1);
   expect(geometry.right).toBeLessThanOrEqual(geometry.clientWidth + 1);
   expect(geometry.height).toBeGreaterThanOrEqual(44);
-  expect(geometry.groups).toHaveLength(2);
+  expect(geometry.groups).toHaveLength(4);
   expect(geometry.groups.every((group) => group.rectCount === 1 && group.width > 0)).toBe(true);
   expect(geometry.titleRectCount).toBe(1);
   expect(geometry.statusAnimation).toBe("none");
