@@ -1,5 +1,5 @@
 {
-  "schema": 4,
+  "schema": 5,
   "combined_lifetime": {
     "token_count": 52800000000,
     "tokens_label": "52.8B",
@@ -7,6 +7,80 @@
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
     "source_count": 2
+  },
+  "combined_lifetime_history": {
+    "schema": 1,
+    "label": "Combined lifetime tokens",
+    "units": "tokens",
+    "grain": "daily_last_observation",
+    "aggregation": "sum_of_sources",
+    "rounding": "nearest_0.1B",
+    "coverage": {
+      "starts_on": "2026-07-16",
+      "before_start": "unobserved"
+    },
+    "points": [
+      {
+        "date": "2026-07-16",
+        "token_count": 32800000000,
+        "tokens_label": "32.8B",
+        "observation": "user_reported"
+      },
+      {
+        "date": "2026-07-19",
+        "token_count": 42300000000,
+        "tokens_label": "42.3B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-20",
+        "token_count": 43200000000,
+        "tokens_label": "43.2B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-21",
+        "token_count": 45000000000,
+        "tokens_label": "45.0B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-22",
+        "token_count": 48800000000,
+        "tokens_label": "48.8B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-23",
+        "token_count": 52000000000,
+        "tokens_label": "52.0B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-24",
+        "token_count": 52100000000,
+        "tokens_label": "52.1B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-25",
+        "token_count": 52100000000,
+        "tokens_label": "52.1B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-26",
+        "token_count": 52800000000,
+        "tokens_label": "52.8B",
+        "observation": "automated"
+      },
+      {
+        "date": "2026-07-27",
+        "token_count": 52800000000,
+        "tokens_label": "52.8B",
+        "observation": "automated"
+      }
+    ]
   },
   "method": "rounded_sum_of_verified_account_lifetime_readings",
   "confidence": "high",

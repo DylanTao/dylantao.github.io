@@ -22,11 +22,16 @@ SPEC.loader.exec_module(tracker)
 class DirectUsageImportTests(unittest.TestCase):
     NOW = datetime(2026, 7, 16, 19, 0, tzinfo=timezone.utc)
 
-    def source(self) -> dict:
+    def source(
+        self,
+        *,
+        token_count: int = 32_800_000_000,
+        updated_at: str = "2026-07-16T18:55:00Z",
+    ) -> dict:
         return {
             "schemaVersion": 3,
             "combinedLifetime": {
-                "tokenCount": 32_800_000_000,
+                "tokenCount": token_count,
                 "sourceCount": 2,
                 "units": "tokens",
                 "aggregation": "sum_of_sources",
@@ -34,7 +39,43 @@ class DirectUsageImportTests(unittest.TestCase):
             },
             "method": "rounded_sum_of_verified_account_lifetime_readings",
             "confidence": "high",
-            "updated_at": "2026-07-16T18:55:00Z",
+            "updated_at": updated_at,
+        }
+
+    def legacy_site_snapshot(self) -> dict:
+        return {
+            "schema": 3,
+            "combined_lifetime": {
+                "token_count": 32_800_000_000,
+                "tokens_label": "32.8B",
+                "units": "tokens",
+                "aggregation": "sum_of_sources",
+                "rounding": "nearest_0.1B",
+                "source_count": 2,
+            },
+            "method": "user_reported_rounded_lifetime_checkpoint",
+            "confidence": "user reported",
+            "observed_on": "2026-07-16",
+            "updated_at": None,
+            "automated_refresh": False,
+        }
+
+    def automated_legacy_site_snapshot(self) -> dict:
+        return {
+            "schema": 3,
+            "combined_lifetime": {
+                "token_count": 52_800_000_000,
+                "tokens_label": "52.8B",
+                "units": "tokens",
+                "aggregation": "sum_of_sources",
+                "rounding": "nearest_0.1B",
+                "source_count": 2,
+            },
+            "method": "rounded_sum_of_verified_account_lifetime_readings",
+            "confidence": "high",
+            "observed_on": "2026-07-27",
+            "updated_at": "2026-07-27T00:31:42.242208Z",
+            "automated_refresh": True,
         }
 
     def agentic_usage(self) -> dict:
@@ -50,19 +91,18 @@ class DirectUsageImportTests(unittest.TestCase):
 
     def test_builds_only_rounded_anonymous_public_fields(self) -> None:
         public = tracker.build_site_snapshot(self.source(), now=self.NOW)
-        self.assertEqual(
-            set(public),
-            {
-                "schema",
-                "combined_lifetime",
-                "method",
-                "confidence",
-                "observed_on",
-                "updated_at",
-                "automated_refresh",
-            },
-        )
-        self.assertEqual(public["schema"], 3)
+        expected_base = {
+            "schema",
+            "combined_lifetime",
+            "combined_lifetime_history",
+            "method",
+            "confidence",
+            "observed_on",
+            "updated_at",
+            "automated_refresh",
+        }
+        self.assertEqual(set(public), expected_base)
+        self.assertEqual(public["schema"], 4)
         lifetime = public["combined_lifetime"]
         self.assertEqual(
             set(lifetime),
@@ -81,17 +121,51 @@ class DirectUsageImportTests(unittest.TestCase):
         self.assertEqual(lifetime["aggregation"], "sum_of_sources")
         self.assertEqual(public["observed_on"], "2026-07-16")
         self.assertTrue(public["automated_refresh"])
+        history = public["combined_lifetime_history"]
+        self.assertEqual(
+            set(history),
+            {
+                "schema",
+                "label",
+                "units",
+                "grain",
+                "aggregation",
+                "rounding",
+                "coverage",
+                "points",
+            },
+        )
+        self.assertEqual(history["schema"], 1)
+        self.assertEqual(history["label"], "Combined lifetime tokens")
+        self.assertEqual(history["units"], "tokens")
+        self.assertEqual(history["grain"], "daily_last_observation")
+        self.assertEqual(history["aggregation"], "sum_of_sources")
+        self.assertEqual(history["rounding"], "nearest_0.1B")
+        self.assertEqual(
+            history["coverage"],
+            {"starts_on": "2026-07-16", "before_start": "unobserved"},
+        )
+        self.assertEqual(
+            history["points"],
+            [
+                {
+                    "date": "2026-07-16",
+                    "token_count": 32_800_000_000,
+                    "tokens_label": "32.8B",
+                    "observation": "automated",
+                }
+            ],
+        )
         serialized = json.dumps(public).lower()
         for forbidden in (
             "email",
             "account_id",
             "plan_type",
             "reset",
-            "daily",
-            "history",
             "api_cost",
             "healthyaccount",
             "quota",
+            "per_account",
         ):
             self.assertNotIn(forbidden, serialized)
 
@@ -99,12 +173,13 @@ class DirectUsageImportTests(unittest.TestCase):
         public = tracker.build_public_snapshot(
             self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
         )
-        self.assertEqual(public["schema"], 4)
+        self.assertEqual(public["schema"], 5)
         self.assertEqual(
             set(public),
             {
                 "schema",
                 "combined_lifetime",
+                "combined_lifetime_history",
                 "method",
                 "confidence",
                 "observed_on",
@@ -148,6 +223,214 @@ class DirectUsageImportTests(unittest.TestCase):
             tracker.build_public_snapshot(
                 self.source(), agentic_usage=usage, now=self.NOW
             )
+
+    def test_migrates_schema3_snapshot_to_verified_daily_history(self) -> None:
+        observed_at = datetime(2026, 7, 27, 0, 35, tzinfo=timezone.utc)
+        source = self.source(
+            token_count=52_800_000_000,
+            updated_at="2026-07-27T00:31:42.242208Z",
+        )
+        public = tracker.build_site_snapshot(
+            source,
+            previous_site=self.legacy_site_snapshot(),
+            now=observed_at,
+        )
+        points = public["combined_lifetime_history"]["points"]
+        self.assertEqual(
+            [(point["date"], point["token_count"]) for point in points],
+            [
+                ("2026-07-16", 32_800_000_000),
+                ("2026-07-19", 42_300_000_000),
+                ("2026-07-20", 43_200_000_000),
+                ("2026-07-21", 45_000_000_000),
+                ("2026-07-22", 48_800_000_000),
+                ("2026-07-23", 52_000_000_000),
+                ("2026-07-24", 52_100_000_000),
+                ("2026-07-25", 52_100_000_000),
+                ("2026-07-26", 52_800_000_000),
+                ("2026-07-27", 52_800_000_000),
+            ],
+        )
+        self.assertEqual(points[0]["observation"], "user_reported")
+        self.assertTrue(
+            all(point["observation"] == "automated" for point in points[1:])
+        )
+        self.assertNotIn("2026-07-12", {point["date"] for point in points})
+        self.assertNotIn("2026-07-17", {point["date"] for point in points})
+        self.assertNotIn("2026-07-18", {point["date"] for point in points})
+        self.assertEqual(
+            points[-1]["token_count"],
+            public["combined_lifetime"]["token_count"],
+        )
+
+    def test_migrates_the_actual_automated_schema3_cutover_pair(self) -> None:
+        observed_at = datetime(2026, 7, 27, 0, 35, tzinfo=timezone.utc)
+        source = self.source(
+            token_count=52_800_000_000,
+            updated_at="2026-07-27T00:31:42.242208Z",
+        )
+        public = tracker.build_site_snapshot(
+            source,
+            previous_site=self.automated_legacy_site_snapshot(),
+            now=observed_at,
+        )
+        self.assertEqual(public["schema"], 4)
+        self.assertEqual(public["observed_on"], "2026-07-27")
+        self.assertEqual(
+            public["combined_lifetime_history"]["points"],
+            json.loads(
+                (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text(
+                    encoding="utf-8"
+                )
+            )["combined_lifetime_history"]["points"],
+        )
+
+    def test_appends_a_new_utc_day_without_filling_unobserved_days(self) -> None:
+        previous = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        source = self.source(
+            token_count=33_000_000_000,
+            updated_at="2026-07-18T00:05:00Z",
+        )
+        public = tracker.build_site_snapshot(
+            source,
+            previous_site=previous,
+            now=datetime(2026, 7, 18, 0, 10, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            public["combined_lifetime_history"]["points"],
+            [
+                {
+                    "date": "2026-07-16",
+                    "token_count": 32_800_000_000,
+                    "tokens_label": "32.8B",
+                    "observation": "automated",
+                },
+                {
+                    "date": "2026-07-18",
+                    "token_count": 33_000_000_000,
+                    "tokens_label": "33.0B",
+                    "observation": "automated",
+                },
+            ],
+        )
+
+    def test_later_same_day_observation_replaces_instead_of_appending(self) -> None:
+        previous = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        source = self.source(
+            token_count=32_900_000_000,
+            updated_at="2026-07-16T18:59:00Z",
+        )
+        public = tracker.build_site_snapshot(
+            source,
+            previous_site=previous,
+            now=self.NOW,
+        )
+        self.assertEqual(
+            public["combined_lifetime_history"]["points"],
+            [
+                {
+                    "date": "2026-07-16",
+                    "token_count": 32_900_000_000,
+                    "tokens_label": "32.9B",
+                    "observation": "automated",
+                }
+            ],
+        )
+
+    def test_rejects_same_day_time_or_lifetime_regression(self) -> None:
+        previous = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        invalid_cases = (
+            (
+                self.source(
+                    token_count=32_900_000_000,
+                    updated_at="2026-07-16T18:55:00Z",
+                ),
+                "later observation timestamp",
+            ),
+            (
+                self.source(
+                    token_count=32_900_000_000,
+                    updated_at="2026-07-16T18:54:00Z",
+                ),
+                "cannot precede",
+            ),
+            (
+                self.source(
+                    token_count=32_700_000_000,
+                    updated_at="2026-07-16T18:59:00Z",
+                ),
+                "cannot decrease",
+            ),
+        )
+        for source, message in invalid_cases:
+            with self.subTest(message=message):
+                with self.assertRaisesRegex(tracker.SnapshotError, message):
+                    tracker.build_site_snapshot(
+                        source,
+                        previous_site=previous,
+                        now=self.NOW,
+                    )
+
+    def test_rejects_malformed_or_privacy_expanding_prior_history(self) -> None:
+        valid = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        invalid_cases = []
+
+        extra = json.loads(json.dumps(valid))
+        extra["combined_lifetime_history"]["points"][0]["account_id"] = "private"
+        invalid_cases.append((extra, "invalid keys"))
+
+        duplicate = json.loads(json.dumps(valid))
+        duplicate["combined_lifetime_history"]["points"].append(
+            dict(duplicate["combined_lifetime_history"]["points"][0])
+        )
+        invalid_cases.append((duplicate, "strictly increasing"))
+
+        decreasing = json.loads(json.dumps(valid))
+        decreasing["combined_lifetime_history"]["points"].insert(
+            0,
+            {
+                "date": "2026-07-16",
+                "token_count": 32_900_000_000,
+                "tokens_label": "32.9B",
+                "observation": "user_reported",
+            },
+        )
+        decreasing["combined_lifetime_history"]["points"][1]["date"] = "2026-07-17"
+        invalid_cases.append((decreasing, "nondecreasing"))
+
+        mismatched_final = json.loads(json.dumps(valid))
+        mismatched_final["combined_lifetime_history"]["points"][0][
+            "token_count"
+        ] = 32_900_000_000
+        mismatched_final["combined_lifetime_history"]["points"][0][
+            "tokens_label"
+        ] = "32.9B"
+        invalid_cases.append((mismatched_final, "final point"))
+
+        invalid_observation = json.loads(json.dumps(valid))
+        invalid_observation["combined_lifetime_history"]["points"][0][
+            "observation"
+        ] = "per_account"
+        invalid_cases.append((invalid_observation, "observation is invalid"))
+
+        invalid_observation_type = json.loads(json.dumps(valid))
+        invalid_observation_type["combined_lifetime_history"]["points"][0][
+            "observation"
+        ] = []
+        invalid_cases.append((invalid_observation_type, "observation is invalid"))
+
+        next_source = self.source(
+            token_count=33_000_000_000,
+            updated_at="2026-07-18T00:05:00Z",
+        )
+        for previous, message in invalid_cases:
+            with self.subTest(message=message):
+                with self.assertRaisesRegex(tracker.SnapshotError, message):
+                    tracker.build_site_snapshot(
+                        next_source,
+                        previous_site=previous,
+                        now=datetime(2026, 7, 18, 0, 10, tzinfo=timezone.utc),
+                    )
 
     def test_rejects_extra_identity_or_history_fields(self) -> None:
         for key, value in (
@@ -213,7 +496,44 @@ class DirectUsageImportTests(unittest.TestCase):
                 with self.assertRaisesRegex(tracker.SnapshotError, "confidence must be 'high'"):
                     tracker.build_site_snapshot(source, now=self.NOW)
 
-    def test_publishes_schema3_site_and_schema4_profile_atomically(self) -> None:
+    def test_loads_a_matching_legacy_pair_and_rejects_privacy_expansion(self) -> None:
+        site_payload = self.legacy_site_snapshot()
+        profile_payload = {
+            **site_payload,
+            "schema": 4,
+            "cost": tracker._cost_equivalence(
+                site_payload["combined_lifetime"]["token_count"],
+                self.agentic_usage(),
+            ),
+        }
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            site_path = root / "_data" / "direct_usage_tracker.json"
+            profile_path = root / "assets" / "data" / "codex-profile-usage.json"
+            site_path.parent.mkdir(parents=True, exist_ok=True)
+            profile_path.parent.mkdir(parents=True, exist_ok=True)
+            site_path.write_text(json.dumps(site_payload), encoding="utf-8")
+            profile_path.write_text(json.dumps(profile_payload), encoding="utf-8")
+            self.assertEqual(tracker._load_previous_site(root), site_payload)
+
+            profile_payload["per_account"] = []
+            profile_path.write_text(json.dumps(profile_payload), encoding="utf-8")
+            with self.assertRaisesRegex(tracker.SnapshotError, "invalid keys"):
+                tracker._load_previous_site(root)
+
+    def test_previous_pair_must_both_exist(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            site_path = root / "_data" / "direct_usage_tracker.json"
+            site_path.parent.mkdir(parents=True, exist_ok=True)
+            site_path.write_text(
+                json.dumps(self.legacy_site_snapshot()),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(tracker.SnapshotError, "both exist"):
+                tracker._load_previous_site(root)
+
+    def test_publishes_schema4_site_and_schema5_profile_atomically(self) -> None:
         site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
         profile_payload = tracker.build_public_snapshot(
             self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
@@ -226,6 +546,50 @@ class DirectUsageImportTests(unittest.TestCase):
             self.assertNotEqual(site, profile)
             self.assertEqual(json.loads(site), site_payload)
             self.assertEqual(json.loads(profile), profile_payload)
+            self.assertEqual(json.loads(site)["schema"], 4)
+            self.assertEqual(json.loads(profile)["schema"], 5)
+            self.assertEqual(
+                json.loads(site)["combined_lifetime_history"],
+                json.loads(profile)["combined_lifetime_history"],
+            )
+
+    def test_rejected_input_preserves_the_last_valid_pair(self) -> None:
+        site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        profile_payload = tracker.build_public_snapshot(
+            self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            tracker.publish_atomically(root, site_payload, profile_payload)
+            site_path = root / "_data" / "direct_usage_tracker.json"
+            profile_path = root / "assets" / "data" / "codex-profile-usage.json"
+            original_site = site_path.read_bytes()
+            original_profile = profile_path.read_bytes()
+            (root / "_data" / "agentic_usage.yml").write_text(
+                json.dumps(self.agentic_usage()),
+                encoding="utf-8",
+            )
+            invalid_source = self.source()
+            invalid_source["perAccount"] = [32_800_000_000]
+            input_path = root / "collector.json"
+            input_path.write_text(json.dumps(invalid_source), encoding="utf-8")
+
+            with (
+                mock.patch.object(
+                    sys,
+                    "argv",
+                    [
+                        "import_direct_usage_snapshot.py",
+                        str(input_path),
+                        "--repo-root",
+                        str(root),
+                    ],
+                ),
+                mock.patch("builtins.print"),
+            ):
+                self.assertEqual(tracker.main(), 1)
+            self.assertEqual(site_path.read_bytes(), original_site)
+            self.assertEqual(profile_path.read_bytes(), original_profile)
 
     def test_second_replace_failure_restores_both_previous_outputs(self) -> None:
         site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
@@ -257,6 +621,39 @@ class DirectUsageImportTests(unittest.TestCase):
                     tracker.publish_atomically(root, site_payload, profile_payload)
             for path in targets:
                 self.assertEqual(path.read_text(encoding="utf-8"), '{"old":true}\n')
+
+    def test_second_stage_failure_leaves_no_output_or_temp_file(self) -> None:
+        site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
+        profile_payload = tracker.build_public_snapshot(
+            self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            real_staged_file = tracker._staged_file
+            calls = 0
+
+            def fail_second(path: Path, content: bytes) -> Path:
+                nonlocal calls
+                calls += 1
+                if calls == 2:
+                    raise OSError("synthetic second staging failure")
+                return real_staged_file(path, content)
+
+            with mock.patch.object(
+                tracker,
+                "_staged_file",
+                side_effect=fail_second,
+            ):
+                with self.assertRaisesRegex(OSError, "synthetic"):
+                    tracker.publish_atomically(root, site_payload, profile_payload)
+
+            self.assertFalse(
+                (root / "_data" / "direct_usage_tracker.json").exists()
+            )
+            self.assertFalse(
+                (root / "assets" / "data" / "codex-profile-usage.json").exists()
+            )
+            self.assertEqual(list(root.rglob("*.tmp")), [])
 
 
 if __name__ == "__main__":

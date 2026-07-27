@@ -444,27 +444,15 @@
     {
       "name": "Shreya Krishnamurthy",
       "url": "https://shreyakrishnamurthy.framer.website/",
+      "status": "current",
       "details": "B.S. UCSD",
       "paperLabel": "P5",
       "paperAnchor": "cv-publication-p5"
     },
     {
-      "name": "Erin Huang",
-      "url": "https://www.linkedin.com/in/erin-huang-305389233/",
-      "details": "B.S. UCSD",
-      "paperLabel": "P5",
-      "paperAnchor": "cv-publication-p5"
-    },
-    {
-      "name": "Suma Vintha",
-      "url": "https://www.linkedin.com/in/suma-vintha/",
-      "details": "B.S. UCSD",
-      "paperLabel": "P5",
-      "paperAnchor": "cv-publication-p5"
-    },
-    {
-      "name": "Domonick Marshall",
-      "url": "https://www.linkedin.com/in/domonick-marshall-817556309/",
+      "name": "Cecilia Lin",
+      "url": "https://www.linkedin.com/in/cecilialin1",
+      "status": "current",
       "details": "B.S. UCSD",
       "paperLabel": "P5",
       "paperAnchor": "cv-publication-p5"
@@ -472,7 +460,32 @@
     {
       "name": "Kiruthika Marikumaran",
       "url": "https://www.linkedin.com/in/kiruthika-star14/",
+      "status": "alumni",
       "details": "B.S. + M.S. UCSD",
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
+    },
+    {
+      "name": "Domonick Marshall",
+      "url": "https://www.linkedin.com/in/domonick-marshall-817556309/",
+      "status": "alumni",
+      "details": "B.S. UCSD",
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
+    },
+    {
+      "name": "Erin Huang",
+      "url": "https://www.linkedin.com/in/erin-huang-305389233/",
+      "status": "alumni",
+      "details": "B.S. UCSD",
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
+    },
+    {
+      "name": "Suma Vintha",
+      "url": "https://www.linkedin.com/in/suma-vintha/",
+      "status": "alumni",
+      "details": "B.S. UCSD",
       "paperLabel": "P5",
       "paperAnchor": "cv-publication-p5"
     }

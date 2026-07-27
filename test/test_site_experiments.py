@@ -193,7 +193,7 @@ class SiteExperimentsTests(unittest.TestCase):
                     self.assertLessEqual(len(takeaway), 140)
 
         self.assertIn(
-            "first combined version put GitHub activity and token history in one workbench",
+            "first combined version put GitHub activity and source-linked token history in one workbench",
             (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8"),
         )
         self.assertIn(
@@ -514,11 +514,11 @@ class SiteExperimentsTests(unittest.TestCase):
             "How to read the rhythm",
             "GitHub cadence",
             "Site-token rhythm",
-            "Lifetime checkpoint",
-            "Earlier source-level history stays private",
+            "Lifetime observations",
+            "Account identities and source-level readings stay private",
             "The lesson I carried over was pacing",
             "Full technical revision record",
-            "current chart uses only the public repo-scoped estimate",
+            "this site's retained-log estimate remains a different series",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)

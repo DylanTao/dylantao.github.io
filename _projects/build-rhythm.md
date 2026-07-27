@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build Rhythm
-description: "A page for seeing when I build: weekly GitHub bursts, this site's daily token estimate, and one dated lifetime Codex total."
+description: "A page for seeing when I build: weekly GitHub bursts, observed combined-lifetime tokens, and this site's separate daily token estimate."
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
 image_aspect: 351 / 254
 card_avoid_scaling: true
@@ -20,12 +20,12 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      Build Rhythm is where I go to see when the work bunches up. It shows five years of GitHub activity by week, this site's rounded token estimate by day, and one dated lifetime Codex total. The charts give me the shape; the tables keep the exact values close by.
+      Build Rhythm is where I go to see when the work bunches up. It shows five years of GitHub activity by week, the combined lifetime Codex observations collected since July 16, and this site's separate rounded token estimate by day. The charts give me the shape; the tables keep the exact values close by.
     </p>
     <div class="project-case-facts">
       <span>Weekly GitHub cadence</span>
       <span>Daily repo-token estimate</span>
-      <span>Rounded lifetime snapshot</span>
+      <span>Observed lifetime history</span>
       <span>Accessible source tables</span>
     </div>
     <div class="project-case-actions">
@@ -50,13 +50,13 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
   <div><span>Why</span><p>I had plenty of logs, but no quick way to see the bursts and quiet stretches.</p></div>
-  <div><span>What</span><p>Three separate views: GitHub weeks, this site's token days, and one lifetime checkpoint.</p></div>
+  <div><span>What</span><p>GitHub weeks with a shared-axis lifetime plot, plus this site's separate token days.</p></div>
   <div><span>How</span><p>Read the guided charts first, then open the keyboard-readable values behind them.</p></div>
 </section>
 
 ## Why I rebuilt it
 
-The first combined version put GitHub activity and token history in one workbench. They looked like one story even though they used different units and clocks. I split them: weeks for GitHub, days for this site, and one dated point for lifetime use.
+The first combined version put GitHub activity and source-linked token history in one workbench. They looked like one story even though they used different evidence and clocks, so I reduced lifetime use to one anonymous checkpoint. The current version can finally draw a truthful lifetime line: the importer retains only rounded combined observations, leaves earlier dates unobserved, and keeps this site's retained-log estimate separate.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">
@@ -71,8 +71,8 @@ The first combined version put GitHub activity and token history in one workbenc
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Current version</p>
-    <h3>Each signal gets its own view.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily rhythm without folding it into the lifetime total. A visitor can now follow one clock at a time.</p>
+    <h3>The shared axis now carries only observations.</h3>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily rhythm without folding it into the lifetime total. The GitHub explorer now adds the anonymous combined-lifetime observations as a third plot on the same five-year date domain, while the site-token rhythm remains its own chapter.</p>
   </li>
 </ol>
 
@@ -90,15 +90,15 @@ Start with the question you have. Each chart uses the unit and clock that fit it
     <p><strong>How did this website build grow?</strong> Retained logs attributed to this repo become rounded daily cumulative points. Day-to-day differences are estimates and can change when the retained record changes.</p>
   </div>
   <div>
-    <h3>Lifetime checkpoint</h3>
-    <p><strong>What is the widest view?</strong> The tracker publishes one rounded lifetime Codex total with its observation date. It stays separate from the site estimate.</p>
+    <h3>Lifetime observations</h3>
+    <p><strong>What is the widest view?</strong> The tracker connects rounded combined Codex observations beginning July 16. Earlier time is explicitly unobserved, gaps are visible, and the latest total stays separate from the site estimate.</p>
   </div>
 </section>
 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
   <h2 id="build-rhythm-privacy-title">What stays private</h2>
-  <p>Earlier source-level history stays private; the current chart uses only the public repo-scoped estimate.</p>
+  <p>Account identities and source-level readings stay private. The lifetime plot exposes only rounded combined daily-last observations; this site's retained-log estimate remains a different series and is never added to it.</p>
 </aside>
 
 ## What _The Rhythm of Food_ changed
@@ -109,7 +109,7 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during ou
   <summary>Full technical revision record</summary>
   <div class="project-story-disclosure-body">
     <p><strong>Hero evidence:</strong> the current screenshot asset was committed July 16 at <code>c613c7b0f</code>. Its original viewport, theme, and interaction state were not retained, so it documents interface anatomy.</p>
-    <p><strong>Data contract:</strong> Three signals, never one score. The lifetime module publishes a rounded lifetime Codex snapshot. Deduplicated retained logs attributed to this repo form the site rhythm. Differences between adjacent points are rounded increases rather than exact per-day usage.</p>
+    <p><strong>Data contract:</strong> Three signals, never one score. The lifetime module publishes a latest rounded total plus anonymous, nondecreasing daily-last observations beginning July 16; dates before that are unobserved. Deduplicated retained logs attributed to this repo form the separate site rhythm. Differences between adjacent points are rounded increases rather than exact per-day usage.</p>
     <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
       <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
       <li><time datetime="2026-07-12">Jul 12</time><code>71b8f4c89</code><span>Added Codex token history beside the GitHub view, creating the combined state that the next revision separated.</span></li>
