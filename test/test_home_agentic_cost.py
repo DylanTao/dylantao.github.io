@@ -45,21 +45,37 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         self.assertIn("sam-money-altman.png", cost_copy)
         self.assertRegex(cost_copy, r'<img[^>]+alt=""')
 
-    def test_lifetime_heartbeat_has_no_price_language_or_control(self):
-        heartbeat = self.layout.split("{% assign direct_tracker", 1)[1]
-        heartbeat = heartbeat.split("</a>", 1)[0]
-        self.assertNotRegex(heartbeat, r"(?i)invoice|public-api|api-rate|cost|\$")
-        self.assertNotIn("home-agentic-info-cost", heartbeat)
+    def test_build_rhythm_route_is_permanent_and_schema_independent(self):
+        route = re.search(
+            r'<a\s+class="home-build-rhythm-route".*?</a>',
+            self.layout,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(route)
+        route_copy = route.group(0)
+        self.assertIn('href="{{ \'/github-activity/\' | relative_url }}"', route_copy)
+        self.assertIn(
+            'aria-label="Explore Build Rhythm: commits, lines, and observed token history."',
+            route_copy,
+        )
+        self.assertIn("<strong>Build Rhythm</strong>", route_copy)
+        self.assertIn("&middot; commits &middot; lines &middot;", route_copy)
+        self.assertIn("observed token history &middot;", route_copy)
+        self.assertNotRegex(route_copy, r"(?i)invoice|public-api|api-rate|cost|\$")
+        self.assertRegex(
+            self.layout,
+            r"</div>\s*{% endif %}\s*<a\s+class=\"home-build-rhythm-route\"",
+        )
 
-    def test_lifetime_heartbeat_accepts_snapshot_and_history_schemas(self):
-        self.assertIn(
-            "{% if direct_tracker.schema == 3 or direct_tracker.schema == 4 %}",
-            self.layout,
-        )
-        self.assertIn(
-            "{% if heartbeat_schema_supported and combined_lifetime and all_github_commits > 0 %}",
-            self.layout,
-        )
+        for obsolete in (
+            "direct_usage_tracker",
+            "site.data.github_activity",
+            "all_github_commits",
+            "combined_lifetime",
+            "heartbeat_schema_supported",
+            "home-agentic-heartbeat",
+        ):
+            self.assertNotIn(obsolete, self.layout)
 
     def test_cost_tooltip_has_zoom_and_narrow_view_containment(self):
         self.assertIn("max-height: calc(100vh - 2rem);", self.styles)

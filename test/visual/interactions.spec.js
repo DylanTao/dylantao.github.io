@@ -495,25 +495,20 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
   });
 });
 
-test("home agentic heartbeat keeps combined code activity separate from the site-build ledger", async ({ page }, testInfo) => {
+test("home agentic ledger keeps price replay separate from the permanent Build Rhythm route", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
-  const heartbeat = page.locator(".home-agentic-heartbeat");
-  await heartbeat.scrollIntoViewIfNeeded();
-  await expect(heartbeat).toBeVisible();
-  await expect(heartbeat).toHaveAttribute("href", "/al-folio/github-activity/#combined-code-activity");
-  await expect(heartbeat).toHaveAccessibleName("Open combined code activity in Build Rhythm");
-  await expect(heartbeat).toContainText(/\d+ combined commits ·/);
-  await expect(heartbeat.locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
-  await expect(heartbeat).toContainText(/\+\d+ added/);
-  await expect(heartbeat).toContainText(/−\d+ removed/);
-  await expect(heartbeat).toContainText("includes external work-account totals");
-  await expect(heartbeat).toContainText("Build Rhythm");
-  await expect(heartbeat).not.toContainText("2-account quota health");
-  await expect(heartbeat).not.toContainText(/\$|public API|cost/i);
+  const buildRhythmRoute = page.locator(".home-build-rhythm-route");
+  await buildRhythmRoute.scrollIntoViewIfNeeded();
+  await expect(buildRhythmRoute).toBeVisible();
+  await expect(buildRhythmRoute).toHaveAttribute("href", "/al-folio/github-activity/");
+  await expect(buildRhythmRoute).toHaveAccessibleName("Explore Build Rhythm: commits, lines, and observed token history.");
+  await expect(buildRhythmRoute).toHaveText("Build Rhythm · commits · lines · observed token history · →");
+  await expect(buildRhythmRoute).not.toContainText(/\$|public API|cost|refreshed|observed \w{3} \d+|\d+ GitHub commits/i);
+  await expect(page.locator(".home-agentic-heartbeat")).toHaveCount(0);
   const tally = page.locator(".home-agentic-tally");
   await expect(tally).toHaveAttribute(
     "aria-label",
@@ -589,21 +584,26 @@ test("home agentic heartbeat keeps combined code activity separate from the site
     expect(tooltipFrame.y + tooltipFrame.height).toBeLessThanOrEqual(viewport.height + 1);
   }
 
-  await expect(heartbeat.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
-  await expect(heartbeat.locator(".home-agentic-heartbeat-meta > span")).toHaveCount(2);
-  const heartbeatFrame = await heartbeat.evaluate((node) => {
+  const routeFrame = await buildRhythmRoute.evaluate((node) => {
     const style = getComputedStyle(node);
-    return { borderTopWidth: style.borderTopWidth, backgroundColor: style.backgroundColor, minHeight: style.minHeight };
+    const arrowStyle = getComputedStyle(node.querySelector(".home-build-rhythm-route-arrow"));
+    return {
+      borderWidths: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth],
+      backgroundColor: style.backgroundColor,
+      boxShadow: style.boxShadow,
+      minHeight: style.minHeight,
+      routeTransitionDuration: style.transitionDuration,
+      arrowTransitionDuration: arrowStyle.transitionDuration,
+      arrowTransform: arrowStyle.transform,
+    };
   });
-  expect(heartbeatFrame.borderTopWidth).toBe("0px");
-  expect(heartbeatFrame.backgroundColor).toBe("rgba(0, 0, 0, 0)");
-  expect(Number.parseFloat(heartbeatFrame.minHeight)).toBeGreaterThanOrEqual(44);
-  const statusMotion = await heartbeat.locator(".home-agentic-heartbeat-status").evaluate((node) => {
-    const style = getComputedStyle(node);
-    return { animationName: style.animationName, animationDuration: style.animationDuration };
-  });
-  expect(statusMotion.animationName).toBe("none");
-  expect(statusMotion.animationDuration).toBe("0s");
+  expect(routeFrame.borderWidths).toEqual(["0px", "0px", "0px", "0px"]);
+  expect(routeFrame.backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  expect(routeFrame.boxShadow).toBe("none");
+  expect(Number.parseFloat(routeFrame.minHeight)).toBeGreaterThanOrEqual(44);
+  expect(routeFrame.routeTransitionDuration).toBe("0s");
+  expect(routeFrame.arrowTransitionDuration).toBe("0s");
+  expect(routeFrame.arrowTransform).toBe("none");
 });
 
 test("publications Abs toggle opens and closes", async ({ page }) => {

@@ -1878,68 +1878,87 @@ test("head alternates are scoped to equivalent machine-readable documents", asyn
   }
 });
 
-test("home Build Rhythm ledger stays readable and truthful", async ({ page }, testInfo) => {
+test("home Build Rhythm route stays quiet and permanently available", async ({ page }, testInfo) => {
   const runtimeErrors = collectRuntimeErrors(page);
-  await preparePage(page, "light");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
-  await stabilizeVisuals(page);
+  for (const theme of ["noon", "evening"]) {
+    await preparePage(page, theme);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await stabilizeVisuals(page);
 
-  const ledger = page.locator(".home-agentic-heartbeat");
-  await ledger.scrollIntoViewIfNeeded();
-  await expect(ledger).toBeVisible();
-  await expect(ledger).toHaveAccessibleName("Open combined code activity in Build Rhythm");
-  await expect(ledger).toContainText(/\d+ combined commits ·/);
-  await expect(ledger.locator("time")).toHaveText("Daily cumulative");
-  await expect(ledger.locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
-  await expect(ledger).toContainText(/\+\d+ added/);
-  await expect(ledger).toContainText(/−\d+ removed/);
-  await expect(ledger).toContainText("includes external work-account totals");
-  await expect(ledger).not.toContainText("2-account quota health");
-  await expect(ledger.locator(".home-agentic-heartbeat-sparkline")).toHaveCount(0);
+    const route = page.locator(".home-build-rhythm-route");
+    await route.scrollIntoViewIfNeeded();
+    await expect(route).toBeVisible();
+    await expect(route).toHaveAttribute("href", /\/github-activity\/$/);
+    await expect(route).toHaveAccessibleName("Explore Build Rhythm: commits, lines, and observed token history.");
+    await expect(route).toHaveText("Build Rhythm · commits · lines · observed token history · →");
+    await expect(page.locator(".home-agentic-heartbeat")).toHaveCount(0);
+    await expect(route.locator("time, .home-agentic-heartbeat-status, .home-agentic-heartbeat-meta")).toHaveCount(0);
 
-  const geometry = await ledger.evaluate((element) => {
-    const bounds = element.getBoundingClientRect();
-    const statusStyle = getComputedStyle(element.querySelector(".home-agentic-heartbeat-status"));
-    const title = element.querySelector(".home-agentic-heartbeat-copy strong");
-    const copyBounds = element.querySelector(".home-agentic-heartbeat-copy").getBoundingClientRect();
-    const routeBounds = element.querySelector(".home-agentic-heartbeat-route").getBoundingClientRect();
-    const groups = Array.from(element.querySelectorAll(".home-agentic-heartbeat-meta > span")).map((group) => ({
-      rectCount: group.getClientRects().length,
-      width: group.getBoundingClientRect().width,
-    }));
-    return {
-      left: bounds.left,
-      right: bounds.right,
-      height: bounds.height,
-      groups,
-      copyBottom: copyBounds.bottom,
-      copyLeft: copyBounds.left,
-      routeLeft: routeBounds.left,
-      routeTop: routeBounds.top,
-      statusAnimation: statusStyle.animationName,
-      titleRectCount: title.getClientRects().length,
-      clientWidth: document.documentElement.clientWidth,
-      scrollWidth: document.documentElement.scrollWidth,
-    };
-  });
-  expect(geometry.left).toBeGreaterThanOrEqual(-1);
-  expect(geometry.right).toBeLessThanOrEqual(geometry.clientWidth + 1);
-  expect(geometry.height).toBeGreaterThanOrEqual(44);
-  expect(geometry.groups).toHaveLength(4);
-  expect(geometry.groups.every((group) => group.rectCount === 1 && group.width > 0)).toBe(true);
-  expect(geometry.titleRectCount).toBe(1);
-  expect(geometry.statusAnimation).toBe("none");
-  expect(geometry.scrollWidth - geometry.clientWidth).toBeLessThanOrEqual(1);
-  if (testInfo.project.name === "mobile-390") {
-    expect(geometry.routeTop).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
-    expect(geometry.routeLeft).toBeGreaterThanOrEqual(geometry.copyLeft - 1);
+    const geometry = await route.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      const titleStyle = getComputedStyle(element.querySelector("strong"));
+      const summaryStyle = getComputedStyle(element.querySelector(".home-build-rhythm-route-summary"));
+      const destinationBounds = element.querySelector(".home-build-rhythm-route-destination").getBoundingClientRect();
+      const arrow = element.querySelector(".home-build-rhythm-route-arrow");
+      const arrowBounds = arrow.getBoundingClientRect();
+      const arrowStyle = getComputedStyle(arrow);
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const lineTops = Array.from(range.getClientRects()).map((rect) => Math.round(rect.top));
+      const footer = document.querySelector("footer")?.getBoundingClientRect();
+      return {
+        left: bounds.left,
+        right: bounds.right,
+        bottom: bounds.bottom,
+        height: bounds.height,
+        backgroundColor: style.backgroundColor,
+        borderWidths: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth],
+        boxShadow: style.boxShadow,
+        color: style.color,
+        titleColor: titleStyle.color,
+        summaryColor: summaryStyle.color,
+        arrowColor: arrowStyle.color,
+        arrowTransitionDuration: arrowStyle.transitionDuration,
+        routeTransitionDuration: style.transitionDuration,
+        lineCount: new Set(lineTops).size,
+        arrowTop: arrowBounds.top,
+        destinationTop: destinationBounds.top,
+        footerTop: footer?.top ?? null,
+        clientWidth: document.documentElement.clientWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+      };
+    });
+    expect(geometry.left).toBeGreaterThanOrEqual(-1);
+    expect(geometry.right).toBeLessThanOrEqual(geometry.clientWidth + 1);
+    expect(geometry.height).toBeGreaterThanOrEqual(44);
+    expect(geometry.backgroundColor).toBe("rgba(0, 0, 0, 0)");
+    expect(geometry.borderWidths).toEqual(["0px", "0px", "0px", "0px"]);
+    expect(geometry.boxShadow).toBe("none");
+    expect(geometry.titleColor).toBe(geometry.color);
+    expect(geometry.summaryColor).toBe(geometry.color);
+    expect(geometry.arrowColor).not.toBe(geometry.color);
+    expect(geometry.lineCount).toBeGreaterThanOrEqual(1);
+    expect(geometry.lineCount).toBeLessThanOrEqual(2);
+    expect(Math.abs(geometry.arrowTop - geometry.destinationTop)).toBeLessThanOrEqual(1);
+    expect(geometry.scrollWidth - geometry.clientWidth).toBeLessThanOrEqual(1);
+    expect(geometry.routeTransitionDuration).toBe("0s");
+    expect(geometry.arrowTransitionDuration).toBe("0s");
+    if (geometry.footerTop !== null) {
+      expect(geometry.bottom).toBeLessThanOrEqual(geometry.footerTop + 1);
+    }
+
+    await route.focus();
+    await expect(route).toBeFocused();
+    const focusStyle = await route.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { color: style.color, outlineWidth: Number.parseFloat(style.outlineWidth) };
+    });
+    expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(2);
+    expect(focusStyle.color).toBe(geometry.arrowColor);
+    await attachScreenshot(page, testInfo, `home-build-rhythm-route-${theme}-${testInfo.project.name}`, { locator: route });
   }
-
-  await ledger.focus();
-  await expect(ledger).toBeFocused();
-  expect(await ledger.evaluate((element) => Number.parseFloat(getComputedStyle(element).outlineWidth))).toBeGreaterThanOrEqual(2);
-  await attachScreenshot(page, testInfo, `home-build-rhythm-ledger-${testInfo.project.name}`, { locator: ledger });
   expect(runtimeErrors).toEqual([]);
 });
 

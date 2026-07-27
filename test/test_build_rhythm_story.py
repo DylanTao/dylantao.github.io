@@ -83,19 +83,17 @@ class BuildRhythmStoryTests(unittest.TestCase):
                 self.assertIn(contract, self.page)
         self.assertNotIn("site.data.combined_code_activity", self.script)
         self.assertIn(
-            'href="{{ \'/github-activity/#combined-code-activity\' | relative_url }}"',
+            'href="{{ \'/github-activity/\' | relative_url }}"',
             self.home,
         )
         self.assertIn(
-            'aria-label="Open combined code activity in Build Rhythm"',
+            'aria-label="Explore Build Rhythm: commits, lines, and observed token history."',
             self.home,
         )
-        self.assertIn("includes external work-account totals", self.home)
-        self.assertIn("{% assign all_github_commits = 0 %}", self.home)
-        self.assertGreater(
-            self.home.index("{% assign direct_tracker"),
-            self.home.index("{% assign combined_activity"),
-        )
+        self.assertIn("observed token history", self.home)
+        self.assertNotIn("site.data.combined_code_activity", self.home)
+        self.assertNotIn("home-agentic-heartbeat", self.home)
+        self.assertNotIn("{% assign direct_tracker", self.home)
 
     def test_story_credit_and_origin_route_are_explicit(self) -> None:
         self.assertIn("https://rhythm-of-food.net/", self.page)

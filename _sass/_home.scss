@@ -3208,94 +3208,59 @@ html[data-theme="dark"] .home-artifact-mark {
   text-transform: uppercase;
 }
 
-.home-agentic-heartbeat {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 0.56rem;
-  align-items: center;
+.home-page .home-build-rhythm-route {
+  display: block;
   width: min(100%, 31.5rem);
-  margin: 0.12rem auto 0;
   min-height: 2.75rem;
-  padding: 0.42rem 0.12rem;
+  margin: 0.34rem auto 0.55rem;
+  padding: 0.58rem 0.2rem;
   border: 0;
-  border-radius: 0.2rem;
   background: transparent;
-  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--home-line) 38%, transparent);
-  color: var(--home-muted);
-  text-align: left;
+  box-shadow: none;
+  color: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  line-height: 1.55;
+  text-align: center;
   text-decoration: none;
-  transition:
-    box-shadow 160ms ease,
-    transform 160ms ease;
+  text-wrap: balance;
+  transition: color 140ms ease;
 }
 
-.home-agentic-heartbeat:hover,
-.home-agentic-heartbeat:focus-visible {
-  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--home-accent) 68%, var(--home-line));
-  color: var(--home-muted);
+.home-page .home-build-rhythm-route:hover,
+.home-page .home-build-rhythm-route:focus-visible {
+  color: var(--home-accent-strong);
   text-decoration: none;
-  transform: translateY(-0.04rem);
 }
 
-.home-agentic-heartbeat:focus-visible {
+.home-page .home-build-rhythm-route:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--home-accent) 58%, transparent);
   outline-offset: 2px;
 }
 
-.home-agentic-heartbeat-copy {
-  display: grid;
-  min-width: 0;
-  gap: 0.1rem;
-}
-
-.home-agentic-heartbeat strong,
-.home-agentic-heartbeat small,
-.home-agentic-heartbeat-route {
-  font-family: var(--font-mono);
-}
-
-.home-agentic-heartbeat strong {
-  color: color-mix(in srgb, var(--home-ink) 78%, var(--home-accent-strong));
-  font-size: 0.66rem;
+.home-page .home-build-rhythm-route strong {
+  color: inherit;
+  font-size: 0.62rem;
   font-weight: 720;
 }
 
-.home-agentic-heartbeat small {
-  color: color-mix(in srgb, var(--home-muted) 76%, transparent);
-  font-size: 0.52rem;
-  line-height: 1.35;
+.home-page .home-build-rhythm-route-summary {
+  color: inherit;
 }
 
-.home-agentic-heartbeat-meta {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 0.52rem;
-  row-gap: 0.08rem;
-}
-
-.home-agentic-heartbeat-meta > span {
+.home-page .home-build-rhythm-route-destination {
   white-space: nowrap;
 }
 
-.home-agentic-heartbeat-route {
-  color: color-mix(in srgb, var(--home-accent-strong) 64%, var(--home-muted));
-  font-size: 0.55rem;
-  font-weight: 680;
+.home-page .home-build-rhythm-route-arrow {
+  display: inline-block;
+  color: var(--home-accent-strong);
   transition: transform 160ms ease;
-  white-space: nowrap;
 }
 
-.home-agentic-heartbeat:hover .home-agentic-heartbeat-route,
-.home-agentic-heartbeat:focus-visible .home-agentic-heartbeat-route {
-  transform: translateX(0.12rem);
-}
-
-.home-agentic-heartbeat-status {
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--home-accent) 72%, transparent);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--home-accent) 68%, var(--home-surface));
+.home-page .home-build-rhythm-route:hover .home-build-rhythm-route-arrow,
+.home-page .home-build-rhythm-route:focus-visible .home-build-rhythm-route-arrow {
+  transform: translateX(0.1rem);
 }
 
 .home-agentic-tree-label {
@@ -4179,30 +4144,10 @@ html.home-motion-ready .home-reveal.home-visible {
     font-size: 0.46rem;
   }
 
-  .home-agentic-heartbeat {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: auto auto;
+  .home-page .home-build-rhythm-route {
     width: min(100%, 20rem);
-    padding: 0.44rem 0.08rem;
-  }
-
-  .home-agentic-heartbeat-status {
-    grid-row: 1 / span 2;
-  }
-
-  .home-agentic-heartbeat-copy {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .home-agentic-heartbeat strong {
-    white-space: nowrap;
-  }
-
-  .home-agentic-heartbeat-route {
-    grid-column: 2;
-    grid-row: 2;
-    justify-self: start;
+    margin-top: 0.3rem;
+    padding: 0.52rem 0.28rem;
   }
 
   .home-agentic-tree-mark {
@@ -4333,7 +4278,8 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-artifact-stack.has-coffee-stain::before,
   .home-artifact-card,
   .home-artifact-thumb img,
-  .home-agentic-heartbeat-route,
+  .home-page .home-build-rhythm-route,
+  .home-page .home-build-rhythm-route-arrow,
   html.home-motion-ready .home-reveal {
     animation: none;
     transition: none;
@@ -4369,8 +4315,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-artifact-card:focus-visible,
   .home-artifact-card:hover .home-artifact-thumb img,
   .home-artifact-card:focus-visible .home-artifact-thumb img,
-  .home-agentic-heartbeat,
-  .home-agentic-heartbeat-route,
+  .home-page .home-build-rhythm-route-arrow,
   html.home-motion-ready .home-reveal {
     transform: none;
   }
