@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Publish sanitized, rounded Codex lifetime usage and observed history.
+"""Publish sanitized, combined Codex lifetime and completed-day usage.
 
 The input is the identity-free projection produced by the protected collector.
 This module intentionally has no knowledge of Codex credentials, account
-identities, per-source readings, or reset times. The public daily history is
-accumulated only from successive anonymous combined snapshots. A rough cost
-comparison is derived separately from the site's already-public blended API
-rate; it is not supplied by the collector and is not an actual bill.
+identities, per-source readings, or reset times. Collector schema 4 can publish
+exact combined completed-day totals; legacy schema 3 continues to publish only
+the existing rounded observation history until the protected collector
+migrates. A rough cost comparison is derived separately from the site's
+already-public blended API rate; it is not supplied by the collector and is not
+an actual bill.
 """
 
 from __future__ import annotations
@@ -32,18 +34,23 @@ EXPECTED_LIFETIME = {
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
 }
-TOP_LEVEL_KEYS = {
+LEGACY_TOP_LEVEL_KEYS = {
     "schemaVersion",
     "combinedLifetime",
     "method",
     "confidence",
     "updated_at",
 }
+DAILY_TOP_LEVEL_KEYS = LEGACY_TOP_LEVEL_KEYS | {"combinedDailyUsage"}
 EXPECTED_CONFIDENCE = "high"
 COST_METHOD = "flat_reference_rate_replay"
 COST_REFERENCE_SCOPE = "current_site_build_blended_public_api_rate"
-SITE_SCHEMA = 4
-PROFILE_SCHEMA = 5
+LEGACY_COLLECTOR_SCHEMA = 3
+DAILY_COLLECTOR_SCHEMA = 4
+LEGACY_SITE_SCHEMA = 4
+SITE_SCHEMA = 5
+LEGACY_PROFILE_SCHEMA = 5
+PROFILE_SCHEMA = 6
 HISTORY_SCHEMA = 1
 HISTORY_LABEL = "Combined lifetime tokens"
 HISTORY_GRAIN = "daily_last_observation"
@@ -84,6 +91,28 @@ HISTORY_POINT_KEYS = {
     "observation",
 }
 HISTORY_COVERAGE_KEYS = {"starts_on", "before_start"}
+DAILY_USAGE_SCHEMA = 1
+DAILY_USAGE_LABEL = "Combined daily Codex usage"
+DAILY_USAGE_GRAIN = "day"
+DAILY_USAGE_KEYS = {
+    "schema",
+    "label",
+    "units",
+    "grain",
+    "aggregation",
+    "coverage",
+    "points",
+}
+DAILY_USAGE_COVERAGE_KEYS = {
+    "starts_on",
+    "complete_through",
+    "before_start",
+    "completeness",
+    "prior_unallocated_tokens",
+}
+DAILY_USAGE_POINT_KEYS = {"date", "tokens"}
+DAILY_USAGE_BEFORE_START = {"zero", "unobserved"}
+DAILY_USAGE_COMPLETENESS = {"whole_lifetime", "rolling_window_partial"}
 COST_KEYS = {
     "method",
     "reference_scope",
@@ -160,6 +189,187 @@ def _parse_iso_date(value: Any, label: str) -> date:
     if parsed.isoformat() != value:
         raise SnapshotError(f"{label} must be an ISO date")
     return parsed
+
+
+def _round_token_count(token_count: int) -> int:
+    return (
+        (token_count + ROUNDING_QUANTUM // 2) // ROUNDING_QUANTUM
+    ) * ROUNDING_QUANTUM
+
+
+def _validate_daily_usage(
+    value: Any,
+    *,
+    rounded_lifetime_token_count: int,
+    observed_at: datetime,
+    checked_at: datetime,
+    label: str = "combined_daily_usage",
+) -> dict[str, Any]:
+    usage = _exact_keys(value, DAILY_USAGE_KEYS, label)
+    schema = usage["schema"]
+    if (
+        not isinstance(schema, int)
+        or isinstance(schema, bool)
+        or schema != DAILY_USAGE_SCHEMA
+    ):
+        raise SnapshotError(f"{label}.schema must be {DAILY_USAGE_SCHEMA}")
+
+    expected_metadata = {
+        "label": DAILY_USAGE_LABEL,
+        "units": EXPECTED_LIFETIME["units"],
+        "grain": DAILY_USAGE_GRAIN,
+        "aggregation": EXPECTED_LIFETIME["aggregation"],
+    }
+    for field, expected in expected_metadata.items():
+        if usage[field] != expected:
+            raise SnapshotError(f"{label}.{field} does not match the public contract")
+
+    coverage = _exact_keys(
+        usage["coverage"],
+        DAILY_USAGE_COVERAGE_KEYS,
+        f"{label}.coverage",
+    )
+    starts_on = _parse_iso_date(
+        coverage["starts_on"],
+        f"{label}.coverage.starts_on",
+    )
+    complete_through = _parse_iso_date(
+        coverage["complete_through"],
+        f"{label}.coverage.complete_through",
+    )
+    if complete_through < starts_on:
+        raise SnapshotError(
+            f"{label}.coverage.complete_through cannot precede starts_on"
+        )
+    if complete_through != observed_at.date() - timedelta(days=1):
+        raise SnapshotError(
+            f"{label}.coverage.complete_through must be the latest completed UTC date"
+        )
+    if complete_through >= observed_at.date():
+        raise SnapshotError(f"{label} may contain completed UTC dates only")
+    if complete_through >= checked_at.date():
+        raise SnapshotError(
+            f"{label}.coverage.complete_through cannot be today or future"
+        )
+
+    before_start = coverage["before_start"]
+    completeness = coverage["completeness"]
+    if (
+        not isinstance(before_start, str)
+        or before_start not in DAILY_USAGE_BEFORE_START
+    ):
+        raise SnapshotError(f"{label}.coverage.before_start is invalid")
+    if (
+        not isinstance(completeness, str)
+        or completeness not in DAILY_USAGE_COMPLETENESS
+    ):
+        raise SnapshotError(f"{label}.coverage.completeness is invalid")
+    prior_unallocated_tokens = _count(
+        coverage["prior_unallocated_tokens"],
+        f"{label}.coverage.prior_unallocated_tokens",
+    )
+    if prior_unallocated_tokens > JAVASCRIPT_SAFE_INTEGER:
+        raise SnapshotError(
+            f"{label}.coverage.prior_unallocated_tokens "
+            "must be a JavaScript-safe integer"
+        )
+    if completeness == "whole_lifetime":
+        if before_start != "zero" or prior_unallocated_tokens != 0:
+            raise SnapshotError(
+                f"{label} whole-lifetime coverage requires zero prehistory "
+                "and no prior unallocated tokens"
+            )
+    elif before_start != "unobserved" or prior_unallocated_tokens == 0:
+        raise SnapshotError(
+            f"{label} rolling-window coverage requires unobserved prehistory "
+            "and a positive prior unallocated total"
+        )
+
+    points = usage["points"]
+    if not isinstance(points, list) or isinstance(points, bool) or not points:
+        raise SnapshotError(f"{label}.points must be a non-empty array")
+    previous_date: date | None = None
+    exact_total = prior_unallocated_tokens
+    for index, raw_point in enumerate(points):
+        point_label = f"{label}.points[{index}]"
+        point = _exact_keys(raw_point, DAILY_USAGE_POINT_KEYS, point_label)
+        point_date = _parse_iso_date(point["date"], f"{point_label}.date")
+        tokens = _count(point["tokens"], f"{point_label}.tokens")
+        if tokens > JAVASCRIPT_SAFE_INTEGER:
+            raise SnapshotError(
+                f"{point_label}.tokens must be a JavaScript-safe integer"
+            )
+        if point_date > complete_through:
+            raise SnapshotError(f"{point_label}.date exceeds complete_through")
+        if previous_date is not None:
+            if point_date <= previous_date:
+                raise SnapshotError(
+                    f"{label} point dates must be sorted and unique"
+                )
+            if point_date != previous_date + timedelta(days=1):
+                raise SnapshotError(
+                    f"{label} must include every UTC date in its coverage window"
+                )
+        previous_date = point_date
+        exact_total += tokens
+        if exact_total > JAVASCRIPT_SAFE_INTEGER:
+            raise SnapshotError(
+                f"{label} exact total must be a JavaScript-safe integer"
+            )
+
+    if points[0]["date"] != starts_on.isoformat():
+        raise SnapshotError(f"{label} first point must match coverage.starts_on")
+    if points[-1]["date"] != complete_through.isoformat():
+        raise SnapshotError(
+            f"{label} final point must match coverage.complete_through"
+        )
+    if _round_token_count(exact_total) != rounded_lifetime_token_count:
+        raise SnapshotError(
+            f"{label} exact total does not reconcile with the rounded lifetime total"
+        )
+    return usage
+
+
+def _validate_daily_progression(
+    previous: dict[str, Any],
+    current: dict[str, Any],
+) -> None:
+    previous_coverage = previous["coverage"]
+    current_coverage = current["coverage"]
+    previous_completeness = previous_coverage["completeness"]
+    current_completeness = current_coverage["completeness"]
+    if (
+        previous_completeness == "whole_lifetime"
+        and current_completeness != "whole_lifetime"
+    ):
+        raise SnapshotError("combined daily usage coverage cannot become partial")
+    if current_coverage["complete_through"] < previous_coverage["complete_through"]:
+        raise SnapshotError(
+            "combined daily usage complete_through cannot move backward"
+        )
+
+    if previous_completeness == current_completeness:
+        for field in (
+            "starts_on",
+            "before_start",
+            "completeness",
+            "prior_unallocated_tokens",
+        ):
+            if current_coverage[field] != previous_coverage[field]:
+                raise SnapshotError(
+                    f"combined daily usage coverage.{field} cannot change"
+                )
+
+    current_by_date = {point["date"]: point["tokens"] for point in current["points"]}
+    for point in previous["points"]:
+        if point["date"] not in current_by_date:
+            raise SnapshotError(
+                "combined daily usage cannot drop a previously completed date"
+            )
+        if current_by_date[point["date"]] != point["tokens"]:
+            raise SnapshotError(
+                "combined daily usage cannot revise a previously completed date"
+            )
 
 
 def _validate_published_lifetime(value: Any, label: str) -> dict[str, Any]:
@@ -339,11 +549,19 @@ def _validate_previous_site(value: Any) -> tuple[dict[str, Any], datetime | None
     if not isinstance(value, dict) or isinstance(value, bool):
         raise SnapshotError("previous site snapshot must be an object")
     schema = value.get("schema")
-    if not isinstance(schema, int) or isinstance(schema, bool) or schema not in (3, 4):
-        raise SnapshotError("previous site snapshot schema must be 3 or 4")
+    if (
+        not isinstance(schema, int)
+        or isinstance(schema, bool)
+        or schema not in (3, LEGACY_SITE_SCHEMA, SITE_SCHEMA)
+    ):
+        raise SnapshotError(
+            f"previous site snapshot schema must be 3, {LEGACY_SITE_SCHEMA}, or {SITE_SCHEMA}"
+        )
     expected_keys = set(PUBLISHED_BASE_KEYS)
-    if schema == SITE_SCHEMA:
+    if schema == LEGACY_SITE_SCHEMA:
         expected_keys.add("combined_lifetime_history")
+    elif schema == SITE_SCHEMA:
+        expected_keys.add("combined_daily_usage")
     snapshot = _exact_keys(value, expected_keys, "previous site snapshot")
     lifetime = _validate_published_lifetime(
         snapshot["combined_lifetime"],
@@ -381,11 +599,22 @@ def _validate_previous_site(value: Any) -> tuple[dict[str, Any], datetime | None
             )
         updated_at = None
 
-    if schema == SITE_SCHEMA:
+    if schema == LEGACY_SITE_SCHEMA:
         _validate_history(
             snapshot["combined_lifetime_history"],
             current_token_count=lifetime["token_count"],
             current_observed_on=observed_on.isoformat(),
+        )
+    elif schema == SITE_SCHEMA:
+        if updated_at is None:
+            raise SnapshotError(
+                "previous schema-5 site snapshot must be an automated refresh"
+            )
+        _validate_daily_usage(
+            snapshot["combined_daily_usage"],
+            rounded_lifetime_token_count=lifetime["token_count"],
+            observed_at=updated_at,
+            checked_at=max(updated_at, datetime.now(timezone.utc)),
         )
     return snapshot, updated_at
 
@@ -410,6 +639,10 @@ def _merge_history(
             replacement_after = _seeded_cutoff_for(observed_on)
     else:
         previous, previous_updated_at = _validate_previous_site(previous_site)
+        if previous["schema"] == SITE_SCHEMA:
+            raise SnapshotError(
+                "legacy collector input cannot replace exact combined daily usage"
+            )
         previous_lifetime = previous["combined_lifetime"]
         previous_observed_on = previous["observed_on"]
         if observed_on < previous_observed_on:
@@ -435,7 +668,7 @@ def _merge_history(
             )
         history = (
             previous["combined_lifetime_history"]
-            if previous["schema"] == SITE_SCHEMA
+            if previous["schema"] == LEGACY_SITE_SCHEMA
             else _seeded_history_through(observed_at)
         )
         if history["points"] and history["points"][-1]["date"] == observed_on:
@@ -523,19 +756,31 @@ def _cost_equivalence(token_count: int, agentic_usage: Any) -> dict[str, Any]:
     }
 
 
-def build_site_snapshot(
+def _collector_context(
     source: Any,
     *,
-    previous_site: Any | None = None,
     now: datetime | None = None,
     max_age: timedelta = timedelta(minutes=20),
-) -> dict[str, Any]:
-    """Validate schema-3 collector input and return the schema-4 site payload."""
-
-    source = _exact_keys(source, TOP_LEVEL_KEYS, "snapshot")
-    schema_version = source["schemaVersion"]
-    if not isinstance(schema_version, int) or isinstance(schema_version, bool) or schema_version != 3:
-        raise SnapshotError("snapshot.schemaVersion must be 3")
+) -> tuple[dict[str, Any], int, int, str, datetime, datetime]:
+    if not isinstance(source, dict) or isinstance(source, bool):
+        raise SnapshotError("snapshot must be an object")
+    schema_version = source.get("schemaVersion")
+    if (
+        not isinstance(schema_version, int)
+        or isinstance(schema_version, bool)
+        or schema_version not in (LEGACY_COLLECTOR_SCHEMA, DAILY_COLLECTOR_SCHEMA)
+    ):
+        _exact_keys(source, LEGACY_TOP_LEVEL_KEYS, "snapshot")
+        raise SnapshotError(
+            "snapshot.schemaVersion must be "
+            f"{LEGACY_COLLECTOR_SCHEMA} or {DAILY_COLLECTOR_SCHEMA}"
+        )
+    expected_keys = (
+        LEGACY_TOP_LEVEL_KEYS
+        if schema_version == LEGACY_COLLECTOR_SCHEMA
+        else DAILY_TOP_LEVEL_KEYS
+    )
+    source = _exact_keys(source, expected_keys, "snapshot")
 
     lifetime = _exact_keys(
         source["combinedLifetime"],
@@ -582,26 +827,103 @@ def build_site_snapshot(
     if age > max_age:
         raise SnapshotError("snapshot.updated_at is stale")
 
-    return {
-        "schema": SITE_SCHEMA,
-        "combined_lifetime": {
-            "token_count": token_count,
-            "tokens_label": _tokens_label(token_count),
-            "units": EXPECTED_LIFETIME["units"],
-            "aggregation": EXPECTED_LIFETIME["aggregation"],
-            "rounding": EXPECTED_LIFETIME["rounding"],
-            "source_count": source_count,
-        },
-        "combined_lifetime_history": _merge_history(
-            previous_site,
-            observed_at=observed_at,
-            token_count=token_count,
-        ),
+    return source, schema_version, token_count, confidence, observed_at, checked_at
+
+
+def _validate_new_snapshot_progression(
+    previous_site: Any | None,
+    *,
+    observed_at: datetime,
+    token_count: int,
+    daily_usage: dict[str, Any],
+) -> None:
+    if previous_site is None:
+        return
+    previous, previous_updated_at = _validate_previous_site(previous_site)
+    observed_on = observed_at.date().isoformat()
+    if observed_on < previous["observed_on"]:
+        raise SnapshotError("snapshot observation date cannot move backward")
+    if token_count < previous["combined_lifetime"]["token_count"]:
+        raise SnapshotError("snapshot lifetime total cannot decrease")
+    if previous_updated_at is not None and observed_at < previous_updated_at:
+        raise SnapshotError("snapshot.updated_at cannot precede the prior observation")
+    if (
+        previous_updated_at is not None
+        and observed_at == previous_updated_at
+        and token_count != previous["combined_lifetime"]["token_count"]
+    ):
+        raise SnapshotError(
+            "a changed lifetime total requires a later observation timestamp"
+        )
+    if previous["schema"] == SITE_SCHEMA:
+        _validate_daily_progression(
+            previous["combined_daily_usage"],
+            daily_usage,
+        )
+
+
+def build_site_snapshot(
+    source: Any,
+    *,
+    previous_site: Any | None = None,
+    now: datetime | None = None,
+    max_age: timedelta = timedelta(minutes=20),
+) -> dict[str, Any]:
+    """Validate a protected collector projection and build its site payload."""
+
+    (
+        source,
+        schema_version,
+        token_count,
+        confidence,
+        observed_at,
+        checked_at,
+    ) = _collector_context(source, now=now, max_age=max_age)
+    source_count = source["combinedLifetime"]["sourceCount"]
+    lifetime_payload = {
+        "token_count": token_count,
+        "tokens_label": _tokens_label(token_count),
+        "units": EXPECTED_LIFETIME["units"],
+        "aggregation": EXPECTED_LIFETIME["aggregation"],
+        "rounding": EXPECTED_LIFETIME["rounding"],
+        "source_count": source_count,
+    }
+    base_payload = {
+        "combined_lifetime": lifetime_payload,
         "method": EXPECTED_METHOD,
         "confidence": confidence,
         "observed_on": observed_at.date().isoformat(),
         "updated_at": source["updated_at"],
         "automated_refresh": True,
+    }
+    if schema_version == LEGACY_COLLECTOR_SCHEMA:
+        return {
+            "schema": LEGACY_SITE_SCHEMA,
+            **base_payload,
+            "combined_lifetime_history": _merge_history(
+                previous_site,
+                observed_at=observed_at,
+                token_count=token_count,
+            ),
+        }
+
+    daily_usage = _validate_daily_usage(
+        source["combinedDailyUsage"],
+        rounded_lifetime_token_count=token_count,
+        observed_at=observed_at,
+        checked_at=checked_at,
+        label="snapshot.combinedDailyUsage",
+    )
+    _validate_new_snapshot_progression(
+        previous_site,
+        observed_at=observed_at,
+        token_count=token_count,
+        daily_usage=daily_usage,
+    )
+    return {
+        "schema": SITE_SCHEMA,
+        **base_payload,
+        "combined_daily_usage": daily_usage,
     }
 
 
@@ -613,7 +935,7 @@ def build_public_snapshot(
     now: datetime | None = None,
     max_age: timedelta = timedelta(minutes=20),
 ) -> dict[str, Any]:
-    """Project the site payload as the cost-bearing public schema 5."""
+    """Project the site payload with the bounded flat-rate cost comparison."""
 
     site = build_site_snapshot(
         source,
@@ -621,9 +943,12 @@ def build_public_snapshot(
         now=now,
         max_age=max_age,
     )
+    profile_schema = (
+        PROFILE_SCHEMA if site["schema"] == SITE_SCHEMA else LEGACY_PROFILE_SCHEMA
+    )
     return {
         **site,
-        "schema": PROFILE_SCHEMA,
+        "schema": profile_schema,
         "cost": _cost_equivalence(site["combined_lifetime"]["token_count"], agentic_usage),
     }
 

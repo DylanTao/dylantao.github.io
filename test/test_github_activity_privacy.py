@@ -79,18 +79,22 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         required_keys = {
             "schema",
             "combined_lifetime",
-            "combined_lifetime_history",
             "method",
             "confidence",
             "observed_on",
             "updated_at",
             "automated_refresh",
         }
-        self.assertEqual(site_copy["schema"], 4)
-        self.assertEqual(set(site_copy), required_keys)
-        self.assertEqual(public["schema"], 5)
-        self.assertEqual(set(public), required_keys | {"cost"})
-        for key in required_keys - {"schema"}:
+        if site_copy["schema"] == 4:
+            history_key = "combined_lifetime_history"
+            self.assertEqual(public["schema"], 5)
+        else:
+            self.assertEqual(site_copy["schema"], 5)
+            history_key = "combined_daily_usage"
+            self.assertEqual(public["schema"], 6)
+        self.assertEqual(set(site_copy), required_keys | {history_key})
+        self.assertEqual(set(public), required_keys | {history_key, "cost"})
+        for key in (required_keys | {history_key}) - {"schema"}:
             self.assertEqual(public[key], site_copy[key])
         lifetime = site_copy["combined_lifetime"]
         self.assertEqual(
@@ -141,62 +145,128 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             )
             self.assertEqual(site_copy["confidence"], "user reported")
             self.assertIsNone(site_copy["updated_at"])
-        history = site_copy["combined_lifetime_history"]
-        self.assertEqual(
-            set(history),
-            {
-                "schema",
-                "label",
-                "units",
-                "grain",
-                "aggregation",
-                "rounding",
-                "coverage",
-                "points",
-            },
-        )
-        self.assertEqual(history["schema"], 1)
-        self.assertEqual(history["label"], "Combined lifetime tokens")
-        self.assertEqual(history["units"], "tokens")
-        self.assertEqual(history["grain"], "daily_last_observation")
-        self.assertEqual(history["aggregation"], "sum_of_sources")
-        self.assertEqual(history["rounding"], "nearest_0.1B")
-        self.assertEqual(
-            history["coverage"],
-            {"starts_on": "2026-07-16", "before_start": "unobserved"},
-        )
-        self.assertGreater(len(history["points"]), 0)
-        previous_date: date | None = None
-        previous_count = -1
-        for point in history["points"]:
+        history = site_copy[history_key]
+        if history_key == "combined_lifetime_history":
             self.assertEqual(
-                set(point),
-                {"date", "token_count", "tokens_label", "observation"},
+                set(history),
+                {
+                    "schema",
+                    "label",
+                    "units",
+                    "grain",
+                    "aggregation",
+                    "rounding",
+                    "coverage",
+                    "points",
+                },
             )
-            point_date = date.fromisoformat(point["date"])
-            self.assertIsInstance(point["token_count"], int)
-            self.assertNotIsInstance(point["token_count"], bool)
-            self.assertGreater(point["token_count"], 0)
-            self.assertEqual(point["token_count"] % 100_000_000, 0)
-            point_billions, point_remainder = divmod(
-                point["token_count"], 1_000_000_000
-            )
+            self.assertEqual(history["schema"], 1)
+            self.assertEqual(history["label"], "Combined lifetime tokens")
+            self.assertEqual(history["units"], "tokens")
+            self.assertEqual(history["grain"], "daily_last_observation")
+            self.assertEqual(history["aggregation"], "sum_of_sources")
+            self.assertEqual(history["rounding"], "nearest_0.1B")
             self.assertEqual(
-                point["tokens_label"],
-                f"{point_billions}.{point_remainder // 100_000_000}B",
+                history["coverage"],
+                {"starts_on": "2026-07-16", "before_start": "unobserved"},
             )
-            self.assertIn(point["observation"], {"user_reported", "automated"})
-            if previous_date is not None:
-                self.assertGreater(point_date, previous_date)
-            self.assertGreaterEqual(point["token_count"], previous_count)
-            previous_date = point_date
-            previous_count = point["token_count"]
-        self.assertEqual(history["points"][0]["date"], "2026-07-16")
-        self.assertEqual(history["points"][-1]["date"], site_copy["observed_on"])
-        self.assertEqual(
-            history["points"][-1]["token_count"],
-            lifetime["token_count"],
-        )
+            self.assertGreater(len(history["points"]), 0)
+            previous_date: date | None = None
+            previous_count = -1
+            for point in history["points"]:
+                self.assertEqual(
+                    set(point),
+                    {"date", "token_count", "tokens_label", "observation"},
+                )
+                point_date = date.fromisoformat(point["date"])
+                self.assertIsInstance(point["token_count"], int)
+                self.assertNotIsInstance(point["token_count"], bool)
+                self.assertGreater(point["token_count"], 0)
+                self.assertEqual(point["token_count"] % 100_000_000, 0)
+                point_billions, point_remainder = divmod(
+                    point["token_count"], 1_000_000_000
+                )
+                self.assertEqual(
+                    point["tokens_label"],
+                    f"{point_billions}.{point_remainder // 100_000_000}B",
+                )
+                self.assertIn(point["observation"], {"user_reported", "automated"})
+                if previous_date is not None:
+                    self.assertGreater(point_date, previous_date)
+                self.assertGreaterEqual(point["token_count"], previous_count)
+                previous_date = point_date
+                previous_count = point["token_count"]
+            self.assertEqual(history["points"][0]["date"], "2026-07-16")
+            self.assertEqual(history["points"][-1]["date"], site_copy["observed_on"])
+            self.assertEqual(
+                history["points"][-1]["token_count"],
+                lifetime["token_count"],
+            )
+        else:
+            self.assertEqual(
+                set(history),
+                {
+                    "schema",
+                    "label",
+                    "units",
+                    "grain",
+                    "aggregation",
+                    "coverage",
+                    "points",
+                },
+            )
+            self.assertEqual(history["schema"], 1)
+            self.assertEqual(history["label"], "Combined daily Codex usage")
+            self.assertEqual(history["units"], "tokens")
+            self.assertEqual(history["grain"], "day")
+            self.assertEqual(history["aggregation"], "sum_of_sources")
+            coverage = history["coverage"]
+            self.assertEqual(
+                set(coverage),
+                {
+                    "starts_on",
+                    "complete_through",
+                    "before_start",
+                    "completeness",
+                    "prior_unallocated_tokens",
+                },
+            )
+            if coverage["completeness"] == "whole_lifetime":
+                self.assertEqual(coverage["before_start"], "zero")
+                self.assertEqual(coverage["prior_unallocated_tokens"], 0)
+            else:
+                self.assertEqual(
+                    coverage["completeness"],
+                    "rolling_window_partial",
+                )
+                self.assertEqual(coverage["before_start"], "unobserved")
+                self.assertGreater(coverage["prior_unallocated_tokens"], 0)
+            self.assertGreater(len(history["points"]), 0)
+            previous_date = None
+            exact_total = coverage["prior_unallocated_tokens"]
+            for point in history["points"]:
+                self.assertEqual(set(point), {"date", "tokens"})
+                point_date = date.fromisoformat(point["date"])
+                if previous_date is not None:
+                    self.assertEqual(point_date, previous_date + timedelta(days=1))
+                self.assertIsInstance(point["tokens"], int)
+                self.assertNotIsInstance(point["tokens"], bool)
+                self.assertGreaterEqual(point["tokens"], 0)
+                exact_total += point["tokens"]
+                previous_date = point_date
+            self.assertEqual(history["points"][0]["date"], coverage["starts_on"])
+            self.assertEqual(
+                history["points"][-1]["date"],
+                coverage["complete_through"],
+            )
+            self.assertLess(
+                date.fromisoformat(coverage["complete_through"]),
+                date.fromisoformat(site_copy["observed_on"]),
+            )
+            rounded_total = (
+                (exact_total + 50_000_000) // 100_000_000
+            ) * 100_000_000
+            self.assertEqual(rounded_total, lifetime["token_count"])
         replay = public["cost"]
         self.assertEqual(
             set(replay),

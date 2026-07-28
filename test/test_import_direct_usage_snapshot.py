@@ -42,6 +42,48 @@ class DirectUsageImportTests(unittest.TestCase):
             "updated_at": updated_at,
         }
 
+    def daily_source(
+        self,
+        *,
+        token_count: int = 32_800_000_000,
+        updated_at: str = "2026-07-16T18:55:00Z",
+        completeness: str = "whole_lifetime",
+    ) -> dict:
+        prior = 0 if completeness == "whole_lifetime" else 32_100_000_000
+        before_start = "zero" if completeness == "whole_lifetime" else "unobserved"
+        daily_total = token_count if completeness == "whole_lifetime" else 700_000_000
+        return {
+            "schemaVersion": 4,
+            "combinedLifetime": {
+                "tokenCount": token_count,
+                "sourceCount": 2,
+                "units": "tokens",
+                "aggregation": "sum_of_sources",
+                "rounding": "nearest_0.1B",
+            },
+            "combinedDailyUsage": {
+                "schema": 1,
+                "label": "Combined daily Codex usage",
+                "units": "tokens",
+                "grain": "day",
+                "aggregation": "sum_of_sources",
+                "coverage": {
+                    "starts_on": "2026-07-14",
+                    "complete_through": "2026-07-15",
+                    "before_start": before_start,
+                    "completeness": completeness,
+                    "prior_unallocated_tokens": prior,
+                },
+                "points": [
+                    {"date": "2026-07-14", "tokens": daily_total - 200_000_000},
+                    {"date": "2026-07-15", "tokens": 200_000_000},
+                ],
+            },
+            "method": "rounded_sum_of_verified_account_lifetime_readings",
+            "confidence": "high",
+            "updated_at": updated_at,
+        }
+
     def legacy_site_snapshot(self) -> dict:
         return {
             "schema": 3,
@@ -199,6 +241,211 @@ class DirectUsageImportTests(unittest.TestCase):
                 "usd_label": "~$26.2K API-rate replay",
             },
         )
+
+    def test_schema4_collector_publishes_exact_completed_days_as_schema5_and_6(
+        self,
+    ) -> None:
+        site = tracker.build_site_snapshot(self.daily_source(), now=self.NOW)
+        profile = tracker.build_public_snapshot(
+            self.daily_source(),
+            agentic_usage=self.agentic_usage(),
+            now=self.NOW,
+        )
+        self.assertEqual(site["schema"], 5)
+        self.assertEqual(profile["schema"], 6)
+        self.assertEqual(
+            set(site),
+            {
+                "schema",
+                "combined_lifetime",
+                "combined_daily_usage",
+                "method",
+                "confidence",
+                "observed_on",
+                "updated_at",
+                "automated_refresh",
+            },
+        )
+        self.assertEqual(
+            set(profile),
+            set(site) | {"cost"},
+        )
+        for key in set(site) - {"schema"}:
+            self.assertEqual(profile[key], site[key])
+        usage = site["combined_daily_usage"]
+        self.assertEqual(
+            usage,
+            {
+                "schema": 1,
+                "label": "Combined daily Codex usage",
+                "units": "tokens",
+                "grain": "day",
+                "aggregation": "sum_of_sources",
+                "coverage": {
+                    "starts_on": "2026-07-14",
+                    "complete_through": "2026-07-15",
+                    "before_start": "zero",
+                    "completeness": "whole_lifetime",
+                    "prior_unallocated_tokens": 0,
+                },
+                "points": [
+                    {"date": "2026-07-14", "tokens": 32_600_000_000},
+                    {"date": "2026-07-15", "tokens": 200_000_000},
+                ],
+            },
+        )
+        self.assertNotIn("combined_lifetime_history", site)
+        serialized = json.dumps((site, profile)).lower()
+        for forbidden in (
+            "email",
+            "account_id",
+            "plan_type",
+            "reset",
+            "healthyaccount",
+            "quota",
+            "per_account",
+        ):
+            self.assertNotIn(forbidden, serialized)
+
+    def test_partial_daily_window_requires_and_reconciles_unallocated_prehistory(
+        self,
+    ) -> None:
+        site = tracker.build_site_snapshot(
+            self.daily_source(completeness="rolling_window_partial"),
+            now=self.NOW,
+        )
+        coverage = site["combined_daily_usage"]["coverage"]
+        self.assertEqual(coverage["before_start"], "unobserved")
+        self.assertEqual(coverage["prior_unallocated_tokens"], 32_100_000_000)
+        self.assertEqual(coverage["completeness"], "rolling_window_partial")
+
+    def test_daily_contract_rejects_missing_malformed_or_privacy_expanding_data(
+        self,
+    ) -> None:
+        invalid_cases = []
+
+        missing = self.daily_source()
+        missing["combinedDailyUsage"] = None
+        invalid_cases.append((missing, "must be an object"))
+
+        extra = self.daily_source()
+        extra["combinedDailyUsage"]["points"][0]["account_id"] = "private"
+        invalid_cases.append((extra, "invalid keys"))
+
+        duplicate = self.daily_source()
+        duplicate["combinedDailyUsage"]["points"][1]["date"] = "2026-07-14"
+        invalid_cases.append((duplicate, "sorted and unique"))
+
+        gap = self.daily_source()
+        gap["combinedDailyUsage"]["coverage"]["complete_through"] = "2026-07-16"
+        gap["combinedDailyUsage"]["points"][1]["date"] = "2026-07-16"
+        gap["updated_at"] = "2026-07-17T00:05:00Z"
+        invalid_cases.append((gap, "include every UTC date"))
+
+        negative = self.daily_source()
+        negative["combinedDailyUsage"]["points"][0]["tokens"] = -1
+        invalid_cases.append((negative, "non-negative integer"))
+
+        null_tokens = self.daily_source()
+        null_tokens["combinedDailyUsage"]["points"][0]["tokens"] = None
+        invalid_cases.append((null_tokens, "non-negative integer"))
+
+        today = self.daily_source()
+        today["combinedDailyUsage"]["coverage"]["complete_through"] = "2026-07-16"
+        today["combinedDailyUsage"]["points"][1]["date"] = "2026-07-16"
+        invalid_cases.append((today, "latest completed UTC date"))
+
+        unreconciled = self.daily_source()
+        unreconciled["combinedDailyUsage"]["points"][0]["tokens"] -= 100_000_000
+        invalid_cases.append((unreconciled, "does not reconcile"))
+
+        invalid_whole = self.daily_source()
+        invalid_whole["combinedDailyUsage"]["coverage"][
+            "prior_unallocated_tokens"
+        ] = 1
+        invalid_cases.append((invalid_whole, "whole-lifetime coverage"))
+
+        invalid_partial = self.daily_source(completeness="rolling_window_partial")
+        invalid_partial["combinedDailyUsage"]["coverage"][
+            "prior_unallocated_tokens"
+        ] = 0
+        invalid_cases.append((invalid_partial, "rolling-window coverage"))
+
+        invalid_coverage_type = self.daily_source()
+        invalid_coverage_type["combinedDailyUsage"]["coverage"]["before_start"] = []
+        invalid_cases.append((invalid_coverage_type, "before_start is invalid"))
+
+        for source, message in invalid_cases:
+            with self.subTest(message=message):
+                observed = datetime.fromisoformat(
+                    source["updated_at"].replace("Z", "+00:00")
+                )
+                with self.assertRaisesRegex(tracker.SnapshotError, message):
+                    tracker.build_site_snapshot(source, now=observed)
+
+    def test_daily_progression_is_monotonic_and_allows_partial_to_whole_upgrade(
+        self,
+    ) -> None:
+        previous = tracker.build_site_snapshot(
+            self.daily_source(completeness="rolling_window_partial"),
+            now=self.NOW,
+        )
+        whole = self.daily_source(
+            token_count=33_000_000_000,
+            updated_at="2026-07-17T00:05:00Z",
+        )
+        whole["combinedDailyUsage"]["coverage"]["starts_on"] = "2026-07-13"
+        whole["combinedDailyUsage"]["coverage"]["complete_through"] = "2026-07-16"
+        whole["combinedDailyUsage"]["points"] = [
+            {"date": "2026-07-13", "tokens": 32_100_000_000},
+            {"date": "2026-07-14", "tokens": 500_000_000},
+            {"date": "2026-07-15", "tokens": 200_000_000},
+            {"date": "2026-07-16", "tokens": 200_000_000},
+        ]
+        upgraded = tracker.build_site_snapshot(
+            whole,
+            previous_site=previous,
+            now=datetime(2026, 7, 17, 0, 10, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            upgraded["combined_daily_usage"]["coverage"]["completeness"],
+            "whole_lifetime",
+        )
+
+        revised = json.loads(json.dumps(whole))
+        revised["combinedDailyUsage"]["points"][1]["tokens"] += 1
+        revised["combinedDailyUsage"]["points"][2]["tokens"] -= 1
+        with self.assertRaisesRegex(tracker.SnapshotError, "previously completed"):
+            tracker.build_site_snapshot(
+                revised,
+                previous_site=upgraded,
+                now=datetime(2026, 7, 17, 0, 10, tzinfo=timezone.utc),
+            )
+
+        regressed = json.loads(json.dumps(whole))
+        regressed["combinedDailyUsage"]["coverage"][
+            "completeness"
+        ] = "rolling_window_partial"
+        regressed["combinedDailyUsage"]["coverage"]["before_start"] = "unobserved"
+        regressed["combinedDailyUsage"]["coverage"][
+            "prior_unallocated_tokens"
+        ] = 100_000_000
+        regressed["combinedDailyUsage"]["points"][0]["tokens"] -= 100_000_000
+        with self.assertRaisesRegex(tracker.SnapshotError, "cannot become partial"):
+            tracker.build_site_snapshot(
+                regressed,
+                previous_site=upgraded,
+                now=datetime(2026, 7, 17, 0, 10, tzinfo=timezone.utc),
+            )
+
+    def test_legacy_collector_cannot_downgrade_an_exact_daily_pair(self) -> None:
+        previous = tracker.build_site_snapshot(self.daily_source(), now=self.NOW)
+        with self.assertRaisesRegex(tracker.SnapshotError, "legacy collector"):
+            tracker.build_site_snapshot(
+                self.source(),
+                previous_site=previous,
+                now=self.NOW,
+            )
 
     def test_public_profile_rejects_invalid_cost_basis(self) -> None:
         invalid_cases = (
@@ -553,10 +800,43 @@ class DirectUsageImportTests(unittest.TestCase):
                 json.loads(profile)["combined_lifetime_history"],
             )
 
-    def test_rejected_input_preserves_the_last_valid_pair(self) -> None:
-        site_payload = tracker.build_site_snapshot(self.source(), now=self.NOW)
+    def test_publishes_and_reloads_schema5_site_and_schema6_profile_atomically(
+        self,
+    ) -> None:
+        site_payload = tracker.build_site_snapshot(
+            self.daily_source(),
+            now=self.NOW,
+        )
         profile_payload = tracker.build_public_snapshot(
-            self.source(), agentic_usage=self.agentic_usage(), now=self.NOW
+            self.daily_source(),
+            agentic_usage=self.agentic_usage(),
+            now=self.NOW,
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            tracker.publish_atomically(root, site_payload, profile_payload)
+            site = json.loads(
+                (root / "_data" / "direct_usage_tracker.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            profile = json.loads(
+                (
+                    root / "assets" / "data" / "codex-profile-usage.json"
+                ).read_text(encoding="utf-8")
+            )
+            self.assertEqual(site["schema"], 5)
+            self.assertEqual(profile["schema"], 6)
+            self.assertEqual(
+                site["combined_daily_usage"],
+                profile["combined_daily_usage"],
+            )
+            self.assertEqual(tracker._load_previous_site(root), site_payload)
+
+    def test_rejected_input_preserves_the_last_valid_pair(self) -> None:
+        site_payload = tracker.build_site_snapshot(self.daily_source(), now=self.NOW)
+        profile_payload = tracker.build_public_snapshot(
+            self.daily_source(), agentic_usage=self.agentic_usage(), now=self.NOW
         )
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
@@ -569,8 +849,8 @@ class DirectUsageImportTests(unittest.TestCase):
                 json.dumps(self.agentic_usage()),
                 encoding="utf-8",
             )
-            invalid_source = self.source()
-            invalid_source["perAccount"] = [32_800_000_000]
+            invalid_source = self.daily_source()
+            invalid_source["combinedDailyUsage"] = None
             input_path = root / "collector.json"
             input_path.write_text(json.dumps(invalid_source), encoding="utf-8")
 
