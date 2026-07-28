@@ -6734,8 +6734,17 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
         and isinstance(current_rhythm.get("points"), list)
         and current_rhythm["points"]
     )
-    if result.get("usage_events", 0) == 0 and (
-        int(current.get("token_count") or 0) > 0 or has_published_rhythm
+    current_raw = int(current.get("raw_token_count") or current.get("token_count") or 0)
+    current_rounded = int(current.get("token_count") or 0)
+    result_raw = int(result.get("raw_token_count") or 0)
+    result_rounded = int(result.get("token_count") or 0)
+    incomplete_retained_scan = current_rounded > 0 and (
+        result.get("usage_events", 0) == 0
+        or result_raw < current_raw
+        or result_rounded < current_rounded
+    )
+    if incomplete_retained_scan or (
+        result.get("usage_events", 0) == 0 and has_published_rhythm
     ):
         return next_scope
     for field_name in (
@@ -6807,6 +6816,36 @@ def merge_local_lifetime_data(current: dict[str, Any], result: dict[str, Any]) -
     return next_scope
 
 
+def merge_model_tracking_data(current: dict[str, Any], result: dict[str, Any]) -> dict[str, Any]:
+    current_turns = int(current.get("post_cutover_turns_observed") or 0)
+    result_turns = int(result.get("post_cutover_turns_observed") or 0)
+    current_acknowledged = int(current.get("post_cutover_acknowledged_deviation_count") or 0)
+    result_acknowledged = int(result.get("post_cutover_acknowledged_deviation_count") or 0)
+
+    def deviation_signatures(tracking: dict[str, Any]) -> set[tuple[Any, ...]]:
+        deviations = tracking.get("post_cutover_deviations")
+        if not isinstance(deviations, list):
+            return set()
+        return {
+            tuple(item.get(field_name) for field_name in ("turn_id", "timestamp", "model", "effort"))
+            for item in deviations
+            if isinstance(item, dict)
+        }
+
+    current_signatures = deviation_signatures(current)
+    result_signatures = deviation_signatures(result)
+    # Model-policy evidence is also cumulative retained-local evidence. A
+    # machine with a partial archive cannot truthfully erase already audited
+    # turns or their exact acknowledgment trail.
+    if (
+        current_turns > result_turns
+        or current_acknowledged > result_acknowledged
+        or not current_signatures.issubset(result_signatures)
+    ):
+        return copy.deepcopy(current)
+    return copy.deepcopy(result)
+
+
 def sparkline_points(daily: list[dict[str, Any]], width: float = 112, height: float = 28) -> str:
     values = [max(0, int(row.get("tokens") or 0)) for row in daily]
     if not values:
@@ -6840,7 +6879,10 @@ def build_ledger_data(
         "Retained local logs and git history supply repo-scoped estimates. "
         "Rounded lifetime Codex usage is published separately from sanitized collector output."
     )
-    next_data["model_tracking"] = copy.deepcopy(model_tracking)
+    next_data["model_tracking"] = merge_model_tracking_data(
+        next_data.get("model_tracking", {}),
+        model_tracking,
+    )
     next_data["total"] = merge_scope_data(next_data.get("total", {}), total)
     next_data["desk_scene"] = merge_scope_data(next_data.get("desk_scene", {}), desk, desk=True)
     next_data["desk_scene"]["note"] = (

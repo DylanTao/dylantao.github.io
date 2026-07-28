@@ -2,6 +2,146 @@ const { test, expect } = require("@playwright/test");
 const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 
+const dailyActivityFixture = (() => {
+  const points = [];
+  const start = Date.UTC(2021, 7, 1);
+  const end = Date.UTC(2026, 6, 27);
+  for (let stamp = start, index = 0; stamp <= end; stamp += 86_400_000, index += 1) {
+    const date = new Date(stamp).toISOString().slice(0, 10);
+    const active = index % 9 === 0 || index % 17 === 0;
+    points.push({
+      date,
+      commits: active ? (index % 13) + 1 : 0,
+      additions: active ? (index % 31) * 140 + 20 : 0,
+      deletions: active ? (index % 23) * 90 + 10 : 0,
+    });
+  }
+  return {
+    schema: 2,
+    updated_on: "2026-07-27",
+    timezone: "UTC",
+    lifetime: {
+      through: "2026-07-27",
+      commits: 4709,
+      additions: 34903627,
+      deletions: 32064376,
+    },
+    daily: {
+      starts_on: points[0].date,
+      complete_through: points.at(-1).date,
+      points,
+    },
+  };
+})();
+
+const dailyUsageFixture = {
+  schema: 6,
+  combined_lifetime: {
+    token_count: 400000000,
+    tokens_label: "0.4B",
+    units: "tokens",
+    aggregation: "sum_of_sources",
+    rounding: "nearest_0.1B",
+    source_count: 2,
+  },
+  combined_daily_usage: {
+    schema: 1,
+    label: "Combined daily Codex usage",
+    units: "tokens",
+    grain: "day",
+    aggregation: "sum_of_sources",
+    coverage: {
+      starts_on: "2026-07-22",
+      complete_through: "2026-07-26",
+      before_start: "zero",
+      completeness: "whole_lifetime",
+      prior_unallocated_tokens: 0,
+    },
+    points: [
+      { date: "2026-07-22", tokens: 0 },
+      { date: "2026-07-23", tokens: 100000000 },
+      { date: "2026-07-24", tokens: 0 },
+      { date: "2026-07-25", tokens: 50000000 },
+      { date: "2026-07-26", tokens: 250000000 },
+    ],
+  },
+  method: "rounded_sum_of_verified_account_lifetime_readings",
+  confidence: "high",
+  observed_on: "2026-07-27",
+  updated_at: "2026-07-27T08:00:00Z",
+  automated_refresh: true,
+  cost: {
+    method: "flat_reference_rate_replay",
+    reference_scope: "current_site_build_blended_public_api_rate",
+    usd_per_million_tokens: 0.796269,
+    pricing_as_of: "2026-07-12",
+    usd_midpoint: 319,
+    usd_label: "~$0.3K API-rate replay",
+  },
+};
+
+const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = (body) => body, activity = dailyActivityFixture } = {}) => {
+  const routeUrl = publicRouteUrl("/github-activity/");
+  const response = await page.request.get(routeUrl);
+  expect(response.ok()).toBe(true);
+  const original = await response.text();
+  const dataPattern = /<script id="combined-code-activity-data" type="application\/json">[\s\S]*?<\/script>/;
+  expect(original).toMatch(dataPattern);
+  const withDaily = original.replace(
+    dataPattern,
+    `<script id="combined-code-activity-data" type="application/json">${JSON.stringify(activity)}</script>`
+  );
+  await page.route(routeUrl, (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "text/html",
+      body: transform(withDaily),
+    })
+  );
+  await page.goto(routeUrl, { waitUntil });
+};
+
+test("legacy schema 1 route stays truthful while exact daily history is awaiting refresh", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the live migration fallback");
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+
+  const source = await page.locator("#combined-code-activity-data").evaluate((element) => JSON.parse(element.textContent));
+  test.skip(source.schema !== 1, "the live route has completed its schema 2 migration");
+
+  const activity = page.locator("[data-github-activity]");
+  await expect(activity).toHaveAttribute("data-state", "awaiting");
+  await expect(page.locator("[data-combined-daily-awaiting]")).toBeVisible();
+  await expect(page.locator("[data-github-scope]")).toHaveText("DAILY HISTORY · AWAITING");
+  await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
+  await expect(page.getByRole("link", { name: "Open the explorer" })).toBeHidden();
+  await expect(page.locator(".github-activity-controls")).toBeHidden();
+  await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
+  await expect(page.locator(".github-activity-method")).toBeHidden();
+  await expect(page.locator(".github-activity-readout")).toBeVisible();
+  await expect(page.locator("[data-combined-awaiting-copy]").first()).toBeVisible();
+  await expect(page.locator("[data-combined-daily-copy]").first()).toBeHidden();
+
+  const codex = page.locator("[data-codex-usage]");
+  await expect(codex).toHaveAttribute("data-state", "ready");
+  await expect(codex).toHaveAttribute("aria-busy", "false");
+  await expect(page.locator("[data-codex-status]")).not.toContainText("loading");
+  expect(runtimeErrors).toEqual([]);
+});
+
+test("combined daily code activity fails closed when lifetime and daily cutoffs diverge", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the malformed cutoff boundary");
+
+  const malformed = structuredClone(dailyActivityFixture);
+  malformed.lifetime.through = "2026-07-26";
+  malformed.updated_on = "2026-07-26";
+  await preparePage(page, "light");
+  await gotoWithDailyCode(page, { activity: malformed });
+  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "error");
+});
+
 const expectReadableAxes = async (chart, minimumGap = 14) => {
   const axes = chart.locator("[data-build-rhythm-y-axis]");
   const axisCount = await axes.count();
@@ -42,7 +182,10 @@ const expectReadableAxes = async (chart, minimumGap = 14) => {
 test("Build Rhythm story stays truthful and responsive before exact exploration", async ({ page }, testInfo) => {
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(dailyUsageFixture) })
+  );
+  await gotoWithDailyCode(page);
 
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
@@ -52,17 +195,18 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await expect(stage).toBeVisible();
   await expect(chart.locator("[data-build-rhythm-story-layer]")).toHaveCount(1);
 
-  const combinedDaily = page.locator("#combined-code-activity");
-  await expect(combinedDaily).toBeVisible();
-  await expect(combinedDaily).toContainText("Daily cumulative tally");
-  await expect(combinedDaily).toContainText("DAILY SNAPSHOTS · AGGREGATE ONLY");
-  await expect(combinedDaily).toContainText("not reconstructed GitHub contribution events");
-  await expect(combinedDaily.locator(".github-activity-daily-summary > div")).toHaveCount(3);
-  await expect(combinedDaily.locator(".github-activity-daily-date > time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
-  const combinedOverflow = await combinedDaily.evaluate((element) => Math.max(0, element.scrollWidth - element.clientWidth));
+  const combinedLifetime = page.locator("#combined-code-activity");
+  await expect(combinedLifetime).toBeVisible();
+  await expect(combinedLifetime).toContainText("Combined lifetime code activity");
+  await expect(combinedLifetime).toContainText("LIFETIME · AGGREGATE ONLY");
+  await expect(combinedLifetime).not.toContainText("Exact daily changes");
+  await expect(combinedLifetime.locator(".github-activity-lifetime-summary > div")).toHaveCount(3);
+  await expect(combinedLifetime.locator(".github-activity-lifetime-note > time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
+  await expect(combinedLifetime.locator("[data-format-integer]").first()).toHaveText("4,709");
+  const combinedOverflow = await combinedLifetime.evaluate((element) => Math.max(0, element.scrollWidth - element.clientWidth));
   expect(combinedOverflow).toBeLessThanOrEqual(1);
   await attachScreenshot(page, testInfo, `combined-code-activity-${testInfo.project.name}`, {
-    locator: combinedDaily,
+    locator: combinedLifetime,
   });
 
   const tokenSource = await page.locator("#build-rhythm-token-data").evaluate((element) => JSON.parse(element.textContent));
@@ -76,15 +220,11 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const endpointResponse = await page.request.get(publicRouteUrl("/assets/data/build-rhythm-token-rhythm.json"));
   expect(endpointResponse.ok()).toBe(true);
   expect(await endpointResponse.json()).toEqual(tokenSource);
-  const lifetimeResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
-  expect(lifetimeResponse.ok()).toBe(true);
-  const lifetimePayload = await lifetimeResponse.json();
-  expect(lifetimePayload.schema).toBe(5);
-  expect(lifetimePayload.combined_lifetime_history.coverage).toEqual({
-    starts_on: "2026-07-16",
-    before_start: "unobserved",
-  });
-  expect(lifetimePayload.combined_lifetime_history.points.length).toBeGreaterThan(1);
+  const lifetimePayload = dailyUsageFixture;
+  expect(lifetimePayload.schema).toBe(6);
+  expect(lifetimePayload.combined_daily_usage.coverage.completeness).toBe("whole_lifetime");
+  expect(lifetimePayload.combined_daily_usage.points[0].tokens).toBe(0);
+  expect(lifetimePayload.combined_daily_usage.coverage.complete_through).toBe("2026-07-26");
 
   const tokenRhythm = page.locator("[data-token-rhythm]");
   const tokenRhythmChart = page.locator("[data-token-rhythm-chart]");
@@ -120,11 +260,11 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const lifetimeAxis = explorerChart.locator('[data-build-rhythm-y-axis="github-lifetime-history"]');
   await expect(lifetimeAxis).toHaveCount(1);
   await expect(explorerChart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(explorerChart.locator(".github-activity-lifetime-history-marker")).toHaveCount(1);
-  await expect(explorerChart).toContainText("UNOBSERVED BEFORE JUL 16, 2026");
+  await expect(explorerChart.locator(".github-activity-lifetime-history-marker")).toHaveCount(7);
+  await expect(explorerChart).not.toContainText("UNOBSERVED BEFORE");
 
   await expect(story).toContainText("Commit count tells me when. Line changes tell me how much.");
-  await expect(story).toContainText("One giant week was flattening everything else.");
+  await expect(story).toContainText("One giant day was flattening everything else.");
   await expect(story).not.toContainText("The same week can carry a different amount of change.");
 
   await expect(story.getByRole("link", { name: "The Rhythm of Food" })).toHaveAttribute("href", "https://rhythm-of-food.net/");
@@ -186,7 +326,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         expect(geometry.chartHeight).toBeLessThanOrEqual(545);
       }
       if (scene === "explore") {
-        await expect(chart).toContainText("LIFETIME TOKENS");
+        await expect(chart).toContainText("COMBINED CODEX TOKENS");
         await expect(chart).not.toContainText("SITE TOKENS");
       }
     }
@@ -209,39 +349,32 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(runtimeErrors).toEqual([]);
 });
 
-test("combined lifetime observations share the GitHub date axis without inventing prehistory", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the dated-history interaction contract");
+test("exact daily Codex usage shares the combined date axis and preserves zero days", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the exact daily interaction contract");
 
   await preparePage(page, "light");
-  const routeUrl = publicRouteUrl("/github-activity/");
-  const originalResponse = await page.request.get(routeUrl);
-  expect(originalResponse.ok()).toBe(true);
-  const original = await originalResponse.text();
-  const dataMatch = original.match(/<script id="github-activity-data" type="application\/json">([\s\S]*?)<\/script>/);
-  expect(dataMatch).not.toBeNull();
-  const activitySource = JSON.parse(dataMatch[1]);
-  for (const week of ["2026-07-19", "2026-07-26"]) {
-    if (!activitySource.weeks.some((row) => row.week === week)) {
-      activitySource.weeks.push({ week, commits: 0, additions: 0, deletions: 0 });
-    }
-  }
-  const body = original.replace(dataMatch[0], `<script id="github-activity-data" type="application/json">${JSON.stringify(activitySource)}</script>`);
-  await page.route(routeUrl, (route) => route.fulfill({ status: 200, contentType: "text/html", body }));
-  await page.goto(routeUrl, { waitUntil: "networkidle" });
+  await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(dailyUsageFixture) })
+  );
+  await gotoWithDailyCode(page);
 
   const chart = page.locator("#github-activity-chart");
   const historyLines = chart.locator(".github-activity-lifetime-history-line");
   const historyMarkers = chart.locator(".github-activity-lifetime-history-marker");
-  await expect(historyLines).toHaveCount(9);
-  await expect(chart.locator(".github-activity-lifetime-history-line.is-gap")).toHaveCount(1);
-  await expect(historyMarkers).toHaveCount(10);
+  await expect(historyLines).toHaveCount(6);
+  const historyGapDays = await chart
+    .locator(".github-activity-lifetime-history-line.is-gap")
+    .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("data-gap-days")));
+  expect(historyGapDays).toEqual([]);
+  await expect(historyMarkers).toHaveCount(7);
   await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
+  await expect(chart).not.toContainText("UNOBSERVED BEFORE");
 
   const historyGeometry = await historyMarkers.first().evaluate((marker) => ({
     x: Number(marker.getAttribute("cx")),
     width: marker.ownerSVGElement.viewBox.baseVal.width,
   }));
-  expect(historyGeometry.x).toBeGreaterThan(historyGeometry.width * 0.9);
+  expect(historyGeometry.x).toBeLessThan(historyGeometry.width * 0.15);
 
   const guide = chart.locator(".github-activity-guide");
   const yearGrid = chart.locator(".github-activity-year-grid").last();
@@ -250,20 +383,108 @@ test("combined lifetime observations share the GitHub date axis without inventin
   const selectionBand = chart.locator(".github-activity-selection-band");
   expect(Number(await selectionBand.getAttribute("height"))).toBe(Number(await guide.getAttribute("y2")) - Number(await guide.getAttribute("y1")));
 
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("52.8B lifetime tokens");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Jul 27, 2026");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved or awaiting a completed day");
   const inspector = chart.locator(".github-activity-inspector");
   await inspector.focus();
-  await expect(inspector).toHaveAttribute("aria-valuetext", /52\.8B lifetime tokens, observed Jul 27, 2026/);
-  await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "visible");
+  await expect(inspector).toHaveAttribute("aria-valuetext", /token usage unobserved or awaiting a completed day/);
+  await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "hidden");
 
   await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("52.1B lifetime tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+250,000,000 tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("400,000,000 cumulative");
+  await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "visible");
+  await page.keyboard.press("Shift+ArrowRight");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("exact tokens through Jul 26, 2026");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("later days awaiting completion");
+  await expect(page.locator("#github-activity-range-summary")).not.toContainText("exact tokens in interval");
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("ArrowLeft");
   await page.keyboard.press("Shift+ArrowLeft");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("observed endpoint change");
-  await expect(page.locator("#github-activity-range-summary")).not.toContainText(/summed|totaled/i);
-  await attachScreenshot(page, testInfo, "build-rhythm-observed-history-desktop-1440", {
+  await expect(page.locator("#github-activity-range-summary")).toContainText("+300,000,000 exact tokens in interval");
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+0 tokens");
+  await attachScreenshot(page, testInfo, "build-rhythm-exact-daily-usage-desktop-1440", {
     locator: page.locator(".github-activity-workbench"),
+  });
+});
+
+test("partial Codex coverage keeps its earlier baseline unobserved", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the partial-coverage boundary");
+
+  const partialUsage = structuredClone(dailyUsageFixture);
+  partialUsage.combined_daily_usage.coverage = {
+    starts_on: "2026-07-25",
+    complete_through: "2026-07-26",
+    before_start: "unobserved",
+    completeness: "rolling_window_partial",
+    prior_unallocated_tokens: 150000000,
+  };
+  partialUsage.combined_daily_usage.points = [
+    { date: "2026-07-25", tokens: 50000000 },
+    { date: "2026-07-26", tokens: 200000000 },
+  ];
+
+  await preparePage(page, "light");
+  await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(partialUsage) })
+  );
+  await gotoWithDailyCode(page);
+
+  const chart = page.locator("#github-activity-chart");
+  await expect(chart).toContainText("UNOBSERVED BEFORE JUL 25, 2026");
+  await expect(chart.locator(".github-activity-lifetime-history-marker")).toHaveCount(2);
+  const inspector = chart.locator(".github-activity-inspector");
+  await inspector.focus();
+  await inspector.press("Home");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("token usage incomplete in this interval");
+});
+
+[
+  {
+    label: "a nonzero whole-lifetime anchor",
+    mutate: (usage) => {
+      usage.combined_daily_usage.points[0].tokens = 1;
+    },
+  },
+  {
+    label: "a current-day completion claim",
+    mutate: (usage) => {
+      usage.combined_daily_usage.coverage.complete_through = usage.observed_on;
+      usage.combined_daily_usage.points.push({ date: usage.observed_on, tokens: 0 });
+    },
+  },
+  {
+    label: "a partial history without a positive unallocated baseline",
+    mutate: (usage) => {
+      usage.combined_daily_usage.coverage = {
+        starts_on: "2026-07-25",
+        complete_through: "2026-07-26",
+        before_start: "unobserved",
+        completeness: "rolling_window_partial",
+        prior_unallocated_tokens: 0,
+      };
+      usage.combined_daily_usage.points = [
+        { date: "2026-07-25", tokens: 100000000 },
+        { date: "2026-07-26", tokens: 200000000 },
+      ];
+    },
+  },
+].forEach(({ label, mutate }) => {
+  test(`daily Codex usage fails closed for ${label}`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves each malformed-contract boundary");
+
+    const malformed = structuredClone(dailyUsageFixture);
+    mutate(malformed);
+    await preparePage(page, "light");
+    await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+      route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(malformed) })
+    );
+    await gotoWithDailyCode(page);
+
+    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
+    await expect(page.locator("[data-codex-status]")).toContainText("Combined token usage unavailable");
+    await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved or awaiting a completed day");
   });
 });
 
@@ -283,13 +504,13 @@ test("Build Rhythm refreshes the final three-plot scene after delayed lifetime h
     await route.continue();
   });
 
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
+  await gotoWithDailyCode(page, { waitUntil: "domcontentloaded" });
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
   await expect(story).toHaveAttribute("data-state", "ready");
   await page.locator('[data-build-rhythm-step="explore"]').scrollIntoViewIfNeeded();
   await expect(stage).toHaveAttribute("data-scene", "explore");
-  await expect(stage).toContainText("Combined lifetime history unavailable");
+  await expect(stage).toContainText("Combined token usage unavailable");
 
   releaseSnapshot();
   await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
@@ -300,7 +521,7 @@ test("Build Rhythm settles failed lifetime history as unavailable", async ({ pag
 
   await preparePage(page, "light");
   await page.route("**/assets/data/codex-profile-usage.json", (route) => route.fulfill({ status: 503, contentType: "application/json", body: "{}" }));
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  await gotoWithDailyCode(page);
 
   await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
   await expect(page.locator(".github-activity-lifetime-value")).toHaveText("History unavailable");
@@ -313,7 +534,7 @@ test("Build Rhythm reduced motion renders one complete still", async ({ page }, 
   const runtimeErrors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  await gotoWithDailyCode(page);
 
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
@@ -338,7 +559,7 @@ test("Build Rhythm axes stay legible in the evening theme", async ({ page }, tes
 
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "dark");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  await gotoWithDailyCode(page);
 
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
@@ -367,14 +588,13 @@ test("Build Rhythm token-story failure leaves the GitHub explorer and server evi
 
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
-  await page.route("**/github-activity/", async (route) => {
-    const response = await route.fetch();
-    const original = await response.text();
-    const body = original.replace(/(<script id="build-rhythm-token-data" type="application\/json">[\s\S]*?"token_count"\s*:\s*)\d+/, "$1-1");
-    expect(body).not.toBe(original);
-    await route.fulfill({ response, body });
+  await gotoWithDailyCode(page, {
+    transform: (original) => {
+      const body = original.replace(/(<script id="build-rhythm-token-data" type="application\/json">[\s\S]*?"token_count"\s*:\s*)\d+/, "$1-1");
+      expect(body).not.toBe(original);
+      return body;
+    },
   });
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
 
   const activity = page.locator("[data-github-activity]");
   await expect(activity).toHaveAttribute("data-state", "ready");
@@ -393,7 +613,7 @@ test("Build Rhythm cancels its scene transition when the story leaves view", asy
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the offscreen stop condition");
 
   await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  await gotoWithDailyCode(page);
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
   await expect(story).toHaveAttribute("data-state", "ready");
@@ -410,7 +630,7 @@ test("Build Rhythm re-syncs the nearest step when the story returns", async ({ p
   test.skip(testInfo.project.name !== "laptop-1280", "the short desktop exposes the observer ordering race");
 
   await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
+  await gotoWithDailyCode(page);
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
   const cadence = page.locator('[data-build-rhythm-step="cadence"]');

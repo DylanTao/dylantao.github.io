@@ -323,6 +323,10 @@ def _validate_daily_usage(
         raise SnapshotError(
             f"{label} final point must match coverage.complete_through"
         )
+    if completeness == "whole_lifetime" and points[0]["tokens"] != 0:
+        raise SnapshotError(
+            f"{label} whole-lifetime coverage requires an explicit zero anchor"
+        )
     if _round_token_count(exact_total) != rounded_lifetime_token_count:
         raise SnapshotError(
             f"{label} exact total does not reconcile with the rounded lifetime total"
@@ -957,6 +961,64 @@ def _serialized(payload: dict[str, Any]) -> bytes:
     return (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
 
 
+def _validate_publication_pair(
+    site_value: Any,
+    profile_value: Any,
+) -> dict[str, Any]:
+    """Validate the two sanitized outputs as one inseparable publication."""
+
+    site, _ = _validate_previous_site(site_value)
+    expected_profile_keys = set(site) | {"cost"}
+    profile = _exact_keys(
+        profile_value,
+        expected_profile_keys,
+        "profile snapshot",
+    )
+    expected_profile_schema = site["schema"] + 1
+    if (
+        not isinstance(profile["schema"], int)
+        or isinstance(profile["schema"], bool)
+        or profile["schema"] != expected_profile_schema
+    ):
+        raise SnapshotError(
+            f"profile snapshot schema must be {expected_profile_schema}"
+        )
+    for field in set(site) - {"schema"}:
+        if profile[field] != site[field]:
+            raise SnapshotError(
+                f"profile snapshot.{field} must match the site snapshot"
+            )
+
+    cost = _exact_keys(profile["cost"], COST_KEYS, "profile snapshot.cost")
+    if cost["method"] != COST_METHOD or cost["reference_scope"] != COST_REFERENCE_SCOPE:
+        raise SnapshotError("profile snapshot cost method is invalid")
+    rate = cost["usd_per_million_tokens"]
+    if (
+        not isinstance(rate, (int, float))
+        or isinstance(rate, bool)
+        or not math.isfinite(rate)
+        or rate <= 0
+    ):
+        raise SnapshotError(
+            "profile snapshot cost rate must be a positive number"
+        )
+    midpoint = _count(cost["usd_midpoint"], "profile snapshot.cost.usd_midpoint")
+    expected_midpoint = int(
+        site["combined_lifetime"]["token_count"] / 1_000_000 * rate + 0.5
+    )
+    if midpoint != expected_midpoint:
+        raise SnapshotError(
+            "profile snapshot cost midpoint must match the site lifetime and rate"
+        )
+    if midpoint == 0 or cost["usd_label"] != _cost_label(midpoint):
+        raise SnapshotError("profile snapshot cost label is invalid")
+    _parse_iso_date(
+        cost["pricing_as_of"],
+        "profile snapshot.cost.pricing_as_of",
+    )
+    return site
+
+
 def _load_previous_site(repo_root: Path) -> dict[str, Any] | None:
     site_path = repo_root / "_data" / "direct_usage_tracker.json"
     profile_path = repo_root / "assets" / "data" / "codex-profile-usage.json"
@@ -969,45 +1031,7 @@ def _load_previous_site(repo_root: Path) -> dict[str, Any] | None:
 
     site = json.loads(site_path.read_text(encoding="utf-8"))
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
-    site, _ = _validate_previous_site(site)
-    expected_profile_keys = set(site) | {"cost"}
-    profile = _exact_keys(profile, expected_profile_keys, "previous profile snapshot")
-    expected_profile_schema = site["schema"] + 1
-    if (
-        not isinstance(profile["schema"], int)
-        or isinstance(profile["schema"], bool)
-        or profile["schema"] != expected_profile_schema
-    ):
-        raise SnapshotError(
-            f"previous profile snapshot schema must be {expected_profile_schema}"
-        )
-    for field in set(site) - {"schema"}:
-        if profile[field] != site[field]:
-            raise SnapshotError(
-                f"previous profile snapshot.{field} must match the site snapshot"
-            )
-
-    cost = _exact_keys(profile["cost"], COST_KEYS, "previous profile snapshot.cost")
-    if cost["method"] != COST_METHOD or cost["reference_scope"] != COST_REFERENCE_SCOPE:
-        raise SnapshotError("previous profile snapshot cost method is invalid")
-    rate = cost["usd_per_million_tokens"]
-    if (
-        not isinstance(rate, (int, float))
-        or isinstance(rate, bool)
-        or not math.isfinite(rate)
-        or rate <= 0
-    ):
-        raise SnapshotError(
-            "previous profile snapshot cost rate must be a positive number"
-        )
-    midpoint = _count(cost["usd_midpoint"], "previous profile snapshot.cost.usd_midpoint")
-    if midpoint == 0 or cost["usd_label"] != _cost_label(midpoint):
-        raise SnapshotError("previous profile snapshot cost label is invalid")
-    _parse_iso_date(
-        cost["pricing_as_of"],
-        "previous profile snapshot.cost.pricing_as_of",
-    )
-    return site
+    return _validate_publication_pair(site, profile)
 
 
 def _staged_file(path: Path, content: bytes) -> Path:
@@ -1031,6 +1055,7 @@ def publish_atomically(
 ) -> None:
     """Stage both outputs and restore the prior pair if replacement fails."""
 
+    _validate_publication_pair(site_payload, profile_payload)
     targets = {
         repo_root / "_data" / "direct_usage_tracker.json": _serialized(site_payload),
         repo_root / "assets" / "data" / "codex-profile-usage.json": _serialized(profile_payload),

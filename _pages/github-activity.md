@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Weekly personal GitHub activity, daily combined code snapshots, estimated site-build tokens, and anonymous lifetime Codex history.
+description: Combined daily code activity, estimated site-build tokens, and anonymous lifetime Codex usage.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -9,13 +9,33 @@ panel_wide: true
 github_activity: true
 ---
 
-<section class="github-activity-page" data-github-activity data-source="/DylanTao/github-activity.json">
+{% assign combined_activity = site.data.combined_code_activity %}
+{% assign combined_daily_ready = false %}
+{% if combined_activity.schema == 2 and combined_activity.daily and combined_activity.daily.points and combined_activity.daily.points.size > 0 %}
+{% assign combined_daily_ready = true %}
+{% endif %}
+
+<section
+  class="github-activity-page"
+  data-github-activity
+  data-state="{% if combined_daily_ready %}loading{% else %}awaiting{% endif %}"
+  data-profile-svg="{{ '/assets/data/combined-code-activity.svg' | relative_url }}"
+>
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">BUILDING, WEEK BY WEEK</p>
+    <p class="github-activity-eyebrow">
+      <span data-combined-daily-copy>BUILDING, DAY BY DAY</span>
+      <span data-combined-awaiting-copy>DAILY HISTORY AWAITING REFRESH</span>
+    </p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      I wanted the logs to show where the work bunches up. Start with five years of personal GitHub weeks, check the daily combined tally,
-      follow this site's token trace, then zoom out to the observed lifetime history.
+      <span data-combined-daily-copy>
+        I wanted the logs to show where the work bunches up. Start with the combined daily code record, follow this site's token trace, then
+        zoom out to the anonymous lifetime usage history.
+      </span>
+      <span data-combined-awaiting-copy>
+        The verified combined lifetime totals and this site's token trace remain available while the exact daily code record awaits its next
+        synchronized refresh.
+      </span>
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
     {% assign combined_lifetime = direct_tracker.combined_lifetime %}
@@ -37,6 +57,7 @@ github_activity: true
   <section
     class="build-rhythm-story"
     data-build-rhythm-story
+    data-combined-daily-copy
     data-state="loading"
     data-story-static="true"
     aria-labelledby="build-rhythm-story-title"
@@ -44,7 +65,7 @@ github_activity: true
     <header class="build-rhythm-story-heading">
       <p class="build-rhythm-story-kicker">HOW I READ IT</p>
       <div class="build-rhythm-story-title-row">
-        <h2 id="build-rhythm-story-title">Start with the weeks. Then zoom out.</h2>
+        <h2 id="build-rhythm-story-title">Start with the days. Then zoom out.</h2>
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
@@ -61,7 +82,7 @@ github_activity: true
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Five years of weekly code activity beside anonymous, dated lifetime token observations.
+            Daily code activity beside anonymous, dated lifetime token usage.
           </p>
         </div>
       </div>
@@ -70,7 +91,7 @@ github_activity: true
         <article class="build-rhythm-story-step" data-build-rhythm-step="cadence">
           <p class="build-rhythm-story-step-number">01 · WHEN</p>
           <h3>First, I look for the bursts.</h3>
-          <p>The commits bunch into bursts, with quieter stretches between. That uneven shape is the rhythm I was looking for.</p>
+          <p>The commits bunch into bursts, with quieter days between. That uneven shape is the rhythm I was looking for.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="magnitude">
@@ -81,8 +102,8 @@ github_activity: true
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="bursts">
           <p class="build-rhythm-story-step-number">03 · TWO SCALES</p>
-          <h3>One giant week was flattening everything else.</h3>
-          <p>Readable lets the ordinary weeks breathe. Literal restores the full distance to the biggest spike. I kept both.</p>
+          <h3>One giant day was flattening everything else.</h3>
+          <p>Readable lets the ordinary days breathe. Literal restores the full distance to the biggest spike. I kept both.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="tokens">
@@ -107,8 +128,8 @@ github_activity: true
           <p class="build-rhythm-story-step-number">05 · YOUR TURN</p>
           <h3>Now read the whole rhythm yourself.</h3>
           <p>
-            Change the range or scale, move week by week with the keyboard, and inspect the final plot: it begins with the first real
-            observation and leaves the earlier years unobserved.
+            Change the range or scale, move day by day with the keyboard, and inspect the final plot. Complete lifetime coverage begins at
+            zero; partial coverage leaves earlier usage explicitly unobserved.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
@@ -126,16 +147,32 @@ github_activity: true
   <section class="github-activity-workbench" aria-labelledby="github-activity-github-title">
     <div class="github-activity-module-heading">
       <div>
-        <p class="github-activity-module-kicker">GITHUB ACTIVITY</p>
-        <h2 id="github-activity-github-title">GitHub contribution history</h2>
-        <p>The five-year record behind the opening story. Switch scales, inspect a week, or select a stretch of time.</p>
+        <p class="github-activity-module-kicker">COMBINED CODE ACTIVITY</p>
+        <h2 id="github-activity-github-title">Code activity history</h2>
+        <p>
+          <span data-combined-daily-copy>
+            The combined date-only record behind the opening story. Switch scales, inspect a day, or select a stretch of time.
+          </span>
+          <span data-combined-awaiting-copy>
+            The exact daily record is not published yet. The verified lifetime totals and independent Codex status remain available.
+          </span>
+        </p>
       </div>
-      <span class="github-activity-scope-badge" data-github-scope>5 YEARS · WEEKLY</span>
+      <span class="github-activity-scope-badge" data-github-scope>
+        {%- if combined_daily_ready -%}
+          5 YEARS · DAILY
+        {%- else -%}
+          DAILY HISTORY · AWAITING
+        {%- endif -%}
+      </span>
     </div>
+    <p class="github-activity-awaiting" data-combined-daily-awaiting {% if combined_daily_ready %}hidden{% endif %}>
+      Combined daily history is awaiting the next synchronized refresh. The verified lifetime totals remain available below.
+    </p>
 
-    <div class="github-activity-controls" aria-label="GitHub activity chart controls">
+    <div class="github-activity-controls" aria-label="Code activity chart controls">
       <fieldset class="github-activity-control-group">
-        <legend>GitHub time window</legend>
+        <legend>Code activity time window</legend>
         <div class="github-activity-segments" data-range-controls>
           <button type="button" data-range="1" aria-pressed="false">1 year</button>
           <button type="button" data-range="3" aria-pressed="false">3 years</button>
@@ -154,7 +191,7 @@ github_activity: true
 
     <div class="github-activity-readout">
       <div class="github-activity-readout-content">
-        <p class="github-activity-readout-label" id="github-activity-selected-date">Latest week</p>
+        <p class="github-activity-readout-label" id="github-activity-selected-date">Latest day</p>
         <p class="github-activity-values">
           <span class="github-activity-value-group"><span class="github-activity-commits" id="github-activity-selected-commits"></span></span>
           <span class="github-activity-value-group">
@@ -182,8 +219,20 @@ github_activity: true
           >
             <span class="sr-only" data-codex-lifetime data-format="readable">{{ combined_lifetime.tokens_label }} tokens</span>
             <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
-              {% if direct_tracker.combined_lifetime_history %}
-                Combined lifetime history observed through
+              {% if direct_tracker.combined_daily_usage %}
+                {% if direct_tracker.combined_daily_usage.coverage.completeness == "whole_lifetime" %}
+                  Combined daily usage complete through
+                  <time data-codex-observed datetime="{{ direct_tracker.combined_daily_usage.coverage.complete_through }}">
+                    {{- direct_tracker.combined_daily_usage.coverage.complete_through | date: "%b %-d, %Y" -}}
+                  </time>.
+                {% else %}
+                  Combined daily usage observed through
+                  <time data-codex-observed datetime="{{ direct_tracker.combined_daily_usage.coverage.complete_through }}">
+                    {{- direct_tracker.combined_daily_usage.coverage.complete_through | date: "%b %-d, %Y" -}}
+                  </time>; earlier lifetime usage remains unobserved.
+                {% endif %}
+              {% elsif direct_tracker.combined_lifetime_history %}
+                Legacy lifetime history observed through
                 <time data-codex-observed datetime="{{ direct_tracker.observed_on }}">{{ direct_tracker.observed_on | date: "%b %-d, %Y" }}</time>.
               {% else %}
                 Lifetime fallback: one rounded snapshot observed
@@ -207,12 +256,12 @@ github_activity: true
 
     <div class="github-activity-chart-shell">
       <h2 class="sr-only" id="github-activity-chart-title">
-        Weekly GitHub commits, additions and deletions, plus combined lifetime token history
+        Daily combined commits, additions and deletions, plus combined Codex token usage
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
-        Hover or click to inspect a week and its last verified lifetime token observation. Drag horizontally to select a range. With
+        Hover or click to inspect a day and its combined token usage. Drag horizontally to select a range. With
         keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
-        to move four weeks, and Escape to clear a selection.
+        to move seven days, and Escape to clear a selection.
       </p>
       <svg
         id="github-activity-chart"
@@ -225,119 +274,53 @@ github_activity: true
 
   </section>
 
-{% assign combined_activity = site.data.combined_code_activity %}
-{% if combined_activity.schema == 1 and combined_activity.points and combined_activity.points.size > 0 %}
-{% assign combined_latest = combined_activity.points | last %}
-{% assign combined_first = combined_activity.points | first %}
-{% assign combined_previous = nil %}
-{% for combined_point in combined_activity.points %}
-{% unless forloop.last %}
-{% assign combined_previous = combined_point %}
-{% endunless %}
-{% endfor %}
+{% assign combined_code_lifetime = nil %}
+{% assign combined_code_through = nil %}
+{% if combined_activity.schema == 2 and combined_activity.lifetime %}
+{% assign combined_code_lifetime = combined_activity.lifetime %}
+{% assign combined_code_through = combined_activity.lifetime.through %}
+{% elsif combined_activity.schema == 1 and combined_activity.points and combined_activity.points.size > 0 %}
+{% assign combined_code_lifetime = combined_activity.points | last %}
+{% assign combined_code_through = combined_code_lifetime.date %}
+{% endif %}
+{% if combined_code_lifetime %}
 
 <section
-      class="github-activity-combined-daily"
+      class="github-activity-combined-lifetime"
       id="combined-code-activity"
       aria-labelledby="combined-code-activity-title"
     >
 <div class="github-activity-module-heading">
 <div>
 <p class="github-activity-module-kicker">COMBINED CODE ACTIVITY</p>
-<h2 id="combined-code-activity-title">Daily cumulative tally</h2>
-<p>
-One date-only snapshot across my personal GitHub and external work accounts, kept separate from the contribution chart above.
-</p>
+<h2 id="combined-code-activity-title">Combined lifetime code activity</h2>
 </div>
-<span class="github-activity-scope-badge">DAILY SNAPSHOTS &middot; AGGREGATE ONLY</span>
+<span class="github-activity-scope-badge">LIFETIME &middot; AGGREGATE ONLY</span>
 </div>
 
-      <dl class="github-activity-daily-summary" aria-label="Combined cumulative code activity">
+      <dl class="github-activity-lifetime-summary" aria-label="Combined lifetime code activity">
         <div>
-          <dt><data value="{{ combined_latest.commits }}">{{ combined_latest.commits }}</data></dt>
+          <dt><data data-format-integer value="{{ combined_code_lifetime.commits }}">{{ combined_code_lifetime.commits }}</data></dt>
           <dd>commits</dd>
         </div>
         <div>
-          <dt class="github-activity-added"><data value="{{ combined_latest.additions }}">+{{ combined_latest.additions }}</data></dt>
+          <dt class="github-activity-added">
+            <span aria-hidden="true">+</span><data data-format-integer value="{{ combined_code_lifetime.additions }}">{{ combined_code_lifetime.additions }}</data>
+          </dt>
           <dd>lines added</dd>
         </div>
         <div>
-          <dt class="github-activity-removed"><data value="{{ combined_latest.deletions }}">&minus;{{ combined_latest.deletions }}</data></dt>
+          <dt class="github-activity-removed">
+            <span aria-hidden="true">&minus;</span><data data-format-integer value="{{ combined_code_lifetime.deletions }}">{{ combined_code_lifetime.deletions }}</data>
+          </dt>
           <dd>lines removed</dd>
         </div>
       </dl>
 
-      <p class="github-activity-daily-date">
-        Cumulative through
-        <time datetime="{{ combined_latest.date }}">{{ combined_latest.date | date: "%b %-d, %Y" }}</time>.
-        {% if combined_previous %}
-          {% assign combined_daily_commits = combined_latest.commits | minus: combined_previous.commits %}
-          {% assign combined_daily_additions = combined_latest.additions | minus: combined_previous.additions %}
-          {% assign combined_daily_deletions = combined_latest.deletions | minus: combined_previous.deletions %}
-          Since the previous snapshot:
-          <data value="{{ combined_daily_commits }}">+{{ combined_daily_commits }} commits</data>,
-          <data value="{{ combined_daily_additions }}">+{{ combined_daily_additions }} added</data>, and
-          <data value="{{ combined_daily_deletions }}">+{{ combined_daily_deletions }} removed</data>.
-        {% else %}
-          Daily change appears after the next synchronized snapshot.
-        {% endif %}
+      <p class="github-activity-lifetime-note">
+        Through <time datetime="{{ combined_code_through }}">{{ combined_code_through | date: "%b %-d, %Y" }}</time>. Some counts come
+        from other internship or work accounts; source identities, repositories, commit details, and exact timestamps stay private.
       </p>
-
-      <p class="github-activity-daily-boundary">
-        These are code-change totals, not reconstructed GitHub contribution events. Some counts come from other internship or work accounts;
-        account, employer, repository, commit metadata, and exact timestamps are not published.
-      </p>
-
-      <details class="github-activity-daily-evidence">
-        <summary>Exact daily changes</summary>
-        <div class="github-activity-daily-evidence-body">
-          <p>The first row establishes the cumulative baseline. Each later row is the exact change since the prior snapshot; a missing date is never filled with a guessed zero.</p>
-          <p class="github-activity-table-scroll-hint" id="combined-code-activity-table-hint">Scroll horizontally for all four columns.</p>
-          <div
-            class="github-activity-table-wrap"
-            role="region"
-            aria-label="Combined daily cumulative code activity table"
-            aria-describedby="combined-code-activity-table-hint"
-            tabindex="0"
-          >
-            <table class="github-activity-table">
-              <caption>
-                Daily changes derived from date-only cumulative snapshots from {{ combined_first.date | date: "%b %-d, %Y" }} through
-                {{ combined_activity.updated_on | date: "%b %-d, %Y" }}
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Commits</th>
-                  <th scope="col">Added</th>
-                  <th scope="col">Removed</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% assign evidence_previous = nil %}
-                {% for combined_point in combined_activity.points %}
-                  <tr>
-                    <th scope="row"><time datetime="{{ combined_point.date }}">{{ combined_point.date | date: "%b %-d, %Y" }}</time></th>
-                    {% if evidence_previous %}
-                      {% assign evidence_commits = combined_point.commits | minus: evidence_previous.commits %}
-                      {% assign evidence_additions = combined_point.additions | minus: evidence_previous.additions %}
-                      {% assign evidence_deletions = combined_point.deletions | minus: evidence_previous.deletions %}
-                      <td><data value="{{ evidence_commits }}">+{{ evidence_commits }}</data></td>
-                      <td><data value="{{ evidence_additions }}">+{{ evidence_additions }}</data></td>
-                      <td><data value="{{ evidence_deletions }}">+{{ evidence_deletions }}</data></td>
-                    {% else %}
-                      <td><span aria-label="Baseline snapshot">&mdash;</span></td>
-                      <td><span aria-label="Baseline snapshot">&mdash;</span></td>
-                      <td><span aria-label="Baseline snapshot">&mdash;</span></td>
-                    {% endif %}
-                  </tr>
-                  {% assign evidence_previous = combined_point %}
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </details>
     </section>
 
 {% endif %}
@@ -442,12 +425,12 @@ One date-only snapshot across my personal GitHub and external work accounts, kep
 
   </section>
 
-  <details class="github-activity-method">
+  <details class="github-activity-method" data-combined-daily-copy>
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
         <h2>Separate scales</h2>
-        <p>Weekly personal GitHub activity, daily combined code snapshots, site-build estimates, and lifetime Codex history keep their own units and dates.</p>
+        <p>Daily combined code activity, site-build estimates, and lifetime Codex usage keep their own units and dates.</p>
       </div>
       <div>
         <h2>Token rhythm</h2>
@@ -459,34 +442,34 @@ One date-only snapshot across my personal GitHub and external work accounts, kep
       </div>
       <div>
         <h2>What's counted</h2>
-        <p>The GitHub chart rolls personal repositories up by week. The combined tally adds only identity-free cumulative counts from external accounts; it does not merge those counts into the GitHub contribution chart.</p>
+        <p>The code chart sums identity-free personal and external account activity by UTC date. It publishes counts only, never account or repository details.</p>
       </div>
       <div>
-        <h2>Daily snapshot boundary</h2>
-        <p>The first point establishes a synchronized baseline; later points advance it with completed daily source deltas. Missing days remain gaps, and the source accounts, repositories, commits, and exact timestamps stay private.</p>
+        <h2>Daily completeness boundary</h2>
+        <p>Zero-activity dates appear only inside verified complete coverage. An incomplete or malformed refresh leaves the last valid record in place.</p>
       </div>
       <div>
         <h2>Codex privacy boundary</h2>
-        <p>The collector publishes one rounded lifetime sum. This site retains only anonymous dated totals; source-level readings stay private.</p>
+        <p>The collector publishes one combined daily series. Whole-lifetime coverage begins at zero; partial coverage keeps earlier usage as an explicitly unobserved baseline.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>
         <p>Changing range or scale redraws the selected view once. The chart settles immediately, keeps exact tables, and remains static under reduced motion.</p>
       </div>
     </div>
-    <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally for all columns.</p>
+    <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally to read every daily column.</p>
     <div
       class="github-activity-table-wrap"
       role="region"
-      aria-label="Weekly GitHub activity table"
+      aria-label="Daily combined code activity table"
       aria-describedby="github-activity-table-scroll-hint"
       tabindex="0"
     >
       <table class="github-activity-table">
-        <caption id="github-activity-table-caption">Reported weekly activity in the selected time window</caption>
+        <caption id="github-activity-table-caption">Reported daily activity in the selected time window</caption>
         <thead>
           <tr>
-            <th scope="col">Week</th>
+            <th scope="col">Date</th>
             <th scope="col">Commits</th>
             <th scope="col">Added</th>
             <th scope="col">Removed</th>
@@ -499,15 +482,21 @@ One date-only snapshot across my personal GitHub and external work accounts, kep
   </details>
 
   <p class="github-activity-source">
-    Personal GitHub snapshot updated <time id="github-activity-updated"></time>. The daily combined tally follows its own identity-free
-    snapshot contract. The retained-session token rhythm is generated with the public agentic-usage ledger; the combined lifetime plot identifies
-    its separate observed coverage above. Time-window and scale controls draw on
-    <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
-    alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
+    Combined code activity updated <time id="github-activity-updated"></time>.
+    <span data-combined-daily-copy>
+      The retained-session token rhythm is generated with the public agentic-usage ledger; the combined Codex plot identifies its own
+      completeness boundary above. Time-window and scale controls draw on
+      <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
+      alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
+    </span>
+    <span data-combined-awaiting-copy>
+      Exact daily code history is awaiting the next synchronized refresh. The retained-session token rhythm and verified combined Codex
+      metadata remain available.
+    </span>
   </p>
 
-  <script id="github-activity-data" type="application/json">
-    {{ site.data.github_activity | jsonify }}
+  <script id="combined-code-activity-data" type="application/json">
+    {{ site.data.combined_code_activity | jsonify }}
   </script>
   <script id="build-rhythm-token-data" type="application/json">
     {{ token_rhythm | jsonify }}

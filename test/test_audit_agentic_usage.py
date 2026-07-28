@@ -2857,6 +2857,31 @@ class PendingChangesTests(unittest.TestCase):
         self.assertEqual(merged["token_count"], 3_120_000_000)
         self.assertEqual(merged["tokens_label"], "3.12B")
 
+    def test_partial_lower_repo_scan_preserves_previous_audited_totals(self) -> None:
+        previous = {
+            "commits": 41,
+            "token_count": 10_450_000_000,
+            "tokens_label": "10.4B",
+            "hours_count": 687,
+            "hours_label": "687",
+            "token_rhythm": {
+                "points": [{"date": "2026-07-27", "token_count": 10_450_000_000}]
+            },
+        }
+        partial_result = {
+            "commits": 42,
+            "usage_events": 4_710,
+            "raw_token_count": 558_481_754,
+            "token_count": 560_000_000,
+        }
+
+        merged = audit.merge_scope_data(previous, partial_result)
+
+        self.assertEqual(merged["commits"], 42)
+        self.assertEqual(merged["token_count"], 10_450_000_000)
+        self.assertEqual(merged["tokens_label"], "10.4B")
+        self.assertEqual(merged["token_rhythm"], previous["token_rhythm"])
+
     def test_missing_local_usage_preserves_previous_retained_snapshot(self) -> None:
         empty_dataset = audit.UsageDataset(
             sessions={},
@@ -2974,6 +2999,34 @@ class PendingChangesTests(unittest.TestCase):
             fresh_tracking,
         )
         self.assertEqual(proposed["model_tracking"], fresh_tracking)
+
+    def test_partial_lower_model_tracking_preserves_previous_audit(self) -> None:
+        previous_tracking = {
+            "status": "deviation_detected",
+            "post_cutover_turns_observed": 2_420,
+            "post_cutover_deviation_count": 478,
+            "post_cutover_acknowledged_deviation_count": 477,
+            "post_cutover_deviations": [
+                {
+                    "turn_id": "known-turn",
+                    "timestamp": "2026-07-20T00:00:00Z",
+                    "model": "gpt-5.6-sol",
+                    "effort": "high",
+                }
+            ],
+        }
+        partial_tracking = {
+            "status": "aligned",
+            "post_cutover_turns_observed": 2_583,
+            "post_cutover_deviation_count": 0,
+            "post_cutover_acknowledged_deviation_count": 0,
+            "post_cutover_deviations": [],
+        }
+
+        merged = audit.merge_model_tracking_data(previous_tracking, partial_tracking)
+
+        self.assertEqual(merged, previous_tracking)
+        self.assertIsNot(merged, previous_tracking)
 
 
 class PriceLensTests(unittest.TestCase):

@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -46,7 +47,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Import synchronized date-only snapshot
+      - name: Import synchronized date-only activity
         run: >-
           python site/bin/import_combined_code_activity.py
           --personal-repo profile
@@ -55,19 +56,34 @@ jobs:
 
       - name: Validate importer and privacy contracts
         working-directory: site
-        run: >-
-          python -m unittest
-          test.test_import_combined_code_activity
-          test.test_github_activity_privacy
-          test.test_build_rhythm_story
+        shell: bash
+        run: |
+          for test_file in \
+            test_import_combined_code_activity.py \
+            test_github_activity_privacy.py \
+            test_build_rhythm_story.py; do
+            python -m unittest discover -s test -p "$test_file"
+          done
 
       - name: Scan the public projection
         working-directory: site
         shell: bash
         run: |
+          public_json=(
+            _data/combined_code_activity.json
+          )
+          if [[ -f assets/data/combined-code-activity.json ]]; then
+            public_json+=(assets/data/combined-code-activity.json)
+          fi
           if grep -nEi '(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
-            _data/combined_code_activity.json; then
+            "${public_json[@]}"; then
             echo "Combined code activity violates the identity-free public contract." >&2
+            exit 1
+          fi
+          if [[ -f assets/data/combined-code-activity.svg ]] && \
+            grep -nEi '(repo[_-]?name|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
+              assets/data/combined-code-activity.svg; then
+            echo "Combined activity SVG violates the identity-free public contract." >&2
             exit 1
           fi
           git diff --check
@@ -78,6 +94,13 @@ jobs:
         shell: bash
         run: |
           git add -- _data/combined_code_activity.json
+          for path in \
+            assets/data/combined-code-activity.json \
+            assets/data/combined-code-activity.svg; do
+            if [[ -f "$path" ]]; then
+              git add -- "$path"
+            fi
+          done
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -93,3 +116,10 @@ jobs:
           git config user.email "metrics-bot@users.noreply.github.com"
           git commit -m "chore: refresh combined code activity"
           git push origin HEAD:main
+
+      - name: Deploy refreshed snapshot
+        if: steps.change.outputs.changed == 'true'
+        working-directory: site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

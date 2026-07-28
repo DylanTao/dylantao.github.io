@@ -167,30 +167,82 @@
     );
     return { maximum, values, x, y };
   };
-  const lifetimeHistoryRows = (source) =>
-    source?.combined_lifetime_history?.points?.map((point, index) => ({
-      index,
-      date: utcDate(point.date),
-      tokenCount: point.token_count,
-      tokensLabel: point.tokens_label,
-      observation: point.observation,
-    })) || [];
-  const lifetimeObservationForWeek = (source, week) => {
-    const end = week.date.getTime() + 7 * DAY_MS;
+  const lifetimeHistoryRows = (source) => {
+    if (source?.combined_daily_usage) {
+      let cumulative = source.combined_daily_usage.coverage.prior_unallocated_tokens;
+      return source.combined_daily_usage.points.map((point, index) => {
+        cumulative += point.tokens;
+        return {
+          index,
+          date: utcDate(point.date),
+          tokenCount: cumulative,
+          tokensLabel: compactNumber.format(cumulative),
+          dailyTokens: point.tokens,
+          observation: "exact_daily",
+        };
+      });
+    }
+    return (
+      source?.combined_lifetime_history?.points?.map((point, index) => ({
+        index,
+        date: utcDate(point.date),
+        tokenCount: point.token_count,
+        tokensLabel: point.tokens_label,
+        dailyTokens: null,
+        observation: point.observation,
+      })) || []
+    );
+  };
+  const codexCoverage = (source) => source?.combined_daily_usage?.coverage || source?.combined_lifetime_history?.coverage || null;
+  const codexUsageForDay = (source, row) => {
+    const daily = source?.combined_daily_usage;
+    if (daily) {
+      const coverage = daily.coverage;
+      if (row.date < utcDate(coverage.starts_on)) {
+        return coverage.before_start === "zero"
+          ? { date: row.date, tokenCount: 0, tokensLabel: "0", dailyTokens: 0, observation: "exact_daily" }
+          : null;
+      }
+      if (row.date > utcDate(coverage.complete_through)) return null;
+      return lifetimeHistoryRows(source).find((point) => point.date.getTime() === row.date.getTime()) || null;
+    }
     return lifetimeHistoryRows(source)
-      .filter((point) => point.date.getTime() < end)
+      .filter((point) => point.date.getTime() <= row.date.getTime())
       .at(-1);
   };
   const drawLifetimeHistory = (
     group,
     { source, domainStart, domainEnd, x, top, bottom, left, right, colors, axisName, className, compact = false }
   ) => {
-    const history = source?.combined_lifetime_history;
+    const history = source?.combined_daily_usage || source?.combined_lifetime_history;
     if (!history) return null;
 
     const allPoints = lifetimeHistoryRows(source);
-    const points = allPoints.filter((point) => point.date >= domainStart && point.date <= domainEnd);
-    const linear = niceLinearScale(source.combined_lifetime.token_count, 3);
+    let points = allPoints.filter((point) => point.date >= domainStart && point.date <= domainEnd);
+    const coverage = codexCoverage(source);
+    const completeLifetime = source?.combined_daily_usage && coverage.before_start === "zero";
+    const coverageStart = utcDate(coverage.starts_on);
+    if (completeLifetime && domainStart < coverageStart) {
+      const zeroEnd = new Date(Math.min(domainEnd.getTime(), coverageStart.getTime() - DAY_MS));
+      points = [
+        { date: domainStart, tokenCount: 0, tokensLabel: "0", dailyTokens: 0, observation: "exact_daily" },
+        ...(zeroEnd > domainStart
+          ? [
+              {
+                date: zeroEnd,
+                tokenCount: 0,
+                tokensLabel: "0",
+                dailyTokens: 0,
+                observation: "exact_daily",
+                continuousFromPrevious: true,
+              },
+            ]
+          : []),
+        ...points,
+      ];
+    }
+    const plottedMaximum = Math.max(source.combined_lifetime.token_count, ...allPoints.map((point) => point.tokenCount), 1);
+    const linear = niceLinearScale(plottedMaximum, 3);
     const y = (value) => bottom - (value / linear.domainMaximum) * (bottom - top);
     drawYAxis(group, {
       name: axisName,
@@ -202,18 +254,25 @@
       format: (value) => compactNumber.format(value),
     });
 
-    addText(group, `UNOBSERVED BEFORE ${fullDate.format(utcDate(history.coverage.starts_on)).toUpperCase()}`, left + 8, top + 13, {
-      color: colors.muted,
-      className: `${className}-coverage`,
-      size: compact ? 9 : 10,
-    });
+    if (!completeLifetime) {
+      const prior = source?.combined_daily_usage?.coverage?.prior_unallocated_tokens;
+      const coverageLabel = `UNOBSERVED BEFORE ${fullDate.format(coverageStart).toUpperCase()}${
+        prior ? ` \u00b7 ${compactNumber.format(prior)} UNALLOCATED BASELINE` : ""
+      }`;
+      addText(group, coverageLabel, left + 8, top + 13, {
+        color: colors.muted,
+        className: `${className}-coverage`,
+        size: compact ? 9 : 10,
+      });
+    }
 
     points.slice(1).forEach((point, index) => {
       const previous = points[index];
       const gapDays = Math.round((point.date.getTime() - previous.date.getTime()) / DAY_MS);
+      const isGap = gapDays > 1 && !point.continuousFromPrevious;
       group.append(
         svgElement("path", {
-          class: `${className}-line${gapDays > 1 ? " is-gap" : ""}`,
+          class: `${className}-line${isGap ? " is-gap" : ""}`,
           d: linePath([
             [x(previous.date), y(previous.tokenCount)],
             [x(point.date), y(point.tokenCount)],
@@ -221,7 +280,7 @@
           fill: "none",
           stroke: colors.accent,
           "stroke-width": 2,
-          ...(gapDays > 1 ? { "stroke-dasharray": "4 3", "data-gap-days": gapDays } : {}),
+          ...(isGap ? { "stroke-dasharray": "4 3", "data-gap-days": gapDays } : {}),
           "stroke-linejoin": "round",
           "stroke-linecap": "round",
         })
@@ -368,7 +427,7 @@
       const baseline = height - bottom;
       const domainMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
 
-      addText(group, "COMMITS / WEEK \u00b7 READABLE LOG1P", left, 20, { color: colors.accent, weight: 700 });
+      addText(group, "COMMITS / DAY \u00b7 READABLE LOG1P", left, 20, { color: colors.accent, weight: 700 });
       const series = drawSeries(
         group,
         storyGithubRows,
@@ -385,7 +444,7 @@
         colors,
       });
       const busiest = storyGithubRows.reduce((best, row) => (row.commits > best.commits ? row : best));
-      return `Busiest week in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits.`;
+      return `Busiest day in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits.`;
     };
 
     const drawMagnitude = (group, width, height, colors) => {
@@ -396,7 +455,7 @@
       const baseline = (top + height - bottom) / 2;
       const maximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
 
-      addText(group, "LINES CHANGED / WEEK \u00b7 READABLE SYMLOG", left, 20, { color: colors.text, weight: 700 });
+      addText(group, "LINES CHANGED / DAY \u00b7 READABLE SYMLOG", left, 20, { color: colors.text, weight: 700 });
       addText(group, "+ added", left, 38, { color: colors.added, weight: 650 });
       addText(group, "\u2212 removed", left + 78, 38, { color: colors.removed, weight: 650 });
       const bounds = { left, right: width - right, top, bottom: height - bottom, baseline };
@@ -424,7 +483,7 @@
         format: (value) => (value === 0 ? "0" : `${value > 0 ? "+" : "\u2212"}${compactNumber.format(Math.abs(value))}`),
       });
       const largest = storyGithubRows.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
-      return `Biggest line-change week \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
+      return `Biggest line-change day \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
     };
 
     const drawBursts = (group, width, height, colors) => {
@@ -464,7 +523,7 @@
         });
       });
       const peak = storyGithubRows[peakIndex];
-      return `Same weeks, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
+      return `Same days, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
     };
 
     const drawTokens = (group, width, height, colors) => {
@@ -476,13 +535,13 @@
       const left = compact ? 58 : 64;
       const right = 12;
       const domainStart = storyGithubRows[0].date;
-      const domainEnd = new Date(storyGithubRows.at(-1).date.getTime() + 6 * DAY_MS);
+      const domainEnd = storyGithubRows.at(-1).date;
       const domainSpan = Math.max(1, domainEnd.getTime() - domainStart.getTime());
       const sharedX = (date) => left + ((date.getTime() - domainStart.getTime()) / domainSpan) * (width - left - right);
       const commitTop = 26;
       const commitBottom = Math.max(76, height * 0.2);
       const commitMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
-      addText(group, compact ? "COMMITS / WEEK" : "GITHUB \u00b7 COMMITS / WEEK", left, 16, { color: colors.accent, weight: 700 });
+      addText(group, compact ? "COMMITS / DAY" : "COMBINED \u00b7 COMMITS / DAY", left, 16, { color: colors.accent, weight: 700 });
       const commitSeries = drawSeries(
         group,
         storyGithubRows,
@@ -503,7 +562,7 @@
       const lineBottom = Math.max(lineTop + 62, height * 0.52);
       const lineBaseline = (lineTop + lineBottom) / 2;
       const lineMaximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
-      addText(group, compact ? "+ ADDED / \u2212 REMOVED" : "SAME WEEKS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, {
+      addText(group, compact ? "+ ADDED / \u2212 REMOVED" : "SAME DAYS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, {
         color: colors.muted,
         weight: 700,
       });
@@ -558,11 +617,11 @@
       });
       group.prepend(timeGrid);
 
-      addText(group, compact ? "LIFETIME \u00b7 HISTORY" : "COMBINED LIFETIME TOKENS \u00b7 OBSERVED HISTORY", left, lifetimeTop - 12, {
+      addText(group, compact ? "CODEX \u00b7 CUMULATIVE" : "COMBINED CODEX TOKENS \u00b7 CUMULATIVE USAGE", left, lifetimeTop - 12, {
         color: colors.accent,
         weight: 700,
       });
-      if (codexSource?.combined_lifetime_history) {
+      if (codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history) {
         drawLifetimeHistory(group, {
           source: codexSource,
           domainStart,
@@ -622,24 +681,25 @@
           weight: 700,
         });
       } else {
-        addText(group, "Combined lifetime history unavailable; no substitute observation.", left, lifetimeTop + 18, {
+        addText(group, "Combined token usage unavailable; no substitute observation.", left, lifetimeTop + 18, {
           color: colors.muted,
         });
       }
       const lifetime = codexSource?.combined_lifetime?.tokens_label;
-      const observed = codexSource?.observed_on ? fullDate.format(new Date(`${codexSource.observed_on}T00:00:00Z`)) : null;
-      if (codexSource?.combined_lifetime_history) {
-        const count = codexSource.combined_lifetime_history.points.length;
-        return `Five years, week by week \u00b7 commits and line movement \u00b7 ${lifetime} lifetime tokens across ${number.format(count)} dated observations through ${observed}.`;
+      const observedOn = codexSource?.combined_daily_usage?.coverage?.complete_through || codexSource?.observed_on;
+      const observed = observedOn ? fullDate.format(new Date(`${observedOn}T00:00:00Z`)) : null;
+      if (codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history) {
+        const count = lifetimeHistoryRows(codexSource).length;
+        return `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} lifetime tokens across ${number.format(count)} dated points through ${observed}.`;
       }
       return lifetime
-        ? `Five years, week by week \u00b7 commits and line movement \u00b7 ${lifetime} fallback snapshot observed ${observed}.`
-        : "Five years, week by week \u00b7 commits and line movement \u00b7 lifetime history unavailable.";
+        ? `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} fallback snapshot observed ${observed}.`
+        : "Five years, day by day \u00b7 commits and line movement \u00b7 lifetime usage unavailable.";
     };
 
     const metadata = {
-      cadence: { label: "WHEN", scope: "5 YEARS \u00b7 WEEKLY" },
-      magnitude: { label: "HOW MUCH MOVED", scope: "5 YEARS \u00b7 WEEKLY" },
+      cadence: { label: "WHEN", scope: "5 YEARS \u00b7 DAILY" },
+      magnitude: { label: "HOW MUCH MOVED", scope: "5 YEARS \u00b7 DAILY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
       tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
       explore: { label: "YOUR TURN", scope: "COMMITS + LINES + LIFETIME TOKENS" },
@@ -969,12 +1029,60 @@
       });
       return validPoints && candidate.coverage.starts_on === candidate.points[0].date && candidate.points.at(-1).token_count === combined.token_count;
     };
+    const validDailyUsage = (candidate, combined, observedOn) => {
+      if (
+        !exactKeys(candidate, ["schema", "label", "units", "grain", "aggregation", "coverage", "points"]) ||
+        candidate.schema !== 1 ||
+        candidate.label !== "Combined daily Codex usage" ||
+        candidate.units !== "tokens" ||
+        candidate.grain !== "day" ||
+        candidate.aggregation !== "sum_of_sources" ||
+        !exactKeys(candidate.coverage, ["starts_on", "complete_through", "before_start", "completeness", "prior_unallocated_tokens"]) ||
+        !isIsoDate(candidate.coverage.starts_on) ||
+        !isIsoDate(candidate.coverage.complete_through) ||
+        !["zero", "unobserved"].includes(candidate.coverage.before_start) ||
+        !["whole_lifetime", "rolling_window_partial"].includes(candidate.coverage.completeness) ||
+        !Number.isSafeInteger(candidate.coverage.prior_unallocated_tokens) ||
+        candidate.coverage.prior_unallocated_tokens < 0 ||
+        !Array.isArray(candidate.points) ||
+        candidate.points.length === 0
+      )
+        return false;
+
+      const wholeLifetime = candidate.coverage.completeness === "whole_lifetime";
+      if (
+        (wholeLifetime && (candidate.coverage.before_start !== "zero" || candidate.coverage.prior_unallocated_tokens !== 0)) ||
+        (!wholeLifetime && (candidate.coverage.before_start !== "unobserved" || candidate.coverage.prior_unallocated_tokens <= 0))
+      )
+        return false;
+      const latestCompleted = new Date(utcDate(observedOn).getTime() - DAY_MS).toISOString().slice(0, 10);
+
+      let previousDate = null;
+      let tokenTotal = candidate.coverage.prior_unallocated_tokens;
+      const validPoints = candidate.points.every((point) => {
+        if (!exactKeys(point, ["date", "tokens"]) || !isIsoDate(point.date) || !Number.isSafeInteger(point.tokens) || point.tokens < 0) return false;
+        const date = utcDate(point.date);
+        if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
+        previousDate = date;
+        tokenTotal += point.tokens;
+        return Number.isSafeInteger(tokenTotal);
+      });
+      return (
+        validPoints &&
+        candidate.coverage.starts_on === candidate.points[0].date &&
+        candidate.coverage.complete_through === candidate.points.at(-1).date &&
+        candidate.coverage.complete_through === latestCompleted &&
+        (!wholeLifetime || candidate.points[0].tokens === 0) &&
+        Math.round(tokenTotal / 100_000_000) * 100_000_000 === combined.token_count
+      );
+    };
     const validSource = (candidate) => {
       const requiredKeys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
       const validSchema3 = candidate?.schema === 3 && exactKeys(candidate, requiredKeys);
       const validSchema4 = candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"]);
       const validSchema5 = candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"]);
-      if (!validSchema3 && !validSchema4 && !validSchema5) return false;
+      const validSchema6 = candidate?.schema === 6 && exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"]);
+      if (!validSchema3 && !validSchema4 && !validSchema5 && !validSchema6) return false;
       const combined = candidate.combined_lifetime;
       if (
         !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
@@ -997,6 +1105,7 @@
           candidate.combined_lifetime_history.points.at(-1).date !== candidate.observed_on)
       )
         return false;
+      if (candidate.schema === 6 && !validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on)) return false;
       if (candidate.automated_refresh) {
         return (
           candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
@@ -1030,7 +1139,7 @@
       lifetime.textContent = "Unavailable";
       lifetime.dataset.format = "unavailable";
       cost.hidden = true;
-      status.textContent = "Combined lifetime history unavailable; GitHub activity remains available.";
+      status.textContent = "Combined token usage unavailable; code activity remains available.";
       return null;
     }
 
@@ -1042,10 +1151,18 @@
       lifetime.dataset.format = literal ? "literal" : "readable";
     };
     renderCodexUsageScale(readScale());
-    observedTime.dateTime = source.observed_on;
-    observedTime.textContent = fullDate.format(new Date(`${source.observed_on}T00:00:00Z`));
-    status.firstChild.textContent =
-      source.schema === 5 ? "Combined lifetime history observed through " : "Lifetime fallback: one rounded snapshot observed ";
+    const statusDate = source.schema === 6 ? source.combined_daily_usage.coverage.complete_through : source.observed_on;
+    observedTime.dateTime = statusDate;
+    observedTime.textContent = fullDate.format(new Date(`${statusDate}T00:00:00Z`));
+    if (source.schema === 6) {
+      status.firstChild.textContent =
+        source.combined_daily_usage.coverage.completeness === "whole_lifetime"
+          ? "Combined daily usage complete through "
+          : "Combined daily usage observed through ";
+    } else {
+      status.firstChild.textContent =
+        source.schema === 5 ? "Legacy lifetime history observed through " : "Lifetime fallback: one rounded snapshot observed ";
+    }
     if (source.cost) {
       costValue.textContent = source.cost.usd_label.replace(/ API-rate replay$/, "");
       cost.hidden = false;
@@ -1059,25 +1176,90 @@
   };
 
   const root = document.querySelector("[data-github-activity]");
-  const dataNode = document.getElementById("github-activity-data");
+  const dataNode = document.getElementById("combined-code-activity-data");
   const tokenDataNode = document.getElementById("build-rhythm-token-data");
   if (!root || !dataNode) return;
 
-  const validActivitySource = (candidate) =>
-    candidate?.schema === 2 &&
-    typeof candidate.generatedAt === "string" &&
-    Array.isArray(candidate.weeks) &&
-    candidate.weeks.length > 0 &&
-    candidate.weeks.every(
-      (row) =>
-        isIsoDate(row?.week) &&
-        Number.isInteger(row.commits) &&
-        row.commits >= 0 &&
-        Number.isInteger(row.additions) &&
-        row.additions >= 0 &&
-        Number.isInteger(row.deletions) &&
-        row.deletions >= 0
+  const hasExactKeys = (value, keys) =>
+    value &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    Object.keys(value).length === keys.length &&
+    keys.every((key) => Object.hasOwn(value, key));
+  const validCodeCounts = (row) =>
+    hasExactKeys(row, ["date", "commits", "additions", "deletions"]) &&
+    isIsoDate(row.date) &&
+    Number.isSafeInteger(row.commits) &&
+    row.commits >= 0 &&
+    Number.isSafeInteger(row.additions) &&
+    row.additions >= 0 &&
+    Number.isSafeInteger(row.deletions) &&
+    row.deletions >= 0;
+  const validCombinedActivitySource = (candidate) => {
+    if (
+      !hasExactKeys(candidate, ["schema", "updated_on", "timezone", "lifetime", "daily"]) ||
+      candidate.schema !== 2 ||
+      candidate.timezone !== "UTC" ||
+      !isIsoDate(candidate.updated_on) ||
+      !hasExactKeys(candidate.lifetime, ["through", "commits", "additions", "deletions"]) ||
+      !isIsoDate(candidate.lifetime.through) ||
+      !Number.isSafeInteger(candidate.lifetime.commits) ||
+      candidate.lifetime.commits < 0 ||
+      !Number.isSafeInteger(candidate.lifetime.additions) ||
+      candidate.lifetime.additions < 0 ||
+      !Number.isSafeInteger(candidate.lifetime.deletions) ||
+      candidate.lifetime.deletions < 0 ||
+      !hasExactKeys(candidate.daily, ["starts_on", "complete_through", "points"]) ||
+      !isIsoDate(candidate.daily.starts_on) ||
+      !isIsoDate(candidate.daily.complete_through) ||
+      !Array.isArray(candidate.daily.points) ||
+      candidate.daily.points.length === 0 ||
+      !candidate.daily.points.every(validCodeCounts)
+    )
+      return false;
+    let previousDate = null;
+    const ordered = candidate.daily.points.every((point) => {
+      const date = utcDate(point.date);
+      if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
+      previousDate = date;
+      return true;
+    });
+    return (
+      ordered &&
+      candidate.daily.starts_on === candidate.daily.points[0].date &&
+      candidate.daily.complete_through === candidate.daily.points.at(-1).date &&
+      candidate.updated_on === candidate.lifetime.through &&
+      candidate.daily.complete_through === candidate.lifetime.through
     );
+  };
+  const validLegacyActivitySource = (candidate) => {
+    if (
+      !hasExactKeys(candidate, ["schema", "timezone", "scope", "aggregation", "updated_on", "points"]) ||
+      candidate.schema !== 1 ||
+      candidate.timezone !== "America/Los_Angeles" ||
+      candidate.scope !== "combined_code_activity" ||
+      candidate.aggregation !== "cumulative_daily_snapshots" ||
+      !isIsoDate(candidate.updated_on) ||
+      !Array.isArray(candidate.points) ||
+      candidate.points.length === 0 ||
+      !candidate.points.every(validCodeCounts)
+    )
+      return false;
+    let previous = null;
+    const ordered = candidate.points.every((point) => {
+      if (
+        previous &&
+        (utcDate(point.date) <= utcDate(previous.date) ||
+          point.commits < previous.commits ||
+          point.additions < previous.additions ||
+          point.deletions < previous.deletions)
+      )
+        return false;
+      previous = point;
+      return true;
+    });
+    return ordered && candidate.updated_on === candidate.points.at(-1).date;
+  };
 
   const validTokenRhythmSource = (candidate) => {
     const keys = ["schema", "label", "units", "grain", "aggregation", "method", "since", "updated_at", "confidence", "privacy_note", "points"];
@@ -1137,10 +1319,16 @@
     root.dataset.state = "error";
     return;
   }
-  if (!validActivitySource(source)) {
+  const validCombinedSource = validCombinedActivitySource(source);
+  const validLegacySource = validLegacyActivitySource(source);
+  if (!validCombinedSource && !validLegacySource) {
     root.dataset.state = "error";
     return;
   }
+  root.querySelectorAll("[data-format-integer]").forEach((node) => {
+    const value = Number(node.getAttribute("value"));
+    if (Number.isSafeInteger(value) && value >= 0) node.textContent = number.format(value);
+  });
 
   let tokenSource = null;
   if (tokenDataNode) {
@@ -1153,27 +1341,16 @@
   }
   root.dataset.tokenState = tokenSource ? "ready" : "error";
 
-  const remoteSource = root.dataset.source;
-  const isLocalPreview = /^(?:localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname);
-  if (remoteSource && !isLocalPreview) {
-    try {
-      const response = await fetch(remoteSource, { cache: "no-store", credentials: "same-origin" });
-      const remote = response.ok ? await response.json() : null;
-      if (validActivitySource(remote)) source = remote;
-      else root.dataset.sourceState = "fallback";
-    } catch {
-      root.dataset.sourceState = "fallback";
-    }
-  }
-
-  const rows = source.weeks.map((row, index) => ({
-    index,
-    week: row.week,
-    date: new Date(`${row.week}T00:00:00Z`),
-    commits: row.commits,
-    additions: row.additions,
-    deletions: row.deletions,
-  }));
+  const rows = validCombinedSource
+    ? source.daily.points.map((row, index) => ({
+        index,
+        dateKey: row.date,
+        date: utcDate(row.date),
+        commits: row.commits,
+        additions: row.additions,
+        deletions: row.deletions,
+      }))
+    : [];
   const tokenRows = tokenSource
     ? tokenSource.points.map((point, index) => ({
         index,
@@ -1183,6 +1360,24 @@
       }))
     : [];
   initTokenRhythmChart({ tokenRows });
+  let range = "5";
+  let scale = "log";
+  const codexSourcePromise = initCodexUsageSnapshot(() => scale);
+  const awaitingDaily = root.querySelector("[data-combined-daily-awaiting]");
+  if (!rows.length) {
+    root.dataset.sourceSchema = String(source.schema);
+    root.dataset.state = "awaiting";
+    if (awaitingDaily) awaitingDaily.hidden = false;
+    const awaitingScope = root.querySelector("[data-github-scope]");
+    if (awaitingScope) awaitingScope.textContent = "DAILY HISTORY \u00b7 AWAITING";
+    const legacyUpdated = document.getElementById("github-activity-updated");
+    if (legacyUpdated) {
+      legacyUpdated.dateTime = source.updated_on;
+      legacyUpdated.textContent = source.updated_on;
+    }
+    return;
+  }
+  if (awaitingDaily) awaitingDaily.hidden = true;
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
@@ -1230,11 +1425,8 @@
     year: "numeric",
     timeZone: "UTC",
   });
-  let range = "5";
-  let scale = "log";
   let codexSource = null;
   let codexSourceSettled = false;
-  const codexSourcePromise = initCodexUsageSnapshot(() => scale);
   let selectedIndex = rows.length - 1;
   let pinnedIndex = selectedIndex;
   let selection = null;
@@ -1276,35 +1468,61 @@
     scaleButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.scale === scale)));
     if (scopeBadge) {
       const rangeLabel = range === "all" ? "ALL HISTORY" : `${range} ${range === "1" ? "YEAR" : "YEARS"}`;
-      scopeBadge.textContent = `${rangeLabel} \u00b7 WEEKLY`;
+      scopeBadge.textContent = `${rangeLabel} \u00b7 DAILY`;
     }
   };
-  const updateWeekReadout = (row) => {
-    selectedDate.textContent = `Week of ${dateLabel.format(row.date)}`;
+  const updateDayReadout = (row) => {
+    selectedDate.textContent = dateLabel.format(row.date);
     selectedCommits.textContent = `${number.format(row.commits)} ${row.commits === 1 ? "commit" : "commits"}`;
     selectedAdditions.textContent = `${signed(row.additions, true)} added`;
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
-    const tokenObservation = lifetimeObservationForWeek(codexSource, row);
+    const tokenObservation = codexUsageForDay(codexSource, row);
     if (tokenObservation) {
-      selectedTokens.textContent = `${tokenObservation.tokensLabel} lifetime tokens \u00b7 observed ${dateLabel.format(tokenObservation.date)}`;
+      selectedTokens.textContent =
+        tokenObservation.dailyTokens == null
+          ? `${tokenObservation.tokensLabel} lifetime tokens \u00b7 legacy observation ${dateLabel.format(tokenObservation.date)}`
+          : `${signed(tokenObservation.dailyTokens, true)} tokens \u00b7 ${number.format(tokenObservation.tokenCount)} cumulative`;
     } else if (!codexSourceSettled) {
-      selectedTokens.textContent = "Lifetime history loading";
+      selectedTokens.textContent = "Token usage loading";
     } else {
-      selectedTokens.textContent = "Lifetime tokens \u00b7 unobserved";
+      selectedTokens.textContent = "Token usage \u00b7 unobserved or awaiting a completed day";
     }
   };
   const lifetimeRangeSummary = (data) => {
-    if (!codexSourceSettled) return "lifetime history loading";
+    if (!codexSourceSettled) return "token usage loading";
+    if (codexSource?.combined_daily_usage) {
+      const usage = codexSource.combined_daily_usage;
+      const coverageStart = utcDate(usage.coverage.starts_on);
+      const coverageEnd = utcDate(usage.coverage.complete_through);
+      const start = data[0].date;
+      const end = data.at(-1).date;
+      if (usage.coverage.before_start === "unobserved" && start < coverageStart) {
+        return "token usage incomplete in this interval";
+      }
+      if (start > coverageEnd) return "token usage awaiting completed days";
+      const dailyPoints = usage.points.filter((point) => {
+        const date = utcDate(point.date);
+        return date >= start && date <= end;
+      });
+      const exactChange = dailyPoints.reduce((sum, point) => sum + point.tokens, 0);
+      const latest = codexUsageForDay(codexSource, { date: new Date(Math.min(end.getTime(), coverageEnd.getTime())) });
+      if (end > coverageEnd) {
+        return `${signed(exactChange, true)} exact tokens through ${dateLabel.format(coverageEnd)} \u00b7 later days awaiting completion${
+          latest ? ` \u00b7 ${number.format(latest.tokenCount)} cumulative` : ""
+        }`;
+      }
+      return `${signed(exactChange, true)} exact tokens in interval${latest ? ` \u00b7 ${number.format(latest.tokenCount)} cumulative` : ""}`;
+    }
     if (!codexSource?.combined_lifetime_history) {
       return codexSource?.combined_lifetime
         ? `${codexSource.combined_lifetime.tokens_label} lifetime snapshot \u00b7 no history`
         : "lifetime history unavailable";
     }
     const start = data[0].date.getTime();
-    const end = data.at(-1).date.getTime() + 7 * DAY_MS;
+    const end = data.at(-1).date.getTime();
     const observations = lifetimeHistoryRows(codexSource).filter((point) => {
       const timestamp = point.date.getTime();
-      return timestamp >= start && timestamp < end;
+      return timestamp >= start && timestamp <= end;
     });
     if (!observations.length) return "lifetime tokens unobserved in this interval";
     const first = observations[0];
@@ -1316,7 +1534,7 @@
     const fragment = document.createDocumentFragment();
     [...data].reverse().forEach((row) => {
       const tr = document.createElement("tr");
-      [row.week, number.format(row.commits), signed(row.additions, true), signed(row.deletions, false), number.format(lineChanges(row))].forEach(
+      [row.dateKey, number.format(row.commits), signed(row.additions, true), signed(row.deletions, false), number.format(lineChanges(row))].forEach(
         (value, index) => {
           const cell = document.createElement(index === 0 ? "th" : "td");
           if (index === 0) cell.scope = "row";
@@ -1327,7 +1545,7 @@
       fragment.append(tr);
     });
     tableBody.replaceChildren(fragment);
-    tableCaption.textContent = selection ? "Reported weekly activity in the selected range" : "Reported weekly activity in the selected time window";
+    tableCaption.textContent = selection ? "Reported daily activity in the selected range" : "Reported daily activity in the selected time window";
   };
   const updateAggregate = (data, announce = false, refreshTable = true) => {
     const scoped = analysisRows(data);
@@ -1336,21 +1554,21 @@
     const totalAdditions = scoped.reduce((sum, row) => sum + row.additions, 0);
     const totalDeletions = scoped.reduce((sum, row) => sum + row.deletions, 0);
     const scope = selection
-      ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "week" : "weeks"}`
+      ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "day" : "days"}`
       : range === "all"
         ? "All history"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active weeks \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines \u00b7 ${lifetimeRangeSummary(scoped)}`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active days \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines \u00b7 ${lifetimeRangeSummary(scoped)}`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
       const busiest = active.reduce((best, row) => (row.commits > best.commits ? row : best));
       const largest = active.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
       const medianMagnitude = percentile(active.map(lineChanges), 0.5);
-      annotation.textContent = `Largest line-change week \u00b7 ${dateLabel.format(largest.date)} \u00b7 ${signed(largest.additions, true)} / ${signed(largest.deletions, false)}. Highest commit week \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active-week line magnitude \u00b7 ${compactNumber.format(medianMagnitude)}.`;
+      annotation.textContent = `Largest line-change day \u00b7 ${dateLabel.format(largest.date)} \u00b7 ${signed(largest.additions, true)} / ${signed(largest.deletions, false)}. Highest commit day \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active-day line magnitude \u00b7 ${compactNumber.format(medianMagnitude)}.`;
     } else {
-      annotation.textContent = "No active weeks in this scope. Median active-week line magnitude \u00b7 \u2014.";
+      annotation.textContent = "No active days in this scope. Median active-day line magnitude \u00b7 \u2014.";
     }
     // Range feedback follows the pointer, while the reported-value table only
     // rebuilds after the selection is finalized.
@@ -1392,7 +1610,7 @@
     const baseline = (lineTop + lineBottom) / 2;
     const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
     const start = data[0].date.getTime();
-    const end = data.at(-1).date.getTime() + 6 * DAY_MS;
+    const end = data.at(-1).date.getTime();
     const span = Math.max(1, end - start);
     const rawLineMaximum = Math.max(...data.flatMap((row) => [row.additions, row.deletions]), 1);
     const rawCommitMaximum = Math.max(...data.map((row) => row.commits), 1);
@@ -1516,18 +1734,18 @@
       addText(grid, String(year), xx, yearLabelY, { anchor: "middle", color: palette.muted });
     });
     if (yearTicks.size < 2) {
-      addText(grid, data[0].week, left, yearLabelY, { color: palette.muted });
-      addText(grid, data.at(-1).week, width - right, yearLabelY, { anchor: "end", color: palette.muted });
+      addText(grid, data[0].dateKey, left, yearLabelY, { color: palette.muted });
+      addText(grid, data.at(-1).dateKey, width - right, yearLabelY, { anchor: "end", color: palette.muted });
     }
     chart.append(grid);
-    addText(chart, `COMMITS / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 20, {
+    addText(chart, `COMMITS / DAY \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 20, {
       color: palette.accent,
       weight: 700,
     });
     const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
     const lineHeading = narrow
-      ? `LINES / WEEK \u00b7 ${lineScaleLabel}`
-      : `LINES CHANGED / WEEK \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
+      ? `LINES / DAY \u00b7 ${lineScaleLabel}`
+      : `LINES CHANGED / DAY \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
     addText(chart, lineHeading, left, lineTop - 34, {
       color: palette.muted,
       weight: 700,
@@ -1613,13 +1831,15 @@
       })
     );
 
-    const historyAvailable = Boolean(codexSource?.combined_lifetime_history);
+    const historyAvailable = Boolean(codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history);
     addText(
       chart,
       historyAvailable
         ? narrow
-          ? "LIFETIME \u00b7 HISTORY"
-          : "COMBINED LIFETIME TOKENS \u00b7 OBSERVED HISTORY"
+          ? "CODEX \u00b7 CUMULATIVE"
+          : codexSource?.combined_daily_usage
+            ? "COMBINED CODEX TOKENS \u00b7 CUMULATIVE DAILY USAGE"
+            : "COMBINED LIFETIME TOKENS \u00b7 LEGACY OBSERVED HISTORY"
         : narrow
           ? "LIFETIME \u00b7 SNAPSHOT FALLBACK"
           : "LIFETIME TOKENS \u00b7 DATED SNAPSHOT FALLBACK",
@@ -1794,7 +2014,7 @@
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Weekly commits, line changes, and lifetime token history inspector",
+      "aria-label": "Daily combined commits, line changes, and Codex token usage inspector",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
@@ -1814,7 +2034,7 @@
       addMarker.setAttribute("cy", lineY(row.additions));
       removeMarker.setAttribute("cx", xx);
       removeMarker.setAttribute("cy", lineY(-row.deletions));
-      const tokenObservation = lifetimeObservationForWeek(codexSource, row);
+      const tokenObservation = codexUsageForDay(codexSource, row);
       if (lifetimePlot && tokenObservation) {
         tokenMarker.setAttribute("cx", xx);
         tokenMarker.setAttribute("cy", lifetimePlot.y(tokenObservation.tokenCount));
@@ -1824,13 +2044,15 @@
       }
       overlay.setAttribute("aria-valuenow", String(selectedIndex - data[0].index));
       const tokenValue = tokenObservation
-        ? `${tokenObservation.tokensLabel} lifetime tokens, observed ${fullDate.format(tokenObservation.date)}`
-        : "lifetime tokens unobserved";
+        ? tokenObservation.dailyTokens == null
+          ? `${tokenObservation.tokensLabel} lifetime tokens, legacy observation ${fullDate.format(tokenObservation.date)}`
+          : `${number.format(tokenObservation.dailyTokens)} tokens that day, ${number.format(tokenObservation.tokenCount)} cumulative tokens`
+        : "token usage unobserved or awaiting a completed day";
       overlay.setAttribute(
         "aria-valuetext",
-        `Week of ${row.week}, ${number.format(row.commits)} commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed, ${tokenValue}`
+        `${row.dateKey}, ${number.format(row.commits)} commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed, ${tokenValue}`
       );
-      updateWeekReadout(row);
+      updateDayReadout(row);
     };
     const nearestRow = (event) => {
       const box = chart.getBoundingClientRect();
@@ -1937,8 +2159,8 @@
       else if (event.key === "ArrowRight" || event.key === "ArrowUp") next += 1;
       else if (event.key === "Home") next = data[0].index;
       else if (event.key === "End") next = data.at(-1).index;
-      else if (event.key === "PageUp") next -= 4;
-      else if (event.key === "PageDown") next += 4;
+      else if (event.key === "PageUp") next -= 7;
+      else if (event.key === "PageDown") next += 7;
       else return;
       event.preventDefault();
       const nextIndex = clamp(next, data[0].index, data.at(-1).index);
@@ -2022,9 +2244,9 @@
     attributeFilter: ["data-theme", "data-theme-mode"],
   });
 
-  updated.dateTime = source.generatedAt;
-  updated.textContent = String(source.generatedAt).slice(0, 10);
-  chartTitle.textContent = "Weekly GitHub commits, additions and deletions, plus combined lifetime token history";
+  updated.dateTime = source.updated_on;
+  updated.textContent = source.updated_on;
+  chartTitle.textContent = "Daily combined commits, additions and deletions, plus combined Codex token usage";
   setPressedState();
   drawChart();
   initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });
