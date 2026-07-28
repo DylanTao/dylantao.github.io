@@ -2065,9 +2065,6 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
       expect(geometry.scrollWidth - geometry.clientWidth, `${width}px awaiting page overflows`).toBeLessThanOrEqual(1);
       expect(geometry.left).toBeGreaterThanOrEqual(0);
       expect(geometry.right).toBeLessThanOrEqual(width);
-      if (width === 390) {
-        await attachScreenshot(page, testInfo, "build-rhythm-awaiting-table-fallback-390", { fullPage: false });
-      }
     }
 
     expect(runtimeErrors).toEqual([]);
@@ -2111,9 +2108,6 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
     expect(focusStyle.outlineStyle).not.toBe("none");
     expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(2);
     await hint.scrollIntoViewIfNeeded();
-    if (width === 390) {
-      await attachScreenshot(page, testInfo, "build-rhythm-table-cue-390", { fullPage: false });
-    }
   }
 
   await page.setViewportSize({ width: 1440, height: 1000 });
