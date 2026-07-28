@@ -301,7 +301,11 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   expect(response, `${route.path} did not return a document response`).not.toBeNull();
   expect(response.status(), `${route.path} returned HTTP ${response.status()}`).toBeLessThan(400);
 
-  const ready = page.locator(route.readySelector).first();
+  const readySelector =
+    route.id === "github-activity"
+      ? "[data-github-activity][data-state='ready'], [data-github-activity][data-state='awaiting']"
+      : route.readySelector;
+  const ready = page.locator(readySelector).first();
   const content = page.locator(route.contentSelector).first();
   await expect(ready).toBeVisible();
   await expect(content).toBeVisible();
@@ -312,6 +316,31 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   });
   await stabilizeVisuals(page);
   await page.waitForTimeout(350);
+
+  let githubActivityState = null;
+  if (route.id === "github-activity") {
+    githubActivityState = await ready.getAttribute("data-state");
+    expect(["ready", "awaiting"]).toContain(githubActivityState);
+    if (githubActivityState === "awaiting") {
+      await expect(page.locator("[data-combined-daily-awaiting]")).toBeVisible();
+      await expect(page.locator("[data-github-scope]")).toHaveText("DAILY HISTORY · AWAITING");
+      await expect(page.locator("[data-combined-awaiting-copy]").first()).toBeVisible();
+      await expect(page.locator("[data-combined-daily-copy]").first()).toBeHidden();
+      await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
+      await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
+      await expect(page.locator(".github-activity-method")).toBeHidden();
+      await expect(page.locator("#combined-code-activity")).toBeVisible();
+      await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
+      await expect(page.locator("[data-codex-usage]")).toHaveAttribute("aria-busy", "false");
+    } else {
+      await expect(page.locator("[data-combined-daily-awaiting]")).toBeHidden();
+      await expect(page.locator("[data-combined-daily-copy]").first()).toBeVisible();
+      await expect(page.locator("[data-combined-awaiting-copy]").first()).toBeHidden();
+      await expect(page.locator("[data-build-rhythm-story]")).toBeVisible();
+      await expect(page.locator(".github-activity-chart-shell")).toBeVisible();
+      await expect(page.locator(".github-activity-method")).toBeVisible();
+    }
+  }
 
   const geometry = await page.evaluate(() => {
     const documentElement = document.documentElement;
@@ -953,26 +982,44 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       await expect(page.locator('.site-format-link[aria-current="page"]')).toHaveText("AI");
     }
     if (route.id === "github-activity") {
-      for (const width of [320, 350, 390]) {
-        await page.setViewportSize({ width, height: 1000 });
-        await expect
-          .poll(async () => {
-            return page.locator(".github-activity-line-heading").evaluate((heading) => {
-              const chart = heading.ownerSVGElement;
-              const box = heading.getBBox();
-              const viewBoxWidth = chart?.viewBox.baseVal.width || 0;
-              return viewBoxWidth > 0 && box.x >= 0 && box.x + box.width <= viewBoxWidth;
-            });
-          })
-          .toBe(true);
+      if (githubActivityState === "ready") {
+        for (const width of [320, 350, 390]) {
+          await page.setViewportSize({ width, height: 1000 });
+          await expect
+            .poll(async () => {
+              return page.locator(".github-activity-line-heading").evaluate((heading) => {
+                const chart = heading.ownerSVGElement;
+                const box = heading.getBBox();
+                const viewBoxWidth = chart?.viewBox.baseVal.width || 0;
+                return viewBoxWidth > 0 && box.x >= 0 && box.x + box.width <= viewBoxWidth;
+              });
+            })
+            .toBe(true);
 
-        const groupedValuesStayTogether = await page.locator(".github-activity-value-group").evaluateAll((groups) =>
-          groups.slice(1).every((group) => {
-            const [separator, value] = Array.from(group.children).map((child) => child.getBoundingClientRect());
-            return separator && value && Math.abs(separator.top - value.top) <= 1;
-          })
-        );
-        expect(groupedValuesStayTogether, `${width}px GitHub readout orphans a separator`).toBe(true);
+          const groupedValuesStayTogether = await page.locator(".github-activity-value-group").evaluateAll((groups) =>
+            groups.slice(1).every((group) => {
+              const [separator, value] = Array.from(group.children).map((child) => child.getBoundingClientRect());
+              return separator && value && Math.abs(separator.top - value.top) <= 1;
+            })
+          );
+          expect(groupedValuesStayTogether, `${width}px GitHub readout orphans a separator`).toBe(true);
+        }
+      } else {
+        for (const width of [320, 350, 390]) {
+          await page.setViewportSize({ width, height: 1000 });
+          const awaitingGeometry = await page.locator("#combined-code-activity").evaluate((element) => {
+            const bounds = element.getBoundingClientRect();
+            return {
+              left: bounds.left,
+              right: bounds.right,
+              clientWidth: document.documentElement.clientWidth,
+              scrollWidth: document.documentElement.scrollWidth,
+            };
+          });
+          expect(awaitingGeometry.scrollWidth - awaitingGeometry.clientWidth, `${width}px awaiting page overflows`).toBeLessThanOrEqual(1);
+          expect(awaitingGeometry.left).toBeGreaterThanOrEqual(0);
+          expect(awaitingGeometry.right).toBeLessThanOrEqual(width);
+        }
       }
       await page.setViewportSize({ width: 390, height: 1000 });
     }
@@ -1992,15 +2039,47 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
-  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
+  const activity = page.locator("[data-github-activity]");
+  await expect(activity).toHaveAttribute("data-state", /^(ready|awaiting)$/);
+  const activityState = await activity.getAttribute("data-state");
+
+  if (activityState === "awaiting") {
+    await expect(page.locator("[data-combined-daily-awaiting]")).toBeVisible();
+    await expect(page.locator("[data-github-scope]")).toHaveText("DAILY HISTORY · AWAITING");
+    await expect(page.locator(".github-activity-method")).toBeHidden();
+    await expect(page.locator("#combined-code-activity")).toBeVisible();
+    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
+    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("aria-busy", "false");
+
+    for (const width of [390, 320]) {
+      await page.setViewportSize({ width, height: 1000 });
+      const geometry = await page.locator("#combined-code-activity").evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        return {
+          left: bounds.left,
+          right: bounds.right,
+          clientWidth: document.documentElement.clientWidth,
+          scrollWidth: document.documentElement.scrollWidth,
+        };
+      });
+      expect(geometry.scrollWidth - geometry.clientWidth, `${width}px awaiting page overflows`).toBeLessThanOrEqual(1);
+      expect(geometry.left).toBeGreaterThanOrEqual(0);
+      expect(geometry.right).toBeLessThanOrEqual(width);
+      await attachScreenshot(page, testInfo, `build-rhythm-awaiting-table-fallback-${width}`, { fullPage: false });
+    }
+
+    expect(runtimeErrors).toEqual([]);
+    return;
+  }
+
   await page.locator(".github-activity-method summary").click();
 
   const hint = page.locator("#github-activity-table-scroll-hint");
   const tableWrap = page.locator('.github-activity-table-wrap[aria-describedby="github-activity-table-scroll-hint"]');
-  await expect(hint).toHaveText("Scroll horizontally for all columns.");
+  await expect(hint).toHaveText("Scroll horizontally to read every daily column.");
   await expect(tableWrap).toHaveCount(1);
   await expect(tableWrap).toHaveAttribute("role", "region");
-  await expect(tableWrap).toHaveAccessibleName("Weekly GitHub activity table");
+  await expect(tableWrap).toHaveAccessibleName("Daily combined code activity table");
   await expect(tableWrap).toHaveAttribute("tabindex", "0");
 
   for (const width of [390, 320]) {
