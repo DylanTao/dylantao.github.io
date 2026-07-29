@@ -3,16 +3,15 @@ from __future__ import annotations
 import json
 import re
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TIER_PATH = REPO_ROOT / "_data" / "github_ai_tiers.yml"
-COMBINED_ACTIVITY_PATH = REPO_ROOT / "_data" / "combined_code_activity.json"
+PERSONAL_ACTIVITY_PATH = REPO_ROOT / "_data" / "personal_code_activity.json"
 ACTIVITY_PATHS = (
     TIER_PATH,
-    COMBINED_ACTIVITY_PATH,
     REPO_ROOT / "_pages" / "github-activity.md",
     REPO_ROOT / "assets" / "js" / "github-activity.js",
     REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
@@ -353,58 +352,57 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 self.assertGreaterEqual(row[field], 0)
             previous = observed
 
-    def test_combined_activity_is_identity_free_across_both_schemas(self) -> None:
-        activity = json.loads(COMBINED_ACTIVITY_PATH.read_text(encoding="utf-8"))
-        if activity["schema"] == 1:
+    def test_personal_activity_is_exact_schema3_or_compactly_unavailable(
+        self,
+    ) -> None:
+        page = (REPO_ROOT / "_pages" / "github-activity.md").read_text(
+            encoding="utf-8"
+        )
+        if not PERSONAL_ACTIVITY_PATH.exists():
             self.assertEqual(
-                set(activity),
-                {
-                    "schema",
-                    "timezone",
-                    "scope",
-                    "aggregation",
-                    "updated_on",
-                    "points",
-                },
+                page.count("Personal code history is being rebuilt."),
+                1,
             )
-            self.assertEqual(activity["timezone"], "America/Los_Angeles")
-            self.assertEqual(activity["scope"], "combined_code_activity")
-            self.assertEqual(
-                activity["aggregation"],
-                "cumulative_daily_snapshots",
-            )
-            points = activity["points"]
-            previous_counts: dict[str, int] | None = None
-        else:
-            self.assertEqual(activity["schema"], 2)
-            self.assertEqual(
-                set(activity),
-                {"schema", "updated_on", "timezone", "lifetime", "daily"},
-            )
-            self.assertEqual(activity["timezone"], "UTC")
-            self.assertEqual(
-                set(activity["lifetime"]),
-                {"through", "commits", "additions", "deletions"},
-            )
-            self.assertEqual(
-                set(activity["daily"]),
-                {"starts_on", "complete_through", "points"},
-            )
-            self.assertEqual(
-                activity["lifetime"]["through"],
-                activity["daily"]["complete_through"],
-            )
-            self.assertEqual(
-                activity["updated_on"],
-                activity["daily"]["complete_through"],
-            )
-            points = activity["daily"]["points"]
-            previous_counts = None
-            for field in ("commits", "additions", "deletions"):
-                self.assertIsInstance(activity["lifetime"][field], int)
-                self.assertNotIsInstance(activity["lifetime"][field], bool)
-                self.assertGreaterEqual(activity["lifetime"][field], 0)
+            return
 
+        activity = json.loads(
+            PERSONAL_ACTIVITY_PATH.read_text(encoding="utf-8")
+        )
+        self.assertEqual(activity["schema"], 3)
+        self.assertEqual(
+            set(activity),
+            {
+                "schema",
+                "updated_on",
+                "timezone",
+                "scope",
+                "coverage",
+                "points",
+            },
+        )
+        self.assertEqual(activity["timezone"], "UTC")
+        self.assertEqual(activity["scope"], "personal_code_activity")
+        end_exclusive = (
+            date.fromisoformat(activity["updated_on"]) + timedelta(days=1)
+        )
+        try:
+            expected_start = end_exclusive.replace(
+                year=end_exclusive.year - 5
+            )
+        except ValueError:
+            expected_start = end_exclusive.replace(
+                year=end_exclusive.year - 5,
+                day=28,
+            )
+        self.assertEqual(
+            activity["coverage"],
+            {
+                "starts_on": expected_start.isoformat(),
+                "complete_through": activity["updated_on"],
+                "status": "complete",
+            },
+        )
+        points = activity["points"]
         self.assertGreaterEqual(len(points), 1)
         previous_date: date | None = None
         for point in points:
@@ -413,38 +411,25 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 {"date", "commits", "additions", "deletions"},
             )
             observed = date.fromisoformat(point["date"])
-            self.assertLess(observed, date.today())
+            self.assertLess(
+                observed,
+                datetime.now(timezone.utc).date(),
+            )
             if previous_date is not None:
-                expected = (
-                    previous_date + timedelta(days=1)
-                    if activity["schema"] == 2
-                    else None
+                self.assertEqual(
+                    observed,
+                    previous_date + timedelta(days=1),
                 )
-                if expected is None:
-                    self.assertGreater(observed, previous_date)
-                else:
-                    self.assertEqual(observed, expected)
-            counts = {}
             for field in ("commits", "additions", "deletions"):
                 self.assertIsInstance(point[field], int)
                 self.assertNotIsInstance(point[field], bool)
                 self.assertGreaterEqual(point[field], 0)
-                counts[field] = point[field]
-            if previous_counts is not None:
-                for field in ("commits", "additions", "deletions"):
-                    self.assertGreaterEqual(counts[field], previous_counts[field])
             previous_date = observed
-            if activity["schema"] == 1:
-                previous_counts = counts
-
-        if activity["schema"] == 1:
-            self.assertEqual(activity["updated_on"], points[-1]["date"])
-        else:
-            self.assertEqual(activity["daily"]["starts_on"], points[0]["date"])
-            self.assertEqual(
-                activity["daily"]["complete_through"],
-                points[-1]["date"],
-            )
+        self.assertEqual(activity["coverage"]["starts_on"], points[0]["date"])
+        self.assertEqual(
+            activity["coverage"]["complete_through"],
+            points[-1]["date"],
+        )
         serialized = json.dumps(activity).lower()
         for fragment in (
             "account",

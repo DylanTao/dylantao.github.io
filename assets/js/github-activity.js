@@ -532,6 +532,7 @@
 
     const drawComplete = (group, width, height, colors) => {
       const compact = width < 620;
+      const hasPersonalCodex = Boolean(codexSource?.combined_daily_usage);
       const left = compact ? 58 : 64;
       const right = 12;
       const domainStart = storyGithubRows[0].date;
@@ -559,7 +560,7 @@
       });
 
       const lineTop = commitBottom + 30;
-      const lineBottom = Math.max(lineTop + 62, height * 0.52);
+      const lineBottom = hasPersonalCodex ? Math.max(lineTop + 62, height * 0.52) : height - 28;
       const lineBaseline = (lineTop + lineBottom) / 2;
       const lineMaximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
       addText(group, compact ? "+ ADDED / \u2212 REMOVED" : "SAME DAYS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, {
@@ -595,7 +596,6 @@
 
       const lifetimeTop = lineBottom + 44;
       const lifetimeBottom = height - 28;
-      const lifetimeRailLeft = left + (width - left - right) * (compact ? 0.48 : 0.64);
       const timeGrid = svgElement("g", { class: "build-rhythm-shared-time-grid", "aria-hidden": "true" });
       const yearTicks = new Set();
       storyGithubRows.forEach((row) => {
@@ -608,7 +608,7 @@
             x1: xx,
             y1: commitTop,
             x2: xx,
-            y2: lifetimeBottom,
+            y2: hasPersonalCodex ? lifetimeBottom : lineBottom,
             stroke: colors.grid,
             "stroke-width": 1,
           })
@@ -617,11 +617,11 @@
       });
       group.prepend(timeGrid);
 
-      addText(group, compact ? "CODEX \u00b7 CUMULATIVE" : "COMBINED CODEX TOKENS \u00b7 CUMULATIVE USAGE", left, lifetimeTop - 12, {
-        color: colors.accent,
-        weight: 700,
-      });
-      if (codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history) {
+      if (hasPersonalCodex) {
+        addText(group, compact ? "CODEX \u00b7 CUMULATIVE" : "PERSONAL CODEX TOKENS \u00b7 CUMULATIVE USAGE", left, lifetimeTop - 12, {
+          color: colors.accent,
+          weight: 700,
+        });
         drawLifetimeHistory(group, {
           source: codexSource,
           domainStart,
@@ -642,59 +642,15 @@
           weight: 700,
           className: "build-rhythm-lifetime-value",
         });
-      } else if (codexSource?.combined_lifetime) {
-        const tokenCount = codexSource.combined_lifetime.token_count;
-        const valueY = lifetimeTop + 14;
-        const tokenY = (value) => (value === 0 ? lifetimeBottom : valueY);
-        drawYAxis(group, {
-          name: "story-complete-tokens",
-          ticks: [0, tokenCount],
-          y: tokenY,
-          left: lifetimeRailLeft,
-          right: width - right,
-          colors,
-          format: (value) => (value === 0 ? "0" : codexSource.combined_lifetime.tokens_label),
-        });
-        group.append(
-          svgElement("line", {
-            class: "build-rhythm-lifetime-snapshot-line",
-            x1: lifetimeRailLeft,
-            y1: valueY,
-            x2: width - right,
-            y2: valueY,
-            stroke: colors.accent,
-            "stroke-width": 2,
-          }),
-          svgElement("circle", {
-            class: "build-rhythm-lifetime-snapshot-marker",
-            cx: width - right,
-            cy: valueY,
-            r: compact ? 3.5 : 4,
-            fill: colors.surface,
-            stroke: colors.accent,
-            "stroke-width": 2,
-          })
-        );
-        addText(group, `${codexSource.combined_lifetime.tokens_label} tokens`, width - right, lifetimeTop - 12, {
-          anchor: "end",
-          color: colors.text,
-          weight: 700,
-        });
-      } else {
-        addText(group, "Combined token usage unavailable; no substitute observation.", left, lifetimeTop + 18, {
-          color: colors.muted,
-        });
       }
       const lifetime = codexSource?.combined_lifetime?.tokens_label;
-      const observedOn = codexSource?.combined_daily_usage?.coverage?.complete_through || codexSource?.observed_on;
+      const observedOn = codexSource?.combined_daily_usage?.coverage?.complete_through;
       const observed = observedOn ? fullDate.format(new Date(`${observedOn}T00:00:00Z`)) : null;
-      if (codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history) {
+      if (hasPersonalCodex) {
         const count = lifetimeHistoryRows(codexSource).length;
-        return `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} lifetime tokens across ${number.format(count)} dated points through ${observed}.`;
+        return `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} personal Codex tokens across ${number.format(count)} completed days through ${observed}.`;
       }
-      return lifetime
-        ? `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} fallback snapshot observed ${observed}.`
-        : "Five years, day by day \u00b7 commits and line movement \u00b7 lifetime usage unavailable.";
+      return "Five years, day by day \u00b7 personal commits and line movement.";
     };
 
     const metadata = {
@@ -702,8 +658,8 @@
       magnitude: { label: "HOW MUCH MOVED", scope: "5 YEARS \u00b7 DAILY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
       tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
-      explore: { label: "YOUR TURN", scope: "COMMITS + LINES + LIFETIME TOKENS" },
-      complete: { label: "THE WHOLE RHYTHM", scope: "COMMITS + LINES + LIFETIME TOKENS" },
+      explore: { label: "YOUR TURN", scope: "PERSONAL COMMITS + LINES" },
+      complete: { label: "THE WHOLE RHYTHM", scope: "PERSONAL COMMITS + LINES" },
     };
 
     const syncStageOffset = () => {
@@ -990,45 +946,6 @@
         return false;
       return true;
     };
-    const validHistory = (candidate, combined) => {
-      if (
-        !exactKeys(candidate, ["schema", "label", "units", "grain", "aggregation", "rounding", "coverage", "points"]) ||
-        candidate.schema !== 1 ||
-        candidate.label !== "Combined lifetime tokens" ||
-        candidate.units !== "tokens" ||
-        candidate.grain !== "daily_last_observation" ||
-        candidate.aggregation !== "sum_of_sources" ||
-        candidate.rounding !== "nearest_0.1B" ||
-        !exactKeys(candidate.coverage, ["starts_on", "before_start"]) ||
-        !isIsoDate(candidate.coverage.starts_on) ||
-        candidate.coverage.before_start !== "unobserved" ||
-        !Array.isArray(candidate.points) ||
-        candidate.points.length === 0
-      )
-        return false;
-
-      let previousDate = null;
-      let previousCount = -1;
-      const validPoints = candidate.points.every((point) => {
-        if (
-          !exactKeys(point, ["date", "token_count", "tokens_label", "observation"]) ||
-          !isIsoDate(point.date) ||
-          !Number.isSafeInteger(point.token_count) ||
-          point.token_count <= 0 ||
-          point.token_count % 100_000_000 !== 0 ||
-          point.token_count < previousCount ||
-          point.tokens_label !== tokensLabel(point.token_count) ||
-          !["user_reported", "automated"].includes(point.observation)
-        )
-          return false;
-        const date = utcDate(point.date);
-        if (previousDate && date <= previousDate) return false;
-        previousDate = date;
-        previousCount = point.token_count;
-        return true;
-      });
-      return validPoints && candidate.coverage.starts_on === candidate.points[0].date && candidate.points.at(-1).token_count === combined.token_count;
-    };
     const validDailyUsage = (candidate, combined, observedOn) => {
       if (
         !exactKeys(candidate, ["schema", "label", "units", "grain", "aggregation", "coverage", "points"]) ||
@@ -1078,11 +995,7 @@
     };
     const validSource = (candidate) => {
       const requiredKeys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
-      const validSchema3 = candidate?.schema === 3 && exactKeys(candidate, requiredKeys);
-      const validSchema4 = candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"]);
-      const validSchema5 = candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"]);
-      const validSchema6 = candidate?.schema === 6 && exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"]);
-      if (!validSchema3 && !validSchema4 && !validSchema5 && !validSchema6) return false;
+      if (candidate?.schema !== 6 || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])) return false;
       const combined = candidate.combined_lifetime;
       if (
         !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
@@ -1098,28 +1011,15 @@
         typeof candidate.automated_refresh !== "boolean"
       )
         return false;
-      if (candidate.schema >= 4 && !validCost(candidate.cost, combined.token_count)) return false;
-      if (
-        candidate.schema === 5 &&
-        (!validHistory(candidate.combined_lifetime_history, combined) ||
-          candidate.combined_lifetime_history.points.at(-1).date !== candidate.observed_on)
-      )
-        return false;
-      if (candidate.schema === 6 && !validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on)) return false;
-      if (candidate.automated_refresh) {
-        return (
-          candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
-          candidate.confidence === "high" &&
-          typeof candidate.updated_at === "string" &&
-          !Number.isNaN(Date.parse(candidate.updated_at)) &&
-          candidate.updated_at.slice(0, 10) === candidate.observed_on
-        );
-      }
+      if (!validCost(candidate.cost, combined.token_count)) return false;
+      if (!validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on)) return false;
       return (
-        candidate.method === "user_reported_rounded_lifetime_checkpoint" &&
-        candidate.confidence === "user reported" &&
-        candidate.updated_at === null &&
-        candidate.automated_refresh === false
+        candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
+        candidate.confidence === "high" &&
+        typeof candidate.updated_at === "string" &&
+        !Number.isNaN(Date.parse(candidate.updated_at)) &&
+        candidate.updated_at.slice(0, 10) === candidate.observed_on &&
+        candidate.automated_refresh === true
       );
     };
 
@@ -1136,10 +1036,11 @@
     if (!validSource(source)) {
       trendRoot.dataset.state = "error";
       trendRoot.setAttribute("aria-busy", "false");
+      trendRoot.hidden = true;
       lifetime.textContent = "Unavailable";
       lifetime.dataset.format = "unavailable";
       cost.hidden = true;
-      status.textContent = "Combined token usage unavailable; code activity remains available.";
+      status.textContent = "Personal Codex daily usage unavailable; code activity remains available.";
       return null;
     }
 
@@ -1151,18 +1052,13 @@
       lifetime.dataset.format = literal ? "literal" : "readable";
     };
     renderCodexUsageScale(readScale());
-    const statusDate = source.schema === 6 ? source.combined_daily_usage.coverage.complete_through : source.observed_on;
+    const statusDate = source.combined_daily_usage.coverage.complete_through;
     observedTime.dateTime = statusDate;
     observedTime.textContent = fullDate.format(new Date(`${statusDate}T00:00:00Z`));
-    if (source.schema === 6) {
-      status.firstChild.textContent =
-        source.combined_daily_usage.coverage.completeness === "whole_lifetime"
-          ? "Combined daily usage complete through "
-          : "Combined daily usage observed through ";
-    } else {
-      status.firstChild.textContent =
-        source.schema === 5 ? "Legacy lifetime history observed through " : "Lifetime fallback: one rounded snapshot observed ";
-    }
+    status.firstChild.textContent =
+      source.combined_daily_usage.coverage.completeness === "whole_lifetime"
+        ? "Personal Codex daily usage complete through "
+        : "Personal Codex daily usage observed through ";
     if (source.cost) {
       costValue.textContent = source.cost.usd_label.replace(/ API-rate replay$/, "");
       cost.hidden = false;
@@ -1172,13 +1068,15 @@
     }
     trendRoot.dataset.state = "ready";
     trendRoot.setAttribute("aria-busy", "false");
+    trendRoot.hidden = false;
     return source;
   };
 
   const root = document.querySelector("[data-github-activity]");
-  const dataNode = document.getElementById("combined-code-activity-data");
+  const dataNode = document.getElementById("personal-code-activity-data");
   const tokenDataNode = document.getElementById("build-rhythm-token-data");
   if (!root || !dataNode) return;
+  const availabilityBadge = root.querySelector("[data-github-scope]");
 
   const hasExactKeys = (value, keys) =>
     value &&
@@ -1195,70 +1093,48 @@
     row.additions >= 0 &&
     Number.isSafeInteger(row.deletions) &&
     row.deletions >= 0;
-  const validCombinedActivitySource = (candidate) => {
-    if (
-      !hasExactKeys(candidate, ["schema", "updated_on", "timezone", "lifetime", "daily"]) ||
-      candidate.schema !== 2 ||
-      candidate.timezone !== "UTC" ||
-      !isIsoDate(candidate.updated_on) ||
-      !hasExactKeys(candidate.lifetime, ["through", "commits", "additions", "deletions"]) ||
-      !isIsoDate(candidate.lifetime.through) ||
-      !Number.isSafeInteger(candidate.lifetime.commits) ||
-      candidate.lifetime.commits < 0 ||
-      !Number.isSafeInteger(candidate.lifetime.additions) ||
-      candidate.lifetime.additions < 0 ||
-      !Number.isSafeInteger(candidate.lifetime.deletions) ||
-      candidate.lifetime.deletions < 0 ||
-      !hasExactKeys(candidate.daily, ["starts_on", "complete_through", "points"]) ||
-      !isIsoDate(candidate.daily.starts_on) ||
-      !isIsoDate(candidate.daily.complete_through) ||
-      !Array.isArray(candidate.daily.points) ||
-      candidate.daily.points.length === 0 ||
-      !candidate.daily.points.every(validCodeCounts)
-    )
-      return false;
-    let previousDate = null;
-    const ordered = candidate.daily.points.every((point) => {
-      const date = utcDate(point.date);
-      if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
-      previousDate = date;
-      return true;
-    });
-    return (
-      ordered &&
-      candidate.daily.starts_on === candidate.daily.points[0].date &&
-      candidate.daily.complete_through === candidate.daily.points.at(-1).date &&
-      candidate.updated_on === candidate.lifetime.through &&
-      candidate.daily.complete_through === candidate.lifetime.through
-    );
+  const fiveCalendarYearsBefore = (value) => {
+    const year = value.getUTCFullYear() - 5;
+    const month = value.getUTCMonth();
+    const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    return new Date(Date.UTC(year, month, Math.min(value.getUTCDate(), lastDay)));
   };
-  const validLegacyActivitySource = (candidate) => {
+  const validPersonalActivitySource = (candidate) => {
     if (
-      !hasExactKeys(candidate, ["schema", "timezone", "scope", "aggregation", "updated_on", "points"]) ||
-      candidate.schema !== 1 ||
-      candidate.timezone !== "America/Los_Angeles" ||
-      candidate.scope !== "combined_code_activity" ||
-      candidate.aggregation !== "cumulative_daily_snapshots" ||
+      !hasExactKeys(candidate, ["schema", "updated_on", "timezone", "scope", "coverage", "points"]) ||
+      candidate.schema !== 3 ||
+      candidate.timezone !== "UTC" ||
+      candidate.scope !== "personal_code_activity" ||
       !isIsoDate(candidate.updated_on) ||
+      !hasExactKeys(candidate.coverage, ["starts_on", "complete_through", "status"]) ||
+      !isIsoDate(candidate.coverage.starts_on) ||
+      !isIsoDate(candidate.coverage.complete_through) ||
+      candidate.coverage.status !== "complete" ||
       !Array.isArray(candidate.points) ||
       candidate.points.length === 0 ||
       !candidate.points.every(validCodeCounts)
     )
       return false;
-    let previous = null;
+    let previousDate = null;
     const ordered = candidate.points.every((point) => {
-      if (
-        previous &&
-        (utcDate(point.date) <= utcDate(previous.date) ||
-          point.commits < previous.commits ||
-          point.additions < previous.additions ||
-          point.deletions < previous.deletions)
-      )
-        return false;
-      previous = point;
+      const date = utcDate(point.date);
+      if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
+      previousDate = date;
       return true;
     });
-    return ordered && candidate.updated_on === candidate.points.at(-1).date;
+    const startsOn = utcDate(candidate.coverage.starts_on);
+    const completeThrough = utcDate(candidate.coverage.complete_through);
+    const expectedStart = fiveCalendarYearsBefore(new Date(completeThrough.getTime() + DAY_MS));
+    const expectedLength = Math.round((completeThrough - startsOn) / DAY_MS) + 1;
+    return (
+      ordered &&
+      startsOn.getTime() === expectedStart.getTime() &&
+      candidate.coverage.starts_on === candidate.points[0].date &&
+      candidate.coverage.complete_through === candidate.points.at(-1).date &&
+      candidate.updated_on === candidate.coverage.complete_through &&
+      candidate.points.length === expectedLength &&
+      completeThrough < utcDate(new Date().toISOString().slice(0, 10))
+    );
   };
 
   const validTokenRhythmSource = (candidate) => {
@@ -1316,19 +1192,9 @@
   try {
     source = JSON.parse(dataNode.textContent);
   } catch {
-    root.dataset.state = "error";
-    return;
+    source = null;
   }
-  const validCombinedSource = validCombinedActivitySource(source);
-  const validLegacySource = validLegacyActivitySource(source);
-  if (!validCombinedSource && !validLegacySource) {
-    root.dataset.state = "error";
-    return;
-  }
-  root.querySelectorAll("[data-format-integer]").forEach((node) => {
-    const value = Number(node.getAttribute("value"));
-    if (Number.isSafeInteger(value) && value >= 0) node.textContent = number.format(value);
-  });
+  const validPersonalSource = validPersonalActivitySource(source);
 
   let tokenSource = null;
   if (tokenDataNode) {
@@ -1341,16 +1207,6 @@
   }
   root.dataset.tokenState = tokenSource ? "ready" : "error";
 
-  const rows = validCombinedSource
-    ? source.daily.points.map((row, index) => ({
-        index,
-        dateKey: row.date,
-        date: utcDate(row.date),
-        commits: row.commits,
-        additions: row.additions,
-        deletions: row.deletions,
-      }))
-    : [];
   const tokenRows = tokenSource
     ? tokenSource.points.map((point, index) => ({
         index,
@@ -1360,24 +1216,26 @@
       }))
     : [];
   initTokenRhythmChart({ tokenRows });
+
+  if (!validPersonalSource) {
+    root.dataset.sourceSchema = source?.schema == null ? "none" : String(source.schema);
+    root.dataset.state = "unavailable";
+    if (availabilityBadge) availabilityBadge.textContent = "PERSONAL";
+    return;
+  }
+  if (availabilityBadge) availabilityBadge.textContent = "5 YEARS · DAILY";
+
+  const rows = source.points.map((row, index) => ({
+    index,
+    dateKey: row.date,
+    date: utcDate(row.date),
+    commits: row.commits,
+    additions: row.additions,
+    deletions: row.deletions,
+  }));
   let range = "5";
   let scale = "log";
   const codexSourcePromise = initCodexUsageSnapshot(() => scale);
-  const awaitingDaily = root.querySelector("[data-combined-daily-awaiting]");
-  if (!rows.length) {
-    root.dataset.sourceSchema = String(source.schema);
-    root.dataset.state = "awaiting";
-    if (awaitingDaily) awaitingDaily.hidden = false;
-    const awaitingScope = root.querySelector("[data-github-scope]");
-    if (awaitingScope) awaitingScope.textContent = "DAILY HISTORY \u00b7 AWAITING";
-    const legacyUpdated = document.getElementById("github-activity-updated");
-    if (legacyUpdated) {
-      legacyUpdated.dateTime = source.updated_on;
-      legacyUpdated.textContent = source.updated_on;
-    }
-    return;
-  }
-  if (awaitingDaily) awaitingDaily.hidden = true;
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
@@ -1385,6 +1243,7 @@
   const selectedAdditions = document.getElementById("github-activity-selected-additions");
   const selectedDeletions = document.getElementById("github-activity-selected-deletions");
   const selectedTokens = document.getElementById("github-activity-selected-tokens");
+  const codexReadout = root.querySelector("[data-personal-codex-readout]");
   const rangeSummary = document.getElementById("github-activity-range-summary");
   const selectionAnnouncement = document.getElementById("github-activity-selection-announcement");
   const annotation = document.getElementById("github-activity-annotation");
@@ -1489,7 +1348,7 @@
     }
   };
   const lifetimeRangeSummary = (data) => {
-    if (!codexSourceSettled) return "token usage loading";
+    if (!codexSourceSettled || !codexSource?.combined_daily_usage) return "";
     if (codexSource?.combined_daily_usage) {
       const usage = codexSource.combined_daily_usage;
       const coverageStart = utcDate(usage.coverage.starts_on);
@@ -1513,22 +1372,7 @@
       }
       return `${signed(exactChange, true)} exact tokens in interval${latest ? ` \u00b7 ${number.format(latest.tokenCount)} cumulative` : ""}`;
     }
-    if (!codexSource?.combined_lifetime_history) {
-      return codexSource?.combined_lifetime
-        ? `${codexSource.combined_lifetime.tokens_label} lifetime snapshot \u00b7 no history`
-        : "lifetime history unavailable";
-    }
-    const start = data[0].date.getTime();
-    const end = data.at(-1).date.getTime();
-    const observations = lifetimeHistoryRows(codexSource).filter((point) => {
-      const timestamp = point.date.getTime();
-      return timestamp >= start && timestamp <= end;
-    });
-    if (!observations.length) return "lifetime tokens unobserved in this interval";
-    const first = observations[0];
-    const latest = observations.at(-1);
-    const change = latest.tokenCount - first.tokenCount;
-    return `${latest.tokensLabel} lifetime tokens \u00b7 +${compactNumber.format(change)} observed endpoint change`;
+    return "";
   };
   const updateTable = (data) => {
     const fragment = document.createDocumentFragment();
@@ -1559,7 +1403,8 @@
         ? "All history"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active days \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines \u00b7 ${lifetimeRangeSummary(scoped)}`;
+    const tokenSummary = lifetimeRangeSummary(scoped);
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active days \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines${tokenSummary ? ` \u00b7 ${tokenSummary}` : ""}`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
@@ -1588,11 +1433,12 @@
     const width = chart.clientWidth || 920;
     const height = chart.clientHeight || 608;
     const narrow = width < 620;
+    const historyAvailable = Boolean(codexSource?.combined_daily_usage);
     const left = narrow ? 66 : 82;
     const right = narrow ? 12 : 22;
     const bottom = narrow ? 26 : 30;
-    const lifetimeBandHeight = narrow ? 92 : 106;
-    const lifetimeGap = narrow ? 42 : 48;
+    const lifetimeBandHeight = historyAvailable ? (narrow ? 92 : 106) : 0;
+    const lifetimeGap = historyAvailable ? (narrow ? 42 : 48) : 0;
     const commitTop = 42;
     const commitHeight = Math.max(92, Math.min(118, height * 0.19));
     const commitBottom = commitTop + commitHeight;
@@ -1600,13 +1446,10 @@
     const lifetimeBottom = height - bottom;
     const lifetimeTop = lifetimeBottom - lifetimeBandHeight;
     const lifetimeHeadingY = lifetimeTop - 14;
-    const lineBottom = lifetimeHeadingY - lifetimeGap;
+    const lineBottom = historyAvailable ? lifetimeHeadingY - lifetimeGap : lifetimeBottom - (narrow ? 20 : 24);
     const yearLabelY = height - (narrow ? 5 : 7);
-    const lifetimeValueY = lifetimeTop + 14;
-    const lifetimeBaselineY = lifetimeBottom;
-    const lifetimeRailLeft = left + (width - left - right) * (narrow ? 0.48 : 0.64);
     const plotTop = commitTop;
-    const plotBottom = lifetimeBottom;
+    const plotBottom = historyAvailable ? lifetimeBottom : lineBottom;
     const baseline = (lineTop + lineBottom) / 2;
     const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
     const start = data[0].date.getTime();
@@ -1831,28 +1674,13 @@
       })
     );
 
-    const historyAvailable = Boolean(codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history);
-    addText(
-      chart,
-      historyAvailable
-        ? narrow
-          ? "CODEX \u00b7 CUMULATIVE"
-          : codexSource?.combined_daily_usage
-            ? "COMBINED CODEX TOKENS \u00b7 CUMULATIVE DAILY USAGE"
-            : "COMBINED LIFETIME TOKENS \u00b7 LEGACY OBSERVED HISTORY"
-        : narrow
-          ? "LIFETIME \u00b7 SNAPSHOT FALLBACK"
-          : "LIFETIME TOKENS \u00b7 DATED SNAPSHOT FALLBACK",
-      left,
-      lifetimeHeadingY,
-      {
+    let lifetimePlot = null;
+    if (historyAvailable) {
+      addText(chart, narrow ? "CODEX \u00b7 CUMULATIVE" : "PERSONAL CODEX TOKENS \u00b7 CUMULATIVE DAILY USAGE", left, lifetimeHeadingY, {
         color: palette.accent,
         weight: 700,
         className: "github-activity-lifetime-heading",
-      }
-    );
-    let lifetimePlot = null;
-    if (historyAvailable) {
+      });
       lifetimePlot = drawLifetimeHistory(chart, {
         source: codexSource,
         domainStart: data[0].date,
@@ -1871,52 +1699,6 @@
         anchor: "end",
         color: palette.text,
         weight: 700,
-        className: "github-activity-lifetime-value",
-      });
-    } else if (codexSource?.combined_lifetime) {
-      const tokenCount = codexSource.combined_lifetime.token_count;
-      const displayLabel = `${codexSource.combined_lifetime.tokens_label} tokens`;
-      const tokenY = (value) => (value === 0 ? lifetimeBaselineY : lifetimeValueY);
-      drawYAxis(chart, {
-        name: "github-lifetime-snapshot",
-        ticks: [0, tokenCount],
-        y: tokenY,
-        left: lifetimeRailLeft,
-        right: width - right,
-        colors: palette,
-        format: (value) => (value === 0 ? "0" : codexSource.combined_lifetime.tokens_label),
-      });
-      chart.append(
-        svgElement("line", {
-          class: "github-activity-lifetime-snapshot-line",
-          x1: lifetimeRailLeft,
-          y1: lifetimeValueY,
-          x2: width - right,
-          y2: lifetimeValueY,
-          stroke: palette.accent,
-          "stroke-width": 2,
-        }),
-        svgElement("circle", {
-          class: "github-activity-lifetime-snapshot-marker",
-          cx: width - right,
-          cy: lifetimeValueY,
-          r: narrow ? 3.8 : 4.3,
-          fill: palette.surface,
-          stroke: palette.accent,
-          "stroke-width": 2.1,
-        })
-      );
-      addText(chart, displayLabel, width - right, lifetimeHeadingY, {
-        anchor: "end",
-        color: palette.text,
-        weight: 700,
-        className: "github-activity-lifetime-value",
-      });
-    } else {
-      addText(chart, codexSourceSettled ? "History unavailable" : "History loading", width - right, lifetimeHeadingY, {
-        anchor: "end",
-        color: palette.muted,
-        weight: 650,
         className: "github-activity-lifetime-value",
       });
     }
@@ -2014,7 +1796,7 @@
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Daily combined commits, line changes, and Codex token usage inspector",
+      "aria-label": "Daily personal commits, line changes, and Codex token usage inspector",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
@@ -2183,6 +1965,10 @@
   codexSourcePromise.then((source) => {
     codexSourceSettled = true;
     codexSource = source;
+    if (codexReadout) codexReadout.hidden = !source;
+    chartTitle.textContent = source
+      ? "Daily personal commits, additions and deletions, plus personal Codex token usage"
+      : "Daily personal commits, additions and deletions";
     drawChart();
   });
 
@@ -2246,7 +2032,7 @@
 
   updated.dateTime = source.updated_on;
   updated.textContent = source.updated_on;
-  chartTitle.textContent = "Daily combined commits, additions and deletions, plus combined Codex token usage";
+  chartTitle.textContent = "Daily personal commits, additions and deletions";
   setPressedState();
   drawChart();
   initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });

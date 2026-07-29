@@ -15,7 +15,7 @@ LEDGER_DOC_PATH = REPO_ROOT / "docs" / "agentic-usage-ledger.md"
 SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "github-activity.js"
 STYLE_PATH = REPO_ROOT / "_sass" / "_github-activity.scss"
 TOKEN_ENDPOINT_PATH = REPO_ROOT / "assets" / "data" / "build-rhythm-token-rhythm.json.liquid"
-COMBINED_IMPORTER_PATH = REPO_ROOT / "bin" / "import_combined_code_activity.py"
+PERSONAL_IMPORTER_PATH = REPO_ROOT / "bin" / "import_personal_code_activity.py"
 PACKAGE_PATH = REPO_ROOT / "package.json"
 PUBLIC_VISUAL_CONFIG_PATH = REPO_ROOT / "test" / "visual" / "public.config.js"
 PUBLIC_ROUTES_PATH = REPO_ROOT / "test" / "visual" / "public-routes.js"
@@ -33,7 +33,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.script = SCRIPT_PATH.read_text(encoding="utf-8")
         cls.style = STYLE_PATH.read_text(encoding="utf-8")
         cls.token_endpoint = TOKEN_ENDPOINT_PATH.read_text(encoding="utf-8")
-        cls.combined_importer = COMBINED_IMPORTER_PATH.read_text(
+        cls.personal_importer = PERSONAL_IMPORTER_PATH.read_text(
             encoding="utf-8"
         )
         cls.package = PACKAGE_PATH.read_text(encoding="utf-8")
@@ -57,10 +57,6 @@ class BuildRhythmStoryTests(unittest.TestCase):
         )
         self.assertLess(
             self.page.index('class="github-activity-workbench"'),
-            self.page.index('id="combined-code-activity"'),
-        )
-        self.assertLess(
-            self.page.index('id="combined-code-activity"'),
             self.page.index('class="github-activity-token-rhythm"'),
         )
         self.assertLess(
@@ -68,35 +64,43 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-method"'),
         )
 
-    def test_combined_lifetime_strip_is_compact_and_daily_history_is_separate(self) -> None:
+    def test_personal_schema3_gate_replaces_the_retired_lifetime_strip(self) -> None:
         for contract in (
-            "site.data.combined_code_activity",
-            'id="combined-code-activity"',
-            'aria-label="Combined lifetime code activity"',
-            "Combined lifetime code activity",
-            "LIFETIME &middot; AGGREGATE ONLY",
-            "other internship or work accounts",
-            "exact timestamps stay private",
-            "data-format-integer",
-            'id="combined-code-activity-data"',
-            'data-profile-svg="{{ \'/assets/data/combined-code-activity.svg\' | relative_url }}"',
+            "site.data.personal_code_activity",
+            'id="personal-code-activity-data"',
+            'personal_activity.schema == 3',
+            'personal_activity.scope == "personal_code_activity"',
+            'personal_activity.coverage.status == "complete"',
+            "Personal code history is being rebuilt.",
+            "data-personal-daily-copy",
+            "data-personal-code-unavailable",
         ):
             with self.subTest(contract=contract):
                 self.assertIn(contract, self.page)
         for retired in (
-            "Daily cumulative tally",
-            "Exact daily changes",
-            'aria-label="Combined daily cumulative code activity table"',
-            'aria-label="Baseline snapshot"',
-            'data-source="/DylanTao/github-activity.json"',
-            'id="github-activity-data"',
+            "Combined lifetime code activity",
+            "DAILY HISTORY AWAITING REFRESH",
+            "DAILY HISTORY · AWAITING",
         ):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page)
-        self.assertIn('document.getElementById("combined-code-activity-data")', self.script)
+        self.assertEqual(
+            self.page.count("Personal code history is being rebuilt."),
+            1,
+        )
+        self.assertIn('document.getElementById("personal-code-activity-data")', self.script)
+        self.assertIn("const fiveCalendarYearsBefore = (value) =>", self.script)
+        self.assertIn(
+            "startsOn.getTime() === expectedStart.getTime()",
+            self.script,
+        )
+        self.assertNotIn(
+            'candidate.coverage.starts_on !== "2021-07-28"',
+            self.script,
+        )
         self.assertNotIn('fetch(remoteSource', self.script)
-        self.assertIn("render_combined_svg", self.combined_importer)
-        self.assertIn("combined-code-activity.svg", self.combined_importer)
+        self.assertIn("validate_profile_snapshot", self.personal_importer)
+        self.assertIn("scope\": \"personal_code_activity", self.personal_importer)
         self.assertIn(
             'href="{{ \'/github-activity/\' | relative_url }}"',
             self.home,
@@ -106,43 +110,28 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.home,
         )
         self.assertIn("observed token history", self.home)
-        self.assertNotIn("site.data.combined_code_activity", self.home)
+        self.assertNotIn("site.data.personal_code_activity", self.home)
         self.assertNotIn("home-agentic-heartbeat", self.home)
         self.assertNotIn("{% assign direct_tracker", self.home)
 
-    def test_schema1_migration_state_is_truthful_and_keeps_codex_metadata_live(
+    def test_missing_personal_history_has_one_compact_unavailable_state(
         self,
     ) -> None:
         for contract in (
-            'data-state="{% if combined_daily_ready %}loading{% else %}awaiting{% endif %}"',
-            "data-combined-daily-copy",
-            "data-combined-awaiting-copy",
-            "DAILY HISTORY AWAITING REFRESH",
-            "DAILY HISTORY · AWAITING",
-            "exact daily code record awaits its next",
-            "independent Codex status remain available",
+            'data-state="{% if personal_daily_ready %}loading{% else %}unavailable{% endif %}"',
+            "data-personal-daily-copy",
+            "data-personal-code-unavailable",
         ):
             with self.subTest(contract=contract):
                 self.assertIn(contract, self.page)
 
+        self.assertNotIn("PERSONAL · REBUILDING", self.page)
         self.assertIn(
-            '.github-activity-page[data-state="awaiting"]',
+            '.github-activity-page[data-state="unavailable"]',
             self.style,
         )
-        self.assertIn(
-            ".github-activity-readout:not(:has([data-codex-usage]))",
-            self.style,
-        )
-        self.assertLess(
-            self.script.index(
-                "const codexSourcePromise = initCodexUsageSnapshot(() => scale);"
-            ),
-            self.script.index("if (!rows.length)"),
-        )
-        self.assertIn(
-            'awaitingScope.textContent = "DAILY HISTORY \\u00b7 AWAITING";',
-            self.script,
-        )
+        self.assertIn('root.dataset.state = "unavailable";', self.script)
+        self.assertNotIn("validLegacyActivitySource", self.script)
 
     def test_daily_story_domain_ends_on_the_last_verified_day(self) -> None:
         self.assertIn(
@@ -205,8 +194,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "Commit count tells me when. Line changes tell me how much.",
             "One giant day was flattening everything else.",
             "Now read the whole rhythm yourself.",
-            "anonymous lifetime usage history",
-            "Complete lifetime coverage begins at",
+            "completed personal Codex days",
+            "Complete personal coverage begins at",
             "partial coverage leaves earlier usage explicitly unobserved.",
         ):
             with self.subTest(phrase=phrase):
@@ -283,7 +272,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             'id="github-activity-selected-tokens"',
             'id="github-activity-table-scroll-hint"',
             'id="github-activity-table-body"',
-            'id="combined-code-activity-data"',
+            'id="personal-code-activity-data"',
             'id="build-rhythm-token-data"',
         )
         for selector in frozen_page_selectors:
@@ -293,7 +282,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('class: "github-activity-add-line"', self.script)
         self.assertIn('class: "github-activity-remove-line"', self.script)
 
-    def test_daily_usage_is_a_shared_x_third_plot_with_truthful_fallbacks(self) -> None:
+    def test_daily_usage_is_exact_only_without_lifetime_fallbacks(self) -> None:
         self.assertEqual(self.page.count("data-codex-usage"), 1)
         self.assertNotIn("github-activity-codex-trend", self.page)
         self.assertLess(
@@ -304,7 +293,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-lifetime-inline"'),
             self.page.index('data-jump-latest'),
         )
-        self.assertIn('aria-label="Combined lifetime token history metadata"', self.page)
+        self.assertIn('aria-label="Personal Codex daily usage metadata"', self.page)
         self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
         self.assertIn('class="sr-only" data-codex-lifetime data-format="readable"', self.page)
         self.assertIn("initCodexUsageSnapshot(() => scale)", self.script)
@@ -313,7 +302,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('lifetime.dataset.format = literal ? "literal" : "readable";', self.script)
         self.assertIn('`${number.format(source.combined_lifetime.token_count)} tokens`', self.script)
         self.assertIn(
-            'candidate?.schema === 6 && exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
+            'candidate?.schema !== 6 || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
             self.script,
         )
         self.assertIn('candidate.label !== "Combined daily Codex usage"', self.script)
@@ -335,7 +324,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("tokenTotal += point.tokens", self.script)
         self.assertIn("Math.round(tokenTotal / 100_000_000)", self.script)
         self.assertIn(
-            "candidate.daily.complete_through === candidate.lifetime.through",
+            'candidate.scope !== "personal_code_activity"',
             self.script,
         )
         self.assertIn("codexUsageForDay(codexSource, row)", self.script)
@@ -343,22 +332,18 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("later days awaiting completion", self.script)
         self.assertIn('coverage.before_start === "zero"', self.script)
         self.assertIn("tokenCount: 0", self.script)
-        self.assertIn('candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"])', self.script)
-        self.assertIn('candidate.grain !== "daily_last_observation"', self.script)
         self.assertIn('className: "github-activity-lifetime-history"', self.script)
         self.assertIn('axisName: "github-lifetime-history"', self.script)
         self.assertIn("gapDays > 1", self.script)
         self.assertIn("!point.continuousFromPrevious", self.script)
         self.assertIn('"stroke-dasharray": "4 3"', self.script)
-        self.assertIn("observed endpoint change", self.script)
         self.assertIn('y2: plotBottom', self.script)
         self.assertIn('height: plotBottom - plotTop', self.script)
-        self.assertIn('class: "github-activity-lifetime-snapshot-line"', self.script)
-        self.assertIn('name: "github-lifetime-snapshot"', self.script)
-        self.assertIn("DATED SNAPSHOT FALLBACK", self.script)
         self.assertIn("let codexSourceSettled = false;", self.script)
-        self.assertIn('codexSourceSettled ? "History unavailable" : "History loading"', self.script)
-        self.assertIn("leave pre-observation history blank instead of inventing zeros", self.heuristics)
+        self.assertNotIn("History loading", self.script)
+        self.assertNotIn("History unavailable", self.script)
+        self.assertNotIn("SNAPSHOT FALLBACK", self.script)
+        self.assertIn("leaves unobserved history blank instead of inventing zeros", self.heuristics)
 
     def test_lifetime_cost_replay_is_schema4_sanitized_and_caveated(self) -> None:
         self.assertIn('class="github-activity-lifetime-cost" data-codex-cost hidden', self.page)
@@ -367,11 +352,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page,
         )
         self.assertIn('data-codex-cost-value', self.page)
-        self.assertIn('candidate?.schema === 3 && exactKeys(candidate, requiredKeys)', self.script)
-        self.assertIn('candidate?.schema === 4 && exactKeys(candidate, [...requiredKeys, "cost"])', self.script)
-        self.assertIn('candidate?.schema === 5 && exactKeys(candidate, [...requiredKeys, "cost", "combined_lifetime_history"])', self.script)
         self.assertIn(
-            'candidate?.schema === 6 && exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
+            'candidate?.schema !== 6 || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
             self.script,
         )
         self.assertIn('candidate.method !== "flat_reference_rate_replay"', self.script)
@@ -385,32 +367,33 @@ class BuildRhythmStoryTests(unittest.TestCase):
 
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
-            "Observed lifetime history",
+            "completed usage from my two personal Codex accounts",
             "The shared axis now carries only observations.",
             "7e224db12",
             "Three signals, never one score",
-            "Deduplicated retained logs attributed to this repo",
-            "Differences between adjacent points are rounded increases",
+            "deduplicated retained logs attributed to this repo",
             "6edea07f4",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.case_study)
 
         for phrase in (
-            "observed combined-lifetime growth",
+            "personal code cadence",
+            "one daily UTC calendar",
+            "daily commits",
+            "same selected day",
             "Never add it to the repo-scoped retained-session estimate",
-            "rounded, anonymous, nondecreasing, shared-x, and separate from the repo estimate",
-            "missing observation must never render as a false zero",
+            "exact schema-3 source with UTC timezone",
+            "Personal code history is being rebuilt.",
             "The exact point keys are `date`, `token_count`, and `tokens_label`",
-            "Publish only `date`, rounded `token_count`, `tokens_label`, and `observation`",
             "server-rendered daily token summary and table",
             "Differences between adjacent rounded points are rounded increases, not exact daily usage.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
 
-        self.assertIn("A cumulative lifetime line may share the GitHub date axis", self.heuristics)
-        self.assertIn("name both the rate basis and that it is not an actual bill", self.heuristics)
+        self.assertIn("Personal code history appears only after an exact schema-3 source", self.heuristics)
+        self.assertIn("one compact `Personal code history is being rebuilt.` state", self.heuristics)
         self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
         self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)
 
@@ -419,6 +402,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "shorter clock of recent Codex use",
             "Keep tool-use tokens on their own truthful horizon",
             "two-measure data boundary",
+            "one weekly calendar",
+            "weekly commits",
+            "same selected week",
         ):
             with self.subTest(stale_phrase=stale_phrase):
                 self.assertNotIn(stale_phrase, self.case_study)
@@ -440,13 +426,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for retired in ("per-account", "gmail", "ucsd email"):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page.lower())
-        self.assertIn("Combined daily usage", self.page)
+        self.assertIn("Personal Codex daily usage", self.page)
         self.assertIn(
-            'direct_tracker.combined_daily_usage.coverage.completeness == "whole_lifetime"',
+            "direct_tracker.schema == 5 and direct_tracker.combined_daily_usage",
             self.page,
         )
-        self.assertIn("Combined daily usage observed through", self.page)
-        self.assertIn("earlier lifetime usage remains unobserved", self.page)
+        self.assertIn("Personal Codex daily usage complete through", self.page)
+        self.assertIn("partial coverage keeps earlier usage as an explicitly unobserved baseline", self.page)
         self.assertIn("data-codex-observed", self.page)
         self.assertNotIn("automatic refresh pending", self.page)
 

@@ -338,6 +338,8 @@ def _validate_daily_progression(
     previous: dict[str, Any],
     current: dict[str, Any],
 ) -> None:
+    """Reject regressions while allowing a validated rolling source to settle."""
+
     previous_coverage = previous["coverage"]
     current_coverage = current["coverage"]
     previous_completeness = previous_coverage["completeness"]
@@ -352,7 +354,17 @@ def _validate_daily_progression(
             "combined daily usage complete_through cannot move backward"
         )
 
-    if previous_completeness == current_completeness:
+    # Whole-lifetime history is canonical once published: later snapshots may
+    # append completed days but cannot rewrite its zero anchor or prior rows.
+    # Rolling partial history is different. The upstream usage index can settle
+    # the latest completed UTC day after midnight, and its fixed-size window
+    # advances over time. A fully validated, later snapshot therefore replaces
+    # that rolling window while lifetime monotonicity and horizon checks above
+    # still fail closed.
+    if (
+        previous_completeness == "whole_lifetime"
+        and current_completeness == "whole_lifetime"
+    ):
         for field in (
             "starts_on",
             "before_start",
@@ -363,17 +375,18 @@ def _validate_daily_progression(
                 raise SnapshotError(
                     f"combined daily usage coverage.{field} cannot change"
                 )
-
-    current_by_date = {point["date"]: point["tokens"] for point in current["points"]}
-    for point in previous["points"]:
-        if point["date"] not in current_by_date:
-            raise SnapshotError(
-                "combined daily usage cannot drop a previously completed date"
-            )
-        if current_by_date[point["date"]] != point["tokens"]:
-            raise SnapshotError(
-                "combined daily usage cannot revise a previously completed date"
-            )
+        current_by_date = {
+            point["date"]: point["tokens"] for point in current["points"]
+        }
+        for point in previous["points"]:
+            if point["date"] not in current_by_date:
+                raise SnapshotError(
+                    "combined daily usage cannot drop a whole-lifetime date"
+                )
+            if current_by_date[point["date"]] != point["tokens"]:
+                raise SnapshotError(
+                    "combined daily usage cannot revise whole-lifetime history"
+                )
 
 
 def _validate_published_lifetime(value: Any, label: str) -> dict[str, Any]:

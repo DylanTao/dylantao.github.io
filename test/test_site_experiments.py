@@ -193,7 +193,7 @@ class SiteExperimentsTests(unittest.TestCase):
                     self.assertLessEqual(len(takeaway), 140)
 
         self.assertIn(
-            "first combined version put GitHub activity and source-linked token history in one workbench",
+            "An earlier version put GitHub activity and source-linked token history in one workbench",
             (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8"),
         )
         self.assertIn(
@@ -491,17 +491,20 @@ class SiteExperimentsTests(unittest.TestCase):
                 self.assertTrue(guide.is_file(), f"missing {guide}")
                 self.assertGreater(len(guide.read_text(encoding="utf-8")), 500)
 
-    def test_build_rhythm_credit_preserves_the_source_session(self) -> None:
+    def test_build_rhythm_credit_preserves_inspiration_without_employer_context(
+        self,
+    ) -> None:
         source = (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8")
         for phrase in (
             "John Thompson",
-            "Autodesk HCI internship Wednesday design session",
-            "Balancing Performance, Interactivity and Effort: SVG, Canvas, and WebGL",
+            "balancing performance, interactivity, and effort across SVG, Canvas, and WebGL",
             "Google News Lab",
             "Truth & Beauty",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
+        self.assertNotIn("Autodesk", source)
+        self.assertNotIn("internship", source.lower())
 
     def test_build_rhythm_uses_a_plain_language_story_before_the_technical_record(self) -> None:
         source = (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8")
@@ -512,9 +515,10 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual(source.count("<span>How</span>"), 1)
         for phrase in (
             "How to read the rhythm",
-            "GitHub cadence",
+            "Daily GitHub cadence",
+            "Commits mark active days.",
             "Site-token rhythm",
-            "Lifetime observations",
+            "Personal Codex days",
             "Account identities and source-level readings stay private",
             "The lesson I carried over was pacing",
             "Full technical revision record",

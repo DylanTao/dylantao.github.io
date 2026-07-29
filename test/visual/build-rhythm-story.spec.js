@@ -4,7 +4,7 @@ const { publicRouteUrl } = require("./public-routes");
 
 const dailyActivityFixture = (() => {
   const points = [];
-  const start = Date.UTC(2021, 7, 1);
+  const start = Date.UTC(2021, 6, 28);
   const end = Date.UTC(2026, 6, 27);
   for (let stamp = start, index = 0; stamp <= end; stamp += 86_400_000, index += 1) {
     const date = new Date(stamp).toISOString().slice(0, 10);
@@ -17,20 +17,16 @@ const dailyActivityFixture = (() => {
     });
   }
   return {
-    schema: 2,
+    schema: 3,
     updated_on: "2026-07-27",
     timezone: "UTC",
-    lifetime: {
-      through: "2026-07-27",
-      commits: 4709,
-      additions: 34903627,
-      deletions: 32064376,
-    },
-    daily: {
+    scope: "personal_code_activity",
+    coverage: {
       starts_on: points[0].date,
       complete_through: points.at(-1).date,
-      points,
+      status: "complete",
     },
+    points,
   };
 })();
 
@@ -85,11 +81,11 @@ const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = 
   const response = await page.request.get(routeUrl);
   expect(response.ok()).toBe(true);
   const original = await response.text();
-  const dataPattern = /<script id="combined-code-activity-data" type="application\/json">[\s\S]*?<\/script>/;
+  const dataPattern = /<script id="personal-code-activity-data" type="application\/json">[\s\S]*?<\/script>/;
   expect(original).toMatch(dataPattern);
   const withDaily = original.replace(
     dataPattern,
-    `<script id="combined-code-activity-data" type="application/json">${JSON.stringify(activity)}</script>`
+    `<script id="personal-code-activity-data" type="application/json">${JSON.stringify(activity)}</script>`
   );
   await page.route(routeUrl, (route) =>
     route.fulfill({
@@ -101,45 +97,36 @@ const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = 
   await page.goto(routeUrl, { waitUntil });
 };
 
-test("legacy schema 1 route stays truthful while exact daily history is awaiting refresh", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the live migration fallback");
+test("missing personal history shows one compact rebuilding state", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the unavailable state");
 
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
-  await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "networkidle" });
-
-  const source = await page.locator("#combined-code-activity-data").evaluate((element) => JSON.parse(element.textContent));
-  test.skip(source.schema !== 1, "the live route has completed its schema 2 migration");
+  await gotoWithDailyCode(page, { activity: {} });
 
   const activity = page.locator("[data-github-activity]");
-  await expect(activity).toHaveAttribute("data-state", "awaiting");
-  await expect(page.locator("[data-combined-daily-awaiting]")).toBeVisible();
-  await expect(page.locator("[data-github-scope]")).toHaveText("DAILY HISTORY · AWAITING");
+  await expect(activity).toHaveAttribute("data-state", "unavailable");
+  await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
+  await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
   await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
   await expect(page.getByRole("link", { name: "Open the explorer" })).toBeHidden();
   await expect(page.locator(".github-activity-controls")).toBeHidden();
   await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
   await expect(page.locator(".github-activity-method")).toBeHidden();
-  await expect(page.locator(".github-activity-readout")).toBeVisible();
-  await expect(page.locator("[data-combined-awaiting-copy]").first()).toBeVisible();
-  await expect(page.locator("[data-combined-daily-copy]").first()).toBeHidden();
-
-  const codex = page.locator("[data-codex-usage]");
-  await expect(codex).toHaveAttribute("data-state", "ready");
-  await expect(codex).toHaveAttribute("aria-busy", "false");
-  await expect(page.locator("[data-codex-status]")).not.toContainText("loading");
+  await expect(page.locator(".github-activity-readout")).toBeHidden();
+  await expect(page.locator("[data-codex-usage]")).toBeHidden();
+  await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
   expect(runtimeErrors).toEqual([]);
 });
 
-test("combined daily code activity fails closed when lifetime and daily cutoffs diverge", async ({ page }, testInfo) => {
+test("personal daily code activity fails closed when coverage and update cutoffs diverge", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the malformed cutoff boundary");
 
   const malformed = structuredClone(dailyActivityFixture);
-  malformed.lifetime.through = "2026-07-26";
   malformed.updated_on = "2026-07-26";
   await preparePage(page, "light");
   await gotoWithDailyCode(page, { activity: malformed });
-  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "error");
+  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "unavailable");
 });
 
 const expectReadableAxes = async (chart, minimumGap = 14) => {
@@ -195,19 +182,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await expect(stage).toBeVisible();
   await expect(chart.locator("[data-build-rhythm-story-layer]")).toHaveCount(1);
 
-  const combinedLifetime = page.locator("#combined-code-activity");
-  await expect(combinedLifetime).toBeVisible();
-  await expect(combinedLifetime).toContainText("Combined lifetime code activity");
-  await expect(combinedLifetime).toContainText("LIFETIME · AGGREGATE ONLY");
-  await expect(combinedLifetime).not.toContainText("Exact daily changes");
-  await expect(combinedLifetime.locator(".github-activity-lifetime-summary > div")).toHaveCount(3);
-  await expect(combinedLifetime.locator(".github-activity-lifetime-note > time")).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}$/);
-  await expect(combinedLifetime.locator("[data-format-integer]").first()).toHaveText("4,709");
-  const combinedOverflow = await combinedLifetime.evaluate((element) => Math.max(0, element.scrollWidth - element.clientWidth));
-  expect(combinedOverflow).toBeLessThanOrEqual(1);
-  await attachScreenshot(page, testInfo, `combined-code-activity-${testInfo.project.name}`, {
-    locator: combinedLifetime,
-  });
+  await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toBeHidden();
 
   const tokenSource = await page.locator("#build-rhythm-token-data").evaluate((element) => JSON.parse(element.textContent));
   expect(Object.keys(tokenSource).sort()).toEqual(
@@ -326,7 +301,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         expect(geometry.chartHeight).toBeLessThanOrEqual(545);
       }
       if (scene === "explore") {
-        await expect(chart).toContainText("COMBINED CODEX TOKENS");
+        await expect(chart).toContainText("PERSONAL CODEX TOKENS");
         await expect(chart).not.toContainText("SITE TOKENS");
       }
     }
@@ -483,8 +458,8 @@ test("partial Codex coverage keeps its earlier baseline unobserved", async ({ pa
     await gotoWithDailyCode(page);
 
     await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
-    await expect(page.locator("[data-codex-status]")).toContainText("Combined token usage unavailable");
-    await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved or awaiting a completed day");
+    await expect(page.locator("[data-codex-usage]")).toBeHidden();
+    await expect(page.locator("[data-personal-codex-readout]")).toBeHidden();
   });
 });
 
@@ -492,16 +467,14 @@ test("Build Rhythm refreshes the final three-plot scene after delayed lifetime h
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
 
   await preparePage(page, "light");
-  const usageResponse = await page.request.get(publicRouteUrl("/assets/data/codex-profile-usage.json"));
-  expect(usageResponse.ok()).toBe(true);
-  const usage = await usageResponse.json();
+  const usage = structuredClone(dailyUsageFixture);
   let releaseSnapshot;
   const snapshotGate = new Promise((resolve) => {
     releaseSnapshot = resolve;
   });
   await page.route("**/assets/data/codex-profile-usage.json", async (route) => {
     await snapshotGate;
-    await route.continue();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(usage) });
   });
 
   await gotoWithDailyCode(page, { waitUntil: "domcontentloaded" });
@@ -510,22 +483,23 @@ test("Build Rhythm refreshes the final three-plot scene after delayed lifetime h
   await expect(story).toHaveAttribute("data-state", "ready");
   await page.locator('[data-build-rhythm-step="explore"]').scrollIntoViewIfNeeded();
   await expect(stage).toHaveAttribute("data-scene", "explore");
-  await expect(stage).toContainText("Combined token usage unavailable");
+  await expect(stage).not.toContainText("loading");
+  await expect(stage).not.toContainText("unavailable");
 
   releaseSnapshot();
   await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
 });
 
-test("Build Rhythm settles failed lifetime history as unavailable", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the failed-snapshot label");
+test("Build Rhythm withholds a failed personal Codex snapshot", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the failed-snapshot boundary");
 
   await preparePage(page, "light");
   await page.route("**/assets/data/codex-profile-usage.json", (route) => route.fulfill({ status: 503, contentType: "application/json", body: "{}" }));
   await gotoWithDailyCode(page);
 
   await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
-  await expect(page.locator(".github-activity-lifetime-value")).toHaveText("History unavailable");
-  await expect(page.locator(".github-activity-lifetime-value")).not.toHaveText("History loading");
+  await expect(page.locator("[data-codex-usage]")).toBeHidden();
+  await expect(page.locator(".github-activity-lifetime-value")).toHaveCount(0);
 });
 
 test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {

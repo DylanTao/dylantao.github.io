@@ -496,7 +496,7 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 
 ### 2026-07-28
 
-- Combined-daily publication checkpoint: added the strict personal/work UTC merger, an atomic identity-free JSON/SVG output pair, a truthful legacy awaiting state, exact-day inspection, and changed-only deployment dispatch. The protected work bridge remains repository-name-free; exact personal daily activity and protected two-account Codex buckets still fail closed until their verified sources arrive.
+- Personal-daily preparation checkpoint: introduced an interim UTC merge and awaiting state, then retired that path in favor of strict schema-3 personal coverage. Exact personal activity and the two-account personal Codex series remain fail-closed until their verified sources arrive.
 - Freshness hardening: partial retained-log archives can update independently verifiable commit counts but cannot erase previously audited repo, lifetime, or model-policy evidence.
 - Evidence: 250 Python tests, targeted Prettier, the style contract, JavaScript syntax, whitespace checks, and a production `/al-folio` Jekyll build passed. Browser screenshot automation remained unavailable because the required Playwright browser was absent and local browser access was blocked by enterprise policy; no screenshot claim is made.
 

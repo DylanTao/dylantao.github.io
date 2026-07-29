@@ -303,7 +303,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   const readySelector =
     route.id === "github-activity"
-      ? "[data-github-activity][data-state='ready'], [data-github-activity][data-state='awaiting']"
+      ? "[data-github-activity][data-state='ready'], [data-github-activity][data-state='unavailable']"
       : route.readySelector;
   const ready = page.locator(readySelector).first();
   const content = page.locator(route.contentSelector).first();
@@ -320,22 +320,18 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   let githubActivityState = null;
   if (route.id === "github-activity") {
     githubActivityState = await ready.getAttribute("data-state");
-    expect(["ready", "awaiting"]).toContain(githubActivityState);
-    if (githubActivityState === "awaiting") {
-      await expect(page.locator("[data-combined-daily-awaiting]")).toBeVisible();
-      await expect(page.locator("[data-github-scope]")).toHaveText("DAILY HISTORY · AWAITING");
-      await expect(page.locator("[data-combined-awaiting-copy]").first()).toBeVisible();
-      await expect(page.locator("[data-combined-daily-copy]").first()).toBeHidden();
+    expect(["ready", "unavailable"]).toContain(githubActivityState);
+    if (githubActivityState === "unavailable") {
+      await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
+      await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
       await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
       await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
       await expect(page.locator(".github-activity-method")).toBeHidden();
-      await expect(page.locator("#combined-code-activity")).toBeVisible();
-      await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
-      await expect(page.locator("[data-codex-usage]")).toHaveAttribute("aria-busy", "false");
+      await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
+      await expect(page.locator("[data-codex-usage]")).toBeHidden();
     } else {
-      await expect(page.locator("[data-combined-daily-awaiting]")).toBeHidden();
-      await expect(page.locator("[data-combined-daily-copy]").first()).toBeVisible();
-      await expect(page.locator("[data-combined-awaiting-copy]").first()).toBeHidden();
+      await expect(page.locator("[data-personal-code-unavailable]")).toBeHidden();
+      await expect(page.locator("[data-personal-daily-copy]").first()).toBeVisible();
       await expect(page.locator("[data-build-rhythm-story]")).toBeVisible();
       await expect(page.locator(".github-activity-chart-shell")).toBeVisible();
       await expect(page.locator(".github-activity-method")).toBeVisible();
@@ -1007,7 +1003,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       } else {
         for (const width of [320, 350, 390]) {
           await page.setViewportSize({ width, height: 1000 });
-          const awaitingGeometry = await page.locator("#combined-code-activity").evaluate((element) => {
+          const awaitingGeometry = await page.locator(".github-activity-unavailable").evaluate((element) => {
             const bounds = element.getBoundingClientRect();
             return {
               left: bounds.left,
@@ -2040,20 +2036,19 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
   const activity = page.locator("[data-github-activity]");
-  await expect(activity).toHaveAttribute("data-state", /^(ready|awaiting)$/);
+  await expect(activity).toHaveAttribute("data-state", /^(ready|unavailable)$/);
   const activityState = await activity.getAttribute("data-state");
 
-  if (activityState === "awaiting") {
-    await expect(page.locator("[data-combined-daily-awaiting]")).toBeVisible();
-    await expect(page.locator("[data-github-scope]")).toHaveText("DAILY HISTORY · AWAITING");
+  if (activityState === "unavailable") {
+    await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
+    await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
     await expect(page.locator(".github-activity-method")).toBeHidden();
-    await expect(page.locator("#combined-code-activity")).toBeVisible();
-    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
-    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("aria-busy", "false");
+    await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
+    await expect(page.locator("[data-codex-usage]")).toBeHidden();
 
     for (const width of [390, 320]) {
       await page.setViewportSize({ width, height: 1000 });
-      const geometry = await page.locator("#combined-code-activity").evaluate((element) => {
+      const geometry = await page.locator(".github-activity-unavailable").evaluate((element) => {
         const bounds = element.getBoundingClientRect();
         return {
           left: bounds.left,
@@ -2078,7 +2073,7 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
   await expect(hint).toHaveText("Scroll horizontally to read every daily column.");
   await expect(tableWrap).toHaveCount(1);
   await expect(tableWrap).toHaveAttribute("role", "region");
-  await expect(tableWrap).toHaveAccessibleName("Daily combined code activity table");
+  await expect(tableWrap).toHaveAccessibleName("Daily personal code activity table");
   await expect(tableWrap).toHaveAttribute("tabindex", "0");
 
   for (const width of [390, 320]) {

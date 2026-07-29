@@ -1,16 +1,13 @@
-name: Update combined code activity
+name: Update personal code activity
 
 on:
-  schedule:
-    - cron: "30 09 * * *"
   workflow_dispatch:
 
 permissions:
-  actions: write
   contents: write
 
 concurrency:
-  group: combined-code-activity
+  group: personal-code-activity
   cancel-in-progress: false
 
 jobs:
@@ -24,34 +21,23 @@ jobs:
           path: site
           fetch-depth: 0
 
-      - name: Checkout public personal snapshots
+      - name: Checkout public personal snapshot
         uses: actions/checkout@v4
         with:
           repository: DylanTao/DylanTao
           path: profile
-          fetch-depth: 0
+          fetch-depth: 1
           persist-credentials: false
-
-      - name: Checkout protected aggregate bridge
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ secrets.CODE_ACTIVITY_BRIDGE_REPOSITORY }}
-          ref: main
-          path: bridge
-          fetch-depth: 0
-          persist-credentials: false
-          ssh-key: ${{ secrets.CODE_ACTIVITY_BRIDGE_READ_KEY }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
-      - name: Import synchronized date-only activity
+      - name: Import completed personal UTC days
         run: >-
-          python site/bin/import_combined_code_activity.py
+          python site/bin/import_personal_code_activity.py
           --personal-repo profile
-          --bridge-repo bridge
           --repo-root site
 
       - name: Validate importer and privacy contracts
@@ -59,7 +45,7 @@ jobs:
         shell: bash
         run: |
           for test_file in \
-            test_import_combined_code_activity.py \
+            test_import_personal_code_activity.py \
             test_github_activity_privacy.py \
             test_build_rhythm_story.py; do
             python -m unittest discover -s test -p "$test_file"
@@ -69,21 +55,9 @@ jobs:
         working-directory: site
         shell: bash
         run: |
-          public_json=(
-            _data/combined_code_activity.json
-          )
-          if [[ -f assets/data/combined-code-activity.json ]]; then
-            public_json+=(assets/data/combined-code-activity.json)
-          fi
           if grep -nEi '(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
-            "${public_json[@]}"; then
-            echo "Combined code activity violates the identity-free public contract." >&2
-            exit 1
-          fi
-          if [[ -f assets/data/combined-code-activity.svg ]] && \
-            grep -nEi '(repo[_-]?name|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
-              assets/data/combined-code-activity.svg; then
-            echo "Combined activity SVG violates the identity-free public contract." >&2
+            _data/personal_code_activity.json; then
+            echo "Personal code activity violates the public privacy contract." >&2
             exit 1
           fi
           git diff --check
@@ -93,33 +67,19 @@ jobs:
         working-directory: site
         shell: bash
         run: |
-          git add -- _data/combined_code_activity.json
-          for path in \
-            assets/data/combined-code-activity.json \
-            assets/data/combined-code-activity.svg; do
-            if [[ -f "$path" ]]; then
-              git add -- "$path"
-            fi
-          done
+          git add -- _data/personal_code_activity.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish public snapshot
+      - name: Publish personal snapshot
         if: steps.change.outputs.changed == 'true'
         working-directory: site
         shell: bash
         run: |
           git config user.name "Dylan Metrics Bot"
           git config user.email "metrics-bot@users.noreply.github.com"
-          git commit -m "chore: refresh combined code activity"
+          git commit -m "chore: refresh personal code activity"
           git push origin HEAD:main
-
-      - name: Deploy refreshed snapshot
-        if: steps.change.outputs.changed == 'true'
-        working-directory: site
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run deploy.yml --ref main

@@ -5,7 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from unittest import mock
 
@@ -437,7 +437,7 @@ class DirectUsageImportTests(unittest.TestCase):
         revised = json.loads(json.dumps(whole))
         revised["combinedDailyUsage"]["points"][1]["tokens"] += 1
         revised["combinedDailyUsage"]["points"][2]["tokens"] -= 1
-        with self.assertRaisesRegex(tracker.SnapshotError, "previously completed"):
+        with self.assertRaisesRegex(tracker.SnapshotError, "whole-lifetime"):
             tracker.build_site_snapshot(
                 revised,
                 previous_site=upgraded,
@@ -459,6 +459,61 @@ class DirectUsageImportTests(unittest.TestCase):
                 previous_site=upgraded,
                 now=datetime(2026, 7, 17, 0, 10, tzinfo=timezone.utc),
             )
+
+    def test_partial_daily_progression_accepts_settling_and_window_slide(
+        self,
+    ) -> None:
+        previous = tracker.build_site_snapshot(
+            self.daily_source(completeness="rolling_window_partial"),
+            now=self.NOW,
+        )
+        settled = self.daily_source(
+            token_count=32_900_000_000,
+            updated_at="2026-07-16T19:05:00Z",
+            completeness="rolling_window_partial",
+        )
+        settled["combinedDailyUsage"]["points"][-1]["tokens"] += 100_000_000
+        corrected = tracker.build_site_snapshot(
+            settled,
+            previous_site=previous,
+            now=datetime(2026, 7, 16, 19, 10, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            corrected["combined_daily_usage"]["points"][-1],
+            {"date": "2026-07-15", "tokens": 300_000_000},
+        )
+
+        sliding = self.daily_source(
+            token_count=33_000_000_000,
+            updated_at="2026-07-17T00:05:00Z",
+            completeness="rolling_window_partial",
+        )
+        sliding["combinedDailyUsage"]["coverage"].update(
+            {
+                "starts_on": "2026-07-15",
+                "complete_through": "2026-07-16",
+                "prior_unallocated_tokens": 32_600_000_000,
+            }
+        )
+        sliding["combinedDailyUsage"]["points"] = [
+            {"date": "2026-07-15", "tokens": 300_000_000},
+            {"date": "2026-07-16", "tokens": 100_000_000},
+        ]
+        advanced = tracker.build_site_snapshot(
+            sliding,
+            previous_site=corrected,
+            now=datetime(2026, 7, 17, 0, 10, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            advanced["combined_daily_usage"]["coverage"]["starts_on"],
+            "2026-07-15",
+        )
+        self.assertEqual(
+            advanced["combined_daily_usage"]["coverage"][
+                "prior_unallocated_tokens"
+            ],
+            32_600_000_000,
+        )
 
     def test_exact_daily_progression_appends_zero_and_positive_completed_days(
         self,
@@ -589,26 +644,39 @@ class DirectUsageImportTests(unittest.TestCase):
             public["combined_lifetime"]["token_count"],
         )
 
-    def test_migrates_the_actual_automated_schema3_cutover_pair(self) -> None:
-        observed_at = datetime(2026, 7, 27, 0, 35, tzinfo=timezone.utc)
-        source = self.source(
-            token_count=52_800_000_000,
-            updated_at="2026-07-27T00:31:42.242208Z",
+    def test_actual_publication_pair_uses_verified_completed_day_history(
+        self,
+    ) -> None:
+        site = json.loads(
+            (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text(
+                encoding="utf-8"
+            )
         )
-        public = tracker.build_site_snapshot(
-            source,
-            previous_site=self.automated_legacy_site_snapshot(),
-            now=observed_at,
+        profile = json.loads(
+            (
+                REPO_ROOT
+                / "assets"
+                / "data"
+                / "codex-profile-usage.json"
+            ).read_text(encoding="utf-8")
         )
-        self.assertEqual(public["schema"], 4)
-        self.assertEqual(public["observed_on"], "2026-07-27")
+
+        checked = tracker._validate_publication_pair(site, profile)
+
+        self.assertEqual(checked["schema"], 5)
+        self.assertEqual(profile["schema"], 6)
         self.assertEqual(
-            public["combined_lifetime_history"]["points"],
-            json.loads(
-                (REPO_ROOT / "_data" / "direct_usage_tracker.json").read_text(
-                    encoding="utf-8"
-                )
-            )["combined_lifetime_history"]["points"],
+            date.fromisoformat(
+                checked["combined_daily_usage"]["coverage"][
+                    "complete_through"
+                ]
+            )
+            + timedelta(days=1),
+            date.fromisoformat(checked["observed_on"]),
+        )
+        self.assertEqual(
+            checked["combined_daily_usage"],
+            profile["combined_daily_usage"],
         )
 
     def test_appends_a_new_utc_day_without_filling_unobserved_days(self) -> None:

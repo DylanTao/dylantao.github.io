@@ -227,207 +227,307 @@ function visualRoute(path) {
   return new URL(path, normalizedBase).toString();
 }
 
-test("Codex activity fails closed when its public data is unavailable", async ({ page }) => {
-  await preparePage(page, "light");
-  await page.route("**/assets/data/codex-profile-usage.json", (route) => route.fulfill({ status: 503, contentType: "application/json", body: "{}" }));
-  await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
+const personalDailyActivityFixture = (() => {
+  const points = [];
+  const start = Date.UTC(2021, 6, 28);
+  const end = Date.UTC(2026, 6, 27);
+  for (let stamp = start, index = 0; stamp <= end; stamp += 86_400_000, index += 1) {
+    const active = index % 9 === 0 || index % 17 === 0;
+    points.push({
+      date: new Date(stamp).toISOString().slice(0, 10),
+      commits: active ? (index % 13) + 1 : 0,
+      additions: active ? (index % 31) * 140 + 20 : 0,
+      deletions: active ? (index % 23) * 90 + 10 : 0,
+    });
+  }
+  Object.assign(points.at(-1), {
+    commits: 7,
+    additions: 321,
+    deletions: 45,
+  });
+  return {
+    schema: 3,
+    updated_on: "2026-07-27",
+    timezone: "UTC",
+    scope: "personal_code_activity",
+    coverage: {
+      starts_on: points[0].date,
+      complete_through: points.at(-1).date,
+      status: "complete",
+    },
+    points,
+  };
+})();
 
-  const codexTrend = page.locator("[data-codex-usage]");
-  await expect(codexTrend).toHaveAttribute("data-state", "error");
-  await expect(codexTrend).toHaveAttribute("aria-busy", "false");
-  await expect(codexTrend.locator("[data-codex-status]")).toHaveText("Combined lifetime history unavailable; GitHub activity remains available.");
-  await expect(codexTrend.locator("[data-codex-lifetime]")).toHaveText("Unavailable");
-  await expect(codexTrend.locator("[data-codex-cost]")).toBeHidden();
-  await expect(page.getByRole("button", { name: "Daily", exact: true })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Weekly", exact: true })).toHaveCount(0);
-  await expect(page.locator("[data-codex-table]")).toHaveCount(0);
-  await expect(page.locator(".github-activity-codex-point")).toHaveCount(0);
-  await expect(codexTrend).not.toContainText("complete 2-of-2");
-  await expect(codexTrend).not.toHaveAttribute("aria-live", /.+/);
+const personalCodexUsageFixture = {
+  schema: 6,
+  combined_lifetime: {
+    token_count: 400000000,
+    tokens_label: "0.4B",
+    units: "tokens",
+    aggregation: "sum_of_sources",
+    rounding: "nearest_0.1B",
+    source_count: 2,
+  },
+  combined_daily_usage: {
+    schema: 1,
+    label: "Combined daily Codex usage",
+    units: "tokens",
+    grain: "day",
+    aggregation: "sum_of_sources",
+    coverage: {
+      starts_on: "2026-07-22",
+      complete_through: "2026-07-26",
+      before_start: "zero",
+      completeness: "whole_lifetime",
+      prior_unallocated_tokens: 0,
+    },
+    points: [
+      { date: "2026-07-22", tokens: 0 },
+      { date: "2026-07-23", tokens: 100000000 },
+      { date: "2026-07-24", tokens: 0 },
+      { date: "2026-07-25", tokens: 50000000 },
+      { date: "2026-07-26", tokens: 250000000 },
+    ],
+  },
+  method: "rounded_sum_of_verified_account_lifetime_readings",
+  confidence: "high",
+  observed_on: "2026-07-27",
+  updated_at: "2026-07-27T08:00:00Z",
+  automated_refresh: true,
+  cost: {
+    method: "flat_reference_rate_replay",
+    reference_scope: "current_site_build_blended_public_api_rate",
+    usd_per_million_tokens: 0.796269,
+    pricing_as_of: "2026-07-12",
+    usd_midpoint: 319,
+    usd_label: "~$0.3K API-rate replay",
+  },
+};
+
+async function gotoPersonalBuildRhythm(
+  page,
+  { activity = personalDailyActivityFixture, codexPayload = personalCodexUsageFixture, codexHandler = null, waitUntil = "networkidle" } = {}
+) {
+  const routeUrl = visualRoute("github-activity/");
+  const response = await page.request.get(routeUrl);
+  expect(response.ok()).toBe(true);
+  const original = await response.text();
+  const dataPattern = /<script id="personal-code-activity-data" type="application\/json">[\s\S]*?<\/script>/;
+  expect(original).toMatch(dataPattern);
+  const body = original.replace(dataPattern, `<script id="personal-code-activity-data" type="application/json">${JSON.stringify(activity)}</script>`);
+
+  await page.route(routeUrl, (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "text/html",
+      body,
+    })
+  );
+  if (codexHandler) {
+    await page.route("**/assets/data/codex-profile-usage.json", codexHandler);
+  } else if (codexPayload) {
+    await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(codexPayload),
+      })
+    );
+  }
+  await page.goto(routeUrl, { waitUntil });
+}
+
+test("personal code history fails closed to one message while the site-token rhythm remains", async ({ page }) => {
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await gotoPersonalBuildRhythm(page, {
+    activity: {},
+    codexPayload: null,
+  });
+
+  const activity = page.locator("[data-github-activity]");
+  const tokenRhythm = page.locator("[data-token-rhythm]");
+  await expect(activity).toHaveAttribute("data-state", "unavailable");
+  await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
+  await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
+  await expect(page.locator("[data-personal-daily-copy]").first()).toBeHidden();
+  await expect(page.locator(".github-activity-readout")).toBeHidden();
+  await expect(page.locator("[data-codex-usage]")).toBeHidden();
+  await expect(tokenRhythm).toHaveAttribute("data-state", "ready");
+  await expect(tokenRhythm.locator(".github-activity-token-cumulative-line")).toHaveCount(1);
+  await expect(tokenRhythm.locator(".github-activity-token-delta-line")).toHaveCount(1);
+  expect(runtimeErrors).toEqual([]);
 });
 
-test("delayed lifetime snapshot keeps the currently selected chart scale", async ({ page }) => {
+test("delayed personal Codex days keep the currently selected chart scale", async ({ page }, testInfo) => {
+  testInfo.setTimeout(300_000);
   await preparePage(page, "light");
-  const usageResponse = await page.request.get(visualRoute("assets/data/codex-profile-usage.json"));
-  expect(usageResponse.ok()).toBe(true);
-  const usage = await usageResponse.json();
   let releaseSnapshot;
   const snapshotGate = new Promise((resolve) => {
     releaseSnapshot = resolve;
   });
-  await page.route("**/assets/data/codex-profile-usage.json", async (route) => {
-    await snapshotGate;
-    await route.continue();
+  await gotoPersonalBuildRhythm(page, {
+    waitUntil: "domcontentloaded",
+    codexHandler: async (route) => {
+      await snapshotGate;
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(personalCodexUsageFixture),
+      });
+    },
   });
 
-  await page.goto("/al-folio/github-activity/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
   await page.getByRole("button", { name: "Literal", exact: true }).click();
   releaseSnapshot();
 
   const codexSnapshot = page.locator("[data-codex-usage]");
   await expect(codexSnapshot).toHaveAttribute("data-state", "ready");
-  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveText(
-    `${new Intl.NumberFormat("en-US").format(usage.combined_lifetime.token_count)} tokens`
-  );
+  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveText("400,000,000 tokens");
   await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "literal");
+  await expect(codexSnapshot.locator("[data-codex-status]")).toContainText("Personal Codex daily usage complete through");
 });
 
-test("usage story keeps rounded lifetime Codex usage and repo measures independent and accessible", async ({ page }) => {
+test("daily personal code and completed personal Codex usage remain separate and exactly inspectable", async ({ page }, testInfo) => {
+  testInfo.setTimeout(300_000);
+  const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
-  await page.route("**/assets/data/codex-profile-usage.json", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({
-        schema: 4,
-        combined_lifetime: {
-          token_count: 32800000000,
-          tokens_label: "32.8B",
-          units: "tokens",
-          aggregation: "sum_of_sources",
-          rounding: "nearest_0.1B",
-          source_count: 2,
-        },
-        method: "user_reported_rounded_lifetime_checkpoint",
-        confidence: "user reported",
-        observed_on: "2026-07-16",
-        updated_at: null,
-        automated_refresh: false,
-        cost: {
-          method: "flat_reference_rate_replay",
-          reference_scope: "current_site_build_blended_public_api_rate",
-          usd_per_million_tokens: 0.789,
-          pricing_as_of: "2026-07-16",
-          usd_midpoint: 25879,
-          usd_label: "~$25.9K API-rate replay",
-        },
-      }),
-    })
-  );
-  await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
+  await gotoPersonalBuildRhythm(page);
   await stabilizeVisuals(page);
 
   const activity = page.locator("[data-github-activity]");
   const codexTrend = page.locator("[data-codex-usage]");
+  const chart = page.locator("#github-activity-chart");
+  const rangeSummary = page.locator("#github-activity-range-summary");
+
+  if (testInfo.project.name === "mobile") {
+    const mobileEvidence = await page.evaluate(() => {
+      const activityRoot = document.querySelector("[data-github-activity]");
+      const chartRoot = document.getElementById("github-activity-chart");
+      const text = (selector) => document.querySelector(selector)?.textContent?.trim() || "";
+      const count = (selector) => document.querySelectorAll(selector).length;
+      return {
+        activityState: activityRoot?.getAttribute("data-state"),
+        codexState: document.querySelector("[data-codex-usage]")?.getAttribute("data-state"),
+        eyebrow: text(".github-activity-eyebrow"),
+        scope: text("[data-github-scope]"),
+        personalDataCount: count("#personal-code-activity-data"),
+        retiredDataCount: count("#github-activity-data"),
+        commitLineCount: count("#github-activity-chart .github-activity-commit-line"),
+        additionLineCount: count("#github-activity-chart .github-activity-add-line"),
+        deletionLineCount: count("#github-activity-chart .github-activity-remove-line"),
+        snapshotLineCount: count("#github-activity-chart .github-activity-lifetime-snapshot-line"),
+        historyLineCount: count("#github-activity-chart .github-activity-lifetime-history-line"),
+        selectedDate: text("#github-activity-selected-date"),
+        selectedCommits: text("#github-activity-selected-commits"),
+        selectedAdditions: text("#github-activity-selected-additions"),
+        selectedDeletions: text("#github-activity-selected-deletions"),
+        selectedTokens: text("#github-activity-selected-tokens"),
+        inspectorValue: chartRoot?.querySelector(".github-activity-inspector")?.getAttribute("aria-valuetext"),
+        hasDailyCommitHeading: chartRoot?.textContent?.includes("COMMITS / DAY · READABLE LOG1P"),
+        hasDailyLineHeading: chartRoot?.textContent?.includes("LINES / DAY · SYMLOG"),
+        hasForbiddenCopy: /Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i.test(
+          activityRoot?.textContent || ""
+        ),
+      };
+    });
+    expect(mobileEvidence).toEqual({
+      activityState: "ready",
+      codexState: "ready",
+      eyebrow: "BUILDING, DAY BY DAY",
+      scope: "5 YEARS · DAILY",
+      personalDataCount: 1,
+      retiredDataCount: 0,
+      commitLineCount: 1,
+      additionLineCount: 1,
+      deletionLineCount: 1,
+      snapshotLineCount: 0,
+      historyLineCount: 6,
+      selectedDate: "Jul 27, 2026",
+      selectedCommits: "7 commits",
+      selectedAdditions: "+321 added",
+      selectedDeletions: "−45 removed",
+      selectedTokens: "Token usage · unobserved or awaiting a completed day",
+      inspectorValue: "2026-07-27, 7 commits, +321 added, −45 removed, token usage unobserved or awaiting a completed day",
+      hasDailyCommitHeading: true,
+      hasDailyLineHeading: true,
+      hasForbiddenCopy: false,
+    });
+
+    await chart.locator(".github-activity-inspector").press("ArrowLeft");
+    const movedEvidence = await page.evaluate(() => ({
+      date: document.getElementById("github-activity-selected-date")?.textContent?.trim(),
+      tokens: document.getElementById("github-activity-selected-tokens")?.textContent?.trim(),
+    }));
+    expect(movedEvidence).toEqual({
+      date: "Jul 26, 2026",
+      tokens: "+250,000,000 tokens · 400,000,000 cumulative",
+    });
+    expect(runtimeErrors).toEqual([]);
+    return;
+  }
+
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(codexTrend).toHaveAttribute("data-state", "ready");
-  await expect(page.locator(".github-activity-eyebrow")).toHaveText("BUILDING, WEEK BY WEEK");
-  await expect(page.locator(".github-activity-codex-trend")).toHaveCount(0);
-  await expect(page.locator("[data-codex-usage]")).toHaveCount(1);
-  await expect(page.locator("#github-activity-selected-additions")).toHaveText(/^\+[\d,]+ added$/);
-  await expect(page.locator("#github-activity-selected-deletions")).toHaveText(/^\u2212[\d,]+ removed$/);
-  await expect(page.locator("#github-activity-selected-tier")).toHaveCount(0);
-  await expect(page.locator("#github-activity-ai-tiers")).toHaveCount(0);
-  await expect(page.locator(".github-activity-add-line")).toHaveCount(1);
-  await expect(page.locator(".github-activity-remove-line")).toHaveCount(1);
-  await expect(page.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(1);
-  await expect(page.locator(".github-activity-lifetime-history-line")).toHaveCount(0);
-  await expect(page.locator('[data-build-rhythm-y-axis="github-lifetime-snapshot"]')).toHaveCount(1);
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Lifetime tokens");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
-  await expect(page.locator(".github-activity-tier-run")).toHaveCount(0);
-  await expect(activity).not.toContainText(/agent-hours|kWh|trees?|plan price|\$20|\$100|\$200/i);
+  await expect(page.locator(".github-activity-eyebrow")).toHaveText("BUILDING, DAY BY DAY");
+  await expect(page.locator("[data-github-scope]")).toHaveText("5 YEARS · DAILY");
+  await expect(page.locator("#personal-code-activity-data")).toHaveCount(1);
+  await expect(page.locator("#github-activity-data")).toHaveCount(0);
+  await expect(chart.locator(".github-activity-commit-line")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-add-line")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-remove-line")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
+  await expect(chart.locator(".github-activity-lifetime-history-line")).toHaveCount(6);
+  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 27, 2026");
+  await expect(page.locator("#github-activity-selected-commits")).toHaveText("7 commits");
+  await expect(page.locator("#github-activity-selected-additions")).toHaveText("+321 added");
+  await expect(page.locator("#github-activity-selected-deletions")).toHaveText("−45 removed");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved or awaiting a completed day");
+  await expect(activity).not.toContainText(/Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i);
 
-  const githubScope = page.locator("[data-github-scope]");
-  await expect(githubScope).toHaveText("5 YEARS · WEEKLY");
-  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32.8B tokens");
-  await expect(codexTrend.locator("[data-codex-status]")).toContainText(/observed/i);
-  await expect(codexTrend.locator("[data-codex-status]")).toContainText("Jul 16, 2026");
-  await expect(codexTrend.locator("[data-codex-cost]")).toHaveText("Burned ~$25.9K of Sam's imaginary money · public API-rate replay, not a bill.");
-  await expect(codexTrend).not.toContainText(/quota health|accounts healthy|1 of 2 accounts|resets? (?:at|in)|API-cost estimate/i);
+  const compact = (page.viewportSize()?.width ?? 0) < 620;
+  await expect(chart.getByText("COMMITS / DAY · READABLE LOG1P", { exact: true })).toBeVisible();
+  await expect(
+    chart.getByText(compact ? "LINES / DAY · SYMLOG" : "LINES CHANGED / DAY · READABLE SYMLOG", {
+      exact: true,
+    })
+  ).toBeVisible();
 
-  const commitPath = page.locator(".github-activity-commit-line");
-  const addPath = page.locator(".github-activity-add-line");
-  const removePath = page.locator(".github-activity-remove-line");
-  const rangeSummary = page.locator("#github-activity-range-summary");
-  await expect(commitPath).toHaveCount(1);
-  await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · READABLE LOG1P", { exact: true })).toBeVisible();
-  const compactActivityChart = (page.viewportSize()?.width ?? 0) < 620;
-  const readableLineHeading = compactActivityChart ? "LINES / WEEK · SYMLOG" : "LINES CHANGED / WEEK · READABLE SYMLOG";
-  await expect(page.locator("#github-activity-chart").getByText(readableLineHeading, { exact: true })).toBeVisible();
-  await expect(rangeSummary).toContainText("5 years");
-  await expect(rangeSummary).toContainText("commits");
-  const positiveLineTickY = await page
-    .locator(".github-activity-line-tick.is-positive")
-    .evaluateAll((nodes) => nodes.map((node) => Number(node.getAttribute("y"))).sort((a, b) => a - b));
-  const negativeLineTickCount = await page.locator(".github-activity-line-tick.is-negative").count();
-  expect(positiveLineTickY.length).toBeGreaterThan(2);
-  expect(negativeLineTickCount).toBe(positiveLineTickY.length);
-  await expect(page.locator(".github-activity-line-tick.is-zero")).toHaveText("0");
-  const minimumTickGap = (page.viewportSize()?.width ?? 0) < 620 ? 15 : 18;
-  positiveLineTickY.slice(1).forEach((position, index) => {
-    expect(position - positiveLineTickY[index]).toBeGreaterThanOrEqual(minimumTickGap - 0.01);
-  });
-  const readablePath = await commitPath.getAttribute("d");
-  const readableAddPath = await addPath.getAttribute("d");
-  const readableRemovePath = await removePath.getAttribute("d");
-  const selectedValue = await page.locator("#github-activity-selected-commits").textContent();
   await page.getByRole("button", { name: "Literal", exact: true }).click();
-  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32,800,000,000 tokens");
-  await expect(page.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "literal");
-  await expect(page.locator("#github-activity-chart").getByText("COMMITS / WEEK · LITERAL LINEAR", { exact: true })).toBeVisible();
-  const literalLineHeading = compactActivityChart ? "LINES / WEEK · LINEAR" : "LINES CHANGED / WEEK · LITERAL LINEAR";
-  await expect(page.locator("#github-activity-chart").getByText(literalLineHeading, { exact: true })).toBeVisible();
-  expect(await commitPath.getAttribute("d")).not.toBe(readablePath);
-  expect(await addPath.getAttribute("d")).not.toBe(readableAddPath);
-  expect(await removePath.getAttribute("d")).not.toBe(readableRemovePath);
-  await expect(page.locator("#github-activity-selected-commits")).toHaveText(selectedValue);
+  await expect(chart.getByText("COMMITS / DAY · LITERAL LINEAR", { exact: true })).toBeVisible();
+  await expect(chart.getByText(compact ? "LINES / DAY · LINEAR" : "LINES CHANGED / DAY · LITERAL LINEAR", { exact: true })).toBeVisible();
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
-  await expect(githubScope).toHaveText("1 YEAR · WEEKLY");
-  await expect(page.locator("[data-codex-lifetime]")).toHaveText("32,800,000,000 tokens");
-  const inspector = page.locator(".github-activity-inspector");
+  await expect(page.locator("[data-github-scope]")).toHaveText("1 YEAR · DAILY");
+  const inspector = chart.locator(".github-activity-inspector");
   await inspector.focus();
-  await page.keyboard.press("ArrowLeft");
-  await expect(inspector).toHaveAttribute("aria-valuetext", /Week of \d{4}-\d{2}-\d{2}, [\d,]+ commits, \+[\d,]+ added, \u2212[\d,]+ removed/);
-  await page.keyboard.press("Shift+ArrowLeft");
+  await expect(inspector).toHaveAttribute(
+    "aria-valuetext",
+    /^2026-07-27, 7 commits, \+321 added, −45 removed, token usage unobserved or awaiting a completed day$/
+  );
+  await inspector.press("ArrowLeft");
+  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 26, 2026");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+250,000,000 tokens");
+  await inspector.press("Shift+ArrowLeft");
   await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "visible");
-  await expect(rangeSummary).toContainText(/^Selected 2 weeks/);
-  await page.keyboard.press("Escape");
+  await expect(rangeSummary).toContainText(/^Selected 2 days/);
+  await inspector.press("Escape");
   await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "hidden");
 
-  const lineChangeSemantics = await page.evaluate(() => {
-    const source = JSON.parse(document.getElementById("github-activity-data").textContent);
-    const rows = source.weeks.map((row) => ({ ...row, date: new Date(`${row.week}T00:00:00Z`) }));
-    const end = rows.at(-1).date;
-    const cutoff = new Date(Date.UTC(end.getUTCFullYear() - 1, end.getUTCMonth(), end.getUTCDate()));
-    const active = rows.filter((row) => row.date >= cutoff && (row.commits || row.additions || row.deletions));
-    const changes = (row) => row.additions + row.deletions;
-    const largest = active.reduce((best, row) => (changes(row) > changes(best) ? row : best));
-    const ordered = active.map(changes).sort((a, b) => a - b);
-    const position = (ordered.length - 1) * 0.5;
-    const lower = Math.floor(position);
-    const upper = Math.ceil(position);
-    const median = lower === upper ? ordered[lower] : ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower);
-    const latest = rows.at(-1);
-    return {
-      largestDate: new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(largest.date),
-      largestAdded: new Intl.NumberFormat("en-US").format(largest.additions),
-      largestRemoved: new Intl.NumberFormat("en-US").format(largest.deletions),
-      median: new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(median),
-      latestChanges: new Intl.NumberFormat("en-US").format(changes(latest)),
-    };
-  });
-  const annotation = page.locator("#github-activity-annotation");
-  await expect(annotation).toContainText(
-    `Largest line-change week · ${lineChangeSemantics.largestDate} · +${lineChangeSemantics.largestAdded} / −${lineChangeSemantics.largestRemoved}`
-  );
-  await expect(annotation).toContainText(`Median active-week line magnitude · ${lineChangeSemantics.median}`);
-
   await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Three scales" })).toBeVisible();
-  const commitCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
-  await expect(page.locator("#github-activity-codex-table-body")).toHaveCount(0);
-  await expect(commitCells).toHaveCount(5);
-  await expect(page.locator("#github-activity-table-caption")).toContainText("Reported weekly activity");
-  await expect(page.getByRole("columnheader", { name: "Line changes" })).toBeVisible();
-  await expect(commitCells.nth(4)).toHaveText(lineChangeSemantics.latestChanges);
-  expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(40);
+  await expect(page.getByRole("heading", { name: "Separate scales" })).toBeVisible();
+  const firstRowCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
+  await expect(firstRowCells).toHaveCount(5);
+  await expect(page.locator("#github-activity-table-caption")).toContainText("Reported daily activity");
+  expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(300);
+  expect(runtimeErrors).toEqual([]);
 });
 
 test("GitHub line-change labels meet contrast in every light theme", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/github-activity/", { waitUntil: "networkidle" });
+  await gotoPersonalBuildRhythm(page);
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
 
   const themes = await page.evaluate(async () => {
