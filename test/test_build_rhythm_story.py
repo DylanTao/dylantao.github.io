@@ -194,7 +194,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "Commit count tells me when. Line changes tell me how much.",
             "One giant day was flattening everything else.",
             "Now read the whole rhythm yourself.",
-            "completed personal Codex days",
+            "completed personal agent days",
             "Complete personal coverage begins at",
             "partial coverage leaves earlier usage explicitly unobserved.",
         ):
@@ -293,7 +293,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-lifetime-inline"'),
             self.page.index('data-jump-latest'),
         )
-        self.assertIn('aria-label="Personal Codex daily usage metadata"', self.page)
+        self.assertIn('aria-label="Personal agent daily usage metadata"', self.page)
+        self.assertIn("data-agent-family-summary", self.page)
         self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
         self.assertIn('class="sr-only" data-codex-lifetime data-format="readable"', self.page)
         self.assertIn("initCodexUsageSnapshot(() => scale)", self.script)
@@ -302,14 +303,23 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('lifetime.dataset.format = literal ? "literal" : "readable";', self.script)
         self.assertIn('`${number.format(source.combined_lifetime.token_count)} tokens`', self.script)
         self.assertIn(
-            'candidate?.schema !== 6 || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
+            '![6, 7].includes(candidate?.schema) || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
             self.script,
         )
-        self.assertIn('candidate.label !== "Combined daily Codex usage"', self.script)
+        self.assertIn(
+            "candidate.label !== sourceContracts[combined.source_count]?.dailyLabel",
+            self.script,
+        )
+        self.assertIn("!Number.isSafeInteger(combined.source_count)", self.script)
+        self.assertIn(
+            'method: "rounded_sum_of_observed_agent_usage_sources"',
+            self.script,
+        )
         self.assertIn('candidate.grain !== "day"', self.script)
         self.assertIn('candidate.coverage.before_start !== "zero"', self.script)
         self.assertIn('candidate.coverage.before_start !== "unobserved"', self.script)
         self.assertIn('candidate.coverage.completeness === "whole_lifetime"', self.script)
+        self.assertIn("combined.source_count === 3 && wholeLifetime", self.script)
         self.assertIn(
             "candidate.coverage.prior_unallocated_tokens <= 0",
             self.script,
@@ -317,9 +327,16 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("candidate.points[0].tokens === 0", self.script)
         self.assertIn("candidate.coverage.complete_through === latestCompleted", self.script)
         self.assertIn(
-            "validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on)",
+            "validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on, candidate.schema)",
             self.script,
         )
+        self.assertIn('candidate.agent_families[0] !== "codex"', self.script)
+        self.assertIn('candidate.agent_families[1] !== "claude"', self.script)
+        self.assertIn("agentTokens.codex + agentTokens.claude !== point.tokens", self.script)
+        self.assertIn('class: `${className}-codex-area`', self.script)
+        self.assertIn('class: `${className}-claude-area`', self.script)
+        self.assertIn('class: `${className}-claude-boundary`', self.script)
+        self.assertIn("Overall breakdown", self.script)
         self.assertIn("point.tokens", self.script)
         self.assertIn("tokenTotal += point.tokens", self.script)
         self.assertIn("Math.round(tokenTotal / 100_000_000)", self.script)
@@ -328,7 +345,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.script,
         )
         self.assertIn("codexUsageForDay(codexSource, row)", self.script)
-        self.assertIn("exact tokens in interval", self.script)
+        self.assertIn("exact tokens${familySuffix} in interval", self.script)
         self.assertIn("later days awaiting completion", self.script)
         self.assertIn('coverage.before_start === "zero"', self.script)
         self.assertIn("tokenCount: 0", self.script)
@@ -353,7 +370,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         )
         self.assertIn('data-codex-cost-value', self.page)
         self.assertIn(
-            'candidate?.schema !== 6 || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
+            '![6, 7].includes(candidate?.schema) || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
             self.script,
         )
         self.assertIn('candidate.method !== "flat_reference_rate_replay"', self.script)
@@ -367,7 +384,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
 
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
-            "completed usage from my two personal Codex accounts",
+            "completed personal agent usage",
             "The shared axis now carries only observations.",
             "7e224db12",
             "Three signals, never one score",
@@ -423,21 +440,30 @@ class BuildRhythmStoryTests(unittest.TestCase):
         ):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, public_surfaces)
-        for retired in ("per-account", "gmail", "ucsd email"):
+        for retired in ("gmail", "ucsd email"):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page.lower())
-        self.assertIn("Personal Codex daily usage", self.page)
+        self.assertIn("Personal agent daily usage", self.page)
         self.assertIn(
-            "direct_tracker.schema == 5 and direct_tracker.combined_daily_usage",
+            "direct_tracker.schema >= 5 and direct_tracker.combined_daily_usage",
             self.page,
         )
-        self.assertIn("Personal Codex daily usage complete through", self.page)
-        self.assertIn("partial coverage keeps earlier usage as an explicitly unobserved baseline", self.page)
+        self.assertIn("Personal agent daily usage complete through", self.page)
+        self.assertIn("sanitized personal agent series", self.page)
+        self.assertIn("Codex (two accounts combined)", self.page)
+        self.assertIn("Claude Code observed on this laptop", self.page)
+        self.assertIn("Shared family coverage begins July 29, 2026", self.page)
+        self.assertIn("without account identities or per-account readings", self.page)
         self.assertIn("data-codex-observed", self.page)
         self.assertNotIn("automatic refresh pending", self.page)
 
-    def test_automated_lifetime_snapshot_accepts_only_the_canonical_confidence(self) -> None:
-        self.assertIn('candidate.confidence === "high"', self.script)
+    def test_automated_snapshot_accepts_only_source_paired_confidence(self) -> None:
+        self.assertIn(
+            "candidate.confidence === sourceContracts[combined.source_count].confidence",
+            self.script,
+        )
+        self.assertIn('confidence: "high"', self.script)
+        self.assertIn('confidence: "mixed"', self.script)
         self.assertNotIn(
             '["high", "direct", "complete", "direct complete observation"]',
             self.script,

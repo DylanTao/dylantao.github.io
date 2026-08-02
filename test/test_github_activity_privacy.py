@@ -84,13 +84,11 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             "updated_at",
             "automated_refresh",
         }
-        if site_copy["schema"] == 4:
-            history_key = "combined_lifetime_history"
-            self.assertEqual(public["schema"], 5)
-        else:
-            self.assertEqual(site_copy["schema"], 5)
-            history_key = "combined_daily_usage"
-            self.assertEqual(public["schema"], 6)
+        # The checked-in pair is the current three-source family-safe publication.
+        # Isolated importer tests retain collector-4/site-5/profile-6 support.
+        self.assertEqual(site_copy["schema"], 6)
+        self.assertEqual(public["schema"], 7)
+        history_key = "combined_daily_usage"
         self.assertEqual(set(site_copy), required_keys | {history_key})
         self.assertEqual(set(public), required_keys | {history_key, "cost"})
         for key in (required_keys | {history_key}) - {"schema"}:
@@ -119,7 +117,21 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             f"{billions}.{remainder // 100_000_000}B",
         )
         self.assertEqual(lifetime["units"], "tokens")
-        self.assertEqual(lifetime["source_count"], 2)
+        source_contracts = {
+            2: {
+                "label": "Combined daily Codex usage",
+                "method": "rounded_sum_of_verified_account_lifetime_readings",
+                "confidence": "high",
+            },
+            3: {
+                "label": "Combined daily agent usage",
+                "method": "rounded_sum_of_observed_agent_usage_sources",
+                "confidence": "mixed",
+            },
+        }
+        source_count = lifetime["source_count"]
+        self.assertIn(source_count, source_contracts)
+        self.assertEqual(source_count, 3)
         self.assertEqual(lifetime["aggregation"], "sum_of_sources")
         self.assertEqual(lifetime["rounding"], "nearest_0.1B")
         observed_on = date.fromisoformat(site_copy["observed_on"])
@@ -127,9 +139,12 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         if site_copy["automated_refresh"]:
             self.assertEqual(
                 site_copy["method"],
-                "rounded_sum_of_verified_account_lifetime_readings",
+                source_contracts[source_count]["method"],
             )
-            self.assertEqual(site_copy["confidence"], "high")
+            self.assertEqual(
+                site_copy["confidence"],
+                source_contracts[source_count]["confidence"],
+            )
             self.assertIsInstance(site_copy["updated_at"], str)
             refreshed_at = datetime.fromisoformat(
                 site_copy["updated_at"].replace("Z", "+00:00")
@@ -145,127 +160,84 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             self.assertEqual(site_copy["confidence"], "user reported")
             self.assertIsNone(site_copy["updated_at"])
         history = site_copy[history_key]
-        if history_key == "combined_lifetime_history":
-            self.assertEqual(
-                set(history),
-                {
-                    "schema",
-                    "label",
-                    "units",
-                    "grain",
-                    "aggregation",
-                    "rounding",
-                    "coverage",
-                    "points",
-                },
-            )
-            self.assertEqual(history["schema"], 1)
-            self.assertEqual(history["label"], "Combined lifetime tokens")
-            self.assertEqual(history["units"], "tokens")
-            self.assertEqual(history["grain"], "daily_last_observation")
-            self.assertEqual(history["aggregation"], "sum_of_sources")
-            self.assertEqual(history["rounding"], "nearest_0.1B")
-            self.assertEqual(
-                history["coverage"],
-                {"starts_on": "2026-07-16", "before_start": "unobserved"},
-            )
-            self.assertGreater(len(history["points"]), 0)
-            previous_date: date | None = None
-            previous_count = -1
-            for point in history["points"]:
-                self.assertEqual(
-                    set(point),
-                    {"date", "token_count", "tokens_label", "observation"},
-                )
-                point_date = date.fromisoformat(point["date"])
-                self.assertIsInstance(point["token_count"], int)
-                self.assertNotIsInstance(point["token_count"], bool)
-                self.assertGreater(point["token_count"], 0)
-                self.assertEqual(point["token_count"] % 100_000_000, 0)
-                point_billions, point_remainder = divmod(
-                    point["token_count"], 1_000_000_000
-                )
-                self.assertEqual(
-                    point["tokens_label"],
-                    f"{point_billions}.{point_remainder // 100_000_000}B",
-                )
-                self.assertIn(point["observation"], {"user_reported", "automated"})
-                if previous_date is not None:
-                    self.assertGreater(point_date, previous_date)
-                self.assertGreaterEqual(point["token_count"], previous_count)
-                previous_date = point_date
-                previous_count = point["token_count"]
-            self.assertEqual(history["points"][0]["date"], "2026-07-16")
-            self.assertEqual(history["points"][-1]["date"], site_copy["observed_on"])
-            self.assertEqual(
-                history["points"][-1]["token_count"],
-                lifetime["token_count"],
-            )
-        else:
-            self.assertEqual(
-                set(history),
-                {
-                    "schema",
-                    "label",
-                    "units",
-                    "grain",
-                    "aggregation",
-                    "coverage",
-                    "points",
-                },
-            )
-            self.assertEqual(history["schema"], 1)
-            self.assertEqual(history["label"], "Combined daily Codex usage")
-            self.assertEqual(history["units"], "tokens")
-            self.assertEqual(history["grain"], "day")
-            self.assertEqual(history["aggregation"], "sum_of_sources")
-            coverage = history["coverage"]
-            self.assertEqual(
-                set(coverage),
-                {
-                    "starts_on",
-                    "complete_through",
-                    "before_start",
-                    "completeness",
-                    "prior_unallocated_tokens",
-                },
-            )
-            if coverage["completeness"] == "whole_lifetime":
-                self.assertEqual(coverage["before_start"], "zero")
-                self.assertEqual(coverage["prior_unallocated_tokens"], 0)
-            else:
-                self.assertEqual(
-                    coverage["completeness"],
-                    "rolling_window_partial",
-                )
-                self.assertEqual(coverage["before_start"], "unobserved")
-                self.assertGreater(coverage["prior_unallocated_tokens"], 0)
-            self.assertGreater(len(history["points"]), 0)
-            previous_date = None
-            exact_total = coverage["prior_unallocated_tokens"]
-            for point in history["points"]:
-                self.assertEqual(set(point), {"date", "tokens"})
-                point_date = date.fromisoformat(point["date"])
-                if previous_date is not None:
-                    self.assertEqual(point_date, previous_date + timedelta(days=1))
-                self.assertIsInstance(point["tokens"], int)
-                self.assertNotIsInstance(point["tokens"], bool)
-                self.assertGreaterEqual(point["tokens"], 0)
-                exact_total += point["tokens"]
-                previous_date = point_date
-            self.assertEqual(history["points"][0]["date"], coverage["starts_on"])
-            self.assertEqual(
-                history["points"][-1]["date"],
-                coverage["complete_through"],
-            )
-            self.assertLess(
-                date.fromisoformat(coverage["complete_through"]),
-                date.fromisoformat(site_copy["observed_on"]),
-            )
-            rounded_total = (
-                (exact_total + 50_000_000) // 100_000_000
-            ) * 100_000_000
-            self.assertEqual(rounded_total, lifetime["token_count"])
+        self.assertEqual(
+            set(history),
+            {
+                "schema",
+                "label",
+                "units",
+                "grain",
+                "aggregation",
+                "agent_families",
+                "coverage",
+                "points",
+            },
+        )
+        self.assertEqual(history["schema"], 2)
+        self.assertEqual(history["label"], source_contracts[source_count]["label"])
+        self.assertEqual(history["units"], "tokens")
+        self.assertEqual(history["grain"], "day")
+        self.assertEqual(history["aggregation"], "sum_of_sources")
+        self.assertEqual(history["agent_families"], ["codex", "claude"])
+        coverage = history["coverage"]
+        self.assertEqual(
+            set(coverage),
+            {
+                "starts_on",
+                "complete_through",
+                "before_start",
+                "completeness",
+                "prior_unallocated_tokens",
+                "prior_unallocated_by_agent",
+            },
+        )
+        self.assertEqual(coverage["starts_on"], "2026-07-29")
+        self.assertEqual(coverage["completeness"], "rolling_window_partial")
+        self.assertEqual(coverage["before_start"], "unobserved")
+        self.assertGreater(coverage["prior_unallocated_tokens"], 0)
+        self.assertEqual(
+            set(coverage["prior_unallocated_by_agent"]),
+            {"codex", "claude"},
+        )
+        self.assertEqual(coverage["prior_unallocated_by_agent"]["claude"], 0)
+        self.assertEqual(
+            sum(coverage["prior_unallocated_by_agent"].values()),
+            coverage["prior_unallocated_tokens"],
+        )
+        self.assertGreater(len(history["points"]), 0)
+        previous_date: date | None = None
+        exact_total = coverage["prior_unallocated_tokens"]
+        family_totals = dict(coverage["prior_unallocated_by_agent"])
+        for point in history["points"]:
+            self.assertEqual(set(point), {"date", "tokens", "agent_tokens"})
+            self.assertEqual(set(point["agent_tokens"]), {"codex", "claude"})
+            point_date = date.fromisoformat(point["date"])
+            if previous_date is not None:
+                self.assertEqual(point_date, previous_date + timedelta(days=1))
+            self.assertIsInstance(point["tokens"], int)
+            self.assertNotIsInstance(point["tokens"], bool)
+            self.assertGreaterEqual(point["tokens"], 0)
+            for family, family_tokens in point["agent_tokens"].items():
+                self.assertIsInstance(family_tokens, int)
+                self.assertNotIsInstance(family_tokens, bool)
+                self.assertGreaterEqual(family_tokens, 0)
+                family_totals[family] += family_tokens
+            self.assertEqual(sum(point["agent_tokens"].values()), point["tokens"])
+            exact_total += point["tokens"]
+            previous_date = point_date
+        self.assertEqual(history["points"][0]["date"], coverage["starts_on"])
+        self.assertEqual(
+            history["points"][-1]["date"],
+            coverage["complete_through"],
+        )
+        self.assertLess(
+            date.fromisoformat(coverage["complete_through"]),
+            date.fromisoformat(site_copy["observed_on"]),
+        )
+        self.assertEqual(sum(family_totals.values()), exact_total)
+        self.assertGreater(family_totals["claude"], 0)
+        rounded_total = ((exact_total + 50_000_000) // 100_000_000) * 100_000_000
+        self.assertEqual(rounded_total, lifetime["token_count"])
         replay = public["cost"]
         self.assertEqual(
             set(replay),

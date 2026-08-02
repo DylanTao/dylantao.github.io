@@ -12,6 +12,8 @@
   --github-activity-grid: var(--global-divider-color);
   --github-activity-added-text: color-mix(in srgb, var(--global-sky-strong) 85%, var(--global-text-color));
   --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 85%, var(--global-text-color));
+  --github-activity-codex-color: var(--global-primary-color);
+  --github-activity-claude-color: color-mix(in srgb, #d97757 82%, var(--global-text-color));
 
   width: 100%;
   padding: clamp(1.5rem, 4vw, 3.5rem) 0 2rem;
@@ -650,6 +652,10 @@
   white-space: normal;
 }
 
+.github-activity-token-value-group[hidden] {
+  display: none;
+}
+
 .github-activity-selected-tokens {
   color: var(--global-primary-color);
 }
@@ -669,12 +675,18 @@
 }
 
 .github-activity-lifetime-inline[hidden],
-.github-activity-lifetime-cost[hidden] {
+.github-activity-lifetime-cost[hidden],
+.github-activity-family-status[hidden] {
   display: none;
 }
 
 .github-activity-lifetime-status {
   color: var(--global-text-color-light);
+}
+
+.github-activity-family-status {
+  color: var(--global-text-color);
+  font-weight: 600;
 }
 
 .github-activity-lifetime-cost {

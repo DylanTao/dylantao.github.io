@@ -60,7 +60,8 @@ DESK_PATHS = [
 
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 47
+MODEL_TRACKING_SCOPE = "site_repo_retained_contexts"
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 53
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -5181,6 +5182,745 @@ del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
 del _first_scoped_response_at
 
 
+MODEL_DEVIATION_ACKNOWLEDGMENT_V48_RESEARCH_WORKFLOW_TURNS = (
+    (
+        "019fa258-d708-7a42-ac3c-d5854d561f5f",
+        "2026-07-27T06:52:40.174Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa258-ca6f-7542-8392-c9ed3e592832",
+        "/root/protocol_v13_consistency",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T06:52:45.721Z",
+        "read-only v1.3 policy, schema, and test consistency audit",
+        "research",
+    ),
+    (
+        "019fa34b-c04c-7eb2-acba-ff67fa63db29",
+        "2026-07-27T11:17:59.365Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fa34b-b514-7002-a17b-84a8beb961a3",
+        "/root/throughput_eta_fix",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T11:18:10.403Z",
+        "truthful throughput and ETA accounting implementation",
+        "research",
+    ),
+    (
+        "019fa3d6-9fbe-77f3-a888-1368a986d680",
+        "2026-07-27T13:49:41.958Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa3d6-9c1c-78a3-aea3-1da6e8d3c6a5",
+        "/root/post_integration_validation",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T13:49:46.569Z",
+        "read-only detached-HEAD gate validation",
+        "research",
+    ),
+    (
+        "019fa3db-33f3-7a31-b8bf-802b6d7fc687",
+        "2026-07-27T13:54:40.372Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa3db-1c04-7e33-9887-052ffa0669a0",
+        "/root/next_metadata_family",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T13:54:46.594Z",
+        "zero-network CSCW 2021-2026 reuse-first metadata preparation",
+        "research",
+    ),
+    (
+        "019fa3df-04b1-7dc1-82c5-9f8cc9ec0f0e",
+        "2026-07-27T13:58:50.005Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa3d6-9c1c-78a3-aea3-1da6e8d3c6a5",
+        "/root/post_integration_validation",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T13:58:56.886Z",
+        "CHI replay source-cache scoping repair and validation",
+        "research",
+    ),
+    (
+        "019fa3ff-8559-7b23-aedf-8fde5f51f642",
+        "2026-07-27T14:34:20.290Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa3ff-6b42-77b3-b384-114fa697769a",
+        "/root/runtime_successor_rebind",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T14:34:27.135Z",
+        "runtime successor authority record rebuild and verification",
+        "research",
+    ),
+    (
+        "019fa409-0064-7810-800d-5610028b48b0",
+        "2026-07-27T14:44:41.986Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa408-e7a1-7e41-8fd2-99e141086b85",
+        "/root/next_zero_network_cells",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T14:56:09.062Z",
+        "zero-network IUI 2019 reuse-first metadata preparation",
+        "research",
+    ),
+    (
+        "019fa419-2ac8-7f20-8fc2-46899779f7c8",
+        "2026-07-27T15:02:21.066Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa419-0746-7b52-902c-95c3d5ab1c11",
+        "/root/canonical_rebuild_52",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T15:02:25.495Z",
+        "deterministic canonical rebuild and assertion repair",
+        "research",
+    ),
+    (
+        "019fa428-7ea4-7be1-a36e-49a6017fc011",
+        "2026-07-27T15:19:06.087Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa428-63bb-7e42-b22e-68e3958a3bad",
+        "/root/next_reuse_family_2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T15:19:11.674Z",
+        "zero-network IEEE VIS 2024-2025 reuse-first metadata preparation",
+        "research",
+    ),
+    (
+        "019fa441-1d8e-7a13-8f27-9a6f1112f929",
+        "2026-07-27T15:45:59.593Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa428-63bb-7e42-b22e-68e3958a3bad",
+        "/root/next_reuse_family_2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T15:46:16.311Z",
+        "independent VIS 2020-2023 metadata preparation",
+        "research",
+    ),
+    (
+        "019fa468-04a3-7f63-906c-2bf72d70626e",
+        "2026-07-27T16:28:29.001Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa428-63bb-7e42-b22e-68e3958a3bad",
+        "/root/next_reuse_family_2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T16:28:37.567Z",
+        "independent UIST 2025 metadata preparation",
+        "research",
+    ),
+    (
+        "019fa468-229a-79c0-886e-4334b277dd54",
+        "2026-07-27T16:28:36.075Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa3ff-6b42-77b3-b384-114fa697769a",
+        "/root/runtime_successor_rebind",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T16:28:42.725Z",
+        "runtime launch preflight and bounded authority repair",
+        "research",
+    ),
+    (
+        "019fa477-6fd3-7413-af0c-e429384b8d74",
+        "2026-07-27T16:45:19.409Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa428-63bb-7e42-b22e-68e3958a3bad",
+        "/root/next_reuse_family_2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T16:45:25.257Z",
+        "prepared reuse-first metadata milestone integration",
+        "research",
+    ),
+    (
+        "019fa480-c806-7932-8cc7-8ba25752412d",
+        "2026-07-27T16:55:31.239Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa428-63bb-7e42-b22e-68e3958a3bad",
+        "/root/next_reuse_family_2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T16:55:37.352Z",
+        "content-addressed retained-object restoration and replay",
+        "research",
+    ),
+    (
+        "019fa4a0-8c0f-7271-8e03-81724776fe98",
+        "2026-07-27T17:30:13.661Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa428-63bb-7e42-b22e-68e3958a3bad",
+        "/root/next_reuse_family_2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T17:30:18.088Z",
+        "bounded receipt-history repair and validation",
+        "research",
+    ),
+    (
+        "019fa4bc-700a-79b1-84c6-cbc1f76c6e9a",
+        "2026-07-27T18:00:41.386Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fa3ff-6b42-77b3-b384-114fa697769a",
+        "/root/runtime_successor_rebind",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-27T18:00:53.213Z",
+        "runtime-successor authority freeze and rebind",
+        "research",
+    ),
+    (
+        "019fa75c-a6ba-7023-b993-77005b036593",
+        "2026-07-28T06:14:56.257Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fa75c-8f2c-7e22-8cd5-6d4e1e3d27c1",
+        "/root",
+        r"D:\dev\semantic-scaffolding-map\map\private\streaming_title_abstract\execution_chambers\eics-2025-9455d22257a6cf48-p1",
+        "2026-07-28T06:14:59.035Z",
+        "p1 exact no-tools runtime-attestation canary",
+        "canary",
+    ),
+    (
+        "019fa75d-7386-74d1-84f7-924fc163b8b1",
+        "2026-07-28T06:15:48.711Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fa75d-6ca6-7093-947d-954be27cd1ea",
+        "/root",
+        r"D:\dev\semantic-scaffolding-map\map\private\streaming_title_abstract\execution_chambers\eics-2025-9455d22257a6cf48-p2",
+        "2026-07-28T06:15:50.963Z",
+        "p2 exact no-tools runtime-attestation canary",
+        "canary",
+    ),
+    (
+        "019fa75e-277b-74a3-a865-77af630a9fa1",
+        "2026-07-28T06:16:35.056Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fa75e-2015-71d0-9df8-d18e7d9dc88d",
+        "/root",
+        r"D:\dev\semantic-scaffolding-map\map\private\streaming_title_abstract\execution_chambers\eics-2025-9455d22257a6cf48-p3",
+        "2026-07-28T06:16:38.115Z",
+        "p3 exact no-tools runtime-attestation canary",
+        "canary",
+    ),
+    (
+        "019faab9-51ce-7783-9a29-fb6bdf3c1a39",
+        "2026-07-28T21:55:00.044Z",
+        "gpt-5.6-sol",
+        "max",
+        "019faab9-40f0-77c0-a3c2-d77e6b3f4d0b",
+        "/root/semantic_successor_custody",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-28T21:55:06.551Z",
+        "read-only successor-custody validator and contract implementation",
+        "research",
+    ),
+    (
+        "019faabb-3516-7a83-8736-2e6a3b1032dc",
+        "2026-07-28T21:57:04.852Z",
+        "gpt-5.6-sol",
+        "max",
+        "019faabb-31cf-7950-a7b7-400fccf2bc3a",
+        "/root/standing_runtime_v2",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-28T21:57:11.178Z",
+        "standing runtime-attestation v2 custody contract implementation",
+        "research",
+    ),
+    (
+        "019faf79-abe1-7cb0-b258-c9841e3a6d7b",
+        "2026-07-29T20:03:42.933Z",
+        "gpt-5.6-sol",
+        "high",
+        "019faf79-954a-7a61-9cf0-622fc21b4d1f",
+        "/root/review_acm_host_lease_primitive/derive_acm_fixed_point",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-29T20:03:49.368Z",
+        "read-only ACM generic-reference fixed-point analysis",
+        "research",
+    ),
+    (
+        "019faffd-15e5-7103-ae86-0cedd618de17",
+        "2026-07-29T22:27:08.155Z",
+        "gpt-5.6-sol",
+        "max",
+        "019faffd-1119-70a0-bf4b-0eaacc950058",
+        "/root/next_metadata_after_cc/hri_2020_2026_independent_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-29T22:27:21.479Z",
+        "read-only HRI 2020-2026 committed metadata custody audit",
+        "research",
+    ),
+    (
+        "019fb549-1848-7db0-b6ec-bda1266df643",
+        "2026-07-30T23:08:15.799Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fb549-169a-7582-9f7e-2e7fa386a484",
+        "/root/chi2019_successor/review_live_executor",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-30T23:08:19.964Z",
+        "read-only CHI 2019 live-acquisition safety review with retained turn_aborted evidence",
+        "research",
+    ),
+    (
+        "019fb655-4b6a-7270-a066-40554f5e146b",
+        "2026-07-31T04:01:12.518Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fb655-4a6c-7df1-9711-8dc8f7c4e57e",
+        "/root/acm_post_canary_successor/audit_acm_post_successor",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-31T04:01:19.658Z",
+        "fail-closed zero-network ACM successor-custody audit",
+        "research",
+    ),
+    (
+        "019fb6ad-e95a-7b70-a40d-0749d3ddfcdf",
+        "2026-07-31T05:38:00.270Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fb6ad-e6cf-7db1-a27a-be5856933bbf",
+        "/root/acm_post_v3_recovery/audit_v3_source",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-31T05:38:17.111Z",
+        "source-only zero-network v3 and v2 recovery audit",
+        "research",
+    ),
+    (
+        "019fb6cc-0c64-7c50-aa2d-b96895c86cca",
+        "2026-07-31T06:10:53.692Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fb6ad-e6cf-7db1-a27a-be5856933bbf",
+        "/root/acm_post_v3_recovery/audit_v3_source",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-31T06:11:03.420Z",
+        "read-only lease-binding failure reproduction and v4 repair review",
+        "research",
+    ),
+    (
+        "019fba1d-351f-77a1-bc5c-757d220ef695",
+        "2026-07-31T21:38:24.635Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fba1d-3012-7a70-8e4d-8adf8e678526",
+        "/root/next_metadata_routes",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-31T21:38:31.020Z",
+        "read-only metadata-route audit with retained turn_aborted evidence",
+        "research",
+    ),
+    (
+        "019fba2c-8888-7191-bfe9-633c5fe7866c",
+        "2026-07-31T21:55:08.727Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fba2c-7fa0-7c93-96b5-931f14d9169f",
+        "/root/uist_adapter_review",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-31T21:55:21.810Z",
+        "read-only UIST adapter review",
+        "research",
+    ),
+    (
+        "019fba3c-059d-7d63-b337-e51f197c241f",
+        "2026-07-31T22:12:03.674Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fba2c-7fa0-7c93-96b5-931f14d9169f",
+        "/root/uist_adapter_review",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-07-31T22:12:10.094Z",
+        "read-only UIST adapter idempotency follow-up",
+        "research",
+    ),
+    (
+        "019fbf0b-030b-7d80-8f61-8932c0ffc197",
+        "2026-08-01T20:36:39.929Z",
+        "gpt-5.6-terra",
+        "medium",
+        "019fbf0a-feca-7042-8e74-a4902d274632",
+        "/root/role_policy_design",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T20:36:42.306Z",
+        "read-only runtime role-policy contract design",
+        "research",
+    ),
+    (
+        "019fbf15-6041-7333-a165-a830eb41c354",
+        "2026-08-01T20:47:59.759Z",
+        "gpt-5.6-terra",
+        "medium",
+        "019fbf15-5cef-7332-b2ee-d6e6d71365b8",
+        "/root/metadata_candidate_route",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T20:48:02.134Z",
+        "read-only reuse-first metadata and candidate-store audit",
+        "research",
+    ),
+    (
+        "019fbf1d-16d2-7ef0-a63b-6c07b418cd90",
+        "2026-08-01T20:56:25.519Z",
+        "gpt-5.6-terra",
+        "low",
+        "019fbf1d-1104-78a1-9ba8-9de80337c28d",
+        "/root/branch_consolidation_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T20:56:27.884Z",
+        "read-only branch and worktree inventory",
+        "research",
+    ),
+    (
+        "019fbf1d-3dfd-7a11-b70f-89d2ec39813c",
+        "2026-08-01T20:56:35.680Z",
+        "gpt-5.6-terra",
+        "medium",
+        "019fbf1d-365c-7912-abea-9aed69ae87c4",
+        "/root/next_metadata_cells",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T20:56:38.132Z",
+        "read-only active metadata closure and next-cell ranking",
+        "research",
+    ),
+)
+
+
+for (
+    _turn_id,
+    _timestamp,
+    _model,
+    _effort,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+    _category,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V48_RESEARCH_WORKFLOW_TURNS:
+    if _category == "canary":
+        _reason = (
+            "An exact no-tools runtime-attestation canary in the separate "
+            "semantic-scaffolding-map research workflow used max effort. It did not "
+            "perform site development or change this site's declared default."
+        )
+    else:
+        _reason = (
+            "Bounded delegated audit, routing, recovery, metadata, or policy work in the "
+            "separate semantic-scaffolding-map research workflow used the "
+            "coordinator/provider-selected effort. It did not perform site development "
+            "or change this site's declared default."
+        )
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": _model,
+        "effort": _effort,
+        "acknowledged_at": "2026-08-01",
+        "reason": _reason,
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-01."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V48_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V48_RESEARCH_WORKFLOW_TURNS
+)
+
+del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description, _category, _reason
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V49_RESEARCH_CACHE_TURN = (
+    "019fbf6d-a430-7792-808b-3f0a48728661",
+    "2026-08-01T22:24:22.473Z",
+    "019fbf6d-a0b7-7ef3-9126-6c3ea2a61d15",
+    "/root/reuse_perf_implement",
+    r"D:\dev\semantic-scaffolding-map",
+    "2026-08-01T22:24:25.381Z",
+)
+
+(
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+) = MODEL_DEVIATION_ACKNOWLEDGMENT_V49_RESEARCH_CACHE_TURN
+MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+    "timestamp": _timestamp,
+    "model": "gpt-5.6-terra",
+    "effort": "high",
+    "acknowledged_at": "2026-08-01",
+    "reason": (
+        "An explicitly delegated engineering subagent in the separate "
+        "semantic-scaffolding-map research workflow used high effort for a bounded "
+        "transaction-scoped read-only ledger cache. It did not perform site development "
+        "or change this site's declared default."
+    ),
+    "provenance": (
+        f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+        f"cwd {_runtime_cwd}, and first scoped assistant response at "
+        f"{_first_scoped_response_at}; audited 2026-08-01."
+    ),
+}
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V49_TURN_IDS = (_turn_id,)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V50_RESEARCH_FOLLOWUP_TURNS = (
+    (
+        "019fbf95-3529-7ec0-a577-a8db58473269",
+        "2026-08-01T23:07:35.221Z",
+        "019fbf6d-a0b7-7ef3-9126-6c3ea2a61d15",
+        "/root/reuse_perf_implement",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T23:07:40.338Z",
+        "hash-bound cache and EDM custody-successor bridge follow-up with read-only replay",
+    ),
+    (
+        "019fbf96-0507-7c93-a18c-895ef4db3a0c",
+        "2026-08-01T23:08:29.258Z",
+        "019fbf95-fa70-7bf2-9782-9d6b1da329f3",
+        "/root/ecscw2026_repair_route",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T23:08:32.439Z",
+        "read-only ECSCW 2026 custody, request-budget, and generic-reuse route trace",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V50_RESEARCH_FOLLOWUP_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-terra",
+        "effort": "high",
+        "acknowledged_at": "2026-08-01",
+        "reason": (
+            "An explicitly delegated engineering or reuse-route follow-up in the separate "
+            "semantic-scaffolding-map research workflow used high effort for bounded work. "
+            "It did not perform site development or change this site's declared default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-01."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V50_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V50_RESEARCH_FOLLOWUP_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V51_TURNS = (
+    (
+        "019fbf9f-fa25-7d62-ae4b-8f8755037eb1",
+        "2026-08-01T23:19:21.196Z",
+        "gpt-5.6-terra",
+        "high",
+        "019fbf9f-f6e1-7fe1-a169-18c7e4bd037c",
+        "/root/metadata_yield_rank",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T23:19:23.918Z",
+        "read-only no-network ranking of immediately usable metadata routes",
+        "research",
+    ),
+    (
+        "019fbfa0-26fc-70c1-a3fa-f8ee81a6b5ce",
+        "2026-08-01T23:19:32.689Z",
+        "gpt-5.6-terra",
+        "medium",
+        "019fbfa0-239e-7273-bce9-222ab94fd1c8",
+        "/root/missing_abstract_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T23:19:35.226Z",
+        "read-only canonical missing-abstract and reuse-package ranking",
+        "research",
+    ),
+    (
+        "019fbfa8-99e6-7800-a589-49371135d8ea",
+        "2026-08-01T23:28:46.240Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fbfa8-94c6-7ef3-a805-5679681a426c",
+        "/root/public_contract_tests",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-01T23:28:50.051Z",
+        "focused public schema, conservation, privacy, and compatibility tests",
+        "site",
+    ),
+    (
+        "019fbfac-bf24-7602-ad01-51b4e14c8174",
+        "2026-08-01T23:33:17.351Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fbfa8-94c6-7ef3-a805-5679681a426c",
+        "/root/public_contract_tests",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-01T23:33:21.495Z",
+        "focused stacked-chart visual and malformed-family contract tests",
+        "site",
+    ),
+    (
+        "019fbfbb-ab41-7ad0-a8a7-c9bdb3f7a4b1",
+        "2026-08-01T23:49:36.147Z",
+        "gpt-5.6-terra",
+        "high",
+        "019fbfbb-a91a-7d11-898a-750d85a1b946",
+        "/root/browser_route_executable_rank",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-01T23:49:38.954Z",
+        "read-only controller and browser-route executability audit",
+        "research",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _model,
+    _effort,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+    _category,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V51_TURNS:
+    if _category == "site":
+        _reason = (
+            "The coordinator explicitly delegated focused public usage-contract and visual-test "
+            "work at high effort. This bounded override differed from the site's declared ultra "
+            "default; the original model and effort remain visible."
+        )
+    else:
+        _reason = (
+            "A bounded delegated read-only routing or metadata audit in the separate "
+            "semantic-scaffolding-map research workflow used the provider-selected effort. "
+            "It did not perform site development or change this site's declared default."
+        )
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": _model,
+        "effort": _effort,
+        "acknowledged_at": "2026-08-01",
+        "reason": _reason,
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-01."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V51_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V51_TURNS
+)
+
+del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description, _category, _reason
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V52_RESEARCH_FOLLOWUP_TURNS = (
+    (
+        "019fbfd1-6cdf-7752-a17d-3fbb1957aa31",
+        "2026-08-02T00:13:21.021Z",
+        "gpt-5.6-terra",
+        "high",
+        "019fbfbb-a91a-7d11-898a-750d85a1b946",
+        "/root/browser_route_executable_rank",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-02T00:13:25.336Z",
+        "read-only recheck for an unattempted executable and importable metadata route",
+    ),
+    (
+        "019fbfd1-7e06-7720-b047-c4d9cf00da46",
+        "2026-08-02T00:13:25.419Z",
+        "gpt-5.6-terra",
+        "medium",
+        "019fbfa0-239e-7273-bce9-222ab94fd1c8",
+        "/root/missing_abstract_audit",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-02T00:13:29.633Z",
+        "read-only retained-package zero-request closure and enrichment audit",
+    ),
+    (
+        "019fbfd1-a24c-7452-852e-a0b43e2365a1",
+        "2026-08-02T00:13:34.764Z",
+        "gpt-5.6-sol",
+        "max",
+        "019fba2c-7fa0-7c93-96b5-931f14d9169f",
+        "/root/uist_adapter_review",
+        r"D:\dev\semantic-scaffolding-map",
+        "2026-08-02T00:13:51.164Z",
+        "read-only browser attachability diagnosis using existing processes listeners and controllers",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _model,
+    _effort,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V52_RESEARCH_FOLLOWUP_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": _model,
+        "effort": _effort,
+        "acknowledged_at": "2026-08-01",
+        "reason": (
+            "A bounded delegated read-only route, package, or attachability audit in the "
+            "separate semantic-scaffolding-map research workflow used the provider-selected "
+            "model and effort. It did not perform site development or change this site's "
+            "declared default."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-01."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V52_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V52_RESEARCH_FOLLOWUP_TURNS
+)
+
+del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description
+
+
 WH_PER_TOKEN_MIDPOINT = 0.0006
 WH_PER_TOKEN_LOW = 0.0002
 WH_PER_TOKEN_HIGH = 0.002
@@ -5219,6 +5959,7 @@ PUBLIC_CHECK_FIELDS = (
 )
 TOTAL_ONLY_PUBLIC_CHECK_FIELDS = (("token_rhythm",),)
 MODEL_TRACKING_CHECK_FIELDS = (
+    ("scope",),
     ("intended_model",),
     ("intended_effort",),
     ("cutover_at",),
@@ -6663,6 +7404,7 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
     else:
         status = "aligned"
     return {
+        "scope": MODEL_TRACKING_SCOPE,
         "intended_model": INTENDED_MODEL,
         "intended_effort": INTENDED_EFFORT,
         "cutover_at": format_timestamp_utc(GPT_5_6_CUTOVER_UTC),
@@ -6679,13 +7421,15 @@ def build_model_tracking(dataset: UsageDataset) -> dict[str, Any]:
         "post_cutover_deviations": deviations,
         "status": status,
         "public_note": (
-            f"Development default: {INTENDED_MODEL} with {INTENDED_EFFORT} effort. "
+            f"Site development default: {INTENDED_MODEL} with {INTENDED_EFFORT} effort. "
             "Provider-managed auto-review is audited through "
             f"{MODEL_TRACKING_AUDIT_THROUGH_LABEL}; interactive tracking remains live."
         ),
         "caveat": (
-            "Checks every deduplicated retained-local non-auto-review turn_context after the cutover "
-            "and exact mapped acknowledgment turn ids regardless of timestamp. New provider-managed "
+            "Checks every deduplicated site-repo-attributed non-auto-review turn_context after the "
+            "cutover and exact mapped acknowledgment turn ids in that scope regardless of timestamp. "
+            "Unrelated repositories retain their own model policies and cannot block this site's "
+            "publish gate. New provider-managed "
             "codex-auto-review contexts after the inclusive audit boundary are deferred to the next "
             "explicit policy audit and are neither evaluated nor acknowledged. Token, hour, energy, "
             "and cost totals remain current and unfiltered by this model-tracking-only boundary. "
@@ -6817,6 +7561,12 @@ def merge_local_lifetime_data(current: dict[str, Any], result: dict[str, Any]) -
 
 
 def merge_model_tracking_data(current: dict[str, Any], result: dict[str, Any]) -> dict[str, Any]:
+    # A named scope change is an intentional policy migration, not evidence
+    # loss from a partial archive. Accept it even when the narrower scope has
+    # fewer retained turns than the prior all-local policy.
+    if current.get("scope") != result.get("scope"):
+        return copy.deepcopy(result)
+
     current_turns = int(current.get("post_cutover_turns_observed") or 0)
     result_turns = int(result.get("post_cutover_turns_observed") or 0)
     current_acknowledged = int(current.get("post_cutover_acknowledged_deviation_count") or 0)
@@ -6926,7 +7676,58 @@ def nested_value(data: dict[str, Any], path: tuple[str, ...]) -> Any:
     return current
 
 
-def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) -> list[str]:
+def token_rhythm_freshness_values(
+    current_value: Any,
+    proposed_value: Any,
+    open_day: date,
+) -> tuple[Any, Any]:
+    """Ignore only counter churn in a matching open-day terminal point."""
+
+    if not isinstance(current_value, dict) or not isinstance(proposed_value, dict):
+        return current_value, proposed_value
+
+    current_points = current_value.get("points")
+    proposed_points = proposed_value.get("points")
+    if not isinstance(current_points, list) or not isinstance(proposed_points, list):
+        return current_value, proposed_value
+    if not current_points or not proposed_points:
+        return current_value, proposed_value
+
+    current_terminal = current_points[-1]
+    proposed_terminal = proposed_points[-1]
+    open_day_label = open_day.isoformat()
+    if not isinstance(current_terminal, dict) or not isinstance(proposed_terminal, dict):
+        return current_value, proposed_value
+    if (
+        current_terminal.get("date") != open_day_label
+        or proposed_terminal.get("date") != open_day_label
+    ):
+        return current_value, proposed_value
+    if any(
+        field_name not in current_terminal or field_name not in proposed_terminal
+        for field_name in ("token_count", "tokens_label")
+    ):
+        return current_value, proposed_value
+
+    current_comparable = copy.deepcopy(current_value)
+    proposed_comparable = copy.deepcopy(proposed_value)
+    for field_name in ("token_count", "tokens_label"):
+        current_comparable["points"][-1][field_name] = "<open-day>"
+        proposed_comparable["points"][-1][field_name] = "<open-day>"
+    return current_comparable, proposed_comparable
+
+
+def check_public_freshness(
+    current: dict[str, Any],
+    proposed: dict[str, Any],
+    *,
+    open_day: date | None = None,
+) -> list[str]:
+    if open_day is None:
+        open_day = timestamp_calendar_date(format_timestamp_utc(datetime.now(timezone.utc)))
+    if open_day is None:  # pragma: no cover - current UTC time always parses.
+        raise ValueError("Freshness check time must resolve to a Pacific calendar date.")
+
     mismatches: list[str] = []
     for scope_name in ("total", "desk_scene", "since_gpt_5_6"):
         current_scope = current.get(scope_name, {}) if isinstance(current, dict) else {}
@@ -6937,6 +7738,12 @@ def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) ->
         for field_path in check_fields:
             current_value = nested_value(current_scope, field_path)
             proposed_value = nested_value(proposed_scope, field_path)
+            if field_path == ("token_rhythm",):
+                current_value, proposed_value = token_rhythm_freshness_values(
+                    current_value,
+                    proposed_value,
+                    open_day,
+                )
             if current_value != proposed_value:
                 label = ".".join((scope_name, *field_path))
                 mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
@@ -6946,6 +7753,12 @@ def check_public_freshness(current: dict[str, Any], proposed: dict[str, Any]) ->
     for field_path in LOCAL_LIFETIME_CHECK_FIELDS:
         current_value = nested_value(current_lifetime, field_path)
         proposed_value = nested_value(proposed_lifetime, field_path)
+        if field_path == ("token_rhythm",):
+            current_value, proposed_value = token_rhythm_freshness_values(
+                current_value,
+                proposed_value,
+                open_day,
+            )
         if current_value != proposed_value:
             label = ".".join(("local_lifetime", *field_path))
             mismatches.append(f"{label}: current={current_value!r}, expected={proposed_value!r}")
@@ -7078,7 +7891,7 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help=(
             "Exit non-zero if public ledger fields are stale, model tracking is unobserved, or "
-            "post-cutover model/effort deviations are unacknowledged."
+            "site-repo post-cutover model/effort deviations are unacknowledged."
         ),
     )
     parser.add_argument("--write", action="store_true", help="Update _data/agentic_usage.yml with the proposed values.")
@@ -7162,11 +7975,10 @@ def main() -> int:
     )
     if all_work_token_rhythm is not None:
         local_lifetime["token_rhythm"] = all_work_token_rhythm
-    # The declared model/effort default applies to all retained local Codex
-    # development work, not only sessions whose first cwd matches this repo.
-    # Site usage scopes remain repo-filtered; policy tracking uses the complete
-    # deduplicated retained-local context inventory.
-    model_tracking = build_model_tracking(local_dataset)
+    # The declared model/effort default is this site's policy. Keep lifetime
+    # usage global, but prevent unrelated repositories with their own AGENTS
+    # policies from becoming a moving dependency of this repo's publish gate.
+    model_tracking = build_model_tracking(dataset)
 
     if args.check:
         if yaml is None:

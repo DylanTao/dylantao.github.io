@@ -13,7 +13,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 2. Keep the visible homepage numbers powered by `_data/agentic_usage.yml`; do not hardcode duplicate totals in templates.
    - The homepage contact ledger renders the quiet `Build ledger · since …` caption above four compact stat cells for site-build tokens, agent-hours, commits, and estimated kWh; do not restore the former tree-sacrifice headline.
    - The token cell may carry one focusable price-replay disclosure sourced only from `total.api_cost_equivalence.usd_label`. Keep the visible copy to the Sam-money punchline plus one plain footnote: it prices site-build tokens at public API rates and is not a real bill. Keep request-replay and unavailable cache-write methodology in `docs/agentic-usage-ledger.md`, not in the tooltip.
-   - Never price or visually associate that disclosure with the independent rounded combined-lifetime heartbeat. Keep conversion detail and cutoff context in `docs/agentic-usage-ledger.md` and the compact disclosure, not as extra paragraphs or a fifth stat cell.
+   - Never price or visually associate that disclosure with the independent rounded combined-agent heartbeat. Keep conversion detail and cutoff context in `docs/agentic-usage-ledger.md` and the compact disclosure, not as extra paragraphs or a fifth stat cell.
 3. Before pushing this customized site, run the publish freshness gate:
    - rely on the daily Google Scholar workflow for routine citation freshness;
    - refresh Scholar locally with `python bin/update_scholar_citations.py --force` only when `_data/citations.yml` is more than one day stale or publication pages changed;
@@ -24,7 +24,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - `python bin/audit_agentic_usage.py`
    - The helper fails closed in a shallow checkout. Fetch complete history before checking or writing; never accept shallow `git rev-list` counts as ledger truth.
 5. Establish the source hierarchy, then estimate scoped Codex tokens:
-   - Direct account publication is one anonymous rounded combined lifetime total. `_data/direct_usage_tracker.json` is primary for that surface; it exposes no source-level readings and is never added to retained-session estimates.
+   - Direct aggregate publication keeps one anonymous rounded combined agent total. Its schema-v2 daily history may expose only two fixed families: `codex` (both accounts combined) and `claude` (retained usage observed on this laptop). Family priors and daily points must conserve the combined series; account identities and per-account readings remain private. Never add this surface to repo-scoped retained-session estimates.
    - For repo-attributed usage, scan every retained year under `~/.codex/sessions` and include a JSONL file when its **first** `session_meta.payload.cwd` contains `dylantao.github.io`; the first `session_meta.payload.id` is the leaf session identity, while later copied parent metadata is ancestry.
    - read ordered `turn_context` records for `turn_id`, `model`, and `effort` attribution;
    - globally dedupe copied ancestry by `(turn_id, full total_token_usage snapshot)`, keeping the earliest retained event;
@@ -49,20 +49,20 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 - `gpt-5.5` and `gpt-5.6-sol` use the same short-context rates: $5 / 1M uncached input, $0.50 / 1M cached-read input, and $30 / 1M output;
 - when a request has more than 272,000 input tokens, use the long-context rates of $10 / 1M uncached input, $1 / 1M cached-read input, and $45 / 1M output;
 - `xhigh` and `ultra` do not add a separate price; they are effort labels, not pricing tiers;
-- the rounded combined lifetime checkpoint never receives an API-cost conversion;
+- the rounded combined agent checkpoint never receives an API-cost conversion;
 - record the documented `gpt-5.6-sol` cache-write rates, but do not apply them because retained logs do not identify cache-write tokens;
 - retain the former `gpt-5.3-codex` math as `legacy_api_cost_equivalence` for historical comparison only;
 - retain `codexbar_cost_estimate` only as historical diagnostic provenance; never render it or use it to price current public stats.
 - Treat every dollar figure as an API-rate estimate, never an actual Codex product, subscription, or account bill.
 
-11. Keep `model_tracking` tied to the declared development default `gpt-5.6-sol` / `ultra` from `2026-07-09T21:28:23.394Z`. Build this policy check from the deduplicated all-local retained context inventory, even when repo-cwd session attribution is unavailable; site usage scopes remain repo-filtered and preserve their last audited nonzero snapshot. Render every deviation truthfully. Accept one only when its exact `(turn_id, timestamp, model, effort)` signature has a per-turn reason and provenance in the versioned in-repo acknowledgment mapping; never add a blanket flag or environment bypass. `--check` must fail on `unobserved` tracking or any unacknowledged deviation, so every new deviation fails closed. Keep the homepage model note data-driven from `model_tracking.public_note` and treat it as the declared current default, not a claim of perfect historical alignment.
+11. Keep `model_tracking` tied to this site's declared development default `gpt-5.6-sol` / `ultra` from `2026-07-09T21:28:23.394Z`. Build this policy check from the deduplicated site-repo-attributed context inventory; keep the all-local archive only for lifetime token/hour accounting. Unrelated repositories have their own `AGENTS.md` policies and must not become a moving dependency of this site's publish gate. Render every in-scope deviation truthfully. Accept one only when its exact `(turn_id, timestamp, model, effort)` signature has a per-turn reason and provenance in the versioned in-repo acknowledgment mapping; never add a blanket flag or environment bypass. `--check` must fail on `unobserved` tracking or any unacknowledged in-scope deviation. Keep the homepage model note data-driven from `model_tracking.public_note` and treat it as the declared site default, not a claim of perfect historical alignment.
 
 12. Frame public environmental copy as a "tree-cut lens" only when it is a stored-carbon equivalence. Do not imply instant emissions from cutting a tree, and do not round small values up to one tree.
 
 ## Scope Rules
 
 - Full site revamp counter starts at May 22, 2026 6:05 PM Pacific.
-- `_data/direct_usage_tracker.json` is the only public direct-account surface and contains one rounded combined lifetime total plus terse provenance, with no source-level readings.
+- `_data/direct_usage_tracker.json` is the only public direct aggregate surface. It contains one rounded combined total plus a strict Codex-versus-Claude family breakdown from the common retained evidence boundary, with no identities or per-account readings. Claude is not a cross-device or enterprise-console lifetime claim.
 - Retained local history starts at June 19, 2026 12:00 AM Pacific and spans every locally retained Codex session after global ancestry deduplication. Keep its session count and model mix visible in the data file, label its request-aware price replay as an estimate rather than a bill, and never present this retained slice as account lifetime.
 - Win-CodexBar 0.42 raw 30-day aggregation is diagnostic provenance only, not a canonical usage or price source.
 - 3D desk/vinyl counter starts at June 16, 2026 8:00 PM Pacific.

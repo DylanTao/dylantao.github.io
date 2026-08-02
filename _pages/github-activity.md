@@ -58,7 +58,7 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        I start with when personal code changed and how much moved. Then I follow this site's token trace and the completed personal Codex days.
+        I start with when personal code changed and how much moved. Then I follow this site's token trace and the completed personal agent days.
       </p>
     </header>
 
@@ -71,7 +71,7 @@ github_activity: true
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Daily personal code activity beside completed personal Codex usage.
+            Daily personal code activity beside completed personal agent usage.
           </p>
         </div>
       </div>
@@ -187,7 +187,7 @@ github_activity: true
           <span
             class="github-activity-value-group github-activity-token-value-group"
             data-personal-codex-readout
-            {% unless direct_tracker.schema == 5 and direct_tracker.combined_daily_usage %}hidden{% endunless %}
+            {% unless direct_tracker.schema >= 5 and direct_tracker.combined_daily_usage %}hidden{% endunless %}
           >
             <span aria-hidden="true">&middot;</span>
             <span class="github-activity-selected-tokens" id="github-activity-selected-tokens"></span>
@@ -198,15 +198,16 @@ github_activity: true
           data-codex-usage
           data-state="loading"
           data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
-          aria-label="Personal Codex daily usage metadata"
+          aria-label="Personal agent daily usage metadata"
           aria-describedby="github-activity-lifetime-status"
           aria-busy="true"
           hidden
         >
           <span class="sr-only" data-codex-lifetime data-format="readable"></span>
           <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
-            Personal Codex daily usage complete through <time data-codex-observed></time>.
+            Personal agent daily usage complete through <time data-codex-observed></time>.
           </p>
+          <p class="github-activity-lifetime-status github-activity-family-status" data-agent-family-summary hidden></p>
           <p class="github-activity-lifetime-cost" data-codex-cost hidden>
             Burned <span data-codex-cost-value></span> of Sam's imaginary money &middot; public API-rate replay, not a bill.
           </p>
@@ -346,7 +347,7 @@ github_activity: true
     <div class="github-activity-method-grid">
       <div>
         <h2>Separate scales</h2>
-        <p>Daily personal code activity, site-build estimates, and personal Codex usage keep their own units and dates.</p>
+        <p>Daily personal code activity, site-build estimates, and personal agent usage keep their own units and dates.</p>
       </div>
       <div>
         <h2>Token rhythm</h2>
@@ -365,8 +366,8 @@ github_activity: true
         <p>Zero-activity dates appear only inside verified complete coverage. An incomplete or malformed refresh leaves the last valid record in place.</p>
       </div>
       <div>
-        <h2>Codex privacy boundary</h2>
-        <p>The collector publishes one two-account personal daily series. Whole-lifetime coverage begins at zero; partial coverage keeps earlier usage as an explicitly unobserved baseline.</p>
+        <h2>Agent usage privacy boundary</h2>
+        <p>The collector publishes one sanitized personal agent series. The stacked view separates Codex (two accounts combined) from Claude Code observed on this laptop, without account identities or per-account readings. Shared family coverage begins July 29, 2026; earlier Codex usage remains in the explicitly unobserved Codex baseline.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>
@@ -399,7 +400,7 @@ github_activity: true
 
   <p class="github-activity-source" data-personal-daily-copy>
     Personal code activity updated <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
-    agentic-usage ledger; the personal Codex plot identifies its own completeness boundary above. Time-window and scale controls draw on
+    agentic-usage ledger; the personal agent plot identifies its own completeness boundary above. Time-window and scale controls draw on
     <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>

@@ -5,6 +5,10 @@
     notation: "compact",
     maximumFractionDigits: 1,
   });
+  const familyNumber = new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 2,
+  });
   const fullDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -44,6 +48,14 @@
     return `M ${points[0][0].toFixed(2)} ${baseline.toFixed(2)} ${points
       .map(([x, y]) => `L ${x.toFixed(2)} ${y.toFixed(2)}`)
       .join(" ")} L ${points.at(-1)[0].toFixed(2)} ${baseline.toFixed(2)} Z`;
+  };
+  const bandPath = (upper, lower) => {
+    if (!upper.length || upper.length !== lower.length) return "";
+    return `${linePath(upper)} ${lower
+      .slice()
+      .reverse()
+      .map(([x, y]) => `L ${x.toFixed(2)} ${y.toFixed(2)}`)
+      .join(" ")} Z`;
   };
   const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
@@ -169,15 +181,29 @@
   };
   const lifetimeHistoryRows = (source) => {
     if (source?.combined_daily_usage) {
-      let cumulative = source.combined_daily_usage.coverage.prior_unallocated_tokens;
-      return source.combined_daily_usage.points.map((point, index) => {
+      const usage = source.combined_daily_usage;
+      let cumulative = usage.coverage.prior_unallocated_tokens;
+      const familyCumulative =
+        usage.schema === 2
+          ? {
+              codex: usage.coverage.prior_unallocated_by_agent.codex,
+              claude: usage.coverage.prior_unallocated_by_agent.claude,
+            }
+          : null;
+      return usage.points.map((point, index) => {
         cumulative += point.tokens;
+        if (familyCumulative) {
+          familyCumulative.codex += point.agent_tokens.codex;
+          familyCumulative.claude += point.agent_tokens.claude;
+        }
         return {
           index,
           date: utcDate(point.date),
           tokenCount: cumulative,
           tokensLabel: compactNumber.format(cumulative),
           dailyTokens: point.tokens,
+          dailyAgentTokens: point.agent_tokens || null,
+          cumulativeAgentTokens: familyCumulative ? { ...familyCumulative } : null,
           observation: "exact_daily",
         };
       });
@@ -192,6 +218,16 @@
         observation: point.observation,
       })) || []
     );
+  };
+  const hasAgentFamilyBreakdown = (source) => source?.combined_daily_usage?.schema === 2;
+  const agentFamilyTotals = (source) => {
+    if (!hasAgentFamilyBreakdown(source)) return null;
+    const rows = lifetimeHistoryRows(source);
+    return rows.at(-1)?.cumulativeAgentTokens || null;
+  };
+  const agentFamilyHeadline = (source) => {
+    const totals = agentFamilyTotals(source);
+    return totals ? `Codex ${familyNumber.format(totals.codex)} \u00b7 Claude ${familyNumber.format(totals.claude)}` : null;
   };
   const codexCoverage = (source) => source?.combined_daily_usage?.coverage || source?.combined_lifetime_history?.coverage || null;
   const codexUsageForDay = (source, row) => {
@@ -254,6 +290,37 @@
       format: (value) => compactNumber.format(value),
     });
 
+    const splitAvailable = hasAgentFamilyBreakdown(source);
+    if (splitAvailable) {
+      const familyPoints = points.filter((point) => point.cumulativeAgentTokens);
+      const codexPoints = familyPoints.map((point) => [x(point.date), y(point.cumulativeAgentTokens.codex)]);
+      const combinedPoints = familyPoints.map((point) => [x(point.date), y(point.tokenCount)]);
+      group.append(
+        svgElement("path", {
+          class: `${className}-codex-area`,
+          d: areaPath(codexPoints, bottom),
+          fill: colors.codex,
+          "fill-opacity": 0.16,
+        }),
+        svgElement("path", {
+          class: `${className}-claude-area`,
+          d: bandPath(combinedPoints, codexPoints),
+          fill: colors.claude,
+          "fill-opacity": 0.5,
+        }),
+        svgElement("path", {
+          class: `${className}-claude-boundary`,
+          d: linePath(codexPoints),
+          fill: "none",
+          stroke: colors.claude,
+          "stroke-width": 1.25,
+          "stroke-dasharray": "3 2",
+          "stroke-linejoin": "round",
+          "stroke-linecap": "round",
+        })
+      );
+    }
+
     if (!completeLifetime) {
       const prior = source?.combined_daily_usage?.coverage?.prior_unallocated_tokens;
       const coverageLabel = `UNOBSERVED BEFORE ${fullDate.format(coverageStart).toUpperCase()}${
@@ -264,6 +331,27 @@
         className: `${className}-coverage`,
         size: compact ? 9 : 10,
       });
+    }
+
+    if (splitAvailable) {
+      const totals = agentFamilyTotals(source);
+      addText(
+        group,
+        compact
+          ? `CODEX ${familyNumber.format(totals.codex)} · CLAUDE ${familyNumber.format(totals.claude)}`
+          : `CODEX · TWO ACCOUNTS COMBINED · ${familyNumber.format(totals.codex)}    CLAUDE CODE · THIS LAPTOP · ${familyNumber.format(
+              totals.claude
+            )}`,
+        right,
+        top + (completeLifetime ? 13 : 29),
+        {
+          anchor: "end",
+          color: colors.text,
+          className: `${className}-agent-legend`,
+          size: compact ? 8.5 : 9.5,
+          weight: 650,
+        }
+      );
     }
 
     points.slice(1).forEach((point, index) => {
@@ -618,10 +706,21 @@
       group.prepend(timeGrid);
 
       if (hasPersonalCodex) {
-        addText(group, compact ? "CODEX \u00b7 CUMULATIVE" : "PERSONAL CODEX TOKENS \u00b7 CUMULATIVE USAGE", left, lifetimeTop - 12, {
-          color: colors.accent,
-          weight: 700,
-        });
+        const splitAvailable = hasAgentFamilyBreakdown(codexSource);
+        addText(
+          group,
+          compact
+            ? "AGENT \u00b7 CUMULATIVE"
+            : splitAvailable
+              ? "PERSONAL AGENT TOKENS \u00b7 STACKED CUMULATIVE"
+              : "PERSONAL AGENT TOKENS \u00b7 CUMULATIVE USAGE",
+          left,
+          lifetimeTop - 12,
+          {
+            color: colors.accent,
+            weight: 700,
+          }
+        );
         drawLifetimeHistory(group, {
           source: codexSource,
           domainStart,
@@ -636,19 +735,25 @@
           className: "build-rhythm-lifetime-history",
           compact,
         });
-        addText(group, `${codexSource.combined_lifetime.tokens_label} tokens`, width - right, lifetimeTop - 12, {
-          anchor: "end",
-          color: colors.text,
-          weight: 700,
-          className: "build-rhythm-lifetime-value",
-        });
+        addText(
+          group,
+          splitAvailable && !compact ? agentFamilyHeadline(codexSource) : `${codexSource.combined_lifetime.tokens_label} tokens`,
+          width - right,
+          lifetimeTop - 12,
+          {
+            anchor: "end",
+            color: colors.text,
+            weight: 700,
+            className: "build-rhythm-lifetime-value",
+          }
+        );
       }
       const lifetime = codexSource?.combined_lifetime?.tokens_label;
       const observedOn = codexSource?.combined_daily_usage?.coverage?.complete_through;
       const observed = observedOn ? fullDate.format(new Date(`${observedOn}T00:00:00Z`)) : null;
       if (hasPersonalCodex) {
         const count = lifetimeHistoryRows(codexSource).length;
-        return `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} personal Codex tokens across ${number.format(count)} completed days through ${observed}.`;
+        return `Five years, day by day \u00b7 commits and line movement \u00b7 ${lifetime} personal agent tokens across ${number.format(count)} completed days through ${observed}.`;
       }
       return "Five years, day by day \u00b7 personal commits and line movement.";
     };
@@ -904,6 +1009,7 @@
     if (!trendRoot) return null;
 
     const status = trendRoot.querySelector("[data-codex-status]");
+    const familyStatus = trendRoot.querySelector("[data-agent-family-summary]");
     const lifetime = trendRoot.querySelector("[data-codex-lifetime]");
     const observedTime = trendRoot.querySelector("[data-codex-observed]");
     const cost = trendRoot.querySelector("[data-codex-cost]");
@@ -946,15 +1052,42 @@
         return false;
       return true;
     };
-    const validDailyUsage = (candidate, combined, observedOn) => {
+    // Strict provenance tuples for the two verified Codex accounts alone, or
+    // those two plus observed local Claude Code usage.
+    const sourceContracts = {
+      2: {
+        dailyLabel: "Combined daily Codex usage",
+        method: "rounded_sum_of_verified_account_lifetime_readings",
+        confidence: "high",
+      },
+      3: {
+        dailyLabel: "Combined daily agent usage",
+        method: "rounded_sum_of_observed_agent_usage_sources",
+        confidence: "mixed",
+      },
+    };
+    const validDailyUsage = (candidate, combined, observedOn, profileSchema) => {
+      const split = candidate?.schema === 2;
+      const usageKeys = split
+        ? ["schema", "label", "units", "grain", "aggregation", "agent_families", "coverage", "points"]
+        : ["schema", "label", "units", "grain", "aggregation", "coverage", "points"];
+      const coverageKeys = split
+        ? ["starts_on", "complete_through", "before_start", "completeness", "prior_unallocated_tokens", "prior_unallocated_by_agent"]
+        : ["starts_on", "complete_through", "before_start", "completeness", "prior_unallocated_tokens"];
       if (
-        !exactKeys(candidate, ["schema", "label", "units", "grain", "aggregation", "coverage", "points"]) ||
-        candidate.schema !== 1 ||
-        candidate.label !== "Combined daily Codex usage" ||
+        !exactKeys(candidate, usageKeys) ||
+        ![1, 2].includes(candidate.schema) ||
+        (profileSchema === 7 ? !split || combined.source_count !== 3 : split) ||
+        (split &&
+          (!Array.isArray(candidate.agent_families) ||
+            candidate.agent_families.length !== 2 ||
+            candidate.agent_families[0] !== "codex" ||
+            candidate.agent_families[1] !== "claude")) ||
+        candidate.label !== sourceContracts[combined.source_count]?.dailyLabel ||
         candidate.units !== "tokens" ||
         candidate.grain !== "day" ||
         candidate.aggregation !== "sum_of_sources" ||
-        !exactKeys(candidate.coverage, ["starts_on", "complete_through", "before_start", "completeness", "prior_unallocated_tokens"]) ||
+        !exactKeys(candidate.coverage, coverageKeys) ||
         !isIsoDate(candidate.coverage.starts_on) ||
         !isIsoDate(candidate.coverage.complete_through) ||
         !["zero", "unobserved"].includes(candidate.coverage.before_start) ||
@@ -966,8 +1099,26 @@
       )
         return false;
 
+      let familyTotals = null;
+      if (split) {
+        const priorByAgent = candidate.coverage.prior_unallocated_by_agent;
+        if (
+          candidate.coverage.starts_on < "2026-07-29" ||
+          !exactKeys(priorByAgent, ["codex", "claude"]) ||
+          !Number.isSafeInteger(priorByAgent.codex) ||
+          !Number.isSafeInteger(priorByAgent.claude) ||
+          priorByAgent.codex < 0 ||
+          priorByAgent.claude < 0 ||
+          priorByAgent.codex + priorByAgent.claude !== candidate.coverage.prior_unallocated_tokens ||
+          (candidate.coverage.starts_on === "2026-07-29" && priorByAgent.claude !== 0)
+        )
+          return false;
+        familyTotals = { ...priorByAgent };
+      }
+
       const wholeLifetime = candidate.coverage.completeness === "whole_lifetime";
       if (
+        (combined.source_count === 3 && wholeLifetime) ||
         (wholeLifetime && (candidate.coverage.before_start !== "zero" || candidate.coverage.prior_unallocated_tokens !== 0)) ||
         (!wholeLifetime && (candidate.coverage.before_start !== "unobserved" || candidate.coverage.prior_unallocated_tokens <= 0))
       )
@@ -977,7 +1128,23 @@
       let previousDate = null;
       let tokenTotal = candidate.coverage.prior_unallocated_tokens;
       const validPoints = candidate.points.every((point) => {
-        if (!exactKeys(point, ["date", "tokens"]) || !isIsoDate(point.date) || !Number.isSafeInteger(point.tokens) || point.tokens < 0) return false;
+        const pointKeys = split ? ["date", "tokens", "agent_tokens"] : ["date", "tokens"];
+        if (!exactKeys(point, pointKeys) || !isIsoDate(point.date) || !Number.isSafeInteger(point.tokens) || point.tokens < 0) return false;
+        if (split) {
+          const agentTokens = point.agent_tokens;
+          if (
+            !exactKeys(agentTokens, ["codex", "claude"]) ||
+            !Number.isSafeInteger(agentTokens.codex) ||
+            !Number.isSafeInteger(agentTokens.claude) ||
+            agentTokens.codex < 0 ||
+            agentTokens.claude < 0 ||
+            agentTokens.codex + agentTokens.claude !== point.tokens
+          )
+            return false;
+          familyTotals.codex += agentTokens.codex;
+          familyTotals.claude += agentTokens.claude;
+          if (!Number.isSafeInteger(familyTotals.codex) || !Number.isSafeInteger(familyTotals.claude)) return false;
+        }
         const date = utcDate(point.date);
         if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
         previousDate = date;
@@ -989,13 +1156,15 @@
         candidate.coverage.starts_on === candidate.points[0].date &&
         candidate.coverage.complete_through === candidate.points.at(-1).date &&
         candidate.coverage.complete_through === latestCompleted &&
-        (!wholeLifetime || candidate.points[0].tokens === 0) &&
+        (!wholeLifetime ||
+          (candidate.points[0].tokens === 0 &&
+            (!split || (candidate.points[0].agent_tokens.codex === 0 && candidate.points[0].agent_tokens.claude === 0)))) &&
         Math.round(tokenTotal / 100_000_000) * 100_000_000 === combined.token_count
       );
     };
     const validSource = (candidate) => {
       const requiredKeys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
-      if (candidate?.schema !== 6 || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])) return false;
+      if (![6, 7].includes(candidate?.schema) || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])) return false;
       const combined = candidate.combined_lifetime;
       if (
         !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
@@ -1006,16 +1175,17 @@
         combined.units !== "tokens" ||
         combined.aggregation !== "sum_of_sources" ||
         combined.rounding !== "nearest_0.1B" ||
-        combined.source_count !== 2 ||
+        !Number.isSafeInteger(combined.source_count) ||
+        !Object.hasOwn(sourceContracts, combined.source_count) ||
         !isIsoDate(candidate.observed_on) ||
         typeof candidate.automated_refresh !== "boolean"
       )
         return false;
       if (!validCost(candidate.cost, combined.token_count)) return false;
-      if (!validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on)) return false;
+      if (!validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on, candidate.schema)) return false;
       return (
-        candidate.method === "rounded_sum_of_verified_account_lifetime_readings" &&
-        candidate.confidence === "high" &&
+        candidate.method === sourceContracts[combined.source_count].method &&
+        candidate.confidence === sourceContracts[combined.source_count].confidence &&
         typeof candidate.updated_at === "string" &&
         !Number.isNaN(Date.parse(candidate.updated_at)) &&
         candidate.updated_at.slice(0, 10) === candidate.observed_on &&
@@ -1040,7 +1210,8 @@
       lifetime.textContent = "Unavailable";
       lifetime.dataset.format = "unavailable";
       cost.hidden = true;
-      status.textContent = "Personal Codex daily usage unavailable; code activity remains available.";
+      status.textContent = "Personal agent daily usage unavailable; code activity remains available.";
+      if (familyStatus) familyStatus.hidden = true;
       return null;
     }
 
@@ -1057,8 +1228,16 @@
     observedTime.textContent = fullDate.format(new Date(`${statusDate}T00:00:00Z`));
     status.firstChild.textContent =
       source.combined_daily_usage.coverage.completeness === "whole_lifetime"
-        ? "Personal Codex daily usage complete through "
-        : "Personal Codex daily usage observed through ";
+        ? "Personal agent daily usage complete through "
+        : "Personal agent daily usage observed through ";
+    const familyTotals = agentFamilyTotals(source);
+    if (familyStatus && familyTotals) {
+      familyStatus.textContent = `Overall breakdown \u00b7 Codex ${number.format(familyTotals.codex)} \u00b7 Claude ${number.format(familyTotals.claude)}`;
+      familyStatus.hidden = false;
+    } else if (familyStatus) {
+      familyStatus.textContent = "";
+      familyStatus.hidden = true;
+    }
     if (source.cost) {
       costValue.textContent = source.cost.usd_label.replace(/ API-rate replay$/, "");
       cost.hidden = false;
@@ -1316,6 +1495,8 @@
       addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#28657d",
       removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#286b58",
       accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
+      codex: style.getPropertyValue("--github-activity-codex-color").trim() || "#3b6a98",
+      claude: style.getPropertyValue("--github-activity-claude-color").trim() || "#c96548",
       text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
       muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
       grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
@@ -1337,10 +1518,17 @@
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
     const tokenObservation = codexUsageForDay(codexSource, row);
     if (tokenObservation) {
-      selectedTokens.textContent =
-        tokenObservation.dailyTokens == null
-          ? `${tokenObservation.tokensLabel} lifetime tokens \u00b7 legacy observation ${dateLabel.format(tokenObservation.date)}`
-          : `${signed(tokenObservation.dailyTokens, true)} tokens \u00b7 ${number.format(tokenObservation.tokenCount)} cumulative`;
+      if (tokenObservation.dailyAgentTokens) {
+        selectedTokens.textContent = `${signed(tokenObservation.dailyTokens, true)} tokens \u00b7 Codex ${signed(
+          tokenObservation.dailyAgentTokens.codex,
+          true
+        )} \u00b7 Claude ${signed(tokenObservation.dailyAgentTokens.claude, true)} \u00b7 ${number.format(tokenObservation.tokenCount)} cumulative`;
+      } else {
+        selectedTokens.textContent =
+          tokenObservation.dailyTokens == null
+            ? `${tokenObservation.tokensLabel} lifetime tokens \u00b7 legacy observation ${dateLabel.format(tokenObservation.date)}`
+            : `${signed(tokenObservation.dailyTokens, true)} tokens \u00b7 ${number.format(tokenObservation.tokenCount)} cumulative`;
+      }
     } else if (!codexSourceSettled) {
       selectedTokens.textContent = "Token usage loading";
     } else {
@@ -1365,12 +1553,23 @@
       });
       const exactChange = dailyPoints.reduce((sum, point) => sum + point.tokens, 0);
       const latest = codexUsageForDay(codexSource, { date: new Date(Math.min(end.getTime(), coverageEnd.getTime())) });
+      const familyChange =
+        usage.schema === 2
+          ? dailyPoints.reduce(
+              (sum, point) => ({
+                codex: sum.codex + point.agent_tokens.codex,
+                claude: sum.claude + point.agent_tokens.claude,
+              }),
+              { codex: 0, claude: 0 }
+            )
+          : null;
+      const familySuffix = familyChange ? ` \u00b7 Codex ${signed(familyChange.codex, true)} \u00b7 Claude ${signed(familyChange.claude, true)}` : "";
       if (end > coverageEnd) {
-        return `${signed(exactChange, true)} exact tokens through ${dateLabel.format(coverageEnd)} \u00b7 later days awaiting completion${
+        return `${signed(exactChange, true)} exact tokens${familySuffix} through ${dateLabel.format(coverageEnd)} \u00b7 later days awaiting completion${
           latest ? ` \u00b7 ${number.format(latest.tokenCount)} cumulative` : ""
         }`;
       }
-      return `${signed(exactChange, true)} exact tokens in interval${latest ? ` \u00b7 ${number.format(latest.tokenCount)} cumulative` : ""}`;
+      return `${signed(exactChange, true)} exact tokens${familySuffix} in interval${latest ? ` \u00b7 ${number.format(latest.tokenCount)} cumulative` : ""}`;
     }
     return "";
   };
@@ -1676,11 +1875,22 @@
 
     let lifetimePlot = null;
     if (historyAvailable) {
-      addText(chart, narrow ? "CODEX \u00b7 CUMULATIVE" : "PERSONAL CODEX TOKENS \u00b7 CUMULATIVE DAILY USAGE", left, lifetimeHeadingY, {
-        color: palette.accent,
-        weight: 700,
-        className: "github-activity-lifetime-heading",
-      });
+      const splitAvailable = hasAgentFamilyBreakdown(codexSource);
+      addText(
+        chart,
+        narrow
+          ? "AGENT \u00b7 CUMULATIVE"
+          : splitAvailable
+            ? "PERSONAL AGENT TOKENS \u00b7 STACKED CUMULATIVE"
+            : "PERSONAL AGENT TOKENS \u00b7 CUMULATIVE DAILY USAGE",
+        left,
+        lifetimeHeadingY,
+        {
+          color: palette.accent,
+          weight: 700,
+          className: "github-activity-lifetime-heading",
+        }
+      );
       lifetimePlot = drawLifetimeHistory(chart, {
         source: codexSource,
         domainStart: data[0].date,
@@ -1695,12 +1905,18 @@
         className: "github-activity-lifetime-history",
         compact: narrow,
       });
-      addText(chart, `${codexSource.combined_lifetime.tokens_label} tokens`, width - right, lifetimeHeadingY, {
-        anchor: "end",
-        color: palette.text,
-        weight: 700,
-        className: "github-activity-lifetime-value",
-      });
+      addText(
+        chart,
+        splitAvailable && !narrow ? agentFamilyHeadline(codexSource) : `${codexSource.combined_lifetime.tokens_label} tokens`,
+        width - right,
+        lifetimeHeadingY,
+        {
+          anchor: "end",
+          color: palette.text,
+          weight: 700,
+          className: "github-activity-lifetime-value",
+        }
+      );
     }
 
     const peakGuide = svgElement("line", {
@@ -1796,7 +2012,7 @@
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Daily personal commits, line changes, and Codex token usage inspector",
+      "aria-label": "Daily personal commits, line changes, and agent token usage inspector",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
@@ -1828,7 +2044,13 @@
       const tokenValue = tokenObservation
         ? tokenObservation.dailyTokens == null
           ? `${tokenObservation.tokensLabel} lifetime tokens, legacy observation ${fullDate.format(tokenObservation.date)}`
-          : `${number.format(tokenObservation.dailyTokens)} tokens that day, ${number.format(tokenObservation.tokenCount)} cumulative tokens`
+          : tokenObservation.dailyAgentTokens
+            ? `${number.format(tokenObservation.dailyTokens)} tokens that day, ${number.format(
+                tokenObservation.dailyAgentTokens.codex
+              )} Codex and ${number.format(tokenObservation.dailyAgentTokens.claude)} Claude, ${number.format(
+                tokenObservation.tokenCount
+              )} cumulative tokens`
+            : `${number.format(tokenObservation.dailyTokens)} tokens that day, ${number.format(tokenObservation.tokenCount)} cumulative tokens`
         : "token usage unobserved or awaiting a completed day";
       overlay.setAttribute(
         "aria-valuetext",
@@ -1967,7 +2189,7 @@
     codexSource = source;
     if (codexReadout) codexReadout.hidden = !source;
     chartTitle.textContent = source
-      ? "Daily personal commits, additions and deletions, plus personal Codex token usage"
+      ? "Daily personal commits, additions and deletions, plus personal agent token usage"
       : "Daily personal commits, additions and deletions";
     drawChart();
   });

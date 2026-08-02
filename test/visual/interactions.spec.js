@@ -229,8 +229,8 @@ function visualRoute(path) {
 
 const personalDailyActivityFixture = (() => {
   const points = [];
-  const start = Date.UTC(2021, 6, 28);
-  const end = Date.UTC(2026, 6, 27);
+  const start = Date.UTC(2021, 7, 1);
+  const end = Date.UTC(2026, 6, 31);
   for (let stamp = start, index = 0; stamp <= end; stamp += 86_400_000, index += 1) {
     const active = index % 9 === 0 || index % 17 === 0;
     points.push({
@@ -247,7 +247,7 @@ const personalDailyActivityFixture = (() => {
   });
   return {
     schema: 3,
-    updated_on: "2026-07-27",
+    updated_on: "2026-07-31",
     timezone: "UTC",
     scope: "personal_code_activity",
     coverage: {
@@ -260,13 +260,55 @@ const personalDailyActivityFixture = (() => {
 })();
 
 const personalCodexUsageFixture = {
-  schema: 6,
+  schema: 7,
   combined_lifetime: {
     token_count: 400000000,
     tokens_label: "0.4B",
     units: "tokens",
     aggregation: "sum_of_sources",
     rounding: "nearest_0.1B",
+    source_count: 3,
+  },
+  combined_daily_usage: {
+    schema: 2,
+    label: "Combined daily agent usage",
+    units: "tokens",
+    grain: "day",
+    aggregation: "sum_of_sources",
+    agent_families: ["codex", "claude"],
+    coverage: {
+      starts_on: "2026-07-29",
+      complete_through: "2026-07-30",
+      before_start: "unobserved",
+      completeness: "rolling_window_partial",
+      prior_unallocated_tokens: 100000000,
+      prior_unallocated_by_agent: { codex: 100000000, claude: 0 },
+    },
+    points: [
+      { date: "2026-07-29", tokens: 100000000, agent_tokens: { codex: 75000000, claude: 25000000 } },
+      { date: "2026-07-30", tokens: 200000000, agent_tokens: { codex: 150000000, claude: 50000000 } },
+    ],
+  },
+  method: "rounded_sum_of_observed_agent_usage_sources",
+  confidence: "mixed",
+  observed_on: "2026-07-31",
+  updated_at: "2026-07-31T08:00:00Z",
+  automated_refresh: true,
+  cost: {
+    method: "flat_reference_rate_replay",
+    reference_scope: "current_site_build_blended_public_api_rate",
+    usd_per_million_tokens: 0.796269,
+    pricing_as_of: "2026-07-12",
+    usd_midpoint: 319,
+    usd_label: "~$0.3K API-rate replay",
+  },
+};
+
+const personalCodexFallbackFixture = {
+  ...personalCodexUsageFixture,
+  schema: 6,
+  combined_lifetime: {
+    ...personalCodexUsageFixture.combined_lifetime,
     source_count: 2,
   },
   combined_daily_usage: {
@@ -294,15 +336,6 @@ const personalCodexUsageFixture = {
   confidence: "high",
   observed_on: "2026-07-27",
   updated_at: "2026-07-27T08:00:00Z",
-  automated_refresh: true,
-  cost: {
-    method: "flat_reference_rate_replay",
-    reference_scope: "current_site_build_blended_public_api_rate",
-    usd_per_million_tokens: 0.796269,
-    pricing_as_of: "2026-07-12",
-    usd_midpoint: 319,
-    usd_label: "~$0.3K API-rate replay",
-  },
 };
 
 async function gotoPersonalBuildRhythm(
@@ -360,7 +393,7 @@ test("personal code history fails closed to one message while the site-token rhy
   expect(runtimeErrors).toEqual([]);
 });
 
-test("delayed personal Codex days keep the currently selected chart scale", async ({ page }, testInfo) => {
+test("delayed two-source Codex fallback keeps the currently selected chart scale", async ({ page }, testInfo) => {
   testInfo.setTimeout(300_000);
   await preparePage(page, "light");
   let releaseSnapshot;
@@ -374,7 +407,7 @@ test("delayed personal Codex days keep the currently selected chart scale", asyn
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify(personalCodexUsageFixture),
+        body: JSON.stringify(personalCodexFallbackFixture),
       });
     },
   });
@@ -387,10 +420,10 @@ test("delayed personal Codex days keep the currently selected chart scale", asyn
   await expect(codexSnapshot).toHaveAttribute("data-state", "ready");
   await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveText("400,000,000 tokens");
   await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "literal");
-  await expect(codexSnapshot.locator("[data-codex-status]")).toContainText("Personal Codex daily usage complete through");
+  await expect(codexSnapshot.locator("[data-codex-status]")).toContainText("Personal agent daily usage complete through");
 });
 
-test("daily personal code and completed personal Codex usage remain separate and exactly inspectable", async ({ page }, testInfo) => {
+test("daily personal code and completed personal agent usage remain separate and exactly inspectable", async ({ page }, testInfo) => {
   testInfo.setTimeout(300_000);
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -401,6 +434,13 @@ test("daily personal code and completed personal Codex usage remain separate and
   const codexTrend = page.locator("[data-codex-usage]");
   const chart = page.locator("#github-activity-chart");
   const rangeSummary = page.locator("#github-activity-range-summary");
+
+  await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-history-claude-boundary")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toContainText("CODEX");
+  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toContainText("CLAUDE");
+  await expect(page.locator("[data-agent-family-summary]")).toHaveText("Overall breakdown · Codex 325,000,000 · Claude 75,000,000");
 
   if (testInfo.project.name === "mobile") {
     const mobileEvidence = await page.evaluate(() => {
@@ -444,13 +484,13 @@ test("daily personal code and completed personal Codex usage remain separate and
       additionLineCount: 1,
       deletionLineCount: 1,
       snapshotLineCount: 0,
-      historyLineCount: 6,
-      selectedDate: "Jul 27, 2026",
+      historyLineCount: 1,
+      selectedDate: "Jul 31, 2026",
       selectedCommits: "7 commits",
       selectedAdditions: "+321 added",
       selectedDeletions: "−45 removed",
       selectedTokens: "Token usage · unobserved or awaiting a completed day",
-      inspectorValue: "2026-07-27, 7 commits, +321 added, −45 removed, token usage unobserved or awaiting a completed day",
+      inspectorValue: "2026-07-31, 7 commits, +321 added, −45 removed, token usage unobserved or awaiting a completed day",
       hasDailyCommitHeading: true,
       hasDailyLineHeading: true,
       hasForbiddenCopy: false,
@@ -462,8 +502,8 @@ test("daily personal code and completed personal Codex usage remain separate and
       tokens: document.getElementById("github-activity-selected-tokens")?.textContent?.trim(),
     }));
     expect(movedEvidence).toEqual({
-      date: "Jul 26, 2026",
-      tokens: "+250,000,000 tokens · 400,000,000 cumulative",
+      date: "Jul 30, 2026",
+      tokens: "+200,000,000 tokens · Codex +150,000,000 · Claude +50,000,000 · 400,000,000 cumulative",
     });
     expect(runtimeErrors).toEqual([]);
     return;
@@ -479,8 +519,8 @@ test("daily personal code and completed personal Codex usage remain separate and
   await expect(chart.locator(".github-activity-add-line")).toHaveCount(1);
   await expect(chart.locator(".github-activity-remove-line")).toHaveCount(1);
   await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(chart.locator(".github-activity-lifetime-history-line")).toHaveCount(6);
-  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 27, 2026");
+  await expect(chart.locator(".github-activity-lifetime-history-line")).toHaveCount(1);
+  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 31, 2026");
   await expect(page.locator("#github-activity-selected-commits")).toHaveText("7 commits");
   await expect(page.locator("#github-activity-selected-additions")).toHaveText("+321 added");
   await expect(page.locator("#github-activity-selected-deletions")).toHaveText("−45 removed");
@@ -505,11 +545,17 @@ test("daily personal code and completed personal Codex usage remain separate and
   await inspector.focus();
   await expect(inspector).toHaveAttribute(
     "aria-valuetext",
-    /^2026-07-27, 7 commits, \+321 added, −45 removed, token usage unobserved or awaiting a completed day$/
+    /^2026-07-31, 7 commits, \+321 added, −45 removed, token usage unobserved or awaiting a completed day$/
   );
   await inspector.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 26, 2026");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+250,000,000 tokens");
+  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 30, 2026");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+200,000,000 tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Codex +150,000,000");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Claude +50,000,000");
+  await expect(inspector).toHaveAttribute(
+    "aria-valuetext",
+    /200,000,000 tokens that day, 150,000,000 Codex and 50,000,000 Claude, 400,000,000 cumulative tokens/
+  );
   await inspector.press("Shift+ArrowLeft");
   await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "visible");
   await expect(rangeSummary).toContainText(/^Selected 2 days/);

@@ -1,392 +1,64 @@
 {
-  "schema": 5,
+  "schema": 6,
   "combined_lifetime": {
-    "token_count": 61300000000,
-    "tokens_label": "61.3B",
+    "token_count": 70700000000,
+    "tokens_label": "70.7B",
     "units": "tokens",
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
-    "source_count": 2
+    "source_count": 3
   },
-  "method": "rounded_sum_of_verified_account_lifetime_readings",
-  "confidence": "high",
-  "observed_on": "2026-07-29",
-  "updated_at": "2026-07-29T06:48:38Z",
+  "method": "rounded_sum_of_observed_agent_usage_sources",
+  "confidence": "mixed",
+  "observed_on": "2026-08-01",
+  "updated_at": "2026-08-01T23:45:52Z",
   "automated_refresh": true,
   "combined_daily_usage": {
+    "agent_families": [
+      "codex",
+      "claude"
+    ],
     "aggregation": "sum_of_sources",
     "coverage": {
       "before_start": "unobserved",
-      "complete_through": "2026-07-28",
+      "complete_through": "2026-07-31",
       "completeness": "rolling_window_partial",
-      "prior_unallocated_tokens": 1789214365,
-      "starts_on": "2026-04-30"
+      "prior_unallocated_by_agent": {
+        "claude": 0,
+        "codex": 61313187827
+      },
+      "prior_unallocated_tokens": 61313187827,
+      "starts_on": "2026-07-29"
     },
     "grain": "day",
-    "label": "Combined daily Codex usage",
+    "label": "Combined daily agent usage",
     "points": [
       {
-        "date": "2026-04-30",
-        "tokens": 1918193
-      },
-      {
-        "date": "2026-05-01",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-02",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-03",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-04",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-05",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-06",
-        "tokens": 2766763
-      },
-      {
-        "date": "2026-05-07",
-        "tokens": 32650819
-      },
-      {
-        "date": "2026-05-08",
-        "tokens": 1738543
-      },
-      {
-        "date": "2026-05-09",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-10",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-11",
-        "tokens": 30875775
-      },
-      {
-        "date": "2026-05-12",
-        "tokens": 80893575
-      },
-      {
-        "date": "2026-05-13",
-        "tokens": 19543899
-      },
-      {
-        "date": "2026-05-14",
-        "tokens": 34619186
-      },
-      {
-        "date": "2026-05-15",
-        "tokens": 5434412
-      },
-      {
-        "date": "2026-05-16",
-        "tokens": 59464453
-      },
-      {
-        "date": "2026-05-17",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-18",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-19",
-        "tokens": 27787223
-      },
-      {
-        "date": "2026-05-20",
-        "tokens": 112731724
-      },
-      {
-        "date": "2026-05-21",
-        "tokens": 0
-      },
-      {
-        "date": "2026-05-22",
-        "tokens": 16309014
-      },
-      {
-        "date": "2026-05-23",
-        "tokens": 82030540
-      },
-      {
-        "date": "2026-05-24",
-        "tokens": 87501401
-      },
-      {
-        "date": "2026-05-25",
-        "tokens": 39493864
-      },
-      {
-        "date": "2026-05-26",
-        "tokens": 74692282
-      },
-      {
-        "date": "2026-05-27",
-        "tokens": 153970909
-      },
-      {
-        "date": "2026-05-28",
-        "tokens": 68176731
-      },
-      {
-        "date": "2026-05-29",
-        "tokens": 165790169
-      },
-      {
-        "date": "2026-05-30",
-        "tokens": 23887877
-      },
-      {
-        "date": "2026-05-31",
-        "tokens": 71382679
-      },
-      {
-        "date": "2026-06-01",
-        "tokens": 98241242
-      },
-      {
-        "date": "2026-06-02",
-        "tokens": 53668035
-      },
-      {
-        "date": "2026-06-03",
-        "tokens": 45315752
-      },
-      {
-        "date": "2026-06-04",
-        "tokens": 18456923
-      },
-      {
-        "date": "2026-06-05",
-        "tokens": 11741371
-      },
-      {
-        "date": "2026-06-06",
-        "tokens": 497829
-      },
-      {
-        "date": "2026-06-07",
-        "tokens": 41031937
-      },
-      {
-        "date": "2026-06-08",
-        "tokens": 19784545
-      },
-      {
-        "date": "2026-06-09",
-        "tokens": 0
-      },
-      {
-        "date": "2026-06-10",
-        "tokens": 208198873
-      },
-      {
-        "date": "2026-06-11",
-        "tokens": 223458905
-      },
-      {
-        "date": "2026-06-12",
-        "tokens": 181433675
-      },
-      {
-        "date": "2026-06-13",
-        "tokens": 6055884
-      },
-      {
-        "date": "2026-06-14",
-        "tokens": 0
-      },
-      {
-        "date": "2026-06-15",
-        "tokens": 0
-      },
-      {
-        "date": "2026-06-16",
-        "tokens": 183385212
-      },
-      {
-        "date": "2026-06-17",
-        "tokens": 218342156
-      },
-      {
-        "date": "2026-06-18",
-        "tokens": 270244507
-      },
-      {
-        "date": "2026-06-19",
-        "tokens": 251044765
-      },
-      {
-        "date": "2026-06-20",
-        "tokens": 699132614
-      },
-      {
-        "date": "2026-06-21",
-        "tokens": 577424836
-      },
-      {
-        "date": "2026-06-22",
-        "tokens": 442618383
-      },
-      {
-        "date": "2026-06-23",
-        "tokens": 306671123
-      },
-      {
-        "date": "2026-06-24",
-        "tokens": 123667033
-      },
-      {
-        "date": "2026-06-25",
-        "tokens": 6216622
-      },
-      {
-        "date": "2026-06-26",
-        "tokens": 118073638
-      },
-      {
-        "date": "2026-06-27",
-        "tokens": 731970000
-      },
-      {
-        "date": "2026-06-28",
-        "tokens": 646814015
-      },
-      {
-        "date": "2026-06-29",
-        "tokens": 1131073629
-      },
-      {
-        "date": "2026-06-30",
-        "tokens": 627572101
-      },
-      {
-        "date": "2026-07-01",
-        "tokens": 1748633377
-      },
-      {
-        "date": "2026-07-02",
-        "tokens": 1739198649
-      },
-      {
-        "date": "2026-07-03",
-        "tokens": 1141581671
-      },
-      {
-        "date": "2026-07-04",
-        "tokens": 835093233
-      },
-      {
-        "date": "2026-07-05",
-        "tokens": 783927453
-      },
-      {
-        "date": "2026-07-06",
-        "tokens": 676742012
-      },
-      {
-        "date": "2026-07-07",
-        "tokens": 390383102
-      },
-      {
-        "date": "2026-07-08",
-        "tokens": 288933130
-      },
-      {
-        "date": "2026-07-09",
-        "tokens": 501110491
-      },
-      {
-        "date": "2026-07-10",
-        "tokens": 865814206
-      },
-      {
-        "date": "2026-07-11",
-        "tokens": 1081608865
-      },
-      {
-        "date": "2026-07-12",
-        "tokens": 1220875673
-      },
-      {
-        "date": "2026-07-13",
-        "tokens": 2507349558
-      },
-      {
-        "date": "2026-07-14",
-        "tokens": 3540872072
-      },
-      {
-        "date": "2026-07-15",
-        "tokens": 3381956734
-      },
-      {
-        "date": "2026-07-16",
-        "tokens": 3198526081
-      },
-      {
-        "date": "2026-07-17",
-        "tokens": 3425280476
-      },
-      {
-        "date": "2026-07-18",
-        "tokens": 1751298046
-      },
-      {
-        "date": "2026-07-19",
-        "tokens": 3248846721
-      },
-      {
-        "date": "2026-07-20",
-        "tokens": 1614885376
-      },
-      {
-        "date": "2026-07-21",
-        "tokens": 2207112610
-      },
-      {
-        "date": "2026-07-22",
-        "tokens": 4110830827
-      },
-      {
-        "date": "2026-07-23",
-        "tokens": 1607252722
-      },
-      {
-        "date": "2026-07-24",
-        "tokens": 1962903
-      },
-      {
-        "date": "2026-07-25",
-        "tokens": 507026608
-      },
-      {
-        "date": "2026-07-26",
-        "tokens": 3718711664
-      },
-      {
-        "date": "2026-07-27",
-        "tokens": 2799928272
-      },
-      {
-        "date": "2026-07-28",
-        "tokens": 2192435294
+        "agent_tokens": {
+          "claude": 46710587,
+          "codex": 4298247643
+        },
+        "date": "2026-07-29",
+        "tokens": 4344958230
+      },
+      {
+        "agent_tokens": {
+          "claude": 500270181,
+          "codex": 3184450407
+        },
+        "date": "2026-07-30",
+        "tokens": 3684720588
+      },
+      {
+        "agent_tokens": {
+          "claude": 0,
+          "codex": 1322501551
+        },
+        "date": "2026-07-31",
+        "tokens": 1322501551
       }
     ],
-    "schema": 1,
+    "schema": 2,
     "units": "tokens"
   }
 }

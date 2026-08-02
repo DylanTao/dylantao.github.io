@@ -4,8 +4,8 @@ const { publicRouteUrl } = require("./public-routes");
 
 const dailyActivityFixture = (() => {
   const points = [];
-  const start = Date.UTC(2021, 6, 28);
-  const end = Date.UTC(2026, 6, 27);
+  const start = Date.UTC(2021, 7, 1);
+  const end = Date.UTC(2026, 6, 31);
   for (let stamp = start, index = 0; stamp <= end; stamp += 86_400_000, index += 1) {
     const date = new Date(stamp).toISOString().slice(0, 10);
     const active = index % 9 === 0 || index % 17 === 0;
@@ -18,7 +18,7 @@ const dailyActivityFixture = (() => {
   }
   return {
     schema: 3,
-    updated_on: "2026-07-27",
+    updated_on: "2026-07-31",
     timezone: "UTC",
     scope: "personal_code_activity",
     coverage: {
@@ -31,15 +31,54 @@ const dailyActivityFixture = (() => {
 })();
 
 const dailyUsageFixture = {
-  schema: 6,
+  schema: 7,
   combined_lifetime: {
     token_count: 400000000,
     tokens_label: "0.4B",
     units: "tokens",
     aggregation: "sum_of_sources",
     rounding: "nearest_0.1B",
-    source_count: 2,
+    source_count: 3,
   },
+  combined_daily_usage: {
+    schema: 2,
+    label: "Combined daily agent usage",
+    units: "tokens",
+    grain: "day",
+    aggregation: "sum_of_sources",
+    agent_families: ["codex", "claude"],
+    coverage: {
+      starts_on: "2026-07-29",
+      complete_through: "2026-07-30",
+      before_start: "unobserved",
+      completeness: "rolling_window_partial",
+      prior_unallocated_tokens: 100000000,
+      prior_unallocated_by_agent: { codex: 100000000, claude: 0 },
+    },
+    points: [
+      { date: "2026-07-29", tokens: 100000000, agent_tokens: { codex: 75000000, claude: 25000000 } },
+      { date: "2026-07-30", tokens: 200000000, agent_tokens: { codex: 150000000, claude: 50000000 } },
+    ],
+  },
+  method: "rounded_sum_of_observed_agent_usage_sources",
+  confidence: "mixed",
+  observed_on: "2026-07-31",
+  updated_at: "2026-07-31T08:00:00Z",
+  automated_refresh: true,
+  cost: {
+    method: "flat_reference_rate_replay",
+    reference_scope: "current_site_build_blended_public_api_rate",
+    usd_per_million_tokens: 0.796269,
+    pricing_as_of: "2026-07-12",
+    usd_midpoint: 319,
+    usd_label: "~$0.3K API-rate replay",
+  },
+};
+
+const legacyDailyUsageFixture = {
+  ...dailyUsageFixture,
+  schema: 6,
+  combined_lifetime: { ...dailyUsageFixture.combined_lifetime, source_count: 2 },
   combined_daily_usage: {
     schema: 1,
     label: "Combined daily Codex usage",
@@ -65,15 +104,6 @@ const dailyUsageFixture = {
   confidence: "high",
   observed_on: "2026-07-27",
   updated_at: "2026-07-27T08:00:00Z",
-  automated_refresh: true,
-  cost: {
-    method: "flat_reference_rate_replay",
-    reference_scope: "current_site_build_blended_public_api_rate",
-    usd_per_million_tokens: 0.796269,
-    pricing_as_of: "2026-07-12",
-    usd_midpoint: 319,
-    usd_label: "~$0.3K API-rate replay",
-  },
 };
 
 const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = (body) => body, activity = dailyActivityFixture } = {}) => {
@@ -123,7 +153,7 @@ test("personal daily code activity fails closed when coverage and update cutoffs
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the malformed cutoff boundary");
 
   const malformed = structuredClone(dailyActivityFixture);
-  malformed.updated_on = "2026-07-26";
+  malformed.updated_on = "2026-07-30";
   await preparePage(page, "light");
   await gotoWithDailyCode(page, { activity: malformed });
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "unavailable");
@@ -196,10 +226,13 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(endpointResponse.ok()).toBe(true);
   expect(await endpointResponse.json()).toEqual(tokenSource);
   const lifetimePayload = dailyUsageFixture;
-  expect(lifetimePayload.schema).toBe(6);
-  expect(lifetimePayload.combined_daily_usage.coverage.completeness).toBe("whole_lifetime");
-  expect(lifetimePayload.combined_daily_usage.points[0].tokens).toBe(0);
-  expect(lifetimePayload.combined_daily_usage.coverage.complete_through).toBe("2026-07-26");
+  expect(lifetimePayload.schema).toBe(7);
+  expect(lifetimePayload.combined_daily_usage.schema).toBe(2);
+  expect(lifetimePayload.combined_daily_usage.agent_families).toEqual(["codex", "claude"]);
+  expect(lifetimePayload.combined_daily_usage.coverage.starts_on).toBe("2026-07-29");
+  expect(lifetimePayload.combined_daily_usage.coverage.complete_through).toBe("2026-07-30");
+  expect(legacyDailyUsageFixture.schema).toBe(6);
+  expect(legacyDailyUsageFixture.combined_daily_usage.schema).toBe(1);
 
   const tokenRhythm = page.locator("[data-token-rhythm]");
   const tokenRhythmChart = page.locator("[data-token-rhythm-chart]");
@@ -301,7 +334,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         expect(geometry.chartHeight).toBeLessThanOrEqual(545);
       }
       if (scene === "explore") {
-        await expect(chart).toContainText("PERSONAL CODEX TOKENS");
+        await expect(chart).toContainText("PERSONAL AGENT TOKENS");
         await expect(chart).not.toContainText("SITE TOKENS");
       }
     }
@@ -324,7 +357,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(runtimeErrors).toEqual([]);
 });
 
-test("exact daily Codex usage shares the combined date axis and preserves zero days", async ({ page }, testInfo) => {
+test("exact daily agent usage shares the combined date axis and preserves zero days", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the exact daily interaction contract");
 
   await preparePage(page, "light");
@@ -336,20 +369,25 @@ test("exact daily Codex usage shares the combined date axis and preserves zero d
   const chart = page.locator("#github-activity-chart");
   const historyLines = chart.locator(".github-activity-lifetime-history-line");
   const historyMarkers = chart.locator(".github-activity-lifetime-history-marker");
-  await expect(historyLines).toHaveCount(6);
+  await expect(historyLines).toHaveCount(1);
   const historyGapDays = await chart
     .locator(".github-activity-lifetime-history-line.is-gap")
     .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("data-gap-days")));
   expect(historyGapDays).toEqual([]);
-  await expect(historyMarkers).toHaveCount(7);
+  await expect(historyMarkers).toHaveCount(2);
+  await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-history-claude-boundary")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toContainText("CODEX");
+  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toContainText("CLAUDE");
   await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(chart).not.toContainText("UNOBSERVED BEFORE");
+  await expect(chart).toContainText("UNOBSERVED BEFORE JUL 29, 2026");
 
   const historyGeometry = await historyMarkers.first().evaluate((marker) => ({
     x: Number(marker.getAttribute("cx")),
     width: marker.ownerSVGElement.viewBox.baseVal.width,
   }));
-  expect(historyGeometry.x).toBeLessThan(historyGeometry.width * 0.15);
+  expect(historyGeometry.x).toBeGreaterThan(historyGeometry.width * 0.95);
 
   const guide = chart.locator(".github-activity-guide");
   const yearGrid = chart.locator(".github-activity-year-grid").last();
@@ -365,88 +403,78 @@ test("exact daily Codex usage shares the combined date axis and preserves zero d
   await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "hidden");
 
   await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+250,000,000 tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+200,000,000 tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Codex +150,000,000");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Claude +50,000,000");
   await expect(page.locator("#github-activity-selected-tokens")).toContainText("400,000,000 cumulative");
+  await expect(inspector).toHaveAttribute(
+    "aria-valuetext",
+    /200,000,000 tokens that day, 150,000,000 Codex and 50,000,000 Claude, 400,000,000 cumulative tokens/
+  );
   await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "visible");
   await page.keyboard.press("Shift+ArrowRight");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("exact tokens through Jul 26, 2026");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("through Jul 30, 2026");
   await expect(page.locator("#github-activity-range-summary")).toContainText("later days awaiting completion");
   await expect(page.locator("#github-activity-range-summary")).not.toContainText("exact tokens in interval");
   await page.keyboard.press("Escape");
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.press("Shift+ArrowLeft");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("+300,000,000 exact tokens in interval");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("+300,000,000 exact tokens");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("in interval");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("Codex +225,000,000");
+  await expect(page.locator("#github-activity-range-summary")).toContainText("Claude +75,000,000");
   await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+0 tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
   await attachScreenshot(page, testInfo, "build-rhythm-exact-daily-usage-desktop-1440", {
     locator: page.locator(".github-activity-workbench"),
   });
 });
 
-test("partial Codex coverage keeps its earlier baseline unobserved", async ({ page }, testInfo) => {
+test("legacy profile-6 daily fallback remains accepted", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the partial-coverage boundary");
-
-  const partialUsage = structuredClone(dailyUsageFixture);
-  partialUsage.combined_daily_usage.coverage = {
-    starts_on: "2026-07-25",
-    complete_through: "2026-07-26",
-    before_start: "unobserved",
-    completeness: "rolling_window_partial",
-    prior_unallocated_tokens: 150000000,
-  };
-  partialUsage.combined_daily_usage.points = [
-    { date: "2026-07-25", tokens: 50000000 },
-    { date: "2026-07-26", tokens: 200000000 },
-  ];
 
   await preparePage(page, "light");
   await page.route("**/assets/data/codex-profile-usage.json", (route) =>
-    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(partialUsage) })
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(legacyDailyUsageFixture) })
   );
   await gotoWithDailyCode(page);
 
   const chart = page.locator("#github-activity-chart");
-  await expect(chart).toContainText("UNOBSERVED BEFORE JUL 25, 2026");
-  await expect(chart.locator(".github-activity-lifetime-history-marker")).toHaveCount(2);
-  const inspector = chart.locator(".github-activity-inspector");
-  await inspector.focus();
-  await inspector.press("Home");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("token usage incomplete in this interval");
+  await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
+  await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(0);
+  await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(0);
+  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toHaveCount(0);
+  await expect(page.locator("[data-agent-family-summary]")).toBeHidden();
 });
 
 [
   {
-    label: "a nonzero whole-lifetime anchor",
+    label: "agent-family totals that do not conserve the daily total",
     mutate: (usage) => {
-      usage.combined_daily_usage.points[0].tokens = 1;
+      usage.combined_daily_usage.points[0].agent_tokens.claude += 1;
     },
   },
   {
-    label: "a current-day completion claim",
+    label: "agent families in the wrong order",
     mutate: (usage) => {
-      usage.combined_daily_usage.coverage.complete_through = usage.observed_on;
-      usage.combined_daily_usage.points.push({ date: usage.observed_on, tokens: 0 });
+      usage.combined_daily_usage.agent_families = ["claude", "codex"];
     },
   },
   {
-    label: "a partial history without a positive unallocated baseline",
+    label: "a prior family split that does not conserve its baseline",
     mutate: (usage) => {
-      usage.combined_daily_usage.coverage = {
-        starts_on: "2026-07-25",
-        complete_through: "2026-07-26",
-        before_start: "unobserved",
-        completeness: "rolling_window_partial",
-        prior_unallocated_tokens: 0,
-      };
-      usage.combined_daily_usage.points = [
-        { date: "2026-07-25", tokens: 100000000 },
-        { date: "2026-07-26", tokens: 200000000 },
-      ];
+      usage.combined_daily_usage.coverage.prior_unallocated_by_agent.codex -= 1;
+    },
+  },
+  {
+    label: "Claude tokens invented before the common observed start",
+    mutate: (usage) => {
+      usage.combined_daily_usage.coverage.prior_unallocated_by_agent.codex -= 1;
+      usage.combined_daily_usage.coverage.prior_unallocated_by_agent.claude = 1;
     },
   },
 ].forEach(({ label, mutate }) => {
-  test(`daily Codex usage fails closed for ${label}`, async ({ page }, testInfo) => {
+  test(`daily agent usage fails closed for ${label}`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves each malformed-contract boundary");
 
     const malformed = structuredClone(dailyUsageFixture);
@@ -490,7 +518,7 @@ test("Build Rhythm refreshes the final three-plot scene after delayed lifetime h
   await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
 });
 
-test("Build Rhythm withholds a failed personal Codex snapshot", async ({ page }, testInfo) => {
+test("Build Rhythm withholds a failed personal agent snapshot", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the failed-snapshot boundary");
 
   await preparePage(page, "light");

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Publish sanitized, combined Codex lifetime and completed-day usage.
+"""Publish sanitized, combined agent lifetime and completed-day usage.
 
 The input is the identity-free projection produced by the protected collector.
-This module intentionally has no knowledge of Codex credentials, account
-identities, per-source readings, or reset times. Collector schema 4 can publish
-exact combined completed-day totals; legacy schema 3 continues to publish only
-the existing rounded observation history until the protected collector
-migrates. A rough cost comparison is derived separately from the site's
+This module intentionally has no knowledge of provider credentials, account
+identities, per-account readings, or reset times. Collector schema 5 can publish
+exact completed-day totals split only into the anonymous ``codex`` and
+``claude`` agent families; schema 4 retains combined-only completed days, and
+legacy schema 3 retains the existing two-account Codex observation history. A rough cost comparison is
+derived separately from the site's
 already-public blended API rate; it is not supplied by the collector and is not
 an actual bill.
 """
@@ -25,10 +26,24 @@ from typing import Any
 import yaml
 
 
-EXPECTED_SOURCE_COUNT = 2
+# The strict metadata tuple names the evidence actually combined. The
+# three-source contract adds observed local Claude Code usage, so it must not
+# inherit the stronger two-account lifetime provenance claim.
+SOURCE_CONTRACTS = {
+    2: {
+        "daily_label": "Combined daily Codex usage",
+        "method": "rounded_sum_of_verified_account_lifetime_readings",
+        "confidence": "high",
+    },
+    3: {
+        "daily_label": "Combined daily agent usage",
+        "method": "rounded_sum_of_observed_agent_usage_sources",
+        "confidence": "mixed",
+    },
+}
+ALLOWED_SOURCE_COUNTS = frozenset(SOURCE_CONTRACTS)
 ROUNDING_QUANTUM = 100_000_000
 JAVASCRIPT_SAFE_INTEGER = 9_007_199_254_740_991
-EXPECTED_METHOD = "rounded_sum_of_verified_account_lifetime_readings"
 EXPECTED_LIFETIME = {
     "units": "tokens",
     "aggregation": "sum_of_sources",
@@ -42,15 +57,17 @@ LEGACY_TOP_LEVEL_KEYS = {
     "updated_at",
 }
 DAILY_TOP_LEVEL_KEYS = LEGACY_TOP_LEVEL_KEYS | {"combinedDailyUsage"}
-EXPECTED_CONFIDENCE = "high"
 COST_METHOD = "flat_reference_rate_replay"
 COST_REFERENCE_SCOPE = "current_site_build_blended_public_api_rate"
 LEGACY_COLLECTOR_SCHEMA = 3
 DAILY_COLLECTOR_SCHEMA = 4
+AGENT_FAMILY_COLLECTOR_SCHEMA = 5
 LEGACY_SITE_SCHEMA = 4
-SITE_SCHEMA = 5
+DAILY_SITE_SCHEMA = 5
+SITE_SCHEMA = 6
 LEGACY_PROFILE_SCHEMA = 5
-PROFILE_SCHEMA = 6
+DAILY_PROFILE_SCHEMA = 6
+PROFILE_SCHEMA = 7
 HISTORY_SCHEMA = 1
 HISTORY_LABEL = "Combined lifetime tokens"
 HISTORY_GRAIN = "daily_last_observation"
@@ -92,7 +109,9 @@ HISTORY_POINT_KEYS = {
 }
 HISTORY_COVERAGE_KEYS = {"starts_on", "before_start"}
 DAILY_USAGE_SCHEMA = 1
-DAILY_USAGE_LABEL = "Combined daily Codex usage"
+AGENT_FAMILY_DAILY_USAGE_SCHEMA = 2
+AGENT_FAMILIES = ("codex", "claude")
+AGENT_FAMILY_EVIDENCE_START = date(2026, 7, 29)
 DAILY_USAGE_GRAIN = "day"
 DAILY_USAGE_KEYS = {
     "schema",
@@ -110,7 +129,12 @@ DAILY_USAGE_COVERAGE_KEYS = {
     "completeness",
     "prior_unallocated_tokens",
 }
+AGENT_FAMILY_DAILY_USAGE_KEYS = DAILY_USAGE_KEYS | {"agent_families"}
+AGENT_FAMILY_DAILY_USAGE_COVERAGE_KEYS = DAILY_USAGE_COVERAGE_KEYS | {
+    "prior_unallocated_by_agent"
+}
 DAILY_USAGE_POINT_KEYS = {"date", "tokens"}
+AGENT_FAMILY_DAILY_USAGE_POINT_KEYS = DAILY_USAGE_POINT_KEYS | {"agent_tokens"}
 DAILY_USAGE_BEFORE_START = {"zero", "unobserved"}
 DAILY_USAGE_COMPLETENESS = {"whole_lifetime", "rolling_window_partial"}
 COST_KEYS = {
@@ -201,21 +225,44 @@ def _validate_daily_usage(
     value: Any,
     *,
     rounded_lifetime_token_count: int,
+    source_count: int,
     observed_at: datetime,
     checked_at: datetime,
+    expected_schema: int,
     label: str = "combined_daily_usage",
 ) -> dict[str, Any]:
-    usage = _exact_keys(value, DAILY_USAGE_KEYS, label)
+    if expected_schema == DAILY_USAGE_SCHEMA:
+        usage_keys = DAILY_USAGE_KEYS
+        coverage_keys = DAILY_USAGE_COVERAGE_KEYS
+        point_keys = DAILY_USAGE_POINT_KEYS
+    elif expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA:
+        usage_keys = AGENT_FAMILY_DAILY_USAGE_KEYS
+        coverage_keys = AGENT_FAMILY_DAILY_USAGE_COVERAGE_KEYS
+        point_keys = AGENT_FAMILY_DAILY_USAGE_POINT_KEYS
+    else:  # pragma: no cover - callers use module constants
+        raise SnapshotError(f"unsupported daily usage schema {expected_schema}")
+
+    usage = _exact_keys(value, usage_keys, label)
     schema = usage["schema"]
     if (
         not isinstance(schema, int)
         or isinstance(schema, bool)
-        or schema != DAILY_USAGE_SCHEMA
+        or schema != expected_schema
     ):
-        raise SnapshotError(f"{label}.schema must be {DAILY_USAGE_SCHEMA}")
+        raise SnapshotError(f"{label}.schema must be {expected_schema}")
+
+    if expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA:
+        if usage["agent_families"] != list(AGENT_FAMILIES):
+            raise SnapshotError(
+                f"{label}.agent_families must be {list(AGENT_FAMILIES)!r}"
+            )
+        if source_count != 3:
+            raise SnapshotError(
+                f"{label} agent-family breakdown requires the three-source contract"
+            )
 
     expected_metadata = {
-        "label": DAILY_USAGE_LABEL,
+        "label": SOURCE_CONTRACTS[source_count]["daily_label"],
         "units": EXPECTED_LIFETIME["units"],
         "grain": DAILY_USAGE_GRAIN,
         "aggregation": EXPECTED_LIFETIME["aggregation"],
@@ -226,7 +273,7 @@ def _validate_daily_usage(
 
     coverage = _exact_keys(
         usage["coverage"],
-        DAILY_USAGE_COVERAGE_KEYS,
+        coverage_keys,
         f"{label}.coverage",
     )
     starts_on = _parse_iso_date(
@@ -264,6 +311,18 @@ def _validate_daily_usage(
         or completeness not in DAILY_USAGE_COMPLETENESS
     ):
         raise SnapshotError(f"{label}.coverage.completeness is invalid")
+    if source_count == 3 and completeness != "rolling_window_partial":
+        raise SnapshotError(
+            f"{label} three-source coverage must remain rolling-window partial"
+        )
+    if (
+        expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA
+        and starts_on < AGENT_FAMILY_EVIDENCE_START
+    ):
+        raise SnapshotError(
+            f"{label}.coverage.starts_on cannot precede the retained "
+            f"agent-family evidence boundary {AGENT_FAMILY_EVIDENCE_START.isoformat()}"
+        )
     prior_unallocated_tokens = _count(
         coverage["prior_unallocated_tokens"],
         f"{label}.coverage.prior_unallocated_tokens",
@@ -273,6 +332,41 @@ def _validate_daily_usage(
             f"{label}.coverage.prior_unallocated_tokens "
             "must be a JavaScript-safe integer"
         )
+    prior_unallocated_by_agent: dict[str, int] | None = None
+    if expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA:
+        raw_prior_by_agent = _exact_keys(
+            coverage["prior_unallocated_by_agent"],
+            set(AGENT_FAMILIES),
+            f"{label}.coverage.prior_unallocated_by_agent",
+        )
+        prior_unallocated_by_agent = {
+            family: _count(
+                raw_prior_by_agent[family],
+                f"{label}.coverage.prior_unallocated_by_agent.{family}",
+            )
+            for family in AGENT_FAMILIES
+        }
+        if any(
+            value > JAVASCRIPT_SAFE_INTEGER
+            for value in prior_unallocated_by_agent.values()
+        ):
+            raise SnapshotError(
+                f"{label}.coverage.prior_unallocated_by_agent values "
+                "must be JavaScript-safe integers"
+            )
+        if sum(prior_unallocated_by_agent.values()) != prior_unallocated_tokens:
+            raise SnapshotError(
+                f"{label}.coverage.prior_unallocated_by_agent must sum to "
+                "prior_unallocated_tokens"
+            )
+        if (
+            starts_on == AGENT_FAMILY_EVIDENCE_START
+            and prior_unallocated_by_agent["claude"] != 0
+        ):
+            raise SnapshotError(
+                f"{label}.coverage.prior_unallocated_by_agent.claude must be zero "
+                "at the first retained Claude evidence date"
+            )
     if completeness == "whole_lifetime":
         if before_start != "zero" or prior_unallocated_tokens != 0:
             raise SnapshotError(
@@ -290,9 +384,10 @@ def _validate_daily_usage(
         raise SnapshotError(f"{label}.points must be a non-empty array")
     previous_date: date | None = None
     exact_total = prior_unallocated_tokens
+    family_totals = dict(prior_unallocated_by_agent or {})
     for index, raw_point in enumerate(points):
         point_label = f"{label}.points[{index}]"
-        point = _exact_keys(raw_point, DAILY_USAGE_POINT_KEYS, point_label)
+        point = _exact_keys(raw_point, point_keys, point_label)
         point_date = _parse_iso_date(point["date"], f"{point_label}.date")
         tokens = _count(point["tokens"], f"{point_label}.tokens")
         if tokens > JAVASCRIPT_SAFE_INTEGER:
@@ -312,6 +407,34 @@ def _validate_daily_usage(
                 )
         previous_date = point_date
         exact_total += tokens
+        if expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA:
+            raw_agent_tokens = _exact_keys(
+                point["agent_tokens"],
+                set(AGENT_FAMILIES),
+                f"{point_label}.agent_tokens",
+            )
+            agent_tokens = {
+                family: _count(
+                    raw_agent_tokens[family],
+                    f"{point_label}.agent_tokens.{family}",
+                )
+                for family in AGENT_FAMILIES
+            }
+            if any(value > JAVASCRIPT_SAFE_INTEGER for value in agent_tokens.values()):
+                raise SnapshotError(
+                    f"{point_label}.agent_tokens values must be "
+                    "JavaScript-safe integers"
+                )
+            if sum(agent_tokens.values()) != tokens:
+                raise SnapshotError(
+                    f"{point_label}.agent_tokens must sum to tokens"
+                )
+            for family, value in agent_tokens.items():
+                family_totals[family] += value
+                if family_totals[family] > JAVASCRIPT_SAFE_INTEGER:
+                    raise SnapshotError(
+                        f"{label} {family} total must be a JavaScript-safe integer"
+                    )
         if exact_total > JAVASCRIPT_SAFE_INTEGER:
             raise SnapshotError(
                 f"{label} exact total must be a JavaScript-safe integer"
@@ -326,6 +449,14 @@ def _validate_daily_usage(
     if completeness == "whole_lifetime" and points[0]["tokens"] != 0:
         raise SnapshotError(
             f"{label} whole-lifetime coverage requires an explicit zero anchor"
+        )
+    if (
+        completeness == "whole_lifetime"
+        and expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA
+        and any(points[0]["agent_tokens"].values())
+    ):
+        raise SnapshotError(
+            f"{label} whole-lifetime coverage requires an explicit zero family anchor"
         )
     if _round_token_count(exact_total) != rounded_lifetime_token_count:
         raise SnapshotError(
@@ -404,8 +535,10 @@ def _validate_published_lifetime(value: Any, label: str) -> dict[str, Any]:
         if lifetime[field] != expected:
             raise SnapshotError(f"{label}.{field} does not match the public contract")
     source_count = _count(lifetime["source_count"], f"{label}.source_count")
-    if source_count != EXPECTED_SOURCE_COUNT:
-        raise SnapshotError(f"{label}.source_count must be {EXPECTED_SOURCE_COUNT}")
+    if source_count not in ALLOWED_SOURCE_COUNTS:
+        raise SnapshotError(
+            f"{label}.source_count must be one of {sorted(ALLOWED_SOURCE_COUNTS)}"
+        )
     return lifetime
 
 
@@ -569,21 +702,31 @@ def _validate_previous_site(value: Any) -> tuple[dict[str, Any], datetime | None
     if (
         not isinstance(schema, int)
         or isinstance(schema, bool)
-        or schema not in (3, LEGACY_SITE_SCHEMA, SITE_SCHEMA)
+        or schema not in (3, LEGACY_SITE_SCHEMA, DAILY_SITE_SCHEMA, SITE_SCHEMA)
     ):
         raise SnapshotError(
-            f"previous site snapshot schema must be 3, {LEGACY_SITE_SCHEMA}, or {SITE_SCHEMA}"
+            "previous site snapshot schema must be "
+            f"3, {LEGACY_SITE_SCHEMA}, {DAILY_SITE_SCHEMA}, or {SITE_SCHEMA}"
         )
     expected_keys = set(PUBLISHED_BASE_KEYS)
     if schema == LEGACY_SITE_SCHEMA:
         expected_keys.add("combined_lifetime_history")
-    elif schema == SITE_SCHEMA:
+    elif schema in (DAILY_SITE_SCHEMA, SITE_SCHEMA):
         expected_keys.add("combined_daily_usage")
     snapshot = _exact_keys(value, expected_keys, "previous site snapshot")
     lifetime = _validate_published_lifetime(
         snapshot["combined_lifetime"],
         "previous site snapshot.combined_lifetime",
     )
+    source_count = lifetime["source_count"]
+    if schema in (3, LEGACY_SITE_SCHEMA) and source_count != 2:
+        raise SnapshotError(
+            "previous legacy site snapshot source_count must be 2"
+        )
+    if schema == SITE_SCHEMA and source_count != 3:
+        raise SnapshotError(
+            "previous schema-6 site snapshot source_count must be 3"
+        )
     observed_on = _parse_iso_date(
         snapshot["observed_on"],
         "previous site snapshot.observed_on",
@@ -593,9 +736,10 @@ def _validate_previous_site(value: Any) -> tuple[dict[str, Any], datetime | None
 
     updated_at: datetime | None
     if snapshot["automated_refresh"]:
-        if snapshot["method"] != EXPECTED_METHOD:
+        source_contract = SOURCE_CONTRACTS[source_count]
+        if snapshot["method"] != source_contract["method"]:
             raise SnapshotError("previous site snapshot method is invalid")
-        if snapshot["confidence"] != EXPECTED_CONFIDENCE:
+        if snapshot["confidence"] != source_contract["confidence"]:
             raise SnapshotError("previous site snapshot confidence is invalid")
         updated_at = _parse_utc_timestamp(
             snapshot["updated_at"],
@@ -622,16 +766,22 @@ def _validate_previous_site(value: Any) -> tuple[dict[str, Any], datetime | None
             current_token_count=lifetime["token_count"],
             current_observed_on=observed_on.isoformat(),
         )
-    elif schema == SITE_SCHEMA:
+    elif schema in (DAILY_SITE_SCHEMA, SITE_SCHEMA):
         if updated_at is None:
             raise SnapshotError(
-                "previous schema-5 site snapshot must be an automated refresh"
+                f"previous schema-{schema} site snapshot must be an automated refresh"
             )
         _validate_daily_usage(
             snapshot["combined_daily_usage"],
             rounded_lifetime_token_count=lifetime["token_count"],
+            source_count=lifetime["source_count"],
             observed_at=updated_at,
             checked_at=max(updated_at, datetime.now(timezone.utc)),
+            expected_schema=(
+                DAILY_USAGE_SCHEMA
+                if schema == DAILY_SITE_SCHEMA
+                else AGENT_FAMILY_DAILY_USAGE_SCHEMA
+            ),
         )
     return snapshot, updated_at
 
@@ -656,7 +806,7 @@ def _merge_history(
             replacement_after = _seeded_cutoff_for(observed_on)
     else:
         previous, previous_updated_at = _validate_previous_site(previous_site)
-        if previous["schema"] == SITE_SCHEMA:
+        if previous["schema"] in (DAILY_SITE_SCHEMA, SITE_SCHEMA):
             raise SnapshotError(
                 "legacy collector input cannot replace exact combined daily usage"
             )
@@ -785,12 +935,18 @@ def _collector_context(
     if (
         not isinstance(schema_version, int)
         or isinstance(schema_version, bool)
-        or schema_version not in (LEGACY_COLLECTOR_SCHEMA, DAILY_COLLECTOR_SCHEMA)
+        or schema_version
+        not in (
+            LEGACY_COLLECTOR_SCHEMA,
+            DAILY_COLLECTOR_SCHEMA,
+            AGENT_FAMILY_COLLECTOR_SCHEMA,
+        )
     ):
         _exact_keys(source, LEGACY_TOP_LEVEL_KEYS, "snapshot")
         raise SnapshotError(
             "snapshot.schemaVersion must be "
-            f"{LEGACY_COLLECTOR_SCHEMA} or {DAILY_COLLECTOR_SCHEMA}"
+            f"{LEGACY_COLLECTOR_SCHEMA}, {DAILY_COLLECTOR_SCHEMA}, or "
+            f"{AGENT_FAMILY_COLLECTOR_SCHEMA}"
         )
     expected_keys = (
         LEGACY_TOP_LEVEL_KEYS
@@ -820,9 +976,20 @@ def _collector_context(
         lifetime["sourceCount"],
         "snapshot.combinedLifetime.sourceCount",
     )
-    if source_count != EXPECTED_SOURCE_COUNT:
+    if source_count not in ALLOWED_SOURCE_COUNTS:
         raise SnapshotError(
-            f"snapshot.combinedLifetime.sourceCount must be {EXPECTED_SOURCE_COUNT}"
+            "snapshot.combinedLifetime.sourceCount must be one of "
+            f"{sorted(ALLOWED_SOURCE_COUNTS)}"
+        )
+    if schema_version == LEGACY_COLLECTOR_SCHEMA and source_count != 2:
+        raise SnapshotError("legacy snapshot.combinedLifetime.sourceCount must be 2")
+    if schema_version == DAILY_COLLECTOR_SCHEMA and source_count != 2:
+        raise SnapshotError(
+            "combined-only daily snapshot.combinedLifetime.sourceCount must be 2"
+        )
+    if schema_version == AGENT_FAMILY_COLLECTOR_SCHEMA and source_count != 3:
+        raise SnapshotError(
+            "agent-family snapshot.combinedLifetime.sourceCount must be 3"
         )
     for field, expected in EXPECTED_LIFETIME.items():
         if lifetime[field] != expected:
@@ -830,11 +997,14 @@ def _collector_context(
                 f"snapshot.combinedLifetime.{field} does not match the public collector contract"
             )
 
-    if source["method"] != EXPECTED_METHOD:
+    source_contract = SOURCE_CONTRACTS[source_count]
+    if source["method"] != source_contract["method"]:
         raise SnapshotError("snapshot.method does not match the rounded lifetime method")
     confidence = source["confidence"]
-    if confidence != EXPECTED_CONFIDENCE:
-        raise SnapshotError(f"snapshot.confidence must be {EXPECTED_CONFIDENCE!r}")
+    if confidence != source_contract["confidence"]:
+        raise SnapshotError(
+            f"snapshot.confidence must be {source_contract['confidence']!r}"
+        )
 
     observed_at = _parse_utc_timestamp(source["updated_at"], "snapshot.updated_at")
     checked_at = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
@@ -852,6 +1022,7 @@ def _validate_new_snapshot_progression(
     *,
     observed_at: datetime,
     token_count: int,
+    source_count: int,
     daily_usage: dict[str, Any],
 ) -> None:
     if previous_site is None:
@@ -862,20 +1033,29 @@ def _validate_new_snapshot_progression(
         raise SnapshotError("snapshot observation date cannot move backward")
     if token_count < previous["combined_lifetime"]["token_count"]:
         raise SnapshotError("snapshot lifetime total cannot decrease")
+    if source_count < previous["combined_lifetime"]["source_count"]:
+        raise SnapshotError("snapshot source count cannot decrease")
     if previous_updated_at is not None and observed_at < previous_updated_at:
         raise SnapshotError("snapshot.updated_at cannot precede the prior observation")
-    if (
-        previous_updated_at is not None
-        and observed_at == previous_updated_at
-        and token_count != previous["combined_lifetime"]["token_count"]
-    ):
-        raise SnapshotError(
-            "a changed lifetime total requires a later observation timestamp"
-        )
-    if previous["schema"] == SITE_SCHEMA:
+    if previous["schema"] in (DAILY_SITE_SCHEMA, SITE_SCHEMA):
         _validate_daily_progression(
             previous["combined_daily_usage"],
             daily_usage,
+        )
+    if (
+        previous_updated_at is not None
+        and observed_at == previous_updated_at
+        and (
+            token_count != previous["combined_lifetime"]["token_count"]
+            or source_count != previous["combined_lifetime"]["source_count"]
+            or (
+                previous["schema"] in (DAILY_SITE_SCHEMA, SITE_SCHEMA)
+                and daily_usage != previous["combined_daily_usage"]
+            )
+        )
+    ):
+        raise SnapshotError(
+            "a changed aggregate or daily payload requires a later observation timestamp"
         )
 
 
@@ -907,7 +1087,7 @@ def build_site_snapshot(
     }
     base_payload = {
         "combined_lifetime": lifetime_payload,
-        "method": EXPECTED_METHOD,
+        "method": source["method"],
         "confidence": confidence,
         "observed_on": observed_at.date().isoformat(),
         "updated_at": source["updated_at"],
@@ -924,21 +1104,33 @@ def build_site_snapshot(
             ),
         }
 
+    expected_daily_schema = (
+        AGENT_FAMILY_DAILY_USAGE_SCHEMA
+        if schema_version == AGENT_FAMILY_COLLECTOR_SCHEMA
+        else DAILY_USAGE_SCHEMA
+    )
     daily_usage = _validate_daily_usage(
         source["combinedDailyUsage"],
         rounded_lifetime_token_count=token_count,
+        source_count=source_count,
         observed_at=observed_at,
         checked_at=checked_at,
+        expected_schema=expected_daily_schema,
         label="snapshot.combinedDailyUsage",
     )
     _validate_new_snapshot_progression(
         previous_site,
         observed_at=observed_at,
         token_count=token_count,
+        source_count=source_count,
         daily_usage=daily_usage,
     )
     return {
-        "schema": SITE_SCHEMA,
+        "schema": (
+            SITE_SCHEMA
+            if schema_version == AGENT_FAMILY_COLLECTOR_SCHEMA
+            else DAILY_SITE_SCHEMA
+        ),
         **base_payload,
         "combined_daily_usage": daily_usage,
     }
@@ -960,9 +1152,11 @@ def build_public_snapshot(
         now=now,
         max_age=max_age,
     )
-    profile_schema = (
-        PROFILE_SCHEMA if site["schema"] == SITE_SCHEMA else LEGACY_PROFILE_SCHEMA
-    )
+    profile_schema = {
+        LEGACY_SITE_SCHEMA: LEGACY_PROFILE_SCHEMA,
+        DAILY_SITE_SCHEMA: DAILY_PROFILE_SCHEMA,
+        SITE_SCHEMA: PROFILE_SCHEMA,
+    }[site["schema"]]
     return {
         **site,
         "schema": profile_schema,

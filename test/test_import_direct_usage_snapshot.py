@@ -21,6 +21,7 @@ SPEC.loader.exec_module(tracker)
 
 class DirectUsageImportTests(unittest.TestCase):
     NOW = datetime(2026, 7, 16, 19, 0, tzinfo=timezone.utc)
+    AGENT_NOW = datetime(2026, 7, 31, 19, 0, tzinfo=timezone.utc)
 
     def source(
         self,
@@ -48,14 +49,22 @@ class DirectUsageImportTests(unittest.TestCase):
         token_count: int = 32_800_000_000,
         updated_at: str = "2026-07-16T18:55:00Z",
         completeness: str = "whole_lifetime",
+        source_count: int = 2,
     ) -> dict:
+        contract = tracker.SOURCE_CONTRACTS[source_count]
+        if source_count == 3 and updated_at == "2026-07-16T18:55:00Z":
+            updated_at = "2026-07-31T18:55:00Z"
         prior = 0 if completeness == "whole_lifetime" else 32_100_000_000
         before_start = "zero" if completeness == "whole_lifetime" else "unobserved"
         daily_total = token_count if completeness == "whole_lifetime" else 700_000_000
         starts_on = (
-            "2026-07-13"
-            if completeness == "whole_lifetime"
-            else "2026-07-14"
+            "2026-07-29"
+            if source_count == 3
+            else (
+                "2026-07-13"
+                if completeness == "whole_lifetime"
+                else "2026-07-14"
+            )
         )
         points = (
             [
@@ -69,32 +78,57 @@ class DirectUsageImportTests(unittest.TestCase):
                 {"date": "2026-07-15", "tokens": 200_000_000},
             ]
         )
+        family_breakdown = source_count == 3
+        if family_breakdown:
+            points = [
+                {"date": "2026-07-29", "tokens": daily_total - 200_000_000},
+                {"date": "2026-07-30", "tokens": 200_000_000},
+            ]
+            points = [
+                {
+                    **point,
+                    "agent_tokens": {
+                        "codex": max(0, point["tokens"] - 50_000_000),
+                        "claude": min(50_000_000, point["tokens"]),
+                    },
+                }
+                for point in points
+            ]
+        daily_usage = {
+            "schema": 2 if family_breakdown else 1,
+            "label": contract["daily_label"],
+            "units": "tokens",
+            "grain": "day",
+            "aggregation": "sum_of_sources",
+            "coverage": {
+                "starts_on": starts_on,
+                "complete_through": (
+                    "2026-07-30" if family_breakdown else "2026-07-15"
+                ),
+                "before_start": before_start,
+                "completeness": completeness,
+                "prior_unallocated_tokens": prior,
+            },
+            "points": points,
+        }
+        if family_breakdown:
+            daily_usage["agent_families"] = ["codex", "claude"]
+            daily_usage["coverage"]["prior_unallocated_by_agent"] = {
+                "codex": prior,
+                "claude": 0,
+            }
         return {
-            "schemaVersion": 4,
+            "schemaVersion": 5 if family_breakdown else 4,
             "combinedLifetime": {
                 "tokenCount": token_count,
-                "sourceCount": 2,
+                "sourceCount": source_count,
                 "units": "tokens",
                 "aggregation": "sum_of_sources",
                 "rounding": "nearest_0.1B",
             },
-            "combinedDailyUsage": {
-                "schema": 1,
-                "label": "Combined daily Codex usage",
-                "units": "tokens",
-                "grain": "day",
-                "aggregation": "sum_of_sources",
-                "coverage": {
-                    "starts_on": starts_on,
-                    "complete_through": "2026-07-15",
-                    "before_start": before_start,
-                    "completeness": completeness,
-                    "prior_unallocated_tokens": prior,
-                },
-                "points": points,
-            },
-            "method": "rounded_sum_of_verified_account_lifetime_readings",
-            "confidence": "high",
+            "combinedDailyUsage": daily_usage,
+            "method": contract["method"],
+            "confidence": contract["confidence"],
             "updated_at": updated_at,
         }
 
@@ -333,6 +367,162 @@ class DirectUsageImportTests(unittest.TestCase):
         self.assertEqual(coverage["before_start"], "unobserved")
         self.assertEqual(coverage["prior_unallocated_tokens"], 32_100_000_000)
         self.assertEqual(coverage["completeness"], "rolling_window_partial")
+
+    def test_accepts_strict_three_source_agent_contract(self) -> None:
+        source = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        site = tracker.build_site_snapshot(source, now=self.AGENT_NOW)
+        profile = tracker.build_public_snapshot(
+            source,
+            agentic_usage=self.agentic_usage(),
+            now=self.AGENT_NOW,
+        )
+        self.assertEqual(site["schema"], 6)
+        self.assertEqual(profile["schema"], 7)
+        self.assertEqual(site["combined_lifetime"]["source_count"], 3)
+        self.assertEqual(
+            site["combined_daily_usage"]["label"],
+            "Combined daily agent usage",
+        )
+        self.assertEqual(
+            site["method"],
+            "rounded_sum_of_observed_agent_usage_sources",
+        )
+        self.assertEqual(site["confidence"], "mixed")
+        usage = site["combined_daily_usage"]
+        self.assertEqual(usage["schema"], 2)
+        self.assertEqual(usage["agent_families"], ["codex", "claude"])
+        self.assertEqual(usage["coverage"]["starts_on"], "2026-07-29")
+        self.assertEqual(
+            usage["coverage"]["prior_unallocated_by_agent"],
+            {"codex": 32_100_000_000, "claude": 0},
+        )
+        self.assertEqual(
+            usage["points"][0]["agent_tokens"],
+            {"codex": 450_000_000, "claude": 50_000_000},
+        )
+        self.assertEqual(profile["combined_daily_usage"], usage)
+        serialized = json.dumps((site, profile)).lower()
+        for forbidden in (
+            "email",
+            "account_id",
+            "plan_type",
+            "reset",
+            "quota",
+            "per_account",
+        ):
+            self.assertNotIn(forbidden, serialized)
+
+        wrong_label = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        wrong_label["combinedDailyUsage"]["label"] = "Combined daily Codex usage"
+        with self.assertRaisesRegex(tracker.SnapshotError, "public contract"):
+            tracker.build_site_snapshot(wrong_label, now=self.AGENT_NOW)
+
+        wrong_method = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        wrong_method["method"] = "rounded_sum_of_verified_account_lifetime_readings"
+        with self.assertRaisesRegex(tracker.SnapshotError, "rounded lifetime method"):
+            tracker.build_site_snapshot(wrong_method, now=self.AGENT_NOW)
+
+        wrong_confidence = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        wrong_confidence["confidence"] = "high"
+        with self.assertRaisesRegex(tracker.SnapshotError, "must be 'mixed'"):
+            tracker.build_site_snapshot(wrong_confidence, now=self.AGENT_NOW)
+
+        whole_lifetime = self.daily_source(source_count=3)
+        with self.assertRaisesRegex(tracker.SnapshotError, "three-source.*partial"):
+            tracker.build_site_snapshot(whole_lifetime, now=self.AGENT_NOW)
+
+    def test_agent_family_contract_rejects_key_sum_and_boundary_drift(self) -> None:
+        def source() -> dict:
+            return self.daily_source(
+                source_count=3,
+                completeness="rolling_window_partial",
+            )
+
+        invalid_cases: list[tuple[dict, str]] = []
+
+        wrong_families = source()
+        wrong_families["combinedDailyUsage"]["agent_families"] = ["claude", "codex"]
+        invalid_cases.append((wrong_families, "agent_families must be"))
+
+        extra_point_key = source()
+        extra_point_key["combinedDailyUsage"]["points"][0]["agent_tokens"][
+            "account"
+        ] = 1
+        invalid_cases.append((extra_point_key, "agent_tokens has invalid keys"))
+
+        point_sum = source()
+        point_sum["combinedDailyUsage"]["points"][0]["agent_tokens"]["claude"] += 1
+        invalid_cases.append((point_sum, "agent_tokens must sum to tokens"))
+
+        prior_sum = source()
+        prior_sum["combinedDailyUsage"]["coverage"]["prior_unallocated_by_agent"][
+            "codex"
+        ] -= 1
+        invalid_cases.append((prior_sum, "must sum to prior_unallocated_tokens"))
+
+        invented_claude_prehistory = source()
+        prior_by_agent = invented_claude_prehistory["combinedDailyUsage"]["coverage"][
+            "prior_unallocated_by_agent"
+        ]
+        prior_by_agent["codex"] -= 1
+        prior_by_agent["claude"] = 1
+        invalid_cases.append(
+            (invented_claude_prehistory, "claude must be zero at the first retained")
+        )
+
+        early_start = source()
+        early_start["combinedDailyUsage"]["coverage"]["starts_on"] = "2026-07-28"
+        early_start["combinedDailyUsage"]["points"][0]["date"] = "2026-07-28"
+        invalid_cases.append((early_start, "cannot precede.*2026-07-29"))
+
+        for payload, message in invalid_cases:
+            with self.subTest(message=message):
+                with self.assertRaisesRegex(tracker.SnapshotError, message):
+                    tracker.build_site_snapshot(payload, now=self.AGENT_NOW)
+
+    def test_source_count_can_increase_once_but_not_decrease(self) -> None:
+        previous = tracker.build_site_snapshot(
+            self.daily_source(completeness="rolling_window_partial"),
+            now=self.NOW,
+        )
+        expanded_source = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        expanded = tracker.build_site_snapshot(
+            expanded_source,
+            previous_site=previous,
+            now=self.AGENT_NOW,
+        )
+        self.assertEqual(expanded["combined_lifetime"]["source_count"], 3)
+
+        downgraded = self.daily_source(
+            updated_at="2026-07-31T18:56:00Z",
+            completeness="rolling_window_partial",
+        )
+        downgraded_usage = downgraded["combinedDailyUsage"]
+        downgraded_usage["coverage"]["starts_on"] = "2026-07-29"
+        downgraded_usage["coverage"]["complete_through"] = "2026-07-30"
+        downgraded_usage["points"][0]["date"] = "2026-07-29"
+        downgraded_usage["points"][1]["date"] = "2026-07-30"
+        with self.assertRaisesRegex(tracker.SnapshotError, "source count cannot decrease"):
+            tracker.build_site_snapshot(
+                downgraded,
+                previous_site=expanded,
+                now=self.AGENT_NOW,
+            )
 
     def test_daily_contract_rejects_missing_malformed_or_privacy_expanding_data(
         self,
@@ -663,8 +853,17 @@ class DirectUsageImportTests(unittest.TestCase):
 
         checked = tracker._validate_publication_pair(site, profile)
 
-        self.assertEqual(checked["schema"], 5)
-        self.assertEqual(profile["schema"], 6)
+        self.assertEqual(checked["schema"], 6)
+        self.assertEqual(profile["schema"], 7)
+        self.assertEqual(checked["combined_daily_usage"]["schema"], 2)
+        self.assertEqual(
+            checked["combined_daily_usage"]["agent_families"],
+            ["codex", "claude"],
+        )
+        self.assertEqual(
+            checked["combined_daily_usage"]["coverage"]["starts_on"],
+            "2026-07-29",
+        )
         self.assertEqual(
             date.fromisoformat(
                 checked["combined_daily_usage"]["coverage"][
@@ -842,8 +1041,20 @@ class DirectUsageImportTests(unittest.TestCase):
     def test_rejects_wrong_source_count_or_unrounded_total(self) -> None:
         wrong_count = self.source()
         wrong_count["combinedLifetime"]["sourceCount"] = 1
-        with self.assertRaisesRegex(tracker.SnapshotError, "sourceCount must be 2"):
+        with self.assertRaisesRegex(tracker.SnapshotError, "sourceCount must be one of"):
             tracker.build_site_snapshot(wrong_count, now=self.NOW)
+
+        wrong_type = self.daily_source()
+        wrong_type["combinedLifetime"]["sourceCount"] = "3"
+        with self.assertRaisesRegex(tracker.SnapshotError, "non-negative integer"):
+            tracker.build_site_snapshot(wrong_type, now=self.NOW)
+
+        legacy_three = self.source()
+        legacy_three["combinedLifetime"]["sourceCount"] = 3
+        legacy_three["method"] = "rounded_sum_of_observed_agent_usage_sources"
+        legacy_three["confidence"] = "mixed"
+        with self.assertRaisesRegex(tracker.SnapshotError, "legacy.*sourceCount must be 2"):
+            tracker.build_site_snapshot(legacy_three, now=self.NOW)
 
         unrounded = self.source()
         unrounded["combinedLifetime"]["tokenCount"] = 32_812_345_678

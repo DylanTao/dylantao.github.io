@@ -89,7 +89,7 @@ class HomeAgenticCostContractTests(unittest.TestCase):
         for source in (self.ledger_doc, self.ledger_skill):
             self.assertIn("four compact stat cells", source)
             self.assertIn("former tree-sacrifice headline", source)
-            self.assertIn("combined-lifetime", source)
+            self.assertIn("combined-agent", source)
         self.assertIn("total.api_cost_equivalence.usd_label", self.ledger_doc)
         self.assertIn("total.api_cost_equivalence.usd_label", self.ledger_skill)
         self.assertIn("price-replay disclosure", self.ledger_doc)
