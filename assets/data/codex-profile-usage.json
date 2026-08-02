@@ -14,10 +14,7 @@
   "updated_at": "2026-08-01T23:45:52Z",
   "automated_refresh": true,
   "combined_daily_usage": {
-    "agent_families": [
-      "codex",
-      "claude"
-    ],
+    "agent_families": ["codex", "claude"],
     "aggregation": "sum_of_sources",
     "coverage": {
       "before_start": "unobserved",
