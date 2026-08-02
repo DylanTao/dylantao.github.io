@@ -1,8 +1,8 @@
 {
   "schema": 6,
   "combined_lifetime": {
-    "token_count": 70800000000,
-    "tokens_label": "70.8B",
+    "token_count": 71300000000,
+    "tokens_label": "71.3B",
     "units": "tokens",
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
@@ -11,7 +11,7 @@
   "method": "rounded_sum_of_observed_agent_usage_sources",
   "confidence": "mixed",
   "observed_on": "2026-08-02",
-  "updated_at": "2026-08-02T00:50:12Z",
+  "updated_at": "2026-08-02T07:15:24Z",
   "automated_refresh": true,
   "combined_daily_usage": {
     "agent_families": [
@@ -60,10 +60,10 @@
       {
         "agent_tokens": {
           "claude": 46662428,
-          "codex": 84032310
+          "codex": 613151375
         },
         "date": "2026-08-01",
-        "tokens": 130694738
+        "tokens": 659813803
       }
     ],
     "schema": 2,
