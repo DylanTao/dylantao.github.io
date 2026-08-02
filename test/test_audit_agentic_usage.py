@@ -618,8 +618,8 @@ class SessionAccountingTests(unittest.TestCase):
         self.assertTrue(rendered["acknowledgment"]["provenance"])
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 522)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 525)
         required_fields = {
             "timestamp",
             "model",
@@ -1843,7 +1843,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 1)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
@@ -1896,7 +1896,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 3)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 3)
@@ -1957,7 +1957,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 2)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 2)
@@ -2016,7 +2016,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 5)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 5)
@@ -2074,7 +2074,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 2)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 2)
@@ -2136,7 +2136,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 7)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 7)
@@ -2204,7 +2204,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 1)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
@@ -2284,7 +2284,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 34)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 34)
@@ -2365,7 +2365,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 1)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 1)
@@ -2417,7 +2417,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 2)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 2)
@@ -2488,7 +2488,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 5)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 5)
@@ -2567,7 +2567,7 @@ class SessionAccountingTests(unittest.TestCase):
             )
         )
 
-        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 53)
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
         self.assertEqual(tracking["status"], "acknowledged_deviations")
         self.assertEqual(tracking["post_cutover_deviation_count"], 3)
         self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 3)
@@ -2605,6 +2605,74 @@ class SessionAccountingTests(unittest.TestCase):
             self.assertIn(f"task {task_description}", policy["provenance"])
             self.assertIn("separate semantic-scaffolding-map", policy["reason"])
             self.assertIn("did not perform site development", policy["reason"])
+
+    def test_policy_v54_site_followups_are_acknowledged(self) -> None:
+        turns = audit.MODEL_DEVIATION_ACKNOWLEDGMENT_V54_SITE_FOLLOWUP_TURNS
+        self.assertEqual(
+            tuple(row[0] for row in turns),
+            (
+                "019fc008-f77b-7db3-902d-78ec9ce59d3d",
+                "019fc00c-3092-7813-93fd-c4a2cccc28cc",
+                "019fc011-e319-7101-971f-8c09e2454778",
+            ),
+        )
+
+        contexts = {}
+        for ordinal, row in enumerate(turns, start=1):
+            turn_id, exact_timestamp, leaf_session, *_ = row
+            timestamp = audit.parse_timestamp(exact_timestamp)
+            assert timestamp is not None
+            contexts[turn_id] = audit.TurnContextRecord(
+                timestamp=timestamp,
+                leaf_session_id=leaf_session,
+                turn_id=turn_id,
+                model="gpt-5.6-sol",
+                effort="high",
+                path=Path(f"policy-v54-{ordinal}.jsonl"),
+                ordinal=ordinal,
+            )
+
+        tracking = audit.build_model_tracking(
+            audit.UsageDataset(
+                sessions={},
+                usage_events=[],
+                contexts_by_turn=contexts,
+                source_counts={},
+            )
+        )
+
+        self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 54)
+        self.assertEqual(tracking["status"], "acknowledged_deviations")
+        self.assertEqual(tracking["post_cutover_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_acknowledged_deviation_count"], 3)
+        self.assertEqual(tracking["post_cutover_unacknowledged_deviation_count"], 0)
+        self.assertEqual(
+            tracking["post_cutover_observed_breakdown"],
+            {"gpt-5.6-sol/high": 3},
+        )
+        self.assertEqual(audit.model_tracking_check_messages(tracking), [])
+
+        for row in turns:
+            (
+                turn_id,
+                _timestamp,
+                leaf_session,
+                agent_path,
+                runtime_cwd,
+                response_at,
+                task_description,
+            ) = row
+            policy = audit.MODEL_DEVIATION_ACKNOWLEDGMENTS[turn_id]
+            self.assertIn(f"leaf session {leaf_session}", policy["provenance"])
+            self.assertIn(f"agent path {agent_path}", policy["provenance"])
+            self.assertIn(f"exact runtime cwd {runtime_cwd}", policy["provenance"])
+            self.assertIn(
+                f"first scoped assistant response for this turn at {response_at}",
+                policy["provenance"],
+            )
+            self.assertIn(f"task {task_description}", policy["provenance"])
+            self.assertIn("bounded override", policy["reason"])
+            self.assertIn("declared ultra default", policy["reason"])
 
     def test_known_deviation_with_changed_signature_fails_closed(self) -> None:
         turn_id = "019f4f8c-36c0-7dd1-9bab-e8b3b935ef3f"

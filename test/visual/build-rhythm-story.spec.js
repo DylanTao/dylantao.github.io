@@ -106,6 +106,20 @@ const legacyDailyUsageFixture = {
   updated_at: "2026-07-27T08:00:00Z",
 };
 
+const expectedLifetimeMarkerCount = (source, activity = dailyActivityFixture) => {
+  const usage = source.combined_daily_usage;
+  let count = usage.points.length;
+  if (usage.coverage.before_start !== "zero") return count;
+
+  const domainStart = Date.parse(`${activity.coverage.starts_on}T00:00:00Z`);
+  const coverageStart = Date.parse(`${usage.coverage.starts_on}T00:00:00Z`);
+  if (domainStart >= coverageStart) return count;
+
+  count += 1;
+  if (coverageStart - domainStart > 86_400_000) count += 1;
+  return count;
+};
+
 const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = (body) => body, activity = dailyActivityFixture } = {}) => {
   const routeUrl = publicRouteUrl("/github-activity/");
   const response = await page.request.get(routeUrl);
@@ -268,8 +282,8 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const lifetimeAxis = explorerChart.locator('[data-build-rhythm-y-axis="github-lifetime-history"]');
   await expect(lifetimeAxis).toHaveCount(1);
   await expect(explorerChart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(explorerChart.locator(".github-activity-lifetime-history-marker")).toHaveCount(7);
-  await expect(explorerChart).not.toContainText("UNOBSERVED BEFORE");
+  await expect(explorerChart.locator(".github-activity-lifetime-history-marker")).toHaveCount(expectedLifetimeMarkerCount(dailyUsageFixture));
+  await expect(explorerChart).toContainText("UNOBSERVED BEFORE JUL 29, 2026");
 
   await expect(story).toContainText("Commit count tells me when. Line changes tell me how much.");
   await expect(story).toContainText("One giant day was flattening everything else.");
@@ -287,7 +301,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(3);
     await expectReadableAxes(chart, 12);
     await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
-    await expect(stage).toContainText(`${lifetimePayload.combined_lifetime.tokens_label} tokens`);
+    await expect(stage).toContainText(`${lifetimePayload.combined_lifetime.tokens_label} personal agent tokens`);
     if (viewportWidth <= 420) {
       await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
       const tokenTableOverflow = await tokenTableRegion.evaluate((element) => element.scrollWidth - element.clientWidth);
@@ -374,7 +388,7 @@ test("exact daily agent usage shares the combined date axis and preserves zero d
     .locator(".github-activity-lifetime-history-line.is-gap")
     .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("data-gap-days")));
   expect(historyGapDays).toEqual([]);
-  await expect(historyMarkers).toHaveCount(2);
+  await expect(historyMarkers).toHaveCount(expectedLifetimeMarkerCount(dailyUsageFixture));
   await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(1);
   await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(1);
   await expect(chart.locator(".github-activity-lifetime-history-claude-boundary")).toHaveCount(1);
@@ -441,9 +455,13 @@ test("legacy profile-6 daily fallback remains accepted", async ({ page }, testIn
 
   const chart = page.locator("#github-activity-chart");
   await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
+  await expect(chart.locator(".github-activity-lifetime-history-marker")).toHaveCount(expectedLifetimeMarkerCount(legacyDailyUsageFixture));
+  await expect(chart).not.toContainText("UNOBSERVED BEFORE");
   await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(0);
   await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(0);
   await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toHaveCount(0);
+  await expect(chart).toContainText(`${legacyDailyUsageFixture.combined_lifetime.tokens_label} tokens`);
+  await expect(chart).not.toContainText(`${legacyDailyUsageFixture.combined_lifetime.tokens_label} personal agent tokens`);
   await expect(page.locator("[data-agent-family-summary]")).toBeHidden();
 });
 

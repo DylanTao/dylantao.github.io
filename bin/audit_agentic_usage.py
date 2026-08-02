@@ -61,7 +61,7 @@ DESK_PATHS = [
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
 MODEL_TRACKING_SCOPE = "site_repo_retained_contexts"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 53
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 54
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -5918,6 +5918,71 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V52_TURN_IDS = tuple(
 )
 
 del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V54_SITE_FOLLOWUP_TURNS = (
+    (
+        "019fc008-f77b-7db3-902d-78ec9ce59d3d",
+        "2026-08-02T01:14:01.102Z",
+        "019fbfa8-94c6-7ef3-a805-5679681a426c",
+        "/root/public_contract_tests",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-02T01:14:07.626Z",
+        "read-only deployed-site, Actions, ancestry, and public-data verification",
+    ),
+    (
+        "019fc00c-3092-7813-93fd-c4a2cccc28cc",
+        "2026-08-02T01:17:32.309Z",
+        "019fbfa8-94c6-7ef3-a805-5679681a426c",
+        "/root/public_contract_tests",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-02T01:17:39.516Z",
+        "data-derived Build Rhythm marker-count correction and focused validation",
+    ),
+    (
+        "019fc011-e319-7101-971f-8c09e2454778",
+        "2026-08-02T01:23:45.667Z",
+        "019fbfa8-94c6-7ef3-a805-5679681a426c",
+        "/root/public_contract_tests",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-02T01:23:50.926Z",
+        "schema-specific Build Rhythm family wording correction and focused browser validation",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V54_SITE_FOLLOWUP_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "acknowledged_at": "2026-08-01",
+        "reason": (
+            "The coordinator explicitly delegated focused public release verification or "
+            "visual-contract correction at high effort. This bounded override differed from "
+            "the site's declared ultra default; the original model and effort remain visible."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-01."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V54_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V54_SITE_FOLLOWUP_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
 del _first_scoped_response_at, _task_description
 
 
