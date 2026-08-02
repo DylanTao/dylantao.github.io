@@ -4,7 +4,7 @@ Use this brief to create a site-native activity story from your own aggregate da
 
 ## Visitor problem
 
-Help a reader understand personal code cadence, change, completed personal Codex usage, and a separate repo-scoped token rhythm without implying that any of them measures productivity, quality, or cause.
+Help a reader understand personal code cadence, change, completed personal agent usage, and a separate repo-scoped token rhythm without implying that any of them measures productivity, quality, or cause.
 
 ## Data boundary
 
@@ -14,8 +14,8 @@ Help a reader understand personal code cadence, change, completed personal Codex
 - The exact point keys are `date`, `token_count`, and `tokens_label`. Dates must be consecutive, counts must be nonnegative and nondecreasing, and the latest point must match the public rounded repo total. Differences between adjacent rounded points are rounded increases, not exact daily usage.
 - Fail closed if the repo-token source is missing or malformed. Never include session, turn, model, path, raw-event, source, or cost fields in that series. The estimate may revise when retained evidence changes, so expose its cutoff, freshness, method, and estimate confidence.
 - Admit personal code history only from an exact schema-3 source with UTC timezone, complete coverage, one row for every date from the verified five-year start through the latest completed day, and only `date`, `commits`, `additions`, and `deletions` point fields.
-- Publish the two-account personal Codex series only from sanitized completed-day totals. Never publish account or source identities, per-source readings or histories, credentials, plans, quotas, reset timestamps, repository details, or event-level patterns.
-- Keep the personal Codex series on the code-history date domain with its own linear y-axis. Leave the line blank before coverage begins. Never add it to the repo-scoped retained-session estimate or sum it across a selected range.
+- Publish the combined personal agent series only from sanitized completed-day totals whose source count, label, method, and confidence form an approved provenance tuple. A family breakdown may contain only fixed `codex` and `claude` buckets whose priors and daily values conserve the combined series. Never publish account identities, per-account readings or histories, credentials, plans, quotas, reset timestamps, repository details, or event-level patterns.
+- Keep the personal agent series on the code-history date domain with its own linear y-axis. Render validated families as stacked cumulative areas with exact text labels, and leave the plot blank before the common family coverage boundary. Never add it to the repo-scoped retained-session estimate or sum it across a selected range.
 - Do not combine the signals into one score or animate a static observation as live activity.
 
 ## Suggested structure
@@ -23,14 +23,14 @@ Help a reader understand personal code cadence, change, completed personal Codex
 1. Cadence: daily commits, explicitly labeled as cadence rather than productivity.
 2. Magnitude and direction: additions and deletions around the same selected day.
 3. Readable and literal: explain any log or symmetric-log transform while preserving exact values.
-4. Personal Codex days: add a third plot only when sanitized completed-day coverage validates, with its own linear scale and explicit unobserved prehistory.
+4. Personal agent days: add a third plot only when sanitized completed-day coverage validates, with its own linear scale, stacked Codex/Claude family areas when available, and explicit unobserved prehistory.
 5. Change the evidence source: reset before showing the rounded daily cumulative repo estimate and its rounded adjacent-point increases as a separate workload trace, not a quality score.
 6. Explorer: range, scale, keyboard inspection, endpoint-change readout, and the exact GitHub table.
 
 ## Interaction contract
 
 - Use normal scroll and a bounded SVG story; do not hijack wheel or touch input.
-- One selected period synchronizes all available plots, the readout, annotation, and table row. Report personal Codex coverage as completed-day usage—or `unobserved`—and an endpoint change for ranges, never a sum.
+- One selected period synchronizes all available plots, the readout, annotation, and table row. Report personal agent coverage as completed-day usage—or `unobserved`—and an endpoint change for ranges, never a sum.
 - Provide focusable marks or an equivalent slider with arrow, Home, and End keys.
 - Keep a server-rendered daily token summary and table outside any `aria-hidden` chart so the rounded endpoint and source points remain available without JavaScript.
 - Reduced motion switches chapters immediately to complete still states.
@@ -45,13 +45,13 @@ Help a reader understand personal code cadence, change, completed personal Codex
 - Verify a missing, malformed, or privacy-unsafe token source leaves the GitHub explorer and server-rendered token evidence intact while withholding the enhanced token chart.
 - Verify automated and user-reported provenance states both remain truthful; a missing observation must never render as a false zero.
 - Verify personal code history appears only after the complete schema-3 UTC contract passes; otherwise show one compact `Personal code history is being rebuilt.` state.
-- Verify the personal Codex series contains sanitized completed-day totals, shares the date axis, and stays separate from the repo estimate.
+- Verify the personal agent series contains sanitized completed-day totals, shares the date axis, and stays separate from the repo estimate.
 - Verify year grids and left/right x coordinates match across all three GitHub-axis plots, including range and keyboard selection states.
 - Verify loading failure leaves a readable explanation and server-rendered context.
 
 ## Copy-ready coding-agent prompt
 
-> Build an evidence-first activity story for my site using dated personal aggregates. Accept personal code history only from an exact schema-3 source with complete UTC coverage and one commits/additions/deletions row for every date in the verified five-year window through the latest completed day. If it is missing or malformed, show one compact `Personal code history is being rebuilt.` state and preserve the last valid personal snapshot. Add sanitized two-account personal Codex completed-day totals only when their own coverage validates, and keep the separate daily cumulative repo-token estimate on its own clock. Never publish identities, per-source readings, credentials, sessions, turns, models, paths, raw events, or cost fields. Use normal scrolling, one bounded transition, keyboard inspection, an exact-date inspector and table, a reduced-motion still state, and clear source/freshness labels. Do not claim productivity, quality, or cause. Match my site's typography, color roles, and responsive system. Test desktop, laptop, tablet, narrow mobile, keyboard, reduced motion, and invalid-data fallback states.
+> Build an evidence-first activity story for my site using dated personal aggregates. Accept personal code history only from an exact schema-3 source with complete UTC coverage and one commits/additions/deletions row for every date in the verified five-year window through the latest completed day. If it is missing or malformed, show one compact `Personal code history is being rebuilt.` state and preserve the last valid personal snapshot. Add sanitized combined personal agent completed-day totals only when their coverage and provenance tuple validate; when fixed Codex/Claude families are present, require exact conservation and draw stacked cumulative areas with visible labels. Keep the separate daily cumulative repo-token estimate on its own clock. Never publish identities, per-account readings, credentials, sessions, turns, models, paths, raw events, or cost fields. Use normal scrolling, one bounded transition, keyboard inspection, an exact-date inspector and table, a reduced-motion still state, and clear source/freshness labels. Do not claim productivity, quality, or cause. Match my site's typography, color roles, and responsive system. Test desktop, laptop, tablet, narrow mobile, keyboard, reduced motion, and invalid-data fallback states.
 
 ## Credit
 
