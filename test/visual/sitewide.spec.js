@@ -328,7 +328,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
       await expect(page.locator(".github-activity-method")).toBeHidden();
       await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
-      await expect(page.locator("[data-codex-usage]")).toBeHidden();
+      await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", /^(ready|error)$/);
     } else {
       await expect(page.locator("[data-personal-code-unavailable]")).toBeHidden();
       await expect(page.locator("[data-personal-daily-copy]").first()).toBeVisible();
@@ -2044,7 +2044,7 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
     await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
     await expect(page.locator(".github-activity-method")).toBeHidden();
     await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
-    await expect(page.locator("[data-codex-usage]")).toBeHidden();
+    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", /^(ready|error)$/);
 
     for (const width of [390, 320]) {
       await page.setViewportSize({ width, height: 1000 });

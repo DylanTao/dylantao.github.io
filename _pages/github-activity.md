@@ -113,12 +113,20 @@ github_activity: true
           </p>
         </article>
 
+        <article class="build-rhythm-story-step" data-build-rhythm-step="agents">
+          <p class="build-rhythm-story-step-number">05 · PERSONAL AGENTS</p>
+          <h3 data-build-rhythm-agent-heading>Recent agent history is unavailable.</h3>
+          <p data-build-rhythm-agent-copy>
+            The shared five-year code explorer below remains available while the agent snapshot is checked.
+          </p>
+        </article>
+
         <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">05 · YOUR TURN</p>
+          <p class="build-rhythm-story-step-number">06 · YOUR TURN</p>
           <h3>Now read the whole rhythm yourself.</h3>
           <p>
-            Change the range or scale, move day by day with the keyboard, and inspect the final plot. Complete personal coverage begins at
-            zero; partial coverage leaves earlier usage explicitly unobserved.
+            Change the range or scale, move day by day with the keyboard, and inspect the final plot. Use the summary for the overall total
+            and the shared-axis rail to compare timing; daily history appears only where validated.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
@@ -171,6 +179,48 @@ github_activity: true
       </fieldset>
     </div>
 
+    <section
+      class="github-activity-agent-summary"
+      data-codex-usage
+      data-state="loading"
+      data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
+      aria-labelledby="github-activity-agent-summary-title"
+      aria-describedby="github-activity-lifetime-status"
+      aria-busy="true"
+      hidden
+    >
+      <div class="github-activity-agent-summary-heading">
+        <div>
+          <p class="github-activity-module-kicker">PERSONAL AGENT TOKENS</p>
+          <h3 id="github-activity-agent-summary-title">
+            <span data-codex-lifetime data-format="readable"></span> <span>total tokens</span>
+          </h3>
+        </div>
+        <p class="github-activity-lifetime-cost" data-codex-cost hidden>
+          <span data-codex-cost-value></span> public API-rate replay estimate &middot; not a bill.
+        </p>
+      </div>
+
+      <div class="github-activity-agent-families" data-agent-family-summary hidden>
+        <div class="github-activity-agent-family-row">
+          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-codex" aria-hidden="true"></span>Codex</span>
+          <span class="github-activity-agent-family-value" data-agent-codex-value></span>
+        </div>
+        <div class="github-activity-agent-family-row">
+          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-claude" aria-hidden="true"></span>Claude</span>
+          <span class="github-activity-agent-family-value" data-agent-claude-value></span>
+        </div>
+        <div class="github-activity-agent-composition" data-agent-composition role="img">
+          <span class="github-activity-agent-composition-segment is-codex" data-agent-codex-segment></span>
+          <span class="github-activity-agent-composition-segment is-claude" data-agent-claude-segment></span>
+        </div>
+      </div>
+
+      <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
+        Personal agent daily usage is loading.
+      </p>
+    </section>
+
     <div class="github-activity-readout" data-personal-daily-copy>
       <div class="github-activity-readout-content">
         <p class="github-activity-readout-label" id="github-activity-selected-date">Latest day</p>
@@ -193,25 +243,6 @@ github_activity: true
             <span class="github-activity-selected-tokens" id="github-activity-selected-tokens"></span>
           </span>
         </p>
-        <div
-          class="github-activity-lifetime-inline"
-          data-codex-usage
-          data-state="loading"
-          data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
-          aria-label="Personal agent daily usage metadata"
-          aria-describedby="github-activity-lifetime-status"
-          aria-busy="true"
-          hidden
-        >
-          <span class="sr-only" data-codex-lifetime data-format="readable"></span>
-          <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
-            Personal agent daily usage complete through <time data-codex-observed></time>.
-          </p>
-          <p class="github-activity-lifetime-status github-activity-family-status" data-agent-family-summary hidden></p>
-          <p class="github-activity-lifetime-cost" data-codex-cost hidden>
-            Burned <span data-codex-cost-value></span> of Sam's imaginary money &middot; public API-rate replay, not a bill.
-          </p>
-        </div>
       </div>
       <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
     </div>
@@ -227,7 +258,7 @@ github_activity: true
         Daily personal commits, additions and deletions
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
-        Hover or click to inspect a day and its personal token usage. Drag horizontally to select a range. With
+        Hover or click to inspect a day and its code and personal token usage. Drag horizontally to select a range. With
         keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
         to move seven days, and Escape to clear a selection.
       </p>
@@ -367,7 +398,7 @@ github_activity: true
       </div>
       <div>
         <h2>Agent usage privacy boundary</h2>
-        <p>The collector publishes one sanitized personal agent series. The stacked view separates Codex (two accounts combined) from Claude Code observed on this laptop, without account identities or per-account readings. Shared family coverage begins July 29, 2026; earlier Codex usage remains in the explicitly unobserved Codex baseline.</p>
+        <p>The collector publishes one sanitized personal agent series. Codex gathers the observed Codex sources into one family; Claude reflects retained Claude Code usage available to this device. Family totals are public, but account identities and per-account readings are not. Daily family history begins July 29, 2026; earlier Codex usage is included in the total, while its daily timing remains unavailable.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>
@@ -391,6 +422,10 @@ github_activity: true
             <th scope="col">Added</th>
             <th scope="col">Removed</th>
             <th scope="col">Line changes</th>
+            <th scope="col">Agent tokens</th>
+            <th scope="col">Codex</th>
+            <th scope="col">Claude</th>
+            <th scope="col">Cumulative tokens</th>
           </tr>
         </thead>
         <tbody id="github-activity-table-body"></tbody>

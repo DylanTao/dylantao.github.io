@@ -44,7 +44,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
         self.assertEqual(
             steps,
-            ["cadence", "magnitude", "bursts", "tokens", "explore"],
+            ["cadence", "magnitude", "bursts", "tokens", "agents", "explore"],
         )
         self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
         self.assertLess(
@@ -195,11 +195,23 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "One giant day was flattening everything else.",
             "Now read the whole rhythm yourself.",
             "completed personal agent days",
-            "Complete personal coverage begins at",
-            "partial coverage leaves earlier usage explicitly unobserved.",
+            "daily history appears only where validated.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
+
+        for phrase in (
+            "Then I zoom into the days with family data.",
+            "This close-up keeps the Codex and Claude layers readable",
+            "Then I zoom into the recent aggregate history.",
+            "Recent agent history is unavailable.",
+        ):
+            with self.subTest(dynamic_phrase=phrase):
+                self.assertIn(phrase, self.script if "Recent agent history" not in phrase else self.page)
+
+        self.assertIn("data-build-rhythm-agent-heading", self.page)
+        self.assertIn("data-build-rhythm-agent-copy", self.page)
+        self.assertIn("const syncAgentStepCopy = (source) =>", self.script)
 
         public_story = "\n".join((self.page, self.script))
         for retired in (
@@ -238,7 +250,6 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "story-magnitude",
             "story-complete-commits",
             "story-complete-lines",
-            "story-complete-tokens",
         ):
             with self.subTest(axis_name=axis_name):
                 self.assertIn(f'"{axis_name}"', self.script)
@@ -286,22 +297,27 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertEqual(self.page.count("data-codex-usage"), 1)
         self.assertNotIn("github-activity-codex-trend", self.page)
         self.assertLess(
+            self.page.index('class="github-activity-agent-summary"'),
             self.page.index('class="github-activity-readout"'),
-            self.page.index('class="github-activity-lifetime-inline"'),
         )
-        self.assertLess(
-            self.page.index('class="github-activity-lifetime-inline"'),
-            self.page.index('data-jump-latest'),
-        )
-        self.assertIn('aria-label="Personal agent daily usage metadata"', self.page)
+        self.assertIn('aria-labelledby="github-activity-agent-summary-title"', self.page)
         self.assertIn("data-agent-family-summary", self.page)
         self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
-        self.assertIn('class="sr-only" data-codex-lifetime data-format="readable"', self.page)
-        self.assertIn("initCodexUsageSnapshot(() => scale)", self.script)
-        self.assertIn("renderCodexUsageScale(readScale());", self.script)
-        self.assertIn("renderCodexUsageScale(scale);", self.script)
-        self.assertIn('lifetime.dataset.format = literal ? "literal" : "readable";', self.script)
-        self.assertIn('`${number.format(source.combined_lifetime.token_count)} tokens`', self.script)
+        self.assertIn("data-agent-composition", self.page)
+        self.assertNotIn("data-agent-history-chart", self.page)
+        self.assertIn("<th scope=\"col\">Agent tokens</th>", self.page)
+        self.assertIn("<th scope=\"col\">Cumulative tokens</th>", self.page)
+        self.assertIn("initCodexUsageSnapshot()", self.script)
+        self.assertNotIn("renderCodexUsageScale", self.script)
+        self.assertIn('lifetime.dataset.format = "readable";', self.script)
+        self.assertIn("const agentFamilyPercentages = (totals) =>", self.script)
+        self.assertIn("const codexBasisPoints = Math.round((totals.codex / total) * 10_000);", self.script)
+        self.assertIn("const claudeBasisPoints = 10_000 - codexBasisPoints;", self.script)
+        self.assertIn("const claudeShare = Number((100 - codexShare).toFixed(4));", self.script)
+        self.assertIn("const exactLifetime = lifetimeHistoryRows(source).at(-1)?.tokenCount", self.script)
+        self.assertIn('lifetimeHeading.setAttribute("aria-label"', self.script)
+        self.assertIn("Daily family history begins ${fullDate.format(utcDate(coverageStart))}", self.script)
+        self.assertIn("height: 12px;", self.style)
         self.assertIn(
             '![6, 7].includes(candidate?.schema) || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
             self.script,
@@ -333,10 +349,18 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('candidate.agent_families[0] !== "codex"', self.script)
         self.assertIn('candidate.agent_families[1] !== "claude"', self.script)
         self.assertIn("agentTokens.codex + agentTokens.claude !== point.tokens", self.script)
-        self.assertIn('class: `${className}-codex-area`', self.script)
-        self.assertIn('class: `${className}-claude-area`', self.script)
-        self.assertIn('class: `${className}-claude-boundary`', self.script)
-        self.assertIn("Overall breakdown", self.script)
+        self.assertIn('class: "github-activity-agent-history-codex-area"', self.script)
+        self.assertIn('class: "github-activity-agent-history-claude-area"', self.script)
+        self.assertIn('class: "github-activity-agent-rail-codex-area"', self.script)
+        self.assertIn('class: "github-activity-agent-rail-claude-area"', self.script)
+        self.assertIn('name: "github-agent-history"', self.script)
+        self.assertIn("const drawSharedAgentRail =", self.script)
+        self.assertIn("const drawAgents =", self.script)
+        self.assertIn('targetScene === "agents"', self.script)
+        self.assertIn("domainStart: domain.start", self.script)
+        self.assertIn("domainEnd: domain.end", self.script)
+        self.assertIn("const selectedDomain = () =>", self.script)
+        self.assertIn("familyTotals.codex / exactTotal", self.script)
         self.assertIn("point.tokens", self.script)
         self.assertIn("tokenTotal += point.tokens", self.script)
         self.assertIn("Math.round(tokenTotal / 100_000_000)", self.script)
@@ -345,15 +369,14 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.script,
         )
         self.assertIn("codexUsageForDay(codexSource, row)", self.script)
-        self.assertIn("exact tokens${familySuffix} in interval", self.script)
-        self.assertIn("later days awaiting completion", self.script)
         self.assertIn('coverage.before_start === "zero"', self.script)
         self.assertIn("tokenCount: 0", self.script)
-        self.assertIn('className: "github-activity-lifetime-history"', self.script)
-        self.assertIn('axisName: "github-lifetime-history"', self.script)
-        self.assertIn("gapDays > 1", self.script)
-        self.assertIn("!point.continuousFromPrevious", self.script)
-        self.assertIn('"stroke-dasharray": "4 3"', self.script)
+        self.assertIn("span === 0 ? (left + width - right) / 2", self.script)
+        self.assertNotIn('className: "github-activity-lifetime-history"', self.script)
+        self.assertNotIn('axisName: "github-lifetime-history"', self.script)
+        self.assertNotIn("drawLifetimeHistory", self.script)
+        self.assertNotIn("agentFamilyHeadline", self.script)
+        self.assertNotIn("lifetimeRangeSummary", self.script)
         self.assertIn('y2: plotBottom', self.script)
         self.assertIn('height: plotBottom - plotTop', self.script)
         self.assertIn("let codexSourceSettled = false;", self.script)
@@ -365,7 +388,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
     def test_lifetime_cost_replay_is_schema4_sanitized_and_caveated(self) -> None:
         self.assertIn('class="github-activity-lifetime-cost" data-codex-cost hidden', self.page)
         self.assertIn(
-            "Burned <span data-codex-cost-value></span> of Sam's imaginary money &middot; public API-rate replay, not a bill.",
+            "<span data-codex-cost-value></span> public API-rate replay estimate &middot; not a bill.",
             self.page,
         )
         self.assertIn('data-codex-cost-value', self.page)
@@ -448,13 +471,16 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "direct_tracker.schema >= 5 and direct_tracker.combined_daily_usage",
             self.page,
         )
-        self.assertIn("Personal agent daily usage complete through", self.page)
+        self.assertIn("Personal agent daily usage is loading.", self.page)
         self.assertIn("sanitized personal agent series", self.page)
-        self.assertIn("Codex (two accounts combined)", self.page)
-        self.assertIn("Claude Code observed on this laptop", self.page)
-        self.assertIn("Shared family coverage begins July 29, 2026", self.page)
-        self.assertIn("without account identities or per-account readings", self.page)
-        self.assertIn("data-codex-observed", self.page)
+        self.assertIn("Codex gathers the observed Codex sources into one family", self.page)
+        self.assertIn("Claude reflects retained Claude Code usage available to this device", self.page)
+        self.assertIn("Daily family history begins July 29, 2026", self.page)
+        self.assertIn("account identities and per-account readings are not", self.page)
+        self.assertNotIn("data-codex-observed", self.page)
+        for retired in ("unallocated baseline", "two accounts combined", "this laptop"):
+            self.assertNotIn(retired, self.page.lower())
+            self.assertNotIn(retired, self.script.lower())
         self.assertNotIn("automatic refresh pending", self.page)
 
     def test_automated_snapshot_accepts_only_source_paired_confidence(self) -> None:

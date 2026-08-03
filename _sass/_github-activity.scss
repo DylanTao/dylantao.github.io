@@ -587,6 +587,135 @@
   outline-offset: 3px;
 }
 
+.github-activity-agent-summary {
+  margin: 0 0 1.25rem;
+  padding: clamp(1rem, 2.5vw, 1.35rem);
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.72rem;
+  background: var(--global-surface-color);
+}
+
+.github-activity-agent-summary[hidden],
+.github-activity-agent-families[hidden],
+.github-activity-lifetime-cost[hidden] {
+  display: none;
+}
+
+.github-activity-agent-summary-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.github-activity-agent-summary-heading p,
+.github-activity-agent-summary-heading h3 {
+  margin: 0;
+}
+
+.github-activity-agent-summary-heading h3 {
+  margin-top: 0.15rem;
+  color: var(--global-text-color);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.github-activity-agent-summary-heading h3 > span:last-child {
+  color: var(--global-text-color-light);
+  font-size: 0.48em;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.github-activity-agent-families {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.github-activity-agent-family-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.github-activity-agent-family-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+}
+
+.github-activity-agent-family-value {
+  color: var(--global-text-color-light);
+  text-align: right;
+}
+
+.github-activity-agent-swatch {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 0.16rem;
+  background: var(--github-activity-codex-color);
+}
+
+.github-activity-agent-swatch.is-claude {
+  background: var(--github-activity-claude-color);
+}
+
+.github-activity-agent-composition {
+  display: flex;
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--global-text-color) 12%, transparent);
+  border-radius: 999px;
+  background: var(--global-surface-container-low-color);
+}
+
+.github-activity-agent-composition-segment {
+  display: block;
+  flex: 0 0 auto;
+  height: 100%;
+  background: var(--github-activity-codex-color);
+}
+
+.github-activity-agent-composition-segment.is-claude {
+  background: var(--github-activity-claude-color);
+}
+
+.github-activity-agent-summary .github-activity-lifetime-status {
+  margin: 0.75rem 0 0;
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  line-height: 1.55;
+}
+
+.github-activity-agent-summary .github-activity-lifetime-cost {
+  max-width: 23rem;
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  line-height: 1.45;
+  text-align: right;
+}
+
+.github-activity-agent-summary .github-activity-lifetime-cost span {
+  color: var(--global-text-color);
+  font-weight: 700;
+}
+
 .github-activity-readout {
   display: flex;
   align-items: center;
@@ -754,11 +883,12 @@
 .github-activity-remove-line,
 .github-activity-add-stems,
 .github-activity-remove-stems,
-.github-activity-lifetime-history-line,
-.github-activity-lifetime-history-marker,
-.github-activity-lifetime-history-inspector-marker,
-.github-activity-lifetime-snapshot-line,
-.github-activity-lifetime-snapshot-marker {
+.github-activity-agent-rail-line,
+.github-activity-agent-rail-marker,
+.github-activity-agent-rail-inspector-marker,
+.github-activity-agent-rail-codex-area,
+.github-activity-agent-rail-claude-area,
+.github-activity-agent-rail-total-area {
   vector-effect: non-scaling-stroke;
 }
 
@@ -980,7 +1110,8 @@
   .github-activity-controls,
   .github-activity-readout,
   .github-activity-range-status,
-  .github-activity-module-heading {
+  .github-activity-module-heading,
+  .github-activity-agent-summary-heading {
     align-items: stretch;
     flex-direction: column;
   }
@@ -1004,6 +1135,18 @@
 
   .github-activity-latest {
     align-self: flex-start;
+  }
+
+  .github-activity-agent-families {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .github-activity-agent-composition {
+    grid-column: 1;
+  }
+
+  .github-activity-agent-summary .github-activity-lifetime-cost {
+    text-align: left;
   }
 
   .github-activity-chart {

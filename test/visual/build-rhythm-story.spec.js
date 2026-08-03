@@ -106,18 +106,21 @@ const legacyDailyUsageFixture = {
   updated_at: "2026-07-27T08:00:00Z",
 };
 
-const expectedLifetimeMarkerCount = (source, activity = dailyActivityFixture) => {
-  const usage = source.combined_daily_usage;
-  let count = usage.points.length;
-  if (usage.coverage.before_start !== "zero") return count;
-
-  const domainStart = Date.parse(`${activity.coverage.starts_on}T00:00:00Z`);
-  const coverageStart = Date.parse(`${usage.coverage.starts_on}T00:00:00Z`);
-  if (domainStart >= coverageStart) return count;
-
-  count += 1;
-  if (coverageStart - domainStart > 86_400_000) count += 1;
-  return count;
+const oneDayZeroClaudeFixture = {
+  ...dailyUsageFixture,
+  combined_lifetime: { ...dailyUsageFixture.combined_lifetime, token_count: 200000000, tokens_label: "0.2B" },
+  combined_daily_usage: {
+    ...dailyUsageFixture.combined_daily_usage,
+    coverage: {
+      ...dailyUsageFixture.combined_daily_usage.coverage,
+      starts_on: "2026-07-30",
+      complete_through: "2026-07-30",
+      prior_unallocated_tokens: 100000000,
+      prior_unallocated_by_agent: { codex: 100000000, claude: 0 },
+    },
+    points: [{ date: "2026-07-30", tokens: 100000000, agent_tokens: { codex: 100000000, claude: 0 } }],
+  },
+  cost: { ...dailyUsageFixture.cost, usd_midpoint: 159, usd_label: "~$0.2K API-rate replay" },
 };
 
 const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = (body) => body, activity = dailyActivityFixture } = {}) => {
@@ -158,7 +161,8 @@ test("missing personal history shows one compact rebuilding state", async ({ pag
   await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
   await expect(page.locator(".github-activity-method")).toBeHidden();
   await expect(page.locator(".github-activity-readout")).toBeHidden();
-  await expect(page.locator("[data-codex-usage]")).toBeHidden();
+  await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
+  await expect(page.locator("[data-codex-usage]")).toBeVisible();
   await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
   expect(runtimeErrors).toEqual([]);
 });
@@ -279,11 +283,27 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await expect(tokenDetails).toHaveAttribute("open", "");
   await expect(tokenRhythm).toContainText("the running total above and each day's increase below");
   const explorerChart = page.locator("#github-activity-chart");
-  const lifetimeAxis = explorerChart.locator('[data-build-rhythm-y-axis="github-lifetime-history"]');
-  await expect(lifetimeAxis).toHaveCount(1);
-  await expect(explorerChart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(explorerChart.locator(".github-activity-lifetime-history-marker")).toHaveCount(expectedLifetimeMarkerCount(dailyUsageFixture));
-  await expect(explorerChart).toContainText("UNOBSERVED BEFORE JUL 29, 2026");
+  const agentSummary = page.locator("[data-codex-usage]");
+  await expect(agentSummary).toContainText("0.4B total tokens");
+  await expect(agentSummary).toContainText("Codex");
+  await expect(agentSummary).toContainText("325M · 81.25%");
+  await expect(agentSummary).toContainText("Claude");
+  await expect(agentSummary).toContainText("75M · 18.75%");
+  await expect(agentSummary).toContainText(
+    "Daily family history begins Jul 29, 2026. Earlier Codex usage is included in the total; its daily timing is unavailable."
+  );
+  await expect(agentSummary).toContainText("~$0.3K public API-rate replay estimate · not a bill.");
+  const agentStep = page.locator('[data-build-rhythm-step="agents"]');
+  await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Then I zoom into the days with family data.");
+  await expect(agentStep.locator("[data-build-rhythm-agent-copy]")).toHaveText(
+    "Daily family history begins Jul 29, 2026. This close-up keeps the Codex and Claude layers readable without changing the shared five-year explorer below."
+  );
+  await expect(agentSummary.locator("[data-agent-history-chart]")).toHaveCount(0);
+  await expect(explorerChart.locator('[data-build-rhythm-y-axis="github-agent-history"]')).toHaveCount(1);
+  await expect(explorerChart.locator(".github-activity-agent-rail-marker")).toHaveCount(2);
+  await expect(explorerChart.locator(".github-activity-agent-rail-codex-area")).toHaveCount(1);
+  await expect(explorerChart.locator(".github-activity-agent-rail-claude-area")).toHaveCount(1);
+  await expect(explorerChart).not.toContainText("UNOBSERVED BEFORE");
 
   await expect(story).toContainText("Commit count tells me when. Line changes tell me how much.");
   await expect(story).toContainText("One giant day was flattening everything else.");
@@ -298,10 +318,10 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(story).toHaveAttribute("data-story-static", "true");
     await expect(stage).toHaveAttribute("data-scene", "complete");
     await expect(chart.locator('[data-build-rhythm-story-layer="complete"]')).toHaveCount(1);
-    await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(3);
+    await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(2);
     await expectReadableAxes(chart, 12);
     await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
-    await expect(stage).toContainText(`${lifetimePayload.combined_lifetime.tokens_label} personal agent tokens`);
+    await expect(stage).not.toContainText("personal agent tokens");
     if (viewportWidth <= 420) {
       await expect(page.locator("#github-activity-token-table-scroll-hint")).toBeVisible();
       const tokenTableOverflow = await tokenTableRegion.evaluate((element) => element.scrollWidth - element.clientWidth);
@@ -309,8 +329,8 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     }
   } else {
     await expect(story).toHaveAttribute("data-story-static", "false");
-    const sceneAxisCounts = { cadence: 1, magnitude: 1, bursts: 2, tokens: 2, explore: 3 };
-    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "explore"]) {
+    const sceneAxisCounts = { cadence: 1, magnitude: 1, bursts: 2, tokens: 2, agents: 0, explore: 2 };
+    for (const scene of ["cadence", "magnitude", "bursts", "tokens", "agents", "explore"]) {
       const step = page.locator(`[data-build-rhythm-step="${scene}"]`);
       await step.scrollIntoViewIfNeeded();
       await expect(step).toHaveClass(/is-active/);
@@ -322,6 +342,17 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         await expect(chart).toContainText("SITE-BUILD · CUMULATIVE REPO ESTIMATE");
         await expect(stage).toContainText(latestTokenLabel);
         await attachScreenshot(page, testInfo, `build-rhythm-token-scene-${testInfo.project.name}`, { locator: stage });
+      }
+      if (scene === "agents") {
+        await expect(chart).toContainText("PERSONAL AGENT TOKENS · STACKED CUMULATIVE");
+        const markers = chart.locator(".github-activity-agent-history-marker");
+        await expect(markers).toHaveCount(2);
+        const geometry = await markers.evaluateAll((nodes) => ({
+          first: Number(nodes[0].getAttribute("cx")),
+          last: Number(nodes.at(-1).getAttribute("cx")),
+          width: nodes[0].ownerSVGElement.viewBox.baseVal.width,
+        }));
+        expect(geometry.last - geometry.first).toBeGreaterThanOrEqual(geometry.width * 0.9);
       }
       if (scene === "magnitude") {
         await attachScreenshot(page, testInfo, `build-rhythm-magnitude-scene-${testInfo.project.name}`, { locator: stage });
@@ -348,7 +379,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
         expect(geometry.chartHeight).toBeLessThanOrEqual(545);
       }
       if (scene === "explore") {
-        await expect(chart).toContainText("PERSONAL AGENT TOKENS");
+        await expect(chart).not.toContainText("PERSONAL AGENT TOKENS");
         await expect(chart).not.toContainText("SITE TOKENS");
       }
     }
@@ -358,8 +389,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(overflow, `${viewportWidth}px Build Rhythm page overflows`).toBeLessThanOrEqual(1);
   await expect(page.getByRole("button", { name: "Readable", exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Literal", exact: true }).click();
-  await expect(lifetimeAxis.locator(".build-rhythm-axis-tick.is-zero")).toHaveText("0");
-  expect(await lifetimeAxis.locator(".build-rhythm-axis-tick").count()).toBeGreaterThan(1);
+  await expect(agentSummary).toContainText("0.4B total tokens");
   await page.getByRole("button", { name: "Readable", exact: true }).click();
   await expect(page.locator("#github-activity-table-body")).toBeAttached();
   await attachScreenshot(page, testInfo, `build-rhythm-persistent-tokens-${testInfo.project.name}`, { locator: tokenRhythm });
@@ -371,7 +401,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(runtimeErrors).toEqual([]);
 });
 
-test("exact daily agent usage shares the combined date axis and preserves zero days", async ({ page }, testInfo) => {
+test("exact daily agent usage keeps a shared explorer domain and focused story scene", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the exact daily interaction contract");
 
   await preparePage(page, "light");
@@ -381,27 +411,38 @@ test("exact daily agent usage shares the combined date axis and preserves zero d
   await gotoWithDailyCode(page);
 
   const chart = page.locator("#github-activity-chart");
-  const historyLines = chart.locator(".github-activity-lifetime-history-line");
-  const historyMarkers = chart.locator(".github-activity-lifetime-history-marker");
-  await expect(historyLines).toHaveCount(1);
-  const historyGapDays = await chart
-    .locator(".github-activity-lifetime-history-line.is-gap")
-    .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("data-gap-days")));
-  expect(historyGapDays).toEqual([]);
-  await expect(historyMarkers).toHaveCount(expectedLifetimeMarkerCount(dailyUsageFixture));
-  await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(1);
-  await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(1);
-  await expect(chart.locator(".github-activity-lifetime-history-claude-boundary")).toHaveCount(1);
-  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toContainText("CODEX");
-  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toContainText("CLAUDE");
-  await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(chart).toContainText("UNOBSERVED BEFORE JUL 29, 2026");
+  const summary = page.locator("[data-codex-usage]");
+  const railMarkers = chart.locator(".github-activity-agent-rail-marker");
+  await expect(chart.locator(".github-activity-agent-rail-line")).toHaveCount(1);
+  await expect(railMarkers).toHaveCount(2);
+  await expect(chart.locator(".github-activity-agent-rail-codex-area")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-agent-rail-claude-area")).toHaveCount(1);
 
-  const historyGeometry = await historyMarkers.first().evaluate((marker) => ({
-    x: Number(marker.getAttribute("cx")),
-    width: marker.ownerSVGElement.viewBox.baseVal.width,
+  const railGeometry = await railMarkers.evaluateAll((markers) => ({
+    first: Number(markers[0].getAttribute("cx")),
+    last: Number(markers.at(-1).getAttribute("cx")),
+    width: markers[0].ownerSVGElement.viewBox.baseVal.width,
   }));
-  expect(historyGeometry.x).toBeGreaterThan(historyGeometry.width * 0.95);
+  expect(railGeometry.first).toBeGreaterThanOrEqual(railGeometry.width * 0.9);
+
+  await page.locator('[data-build-rhythm-step="agents"]').scrollIntoViewIfNeeded();
+  const focusedMarkers = page.locator("[data-build-rhythm-story-chart] .github-activity-agent-history-marker");
+  await expect(focusedMarkers).toHaveCount(2);
+  const focusedGeometry = await focusedMarkers.evaluateAll((markers) => ({
+    first: Number(markers[0].getAttribute("cx")),
+    last: Number(markers.at(-1).getAttribute("cx")),
+    width: markers[0].ownerSVGElement.viewBox.baseVal.width,
+  }));
+  expect(focusedGeometry.last - focusedGeometry.first).toBeGreaterThanOrEqual(focusedGeometry.width * 0.9);
+
+  const compositionWidths = await summary
+    .locator("[data-agent-composition] > span")
+    .evaluateAll((segments) => segments.map((segment) => Number.parseFloat(segment.style.width)));
+  expect(compositionWidths[0] + compositionWidths[1]).toBeCloseTo(100, 8);
+  await expect(summary.locator("[data-agent-composition]")).toHaveAttribute(
+    "aria-label",
+    /Codex 325,000,000 tokens, 81\.25 percent; Claude 75,000,000 tokens, 18\.75 percent/
+  );
 
   const guide = chart.locator(".github-activity-guide");
   const yearGrid = chart.locator(".github-activity-year-grid").last();
@@ -414,29 +455,33 @@ test("exact daily agent usage shares the combined date axis and preserves zero d
   const inspector = chart.locator(".github-activity-inspector");
   await inspector.focus();
   await expect(inspector).toHaveAttribute("aria-valuetext", /token usage unobserved or awaiting a completed day/);
-  await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "hidden");
 
   await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+200,000,000 tokens");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Codex +150,000,000");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Claude +50,000,000");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("400,000,000 cumulative");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+200M tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Codex +150M");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Claude +50M");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("400M total");
+  await expect(page.locator("#github-activity-selected-tokens")).toHaveAttribute(
+    "aria-label",
+    "200,000,000 tokens that day: 150,000,000 Codex and 50,000,000 Claude; 400,000,000 cumulative tokens."
+  );
   await expect(inspector).toHaveAttribute(
     "aria-valuetext",
     /200,000,000 tokens that day, 150,000,000 Codex and 50,000,000 Claude, 400,000,000 cumulative tokens/
   );
-  await expect(chart.locator(".github-activity-lifetime-history-inspector-marker")).toHaveAttribute("visibility", "visible");
   await page.keyboard.press("Shift+ArrowRight");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("through Jul 30, 2026");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("later days awaiting completion");
-  await expect(page.locator("#github-activity-range-summary")).not.toContainText("exact tokens in interval");
+  await expect(page.locator("#github-activity-range-summary")).not.toContainText("tokens");
   await page.keyboard.press("Escape");
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.press("Shift+ArrowLeft");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("+300,000,000 exact tokens");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("in interval");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("Codex +225,000,000");
-  await expect(page.locator("#github-activity-range-summary")).toContainText("Claude +75,000,000");
+  await expect(page.locator("#github-activity-range-summary")).not.toContainText("tokens");
+  await page.locator(".github-activity-method summary").click();
+  const exactRow = page.locator("#github-activity-table-body tr").filter({ hasText: "2026-07-30" });
+  await expect(exactRow.locator("td").nth(4)).toHaveText("200,000,000");
+  await expect(exactRow.locator("td").nth(5)).toHaveText("150,000,000");
+  await expect(exactRow.locator("td").nth(6)).toHaveText("50,000,000");
+  await expect(exactRow.locator("td").nth(7)).toHaveText("400,000,000");
+  await inspector.focus();
   await page.keyboard.press("ArrowLeft");
   await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
   await attachScreenshot(page, testInfo, "build-rhythm-exact-daily-usage-desktop-1440", {
@@ -453,16 +498,53 @@ test("legacy profile-6 daily fallback remains accepted", async ({ page }, testIn
   );
   await gotoWithDailyCode(page);
 
+  const summary = page.locator("[data-codex-usage]");
   const chart = page.locator("#github-activity-chart");
-  await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "ready");
-  await expect(chart.locator(".github-activity-lifetime-history-marker")).toHaveCount(expectedLifetimeMarkerCount(legacyDailyUsageFixture));
-  await expect(chart).not.toContainText("UNOBSERVED BEFORE");
-  await expect(chart.locator(".github-activity-lifetime-history-codex-area")).toHaveCount(0);
-  await expect(chart.locator(".github-activity-lifetime-history-claude-area")).toHaveCount(0);
-  await expect(chart.locator(".github-activity-lifetime-history-agent-legend")).toHaveCount(0);
-  await expect(chart).toContainText(`${legacyDailyUsageFixture.combined_lifetime.tokens_label} tokens`);
-  await expect(chart).not.toContainText(`${legacyDailyUsageFixture.combined_lifetime.tokens_label} personal agent tokens`);
+  await expect(summary).toHaveAttribute("data-state", "ready");
+  await expect(summary).toContainText(`${legacyDailyUsageFixture.combined_lifetime.tokens_label} total tokens`);
+  await expect(chart.locator(".github-activity-agent-rail-marker")).toHaveCount(legacyDailyUsageFixture.combined_daily_usage.points.length);
+  await expect(chart.locator(".github-activity-agent-rail-total-area")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-agent-rail-codex-area")).toHaveCount(0);
+  await expect(chart.locator(".github-activity-agent-rail-claude-area")).toHaveCount(0);
   await expect(page.locator("[data-agent-family-summary]")).toBeHidden();
+  const agentStep = page.locator('[data-build-rhythm-step="agents"]');
+  await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Then I zoom into the recent aggregate history.");
+  await expect(agentStep.locator("[data-build-rhythm-agent-copy]")).toHaveText(
+    "Daily aggregate history runs from Jul 22, 2026 through Jul 26, 2026. This close-up keeps the cumulative total readable without changing the shared five-year explorer below."
+  );
+  await expect(agentStep).not.toContainText("Codex");
+  await expect(agentStep).not.toContainText("Claude");
+  await agentStep.scrollIntoViewIfNeeded();
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  await expect(stage).toContainText("PERSONAL AGENT TOKENS · CUMULATIVE TOTAL");
+  await expect(stage).not.toContainText("STACKED CUMULATIVE");
+  await expect(stage).not.toContainText("Codex");
+  await expect(stage).not.toContainText("Claude");
+});
+
+test("one-day history is centered and zero Claude remains truthful", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the single-day geometry");
+
+  await preparePage(page, "light");
+  await page.route("**/assets/data/codex-profile-usage.json", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(oneDayZeroClaudeFixture) })
+  );
+  await gotoWithDailyCode(page);
+
+  const summary = page.locator("[data-codex-usage]");
+  await expect(summary.locator("[data-agent-claude-value]")).toHaveText("0 · 0.00%");
+  await expect(summary.locator("[data-agent-claude-segment]")).toHaveAttribute("style", /width: 0%/);
+  await expect(page.locator("#github-activity-chart .github-activity-agent-rail-line")).toHaveCount(0);
+  await page.locator('[data-build-rhythm-step="agents"]').scrollIntoViewIfNeeded();
+  const history = page.locator("[data-build-rhythm-story-chart]");
+  await expect(history.locator(".github-activity-agent-history-line")).toHaveCount(0);
+  const marker = history.locator(".github-activity-agent-history-marker");
+  await expect(marker).toHaveCount(1);
+  const geometry = await marker.evaluate((node) => ({
+    x: Number(node.getAttribute("cx")),
+    width: node.ownerSVGElement.viewBox.baseVal.width,
+  }));
+  expect(Math.abs(geometry.x - geometry.width / 2)).toBeLessThanOrEqual(25);
 });
 
 [
@@ -509,7 +591,7 @@ test("legacy profile-6 daily fallback remains accepted", async ({ page }, testIn
   });
 });
 
-test("Build Rhythm refreshes the final three-plot scene after delayed lifetime history", async ({ page }, testInfo) => {
+test("Build Rhythm reveals the agent summary after delayed lifetime history", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop proves the delayed-response redraw contract");
 
   await preparePage(page, "light");
@@ -527,13 +609,15 @@ test("Build Rhythm refreshes the final three-plot scene after delayed lifetime h
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
   await expect(story).toHaveAttribute("data-state", "ready");
-  await page.locator('[data-build-rhythm-step="explore"]').scrollIntoViewIfNeeded();
-  await expect(stage).toHaveAttribute("data-scene", "explore");
+  await page.locator('[data-build-rhythm-step="agents"]').scrollIntoViewIfNeeded();
+  await expect(stage).toHaveAttribute("data-scene", "agents");
   await expect(stage).not.toContainText("loading");
-  await expect(stage).not.toContainText("unavailable");
+  await expect(stage).toContainText("unavailable");
 
   releaseSnapshot();
-  await expect(stage).toContainText(usage.combined_lifetime.tokens_label);
+  await expect(page.locator("[data-codex-usage]")).toContainText(`${usage.combined_lifetime.tokens_label} total tokens`);
+  await expect(stage).toContainText("Codex 325M");
+  await expect(stage.locator(".github-activity-agent-history-marker")).toHaveCount(2);
 });
 
 test("Build Rhythm withholds a failed personal agent snapshot", async ({ page }, testInfo) => {
@@ -546,6 +630,18 @@ test("Build Rhythm withholds a failed personal agent snapshot", async ({ page },
   await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", "error");
   await expect(page.locator("[data-codex-usage]")).toBeHidden();
   await expect(page.locator(".github-activity-lifetime-value")).toHaveCount(0);
+  const agentStep = page.locator('[data-build-rhythm-step="agents"]');
+  await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Recent agent history is unavailable.");
+  await expect(agentStep.locator("[data-build-rhythm-agent-copy]")).toHaveText(
+    "A validated agent snapshot is unavailable. The shared five-year code explorer below remains available."
+  );
+  await expect(agentStep).not.toContainText("Codex");
+  await expect(agentStep).not.toContainText("Claude");
+  await agentStep.scrollIntoViewIfNeeded();
+  const stage = page.locator("[data-build-rhythm-story-stage]");
+  await expect(stage).toContainText("PERSONAL AGENT TOKENS · RECENT HISTORY");
+  await expect(stage).not.toContainText("STACKED CUMULATIVE");
+  await expect(stage).toContainText("Recent personal agent history is unavailable.");
 });
 
 test("Build Rhythm reduced motion renders one complete still", async ({ page }, testInfo) => {
@@ -575,8 +671,6 @@ test("Build Rhythm reduced motion renders one complete still", async ({ page }, 
 });
 
 test("Build Rhythm axes stay legible in the evening theme", async ({ page }, testInfo) => {
-  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "desktop and phone cover the dark axis treatment");
-
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "dark");
   await gotoWithDailyCode(page);
@@ -585,21 +679,27 @@ test("Build Rhythm axes stay legible in the evening theme", async ({ page }, tes
   const stage = page.locator("[data-build-rhythm-story-stage]");
   const storyChart = page.locator("[data-build-rhythm-story-chart]");
   const tokenChart = page.locator("[data-token-rhythm-chart]");
+  const explorerChart = page.locator("#github-activity-chart");
   await expect(story).toHaveAttribute("data-state", "ready");
-  if (testInfo.project.name === "desktop-1440") {
-    await page.locator('[data-build-rhythm-step="magnitude"]').scrollIntoViewIfNeeded();
-    await expect(stage).toHaveAttribute("data-scene", "magnitude");
-    await expect(storyChart.locator("[data-build-rhythm-y-axis]")).toHaveCount(1);
+  if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+    await page.locator('[data-build-rhythm-step="agents"]').scrollIntoViewIfNeeded();
+    await expect(stage).toHaveAttribute("data-scene", "agents");
+    expect(await storyChart.locator(".github-activity-agent-history-marker").count()).toBeGreaterThan(1);
   } else {
     await expect(stage).toHaveAttribute("data-scene", "complete");
-    await expect(storyChart.locator("[data-build-rhythm-y-axis]")).toHaveCount(3);
+    await expect(storyChart.locator("[data-build-rhythm-y-axis]")).toHaveCount(2);
+    await expectReadableAxes(storyChart, 12);
   }
-  await expectReadableAxes(storyChart, testInfo.project.name === "mobile-390" ? 12 : 14);
   await expectReadableAxes(tokenChart);
+  await expect(explorerChart.locator('[data-build-rhythm-y-axis="github-agent-history"]')).toHaveCount(1);
+  await expectReadableAxes(explorerChart, testInfo.project.name === "mobile-390" ? 12 : 14);
   const tickColors = await page.locator(".build-rhythm-axis-tick").evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).fill));
   expect(tickColors.length).toBeGreaterThan(4);
   expect(tickColors.every((color) => color && color !== "none" && color !== "rgba(0, 0, 0, 0)")).toBe(true);
   await attachScreenshot(page, testInfo, `build-rhythm-evening-axes-${testInfo.project.name}`, { locator: stage });
+  await attachScreenshot(page, testInfo, `build-rhythm-evening-explorer-${testInfo.project.name}`, {
+    locator: page.locator(".github-activity-workbench"),
+  });
   expect(runtimeErrors).toEqual([]);
 });
 
