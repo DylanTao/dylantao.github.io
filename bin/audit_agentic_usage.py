@@ -61,7 +61,7 @@ DESK_PATHS = [
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
 MODEL_TRACKING_SCOPE = "site_repo_retained_contexts"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 54
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 55
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -5980,6 +5980,126 @@ for (
 
 MODEL_DEVIATION_ACKNOWLEDGMENT_V54_TURN_IDS = tuple(
     row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V54_SITE_FOLLOWUP_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V55_TOKEN_UI_RELEASE_TURNS = (
+    (
+        "019fc4cd-520c-7e21-83b9-62a94c9a623d",
+        "2026-08-02T23:26:59.446Z",
+        "019fc4cd-4ebf-7d03-b2c0-c7c78b172f7a",
+        "/root/website_token_ui_impl",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-02T23:27:08.476Z",
+        "website token-summary and chart implementation",
+    ),
+    (
+        "019fc4cd-6f0d-7e20-9c72-a447ef2f74f8",
+        "2026-08-02T23:27:06.688Z",
+        "019fc4cd-6c39-76c0-abc9-2cdf312f4580",
+        "/root/profile_renderer_impl",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-02T23:27:14.919Z",
+        "private profile renderer token-summary and chart implementation",
+    ),
+    (
+        "019fc4e7-5a64-7b80-825c-db707a76c3c3",
+        "2026-08-02T23:55:25.007Z",
+        "019fc4e7-52f2-7ab1-8dcb-317a0efd374e",
+        "/root/profile_renderer_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-02T23:55:30.403Z",
+        "read-only renderer and validator edge-case review",
+    ),
+    (
+        "019fc4ed-8804-75e3-a1a0-0a3b24f4162b",
+        "2026-08-03T00:02:09.109Z",
+        "019fc4cd-4ebf-7d03-b2c0-c7c78b172f7a",
+        "/root/website_token_ui_impl",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T00:02:27.342Z",
+        "corrected shared-axis website and focused-story implementation",
+    ),
+    (
+        "019fc4ed-b1ad-7d31-a010-32c8b41c69d9",
+        "2026-08-03T00:02:19.749Z",
+        "019fc4cd-6c39-76c0-abc9-2cdf312f4580",
+        "/root/profile_renderer_impl",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T00:02:27.919Z",
+        "corrected shared-axis profile renderer implementation",
+    ),
+    (
+        "019fc4fd-edee-72f2-aad2-efd5aa65cedb",
+        "2026-08-03T00:20:03.901Z",
+        "019fc4e7-52f2-7ab1-8dcb-317a0efd374e",
+        "/root/profile_renderer_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T00:20:15.045Z",
+        "final shared-axis renderer and validator review",
+    ),
+    (
+        "019fc502-08c0-7793-b986-d47b96b733a9",
+        "2026-08-03T00:24:35.406Z",
+        "019fc502-06e7-7982-9416-088dc78e746c",
+        "/root/website_token_ui_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T00:24:41.671Z",
+        "read-only website shared-axis design and data-contract review",
+    ),
+    (
+        "019fc50b-daf0-7b43-9d89-f16d5ebb530e",
+        "2026-08-03T00:35:16.449Z",
+        "019fc4e7-52f2-7ab1-8dcb-317a0efd374e",
+        "/root/profile_renderer_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T00:35:20.765Z",
+        "schema-five and family-class validation recheck",
+    ),
+    (
+        "019fc515-4397-7b71-bab7-3d616cf5b8f1",
+        "2026-08-03T00:45:33.047Z",
+        "019fc4e7-52f2-7ab1-8dcb-317a0efd374e",
+        "/root/profile_renderer_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T00:45:53.628Z",
+        "real-snapshot renderer validation and light-dark visual inspection",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V55_TOKEN_UI_RELEASE_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "acknowledged_at": "2026-08-02",
+        "reason": (
+            "The coordinator explicitly delegated bounded website or profile token-UI "
+            "implementation, review, or verification at high effort. This release-scoped "
+            "override differed from the site's declared ultra default; the original model "
+            "and effort remain visible."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-02."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V55_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V55_TOKEN_UI_RELEASE_TURNS
 )
 
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
