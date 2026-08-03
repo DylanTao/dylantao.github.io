@@ -49,6 +49,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Use whitespace to clarify grouping, not to create empty drama.
 - Every ounce of ink should matter, whether it is black text, colored text, a border, a card, a shadow, or a line.
 - Repeated information is useful only when it improves orientation; remove it when it merely restates the same claim.
+- When comparable time series begin on different dates, keep every verified earlier segment and let later series join when their evidence begins; never truncate the shared history merely to force a common start.
 - Pinned content is a route into the work, not a reason to remove that work from the chronological archive.
 - Line breaks are part of hierarchy. If a phrase leaves one orphan word on a line, adjust width, type size, or copy before accepting the wrap.
 
