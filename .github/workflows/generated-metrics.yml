@@ -27,6 +27,11 @@ on:
       - ".github/workflows/generated-metrics.yml"
   workflow_dispatch:
 
+# Supersede an in-flight run when a newer commit lands on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   contracts:
     runs-on: ubuntu-latest
@@ -35,7 +40,11 @@ jobs:
       - name: Checkout generated data
         uses: actions/checkout@v4
         with:
+          # History is needed for the diff and grep steps below, but this repo is
+          # large enough that a full blob fetch dominates the job. A partial clone
+          # keeps the history and skips the blobs.
           fetch-depth: 0
+          filter: blob:none
 
       - name: Setup Python
         uses: actions/setup-python@v5

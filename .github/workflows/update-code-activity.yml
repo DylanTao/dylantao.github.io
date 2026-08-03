@@ -7,7 +7,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: personal-code-activity
+  group: main-autocommit
   cancel-in-progress: false
 
 jobs:

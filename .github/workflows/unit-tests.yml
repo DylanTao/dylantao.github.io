@@ -78,9 +78,17 @@ on:
       - "!_data/personal_code_activity.json"
       - "!assets/data/codex-profile-usage.json"
 
+# Supersede an in-flight run when a newer commit lands on the same ref.
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   comments-integration-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4

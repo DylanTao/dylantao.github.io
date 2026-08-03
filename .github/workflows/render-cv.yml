@@ -13,10 +13,16 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+# Serialized, never cancelled: this workflow pushes commits.
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
+
 jobs:
   rendercv:
     name: RenderCV
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

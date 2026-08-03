@@ -76,10 +76,16 @@ on:
 permissions:
   contents: write
 
+# Serialized, never cancelled: a deploy must be allowed to finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   deploy:
     # available images: https://github.com/actions/runner-images#available-images
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4

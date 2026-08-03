@@ -34,9 +34,15 @@ on:
       - "test/integration_upgrade_cli.sh"
       - ".github/workflows/upgrade-check.yml"
 
+# Supersede an in-flight run when a newer commit lands on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   upgrade-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4

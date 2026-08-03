@@ -304,7 +304,10 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   await expect(agentSummary).toContainText("Claude area");
   await expect(agentSummary).toContainText("75M · 18.75%");
   const coverageStatus = agentSummary.locator("[data-codex-status]");
-  await expect(coverageStatus).toBeHidden();
+  // Visually hidden, still announced. sr-only leaves a 1x1 clipped box, which
+  // Playwright counts as visible, so toBeHidden() can never hold here -- and it
+  // would contradict the toHaveText assertion immediately below it.
+  await expect(coverageStatus).toHaveClass(/\bsr-only\b/);
   await expect(coverageStatus).toHaveText(
     "Daily Codex history begins Apr 30, 2026. Claude joins Jul 29, 2026. History is complete through Jul 30, 2026."
   );
@@ -654,7 +657,7 @@ test("Build Rhythm reveals the agent summary after delayed lifetime history", as
 
   releaseSnapshot();
   await expect(page.locator("[data-codex-usage]")).toContainText(`${usage.combined_lifetime.tokens_label} total tokens`);
-  await expect(stage).toContainText("Codex 325M");
+  await expect(stage).toContainText("Codex area 325M");
   await expect(stage.locator(".github-activity-agent-history-marker")).toHaveCount(dailyAgentPoints.length);
 });
 

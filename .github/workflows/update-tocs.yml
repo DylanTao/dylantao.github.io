@@ -6,21 +6,35 @@ on:
     branches:
       - main
       - master
+    # README.md is the only root-level document carrying gh-md-toc markers, so a
+    # broader "*.md" filter only ever wakes this job up to do nothing -- and its
+    # checkout is expensive enough that doing nothing still cost a cancelled run.
     paths:
-      - "*.md"
+      - "README.md"
+      - ".github/workflows/update-tocs.yml"
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# This job pushes to the default branch, so overlapping runs would race on a
+# non-fast-forward. Serialize with the other auto-commit workflows instead of
+# cancelling: a run killed between commit and push throws away finished work.
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # OR "2" -> To retrieve the preceding commit.
+          # changed-files needs history, not file contents. Without the blob
+          # filter a full clone of this repo does not finish inside the timeout.
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Get changed files
         id: changed-files
@@ -32,6 +46,7 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v4
         with:
+          node-version: \"20\"
           cache: npm
 
       - name: Install Prettier
@@ -43,7 +58,12 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          curl https://raw.githubusercontent.com/george-gca/github-markdown-toc/main/gh-md-toc -o gh-md-toc
+          # Pinned to a commit rather than main: this script is fetched at runtime
+          # and then executed in a job that can push to the default branch. --fail
+          # stops an error page from being saved, chmod +x'd and run as a script.
+          curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/george-gca/github-markdown-toc/e9e9197682f98d98d22ea6f1ae39afd95a054481/gh-md-toc \
+            -o gh-md-toc
           chmod a+x gh-md-toc
           for file in ${ALL_CHANGED_FILES}; do
             # Check if the file is a markdown file
@@ -60,3 +80,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
           commit_message: Auto update markdown TOC
+          # Default is '.', which would push anything npm ci perturbs to main.
+          file_pattern: \"*.md\"
