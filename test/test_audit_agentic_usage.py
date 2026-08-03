@@ -619,7 +619,7 @@ class SessionAccountingTests(unittest.TestCase):
 
     def test_acknowledgment_policy_has_complete_versioned_turn_entries(self) -> None:
         self.assertEqual(audit.MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION, 56)
-        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 534)
+        self.assertEqual(len(audit.MODEL_DEVIATION_ACKNOWLEDGMENTS), 536)
         required_fields = {
             "timestamp",
             "model",
