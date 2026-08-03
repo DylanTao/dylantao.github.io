@@ -58,7 +58,7 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        I start with when personal code changed and how much moved. Then I follow this site's token trace and the completed personal agent days.
+        I start with when personal code changed and how much moved. Then I follow this site's token trace and personal agent history.
       </p>
     </header>
 
@@ -71,7 +71,7 @@ github_activity: true
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Daily personal code activity beside completed personal agent usage.
+            Daily personal code activity beside personal agent history.
           </p>
         </div>
       </div>
@@ -126,7 +126,7 @@ github_activity: true
           <h3>Now read the whole rhythm yourself.</h3>
           <p>
             Change the range or scale, move day by day with the keyboard, and inspect the final plot. Use the summary for the overall total
-            and the shared-axis rail to compare timing; daily history appears only where validated.
+            and the shared-axis rail to compare how the rhythms line up.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
@@ -203,11 +203,11 @@ github_activity: true
 
       <div class="github-activity-agent-families" data-agent-family-summary hidden>
         <div class="github-activity-agent-family-row">
-          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-codex" aria-hidden="true"></span>Codex</span>
+          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-codex" aria-hidden="true"></span>Codex area</span>
           <span class="github-activity-agent-family-value" data-agent-codex-value></span>
         </div>
         <div class="github-activity-agent-family-row">
-          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-claude" aria-hidden="true"></span>Claude</span>
+          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-claude" aria-hidden="true"></span>Claude area</span>
           <span class="github-activity-agent-family-value" data-agent-claude-value></span>
         </div>
         <div class="github-activity-agent-composition" data-agent-composition role="img">
@@ -216,7 +216,7 @@ github_activity: true
         </div>
       </div>
 
-      <p class="github-activity-lifetime-status" id="github-activity-lifetime-status" data-codex-status>
+      <p class="github-activity-lifetime-status sr-only" id="github-activity-lifetime-status" data-codex-status>
         Personal agent daily usage is loading.
       </p>
     </section>
@@ -397,8 +397,8 @@ github_activity: true
         <p>Zero-activity dates appear only inside verified complete coverage. An incomplete or malformed refresh leaves the last valid record in place.</p>
       </div>
       <div>
-        <h2>Agent usage privacy boundary</h2>
-        <p>The collector publishes one sanitized personal agent series. Codex gathers the observed Codex sources into one family; Claude reflects retained Claude Code usage available to this device. Family totals are public, but account identities and per-account readings are not. Daily family history begins July 29, 2026; earlier Codex usage is included in the total, while its daily timing remains unavailable.</p>
+        <h2>Agent token history</h2>
+        <p>Daily Codex history begins April 30, 2026. Claude joins the same cumulative view on July 29, 2026. The personal agent totals stay separate from this site's rounded token estimate.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>

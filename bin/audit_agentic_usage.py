@@ -61,7 +61,7 @@ DESK_PATHS = [
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
 MODEL_TRACKING_SCOPE = "site_repo_retained_contexts"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 55
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 56
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -6100,6 +6100,62 @@ for (
 
 MODEL_DEVIATION_ACKNOWLEDGMENT_V55_TURN_IDS = tuple(
     row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V55_TOKEN_UI_RELEASE_TURNS
+)
+
+del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V56_TOKEN_HISTORY_REVIEW_TURNS = (
+    (
+        "019fc56e-1309-7bd0-9b76-1144eedf6987",
+        "2026-08-03T02:22:33.595Z",
+        "019fc4e7-52f2-7ab1-8dcb-317a0efd374e",
+        "/root/profile_renderer_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T02:22:45.955Z",
+        "read-only earlier-Codex profile renderer and visible-copy review",
+    ),
+    (
+        "019fc577-040c-7763-8125-fbf2be68d2bc",
+        "2026-08-03T02:32:22.787Z",
+        "019fc4e7-52f2-7ab1-8dcb-317a0efd374e",
+        "/root/profile_renderer_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-03T02:32:29.368Z",
+        "read-only rolling-prefix preservation and historical migration review",
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V56_TOKEN_HISTORY_REVIEW_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "acknowledged_at": "2026-08-02",
+        "reason": (
+            "The coordinator explicitly delegated bounded read-only token-history contract "
+            "review at high effort. This release-scoped override differed from the site's "
+            "declared ultra default; the original model and effort remain visible."
+        ),
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-02."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V56_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V56_TOKEN_HISTORY_REVIEW_TURNS
 )
 
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd

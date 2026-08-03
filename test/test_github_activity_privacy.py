@@ -191,7 +191,7 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 "prior_unallocated_by_agent",
             },
         )
-        self.assertEqual(coverage["starts_on"], "2026-07-29")
+        self.assertEqual(coverage["starts_on"], "2026-04-30")
         self.assertEqual(coverage["completeness"], "rolling_window_partial")
         self.assertEqual(coverage["before_start"], "unobserved")
         self.assertGreater(coverage["prior_unallocated_tokens"], 0)
@@ -205,6 +205,21 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             coverage["prior_unallocated_tokens"],
         )
         self.assertGreater(len(history["points"]), 0)
+        pre_claude_points = [
+            point for point in history["points"] if point["date"] < "2026-07-29"
+        ]
+        self.assertGreater(len(pre_claude_points), 0)
+        self.assertTrue(
+            all(point["agent_tokens"]["claude"] == 0 for point in pre_claude_points)
+        )
+        self.assertEqual(
+            next(
+                point["date"]
+                for point in history["points"]
+                if point["agent_tokens"]["claude"] > 0
+            ),
+            "2026-07-29",
+        )
         previous_date: date | None = None
         exact_total = coverage["prior_unallocated_tokens"]
         family_totals = dict(coverage["prior_unallocated_by_agent"])

@@ -194,15 +194,15 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "Commit count tells me when. Line changes tell me how much.",
             "One giant day was flattening everything else.",
             "Now read the whole rhythm yourself.",
-            "completed personal agent days",
-            "daily history appears only where validated.",
+            "personal agent history",
+            "compare how the rhythms line up.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
 
         for phrase in (
-            "Then I zoom into the days with family data.",
-            "This close-up keeps the Codex and Claude layers readable",
+            "Codex leads the trace. Claude joins later.",
+            "The daily Codex record starts",
             "Then I zoom into the recent aggregate history.",
             "Recent agent history is unavailable.",
         ):
@@ -316,7 +316,10 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("const claudeShare = Number((100 - codexShare).toFixed(4));", self.script)
         self.assertIn("const exactLifetime = lifetimeHistoryRows(source).at(-1)?.tokenCount", self.script)
         self.assertIn('lifetimeHeading.setAttribute("aria-label"', self.script)
-        self.assertIn("Daily family history begins ${fullDate.format(utcDate(coverageStart))}", self.script)
+        self.assertIn('const CODEX_DAILY_HISTORY_START = "2026-04-30";', self.script)
+        self.assertIn('const CLAUDE_DAILY_HISTORY_START = "2026-07-29";', self.script)
+        self.assertIn("Daily Codex history begins ${fullDate.format(utcDate(coverageStart))}", self.script)
+        self.assertIn('class="github-activity-lifetime-status sr-only"', self.page)
         self.assertIn("height: 12px;", self.style)
         self.assertIn(
             '![6, 7].includes(candidate?.schema) || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])',
@@ -349,10 +352,18 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('candidate.agent_families[0] !== "codex"', self.script)
         self.assertIn('candidate.agent_families[1] !== "claude"', self.script)
         self.assertIn("agentTokens.codex + agentTokens.claude !== point.tokens", self.script)
+        self.assertIn("point.date < CLAUDE_DAILY_HISTORY_START && agentTokens.claude !== 0", self.script)
         self.assertIn('class: "github-activity-agent-history-codex-area"', self.script)
         self.assertIn('class: "github-activity-agent-history-claude-area"', self.script)
         self.assertIn('class: "github-activity-agent-rail-codex-area"', self.script)
         self.assertIn('class: "github-activity-agent-rail-claude-area"', self.script)
+        self.assertIn('class: "github-activity-agent-history-line"', self.script)
+        self.assertIn('class: "github-activity-agent-rail-line"', self.script)
+        self.assertGreaterEqual(self.script.count("stroke: colors.text"), 4)
+        self.assertIn("stroke: palette.text", self.script)
+        self.assertIn("Codex area", self.page)
+        self.assertIn("Claude area", self.page)
+        self.assertIn("TOTAL LINE", self.script)
         self.assertIn('name: "github-agent-history"', self.script)
         self.assertIn("const drawSharedAgentRail =", self.script)
         self.assertIn("const drawAgents =", self.script)
@@ -472,11 +483,11 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page,
         )
         self.assertIn("Personal agent daily usage is loading.", self.page)
-        self.assertIn("sanitized personal agent series", self.page)
-        self.assertIn("Codex gathers the observed Codex sources into one family", self.page)
-        self.assertIn("Claude reflects retained Claude Code usage available to this device", self.page)
-        self.assertIn("Daily family history begins July 29, 2026", self.page)
-        self.assertIn("account identities and per-account readings are not", self.page)
+        self.assertIn("Daily Codex history begins April 30, 2026", self.page)
+        self.assertIn("Claude joins the same cumulative view on July 29, 2026", self.page)
+        self.assertIn("personal agent totals stay separate", self.page)
+        self.assertNotIn("sanitized personal agent series", self.page)
+        self.assertNotIn("account identities and per-account readings", self.page)
         self.assertNotIn("data-codex-observed", self.page)
         for retired in ("unallocated baseline", "two accounts combined", "this laptop"):
             self.assertNotIn(retired, self.page.lower())

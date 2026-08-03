@@ -22,6 +22,8 @@
   });
   const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
   const DAY_MS = 86_400_000;
+  const CODEX_DAILY_HISTORY_START = "2026-04-30";
+  const CLAUDE_DAILY_HISTORY_START = "2026-07-29";
   const utcDate = (value) => new Date(`${value}T00:00:00Z`);
   const svgElement = (name, attributes = {}) => {
     const node = document.createElementNS(NS, name);
@@ -291,7 +293,7 @@
           svgElement("path", {
             class: "github-activity-agent-history-total-area",
             d: areaPath(combinedPoints, bottom),
-            fill: colors.accent,
+            fill: colors.text,
             "fill-opacity": 0.16,
           })
         );
@@ -301,7 +303,7 @@
           class: "github-activity-agent-history-line",
           d: linePath(combinedPoints),
           fill: "none",
-          stroke: colors.accent,
+          stroke: colors.text,
           "stroke-width": 2,
           "stroke-linejoin": "round",
           "stroke-linecap": "round",
@@ -316,8 +318,8 @@
           cx: x(point.date),
           cy: y(point.tokenCount),
           r: index === points.length - 1 ? 4 : 2.3,
-          fill: index === points.length - 1 ? colors.surface : colors.accent,
-          stroke: colors.accent,
+          fill: index === points.length - 1 ? colors.surface : colors.text,
+          stroke: colors.text,
           "stroke-width": index === points.length - 1 ? 2 : 1,
         })
       );
@@ -374,7 +376,7 @@
           svgElement("path", {
             class: "github-activity-agent-rail-total-area",
             d: areaPath(combinedPoints, bottom),
-            fill: colors.accent,
+            fill: colors.text,
             "fill-opacity": 0.14,
           })
         );
@@ -384,7 +386,7 @@
           class: "github-activity-agent-rail-line",
           d: linePath(combinedPoints),
           fill: "none",
-          stroke: colors.accent,
+          stroke: colors.text,
           "stroke-width": 2,
           "stroke-linejoin": "round",
           "stroke-linecap": "round",
@@ -399,8 +401,8 @@
           cx: x(point.date),
           cy: y(point.tokenCount),
           r: index === points.length - 1 ? 4 : 2.2,
-          fill: index === points.length - 1 ? colors.surface : colors.accent,
-          stroke: colors.accent,
+          fill: index === points.length - 1 ? colors.surface : colors.text,
+          stroke: colors.text,
           "stroke-width": index === points.length - 1 ? 2 : 1,
         })
       );
@@ -531,10 +533,10 @@
       const points = lifetimeHistoryRows(source);
       if (hasAgentFamilyBreakdown(source)) {
         const coverageStart = utcDate(source.combined_daily_usage.coverage.starts_on);
-        agentStepHeading.textContent = "Then I zoom into the days with family data.";
-        agentStepCopy.textContent = `Daily family history begins ${fullDate.format(
-          coverageStart
-        )}. This close-up keeps the Codex and Claude layers readable without changing the shared five-year explorer below.`;
+        agentStepHeading.textContent = "Codex leads the trace. Claude joins later.";
+        agentStepCopy.textContent = `The daily Codex record starts ${fullDate.format(coverageStart)}. Claude joins the trace on ${fullDate.format(
+          utcDate(CLAUDE_DAILY_HISTORY_START)
+        )}.`;
       } else if (points.length) {
         agentStepHeading.textContent = "Then I zoom into the recent aggregate history.";
         agentStepCopy.textContent = `Daily aggregate history runs from ${fullDate.format(points[0].date)} through ${fullDate.format(
@@ -673,9 +675,9 @@
       const latest = plot.points.at(-1);
       const familyTotals = agentFamilyTotals(codexSource);
       return familyTotals
-        ? `${shortDate.format(plot.points[0].date)}–${shortDate.format(latest.date)} \u00b7 Codex ${familyNumber.format(
+        ? `${shortDate.format(plot.points[0].date)}–${shortDate.format(latest.date)} \u00b7 Codex area ${familyNumber.format(
             familyTotals.codex
-          )} \u00b7 Claude ${familyNumber.format(familyTotals.claude)} \u00b7 ${familyNumber.format(latest.tokenCount)} total.`
+          )} \u00b7 Claude area ${familyNumber.format(familyTotals.claude)} \u00b7 Total line ${familyNumber.format(latest.tokenCount)}.`
         : `${shortDate.format(plot.points[0].date)}–${shortDate.format(latest.date)} \u00b7 ${familyNumber.format(latest.tokenCount)} total.`;
     };
 
@@ -1118,14 +1120,14 @@
       if (split) {
         const priorByAgent = candidate.coverage.prior_unallocated_by_agent;
         if (
-          candidate.coverage.starts_on < "2026-07-29" ||
+          candidate.coverage.starts_on < CODEX_DAILY_HISTORY_START ||
           !exactKeys(priorByAgent, ["codex", "claude"]) ||
           !Number.isSafeInteger(priorByAgent.codex) ||
           !Number.isSafeInteger(priorByAgent.claude) ||
           priorByAgent.codex < 0 ||
           priorByAgent.claude < 0 ||
-          priorByAgent.codex + priorByAgent.claude !== candidate.coverage.prior_unallocated_tokens ||
-          (candidate.coverage.starts_on === "2026-07-29" && priorByAgent.claude !== 0)
+          (candidate.coverage.starts_on <= CLAUDE_DAILY_HISTORY_START && priorByAgent.claude !== 0) ||
+          priorByAgent.codex + priorByAgent.claude !== candidate.coverage.prior_unallocated_tokens
         )
           return false;
         familyTotals = { ...priorByAgent };
@@ -1153,6 +1155,7 @@
             !Number.isSafeInteger(agentTokens.claude) ||
             agentTokens.codex < 0 ||
             agentTokens.claude < 0 ||
+            (point.date < CLAUDE_DAILY_HISTORY_START && agentTokens.claude !== 0) ||
             agentTokens.codex + agentTokens.claude !== point.tokens
           )
             return false;
@@ -1260,7 +1263,9 @@
     const coverageStart = source.combined_daily_usage.coverage.starts_on;
     status.textContent =
       hasAgentFamilyBreakdown(source) && source.combined_daily_usage.coverage.before_start === "unobserved"
-        ? `Daily family history begins ${fullDate.format(utcDate(coverageStart))}. Earlier Codex usage is included in the total; its daily timing is unavailable.`
+        ? `Daily Codex history begins ${fullDate.format(utcDate(coverageStart))}. Claude joins ${fullDate.format(
+            utcDate(CLAUDE_DAILY_HISTORY_START)
+          )}. History is complete through ${fullDate.format(utcDate(statusDate))}.`
         : source.combined_daily_usage.coverage.before_start === "unobserved"
           ? `Daily history begins ${fullDate.format(utcDate(coverageStart))}. Earlier usage is included in the total; its daily timing is unavailable.`
           : `Daily history is complete through ${fullDate.format(utcDate(statusDate))}.`;
@@ -1907,7 +1912,7 @@
         weight: 700,
         className: "github-activity-agent-rail-heading",
       });
-      addText(chart, `${codexSource.combined_lifetime.tokens_label} total`, width - right, agentHeadingY, {
+      addText(chart, `TOTAL LINE \u00b7 ${codexSource.combined_lifetime.tokens_label}`, width - right, agentHeadingY, {
         anchor: "end",
         color: palette.text,
         weight: 700,
@@ -2005,7 +2010,7 @@
       class: "github-activity-agent-rail-inspector-marker",
       r: narrow ? 3.8 : 4.3,
       fill: palette.surface,
-      stroke: palette.accent,
+      stroke: palette.text,
       "stroke-width": 2.1,
       visibility: "hidden",
     });

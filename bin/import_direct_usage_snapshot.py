@@ -15,6 +15,7 @@ an actual bill.
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import math
 import os
@@ -111,7 +112,7 @@ HISTORY_COVERAGE_KEYS = {"starts_on", "before_start"}
 DAILY_USAGE_SCHEMA = 1
 AGENT_FAMILY_DAILY_USAGE_SCHEMA = 2
 AGENT_FAMILIES = ("codex", "claude")
-AGENT_FAMILY_EVIDENCE_START = date(2026, 7, 29)
+CLAUDE_DAILY_EVIDENCE_START = date(2026, 7, 29)
 DAILY_USAGE_GRAIN = "day"
 DAILY_USAGE_KEYS = {
     "schema",
@@ -315,14 +316,6 @@ def _validate_daily_usage(
         raise SnapshotError(
             f"{label} three-source coverage must remain rolling-window partial"
         )
-    if (
-        expected_schema == AGENT_FAMILY_DAILY_USAGE_SCHEMA
-        and starts_on < AGENT_FAMILY_EVIDENCE_START
-    ):
-        raise SnapshotError(
-            f"{label}.coverage.starts_on cannot precede the retained "
-            f"agent-family evidence boundary {AGENT_FAMILY_EVIDENCE_START.isoformat()}"
-        )
     prior_unallocated_tokens = _count(
         coverage["prior_unallocated_tokens"],
         f"{label}.coverage.prior_unallocated_tokens",
@@ -360,12 +353,12 @@ def _validate_daily_usage(
                 "prior_unallocated_tokens"
             )
         if (
-            starts_on == AGENT_FAMILY_EVIDENCE_START
+            starts_on <= CLAUDE_DAILY_EVIDENCE_START
             and prior_unallocated_by_agent["claude"] != 0
         ):
             raise SnapshotError(
                 f"{label}.coverage.prior_unallocated_by_agent.claude must be zero "
-                "at the first retained Claude evidence date"
+                "before the first retained Claude evidence date"
             )
     if completeness == "whole_lifetime":
         if before_start != "zero" or prior_unallocated_tokens != 0:
@@ -429,6 +422,14 @@ def _validate_daily_usage(
                 raise SnapshotError(
                     f"{point_label}.agent_tokens must sum to tokens"
                 )
+            if (
+                point_date < CLAUDE_DAILY_EVIDENCE_START
+                and agent_tokens["claude"] != 0
+            ):
+                raise SnapshotError(
+                    f"{point_label}.agent_tokens.claude must be zero before "
+                    "the first retained Claude evidence date"
+                )
             for family, value in agent_tokens.items():
                 family_totals[family] += value
                 if family_totals[family] > JAVASCRIPT_SAFE_INTEGER:
@@ -463,6 +464,104 @@ def _validate_daily_usage(
             f"{label} exact total does not reconcile with the rounded lifetime total"
         )
     return usage
+
+
+def _preserve_agent_family_prefix(
+    previous_site: Any | None,
+    current: dict[str, Any],
+    *,
+    rounded_lifetime_token_count: int,
+    source_count: int,
+    observed_at: datetime,
+    checked_at: datetime,
+) -> dict[str, Any]:
+    """Keep already-published Codex-only rows when a rolling window advances."""
+
+    if previous_site is None or current["schema"] != AGENT_FAMILY_DAILY_USAGE_SCHEMA:
+        return current
+    previous, _ = _validate_previous_site(previous_site)
+    if previous["schema"] not in (DAILY_SITE_SCHEMA, SITE_SCHEMA):
+        return current
+    previous_usage = previous["combined_daily_usage"]
+    if (
+        previous_usage["coverage"]["completeness"] != "rolling_window_partial"
+        or current["coverage"]["completeness"] != "rolling_window_partial"
+    ):
+        return current
+
+    previous_start = _parse_iso_date(
+        previous_usage["coverage"]["starts_on"],
+        "previous combined_daily_usage.coverage.starts_on",
+    )
+    current_start = _parse_iso_date(
+        current["coverage"]["starts_on"],
+        "combined_daily_usage.coverage.starts_on",
+    )
+    if current_start <= previous_start:
+        return current
+    previous_complete = _parse_iso_date(
+        previous_usage["coverage"]["complete_through"],
+        "previous combined_daily_usage.coverage.complete_through",
+    )
+    if previous_complete < current_start - timedelta(days=1):
+        if previous_usage["schema"] == DAILY_USAGE_SCHEMA:
+            return current
+        raise SnapshotError(
+            "combined daily usage cannot advance past an unfilled published-history gap"
+        )
+
+    prefix: list[dict[str, Any]] = []
+    prefix_by_agent = {family: 0 for family in AGENT_FAMILIES}
+    for previous_point in previous_usage["points"]:
+        point_date = _parse_iso_date(
+            previous_point["date"],
+            "previous combined_daily_usage point date",
+        )
+        if point_date >= current_start:
+            break
+        if previous_usage["schema"] == AGENT_FAMILY_DAILY_USAGE_SCHEMA:
+            point = copy.deepcopy(previous_point)
+        else:
+            point = {
+                "date": previous_point["date"],
+                "tokens": previous_point["tokens"],
+                "agent_tokens": {
+                    "codex": previous_point["tokens"],
+                    "claude": 0,
+                },
+            }
+        prefix.append(point)
+        for family in AGENT_FAMILIES:
+            prefix_by_agent[family] += point["agent_tokens"][family]
+
+    if not prefix or prefix[-1]["date"] != (current_start - timedelta(days=1)).isoformat():
+        raise SnapshotError(
+            "combined daily usage cannot advance past an unfilled published-history gap"
+        )
+
+    current_prior = current["coverage"]["prior_unallocated_by_agent"]
+    merged_prior = {
+        family: current_prior[family] - prefix_by_agent[family]
+        for family in AGENT_FAMILIES
+    }
+    if any(value < 0 for value in merged_prior.values()):
+        raise SnapshotError(
+            "combined daily usage preserved prefix exceeds the current family prior"
+        )
+
+    merged = copy.deepcopy(current)
+    merged["coverage"]["starts_on"] = previous_start.isoformat()
+    merged["coverage"]["prior_unallocated_by_agent"] = merged_prior
+    merged["coverage"]["prior_unallocated_tokens"] = sum(merged_prior.values())
+    merged["points"] = prefix + merged["points"]
+    return _validate_daily_usage(
+        merged,
+        rounded_lifetime_token_count=rounded_lifetime_token_count,
+        source_count=source_count,
+        observed_at=observed_at,
+        checked_at=checked_at,
+        expected_schema=AGENT_FAMILY_DAILY_USAGE_SCHEMA,
+    )
 
 
 def _validate_daily_progression(
@@ -1117,6 +1216,14 @@ def build_site_snapshot(
         checked_at=checked_at,
         expected_schema=expected_daily_schema,
         label="snapshot.combinedDailyUsage",
+    )
+    daily_usage = _preserve_agent_family_prefix(
+        previous_site,
+        daily_usage,
+        rounded_lifetime_token_count=token_count,
+        source_count=source_count,
+        observed_at=observed_at,
+        checked_at=checked_at,
     )
     _validate_new_snapshot_progression(
         previous_site,

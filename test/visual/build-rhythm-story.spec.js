@@ -30,6 +30,23 @@ const dailyActivityFixture = (() => {
   };
 })();
 
+const dailyAgentPoints = (() => {
+  const points = [];
+  const events = new Map([
+    ["2026-04-30", { codex: 25000000, claude: 0 }],
+    ["2026-06-19", { codex: 25000000, claude: 0 }],
+    ["2026-07-28", { codex: 25000000, claude: 0 }],
+    ["2026-07-29", { codex: 0, claude: 25000000 }],
+    ["2026-07-30", { codex: 150000000, claude: 50000000 }],
+  ]);
+  for (let stamp = Date.UTC(2026, 3, 30); stamp <= Date.UTC(2026, 6, 30); stamp += 86_400_000) {
+    const date = new Date(stamp).toISOString().slice(0, 10);
+    const agentTokens = events.get(date) || { codex: 0, claude: 0 };
+    points.push({ date, tokens: agentTokens.codex + agentTokens.claude, agent_tokens: agentTokens });
+  }
+  return points;
+})();
+
 const dailyUsageFixture = {
   schema: 7,
   combined_lifetime: {
@@ -48,17 +65,14 @@ const dailyUsageFixture = {
     aggregation: "sum_of_sources",
     agent_families: ["codex", "claude"],
     coverage: {
-      starts_on: "2026-07-29",
+      starts_on: "2026-04-30",
       complete_through: "2026-07-30",
       before_start: "unobserved",
       completeness: "rolling_window_partial",
       prior_unallocated_tokens: 100000000,
       prior_unallocated_by_agent: { codex: 100000000, claude: 0 },
     },
-    points: [
-      { date: "2026-07-29", tokens: 100000000, agent_tokens: { codex: 75000000, claude: 25000000 } },
-      { date: "2026-07-30", tokens: 200000000, agent_tokens: { codex: 150000000, claude: 50000000 } },
-    ],
+    points: dailyAgentPoints,
   },
   method: "rounded_sum_of_observed_agent_usage_sources",
   confidence: "mixed",
@@ -247,7 +261,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(lifetimePayload.schema).toBe(7);
   expect(lifetimePayload.combined_daily_usage.schema).toBe(2);
   expect(lifetimePayload.combined_daily_usage.agent_families).toEqual(["codex", "claude"]);
-  expect(lifetimePayload.combined_daily_usage.coverage.starts_on).toBe("2026-07-29");
+  expect(lifetimePayload.combined_daily_usage.coverage.starts_on).toBe("2026-04-30");
   expect(lifetimePayload.combined_daily_usage.coverage.complete_through).toBe("2026-07-30");
   expect(legacyDailyUsageFixture.schema).toBe(6);
   expect(legacyDailyUsageFixture.combined_daily_usage.schema).toBe(1);
@@ -285,22 +299,24 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   const explorerChart = page.locator("#github-activity-chart");
   const agentSummary = page.locator("[data-codex-usage]");
   await expect(agentSummary).toContainText("0.4B total tokens");
-  await expect(agentSummary).toContainText("Codex");
+  await expect(agentSummary).toContainText("Codex area");
   await expect(agentSummary).toContainText("325M · 81.25%");
-  await expect(agentSummary).toContainText("Claude");
+  await expect(agentSummary).toContainText("Claude area");
   await expect(agentSummary).toContainText("75M · 18.75%");
-  await expect(agentSummary).toContainText(
-    "Daily family history begins Jul 29, 2026. Earlier Codex usage is included in the total; its daily timing is unavailable."
+  const coverageStatus = agentSummary.locator("[data-codex-status]");
+  await expect(coverageStatus).toBeHidden();
+  await expect(coverageStatus).toHaveText(
+    "Daily Codex history begins Apr 30, 2026. Claude joins Jul 29, 2026. History is complete through Jul 30, 2026."
   );
   await expect(agentSummary).toContainText("~$0.3K public API-rate replay estimate · not a bill.");
   const agentStep = page.locator('[data-build-rhythm-step="agents"]');
-  await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Then I zoom into the days with family data.");
+  await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Codex leads the trace. Claude joins later.");
   await expect(agentStep.locator("[data-build-rhythm-agent-copy]")).toHaveText(
-    "Daily family history begins Jul 29, 2026. This close-up keeps the Codex and Claude layers readable without changing the shared five-year explorer below."
+    "The daily Codex record starts Apr 30, 2026. Claude joins the trace on Jul 29, 2026."
   );
   await expect(agentSummary.locator("[data-agent-history-chart]")).toHaveCount(0);
   await expect(explorerChart.locator('[data-build-rhythm-y-axis="github-agent-history"]')).toHaveCount(1);
-  await expect(explorerChart.locator(".github-activity-agent-rail-marker")).toHaveCount(2);
+  await expect(explorerChart.locator(".github-activity-agent-rail-marker")).toHaveCount(dailyAgentPoints.length);
   await expect(explorerChart.locator(".github-activity-agent-rail-codex-area")).toHaveCount(1);
   await expect(explorerChart.locator(".github-activity-agent-rail-claude-area")).toHaveCount(1);
   await expect(explorerChart).not.toContainText("UNOBSERVED BEFORE");
@@ -346,7 +362,7 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
       if (scene === "agents") {
         await expect(chart).toContainText("PERSONAL AGENT TOKENS · STACKED CUMULATIVE");
         const markers = chart.locator(".github-activity-agent-history-marker");
-        await expect(markers).toHaveCount(2);
+        await expect(markers).toHaveCount(dailyAgentPoints.length);
         const geometry = await markers.evaluateAll((nodes) => ({
           first: Number(nodes[0].getAttribute("cx")),
           last: Number(nodes.at(-1).getAttribute("cx")),
@@ -414,9 +430,19 @@ test("exact daily agent usage keeps a shared explorer domain and focused story s
   const summary = page.locator("[data-codex-usage]");
   const railMarkers = chart.locator(".github-activity-agent-rail-marker");
   await expect(chart.locator(".github-activity-agent-rail-line")).toHaveCount(1);
-  await expect(railMarkers).toHaveCount(2);
+  await expect(railMarkers).toHaveCount(dailyAgentPoints.length);
   await expect(chart.locator(".github-activity-agent-rail-codex-area")).toHaveCount(1);
   await expect(chart.locator(".github-activity-agent-rail-claude-area")).toHaveCount(1);
+  await expect(chart).toContainText("TOTAL LINE · 0.4B");
+
+  const railColors = await Promise.all([
+    chart.locator(".github-activity-agent-rail-codex-area").getAttribute("fill"),
+    chart.locator(".github-activity-agent-rail-claude-area").getAttribute("fill"),
+    chart.locator(".github-activity-agent-rail-line").getAttribute("stroke"),
+    railMarkers.last().getAttribute("stroke"),
+  ]);
+  expect(new Set(railColors.slice(0, 3)).size).toBe(3);
+  expect(railColors[3]).toBe(railColors[2]);
 
   const railGeometry = await railMarkers.evaluateAll((markers) => ({
     first: Number(markers[0].getAttribute("cx")),
@@ -427,7 +453,17 @@ test("exact daily agent usage keeps a shared explorer domain and focused story s
 
   await page.locator('[data-build-rhythm-step="agents"]').scrollIntoViewIfNeeded();
   const focusedMarkers = page.locator("[data-build-rhythm-story-chart] .github-activity-agent-history-marker");
-  await expect(focusedMarkers).toHaveCount(2);
+  await expect(focusedMarkers).toHaveCount(dailyAgentPoints.length);
+  const focusedChart = page.locator("[data-build-rhythm-story-chart]");
+  const focusedColors = await Promise.all([
+    focusedChart.locator(".github-activity-agent-history-codex-area").getAttribute("fill"),
+    focusedChart.locator(".github-activity-agent-history-claude-area").getAttribute("fill"),
+    focusedChart.locator(".github-activity-agent-history-line").getAttribute("stroke"),
+    focusedMarkers.last().getAttribute("stroke"),
+  ]);
+  expect(new Set(focusedColors.slice(0, 3)).size).toBe(3);
+  expect(focusedColors[3]).toBe(focusedColors[2]);
+  await expect(page.locator("[data-build-rhythm-story-readout]")).toContainText("Codex area 325M · Claude area 75M · Total line 400M");
   const focusedGeometry = await focusedMarkers.evaluateAll((markers) => ({
     first: Number(markers[0].getAttribute("cx")),
     last: Number(markers.at(-1).getAttribute("cx")),
@@ -483,7 +519,9 @@ test("exact daily agent usage keeps a shared explorer domain and focused story s
   await expect(exactRow.locator("td").nth(7)).toHaveText("400,000,000");
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-tokens")).toContainText("unobserved");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("+25M tokens");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Codex +25M");
+  await expect(page.locator("#github-activity-selected-tokens")).toContainText("Claude +0");
   await attachScreenshot(page, testInfo, "build-rhythm-exact-daily-usage-desktop-1440", {
     locator: page.locator(".github-activity-workbench"),
   });
@@ -567,10 +605,10 @@ test("one-day history is centered and zero Claude remains truthful", async ({ pa
     },
   },
   {
-    label: "Claude tokens invented before the common observed start",
+    label: "Claude tokens before Claude tracking begins",
     mutate: (usage) => {
-      usage.combined_daily_usage.coverage.prior_unallocated_by_agent.codex -= 1;
-      usage.combined_daily_usage.coverage.prior_unallocated_by_agent.claude = 1;
+      usage.combined_daily_usage.points[0].agent_tokens.codex -= 1;
+      usage.combined_daily_usage.points[0].agent_tokens.claude += 1;
     },
   },
 ].forEach(({ label, mutate }) => {
@@ -617,7 +655,7 @@ test("Build Rhythm reveals the agent summary after delayed lifetime history", as
   releaseSnapshot();
   await expect(page.locator("[data-codex-usage]")).toContainText(`${usage.combined_lifetime.tokens_label} total tokens`);
   await expect(stage).toContainText("Codex 325M");
-  await expect(stage.locator(".github-activity-agent-history-marker")).toHaveCount(2);
+  await expect(stage.locator(".github-activity-agent-history-marker")).toHaveCount(dailyAgentPoints.length);
 });
 
 test("Build Rhythm withholds a failed personal agent snapshot", async ({ page }, testInfo) => {

@@ -62,7 +62,7 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
 ## Scope Rules
 
 - Full site revamp counter starts at May 22, 2026 6:05 PM Pacific.
-- `_data/direct_usage_tracker.json` is the only public direct aggregate surface. It contains one rounded combined total plus a strict Codex-versus-Claude family breakdown from the common retained evidence boundary, with no identities or per-account readings. Claude is not a cross-device or enterprise-console lifetime claim.
+- `_data/direct_usage_tracker.json` is the only public direct aggregate surface. It contains one rounded combined total plus a strict Codex-versus-Claude family breakdown. Preserve the earliest validated Codex daily prefix when Claude is added or a rolling collector window advances; Claude stays zero before its first retained event. Publish no identities or per-account readings. Claude is not a cross-device or enterprise-console lifetime claim.
 - Retained local history starts at June 19, 2026 12:00 AM Pacific and spans every locally retained Codex session after global ancestry deduplication. Keep its session count and model mix visible in the data file, label its request-aware price replay as an estimate rather than a bill, and never present this retained slice as account lifetime.
 - Win-CodexBar 0.42 raw 30-day aggregation is diagnostic provenance only, not a canonical usage or price source.
 - 3D desk/vinyl counter starts at June 16, 2026 8:00 PM Pacific.

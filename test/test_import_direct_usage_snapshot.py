@@ -479,18 +479,92 @@ class DirectUsageImportTests(unittest.TestCase):
         prior_by_agent["codex"] -= 1
         prior_by_agent["claude"] = 1
         invalid_cases.append(
-            (invented_claude_prehistory, "claude must be zero at the first retained")
+            (invented_claude_prehistory, "claude must be zero before the first retained")
         )
-
-        early_start = source()
-        early_start["combinedDailyUsage"]["coverage"]["starts_on"] = "2026-07-28"
-        early_start["combinedDailyUsage"]["points"][0]["date"] = "2026-07-28"
-        invalid_cases.append((early_start, "cannot precede.*2026-07-29"))
 
         for payload, message in invalid_cases:
             with self.subTest(message=message):
                 with self.assertRaisesRegex(tracker.SnapshotError, message):
                     tracker.build_site_snapshot(payload, now=self.AGENT_NOW)
+
+    def test_accepts_codex_only_rows_before_claude_evidence(self) -> None:
+        early = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        usage = early["combinedDailyUsage"]
+        usage["coverage"]["starts_on"] = "2026-07-28"
+        usage["points"].insert(
+            0,
+            {
+                "date": "2026-07-28",
+                "tokens": 0,
+                "agent_tokens": {"codex": 0, "claude": 0},
+            },
+        )
+        site = tracker.build_site_snapshot(early, now=self.AGENT_NOW)
+        self.assertEqual(
+            site["combined_daily_usage"]["coverage"]["starts_on"],
+            "2026-07-28",
+        )
+
+        invented = json.loads(json.dumps(early))
+        invented_point = invented["combinedDailyUsage"]["points"][0]
+        invented_point["tokens"] = 1
+        invented_point["agent_tokens"] = {"codex": 0, "claude": 1}
+        with self.assertRaisesRegex(
+            tracker.SnapshotError,
+            "claude must be zero before the first retained",
+        ):
+            tracker.build_site_snapshot(invented, now=self.AGENT_NOW)
+
+    def test_agent_family_window_slide_preserves_published_codex_prefix(self) -> None:
+        previous_source = self.daily_source(
+            source_count=3,
+            completeness="rolling_window_partial",
+        )
+        previous_usage = previous_source["combinedDailyUsage"]
+        previous_usage["coverage"]["starts_on"] = "2026-07-28"
+        previous_usage["coverage"]["prior_unallocated_tokens"] -= 100_000_000
+        previous_usage["coverage"]["prior_unallocated_by_agent"]["codex"] -= 100_000_000
+        previous_usage["points"].insert(
+            0,
+            {
+                "date": "2026-07-28",
+                "tokens": 100_000_000,
+                "agent_tokens": {"codex": 100_000_000, "claude": 0},
+            },
+        )
+        previous = tracker.build_site_snapshot(previous_source, now=self.AGENT_NOW)
+
+        current_source = self.daily_source(
+            token_count=32_900_000_000,
+            source_count=3,
+            updated_at="2026-08-01T00:05:00Z",
+            completeness="rolling_window_partial",
+        )
+        current_usage = current_source["combinedDailyUsage"]
+        current_usage["coverage"]["complete_through"] = "2026-07-31"
+        current_usage["points"].append(
+            {
+                "date": "2026-07-31",
+                "tokens": 100_000_000,
+                "agent_tokens": {"codex": 100_000_000, "claude": 0},
+            }
+        )
+        merged = tracker.build_site_snapshot(
+            current_source,
+            previous_site=previous,
+            now=datetime(2026, 8, 1, 0, 10, tzinfo=timezone.utc),
+        )["combined_daily_usage"]
+
+        self.assertEqual(merged["coverage"]["starts_on"], "2026-07-28")
+        self.assertEqual(
+            merged["coverage"]["prior_unallocated_by_agent"],
+            {"codex": 32_000_000_000, "claude": 0},
+        )
+        self.assertEqual(merged["points"][0], previous_usage["points"][0])
+        self.assertEqual(merged["points"][1:], current_usage["points"])
 
     def test_source_count_can_increase_once_but_not_decrease(self) -> None:
         previous = tracker.build_site_snapshot(
@@ -862,7 +936,14 @@ class DirectUsageImportTests(unittest.TestCase):
         )
         self.assertEqual(
             checked["combined_daily_usage"]["coverage"]["starts_on"],
-            "2026-07-29",
+            "2026-04-30",
+        )
+        self.assertTrue(
+            all(
+                point["agent_tokens"]["claude"] == 0
+                for point in checked["combined_daily_usage"]["points"]
+                if point["date"] < "2026-07-29"
+            )
         )
         self.assertEqual(
             date.fromisoformat(
