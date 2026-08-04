@@ -110,6 +110,7 @@ Before pushing changes to this customized site:
 - After commit, rerun `python bin/audit_agentic_usage.py` read-only; update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
 - Stage only intended files; do not sweep unrelated dirty files into a stats refresh.
 - This repo has a project-local Codex hook in `.codex/hooks.json` that checks `git commit`/`git push` freshness. Review and trust it with `/hooks` when Codex reports a new or changed hook.
+- That hook throttles its ~100s ledger audit to once every six hours per checkout, tracked in the gitignored `.codex/.ledger-audit-stamp`. Inside the window commits are not gated on the ledger, so before a publish push run the `--write` audit above explicitly rather than relying on the hook to prompt you.
 
 ## Agent Routing Rules
 
