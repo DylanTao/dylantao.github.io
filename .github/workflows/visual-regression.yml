@@ -79,7 +79,12 @@ concurrency:
 jobs:
   visual-checkpoints:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    # A fully green run measured 34m48s against the previous 35m cap -- twelve
+    # seconds of headroom. The work is genuinely this long (two browser installs,
+    # two Jekyll builds, 260 cases over four viewports), so the cap was mis-sized
+    # rather than the suite being slow. This is not masking a hang: the job still
+    # fails fast on a dead server via its own readiness poll.
+    timeout-minutes: 50
     steps:
       - name: Checkout candidate
         uses: actions/checkout@v4
