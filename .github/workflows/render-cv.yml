@@ -59,6 +59,13 @@ jobs:
         run: |
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-          git add -A
-          git commit -m "chore: render the latest CV"
-          git push
+          # Scope the add to the render output: `git add -A` swept the whole tree.
+          # And bare `git commit` exits 1 on an empty diff, so any cv.yml edit that
+          # left the rendered PDF byte-identical failed the job outright.
+          git add -- assets/rendercv/rendercv_output
+          if git diff --cached --quiet; then
+            echo "Rendered CV is unchanged; nothing to publish."
+          else
+            git commit -m "chore: render the latest CV"
+            git push
+          fi

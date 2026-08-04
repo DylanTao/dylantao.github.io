@@ -17,6 +17,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Matches the gate on deploy-image.yml and docker-slim.yml, which this file was
+    # missing: it publishes to the upstream Docker Hub account and would fail at
+    # login the first time this fork pushes a v* tag.
+    if: github.repository_owner == 'alshedivat'
 
     steps:
       - name: Checkout
