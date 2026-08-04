@@ -71,6 +71,13 @@ on:
       - "!docs/FAQ.md"
       - "!docs/INSTALL.md"
       - "!README.md"
+  # The two data-refresh workflows (citations, personal code activity) commit with
+  # GITHUB_TOKEN, and such pushes deliberately do not trigger other workflows -- so
+  # their data would otherwise sit unpublished until an unrelated human push. This
+  # daily run is the backstop that publishes them, and it needs no extra token or
+  # `actions: write` anywhere. Scheduled after both refreshes (00:00 and 05:40).
+  schedule:
+    - cron: "30 6 * * *"
   workflow_dispatch:
 
 permissions:

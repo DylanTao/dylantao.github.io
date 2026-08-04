@@ -117,11 +117,19 @@ jobs:
           echo "Git configured."
 
       - name: Commit and push if changed
+        id: publish
         if: steps.update.outputs.citation_result == 'success'
         run: |
           git add _data/citations.yml _data/publication_lens.yml
-          git diff --staged --quiet || (
+          if git diff --staged --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "No citation changes to publish."
+          else
             echo "Committing and pushing changes..."
             git commit -m "Update Google Scholar citations"
             git push
-          )
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+          # Note: this push uses GITHUB_TOKEN, which deliberately does not trigger
+          # other workflows -- so it does not deploy itself. The scheduled run in
+          # deploy.yml is what publishes it. See the comment on that schedule.

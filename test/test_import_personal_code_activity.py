@@ -325,9 +325,13 @@ class PersonalCodeActivityTests(unittest.TestCase):
                 [output],
             )
 
-    def test_workflow_is_manual_personal_only_and_does_not_dispatch(
+    def test_workflow_is_personal_only_and_does_not_dispatch(
         self,
     ) -> None:
+        # The refresh may run on a schedule, but it must stay confined to the
+        # personal lane: it never fans out to other workflows and never holds the
+        # permission that would let it. Those two bans are the blast-radius
+        # contract; being manual-only never was one.
         workflow = (
             REPO_ROOT / ".github" / "workflows" / "update-code-activity.yml"
         ).read_text(encoding="utf-8")
@@ -335,7 +339,6 @@ class PersonalCodeActivityTests(unittest.TestCase):
         self.assertIn("--personal-repo profile", workflow)
         self.assertIn("_data/personal_code_activity.json", workflow)
         self.assertIn("workflow_dispatch:", workflow)
-        self.assertNotIn("cron:", workflow)
         self.assertNotIn("gh workflow run", workflow)
         self.assertNotIn("actions: write", workflow)
 

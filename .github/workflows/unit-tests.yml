@@ -77,10 +77,11 @@ on:
       - "!_data/github_activity.json"
       - "!_data/personal_code_activity.json"
       - "!assets/data/codex-profile-usage.json"
-
-# Supersede an in-flight run when a newer commit lands on the same ref.
+  # Re-run on demand: this workflow's path filters exclude generated data, so a
+  # follow-up fix commit cannot otherwise re-verify a red main.
   workflow_dispatch:
 
+# Supersede an in-flight run when a newer commit lands on the same ref.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
