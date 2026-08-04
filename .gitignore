@@ -13,6 +13,9 @@ __pycache__/
 assets/libs/
 assets/rendercv/rendercv_output/*.typ
 al-folio-upgrade-report.md
+# Records when this checkout last completed a passing agentic-usage audit, so the
+# commit hook can throttle it. Local machine state, never published.
+.codex/.ledger-audit-stamp
 node_modules/
 output/playwright/
 test-results/

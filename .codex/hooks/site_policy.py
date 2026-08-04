@@ -12,7 +12,7 @@ import re
 import shlex
 import subprocess
 import sys
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -23,6 +23,15 @@ RunCommand = Callable[..., subprocess.CompletedProcess[str]]
 # below the outer hook timeout while leaving enough headroom for archive growth.
 LEDGER_AUDIT_TIMEOUT_SECONDS = 150
 PUBLISH_BRANCHES = {"main", "master", "v1.0-dev"}
+
+# The audit above costs ~100s, and a working session can produce many commits in
+# an afternoon. Paying it on every one of them buys nothing: the published
+# figures are rounded lifetime totals, so tolerating a few hours of lag is
+# invisible on the site. Audit at most once per window instead, and treat the
+# window as local machine state -- it records when *this* checkout last paid the
+# cost, which is not something the repository should publish or share.
+LEDGER_AUDIT_THROTTLE = timedelta(hours=6)
+LEDGER_AUDIT_STAMP_RELPATH = Path(".codex") / ".ledger-audit-stamp"
 
 DATE_RE = re.compile(r"\b{key}\s*:\s*['\"]?(?P<date>\d{{4}}-\d{{2}}-\d{{2}})")
 
@@ -201,6 +210,51 @@ def current_branch(repo_root: Path, runner: RunCommand) -> str:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "could not resolve current git branch")
     return result.stdout.strip()
+
+
+def ledger_audit_stamp_path(repo_root: Path) -> Path:
+    return repo_root / LEDGER_AUDIT_STAMP_RELPATH
+
+
+def read_ledger_audit_stamp(repo_root: Path) -> datetime | None:
+    """When this checkout last completed a passing ledger audit, if ever."""
+
+    try:
+        raw = ledger_audit_stamp_path(repo_root).read_text(encoding="utf-8").strip()
+    except OSError:
+        return None
+    try:
+        stamp = datetime.fromisoformat(raw)
+    except ValueError:
+        # A hand-edited or truncated stamp must not be trusted into skipping the
+        # audit. Fall through to running it.
+        return None
+    if stamp.tzinfo is None:
+        return stamp.replace(tzinfo=timezone.utc)
+    return stamp.astimezone(timezone.utc)
+
+
+def write_ledger_audit_stamp(repo_root: Path, moment: datetime) -> None:
+    path = ledger_audit_stamp_path(repo_root)
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(moment.astimezone(timezone.utc).isoformat(), encoding="utf-8")
+    except OSError:
+        # Losing the stamp only costs an extra audit next time. It must never be
+        # the reason a commit is blocked.
+        pass
+
+
+def ledger_audit_is_throttled(repo_root: Path, *, now: datetime) -> bool:
+    stamp = read_ledger_audit_stamp(repo_root)
+    if stamp is None:
+        return False
+    age = now.astimezone(timezone.utc) - stamp
+    # A negative age means the stamp is in the future -- clock skew, or a stamp
+    # copied between machines. Re-audit rather than trusting it.
+    if age < timedelta(0):
+        return False
+    return age < LEDGER_AUDIT_THROTTLE
 
 
 def run_ledger_check(repo_root: Path, *, include_pending_commit: bool, runner: RunCommand) -> str | None:
@@ -415,7 +469,13 @@ def check_scholar_freshness(
     return None
 
 
-def handle_payload(payload: dict[str, Any], *, today: date | None = None, runner: RunCommand = run_command) -> dict[str, Any] | None:
+def handle_payload(
+    payload: dict[str, Any],
+    *,
+    today: date | None = None,
+    now: datetime | None = None,
+    runner: RunCommand = run_command,
+) -> dict[str, Any] | None:
     tool_input = payload.get("tool_input") or {}
     command = tool_input.get("command")
     if not isinstance(command, str):
@@ -438,6 +498,9 @@ def handle_payload(payload: dict[str, Any], *, today: date | None = None, runner
     except RuntimeError as error:
         return deny(f"Could not run site freshness policy: {error}")
 
+    moment = now or datetime.now(timezone.utc)
+    throttled = ledger_audit_is_throttled(repo_root, now=moment)
+
     include_pending_commit = verb == "commit" and not is_amend(args)
     pending_paths: list[str] = []
     if verb == "commit":
@@ -448,7 +511,7 @@ def handle_payload(payload: dict[str, Any], *, today: date | None = None, runner
         # Temporary worker branches can checkpoint without racing the public
         # ledger. The coordinator must integrate them into a publish branch,
         # whose commit and every push still enforce a fresh ledger.
-        if not branch or branch in PUBLISH_BRANCHES:
+        if (not branch or branch in PUBLISH_BRANCHES) and not throttled:
             ledger_error = run_stage_aware_ledger_check(
                 repo_root,
                 include_pending_commit=include_pending_commit,
@@ -457,12 +520,14 @@ def handle_payload(payload: dict[str, Any], *, today: date | None = None, runner
             )
             if ledger_error:
                 return deny(ledger_error)
+            write_ledger_audit_stamp(repo_root, moment)
     else:
         pushed_paths = outgoing_paths(repo_root, runner)
-        if not only_hook_infrastructure(pushed_paths):
+        if not only_hook_infrastructure(pushed_paths) and not throttled:
             ledger_error = run_ledger_check(repo_root, include_pending_commit=False, runner=runner)
             if ledger_error:
                 return deny(ledger_error)
+            write_ledger_audit_stamp(repo_root, moment)
 
     try:
         scholar_result = check_scholar_freshness(

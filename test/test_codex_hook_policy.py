@@ -5,7 +5,7 @@ import json
 import subprocess
 import tempfile
 import unittest
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -262,6 +262,108 @@ class HookPolicyTest(unittest.TestCase):
 
         reason = self.assert_denied(response)
         self.assertIn("Scholar citation data files should be staged together", reason)
+
+    # --- ledger audit throttle ---------------------------------------------------
+
+    def audit_calls(self, runner: Any) -> list[list[str]]:
+        return [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
+
+    def write_audit_stamp(self, moment: datetime) -> None:
+        path = site_policy.ledger_audit_stamp_path(self.repo)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(moment.isoformat(), encoding="utf-8")
+
+    def test_throttle_window_is_the_documented_six_hours(self) -> None:
+        self.assertEqual(site_policy.LEDGER_AUDIT_THROTTLE, timedelta(hours=6))
+
+    def test_commit_inside_the_throttle_window_skips_the_audit(self) -> None:
+        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
+        self.write_audit_stamp(now - timedelta(hours=1))
+        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
+
+        response = site_policy.handle_payload(
+            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
+        )
+
+        # The ledger is stale, but the window has not elapsed, so the expensive
+        # audit never runs and the commit is not blocked on it.
+        self.assertIsNone(response)
+        self.assertEqual(self.audit_calls(runner), [])
+
+    def test_commit_past_the_throttle_window_runs_the_audit(self) -> None:
+        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
+        self.write_audit_stamp(now - timedelta(hours=7))
+        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
+
+        response = site_policy.handle_payload(
+            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
+        )
+
+        self.assertIn("Agentic usage ledger is stale", self.assert_denied(response))
+        self.assertEqual(len(self.audit_calls(runner)), 1)
+
+    def test_passing_audit_records_the_stamp(self) -> None:
+        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
+        runner = self.runner(ledger_returncode=0, staged_paths=["AGENTS.md"])
+
+        site_policy.handle_payload(
+            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
+        )
+
+        self.assertEqual(site_policy.read_ledger_audit_stamp(self.repo), now)
+
+    def test_failing_audit_does_not_record_the_stamp(self) -> None:
+        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
+        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
+
+        site_policy.handle_payload(
+            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
+        )
+
+        # Nothing was recorded, so the very next commit re-audits rather than
+        # inheriting a six-hour reprieve from a failed run.
+        self.assertIsNone(site_policy.read_ledger_audit_stamp(self.repo))
+
+    def test_push_honours_the_throttle_window(self) -> None:
+        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
+        self.write_audit_stamp(now - timedelta(hours=1))
+        runner = self.runner(ledger_returncode=1, outgoing_paths=["AGENTS.md"])
+
+        response = site_policy.handle_payload(self.payload("git push"), today=date(2026, 6, 20), now=now, runner=runner)
+
+        self.assertIsNone(response)
+        self.assertEqual(self.audit_calls(runner), [])
+
+    def test_unparseable_stamp_falls_back_to_auditing(self) -> None:
+        path = site_policy.ledger_audit_stamp_path(self.repo)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("not-a-timestamp", encoding="utf-8")
+        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
+
+        response = site_policy.handle_payload(
+            self.payload('git commit -m "site polish"'),
+            today=date(2026, 6, 20),
+            now=datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc),
+            runner=runner,
+        )
+
+        self.assertIn("Agentic usage ledger is stale", self.assert_denied(response))
+
+    def test_future_stamp_falls_back_to_auditing(self) -> None:
+        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
+        self.write_audit_stamp(now + timedelta(hours=3))
+        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
+
+        response = site_policy.handle_payload(
+            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
+        )
+
+        # Clock skew or a stamp copied between machines must not buy a reprieve.
+        self.assertIn("Agentic usage ledger is stale", self.assert_denied(response))
+
+    def test_stamp_is_ignored_by_git(self) -> None:
+        ignore_text = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+        self.assertIn(str(site_policy.LEDGER_AUDIT_STAMP_RELPATH.as_posix()), ignore_text)
 
 
 if __name__ == "__main__":
