@@ -1,38 +1,14 @@
 {
   "schema": 3,
-  "updated_on": "2026-07-28",
+  "updated_on": "2026-08-01",
   "timezone": "UTC",
   "scope": "personal_code_activity",
   "coverage": {
-    "starts_on": "2021-07-29",
-    "complete_through": "2026-07-28",
+    "starts_on": "2021-08-02",
+    "complete_through": "2026-08-01",
     "status": "complete"
   },
   "points": [
-    {
-      "date": "2021-07-29",
-      "commits": 0,
-      "additions": 0,
-      "deletions": 0
-    },
-    {
-      "date": "2021-07-30",
-      "commits": 0,
-      "additions": 0,
-      "deletions": 0
-    },
-    {
-      "date": "2021-07-31",
-      "commits": 0,
-      "additions": 0,
-      "deletions": 0
-    },
-    {
-      "date": "2021-08-01",
-      "commits": 0,
-      "additions": 0,
-      "deletions": 0
-    },
     {
       "date": "2021-08-02",
       "commits": 0,
@@ -10961,9 +10937,33 @@
     },
     {
       "date": "2026-07-28",
-      "commits": 53,
-      "additions": 513652,
-      "deletions": 375634
+      "commits": 73,
+      "additions": 783065,
+      "deletions": 624305
+    },
+    {
+      "date": "2026-07-29",
+      "commits": 138,
+      "additions": 225123,
+      "deletions": 13026
+    },
+    {
+      "date": "2026-07-30",
+      "commits": 93,
+      "additions": 1036422,
+      "deletions": 870395
+    },
+    {
+      "date": "2026-07-31",
+      "commits": 89,
+      "additions": 895537,
+      "deletions": 624218
+    },
+    {
+      "date": "2026-08-01",
+      "commits": 18,
+      "additions": 309123,
+      "deletions": 306548
     }
   ]
 }
