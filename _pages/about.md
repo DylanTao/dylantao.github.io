@@ -184,7 +184,7 @@ research_motion:
       label: Design
       title: Scaffold design thinking
       text: Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.
-      motion_summary: Dimensions, variations, comparisons, and fidelity shifts become thinking surfaces.
+      motion_summary: Vary the alternatives, compare them, then refine.
       detail_title: Human-AI for design thinking
       detail_text: >-
         I study interfaces that support design thinking beyond artifact
@@ -203,7 +203,7 @@ research_motion:
       label: Evaluate
       title: Study process, not just output
       text: Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.
-      motion_summary: Process traces and rationales reveal what the scaffold changed.
+      motion_summary: Read the process traces, not just the final artifact.
       detail_title: Evaluation for design thinking
       detail_text: >-
         I evaluate AI tools with evidence between controlled psychology tasks and
@@ -221,7 +221,7 @@ research_motion:
       label: Situate
       title: Fit help to everyday contexts
       text: Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.
-      motion_summary: Help fits the person, task, tool, and setting.
+      motion_summary: Fit the help to the person, task, tool, and space.
       detail_title: Interfaces fitted to context
       detail_text: >-
         I use situated work for settings where judgment depends on practice and

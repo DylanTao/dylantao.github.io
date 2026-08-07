@@ -16,6 +16,10 @@
     const hasIntersectionObserver = "IntersectionObserver" in window;
     const MAX_INTERACTION_INTENT = 0.72;
     const POINTER_EDGE_RAMP = 0.08;
+    // Peak tempo lift at full engagement. Applied to an accumulated clock, never to absolute time,
+    // so a change in energy speeds the flow up instead of rescaling (and jumping) every phase.
+    const MOTION_FLOW_GAIN = 0.45;
+    const MOTION_FLOW_BASE = 0.9;
 
     const knownModes = new Set(["design", "evaluate", "situated"]);
     const buttonForMode = (mode) => buttons.find((button) => button.getAttribute("data-research-mode") === mode);
@@ -31,6 +35,8 @@
       transitionMs: 420,
       pulseStartedAt: Number.NEGATIVE_INFINITY,
       kineticEnergy: 0,
+      lastFrameAt: 0,
+      flowTime: 0,
       width: 0,
       height: 0,
       dpr: 1,
@@ -52,6 +58,9 @@
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const lerp = (a, b, t) => a + (b - a) * t;
     const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    const smoothstep = (t) => t * t * (3 - 2 * t);
+    // Frame-rate independent easing: `rate` is the per-frame share at 60fps.
+    const approach = (rate, elapsed) => (elapsed > 0 ? 1 - Math.pow(1 - rate, elapsed * 60) : rate);
     const cubic = (a, b, c, d, t) => {
       const inv = 1 - t;
       return inv * inv * inv * a + 3 * inv * inv * t * b + 3 * inv * t * t * c + t * t * t * d;
@@ -291,10 +300,12 @@
       ctx.fillRect(0, 0, width, height);
     };
 
-    const updatePointer = () => {
+    const flowSpeed = () => MOTION_FLOW_BASE * (1 + MOTION_FLOW_GAIN * (state.kineticEnergy / MAX_INTERACTION_INTENT));
+
+    const updatePointer = (elapsed) => {
       const hasTarget = state.pointer.targetIntent > 0;
-      const positionSpeed = hasTarget ? 0.07 : 0.045;
-      const intentSpeed = hasTarget ? 0.055 : 0.072;
+      const positionSpeed = approach(hasTarget ? 0.07 : 0.045, elapsed);
+      const intentSpeed = approach(hasTarget ? 0.05 : 0.045, elapsed);
       state.pointer.x = lerp(state.pointer.x, state.pointer.tx, positionSpeed);
       state.pointer.y = lerp(state.pointer.y, state.pointer.ty, positionSpeed);
       state.pointer.intent = clamp(lerp(state.pointer.intent, state.pointer.targetIntent, intentSpeed), 0, MAX_INTERACTION_INTENT);
@@ -386,8 +397,7 @@
       designParticles.forEach((particle) => {
         const laneCount = state.width < 560 ? 3 : 5;
         const laneT = clamp((particle.lane + 0.55) / laneCount, 0.08, 0.92);
-        const routeSpeed = lerp(0.9, 1.58, kineticEnergy);
-        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.035 * particle.speed * routeSpeed);
+        const routeT = state.reduceMotion ? particle.seed : wrap01(particle.seed + state.flowTime * 0.035 * particle.speed);
         const y0 = lerp(top, bottom, laneT) + Math.sin(time * 0.48 + particle.phase) * b.height * 0.015;
         const y1 = lerp(bottom, top, laneT) - Math.sin(time * 0.44 + particle.phase) * b.height * 0.012;
         const compareLift = Math.sin(laneT * Math.PI) * b.height * 0.11;
@@ -427,7 +437,7 @@
       const top = b.top + b.height * 0.07;
       const pointerLift = (0.5 - state.pointer.y) * b.height * 0.18 * state.pointer.intent;
       const kineticEnergy = state.kineticEnergy;
-      const scanT = state.reduceMotion ? 0.58 : wrap01(time * 0.11 * lerp(0.9, 1.46, kineticEnergy));
+      const scanT = state.reduceMotion ? 0.58 : wrap01(state.flowTime * 0.11);
       const scanX = lerp(b.left + b.width * 0.05, b.right - b.width * 0.05, scanT);
 
       beginMode(pal, 0.14 * alpha, 1);
@@ -490,7 +500,7 @@
 
       const evaluateParticles = state.geometry.particles?.evaluate || [];
       evaluateParticles.forEach((particle) => {
-        const progress = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.085 * particle.speed * lerp(0.9, 1.62, kineticEnergy));
+        const progress = state.reduceMotion ? particle.seed : wrap01(particle.seed + state.flowTime * 0.085 * particle.speed);
         const x = lerp(b.left + b.width * 0.06, b.right - b.width * 0.06, progress);
         const evidence = 0.22 + 0.34 * Math.sin(progress * Math.PI) + 0.035 * Math.sin(time * 1.8 + particle.phase);
         const y = floor - b.height * evidence + pointerLift * Math.sin(progress * Math.PI) * 0.7;
@@ -577,9 +587,8 @@
       const situatedParticles = state.geometry.particles?.situated || [];
       situatedParticles.forEach((particle) => {
         const source = anchors[particle.lane % anchors.length];
-        const speedScale = lerp(0.9, 1.56, kineticEnergy);
-        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + time * 0.032 * particle.speed * speedScale);
-        const travel = state.reduceMotion ? wrap01(particle.seed + 0.28) : wrap01(particle.seed + time * 0.072 * particle.speed * speedScale);
+        const orbit = state.reduceMotion ? particle.seed : wrap01(particle.seed + state.flowTime * 0.032 * particle.speed);
+        const travel = state.reduceMotion ? wrap01(particle.seed + 0.28) : wrap01(particle.seed + state.flowTime * 0.072 * particle.speed);
         const angle = Math.PI * 2 * orbit + Math.sin(time * 0.38 + particle.phase) * 0.06;
         const targetX = clamp(centerX + Math.cos(angle) * radiusX, b.left, b.right);
         const targetY = clamp(centerY + Math.sin(angle) * radiusY, b.top, b.bottom);
@@ -614,11 +623,14 @@
     };
 
     const render = (now) => {
+      const elapsed = state.lastFrameAt ? clamp((now - state.lastFrameAt) / 1000, 0, 0.05) : 0;
+      state.lastFrameAt = now;
       const time = state.reduceMotion ? 0.32 : now * 0.001;
       const pal = palette();
 
-      updatePointer();
+      updatePointer(elapsed);
       updateKineticEnergy(now);
+      if (!state.reduceMotion) state.flowTime += elapsed * flowSpeed();
       ctx.clearRect(0, 0, state.width, state.height);
       drawBackground(pal);
 
@@ -710,7 +722,7 @@
       }
 
       const edgeDistance = Math.min(x, 1 - x, y, 1 - y);
-      const interiorIntent = easeOutCubic(clamp(edgeDistance / POINTER_EDGE_RAMP, 0, 1));
+      const interiorIntent = smoothstep(clamp(edgeDistance / POINTER_EDGE_RAMP, 0, 1));
       const intent = clamp(interiorIntent * MAX_INTERACTION_INTENT, 0, MAX_INTERACTION_INTENT);
 
       state.pointer.active = intent > 0.01;

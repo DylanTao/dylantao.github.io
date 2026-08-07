@@ -2519,7 +2519,7 @@ html[data-theme="dark"] .home-artifact-mark {
   left: 1rem;
   z-index: 2;
   display: flex;
-  max-width: min(31rem, calc(100% - 2rem));
+  max-width: min(34rem, calc(100% - 2rem));
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
@@ -2543,7 +2543,8 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-ink);
   font-size: 0.95rem;
   line-height: 1.25;
-  text-align: right;
+  text-align: left;
+  text-wrap: pretty;
 }
 
 .home-motion-details,

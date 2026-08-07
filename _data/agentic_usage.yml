@@ -1,13 +1,13 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-08-03"
+updated_at: "2026-08-06"
 source_note: Retained local logs and git history supply repo-scoped estimates. Rounded lifetime Codex usage is published separately from sanitized collector output.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 481
+  commits: 484
   token_count: 11340000000
   tokens_label: 11.3B
   hours_count: 742
@@ -508,7 +508,7 @@ desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 128
+  commits: 129
   token_count: 10250000000
   tokens_label: 10.2B
   hours_count: 628
@@ -4764,7 +4764,7 @@ model_tracking:
   public_note: "Site development default: gpt-5.6-sol with ultra effort. Provider-managed auto-review is audited through Jul 17, 2026 at 1:23:52 PM PDT; interactive tracking remains live."
   caveat: Checks every deduplicated site-repo-attributed non-auto-review turn_context after the cutover and exact mapped acknowledgment turn ids in that scope regardless of timestamp. Unrelated repositories retain their own model policies and cannot block this site's publish gate. New provider-managed codex-auto-review contexts after the inclusive audit boundary are deferred to the next explicit policy audit and are neither evaluated nor acknowledged. Token, hour, energy, and cost totals remain current and unfiltered by this model-tracking-only boundary. Missing or deleted local logs cannot be reconstructed; exact acknowledged deviations remain visible and keep their observed model and effort.
 since_gpt_5_6:
-  commits: 186
+  commits: 189
   token_count: 8730000000
   tokens_label: 8.73B
   hours_count: 503
@@ -5375,7 +5375,7 @@ local_lifetime:
     aggregation: cumulative
     method: deduplicated_all_retained_logs
     since: "2026-06-19"
-    updated_at: "2026-08-03"
+    updated_at: "2026-08-06"
     confidence: estimate
     privacy_note: Rounded daily cumulative estimates only; private identities and event-level detail are not published.
     points:
@@ -5515,5 +5515,14 @@ local_lifetime:
         token_count: 43860000000
         tokens_label: 43.9B
       - date: "2026-08-03"
+        token_count: 46160000000
+        tokens_label: 46.2B
+      - date: "2026-08-04"
+        token_count: 46160000000
+        tokens_label: 46.2B
+      - date: "2026-08-05"
+        token_count: 46160000000
+        tokens_label: 46.2B
+      - date: "2026-08-06"
         token_count: 46160000000
         tokens_label: 46.2B
