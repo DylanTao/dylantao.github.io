@@ -9,9 +9,9 @@ panel_wide: true
 github_activity: true
 ---
 
-{% assign personal_activity = site.data.personal_code_activity %}
+{% assign code_activity = site.data.code_activity %}
 {% assign personal_daily_ready = false %}
-{% if personal_activity.schema == 3 and personal_activity.scope == "personal_code_activity" and personal_activity.coverage.status == "complete" and personal_activity.points and personal_activity.points.size > 0 %}
+{% if code_activity.schema == 4 and code_activity.scope == "code_activity" and code_activity.coverage.status == "complete" and code_activity.sources and code_activity.sources.size > 0 and code_activity.points and code_activity.points.size > 0 %}
 {% assign personal_daily_ready = true %}
 {% endif %}
 
@@ -24,7 +24,7 @@ github_activity: true
     <p class="github-activity-eyebrow">BUILDING, DAY BY DAY</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      I wanted the logs to show where the work bunches up. Personal code days and this site's separate token trace keep those two rhythms
+      I wanted the logs to show where the work bunches up. Daily code and this site's separate token trace keep those two rhythms
       inspectable without turning either one into a productivity score.
     </p>
     {% assign direct_tracker = site.data.direct_usage_tracker %}
@@ -67,7 +67,7 @@ github_activity: true
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
             <span data-build-rhythm-story-label>THE WHOLE RHYTHM</span>
-            <span data-build-rhythm-story-scope>PERSONAL COMMITS + LINES</span>
+            <span data-build-rhythm-story-scope>COMMITS + LINES</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
@@ -117,7 +117,7 @@ github_activity: true
           <p class="build-rhythm-story-step-number">05 · PERSONAL AGENTS</p>
           <h3 data-build-rhythm-agent-heading>Recent agent history is unavailable.</h3>
           <p data-build-rhythm-agent-copy>
-            The shared five-year code explorer below remains available while the agent snapshot is checked.
+            The shared lifetime code explorer below remains available while the agent snapshot is checked.
           </p>
         </article>
 
@@ -144,20 +144,23 @@ github_activity: true
   <section class="github-activity-workbench" aria-labelledby="github-activity-github-title">
     <div class="github-activity-module-heading">
       <div>
-        <p class="github-activity-module-kicker">PERSONAL CODE ACTIVITY</p>
-        <h2 id="github-activity-github-title">Personal code history</h2>
+        <p class="github-activity-module-kicker">CODE ACTIVITY</p>
+        <h2 id="github-activity-github-title">Code history</h2>
         <p data-personal-daily-copy>Switch scales, inspect an exact UTC day, or select a stretch of time.</p>
+        <p class="github-activity-module-note" data-personal-daily-copy>
+          Every commit GitHub credits since the account opened. Switch <em>Commits counted</em> to <em>Authored</em> to drop merges and deploys.
+        </p>
       </div>
       <span class="github-activity-scope-badge" data-github-scope>
         {%- if personal_daily_ready -%}
-          5 YEARS · DAILY
+          LIFETIME · DAILY
         {%- else -%}
-          PERSONAL
+          CODE ACTIVITY
         {%- endif -%}
       </span>
     </div>
     <p class="github-activity-unavailable" data-personal-code-unavailable>
-      Personal code history is being rebuilt.
+      Code history is being rebuilt.
     </p>
 
     <div class="github-activity-controls" data-personal-daily-copy aria-label="Code activity chart controls">
@@ -166,8 +169,15 @@ github_activity: true
         <div class="github-activity-segments" data-range-controls>
           <button type="button" data-range="1" aria-pressed="false">1 year</button>
           <button type="button" data-range="3" aria-pressed="false">3 years</button>
-          <button type="button" data-range="5" aria-pressed="true">5 years</button>
-          <button type="button" data-range="all" aria-pressed="false">All</button>
+          <button type="button" data-range="5" aria-pressed="false">5 years</button>
+          <button type="button" data-range="all" aria-pressed="true">Lifetime</button>
+        </div>
+      </fieldset>
+      <fieldset class="github-activity-control-group">
+        <legend>Commits counted</legend>
+        <div class="github-activity-segments" data-count-controls>
+          <button type="button" data-count-mode="all" aria-pressed="true">All</button>
+          <button type="button" data-count-mode="authored" aria-pressed="false">Authored</button>
         </div>
       </fieldset>
       <fieldset class="github-activity-control-group">
@@ -177,6 +187,10 @@ github_activity: true
           <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
         </div>
       </fieldset>
+      <div class="github-activity-source-legend" data-source-legend hidden>
+        <p class="github-activity-source-legend-label" id="github-activity-source-legend-label">Sources</p>
+        <div class="github-activity-legend-items" data-source-legend-items role="group" aria-labelledby="github-activity-source-legend-label"></div>
+      </div>
     </div>
 
     <section
@@ -255,7 +269,7 @@ github_activity: true
 
     <div class="github-activity-chart-shell" data-personal-daily-copy>
       <h2 class="sr-only" id="github-activity-chart-title">
-        Daily personal commits, additions and deletions
+        Daily commits, additions and deletions
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
         Hover or click to inspect a day and its code and personal token usage. Drag horizontally to select a range. With
@@ -390,7 +404,17 @@ github_activity: true
       </div>
       <div>
         <h2>What's counted</h2>
-        <p>The code chart reads one validated personal profile by UTC date. It publishes counts only, never account or repository details.</p>
+        <p>
+          <strong>All</strong> counts every commit GitHub credits, so the total matches the contribution graph: the default branch plus
+          <code>gh-pages</code>, merges included. <strong>Authored</strong> keeps only the non-merge, non-deploy commits.
+        </p>
+      </div>
+      <div>
+        <h2>Why lines follow authored commits</h2>
+        <p>
+          A merge diff restates the branch it absorbs and a deploy rewrites the whole generated site, so counting their lines would report
+          machine output as writing. Added and removed lines describe authored commits only.
+        </p>
       </div>
       <div>
         <h2>Daily completeness boundary</h2>
@@ -419,6 +443,7 @@ github_activity: true
           <tr>
             <th scope="col">Date</th>
             <th scope="col">Commits</th>
+            <th scope="col">Authored</th>
             <th scope="col">Added</th>
             <th scope="col">Removed</th>
             <th scope="col">Line changes</th>
@@ -434,14 +459,14 @@ github_activity: true
   </details>
 
   <p class="github-activity-source" data-personal-daily-copy>
-    Personal code activity updated <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
+    Code activity updated <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
     agentic-usage ledger; the personal agent plot identifies its own completeness boundary above. Time-window and scale controls draw on
     <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>
 
-  <script id="personal-code-activity-data" type="application/json">
-    {{ site.data.personal_code_activity | jsonify }}
+  <script id="code-activity-data" type="application/json">
+    {{ site.data.code_activity | jsonify }}
   </script>
   <script id="build-rhythm-token-data" type="application/json">
     {{ token_rhythm | jsonify }}

@@ -9,7 +9,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TIER_PATH = REPO_ROOT / "_data" / "github_ai_tiers.yml"
-PERSONAL_ACTIVITY_PATH = REPO_ROOT / "_data" / "personal_code_activity.json"
+CODE_ACTIVITY_PATH = REPO_ROOT / "_data" / "code_activity.json"
 ACTIVITY_PATHS = (
     TIER_PATH,
     REPO_ROOT / "_pages" / "github-activity.md",
@@ -18,6 +18,9 @@ ACTIVITY_PATHS = (
     REPO_ROOT / "_data" / "direct_usage_tracker.json",
     REPO_ROOT / "_data" / "github_activity.json",
 )
+# Pinned to the account creation day. The published window starts here and
+# only ever grows forward.
+LIFETIME_START = "2017-08-31"
 FORBIDDEN = (
     "invoice.stripe.com",
     "acct_",
@@ -339,23 +342,18 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 self.assertGreaterEqual(row[field], 0)
             previous = observed
 
-    def test_personal_activity_is_exact_schema3_or_compactly_unavailable(
+    def test_code_activity_is_exact_schema4_or_compactly_unavailable(
         self,
     ) -> None:
         page = (REPO_ROOT / "_pages" / "github-activity.md").read_text(
             encoding="utf-8"
         )
-        if not PERSONAL_ACTIVITY_PATH.exists():
-            self.assertEqual(
-                page.count("Personal code history is being rebuilt."),
-                1,
-            )
+        if not CODE_ACTIVITY_PATH.exists():
+            self.assertEqual(page.count("Code history is being rebuilt."), 1)
             return
 
-        activity = json.loads(
-            PERSONAL_ACTIVITY_PATH.read_text(encoding="utf-8")
-        )
-        self.assertEqual(activity["schema"], 3)
+        activity = json.loads(CODE_ACTIVITY_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(activity["schema"], 4)
         self.assertEqual(
             set(activity),
             {
@@ -363,60 +361,82 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 "updated_on",
                 "timezone",
                 "scope",
+                "sources",
                 "coverage",
                 "points",
             },
         )
         self.assertEqual(activity["timezone"], "UTC")
-        self.assertEqual(activity["scope"], "personal_code_activity")
-        end_exclusive = (
-            date.fromisoformat(activity["updated_on"]) + timedelta(days=1)
-        )
-        try:
-            expected_start = end_exclusive.replace(
-                year=end_exclusive.year - 5
-            )
-        except ValueError:
-            expected_start = end_exclusive.replace(
-                year=end_exclusive.year - 5,
-                day=28,
-            )
+        self.assertEqual(activity["scope"], "code_activity")
+
+        # The lifetime anchor is fixed, so a refresh may extend coverage forward
+        # but can never shorten it.
+        self.assertEqual(activity["coverage"]["starts_on"], LIFETIME_START)
         self.assertEqual(
             activity["coverage"],
             {
-                "starts_on": expected_start.isoformat(),
+                "starts_on": LIFETIME_START,
                 "complete_through": activity["updated_on"],
                 "status": "complete",
             },
         )
+
+        windows: dict[str, tuple[date, date]] = {}
+        self.assertGreaterEqual(len(activity["sources"]), 1)
+        for descriptor in activity["sources"]:
+            self.assertEqual(
+                set(descriptor),
+                {"id", "label", "basis", "starts_on", "complete_through"},
+            )
+            self.assertRegex(descriptor["id"], r"^[a-z0-9-]{1,24}$")
+            self.assertNotIn(descriptor["id"], windows)
+            self.assertTrue(descriptor["label"].strip())
+            self.assertTrue(descriptor["basis"].strip())
+            windows[descriptor["id"]] = (
+                date.fromisoformat(descriptor["starts_on"]),
+                date.fromisoformat(descriptor["complete_through"]),
+            )
+        self.assertIn("personal", windows)
+
         points = activity["points"]
         self.assertGreaterEqual(len(points), 1)
         previous_date: date | None = None
         for point in points:
-            self.assertEqual(
-                set(point),
-                {"date", "commits", "additions", "deletions"},
-            )
             observed = date.fromisoformat(point["date"])
-            self.assertLess(
-                observed,
-                datetime.now(timezone.utc).date(),
-            )
+            self.assertLess(observed, datetime.now(timezone.utc).date())
             if previous_date is not None:
+                self.assertEqual(observed, previous_date + timedelta(days=1))
+            # A source absent from a day is outside its own coverage rather than
+            # a quiet day, so the key set must track coverage exactly.
+            covered = {
+                identifier
+                for identifier, (start, end) in windows.items()
+                if start <= observed <= end
+            }
+            self.assertEqual(set(point), {"date", *covered})
+            for identifier in covered:
+                entry = point[identifier]
                 self.assertEqual(
-                    observed,
-                    previous_date + timedelta(days=1),
+                    set(entry),
+                    {"commits", "authored_commits", "additions", "deletions"},
                 )
-            for field in ("commits", "additions", "deletions"):
-                self.assertIsInstance(point[field], int)
-                self.assertNotIsInstance(point[field], bool)
-                self.assertGreaterEqual(point[field], 0)
+                for field in entry:
+                    self.assertIsInstance(entry[field], int)
+                    self.assertNotIsInstance(entry[field], bool)
+                    self.assertGreaterEqual(entry[field], 0)
+                self.assertLessEqual(entry["authored_commits"], entry["commits"])
+                if not entry["authored_commits"]:
+                    self.assertEqual(entry["additions"], 0)
+                    self.assertEqual(entry["deletions"], 0)
             previous_date = observed
         self.assertEqual(activity["coverage"]["starts_on"], points[0]["date"])
         self.assertEqual(
             activity["coverage"]["complete_through"],
             points[-1]["date"],
         )
+
+        # Identity fragments are checked as JSON keys so the `authored_commits`
+        # count is never mistaken for commit-author identity.
         serialized = json.dumps(activity).lower()
         for fragment in (
             "account",
@@ -428,7 +448,8 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             "message",
             "timestamp",
         ):
-            self.assertNotIn(fragment, serialized)
+            self.assertNotIn(f'"{fragment}"', serialized)
+        self.assertNotIn('"author"', serialized)
 
 
 if __name__ == "__main__":

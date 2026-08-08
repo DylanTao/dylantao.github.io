@@ -495,9 +495,7 @@
 
     const compactQuery = window.matchMedia("(max-width: 820px)");
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const latestGithubDate = githubRows.at(-1).date;
-    const githubCutoff = new Date(Date.UTC(latestGithubDate.getUTCFullYear() - 5, latestGithubDate.getUTCMonth(), latestGithubDate.getUTCDate()));
-    const storyGithubRows = githubRows.filter((row) => row.date >= githubCutoff);
+    const storyGithubRows = githubRows;
     let codexSource = null;
     let activeScene = "cadence";
     let renderedScene = null;
@@ -541,10 +539,10 @@
         agentStepHeading.textContent = "Then I zoom into the recent aggregate history.";
         agentStepCopy.textContent = `Daily aggregate history runs from ${fullDate.format(points[0].date)} through ${fullDate.format(
           points.at(-1).date
-        )}. This close-up keeps the cumulative total readable without changing the shared five-year explorer below.`;
+        )}. This close-up keeps the cumulative total readable without changing the shared lifetime explorer below.`;
       } else {
         agentStepHeading.textContent = "Recent agent history is unavailable.";
-        agentStepCopy.textContent = "A validated agent snapshot is unavailable. The shared five-year code explorer below remains available.";
+        agentStepCopy.textContent = "A validated agent snapshot is unavailable. The shared lifetime code explorer below remains available.";
       }
     };
     const drawCadence = (group, width, height, colors) => {
@@ -765,17 +763,17 @@
       });
       group.prepend(timeGrid);
 
-      return "Five years, day by day \u00b7 personal commits and line movement.";
+      return "The whole record, day by day \u00b7 commits and line movement.";
     };
 
     const metadata = {
-      cadence: { label: "WHEN", scope: "5 YEARS \u00b7 DAILY" },
-      magnitude: { label: "HOW MUCH MOVED", scope: "5 YEARS \u00b7 DAILY" },
+      cadence: { label: "WHEN", scope: "LIFETIME \u00b7 DAILY" },
+      magnitude: { label: "HOW MUCH MOVED", scope: "LIFETIME \u00b7 DAILY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
       tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
       agents: { label: "PERSONAL AGENTS", scope: "OBSERVED DAYS \u00b7 CUMULATIVE" },
-      explore: { label: "YOUR TURN", scope: "PERSONAL COMMITS + LINES" },
-      complete: { label: "THE WHOLE RHYTHM", scope: "PERSONAL COMMITS + LINES" },
+      explore: { label: "YOUR TURN", scope: "COMMITS + LINES" },
+      complete: { label: "THE WHOLE RHYTHM", scope: "COMMITS + LINES" },
     };
 
     const syncStageOffset = () => {
@@ -1283,7 +1281,7 @@
   };
 
   const root = document.querySelector("[data-github-activity]");
-  const dataNode = document.getElementById("personal-code-activity-data");
+  const dataNode = document.getElementById("code-activity-data");
   const tokenDataNode = document.getElementById("build-rhythm-token-data");
   if (!root || !dataNode) return;
   const availabilityBadge = root.querySelector("[data-github-scope]");
@@ -1294,57 +1292,72 @@
     !Array.isArray(value) &&
     Object.keys(value).length === keys.length &&
     keys.every((key) => Object.hasOwn(value, key));
-  const validCodeCounts = (row) =>
-    hasExactKeys(row, ["date", "commits", "additions", "deletions"]) &&
-    isIsoDate(row.date) &&
-    Number.isSafeInteger(row.commits) &&
-    row.commits >= 0 &&
-    Number.isSafeInteger(row.additions) &&
-    row.additions >= 0 &&
-    Number.isSafeInteger(row.deletions) &&
-    row.deletions >= 0;
-  const fiveCalendarYearsBefore = (value) => {
-    const year = value.getUTCFullYear() - 5;
-    const month = value.getUTCMonth();
-    const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
-    return new Date(Date.UTC(year, month, Math.min(value.getUTCDate(), lastDay)));
-  };
-  const validPersonalActivitySource = (candidate) => {
+  // `commits` is every commit GitHub credits; `authored_commits` is the non-merge,
+  // non-deploy subset that owns the line counts. A day that reports lines without
+  // an authored commit is malformed rather than merely empty.
+  const validSourceCounts = (entry) =>
+    hasExactKeys(entry, ["commits", "authored_commits", "additions", "deletions"]) &&
+    ["commits", "authored_commits", "additions", "deletions"].every((key) => Number.isSafeInteger(entry[key]) && entry[key] >= 0) &&
+    entry.authored_commits <= entry.commits &&
+    (entry.authored_commits > 0 || (entry.additions === 0 && entry.deletions === 0));
+  const validSourceDescriptor = (descriptor) =>
+    hasExactKeys(descriptor, ["id", "label", "basis", "starts_on", "complete_through"]) &&
+    typeof descriptor.id === "string" &&
+    /^[a-z0-9-]{1,24}$/.test(descriptor.id) &&
+    typeof descriptor.label === "string" &&
+    descriptor.label.trim() === descriptor.label &&
+    descriptor.label.length > 0 &&
+    typeof descriptor.basis === "string" &&
+    descriptor.basis.length > 0 &&
+    isIsoDate(descriptor.starts_on) &&
+    isIsoDate(descriptor.complete_through) &&
+    utcDate(descriptor.starts_on) <= utcDate(descriptor.complete_through);
+  const validCodeActivitySource = (candidate) => {
     if (
-      !hasExactKeys(candidate, ["schema", "updated_on", "timezone", "scope", "coverage", "points"]) ||
-      candidate.schema !== 3 ||
+      !hasExactKeys(candidate, ["schema", "updated_on", "timezone", "scope", "sources", "coverage", "points"]) ||
+      candidate.schema !== 4 ||
       candidate.timezone !== "UTC" ||
-      candidate.scope !== "personal_code_activity" ||
+      candidate.scope !== "code_activity" ||
       !isIsoDate(candidate.updated_on) ||
+      !Array.isArray(candidate.sources) ||
+      candidate.sources.length === 0 ||
+      !candidate.sources.every(validSourceDescriptor) ||
+      new Set(candidate.sources.map((entry) => entry.id)).size !== candidate.sources.length ||
       !hasExactKeys(candidate.coverage, ["starts_on", "complete_through", "status"]) ||
       !isIsoDate(candidate.coverage.starts_on) ||
       !isIsoDate(candidate.coverage.complete_through) ||
       candidate.coverage.status !== "complete" ||
       !Array.isArray(candidate.points) ||
-      candidate.points.length === 0 ||
-      !candidate.points.every(validCodeCounts)
+      candidate.points.length === 0
     )
       return false;
+
+    const startsOn = utcDate(candidate.coverage.starts_on);
+    const completeThrough = utcDate(candidate.coverage.complete_through);
+    const expectedLength = Math.round((completeThrough - startsOn) / DAY_MS) + 1;
+    if (
+      candidate.points.length !== expectedLength ||
+      candidate.coverage.starts_on !== candidate.points[0].date ||
+      candidate.coverage.complete_through !== candidate.points.at(-1).date ||
+      candidate.updated_on !== candidate.coverage.complete_through ||
+      completeThrough >= utcDate(new Date().toISOString().slice(0, 10))
+    )
+      return false;
+
     let previousDate = null;
-    const ordered = candidate.points.every((point) => {
+    return candidate.points.every((point) => {
+      if (!point || typeof point !== "object" || Array.isArray(point) || !isIsoDate(point.date)) return false;
       const date = utcDate(point.date);
       if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
       previousDate = date;
-      return true;
+      // A source that starts late is absent on earlier days rather than padded
+      // with zeroes, so "no data yet" never reads as "a quiet day".
+      const covered = candidate.sources
+        .filter((descriptor) => date >= utcDate(descriptor.starts_on) && date <= utcDate(descriptor.complete_through))
+        .map((descriptor) => descriptor.id);
+      const keys = Object.keys(point).filter((key) => key !== "date");
+      return keys.length === covered.length && covered.every((id) => Object.hasOwn(point, id)) && covered.every((id) => validSourceCounts(point[id]));
     });
-    const startsOn = utcDate(candidate.coverage.starts_on);
-    const completeThrough = utcDate(candidate.coverage.complete_through);
-    const expectedStart = fiveCalendarYearsBefore(new Date(completeThrough.getTime() + DAY_MS));
-    const expectedLength = Math.round((completeThrough - startsOn) / DAY_MS) + 1;
-    return (
-      ordered &&
-      startsOn.getTime() === expectedStart.getTime() &&
-      candidate.coverage.starts_on === candidate.points[0].date &&
-      candidate.coverage.complete_through === candidate.points.at(-1).date &&
-      candidate.updated_on === candidate.coverage.complete_through &&
-      candidate.points.length === expectedLength &&
-      completeThrough < utcDate(new Date().toISOString().slice(0, 10))
-    );
   };
 
   const validTokenRhythmSource = (candidate) => {
@@ -1404,7 +1417,7 @@
   } catch {
     source = null;
   }
-  const validPersonalSource = validPersonalActivitySource(source);
+  const validPersonalSource = validCodeActivitySource(source);
 
   let tokenSource = null;
   if (tokenDataNode) {
@@ -1434,17 +1447,48 @@
     if (availabilityBadge) availabilityBadge.textContent = "PERSONAL";
     return;
   }
-  if (availabilityBadge) availabilityBadge.textContent = "5 YEARS · DAILY";
+  if (availabilityBadge) availabilityBadge.textContent = "LIFETIME · DAILY";
 
-  const rows = source.points.map((row, index) => ({
-    index,
-    dateKey: row.date,
-    date: utcDate(row.date),
-    commits: row.commits,
-    additions: row.additions,
-    deletions: row.deletions,
+  const sourceList = source.sources.map((descriptor) => ({
+    id: descriptor.id,
+    label: descriptor.label,
+    basis: descriptor.basis,
+    startsOn: utcDate(descriptor.starts_on),
+    completeThrough: utcDate(descriptor.complete_through),
   }));
-  let range = "5";
+  const multiSource = sourceList.length > 1;
+  const visibleSources = new Set(sourceList.map((entry) => entry.id));
+  // "all" reproduces the GitHub contribution graph. "authored" drops merges and
+  // deploy commits so the count matches the lines plotted beneath it.
+  let countMode = "all";
+
+  const buildRows = () =>
+    source.points.map((point, index) => {
+      const bySource = {};
+      let commits = 0;
+      let authoredCommits = 0;
+      let additions = 0;
+      let deletions = 0;
+      sourceList.forEach(({ id }) => {
+        const entry = point[id];
+        if (!entry) return;
+        bySource[id] = {
+          commits: entry.commits,
+          authoredCommits: entry.authored_commits,
+          additions: entry.additions,
+          deletions: entry.deletions,
+        };
+        if (!visibleSources.has(id)) return;
+        commits += countMode === "authored" ? entry.authored_commits : entry.commits;
+        authoredCommits += entry.authored_commits;
+        additions += entry.additions;
+        deletions += entry.deletions;
+      });
+      return { index, dateKey: point.date, date: utcDate(point.date), commits, authoredCommits, additions, deletions, bySource };
+    });
+
+  let rows = buildRows();
+  let range = "all";
   let scale = "log";
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
@@ -1463,6 +1507,9 @@
   const scopeBadge = root.querySelector("[data-github-scope]");
   const rangeButtons = Array.from(root.querySelectorAll("[data-range]"));
   const scaleButtons = Array.from(root.querySelectorAll("[data-scale]"));
+  const countButtons = Array.from(root.querySelectorAll("[data-count-mode]"));
+  const legendRoot = root.querySelector("[data-source-legend]");
+  const legendList = root.querySelector("[data-source-legend-items]");
   const latestButton = root.querySelector("[data-jump-latest]");
   const clearSelectionButton = root.querySelector("[data-clear-selection]");
   if (
@@ -1529,6 +1576,7 @@
       addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#28657d",
       removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#286b58",
       accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
+      sourceAlt: style.getPropertyValue("--github-activity-source-alt-color").trim() || "#c96548",
       codex: style.getPropertyValue("--github-activity-codex-color").trim() || "#3b6a98",
       claude: style.getPropertyValue("--github-activity-claude-color").trim() || "#c96548",
       text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
@@ -1540,14 +1588,61 @@
   const setPressedState = () => {
     rangeButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.range === range)));
     scaleButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.scale === scale)));
+    countButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.countMode === countMode)));
     if (scopeBadge) {
-      const rangeLabel = range === "all" ? "ALL HISTORY" : `${range} ${range === "1" ? "YEAR" : "YEARS"}`;
+      const rangeLabel = range === "all" ? "LIFETIME" : `${range} ${range === "1" ? "YEAR" : "YEARS"}`;
       scopeBadge.textContent = `${rangeLabel} \u00b7 DAILY`;
     }
   };
+  const sourceColor = (id, palette) => {
+    const index = sourceList.findIndex((entry) => entry.id === id);
+    return index <= 0 ? palette.accent : palette.sourceAlt;
+  };
+  // The legend doubles as the source filter. With a single source there is
+  // nothing to filter, so it stays out of the way entirely.
+  const renderLegend = () => {
+    if (!legendRoot || !legendList) return;
+    legendRoot.hidden = !multiSource;
+    if (!multiSource) return;
+    const palette = colors();
+    const fragment = document.createDocumentFragment();
+    sourceList.forEach((entry) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "github-activity-legend-item";
+      button.dataset.sourceId = entry.id;
+      button.setAttribute("aria-pressed", String(visibleSources.has(entry.id)));
+      const swatch = document.createElement("span");
+      swatch.className = "github-activity-legend-swatch";
+      swatch.setAttribute("aria-hidden", "true");
+      swatch.style.background = sourceColor(entry.id, palette);
+      const label = document.createElement("span");
+      label.textContent = entry.label;
+      button.append(swatch, label);
+      button.addEventListener("click", () => {
+        if (visibleSources.has(entry.id)) {
+          // Never let the last source be hidden: an empty chart is not a view.
+          if (visibleSources.size === 1) return;
+          visibleSources.delete(entry.id);
+        } else {
+          visibleSources.add(entry.id);
+        }
+        rows = buildRows();
+        renderLegend();
+        drawChart();
+      });
+      fragment.append(button);
+    });
+    legendList.replaceChildren(fragment);
+  };
   const updateDayReadout = (row) => {
     selectedDate.textContent = dateLabel.format(row.date);
-    selectedCommits.textContent = `${number.format(row.commits)} ${row.commits === 1 ? "commit" : "commits"}`;
+    selectedCommits.textContent =
+      countMode === "authored"
+        ? `${number.format(row.commits)} authored ${row.commits === 1 ? "commit" : "commits"}`
+        : `${number.format(row.commits)} ${row.commits === 1 ? "commit" : "commits"}${
+            row.authoredCommits === row.commits ? "" : ` \u00b7 ${number.format(row.authoredCommits)} authored`
+          }`;
     selectedAdditions.textContent = `${signed(row.additions, true)} added`;
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
     const tokenObservation = codexUsageForDay(codexSource, row);
@@ -1602,6 +1697,7 @@
       [
         row.dateKey,
         number.format(row.commits),
+        number.format(row.authoredCommits),
         signed(row.additions, true),
         signed(row.deletions, false),
         number.format(lineChanges(row)),
@@ -1621,15 +1717,20 @@
     const scoped = analysisRows(data);
     const active = scoped.filter((row) => row.commits > 0 || row.additions > 0 || row.deletions > 0);
     const totalCommits = scoped.reduce((sum, row) => sum + row.commits, 0);
+    const totalAuthored = scoped.reduce((sum, row) => sum + row.authoredCommits, 0);
     const totalAdditions = scoped.reduce((sum, row) => sum + row.additions, 0);
     const totalDeletions = scoped.reduce((sum, row) => sum + row.deletions, 0);
+    const commitSummary =
+      countMode === "authored" || totalAuthored === totalCommits
+        ? `${number.format(totalCommits)} commits`
+        : `${number.format(totalCommits)} commits (${number.format(totalAuthored)} authored)`;
     const scope = selection
       ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "day" : "days"}`
       : range === "all"
-        ? "All history"
+        ? "Lifetime"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active days \u00b7 ${number.format(totalCommits)} commits \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active days \u00b7 ${commitSummary} \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
@@ -1839,6 +1940,40 @@
     chart.append(selectionBand);
 
     const commitPoints = data.map((row) => [x(row.date), commitY(row.commits)]);
+    // With more than one source visible, the commit band is stacked: each band
+    // is the running total through that source, painted top-down so the lower
+    // bands stay readable. The total outline above is unchanged, so a single
+    // source renders exactly as it always has.
+    const visibleSourceList = sourceList.filter((entry) => visibleSources.has(entry.id));
+    if (visibleSourceList.length > 1) {
+      const sourceValue = (row, id) => {
+        const entry = row.bySource[id];
+        if (!entry) return 0;
+        return countMode === "authored" ? entry.authoredCommits : entry.commits;
+      };
+      let running = data.map(() => 0);
+      const stacked = visibleSourceList.map((entry) => {
+        running = data.map((row, position) => running[position] + sourceValue(row, entry.id));
+        return { id: entry.id, values: [...running] };
+      });
+      stacked
+        .slice()
+        .reverse()
+        .forEach(({ id, values }) => {
+          chart.append(
+            svgElement("path", {
+              class: "github-activity-commit-source-area",
+              "data-source-id": id,
+              d: areaPath(
+                values.map((value, position) => [x(data[position].date), commitY(value)]),
+                commitBottom
+              ),
+              fill: sourceColor(id, palette),
+              "fill-opacity": 0.24,
+            })
+          );
+        });
+    }
     const addPoints = data.map((row) => [x(row.date), lineY(row.additions)]);
     const removePoints = data.map((row) => [x(row.date), lineY(-row.deletions)]);
     const addStems = data
@@ -2239,6 +2374,14 @@
       drawChart();
     });
   });
+  countButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      countMode = button.dataset.countMode;
+      rows = buildRows();
+      setPressedState();
+      drawChart();
+    });
+  });
   latestButton.addEventListener("click", (event) => {
     selection = null;
     selectedIndex = rows.length - 1;
@@ -2265,7 +2408,8 @@
 
   updated.dateTime = source.updated_on;
   updated.textContent = source.updated_on;
-  chartTitle.textContent = "Daily personal commits, additions and deletions";
+  chartTitle.textContent = "Daily commits, additions and deletions";
+  renderLegend();
   setPressedState();
   drawChart();
   initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });

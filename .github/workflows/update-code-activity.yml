@@ -41,7 +41,7 @@ jobs:
 
       - name: Import completed personal UTC days
         run: >-
-          python site/bin/import_personal_code_activity.py
+          python site/bin/import_code_activity.py
           --personal-repo profile
           --repo-root site
 
@@ -50,7 +50,7 @@ jobs:
         shell: bash
         run: |
           for test_file in \
-            test_import_personal_code_activity.py \
+            test_import_code_activity.py \
             test_github_activity_privacy.py \
             test_build_rhythm_story.py; do
             python -m unittest discover -s test -p "$test_file"
@@ -60,8 +60,11 @@ jobs:
         working-directory: site
         shell: bash
         run: |
-          if grep -nEi '(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
-            _data/personal_code_activity.json; then
+          # Identity fields are matched as JSON keys so the
+          # "authored_commits" count is not mistaken for commit-author
+          # identity; credential shapes stay matched anywhere in the file.
+          if grep -nEi '("(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp)"|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
+            _data/code_activity.json; then
             echo "Personal code activity violates the public privacy contract." >&2
             exit 1
           fi
@@ -72,7 +75,7 @@ jobs:
         working-directory: site
         shell: bash
         run: |
-          git add -- _data/personal_code_activity.json
+          git add -- _data/code_activity.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else

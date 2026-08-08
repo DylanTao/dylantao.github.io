@@ -15,7 +15,7 @@ LEDGER_DOC_PATH = REPO_ROOT / "docs" / "agentic-usage-ledger.md"
 SCRIPT_PATH = REPO_ROOT / "assets" / "js" / "github-activity.js"
 STYLE_PATH = REPO_ROOT / "_sass" / "_github-activity.scss"
 TOKEN_ENDPOINT_PATH = REPO_ROOT / "assets" / "data" / "build-rhythm-token-rhythm.json.liquid"
-PERSONAL_IMPORTER_PATH = REPO_ROOT / "bin" / "import_personal_code_activity.py"
+CODE_ACTIVITY_IMPORTER_PATH = REPO_ROOT / "bin" / "import_code_activity.py"
 PACKAGE_PATH = REPO_ROOT / "package.json"
 PUBLIC_VISUAL_CONFIG_PATH = REPO_ROOT / "test" / "visual" / "public.config.js"
 PUBLIC_ROUTES_PATH = REPO_ROOT / "test" / "visual" / "public-routes.js"
@@ -33,9 +33,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.script = SCRIPT_PATH.read_text(encoding="utf-8")
         cls.style = STYLE_PATH.read_text(encoding="utf-8")
         cls.token_endpoint = TOKEN_ENDPOINT_PATH.read_text(encoding="utf-8")
-        cls.personal_importer = PERSONAL_IMPORTER_PATH.read_text(
-            encoding="utf-8"
-        )
+        cls.code_activity_importer = CODE_ACTIVITY_IMPORTER_PATH.read_text(encoding="utf-8")
         cls.package = PACKAGE_PATH.read_text(encoding="utf-8")
         cls.public_visual_config = PUBLIC_VISUAL_CONFIG_PATH.read_text(encoding="utf-8")
         cls.public_routes = PUBLIC_ROUTES_PATH.read_text(encoding="utf-8")
@@ -64,14 +62,15 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-method"'),
         )
 
-    def test_personal_schema3_gate_replaces_the_retired_lifetime_strip(self) -> None:
+    def test_code_activity_schema4_gate_replaces_the_retired_lifetime_strip(self) -> None:
         for contract in (
-            "site.data.personal_code_activity",
-            'id="personal-code-activity-data"',
-            'personal_activity.schema == 3',
-            'personal_activity.scope == "personal_code_activity"',
-            'personal_activity.coverage.status == "complete"',
-            "Personal code history is being rebuilt.",
+            "site.data.code_activity",
+            'id="code-activity-data"',
+            'code_activity.schema == 4',
+            'code_activity.scope == "code_activity"',
+            'code_activity.coverage.status == "complete"',
+            'code_activity.sources and code_activity.sources.size > 0',
+            "Code history is being rebuilt.",
             "data-personal-daily-copy",
             "data-personal-code-unavailable",
         ):
@@ -85,22 +84,19 @@ class BuildRhythmStoryTests(unittest.TestCase):
             with self.subTest(retired=retired):
                 self.assertNotIn(retired, self.page)
         self.assertEqual(
-            self.page.count("Personal code history is being rebuilt."),
+            self.page.count("Code history is being rebuilt."),
             1,
         )
-        self.assertIn('document.getElementById("personal-code-activity-data")', self.script)
-        self.assertIn("const fiveCalendarYearsBefore = (value) =>", self.script)
-        self.assertIn(
-            "startsOn.getTime() === expectedStart.getTime()",
-            self.script,
-        )
-        self.assertNotIn(
-            'candidate.coverage.starts_on !== "2021-07-28"',
-            self.script,
-        )
+        self.assertIn('document.getElementById("code-activity-data")', self.script)
+        # The five-year rolling window is gone: the anchor is fixed, so a
+        # refresh can only extend history forward.
+        self.assertNotIn("fiveCalendarYearsBefore", self.script)
+        self.assertIn("const validCodeActivitySource = (candidate) =>", self.script)
+        self.assertIn("entry.authored_commits <= entry.commits", self.script)
         self.assertNotIn('fetch(remoteSource', self.script)
-        self.assertIn("validate_profile_snapshot", self.personal_importer)
-        self.assertIn("scope\": \"personal_code_activity", self.personal_importer)
+        self.assertIn("validate_profile_snapshot", self.code_activity_importer)
+        self.assertIn("validate_contributed_snapshot", self.code_activity_importer)
+        self.assertIn("scope\": \"code_activity", self.code_activity_importer)
         self.assertIn(
             'href="{{ \'/github-activity/\' | relative_url }}"',
             self.home,
@@ -110,7 +106,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.home,
         )
         self.assertIn("observed token history", self.home)
-        self.assertNotIn("site.data.personal_code_activity", self.home)
+        self.assertNotIn("site.data.code_activity", self.home)
         self.assertNotIn("home-agentic-heartbeat", self.home)
         self.assertNotIn("{% assign direct_tracker", self.home)
 
@@ -283,13 +279,14 @@ class BuildRhythmStoryTests(unittest.TestCase):
             'id="github-activity-selected-tokens"',
             'id="github-activity-table-scroll-hint"',
             'id="github-activity-table-body"',
-            'id="personal-code-activity-data"',
+            'id="code-activity-data"',
             'id="build-rhythm-token-data"',
         )
         for selector in frozen_page_selectors:
             with self.subTest(selector=selector):
                 self.assertIn(selector, self.page)
         self.assertIn('class: "github-activity-commit-line"', self.script)
+        self.assertIn('class: "github-activity-commit-source-area"', self.script)
         self.assertIn('class: "github-activity-add-line"', self.script)
         self.assertIn('class: "github-activity-remove-line"', self.script)
 
@@ -376,7 +373,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("tokenTotal += point.tokens", self.script)
         self.assertIn("Math.round(tokenTotal / 100_000_000)", self.script)
         self.assertIn(
-            'candidate.scope !== "personal_code_activity"',
+            'candidate.scope !== "code_activity"',
             self.script,
         )
         self.assertIn("codexUsageForDay(codexSource, row)", self.script)
@@ -429,13 +426,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
                 self.assertIn(phrase, self.case_study)
 
         for phrase in (
-            "personal code cadence",
+            "code cadence",
             "one daily UTC calendar",
             "daily commits",
             "same selected day",
             "Never add it to the repo-scoped retained-session estimate",
-            "exact schema-3 source with UTC timezone",
-            "Personal code history is being rebuilt.",
+            "exact schema-4 source with UTC timezone",
+            "Code history is being rebuilt.",
             "The exact point keys are `date`, `token_count`, and `tokens_label`",
             "server-rendered daily token summary and table",
             "Differences between adjacent rounded points are rounded increases, not exact daily usage.",
@@ -443,8 +440,10 @@ class BuildRhythmStoryTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
 
-        self.assertIn("Personal code history appears only after an exact schema-3 source", self.heuristics)
-        self.assertIn("one compact `Personal code history is being rebuilt.` state", self.heuristics)
+        self.assertIn("Code history appears only after an exact schema-4 source", self.heuristics)
+        self.assertIn("one compact `Code history is being rebuilt.` state", self.heuristics)
+        self.assertIn("`commits` reproduces the GitHub contribution graph", self.heuristics)
+        self.assertIn("`authored_commits` is the non-merge, non-deploy subset", self.heuristics)
         self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
         self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)
 

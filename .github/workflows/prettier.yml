@@ -9,7 +9,7 @@ on:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
-      - "_data/personal_code_activity.json"
+      - "_data/code_activity.json"
       - "assets/data/codex-profile-usage.json"
   push:
     branches:
@@ -19,7 +19,7 @@ on:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
-      - "_data/personal_code_activity.json"
+      - "_data/code_activity.json"
       - "assets/data/codex-profile-usage.json"
 
 # Supersede an in-flight run when a newer commit lands on the same ref.

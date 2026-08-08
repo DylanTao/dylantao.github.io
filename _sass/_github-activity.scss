@@ -14,6 +14,9 @@
   --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 85%, var(--global-text-color));
   --github-activity-codex-color: var(--global-primary-color);
   --github-activity-claude-color: color-mix(in srgb, #d97757 82%, var(--global-text-color));
+  // Second and later code-activity sources. The first source keeps the primary
+  // accent so a single-source page is unchanged.
+  --github-activity-source-alt-color: color-mix(in srgb, #c96548 84%, var(--global-text-color));
 
   width: 100%;
   padding: clamp(1.5rem, 4vw, 3.5rem) 0 2rem;
@@ -585,6 +588,73 @@
 .github-activity-clear-selection:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--global-primary-color) 58%, transparent);
   outline-offset: 3px;
+}
+
+.github-activity-source-legend {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+}
+
+.github-activity-source-legend[hidden] {
+  display: none;
+}
+
+.github-activity-source-legend-label {
+  margin: 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.github-activity-legend-items {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.github-activity-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--global-outline-color);
+  border-radius: 0.45rem;
+  background: var(--global-surface-color);
+  font-size: var(--type-meta);
+  transition:
+    border-color var(--motion-standard),
+    background-color var(--motion-standard),
+    opacity var(--motion-standard);
+}
+
+.github-activity-legend-item[aria-pressed="false"] {
+  // A hidden source stays legible and re-selectable rather than disappearing.
+  opacity: 0.5;
+}
+
+.github-activity-legend-item:hover {
+  border-color: var(--global-primary-color);
+}
+
+.github-activity-legend-item:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--global-primary-color) 58%, transparent);
+  outline-offset: 3px;
+}
+
+.github-activity-legend-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 0.2rem;
+  flex: none;
+}
+
+.github-activity-legend-item[aria-pressed="false"] .github-activity-legend-swatch {
+  background: none !important;
+  box-shadow: inset 0 0 0 2px var(--global-text-color-light);
 }
 
 .github-activity-agent-summary {

@@ -7,10 +7,10 @@ on:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
-      - "_data/personal_code_activity.json"
+      - "_data/code_activity.json"
       - "assets/data/codex-profile-usage.json"
-      - "bin/import_personal_code_activity.py"
-      - "test/test_import_personal_code_activity.py"
+      - "bin/import_code_activity.py"
+      - "test/test_import_code_activity.py"
       - ".github/workflows/update-code-activity.yml"
       - ".github/workflows/generated-metrics.yml"
   pull_request:
@@ -19,10 +19,10 @@ on:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
       - "_data/github_activity.json"
-      - "_data/personal_code_activity.json"
+      - "_data/code_activity.json"
       - "assets/data/codex-profile-usage.json"
-      - "bin/import_personal_code_activity.py"
-      - "test/test_import_personal_code_activity.py"
+      - "bin/import_code_activity.py"
+      - "test/test_import_code_activity.py"
       - ".github/workflows/update-code-activity.yml"
       - ".github/workflows/generated-metrics.yml"
   workflow_dispatch:
@@ -68,7 +68,7 @@ jobs:
             _data/agentic_usage.yml \
             _data/direct_usage_tracker.json \
             _data/github_activity.json \
-            _data/personal_code_activity.json \
+            _data/code_activity.json \
             assets/data/codex-profile-usage.json \
             docs/agentic-usage-ledger.md; then
             echo "Generated metrics contain a forbidden credential-shaped field." >&2
@@ -78,8 +78,10 @@ jobs:
       - name: Enforce identity-free personal activity
         shell: bash
         run: |
-          if git grep -niE '(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp)' -- \
-            _data/personal_code_activity.json; then
+          # Identity fields are matched as JSON keys, so a count field such
+          # as "authored_commits" is not mistaken for commit-author identity.
+          if git grep -niE '"(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp)"' -- \
+            _data/code_activity.json; then
             echo "Personal code activity contains forbidden source metadata." >&2
             exit 1
           fi
