@@ -179,7 +179,7 @@ test("missing personal history shows one compact rebuilding state", async ({ pag
 
   const activity = page.locator("[data-github-activity]");
   await expect(activity).toHaveAttribute("data-state", "unavailable");
-  await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
+  await expect(page.getByText("Code history is being rebuilt.", { exact: true })).toHaveCount(1);
   await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
   await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
   await expect(page.getByRole("link", { name: "Open the explorer" })).toBeHidden();
@@ -528,10 +528,10 @@ test("exact daily agent usage keeps a shared explorer domain and focused story s
   await expect(page.locator("#github-activity-range-summary")).not.toContainText("tokens");
   await page.locator(".github-activity-method summary").click();
   const exactRow = page.locator("#github-activity-table-body tr").filter({ hasText: "2026-07-30" });
-  await expect(exactRow.locator("td").nth(4)).toHaveText("200,000,000");
-  await expect(exactRow.locator("td").nth(5)).toHaveText("150,000,000");
-  await expect(exactRow.locator("td").nth(6)).toHaveText("50,000,000");
-  await expect(exactRow.locator("td").nth(7)).toHaveText("400,000,000");
+  await expect(exactRow.locator("td").nth(5)).toHaveText("200,000,000");
+  await expect(exactRow.locator("td").nth(6)).toHaveText("150,000,000");
+  await expect(exactRow.locator("td").nth(7)).toHaveText("50,000,000");
+  await expect(exactRow.locator("td").nth(8)).toHaveText("400,000,000");
   await inspector.focus();
   await page.keyboard.press("ArrowLeft");
   await expect(page.locator("#github-activity-selected-tokens")).toContainText("+25M tokens");
@@ -563,7 +563,7 @@ test("legacy profile-6 daily fallback remains accepted", async ({ page }, testIn
   const agentStep = page.locator('[data-build-rhythm-step="agents"]');
   await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Then I zoom into the recent aggregate history.");
   await expect(agentStep.locator("[data-build-rhythm-agent-copy]")).toHaveText(
-    "Daily aggregate history runs from Jul 22, 2026 through Jul 26, 2026. This close-up keeps the cumulative total readable without changing the shared five-year explorer below."
+    "Daily aggregate history runs from Jul 22, 2026 through Jul 26, 2026. This close-up keeps the cumulative total readable without changing the shared lifetime explorer below."
   );
   await expect(agentStep).not.toContainText("Codex");
   await expect(agentStep).not.toContainText("Claude");
@@ -686,7 +686,7 @@ test("Build Rhythm withholds a failed personal agent snapshot", async ({ page },
   const agentStep = page.locator('[data-build-rhythm-step="agents"]');
   await expect(agentStep.locator("[data-build-rhythm-agent-heading]")).toHaveText("Recent agent history is unavailable.");
   await expect(agentStep.locator("[data-build-rhythm-agent-copy]")).toHaveText(
-    "A validated agent snapshot is unavailable. The shared five-year code explorer below remains available."
+    "A validated agent snapshot is unavailable. The shared lifetime code explorer below remains available."
   );
   await expect(agentStep).not.toContainText("Codex");
   await expect(agentStep).not.toContainText("Claude");
