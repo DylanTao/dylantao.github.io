@@ -4,23 +4,38 @@ const { publicRouteUrl } = require("./public-routes");
 
 const dailyActivityFixture = (() => {
   const points = [];
-  const start = Date.UTC(2021, 7, 1);
+  const start = Date.UTC(2017, 7, 31);
   const end = Date.UTC(2026, 6, 31);
   for (let stamp = start, index = 0; stamp <= end; stamp += 86_400_000, index += 1) {
     const date = new Date(stamp).toISOString().slice(0, 10);
     const active = index % 9 === 0 || index % 17 === 0;
+    // `commits` is everything GitHub credits; `authored_commits` is the
+    // non-merge, non-deploy subset that alone carries the line counts.
+    const authored = active ? (index % 13) + 1 : 0;
     points.push({
       date,
-      commits: active ? (index % 13) + 1 : 0,
-      additions: active ? (index % 31) * 140 + 20 : 0,
-      deletions: active ? (index % 23) * 90 + 10 : 0,
+      personal: {
+        commits: active ? authored + (index % 3) : 0,
+        authored_commits: authored,
+        additions: active ? (index % 31) * 140 + 20 : 0,
+        deletions: active ? (index % 23) * 90 + 10 : 0,
+      },
     });
   }
   return {
-    schema: 3,
+    schema: 4,
     updated_on: "2026-07-31",
     timezone: "UTC",
-    scope: "personal_code_activity",
+    scope: "code_activity",
+    sources: [
+      {
+        id: "personal",
+        label: "Personal",
+        basis: "github_contribution_parity",
+        starts_on: points[0].date,
+        complete_through: points.at(-1).date,
+      },
+    ],
     coverage: {
       starts_on: points[0].date,
       complete_through: points.at(-1).date,
@@ -142,12 +157,9 @@ const gotoWithDailyCode = async (page, { waitUntil = "networkidle", transform = 
   const response = await page.request.get(routeUrl);
   expect(response.ok()).toBe(true);
   const original = await response.text();
-  const dataPattern = /<script id="personal-code-activity-data" type="application\/json">[\s\S]*?<\/script>/;
+  const dataPattern = /<script id="code-activity-data" type="application\/json">[\s\S]*?<\/script>/;
   expect(original).toMatch(dataPattern);
-  const withDaily = original.replace(
-    dataPattern,
-    `<script id="personal-code-activity-data" type="application/json">${JSON.stringify(activity)}</script>`
-  );
+  const withDaily = original.replace(dataPattern, `<script id="code-activity-data" type="application/json">${JSON.stringify(activity)}</script>`);
   await page.route(routeUrl, (route) =>
     route.fulfill({
       status: 200,
