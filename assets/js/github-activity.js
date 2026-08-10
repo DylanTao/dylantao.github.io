@@ -2143,6 +2143,67 @@
     addText(chart, "+ added", left, lineTop - 14, { color: palette.addedText, weight: 650 });
     addText(chart, "\u2212 removed", left + (narrow ? 76 : 86), lineTop - 14, { color: palette.removedText, weight: 650 });
 
+    // Agent-token context backdrop behind the commit and line panels.
+    //
+    // The agent inset below carries its own date domain, so a reader cannot
+    // line its ramp up against the code marks by eye. This draws the same
+    // cumulative token series on the *code* axis instead, which is the only
+    // place the two rhythms can actually be compared.
+    //
+    // Cumulative rather than per-date: a per-date wash at these widths reads as
+    // vertical striping, which is noise, not a trend. It stays a single quiet
+    // fill with no stroke or markers so it cannot be mistaken for a fourth data
+    // series, and it is drawn only across dates the agent record observed —
+    // labels outside its coverage stay blank rather than padded with zeros.
+    // This is co-occurrence in time, not attribution.
+    if (codexSource) {
+      const agentRows = lifetimeHistoryRows(codexSource).filter((entry) => entry.dailyTokens !== null);
+      const firstVisible = data[0]?.date?.getTime();
+      const lastVisible = data.at(-1)?.date?.getTime();
+      const inWindow = agentRows.filter((entry) => {
+        const stamp = entry.date.getTime();
+        return Number.isFinite(firstVisible) && Number.isFinite(lastVisible) && stamp >= firstVisible && stamp <= lastVisible;
+      });
+      if (inWindow.length > 1) {
+        const peakCumulative = Math.max(...inWindow.map((entry) => entry.tokenCount), 1);
+        const bandTop = plotTop;
+        const bandBottom = lineBottom;
+        const washY = (value) => bandBottom - (value / peakCumulative) * (bandBottom - bandTop);
+        const washPoints = inWindow.map((entry) => [x(entry.date), washY(entry.tokenCount)]);
+        chart.append(
+          svgElement("path", {
+            class: "github-activity-agent-wash-area",
+            d: areaPath(washPoints, bandBottom),
+            fill: palette.codex || palette.accent,
+            "fill-opacity": 0.1,
+            "pointer-events": "none",
+          })
+        );
+
+        const agentStart = inWindow[0].date;
+        const startX = x(agentStart);
+        chart.append(
+          svgElement("line", {
+            class: "github-activity-agent-wash-start",
+            x1: startX,
+            x2: startX,
+            y1: bandTop,
+            y2: bandBottom,
+            stroke: palette.codex || palette.accent,
+            "stroke-opacity": 0.42,
+            "stroke-width": 1,
+            "pointer-events": "none",
+          })
+        );
+        addText(chart, `AGENT TOKENS FROM ${dateLabel.format(agentStart).toUpperCase()}`, Math.min(startX + 6, width - right - 4), plotTop - 8, {
+          anchor: startX + 6 > width - right - 120 ? "end" : "start",
+          color: palette.muted,
+          weight: 650,
+          className: "github-activity-agent-wash-label",
+        });
+      }
+    }
+
     let renderPeak = () => {};
     const selectionBand = svgElement("rect", {
       class: "github-activity-selection-band",

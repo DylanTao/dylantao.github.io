@@ -1021,6 +1021,31 @@
   vector-effect: non-scaling-stroke;
 }
 
+// Agent-token context backdrop. It sits behind the commit and line marks, so
+// it must stay quiet enough that the code series keep their contrast. It
+// carries no stroke or markers so it reads as ground, not as another series.
+.github-activity-agent-wash-area {
+  pointer-events: none;
+}
+
+.github-activity-agent-wash-start {
+  vector-effect: non-scaling-stroke;
+}
+
+.github-activity-agent-wash-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+}
+
+@media (prefers-contrast: more) {
+  // Ground-weight context is the first thing to drop when the reader has asked
+  // for maximum separation between marks and background. The dated start rule
+  // stays, because it carries the evidence boundary rather than decoration.
+  .github-activity-agent-wash-area {
+    display: none;
+  }
+}
+
 .github-activity-annotation {
   min-height: 1.5rem;
   margin: -0.25rem 0 0.8rem;
