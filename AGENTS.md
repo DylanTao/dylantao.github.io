@@ -97,6 +97,8 @@ Source checks are not a substitute for rendered inspection when public UI change
 - `WEBSITE_DESIGN_HEURISTICS.md` remains the canonical human-readable, copy-pastable design and writing memory.
 - `docs/homepage-desk-scene-brief.md` remains the canonical desk-scene brief and handoff prompt.
 - `docs/agentic-usage-ledger.md` remains the canonical usage-counter math and evidence log.
+- `docs/material-lite-revamp.md` remains the canonical Material-Lite design-grammar intent: orange is the identity source color, the `--md-lite-*` token set is preferred over one-off values, and the navbar brand-mark rules live there.
+- `.github/GIT_WORKFLOW.md` remains the canonical commit-message and branch convention.
 - Repo-local `.codex/skills/` files are concise Codex overlays that read those living docs by heading or path. Do not duplicate the long heuristic lists into skills unless the user explicitly asks for a source-of-truth migration.
 
 ## Publish Freshness Gate
