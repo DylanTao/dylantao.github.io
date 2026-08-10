@@ -1,20 +1,22 @@
 {
-  "schema": 4,
-  "updated_on": "2026-08-07",
-  "timezone": "UTC",
+  "schema": 5,
+  "updated_on": "2026-08-09",
+  "date_basis": "source_reported_calendar",
   "scope": "code_activity",
   "sources": [
     {
-      "label": "Personal",
       "id": "personal",
+      "label": "Personal",
       "basis": "github_contribution_parity",
+      "date_basis": "github_profile_author_date",
+      "completion_timezone": "America/Los_Angeles",
       "starts_on": "2017-08-31",
-      "complete_through": "2026-08-07"
+      "complete_through": "2026-08-09"
     }
   ],
   "coverage": {
     "starts_on": "2017-08-31",
-    "complete_through": "2026-08-07",
+    "complete_through": "2026-08-09",
     "status": "complete"
   },
   "points": [
@@ -3027,55 +3029,55 @@
     {
       "date": "2018-07-31",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 175,
+        "deletions": 3
       }
     },
     {
       "date": "2018-08-01",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 314,
-        "deletions": 70
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 139,
+        "deletions": 67
       }
     },
     {
       "date": "2018-08-02",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 548,
-        "deletions": 321
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 724,
+        "deletions": 389
       }
     },
     {
       "date": "2018-08-03",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 632,
-        "deletions": 321
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 456,
+        "deletions": 253
       }
     },
     {
       "date": "2018-08-04",
       "personal": {
-        "commits": 3,
-        "authored_commits": 2,
-        "additions": 440,
-        "deletions": 154
+        "commits": 5,
+        "authored_commits": 4,
+        "additions": 742,
+        "deletions": 193
       }
     },
     {
       "date": "2018-08-05",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 370,
-        "deletions": 151
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 68,
+        "deletions": 112
       }
     },
     {
@@ -11091,19 +11093,19 @@
     {
       "date": "2021-01-12",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 306,
-        "deletions": 40
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2021-01-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 306,
+        "deletions": 40
       }
     },
     {
@@ -11154,19 +11156,19 @@
     {
       "date": "2021-01-19",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 485,
-        "deletions": 128
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 116,
+        "deletions": 55
       }
     },
     {
       "date": "2021-01-20",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 618,
-        "deletions": 37
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 987,
+        "deletions": 110
       }
     },
     {
@@ -11217,19 +11219,19 @@
     {
       "date": "2021-01-26",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 837,
-        "deletions": 106
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 418,
+        "deletions": 77
       }
     },
     {
       "date": "2021-01-27",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 572,
-        "deletions": 6
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 991,
+        "deletions": 35
       }
     },
     {
@@ -11352,19 +11354,19 @@
     {
       "date": "2021-02-10",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 411,
-        "deletions": 26
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2021-02-11",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 644,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 1055,
+        "deletions": 26
       }
     },
     {
@@ -11424,19 +11426,19 @@
     {
       "date": "2021-02-18",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 260,
-        "deletions": 64
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2021-02-19",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 37,
-        "deletions": 16
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 297,
+        "deletions": 80
       }
     },
     {
@@ -11469,19 +11471,19 @@
     {
       "date": "2021-02-23",
       "personal": {
-        "commits": 13,
-        "authored_commits": 13,
-        "additions": 681,
-        "deletions": 113
+        "commits": 10,
+        "authored_commits": 10,
+        "additions": 646,
+        "deletions": 96
       }
     },
     {
       "date": "2021-02-24",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 1,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 36,
+        "deletions": 17
       }
     },
     {
@@ -11550,19 +11552,19 @@
     {
       "date": "2021-03-04",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 1283,
-        "deletions": 226
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 937,
+        "deletions": 127
       }
     },
     {
       "date": "2021-03-05",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 513,
-        "deletions": 0
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 859,
+        "deletions": 99
       }
     },
     {
@@ -11586,19 +11588,19 @@
     {
       "date": "2021-03-08",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 207,
-        "deletions": 27
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2021-03-09",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 204,
-        "deletions": 27
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 411,
+        "deletions": 54
       }
     },
     {
@@ -11640,9 +11642,9 @@
     {
       "date": "2021-03-14",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 1325,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -11651,17 +11653,17 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 170,
-        "deletions": 62
+        "additions": 1374,
+        "deletions": 0
       }
     },
     {
       "date": "2021-03-16",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 6,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 127,
+        "deletions": 62
       }
     },
     {
@@ -12450,10 +12452,10 @@
     {
       "date": "2021-06-12",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 6,
+        "deletions": 479
       }
     },
     {
@@ -12477,10 +12479,10 @@
     {
       "date": "2021-06-15",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3,
+        "deletions": 1
       }
     },
     {
@@ -12522,19 +12524,19 @@
     {
       "date": "2021-06-20",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
       "date": "2021-06-21",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 1,
-        "deletions": 1
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -12594,37 +12596,37 @@
     {
       "date": "2021-06-28",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 207,
-        "deletions": 2247
+        "commits": 42,
+        "authored_commits": 42,
+        "additions": 6675,
+        "deletions": 6057
       }
     },
     {
       "date": "2021-06-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 27934,
+        "deletions": 4060
       }
     },
     {
       "date": "2021-06-30",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 121,
+        "deletions": 82
       }
     },
     {
       "date": "2021-07-01",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 93,
-        "deletions": 65
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 147,
+        "deletions": 3113
       }
     },
     {
@@ -12666,37 +12668,37 @@
     {
       "date": "2021-07-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 709,
+        "deletions": 630
       }
     },
     {
       "date": "2021-07-07",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 8,
+        "authored_commits": 8,
+        "additions": 152,
+        "deletions": 208
       }
     },
     {
       "date": "2021-07-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 436,
+        "deletions": 273
       }
     },
     {
       "date": "2021-07-09",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 737,
+        "deletions": 130
       }
     },
     {
@@ -12810,10 +12812,10 @@
     {
       "date": "2021-07-22",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 705,
-        "deletions": 1272
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 721,
+        "deletions": 1287
       }
     },
     {
@@ -12846,10 +12848,10 @@
     {
       "date": "2021-07-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3,
+        "deletions": 2
       }
     },
     {
@@ -12864,37 +12866,37 @@
     {
       "date": "2021-07-28",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
+        "deletions": 2
       }
     },
     {
       "date": "2021-07-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 297,
+        "deletions": 14
       }
     },
     {
       "date": "2021-07-30",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 23,
+        "deletions": 11
       }
     },
     {
       "date": "2021-07-31",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 16,
+        "deletions": 13
       }
     },
     {
@@ -12927,10 +12929,10 @@
     {
       "date": "2021-08-04",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 14,
+        "deletions": 12
       }
     },
     {
@@ -12945,19 +12947,19 @@
     {
       "date": "2021-08-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 152,
+        "deletions": 157
       }
     },
     {
       "date": "2021-08-07",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 42,
+        "deletions": 18
       }
     },
     {
@@ -13026,15 +13028,6 @@
     {
       "date": "2021-08-15",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2021-08-16",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 21107,
@@ -13042,16 +13035,16 @@
       }
     },
     {
-      "date": "2021-08-17",
+      "date": "2021-08-16",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 13,
+        "deletions": 10
       }
     },
     {
-      "date": "2021-08-18",
+      "date": "2021-08-17",
       "personal": {
         "commits": 1,
         "authored_commits": 1,
@@ -13060,7 +13053,7 @@
       }
     },
     {
-      "date": "2021-08-19",
+      "date": "2021-08-18",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -13069,12 +13062,21 @@
       }
     },
     {
-      "date": "2021-08-20",
+      "date": "2021-08-19",
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 1876,
-        "deletions": 1576
+        "additions": 1847,
+        "deletions": 1575
+      }
+    },
+    {
+      "date": "2021-08-20",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 31,
+        "deletions": 1
       }
     },
     {
@@ -13107,10 +13109,10 @@
     {
       "date": "2021-08-24",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 13,
+        "deletions": 11
       }
     },
     {
@@ -13134,10 +13136,10 @@
     {
       "date": "2021-08-27",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 120,
+        "deletions": 119
       }
     },
     {
@@ -13152,10 +13154,10 @@
     {
       "date": "2021-08-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 21,
+        "deletions": 25
       }
     },
     {
@@ -13197,10 +13199,10 @@
     {
       "date": "2021-09-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 224,
+        "deletions": 13
       }
     },
     {
@@ -13215,10 +13217,10 @@
     {
       "date": "2021-09-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 8,
+        "deletions": 6
       }
     },
     {
@@ -13242,19 +13244,19 @@
     {
       "date": "2021-09-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 4,
         "deletions": 0
       }
     },
     {
       "date": "2021-09-09",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 4,
+        "deletions": 3
       }
     },
     {
@@ -13287,10 +13289,10 @@
     {
       "date": "2021-09-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -13404,18 +13406,18 @@
     {
       "date": "2021-09-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3,
+        "deletions": 2
       }
     },
     {
       "date": "2021-09-27",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
         "deletions": 0
       }
     },
@@ -13494,10 +13496,10 @@
     {
       "date": "2021-10-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 20,
+        "deletions": 4
       }
     },
     {
@@ -13530,15 +13532,6 @@
     {
       "date": "2021-10-10",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2021-10-11",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 71865,
@@ -13546,12 +13539,21 @@
       }
     },
     {
-      "date": "2021-10-12",
+      "date": "2021-10-11",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
+      }
+    },
+    {
+      "date": "2021-10-12",
+      "personal": {
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 571,
+        "deletions": 321
       }
     },
     {
@@ -13566,9 +13568,9 @@
     {
       "date": "2021-10-14",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 5,
         "deletions": 0
       }
     },
@@ -13584,9 +13586,9 @@
     {
       "date": "2021-10-16",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 33,
         "deletions": 0
       }
     },
@@ -13602,19 +13604,19 @@
     {
       "date": "2021-10-18",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 43,
+        "deletions": 2
       }
     },
     {
       "date": "2021-10-19",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 24,
+        "deletions": 17
       }
     },
     {
@@ -13647,10 +13649,10 @@
     {
       "date": "2021-10-23",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 135610,
+        "deletions": 10002
       }
     },
     {
@@ -13658,17 +13660,17 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 135609,
-        "deletions": 10001
+        "additions": 2328,
+        "deletions": 109
       }
     },
     {
       "date": "2021-10-25",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2328,
-        "deletions": 109
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -13701,10 +13703,10 @@
     {
       "date": "2021-10-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 4,
+        "deletions": 2
       }
     },
     {
@@ -13836,10 +13838,10 @@
     {
       "date": "2021-11-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 118,
+        "deletions": 16
       }
     },
     {
@@ -13881,10 +13883,10 @@
     {
       "date": "2021-11-18",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 36,
+        "deletions": 36
       }
     },
     {
@@ -13926,10 +13928,10 @@
     {
       "date": "2021-11-23",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
+        "deletions": 2
       }
     },
     {
@@ -14142,19 +14144,19 @@
     {
       "date": "2021-12-17",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 142,
+        "deletions": 58
       }
     },
     {
       "date": "2021-12-18",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -14169,10 +14171,10 @@
     {
       "date": "2021-12-20",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 16,
+        "deletions": 14
       }
     },
     {
@@ -14205,10 +14207,10 @@
     {
       "date": "2021-12-24",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -14250,10 +14252,10 @@
     {
       "date": "2021-12-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 4,
+        "deletions": 3
       }
     },
     {
@@ -14268,8 +14270,8 @@
     {
       "date": "2021-12-31",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
+        "commits": 1,
+        "authored_commits": 1,
         "additions": 0,
         "deletions": 0
       }
@@ -14286,19 +14288,19 @@
     {
       "date": "2022-01-02",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 38,
+        "deletions": 3
       }
     },
     {
       "date": "2022-01-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 6,
+        "deletions": 4
       }
     },
     {
@@ -14322,26 +14324,26 @@
     {
       "date": "2022-01-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 331476,
+        "deletions": 1
       }
     },
     {
       "date": "2022-01-07",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 331498,
-        "deletions": 1
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 22,
+        "deletions": 0
       }
     },
     {
       "date": "2022-01-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
+        "commits": 1,
+        "authored_commits": 1,
         "additions": 0,
         "deletions": 0
       }
@@ -14358,46 +14360,46 @@
     {
       "date": "2022-01-10",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 26,
+        "deletions": 5
       }
     },
     {
       "date": "2022-01-11",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 4,
         "deletions": 0
       }
     },
     {
       "date": "2022-01-12",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 272,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 250,
         "deletions": 0
       }
     },
     {
       "date": "2022-01-13",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 47,
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 69,
         "deletions": 0
       }
     },
     {
       "date": "2022-01-14",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3,
+        "deletions": 4
       }
     },
     {
@@ -14412,10 +14414,10 @@
     {
       "date": "2022-01-16",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 14,
+        "deletions": 9
       }
     },
     {
@@ -14448,41 +14450,32 @@
     {
       "date": "2022-01-20",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 42839,
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 42816,
         "deletions": 109
       }
     },
     {
       "date": "2022-01-21",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2,
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 121,
         "deletions": 2
       }
     },
     {
       "date": "2022-01-22",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 118,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 12740,
+        "deletions": 3468
       }
     },
     {
       "date": "2022-01-23",
-      "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 9209,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2022-01-24",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -14491,7 +14484,7 @@
       }
     },
     {
-      "date": "2022-01-25",
+      "date": "2022-01-24",
       "personal": {
         "commits": 1,
         "authored_commits": 1,
@@ -14500,12 +14493,21 @@
       }
     },
     {
+      "date": "2022-01-25",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2719,
+        "deletions": 50
+      }
+    },
+    {
       "date": "2022-01-26",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 6262,
-        "deletions": 50
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3543,
+        "deletions": 0
       }
     },
     {
@@ -14556,18 +14558,18 @@
     {
       "date": "2022-02-01",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 20480,
         "deletions": 0
       }
     },
     {
       "date": "2022-02-02",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 20480,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -14592,10 +14594,10 @@
     {
       "date": "2022-02-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 17,
+        "deletions": 17
       }
     },
     {
@@ -14628,37 +14630,37 @@
     {
       "date": "2022-02-09",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 25480,
         "deletions": 0
       }
     },
     {
       "date": "2022-02-10",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 46064,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 20584,
         "deletions": 0
       }
     },
     {
       "date": "2022-02-11",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 35254,
+        "deletions": 16
       }
     },
     {
       "date": "2022-02-12",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 35254,
-        "deletions": 16
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -14925,19 +14927,19 @@
     {
       "date": "2022-03-14",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 5804,
+        "deletions": 175
       }
     },
     {
       "date": "2022-03-15",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 5804,
-        "deletions": 175
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 3,
+        "deletions": 3
       }
     },
     {
@@ -15060,27 +15062,27 @@
     {
       "date": "2022-03-29",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 22,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 527,
+        "deletions": 33
       }
     },
     {
       "date": "2022-03-30",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 505,
-        "deletions": 33
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 575,
+        "deletions": 0
       }
     },
     {
       "date": "2022-03-31",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 5413,
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 4838,
         "deletions": 141
       }
     },
@@ -15141,10 +15143,10 @@
     {
       "date": "2022-04-07",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 24,
+        "deletions": 3
       }
     },
     {
@@ -15186,18 +15188,18 @@
     {
       "date": "2022-04-12",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 23,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
     {
       "date": "2022-04-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 23,
         "deletions": 0
       }
     },
@@ -15222,19 +15224,19 @@
     {
       "date": "2022-04-16",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 161,
+        "deletions": 24
       }
     },
     {
       "date": "2022-04-17",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 172,
-        "deletions": 35
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 11,
+        "deletions": 11
       }
     },
     {
@@ -15249,9 +15251,9 @@
     {
       "date": "2022-04-19",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 7435,
         "deletions": 0
       }
     },
@@ -15260,17 +15262,17 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 24271,
-        "deletions": 75
+        "additions": 17086,
+        "deletions": 270
       }
     },
     {
       "date": "2022-04-21",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 250,
-        "deletions": 195
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -15294,18 +15296,18 @@
     {
       "date": "2022-04-24",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2080,
         "deletions": 0
       }
     },
     {
       "date": "2022-04-25",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2080,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -15357,10 +15359,10 @@
     {
       "date": "2022-05-01",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 15,
+        "deletions": 14
       }
     },
     {
@@ -15402,19 +15404,19 @@
     {
       "date": "2022-05-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 30071,
+        "deletions": 2
       }
     },
     {
       "date": "2022-05-07",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 30071,
-        "deletions": 2
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 47,
+        "deletions": 18
       }
     },
     {
@@ -15429,28 +15431,28 @@
     {
       "date": "2022-05-09",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 1574,
-        "deletions": 1078
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 11287,
+        "deletions": 2111
       }
     },
     {
       "date": "2022-05-10",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 11514,
-        "deletions": 2268
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 1801,
+        "deletions": 1235
       }
     },
     {
       "date": "2022-05-11",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 698,
-        "deletions": 69
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 707,
+        "deletions": 76
       }
     },
     {
@@ -15510,10 +15512,10 @@
     {
       "date": "2022-05-18",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 54,
+        "deletions": 26
       }
     },
     {
@@ -15528,15 +15530,6 @@
     {
       "date": "2022-05-20",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2022-05-21",
-      "personal": {
         "commits": 4,
         "authored_commits": 4,
         "additions": 42649,
@@ -15544,7 +15537,7 @@
       }
     },
     {
-      "date": "2022-05-22",
+      "date": "2022-05-21",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -15553,12 +15546,21 @@
       }
     },
     {
+      "date": "2022-05-22",
+      "personal": {
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 8562,
+        "deletions": 8841
+      }
+    },
+    {
       "date": "2022-05-23",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 8700,
-        "deletions": 8874
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 138,
+        "deletions": 33
       }
     },
     {
@@ -15573,10 +15575,10 @@
     {
       "date": "2022-05-25",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 125,
+        "deletions": 16
       }
     },
     {
@@ -15591,37 +15593,37 @@
     {
       "date": "2022-05-27",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 13265,
-        "deletions": 5
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 17316,
+        "deletions": 1657
       }
     },
     {
       "date": "2022-05-28",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 5369,
-        "deletions": 1863
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 5550,
+        "deletions": 344
       }
     },
     {
       "date": "2022-05-29",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 14403,
-        "deletions": 2296
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 10171,
+        "deletions": 2163
       }
     },
     {
       "date": "2022-05-30",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 509,
-        "deletions": 25
+        "commits": 7,
+        "authored_commits": 7,
+        "additions": 510,
+        "deletions": 26
       }
     },
     {
@@ -15654,10 +15656,10 @@
     {
       "date": "2022-06-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 4,
+        "deletions": 4
       }
     },
     {
@@ -15672,28 +15674,28 @@
     {
       "date": "2022-06-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 6,
+        "deletions": 3
       }
     },
     {
       "date": "2022-06-06",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 201,
-        "deletions": 28
+        "commits": 8,
+        "authored_commits": 8,
+        "additions": 1017,
+        "deletions": 679
       }
     },
     {
       "date": "2022-06-07",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 125,
+        "deletions": 57
       }
     },
     {
@@ -15744,10 +15746,10 @@
     {
       "date": "2022-06-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 29,
+        "deletions": 4
       }
     },
     {
@@ -15852,27 +15854,27 @@
     {
       "date": "2022-06-25",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 254,
+        "deletions": 137
       }
     },
     {
       "date": "2022-06-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 2
       }
     },
     {
       "date": "2022-06-27",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
         "deletions": 0
       }
     },
@@ -15915,8 +15917,8 @@
     {
       "date": "2022-07-02",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
+        "commits": 1,
+        "authored_commits": 1,
         "additions": 0,
         "deletions": 0
       }
@@ -15987,10 +15989,10 @@
     {
       "date": "2022-07-10",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 32,
+        "deletions": 27
       }
     },
     {
@@ -16050,9 +16052,9 @@
     {
       "date": "2022-07-17",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
         "deletions": 0
       }
     },
@@ -16293,10 +16295,10 @@
     {
       "date": "2022-08-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -16365,19 +16367,19 @@
     {
       "date": "2022-08-21",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 5,
+        "deletions": 5
       }
     },
     {
       "date": "2022-08-22",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 5,
-        "deletions": 5
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -16482,10 +16484,10 @@
     {
       "date": "2022-09-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -16599,19 +16601,19 @@
     {
       "date": "2022-09-16",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 14,
+        "deletions": 67
       }
     },
     {
       "date": "2022-09-17",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 8,
-        "deletions": 62
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -16635,17 +16637,17 @@
     {
       "date": "2022-09-20",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
       "date": "2022-09-21",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
+        "commits": 0,
+        "authored_commits": 0,
         "additions": 0,
         "deletions": 0
       }
@@ -16716,8 +16718,8 @@
     {
       "date": "2022-09-29",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
+        "commits": 4,
+        "authored_commits": 4,
         "additions": 16046,
         "deletions": 133
       }
@@ -16734,18 +16736,18 @@
     {
       "date": "2022-10-01",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 4,
         "deletions": 0
       }
     },
     {
       "date": "2022-10-02",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 4,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -16761,18 +16763,18 @@
     {
       "date": "2022-10-04",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 19,
         "deletions": 0
       }
     },
     {
       "date": "2022-10-05",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 19,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -16995,19 +16997,19 @@
     {
       "date": "2022-10-30",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 2033,
+        "deletions": 42
       }
     },
     {
       "date": "2022-10-31",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 2033,
-        "deletions": 42
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -17031,8 +17033,8 @@
     {
       "date": "2022-11-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
+        "commits": 1,
+        "authored_commits": 1,
         "additions": 0,
         "deletions": 0
       }
@@ -17058,19 +17060,19 @@
     {
       "date": "2022-11-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 9372,
+        "deletions": 82
       }
     },
     {
       "date": "2022-11-07",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 9372,
-        "deletions": 82
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -17193,15 +17195,6 @@
     {
       "date": "2022-11-21",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2022-11-22",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 0,
@@ -17209,7 +17202,7 @@
       }
     },
     {
-      "date": "2022-11-23",
+      "date": "2022-11-22",
       "personal": {
         "commits": 1,
         "authored_commits": 1,
@@ -17218,12 +17211,21 @@
       }
     },
     {
-      "date": "2022-11-24",
+      "date": "2022-11-23",
       "personal": {
         "commits": 5,
         "authored_commits": 4,
         "additions": 21984,
         "deletions": 1
+      }
+    },
+    {
+      "date": "2022-11-24",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -17256,15 +17258,6 @@
     {
       "date": "2022-11-28",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2022-11-29",
-      "personal": {
         "commits": 2,
         "authored_commits": 2,
         "additions": 203,
@@ -17272,7 +17265,7 @@
       }
     },
     {
-      "date": "2022-11-30",
+      "date": "2022-11-29",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -17281,12 +17274,21 @@
       }
     },
     {
+      "date": "2022-11-30",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 336,
+        "deletions": 2
+      }
+    },
+    {
       "date": "2022-12-01",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 2179,
-        "deletions": 161
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 1843,
+        "deletions": 159
       }
     },
     {
@@ -17319,15 +17321,6 @@
     {
       "date": "2022-12-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2022-12-06",
-      "personal": {
         "commits": 3,
         "authored_commits": 3,
         "additions": 301,
@@ -17335,7 +17328,7 @@
       }
     },
     {
-      "date": "2022-12-07",
+      "date": "2022-12-06",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -17344,7 +17337,7 @@
       }
     },
     {
-      "date": "2022-12-08",
+      "date": "2022-12-07",
       "personal": {
         "commits": 2,
         "authored_commits": 2,
@@ -17353,21 +17346,30 @@
       }
     },
     {
+      "date": "2022-12-08",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
       "date": "2022-12-09",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 1722,
-        "deletions": 318
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 1792,
+        "deletions": 2023
       }
     },
     {
       "date": "2022-12-10",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 70,
-        "deletions": 1705
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -17715,19 +17717,19 @@
     {
       "date": "2023-01-18",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 37093,
+        "deletions": 21520
       }
     },
     {
       "date": "2023-01-19",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 37093,
-        "deletions": 21520
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -18048,37 +18050,37 @@
     {
       "date": "2023-02-24",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 174,
-        "deletions": 0
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 3809,
+        "deletions": 31
       }
     },
     {
       "date": "2023-02-25",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 3635,
-        "deletions": 31
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
       "date": "2023-02-26",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 145,
-        "deletions": 11
+        "commits": 7,
+        "authored_commits": 7,
+        "additions": 1032,
+        "deletions": 193
       }
     },
     {
       "date": "2023-02-27",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 888,
-        "deletions": 183
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -18120,15 +18122,6 @@
     {
       "date": "2023-03-04",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2023-03-05",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 85,
@@ -18136,7 +18129,7 @@
       }
     },
     {
-      "date": "2023-03-06",
+      "date": "2023-03-05",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -18145,12 +18138,21 @@
       }
     },
     {
-      "date": "2023-03-07",
+      "date": "2023-03-06",
       "personal": {
         "commits": 2,
         "authored_commits": 2,
         "additions": 7,
         "deletions": 7
+      }
+    },
+    {
+      "date": "2023-03-07",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -18201,15 +18203,6 @@
     {
       "date": "2023-03-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2023-03-14",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 1245,
@@ -18217,12 +18210,21 @@
       }
     },
     {
+      "date": "2023-03-14",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3,
+        "deletions": 38
+      }
+    },
+    {
       "date": "2023-03-15",
       "personal": {
-        "commits": 6,
-        "authored_commits": 5,
-        "additions": 247,
-        "deletions": 102
+        "commits": 5,
+        "authored_commits": 4,
+        "additions": 244,
+        "deletions": 64
       }
     },
     {
@@ -18264,64 +18266,64 @@
     {
       "date": "2023-03-20",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 159,
+        "deletions": 3
       }
     },
     {
       "date": "2023-03-21",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 1426,
-        "deletions": 3
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 1267,
+        "deletions": 0
       }
     },
     {
       "date": "2023-03-22",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 177,
+        "deletions": 22
       }
     },
     {
       "date": "2023-03-23",
       "personal": {
-        "commits": 8,
-        "authored_commits": 8,
-        "additions": 8536,
-        "deletions": 1220
+        "commits": 7,
+        "authored_commits": 7,
+        "additions": 9521,
+        "deletions": 1203
       }
     },
     {
       "date": "2023-03-24",
       "personal": {
-        "commits": 4,
-        "authored_commits": 3,
-        "additions": 7953,
-        "deletions": 23
+        "commits": 6,
+        "authored_commits": 5,
+        "additions": 7291,
+        "deletions": 130
       }
     },
     {
       "date": "2023-03-25",
       "personal": {
-        "commits": 7,
-        "authored_commits": 6,
-        "additions": 8184,
-        "deletions": 7589
+        "commits": 5,
+        "authored_commits": 4,
+        "additions": 10456,
+        "deletions": 8264
       }
     },
     {
       "date": "2023-03-26",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2772,
-        "deletions": 787
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -18651,10 +18653,10 @@
     {
       "date": "2023-05-02",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 12,
+        "deletions": 8
       }
     },
     {
@@ -18696,18 +18698,18 @@
     {
       "date": "2023-05-07",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
         "deletions": 0
       }
     },
     {
       "date": "2023-05-08",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -19416,18 +19418,18 @@
     {
       "date": "2023-07-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 745,
         "deletions": 0
       }
     },
     {
       "date": "2023-07-27",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 761,
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 16,
         "deletions": 0
       }
     },
@@ -19812,10 +19814,10 @@
     {
       "date": "2023-09-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
+        "deletions": 2
       }
     },
     {
@@ -20217,18 +20219,18 @@
     {
       "date": "2023-10-23",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 33,
         "deletions": 0
       }
     },
     {
       "date": "2023-10-24",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 33,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -20586,10 +20588,10 @@
     {
       "date": "2023-12-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 5,
+        "deletions": 3
       }
     },
     {
@@ -20597,8 +20599,8 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 27,
-        "deletions": 3
+        "additions": 179,
+        "deletions": 0
       }
     },
     {
@@ -20606,8 +20608,8 @@
       "personal": {
         "commits": 1,
         "authored_commits": 1,
-        "additions": 157,
-        "deletions": 0
+        "additions": 227,
+        "deletions": 78
       }
     },
     {
@@ -20615,35 +20617,35 @@
       "personal": {
         "commits": 3,
         "authored_commits": 3,
-        "additions": 299,
-        "deletions": 139
+        "additions": 399,
+        "deletions": 94
       }
     },
     {
       "date": "2023-12-07",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 1292,
-        "deletions": 107
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 965,
+        "deletions": 74
       }
     },
     {
       "date": "2023-12-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 108,
+        "deletions": 355
       }
     },
     {
       "date": "2023-12-09",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 108,
-        "deletions": 355
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -20667,19 +20669,19 @@
     {
       "date": "2023-12-12",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 1157,
+        "deletions": 172
       }
     },
     {
       "date": "2023-12-13",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 1928,
-        "deletions": 263
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 771,
+        "deletions": 91
       }
     },
     {
@@ -21090,28 +21092,28 @@
     {
       "date": "2024-01-28",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 87075,
         "deletions": 0
       }
     },
     {
       "date": "2024-01-29",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 87075,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 1212,
+        "deletions": 201
       }
     },
     {
       "date": "2024-01-30",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 4707,
-        "deletions": 202
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3495,
+        "deletions": 1
       }
     },
     {
@@ -21198,8 +21200,8 @@
     {
       "date": "2024-02-09",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
+        "commits": 1,
+        "authored_commits": 1,
         "additions": 0,
         "deletions": 0
       }
@@ -21207,8 +21209,8 @@
     {
       "date": "2024-02-10",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
+        "commits": 0,
+        "authored_commits": 0,
         "additions": 0,
         "deletions": 0
       }
@@ -21387,10 +21389,10 @@
     {
       "date": "2024-03-01",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3763,
+        "deletions": 29138
       }
     },
     {
@@ -21612,19 +21614,19 @@
     {
       "date": "2024-03-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 138
       }
     },
     {
       "date": "2024-03-27",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 1,
-        "deletions": 138
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -21666,19 +21668,19 @@
     {
       "date": "2024-04-01",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 299,
+        "deletions": 365
       }
     },
     {
       "date": "2024-04-02",
       "personal": {
-        "commits": 7,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 16,
+        "authored_commits": 9,
+        "additions": 397,
+        "deletions": 371
       }
     },
     {
@@ -21756,19 +21758,19 @@
     {
       "date": "2024-04-11",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 915,
+        "deletions": 221
       }
     },
     {
       "date": "2024-04-12",
       "personal": {
-        "commits": 4,
-        "authored_commits": 2,
-        "additions": 911,
-        "deletions": 19
+        "commits": 2,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -21954,10 +21956,10 @@
     {
       "date": "2024-05-03",
       "personal": {
-        "commits": 2,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 2,
+        "additions": 1,
+        "deletions": 1031
       }
     },
     {
@@ -21972,15 +21974,6 @@
     {
       "date": "2024-05-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2024-05-06",
-      "personal": {
         "commits": 3,
         "authored_commits": 3,
         "additions": 174,
@@ -21988,12 +21981,21 @@
       }
     },
     {
-      "date": "2024-05-07",
+      "date": "2024-05-06",
       "personal": {
         "commits": 3,
         "authored_commits": 3,
         "additions": 13987,
         "deletions": 25791
+      }
+    },
+    {
+      "date": "2024-05-07",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -22026,19 +22028,19 @@
     {
       "date": "2024-05-11",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 128,
+        "deletions": 1
       }
     },
     {
       "date": "2024-05-12",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 128,
-        "deletions": 1
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -22143,19 +22145,19 @@
     {
       "date": "2024-05-24",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 64,
+        "deletions": 19
       }
     },
     {
       "date": "2024-05-25",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 64,
-        "deletions": 19
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -22188,15 +22190,6 @@
     {
       "date": "2024-05-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2024-05-30",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 361,
@@ -22204,21 +22197,30 @@
       }
     },
     {
+      "date": "2024-05-30",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
       "date": "2024-05-31",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 0,
-        "deletions": 78
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 129991,
+        "deletions": 388
       }
     },
     {
       "date": "2024-06-01",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 129991,
-        "deletions": 310
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -22296,37 +22298,37 @@
     {
       "date": "2024-06-10",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 219,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 16762,
+        "deletions": 25469
       }
     },
     {
       "date": "2024-06-11",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 16543,
-        "deletions": 25469
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2024-06-12",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 159,
-        "deletions": 73
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 355,
+        "deletions": 301
       }
     },
     {
       "date": "2024-06-13",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 249,
-        "deletions": 233
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 53,
+        "deletions": 5
       }
     },
     {
@@ -22368,19 +22370,19 @@
     {
       "date": "2024-06-18",
       "personal": {
-        "commits": 1,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 6,
+        "authored_commits": 4,
+        "additions": 120,
+        "deletions": 5887905
       }
     },
     {
       "date": "2024-06-19",
       "personal": {
-        "commits": 9,
-        "authored_commits": 6,
-        "additions": 721,
-        "deletions": 5888397
+        "commits": 4,
+        "authored_commits": 2,
+        "additions": 601,
+        "deletions": 492
       }
     },
     {
@@ -22395,10 +22397,10 @@
     {
       "date": "2024-06-21",
       "personal": {
-        "commits": 1,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 25,
+        "deletions": 17
       }
     },
     {
@@ -22602,32 +22604,23 @@
     {
       "date": "2024-07-14",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 60,
-        "deletions": 54
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 1045,
+        "deletions": 319
       }
     },
     {
       "date": "2024-07-15",
       "personal": {
-        "commits": 6,
-        "authored_commits": 4,
-        "additions": 1131,
-        "deletions": 285
+        "commits": 7,
+        "authored_commits": 5,
+        "additions": 459,
+        "deletions": 274
       }
     },
     {
       "date": "2024-07-16",
-      "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 313,
-        "deletions": 254
-      }
-    },
-    {
-      "date": "2024-07-17",
       "personal": {
         "commits": 6,
         "authored_commits": 5,
@@ -22636,21 +22629,30 @@
       }
     },
     {
+      "date": "2024-07-17",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
       "date": "2024-07-18",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 271,
-        "deletions": 140
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 1192,
+        "deletions": 160
       }
     },
     {
       "date": "2024-07-19",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 922,
-        "deletions": 89
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 69
       }
     },
     {
@@ -22683,19 +22685,19 @@
     {
       "date": "2024-07-23",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 388,
-        "deletions": 460
+        "commits": 8,
+        "authored_commits": 7,
+        "additions": 403,
+        "deletions": 472
       }
     },
     {
       "date": "2024-07-24",
       "personal": {
-        "commits": 3,
-        "authored_commits": 2,
-        "additions": 15,
-        "deletions": 12
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -22746,10 +22748,10 @@
     {
       "date": "2024-07-30",
       "personal": {
-        "commits": 1,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 7,
+        "deletions": 4
       }
     },
     {
@@ -22791,19 +22793,19 @@
     {
       "date": "2024-08-04",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 157,
+        "deletions": 128
       }
     },
     {
       "date": "2024-08-05",
       "personal": {
-        "commits": 4,
-        "authored_commits": 3,
-        "additions": 171,
-        "deletions": 622
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 14,
+        "deletions": 494
       }
     },
     {
@@ -22872,46 +22874,46 @@
     {
       "date": "2024-08-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 15876,
+        "deletions": 9616
       }
     },
     {
       "date": "2024-08-14",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 15944,
-        "deletions": 9688
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 68,
+        "deletions": 72
       }
     },
     {
       "date": "2024-08-15",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 1,
+        "additions": 355,
+        "deletions": 34
       }
     },
     {
       "date": "2024-08-16",
       "personal": {
-        "commits": 5,
-        "authored_commits": 2,
-        "additions": 374,
-        "deletions": 51
+        "commits": 7,
+        "authored_commits": 4,
+        "additions": 467,
+        "deletions": 246
       }
     },
     {
       "date": "2024-08-17",
       "personal": {
-        "commits": 6,
-        "authored_commits": 4,
-        "additions": 454,
-        "deletions": 230
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 6,
+        "deletions": 1
       }
     },
     {
@@ -22926,25 +22928,25 @@
     {
       "date": "2024-08-19",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 39,
-        "deletions": 13
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 56,
+        "deletions": 20
       }
     },
     {
       "date": "2024-08-20",
       "personal": {
         "commits": 2,
-        "authored_commits": 2,
-        "additions": 37,
-        "deletions": 20
+        "authored_commits": 1,
+        "additions": 20,
+        "deletions": 13
       }
     },
     {
       "date": "2024-08-21",
       "personal": {
-        "commits": 4,
+        "commits": 3,
         "authored_commits": 3,
         "additions": 63,
         "deletions": 39
@@ -22953,19 +22955,19 @@
     {
       "date": "2024-08-22",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 107,
-        "deletions": 71
+        "commits": 7,
+        "authored_commits": 7,
+        "additions": 488,
+        "deletions": 326
       }
     },
     {
       "date": "2024-08-23",
       "personal": {
-        "commits": 14,
-        "authored_commits": 14,
-        "additions": 901,
-        "deletions": 627
+        "commits": 13,
+        "authored_commits": 13,
+        "additions": 524,
+        "deletions": 376
       }
     },
     {
@@ -22973,17 +22975,17 @@
       "personal": {
         "commits": 3,
         "authored_commits": 3,
-        "additions": 5,
-        "deletions": 4
+        "additions": 1459,
+        "deletions": 108
       }
     },
     {
       "date": "2024-08-25",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 1458,
-        "deletions": 108
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -22998,10 +23000,10 @@
     {
       "date": "2024-08-27",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2243,
-        "deletions": 669
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 69930,
+        "deletions": 1252
       }
     },
     {
@@ -23009,21 +23011,12 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 68087,
-        "deletions": 639
+        "additions": 17985,
+        "deletions": 195
       }
     },
     {
       "date": "2024-08-29",
-      "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 17585,
-        "deletions": 139
-      }
-    },
-    {
-      "date": "2024-08-30",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -23032,7 +23025,7 @@
       }
     },
     {
-      "date": "2024-08-31",
+      "date": "2024-08-30",
       "personal": {
         "commits": 2,
         "authored_commits": 2,
@@ -23041,7 +23034,7 @@
       }
     },
     {
-      "date": "2024-09-01",
+      "date": "2024-08-31",
       "personal": {
         "commits": 1,
         "authored_commits": 1,
@@ -23050,61 +23043,7 @@
       }
     },
     {
-      "date": "2024-09-02",
-      "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 6308,
-        "deletions": 169
-      }
-    },
-    {
-      "date": "2024-09-03",
-      "personal": {
-        "commits": 7,
-        "authored_commits": 7,
-        "additions": 4742,
-        "deletions": 423
-      }
-    },
-    {
-      "date": "2024-09-04",
-      "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 1880,
-        "deletions": 103
-      }
-    },
-    {
-      "date": "2024-09-05",
-      "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 1521,
-        "deletions": 566
-      }
-    },
-    {
-      "date": "2024-09-06",
-      "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 2889,
-        "deletions": 2731
-      }
-    },
-    {
-      "date": "2024-09-07",
-      "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 4446,
-        "deletions": 1485
-      }
-    },
-    {
-      "date": "2024-09-08",
+      "date": "2024-09-01",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -23113,7 +23052,61 @@
       }
     },
     {
-      "date": "2024-09-09",
+      "date": "2024-09-02",
+      "personal": {
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 10663,
+        "deletions": 578
+      }
+    },
+    {
+      "date": "2024-09-03",
+      "personal": {
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 974,
+        "deletions": 116
+      }
+    },
+    {
+      "date": "2024-09-04",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1293,
+        "deletions": 1
+      }
+    },
+    {
+      "date": "2024-09-05",
+      "personal": {
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 1740,
+        "deletions": 711
+      }
+    },
+    {
+      "date": "2024-09-06",
+      "personal": {
+        "commits": 10,
+        "authored_commits": 10,
+        "additions": 7116,
+        "deletions": 4071
+      }
+    },
+    {
+      "date": "2024-09-07",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
+      "date": "2024-09-08",
       "personal": {
         "commits": 1,
         "authored_commits": 1,
@@ -23122,12 +23115,21 @@
       }
     },
     {
+      "date": "2024-09-09",
+      "personal": {
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 1685,
+        "deletions": 1999
+      }
+    },
+    {
       "date": "2024-09-10",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 2769,
-        "deletions": 2487
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 2364,
+        "deletions": 860
       }
     },
     {
@@ -23135,34 +23137,34 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 2339,
-        "deletions": 531
+        "additions": 2210,
+        "deletions": 568
       }
     },
     {
       "date": "2024-09-12",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 3940,
-        "deletions": 1982
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2789,
+        "deletions": 1573
       }
     },
     {
       "date": "2024-09-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 23,
         "deletions": 0
       }
     },
     {
       "date": "2024-09-14",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 23,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -23403,10 +23405,10 @@
     {
       "date": "2024-10-11",
       "personal": {
-        "commits": 2,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 2,
+        "additions": 10,
+        "deletions": 2
       }
     },
     {
@@ -23430,19 +23432,19 @@
     {
       "date": "2024-10-14",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 146,
+        "deletions": 31
       }
     },
     {
       "date": "2024-10-15",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 146,
-        "deletions": 31
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23502,19 +23504,19 @@
     {
       "date": "2024-10-22",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 8,
-        "deletions": 9
+        "commits": 4,
+        "authored_commits": 3,
+        "additions": 121,
+        "deletions": 18
       }
     },
     {
       "date": "2024-10-23",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 113,
-        "deletions": 9
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23547,36 +23549,36 @@
     {
       "date": "2024-10-27",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 64573,
-        "deletions": 7
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 65523,
+        "deletions": 45
       }
     },
     {
       "date": "2024-10-28",
       "personal": {
-        "commits": 9,
-        "authored_commits": 7,
-        "additions": 73775,
-        "deletions": 53478
+        "commits": 7,
+        "authored_commits": 5,
+        "additions": 72922,
+        "deletions": 53458
       }
     },
     {
       "date": "2024-10-29",
       "personal": {
-        "commits": 5,
-        "authored_commits": 4,
-        "additions": 140,
-        "deletions": 72
+        "commits": 4,
+        "authored_commits": 3,
+        "additions": 84,
+        "deletions": 54
       }
     },
     {
       "date": "2024-10-30",
       "personal": {
-        "commits": 7,
-        "authored_commits": 7,
-        "additions": 5884,
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 5843,
         "deletions": 227
       }
     },
@@ -23592,19 +23594,19 @@
     {
       "date": "2024-11-01",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 36431,
-        "deletions": 1
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 36517,
+        "deletions": 18
       }
     },
     {
       "date": "2024-11-02",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 86,
-        "deletions": 17
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23637,15 +23639,6 @@
     {
       "date": "2024-11-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2024-11-07",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 23,
@@ -23653,7 +23646,7 @@
       }
     },
     {
-      "date": "2024-11-08",
+      "date": "2024-11-07",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -23662,12 +23655,21 @@
       }
     },
     {
-      "date": "2024-11-09",
+      "date": "2024-11-08",
       "personal": {
         "commits": 2,
         "authored_commits": 2,
         "additions": 447,
         "deletions": 11
+      }
+    },
+    {
+      "date": "2024-11-09",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23736,28 +23738,28 @@
     {
       "date": "2024-11-17",
       "personal": {
-        "commits": 245,
-        "authored_commits": 233,
-        "additions": 49227,
-        "deletions": 49852
+        "commits": 29,
+        "authored_commits": 17,
+        "additions": 911,
+        "deletions": 588
       }
     },
     {
       "date": "2024-11-18",
       "personal": {
-        "commits": 4,
-        "authored_commits": 2,
-        "additions": 3,
-        "deletions": 3
+        "commits": 6,
+        "authored_commits": 4,
+        "additions": 33,
+        "deletions": 11
       }
     },
     {
       "date": "2024-11-19",
       "personal": {
-        "commits": 4,
-        "authored_commits": 2,
-        "additions": 30,
-        "deletions": 8
+        "commits": 2,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23781,55 +23783,55 @@
     {
       "date": "2024-11-22",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
       "date": "2024-11-23",
       "personal": {
-        "commits": 6,
-        "authored_commits": 2,
-        "additions": 3,
-        "deletions": 4
+        "commits": 8,
+        "authored_commits": 4,
+        "additions": 51,
+        "deletions": 23
       }
     },
     {
       "date": "2024-11-24",
       "personal": {
-        "commits": 15,
-        "authored_commits": 10,
-        "additions": 318755,
-        "deletions": 1432
+        "commits": 14,
+        "authored_commits": 9,
+        "additions": 318708,
+        "deletions": 1414
       }
     },
     {
       "date": "2024-11-25",
       "personal": {
-        "commits": 12,
-        "authored_commits": 6,
-        "additions": 53,
-        "deletions": 29
+        "commits": 16,
+        "authored_commits": 10,
+        "additions": 70,
+        "deletions": 42
       }
     },
     {
       "date": "2024-11-26",
       "personal": {
-        "commits": 14,
-        "authored_commits": 7,
-        "additions": 22,
-        "deletions": 17
+        "commits": 9,
+        "authored_commits": 2,
+        "additions": 5,
+        "deletions": 4
       }
     },
     {
       "date": "2024-11-27",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 2,
-        "deletions": 2
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23853,10 +23855,10 @@
     {
       "date": "2024-11-30",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 36,
+        "deletions": 13
       }
     },
     {
@@ -23864,17 +23866,17 @@
       "personal": {
         "commits": 4,
         "authored_commits": 3,
-        "additions": 36,
-        "deletions": 13
+        "additions": 1,
+        "deletions": 8
       }
     },
     {
       "date": "2024-12-02",
       "personal": {
-        "commits": 6,
-        "authored_commits": 3,
-        "additions": 1,
-        "deletions": 8
+        "commits": 3,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -23898,15 +23900,6 @@
     {
       "date": "2024-12-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2024-12-06",
-      "personal": {
         "commits": 3,
         "authored_commits": 3,
         "additions": 328,
@@ -23914,7 +23907,7 @@
       }
     },
     {
-      "date": "2024-12-07",
+      "date": "2024-12-06",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -23923,7 +23916,7 @@
       }
     },
     {
-      "date": "2024-12-08",
+      "date": "2024-12-07",
       "personal": {
         "commits": 4,
         "authored_commits": 4,
@@ -23932,12 +23925,21 @@
       }
     },
     {
+      "date": "2024-12-08",
+      "personal": {
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 2899,
+        "deletions": 317
+      }
+    },
+    {
       "date": "2024-12-09",
       "personal": {
-        "commits": 4,
-        "authored_commits": 3,
-        "additions": 2928,
-        "deletions": 324
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 29,
+        "deletions": 7
       }
     },
     {
@@ -23970,28 +23972,28 @@
     {
       "date": "2024-12-13",
       "personal": {
-        "commits": 6,
-        "authored_commits": 2,
-        "additions": 12,
-        "deletions": 12
+        "commits": 10,
+        "authored_commits": 6,
+        "additions": 145,
+        "deletions": 131
       }
     },
     {
       "date": "2024-12-14",
       "personal": {
-        "commits": 14,
-        "authored_commits": 9,
-        "additions": 371,
-        "deletions": 141
+        "commits": 11,
+        "authored_commits": 6,
+        "additions": 251,
+        "deletions": 34
       }
     },
     {
       "date": "2024-12-15",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 13,
-        "deletions": 12
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24177,8 +24179,8 @@
     {
       "date": "2025-01-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
+        "commits": 1,
+        "authored_commits": 1,
         "additions": 0,
         "deletions": 0
       }
@@ -24186,8 +24188,8 @@
     {
       "date": "2025-01-06",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
+        "commits": 1,
+        "authored_commits": 0,
         "additions": 0,
         "deletions": 0
       }
@@ -24330,19 +24332,19 @@
     {
       "date": "2025-01-22",
       "personal": {
-        "commits": 2,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 1,
+        "additions": 6,
+        "deletions": 772
       }
     },
     {
       "date": "2025-01-23",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 6,
-        "deletions": 772
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24357,18 +24359,18 @@
     {
       "date": "2025-01-25",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 574,
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 607,
         "deletions": 3
       }
     },
     {
       "date": "2025-01-26",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 33,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -24456,19 +24458,19 @@
     {
       "date": "2025-02-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 19,
+        "deletions": 17
       }
     },
     {
       "date": "2025-02-06",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 19,
-        "deletions": 17
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24528,19 +24530,19 @@
     {
       "date": "2025-02-13",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 2463,
+        "deletions": 821
       }
     },
     {
       "date": "2025-02-14",
       "personal": {
-        "commits": 11,
-        "authored_commits": 6,
-        "additions": 2466,
-        "deletions": 823
+        "commits": 8,
+        "authored_commits": 3,
+        "additions": 3,
+        "deletions": 2
       }
     },
     {
@@ -24627,18 +24629,18 @@
     {
       "date": "2025-02-24",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 3047,
         "deletions": 0
       }
     },
     {
       "date": "2025-02-25",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 3047,
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -24762,19 +24764,19 @@
     {
       "date": "2025-03-11",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 3,
-        "deletions": 1
+        "commits": 3,
+        "authored_commits": 2,
+        "additions": 12,
+        "deletions": 5
       }
     },
     {
       "date": "2025-03-12",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 9,
-        "deletions": 4
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24789,28 +24791,28 @@
     {
       "date": "2025-03-14",
       "personal": {
-        "commits": 9,
-        "authored_commits": 3,
-        "additions": 847,
+        "commits": 11,
+        "authored_commits": 5,
+        "additions": 1142,
         "deletions": 4
       }
     },
     {
       "date": "2025-03-15",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 295,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 238,
+        "deletions": 8
       }
     },
     {
       "date": "2025-03-16",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 238,
-        "deletions": 8
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24834,19 +24836,19 @@
     {
       "date": "2025-03-19",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 7,
-        "deletions": 1
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 225,
+        "deletions": 121
       }
     },
     {
       "date": "2025-03-20",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 218,
-        "deletions": 120
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24861,19 +24863,19 @@
     {
       "date": "2025-03-22",
       "personal": {
-        "commits": 2,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 5,
+        "authored_commits": 2,
+        "additions": 93,
+        "deletions": 87
       }
     },
     {
       "date": "2025-03-23",
       "personal": {
-        "commits": 4,
-        "authored_commits": 3,
-        "additions": 608,
-        "deletions": 203
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 515,
+        "deletions": 116
       }
     },
     {
@@ -24897,37 +24899,37 @@
     {
       "date": "2025-03-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2025-03-27",
-      "personal": {
-        "commits": 3,
+        "commits": 2,
         "authored_commits": 1,
         "additions": 3,
         "deletions": 1
       }
     },
     {
+      "date": "2025-03-27",
+      "personal": {
+        "commits": 5,
+        "authored_commits": 3,
+        "additions": 58,
+        "deletions": 25
+      }
+    },
+    {
       "date": "2025-03-28",
       "personal": {
-        "commits": 12,
-        "authored_commits": 5,
-        "additions": 99,
-        "deletions": 49
+        "commits": 9,
+        "authored_commits": 3,
+        "additions": 45,
+        "deletions": 32
       }
     },
     {
       "date": "2025-03-29",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 4,
-        "deletions": 8
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -24978,27 +24980,27 @@
     {
       "date": "2025-04-04",
       "personal": {
-        "commits": 15,
-        "authored_commits": 8,
-        "additions": 184,
-        "deletions": 28
+        "commits": 23,
+        "authored_commits": 16,
+        "additions": 370,
+        "deletions": 141
       }
     },
     {
       "date": "2025-04-05",
       "personal": {
-        "commits": 18,
-        "authored_commits": 9,
-        "additions": 191,
-        "deletions": 116
+        "commits": 11,
+        "authored_commits": 2,
+        "additions": 85,
+        "deletions": 3
       }
     },
     {
       "date": "2025-04-06",
       "personal": {
-        "commits": 9,
-        "authored_commits": 5,
-        "additions": 89,
+        "commits": 8,
+        "authored_commits": 4,
+        "additions": 9,
         "deletions": 9
       }
     },
@@ -25014,19 +25016,19 @@
     {
       "date": "2025-04-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 42,
+        "deletions": 26
       }
     },
     {
       "date": "2025-04-09",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 42,
-        "deletions": 26
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -25086,19 +25088,19 @@
     {
       "date": "2025-04-16",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 3,
+        "additions": 20,
+        "deletions": 16
       }
     },
     {
       "date": "2025-04-17",
       "personal": {
-        "commits": 7,
-        "authored_commits": 3,
-        "additions": 20,
-        "deletions": 16
+        "commits": 3,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -25230,19 +25232,19 @@
     {
       "date": "2025-05-02",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 1,
-        "deletions": 1
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2025-05-03",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -26004,19 +26006,19 @@
     {
       "date": "2025-07-27",
       "personal": {
-        "commits": 4,
-        "authored_commits": 3,
-        "additions": 258,
-        "deletions": 171
+        "commits": 15,
+        "authored_commits": 14,
+        "additions": 2307,
+        "deletions": 1466
       }
     },
     {
       "date": "2025-07-28",
       "personal": {
-        "commits": 41,
-        "authored_commits": 37,
-        "additions": 3429,
-        "deletions": 2496
+        "commits": 30,
+        "authored_commits": 26,
+        "additions": 1380,
+        "deletions": 1201
       }
     },
     {
@@ -26058,28 +26060,28 @@
     {
       "date": "2025-08-02",
       "personal": {
-        "commits": 1,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2025-08-03",
-      "personal": {
-        "commits": 3,
+        "commits": 2,
         "authored_commits": 1,
         "additions": 3,
         "deletions": 3
       }
     },
     {
+      "date": "2025-08-03",
+      "personal": {
+        "commits": 7,
+        "authored_commits": 5,
+        "additions": 1097,
+        "deletions": 313
+      }
+    },
+    {
       "date": "2025-08-04",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 1288,
-        "deletions": 322
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 191,
+        "deletions": 9
       }
     },
     {
@@ -26103,15 +26105,6 @@
     {
       "date": "2025-08-07",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2025-08-08",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 1028,
@@ -26119,9 +26112,18 @@
       }
     },
     {
-      "date": "2025-08-09",
+      "date": "2025-08-08",
       "personal": {
         "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
+      "date": "2025-08-09",
+      "personal": {
+        "commits": 1,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
@@ -26130,7 +26132,7 @@
     {
       "date": "2025-08-10",
       "personal": {
-        "commits": 1,
+        "commits": 0,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
@@ -26139,7 +26141,7 @@
     {
       "date": "2025-08-11",
       "personal": {
-        "commits": 0,
+        "commits": 1,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
@@ -26148,7 +26150,7 @@
     {
       "date": "2025-08-12",
       "personal": {
-        "commits": 1,
+        "commits": 0,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
@@ -26166,19 +26168,19 @@
     {
       "date": "2025-08-14",
       "personal": {
-        "commits": 10,
-        "authored_commits": 10,
-        "additions": 3140,
-        "deletions": 2041
+        "commits": 12,
+        "authored_commits": 11,
+        "additions": 3143,
+        "deletions": 2045
       }
     },
     {
       "date": "2025-08-15",
       "personal": {
-        "commits": 4,
-        "authored_commits": 1,
-        "additions": 3,
-        "deletions": 4
+        "commits": 2,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -26193,15 +26195,6 @@
     {
       "date": "2025-08-17",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2025-08-18",
-      "personal": {
         "commits": 6,
         "authored_commits": 6,
         "additions": 3907,
@@ -26209,10 +26202,19 @@
       }
     },
     {
+      "date": "2025-08-18",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
       "date": "2025-08-19",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
+        "commits": 4,
+        "authored_commits": 4,
         "additions": 1108,
         "deletions": 314
       }
@@ -26301,19 +26303,19 @@
     {
       "date": "2025-08-29",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
       "date": "2025-08-30",
       "personal": {
-        "commits": 6,
-        "authored_commits": 3,
-        "additions": 34818,
-        "deletions": 1
+        "commits": 4,
+        "authored_commits": 2,
+        "additions": 34817,
+        "deletions": 0
       }
     },
     {
@@ -26328,19 +26330,19 @@
     {
       "date": "2025-09-01",
       "personal": {
-        "commits": 6,
-        "authored_commits": 2,
-        "additions": 81,
-        "deletions": 49
+        "commits": 9,
+        "authored_commits": 5,
+        "additions": 101,
+        "deletions": 63
       }
     },
     {
       "date": "2025-09-02",
       "personal": {
-        "commits": 6,
-        "authored_commits": 3,
-        "additions": 20,
-        "deletions": 14
+        "commits": 3,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -26364,19 +26366,19 @@
     {
       "date": "2025-09-05",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 399,
+        "deletions": 160
       }
     },
     {
       "date": "2025-09-06",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 399,
-        "deletions": 160
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -26391,10 +26393,10 @@
     {
       "date": "2025-09-08",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1514,
+        "deletions": 822
       }
     },
     {
@@ -26402,17 +26404,17 @@
       "personal": {
         "commits": 2,
         "authored_commits": 2,
-        "additions": 2033,
-        "deletions": 2073
+        "additions": 3711,
+        "deletions": 1272
       }
     },
     {
       "date": "2025-09-10",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 3325,
-        "deletions": 72
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 133,
+        "deletions": 51
       }
     },
     {
@@ -26427,19 +26429,19 @@
     {
       "date": "2025-09-12",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 7,
+        "deletions": 7
       }
     },
     {
       "date": "2025-09-13",
       "personal": {
-        "commits": 7,
-        "authored_commits": 4,
-        "additions": 7,
-        "deletions": 7
+        "commits": 3,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -26454,19 +26456,19 @@
     {
       "date": "2025-09-15",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 82,
+        "deletions": 62
       }
     },
     {
       "date": "2025-09-16",
       "personal": {
-        "commits": 12,
-        "authored_commits": 6,
-        "additions": 83,
-        "deletions": 63
+        "commits": 7,
+        "authored_commits": 1,
+        "additions": 1,
+        "deletions": 1
       }
     },
     {
@@ -26841,18 +26843,18 @@
     {
       "date": "2025-10-28",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 2,
         "deletions": 0
       }
     },
     {
       "date": "2025-10-29",
       "personal": {
-        "commits": 3,
-        "authored_commits": 2,
-        "additions": 13,
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 11,
         "deletions": 18
       }
     },
@@ -26877,19 +26879,19 @@
     {
       "date": "2025-11-01",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 385,
+        "deletions": 136
       }
     },
     {
       "date": "2025-11-02",
       "personal": {
-        "commits": 3,
-        "authored_commits": 3,
-        "additions": 385,
-        "deletions": 136
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -27759,7 +27761,7 @@
     {
       "date": "2026-02-07",
       "personal": {
-        "commits": 0,
+        "commits": 1,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
@@ -27768,7 +27770,7 @@
     {
       "date": "2026-02-08",
       "personal": {
-        "commits": 1,
+        "commits": 0,
         "authored_commits": 0,
         "additions": 0,
         "deletions": 0
@@ -27822,15 +27824,6 @@
     {
       "date": "2026-02-14",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2026-02-15",
-      "personal": {
         "commits": 1,
         "authored_commits": 1,
         "additions": 2,
@@ -27838,7 +27831,7 @@
       }
     },
     {
-      "date": "2026-02-16",
+      "date": "2026-02-15",
       "personal": {
         "commits": 1,
         "authored_commits": 1,
@@ -27847,12 +27840,21 @@
       }
     },
     {
-      "date": "2026-02-17",
+      "date": "2026-02-16",
       "personal": {
         "commits": 2,
         "authored_commits": 2,
         "additions": 588,
         "deletions": 248
+      }
+    },
+    {
+      "date": "2026-02-17",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -27876,15 +27878,6 @@
     {
       "date": "2026-02-20",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
-      }
-    },
-    {
-      "date": "2026-02-21",
-      "personal": {
         "commits": 2,
         "authored_commits": 2,
         "additions": 4276,
@@ -27892,12 +27885,21 @@
       }
     },
     {
+      "date": "2026-02-21",
+      "personal": {
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
+      }
+    },
+    {
       "date": "2026-02-22",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2708,
-        "deletions": 586
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 5430,
+        "deletions": 910
       }
     },
     {
@@ -27905,152 +27907,152 @@
       "personal": {
         "commits": 5,
         "authored_commits": 5,
-        "additions": 3502,
-        "deletions": 363
+        "additions": 3971,
+        "deletions": 925
       }
     },
     {
       "date": "2026-02-24",
       "personal": {
-        "commits": 14,
-        "authored_commits": 14,
-        "additions": 7134,
-        "deletions": 1753
+        "commits": 12,
+        "authored_commits": 12,
+        "additions": 10022,
+        "deletions": 1888
       }
     },
     {
       "date": "2026-02-25",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 11861,
-        "deletions": 1487
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 5809,
+        "deletions": 589
       }
     },
     {
       "date": "2026-02-26",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 3899,
-        "deletions": 1706
+        "commits": 17,
+        "authored_commits": 17,
+        "additions": 9841,
+        "deletions": 3840
       }
     },
     {
       "date": "2026-02-27",
       "personal": {
-        "commits": 18,
-        "authored_commits": 18,
-        "additions": 7093,
-        "deletions": 2949
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 3528,
+        "deletions": 1560
       }
     },
     {
       "date": "2026-02-28",
       "personal": {
-        "commits": 8,
-        "authored_commits": 8,
-        "additions": 5138,
-        "deletions": 1759
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 4749,
+        "deletions": 1341
       }
     },
     {
       "date": "2026-03-01",
       "personal": {
-        "commits": 12,
-        "authored_commits": 12,
-        "additions": 3396,
-        "deletions": 1076
+        "commits": 22,
+        "authored_commits": 22,
+        "additions": 4867,
+        "deletions": 1053
       }
     },
     {
       "date": "2026-03-02",
       "personal": {
-        "commits": 35,
-        "authored_commits": 35,
-        "additions": 5843,
-        "deletions": 1186
+        "commits": 45,
+        "authored_commits": 45,
+        "additions": 4605,
+        "deletions": 1343
       }
     },
     {
       "date": "2026-03-03",
       "personal": {
-        "commits": 42,
-        "authored_commits": 42,
-        "additions": 3664,
-        "deletions": 868
+        "commits": 23,
+        "authored_commits": 23,
+        "additions": 2256,
+        "deletions": 482
       }
     },
     {
       "date": "2026-03-04",
       "personal": {
-        "commits": 34,
-        "authored_commits": 34,
-        "additions": 8142,
-        "deletions": 1199
+        "commits": 41,
+        "authored_commits": 41,
+        "additions": 8473,
+        "deletions": 1664
       }
     },
     {
       "date": "2026-03-05",
       "personal": {
-        "commits": 23,
-        "authored_commits": 23,
-        "additions": 2642,
-        "deletions": 1047
+        "commits": 37,
+        "authored_commits": 37,
+        "additions": 13991,
+        "deletions": 4225
       }
     },
     {
       "date": "2026-03-06",
       "personal": {
-        "commits": 40,
-        "authored_commits": 40,
-        "additions": 17967,
-        "deletions": 5337
+        "commits": 33,
+        "authored_commits": 33,
+        "additions": 13238,
+        "deletions": 3014
       }
     },
     {
       "date": "2026-03-07",
       "personal": {
-        "commits": 30,
-        "authored_commits": 30,
-        "additions": 12894,
-        "deletions": 2367
+        "commits": 12,
+        "authored_commits": 12,
+        "additions": 7768,
+        "deletions": 861
       }
     },
     {
       "date": "2026-03-08",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 2665,
-        "deletions": 12
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
       "date": "2026-03-09",
       "personal": {
-        "commits": 9,
-        "authored_commits": 9,
-        "additions": 6532,
-        "deletions": 667
+        "commits": 15,
+        "authored_commits": 15,
+        "additions": 8100,
+        "deletions": 1014
       }
     },
     {
       "date": "2026-03-10",
       "personal": {
-        "commits": 14,
-        "authored_commits": 14,
-        "additions": 5706,
-        "deletions": 830
+        "commits": 15,
+        "authored_commits": 15,
+        "additions": 6518,
+        "deletions": 728
       }
     },
     {
       "date": "2026-03-11",
       "personal": {
-        "commits": 12,
-        "authored_commits": 12,
-        "additions": 6254,
-        "deletions": 801
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 3874,
+        "deletions": 556
       }
     },
     {
@@ -28065,77 +28067,32 @@
     {
       "date": "2026-03-13",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 2015,
-        "deletions": 457
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 2093,
+        "deletions": 612
       }
     },
     {
       "date": "2026-03-14",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 78,
-        "deletions": 155
+        "commits": 5,
+        "authored_commits": 5,
+        "additions": 1931,
+        "deletions": 815
       }
     },
     {
       "date": "2026-03-15",
       "personal": {
-        "commits": 6,
-        "authored_commits": 6,
-        "additions": 1943,
-        "deletions": 821
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 716,
+        "deletions": 215
       }
     },
     {
       "date": "2026-03-16",
-      "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 704,
-        "deletions": 209
-      }
-    },
-    {
-      "date": "2026-03-17",
-      "personal": {
-        "commits": 7,
-        "authored_commits": 7,
-        "additions": 1432,
-        "deletions": 146
-      }
-    },
-    {
-      "date": "2026-03-18",
-      "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 53,
-        "deletions": 43
-      }
-    },
-    {
-      "date": "2026-03-19",
-      "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 595,
-        "deletions": 4
-      }
-    },
-    {
-      "date": "2026-03-20",
-      "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 669,
-        "deletions": 50
-      }
-    },
-    {
-      "date": "2026-03-21",
       "personal": {
         "commits": 0,
         "authored_commits": 0,
@@ -28144,30 +28101,75 @@
       }
     },
     {
-      "date": "2026-03-22",
+      "date": "2026-03-17",
+      "personal": {
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 1453,
+        "deletions": 166
+      }
+    },
+    {
+      "date": "2026-03-18",
       "personal": {
         "commits": 3,
         "authored_commits": 3,
-        "additions": 168,
-        "deletions": 60
+        "additions": 32,
+        "deletions": 23
+      }
+    },
+    {
+      "date": "2026-03-19",
+      "personal": {
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 690,
+        "deletions": 54
+      }
+    },
+    {
+      "date": "2026-03-20",
+      "personal": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 574,
+        "deletions": 0
+      }
+    },
+    {
+      "date": "2026-03-21",
+      "personal": {
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 160,
+        "deletions": 52
+      }
+    },
+    {
+      "date": "2026-03-22",
+      "personal": {
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 71,
+        "deletions": 52
       }
     },
     {
       "date": "2026-03-23",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 507,
-        "deletions": 44
+        "commits": 22,
+        "authored_commits": 16,
+        "additions": 1245,
+        "deletions": 108
       }
     },
     {
       "date": "2026-03-24",
       "personal": {
-        "commits": 42,
-        "authored_commits": 21,
-        "additions": 808,
-        "deletions": 115
+        "commits": 21,
+        "authored_commits": 6,
+        "additions": 7,
+        "deletions": 7
       }
     },
     {
@@ -28182,37 +28184,37 @@
     {
       "date": "2026-03-26",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 19,
+        "authored_commits": 17,
+        "additions": 1524,
+        "deletions": 362
       }
     },
     {
       "date": "2026-03-27",
       "personal": {
-        "commits": 46,
-        "authored_commits": 25,
-        "additions": 3263,
-        "deletions": 438
+        "commits": 33,
+        "authored_commits": 14,
+        "additions": 2865,
+        "deletions": 187
       }
     },
     {
       "date": "2026-03-28",
       "personal": {
-        "commits": 15,
-        "authored_commits": 10,
-        "additions": 1570,
-        "deletions": 285
+        "commits": 12,
+        "authored_commits": 7,
+        "additions": 518,
+        "deletions": 208
       }
     },
     {
       "date": "2026-03-29",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 3144,
-        "deletions": 76
+        "commits": 3,
+        "authored_commits": 3,
+        "additions": 3549,
+        "deletions": 194
       }
     },
     {
@@ -28220,17 +28222,17 @@
       "personal": {
         "commits": 1,
         "authored_commits": 1,
-        "additions": 479,
-        "deletions": 152
+        "additions": 314,
+        "deletions": 38
       }
     },
     {
       "date": "2026-03-31",
       "personal": {
-        "commits": 1,
-        "authored_commits": 1,
-        "additions": 314,
-        "deletions": 38
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -28245,10 +28247,10 @@
     {
       "date": "2026-04-02",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 9842,
-        "deletions": 2422
+        "commits": 10,
+        "authored_commits": 10,
+        "additions": 10554,
+        "deletions": 2655
       }
     },
     {
@@ -28256,17 +28258,17 @@
       "personal": {
         "commits": 30,
         "authored_commits": 28,
-        "additions": 4260,
-        "deletions": 962
+        "additions": 4167,
+        "deletions": 930
       }
     },
     {
       "date": "2026-04-04",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 619,
-        "deletions": 201
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -28281,18 +28283,18 @@
     {
       "date": "2026-04-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 13,
         "deletions": 0
       }
     },
     {
       "date": "2026-04-07",
       "personal": {
-        "commits": 2,
-        "authored_commits": 1,
-        "additions": 13,
+        "commits": 1,
+        "authored_commits": 0,
+        "additions": 0,
         "deletions": 0
       }
     },
@@ -28389,19 +28391,19 @@
     {
       "date": "2026-04-18",
       "personal": {
-        "commits": 9,
-        "authored_commits": 9,
-        "additions": 13002,
-        "deletions": 1157
+        "commits": 7,
+        "authored_commits": 7,
+        "additions": 12037,
+        "deletions": 766
       }
     },
     {
       "date": "2026-04-19",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 2538,
-        "deletions": 752
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 3503,
+        "deletions": 1143
       }
     },
     {
@@ -28434,19 +28436,19 @@
     {
       "date": "2026-04-23",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 200,
+        "deletions": 10
       }
     },
     {
       "date": "2026-04-24",
       "personal": {
-        "commits": 7,
-        "authored_commits": 4,
-        "additions": 200,
-        "deletions": 10
+        "commits": 3,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -28551,19 +28553,19 @@
     {
       "date": "2026-05-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 1861,
+        "deletions": 164
       }
     },
     {
       "date": "2026-05-07",
       "personal": {
-        "commits": 4,
-        "authored_commits": 4,
-        "additions": 1861,
-        "deletions": 164
+        "commits": 0,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -28614,37 +28616,37 @@
     {
       "date": "2026-05-13",
       "personal": {
-        "commits": 2,
-        "authored_commits": 2,
-        "additions": 1524,
-        "deletions": 219
+        "commits": 14,
+        "authored_commits": 13,
+        "additions": 3583,
+        "deletions": 772
       }
     },
     {
       "date": "2026-05-14",
       "personal": {
-        "commits": 25,
-        "authored_commits": 13,
-        "additions": 3616,
-        "deletions": 963
+        "commits": 15,
+        "authored_commits": 4,
+        "additions": 2341,
+        "deletions": 511
       }
     },
     {
       "date": "2026-05-15",
       "personal": {
-        "commits": 4,
-        "authored_commits": 2,
-        "additions": 784,
-        "deletions": 101
+        "commits": 9,
+        "authored_commits": 7,
+        "additions": 3063,
+        "deletions": 569
       }
     },
     {
       "date": "2026-05-16",
       "personal": {
-        "commits": 11,
-        "authored_commits": 7,
-        "additions": 3063,
-        "deletions": 569
+        "commits": 4,
+        "authored_commits": 0,
+        "additions": 0,
+        "deletions": 0
       }
     },
     {
@@ -28668,19 +28670,19 @@
     {
       "date": "2026-05-19",
       "personal": {
-        "commits": 9,
-        "authored_commits": 5,
-        "additions": 1725,
-        "deletions": 232
+        "commits": 14,
+        "authored_commits": 10,
+        "additions": 5167,
+        "deletions": 1106
       }
     },
     {
       "date": "2026-05-20",
       "personal": {
-        "commits": 22,
-        "authored_commits": 16,
-        "additions": 5967,
-        "deletions": 1423
+        "commits": 17,
+        "authored_commits": 11,
+        "additions": 2525,
+        "deletions": 549
       }
     },
     {
@@ -28695,199 +28697,199 @@
     {
       "date": "2026-05-22",
       "personal": {
-        "commits": 10,
-        "authored_commits": 5,
-        "additions": 505,
-        "deletions": 41
+        "commits": 16,
+        "authored_commits": 11,
+        "additions": 4401,
+        "deletions": 635
       }
     },
     {
       "date": "2026-05-23",
       "personal": {
-        "commits": 16,
-        "authored_commits": 9,
-        "additions": 5267,
-        "deletions": 1653
+        "commits": 19,
+        "authored_commits": 11,
+        "additions": 3404,
+        "deletions": 1911
       }
     },
     {
       "date": "2026-05-24",
       "personal": {
-        "commits": 18,
-        "authored_commits": 11,
-        "additions": 2036,
-        "deletions": 855
+        "commits": 11,
+        "authored_commits": 5,
+        "additions": 543,
+        "deletions": 67
       }
     },
     {
       "date": "2026-05-25",
       "personal": {
-        "commits": 24,
-        "authored_commits": 15,
-        "additions": 1019,
-        "deletions": 223
+        "commits": 28,
+        "authored_commits": 19,
+        "additions": 2323,
+        "deletions": 446
       }
     },
     {
       "date": "2026-05-26",
       "personal": {
-        "commits": 18,
-        "authored_commits": 10,
-        "additions": 2385,
-        "deletions": 329
+        "commits": 17,
+        "authored_commits": 9,
+        "additions": 2703,
+        "deletions": 908
       }
     },
     {
       "date": "2026-05-27",
       "personal": {
-        "commits": 29,
-        "authored_commits": 21,
-        "additions": 7997,
-        "deletions": 1955
+        "commits": 32,
+        "authored_commits": 24,
+        "additions": 7526,
+        "deletions": 1414
       }
     },
     {
       "date": "2026-05-28",
       "personal": {
-        "commits": 13,
-        "authored_commits": 9,
-        "additions": 2397,
-        "deletions": 472
+        "commits": 15,
+        "authored_commits": 11,
+        "additions": 4606,
+        "deletions": 869
       }
     },
     {
       "date": "2026-05-29",
       "personal": {
-        "commits": 24,
-        "authored_commits": 18,
-        "additions": 6493,
-        "deletions": 1455
+        "commits": 15,
+        "authored_commits": 9,
+        "additions": 2680,
+        "deletions": 756
       }
     },
     {
       "date": "2026-05-30",
       "personal": {
-        "commits": 3,
-        "authored_commits": 2,
-        "additions": 1183,
-        "deletions": 286
+        "commits": 5,
+        "authored_commits": 4,
+        "additions": 3702,
+        "deletions": 903
       }
     },
     {
       "date": "2026-05-31",
       "personal": {
-        "commits": 22,
-        "authored_commits": 11,
-        "additions": 4667,
-        "deletions": 1447
+        "commits": 30,
+        "authored_commits": 19,
+        "additions": 2515,
+        "deletions": 1186
       }
     },
     {
       "date": "2026-06-01",
       "personal": {
-        "commits": 34,
-        "authored_commits": 16,
-        "additions": 859,
-        "deletions": 480
+        "commits": 24,
+        "authored_commits": 6,
+        "additions": 1019,
+        "deletions": 146
       }
     },
     {
       "date": "2026-06-02",
       "personal": {
-        "commits": 5,
-        "authored_commits": 4,
-        "additions": 6474,
-        "deletions": 2053
+        "commits": 8,
+        "authored_commits": 6,
+        "additions": 5979,
+        "deletions": 2161
       }
     },
     {
       "date": "2026-06-03",
       "personal": {
-        "commits": 7,
-        "authored_commits": 5,
-        "additions": 172,
-        "deletions": 291
+        "commits": 3,
+        "authored_commits": 2,
+        "additions": 53,
+        "deletions": 138
       }
     },
     {
       "date": "2026-06-04",
       "personal": {
-        "commits": 5,
-        "authored_commits": 5,
-        "additions": 56107,
-        "deletions": 10
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 56157,
+        "deletions": 15
       }
     },
     {
       "date": "2026-06-05",
       "personal": {
-        "commits": 3,
-        "authored_commits": 2,
-        "additions": 67,
-        "deletions": 22
+        "commits": 2,
+        "authored_commits": 1,
+        "additions": 17,
+        "deletions": 17
       }
     },
     {
       "date": "2026-06-06",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 424,
+        "deletions": 73
       }
     },
     {
       "date": "2026-06-07",
       "personal": {
-        "commits": 9,
-        "authored_commits": 5,
-        "additions": 497,
-        "deletions": 108
+        "commits": 11,
+        "authored_commits": 7,
+        "additions": 171,
+        "deletions": 83
       }
     },
     {
       "date": "2026-06-08",
       "personal": {
-        "commits": 13,
-        "authored_commits": 7,
-        "additions": 101,
-        "deletions": 51
+        "commits": 7,
+        "authored_commits": 1,
+        "additions": 3,
+        "deletions": 3
       }
     },
     {
       "date": "2026-06-09",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 81,
+        "deletions": 20
       }
     },
     {
       "date": "2026-06-10",
       "personal": {
-        "commits": 42,
-        "authored_commits": 30,
-        "additions": 196222,
-        "deletions": 11505
+        "commits": 49,
+        "authored_commits": 37,
+        "additions": 203961,
+        "deletions": 16937
       }
     },
     {
       "date": "2026-06-11",
       "personal": {
-        "commits": 12,
-        "authored_commits": 12,
-        "additions": 12017,
-        "deletions": 5886
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 8445,
+        "deletions": 1587
       }
     },
     {
       "date": "2026-06-12",
       "personal": {
-        "commits": 10,
-        "authored_commits": 10,
-        "additions": 6861,
-        "deletions": 2464
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 2613,
+        "deletions": 1311
       }
     },
     {
@@ -28911,82 +28913,82 @@
     {
       "date": "2026-06-15",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 762,
+        "deletions": 261
       }
     },
     {
       "date": "2026-06-16",
       "personal": {
-        "commits": 24,
-        "authored_commits": 13,
-        "additions": 2901,
-        "deletions": 597
+        "commits": 20,
+        "authored_commits": 9,
+        "additions": 3571,
+        "deletions": 1668
       }
     },
     {
       "date": "2026-06-17",
       "personal": {
-        "commits": 30,
-        "authored_commits": 20,
-        "additions": 4915,
-        "deletions": 2694
+        "commits": 33,
+        "authored_commits": 23,
+        "additions": 6385,
+        "deletions": 2637
       }
     },
     {
       "date": "2026-06-18",
       "personal": {
-        "commits": 81,
-        "authored_commits": 52,
-        "additions": 8538,
-        "deletions": 4667
+        "commits": 100,
+        "authored_commits": 71,
+        "additions": 8042,
+        "deletions": 4098
       }
     },
     {
       "date": "2026-06-19",
       "personal": {
-        "commits": 59,
-        "authored_commits": 30,
-        "additions": 3968,
-        "deletions": 1033
+        "commits": 49,
+        "authored_commits": 20,
+        "additions": 5480,
+        "deletions": 1415
       }
     },
     {
       "date": "2026-06-20",
       "personal": {
-        "commits": 45,
-        "authored_commits": 25,
-        "additions": 4553,
-        "deletions": 1531
+        "commits": 34,
+        "authored_commits": 14,
+        "additions": 1655,
+        "deletions": 1066
       }
     },
     {
       "date": "2026-06-21",
       "personal": {
-        "commits": 23,
-        "authored_commits": 12,
-        "additions": 2098,
-        "deletions": 1295
+        "commits": 22,
+        "authored_commits": 11,
+        "additions": 2856,
+        "deletions": 1176
       }
     },
     {
       "date": "2026-06-22",
       "personal": {
-        "commits": 14,
-        "authored_commits": 7,
-        "additions": 2364,
-        "deletions": 737
+        "commits": 15,
+        "authored_commits": 8,
+        "additions": 1373,
+        "deletions": 750
       }
     },
     {
       "date": "2026-06-23",
       "personal": {
-        "commits": 14,
-        "authored_commits": 7,
-        "additions": 855,
-        "deletions": 568
+        "commits": 8,
+        "authored_commits": 1,
+        "additions": 68,
+        "deletions": 51
       }
     },
     {
@@ -29001,271 +29003,271 @@
     {
       "date": "2026-06-25",
       "personal": {
-        "commits": 0,
-        "authored_commits": 0,
-        "additions": 0,
-        "deletions": 0
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 194,
+        "deletions": 80
       }
     },
     {
       "date": "2026-06-26",
       "personal": {
-        "commits": 4,
-        "authored_commits": 2,
-        "additions": 241,
-        "deletions": 117
+        "commits": 17,
+        "authored_commits": 15,
+        "additions": 3350,
+        "deletions": 1751
       }
     },
     {
       "date": "2026-06-27",
       "personal": {
-        "commits": 69,
-        "authored_commits": 69,
-        "additions": 13028,
-        "deletions": 2678
+        "commits": 77,
+        "authored_commits": 77,
+        "additions": 13373,
+        "deletions": 1453
       }
     },
     {
       "date": "2026-06-28",
       "personal": {
-        "commits": 79,
-        "authored_commits": 76,
-        "additions": 9174,
-        "deletions": 1342
+        "commits": 82,
+        "authored_commits": 79,
+        "additions": 8286,
+        "deletions": 1668
       }
     },
     {
       "date": "2026-06-29",
       "personal": {
-        "commits": 107,
-        "authored_commits": 106,
-        "additions": 8006,
-        "deletions": 2155
+        "commits": 128,
+        "authored_commits": 127,
+        "additions": 18421,
+        "deletions": 2305
       }
     },
     {
       "date": "2026-06-30",
       "personal": {
-        "commits": 85,
-        "authored_commits": 76,
-        "additions": 19820,
-        "deletions": 2226
+        "commits": 70,
+        "authored_commits": 61,
+        "additions": 14907,
+        "deletions": 3982
       }
     },
     {
       "date": "2026-07-01",
       "personal": {
-        "commits": 159,
-        "authored_commits": 157,
-        "additions": 32658,
-        "deletions": 9606
+        "commits": 178,
+        "authored_commits": 176,
+        "additions": 38965,
+        "deletions": 12103
       }
     },
     {
       "date": "2026-07-02",
       "personal": {
-        "commits": 109,
-        "authored_commits": 109,
-        "additions": 182229,
-        "deletions": 35010
+        "commits": 114,
+        "authored_commits": 114,
+        "additions": 175136,
+        "deletions": 35020
       }
     },
     {
       "date": "2026-07-03",
       "personal": {
-        "commits": 145,
-        "authored_commits": 145,
-        "additions": 41512,
-        "deletions": 27823
+        "commits": 117,
+        "authored_commits": 117,
+        "additions": 45223,
+        "deletions": 30275
       }
     },
     {
       "date": "2026-07-04",
       "personal": {
-        "commits": 136,
-        "authored_commits": 133,
-        "additions": 33882,
-        "deletions": 21668
+        "commits": 124,
+        "authored_commits": 121,
+        "additions": 42339,
+        "deletions": 18812
       }
     },
     {
       "date": "2026-07-05",
       "personal": {
-        "commits": 154,
-        "authored_commits": 154,
-        "additions": 1387141,
-        "deletions": 1262701
+        "commits": 191,
+        "authored_commits": 188,
+        "additions": 2274860,
+        "deletions": 2074571
       }
     },
     {
       "date": "2026-07-06",
       "personal": {
-        "commits": 108,
-        "authored_commits": 104,
-        "additions": 3977099,
-        "deletions": 3801904
+        "commits": 65,
+        "authored_commits": 64,
+        "additions": 5635682,
+        "deletions": 5069094
       }
     },
     {
       "date": "2026-07-07",
       "personal": {
-        "commits": 19,
-        "authored_commits": 19,
-        "additions": 3834167,
-        "deletions": 3325028
+        "commits": 14,
+        "authored_commits": 14,
+        "additions": 10567147,
+        "deletions": 9297372
       }
     },
     {
       "date": "2026-07-08",
       "personal": {
-        "commits": 11,
-        "authored_commits": 11,
-        "additions": 604,
-        "deletions": 367
+        "commits": 9,
+        "authored_commits": 9,
+        "additions": 5733816,
+        "deletions": 5548655
       }
     },
     {
       "date": "2026-07-09",
       "personal": {
-        "commits": 5,
-        "authored_commits": 4,
-        "additions": 5911,
-        "deletions": 759
+        "commits": 11,
+        "authored_commits": 10,
+        "additions": 4369,
+        "deletions": 1777
       }
     },
     {
       "date": "2026-07-10",
       "personal": {
-        "commits": 13,
-        "authored_commits": 8,
-        "additions": 1739,
-        "deletions": 1320
+        "commits": 12,
+        "authored_commits": 7,
+        "additions": 990,
+        "deletions": 404
       }
     },
     {
       "date": "2026-07-11",
       "personal": {
-        "commits": 43,
-        "authored_commits": 38,
-        "additions": 5192,
-        "deletions": 695
+        "commits": 50,
+        "authored_commits": 45,
+        "additions": 7022,
+        "deletions": 1425
       }
     },
     {
       "date": "2026-07-12",
       "personal": {
-        "commits": 35,
-        "authored_commits": 25,
-        "additions": 5959,
-        "deletions": 1927
+        "commits": 31,
+        "authored_commits": 21,
+        "additions": 7918,
+        "deletions": 2006
       }
     },
     {
       "date": "2026-07-13",
       "personal": {
-        "commits": 36,
-        "authored_commits": 23,
-        "additions": 9236,
-        "deletions": 3257
+        "commits": 28,
+        "authored_commits": 15,
+        "additions": 8483,
+        "deletions": 3917
       }
     },
     {
       "date": "2026-07-14",
       "personal": {
-        "commits": 10,
-        "authored_commits": 7,
-        "additions": 33537,
-        "deletions": 3408
+        "commits": 48,
+        "authored_commits": 45,
+        "additions": 58358,
+        "deletions": 7017
       }
     },
     {
       "date": "2026-07-15",
       "personal": {
-        "commits": 71,
-        "authored_commits": 62,
-        "additions": 197005,
-        "deletions": 17150
+        "commits": 32,
+        "authored_commits": 23,
+        "additions": 169092,
+        "deletions": 12029
       }
     },
     {
       "date": "2026-07-16",
       "personal": {
-        "commits": 63,
-        "authored_commits": 33,
-        "additions": 151291,
-        "deletions": 137378
+        "commits": 68,
+        "authored_commits": 38,
+        "additions": 427184,
+        "deletions": 388933
       }
     },
     {
       "date": "2026-07-17",
       "personal": {
-        "commits": 27,
-        "authored_commits": 16,
-        "additions": 578020,
-        "deletions": 1629700
+        "commits": 25,
+        "authored_commits": 14,
+        "additions": 303170,
+        "deletions": 1378961
       }
     },
     {
       "date": "2026-07-18",
       "personal": {
-        "commits": 12,
-        "authored_commits": 6,
-        "additions": 3064,
-        "deletions": 2110
+        "commits": 18,
+        "authored_commits": 12,
+        "additions": 140783,
+        "deletions": 128785
       }
     },
     {
       "date": "2026-07-19",
       "personal": {
-        "commits": 23,
-        "authored_commits": 12,
-        "additions": 564633,
-        "deletions": 254044
+        "commits": 14,
+        "authored_commits": 3,
+        "additions": 562731,
+        "deletions": 250673
       }
     },
     {
       "date": "2026-07-20",
       "personal": {
-        "commits": 22,
-        "authored_commits": 10,
-        "additions": 141850,
-        "deletions": 125433
+        "commits": 30,
+        "authored_commits": 18,
+        "additions": 5119,
+        "deletions": 1869
       }
     },
     {
       "date": "2026-07-21",
       "personal": {
-        "commits": 44,
-        "authored_commits": 34,
-        "additions": 40321,
-        "deletions": 4495
+        "commits": 76,
+        "authored_commits": 61,
+        "additions": 639501,
+        "deletions": 136435
       }
     },
     {
       "date": "2026-07-22",
       "personal": {
-        "commits": 78,
+        "commits": 74,
         "authored_commits": 53,
-        "additions": 1094589,
-        "deletions": 258774
+        "additions": 999676,
+        "deletions": 130399
       }
     },
     {
       "date": "2026-07-23",
       "personal": {
-        "commits": 77,
-        "authored_commits": 55,
-        "additions": 789376,
-        "deletions": 253508
+        "commits": 49,
+        "authored_commits": 28,
+        "additions": 359350,
+        "deletions": 249210
       }
     },
     {
       "date": "2026-07-24",
       "personal": {
-        "commits": 11,
-        "authored_commits": 10,
-        "additions": 321790,
-        "deletions": 248574
+        "commits": 3,
+        "authored_commits": 2,
+        "additions": 251810,
+        "deletions": 248390
       }
     },
     {
@@ -29280,118 +29282,136 @@
     {
       "date": "2026-07-26",
       "personal": {
-        "commits": 48,
-        "authored_commits": 44,
-        "additions": 593014,
-        "deletions": 386756
+        "commits": 81,
+        "authored_commits": 77,
+        "additions": 758423,
+        "deletions": 514815
       }
     },
     {
       "date": "2026-07-27",
       "personal": {
-        "commits": 150,
-        "authored_commits": 135,
-        "additions": 695284,
-        "deletions": 502437
+        "commits": 138,
+        "authored_commits": 122,
+        "additions": 913525,
+        "deletions": 748255
       }
     },
     {
       "date": "2026-07-28",
       "personal": {
-        "commits": 78,
-        "authored_commits": 73,
-        "additions": 783065,
-        "deletions": 624305
+        "commits": 99,
+        "authored_commits": 94,
+        "additions": 453583,
+        "deletions": 251396
       }
     },
     {
       "date": "2026-07-29",
       "personal": {
-        "commits": 145,
-        "authored_commits": 143,
-        "additions": 234760,
-        "deletions": 16995
+        "commits": 130,
+        "authored_commits": 128,
+        "additions": 447064,
+        "deletions": 267682
       }
     },
     {
       "date": "2026-07-30",
       "personal": {
-        "commits": 107,
-        "authored_commits": 106,
-        "additions": 1044435,
-        "deletions": 873166
+        "commits": 108,
+        "authored_commits": 108,
+        "additions": 1432210,
+        "deletions": 1121282
       }
     },
     {
       "date": "2026-07-31",
       "personal": {
-        "commits": 89,
-        "authored_commits": 89,
-        "additions": 895537,
-        "deletions": 624218
+        "commits": 63,
+        "authored_commits": 63,
+        "additions": 236320,
+        "deletions": 124533
       }
     },
     {
       "date": "2026-08-01",
       "personal": {
-        "commits": 21,
-        "authored_commits": 21,
-        "additions": 309477,
-        "deletions": 306634
+        "commits": 53,
+        "authored_commits": 53,
+        "additions": 1092737,
+        "deletions": 1057514
       }
     },
     {
       "date": "2026-08-02",
       "personal": {
-        "commits": 46,
-        "authored_commits": 40,
-        "additions": 1370837,
-        "deletions": 1247446
+        "commits": 81,
+        "authored_commits": 75,
+        "additions": 788731,
+        "deletions": 626519
       }
     },
     {
       "date": "2026-08-03",
       "personal": {
-        "commits": 233,
-        "authored_commits": 228,
-        "additions": 1293665,
-        "deletions": 1015577
+        "commits": 200,
+        "authored_commits": 195,
+        "additions": 2055164,
+        "deletions": 1756337
       }
     },
     {
       "date": "2026-08-04",
       "personal": {
-        "commits": 91,
-        "authored_commits": 83,
-        "additions": 1236062,
-        "deletions": 995469
+        "commits": 78,
+        "authored_commits": 68,
+        "additions": 342329,
+        "deletions": 125438
       }
     },
     {
       "date": "2026-08-05",
       "personal": {
-        "commits": 96,
-        "authored_commits": 92,
-        "additions": 432583,
-        "deletions": 3285
+        "commits": 110,
+        "authored_commits": 108,
+        "additions": 450241,
+        "deletions": 13961
       }
     },
     {
       "date": "2026-08-06",
       "personal": {
-        "commits": 80,
-        "authored_commits": 78,
-        "additions": 122173,
-        "deletions": 15645
+        "commits": 74,
+        "authored_commits": 72,
+        "additions": 81887,
+        "deletions": 7808
       }
     },
     {
       "date": "2026-08-07",
       "personal": {
-        "commits": 84,
+        "commits": 86,
         "authored_commits": 80,
-        "additions": 528470,
-        "deletions": 392772
+        "additions": 971842,
+        "deletions": 653315
+      }
+    },
+    {
+      "date": "2026-08-08",
+      "personal": {
+        "commits": 42,
+        "authored_commits": 38,
+        "additions": 150781,
+        "deletions": 125939
+      }
+    },
+    {
+      "date": "2026-08-09",
+      "personal": {
+        "commits": 113,
+        "authored_commits": 108,
+        "additions": 1188166,
+        "deletions": 1033529
       }
     }
   ]
