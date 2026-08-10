@@ -236,11 +236,9 @@ github_activity: true
             ><span class="github-activity-commits" id="github-activity-selected-commits"></span
           ></span>
           <span class="github-activity-value-group">
-            <span aria-hidden="true">&middot;</span>
             <span class="github-activity-added" id="github-activity-selected-additions"></span>
           </span>
           <span class="github-activity-value-group">
-            <span aria-hidden="true">&middot;</span>
             <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
           </span>
           <span
@@ -248,7 +246,6 @@ github_activity: true
             data-personal-codex-readout
             {% unless direct_tracker.schema >= 5 and direct_tracker.combined_daily_usage %}hidden{% endunless %}
           >
-            <span aria-hidden="true">&middot;</span>
             <span class="github-activity-selected-tokens" id="github-activity-selected-tokens"></span>
           </span>
         </p>

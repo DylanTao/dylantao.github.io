@@ -800,7 +800,7 @@
 
 .github-activity-readout {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   min-height: 5.5rem;
@@ -825,21 +825,29 @@
   letter-spacing: 0.02em;
 }
 
+// One wrapping sentence joined by middots left an orphaned separator whenever
+// the last value wrapped, and four numbers of different kinds read as a run-on.
+// Each value now owns a cell, so wrapping happens between values rather than
+// inside the punctuation, and the columns line up for scanning.
 .github-activity-values {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.65rem;
-  margin-top: 0.25rem !important;
-  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.45rem 1.5rem;
+  margin-top: 0.4rem !important;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
   font-weight: 650;
   font-variant-numeric: tabular-nums;
 }
 
 .github-activity-value-group {
-  display: inline-flex;
-  gap: 0.35rem;
-  align-items: baseline;
-  white-space: nowrap;
+  display: block;
+  min-width: 0;
+}
+
+// The paired commit counts are one stat and stay together; they need more room
+// than a single number, so they take the full row above the line movement.
+.github-activity-commit-value-group {
+  grid-column: 1 / -1;
 }
 
 .github-activity-commits {
@@ -855,7 +863,7 @@
 }
 
 .github-activity-token-value-group {
-  flex-basis: 100%;
+  grid-column: 1 / -1;
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
   font-size: var(--type-label);

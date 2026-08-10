@@ -2092,45 +2092,88 @@
       color: palette.accent,
       weight: 700,
     });
+    // "total / gap / authored" named the marks without saying what they meant.
+    // Each entry now names the thing it encodes, and the gap swatch draws the
+    // muted boundary above and the crisp authored line below with the band
+    // between them, so the key depicts the same relationship as the chart.
     const commitLegendY = 37;
-    const gapLegendX = left + (narrow ? 78 : 96);
-    const authoredLegendX = left + (narrow ? 133 : 166);
-    chart.append(
-      svgElement("line", {
-        class: "github-activity-commit-legend-total-line",
-        x1: left,
-        y1: commitLegendY - 4,
-        x2: left + 14,
-        y2: commitLegendY - 4,
-        stroke: palette.muted,
-        "stroke-opacity": 0.78,
-        "stroke-width": 1.2,
-        "stroke-linecap": "round",
-      }),
-      svgElement("rect", {
-        class: "github-activity-commit-legend-gap-band",
-        x: gapLegendX,
-        y: commitLegendY - 8,
-        width: 14,
-        height: 8,
-        rx: 2,
-        fill: palette.accent,
-        "fill-opacity": 0.18,
-      }),
-      svgElement("line", {
-        class: "github-activity-commit-legend-authored-line",
-        x1: authoredLegendX,
-        y1: commitLegendY - 4,
-        x2: authoredLegendX + 18,
-        y2: commitLegendY - 4,
-        stroke: palette.accent,
-        "stroke-width": 2.2,
-        "stroke-linecap": "round",
-      })
-    );
-    addText(chart, "total", left + 20, commitLegendY, { color: palette.muted, weight: 650, size: 11 });
-    addText(chart, "gap", gapLegendX + 20, commitLegendY, { color: palette.muted, weight: 650, size: 11 });
-    addText(chart, "authored", authoredLegendX + 24, commitLegendY, { color: palette.accent, weight: 650, size: 11 });
+    const legendSwatch = 16;
+    const legendLabelGap = 6;
+    const legendEntryGap = narrow ? 12 : 18;
+    // Compact screens cannot hold the explanatory forms on one row without
+    // running under the agent label, and the copy above the chart already
+    // spells the same relationship out in a sentence.
+    const legendEntries = [
+      { key: "total", label: narrow ? "all" : "all commits", color: palette.muted },
+      { key: "gap", label: narrow ? "gap" : "gap = merges + deploys", color: palette.muted },
+      { key: "authored", label: "authored", color: palette.accent },
+    ];
+    let legendX = left;
+    legendEntries.forEach((entry) => {
+      const midY = commitLegendY - 4;
+      if (entry.key === "gap") {
+        chart.append(
+          svgElement("rect", {
+            class: "github-activity-commit-legend-gap-band",
+            x: legendX,
+            y: midY - 4,
+            width: legendSwatch,
+            height: 8,
+            fill: palette.accent,
+            "fill-opacity": 0.18,
+          }),
+          svgElement("line", {
+            class: "github-activity-commit-legend-total-line",
+            x1: legendX,
+            y1: midY - 4,
+            x2: legendX + legendSwatch,
+            y2: midY - 4,
+            stroke: palette.muted,
+            "stroke-opacity": 0.78,
+            "stroke-width": 1.2,
+          }),
+          svgElement("line", {
+            class: "github-activity-commit-legend-authored-line",
+            x1: legendX,
+            y1: midY + 4,
+            x2: legendX + legendSwatch,
+            y2: midY + 4,
+            stroke: palette.accent,
+            "stroke-width": 2.2,
+          })
+        );
+      } else {
+        chart.append(
+          svgElement("line", {
+            class: entry.key === "total" ? "github-activity-commit-legend-total-line" : "github-activity-commit-legend-authored-line",
+            x1: legendX,
+            y1: midY,
+            x2: legendX + legendSwatch,
+            y2: midY,
+            stroke: entry.key === "total" ? palette.muted : palette.accent,
+            "stroke-opacity": entry.key === "total" ? 0.78 : 1,
+            "stroke-width": entry.key === "total" ? 1.2 : 2.2,
+            "stroke-linecap": "round",
+          })
+        );
+      }
+      const labelNode = addText(chart, entry.label, legendX + legendSwatch + legendLabelGap, commitLegendY, {
+        color: entry.color,
+        weight: 650,
+        size: 11,
+      });
+      // Measure the rendered label rather than estimating from character count:
+      // this legend is set in the mono face, and a guessed advance width let the
+      // entries overlap each other's swatches.
+      let labelWidth = entry.label.length * 6.6;
+      try {
+        const measured = labelNode.getComputedTextLength();
+        if (Number.isFinite(measured) && measured > 0) labelWidth = measured;
+      } catch (error) {
+        // Detached or unlaid-out SVG cannot measure; the estimate stands.
+      }
+      legendX += legendSwatch + legendLabelGap + labelWidth + legendEntryGap;
+    });
     const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
     const lineHeading = narrow
       ? `LINES / ${chartDateUnit} \u00b7 ${lineScaleLabel}`
@@ -2195,12 +2238,18 @@
             "pointer-events": "none",
           })
         );
-        addText(chart, `AGENT TOKENS FROM ${dateLabel.format(agentStart).toUpperCase()}`, Math.min(startX + 6, width - right - 4), plotTop - 8, {
-          anchor: startX + 6 > width - right - 120 ? "end" : "start",
-          color: palette.muted,
-          weight: 650,
-          className: "github-activity-agent-wash-label",
-        });
+        // On compact screens this label lands on the commit legend row, and the
+        // agent panel below already states the same window ("SINCE APR 2026"),
+        // so the dated rule carries the boundary on its own there.
+        if (!narrow) {
+          addText(chart, `AGENT TOKENS FROM ${dateLabel.format(agentStart).toUpperCase()}`, Math.min(startX + 6, width - right - 4), plotTop - 8, {
+            anchor: startX + 6 > width - right - 120 ? "end" : "start",
+            color: palette.muted,
+            weight: 650,
+            size: 10,
+            className: "github-activity-agent-wash-label",
+          });
+        }
       }
     }
 
