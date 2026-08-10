@@ -58,10 +58,16 @@ jobs:
       - name: Validate direct tracker and privacy contracts
         run: python -m unittest discover -s test -p 'test_*.py'
 
+      # Selected through discover rather than the dotted path
+      # `test.test_github_activity_privacy...`: CPython ships its own stdlib
+      # `test` package, and because this repo's `test/` directory has no
+      # __init__.py the stdlib package shadows it on the Linux runner, so the
+      # dotted form raises ModuleNotFoundError there while passing on Windows.
+      # discover puts `test/` on sys.path and imports by bare module name.
       - name: Validate code-activity source allowlist
         run: >-
-          python -m unittest
-          test.test_github_activity_privacy.GithubActivityPrivacyTests.test_checked_in_code_activity_uses_approved_source_contracts
+          python -m unittest discover -s test -p 'test_github_activity_privacy.py'
+          -k test_checked_in_code_activity_uses_approved_source_contracts
 
       - name: Validate generated diff whitespace
         run: git diff --check HEAD^ HEAD
