@@ -2,21 +2,29 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 import unittest
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "bin"))
+import import_code_activity as activity_importer  # noqa: E402
+
+
 TIER_PATH = REPO_ROOT / "_data" / "github_ai_tiers.yml"
 CODE_ACTIVITY_PATH = REPO_ROOT / "_data" / "code_activity.json"
+CODE_ACTIVITY_SOURCES_PATH = REPO_ROOT / "_data" / "code_activity_sources"
 ACTIVITY_PATHS = (
     TIER_PATH,
+    CODE_ACTIVITY_PATH,
     REPO_ROOT / "_pages" / "github-activity.md",
     REPO_ROOT / "assets" / "js" / "github-activity.js",
     REPO_ROOT / "assets" / "data" / "codex-profile-usage.json",
     REPO_ROOT / "_data" / "direct_usage_tracker.json",
-    REPO_ROOT / "_data" / "github_activity.json",
+    *sorted(path for path in CODE_ACTIVITY_SOURCES_PATH.rglob("*") if path.is_file()),
 )
 # Pinned to the account creation day. The published window starts here and
 # only ever grows forward.
@@ -35,6 +43,21 @@ FORBIDDEN = (
 
 
 class GithubActivityPrivacyTests(unittest.TestCase):
+    def test_checked_in_code_activity_uses_approved_source_contracts(self) -> None:
+        now = datetime.now(timezone.utc)
+        public = json.loads(CODE_ACTIVITY_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(
+            activity_importer.validate_public_snapshot(public, now=now),
+            public,
+        )
+        for path in sorted(CODE_ACTIVITY_SOURCES_PATH.glob("*.json")):
+            with self.subTest(source=path.name):
+                validated = activity_importer.validate_contributed_snapshot(
+                    json.loads(path.read_text(encoding="utf-8")),
+                    now=now,
+                )
+                self.assertEqual(validated["id"], path.stem)
+
     def test_public_activity_sources_reject_invoice_and_credential_fragments(
         self,
     ) -> None:
@@ -43,6 +66,26 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         ).lower()
         for fragment in FORBIDDEN:
             self.assertNotIn(fragment.lower(), combined)
+
+    def test_retired_weekly_fallback_cannot_drift_from_lifetime_daily_data(
+        self,
+    ) -> None:
+        self.assertFalse((REPO_ROOT / "_data" / "github_activity.json").exists())
+
+    def test_contributed_feed_contract_lives_beside_the_drop_location(self) -> None:
+        contract = (
+            REPO_ROOT / "_data" / "code_activity_sources" / "README.md"
+        ).read_text(encoding="utf-8")
+        for fragment in (
+            '"id": "intern"',
+            '"label": "Intern work"',
+            '"basis": "reported_daily_summary"',
+            "every UTC date",
+            "cannot exceed",
+            "Do not include repository",
+            "--check",
+        ):
+            self.assertIn(fragment, contract)
 
     def test_tier_file_is_normalized_and_contains_no_raw_invoice_fields(self) -> None:
         text = TIER_PATH.read_text(encoding="utf-8")
@@ -314,35 +357,7 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         ):
             self.assertNotIn(fragment, text)
 
-    def test_checked_in_github_fallback_has_exact_privacy_contract(self) -> None:
-        activity = json.loads(
-            (REPO_ROOT / "_data" / "github_activity.json").read_text()
-        )
-        self.assertEqual(set(activity), {"schema", "generatedAt", "weeks"})
-        self.assertEqual(activity["schema"], 2)
-        generated_at = datetime.fromisoformat(
-            activity["generatedAt"].replace("Z", "+00:00")
-        )
-        self.assertIsNotNone(generated_at.tzinfo)
-        self.assertEqual(len(activity["weeks"]), 300)
-
-        previous: date | None = None
-        for row in activity["weeks"]:
-            self.assertEqual(
-                set(row),
-                {"week", "additions", "deletions", "commits"},
-            )
-            observed = date.fromisoformat(row["week"])
-            self.assertEqual(observed.weekday(), 6)
-            if previous is not None:
-                self.assertEqual(observed, previous + timedelta(days=7))
-            for field in ("additions", "deletions", "commits"):
-                self.assertIsInstance(row[field], int)
-                self.assertNotIsInstance(row[field], bool)
-                self.assertGreaterEqual(row[field], 0)
-            previous = observed
-
-    def test_code_activity_is_exact_schema4_or_compactly_unavailable(
+    def test_code_activity_is_exact_schema5_or_compactly_unavailable(
         self,
     ) -> None:
         page = (REPO_ROOT / "_pages" / "github-activity.md").read_text(
@@ -353,20 +368,20 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             return
 
         activity = json.loads(CODE_ACTIVITY_PATH.read_text(encoding="utf-8"))
-        self.assertEqual(activity["schema"], 4)
+        self.assertEqual(activity["schema"], 5)
         self.assertEqual(
             set(activity),
             {
                 "schema",
                 "updated_on",
-                "timezone",
+                "date_basis",
                 "scope",
                 "sources",
                 "coverage",
                 "points",
             },
         )
-        self.assertEqual(activity["timezone"], "UTC")
+        self.assertEqual(activity["date_basis"], "source_reported_calendar")
         self.assertEqual(activity["scope"], "code_activity")
 
         # The lifetime anchor is fixed, so a refresh may extend coverage forward
@@ -382,11 +397,20 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         )
 
         windows: dict[str, tuple[date, date]] = {}
+        source_calendars: dict[str, tuple[str, str]] = {}
         self.assertGreaterEqual(len(activity["sources"]), 1)
         for descriptor in activity["sources"]:
             self.assertEqual(
                 set(descriptor),
-                {"id", "label", "basis", "starts_on", "complete_through"},
+                {
+                    "id",
+                    "label",
+                    "basis",
+                    "date_basis",
+                    "completion_timezone",
+                    "starts_on",
+                    "complete_through",
+                },
             )
             self.assertRegex(descriptor["id"], r"^[a-z0-9-]{1,24}$")
             self.assertNotIn(descriptor["id"], windows)
@@ -396,14 +420,21 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 date.fromisoformat(descriptor["starts_on"]),
                 date.fromisoformat(descriptor["complete_through"]),
             )
+            source_calendars[descriptor["id"]] = (
+                descriptor["date_basis"],
+                descriptor["completion_timezone"],
+            )
         self.assertIn("personal", windows)
+        self.assertEqual(
+            source_calendars["personal"],
+            ("github_profile_author_date", "America/Los_Angeles"),
+        )
 
         points = activity["points"]
         self.assertGreaterEqual(len(points), 1)
         previous_date: date | None = None
         for point in points:
             observed = date.fromisoformat(point["date"])
-            self.assertLess(observed, datetime.now(timezone.utc).date())
             if previous_date is not None:
                 self.assertEqual(observed, previous_date + timedelta(days=1))
             # A source absent from a day is outside its own coverage rather than
@@ -415,6 +446,13 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             }
             self.assertEqual(set(point), {"date", *covered})
             for identifier in covered:
+                completion_timezone = source_calendars[identifier][1]
+                self.assertLess(
+                    observed,
+                    datetime.now(timezone.utc)
+                    .astimezone(ZoneInfo(completion_timezone))
+                    .date(),
+                )
                 entry = point[identifier]
                 self.assertEqual(
                     set(entry),

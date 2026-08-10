@@ -322,8 +322,8 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     githubActivityState = await ready.getAttribute("data-state");
     expect(["ready", "unavailable"]).toContain(githubActivityState);
     if (githubActivityState === "unavailable") {
-      await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
-      await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
+      await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
+      await expect(page.locator("[data-github-scope]")).toHaveText("CODE ACTIVITY");
       await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
       await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
       await expect(page.locator(".github-activity-method")).toBeHidden();
@@ -2040,8 +2040,8 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
   const activityState = await activity.getAttribute("data-state");
 
   if (activityState === "unavailable") {
-    await expect(page.getByText("Personal code history is being rebuilt.", { exact: true })).toHaveCount(1);
-    await expect(page.locator("[data-github-scope]")).toHaveText("PERSONAL");
+    await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
+    await expect(page.locator("[data-github-scope]")).toHaveText("CODE ACTIVITY");
     await expect(page.locator(".github-activity-method")).toBeHidden();
     await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
     await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", /^(ready|error)$/);
@@ -2073,10 +2073,10 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
   await expect(hint).toHaveText("Scroll horizontally to read every daily column.");
   await expect(tableWrap).toHaveCount(1);
   await expect(tableWrap).toHaveAttribute("role", "region");
-  await expect(tableWrap).toHaveAccessibleName("Daily personal code activity table");
+  await expect(tableWrap).toHaveAccessibleName("Daily code activity table");
   await expect(tableWrap).toHaveAttribute("tabindex", "0");
 
-  for (const width of [390, 320]) {
+  for (const width of [768, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
     await expect(hint).toBeVisible();
     const geometry = await tableWrap.evaluate((element) => {

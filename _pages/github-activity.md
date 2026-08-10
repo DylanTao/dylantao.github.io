@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Personal daily code activity and this site's separate build-token rhythm.
+description: Daily code activity by named source and this site's separate build-token rhythm.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -11,7 +11,7 @@ github_activity: true
 
 {% assign code_activity = site.data.code_activity %}
 {% assign personal_daily_ready = false %}
-{% if code_activity.schema == 4 and code_activity.scope == "code_activity" and code_activity.coverage.status == "complete" and code_activity.sources and code_activity.sources.size > 0 and code_activity.points and code_activity.points.size > 0 %}
+{% if code_activity.schema == 5 and code_activity.date_basis == "source_reported_calendar" and code_activity.scope == "code_activity" and code_activity.coverage.status == "complete" and code_activity.sources and code_activity.sources.size > 0 and code_activity.points and code_activity.points.size > 0 %}
 {% assign personal_daily_ready = true %}
 {% endif %}
 
@@ -58,7 +58,7 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        I start with when personal code changed and how much moved. Then I follow this site's token trace and personal agent history.
+        I start with when the recorded code changed and how much moved. Then I follow this site's token trace and personal agent history.
       </p>
     </header>
 
@@ -71,7 +71,7 @@ github_activity: true
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Daily personal code activity beside personal agent history.
+            Daily code activity by source beside personal agent history.
           </p>
         </div>
       </div>
@@ -80,13 +80,13 @@ github_activity: true
         <article class="build-rhythm-story-step" data-build-rhythm-step="cadence">
           <p class="build-rhythm-story-step-number">01 · WHEN</p>
           <h3>First, I look for the bursts.</h3>
-          <p>The commits bunch into bursts, with quieter days between. That uneven shape is the rhythm I was looking for.</p>
+          <p>Reported commits bunch into bursts, with quieter days between. That uneven shape is the rhythm I was looking for.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="magnitude">
           <p class="build-rhythm-story-step-number">02 · HOW MUCH MOVED</p>
-          <h3>Commit count tells me when. Line changes tell me how much.</h3>
-          <p>Added lines climb above zero and removed lines fall below, so I can see how much code moved in each direction.</p>
+          <h3>Total commits tell me when. Authored line changes tell me how much.</h3>
+          <p>Added lines climb above zero and removed lines fall below, so I can see how much authored repository text moved in each direction.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="bursts">
@@ -126,7 +126,7 @@ github_activity: true
           <h3>Now read the whole rhythm yourself.</h3>
           <p>
             Change the range or scale, move day by day with the keyboard, and inspect the final plot. Use the summary for the overall total
-            and the shared-axis rail to compare how the rhythms line up.
+            and the independently dated agent inset to compare the shorter recent rhythm without stretching it across the lifetime view.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
@@ -146,9 +146,9 @@ github_activity: true
       <div>
         <p class="github-activity-module-kicker">CODE ACTIVITY</p>
         <h2 id="github-activity-github-title">Code history</h2>
-        <p data-personal-daily-copy>Switch scales, inspect an exact UTC day, or select a stretch of time.</p>
+        <p data-personal-daily-copy>Switch scales, inspect a reported calendar date, or select a stretch of labels.</p>
         <p class="github-activity-module-note" data-personal-daily-copy>
-          Every commit GitHub credits since the account opened. Switch <em>Commits counted</em> to <em>Authored</em> to drop merges and deploys.
+          The quiet outer line is the reported total across visible sources. The crisp inner line is authored commits; the soft band between them is merges and deploys.
         </p>
       </div>
       <span class="github-activity-scope-badge" data-github-scope>
@@ -168,16 +168,9 @@ github_activity: true
         <legend>Code activity time window</legend>
         <div class="github-activity-segments" data-range-controls>
           <button type="button" data-range="1" aria-pressed="false">1 year</button>
-          <button type="button" data-range="3" aria-pressed="false">3 years</button>
+          <button type="button" data-range="3" aria-pressed="true">3 years</button>
           <button type="button" data-range="5" aria-pressed="false">5 years</button>
-          <button type="button" data-range="all" aria-pressed="true">Lifetime</button>
-        </div>
-      </fieldset>
-      <fieldset class="github-activity-control-group">
-        <legend>Commits counted</legend>
-        <div class="github-activity-segments" data-count-controls>
-          <button type="button" data-count-mode="all" aria-pressed="true">All</button>
-          <button type="button" data-count-mode="authored" aria-pressed="false">Authored</button>
+          <button type="button" data-range="all" aria-pressed="false">Lifetime</button>
         </div>
       </fieldset>
       <fieldset class="github-activity-control-group">
@@ -237,9 +230,11 @@ github_activity: true
 
     <div class="github-activity-readout" data-personal-daily-copy>
       <div class="github-activity-readout-content">
-        <p class="github-activity-readout-label" id="github-activity-selected-date">Latest day</p>
+        <p class="github-activity-readout-label" id="github-activity-selected-date">Latest date label</p>
         <p class="github-activity-values">
-          <span class="github-activity-value-group"><span class="github-activity-commits" id="github-activity-selected-commits"></span></span>
+          <span class="github-activity-value-group github-activity-commit-value-group"
+            ><span class="github-activity-commits" id="github-activity-selected-commits"></span
+          ></span>
           <span class="github-activity-value-group">
             <span aria-hidden="true">&middot;</span>
             <span class="github-activity-added" id="github-activity-selected-additions"></span>
@@ -269,12 +264,12 @@ github_activity: true
 
     <div class="github-activity-chart-shell" data-personal-daily-copy>
       <h2 class="sr-only" id="github-activity-chart-title">
-        Daily commits, additions and deletions
+        Total and authored commits, authored additions and deletions by source-reported calendar label
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
-        Hover or click to inspect a day and its code and personal token usage. Drag horizontally to select a range. With
+        Hover or click to inspect a source-reported date label and its code and personal token usage. Drag horizontally to select a range. With
         keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
-        to move seven days, and Escape to clear a selection.
+        to move seven calendar labels, and Escape to clear a selection.
       </p>
       <svg
         id="github-activity-chart"
@@ -336,7 +331,7 @@ github_activity: true
     </div>
 
     <details class="github-activity-token-evidence" data-token-rhythm-details>
-      <summary id="github-activity-token-table-title">Exact daily values</summary>
+      <summary id="github-activity-token-table-title">Reported rounded daily values</summary>
       <div class="github-activity-token-evidence-body">
         <p>The same rounded series, row by row.</p>
         <p class="github-activity-table-scroll-hint" id="github-activity-token-table-scroll-hint">Scroll horizontally for all three columns.</p>
@@ -392,7 +387,14 @@ github_activity: true
     <div class="github-activity-method-grid">
       <div>
         <h2>Separate scales</h2>
-        <p>Daily personal code activity, site-build estimates, and personal agent usage keep their own units and dates.</p>
+        <p>Daily code activity by named source, site-build estimates, and personal agent usage keep their own units and dates.</p>
+      </div>
+      <div>
+        <h2>Source calendars</h2>
+        <p>
+          Personal follows GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels.
+          Matching <code>YYYY-MM-DD</code> labels align the display, not one shared 24-hour window.
+        </p>
       </div>
       <div>
         <h2>Token rhythm</h2>
@@ -405,15 +407,18 @@ github_activity: true
       <div>
         <h2>What's counted</h2>
         <p>
-          <strong>All</strong> counts every commit GitHub credits, so the total matches the contribution graph: the default branch plus
-          <code>gh-pages</code>, merges included. <strong>Authored</strong> keeps only the non-merge, non-deploy commits.
+          The quiet outer line is the reported commit total across visible sources. For <strong>Personal</strong> alone, that means every commit
+          GitHub credits, so it matches the contribution graph: the default branch plus <code>gh-pages</code>, merges included. The crisp inner
+          line is the summed non-merge, non-deploy authored subset. The soft band between them makes the difference visible without switching
+          views.
         </p>
       </div>
       <div>
         <h2>Why lines follow authored commits</h2>
         <p>
           A merge diff restates the branch it absorbs and a deploy rewrites the whole generated site, so counting their lines would report
-          machine output as writing. Added and removed lines describe authored commits only.
+          machine output as writing. Added and removed lines use each authored commit's first-parent raw-text diff. Documentation and data text
+          count; intrinsic binary changes count as zero, and repository attributes are neutralized so local diff rules cannot change the measure.
         </p>
       </div>
       <div>
@@ -433,21 +438,21 @@ github_activity: true
     <div
       class="github-activity-table-wrap"
       role="region"
-      aria-label="Daily personal code activity table"
+      aria-label="Daily code activity table"
       aria-describedby="github-activity-table-scroll-hint"
       tabindex="0"
     >
       <table class="github-activity-table">
-        <caption id="github-activity-table-caption">Reported daily activity in the selected time window</caption>
+        <caption id="github-activity-table-caption">Reported activity by source calendar label in the selected time window</caption>
         <thead>
           <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Commits</th>
-            <th scope="col">Authored</th>
+            <th scope="col">Date label</th>
+            <th scope="col">Total commits</th>
+            <th scope="col">Authored commits</th>
             <th scope="col">Added</th>
             <th scope="col">Removed</th>
             <th scope="col">Line changes</th>
-            <th scope="col">Agent tokens</th>
+            <th scope="col">Agent tokens (UTC label)</th>
             <th scope="col">Codex</th>
             <th scope="col">Claude</th>
             <th scope="col">Cumulative tokens</th>
@@ -459,7 +464,7 @@ github_activity: true
   </details>
 
   <p class="github-activity-source" data-personal-daily-copy>
-    Code activity updated <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
+    Code activity's latest reported date label is <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
     agentic-usage ledger; the personal agent plot identifies its own completeness boundary above. Time-window and scale controls draw on
     <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.

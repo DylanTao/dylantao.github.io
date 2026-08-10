@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Publish validated daily code activity as one multi-source public series.
 
-The importer accepts the schema-4 personal GitHub profile snapshot plus any
-number of contributed source snapshots, and projects them into a single public
-file whose points are keyed by named source. It publishes only completed UTC
-days and never replaces a previously valid snapshot when validation fails.
+The importer accepts the schema-5 personal GitHub profile snapshot plus approved
+contributed source snapshots, and projects them into a single public
+file whose points are keyed by named source. Each source keeps its own calendar
+contract; matching public date labels do not claim one shared timezone. The
+importer never replaces a previously valid snapshot when validation fails.
 
-Adding a source is a data change, not a code change: drop a validated snapshot
-into `_data/code_activity_sources/<id>.json` and it joins the published series
-under its own label.
+Adding a source requires an explicit public-label and basis review in this file;
+once approved, its snapshot may be dropped into `_data/code_activity_sources/`.
 """
 
 from __future__ import annotations
@@ -20,29 +20,62 @@ import tempfile
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 JAVASCRIPT_SAFE_INTEGER = 9_007_199_254_740_991
 
-# `commits` is every commit GitHub credits, so a published total reconciles with
-# the profile graph. `authored_commits` is the non-merge, non-deploy subset that
-# owns the line counts. Counting a merge's or a deploy's lines would report
-# restated branch content and generated site output as written work.
+# `commits` is each source's reported total; Personal uses GitHub contribution
+# parity. `authored_commits` is the non-merge, non-deploy subset that owns the
+# line counts. Counting a merge's or a deploy's lines would report restated
+# branch content and generated site output as written work.
 METRICS = ("commits", "authored_commits", "additions", "deletions")
 
 PERSONAL_SOURCE_ID = "personal"
 PERSONAL_SOURCE_LABEL = "Personal"
 PERSONAL_SOURCE_BASIS = "github_contribution_parity"
+PERSONAL_DATE_BASIS = "github_profile_author_date"
+PERSONAL_COMPLETION_TIMEZONE = "America/Los_Angeles"
+INTERN_SOURCE_ID = "intern"
+INTERN_SOURCE_LABEL = "Intern work"
+INTERN_SOURCE_BASIS = "reported_daily_summary"
+UTC_DATE_BASIS = "utc_calendar_date"
+UTC_COMPLETION_TIMEZONE = "UTC"
+PUBLIC_DATE_BASIS = "source_reported_calendar"
+APPROVED_SOURCE_CONTRACTS = {
+    PERSONAL_SOURCE_ID: {
+        "label": PERSONAL_SOURCE_LABEL,
+        "basis": PERSONAL_SOURCE_BASIS,
+        "date_basis": PERSONAL_DATE_BASIS,
+        "completion_timezone": PERSONAL_COMPLETION_TIMEZONE,
+    },
+    INTERN_SOURCE_ID: {
+        "label": INTERN_SOURCE_LABEL,
+        "basis": INTERN_SOURCE_BASIS,
+        "date_basis": UTC_DATE_BASIS,
+        "completion_timezone": UTC_COMPLETION_TIMEZONE,
+    },
+}
 
 # The lifetime anchor is pinned in the collector; the importer only checks that
 # the snapshot it is handed still starts there, so a truncated scan is rejected
 # instead of silently shortening published history.
 PERSONAL_HISTORY_START = date(2017, 8, 31)
+# The profile workflow is daily, while an eight-day grace window matches the
+# public renderer's fail-closed tolerance for transient refresh failures.
+PERSONAL_PROFILE_MAX_AGE = timedelta(days=8)
 
 PROFILE_KEYS = {"schema", "generatedAt", "source", "weeks", "daily"}
 PROFILE_SOURCE_KEYS = {"id", "label", "basis"}
 WEEK_KEYS = {"week", *METRICS}
-DAILY_KEYS = {"timezone", "starts_on", "complete_through", "coverage", "points"}
+DAILY_KEYS = {
+    "date_basis",
+    "completion_timezone",
+    "starts_on",
+    "complete_through",
+    "coverage",
+    "points",
+}
 POINT_KEYS = {"date", *METRICS}
 
 CONTRIBUTED_KEYS = {
@@ -59,13 +92,39 @@ COVERAGE_KEYS = {"starts_on", "complete_through", "status"}
 PUBLIC_KEYS = {
     "schema",
     "updated_on",
+    "date_basis",
+    "scope",
+    "sources",
+    "coverage",
+    "points",
+}
+PUBLIC_SOURCE_FIELDS = (
+    "id",
+    "label",
+    "basis",
+    "date_basis",
+    "completion_timezone",
+    "starts_on",
+    "complete_through",
+)
+PUBLIC_SOURCE_KEYS = set(PUBLIC_SOURCE_FIELDS)
+LEGACY_PUBLIC_KEYS = {
+    "schema",
+    "updated_on",
     "timezone",
     "scope",
     "sources",
     "coverage",
     "points",
 }
-PUBLIC_SOURCE_KEYS = {"id", "label", "basis", "starts_on", "complete_through"}
+LEGACY_PUBLIC_SOURCE_FIELDS = (
+    "id",
+    "label",
+    "basis",
+    "starts_on",
+    "complete_through",
+)
+LEGACY_PUBLIC_SOURCE_KEYS = set(LEGACY_PUBLIC_SOURCE_FIELDS)
 
 # Source ids are used as object keys in the published points and as CSS-facing
 # identifiers in the chart, so they stay short, lowercase and unambiguous.
@@ -106,6 +165,17 @@ def _timestamp(value: Any, label: str) -> datetime:
     return parsed
 
 
+def _checked_now(value: datetime | None) -> datetime:
+    checked = value or datetime.now(timezone.utc)
+    if checked.tzinfo is None:
+        raise ActivityError("validation clock must include a timezone")
+    return checked
+
+
+def _calendar_today(moment: datetime, timezone_name: str) -> date:
+    return moment.astimezone(ZoneInfo(timezone_name)).date()
+
+
 def _count(value: Any, label: str) -> int:
     if type(value) is not int or value < 0 or value > JAVASCRIPT_SAFE_INTEGER:
         raise ActivityError(f"{label} must be a safe nonnegative integer")
@@ -139,7 +209,7 @@ def _validate_points(
     *,
     starts_on: date,
     complete_through: date,
-    today: date,
+    current_date: date,
     label: str,
 ) -> list[dict[str, Any]]:
     if not isinstance(value, list) or not value:
@@ -147,7 +217,7 @@ def _validate_points(
 
     expected_length = (complete_through - starts_on).days + 1
     if len(value) != expected_length:
-        raise ActivityError(f"{label} must cover every UTC date")
+        raise ActivityError(f"{label} must cover every source-calendar date")
 
     normalized: list[dict[str, Any]] = []
     expected = starts_on
@@ -156,8 +226,10 @@ def _validate_points(
         observed = _iso_date(point["date"], f"{label}[{index}].date")
         if observed != expected:
             raise ActivityError(f"{label} dates must be contiguous and increasing")
-        if observed >= today:
-            raise ActivityError(f"{label} must contain completed UTC dates only")
+        if observed >= current_date:
+            raise ActivityError(
+                f"{label} must contain completed source-calendar dates only"
+            )
         normalized.append(
             {"date": observed.isoformat(), **_metrics(point, f"{label}[{index}]")}
         )
@@ -198,32 +270,39 @@ def _validate_weeks(value: Any) -> list[dict[str, Any]]:
 def validate_profile_snapshot(
     value: Any,
     *,
-    today: date | None = None,
+    now: datetime | None = None,
 ) -> dict[str, Any]:
-    """Validate the exact schema-4 personal GitHub source contract."""
+    """Validate the exact schema-5 personal GitHub source contract."""
 
-    checked_today = today or datetime.now(timezone.utc).date()
+    checked_now = _checked_now(now)
     source = _exact_dict(value, PROFILE_KEYS, "personal profile")
-    if type(source["schema"]) is not int or source["schema"] != 4:
-        raise ActivityError("personal profile schema must be integer 4")
+    if type(source["schema"]) is not int or source["schema"] != 5:
+        raise ActivityError("personal profile schema must be integer 5")
 
     descriptor = _exact_dict(
         source["source"], PROFILE_SOURCE_KEYS, "personal profile source"
     )
     if descriptor["id"] != PERSONAL_SOURCE_ID:
         raise ActivityError("personal profile source id is unexpected")
+    if descriptor["label"] != PERSONAL_SOURCE_LABEL:
+        raise ActivityError("personal profile source label is unexpected")
     if descriptor["basis"] != PERSONAL_SOURCE_BASIS:
         raise ActivityError("personal profile source basis is unexpected")
-    _text(descriptor["label"], "personal profile source label")
 
     generated_at = _timestamp(source["generatedAt"], "personal profile generatedAt")
-    if generated_at.astimezone(timezone.utc).date() > checked_today:
+    generated_at_utc = generated_at.astimezone(timezone.utc)
+    checked_now_utc = checked_now.astimezone(timezone.utc)
+    if generated_at_utc > checked_now_utc:
         raise ActivityError("personal profile generatedAt cannot be future")
+    if checked_now_utc - generated_at_utc > PERSONAL_PROFILE_MAX_AGE:
+        raise ActivityError("personal profile generatedAt is stale")
     _validate_weeks(source["weeks"])
 
     daily = _exact_dict(source["daily"], DAILY_KEYS, "personal profile daily")
-    if daily["timezone"] != "UTC":
-        raise ActivityError("personal profile daily timezone must be UTC")
+    if daily["date_basis"] != PERSONAL_DATE_BASIS:
+        raise ActivityError("personal profile daily date basis is unexpected")
+    if daily["completion_timezone"] != PERSONAL_COMPLETION_TIMEZONE:
+        raise ActivityError("personal profile daily completion timezone is unexpected")
     if daily["coverage"] != "complete":
         raise ActivityError("personal profile daily coverage must be complete")
     starts_on = _iso_date(daily["starts_on"], "personal profile daily starts_on")
@@ -232,25 +311,28 @@ def validate_profile_snapshot(
     )
     if starts_on != PERSONAL_HISTORY_START:
         raise ActivityError("personal profile must start at the lifetime anchor")
-    expected_complete_through = (
-        generated_at.astimezone(timezone.utc).date() - timedelta(days=1)
+    generated_calendar_date = _calendar_today(
+        generated_at, PERSONAL_COMPLETION_TIMEZONE
     )
+    expected_complete_through = generated_calendar_date - timedelta(days=1)
     if complete_through != expected_complete_through:
         raise ActivityError(
-            "personal profile must end on the latest completed UTC date"
+            "personal profile must end on the latest completed GitHub profile date"
         )
 
     points = _validate_points(
         daily["points"],
         starts_on=starts_on,
         complete_through=complete_through,
-        today=checked_today,
+        current_date=generated_calendar_date,
         label="personal profile daily points",
     )
     return {
         "id": PERSONAL_SOURCE_ID,
         "label": descriptor["label"],
         "basis": PERSONAL_SOURCE_BASIS,
+        "date_basis": PERSONAL_DATE_BASIS,
+        "completion_timezone": PERSONAL_COMPLETION_TIMEZONE,
         "starts_on": starts_on.isoformat(),
         "complete_through": complete_through.isoformat(),
         "points": points,
@@ -260,7 +342,7 @@ def validate_profile_snapshot(
 def validate_contributed_snapshot(
     value: Any,
     *,
-    today: date | None = None,
+    now: datetime | None = None,
 ) -> dict[str, Any]:
     """Validate one contributed daily source, such as an anonymized work feed.
 
@@ -269,18 +351,21 @@ def validate_contributed_snapshot(
     beside personal history without disclosing where the work happened.
     """
 
-    checked_today = today or datetime.now(timezone.utc).date()
+    checked_now = _checked_now(now)
     source = _exact_dict(value, CONTRIBUTED_KEYS, "contributed source")
     if type(source["schema"]) is not int or source["schema"] != 1:
         raise ActivityError("contributed source schema must be integer 1")
-    if source["timezone"] != "UTC":
+    if source["timezone"] != UTC_COMPLETION_TIMEZONE:
         raise ActivityError("contributed source timezone must be UTC")
 
     identifier = _source_id(source["id"], "contributed source id")
-    if identifier == PERSONAL_SOURCE_ID:
-        raise ActivityError("contributed source cannot reuse the personal id")
-    label = _text(source["label"], "contributed source label")
-    basis = _text(source["basis"], "contributed source basis")
+    contract = APPROVED_SOURCE_CONTRACTS.get(identifier)
+    if identifier == PERSONAL_SOURCE_ID or contract is None:
+        raise ActivityError("contributed source id is not approved for publication")
+    if source["label"] != contract["label"]:
+        raise ActivityError("contributed source label is not approved for publication")
+    if source["basis"] != contract["basis"]:
+        raise ActivityError("contributed source basis is not approved for publication")
 
     starts_on, complete_through = _validate_coverage(
         source["coverage"], "contributed source coverage"
@@ -289,13 +374,15 @@ def validate_contributed_snapshot(
         source["points"],
         starts_on=starts_on,
         complete_through=complete_through,
-        today=checked_today,
+        current_date=_calendar_today(checked_now, UTC_COMPLETION_TIMEZONE),
         label="contributed source points",
     )
     return {
         "id": identifier,
-        "label": label,
-        "basis": basis,
+        "label": contract["label"],
+        "basis": contract["basis"],
+        "date_basis": contract["date_basis"],
+        "completion_timezone": contract["completion_timezone"],
         "starts_on": starts_on.isoformat(),
         "complete_through": complete_through.isoformat(),
         "points": points,
@@ -339,12 +426,12 @@ def merge_sources(sources: list[dict[str, Any]]) -> dict[str, Any]:
         cursor += timedelta(days=1)
 
     return {
-        "schema": 4,
+        "schema": 5,
         "updated_on": complete_through.isoformat(),
-        "timezone": "UTC",
+        "date_basis": PUBLIC_DATE_BASIS,
         "scope": "code_activity",
         "sources": [
-            {key: source[key] for key in PUBLIC_SOURCE_KEYS} for source in sources
+            {key: source[key] for key in PUBLIC_SOURCE_FIELDS} for source in sources
         ],
         "coverage": {
             "starts_on": starts_on.isoformat(),
@@ -358,16 +445,16 @@ def merge_sources(sources: list[dict[str, Any]]) -> dict[str, Any]:
 def validate_public_snapshot(
     value: Any,
     *,
-    today: date | None = None,
+    now: datetime | None = None,
 ) -> dict[str, Any]:
     """Validate a published multi-source snapshot."""
 
-    checked_today = today or datetime.now(timezone.utc).date()
+    checked_now = _checked_now(now)
     source = _exact_dict(value, PUBLIC_KEYS, "public snapshot")
-    if type(source["schema"]) is not int or source["schema"] != 4:
-        raise ActivityError("public snapshot schema must be 4")
-    if source["timezone"] != "UTC":
-        raise ActivityError("public snapshot timezone must be UTC")
+    if type(source["schema"]) is not int or source["schema"] != 5:
+        raise ActivityError("public snapshot schema must be 5")
+    if source["date_basis"] != PUBLIC_DATE_BASIS:
+        raise ActivityError("public snapshot date basis is invalid")
     if source["scope"] != "code_activity":
         raise ActivityError("public snapshot scope is invalid")
 
@@ -385,8 +472,19 @@ def validate_public_snapshot(
         )
         if identifier in windows:
             raise ActivityError("public snapshot source ids must be unique")
-        _text(descriptor["label"], f"public snapshot sources[{index}].label")
-        _text(descriptor["basis"], f"public snapshot sources[{index}].basis")
+        contract = APPROVED_SOURCE_CONTRACTS.get(identifier)
+        if contract is None:
+            raise ActivityError("public snapshot source id is not approved")
+        if descriptor["label"] != contract["label"]:
+            raise ActivityError("public snapshot source label is not approved")
+        if descriptor["basis"] != contract["basis"]:
+            raise ActivityError("public snapshot source basis is not approved")
+        if descriptor["date_basis"] != contract["date_basis"]:
+            raise ActivityError("public snapshot source date basis is not approved")
+        if descriptor["completion_timezone"] != contract["completion_timezone"]:
+            raise ActivityError(
+                "public snapshot source completion timezone is not approved"
+            )
         source_start = _iso_date(
             descriptor["starts_on"], f"public snapshot sources[{index}].starts_on"
         )
@@ -396,11 +494,24 @@ def validate_public_snapshot(
         )
         if source_end < source_start:
             raise ActivityError(f"public snapshot sources[{index}] is reversed")
+        if source_end >= _calendar_today(
+            checked_now, descriptor["completion_timezone"]
+        ):
+            raise ActivityError(
+                f"public snapshot sources[{index}] must contain completed dates only"
+            )
         windows[identifier] = (source_start, source_end)
+
+    if PERSONAL_SOURCE_ID not in windows:
+        raise ActivityError("public snapshot must include the personal source")
+    if windows[PERSONAL_SOURCE_ID][0] != PERSONAL_HISTORY_START:
+        raise ActivityError("public snapshot personal source must start at the lifetime anchor")
 
     starts_on, complete_through = _validate_coverage(
         source["coverage"], "public snapshot coverage"
     )
+    if starts_on != PERSONAL_HISTORY_START:
+        raise ActivityError("public snapshot must start at the lifetime anchor")
     if starts_on != min(window[0] for window in windows.values()):
         raise ActivityError("public snapshot coverage must start with its sources")
     if complete_through != max(window[1] for window in windows.values()):
@@ -412,7 +523,9 @@ def validate_public_snapshot(
     if not isinstance(raw_points, list) or not raw_points:
         raise ActivityError("public snapshot points must be a non-empty array")
     if len(raw_points) != (complete_through - starts_on).days + 1:
-        raise ActivityError("public snapshot points must cover every UTC date")
+        raise ActivityError(
+            "public snapshot points must cover every source-calendar label"
+        )
 
     points: list[dict[str, Any]] = []
     expected = starts_on
@@ -423,8 +536,138 @@ def validate_public_snapshot(
         observed = _iso_date(raw_point["date"], f"{label}.date")
         if observed != expected:
             raise ActivityError("public snapshot dates must be contiguous")
-        if observed >= checked_today:
-            raise ActivityError("public snapshot must contain completed days only")
+        expected_ids = {
+            identifier
+            for identifier, (start, end) in windows.items()
+            if start <= observed <= end
+        }
+        if set(raw_point) != {"date", *expected_ids}:
+            raise ActivityError(f"{label} must carry exactly its covered sources")
+        row: dict[str, Any] = {"date": observed.isoformat()}
+        for identifier in sorted(expected_ids):
+            row[identifier] = _metrics(
+                _exact_dict(
+                    raw_point[identifier], set(METRICS), f"{label}.{identifier}"
+                ),
+                f"{label}.{identifier}",
+            )
+        points.append(row)
+        expected += timedelta(days=1)
+
+    return {
+        "schema": 5,
+        "updated_on": complete_through.isoformat(),
+        "date_basis": PUBLIC_DATE_BASIS,
+        "scope": "code_activity",
+        "sources": [
+            {key: descriptor[key] for key in PUBLIC_SOURCE_FIELDS}
+            for descriptor in raw_sources
+        ],
+        "coverage": {
+            "starts_on": starts_on.isoformat(),
+            "complete_through": complete_through.isoformat(),
+            "status": "complete",
+        },
+        "points": points,
+    }
+
+
+def _validate_legacy_previous_snapshot(
+    value: Any,
+    *,
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Validate schema 4 only as the one-way predecessor to schema 5.
+
+    Schema 4 incorrectly described every source label as UTC, so this result is
+    never eligible for current publication or browser rendering. It is retained
+    only long enough to prevent the schema migration from silently dropping a
+    source. Personal end labels may shift backward by at most one day across
+    the incompatible calendar contracts; larger regressions fail closed.
+    """
+
+    checked_now = _checked_now(now)
+    source = _exact_dict(value, LEGACY_PUBLIC_KEYS, "legacy public snapshot")
+    if type(source["schema"]) is not int or source["schema"] != 4:
+        raise ActivityError("legacy public snapshot schema must be 4")
+    if source["timezone"] != UTC_COMPLETION_TIMEZONE:
+        raise ActivityError("legacy public snapshot timezone must be UTC")
+    if source["scope"] != "code_activity":
+        raise ActivityError("legacy public snapshot scope is invalid")
+
+    raw_sources = source["sources"]
+    if not isinstance(raw_sources, list) or not raw_sources:
+        raise ActivityError("legacy public snapshot must declare at least one source")
+
+    windows: dict[str, tuple[date, date]] = {}
+    for index, raw_source in enumerate(raw_sources):
+        descriptor = _exact_dict(
+            raw_source,
+            LEGACY_PUBLIC_SOURCE_KEYS,
+            f"legacy public snapshot sources[{index}]",
+        )
+        identifier = _source_id(
+            descriptor["id"], f"legacy public snapshot sources[{index}].id"
+        )
+        if identifier in windows:
+            raise ActivityError("legacy public snapshot source ids must be unique")
+        contract = APPROVED_SOURCE_CONTRACTS.get(identifier)
+        if contract is None:
+            raise ActivityError("legacy public snapshot source id is not approved")
+        if descriptor["label"] != contract["label"]:
+            raise ActivityError("legacy public snapshot source label is not approved")
+        if descriptor["basis"] != contract["basis"]:
+            raise ActivityError("legacy public snapshot source basis is not approved")
+        source_start = _iso_date(
+            descriptor["starts_on"],
+            f"legacy public snapshot sources[{index}].starts_on",
+        )
+        source_end = _iso_date(
+            descriptor["complete_through"],
+            f"legacy public snapshot sources[{index}].complete_through",
+        )
+        if source_end < source_start:
+            raise ActivityError(f"legacy public snapshot sources[{index}] is reversed")
+        if source_end >= _calendar_today(checked_now, UTC_COMPLETION_TIMEZONE):
+            raise ActivityError(
+                f"legacy public snapshot sources[{index}] must contain completed UTC dates only"
+            )
+        windows[identifier] = (source_start, source_end)
+
+    if PERSONAL_SOURCE_ID not in windows:
+        raise ActivityError("legacy public snapshot must include the personal source")
+    if windows[PERSONAL_SOURCE_ID][0] != PERSONAL_HISTORY_START:
+        raise ActivityError(
+            "legacy public snapshot personal source must start at the lifetime anchor"
+        )
+
+    starts_on, complete_through = _validate_coverage(
+        source["coverage"], "legacy public snapshot coverage"
+    )
+    if starts_on != PERSONAL_HISTORY_START:
+        raise ActivityError("legacy public snapshot must start at the lifetime anchor")
+    if starts_on != min(window[0] for window in windows.values()):
+        raise ActivityError("legacy public snapshot coverage must start with its sources")
+    if complete_through != max(window[1] for window in windows.values()):
+        raise ActivityError("legacy public snapshot coverage must end with its sources")
+    if source["updated_on"] != complete_through.isoformat():
+        raise ActivityError("legacy public snapshot updated_on must match coverage")
+
+    raw_points = source["points"]
+    if not isinstance(raw_points, list) or not raw_points:
+        raise ActivityError("legacy public snapshot points must be a non-empty array")
+    if len(raw_points) != (complete_through - starts_on).days + 1:
+        raise ActivityError("legacy public snapshot points must cover every UTC date")
+
+    points: list[dict[str, Any]] = []
+    expected = starts_on
+    for index, raw_point in enumerate(raw_points):
+        label = f"legacy public snapshot points[{index}]"
+        if not isinstance(raw_point, dict) or "date" not in raw_point:
+            raise ActivityError(f"{label} must be a dated object")
+        observed = _iso_date(raw_point["date"], f"{label}.date")
+        if observed != expected:
+            raise ActivityError("legacy public snapshot dates must be contiguous")
         expected_ids = {
             identifier
             for identifier, (start, end) in windows.items()
@@ -446,10 +689,10 @@ def validate_public_snapshot(
     return {
         "schema": 4,
         "updated_on": complete_through.isoformat(),
-        "timezone": "UTC",
+        "timezone": UTC_COMPLETION_TIMEZONE,
         "scope": "code_activity",
         "sources": [
-            {key: descriptor[key] for key in PUBLIC_SOURCE_KEYS}
+            {key: descriptor[key] for key in LEGACY_PUBLIC_SOURCE_FIELDS}
             for descriptor in raw_sources
         ],
         "coverage": {
@@ -461,31 +704,79 @@ def validate_public_snapshot(
     }
 
 
+def validate_previous_public_snapshot(
+    value: Any,
+    *,
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Validate a current snapshot or the one supported schema-4 predecessor."""
+
+    if isinstance(value, dict) and value.get("schema") == 4:
+        return _validate_legacy_previous_snapshot(value, now=now)
+    return validate_public_snapshot(value, now=now)
+
+
 def build_public_snapshot(
     profile: Any,
     *,
     contributed: list[Any] | None = None,
     previous: Any = None,
-    today: date | None = None,
+    now: datetime | None = None,
 ) -> tuple[dict[str, Any], bool]:
     """Project every validated source into the public contract."""
 
-    sources = [validate_profile_snapshot(profile, today=today)]
+    sources = [validate_profile_snapshot(profile, now=now)]
     for candidate in contributed or []:
-        sources.append(validate_contributed_snapshot(candidate, today=today))
-    payload = validate_public_snapshot(merge_sources(sources), today=today)
+        sources.append(validate_contributed_snapshot(candidate, now=now))
+    payload = validate_public_snapshot(merge_sources(sources), now=now)
     if previous is None:
         return payload, True
 
-    checked_previous = validate_public_snapshot(previous, today=today)
-    if date.fromisoformat(payload["coverage"]["complete_through"]) < date.fromisoformat(
+    checked_previous = validate_previous_public_snapshot(previous, now=now)
+    migrating_legacy = checked_previous["schema"] == 4
+    next_coverage_end = date.fromisoformat(payload["coverage"]["complete_through"])
+    previous_coverage_end = date.fromisoformat(
         checked_previous["coverage"]["complete_through"]
-    ):
+    )
+    legacy_calendar_allowance = timedelta(days=1) if migrating_legacy else timedelta()
+    if next_coverage_end + legacy_calendar_allowance < previous_coverage_end:
         raise ActivityError("code activity coverage cannot move backward")
     if date.fromisoformat(payload["coverage"]["starts_on"]) > date.fromisoformat(
         checked_previous["coverage"]["starts_on"]
     ):
         raise ActivityError("code activity coverage cannot lose earlier history")
+
+    previous_windows = {
+        descriptor["id"]: descriptor for descriptor in checked_previous["sources"]
+    }
+    next_windows = {descriptor["id"]: descriptor for descriptor in payload["sources"]}
+    missing_sources = sorted(set(previous_windows) - set(next_windows))
+    if missing_sources:
+        raise ActivityError(
+            "code activity cannot remove a published source without an explicit retirement: "
+            + ", ".join(missing_sources)
+        )
+    for identifier, previous_descriptor in previous_windows.items():
+        next_descriptor = next_windows[identifier]
+        if date.fromisoformat(next_descriptor["starts_on"]) > date.fromisoformat(
+            previous_descriptor["starts_on"]
+        ):
+            raise ActivityError(
+                f"code activity source {identifier} cannot lose earlier history"
+            )
+        source_calendar_allowance = (
+            timedelta(days=1)
+            if migrating_legacy and identifier == PERSONAL_SOURCE_ID
+            else timedelta()
+        )
+        if (
+            date.fromisoformat(next_descriptor["complete_through"])
+            + source_calendar_allowance
+            < date.fromisoformat(previous_descriptor["complete_through"])
+        ):
+            raise ActivityError(
+                f"code activity source {identifier} cannot move backward"
+            )
     return payload, payload != checked_previous
 
 
@@ -578,7 +869,15 @@ def main() -> int:
         print(f"code activity rejected: {error}", file=__import__("sys").stderr)
         return 1
 
-    print("code activity updated" if changed else "code activity valid")
+    if changed:
+        status = (
+            "code activity valid (would update)"
+            if args.check
+            else "code activity updated"
+        )
+    else:
+        status = "code activity valid"
+    print(status)
     return 0
 
 

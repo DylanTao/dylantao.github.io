@@ -6,8 +6,8 @@ on:
     paths:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
-      - "_data/github_activity.json"
       - "_data/code_activity.json"
+      - "_data/code_activity_sources/**"
       - "assets/data/codex-profile-usage.json"
       - "bin/import_code_activity.py"
       - "test/test_import_code_activity.py"
@@ -18,8 +18,8 @@ on:
     paths:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
-      - "_data/github_activity.json"
       - "_data/code_activity.json"
+      - "_data/code_activity_sources/**"
       - "assets/data/codex-profile-usage.json"
       - "bin/import_code_activity.py"
       - "test/test_import_code_activity.py"
@@ -58,6 +58,11 @@ jobs:
       - name: Validate direct tracker and privacy contracts
         run: python -m unittest discover -s test -p 'test_*.py'
 
+      - name: Validate code-activity source allowlist
+        run: >-
+          python -m unittest
+          test.test_github_activity_privacy.GithubActivityPrivacyTests.test_checked_in_code_activity_uses_approved_source_contracts
+
       - name: Validate generated diff whitespace
         run: git diff --check HEAD^ HEAD
 
@@ -67,21 +72,22 @@ jobs:
           if git grep -nEi '(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|sk-(proj-)?[A-Za-z0-9_-]{20,}|access[_-]?token|refresh[_-]?token|account[_-]?id|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
             _data/agentic_usage.yml \
             _data/direct_usage_tracker.json \
-            _data/github_activity.json \
             _data/code_activity.json \
+            _data/code_activity_sources \
             assets/data/codex-profile-usage.json \
             docs/agentic-usage-ledger.md; then
             echo "Generated metrics contain a forbidden credential-shaped field." >&2
             exit 1
           fi
 
-      - name: Enforce identity-free personal activity
+      - name: Enforce identity-free code activity
         shell: bash
         run: |
           # Identity fields are matched as JSON keys, so a count field such
           # as "authored_commits" is not mistaken for commit-author identity.
           if git grep -niE '"(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp)"' -- \
-            _data/code_activity.json; then
-            echo "Personal code activity contains forbidden source metadata." >&2
+            _data/code_activity.json \
+            _data/code_activity_sources; then
+            echo "Code activity contains forbidden source metadata." >&2
             exit 1
           fi

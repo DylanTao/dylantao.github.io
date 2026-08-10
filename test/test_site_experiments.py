@@ -515,8 +515,11 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual(source.count("<span>How</span>"), 1)
         for phrase in (
             "How to read the rhythm",
-            "Daily GitHub cadence",
-            "Commits mark active days.",
+            "Daily code cadence",
+            "Reported commits mark active calendar labels.",
+            "daily code activity by named source",
+            "the soft band between them shows merges and deploys",
+            "exact schema-5 source-calendar coverage validates for every named source",
             "Site-token rhythm",
             "Personal agent days",
             "Account identities and per-account readings stay private",
@@ -526,6 +529,9 @@ class SiteExperimentsTests(unittest.TestCase):
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
+        self.assertNotIn("five years", source.lower())
+        self.assertNotIn("five-year", source.lower())
+        self.assertNotIn("schema-3", source.lower())
         self.assertIn('class="project-story-disclosure"', source)
         self.assertEqual(source.count('class="site-experiment-ledger"'), 1)
         self.assertLess(source.index('aria-label="Build Rhythm summary"'), source.index('class="project-story-beats"'))

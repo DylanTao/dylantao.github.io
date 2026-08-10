@@ -17,7 +17,6 @@ on:
     paths-ignore:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
-      - "_data/github_activity.json"
       - "_data/code_activity.json"
       - "assets/data/codex-profile-usage.json"
   pull_request:
@@ -25,7 +24,6 @@ on:
     paths-ignore:
       - "_data/agentic_usage.yml"
       - "_data/direct_usage_tracker.json"
-      - "_data/github_activity.json"
       - "_data/code_activity.json"
       - "assets/data/codex-profile-usage.json"
   schedule:

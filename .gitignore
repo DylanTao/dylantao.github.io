@@ -18,5 +18,6 @@ al-folio-upgrade-report.md
 .codex/.ledger-audit-stamp
 node_modules/
 output/playwright/
+playwright-report/
 test-results/
 vendor

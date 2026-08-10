@@ -9,8 +9,8 @@ on:
       - "assets/**"
       - "_plugins/**"
       - "_data/direct_usage_tracker.json"
-      - "_data/github_activity.json"
       - "_data/code_activity.json"
+      - "_data/code_activity_sources/**"
       - "**.bib"
       - "**.html"
       - "**.js"
@@ -44,8 +44,8 @@ on:
       - "assets/**"
       - "_plugins/**"
       - "_data/direct_usage_tracker.json"
-      - "_data/github_activity.json"
       - "_data/code_activity.json"
+      - "_data/code_activity_sources/**"
       - "**.bib"
       - "**.html"
       - "**.js"
@@ -71,7 +71,7 @@ on:
       - "!docs/FAQ.md"
       - "!docs/INSTALL.md"
       - "!README.md"
-  # The two data-refresh workflows (citations, personal code activity) commit with
+  # The two data-refresh workflows (citations, code activity) commit with
   # GITHUB_TOKEN, and such pushes deliberately do not trigger other workflows -- so
   # their data would otherwise sit unpublished until an unrelated human push. This
   # daily run is the backstop that publishes them, and it needs no extra token or

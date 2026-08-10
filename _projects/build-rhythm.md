@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build Rhythm
-description: "A page for seeing when I build: personal GitHub days, completed personal agent usage, and this site's separate daily token estimate."
+description: "A page for seeing when I build: daily code activity by source, completed personal agent usage, and this site's separate daily token estimate."
 img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
 image_aspect: 351 / 254
 card_avoid_scaling: true
@@ -20,10 +20,10 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen July 11, 2026</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      Build Rhythm is where I go to see when the work bunches up. It shows five years of personal GitHub activity by day, completed personal agent usage, and this site's separate rounded token estimate by day. The charts give me the shape; the tables keep the exact values close by.
+      Build Rhythm is where I go to see when the work bunches up. It shows daily code activity by named source, completed personal agent usage, and this site's separate rounded token estimate by day. The charts give me the shape; the tables keep the reported values close by.
     </p>
     <div class="project-case-facts">
-      <span>Daily GitHub cadence</span>
+      <span>Daily code cadence</span>
       <span>Daily repo-token estimate</span>
       <span>Completed personal agent days</span>
       <span>Accessible source tables</span>
@@ -50,13 +50,13 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Build Rhythm summary">
   <div><span>Why</span><p>I had plenty of logs, but no quick way to see the bursts and quiet stretches.</p></div>
-  <div><span>What</span><p>Personal code days with optional personal agent coverage, plus this site's separate token days.</p></div>
+  <div><span>What</span><p>Code days by named source with optional personal agent coverage, plus this site's separate token days.</p></div>
   <div><span>How</span><p>Read the guided charts first, then open the keyboard-readable values behind them.</p></div>
 </section>
 
 ## Why I rebuilt it
 
-An earlier version put GitHub activity and source-linked token history in one workbench. They looked like one story even though they used different evidence and clocks. The current version admits personal code history only after every completed UTC day validates, keeps the combined personal agent series on its own evidence boundary, and leaves this site's retained-log estimate separate.
+An earlier version put GitHub activity and source-linked token history in one workbench. They looked like one story even though they used different evidence and clocks. The current version admits code history only after every declared source window validates, keeps the combined personal agent series on its own evidence boundary, and leaves this site's retained-log estimate separate.
 
 <ol class="project-story-beats" aria-label="Build Rhythm turning points">
   <li class="project-story-beat">
@@ -71,8 +71,8 @@ An earlier version put GitHub activity and source-linked token history in one wo
   </li>
   <li class="project-story-beat">
     <p class="project-case-kicker">Current version</p>
-    <h3>The shared axis now carries only observations.</h3>
-    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily rhythm without folding it into account usage. The explorer can add completed personal agent days on the same five-year date domain, while the site-token rhythm remains its own chapter.</p>
+    <h3>Each clock now carries only observations.</h3>
+    <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily rhythm without folding it into account usage. The explorer keeps completed personal agent days in an independently dated inset that begins with its first observed day instead of stretching that shorter record across the lifetime code domain. The site-token rhythm remains its own chapter.</p>
   </li>
 </ol>
 
@@ -82,8 +82,8 @@ Start with the question you have. Each chart uses the unit and clock that fit it
 
 <section class="project-case-summary project-story-signal-grid" aria-label="How to read the three Build Rhythm signals">
   <div>
-    <h3>GitHub cadence</h3>
-    <p><strong>When did the work bunch up?</strong> Commits mark active days. Added and deleted lines show how large each change was.</p>
+    <h3>Code cadence</h3>
+    <p><strong>When did the work bunch up?</strong> Reported commits mark active calendar labels. The quiet outer line is the total across visible sources; the crisp inner line keeps authored work, and the soft band between them shows merges and deploys. Added and deleted repository-text lines use only that authored subset's first-parent diffs.</p>
   </div>
   <div>
     <h3>Site-token rhythm</h3>
@@ -109,7 +109,7 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
   <summary>Full technical revision record</summary>
   <div class="project-story-disclosure-body">
     <p><strong>Hero evidence:</strong> the current screenshot asset was committed July 16 at <code>c613c7b0f</code>. Its original viewport, theme, and interaction state were not retained, so it documents interface anatomy.</p>
-    <p><strong>Data contract:</strong> Three signals, never one score. Personal code history appears only after exact schema-3 UTC coverage validates. The personal agent layer accepts only sanitized family-conserving completed-day totals with a valid provenance tuple, and deduplicated retained logs attributed to this repo form the separate site rhythm.</p>
+    <p><strong>Data contract:</strong> Three signals, never one score. Code history appears only after exact schema-5 source-calendar coverage validates for every named source. Personal uses GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels, so matching labels do not pretend to be one shared 24-hour window. The personal agent layer accepts only sanitized family-conserving completed-day totals with a valid provenance tuple, and deduplicated retained logs attributed to this repo form the separate site rhythm.</p>
     <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
       <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
       <li><time datetime="2026-07-12">Jul 12</time><code>71b8f4c89</code><span>Added Codex token history beside the GitHub view, creating the crowded state that the next revision separated.</span></li>

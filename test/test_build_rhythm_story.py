@@ -62,11 +62,12 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-method"'),
         )
 
-    def test_code_activity_schema4_gate_replaces_the_retired_lifetime_strip(self) -> None:
+    def test_code_activity_schema5_gate_replaces_the_retired_lifetime_strip(self) -> None:
         for contract in (
             "site.data.code_activity",
             'id="code-activity-data"',
-            'code_activity.schema == 4',
+            'code_activity.schema == 5',
+            'code_activity.date_basis == "source_reported_calendar"',
             'code_activity.scope == "code_activity"',
             'code_activity.coverage.status == "complete"',
             'code_activity.sources and code_activity.sources.size > 0',
@@ -92,6 +93,17 @@ class BuildRhythmStoryTests(unittest.TestCase):
         # refresh can only extend history forward.
         self.assertNotIn("fiveCalendarYearsBefore", self.script)
         self.assertIn("const validCodeActivitySource = (candidate) =>", self.script)
+        self.assertIn('basis: "github_contribution_parity"', self.script)
+        self.assertIn('dateBasis: "github_profile_author_date"', self.script)
+        self.assertIn('completionTimeZone: "America/Los_Angeles"', self.script)
+        self.assertIn('basis: "reported_daily_summary"', self.script)
+        self.assertIn('dateBasis: "utc_calendar_date"', self.script)
+        self.assertIn("parsed.toISOString().slice(0, 10) === value", self.script)
+        self.assertIn("candidate.coverage.starts_on !== codeActivitySourceContracts.personal.startsOn", self.script)
+        self.assertIn("startsOn.getTime() !== Math.min(...sourceStarts)", self.script)
+        self.assertIn("completeThrough.getTime() !== Math.max(...sourceEnds)", self.script)
+        self.assertIn('candidate.date_basis !== "source_reported_calendar"', self.script)
+        self.assertIn("calendarLabelFor(new Date(), descriptor.completion_timezone)", self.script)
         self.assertIn("entry.authored_commits <= entry.commits", self.script)
         self.assertNotIn('fetch(remoteSource', self.script)
         self.assertIn("validate_profile_snapshot", self.code_activity_importer)
@@ -128,6 +140,23 @@ class BuildRhythmStoryTests(unittest.TestCase):
         )
         self.assertIn('root.dataset.state = "unavailable";', self.script)
         self.assertNotIn("validLegacyActivitySource", self.script)
+
+    def test_source_bands_and_deferred_table_preserve_evidence_boundaries(self) -> None:
+        for contract in (
+            "row.hasVisibleSource",
+            "lower.map((value, position)",
+            "renderLegend({ restoreFocusTo:",
+            "updateLegendColors();",
+            'mixedCalendarLabels ? "DATE LABEL" : "DAY"',
+            'visibleSources.size > 1 ? "DATE LABELS" : "DAILY"',
+            "let renderedTableRevision = -1;",
+            "drawChart({ refreshTable: false })",
+        ):
+            with self.subTest(contract=contract):
+                self.assertIn(contract, self.script)
+        self.assertIn("@media (max-width: 820px)", self.style)
+        self.assertIn("min-width: 68rem", self.style)
+        self.assertNotIn("body.github-activity-body #back-to-top", self.style)
 
     def test_daily_story_domain_ends_on_the_last_verified_day(self) -> None:
         self.assertIn(
@@ -172,7 +201,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('data-token-rhythm', self.page)
         self.assertIn("Site-build token rhythm", self.page)
         self.assertIn("Rounded increase", self.page)
-        self.assertIn('<summary id="github-activity-token-table-title">Exact daily values</summary>', self.page)
+        self.assertIn('<summary id="github-activity-token-table-title">Reported rounded daily values</summary>', self.page)
         self.assertIn("The same rounded series, row by row.", self.page)
         self.assertNotIn('<details class="github-activity-token-evidence" data-token-rhythm-details open>', self.page)
         self.assertIn("biggest adjacent jump was", self.page)
@@ -187,11 +216,11 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for phrase in (
             "I wanted the logs to show where the work bunches up.",
             "First, I look for the bursts.",
-            "Commit count tells me when. Line changes tell me how much.",
+            "Total commits tell me when. Authored line changes tell me how much.",
             "One giant day was flattening everything else.",
             "Now read the whole rhythm yourself.",
             "personal agent history",
-            "compare how the rhythms line up.",
+            "compare the shorter recent rhythm without stretching it across the lifetime view.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
@@ -285,10 +314,27 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for selector in frozen_page_selectors:
             with self.subTest(selector=selector):
                 self.assertIn(selector, self.page)
-        self.assertIn('class: "github-activity-commit-line"', self.script)
+        self.assertIn('tableBody.dataset.state = "deferred"', self.script)
+        self.assertIn('tableDisclosure.addEventListener("toggle"', self.script)
+        self.assertIn(
+            'class: "github-activity-commit-line github-activity-authored-line"',
+            self.script,
+        )
+        self.assertIn('class: "github-activity-commit-total-line"', self.script)
+        self.assertIn(
+            'class: "github-activity-commit-area github-activity-commit-gap-band"',
+            self.script,
+        )
+        self.assertNotIn("data-count-mode", self.page)
+        self.assertIn("The quiet outer line is the reported total across visible sources.", self.page)
+        self.assertIn("The crisp inner line is authored commits", self.page)
+        self.assertIn("the soft band between them is merges and deploys", self.page)
+        self.assertIn("Total and authored commits plus", self.script)
         self.assertIn('class: "github-activity-commit-source-area"', self.script)
         self.assertIn('class: "github-activity-add-line"', self.script)
         self.assertIn('class: "github-activity-remove-line"', self.script)
+        self.assertIn('item.className = "github-activity-legend-item is-static"', self.script)
+        self.assertIn('legendLabel.textContent = multiSource ? "Sources" : "Source"', self.script)
 
     def test_daily_usage_is_exact_only_without_lifetime_fallbacks(self) -> None:
         self.assertEqual(self.page.count("data-codex-usage"), 1)
@@ -302,7 +348,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('aria-describedby="github-activity-lifetime-status"', self.page)
         self.assertIn("data-agent-composition", self.page)
         self.assertNotIn("data-agent-history-chart", self.page)
-        self.assertIn("<th scope=\"col\">Agent tokens</th>", self.page)
+        self.assertIn("<th scope=\"col\">Agent tokens (UTC label)</th>", self.page)
         self.assertIn("<th scope=\"col\">Cumulative tokens</th>", self.page)
         self.assertIn("initCodexUsageSnapshot()", self.script)
         self.assertNotIn("renderCodexUsageScale", self.script)
@@ -362,12 +408,15 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("Claude area", self.page)
         self.assertIn("TOTAL LINE", self.script)
         self.assertIn('name: "github-agent-history"', self.script)
-        self.assertIn("const drawSharedAgentRail =", self.script)
+        self.assertIn("const drawAgentInset =", self.script)
         self.assertIn("const drawAgents =", self.script)
         self.assertIn('targetScene === "agents"', self.script)
-        self.assertIn("domainStart: domain.start", self.script)
-        self.assertIn("domainEnd: domain.end", self.script)
+        self.assertIn("const start = points[0].date.getTime()", self.script)
+        self.assertIn("const end = points.at(-1).date.getTime()", self.script)
+        self.assertIn("date.getTime() - start", self.script)
         self.assertIn("const selectedDomain = () =>", self.script)
+        self.assertIn("const end = sourceEnd;", self.script)
+        self.assertNotIn("latestAgentDate", self.script)
         self.assertIn("familyTotals.codex / exactTotal", self.script)
         self.assertIn("point.tokens", self.script)
         self.assertIn("tokenTotal += point.tokens", self.script)
@@ -385,13 +434,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertNotIn("drawLifetimeHistory", self.script)
         self.assertNotIn("agentFamilyHeadline", self.script)
         self.assertNotIn("lifetimeRangeSummary", self.script)
-        self.assertIn('y2: plotBottom', self.script)
-        self.assertIn('height: plotBottom - plotTop', self.script)
+        self.assertIn('y2: lineBottom', self.script)
+        self.assertIn('height: lineBottom - plotTop', self.script)
         self.assertIn("let codexSourceSettled = false;", self.script)
         self.assertNotIn("History loading", self.script)
         self.assertNotIn("History unavailable", self.script)
         self.assertNotIn("SNAPSHOT FALLBACK", self.script)
-        self.assertIn("leaves unobserved history blank instead of inventing zeros", self.heuristics)
+        self.assertIn("Leave code-history labels outside agent coverage without a marker instead of inventing zeros", self.heuristics)
 
     def test_lifetime_cost_replay_is_schema4_sanitized_and_caveated(self) -> None:
         self.assertIn('class="github-activity-lifetime-cost" data-codex-cost hidden', self.page)
@@ -416,7 +465,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
     def test_case_study_and_reproduction_match_all_three_sources(self) -> None:
         for phrase in (
             "completed personal agent usage",
-            "The shared axis now carries only observations.",
+            "Each clock now carries only observations.",
             "7e224db12",
             "Three signals, never one score",
             "deduplicated retained logs attributed to this repo",
@@ -427,22 +476,25 @@ class BuildRhythmStoryTests(unittest.TestCase):
 
         for phrase in (
             "code cadence",
-            "one daily UTC calendar",
+            "each code source on its declared calendar",
             "daily commits",
-            "same selected day",
+            "same selected source-calendar label",
             "Never add it to the repo-scoped retained-session estimate",
-            "exact schema-4 source with UTC timezone",
+            "exact schema-5 source-calendar contract",
             "Code history is being rebuilt.",
             "The exact point keys are `date`, `token_count`, and `tokens_label`",
             "server-rendered daily token summary and table",
             "Differences between adjacent rounded points are rounded increases, not exact daily usage.",
+            "uses an explicit independent date domain",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
 
-        self.assertIn("Code history appears only after an exact schema-4 source", self.heuristics)
+        self.assertIn("Code history appears only after an exact schema-5 source-calendar contract", self.heuristics)
+        self.assertIn("Matching `YYYY-MM-DD` labels", self.heuristics)
         self.assertIn("one compact `Code history is being rebuilt.` state", self.heuristics)
-        self.assertIn("`commits` reproduces the GitHub contribution graph", self.heuristics)
+        self.assertIn("each source's `commits` is its reported total", self.heuristics)
+        self.assertIn("do not extend that claim to other sources or a combined total", self.heuristics)
         self.assertIn("`authored_commits` is the non-merge, non-deploy subset", self.heuristics)
         self.assertIn("`total.token_rhythm` reprojects those same deduplicated repo events", self.ledger_doc)
         self.assertIn("each point contains only `date`, `token_count`, and `tokens_label`", self.ledger_doc)

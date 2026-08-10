@@ -20,11 +20,34 @@
     day: "numeric",
     timeZone: "UTC",
   });
+  const monthYear = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
   const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
   const DAY_MS = 86_400_000;
   const CODEX_DAILY_HISTORY_START = "2026-04-30";
   const CLAUDE_DAILY_HISTORY_START = "2026-07-29";
-  const utcDate = (value) => new Date(`${value}T00:00:00Z`);
+  // Calendar-only labels use a UTC-midnight Date as a stable arithmetic and
+  // formatting surrogate. This does not turn a source-reported label into a
+  // shared UTC interval.
+  const calendarDate = (value) => new Date(`${value}T00:00:00Z`);
+  const utcDate = calendarDate;
+  const calendarLabelFor = (instant, timeZone) => {
+    const parts = Object.fromEntries(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+        .formatToParts(instant)
+        .filter(({ type }) => type !== "literal")
+        .map(({ type, value }) => [type, value])
+    );
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  };
   const svgElement = (name, attributes = {}) => {
     const node = document.createElementNS(NS, name);
     Object.entries(attributes).forEach(([key, value]) => node.setAttribute(key, String(value)));
@@ -59,8 +82,13 @@
       .map(([x, y]) => `L ${x.toFixed(2)} ${y.toFixed(2)}`)
       .join(" ")} Z`;
   };
-  const isIsoDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  const isIsoDate = (value) => {
+    if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const parsed = utcDate(value);
+    return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  };
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
+  const commitCountLabel = (value, qualifier) => `${number.format(value)} ${qualifier} ${value === 1 ? "commit" : "commits"}`;
   const lineChanges = (row) => row.additions + row.deletions;
   const niceLinearScale = (maximum, count = 4) => {
     const rough = Math.max(1, maximum) / Math.max(1, count);
@@ -335,9 +363,13 @@
     }
     return { points, x, y };
   };
-  const drawSharedAgentRail = (group, { source, domainStart, domainEnd, x, top, bottom, left, right, colors }) => {
-    const points = lifetimeHistoryRows(source).filter((point) => point.date >= domainStart && point.date <= domainEnd);
+  const drawAgentInset = (group, { source, top, bottom, left, right, dateY, colors }) => {
+    const points = lifetimeHistoryRows(source);
     if (!points.length) return null;
+    const start = points[0].date.getTime();
+    const end = points.at(-1).date.getTime();
+    const span = Math.max(1, end - start);
+    const x = (date) => (points.length === 1 ? (left + right) / 2 : left + ((date.getTime() - start) / span) * (right - left));
     const maximum = Math.max(source.combined_lifetime.token_count, ...points.map((point) => point.tokenCount), 1);
     const linear = niceLinearScale(maximum, 2);
     const y = (value) => bottom - (value / linear.domainMaximum) * (bottom - top);
@@ -407,7 +439,21 @@
         })
       );
     });
-    return { points, y };
+    addText(group, shortDate.format(points[0].date), points.length === 1 ? (left + right) / 2 : left, dateY, {
+      anchor: points.length === 1 ? "middle" : "start",
+      color: colors.muted,
+      size: 10,
+      className: "github-activity-agent-rail-date-start",
+    });
+    if (points.length > 1) {
+      addText(group, shortDate.format(points.at(-1).date), right, dateY, {
+        anchor: "end",
+        color: colors.muted,
+        size: 10,
+        className: "github-activity-agent-rail-date-end",
+      });
+    }
+    return { points, x, y };
   };
   const drawTokenRhythm = (group, tokenRows, width, height, colors) => {
     const left = width < 620 ? 58 : 64;
@@ -478,7 +524,7 @@
     return `Latest rounded estimate \u00b7 ${latest.tokensLabel} \u00b7 ${fullDate.format(latest.date)}. Biggest adjacent jump \u00b7 ${compactNumber.format(dailyDeltas[largestIndex])} \u00b7 ${fullDate.format(tokenRows[largestIndex].date)}.`;
   };
 
-  const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise }) => {
+  const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise, mixedCalendarLabels = false }) => {
     const storyRoot = document.querySelector("[data-build-rhythm-story]");
     if (!storyRoot || !githubRows.length || !tokenRows.length) return;
 
@@ -496,6 +542,9 @@
     const compactQuery = window.matchMedia("(max-width: 820px)");
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const storyGithubRows = githubRows;
+    const storyDateUnit = mixedCalendarLabels ? "DATE LABEL" : "DAY";
+    const storyDateUnitLower = mixedCalendarLabels ? "date label" : "day";
+    const storyDatePlural = mixedCalendarLabels ? "date labels" : "days";
     let codexSource = null;
     let activeScene = "cadence";
     let renderedScene = null;
@@ -553,7 +602,7 @@
       const baseline = height - bottom;
       const domainMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
 
-      addText(group, "COMMITS / DAY \u00b7 READABLE LOG1P", left, 20, { color: colors.accent, weight: 700 });
+      addText(group, `COMMITS / ${storyDateUnit} \u00b7 READABLE LOG1P`, left, 20, { color: colors.accent, weight: 700 });
       const series = drawSeries(
         group,
         storyGithubRows,
@@ -570,7 +619,7 @@
         colors,
       });
       const busiest = storyGithubRows.reduce((best, row) => (row.commits > best.commits ? row : best));
-      return `Busiest day in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits.`;
+      return `Busiest ${storyDateUnitLower} in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits.`;
     };
 
     const drawMagnitude = (group, width, height, colors) => {
@@ -581,7 +630,7 @@
       const baseline = (top + height - bottom) / 2;
       const maximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
 
-      addText(group, "LINES CHANGED / DAY \u00b7 READABLE SYMLOG", left, 20, { color: colors.text, weight: 700 });
+      addText(group, `LINES CHANGED / ${storyDateUnit} \u00b7 READABLE SYMLOG`, left, 20, { color: colors.text, weight: 700 });
       addText(group, "+ added", left, 38, { color: colors.added, weight: 650 });
       addText(group, "\u2212 removed", left + 78, 38, { color: colors.removed, weight: 650 });
       const bounds = { left, right: width - right, top, bottom: height - bottom, baseline };
@@ -609,7 +658,7 @@
         format: (value) => (value === 0 ? "0" : `${value > 0 ? "+" : "\u2212"}${compactNumber.format(Math.abs(value))}`),
       });
       const largest = storyGithubRows.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
-      return `Biggest line-change day \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
+      return `Biggest line-change ${storyDateUnitLower} \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
     };
 
     const drawBursts = (group, width, height, colors) => {
@@ -649,7 +698,7 @@
         });
       });
       const peak = storyGithubRows[peakIndex];
-      return `Same days, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
+      return `Same ${storyDatePlural}, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
     };
 
     const drawTokens = (group, width, height, colors) => {
@@ -690,7 +739,10 @@
       const commitTop = 26;
       const commitBottom = Math.max(76, height * 0.2);
       const commitMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
-      addText(group, compact ? "COMMITS / DAY" : "COMBINED \u00b7 COMMITS / DAY", left, 16, { color: colors.accent, weight: 700 });
+      addText(group, compact ? `COMMITS / ${storyDateUnit}` : `COMBINED \u00b7 COMMITS / ${storyDateUnit}`, left, 16, {
+        color: colors.accent,
+        weight: 700,
+      });
       const commitSeries = drawSeries(
         group,
         storyGithubRows,
@@ -711,10 +763,16 @@
       const lineBottom = height - 28;
       const lineBaseline = (lineTop + lineBottom) / 2;
       const lineMaximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
-      addText(group, compact ? "+ ADDED / \u2212 REMOVED" : "SAME DAYS \u00b7 + ADDED / \u2212 REMOVED", left, lineTop - 12, {
-        color: colors.muted,
-        weight: 700,
-      });
+      addText(
+        group,
+        compact ? "+ ADDED / \u2212 REMOVED" : `SAME ${storyDatePlural.toUpperCase()} \u00b7 + ADDED / \u2212 REMOVED`,
+        left,
+        lineTop - 12,
+        {
+          color: colors.muted,
+          weight: 700,
+        }
+      );
       const lineBounds = { left, right: width - right, top: lineTop, bottom: lineBottom, baseline: lineBaseline };
       const additionsSeries = drawSeries(group, storyGithubRows, (row) => row.additions, lineBounds, {
         color: colors.added,
@@ -763,12 +821,14 @@
       });
       group.prepend(timeGrid);
 
-      return "The whole record, day by day \u00b7 commits and line movement.";
+      return mixedCalendarLabels
+        ? "The whole record across source-reported date labels \u00b7 commits and line movement."
+        : "The whole record, day by day \u00b7 commits and line movement.";
     };
 
     const metadata = {
-      cadence: { label: "WHEN", scope: "LIFETIME \u00b7 DAILY" },
-      magnitude: { label: "HOW MUCH MOVED", scope: "LIFETIME \u00b7 DAILY" },
+      cadence: { label: "WHEN", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
+      magnitude: { label: "HOW MUCH MOVED", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
       tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
       agents: { label: "PERSONAL AGENTS", scope: "OBSERVED DAYS \u00b7 CUMULATIVE" },
@@ -1284,6 +1344,7 @@
   const dataNode = document.getElementById("code-activity-data");
   const tokenDataNode = document.getElementById("build-rhythm-token-data");
   if (!root || !dataNode) return;
+  document.body.classList.add("github-activity-body");
   const availabilityBadge = root.querySelector("[data-github-scope]");
 
   const hasExactKeys = (value, keys) =>
@@ -1292,31 +1353,54 @@
     !Array.isArray(value) &&
     Object.keys(value).length === keys.length &&
     keys.every((key) => Object.hasOwn(value, key));
-  // `commits` is every commit GitHub credits; `authored_commits` is the non-merge,
-  // non-deploy subset that owns the line counts. A day that reports lines without
-  // an authored commit is malformed rather than merely empty.
+  // `commits` is each source's reported total; for Personal, that is every commit
+  // GitHub credits. `authored_commits` is the non-merge, non-deploy subset that
+  // owns the line counts. Lines without an authored commit are malformed.
   const validSourceCounts = (entry) =>
     hasExactKeys(entry, ["commits", "authored_commits", "additions", "deletions"]) &&
     ["commits", "authored_commits", "additions", "deletions"].every((key) => Number.isSafeInteger(entry[key]) && entry[key] >= 0) &&
     entry.authored_commits <= entry.commits &&
     (entry.authored_commits > 0 || (entry.additions === 0 && entry.deletions === 0));
-  const validSourceDescriptor = (descriptor) =>
-    hasExactKeys(descriptor, ["id", "label", "basis", "starts_on", "complete_through"]) &&
-    typeof descriptor.id === "string" &&
-    /^[a-z0-9-]{1,24}$/.test(descriptor.id) &&
-    typeof descriptor.label === "string" &&
-    descriptor.label.trim() === descriptor.label &&
-    descriptor.label.length > 0 &&
-    typeof descriptor.basis === "string" &&
-    descriptor.basis.length > 0 &&
-    isIsoDate(descriptor.starts_on) &&
-    isIsoDate(descriptor.complete_through) &&
-    utcDate(descriptor.starts_on) <= utcDate(descriptor.complete_through);
+  const codeActivitySourceContracts = {
+    personal: {
+      label: "Personal",
+      basis: "github_contribution_parity",
+      dateBasis: "github_profile_author_date",
+      completionTimeZone: "America/Los_Angeles",
+      startsOn: "2017-08-31",
+    },
+    intern: {
+      label: "Intern work",
+      basis: "reported_daily_summary",
+      dateBasis: "utc_calendar_date",
+      completionTimeZone: "UTC",
+    },
+  };
+  const validSourceDescriptor = (descriptor) => {
+    if (
+      !hasExactKeys(descriptor, ["id", "label", "basis", "date_basis", "completion_timezone", "starts_on", "complete_through"]) ||
+      typeof descriptor.id !== "string" ||
+      !/^[a-z0-9-]{1,24}$/.test(descriptor.id) ||
+      !isIsoDate(descriptor.starts_on) ||
+      !isIsoDate(descriptor.complete_through) ||
+      calendarDate(descriptor.starts_on) > calendarDate(descriptor.complete_through)
+    )
+      return false;
+    const contract = codeActivitySourceContracts[descriptor.id];
+    return (
+      Boolean(contract) &&
+      descriptor.label === contract.label &&
+      descriptor.basis === contract.basis &&
+      descriptor.date_basis === contract.dateBasis &&
+      descriptor.completion_timezone === contract.completionTimeZone &&
+      (!contract.startsOn || descriptor.starts_on === contract.startsOn)
+    );
+  };
   const validCodeActivitySource = (candidate) => {
     if (
-      !hasExactKeys(candidate, ["schema", "updated_on", "timezone", "scope", "sources", "coverage", "points"]) ||
-      candidate.schema !== 4 ||
-      candidate.timezone !== "UTC" ||
+      !hasExactKeys(candidate, ["schema", "updated_on", "date_basis", "scope", "sources", "coverage", "points"]) ||
+      candidate.schema !== 5 ||
+      candidate.date_basis !== "source_reported_calendar" ||
       candidate.scope !== "code_activity" ||
       !isIsoDate(candidate.updated_on) ||
       !Array.isArray(candidate.sources) ||
@@ -1328,32 +1412,38 @@
       !isIsoDate(candidate.coverage.complete_through) ||
       candidate.coverage.status !== "complete" ||
       !Array.isArray(candidate.points) ||
-      candidate.points.length === 0
+      candidate.points.length === 0 ||
+      !candidate.points.every((point) => point && typeof point === "object" && !Array.isArray(point) && isIsoDate(point.date))
     )
       return false;
 
-    const startsOn = utcDate(candidate.coverage.starts_on);
-    const completeThrough = utcDate(candidate.coverage.complete_through);
+    const startsOn = calendarDate(candidate.coverage.starts_on);
+    const completeThrough = calendarDate(candidate.coverage.complete_through);
+    const sourceStarts = candidate.sources.map((descriptor) => calendarDate(descriptor.starts_on).getTime());
+    const sourceEnds = candidate.sources.map((descriptor) => calendarDate(descriptor.complete_through).getTime());
     const expectedLength = Math.round((completeThrough - startsOn) / DAY_MS) + 1;
     if (
+      !candidate.sources.some((descriptor) => descriptor.id === "personal") ||
+      candidate.coverage.starts_on !== codeActivitySourceContracts.personal.startsOn ||
+      startsOn.getTime() !== Math.min(...sourceStarts) ||
+      completeThrough.getTime() !== Math.max(...sourceEnds) ||
       candidate.points.length !== expectedLength ||
       candidate.coverage.starts_on !== candidate.points[0].date ||
       candidate.coverage.complete_through !== candidate.points.at(-1).date ||
       candidate.updated_on !== candidate.coverage.complete_through ||
-      completeThrough >= utcDate(new Date().toISOString().slice(0, 10))
+      candidate.sources.some((descriptor) => descriptor.complete_through >= calendarLabelFor(new Date(), descriptor.completion_timezone))
     )
       return false;
 
     let previousDate = null;
     return candidate.points.every((point) => {
-      if (!point || typeof point !== "object" || Array.isArray(point) || !isIsoDate(point.date)) return false;
-      const date = utcDate(point.date);
+      const date = calendarDate(point.date);
       if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
       previousDate = date;
       // A source that starts late is absent on earlier days rather than padded
       // with zeroes, so "no data yet" never reads as "a quiet day".
       const covered = candidate.sources
-        .filter((descriptor) => date >= utcDate(descriptor.starts_on) && date <= utcDate(descriptor.complete_through))
+        .filter((descriptor) => date >= calendarDate(descriptor.starts_on) && date <= calendarDate(descriptor.complete_through))
         .map((descriptor) => descriptor.id);
       const keys = Object.keys(point).filter((key) => key !== "date");
       return keys.length === covered.length && covered.every((id) => Object.hasOwn(point, id)) && covered.every((id) => validSourceCounts(point[id]));
@@ -1444,7 +1534,7 @@
   if (!validPersonalSource) {
     root.dataset.sourceSchema = source?.schema == null ? "none" : String(source.schema);
     root.dataset.state = "unavailable";
-    if (availabilityBadge) availabilityBadge.textContent = "PERSONAL";
+    if (availabilityBadge) availabilityBadge.textContent = "CODE ACTIVITY";
     return;
   }
   if (availabilityBadge) availabilityBadge.textContent = "LIFETIME · DAILY";
@@ -1453,18 +1543,18 @@
     id: descriptor.id,
     label: descriptor.label,
     basis: descriptor.basis,
-    startsOn: utcDate(descriptor.starts_on),
-    completeThrough: utcDate(descriptor.complete_through),
+    dateBasis: descriptor.date_basis,
+    completionTimeZone: descriptor.completion_timezone,
+    startsOn: calendarDate(descriptor.starts_on),
+    completeThrough: calendarDate(descriptor.complete_through),
   }));
   const multiSource = sourceList.length > 1;
   const visibleSources = new Set(sourceList.map((entry) => entry.id));
-  // "all" reproduces the GitHub contribution graph. "authored" drops merges and
-  // deploy commits so the count matches the lines plotted beneath it.
-  let countMode = "all";
 
   const buildRows = () =>
     source.points.map((point, index) => {
       const bySource = {};
+      let hasVisibleSource = false;
       let commits = 0;
       let authoredCommits = 0;
       let additions = 0;
@@ -1479,16 +1569,34 @@
           deletions: entry.deletions,
         };
         if (!visibleSources.has(id)) return;
-        commits += countMode === "authored" ? entry.authored_commits : entry.commits;
+        hasVisibleSource = true;
+        commits += entry.commits;
         authoredCommits += entry.authored_commits;
         additions += entry.additions;
         deletions += entry.deletions;
       });
-      return { index, dateKey: point.date, date: utcDate(point.date), commits, authoredCommits, additions, deletions, bySource };
+      return {
+        index,
+        dateKey: point.date,
+        date: calendarDate(point.date),
+        commits,
+        authoredCommits,
+        additions,
+        deletions,
+        bySource,
+        hasVisibleSource,
+      };
     });
 
   let rows = buildRows();
-  let range = "all";
+  // Lifetime is the published evidence window, but it is not a readable default
+  // view: of 3,264 lifetime date labels only about 15% carry a commit, and the
+  // stretch before sustained activity begins spends roughly a third of the
+  // plot width on about a tenth of the active days. At lifetime scale a day is
+  // under a third of a pixel, so no daily detail survives. Three years puts one
+  // day on about one pixel and keeps the dense recent region resolvable.
+  // Lifetime stays one explicit click away, and the header totals stay lifetime.
+  let range = "3";
   let scale = "log";
   const chart = document.getElementById("github-activity-chart");
   const chartTitle = document.getElementById("github-activity-chart-title");
@@ -1503,11 +1611,11 @@
   const annotation = document.getElementById("github-activity-annotation");
   const tableBody = document.getElementById("github-activity-table-body");
   const tableCaption = document.getElementById("github-activity-table-caption");
+  const tableDisclosure = tableBody?.closest("details");
   const updated = document.getElementById("github-activity-updated");
   const scopeBadge = root.querySelector("[data-github-scope]");
   const rangeButtons = Array.from(root.querySelectorAll("[data-range]"));
   const scaleButtons = Array.from(root.querySelectorAll("[data-scale]"));
-  const countButtons = Array.from(root.querySelectorAll("[data-count-mode]"));
   const legendRoot = root.querySelector("[data-source-legend]");
   const legendList = root.querySelector("[data-source-legend-items]");
   const latestButton = root.querySelector("[data-jump-latest]");
@@ -1525,6 +1633,7 @@
     !annotation ||
     !tableBody ||
     !tableCaption ||
+    !tableDisclosure ||
     !updated ||
     !latestButton ||
     !clearSelectionButton
@@ -1558,14 +1667,16 @@
     return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower);
   };
   const selectedDomain = () => {
-    const latestAgentDate = lifetimeHistoryRows(codexSource).at(-1)?.date;
-    const end = latestAgentDate && latestAgentDate > rows.at(-1).date ? latestAgentDate : rows.at(-1).date;
-    const start = range === "all" ? rows[0].date : new Date(Date.UTC(end.getUTCFullYear() - Number(range), end.getUTCMonth(), end.getUTCDate()));
+    const activeSources = sourceList.filter((entry) => visibleSources.has(entry.id));
+    const sourceStart = new Date(Math.min(...activeSources.map((entry) => entry.startsOn.getTime())));
+    const sourceEnd = new Date(Math.max(...activeSources.map((entry) => entry.completeThrough.getTime())));
+    const end = sourceEnd;
+    const start = range === "all" ? sourceStart : new Date(Date.UTC(end.getUTCFullYear() - Number(range), end.getUTCMonth(), end.getUTCDate()));
     return { start, end };
   };
   const selectedRows = () => {
     const domain = selectedDomain();
-    return rows.filter((row) => row.date >= domain.start && row.date <= domain.end);
+    return rows.filter((row) => row.hasVisibleSource && row.date >= domain.start && row.date <= domain.end);
   };
   const analysisRows = (data) => (selection ? data.filter((row) => row.index >= selection.start && row.index <= selection.end) : data);
   const colors = () => {
@@ -1588,24 +1699,51 @@
   const setPressedState = () => {
     rangeButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.range === range)));
     scaleButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.scale === scale)));
-    countButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.countMode === countMode)));
     if (scopeBadge) {
       const rangeLabel = range === "all" ? "LIFETIME" : `${range} ${range === "1" ? "YEAR" : "YEARS"}`;
-      scopeBadge.textContent = `${rangeLabel} \u00b7 DAILY`;
+      scopeBadge.textContent = `${rangeLabel} \u00b7 ${visibleSources.size > 1 ? "DATE LABELS" : "DAILY"}`;
     }
   };
   const sourceColor = (id, palette) => {
     const index = sourceList.findIndex((entry) => entry.id === id);
     return index <= 0 ? palette.accent : palette.sourceAlt;
   };
-  // The legend doubles as the source filter. With a single source there is
-  // nothing to filter, so it stays out of the way entirely.
-  const renderLegend = () => {
+  // The source key becomes a filter only when there is something to compare.
+  // A single source remains visibly named, but is deliberately not a toggle.
+  const updateLegendColors = () => {
+    if (!legendList) return;
+    const palette = colors();
+    legendList.querySelectorAll(".github-activity-legend-item[data-source-id]").forEach((item) => {
+      const swatch = item.querySelector(".github-activity-legend-swatch");
+      if (swatch) swatch.style.background = sourceColor(item.dataset.sourceId, palette);
+    });
+  };
+  const renderLegend = ({ restoreFocusTo = null } = {}) => {
     if (!legendRoot || !legendList) return;
-    legendRoot.hidden = !multiSource;
-    if (!multiSource) return;
+    legendRoot.hidden = false;
     const palette = colors();
     const fragment = document.createDocumentFragment();
+    const legendLabel = legendRoot.querySelector(".github-activity-source-legend-label");
+    if (legendLabel) legendLabel.textContent = multiSource ? "Sources" : "Source";
+    if (!multiSource) {
+      legendList.removeAttribute("role");
+      legendList.removeAttribute("aria-labelledby");
+      const entry = sourceList[0];
+      const item = document.createElement("span");
+      item.className = "github-activity-legend-item is-static";
+      item.dataset.sourceId = entry.id;
+      const swatch = document.createElement("span");
+      swatch.className = "github-activity-legend-swatch";
+      swatch.setAttribute("aria-hidden", "true");
+      swatch.style.background = sourceColor(entry.id, palette);
+      const label = document.createElement("span");
+      label.textContent = entry.label;
+      item.append(swatch, label);
+      legendList.replaceChildren(item);
+      return;
+    }
+    legendList.setAttribute("role", "group");
+    legendList.setAttribute("aria-labelledby", "github-activity-source-legend-label");
     sourceList.forEach((entry) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -1620,6 +1758,7 @@
       label.textContent = entry.label;
       button.append(swatch, label);
       button.addEventListener("click", () => {
+        const shouldRestoreFocus = document.activeElement === button;
         if (visibleSources.has(entry.id)) {
           // Never let the last source be hidden: an empty chart is not a view.
           if (visibleSources.size === 1) return;
@@ -1627,22 +1766,20 @@
         } else {
           visibleSources.add(entry.id);
         }
+        selection = null;
         rows = buildRows();
-        renderLegend();
+        renderLegend({ restoreFocusTo: shouldRestoreFocus ? entry.id : null });
+        setPressedState();
         drawChart();
       });
       fragment.append(button);
     });
     legendList.replaceChildren(fragment);
+    if (restoreFocusTo) legendList.querySelector(`[data-source-id="${restoreFocusTo}"]`)?.focus({ preventScroll: true });
   };
   const updateDayReadout = (row) => {
     selectedDate.textContent = dateLabel.format(row.date);
-    selectedCommits.textContent =
-      countMode === "authored"
-        ? `${number.format(row.commits)} authored ${row.commits === 1 ? "commit" : "commits"}`
-        : `${number.format(row.commits)} ${row.commits === 1 ? "commit" : "commits"}${
-            row.authoredCommits === row.commits ? "" : ` \u00b7 ${number.format(row.authoredCommits)} authored`
-          }`;
+    selectedCommits.textContent = `${commitCountLabel(row.commits, "total")} \u00b7 ${commitCountLabel(row.authoredCommits, "authored")}`;
     selectedAdditions.textContent = `${signed(row.additions, true)} added`;
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
     const tokenObservation = codexUsageForDay(codexSource, row);
@@ -1655,7 +1792,7 @@
         )} total`;
         selectedTokens.setAttribute(
           "aria-label",
-          `${number.format(tokenObservation.dailyTokens)} tokens that day: ${number.format(
+          `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label: ${number.format(
             tokenObservation.dailyAgentTokens.codex
           )} Codex and ${number.format(tokenObservation.dailyAgentTokens.claude)} Claude; ${number.format(
             tokenObservation.tokenCount
@@ -1670,7 +1807,9 @@
           "aria-label",
           tokenObservation.dailyTokens == null
             ? `${number.format(tokenObservation.tokenCount)} lifetime tokens, legacy observation ${dateLabel.format(tokenObservation.date)}.`
-            : `${number.format(tokenObservation.dailyTokens)} tokens that day; ${number.format(tokenObservation.tokenCount)} cumulative tokens.`
+            : `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label; ${number.format(
+                tokenObservation.tokenCount
+              )} cumulative tokens.`
         );
       }
     } else if (!codexSourceSettled) {
@@ -1681,6 +1820,9 @@
       selectedTokens.removeAttribute("aria-label");
     }
   };
+  let deferredTableRows = [];
+  let tableRevision = 0;
+  let renderedTableRevision = -1;
   const updateTable = (data) => {
     const fragment = document.createDocumentFragment();
     [...data].reverse().forEach((row) => {
@@ -1711,7 +1853,28 @@
       fragment.append(tr);
     });
     tableBody.replaceChildren(fragment);
-    tableCaption.textContent = selection ? "Reported daily activity in the selected range" : "Reported daily activity in the selected time window";
+    tableCaption.textContent = selection
+      ? "Reported activity by source calendar label in the selected range"
+      : "Reported activity by source calendar label in the selected time window";
+  };
+  const syncTable = () => {
+    if (tableDisclosure.open) {
+      if (renderedTableRevision !== tableRevision) {
+        updateTable(deferredTableRows);
+        renderedTableRevision = tableRevision;
+      }
+      tableBody.dataset.state = "ready";
+      return;
+    }
+    tableBody.replaceChildren();
+    renderedTableRevision = -1;
+    tableBody.dataset.state = "deferred";
+    tableCaption.textContent = "Open this section to load activity by source calendar label for the selected time window";
+  };
+  const queueTable = (data) => {
+    deferredTableRows = data;
+    tableRevision += 1;
+    syncTable();
   };
   const updateAggregate = (data, announce = false, refreshTable = true) => {
     const scoped = analysisRows(data);
@@ -1720,34 +1883,35 @@
     const totalAuthored = scoped.reduce((sum, row) => sum + row.authoredCommits, 0);
     const totalAdditions = scoped.reduce((sum, row) => sum + row.additions, 0);
     const totalDeletions = scoped.reduce((sum, row) => sum + row.deletions, 0);
-    const commitSummary =
-      countMode === "authored" || totalAuthored === totalCommits
-        ? `${number.format(totalCommits)} commits`
-        : `${number.format(totalCommits)} commits (${number.format(totalAuthored)} authored)`;
+    const commitSummary = `${commitCountLabel(totalCommits, "total")} \u00b7 ${commitCountLabel(totalAuthored, "authored")}`;
     const scope = selection
-      ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "day" : "days"}`
+      ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "date label" : "date labels"}`
       : range === "all"
         ? "Lifetime"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active days \u00b7 ${commitSummary} \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active date labels \u00b7 ${commitSummary} \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
       const busiest = active.reduce((best, row) => (row.commits > best.commits ? row : best));
       const largest = active.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
       const medianMagnitude = percentile(active.map(lineChanges), 0.5);
-      annotation.textContent = `Largest line-change day \u00b7 ${dateLabel.format(largest.date)} \u00b7 ${signed(largest.additions, true)} / ${signed(largest.deletions, false)}. Highest commit day \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active-day line magnitude \u00b7 ${compactNumber.format(medianMagnitude)}.`;
+      annotation.textContent = `Largest authored line-change date label \u00b7 ${dateLabel.format(largest.date)} \u00b7 ${signed(largest.additions, true)} / ${signed(largest.deletions, false)}. Highest total-commit date label \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active-label line magnitude \u00b7 ${compactNumber.format(medianMagnitude)}.`;
     } else {
-      annotation.textContent = "No active days in this scope. Median active-day line magnitude \u00b7 \u2014.";
+      annotation.textContent = "No active date labels in this scope. Median active-label line magnitude \u00b7 \u2014.";
     }
     // Range feedback follows the pointer, while the reported-value table only
     // rebuilds after the selection is finalized.
-    if (refreshTable) updateTable(scoped);
+    if (refreshTable) queueTable(scoped);
     if (announce) selectionAnnouncement.textContent = selection ? rangeSummary.textContent : "Selection cleared.";
   };
 
-  const drawChart = () => {
+  tableDisclosure.addEventListener("toggle", () => {
+    syncTable();
+  });
+
+  const drawChart = ({ refreshTable = true } = {}) => {
     const data = selectedRows();
     if (!data.length) return;
     if (!data.some((row) => row.index === selectedIndex)) selectedIndex = data.at(-1).index;
@@ -1759,23 +1923,25 @@
     const width = chart.clientWidth || 920;
     const height = chart.clientHeight || 608;
     const narrow = width < 620;
+    const mixedCalendarView = visibleSources.size > 1;
+    const chartDateUnit = mixedCalendarView ? "DATE LABEL" : "DAY";
     const historyAvailable = Boolean(codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history);
     const left = narrow ? 66 : 82;
     const right = narrow ? 12 : 22;
     const bottom = narrow ? 26 : 30;
     const agentBandHeight = historyAvailable ? (narrow ? 92 : 106) : 0;
-    const agentGap = historyAvailable ? (narrow ? 42 : 48) : 0;
-    const commitTop = 42;
+    const agentGap = historyAvailable ? (narrow ? 40 : 48) : 0;
+    const commitTop = 54;
     const commitHeight = Math.max(92, Math.min(118, height * 0.19));
     const commitBottom = commitTop + commitHeight;
     const lineTop = commitBottom + (narrow ? 58 : 64);
     const agentBottom = height - bottom;
     const agentTop = agentBottom - agentBandHeight;
-    const agentHeadingY = agentTop - 14;
+    const agentHeadingY = agentTop - (narrow ? 30 : 14);
     const lineBottom = historyAvailable ? agentHeadingY - agentGap : agentBottom - (narrow ? 20 : 24);
-    const yearLabelY = height - (narrow ? 5 : 7);
+    const codeDateY = historyAvailable ? lineBottom + (narrow ? 18 : 21) : height - (narrow ? 5 : 7);
+    const agentDateY = height - (narrow ? 5 : 7);
     const plotTop = commitTop;
-    const plotBottom = historyAvailable ? agentBottom : lineBottom;
     const baseline = (lineTop + lineBottom) / 2;
     const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
     const domain = selectedDomain();
@@ -1883,11 +2049,15 @@
       });
     });
 
-    const yearTicks = new Set();
+    const yearTicks = [];
     data.forEach((row) => {
       const year = row.date.getUTCFullYear();
-      if (yearTicks.has(year) || row.date.getUTCMonth() !== 0) return;
-      yearTicks.add(year);
+      if (yearTicks.some((entry) => entry.year === year) || row.date.getUTCMonth() !== 0) return;
+      yearTicks.push({ year, row });
+    });
+    const yearLabelCapacity = Math.max(2, Math.floor((width - left - right) / 58));
+    const yearLabelStride = narrow ? Math.max(1, Math.ceil(yearTicks.length / yearLabelCapacity)) : 1;
+    yearTicks.forEach(({ year, row }, index) => {
       const xx = x(row.date);
       grid.append(
         svgElement("line", {
@@ -1896,26 +2066,75 @@
           x1: xx,
           y1: plotTop,
           x2: xx,
-          y2: plotBottom,
+          y2: lineBottom,
           stroke: palette.grid,
           "stroke-width": 1,
         })
       );
-      addText(grid, String(year), xx, yearLabelY, { anchor: "middle", color: palette.muted });
+      if (yearTicks.length >= 2 && (index % yearLabelStride === 0 || index === yearTicks.length - 1)) {
+        addText(grid, String(year), xx, codeDateY, {
+          anchor: "middle",
+          color: palette.muted,
+          className: "github-activity-year-label",
+        });
+      }
     });
-    if (yearTicks.size < 2) {
-      addText(grid, data[0].dateKey, left, yearLabelY, { color: palette.muted });
-      addText(grid, data.at(-1).dateKey, width - right, yearLabelY, { anchor: "end", color: palette.muted });
+    if (yearTicks.length < 2) {
+      addText(grid, data[0].dateKey, left, codeDateY, { color: palette.muted, className: "github-activity-domain-label" });
+      addText(grid, data.at(-1).dateKey, width - right, codeDateY, {
+        anchor: "end",
+        color: palette.muted,
+        className: "github-activity-domain-label",
+      });
     }
     chart.append(grid);
-    addText(chart, `COMMITS / DAY \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE LOG1P"}`, left, 20, {
+    addText(chart, `COMMITS / ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "LOG1P"}`, left, 18, {
       color: palette.accent,
       weight: 700,
     });
+    const commitLegendY = 37;
+    const gapLegendX = left + (narrow ? 78 : 96);
+    const authoredLegendX = left + (narrow ? 133 : 166);
+    chart.append(
+      svgElement("line", {
+        class: "github-activity-commit-legend-total-line",
+        x1: left,
+        y1: commitLegendY - 4,
+        x2: left + 14,
+        y2: commitLegendY - 4,
+        stroke: palette.muted,
+        "stroke-opacity": 0.78,
+        "stroke-width": 1.2,
+        "stroke-linecap": "round",
+      }),
+      svgElement("rect", {
+        class: "github-activity-commit-legend-gap-band",
+        x: gapLegendX,
+        y: commitLegendY - 8,
+        width: 14,
+        height: 8,
+        rx: 2,
+        fill: palette.accent,
+        "fill-opacity": 0.18,
+      }),
+      svgElement("line", {
+        class: "github-activity-commit-legend-authored-line",
+        x1: authoredLegendX,
+        y1: commitLegendY - 4,
+        x2: authoredLegendX + 18,
+        y2: commitLegendY - 4,
+        stroke: palette.accent,
+        "stroke-width": 2.2,
+        "stroke-linecap": "round",
+      })
+    );
+    addText(chart, "total", left + 20, commitLegendY, { color: palette.muted, weight: 650, size: 11 });
+    addText(chart, "gap", gapLegendX + 20, commitLegendY, { color: palette.muted, weight: 650, size: 11 });
+    addText(chart, "authored", authoredLegendX + 24, commitLegendY, { color: palette.accent, weight: 650, size: 11 });
     const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
     const lineHeading = narrow
-      ? `LINES / DAY \u00b7 ${lineScaleLabel}`
-      : `LINES CHANGED / DAY \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
+      ? `LINES / ${chartDateUnit} \u00b7 ${lineScaleLabel}`
+      : `LINES CHANGED / ${chartDateUnit} \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
     addText(chart, lineHeading, left, lineTop - 34, {
       color: palette.muted,
       weight: 700,
@@ -1928,7 +2147,7 @@
     const selectionBand = svgElement("rect", {
       class: "github-activity-selection-band",
       y: plotTop,
-      height: plotBottom - plotTop,
+      height: lineBottom - plotTop,
       fill: palette.accent,
       "fill-opacity": 0.1,
       stroke: palette.accent,
@@ -1940,33 +2159,34 @@
     chart.append(selectionBand);
 
     const commitPoints = data.map((row) => [x(row.date), commitY(row.commits)]);
-    // With more than one source visible, the commit band is stacked: each band
-    // is the running total through that source, painted top-down so the lower
-    // bands stay readable. The total outline above is unchanged, so a single
-    // source renders exactly as it always has.
+    const authoredCommitPoints = data.map((row) => [x(row.date), commitY(row.authoredCommits)]);
+    // Each source owns one non-overlapping lower-to-upper band. Missing dates
+    // collapse to zero thickness instead of inventing pre-coverage activity.
     const visibleSourceList = sourceList.filter((entry) => visibleSources.has(entry.id));
     if (visibleSourceList.length > 1) {
       const sourceValue = (row, id) => {
         const entry = row.bySource[id];
         if (!entry) return 0;
-        return countMode === "authored" ? entry.authoredCommits : entry.commits;
+        return entry.commits;
       };
       let running = data.map(() => 0);
       const stacked = visibleSourceList.map((entry) => {
-        running = data.map((row, position) => running[position] + sourceValue(row, entry.id));
-        return { id: entry.id, values: [...running] };
+        const lower = [...running];
+        const upper = data.map((row, position) => lower[position] + sourceValue(row, entry.id));
+        running = upper;
+        return { id: entry.id, lower, upper };
       });
       stacked
         .slice()
         .reverse()
-        .forEach(({ id, values }) => {
+        .forEach(({ id, lower, upper }) => {
           chart.append(
             svgElement("path", {
               class: "github-activity-commit-source-area",
               "data-source-id": id,
-              d: areaPath(
-                values.map((value, position) => [x(data[position].date), commitY(value)]),
-                commitBottom
+              d: bandPath(
+                upper.map((value, position) => [x(data[position].date), commitY(value)]),
+                lower.map((value, position) => [x(data[position].date), commitY(value)])
               ),
               fill: sourceColor(id, palette),
               "fill-opacity": 0.24,
@@ -1984,17 +2204,27 @@
       .join(" ");
     chart.append(
       svgElement("path", {
-        class: "github-activity-commit-area",
-        d: areaPath(commitPoints, commitBottom),
+        class: "github-activity-commit-area github-activity-commit-gap-band",
+        d: bandPath(commitPoints, authoredCommitPoints),
         fill: palette.accent,
-        "fill-opacity": 0.1,
+        "fill-opacity": 0.18,
       }),
       svgElement("path", {
-        class: "github-activity-commit-line",
+        class: "github-activity-commit-total-line",
         d: linePath(commitPoints),
         fill: "none",
+        stroke: palette.muted,
+        "stroke-opacity": 0.78,
+        "stroke-width": 1.2,
+        "stroke-linejoin": "round",
+        "stroke-linecap": "round",
+      }),
+      svgElement("path", {
+        class: "github-activity-commit-line github-activity-authored-line",
+        d: linePath(authoredCommitPoints),
+        fill: "none",
         stroke: palette.accent,
-        "stroke-width": 1.9,
+        "stroke-width": 2.1,
         "stroke-linejoin": "round",
         "stroke-linecap": "round",
       }),
@@ -2037,31 +2267,33 @@
 
     let agentPlot = null;
     if (historyAvailable) {
-      const agentRailHeading = narrow
-        ? "AGENT TOKENS · CUMULATIVE"
-        : hasAgentFamilyBreakdown(codexSource)
-          ? "PERSONAL AGENT TOKENS · STACKED CUMULATIVE"
-          : "PERSONAL AGENT TOKENS · CUMULATIVE TOTAL";
+      const agentHistoryStart = lifetimeHistoryRows(codexSource)[0]?.date;
+      const agentHistoryStartLabel = agentHistoryStart ? monthYear.format(agentHistoryStart).toUpperCase() : "RECENT";
+      const agentRailHeading = `${narrow ? "AGENT TOKENS" : "PERSONAL AGENT TOKENS"} \u00b7 SINCE ${agentHistoryStartLabel}`;
       addText(chart, agentRailHeading, left, agentHeadingY, {
         color: palette.accent,
         weight: 700,
         className: "github-activity-agent-rail-heading",
       });
-      addText(chart, `TOTAL LINE \u00b7 ${codexSource.combined_lifetime.tokens_label}`, width - right, agentHeadingY, {
-        anchor: "end",
-        color: palette.text,
-        weight: 700,
-        className: "github-activity-agent-rail-value",
-      });
-      agentPlot = drawSharedAgentRail(chart, {
+      addText(
+        chart,
+        `${narrow ? "TOTAL" : "TOTAL LINE"} \u00b7 ${codexSource.combined_lifetime.tokens_label}`,
+        narrow ? left : width - right,
+        agentHeadingY + (narrow ? 17 : 0),
+        {
+          anchor: narrow ? "start" : "end",
+          color: palette.text,
+          weight: 700,
+          className: "github-activity-agent-rail-value",
+        }
+      );
+      agentPlot = drawAgentInset(chart, {
         source: codexSource,
-        domainStart: domain.start,
-        domainEnd: domain.end,
-        x,
         top: agentTop,
         bottom: agentBottom,
         left,
         right: width - right,
+        dateY: agentDateY,
         colors: palette,
       });
     }
@@ -2115,7 +2347,7 @@
     const guide = svgElement("line", {
       class: "github-activity-guide",
       y1: plotTop,
-      y2: plotBottom,
+      y2: lineBottom,
       stroke: palette.text,
       "stroke-width": 1.2,
       "stroke-opacity": 0.68,
@@ -2124,8 +2356,15 @@
       class: "github-activity-commit-marker",
       r: narrow ? 3.8 : 4.2,
       fill: palette.surface,
-      stroke: palette.accent,
-      "stroke-width": 2.1,
+      stroke: palette.muted,
+      "stroke-width": 1.7,
+    });
+    const authoredCommitMarker = svgElement("circle", {
+      class: "github-activity-authored-marker",
+      r: narrow ? 2.6 : 3,
+      fill: palette.accent,
+      stroke: palette.surface,
+      "stroke-width": 1.2,
     });
     const addMarker = svgElement("circle", {
       class: "github-activity-add-marker",
@@ -2154,17 +2393,17 @@
       x: left,
       y: plotTop,
       width: width - left - right,
-      height: plotBottom - plotTop,
+      height: lineBottom - plotTop,
       fill: "transparent",
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Daily personal commits, line changes, and agent token usage inspector",
+      "aria-label": "Source-reported date labels for total and authored commits, line changes, and UTC-labeled agent token usage",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
     });
-    chart.append(guide, commitMarker, addMarker, removeMarker, agentMarker, overlay);
+    chart.append(guide, commitMarker, authoredCommitMarker, addMarker, removeMarker, agentMarker, overlay);
 
     const showIndex = (index, { pin = false } = {}) => {
       selectedIndex = clamp(index, data[0].index, data.at(-1).index);
@@ -2175,13 +2414,15 @@
       guide.setAttribute("x2", xx);
       commitMarker.setAttribute("cx", xx);
       commitMarker.setAttribute("cy", commitY(row.commits));
+      authoredCommitMarker.setAttribute("cx", xx);
+      authoredCommitMarker.setAttribute("cy", commitY(row.authoredCommits));
       addMarker.setAttribute("cx", xx);
       addMarker.setAttribute("cy", lineY(row.additions));
       removeMarker.setAttribute("cx", xx);
       removeMarker.setAttribute("cy", lineY(-row.deletions));
       const tokenObservation = codexUsageForDay(codexSource, row);
       if (agentPlot && tokenObservation) {
-        agentMarker.setAttribute("cx", xx);
+        agentMarker.setAttribute("cx", agentPlot.x(tokenObservation.date));
         agentMarker.setAttribute("cy", agentPlot.y(tokenObservation.tokenCount));
         agentMarker.setAttribute("visibility", "visible");
       } else {
@@ -2192,16 +2433,18 @@
         ? tokenObservation.dailyTokens == null
           ? `${tokenObservation.tokensLabel} lifetime tokens, legacy observation ${fullDate.format(tokenObservation.date)}`
           : tokenObservation.dailyAgentTokens
-            ? `${number.format(tokenObservation.dailyTokens)} tokens that day, ${number.format(
+            ? `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label, ${number.format(
                 tokenObservation.dailyAgentTokens.codex
               )} Codex and ${number.format(tokenObservation.dailyAgentTokens.claude)} Claude, ${number.format(
                 tokenObservation.tokenCount
               )} cumulative tokens`
-            : `${number.format(tokenObservation.dailyTokens)} tokens that day, ${number.format(tokenObservation.tokenCount)} cumulative tokens`
+            : `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label, ${number.format(
+                tokenObservation.tokenCount
+              )} cumulative tokens`
         : "token usage unobserved or awaiting a completed day";
       overlay.setAttribute(
         "aria-valuetext",
-        `${row.dateKey}, ${number.format(row.commits)} commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed, ${tokenValue}`
+        `${row.dateKey}, ${number.format(row.commits)} total commits, ${number.format(row.authoredCommits)} authored commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed, ${tokenValue}`
       );
       updateDayReadout(row);
     };
@@ -2209,7 +2452,18 @@
       const box = chart.getBoundingClientRect();
       const px = ((event.clientX - box.left) / Math.max(1, box.width)) * width;
       const fraction = clamp((px - left) / Math.max(1, width - left - right), 0, 1);
-      return data[Math.round(fraction * (data.length - 1))];
+      const targetTime = start + fraction * (end - start);
+      let low = 0;
+      let high = data.length - 1;
+      while (low < high) {
+        const middle = Math.floor((low + high) / 2);
+        if (data[middle].date.getTime() < targetTime) low = middle + 1;
+        else high = middle;
+      }
+      if (low === 0) return data[0];
+      const before = data[low - 1];
+      const after = data[low];
+      return targetTime - before.date.getTime() <= after.date.getTime() - targetTime ? before : after;
     };
     let dragState = null;
     const restorePreviousSelection = () => {
@@ -2327,7 +2581,7 @@
     });
 
     showIndex(selectedIndex);
-    updateAggregate(data);
+    updateAggregate(data, false, refreshTable);
     if (restoreKeyboardFocus) overlay.focus({ preventScroll: true });
   };
 
@@ -2336,8 +2590,8 @@
     codexSource = source;
     if (codexReadout) codexReadout.hidden = !source;
     chartTitle.textContent = source
-      ? "Daily personal commits, additions and deletions, plus personal agent token usage"
-      : "Daily personal commits, additions and deletions";
+      ? "Total and authored commits plus authored line changes by source-reported date label, with UTC-labeled personal agent usage"
+      : "Total and authored commits plus authored line changes by source-reported date label";
     drawChart();
   });
 
@@ -2371,15 +2625,7 @@
     button.addEventListener("click", () => {
       scale = button.dataset.scale;
       setPressedState();
-      drawChart();
-    });
-  });
-  countButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      countMode = button.dataset.countMode;
-      rows = buildRows();
-      setPressedState();
-      drawChart();
+      drawChart({ refreshTable: false });
     });
   });
   latestButton.addEventListener("click", (event) => {
@@ -2399,19 +2645,22 @@
   });
   window.addEventListener("resize", () => {
     cancelAnimationFrame(resizeFrame);
-    resizeFrame = requestAnimationFrame(drawChart);
+    resizeFrame = requestAnimationFrame(() => drawChart({ refreshTable: false }));
   });
-  new MutationObserver(drawChart).observe(document.documentElement, {
+  new MutationObserver(() => {
+    updateLegendColors();
+    drawChart({ refreshTable: false });
+  }).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["data-theme", "data-theme-mode"],
   });
 
   updated.dateTime = source.updated_on;
   updated.textContent = source.updated_on;
-  chartTitle.textContent = "Daily commits, additions and deletions";
+  chartTitle.textContent = "Total and authored commits plus authored line changes by source-reported date label";
   renderLegend();
   setPressedState();
   drawChart();
-  initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise });
+  initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise, mixedCalendarLabels: multiSource });
   root.dataset.state = "ready";
 })();

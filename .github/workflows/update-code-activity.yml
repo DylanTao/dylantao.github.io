@@ -1,9 +1,9 @@
-name: Update personal code activity
+name: Update code activity
 
 on:
-  # Daily, well after UTC midnight so the importer only ever sees completed UTC
-  # days, and staggered clear of the 00:00 citations refresh. Both share the
-  # main-autocommit concurrency group, so they serialize rather than race.
+  # Daily and staggered clear of the 00:00 citations refresh. The importer
+  # validates each source's declared completion timezone, and both refreshes
+  # share the main-autocommit concurrency group so they serialize rather than race.
   schedule:
     - cron: "40 5 * * *"
   workflow_dispatch:
@@ -26,7 +26,7 @@ jobs:
           path: site
           fetch-depth: 0
 
-      - name: Checkout public personal snapshot
+      - name: Checkout public profile snapshot
         uses: actions/checkout@v4
         with:
           repository: DylanTao/DylanTao
@@ -39,7 +39,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Import completed personal UTC days
+      - name: Import completed source-calendar dates
         run: >-
           python site/bin/import_code_activity.py
           --personal-repo profile
@@ -65,7 +65,7 @@ jobs:
           # identity; credential shapes stay matched anywhere in the file.
           if grep -nEi '("(repository|repo[_-]?name|employer|organization|account[_-]?(id|name|login)|author|email|host|sha|message|timestamp)"|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|access[_-]?token|refresh[_-]?token|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
             _data/code_activity.json; then
-            echo "Personal code activity violates the public privacy contract." >&2
+            echo "Code activity violates the public privacy contract." >&2
             exit 1
           fi
           git diff --check
@@ -82,12 +82,12 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish personal snapshot
+      - name: Publish code activity snapshot
         if: steps.change.outputs.changed == 'true'
         working-directory: site
         shell: bash
         run: |
           git config user.name "Dylan Metrics Bot"
           git config user.email "metrics-bot@users.noreply.github.com"
-          git commit -m "chore: refresh personal code activity"
+          git commit -m "chore: refresh code activity"
           git push origin HEAD:main
