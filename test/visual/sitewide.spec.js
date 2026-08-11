@@ -992,13 +992,33 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
             })
             .toBe(true);
 
-          const groupedValuesStayTogether = await page.locator(".github-activity-value-group").evaluateAll((groups) =>
-            groups.slice(1).every((group) => {
-              const [separator, value] = Array.from(group.children).map((child) => child.getBoundingClientRect());
-              return separator && value && Math.abs(separator.top - value.top) <= 1;
-            })
-          );
-          expect(groupedValuesStayTogether, `${width}px GitHub readout orphans a separator`).toBe(true);
+          // The readout used to join its values into one sentence with
+          // decorative middot separators, which could wrap onto their own line
+          // ahead of the value they introduced. Each value now owns a grid
+          // cell, so the guard is stronger than "separator sits beside value":
+          // there is no separate separator element left to strand, and no cell
+          // may spill outside the readout.
+          const readoutLayout = await page.locator(".github-activity-readout").evaluate((readout) => {
+            const bounds = readout.getBoundingClientRect();
+            return Array.from(readout.querySelectorAll(".github-activity-value-group"))
+              .filter((group) => group.offsetParent !== null)
+              .map((group) => {
+                const box = group.getBoundingClientRect();
+                return {
+                  elementChildren: group.childElementCount,
+                  withinReadout: box.left >= bounds.left - 1 && box.right <= bounds.right + 1,
+                };
+              });
+          });
+          expect(readoutLayout.length, `${width}px GitHub readout renders no values`).toBeGreaterThan(0);
+          expect(
+            readoutLayout.every((group) => group.elementChildren === 1),
+            `${width}px GitHub readout reintroduced an orphanable separator element`
+          ).toBe(true);
+          expect(
+            readoutLayout.every((group) => group.withinReadout),
+            `${width}px GitHub readout value overflows its card`
+          ).toBe(true);
         }
       } else {
         for (const width of [320, 350, 390]) {
