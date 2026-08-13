@@ -1,6 +1,6 @@
 {
   "schema": 5,
-  "updated_on": "2026-08-10",
+  "updated_on": "2026-08-11",
   "date_basis": "source_reported_calendar",
   "scope": "code_activity",
   "sources": [
@@ -11,12 +11,12 @@
       "date_basis": "github_profile_author_date",
       "completion_timezone": "America/Los_Angeles",
       "starts_on": "2017-08-31",
-      "complete_through": "2026-08-10"
+      "complete_through": "2026-08-11"
     }
   ],
   "coverage": {
     "starts_on": "2017-08-31",
-    "complete_through": "2026-08-10",
+    "complete_through": "2026-08-11",
     "status": "complete"
   },
   "points": [
@@ -29417,10 +29417,19 @@
     {
       "date": "2026-08-10",
       "personal": {
-        "commits": 98,
-        "authored_commits": 85,
-        "additions": 390136,
-        "deletions": 394930
+        "commits": 109,
+        "authored_commits": 95,
+        "additions": 395780,
+        "deletions": 394999
+      }
+    },
+    {
+      "date": "2026-08-11",
+      "personal": {
+        "commits": 86,
+        "authored_commits": 79,
+        "additions": 352504,
+        "deletions": 13075
       }
     }
   ]
