@@ -12,7 +12,7 @@
       taste: "research",
       focus: "research",
       publications: "publications",
-      updates: "routes",
+      updates: "writing",
       students: "routes",
       connect: "sources",
     };
@@ -55,25 +55,41 @@
 
     const anchor = hashId ? document.getElementById(hashId) : document.getElementById("identity");
     const isPaper = Boolean(anchor?.matches("[data-publication-key]"));
+    const isProject = Boolean(anchor?.matches("[data-project-slug]"));
     const isKnownSection = aiSections.some((section) => section.id === hashId);
-    const isKnownTarget = !hashId || isPaper || isKnownSection;
+    const isKnownTarget = !hashId || isPaper || isProject || isKnownSection;
     const knownSection = isKnownSection ? hashId : "identity";
-    const activeSection = sectionOverride || (isPaper ? "publications" : knownSection);
+    const activeSection = sectionOverride || (isPaper ? "publications" : isProject ? "projects" : knownSection);
 
     if (humanFormatLink && formatSwitch) {
       const home = formatSwitch.dataset.humanHome || humanFormatLink.getAttribute("href") || "/";
       const humanTargets = {
         identity: home,
         research: formatSwitch.dataset.humanResearch || `${home}#focus`,
+        projects: formatSwitch.dataset.humanProjects || home,
         publications: formatSwitch.dataset.humanPublications || home,
+        writing: formatSwitch.dataset.humanWriting || home,
+        cv: formatSwitch.dataset.humanCv || home,
         routes: home,
         sources: home,
       };
       const publicationBase = formatSwitch.dataset.humanPublications || home;
+      const projectBase = formatSwitch.dataset.humanProjects || home;
       const preservePaperTarget = isPaper && activeSection === "publications";
-      const humanTarget = preservePaperTarget ? `${publicationBase}${hashId}/` : humanTargets[activeSection] || home;
+      const preserveProjectTarget = isProject && activeSection === "projects";
+      const projectSlug = preserveProjectTarget ? anchor.dataset.projectSlug : "";
+      const humanTarget = preservePaperTarget
+        ? `${publicationBase}${hashId}/`
+        : preserveProjectTarget
+          ? `${projectBase}${projectSlug}/`
+          : humanTargets[activeSection] || home;
       humanFormatLink.setAttribute("href", humanTarget);
-      if (isKnownTarget && (preservePaperTarget || ["identity", "research", "publications"].includes(activeSection))) {
+      if (
+        isKnownTarget &&
+        (preservePaperTarget ||
+          preserveProjectTarget ||
+          ["identity", "research", "projects", "publications", "writing", "cv"].includes(activeSection))
+      ) {
         humanFormatLink.setAttribute("rel", "alternate");
       } else {
         humanFormatLink.removeAttribute("rel");
@@ -81,7 +97,8 @@
     }
 
     if (aiFormatLink) {
-      const aiAnchor = isPaper && activeSection === "publications" ? hashId : activeSection;
+      const preserveItemTarget = (isPaper && activeSection === "publications") || (isProject && activeSection === "projects");
+      const aiAnchor = preserveItemTarget ? hashId : activeSection;
       aiFormatLink.setAttribute("href", `${window.location.pathname}#${aiAnchor}`);
     }
 

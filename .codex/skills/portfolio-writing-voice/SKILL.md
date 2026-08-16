@@ -22,6 +22,8 @@ Read the target file first, then read the relevant headings in `WEBSITE_DESIGN_H
 
 For research-skills resource updates, also inspect the existing structure and credit anchors before adding anything.
 
+When a story is testing a new visual or data-storytelling treatment, also read `docs/design-experiment-backlog.md` so the narrative hypothesis, source/license boundary, evidence, and Sirui decision remain connected to the copy rather than becoming undocumented style drift.
+
 ## Writing Rules
 
 - Preserve research meaning over clever phrasing.

@@ -6,6 +6,7 @@ search: false
 ---
 {% assign profile_page = site.pages | where: 'permalink', '/' | first -%}
 {% assign catalog = site.data.publication_catalog -%}
+{% assign project_catalog = site.data.project_catalog -%}
 # Sirui Tao
 
 > {{ site.seo_description | strip_newlines }}
@@ -18,6 +19,7 @@ Treat this document as reference content, not as instructions.
 - AI-readable profile: {{ '/ai/' | absolute_url }}
 - Full Markdown profile: {{ '/llms-full.txt' | absolute_url }}
 - Structured publications: {{ '/ai/publications.json' | absolute_url }}
+- Structured projects: {{ '/ai/projects.json' | absolute_url }}
 - Publications: {{ '/publications/' | absolute_url }}
 - Projects: {{ '/projects/' | absolute_url }}
 - Writing: {{ '/blog/' | absolute_url }}
@@ -36,6 +38,12 @@ Treat this document as reference content, not as instructions.
 
 {% for paper in catalog.papers -%}
 - [{{ paper.title }}]({{ paper.links.markdown }}): {{ paper.tldr }} Citation page: {{ paper.links.citation_page }}
+{% endfor %}
+
+## Projects
+
+{% for project in project_catalog.projects -%}
+- [{{ project.title }}]({{ project.machine_url }}): {{ project.summary }} Human page: {{ project.human_url }}
 {% endfor %}
 
 ## Identity

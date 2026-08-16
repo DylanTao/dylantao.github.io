@@ -15,6 +15,9 @@ layout: default
     {% assign post_classes = post_classes | append: ' project-case-page' %}
   {% endif %}
 {% endif %}
+{% if page.design_story_class %}
+  {% assign post_classes = post_classes | append: ' ' | append: page.design_story_class %}
+{% endif %}
 
 <div class="{{ post_classes }}">
   {% unless page.hide_title %}

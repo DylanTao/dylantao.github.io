@@ -133,7 +133,7 @@
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: 0.58rem;
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: 0.04em;
     line-height: 1;
     writing-mode: vertical-rl;
@@ -213,7 +213,7 @@
     fill: var(--global-text-color-light);
     font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.02em;
   }
 }
@@ -239,7 +239,7 @@
     fill: currentColor;
     font-family: var(--font-mono);
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   circle {
@@ -471,7 +471,7 @@
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 750;
+    font-weight: 600;
   }
 
   strong {

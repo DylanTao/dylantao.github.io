@@ -66,7 +66,7 @@ a.btncv:focus-visible {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 760;
+  font-weight: 600;
   line-height: 1;
   text-decoration: none;
   text-transform: uppercase;
@@ -104,7 +104,7 @@ a.btncv:focus-visible {
 
   .card-title {
     font-size: clamp(1.25rem, 2vw, 1.6rem);
-    font-weight: 800;
+    font-weight: 600;
     margin-bottom: 0.85rem;
   }
 
@@ -209,7 +209,7 @@ p.location {
 
 .cv .cv-advisor-link,
 .cv .cv-reference-link {
-  font-weight: 700;
+  font-weight: 600;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.16em;
 }
@@ -274,7 +274,7 @@ p.location {
       padding: 0.62rem 0.82rem;
       color: var(--global-text-color);
       cursor: pointer;
-      font-weight: 750;
+      font-weight: 600;
     }
 
     summary:focus-visible {
@@ -512,7 +512,7 @@ span.badge-toc {
   background-color: var(--global-theme-color);
   border-radius: var(--md-lite-radius-pill);
   padding: 0.125rem 0.5rem 0.125rem 0.5rem;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   display: inline-block;
   inline-size: fit-content;
 }

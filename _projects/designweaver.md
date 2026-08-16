@@ -34,7 +34,7 @@ citation_pdf_url: "https://dl.acm.org/doi/pdf/10.1145/3706598.3714211"
 doi: "10.1145/3706598.3714211"
 ---
 
-<section class="project-case-hero designweaver-case">
+<section class="project-case-hero designweaver-case" data-paper-static-accent="static-mesh-gradient">
   <div class="project-case-copy">
     <p class="project-case-kicker">CHI 2025 · First author</p>
     <h1>DesignWeaver</h1>
@@ -55,6 +55,7 @@ doi: "10.1145/3706598.3714211"
   </div>
   <div class="project-case-media">
     {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" title="DesignWeaver teaser" alt="Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery" class="img-fluid" %}
+    <p class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/" target="_blank" rel="noopener noreferrer">Paper Shaders' Static Mesh Gradient</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</p>
   </div>
 </section>
 

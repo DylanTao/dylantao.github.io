@@ -989,7 +989,9 @@ test("compact desk scene preserves the cliff window anchor and return path", asy
 
 test("desktop desk scene enters outside only by window click and returns", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "desktop window hit-zone checkpoint");
-  testInfo.setTimeout(420_000);
+  // Eight full WebGL evidence captures can exceed seven minutes under a
+  // software renderer even after the final state has been reached.
+  testInfo.setTimeout(720_000);
 
   const runtimeErrors = collectRuntimeErrors(page);
   await openDeskHome(page);

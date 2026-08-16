@@ -16,6 +16,9 @@
     const hasIntersectionObserver = "IntersectionObserver" in window;
     const MAX_INTERACTION_INTENT = 0.72;
     const POINTER_EDGE_RAMP = 0.08;
+    // Keep a mode change visible long enough to register under a busy page,
+    // then let it settle without becoming a repeating ambient animation.
+    const MODE_PULSE_MS = 1600;
     // Peak tempo lift at full engagement. Applied to an accumulated clock, never to absolute time,
     // so a change in energy speeds the flow up instead of rescaling (and jumping) every phase.
     const MOTION_FLOW_GAIN = 0.45;
@@ -316,7 +319,7 @@
       if (state.reduceMotion) {
         state.kineticEnergy = 0;
       } else {
-        const modePulse = clamp(1 - (now - state.pulseStartedAt) / 860, 0, 1);
+        const modePulse = clamp(1 - (now - state.pulseStartedAt) / MODE_PULSE_MS, 0, 1);
         state.kineticEnergy = clamp(Math.max(state.pointer.intent, modePulse * MAX_INTERACTION_INTENT), 0, MAX_INTERACTION_INTENT);
       }
 

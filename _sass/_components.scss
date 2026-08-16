@@ -41,32 +41,25 @@ ul.task-list input[type="checkbox"] {
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 1px solid color-mix(in srgb, var(--global-outline-color) 82%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--global-card-bg-color) 88%, transparent);
-  color: color-mix(in srgb, var(--global-text-color-light) 72%, transparent);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 760;
-  line-height: 1;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.5rem -0.35rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--global-text-color-light) 54%, transparent);
   text-decoration: none;
+  opacity: 0.46;
   transition:
-    background-color var(--motion-standard),
-    border-color var(--motion-standard),
-    color var(--motion-standard),
-    opacity var(--motion-standard),
-    transform var(--motion-standard);
+    color 160ms ease-out,
+    opacity 160ms ease-out;
 
   &:hover,
   &:focus-visible {
-    border-color: color-mix(in srgb, var(--global-theme-color) 54%, var(--global-outline-color));
-    background: var(--global-accent-soft);
     color: var(--global-theme-color);
     opacity: 1;
     text-decoration: none;
-    transform: translateY(-1px);
   }
 
   &:focus-visible {
@@ -75,56 +68,61 @@ ul.task-list input[type="checkbox"] {
   }
 }
 
-.widget-origin-mark {
-  width: 1rem;
-  height: 1rem;
-  overflow: visible;
-  transform: translateY(-0.01em);
+.widget-origin-glint {
+  position: relative;
+  display: block;
+  width: 0.78rem;
+  height: 0.78rem;
+}
 
-  path {
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.65;
-    vector-effect: non-scaling-stroke;
+.widget-origin-glint-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.46rem;
+  height: 0.46rem;
+  background: currentColor;
+  box-shadow: 0 0 0 transparent;
+  clip-path: polygon(50% 0, 58% 40%, 100% 50%, 58% 60%, 50% 100%, 42% 60%, 0 50%, 42% 40%);
+  opacity: 0.72;
+  transform: translate(-50%, -50%) scale(0.72);
+  transition:
+    box-shadow 160ms ease-out,
+    opacity 160ms ease-out,
+    transform 160ms ease-out;
+}
+
+@supports selector(:has(*)) {
+  :where(*:has(> .widget-origin-link):hover, *:has(> .widget-origin-link):focus-within) > .widget-origin-link {
+    color: color-mix(in srgb, var(--global-theme-color) 76%, var(--global-text-color));
+    opacity: 0.76;
+  }
+
+  :where(*:has(> .widget-origin-link):hover, *:has(> .widget-origin-link):focus-within) > .widget-origin-link .widget-origin-glint-core {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
-.widget-origin-tooltip {
-  position: absolute;
-  right: -0.2rem;
-  bottom: calc(100% + 0.55rem);
-  width: max-content;
-  max-width: min(15.5rem, 72vw);
-  padding: 0.42rem 0.58rem;
-  border: 1px solid var(--global-outline-color);
-  border-radius: 0.48rem;
-  background: var(--global-card-bg-color);
-  box-shadow: var(--md-lite-elevation-2);
-  color: var(--global-text-color);
-  font-family: var(--font-sans);
-  font-size: var(--type-label);
-  font-weight: 650;
-  line-height: 1.35;
-  opacity: 0;
-  pointer-events: none;
-  text-align: left;
-  text-transform: none;
-  transform: translateY(0.2rem);
-  transition:
-    opacity 150ms ease,
-    transform 150ms ease;
-  visibility: hidden;
-  white-space: normal;
-  letter-spacing: normal;
+.widget-origin-link:hover .widget-origin-glint-core,
+.widget-origin-link:focus-visible .widget-origin-glint-core {
+  box-shadow: 0 0 0.62rem rgba(var(--global-accent-rgb), 0.38);
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(10deg) scale(1.22);
 }
 
-.widget-origin-link:hover .widget-origin-tooltip,
-.widget-origin-link:focus-visible .widget-origin-tooltip {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
+@media (prefers-reduced-motion: reduce) {
+  .widget-origin-link,
+  .widget-origin-glint-core {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .widget-origin-link {
+    color: LinkText;
+    opacity: 1;
+  }
 }
 
 // Card
@@ -333,7 +331,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: color-mix(in srgb, var(--global-text-color-light) 76%, transparent);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.05em;
   }
 
@@ -826,7 +824,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     background: var(--global-primary-fill-color);
     color: var(--global-on-primary-fill-color);
     font-size: var(--type-meta);
-    font-weight: 750;
+    font-weight: 600;
     line-height: 1;
     scroll-margin-block: 1rem;
 
@@ -857,7 +855,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     border-radius: var(--md-lite-radius-pill);
     background: var(--md-lite-state-muted);
     font-size: var(--type-meta);
-    font-weight: 700;
+    font-weight: 600;
 
     &:hover,
     &:focus-visible {
@@ -875,7 +873,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
   .card .card-title {
     font-size: var(--type-card-title);
-    font-weight: 750;
+    font-weight: 600;
     line-height: 1.16;
     margin-bottom: 0.55rem;
   }
@@ -933,7 +931,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 750;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 1.25;
     text-transform: uppercase;
@@ -944,7 +942,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-text-color);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 750;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 1.2;
     text-transform: uppercase;
@@ -1024,7 +1022,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     margin: 0 0 0.42rem;
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.2;
     text-align: left;
     text-transform: uppercase;
@@ -1061,14 +1059,14 @@ html.site-motion-ready .hoverable.site-visible:hover {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .project-case-copy h1 {
   font-size: var(--type-case-title);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1;
   margin: 0.4rem 0 0.8rem;
 }
@@ -1108,7 +1106,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     border-radius: var(--md-lite-radius-pill);
     color: var(--global-theme-color);
     display: inline-flex;
-    font-weight: 750;
+    font-weight: 600;
     min-height: 2.75rem;
     padding: 0.55rem 0.9rem;
     text-decoration: none;
@@ -1384,7 +1382,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: 0.62rem;
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -1412,7 +1410,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.3;
   text-transform: uppercase;
 }
@@ -1489,7 +1487,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     content: counter(project-storyboard, decimal-leading-zero);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 750;
+    font-weight: 600;
   }
 
   svg {
@@ -1596,7 +1594,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     fill: var(--global-text-color);
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 760;
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-anchor: middle;
   }
@@ -1663,7 +1661,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     content: "→";
     font-family: var(--font-mono);
     font-size: 0.9rem;
-    font-weight: 750;
+    font-weight: 600;
     line-height: 1;
   }
 
@@ -1682,7 +1680,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   text-transform: uppercase;
 
@@ -1716,7 +1714,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   strong {
@@ -1744,14 +1742,14 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: clamp(2.1rem, 5vw, 3.2rem);
-    font-weight: 780;
+    font-weight: 600;
     line-height: 0.95;
   }
 
   > span {
     margin-top: 0.28rem;
     color: var(--global-text-color);
-    font-weight: 700;
+    font-weight: 600;
   }
 
   time {
@@ -1867,7 +1865,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     padding: 0.68rem 0.9rem;
     color: var(--global-text-color);
     cursor: pointer;
-    font-weight: 750;
+    font-weight: 600;
     list-style: none;
 
     &::-webkit-details-marker {
@@ -2038,7 +2036,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 700;
+    font-weight: 600;
   }
 
   strong {
@@ -2070,7 +2068,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     border: 1px solid var(--global-theme-color);
     border-radius: 999px;
     color: var(--global-theme-color);
-    font-weight: 750;
+    font-weight: 600;
     text-decoration: none;
 
     &:first-child {
@@ -2308,7 +2306,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 800;
+    font-weight: 600;
   }
 
   strong {
@@ -2503,7 +2501,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     color: #ffffff;
     font-family: var(--font-mono);
     font-size: 0.62rem;
-    font-weight: 760;
+    font-weight: 600;
     line-height: 1.25;
   }
 
@@ -2554,7 +2552,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     color: var(--global-theme-color);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 780;
+    font-weight: 600;
     line-height: 1;
   }
 
@@ -2606,7 +2604,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     background: color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
     color: var(--global-text-color);
     font-size: var(--type-label);
-    font-weight: 750;
+    font-weight: 600;
     line-height: 1.2;
     text-align: center;
     text-decoration: none;
@@ -2647,7 +2645,7 @@ body:has(.hci-spooder-hero) #back-to-top {
   }
 
   span {
-    font-weight: 760;
+    font-weight: 600;
     line-height: 1.22;
   }
 
@@ -2695,7 +2693,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     color: var(--global-text-color);
     font: inherit;
     font-size: var(--type-label);
-    font-weight: 750;
+    font-weight: 600;
     padding: 0.35rem 0.62rem;
     cursor: pointer;
 
@@ -2870,7 +2868,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     background: rgba(8, 12, 16, 0.24);
     color: #ffffff;
     font: inherit;
-    font-weight: 750;
+    font-weight: 600;
     padding: 0;
     cursor: pointer;
     backdrop-filter: blur(0.45rem);
@@ -2914,7 +2912,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     color: rgba(255, 255, 255, 0.68);
     font-family: var(--font-mono);
     font-size: var(--type-label);
-    font-weight: 760;
+    font-weight: 600;
     line-height: 1;
   }
 
@@ -2932,7 +2930,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     justify-self: end;
     color: #ffffff;
     font-size: var(--type-meta);
-    font-weight: 750;
+    font-weight: 600;
     text-decoration: none;
 
     &:hover,
@@ -2991,7 +2989,7 @@ body:has(.hci-spooder-hero) #back-to-top {
 
   a {
     color: var(--global-theme-color);
-    font-weight: 750;
+    font-weight: 600;
   }
 }
 
@@ -3069,7 +3067,7 @@ body:has(.hci-spooder-hero) #back-to-top {
     gap: 0.38rem;
     font: inherit;
     font-size: var(--type-meta);
-    font-weight: 720;
+    font-weight: 600;
     text-decoration: none;
     transition:
       background-color var(--motion-standard),
@@ -3158,7 +3156,7 @@ html[data-theme="dark"] {
     color: var(--global-text-color);
     font-family: var(--font-mono);
     font-size: var(--type-meta);
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.3;
   }
 }
@@ -3198,7 +3196,7 @@ html[data-theme="dark"] {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 650;
+  font-weight: 600;
   margin-right: 0.45rem;
   text-transform: uppercase;
 }
@@ -3482,7 +3480,6 @@ html[data-theme="dark"] {
 
 @media (prefers-reduced-motion: reduce) {
   .widget-origin-link,
-  .widget-origin-tooltip,
   .hoverable,
   .project-case-actions a,
   .projects .card,
@@ -3501,11 +3498,6 @@ html[data-theme="dark"] {
 
   .widget-origin-link:hover,
   .widget-origin-link:focus-visible {
-    transform: none;
-  }
-
-  .widget-origin-link:hover .widget-origin-tooltip,
-  .widget-origin-link:focus-visible .widget-origin-tooltip {
     transform: none;
   }
 

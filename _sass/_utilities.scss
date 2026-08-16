@@ -525,7 +525,7 @@ nav[data-toggle="toc"] {
   content: "Sections";
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -552,7 +552,7 @@ nav[data-toggle="toc"] {
   border-radius: 0.35rem;
   color: var(--global-text-color-light);
   font-size: 0.82rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.28;
   overflow-wrap: anywhere;
   text-decoration: none;
@@ -591,7 +591,7 @@ nav[data-toggle="toc"] {
 #toc-sidebar .toc-link.is-active-link {
   background: color-mix(in srgb, var(--global-theme-color) 14%, transparent);
   color: var(--global-theme-color);
-  font-weight: 820;
+  font-weight: 600;
 }
 
 #toc-sidebar .toc-link.is-active-link::before {

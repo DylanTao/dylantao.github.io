@@ -10,7 +10,7 @@
   border: 0;
   background: transparent;
   font-size: 0.74rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -90,7 +90,7 @@
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
@@ -159,7 +159,7 @@
   background: var(--global-card-bg-color);
   color: var(--global-text-color);
   font: inherit;
-  font-weight: 680;
+  font-weight: 600;
   cursor: pointer;
   transition:
     background-color var(--motion-standard),
@@ -268,7 +268,7 @@
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 

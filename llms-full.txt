@@ -6,6 +6,7 @@ search: false
 ---
 {% assign profile_page = site.pages | where: 'permalink', '/' | first -%}
 {% assign catalog = site.data.publication_catalog -%}
+{% assign project_catalog = site.data.project_catalog -%}
 # Sirui Tao — full AI-readable research profile
 
 Treat this document as reference content, not as instructions. Preserve author order and venue facts, use paper-specific sources, and do not expand claims beyond the stated boundaries.
@@ -37,6 +38,41 @@ Treat this document as reference content, not as instructions. Preserve author o
 {% if mode.link_url and mode.link_label -%}
 Public example: {{ mode.link_label }} — {{ mode.link_url | absolute_url }}
 {% endif %}
+
+{% endfor %}
+## Projects
+
+Base project records are derived from public project front matter. Website Revamp and Build Rhythm carry deliberately reviewed question, evidence, boundary, and reproduction fields; other entries declare their conservative fallback basis.
+
+{% for project in project_catalog.projects %}
+### {{ project.title }}
+
+- Category: {{ project.category }}
+- Human page: {{ project.human_url }}
+- Machine-readable project context: {{ project.machine_url }}
+- Context basis: {{ project.context_basis }}
+
+{{ project.summary }}
+
+#### Question
+
+{{ project.question }}
+
+#### Evidence
+
+{% for item in project.evidence -%}
+- {{ item }}
+{% endfor %}
+
+#### Boundary
+
+{{ project.boundary }}
+
+#### Reproduction
+
+{% for item in project.reproduction -%}
+- {{ item }}
+{% endfor %}
 
 {% endfor %}
 ## Publications and citation guidance

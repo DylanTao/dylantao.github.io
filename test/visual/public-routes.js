@@ -14,7 +14,7 @@ function usesExternalVisualServer() {
 
 // Keep the homepage last: its canvas/compositing work can leave Linux
 // Chromium unable to capture the next image-heavy route in the same worker.
-const SITEWIDE_ROUTES = [
+const ALL_SITEWIDE_ROUTES = [
   {
     id: "blog-index",
     path: "/blog/",
@@ -185,7 +185,29 @@ const SITEWIDE_ROUTES = [
   },
 ];
 
-const DESK_ROUTE = SITEWIDE_ROUTES.find((route) => route.id === "home");
+function selectedRouteIds() {
+  const value = process.env.VISUAL_ROUTE_IDS?.trim();
+  if (!value) return null;
+
+  const ids = [
+    ...new Set(
+      value
+        .split(",")
+        .map((id) => id.trim())
+        .filter(Boolean)
+    ),
+  ];
+  const knownIds = new Set(ALL_SITEWIDE_ROUTES.map((route) => route.id));
+  const unknownIds = ids.filter((id) => !knownIds.has(id));
+  if (unknownIds.length > 0) {
+    throw new Error(`Unknown VISUAL_ROUTE_IDS: ${unknownIds.join(", ")}. Known route ids: ${[...knownIds].join(", ")}.`);
+  }
+  return new Set(ids);
+}
+
+const routeIds = selectedRouteIds();
+const SITEWIDE_ROUTES = routeIds ? ALL_SITEWIDE_ROUTES.filter((route) => routeIds.has(route.id)) : ALL_SITEWIDE_ROUTES;
+const DESK_ROUTE = ALL_SITEWIDE_ROUTES.find((route) => route.id === "home");
 
 function getPublicBaseURL() {
   if (process.env.VISUAL_BASE_URL && !usesExternalVisualServer()) {
@@ -201,6 +223,7 @@ function publicRouteUrl(routePath, baseURL = getPublicBaseURL()) {
 }
 
 module.exports = {
+  ALL_SITEWIDE_ROUTES,
   DEFAULT_VISUAL_PORT,
   DESK_ROUTE,
   SITEWIDE_ROUTES,

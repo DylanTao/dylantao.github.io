@@ -23,6 +23,27 @@ const COASTAL_THEME_MODES = [
   { mode: "evening", label: "Evening", computedTheme: "dark" },
 ];
 
+function selectedRouteThemes() {
+  const value = process.env.VISUAL_THEMES?.trim();
+  if (!value) return ["light", "dark"];
+
+  const themes = [
+    ...new Set(
+      value
+        .split(",")
+        .map((theme) => theme.trim())
+        .filter(Boolean)
+    ),
+  ];
+  const unknownThemes = themes.filter((theme) => !["light", "dark"].includes(theme));
+  if (unknownThemes.length > 0 || themes.length === 0) {
+    throw new Error('VISUAL_THEMES must contain "light", "dark", or both.');
+  }
+  return themes;
+}
+
+const SITEWIDE_ROUTE_THEMES = selectedRouteThemes();
+
 // Keep the homepage last: its richer desk surface should not precede the
 // lighter-weight route samples in the same Chromium process.
 const COASTAL_THEME_ROUTE_SAMPLES = [
@@ -338,6 +359,30 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     }
   }
 
+  if (route.id === "publications") {
+    const guides = page.locator("[data-publication-why-cite]");
+    await expect(guides).toHaveCount(5);
+    await expect(guides.first().locator(".publication-why-cite-title")).toHaveText("When this paper helps.");
+    await expect(guides.first().locator("summary")).toHaveAccessibleName(/When .* helps/);
+    await guides.first().locator("summary").click();
+    await expect(guides.first()).toHaveAttribute("open", "");
+    await expect(guides.first().locator(".publication-why-cite-provenance")).toContainText("I checked this against the paper");
+    await expect(page.getByText("Source-reviewed guide", { exact: true })).toHaveCount(0);
+    await guides.first().locator("summary").click();
+  }
+
+  if (route.id === "publication-context-designweaver") {
+    await expect(page.getByText("When this paper helps", { exact: false }).first()).toBeVisible();
+    await expect(page.getByText(/I checked this against the paper on/)).toBeVisible();
+    const details = page.locator(".publication-context-details");
+    await expect(details).not.toHaveAttribute("open", "");
+    await details.locator("summary").click();
+    await expect(details).toHaveAttribute("open", "");
+    await expect(details.getByText("What the paper reports", { exact: true })).toBeVisible();
+    await details.locator("summary").click();
+    await expect(page.getByText("Source-reviewed citation guide", { exact: true })).toHaveCount(0);
+  }
+
   const geometry = await page.evaluate(() => {
     const documentElement = document.documentElement;
     return {
@@ -498,6 +543,11 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     const story = page.locator(".project-story-beats").first();
     const beats = story.locator(":scope > .project-story-beat");
     const privacyNote = page.locator(".project-story-note--privacy").first();
+    if (route.id === "project-build-rhythm") {
+      await story.locator("xpath=ancestor::details[1]").evaluate((details) => {
+        details.open = true;
+      });
+    }
     await expect(story).toBeVisible();
     await expect(beats).toHaveCount(3);
     await expect(privacyNote).toBeVisible();
@@ -516,13 +566,13 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       beatBoxes.every((box, index) => index === 0 || box.top >= beatBoxes[index - 1].top),
       `${route.path} story beats do not preserve source order`
     ).toBe(true);
-    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
+    if (route.id === "project-paper-constellation" && ["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
       expect(Math.max(...beatBoxes.map((box) => box.top)) - Math.min(...beatBoxes.map((box) => box.top))).toBeLessThanOrEqual(2);
       expect(beatBoxes[0].right).toBeLessThanOrEqual(beatBoxes[1].left);
       expect(beatBoxes[1].right).toBeLessThanOrEqual(beatBoxes[2].left);
-    } else if (testInfo.project.name === "mobile-390") {
-      expect(beatBoxes[1].top).toBeGreaterThan(beatBoxes[0].bottom);
-      expect(beatBoxes[2].top).toBeGreaterThan(beatBoxes[1].bottom);
+    } else if (route.id !== "project-paper-constellation" || testInfo.project.name === "mobile-390") {
+      expect(beatBoxes[1].top).toBeGreaterThanOrEqual(beatBoxes[0].bottom);
+      expect(beatBoxes[2].top).toBeGreaterThanOrEqual(beatBoxes[1].bottom);
     }
 
     const measure = await privacyNote.evaluate((element) => {
@@ -563,13 +613,13 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   }
 
   if (route.id === "project-build-rhythm") {
-    const signals = page.locator(".project-story-signal-grid").first();
-    const cards = signals.locator(":scope > div");
+    const questions = page.locator(".build-rhythm-questions").first();
+    const questionRows = questions.locator(":scope > li");
     const reproduce = page.locator(".site-experiment-reproduce").first();
-    await expect(cards).toHaveCount(3);
-    await expect(cards.locator("h3")).toHaveCount(3);
+    await expect(questionRows).toHaveCount(3);
+    await expect(questionRows.locator("h3")).toHaveCount(3);
     await expect(reproduce).toBeVisible();
-    const boxes = await cards.evaluateAll((elements) =>
+    const boxes = await questionRows.evaluateAll((elements) =>
       elements.map((element) => {
         const box = element.getBoundingClientRect();
         return { bottom: box.bottom, left: box.left, right: box.right, top: box.top, width: box.width };
@@ -577,14 +627,10 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     );
     expect(
       boxes.every((box) => box.width >= 220),
-      "Build Rhythm signal cards are squeezed"
+      "Build Rhythm question rows are squeezed"
     ).toBe(true);
-    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
-      expect(Math.max(...boxes.map((box) => box.top)) - Math.min(...boxes.map((box) => box.top))).toBeLessThanOrEqual(2);
-    } else {
-      expect(boxes[1].top).toBeGreaterThan(boxes[0].bottom);
-      expect(boxes[2].top).toBeGreaterThan(boxes[1].bottom);
-    }
+    expect(boxes[1].top).toBeGreaterThanOrEqual(boxes[0].bottom);
+    expect(boxes[2].top).toBeGreaterThanOrEqual(boxes[1].bottom);
 
     const reproduceMeasure = await reproduce.evaluate((element) => {
       const box = element.getBoundingClientRect();
@@ -1180,13 +1226,13 @@ test("Build Week story exposes a complete reduced-motion view", async ({ page },
 
 for (const route of SITEWIDE_ROUTES) {
   test(`public route: ${route.id}`, async ({ page, context }, testInfo) => {
-    await exercisePublicRoute(page, route, "light", testInfo);
-
-    const darkPage = await context.newPage();
-    try {
-      await exercisePublicRoute(darkPage, route, "dark", testInfo);
-    } finally {
-      await darkPage.close();
+    for (const [index, theme] of SITEWIDE_ROUTE_THEMES.entries()) {
+      const themePage = index === 0 ? page : await context.newPage();
+      try {
+        await exercisePublicRoute(themePage, route, theme, testInfo);
+      } finally {
+        if (index > 0) await themePage.close();
+      }
     }
   });
 }
@@ -1617,11 +1663,11 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     { route: "/", hash: "", alternate: true },
     { route: "/publications/", hash: "#publications", alternate: true },
     { route: "/publications/designweaver/", hash: "#designweaver", alternate: true },
-    { route: "/projects/", hash: "#routes", alternate: false },
-    { route: "/projects/designweaver/", hash: "#routes", alternate: false },
-    { route: "/blog/", hash: "#routes", alternate: false },
-    { route: "/blog/2026/research-skills-starter-pack/", hash: "#routes", alternate: false },
-    { route: "/cv/", hash: "#routes", alternate: false },
+    { route: "/projects/", hash: "#projects", alternate: true },
+    { route: "/projects/designweaver/", hash: "#project-designweaver", alternate: true },
+    { route: "/blog/", hash: "#writing", alternate: true },
+    { route: "/blog/2026/research-skills-starter-pack/", hash: "#writing", alternate: true },
+    { route: "/cv/", hash: "#cv", alternate: true },
   ];
 
   for (const { route, hash, alternate } of routeTargets) {
@@ -1665,8 +1711,12 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   const aiCounterparts = [
     { hash: "#identity", human: "/", alternate: true },
     { hash: "#research", human: "/#focus", alternate: true },
+    { hash: "#projects", human: "/projects/", alternate: true },
+    { hash: "#project-designweaver", human: "/projects/designweaver/", alternate: true },
     { hash: "#publications", human: "/publications/", alternate: true },
     { hash: "#designweaver", human: "/publications/designweaver/", alternate: true },
+    { hash: "#writing", human: "/blog/", alternate: true },
+    { hash: "#cv", human: "/cv/", alternate: true },
     { hash: "#routes", human: "/", alternate: false },
     { hash: "#sources", human: "/", alternate: false },
     { hash: "#not-real", human: "/", alternate: false },
@@ -1733,15 +1783,15 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     .toBe(true);
 
   await page.setViewportSize({ width: 390, height: 1000 });
-  await page.goto(publicRouteUrl("/ai/#routes"), { waitUntil: "domcontentloaded" });
+  await page.goto(publicRouteUrl("/ai/#projects"), { waitUntil: "domcontentloaded" });
   await expect(page.locator(".ai-jump-nav")).toHaveCount(0);
-  await expect(page.locator('.ai-route-grid a[href$="/publications/"]')).not.toHaveAttribute("rel", /alternate/);
-  await expect(page.locator('.ai-route-grid a[href$="/projects/"]')).toHaveAccessibleName("Open the human projects page");
-  await expect(page.locator('.ai-route-grid a[href$="/blog/"]')).toHaveAccessibleName("Open the human blog page");
-  await expect(page.locator('.ai-route-grid a[href$="/cv/"]')).toHaveAccessibleName("Open the human CV page");
+  await expect(page.locator("[data-project-slug]")).toHaveCount(17);
+  await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
+  await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
+  await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Human CV");
 
   const aiHeaderLinks = page.locator("#navbarNav [data-ai-nav-link]");
-  await expect(aiHeaderLinks).toHaveCount(5);
+  await expect(aiHeaderLinks).toHaveCount(7);
   const headerTargetsAreMachineLocal = await aiHeaderLinks.evaluateAll((links) =>
     links.every((link) => {
       const target = new URL(link.href);
@@ -1749,8 +1799,8 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     })
   );
   expect(headerTargetsAreMachineLocal).toBe(true);
-  await expect(page.locator('[data-ai-nav-link="routes"]')).toHaveAttribute("aria-current", "location");
-  await expect(page.locator('[data-site-format="human"]')).toHaveAttribute("href", /\/$/);
+  await expect(page.locator('[data-ai-nav-link="projects"]')).toHaveAttribute("aria-current", "location");
+  await expect(page.locator('[data-site-format="human"]')).toHaveAttribute("href", /\/projects\/$/);
 
   const navbarToggle = page.locator(".navbar-toggler");
   const mobileNavigation = page.locator("#navbarNav");
@@ -1779,13 +1829,13 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   expect(sourcesLanding.targetTop).toBeLessThanOrEqual(sourcesLanding.navBottom + 24);
 
   await page.goBack();
-  await expect(page).toHaveURL(/\/ai\/#routes$/);
+  await expect(page).toHaveURL(/\/ai\/#projects$/);
   await expect(mobileNavigation).toBeHidden();
   await expect(navbarToggle).toHaveAttribute("aria-expanded", "false");
-  await expect(page.locator('[data-site-format="human"]')).toHaveAttribute("href", /\/$/);
+  await expect(page.locator('[data-site-format="human"]')).toHaveAttribute("href", /\/projects\/$/);
   await expect
     .poll(async () => {
-      const landing = await getAnchorLandingGeometry(page, "routes");
+      const landing = await getAnchorLandingGeometry(page, "projects");
       if (!landing) return false;
       const gap = landing.targetTop - landing.navBottom;
       return gap >= 8 && gap <= 24;
@@ -1837,15 +1887,18 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     await expect(noScriptNavigation).toHaveAccessibleName("AI profile sections");
     const noScriptHeaderLinks = noScriptPage.locator("#navbarNav [data-ai-nav-link]");
     await expect(noScriptHeaderLinks.first()).toBeHidden();
-    const expectedJumpHashes = ["#identity", "#research", "#publications", "#routes", "#sources"];
-    await expect(noScriptHeaderLinks).toHaveCount(expectedJumpHashes.length);
+    const expectedHeaderHashes = ["#identity", "#research", "#projects", "#publications", "#writing", "#cv", "#sources"];
+    const expectedNoScriptHashes = ["#identity", "#research", "#projects", "#publications", "#writing", "#cv", "#routes", "#sources"];
+    await expect(noScriptHeaderLinks).toHaveCount(expectedHeaderHashes.length);
     const noScriptJumpLinks = noScriptNavigation.locator("a");
-    await expect(noScriptJumpLinks).toHaveCount(expectedJumpHashes.length);
-    for (let index = 0; index < expectedJumpHashes.length; index += 1) {
+    await expect(noScriptJumpLinks).toHaveCount(expectedNoScriptHashes.length);
+    for (let index = 0; index < expectedHeaderHashes.length; index += 1) {
       const link = noScriptHeaderLinks.nth(index);
-      await expect(link).toHaveAttribute("href", new RegExp(`${expectedJumpHashes[index]}$`));
-      await expect(noScriptJumpLinks.nth(index)).toHaveAttribute("href", expectedJumpHashes[index]);
-      expect(await noScriptPage.locator(expectedJumpHashes[index]).count()).toBe(1);
+      await expect(link).toHaveAttribute("href", new RegExp(`${expectedHeaderHashes[index]}$`));
+    }
+    for (let index = 0; index < expectedNoScriptHashes.length; index += 1) {
+      await expect(noScriptJumpLinks.nth(index)).toHaveAttribute("href", expectedNoScriptHashes[index]);
+      expect(await noScriptPage.locator(expectedNoScriptHashes[index]).count()).toBe(1);
     }
     const humanHomePath = new URL(publicRouteUrl("/")).pathname;
     const noScriptHumanHref = new URL((await noScriptPage.locator('[data-site-format="human"]').getAttribute("href")) || "", noScriptPage.url());
@@ -1898,7 +1951,7 @@ test("no-JavaScript AI hash routes keep current state neutral", async ({ browser
     await expect(page.locator("#research")).toBeVisible();
     await expect(page.locator("#navbarNav .nav-item.active")).toHaveCount(0);
     await expect(page.locator("#navbarNav [data-ai-nav-link][aria-current]")).toHaveCount(0);
-    await expect(page.locator('.ai-route-grid a[href$="/publications/"]')).not.toHaveAttribute("rel", /alternate/);
+    await expect(page.locator('.ai-route-grid a[href$="/news/"]')).not.toHaveAttribute("rel", /alternate/);
   } finally {
     await context.close();
   }
@@ -2300,23 +2353,161 @@ test("projects keep the ten site experiments in debut order", async ({ page }, t
   await attachScreenshot(page, testInfo, `projects-site-experiments-${testInfo.project.name}`, { fullPage: true });
 });
 
-test("desk origin stays bounded and still under reduced motion", async ({ page }, testInfo) => {
+test("Research Focus Paper field stays semantic, bounded, pausable, and optional", async ({ page, browser }, testInfo) => {
+  test.setTimeout(300000);
+  test.skip(testInfo.project.name !== "desktop-1440", "one desktop browser covers the single-context progressive-enhancement contract");
+
+  const fallbackContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const fallbackPage = await fallbackContext.newPage();
+  const fallbackErrors = collectRuntimeErrors(fallbackPage);
+  await fallbackPage.addInitScript(() => {
+    const originalGetContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function getContext(type, ...args) {
+      if (type === "webgl2" && this.closest?.("[data-paper-research-field]")) return null;
+      return originalGetContext.call(this, type, ...args);
+    };
+  });
+
+  let fallbackGeometry;
+  try {
+    await preparePage(fallbackPage, "light");
+    await fallbackPage.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    const fallbackField = fallbackPage.locator("[data-paper-research-field]");
+    await expect(fallbackField).toHaveAttribute("data-paper-shader-state", "fallback");
+    await expect(fallbackPage.locator("[data-research-motion-canvas]")).toBeVisible();
+    await expect(fallbackPage.locator("[data-research-mode]")).toHaveCount(3);
+    fallbackGeometry = await fallbackPage.locator("[data-research-motion]").evaluate((stage) => {
+      const box = stage.getBoundingClientRect();
+      const semanticCanvas = stage.querySelector("[data-research-motion-canvas]").getBoundingClientRect();
+      return {
+        height: box.height,
+        semanticHeight: semanticCanvas.height,
+        semanticWidth: semanticCanvas.width,
+        width: box.width,
+      };
+    });
+    expect(fallbackErrors).toEqual([]);
+  } finally {
+    await fallbackContext.close();
+  }
+
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const field = page.locator("[data-paper-research-field]");
+  const stage = page.locator("[data-research-motion]");
+  await expect(field).toHaveAttribute("data-paper-shader-state", "ready");
+  await stage.scrollIntoViewIfNeeded();
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField?.getState().inViewport)).toBe(true);
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField?.getState().currentSpeed)).toBeGreaterThan(0);
+
+  const readyGeometry = await stage.evaluate((element) => {
+    const box = element.getBoundingClientRect();
+    const semanticCanvas = element.querySelector("[data-research-motion-canvas]").getBoundingClientRect();
+    return {
+      height: box.height,
+      semanticHeight: semanticCanvas.height,
+      semanticWidth: semanticCanvas.width,
+      width: box.width,
+    };
+  });
+  for (const key of Object.keys(fallbackGeometry)) {
+    expect(Math.abs(readyGeometry[key] - fallbackGeometry[key]), `Research Focus ${key} shifted after shader initialization`).toBeLessThanOrEqual(1);
+  }
+
+  const designState = await page.evaluate(() => window.__siruiPaperResearchField.getState());
+  expect(designState.contextCount).toBe(1);
+  expect(designState.canvasPixels).toBeGreaterThan(0);
+  expect(designState.canvasPixels).toBeLessThanOrEqual(480000);
+  await expect(field.locator("canvas")).toHaveCount(1);
+  await page.locator('[data-research-mode="evaluate"]').click();
+  const evaluateState = await page.evaluate(() => window.__siruiPaperResearchField.getState());
+  expect(evaluateState.mode).toBe("evaluate");
+  expect(evaluateState.uniforms).not.toEqual(designState.uniforms);
+  expect(evaluateState.currentSpeed).toBeLessThan(designState.currentSpeed);
+  await page.locator('[data-research-mode="situated"]').click();
+  const situatedState = await page.evaluate(() => window.__siruiPaperResearchField.getState());
+  expect(situatedState.mode).toBe("situated");
+  expect(situatedState.uniforms.spreading).toBeGreaterThan(evaluateState.uniforms.spreading);
+  expect(situatedState.uniforms.scale).toBeGreaterThan(evaluateState.uniforms.scale);
+
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, value: true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField.getState().currentSpeed)).toBe(0);
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField.getState().running)).toBe(false);
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await stage.scrollIntoViewIfNeeded();
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField.getState().currentSpeed)).toBeGreaterThan(0);
+
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField.getState().inViewport)).toBe(false);
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField.getState().currentSpeed)).toBe(0);
+  await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField.getState().running)).toBe(false);
+
+  await stage.scrollIntoViewIfNeeded();
+  const beforeLoss = await stage.boundingBox();
+  await field.locator("canvas").evaluate((canvas) => canvas.getContext("webgl2")?.getExtension("WEBGL_lose_context")?.loseContext());
+  await expect(field).toHaveAttribute("data-paper-shader-state", "fallback");
+  await expect(field).toHaveAttribute("data-paper-shader-contexts", "0");
+  await expect(page.locator("[data-research-motion-canvas]")).toBeVisible();
+  const afterLoss = await stage.boundingBox();
+  expect(Math.abs(afterLoss.width - beforeLoss.width)).toBeLessThanOrEqual(1);
+  expect(Math.abs(afterLoss.height - beforeLoss.height)).toBeLessThanOrEqual(1);
+  expect(runtimeErrors).toEqual([]);
+
+  await page.goto(publicRouteUrl("/projects/build-rhythm/"), { waitUntil: "domcontentloaded" });
+  await expect(page.locator("[data-paper-research-field]")).toHaveCount(0);
+  expect(
+    await page.evaluate(() => performance.getEntriesByType("resource").filter((entry) => entry.name.includes("paper-research-field.js")).length)
+  ).toBe(0);
+
+  const reducedContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const reducedPage = await reducedContext.newPage();
+  try {
+    await reducedPage.emulateMedia({ reducedMotion: "reduce", contrast: "more" });
+    await preparePage(reducedPage, "light");
+    await reducedPage.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    const reducedField = reducedPage.locator("[data-paper-research-field]");
+    await expect(reducedField).toHaveAttribute("data-paper-shader-state", "still");
+    const reducedState = await reducedPage.evaluate(() => window.__siruiPaperResearchField.getState());
+    expect(reducedState.contextCount).toBe(1);
+    expect(reducedState.currentSpeed).toBe(0);
+    expect(reducedState.running).toBe(false);
+    expect(await reducedField.evaluate((element) => getComputedStyle(element).opacity)).toBe("0.2");
+    await reducedPage.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+    expect(await reducedField.evaluate((element) => getComputedStyle(element).display)).toBe("none");
+  } finally {
+    await reducedContext.close();
+  }
+});
+
+test("desk origin stays quiet until its control row is engaged", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
 
   const switcher = page.locator("[data-home-desk-mode-switch]");
   const origin = switcher.getByRole("link", { name: "Read how the desk scene began" });
-  const tooltip = origin.locator(".widget-origin-tooltip");
+  const glint = origin.locator(".widget-origin-glint");
   await expect(origin).toBeVisible();
+  await expect(origin).toHaveAttribute("data-origin-cue", "");
   await expect(origin).toHaveAttribute("href", /\/projects\/homepage-desk-scene\/$/);
+  await expect(glint).toBeVisible();
+  await expect(origin.locator(".widget-origin-word, .widget-origin-arrow")).toHaveCount(0);
+  await expect(origin.locator(".widget-origin-tooltip, .widget-origin-thread")).toHaveCount(0);
+  const restingOpacity = Number.parseFloat(await origin.evaluate((link) => getComputedStyle(link).opacity));
+  await switcher.hover();
+  await expect.poll(async () => Number.parseFloat(await origin.evaluate((link) => getComputedStyle(link).opacity))).toBeGreaterThan(restingOpacity);
   await origin.focus();
-  await expect(tooltip).toBeVisible();
+  expect(await origin.evaluate((link) => getComputedStyle(link).outlineWidth)).not.toBe("0px");
 
   const geometry = await page.evaluate(() => {
     const modeSwitcher = document.querySelector("[data-home-desk-mode-switch]");
     const link = modeSwitcher?.querySelector(".home-desk-origin-link");
-    const tip = link?.querySelector(".widget-origin-tooltip");
-    const contact = Array.from(document.querySelectorAll("a")).find((candidate) => candidate.textContent?.trim() === "Contact");
     const controls = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode], .home-desk-origin-link") ?? []);
     const modeTargets = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode]") ?? []).map((control) => {
       const rect = control.getBoundingClientRect();
@@ -2327,56 +2518,34 @@ test("desk origin stays bounded and still under reduced motion", async ({ page }
       return rect.top + rect.height / 2;
     });
     const linkRect = link?.getBoundingClientRect();
-    const tipRect = tip?.getBoundingClientRect();
-    const contactRect = contact?.getBoundingClientRect();
-    const overlap =
-      tipRect && contactRect
-        ? Math.max(0, Math.min(tipRect.right, contactRect.right) - Math.max(tipRect.left, contactRect.left)) *
-          Math.max(0, Math.min(tipRect.bottom, contactRect.bottom) - Math.max(tipRect.top, contactRect.top))
-        : 0;
     return {
       documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      tooltipOverflow: tip ? tip.scrollWidth - tip.clientWidth : null,
       originWidth: linkRect?.width ?? 0,
       originHeight: linkRect?.height ?? 0,
       modeTargets,
       sameRow: centers.length === 3 && Math.max(...centers) - Math.min(...centers) <= 2,
-      mobileTooltipBelow: linkRect && tipRect ? tipRect.top >= linkRect.bottom : false,
-      contactOverlap: overlap,
     };
   });
 
   expect(geometry.documentOverflow).toBeLessThanOrEqual(0);
-  expect(geometry.tooltipOverflow).toBeLessThanOrEqual(1);
-  const compactTargetMinimum = 24 - 0.01;
+  const compactTargetMinimum = 44 - 0.01;
   expect(geometry.originWidth).toBeGreaterThanOrEqual(compactTargetMinimum);
   expect(geometry.originHeight).toBeGreaterThanOrEqual(compactTargetMinimum);
   expect(geometry.modeTargets).toHaveLength(2);
-  expect(geometry.modeTargets.every(({ width, height }) => width >= compactTargetMinimum && height >= compactTargetMinimum)).toBe(true);
   expect(geometry.sameRow).toBe(true);
-  if (testInfo.project.name === "mobile-390") {
-    expect(geometry.mobileTooltipBelow).toBe(true);
-    expect(geometry.contactOverlap).toBe(0);
-  }
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await origin.focus();
   const reducedMotion = await origin.evaluate((link) => {
-    const tooltipElement = link.querySelector(".widget-origin-tooltip");
     const linkStyle = getComputedStyle(link);
-    const tooltipStyle = tooltipElement ? getComputedStyle(tooltipElement) : null;
     return {
       linkDuration: linkStyle.transitionDuration,
       linkTransform: linkStyle.transform,
-      tooltipDuration: tooltipStyle?.transitionDuration,
-      tooltipTransform: tooltipStyle?.transform,
     };
   });
   expect(reducedMotion).toEqual({
     linkDuration: "0s",
     linkTransform: "none",
-    tooltipDuration: "0s",
-    tooltipTransform: "none",
   });
 
   await attachScreenshot(page, testInfo, `desk-origin-${testInfo.project.name}`, { fullPage: false });

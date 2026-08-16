@@ -43,6 +43,12 @@
     </div>
 
     <div class="home-motion-stage" data-research-motion>
+      <div
+        class="home-motion-paper-field"
+        data-paper-research-field
+        data-paper-shader-state="pending"
+        aria-hidden="true"
+      ></div>
       <canvas data-research-motion-canvas aria-hidden="true"></canvas>
       {% if site.enable_darkmode %}
         {% include theme_mode_control.liquid id_prefix='motion-theme' class='home-motion-theme-control' %}
@@ -138,5 +144,12 @@
         {% endif %}
       </p>
     {% endif %}
+    <p class="home-motion-credit home-motion-credit-paper">
+      <span class="home-motion-credit-label">Live field</span>
+      <span class="home-motion-credit-copy">
+        The visible Dot Orbit layer uses <a href="https://shaders.paper.design/">Paper Shaders</a> by <a href="https://paper.design/">Paper</a>; the
+        restraint also follows the founder's <a href="https://youtu.be/P06RgnUKX_I?si=7xfPgwCjDHvjVG46">design walkthrough</a>.
+      </span>
+    </p>
   </section>
 {% endif %}

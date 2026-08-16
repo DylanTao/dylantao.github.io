@@ -61,7 +61,7 @@ DESK_PATHS = [
 INTENDED_MODEL = "gpt-5.6-sol"
 INTENDED_EFFORT = "ultra"
 MODEL_TRACKING_SCOPE = "site_repo_retained_contexts"
-MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 56
+MODEL_DEVIATION_ACKNOWLEDGMENT_POLICY_VERSION = 58
 # Acknowledgments are exact retained-turn signatures, not model-wide exceptions.
 # A new turn id or any changed signature remains unacknowledged and fails closed.
 MODEL_DEVIATION_ACKNOWLEDGMENTS: dict[str, dict[str, str]] = {
@@ -6160,6 +6160,251 @@ MODEL_DEVIATION_ACKNOWLEDGMENT_V56_TURN_IDS = tuple(
 
 del _turn_id, _timestamp, _leaf_session, _agent_path, _runtime_cwd
 del _first_scoped_response_at, _task_description
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V57_SITE_RELEASE_TURNS = (
+    (
+        "019fe780-8e62-7b90-9c80-3f671b590020",
+        "2026-08-09T17:09:53.267Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fe780-84fd-75f2-9720-b2debc651be3",
+        "/root/visual_a11y_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-09T17:09:56.924Z",
+        "read-only Build Rhythm and code-activity visual-accessibility audit",
+        (
+            "The coordinator explicitly delegated a bounded read-only website visual and "
+            "accessibility audit at high effort. This exact release-scoped deviation "
+            "differed from the site's declared ultra default; the original signature "
+            "remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "019fe78b-354e-7e03-9846-8813ac15f7dd",
+        "2026-08-09T17:21:29.292Z",
+        "gpt-5.6-sol",
+        "high",
+        "019fe780-84fd-75f2-9720-b2debc651be3",
+        "/root/visual_a11y_review",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-09T17:21:39.283Z",
+        "read-only private collector accuracy, cache, workflow, and migration audit",
+        (
+            "The coordinator explicitly delegated a bounded read-only private collector "
+            "review at high effort. This exact release-scoped deviation differed from the "
+            "site's declared ultra default; the original signature remains visible and no "
+            "blanket exception is created."
+        ),
+    ),
+    (
+        "01a0080f-e0b8-7570-9d71-29fdaba68a25",
+        "2026-08-16T00:54:20.763Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T00:54:34.797Z",
+        "user-requested sitewide design critique and release-plan synthesis",
+        (
+            "The user-requested sitewide design-planning turn ran at max effort while "
+            "producing the approved release plan. This exact release-scoped deviation "
+            "differed from the site's declared ultra default; the original signature "
+            "remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "01a00848-cd3c-7bf0-a19f-0d328da93be8",
+        "2026-08-16T01:56:25.838Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T01:57:15.351Z",
+        "user-approved Less, but more Sirui implementation and release verification",
+        (
+            "The user-approved sitewide design implementation and release-verification "
+            "turn ran at max effort. This exact release-scoped deviation differed from the "
+            "site's declared ultra default; the original signature remains visible and no "
+            "blanket exception is created."
+        ),
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _model,
+    _effort,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+    _reason,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V57_SITE_RELEASE_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": _model,
+        "effort": _effort,
+        "acknowledged_at": "2026-08-16",
+        "reason": _reason,
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-16."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V57_TURN_IDS = tuple(
+    row[0] for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V57_SITE_RELEASE_TURNS
+)
+
+del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description, _reason
+
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V58_SITE_RELEASE_CONTINUATION_TURNS = (
+    (
+        "01a00a08-1264-7dc1-9036-c8e361f89592",
+        "2026-08-16T10:04:58.144Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T10:05:11.652Z",
+        "user-requested localhost preview and direct-push readiness check",
+        (
+            "The user-requested localhost preview and direct-push readiness turn ran at "
+            "max effort as part of the accepted site release. This exact release-scoped "
+            "deviation differed from the site's declared ultra default; the original "
+            "signature remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "01a00a15-35d2-72b3-b2fa-3b8254f5e6ab",
+        "2026-08-16T10:19:17.740Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T10:19:33.924Z",
+        "user-reported broken localhost preview diagnosis and repair",
+        (
+            "The user-reported broken-preview diagnosis and repair turn ran at max effort "
+            "within the approved site implementation. This exact release-scoped deviation "
+            "differed from the site's declared ultra default; the original signature "
+            "remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "01a00a4b-69ee-7fb1-84e1-a8011ea5b07a",
+        "2026-08-16T11:18:34.282Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T11:19:04.271Z",
+        "user-requested origin-cue correction and visible Paper shader redesign",
+        (
+            "The user-requested origin-cue and visible Paper-shader redesign turn ran at "
+            "max effort within the approved site implementation. This exact release-scoped "
+            "deviation differed from the site's declared ultra default; the original "
+            "signature remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "01a00a7f-1dd6-7ca3-b11d-27a0b4f2dd75",
+        "2026-08-16T12:15:00.634Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T12:15:14.451Z",
+        "user-requested visual-QA pipeline optimization",
+        (
+            "The user-requested visual-QA pipeline optimization turn ran at max effort "
+            "while making the approved design loop narrower and more efficient. This exact "
+            "release-scoped deviation differed from the site's declared ultra default; the "
+            "original signature remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "01a00aa9-79ff-7fe3-a8d9-37fc4db9b7d2",
+        "2026-08-16T13:01:16.641Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T13:01:34.869Z",
+        "user-requested subtle origin treatment and sitewide shader and hierarchy refinement",
+        (
+            "The user-requested subtle-origin, sitewide-shader, and hierarchy-refinement "
+            "turn ran at max effort within the approved implementation. This exact "
+            "release-scoped deviation differed from the site's declared ultra default; the "
+            "original signature remains visible and no blanket exception is created."
+        ),
+    ),
+    (
+        "01a00adc-f40c-7e21-b3dd-543c3dd9a65a",
+        "2026-08-16T13:57:29.073Z",
+        "gpt-5.6-sol",
+        "max",
+        "01a0080f-d8dd-7992-b804-45d5a7fbf34a",
+        "/root",
+        r"D:\dev\dylantao.github.io",
+        "2026-08-16T13:57:41.919Z",
+        "user-accepted design and explicit direct-to-main release",
+        (
+            "The user-accepted design and explicit direct-to-main release turn ran at max "
+            "effort while completing the required release gates. This exact release-scoped "
+            "deviation differed from the site's declared ultra default; the original "
+            "signature remains visible and no blanket exception is created."
+        ),
+    ),
+)
+
+for (
+    _turn_id,
+    _timestamp,
+    _model,
+    _effort,
+    _leaf_session,
+    _agent_path,
+    _runtime_cwd,
+    _first_scoped_response_at,
+    _task_description,
+    _reason,
+) in MODEL_DEVIATION_ACKNOWLEDGMENT_V58_SITE_RELEASE_CONTINUATION_TURNS:
+    MODEL_DEVIATION_ACKNOWLEDGMENTS[_turn_id] = {
+        "timestamp": _timestamp,
+        "model": _model,
+        "effort": _effort,
+        "acknowledged_at": "2026-08-16",
+        "reason": _reason,
+        "provenance": (
+            f"Retained leaf session {_leaf_session}, agent path {_agent_path}, exact runtime "
+            f"cwd {_runtime_cwd}, first scoped assistant response for this turn at "
+            f"{_first_scoped_response_at}, and task {_task_description}; audited "
+            "2026-08-16."
+        ),
+    }
+
+MODEL_DEVIATION_ACKNOWLEDGMENT_V58_TURN_IDS = tuple(
+    row[0]
+    for row in MODEL_DEVIATION_ACKNOWLEDGMENT_V58_SITE_RELEASE_CONTINUATION_TURNS
+)
+
+del _turn_id, _timestamp, _model, _effort, _leaf_session, _agent_path, _runtime_cwd
+del _first_scoped_response_at, _task_description, _reason
 
 
 WH_PER_TOKEN_MIDPOINT = 0.0006

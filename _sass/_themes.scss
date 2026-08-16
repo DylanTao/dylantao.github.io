@@ -16,15 +16,21 @@
   --measure-prose: 54rem;
   --measure-notebook: 68rem;
   --measure-panel: 1360px;
-  --type-label: 0.76rem;
-  --type-meta: 0.875rem;
-  --type-body: 1rem;
-  --type-prose: 1.03rem;
-  --type-lede: clamp(1.05rem, 1.35vw, 1.22rem);
-  --type-card-title: clamp(1.2rem, 1.45vw, 1.45rem);
-  --type-section-title: clamp(1.8rem, 2.7vw, 2.35rem);
-  --type-page-title: clamp(2.2rem, 4.2vw, 3.75rem);
-  --type-case-title: clamp(2.35rem, 3.8vw, 3.65rem);
+  // Four computed roles. Legacy names remain aliases for one release so
+  // existing templates inherit the quieter hierarchy without a flag day.
+  --type-display: clamp(2.25rem, 4.2vw, 3.75rem);
+  --type-heading: clamp(1.35rem, 1.9vw, 1.9rem);
+  --type-reading: clamp(1rem, 0.18vw + 0.96rem, 1.06rem);
+  --type-compact: 0.82rem;
+  --type-label: var(--type-compact);
+  --type-meta: var(--type-compact);
+  --type-body: var(--type-reading);
+  --type-prose: var(--type-reading);
+  --type-lede: var(--type-reading);
+  --type-card-title: var(--type-heading);
+  --type-section-title: var(--type-heading);
+  --type-page-title: var(--type-display);
+  --type-case-title: var(--type-display);
 
   --global-bg-color: #fffefa;
   --global-code-bg-color: #{v.$code-bg-color-light};

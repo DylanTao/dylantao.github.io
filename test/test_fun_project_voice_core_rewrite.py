@@ -12,7 +12,7 @@ PROJECTS_DIR = REPO_ROOT / "_projects"
 
 PROJECT_OPENINGS = {
     "openai-build-week.md": "A polished homepage can hide the bad passes and judgment behind it.",
-    "build-rhythm.md": "Build Rhythm is where I go to see when the work bunches up.",
+    "build-rhythm.md": "Build Rhythm reveals when my making bunches up and when it goes quiet.",
     "paper-constellation.md": "Paper Constellation is a second way to browse my publications.",
     "homepage-desk-scene.md": "The homepage desk is one set of objects in two views.",
     "scholar-lens.md": "Scholar Lens adds filters and linked highlights to my publications page.",
@@ -22,6 +22,8 @@ PROJECT_OPENINGS = {
     "dogtor-portal.md": "There is a small dog next to the blog title.",
     "not-a-good-driver.md": "I built a small VRChat world around three ways into one joke",
 }
+
+EDITORIAL_STORIES = {"build-rhythm.md", "website-revamp.md"}
 
 
 class FunProjectVoiceCoreRewriteTests(unittest.TestCase):
@@ -41,12 +43,18 @@ class FunProjectVoiceCoreRewriteTests(unittest.TestCase):
                 lede = re.sub(r"<[^>]+>", "", lede_match.group(1))
                 self.assertIn(opening, lede)
                 self.assertLessEqual(len(lede.split()), 70)
-                self.assertLess(source.index('class="project-case-lede"'), source.index('class="project-case-summary"'))
+                next_section = 'class="project-design-question"' if filename in EDITORIAL_STORIES else 'class="project-case-summary"'
+                self.assertLess(source.index('class="project-case-lede"'), source.index(next_section))
 
     def test_summary_answers_why_and_what_before_the_long_story(self) -> None:
         for filename in PROJECT_OPENINGS:
             with self.subTest(filename=filename):
                 source = self.project_source(filename)
+                if filename in EDITORIAL_STORIES:
+                    self.assertNotIn('class="project-case-summary"', source)
+                    self.assertIn('class="project-design-question"', source)
+                    self.assertIn("sirui-editorial-story", source)
+                    continue
                 summary_start = source.index('class="project-case-summary"')
                 story_start = source.index('class="project-story-', summary_start)
                 summary = source[summary_start:story_start]

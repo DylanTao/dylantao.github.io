@@ -126,7 +126,7 @@
   margin-bottom: 0.5rem !important;
   color: var(--global-primary-color);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.075em;
 }
 
@@ -162,7 +162,7 @@
   min-height: 1.4rem;
   color: var(--global-text-color-light);
   font-size: var(--type-label);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0.045em;
 }
 
@@ -259,7 +259,7 @@
   margin-bottom: 0.45rem !important;
   color: var(--global-primary-color);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.055em;
 }
 
@@ -274,7 +274,7 @@
   background: var(--global-primary-container-color);
   color: var(--global-on-primary-container-color);
   font-size: var(--type-meta);
-  font-weight: 650;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -384,7 +384,7 @@
   color: var(--global-text-color-light);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0.045em;
   line-height: 1.2;
   text-align: center;
@@ -431,7 +431,7 @@
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 3vw, 1.7rem);
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .github-activity-token-summary dd {
@@ -511,7 +511,7 @@
   color: var(--global-primary-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
 }
 
@@ -701,7 +701,7 @@
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3.1rem);
   font-variant-numeric: tabular-nums;
-  font-weight: 750;
+  font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1;
 }
@@ -735,7 +735,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .github-activity-agent-family-value {
@@ -795,7 +795,7 @@
 
 .github-activity-agent-summary .github-activity-lifetime-cost span {
   color: var(--global-text-color);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .github-activity-readout {
@@ -835,7 +835,7 @@
   gap: 0.45rem 1.5rem;
   margin-top: 0.4rem !important;
   font-size: clamp(1.05rem, 2vw, 1.35rem);
-  font-weight: 650;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -913,7 +913,7 @@
 }
 
 .github-activity-lifetime-cost span {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .github-activity-latest {
@@ -1071,7 +1071,7 @@
 .github-activity-method summary {
   padding: 1rem 0;
   color: var(--global-text-color);
-  font-weight: 650;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -1109,7 +1109,7 @@
   padding: 0.85rem 0;
   color: var(--global-text-color);
   font-size: 1rem;
-  font-weight: 650;
+  font-weight: 600;
   cursor: pointer;
 }
 

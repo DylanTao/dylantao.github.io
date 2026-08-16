@@ -5,6 +5,11 @@ const root = process.cwd();
 
 const read = (relPath) => fs.readFileSync(path.join(root, relPath), "utf8");
 const exists = (relPath) => fs.existsSync(path.join(root, relPath));
+const walk = (relPath) =>
+  fs.readdirSync(path.join(root, relPath), { withFileTypes: true }).flatMap((entry) => {
+    const child = path.join(relPath, entry.name);
+    return entry.isDirectory() ? walk(child) : [child];
+  });
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const { isExpectedExternalStubIntegrityError } = require("./visual/helpers");
 
@@ -70,6 +75,63 @@ if (!/^\s*-\s*al_icons\s*$/m.test(config)) {
 }
 if (!/^\s*-\s*al_math\s*$/m.test(config)) {
   failures.push("`_config.yml` plugins must include `al_math` when math features are enabled.");
+}
+
+if (!config.includes("family=Inter:wght@400;500;600;700&")) {
+  failures.push("The site must request exactly the supported Inter narrative weights: 400, 500, 600, and 700.");
+}
+if (/family=Inter:wght@[^&]*(?:800|900)/.test(config)) {
+  failures.push("The site must not load unsupported Inter 800 or 900 weights.");
+}
+
+const themes = read("_sass/_themes.scss");
+for (const role of ["display", "heading", "reading", "compact"]) {
+  if (!new RegExp(`--type-${role}:`).test(themes)) {
+    failures.push(`The narrative type system must define \`--type-${role}\`.`);
+  }
+}
+const legacyTypeAliases = {
+  label: "compact",
+  meta: "compact",
+  body: "reading",
+  prose: "reading",
+  lede: "reading",
+  "card-title": "heading",
+  "section-title": "heading",
+  "page-title": "display",
+  "case-title": "display",
+};
+for (const [legacy, role] of Object.entries(legacyTypeAliases)) {
+  if (!new RegExp(`--type-${legacy}:\\s*var\\(--type-${role}\\);`).test(themes)) {
+    failures.push(`Legacy type token \`--type-${legacy}\` must remain an alias of \`--type-${role}\` during this release.`);
+  }
+}
+
+const siteScssFiles = walk("_sass").filter((relPath) => relPath.endsWith(".scss") && !relPath.split(path.sep).includes("font-awesome"));
+const allowedInterWeights = new Set(["400", "500", "600", "700"]);
+let legacyRawFontSizeDeclarations = 0;
+for (const relPath of siteScssFiles) {
+  const source = read(relPath);
+  for (const match of source.matchAll(/font-weight:\s*([0-9]{3})/g)) {
+    if (!allowedInterWeights.has(match[1])) {
+      failures.push(`${relPath} uses unsupported numeric font weight ${match[1]}; use 400, 500, 600, or 700.`);
+    }
+  }
+  for (const match of source.matchAll(/font-size:\s*([^;]+);/g)) {
+    const value = match[1].trim();
+    if (!value.includes("var(--type-") && !["0", "inherit"].includes(value)) {
+      legacyRawFontSizeDeclarations += 1;
+    }
+  }
+}
+if (legacyRawFontSizeDeclarations > 333) {
+  failures.push(
+    `Narrative styles added arbitrary font sizes (${legacyRawFontSizeDeclarations} raw declarations; legacy ceiling 333). Use a computed type role instead.`
+  );
+}
+const realignmentFontSizes = Array.from(read("_sass/_realignment.scss").matchAll(/font-size:\s*([^;]+);/g), (match) => match[1].trim());
+if (realignmentFontSizes.some((value) => !value.startsWith("var(--type-"))) {
+  failures.push("The sitewide realignment layer must use computed type-role variables for every font size.");
 }
 
 for (const libraryKey of ["fontawesome", "academicons", "scholar-icons"]) {

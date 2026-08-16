@@ -12,6 +12,7 @@ sitemap: true
 
 {% assign profile_page = site.pages | where: 'permalink', '/' | first %}
 {% assign catalog = site.data.publication_catalog %}
+{% assign project_catalog = site.data.project_catalog %}
 
 <header class="ai-profile-header">
   <div class="ai-profile-heading">
@@ -33,6 +34,7 @@ sitemap: true
     <a href="{{ '/llms.txt' | relative_url }}">Concise index <span>.txt</span></a>
     <a href="{{ '/llms-full.txt' | relative_url }}">Full profile <span>.txt</span></a>
     <a href="{{ '/ai/publications.json' | relative_url }}">Publications <span>.json</span></a>
+    <a href="{{ '/ai/projects.json' | relative_url }}">Projects <span>.json</span></a>
     <button type="button" data-ai-copy data-copy-source="{{ '/llms-full.txt' | relative_url }}" hidden>
       <i class="fa-regular fa-copy" aria-hidden="true"></i>
       <span data-ai-copy-label>Copy full Markdown</span>
@@ -42,7 +44,10 @@ sitemap: true
     <nav class="ai-format-actions ai-noscript-nav" aria-label="AI profile sections">
       <a href="#identity">Identity</a>
       <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
       <a href="#publications">Publications</a>
+      <a href="#writing">Writing</a>
+      <a href="#cv">CV</a>
       <a href="#routes">Routes</a>
       <a href="#sources">Sources</a>
     </nav>
@@ -110,11 +115,53 @@ sitemap: true
   </div>
 </section>
 
+<section id="projects" class="ai-section ai-projects-section">
+  <p class="ai-section-label">03 · Projects</p>
+  <h2>Artifact context and design boundaries</h2>
+  <p class="ai-section-lede">
+    Every public project has a stable machine record. Website Revamp and Build Rhythm include deliberately reviewed question, evidence, boundary, and reproduction fields; the others use conservative public-frontmatter fallbacks rather than inferred claims.
+  </p>
+
+  <div class="ai-project-list">
+    {% for project in project_catalog.projects %}
+      <article class="ai-project" id="project-{{ project.slug }}" data-project-slug="{{ project.slug }}">
+        <header>
+          <p class="ai-project-index">{{ forloop.index | prepend: '0' }} / {{ project_catalog.projects.size | prepend: '0' }} · {{ project.category }}</p>
+          <h3><a href="#project-{{ project.slug }}">{{ project.title }}</a></h3>
+          <p>{{ project.summary }}</p>
+        </header>
+        <dl>
+          <div><dt>Question</dt><dd>{{ project.question }}</dd></div>
+          <div>
+            <dt>Evidence</dt>
+            <dd><ul>{% for item in project.evidence %}<li>{{ item }}</li>{% endfor %}</ul></dd>
+          </div>
+          <div><dt>Boundary</dt><dd>{{ project.boundary }}</dd></div>
+          <div>
+            <dt>Reproduction</dt>
+            <dd><ul>{% for item in project.reproduction %}<li>{{ item }}</li>{% endfor %}</ul></dd>
+          </div>
+          <div>
+            <dt>Canonical files</dt>
+            <dd class="ai-paper-links">
+              <a href="{{ project.human_path }}">Human project page</a>
+              <a href="{{ project.machine_path }}">Machine-readable Markdown</a>
+              {% for source_url in project.source_urls %}
+                {% unless source_url == project.human_url %}<a href="{{ source_url }}">Source {{ forloop.index }}</a>{% endunless %}
+              {% endfor %}
+            </dd>
+          </div>
+        </dl>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
 <section id="publications" class="ai-section ai-publications-section">
-  <p class="ai-section-label">03 · Publications</p>
+  <p class="ai-section-label">04 · Publications</p>
   <h2>Precise citation guidance</h2>
   <p class="ai-section-lede">
-    Bibliographic facts below come from the site's BibTeX file. The interpretation is a source-reviewed guide for deciding when a citation fits; it does not replace reading the paper.
+    Bibliographic facts below come from the site's BibTeX file. The interpretation records explicit fit, evidence, and scope; it does not replace reading the paper.
   </p>
 
   <div class="ai-paper-list">
@@ -192,28 +239,46 @@ sitemap: true
   </div>
 </section>
 
+<section id="writing" class="ai-section">
+  <p class="ai-section-label">05 · Writing</p>
+  <h2>Writing index</h2>
+  <p class="ai-section-lede">Dated working notes, reflections, and essays. The human pages carry the intended reading experience; the feed provides a compact chronological index.</p>
+  <p class="ai-inline-links"><a href="{{ '/blog/' | relative_url }}">Human writing index</a> <a href="{{ '/feed.xml' | relative_url }}">Atom feed</a></p>
+  <ol class="ai-writing-list">
+    {% for post in site.posts %}
+      <li>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y-%m-%d' }}</time>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {% if post.description %}<span>{{ post.description }}</span>{% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+
+<section id="cv" class="ai-section">
+  <p class="ai-section-label">06 · CV</p>
+  <h2>Structured CV index</h2>
+  <p class="ai-section-lede">{{ site.data.resume.basics.summary }}</p>
+  <nav class="ai-inline-links" aria-label="CV formats">
+    <a href="{{ '/cv/' | relative_url }}">Human CV</a>
+    <a href="{{ '/assets/json/resume.json' | relative_url }}">JSON Resume</a>
+    <a href="{{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | relative_url }}">Public PDF</a>
+  </nav>
+</section>
+
 <section id="routes" class="ai-section">
-  <p class="ai-section-label">04 · Public routes</p>
-  <h2 id="public-route-heading">Where to continue</h2>
-  <p class="ai-section-lede">These links intentionally leave the AI profile and open the corresponding human site section.</p>
+  <p class="ai-section-label">07 · Other public routes</p>
+  <h2 id="public-route-heading">More ways to continue</h2>
+  <p class="ai-section-lede">Additional public indexes that do not need a second machine projection here.</p>
   <nav class="ai-route-grid" aria-labelledby="public-route-heading">
-    <a href="{{ '/publications/' | relative_url }}" aria-label="Open the human publications page">
-      <span>Open human research record</span><strong>Publications</strong>
-    </a>
-    <a href="{{ '/projects/' | relative_url }}" aria-label="Open the human projects page">
-      <span>Open human artifacts and case studies</span><strong>Projects</strong>
-    </a>
-    <a href="{{ '/blog/' | relative_url }}" aria-label="Open the human blog page">
-      <span>Open human working notes and reflections</span><strong>Blog</strong>
-    </a>
-    <a href="{{ '/cv/' | relative_url }}" aria-label="Open the human CV page"><span>Open human roles, education, and service</span><strong>CV</strong></a>
     <a href="{{ '/news/' | relative_url }}" aria-label="Open the human news page"><span>Open human dated activity</span><strong>News</strong></a>
+    <a href="{{ '/github-activity/' | relative_url }}"><span>Inspect exact build and usage tables</span><strong>Build Rhythm explorer</strong></a>
     <a href="{{ '/sitemap.xml' | relative_url }}"><span>Open crawlable public URL index</span><strong>Sitemap</strong></a>
   </nav>
 </section>
 
 <section id="sources" class="ai-section">
-  <p class="ai-section-label">05 · Sources and freshness</p>
+  <p class="ai-section-label">08 · Sources and freshness</p>
   <h2>Canonical identity and provenance</h2>
   <ul class="ai-source-list">
     {% for source in site.profile_same_as %}

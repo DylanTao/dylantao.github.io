@@ -30,7 +30,7 @@ body {
   h5,
   h6 {
     font-family: var(--font-display);
-    font-weight: 750;
+    font-weight: 600;
     letter-spacing: 0;
     scroll-margin-top: 66px;
   }
@@ -178,7 +178,7 @@ body.sticky-bottom-footer {
   border-radius: 999px;
   padding: 0.62rem 0.9rem;
   color: var(--global-text-color);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
 
@@ -267,7 +267,7 @@ body.sticky-bottom-footer {
 
   &.is-active {
     color: var(--global-text-color);
-    font-weight: 720;
+    font-weight: 600;
 
     &::before {
       background: currentColor;
@@ -288,7 +288,7 @@ body.sticky-bottom-footer {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -428,10 +428,10 @@ body.sticky-bottom-footer {
     top: clamp(7rem, 54vh, calc(100vh - 8rem));
     right: 0;
     bottom: auto;
-    transform: translateX(0.42rem);
+    transform: none;
 
     &.is-readable {
-      transform: translateX(0);
+      transform: none;
     }
 
     &:not(.is-open) {
@@ -482,7 +482,7 @@ body.sticky-bottom-footer {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -492,7 +492,7 @@ body.sticky-bottom-footer {
   min-width: 0;
   color: var(--global-text-color);
   font-size: var(--type-meta);
-  font-weight: 720;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

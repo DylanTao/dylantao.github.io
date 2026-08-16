@@ -59,6 +59,8 @@ FUN_PROJECT_SLUGS = (
     "not-a-good-driver",
 )
 
+EDITORIAL_STORY_SLUGS = {"build-rhythm", "website-revamp"}
+
 
 def frontmatter(path: Path) -> dict[str, str]:
     source = path.read_text(encoding="utf-8")
@@ -176,10 +178,16 @@ class SiteExperimentsTests(unittest.TestCase):
                 self.assertGreaterEqual(len(description), 45)
                 self.assertLessEqual(len(description), 220)
                 self.assertIn('class="project-case-lede"', source)
-                self.assertIn('class="project-case-summary"', source)
-                self.assertLess(source.index('class="project-case-lede"'), source.index('class="project-case-summary"'))
-                self.assertIn("<span>Why</span>", source)
-                self.assertIn("<span>What</span>", source)
+                if slug in EDITORIAL_STORY_SLUGS:
+                    self.assertNotIn('class="project-case-summary"', source)
+                    self.assertIn('class="project-design-question"', source)
+                    self.assertIn("sirui-editorial-story", source)
+                    self.assertLess(source.index('class="project-case-lede"'), source.index('class="project-design-question"'))
+                else:
+                    self.assertIn('class="project-case-summary"', source)
+                    self.assertLess(source.index('class="project-case-lede"'), source.index('class="project-case-summary"'))
+                    self.assertIn("<span>Why</span>", source)
+                    self.assertIn("<span>What</span>", source)
                 self.assertIn('class="project-case-actions"', source)
                 self.assertNotRegex(
                     source,
@@ -407,7 +415,7 @@ class SiteExperimentsTests(unittest.TestCase):
 
     def test_website_revamp_separates_archive_checkpoint_and_live_children(self) -> None:
         source = (PROJECTS_DIR / "website-revamp.md").read_text(encoding="utf-8")
-        self.assertEqual(source.count('class="project-story-beat"'), 3)
+        self.assertEqual(len(re.findall(r'class="[^"]*\bproject-story-beat\b[^"]*"', source)), 3)
         self.assertIn("Archive, redesign, ongoing experiments", source)
         self.assertIn('data-archive-wayback-timestamp="20260209013429"', source)
         self.assertIn('data-archive-site-commit="not-preserved"', source)
@@ -510,21 +518,24 @@ class SiteExperimentsTests(unittest.TestCase):
         source = (PROJECTS_DIR / "build-rhythm.md").read_text(encoding="utf-8")
         self.assertNotIn("What the page protects", source)
         self.assertEqual(source.count('class="project-story-beat"'), 3)
-        self.assertEqual(source.count("<span>Why</span>"), 1)
-        self.assertEqual(source.count("<span>What</span>"), 1)
-        self.assertEqual(source.count("<span>How</span>"), 1)
+        self.assertNotIn('class="project-case-summary"', source)
+        self.assertEqual(source.count('class="project-design-question"'), 1)
+        self.assertEqual(source.count('class="build-rhythm-limit"'), 3)
+        self.assertLess(source.index("The shape is useful; the score would be fiction."), source.index("## Three questions, three clocks"))
+        self.assertLess(source.index("## Three questions, three clocks"), source.index("Receipts: why I separated the clocks"))
         for phrase in (
-            "How to read the rhythm",
-            "Daily code cadence",
+            "Three questions, three clocks",
+            "When did the code work bunch up?",
             "Reported commits mark active calendar labels.",
-            "daily code activity by named source",
-            "the soft band between them shows merges and deploys",
+            "The quiet outer line is the reported total across visible sources.",
+            "The crisp inner line is authored commits",
+            "the soft band between them is merges and deploys",
             "exact schema-5 source-calendar coverage validates for every named source",
             "Site-token rhythm",
             "Personal agent days",
             "Account identities and per-account readings stay private",
             "The lesson I carried over was pacing",
-            "Full technical revision record",
+            "Receipts: full data and revision record",
             "this site's retained-log estimate remains a different series",
         ):
             with self.subTest(phrase=phrase):
@@ -534,8 +545,8 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertNotIn("schema-3", source.lower())
         self.assertIn('class="project-story-disclosure"', source)
         self.assertEqual(source.count('class="site-experiment-ledger"'), 1)
-        self.assertLess(source.index('aria-label="Build Rhythm summary"'), source.index('class="project-story-beats"'))
-        self.assertLess(source.index('class="project-story-beats"'), source.index('class="project-story-disclosure"'))
+        self.assertLess(source.index("## Three questions, three clocks"), source.index('class="project-story-disclosure"'))
+        self.assertLess(source.index('class="project-story-disclosure"'), source.index('class="project-story-beats"'))
         for commit in ("b4203f3ea", "71b8f4c89", "ed0d3ba40", "d3f13be35", "1b07cea4c", "6b4b7bd59", "7e224db12", "6edea07f4"):
             with self.subTest(commit=commit):
                 self.assertIn(commit, source)

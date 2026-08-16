@@ -37,6 +37,7 @@ module SiruiPublicationCatalog
     slug
     abstract
     tldr
+    human
     why_cite
     authorship
     topics
@@ -50,6 +51,13 @@ module SiruiPublicationCatalog
     contributions
     evidence
     boundaries
+  ].freeze
+
+  REQUIRED_HUMAN_KEYS = %w[
+    fit
+    cues
+    adds
+    limit
   ].freeze
 
   ROUTE_SAFE_SLUG = /\A[a-z0-9]+(?:-[a-z0-9]+)*\z/.freeze
@@ -185,6 +193,15 @@ module SiruiPublicationCatalog
           end
         end
 
+        human = context.fetch("human")
+        missing_human = REQUIRED_HUMAN_KEYS.reject { |field| present?(human[field]) }
+        raise CatalogError, "#{key}.human is missing fields: #{missing_human.join(", ")}" unless missing_human.empty?
+
+        cues = human["cues"]
+        unless cues.is_a?(Array) && cues.length.between?(1, 2) && cues.all? { |item| present?(item) }
+          raise CatalogError, "#{key}.human.cues must contain one or two non-empty strings"
+        end
+
         unless context["topics"].is_a?(Array) && !context["topics"].empty? && context["topics"].all? { |topic| present?(topic) }
           raise CatalogError, "#{key}.topics must be a non-empty list of non-empty strings"
         end
@@ -266,6 +283,7 @@ module SiruiPublicationCatalog
         "work_group" => lens["work_group"],
         "abstract" => context.fetch("abstract"),
         "tldr" => context.fetch("tldr"),
+        "human" => context.fetch("human"),
         "why_cite" => context.fetch("why_cite"),
         "authorship" => context.fetch("authorship"),
         "topics" => context.fetch("topics"),

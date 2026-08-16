@@ -17,3 +17,5 @@ _data/direct_usage_tracker.json
 assets/data/codex-profile-usage.json
 # Scholar automation updates this mixed generated/editorial projection.
 _data/publication_lens.yml
+# Vendored Paper Shaders files stay byte-for-byte identical to the recorded hashes.
+assets/vendor/paper-shaders/

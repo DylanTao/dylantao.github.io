@@ -1,0 +1,27 @@
+{
+  "name": "@paper-design/shaders",
+  "version": "0.0.80",
+  "license": "Apache-2.0",
+  "source": "https://www.npmjs.com/package/@paper-design/shaders/v/0.0.80",
+  "repository": "https://github.com/paper-design/shaders",
+  "archive": {
+    "filename": "paper-design-shaders-0.0.80.tgz",
+    "npm_shasum": "13398a1c145b157681e7beb313ffe4fab5d54a38",
+    "npm_integrity": "sha512-pcabvt5xDlFoEhpjUj4b1tGJMfqb0i5mXifWMNQf6z7FoOJYxYDo7F8R6k0JAh5D/7ouxjX5+N0cIq5WURyQ1Q==",
+    "sha256": "6e7fb50002b2a1a3ec9eb4d3024e007d7877df30b31cc7d5f0a44cca46949f22"
+  },
+  "files": [
+    { "path": "LICENSE", "bytes": 11357, "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4" },
+    { "path": "NOTICE", "bytes": 91, "sha256": "06cf1515dc4628ae4a10f04f394ce746c6edba1ad0ed5d3f7df7ab1781dfe868" },
+    { "path": "dist/get-shader-color-from-string.js", "bytes": 3299, "sha256": "5b4a27c2ff3380adebe8b8957475866d05c6f8b442309d89f466f735bce33aed" },
+    { "path": "dist/get-shader-noise-texture.js", "bytes": 23748, "sha256": "54346e280909373cf4d519fb779f5cd6b22be4047b8eb78b7d5bdc9ec7987492" },
+    { "path": "dist/shader-mount.js", "bytes": 21549, "sha256": "a7eb58aa60f2d59b669e031af01e1f9ee0974a7805b38ff14704438462c461b1" },
+    { "path": "dist/shader-sizing.js", "bytes": 758, "sha256": "db0eb176c9a66c03653770a542adcf4cf8efc07b0929d9e257f49c05d82013fe" },
+    { "path": "dist/shader-utils.js", "bytes": 3669, "sha256": "26ba187ff4b02715bd98d8ff409c508efcc3881a1f45ceeb08d00b71b145eb2e" },
+    { "path": "dist/shaders/dot-orbit.js", "bytes": 3382, "sha256": "94be75d3759239d0c0631bc9fadf5e3452df0d7b8cdc9b3311778295fe9866ca" },
+    { "path": "dist/shaders/paper-texture.js", "bytes": 6735, "sha256": "b2fa3e8281bf85f9505880056d0cec947454604f4c780e11257ffec416d7e8ef" },
+    { "path": "dist/shaders/static-mesh-gradient.js", "bytes": 3688, "sha256": "3f9e12710fb91ecfa3000477f78c34fadb46532fde4aa5a60cb2896162de4ec4" },
+    { "path": "dist/shaders/waves.js", "bytes": 2045, "sha256": "6d50a13378a2a598297b9acf5a6e35cb02d5f274c4482853191dc7af38903857" },
+    { "path": "dist/vertex-shader.js", "bytes": 5370, "sha256": "cd9856f2e071e0c18794dd9c5a1663c11d72cbc68b0403b555d190f412b3e8db" }
+  ]
+}

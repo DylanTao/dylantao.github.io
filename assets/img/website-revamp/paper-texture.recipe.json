@@ -1,0 +1,26 @@
+{
+  "generator": "bin/generate_paper_texture.cjs",
+  "package": "@paper-design/shaders",
+  "version": "0.0.80",
+  "shader": "Paper Texture",
+  "source": "https://shaders.paper.design/",
+  "width": 1600,
+  "height": 900,
+  "output": "assets/img/website-revamp/paper-texture-0.0.80.webp",
+  "output_sha256": "f01c9275327dada960758025c5225119f17af03ea3d8bcd20b0119cacac1bee6",
+  "parameters": {
+    "colorFront": [0.984, 0.969, 0.929, 1],
+    "colorBack": [0.965, 0.941, 0.89, 1],
+    "contrast": 0.16,
+    "roughness": 0.28,
+    "fiber": 0.12,
+    "fiberSize": 0.62,
+    "crumples": 0.035,
+    "crumpleSize": 0.82,
+    "folds": 0.025,
+    "foldCount": 3,
+    "drops": 0.008,
+    "seed": 0.731,
+    "fade": 0.2
+  }
+}

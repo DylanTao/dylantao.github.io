@@ -56,6 +56,7 @@ REQUIRED_CONTEXT_FIELDS = {
     "slug",
     "abstract",
     "tldr",
+    "human",
     "why_cite",
     "authorship",
     "topics",
@@ -70,6 +71,8 @@ REQUIRED_WHY_CITE_FIELDS = {
     "evidence",
     "boundaries",
 }
+
+REQUIRED_HUMAN_FIELDS = {"fit", "cues", "adds", "limit"}
 
 
 def load_yaml(path: Path) -> dict:
@@ -117,6 +120,24 @@ class PublicationContextContractTest(unittest.TestCase):
                     self.assertIsInstance(why_cite[field], list)
                     self.assertGreater(len(why_cite[field]), 0)
                     self.assertTrue(all(isinstance(item, str) and item.strip() for item in why_cite[field]))
+
+    def test_human_projection_is_short_deliberate_and_separate(self) -> None:
+        for key, record in self.context.items():
+            with self.subTest(key=key):
+                human = record["human"]
+                self.assertEqual(REQUIRED_HUMAN_FIELDS - set(human), set())
+                self.assertTrue(all(isinstance(human[field], str) and human[field].strip() for field in ("fit", "adds", "limit")))
+                self.assertIsInstance(human["cues"], list)
+                self.assertGreaterEqual(len(human["cues"]), 1)
+                self.assertLessEqual(len(human["cues"]), 2)
+                self.assertTrue(all(isinstance(item, str) and item.strip() for item in human["cues"]))
+
+        bib_layout = (REPO_ROOT / "_layouts" / "bib.liquid").read_text(encoding="utf-8")
+        publication_layout = (REPO_ROOT / "_layouts" / "publication.liquid").read_text(encoding="utf-8")
+        self.assertIn("When this paper helps.", bib_layout)
+        self.assertIn("I checked this against the paper", publication_layout)
+        self.assertIn("paper.why_cite.evidence", publication_layout)
+        self.assertNotIn("Source-reviewed citation guide", bib_layout + publication_layout)
 
     def test_slugs_roles_topics_and_sources_are_valid(self) -> None:
         slugs: list[str] = []

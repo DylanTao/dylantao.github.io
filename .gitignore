@@ -21,3 +21,9 @@ output/playwright/
 playwright-report/
 test-results/
 vendor
+
+# The Paper Shaders closure is an intentional, license-recorded site asset.
+!assets/vendor/
+assets/vendor/*
+!assets/vendor/paper-shaders/
+!assets/vendor/paper-shaders/**

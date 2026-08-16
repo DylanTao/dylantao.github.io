@@ -2,6 +2,12 @@ const { test, expect } = require("@playwright/test");
 const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
 const { getPublicBaseURL, usesExternalVisualServer } = require("./public-routes");
 
+async function openOptionalStarterRoute(page, path) {
+  const response = await page.goto(path, { waitUntil: "networkidle" });
+  test.skip(response?.status() === 404, `starter fixture route is unpublished: ${path}`);
+  await stabilizeVisuals(page);
+}
+
 async function shakeCurrentRecord(page) {
   const portrait = page.locator("#home-profile-image-container");
   await expect(portrait).toBeVisible();
@@ -431,14 +437,17 @@ test("delayed two-source Codex fallback keeps the currently selected chart scale
   });
 
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
-  await page.getByRole("button", { name: "Literal", exact: true }).click();
+  const literalButton = page.getByRole("button", { name: "Literal", exact: true });
+  await literalButton.click();
   releaseSnapshot();
 
   const codexSnapshot = page.locator("[data-codex-usage]");
   await expect(codexSnapshot).toHaveAttribute("data-state", "ready");
-  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveText("400,000,000 tokens");
-  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "literal");
-  await expect(codexSnapshot.locator("[data-codex-status]")).toContainText("Personal agent daily usage complete through");
+  await expect(literalButton).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#github-activity-chart")).toContainText("LINEAR");
+  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveText("0.4B");
+  await expect(codexSnapshot.locator("[data-codex-lifetime]")).toHaveAttribute("data-format", "readable");
+  await expect(codexSnapshot.locator("[data-codex-status]")).toContainText("Daily history is complete through");
 });
 
 test("daily personal code and completed personal agent usage remain separate and exactly inspectable", async ({ page }, testInfo) => {
@@ -776,20 +785,24 @@ test("home agentic ledger keeps price replay separate from the permanent Build R
   expect(routeFrame.arrowTransform).toBe("none");
 });
 
-test("publications Abs toggle opens and closes", async ({ page }) => {
+test("publication abstracts remain available below the human citation context", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
-  const absButton = page.getByRole("button", { name: "Abs" }).first();
-  await expect(absButton).toBeVisible();
+  const firstGuide = page.locator("[data-publication-why-cite]").first();
+  await firstGuide.locator("summary").click();
+  const contextLink = firstGuide.getByRole("link", { name: "Read the full evidence and citation context" });
+  await expect(contextLink).toBeVisible();
+  await contextLink.click();
 
-  const panel = page.locator(".abstract.hidden").first();
-  await absButton.click();
-  await expect(panel).toHaveClass(/open/);
-
-  await absButton.click();
-  await expect(panel).not.toHaveClass(/open/);
+  await expect(page.locator("[data-publication-context-page]")).toBeVisible();
+  await expect(page.locator(".publication-context-trust")).toContainText("I checked this against the paper on");
+  await expect(page.locator(".publication-context-details")).toBeVisible();
+  await expect(page.locator(".publication-context-abstract")).toContainText("The authors' summary");
+  await expect(page.getByRole("link", { name: "Markdown", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "BibTeX", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "RIS", exact: true })).toBeVisible();
 });
 
 test("publication why-cite guides are shared and keyboard-native", async ({ page }) => {
@@ -808,7 +821,7 @@ test("publication why-cite guides are shared and keyboard-native", async ({ page
   await summary.press("Enter");
   await expect(firstGuide).toHaveAttribute("open", "");
   await expect(firstGuide.locator(".publication-why-cite-body")).toBeVisible();
-  await expect(firstGuide.getByRole("link", { name: "Full citation context" })).toBeVisible();
+  await expect(firstGuide.getByRole("link", { name: "Read the full evidence and citation context" })).toBeVisible();
   if ((page.viewportSize()?.width ?? 0) <= 767) {
     await expect(page.locator("#back-to-top")).toBeHidden();
   }
@@ -914,8 +927,7 @@ test("mobile navbar can expand/collapse", async ({ page }, testInfo) => {
 
 test("repositories page renders external stat cards with deterministic fixtures", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/repositories/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/repositories/");
 
   const repoImages = page.locator('img[src*="github-readme-stats"], img[src*="github-profile-trophy"]');
   await expect(repoImages.first()).toBeVisible();
@@ -924,15 +936,15 @@ test("repositories page renders external stat cards with deterministic fixtures"
   expect(renderedCount).toBeGreaterThan(0);
 });
 
-test("blog pagination uses core Tailwind-native styling contract", async ({ page }) => {
+test("blog pagination uses the site-native styling contract", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto("/al-folio/blog/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
-  const pagination = page.locator(".af-pagination");
+  const pagination = page.locator(".pagination");
   await expect(pagination.first()).toBeVisible();
 
-  const pageLink = page.locator(".af-page-link").first();
+  const pageLink = pagination.locator(".page-item.active .page-link").first();
   await expect(pageLink).toBeVisible();
 
   const styles = await pageLink.evaluate((node) => {
@@ -1072,15 +1084,15 @@ test("navbar menu stays right-aligned on desktop pages", async ({ page }, testIn
   expect(alignment.menuRight).toBeLessThanOrEqual(alignment.actionsLeft + 12);
 });
 
-test("home profile bubbles hover independently", async ({ page }, testInfo) => {
+test("home artifact cards hover independently", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "hover-specific assertion is desktop-only");
 
   await preparePage(page, "light");
   await page.goto("/al-folio/", { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
-  const secondary = page.locator(".home-media-card-secondary");
-  const primary = page.locator(".home-media-card-primary");
+  const secondary = page.locator(".home-artifact-card-2");
+  const primary = page.locator(".home-artifact-card-1");
   await expect(secondary).toBeVisible();
   await expect(primary).toBeVisible();
 
@@ -1088,8 +1100,6 @@ test("home profile bubbles hover independently", async ({ page }, testInfo) => {
     card.evaluate((el) => {
       const computed = window.getComputedStyle(el);
       return {
-        animationPlayState: computed.animationPlayState,
-        backgroundColor: computed.backgroundColor,
         borderColor: computed.borderColor,
         boxShadow: computed.boxShadow,
       };
@@ -1103,26 +1113,20 @@ test("home profile bubbles hover independently", async ({ page }, testInfo) => {
   const secondaryHovered = await readCardStyles(secondary);
   const primaryWhileSecondaryHovered = await readCardStyles(primary);
 
-  expect(secondaryHovered.animationPlayState).toBe("paused");
-  expect(primaryWhileSecondaryHovered.animationPlayState).not.toBe("paused");
-  expect(secondaryHovered.backgroundColor).not.toBe(secondaryRest.backgroundColor);
   expect(secondaryHovered.borderColor).not.toBe(secondaryRest.borderColor);
   expect(secondaryHovered.boxShadow).not.toBe(secondaryRest.boxShadow);
-  expect(primaryWhileSecondaryHovered.backgroundColor).toBe(primaryRest.backgroundColor);
   expect(primaryWhileSecondaryHovered.borderColor).toBe(primaryRest.borderColor);
+  expect(primaryWhileSecondaryHovered.boxShadow).toBe(primaryRest.boxShadow);
 
   await primary.hover();
   await page.waitForTimeout(320);
   const primaryHovered = await readCardStyles(primary);
   const secondaryWhilePrimaryHovered = await readCardStyles(secondary);
 
-  expect(primaryHovered.animationPlayState).toBe("paused");
-  expect(secondaryWhilePrimaryHovered.animationPlayState).not.toBe("paused");
-  expect(primaryHovered.backgroundColor).not.toBe(primaryRest.backgroundColor);
   expect(primaryHovered.borderColor).not.toBe(primaryRest.borderColor);
   expect(primaryHovered.boxShadow).not.toBe(primaryRest.boxShadow);
-  expect(secondaryWhilePrimaryHovered.backgroundColor).toBe(secondaryRest.backgroundColor);
   expect(secondaryWhilePrimaryHovered.borderColor).toBe(secondaryRest.borderColor);
+  expect(secondaryWhilePrimaryHovered.boxShadow).toBe(secondaryRest.boxShadow);
 });
 
 test("home keyboard record playback survives shake suppression", async ({ page }) => {
@@ -1477,8 +1481,7 @@ test("navbar search button opens modal and toggle buttons use pointer cursor", a
 
 test("related posts are wrapped in a valid list", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/blog/2023/tables/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/blog/2023/tables/");
 
   const heading = page.getByRole("heading", { name: "Enjoy Reading This Article?" });
   await expect(heading).toBeVisible();
@@ -1496,8 +1499,7 @@ test("related posts are wrapped in a valid list", async ({ page }) => {
 
 test("inline code uses compact normal-weight typography", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/blog/2023/sidebar-table-of-contents/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/blog/2023/sidebar-table-of-contents/");
 
   const inlineCodeStyle = await page.evaluate(() => {
     const candidate = Array.from(document.querySelectorAll("main code, [role='main'] code")).find((el) => !el.closest("pre"));
@@ -1809,8 +1811,7 @@ test("404 recovery stays put and opts out of indexing", async ({ page }) => {
 
 test("teaching calendar toggle has pointer cursor and toggles calendar visibility", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/teaching/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/teaching/");
 
   const button = page.locator("#calendar-toggle-btn");
   await expect(button).toBeVisible();
@@ -1831,8 +1832,7 @@ test("toc sidebar renders with tocbot styling and data-toc-text label", async ({
   test.skip(testInfo.project.name === "mobile", "TOC sidebar is hidden on mobile viewport");
 
   await preparePage(page, "light");
-  await page.goto("/al-folio/blog/2023/sidebar-table-of-contents/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/blog/2023/sidebar-table-of-contents/");
 
   const tocSidebar = page.locator("#toc-sidebar");
   const tocLinks = tocSidebar.locator(".toc-link");
@@ -1871,8 +1871,7 @@ test("toc sidebar renders with tocbot styling and data-toc-text label", async ({
 
 test("tailwind table engine provides search, pagination, and sorting in pretty tables", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/blog/2023/tables/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/blog/2023/tables/");
 
   const interactiveTable = page.locator('table[data-search="true"]');
   await expect(interactiveTable).toBeVisible();
@@ -1892,8 +1891,7 @@ test("tailwind table engine provides search, pagination, and sorting in pretty t
 
 test("lightbox galleries open in-page modal instead of navigating away", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/blog/2024/photo-gallery/", { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
+  await openOptionalStarterRoute(page, "/al-folio/blog/2024/photo-gallery/");
 
   const firstLightboxLink = page.locator("a[data-lightbox]").first();
   const firstHref = await firstLightboxLink.getAttribute("href");

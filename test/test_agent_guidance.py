@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -11,6 +12,12 @@ SKILL_ROOT = REPO_ROOT / ".codex" / "skills"
 CANONICAL_HEADINGS = {
     "WEBSITE_DESIGN_HEURISTICS.md": {
         "Decision Order",
+        "Less, But More Sirui",
+        "An Evolving Spine",
+        "Signature Copy Locklist",
+        "Three Narrative Type Roles",
+        "Human And AI Are Different Reading Surfaces",
+        "Story With The Right Medium",
         "Agent Quick Index",
         "First-Glance Story",
         "Visual Hierarchy",
@@ -19,6 +26,7 @@ CANONICAL_HEADINGS = {
         "Content",
         "Accessibility And Quality Checks",
         "Screenshot Critique Ritual",
+        "Proportional Visual QA",
         "Acceptance Evidence",
         "Page Archetypes",
         "Occam's Razor For UI",
@@ -60,13 +68,13 @@ SKILL_SOURCE_LINKS = {
         "WEBSITE_DESIGN_HEURISTICS.md",
         "docs/homepage-desk-scene-brief.md",
     },
-    "portfolio-writing-voice": {"WEBSITE_DESIGN_HEURISTICS.md"},
+    "portfolio-writing-voice": {"WEBSITE_DESIGN_HEURISTICS.md", "docs/design-experiment-backlog.md"},
     "tacit-knowledge-to-skill": {
         "WEBSITE_DESIGN_HEURISTICS.md",
         "docs/homepage-desk-scene-brief.md",
         "docs/agentic-usage-ledger.md",
     },
-    "website-design-critique": {"WEBSITE_DESIGN_HEURISTICS.md"},
+    "website-design-critique": {"WEBSITE_DESIGN_HEURISTICS.md", "docs/design-experiment-backlog.md"},
 }
 
 
@@ -178,6 +186,13 @@ class AgentGuidanceContractTest(unittest.TestCase):
         self.assertIn("## Parallel Scope", scene_skill)
         self.assertIn("one writer at a time", agents_text)
         self.assertIn("coordinator", agents_text.lower())
+        for command in ("test:visual:iterate", "test:visual:checkpoint"):
+            self.assertIn(command, agents_text)
+            self.assertIn(command, design_skill)
+
+        heuristics = read("WEBSITE_DESIGN_HEURISTICS.md")
+        self.assertIn("If browser capture stalls once", heuristics)
+        self.assertIn("full route matrix", heuristics)
 
     def test_repo_local_skills_use_windows_safe_node_commands(self) -> None:
         bare_node_command = re.compile(r"(?<![\w.])(?:npm|npx) (?=(?:run|prettier|playwright)\b)")
@@ -186,6 +201,27 @@ class AgentGuidanceContractTest(unittest.TestCase):
             skill_text = (skill_directory / "SKILL.md").read_text(encoding="utf-8")
             with self.subTest(skill=skill_directory.name):
                 self.assertNotRegex(skill_text, bare_node_command)
+
+    def test_visual_qa_has_fast_guarded_and_release_lanes(self) -> None:
+        scripts = json.loads(read("package.json"))["scripts"]
+        self.assertIn("iteration.config.js", scripts["test:visual:iterate"])
+        self.assertIn("checkpoint.config.js", scripts["test:visual:checkpoint"])
+        self.assertEqual(scripts["test:visual"], "npm run test:visual:public && npm run test:visual:legacy")
+
+        iteration_config = read("test/visual/iteration.config.js")
+        iteration_spec = read("test/visual/iteration.spec.js")
+        checkpoint_config = read("test/visual/checkpoint.config.js")
+        routes = read("test/visual/public-routes.js")
+        self.assertIn('VISUAL_BASE_URL ||= "http://127.0.0.1:4101"', iteration_config)
+        self.assertIn('process.env.NO_WEBSERVER = "1"', iteration_config)
+        self.assertIn("globalTimeout: 60000", iteration_config)
+        self.assertIn('trace: "off"', iteration_config)
+        self.assertIn('".jekyll-cache", "visual-qa"', iteration_config)
+        self.assertIn('".jekyll-cache", "visual-qa"', checkpoint_config)
+        self.assertIn("SITEWIDE_ROUTES.length !== 1", iteration_spec)
+        self.assertIn("VISUAL_CAPTURE_SELECTOR", iteration_spec)
+        self.assertIn("Set VISUAL_ROUTE_IDS", checkpoint_config)
+        self.assertIn("Unknown VISUAL_ROUTE_IDS", routes)
 
     def test_agent_entrypoint_changes_trigger_unit_contract(self) -> None:
         unit_workflow = read(".github/workflows/unit-tests.yml")

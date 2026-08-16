@@ -7,7 +7,7 @@ layout: page
     <div class="publication-context-hero-copy">
       <p class="publication-context-kicker">
         {{ paper.abbreviation }}
-        {{ paper.year }} · Source-reviewed citation guide
+        {{ paper.year }} · When this paper helps
       </p>
       <h1>{{ paper.title }}</h1>
       <p class="publication-context-byline">
@@ -43,54 +43,77 @@ layout: page
       </div>
     </div>
 
-    <aside class="publication-context-trust" aria-label="Citation guide provenance">
-      <span>Use this guide for</span>
-      <strong>Choosing and scoping a citation</strong>
-      <p>Claims below were checked against the paper or its official project record on {{ paper.provenance.reviewed_on }}.</p>
+    <aside class="publication-context-trust" aria-label="Citation context provenance">
+      <span>My reading note</span>
+      <strong>I checked this against the paper on {{ paper.provenance.reviewed_on }}.</strong>
+      <p>{{ paper.provenance.basis }}</p>
     </aside>
   </header>
 
   <section class="publication-context-section publication-context-why" aria-labelledby="when-to-cite-heading">
-    <p class="publication-context-label">When to cite this work</p>
-    <h2 id="when-to-cite-heading">{{ paper.why_cite.statement }}</h2>
+    <p class="publication-context-label">Fit</p>
+    <h2 id="when-to-cite-heading">{{ paper.human.fit }}</h2>
     <ul class="publication-context-cite-when">
-      {% for item in paper.why_cite.cite_when %}
+      {% for item in paper.human.cues %}
         <li>{{ item }}</li>
       {% endfor %}
     </ul>
   </section>
 
-  <div class="publication-context-evidence-grid">
+  <div class="publication-context-human-grid">
     <section class="publication-context-section" aria-labelledby="contributions-heading">
-      <p class="publication-context-label">Contribution</p>
-      <h2 id="contributions-heading">What this paper adds</h2>
-      <ul>
-        {% for item in paper.why_cite.contributions %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
+      <p class="publication-context-label">What it adds</p>
+      <h2 id="contributions-heading">{{ paper.human.adds }}</h2>
     </section>
-
-    <section class="publication-context-section" aria-labelledby="evidence-heading">
-      <p class="publication-context-label">Evidence</p>
-      <h2 id="evidence-heading">What the paper reports</h2>
-      <ul>
-        {% for item in paper.why_cite.evidence %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
-    </section>
-
     <section class="publication-context-section publication-context-boundary" aria-labelledby="boundaries-heading">
-      <p class="publication-context-label">Boundary</p>
-      <h2 id="boundaries-heading">What it does not establish</h2>
-      <ul>
-        {% for item in paper.why_cite.boundaries %}
-          <li>{{ item }}</li>
-        {% endfor %}
-      </ul>
+      <p class="publication-context-label">Honest limit</p>
+      <h2 id="boundaries-heading">{{ paper.human.limit }}</h2>
     </section>
   </div>
+
+  <details class="publication-context-details">
+    <summary>Detailed evidence, contribution, and scope</summary>
+    <div class="publication-context-details-body">
+      <section class="publication-context-section" aria-labelledby="full-fit-heading">
+        <p class="publication-context-label">Full citation fit</p>
+        <h2 id="full-fit-heading">{{ paper.why_cite.statement }}</h2>
+        <ul>
+          {% for item in paper.why_cite.cite_when %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      <div class="publication-context-evidence-grid">
+        <section class="publication-context-section" aria-labelledby="full-contributions-heading">
+          <p class="publication-context-label">Contribution</p>
+          <h2 id="full-contributions-heading">What the paper contributes</h2>
+          <ul>
+            {% for item in paper.why_cite.contributions %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+        <section class="publication-context-section" aria-labelledby="evidence-heading">
+          <p class="publication-context-label">Evidence</p>
+          <h2 id="evidence-heading">What the paper reports</h2>
+          <ul>
+            {% for item in paper.why_cite.evidence %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+        <section class="publication-context-section publication-context-boundary" aria-labelledby="full-boundaries-heading">
+          <p class="publication-context-label">Boundary</p>
+          <h2 id="full-boundaries-heading">What it does not establish</h2>
+          <ul>
+            {% for item in paper.why_cite.boundaries %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+      </div>
+    </div>
+  </details>
 
   <section class="publication-context-section publication-context-abstract" aria-labelledby="abstract-heading">
     <p class="publication-context-label">Paper abstract</p>

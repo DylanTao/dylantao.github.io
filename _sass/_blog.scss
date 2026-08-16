@@ -32,7 +32,7 @@
   h1 {
     color: var(--global-theme-color);
     font-size: var(--type-page-title);
-    font-weight: 800;
+    font-weight: 600;
     line-height: 1;
     margin-bottom: 0.55rem;
   }
@@ -116,7 +116,7 @@
 
     h3 {
       font-size: var(--type-card-title);
-      font-weight: 750;
+      font-weight: 600;
       line-height: 1.2;
       margin-bottom: 0.55rem;
     }
@@ -215,7 +215,7 @@
       color: var(--global-text-color);
       font-family: var(--font-mono);
       font-size: var(--type-label);
-      font-weight: 750;
+      font-weight: 600;
       line-height: 1;
       padding: 0.45rem 0.72rem;
       text-decoration: none;
@@ -329,7 +329,7 @@
 
   .post-title {
     font-size: var(--type-page-title);
-    font-weight: 800;
+    font-weight: 600;
   }
 
   .post-content {
@@ -425,7 +425,7 @@
   summary {
     color: var(--global-text-color);
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 600;
 
     &::marker {
       color: var(--global-theme-color);
@@ -516,7 +516,7 @@
 .blog-nav-title {
   color: var(--global-text-color);
   font-size: var(--type-card-title);
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.25;
   transition: color var(--motion-standard);
 }
@@ -677,7 +677,7 @@
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -757,7 +757,7 @@
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -803,7 +803,7 @@
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: var(--type-label);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   text-transform: uppercase;
   vertical-align: 0.05rem;
@@ -862,10 +862,9 @@
   }
 
   .widget-origin-link {
-    width: 1.55rem;
-    height: 1.55rem;
-    font-size: 0.64rem;
-    opacity: 0.72;
+    width: 2.75rem;
+    height: 2.75rem;
+    opacity: 0.46;
   }
 }
 
@@ -1007,7 +1006,7 @@ body.sirui-secret-dialog-open {
 .sirui-secret-fruit-label {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.2;
   overflow-wrap: anywhere;
   text-transform: uppercase;
@@ -1017,7 +1016,7 @@ body.sirui-secret-dialog-open {
   color: var(--global-theme-color);
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.35;
   min-height: 1.2rem;
   margin: 0.75rem 0 0;

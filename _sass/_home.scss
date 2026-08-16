@@ -199,7 +199,7 @@ html[data-theme="dark"] .home-story-rail ol {
   color: var(--home-muted) !important;
   font-family: var(--font-mono);
   font-size: 0;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1;
   text-decoration: none;
@@ -356,7 +356,7 @@ html[data-theme="dark"] .home-story-rail ol {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -366,7 +366,7 @@ html[data-theme="dark"] .home-story-rail ol {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(3.25rem, 5.7vw, 4.8rem);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 0.96;
   text-wrap: balance;
 }
@@ -405,7 +405,7 @@ html[data-theme="dark"] .home-story-rail ol {
   padding: 0.72rem 1.05rem;
   border: 1px solid var(--home-line);
   border-radius: var(--md-lite-radius-pill);
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
   transition:
@@ -507,7 +507,7 @@ html[data-theme="dark"] .home-cred-item {
   color: var(--home-muted);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -569,7 +569,7 @@ html[data-theme="dark"] .home-cred-item strong {
   color: color-mix(in srgb, var(--home-muted) 82%, var(--home-ink));
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1;
   text-transform: uppercase;
@@ -623,20 +623,12 @@ html[data-theme="dark"] .home-cred-item strong {
 }
 
 .home-desk-mode-switch .home-desk-origin-link {
-  width: 1.5rem;
+  min-width: 1.5rem;
   height: 1.5rem;
   border-color: color-mix(in srgb, var(--home-line) 68%, transparent);
   background: color-mix(in srgb, var(--home-surface) 72%, transparent);
   color: color-mix(in srgb, var(--home-muted) 82%, var(--home-ink));
   font-size: 0.58rem;
-}
-
-@media (max-width: 480px) {
-  .home-desk-mode-switch .home-desk-origin-link .widget-origin-tooltip {
-    top: calc(100% + 0.35rem);
-    right: -0.2rem;
-    bottom: auto;
-  }
 }
 
 .home-desk-control-strip {
@@ -1640,7 +1632,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   max-width: 100%;
   color: #8d6847;
   font-size: 0.56rem;
-  font-weight: 780;
+  font-weight: 600;
   line-height: 1.1;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1650,7 +1642,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   color: #202528;
   font-family: var(--global-font-family), system-ui, sans-serif;
   font-size: 1rem;
-  font-weight: 820;
+  font-weight: 600;
   line-height: 1.08;
 }
 
@@ -1658,7 +1650,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   color: #5f686b;
   font-size: 0.68rem;
   font-style: normal;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -1668,7 +1660,7 @@ html[data-theme="dark"] .home-record-nav:focus-visible {
   color: #6d4b2f;
   font-family: var(--global-font-family), system-ui, sans-serif;
   font-size: 0.56rem;
-  font-weight: 760;
+  font-weight: 600;
   line-height: 1.1;
   text-decoration: none;
   text-transform: uppercase;
@@ -2106,7 +2098,7 @@ html[data-theme="dark"] .home-artifact-mark {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.95rem, 3vw, 2.45rem);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.08;
   text-wrap: balance;
 }
@@ -2123,7 +2115,7 @@ html[data-theme="dark"] .home-artifact-mark {
   display: inline-flex;
   align-items: center;
   min-height: 2.4rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .home-thesis {
@@ -2158,7 +2150,7 @@ html[data-theme="dark"] .home-artifact-mark {
   display: block;
   margin-bottom: 0.55rem;
   color: var(--home-sky-strong);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .home-thesis-note p {
@@ -2218,7 +2210,7 @@ html[data-theme="dark"] .home-artifact-mark {
   margin: 0 0 1rem;
   font-family: var(--font-display);
   font-size: clamp(1.9rem, 2.6vw, 2.2rem);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.1;
 }
 
@@ -2246,7 +2238,7 @@ html[data-theme="dark"] .home-artifact-mark {
   background: transparent;
   font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.45;
 }
 
@@ -2279,7 +2271,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .home-why-now-claims h3 {
@@ -2388,7 +2380,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -2431,7 +2423,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -2535,7 +2527,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -2573,7 +2565,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -2610,7 +2602,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.62rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   text-transform: uppercase;
 }
@@ -2623,7 +2615,7 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-motion-exploring-list strong {
   color: var(--home-ink);
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .home-motion-exploring-list em {
@@ -2657,7 +2649,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -2696,7 +2688,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -2738,7 +2730,7 @@ html[data-theme="dark"] .home-artifact-mark {
   gap: 0.45rem;
   margin-top: 0.85rem;
   min-height: 2.35rem;
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -2873,7 +2865,7 @@ html[data-theme="dark"] .home-artifact-mark {
   display: block;
   margin-bottom: 0.75rem;
   color: var(--home-muted);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .home-news-item p {
@@ -2893,7 +2885,7 @@ html[data-theme="dark"] .home-artifact-mark {
   background: var(--home-accent-soft);
   color: var(--home-accent-strong);
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .home-publications-wrap {
@@ -2956,7 +2948,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-muted);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -3027,7 +3019,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-muted);
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.45;
 }
 
@@ -3054,7 +3046,7 @@ html[data-theme="dark"] .home-artifact-mark {
 }
 
 .home-lineage-person a {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .home-lineage-person span {
@@ -3097,7 +3089,7 @@ html[data-theme="dark"] .home-artifact-mark {
   font-family: var(--font-mono);
   font-size: 0.64rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 620;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1.45;
   text-transform: none;
@@ -3167,7 +3159,7 @@ html[data-theme="dark"] .home-artifact-mark {
   font-family: var(--font-display);
   font-size: 1.28rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
+  font-weight: 600;
   gap: 0.32rem;
   letter-spacing: 0;
   line-height: 1;
@@ -3201,7 +3193,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: color-mix(in srgb, var(--home-muted) 78%, transparent);
   font-family: var(--font-mono);
   font-size: 0.5rem;
-  font-weight: 680;
+  font-weight: 600;
   gap: 0.24rem;
   letter-spacing: 0;
   line-height: 1.2;
@@ -3242,7 +3234,7 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-page .home-build-rhythm-route strong {
   color: inherit;
   font-size: 0.62rem;
-  font-weight: 720;
+  font-weight: 600;
 }
 
 .home-page .home-build-rhythm-route-summary {
@@ -3328,7 +3320,7 @@ html[data-theme="dark"] .home-artifact-mark {
   cursor: help;
   font-family: var(--font-mono);
   font-size: 0.52rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   transition:
     background 140ms ease,
@@ -3391,7 +3383,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: color-mix(in srgb, var(--home-ink) 70%, var(--home-muted));
   font-family: var(--font-body);
   font-size: 0.74rem;
-  font-weight: 560;
+  font-weight: 600;
   line-height: 1.48;
   opacity: 0;
   pointer-events: none;
@@ -3448,7 +3440,7 @@ html[data-theme="dark"] .home-artifact-mark {
   color: color-mix(in srgb, var(--home-ink) 84%, var(--home-accent-strong));
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 780;
+  font-weight: 600;
   line-height: 1.24;
 }
 

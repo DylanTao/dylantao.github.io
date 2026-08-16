@@ -7,6 +7,13 @@ papers:
       Teams shipping AI workflows in design tools can measure usage yet often struggle to explain why features fail. In creative work, standard metrics are ambiguous: a long session could imply productive exploration or frustrating struggle with stochastic outputs. We argue for trace-guided micro-episodes, a unit of analysis binding interaction logs—what users did—to their intent. Rather than relying on disruptive surveys, we propose a “utility-for-rationale” paradigm: systems offer optional, context-aware controls at likely friction points, capturing user explanations as a byproduct of real-time error recovery. This approach converts ambiguous telemetry into causal evidence without breaking flow. We posit this methodology serves a dual purpose: equipping teams with diagnostic clarity to iterate on vague failure modes (e.g., controllability vs. quality) while generating the grounded alignment data required to train future agents.
     tldr: >-
       A position paper proposing trace-guided micro-episodes that pair short interaction-trace windows and interface state with optional, in-flow user clarification so teams can interpret ambiguous behavior in creative AI tools.
+    human:
+      fit: This paper helps when you can see what someone did in an AI tool but still cannot tell what that action meant to them.
+      cues:
+        - You are designing lightweight feedback at the moment a creative workflow becomes ambiguous.
+        - You need a unit of analysis that joins a short trace, interface state, and a user's optional explanation.
+      adds: A proposal for trace-guided micro-episodes and a utility-for-rationale pattern that turns useful recovery controls into chances to learn why something happened.
+      limit: It is a position paper and research agenda, not an empirical validation of the interventions or their downstream effects.
     why_cite:
       statement: >-
         Cite this position paper when motivating rationale-enriched telemetry: short, trace-guided windows paired with optional in-flow clarification to diagnose ambiguous moments in creative or AI-supported work.
@@ -49,6 +56,13 @@ papers:
       We propose HotSpot, a method for optimizing neural signed distance functions by using the solution of a screened Poisson equation, which provides an asymptotically sufficient condition to ensure the output converges to a true distance function. In contrast, existing losses, such as the eikonal loss, act as necessary but insufficient constraints and cannot guarantee that the recovered implicit function represents a true distance function, even if the output minimizes these losses almost everywhere. Furthermore, the eikonal loss suffers from stability issues in optimization. Finally, in conventional optimizations, area loss is indispensable but distorts the output. We address these challenges by designing a loss function that, when minimized, converges to the true distance function, ensures stability, and naturally penalizes large surface area. We present theoretical analysis and experiments on both challenging 2D and 3D datasets and show that our method provides better surface reconstruction and more accurate distance approximation.
     tldr: >-
       HotSpot uses a screened-Poisson heat loss as an asymptotically sufficient condition for neural signed-distance-function optimization, improving stability while naturally penalizing excess surface area.
+    human:
+      fit: This paper helps when an implicit-surface argument needs more than the usual eikonal conditionâ€”especially around convergence, stability, topology, or surface area.
+      cues:
+        - You are comparing objectives for reconstructing signed distance functions from unoriented points.
+        - You need theoretical and experimental evidence about a screened-Poisson alternative.
+      adds: A heat-loss objective with convergence and stability analysis, plus 2D and 3D reconstruction evidence and a natural surface-area penalty.
+      limit: The reported gains belong to the evaluated reconstruction settings; sparse boundaries and parameter choices can still produce failure modes.
     why_cite:
       statement: >-
         Cite HotSpot for neural implicit surface reconstruction from unoriented points when the argument concerns sufficient SDF constraints, optimization stability, topology, or surface-area regularization.
@@ -93,6 +107,13 @@ papers:
       Generative AI has enabled novice designers to quickly create professional-looking visual representations for product concepts. However, novices have limited domain knowledge that could constrain their ability to write prompts that effectively explore a product design space. To understand how experts explore and communicate about design spaces, we conducted a formative study with 12 experienced product designers and found that experts—and their less-versed clients—often use visual references to guide co-design discussions rather than written descriptions. These insights inspired DesignWeaver, an interface that helps novices generate prompts for a text-to-image model by surfacing key product design dimensions from generated images into a palette for quick selection. In a study with 52 novices, DesignWeaver enabled participants to craft longer prompts with more domain-specific vocabularies, resulting in more diverse, innovative product designs. However, the nuanced prompts heightened participants' expectations beyond what current text-to-image models could deliver. We discuss implications for AI-based product design support tools.
     tldr: >-
       DesignWeaver turns dimensions derived from design briefs and generated images into a selectable palette that helps novice product designers write richer prompts and explore a broader text-to-image design space.
+    human:
+      fit: This paper helps when a blank prompt box is asking novices to supply design vocabulary they have not had a chance to learn.
+      cues:
+        - You are designing dimensional scaffolds for text-to-image exploration.
+        - You want evidence about prompt language, visual diversity, novelty, and rising expectations.
+      adds: A palette that externalizes product-design dimensions, grounded in expert practice and evaluated with 52 novice designers.
+      limit: The study used one chair-design task with novices, and richer prompts did not reliably improve satisfaction or expectation alignment.
     why_cite:
       statement: >-
         Cite DesignWeaver when discussing dimensional scaffolding, novice prompt construction, or interface support for richer and more varied exploration in text-to-image product design.
@@ -137,6 +158,13 @@ papers:
       Human physical scene understanding requires more than simply localizing and recognizing objects—we can quickly adapt our predictions about how a scene will unfold by incorporating objects' latent physics properties, such as the masses of the objects in the scene. What are the underlying computational mechanisms that allow humans to infer these physical properties and adapt their physical predictions so efficiently from visual inputs? One hypothesis is that general intuitive physics knowledge can be learned from enough raw data, instantiated as computational models that predict future video frames in large datasets of complex scenes. To test this hypothesis, we evaluate existing state-of-the-art video models. We measured both model and human performance on Physion++, a novel dataset and benchmark that rigorously evaluates visual physical prediction in humans and machines, under circumstances where accurate physical prediction relies on accurate estimates of the latent physical properties of objects in the scene. Specifically, we tested scenarios where accurate prediction relied on accurate estimates of objects' mechanical properties, including masses, friction, elasticity and deformability, and the values of these mechanical properties could only be inferred by observing how these objects moved and interacted with other objects and/or fluids. We found that models that encode objectness and physical states tend to perform better, yet there is still a huge gap compared to human performance. We also found most models' predictions correlate poorly with that made by humans. These results show that current deep learning models that succeed in some settings nevertheless fail to achieve human-level physical prediction in other cases, especially those where latent property inference is required.
     tldr: >-
       Physion++ evaluates physical prediction when mass, friction, elasticity, and deformability must be inferred online from how objects move and interact.
+    human:
+      fit: This paper helps when physical prediction depends on inferring hidden material properties from motion rather than receiving those properties directly.
+      cues:
+        - You are comparing human and model adaptation to mass, friction, elasticity, or deformability.
+        - You need the exact CogSci record for Physion++ rather than the separate NeurIPS technical paper.
+      adds: A benchmark framing for latent-property inference and matched humanâ€“model prediction under changing mechanical properties.
+      limit: The public CogSci record supports qualitative claims from the abstract, not detailed quantitative claims from the companion paper.
     why_cite:
       statement: >-
         Cite this CogSci Physion++ record when motivating benchmarks for latent physical-property inference or human–model gaps in physical scene prediction.
@@ -180,6 +208,13 @@ papers:
       While current vision algorithms excel at many challenging tasks, it is unclear how well they understand the physical dynamics of real-world environments. Here we introduce Physion, a dataset and benchmark for rigorously evaluating the ability to predict how physical scenarios will evolve over time. Our dataset features realistic simulations of a wide range of physical phenomena, including rigid and soft-body collisions, stable multi-object configurations, rolling, sliding, and projectile motion, thus providing a more comprehensive challenge than previous benchmarks. We used Physion to benchmark a suite of models varying in their architecture, learning objective, input-output structure, and training data. In parallel, we obtained precise measurements of human prediction behavior on the same set of scenarios, allowing us to directly evaluate how well any model could approximate human behavior. We found that vision algorithms that learn object-centric representations generally outperform those that do not, yet still fall far short of human performance. On the other hand, graph neural networks with direct access to physical state information both perform substantially better and make predictions that are more similar to those made by humans. These results suggest that extracting physical representations of scenes is the main bottleneck to achieving human-level and human-like physical understanding in vision algorithms. We have publicly released all data and code to facilitate the use of Physion to benchmark additional models in a fully reproducible manner, enabling systematic evaluation of progress towards vision algorithms that understand physical environments as robustly as people do.
     tldr: >-
       Physion provides eight simulated scenario families and a model-agnostic object-contact prediction task for directly comparing human and model physical prediction.
+    human:
+      fit: This paper helps when you need a reproducible benchmark for asking whether a model predicts physical outcomes in human-like ways.
+      cues:
+        - You are comparing object-centric and non-object-centric visual models with human judgments.
+        - You need a common contact-prediction task across several simulated physical scenarios.
+      adds: Eight scenario families, matched human and model evaluation, and released data and code for systematic comparison.
+      limit: Synthetic scenes and binary contact prediction do not establish broad real-world physical understanding.
     why_cite:
       statement: >-
         Cite Physion for human-aligned intuitive-physics benchmarking, object-centric physical prediction, or generalization across diverse simulated scenario families.

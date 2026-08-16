@@ -24,7 +24,7 @@ Before changing this customized site:
 1. Run `git status --short --branch`; preserve unrelated work and confirm the intended branch.
 2. Classify the request as starter/plugin work, sitewide design/content work, homepage desk-scene work, or publish/accounting work.
 3. Read the matching skill and its canonical human document before editing. Skills route the work; canonical documents carry the detailed contract.
-4. Inspect the current rendered route before making visual judgments. Capture a comparable baseline for meaningful UI work.
+4. Inspect the current rendered route before making visual judgments. Capture one comparable representative baseline during iteration; reserve the full viewport/theme matrix for a checkpoint or release.
 5. State the intended files, explicit non-goals, and verification evidence. Stage and commit only explicit paths.
 
 ## Parallel Work Contract
@@ -37,6 +37,16 @@ Before changing this customized site:
 - The sitewide stream must not change desk-scene state, geometry, album behavior, or scene-only selectors. The desk-scene stream must not rewrite posts, projects, general homepage narrative, or global chrome.
 - Integrate verified checkpoints onto `main` through one coordinator. Worker branches do not push independently.
 - Refresh `_data/agentic_usage.yml` once after parallel workers stop and the intended changes are integrated. The coordinator owns the final ledger audit, commit, push, and deployed smoke check.
+
+## Proportional Visual QA
+
+- Keep one owned server alive through a design loop. `npm.cmd run test:visual:iterate` defaults to `http://127.0.0.1:4101`, one `home` route, one light-theme `1440x1000` viewport, one worker, no trace, and no server or Jekyll startup.
+- Narrow the fast capture with `VISUAL_ROUTE_IDS`, `VISUAL_ROUTE_HASH`, and `VISUAL_CAPTURE_SELECTOR`; change `VISUAL_VIEWPORT`, `VISUAL_THEME`, or reduced-motion state only when the design question needs it.
+- After a direction is promising, set an explicit comma-separated `VISUAL_ROUTE_IDS` list and run `npm.cmd run test:visual:checkpoint`. The command intentionally refuses to run without that scope and covers the four standard viewports plus light/dark route checks.
+- Run `npm.cmd run test:visual` only for release-scale proof. Do not invoke the full matrix after each local CSS, shader, motion, or copy adjustment.
+- Prefer the Playwright artifact under `.jekyll-cache/visual-qa/` plus local `view_image` inspection. Keep captures there so Jekyll does not rebuild in response to its own QA output. If browser control or capture stalls once, stop retrying it unless the browser-only interaction is itself under test.
+- The fast lane fails closed after a one-minute global budget. If it is unexpectedly slow, set `VISUAL_TIMINGS=1` for one diagnostic run and act on the reported phase instead of repeating untimed captures.
+- If page work finishes but Chromium teardown dominates, stop after that diagnostic. A persistent-browser worker is a separate harness task; route-specific asset omissions are not valid visual evidence when those assets affect the design judgment.
 
 ## What This Repo Owns
 
@@ -68,6 +78,9 @@ bash test/integration_distill.sh
 bash test/integration_bootstrap_compat.sh
 bash test/integration_upgrade_cli.sh
 npx.cmd playwright install chromium webkit
+npm.cmd run test:visual:iterate
+# Set VISUAL_ROUTE_IDS before the checkpoint command.
+npm.cmd run test:visual:checkpoint
 npm.cmd run test:visual
 bundle exec al-folio upgrade audit
 bundle exec al-folio upgrade overrides audit
@@ -82,13 +95,13 @@ The checked-in Docker Compose configuration serves this customized personal site
 
 ## Verification By Change Type
 
-| Change                              | Minimum evidence                                                                                                                                                      |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Agent guidance or repo-local skills | Targeted Prettier check, `python -m unittest discover -s test -p "test_*.py"`, quick-validate every changed skill, and `git diff --check`                             |
-| Markdown/content                    | Prettier, style contract, production Jekyll build, and rendered inspection of the affected route/excerpt                                                              |
-| Sitewide rendered UI                | Before/after screenshots at 1440x1000, 1280x800, 768x1024, and 390x1000; check light/dark when relevant, keyboard focus, reduced motion, overflow, and console errors |
-| Homepage desk scene                 | The desk-scene brief's acceptance evidence map plus targeted Playwright/browser states; confirm nonblank WebGL and visible drag/zoom pixel changes                    |
-| Plugin-owned local override         | Relevant checks above plus `bundle exec al-folio upgrade overrides audit` and reviewed `.al-folio-overrides.yml` state                                                |
+| Change                              | Minimum evidence                                                                                                                                                                                                                                                       |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Agent guidance or repo-local skills | Targeted Prettier check, `python -m unittest discover -s test -p "test_*.py"`, quick-validate every changed skill, and `git diff --check`                                                                                                                              |
+| Markdown/content                    | Prettier, style contract, production Jekyll build, and rendered inspection of the affected route/excerpt                                                                                                                                                               |
+| Sitewide rendered UI                | Iterate on one representative state with `test:visual:iterate`; checkpoint explicit affected routes at 1440x1000, 1280x800, 768x1024, and 390x1000; run the full matrix only for release. Check light/dark, focus, motion, overflow, and console errors when relevant. |
+| Homepage desk scene                 | The desk-scene brief's acceptance evidence map plus targeted Playwright/browser states; confirm nonblank WebGL and visible drag/zoom pixel changes                                                                                                                     |
+| Plugin-owned local override         | Relevant checks above plus `bundle exec al-folio upgrade overrides audit` and reviewed `.al-folio-overrides.yml` state                                                                                                                                                 |
 
 Source checks are not a substitute for rendered inspection when public UI changed. Use Docker or the production Jekyll build before publish, then verify the deployed commit rather than relying on HTTP 200 alone.
 
@@ -98,6 +111,7 @@ Source checks are not a substitute for rendered inspection when public UI change
 - `docs/homepage-desk-scene-brief.md` remains the canonical desk-scene brief and handoff prompt.
 - `docs/agentic-usage-ledger.md` remains the canonical usage-counter math and evidence log.
 - `docs/material-lite-revamp.md` remains the canonical Material-Lite design-grammar intent: orange is the identity source color, the `--md-lite-*` token set is preferred over one-off values, and the navbar brand-mark rules live there.
+- `docs/design-experiment-backlog.md` remains the durable queue for unproven visual and interaction ideas, including hypothesis, licensing, visitor benefit, evidence, Sirui's decision, and revisit trigger.
 - `.github/GIT_WORKFLOW.md` remains the canonical commit-message and branch convention.
 - Repo-local `.codex/skills/` files are concise Codex overlays that read those living docs by heading or path. Do not duplicate the long heuristic lists into skills unless the user explicitly asks for a source-of-truth migration.
 

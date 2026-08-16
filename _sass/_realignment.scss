@@ -1,0 +1,766 @@
+/*******************************************************************************
+ * Less, but more Sirui: a final site-owned hierarchy layer.
+ ******************************************************************************/
+
+// The one display statement on a route may use the strongest loaded weight.
+:where(.home-title, .post-title, .project-case-copy h1, .publication-context-hero h1) {
+  font-size: var(--type-display);
+  font-weight: 700;
+}
+
+:where(.home-section-heading h2, .post article > h2, .publication-context-section h2) {
+  font-size: var(--type-heading);
+  font-weight: 600;
+}
+
+:where(.project-case-lede, .home-lede, .post article > p) {
+  font-size: var(--type-reading);
+}
+
+// Compact text orients; it should not shout. Keep the middle of the hierarchy
+// at 500 so 600 remains a meaningful heading signal.
+:where(
+  [class$="-kicker"],
+  [class*="-kicker "],
+  .projects .project-browser-origin,
+  .projects .project-card-meta,
+  .projects h2.category,
+  .project-card-story-label,
+  .project-card-takeaways-label,
+  .project-case-summary span,
+  .project-storyboard-step::before,
+  .section-reading-aid-mobile-label
+) {
+  font-size: var(--type-compact);
+  font-weight: 500;
+}
+
+:where(
+  .project-case-actions a,
+  .projects .project-card-open-link,
+  .projects .project-card-secondary-link,
+  .project-case-page details > summary,
+  .post article details > summary,
+  .publications details > summary,
+  .publications button
+) {
+  font-weight: 500;
+}
+
+:where(.build-rhythm-questions h3, .website-revamp-turn h3) {
+  font-size: var(--type-heading);
+  font-weight: 600;
+}
+
+:where(.project-storyboard-step h3, .project-story-comparison-header h3) {
+  font-size: var(--type-reading);
+  font-weight: 600;
+}
+
+// Project pages read as editorial stories before they read as card systems.
+.project-case-page {
+  .project-case-hero {
+    padding: clamp(1.4rem, 4vw, 3.2rem) 0 clamp(1.2rem, 3vw, 2.2rem);
+    border: 0;
+    border-bottom: 1px solid var(--global-divider-color);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .project-case-summary {
+    gap: 0;
+    padding-block: 0.35rem;
+    border-bottom: 1px solid var(--global-divider-color);
+  }
+
+  .project-case-summary > div {
+    padding: 0.85rem clamp(0.75rem, 2vw, 1.25rem);
+    border: 0;
+    border-left: 1px solid var(--global-divider-color);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .project-case-summary > div:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  article > h2 {
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--global-divider-color);
+  }
+}
+
+// The two flagship retellings use a single reading lane with turning points,
+// not a repeated row of interchangeable cards.
+.sirui-editorial-story {
+  .project-story-beats,
+  .project-storyboard {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--global-divider-color);
+  }
+
+  .project-story-beat,
+  .project-storyboard-step {
+    padding: clamp(1rem, 2.4vw, 1.5rem) 0;
+    border: 0;
+    border-bottom: 1px solid var(--global-divider-color);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .project-story-beat::before,
+  .project-storyboard-step::before {
+    display: none;
+  }
+}
+
+// Media panels keep a light paper surface in every theme. Strong captions must
+// inherit that panel ink instead of the global dark-theme emphasis color.
+.sirui-editorial-story .project-case-media figcaption strong {
+  color: inherit;
+}
+
+.sirui-editorial-story .project-case-actions a:not(:first-child) {
+  padding-inline: 0.45rem;
+  border-color: transparent;
+  background: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22rem;
+}
+
+.sirui-editorial-story .project-case-actions a:not(:first-child):hover,
+.sirui-editorial-story .project-case-actions a:not(:first-child):focus-visible {
+  border-color: transparent;
+  background: var(--global-surface-container-low-color);
+}
+
+.build-rhythm-story-page .project-case-hero {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+}
+
+.build-rhythm-story-page .project-case-hero > * {
+  min-width: 0;
+}
+
+.project-design-question {
+  max-width: 52rem;
+  margin: 1.25rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--global-divider-color);
+  line-height: 1.65;
+}
+
+.project-design-question span {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-compact);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.website-revamp-story .project-case-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.website-revamp-story .project-case-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("../img/website-revamp/paper-texture-0.0.80.webp");
+  background-position: center;
+  background-size: cover;
+  content: "";
+  mask-image: linear-gradient(to right, #000, transparent 88%);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+// Route-specific Paper fields are pre-rendered, not live canvases. Each one
+// carries a narrative job and shifts only when the owning surface is engaged.
+.designweaver-case,
+.build-rhythm-story-page .project-case-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.designweaver-case::before,
+.build-rhythm-story-page .project-case-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-position: center;
+  background-size: cover;
+  content: "";
+  pointer-events: none;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition:
+    background-position 420ms ease-out,
+    opacity 420ms ease-out,
+    transform 420ms ease-out;
+}
+
+.designweaver-case::before {
+  background-image: url("../img/paper-shaders/designweaver-static-mesh-0.0.80.webp");
+  opacity: 0.28;
+}
+
+.build-rhythm-story-page .project-case-hero::before {
+  background-image: url("../img/paper-shaders/build-rhythm-waves-0.0.80.webp");
+  background-position: 50% 44%;
+  mask-image: linear-gradient(100deg, transparent 4%, #000 52%, transparent 100%);
+  opacity: 0.2;
+}
+
+.designweaver-case:hover::before,
+.designweaver-case:focus-within::before {
+  background-position: 53% 47%;
+  opacity: 0.42;
+  transform: scale(1.012);
+}
+
+.build-rhythm-story-page .project-case-hero:hover::before,
+.build-rhythm-story-page .project-case-hero:focus-within::before {
+  background-position: 53% 44%;
+  opacity: 0.27;
+}
+
+.project-visual-credit {
+  display: block;
+  margin: 0.55rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.project-visual-credit a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16rem;
+}
+
+.projects .project-category-heading[data-paper-category-accent] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.projects .project-category-heading[data-paper-category-accent]::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  width: min(72%, 34rem);
+  height: 2.75rem;
+  background-position: 50% 50%;
+  background-size: cover;
+  content: "";
+  mask-image: linear-gradient(to right, transparent, #000 48%, #000);
+  opacity: 0.16;
+  pointer-events: none;
+  transition:
+    background-position 360ms ease-out,
+    opacity 360ms ease-out;
+}
+
+.projects .project-category-heading--research::after {
+  background-image: url("../img/paper-shaders/designweaver-static-mesh-0.0.80.webp");
+}
+
+.projects .project-category-heading--fun::after {
+  background-image: url("../img/paper-shaders/build-rhythm-waves-0.0.80.webp");
+}
+
+.projects .project-category-heading[data-paper-category-accent]:hover::after,
+.projects .project-category-heading[data-paper-category-accent]:focus-within::after {
+  background-position: 54% 50%;
+  opacity: 0.23;
+}
+
+.website-revamp-turns .website-revamp-turn {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(18rem, 1.15fr);
+  gap: clamp(1.2rem, 4vw, 2.75rem);
+  align-items: center;
+}
+
+.website-revamp-turns .website-revamp-turn:last-child {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.website-revamp-turn nav {
+  margin-top: 0.8rem;
+  line-height: 1.8;
+}
+
+.website-revamp-principles {
+  max-width: 62rem;
+  padding: 0;
+  border-top: 1px solid var(--global-divider-color);
+  list-style: none;
+  counter-reset: revamp-principle;
+}
+
+.website-revamp-principles li {
+  position: relative;
+  padding: 1rem 0 1rem 2.8rem;
+  border-bottom: 1px solid var(--global-divider-color);
+  counter-increment: revamp-principle;
+  line-height: 1.65;
+}
+
+.website-revamp-principles li::before {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  color: var(--global-theme-color);
+  content: "0" counter(revamp-principle);
+  font-family: var(--font-mono);
+  font-size: var(--type-compact);
+  font-weight: 500;
+}
+
+.website-revamp-principle-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  align-items: center;
+}
+
+.build-rhythm-conclusion {
+  max-width: 62rem;
+  margin-top: clamp(2rem, 5vw, 3.75rem);
+  padding: clamp(1.2rem, 3vw, 2rem) 0;
+  border-block: 1px solid var(--global-divider-color);
+}
+
+.build-rhythm-conclusion h2 {
+  max-width: 24ch;
+  margin-bottom: 0.8rem;
+}
+
+.build-rhythm-questions {
+  max-width: 68rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--global-divider-color);
+  list-style: none;
+}
+
+.build-rhythm-questions > li {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: clamp(0.8rem, 2.5vw, 2rem);
+  align-items: start;
+  padding: clamp(1.15rem, 2.6vw, 1.8rem) 0;
+  border-bottom: 1px solid var(--global-divider-color);
+}
+
+.build-rhythm-questions :where(h3, p) {
+  margin: 0;
+}
+
+.build-rhythm-limit {
+  padding-left: 1rem;
+  border-left: 2px solid color-mix(in srgb, var(--global-theme-color) 42%, transparent);
+  color: var(--global-text-color-light);
+  line-height: 1.65;
+}
+
+html[data-theme="dark"] .website-revamp-story .project-case-hero::before,
+html[data-theme-mode="evening"] .website-revamp-story .project-case-hero::before {
+  mix-blend-mode: screen;
+  opacity: 0.055;
+}
+
+html[data-theme="dark"] :where(.designweaver-case, .build-rhythm-story-page .project-case-hero)::before,
+html[data-theme-mode="evening"] :where(.designweaver-case, .build-rhythm-story-page .project-case-hero)::before {
+  mix-blend-mode: screen;
+  opacity: 0.16;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .designweaver-case::before,
+  .build-rhythm-story-page .project-case-hero::before,
+  .projects .project-category-heading[data-paper-category-accent]::after {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more), (forced-colors: active) {
+  .designweaver-case::before,
+  .build-rhythm-story-page .project-case-hero::before,
+  .projects .project-category-heading[data-paper-category-accent]::after {
+    display: none;
+  }
+}
+
+// Machine routes trade visual theatre for compact semantic scanning.
+.ai-profile-heading h1 {
+  max-width: 30ch;
+  font-size: var(--type-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.ai-profile-header,
+.ai-section {
+  scroll-margin-top: 5rem;
+}
+
+.ai-view-page :where(a, button) {
+  transition: none;
+}
+
+.ai-view-page :where(.ai-format-actions a, .ai-format-actions button, .ai-route-grid a):hover {
+  transform: none;
+}
+
+.ai-research-modes {
+  gap: 0;
+  border-block: 1px solid var(--global-divider-color);
+}
+
+.ai-research-modes article {
+  padding: 1rem clamp(0.75rem, 2vw, 1.25rem);
+  border: 0;
+  border-left: 1px solid var(--global-divider-color);
+  border-radius: 0;
+  background: transparent;
+}
+
+.ai-research-modes article:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.ai-project-list {
+  margin-top: 1.7rem;
+  border-top: 1px solid var(--global-divider-color);
+}
+
+.ai-project {
+  padding: clamp(1.15rem, 2.5vw, 1.8rem) 0;
+  border-bottom: 1px solid var(--global-divider-color);
+  scroll-margin-top: 5rem;
+}
+
+.ai-project header {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 0.2rem 1rem;
+}
+
+.ai-project header > :not(.ai-project-index) {
+  grid-column: 2;
+}
+
+.ai-project-index {
+  grid-row: 1 / span 3;
+  margin: 0;
+  color: var(--global-theme-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-compact);
+  font-weight: 500;
+}
+
+.ai-project h3 {
+  margin: 0;
+  font-size: var(--type-heading);
+}
+
+.ai-project header > p:last-child {
+  max-width: var(--measure-prose);
+  margin: 0.45rem 0 0;
+  color: var(--global-text-color-light);
+}
+
+.ai-project dl {
+  margin: 1rem 0 0 5.5rem;
+}
+
+.ai-project dl > div {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 0.25fr) minmax(0, 1fr);
+  gap: 1.2rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--global-divider-color);
+}
+
+.ai-project :where(dt, dd) {
+  margin: 0;
+}
+
+.ai-project dt {
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-compact);
+  font-weight: 500;
+}
+
+.ai-project dd {
+  min-width: 0;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.ai-project dd :where(ul, p) {
+  margin-block: 0;
+}
+
+.ai-inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.9rem;
+}
+
+.ai-writing-list {
+  margin: 1.2rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--global-divider-color);
+  list-style: none;
+}
+
+.ai-writing-list li {
+  display: grid;
+  grid-template-columns: 7rem minmax(12rem, 0.7fr) minmax(16rem, 1.3fr);
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--global-divider-color);
+}
+
+.ai-writing-list :where(time, span) {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+}
+
+// Publication discovery stays light on the index and unfolds only when a
+// reader asks for evidence.
+.publication-why-cite {
+  max-width: 68ch;
+  margin-top: 0.75rem;
+  border: 0;
+  border-block: 1px solid var(--global-divider-color);
+  border-radius: 0;
+  background: transparent;
+}
+
+.publication-why-cite summary {
+  min-height: 2.75rem;
+  padding-inline: 0;
+  background: transparent;
+}
+
+.publication-why-cite-meta {
+  overflow: hidden;
+  font-family: var(--font-family);
+  font-size: var(--type-compact);
+  font-weight: 400;
+  text-align: left;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.publication-why-cite-body {
+  padding: 0.2rem 0 1rem;
+}
+
+.publication-why-cite-grid p,
+.publication-why-cite-provenance {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.6;
+}
+
+.publication-context-hero {
+  border-bottom: 1px solid var(--global-divider-color);
+}
+
+.publication-context-trust {
+  padding: 1rem 0 1rem 1.1rem;
+  border: 0;
+  border-left: 2px solid color-mix(in srgb, var(--global-theme-color) 48%, var(--global-divider-color));
+  border-radius: 0;
+  background: transparent;
+}
+
+.publication-context-human-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 1px solid var(--global-divider-color);
+}
+
+.publication-context-human-grid > :last-child {
+  padding-left: clamp(1rem, 3vw, 2rem);
+  border-left: 1px solid var(--global-divider-color);
+}
+
+.publication-context-details {
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  border-block: 1px solid var(--global-divider-color);
+}
+
+.publication-context-details > summary {
+  min-height: 2.75rem;
+  padding: 0.9rem 0;
+  color: var(--global-text-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.publication-context-details > summary:focus-visible {
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 3px;
+}
+
+.publication-context-details-body {
+  padding-bottom: 1rem;
+}
+
+// Keep the origin glint easy to touch without turning it into another mode
+// control. It is a quiet route to the object's story, not part of 2D/3D state.
+.home-desk-mode-switch .home-desk-origin-link {
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.6rem -0.35rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.home-motion-paper-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-slow);
+}
+
+.home-motion-paper-field[data-paper-shader-state="ready"],
+.home-motion-paper-field[data-paper-shader-state="still"] {
+  opacity: 0.76;
+}
+
+.home-motion-paper-field[data-paper-shader] canvas {
+  z-index: 0;
+  opacity: 0.92;
+  filter: saturate(1.08) contrast(1.06);
+}
+
+.home-motion-stage canvas[data-research-motion-canvas] {
+  position: relative;
+  z-index: 2;
+}
+
+.home-motion-readout,
+.home-motion-theme-control {
+  z-index: 4;
+}
+
+@media (max-width: 767px) {
+  .project-case-page .project-case-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .project-case-page .project-case-summary > div,
+  .project-case-page .project-case-summary > div:first-child {
+    padding-inline: 0;
+    border-left: 0;
+    border-top: 1px solid var(--global-divider-color);
+  }
+
+  .project-case-page .project-case-summary > div:first-child {
+    border-top: 0;
+  }
+
+  .website-revamp-turns .website-revamp-turn {
+    grid-template-columns: 1fr;
+  }
+
+  .build-rhythm-questions > li {
+    grid-template-columns: 1fr;
+  }
+
+  .publication-context-human-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .publication-context-human-grid > :last-child {
+    padding-left: 0;
+    border-top: 1px solid var(--global-divider-color);
+    border-left: 0;
+  }
+
+  .ai-research-modes article,
+  .ai-research-modes article:first-child {
+    padding-inline: 0;
+    border-top: 1px solid var(--global-divider-color);
+    border-left: 0;
+  }
+
+  .ai-research-modes article:first-child {
+    border-top: 0;
+  }
+
+  .ai-project header,
+  .ai-project dl > div,
+  .ai-writing-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-project header > :not(.ai-project-index) {
+    grid-column: 1;
+  }
+
+  .ai-project-index {
+    grid-row: auto;
+  }
+
+  .ai-project dl {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-motion-paper-field {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .home-motion-paper-field[data-paper-shader-state="ready"],
+  .home-motion-paper-field[data-paper-shader-state="still"] {
+    opacity: 0.2;
+  }
+
+  .widget-origin-link {
+    color: var(--global-text-color);
+  }
+}
+
+@media (forced-colors: active) {
+  .home-motion-paper-field {
+    display: none;
+  }
+
+  .widget-origin-link {
+    color: LinkText;
+    forced-color-adjust: auto;
+  }
+}
