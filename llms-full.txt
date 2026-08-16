@@ -56,6 +56,523 @@ I use situated work for settings where judgment depends on practice and medium: 
 
 
 
+## Projects
+
+Base project records are derived from public project front matter. Website Revamp and Build Rhythm carry deliberately reviewed question, evidence, boundary, and reproduction fields; other entries declare their conservative fallback basis.
+
+
+### Build Rhythm
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/build-rhythm/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/build-rhythm.md
+- Context basis: curated-project-context
+
+A page for seeing when I build: daily code activity by source, completed personal agent usage, and this site's separate daily token estimate.
+
+#### Question
+
+What can daily code and agent traces reveal about the cadence of making without turning activity into a productivity score?
+
+#### Evidence
+
+- Code history reports daily commits by named source and separates total commits from authored commits, merges, and deploys.
+- This site's rounded daily token rhythm comes from deduplicated retained logs attributed to this repo.
+- Completed personal agent days use a separate family-conserving Codex and Claude record with an independent date domain.
+
+
+#### Boundary
+
+The rhythms show bunching, scale, and quiet stretches; they do not establish productivity, quality, effort, or causality between code and agent use.
+
+#### Reproduction
+
+- Keep the three clocks separate and expose the exact source tables behind every chart.
+- Validate each source calendar and provenance tuple before rendering a history.
+
+
+
+### Dogtor's Hidden Portal
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/dogtor-portal/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/dogtor-portal.md
+- Context basis: public-frontmatter-fallback
+
+Find the dog by the blog title, choose a fruit, and see whether it lets you through—without exposing what waits behind it.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Puzzle maker, builder
+- Status: Hidden journey
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### HCI Spooder-Man
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/hci-spooder-man/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/hci-spooder-man.md
+- Context basis: public-frontmatter-fallback
+
+How two paper rejections became a Steam-style lab meme, a remix gallery, and a downloadable prompt-and-image kit.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: OG HCI Spooder-Man
+- Status: Remix guide
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Paper Constellation
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/paper-constellation/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/paper-constellation.md
+- Context basis: public-frontmatter-fallback
+
+A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Designer, writer, reviewer
+- Status: Site experiment
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Scaffolding for Taste — OpenAI Build Week
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/openai-build-week/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/openai-build-week.md
+- Context basis: public-frontmatter-fallback
+
+What I added to an existing research portfolio during OpenAI Build Week, with a clear cutoff, linked commits, and reusable project guides.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Designer, researcher, reviewer
+- Status: OpenAI Build Week submission
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Scholar Lens
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/scholar-lens/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/scholar-lens.md
+- Context basis: public-frontmatter-fallback
+
+Filters and linked highlights that help readers follow one paper across my bibliography, citation total, and annual citation bars.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Designer, builder
+- Status: Site experiment
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### The Desk That Learned Depth
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/homepage-desk-scene/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/homepage-desk-scene.md
+- Context basis: public-frontmatter-fallback
+
+How the homepage's paper collage became an explorable cliff room without losing the same desk, records, and discoveries.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Designer, reviewer, world builder
+- Status: Living site experiment
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### The IKEA Card Experiment
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/ikea-project-cards/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/ikea-project-cards.md
+- Context basis: public-frontmatter-fallback
+
+Click a project card, read the full preview in place, then close it without losing your spot in the collection.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Interaction designer, builder
+- Status: Site experiment
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Vibe-Coding a Research Portfolio
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/website-revamp/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/website-revamp.md
+- Context basis: curated-project-context
+
+How I rebuilt an academic archive so visitors can find the research question, inspect the work, and reuse the design lessons.
+
+#### Question
+
+How can an academic portfolio reveal the research question, design judgment, and evidence behind the work without making visitors read a development log?
+
+#### Evidence
+
+- A Wayback artifact preserves the public homepage served on February 9, 2026; its producing Git commit and capture environment are unknown.
+- A 1440 by 1100 repository artifact records the June paper-and-desk direction but not its capture date, viewport, theme, or interaction state.
+- The current route and child experiment pages are the live evidence; static screenshots are historical checkpoints.
+
+
+#### Boundary
+
+The before/after artifacts document design history, not an A/B test or usability result.
+
+#### Reproduction
+
+- Use the living WEBSITE_DESIGN_HEURISTICS.md as the review rubric.
+- Compare the same route, viewport, theme, and interaction state before and after a change.
+
+
+
+### Wall of Rejection
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/wall-of-rejection/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/wall-of-rejection.md
+- Context basis: public-frontmatter-fallback
+
+The Steam-style rejection meme I turned into a small public wall of badges, receipts, and deliberately silly Failure XP.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Designer, meme archivist
+- Status: Living receipt wall
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Not A Good Driver
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/not-a-good-driver/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/not-a-good-driver.md
+- Context basis: public-frontmatter-fallback
+
+A small VRChat world where one person drives, one rides along, and everyone else watches the chaos.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2024
+- Role: World builder
+- Status: VRChat world
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### What Happened and Why?
+
+- Category: research
+- Human page: https://dylantao.github.io/projects/what-happened-and-why/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/what-happened-and-why.md
+- Context basis: public-frontmatter-fallback
+
+A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: First author
+- Status: Published
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### DesignWeaver
+
+- Category: research
+- Human page: https://dylantao.github.io/projects/designweaver/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/designweaver.md
+- Context basis: public-frontmatter-fallback
+
+A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2025
+- Role: First author
+- Status: Published
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### HotSpot
+
+- Category: research
+- Human page: https://dylantao.github.io/projects/hotspot/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/hotspot.md
+- Context basis: public-frontmatter-fallback
+
+A neural SDF optimization framework with a screened Poisson objective for more stable surface reconstruction.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2025
+- Role: Co-author
+- Status: Published
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Context-Aware Encoding for LLMs
+
+- Category: research
+- Human page: https://dylantao.github.io/projects/context-aware-encoding/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/context-aware-encoding.md
+- Context basis: public-frontmatter-fallback
+
+A tree-of-thoughts context encoding experiment for improving retrieval and long-document contextual understanding.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2023
+- Role: Builder
+- Status: Prototype
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### GraphHSCN
+
+- Category: research
+- Human page: https://dylantao.github.io/projects/graphhscn/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/graphhscn.md
+- Context basis: public-frontmatter-fallback
+
+A graph neural network architecture prototype for modeling long-range interactions in structured data.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2023
+- Role: Undergraduate researcher
+- Status: Research prototype
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### Physion
+
+- Category: research
+- Human page: https://dylantao.github.io/projects/physion/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/physion.md
+- Context basis: public-frontmatter-fallback
+
+A benchmark for testing whether vision models predict physical scene dynamics the way people do.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2021
+- Role: Co-author
+- Status: Published
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
 ## Publications and citation guidance
 
 Bibliographic facts are derived from `_bibliography/papers.bib`. Interpretation is source-reviewed context for choosing and scoping a citation; it does not replace reading the paper.

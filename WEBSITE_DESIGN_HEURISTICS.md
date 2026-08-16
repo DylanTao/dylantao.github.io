@@ -2,6 +2,8 @@
 
 Use this file as the shared design memory for future homepage and portfolio refinements. The goal is a personal academic site that feels thoughtful, alive, and readable without becoming a corporate product site or a visual demo reel.
 
+The current design spine is **Less, but more Sirui**: lively, fun, unmistakably personal, and intentionally designed, with fewer things competing for a visitor's limited attention.
+
 Agent-facing Codex overlays live in `.codex/skills/website-design-critique/SKILL.md`, `.codex/skills/portfolio-writing-voice/SKILL.md`, and `.codex/skills/tacit-knowledge-to-skill/SKILL.md`. This file remains the canonical human-readable, copy-pastable source; skills should point here by heading instead of duplicating the full heuristics.
 
 ## Decision Order
@@ -16,14 +18,55 @@ When two heuristics compete, protect the earlier concern first:
 
 A more expressive result is not better if it weakens an earlier concern. Treat `must` and `never` rules as contracts; treat named visual references and opportunities as taste guidance that still needs rendered evidence.
 
+## Less, But More Sirui
+
+- Spend attention deliberately. Prefer fewer containers, hierarchy levels, competing actions, and repeated explanations; give the remaining elements enough space and specificity to matter.
+- Use a card only when it communicates interaction, containment, or a meaningful boundary. A summary that repeats the next section should become whitespace, a hairline, an editorial sequence, or a plain list.
+- Lively does not mean constantly moving. Let one idea, gesture, or visual surprise carry a section, then let the rest of the page breathe.
+- Keep the site fun and Sirui. A warm aside, honest receipt, unusual interaction, or small joke is welcome when it reveals the person, research process, or evidence behind the work.
+- Content earns its place. Explain the idea once in clear language, keep proof close to it, and move technical custody or reproduction detail into an optional disclosure when it would interrupt the human story.
+
+### An Evolving Spine
+
+The spine is stable enough to guide decisions and open enough to learn. Experiments are welcome when they strengthen meaning, personality, or discovery and survive rendered critique across the required viewports, themes, input modes, and accessibility states. Record uncertain ideas in [`docs/design-experiment-backlog.md`](docs/design-experiment-backlog.md) with a hypothesis and revisit trigger instead of either freezing the design language or shipping an effect without evidence.
+
+### Signature Copy Locklist
+
+These phrases carry Sirui's voice or research framing. Preserve them exactly unless Sirui explicitly approves a rewrite; do not condense them merely to reduce word count:
+
+- “Making AI tools that sharpen design judgment.”
+- “Scaffolding taste in an age of generative abundance.”
+- “Design, Evaluate, Situate.”
+- “Vibes -> Variables -> Value”
+- “Make better design decisions visible.”
+
+### Three Narrative Type Roles
+
+- **Display:** the one major statement or page title that should lead a viewport. Use Inter 700.
+- **Heading:** section titles and local structure. Use Inter 600.
+- **Reading:** paragraphs and explanatory prose. Use Inter 400.
+- **Compact exception:** controls, metadata, CV tables, code, chart labels, and other genuinely dense records. Use Inter 500 or the existing monospace face where the content is code-like.
+- Load and request only the Inter weights the site uses: 400, 500, 600, and 700. Never synthesize 750–900. Legacy type variables remain aliases during the transition; new narrative styles must use the role variables instead of inventing a new size.
+
+### Human And AI Are Different Reading Surfaces
+
+- **Human routes** are visual, warm, selective, and first-person. They should make a question easy to feel, show the most useful proof, and reward curiosity without requiring the reader to decode a development log.
+- **AI routes** are compact, semantic, source-linked, motion-free, and information-dense. They should expose stable anchors, plain fields, evidence boundaries, and reproduction paths without inheriting decorative human layouts.
+- Reciprocal Human/AI links should preserve the closest meaningful context. Shared canonical facts may project into both surfaces, but the presentation should not be forced into one compromise template.
+
+### Story With The Right Medium
+
+Tell each design story through the best combination of text, image, interaction, and truthful data. Do not force every case study into the same card grid. Some claims need a sentence, some need a before/after image, some need a chart and exact table, and some need an interaction the visitor can try. Mixed media is coherent when every element advances the same question.
+
 ## Agent Quick Index
 
-| Task                                 | Start with these headings                                                                                                             | Agent overlay                                                   |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Sitewide or homepage critique        | Decision Order; First-Glance Story; Visual Hierarchy; Accessibility And Quality Checks; Screenshot Critique Ritual; Responsive Layout | `$website-design-critique`                                      |
-| Blog, project, or case-study writing | Decision Order; Content; Page Archetypes; Blog Voice; Conservative Inspiration Boundaries; Process Artifacts                          | `$portfolio-writing-voice`                                      |
-| Homepage 2D/3D desk scene            | Decision Order; Motion; Playful Portfolio Lessons; Research Desk Materiality; Responsive Layout                                       | `$homepage-desk-scene` plus `docs/homepage-desk-scene-brief.md` |
-| Recording a durable lesson           | Decision Order; the affected topic heading; Maintenance And CI                                                                        | `$tacit-knowledge-to-skill`                                     |
+| Task                                 | Start with these headings                                                                                                                                     | Agent overlay                                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Sitewide or homepage critique        | Decision Order; First-Glance Story; Visual Hierarchy; Accessibility And Quality Checks; Screenshot Critique Ritual; Proportional Visual QA; Responsive Layout | `$website-design-critique`                                      |
+| Blog, project, or case-study writing | Decision Order; Content; Page Archetypes; Blog Voice; Conservative Inspiration Boundaries; Process Artifacts                                                  | `$portfolio-writing-voice`                                      |
+| Homepage 2D/3D desk scene            | Decision Order; Motion; Playful Portfolio Lessons; Research Desk Materiality; Responsive Layout                                                               | `$homepage-desk-scene` plus `docs/homepage-desk-scene-brief.md` |
+| Recording a durable lesson           | Decision Order; the affected topic heading; Maintenance And CI                                                                                                | `$tacit-knowledge-to-skill`                                     |
+| Evaluating a design experiment       | Less, But More Sirui; Motion; Acceptance Evidence; `docs/design-experiment-backlog.md`                                                                        | `$website-design-critique`                                      |
 
 Begin with the rendered route and the visitor problem, not with a preferred effect. Keep one-off implementation notes in the owning file or temporary scratchpad; add to this document only when a lesson generalizes beyond the current patch.
 
@@ -101,7 +144,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Hover should preview the current state; explicit controls should change state. If hovering a portrait changes the selected record before the visitor can click play, the interaction feels slippery instead of polished.
 - Playful metadata belongs behind a deliberate reveal. A hover preview can tease the disk/object, but titles, artists, durations, and catalog notes should stay hidden until the visitor opens the liner note.
 - If a playful object has multiple states, provide a small explicit control for touch and keyboard users. Hover can preview; it should not be the only way to reach the full set.
-- Give substantial site widgets one quiet, explicit origin route near the widget heading or mode control. Use a history mark for origin, `i` for methodology, and `?` only for a genuine unknown; the accessible name should identify the destination, and touch/keyboard activation must open the same concrete case study or reproduction note.
+- Give substantial site widgets one quiet origin route near the widget heading or mode control. Its resting mark should stay below the content hierarchy: use a tiny consistent glint that illuminates once when the owning artifact or cue receives hover or focus, never a competing text label, continuous pulse, slider-like line, or explanatory popover. The accessible name should identify the destination, and touch/keyboard activation must open the same concrete case study or reproduction note.
 - Put state-changing controls where the state lives. Record switching belongs beside the disk, not inside a progress bar where it can be mistaken for play/pause.
 - Put one or two concrete proof routes above the fold, but do not let proof cards compete with the thesis headline.
 - Small rotations, lifts, image zooms, and caption emphasis are enough. If the motion becomes the thing a visitor remembers more than the work, simplify it.
@@ -180,15 +223,16 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 
 ## Screenshot Critique Ritual
 
-For each meaningful homepage iteration:
+For each meaningful homepage direction, not every CSS adjustment:
 
-1. Capture desktop, tablet, and mobile screenshots.
+1. Capture one representative affected route, state, and viewport.
 2. Read the page as a rushed research peer.
 3. Read it as a prospective student.
 4. Read it as a returning collaborator.
 5. Mark anything that is visually loud but not meaningful.
 6. Mark anything important that is hard to notice.
-7. Revise until the page is clearer, not merely prettier.
+7. Revise the same frame until the direction is clearer, not merely prettier.
+8. Expand to boundary viewports and relevant accessibility states only after the direction earns a checkpoint.
 
 For sitewide passes:
 
@@ -198,11 +242,48 @@ For sitewide passes:
 4. Treat the page as a reflective practice artifact: make a change, observe what it clarifies or hides, then revise.
 5. Move durable lessons back into this file so future sessions start smarter.
 
+## Proportional Visual QA
+
+Visual evidence should match the decision being made. Do not spend a release-sized test budget on a local taste question.
+
+### Fast iteration: one design decision
+
+- Reuse one already-running, owned localhost server. Do not rebuild Jekyll, restart Docker, or reconnect browser control for every CSS or copy adjustment.
+- Inspect one affected route, one meaningful state, one representative viewport, and the currently relevant theme. Capture one screenshot per hypothesis, compare it with the last useful frame, then make the next design decision.
+- Prefer the repository's deterministic Playwright iteration lane and inspect its saved PNG under `.jekyll-cache/visual-qa/` directly. Keeping artifacts in this unwatched directory prevents screenshots from waking Jekyll and rebuilding the site mid-critique. Browser control is for interactions that cannot be reproduced in the harness or when Sirui explicitly needs a live tab.
+- If browser capture stalls once, stop retrying and use the repository lane. Repeated browser setup, documentation output, and screenshot retries are not design work.
+- The lane has a one-minute global budget. If it is unexpectedly slow, set `VISUAL_TIMINGS=1` once. Use its concise phase report to fix the measured bottleneck; do not repeat captures while guessing.
+- If timings show that the page and screenshot finished but Chromium teardown dominates, stop the loop. Treat a persistent-browser worker as a separate harness improvement; do not make the capture faster by hiding or stubbing design assets that the judgment depends on.
+- With the owned preview on `4101`, a focused Research Focus pass is:
+
+  ```powershell
+  $env:VISUAL_ROUTE_IDS = "home"
+  $env:VISUAL_ROUTE_HASH = "focus"
+  $env:VISUAL_CAPTURE_SELECTOR = "#focus"
+  npm.cmd run test:visual:iterate
+  ```
+
+### Checkpoint: prove the chosen direction
+
+- After the direction looks worth keeping, run the affected route or small route set at the four standard viewports and both relevant themes. Add keyboard, reduced-motion, contrast, or interaction checks only when the change touches those contracts.
+- The guarded checkpoint command requires an explicit route list and reuses the running preview:
+
+  ```powershell
+  $env:VISUAL_ROUTE_IDS = "home,project-website-revamp"
+  npm.cmd run test:visual:checkpoint
+  ```
+
+### Release: prove the integrated site
+
+- Run the full public, scene, legacy, build, crawl, and release gates only after the design diff is accepted and ready to publish.
+- The four-viewport sitewide matrix remains release evidence; it is not the inner design loop.
+- A failed release gate should route back to the smallest responsible test, not trigger repeated full-suite runs after every fix.
+
 ## Acceptance Evidence
 
 - Compare the same route, viewport, theme, and interaction state before and after the change.
 - Name the visitor problem and show how the result improves comprehension, proof proximity, reading, state clarity, or recovery.
-- For meaningful visual work, inspect 1440x1000, 1280x800, 768x1024, and 390x1000 rather than extrapolating from one desktop screenshot.
+- At checkpoint and release, inspect 1440x1000, 1280x800, 768x1024, and 390x1000 rather than extrapolating from one desktop screenshot. During active iteration, use the smallest representative frame that answers the current design question.
 - Check light and dark themes when color or surfaces changed; check keyboard focus and reduced motion when interaction changed.
 - Reject changes that introduce overlap, horizontal overflow, primary-media occlusion, broken links, console errors, or a weaker first-glance story.
 - A design pass is complete when the affected route is clearer and its important states are verified, not when every possible surface has been restyled.
@@ -235,7 +316,7 @@ For sitewide passes:
 - Primary media must not be covered on mobile. If an overlay hides a map, globe, figure, face, or artifact, move the overlay below the media or collapse it.
 - Whitespace should manage cognitive load: group related things, separate new ideas, and let the next step peek without creating dead air.
 - Use page-type widths: narrow for long reading, medium for notebooks and lists, wide only when grids or diagrams need the room.
-- Test 1440x1000, 1280x800, 768x1024, and 390x1000 before calling a visual pass done.
+- Test 1440x1000, 1280x800, 768x1024, and 390x1000 before calling a visual checkpoint or release done; do not rerun the matrix after every local adjustment.
 
 ## Footer And Global Chrome
 
@@ -353,3 +434,4 @@ Current accepted intent record:
 - Formatter drift is design debt. Pin formatter versions locally and in CI so the same file does not pass on one machine and fail on GitHub.
 - Treat generated or vendored third-party bundles as dependencies. Prefer excluding them from project-specific static analysis over hand-editing minified or generated code.
 - If demo content exists only to show theme features, unpublish it from the public portfolio until it becomes part of Sirui's real story.
+- Keep visual QA in three explicit lanes: `test:visual:iterate` for one fast screenshot, `test:visual:checkpoint` for explicit affected routes, and `test:visual` for release. Never make the fastest lane silently start a Jekyll server or expand to the full route matrix.

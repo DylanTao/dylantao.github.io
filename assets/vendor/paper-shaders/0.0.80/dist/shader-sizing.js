@@ -1,0 +1,1 @@
+const defaultObjectSizing={fit:"contain",scale:1,rotation:0,offsetX:0,offsetY:0,originX:.5,originY:.5,worldWidth:0,worldHeight:0},defaultPatternSizing={fit:"none",scale:1,rotation:0,offsetX:0,offsetY:0,originX:.5,originY:.5,worldWidth:0,worldHeight:0},ShaderFitOptions={none:0,contain:1,cover:2};export{ShaderFitOptions,defaultObjectSizing,defaultPatternSizing};
