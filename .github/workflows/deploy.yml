@@ -76,8 +76,16 @@ on:
   # their data would otherwise sit unpublished until an unrelated human push. This
   # daily run is the backstop that publishes them, and it needs no extra token or
   # `actions: write` anywhere. Scheduled after both refreshes (00:00 and 05:40).
+  #
+  # The hour also stays clear of the private profile-metrics scan. That scan is
+  # dispatched around 07:20 UTC and fails closed if any contributing branch head --
+  # including this site's gh-pages -- moves while it collects. A "30 6" cron was
+  # delayed by GitHub's scheduler into 07:14-07:33 and landed its gh-pages commit
+  # inside the first minutes of every scan, which is what stalled the personal
+  # snapshot from 2026-08-13 onward. Keep this after that scan rather than just
+  # before it, and prefer an off-round minute so queue drift stays small.
   schedule:
-    - cron: "30 6 * * *"
+    - cron: "20 11 * * *"
   workflow_dispatch:
 
 permissions:
