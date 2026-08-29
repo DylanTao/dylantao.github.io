@@ -3865,12 +3865,118 @@ class PriceLensTests(unittest.TestCase):
         self.assertEqual(current["long_context_request_count"], 2)
         self.assertEqual(current["long_context_token_usage"]["total_tokens"], 3_300_000)
         self.assertEqual(current["long_context_threshold_input_tokens"], 272_000)
-        self.assertEqual(current["model_rates"]["gpt-5.6-sol"]["cache_write_input_usd_per_million"], 6.25)
-        self.assertEqual(current["model_rates"]["gpt-5.6-sol"]["long_context_cache_write_input_usd_per_million"], 12.5)
+        sol_initial = current["model_price_eras"]["gpt-5.6-sol"][0]
+        self.assertIsNone(sol_initial["effective_from"])
+        self.assertEqual(sol_initial["rates"]["cache_write_input_usd_per_million"], 6.25)
+        self.assertEqual(sol_initial["rates"]["long_context_cache_write_input_usd_per_million"], 12.5)
         self.assertIsNone(current["cache_write_tokens"])
         self.assertIn("cache writes", current["caveat"])
         self.assertAlmostEqual(legacy["usd_estimate"], 2.52)
         self.assertEqual(legacy["model"], "gpt-5.3-codex")
+
+    def test_sol_request_before_the_cut_keeps_the_original_rates(self) -> None:
+        """A frozen rate table would misprice months of history."""
+
+        before = audit.api_cost_equivalence(
+            [
+                counted_event(
+                    usage(300_000, output=100_000),
+                    model="gpt-5.6-sol",
+                    timestamp=datetime(2026, 8, 20, tzinfo=timezone.utc),
+                )
+            ]
+        )
+        # 200K uncached input at $5/M plus 100K output at $30/M.
+        self.assertAlmostEqual(before["usd_estimate"], 4.00)
+        self.assertEqual(
+            [(row["model"], row["era"]) for row in before["price_eras_applied"]],
+            [("gpt-5.6-sol", "initial")],
+        )
+
+    def test_sol_request_on_the_cut_date_uses_the_reduced_rates(self) -> None:
+        after = audit.api_cost_equivalence(
+            [
+                counted_event(
+                    usage(300_000, output=100_000),
+                    model="gpt-5.6-sol",
+                    timestamp=datetime(2026, 8, 21, tzinfo=timezone.utc),
+                )
+            ]
+        )
+        # Same request at $4/M input and $20/M output.
+        self.assertAlmostEqual(after["usd_estimate"], 2.80)
+        self.assertEqual(
+            [(row["model"], row["era"]) for row in after["price_eras_applied"]],
+            [("gpt-5.6-sol", "2026-08-21")],
+        )
+
+    def test_long_context_rates_follow_the_era_boundary(self) -> None:
+        long_before = audit.api_cost_equivalence(
+            [
+                counted_event(
+                    usage(400_000, output=100_000),
+                    model="gpt-5.6-sol",
+                    timestamp=datetime(2026, 8, 20, tzinfo=timezone.utc),
+                )
+            ]
+        )
+        long_after = audit.api_cost_equivalence(
+            [
+                counted_event(
+                    usage(400_000, output=100_000),
+                    model="gpt-5.6-sol",
+                    timestamp=datetime(2026, 8, 21, tzinfo=timezone.utc),
+                )
+            ]
+        )
+        # 300K input crosses the long-context threshold in both eras.
+        self.assertEqual(long_before["long_context_request_count"], 1)
+        self.assertEqual(long_after["long_context_request_count"], 1)
+        self.assertAlmostEqual(long_before["usd_estimate"], 7.50)
+        self.assertAlmostEqual(long_after["usd_estimate"], 5.40)
+
+    def test_terra_is_priced_rather_than_counted_as_free(self) -> None:
+        priced = audit.api_cost_equivalence(
+            [
+                counted_event(
+                    usage(300_000, output=100_000),
+                    model="gpt-5.6-terra",
+                    timestamp=datetime(2026, 8, 21, tzinfo=timezone.utc),
+                )
+            ]
+        )
+        # 200K uncached input at $2/M plus 100K output at $12/M.
+        self.assertAlmostEqual(priced["usd_estimate"], 1.60)
+        self.assertEqual(priced["unpriced_token_usage"]["total_tokens"], 0)
+
+    def test_unknown_model_still_reports_unpriced_tokens(self) -> None:
+        unknown = audit.api_cost_equivalence(
+            [
+                counted_event(
+                    usage(300_000, output=100_000),
+                    model="codex-auto-review",
+                    timestamp=datetime(2026, 8, 21, tzinfo=timezone.utc),
+                )
+            ]
+        )
+        self.assertAlmostEqual(unknown["usd_estimate"], 0.0)
+        self.assertEqual(unknown["unpriced_token_usage"]["total_tokens"], 300_000)
+        self.assertEqual(unknown["price_eras_applied"], [])
+
+    def test_price_era_lookup_selects_the_rate_in_effect(self) -> None:
+        self.assertEqual(
+            audit.rates_for_model_at("gpt-5.6-sol", date(2026, 8, 20))[0], "initial"
+        )
+        self.assertEqual(
+            audit.rates_for_model_at("gpt-5.6-sol", date(2026, 8, 21))[0], "2026-08-21"
+        )
+        # A model with no published rates stays unpriced rather than free.
+        self.assertIsNone(audit.rates_for_model_at("codex-auto-review", date(2026, 8, 21)))
+        # An event predating every era falls back to the earliest rather than
+        # dropping its tokens.
+        self.assertEqual(
+            audit.rates_for_model_at("gpt-5.6-sol", date(2020, 1, 1))[0], "initial"
+        )
 
     def test_short_context_request_keeps_short_rates(self) -> None:
         current = audit.api_cost_equivalence(

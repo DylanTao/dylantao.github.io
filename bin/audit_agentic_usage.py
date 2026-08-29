@@ -6468,30 +6468,113 @@ LOCAL_LIFETIME_CHECK_FIELDS = (
 METRICS_BOT_EMAILS = frozenset({"metrics-bot@users.noreply.github.com"})
 
 PRICE_SOURCE_URL = "https://developers.openai.com/api/docs/pricing"
-MODEL_PRICE_AS_OF = "2026-07-12"
+# Date the rate table below was last checked against the public pricing page.
+# This is not when any rate took effect: each era carries its own boundary, so a
+# request is replayed at whatever was published on the day it actually happened.
+MODEL_PRICE_AS_OF = "2026-08-29"
 LONG_CONTEXT_THRESHOLD_INPUT_TOKENS = 272_000
-MODEL_STANDARD_RATES: dict[str, dict[str, float | None]] = {
-    "gpt-5.5": {
-        "input_usd_per_million": 5.00,
-        "cached_input_usd_per_million": 0.50,
-        "output_usd_per_million": 30.00,
-        "cache_write_input_usd_per_million": None,
-        "long_context_input_usd_per_million": 10.00,
-        "long_context_cached_input_usd_per_million": 1.00,
-        "long_context_output_usd_per_million": 45.00,
-        "long_context_cache_write_input_usd_per_million": None,
-    },
-    "gpt-5.6-sol": {
-        "input_usd_per_million": 5.00,
-        "cached_input_usd_per_million": 0.50,
-        "output_usd_per_million": 30.00,
-        "cache_write_input_usd_per_million": 6.25,
-        "long_context_input_usd_per_million": 10.00,
-        "long_context_cached_input_usd_per_million": 1.00,
-        "long_context_output_usd_per_million": 45.00,
-        "long_context_cache_write_input_usd_per_million": 12.50,
-    },
+# The gpt-5.6-sol reduction below was announced as promotional through this date.
+# Re-check the pricing page on or after it rather than letting a temporary cut
+# quietly become the permanent basis of a published figure.
+SOL_PROMOTIONAL_RATE_THROUGH = "2026-11-21"
+# Published rates change, and this ledger spans months of work, so a single frozen
+# snapshot silently misprices history. Each model maps to eras ordered oldest
+# first; `None` means "since the beginning of the retained record". Rates are list
+# prices per million tokens.
+MODEL_PRICE_ERAS: dict[str, tuple[tuple[date | None, dict[str, float | None]], ...]] = {
+    "gpt-5.5": (
+        (
+            None,
+            {
+                "input_usd_per_million": 5.00,
+                "cached_input_usd_per_million": 0.50,
+                "output_usd_per_million": 30.00,
+                "cache_write_input_usd_per_million": None,
+                "long_context_input_usd_per_million": 10.00,
+                "long_context_cached_input_usd_per_million": 1.00,
+                "long_context_output_usd_per_million": 45.00,
+                "long_context_cache_write_input_usd_per_million": None,
+            },
+        ),
+    ),
+    "gpt-5.6-sol": (
+        (
+            None,
+            {
+                "input_usd_per_million": 5.00,
+                "cached_input_usd_per_million": 0.50,
+                "output_usd_per_million": 30.00,
+                "cache_write_input_usd_per_million": 6.25,
+                "long_context_input_usd_per_million": 10.00,
+                "long_context_cached_input_usd_per_million": 1.00,
+                "long_context_output_usd_per_million": 45.00,
+                "long_context_cache_write_input_usd_per_million": 12.50,
+            },
+        ),
+        # 2026-08-21 price reduction: about 20% off input and 33% off output.
+        # The announcement did not publish a cache-write rate, and this replay
+        # never applies one anyway because the retained logs do not expose a
+        # cache-write bucket, so those stay None rather than being invented.
+        (
+            date(2026, 8, 21),
+            {
+                "input_usd_per_million": 4.00,
+                "cached_input_usd_per_million": 0.40,
+                "output_usd_per_million": 20.00,
+                "cache_write_input_usd_per_million": None,
+                "long_context_input_usd_per_million": 8.00,
+                "long_context_cached_input_usd_per_million": 0.80,
+                "long_context_output_usd_per_million": 30.00,
+                "long_context_cache_write_input_usd_per_million": None,
+            },
+        ),
+    ),
+    "gpt-5.6-terra": (
+        (
+            None,
+            {
+                "input_usd_per_million": 2.00,
+                "cached_input_usd_per_million": 0.20,
+                "output_usd_per_million": 12.00,
+                "cache_write_input_usd_per_million": None,
+                "long_context_input_usd_per_million": 4.00,
+                "long_context_cached_input_usd_per_million": 0.40,
+                "long_context_output_usd_per_million": 18.00,
+                "long_context_cache_write_input_usd_per_million": None,
+            },
+        ),
+    ),
 }
+
+
+def price_era_label(effective_from: date | None) -> str:
+    """Stable identifier for one pricing era of one model."""
+
+    return effective_from.isoformat() if effective_from is not None else "initial"
+
+
+def rates_for_model_at(
+    model: str, when: date
+) -> tuple[str, dict[str, float | None]] | None:
+    """Return the (era label, rates) in effect for `model` on `when`.
+
+    None means the model has no published rates here, and its tokens are reported
+    as unpriced rather than silently counted as free. A known model whose eras all
+    postdate the event falls back to the earliest era: published rates have only
+    moved down, so this errs high on old usage instead of under-reporting it.
+    """
+
+    eras = MODEL_PRICE_ERAS.get(model)
+    if not eras:
+        return None
+    selected = eras[0]
+    for era in eras:
+        effective_from = era[0]
+        if effective_from is None or effective_from <= when:
+            selected = era
+        else:
+            break
+    return price_era_label(selected[0]), selected[1]
 API_COST_CAVEAT = (
     "API list-price replay from logged request tokens; cache writes and actual Codex billing are not included."
 )
@@ -7496,6 +7579,7 @@ def api_cost_equivalence(scoped_events: Iterable[CountedUsageEvent]) -> dict[str
     priced_usage = empty_usage()
     unpriced_usage = empty_usage()
     price_breakdown: dict[str, dict[str, Any]] = {}
+    era_totals: dict[tuple[str, str], dict[str, Any]] = {}
     long_context_usage = empty_usage()
     long_context_request_count = 0
     long_context_usd_estimate = 0.0
@@ -7505,10 +7589,13 @@ def api_cost_equivalence(scoped_events: Iterable[CountedUsageEvent]) -> dict[str
         model = str(event.model or "unknown")
         effort = str(event.effort or "unknown")
         key = model_effort_key(model, effort)
-        rates = MODEL_STANDARD_RATES.get(model)
-        if rates is None:
+        # Price each request at what was published on the day it happened, not at
+        # whatever the table says today.
+        resolved = rates_for_model_at(model, event.timestamp.date())
+        if resolved is None:
             add_usage(unpriced_usage, usage)
             continue
+        era_label, rates = resolved
 
         uncached_input = max(0, usage["input_tokens"] - usage["cached_input_tokens"])
         is_long_context = usage["input_tokens"] > LONG_CONTEXT_THRESHOLD_INPUT_TOKENS
@@ -7520,6 +7607,13 @@ def api_cost_equivalence(scoped_events: Iterable[CountedUsageEvent]) -> dict[str
         ) / 1_000_000
         usd_estimate += bucket_cost
         add_usage(priced_usage, usage)
+        era_bucket = era_totals.setdefault(
+            (model, era_label),
+            {"request_count": 0, "token_usage": empty_usage(), "usd_estimate": 0.0},
+        )
+        era_bucket["request_count"] += 1
+        era_bucket["usd_estimate"] += bucket_cost
+        add_usage(era_bucket["token_usage"], usage)
         bucket = price_breakdown.setdefault(
             key,
             {
@@ -7553,7 +7647,30 @@ def api_cost_equivalence(scoped_events: Iterable[CountedUsageEvent]) -> dict[str
         "pricing_tier": "Standard, request-aware",
         "pricing_as_of": MODEL_PRICE_AS_OF,
         "source_url": PRICE_SOURCE_URL,
-        "model_rates": copy.deepcopy(MODEL_STANDARD_RATES),
+        "model_price_eras": {
+            model: [
+                {
+                    "era": price_era_label(effective_from),
+                    "effective_from": (
+                        effective_from.isoformat() if effective_from is not None else None
+                    ),
+                    "rates": dict(rates),
+                }
+                for effective_from, rates in eras
+            ]
+            for model, eras in MODEL_PRICE_ERAS.items()
+        },
+        "sol_promotional_rate_through": SOL_PROMOTIONAL_RATE_THROUGH,
+        "price_eras_applied": [
+            {
+                "model": model,
+                "era": era,
+                "request_count": totals["request_count"],
+                "token_usage": totals["token_usage"],
+                "usd_estimate": round(totals["usd_estimate"], 2),
+            }
+            for (model, era), totals in sorted(era_totals.items())
+        ],
         "long_context_threshold_input_tokens": LONG_CONTEXT_THRESHOLD_INPUT_TOKENS,
         "long_context_request_count": long_context_request_count,
         "long_context_token_usage": long_context_usage,
@@ -7964,13 +8081,19 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
         and isinstance(current_rhythm.get("points"), list)
         and current_rhythm["points"]
     )
-    current_raw = int(current.get("raw_token_count") or current.get("token_count") or 0)
+    # Only compare exact against exact. `token_count` is rounded to the nearest
+    # 10M, so falling back to it here let a rounded-up scope measure its true
+    # raw total against an inflated figure, read a healthy scan as incomplete,
+    # and stop accepting updates entirely. The rounded comparison below still
+    # guards against a genuinely destructive drop.
+    recorded_raw = current.get("raw_token_count")
+    current_raw = int(recorded_raw) if recorded_raw is not None else None
     current_rounded = int(current.get("token_count") or 0)
     result_raw = int(result.get("raw_token_count") or 0)
     result_rounded = int(result.get("token_count") or 0)
     incomplete_retained_scan = current_rounded > 0 and (
         result.get("usage_events", 0) == 0
-        or result_raw < current_raw
+        or (current_raw is not None and result_raw < current_raw)
         or result_rounded < current_rounded
     )
     if incomplete_retained_scan or (
@@ -7978,6 +8101,12 @@ def merge_scope_data(current: dict[str, Any], result: dict[str, Any], *, desk: b
     ):
         return next_scope
     for field_name in (
+        # Persist the exact count as well as the rounded one. The guard above
+        # falls back to `token_count` when this is absent, and that value is
+        # rounded to the nearest 10M -- so a rounded-up scope compares its true
+        # raw total against an inflated figure, reads itself as an incomplete
+        # scan, and silently stops accepting updates.
+        "raw_token_count",
         "token_count",
         "tokens_label",
         "hours_count",
