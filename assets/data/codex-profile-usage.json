@@ -1,8 +1,8 @@
 {
   "schema": 7,
   "combined_lifetime": {
-    "token_count": 155300000000,
-    "tokens_label": "155.3B",
+    "token_count": 161300000000,
+    "tokens_label": "161.3B",
     "units": "tokens",
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
@@ -10,8 +10,8 @@
   },
   "method": "rounded_sum_of_observed_agent_usage_sources",
   "confidence": "mixed",
-  "observed_on": "2026-08-31",
-  "updated_at": "2026-08-31T07:30:42Z",
+  "observed_on": "2026-09-01",
+  "updated_at": "2026-09-01T07:18:39Z",
   "automated_refresh": true,
   "combined_daily_usage": {
     "agent_families": [
@@ -21,7 +21,7 @@
     "aggregation": "sum_of_sources",
     "coverage": {
       "before_start": "unobserved",
-      "complete_through": "2026-08-30",
+      "complete_through": "2026-08-31",
       "completeness": "rolling_window_partial",
       "prior_unallocated_by_agent": {
         "codex": 1789214365,
@@ -1016,6 +1016,14 @@
         },
         "date": "2026-08-30",
         "tokens": 6830414074
+      },
+      {
+        "agent_tokens": {
+          "claude": 170979254,
+          "codex": 5836573025
+        },
+        "date": "2026-08-31",
+        "tokens": 6007552279
       }
     ],
     "schema": 2,
@@ -1026,7 +1034,7 @@
     "reference_scope": "current_site_build_blended_public_api_rate",
     "usd_per_million_tokens": 0.765887,
     "pricing_as_of": "2026-08-29",
-    "usd_midpoint": 118942,
-    "usd_label": "~$118.9K API-rate replay"
+    "usd_midpoint": 123538,
+    "usd_label": "~$123.5K API-rate replay"
   }
 }
