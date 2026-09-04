@@ -1,6 +1,6 @@
 {
   "schema": 5,
-  "updated_on": "2026-08-27",
+  "updated_on": "2026-09-03",
   "date_basis": "source_reported_calendar",
   "scope": "code_activity",
   "sources": [
@@ -20,12 +20,12 @@
       "date_basis": "utc_calendar_date",
       "completion_timezone": "UTC",
       "starts_on": "2026-06-15",
-      "complete_through": "2026-08-26"
+      "complete_through": "2026-09-03"
     }
   ],
   "coverage": {
     "starts_on": "2017-08-31",
-    "complete_through": "2026-08-27",
+    "complete_through": "2026-09-03",
     "status": "complete"
   },
   "points": [
@@ -30016,11 +30016,80 @@
     },
     {
       "date": "2026-08-27",
+      "intern": {
+        "commits": 23,
+        "authored_commits": 23,
+        "additions": 3876,
+        "deletions": 2485
+      },
       "personal": {
         "commits": 43,
         "authored_commits": 36,
         "additions": 96665,
         "deletions": 4008
+      }
+    },
+    {
+      "date": "2026-08-28",
+      "intern": {
+        "commits": 2,
+        "authored_commits": 2,
+        "additions": 1433,
+        "deletions": 478
+      }
+    },
+    {
+      "date": "2026-08-29",
+      "intern": {
+        "commits": 1,
+        "authored_commits": 1,
+        "additions": 1313,
+        "deletions": 1761
+      }
+    },
+    {
+      "date": "2026-08-30",
+      "intern": {
+        "commits": 10,
+        "authored_commits": 10,
+        "additions": 37941,
+        "deletions": 2579
+      }
+    },
+    {
+      "date": "2026-08-31",
+      "intern": {
+        "commits": 4,
+        "authored_commits": 4,
+        "additions": 3524,
+        "deletions": 1309
+      }
+    },
+    {
+      "date": "2026-09-01",
+      "intern": {
+        "commits": 6,
+        "authored_commits": 6,
+        "additions": 6231,
+        "deletions": 3653
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "intern": {
+        "commits": 20,
+        "authored_commits": 20,
+        "additions": 4396,
+        "deletions": 2554
+      }
+    },
+    {
+      "date": "2026-09-03",
+      "intern": {
+        "commits": 11,
+        "authored_commits": 11,
+        "additions": 3614,
+        "deletions": 1170
       }
     }
   ]
