@@ -3,7 +3,9 @@
  ******************************************************************************/
 
 // The one display statement on a route may use the strongest loaded weight.
-:where(.home-title, .post-title, .project-case-copy h1, .publication-context-hero h1) {
+// `h1.post-title` only: the blog index reuses the class on every list link, and
+// those must stay at heading size.
+:where(.home-title, h1.post-title, .project-case-copy h1, .publication-context-hero h1) {
   font-size: var(--type-display);
   font-weight: 700;
 }

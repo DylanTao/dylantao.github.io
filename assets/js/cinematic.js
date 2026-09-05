@@ -317,50 +317,64 @@
     });
   });
 
-  // 9. Homepage: one thread runs down the story and lights the section being read, headings drift a
-  //    little slower than the page, a marker sweeps the thesis question as it arrives, and the claim
-  //    and update cards rise in sequence. The 3D desk above all of this is untouched.
+  // 9. Threads: one line runs down a column of sections, fills as the reader scrolls, and lights a
+  //    node for the section being read. `anchors` are the elements each node sits beside; a
+  //    section's active span runs from its anchor to the next one (or the container's end).
+  const threadThrough = ({ container, track, fill, anchors, nodeClass, headOffset = 40, tailOffset = 56, nodeOffset = 12 }) => {
+    if (!container || !track || !anchors.length) return;
+    const nodes = anchors.map(() => {
+      const node = document.createElement("span");
+      node.className = nodeClass;
+      track.appendChild(node);
+      return node;
+    });
+    const layout = () => {
+      const box = container.getBoundingClientRect();
+      const first = anchors[0].getBoundingClientRect();
+      const last = anchors[anchors.length - 1].getBoundingClientRect();
+      const top = first.top - box.top + headOffset;
+      const bottom = last.top - box.top + tailOffset;
+      track.style.top = `${top}px`;
+      track.style.height = `${Math.max(0, bottom - top)}px`;
+      anchors.forEach((anchor, index) => {
+        nodes[index].style.top = `${anchor.getBoundingClientRect().top - box.top - top + nodeOffset}px`;
+      });
+    };
+    layout();
+    ScrollTrigger.addEventListener("refreshInit", layout);
+    if (fill) {
+      gsap.fromTo(
+        fill,
+        { scaleY: 0 },
+        { scaleY: 1, ease: "none", scrollTrigger: { trigger: track, start: "top 55%", end: "bottom 55%", scrub: 0.4 } }
+      );
+    }
+    anchors.forEach((anchor, index) => {
+      const next = anchors[index + 1];
+      ScrollTrigger.create({
+        trigger: anchor,
+        start: "top 55%",
+        endTrigger: next || container,
+        end: next ? "top 55%" : "bottom 55%",
+        toggleClass: { targets: nodes[index], className: "is-active" },
+      });
+    });
+  };
+
+  // 10. Homepage: the thread runs down the story below the desk, headings drift a little slower than
+  //     the page, a marker sweeps the thesis question as it arrives, and the claim and update cards
+  //     rise in sequence. The 3D desk above all of this is untouched.
   const home = document.querySelector(".home-page.cinematic");
   if (home) {
     const thread = home.querySelector("[data-home-thread]");
     const sections = gsap.utils.toArray(home.querySelectorAll(".home-section")).filter((section) => !section.classList.contains("home-hero"));
     if (thread && sections.length) {
-      const fill = thread.querySelector("[data-home-thread-fill]");
-      const nodes = sections.map(() => {
-        const node = document.createElement("span");
-        node.className = "home-thread-node";
-        thread.appendChild(node);
-        return node;
-      });
-      const layout = () => {
-        const pageBox = home.getBoundingClientRect();
-        const first = sections[0].getBoundingClientRect();
-        const last = sections[sections.length - 1].getBoundingClientRect();
-        const top = first.top - pageBox.top + 40;
-        const bottom = last.top - pageBox.top + 56;
-        thread.style.top = `${top}px`;
-        thread.style.height = `${Math.max(0, bottom - top)}px`;
-        sections.forEach((section, index) => {
-          const anchor = section.querySelector(".home-section-heading, .home-why-now-copy") || section;
-          nodes[index].style.top = `${anchor.getBoundingClientRect().top - pageBox.top - top + 12}px`;
-        });
-      };
-      layout();
-      ScrollTrigger.addEventListener("refreshInit", layout);
-      if (fill) {
-        gsap.fromTo(
-          fill,
-          { scaleY: 0 },
-          { scaleY: 1, ease: "none", scrollTrigger: { trigger: thread, start: "top 55%", end: "bottom 55%", scrub: 0.4 } }
-        );
-      }
-      sections.forEach((section, index) => {
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top 55%",
-          end: "bottom 55%",
-          toggleClass: { targets: nodes[index], className: "is-active" },
-        });
+      threadThrough({
+        container: home,
+        track: thread,
+        fill: thread.querySelector("[data-home-thread-fill]"),
+        anchors: sections.map((section) => section.querySelector(".home-section-heading, .home-why-now-copy") || section),
+        nodeClass: "home-thread-node",
       });
     }
 
@@ -398,5 +412,43 @@
         scrollTrigger: { trigger: items[0].parentElement, start: "top 85%", once: true },
       });
     });
+  }
+
+  // 11. Publications: the year headings get the same thread beside the paper list, and the Scholar
+  //     citation bars grow into place the first time the chart comes into view.
+  const paperColumn = document.querySelector(".cinematic .publication-list-column");
+  if (paperColumn) {
+    const years = gsap.utils.toArray(paperColumn.querySelectorAll("h2.bibliography"));
+    if (years.length > 1) {
+      const track = document.createElement("div");
+      track.className = "cinematic-thread";
+      track.setAttribute("aria-hidden", "true");
+      const fill = document.createElement("span");
+      fill.className = "cinematic-thread-fill";
+      track.appendChild(fill);
+      paperColumn.appendChild(track);
+      threadThrough({
+        container: paperColumn,
+        track,
+        fill,
+        anchors: years,
+        nodeClass: "cinematic-thread-node",
+        headOffset: 18,
+        tailOffset: 34,
+        nodeOffset: 28,
+      });
+    }
+    const bars = gsap.utils.toArray(".cinematic .scholar-lens-year-fill");
+    if (bars.length) {
+      gsap.from(bars, {
+        scaleY: 0,
+        transformOrigin: "bottom",
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.06,
+        clearProps: "transform",
+        scrollTrigger: { trigger: ".cinematic .scholar-lens-year-chart", start: "top 85%", once: true },
+      });
+    }
   }
 })();

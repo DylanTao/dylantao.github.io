@@ -254,13 +254,7 @@ pagination:
       {% assign is_featured_post = true %}
     {% endif %}
 
-    <li>
-
-{% if post.thumbnail %}
-
-<div class="row">
-          <div class="col-sm-9">
-{% endif %}
+    <li class="post-row{% if post.thumbnail %} post-row--with-thumbnail{% endif %}">
         <h3>
         {% if post.redirect == blank %}
           <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
@@ -273,19 +267,21 @@ pagination:
           <a class="post-title" href="{{ post.redirect | relative_url }}">{{ post.title }}</a>
         {% endif %}
       </h3>
-      <p>{{ post.description }}</p>
+      <p class="post-row-description">{{ post.description }}</p>
       <p class="post-meta">
         {% if is_featured_post %}
           <span class="blog-pinned-chip">Pinned</span>
         {% endif %}
-        {{ read_time }} min read &nbsp; &middot; &nbsp;
-        {{ post.date | date: '%B %d, %Y' }}
+        <time class="post-row-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%B %d, %Y' }}</time>
+        <span class="post-row-dot" aria-hidden="true">&middot;</span>
+        <span class="post-row-read-time">{{ read_time }} min read</span>
         <span class="js-blog-read-count-wrap" hidden>
-          &nbsp; &middot; &nbsp;
+          <span class="post-row-dot" aria-hidden="true">&middot;</span>
           <span class="blog-read-count js-blog-read-count" data-blog-read-url="{{ post.url | absolute_url }}" data-blog-read-mode="display" hidden></span>
         </span>
         {% if post.external_source %}
-        &nbsp; &middot; &nbsp; {{ post.external_source }}
+          <span class="post-row-dot" aria-hidden="true">&middot;</span>
+          <span>{{ post.external_source }}</span>
         {% endif %}
       </p>
       <div class="post-tags" role="group" aria-label="Post topics">
@@ -306,17 +302,12 @@ pagination:
             {% endfor %}
           {% endif %}
     </div>
-
-{% if post.thumbnail %}
-
-</div>
-
-  <div class="col-sm-3">
-    {% assign thumbnail_alt = post.thumbnail_alt | default: post.title %}
-    {% include figure.liquid path=post.thumbnail class="card-img blog-post-thumbnail" alt=thumbnail_alt sizes="(min-width: 576px) 25vw, 90vw" %}
-  </div>
-</div>
-{% endif %}
+      {% if post.thumbnail %}
+        <div class="post-row-media">
+          {% assign thumbnail_alt = post.thumbnail_alt | default: post.title %}
+          {% include figure.liquid path=post.thumbnail class="card-img blog-post-thumbnail" alt=thumbnail_alt sizes="(min-width: 768px) 160px, 90vw" %}
+        </div>
+      {% endif %}
     </li>
 
     {% endfor %}

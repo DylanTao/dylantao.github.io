@@ -1329,13 +1329,120 @@ body.sirui-secret-dialog-open {
   }
 }
 
-// Rows with and without a thumbnail keep the same text measure, so the index
-// reads as one column with images beside it rather than two layouts.
-@media (min-width: 576px) {
-  .post-list li > h3,
-  .post-list li > p,
-  .post-list li > .post-tags {
-    max-width: 75%;
+// Editorial rows: the date column sits to the left of every entry, the title,
+// description, and topics share one text measure, and a thumbnail (when a
+// post has one) hangs at the right. Narrow screens stack the same pieces.
+.post-list li.post-row {
+  position: relative;
+
+  > h3 {
+    margin-bottom: 0.35rem;
+  }
+
+  .post-row-description {
+    margin-bottom: 0.45rem;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.45rem;
+  }
+
+  .post-row-date {
+    color: var(--global-text-color);
+    font-weight: 500;
+  }
+
+  a.post-title {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size var(--md-lite-motion-duration-emphasized, 260ms) var(--md-lite-easing-standard, ease);
+  }
+
+  &:hover a.post-title,
+  &:focus-within a.post-title {
+    background-size: 100% 1px;
+  }
+}
+
+@media (min-width: 768px) {
+  .post-list li.post-row {
+    display: grid;
+    grid-template-areas:
+      "meta title"
+      "meta desc"
+      "meta tags";
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    column-gap: 1.6rem;
+    row-gap: 0.3rem;
+    align-items: start;
+    // Rows pack at the top, so a tall thumbnail never spreads the title,
+    // description, and topics apart.
+    align-content: start;
+
+    &.post-row--with-thumbnail {
+      grid-template-areas:
+        "meta title media"
+        "meta desc media"
+        "meta tags media";
+      grid-template-columns: 8.5rem minmax(0, 1fr) 9.5rem;
+    }
+
+    > h3 {
+      grid-area: title;
+      margin: 0;
+    }
+
+    .post-row-description {
+      grid-area: desc;
+      margin: 0;
+    }
+
+    .post-meta {
+      grid-area: meta;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.22rem;
+      padding-top: 0.3rem;
+    }
+
+    .post-row-dot {
+      display: none;
+    }
+
+    .post-tags {
+      grid-area: tags;
+      margin-top: 0.2rem;
+    }
+
+    .post-row-media {
+      grid-area: media;
+      margin: 0;
+    }
+
+    // A hairline of accent draws up beside the entry under the pointer.
+    &::before {
+      background: var(--global-theme-color);
+      border-radius: 2px;
+      bottom: 1.4rem;
+      content: "";
+      left: -1.25rem;
+      position: absolute;
+      top: 1.4rem;
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform var(--md-lite-motion-duration-emphasized, 260ms) var(--md-lite-easing-standard, ease);
+      width: 3px;
+    }
+
+    &:hover::before,
+    &:focus-within::before {
+      transform: scaleY(1);
+    }
   }
 }
 
@@ -1347,8 +1454,15 @@ body.sirui-secret-dialog-open {
   object-fit: cover;
 }
 
-.post-list .col-sm-3 figure {
+.post-list .post-row-media figure {
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-list li.post-row a.post-title,
+  .post-list li.post-row::before {
+    transition: none;
+  }
 }
 
 // Project pages reuse the blog navigation grammar for previous/next/index.
