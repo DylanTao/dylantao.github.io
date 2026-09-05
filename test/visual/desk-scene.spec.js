@@ -1509,6 +1509,7 @@ test("coastal chrome reflows at 200% text resize with genuine keyboard order", a
     const focused = await page.evaluate(() => {
       const element = document.activeElement;
       if (!(element instanceof HTMLElement)) return "none";
+      if (element.matches(".skip-link")) return "skip-link";
       if (element.matches(".site-brand")) return "site-brand";
       if (element.id) return `#${element.id}`;
       return `${element.tagName.toLowerCase()}:${element.getAttribute("aria-label") || element.textContent?.trim() || "unlabelled"}`;
@@ -1516,7 +1517,9 @@ test("coastal chrome reflows at 200% text resize with genuine keyboard order", a
     tabOrder.push(focused);
     if (focused === "#theme-toggle") break;
   }
-  expect(tabOrder[0]).toBe("site-brand");
+  // The skip link is the first stop on every page since 2026-09-05; the brand follows it.
+  expect(tabOrder[0]).toBe("skip-link");
+  expect(tabOrder[1]).toBe("site-brand");
   expect(tabOrder).toContain("#search-toggle");
   expect(tabOrder).toContain("#theme-toggle");
   expect(tabOrder.indexOf("#search-toggle")).toBeLessThan(tabOrder.indexOf("#theme-toggle"));
