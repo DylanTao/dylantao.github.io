@@ -138,6 +138,7 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
       <li><time datetime="2026-07-15">Jul 15</time><code>6b4b7bd59</code><span>Added a scroll-led reading that teaches cadence, magnitude, scale, and the separate Codex clock before handing control to the exact explorer.</span></li>
       <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Replaced source-level account history with one identity-free direct checkpoint.</span></li>
       <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the rounded repo-scoped token rhythm within the current public boundary.</span></li>
+      <li><time datetime="2026-09-05">Sep 5</time><code>90e9f613b</code><span>Moved the encoding key into an HTML strip with the profile SVG's words, plainer panel headings, an olive intern band with a seam, and per-source readout cells.</span></li>
     </ol>
   </div>
 </details>
