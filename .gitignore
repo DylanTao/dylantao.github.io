@@ -30,3 +30,6 @@ vendor
 assets/vendor/*
 !assets/vendor/paper-shaders/
 !assets/vendor/paper-shaders/**
+# GSAP core and ScrollTrigger are vendored under the GSAP Standard License; see the NOTICE beside them.
+!assets/vendor/gsap/
+!assets/vendor/gsap/**

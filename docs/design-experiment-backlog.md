@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### The cinematic layer: scroll scenes, spotlight, and tilt
+
+- **Hypothesis:** A reader understands a research project faster when the page walks them through its one figure step by step, and a project grid feels alive when the card under the pointer answers it. Scroll-driven scenes and pointer-aware surfaces can do both without taking control of scrolling.
+- **Route:** Pages that declare `cinematic: true`: the projects index first (entrance stagger, section headings sliding in, a pointer spotlight and a few degrees of tilt over the card grid, a title that lingers as the page starts to move, a slow gradient field behind the page title) and the DesignWeaver case study (the hero copy scrolls away while the teaser stays; three steps take its place and a lens moves over the part of the figure each step describes; proof numbers count up once).
+- **Reference:** GSAP 3 with ScrollTrigger for choreography; CSS `position: sticky` for the stage so the scene also works without script; the site's own explain-the-page motion rules, now with bounded permissions for parallax, spotlight, and pinned scenes.
+- **Licensing:** GSAP 3.15.0 core and ScrollTrigger vendored under the GSAP Standard License (free for any use since 3.13); provenance in `assets/vendor/gsap/3.15.0/NOTICE.md`.
+- **Visitor benefit:** The figure is read in the order the research happened; the grid says "this is a thing you can open" before a click; nothing moves faster than reading and nothing loops quickly.
+- **Budget:** About 117 KB of script before compression, loaded only on opted-in pages; no wheel or touch hijacking; every effect is a still page under reduced motion, without a fine pointer, or under automation (visual captures see the still page unless a run opts into `?cinematic=live`).
+- **Status:** `prototype`; Sirui chose the cinematic tier and this first slice on 2026-09-05 and reviews the live result.
+- **Evidence:** Runtime in `assets/js/cinematic.js`, styles in `_sass/_cinematic.scss`, the scene markup in `_projects/designweaver.md`, the wiring in `_includes/scripts.liquid` and `_layouts/page.liquid`; production build, Playwright probes with `?cinematic=live`, the project-card FLIP suite, and the projects and DesignWeaver checkpoints.
+- **Sirui decision:** Direction approved 2026-09-05 ("be creative and wild and fun, make something great and iterate"); the specific effects await Sirui's live review.
+- **Revisit trigger:** Sirui's review, any reader report of motion sickness or a stuck lens, a Lighthouse total-blocking-time regression on the projects index, or a GSAP release that changes the ScrollTrigger API.
+
 ### Cross-document continuity for same-origin navigation
 
 - **Hypothesis:** A short root crossfade between pages, with the navbar and progress bar held still, lets a reader keep their place in the site's chrome while the content changes, replacing a white flash with continuity.

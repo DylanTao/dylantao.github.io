@@ -104,6 +104,11 @@
 {% if page.project_cards_interactive %}
   <script defer src="{{ '/assets/js/project-cards.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
+{% if page.cinematic %}
+  <script defer src="{{ '/assets/vendor/gsap/3.15.0/gsap.min.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/vendor/gsap/3.15.0/ScrollTrigger.min.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/cinematic.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+{% endif %}
 {% if page.wall_of_rejection %}
   <script defer src="{{ '/assets/js/wall-of-rejection.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}

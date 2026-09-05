@@ -125,8 +125,9 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 ## Motion
 
 - Motion should explain the page, not decorate it.
-- Good motion: section reveal, active rail state, hover feedback, and small transitions that show "this is clickable."
-- Bad motion: constant ambient movement, unrelated loops, or effects that compete with reading.
+- Good motion: section reveal, active rail state, hover feedback, small transitions that show "this is clickable," and, on pages that opt into the cinematic layer, scroll-driven scenes that walk a reader through one figure.
+- Bounded cinematic motion (Sirui, 2026-09-05): a sticky figure with a moving lens while three steps scroll past, staggered entrances, a pointer spotlight and a few degrees of tilt over card grids, shallow parallax (a title moving under a third of its own height), count-ups on one or two proof numbers, and a gradient field behind a page title that takes tens of seconds to drift. Each plays once per element or slower than reading, never takes over scrolling, and every one is a still page under reduced motion, without a fine pointer, or under automation.
+- Bad motion: constant fast movement, unrelated loops, cursor trails, scroll hijacking, or effects that compete with reading.
 - Always respect `prefers-reduced-motion`.
 - Smooth scrolling should preserve native control: use anchor smoothing and reveal timing, not wheel or touch hijacking.
 - Animation should make Sirui feel thoughtful and dynamic, not flashy.

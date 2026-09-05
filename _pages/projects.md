@@ -9,6 +9,7 @@ panel_wide: true
 display_categories: [research, fun]
 horizontal: false
 project_cards_interactive: true
+cinematic: true
 ---
 
 <!-- pages/projects.md -->

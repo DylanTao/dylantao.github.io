@@ -32,9 +32,10 @@ citation_lastpage: "26"
 citation_publisher: ACM
 citation_pdf_url: "https://dl.acm.org/doi/pdf/10.1145/3706598.3714211"
 doi: "10.1145/3706598.3714211"
+cinematic: true
 ---
 
-<section class="project-case-hero designweaver-case" data-paper-static-accent="static-mesh-gradient">
+<section class="project-case-hero designweaver-case case-scroll-hero" data-paper-static-accent="static-mesh-gradient" data-case-scroll>
   <div class="project-case-copy">
     <p class="project-case-kicker">CHI 2025 · First author</p>
     <h1>DesignWeaver</h1>
@@ -42,7 +43,7 @@ doi: "10.1145/3706598.3714211"
       A workspace for turning vague product ideas into inspectable design dimensions, richer prompts, and better comparison across generated concepts.
     </p>
     <div class="project-case-facts">
-      <span>52-participant study</span>
+      <span data-count-up>52-participant study</span>
       <span>Prompt scaffolding</span>
       <span>Text-to-image product design</span>
     </div>
@@ -52,25 +53,32 @@ doi: "10.1145/3706598.3714211"
       <a href="https://github.com/slimykat/DesignWeaver" target="_blank" rel="noopener noreferrer">Code</a>
       <a href="{{ '/assets/pdf/slides/[CHI25 Version] DesignWeaver.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">Slides</a>
     </div>
+    <p class="case-scroll-hint" aria-hidden="true">Scroll to read it in three steps<span class="case-scroll-hint-arrow">↓</span></p>
   </div>
-  <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" width="2294" height="1298" title="DesignWeaver teaser" alt="Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery" class="img-fluid" %}
+  <div class="project-case-media case-scroll-stage" data-case-stage>
+    <figure class="case-stage-figure">
+      {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" width="2294" height="1298" title="DesignWeaver teaser" alt="Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery" class="img-fluid" %}
+      <span class="case-stage-lens" data-case-lens-box aria-hidden="true"></span>
+    </figure>
+    <p class="case-stage-caption" data-case-caption-out>One screen in three parts: the design brief on the left, the tag-based prompt box in the middle, and the image gallery on the right.</p>
     <p class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/" target="_blank" rel="noopener noreferrer">Paper Shaders' Static Mesh Gradient</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</p>
   </div>
-</section>
-
-<section class="project-case-summary" aria-label="DesignWeaver research summary">
-  <div>
-    <span>Question</span>
-    <p>How can an interface help novices see the design dimensions hidden inside prompts and generated images?</p>
-  </div>
-  <div>
-    <span>Contribution</span>
-    <p>DesignWeaver makes comparison explicit by letting designers collect, revise, and reuse visual dimensions during iteration.</p>
-  </div>
-  <div>
-    <span>Evidence</span>
-    <p>In a controlled study, participants wrote richer prompts and produced more diverse, expert-aligned chair concepts.</p>
+  <div class="case-scroll-steps" aria-label="DesignWeaver in three steps">
+    <div class="case-step" data-case-step data-case-lens="0.5 2 21 82" data-case-caption="The brief arrives as a document. DesignWeaver reads it and proposes the first design dimensions before anyone types a prompt.">
+      <p class="project-case-kicker">Question</p>
+      <p class="case-step-title">How can an interface help novices see the design dimensions hidden inside prompts and generated images?</p>
+      <p>Novices know what they like when they see it, but a blank prompt box asks them to name it first. The study began from that gap.</p>
+    </div>
+    <div class="case-step" data-case-step data-case-lens="20.5 4 38.8 80" data-case-caption="Each tag is a dimension such as style, material, or form. Clicking tags builds a fuller prompt than most novices write on their own.">
+      <p class="project-case-kicker">Contribution</p>
+      <p class="case-step-title">DesignWeaver makes comparison explicit by letting designers collect, revise, and reuse visual dimensions during iteration.</p>
+      <p>Dimensions come from the brief, from images people upload, and from what the model generates, so the vocabulary grows with the work.</p>
+    </div>
+    <div class="case-step" data-case-step data-case-lens="59.5 4 40 80" data-case-caption="Three renders per prompt sit side by side. Info buttons pull new tags out of each image, and favorites hold the strongest directions.">
+      <p class="project-case-kicker">Evidence</p>
+      <p class="case-step-title">In a controlled study, participants wrote richer prompts and produced more diverse, expert-aligned chair concepts.</p>
+      <p>52 novice designers took part. With DesignWeaver their prompts were longer and more specific, and experts rated their chairs more novel than the baseline's.</p>
+    </div>
   </div>
 </section>
 

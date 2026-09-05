@@ -1,0 +1,281 @@
+/*******************************************************************************
+ * Cinematic layer
+ *
+ * Scroll-driven, pointer-aware motion for pages that declare `cinematic: true`.
+ * `assets/js/cinematic.js` adds `html.cinematic-ready` on every such page and
+ * `html.cinematic-live` only when GSAP loaded, the visitor did not ask for
+ * reduced motion, and the page is not under automation. Without those classes
+ * every rule here reads as a still page.
+ ******************************************************************************/
+
+// Page header: a slow gradient field drifts behind list-page titles. The header
+// is deliberately not a stacking context, so the negative z-index field paints
+// beneath every block on the page and above only the page background.
+.cinematic .post-header {
+  position: relative;
+  // The drifting field scales past the header's sides; clip that axis so no
+  // viewport ever gains a sideways scrollbar. `clip` keeps the vertical bleed
+  // and, unlike `hidden`, creates no scroll container.
+  overflow-x: clip;
+}
+
+.post-header-field {
+  position: absolute;
+  // Bleeds above and below the header only: horizontal bleed would widen the
+  // document and hand narrow screens a sideways scrollbar.
+  inset: -34% 0 -18% 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(36% 58% at 16% 34%, rgba(var(--global-accent-rgb), 0.24), transparent 72%),
+    radial-gradient(30% 50% at 74% 22%, color-mix(in srgb, var(--global-sky-strong) 26%, transparent), transparent 72%),
+    radial-gradient(28% 46% at 58% 88%, color-mix(in srgb, var(--global-mint-strong) 22%, transparent), transparent 72%);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+html.cinematic-live .post-header-field {
+  animation: cinematic-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes cinematic-drift {
+  from {
+    transform: translate3d(-2.5%, -1.5%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(2.5%, 2.5%, 0) scale(1.07);
+  }
+}
+
+// Card grids: the runtime choreographs the entrance, so the generic reveal
+// transition steps aside for these cards only while the layer is live.
+html.cinematic-live .cinematic [data-project-card] > .card.site-reveal {
+  transition: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  // Spotlight: a soft light follows the pointer across the grid and lights the
+  // card under it. Pure CSS paint; the runtime only moves two custom properties.
+  .cinematic [data-project-card-grid].has-spotlight {
+    --spot-o: 0;
+  }
+
+  .cinematic [data-project-card-grid].has-spotlight [data-project-card] > .card {
+    --spot-x: 50%;
+    --spot-y: 50%;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .cinematic [data-project-card-grid].has-spotlight [data-project-card] > .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(26rem circle at var(--spot-x) var(--spot-y), rgba(var(--global-accent-rgb), 0.18), transparent 64%);
+    opacity: var(--spot-o);
+    transition: opacity 220ms ease;
+  }
+
+  .cinematic [data-project-card-grid].has-spotlight.has-expanded-project-card [data-project-card] > .card::after {
+    opacity: 0;
+  }
+
+  // Tilt: the runtime writes the transform each frame, so the hover transition
+  // must not smooth it a second time; the image drifts the other way for depth.
+  html.cinematic-tilt .cinematic [data-project-card] > .card.hoverable {
+    transition-property: border-color, box-shadow;
+    will-change: transform;
+  }
+
+  html.cinematic-tilt .cinematic [data-project-card]:not(.is-expanded) .project-card-media img {
+    transform: translate3d(var(--tilt-x, 0px), var(--tilt-y, 0px), 0);
+    transition: transform 260ms ease;
+  }
+}
+
+// Case study scene: the hero copy scrolls away, the teaser stays, and three
+// steps take the copy's place while a lens moves over the figure.
+.case-scroll-hero {
+  --case-stage-top: 5.25rem;
+  align-items: start;
+  grid-template-areas:
+    "copy media"
+    "steps media";
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.82fr);
+  grid-template-rows: auto 1fr;
+
+  > .project-case-copy {
+    grid-area: copy;
+  }
+
+  > .project-case-media {
+    grid-area: media;
+    position: sticky;
+    top: var(--case-stage-top);
+    align-self: start;
+  }
+
+  > .case-scroll-steps {
+    grid-area: steps;
+  }
+}
+
+.case-scroll-hint {
+  color: var(--global-text-color-light);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin: 1.4rem 0 0;
+  text-transform: uppercase;
+}
+
+.case-scroll-hint-arrow {
+  display: inline-block;
+  margin-left: 0.3rem;
+}
+
+html.cinematic-live .case-scroll-hint-arrow {
+  animation: cinematic-nudge 1.8s ease-in-out infinite;
+}
+
+@keyframes cinematic-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(0.3em);
+  }
+}
+
+.case-scroll-steps {
+  display: grid;
+  margin-top: clamp(1rem, 4vw, 3rem);
+}
+
+.case-step {
+  border-top: 1px solid var(--global-divider-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 56vh;
+  padding: 1.4rem 0 1.6rem;
+}
+
+.case-step-title {
+  color: var(--global-text-color);
+  font-size: var(--type-heading);
+  font-weight: 600;
+  line-height: 1.28;
+  margin: 0.4rem 0 0.7rem;
+  max-width: 34rem;
+}
+
+.case-step > p:last-child {
+  color: var(--global-text-color-light);
+  font-size: var(--type-reading);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 34rem;
+}
+
+html.cinematic-live .case-scroll-hero:not(.is-static) .case-step {
+  opacity: 0.38;
+  transform: translateY(8px);
+  transition:
+    opacity 360ms ease,
+    transform 360ms ease;
+}
+
+html.cinematic-live .case-scroll-hero:not(.is-static) .case-step.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.case-stage-figure {
+  border-radius: 0.55rem;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.case-stage-lens {
+  border: 2px solid var(--global-theme-color);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 0 0 100vmax rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: opacity 320ms ease;
+  width: 100%;
+}
+
+.case-stage-lens.is-on {
+  opacity: 1;
+}
+
+.case-stage-caption {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.5;
+  margin: 0.75rem 0 0;
+  min-height: 3em;
+}
+
+@media (max-width: 991.98px) {
+  .case-scroll-hero {
+    grid-template-areas:
+      "copy"
+      "media"
+      "steps";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+
+    > .project-case-media {
+      position: static;
+    }
+  }
+
+  .case-step {
+    min-height: 0;
+    padding: 1.1rem 0 1.2rem;
+  }
+
+  html.cinematic-live .case-scroll-hero:not(.is-static) .case-step {
+    opacity: 1;
+    transform: none;
+  }
+
+  .case-stage-lens,
+  .case-scroll-hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-header-field,
+  .case-scroll-hint-arrow {
+    animation: none !important;
+  }
+
+  .case-step {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .case-stage-lens {
+    transition: none;
+  }
+}
