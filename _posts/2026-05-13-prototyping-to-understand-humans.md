@@ -2,7 +2,7 @@
 layout: post
 title: prototyping to understand humans
 date: 2026-05-13 09:00:00
-description: Some working thoughts on good HCI research in the age of AI.
+description: Working notes on what good HCI research looks like when AI makes prototypes cheap.
 tags: hci research gen-ai prototyping design
 categories: reflections
 related_posts: false

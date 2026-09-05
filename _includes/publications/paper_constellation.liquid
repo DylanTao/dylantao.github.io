@@ -76,6 +76,10 @@
           <path
             class="paper-constellation-edge paper-constellation-edge-{{ edge.relation }}"
             d="M {{ source_position.x }} {{ source_y }} C {{ source_position.x }} {{ control_y }}, {{ target_position.x }} {{ control_y }}, {{ target_position.x }} {{ target_y }}"
+            style="--i: {{ forloop.index0 }};"
+            {% unless edge.relation == 'bridge' or edge.relation == 'future' %}
+              pathLength="1"
+            {% endunless %}
             data-constellation-edge
             data-edge-source="{{ edge.source.id }}"
             data-edge-source-kind="{{ edge.source.kind }}"
@@ -125,7 +129,7 @@
           <li
             class="paper-constellation-node-position paper-constellation-paper-position"
             data-constellation-node-id="{{ paper_key }}"
-            style="--node-x: {{ paper_record.position.x }}%; --node-y: {{ paper_record.position.y }}%;"
+            style="--node-x: {{ paper_record.position.x }}%; --node-y: {{ paper_record.position.y }}%; --i: {{ forloop.index0 }};"
           >
             <button
               class="paper-constellation-paper paper-constellation-citation-{{ citation_band }} paper-constellation-format-{{ lens_record.work_group }}"
@@ -166,7 +170,7 @@
             data-constellation-node-id="{{ future_id }}"
             data-constellation-future
             data-constellation-thread="{{ future_record.thread }}"
-            style="--node-x: {{ future_record.position.x }}%; --node-y: {{ future_record.position.y }}%;"
+            style="--node-x: {{ future_record.position.x }}%; --node-y: {{ future_record.position.y }}%; --i: {{ forloop.index0 | plus: 5 }};"
           >
             <div
               class="paper-constellation-future paper-constellation-future-{{ future_record.size }} paper-constellation-tone-{{ future_record.thread }}"

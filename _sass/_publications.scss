@@ -3051,14 +3051,32 @@ html[data-theme="dark"] .scholar-lens-card {
   stroke-width: 0.85;
   opacity: 0;
   transition:
-    opacity 260ms ease,
-    stroke 260ms ease,
-    stroke-width 260ms ease;
+    opacity 420ms ease calc(var(--i, 0) * 45ms),
+    stroke 320ms ease,
+    stroke-width 320ms ease,
+    filter 320ms ease;
   vector-effect: non-scaling-stroke;
+}
+
+// Solid edges carry `pathLength="1"`, so a unit dash lets each one draw itself
+// in from its source when the constellation opens; dashed edges only fade.
+.paper-constellation-map .paper-constellation-edge[pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    opacity 420ms ease calc(var(--i, 0) * 45ms),
+    stroke-dashoffset 1100ms cubic-bezier(0.2, 0, 0, 1) calc(var(--i, 0) * 45ms),
+    stroke 320ms ease,
+    stroke-width 320ms ease,
+    filter 320ms ease;
 }
 
 .paper-constellation-entered .paper-constellation-edge {
   opacity: var(--constellation-information-opacity);
+}
+
+.paper-constellation-entered .paper-constellation-map .paper-constellation-edge[pathLength] {
+  stroke-dashoffset: 0;
 }
 
 .paper-constellation-edge-bridge {
@@ -3073,6 +3091,7 @@ html[data-theme="dark"] .scholar-lens-card {
   stroke: var(--global-theme-color);
   stroke-width: 1.6;
   opacity: 0.92 !important;
+  filter: drop-shadow(0 0 2.5px color-mix(in srgb, var(--global-theme-color) 55%, transparent));
 }
 
 .paper-constellation-edge-muted,
@@ -3125,11 +3144,55 @@ html[data-theme="dark"] .scholar-lens-card {
   height: 0;
   opacity: 0;
   pointer-events: auto;
-  transition: opacity 260ms ease;
+  transform: translateY(8px) scale(0.86);
+  transition:
+    opacity 520ms ease calc(var(--i, 0) * 70ms),
+    transform 620ms cubic-bezier(0.2, 0, 0, 1) calc(var(--i, 0) * 70ms);
 }
 
 .paper-constellation-entered .paper-constellation-node-position {
   opacity: 1;
+  transform: none;
+}
+
+// Once in place, each paper breathes on its own slow cycle. The offsets are
+// well under the node radius, so the static edges still meet their centers.
+@keyframes paper-constellation-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -3px;
+  }
+}
+
+// Only while the cinematic runtime is live: reduced motion and automated
+// captures keep every node perfectly still and immediately hoverable.
+html.cinematic-live .paper-constellation-entered .paper-constellation-paper-position {
+  animation: paper-constellation-float 7s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -1.3s);
+}
+
+.paper-constellation-paper:hover .paper-constellation-paper-core {
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-constellation-node-position,
+  .paper-constellation-edge {
+    transition: none;
+  }
+
+  .paper-constellation-map .paper-constellation-edge[pathLength] {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .paper-constellation-entered .paper-constellation-paper-position {
+    animation: none;
+  }
 }
 
 .paper-constellation-paper {
@@ -3165,9 +3228,10 @@ html[data-theme="dark"] .scholar-lens-card {
   height: 2.78rem;
   border-radius: 50%;
   transition:
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 220ms ease,
-    background-color 220ms ease;
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 320ms ease,
+    background-color 320ms ease,
+    box-shadow 320ms ease;
 }
 
 .paper-constellation-paper-core {
@@ -3284,6 +3348,9 @@ html[data-theme="dark"] .scholar-lens-card {
 
   .paper-constellation-paper-core {
     transform: scale(1.14);
+    box-shadow:
+      0 0 0 0.45rem color-mix(in srgb, var(--global-theme-color) 16%, transparent),
+      0 0.25rem 0.8rem rgba(var(--global-shadow-rgb), 0.16);
   }
 }
 

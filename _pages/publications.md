@@ -26,6 +26,8 @@ cinematic: true
 
 <!-- Bibsearch Feature -->
 
+{% include publications/wall_of_rejection.liquid %}
+
 <div class="publication-view-switcher" data-publication-view-switcher hidden>
   <div role="group" aria-label="Choose publication view">
     <button
@@ -74,10 +76,6 @@ cinematic: true
 
   </div>
 </div>
-
-<!-- The papers come first; the rejection wall follows as the honest footnote to them. -->
-
-{% include publications/wall_of_rejection.liquid %}
 
 <section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Verse">
   <figure data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">

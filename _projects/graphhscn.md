@@ -11,6 +11,7 @@ role: Undergraduate researcher
 status: Research prototype
 github: https://github.com/camille-004/Graph-HSCN
 hide_title: true
+cinematic: true
 ---
 
 <section class="project-case-hero">

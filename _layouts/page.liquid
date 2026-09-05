@@ -25,9 +25,6 @@ layout: default
 <div class="{{ post_classes }}">
   {% unless page.hide_title %}
     <header class="post-header">
-      {% if page.cinematic %}
-        <div class="post-header-field" aria-hidden="true"></div>
-      {% endif %}
       <h1 class="post-title">{{ page.title }}</h1>
       <p class="post-description">{{ page.description }}</p>
     </header>

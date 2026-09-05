@@ -2,7 +2,7 @@
 layout: post
 title: a gallery of random gen-ai images
 date: 2024-12-13 09:08:46
-description: a gallery of random gen-ai images
+description: A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced.
 tags: gen-ai cool-things art
 categories: image-posts
 featured: false

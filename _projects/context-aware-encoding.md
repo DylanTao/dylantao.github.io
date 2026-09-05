@@ -11,6 +11,7 @@ role: Builder
 status: Prototype
 github: https://github.com/DylanTao/CAC
 hide_title: true
+cinematic: true
 ---
 
 <section class="project-case-hero">

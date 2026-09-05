@@ -23,6 +23,11 @@
     // so a change in energy speeds the flow up instead of rescaling (and jumping) every phase.
     const MOTION_FLOW_GAIN = 0.45;
     const MOTION_FLOW_BASE = 0.9;
+    // A scroll past the sketch lifts the flow to a fraction of full engagement and lets it settle
+    // quickly, so the section answers the reader without turning into an ambient loop.
+    const SCROLL_PULSE_MS = 640;
+    const SCROLL_PULSE_SHARE = 0.4;
+    const ENTRY_MS = 1500;
 
     const knownModes = new Set(["design", "evaluate", "situated"]);
     const buttonForMode = (mode) => buttons.find((button) => button.getAttribute("data-research-mode") === mode);
@@ -35,8 +40,13 @@
       mode: buttons[0]?.getAttribute("data-research-mode") || "design",
       previousMode: null,
       transitionStart: 0,
-      transitionMs: 420,
+      transitionMs: 760,
       pulseStartedAt: Number.NEGATIVE_INFINITY,
+      // The sketch draws itself in the first time it is seen, and a scroll past it
+      // lifts the flow briefly, the way a pointer inside it does.
+      entryStartedAt: 0,
+      entryProgress: 0,
+      scrollPulseAt: Number.NEGATIVE_INFINITY,
       kineticEnergy: 0,
       lastFrameAt: 0,
       flowTime: 0,
@@ -320,7 +330,12 @@
         state.kineticEnergy = 0;
       } else {
         const modePulse = clamp(1 - (now - state.pulseStartedAt) / MODE_PULSE_MS, 0, 1);
-        state.kineticEnergy = clamp(Math.max(state.pointer.intent, modePulse * MAX_INTERACTION_INTENT), 0, MAX_INTERACTION_INTENT);
+        const scrollPulse = clamp(1 - (now - state.scrollPulseAt) / SCROLL_PULSE_MS, 0, 1) * SCROLL_PULSE_SHARE;
+        state.kineticEnergy = clamp(
+          Math.max(state.pointer.intent, modePulse * MAX_INTERACTION_INTENT, scrollPulse * MAX_INTERACTION_INTENT),
+          0,
+          MAX_INTERACTION_INTENT
+        );
       }
 
       const energyState = state.kineticEnergy > 0.12 ? "engaged" : "resting";
@@ -344,6 +359,17 @@
       ctx.lineWidth = width;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
+      // On first sight every stroke draws itself in from its start; the main
+      // bundles also carry a soft glow on wide screens. The dash pattern is far
+      // longer than any path, so once the entry completes it has no effect.
+      if (state.entryProgress < 1) {
+        const span = Math.max(state.width, state.height) * 2.2;
+        ctx.setLineDash([span * easeOutCubic(state.entryProgress), span * 2]);
+      }
+      if (alpha >= 0.3 && state.width >= 560 && !state.reduceMotion) {
+        ctx.shadowColor = pal.glow;
+        ctx.shadowBlur = 10;
+      }
     };
 
     const endMode = () => {
@@ -637,18 +663,39 @@
       ctx.clearRect(0, 0, state.width, state.height);
       drawBackground(pal);
 
+      // The entry timer starts the first time the sketch is actually on screen.
+      if (state.entryProgress < 1) {
+        if (state.reduceMotion) {
+          state.entryProgress = 1;
+        } else if (state.visible && document.visibilityState === "visible") {
+          if (!state.entryStartedAt) state.entryStartedAt = now;
+          state.entryProgress = clamp((now - state.entryStartedAt) / ENTRY_MS, 0, 1);
+        }
+      }
+      const entryAlpha = lerp(0.4, 1, easeOutCubic(state.entryProgress));
+
       let progress = 1;
       if (state.previousMode && canCrossfadeModes()) {
         progress = clamp((now - state.transitionStart) / state.transitionMs, 0, 1);
       }
 
       if (state.previousMode && progress < 1) {
+        // A mode change opens like an iris from the pointer (or the center):
+        // the old sketch fades under the new one while the new one grows out.
         const eased = easeOutCubic(progress);
-        drawMode(state.previousMode, time, pal, 1 - eased);
-        drawMode(state.mode, time, pal, eased);
+        const pull = state.pointer.intent / MAX_INTERACTION_INTENT;
+        const irisX = lerp(state.width * 0.5, state.width * state.pointer.x, pull);
+        const irisY = lerp(state.height * 0.5, state.height * state.pointer.y, pull);
+        drawMode(state.previousMode, time, pal, (1 - eased) * entryAlpha);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(irisX, irisY, Math.max(1, Math.hypot(state.width, state.height) * 0.72 * eased), 0, Math.PI * 2);
+        ctx.clip();
+        drawMode(state.mode, time, pal, Math.min(1, 0.35 + eased) * entryAlpha);
+        ctx.restore();
       } else {
         state.previousMode = null;
-        drawMode(state.mode, time, pal, 1);
+        drawMode(state.mode, time, pal, entryAlpha);
       }
 
       ctx.globalAlpha = 1;
@@ -742,6 +789,16 @@
       start();
     });
 
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (state.reduceMotion || !state.visible) return;
+        state.scrollPulseAt = performance.now();
+        start();
+      },
+      { passive: true }
+    );
+
     wrap.addEventListener("research-motion-request-state", () => {
       wrap.dispatchEvent(new CustomEvent("research-motion-state", { detail: motionSnapshot() }));
     });
@@ -779,6 +836,7 @@
             resetPointerTarget();
             state.pointer.intent = 0;
             state.kineticEnergy = 0;
+            state.scrollPulseAt = Number.NEGATIVE_INFINITY;
             wrap.setAttribute("data-motion-energy", "resting");
             stop();
           }

@@ -3,9 +3,6 @@ layout: default
 ---
 <div class="home-page{% if page.cinematic %} cinematic{% endif %}">
   {% include home/story_rail.liquid %}
-  {% if page.cinematic %}
-    <div class="home-thread" data-home-thread aria-hidden="true"><span class="home-thread-fill" data-home-thread-fill></span></div>
-  {% endif %}
   {% include home/hero.liquid %}
   {% include home/thesis.liquid %}
   {% include home/why_now.liquid %}
