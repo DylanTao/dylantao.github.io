@@ -7,7 +7,7 @@ total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 511
+  commits: 517
   token_count: 13030000000
   tokens_label: 13B
   hours_count: 831
@@ -5210,7 +5210,7 @@ model_tracking:
   public_note: "Site development default: gpt-5.6-sol with ultra effort. Provider-managed auto-review is audited through Jul 17, 2026 at 1:23:52 PM PDT; interactive tracking remains live."
   caveat: Checks every deduplicated site-repo-attributed non-auto-review turn_context after the cutover and exact mapped acknowledgment turn ids in that scope regardless of timestamp. Unrelated repositories retain their own model policies and cannot block this site's publish gate. New provider-managed codex-auto-review contexts after the inclusive audit boundary are deferred to the next explicit policy audit and are neither evaluated nor acknowledged. Token, hour, energy, and cost totals remain current and unfiltered by this model-tracking-only boundary. Missing or deleted local logs cannot be reconstructed; exact acknowledged deviations remain visible and keep their observed model and effort.
 since_gpt_5_6:
-  commits: 216
+  commits: 222
   token_count: 10420000000
   tokens_label: 10.4B
   hours_count: 592
@@ -5517,20 +5517,20 @@ since_gpt_5_6:
   note: All-repo retained-session usage after the model cutover; commits are repo-wide and usage is attributed from ordered turn_context records.
   raw_token_count: 10420593986
 local_lifetime:
-  sessions: 10244
-  turns: 23518
-  usage_events: 774320
-  raw_token_count: 100063353385
-  token_count: 100060000000
-  tokens_label: 100.1B
-  hours_count: 6672
-  hours_label: "6672"
+  sessions: 10337
+  turns: 23657
+  usage_events: 787024
+  raw_token_count: 101856544919
+  token_count: 101860000000
+  tokens_label: 101.9B
+  hours_count: 6768
+  hours_label: "6768"
   token_usage:
-    input_tokens: 99638271747
-    cached_input_tokens: 96653671040
-    output_tokens: 417504272
-    reasoning_output_tokens: 198862145
-    total_tokens: 100063353385
+    input_tokens: 101425056935
+    cached_input_tokens: 98405009024
+    output_tokens: 423574929
+    reasoning_output_tokens: 201811732
+    total_tokens: 101856544919
   model_effort_breakdown:
     chatgpt-web/pro/ultra:
       model: chatgpt-web/pro
@@ -5655,15 +5655,15 @@ local_lifetime:
     gpt-5.6-sol/max:
       model: gpt-5.6-sol
       effort: max
-      turns: 16030
-      sessions: 8290
+      turns: 16169
+      sessions: 8383
       token_usage:
-        input_tokens: 37985864342
-        cached_input_tokens: 36721769216
-        output_tokens: 262387208
-        reasoning_output_tokens: 139979634
-        total_tokens: 38248515941
-      raw_hours: 3418.4144
+        input_tokens: 39772649530
+        cached_input_tokens: 38473107200
+        output_tokens: 268457865
+        reasoning_output_tokens: 142929221
+        total_tokens: 40041707475
+      raw_hours: 3514.3275
     gpt-5.6-sol/medium:
       model: gpt-5.6-sol
       effort: medium
@@ -5803,14 +5803,14 @@ local_lifetime:
         usd_estimate: 7238.05
       - model: gpt-5.6-sol
         era: "2026-08-21"
-        request_count: 344646
+        request_count: 357350
         token_usage:
-          input_tokens: 41656823206
-          cached_input_tokens: 40380489344
-          output_tokens: 226297797
-          reasoning_output_tokens: 120613445
-          total_tokens: 41883620075
-        usd_estimate: 25795.13
+          input_tokens: 43443608394
+          cached_input_tokens: 42131827328
+          output_tokens: 232368454
+          reasoning_output_tokens: 123563032
+          total_tokens: 43676811609
+        usd_estimate: 26758.87
       - model: gpt-5.6-sol
         era: initial
         request_count: 363367
@@ -5843,11 +5843,11 @@ local_lifetime:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 99440744768
-      cached_input_tokens: 96483794048
-      output_tokens: 417230829
-      reasoning_output_tokens: 198720494
-      total_tokens: 99865477531
+      input_tokens: 101227529956
+      cached_input_tokens: 98235132032
+      output_tokens: 423301486
+      reasoning_output_tokens: 201670081
+      total_tokens: 101658669065
     unpriced_token_usage:
       input_tokens: 197526979
       cached_input_tokens: 169876992
@@ -5973,13 +5973,13 @@ local_lifetime:
         model: gpt-5.6-sol
         effort: max
         token_usage:
-          input_tokens: 37985864342
-          cached_input_tokens: 36721769216
-          output_tokens: 262387208
-          reasoning_output_tokens: 139979634
-          total_tokens: 38248515941
-        uncached_input_tokens: 1264095126
-        request_count: 319137
+          input_tokens: 39772649530
+          cached_input_tokens: 38473107200
+          output_tokens: 268457865
+          reasoning_output_tokens: 142929221
+          total_tokens: 40041707475
+        uncached_input_tokens: 1299542330
+        request_count: 331841
         long_context_request_count: 9
         long_context_token_usage:
           input_tokens: 2866340
@@ -5987,7 +5987,7 @@ local_lifetime:
           output_tokens: 266419
           reasoning_output_tokens: 177166
           total_tokens: 3132759
-        usd_estimate: 26122.76
+        usd_estimate: 27086.49
       gpt-5.6-terra/high:
         model: gpt-5.6-terra
         effort: high
@@ -6045,11 +6045,11 @@ local_lifetime:
           reasoning_output_tokens: 0
           total_tokens: 0
         usd_estimate: 0.36
-    usd_estimate: 68770.47
-    usd_midpoint: 68800
-    usd_label: ~$68.8K API-rate replay
+    usd_estimate: 69734.2
+    usd_midpoint: 69700
+    usd_label: ~$69.7K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$68.8K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$69.7K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   label: Local Codex replay
   since: 2026-06-19 00:00 PDT
   since_label: Jun 19, 2026
@@ -6299,5 +6299,5 @@ local_lifetime:
         token_count: 94680000000
         tokens_label: 94.7B
       - date: "2026-09-04"
-        token_count: 100060000000
-        tokens_label: 100.1B
+        token_count: 101860000000
+        tokens_label: 101.9B

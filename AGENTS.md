@@ -112,6 +112,7 @@ Source checks are not a substitute for rendered inspection when public UI change
 - `docs/agentic-usage-ledger.md` remains the canonical usage-counter math and evidence log.
 - `docs/material-lite-revamp.md` remains the canonical Material-Lite design-grammar intent: orange is the identity source color, the `--md-lite-*` token set is preferred over one-off values, and the navbar brand-mark rules live there.
 - `docs/design-experiment-backlog.md` remains the durable queue for unproven visual and interaction ideas, including hypothesis, licensing, visitor benefit, evidence, Sirui's decision, and revisit trigger.
+- `docs/site-experience-roadmap.md` is the staged September 2026 plan for sitewide accessibility, tokens, wayfinding, navigation motion, hidden-page hygiene, and the desk-scene handoff, with each item tagged Fable, GPT-6, or Sirui decision.
 - `.github/GIT_WORKFLOW.md` remains the canonical commit-message and branch convention.
 - Repo-local `.codex/skills/` files are concise Codex overlays that read those living docs by heading or path. Do not duplicate the long heuristic lists into skills unless the user explicitly asks for a source-of-truth migration.
 
