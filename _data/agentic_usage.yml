@@ -1,13 +1,13 @@
 # Estimated Codex/agentic work ledger for the customized Sirui/Dylan site.
 # Update this with docs/agentic-usage-ledger.md after substantial site work.
 
-updated_at: "2026-09-04"
+updated_at: "2026-09-05"
 source_note: Retained local logs and git history supply repo-scoped estimates. Rounded lifetime Codex usage is published separately from sanitized collector output.
 total:
   label: Site revamp
   since: 2026-05-22 18:05 PDT
   since_label: May 22, 2026
-  commits: 517
+  commits: 520
   token_count: 13030000000
   tokens_label: 13B
   hours_count: 831
@@ -389,7 +389,7 @@ total:
     aggregation: cumulative
     method: deduplicated_repo_retained_logs
     since: "2026-05-22"
-    updated_at: "2026-09-04"
+    updated_at: "2026-09-05"
     confidence: estimate
     privacy_note: Rounded daily cumulative estimates only; private identities and event-level detail are not published.
     points:
@@ -711,12 +711,15 @@ total:
       - date: "2026-09-04"
         token_count: 13030000000
         tokens_label: 13B
+      - date: "2026-09-05"
+        token_count: 13030000000
+        tokens_label: 13B
   raw_token_count: 13028943943
 desk_scene:
   label: 3D desk + vinyl
   since: 2026-06-16 20:00 PDT
   since_label: Jun 16, 2026
-  commits: 130
+  commits: 131
   token_count: 11940000000
   tokens_label: 11.9B
   hours_count: 717
@@ -5210,7 +5213,7 @@ model_tracking:
   public_note: "Site development default: gpt-5.6-sol with ultra effort. Provider-managed auto-review is audited through Jul 17, 2026 at 1:23:52 PM PDT; interactive tracking remains live."
   caveat: Checks every deduplicated site-repo-attributed non-auto-review turn_context after the cutover and exact mapped acknowledgment turn ids in that scope regardless of timestamp. Unrelated repositories retain their own model policies and cannot block this site's publish gate. New provider-managed codex-auto-review contexts after the inclusive audit boundary are deferred to the next explicit policy audit and are neither evaluated nor acknowledged. Token, hour, energy, and cost totals remain current and unfiltered by this model-tracking-only boundary. Missing or deleted local logs cannot be reconstructed; exact acknowledged deviations remain visible and keep their observed model and effort.
 since_gpt_5_6:
-  commits: 222
+  commits: 225
   token_count: 10420000000
   tokens_label: 10.4B
   hours_count: 592
@@ -5517,20 +5520,20 @@ since_gpt_5_6:
   note: All-repo retained-session usage after the model cutover; commits are repo-wide and usage is attributed from ordered turn_context records.
   raw_token_count: 10420593986
 local_lifetime:
-  sessions: 10337
-  turns: 23657
-  usage_events: 787024
-  raw_token_count: 101856544919
-  token_count: 101860000000
-  tokens_label: 101.9B
-  hours_count: 6768
-  hours_label: "6768"
+  sessions: 10399
+  turns: 23782
+  usage_events: 795610
+  raw_token_count: 103056132056
+  token_count: 103060000000
+  tokens_label: 103.1B
+  hours_count: 6831
+  hours_label: "6831"
   token_usage:
-    input_tokens: 101425056935
-    cached_input_tokens: 98405009024
-    output_tokens: 423574929
-    reasoning_output_tokens: 201811732
-    total_tokens: 101856544919
+    input_tokens: 102620207646
+    cached_input_tokens: 99573168128
+    output_tokens: 427977544
+    reasoning_output_tokens: 204000909
+    total_tokens: 103056132056
   model_effort_breakdown:
     chatgpt-web/pro/ultra:
       model: chatgpt-web/pro
@@ -5655,15 +5658,15 @@ local_lifetime:
     gpt-5.6-sol/max:
       model: gpt-5.6-sol
       effort: max
-      turns: 16169
-      sessions: 8383
+      turns: 16294
+      sessions: 8445
       token_usage:
-        input_tokens: 39772649530
-        cached_input_tokens: 38473107200
-        output_tokens: 268457865
-        reasoning_output_tokens: 142929221
-        total_tokens: 40041707475
-      raw_hours: 3514.3275
+        input_tokens: 40967800241
+        cached_input_tokens: 39641266304
+        output_tokens: 272860480
+        reasoning_output_tokens: 145118398
+        total_tokens: 41241294612
+      raw_hours: 3577.3278
     gpt-5.6-sol/medium:
       model: gpt-5.6-sol
       effort: medium
@@ -5803,14 +5806,14 @@ local_lifetime:
         usd_estimate: 7238.05
       - model: gpt-5.6-sol
         era: "2026-08-21"
-        request_count: 357350
+        request_count: 365936
         token_usage:
-          input_tokens: 43443608394
-          cached_input_tokens: 42131827328
-          output_tokens: 232368454
-          reasoning_output_tokens: 123563032
-          total_tokens: 43676811609
-        usd_estimate: 26758.87
+          input_tokens: 44638759105
+          cached_input_tokens: 43299986432
+          output_tokens: 236771069
+          reasoning_output_tokens: 125752209
+          total_tokens: 44876398746
+        usd_estimate: 27422.15
       - model: gpt-5.6-sol
         era: initial
         request_count: 363367
@@ -5843,11 +5846,11 @@ local_lifetime:
     cache_write_tokens: null
     cache_write_note: Retained logs do not identify cache-write tokens, so cache-write rates are not applied.
     priced_token_usage:
-      input_tokens: 101227529956
-      cached_input_tokens: 98235132032
-      output_tokens: 423301486
-      reasoning_output_tokens: 201670081
-      total_tokens: 101658669065
+      input_tokens: 102422680667
+      cached_input_tokens: 99403291136
+      output_tokens: 427704101
+      reasoning_output_tokens: 203859258
+      total_tokens: 102858256202
     unpriced_token_usage:
       input_tokens: 197526979
       cached_input_tokens: 169876992
@@ -5973,13 +5976,13 @@ local_lifetime:
         model: gpt-5.6-sol
         effort: max
         token_usage:
-          input_tokens: 39772649530
-          cached_input_tokens: 38473107200
-          output_tokens: 268457865
-          reasoning_output_tokens: 142929221
-          total_tokens: 40041707475
-        uncached_input_tokens: 1299542330
-        request_count: 331841
+          input_tokens: 40967800241
+          cached_input_tokens: 39641266304
+          output_tokens: 272860480
+          reasoning_output_tokens: 145118398
+          total_tokens: 41241294612
+        uncached_input_tokens: 1326533937
+        request_count: 340427
         long_context_request_count: 9
         long_context_token_usage:
           input_tokens: 2866340
@@ -5987,7 +5990,7 @@ local_lifetime:
           output_tokens: 266419
           reasoning_output_tokens: 177166
           total_tokens: 3132759
-        usd_estimate: 27086.49
+        usd_estimate: 27749.77
       gpt-5.6-terra/high:
         model: gpt-5.6-terra
         effort: high
@@ -6045,11 +6048,11 @@ local_lifetime:
           reasoning_output_tokens: 0
           total_tokens: 0
         usd_estimate: 0.36
-    usd_estimate: 69734.2
-    usd_midpoint: 69700
-    usd_label: ~$69.7K API-rate replay
+    usd_estimate: 70397.49
+    usd_midpoint: 70400
+    usd_label: ~$70.4K API-rate replay
     caveat: API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
-    public_note: ~$69.7K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
+    public_note: ~$70.4K API-rate replay. API list-price replay from logged request tokens; cache writes and actual Codex billing are not included.
   label: Local Codex replay
   since: 2026-06-19 00:00 PDT
   since_label: Jun 19, 2026
@@ -6063,7 +6066,7 @@ local_lifetime:
     aggregation: cumulative
     method: deduplicated_all_retained_logs
     since: "2026-06-19"
-    updated_at: "2026-09-04"
+    updated_at: "2026-09-05"
     confidence: estimate
     privacy_note: Rounded daily cumulative estimates only; private identities and event-level detail are not published.
     points:
@@ -6299,5 +6302,8 @@ local_lifetime:
         token_count: 94680000000
         tokens_label: 94.7B
       - date: "2026-09-04"
-        token_count: 101860000000
-        tokens_label: 101.9B
+        token_count: 102280000000
+        tokens_label: 102.3B
+      - date: "2026-09-05"
+        token_count: 103060000000
+        tokens_label: 103.1B
