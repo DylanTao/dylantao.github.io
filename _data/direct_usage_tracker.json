@@ -1,8 +1,8 @@
 {
   "schema": 6,
   "combined_lifetime": {
-    "token_count": 161300000000,
-    "tokens_label": "161.3B",
+    "token_count": 172800000000,
+    "tokens_label": "172.8B",
     "units": "tokens",
     "aggregation": "sum_of_sources",
     "rounding": "nearest_0.1B",
@@ -10,8 +10,8 @@
   },
   "method": "rounded_sum_of_observed_agent_usage_sources",
   "confidence": "mixed",
-  "observed_on": "2026-09-01",
-  "updated_at": "2026-09-01T07:18:39Z",
+  "observed_on": "2026-09-05",
+  "updated_at": "2026-09-05T00:19:31Z",
   "automated_refresh": true,
   "combined_daily_usage": {
     "agent_families": [
@@ -21,7 +21,7 @@
     "aggregation": "sum_of_sources",
     "coverage": {
       "before_start": "unobserved",
-      "complete_through": "2026-08-31",
+      "complete_through": "2026-09-04",
       "completeness": "rolling_window_partial",
       "prior_unallocated_by_agent": {
         "codex": 1789214365,
@@ -803,43 +803,43 @@
       },
       {
         "agent_tokens": {
-          "claude": 1439673585,
+          "claude": 1542880213,
           "codex": 91369447
         },
         "date": "2026-08-04",
-        "tokens": 1531043032
+        "tokens": 1634249660
       },
       {
         "agent_tokens": {
-          "claude": 1361214955,
+          "claude": 1366969121,
           "codex": 0
         },
         "date": "2026-08-05",
-        "tokens": 1361214955
+        "tokens": 1366969121
       },
       {
         "agent_tokens": {
-          "claude": 946299865,
+          "claude": 1172525780,
           "codex": 0
         },
         "date": "2026-08-06",
-        "tokens": 946299865
+        "tokens": 1172525780
       },
       {
         "agent_tokens": {
-          "claude": 1083544851,
+          "claude": 1224696491,
           "codex": 0
         },
         "date": "2026-08-07",
-        "tokens": 1083544851
+        "tokens": 1224696491
       },
       {
         "agent_tokens": {
-          "claude": 510237546,
+          "claude": 520330295,
           "codex": 131498877
         },
         "date": "2026-08-08",
-        "tokens": 641736423
+        "tokens": 651829172
       },
       {
         "agent_tokens": {
@@ -851,11 +851,11 @@
       },
       {
         "agent_tokens": {
-          "claude": 903132232,
+          "claude": 918568104,
           "codex": 123575991
         },
         "date": "2026-08-10",
-        "tokens": 1026708223
+        "tokens": 1042144095
       },
       {
         "agent_tokens": {
@@ -923,19 +923,19 @@
       },
       {
         "agent_tokens": {
-          "claude": 11439575,
+          "claude": 70329865,
           "codex": 544622275
         },
         "date": "2026-08-19",
-        "tokens": 556061850
+        "tokens": 614952140
       },
       {
         "agent_tokens": {
-          "claude": 888147843,
+          "claude": 1198532479,
           "codex": 563637074
         },
         "date": "2026-08-20",
-        "tokens": 1451784917
+        "tokens": 1762169553
       },
       {
         "agent_tokens": {
@@ -963,11 +963,11 @@
       },
       {
         "agent_tokens": {
-          "claude": 414969292,
+          "claude": 416156198,
           "codex": 5165957892
         },
         "date": "2026-08-24",
-        "tokens": 5580927184
+        "tokens": 5582114090
       },
       {
         "agent_tokens": {
@@ -987,11 +987,11 @@
       },
       {
         "agent_tokens": {
-          "claude": 329463095,
+          "claude": 379604697,
           "codex": 4219131329
         },
         "date": "2026-08-27",
-        "tokens": 4548594424
+        "tokens": 4598736026
       },
       {
         "agent_tokens": {
@@ -1003,19 +1003,19 @@
       },
       {
         "agent_tokens": {
-          "claude": 498055000,
+          "claude": 584834907,
           "codex": 3590968273
         },
         "date": "2026-08-29",
-        "tokens": 4089023273
+        "tokens": 4175803180
       },
       {
         "agent_tokens": {
-          "claude": 401590553,
+          "claude": 416937402,
           "codex": 6428823521
         },
         "date": "2026-08-30",
-        "tokens": 6830414074
+        "tokens": 6845760923
       },
       {
         "agent_tokens": {
@@ -1024,6 +1024,38 @@
         },
         "date": "2026-08-31",
         "tokens": 6007552279
+      },
+      {
+        "agent_tokens": {
+          "claude": 174841984,
+          "codex": 1993399897
+        },
+        "date": "2026-09-01",
+        "tokens": 2168241881
+      },
+      {
+        "agent_tokens": {
+          "claude": 2086759842,
+          "codex": 53308947
+        },
+        "date": "2026-09-02",
+        "tokens": 2140068789
+      },
+      {
+        "agent_tokens": {
+          "claude": 730228103,
+          "codex": 338655
+        },
+        "date": "2026-09-03",
+        "tokens": 730566758
+      },
+      {
+        "agent_tokens": {
+          "claude": 1606971357,
+          "codex": 3832450965
+        },
+        "date": "2026-09-04",
+        "tokens": 5439422322
       }
     ],
     "schema": 2,

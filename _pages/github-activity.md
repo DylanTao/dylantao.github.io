@@ -424,7 +424,7 @@ github_activity: true
       </div>
       <div>
         <h2>Agent token history</h2>
-        <p>Daily Codex history begins April 30, 2026. Claude joins the same cumulative view on July 29, 2026. The personal agent totals stay separate from this site's rounded token estimate.</p>
+        <p>Daily Codex history begins April 30, 2026. Claude joins the same cumulative view on July 29, 2026, and from August 4 through September 4, 2026 it also carries the identity-free tally of a second retained device. The personal agent totals stay separate from this site's rounded token estimate.</p>
       </div>
       <div>
         <h2>Motion with a stop condition</h2>

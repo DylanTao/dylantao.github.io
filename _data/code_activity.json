@@ -1,6 +1,6 @@
 {
   "schema": 5,
-  "updated_on": "2026-09-03",
+  "updated_on": "2026-09-04",
   "date_basis": "source_reported_calendar",
   "scope": "code_activity",
   "sources": [
@@ -20,12 +20,12 @@
       "date_basis": "utc_calendar_date",
       "completion_timezone": "UTC",
       "starts_on": "2026-06-15",
-      "complete_through": "2026-09-03"
+      "complete_through": "2026-09-04"
     }
   ],
   "coverage": {
     "starts_on": "2017-08-31",
-    "complete_through": "2026-09-03",
+    "complete_through": "2026-09-04",
     "status": "complete"
   },
   "points": [
@@ -30090,6 +30090,15 @@
         "authored_commits": 11,
         "additions": 3614,
         "deletions": 1170
+      }
+    },
+    {
+      "date": "2026-09-04",
+      "intern": {
+        "commits": 67,
+        "authored_commits": 67,
+        "additions": 11024897,
+        "deletions": 7592
       }
     }
   ]
