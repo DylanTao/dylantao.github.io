@@ -7,6 +7,7 @@ tags: gen-ai cool-things art
 categories: image-posts
 featured: false
 thumbnail: assets/img/genai_pics/facesoft_cat2.png
+thumbnail_alt: Stylized cat portrait generated with MidJourney
 blog_nav_pool: personal
 blog_nav_track: creative
 blog_nav_stage: 1
@@ -73,30 +74,30 @@ With greater power comes more time wasted :-]
 ## MidJourney
 
 <div class="genai-gallery spotlight-group" aria-label="MidJourney image gallery">
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_capybara2.png"><img src="/assets/img/genai_pics/facesoft_capybara2-480.webp" alt="Two capybaras in water" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_monkey.png"><img src="/assets/img/genai_pics/facesoft_monkey-480.webp" alt="Small monkey holding two popsicles" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_snake.png"><img src="/assets/img/genai_pics/facesoft_snake-480.webp" alt="Stylized snake portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_paper.png"><img src="/assets/img/genai_pics/facesoft_paper-480.webp" alt="Surreal paper character" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat6.png"><img src="/assets/img/genai_pics/facesoft_cat6-480.webp" alt="Cat portrait variation six" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat4.png"><img src="/assets/img/genai_pics/facesoft_cat4-480.webp" alt="Cat portrait variation four" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_capybara3.png"><img src="/assets/img/genai_pics/facesoft_capybara3-480.webp" alt="Capybara scene variation three" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_capybara1.png"><img src="/assets/img/genai_pics/facesoft_capybara1-480.webp" alt="Capybara scene variation one" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_dog.png"><img src="/assets/img/genai_pics/facesoft_dog-480.webp" alt="Stylized dog portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_panda.png"><img src="/assets/img/genai_pics/facesoft_panda-480.webp" alt="Stylized panda portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_whale.png"><img src="/assets/img/genai_pics/facesoft_whale-480.webp" alt="Stylized whale scene" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_parrot.png"><img src="/assets/img/genai_pics/facesoft_parrot-480.webp" alt="Colorful parrot portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_al_paca.png"><img src="/assets/img/genai_pics/facesoft_al_paca-480.webp" alt="Stylized alpaca portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_bird.png"><img src="/assets/img/genai_pics/facesoft_bird-480.webp" alt="Stylized bird portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_planet1.png"><img src="/assets/img/genai_pics/facesoft_planet1-480.webp" alt="Imaginary planet scene one" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cow.png"><img src="/assets/img/genai_pics/facesoft_cow-480.webp" alt="Stylized cow portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat5.png"><img src="/assets/img/genai_pics/facesoft_cat5-480.webp" alt="Cat portrait variation five" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cube.png"><img src="/assets/img/genai_pics/facesoft_cube-480.webp" alt="Surreal cube object" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat1.png"><img src="/assets/img/genai_pics/facesoft_cat1-480.webp" alt="Cat portrait variation one" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_penguin.png"><img src="/assets/img/genai_pics/facesoft_penguin-480.webp" alt="Stylized penguin portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat2.png"><img src="/assets/img/genai_pics/facesoft_cat2-480.webp" alt="Cat portrait variation two" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_spiderman.png"><img src="/assets/img/genai_pics/facesoft_spiderman-480.webp" alt="Spider-Man inspired character portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat3.png"><img src="/assets/img/genai_pics/facesoft_cat3-480.webp" alt="Cat portrait variation three" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_planet2.png"><img src="/assets/img/genai_pics/facesoft_planet2-480.webp" alt="Imaginary planet scene two" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_owl.png"><img src="/assets/img/genai_pics/facesoft_owl-480.webp" alt="Stylized owl portrait" loading="lazy" decoding="async"/></a>
-<a class="spotlight" href="/assets/img/genai_pics/facesoft_sloth.png"><img src="/assets/img/genai_pics/facesoft_sloth-480.webp" alt="Stylized sloth portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_capybara2-1400.webp"><img src="/assets/img/genai_pics/facesoft_capybara2-480.webp" alt="Two capybaras in water" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_monkey-1400.webp"><img src="/assets/img/genai_pics/facesoft_monkey-480.webp" alt="Small monkey holding two popsicles" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_snake-1400.webp"><img src="/assets/img/genai_pics/facesoft_snake-480.webp" alt="Stylized snake portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_paper-1400.webp"><img src="/assets/img/genai_pics/facesoft_paper-480.webp" alt="Surreal paper character" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat6-1400.webp"><img src="/assets/img/genai_pics/facesoft_cat6-480.webp" alt="Cat portrait variation six" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat4-1400.webp"><img src="/assets/img/genai_pics/facesoft_cat4-480.webp" alt="Cat portrait variation four" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_capybara3-1400.webp"><img src="/assets/img/genai_pics/facesoft_capybara3-480.webp" alt="Capybara scene variation three" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_capybara1-1400.webp"><img src="/assets/img/genai_pics/facesoft_capybara1-480.webp" alt="Capybara scene variation one" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_dog-1400.webp"><img src="/assets/img/genai_pics/facesoft_dog-480.webp" alt="Stylized dog portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_panda-1400.webp"><img src="/assets/img/genai_pics/facesoft_panda-480.webp" alt="Stylized panda portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_whale-1400.webp"><img src="/assets/img/genai_pics/facesoft_whale-480.webp" alt="Stylized whale scene" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_parrot-1400.webp"><img src="/assets/img/genai_pics/facesoft_parrot-480.webp" alt="Colorful parrot portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_al_paca-1400.webp"><img src="/assets/img/genai_pics/facesoft_al_paca-480.webp" alt="Stylized alpaca portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_bird-1400.webp"><img src="/assets/img/genai_pics/facesoft_bird-480.webp" alt="Stylized bird portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_planet1-1400.webp"><img src="/assets/img/genai_pics/facesoft_planet1-480.webp" alt="Imaginary planet scene one" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cow-1400.webp"><img src="/assets/img/genai_pics/facesoft_cow-480.webp" alt="Stylized cow portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat5-1400.webp"><img src="/assets/img/genai_pics/facesoft_cat5-480.webp" alt="Cat portrait variation five" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cube-1400.webp"><img src="/assets/img/genai_pics/facesoft_cube-480.webp" alt="Surreal cube object" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat1-1400.webp"><img src="/assets/img/genai_pics/facesoft_cat1-480.webp" alt="Cat portrait variation one" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_penguin-1400.webp"><img src="/assets/img/genai_pics/facesoft_penguin-480.webp" alt="Stylized penguin portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat2-1400.webp"><img src="/assets/img/genai_pics/facesoft_cat2-480.webp" alt="Cat portrait variation two" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_spiderman-1400.webp"><img src="/assets/img/genai_pics/facesoft_spiderman-480.webp" alt="Spider-Man inspired character portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_cat3-1400.webp"><img src="/assets/img/genai_pics/facesoft_cat3-480.webp" alt="Cat portrait variation three" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_planet2-1400.webp"><img src="/assets/img/genai_pics/facesoft_planet2-480.webp" alt="Imaginary planet scene two" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_owl-1400.webp"><img src="/assets/img/genai_pics/facesoft_owl-480.webp" alt="Stylized owl portrait" loading="lazy" decoding="async"/></a>
+<a class="spotlight" href="/assets/img/genai_pics/facesoft_sloth-1400.webp"><img src="/assets/img/genai_pics/facesoft_sloth-480.webp" alt="Stylized sloth portrait" loading="lazy" decoding="async"/></a>
 </div>

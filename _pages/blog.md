@@ -318,7 +318,8 @@ pagination:
 </div>
 
   <div class="col-sm-3">
-    <img class="card-img" src="{{ post.thumbnail | relative_url }}" style="object-fit: cover; height: 90%" alt="image">
+    {% assign thumbnail_alt = post.thumbnail_alt | default: post.title %}
+    {% include figure.liquid path=post.thumbnail class="card-img blog-post-thumbnail" alt=thumbnail_alt sizes="(min-width: 576px) 25vw, 90vw" %}
   </div>
 </div>
 {% endif %}

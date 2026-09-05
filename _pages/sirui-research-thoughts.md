@@ -5,6 +5,7 @@ description: A tiny locked corner.
 permalink: /blog/2026/sirui-research-thoughts/
 sitemap: false
 search: false
+robots: noindex, nofollow
 secret_globe: true
 map: true
 hide_title: true

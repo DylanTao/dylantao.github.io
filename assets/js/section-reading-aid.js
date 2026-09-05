@@ -161,16 +161,22 @@
     });
 
     const desktopNav = createDesktopNav(sections);
-    const mobileInlineNav = createMobileNav(sections, "inline");
+    // A server-rendered "On this page" list (details.blog-inline-toc) already
+    // sits at the top of the article, so the inline mobile nav would be a second
+    // table of contents. Keep the desktop rail and the dock; anchor the dock's
+    // "in view" test to the server list instead.
+    const serverToc = pageRoot.querySelector("details.blog-inline-toc");
+    const mobileInlineNav = serverToc ? null : createMobileNav(sections, "inline");
     const mobileDockNav = createMobileNav(sections, "dock");
     const siteFooter = document.querySelector("footer");
-    const mobileNavs = [mobileInlineNav, mobileDockNav];
+    const mobileNavs = [mobileInlineNav, mobileDockNav].filter(Boolean);
+    const inlineNavAnchor = mobileInlineNav || serverToc;
     const currentLabels = mobileNavs.map((nav) => nav.querySelector("[data-reading-aid-current]"));
     const links = [...desktopNav.querySelectorAll("a"), ...mobileNavs.flatMap((nav) => [...nav.querySelectorAll("a")])];
 
     pageRoot.appendChild(desktopNav);
     pageRoot.appendChild(mobileDockNav);
-    contentRoot.insertBefore(mobileInlineNav, sections[0].heading);
+    if (mobileInlineNav) contentRoot.insertBefore(mobileInlineNav, sections[0].heading);
 
     const setMobileNavOpen = (nav, isOpen, { restoreFocus = false } = {}) => {
       const toggle = nav.querySelector(".section-reading-aid-mobile-toggle");
@@ -333,7 +339,7 @@
 
       const firstHeadingTop = sections[0].heading.getBoundingClientRect().top;
       const contentBottom = contentRoot.getBoundingClientRect().bottom;
-      const inlineNavRect = mobileInlineNav.getBoundingClientRect();
+      const inlineNavRect = inlineNavAnchor.getBoundingClientRect();
       const footerTop = siteFooter ? siteFooter.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
       const dockIsOpen = mobileDockNav.classList.contains("is-open");
       const dockHasFocus = mobileDockNav.matches(":focus-within");

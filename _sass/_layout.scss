@@ -208,6 +208,17 @@ body.sticky-bottom-footer {
   }
 }
 
+// The 404 route offers the search palette as a real button; strip the UA button
+// chrome so it reads as one more recovery pill.
+.route-recovery-search {
+  appearance: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
 @keyframes site-anchor-arrival {
   0% {
     background-size: 0 2px;
