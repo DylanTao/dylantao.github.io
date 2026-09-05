@@ -2,7 +2,7 @@
 
 **Get your al-folio site running in 5 minutes.** This guide is for users who just want a working website quickly without deep customization.
 
-> **Video Tutorial:** Watch a walkthrough of these steps [here](../assets/video/tutorial_al_folio.mp4)
+> **Video Tutorial:** The upstream [al-folio repository](https://github.com/alshedivat/al-folio) hosts a walkthrough video of these steps; this fork no longer ships the 26 MB file.
 
 <!--ts-->
 
