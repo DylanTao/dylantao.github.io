@@ -24,13 +24,15 @@ RunCommand = Callable[..., subprocess.CompletedProcess[str]]
 LEDGER_AUDIT_TIMEOUT_SECONDS = 150
 PUBLISH_BRANCHES = {"main", "master", "v1.0-dev"}
 
-# The audit above costs ~100s, and a working session can produce many commits in
-# an afternoon. Paying it on every one of them buys nothing: the published
-# figures are rounded lifetime totals, so tolerating a few hours of lag is
-# invisible on the site. Audit at most once per window instead, and treat the
-# window as local machine state -- it records when *this* checkout last paid the
-# cost, which is not something the repository should publish or share.
-LEDGER_AUDIT_THROTTLE = timedelta(hours=6)
+# The audit above costs ~100s on a quiet machine and far longer on a busy one,
+# and a working session can produce many commits in an afternoon. Paying it on
+# every one of them buys nothing: the published figures are rounded lifetime
+# totals, so tolerating a day of lag is invisible on the site. Since 2026-09-05
+# the ledger is refreshed opportunistically and never gates a push, so the hook
+# runs its check at most once per day and only adds an advisory note when the
+# ledger is stale. The window is local machine state -- it records when *this*
+# checkout last ran the check, which the repository should not publish or share.
+LEDGER_AUDIT_THROTTLE = timedelta(hours=24)
 LEDGER_AUDIT_STAMP_RELPATH = Path(".codex") / ".ledger-audit-stamp"
 
 DATE_RE = re.compile(r"\b{key}\s*:\s*['\"]?(?P<date>\d{{4}}-\d{{2}}-\d{{2}})")
@@ -503,30 +505,30 @@ def handle_payload(
 
     include_pending_commit = verb == "commit" and not is_amend(args)
     pending_paths: list[str] = []
+    # A stale or slow ledger never blocks: the site publishes rounded totals and
+    # refreshes them opportunistically. The hook still surfaces the remediation
+    # command once per throttle window so the next refresh is not forgotten.
+    ledger_notice: str | None = None
     if verb == "commit":
         pending_paths = commit_target_paths(repo_root, args, runner)
         if only_hook_infrastructure(pending_paths):
             return None
         branch = current_branch(repo_root, runner)
         # Temporary worker branches can checkpoint without racing the public
-        # ledger. The coordinator must integrate them into a publish branch,
-        # whose commit and every push still enforce a fresh ledger.
+        # ledger. The coordinator integrates them into a publish branch, where
+        # the commit and push receive the advisory ledger check.
         if (not branch or branch in PUBLISH_BRANCHES) and not throttled:
-            ledger_error = run_stage_aware_ledger_check(
+            ledger_notice = run_stage_aware_ledger_check(
                 repo_root,
                 include_pending_commit=include_pending_commit,
                 pending_paths=pending_paths,
                 runner=runner,
             )
-            if ledger_error:
-                return deny(ledger_error)
             write_ledger_audit_stamp(repo_root, moment)
     else:
         pushed_paths = outgoing_paths(repo_root, runner)
         if not only_hook_infrastructure(pushed_paths) and not throttled:
-            ledger_error = run_ledger_check(repo_root, include_pending_commit=False, runner=runner)
-            if ledger_error:
-                return deny(ledger_error)
+            ledger_notice = run_ledger_check(repo_root, include_pending_commit=False, runner=runner)
             write_ledger_audit_stamp(repo_root, moment)
 
     try:
@@ -538,7 +540,16 @@ def handle_payload(
         )
     except RuntimeError as error:
         return deny(f"Could not inspect Scholar freshness policy: {error}")
-    return scholar_result
+    if ledger_notice is None:
+        return scholar_result
+    advisory = f"Advisory only (the ledger never blocks a push): {ledger_notice}"
+    if scholar_result is None:
+        return add_context(advisory)
+    scholar_output = scholar_result.get("hookSpecificOutput", {})
+    if "permissionDecision" in scholar_output:
+        return scholar_result
+    scholar_context = scholar_output.get("additionalContext", "")
+    return add_context(f"{scholar_context}\n\n{advisory}".strip())
 
 
 def main() -> int:

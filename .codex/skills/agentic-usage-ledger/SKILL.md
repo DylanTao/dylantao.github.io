@@ -14,12 +14,11 @@ Use this skill when updating, auditing, or displaying Codex/agentic usage counte
    - The homepage contact ledger renders the quiet `Build ledger · since …` caption above four compact stat cells for site-build tokens, agent-hours, commits, and estimated kWh; do not restore the former tree-sacrifice headline.
    - The token cell may carry one focusable price-replay disclosure sourced only from `total.api_cost_equivalence.usd_label`. Keep the visible copy to the Sam-money punchline plus one plain footnote: it prices site-build tokens at public API rates and is not a real bill. Keep request-replay and unavailable cache-write methodology in `docs/agentic-usage-ledger.md`, not in the tooltip.
    - Never price or visually associate that disclosure with the independent rounded combined-agent heartbeat. Keep conversion detail and cutoff context in `docs/agentic-usage-ledger.md` and the compact disclosure, not as extra paragraphs or a fifth stat cell.
-3. Before pushing this customized site, run the publish freshness gate:
+3. Do not hold a push for the ledger. Since 2026-09-05 the ledger is refreshed opportunistically (at most once a day, or once after a batch of related commits lands), never as a publish gate:
    - rely on the daily Google Scholar workflow for routine citation freshness;
    - refresh Scholar locally with `python bin/update_scholar_citations.py --force` only when `_data/citations.yml` is more than one day stale or publication pages changed;
-   - before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit` so the helper can estimate the pending commit and update `_data/agentic_usage.yml`;
-   - immediately format the generated ledger with `npx.cmd prettier _data/agentic_usage.yml --write`, then review and stage only the intended files;
-   - after committing, rerun `python bin/audit_agentic_usage.py` read-only and update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
+   - when refreshing, run `python bin/audit_agentic_usage.py --write` (add `--include-pending-commit` only if the refresh rides in the next commit), format with `npx.cmd prettier _data/agentic_usage.yml --write`, and commit the ledger on its own; on the personal laptop the write audit takes 50 to 110 minutes and prints nothing until it finishes, so start it early or in the background;
+   - accept a ledger that lags by a few commits or hours: the public totals are rounded, so do not rerun the audit to chase a rounding boundary.
 4. Recount commits after the relevant work is committed when possible. Prefer the read-only helper over ad hoc scripts:
    - `python bin/audit_agentic_usage.py`
    - The helper fails closed in a shallow checkout. Fetch complete history before checking or writing; never accept shallow `git rev-list` counts as ledger truth.

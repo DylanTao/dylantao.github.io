@@ -98,6 +98,13 @@ class HookPolicyTest(unittest.TestCase):
         self.assertEqual(output["permissionDecision"], "deny")
         return output["permissionDecisionReason"]
 
+    def assert_context(self, response: dict[str, Any] | None) -> str:
+        self.assertIsNotNone(response)
+        output = response["hookSpecificOutput"]
+        self.assertEqual(output["hookEventName"], "PreToolUse")
+        self.assertNotIn("permissionDecision", output)
+        return output["additionalContext"]
+
     def test_outer_hook_budget_exceeds_retained_session_audit_budget(self) -> None:
         hooks = json.loads((REPO_ROOT / ".codex" / "hooks.json").read_text(encoding="utf-8"))
         outer_timeout = hooks["hooks"]["PreToolUse"][0]["hooks"][0]["timeout"]
@@ -105,11 +112,12 @@ class HookPolicyTest(unittest.TestCase):
         self.assertGreaterEqual(site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS, 120)
         self.assertGreater(outer_timeout, site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS)
 
-    def test_normal_commit_blocks_when_ledger_is_stale(self) -> None:
+    def test_normal_commit_gets_advisory_context_when_ledger_is_stale(self) -> None:
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
         response = site_policy.handle_payload(self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), runner=runner)
 
-        reason = self.assert_denied(response)
+        reason = self.assert_context(response)
+        self.assertIn("Advisory only", reason)
         self.assertIn("Agentic usage ledger is stale", reason)
         self.assertIn("python bin/audit_agentic_usage.py --write --include-pending-commit", reason)
         audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
@@ -153,7 +161,7 @@ class HookPolicyTest(unittest.TestCase):
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
         response = site_policy.handle_payload(self.payload("git commit --amend --no-edit"), today=date(2026, 6, 20), runner=runner)
 
-        reason = self.assert_denied(response)
+        reason = self.assert_context(response)
         self.assertIn("python bin/audit_agentic_usage.py --write", reason)
         self.assertNotIn("--write --include-pending-commit", reason)
         audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
@@ -273,8 +281,8 @@ class HookPolicyTest(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(moment.isoformat(), encoding="utf-8")
 
-    def test_throttle_window_is_the_documented_six_hours(self) -> None:
-        self.assertEqual(site_policy.LEDGER_AUDIT_THROTTLE, timedelta(hours=6))
+    def test_throttle_window_is_the_documented_twenty_four_hours(self) -> None:
+        self.assertEqual(site_policy.LEDGER_AUDIT_THROTTLE, timedelta(hours=24))
 
     def test_commit_inside_the_throttle_window_skips_the_audit(self) -> None:
         now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
@@ -292,14 +300,14 @@ class HookPolicyTest(unittest.TestCase):
 
     def test_commit_past_the_throttle_window_runs_the_audit(self) -> None:
         now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        self.write_audit_stamp(now - timedelta(hours=7))
+        self.write_audit_stamp(now - timedelta(hours=25))
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
 
         response = site_policy.handle_payload(
             self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
         )
 
-        self.assertIn("Agentic usage ledger is stale", self.assert_denied(response))
+        self.assertIn("Agentic usage ledger is stale", self.assert_context(response))
         self.assertEqual(len(self.audit_calls(runner)), 1)
 
     def test_passing_audit_records_the_stamp(self) -> None:
@@ -312,7 +320,7 @@ class HookPolicyTest(unittest.TestCase):
 
         self.assertEqual(site_policy.read_ledger_audit_stamp(self.repo), now)
 
-    def test_failing_audit_does_not_record_the_stamp(self) -> None:
+    def test_failing_audit_still_records_the_stamp(self) -> None:
         now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
         runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
 
@@ -320,9 +328,9 @@ class HookPolicyTest(unittest.TestCase):
             self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
         )
 
-        # Nothing was recorded, so the very next commit re-audits rather than
-        # inheriting a six-hour reprieve from a failed run.
-        self.assertIsNone(site_policy.read_ledger_audit_stamp(self.repo))
+        # The check is advisory, so a stale result still opens the window: the
+        # next commits within a day proceed without paying for the check again.
+        self.assertEqual(site_policy.read_ledger_audit_stamp(self.repo), now)
 
     def test_push_honours_the_throttle_window(self) -> None:
         now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
@@ -347,7 +355,7 @@ class HookPolicyTest(unittest.TestCase):
             runner=runner,
         )
 
-        self.assertIn("Agentic usage ledger is stale", self.assert_denied(response))
+        self.assertIn("Agentic usage ledger is stale", self.assert_context(response))
 
     def test_future_stamp_falls_back_to_auditing(self) -> None:
         now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
@@ -359,7 +367,7 @@ class HookPolicyTest(unittest.TestCase):
         )
 
         # Clock skew or a stamp copied between machines must not buy a reprieve.
-        self.assertIn("Agentic usage ledger is stale", self.assert_denied(response))
+        self.assertIn("Agentic usage ledger is stale", self.assert_context(response))
 
     def test_stamp_is_ignored_by_git(self) -> None:
         ignore_text = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")

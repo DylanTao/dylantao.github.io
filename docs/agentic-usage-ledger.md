@@ -107,13 +107,13 @@ If no retained site-cwd usage can be attributed on the current machine, the help
 
 The scanner prefilters JSONL lines to session metadata, turn contexts, and token-count events before decoding them. The Codex publish hook allows 150 seconds for the retained-session audit inside a 180-second hook budget. This preserves a fail-closed freshness check while leaving headroom above the roughly 107-second July 12 scan as the retained archive grows.
 
-Use this freshness gate before pushing site changes:
+Use this refresh routine; since 2026-09-05 it never gates a push:
 
-1. Run the normal relevant checks for the change.
+1. Run the normal relevant checks for the change and push it.
 2. If `_data/citations.yml` is more than one day stale or publication pages changed, run `python bin/update_scholar_citations.py --force` and review `_data/citations.yml` plus `_data/publication_lens.yml`. Otherwise rely on the daily GitHub workflow.
-3. Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit`, format the generated file with `npx.cmd prettier _data/agentic_usage.yml --write`, and review the visible-label deltas.
-4. Commit the intended work and refreshed ledger together when feasible.
-5. After the commit, rerun `python bin/audit_agentic_usage.py` read-only. Update again only if visible labels, commit counts, rounded hours, rounded kWh/tree, or rounded cost labels changed.
+3. At most once a day, or once after a batch of related commits has landed, run `python bin/audit_agentic_usage.py --write` (add `--include-pending-commit` only when the refresh rides in the next commit), format the generated file with `npx.cmd prettier _data/agentic_usage.yml --write`, and review the visible-label deltas. On the personal laptop the write audit takes 50 to 110 minutes and prints nothing until it finishes, so start it early or in the background.
+4. Commit the refreshed ledger on its own, or with the batch it describes when the timing works out.
+5. Accept a ledger that lags by a few commits or hours. Rerun the audit only when a visible label is known to be wrong, never to chase a rounding boundary.
 6. Stage only intended files; do not sweep unrelated dirty files into a stats update.
 
 For `local_lifetime`, freshness compares the public token, active-hour, and current request-aware API-cost labels plus the cumulative rhythm's structure and closed-day points. When both scans identify the same current Pacific date as the terminal point, only that open day's token count and label may advance without blocking; historical points remain exact. Exact retained token/session counts and unpriced subtotals remain evidence, but do not block a commit while those public surfaces are unchanged.
@@ -125,10 +125,10 @@ Do not chase tiny drift caused by running the audit itself. This is an estimate 
 This repo has a project-local Codex `PreToolUse` hook in `.codex/hooks.json`. It checks Codex-issued `git commit` and `git push` commands before they run.
 
 - Normal `git commit` runs `python bin/audit_agentic_usage.py --check --include-pending-commit`; `git commit --amend` and `git push` run `python bin/audit_agentic_usage.py --check`.
-- That audit is throttled to at most once every six hours per checkout (`LEDGER_AUDIT_THROTTLE` in `.codex/hooks/site_policy.py`). It costs roughly 100 seconds because it rescans every retained session year, and a working session can produce many commits in an afternoon; the published figures are rounded lifetime totals, so a few hours of lag is invisible on the site. Inside the window the hook skips the audit silently and blocks nothing.
-- The window is tracked in `.codex/.ledger-audit-stamp`, which is gitignored local machine state recording when _this_ checkout last completed a **passing** audit. A failed audit records nothing, so the next commit re-audits rather than inheriting a reprieve. An unparseable or future-dated stamp also falls back to auditing, so clock skew or a copied stamp cannot buy one.
-- To force an audit now, delete that stamp file, or just run `python bin/audit_agentic_usage.py --write --include-pending-commit` directly — the throttle only governs the hook, never the script.
-- If public ledger fields are stale, the hook blocks and asks Codex to run the matching `--write` audit command, review `_data/agentic_usage.yml`, and stage only intended files.
+- That check is throttled to at most once every 24 hours per checkout (`LEDGER_AUDIT_THROTTLE` in `.codex/hooks/site_policy.py`). It rescans every retained session year, which takes roughly 100 seconds on a quiet machine and far longer on a busy one, and a working session can produce many commits in an afternoon; the published figures are rounded lifetime totals, so a day of lag is invisible on the site. Inside the window the hook skips the check silently.
+- The window is tracked in `.codex/.ledger-audit-stamp`, which is gitignored local machine state recording when _this_ checkout last ran the check, whether it passed or not. An unparseable or future-dated stamp falls back to checking, so clock skew or a copied stamp cannot buy a window.
+- To force a check now, delete that stamp file, or just run `python bin/audit_agentic_usage.py --write` directly — the throttle only governs the hook, never the script.
+- If public ledger fields are stale, or the check times out, the hook adds an advisory note with the matching `--write` command and lets the commit or push proceed. Since 2026-09-05 the ledger never blocks a publish: Sirui decided a roughly right ledger published quickly beats an exact one that holds every push.
 - If model tracking is unobserved or contains any unacknowledged deviation, the hook blocks. There is no command-line or environment bypass; acknowledgment requires a reviewed source-mapping change.
 - If staged paths touch publication or citation surfaces, the hook requires today's `_data/citations.yml` snapshot and keeps `_data/citations.yml` plus `_data/publication_lens.yml` staged together.
 - For unrelated work, Scholar data more than one day stale becomes model-visible context instead of a block, because the daily GitHub workflow remains the routine refresh path.
@@ -547,6 +547,11 @@ Every dollar figure above is an API-rate estimate, not the actual Codex product,
 - Verification: Wave 0 and the key redesign were built with the production baseurl from PowerShell (Git Bash rewrites `--baseurl /al-folio` into a Git install path and yields an unstyled build), served under the `/al-folio` prefix, and probed at 1440 and 390 in light and dark; the 310-test Python suite, Prettier, the style contract, the Build Rhythm story spec, and the Chromium/WebKit interaction tests passed, with the only checkpoint-lane failures traced to responsive WebP derivatives that exist in CI but not on this laptop.
 - Updated public totals: the reconciled three-source lifetime is 172,820,102,023 tokens through September 4, 2026, published as `172.8B` with a `~$132.3K API-rate replay` label. Exact Codex usage is 148,397,478,895 tokens and exact Claude usage is 24,422,623,128 tokens, of which 2,140,125,343 came from the merged work-laptop tally; the family series keeps its April 30 start (128 completed days) with a 1,789,214,365-token Codex-only prior.
 - Evidence: the private collector's new merge script passed six focused tests inside a 197-test Python suite, a dry run reported zero shared aliases before the real merge, and the live collector produced the schema-5 projection complete through September 4. The public repository passed the 99 importer, privacy, code-activity, and Build Rhythm story tests, Prettier, the style contract, whitespace checks, and a production `/al-folio` build whose rendered Build Rhythm route carried the new two-device wording and the September 4 intern row.
+
+### 2026-09-05 (publish policy)
+
+- Policy: Sirui decided the homepage counters only need to be roughly right and published quickly. The ledger is now refreshed opportunistically (at most once a day, or once after a batch of related commits lands) and never gates a push. The Codex hook adds an advisory note when the ledger is stale or its check is slow, and it runs that check at most once per 24 hours per checkout. The write audit had taken 50 to 110 minutes per run on the personal laptop and held three verified site batches behind one commit for most of a morning.
+- Effect: commits may land ahead of the ledger; the next refresh picks up their commit count, hours, and tokens. A lag of a few commits or hours is accepted because every public total is rounded.
 
 ## Future Entry Template
 

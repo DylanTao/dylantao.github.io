@@ -118,16 +118,14 @@ Source checks are not a substitute for rendered inspection when public UI change
 
 ## Publish Freshness Gate
 
-Before pushing changes to this customized site:
+Pushes to this customized site do not wait on the usage ledger. Since 2026-09-05 the homepage counters are refreshed opportunistically: Sirui decided that a roughly right ledger published quickly beats an exact one that holds every push for an hour or more.
 
 - Use `.codex/skills/agentic-usage-ledger/SKILL.md` and `docs/agentic-usage-ledger.md` for the homepage Codex token, agent-hour, commit, energy, and tree-equivalence counters.
 - Google Scholar runs daily in `.github/workflows/update-citations.yml`; locally run `python bin/update_scholar_citations.py --force` only if `_data/citations.yml` is more than one day stale or publication pages changed.
-- Before the final commit, run `python bin/audit_agentic_usage.py --write --include-pending-commit`; the helper estimates the pending commit and updates `_data/agentic_usage.yml`.
-- Format the generated ledger with `npx.cmd prettier _data/agentic_usage.yml --write` before staging it.
-- After commit, rerun `python bin/audit_agentic_usage.py` read-only; update the ledger again only if visible labels, commit counts, rounded hours, rounded energy/tree, or rounded cost labels changed.
+- Refresh the ledger at most once a day, or once after a batch of related commits has landed: run `python bin/audit_agentic_usage.py --write` (add `--include-pending-commit` only when the refresh rides in the next commit), then `npx.cmd prettier _data/agentic_usage.yml --write`, and commit the ledger on its own. On the personal laptop the write audit takes 50 to 110 minutes and prints nothing until it finishes, so start it early or in the background and never hold a push for it.
+- A ledger that lags by a few commits or a few hours is acceptable; the published totals are rounded. Do not rerun the audit to chase a rounding boundary.
 - Stage only intended files; do not sweep unrelated dirty files into a stats refresh.
-- This repo has a project-local Codex hook in `.codex/hooks.json` that checks `git commit`/`git push` freshness. Review and trust it with `/hooks` when Codex reports a new or changed hook.
-- That hook throttles its ~100s ledger audit to once every six hours per checkout, tracked in the gitignored `.codex/.ledger-audit-stamp`. Inside the window commits are not gated on the ledger, so before a publish push run the `--write` audit above explicitly rather than relying on the hook to prompt you.
+- The project-local Codex hook in `.codex/hooks.json` checks `git commit`/`git push` freshness. A stale or slow ledger check only adds an advisory note; the hook still blocks publication commits whose Scholar data is stale. It runs the ledger check at most once every 24 hours per checkout, tracked in the gitignored `.codex/.ledger-audit-stamp`. Review and trust it with `/hooks` when Codex reports a new or changed hook.
 
 ## Agent Routing Rules
 
