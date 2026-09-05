@@ -16,6 +16,8 @@ Shipped on `main` in the first pass after the roadmap was written:
 - Stage 3: the root view-transition crossfade (homepage, AI profile, and hidden page opted out; reduced motion is an instant swap), recorded in the design backlog as `prototype` pending Sirui's live review.
 - Accessibility and stability pass from the Lighthouse baseline: collapsed publication panels are `inert` (the copy button inside a closed Bib block was a hidden tab stop on the homepage, publications, and every project page with a citation), footer sentence links are underlined, the Spooder CTA label inherits its button color in every theme, Scholar Lens year bars name themselves from their visible text, and sixteen project figures declare intrinsic dimensions (DesignWeaver's 0.111 layout shift was the summary block moving when the hero image arrived). Re-measured on the same local serve: DesignWeaver accessibility 92 to 100 and layout shift 0.111 to 0.006, publications accessibility 90 to 100, homepage accessibility 90 to 97 with only the desk-mode switch target left.
 
+- Reverted on Siruis call (2026-09-05): co-authored papers with their own project sites (HotSpot, Physion) link out from their cards again; the internal URLs forward to those sites and stay out of the sitemap.
+
 Still open: the focus mixin migration, the accessibility spec additions, purge-parity as a documented lane, the hidden page's CSS/JS extraction and unlocked-state spec, the `what-happened-and-why` inline-style extraction, the desk-mode switch button's tap target (Lighthouse measures it under 24 px; scene lane), and every GPT-6 and Sirui-decision item below.
 
 ### Lighthouse baseline (2026-09-05, desktop preset, local static serve of the production build)
