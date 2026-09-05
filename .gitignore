@@ -17,6 +17,9 @@ al-folio-upgrade-report.md
 # commit hook can throttle it. Local machine state, never published.
 .codex/.ledger-audit-stamp
 node_modules/
+# Fixture posts written by test/integration_comments.sh and
+# test/integration_distill.sh while they run; never site content.
+_posts/9999-01-01-integration-*.md
 output/playwright/
 playwright-report/
 test-results/
