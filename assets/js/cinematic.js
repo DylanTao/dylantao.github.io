@@ -19,6 +19,25 @@
     scene.querySelectorAll("[data-case-step]").forEach((step) => step.classList.add("is-active"));
   };
 
+  // 0. Card-to-hero morph: the project image a visitor clicks becomes the case page's hero image
+  //    through a cross-document view transition, and comes back to its card on the way out. The
+  //    hero side of the name lives in CSS; the index side is set here (forward) and by the inline
+  //    `pagereveal` listener in head.liquid (back), which runs before the first frame.
+  const morphKey = "cinematic:morph-href";
+  Array.from(document.querySelectorAll(".cinematic [data-project-card-primary-action]")).forEach((link) => {
+    if (link.target === "_blank" || link.origin !== window.location.origin) return;
+    link.addEventListener("click", () => {
+      const image = link.closest("[data-project-card]")?.querySelector(".project-card-media img");
+      if (!image) return;
+      image.style.viewTransitionName = "project-hero";
+      try {
+        sessionStorage.setItem(morphKey, link.href);
+      } catch (error) {
+        /* private mode: the transition falls back to the root crossfade */
+      }
+    });
+  });
+
   root.classList.add("cinematic-ready");
   if (!live) {
     scenes.forEach(stillScene);
@@ -262,7 +281,7 @@
   // 7. Reading blocks below a case hero rise into view once, in reading order.
   gsap.utils
     .toArray(
-      ".cinematic article > h2, .cinematic article > h3, .cinematic article > p, .cinematic article > ul, .cinematic article > ol, .cinematic article > .row, .cinematic article > .caption, .cinematic article > pre, .cinematic article > .project-author-strip"
+      ".cinematic.project-case-page article > h2, .cinematic.project-case-page article > h3, .cinematic.project-case-page article > p, .cinematic.project-case-page article > ul, .cinematic.project-case-page article > ol, .cinematic.project-case-page article > .row, .cinematic.project-case-page article > .caption, .cinematic.project-case-page article > pre, .cinematic.project-case-page article > .project-author-strip"
     )
     .forEach((block) => {
       if (block.closest(".project-case-hero") || block.classList.contains("sr-only")) return;
@@ -276,22 +295,108 @@
       });
     });
 
-  // 8. Proof numbers count up once when the page opens.
+  // 8. Proof numbers count up once as they come into view, keeping their original digit grouping.
   gsap.utils.toArray(".cinematic [data-count-up]").forEach((node) => {
     const match = node.textContent.match(/^(\s*)(\d[\d,]*)([\s\S]*)$/);
     if (!match) return;
     const target = Number(match[2].replace(/,/g, ""));
     if (!Number.isFinite(target) || target <= 0) return;
+    const grouped = match[2].includes(",");
+    const format = (value) => (grouped ? Math.round(value).toLocaleString("en-US") : String(Math.round(value)));
     const counter = { value: 0 };
     node.textContent = `${match[1]}0${match[3]}`;
     gsap.to(counter, {
       value: target,
       duration: 1.1,
       ease: "power2.out",
-      delay: 0.35,
+      delay: 0.2,
+      scrollTrigger: { trigger: node, start: "top 92%", once: true },
       onUpdate: () => {
-        node.textContent = `${match[1]}${Math.round(counter.value).toLocaleString("en-US")}${match[3]}`;
+        node.textContent = `${match[1]}${format(counter.value)}${match[3]}`;
       },
     });
   });
+
+  // 9. Homepage: one thread runs down the story and lights the section being read, headings drift a
+  //    little slower than the page, a marker sweeps the thesis question as it arrives, and the claim
+  //    and update cards rise in sequence. The 3D desk above all of this is untouched.
+  const home = document.querySelector(".home-page.cinematic");
+  if (home) {
+    const thread = home.querySelector("[data-home-thread]");
+    const sections = gsap.utils.toArray(home.querySelectorAll(".home-section")).filter((section) => !section.classList.contains("home-hero"));
+    if (thread && sections.length) {
+      const fill = thread.querySelector("[data-home-thread-fill]");
+      const nodes = sections.map(() => {
+        const node = document.createElement("span");
+        node.className = "home-thread-node";
+        thread.appendChild(node);
+        return node;
+      });
+      const layout = () => {
+        const pageBox = home.getBoundingClientRect();
+        const first = sections[0].getBoundingClientRect();
+        const last = sections[sections.length - 1].getBoundingClientRect();
+        const top = first.top - pageBox.top + 40;
+        const bottom = last.top - pageBox.top + 56;
+        thread.style.top = `${top}px`;
+        thread.style.height = `${Math.max(0, bottom - top)}px`;
+        sections.forEach((section, index) => {
+          const anchor = section.querySelector(".home-section-heading, .home-why-now-copy") || section;
+          nodes[index].style.top = `${anchor.getBoundingClientRect().top - pageBox.top - top + 12}px`;
+        });
+      };
+      layout();
+      ScrollTrigger.addEventListener("refreshInit", layout);
+      if (fill) {
+        gsap.fromTo(
+          fill,
+          { scaleY: 0 },
+          { scaleY: 1, ease: "none", scrollTrigger: { trigger: thread, start: "top 55%", end: "bottom 55%", scrub: 0.4 } }
+        );
+      }
+      sections.forEach((section, index) => {
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top 55%",
+          end: "bottom 55%",
+          toggleClass: { targets: nodes[index], className: "is-active" },
+        });
+      });
+    }
+
+    gsap.utils.toArray(home.querySelectorAll(".home-section:not(.home-hero) .home-section-heading h2, .home-why-now-copy h2")).forEach((heading) => {
+      gsap.fromTo(
+        heading,
+        { yPercent: 12 },
+        {
+          yPercent: -12,
+          ease: "none",
+          scrollTrigger: { trigger: heading.closest(".home-section"), start: "top bottom", end: "bottom top", scrub: true },
+        }
+      );
+    });
+
+    const mark = home.querySelector(".home-thread-mark");
+    if (mark) {
+      gsap.fromTo(
+        mark,
+        { "--mark-w": "0%" },
+        { "--mark-w": "100%", ease: "none", scrollTrigger: { trigger: mark, start: "top 82%", end: "top 45%", scrub: true } }
+      );
+    }
+
+    [".home-why-now-claims > article", ".home-news-strip > article"].forEach((selector) => {
+      const items = gsap.utils.toArray(home.querySelectorAll(selector));
+      if (!items.length) return;
+      gsap.from(items, {
+        opacity: 0,
+        y: 22,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.09,
+        clearProps: "opacity,transform",
+        scrollTrigger: { trigger: items[0].parentElement, start: "top 85%", once: true },
+      });
+    });
+  }
 })();

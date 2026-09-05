@@ -2143,17 +2143,29 @@
     // encoding key lives in the HTML strip above the chart. Wide screens read
     // "PER", compact screens keep the shorter "/" form.
     const unitJoin = narrow ? "/" : "PER";
-    addText(chart, `COMMITS ${unitJoin} ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "LOG1P"}`, left, 18, {
-      color: palette.accent,
-      weight: 700,
-    });
+    // Below about 300px of chart width the compact "DATE LABEL" headings still
+    // run past the right edge at the stylesheet's 12px, so the tightest charts
+    // set the size inline, which a presentation attribute could not override.
+    const tightHeading = width < 300;
+    const fitHeading = (node) => {
+      if (tightHeading) node.style.fontSize = "10.5px";
+      return node;
+    };
+    fitHeading(
+      addText(chart, `COMMITS ${unitJoin} ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "LOG1P"}`, left, 18, {
+        color: palette.accent,
+        weight: 700,
+      })
+    );
     const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
     const lineHeading = `${narrow ? "LINES" : "LINES CHANGED"} ${unitJoin} ${chartDateUnit} \u00b7 ${lineScaleLabel}`;
-    addText(chart, lineHeading, left, lineTop - 34, {
-      color: palette.muted,
-      weight: 700,
-      className: "github-activity-line-heading",
-    });
+    fitHeading(
+      addText(chart, lineHeading, left, lineTop - 34, {
+        color: palette.muted,
+        weight: 700,
+        className: "github-activity-line-heading",
+      })
+    );
 
     // Agent-token context backdrop behind the commit and line panels.
     //

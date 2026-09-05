@@ -124,6 +124,43 @@
       navigation: auto;
     }
   </style>
+  {% if page.cinematic and page.project_cards_interactive %}
+    {% comment %}
+      Coming back from a case page, its hero image morphs into the card it came
+      from. The listener has to exist before the first frame, and rendering
+      waits for the end of the card grid so that card is already in the DOM.
+    {% endcomment %}
+    <link rel="expect" href="#project-index-end" blocking="render">
+    <script>
+      window.addEventListener(
+        'pagereveal',
+        (event) => {
+          if (!event.viewTransition) return;
+          let href = null;
+          try {
+            href = sessionStorage.getItem('cinematic:morph-href');
+          } catch (error) {
+            return;
+          }
+          if (!href) return;
+          const link = Array.from(document.querySelectorAll('[data-project-card-primary-action]')).find((item) => item.href === href);
+          const image =
+            link && link.closest('[data-project-card]') ? link.closest('[data-project-card]').querySelector('.project-card-media img') : null;
+          if (!image) return;
+          image.style.viewTransitionName = 'project-hero';
+          event.viewTransition.finished.finally(() => {
+            image.style.viewTransitionName = '';
+            try {
+              sessionStorage.removeItem('cinematic:morph-href');
+            } catch (error) {
+              /* nothing to clear */
+            }
+          });
+        },
+        { once: true }
+      );
+    </script>
+  {% endif %}
 {% endunless %}
 {% if page.layout == 'cv' and site.plugins contains 'al_folio_cv' and site.al_folio.features.cv.enabled != false %}
   <link rel="stylesheet" href="{{ '/assets/css/al-folio-cv.css' | relative_url | bust_file_cache }}">

@@ -26,10 +26,13 @@
   inset: -34% 0 -18% 0;
   z-index: -1;
   pointer-events: none;
+  // Every blob fades to transparent before it reaches the field's own edges,
+  // even at the far end of the drift, so no cut line can appear where the
+  // field ends or where the header clips it.
   background:
-    radial-gradient(36% 58% at 16% 34%, rgba(var(--global-accent-rgb), 0.24), transparent 72%),
-    radial-gradient(30% 50% at 74% 22%, color-mix(in srgb, var(--global-sky-strong) 26%, transparent), transparent 72%),
-    radial-gradient(28% 46% at 58% 88%, color-mix(in srgb, var(--global-mint-strong) 22%, transparent), transparent 72%);
+    radial-gradient(30% 34% at 30% 40%, rgba(var(--global-accent-rgb), 0.26), transparent 70%),
+    radial-gradient(26% 30% at 70% 30%, color-mix(in srgb, var(--global-sky-strong) 28%, transparent), transparent 70%),
+    radial-gradient(24% 26% at 54% 70%, color-mix(in srgb, var(--global-mint-strong) 24%, transparent), transparent 70%);
   transform-origin: 50% 50%;
   will-change: transform;
 }
@@ -261,6 +264,92 @@ html.cinematic-live .case-scroll-hero:not(.is-static) .case-step.is-active {
   .case-scroll-hint {
     display: none;
   }
+}
+
+// Card-to-hero morph: the clicked card image and the case page's hero image
+// share one view-transition name, so the picture travels between the pages.
+.cinematic .project-case-media img {
+  view-transition-name: project-hero;
+}
+
+::view-transition-group(project-hero) {
+  animation-duration: 440ms;
+  animation-timing-function: var(--md-lite-easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
+}
+
+::view-transition-old(project-hero),
+::view-transition-new(project-hero) {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  overflow: clip;
+}
+
+// Homepage: one thread runs down the story, lights the section being read, and
+// a marker sweeps the thesis question. Nothing here touches the desk scene.
+.home-page.cinematic {
+  position: relative;
+}
+
+.home-thread {
+  display: none;
+  // Sits in the page margin just left of the story column; the runtime sets
+  // its top, height, and node positions from the sections it threads.
+  left: -1.75rem;
+  pointer-events: none;
+  position: absolute;
+  width: 2px;
+  z-index: 2;
+}
+
+@media (min-width: 1400px) and (max-width: 1679.98px) {
+  html.cinematic-live .home-thread {
+    display: block;
+  }
+}
+
+.home-thread::before {
+  background: var(--global-divider-color);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.home-thread-fill {
+  background: linear-gradient(var(--global-theme-color), var(--global-mint-strong));
+  inset: 0;
+  position: absolute;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.home-thread-node {
+  background: var(--global-card-bg-color);
+  border: 2px solid var(--global-divider-color);
+  border-radius: 50%;
+  height: 10px;
+  left: 50%;
+  margin-left: -5px;
+  position: absolute;
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
+  width: 10px;
+}
+
+.home-thread-node.is-active {
+  background: var(--global-theme-color);
+  border-color: var(--global-theme-color);
+  box-shadow: 0 0 0 6px rgba(var(--global-accent-rgb), 0.16);
+  transform: scale(1.3);
+}
+
+.home-thread-mark {
+  background-image: linear-gradient(transparent 58%, rgba(var(--global-accent-rgb), 0.3) 58%);
+  background-repeat: no-repeat;
+  background-size: var(--mark-w, 100%) 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {

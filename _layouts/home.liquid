@@ -1,8 +1,11 @@
 ---
 layout: default
 ---
-<div class="home-page">
+<div class="home-page{% if page.cinematic %} cinematic{% endif %}">
   {% include home/story_rail.liquid %}
+  {% if page.cinematic %}
+    <div class="home-thread" data-home-thread aria-hidden="true"><span class="home-thread-fill" data-home-thread-fill></span></div>
+  {% endif %}
   {% include home/hero.liquid %}
   {% include home/thesis.liquid %}
   {% include home/why_now.liquid %}
@@ -51,7 +54,7 @@ layout: default
             <dl class="home-agentic-grid">
               <div class="home-agentic-stat">
                 <dt>
-                  <span>{{ agentic_usage.total.tokens_label }}</span>
+                  <span data-count-up>{{ agentic_usage.total.tokens_label }}</span>
                   {% if total_cost_label %}
                     <span class="home-agentic-info-wrap home-agentic-info-wrap-cost" data-agentic-cost-scope="site-build">
                       <button
@@ -80,16 +83,16 @@ layout: default
                 <dd>site-build tokens</dd>
               </div>
               <div class="home-agentic-stat">
-                <dt>{{ agentic_usage.total.hours_label }}</dt>
+                <dt data-count-up>{{ agentic_usage.total.hours_label }}</dt>
                 <dd>agent-hours</dd>
               </div>
               <div class="home-agentic-stat">
-                <dt>{{ agentic_usage.total.commits }}</dt>
+                <dt data-count-up>{{ agentic_usage.total.commits }}</dt>
                 <dd>site commits</dd>
               </div>
               {% if total_energy %}
                 <div class="home-agentic-stat">
-                  <dt>{{ total_energy.kwh_midpoint }}</dt>
+                  <dt data-count-up>{{ total_energy.kwh_midpoint }}</dt>
                   <dd>est. kWh</dd>
                 </div>
               {% endif %}

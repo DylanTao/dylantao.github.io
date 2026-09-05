@@ -110,7 +110,7 @@ cinematic: true
   </div>
   {% endif %}
 {% endif %}
-<p class="project-inspiration-credit">
+<p class="project-inspiration-credit" id="project-index-end">
   Interaction note: card opening pattern inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>; adapted here for an academic project browser.
 </p>
 </div>

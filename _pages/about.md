@@ -4,6 +4,7 @@ title: about
 permalink: /
 panel_wide: true
 home_experience: true
+cinematic: true
 subtitle: Cognitive Science Ph.D. student at UC San Diego studying interfaces for design judgment.
 
 profile:
@@ -114,7 +115,7 @@ thesis:
   title: Scaffolding taste in an age of generative abundance.
   lead: >-
     Scaffolding for Taste asks a simple question: when AI can make ten plausible
-    options in a minute, how do people learn to notice the difference that matters?
+    options in a minute, how do people learn to notice <span class="home-thread-mark">the difference that matters</span>?
     I study interfaces that support reflective practice: making a move, seeing what
     changed, comparing alternatives, and building better reasons for choosing one
     direction over another.
