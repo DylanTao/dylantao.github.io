@@ -180,10 +180,6 @@ github_activity: true
           <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
         </div>
       </fieldset>
-      <div class="github-activity-source-legend" data-source-legend hidden>
-        <p class="github-activity-source-legend-label" id="github-activity-source-legend-label">Sources</p>
-        <div class="github-activity-legend-items" data-source-legend-items role="group" aria-labelledby="github-activity-source-legend-label"></div>
-      </div>
     </div>
 
     <section
@@ -268,6 +264,54 @@ github_activity: true
         keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
         to move seven calendar labels, and Escape to clear a selection.
       </p>
+      <div class="github-activity-key" data-chart-key>
+        <div class="github-activity-key-group" role="group" aria-labelledby="github-activity-key-commits-label">
+          <p class="github-activity-key-label" id="github-activity-key-commits-label">Commits</p>
+          <ul class="github-activity-key-items">
+            <li class="github-activity-key-item">
+              <svg class="github-activity-key-glyph is-total" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
+                <line x1="0" y1="5" x2="18" y2="5"></line>
+              </svg>
+              <span>All commits</span>
+            </li>
+            <li class="github-activity-key-item">
+              <svg class="github-activity-key-glyph is-gap" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
+                <rect x="0" y="1" width="18" height="8"></rect>
+                <line class="is-boundary" x1="0" y1="1" x2="18" y2="1"></line>
+                <line class="is-authored" x1="0" y1="9" x2="18" y2="9"></line>
+              </svg>
+              <span>Merges + deploys</span>
+            </li>
+            <li class="github-activity-key-item">
+              <svg class="github-activity-key-glyph is-authored" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
+                <line x1="0" y1="5" x2="18" y2="5"></line>
+              </svg>
+              <span>Authored only</span>
+            </li>
+          </ul>
+        </div>
+        <div class="github-activity-key-group" role="group" aria-labelledby="github-activity-key-lines-label">
+          <p class="github-activity-key-label" id="github-activity-key-lines-label">Lines</p>
+          <ul class="github-activity-key-items">
+            <li class="github-activity-key-item">
+              <svg class="github-activity-key-glyph is-added" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
+                <line x1="0" y1="5" x2="18" y2="5"></line>
+              </svg>
+              <span>+ added</span>
+            </li>
+            <li class="github-activity-key-item">
+              <svg class="github-activity-key-glyph is-removed" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
+                <line x1="0" y1="5" x2="18" y2="5"></line>
+              </svg>
+              <span>− removed</span>
+            </li>
+          </ul>
+        </div>
+        <div class="github-activity-source-legend github-activity-key-group" data-source-legend hidden>
+          <p class="github-activity-source-legend-label github-activity-key-label" id="github-activity-source-legend-label">Sources</p>
+          <div class="github-activity-legend-items" data-source-legend-items role="group" aria-labelledby="github-activity-source-legend-label"></div>
+        </div>
+      </div>
       <svg
         id="github-activity-chart"
         class="github-activity-chart"

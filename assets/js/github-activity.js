@@ -400,7 +400,7 @@
             class: "github-activity-agent-rail-claude-area",
             d: bandPath(familyCombinedPoints, codexPoints),
             fill: colors.claude,
-            "fill-opacity": 0.58,
+            "fill-opacity": 0.45,
           })
         );
       } else {
@@ -1777,9 +1777,53 @@
     legendList.replaceChildren(fragment);
     if (restoreFocusTo) legendList.querySelector(`[data-source-id="${restoreFocusTo}"]`)?.focus({ preventScroll: true });
   };
+  // One extra readout cell per visible source, only when there is more than one
+  // source to compare. Each cell keeps exactly one element child so the readout
+  // grid has nothing that can wrap away from its value. A source without a
+  // record on that label says so instead of showing a padded zero.
+  const renderSourceReadout = (row) => {
+    const values = selectedCommits.closest(".github-activity-values");
+    if (!values) return;
+    const visibleSourceList = sourceList.filter((entry) => visibleSources.has(entry.id));
+    const showSources = visibleSourceList.length > 1;
+    values.querySelectorAll("[data-source-readout-id]").forEach((cell) => {
+      if (!showSources || !visibleSources.has(cell.dataset.sourceReadoutId)) cell.remove();
+    });
+    if (!showSources) return;
+    const palette = colors();
+    let anchor = selectedCommits.closest(".github-activity-value-group");
+    visibleSourceList.forEach((entry) => {
+      let cell = values.querySelector(`[data-source-readout-id="${entry.id}"]`);
+      if (!cell) {
+        cell = document.createElement("span");
+        cell.className = "github-activity-value-group github-activity-source-value-group";
+        cell.dataset.sourceReadoutId = entry.id;
+        const value = document.createElement("span");
+        value.className = "github-activity-source-value";
+        const swatch = document.createElement("span");
+        swatch.className = "github-activity-legend-swatch";
+        swatch.setAttribute("aria-hidden", "true");
+        const label = document.createElement("span");
+        label.className = "github-activity-source-value-label";
+        const count = document.createElement("span");
+        count.className = "github-activity-source-value-count";
+        value.append(swatch, label, count);
+        cell.append(value);
+      }
+      if (anchor) anchor.after(cell);
+      anchor = cell;
+      cell.querySelector(".github-activity-legend-swatch").style.background = sourceColor(entry.id, palette);
+      cell.querySelector(".github-activity-source-value-label").textContent = entry.label;
+      const record = row.bySource[entry.id];
+      cell.querySelector(".github-activity-source-value-count").textContent = record
+        ? `${number.format(record.commits)} ${record.commits === 1 ? "commit" : "commits"}`
+        : "no record";
+    });
+  };
   const updateDayReadout = (row) => {
     selectedDate.textContent = dateLabel.format(row.date);
     selectedCommits.textContent = `${commitCountLabel(row.commits, "total")} \u00b7 ${commitCountLabel(row.authoredCommits, "authored")}`;
+    renderSourceReadout(row);
     selectedAdditions.textContent = `${signed(row.additions, true)} added`;
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
     const tokenObservation = codexUsageForDay(codexSource, row);
@@ -1884,13 +1928,20 @@
     const totalAdditions = scoped.reduce((sum, row) => sum + row.additions, 0);
     const totalDeletions = scoped.reduce((sum, row) => sum + row.deletions, 0);
     const commitSummary = `${commitCountLabel(totalCommits, "total")} \u00b7 ${commitCountLabel(totalAuthored, "authored")}`;
+    const visibleSourceEntries = sourceList.filter((entry) => visibleSources.has(entry.id));
+    const sourceClause =
+      visibleSourceEntries.length > 1
+        ? ` \u00b7 by source: ${visibleSourceEntries
+            .map((entry) => `${entry.label} ${number.format(scoped.reduce((sum, row) => sum + (row.bySource[entry.id]?.commits ?? 0), 0))}`)
+            .join(" \u00b7 ")}`
+        : "";
     const scope = selection
       ? `Selected ${number.format(scoped.length)} ${scoped.length === 1 ? "date label" : "date labels"}`
       : range === "all"
         ? "Lifetime"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active date labels \u00b7 ${commitSummary} \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active date labels \u00b7 ${commitSummary} \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines${sourceClause}`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
@@ -2088,103 +2139,21 @@
       });
     }
     chart.append(grid);
-    addText(chart, `COMMITS / ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "LOG1P"}`, left, 18, {
+    // Panel headings stay inside the SVG, where their geometry is measured; the
+    // encoding key lives in the HTML strip above the chart. Wide screens read
+    // "PER", compact screens keep the shorter "/" form.
+    const unitJoin = narrow ? "/" : "PER";
+    addText(chart, `COMMITS ${unitJoin} ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "LOG1P"}`, left, 18, {
       color: palette.accent,
       weight: 700,
     });
-    // "total / gap / authored" named the marks without saying what they meant.
-    // Each entry now names the thing it encodes, and the gap swatch draws the
-    // muted boundary above and the crisp authored line below with the band
-    // between them, so the key depicts the same relationship as the chart.
-    const commitLegendY = 37;
-    const legendSwatch = 16;
-    const legendLabelGap = 6;
-    const legendEntryGap = narrow ? 12 : 18;
-    // Compact screens cannot hold the explanatory forms on one row without
-    // running under the agent label, and the copy above the chart already
-    // spells the same relationship out in a sentence.
-    const legendEntries = [
-      { key: "total", label: narrow ? "all" : "all commits", color: palette.muted },
-      { key: "gap", label: narrow ? "gap" : "gap = merges + deploys", color: palette.muted },
-      { key: "authored", label: "authored", color: palette.accent },
-    ];
-    let legendX = left;
-    legendEntries.forEach((entry) => {
-      const midY = commitLegendY - 4;
-      if (entry.key === "gap") {
-        chart.append(
-          svgElement("rect", {
-            class: "github-activity-commit-legend-gap-band",
-            x: legendX,
-            y: midY - 4,
-            width: legendSwatch,
-            height: 8,
-            fill: palette.accent,
-            "fill-opacity": 0.18,
-          }),
-          svgElement("line", {
-            class: "github-activity-commit-legend-total-line",
-            x1: legendX,
-            y1: midY - 4,
-            x2: legendX + legendSwatch,
-            y2: midY - 4,
-            stroke: palette.muted,
-            "stroke-opacity": 0.78,
-            "stroke-width": 1.2,
-          }),
-          svgElement("line", {
-            class: "github-activity-commit-legend-authored-line",
-            x1: legendX,
-            y1: midY + 4,
-            x2: legendX + legendSwatch,
-            y2: midY + 4,
-            stroke: palette.accent,
-            "stroke-width": 2.2,
-          })
-        );
-      } else {
-        chart.append(
-          svgElement("line", {
-            class: entry.key === "total" ? "github-activity-commit-legend-total-line" : "github-activity-commit-legend-authored-line",
-            x1: legendX,
-            y1: midY,
-            x2: legendX + legendSwatch,
-            y2: midY,
-            stroke: entry.key === "total" ? palette.muted : palette.accent,
-            "stroke-opacity": entry.key === "total" ? 0.78 : 1,
-            "stroke-width": entry.key === "total" ? 1.2 : 2.2,
-            "stroke-linecap": "round",
-          })
-        );
-      }
-      const labelNode = addText(chart, entry.label, legendX + legendSwatch + legendLabelGap, commitLegendY, {
-        color: entry.color,
-        weight: 650,
-        size: 11,
-      });
-      // Measure the rendered label rather than estimating from character count:
-      // this legend is set in the mono face, and a guessed advance width let the
-      // entries overlap each other's swatches.
-      let labelWidth = entry.label.length * 6.6;
-      try {
-        const measured = labelNode.getComputedTextLength();
-        if (Number.isFinite(measured) && measured > 0) labelWidth = measured;
-      } catch (error) {
-        // Detached or unlaid-out SVG cannot measure; the estimate stands.
-      }
-      legendX += legendSwatch + legendLabelGap + labelWidth + legendEntryGap;
-    });
     const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
-    const lineHeading = narrow
-      ? `LINES / ${chartDateUnit} \u00b7 ${lineScaleLabel}`
-      : `LINES CHANGED / ${chartDateUnit} \u00b7 ${scale === "linear" ? "LITERAL LINEAR" : "READABLE SYMLOG"}`;
+    const lineHeading = `${narrow ? "LINES" : "LINES CHANGED"} ${unitJoin} ${chartDateUnit} \u00b7 ${lineScaleLabel}`;
     addText(chart, lineHeading, left, lineTop - 34, {
       color: palette.muted,
       weight: 700,
       className: "github-activity-line-heading",
     });
-    addText(chart, "+ added", left, lineTop - 14, { color: palette.addedText, weight: 650 });
-    addText(chart, "\u2212 removed", left + (narrow ? 76 : 86), lineTop - 14, { color: palette.removedText, weight: 650 });
 
     // Agent-token context backdrop behind the commit and line panels.
     //
@@ -2286,22 +2255,55 @@
         running = upper;
         return { id: entry.id, lower, upper };
       });
+      // A surface-colored seam along each later source's lower edge separates
+      // it from the band beneath without adding a value line: the top edge of
+      // the last band already is the total line. The seam spans only the dates
+      // that source reported, so coverage gaps stay blank.
+      const coveragePath = (id, values) => {
+        let d = "";
+        let open = false;
+        data.forEach((row, position) => {
+          if (!row.bySource[id]) {
+            open = false;
+            return;
+          }
+          d += `${open ? " L" : d ? " M" : "M"} ${x(row.date).toFixed(2)} ${commitY(values[position]).toFixed(2)}`;
+          open = true;
+        });
+        return d;
+      };
       stacked
         .slice()
         .reverse()
         .forEach(({ id, lower, upper }) => {
+          const isPrimary = sourceList.findIndex((entry) => entry.id === id) === 0;
           chart.append(
             svgElement("path", {
               class: "github-activity-commit-source-area",
               "data-source-id": id,
+              "data-source-role": isPrimary ? "primary" : "alt",
               d: bandPath(
                 upper.map((value, position) => [x(data[position].date), commitY(value)]),
                 lower.map((value, position) => [x(data[position].date), commitY(value)])
               ),
               fill: sourceColor(id, palette),
-              "fill-opacity": 0.24,
+              "fill-opacity": isPrimary ? 0.22 : 0.45,
             })
           );
+          const seam = isPrimary ? "" : coveragePath(id, lower);
+          if (seam) {
+            chart.append(
+              svgElement("path", {
+                class: "github-activity-commit-source-seam",
+                "data-source-id": id,
+                d: seam,
+                fill: "none",
+                stroke: palette.surface,
+                "stroke-width": 1.5,
+                "stroke-linejoin": "round",
+              })
+            );
+          }
         });
     }
     const addPoints = data.map((row) => [x(row.date), lineY(row.additions)]);

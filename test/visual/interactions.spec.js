@@ -557,16 +557,16 @@ test("daily personal code and completed personal agent usage remain separate and
   await expect(activity).not.toContainText(/Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i);
 
   const compact = (page.viewportSize()?.width ?? 0) < 620;
-  await expect(chart.getByText("COMMITS / DAY · LOG1P", { exact: true })).toBeVisible();
+  await expect(chart.getByText(compact ? "COMMITS / DAY · LOG1P" : "COMMITS PER DAY · LOG1P", { exact: true })).toBeVisible();
   await expect(
-    chart.getByText(compact ? "LINES / DAY · SYMLOG" : "LINES CHANGED / DAY · READABLE SYMLOG", {
+    chart.getByText(compact ? "LINES / DAY · SYMLOG" : "LINES CHANGED PER DAY · SYMLOG", {
       exact: true,
     })
   ).toBeVisible();
 
   await page.getByRole("button", { name: "Literal", exact: true }).click();
-  await expect(chart.getByText("COMMITS / DAY · LINEAR", { exact: true })).toBeVisible();
-  await expect(chart.getByText(compact ? "LINES / DAY · LINEAR" : "LINES CHANGED / DAY · LITERAL LINEAR", { exact: true })).toBeVisible();
+  await expect(chart.getByText(compact ? "COMMITS / DAY · LINEAR" : "COMMITS PER DAY · LINEAR", { exact: true })).toBeVisible();
+  await expect(chart.getByText(compact ? "LINES / DAY · LINEAR" : "LINES CHANGED PER DAY · LINEAR", { exact: true })).toBeVisible();
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
   await expect(page.locator("[data-github-scope]")).toHaveText("1 YEAR · DAILY");

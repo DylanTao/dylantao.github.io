@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### Hatched fill for later code-activity sources under high contrast
+
+- **Hypothesis:** Readers who ask for `prefers-contrast: more` could tell the intern band from the personal band by texture as well as hue, so the stacked commit bands would survive grayscale printing and forced-colors modes.
+- **Route:** The Build Rhythm commits panel on `/github-activity/`, only when more than one code-activity source is visible.
+- **Reference:** The dataviz method's texture rule for the CVD/print/forced-colors case; the site's own seam-and-hue treatment shipped in the key redesign.
+- **Licensing:** Site-owned SVG `<pattern>`; no external asset.
+- **Visitor benefit:** Identity of the second source no longer depends on color alone in the one mode where color is deliberately reduced.
+- **Budget:** No new value line; the key swatch must keep matching the band fill exactly, which a `url(#pattern)` paint breaks unless the swatch adopts the same pattern; no change outside the contrast media query.
+- **Status:** `deferred`; the shipped high-contrast treatment raises the alt band to 0.7 opacity and widens the seam to 2px instead.
+- **Evidence:** Olive versus the terracotta Claude area measures OKLab ΔE 15.5–17.0 across the four theme modes, so hue alone now clears the normal-vision floor; no high-contrast user evidence yet.
+- **Sirui decision:** Not yet judged; the seam-and-hue pass was chosen because it keeps swatch equals fill.
+- **Revisit trigger:** A forced-colors or grayscale-print review of the chart, or a third code-activity source.
+
 ### Dot Orbit behind Research Focus
 
 - **Hypothesis:** A clearly perceptible but secondary moving field can make the three research modes feel more alive while the semantic 2D drawing remains the explanation.

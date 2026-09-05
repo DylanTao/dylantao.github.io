@@ -44,7 +44,7 @@ This mirrors the fixed-start rule on the work side, so a truncated or re-scanned
 
 ## How It Renders
 
-`intern` is the second code-activity source, and the figure already distinguishes it without further work. `sourceColor` in `assets/js/github-activity.js` gives the first source the primary accent and every later source `--github-activity-source-alt-color`, defined in `_sass/_github-activity.scss` as a terracotta mixed toward the current text color so it holds up in both the light and dark palettes. Legend swatches read from the same function, so the key and the series never disagree.
+`intern` is the second code-activity source, and the figure distinguishes it with a stacked olive band, a surface-colored seam along its lower edge, per-source readout cells, and the Sources chips in the key strip above the chart. `sourceColor` in `assets/js/github-activity.js` gives the first source the primary accent and every later source `--github-activity-source-alt-color`, defined in `_sass/_github-activity.scss` as a terracotta mixed toward the current text color so it holds up in both the light and dark palettes. Legend swatches read from the same function, so the key and the series never disagree.
 
 Personal history keeps the primary accent, which means a single-source page looks unchanged and adding the intern feed does not restyle existing history.
 

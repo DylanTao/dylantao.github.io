@@ -15,11 +15,18 @@
   --github-activity-codex-color: var(--global-primary-color);
   --github-activity-claude-color: color-mix(in srgb, #d97757 82%, var(--global-text-color));
   // Second and later code-activity sources. The first source keeps the primary
-  // accent so a single-source page is unchanged.
-  --github-activity-source-alt-color: color-mix(in srgb, #c96548 84%, var(--global-text-color));
+  // accent so a single-source page is unchanged. Olive, not orange: the Claude
+  // area on the same figure is terracotta, and the two were indistinguishable
+  // (OKLab dE 4-5) in every theme mode.
+  --github-activity-source-alt-color: color-mix(in srgb, #6f7a1e 90%, var(--global-text-color));
 
   width: 100%;
   padding: clamp(1.5rem, 4vw, 3.5rem) 0 2rem;
+}
+
+html[data-theme="dark"] .github-activity-page,
+html[data-theme-mode="evening"] .github-activity-page {
+  --github-activity-source-alt-color: color-mix(in srgb, #c9c95a 90%, var(--global-text-color));
 }
 
 .github-activity-page button {
@@ -669,6 +676,99 @@
   box-shadow: inset 0 0 0 2px var(--global-text-color-light);
 }
 
+.github-activity-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.6rem 1.5rem;
+  padding: 0.7rem 0 0.35rem;
+}
+
+.github-activity-key-group {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+}
+
+.github-activity-key-label {
+  margin: 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.github-activity-key-items {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.github-activity-key-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--global-text-color);
+  font-family: var(--font-mono);
+  font-size: var(--type-meta);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// Glyphs read the same CSS variables the chart marks read, so a theme change
+// recolors the key without a script and the key can never disagree with the marks.
+.github-activity-key-glyph {
+  width: 1.125rem;
+  height: 0.625rem;
+  flex: none;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.github-activity-key-glyph line {
+  vector-effect: non-scaling-stroke;
+}
+
+.github-activity-key-glyph.is-total line,
+.github-activity-key-glyph.is-gap .is-boundary {
+  stroke: var(--global-text-color-light);
+  stroke-opacity: 0.78;
+  stroke-width: 1.2px;
+}
+
+.github-activity-key-glyph.is-authored line,
+.github-activity-key-glyph.is-gap .is-authored {
+  stroke: var(--global-primary-color);
+  stroke-width: 2.2px;
+}
+
+.github-activity-key-glyph.is-gap rect {
+  fill: var(--global-primary-color);
+  fill-opacity: 0.18;
+}
+
+.github-activity-key-glyph.is-added line {
+  stroke: var(--global-sky-strong);
+  stroke-width: 1.7px;
+}
+
+.github-activity-key-glyph.is-removed line {
+  stroke: var(--global-mint-strong);
+  stroke-width: 1.7px;
+  stroke-dasharray: 4 2;
+}
+
+.github-activity-source-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .github-activity-agent-summary {
   margin: 0 0 1.25rem;
   padding: clamp(1rem, 2.5vw, 1.35rem);
@@ -978,9 +1078,7 @@
 .github-activity-authored-line,
 .github-activity-commit-marker,
 .github-activity-authored-marker,
-.github-activity-commit-legend-total-line,
-.github-activity-commit-legend-gap-band,
-.github-activity-commit-legend-authored-line,
+.github-activity-commit-source-seam,
 .github-activity-agent-rail-line,
 .github-activity-agent-rail-marker,
 .github-activity-agent-rail-inspector-marker,
@@ -988,6 +1086,10 @@
 .github-activity-agent-rail-claude-area,
 .github-activity-agent-rail-total-area {
   vector-effect: non-scaling-stroke;
+}
+
+.github-activity-commit-source-seam {
+  pointer-events: none;
 }
 
 .github-activity-chart text {
@@ -1051,6 +1153,16 @@
   // stays, because it carries the evidence boundary rather than decoration.
   .github-activity-agent-wash-area {
     display: none;
+  }
+
+  // Later sources ask for a denser fill and a wider seam instead of a hatch, so
+  // the key swatch still matches the band fill exactly.
+  .github-activity-commit-source-area[data-source-role="alt"] {
+    fill-opacity: 0.7;
+  }
+
+  .github-activity-commit-source-seam {
+    stroke-width: 2px;
   }
 }
 

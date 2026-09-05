@@ -334,9 +334,13 @@ test("late source bands, filtering, focus, theme, and table stay truthful", asyn
   await expect(sourceAreas).toHaveCount(2);
   await expect(personalButton).toHaveText("Personal");
   await expect(internButton).toHaveText("Intern work");
-  await expect(chart).toContainText("COMMITS / DATE LABEL");
-  await expect(chart).toContainText("LINES CHANGED / DATE LABEL");
+  await expect(chart).toContainText("COMMITS PER DATE LABEL");
+  await expect(chart).toContainText("LINES CHANGED PER DATE LABEL");
   await expect(page.locator("[data-github-scope]")).toHaveText("LIFETIME \u00b7 DATE LABELS");
+  // The encoding key is an HTML strip above the SVG and uses the profile SVG twin's words.
+  await expect(page.locator("[data-chart-key]").getByText("Merges + deploys", { exact: true })).toBeVisible();
+  await expect(chart.locator(".github-activity-commit-source-seam")).toHaveCount(1);
+  await expect(page.locator('[data-source-readout-id="intern"]')).toContainText("Intern work");
 
   const internCoverageGeometry = await chart.evaluate(
     (svg, { lateStart, lifetimeStart, lifetimeEnd }) => {
@@ -400,8 +404,10 @@ test("late source bands, filtering, focus, theme, and table stay truthful", asyn
   await expect(personalButton).toHaveAttribute("aria-pressed", "false");
   await expect(internButton).toHaveAttribute("aria-pressed", "true");
   await expect(sourceAreas).toHaveCount(0);
-  await expect(chart).toContainText("COMMITS / DAY");
-  await expect(chart).toContainText("LINES CHANGED / DAY");
+  await expect(chart.locator(".github-activity-commit-source-seam")).toHaveCount(0);
+  await expect(page.locator("[data-source-readout-id]")).toHaveCount(0);
+  await expect(chart).toContainText("COMMITS PER DAY");
+  await expect(chart).toContainText("LINES CHANGED PER DAY");
   await expect(page.locator("[data-github-scope]")).toHaveText("LIFETIME \u00b7 DAILY");
   await expect(page.locator("#github-activity-range-summary")).toContainText("Jun 15, 2026");
   await expect(page.locator("#github-activity-range-summary")).toContainText("Jul 31, 2026");
