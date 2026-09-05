@@ -31,6 +31,65 @@ layout: default
     {{ content }}
   </article>
 
+  {% if page.collection == 'projects' %}
+    {% comment %}
+      Previous/next follow the projects index order for this category: research by
+      importance, site experiments by debut date (newest first), other playful
+      builds by importance. Projects that redirect elsewhere are skipped.
+    {% endcomment %}
+    {% assign project_siblings = site.projects | where: 'category', page.category | where_exp: 'item', 'item.redirect == nil' %}
+    {% if page.category == 'fun' %}
+      {% if page.site_experiment %}
+        {% assign project_siblings = project_siblings | where: 'site_experiment', true | sort: 'debut_date' | reverse %}
+      {% else %}
+        {% assign project_siblings = project_siblings | where_exp: 'item', 'item.site_experiment != true' | sort: 'importance' %}
+      {% endif %}
+    {% else %}
+      {% assign project_siblings = project_siblings | sort: 'importance' %}
+    {% endif %}
+    {% assign project_previous = null %}
+    {% assign project_next = null %}
+    {% for sibling in project_siblings %}
+      {% if sibling.url == page.url %}
+        {% if forloop.index0 > 0 %}
+          {% assign previous_index = forloop.index0 | minus: 1 %}
+          {% assign project_previous = project_siblings[previous_index] %}
+        {% endif %}
+        {% unless forloop.last %}
+          {% assign next_index = forloop.index0 | plus: 1 %}
+          {% assign project_next = project_siblings[next_index] %}
+        {% endunless %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    <nav class="blog-post-navigation project-navigation" aria-label="More projects">
+      <div class="blog-nav-chronology">
+        {% if project_previous %}
+          <a class="blog-nav-direction blog-nav-direction-older" href="{{ project_previous.url | relative_url }}">
+            <span class="blog-nav-direction-label">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              Previous project
+            </span>
+            <span class="blog-nav-direction-title">{{ project_previous.title }}</span>
+          </a>
+        {% endif %}
+        <a class="blog-nav-direction project-nav-index" href="{{ '/projects/' | relative_url }}#{{ page.category }}">
+          <span class="blog-nav-direction-label">All projects</span>
+          <span class="blog-nav-direction-title">{{ page.category | capitalize }}</span>
+        </a>
+        {% if project_next %}
+          <a class="blog-nav-direction blog-nav-direction-newer" href="{{ project_next.url | relative_url }}">
+            <span class="blog-nav-direction-label">
+              Next project
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </span>
+            <span class="blog-nav-direction-title">{{ project_next.title }}</span>
+          </a>
+        {% endif %}
+      </div>
+    </nav>
+  {% endif %}
+
   {% if page.related_publications %}
     {% capture cited_publications %}{% bibliography --cited_in_order %}{% endcapture %}
     {% if cited_publications contains 'publication-lens-entry' %}

@@ -42,8 +42,9 @@ module.exports = {
       /theme-menu/,
       /theme-toggle/,
       /is-active/,
+      /view-transition/,
     ],
     keyframes: [/^home-/, /^site-/],
-    variables: [/^--global-/, /^--home-/, /^--motion-/, /^--research-motion-/, /^--measure-/, /^--type-/],
+    variables: [/^--global-/, /^--home-/, /^--md-lite-/, /^--motion-/, /^--research-motion-/, /^--measure-/, /^--type-/],
   },
 };

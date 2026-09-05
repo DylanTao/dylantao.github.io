@@ -1,4 +1,5 @@
 what-happened-and-why:
+  teaser_alt: Three-step diagram of a friction point detected in an AI design tool, the utility of asking for a rationale, and the dual-purpose value for product iteration
   accents:
     morning: "#89adbc"
     noon: "#5b91a8"
@@ -9,6 +10,7 @@ what-happened-and-why:
     - "Micro-episodes capture why in flow."
 
 hotspot:
+  teaser_alt: Reconstructed surfaces and their signed distance fields compared across baselines and HotSpot, with the reference shape at the right
   accents:
     morning: "#efbca7"
     noon: "#b5b7e3"
@@ -19,6 +21,7 @@ hotspot:
     - "Surface reconstruction improves under noisy geometry."
 
 designweaver:
+  teaser_alt: Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and an image gallery
   accents:
     morning: "#e7837d"
     noon: "#2765d6"
@@ -43,6 +46,7 @@ openai-build-week:
     - "Every claimed change links to evidence."
 
 physion:
+  teaser_alt: Grid of simulated Physion scenes with objects about to collide, drop, roll, and drape over one another
   accents:
     morning: "#7fa8b8"
     noon: "#4f7892"
@@ -200,6 +204,7 @@ hci-spooder-man:
     - "The serious rejection record stays one click away from the joke."
 
 context-aware-encoding:
+  teaser_alt: Diagram of a tree-of-thoughts context encoding pipeline routing document passages into a language model beside a phone mockup
   accents:
     morning: "#a2b6e5"
     noon: "#7f9ed8"
@@ -210,6 +215,7 @@ context-aware-encoding:
     - "Retrieval becomes easier to inspect."
 
 graphhscn:
+  teaser_alt: Graph neural network architecture diagram with clustered node groups linked by multi-scale edges
   accents:
     morning: "#ebd1ad"
     noon: "#a8cfda"

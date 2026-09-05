@@ -1,4 +1,14 @@
 {% capture footer_contents %}
+  <nav class="footer-links" aria-label="Site links">
+    <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+    {% if site.data.socials.github_username %}
+      <a href="https://github.com/{{ site.data.socials.github_username }}" rel="me noopener">GitHub</a>
+    {% endif %}
+    {% if site.data.socials.email %}
+      <a href="mailto:{{ site.data.socials.email | encode_email }}">Email</a>
+    {% endif %}
+    <a href="{{ '/ai/' | relative_url }}">AI-readable profile</a>
+  </nav>
   &copy; Copyright {{ site.time | date: '%Y' }}
   {{ site.first_name }}
   {{ site.middle_name }}

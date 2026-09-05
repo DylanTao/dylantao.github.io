@@ -480,3 +480,19 @@ document.addEventListener("DOMContentLoaded", () => {
     requestHomeBackTopLift();
   }
 });
+
+// Skip link: focus the main landmark only when the link is used, so ordinary
+// clicks keep focusing the body and existing focus-return logic stays intact.
+(() => {
+  const skipLink = document.querySelector(".skip-link");
+  const main = document.getElementById("main");
+  if (!skipLink || !main) return;
+  skipLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    main.setAttribute("tabindex", "-1");
+    main.addEventListener("blur", () => main.removeAttribute("tabindex"), { once: true });
+    main.focus({ preventScroll: true });
+    main.scrollIntoView({ block: "start" });
+    if (history.replaceState) history.replaceState(null, "", "#main");
+  });
+})();

@@ -39,6 +39,31 @@
 
   --md-lite-motion-emphasized: 260ms cubic-bezier(0.2, 0, 0, 1);
   --md-lite-motion-standard: var(--motion-standard);
+
+  // Spacing ramp. Fixed steps for components, fluid values for section rhythm
+  // and gutters, so new work stops inventing one-off rem and clamp() values.
+  --md-lite-space-1: 0.25rem;
+  --md-lite-space-2: 0.5rem;
+  --md-lite-space-3: 0.75rem;
+  --md-lite-space-4: 1rem;
+  --md-lite-space-5: 1.5rem;
+  --md-lite-space-6: 2rem;
+  --md-lite-space-7: 3rem;
+  --md-lite-space-8: 4rem;
+  --md-lite-space-section: clamp(2.5rem, 6vw, 4.5rem);
+  --md-lite-space-gutter: clamp(0.75rem, 2vw, 1.25rem);
+
+  // Motion durations and easings. The legacy --motion-* shorthands stay as
+  // aliases; the FLIP values match the timing project-cards.js has always used.
+  --md-lite-motion-duration-short: 120ms;
+  --md-lite-motion-duration-standard: 180ms;
+  --md-lite-motion-duration-emphasized: 260ms;
+  --md-lite-motion-duration-long: 420ms;
+  --md-lite-motion-duration-flip: 430ms;
+  --md-lite-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-lite-easing-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-lite-easing-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --md-lite-easing-flip: cubic-bezier(0.18, 0.84, 0.22, 1);
 }
 
 .btn,

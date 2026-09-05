@@ -28,7 +28,9 @@ ul.task-list input[type="checkbox"] {
 // Caption
 
 .caption {
-  font-size: 0.875rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.5;
   margin-top: 0.75rem;
   margin-bottom: 1.5rem;
   text-align: center;

@@ -6,6 +6,35 @@
   display: none;
 }
 
+// One quiet row of destinations above the copyright line. Compact role, no
+// icons, and it stays on one line at 390px.
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1.1rem;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  a {
+    color: var(--global-footer-link-color);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--global-theme-color);
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+      border-radius: 0.2rem;
+    }
+  }
+}
+
 footer.fixed-bottom {
   position: static;
   right: auto;

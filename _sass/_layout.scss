@@ -36,6 +36,38 @@ body {
   }
 }
 
+// Keyboard users get one link that jumps past the fixed chrome. It stays off
+// canvas until it receives focus, so it never shifts layout or paints for
+// pointer users.
+.skip-link {
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 1100;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--md-lite-radius-pill);
+  background: var(--global-card-bg-color);
+  color: var(--global-text-color);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  opacity: 0;
+  pointer-events: none;
+
+  &:focus-visible {
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+    box-shadow: var(--md-lite-elevation-2);
+  }
+}
+
+#main:focus {
+  outline: none;
+}
+
 body.fixed-top-nav {
   // Add some padding for the nav-bar.
   padding-top: 57px;

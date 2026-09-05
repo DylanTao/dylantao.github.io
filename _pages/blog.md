@@ -202,11 +202,8 @@ pagination:
     <div class="blog-section-label" id="blog-pinned-title">Pinned notes</div>
     <div class="blog-pinned-grid{% if featured_posts.size == 1 %} blog-pinned-grid-single{% endif %}">
       {% for start_post in featured_posts limit: 3 %}
-        {% if start_post.external_source == blank %}
-          {% assign start_read_time = start_post.content | number_of_words | divided_by: 180 | plus: 1 %}
-        {% else %}
-          {% assign start_read_time = start_post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-        {% endif %}
+        {% capture start_read_time %}{% include read_time.liquid post=start_post %}{% endcapture %}
+        {% assign start_read_time = start_read_time | strip %}
 
         <a class="blog-pinned-card blog-start-link" href="{{ start_post.url | relative_url }}">
           <span class="blog-start-kicker">Start here</span>
@@ -239,11 +236,8 @@ pagination:
 
     {% for post in postlist %}
 
-    {% if post.external_source == blank %}
-      {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-    {% else %}
-      {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-    {% endif %}
+    {% capture read_time %}{% include read_time.liquid post=post %}{% endcapture %}
+    {% assign read_time = read_time | strip %}
     {% assign year = post.date | date: "%Y" %}
     {% assign display_tags = '' | split: '' %}
     {% if post.tags %}

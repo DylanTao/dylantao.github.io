@@ -5,8 +5,12 @@
   const cards = Array.from(document.querySelectorAll("[data-project-card]"));
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const status = document.querySelector("[data-project-card-status]");
+  // The duration comes from the shared motion token (430ms); the literal is the
+  // same value and stands in when a stylesheet has not loaded. The easing stays
+  // a literal here because it is the FLIP identity contract other code compares.
+  const rootStyle = getComputedStyle(document.documentElement);
   const flipTiming = {
-    duration: 430,
+    duration: parseFloat(rootStyle.getPropertyValue("--md-lite-motion-duration-flip")) || 430,
     easing: "cubic-bezier(.18, .84, .22, 1)",
   };
   let activeCard = null;

@@ -17,6 +17,7 @@
 
   <!-- Body -->
   <body class="{% if page.home_experience %}home-body{% endif %} {% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %}">
+    <a class="skip-link" href="#main">Skip to content</a>
     <!-- Header -->
     {% include header.liquid %}
 
@@ -36,7 +37,7 @@
       {% assign toc_sidebar_class = 'col-md-3 col-lg-2' %}
       {% assign toc_main_class = 'col-md-9 col-lg-10' %}
     {% endif %}
-    <div class="{{ main_container_class }} {{ main_container_spacing_class }}" role="main">
+    <div id="main" class="{{ main_container_class }} {{ main_container_spacing_class }}" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row toc-layout toc-layout-right">

@@ -66,7 +66,8 @@
 {% if blog_nav_read_next or blog_nav_show_older or blog_nav_show_newer %}
   <nav class="blog-post-navigation" aria-label="Blog post navigation">
     {% if blog_nav_read_next %}
-      {% assign blog_nav_read_time = blog_nav_read_next.content | number_of_words | divided_by: 180 | plus: 1 %}
+      {% capture blog_nav_read_time %}{% include read_time.liquid post=blog_nav_read_next %}{% endcapture %}
+      {% assign blog_nav_read_time = blog_nav_read_time | strip %}
       <a class="blog-nav-read-next" href="{{ blog_nav_read_next.url | relative_url }}">
         <span class="blog-nav-read-next-copy">
           <span class="blog-nav-kicker">Read next</span>

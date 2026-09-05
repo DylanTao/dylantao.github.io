@@ -1,0 +1,9 @@
+{%- comment -%}
+  Estimated minutes to read a post at 180 words per minute; external posts use their feed content.
+  Usage: {% capture minutes %}{% include read_time.liquid post=post %}{% endcapture %}
+{%- endcomment -%}
+{%- if include.post.external_source == blank -%}
+  {{- include.post.content | number_of_words | divided_by: 180 | plus: 1 -}}
+{%- else -%}
+  {{- include.post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 -}}
+{%- endif -%}

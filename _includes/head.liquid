@@ -112,6 +112,19 @@
 {% endif %}
 {% assign main_css_version = site.time | date: '%Y%m%d%H%M%S' %}
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ main_css_version }}">
+{% unless page.ai_profile or page.home_experience or page.secret_globe %}
+  {% comment %}
+    Same-origin navigations between two opted-in documents crossfade the page
+    while the fixed chrome persists. The AI profile, the homepage (its entry
+    motion belongs to the desk scene), and the hidden page stay hard cuts.
+    Reduced motion turns the transition into an instant swap in _transitions.scss.
+  {% endcomment %}
+  <style>
+    @view-transition {
+      navigation: auto;
+    }
+  </style>
+{% endunless %}
 {% if page.layout == 'cv' and site.plugins contains 'al_folio_cv' and site.al_folio.features.cv.enabled != false %}
   <link rel="stylesheet" href="{{ '/assets/css/al-folio-cv.css' | relative_url | bust_file_cache }}">
 {% endif %}

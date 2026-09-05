@@ -1,0 +1,40 @@
+/*******************************************************************************
+ * Cross-document view transitions.
+ *
+ * One root crossfade on same-origin navigation so the page explains itself:
+ * the fixed navbar and progress bar persist while the content changes. The
+ * opt-in lives in head.liquid per document; this file only shapes timing and
+ * keeps chrome from crossfading with itself. Reduced motion makes every
+ * navigation an instant swap.
+ ******************************************************************************/
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--md-lite-motion-duration-standard);
+  animation-timing-function: var(--md-lite-easing-standard);
+}
+
+#navbar {
+  view-transition-name: site-navbar;
+}
+
+#progress {
+  view-transition-name: site-progress;
+}
+
+::view-transition-group(site-navbar),
+::view-transition-group(site-progress),
+::view-transition-old(site-navbar),
+::view-transition-new(site-navbar),
+::view-transition-old(site-progress),
+::view-transition-new(site-progress) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

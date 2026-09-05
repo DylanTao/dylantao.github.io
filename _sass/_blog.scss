@@ -1328,3 +1328,30 @@ body.sirui-secret-dialog-open {
     transform: none;
   }
 }
+
+// Rows with and without a thumbnail keep the same text measure, so the index
+// reads as one column with images beside it rather than two layouts.
+@media (min-width: 576px) {
+  .post-list li > h3,
+  .post-list li > p,
+  .post-list li > .post-tags {
+    max-width: 75%;
+  }
+}
+
+.post-list .blog-post-thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--md-lite-radius-md);
+  object-fit: cover;
+}
+
+.post-list .col-sm-3 figure {
+  margin: 0;
+}
+
+// Project pages reuse the blog navigation grammar for previous/next/index.
+.project-navigation {
+  margin-top: 2.5rem;
+}

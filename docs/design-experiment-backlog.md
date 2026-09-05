@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### Cross-document continuity for same-origin navigation
+
+- **Hypothesis:** A short root crossfade between pages, with the navbar and progress bar held still, lets a reader keep their place in the site's chrome while the content changes, replacing a white flash with continuity.
+- **Route:** Every same-origin navigation between two opted-in documents; the AI profile, the homepage, and the hidden page are not opted in, so navigations to or from them stay hard cuts.
+- **Reference:** The CSS View Transitions Level 2 cross-document API; the site's own explain-the-page motion rules.
+- **Licensing:** Platform feature; no external code.
+- **Visitor benefit:** Object constancy for the chrome and a calmer page change, at the standard 180 ms duration, once per navigation.
+- **Budget:** Pure opacity on the root snapshot, no element morphs, no clipping; browsers without support or with reduced motion get an instant swap; captures in the visual harness are unaffected because they navigate with `page.goto` and disable animations.
+- **Status:** `prototype`; awaiting Sirui's judgment on a live click-through in all four theme modes.
+- **Evidence:** Stylesheet emitted per document from `_includes/head.liquid`; timing in `_sass/_transitions.scss`; PurgeCSS safelists the pseudo-elements.
+- **Sirui decision:** Not yet judged. Card-to-hero element morphs were considered and set aside because they would compete with the projects index's FLIP identity contract.
+- **Revisit trigger:** Sirui's live review, or any report of a flash, a doubled navbar, or a stuck transition.
+
 ### Hatched fill for later code-activity sources under high contrast
 
 - **Hypothesis:** Readers who ask for `prefers-contrast: more` could tell the intern band from the personal band by texture as well as hue, so the stacked commit bands would survive grayscale printing and forced-colors modes.
