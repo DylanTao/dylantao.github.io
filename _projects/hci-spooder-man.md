@@ -44,7 +44,7 @@ spooder_project: true
     </div>
   </div>
   <div class="project-case-media hci-spooder-hero-media" data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
-    {% include figure.liquid loading="eager" path=spooder.hero.teaser title="HCI Spooder-Man remix artwork" alt="Playful HCI Spooder-Man remix artwork from a set of city scenes, character lineups, and title cards" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path=spooder.hero.teaser width="3835" height="1588" title="HCI Spooder-Man remix artwork" alt="Playful HCI Spooder-Man remix artwork from a set of city scenes, character lineups, and title cards" class="img-fluid" %}
   </div>
 </section>
 

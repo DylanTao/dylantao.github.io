@@ -35,7 +35,7 @@ hide_title: true
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/publication_preview/physion-card.webp" title="Physion scenarios" alt="Grid of simulated Physion scenes with objects about to collide, drop, roll, and drape over one another" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/publication_preview/physion-card.webp" width="480" height="242" title="Physion scenarios" alt="Grid of simulated Physion scenes with objects about to collide, drop, roll, and drape over one another" class="img-fluid" %}
   </div>
 </section>
 

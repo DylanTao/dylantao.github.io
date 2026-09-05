@@ -16,14 +16,28 @@ Protect these concerns in order when a scene improvement creates a tradeoff:
 
 ## Known Inspection Targets
 
-Treat these as unresolved until current rendered evidence proves them complete:
+Treat these as unresolved until current rendered evidence proves them complete. The evidence column names the automated cases in `test/visual/desk-scene.spec.js` that currently touch each target; "none" means only a human review can close it today.
 
-- Full 360 room yaw, especially believable rear-wall clearance at 180 degrees.
-- Shared interior/exterior anchors: cave opening, window, floor, desk, onsen, lounge massing, plinth, cliff, and camera targets.
-- Visible thickness or curved geometry when orbiting albums, papers, furniture, room shell, floor, pool, desk objects, and exterior forms.
-- Default-view legibility of the turntable/tonearm, four rack sleeves, A4 project titles, onsen/lizard/lap desk, and lounge chair/ottoman.
-- Mobile 2D/3D switching, controls, usage tag, object focus, window transition, and return path without overlap or cropped primary media.
-- Coastal water, foam, wet sand, and gust motion that feels physically motivated without a heavy simulation or constant offscreen work.
+| Target                                                                                                                                  | Current automated evidence                                                                                                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Full 360 room yaw, especially believable rear-wall clearance at 180 degrees                                                             | Drag and zoom change pixels (`desk scene 2D and 3D defaults react to drag and zoom`); rear-wall clearance itself: none                                                                                                                                             |
+| Shared interior/exterior anchors: cave opening, window, floor, desk, onsen, lounge massing, plinth, cliff, and camera targets           | `compact desk scene preserves the cliff window anchor and return path`; `desktop desk scene enters outside only by window click and returns`                                                                                                                       |
+| Visible thickness or curved geometry when orbiting albums, papers, furniture, room shell, floor, pool, desk objects, and exterior forms | none                                                                                                                                                                                                                                                               |
+| Default-view legibility of the turntable/tonearm, four rack sleeves, A4 project titles, onsen/lizard/lap desk, and lounge chair/ottoman | `dark desk materials preserve interior, floor evidence, and cliff hierarchy`; `desk scene window guidance reveals a legible hover and zoom label`; object-by-object legibility: none                                                                               |
+| Mobile 2D/3D switching, controls, usage tag, object focus, window transition, and return path without overlap or cropped primary media  | `mobile coarse-pointer controls work through touch input`; `tablet desk media yields the global back-to-top control in 2D and 3D`; `coastal theme chrome fits a 720px high-DPR viewport`; `coastal chrome reflows at 200% text resize with genuine keyboard order` |
+| Coastal water, foam, wet sand, and gust motion that feels physically motivated without a heavy simulation or constant offscreen work    | `four coastal desk palettes stay distinct and readable` (color only); `offscreen desk animation idles and resumes without losing spin state` (idle budget); motion quality itself: none                                                                            |
+
+## Assets And Provenance
+
+The scene is deliberately procedural; these are the only shipped inputs:
+
+- `assets/js/three.module.min.js`: Three.js r164 (MIT; the license header is retained in the file), loaded by dynamic import from `assets/js/home.js` on the homepage only.
+- Three owned JPEG portraits under `assets/img/home/` (`sirui_dog.jpg`, `sirui_lizard.jpg`, `sirui_capy.jpg`) and `sam-money-altman.png` for the tally tooltip.
+- Four time-of-day coffee-stain SVGs under `assets/img/home/` (`coffee-stain-{morning,noon,afternoon,evening}.svg`).
+- About twenty-one canvas textures generated at runtime (floorboards, ocean foam, sand, cliff striation, onsen water and steam, the lap-desk screen, chair wood and cushion, record labels); no `.glb`, `.gltf`, `.hdr`, or `.ktx2` files.
+- Paper Shaders, vendored under `assets/vendor/paper-shaders/0.0.80/` (Apache-2.0, with license, notice, and per-file hashes), used by the Research Focus field rather than the desk scene itself.
+
+Any new external asset must record its source, license, and integrity here before it is downloaded into the repo.
 
 ## Non-Goals
 

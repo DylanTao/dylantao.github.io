@@ -35,7 +35,7 @@ hide_title: true
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/publication_preview/hotspot.png" title="HotSpot teaser" alt="Reconstructed surfaces and their signed distance fields side by side, comparing an eikonal baseline with HotSpot" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/publication_preview/hotspot.png" width="1373" height="308" title="HotSpot teaser" alt="Reconstructed surfaces and their signed distance fields side by side, comparing an eikonal baseline with HotSpot" class="img-fluid" %}
   </div>
 </section>
 

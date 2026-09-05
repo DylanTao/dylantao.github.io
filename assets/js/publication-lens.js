@@ -56,6 +56,15 @@
 
   const citationWord = (count) => (Number(count) === 1 ? "citation" : "citations");
 
+  // The bar names itself from its visible count and year; these hidden spans
+  // supply the connecting words so the name always contains the visible text.
+  const setYearBarName = (bar, connector, detail = "") => {
+    const srLabel = bar.querySelector("[data-year-sr-label]");
+    const srDetail = bar.querySelector("[data-year-sr-detail]");
+    if (srLabel) srLabel.textContent = connector;
+    if (srDetail) srDetail.textContent = detail;
+  };
+
   const visibleYearTotal = (bar) => Number(bar.dataset.visibleTotal || bar.dataset.yearTotal || 0);
 
   const paperTitle = (entry) => {
@@ -72,7 +81,7 @@
     delete bar.dataset.paperShare;
     delete bar.dataset.paperShareTotal;
     bar.removeAttribute("title");
-    bar.setAttribute("aria-label", `${bar.dataset.year}: ${visibleTotal} ${citationWord(visibleTotal)} in the active lens`);
+    setYearBarName(bar, `${citationWord(visibleTotal)} in the active lens for`);
   };
 
   const resetYearPaperShares = () => {
@@ -105,7 +114,7 @@
       bar.style.setProperty("--paper-share-height", `${paperShareHeight}%`);
       if (label) label.textContent = `${contribution}`;
       bar.title = shareLabel;
-      bar.setAttribute("aria-label", `${bar.dataset.year}: ${shareLabel}, ${roundedShare}% of active-lens ${citationWord(visibleTotal)}`);
+      setYearBarName(bar, `of ${visibleTotal} ${citationWord(visibleTotal)} in the active lens for`, `from ${title}, ${roundedShare}% of the year`);
       activeCitations += contribution;
     });
 

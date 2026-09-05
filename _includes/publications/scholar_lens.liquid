@@ -153,14 +153,17 @@
               data-year-total="{{ year_bucket.total }}"
               data-year-papers="{{ contribution_pairs | strip }}"
               style="--year-ratio: {{ year_ratio }}%;"
-              aria-label="{{ year_bucket.year }}: {{ year_bucket.total }} citations"
             >
               <span class="scholar-lens-year-count" data-year-total-label>{{ year_bucket.total }}</span>
+              <span class="sr-only" data-year-sr-label>
+                {%- if year_bucket.total == 1 %}citation{% else %}citations{% endif %} in</span
+              >
               <span class="scholar-lens-year-track">
                 <span class="scholar-lens-year-fill"></span>
                 <span class="scholar-lens-year-share" data-year-paper-share aria-hidden="true"></span>
               </span>
               <span class="scholar-lens-year-label">{{ year_bucket.year }}</span>
+              <span class="sr-only" data-year-sr-detail></span>
             </button>
           {% endfor %}
         </div>

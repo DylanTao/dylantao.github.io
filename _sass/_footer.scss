@@ -74,6 +74,19 @@ footer.sticky-bottom {
   }
 }
 
+// Links inside the copyright sentence are told apart by an underline rather
+// than by color alone; the mono link row above carries its own weight.
+footer .container > a:not(.mobile-back-to-top) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
 @media (max-width: 575px) {
   #back-to-top {
     display: none !important;

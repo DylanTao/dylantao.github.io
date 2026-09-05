@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (panel !== exceptPanel) {
         panel.classList.remove("open");
         panel.setAttribute("aria-hidden", "true");
+        panel.setAttribute("inert", "");
       }
     });
 
@@ -97,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         closePanels(scope, shouldOpen ? panel : null);
         panel.classList.toggle("open", shouldOpen);
         panel.setAttribute("aria-hidden", String(!shouldOpen));
+        panel.toggleAttribute("inert", !shouldOpen);
         link.setAttribute("aria-expanded", String(shouldOpen));
       });
     });

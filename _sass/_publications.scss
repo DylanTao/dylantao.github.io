@@ -1256,6 +1256,10 @@ body.rejection-meme-viewer-open {
   line-height: 1;
   text-decoration: none;
 
+  span {
+    color: inherit;
+  }
+
   &:hover,
   &:focus-visible {
     border-color: var(--global-primary-fill-hover-color);

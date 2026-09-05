@@ -243,7 +243,8 @@
 
     {% if publication_context_entry %}
       <details class="publication-why-cite" data-publication-why-cite="{{ entry.key }}">
-        <summary aria-label="When {{ entry.title | escape }} helps">
+        <summary>
+          <span class="sr-only">{{ entry.title | escape }}:</span>
           <span class="publication-why-cite-title">When this paper helps.</span>
           <span class="publication-why-cite-meta">{{ publication_context_entry.human.fit }}</span>
           <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
@@ -485,21 +486,21 @@
 
     {% if entry.award %}
       <!-- Hidden Award block -->
-      <div id="{{ entry_dom_id }}-award" class="award hidden d-print-inline" aria-hidden="true">
+      <div id="{{ entry_dom_id }}-award" class="award hidden d-print-inline" aria-hidden="true" inert>
         <p>{{ entry.award | markdownify }}</p>
       </div>
     {% endif %}
 
     {% if entry.abstract %}
       <!-- Hidden abstract block -->
-      <div id="{{ entry_dom_id }}-abstract" class="abstract hidden" aria-hidden="true">
+      <div id="{{ entry_dom_id }}-abstract" class="abstract hidden" aria-hidden="true" inert>
         <p>{{ entry.abstract }}</p>
       </div>
     {% endif %}
 
     {% if entry.bibtex_show %}
       <!-- Hidden bibtex block -->
-      <div id="{{ entry_dom_id }}-bibtex" class="bibtex hidden" aria-hidden="true">
+      <div id="{{ entry_dom_id }}-bibtex" class="bibtex hidden" aria-hidden="true" inert>
         {% highlight bibtex %}
         {{- publication_context_entry.citation.bibtex -}}
         {% endhighlight %}
@@ -508,7 +509,7 @@
 
     {% if entry.video and site.enable_video_embedding %}
       <!-- Hidden video block -->
-      <div id="{{ entry_dom_id }}-video" class="abstract hidden" aria-hidden="true">
+      <div id="{{ entry_dom_id }}-video" class="abstract hidden" aria-hidden="true" inert>
         <div style="text-align: center;">{% include video.liquid path=entry.video class="img-fluid rounded z-depth-1" controls=true %}</div>
       </div>
     {% endif %}

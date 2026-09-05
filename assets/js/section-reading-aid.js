@@ -2,7 +2,9 @@
   const MIN_SECTION_COUNT = 2;
   const SECTION_CUE_DURATION_MS = 2200;
   const SKIPPED_HEADINGS = new Set(["bibtex", "references"]);
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Read the preference when scrolling happens, not once at load, so a visitor
+  // who toggles reduced motion mid-read is honored immediately.
+  const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const mobileReadingAidQuery = window.matchMedia("(max-width: 1599.98px), (max-aspect-ratio: 1/1)");
   let mobileNavId = 0;
 
@@ -134,7 +136,7 @@
 
   const scrollToHeading = (heading) => {
     heading.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
+      behavior: reduceMotionQuery.matches ? "auto" : "smooth",
       block: "start",
     });
   };

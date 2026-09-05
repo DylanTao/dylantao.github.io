@@ -7,6 +7,32 @@ A staged, restrained plan for the next passes over this site. It was drafted on 
 
 Every item obeys `WEBSITE_DESIGN_HEURISTICS.md` (Decision Order first), `docs/design-experiment-backlog.md` (a full entry before any new visual idea ships), and `AGENTS.md` (iterate one route/state/viewport/theme, checkpoint explicit routes, full matrix only at release, overrides audit for every touched plugin override, ledger gate before pushes).
 
+## Status (2026-09-05)
+
+Shipped on `main` in the first pass after the roadmap was written:
+
+- Stage 1: skip link and `#main` landmark (focus moves only when the link is used); `--md-lite-space-*`, `--md-lite-motion-duration-*`, and `--md-lite-easing-*` tokens, with the projects FLIP reading its duration from the token; the reading aid reads the reduced-motion preference live.
+- Stage 2: previous/next/all-projects navigation on every project page; one text measure and one 4:5 thumbnail shape on the blog index; a shared `read_time` include; descriptive alt text for the six research cards; the caption rule on the compact type role; footer row with RSS, GitHub, Email, and the AI-readable profile.
+- Stage 3: the root view-transition crossfade (homepage, AI profile, and hidden page opted out; reduced motion is an instant swap), recorded in the design backlog as `prototype` pending Sirui's live review.
+- Accessibility and stability pass from the Lighthouse baseline: collapsed publication panels are `inert` (the copy button inside a closed Bib block was a hidden tab stop on the homepage, publications, and every project page with a citation), footer sentence links are underlined, the Spooder CTA label inherits its button color in every theme, Scholar Lens year bars name themselves from their visible text, and sixteen project figures declare intrinsic dimensions (DesignWeaver's 0.111 layout shift was the summary block moving when the hero image arrived). Re-measured on the same local serve: DesignWeaver accessibility 92 to 100 and layout shift 0.111 to 0.006, publications accessibility 90 to 100, homepage accessibility 90 to 97 with only the desk-mode switch target left.
+
+Still open: the focus mixin migration, the accessibility spec additions, purge-parity as a documented lane, the hidden page's CSS/JS extraction and unlocked-state spec, the `what-happened-and-why` inline-style extraction, the desk-mode switch button's tap target (Lighthouse measures it under 24 px; scene lane), and every GPT-6 and Sirui-decision item below.
+
+### Lighthouse baseline (2026-09-05, desktop preset, local static serve of the production build)
+
+Local serving removes network latency, so the byte totals and blocking time are the meaningful columns; treat scores as relative, not as the deployed number.
+
+| Route                                      | Perf | A11y | BP  | SEO | LCP   | CLS   | TBT      | Transferred | LCP element       |
+| ------------------------------------------ | ---- | ---- | --- | --- | ----- | ----- | -------- | ----------- | ----------------- |
+| `/` (homepage with desk scene)             | 43   | 90   | 100 | 100 | 3.1 s | 0.003 | 2,710 ms | 13.4 MB     | `h1.home-title`   |
+| `/projects/`                               | 72   | 96   | 100 | 100 | 2.9 s | 0.003 | 230 ms   | 7.8 MB      | first card image  |
+| `/blog/`                                   | 58   | 96   | 100 | 100 | 1.7 s | 0.008 | 450 ms   | 3.3 MB      | post title        |
+| `/publications/`                           | 64   | 90   | 100 | 100 | 3.8 s | 0.036 | 230 ms   | 18.6 MB     | publication title |
+| `/projects/designweaver/`                  | 72   | 92   | 100 | 100 | 2.5 s | 0.111 | 230 ms   | 2.7 MB      | case hero section |
+| `/blog/2026/research-skills-starter-pack/` | 81   | 96   | 100 | 100 | 1.5 s | 0.008 | 220 ms   | 1.7 MB      | paragraph         |
+
+What this says: accessibility is already high everywhere (the remaining points are contrast and link-name audits worth a pass); performance is a weight problem, not a script problem, on every route except the homepage, whose 2.7 s of blocking time is the Three.js scene boot (scene lane). Publications and projects ship multi-megabyte preview images and GIFs; the gallery originals and `physion++.gif` (6.9 MB) are the largest single wins. DesignWeaver's 0.111 layout shift points at a hero image without reserved dimensions. Reports live under `.jekyll-cache/lighthouse/` and are not committed.
+
 ## Ground truths that shape the sequencing
 
 - PurgeCSS runs only in CI deploy (`.github/workflows/deploy.yml`) and `bin/deploy`; local lanes serve unpurged builds. The gap is purge parity, not wiring.

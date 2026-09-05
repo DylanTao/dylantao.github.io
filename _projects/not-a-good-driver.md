@@ -33,7 +33,7 @@ hide_title: true
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser.png" title="Not A Good Driver concept artwork" alt="Illustrative low-poly concept artwork with drivers on a winding suspended road and spectators watching from a cliff" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser.png" width="1536" height="1024" title="Not A Good Driver concept artwork" alt="Illustrative low-poly concept artwork with drivers on a winding suspended road and spectators watching from a cliff" class="img-fluid" %}
   </div>
 </section>
 

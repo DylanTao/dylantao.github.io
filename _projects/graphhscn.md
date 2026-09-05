@@ -32,7 +32,7 @@ hide_title: true
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/project_pics/graphhscn/graphhscn-teaser.png" title="GraphHSCN teaser" alt="Graph neural network clusters with long-range connections and layered message passing" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/project_pics/graphhscn/graphhscn-teaser.png" width="1672" height="941" title="GraphHSCN teaser" alt="Graph neural network clusters with long-range connections and layered message passing" class="img-fluid" %}
   </div>
 </section>
 

@@ -526,7 +526,7 @@ _styles: |
 
       <aside class="trace-hero-evidence" aria-label="Micro-episode lifecycle diagram">
         <div class="trace-figure-shell">
-          {% include figure.liquid loading="eager" path="assets/img/publication_preview/herding_cats_why_what.png" title="Micro-episode lifecycle diagram" alt="Diagram showing a trace-guided micro-episode lifecycle: detect friction, offer a context-aware control, collect user rationale, and diagnose product iteration" class="img-fluid rounded z-depth-1" %}
+          {% include figure.liquid loading="eager" path="assets/img/publication_preview/herding_cats_why_what.png" width="1376" height="590" title="Micro-episode lifecycle diagram" alt="Diagram showing a trace-guided micro-episode lifecycle: detect friction, offer a context-aware control, collect user rationale, and diagnose product iteration" class="img-fluid rounded z-depth-1" %}
         </div>
         <div class="trace-caption">
           Trace-guided micro-episodes pair what users did with a lightweight explanation of why the moment mattered.

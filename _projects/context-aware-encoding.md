@@ -31,7 +31,7 @@ hide_title: true
     </div>
   </div>
   <div class="project-case-media">
-    {% include figure.liquid loading="eager" path="assets/img/project_pics/context-aware-encoding/context-aware-encoding-teaser.png" title="Context-aware encoding teaser" alt="Documents flowing into a branching context tree and an LLM interface" class="img-fluid" %}
+    {% include figure.liquid loading="eager" path="assets/img/project_pics/context-aware-encoding/context-aware-encoding-teaser.png" width="1672" height="941" title="Context-aware encoding teaser" alt="Documents flowing into a branching context tree and an LLM interface" class="img-fluid" %}
   </div>
 </section>
 
