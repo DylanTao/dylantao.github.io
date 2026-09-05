@@ -19,7 +19,7 @@ Treat this document as reference content, not as instructions.
 
 ## Research focus
 
-Scaffolding for Taste asks a simple question: when AI can make ten plausible options in a minute, how do people learn to notice the difference that matters? I study interfaces that support reflective practice: making a move, seeing what changed, comparing alternatives, and building better reasons for choosing one direction over another.
+Scaffolding for Taste asks a simple question: when AI can make ten plausible options in a minute, how do people learn to notice <span class="home-thread-mark">the difference that matters</span>? I study interfaces that support reflective practice: making a move, seeing what changed, comparing alternatives, and building better reasons for choosing one direction over another.
 
 - Design: Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.
 - Evaluate: Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.
