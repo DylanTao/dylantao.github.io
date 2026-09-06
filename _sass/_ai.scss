@@ -65,7 +65,10 @@
 .ai-view-page {
   max-width: min(100%, 1120px);
   margin-inline: auto;
-  padding-bottom: clamp(2rem, 6vw, 5rem);
+  // The last section (Sources) must be able to land at its scroll margin when a
+  // reader jumps to it from the header, so the page keeps room below the credit
+  // instead of relying on the site footer's height for that slack.
+  padding-bottom: clamp(6rem, 6vw, 8rem);
 }
 
 .ai-profile-header {
