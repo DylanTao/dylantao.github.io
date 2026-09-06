@@ -42,22 +42,24 @@
       {% endif %}
     </div>
 
-    <div class="home-motion-stage" data-research-motion>
-      <div
-        class="home-motion-paper-field"
-        data-paper-research-field
-        data-paper-shader-state="pending"
-        aria-hidden="true"
-      ></div>
-      <canvas data-research-motion-canvas aria-hidden="true"></canvas>
-      {% if site.enable_darkmode %}
-        {% include theme_mode_control.liquid id_prefix='motion-theme' class='home-motion-theme-control' %}
-      {% endif %}
-      <div class="home-motion-readout" aria-hidden="true">
-        <span data-research-motion-readout>{{ initial_motion_label }}</span>
-        <strong>{{ initial_motion_summary }}</strong>
+    <div class="home-motion-stage-well">
+      <div class="home-motion-stage" data-research-motion>
+        <div
+          class="home-motion-paper-field"
+          data-paper-research-field
+          data-paper-shader-state="pending"
+          aria-hidden="true"
+        ></div>
+        <canvas data-research-motion-canvas aria-hidden="true"></canvas>
+        {% if site.enable_darkmode %}
+          {% include theme_mode_control.liquid id_prefix='motion-theme' class='home-motion-theme-control' %}
+        {% endif %}
+        <div class="home-motion-readout" aria-hidden="true">
+          <span data-research-motion-readout>{{ initial_motion_label }}</span>
+          <strong>{{ initial_motion_summary }}</strong>
+        </div>
+        <p class="sr-only" data-research-motion-status>Showing the {{ initial_motion_label }} motion sketch. {{ initial_motion_summary }}</p>
       </div>
-      <p class="sr-only" data-research-motion-status>Showing the {{ initial_motion_label }} motion sketch. {{ initial_motion_summary }}</p>
     </div>
 
     {% if page.research_motion.modes %}

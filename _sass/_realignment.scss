@@ -212,6 +212,9 @@
 
 .designweaver-case::before {
   background-image: url("../img/paper-shaders/designweaver-static-mesh-0.0.80.webp");
+  // The field belongs to the title and figure, not the scroll steps below them, and
+  // it fades out before the hero's box so no edge shows against the page ground.
+  mask-image: radial-gradient(ellipse 60% 30rem at 50% 22rem, #000 18%, transparent 74%);
   opacity: 0.28;
 }
 
