@@ -1,15 +1,5 @@
 {% capture footer_contents %}
-  <nav class="footer-links" aria-label="Site links">
-    <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
-    {% if site.data.socials.github_username %}
-      <a href="https://github.com/{{ site.data.socials.github_username }}" rel="me noopener">GitHub</a>
-    {% endif %}
-    {% if site.data.socials.email %}
-      <a href="mailto:{{ site.data.socials.email | encode_email }}">Email</a>
-    {% endif %}
-    <a href="{{ '/ai/' | relative_url }}">AI-readable profile</a>
-  </nav>
-  &copy; Copyright {{ site.time | date: '%Y' }}
+  &copy; {{ site.time | date: '%Y' }}
   {{ site.first_name }}
   {{ site.middle_name }}
   {{ site.last_name }}. {{ site.footer_text }}
@@ -17,7 +7,7 @@
     <a href="{{ site.url }}{{ site.baseurl }}{{ site.impressum_path }}">Impressum</a>.
   {% endif %}
   {% if site.last_updated %}
-    Last updated: {{ 'now' | date: '%B %d, %Y' }}.
+    Updated {{ 'now' | date: '%B %-d, %Y' }}.
   {% endif %}
   <a class="mobile-back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
 {% endcapture %}

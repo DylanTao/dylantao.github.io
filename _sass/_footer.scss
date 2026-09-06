@@ -6,42 +6,6 @@
   display: none;
 }
 
-// One quiet row of destinations above the copyright line, in the same face and
-// weight as the sentence below it, separated by hairline dots. Stays on one
-// line at 390px.
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  gap: 0.2rem 0;
-  margin-bottom: 0.3rem;
-  font-weight: 500;
-
-  a {
-    color: var(--global-footer-link-color);
-    text-decoration: none;
-    padding: 0 0.7rem;
-
-    &:hover,
-    &:focus-visible {
-      color: var(--global-theme-color);
-      text-decoration: underline;
-      text-underline-offset: 0.16em;
-    }
-
-    &:focus-visible {
-      outline: var(--md-lite-focus-ring);
-      outline-offset: 2px;
-      border-radius: 0.2rem;
-    }
-
-    & + a {
-      border-left: 1px solid color-mix(in srgb, var(--global-footer-text-color) 28%, transparent);
-    }
-  }
-}
-
 footer.fixed-bottom {
   position: static;
   right: auto;
@@ -81,8 +45,9 @@ footer.sticky-bottom {
   }
 }
 
-// Links inside the copyright sentence are told apart by an underline rather
-// than by color alone; the mono link row above carries its own weight.
+// The footer is one short sentence: copyright, the al-folio credit, and the
+// update date. Its links are told apart by an underline rather than by color
+// alone.
 footer .container > a:not(.mobile-back-to-top) {
   text-decoration: underline;
   text-decoration-thickness: 1px;

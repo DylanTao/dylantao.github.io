@@ -37,7 +37,8 @@
   --home-coffee-stain-image: url("../img/home/coffee-stain-noon.svg");
   --home-coffee-stain-opacity: 0.88;
 
-  padding-bottom: clamp(1.25rem, 4vw, 2.25rem);
+  // One short breath before the footer; the last section's own padding does the rest.
+  padding-bottom: 0.75rem;
   color: var(--home-ink);
   overflow-x: clip;
 }
@@ -62,7 +63,7 @@ body.home-body > .container[role="main"] {
 
 body.home-body footer.fixed-bottom {
   position: static !important;
-  margin-top: clamp(0.65rem, 1.2vw, 0.9rem);
+  margin-top: 0;
 }
 
 body.home-body #back-to-top {

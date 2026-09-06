@@ -132,8 +132,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/footer.liquid
     upstream_sha256: 65219faad5445eb4456649d77921acd07845875bbcad4fb8f33b12b3d52d96d2
-    local_sha256: 4b6f3aa8c20ec682aaceca3ab2471467a25a50bd91440076a5da8515863397fb
-    acknowledged_at: "2026-09-04"
+    local_sha256: c5406a06e11ff00c1d168b3027394a6125647e83f54b25a1b71187b679edb32d
+    acknowledged_at: "2026-09-06"
   _includes/giscus.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -363,8 +363,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_footer.scss
     upstream_sha256: 4deed90ecd397f9c2e69468172020c6a0ab2c793fd7a3c957fbf44d47e7f537a
-    local_sha256: d8ae5510c40c92e4c8b1991f4420316d284b2ffacedb6da6e41efebd813c9c5d
-    acknowledged_at: "2026-09-05"
+    local_sha256: d3b277674f1c09f213cc22aebc931eb0a863e90c7f79853bc080d3695be905b4
+    acknowledged_at: "2026-09-06"
   _sass/_layout.scss:
     owner: al_folio_core
     gem_version: 1.0.11

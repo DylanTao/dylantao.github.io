@@ -8036,8 +8036,19 @@
       window.setTimeout(() => portrait.classList.remove("is-record-card-found"), 520);
     };
 
+    let pendingRecordAdvance = 0;
+
     const dropRecordCard = async (options = {}) => {
-      const targetIndex = Number.isInteger(options.index) ? ((options.index % records.length) + records.length) % records.length : recordIndex;
+      const hasExplicitIndex = Number.isInteger(options.index);
+      let targetIndex = hasExplicitIndex ? ((options.index % records.length) + records.length) % records.length : recordIndex;
+      // A discovery gesture that lands before the carousel has advanced past the
+      // record it just dropped moves on to the next unfound record instead of
+      // reporting the current one as already found.
+      if (!hasExplicitIndex && pendingRecordAdvance && droppedRecords.has(targetIndex)) {
+        window.clearTimeout(pendingRecordAdvance);
+        pendingRecordAdvance = 0;
+        targetIndex = getNextUndroppedRecordIndex(targetIndex);
+      }
       const record = records[targetIndex] || getCurrentRecord();
       const showVinyl = isRecordEngaged || isSpinning;
       if (options.reveal !== false) {
@@ -8069,8 +8080,10 @@
       if (options.autoAdvance !== false && options.reveal !== false && !isRecordEngaged && !isSpinning) {
         const nextIndex = getNextUndroppedRecordIndex(targetIndex);
         if (nextIndex !== targetIndex) {
-          window.setTimeout(
+          if (pendingRecordAdvance) window.clearTimeout(pendingRecordAdvance);
+          pendingRecordAdvance = window.setTimeout(
             () => {
+              pendingRecordAdvance = 0;
               showRecord(nextIndex, { vinyl: false });
             },
             reduceMotion ? 0 : 460
