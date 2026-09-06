@@ -739,7 +739,7 @@
 
       details.forEach((detail) => {
         const isActive = detail.getAttribute("data-research-detail") === state.mode;
-        detail.hidden = !isActive;
+        detail.hidden = !isActive && !(section.hasAttribute && section.hasAttribute("data-research-scroll-story"));
         detail.classList.toggle("is-active", isActive);
       });
 

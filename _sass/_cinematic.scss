@@ -250,6 +250,90 @@ html.cinematic-live .case-scroll-hero:not(.is-static) .case-step.is-active {
   background-size: var(--mark-w, 100%) 100%;
 }
 
+// Homepage Research Focus as a scroll story (wide screens, live layer only): the
+// sketch pins beside the three lens notes, which all stay visible in reading
+// order, and the runtime picks the lens from the note in the middle of the
+// viewport. cinematic.js sets the attribute, so automation and reduced motion
+// keep the stacked layout that shows one note at a time.
+@media (min-width: 992px) {
+  .home-research-motion[data-research-scroll-story] {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      "intro intro"
+      "body stage"
+      "details stage"
+      "exploring exploring";
+    column-gap: clamp(1.6rem, 3vw, 2.8rem);
+    align-items: start;
+
+    .home-motion-intro {
+      grid-area: intro;
+    }
+
+    .home-motion-body {
+      grid-area: body;
+    }
+
+    .home-motion-controls {
+      gap: 0.6rem;
+    }
+
+    .home-motion-mode {
+      min-height: 0;
+      padding: 0.72rem 0.85rem;
+
+      small {
+        display: none;
+      }
+    }
+
+    .home-motion-stage {
+      position: sticky;
+      top: 5.25rem;
+      grid-area: stage;
+      align-self: start;
+      height: clamp(20rem, 29vw, 24.5rem);
+    }
+
+    .home-motion-details {
+      display: grid;
+      grid-area: details;
+      gap: 1rem;
+      margin-top: 0;
+    }
+
+    .home-motion-detail {
+      grid-template-columns: 1fr;
+      opacity: 0.42;
+      transform: translateY(6px);
+    }
+
+    .home-motion-detail.is-active {
+      opacity: 1;
+      transform: none;
+    }
+
+    .home-motion-detail-rail {
+      padding-top: 0.85rem;
+      padding-left: 0;
+      border-top: 1px solid color-mix(in srgb, var(--home-line) 74%, transparent);
+      border-left: 0;
+    }
+
+    .home-motion-detail-link {
+      justify-self: start;
+    }
+
+    .home-motion-exploring {
+      grid-area: exploring;
+    }
+
+    .home-motion-credit {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .case-scroll-hint-arrow {
     animation: none !important;

@@ -21,7 +21,7 @@ layout: default
   </style>
 {% endif %}
 
-<div class="post blog-post">
+<div class="post blog-post{% if page.cinematic %} cinematic{% endif %}">
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
     <p class="post-meta">

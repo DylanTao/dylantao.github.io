@@ -182,7 +182,15 @@
     const media = hero.querySelector(":scope > .project-case-media");
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
     if (copyItems.length) timeline.from(copyItems, { opacity: 0, y: 16, duration: 0.7, stagger: 0.07, clearProps: "opacity,transform" }, 0.05);
-    if (media) timeline.from(media, { opacity: 0, y: 26, duration: 0.9, clearProps: "opacity,transform" }, 0.2);
+    // Depth as the hero scrolls away: the figure well lags the copy by a few dozen pixels, whole and
+    // uncropped, so the diagram stays inspectable. The DesignWeaver scene pins its own stage instead.
+    const mediaDrifts = Boolean(media) && !hero.hasAttribute("data-case-scroll") && wide.matches;
+    if (media && mediaDrifts) {
+      timeline.from(media, { opacity: 0, duration: 0.9, clearProps: "opacity" }, 0.2);
+      gsap.to(media, { y: -44, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    } else if (media) {
+      timeline.from(media, { opacity: 0, y: 26, duration: 0.9, clearProps: "opacity,transform" }, 0.2);
+    }
 
     const hint = hero.querySelector(".case-scroll-hint");
     if (hint) {
@@ -320,6 +328,58 @@
       );
     });
 
+    // The thesis arrives word by word as the reader scrolls into it and scrubs back out. Words never
+    // drop below a readable tint, so a paused scroll still leaves a legible paragraph, and the spans
+    // carry no ARIA changes, so assistive technology reads the sentence as one sentence.
+    const lead = home.querySelector(".home-thesis-lead");
+    if (lead) {
+      const walker = document.createTreeWalker(lead, NodeFilter.SHOW_TEXT);
+      const textNodes = [];
+      while (walker.nextNode()) textNodes.push(walker.currentNode);
+      textNodes.forEach((node) => {
+        const fragment = document.createDocumentFragment();
+        node.nodeValue.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) {
+            fragment.appendChild(document.createTextNode(part));
+            return;
+          }
+          const word = document.createElement("span");
+          word.className = "home-word";
+          word.textContent = part;
+          fragment.appendChild(word);
+        });
+        node.parentNode.replaceChild(fragment, node);
+      });
+      const words = gsap.utils.toArray(lead.querySelectorAll(".home-word"));
+      if (words.length) {
+        gsap.set(words, { opacity: 0.16 });
+        gsap.to(words, {
+          opacity: 1,
+          ease: "none",
+          duration: 0.3,
+          stagger: 0.05,
+          scrollTrigger: { trigger: lead, start: "top 88%", end: "top 42%", scrub: 0.3 },
+        });
+      }
+    }
+
+    // Shallow parallax between two voices: the design-principle note lags the thesis paragraph, and
+    // the why-now framing lags its three claims, so the framing reads as the layer behind the
+    // evidence. Wide screens only, where the two layers sit side by side; the travel stays under a
+    // third of either block's height.
+    [
+      { node: home.querySelector(".home-thesis-note"), section: home.querySelector(".home-thesis"), travel: 30 },
+      { node: home.querySelector(".home-why-now-copy"), section: home.querySelector(".home-why-now"), travel: 36 },
+    ].forEach(({ node, section, travel }) => {
+      if (!node || !section || !wide.matches) return;
+      gsap.fromTo(
+        node,
+        { y: travel },
+        { y: -travel, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } }
+      );
+    });
+
     const mark = home.querySelector(".home-thread-mark");
     if (mark) {
       gsap.fromTo(
@@ -329,7 +389,7 @@
       );
     }
 
-    [".home-why-now-claims > article", ".home-news-strip > article"].forEach((selector) => {
+    [".home-why-now-claims > article", ".home-news-strip > article", ".home-recruiting-steps ol > li"].forEach((selector) => {
       const items = gsap.utils.toArray(home.querySelectorAll(selector));
       if (!items.length) return;
       gsap.from(items, {
@@ -342,6 +402,23 @@
         scrollTrigger: { trigger: items[0].parentElement, start: "top 85%", once: true },
       });
     });
+
+    // Research Focus as a scroll story. On wide screens the sketch pins beside the three lens notes,
+    // which all stay visible in reading order; the note in the middle of the viewport picks the mode,
+    // through the same buttons a click would use, so the sketch changes lens as the reader reads.
+    // research-motion.js reads the attribute set here and keeps every note visible while it is present.
+    const focus = home.querySelector("[data-research-motion-section]");
+    if (focus && wide.matches) {
+      focus.setAttribute("data-research-scroll-story", "");
+      gsap.utils.toArray(focus.querySelectorAll("[data-research-detail]")).forEach((detail) => {
+        const button = focus.querySelector(`[data-research-mode="${detail.getAttribute("data-research-detail")}"]`);
+        if (!button) return;
+        const pick = () => {
+          if (button.getAttribute("aria-pressed") !== "true") button.click();
+        };
+        ScrollTrigger.create({ trigger: detail, start: "top 58%", end: "bottom 42%", onEnter: pick, onEnterBack: pick });
+      });
+    }
   }
 
   // 10. Publications: the Scholar citation bars grow into place the first time the chart comes into view.
@@ -359,5 +436,49 @@
         scrollTrigger: { trigger: ".cinematic .scholar-lens-year-chart", start: "top 85%", once: true },
       });
     }
+  }
+
+  // 11. Blog posts: the title block arrives first, then each block of the note rises into view once as
+  //     the reader reaches it. Pull quotes settle from a touch larger, so they read as a pause.
+  const post = document.querySelector(".blog-post.cinematic");
+  if (post) {
+    const header = gsap.utils.toArray(post.querySelectorAll(".post-header > *"));
+    if (header.length) {
+      gsap.from(header, { opacity: 0, y: 14, duration: 0.7, ease: "power3.out", stagger: 0.08, clearProps: "opacity,transform" });
+    }
+    // Figures drift a little slower than the words around them, whole and uncropped, so screenshots
+    // and diagrams stay inspectable. Their reveal is opacity-only so the two motions never fight.
+    const content = post.querySelector("#markdown-content");
+    const drifting = new Set(
+      content
+        ? Array.from(content.children).filter(
+            (block) =>
+              !block.matches("p, ul, ol, table, blockquote, section, nav, details, pre, hr, h1, h2, h3, h4") && block.querySelector("img:not(.emoji)")
+          )
+        : []
+    );
+    if (content) gsap.utils.toArray(content.querySelectorAll(":scope > p > img:only-child:not(.emoji)")).forEach((img) => drifting.add(img));
+    gsap.utils.toArray(post.querySelectorAll("#markdown-content > *, .post-content > details")).forEach((block) => {
+      if (block.classList.contains("sr-only") || block.matches("script, style, template, [hidden]")) return;
+      const quote = block.matches("blockquote");
+      const drifts = drifting.has(block);
+      gsap.from(block, {
+        opacity: 0,
+        y: drifts ? 0 : quote ? 10 : 20,
+        scale: quote ? 1.015 : 1,
+        transformOrigin: "left center",
+        duration: quote ? 0.9 : 0.7,
+        ease: "power3.out",
+        clearProps: drifts ? "opacity" : "opacity,transform",
+        scrollTrigger: { trigger: block, start: "top 92%", once: true },
+      });
+    });
+    drifting.forEach((figure) => {
+      gsap.fromTo(
+        figure,
+        { y: 18 },
+        { y: -18, ease: "none", scrollTrigger: { trigger: figure, start: "top bottom", end: "bottom top", scrub: true } }
+      );
+    });
   }
 })();

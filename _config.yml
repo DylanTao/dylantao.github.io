@@ -360,6 +360,13 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  # Blog posts load the cinematic layer (assets/js/cinematic.js): a still page under reduced motion
+  # and automation, staged reveals for people. Pages and projects opt in per file.
+  - scope:
+      path: ""
+      type: posts
+    values:
+      cinematic: true
 
 sass:
   style: compressed

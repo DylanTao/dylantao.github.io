@@ -379,7 +379,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     h3 {
       margin-top: 0.2rem;
       margin-bottom: 0.45rem;
-      font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+      font-size: calc(var(--type-heading) * 0.86);
     }
 
     > p:last-child {
@@ -401,7 +401,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
     h3 {
       margin: 0;
-      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      font-size: calc(var(--type-heading) * 0.86);
     }
   }
 
@@ -1016,24 +1016,26 @@ html.site-motion-ready .hoverable.site-visible:hover {
     margin-bottom: 10px;
   }
 
+  // Category headings are real section headings: the index reads Research, Fun, then the
+  // smaller "Site experiments" and "Other playful builds" groups inside Fun.
   h2.category {
-    color: var(--global-text-color-light);
+    color: var(--global-text-color);
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.8rem;
     margin: 0 0 0.42rem;
-    font-family: var(--font-mono);
-    font-size: var(--type-label);
+    font-size: var(--type-heading);
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     text-align: left;
-    text-transform: uppercase;
 
     &::after {
       display: block;
-      width: 2.2rem;
-      height: 1px;
-      background: color-mix(in srgb, var(--global-theme-color) 34%, var(--global-divider-color));
+      width: 2.6rem;
+      height: 2px;
+      border-radius: 1px;
+      background: color-mix(in srgb, var(--global-theme-color) 55%, var(--global-divider-color));
       content: "";
     }
   }
