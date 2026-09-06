@@ -5,7 +5,7 @@ A staged, restrained plan for the next passes over this site. It was drafted on 
 - **Fable** (Claude Code): web-level motion and transitions, DOM/CSS/JS craft, accessibility, performance measurement, and concrete structural fixes.
 - **GPT-6** (Codex, with the repo's own skills): aesthetic direction through `$website-design-critique`, copy in Sirui's voice through `$portfolio-writing-voice`, the Three.js desk scene through `$homepage-desk-scene`, and ledger accounting through `$agentic-usage-ledger`. Astra may supply 3D and material references with license recorded first.
 
-Every item obeys `WEBSITE_DESIGN_HEURISTICS.md` (Decision Order first), `docs/design-experiment-backlog.md` (a full entry before any new visual idea ships), and `AGENTS.md` (iterate one route/state/viewport/theme, checkpoint explicit routes, full matrix only at release, overrides audit for every touched plugin override, ledger gate before pushes).
+Every item obeys `WEBSITE_DESIGN_HEURISTICS.md` (Decision Order first), `docs/design-experiment-backlog.md` (a full entry before any new visual idea ships), and `AGENTS.md` (iterate one route/state/viewport/theme, checkpoint explicit routes, full matrix only at release, overrides audit for every touched plugin override; pushes never wait on the usage ledger).
 
 ## Status (2026-09-05)
 
@@ -87,9 +87,25 @@ What this says: accessibility is already high everywhere (the remaining points a
 ## Must not
 
 - Locked copy verbatim (`WEBSITE_DESIGN_HEURISTICS.md`, Signature Copy Locklist) and the in-scene "Welcome to Sirui's cave."
-- FLIP stays the projects index's only layout motion; no card-to-hero transition names; the 430 ms timing and easing values stay.
-- No cursor trails, parallax, page-wide particles, ambient loops, wheel or touch hijacking, or clipping as drama.
+- FLIP stays the projects index's only layout motion and its 430 ms timing and easing values stay; the one named morph (`project-hero`, the clicked card image travelling to the case hero) is set at click time and never competes with it.
+- No cursor trails, page-wide particles, ambient loops, wheel or touch hijacking, or clipping as drama. Parallax only between two layers that belong together, whole and uncropped, under a third of the block's height, and only while the live layer is on.
 - Brand orange stays identity-only; brand-mark rules in `docs/material-lite-revamp.md` hold; no sitewide shader language; Paper fields stay `prototype` until judged.
 - The sitewide stream never edits `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, or `test/visual/desk-scene.spec.js`.
 - Inter 400/500/600/700 only; the raw `font-size` ceiling of 333 in `test/style_contract.js`; `_realignment.scss` uses `var(--type-*)`.
-- Every edited plugin override re-runs `bundle exec al-folio upgrade overrides audit` and commits `.al-folio-overrides.yml`; pushes go through the ledger gate.
+- Every edited plugin override re-runs `bundle exec al-folio upgrade overrides audit` and commits `.al-folio-overrides.yml`; pushes never wait on the usage ledger (refresh it at most daily, on its own commit).
+
+## GPT-6 handoff (written 2026-09-05 at the close of the Fable rounds)
+
+Sirui's plan: GPT-6 takes the next pass because it can generate images. Everything below is what it needs to know before touching the site.
+
+**Where the site stands.** Deployed `main` is `5acb08fe3` with every CI workflow green. The cinematic layer (GSAP 3.15 plus ScrollTrigger, vendored under `assets/vendor/gsap/3.15.0/`, runtime in `assets/js/cinematic.js`, styles in `_sass/_cinematic.scss`) runs on the homepage, the projects index, DesignWeaver and the two other research case pages, publications, and every blog post. Shipped and kept after Sirui's review: the projects index spotlight, tilt, and staggered entrance; the DesignWeaver scroll scene; the card-to-hero morph; the homepage Research Focus pinned story, thesis word arrival, marker sweep, count-ups, and shallow parallax; the editorial blog index and staged post reveals; the Research Focus and Paper Constellation choreography. Rejected by Sirui and removed: side scroll threads, gradient blobs behind page titles, title drift, and the papers-first reorder on publications. The rule Sirui gave: "the design modification you make should be meaningful and add value instead of confusion".
+
+**What Sirui wants next.** A homepage that feels less vanilla in the way <https://pear.no/> does: one continuous illustrated world the reader scrolls through, imagery that changes with scroll, big statements with tiny mono labels. Fable borrowed the pinned scene and the self-assembling statement; the image-led parts are open because they need artwork. Candidate work for an image-capable model, in the order Sirui is likely to value it:
+
+1. A continuous world behind the homepage below the desk: the desk scene's horizon, paper, and coastal language carried down the page as a slow scroll-scrubbed backdrop, quiet enough that text stays first. This is the desk-scene lane (`$homepage-desk-scene`, `docs/homepage-desk-scene-brief.md`), so it may touch `assets/js/home.js`, `_sass/_home.scss`, and `_includes/home/hero.liquid`, which the sitewide stream never edits.
+2. Generated teaser and hero imagery where the site currently has none or has placeholders: blog thumbnails for the posts without one (the blog index reserves a fixed 4:5 well), research card teasers that are diagrams today and could carry a made image next to the real figure (never instead of it), and section art for the homepage Why now and Recruiting blocks.
+3. The retell waves in `docs/design-experiment-backlog.md` ("Retell the remaining project stories in situated waves"), each with before/after captures.
+
+**Contracts that hold regardless of model.** Locked copy verbatim (Signature Copy Locklist in `WEBSITE_DESIGN_HEURISTICS.md`). Inter 400 to 700 only; a serif display face is a Sirui decision, not a model's. Brand orange is identity-only. Research figures stay whole and uncropped (`object-fit: contain`, white wells); generated art sits beside evidence, never replaces it, and every generated asset records its prompt, model, date, and license in `docs/design-experiment-backlog.md` before it ships. Every effect is a still page under reduced motion, without a fine pointer, and under automation (`navigator.webdriver`), so Playwright captures stay deterministic; probe motion with `?cinematic=live`. Never animate a transform that grows past a full-width box on narrow screens. Human/AI routes stay separate surfaces; the AI profile and the hidden page are not cinematic.
+
+**How to work here without losing a day.** Build with `bundle exec jekyll build --baseurl /al-folio` from PowerShell (Git Bash mangles the baseurl). Serve `_site` through a junction named `al-folio` with `python -m http.server`, then run Playwright with `$env:NO_WEBSERVER = "1"` and `$env:VISUAL_BASE_URL` set in PowerShell; a Bash `VAR=1 npx.cmd ...` prefix fails on the `C:\Program Files` path. `gh` defaults to `alshedivat/al-folio` in this checkout, so pass `-R DylanTao/dylantao.github.io` to see this site's runs. The ledger write audit takes an hour or more and never gates a push. Two blog posts (pottery, image gallery) use root-relative image paths that 404 only in the local `/al-folio` build. The style contract caps raw `font-size:` declarations at 333, so new sizes use `var(--type-*)`.
