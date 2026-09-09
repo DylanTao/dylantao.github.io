@@ -9,7 +9,6 @@
 - Use `docs/BOUNDARIES.md` as the source of truth for starter-vs-plugin ownership.
 - Use `.agents/skills/al-folio-bootstrap/SKILL.md` for new-site setup tasks.
 - Use `.agents/skills/al-folio-v1-migration/SKILL.md` when planning a full customized-fork migration.
-- Use `.codex/skills/agentic-usage-ledger/SKILL.md` when updating Codex token, agent-hour, or commit counters for this customized site.
 - Use `.codex/skills/tacit-knowledge-to-skill/SKILL.md` when deciding whether a living heuristic should stay human-facing, become a new Codex skill, or update an existing skill.
 - Use `.codex/skills/website-design-critique/SKILL.md` for homepage/sitewide visual critique, responsive polish, and restrained design passes.
 - Use `.codex/skills/portfolio-writing-voice/SKILL.md` for blog, project, case-study, and site-copy edits that need Sirui's research voice and source-credit habits.
@@ -22,7 +21,7 @@
 Before changing this customized site:
 
 1. Run `git status --short --branch`; preserve unrelated work and confirm the intended branch.
-2. Classify the request as starter/plugin work, sitewide design/content work, homepage desk-scene work, or publish/accounting work.
+2. Classify the request as starter/plugin work, sitewide design/content work, homepage desk-scene work, or publish work.
 3. Read the matching skill and its canonical human document before editing. Skills route the work; canonical documents carry the detailed contract.
 4. Inspect the current rendered route before making visual judgments. Capture one comparable representative baseline during iteration; reserve the full viewport/theme matrix for a checkpoint or release.
 5. State the intended files, explicit non-goals, and verification evidence. Stage and commit only explicit paths.
@@ -36,7 +35,7 @@ Before changing this customized site:
 - Treat `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, and desk-scene interaction tests as high-conflict paths. Reserve each overlapping file to one writer at a time and hand it back through the coordinator before another stream edits it.
 - The sitewide stream must not change desk-scene state, geometry, album behavior, or scene-only selectors. The desk-scene stream must not rewrite posts, projects, general homepage narrative, or global chrome.
 - Integrate verified checkpoints onto `main` through one coordinator. Worker branches do not push independently.
-- Refresh `_data/agentic_usage.yml` once after parallel workers stop and the intended changes are integrated. The coordinator owns the final ledger audit, commit, push, and deployed smoke check.
+- The coordinator owns the final integration commit, push, and deployed smoke check after parallel workers stop.
 
 ## Proportional Visual QA
 
@@ -109,7 +108,6 @@ Source checks are not a substitute for rendered inspection when public UI change
 
 - `WEBSITE_DESIGN_HEURISTICS.md` remains the canonical human-readable, copy-pastable design and writing memory.
 - `docs/homepage-desk-scene-brief.md` remains the canonical desk-scene brief and handoff prompt.
-- `docs/agentic-usage-ledger.md` remains the canonical usage-counter math and evidence log.
 - `docs/material-lite-revamp.md` remains the canonical Material-Lite design-grammar intent: orange is the identity source color, the `--md-lite-*` token set is preferred over one-off values, and the navbar brand-mark rules live there.
 - `docs/design-experiment-backlog.md` remains the durable queue for unproven visual and interaction ideas, including hypothesis, licensing, visitor benefit, evidence, Sirui's decision, and revisit trigger.
 - `docs/site-experience-roadmap.md` is the staged September 2026 plan for sitewide accessibility, tokens, wayfinding, navigation motion, hidden-page hygiene, and the desk-scene handoff, with each item tagged Fable, GPT-6, or Sirui decision.
@@ -118,14 +116,11 @@ Source checks are not a substitute for rendered inspection when public UI change
 
 ## Publish Freshness Gate
 
-Pushes to this customized site do not wait on the usage ledger. Since 2026-09-05 the homepage counters are refreshed opportunistically: Sirui decided that a roughly right ledger published quickly beats an exact one that holds every push for an hour or more.
+The only data freshness check that gates publishing is Google Scholar. The agentic usage ledger (the homepage token, agent-hour, commit, and kWh counters, the desk-scene tally, the Build Rhythm token clocks, and their audit tooling) was retired on 2026-09-08; nothing in the publish path refreshes or audits it.
 
-- Use `.codex/skills/agentic-usage-ledger/SKILL.md` and `docs/agentic-usage-ledger.md` for the homepage Codex token, agent-hour, commit, energy, and tree-equivalence counters.
 - Google Scholar runs daily in `.github/workflows/update-citations.yml`; locally run `python bin/update_scholar_citations.py --force` only if `_data/citations.yml` is more than one day stale or publication pages changed.
-- Refresh the ledger at most once a day, or once after a batch of related commits has landed: run `python bin/audit_agentic_usage.py --write` (add `--include-pending-commit` only when the refresh rides in the next commit), then `npx.cmd prettier _data/agentic_usage.yml --write`, and commit the ledger on its own. On the personal laptop the write audit takes 50 to 110 minutes and prints nothing until it finishes, so start it early or in the background and never hold a push for it.
-- A ledger that lags by a few commits or a few hours is acceptable; the published totals are rounded. Do not rerun the audit to chase a rounding boundary.
-- Stage only intended files; do not sweep unrelated dirty files into a stats refresh.
-- The project-local Codex hook in `.codex/hooks.json` checks `git commit`/`git push` freshness. A stale or slow ledger check only adds an advisory note; the hook still blocks publication commits whose Scholar data is stale. It runs the ledger check at most once every 24 hours per checkout, tracked in the gitignored `.codex/.ledger-audit-stamp`. Review and trust it with `/hooks` when Codex reports a new or changed hook.
+- Stage only intended files; do not sweep unrelated dirty files into a data refresh.
+- The project-local Codex hook in `.codex/hooks.json` inspects `git commit`/`git push`: it blocks `git commit -a`, blocks publication commits whose Scholar snapshot is not from today or that stage `_data/citations.yml` without `_data/publication_lens.yml`, and adds an advisory note when Scholar data is more than one day stale. Review and trust it with `/hooks` when Codex reports a new or changed hook.
 
 ## Agent Routing Rules
 

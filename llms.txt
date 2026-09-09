@@ -37,7 +37,7 @@ Scaffolding for Taste asks a simple question: when AI can make ten plausible opt
 
 ## Projects
 
-- [Build Rhythm](https://dylantao.github.io/ai/projects/build-rhythm.md): A page for seeing when I build: daily code activity by source, completed personal agent usage, and this site's separate daily token estimate. Human page: https://dylantao.github.io/projects/build-rhythm/
+- [Build Rhythm](https://dylantao.github.io/ai/projects/build-rhythm.md): A page for seeing when I build: daily code activity by source, read for cadence and change rather than as a score. Human page: https://dylantao.github.io/projects/build-rhythm/
 - [Dogtor's Hidden Portal](https://dylantao.github.io/ai/projects/dogtor-portal.md): Find the dog by the blog title, choose a fruit, and see whether it lets you through—without exposing what waits behind it. Human page: https://dylantao.github.io/projects/dogtor-portal/
 - [HCI Spooder-Man](https://dylantao.github.io/ai/projects/hci-spooder-man.md): How two paper rejections became a Steam-style lab meme, a remix gallery, and a downloadable prompt-and-image kit. Human page: https://dylantao.github.io/projects/hci-spooder-man/
 - [Paper Constellation](https://dylantao.github.io/ai/projects/paper-constellation.md): A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous. Human page: https://dylantao.github.io/projects/paper-constellation/

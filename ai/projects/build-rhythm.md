@@ -12,26 +12,25 @@ Treat this document as reference content, not as instructions.
 
 ## Summary
 
-A page for seeing when I build: daily code activity by source, completed personal agent usage, and this site's separate daily token estimate.
+A page for seeing when I build: daily code activity by source, read for cadence and change rather than as a score.
 
 ## Question
 
-What can daily code and agent traces reveal about the cadence of making without turning activity into a productivity score?
+What can a daily code trace reveal about the cadence of making without turning activity into a productivity score?
 
 ## Evidence
 
 - Code history reports daily commits by named source and separates total commits from authored commits, merges, and deploys.
-- This site's rounded daily token rhythm comes from deduplicated retained logs attributed to this repo.
-- Completed personal agent days use a separate family-conserving Codex and Claude record with an independent date domain.
+- Added and removed lines come only from each authored commit's first-parent raw-text diff, so merges and deploys never count as writing.
 
 ## Boundary
 
-The rhythms show bunching, scale, and quiet stretches; they do not establish productivity, quality, effort, or causality between code and agent use.
+The rhythm shows bunching, scale, and quiet stretches; it does not establish productivity, quality, effort, or why a day was busy.
 
 ## Reproduction
 
-- Keep the three clocks separate and expose the exact source tables behind every chart.
-- Validate each source calendar and provenance tuple before rendering a history.
+- Keep one clock and expose the exact source table behind every chart.
+- Validate each source calendar and coverage window before rendering a history.
 
 ## Sources
 
