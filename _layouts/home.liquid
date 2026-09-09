@@ -19,97 +19,11 @@ layout: default
       {% include home/lineage.liquid %}
       <div class="social home-social">
         <div class="contact-icons">{% social_links %}</div>
-        {% assign agentic_usage = site.data.agentic_usage %}
-        {% if agentic_usage.total %}
-          {% assign total_energy = agentic_usage.total.energy_equivalence %}
-          {% assign total_cost_label = agentic_usage.total.api_cost_equivalence.usd_label %}
-          {% assign total_cost_amount = total_cost_label | remove: ' API-rate replay' %}
-          <div
-            class="home-agentic-tally"
-            aria-label="Site revamp ledger: estimated Codex tokens and agent-hours, exact Git commit count, and estimated energy-equivalence"
-          >
-            <p class="home-agentic-kicker">
-              <span class="home-agentic-kicker-copy">Build ledger · since {{ agentic_usage.total.since_label }}</span>
-              <span class="home-agentic-info-wrap home-agentic-info-wrap-kicker">
-                <button
-                  type="button"
-                  class="home-agentic-info"
-                  aria-label="How the site-build usage totals are calculated"
-                  aria-describedby="home-agentic-tooltip"
-                >
-                  i
-                </button>
-                <span id="home-agentic-tooltip" class="home-agentic-tooltip" role="tooltip">
-                  <span class="home-agentic-tooltip-main">
-                    Site-build tokens and agent-hours are estimated from retained Codex logs. The commit count is exact from this repository's Git
-                    history. Energy is an estimated equivalence using a midpoint of {{ total_energy.wh_per_token_midpoint }} Wh per token, not
-                    measured electricity use.
-                  </span>
-                </span>
-              </span>
-            </p>
-            <dl class="home-agentic-grid">
-              <div class="home-agentic-stat">
-                <dt>
-                  <span data-count-up>{{ agentic_usage.total.tokens_label }}</span>
-                  {% if total_cost_label %}
-                    <span class="home-agentic-info-wrap home-agentic-info-wrap-cost" data-agentic-cost-scope="site-build">
-                      <button
-                        type="button"
-                        class="home-agentic-info home-agentic-info-cost"
-                        aria-label="Show the site-build API-rate comparison"
-                        aria-describedby="home-agentic-cost-tooltip"
-                        data-affordance="cost-estimate"
-                      >
-                        <svg class="home-agentic-cost-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                          <path d="M13.4 2.8c.5 2.4-.5 3.6-1.5 4.8-.8 1-1.3 2-.8 3.2 1.5-.7 2.4-2 2.6-3.5 2.8 2 4.3 4.8 4.1 7.6-.2 3.5-3 6.2-6.4 6-3.5-.2-6.1-3.1-5.9-6.6.1-2.3 1.3-4.5 3.2-6.1-.2 2.1.7 3.4 1.9 3.9-.3-2 .5-3.4 1.7-5 1.1-1.4 1.7-2.7 1.1-4.3Z"></path>
-                        </svg>
-                      </button>
-                      <span id="home-agentic-cost-tooltip" class="home-agentic-tooltip home-agentic-tooltip-cost" role="tooltip">
-                        <span class="home-agentic-money-gag">
-                          <img src="{{ '/assets/img/home/sam-money-altman.png' | relative_url }}" alt="" loading="lazy" decoding="async">
-                          <span>
-                            <strong>Burnt {{ total_cost_amount }} of Sam's money*</strong>
-                            <small>*Site-build tokens at public API rates—not a real bill.</small>
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                  {% endif %}
-                </dt>
-                <dd>site-build tokens</dd>
-              </div>
-              <div class="home-agentic-stat">
-                <dt data-count-up>{{ agentic_usage.total.hours_label }}</dt>
-                <dd>agent-hours</dd>
-              </div>
-              <div class="home-agentic-stat">
-                <dt data-count-up>{{ agentic_usage.total.commits }}</dt>
-                <dd>site commits</dd>
-              </div>
-              {% if total_energy %}
-                <div class="home-agentic-stat">
-                  <dt data-count-up>{{ total_energy.kwh_midpoint }}</dt>
-                  <dd>est. kWh</dd>
-                </div>
-              {% endif %}
-            </dl>
-          </div>
-        {% endif %}
-        <a
-          class="home-build-rhythm-route"
-          href="{{ '/github-activity/' | relative_url }}"
-          aria-label="Explore Build Rhythm: commits, lines, and observed token history."
-        >
-          <strong>Build Rhythm</strong>
-          <span class="home-build-rhythm-route-summary" aria-hidden="true"
-            >&middot; commits &middot; lines &middot;
-            <span class="home-build-rhythm-route-destination"
-              >observed token history &middot; <span class="home-build-rhythm-route-arrow">→</span></span
-            ></span
-          >
-        </a>
-        <div class="contact-note">{{ site.contact_note }}</div>
+        <p class="home-connect-note">
+          I rebuilt this site with AI coding agents.
+          <a href="{{ '/projects/website-revamp/' | relative_url }}">The Website Revamp story</a> tells how it went, and
+          <a href="{{ '/github-activity/' | relative_url }}">Build Rhythm</a> shows when the work bunched up.
+        </p>
       </div>
     </section>
   {% endif %}

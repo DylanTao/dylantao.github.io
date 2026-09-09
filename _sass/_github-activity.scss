@@ -12,12 +12,8 @@
   --github-activity-grid: var(--global-divider-color);
   --github-activity-added-text: color-mix(in srgb, var(--global-sky-strong) 85%, var(--global-text-color));
   --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 85%, var(--global-text-color));
-  --github-activity-codex-color: var(--global-primary-color);
-  --github-activity-claude-color: color-mix(in srgb, #d97757 82%, var(--global-text-color));
   // Second and later code-activity sources. The first source keeps the primary
-  // accent so a single-source page is unchanged. Olive, not orange: the Claude
-  // area on the same figure is terracotta, and the two were indistinguishable
-  // (OKLab dE 4-5) in every theme mode.
+  // accent so a single-source page is unchanged.
   --github-activity-source-alt-color: color-mix(in srgb, #6f7a1e 90%, var(--global-text-color));
 
   width: 100%;
@@ -196,16 +192,6 @@ html[data-theme-mode="evening"] .github-activity-page {
 .build-rhythm-story-chart line,
 .build-rhythm-story-chart circle {
   vector-effect: non-scaling-stroke;
-}
-
-.build-rhythm-lifetime-history-line.is-gap,
-.github-activity-lifetime-history-line.is-gap {
-  stroke-opacity: 0.72;
-}
-
-.build-rhythm-lifetime-history-coverage,
-.github-activity-lifetime-history-coverage {
-  letter-spacing: 0.025em;
 }
 
 .build-rhythm-axis-tick {
@@ -404,89 +390,6 @@ html[data-theme-mode="evening"] .github-activity-page {
   border: 1px solid var(--global-outline-color);
   border-radius: 0.8rem;
   background: var(--global-surface-container-low-color);
-}
-
-.github-activity-token-rhythm {
-  width: 100%;
-  margin-top: clamp(2rem, 5vw, 3.25rem);
-  padding: clamp(1rem, 2.5vw, 1.5rem);
-  border: 1px solid var(--global-outline-color);
-  border-radius: 0.8rem;
-  background: var(--global-surface-container-low-color);
-}
-
-.github-activity-token-summary {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem 1.5rem;
-  margin: 1rem 0 0;
-}
-
-.github-activity-token-summary div {
-  min-width: 0;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--global-outline-color);
-}
-
-.github-activity-token-summary dt,
-.github-activity-token-summary dd {
-  margin: 0;
-}
-
-.github-activity-token-summary dt {
-  color: var(--global-text-color);
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 3vw, 1.7rem);
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-}
-
-.github-activity-token-summary dd {
-  max-width: 30rem;
-  margin-top: 0.2rem;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  line-height: 1.5;
-}
-
-.github-activity-token-chart-shell {
-  margin-top: 1rem;
-  padding: 0.9rem 0;
-  border-top: 1px solid var(--global-outline-color);
-  border-bottom: 1px solid var(--global-outline-color);
-}
-
-.github-activity-token-rhythm-chart {
-  display: block;
-  width: 100%;
-  height: clamp(21rem, 42vw, 26rem);
-  overflow: visible;
-}
-
-.github-activity-token-rhythm-chart text {
-  fill: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-
-.github-activity-token-rhythm-chart path,
-.github-activity-token-rhythm-chart line {
-  vector-effect: non-scaling-stroke;
-}
-
-.github-activity-token-annotation {
-  min-height: 1.5rem;
-  margin: 0.35rem 0 0;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  font-variant-numeric: tabular-nums;
-  line-height: 1.5;
-}
-
-.github-activity-token-rhythm[data-state="error"] .github-activity-token-rhythm-chart {
-  display: none;
 }
 
 .github-activity-module-heading {
@@ -769,135 +672,6 @@ html[data-theme-mode="evening"] .github-activity-page {
   gap: 0.4rem;
 }
 
-.github-activity-agent-summary {
-  margin: 0 0 1.25rem;
-  padding: clamp(1rem, 2.5vw, 1.35rem);
-  border: 1px solid var(--global-outline-color);
-  border-radius: 0.72rem;
-  background: var(--global-surface-color);
-}
-
-.github-activity-agent-summary[hidden],
-.github-activity-agent-families[hidden],
-.github-activity-lifetime-cost[hidden] {
-  display: none;
-}
-
-.github-activity-agent-summary-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.75rem 1.5rem;
-}
-
-.github-activity-agent-summary-heading p,
-.github-activity-agent-summary-heading h3 {
-  margin: 0;
-}
-
-.github-activity-agent-summary-heading h3 {
-  margin-top: 0.15rem;
-  color: var(--global-text-color);
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.1rem);
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1;
-}
-
-.github-activity-agent-summary-heading h3 > span:last-child {
-  color: var(--global-text-color-light);
-  font-size: 0.48em;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-
-.github-activity-agent-families {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.45rem 1.5rem;
-  margin-top: 1rem;
-}
-
-.github-activity-agent-family-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-  min-width: 0;
-  font-family: var(--font-mono);
-  font-size: var(--type-meta);
-  font-variant-numeric: tabular-nums;
-}
-
-.github-activity-agent-family-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-weight: 600;
-}
-
-.github-activity-agent-family-value {
-  color: var(--global-text-color-light);
-  text-align: right;
-}
-
-.github-activity-agent-swatch {
-  width: 0.72rem;
-  height: 0.72rem;
-  border-radius: 0.16rem;
-  background: var(--github-activity-codex-color);
-}
-
-.github-activity-agent-swatch.is-claude {
-  background: var(--github-activity-claude-color);
-}
-
-.github-activity-agent-composition {
-  display: flex;
-  grid-column: 1 / -1;
-  width: 100%;
-  height: 12px;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--global-text-color) 12%, transparent);
-  border-radius: 999px;
-  background: var(--global-surface-container-low-color);
-}
-
-.github-activity-agent-composition-segment {
-  display: block;
-  flex: 0 0 auto;
-  height: 100%;
-  background: var(--github-activity-codex-color);
-}
-
-.github-activity-agent-composition-segment.is-claude {
-  background: var(--github-activity-claude-color);
-}
-
-.github-activity-agent-summary .github-activity-lifetime-status {
-  margin: 0.75rem 0 0;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  line-height: 1.55;
-}
-
-.github-activity-agent-summary .github-activity-lifetime-cost {
-  max-width: 23rem;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  line-height: 1.45;
-  text-align: right;
-}
-
-.github-activity-agent-summary .github-activity-lifetime-cost span {
-  color: var(--global-text-color);
-  font-weight: 600;
-}
-
 .github-activity-readout {
   display: flex;
   align-items: flex-start;
@@ -962,60 +736,6 @@ html[data-theme-mode="evening"] .github-activity-page {
   color: var(--github-activity-removed-text);
 }
 
-.github-activity-token-value-group {
-  grid-column: 1 / -1;
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  font-weight: 600;
-  white-space: normal;
-}
-
-.github-activity-token-value-group[hidden] {
-  display: none;
-}
-
-.github-activity-selected-tokens {
-  color: var(--global-primary-color);
-}
-
-.github-activity-lifetime-inline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.65rem;
-  margin-top: 0.8rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid var(--global-outline-color);
-  color: var(--global-text-color-light);
-  font-family: var(--font-mono);
-  font-size: var(--type-label);
-  font-variant-numeric: tabular-nums;
-}
-
-.github-activity-lifetime-inline[hidden],
-.github-activity-lifetime-cost[hidden],
-.github-activity-family-status[hidden] {
-  display: none;
-}
-
-.github-activity-lifetime-status {
-  color: var(--global-text-color-light);
-}
-
-.github-activity-family-status {
-  color: var(--global-text-color);
-  font-weight: 600;
-}
-
-.github-activity-lifetime-cost {
-  color: var(--global-text-color);
-}
-
-.github-activity-lifetime-cost span {
-  font-weight: 600;
-}
-
 .github-activity-latest {
   flex: 0 0 auto;
   padding: 0.5rem 0.85rem;
@@ -1064,7 +784,7 @@ html[data-theme-mode="evening"] .github-activity-page {
 .github-activity-chart {
   display: block;
   width: 100%;
-  height: clamp(39rem, 64vw, 45rem);
+  height: clamp(33rem, 52vw, 37rem);
   overflow: visible;
   touch-action: pan-y;
 }
@@ -1078,13 +798,7 @@ html[data-theme-mode="evening"] .github-activity-page {
 .github-activity-authored-line,
 .github-activity-commit-marker,
 .github-activity-authored-marker,
-.github-activity-commit-source-seam,
-.github-activity-agent-rail-line,
-.github-activity-agent-rail-marker,
-.github-activity-agent-rail-inspector-marker,
-.github-activity-agent-rail-codex-area,
-.github-activity-agent-rail-claude-area,
-.github-activity-agent-rail-total-area {
+.github-activity-commit-source-seam {
   vector-effect: non-scaling-stroke;
 }
 
@@ -1131,30 +845,7 @@ html[data-theme-mode="evening"] .github-activity-page {
   vector-effect: non-scaling-stroke;
 }
 
-// Agent-token context backdrop. It sits behind the commit and line marks, so
-// it must stay quiet enough that the code series keep their contrast. It
-// carries no stroke or markers so it reads as ground, not as another series.
-.github-activity-agent-wash-area {
-  pointer-events: none;
-}
-
-.github-activity-agent-wash-start {
-  vector-effect: non-scaling-stroke;
-}
-
-.github-activity-agent-wash-label {
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-}
-
 @media (prefers-contrast: more) {
-  // Ground-weight context is the first thing to drop when the reader has asked
-  // for maximum separation between marks and background. The dated start rule
-  // stays, because it carries the evidence boundary rather than decoration.
-  .github-activity-agent-wash-area {
-    display: none;
-  }
-
   // Later sources ask for a denser fill and a wider seam instead of a hatch, so
   // the key swatch still matches the band fill exactly.
   .github-activity-commit-source-area[data-source-role="alt"] {
@@ -1208,77 +899,6 @@ html[data-theme-mode="evening"] .github-activity-page {
   color: var(--global-text-color-light);
   font-size: var(--type-meta);
   line-height: 1.55;
-}
-
-.github-activity-token-evidence {
-  margin-top: 1.25rem;
-  border-top: 1px solid var(--global-outline-color);
-  border-bottom: 1px solid var(--global-outline-color);
-}
-
-.github-activity-token-evidence summary {
-  min-height: 3rem;
-  padding: 0.85rem 0;
-  color: var(--global-text-color);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.github-activity-token-evidence summary::marker {
-  color: var(--global-primary-color);
-}
-
-.github-activity-token-evidence summary:focus-visible {
-  border-radius: 0.2rem;
-  outline: var(--md-lite-focus-ring);
-  outline-offset: 3px;
-}
-
-.github-activity-token-evidence-body {
-  padding: 0 0 1rem;
-}
-
-.github-activity-token-evidence p {
-  margin: 0;
-  max-width: var(--measure-prose);
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
-  line-height: 1.55;
-}
-
-.github-activity-token-evidence .github-activity-table-wrap {
-  margin-top: 0.65rem;
-}
-
-.github-activity-token-evidence .github-activity-table {
-  min-width: 38rem;
-}
-
-.github-activity-codex-table-section {
-  display: grid;
-  grid-template-columns: minmax(11rem, 0.45fr) minmax(0, 1.55fr);
-  gap: 1rem 1.5rem;
-  padding: 0 0 1.5rem;
-}
-
-.github-activity-codex-table-section[hidden] {
-  display: none;
-}
-
-.github-activity-codex-table-section h2,
-.github-activity-codex-table-section p {
-  margin: 0;
-}
-
-.github-activity-codex-table-section h2 {
-  font-size: 1rem;
-}
-
-.github-activity-codex-table-section p {
-  margin-top: 0.35rem;
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
 }
 
 .github-activity-table-wrap {
@@ -1368,10 +988,6 @@ html[data-theme-mode="evening"] .github-activity-page {
     line-height: 1.5;
   }
 
-  .github-activity-token-summary {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .github-activity-commit-value-group {
     max-width: 100%;
     line-height: 1.2;
@@ -1381,8 +997,7 @@ html[data-theme-mode="evening"] .github-activity-page {
   .github-activity-controls,
   .github-activity-readout,
   .github-activity-range-status,
-  .github-activity-module-heading,
-  .github-activity-agent-summary-heading {
+  .github-activity-module-heading {
     align-items: stretch;
     flex-direction: column;
   }
@@ -1408,31 +1023,11 @@ html[data-theme-mode="evening"] .github-activity-page {
     align-self: flex-start;
   }
 
-  .github-activity-agent-families {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .github-activity-agent-composition {
-    grid-column: 1;
-  }
-
-  .github-activity-agent-summary .github-activity-lifetime-cost {
-    text-align: left;
-  }
-
   .github-activity-chart {
-    height: 42rem;
-  }
-
-  .github-activity-token-rhythm-chart {
-    height: 22rem;
+    height: 34rem;
   }
 
   .github-activity-method-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .github-activity-codex-table-section {
     grid-template-columns: 1fr;
   }
 }

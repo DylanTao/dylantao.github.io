@@ -4,11 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "_data/agentic_usage.yml"
-      - "_data/direct_usage_tracker.json"
       - "_data/code_activity.json"
       - "_data/code_activity_sources/**"
-      - "assets/data/codex-profile-usage.json"
       - "bin/import_code_activity.py"
       - "test/test_import_code_activity.py"
       - ".github/workflows/update-code-activity.yml"
@@ -16,11 +13,8 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "_data/agentic_usage.yml"
-      - "_data/direct_usage_tracker.json"
       - "_data/code_activity.json"
       - "_data/code_activity_sources/**"
-      - "assets/data/codex-profile-usage.json"
       - "bin/import_code_activity.py"
       - "test/test_import_code_activity.py"
       - ".github/workflows/update-code-activity.yml"
@@ -55,7 +49,7 @@ jobs:
       - name: Install contract dependency
         run: python -m pip install pyyaml==6.0.3
 
-      - name: Validate direct tracker and privacy contracts
+      - name: Validate code-activity and privacy contracts
         run: python -m unittest discover -s test -p 'test_*.py'
 
       # Selected through discover rather than the dotted path
@@ -76,12 +70,8 @@ jobs:
         shell: bash
         run: |
           if git grep -nEi '(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|sk-(proj-)?[A-Za-z0-9_-]{20,}|access[_-]?token|refresh[_-]?token|account[_-]?id|authorization|bearer[[:space:]]+[A-Za-z0-9._-]{16,})' -- \
-            _data/agentic_usage.yml \
-            _data/direct_usage_tracker.json \
             _data/code_activity.json \
-            _data/code_activity_sources \
-            assets/data/codex-profile-usage.json \
-            docs/agentic-usage-ledger.md; then
+            _data/code_activity_sources; then
             echo "Generated metrics contain a forbidden credential-shaped field." >&2
             exit 1
           fi

@@ -83,16 +83,16 @@ paper-constellation:
 
 build-rhythm:
   origin_line: "The logs had totals, but they did not show when the work arrived in bursts."
-  evolution_line: "A later dashboard mixed unlike numbers. I split it into weekly code changes, daily site-build estimates, and one dated lifetime total."
+  evolution_line: "A later dashboard mixed unlike numbers. I split the clocks apart, then retired the token ones and kept daily code changes by source."
   icon: pulse
-  teaser_alt: Two stacked Build Rhythm charts showing cumulative estimated site-build tokens and rounded daily increases
+  teaser_alt: Build Rhythm code history explorer showing total and authored commits per day above added and removed lines
   accents:
     morning: "#e88754"
     noon: "#4f91ab"
     afternoon: "#5f8f93"
     evening: "#91c9dd"
   takeaways:
-    - "Readers can see when work clustered without mistaking GitHub activity, site-build estimates, and lifetime usage for one metric."
+    - "Readers can see when work clustered without mistaking a busy day for a good one."
     - "The charts show when work arrived, not whether it was good."
 
 homepage-desk-scene:

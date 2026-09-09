@@ -7476,7 +7476,6 @@
     const deskSpinButton = deskControls?.querySelector('[data-home-desk-control="spin"]');
     const deskResetButton = deskControls?.querySelector('[data-home-desk-control="reset"]');
     const deskControlItems = deskControls ? Array.from(deskControls.querySelectorAll("button, a")) : [];
-    const deskNote = stage?.querySelector("[data-home-desk-note]");
     const artifactCards = Array.from(document.querySelectorAll(".home-artifact-card"))
       .slice(0, 2)
       .map((card) => ({
@@ -7608,9 +7607,6 @@
       }
       if (deskControls) {
         deskControls.setAttribute("aria-hidden", String(!is3D));
-      }
-      if (deskNote) {
-        deskNote.setAttribute("aria-hidden", String(!is3D));
       }
       deskControlItems.forEach((control) => {
         if (is3D) {

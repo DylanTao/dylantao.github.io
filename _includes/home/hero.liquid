@@ -102,25 +102,6 @@
         {% endfor %}
       {% endif %}
     </div>
-    {% assign desk_usage = site.data.agentic_usage.desk_scene %}
-    <p class="home-desk-scene-note" data-home-desk-note aria-hidden="true">
-      {% if desk_usage %}
-        <span>
-          <span class="home-desk-scene-note-primary">
-            <span class="home-desk-scene-note-full">
-              3D desk tally: {{ desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens.
-            </span>
-            <span class="home-desk-scene-note-compact" aria-hidden="true">
-              {{- desk_usage.commits }} commits &middot; {{ desk_usage.tokens_label }} tokens
-            </span>
-          </span>
-        </span>
-      {% else %}
-        <span>
-          <span class="home-desk-scene-note-primary">It will probably get better with the next model update.</span>
-        </span>
-      {% endif %}
-    </p>
 
     {% if page.profile.image %}
       {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}

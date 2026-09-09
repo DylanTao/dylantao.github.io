@@ -38,7 +38,7 @@ When a story is testing a new visual or data-storytelling treatment, also read `
 - Own the selected posts, projects, case studies, captions, excerpts, and narrative fields agreed for the content stream.
 - Do not rewrite desk-scene copy, interaction labels, album metadata, or scene implementation files; route those changes to `$homepage-desk-scene`.
 - Use `$website-design-critique` when the visitor problem is layout or hierarchy rather than wording.
-- Do not refresh or push the usage ledger from a worker stream. Leave final accounting and publishing to the coordinator.
+- Do not push from a worker stream. Leave publishing to the coordinator.
 
 ## Editing Workflow
 

@@ -26,7 +26,6 @@ async function switchTo3D(page) {
   const canvas = page.locator(".home-desk-corner-canvas");
   await expect(canvas).toBeVisible();
   await expect(page.locator("[data-home-desk-controls]")).toBeVisible();
-  await expect(page.locator("[data-home-desk-note]")).toBeVisible();
 
   await expect
     .poll(async () => {
@@ -620,25 +619,15 @@ test("desk scene 2D and 3D defaults react to drag and zoom", async ({ page }, te
 
   if (testInfo.project.name === "mobile-390") {
     const controls = page.locator("[data-home-desk-controls]");
-    const note = page.locator("[data-home-desk-note]");
-    const [stageBox, controlsBox, noteBox] = await Promise.all([stage.boundingBox(), controls.boundingBox(), note.boundingBox()]);
+    const [stageBox, controlsBox] = await Promise.all([stage.boundingBox(), controls.boundingBox()]);
 
     expect(stageBox).not.toBeNull();
     expect(controlsBox).not.toBeNull();
-    expect(noteBox).not.toBeNull();
 
     const controlsRight = controlsBox.x + controlsBox.width;
-    const controlsBottom = controlsBox.y + controlsBox.height;
-    const noteRight = noteBox.x + noteBox.width;
-    const noteBottom = noteBox.y + noteBox.height;
     const stageRight = stageBox.x + stageBox.width;
-    const overlapWidth = Math.max(0, Math.min(controlsRight, noteRight) - Math.max(controlsBox.x, noteBox.x));
-    const overlapHeight = Math.max(0, Math.min(controlsBottom, noteBottom) - Math.max(controlsBox.y, noteBox.y));
-    expect(overlapWidth * overlapHeight, "mobile usage note and control strip should not overlap").toBeLessThanOrEqual(1);
     expect(controlsBox.x).toBeGreaterThanOrEqual(stageBox.x - 1);
     expect(controlsRight).toBeLessThanOrEqual(stageRight + 1);
-    expect(noteBox.x).toBeGreaterThanOrEqual(stageBox.x - 1);
-    expect(noteRight).toBeLessThanOrEqual(stageRight + 1);
   }
 
   expect(runtimeErrors, "desk default/drag/zoom states raised browser runtime errors").toEqual([]);
@@ -977,7 +966,6 @@ test("compact desk scene preserves the cliff window anchor and return path", asy
   const outsideZoomed = await scene.canvas.screenshot();
   expect(screenshotDiffRatio(outsideZoomed, outsideDefault), "compact outside zoom should visibly change the cliff room").toBeGreaterThan(0.001);
   await expect(page.locator("[data-home-desk-controls]")).toBeVisible();
-  await expect(page.locator("[data-home-desk-note]")).toBeVisible();
   await attachScreenshot(page, testInfo, `desk-continuity-outside-max-zoom-${testInfo.project.name}`, { locator: scene.stage });
 
   await clickProjectedSceneTarget(page, scene.canvas, sceneContainer, "data-return-screen-bounds");

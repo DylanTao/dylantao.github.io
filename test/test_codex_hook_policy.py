@@ -5,13 +5,17 @@ import json
 import subprocess
 import tempfile
 import unittest
-from datetime import date, datetime, timedelta, timezone
+from datetime import date
 from pathlib import Path
 from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = REPO_ROOT / ".codex" / "hooks" / "site_policy.py"
+HOOKS_CONFIG_PATH = REPO_ROOT / ".codex" / "hooks.json"
+
+REPO_ROOT_COMMAND = ["git", "rev-parse", "--show-toplevel"]
+STAGED_PATHS_COMMAND = ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMRT"]
 
 
 def load_policy_module() -> Any:
@@ -56,39 +60,19 @@ class HookPolicyTest(unittest.TestCase):
             "tool_input": {"command": command},
         }
 
-    def runner(
-        self,
-        *,
-        ledger_returncode: int = 0,
-        staged_paths: list[str] | None = None,
-        outgoing_paths: list[str] | None = None,
-        branch: str = "main",
-    ):
+    def runner(self, *, staged_paths: list[str] | None = None):
         staged_paths = staged_paths or []
-        outgoing_paths = outgoing_paths or []
         calls: list[list[str]] = []
-        timeouts: list[tuple[list[str], int]] = []
 
         def run(args: list[str], *, cwd: Path | str | None, timeout: int = 30):
             calls.append(args)
-            timeouts.append((args, timeout))
-            if args == ["git", "rev-parse", "--show-toplevel"]:
+            if args == REPO_ROOT_COMMAND:
                 return subprocess.CompletedProcess(args, 0, stdout=f"{self.repo}\n", stderr="")
-            if args == ["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"]:
-                return subprocess.CompletedProcess(args, 0, stdout="origin/main\n", stderr="")
-            if args == ["git", "branch", "--show-current"]:
-                return subprocess.CompletedProcess(args, 0, stdout=f"{branch}\n", stderr="")
-            if args[:5] == ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMRT"]:
+            if args == STAGED_PATHS_COMMAND:
                 return subprocess.CompletedProcess(args, 0, stdout="\n".join(staged_paths), stderr="")
-            if args == ["git", "diff", "--name-only", "origin/main...HEAD"]:
-                return subprocess.CompletedProcess(args, 0, stdout="\n".join(outgoing_paths), stderr="")
-            if any(str(part).endswith("audit_agentic_usage.py") for part in args):
-                stdout = "" if ledger_returncode == 0 else "Agentic usage ledger public fields are stale."
-                return subprocess.CompletedProcess(args, ledger_returncode, stdout=stdout, stderr="")
             self.fail(f"unexpected command: {args}")
 
         run.calls = calls  # type: ignore[attr-defined]
-        run.timeouts = timeouts  # type: ignore[attr-defined]
         return run
 
     def assert_denied(self, response: dict[str, Any] | None) -> str:
@@ -105,116 +89,29 @@ class HookPolicyTest(unittest.TestCase):
         self.assertNotIn("permissionDecision", output)
         return output["additionalContext"]
 
-    def test_outer_hook_budget_exceeds_retained_session_audit_budget(self) -> None:
-        hooks = json.loads((REPO_ROOT / ".codex" / "hooks.json").read_text(encoding="utf-8"))
-        outer_timeout = hooks["hooks"]["PreToolUse"][0]["hooks"][0]["timeout"]
-
-        self.assertGreaterEqual(site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS, 120)
-        self.assertGreater(outer_timeout, site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS)
-
-    def test_normal_commit_gets_advisory_context_when_ledger_is_stale(self) -> None:
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
-        response = site_policy.handle_payload(self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), runner=runner)
-
-        reason = self.assert_context(response)
-        self.assertIn("Advisory only", reason)
-        self.assertIn("Agentic usage ledger is stale", reason)
-        self.assertIn("python bin/audit_agentic_usage.py --write --include-pending-commit", reason)
-        audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
-        self.assertIn("--check", audit_calls[0])
-        self.assertIn("--include-pending-commit", audit_calls[0])
-        self.assertEqual(audit_calls[0][-2:], ["--pending-path", "AGENTS.md"])
-
     def test_fresh_normal_commit_exits_cleanly(self) -> None:
-        runner = self.runner(ledger_returncode=0, staged_paths=["AGENTS.md"])
+        runner = self.runner(staged_paths=["AGENTS.md"])
         response = site_policy.handle_payload(self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), runner=runner)
 
         self.assertIsNone(response)
-        audit_timeouts = [
-            timeout
-            for args, timeout in runner.timeouts
-            if any(str(part).endswith("audit_agentic_usage.py") for part in args)
-        ]
-        self.assertEqual(audit_timeouts, [site_policy.LEDGER_AUDIT_TIMEOUT_SECONDS])
+        self.assertEqual(runner.calls, [REPO_ROOT_COMMAND, STAGED_PATHS_COMMAND])
 
-    def test_worker_branch_commit_defers_ledger_to_publish_branch(self) -> None:
-        runner = self.runner(
-            ledger_returncode=1,
-            staged_paths=["_sass/_blog.scss"],
-            branch="codex/site-ui-content-sol",
-        )
-        response = site_policy.handle_payload(
-            self.payload('git commit -m "Polish blog index"'),
-            today=date(2026, 6, 20),
-            runner=runner,
-        )
-
-        self.assertIsNone(response)
-        audit_calls = [
-            call
-            for call in runner.calls
-            if any(str(part).endswith("audit_agentic_usage.py") for part in call)
-        ]
-        self.assertEqual(audit_calls, [])
-
-    def test_amend_commit_uses_read_only_check_without_pending_commit(self) -> None:
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
+    def test_amend_commit_still_runs_the_scholar_check(self) -> None:
+        self.write_citations("2026-06-18")
+        runner = self.runner(staged_paths=["AGENTS.md"])
         response = site_policy.handle_payload(self.payload("git commit --amend --no-edit"), today=date(2026, 6, 20), runner=runner)
 
-        reason = self.assert_context(response)
-        self.assertIn("python bin/audit_agentic_usage.py --write", reason)
-        self.assertNotIn("--write --include-pending-commit", reason)
-        audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
-        self.assertEqual(audit_calls[0][-1], "--check")
-        self.assertNotIn("--include-pending-commit", audit_calls[0])
+        self.assertIn("Google Scholar data is more than one day stale", self.assert_context(response))
 
-    def test_push_uses_read_only_check_without_pending_commit(self) -> None:
-        runner = self.runner(ledger_returncode=0, outgoing_paths=["AGENTS.md"])
+    def test_push_with_fresh_scholar_data_exits_cleanly(self) -> None:
+        runner = self.runner()
         response = site_policy.handle_payload(self.payload("git push origin main"), today=date(2026, 6, 20), runner=runner)
 
         self.assertIsNone(response)
-        audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
-        self.assertEqual(audit_calls[0][-1], "--check")
-        self.assertNotIn("--include-pending-commit", audit_calls[0])
-
-    def test_hook_only_commit_skips_ledger_check(self) -> None:
-        runner = self.runner(
-            ledger_returncode=1,
-            staged_paths=[
-                ".codex/hooks.json",
-                ".codex/hooks/site_policy.py",
-                "bin/audit_agentic_usage.py",
-                "test/test_codex_hook_policy.py",
-            ],
-        )
-        response = site_policy.handle_payload(
-            self.payload('git commit --only -m "Add Codex freshness hooks" -- .codex/hooks.json .codex/hooks/site_policy.py bin/audit_agentic_usage.py test/test_codex_hook_policy.py'),
-            today=date(2026, 6, 20),
-            runner=runner,
-        )
-
-        self.assertIsNone(response)
-        audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
-        self.assertEqual(audit_calls, [])
-
-    def test_hook_only_push_skips_ledger_check(self) -> None:
-        runner = self.runner(
-            ledger_returncode=1,
-            outgoing_paths=[
-                ".codex/hooks.json",
-                ".codex/hooks/site_policy.py",
-                "bin/audit_agentic_usage.py",
-                "test/test_codex_hook_policy.py",
-            ],
-        )
-        response = site_policy.handle_payload(self.payload("git push origin main"), today=date(2026, 6, 20), runner=runner)
-
-        self.assertIsNone(response)
-        audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
-        self.assertEqual(audit_calls, [])
+        self.assertEqual(runner.calls, [REPO_ROOT_COMMAND])
 
     def test_quoted_git_push_search_text_does_not_trigger_hook(self) -> None:
-        runner = self.runner(ledger_returncode=1)
+        runner = self.runner()
         response = site_policy.handle_payload(
             self.payload('rg -n "git push origin main" docs'),
             today=date(2026, 6, 20),
@@ -225,20 +122,20 @@ class HookPolicyTest(unittest.TestCase):
         self.assertEqual(runner.calls, [])
 
     def test_real_push_after_separator_still_triggers_hook(self) -> None:
-        runner = self.runner(ledger_returncode=0)
+        self.write_citations("2026-06-18")
+        runner = self.runner()
         response = site_policy.handle_payload(
             self.payload("Write-Output ok; git push origin main"),
             today=date(2026, 6, 20),
             runner=runner,
         )
 
-        self.assertIsNone(response)
-        audit_calls = [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
-        self.assertEqual(audit_calls[0][-1], "--check")
+        self.assertIn("Google Scholar data is more than one day stale", self.assert_context(response))
+        self.assertEqual(runner.calls[0], REPO_ROOT_COMMAND)
 
     def test_publication_commit_blocks_when_citations_are_not_today(self) -> None:
         self.write_citations("2026-06-19")
-        runner = self.runner(ledger_returncode=0, staged_paths=["_bibliography/papers.bib"])
+        runner = self.runner(staged_paths=["_bibliography/papers.bib"])
         response = site_policy.handle_payload(self.payload('git commit -m "publication update"'), today=date(2026, 6, 20), runner=runner)
 
         reason = self.assert_denied(response)
@@ -247,7 +144,7 @@ class HookPolicyTest(unittest.TestCase):
 
     def test_unrelated_commit_gets_context_when_scholar_is_more_than_one_day_stale(self) -> None:
         self.write_citations("2026-06-18")
-        runner = self.runner(ledger_returncode=0, staged_paths=["assets/js/home.js"])
+        runner = self.runner(staged_paths=["assets/js/home.js"])
         response = site_policy.handle_payload(self.payload('git commit -m "layout update"'), today=date(2026, 6, 20), runner=runner)
 
         self.assertIsNotNone(response)
@@ -257,7 +154,7 @@ class HookPolicyTest(unittest.TestCase):
         self.assertIn("Google Scholar data is more than one day stale", output["additionalContext"])
 
     def test_commit_all_is_denied_before_checks(self) -> None:
-        runner = self.runner(ledger_returncode=0, staged_paths=["AGENTS.md"])
+        runner = self.runner(staged_paths=["AGENTS.md"])
         response = site_policy.handle_payload(self.payload('git commit -am "sweep"'), today=date(2026, 6, 20), runner=runner)
 
         reason = self.assert_denied(response)
@@ -265,113 +162,33 @@ class HookPolicyTest(unittest.TestCase):
         self.assertEqual(runner.calls, [])
 
     def test_citation_data_files_must_be_staged_together(self) -> None:
-        runner = self.runner(ledger_returncode=0, staged_paths=["_data/citations.yml"])
+        runner = self.runner(staged_paths=["_data/citations.yml"])
         response = site_policy.handle_payload(self.payload('git commit -m "citation update"'), today=date(2026, 6, 20), runner=runner)
 
         reason = self.assert_denied(response)
         self.assertIn("Scholar citation data files should be staged together", reason)
 
-    # --- ledger audit throttle ---------------------------------------------------
+    def test_policy_has_no_ledger_surface(self) -> None:
+        self.assertNotIn("audit_agentic_usage", POLICY_PATH.read_text(encoding="utf-8"))
+        for name in (
+            "run_ledger_check",
+            "run_stage_aware_ledger_check",
+            "ledger_audit_is_throttled",
+            "LEDGER_AUDIT_STAMP_RELPATH",
+        ):
+            self.assertFalse(hasattr(site_policy, name), name)
 
-    def audit_calls(self, runner: Any) -> list[list[str]]:
-        return [call for call in runner.calls if any(str(part).endswith("audit_agentic_usage.py") for part in call)]
+    def test_hook_config_points_at_policy_and_names_scholar(self) -> None:
+        hooks = json.loads(HOOKS_CONFIG_PATH.read_text(encoding="utf-8"))
+        pre_tool_use = hooks["hooks"]["PreToolUse"]
 
-    def write_audit_stamp(self, moment: datetime) -> None:
-        path = site_policy.ledger_audit_stamp_path(self.repo)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(moment.isoformat(), encoding="utf-8")
-
-    def test_throttle_window_is_the_documented_twenty_four_hours(self) -> None:
-        self.assertEqual(site_policy.LEDGER_AUDIT_THROTTLE, timedelta(hours=24))
-
-    def test_commit_inside_the_throttle_window_skips_the_audit(self) -> None:
-        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        self.write_audit_stamp(now - timedelta(hours=1))
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
-
-        response = site_policy.handle_payload(
-            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
-        )
-
-        # The ledger is stale, but the window has not elapsed, so the expensive
-        # audit never runs and the commit is not blocked on it.
-        self.assertIsNone(response)
-        self.assertEqual(self.audit_calls(runner), [])
-
-    def test_commit_past_the_throttle_window_runs_the_audit(self) -> None:
-        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        self.write_audit_stamp(now - timedelta(hours=25))
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
-
-        response = site_policy.handle_payload(
-            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
-        )
-
-        self.assertIn("Agentic usage ledger is stale", self.assert_context(response))
-        self.assertEqual(len(self.audit_calls(runner)), 1)
-
-    def test_passing_audit_records_the_stamp(self) -> None:
-        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        runner = self.runner(ledger_returncode=0, staged_paths=["AGENTS.md"])
-
-        site_policy.handle_payload(
-            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
-        )
-
-        self.assertEqual(site_policy.read_ledger_audit_stamp(self.repo), now)
-
-    def test_failing_audit_still_records_the_stamp(self) -> None:
-        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
-
-        site_policy.handle_payload(
-            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
-        )
-
-        # The check is advisory, so a stale result still opens the window: the
-        # next commits within a day proceed without paying for the check again.
-        self.assertEqual(site_policy.read_ledger_audit_stamp(self.repo), now)
-
-    def test_push_honours_the_throttle_window(self) -> None:
-        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        self.write_audit_stamp(now - timedelta(hours=1))
-        runner = self.runner(ledger_returncode=1, outgoing_paths=["AGENTS.md"])
-
-        response = site_policy.handle_payload(self.payload("git push"), today=date(2026, 6, 20), now=now, runner=runner)
-
-        self.assertIsNone(response)
-        self.assertEqual(self.audit_calls(runner), [])
-
-    def test_unparseable_stamp_falls_back_to_auditing(self) -> None:
-        path = site_policy.ledger_audit_stamp_path(self.repo)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text("not-a-timestamp", encoding="utf-8")
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
-
-        response = site_policy.handle_payload(
-            self.payload('git commit -m "site polish"'),
-            today=date(2026, 6, 20),
-            now=datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc),
-            runner=runner,
-        )
-
-        self.assertIn("Agentic usage ledger is stale", self.assert_context(response))
-
-    def test_future_stamp_falls_back_to_auditing(self) -> None:
-        now = datetime(2026, 6, 20, 18, 0, tzinfo=timezone.utc)
-        self.write_audit_stamp(now + timedelta(hours=3))
-        runner = self.runner(ledger_returncode=1, staged_paths=["AGENTS.md"])
-
-        response = site_policy.handle_payload(
-            self.payload('git commit -m "site polish"'), today=date(2026, 6, 20), now=now, runner=runner
-        )
-
-        # Clock skew or a stamp copied between machines must not buy a reprieve.
-        self.assertIn("Agentic usage ledger is stale", self.assert_context(response))
-
-    def test_stamp_is_ignored_by_git(self) -> None:
-        ignore_text = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
-        self.assertIn(str(site_policy.LEDGER_AUDIT_STAMP_RELPATH.as_posix()), ignore_text)
+        self.assertEqual(len(pre_tool_use), 1)
+        self.assertEqual(len(pre_tool_use[0]["hooks"]), 1)
+        hook = pre_tool_use[0]["hooks"][0]
+        self.assertIn("site_policy.py", hook["command"])
+        self.assertIn("site_policy.py", hook["commandWindows"])
+        self.assertEqual(hook["statusMessage"], "Checking Scholar citation freshness")
+        self.assertEqual(hook["timeout"], 30)
 
 
 if __name__ == "__main__":

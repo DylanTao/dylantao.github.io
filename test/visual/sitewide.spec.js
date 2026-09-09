@@ -348,8 +348,6 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
       await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
       await expect(page.locator(".github-activity-method")).toBeHidden();
-      await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
-      await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", /^(ready|error)$/);
     } else {
       await expect(page.locator("[data-personal-code-unavailable]")).toBeHidden();
       await expect(page.locator("[data-personal-daily-copy]").first()).toBeVisible();
@@ -616,8 +614,8 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     const questions = page.locator(".build-rhythm-questions").first();
     const questionRows = questions.locator(":scope > li");
     const reproduce = page.locator(".site-experiment-reproduce").first();
-    await expect(questionRows).toHaveCount(3);
-    await expect(questionRows.locator("h3")).toHaveCount(3);
+    await expect(questionRows).toHaveCount(2);
+    await expect(questionRows.locator("h3")).toHaveCount(2);
     await expect(reproduce).toBeVisible();
     const boxes = await questionRows.evaluateAll((elements) =>
       elements.map((element) => {
@@ -630,7 +628,6 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       "Build Rhythm question rows are squeezed"
     ).toBe(true);
     expect(boxes[1].top).toBeGreaterThanOrEqual(boxes[0].bottom);
-    expect(boxes[2].top).toBeGreaterThanOrEqual(boxes[1].bottom);
 
     const reproduceMeasure = await reproduce.evaluate((element) => {
       const box = element.getBoundingClientRect();
@@ -1994,86 +1991,22 @@ test("head alternates are scoped to equivalent machine-readable documents", asyn
   }
 });
 
-test("home Build Rhythm route stays quiet and permanently available", async ({ page }, testInfo) => {
+test("home connect note links to the revamp story and Build Rhythm without numbers", async ({ page }, testInfo) => {
   const runtimeErrors = collectRuntimeErrors(page);
   for (const theme of ["noon", "evening"]) {
     await preparePage(page, theme);
-    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
     await stabilizeVisuals(page);
 
-    const route = page.locator(".home-build-rhythm-route");
-    await route.scrollIntoViewIfNeeded();
-    await expect(route).toBeVisible();
-    await expect(route).toHaveAttribute("href", /\/github-activity\/$/);
-    await expect(route).toHaveAccessibleName("Explore Build Rhythm: commits, lines, and observed token history.");
-    await expect(route).toHaveText("Build Rhythm · commits · lines · observed token history · →");
-    await expect(page.locator(".home-agentic-heartbeat")).toHaveCount(0);
-    await expect(route.locator("time, .home-agentic-heartbeat-status, .home-agentic-heartbeat-meta")).toHaveCount(0);
-
-    const geometry = await route.evaluate((element) => {
-      const bounds = element.getBoundingClientRect();
-      const style = getComputedStyle(element);
-      const titleStyle = getComputedStyle(element.querySelector("strong"));
-      const summaryStyle = getComputedStyle(element.querySelector(".home-build-rhythm-route-summary"));
-      const destinationBounds = element.querySelector(".home-build-rhythm-route-destination").getBoundingClientRect();
-      const arrow = element.querySelector(".home-build-rhythm-route-arrow");
-      const arrowBounds = arrow.getBoundingClientRect();
-      const arrowStyle = getComputedStyle(arrow);
-      const range = document.createRange();
-      range.selectNodeContents(element);
-      const lineTops = Array.from(range.getClientRects()).map((rect) => Math.round(rect.top));
-      const footer = document.querySelector("footer")?.getBoundingClientRect();
-      return {
-        left: bounds.left,
-        right: bounds.right,
-        bottom: bounds.bottom,
-        height: bounds.height,
-        backgroundColor: style.backgroundColor,
-        borderWidths: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth],
-        boxShadow: style.boxShadow,
-        color: style.color,
-        titleColor: titleStyle.color,
-        summaryColor: summaryStyle.color,
-        arrowColor: arrowStyle.color,
-        arrowTransitionDuration: arrowStyle.transitionDuration,
-        routeTransitionDuration: style.transitionDuration,
-        lineCount: new Set(lineTops).size,
-        arrowTop: arrowBounds.top,
-        destinationTop: destinationBounds.top,
-        footerTop: footer?.top ?? null,
-        clientWidth: document.documentElement.clientWidth,
-        scrollWidth: document.documentElement.scrollWidth,
-      };
-    });
-    expect(geometry.left).toBeGreaterThanOrEqual(-1);
-    expect(geometry.right).toBeLessThanOrEqual(geometry.clientWidth + 1);
-    expect(geometry.height).toBeGreaterThanOrEqual(44);
-    expect(geometry.backgroundColor).toBe("rgba(0, 0, 0, 0)");
-    expect(geometry.borderWidths).toEqual(["0px", "0px", "0px", "0px"]);
-    expect(geometry.boxShadow).toBe("none");
-    expect(geometry.titleColor).toBe(geometry.color);
-    expect(geometry.summaryColor).toBe(geometry.color);
-    expect(geometry.arrowColor).not.toBe(geometry.color);
-    expect(geometry.lineCount).toBeGreaterThanOrEqual(1);
-    expect(geometry.lineCount).toBeLessThanOrEqual(2);
-    expect(Math.abs(geometry.arrowTop - geometry.destinationTop)).toBeLessThanOrEqual(1);
-    expect(geometry.scrollWidth - geometry.clientWidth).toBeLessThanOrEqual(1);
-    expect(geometry.routeTransitionDuration).toBe("0s");
-    expect(geometry.arrowTransitionDuration).toBe("0s");
-    if (geometry.footerTop !== null) {
-      expect(geometry.bottom).toBeLessThanOrEqual(geometry.footerTop + 1);
-    }
-
-    await route.focus();
-    await expect(route).toBeFocused();
-    const focusStyle = await route.evaluate((element) => {
-      const style = getComputedStyle(element);
-      return { color: style.color, outlineWidth: Number.parseFloat(style.outlineWidth) };
-    });
-    expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(2);
-    expect(focusStyle.color).toBe(geometry.arrowColor);
-    await attachScreenshot(page, testInfo, `home-build-rhythm-route-${theme}-${testInfo.project.name}`, { locator: route });
+    const note = page.locator(".home-connect-note");
+    await note.scrollIntoViewIfNeeded();
+    await expect(note).toBeVisible();
+    const links = note.locator("a");
+    await expect(links).toHaveCount(2);
+    await expect(links.nth(0)).toHaveAttribute("href", /\/projects\/website-revamp\/$/);
+    await expect(links.nth(1)).toHaveAttribute("href", /\/github-activity\/$/);
+    await expect(note).not.toContainText(/\d/);
+    await attachScreenshot(page, testInfo, `home-connect-note-${theme}-${testInfo.project.name}`, { locator: note });
   }
   expect(runtimeErrors).toEqual([]);
 });
@@ -2116,8 +2049,6 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
     await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
     await expect(page.locator("[data-github-scope]")).toHaveText("CODE ACTIVITY");
     await expect(page.locator(".github-activity-method")).toBeHidden();
-    await expect(page.locator(".github-activity-token-rhythm")).toBeVisible();
-    await expect(page.locator("[data-codex-usage]")).toHaveAttribute("data-state", /^(ready|error)$/);
 
     for (const width of [390, 320]) {
       await page.setViewportSize({ width, height: 1000 });

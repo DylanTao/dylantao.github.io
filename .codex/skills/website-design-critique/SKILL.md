@@ -36,7 +36,7 @@ For a new or deferred visual idea, also read `docs/design-experiment-backlog.md`
 - Own the affected public routes, page hierarchy, general content presentation, and non-scene responsive behavior.
 - Do not change desk-scene geometry, state, album behavior, hit targets, or scene-only selectors. Route those changes to `$homepage-desk-scene`.
 - Treat `assets/js/home.js`, `_sass/_home.scss`, and `_includes/home/hero.liquid` as high-conflict shared files. Reserve and serialize any necessary edit through the coordinator; never write one while a scene agent is editing it.
-- Do not refresh or push the usage ledger from a worker stream. The coordinator performs the final publish audit after integration.
+- Do not push from a worker stream. The coordinator integrates verified checkpoints and publishes.
 
 ## Workflow
 

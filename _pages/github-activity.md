@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Daily code activity by named source and this site's separate build-token rhythm.
+description: Daily code activity by named source, showing when the work bunched up and how much moved.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -24,23 +24,9 @@ github_activity: true
     <p class="github-activity-eyebrow">BUILDING, DAY BY DAY</p>
     <h1 id="github-activity-title">Build rhythm.</h1>
     <p class="github-activity-lede">
-      I wanted the logs to show where the work bunches up. Daily code and this site's separate token trace keep those two rhythms
-      inspectable without turning either one into a productivity score.
+      I wanted the logs to show where the work bunches up. Daily code activity by source keeps that rhythm inspectable without turning
+      it into a productivity score.
     </p>
-    {% assign direct_tracker = site.data.direct_usage_tracker %}
-    {% assign token_rhythm = site.data.agentic_usage.total.token_rhythm %}
-    {% assign token_latest = token_rhythm.points | last %}
-    {% assign token_previous_count = 0 %}
-    {% assign token_largest_increase = 0 %}
-    {% assign token_largest_increase_date = token_rhythm.since %}
-    {% for token_point in token_rhythm.points %}
-      {% assign token_daily_increase = token_point.token_count | minus: token_previous_count %}
-      {% if token_daily_increase > token_largest_increase %}
-        {% assign token_largest_increase = token_daily_increase %}
-        {% assign token_largest_increase_date = token_point.date %}
-      {% endif %}
-      {% assign token_previous_count = token_point.token_count %}
-    {% endfor %}
   </header>
 
   <section
@@ -58,7 +44,7 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        I start with when the recorded code changed and how much moved. Then I follow this site's token trace and personal agent history.
+        I start with when the recorded code changed, then how much moved, then why one giant day needed a second scale.
       </p>
     </header>
 
@@ -71,7 +57,7 @@ github_activity: true
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Daily code activity by source beside personal agent history.
+            Daily code activity by source.
           </p>
         </div>
       </div>
@@ -95,38 +81,12 @@ github_activity: true
           <p>Readable lets the ordinary days breathe. Literal restores the full distance to the biggest spike. I kept both.</p>
         </article>
 
-        <article class="build-rhythm-story-step" data-build-rhythm-step="tokens">
-          <p class="build-rhythm-story-step-number">04 · THIS SITE</p>
-          <h3>Then I follow the site build day by day.</h3>
-          <p>
-            Some days barely nudge the line. Long build days make it jump. This site's rounded estimate now reaches
-            <strong>{{ token_latest.tokens_label }}</strong> through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time>;
-            its biggest adjacent jump was
-            <data value="{{ token_largest_increase }}">
-              {% if token_largest_increase >= 1000000000 %}
-                {{- token_largest_increase | divided_by: 1000000000.0 | round: 2 -}}B
-              {% else %}
-                {{- token_largest_increase | divided_by: 1000000 -}}M
-              {% endif %}
-            </data>
-            estimated tokens on <time datetime="{{ token_largest_increase_date }}">{{ token_largest_increase_date | date: "%b %-d, %Y" }}</time>.
-          </p>
-        </article>
-
-        <article class="build-rhythm-story-step" data-build-rhythm-step="agents">
-          <p class="build-rhythm-story-step-number">05 · PERSONAL AGENTS</p>
-          <h3 data-build-rhythm-agent-heading>Recent agent history is unavailable.</h3>
-          <p data-build-rhythm-agent-copy>
-            The shared lifetime code explorer below remains available while the agent snapshot is checked.
-          </p>
-        </article>
-
         <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">06 · YOUR TURN</p>
+          <p class="build-rhythm-story-step-number">04 · YOUR TURN</p>
           <h3>Now read the whole rhythm yourself.</h3>
           <p>
-            Change the range or scale, move day by day with the keyboard, and inspect the final plot. Use the summary for the overall total
-            and the independently dated agent inset to compare the shorter recent rhythm without stretching it across the lifetime view.
+            Change the range or scale, move day by day with the keyboard, and inspect the final plot. The reported-value table stays one
+            disclosure away.
           </p>
           <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
         </article>
@@ -182,48 +142,6 @@ github_activity: true
       </fieldset>
     </div>
 
-    <section
-      class="github-activity-agent-summary"
-      data-codex-usage
-      data-state="loading"
-      data-source="{{ '/assets/data/codex-profile-usage.json' | relative_url }}"
-      aria-labelledby="github-activity-agent-summary-title"
-      aria-describedby="github-activity-lifetime-status"
-      aria-busy="true"
-      hidden
-    >
-      <div class="github-activity-agent-summary-heading">
-        <div>
-          <p class="github-activity-module-kicker">PERSONAL AGENT TOKENS</p>
-          <h3 id="github-activity-agent-summary-title">
-            <span data-codex-lifetime data-format="readable"></span> <span>total tokens</span>
-          </h3>
-        </div>
-        <p class="github-activity-lifetime-cost" data-codex-cost hidden>
-          <span data-codex-cost-value></span> public API-rate replay estimate &middot; not a bill.
-        </p>
-      </div>
-
-      <div class="github-activity-agent-families" data-agent-family-summary hidden>
-        <div class="github-activity-agent-family-row">
-          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-codex" aria-hidden="true"></span>Codex area</span>
-          <span class="github-activity-agent-family-value" data-agent-codex-value></span>
-        </div>
-        <div class="github-activity-agent-family-row">
-          <span class="github-activity-agent-family-name"><span class="github-activity-agent-swatch is-claude" aria-hidden="true"></span>Claude area</span>
-          <span class="github-activity-agent-family-value" data-agent-claude-value></span>
-        </div>
-        <div class="github-activity-agent-composition" data-agent-composition role="img">
-          <span class="github-activity-agent-composition-segment is-codex" data-agent-codex-segment></span>
-          <span class="github-activity-agent-composition-segment is-claude" data-agent-claude-segment></span>
-        </div>
-      </div>
-
-      <p class="github-activity-lifetime-status sr-only" id="github-activity-lifetime-status" data-codex-status>
-        Personal agent daily usage is loading.
-      </p>
-    </section>
-
     <div class="github-activity-readout" data-personal-daily-copy>
       <div class="github-activity-readout-content">
         <p class="github-activity-readout-label" id="github-activity-selected-date">Latest date label</p>
@@ -236,13 +154,6 @@ github_activity: true
           </span>
           <span class="github-activity-value-group">
             <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
-          </span>
-          <span
-            class="github-activity-value-group github-activity-token-value-group"
-            data-personal-codex-readout
-            {% unless direct_tracker.schema >= 5 and direct_tracker.combined_daily_usage %}hidden{% endunless %}
-          >
-            <span class="github-activity-selected-tokens" id="github-activity-selected-tokens"></span>
           </span>
         </p>
       </div>
@@ -260,7 +171,7 @@ github_activity: true
         Total and authored commits, authored additions and deletions by source-reported calendar label
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
-        Hover or click to inspect a source-reported date label and its code and personal token usage. Drag horizontally to select a range. With
+        Hover or click to inspect a source-reported date label and its code activity. Drag horizontally to select a range. With
         keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
         to move seven calendar labels, and Escape to clear a selection.
       </p>
@@ -323,112 +234,12 @@ github_activity: true
 
   </section>
 
-  <section
-    class="github-activity-token-rhythm"
-    data-token-rhythm
-    data-state="loading"
-    aria-labelledby="github-activity-token-rhythm-title"
-  >
-    <div class="github-activity-module-heading">
-      <div>
-        <p class="github-activity-module-kicker">SITE-BUILD TOKEN RHYTHM</p>
-        <h2 id="github-activity-token-rhythm-title">Estimated tokens accumulated while building this site</h2>
-        <p>A rounded daily trace for this repository: the running total above and each day's increase below.</p>
-      </div>
-      <span class="github-activity-scope-badge">REPO-SCOPED &middot; DAILY</span>
-    </div>
-
-    <dl class="github-activity-token-summary" aria-label="Site-build token rhythm summary">
-      <div>
-        <dt>{{ token_latest.tokens_label }}</dt>
-        <dd>cumulative estimate through <time datetime="{{ token_latest.date }}">{{ token_latest.date | date: "%b %-d, %Y" }}</time></dd>
-      </div>
-      <div>
-        <dt>
-          <data value="{{ token_largest_increase }}">
-            +{% if token_largest_increase >= 1000000000 %}
-              {{- token_largest_increase | divided_by: 1000000000.0 | round: 2 -}}B
-            {% else %}
-              {{- token_largest_increase | divided_by: 1000000 -}}M
-            {% endif %}
-          </data>
-        </dt>
-        <dd>largest rounded daily increase, on <time datetime="{{ token_largest_increase_date }}">{{ token_largest_increase_date | date: "%b %-d, %Y" }}</time></dd>
-      </div>
-    </dl>
-
-    <div class="github-activity-token-chart-shell">
-      <svg
-        id="github-activity-token-rhythm-chart"
-        class="github-activity-token-rhythm-chart"
-        data-token-rhythm-chart
-        aria-hidden="true"
-        focusable="false"
-      ></svg>
-      <p class="github-activity-token-annotation" data-token-rhythm-readout>
-        Cumulative estimated tokens and rounded daily increases from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
-        {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}.
-      </p>
-    </div>
-
-    <details class="github-activity-token-evidence" data-token-rhythm-details>
-      <summary id="github-activity-token-table-title">Reported rounded daily values</summary>
-      <div class="github-activity-token-evidence-body">
-        <p>The same rounded series, row by row.</p>
-        <p class="github-activity-table-scroll-hint" id="github-activity-token-table-scroll-hint">Scroll horizontally for all three columns.</p>
-        <div
-          class="github-activity-table-wrap"
-          role="region"
-          aria-label="Daily cumulative repo-token estimate table"
-          aria-describedby="github-activity-token-table-scroll-hint"
-          tabindex="0"
-        >
-          <table class="github-activity-table">
-            <caption>
-              Rounded cumulative retained-session estimate from {{ token_rhythm.since | date: "%b %-d, %Y" }} through
-              {{ token_rhythm.updated_at | date: "%b %-d, %Y" }}
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Cumulative estimate</th>
-                <th scope="col">Rounded increase</th>
-              </tr>
-            </thead>
-            <tbody id="github-activity-token-table-body">
-              {% assign token_table_previous_count = 0 %}
-              {% for token_point in token_rhythm.points %}
-                {% assign token_table_increase = token_point.token_count | minus: token_table_previous_count %}
-                <tr>
-                  <th scope="row"><time datetime="{{ token_point.date }}">{{ token_point.date | date: "%b %-d, %Y" }}</time></th>
-                  <td><data value="{{ token_point.token_count }}">{{ token_point.tokens_label }} estimated tokens</data></td>
-                  <td>
-                    <data value="{{ token_table_increase }}">
-                      +{% if token_table_increase >= 1000000000 %}
-                        {{- token_table_increase | divided_by: 1000000000.0 | round: 2 -}}B
-                      {% else %}
-                        {{- token_table_increase | divided_by: 1000000 -}}M
-                      {% endif %}
-                      estimated tokens
-                    </data>
-                  </td>
-                </tr>
-                {% assign token_table_previous_count = token_point.token_count %}
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </details>
-
-  </section>
-
   <details class="github-activity-method" data-personal-daily-copy>
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
         <h2>Separate scales</h2>
-        <p>Daily code activity by named source, site-build estimates, and personal agent usage keep their own units and dates.</p>
+        <p>Commits and line changes keep their own units and axes. The two panels share only the date axis and the selected label.</p>
       </div>
       <div>
         <h2>Source calendars</h2>
@@ -436,10 +247,6 @@ github_activity: true
           Personal follows GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels.
           Matching <code>YYYY-MM-DD</code> labels align the display, not one shared 24-hour window.
         </p>
-      </div>
-      <div>
-        <h2>Token rhythm</h2>
-        <p>Deduplicated retained logs attributed to this repo produce rounded cumulative daily estimates for the site.</p>
       </div>
       <div>
         <h2>Readable or literal</h2>
@@ -467,10 +274,6 @@ github_activity: true
         <p>Zero-activity dates appear only inside verified complete coverage. An incomplete or malformed refresh leaves the last valid record in place.</p>
       </div>
       <div>
-        <h2>Agent token history</h2>
-        <p>Daily Codex history begins April 30, 2026. Claude joins the same cumulative view on July 29, 2026, and from August 4 through September 4, 2026 it also carries the identity-free tally of a second retained device. The personal agent totals stay separate from this site's rounded token estimate.</p>
-      </div>
-      <div>
         <h2>Motion with a stop condition</h2>
         <p>Changing range or scale redraws the selected view once. The chart settles immediately, keeps exact tables, and remains static under reduced motion.</p>
       </div>
@@ -493,10 +296,6 @@ github_activity: true
             <th scope="col">Added</th>
             <th scope="col">Removed</th>
             <th scope="col">Line changes</th>
-            <th scope="col">Agent tokens (UTC label)</th>
-            <th scope="col">Codex</th>
-            <th scope="col">Claude</th>
-            <th scope="col">Cumulative tokens</th>
           </tr>
         </thead>
         <tbody id="github-activity-table-body"></tbody>
@@ -505,16 +304,12 @@ github_activity: true
   </details>
 
   <p class="github-activity-source" data-personal-daily-copy>
-    Code activity's latest reported date label is <time id="github-activity-updated"></time>. The retained-session token rhythm is generated with the public
-    agentic-usage ledger; the personal agent plot identifies its own completeness boundary above. Time-window and scale controls draw on
+    Code activity's latest reported date label is <time id="github-activity-updated"></time>. Time-window and scale controls draw on
     <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
     alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
   </p>
 
   <script id="code-activity-data" type="application/json">
     {{ site.data.code_activity | jsonify }}
-  </script>
-  <script id="build-rhythm-token-data" type="application/json">
-    {{ token_rhythm | jsonify }}
   </script>
 </section>

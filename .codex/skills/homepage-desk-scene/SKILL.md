@@ -1,6 +1,6 @@
 ---
 name: homepage-desk-scene
-description: Maintain and improve the customized homepage 2D/3D interactive desk, album, coffee-stain, usage-counter, and Japandi cliff-cave room scene. Use when changing `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, homepage 3D room/exterior behavior, album or artifact interactions, desk-scene responsive layout, or visual QA for the homepage desk widget.
+description: Maintain and improve the customized homepage 2D/3D interactive desk, album, coffee-stain, and Japandi cliff-cave room scene. Use when changing `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, `docs/homepage-desk-scene-brief.md`, homepage 3D room/exterior behavior, album or artifact interactions, desk-scene responsive layout, or visual QA for the homepage desk widget.
 ---
 
 # Homepage Desk Scene
@@ -25,7 +25,7 @@ Start with `Current Priority Order`, `Known Inspection Targets`, `Non-Goals`, an
 - Own scene behavior and scene-owned regions in `assets/js/home.js`, `_sass/_home.scss`, `_includes/home/hero.liquid`, the canonical brief, relevant home interaction tests, and scene assets.
 - Do not rewrite posts, projects, general homepage narrative, global navigation, footer, or unrelated styles.
 - Treat the three implementation files above as high-conflict shared paths. Reserve each file through the coordinator and never edit it while a sitewide agent is writing it.
-- Do not refresh the usage ledger or push from a worker stream. Use `$agentic-usage-ledger` only at the coordinator's final integrated publish checkpoint.
+- Do not push from a worker stream. The coordinator integrates verified checkpoints and publishes.
 
 ## Working Rules
 
@@ -35,7 +35,6 @@ Start with `Current Priority Order`, `Known Inspection Targets`, `Non-Goals`, an
 - Maintain the warm Japandi cliff-cave room/exterior continuity described in the brief.
 - Fix functional state, anchor continuity, object legibility, and responsive access before adding richer geometry or effects.
 - Keep the public handoff prompt in `docs/homepage-desk-scene-brief.md`; update it only when the actual next-task contract changes.
-- Keep the usage counter readable and compact; never infer or hardcode counter math in scene code.
 
 ## Verification
 
@@ -47,7 +46,7 @@ For behavior or visual edits, use the brief's acceptance evidence map and compar
 - 3D interior default, side/rear yaw, and interaction movement
 - outside default/zoom and return path
 - album swap/focus/drop states
-- mobile scene controls and usage note
+- mobile scene controls
 - light/dark surfaces, keyboard focus, reduced motion, overflow, and console errors
 
 Before accepting a 3D change, confirm the canvas is nonblank and drag/zoom produce visible pixel changes. Run the targeted commands in the brief and the production Docker/root-site verification in `AGENTS.md`; report remaining limitations rather than marking an unverified state complete.

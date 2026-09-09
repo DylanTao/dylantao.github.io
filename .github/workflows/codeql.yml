@@ -15,17 +15,11 @@ on:
   push:
     branches: ["main"]
     paths-ignore:
-      - "_data/agentic_usage.yml"
-      - "_data/direct_usage_tracker.json"
       - "_data/code_activity.json"
-      - "assets/data/codex-profile-usage.json"
   pull_request:
     branches: ["main"]
     paths-ignore:
-      - "_data/agentic_usage.yml"
-      - "_data/direct_usage_tracker.json"
       - "_data/code_activity.json"
-      - "assets/data/codex-profile-usage.json"
   schedule:
     - cron: "45 4 * * 3"
 

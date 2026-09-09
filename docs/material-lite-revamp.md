@@ -74,7 +74,4 @@ Run the repo checks that match the touched files:
 npm.cmd run lint:style-contract
 npm.cmd run lint:prettier
 bundle exec al-folio upgrade overrides audit
-python bin/audit_agentic_usage.py --write --include-pending-commit
 ```
-
-After committing, rerun `python bin/audit_agentic_usage.py` read-only and refresh the ledger only when rounded public labels drift.

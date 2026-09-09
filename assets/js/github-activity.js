@@ -5,35 +5,18 @@
     notation: "compact",
     maximumFractionDigits: 1,
   });
-  const familyNumber = new Intl.NumberFormat("en-US", {
-    notation: "compact",
-    maximumFractionDigits: 2,
-  });
   const fullDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
-  const shortDate = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-  const monthYear = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
   const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
   const DAY_MS = 86_400_000;
-  const CODEX_DAILY_HISTORY_START = "2026-04-30";
-  const CLAUDE_DAILY_HISTORY_START = "2026-07-29";
   // Calendar-only labels use a UTC-midnight Date as a stable arithmetic and
   // formatting surrogate. This does not turn a source-reported label into a
   // shared UTC interval.
   const calendarDate = (value) => new Date(`${value}T00:00:00Z`);
-  const utcDate = calendarDate;
   const calendarLabelFor = (instant, timeZone) => {
     const parts = Object.fromEntries(
       new Intl.DateTimeFormat("en-US", {
@@ -84,7 +67,7 @@
   };
   const isIsoDate = (value) => {
     if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-    const parsed = utcDate(value);
+    const parsed = calendarDate(value);
     return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
   };
   const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
@@ -209,324 +192,10 @@
     );
     return { maximum, values, x, y };
   };
-  const lifetimeHistoryRows = (source) => {
-    if (source?.combined_daily_usage) {
-      const usage = source.combined_daily_usage;
-      let cumulative = usage.coverage.prior_unallocated_tokens;
-      const familyCumulative =
-        usage.schema === 2
-          ? {
-              codex: usage.coverage.prior_unallocated_by_agent.codex,
-              claude: usage.coverage.prior_unallocated_by_agent.claude,
-            }
-          : null;
-      return usage.points.map((point, index) => {
-        cumulative += point.tokens;
-        if (familyCumulative) {
-          familyCumulative.codex += point.agent_tokens.codex;
-          familyCumulative.claude += point.agent_tokens.claude;
-        }
-        return {
-          index,
-          date: utcDate(point.date),
-          tokenCount: cumulative,
-          tokensLabel: compactNumber.format(cumulative),
-          dailyTokens: point.tokens,
-          dailyAgentTokens: point.agent_tokens || null,
-          cumulativeAgentTokens: familyCumulative ? { ...familyCumulative } : null,
-          observation: "exact_daily",
-        };
-      });
-    }
-    return (
-      source?.combined_lifetime_history?.points?.map((point, index) => ({
-        index,
-        date: utcDate(point.date),
-        tokenCount: point.token_count,
-        tokensLabel: point.tokens_label,
-        dailyTokens: null,
-        observation: point.observation,
-      })) || []
-    );
-  };
-  const hasAgentFamilyBreakdown = (source) => source?.combined_daily_usage?.schema === 2;
-  const agentFamilyTotals = (source) => {
-    if (!hasAgentFamilyBreakdown(source)) return null;
-    const rows = lifetimeHistoryRows(source);
-    return rows.at(-1)?.cumulativeAgentTokens || null;
-  };
-  const agentFamilyPercentages = (totals) => {
-    const total = totals.codex + totals.claude;
-    if (total <= 0) return { codex: 0, claude: 0 };
-    const codexBasisPoints = Math.round((totals.codex / total) * 10_000);
-    const claudeBasisPoints = 10_000 - codexBasisPoints;
-    return { codex: codexBasisPoints / 100, claude: claudeBasisPoints / 100 };
-  };
-  const codexUsageForDay = (source, row) => {
-    const daily = source?.combined_daily_usage;
-    if (daily) {
-      const coverage = daily.coverage;
-      if (row.date < utcDate(coverage.starts_on)) {
-        return coverage.before_start === "zero"
-          ? { date: row.date, tokenCount: 0, tokensLabel: "0", dailyTokens: 0, observation: "exact_daily" }
-          : null;
-      }
-      if (row.date > utcDate(coverage.complete_through)) return null;
-      return lifetimeHistoryRows(source).find((point) => point.date.getTime() === row.date.getTime()) || null;
-    }
-    return lifetimeHistoryRows(source)
-      .filter((point) => point.date.getTime() <= row.date.getTime())
-      .at(-1);
-  };
-  const drawAgentHistory = (group, source, width, height, colors) => {
-    const points = lifetimeHistoryRows(source);
-    if (!points.length) return null;
-    const left = width < 620 ? 48 : 58;
-    const right = width < 620 ? 10 : 14;
-    const top = 24;
-    const bottom = height - 30;
-    const start = points[0].date.getTime();
-    const end = points.at(-1).date.getTime();
-    const span = end - start;
-    const x = (date) => (span === 0 ? (left + width - right) / 2 : left + ((date.getTime() - start) / span) * (width - left - right));
-    const maximum = Math.max(points.at(-1).tokenCount, 1);
-    const y = (value) => bottom - (value / maximum) * (bottom - top);
 
-    [0, maximum].forEach((tick) => {
-      const yy = y(tick);
-      group.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: colors.grid, "stroke-width": 1 }));
-      addText(group, compactNumber.format(tick), left - 7, yy + 4, { anchor: "end", color: colors.muted, size: 10 });
-    });
-
-    if (points.length > 1) {
-      const combinedPoints = points.map((point) => [x(point.date), y(point.tokenCount)]);
-      if (hasAgentFamilyBreakdown(source)) {
-        const codexPoints = points.map((point) => [x(point.date), y(point.cumulativeAgentTokens.codex)]);
-        group.append(
-          svgElement("path", {
-            class: "github-activity-agent-history-codex-area",
-            d: areaPath(codexPoints, bottom),
-            fill: colors.codex,
-            "fill-opacity": 0.22,
-          }),
-          svgElement("path", {
-            class: "github-activity-agent-history-claude-area",
-            d: bandPath(combinedPoints, codexPoints),
-            fill: colors.claude,
-            "fill-opacity": 0.72,
-          })
-        );
-      } else {
-        group.append(
-          svgElement("path", {
-            class: "github-activity-agent-history-total-area",
-            d: areaPath(combinedPoints, bottom),
-            fill: colors.text,
-            "fill-opacity": 0.16,
-          })
-        );
-      }
-      group.append(
-        svgElement("path", {
-          class: "github-activity-agent-history-line",
-          d: linePath(combinedPoints),
-          fill: "none",
-          stroke: colors.text,
-          "stroke-width": 2,
-          "stroke-linejoin": "round",
-          "stroke-linecap": "round",
-        })
-      );
-    }
-
-    points.forEach((point, index) => {
-      group.append(
-        svgElement("circle", {
-          class: `github-activity-agent-history-marker${index === points.length - 1 ? " is-latest" : ""}`,
-          cx: x(point.date),
-          cy: y(point.tokenCount),
-          r: index === points.length - 1 ? 4 : 2.3,
-          fill: index === points.length - 1 ? colors.surface : colors.text,
-          stroke: colors.text,
-          "stroke-width": index === points.length - 1 ? 2 : 1,
-        })
-      );
-    });
-
-    addText(group, shortDate.format(points[0].date), points.length === 1 ? (left + width - right) / 2 : left, height - 7, {
-      anchor: points.length === 1 ? "middle" : "start",
-      color: colors.muted,
-      size: 10,
-    });
-    if (points.length > 1) {
-      addText(group, shortDate.format(points.at(-1).date), width - right, height - 7, { anchor: "end", color: colors.muted, size: 10 });
-    }
-    return { points, x, y };
-  };
-  const drawAgentInset = (group, { source, top, bottom, left, right, dateY, colors }) => {
-    const points = lifetimeHistoryRows(source);
-    if (!points.length) return null;
-    const start = points[0].date.getTime();
-    const end = points.at(-1).date.getTime();
-    const span = Math.max(1, end - start);
-    const x = (date) => (points.length === 1 ? (left + right) / 2 : left + ((date.getTime() - start) / span) * (right - left));
-    const maximum = Math.max(source.combined_lifetime.token_count, ...points.map((point) => point.tokenCount), 1);
-    const linear = niceLinearScale(maximum, 2);
-    const y = (value) => bottom - (value / linear.domainMaximum) * (bottom - top);
-    drawYAxis(group, {
-      name: "github-agent-history",
-      ticks: [0, ...linear.ticks],
-      y,
-      left,
-      right,
-      colors,
-      format: (value) => compactNumber.format(value),
-    });
-
-    if (points.length > 1) {
-      const combinedPoints = points.map((point) => [x(point.date), y(point.tokenCount)]);
-      if (hasAgentFamilyBreakdown(source)) {
-        const familyPoints = points.filter((point) => point.cumulativeAgentTokens);
-        const codexPoints = familyPoints.map((point) => [x(point.date), y(point.cumulativeAgentTokens.codex)]);
-        const familyCombinedPoints = familyPoints.map((point) => [x(point.date), y(point.tokenCount)]);
-        group.append(
-          svgElement("path", {
-            class: "github-activity-agent-rail-codex-area",
-            d: areaPath(codexPoints, bottom),
-            fill: colors.codex,
-            "fill-opacity": 0.18,
-          }),
-          svgElement("path", {
-            class: "github-activity-agent-rail-claude-area",
-            d: bandPath(familyCombinedPoints, codexPoints),
-            fill: colors.claude,
-            "fill-opacity": 0.45,
-          })
-        );
-      } else {
-        group.append(
-          svgElement("path", {
-            class: "github-activity-agent-rail-total-area",
-            d: areaPath(combinedPoints, bottom),
-            fill: colors.text,
-            "fill-opacity": 0.14,
-          })
-        );
-      }
-      group.append(
-        svgElement("path", {
-          class: "github-activity-agent-rail-line",
-          d: linePath(combinedPoints),
-          fill: "none",
-          stroke: colors.text,
-          "stroke-width": 2,
-          "stroke-linejoin": "round",
-          "stroke-linecap": "round",
-        })
-      );
-    }
-
-    points.forEach((point, index) => {
-      group.append(
-        svgElement("circle", {
-          class: `github-activity-agent-rail-marker${index === points.length - 1 ? " is-latest" : ""}`,
-          cx: x(point.date),
-          cy: y(point.tokenCount),
-          r: index === points.length - 1 ? 4 : 2.2,
-          fill: index === points.length - 1 ? colors.surface : colors.text,
-          stroke: colors.text,
-          "stroke-width": index === points.length - 1 ? 2 : 1,
-        })
-      );
-    });
-    addText(group, shortDate.format(points[0].date), points.length === 1 ? (left + right) / 2 : left, dateY, {
-      anchor: points.length === 1 ? "middle" : "start",
-      color: colors.muted,
-      size: 10,
-      className: "github-activity-agent-rail-date-start",
-    });
-    if (points.length > 1) {
-      addText(group, shortDate.format(points.at(-1).date), right, dateY, {
-        anchor: "end",
-        color: colors.muted,
-        size: 10,
-        className: "github-activity-agent-rail-date-end",
-      });
-    }
-    return { points, x, y };
-  };
-  const drawTokenRhythm = (group, tokenRows, width, height, colors) => {
-    const left = width < 620 ? 58 : 64;
-    const right = 14;
-    const split = Math.round(height * 0.58);
-    const latest = tokenRows.at(-1);
-    const dailyDeltas = tokenRows.map((row, index) => Math.max(0, row.tokenCount - (tokenRows[index - 1]?.tokenCount || 0)));
-    const cumulativeScale = niceLinearScale(latest.tokenCount, width < 620 ? 2 : 3);
-    const dailyDomainMaximum = niceLogMaximum(Math.max(...dailyDeltas, 1));
-
-    addText(group, "SITE-BUILD \u00b7 CUMULATIVE REPO ESTIMATE", left, 20, {
-      color: colors.accent,
-      weight: 700,
-    });
-    addText(group, latest.tokensLabel, width - right, 20, { anchor: "end", color: colors.text, weight: 700 });
-    const cumulativeSeries = drawSeries(
-      group,
-      tokenRows,
-      (row) => row.tokenCount,
-      { left, right: width - right, top: 44, bottom: split - 20 },
-      {
-        className: "github-activity-token-cumulative-line",
-        color: colors.accent,
-        fillOpacity: 0.1,
-        maximum: cumulativeScale.domainMaximum,
-        scale: "linear",
-        strokeWidth: 2,
-      }
-    );
-    drawYAxis(group, {
-      name: "token-cumulative",
-      ticks: [0, ...cumulativeScale.ticks],
-      y: cumulativeSeries.y,
-      left,
-      right: width - right,
-      colors,
-    });
-
-    addText(group, "ROUNDED DAILY INCREASE \u00b7 READABLE LOG1P", left, split + 8, {
-      color: colors.muted,
-      weight: 700,
-    });
-    const dailySeries = drawSeries(
-      group,
-      tokenRows,
-      (_row, index) => dailyDeltas[index],
-      { left, right: width - right, top: split + 30, bottom: height - 34 },
-      {
-        className: "github-activity-token-delta-line",
-        color: colors.added,
-        fillOpacity: 0.1,
-        maximum: dailyDomainMaximum,
-        scale: "log",
-      }
-    );
-    drawYAxis(group, {
-      name: "token-daily-increase",
-      ticks: spacedLogTicks(dailyDomainMaximum, dailySeries.y, width < 620 ? 24 : 28),
-      y: dailySeries.y,
-      left,
-      right: width - right,
-      colors,
-    });
-    addText(group, shortDate.format(tokenRows[0].date), left, height - 8, { color: colors.muted });
-    addText(group, shortDate.format(latest.date), width - right, height - 8, { anchor: "end", color: colors.muted });
-
-    const largestIndex = dailyDeltas.indexOf(Math.max(...dailyDeltas));
-    return `Latest rounded estimate \u00b7 ${latest.tokensLabel} \u00b7 ${fullDate.format(latest.date)}. Biggest adjacent jump \u00b7 ${compactNumber.format(dailyDeltas[largestIndex])} \u00b7 ${fullDate.format(tokenRows[largestIndex].date)}.`;
-  };
-
-  const initBuildRhythmStory = ({ githubRows, tokenRows, codexSourcePromise, mixedCalendarLabels = false }) => {
+  const initBuildRhythmStory = ({ githubRows, mixedCalendarLabels = false }) => {
     const storyRoot = document.querySelector("[data-build-rhythm-story]");
-    if (!storyRoot || !githubRows.length || !tokenRows.length) return;
+    if (!storyRoot || !githubRows.length) return;
 
     const stageWrap = storyRoot.querySelector(".build-rhythm-story-stage-wrap");
     const stage = storyRoot.querySelector("[data-build-rhythm-story-stage]");
@@ -535,8 +204,6 @@
     const sceneScope = storyRoot.querySelector("[data-build-rhythm-story-scope]");
     const sceneReadout = storyRoot.querySelector("[data-build-rhythm-story-readout]");
     const steps = Array.from(storyRoot.querySelectorAll("[data-build-rhythm-step]"));
-    const agentStepHeading = storyRoot.querySelector("[data-build-rhythm-agent-heading]");
-    const agentStepCopy = storyRoot.querySelector("[data-build-rhythm-agent-copy]");
     if (!stageWrap || !stage || !chart || !sceneLabel || !sceneScope || !sceneReadout || !steps.length) return;
 
     const compactQuery = window.matchMedia("(max-width: 820px)");
@@ -545,7 +212,6 @@
     const storyDateUnit = mixedCalendarLabels ? "DATE LABEL" : "DAY";
     const storyDateUnitLower = mixedCalendarLabels ? "date label" : "day";
     const storyDatePlural = mixedCalendarLabels ? "date labels" : "days";
-    let codexSource = null;
     let activeScene = "cadence";
     let renderedScene = null;
     let pendingScene = null;
@@ -563,37 +229,15 @@
         accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
         added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
         removed: style.getPropertyValue("--global-mint-strong").trim() || "#26735d",
-        codex: style.getPropertyValue("--github-activity-codex-color").trim() || "#3b6a98",
-        claude: style.getPropertyValue("--github-activity-claude-color").trim() || "#c96548",
         text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
         muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
         grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
-        surface: style.getPropertyValue("--global-surface-container-low-color").trim() || "#f7fbfa",
       };
     };
     const dimensions = () => ({
       width: Math.max(300, Math.round(chart.getBoundingClientRect().width || storyRoot.getBoundingClientRect().width || 720)),
       height: Math.max(300, Math.round(chart.getBoundingClientRect().height || 368)),
     });
-    const syncAgentStepCopy = (source) => {
-      if (!agentStepHeading || !agentStepCopy) return;
-      const points = lifetimeHistoryRows(source);
-      if (hasAgentFamilyBreakdown(source)) {
-        const coverageStart = utcDate(source.combined_daily_usage.coverage.starts_on);
-        agentStepHeading.textContent = "Codex leads the trace. Claude joins later.";
-        agentStepCopy.textContent = `The daily Codex record starts ${fullDate.format(coverageStart)}. Claude joins the trace on ${fullDate.format(
-          utcDate(CLAUDE_DAILY_HISTORY_START)
-        )}.`;
-      } else if (points.length) {
-        agentStepHeading.textContent = "Then I zoom into the recent aggregate history.";
-        agentStepCopy.textContent = `Daily aggregate history runs from ${fullDate.format(points[0].date)} through ${fullDate.format(
-          points.at(-1).date
-        )}. This close-up keeps the cumulative total readable without changing the shared lifetime explorer below.`;
-      } else {
-        agentStepHeading.textContent = "Recent agent history is unavailable.";
-        agentStepCopy.textContent = "A validated agent snapshot is unavailable. The shared lifetime code explorer below remains available.";
-      }
-    };
     const drawCadence = (group, width, height, colors) => {
       const left = width < 620 ? 58 : 64;
       const right = 14;
@@ -701,33 +345,6 @@
       return `Same ${storyDatePlural}, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
     };
 
-    const drawTokens = (group, width, height, colors) => {
-      return drawTokenRhythm(group, tokenRows, width, height, colors);
-    };
-
-    const drawAgents = (group, width, height, colors) => {
-      const heading = !codexSource
-        ? "PERSONAL AGENT TOKENS \u00b7 RECENT HISTORY"
-        : hasAgentFamilyBreakdown(codexSource)
-          ? "PERSONAL AGENT TOKENS \u00b7 STACKED CUMULATIVE"
-          : "PERSONAL AGENT TOKENS \u00b7 CUMULATIVE TOTAL";
-      addText(group, heading, width < 620 ? 48 : 58, 16, {
-        color: colors.text,
-        weight: 700,
-        className: "github-activity-agent-history-heading",
-      });
-      if (!codexSource) return "Recent personal agent history is unavailable.";
-      const plot = drawAgentHistory(group, codexSource, width, height, colors);
-      if (!plot) return "Recent personal agent history is unavailable.";
-      const latest = plot.points.at(-1);
-      const familyTotals = agentFamilyTotals(codexSource);
-      return familyTotals
-        ? `${shortDate.format(plot.points[0].date)}–${shortDate.format(latest.date)} \u00b7 Codex area ${familyNumber.format(
-            familyTotals.codex
-          )} \u00b7 Claude area ${familyNumber.format(familyTotals.claude)} \u00b7 Total line ${familyNumber.format(latest.tokenCount)}.`
-        : `${shortDate.format(plot.points[0].date)}–${shortDate.format(latest.date)} \u00b7 ${familyNumber.format(latest.tokenCount)} total.`;
-    };
-
     const drawComplete = (group, width, height, colors) => {
       const compact = width < 620;
       const left = compact ? 58 : 64;
@@ -830,8 +447,6 @@
       cadence: { label: "WHEN", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
       magnitude: { label: "HOW MUCH MOVED", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
-      tokens: { label: "THIS SITE", scope: "DAILY \u00b7 ROUNDED ESTIMATE" },
-      agents: { label: "PERSONAL AGENTS", scope: "OBSERVED DAYS \u00b7 CUMULATIVE" },
       explore: { label: "YOUR TURN", scope: "COMMITS + LINES" },
       complete: { label: "THE WHOLE RHYTHM", scope: "COMMITS + LINES" },
     };
@@ -859,8 +474,6 @@
       if (targetScene === "cadence") readout = drawCadence(group, width, height, colors);
       else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
       else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
-      else if (targetScene === "tokens") readout = drawTokens(group, width, height, colors);
-      else if (targetScene === "agents") readout = drawAgents(group, width, height, colors);
       else readout = drawComplete(group, width, height, colors);
 
       const copy = metadata[scene] || metadata.complete;
@@ -997,11 +610,6 @@
       rootObserver.observe(storyRoot);
     }
 
-    codexSourcePromise.then((source) => {
-      codexSource = source;
-      syncAgentStepCopy(source);
-      if (["agents", "complete", "explore"].includes(renderedScene)) renderScene(renderedScene);
-    });
     if ("ResizeObserver" in window) {
       stageResizeObserver = new ResizeObserver(() => {
         cancelAnimationFrame(resizeFrame);
@@ -1027,322 +635,8 @@
     });
   };
 
-  const initTokenRhythmChart = ({ tokenRows }) => {
-    const rhythmRoot = document.querySelector("[data-token-rhythm]");
-    if (!rhythmRoot) return;
-
-    const chart = rhythmRoot.querySelector("[data-token-rhythm-chart]");
-    const readout = rhythmRoot.querySelector("[data-token-rhythm-readout]");
-    if (!chart || !readout || !tokenRows.length) {
-      rhythmRoot.dataset.state = "error";
-      if (readout) readout.textContent = "The chart is unavailable; the exact server-rendered table remains below.";
-      return;
-    }
-
-    let resizeFrame = 0;
-    const colors = () => {
-      const style = getComputedStyle(rhythmRoot);
-      return {
-        accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
-        added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
-        text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
-        muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
-        grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
-      };
-    };
-    const render = () => {
-      const box = chart.getBoundingClientRect();
-      const width = Math.max(300, Math.round(box.width || rhythmRoot.getBoundingClientRect().width || 920));
-      const height = Math.max(300, Math.round(box.height || 368));
-      const group = svgElement("g", { "data-token-rhythm-layer": "complete" });
-      chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
-      chart.replaceChildren(group);
-      readout.textContent = drawTokenRhythm(group, tokenRows, width, height, colors());
-    };
-    const scheduleRender = () => {
-      cancelAnimationFrame(resizeFrame);
-      resizeFrame = requestAnimationFrame(render);
-    };
-
-    rhythmRoot.dataset.state = "ready";
-    render();
-    if ("ResizeObserver" in window) new ResizeObserver(scheduleRender).observe(chart);
-    else window.addEventListener("resize", scheduleRender);
-    new MutationObserver(scheduleRender).observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme", "data-theme-mode"],
-    });
-  };
-
-  const initCodexUsageSnapshot = async () => {
-    const trendRoot = document.querySelector("[data-codex-usage]");
-    if (!trendRoot) return null;
-
-    const status = trendRoot.querySelector("[data-codex-status]");
-    const familyStatus = trendRoot.querySelector("[data-agent-family-summary]");
-    const lifetime = trendRoot.querySelector("[data-codex-lifetime]");
-    const lifetimeHeading = document.getElementById("github-activity-agent-summary-title");
-    const cost = trendRoot.querySelector("[data-codex-cost]");
-    const costValue = trendRoot.querySelector("[data-codex-cost-value]");
-    const codexValue = trendRoot.querySelector("[data-agent-codex-value]");
-    const claudeValue = trendRoot.querySelector("[data-agent-claude-value]");
-    const composition = trendRoot.querySelector("[data-agent-composition]");
-    const codexSegment = trendRoot.querySelector("[data-agent-codex-segment]");
-    const claudeSegment = trendRoot.querySelector("[data-agent-claude-segment]");
-    if (!status || !lifetime || !lifetimeHeading || !cost || !costValue || !trendRoot.dataset.source) return null;
-
-    const exactKeys = (value, keys) =>
-      value &&
-      typeof value === "object" &&
-      !Array.isArray(value) &&
-      Object.keys(value).length === keys.length &&
-      keys.every((key) => Object.hasOwn(value, key));
-    const isIsoDate = (value) => {
-      if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-      const parsed = new Date(`${value}T00:00:00Z`);
-      return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
-    };
-    const tokensLabel = (tokenCount) => {
-      const billions = Math.floor(tokenCount / 1000000000);
-      const tenths = Math.floor((tokenCount % 1000000000) / 100000000);
-      return `${billions}.${tenths}B`;
-    };
-    const costLabel = (usdMidpoint) => `~$${(usdMidpoint / 1000).toFixed(1)}K API-rate replay`;
-    const validCost = (candidate, tokenCount) => {
-      if (!exactKeys(candidate, ["method", "reference_scope", "usd_per_million_tokens", "pricing_as_of", "usd_midpoint", "usd_label"])) return false;
-      const replay = (tokenCount / 1000000) * candidate.usd_per_million_tokens;
-      const roundedReplay = Math.floor(replay + 0.5);
-      if (
-        candidate.method !== "flat_reference_rate_replay" ||
-        candidate.reference_scope !== "current_site_build_blended_public_api_rate" ||
-        typeof candidate.usd_per_million_tokens !== "number" ||
-        !Number.isFinite(candidate.usd_per_million_tokens) ||
-        candidate.usd_per_million_tokens <= 0 ||
-        !Number.isSafeInteger(candidate.usd_midpoint) ||
-        candidate.usd_midpoint <= 0 ||
-        candidate.usd_midpoint !== roundedReplay ||
-        candidate.usd_label !== costLabel(candidate.usd_midpoint) ||
-        !isIsoDate(candidate.pricing_as_of)
-      )
-        return false;
-      return true;
-    };
-    // Strict provenance tuples for the two verified Codex accounts alone, or
-    // those two plus observed local Claude Code usage.
-    const sourceContracts = {
-      2: {
-        dailyLabel: "Combined daily Codex usage",
-        method: "rounded_sum_of_verified_account_lifetime_readings",
-        confidence: "high",
-      },
-      3: {
-        dailyLabel: "Combined daily agent usage",
-        method: "rounded_sum_of_observed_agent_usage_sources",
-        confidence: "mixed",
-      },
-    };
-    const validDailyUsage = (candidate, combined, observedOn, profileSchema) => {
-      const split = candidate?.schema === 2;
-      const usageKeys = split
-        ? ["schema", "label", "units", "grain", "aggregation", "agent_families", "coverage", "points"]
-        : ["schema", "label", "units", "grain", "aggregation", "coverage", "points"];
-      const coverageKeys = split
-        ? ["starts_on", "complete_through", "before_start", "completeness", "prior_unallocated_tokens", "prior_unallocated_by_agent"]
-        : ["starts_on", "complete_through", "before_start", "completeness", "prior_unallocated_tokens"];
-      if (
-        !exactKeys(candidate, usageKeys) ||
-        ![1, 2].includes(candidate.schema) ||
-        (profileSchema === 7 ? !split || combined.source_count !== 3 : split) ||
-        (split &&
-          (!Array.isArray(candidate.agent_families) ||
-            candidate.agent_families.length !== 2 ||
-            candidate.agent_families[0] !== "codex" ||
-            candidate.agent_families[1] !== "claude")) ||
-        candidate.label !== sourceContracts[combined.source_count]?.dailyLabel ||
-        candidate.units !== "tokens" ||
-        candidate.grain !== "day" ||
-        candidate.aggregation !== "sum_of_sources" ||
-        !exactKeys(candidate.coverage, coverageKeys) ||
-        !isIsoDate(candidate.coverage.starts_on) ||
-        !isIsoDate(candidate.coverage.complete_through) ||
-        !["zero", "unobserved"].includes(candidate.coverage.before_start) ||
-        !["whole_lifetime", "rolling_window_partial"].includes(candidate.coverage.completeness) ||
-        !Number.isSafeInteger(candidate.coverage.prior_unallocated_tokens) ||
-        candidate.coverage.prior_unallocated_tokens < 0 ||
-        !Array.isArray(candidate.points) ||
-        candidate.points.length === 0
-      )
-        return false;
-
-      let familyTotals = null;
-      if (split) {
-        const priorByAgent = candidate.coverage.prior_unallocated_by_agent;
-        if (
-          candidate.coverage.starts_on < CODEX_DAILY_HISTORY_START ||
-          !exactKeys(priorByAgent, ["codex", "claude"]) ||
-          !Number.isSafeInteger(priorByAgent.codex) ||
-          !Number.isSafeInteger(priorByAgent.claude) ||
-          priorByAgent.codex < 0 ||
-          priorByAgent.claude < 0 ||
-          (candidate.coverage.starts_on <= CLAUDE_DAILY_HISTORY_START && priorByAgent.claude !== 0) ||
-          priorByAgent.codex + priorByAgent.claude !== candidate.coverage.prior_unallocated_tokens
-        )
-          return false;
-        familyTotals = { ...priorByAgent };
-      }
-
-      const wholeLifetime = candidate.coverage.completeness === "whole_lifetime";
-      if (
-        (combined.source_count === 3 && wholeLifetime) ||
-        (wholeLifetime && (candidate.coverage.before_start !== "zero" || candidate.coverage.prior_unallocated_tokens !== 0)) ||
-        (!wholeLifetime && (candidate.coverage.before_start !== "unobserved" || candidate.coverage.prior_unallocated_tokens <= 0))
-      )
-        return false;
-      const latestCompleted = new Date(utcDate(observedOn).getTime() - DAY_MS).toISOString().slice(0, 10);
-
-      let previousDate = null;
-      let tokenTotal = candidate.coverage.prior_unallocated_tokens;
-      const validPoints = candidate.points.every((point) => {
-        const pointKeys = split ? ["date", "tokens", "agent_tokens"] : ["date", "tokens"];
-        if (!exactKeys(point, pointKeys) || !isIsoDate(point.date) || !Number.isSafeInteger(point.tokens) || point.tokens < 0) return false;
-        if (split) {
-          const agentTokens = point.agent_tokens;
-          if (
-            !exactKeys(agentTokens, ["codex", "claude"]) ||
-            !Number.isSafeInteger(agentTokens.codex) ||
-            !Number.isSafeInteger(agentTokens.claude) ||
-            agentTokens.codex < 0 ||
-            agentTokens.claude < 0 ||
-            (point.date < CLAUDE_DAILY_HISTORY_START && agentTokens.claude !== 0) ||
-            agentTokens.codex + agentTokens.claude !== point.tokens
-          )
-            return false;
-          familyTotals.codex += agentTokens.codex;
-          familyTotals.claude += agentTokens.claude;
-          if (!Number.isSafeInteger(familyTotals.codex) || !Number.isSafeInteger(familyTotals.claude)) return false;
-        }
-        const date = utcDate(point.date);
-        if (previousDate && date.getTime() - previousDate.getTime() !== DAY_MS) return false;
-        previousDate = date;
-        tokenTotal += point.tokens;
-        return Number.isSafeInteger(tokenTotal);
-      });
-      return (
-        validPoints &&
-        candidate.coverage.starts_on === candidate.points[0].date &&
-        candidate.coverage.complete_through === candidate.points.at(-1).date &&
-        candidate.coverage.complete_through === latestCompleted &&
-        (!wholeLifetime ||
-          (candidate.points[0].tokens === 0 &&
-            (!split || (candidate.points[0].agent_tokens.codex === 0 && candidate.points[0].agent_tokens.claude === 0)))) &&
-        Math.round(tokenTotal / 100_000_000) * 100_000_000 === combined.token_count
-      );
-    };
-    const validSource = (candidate) => {
-      const requiredKeys = ["schema", "combined_lifetime", "method", "confidence", "observed_on", "updated_at", "automated_refresh"];
-      if (![6, 7].includes(candidate?.schema) || !exactKeys(candidate, [...requiredKeys, "cost", "combined_daily_usage"])) return false;
-      const combined = candidate.combined_lifetime;
-      if (
-        !exactKeys(combined, ["token_count", "tokens_label", "units", "aggregation", "rounding", "source_count"]) ||
-        !Number.isSafeInteger(combined.token_count) ||
-        combined.token_count <= 0 ||
-        combined.token_count % 100000000 !== 0 ||
-        combined.tokens_label !== tokensLabel(combined.token_count) ||
-        combined.units !== "tokens" ||
-        combined.aggregation !== "sum_of_sources" ||
-        combined.rounding !== "nearest_0.1B" ||
-        !Number.isSafeInteger(combined.source_count) ||
-        !Object.hasOwn(sourceContracts, combined.source_count) ||
-        !isIsoDate(candidate.observed_on) ||
-        typeof candidate.automated_refresh !== "boolean"
-      )
-        return false;
-      if (!validCost(candidate.cost, combined.token_count)) return false;
-      if (!validDailyUsage(candidate.combined_daily_usage, combined, candidate.observed_on, candidate.schema)) return false;
-      return (
-        candidate.method === sourceContracts[combined.source_count].method &&
-        candidate.confidence === sourceContracts[combined.source_count].confidence &&
-        typeof candidate.updated_at === "string" &&
-        !Number.isNaN(Date.parse(candidate.updated_at)) &&
-        candidate.updated_at.slice(0, 10) === candidate.observed_on &&
-        candidate.automated_refresh === true
-      );
-    };
-
-    let source;
-    try {
-      const response = await fetch(trendRoot.dataset.source, {
-        cache: "no-store",
-        credentials: "same-origin",
-      });
-      source = response.ok ? await response.json() : null;
-    } catch {
-      source = null;
-    }
-    if (!validSource(source)) {
-      trendRoot.dataset.state = "error";
-      trendRoot.setAttribute("aria-busy", "false");
-      trendRoot.hidden = true;
-      lifetime.textContent = "Unavailable";
-      lifetime.dataset.format = "unavailable";
-      cost.hidden = true;
-      status.textContent = "Personal agent daily usage unavailable; code activity remains available.";
-      if (familyStatus) familyStatus.hidden = true;
-      return null;
-    }
-
-    lifetime.textContent = source.combined_lifetime.tokens_label;
-    lifetime.dataset.format = "readable";
-    const statusDate = source.combined_daily_usage.coverage.complete_through;
-    const familyTotals = agentFamilyTotals(source);
-    const exactLifetime = lifetimeHistoryRows(source).at(-1)?.tokenCount || source.combined_lifetime.token_count;
-    lifetimeHeading.setAttribute("aria-label", `${number.format(exactLifetime)} total tokens`);
-    if (familyStatus && familyTotals && codexValue && claudeValue && composition && codexSegment && claudeSegment) {
-      const percentages = agentFamilyPercentages(familyTotals);
-      codexValue.textContent = `${familyNumber.format(familyTotals.codex)} \u00b7 ${percentages.codex.toFixed(2)}%`;
-      codexValue.setAttribute("aria-label", `${number.format(familyTotals.codex)} Codex tokens, ${percentages.codex.toFixed(2)} percent`);
-      claudeValue.textContent = `${familyNumber.format(familyTotals.claude)} \u00b7 ${percentages.claude.toFixed(2)}%`;
-      claudeValue.setAttribute("aria-label", `${number.format(familyTotals.claude)} Claude tokens, ${percentages.claude.toFixed(2)} percent`);
-      const exactTotal = familyTotals.codex + familyTotals.claude;
-      const codexShare = Number(((familyTotals.codex / exactTotal) * 100).toFixed(4));
-      const claudeShare = Number((100 - codexShare).toFixed(4));
-      codexSegment.style.width = `${codexShare}%`;
-      claudeSegment.style.width = `${claudeShare}%`;
-      composition.setAttribute(
-        "aria-label",
-        `Token composition: Codex ${number.format(familyTotals.codex)} tokens, ${percentages.codex.toFixed(2)} percent; Claude ${number.format(
-          familyTotals.claude
-        )} tokens, ${percentages.claude.toFixed(2)} percent.`
-      );
-      familyStatus.hidden = false;
-    } else if (familyStatus) {
-      familyStatus.hidden = true;
-    }
-    const coverageStart = source.combined_daily_usage.coverage.starts_on;
-    status.textContent =
-      hasAgentFamilyBreakdown(source) && source.combined_daily_usage.coverage.before_start === "unobserved"
-        ? `Daily Codex history begins ${fullDate.format(utcDate(coverageStart))}. Claude joins ${fullDate.format(
-            utcDate(CLAUDE_DAILY_HISTORY_START)
-          )}. History is complete through ${fullDate.format(utcDate(statusDate))}.`
-        : source.combined_daily_usage.coverage.before_start === "unobserved"
-          ? `Daily history begins ${fullDate.format(utcDate(coverageStart))}. Earlier usage is included in the total; its daily timing is unavailable.`
-          : `Daily history is complete through ${fullDate.format(utcDate(statusDate))}.`;
-    if (source.cost) {
-      costValue.textContent = source.cost.usd_label.replace(/ API-rate replay$/, "");
-      cost.hidden = false;
-    } else {
-      costValue.textContent = "";
-      cost.hidden = true;
-    }
-    trendRoot.dataset.state = "ready";
-    trendRoot.setAttribute("aria-busy", "false");
-    trendRoot.hidden = false;
-    return source;
-  };
-
   const root = document.querySelector("[data-github-activity]");
   const dataNode = document.getElementById("code-activity-data");
-  const tokenDataNode = document.getElementById("build-rhythm-token-data");
   if (!root || !dataNode) return;
   document.body.classList.add("github-activity-body");
   const availabilityBadge = root.querySelector("[data-github-scope]");
@@ -1450,57 +744,6 @@
     });
   };
 
-  const validTokenRhythmSource = (candidate) => {
-    const keys = ["schema", "label", "units", "grain", "aggregation", "method", "since", "updated_at", "confidence", "privacy_note", "points"];
-    if (
-      !candidate ||
-      typeof candidate !== "object" ||
-      Array.isArray(candidate) ||
-      Object.keys(candidate).length !== keys.length ||
-      !keys.every((key) => Object.hasOwn(candidate, key)) ||
-      candidate.schema !== 1 ||
-      candidate.label !== "Site revamp retained-session estimate" ||
-      candidate.units !== "estimated tokens" ||
-      candidate.grain !== "day" ||
-      candidate.aggregation !== "cumulative" ||
-      candidate.method !== "deduplicated_repo_retained_logs" ||
-      candidate.confidence !== "estimate" ||
-      !isIsoDate(candidate.since) ||
-      !isIsoDate(candidate.updated_at) ||
-      typeof candidate.privacy_note !== "string" ||
-      !candidate.privacy_note ||
-      !Array.isArray(candidate.points) ||
-      candidate.points.length < 2
-    )
-      return false;
-
-    let previousDate = null;
-    let previousCount = -1;
-    const validPoints = candidate.points.every((point) => {
-      const pointKeys = ["date", "token_count", "tokens_label"];
-      if (
-        !point ||
-        typeof point !== "object" ||
-        Array.isArray(point) ||
-        Object.keys(point).length !== pointKeys.length ||
-        !pointKeys.every((key) => Object.hasOwn(point, key)) ||
-        !isIsoDate(point.date) ||
-        !Number.isSafeInteger(point.token_count) ||
-        point.token_count < 0 ||
-        point.token_count < previousCount ||
-        typeof point.tokens_label !== "string" ||
-        !point.tokens_label
-      )
-        return false;
-      const date = new Date(`${point.date}T00:00:00Z`);
-      if (previousDate && date.getTime() - previousDate.getTime() !== 86_400_000) return false;
-      previousDate = date;
-      previousCount = point.token_count;
-      return true;
-    });
-    return validPoints && candidate.since === candidate.points[0].date && candidate.updated_at === candidate.points.at(-1).date;
-  };
-
   let source;
   try {
     source = JSON.parse(dataNode.textContent);
@@ -1508,28 +751,6 @@
     source = null;
   }
   const validPersonalSource = validCodeActivitySource(source);
-
-  let tokenSource = null;
-  if (tokenDataNode) {
-    try {
-      const candidate = JSON.parse(tokenDataNode.textContent);
-      if (validTokenRhythmSource(candidate)) tokenSource = candidate;
-    } catch {
-      tokenSource = null;
-    }
-  }
-  root.dataset.tokenState = tokenSource ? "ready" : "error";
-
-  const tokenRows = tokenSource
-    ? tokenSource.points.map((point, index) => ({
-        index,
-        date: new Date(`${point.date}T00:00:00Z`),
-        tokenCount: point.token_count,
-        tokensLabel: point.tokens_label,
-      }))
-    : [];
-  initTokenRhythmChart({ tokenRows });
-  const codexSourcePromise = initCodexUsageSnapshot();
 
   if (!validPersonalSource) {
     root.dataset.sourceSchema = source?.schema == null ? "none" : String(source.schema);
@@ -1604,8 +825,6 @@
   const selectedCommits = document.getElementById("github-activity-selected-commits");
   const selectedAdditions = document.getElementById("github-activity-selected-additions");
   const selectedDeletions = document.getElementById("github-activity-selected-deletions");
-  const selectedTokens = document.getElementById("github-activity-selected-tokens");
-  const codexReadout = root.querySelector("[data-personal-codex-readout]");
   const rangeSummary = document.getElementById("github-activity-range-summary");
   const selectionAnnouncement = document.getElementById("github-activity-selection-announcement");
   const annotation = document.getElementById("github-activity-annotation");
@@ -1627,7 +846,6 @@
     !selectedCommits ||
     !selectedAdditions ||
     !selectedDeletions ||
-    !selectedTokens ||
     !rangeSummary ||
     !selectionAnnouncement ||
     !annotation ||
@@ -1650,8 +868,6 @@
     year: "numeric",
     timeZone: "UTC",
   });
-  let codexSource = null;
-  let codexSourceSettled = false;
   let selectedIndex = rows.length - 1;
   let pinnedIndex = selectedIndex;
   let selection = null;
@@ -1688,8 +904,6 @@
       removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#286b58",
       accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
       sourceAlt: style.getPropertyValue("--github-activity-source-alt-color").trim() || "#c96548",
-      codex: style.getPropertyValue("--github-activity-codex-color").trim() || "#3b6a98",
-      claude: style.getPropertyValue("--github-activity-claude-color").trim() || "#c96548",
       text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
       muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
       grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
@@ -1826,43 +1040,6 @@
     renderSourceReadout(row);
     selectedAdditions.textContent = `${signed(row.additions, true)} added`;
     selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
-    const tokenObservation = codexUsageForDay(codexSource, row);
-    if (tokenObservation) {
-      if (tokenObservation.dailyAgentTokens) {
-        selectedTokens.textContent = `+${familyNumber.format(tokenObservation.dailyTokens)} tokens \u00b7 Codex +${familyNumber.format(
-          tokenObservation.dailyAgentTokens.codex
-        )} \u00b7 Claude +${familyNumber.format(tokenObservation.dailyAgentTokens.claude)} \u00b7 ${compactNumber.format(
-          tokenObservation.tokenCount
-        )} total`;
-        selectedTokens.setAttribute(
-          "aria-label",
-          `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label: ${number.format(
-            tokenObservation.dailyAgentTokens.codex
-          )} Codex and ${number.format(tokenObservation.dailyAgentTokens.claude)} Claude; ${number.format(
-            tokenObservation.tokenCount
-          )} cumulative tokens.`
-        );
-      } else {
-        selectedTokens.textContent =
-          tokenObservation.dailyTokens == null
-            ? `${tokenObservation.tokensLabel} lifetime tokens \u00b7 legacy observation ${dateLabel.format(tokenObservation.date)}`
-            : `+${familyNumber.format(tokenObservation.dailyTokens)} tokens \u00b7 ${compactNumber.format(tokenObservation.tokenCount)} total`;
-        selectedTokens.setAttribute(
-          "aria-label",
-          tokenObservation.dailyTokens == null
-            ? `${number.format(tokenObservation.tokenCount)} lifetime tokens, legacy observation ${dateLabel.format(tokenObservation.date)}.`
-            : `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label; ${number.format(
-                tokenObservation.tokenCount
-              )} cumulative tokens.`
-        );
-      }
-    } else if (!codexSourceSettled) {
-      selectedTokens.textContent = "Token usage loading";
-      selectedTokens.removeAttribute("aria-label");
-    } else {
-      selectedTokens.textContent = "Token usage \u00b7 unobserved or awaiting a completed day";
-      selectedTokens.removeAttribute("aria-label");
-    }
   };
   let deferredTableRows = [];
   let tableRevision = 0;
@@ -1871,15 +1048,6 @@
     const fragment = document.createDocumentFragment();
     [...data].reverse().forEach((row) => {
       const tr = document.createElement("tr");
-      const tokenObservation = codexUsageForDay(codexSource, row);
-      const tokenCells = tokenObservation
-        ? [
-            tokenObservation.dailyTokens == null ? "Legacy observation" : number.format(tokenObservation.dailyTokens),
-            tokenObservation.dailyAgentTokens ? number.format(tokenObservation.dailyAgentTokens.codex) : "\u2014",
-            tokenObservation.dailyAgentTokens ? number.format(tokenObservation.dailyAgentTokens.claude) : "\u2014",
-            number.format(tokenObservation.tokenCount),
-          ]
-        : ["\u2014", "\u2014", "\u2014", "\u2014"];
       [
         row.dateKey,
         number.format(row.commits),
@@ -1887,7 +1055,6 @@
         signed(row.additions, true),
         signed(row.deletions, false),
         number.format(lineChanges(row)),
-        ...tokenCells,
       ].forEach((value, index) => {
         const cell = document.createElement(index === 0 ? "th" : "td");
         if (index === 0) cell.scope = "row";
@@ -1976,22 +1143,15 @@
     const narrow = width < 620;
     const mixedCalendarView = visibleSources.size > 1;
     const chartDateUnit = mixedCalendarView ? "DATE LABEL" : "DAY";
-    const historyAvailable = Boolean(codexSource?.combined_daily_usage || codexSource?.combined_lifetime_history);
     const left = narrow ? 66 : 82;
     const right = narrow ? 12 : 22;
     const bottom = narrow ? 26 : 30;
-    const agentBandHeight = historyAvailable ? (narrow ? 92 : 106) : 0;
-    const agentGap = historyAvailable ? (narrow ? 40 : 48) : 0;
     const commitTop = 54;
     const commitHeight = Math.max(92, Math.min(118, height * 0.19));
     const commitBottom = commitTop + commitHeight;
     const lineTop = commitBottom + (narrow ? 58 : 64);
-    const agentBottom = height - bottom;
-    const agentTop = agentBottom - agentBandHeight;
-    const agentHeadingY = agentTop - (narrow ? 30 : 14);
-    const lineBottom = historyAvailable ? agentHeadingY - agentGap : agentBottom - (narrow ? 20 : 24);
-    const codeDateY = historyAvailable ? lineBottom + (narrow ? 18 : 21) : height - (narrow ? 5 : 7);
-    const agentDateY = height - (narrow ? 5 : 7);
+    const lineBottom = height - bottom - (narrow ? 20 : 24);
+    const codeDateY = height - (narrow ? 5 : 7);
     const plotTop = commitTop;
     const baseline = (lineTop + lineBottom) / 2;
     const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
@@ -2167,73 +1327,6 @@
       })
     );
 
-    // Agent-token context backdrop behind the commit and line panels.
-    //
-    // The agent inset below carries its own date domain, so a reader cannot
-    // line its ramp up against the code marks by eye. This draws the same
-    // cumulative token series on the *code* axis instead, which is the only
-    // place the two rhythms can actually be compared.
-    //
-    // Cumulative rather than per-date: a per-date wash at these widths reads as
-    // vertical striping, which is noise, not a trend. It stays a single quiet
-    // fill with no stroke or markers so it cannot be mistaken for a fourth data
-    // series, and it is drawn only across dates the agent record observed —
-    // labels outside its coverage stay blank rather than padded with zeros.
-    // This is co-occurrence in time, not attribution.
-    if (codexSource) {
-      const agentRows = lifetimeHistoryRows(codexSource).filter((entry) => entry.dailyTokens !== null);
-      const firstVisible = data[0]?.date?.getTime();
-      const lastVisible = data.at(-1)?.date?.getTime();
-      const inWindow = agentRows.filter((entry) => {
-        const stamp = entry.date.getTime();
-        return Number.isFinite(firstVisible) && Number.isFinite(lastVisible) && stamp >= firstVisible && stamp <= lastVisible;
-      });
-      if (inWindow.length > 1) {
-        const peakCumulative = Math.max(...inWindow.map((entry) => entry.tokenCount), 1);
-        const bandTop = plotTop;
-        const bandBottom = lineBottom;
-        const washY = (value) => bandBottom - (value / peakCumulative) * (bandBottom - bandTop);
-        const washPoints = inWindow.map((entry) => [x(entry.date), washY(entry.tokenCount)]);
-        chart.append(
-          svgElement("path", {
-            class: "github-activity-agent-wash-area",
-            d: areaPath(washPoints, bandBottom),
-            fill: palette.codex || palette.accent,
-            "fill-opacity": 0.1,
-            "pointer-events": "none",
-          })
-        );
-
-        const agentStart = inWindow[0].date;
-        const startX = x(agentStart);
-        chart.append(
-          svgElement("line", {
-            class: "github-activity-agent-wash-start",
-            x1: startX,
-            x2: startX,
-            y1: bandTop,
-            y2: bandBottom,
-            stroke: palette.codex || palette.accent,
-            "stroke-opacity": 0.42,
-            "stroke-width": 1,
-            "pointer-events": "none",
-          })
-        );
-        // On compact screens this label lands on the commit legend row, and the
-        // agent panel below already states the same window ("SINCE APR 2026"),
-        // so the dated rule carries the boundary on its own there.
-        if (!narrow) {
-          addText(chart, `AGENT TOKENS FROM ${dateLabel.format(agentStart).toUpperCase()}`, Math.min(startX + 6, width - right - 4), plotTop - 8, {
-            anchor: startX + 6 > width - right - 120 ? "end" : "start",
-            color: palette.muted,
-            weight: 650,
-            size: 10,
-            className: "github-activity-agent-wash-label",
-          });
-        }
-      }
-    }
-
     let renderPeak = () => {};
     const selectionBand = svgElement("rect", {
       class: "github-activity-selection-band",
@@ -2389,39 +1482,6 @@
       })
     );
 
-    let agentPlot = null;
-    if (historyAvailable) {
-      const agentHistoryStart = lifetimeHistoryRows(codexSource)[0]?.date;
-      const agentHistoryStartLabel = agentHistoryStart ? monthYear.format(agentHistoryStart).toUpperCase() : "RECENT";
-      const agentRailHeading = `${narrow ? "AGENT TOKENS" : "PERSONAL AGENT TOKENS"} \u00b7 SINCE ${agentHistoryStartLabel}`;
-      addText(chart, agentRailHeading, left, agentHeadingY, {
-        color: palette.accent,
-        weight: 700,
-        className: "github-activity-agent-rail-heading",
-      });
-      addText(
-        chart,
-        `${narrow ? "TOTAL" : "TOTAL LINE"} \u00b7 ${codexSource.combined_lifetime.tokens_label}`,
-        narrow ? left : width - right,
-        agentHeadingY + (narrow ? 17 : 0),
-        {
-          anchor: narrow ? "start" : "end",
-          color: palette.text,
-          weight: 700,
-          className: "github-activity-agent-rail-value",
-        }
-      );
-      agentPlot = drawAgentInset(chart, {
-        source: codexSource,
-        top: agentTop,
-        bottom: agentBottom,
-        left,
-        right: width - right,
-        dateY: agentDateY,
-        colors: palette,
-      });
-    }
-
     const peakGuide = svgElement("line", {
       class: "github-activity-peak-guide",
       y1: plotTop,
@@ -2504,14 +1564,6 @@
       stroke: palette.removed,
       "stroke-width": 2.2,
     });
-    const agentMarker = svgElement("circle", {
-      class: "github-activity-agent-rail-inspector-marker",
-      r: narrow ? 3.8 : 4.3,
-      fill: palette.surface,
-      stroke: palette.text,
-      "stroke-width": 2.1,
-      visibility: "hidden",
-    });
     const overlay = svgElement("rect", {
       class: "github-activity-inspector",
       x: left,
@@ -2522,12 +1574,12 @@
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Source-reported date labels for total and authored commits, line changes, and UTC-labeled agent token usage",
+      "aria-label": "Source-reported date labels for total and authored commits and line changes",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
     });
-    chart.append(guide, commitMarker, authoredCommitMarker, addMarker, removeMarker, agentMarker, overlay);
+    chart.append(guide, commitMarker, authoredCommitMarker, addMarker, removeMarker, overlay);
 
     const showIndex = (index, { pin = false } = {}) => {
       selectedIndex = clamp(index, data[0].index, data.at(-1).index);
@@ -2544,31 +1596,10 @@
       addMarker.setAttribute("cy", lineY(row.additions));
       removeMarker.setAttribute("cx", xx);
       removeMarker.setAttribute("cy", lineY(-row.deletions));
-      const tokenObservation = codexUsageForDay(codexSource, row);
-      if (agentPlot && tokenObservation) {
-        agentMarker.setAttribute("cx", agentPlot.x(tokenObservation.date));
-        agentMarker.setAttribute("cy", agentPlot.y(tokenObservation.tokenCount));
-        agentMarker.setAttribute("visibility", "visible");
-      } else {
-        agentMarker.setAttribute("visibility", "hidden");
-      }
       overlay.setAttribute("aria-valuenow", String(selectedIndex - data[0].index));
-      const tokenValue = tokenObservation
-        ? tokenObservation.dailyTokens == null
-          ? `${tokenObservation.tokensLabel} lifetime tokens, legacy observation ${fullDate.format(tokenObservation.date)}`
-          : tokenObservation.dailyAgentTokens
-            ? `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label, ${number.format(
-                tokenObservation.dailyAgentTokens.codex
-              )} Codex and ${number.format(tokenObservation.dailyAgentTokens.claude)} Claude, ${number.format(
-                tokenObservation.tokenCount
-              )} cumulative tokens`
-            : `${number.format(tokenObservation.dailyTokens)} tokens on the matching UTC date label, ${number.format(
-                tokenObservation.tokenCount
-              )} cumulative tokens`
-        : "token usage unobserved or awaiting a completed day";
       overlay.setAttribute(
         "aria-valuetext",
-        `${row.dateKey}, ${number.format(row.commits)} total commits, ${number.format(row.authoredCommits)} authored commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed, ${tokenValue}`
+        `${row.dateKey}, ${number.format(row.commits)} total commits, ${number.format(row.authoredCommits)} authored commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed`
       );
       updateDayReadout(row);
     };
@@ -2709,16 +1740,6 @@
     if (restoreKeyboardFocus) overlay.focus({ preventScroll: true });
   };
 
-  codexSourcePromise.then((source) => {
-    codexSourceSettled = true;
-    codexSource = source;
-    if (codexReadout) codexReadout.hidden = !source;
-    chartTitle.textContent = source
-      ? "Total and authored commits plus authored line changes by source-reported date label, with UTC-labeled personal agent usage"
-      : "Total and authored commits plus authored line changes by source-reported date label";
-    drawChart();
-  });
-
   root.addEventListener(
     "pointerdown",
     () => {
@@ -2785,6 +1806,6 @@
   renderLegend();
   setPressedState();
   drawChart();
-  initBuildRhythmStory({ githubRows: rows, tokenRows, codexSourcePromise, mixedCalendarLabels: multiSource });
+  initBuildRhythmStory({ githubRows: rows, mixedCalendarLabels: multiSource });
   root.dataset.state = "ready";
 })();

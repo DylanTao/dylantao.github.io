@@ -187,3 +187,16 @@ Suggested sequence:
 ## Completed Experiments
 
 Move an entry here only after recording evidence and Sirui's decision. Keep removed experiments too: knowing why an idea failed is part of the site's professional vision.
+
+### Homepage build ledger and desk-scene tally
+
+- **Hypothesis:** Publishing what the site cost in machine work (Codex tokens, agent-hours, commits, estimated kWh, and a tongue-in-cheek API-rate replay) as an honest receipt beside the contact links would make the vibe-coding story concrete and give the homepage one candid, slightly funny number block.
+- **Route:** The homepage Connect section (`.home-agentic-tally` with four stat cells and the Sam-money cost tooltip), the 3D desk's compact `commits · tokens` tag, and the Build Rhythm token-rhythm and personal-agent panels on `/github-activity/`.
+- **Reference:** The "honest receipt" idea in Less, But More Sirui; retained Codex session logs on one Windows checkout; this repository's Git history.
+- **Licensing:** Site-owned markup, SCSS, Python, and one owned image (`sam-money-altman.png`), all removed with the feature.
+- **Visitor benefit:** Intended: a scale marker for how much agent work the site took. Observed: once every agent user has billions of tokens the numbers stopped differentiating anything, and the caveats needed to keep them truthful outgrew the joke.
+- **Budget:** Exceeded. The write audit took 50 to 110 minutes on the personal laptop and the hook's daily check about 100 seconds; 236 ledger-refresh commits (of roughly 1,980 on `main` by 2026-09-08) inflated the very commit count the block displayed.
+- **Status:** `removed` (2026-09-08).
+- **Evidence:** The audit read one machine's Codex logs only, so the published 13B tokens, 831 agent-hours, and 520 commits undercounted Claude and every other account while the refresh commits overcounted the build. Removal covered `_layouts/home.liquid`, `_includes/home/hero.liquid`, `_sass/_home.scss`, `assets/js/home.js`, the Build Rhythm page, script, and styles, the ledger tooling and data, the doc and skill, the hook branch, CI path filters, and the Playwright cases.
+- **Sirui decision:** Remove, not tune: the numbers no longer say anything a reader could not assume, the accounting cost more than the joke returned, and the refresh commits polluted the history. One plain sentence linking the Website Revamp story and Build Rhythm replaces the block, and Build Rhythm keeps its code-history explorer only.
+- **Revisit trigger:** A cross-account, cross-agent usage source that is exact, privacy-safe, refreshable in seconds, and a story in which the number itself changes what a reader understands.

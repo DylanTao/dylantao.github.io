@@ -462,7 +462,7 @@ The bundled v1 plugin repos are:
 
 For existing customized forks, the recommended migration path is to ask an agent to use the [al-folio v1 migration skill](.agents/skills/al-folio-v1-migration/SKILL.md). The skill walks through creating a disposable migration branch, bringing site-owned content/config/data onto the v1 starter contract, running `al_folio_upgrade`, auditing local overrides, and validating the build. This is preferred over a manual file-by-file upgrade because v1 runtime ownership moved into plugins and local overrides need explicit drift tracking.
 
-Starter workflow skills live in [.agents/skills/](.agents/skills/). This customized fork also keeps Codex-only operational overlays in `.codex/skills/` for site-specific design, writing, desk-scene, and usage-ledger work.
+Starter workflow skills live in [.agents/skills/](.agents/skills/). This customized fork also keeps Codex-only operational overlays in `.codex/skills/` for site-specific design, writing, and desk-scene work.
 
 ### Codex
 
@@ -474,7 +474,6 @@ Codex can use the repo-local skills:
 - [website design critique](.codex/skills/website-design-critique/SKILL.md): apply the living design heuristics to restrained visual and responsive passes.
 - [portfolio writing voice](.codex/skills/portfolio-writing-voice/SKILL.md): keep posts, project pages, and site copy specific, research-grounded, and credit-aware.
 - [homepage desk scene](.codex/skills/homepage-desk-scene/SKILL.md): maintain the homepage 2D/3D desk, album, and cliff-cave scene.
-- [agentic usage ledger](.codex/skills/agentic-usage-ledger/SKILL.md): refresh public Codex usage counters before publishing site work.
 
 Useful first prompts:
 

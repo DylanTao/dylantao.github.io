@@ -34,10 +34,7 @@ on:
       - "package-lock.json"
       - "llms*.txt"
       - ".github/workflows/unit-tests.yml"
-      - "!_data/agentic_usage.yml"
-      - "!_data/direct_usage_tracker.json"
       - "!_data/code_activity.json"
-      - "!assets/data/codex-profile-usage.json"
   pull_request:
     branches:
       - master
@@ -71,10 +68,7 @@ on:
       - "package-lock.json"
       - "llms*.txt"
       - ".github/workflows/unit-tests.yml"
-      - "!_data/agentic_usage.yml"
-      - "!_data/direct_usage_tracker.json"
       - "!_data/code_activity.json"
-      - "!assets/data/codex-profile-usage.json"
   # Re-run on demand: this workflow's path filters exclude generated data, so a
   # follow-up fix commit cannot otherwise re-verify a red main.
   workflow_dispatch:

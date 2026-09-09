@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 """Codex hook policy for this customized personal site.
 
-The hook is intentionally narrow: it only checks Codex-issued git commit/push
-commands and delegates expensive freshness logic to existing repo scripts.
+The hook is intentionally narrow: it only inspects Codex-issued `git commit` and
+`git push` commands. It blocks `git commit -a` / `--all` so unrelated dirty files
+are never swept into a commit, and it enforces Google Scholar citation freshness:
+a commit that stages publication or citation paths must carry today's
+`_data/citations.yml` snapshot with `_data/publication_lens.yml` staged alongside
+it, and any commit or push adds an advisory note when the Scholar data is more
+than one day stale. It runs nothing slower than `git diff --cached`.
 """
 
 from __future__ import annotations
@@ -12,28 +17,12 @@ import re
 import shlex
 import subprocess
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any, Callable
 
 
 RunCommand = Callable[..., subprocess.CompletedProcess[str]]
-# Retained-session history is intentionally scanned across all years and now
-# takes a little over 100 seconds on the primary Windows checkout. Keep this
-# below the outer hook timeout while leaving enough headroom for archive growth.
-LEDGER_AUDIT_TIMEOUT_SECONDS = 150
-PUBLISH_BRANCHES = {"main", "master", "v1.0-dev"}
-
-# The audit above costs ~100s on a quiet machine and far longer on a busy one,
-# and a working session can produce many commits in an afternoon. Paying it on
-# every one of them buys nothing: the published figures are rounded lifetime
-# totals, so tolerating a day of lag is invisible on the site. Since 2026-09-05
-# the ledger is refreshed opportunistically and never gates a push, so the hook
-# runs its check at most once per day and only adds an advisory note when the
-# ledger is stale. The window is local machine state -- it records when *this*
-# checkout last ran the check, which the repository should not publish or share.
-LEDGER_AUDIT_THROTTLE = timedelta(hours=24)
-LEDGER_AUDIT_STAMP_RELPATH = Path(".codex") / ".ledger-audit-stamp"
 
 DATE_RE = re.compile(r"\b{key}\s*:\s*['\"]?(?P<date>\d{{4}}-\d{{2}}-\d{{2}})")
 
@@ -52,30 +41,6 @@ PUBLICATION_SUBSTRINGS = (
     "citation",
     "publication",
 )
-HOOK_INFRASTRUCTURE_EXACT_PATHS = {
-    ".codex/hooks.json",
-    ".codex/hooks/site_policy.py",
-    "bin/audit_agentic_usage.py",
-    "test/test_codex_hook_policy.py",
-}
-COMMIT_OPTION_VALUE_FLAGS = {
-    "-m",
-    "--message",
-    "-F",
-    "--file",
-    "-C",
-    "--reuse-message",
-    "-c",
-    "--reedit-message",
-    "--author",
-    "--date",
-    "--cleanup",
-    "-S",
-    "--gpg-sign",
-    "--fixup",
-    "--squash",
-    "--pathspec-from-file",
-}
 
 
 def run_command(
@@ -196,131 +161,11 @@ def is_commit_all(args: list[str]) -> bool:
     return False
 
 
-def is_amend(args: list[str]) -> bool:
-    return any(arg == "--amend" or arg.startswith("--amend=") for arg in args)
-
-
 def discover_repo_root(cwd: str | None, runner: RunCommand) -> Path:
     result = runner(["git", "rev-parse", "--show-toplevel"], cwd=cwd or ".", timeout=10)
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "could not resolve git repository root")
     return Path(result.stdout.strip()).resolve()
-
-
-def current_branch(repo_root: Path, runner: RunCommand) -> str:
-    result = runner(["git", "branch", "--show-current"], cwd=repo_root, timeout=10)
-    if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or "could not resolve current git branch")
-    return result.stdout.strip()
-
-
-def ledger_audit_stamp_path(repo_root: Path) -> Path:
-    return repo_root / LEDGER_AUDIT_STAMP_RELPATH
-
-
-def read_ledger_audit_stamp(repo_root: Path) -> datetime | None:
-    """When this checkout last completed a passing ledger audit, if ever."""
-
-    try:
-        raw = ledger_audit_stamp_path(repo_root).read_text(encoding="utf-8").strip()
-    except OSError:
-        return None
-    try:
-        stamp = datetime.fromisoformat(raw)
-    except ValueError:
-        # A hand-edited or truncated stamp must not be trusted into skipping the
-        # audit. Fall through to running it.
-        return None
-    if stamp.tzinfo is None:
-        return stamp.replace(tzinfo=timezone.utc)
-    return stamp.astimezone(timezone.utc)
-
-
-def write_ledger_audit_stamp(repo_root: Path, moment: datetime) -> None:
-    path = ledger_audit_stamp_path(repo_root)
-    try:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(moment.astimezone(timezone.utc).isoformat(), encoding="utf-8")
-    except OSError:
-        # Losing the stamp only costs an extra audit next time. It must never be
-        # the reason a commit is blocked.
-        pass
-
-
-def ledger_audit_is_throttled(repo_root: Path, *, now: datetime) -> bool:
-    stamp = read_ledger_audit_stamp(repo_root)
-    if stamp is None:
-        return False
-    age = now.astimezone(timezone.utc) - stamp
-    # A negative age means the stamp is in the future -- clock skew, or a stamp
-    # copied between machines. Re-audit rather than trusting it.
-    if age < timedelta(0):
-        return False
-    return age < LEDGER_AUDIT_THROTTLE
-
-
-def run_ledger_check(repo_root: Path, *, include_pending_commit: bool, runner: RunCommand) -> str | None:
-    command = [sys.executable, "bin/audit_agentic_usage.py", "--check"]
-    remediation = "python bin/audit_agentic_usage.py --write"
-    if include_pending_commit:
-        command.append("--include-pending-commit")
-        remediation += " --include-pending-commit"
-
-    try:
-        result = runner(command, cwd=repo_root, timeout=LEDGER_AUDIT_TIMEOUT_SECONDS)
-    except subprocess.TimeoutExpired:
-        return (
-            "Agentic usage freshness check timed out before commit/push. "
-            f"Run `{remediation}`, review `_data/agentic_usage.yml`, then retry."
-        )
-
-    if result.returncode == 0:
-        return None
-
-    detail = (result.stdout or result.stderr).strip()
-    if detail:
-        detail = f"\n\nAudit output:\n{detail}"
-    return (
-        "Agentic usage ledger is stale for this commit/push. "
-        f"Run `{remediation}`, review and stage the intended ledger changes, then retry."
-        f"{detail}"
-    )
-
-
-def run_stage_aware_ledger_check(
-    repo_root: Path,
-    *,
-    include_pending_commit: bool,
-    pending_paths: list[str],
-    runner: RunCommand,
-) -> str | None:
-    command = [sys.executable, "bin/audit_agentic_usage.py", "--check"]
-    remediation = "python bin/audit_agentic_usage.py --write"
-    if include_pending_commit:
-        command.append("--include-pending-commit")
-        remediation += " --include-pending-commit"
-        for path in pending_paths:
-            command.extend(["--pending-path", path])
-
-    try:
-        result = runner(command, cwd=repo_root, timeout=LEDGER_AUDIT_TIMEOUT_SECONDS)
-    except subprocess.TimeoutExpired:
-        return (
-            "Agentic usage freshness check timed out before commit/push. "
-            f"Run `{remediation}`, review `_data/agentic_usage.yml`, then retry."
-        )
-
-    if result.returncode == 0:
-        return None
-
-    detail = (result.stdout or result.stderr).strip()
-    if detail:
-        detail = f"\n\nAudit output:\n{detail}"
-    return (
-        "Agentic usage ledger is stale for this commit/push. "
-        f"Run `{remediation}`, review and stage the intended ledger changes, then retry."
-        f"{detail}"
-    )
 
 
 def staged_paths(repo_root: Path, runner: RunCommand) -> list[str]:
@@ -350,62 +195,6 @@ def is_publication_path(path: str) -> bool:
     if any(normalized.startswith(prefix) for prefix in PUBLICATION_PREFIXES):
         return True
     return any(part in normalized for part in PUBLICATION_SUBSTRINGS)
-
-
-def is_hook_infrastructure_path(path: str) -> bool:
-    return normalize_path(path) in HOOK_INFRASTRUCTURE_EXACT_PATHS
-
-
-def only_hook_infrastructure(paths: list[str]) -> bool:
-    return bool(paths) and all(is_hook_infrastructure_path(path) for path in paths)
-
-
-def commit_pathspecs(args: list[str]) -> list[str]:
-    if "--" in args:
-        separator = args.index("--")
-        return [arg for arg in args[separator + 1 :] if arg]
-
-    pathspecs: list[str] = []
-    skip_next = False
-    for arg in args:
-        if skip_next:
-            skip_next = False
-            continue
-        if arg in COMMIT_OPTION_VALUE_FLAGS:
-            skip_next = True
-            continue
-        if any(arg.startswith(f"{flag}=") for flag in COMMIT_OPTION_VALUE_FLAGS if flag.startswith("--")):
-            continue
-        if arg.startswith("-"):
-            continue
-        pathspecs.append(arg)
-    return pathspecs
-
-
-def commit_target_paths(repo_root: Path, args: list[str], runner: RunCommand) -> list[str]:
-    pathspecs = commit_pathspecs(args)
-    if pathspecs:
-        return pathspecs
-    return staged_paths(repo_root, runner)
-
-
-def outgoing_paths(repo_root: Path, runner: RunCommand) -> list[str]:
-    upstream = runner(
-        ["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"],
-        cwd=repo_root,
-        timeout=10,
-    )
-    if upstream.returncode != 0:
-        return []
-
-    upstream_ref = upstream.stdout.strip()
-    if not upstream_ref:
-        return []
-
-    result = runner(["git", "diff", "--name-only", f"{upstream_ref}...HEAD"], cwd=repo_root, timeout=10)
-    if result.returncode != 0:
-        return []
-    return [line.strip() for line in result.stdout.splitlines() if line.strip()]
 
 
 def read_metadata_date(path: Path, key: str) -> date | None:
@@ -475,7 +264,6 @@ def handle_payload(
     payload: dict[str, Any],
     *,
     today: date | None = None,
-    now: datetime | None = None,
     runner: RunCommand = run_command,
 ) -> dict[str, Any] | None:
     tool_input = payload.get("tool_input") or {}
@@ -500,39 +288,8 @@ def handle_payload(
     except RuntimeError as error:
         return deny(f"Could not run site freshness policy: {error}")
 
-    moment = now or datetime.now(timezone.utc)
-    throttled = ledger_audit_is_throttled(repo_root, now=moment)
-
-    include_pending_commit = verb == "commit" and not is_amend(args)
-    pending_paths: list[str] = []
-    # A stale or slow ledger never blocks: the site publishes rounded totals and
-    # refreshes them opportunistically. The hook still surfaces the remediation
-    # command once per throttle window so the next refresh is not forgotten.
-    ledger_notice: str | None = None
-    if verb == "commit":
-        pending_paths = commit_target_paths(repo_root, args, runner)
-        if only_hook_infrastructure(pending_paths):
-            return None
-        branch = current_branch(repo_root, runner)
-        # Temporary worker branches can checkpoint without racing the public
-        # ledger. The coordinator integrates them into a publish branch, where
-        # the commit and push receive the advisory ledger check.
-        if (not branch or branch in PUBLISH_BRANCHES) and not throttled:
-            ledger_notice = run_stage_aware_ledger_check(
-                repo_root,
-                include_pending_commit=include_pending_commit,
-                pending_paths=pending_paths,
-                runner=runner,
-            )
-            write_ledger_audit_stamp(repo_root, moment)
-    else:
-        pushed_paths = outgoing_paths(repo_root, runner)
-        if not only_hook_infrastructure(pushed_paths) and not throttled:
-            ledger_notice = run_ledger_check(repo_root, include_pending_commit=False, runner=runner)
-            write_ledger_audit_stamp(repo_root, moment)
-
     try:
-        scholar_result = check_scholar_freshness(
+        return check_scholar_freshness(
             repo_root,
             commit_args=args if verb == "commit" else None,
             today=today or date.today(),
@@ -540,16 +297,6 @@ def handle_payload(
         )
     except RuntimeError as error:
         return deny(f"Could not inspect Scholar freshness policy: {error}")
-    if ledger_notice is None:
-        return scholar_result
-    advisory = f"Advisory only (the ledger never blocks a push): {ledger_notice}"
-    if scholar_result is None:
-        return add_context(advisory)
-    scholar_output = scholar_result.get("hookSpecificOutput", {})
-    if "permissionDecision" in scholar_output:
-        return scholar_result
-    scholar_context = scholar_output.get("additionalContext", "")
-    return add_context(f"{scholar_context}\n\n{advisory}".strip())
 
 
 def main() -> int:

@@ -95,7 +95,6 @@ Agents can use repo-local skills for common v1 workflows:
 - `.codex/skills/website-design-critique/SKILL.md` for the customized site's design critique and responsive-polish loops.
 - `.codex/skills/portfolio-writing-voice/SKILL.md` for blog, project, and site-copy edits that need Sirui's research voice and credit habits.
 - `.codex/skills/homepage-desk-scene/SKILL.md` for the homepage 2D/3D desk, album, and cliff-cave scene.
-- `.codex/skills/agentic-usage-ledger/SKILL.md` for the customized site's public Codex usage counters.
 
 Starter workflow skills live in `.agents/skills/`; customized-site Codex overlays live in `.codex/skills/`. Keep long, human-facing heuristics in their canonical Markdown docs and let Codex skills link to them instead of duplicating them.
 

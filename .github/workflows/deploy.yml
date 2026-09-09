@@ -8,7 +8,6 @@ on:
     paths:
       - "assets/**"
       - "_plugins/**"
-      - "_data/direct_usage_tracker.json"
       - "_data/code_activity.json"
       - "_data/code_activity_sources/**"
       - "**.bib"
@@ -43,7 +42,6 @@ on:
     paths:
       - "assets/**"
       - "_plugins/**"
-      - "_data/direct_usage_tracker.json"
       - "_data/code_activity.json"
       - "_data/code_activity_sources/**"
       - "**.bib"

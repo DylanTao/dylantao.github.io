@@ -1,9 +1,9 @@
 ---
 layout: page
 title: Build Rhythm
-description: "A page for seeing when I build: daily code activity by source, completed personal agent usage, and this site's separate daily token estimate."
-img: assets/img/project_pics/site-experiments/build-rhythm-stage.png
-image_aspect: 351 / 254
+description: "A page for seeing when I build: daily code activity by source, read for cadence and change rather than as a score."
+img: assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light.png
+image_aspect: 583 / 342
 card_avoid_scaling: true
 importance: -30
 category: fun
@@ -15,15 +15,14 @@ status: Site experiment
 hide_title: true
 design_story_class: sirui-editorial-story build-rhythm-story-page
 ai_context:
-  question: What can daily code and agent traces reveal about the cadence of making without turning activity into a productivity score?
+  question: What can a daily code trace reveal about the cadence of making without turning activity into a productivity score?
   evidence:
     - Code history reports daily commits by named source and separates total commits from authored commits, merges, and deploys.
-    - This site's rounded daily token rhythm comes from deduplicated retained logs attributed to this repo.
-    - Completed personal agent days use a separate family-conserving Codex and Claude record with an independent date domain.
-  boundary: The rhythms show bunching, scale, and quiet stretches; they do not establish productivity, quality, effort, or causality between code and agent use.
+    - Added and removed lines come only from each authored commit's first-parent raw-text diff, so merges and deploys never count as writing.
+  boundary: The rhythm shows bunching, scale, and quiet stretches; it does not establish productivity, quality, effort, or why a day was busy.
   reproduction:
-    - Keep the three clocks separate and expose the exact source tables behind every chart.
-    - Validate each source calendar and provenance tuple before rendering a history.
+    - Keep one clock and expose the exact source table behind every chart.
+    - Validate each source calendar and coverage window before rendering a history.
   source_urls:
     - https://dylantao.github.io/github-activity/
     - https://github.com/DylanTao/dylantao.github.io
@@ -32,44 +31,42 @@ ai_context:
 
 <section class="project-case-hero site-experiment-hero">
   <div class="project-case-copy">
-    <p class="project-case-kicker">Three rhythms, never one score</p>
+    <p class="project-case-kicker">One rhythm, never a score</p>
     <h1>Build Rhythm</h1>
     <p class="project-case-lede">
-      Build Rhythm reveals when my making bunches up and when it goes quiet. It cannot tell me whether a busy day was productive, whether a large change was good, or whether agent use caused code activity. Those limits are the reason the page keeps three clocks—and their exact tables—separate.
+      Build Rhythm reveals when my making bunches up and when it goes quiet. It cannot tell me whether a busy day was productive or whether a large change was good. Those limits are the reason the page keeps one clock and its exact table in view, and the reason the two token clocks that once sat beside it are gone.
     </p>
     <p class="project-design-question"><span>Reading question</span> What can an activity trace help me notice without pretending to measure the quality of the work?</p>
     <div class="project-case-actions">
-      <a href="{{ '/github-activity/' | relative_url }}">Open the live rhythms and tables</a>
+      <a href="{{ '/github-activity/' | relative_url }}">Open the live rhythm and table</a>
       <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download the reproduction guide</a>
     </div>
   </div>
   <figure
     class="project-case-media site-experiment-evidence-figure"
     data-paper-static-accent="waves"
-    data-evidence-kind="interface-anatomy-not-live-data"
-    data-asset-revision-commit="c613c7b0f3ef96e51e63321ad0b914dbef9add5d"
-    data-asset-revision-committed-at="2026-07-16T11:41:43-07:00"
-    data-capture-date="not-retained"
-    data-capture-viewport="not-retained"
-    data-capture-theme="not-retained"
-    data-capture-interaction-state="not-retained"
+    data-evidence-kind="runtime-capture-live-data"
+    data-capture-date="2026-09-08"
+    data-capture-viewport="1440x1000"
+    data-capture-theme="light"
+    data-capture-interaction-state="three-years-readable-latest-label"
   >
-    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-stage.png' | relative_url }}" alt="Build Rhythm token panel showing a rounded cumulative site estimate above a rounded daily increase chart" loading="eager" width="702" height="508">
-    <figcaption><strong>Annotated site-token chapter; interface anatomy, not live data.</strong> The image shows the cumulative site estimate above rounded daily growth. Its original viewport, theme, and interaction state were not retained. <span class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/waves" target="_blank" rel="noopener noreferrer">Paper Shaders' Waves</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</span></figcaption>
+    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light.png' | relative_url }}" alt="Build Rhythm code history explorer: total and authored commits per day above added and removed lines, three-year window on the readable scale" loading="eager" width="1166" height="684">
+    <figcaption><strong>Live code history, captured September 8, 2026.</strong> The explorer in its default state: three-year window, readable scale, latest label pinned, light theme at 1440 by 1000. <span class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/waves" target="_blank" rel="noopener noreferrer">Paper Shaders' Waves</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</span></figcaption>
   </figure>
 </section>
 
 <section class="build-rhythm-conclusion" aria-labelledby="build-rhythm-conclusion-title">
   <p class="project-case-kicker">The conclusion</p>
   <h2 id="build-rhythm-conclusion-title">The shape is useful; the score would be fiction.</h2>
-  <p>Bursts can help me remember a release, a deadline, or a long iteration loop. Quiet stretches can prompt a question. Neither one ranks the work. I use the charts to find a moment worth inspecting, then use the tables and source record to see what was actually counted.</p>
+  <p>Bursts can help me remember a release, a deadline, or a long iteration loop. Quiet stretches can prompt a question. Neither one ranks the work. I use the chart to find a moment worth inspecting, then use the table and source record to see what was actually counted.</p>
 </section>
 
-## Three questions, three clocks
+## Two questions, one clock
 
-Each chart answers one question at the reading speed its evidence can support. The live explorer keeps the exact, keyboard-readable table immediately behind the visual summary.
+The chart answers two questions at the reading speed its evidence can support. The live explorer keeps the exact, keyboard-readable table immediately behind the visual summary.
 
-<ol class="build-rhythm-questions" aria-label="Questions answered by the three Build Rhythm charts">
+<ol class="build-rhythm-questions" aria-label="Questions answered by the Build Rhythm chart">
   <li>
     <p class="project-case-kicker">Code cadence</p>
     <h3>When did the code work bunch up?</h3>
@@ -77,23 +74,17 @@ Each chart answers one question at the reading speed its evidence can support. T
     <p class="build-rhythm-limit"><strong>It cannot establish:</strong> time spent, difficulty, quality, or whether a large diff mattered more.</p>
   </li>
   <li>
-    <p class="project-case-kicker">Site-token rhythm</p>
-    <h3>How did this website's retained build record grow?</h3>
-    <p>Deduplicated retained logs attributed to this repo become rounded daily cumulative points. Differences between adjacent rounded points are estimates of rounded growth, not exact daily token use, and the history can change when the retained record changes.</p>
-    <p class="build-rhythm-limit"><strong>It cannot establish:</strong> account lifetime, a bill, causal impact on code, or tokens that are no longer retained.</p>
-  </li>
-  <li>
-    <p class="project-case-kicker">Personal agent days</p>
-    <h3>What does the widest completed-day agent record show?</h3>
-    <p>The tracker stacks Codex and Claude family totals on its own date domain. The shared exact family window begins July 29, while earlier Codex usage remains in the Codex baseline. This completed personal agent usage stays separate from the site estimate.</p>
-    <p class="build-rhythm-limit"><strong>It cannot establish:</strong> per-account activity, the content of a session, or a relationship to any particular commit.</p>
+    <p class="project-case-kicker">Change magnitude</p>
+    <h3>How much moved, and in which direction?</h3>
+    <p>Added lines climb above zero and removed lines fall below, for the authored subset only. Readable compresses the one giant day so ordinary days stay visible; Literal restores the full distance to the biggest spike. Both plot the same reported values.</p>
+    <p class="build-rhythm-limit"><strong>It cannot establish:</strong> whether a large change was good, how long it took, or what caused a burst.</p>
   </li>
 </ol>
 
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
-  <h2 id="build-rhythm-privacy-title">The public view stops at agent family.</h2>
-  <p>Account identities and per-account readings stay private. The agent plot exposes only sanitized Codex-versus-Claude family totals; this site's retained-log estimate remains a different series and is never added to it.</p>
+  <h2 id="build-rhythm-privacy-title">The public view stops at daily counts.</h2>
+  <p>Each source publishes per-day commit and line counts only. No commit hashes, messages, repository names, or identities leave the source record.</p>
 </aside>
 
 ## Why the pacing changed
@@ -101,9 +92,9 @@ Each chart answers one question at the reading speed its evidence can support. T
 John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a design session on balancing performance, interactivity, and effort across SVG, Canvas, and WebGL. The lesson I carried over was pacing: make one relationship legible, then let the reader inspect the record. I used that principle without copying its visual language or implementation.
 
 <details class="project-story-disclosure">
-  <summary>Receipts: why I separated the clocks</summary>
+  <summary>Receipts: how the clocks came and went</summary>
   <div class="project-story-disclosure-body">
-    <p>An earlier version put GitHub activity and source-linked token history in one workbench. They looked like one story even though they used different evidence and clocks. The current version admits code history only after every declared source window validates, keeps the combined personal agent series on its own evidence boundary, and leaves this site's retained-log estimate separate.</p>
+    <p>An earlier version put GitHub activity and source-linked token history in one workbench. They looked like one story even though they used different evidence and clocks. Later versions pulled them apart, and on September 8, 2026 the token clocks left the page for good: the site-build estimate could only see one machine's retained logs, and once every agent user has billions of tokens the total stopped saying anything.</p>
     <ol class="project-story-beats" aria-label="Build Rhythm turning points">
       <li class="project-story-beat">
         <p class="project-case-kicker">First version</p>
@@ -116,9 +107,9 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
         <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/ed0d3ba40f2ed773c3242fabb8e6fc040a289742"><code>ed0d3ba40</code></a> pulled the GitHub and Codex views apart. At <a href="https://github.com/DylanTao/dylantao.github.io/commit/7e224db12c03c854924a282d66a91a6acafc9607"><code>7e224db12</code></a>, the public account view became one rounded checkpoint instead of a history that could expose its sources.</p>
       </li>
       <li class="project-story-beat">
-        <p class="project-case-kicker">Current version</p>
-        <h3>Each clock now carries only observations.</h3>
-        <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily rhythm without folding it into account usage. The explorer keeps completed personal agent days in an independently dated inset that begins with its first observed day instead of stretching that shorter record across the lifetime code domain.</p>
+        <p class="project-case-kicker">What stayed</p>
+        <h3>One clock remained once the tokens stopped saying anything.</h3>
+        <p><a href="https://github.com/DylanTao/dylantao.github.io/commit/6edea07f4c81efe60f7b6efaa6652fc153de19ae"><code>6edea07f4</code></a> brought back this site's rounded daily token estimate as a separate series, and the code explorer later carried completed personal agent days in an independently dated inset. On September 8, 2026 I removed both token clocks. The estimate saw one machine's retained Codex logs, so it undercounted the Claude work that built much of this site, and the tally of commits included the commits that refreshed the tally. The code explorer kept every interaction.</p>
       </li>
     </ol>
   </div>
@@ -127,8 +118,8 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
 <details class="project-story-disclosure">
   <summary>Receipts: full data and revision record</summary>
   <div class="project-story-disclosure-body">
-    <p><strong>Hero evidence:</strong> the current screenshot asset was committed July 16 at <code>c613c7b0f</code>. Its original viewport, theme, and interaction state were not retained, so it documents interface anatomy.</p>
-    <p><strong>Data contract:</strong> Three signals, never one score. Code history appears only after exact schema-5 source-calendar coverage validates for every named source. Personal uses GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels, so matching labels do not pretend to be one shared 24-hour window. The personal agent layer accepts only sanitized family-conserving completed-day totals with a valid provenance tuple, and deduplicated retained logs attributed to this repo form the separate site rhythm.</p>
+    <p><strong>Hero evidence:</strong> the current screenshot is a live capture of the code-history explorer on September 8, 2026 at 1440 by 1000 in the light theme, three-year window, readable scale, latest label pinned.</p>
+    <p><strong>Data contract:</strong> One signal, never a score. Code history appears only after exact schema-5 source-calendar coverage validates for every named source. Personal uses GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels, so matching labels do not pretend to be one shared 24-hour window. Each named source carries only daily commit, authored-commit, addition, and deletion counts inside its declared coverage.</p>
     <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
       <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
       <li><time datetime="2026-07-12">Jul 12</time><code>71b8f4c89</code><span>Added Codex token history beside the GitHub view, creating the crowded state that the next revision separated.</span></li>
@@ -137,8 +128,9 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
       <li><time datetime="2026-07-14">Jul 14</time><code>1b07cea4c</code><span>Restored additions and deletions with readable and literal scales plus stronger responsive evidence.</span></li>
       <li><time datetime="2026-07-15">Jul 15</time><code>6b4b7bd59</code><span>Added a scroll-led reading that teaches cadence, magnitude, scale, and the separate Codex clock before handing control to the exact explorer.</span></li>
       <li><time datetime="2026-07-16">Jul 16</time><code>7e224db12</code><span>Replaced source-level account history with one identity-free direct checkpoint.</span></li>
-      <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the rounded repo-scoped token rhythm within the current public boundary.</span></li>
+      <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the rounded repo-scoped token estimate as a separate series within the public boundary.</span></li>
       <li><time datetime="2026-09-05">Sep 5</time><code>90e9f613b</code><span>Moved the encoding key into an HTML strip with the profile SVG's words, plainer panel headings, an olive intern band with a seam, and per-source readout cells.</span></li>
+      <li><time datetime="2026-09-08">Sep 8</time><code aria-hidden="true"></code><span>Retired both token clocks and their pipelines; the page now reads code cadence and change only, with a live capture as its hero.</span></li>
     </ol>
   </div>
 </details>
@@ -146,7 +138,7 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
 <aside class="site-experiment-reproduce" aria-labelledby="build-rhythm-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
   <h2 id="build-rhythm-reproduce-title">Build it from your own aggregate record.</h2>
-  <p>The guide covers the three data scopes, chart sequence, accessible tables, reduced-motion state, and checks I used on this page.</p>
+  <p>The guide covers the data scope, chart sequence, accessible table, reduced-motion state, and checks I used on this page.</p>
   <a href="{{ '/assets/downloads/site-experiments/build-rhythm-reproduction.md' | relative_url }}" download>Download the coding-agent brief</a>
 </aside>
 

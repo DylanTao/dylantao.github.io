@@ -520,23 +520,19 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertEqual(source.count('class="project-story-beat"'), 3)
         self.assertNotIn('class="project-case-summary"', source)
         self.assertEqual(source.count('class="project-design-question"'), 1)
-        self.assertEqual(source.count('class="build-rhythm-limit"'), 3)
-        self.assertLess(source.index("The shape is useful; the score would be fiction."), source.index("## Three questions, three clocks"))
-        self.assertLess(source.index("## Three questions, three clocks"), source.index("Receipts: why I separated the clocks"))
+        self.assertEqual(source.count('class="build-rhythm-limit"'), 2)
+        self.assertLess(source.index("The shape is useful; the score would be fiction."), source.index("## Two questions, one clock"))
+        self.assertLess(source.index("## Two questions, one clock"), source.index("Receipts: how the clocks came and went"))
         for phrase in (
-            "Three questions, three clocks",
+            "Two questions, one clock",
             "When did the code work bunch up?",
             "Reported commits mark active calendar labels.",
             "The quiet outer line is the reported total across visible sources.",
             "The crisp inner line is authored commits",
             "the soft band between them is merges and deploys",
             "exact schema-5 source-calendar coverage validates for every named source",
-            "Site-token rhythm",
-            "Personal agent days",
-            "Account identities and per-account readings stay private",
             "The lesson I carried over was pacing",
             "Receipts: full data and revision record",
-            "this site's retained-log estimate remains a different series",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
@@ -545,7 +541,7 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertNotIn("schema-3", source.lower())
         self.assertIn('class="project-story-disclosure"', source)
         self.assertEqual(source.count('class="site-experiment-ledger"'), 1)
-        self.assertLess(source.index("## Three questions, three clocks"), source.index('class="project-story-disclosure"'))
+        self.assertLess(source.index("## Two questions, one clock"), source.index('class="project-story-disclosure"'))
         self.assertLess(source.index('class="project-story-disclosure"'), source.index('class="project-story-beats"'))
         for commit in ("b4203f3ea", "71b8f4c89", "ed0d3ba40", "d3f13be35", "1b07cea4c", "6b4b7bd59", "7e224db12", "6edea07f4"):
             with self.subTest(commit=commit):
@@ -619,7 +615,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_truthful_teasers_are_tracked_for_newest_visual_experiments(self) -> None:
         for relative_path in (
             "assets/img/project_pics/paper-constellation/paper-constellation-teaser.png",
-            "assets/img/project_pics/site-experiments/build-rhythm-stage.png",
+            "assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light.png",
             "assets/img/project_pics/site-experiments/homepage-desk-depth.png",
             "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png",
             "assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png",
@@ -656,28 +652,29 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertNotIn("mobile_teaser_alt", card_include)
         self.assertIn('alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"', card_include)
 
-    def test_build_rhythm_teaser_matches_the_approved_token_rhythm_capture(self) -> None:
-        teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-stage.png"
+    def test_build_rhythm_teaser_matches_the_approved_code_history_capture(self) -> None:
+        teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-code-history-2026-09-08-1440-light.png"
         payload = teaser.read_bytes()
         self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
-        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (702, 508))
+        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (1166, 684))
         blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
-        self.assertEqual(blob_hash, "a85dfb18c584fdd064e92afe59a07daee37884a6")
+        self.assertEqual(blob_hash, "a93f1ba43915456e681a12075c6699562c438c8b")
 
         source = (REPO_ROOT / "_projects" / "build-rhythm.md").read_text(encoding="utf-8")
         for phrase in (
-            'data-evidence-kind="interface-anatomy-not-live-data"',
-            'data-asset-revision-commit="c613c7b0f3ef96e51e63321ad0b914dbef9add5d"',
-            'data-asset-revision-committed-at="2026-07-16T11:41:43-07:00"',
-            'data-capture-date="not-retained"',
-            'data-capture-viewport="not-retained"',
-            'data-capture-theme="not-retained"',
-            'data-capture-interaction-state="not-retained"',
-            "Annotated site-token chapter",
-            "it documents interface anatomy",
+            'data-evidence-kind="runtime-capture-live-data"',
+            'data-capture-date="2026-09-08"',
+            'data-capture-viewport="1440x1000"',
+            'data-capture-theme="light"',
+            'data-capture-interaction-state="three-years-readable-latest-label"',
+            'width="1166" height="684"',
+            "Live code history, captured September 8, 2026.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)
+        for retired in ("not-retained", "interface anatomy", "data-asset-revision-commit", "build-rhythm-stage.png"):
+            with self.subTest(retired=retired):
+                self.assertNotIn(retired, source)
         self.assertNotIn("asset\u00e2", source)
 
     def test_paper_constellation_reproduction_guide_matches_mobile_trail(self) -> None:

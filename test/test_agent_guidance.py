@@ -48,17 +48,9 @@ CANONICAL_HEADINGS = {
         "Acceptance Checklist",
         "Future Model Handoff Prompt",
     },
-    "docs/agentic-usage-ledger.md": {
-        "Public Data File",
-        "Current Snapshot Authority",
-        "Update Heuristic",
-        "Codex hook behavior",
-        "Future Entry Template",
-    },
 }
 
 SKILL_SOURCE_LINKS = {
-    "agentic-usage-ledger": {"docs/agentic-usage-ledger.md", "_data/agentic_usage.yml"},
     "al-folio-upstream-sync": {
         ".github/copilot-instructions.md",
         "docs/BOUNDARIES.md",
@@ -72,7 +64,6 @@ SKILL_SOURCE_LINKS = {
     "tacit-knowledge-to-skill": {
         "WEBSITE_DESIGN_HEURISTICS.md",
         "docs/homepage-desk-scene-brief.md",
-        "docs/agentic-usage-ledger.md",
     },
     "website-design-critique": {"WEBSITE_DESIGN_HEURISTICS.md", "docs/design-experiment-backlog.md"},
 }
