@@ -10,7 +10,7 @@ import math
 import json
 import sys
 from pathlib import Path
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "bin"))
@@ -210,7 +210,7 @@ def home():
     for i in range(24):
         x = -4.35 + i * 0.38
         box("core_floorboard", (x, 0.25, -0.003), (0.011, 5.35, 0.005), mats["wood"], 0)
-    build_cave(mats, globals())
+    # The connected, two-storey excavation is authored after room furniture.
 
     def plant(group, x, y, z=0, scale=1):
         potted_plant(group, x, y, z, scale, mats, globals())
@@ -387,7 +387,60 @@ def home():
     empty("anchor_lounge", (3.23, -0.83, 0))
     empty("anchor_outside", (0, 6, -0.8))
     furnish(mats, globals())
-    coast_objects = build_bluff(mats, globals())
+    bpy.ops.wm.save_as_mainfile(
+        filepath=str(ROOT / ".jekyll-cache/coastal-rooms.blend"), compress=True
+    )
+    finish_home(mats)
+
+
+def CONFIG_ROOMS():
+    return json.loads((OUT / "manifest.json").read_text())["rooms"]
+
+
+def finish_home(mats, furnished=False):
+    from coastal_section import rehouse, coast
+
+    bpy.context.preferences.filepaths.save_version = 0
+    if not furnished:
+        rehouse(mats, globals())
+        bpy.ops.wm.save_as_mainfile(
+            filepath=str(ROOT / ".jekyll-cache/coastal-section.blend"), compress=True
+        )
+    # A clear passage around the closed stair and between the kitchen/gym.
+    # This finishing step also applies when replaying the cached room section.
+    for o in list(bpy.context.scene.objects):
+        if o.name.startswith(
+            (
+                "study_pot",
+                "study_soil",
+                "study_ceramic_lip",
+                "study_stem",
+                "study_curved_leaf",
+            )
+        ):
+            # A small desk plant at the outside corner keeps the face readable
+            # from the occupied-study camera. Apply before static batching.
+            offset = next(r["offset"] for r in CONFIG_ROOMS() if r["id"] == "study")
+            origin = Vector((1.17 + offset[0], 2.50 - offset[2], 0.87 + offset[1]))
+            corner = origin + Vector((0.10, 0.04, 0))
+            o.matrix_world = (
+                Matrix.Translation(corner)
+                @ Matrix.Scale(0.52, 4)
+                @ Matrix.Translation(-origin)
+                @ o.matrix_world
+            )
+        if o.name.startswith("gym_oak_backing"):
+            o.location.x *= 0.84
+        if o.name == "kitchen_print_wall":
+            for v in o.data.vertices:
+                if v.co.x > -2.4:
+                    v.co.x = -2.4 + (v.co.x + 2.4) * 0.60
+    for room in CONFIG_ROOMS():
+        o = bpy.data.objects.get("anchor_" + room["id"])
+        if o:
+            x, y, z = room["actor"]
+            o.location = (x, -z, y)
+    coast_objects = coast(mats, globals())
     buckets = {}
     for o in coast_objects:
         buckets.setdefault(
@@ -470,7 +523,7 @@ def character(style):
 
     # Character is deliberately adult: broad relaxed shoulders, natural brow and
     # jaw, clean-shaven face; long hair is an identity feature in all variants.
-    width = 0.25 if short else 0.16 if angular else 0.24 if lizard else 0.215
+    width = 0.25 if short else 0.16 if angular else 0.255 if lizard else 0.235
     head_z = 1.29 if short else 1.39 if natural else 1.43
     head_scale = (
         (0.36, 0.24, 0.35)
@@ -482,7 +535,7 @@ def character(style):
     if yellow:
         head_scale = (0.20, 0.18, 0.31)
     if natural:
-        head_scale = (0.182, 0.158, 0.238)
+        head_scale = (0.200, 0.163, 0.222)
     part(sphere("male torso", (0, 0.01, 0.92), (width, 0.15, 0.26), shirt), "Spine")
     part(
         sphere("shirt hem", (0, 0.01, 0.73), (width * 0.88, 0.15, 0.10), shirt), "Hips"
@@ -826,6 +879,163 @@ def character(style):
             "TailTip",
         )
     pieces = refine_character(pieces, style, width, head_z, head_scale, globals())
+    from coastal_hair import hair_sculpt
+
+    if lizard:
+        keep = []
+        for obj, bone in pieces:
+            if any(
+                m and m.name in ("long black hair", "hair glints")
+                for m in obj.data.materials
+            ):
+                bpy.data.objects.remove(obj, do_unlink=True)
+            else:
+                keep.append((obj, bone))
+        pieces = keep + hair_sculpt(head_z, head_scale, hair, globals())
+        from coastal_clothing import cotton_shirt
+
+        # Rebuild the lizard garment as one sewn surface, and replace the blunt
+        # tube tail and oval feet with tapered anatomy and individual toes.
+        keep = []
+        for obj, bone in pieces:
+            if (
+                any(m and m.name == "Sirui shirt" for m in obj.data.materials)
+                or bone.startswith("Tail")
+                or obj.name.startswith("foot")
+            ):
+                bpy.data.objects.remove(obj, do_unlink=True)
+            else:
+                keep.append((obj, bone))
+        pieces = keep + [(cotton_shirt(width, shirt), "Spine")]
+        from coastal_sculpt import swept_lock, weld_sculpt
+
+        for obj, bone in list(pieces):
+            if bone.startswith(("Arm.", "Forearm.", "Hand.")):
+                pieces.remove((obj, bone))
+                bpy.data.objects.remove(obj, do_unlink=True)
+        from coastal_sculpt import loft
+
+        for side, label in ((-1, "L"), (1, "R")):
+            x = side * (width + 0.070)
+            arm_piece = loft(
+                "continuous lizard arm",
+                [
+                    (0.59, x, -0.02, 0.043, 0.043),
+                    (0.68, x, -0.01, 0.062, 0.06),
+                    (0.80, side * (width + 0.065), 0, 0.051, 0.051),
+                    (0.885, side * (width + 0.055), 0, 0.048, 0.048),
+                    (0.884, side * (width + 0.055), 0, 0.042, 0.043),
+                ],
+                skin,
+                28,
+            )
+            arm_piece["blendArm"] = label
+            pieces.append((arm_piece, "Forearm." + label))
+            fingers = [
+                sphere("lizard palm", (x, -0.03, 0.558), (0.056, 0.038, 0.065), skin)
+            ]
+            for j in range(3):
+                fingers.append(
+                    swept_lock(
+                        "rounded finger",
+                        [
+                            (x + (j - 1) * 0.032, -0.037, 0.548),
+                            (x + (j - 1) * 0.039, -0.054, 0.499),
+                            (x + (j - 1) * 0.034, -0.042, 0.485),
+                        ],
+                        [0.019, 0.017, 0.008],
+                        skin,
+                        sides=10,
+                    )
+                )
+            fingers.append(
+                sphere(
+                    "opposed thumb",
+                    (x - side * 0.052, -0.04, 0.559),
+                    (0.023, 0.028, 0.044),
+                    skin,
+                )
+            )
+            pieces.append(
+                (weld_sculpt(fingers, "three finger hand", 0.005), "Hand." + label)
+            )
+        for side, label in ((-1, "L"), (1, "R")):
+            hip = side * 0.11
+            toes = [
+                sphere(
+                    "lizard instep", (hip, -0.045, 0.077), (0.087, 0.103, 0.072), skin
+                )
+            ]
+            for j in range(3):
+                toes.append(
+                    sphere(
+                        "rounded toe",
+                        (
+                            hip + (j - 1) * 0.048,
+                            -0.133 - (0.024 if j == 1 else 0),
+                            0.035,
+                        ),
+                        (0.031, 0.074, 0.032),
+                        skin,
+                    )
+                )
+            pieces.append(
+                (weld_sculpt(toes, "three toed foot", 0.005), "Foot." + label)
+            )
+        tail = swept_lock(
+            "continuous tapered tail",
+            [
+                (0, 0.105, 0.69),
+                (0.02, 0.28, 0.54),
+                (0.08, 0.48, 0.43),
+                (0.21, 0.67, 0.45),
+                (0.34, 0.79, 0.59),
+                (0.38, 0.81, 0.73),
+            ],
+            [0.105, 0.081, 0.060, 0.041, 0.021, 0.0015],
+            skin,
+            sides=16,
+        )
+        tail["blendTail"] = True
+        pieces.append((tail, "Tail"))
+        from coastal_sculpt import loft
+
+        pieces.append(
+            (
+                loft(
+                    "shorts waistband and seat",
+                    [
+                        (0.57, 0, 0.013, 0.161, 0.103),
+                        (0.63, 0, 0.013, 0.195, 0.127),
+                        (0.718, 0, 0.013, 0.195, 0.123),
+                    ],
+                    pants,
+                    32,
+                ),
+                "Hips",
+            )
+        )
+    # The natural interpretation has adult head-to-shoulder proportions. Apply
+    # the same transform to eyes and their bones, leaving the contact rig intact.
+    head_factor = (
+        0.76 if natural else 0.89 if angular or yellow else 0.94 if lizard else 1.0
+    )
+    pivot = Vector((0, 0, 1.12))
+    for obj, bone in pieces:
+        if bone == "Head" or bone.startswith("Eye."):
+            world = obj.matrix_world.copy()
+            inv = world.inverted()
+            for v in obj.data.vertices:
+                v.co = inv @ (pivot + (world @ v.co - pivot) * head_factor)
+    for name, (head, tail, parent) in list(bones.items()):
+        if name.startswith("Eye."):
+            bones[name] = (
+                pivot + (Vector(head) - pivot) * head_factor,
+                pivot + (Vector(tail) - pivot) * head_factor,
+                parent,
+            )
+    eye_y *= head_factor
+    head_z = 1.12 + (head_z - 1.12) * head_factor
     arm_data = bpy.data.armatures.new("Sirui skeleton")
     arm = bpy.data.objects.new("Sirui", arm_data)
     bpy.context.collection.objects.link(arm)
@@ -842,7 +1052,12 @@ def character(style):
         bpy.context.view_layer.objects.active = o
         o.select_set(True)
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
-        if o.get("blendLeg") or o.get("blendArm") or o.get("blendShirt"):
+        if (
+            o.get("blendLeg")
+            or o.get("blendArm")
+            or o.get("blendShirt")
+            or o.get("blendTail")
+        ):
 
             def weight(name, index, value):
                 if value > 0.001:
@@ -854,7 +1069,18 @@ def character(style):
 
             for v in o.data.vertices:
                 co = o.matrix_world @ v.co
-                if o.get("blendLeg"):
+                if o.get("blendPants"):
+                    side = "L" if co.x < 0 else "R"
+                    hip = clamp((co.z - 0.61) / 0.09)
+                    thigh = clamp((co.z - 0.32) / 0.10)
+                    weight("Hips", v.index, hip)
+                    weight("Thigh." + side, v.index, (1 - hip) * thigh)
+                    weight("Shin." + side, v.index, (1 - hip) * (1 - thigh))
+                elif o.get("blendTail"):
+                    t = clamp((co.y - 0.35) / 0.24)
+                    weight("TailTip", v.index, t)
+                    weight("Tail", v.index, 1 - t)
+                elif o.get("blendLeg"):
                     side = o["blendLeg"]
                     t = clamp((co.z - 0.32) / 0.10)
                     weight("Thigh." + side, v.index, t)
@@ -1023,7 +1249,36 @@ def character(style):
     render_portrait(arm, style, SOURCE)
 
 
-if "--export-only" in sys.argv:
+if "--section-only" in sys.argv or "--coast-only" in sys.argv:
+    bpy.ops.wm.open_mainfile(
+        filepath=str(
+            ROOT
+            / (
+                ".jekyll-cache/coastal-section.blend"
+                if "--coast-only" in sys.argv
+                else ".jekyll-cache/coastal-rooms.blend"
+            )
+        )
+    )
+    names = {
+        "plaster": "chalk limestone",
+        "edge": "warm cut stone",
+        "wood": "honey ash",
+        "oak": "pale oak",
+        "cream": "linen",
+        "sage": "sage textile",
+        "leaf": "olive leaf",
+        "ink": "charcoal",
+        "brass": "brushed brass",
+        "terra": "terracotta",
+        "water": "onsen turquoise",
+        "glass": "window sea glass",
+    }
+    finish_home(
+        {key: bpy.data.materials[name] for key, name in names.items()},
+        "--coast-only" in sys.argv,
+    )
+elif "--export-only" in sys.argv:
     # Re-export editable sources without repeating mesh authoring or portrait renders.
     bpy.ops.wm.open_mainfile(filepath=str(SOURCE / "coastal-home.blend"))
     for name, prefix in (
@@ -1050,7 +1305,12 @@ elif (
     and not any(a.startswith("--avatar=") for a in sys.argv)
 ):
     home()
-if "--house-only" not in sys.argv and "--export-only" not in sys.argv:
+if (
+    "--house-only" not in sys.argv
+    and "--export-only" not in sys.argv
+    and "--section-only" not in sys.argv
+    and "--coast-only" not in sys.argv
+):
     requested_avatar = next(
         (a.split("=", 1)[1] for a in sys.argv if a.startswith("--avatar=")), None
     )

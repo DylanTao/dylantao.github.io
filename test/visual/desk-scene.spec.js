@@ -177,11 +177,11 @@ test("coastal home: composed activities and previews survive clock changes until
     expect(info.following).toBe(false);
     expect(info.clockMode).toBe("preview");
     if (activity === "work") {
-      expect(info.joints.HandR[1]).toBeGreaterThan(0.8);
-      expect(info.joints.HandR[1]).toBeLessThan(0.96);
-      expect(info.joints.HandR[2]).toBeLessThan(-1.8);
+      expect(info.joints.HandR[1] - info.activityFloor).toBeGreaterThan(0.8);
+      expect(info.joints.HandR[1] - info.activityFloor).toBeLessThan(0.96);
+      expect(info.joints.HandR[2] - info.activityOffset[2]).toBeLessThan(-1.8);
     }
-    if (activity === "sleep") expect(info.joints.Root[1]).toBeGreaterThan(0.5);
+    if (activity === "sleep") expect(info.joints.Root[1] - info.activityFloor).toBeGreaterThan(0.5);
     if (["breakfast", "reading", "lunch", "workout", "dinner", "lounge"].includes(activity)) {
       expect(info.prop.ancestorsVisible).toBe(true);
       expect(info.prop.size.every((v) => Number.isFinite(v) && v > 0.002)).toBe(true);
@@ -348,6 +348,10 @@ test("coastal home: a routine boundary walks through the home before settling in
   await ui.locator('[data-world-room="overview"]').click();
   await canvas.scrollIntoViewIfNeeded();
   await capture(testInfo, "walking-between-rooms", await canvas.screenshot());
-  await expect(scene).toHaveAttribute("data-animation", "soak", { timeout: 12000 });
-  expect((await evidence(scene)).joints.Root[1]).toBeLessThan(-0.4);
+  await expect.poll(async () => (await evidence(scene)).joints.Root[1], { timeout: 25000 }).toBeGreaterThan(0.5);
+  await capture(testInfo, "walking-up-the-stair", await canvas.screenshot());
+  await expect(scene).toHaveAttribute("data-animation", "soak", { timeout: 18000 });
+  const soaked = await evidence(scene);
+  expect(soaked.joints.Root[1] - soaked.activityFloor).toBeLessThan(-0.4);
+  expect(soaked.activityFloor).toBe(2.6);
 });

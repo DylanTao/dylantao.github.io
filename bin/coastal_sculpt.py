@@ -797,3 +797,17 @@ def render_portrait(arm, style, out):
     (out / "portraits").mkdir(exist_ok=True)
     scene.render.filepath = str(out / "portraits" / (style + ".png"))
     bpy.ops.render.render(write_still=True)
+    # Model review includes front, profile, and full-body views. A flattering
+    # single bust angle is not evidence for a usable three-dimensional likeness.
+    for label, location, center, scale in [
+        ("front", (0, -5, 1.36), (0, 0, 1.24), 1.12),
+        ("profile", (5, -0.4, 1.5), (0, 0, 1.24), 1.14),
+        ("body", (2, -6, 2.2), (0, 0, 0.81), 2.12),
+    ]:
+        camera.location = location
+        camera.rotation_euler = (
+            (Vector(center) - camera.location).to_track_quat("-Z", "Y").to_euler()
+        )
+        camera.data.ortho_scale = scale
+        scene.render.filepath = str(out / "portraits" / (style + "-" + label + ".png"))
+        bpy.ops.render.render(write_still=True)

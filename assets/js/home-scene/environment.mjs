@@ -63,10 +63,14 @@ export function createPacific(scene, renderer) {
       `
       // Thin, broken wind lines supplement reflections. A height threshold
       // on intersecting swells made large polka dots across the old sea.
-      // The beach and this water use the same rounded footprint at sea level.
-      vec2 shore = vec2(oceanXZ.x / 8.1, (oceanXZ.y - 29.1) / 8.1);
-      float distanceToBeach = pow(pow(abs(shore.x),3.6)+pow(abs(shore.y),3.6),1.0/3.6);
-      float shoal = (1.0-smoothstep(1.05,1.9,distanceToBeach)) * (1.0-smoothstep(25.0,30.0,oceanXZ.y));
+      // Same continuous shoreline section as the Blender beach (world +Y in
+      // Blender becomes -Z here; ocean local coordinates are offset by 28 m).
+      float x = oceanXZ.x;
+      float cliffY = 5.7 + 1.2*sin(x*.12) + 7.5*exp(-pow((x-24.)/10.,2.)) + 3.3*exp(-pow((x+22.)/7.,2.));
+      float beachWidth = 6.6 + 3.5*exp(-pow((x-9.)/11.,2.)) + .7*sin(x*.19);
+      float waterline = cliffY - .35 + beachWidth*.47;
+      float distanceToBeach = (28.-oceanXZ.y-waterline)/3.0;
+      float shoal = (1.-smoothstep(.2,2.2,distanceToBeach)) * smoothstep(-.35,.15,distanceToBeach);
       float wash = sin(distanceToBeach*35.0 - pacificTime*.9 + n*2.8);
       float foam = smoothstep(.76,.98,wash) * shoal * (.3+.7*grainNoise(vec3(oceanXZ*24.0,pacificTime*.04)));
       outgoingLight = mix(outgoingLight, outgoingLight*vec3(.9,1.35,1.25),shoal*.4);
@@ -111,7 +115,7 @@ export function createPacific(scene, renderer) {
   });
   const steam = new THREE.Points(steamGeometry, steamMaterial);
   steam.name = "Warm onsen vapor";
-  steam.position.set(3.02, 0.43, -1.82);
+  steam.position.set(3.17, 3.03, 3.18);
   steam.visible = false;
   root.add(steam);
 

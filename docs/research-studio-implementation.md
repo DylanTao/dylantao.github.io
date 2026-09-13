@@ -9,7 +9,7 @@ Integrated on `main` after the local review branch, based on `bba74ccc1`. This i
 - Start in 2D on every screen; an explicit mode choice survives for the session. A page refresh chooses a new Sirui, avoiding the immediately previous avatar. Public 3D opens in Realistic with Look around / Back inside and pause. The San Diego routine runs automatically. The same capybara beach-party print hangs on the wall for every character.
 - For authoring and deterministic checks only, add `?scene-lab=1` to expose room, avatar, activity, time, and album controls. These controls are hidden and inert on the public page.
 - Inspect the isolated [depth study](http://127.0.0.1:4106/artwork/coastal-home/splat-lab/). To restart it, serve the repository root with `python -m http.server 4106 --bind 127.0.0.1`.
-- [Latest habitat evidence](evidence/coastal-habitat/README.md), [Realistic evidence](evidence/coastal-realism/README.md), [preceding refinement](evidence/coastal-home-refinement/README.md), [original sitewide checkpoint](evidence/research-studio/README.md), [scene brief](homepage-desk-scene-brief.md), [asset provenance](../artwork/coastal-home/PROVENANCE.md), and [splat findings](../artwork/coastal-home/splat-lab/FINDINGS.md).
+- [Latest habitat evidence](evidence/coastal-section/README.md), [Realistic evidence](evidence/coastal-realism/README.md), [preceding refinement](evidence/coastal-home-refinement/README.md), [original sitewide checkpoint](evidence/research-studio/README.md), [scene brief](homepage-desk-scene-brief.md), [asset provenance](../artwork/coastal-home/PROVENANCE.md), and [splat findings](../artwork/coastal-home/splat-lab/FINDINGS.md).
 
 ## What changed
 
@@ -37,16 +37,18 @@ The September 13 refinement gives the gym a rack, loaded barbell, padded bench, 
 
 The scene loads only after choosing 3D. Shell, coast, occupied room, and selected avatar load first; other rooms stream afterward. Rendering stops offscreen or hidden, DPR is capped at 1.5, and reduced motion uses composed poses. Asset or WebGL failure restores the usable 2D desk. Cached back/forward navigation pauses and restores controllers instead of destroying them.
 
-The [latest evidence report](evidence/coastal-habitat/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
+The [latest evidence report](evidence/coastal-section/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
 
 Album focus, second-click playback/open, swaps, four-card discovery/replay, source links, and sharing between 2D/3D remain. The controls also support keyboard orbit/zoom, D discovery, room buttons, one-finger orbit, and two-finger pinch.
+
+The subsequent likeness and section correction places the study, sleep and onsen on an upper gallery above the kitchen, lounge and gym. Fifteen closed risers, a clear stair approach and a tread-aware foot correction connect their activity anchors. The cliff and beach are continuous mainland sections, with a matching ocean shoreline. All five models have revised hair, connected shirts and trousers, and front/profile/full-body review renders. `coastal_section.py`, `coastal_hair.py` and `coastal_clothing.py` preserve the editable authoring decisions.
 
 ## Evidence and reproduction
 
 The committed gallery contains a curated subset of comparable captures and machine-readable measurements. Full local captures and test output live under the ignored `.jekyll-cache/visual-qa/` directory so screenshot writes do not trigger Jekyll rebuilds. Source checks supplement direct inspection; a ready flag alone was never treated as proof of visible WebGL.
 
 ```powershell
-node --test test/coastal-routine.test.mjs
+node --test test/coastal-routine.test.mjs test/coastal-navigation.test.mjs
 python -m unittest discover -s test -p "test_*.py"
 npm.cmd run lint:prettier
 npm.cmd run lint:style-contract

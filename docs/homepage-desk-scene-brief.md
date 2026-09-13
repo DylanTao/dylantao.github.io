@@ -21,6 +21,8 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 ## Architecture And Assets
 
+- `bin/coastal_section.py`: two storeys at 0 and 2.6 meters, a 15-riser stair, room offsets shared with the manifest, one excavated mainland cliff and a continuous beach. `navigation.mjs` follows the corridors and treads; `locomotion.mjs` fits the walking feet to their support.
+- `bin/coastal_clothing.py` and `bin/coastal_hair.py`: continuous sleeved garments and ear-tucked, collar-length hair surfaces. Review front, profile and full-body renders before accepting likeness.
 - `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar.
 - `bin/coastal_characters.py`: the four human models, with shaped faces, inset eyes, side-parted hair, sloping sleeves, fingers, trousers, and canvas shoes. `artwork/coastal-home/portraits/` holds Blender model studies, excluded from production.
 - `bin/coastal_interiors.py`: scalloped mountain wall, curved low divisions, rounded returns, the print niche, and the fitted gym with a power rack, loaded barbell, padded bench and dumbbell stand.
@@ -77,7 +79,11 @@ Touch supports orbit and two-finger pinch; explicit zoom buttons provide another
 
 ## 3D Desk Vignette
 
-The initial view frames the occupied room. A thick carved vault, curved low divisions, fitted alcoves, flooring and the bluff connect the study, kitchen, gym, onsen, lounge and sleeping alcove. The outer stone roof joins inland terrain; the opening faces the Pacific. The beach sits roughly seven meters below the inhabited floor. Room cameras sit inside the vault, with an explicit cutaway for the overview and orbit positions outside it. Sirui's capybara beach-party image hangs in a light oak frame in the kitchen niche, unchanged across all avatars. Self-portraits are model-review assets, not wall decor. Load the shell, occupied room detail and selected avatar first; stream other rooms after the first meaningful frame.
+The initial view frames the occupied room. Kitchen, gym and lounge occupy the lower storey; study, sleeping alcove and onsen occupy the upper storey, 2.6 meters above. A 15-riser oak stair, gallery, rounded returns and fitted cupboards connect them. Lower circulation passes behind and around the closed stair; upper circulation passes behind the furniture. Room offsets, floor heights, tread coordinates and camera views live in the manifest and are shared with Blender authoring.
+
+The house is excavated into a continuous mainland cliff. Foundation, cave jambs, roof, inland terrain and beach share one shoreline section. The surf follows that section; the beach sits roughly seven meters below the lower floor. There must be no freestanding pedestal, detached arch, air gap or circular beach ring. Only the local ceiling lifts for cutaways; the mainland and back wall stay present. Check the direct Blender render as well as the browser exterior.
+
+Sirui's capybara beach-party image hangs in a light oak frame in the kitchen, unchanged across avatars. Self-portraits remain model-review assets. The onsen camera looks past Sirui toward the actual Pacific geometry. Load the shell, occupied room and selected avatar first, then stream the remaining rooms.
 
 The scene uses an asymmetric feathered alpha silhouette that reaches transparency before every canvas edge. A scenic image is never used to hide the rectangle. Match the canvas's CSS height to its renderer container at mobile widths; a legacy minimum height must not stretch the picture or overlap the clock. Keep the keyboard focus contour inside the visible silhouette so the mask cannot erase it. Verify the rendered perimeter against the page in light and dark themes.
 

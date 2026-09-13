@@ -21,6 +21,21 @@ def glb(path):
 
 
 class CoastalAssetsTest(unittest.TestCase):
+    def test_exported_room_anchors_match_the_two_storey_runtime(self):
+        shell = glb(ASSETS / MANIFEST["shell"])
+        anchors = {
+            n["name"]: n.get("translation", [0, 0, 0])
+            for n in shell["nodes"]
+            if n["name"].startswith("anchor_")
+        }
+        self.assertEqual({r["floor"] for r in MANIFEST["rooms"]}, {0, 2.6})
+        for room in MANIFEST["rooms"]:
+            for actual, expected in zip(anchors["anchor_" + room["id"]], room["actor"]):
+                self.assertAlmostEqual(actual, expected, places=5)
+        self.assertTrue(
+            any(n.get("extras", {}).get("caveRoof") for n in shell["nodes"])
+        )
+
     def test_each_avatar_has_an_actual_blender_study_and_one_shared_wall_print(self):
         for avatar in MANIFEST["avatars"]:
             data = (

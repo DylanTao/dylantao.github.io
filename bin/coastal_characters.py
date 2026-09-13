@@ -46,8 +46,8 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     # A square-soft chin and tapered temples keep the natural face adult.
     profile = [
         (-1.0, 0.28, 0.27),
-        (-0.88, 0.56, 0.56),
-        (-0.69, 0.83, 0.76),
+        (-0.88, 0.69, 0.62),
+        (-0.69, 0.94, 0.82),
         (-0.39, 0.98, 0.92),
         (-0.04, 1.0, 1.0),
         (0.30, 0.98, 0.97),
@@ -56,6 +56,18 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
         (1.0, 0.25, 0.24),
         (1.025, 0.035, 0.04),
     ]
+    if natural:
+        profile = [
+            (-1.0, 0.40, 0.34),
+            (-0.86, 0.74, 0.62),
+            (-0.66, 0.94, 0.81),
+            (-0.30, 1.0, 0.97),
+            (0.1, 1.0, 1.0),
+            (0.45, 0.95, 0.93),
+            (0.72, 0.83, 0.75),
+            (0.91, 0.53, 0.50),
+            (1.025, 0.08, 0.08),
+        ]
     if short:
         profile = [
             (-0.97, 0.23, 0.20),
@@ -96,17 +108,17 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             segments=24,
         )
         face_parts.append(ear)
-    eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.076
+    eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.081
     eye_y = -0.232 if short else -0.174 if yellow or lanky else -0.158
     eye_z = head_z + 0.042
-    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.045
+    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.039
     # A continuous nose bridge; the Simpsons study keeps its distinctive long tip.
     if natural:
         nose = loft(
             "nose bridge",
             [
-                (head_z - 0.067, 0, eye_y - 0.014, 0.023, 0.018),
-                (head_z - 0.035, 0, eye_y - 0.032, 0.027, 0.033),
+                (head_z - 0.067, 0, eye_y - 0.014, 0.032, 0.022),
+                (head_z - 0.035, 0, eye_y - 0.035, 0.032, 0.037),
                 (head_z + 0.01, 0, eye_y - 0.009, 0.016, 0.026),
                 (head_z + 0.072, 0, eye_y + 0.005, 0.013, 0.014),
             ],
@@ -150,7 +162,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     for side, name in ((-1, "L"), (1, "R")):
         x = side * eye_x
         depth = 0.013 if natural else 0.046
-        vertical = eye_r * (0.59 if natural else 0.98)
+        vertical = eye_r * (0.43 if natural else 0.98)
         part(
             sphere(
                 "inset eye " + name,
@@ -167,13 +179,13 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 sphere(
                     "iris " + name,
                     (x + 0.001, pupil_y - 0.002, eye_z),
-                    (0.018, 0.005, 0.020),
+                    (0.014, 0.004, 0.015),
                     iris,
                     segments=24,
                 ),
                 "Eye." + name,
             )
-        pupil_r = 0.011 if natural else 0.013 if short else 0.015
+        pupil_r = 0.009 if natural else 0.013 if short else 0.015
         part(
             sphere(
                 "pupil " + name,
@@ -208,13 +220,23 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                     tube("soft eyelid", pts, 0.0036 if sign > 0 else 0.0024, skin),
                     "Eye." + name,
                 )
-        r = eye_r + (0.018 if natural else 0.011)
+        r = eye_r + (0.026 if natural else 0.011)
         glasses_y = eye_y - (0.036 if natural else 0.056)
         pts = [
             (
-                x + r * math.cos(a * math.tau / 48),
+                x
+                + r
+                * math.copysign(
+                    abs(math.cos(a * math.tau / 48)) ** (0.84 if natural else 1),
+                    math.cos(a * math.tau / 48),
+                ),
                 glasses_y,
-                eye_z + r * math.sin(a * math.tau / 48),
+                eye_z
+                + r
+                * math.copysign(
+                    abs(math.sin(a * math.tau / 48)) ** (0.87 if natural else 1),
+                    math.sin(a * math.tau / 48),
+                ),
             )
             for a in range(49)
         ]
@@ -239,23 +261,23 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             )
         )
         # Brows sit on the forehead, above the lens, with a calm uneven arch.
-        bz = eye_z + r + (0.024 if natural else 0.018)
+        bz = eye_z + (0.071 if natural else r + 0.018)
         part(
             swept_lock(
                 "tapered eyebrow",
                 [
                     (x - 0.047, eye_y + 0.020, bz),
-                    (x - 0.016, eye_y + 0.007, bz + 0.011),
-                    (x + 0.018, eye_y + 0.009, bz + 0.009),
+                    (x - 0.016, eye_y + 0.007, bz + 0.005),
+                    (x + 0.018, eye_y + 0.009, bz + 0.004),
                     (x + 0.050, eye_y + 0.023, bz - 0.003),
                 ],
-                [0.002, 0.006, 0.006, 0.0015],
+                [0.003, 0.008, 0.008, 0.002],
                 hair,
                 width=1.2,
                 sides=8,
             )
         )
-    r = eye_r + (0.018 if natural else 0.011)
+    r = eye_r + (0.026 if natural else 0.011)
     part(
         tube(
             "spectacle bridge",
@@ -276,10 +298,10 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             tube(
                 "quiet asymmetric smile",
                 [
-                    (-0.049, mouth_y + 0.004, mouth_z + 0.007),
+                    (-0.060, mouth_y + 0.004, mouth_z + 0.007),
                     (-0.019, mouth_y - 0.006, mouth_z - 0.001),
                     (0.015, mouth_y - 0.007, mouth_z),
-                    (0.048, mouth_y + 0.002, mouth_z + 0.008),
+                    (0.060, mouth_y + 0.002, mouth_z + 0.008),
                 ],
                 0.0025,
                 lip,
@@ -322,128 +344,30 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 )
             )
 
-    # A rounded scalp cap with an exposed forehead and a true off-centre sweep.
-    verts, faces, rows, cols = [], [], 18, 72
-    for row in range(rows + 1):
-        for j in range(cols):
-            a = j * math.tau / cols
-            front = max(0, math.cos(a))
-            end = 1.85 - 0.83 * front**1.5 + 0.06 * math.sin(a)
-            polar = 0.025 + row / rows * end
-            wave = 0.002 * math.sin(a * 8 + polar * 3)
-            verts.append(
-                (
-                    hx * 1.065 * math.sin(polar) * math.sin(a),
-                    0.017 - (hy * 1.08 + wave) * math.sin(polar) * math.cos(a),
-                    head_z + hz * 1.05 * math.cos(polar) + 0.004 * math.sin(a * 2),
-                )
+    from coastal_hair import hair_sculpt
+
+    pieces.extend(hair_sculpt(head_z, head_scale, hair, h))
+    from coastal_clothing import cotton_shirt
+
+    part(cotton_shirt(width, shirt), "Spine")
+    part(
+        smooth(
+            loft(
+                "trouser waistband and seat",
+                [
+                    (0.585, 0, 0.008, 0.156, 0.097),
+                    (0.625, 0, 0.008, 0.191, 0.116),
+                    (0.683, 0, 0.008, 0.198, 0.122),
+                    (0.715, 0, 0.008, 0.190, 0.117),
+                ],
+                pants,
+                40,
             )
-    for row in range(rows):
-        for j in range(cols):
-            a, b = row * cols + j, row * cols + (j + 1) % cols
-            faces.append((a, a + cols, b + cols, b))
-    cap = part(surface("rounded swept scalp", verts, faces, hair))
-    bpy.context.view_layer.objects.active = cap
-    solid = cap.modifiers.new("scalp volume", "SOLIDIFY")
-    solid.thickness = 0.012
-    bpy.ops.object.modifier_apply(modifier=solid.name)
-    # Broad overlapping S-curves break up the silhouette; no remeshed wig cylinder.
-    for i in range(17):
-        a = 1.22 + i * (math.tau - 2.42) / 16
-        points = []
-        for k, (level, spread) in enumerate(
-            [
-                (0.83, 0.63),
-                (0.45, 0.99),
-                (-0.05, 1.075),
-                (-0.49, 1.11),
-                (-0.88, 1.15),
-                (-1.11, 1.29),
-                (-1.15, 1.40),
-            ]
-        ):
-            sweep = a + 0.12 * math.sin(k * 1.17 + i * 0.43)
-            points.append(
-                (
-                    math.sin(sweep) * hx * spread,
-                    0.036
-                    - math.cos(sweep) * (hy * spread + 0.014)
-                    + max(0, -level) * 0.025,
-                    head_z + hz * level + 0.019 * math.sin(i * 1.7 + k * 0.83),
-                )
-            )
-        radii = [0.009, 0.021, 0.025, 0.026, 0.024, 0.012, 0.0008]
-        part(
-            swept_lock(
-                "tapered shoulder wave", points, radii, hair, width=1.7, sides=12
-            )
-        )
-        if i % 2 == 0:
-            shifted = [(x * 1.028, y * 1.028, z + 0.003) for x, y, z in points]
-            part(
-                swept_lock(
-                    "quiet strand ridge",
-                    shifted,
-                    [0.0004, 0.001, 0.0012, 0.001, 0.001, 0.0005, 0.0001],
-                    strand,
-                    width=1.5,
-                    sides=6,
-                )
-            )
-    # The longer fringe travels from the right part across the crown to the left temple.
-    for i in range(7):
-        t = i / 6
-        points = [
-            (
-                hx * (0.38 + t * 0.17),
-                -hy * (0.12 + t * 0.15),
-                head_z + hz * (0.98 - t * 0.075),
-            ),
-            (hx * -0.16, -hy * (0.47 + t * 0.14), head_z + hz * (0.98 - t * 0.085)),
-            (-hx * 0.74, -hy * (0.50 + t * 0.12), head_z + hz * (0.72 - t * 0.15)),
-            (-hx * 1.02, -hy * (0.35 + t * 0.23), head_z + hz * (0.34 - t * 0.18)),
-            (-hx * 1.06, -hy * (0.18 + t * 0.19), head_z - hz * (0.02 + t * 0.22)),
-        ]
-        part(
-            swept_lock(
-                "side parted fringe",
-                points,
-                [0.010, 0.023, 0.025, 0.016, 0.0005],
-                hair,
-                width=1.3,
-                sides=12,
-            )
-        )
-    # Relaxed cotton: sloping shoulders, open short sleeves and a subtle waist.
-    torso = loft(
-        "relaxed cotton torso",
-        [
-            (0.686, 0, 0.007, width * 0.89, 0.12),
-            (0.73, 0, 0.010, width * 0.92, 0.131),
-            (0.82, 0, 0.003, width * 0.85, 0.124),
-            (0.93, 0, 0, width * 0.95, 0.133),
-            (1.014, 0, 0, width, 0.13),
-            (1.055, 0, 0, width * 0.81, 0.114),
-            (1.083, 0, 0, 0.086, 0.078),
-        ],
-        shirt,
-        40,
+        ),
+        "Hips",
     )
-    shirts = [torso]
     for side, name in ((-1, "L"), (1, "R")):
         shoulder, wrist = side * (width + 0.022), side * (width + 0.070)
-        sleeve = loft(
-            "sloping cotton sleeve",
-            [
-                (0.92, shoulder + side * 0.03, 0, 0.06, 0.074),
-                (0.945, shoulder + side * 0.019, 0, 0.066, 0.079),
-                (1.006, shoulder - side * 0.014, 0, 0.066, 0.087),
-                (1.046, shoulder - side * 0.045, 0, 0.051, 0.071),
-            ],
-            shirt,
-            28,
-        )
-        shirts.append(sleeve)
         ar = 0.043 if lanky else 0.058 if short else 0.049
         arm = loft(
             "tapered forearm and upper arm",
@@ -563,9 +487,6 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 ),
                 "Foot." + name,
             )
-    cotton = weld_sculpt(shirts, "relaxed sewn shirt", 0.005)
-    cotton["blendShirt"] = width
-    part(cotton, "Spine")
     part(
         tube(
             "ribbed crew neck",
@@ -582,4 +503,14 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
         ),
         "Spine",
     )
+    trousers = [
+        (o, b)
+        for o, b in pieces
+        if o.name.startswith(("tapered olive trousers", "trouser waistband"))
+    ]
+    for item in trousers:
+        pieces.remove(item)
+    joined = weld_sculpt([o for o, _ in trousers], "continuous sewn trousers", 0.005)
+    joined["blendPants"] = True
+    part(joined, "Hips")
     return pieces

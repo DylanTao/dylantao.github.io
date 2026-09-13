@@ -5,6 +5,9 @@ import { createPacific } from "./environment.mjs";
 import { createFinish, physicalTime } from "./realism.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
 
+import { createFootContacts } from "./locomotion.mjs";
+import { roomRoute, sampleRoute } from "./navigation.mjs";
+
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
 const stored = (key, fallback) => {
@@ -76,6 +79,7 @@ export function createCoastalHome(container, records, artifacts) {
     callbacks = {},
     focused = null,
     travel = null,
+    footContacts,
     actorGoal = null;
   let pointer = null,
     followClock = true,
@@ -109,12 +113,12 @@ export function createCoastalHome(container, records, artifacts) {
   sun.shadow.normalBias = 0.018;
   sun.shadow.radius = 3;
   const lamp = new THREE.PointLight(0xffbf6b, 4, 6);
-  lamp.position.set(-0.6, 1.6, -2.3);
+  lamp.position.set(-0.95, 4.2, 2.7);
   scene.add(hemi, sun, lamp);
   const practicals = [
-    [-4.13, 0.87, -2.53],
-    [-3.3, 1.95, 2.96],
-    [2.14, 1.1, 1.42],
+    [-4.13, 3.47, 2.47],
+    [-3.3, 1.95, -0.04],
+    [2.14, 1.1, -1.58],
   ].map((position) => {
     const light = new THREE.PointLight(0xffc286, 1, 4.8, 2);
     light.position.set(...position);
@@ -220,7 +224,13 @@ export function createCoastalHome(container, records, artifacts) {
     return own(tex);
   }
 
+  function roomPoint(id, point) {
+    const offset = config.rooms.find((r) => r.id === id)?.offset || [0, 0, 0];
+    return point.map((v, i) => v + offset[i]);
+  }
+
   function makeDeskObjects() {
+    const previousObjects = new Set(world.children);
     const cream = material(0xf4ecd8),
       ink = material(0x252c29);
     mesh(new THREE.BoxGeometry(0.68, 0.07, 0.43), material(0x71512b), [0.84, 0.91, -2.18]);
@@ -258,11 +268,19 @@ export function createCoastalHome(container, records, artifacts) {
     );
     glass.castShadow = false;
     glass.userData.noOcclusion = true;
+    // Move all interactive desk objects with the upper study, including their
+    // stored return positions. Album identity stays independent of room layout.
+    world.children
+      .filter((o) => !previousObjects.has(o))
+      .forEach((o) => {
+        o.position.fromArray(roomPoint("study", o.position.toArray()));
+        if (o.userData.home) o.userData.home.position.copy(o.position);
+      });
     // One informal capybara print for the home, independent of its inhabitant.
-    mesh(new THREE.BoxGeometry(0.88, 0.88, 0.035), material(0xb68b59), [-3.15, 1.65, 3.09]);
-    mesh(new THREE.BoxGeometry(0.82, 0.82, 0.039), cream, [-3.15, 1.65, 3.083]);
+    mesh(new THREE.BoxGeometry(0.88, 0.88, 0.035), material(0xb68b59), [-3.15, 1.38, 0.215]);
+    mesh(new THREE.BoxGeometry(0.82, 0.82, 0.039), cream, [-3.15, 1.38, 0.209]);
     portraitMaterial = material(0xffffff, { roughness: 0.9, map: imageTexture(new URL(config.wallArt.file, manifestUrl).href) });
-    const portrait = mesh(new THREE.PlaneGeometry(0.73, 0.73), portraitMaterial, [-3.15, 1.65, 3.06]);
+    const portrait = mesh(new THREE.PlaneGeometry(0.73, 0.73), portraitMaterial, [-3.15, 1.38, 0.186]);
     portrait.rotation.y = Math.PI;
     portrait.name = "Capybara beach party print";
     portrait.userData.fixedMaterial = true;
@@ -343,6 +361,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
       actor = prepareModel(gltf.scene);
       actor.name = "active-Sirui";
+      footContacts = createFootContacts(actor, config.navigation);
       world.add(actor);
       mixer = new THREE.AnimationMixer(actor);
       actions = new Map(gltf.animations.map((clip) => [clip.name, mixer.clipAction(clip)]));
@@ -365,7 +384,11 @@ export function createCoastalHome(container, records, artifacts) {
   function playClip(name) {
     const next = actions?.get(name) || actions?.get("idle");
     if (!next || next === currentAction) return;
-    next.reset().setEffectiveWeight(1).play();
+    next
+      .reset()
+      .setEffectiveWeight(1)
+      .setEffectiveTimeScale(name === "walk" ? 3.6 : 1)
+      .play();
     if (reduced || paused) {
       const stillTimes = { typing: 1, reading: 1.5, eat: 1.7, drink: 1.8, workout: 1.3, soak: 1, lounge: 1.5, sleep: 1 };
       next.time = stillTimes[name] || 0;
@@ -537,21 +560,12 @@ export function createCoastalHome(container, records, artifacts) {
         status.textContent = "Room detail unavailable. You can still explore.";
       });
       if (actorGoal && !force && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
-        // Walk through the clear central circulation aisle instead of furniture.
-        const start = actor.position.clone();
-        start.y = 0;
-        const end = goal.clone();
-        end.y = 0;
         const priorRoom = config.rooms.find((r) => actorGoal && new THREE.Vector3(...r.actor).distanceTo(actorGoal) < 0.1);
-        const exit = new THREE.Vector3(...(priorRoom?.egress || [start.x, 0, 0.32]));
-        const entry = new THREE.Vector3(...room.egress);
-        const viaA = new THREE.Vector3(exit.x, 0, 0.32),
-          viaB = new THREE.Vector3(entry.x, 0, 0.32);
-        const points = [start, exit, viaA, viaB, entry, end].filter((p, i, all) => i === 0 || p.distanceTo(all[i - 1]) > 0.01);
+        const route = roomRoute(config, priorRoom, room, actor.position.toArray());
         travel = {
-          curve: new THREE.CatmullRomCurve3(points),
+          route,
           start: elapsed,
-          duration: Math.max(2.5, start.distanceTo(end) / 1.2),
+          duration: Math.max(2.5, route.length / 1.5),
           goal,
           facing: room.facing,
         };
@@ -590,7 +604,7 @@ export function createCoastalHome(container, records, artifacts) {
       const card = mesh(
         new THREE.BoxGeometry(0.36, 0.43, 0.012),
         [material(0xece1c7), face, face, face, face, face],
-        [-0.82 + i * 0.42, 0.024 + i * 0.002, -0.2 + (i % 2) * 0.09],
+        roomPoint("study", [-0.82 + i * 0.42, 0.024 + i * 0.002, -0.2 + (i % 2) * 0.09]),
         { type: "source", index }
       );
       card.rotation.set(-Math.PI / 2, 0, (i - 1.5) * 0.14);
@@ -624,7 +638,7 @@ export function createCoastalHome(container, records, artifacts) {
     clearFocus();
     setRoom("study");
     focused = o;
-    o.position.set(0.05, 1.45, -0.7);
+    o.position.fromArray(roomPoint("study", [0.05, 1.45, -0.7]));
     o.scale.setScalar(2.4);
     o.quaternion.copy(camera.quaternion);
     container.dataset.deskView = "object";
@@ -653,10 +667,11 @@ export function createCoastalHome(container, records, artifacts) {
     ui.querySelector("[data-world-view]").innerHTML =
       id === "outside" ? 'Back inside <span aria-hidden="true">↙</span>' : 'Look around <span aria-hidden="true">↗</span>';
     if (id === "overview" || id === "outside") {
-      desiredTarget.set(id === "outside" ? 0.4 : 0, id === "outside" ? -1.05 : 0.6, id === "outside" ? -1.2 : 0);
-      desiredRadius = id === "outside" ? 27 : 15;
-      yaw = id === "outside" ? 2.84 : Math.PI + 0.38;
-      pitch = id === "outside" ? 0.19 : 0.67;
+      const view = config.views[id];
+      desiredTarget.fromArray(view.target);
+      desiredRadius = view.radius;
+      yaw = view.yaw;
+      pitch = view.pitch;
       config.rooms.forEach((r) => {
         loadRoom(r.id).catch(() => {});
       });
@@ -974,7 +989,11 @@ export function createCoastalHome(container, records, artifacts) {
       if (o.userData.caveRoof)
         o.visible =
           currentRoom === "outside" ||
-          (currentRoom !== "overview" && camera.position.y < 2.8 && camera.position.z < 3.2 && Math.abs(camera.position.x) < 4.7);
+          (currentRoom !== "overview" &&
+            camera.position.y < 4.9 &&
+            camera.position.z < 4.8 &&
+            camera.position.z > -4.7 &&
+            Math.abs(camera.position.x) < 4.4);
     });
     if (moving && mixer) {
       if (style === "illustrated") {
@@ -989,9 +1008,11 @@ export function createCoastalHome(container, records, artifacts) {
     }
     if (travel && moving) {
       const t = clamp((elapsed - travel.start) / travel.duration, 0, 1);
-      actor.position.copy(travel.curve.getPoint(t));
-      const tangent = travel.curve.getTangent(t);
-      actor.rotation.y = Math.atan2(tangent.x, tangent.z);
+      const sample = sampleRoute(travel.route, t);
+      actor.position.fromArray(sample.position);
+      actor.rotation.y +=
+        Math.atan2(Math.sin(sample.facing - actor.rotation.y), Math.cos(sample.facing - actor.rotation.y)) * Math.min(1, delta * 12);
+      footContacts?.(sample.onStairs);
       if (t === 1) {
         actor.position.copy(travel.goal);
         actor.rotation.y = travel.facing;
@@ -1139,6 +1160,9 @@ export function createCoastalHome(container, records, artifacts) {
     portrait: world.getObjectByName("Capybara beach party print")?.material.map?.image?.src || null,
     currentRoom,
     activity: routine?.id,
+    activityFloor: config?.rooms.find((r) => r.id === routine?.room)?.floor,
+    activityOffset: config?.rooms.find((r) => r.id === routine?.room)?.offset,
+    traveling: Boolean(travel),
     palette: routine?.palette,
     clockMode: routine?.live ? "now" : "preview",
     following: explore.following && followClock,

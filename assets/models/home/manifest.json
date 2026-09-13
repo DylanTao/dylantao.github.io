@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "timeZone": "America/Los_Angeles",
   "shell": "home-shell.glb",
   "wallArt": {
@@ -38,85 +38,110 @@
       "id": "study",
       "label": "Study",
       "file": "room-study.glb",
-      "target": [0.02, 1.02, -1.9],
-      "actor": [0.08, 0, -1.62],
+      "target": [-0.27, 3.64, 3.26],
+      "actor": [-0.27, 2.6, 3.38],
       "facing": 3.141593,
-      "egress": [0.78, 0, -1.3],
+      "egress": [0.55, 2.6, 4.1],
       "camera": {
-        "radius": 4.4,
-        "yaw": 0.94,
-        "pitch": 0.24
-      }
+        "radius": 3.6,
+        "yaw": 2.34,
+        "pitch": 0.25
+      },
+      "offset": [-0.35, 2.6, 5],
+      "floor": 2.6,
+      "exitPath": [
+        [0.6, 2.6, 3.7],
+        [0.55, 2.6, 4.1]
+      ]
     },
     {
       "id": "kitchen",
       "label": "Kitchen",
       "file": "room-kitchen.glb",
-      "target": [-3, 0.98, 1.6],
-      "actor": [-3.02, 0, 2.5],
+      "target": [-3, 0.98, -1.4],
+      "actor": [-3.02, 0, -0.5],
       "facing": 3.141593,
-      "egress": [-2.1, 0, 2.4],
+      "egress": [-1.65, 0, -0.65],
       "camera": {
         "radius": 4.25,
         "yaw": 1.98,
         "pitch": 0.25
-      }
+      },
+      "offset": [0, 0, -3],
+      "floor": 0
     },
     {
       "id": "gym",
       "label": "Gym",
       "file": "room-gym.glb",
-      "target": [0, 1.02, 1.78],
-      "actor": [-0.46, 0.048, 1.03],
+      "target": [0, 1.02, -1.22],
+      "actor": [-0.46, 0.048, -1.97],
       "facing": 3.141593,
-      "egress": [0, 0, 0.3],
+      "egress": [-1.62, 0, 0.75],
       "camera": {
         "radius": 4.8,
         "yaw": 2.98,
         "pitch": 0.28
-      }
+      },
+      "offset": [0, 0, -3],
+      "floor": 0,
+      "exitPath": [
+        [-1.45, 0, -1.97],
+        [-1.62, 0, -1.97],
+        [-1.62, 0, 0.75]
+      ]
     },
     {
       "id": "onsen",
       "label": "Onsen",
       "file": "room-onsen.glb",
-      "target": [3, 0.7, -2.0],
-      "actor": [3.02, -0.48, -1.92],
+      "target": [3.17, 3.35, 2.85],
+      "actor": [3.17, 2.12, 3.08],
       "facing": 3.141593,
-      "egress": [3.88, 0, -0.8],
+      "egress": [3.17, 2.6, 4.48],
       "camera": {
-        "radius": 3.9,
-        "yaw": -0.4,
-        "pitch": 0.28
-      }
+        "radius": 2.3,
+        "yaw": 0.28,
+        "pitch": 0.19
+      },
+      "offset": [0.15, 2.6, 5],
+      "floor": 2.6
     },
     {
       "id": "lounge",
       "label": "Ocean lounge",
       "file": "room-lounge.glb",
-      "target": [3.17, 0.96, 0.5],
-      "actor": [3.23, 0, 0.83],
+      "target": [3.17, 0.96, -2.5],
+      "actor": [3.23, 0, -2.17],
       "facing": 3.141593,
-      "egress": [2.42, 0, 0.65],
+      "egress": [2.5, 0, -2.1],
       "camera": {
         "radius": 4,
         "yaw": 3.3,
         "pitch": 0.18
-      }
+      },
+      "offset": [0, 0, -3],
+      "floor": 0
     },
     {
       "id": "sleep",
       "label": "Sleep",
       "file": "room-sleep.glb",
-      "target": [-3.1, 0.72, -1.7],
-      "actor": [-3.1, 0, -1.13],
+      "target": [-3.1, 3.32, 3.3],
+      "actor": [-3.1, 2.6, 3.87],
       "facing": 0,
-      "egress": [-2.15, 0, -1.02],
+      "egress": [-2.12, 2.6, 4.65],
       "camera": {
         "radius": 4.4,
-        "yaw": 0.65,
-        "pitch": 0.27
-      }
+        "yaw": 2.6,
+        "pitch": 0.38
+      },
+      "offset": [0, 2.6, 5],
+      "floor": 2.6,
+      "exitPath": [
+        [-2.12, 2.6, 3.95],
+        [-2.12, 2.6, 4.65]
+      ]
     }
   ],
   "activities": {
@@ -212,5 +237,48 @@
     [1200, "lounge"],
     [1350, "coding"]
   ],
-  "coast": "coast.glb"
+  "coast": "coast.glb",
+  "navigation": {
+    "upperAisleZ": 5.0,
+    "lowerAisleZ": 3.3,
+    "stairX": 1.615,
+    "stairs": [
+      [1.615, 0, -1.3],
+      [1.615, 0.17333, -1.07],
+      [1.615, 0.34667, -0.81],
+      [1.615, 0.52, -0.55],
+      [1.615, 0.69333, -0.29],
+      [1.615, 0.86667, -0.03],
+      [1.615, 1.04, 0.23],
+      [1.615, 1.21333, 0.49],
+      [1.615, 1.38667, 0.75],
+      [1.615, 1.56, 1.01],
+      [1.615, 1.73333, 1.27],
+      [1.615, 1.90667, 1.53],
+      [1.615, 2.08, 1.79],
+      [1.615, 2.25333, 2.05],
+      [1.615, 2.42667, 2.31],
+      [1.615, 2.6, 2.57],
+      [1.615, 2.6, 2.86]
+    ],
+    "lowerStairApproach": [
+      [2.55, 0, 3.3],
+      [2.55, 0, -1.55],
+      [1.615, 0, -1.55]
+    ]
+  },
+  "views": {
+    "outside": {
+      "target": [4, -1.9, -2],
+      "radius": 36,
+      "yaw": 3.62,
+      "pitch": 0.22
+    },
+    "overview": {
+      "target": [0, 1.65, 0.2],
+      "radius": 17.8,
+      "yaw": 2.86,
+      "pitch": 0.58
+    }
+  }
 }

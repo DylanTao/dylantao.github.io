@@ -335,3 +335,9 @@ Rooms need recognizable use and spatial character: a gym has a rack, barbell, be
 When a layout drops a card, remove its theme-specific surface and shadow rules too. Editorial metadata may align with the text edge on a transparent surface; text inside a painted container needs actual insets. At narrow widths, stack label/value rows instead of squeezing three facts into tiny columns. Inspect the page gutter at intermediate widths too: a wide desktop container should not collapse into a thin 15 px edge on a laptop. The homepage keeps a 20–32 px minimum gutter before its centered desktop margin takes over.
 
 Selected work should introduce the question and project name before asking a visitor to inspect a research diagram. Use small, uncropped figures beside concise text on the homepage; the case study provides the full-size evidence.
+
+### Inhabited miniature: section and likeness checks
+
+For the coastal home, judge the section before lighting: floors connect by traversable stairs; the house is embedded in a continuous mainland cliff; the beach meets its foot. Compare the actual Blender mesh and the browser exterior. Hiding a roof must not erase the mountain behind the rooms. Preserve one shoreline for beach, shoaling and surf.
+
+Judge Sirui's likeness in front, profile and full-body model renders, then at homepage size during an activity. Keep his long black hair, glasses and clean-shaven adult male identity. A flattering single angle, identity metadata, or a passing loading test does not establish likeness. Check garment continuity, jaw and brow proportions, ear visibility, hand contacts and the silhouette of the hair. Scene evidence and source studies live in `docs/evidence/coastal-section/` and `artwork/coastal-home/`.
