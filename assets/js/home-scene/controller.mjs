@@ -2,7 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { GLTFLoader } from "../vendor/three-r164/loaders/GLTFLoader.js";
 import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs";
-import { createExplorationState, resolveRoutine, formatMinute } from "./routine.mjs";
+import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -58,7 +58,7 @@ export function createCoastalHome(container, records, artifacts) {
     clockTimer = 0;
   let style = stored("sirui-scene-style", "architectural");
   if (!["architectural", "realistic", "illustrated"].includes(style)) style = "architectural";
-  let avatarId = stored("sirui-scene-avatar", "lizard"),
+  let avatarId,
     actor,
     mixer,
     actions,
@@ -80,7 +80,8 @@ export function createCoastalHome(container, records, artifacts) {
     propHand,
     vinyl,
     tonearm,
-    water;
+    water,
+    portraitMaterial;
   const touches = new Map();
   let pinch;
   const rooms = new Map(),
@@ -241,6 +242,14 @@ export function createCoastalHome(container, records, artifacts) {
       { type: "window" }
     );
     glass.castShadow = false;
+    // A real framed portrait inside the cave, never a scenery billboard.
+    mesh(new THREE.BoxGeometry(0.7, 0.87, 0.06), material(0x6d482c), [-3.15, 1.57, 3.17]);
+    mesh(new THREE.BoxGeometry(0.61, 0.78, 0.065), cream, [-3.15, 1.57, 3.16]);
+    portraitMaterial = material(0xffffff, { roughness: 0.85 });
+    const portrait = mesh(new THREE.PlaneGeometry(0.53, 0.67), portraitMaterial, [-3.15, 1.57, 3.12]);
+    portrait.rotation.y = Math.PI;
+    portrait.name = "Framed portrait of Sirui";
+    portrait.userData.fixedMaterial = true;
     updateRecords();
   }
 
@@ -326,6 +335,10 @@ export function createCoastalHome(container, records, artifacts) {
       avatarId = entry.id;
       container.dataset.avatar = avatarId;
       remember("sirui-scene-avatar", avatarId);
+      if (portraitMaterial && entry.portrait) {
+        portraitMaterial.map = imageTexture(new URL(entry.portrait, manifestUrl).href);
+        portraitMaterial.needsUpdate = true;
+      }
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
     } catch (error) {
@@ -621,11 +634,13 @@ export function createCoastalHome(container, records, artifacts) {
     clearFocus();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
+    ui.querySelector("[data-world-view]").innerHTML =
+      id === "outside" ? 'Back inside <span aria-hidden="true">↙</span>' : 'Look around <span aria-hidden="true">↗</span>';
     if (id === "overview" || id === "outside") {
-      desiredTarget.set(id === "outside" ? 3 : 0, id === "outside" ? -0.4 : 0.6, id === "outside" ? -3 : 0);
-      desiredRadius = id === "outside" ? 24 : 13.7;
-      yaw = id === "outside" ? Math.PI + 0.55 : 0.28;
-      pitch = id === "outside" ? 0.47 : 0.77;
+      desiredTarget.set(id === "outside" ? 3 : 0, id === "outside" ? -0.8 : 0.6, id === "outside" ? -6 : 0);
+      desiredRadius = id === "outside" ? 34 : 16;
+      yaw = Math.PI + (id === "outside" ? 0.4 : 0.38);
+      pitch = id === "outside" ? 0.28 : 0.67;
       config.rooms.forEach((r) => {
         loadRoom(r.id).catch(() => {});
       });
@@ -633,9 +648,9 @@ export function createCoastalHome(container, records, artifacts) {
       const room = config.rooms.find((r) => r.id === id);
       if (!room) return;
       desiredTarget.fromArray(room.target);
-      desiredRadius = id === "study" ? 5.9 : 6.8;
-      yaw = id === "study" ? 1.65 : id === "kitchen" ? 1.85 : id === "onsen" ? 0.16 : id === "sleep" ? 0.38 : 0.36;
-      pitch = id === "onsen" ? 0.45 : 0.62;
+      desiredRadius = room.camera?.radius || 4.4;
+      yaw = room.camera?.yaw ?? 0.65;
+      pitch = room.camera?.pitch ?? 0.24;
       loadRoom(id).catch(() => {});
     }
     if (reduced) {
@@ -690,7 +705,10 @@ export function createCoastalHome(container, records, artifacts) {
     const motionButton = ui.querySelector("[data-world-pause]");
     function syncMotionPreference() {
       motionButton.disabled = reduced;
-      motionButton.textContent = reduced ? "Motion reduced by system preference" : paused ? "Resume motion" : "Pause motion";
+      const label = reduced ? "Motion reduced by system preference" : paused ? "Resume motion" : "Pause motion";
+      motionButton.setAttribute("aria-label", label);
+      motionButton.title = label;
+      motionButton.querySelector("i").className = `fa-solid fa-${paused ? "play" : "pause"}`;
     }
     syncMotionPreference();
     listen(ui, "click", (event) => {
@@ -709,10 +727,19 @@ export function createCoastalHome(container, records, artifacts) {
         followClock = true;
         updateRoutine(true);
       }
+      if (b.hasAttribute("data-world-view")) {
+        if (currentRoom === "outside") {
+          explore.now();
+          followClock = true;
+          updateRoutine(true);
+        } else {
+          setRoom("outside");
+        }
+      }
       if (b.hasAttribute("data-world-pause")) {
         paused = !paused;
         b.setAttribute("aria-pressed", String(paused));
-        b.textContent = paused ? "Resume motion" : "Pause motion";
+        syncMotionPreference();
         if (paused && travel) {
           actor.position.copy(travel.goal);
           actor.rotation.y = travel.facing;
@@ -751,7 +778,7 @@ export function createCoastalHome(container, records, artifacts) {
     canvas.tabIndex = 0;
     canvas.setAttribute(
       "aria-label",
-      "Sirui’s coastal home. Arrow keys orbit, plus and minus zoom, D discovers a record, Escape returns to the room. Room and object buttons are in Explore."
+      "Sirui’s coastal home. Drag or use arrow keys to look around, plus and minus to zoom, D to discover a record, Escape to return inside."
     );
     listen(canvas, "pointerdown", (e) => {
       if (e.button !== 0) return;
@@ -924,6 +951,12 @@ export function createCoastalHome(container, records, artifacts) {
       camera.updateProjectionMatrix();
     }
     camera.lookAt(target);
+    world.traverse((o) => {
+      if (o.userData.caveRoof)
+        o.visible =
+          currentRoom === "outside" ||
+          (currentRoom !== "overview" && camera.position.y < 2.8 && camera.position.z < 3.2 && Math.abs(camera.position.x) < 4.7);
+    });
     if (moving && mixer) {
       if (style === "illustrated") {
         const step = Math.floor(elapsed * 12) / 12;
@@ -1001,6 +1034,14 @@ export function createCoastalHome(container, records, artifacts) {
       }
       world.add(prepareModel(coast.scene));
       makeDeskObjects();
+      const lab = ui.querySelector("[data-world-lab]");
+      const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
+      lab.hidden = !labEnabled;
+      lab.inert = !labEnabled;
+      avatarId = chooseArrivalAvatar(
+        config.avatars.map((a) => a.id),
+        stored("sirui-scene-avatar", "")
+      );
       const roomSelect = ui.querySelector("[data-world-room-list]");
       roomSelect.replaceChildren();
       for (const room of config.rooms) {
@@ -1072,6 +1113,7 @@ export function createCoastalHome(container, records, artifacts) {
     ready: container.dataset.sceneState === "ready",
     style,
     avatarId,
+    portrait: world.getObjectByName("Framed portrait of Sirui")?.material.map?.image?.src || null,
     currentRoom,
     activity: routine?.id,
     palette: routine?.palette,

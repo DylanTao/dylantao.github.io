@@ -14,7 +14,7 @@ async function openHome(page, { motion = "reduce", theme = "light" } = {}) {
   await preparePage(page, theme);
   await page.emulateMedia({ reducedMotion: motion });
   await page.clock.install({ time: new Date("2026-09-11T17:45:00-07:00") });
-  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
   await page.locator('[data-home-desk-mode="3d"]').click();
@@ -34,6 +34,36 @@ async function explore(ui) {
 async function settle(page) {
   await page.waitForTimeout(200);
 }
+
+test("coastal home: quiet public controls, wall portrait and a new arrival on refresh", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const scene = page.locator("[data-home-desk-scene]");
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  const first = (await evidence(scene)).avatarId;
+  const ui = page.locator("[data-home-world-controls]");
+  await expect(ui.locator("button:visible")).toHaveCount(5);
+  await expect(ui.locator("select:visible")).toHaveCount(0);
+  await expect.poll(async () => (await evidence(scene)).portrait).toContain(`/portraits/${first}.png`);
+  await ui.locator("[data-world-view]").click();
+  await expect(scene).toHaveAttribute("data-room", "outside");
+  await expect(ui.locator("[data-world-view]")).toHaveText(/Back inside/);
+  const canvas = scene.locator("canvas");
+  await canvas.focus();
+  await canvas.press("Escape");
+  await expect(ui.locator("[data-world-view]")).toHaveText(/Look around/);
+  await ui.locator("[data-world-view]").click();
+  await ui.locator("[data-world-view]").click();
+  expect((await evidence(scene)).following).toBe(true);
+  await page.reload();
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  expect((await evidence(scene)).avatarId).not.toBe(first);
+  expect(errors).toEqual([]);
+});
 
 for (const theme of ["light", "dark"]) {
   test(`coastal home: ${theme} composition, connected rooms, actual orbit and zoom`, async ({ page }, testInfo) => {
@@ -83,6 +113,7 @@ test("coastal home: all five avatars and three material styles retain one actor 
   for (const avatar of ["lizard", "south-park", "simpsons", "ghibli", "rick-and-morty", "lizard"]) {
     await ui.locator("[data-world-avatar]").selectOption(avatar);
     await expect(scene).toHaveAttribute("data-avatar", avatar);
+    await expect.poll(async () => (await evidence(scene)).portrait).toContain(`/portraits/${avatar}.png`);
     await canvas.scrollIntoViewIfNeeded();
     await settle(page);
     const info = await evidence(scene);
@@ -103,6 +134,7 @@ test("coastal home: all five avatars and three material styles retain one actor 
     before = after;
     expect((await evidence(scene)).currentRecord).toBe(0);
     expect((await evidence(scene)).avatarId).toBe("lizard");
+    expect((await evidence(scene)).portrait).toContain("/portraits/lizard.png");
     await capture(testInfo, style, after);
   }
   await page.locator('[data-home-desk-mode="2d"]').click();
@@ -114,6 +146,9 @@ test("coastal home: all five avatars and three material styles retain one actor 
 test("coastal home: composed activities and previews survive clock changes until Now", async ({ page }, testInfo) => {
   const { scene, canvas, ui } = await openHome(page);
   await explore(ui);
+  // These world-space contact bounds describe Lizard's authored proportions.
+  // Public arrivals randomize; the animation fixture must remain deterministic.
+  await ui.locator("[data-world-avatar]").selectOption("lizard");
   for (const activity of ["sleep", "breakfast", "reading", "lunch", "work", "workout", "soak", "dinner", "lounge", "coding"]) {
     await ui.locator("[data-world-activity]").selectOption(activity);
     await canvas.scrollIntoViewIfNeeded();

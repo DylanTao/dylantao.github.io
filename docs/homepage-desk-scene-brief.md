@@ -21,7 +21,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 ## Architecture And Assets
 
-- `bin/build_coastal_home.py`: original Blender geometry, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar.
+- `bin/build_coastal_home.py` and `bin/coastal_sculpt.py`: original Blender geometry, continuous sculpt surfaces, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar. Portraits are rendered from the same models in Blender.
 - `artwork/coastal-home/*.blend`: editable sources. `artwork/` is excluded from the built website.
 - `assets/models/home/manifest.json`: asset paths, room/camera/actor anchors, editable schedules, activities, clips, and prop choices.
 - `assets/js/home-scene/routine.mjs`: pure Pacific clock and exploration state.
@@ -38,7 +38,7 @@ See [asset provenance](../artwork/coastal-home/PROVENANCE.md). The real portrait
 
 ## Non-Goals
 
-This branch is a local review deliverable, not a production deployment. It does not rewrite research results, alter citation semantics, restore retired usage counters, or migrate the theme plugins. The miniature routine is authored fiction, not a claim about Sirui's observed location or live behavior.
+Completed work is integrated locally on `main`; production deployment is a separate action. This work does not rewrite research results, alter citation semantics, restore retired usage counters, or migrate the theme plugins. The miniature routine is authored fiction, not a claim about Sirui's observed location or live behavior.
 
 ## San Diego Routine
 
@@ -62,24 +62,24 @@ On weekends, coding runs until 04:00; sleep lasts until 12:30; breakfast continu
 ## Interaction Discoverability
 
 - Default to 2D at every viewport, including desktop (Sirui's live-review correction). A deliberate session choice takes precedence.
-- Keep the quiet 2D/3D switch, named style icons, avatar picker, and Explore disclosure.
+- Keep the quiet 2D/3D switch, named style icons, a Look around / Back inside action, and motion pause. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes or styles. Avatar, activity, time and room selectors are authoring controls, available only with `?scene-lab=1`.
 - Now follows the occupied room. Whole home, room visits, orbit, and previews opt out of camera following until Now.
 - Visit the desk keeps album and research-paper interactions one click away. First activation focuses an object; second activation plays the album or opens its paper link.
 - Preserve current record, spin state, discovery order, and avatar through modes and styles. Dropped cards retain their source links and four-card replay.
-- Arrow keys orbit; plus/minus zoom; D discovers a record; Escape returns to the study. The Explore panel supplies equivalent object buttons. Wheel zoom requires canvas focus, preserving ordinary page scrolling.
+- Arrow keys orbit; plus/minus zoom; D discovers a record; Escape returns to the study. Ordinary visitors keep the shared 2D album and research links; the authoring panel supplies equivalent scene-object buttons. Wheel zoom requires canvas focus, preserving ordinary page scrolling.
 - Motion pause and reduced motion use composed still poses. Camera controls remain usable.
 
 Touch supports orbit and two-finger pinch; explicit zoom buttons provide another path. A cached back/forward return pauses and restores the controllers without destroying shared state.
 
 ## 3D Desk Vignette
 
-The initial view frames the occupied room. Shared low partitions, arch bays, flooring, and the cliff connect the study, kitchen, gym, onsen, lounge, and sleeping alcove. Load the shell, occupied room detail, and selected avatar first; stream other rooms after the first meaningful frame.
+The initial view frames the occupied room. A thick carved vault, low divisions, flooring and the bluff connect the study, kitchen, gym, onsen, lounge and sleeping alcove. The outer stone roof joins inland terrain; the opening faces the Pacific. The beach sits roughly seven meters below the inhabited floor. Room cameras sit inside the vault, with an explicit cutaway for the overview and orbit positions outside it. A framed portrait on the kitchen wall follows the current character. Load the shell, occupied room detail and selected avatar first; stream other rooms after the first meaningful frame.
 
 Architectural is an orthographic crafted miniature with matte plaster, simplified sandstone strata, and quiet model water. Realistic changes to perspective, fractured rock and scrub geometry, a procedural sky, moving physical water and environment reflections, and on-demand wood/fabric/stone detail. Illustrated returns to orthographic projection with modeled cliff contours and faults, graphic surf and sun, variable outlines, crosshatching, halftones, and stepped character poses while the camera remains smooth. Shared architecture, identity, activity, and interaction state persist; the styles have different physical detail as well as materials.
 
 ## Outside Vignette
 
-The exterior is the same house and cliff viewed from outside. The glass bay and Step outside control lead there; Visit the desk or a room button returns. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.
+The exterior is the same house and cliff viewed from outside. The glass bay and Look around action lead there; Back inside resumes the current routine. The authoring lab retains individual room visits. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.
 
 ## Acceptance Evidence Map
 

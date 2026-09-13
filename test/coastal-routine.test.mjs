@@ -1,10 +1,23 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { pacificClock, resolveRoutine, createExplorationState, formatMinute } from "../assets/js/home-scene/routine.mjs";
+import { pacificClock, resolveRoutine, createExplorationState, formatMinute, chooseArrivalAvatar } from "../assets/js/home-scene/routine.mjs";
 
 const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
 const at = (time, day = "2026-09-11") => new Date(`${day}T${time}:00-07:00`);
+
+test("refresh chooses from every avatar and avoids immediately repeating the last arrival", () => {
+  const ids = config.avatars.map((a) => a.id);
+  for (const last of ids) {
+    const choices = new Set([0, 0.25, 0.5, 0.75, 0.999].map((r) => chooseArrivalAvatar(ids, last, () => r)));
+    assert.equal(choices.has(last), false);
+    assert.equal(choices.size, ids.length - 1);
+  }
+  assert.equal(
+    chooseArrivalAvatar(["lizard"], "lizard", () => 0),
+    "lizard"
+  );
+});
 
 test("weekday schedule changes exactly at each authored boundary", () => {
   for (let i = 0; i < config.weekday.length; i++) {

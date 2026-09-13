@@ -8,10 +8,14 @@ source are Blender Z-up; glTF exports Y-up. No downloaded model is required.
 import bpy
 import math
 import json
+import sys
 from pathlib import Path
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "bin"))
+from coastal_sculpt import build_cave, build_bluff, refine_character, render_portrait
+
 OUT = ROOT / "assets/models/home"
 SOURCE = ROOT / "artwork/coastal-home"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -138,6 +142,7 @@ def join_static(group):
             o.type == "MESH"
             and o.name.startswith(group + "_")
             and not o.name.startswith(group + "_water")
+            and not o.get("caveRoof")
         ):
             buckets.setdefault(o.data.materials[0].name, []).append(o)
     for key, objects in buckets.items():
@@ -198,55 +203,7 @@ def home():
     for i in range(24):
         x = -4.35 + i * 0.38
         box("core_floorboard", (x, 0.25, -0.003), (0.011, 5.35, 0.005), mats["wood"], 0)
-    # A continuous modest cliff foundation, never a second copy of the house.
-    for layer in range(4):
-        s = 1 + layer * 0.035
-        pts = [
-            (x * s + 0.09 * math.sin(i * 7 + layer), y * s)
-            for i, (x, y) in enumerate(floor)
-        ]
-        polygon_slab(
-            f"core_cliff{layer}",
-            pts,
-            -0.65 - layer * 0.48,
-            -0.2 - layer * 0.44,
-            mats["plaster"] if layer % 2 else mats["edge"],
-        )
-    # Low partitions keep the interior legible through an entire orbit.
-    for x in (-1.62, 1.62):
-        box("core_partition", (x, 1.55, 0.50), (0.22, 3.6, 1.0), mats["plaster"], 0.105)
-    for x in (-3.15, 3.15):
-        box("core_partition", (x, 0.0, 0.43), (2.4, 0.18, 0.86), mats["plaster"], 0.085)
-    for x in (-4.5, 4.5):
-        box("core_sidewall", (x, 0.8, 0.75), (0.25, 4.5, 1.5), mats["plaster"], 0.11)
-    # Three window bays share one actual back facade and one Pacific horizon.
-    for cx, width in [(-3.08, 2.32), (0, 2.85), (3.08, 2.32)]:
-        for sign in (-1, 1):
-            box(
-                "core_windowjamb",
-                (cx + sign * width / 2, 3.15, 1.26),
-                (0.20, 0.32, 2.52),
-                mats["plaster"],
-                0.08,
-            )
-            box(
-                "core_windowframe",
-                (cx + sign * (width / 2 - 0.14), 3.10, 1.20),
-                (0.055, 0.075, 2.18),
-                mats["wood"],
-                0.02,
-            )
-        tube(
-            "core_arch",
-            [
-                (cx - width / 2, 3.15, 2.35),
-                (cx, 3.15, 2.92),
-                (cx + width / 2, 3.15, 2.35),
-            ],
-            0.14,
-            mats["plaster"],
-        )
-        box("core_sill", (cx, 3.12, 0.12), (width, 0.34, 0.20), mats["plaster"], 0.07)
+    build_cave(mats, globals())
 
     def plant(group, x, y, z=0, scale=1):
         cylinder(
@@ -289,7 +246,7 @@ def home():
             mats["cream"] if lounge else mats["sage"],
             0.06,
         )
-        back_sign = 1 if lounge else -1
+        back_sign = -1  # Every seated workspace opens toward the Pacific.
         back = box(
             group + "_chairback",
             (x, y + back_sign * 0.28, 0.81),
@@ -429,7 +386,7 @@ def home():
     empty("anchor_onsen", (3.02, 1.92, -0.48))
 
     chair("lounge", 3.23, -0.83, True)
-    box("lounge_ottoman", (3.23, -1.70, 0.30), (0.75, 0.53, 0.20), mats["cream"], 0.09)
+    box("lounge_ottoman", (3.23, 0.04, 0.30), (0.75, 0.53, 0.20), mats["cream"], 0.09)
     cylinder("lounge_table", (2.14, -1.42, 0.46), 0.36, 0.07, mats["oak"])
     cylinder("lounge_tableleg", (2.14, -1.42, 0.21), 0.09, 0.42, mats["wood"])
     for i in range(3):
@@ -452,114 +409,19 @@ def home():
     )
     empty("anchor_lounge", (3.23, -0.83, 0))
     empty("anchor_outside", (0, 6, -0.8))
-    # The home continues into an actual eroded coastal headland. Every view
-    # sees these same volumes; there is no panoramic card behind the windows.
-    headland = [
-        (4.1, -3.1),
-        (15, -5),
-        (18, 1),
-        (14, 6),
-        (11, 8),
-        (12, 14),
-        (8, 17),
-        (6, 13),
-        (7, 9),
-        (4.5, 6),
-        (4.2, 3),
-    ]
-    distant = [(-19, 6), (-13, 7), (-10, 11), (-11, 14), (-8, 19), (-12, 24), (-21, 25)]
-    coast_objects = []
-    sand = material("Pacific sandstone", (0.55, 0.37, 0.20))
-    strata = material("sandstone strata", (0.77, 0.59, 0.37))
-    scrub = material("coastal scrub", (0.24, 0.30, 0.12))
-    graphite = material("coast ink", (0.10, 0.15, 0.20))
-    for peninsula, points in enumerate((headland, distant)):
-        for layer in range(7):
-            fraction = layer / 7
-            pts = [
-                (
-                    x + 0.22 * math.sin(i * 2.9 + layer * 0.65),
-                    y + 0.20 * math.cos(i * 3.1 + layer * 0.5),
-                )
-                for i, (x, y) in enumerate(points)
-            ]
-            o = polygon_slab(
-                f"coast_stratum_{peninsula}_{layer}",
-                pts,
-                -2.35 + layer * 0.43,
-                -1.96 + layer * 0.43,
-                sand if layer % 2 else strata,
-                segments=1,
-            )
-            coast_objects.append(o)
-            line = tube(
-                f"coast_drawn_contour_{peninsula}_{layer}",
-                [(x, y, -1.95 + layer * 0.43) for x, y in pts]
-                + [(pts[0][0], pts[0][1], -1.95 + layer * 0.43)],
-                0.025,
-                graphite,
-                resolution=3,
-            )
-            line["renderStyle"] = "illustrated"
-            coast_objects.append(line)
-        # Fractures, talus, and vegetation are a separate physical detail layer.
-        for i in range(38):
-            edge = i % len(points)
-            t = (i * 0.618) % 1
-            a, b = points[edge], points[(edge + 1) % len(points)]
-            x, y = a[0] * (1 - t) + b[0] * t, a[1] * (1 - t) + b[1] * t
-            bpy.ops.mesh.primitive_ico_sphere_add(
-                subdivisions=1, radius=1, location=(x, y, -1.9 + (i % 5) * 0.19)
-            )
-            o = bpy.context.object
-            o.scale = (
-                0.26 + (i % 3) * 0.12,
-                0.20 + (i % 4) * 0.1,
-                0.2 + (i % 3) * 0.13,
-            )
-            finish(o, "coast_fractured_rock", sand if i % 3 else strata)
-            o["renderStyle"] = "realistic"
-            coast_objects.append(o)
-            if i % 5 == 0:
-                for j in range(5):
-                    leaf = sphere(
-                        "coast_scrub",
-                        (
-                            x + math.cos(j * 2.4) * 0.17,
-                            y + math.sin(j * 2.4) * 0.17,
-                            0.72 + j * 0.025,
-                        ),
-                        (0.24, 0.055, 0.13),
-                        scrub,
-                        segments=10,
-                    )
-                    leaf.rotation_euler.z = j * 2.4
-                    leaf["renderStyle"] = "realistic"
-                    coast_objects.append(leaf)
-        # Drawn faults are geometry resting on the cliff faces, not a texture.
-        for i in range(len(points)):
-            x, y = points[i]
-            o = tube(
-                "coast_ink_fault",
-                [
-                    (x + 0.12, y, -2.25),
-                    (x - 0.07, y + 0.08, -1.35),
-                    (x + 0.09, y, -0.2),
-                    (x, y + 0.08, 0.6),
-                ],
-                0.013,
-                graphite,
-                resolution=3,
-            )
-            o["renderStyle"] = "illustrated"
-            coast_objects.append(o)
+    coast_objects = build_bluff(mats, globals())
     buckets = {}
     for o in coast_objects:
         buckets.setdefault(
-            (o.data.materials[0].name, o.get("renderStyle", "shared")), []
+            (
+                o.data.materials[0].name,
+                o.get("renderStyle", "shared"),
+                bool(o.get("caveRoof")),
+            ),
+            [],
         ).append(o)
     coast_objects = []
-    for (name, style), objects in buckets.items():
+    for (name, style, cave_roof), objects in buckets.items():
         bpy.ops.object.select_all(action="DESELECT")
         for o in objects:
             o.select_set(True)
@@ -570,6 +432,8 @@ def home():
         o.name = f"coast_{style}_{name}"
         if style != "shared":
             o["renderStyle"] = style
+        if cave_roof:
+            o["caveRoof"] = True
         coast_objects.append(o)
     for group in ("core", "study", "sleep", "kitchen", "gym", "onsen", "lounge"):
         join_static(group)
@@ -598,6 +462,7 @@ def character(style):
     short = style == "south-park"
     yellow = style == "simpsons"
     angular = style == "rick-and-morty"
+    natural = style == "ghibli"
     skin = material(
         "skin",
         (
@@ -627,7 +492,7 @@ def character(style):
 
     # Character is deliberately adult: broad relaxed shoulders, natural brow and
     # jaw, clean-shaven face; long hair is an identity feature in all variants.
-    width = 0.29 if short else 0.18 if angular else 0.285 if lizard else 0.235
+    width = 0.29 if short else 0.18 if angular else 0.24 if lizard else 0.235
     head_z = 1.29 if short else 1.43
     head_scale = (
         (0.36, 0.24, 0.35)
@@ -715,9 +580,9 @@ def character(style):
                 )
             )
         part(tube("swept hair strand", points, 0.0024, strand), "Head")
-    eye_x = 0.14 if short else 0.112 if lizard else 0.085
+    eye_x = 0.14 if short else 0.112 if lizard or angular or yellow else 0.090
     eye_r = (
-        0.076 if lizard else 0.11 if short else 0.090 if angular or yellow else 0.053
+        0.095 if lizard else 0.11 if short else 0.090 if angular or yellow else 0.053
     )
     eye_y = -0.205 if lizard else -0.192 if short else -0.174
     eye_z = head_z + 0.042
@@ -726,7 +591,11 @@ def character(style):
             sphere(
                 "eye " + side,
                 (s * eye_x, eye_y, eye_z),
-                (eye_r, 0.033 if lizard else 0.058, eye_r * (0.64 if lizard else 1.04)),
+                (
+                    eye_r,
+                    0.014 if natural else 0.053 if lizard else 0.058,
+                    eye_r * (0.64 if natural else 0.88 if lizard else 1.04),
+                ),
                 white,
             ),
             "Eye." + side,
@@ -734,7 +603,7 @@ def character(style):
         part(
             sphere(
                 "pupil " + side,
-                (s * eye_x + 0.008, eye_y - (0.029 if lizard else 0.054), eye_z),
+                (s * eye_x + 0.008, eye_y - (0.017 if natural else 0.054), eye_z),
                 (0.022 if lizard else 0.015, 0.010, 0.026 if lizard else 0.02),
                 ink,
             ),
@@ -743,27 +612,31 @@ def character(style):
         part(
             sphere(
                 "catchlight " + side,
-                (s * eye_x + 0.001, eye_y - (0.039 if lizard else 0.066), eye_z + 0.01),
+                (
+                    s * eye_x + 0.001,
+                    eye_y - (0.028 if natural else 0.066),
+                    eye_z + 0.01,
+                ),
                 (0.005, 0.003, 0.005),
                 white,
             ),
             "Eye." + side,
         )
-        r = eye_r + (0.023 if lizard else 0.012)
+        r = eye_r + 0.010
         points = [
             (
                 s * eye_x + r * math.cos(a * math.tau / 32),
-                eye_y - 0.061,
+                eye_y - (0.037 if natural else 0.061),
                 eye_z + r * math.sin(a * math.tau / 32),
             )
             for a in range(33)
         ]
-        part(tube("round glasses", points, 0.006, metal), "Head")
+        part(tube("round glasses", points, 0.004, metal), "Head")
         part(
             tube(
                 "spectacle temple",
                 [
-                    (s * (eye_x + r), eye_y - 0.06, eye_z),
+                    (s * (eye_x + r), eye_y - (0.036 if natural else 0.06), eye_z),
                     (s * (head_scale[0] + 0.011), 0.015, eye_z + 0.006),
                 ],
                 0.005,
@@ -788,9 +661,9 @@ def character(style):
         tube(
             "glasses bridge",
             [
-                (-eye_x + eye_r, eye_y - 0.060, eye_z + 0.015),
-                (0, eye_y - 0.065, eye_z + 0.02),
-                (eye_x - eye_r, eye_y - 0.060, eye_z + 0.015),
+                (-eye_x + eye_r, eye_y - (0.036 if natural else 0.060), eye_z + 0.015),
+                (0, eye_y - (0.041 if natural else 0.065), eye_z + 0.02),
+                (eye_x - eye_r, eye_y - (0.036 if natural else 0.060), eye_z + 0.015),
             ],
             0.005,
             metal,
@@ -972,6 +845,7 @@ def character(style):
             ),
             "TailTip",
         )
+    pieces = refine_character(pieces, style, width, head_z, head_scale, globals())
     arm_data = bpy.data.armatures.new("Sirui skeleton")
     arm = bpy.data.objects.new("Sirui", arm_data)
     bpy.context.collection.objects.link(arm)
@@ -988,8 +862,40 @@ def character(style):
         bpy.context.view_layer.objects.active = o
         o.select_set(True)
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
-        vg = o.vertex_groups.new(name=bone)
-        vg.add(list(range(len(o.data.vertices))), 1, "REPLACE")
+        if o.get("blendLeg") or o.get("blendArm") or o.get("blendShirt"):
+
+            def weight(name, index, value):
+                if value > 0.001:
+                    vg = o.vertex_groups.get(name) or o.vertex_groups.new(name=name)
+                    vg.add([index], value, "REPLACE")
+
+            def clamp(value):
+                return min(1, max(0, value))
+
+            for v in o.data.vertices:
+                co = o.matrix_world @ v.co
+                if o.get("blendLeg"):
+                    side = o["blendLeg"]
+                    t = clamp((co.z - 0.32) / 0.10)
+                    weight("Thigh." + side, v.index, t)
+                    weight("Shin." + side, v.index, 1 - t)
+                elif o.get("blendArm"):
+                    side = o["blendArm"]
+                    hand = 1 - clamp((co.z - 0.575) / 0.09)
+                    upper = clamp((co.z - 0.77) / 0.10)
+                    weight("Hand." + side, v.index, hand)
+                    weight("Arm." + side, v.index, upper * (1 - hand))
+                    weight("Forearm." + side, v.index, (1 - upper) * (1 - hand))
+                else:
+                    w = o["blendShirt"]
+                    t = clamp((abs(co.x) - w * 0.55) / (w * 0.5)) * clamp(
+                        (co.z - 0.86) / 0.16
+                    )
+                    weight("Arm." + ("L" if co.x < 0 else "R"), v.index, t)
+                    weight("Spine", v.index, 1 - t)
+        else:
+            vg = o.vertex_groups.new(name=bone)
+            vg.add(list(range(len(o.data.vertices))), 1, "REPLACE")
         o.parent = arm
         mod = o.modifiers.new("character skin", "ARMATURE")
         mod.object = arm
@@ -1064,6 +970,7 @@ def character(style):
                     pb["Forearm." + side].rotation_euler.x = -1.05
             if clip == "typing":
                 pb["Head"].rotation_euler.x = 0.12
+                pb["Head"].rotation_euler.y = -0.48 + math.sin(phase) * 0.10
                 for i, side in enumerate(("L", "R")):
                     pb["Arm." + side].rotation_euler.x = -0.35
                     pb["Forearm." + side].rotation_euler.x = (
@@ -1133,11 +1040,18 @@ def character(style):
     bpy.ops.wm.save_as_mainfile(
         filepath=str(SOURCE / ("sirui-" + style + ".blend")), compress=True
     )
+    render_portrait(arm, style, OUT)
 
 
-home()
-for avatar in ("lizard", "south-park", "simpsons", "ghibli", "rick-and-morty"):
-    character(avatar)
+if "--characters-only" not in sys.argv and "--lizard-only" not in sys.argv:
+    home()
+if "--house-only" not in sys.argv:
+    for avatar in (
+        ("lizard",)
+        if "--lizard-only" in sys.argv
+        else ("lizard", "south-park", "simpsons", "ghibli", "rick-and-morty")
+    ):
+        character(avatar)
 print(
     json.dumps(
         {"assets": {p.name: p.stat().st_size for p in OUT.glob("*.glb")}}, indent=2

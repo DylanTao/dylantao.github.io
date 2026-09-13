@@ -98,7 +98,8 @@ export function createArtDirection() {
           }
           const m = source.clone();
           m.roughness = style === "realistic" ? Math.min(m.roughness ?? 0.7, 0.7) : 0.86;
-          if (style === "realistic" && !source.map) {
+          if (mesh.isSkinnedMesh) m.roughness = /hair/i.test(source.name) ? 0.5 : /skin/i.test(source.name) ? 0.74 : 0.86;
+          if (style === "realistic" && !source.map && !mesh.isSkinnedMesh) {
             const grain = /wood|oak|ash/i.test(source.name) ? "wood" : /linen|textile|cotton|trousers/i.test(source.name) ? "fabric" : "stone";
             m.map = texture(grain);
             m.bumpMap = m.map;
@@ -120,7 +121,9 @@ export function createArtDirection() {
         mat.onBeforeCompile = (shader) => {
           shader.vertexShader = shader.vertexShader.replace(
             "#include <begin_vertex>",
-            "vec3 transformed = vec3(position + normal * (0.014 + 0.004 * sin(position.x * 23.0 + position.y * 19.0)));"
+            mesh.isSkinnedMesh
+              ? "vec3 transformed = vec3(position + normal * 0.005);"
+              : "vec3 transformed = vec3(position + normal * (0.014 + 0.004 * sin(position.x * 23.0 + position.y * 19.0)));"
           );
         };
         const outline = mesh.isSkinnedMesh ? new THREE.SkinnedMesh(mesh.geometry, mat) : new THREE.Mesh(mesh.geometry, mat);

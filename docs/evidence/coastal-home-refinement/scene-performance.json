@@ -1,0 +1,897 @@
+{
+  "capturedAt": "2026-09-13T04:43:39.340Z",
+  "platform": "win32 10.0.26300 x64",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "method": "Serial headless Chromium, no CPU or network throttle. Three seconds of warmup and four seconds of live animation per style. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
+  "views": [
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "deviceScaleFactor": 1,
+      "defaultMode": "2d",
+      "requestsBefore3D": [],
+      "readyMs": 659,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "initialResources": [
+        {
+          "path": "/assets/js/home-scene/controller.mjs",
+          "encodedBodySize": 45978,
+          "transferSize": 46278
+        },
+        {
+          "path": "/assets/js/home-scene/materials.mjs",
+          "encodedBodySize": 6649,
+          "transferSize": 6949
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+          "encodedBodySize": 49780,
+          "transferSize": 50080
+        },
+        {
+          "path": "/assets/js/three.module.min.js",
+          "encodedBodySize": 674428,
+          "transferSize": 674728
+        },
+        {
+          "path": "/assets/js/home-scene/routine.mjs",
+          "encodedBodySize": 2841,
+          "transferSize": 3141
+        },
+        {
+          "path": "/assets/js/home-scene/environment.mjs",
+          "encodedBodySize": 8521,
+          "transferSize": 8821
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+          "encodedBodySize": 10795,
+          "transferSize": 11095
+        },
+        {
+          "path": "/assets/models/home/manifest.json",
+          "encodedBodySize": 4589,
+          "transferSize": 4889
+        },
+        {
+          "path": "/assets/models/home/home-shell.glb",
+          "encodedBodySize": 115272,
+          "transferSize": 115572
+        },
+        {
+          "path": "/assets/models/home/coast.glb",
+          "encodedBodySize": 2048256,
+          "transferSize": 2048556
+        },
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "encodedBodySize": 320752,
+          "transferSize": 321052
+        },
+        {
+          "path": "/assets/models/home/sirui-south-park.glb",
+          "encodedBodySize": 4507204,
+          "transferSize": 4507504
+        },
+        {
+          "path": "/assets/models/home/portraits/south-park.png",
+          "encodedBodySize": 232876,
+          "transferSize": 233176
+        }
+      ],
+      "styles": [
+        {
+          "style": "architectural",
+          "durationMs": 4007,
+          "renderedFrames": 241,
+          "sceneFps": 60.1,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "architectural",
+            "avatarId": "south-park",
+            "portrait": "http://127.0.0.1:8080/assets/models/home/portraits/south-park.png",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 437,
+            "drawCalls": 93,
+            "triangles": 270482,
+            "resources": {
+              "geometries": 78,
+              "textures": 9
+            },
+            "projection": "orthographic",
+            "coastDetail": "architectural",
+            "backdropImages": 0,
+            "camera": [3.4714121392205683, 2.065891556279393, 0.6206874256330168],
+            "target": [0.02000000000000001, 1.0199999999999994, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.6941939250635568,
+                "y": 0.5593382223045386
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.349973564126404,
+                "y": 0.19876784617756715
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.26883135050654183,
+                "y": 0.21542412212165074
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.1876891368866796,
+                "y": 0.23208039806573433
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.1065469232668173,
+                "y": 0.24873667400981797
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.436788418493347,
+                "y": 0.4846875672981566
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.4944032860205458,
+                "y": 0.5068604049987178
+              },
+              {
+                "type": "window",
+                "x": 0.773943618390118,
+                "y": 0.35206589158817214
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.40656189637375145, 0.8876538209587482, -1.858124005123544],
+              "HandR": [-0.24669996776836137, 0.8890958951234729, -1.8568969693596022],
+              "FootL": [0.18999982048959832, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576887486, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        },
+        {
+          "style": "realistic",
+          "durationMs": 4012,
+          "renderedFrames": 241,
+          "sceneFps": 60.1,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "realistic",
+            "avatarId": "south-park",
+            "portrait": "http://127.0.0.1:8080/assets/models/home/portraits/south-park.png",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 874,
+            "drawCalls": 88,
+            "triangles": 266346,
+            "resources": {
+              "geometries": 80,
+              "textures": 13
+            },
+            "projection": "perspective",
+            "coastDetail": "realistic",
+            "backdropImages": 0,
+            "camera": [3.4714121392205683, 2.065891556279393, 0.6206874256330168],
+            "target": [0.02000000000000001, 1.0199999999999994, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.7171684786942051,
+                "y": 0.5663583655465929
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.3766893491578374,
+                "y": 0.25240941553975815
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.3023831421394355,
+                "y": 0.2567274328397954
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.2218735837560442,
+                "y": 0.2614059338677345
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.1343500184053682,
+                "y": 0.26649202673278366
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.4461168426076954,
+                "y": 0.48694729349168936
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.4949612145726117,
+                "y": 0.5061765008646898
+              },
+              {
+                "type": "window",
+                "x": 0.738505108442255,
+                "y": 0.37120327614704507
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.4061864523875527, 0.8836214676953601, -1.8614388592673123],
+              "HandR": [-0.24708481643974955, 0.8930135501940495, -1.8534484196035752],
+              "FootL": [0.18999982048959832, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576887486, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        },
+        {
+          "style": "illustrated",
+          "durationMs": 4011,
+          "renderedFrames": 240,
+          "sceneFps": 59.8,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "illustrated",
+            "avatarId": "south-park",
+            "portrait": "http://127.0.0.1:8080/assets/models/home/portraits/south-park.png",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 1312,
+            "drawCalls": 145,
+            "triangles": 500272,
+            "resources": {
+              "geometries": 81,
+              "textures": 15
+            },
+            "projection": "orthographic",
+            "coastDetail": "illustrated",
+            "backdropImages": 0,
+            "camera": [3.4714121392205683, 2.065891556279393, 0.6206874256330168],
+            "target": [0.02000000000000001, 1.0199999999999994, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.6941939250635568,
+                "y": 0.5593382223045386
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.349973564126404,
+                "y": 0.19876784617756715
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.26883135050654183,
+                "y": 0.21542412212165074
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.1876891368866796,
+                "y": 0.23208039806573433
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.1065469232668173,
+                "y": 0.24873667400981797
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.436788418493347,
+                "y": 0.4846875672981566
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.4944032860205458,
+                "y": 0.5068604049987178
+              },
+              {
+                "type": "window",
+                "x": 0.773943618390118,
+                "y": 0.35206589158817214
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.40683101687955503, 0.8904489722832634, -1.8557255404294435],
+              "HandR": [-0.24643252377505587, 0.886280366612161, -1.859271699523216],
+              "FootL": [0.18999982048959832, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576887486, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "emulated-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "defaultMode": "2d",
+      "requestsBefore3D": [],
+      "readyMs": 439,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "initialResources": [
+        {
+          "path": "/assets/js/home-scene/controller.mjs",
+          "encodedBodySize": 45978,
+          "transferSize": 46278
+        },
+        {
+          "path": "/assets/js/three.module.min.js",
+          "encodedBodySize": 674428,
+          "transferSize": 674728
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+          "encodedBodySize": 49780,
+          "transferSize": 50080
+        },
+        {
+          "path": "/assets/js/home-scene/environment.mjs",
+          "encodedBodySize": 8521,
+          "transferSize": 8821
+        },
+        {
+          "path": "/assets/js/home-scene/materials.mjs",
+          "encodedBodySize": 6649,
+          "transferSize": 6949
+        },
+        {
+          "path": "/assets/js/home-scene/routine.mjs",
+          "encodedBodySize": 2841,
+          "transferSize": 3141
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+          "encodedBodySize": 10795,
+          "transferSize": 11095
+        },
+        {
+          "path": "/assets/models/home/manifest.json",
+          "encodedBodySize": 4589,
+          "transferSize": 4889
+        },
+        {
+          "path": "/assets/models/home/home-shell.glb",
+          "encodedBodySize": 115272,
+          "transferSize": 115572
+        },
+        {
+          "path": "/assets/models/home/coast.glb",
+          "encodedBodySize": 2048256,
+          "transferSize": 2048556
+        },
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "encodedBodySize": 320752,
+          "transferSize": 321052
+        },
+        {
+          "path": "/assets/models/home/sirui-ghibli.glb",
+          "encodedBodySize": 3133804,
+          "transferSize": 3134104
+        },
+        {
+          "path": "/assets/models/home/portraits/ghibli.png",
+          "encodedBodySize": 220152,
+          "transferSize": 220452
+        }
+      ],
+      "styles": [
+        {
+          "style": "architectural",
+          "durationMs": 4013,
+          "renderedFrames": 240,
+          "sceneFps": 59.8,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "architectural",
+            "avatarId": "ghibli",
+            "portrait": "http://127.0.0.1:8080/assets/models/home/portraits/ghibli.png",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 439,
+            "drawCalls": 92,
+            "triangles": 228050,
+            "resources": {
+              "geometries": 78,
+              "textures": 9
+            },
+            "projection": "orthographic",
+            "coastDetail": "architectural",
+            "backdropImages": 0,
+            "camera": [3.4714121392205683, 2.065891556279393, 0.6206874256330168],
+            "target": [0.02000000000000001, 1.0199999999999994, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 539,
+            "canvasHeight": 527,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.7245177779696501,
+                "y": 0.5593382223045386
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.32654657189702596,
+                "y": 0.19876784617756715
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.23273380460521859,
+                "y": 0.21542412212165074
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.1389210373134111,
+                "y": 0.23208039806573433
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.04510827002160356,
+                "y": 0.24873667400981797
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.426917776561876,
+                "y": 0.4846875672981566
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.49352934554370076,
+                "y": 0.5068604049987178
+              },
+              {
+                "type": "window",
+                "x": 0.8167205795432857,
+                "y": 0.35206589158817214
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.35149886785796985, 0.88693880407771, -1.858724928197175],
+              "HandR": [-0.19177294526234348, 0.8898033830066889, -1.8562877118957268],
+              "FootL": [0.18999982048959477, 0.28149648129801924, -1.939502145397771],
+              "FootR": [-0.03000018576887841, 0.2814964317416841, -1.9395020528194813]
+            }
+          }
+        },
+        {
+          "style": "realistic",
+          "durationMs": 4010,
+          "renderedFrames": 241,
+          "sceneFps": 60.1,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "realistic",
+            "avatarId": "ghibli",
+            "portrait": "http://127.0.0.1:8080/assets/models/home/portraits/ghibli.png",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 878,
+            "drawCalls": 88,
+            "triangles": 224102,
+            "resources": {
+              "geometries": 80,
+              "textures": 13
+            },
+            "projection": "perspective",
+            "coastDetail": "realistic",
+            "backdropImages": 0,
+            "camera": [3.4714121392205683, 2.065891556279393, 0.6206874256330168],
+            "target": [0.02000000000000001, 1.0199999999999994, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 539,
+            "canvasHeight": 527,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.7510798639324809,
+                "y": 0.5663583655465929
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.35743409162767226,
+                "y": 0.25240941553975815
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.271524789966128,
+                "y": 0.2567274328397954
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.17844346856206822,
+                "y": 0.2614059338677345
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.07725288597260821,
+                "y": 0.26649202673278366
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.43770285675131315,
+                "y": 0.48694729349168936
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.49417439599383545,
+                "y": 0.5061765008646898
+              },
+              {
+                "type": "window",
+                "x": 0.775748260221528,
+                "y": 0.37120327614704507
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.35119008032313714, 0.8836100570314994, -1.8614488173345642],
+              "HandR": [-0.19209051044097086, 0.8930250132466631, -1.8534389285370891],
+              "FootL": [0.18999982048959477, 0.28149648129801924, -1.939502145397771],
+              "FootR": [-0.03000018576887841, 0.2814964317416841, -1.9395020528194813]
+            }
+          }
+        },
+        {
+          "style": "illustrated",
+          "durationMs": 4007,
+          "renderedFrames": 240,
+          "sceneFps": 59.9,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "illustrated",
+            "avatarId": "ghibli",
+            "portrait": "http://127.0.0.1:8080/assets/models/home/portraits/ghibli.png",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 1317,
+            "drawCalls": 143,
+            "triangles": 415408,
+            "resources": {
+              "geometries": 81,
+              "textures": 15
+            },
+            "projection": "orthographic",
+            "coastDetail": "illustrated",
+            "backdropImages": 0,
+            "camera": [3.4714121392205683, 2.065891556279393, 0.6206874256330168],
+            "target": [0.02000000000000001, 1.0199999999999994, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 539,
+            "canvasHeight": 527,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.7245177779696501,
+                "y": 0.5593382223045386
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.32654657189702596,
+                "y": 0.19876784617756715
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.23273380460521859,
+                "y": 0.21542412212165074
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.1389210373134111,
+                "y": 0.23208039806573433
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.04510827002160356,
+                "y": 0.24873667400981797
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.426917776561876,
+                "y": 0.4846875672981566
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.49352934554370076,
+                "y": 0.5068604049987178
+              },
+              {
+                "type": "window",
+                "x": 0.8167205795432857,
+                "y": 0.35206589158817214
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.3519996972526591, 0.892116037567628, -1.8542548168469006],
+              "HandR": [-0.19127745063362556, 0.8845610632846876, -1.8606819496550768],
+              "FootL": [0.18999982048959477, 0.28149648129801924, -1.939502145397771],
+              "FootR": [-0.03000018576887841, 0.2814964317416841, -1.9395020528194813]
+            }
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "graphicsArgs": ["--use-angle=d3d11", "--ignore-gpu-blocklist"],
+  "browser": "145.0.7632.6",
+  "assets": [
+    {
+      "file": "assets/js/three.module.min.js",
+      "bytes": 674428,
+      "gzipBytes": 167923
+    },
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "bytes": 45978,
+      "gzipBytes": 13120
+    },
+    {
+      "file": "assets/js/home-scene/environment.mjs",
+      "bytes": 8521,
+      "gzipBytes": 2956
+    },
+    {
+      "file": "assets/js/home-scene/materials.mjs",
+      "bytes": 6649,
+      "gzipBytes": 2335
+    },
+    {
+      "file": "assets/js/home-scene/routine.mjs",
+      "bytes": 2841,
+      "gzipBytes": 1203
+    },
+    {
+      "file": "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+      "bytes": 109806,
+      "gzipBytes": 23595
+    },
+    {
+      "file": "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+      "bytes": 31579,
+      "gzipBytes": 6879
+    },
+    {
+      "file": "assets/models/home/manifest.json",
+      "bytes": 4589,
+      "gzipBytes": 1096
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "bytes": 2048256,
+      "gzipBytes": 867115
+    },
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "bytes": 115272,
+      "gzipBytes": 42566
+    },
+    {
+      "file": "assets/models/home/room-gym.glb",
+      "bytes": 160224,
+      "gzipBytes": 35294
+    },
+    {
+      "file": "assets/models/home/room-kitchen.glb",
+      "bytes": 321120,
+      "gzipBytes": 107223
+    },
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "bytes": 320752,
+      "gzipBytes": 101586
+    },
+    {
+      "file": "assets/models/home/room-onsen.glb",
+      "bytes": 302204,
+      "gzipBytes": 85403
+    },
+    {
+      "file": "assets/models/home/room-sleep.glb",
+      "bytes": 153576,
+      "gzipBytes": 57295
+    },
+    {
+      "file": "assets/models/home/room-study.glb",
+      "bytes": 265404,
+      "gzipBytes": 95770
+    },
+    {
+      "file": "assets/models/home/sirui-ghibli.glb",
+      "bytes": 3133804,
+      "gzipBytes": 1404213
+    },
+    {
+      "file": "assets/models/home/sirui-lizard.glb",
+      "bytes": 3691904,
+      "gzipBytes": 1650547
+    },
+    {
+      "file": "assets/models/home/sirui-rick-and-morty.glb",
+      "bytes": 3281324,
+      "gzipBytes": 1463062
+    },
+    {
+      "file": "assets/models/home/sirui-simpsons.glb",
+      "bytes": 3389880,
+      "gzipBytes": 1520304
+    },
+    {
+      "file": "assets/models/home/sirui-south-park.glb",
+      "bytes": 4507204,
+      "gzipBytes": 2072877
+    },
+    {
+      "file": "assets/models/home/portraits/lizard.png",
+      "bytes": 230032,
+      "gzipBytes": 229993
+    },
+    {
+      "file": "assets/models/home/portraits/south-park.png",
+      "bytes": 232876,
+      "gzipBytes": 232826
+    },
+    {
+      "file": "assets/models/home/portraits/simpsons.png",
+      "bytes": 228064,
+      "gzipBytes": 228014
+    },
+    {
+      "file": "assets/models/home/portraits/ghibli.png",
+      "bytes": 220152,
+      "gzipBytes": 220104
+    },
+    {
+      "file": "assets/models/home/portraits/rick-and-morty.png",
+      "bytes": 224286,
+      "gzipBytes": 224250
+    }
+  ],
+  "largestInitialSceneGzipBytes": 3541714
+}

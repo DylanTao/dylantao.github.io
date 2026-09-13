@@ -73,10 +73,10 @@ export function createPacific(scene, renderer) {
   };
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
-  const waterGeometry = new THREE.PlaneGeometry(100, 105, 120, 120);
+  const waterGeometry = new THREE.PlaneGeometry(400, 400, 160, 160);
   waterGeometry.rotateX(-Math.PI / 2);
   const ocean = new THREE.Mesh(waterGeometry, modelWater);
-  ocean.position.set(0, -2.36, -28);
+  ocean.position.set(0, -7.35, -28);
   ocean.receiveShadow = true;
   root.add(ocean);
 
@@ -109,7 +109,7 @@ export function createPacific(scene, renderer) {
       z = -4 - ((i * 3.73) % 42);
     const points = Array.from(
       { length: 7 },
-      (_, j) => new THREE.Vector3(x + j * 0.34, -2.29 + Math.sin(j * 0.52 + i) * 0.014, z + Math.sin(j * 0.6 + i) * 0.13)
+      (_, j) => new THREE.Vector3(x + j * 0.34, -7.31 + Math.sin(j * 0.52 + i) * 0.014, z + Math.sin(j * 0.6 + i) * 0.13)
     );
     capGeometries.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), 12, 0.018, 3, false));
   }

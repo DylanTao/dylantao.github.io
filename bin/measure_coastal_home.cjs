@@ -73,7 +73,7 @@ async function sample(page, ms = 4000) {
     page.on("console", (m) => {
       if (m.type() === "error") errors.push(m.text());
     });
-    await page.goto(base, { waitUntil: "networkidle" });
+    await page.goto(base + "/?scene-lab=1", { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
     const defaultMode = await page.locator("[data-home-artifact-stage]").getAttribute("data-desk-mode");
     const requestsBefore3D = await page.evaluate(() =>
@@ -152,6 +152,7 @@ async function sample(page, ms = 4000) {
       .readdirSync("assets/models/home")
       .filter((n) => n.endsWith(".glb"))
       .map((n) => `assets/models/home/${n}`),
+    ...manifest.avatars.map((a) => `assets/models/home/${a.portrait}`),
   ];
   report.assets = files.map((file) => {
     const data = fs.readFileSync(file);
@@ -159,11 +160,11 @@ async function sample(page, ms = 4000) {
   });
   const size = (file) => report.assets.find((a) => a.file === file).gzipBytes;
   report.largestInitialSceneGzipBytes =
-    report.assets.filter((a) => !a.file.endsWith(".glb")).reduce((sum, a) => sum + a.gzipBytes, 0) +
+    report.assets.filter((a) => !a.file.endsWith(".glb") && !a.file.endsWith(".png")).reduce((sum, a) => sum + a.gzipBytes, 0) +
     size(`assets/models/home/${manifest.shell}`) +
     size(`assets/models/home/${manifest.coast}`) +
     Math.max(...manifest.rooms.map((r) => size(`assets/models/home/${r.file}`))) +
-    Math.max(...manifest.avatars.map((a) => size(`assets/models/home/${a.file}`)));
+    Math.max(...manifest.avatars.map((a) => size(`assets/models/home/${a.file}`) + size(`assets/models/home/${a.portrait}`)));
   fs.writeFileSync(path.join(output, "performance.json"), JSON.stringify(report, null, 2) + "\n");
 })().catch(async (error) => {
   console.error(error);

@@ -14,7 +14,7 @@
 
 .home-hero-media.is-desk-3d {
   display: block;
-  min-height: 37rem;
+  min-height: 32rem;
   padding: 2.5rem 0 0;
   align-self: center;
 }
@@ -61,7 +61,7 @@
 .home-hero-media.is-desk-3d .home-desk-control-strip {
   position: relative;
   inset: auto;
-  display: flex;
+  display: none;
   justify-content: center;
   width: fit-content;
   max-width: 100%;
@@ -85,6 +85,9 @@
   font-size: var(--type-compact);
 
   &[hidden] {
+    display: none;
+  }
+  [data-world-lab][hidden] {
     display: none;
   }
 
@@ -164,6 +167,15 @@
   gap: 0.2rem;
   justify-content: space-between;
   padding-top: 0.2rem;
+}
+.home-world-quiet-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.15rem;
+}
+.home-world-quiet-actions [data-world-pause] {
+  min-width: 2.5rem;
 }
 .home-world-explore {
   border-top: 1px solid var(--home-line);

@@ -78,3 +78,9 @@ export function createExplorationState() {
     },
   };
 }
+// A new arrival on refresh; changing view or material keeps this same person.
+export function chooseArrivalAvatar(ids, previous, random = Math.random) {
+  const choices = ids.filter((id) => id !== previous);
+  const pool = choices.length ? choices : ids;
+  return pool[Math.min(pool.length - 1, Math.floor(random() * pool.length))];
+}

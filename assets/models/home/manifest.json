@@ -1,32 +1,37 @@
 {
-  "version": 1,
+  "version": 2,
   "timeZone": "America/Los_Angeles",
   "shell": "home-shell.glb",
   "avatars": [
     {
       "id": "lizard",
       "label": "Lizard",
-      "file": "sirui-lizard.glb"
+      "file": "sirui-lizard.glb",
+      "portrait": "portraits/lizard.png"
     },
     {
       "id": "south-park",
       "label": "South Park",
-      "file": "sirui-south-park.glb"
+      "file": "sirui-south-park.glb",
+      "portrait": "portraits/south-park.png"
     },
     {
       "id": "simpsons",
       "label": "Simpsons",
-      "file": "sirui-simpsons.glb"
+      "file": "sirui-simpsons.glb",
+      "portrait": "portraits/simpsons.png"
     },
     {
       "id": "ghibli",
       "label": "Ghibli",
-      "file": "sirui-ghibli.glb"
+      "file": "sirui-ghibli.glb",
+      "portrait": "portraits/ghibli.png"
     },
     {
       "id": "rick-and-morty",
       "label": "Rick and Morty",
-      "file": "sirui-rick-and-morty.glb"
+      "file": "sirui-rick-and-morty.glb",
+      "portrait": "portraits/rick-and-morty.png"
     }
   ],
   "rooms": [
@@ -34,55 +39,85 @@
       "id": "study",
       "label": "Study",
       "file": "room-study.glb",
-      "target": [0.1, 0.9, -1.9],
+      "target": [0.02, 1.02, -1.9],
       "actor": [0.08, 0, -1.62],
       "facing": 3.141593,
-      "egress": [0.78, 0, -1.3]
+      "egress": [0.78, 0, -1.3],
+      "camera": {
+        "radius": 4.4,
+        "yaw": 0.94,
+        "pitch": 0.24
+      }
     },
     {
       "id": "kitchen",
       "label": "Kitchen",
       "file": "room-kitchen.glb",
-      "target": [-3.0, 0.7, 1.3],
+      "target": [-3, 0.98, 1.6],
       "actor": [-3.02, 0, 2.5],
       "facing": 3.141593,
-      "egress": [-2.1, 0, 2.4]
+      "egress": [-2.1, 0, 2.4],
+      "camera": {
+        "radius": 4.25,
+        "yaw": 2.7,
+        "pitch": 0.25
+      }
     },
     {
       "id": "gym",
       "label": "Gym",
       "file": "room-gym.glb",
-      "target": [0, 0.7, 1.3],
+      "target": [0, 0.93, 1.0],
       "actor": [0, 0.04, 1.1],
       "facing": 0,
-      "egress": [0, 0, 0.3]
+      "egress": [0, 0, 0.3],
+      "camera": {
+        "radius": 3.3,
+        "yaw": 1.4,
+        "pitch": 0.22
+      }
     },
     {
       "id": "onsen",
       "label": "Onsen",
       "file": "room-onsen.glb",
-      "target": [3.02, 0.55, -2.65],
+      "target": [3, 0.7, -2.0],
       "actor": [3.02, -0.48, -1.92],
       "facing": 3.141593,
-      "egress": [3.88, 0, -0.8]
+      "egress": [3.88, 0, -0.8],
+      "camera": {
+        "radius": 3.9,
+        "yaw": -0.4,
+        "pitch": 0.28
+      }
     },
     {
       "id": "lounge",
       "label": "Ocean lounge",
       "file": "room-lounge.glb",
-      "target": [3.0, 0.6, 1.3],
+      "target": [3.17, 0.96, 0.5],
       "actor": [3.23, 0, 0.83],
-      "facing": 0,
-      "egress": [2.42, 0, 0.65]
+      "facing": 3.141593,
+      "egress": [2.42, 0, 0.65],
+      "camera": {
+        "radius": 4,
+        "yaw": 3.3,
+        "pitch": 0.18
+      }
     },
     {
       "id": "sleep",
       "label": "Sleep",
       "file": "room-sleep.glb",
-      "target": [-3.1, 0.7, -1.9],
+      "target": [-3.1, 0.72, -1.7],
       "actor": [-3.1, 0, -1.13],
       "facing": 0,
-      "egress": [-2.15, 0, -1.02]
+      "egress": [-2.15, 0, -1.02],
+      "camera": {
+        "radius": 4.4,
+        "yaw": 0.65,
+        "pitch": 0.27
+      }
     }
   ],
   "activities": {
@@ -147,7 +182,7 @@
       "minute": 1260
     },
     "coding": {
-      "label": "One more idea…",
+      "label": "One more idea\u2026",
       "room": "study",
       "clip": "typing",
       "minute": 60

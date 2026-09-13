@@ -21,6 +21,12 @@ def glb(path):
 
 
 class CoastalAssetsTest(unittest.TestCase):
+    def test_each_avatar_has_an_actual_blender_portrait_for_the_wall(self):
+        for avatar in MANIFEST["avatars"]:
+            data = (ASSETS / avatar["portrait"]).read_bytes()
+            self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
+            self.assertEqual(struct.unpack_from(">II", data, 16), (384, 480))
+
     def test_every_export_and_editable_source_exists(self):
         self.assertEqual(len(MANIFEST["rooms"]), 6)
         for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:
@@ -82,6 +88,7 @@ class CoastalAssetsTest(unittest.TestCase):
         runtime += [
             ROOT / "assets/js/three.module.min.js",
             ROOT / "assets/models/home/coast.glb",
+            ASSETS / "manifest.json",
         ]
         base = sum(len(gzip.compress(p.read_bytes())) for p in runtime)
         base += len(gzip.compress((ASSETS / MANIFEST["shell"]).read_bytes()))
@@ -91,6 +98,7 @@ class CoastalAssetsTest(unittest.TestCase):
         )
         largest_actor = max(
             len(gzip.compress((ASSETS / a["file"]).read_bytes()))
+            + len(gzip.compress((ASSETS / a["portrait"]).read_bytes()))
             for a in MANIFEST["avatars"]
         )
         self.assertLess(base + largest_room + largest_actor, 4 * 1024 * 1024)

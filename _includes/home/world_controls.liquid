@@ -16,41 +16,48 @@
       </button>
     </div>
   </div>
-  <div class="home-world-shortcuts">
-    <button type="button" data-world-room="overview">Whole home</button>
-    <button type="button" data-world-room="study">Visit the desk</button>
-    <button type="button" data-world-room="outside">Step outside</button>
-    <button type="button" data-world-now>Now <span aria-hidden="true">↗</span></button>
+  <div class="home-world-quiet-actions">
+    <button type="button" data-world-view>Look around <span aria-hidden="true">↗</span></button>
+    <button type="button" data-world-pause aria-pressed="false" aria-label="Pause motion" title="Pause motion">
+      <i class="fa-solid fa-pause" aria-hidden="true"></i>
+    </button>
   </div>
-  <details class="home-world-explore">
-    <summary>Explore the home <span aria-hidden="true">+</span></summary>
-    <div class="home-world-panel">
-      <div class="home-world-room-list" data-world-room-list aria-label="Visit a room"></div>
-      <div class="home-world-fields">
-        <label
-          >Sirui
-          <select data-world-avatar aria-label="Choose Sirui’s character"></select
-        ></label>
-        <label
-          >Activity
-          <select data-world-activity aria-label="Preview an activity"></select
-        ></label>
-      </div>
-      <label class="home-world-time"
-        >A different hour <input data-world-time type="range" min="0" max="1439" step="1" value="720" aria-label="Preview San Diego time"
-      ></label>
-      <p class="home-world-note">An imagined daily rhythm, on San Diego time. Explore freely; Now brings you back.</p>
-      <details class="home-world-objects">
-        <summary>Albums & research papers</summary>
-        <p>Choose once to inspect, again to play the record or open the paper.</p>
-        <div data-world-desk-items></div>
-        <button type="button" data-world-drop>Discover a record card</button>
-      </details>
-      <div class="home-world-camera-actions" aria-label="Camera zoom">
-        <button type="button" data-world-zoom="in">Zoom in <span aria-hidden="true">+</span></button>
-        <button type="button" data-world-zoom="out">Zoom out <span aria-hidden="true">−</span></button>
-      </div>
-      <button class="home-world-pause" type="button" data-world-pause aria-pressed="false">Pause motion</button>
+  <div data-world-lab hidden inert>
+    <div class="home-world-shortcuts">
+      <button type="button" data-world-room="overview">Whole home</button>
+      <button type="button" data-world-room="study">Visit the desk</button>
+      <button type="button" data-world-room="outside">Step outside</button>
+      <button type="button" data-world-now>Now <span aria-hidden="true">↗</span></button>
     </div>
-  </details>
+    <details class="home-world-explore">
+      <summary>Explore the home <span aria-hidden="true">+</span></summary>
+      <div class="home-world-panel">
+        <div class="home-world-room-list" data-world-room-list aria-label="Visit a room"></div>
+        <div class="home-world-fields">
+          <label
+            >Sirui
+            <select data-world-avatar aria-label="Choose Sirui’s character"></select
+          ></label>
+          <label
+            >Activity
+            <select data-world-activity aria-label="Preview an activity"></select
+          ></label>
+        </div>
+        <label class="home-world-time"
+          >A different hour <input data-world-time type="range" min="0" max="1439" step="1" value="720" aria-label="Preview San Diego time"
+        ></label>
+        <p class="home-world-note">An imagined daily rhythm, on San Diego time. Explore freely; Now brings you back.</p>
+        <details class="home-world-objects">
+          <summary>Albums & research papers</summary>
+          <p>Choose once to inspect, again to play the record or open the paper.</p>
+          <div data-world-desk-items></div>
+          <button type="button" data-world-drop>Discover a record card</button>
+        </details>
+        <div class="home-world-camera-actions" aria-label="Camera zoom">
+          <button type="button" data-world-zoom="in">Zoom in <span aria-hidden="true">+</span></button>
+          <button type="button" data-world-zoom="out">Zoom out <span aria-hidden="true">−</span></button>
+        </div>
+      </div>
+    </details>
+  </div>
 </div>

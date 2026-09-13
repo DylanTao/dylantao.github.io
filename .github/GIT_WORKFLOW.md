@@ -2,6 +2,10 @@
 
 This document outlines the conventions for using Git and writing commit messages in this project.
 
+## Single-owner default
+
+Sirui is the only active contributor and prefers normal work directly on `main` (September 2026). Use a temporary branch only when requested or when isolation is necessary. Integrate completed work onto `main`, then remove the merged local feature branch. Delete an obsolete remote feature branch only after verifying that its commits are contained in `main`; preserve the `gh-pages` deployment branch. A local merge is not authorization to publish a new site deployment.
+
 ## Commit Message Format
 
 All commit messages should follow this format:

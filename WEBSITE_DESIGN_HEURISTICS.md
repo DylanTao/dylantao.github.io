@@ -139,7 +139,7 @@ Before keeping an effect, record the visitor problem, trigger, semantic meaning,
 
 ### Accepted Intent Record
 
-The September 2026 direction is an editorial research notebook and an inhabited coastal home. The implementation is a reviewable branch; screenshots, tests, and measurements belong in its handoff. Historical acceptance notes and detailed experiments are preserved in [the pre-redesign record](docs/history/research-studio-2026-09/website-design-heuristics-before.md), rather than mixed into active design rules.
+The September 2026 direction is an editorial research notebook and an inhabited coastal home. Completed work lives on `main`; screenshots, tests, and measurements belong in its handoff. Historical acceptance notes and detailed experiments are preserved in [the pre-redesign record](docs/history/research-studio-2026-09/website-design-heuristics-before.md), rather than mixed into active design rules.
 
 Current contracts:
 
@@ -327,3 +327,7 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 ## Live Review Corrections — September 2026
 
 Default to 2D on every viewport; remember a deliberate session choice. Sirui is an adult man with long swept-back hair and glasses, not a doll with paired hair lobes. The onsen pose faces the ocean. Build the Pacific, cliffs, and exterior as actual geometry; never put an illustration or photo behind the room. The three art directions must differ in form, projection, physical detail, lighting, and motion, beyond applying a surface shader. Image-derived splats remain a separate local study.
+
+The home is a quiet inhabited place, not a control panel. Choose a new character on refresh; keep the daily rhythm automatic. Keep style, look-around and motion controls compact. A framed portrait belongs on a real interior wall. Model the cave within continuous inland terrain above a cliff, with the beach at its foot and ocean beyond; a freestanding platform does not communicate that relationship. Model quality is judged in close-up and in the page, not by whether a GLB loads.
+
+Selected work should introduce the question and project name before asking a visitor to inspect a research diagram. Use small, uncropped figures beside concise text on the homepage; the case study provides the full-size evidence.
