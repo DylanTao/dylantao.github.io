@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pacific print · depth study</title>
+    <style>
+      @font-face {
+        font-family: Newsreader;
+        src: url("../../../assets/fonts/newsreader/Newsreader.woff2");
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        color: #263330;
+        background: #faf5eb;
+        font:
+          16px/1.65 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 1180px;
+        margin: auto;
+        padding: 2rem;
+      }
+      h1 {
+        font:
+          400 clamp(2.5rem, 6vw, 4rem)/1.1 Newsreader,
+          serif;
+        margin: 1rem 0;
+      }
+      .eyebrow {
+        color: #a9562e;
+        font: 12px monospace;
+        letter-spacing: 0.08em;
+      }
+      p {
+        max-width: 52rem;
+      }
+      nav {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        padding-block: 1rem;
+      }
+      button {
+        font: inherit;
+        padding: 0.65rem 1rem;
+        border: 1px solid #acb6aa;
+        border-radius: 5px;
+        color: inherit;
+        background: transparent;
+        cursor: pointer;
+      }
+      button[aria-pressed="true"] {
+        background: #263330;
+        color: #fff9ee;
+      }
+      button:focus-visible,
+      canvas:focus-visible {
+        outline: 3px solid #c26938;
+        outline-offset: 4px;
+      }
+      #view {
+        height: min(60vw, 520px);
+        min-height: 280px;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+      .controls {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+      }
+      #result {
+        font: 13px monospace;
+        padding-block: 1rem;
+        border-top: 1px solid #d2cbbd;
+      }
+      .note {
+        font-size: 0.9rem;
+        color: #5c655b;
+      }
+      @media (max-width: 600px) {
+        main {
+          padding: 1rem;
+        }
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+          "@sparkjsdev/spark": "https://cdn.jsdelivr.net/npm/@sparkjsdev/spark@2.2.0/dist/spark.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">LOCAL STUDY / SEPTEMBER 2026</p>
+      <h1>How much depth does a drawing need?</h1>
+      <p>
+        One Pacific illustration, three ways to give it space. Drag to look around; compare how the ink holds up as the camera leaves the original
+        view.
+      </p>
+      <nav aria-label="Rendering approach">
+        <button data-mode="layers" aria-pressed="true">Authored layers</button>
+        <button data-mode="mesh" aria-pressed="false">Textured geometry</button>
+        <button data-mode="splats" aria-pressed="false">Gaussian splats</button>
+      </nav>
+      <div id="view"></div>
+      <div class="controls">
+        <label>Depth <input id="depth" type="range" min="0" max="2" step=".05" value="1" /></label>
+        <button id="reset">Original view</button>
+        <button id="orbit" aria-pressed="false">Slow orbit</button>
+      </div>
+      <p id="result" role="status">Loading the print…</p>
+      <p class="note">
+        Depth is hand-authored from the illustration. This is an image-derived splat study, not a reconstructed or trained 3D scene. It runs
+        independently on Three.js r180 and Spark 2.2.0; the homepage stays on r164.
+      </p>
+      <p class="note">
+        <a href="../PROVENANCE.md">Artwork provenance</a> · <a href="https://sparkjs.dev/docs/procedural-splats/">Spark image splats</a>
+      </p>
+    </main>
+    <script type="module" src="study.mjs"></script>
+  </body>
+</html>

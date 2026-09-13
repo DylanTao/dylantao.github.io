@@ -1,0 +1,110 @@
+{
+  "capturedAt": "2026-09-13T02:39:50.223Z",
+  "graphicsArgs": ["--use-angle=d3d11", "--ignore-gpu-blocklist"],
+  "browser": "145.0.7632.6",
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "viewport": {
+    "width": 1280,
+    "height": 1000
+  },
+  "method": "Serial local headless Chromium, unthrottled. Three-second warmup, median of five one-second FPS readings at each of two viewpoints. Same generated alpha image and authored depth field in all modes.",
+  "modes": [
+    {
+      "mode": "layers",
+      "angle": "original",
+      "medianFps": 60,
+      "samples": [60, 60, 60, 60, 60],
+      "splats": 56674,
+      "fps": 60,
+      "renderer": {
+        "frame": 492,
+        "calls": 6,
+        "triangles": 12,
+        "points": 0,
+        "lines": 0
+      },
+      "camera": [0, 1.8369701987210297e-16, 3]
+    },
+    {
+      "mode": "layers",
+      "angle": "oblique",
+      "medianFps": 60,
+      "samples": [60, 60, 60, 60, 60],
+      "splats": 56674,
+      "fps": 60,
+      "renderer": {
+        "frame": 999,
+        "calls": 6,
+        "triangles": 12,
+        "points": 0,
+        "lines": 0
+      },
+      "camera": [-2.9030867718200386, -0.3760005787002944, 0.6562855781598109]
+    },
+    {
+      "mode": "mesh",
+      "angle": "original",
+      "medianFps": 60,
+      "samples": [60, 60, 60, 60, 60],
+      "splats": 56674,
+      "fps": 60,
+      "renderer": {
+        "frame": 1492,
+        "calls": 2,
+        "triangles": 51200,
+        "points": 0,
+        "lines": 0
+      },
+      "camera": [-2.0173967706650506e-11, -1.8743168577572423e-12, 3]
+    },
+    {
+      "mode": "mesh",
+      "angle": "oblique",
+      "medianFps": 60,
+      "samples": [60, 60, 60, 60, 60],
+      "splats": 56674,
+      "fps": 60,
+      "renderer": {
+        "frame": 1999,
+        "calls": 2,
+        "triangles": 51200,
+        "points": 0,
+        "lines": 0
+      },
+      "camera": [-2.9030867718242224, -0.376000578702154, 0.6562855781402361]
+    },
+    {
+      "mode": "splats",
+      "angle": "original",
+      "medianFps": 60,
+      "samples": [60, 60, 60, 60, 60],
+      "splats": 56674,
+      "fps": 60,
+      "renderer": {
+        "frame": 2491,
+        "calls": 1,
+        "triangles": 113348,
+        "points": 0,
+        "lines": 0
+      },
+      "camera": [-1.9165269321245846e-11, -1.780391989873954e-12, 3]
+    },
+    {
+      "mode": "splats",
+      "angle": "oblique",
+      "medianFps": 60,
+      "samples": [60, 60, 60, 60, 60],
+      "splats": 56674,
+      "fps": 60,
+      "renderer": {
+        "frame": 3119,
+        "calls": 1,
+        "triangles": 113348,
+        "points": 0,
+        "lines": 0
+      },
+      "camera": [-2.9030867718240123, -0.37600057870206066, 0.6562855781412139]
+    }
+  ],
+  "errors": []
+}

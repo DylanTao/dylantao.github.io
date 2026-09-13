@@ -60,24 +60,38 @@ EXPECTED_ANCHORS = {
 
 def relative_luminance(hex_color: str) -> float:
     channels = [int(hex_color[index : index + 2], 16) / 255 for index in (1, 3, 5)]
-    linear = [channel / 12.92 if channel <= 0.04045 else ((channel + 0.055) / 1.055) ** 2.4 for channel in channels]
+    linear = [
+        channel / 12.92 if channel <= 0.04045 else ((channel + 0.055) / 1.055) ** 2.4
+        for channel in channels
+    ]
     return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
 
 
 def contrast_ratio(first: str, second: str) -> float:
-    lighter, darker = sorted((relative_luminance(first), relative_luminance(second)), reverse=True)
+    lighter, darker = sorted(
+        (relative_luminance(first), relative_luminance(second)), reverse=True
+    )
     return (lighter + 0.05) / (darker + 0.05)
 
 
 def mix_hex(foreground: str, background: str, foreground_weight: float) -> str:
-    foreground_channels = [int(foreground[index : index + 2], 16) for index in (1, 3, 5)]
-    background_channels = [int(background[index : index + 2], 16) for index in (1, 3, 5)]
-    channels = [round(front * foreground_weight + back * (1 - foreground_weight)) for front, back in zip(foreground_channels, background_channels)]
+    foreground_channels = [
+        int(foreground[index : index + 2], 16) for index in (1, 3, 5)
+    ]
+    background_channels = [
+        int(background[index : index + 2], 16) for index in (1, 3, 5)
+    ]
+    channels = [
+        round(front * foreground_weight + back * (1 - foreground_weight))
+        for front, back in zip(foreground_channels, background_channels)
+    ]
     return "#" + "".join(f"{channel:02x}" for channel in channels)
 
 
 def hue_degrees(hex_color: str) -> float:
-    red, green, blue = (int(hex_color[index : index + 2], 16) / 255 for index in (1, 3, 5))
+    red, green, blue = (
+        int(hex_color[index : index + 2], 16) / 255 for index in (1, 3, 5)
+    )
     return colorsys.rgb_to_hsv(red, green, blue)[0] * 360
 
 
@@ -89,13 +103,18 @@ def circular_hue_distance(first: float, second: float) -> float:
 def rgb_distance(first: str, second: str) -> float:
     channels = []
     for index in (1, 3, 5):
-        channels.append((int(first[index : index + 2], 16) - int(second[index : index + 2], 16)) / 255)
+        channels.append(
+            (int(first[index : index + 2], 16) - int(second[index : index + 2], 16))
+            / 255
+        )
     return sum(channel**2 for channel in channels) ** 0.5
 
 
 def composite_page_wash(wash: str, background: str) -> str:
     """Conservatively composite every declared wash stop at full overlap."""
-    stops = re.findall(r"rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)", wash)
+    stops = re.findall(
+        r"rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)", wash
+    )
     composited = background
     # CSS paints the first gradient on top, so composite from the last layer.
     for red, green, blue, alpha in reversed(stops):
@@ -131,13 +150,32 @@ class CoastalThemePaletteTests(unittest.TestCase):
         for mode, expected in EXPECTED_ANCHORS.items():
             declarations = self.mode_declarations(mode)
             with self.subTest(mode=mode):
-                self.assertEqual(self.token(declarations, "global-bg-color"), expected["bg"])
-                self.assertEqual(self.token(declarations, "global-text-color"), expected["text"])
-                self.assertEqual(self.token(declarations, "global-primary-color"), expected["primary"])
-                self.assertEqual(self.token(declarations, "global-primary-hover-color"), expected["hover"])
-                self.assertEqual(self.token(declarations, "global-primary-fill-color"), expected["fill"])
-                self.assertEqual(self.token(declarations, "global-primary-fill-hover-color"), expected["fill_hover"])
-                self.assertEqual(self.token(declarations, "global-primary-container-color"), expected["container"])
+                self.assertEqual(
+                    self.token(declarations, "global-bg-color"), expected["bg"]
+                )
+                self.assertEqual(
+                    self.token(declarations, "global-text-color"), expected["text"]
+                )
+                self.assertEqual(
+                    self.token(declarations, "global-primary-color"),
+                    expected["primary"],
+                )
+                self.assertEqual(
+                    self.token(declarations, "global-primary-hover-color"),
+                    expected["hover"],
+                )
+                self.assertEqual(
+                    self.token(declarations, "global-primary-fill-color"),
+                    expected["fill"],
+                )
+                self.assertEqual(
+                    self.token(declarations, "global-primary-fill-hover-color"),
+                    expected["fill_hover"],
+                )
+                self.assertEqual(
+                    self.token(declarations, "global-primary-container-color"),
+                    expected["container"],
+                )
                 self.assertIn("--global-nav-bg-color:", declarations)
                 self.assertIn("--global-shadow-rgb:", declarations)
                 self.assertIn("--global-on-primary-fill-color:", declarations)
@@ -165,54 +203,97 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 self.assertEqual(self.token(root, token), self.token(noon, token))
 
     def test_time_modes_have_distinct_non_orange_primary_hues(self) -> None:
-        hues = {mode: hue_degrees(anchors["primary"]) for mode, anchors in EXPECTED_ANCHORS.items()}
+        hues = {
+            mode: hue_degrees(anchors["primary"])
+            for mode, anchors in EXPECTED_ANCHORS.items()
+        }
         for mode, hue in hues.items():
             with self.subTest(mode=mode):
                 self.assertFalse(15 <= hue <= 55)
         for index, (first_mode, first_hue) in enumerate(hues.items()):
             for second_mode, second_hue in list(hues.items())[index + 1 :]:
                 with self.subTest(first=first_mode, second=second_mode):
-                    self.assertGreaterEqual(circular_hue_distance(first_hue, second_hue), 24)
+                    self.assertGreaterEqual(
+                        circular_hue_distance(first_hue, second_hue), 24
+                    )
 
-    def test_theme_text_actions_and_secondary_ink_clear_contrast_thresholds(self) -> None:
+    def test_theme_text_actions_and_secondary_ink_clear_contrast_thresholds(
+        self,
+    ) -> None:
         for mode, anchors in EXPECTED_ANCHORS.items():
             declarations = self.mode_declarations(mode)
             muted = self.token(declarations, "global-text-color-light")
             hover = self.token(declarations, "global-primary-hover-color")
             on_primary = self.token(declarations, "global-on-primary-color")
             primary_fill = self.token(declarations, "global-primary-fill-color")
-            primary_fill_hover = self.token(declarations, "global-primary-fill-hover-color")
+            primary_fill_hover = self.token(
+                declarations, "global-primary-fill-hover-color"
+            )
             on_primary_fill = self.token(declarations, "global-on-primary-fill-color")
-            primary_container = self.token(declarations, "global-primary-container-color")
-            on_primary_container = self.token(declarations, "global-on-primary-container-color")
-            surface_container = self.token(declarations, "global-surface-container-color")
+            primary_container = self.token(
+                declarations, "global-primary-container-color"
+            )
+            on_primary_container = self.token(
+                declarations, "global-on-primary-container-color"
+            )
+            surface_container = self.token(
+                declarations, "global-surface-container-color"
+            )
             mint = self.token(declarations, "global-mint-strong")
             sky = self.token(declarations, "global-sky-strong")
             footer_bg = self.token(declarations, "global-footer-bg-color")
             footer_text = self.token(declarations, "global-footer-text-color")
             footer_link = self.token(declarations, "global-footer-link-color")
-            worst_case_wash = composite_page_wash(self.token(declarations, "global-page-wash"), anchors["bg"])
+            worst_case_wash = composite_page_wash(
+                self.token(declarations, "global-page-wash"), anchors["bg"]
+            )
             focus = mix_hex(anchors["primary"], anchors["text"], 0.78)
             with self.subTest(mode=mode):
-                self.assertGreaterEqual(contrast_ratio(anchors["text"], anchors["bg"]), 7.0)
+                self.assertGreaterEqual(
+                    contrast_ratio(anchors["text"], anchors["bg"]), 7.0
+                )
                 self.assertGreaterEqual(contrast_ratio(muted, anchors["bg"]), 4.5)
-                self.assertGreaterEqual(contrast_ratio(anchors["primary"], anchors["bg"]), 4.5)
+                self.assertGreaterEqual(
+                    contrast_ratio(anchors["primary"], anchors["bg"]), 4.5
+                )
                 self.assertGreaterEqual(contrast_ratio(hover, anchors["bg"]), 4.5)
-                self.assertGreaterEqual(contrast_ratio(on_primary, anchors["primary"]), 4.5)
-                self.assertGreaterEqual(contrast_ratio(on_primary_fill, primary_fill), 4.5)
-                self.assertGreaterEqual(contrast_ratio(on_primary_fill, primary_fill_hover), 4.5)
-                self.assertGreaterEqual(contrast_ratio(on_primary_container, primary_container), 4.5)
-                self.assertGreaterEqual(contrast_ratio(anchors["text"], surface_container), 7.0)
+                self.assertGreaterEqual(
+                    contrast_ratio(on_primary, anchors["primary"]), 4.5
+                )
+                self.assertGreaterEqual(
+                    contrast_ratio(on_primary_fill, primary_fill), 4.5
+                )
+                self.assertGreaterEqual(
+                    contrast_ratio(on_primary_fill, primary_fill_hover), 4.5
+                )
+                self.assertGreaterEqual(
+                    contrast_ratio(on_primary_container, primary_container), 4.5
+                )
+                self.assertGreaterEqual(
+                    contrast_ratio(anchors["text"], surface_container), 7.0
+                )
                 self.assertGreaterEqual(contrast_ratio(mint, anchors["bg"]), 4.5)
                 self.assertGreaterEqual(contrast_ratio(sky, anchors["bg"]), 4.5)
                 self.assertGreaterEqual(contrast_ratio(footer_text, footer_bg), 4.5)
                 self.assertGreaterEqual(contrast_ratio(footer_link, footer_bg), 4.5)
                 self.assertGreaterEqual(contrast_ratio(focus, anchors["bg"]), 3.0)
-                self.assertGreaterEqual(contrast_ratio(anchors["primary"], worst_case_wash), 4.5)
+                self.assertGreaterEqual(
+                    contrast_ratio(anchors["primary"], worst_case_wash), 4.5
+                )
                 self.assertGreaterEqual(contrast_ratio(muted, worst_case_wash), 4.5)
                 if mode != "evening":
-                    self.assertGreaterEqual(contrast_ratio(mint, self.token(declarations, "global-mint-soft")), 4.0)
-                    self.assertGreaterEqual(contrast_ratio(sky, self.token(declarations, "global-sky-soft")), 4.0)
+                    self.assertGreaterEqual(
+                        contrast_ratio(
+                            mint, self.token(declarations, "global-mint-soft")
+                        ),
+                        4.0,
+                    )
+                    self.assertGreaterEqual(
+                        contrast_ratio(
+                            sky, self.token(declarations, "global-sky-soft")
+                        ),
+                        4.0,
+                    )
 
     def test_light_modes_have_distinct_coastal_surface_hierarchies(self) -> None:
         signatures: set[tuple[str, ...]] = set()
@@ -232,7 +313,10 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 )
             )
             signatures.add(signature)
-            self.assertNotEqual(self.token(declarations, "global-primary-fill-color"), self.token(declarations, "global-primary-color"))
+            self.assertNotEqual(
+                self.token(declarations, "global-primary-fill-color"),
+                self.token(declarations, "global-primary-color"),
+            )
 
         self.assertEqual(len(signatures), 3)
         morning = self.mode_declarations("morning")
@@ -288,8 +372,13 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertIn("background-color: var(--global-nav-bg-color);", navbar)
         self.assertNotIn("background-color: rgba(255, 250, 246, 0.82);", navbar)
         self.assertIn("rgba(var(--global-shadow-rgb)", material)
-        self.assertIn("--md-lite-focus-color: color-mix(in srgb, var(--global-primary-color) 78%, var(--global-text-color));", material)
-        self.assertIn("--md-lite-focus-ring: 2px solid var(--md-lite-focus-color);", material)
+        self.assertIn(
+            "--md-lite-focus-color: color-mix(in srgb, var(--global-primary-color) 78%, var(--global-text-color));",
+            material,
+        )
+        self.assertIn(
+            "--md-lite-focus-ring: 2px solid var(--md-lite-focus-color);", material
+        )
 
         blog = BLOG_PATH.read_text(encoding="utf-8")
         self.assertIn("box-shadow: 0 0.45rem 1.25rem var(--global-shadow-color);", blog)
@@ -302,63 +391,54 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertIn("background-image: var(--global-page-wash);", layout)
         self.assertIn("--home-paper-edge: var(--global-paper-edge-color);", home)
         self.assertNotIn("--home-paper-edge: rgba(117, 88, 58, 0.14);", home)
-        for token in ("--global-primary-fill-color", "--global-primary-fill-hover-color", "--global-on-primary-fill-color"):
+        for token in (
+            "--global-primary-fill-color",
+            "--global-primary-fill-hover-color",
+            "--global-on-primary-fill-color",
+        ):
             self.assertIn(token, home)
 
-    def test_desk_palette_has_four_static_modes_without_scene_geometry_changes(self) -> None:
-        home_script = HOME_SCRIPT_PATH.read_text(encoding="utf-8")
-        palette_start = home_script.index("    const readDeskPalette = () => {")
-        palette_end = home_script.index("\n    const projectObjectBounds", palette_start)
-        palette_source = home_script[palette_start:palette_end]
+    def test_pacific_scene_lighting_preserves_camera_and_visitor_theme(self) -> None:
+        controller = (HOME_SCRIPT_PATH.parent / "home-scene/controller.mjs").read_text(
+            encoding="utf-8"
+        )
+        routine = (HOME_SCRIPT_PATH.parent / "home-scene/routine.mjs").read_text(
+            encoding="utf-8"
+        )
+        start = controller.index("  function updateLight()")
+        end = controller.index("  function updateRoutine", start)
+        lighting = controller[start:end]
         for mode in EXPECTED_ANCHORS:
-            self.assertIn(f"        {mode}: {{", palette_source)
-        self.assertIn('new Set(["morning", "noon", "afternoon", "evening"])', palette_source)
-        self.assertIn("floor: 0xf5dfd2", palette_source)
-        self.assertIn("floor: 0xeaf1ec", palette_source)
-        self.assertIn("const deskPaletteSignature", palette_source)
-        self.assertIn("container.dataset.scenePaletteSettled = palette.mode", palette_source)
-        self.assertIn("container.dataset.scenePaletteSignature = deskPaletteSignature(palette)", palette_source)
-        for signature in (
-            "morning:f5dfd2:fff0e7:ffdfcf:b7d9e7",
-            "noon:eaf1ec:fffffa:f0fffb:8fd8ef",
-            "afternoon:ece8df:fbf9f4:f3faf7:9bcbd7",
-            "evening:f0d4ad:e7d8c5:cbd9d9:ffa466",
-        ):
-            mode, floor, wall, ambient, side = signature.split(":")
-            mode_start = palette_source.index(f"        {mode}: {{")
-            next_mode = re.search(r"\n        [a-z]+: \{", palette_source[mode_start + 1 :])
-            mode_end = mode_start + 1 + next_mode.start() if next_mode else palette_source.index("\n      };", mode_start)
-            mode_source = palette_source[mode_start:mode_end]
-            with self.subTest(mode=mode):
-                self.assertIn(f"floor: 0x{floor}", mode_source)
-                self.assertIn(f"wall: 0x{wall}", mode_source)
-                self.assertIn(f"ambientColor: 0x{ambient}", mode_source)
-                self.assertIn(f"sideColor: 0x{side}", mode_source)
-        for geometry_or_state_term in (
-            "defaultCamera",
-            "orbitTarget",
-            "roomBlueprint",
+            self.assertIn(f'"{mode}"', routine)
+        for unrelated_state in (
             "camera.position",
-            "rootGroup.position",
-            "setSceneView",
-            "activeView =",
-            "focusedEntry =",
+            "setRoom(",
+            "currentRecord =",
+            "dataset.theme",
+            "documentElement",
         ):
-            self.assertNotIn(geometry_or_state_term, palette_source)
+            self.assertNotIn(unrelated_state, lighting)
+        self.assertIn("America/Los_Angeles", routine)
+        self.assertIn("container.dataset.scenePalette", lighting)
 
-        apply_start = home_script.index("    const applyDeskPalette = () => {")
-        apply_end = home_script.index("\n    const resize = () => {", apply_start)
-        apply_source = home_script[apply_start:apply_end]
-        self.assertLess(apply_source.index("markDeskPalettePending(palette)"), apply_source.index("themeMaterials.floor"))
-        self.assertLess(apply_source.rindex("render();"), apply_source.index("markDeskPaletteSettled(palette)"))
-
-    def test_constellation_information_strokes_clear_three_to_one_after_compositing(self) -> None:
+    def test_constellation_information_strokes_clear_three_to_one_after_compositing(
+        self,
+    ) -> None:
         publications = PUBLICATIONS_PATH.read_text(encoding="utf-8")
-        self.assertIn("--constellation-information-stroke: var(--global-text-color-light);", publications)
+        self.assertIn(
+            "--constellation-information-stroke: var(--global-text-color-light);",
+            publications,
+        )
         self.assertIn("--constellation-information-opacity: 0.9;", publications)
         self.assertIn("stroke: var(--constellation-information-stroke);", publications)
-        self.assertNotIn("stroke: color-mix(in srgb, var(--global-text-color-light) 35%, transparent);", publications)
-        self.assertNotIn("stroke: color-mix(in srgb, var(--global-text-color-light) 48%, transparent);", publications)
+        self.assertNotIn(
+            "stroke: color-mix(in srgb, var(--global-text-color-light) 35%, transparent);",
+            publications,
+        )
+        self.assertNotIn(
+            "stroke: color-mix(in srgb, var(--global-text-color-light) 48%, transparent);",
+            publications,
+        )
 
         for mode, anchors in EXPECTED_ANCHORS.items():
             declarations = self.mode_declarations(mode)
@@ -373,14 +453,31 @@ class CoastalThemePaletteTests(unittest.TestCase):
                 for surface in (anchors["bg"], card):
                     composited = mix_hex(color, surface, 0.9)
                     with self.subTest(mode=mode, role=role, surface=surface):
-                        self.assertGreaterEqual(contrast_ratio(composited, surface), 3.0)
+                        self.assertGreaterEqual(
+                            contrast_ratio(composited, surface), 3.0
+                        )
 
     def test_named_project_identity_accents_remain_intact(self) -> None:
         cards = PROJECT_CARDS_PATH.read_text(encoding="utf-8")
         for slug, expected_accents in {
-            "hotspot": {"morning": "#efbca7", "noon": "#b5b7e3", "afternoon": "#9181b0", "evening": "#cecfea"},
-            "designweaver": {"morning": "#e7837d", "noon": "#2765d6", "afternoon": "#f5b0ab", "evening": "#cce8ef"},
-            "hci-spooder-man": {"morning": "#d7675b", "noon": "#2f75a8", "afternoon": "#d9a15f", "evening": "#d7e3ed"},
+            "hotspot": {
+                "morning": "#efbca7",
+                "noon": "#b5b7e3",
+                "afternoon": "#9181b0",
+                "evening": "#cecfea",
+            },
+            "designweaver": {
+                "morning": "#e7837d",
+                "noon": "#2765d6",
+                "afternoon": "#f5b0ab",
+                "evening": "#cce8ef",
+            },
+            "hci-spooder-man": {
+                "morning": "#d7675b",
+                "noon": "#2f75a8",
+                "afternoon": "#d9a15f",
+                "evening": "#d7e3ed",
+            },
         }.items():
             start = cards.index(f"{slug}:")
             next_entry = re.search(r"\n(?=[a-z0-9-]+:\n)", cards[start + 1 :])
@@ -389,17 +486,27 @@ class CoastalThemePaletteTests(unittest.TestCase):
             for mode, accent in expected_accents.items():
                 self.assertIn(f'    {mode}: "{accent}"', block)
 
-        accent_blocks = re.findall(r"(?m)^  accents:\n((?:    (?:morning|noon|afternoon|evening): \"#[0-9a-f]{6}\"\n){4})", cards)
+        accent_blocks = re.findall(
+            r"(?m)^  accents:\n((?:    (?:morning|noon|afternoon|evening): \"#[0-9a-f]{6}\"\n){4})",
+            cards,
+        )
         self.assertGreaterEqual(len(accent_blocks), 10)
         for block in accent_blocks:
-            self.assertEqual(set(re.findall(r"(?m)^    (morning|noon|afternoon|evening):", block)), set(EXPECTED_ANCHORS))
+            self.assertEqual(
+                set(re.findall(r"(?m)^    (morning|noon|afternoon|evening):", block)),
+                set(EXPECTED_ANCHORS),
+            )
 
-    def test_afternoon_project_accents_do_not_return_to_an_orange_monoculture(self) -> None:
+    def test_afternoon_project_accents_do_not_return_to_an_orange_monoculture(
+        self,
+    ) -> None:
         cards = PROJECT_CARDS_PATH.read_text(encoding="utf-8")
         afternoon_accents = re.findall(r'(?m)^    afternoon: "(#[0-9a-f]{6})"$', cards)
         orange_forward = []
         for accent in afternoon_accents:
-            red, green, blue = (int(accent[index : index + 2], 16) / 255 for index in (1, 3, 5))
+            red, green, blue = (
+                int(accent[index : index + 2], 16) / 255 for index in (1, 3, 5)
+            )
             hue, saturation, _ = colorsys.rgb_to_hsv(red, green, blue)
             if 20 <= hue * 360 <= 50 and saturation >= 0.25:
                 orange_forward.append(accent)

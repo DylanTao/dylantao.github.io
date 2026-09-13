@@ -16,3 +16,6 @@ _data/citations.yml
 _data/publication_lens.yml
 # Vendored Paper Shaders files stay byte-for-byte identical to the recorded hashes.
 assets/vendor/paper-shaders/
+# Upstream r164 loader closure; provenance records the import-only adjustment.
+assets/js/vendor/three-r164/
+artwork/coastal-home/splat-lab/vendor/

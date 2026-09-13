@@ -1,5 +1,7 @@
 # Site Experience Roadmap (September 2026)
 
+**September 12 update:** the research-studio implementation supersedes this earlier plan's Inter-only display rule and procedural single-room scene handoff. The active direction uses Newsreader display type, Inter reading/controls, a default 2D homepage at every width, and an optional Blender-authored connected home. Use [the current scene brief](homepage-desk-scene-brief.md), [living heuristics](../WEBSITE_DESIGN_HEURISTICS.md), and [implementation evidence](research-studio-implementation.md) for those decisions. The staged assignments and baseline below remain historical planning context, not new delegation instructions.
+
 A staged, restrained plan for the next passes over this site. It was drafted on 2026-09-05 after the Wave 0 defect fixes and the Build Rhythm key redesign landed, and it splits work between two implementers:
 
 - **Fable** (Claude Code): web-level motion and transitions, DOM/CSS/JS craft, accessibility, performance measurement, and concrete structural fixes.

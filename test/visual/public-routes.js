@@ -104,6 +104,12 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-what-happened-and-why",
+    path: "/projects/what-happened-and-why/",
+    readySelector: ".trace-paper-page .trace-hero",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-website-revamp",
     path: "/projects/website-revamp/",
     readySelector: ".project-detail .project-case-hero",

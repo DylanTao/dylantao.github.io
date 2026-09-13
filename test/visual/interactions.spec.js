@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
-const { getPublicBaseURL, usesExternalVisualServer } = require("./public-routes");
+const { getPublicBaseURL, publicRouteUrl, usesExternalVisualServer } = require("./public-routes");
 
 async function openOptionalStarterRoute(page, path) {
   const response = await page.goto(path, { waitUntil: "networkidle" });
@@ -563,7 +563,7 @@ test("AI profile is server-rendered and can copy canonical Markdown", async ({ p
     });
   });
   await preparePage(page, "light");
-  await page.goto("/al-folio/ai/", { waitUntil: "networkidle" });
+  await page.goto(publicRouteUrl("/ai/"), { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
   await expect(page.locator("[data-publication-key]")).toHaveCount(5);
@@ -582,11 +582,11 @@ test("AI profile is server-rendered and can copy canonical Markdown", async ({ p
   expect(copiedMarkdown).toContain("## Publications and citation guidance");
 
   await page.getByRole("link", { name: "Human-readable website" }).click();
-  await expect(page).toHaveURL(/\/al-folio\/$/);
+  await expect(page).toHaveURL(publicRouteUrl("/"));
   await expect(page.locator('.site-format-link[aria-current="page"]')).toHaveText("Human");
 
   await page.getByRole("link", { name: "AI-readable research profile" }).click();
-  await expect(page).toHaveURL(/\/al-folio\/ai\/$/);
+  await expect(page).toHaveURL(publicRouteUrl("/ai/"));
   await expect(page.locator('.site-format-link[aria-current="page"]')).toHaveText("AI");
   expect(runtimeErrors).toEqual([]);
 });
@@ -607,7 +607,7 @@ test("mobile navbar can expand/collapse", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile", "mobile-only navigation behavior");
 
   await preparePage(page, "light");
-  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "networkidle" });
 
   const toggle = page.locator(".navbar-toggler").first();
   await expect(toggle).toBeVisible();
@@ -702,6 +702,28 @@ test("content reading aid avoids headers and uses inline fallback on medium desk
   for (const route of routes) {
     await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto(visualRoute(route.path), { waitUntil: "domcontentloaded" });
+    if (route.path.startsWith("blog/")) {
+      const contents = page.locator(".blog-contents-rail details");
+      await expect(contents).toHaveAttribute("open", "");
+      const bounds = await page.evaluate(() => {
+        const rail = document.querySelector(".blog-contents-rail").getBoundingClientRect();
+        const header = document.querySelector(".post-header").getBoundingClientRect();
+        const opening = document.querySelector(".blog-opening").getBoundingClientRect();
+        return { railTop: rail.top, headerBottom: header.bottom, openingBottom: opening.bottom };
+      });
+      expect(bounds.railTop).toBeGreaterThanOrEqual(bounds.headerBottom);
+      expect(bounds.railTop).toBeGreaterThanOrEqual(bounds.openingBottom);
+      await expect(page.locator(".section-reading-aid")).toHaveCount(0);
+      await page.setViewportSize({ width: 768, height: 1024 });
+      await expect(contents).not.toHaveAttribute("open", "");
+      await contents.locator("summary").click();
+      const destination = contents.locator("a").first();
+      const hash = await destination.getAttribute("href");
+      await destination.click();
+      await expect(page.locator(`[id="${hash.slice(1)}"]`)).toBeFocused();
+      await expect(contents).not.toHaveAttribute("open", "");
+      continue;
+    }
     await page.waitForSelector(".section-reading-aid-mobile", { state: "attached" });
     await stabilizeVisuals(page);
     await page.waitForTimeout(500);
@@ -804,7 +826,8 @@ test("home artifact cards hover independently", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "hover-specific assertion is desktop-only");
 
   await preparePage(page, "light");
-  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  await page.goto(visualRoute(""), { waitUntil: "networkidle" });
+  await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
 
   const secondary = page.locator(".home-artifact-card-2");
@@ -849,6 +872,7 @@ test("home keyboard record playback survives shake suppression", async ({ page }
   await preparePage(page, "dark");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
 
   const spinButton = page.locator("[data-home-record-play]");
@@ -867,6 +891,7 @@ test("home portrait offers a keyboard-equivalent record-card discovery", async (
   await preparePage(page, "dark");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
 
   const stage = page.locator("[data-home-artifact-stage]");
@@ -893,6 +918,7 @@ test("home dropped meme record cards resolve into an inspectable 2D fan", async 
   await preparePage(page, "dark");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
 
   const stage = page.locator("[data-home-artifact-stage]");
@@ -1001,6 +1027,7 @@ test("home opened meme record cards settle back on top of the 2D pile", async ({
   await preparePage(page, "light");
   const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
   await page.goto(homeRoute, { waitUntil: "networkidle" });
+  await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
 
   const cards = page.locator("[data-home-record-card]");
@@ -1034,145 +1061,101 @@ test("home opened meme record cards settle back on top of the 2D pile", async ({
   expect(topIndex).toBe(openedIndex);
 });
 
-test("home 3D outside view uses explicit window clicks and scroll-away reset", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
-
-  await preparePage(page, "light");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
-  await page.goto(homeRoute, { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
-
-  const stage = page.locator("[data-home-artifact-stage]");
-  const scene = page.locator("[data-home-desk-scene]");
-  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
-  await page.click('[data-home-desk-mode="3d"]');
-  await expect(stage).toHaveAttribute("data-desk-mode", "3d");
-  await page.waitForTimeout(1200);
-
-  const canvas = page.locator(".home-desk-corner-canvas");
+async function clickCoastalObject(page, scene, type, index) {
+  const canvas = scene.locator("canvas");
+  await canvas.scrollIntoViewIfNeeded();
+  const target = await scene.evaluate(
+    (element, query) =>
+      element.getSceneEvidence().targets.find((item) => item.type === query.type && (query.index == null || item.index === query.index)),
+    { type, index }
+  );
+  expect(target, `projected ${type} ${index ?? ""}`).toBeTruthy();
+  expect(target.x).toBeGreaterThan(0);
+  expect(target.x).toBeLessThan(1);
+  expect(target.y).toBeGreaterThan(0);
+  expect(target.y).toBeLessThan(1);
   const box = await canvas.boundingBox();
-  expect(box).not.toBeNull();
-  await page.mouse.move(box.x + box.width * 0.78, box.y + box.height * 0.28);
-  await page.mouse.wheel(0, -1600);
-  await page.waitForTimeout(320);
-  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
-  await expect(scene).not.toHaveClass(/is-outside-view/);
+  const x = box.x + box.width * target.x,
+    y = box.y + box.height * target.y;
+  if (await page.evaluate(() => navigator.maxTouchPoints > 0)) await page.touchscreen.tap(x, y);
+  else await page.mouse.click(x, y);
+}
 
-  await clickDeskProjectedTarget(page, scene, "data-window-screen-bounds");
-  await expect(scene).toHaveAttribute("data-last-raycast-kind", "windowJump");
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
+async function coastalHome(page) {
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(visualRoute(""), { waitUntil: "networkidle" });
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const scene = page.locator("[data-home-desk-scene]");
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await page.locator('[data-world-room="study"]').first().click();
+  return scene;
+}
 
-  await page.mouse.wheel(0, -2400);
-  await page.waitForTimeout(240);
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
-
-  await page.mouse.wheel(0, 1400);
-  await page.waitForTimeout(240);
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
-
-  await clickDeskProjectedTarget(page, scene, "data-return-screen-bounds");
-  await expect(scene).toHaveAttribute("data-last-raycast-kind", "returnInside");
-  await page.waitForTimeout(240);
-  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
-  await expect(scene).not.toHaveClass(/is-outside-view/);
-
-  await clickDeskProjectedTarget(page, scene, "data-window-screen-bounds");
-  await expect(scene).toHaveAttribute("data-last-raycast-kind", "windowJump");
-  await expect(page.locator("html")).toHaveClass(/home-desk-outside-active/);
-  await expect(scene).toHaveClass(/is-outside-view/);
-
+test("home 3D outside visit survives zoom and scrolling until an explicit return", async ({ page }) => {
+  const scene = await coastalHome(page);
+  const canvas = scene.locator("canvas");
+  await canvas.focus();
+  await canvas.press("+");
+  await expect(scene).toHaveAttribute("data-room", "study");
+  await clickCoastalObject(page, scene, "window");
+  await expect(scene).toHaveAttribute("data-room", "outside");
+  await canvas.focus();
+  await canvas.press("+");
+  await canvas.press("-");
+  await expect(scene).toHaveAttribute("data-room", "outside");
   await page.locator("#connect").scrollIntoViewIfNeeded();
-  await expect(page.locator("html")).not.toHaveClass(/home-desk-outside-active/);
-  await expect(scene).not.toHaveClass(/is-outside-view/);
+  await expect(scene).toHaveAttribute("data-room", "outside");
+  await page.locator('[data-world-room="study"]').first().click();
+  await expect(scene).toHaveAttribute("data-room", "study");
+  await page.locator("[data-world-now]").click();
+  expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(true);
 });
 
-test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "desktop canvas hit zones use desktop framing");
-
-  await preparePage(page, "light");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
-  await page.goto(homeRoute, { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
-
+test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }) => {
+  const scene = await coastalHome(page);
   const stage = page.locator("[data-home-artifact-stage]");
-  const scene = page.locator("[data-home-desk-scene]");
-  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
-
-  await dropRecordCardsUntil(page, 1);
+  await page.locator('[data-home-desk-mode="2d"]').click();
   await dropRecordCardsUntil(page, 2);
-  await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
-
-  await page.click('[data-home-desk-mode="3d"]');
-  await expect(stage).toHaveAttribute("data-desk-mode", "3d");
-  await page.waitForTimeout(1200);
-  await requestDeskEvidence(scene);
-  const initialAlbumEvidence = JSON.parse((await scene.getAttribute("data-album-screen-bounds")) || "[]");
-  expect(initialAlbumEvidence.find((entry) => entry.index === 0)?.thrown).toBe(true);
-  expect(initialAlbumEvidence.find((entry) => entry.index === 0)?.rack).toBeNull();
-  expect(initialAlbumEvidence.find((entry) => entry.index === 1)?.thrown).toBe(true);
-  expect(initialAlbumEvidence.find((entry) => entry.index === 1)?.rack).toBeNull();
-
-  await page.click('[data-home-desk-control="previous"]');
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const rack = await scene.evaluate((e) =>
+    e
+      .getSceneEvidence()
+      .targets.filter((t) => t.type === "record")
+      .map((t) => t.index)
+  );
+  expect(rack).toEqual([2, 3]);
+  await page.locator('[data-home-desk-control="previous"]').click();
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
-  await expect(scene).not.toHaveAttribute("data-focused-desk-object", "album-0");
-
-  await clickDeskAlbumTarget(page, scene, 2, "rackPoint");
-  await page.waitForTimeout(620);
+  await clickCoastalObject(page, scene, "record", 2);
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "record-2");
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
-  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-2");
-
-  await clickDeskAlbumTarget(page, scene, 2, "objectPoint");
-  await page.waitForTimeout(1120);
-  await expect(stage).toHaveAttribute("data-record-tone", "wind");
-  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
-  await page.waitForTimeout(900);
-
-  await dragDeskAlbumFromRack(page, scene, 2);
-  await page.waitForTimeout(920);
-  await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2");
-  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
-
-  await clickDeskAlbumTarget(page, scene, 3, "rackPoint");
-  await page.waitForTimeout(620);
-  await expect(stage).toHaveAttribute("data-record-tone", "wind");
-  await expect(scene).toHaveAttribute("data-focused-desk-object", "album-3");
-
-  await clickDeskAlbumTarget(page, scene, 3, "objectPoint");
-  await page.waitForTimeout(1120);
+  await clickCoastalObject(page, scene, "record", 3);
+  await expect(scene).toHaveAttribute("data-focused-desk-object", "record-3");
+  await clickCoastalObject(page, scene, "record", 3);
   await expect(stage).toHaveAttribute("data-record-tone", "sunday");
   await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
-  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /album-/);
+  await expect(scene).not.toHaveAttribute("data-focused-desk-object", /record-/);
+  const canvas = scene.locator("canvas");
+  await canvas.focus();
+  await canvas.press("d");
+  await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2");
 });
 
-test("home 3D artifacts focus before opening their project route", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "desktop object-focus checkpoint; compact touch coverage lives in the scene matrix");
-
-  const runtimeErrors = collectRuntimeErrors(page);
-  await preparePage(page, "light");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
-  await page.goto(homeRoute, { waitUntil: "networkidle" });
-  await stabilizeVisuals(page);
-
-  const scene = page.locator("[data-home-desk-scene]");
-  const firstArtifactLink = page.locator("[data-home-desk-artifact-link]").first();
-  const expectedPath = await firstArtifactLink.evaluate((link) => new URL(link.href).pathname);
+test("home 3D artifacts focus before opening their project route", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  const scene = await coastalHome(page);
+  const expectedPath = await page
+    .locator("[data-home-desk-artifact-link]")
+    .first()
+    .evaluate((link) => new URL(link.href).pathname);
   const initialPath = new URL(page.url()).pathname;
-  await page.click('[data-home-desk-mode="3d"]');
-  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "3d");
-
-  const initialPoint = await getDeskArtifactTarget(scene, 0);
-  await clickDeskCanvasAt(page, initialPoint.x, initialPoint.y);
+  await clickCoastalObject(page, scene, "artifact", 0);
   await expect(scene).toHaveAttribute("data-focused-desk-object", "artifact-0");
   expect(new URL(page.url()).pathname).toBe(initialPath);
-
-  await page.waitForTimeout(1320);
-  const focusedPoint = await getDeskArtifactTarget(scene, 0);
-  await Promise.all([page.waitForURL((url) => url.pathname === expectedPath), clickDeskCanvasAt(page, focusedPoint.x, focusedPoint.y)]);
-  expect(new URL(page.url()).pathname).toBe(expectedPath);
-  expect(runtimeErrors, "3D artifact focus/open journey raised browser runtime errors").toEqual([]);
+  await clickCoastalObject(page, scene, "artifact", 0);
+  await expect(page).toHaveURL((url) => url.pathname === expectedPath);
+  expect(errors).toEqual([]);
 });
 
 test("navbar search button opens modal and toggle buttons use pointer cursor", async ({ page }) => {

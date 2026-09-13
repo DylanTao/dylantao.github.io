@@ -156,6 +156,16 @@
             </p>
           {% endif %}
           <p class="card-text">{{ project.description }}</p>
+          <a
+            class="project-card-direct-link"
+            href="{{ project_href }}"
+            {% if project.redirect %}
+              target="_blank" rel="noopener noreferrer"
+            {% endif %}
+          >
+            {{ project_cta_label }}
+            <i class="fa-solid {{ project_cta_icon }}" aria-hidden="true"></i>
+          </a>
           {% if project_card_data.origin_line %}
             <div class="project-card-story" data-project-card-story>
               <div class="project-card-story-beat" data-project-card-origin>

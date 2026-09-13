@@ -2,8 +2,8 @@
   <section id="work" class="home-section home-work-section home-reveal" data-home-section="work" aria-labelledby="home-work-title">
     <div class="home-section-heading home-section-heading-row">
       <div>
-        <p class="home-kicker">Featured work</p>
-        <h2 id="home-work-title">Things I built and tested.</h2>
+        <p class="home-kicker">Selected work</p>
+        <h2 id="home-work-title">Questions made tangible.</h2>
       </div>
       <a class="home-text-link" href="{{ '/projects/' | relative_url }}">All projects</a>
     </div>
@@ -24,7 +24,7 @@
             >
               <img
                 src="{{ work.image | relative_url }}"
-                alt="{{ work.title }} preview"
+                alt="{{ work.alt }}"
                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
               >
             </div>
@@ -35,6 +35,7 @@
               </div>
               <h3>{{ work.title }}</h3>
               <p>{{ work.description }}</p>
+              <span class="home-work-cta">Read the case study <span aria-hidden="true">↗</span></span>
             </div>
           </a>
         </article>

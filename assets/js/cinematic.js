@@ -290,26 +290,19 @@
       });
     });
 
-  // 8. Proof numbers count up once as they come into view, keeping their original digit grouping.
+  // Evidence stays readable throughout the reveal, including its first frame.
   gsap.utils.toArray(".cinematic [data-count-up]").forEach((node) => {
-    const match = node.textContent.match(/^(\s*)(\d[\d,]*)([\s\S]*)$/);
-    if (!match) return;
-    const target = Number(match[2].replace(/,/g, ""));
-    if (!Number.isFinite(target) || target <= 0) return;
-    const grouped = match[2].includes(",");
-    const format = (value) => (grouped ? Math.round(value).toLocaleString("en-US") : String(Math.round(value)));
-    const counter = { value: 0 };
-    node.textContent = `${match[1]}0${match[3]}`;
-    gsap.to(counter, {
-      value: target,
-      duration: 1.1,
-      ease: "power2.out",
-      delay: 0.2,
-      scrollTrigger: { trigger: node, start: "top 92%", once: true },
-      onUpdate: () => {
-        node.textContent = `${match[1]}${format(counter.value)}${match[3]}`;
-      },
-    });
+    gsap.fromTo(
+      node,
+      { y: 5 },
+      {
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: { trigger: node, start: "top 92%", once: true },
+        clearProps: "transform",
+      }
+    );
   });
 
   // 9. Homepage: headings drift a little slower than the page, a marker sweeps the thesis question as

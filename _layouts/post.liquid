@@ -81,17 +81,40 @@ layout: default
   </header>
 
   <article class="post-content">
-    {% if page.toc and page.toc.beginning %}
-      <details id="table-of-contents" class="blog-inline-toc" open>
-        <summary>On this page</summary>
-        <div class="blog-inline-toc-list">
-          {% toc %}
-        </div>
-      </details>
-      <hr>
+    {% assign heading_count = content | split: '<h2' | size %}
+    {% assign studio_toc = false %}
+    {% if heading_count > 2 and page.toc.sidebar != true %}{% assign studio_toc = true %}{% endif %}
+    {% assign reading_content = content %}
+    {% assign first_block = content | strip | slice: 0, 3 %}
+    {% if studio_toc and first_block == '<p>' %}
+      {% assign opening_paragraph = content | split: '</p>' | first | append: '</p>' %}
+      <div class="blog-opening">{{ opening_paragraph }}</div>
+      {% assign reading_content = content | remove_first: opening_paragraph %}
     {% endif %}
-    <div id="markdown-content">
-      {{ content }}
+    <div class="blog-reading-layout{% if studio_toc %} has-toc{% endif %}">
+      {% if studio_toc %}
+        <aside class="blog-contents-rail" aria-label="Article contents">
+          <details id="table-of-contents" class="blog-inline-toc">
+            <summary>On this page</summary>
+            <div class="blog-inline-toc-list">
+              {% assign sections = reading_content | split: '<h2 id="' %}
+              <ul>
+                {% for section in sections offset: 1 %}
+                  {% assign section_id = section | split: '"' | first %}
+                  {% assign section_label = section | split: '</h2>' | first | remove_first: section_id | remove_first: '">' | strip_html %}
+                  <li>
+                    <a href="#{{ section_id }}">{{ section_label }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </details>
+          <script>
+            document.getElementById('table-of-contents').open = window.matchMedia('(min-width: 1200px)').matches;
+          </script>
+        </aside>
+      {% endif %}
+      <div id="markdown-content">{{ reading_content }}</div>
     </div>
   </article>
 

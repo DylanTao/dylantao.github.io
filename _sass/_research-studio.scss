@@ -1,0 +1,420 @@
+// Sirui's research notebook: display type, open paper, and a clear reading lane.
+@font-face {
+  font-family: "Newsreader";
+  src: url("../fonts/newsreader/Newsreader.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+.home-page {
+  --home-shell-max: 1320px;
+}
+
+.home-title {
+  max-width: 17ch;
+  font-size: clamp(3rem, 5.4vw, 5rem);
+  font-weight: 400;
+  line-height: 1.01;
+  letter-spacing: -0.025em;
+}
+
+.home-lede {
+  max-width: 40rem;
+  font-size: clamp(1.02rem, 1.2vw, 1.13rem);
+  line-height: 1.75;
+}
+
+.home-kicker::before {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin: 0 0.65rem 0.08rem 0;
+  border-radius: 50%;
+  background: var(--global-brand-orange-color);
+  content: "";
+}
+
+.home-cred-grid {
+  gap: 0;
+  border-top: 1px solid var(--home-line);
+}
+
+.home-cred-item {
+  min-height: auto;
+  padding: 1rem 0.8rem 0.3rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-cred-item strong {
+  font-weight: 500;
+}
+.home-section-heading h2 {
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+.home-work-section {
+  padding-block: 3.2rem;
+}
+.home-work-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+.home-work-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.home-work-card:hover {
+  box-shadow: none;
+  transform: none;
+}
+.home-work-image-wrap {
+  border: 1px solid var(--home-line);
+  border-radius: 0.25rem;
+  background: #fff;
+}
+.home-work-image-wrap img {
+  padding: 1.25rem;
+}
+.home-work-card:hover .home-work-image-wrap img {
+  transform: none;
+}
+.home-work-body {
+  padding: 1.25rem 0 0;
+}
+.home-work-body h3 {
+  font-size: clamp(1.75rem, 2.5vw, 2.4rem);
+  font-weight: 500;
+}
+.home-work-body p {
+  max-width: 36rem;
+  margin: 0;
+}
+.home-work-cta {
+  display: block;
+  margin-top: 1.1rem;
+  color: var(--home-accent-strong);
+  font-size: var(--type-reading);
+}
+.home-work-link:hover .home-work-cta {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.home-work-link:focus-visible {
+  outline: 2px solid var(--home-accent-strong);
+  outline-offset: 7px;
+}
+
+:is(.post-header, .project-case-copy, .publication-context-hero) h1,
+.trace-title {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.projects .project-card-direct-link {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  margin: 0.35rem 0;
+  color: var(--global-theme-color);
+  font-family: var(--font-ui);
+  font-size: var(--type-reading);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.projects .project-card .card-title {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.1vw, 2rem);
+}
+.projects .project-card .card {
+  box-shadow: none;
+  border-radius: 0.5rem;
+}
+.project-case-facts {
+  font-variant-numeric: tabular-nums;
+}
+
+.blog-index .header-bar {
+  text-align: left;
+  padding-block: 1.5rem 2rem;
+}
+.blog-index .header-bar h1 {
+  font-weight: 400;
+  color: var(--global-text-color);
+}
+.blog-index .header-bar h2 {
+  max-width: 42rem;
+  margin-left: 0;
+  line-height: 1.65;
+}
+.blog-index .post-list h3 {
+  font-size: clamp(1.55rem, 2.3vw, 2rem);
+  font-weight: 500;
+}
+.blog-index .post-list > li {
+  padding-block: 1.85rem;
+}
+.blog-index .post-list li p {
+  max-width: 48rem;
+}
+.blog-index .featured-posts {
+  margin-block: 2rem 2.5rem;
+}
+
+.blog-post {
+  --measure-prose: 43rem;
+  max-width: 72rem;
+}
+
+.blog-post .post-header {
+  max-width: 58rem;
+  margin-inline: auto;
+}
+.blog-post .post-title {
+  font-weight: 400;
+  line-height: 1.1;
+}
+.blog-opening {
+  max-width: var(--measure-prose);
+  margin: 0 auto 1.8rem;
+  font-size: 1.13rem;
+  line-height: 1.85;
+}
+.blog-reading-layout {
+  min-width: 0;
+}
+.blog-post #markdown-content {
+  min-width: 0;
+}
+.blog-post .post-content {
+  line-height: 1.85;
+  font-weight: 400;
+}
+.blog-post .post-content h2 {
+  margin-top: 2.6rem;
+  font-size: clamp(1.8rem, 2.6vw, 2.25rem);
+  font-weight: 500;
+}
+.blog-post .post-content h3 {
+  font-family: var(--font-ui);
+  font-size: 1.2rem;
+}
+.blog-post .blog-inline-toc {
+  margin: 0 0 1.75rem;
+  padding: 0.65rem 0;
+  border: 0;
+  border-block: 1px solid var(--global-divider-color);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.blog-inline-toc > summary {
+  min-height: 2.1rem;
+  font-family: var(--font-ui);
+  font-size: var(--type-reading);
+}
+.blog-post .blog-inline-toc-list {
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+.blog-inline-toc-list a {
+  display: block;
+  padding-block: 0.16rem;
+}
+.blog-post #table-of-contents.blog-inline-toc {
+  border: 0;
+  border-top: 1px solid var(--global-divider-color);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.65rem 0;
+}
+.blog-post .blog-inline-toc-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.blog-post .blog-inline-toc-list li {
+  margin: 0.45rem 0;
+  line-height: 1.5;
+}
+.blog-post .blog-inline-toc-list ol {
+  padding-left: 1rem;
+}
+
+.cv .card {
+  padding: 1.6rem 0 !important;
+  border: 0;
+  border-top: 1px solid var(--global-divider-color);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.cv .card-title {
+  font-size: 2rem;
+  font-weight: 400;
+}
+.cv .cv-entry-title {
+  font-family: var(--font-ui);
+  font-size: var(--type-reading);
+}
+.news table {
+  width: 100%;
+}
+.news th {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.archive-list h2,
+.archive h2 {
+  font-weight: 400;
+}
+
+.wall-of-rejection {
+  margin-block: 1rem 1.75rem;
+}
+.rejection-badge-wall,
+.rejection-xp-panel {
+  border-radius: 0.4rem;
+  box-shadow: none;
+}
+.rejection-badge-wall-heading {
+  margin-bottom: 0.4rem;
+}
+.rejection-badge-grid {
+  grid-template-columns: repeat(auto-fit, minmax(2.75rem, 3.15rem));
+  gap: 0.4rem;
+}
+.rejection-badge {
+  min-height: 2.75rem;
+}
+.rejection-receipt-tray {
+  min-height: 0;
+}
+.rejection-xp-panel {
+  padding: 0.65rem 0.85rem;
+  gap: 0.3rem;
+}
+.rejection-xp-panel .failure-xp-heading {
+  margin-top: 0.1rem;
+}
+.rejection-xp-panel .failure-xp-heading > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+}
+.rejection-xp-panel .failure-xp-mobile-label {
+  flex-basis: 100%;
+}
+.rejection-wall-note {
+  margin-top: 0.35rem;
+  font-size: var(--type-compact);
+}
+.rejection-wall-note summary {
+  min-height: 2rem;
+  cursor: pointer;
+  color: var(--global-text-color-light);
+}
+
+// The AI surface keeps its compact, semantic document typography.
+.ai-view-page,
+.ai-page,
+.ai-reading-surface {
+  --font-display: var(--font-ui);
+}
+
+@media (min-width: 1200px) {
+  .blog-post:has(.has-toc) .post-header,
+  .blog-post:has(.has-toc) .blog-opening {
+    margin-left: 15rem;
+  }
+  .blog-reading-layout.has-toc {
+    display: grid;
+    grid-template-columns: 12.5rem minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .blog-contents-rail {
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .blog-post .blog-inline-toc {
+    margin: 0;
+  }
+  .blog-post .blog-inline-toc > summary {
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .blog-reading-layout.has-toc #markdown-content > :is(p, ul, ol, h2, h3, h4, blockquote, dl) {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .home-title {
+    max-width: 18ch;
+    font-size: clamp(3rem, 7.2vw, 4.3rem);
+  }
+  .home-hero {
+    gap: 1.5rem;
+  }
+  .home-section-heading h2 {
+    max-width: 24ch;
+  }
+}
+
+@media (max-width: 575px) {
+  .home-work-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+  .home-work-section {
+    padding-block: 2.25rem;
+  }
+  .home-work-image-wrap img {
+    padding: 0.7rem;
+  }
+  .home-title {
+    font-size: clamp(2.7rem, 11.8vw, 3.4rem);
+  }
+  .home-cred-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .home-cred-item {
+    padding-right: 0.5rem;
+  }
+  .home-cred-item strong {
+    font-size: 0.85rem;
+  }
+  .home-cred-item span {
+    font-size: 0.64rem;
+  }
+  .blog-opening {
+    font-size: var(--type-reading);
+    line-height: 1.8;
+  }
+  .blog-post .post-content {
+    line-height: 1.8;
+  }
+  .blog-index .post-list > li {
+    padding-block: 1.45rem;
+  }
+  .blog-post .post-header {
+    padding-top: 0.5rem;
+  }
+}

@@ -65,7 +65,7 @@ const COASTAL_THEME_ROUTE_SAMPLES = [
   {
     path: "/",
     readySelector: '[data-home-section="start"]',
-    surfaceSelector: ".home-influence-note",
+    surfaceSelector: ".home-thesis-note",
   },
 ];
 

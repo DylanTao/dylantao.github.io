@@ -57,7 +57,7 @@ papers:
     tldr: >-
       HotSpot uses a screened-Poisson heat loss as an asymptotically sufficient condition for neural signed-distance-function optimization, improving stability while naturally penalizing excess surface area.
     human:
-      fit: This paper helps when an implicit-surface argument needs more than the usual eikonal conditionâ€”especially around convergence, stability, topology, or surface area.
+      fit: This paper helps when an implicit-surface argument needs more than the usual eikonal condition—especially around convergence, stability, topology, or surface area.
       cues:
         - You are comparing objectives for reconstructing signed distance functions from unoriented points.
         - You need theoretical and experimental evidence about a screened-Poisson alternative.
@@ -163,7 +163,7 @@ papers:
       cues:
         - You are comparing human and model adaptation to mass, friction, elasticity, or deformability.
         - You need the exact CogSci record for Physion++ rather than the separate NeurIPS technical paper.
-      adds: A benchmark framing for latent-property inference and matched humanâ€“model prediction under changing mechanical properties.
+      adds: A benchmark framing for latent-property inference and matched human–model prediction under changing mechanical properties.
       limit: The public CogSci record supports qualitative claims from the abstract, not detailed quantitative claims from the companion paper.
     why_cite:
       statement: >-

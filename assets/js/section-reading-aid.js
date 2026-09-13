@@ -150,6 +150,30 @@
     const headings = getReadableHeadings(contentRoot);
     if (headings.length < MIN_SECTION_COUNT) return;
 
+    // The editorial blog layout owns one native contents rail/disclosure. Keep
+    // the general case-study helper from creating a duplicate rail or dock.
+    const studioToc = pageRoot.querySelector(".blog-contents-rail details");
+    if (studioToc) {
+      pageRoot.dataset.readingAidInitialized = "true";
+      const desktop = window.matchMedia("(min-width: 1200px)");
+      desktop.addEventListener("change", () => {
+        studioToc.open = desktop.matches;
+      });
+      studioToc.addEventListener("click", (event) => {
+        const link = event.target.closest('a[href^="#"]');
+        if (!link) return;
+        const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+        if (!heading) return;
+        studioToc.querySelectorAll("a").forEach((a) => a.removeAttribute("aria-current"));
+        link.setAttribute("aria-current", "location");
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+        heading.addEventListener("blur", () => heading.removeAttribute("tabindex"), { once: true });
+        if (!desktop.matches) studioToc.open = false;
+      });
+      return;
+    }
+
     pageRoot.dataset.readingAidInitialized = "true";
     pageRoot.classList.add("section-reading-aid-page");
 

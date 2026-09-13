@@ -1,7 +1,7 @@
 ---
 layout: page
 title: The Desk That Learned Depth
-description: How the homepage's paper collage became an explorable cliff room without losing the same desk, records, and discoveries.
+description: How the homepage's paper collage became an inhabited coastal home while keeping its records, research papers, and discoveries.
 img: assets/img/project_pics/site-experiments/homepage-desk-depth.png
 image_aspect: 16 / 9
 card_image_fit: cover
@@ -22,7 +22,7 @@ hide_title: true
     <p class="project-case-kicker">Site experiment · first seen June 17, 2026</p>
     <h1>The Desk That Learned Depth</h1>
     <p class="project-case-lede">
-      The homepage desk is one set of objects in two views. The 2D collage gives you the portrait, papers, and records at a glance; the 3D cliff room lets you step inside them. Switching views keeps the same music and discoveries instead of starting over.
+      The homepage desk is one set of objects in two views. The 2D collage starts with my portrait, papers, and records; 3D opens an inhabited coastal home. Five cartoon versions of me share its daily rhythm, while the music and discoveries stay with you between views.
     </p>
     <div class="project-case-facts">
       <span>Shared 2D/3D state</span>
@@ -39,9 +39,17 @@ hide_title: true
 
 <section class="project-case-summary" aria-label="Homepage desk experiment summary">
   <div><span>Why</span><p>I wanted the paper desk to feel like a place without making the quick 2D homepage slower to read.</p></div>
-  <div><span>What</span><p>Two views of the same room, with the same records, papers, music, and discoveries.</p></div>
+  <div><span>What</span><p>A quick 2D desk and an inhabited home with six connected spaces, sharing the same records, papers, and discoveries.</p></div>
   <div><span>Try</span><p>Switch views, play a record, find a hidden card, and check that it is still there when you switch back.</p></div>
 </section>
+
+## September: a home with a daily rhythm
+
+The room now has a study, kitchen, gym, onsen, ocean terrace, and sleeping alcove. An authored San Diego routine moves me between them: breakfast comes late, coding continues into the night, and the onsen faces the Pacific. It is a little imagined day, not a live location feed.
+
+I kept 2D as the first view on every screen. In 3D, Now follows the routine; Explore lets you visit a room or preview an activity without the clock pulling the camera away. The three treatments offer a crafted architectural miniature, a richer perspective view of stone and moving water, and an inked world with graphic shadows. The cliff and ocean remain actual parts of the world when you look around.
+
+The first character pass did not look enough like me. Reviewing it against my portrait led to an exposed forehead, swept-back long hair, wire glasses, and a broader Lizard jaw. Likeness and the small gestures remain things to judge in the rendered scene, not just in a concept board.
 
 ## Why the desk has two views
 
@@ -124,7 +132,7 @@ The four frames hold everything I could keep constant: the same route, 1440 × 1
 
 The labels record the model context for each era; this is a comparison of design history rather than isolated model performance. The prompt, retained context, task, implementation history, and my critique all changed too. “Codex 5.5 tried its best” remains visible because it belonged to the June interface.
 
-## What I kept, cut, and still want to improve
+## The July decisions
 
 <section class="project-case-summary desk-scene-outcomes" aria-label="Desk scene decisions after re-review">
   <div><span>Kept</span><p>The visible 2D | 3D switch, shared music and discoveries, paper-and-record identity, and clear ways to look outside and return.</p></div>

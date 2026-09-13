@@ -21,6 +21,36 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### September 2026 research studio and inhabited home
+
+- **Hypothesis:** Concrete selected work followed by a quieter research narrative improves first-glance understanding, while an inhabited coastal miniature communicates Sirui's personality.
+- **Route:** Homepage, project index/case pages, blog index/posts, publications, CV, news, archives, and the existing experiment routes.
+- **Reference:** Sirui's approved editorial/notebook board, six-room board, corrected male character studies, and real portrait.
+- **Licensing:** Original Blender geometry and generated Pacific print; font and loader licenses recorded in `artwork/coastal-home/PROVENANCE.md`.
+- **Visitor benefit:** Direct project entry, more comfortable reading, and a small world with recognizable activities and clear exploration controls.
+- **Budget:** Initial scene payload under 4 MB compressed; lazy room/character loading, capped density, offscreen pause, 2D recovery, and reduced-motion poses.
+- **Status:** `prototype` on `codex/research-studio-reset`; implementing the user-approved plan for local review.
+- **Evidence:** `docs/research-studio-implementation.md` and `docs/evidence/research-studio/`.
+- **Sirui decision:** Implement the supplied plan (September 2026); visual quality remains reviewable.
+- **Revisit trigger:** Sirui's visual review or a failed contact/performance/accessibility check.
+
+### Pacific print: authored layers, depth mesh, and image-derived splats
+
+- **Hypothesis:** A generated coastal drawing can gain useful parallax without becoming a heavy homepage dependency.
+- **Route:** Separate local `artwork/coastal-home/splat-lab/`; excluded from Jekyll output.
+- **Reference:** Spark's documented `imageSplats` API, pinned Spark 2.2.0 and Three.js r180.
+- **Licensing:** Same original print and pinned open-source libraries; homepage remains on r164.
+- **Visitor benefit:** Compare edge fidelity, holes, texture stretching, and frame cost from the same camera.
+- **Budget:** Three authored layers, 25,600 mesh triangles, or a subsampled Gaussian field; no training or claim of recovered geometry.
+- **Status:** `prototype`; findings in the implementation handoff.
+- **Evidence:** Front and oblique captures plus runtime frame-rate samples.
+- **Sirui decision:** Build an isolated experiment and report the tradeoff.
+- **Revisit trigger:** A measured quality or performance advantage over simple textured geometry.
+
+The entries below retain historical experiment context. Their old typography, numerical count-ups, single-room boundaries, and deferred GPT-6 status are superseded by the active September 2026 brief and heuristics.
+
+## Historical Experiment Record
+
 ### The cinematic layer: scroll scenes, spotlight, and tilt
 
 - **Hypothesis:** A reader understands a research project faster when the page walks them through its one figure step by step, and a project grid feels alive when the card under the pointer answers it. Scroll-driven scenes and pointer-aware surfaces can do both without taking control of scrolling.

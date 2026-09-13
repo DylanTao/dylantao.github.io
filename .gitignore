@@ -30,3 +30,8 @@ assets/vendor/*
 # GSAP core and ScrollTrigger are vendored under the GSAP Standard License; see the NOTICE beside them.
 !assets/vendor/gsap/
 !assets/vendor/gsap/**
+# Version-matched Three.js loader closure for the site-owned coastal home.
+!assets/js/vendor/
+assets/js/vendor/*
+!assets/js/vendor/three-r164/
+!assets/js/vendor/three-r164/**

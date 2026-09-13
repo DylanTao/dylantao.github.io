@@ -278,6 +278,7 @@ kramdown:
 # Includes & excludes
 include: ["_pages"]
 exclude:
+  - artwork/
   - al-folio-upgrade-report.md
   - bin/
   - CONTRIBUTING.md

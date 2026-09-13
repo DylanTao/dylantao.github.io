@@ -94,9 +94,29 @@ credibility:
   - label: Methods
     value: Build, test, iterate
 
+featured_work:
+  - title: DesignWeaver
+    url: /projects/designweaver/
+    image: /assets/img/publication_preview/designweaver.png
+    alt: Original DesignWeaver figure connecting a design brief, dimension palette, and image gallery.
+    image_aspect: 16 / 9
+    venue: CHI 2025
+    theme: Design
+    description: Making the dimensions inside a prompt visible, so novices can compare and refine product ideas.
+  - title: What Happened and Why?
+    url: /projects/what-happened-and-why/
+    image: /assets/img/publication_preview/herding_cats_why_what.png
+    alt: Original paper diagram linking creative activity traces to micro-episodes and user explanations.
+    image_aspect: 16 / 9
+    venue: CHI 2026 Workshop
+    theme: Evaluate
+    description: Connecting creative activity traces with people’s explanations of the moments that matter.
+
 story_sections:
   - label: Start
     id: start
+  - label: Work
+    id: work
   - label: Taste
     id: taste
   - label: Focus

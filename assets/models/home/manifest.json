@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "timeZone": "America/Los_Angeles",
+  "shell": "home-shell.glb",
+  "avatars": [
+    {
+      "id": "lizard",
+      "label": "Lizard",
+      "file": "sirui-lizard.glb"
+    },
+    {
+      "id": "south-park",
+      "label": "South Park",
+      "file": "sirui-south-park.glb"
+    },
+    {
+      "id": "simpsons",
+      "label": "Simpsons",
+      "file": "sirui-simpsons.glb"
+    },
+    {
+      "id": "ghibli",
+      "label": "Ghibli",
+      "file": "sirui-ghibli.glb"
+    },
+    {
+      "id": "rick-and-morty",
+      "label": "Rick and Morty",
+      "file": "sirui-rick-and-morty.glb"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "study",
+      "label": "Study",
+      "file": "room-study.glb",
+      "target": [0.1, 0.9, -1.9],
+      "actor": [0.08, 0, -1.62],
+      "facing": 3.141593,
+      "egress": [0.78, 0, -1.3]
+    },
+    {
+      "id": "kitchen",
+      "label": "Kitchen",
+      "file": "room-kitchen.glb",
+      "target": [-3.0, 0.7, 1.3],
+      "actor": [-3.02, 0, 2.5],
+      "facing": 3.141593,
+      "egress": [-2.1, 0, 2.4]
+    },
+    {
+      "id": "gym",
+      "label": "Gym",
+      "file": "room-gym.glb",
+      "target": [0, 0.7, 1.3],
+      "actor": [0, 0.04, 1.1],
+      "facing": 0,
+      "egress": [0, 0, 0.3]
+    },
+    {
+      "id": "onsen",
+      "label": "Onsen",
+      "file": "room-onsen.glb",
+      "target": [3.02, 0.55, -2.65],
+      "actor": [3.02, -0.48, -1.92],
+      "facing": 3.141593,
+      "egress": [3.88, 0, -0.8]
+    },
+    {
+      "id": "lounge",
+      "label": "Ocean lounge",
+      "file": "room-lounge.glb",
+      "target": [3.0, 0.6, 1.3],
+      "actor": [3.23, 0, 0.83],
+      "facing": 0,
+      "egress": [2.42, 0, 0.65]
+    },
+    {
+      "id": "sleep",
+      "label": "Sleep",
+      "file": "room-sleep.glb",
+      "target": [-3.1, 0.7, -1.9],
+      "actor": [-3.1, 0, -1.13],
+      "facing": 0,
+      "egress": [-2.15, 0, -1.02]
+    }
+  ],
+  "activities": {
+    "sleep": {
+      "label": "Sleeping in",
+      "room": "sleep",
+      "clip": "sleep",
+      "minute": 600
+    },
+    "breakfast": {
+      "label": "Late breakfast & coffee",
+      "room": "kitchen",
+      "clip": "drink",
+      "prop": "coffee",
+      "minute": 735
+    },
+    "reading": {
+      "label": "Reading & research",
+      "room": "study",
+      "clip": "reading",
+      "prop": "book",
+      "minute": 795
+    },
+    "lunch": {
+      "label": "Lunch break",
+      "room": "kitchen",
+      "clip": "eat",
+      "prop": "fork",
+      "minute": 855
+    },
+    "work": {
+      "label": "At the desk",
+      "room": "study",
+      "clip": "typing",
+      "minute": 960
+    },
+    "workout": {
+      "label": "Moving a little",
+      "room": "gym",
+      "clip": "workout",
+      "prop": "dumbbell",
+      "minute": 1080
+    },
+    "soak": {
+      "label": "Onsen time",
+      "room": "onsen",
+      "clip": "soak",
+      "minute": 1115
+    },
+    "dinner": {
+      "label": "Dinner",
+      "room": "kitchen",
+      "clip": "eat",
+      "prop": "fork",
+      "minute": 1170
+    },
+    "lounge": {
+      "label": "Watching the Pacific",
+      "room": "lounge",
+      "clip": "drink",
+      "prop": "evening",
+      "minute": 1260
+    },
+    "coding": {
+      "label": "One more idea…",
+      "room": "study",
+      "clip": "typing",
+      "minute": 60
+    }
+  },
+  "weekday": [
+    [0, "coding"],
+    [180, "sleep"],
+    [690, "breakfast"],
+    [750, "reading"],
+    [840, "lunch"],
+    [870, "work"],
+    [1050, "workout"],
+    [1095, "soak"],
+    [1140, "dinner"],
+    [1200, "lounge"],
+    [1350, "coding"]
+  ],
+  "weekend": [
+    [0, "coding"],
+    [240, "sleep"],
+    [750, "breakfast"],
+    [840, "lunch"],
+    [870, "work"],
+    [1050, "workout"],
+    [1095, "soak"],
+    [1140, "dinner"],
+    [1200, "lounge"],
+    [1350, "coding"]
+  ],
+  "coast": "coast.glb"
+}

@@ -1,0 +1,856 @@
+{
+  "capturedAt": "2026-09-13T03:10:32.538Z",
+  "platform": "win32 10.0.26300 x64",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "method": "Serial headless Chromium, no CPU or network throttle. Three seconds of warmup and four seconds of live animation per style. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
+  "views": [
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "deviceScaleFactor": 1,
+      "defaultMode": "2d",
+      "requestsBefore3D": [],
+      "readyMs": 833,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "initialResources": [
+        {
+          "path": "/assets/js/home-scene/controller.mjs",
+          "encodedBodySize": 44099,
+          "transferSize": 44399
+        },
+        {
+          "path": "/assets/js/three.module.min.js",
+          "encodedBodySize": 674428,
+          "transferSize": 674728
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+          "encodedBodySize": 49780,
+          "transferSize": 50080
+        },
+        {
+          "path": "/assets/js/home-scene/materials.mjs",
+          "encodedBodySize": 6398,
+          "transferSize": 6698
+        },
+        {
+          "path": "/assets/js/home-scene/environment.mjs",
+          "encodedBodySize": 8521,
+          "transferSize": 8821
+        },
+        {
+          "path": "/assets/js/home-scene/routine.mjs",
+          "encodedBodySize": 2505,
+          "transferSize": 2805
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+          "encodedBodySize": 10795,
+          "transferSize": 11095
+        },
+        {
+          "path": "/assets/models/home/manifest.json",
+          "encodedBodySize": 3801,
+          "transferSize": 4101
+        },
+        {
+          "path": "/assets/models/home/home-shell.glb",
+          "encodedBodySize": 400892,
+          "transferSize": 401192
+        },
+        {
+          "path": "/assets/models/home/coast.glb",
+          "encodedBodySize": 871216,
+          "transferSize": 871516
+        },
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "encodedBodySize": 320752,
+          "transferSize": 321052
+        },
+        {
+          "path": "/assets/models/home/sirui-lizard.glb",
+          "encodedBodySize": 1266412,
+          "transferSize": 1266712
+        }
+      ],
+      "styles": [
+        {
+          "style": "architectural",
+          "durationMs": 4008,
+          "renderedFrames": 240,
+          "sceneFps": 59.9,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "architectural",
+            "avatarId": "lizard",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 439,
+            "drawCalls": 92,
+            "triangles": 98760,
+            "resources": {
+              "geometries": 69,
+              "textures": 8
+            },
+            "projection": "orthographic",
+            "coastDetail": "architectural",
+            "backdropImages": 0,
+            "camera": [4.886829128067681, 4.328107447170105, -2.2799292425435733],
+            "target": [0.10000000000000005, 0.8999999999999997, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.5440014089633544,
+                "y": 0.5959032460388447
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.5715376336732267,
+                "y": 0.15829893937528788
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.4968394401654955,
+                "y": 0.15422567862506498
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.4221412466577642,
+                "y": 0.15015241787484196
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.34744305315003293,
+                "y": 0.14607915712461894
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.5674531249786793,
+                "y": 0.38925101976926985
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.5616890391449731,
+                "y": 0.43914555244151754
+              },
+              {
+                "type": "window",
+                "x": 0.756865709484855,
+                "y": 0.4195368284852312
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.4015212214166414, 0.8872929172015239, -1.8584264401939938],
+              "HandR": [-0.2417279237028001, 0.8894521329298868, -1.8565892661780283],
+              "FootL": [0.18999982048964273, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576883045, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        },
+        {
+          "style": "realistic",
+          "durationMs": 4001,
+          "renderedFrames": 240,
+          "sceneFps": 60,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "realistic",
+            "avatarId": "lizard",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 881,
+            "drawCalls": 91,
+            "triangles": 111428,
+            "resources": {
+              "geometries": 73,
+              "textures": 12
+            },
+            "projection": "perspective",
+            "coastDetail": "realistic",
+            "backdropImages": 0,
+            "camera": [4.886829128067681, 4.328107447170105, -2.2799292425435733],
+            "target": [0.10000000000000005, 0.8999999999999997, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.5493757806698216,
+                "y": 0.6076169548543691
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.5649112967640628,
+                "y": 0.18994978150770553
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.4971423822970366,
+                "y": 0.18736841770753154
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.42985326945260766,
+                "y": 0.1848053298757652
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.3630388807361282,
+                "y": 0.18226032460720065
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.5606866458974809,
+                "y": 0.4003606704820005
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.5580128199005426,
+                "y": 0.44277203608147087
+              },
+              {
+                "type": "window",
+                "x": 0.7673082633246953,
+                "y": 0.41626569898198856
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.40119439453458483, 0.883779945196533, -1.8613105763417381],
+              "HandR": [-0.24206324599030943, 0.892861494829951, -1.8535843182740708],
+              "FootL": [0.18999982048964273, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576883045, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        },
+        {
+          "style": "illustrated",
+          "durationMs": 4009,
+          "renderedFrames": 241,
+          "sceneFps": 60.1,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "illustrated",
+            "avatarId": "lizard",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 1320,
+            "drawCalls": 143,
+            "triangles": 178364,
+            "resources": {
+              "geometries": 74,
+              "textures": 14
+            },
+            "projection": "orthographic",
+            "coastDetail": "illustrated",
+            "backdropImages": 0,
+            "camera": [4.886829128067681, 4.328107447170105, -2.2799292425435733],
+            "target": [0.10000000000000005, 0.8999999999999997, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.5440014089633544,
+                "y": 0.5959032460388447
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.5715376336732267,
+                "y": 0.15829893937528788
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.4968394401654955,
+                "y": 0.15422567862506498
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.4221412466577642,
+                "y": 0.15015241787484196
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.34744305315003293,
+                "y": 0.14607915712461894
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.5674531249786793,
+                "y": 0.38925101976926985
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.5616890391449731,
+                "y": 0.43914555244151754
+              },
+              {
+                "type": "window",
+                "x": 0.756865709484855,
+                "y": 0.4195368284852312
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.40198842258616874, 0.8921124947516634, -1.854255967651283],
+              "HandR": [-0.24126643836344625, 0.8845628494326372, -1.860678516357457],
+              "FootL": [0.18999982048964273, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576883045, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "emulated-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "defaultMode": "2d",
+      "requestsBefore3D": [],
+      "readyMs": 394,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "initialResources": [
+        {
+          "path": "/assets/js/home-scene/controller.mjs",
+          "encodedBodySize": 44099,
+          "transferSize": 44399
+        },
+        {
+          "path": "/assets/js/three.module.min.js",
+          "encodedBodySize": 674428,
+          "transferSize": 674728
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+          "encodedBodySize": 49780,
+          "transferSize": 50080
+        },
+        {
+          "path": "/assets/js/home-scene/routine.mjs",
+          "encodedBodySize": 2505,
+          "transferSize": 2805
+        },
+        {
+          "path": "/assets/js/home-scene/materials.mjs",
+          "encodedBodySize": 6398,
+          "transferSize": 6698
+        },
+        {
+          "path": "/assets/js/home-scene/environment.mjs",
+          "encodedBodySize": 8521,
+          "transferSize": 8821
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+          "encodedBodySize": 10795,
+          "transferSize": 11095
+        },
+        {
+          "path": "/assets/models/home/manifest.json",
+          "encodedBodySize": 3801,
+          "transferSize": 4101
+        },
+        {
+          "path": "/assets/models/home/home-shell.glb",
+          "encodedBodySize": 400892,
+          "transferSize": 401192
+        },
+        {
+          "path": "/assets/models/home/coast.glb",
+          "encodedBodySize": 871216,
+          "transferSize": 871516
+        },
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "encodedBodySize": 320752,
+          "transferSize": 321052
+        },
+        {
+          "path": "/assets/models/home/sirui-lizard.glb",
+          "encodedBodySize": 1266412,
+          "transferSize": 1266712
+        }
+      ],
+      "styles": [
+        {
+          "style": "architectural",
+          "durationMs": 4007,
+          "renderedFrames": 241,
+          "sceneFps": 60.1,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "architectural",
+            "avatarId": "lizard",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 437,
+            "drawCalls": 91,
+            "triangles": 96912,
+            "resources": {
+              "geometries": 69,
+              "textures": 8
+            },
+            "projection": "orthographic",
+            "coastDetail": "architectural",
+            "backdropImages": 0,
+            "camera": [4.886829128067681, 4.328107447170105, -2.2799292425435733],
+            "target": [0.10000000000000005, 0.8999999999999997, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 539,
+            "canvasHeight": 527,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.5508723321812641,
+                "y": 0.5959032460388447
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.5827084029676612,
+                "y": 0.15829893937528788
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.49634591133403066,
+                "y": 0.15422567862506498
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.40998341970040014,
+                "y": 0.15015241787484196
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.32362092806676956,
+                "y": 0.14607915712461894
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.5779860886599686,
+                "y": 0.38925101976926985
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.571321927303276,
+                "y": 0.43914555244151754
+              },
+              {
+                "type": "window",
+                "x": 0.7969758925168166,
+                "y": 0.4195368284852312
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.4015214224119638, 0.8872950412283408, -1.8584246577774852],
+              "HandR": [-0.241727720714364, 0.8894500331041285, -1.856591076929439],
+              "FootL": [0.18999982048964273, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576883045, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        },
+        {
+          "style": "realistic",
+          "durationMs": 4005,
+          "renderedFrames": 240,
+          "sceneFps": 59.9,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "realistic",
+            "avatarId": "lizard",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 877,
+            "drawCalls": 91,
+            "triangles": 111428,
+            "resources": {
+              "geometries": 73,
+              "textures": 12
+            },
+            "projection": "perspective",
+            "coastDetail": "realistic",
+            "backdropImages": 0,
+            "camera": [4.886829128067681, 4.328107447170105, -2.2799292425435733],
+            "target": [0.10000000000000005, 0.8999999999999997, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 539,
+            "canvasHeight": 527,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.5570859246356487,
+                "y": 0.6076169548543691
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.5750473480076097,
+                "y": 0.18994978150770553
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.4966961585899832,
+                "y": 0.18736841770753154
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.41889969294372964,
+                "y": 0.1848053298757652
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.34165208071150255,
+                "y": 0.18226032460720065
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.5701630079990065,
+                "y": 0.4003606704820005
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.5670716578010067,
+                "y": 0.44277203608147087
+              },
+              {
+                "type": "window",
+                "x": 0.8090490756324643,
+                "y": 0.41626569898198856
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.4011942063938471, 0.8837778880598036, -1.8613122281629029],
+              "HandR": [-0.24206344207136193, 0.8928634547561946, -1.853582553081466],
+              "FootL": [0.18999982048964273, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576883045, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        },
+        {
+          "style": "illustrated",
+          "durationMs": 4006,
+          "renderedFrames": 240,
+          "sceneFps": 59.9,
+          "rafP95Ms": 16.7,
+          "state": {
+            "ready": true,
+            "style": "illustrated",
+            "avatarId": "lizard",
+            "currentRoom": "study",
+            "activity": "work",
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 1316,
+            "drawCalls": 141,
+            "triangles": 174668,
+            "resources": {
+              "geometries": 74,
+              "textures": 14
+            },
+            "projection": "orthographic",
+            "coastDetail": "illustrated",
+            "backdropImages": 0,
+            "camera": [4.886829128067681, 4.328107447170105, -2.2799292425435733],
+            "target": [0.10000000000000005, 0.8999999999999997, -1.8999999999999992],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 539,
+            "canvasHeight": 527,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.5508723321812641,
+                "y": 0.5959032460388447
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.5827084029676612,
+                "y": 0.15829893937528788
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.49634591133403066,
+                "y": 0.15422567862506498
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.40998341970040014,
+                "y": 0.15015241787484196
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.32362092806676956,
+                "y": 0.14607915712461894
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.5779860886599686,
+                "y": 0.38925101976926985
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.571321927303276,
+                "y": 0.43914555244151754
+              },
+              {
+                "type": "window",
+                "x": 0.7969758925168166,
+                "y": 0.4195368284852312
+              }
+            ],
+            "joints": {
+              "Root": [0.08, -0.07999999821186066, -1.62],
+              "Hips": [0.08, 0.6000000089406967, -1.62],
+              "Head": [0.08, 1.040000006556511, -1.62],
+              "HandL": [0.40198816492696837, 0.8921099000348609, -1.854258282446997],
+              "HandR": [-0.24126668727434886, 0.884565550535531, -1.8606763257857994],
+              "FootL": [0.18999982048964273, 0.2814964812980192, -1.9395021453977692],
+              "FootR": [-0.03000018576883045, 0.28149643174168415, -1.9395020528194848]
+            }
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "graphicsArgs": ["--use-angle=d3d11", "--ignore-gpu-blocklist"],
+  "browser": "145.0.7632.6",
+  "assets": [
+    {
+      "file": "assets/js/three.module.min.js",
+      "bytes": 674428,
+      "gzipBytes": 167923
+    },
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "bytes": 44099,
+      "gzipBytes": 12579
+    },
+    {
+      "file": "assets/js/home-scene/environment.mjs",
+      "bytes": 8521,
+      "gzipBytes": 2960
+    },
+    {
+      "file": "assets/js/home-scene/materials.mjs",
+      "bytes": 6398,
+      "gzipBytes": 2292
+    },
+    {
+      "file": "assets/js/home-scene/routine.mjs",
+      "bytes": 2505,
+      "gzipBytes": 1051
+    },
+    {
+      "file": "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+      "bytes": 109806,
+      "gzipBytes": 23595
+    },
+    {
+      "file": "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+      "bytes": 31579,
+      "gzipBytes": 6879
+    },
+    {
+      "file": "assets/models/home/manifest.json",
+      "bytes": 3801,
+      "gzipBytes": 963
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "bytes": 871216,
+      "gzipBytes": 277644
+    },
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "bytes": 400892,
+      "gzipBytes": 102576
+    },
+    {
+      "file": "assets/models/home/room-gym.glb",
+      "bytes": 160224,
+      "gzipBytes": 34762
+    },
+    {
+      "file": "assets/models/home/room-kitchen.glb",
+      "bytes": 321120,
+      "gzipBytes": 107227
+    },
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "bytes": 320752,
+      "gzipBytes": 101673
+    },
+    {
+      "file": "assets/models/home/room-onsen.glb",
+      "bytes": 302204,
+      "gzipBytes": 85387
+    },
+    {
+      "file": "assets/models/home/room-sleep.glb",
+      "bytes": 153576,
+      "gzipBytes": 57293
+    },
+    {
+      "file": "assets/models/home/room-study.glb",
+      "bytes": 265404,
+      "gzipBytes": 95689
+    },
+    {
+      "file": "assets/models/home/sirui-ghibli.glb",
+      "bytes": 1199636,
+      "gzipBytes": 338356
+    },
+    {
+      "file": "assets/models/home/sirui-lizard.glb",
+      "bytes": 1266412,
+      "gzipBytes": 364206
+    },
+    {
+      "file": "assets/models/home/sirui-rick-and-morty.glb",
+      "bytes": 1200072,
+      "gzipBytes": 338063
+    },
+    {
+      "file": "assets/models/home/sirui-simpsons.glb",
+      "bytes": 1199636,
+      "gzipBytes": 337792
+    },
+    {
+      "file": "assets/models/home/sirui-south-park.glb",
+      "bytes": 1200204,
+      "gzipBytes": 337645
+    }
+  ],
+  "largestInitialSceneGzipBytes": 1069895
+}

@@ -1,0 +1,30 @@
+# Coastal home asset provenance
+
+Created September 2026 for Sirui Tao's personal site. The five characters depict Sirui as an adult man, with long black hair, round glasses, and a clean-shaven face.
+
+| Asset                         | Source and authorship                                                                                                                      | Use                                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `coastal-home.blend`          | Original geometry authored with `bin/build_coastal_home.py` in Blender 4.5.9 LTS                                                           | Editable connected house, rooms, furniture, and cliff                                                         |
+| `sirui-*.blend`               | Original mesh and bone animation, anchored to Sirui's supplied portrait and approved character board                                       | Five selectable personal avatars; ten exported clips each                                                     |
+| `assets/models/home/*.glb`    | Exports from these Blender sources; no downloaded model or commercial game asset                                                           | Browser geometry and animations, including connected coastal geology                                          |
+| `coastal-print-source.png`    | Built-in OpenAI image generation, September 12, 2026; generation `exec-ecb12927-ec1c-4586-a825-7a52b5a45e3f`                               | Original Pacific print, retained with alpha                                                                   |
+| `coastal-print.webp`          | 1200 × 600 WebP derivative, quality 78, alpha retained                                                                                     | Isolated depth study only; excluded from Jekyll                                                               |
+| Real portrait                 | Existing `assets/img/sirui_pic.jpg`, supplied by Sirui                                                                                     | Likeness anchor and unchanged 2D photograph                                                                   |
+| Album covers and artist links | Existing site assets and source links                                                                                                      | Existing album interaction; independent of avatar choice                                                      |
+| Newsreader                    | [Google Fonts / Newsreader](https://github.com/google/fonts/tree/main/ofl/newsreader), by the Newsreader Project Authors / Production Type | Self-hosted WOFF2 converted from original variable TTF; SIL OFL retained in `assets/fonts/newsreader/OFL.txt` |
+| Three.js loader closure       | Upstream r164, MIT                                                                                                                         | Import-only local path adjustment; source hashes and license beside loader                                    |
+| Splat study libraries         | Three.js 0.180.0 and Spark 2.2.0, loaded from pinned package URLs                                                                          | Local experiment only; not in the homepage dependency graph                                                   |
+
+The experimental print prompt requested a panoramic Pacific coastline with ochre sandstone cliffs, distant ocean, agave, orange sky, bold ink contours, crosshatching, halftones, and expressive color separation; isolated alpha edges, no text, no people, and no buildings. The concept boards guided composition and identity, rather than being treated as finished meshes or research figures. Sirui subsequently rejected using an image behind the homepage scene, so the print is used only in the separate depth experiment. Every homepage view uses actual water and cliff geometry.
+
+The cartoon options are original personal interpretations of the named animation styles. No studio model, character mesh, film frame, or commercial texture is bundled. Style names describe the requested visual studies; no affiliation is implied.
+
+The supplied generated concepts are retained as `reference-home-style-board.png` (generation `exec-da5b9dd0-eca4-4b5b-a225-cfd2590785af`) and `reference-character-study.png` (`exec-6162ab91-136a-417e-ac71-eb72779a0163`). These are art-direction references, not captures of the finished website or approval of the resulting models. The later live-review corrections take precedence over their compositions.
+
+## Rebuild
+
+Run `blender --background --python bin/build_coastal_home.py` from the repository root. The script writes the editable sources and all GLBs. Each character source opens on the idle NLA track; choose another track to inspect its clip. The four human variants share bone names; Lizard adds Tail and TailTip.
+
+The installed Microsoft Store launcher denied background execution. The implementation used the official portable Blender 4.5.9 LTS archive from `download.blender.org`, verified against the release SHA-256 list. No Store permissions were changed.
+
+The full home source is excluded from Jekyll via `artwork/`. Only the optimized browser assets ship with the website.

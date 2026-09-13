@@ -55,6 +55,7 @@
     aria-label="Portrait and research artifacts"
     data-home-artifact-stage
   >
+    <p class="home-world-welcome">Welcome to Sirui’s cave.</p>
     <div class="home-desk-mode-switch" data-home-desk-mode-switch aria-label="Desk view mode">
       <button type="button" data-home-desk-mode="2d" aria-pressed="true">2D</button>
       <span class="home-desk-mode-divider" aria-hidden="true">|</span>
@@ -64,6 +65,7 @@
     <div class="home-desk-corner-scene" data-home-desk-scene aria-hidden="true">
       <div class="home-desk-corner-fallback" aria-hidden="true"></div>
     </div>
+    {% include home/world_controls.liquid %}
     <div class="home-desk-control-strip" data-home-desk-controls aria-label="3D desk controls" aria-hidden="true">
       <button type="button" data-home-desk-control="previous" aria-label="Previous meme record" title="Previous meme record">
         <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>

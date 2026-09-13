@@ -18,6 +18,7 @@
     if ("performance" in window) {
       window.addEventListener("load", function () {
         const perfData = performance.getEntriesByType("navigation")[0];
+        if (!perfData) return;
         seoMetrics.pageLoadTime = perfData.loadEventEnd - perfData.loadEventStart;
 
         // Send performance data to analytics
