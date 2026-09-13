@@ -1,5 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
+import { surfaceNoise } from "./realism.mjs";
+import { createSeaReflection } from "./reflection.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
@@ -9,13 +11,13 @@ export function createPacific(scene, renderer) {
   scene.add(root);
   const time = { value: 0 },
     ink = { value: 0 };
-  let style = "architectural",
+  let style = "realistic",
     palette = "afternoon",
     environment;
   const physicalWater = new THREE.MeshPhysicalMaterial({
-    color: 0x216e7b,
-    roughness: 0.18,
-    metalness: 0.25,
+    color: 0x286877,
+    roughness: 0.24,
+    metalness: 0.12,
     clearcoat: 1,
     clearcoatRoughness: 0.12,
     envMapIntensity: 1.3,
@@ -40,7 +42,7 @@ export function createPacific(scene, renderer) {
       transformed.y += crest;
     `
     );
-    shader.fragmentShader = "uniform float pacificTime; varying vec2 oceanXZ;\n" + shader.fragmentShader;
+    shader.fragmentShader = `uniform float pacificTime; varying vec2 oceanXZ;\n${surfaceNoise}\n` + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <normal_fragment_maps>",
       `
@@ -49,12 +51,10 @@ export function createPacific(scene, renderer) {
       // the lower-resolution mesh used for the broad moving swells.
       float swellA = oceanXZ.x * 0.8 + oceanXZ.y * 0.48 - pacificTime * 0.8;
       float swellB = oceanXZ.x * 1.8 - oceanXZ.y * 1.4 + pacificTime * 1.15;
-      float rippleA = oceanXZ.x * 13.0 + oceanXZ.y * 8.5 - pacificTime * 1.7;
-      float rippleB = oceanXZ.x * 7.5 - oceanXZ.y * 17.0 + pacificTime * 1.3;
-      float slopeX = 0.056 * cos(swellA) + 0.0504 * cos(swellB)
-        + 0.032 * cos(rippleA) + 0.018 * cos(rippleB);
-      float slopeZ = 0.0336 * cos(swellA) - 0.0392 * cos(swellB)
-        + 0.021 * cos(rippleA) - 0.041 * cos(rippleB);
+      vec3 flow = vec3(oceanXZ * 2.0, pacificTime * .16);
+      float n = stoneNoise(flow);
+      float slopeX = .03*cos(swellA) + .03*cos(swellB) + (stoneNoise(flow + vec3(.13,0,0))-n)*.7;
+      float slopeZ = .025*cos(swellA) - .025*cos(swellB) + (stoneNoise(flow + vec3(0,.13,0))-n)*.7;
       normal = normalize(mat3(viewMatrix) * vec3(-slopeX, 1.0, -slopeZ));
     `
     );
@@ -63,39 +63,91 @@ export function createPacific(scene, renderer) {
       `
       // Thin, broken wind lines supplement reflections. A height threshold
       // on intersecting swells made large polka dots across the old sea.
-      float ridge = pow(max(0.0, sin(swellA)), 32.0);
-      float broken = smoothstep(0.1, 0.9, sin(oceanXZ.x * 3.7 - oceanXZ.y * 1.4)
-        * sin(oceanXZ.x * 0.73 + oceanXZ.y * 2.3));
-      outgoingLight = mix(outgoingLight, vec3(0.64, 0.79, 0.8), ridge * broken * 0.075);
+      // The beach and this water use the same rounded footprint at sea level.
+      vec2 shore = vec2(oceanXZ.x / 8.1, (oceanXZ.y - 29.1) / 8.1);
+      float distanceToBeach = pow(pow(abs(shore.x),3.6)+pow(abs(shore.y),3.6),1.0/3.6);
+      float shoal = (1.0-smoothstep(1.05,1.9,distanceToBeach)) * (1.0-smoothstep(25.0,30.0,oceanXZ.y));
+      float wash = sin(distanceToBeach*35.0 - pacificTime*.9 + n*2.8);
+      float foam = smoothstep(.76,.98,wash) * shoal * (.3+.7*grainNoise(vec3(oceanXZ*24.0,pacificTime*.04)));
+      outgoingLight = mix(outgoingLight, outgoingLight*vec3(.9,1.35,1.25),shoal*.4);
+      outgoingLight = mix(outgoingLight, vec3(.52,.63,.61), foam*.72);
       #include <opaque_fragment>
     `
     );
   };
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
-  const waterGeometry = new THREE.PlaneGeometry(400, 400, 160, 160);
+  const waterGeometry = new THREE.PlaneGeometry(400, 400, 120, 120);
   waterGeometry.rotateX(-Math.PI / 2);
   const ocean = new THREE.Mesh(waterGeometry, modelWater);
   ocean.position.set(0, -7.35, -28);
   ocean.receiveShadow = true;
   root.add(ocean);
+  const reflection = createSeaReflection(renderer, scene, ocean, physicalWater);
+  const steamGeometry = new THREE.BufferGeometry();
+  steamGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(
+      Array.from({ length: 18 }, (_, i) => {
+        const angle = i * 2.399,
+          radius = 0.63 + (i % 3) * 0.055;
+        return [Math.cos(angle) * radius, (i * 0.173) % 1, Math.sin(angle) * radius];
+      }).flat(),
+      3
+    )
+  );
+  const steamMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    uniforms: { steamTime: time },
+    vertexShader: `uniform float steamTime; varying float veil;
+      void main(){ float rise=fract(position.y+steamTime*.085); vec3 p=position;
+        p.y=rise*.75; p.x+=sin(rise*5.0+position.z*3.0)*.06;
+        vec4 eye=modelViewMatrix*vec4(p,1.0); gl_Position=projectionMatrix*eye;
+        gl_PointSize=clamp(145.0/-eye.z,2.0,55.0); veil=sin(rise*3.14159)*.045; }`,
+    fragmentShader: `varying float veil;
+      void main(){ float falloff=exp(-dot(gl_PointCoord-.5,gl_PointCoord-.5)*17.0);
+        gl_FragColor=vec4(.78,.85,.83,falloff*veil); }`,
+  });
+  const steam = new THREE.Points(steamGeometry, steamMaterial);
+  steam.name = "Warm onsen vapor";
+  steam.position.set(3.02, 0.43, -1.82);
+  steam.visible = false;
+  root.add(steam);
 
   // The modeled sky also supplies a physically useful environment reflection.
   const skyMaterial = new THREE.ShaderMaterial({
     side: THREE.BackSide,
     depthWrite: false,
     uniforms: {
-      zenith: { value: new THREE.Color(0x86bac8) },
-      horizon: { value: new THREE.Color(0xf4d7b3) },
-      sunDirection: { value: new THREE.Vector3(-0.5, 0.3, -1).normalize() },
+      zenith: { value: new THREE.Color(0x6c9fc4) },
+      horizon: { value: new THREE.Color(0xdde0d7) },
+      sunDirection: { value: new THREE.Vector3(-14, 18, -22).normalize() },
+      night: { value: 0 },
       printMode: ink,
     },
     vertexShader:
       "varying vec3 direction; void main(){ direction = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
-    fragmentShader: `uniform vec3 zenith; uniform vec3 horizon; uniform vec3 sunDirection; uniform float printMode; varying vec3 direction;
-      void main(){ vec3 d = normalize(direction); float height = smoothstep(-.08,.64,d.y); vec3 color = mix(horizon,zenith,height); float sun = pow(max(0.0,dot(d,sunDirection)),360.0); color += vec3(1.0,.69,.35)*sun*.9; gl_FragColor = vec4(color,1.0); }`,
+    fragmentShader: `${surfaceNoise}
+      uniform vec3 zenith; uniform vec3 horizon; uniform vec3 sunDirection; uniform float night; varying vec3 direction;
+      void main(){
+        vec3 d = normalize(direction);
+        float height = pow(max(0.0,d.y),.45);
+        vec3 color = mix(horizon,zenith,height);
+        float alignment = max(0.0,dot(d,sunDirection));
+        color += vec3(1.0,.83,.58) * pow(alignment,28.0) * .2 * (1.-night);
+        color += vec3(1.0,.88,.69) * pow(alignment,2200.0) * 5.0;
+        vec3 cloudPoint = vec3(d.xz / max(.14,d.y+.18) * 2.4, .4);
+        float clouds = smoothstep(.56,.75,stoneNoise(cloudPoint)) * smoothstep(-.02,.16,d.y);
+        color = mix(color, horizon*1.08, clouds*.36*(1.-night));
+        float stars = pow(hash31(floor(d*780.0)),280.0)*smoothstep(.1,.8,d.y)*night;
+        color += stars*vec3(.35,.44,.55);
+        gl_FragColor = vec4(color,1.0);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
   });
-  const sky = new THREE.Mesh(new THREE.SphereGeometry(70, 40, 24), skyMaterial);
+  const sky = new THREE.Mesh(new THREE.SphereGeometry(120, 40, 24), skyMaterial);
   sky.renderOrder = -10;
   root.add(sky);
 
@@ -143,7 +195,7 @@ export function createPacific(scene, renderer) {
     const capture = new THREE.Scene();
     capture.add(sky.clone());
     const pmrem = new THREE.PMREMGenerator(renderer);
-    environment = pmrem.fromScene(capture, 0.04, 0.1, 100);
+    environment = pmrem.fromScene(capture, 0.04, 0.1, 180);
     pmrem.dispose();
     scene.environment = environment.texture;
   }
@@ -151,12 +203,17 @@ export function createPacific(scene, renderer) {
     if (palette === next && environment) return;
     palette = next;
     const night = next === "evening";
-    skyMaterial.uniforms.zenith.value.set(night ? 0x101d3c : next === "morning" ? 0x99c0cd : 0x76aebf);
-    skyMaterial.uniforms.horizon.value.set(night ? 0x596287 : next === "afternoon" ? 0xe7bd97 : 0xdbe9e4);
+    skyMaterial.uniforms.zenith.value.set(night ? 0x112441 : next === "morning" ? 0x8bb3c8 : 0x4b92bd);
+    skyMaterial.uniforms.horizon.value.set(night ? 0x435771 : next === "afternoon" ? 0xbfcfce : 0xd9e5e7);
+    skyMaterial.uniforms.night.value = night ? 1 : 0;
+    skyMaterial.uniforms.sunDirection.value.set(next === "afternoon" ? -14 : 10, night ? 16 : 18, -22).normalize();
     physicalWater.color.set(night ? 0x193447 : 0x216e7b);
     modelWater.color.set(night ? 0x526d86 : 0x8db9bb);
     printWater.color.set(night ? 0x273e66 : 0x267787);
-    if (style === "realistic") makeEnvironment();
+    if (style === "realistic") {
+      makeEnvironment();
+      scene.fog.color.copy(skyMaterial.uniforms.horizon.value);
+    }
   }
   function setStyle(next) {
     style = next;
@@ -170,8 +227,9 @@ export function createPacific(scene, renderer) {
     birds.visible = style !== "architectural";
     printSun.visible = style === "illustrated";
     scene.environment = style === "realistic" ? environment?.texture || null : null;
-    scene.fog = style === "realistic" ? new THREE.Fog(skyMaterial.uniforms.horizon.value, 28, 80) : null;
-    if (style === "realistic" && !environment) makeEnvironment();
+    scene.fog = style === "realistic" ? new THREE.Fog(skyMaterial.uniforms.horizon.value, 38, 110) : null;
+    // The first palette update builds the sky environment for the actual hour.
+    // Building a default environment here compiled and captured the sky twice.
   }
   function update(elapsed) {
     time.value = elapsed;
@@ -179,13 +237,24 @@ export function createPacific(scene, renderer) {
     birds.position.x = Math.sin(elapsed * 0.1) * 1.1;
   }
   function dispose() {
+    reflection.dispose();
     root.traverse((o) => {
-      if (o.isMesh) o.geometry.dispose();
+      if (o.geometry) o.geometry.dispose();
     });
     [physicalWater, modelWater, printWater, skyMaterial, capMaterial, birdMaterial, printSun.material].forEach((m) => m.dispose());
     environment?.dispose();
+    steamMaterial.dispose();
     root.removeFromParent();
   }
   setStyle(style);
-  return { setStyle, setPalette, update, dispose };
+  return {
+    setStyle,
+    setPalette,
+    update,
+    dispose,
+    reflect: reflection.update,
+    setActivity(activity) {
+      steam.visible = style === "realistic" && activity === "soak";
+    },
+  };
 }

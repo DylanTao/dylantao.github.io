@@ -15,6 +15,7 @@ from mathutils import Vector
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "bin"))
 from coastal_sculpt import build_cave, build_bluff, refine_character, render_portrait
+from coastal_craft import potted_plant, furnish
 
 OUT = ROOT / "assets/models/home"
 SOURCE = ROOT / "artwork/coastal-home"
@@ -170,6 +171,11 @@ def export(name, selection=None, animations=False):
         export_extras=True,
         export_cameras=False,
         export_lights=False,
+        export_draco_mesh_compression_enable=True,
+        export_draco_mesh_compression_level=7,
+        export_draco_position_quantization=14,
+        export_draco_normal_quantization=10,
+        export_draco_texcoord_quantization=12,
     )
 
 
@@ -178,8 +184,8 @@ def home():
     mats = {
         "plaster": material("chalk limestone", (0.79, 0.72, 0.58)),
         "edge": material("warm cut stone", (0.57, 0.47, 0.32)),
-        "wood": material("honey ash", (0.49, 0.29, 0.13)),
-        "oak": material("pale oak", (0.68, 0.48, 0.27)),
+        "wood": material("honey ash", (0.24, 0.12, 0.047)),
+        "oak": material("pale oak", (0.44, 0.29, 0.145)),
         "cream": material("linen", (0.88, 0.83, 0.71)),
         "sage": material("sage textile", (0.29, 0.39, 0.24)),
         "leaf": material("olive leaf", (0.19, 0.30, 0.12)),
@@ -206,27 +212,7 @@ def home():
     build_cave(mats, globals())
 
     def plant(group, x, y, z=0, scale=1):
-        cylinder(
-            group + "_pot",
-            (x, y, z + 0.15 * scale),
-            0.16 * scale,
-            0.3 * scale,
-            mats["terra"],
-        )
-        for i in range(7):
-            a = i * 2.4
-            leaf = sphere(
-                group + "_leaf",
-                (
-                    x + math.cos(a) * 0.16 * scale,
-                    y + math.sin(a) * 0.16 * scale,
-                    z + (0.37 + i * 0.06) * scale,
-                ),
-                (0.09 * scale, 0.035 * scale, 0.22 * scale),
-                mats["leaf"],
-                segments=12,
-            )
-            leaf.rotation_euler = (math.sin(a) * 0.8, math.cos(a) * 0.8, a)
+        potted_plant(group, x, y, z, scale, mats, globals())
 
     def chair(group, x, y, lounge=False):
         width = 0.95 if lounge else 0.56
@@ -409,6 +395,7 @@ def home():
     )
     empty("anchor_lounge", (3.23, -0.83, 0))
     empty("anchor_outside", (0, 6, -0.8))
+    furnish(mats, globals())
     coast_objects = build_bluff(mats, globals())
     buckets = {}
     for o in coast_objects:
@@ -1043,9 +1030,30 @@ def character(style):
     render_portrait(arm, style, OUT)
 
 
-if "--characters-only" not in sys.argv and "--lizard-only" not in sys.argv:
+if "--export-only" in sys.argv:
+    # Re-export editable sources without repeating mesh authoring or portrait renders.
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE / "coastal-home.blend"))
+    for name, prefix in (
+        [("home-shell", "core_")]
+        + [
+            ("room-" + r, r + "_")
+            for r in ("study", "sleep", "kitchen", "gym", "onsen", "lounge")
+        ]
+        + [("coast", "coast_")]
+    ):
+        export(
+            name, [o for o in bpy.context.scene.objects if o.name.startswith(prefix)]
+        )
+    for avatar in ("lizard", "south-park", "simpsons", "ghibli", "rick-and-morty"):
+        bpy.ops.wm.open_mainfile(filepath=str(SOURCE / ("sirui-" + avatar + ".blend")))
+        for obj in bpy.context.scene.objects:
+            if obj.type == "ARMATURE" and obj.animation_data:
+                for track in obj.animation_data.nla_tracks:
+                    track.mute = False
+        export("sirui-" + avatar, animations=True)
+elif "--characters-only" not in sys.argv and "--lizard-only" not in sys.argv:
     home()
-if "--house-only" not in sys.argv:
+if "--house-only" not in sys.argv and "--export-only" not in sys.argv:
     for avatar in (
         ("lizard",)
         if "--lizard-only" in sys.argv

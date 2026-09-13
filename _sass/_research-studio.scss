@@ -9,6 +9,8 @@
 
 .home-page {
   --home-shell-max: 1320px;
+  width: min(100%, calc(100vw - clamp(2.5rem, 6.25vw, 4rem)));
+  margin-inline: auto;
 }
 
 .home-title {
@@ -36,13 +38,15 @@
 }
 
 .home-cred-grid {
-  gap: 0;
+  gap: 1.25rem;
   border-top: 1px solid var(--home-line);
 }
 
-.home-cred-item {
+.home-cred-item,
+html[data-theme="dark"] .home-cred-item {
   min-height: auto;
-  padding: 1rem 0.8rem 0.3rem 0;
+  min-width: 0;
+  padding: 1.15rem 0.25rem 0.8rem 0;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -423,16 +427,24 @@
     font-size: clamp(2.7rem, 11.8vw, 3.4rem);
   }
   .home-cred-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
   }
-  .home-cred-item {
-    padding-right: 0.5rem;
+  .home-cred-item,
+  html[data-theme="dark"] .home-cred-item {
+    display: grid;
+    grid-template-columns: 7.1rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--home-line);
   }
   .home-cred-item strong {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
   .home-cred-item span {
-    font-size: 0.64rem;
+    margin: 0;
+    font-size: 0.68rem;
   }
   .blog-opening {
     font-size: var(--type-reading);

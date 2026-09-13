@@ -35,7 +35,7 @@ Start with `Current Priority Order`, `Known Inspection Targets`, `Non-Goals`, an
 - Keep the `2D | 3D` switch visible but quiet.
 - Keep album, artifact-card, dropped-card, window, outside-return, reset, drag, zoom, and mobile interactions deliberate and discoverable.
 - Maintain the warm Japandi cliff-cave room/exterior continuity described in the brief.
-- The active world is Blender-authored with six rooms, five adult male avatars, three styles, and an authored Pacific-time routine. Historical single-room geometry rules are archived; preserve functional interactions rather than obsolete primitive counts.
+- The active world is Blender-authored with six rooms, five adult male avatars, a public Realistic treatment, and an authored Pacific-time routine. Sirui deferred the three-style experiment to GPT-7; it remains in the authoring lab and experiment backlog. Historical single-room geometry rules are archived; preserve functional interactions rather than obsolete primitive counts.
 - Fix functional state, anchor continuity, object legibility, and responsive access before adding richer geometry or effects.
 - Keep the public handoff prompt in `docs/homepage-desk-scene-brief.md`; update it only when the actual next-task contract changes.
 

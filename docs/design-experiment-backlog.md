@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### GPT-7 handoff: three genuinely different ways to render the same home
+
+- **Hypothesis:** Architectural and Illustrated could add expressive interpretations once each has convincing form, lighting, mark-making, and motion of its own.
+- **Route:** The homepage scene's private `?scene-lab=1` prototype, before any public controls return.
+- **Reference:** Sirui's supplied three-style boards and graphic illustration references. The current Realistic home is the shared spatial reference.
+- **Licensing:** Original Blender geometry and the existing licensed Three.js closure. Study visual principles; do not copy film assets or research figures into decoration.
+- **Visitor benefit:** A meaningful change in feeling and visual explanation, worth the extra choice.
+- **Budget:** Preserve the scene's loading, accessibility, responsive layout, album state, and automatic Pacific routine. No landscape image behind the home.
+- **Status:** `deferred`, explicitly for a future GPT-7 attempt.
+- **Evidence:** The September 12 live review found that the three treatments were too similar and the Realistic treatment worked best. The old comparative captures remain in `docs/evidence/coastal-home-refinement/`.
+- **Sirui decision:** Focus current implementation on Realistic. Remove the public style picker; retain the two experiments only in the authoring lab.
+- **Revisit trigger:** GPT-7 or a later explicit Sirui request, followed by a convincing same-camera comparison. A shader swap alone does not qualify.
+
 ### September 2026 research studio and inhabited home
 
 - **Hypothesis:** Concrete selected work followed by a quieter research narrative improves first-glance understanding, while an inhabited coastal miniature communicates Sirui's personality.
@@ -29,7 +42,7 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Licensing:** Original Blender geometry and generated Pacific print; font and loader licenses recorded in `artwork/coastal-home/PROVENANCE.md`.
 - **Visitor benefit:** Direct project entry, more comfortable reading, and a small world with recognizable activities and clear exploration controls.
 - **Budget:** Initial scene payload under 4 MB compressed; lazy room/character loading, capped density, offscreen pause, 2D recovery, and reduced-motion poses.
-- **Status:** `prototype` on `codex/research-studio-reset`; implementing the user-approved plan for local review.
+- **Status:** `revised` and integrated locally on `main`; continued visual refinement follows Sirui's live review.
 - **Evidence:** `docs/research-studio-implementation.md` and `docs/evidence/research-studio/`.
 - **Sirui decision:** Implement the supplied plan (September 2026); visual quality remains reviewable.
 - **Revisit trigger:** Sirui's visual review or a failed contact/performance/accessibility check.

@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { finishPhysicalMaterial } from "./realism.mjs";
 
 export function createArtDirection() {
   const textures = new Map();
@@ -59,6 +60,7 @@ export function createArtDirection() {
       const cache = (mesh.userData.styleMaterials ||= {});
       if (!cache[style]) {
         const make = (source) => {
+          if (style === "realistic") return finishPhysicalMaterial(source, mesh);
           if (style === "illustrated") {
             const color = source.color.clone();
             const printPalette = {
@@ -116,7 +118,7 @@ export function createArtDirection() {
         cache[style] = Array.isArray(base) ? base.map(make) : make(base);
       }
       mesh.material = cache[style];
-      if (!mesh.userData.inkOutline) {
+      if (style === "illustrated" && !mesh.userData.inkOutline) {
         const mat = new THREE.MeshBasicMaterial({ color: 0x202634, side: THREE.BackSide });
         mat.onBeforeCompile = (shader) => {
           shader.vertexShader = shader.vertexShader.replace(
@@ -137,7 +139,7 @@ export function createArtDirection() {
         mesh.userData.inkOutline = outline;
         outlines.add(outline);
       }
-      mesh.userData.inkOutline.visible = style === "illustrated";
+      if (mesh.userData.inkOutline) mesh.userData.inkOutline.visible = style === "illustrated";
       mesh.castShadow = mesh.receiveShadow = true;
     }
   }

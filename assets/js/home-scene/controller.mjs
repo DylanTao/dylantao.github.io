@@ -1,7 +1,8 @@
 import * as THREE from "../three.module.min.js";
-import { GLTFLoader } from "../vendor/three-r164/loaders/GLTFLoader.js";
+import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs";
+import { createFinish, physicalTime } from "./realism.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
@@ -27,16 +28,17 @@ export function createCoastalHome(container, records, artifacts) {
   const status = ui.querySelector("[data-world-status]");
   const clockLabel = ui.querySelector("[data-world-clock]");
   const explore = createExplorationState();
-  const loader = new GLTFLoader();
+  const { loader, decoder } = createModelLoader();
   const art = createArtDirection();
   const scene = new THREE.Scene();
   const world = new THREE.Group();
   scene.add(world);
-  const perspective = new THREE.PerspectiveCamera(38, 1, 0.05, 150);
-  const orthographic = new THREE.OrthographicCamera(-3, 3, 3, -3, 0.05, 150);
+  const perspective = new THREE.PerspectiveCamera(38, 1, 0.05, 300);
+  const orthographic = new THREE.OrthographicCamera(-3, 3, 3, -3, 0.05, 300);
   let camera = orthographic,
     aspect = 1,
-    pacific;
+    pacific,
+    finish;
   const target = new THREE.Vector3(0, 0.7, 0),
     desiredTarget = target.clone();
   let yaw = 0.36,
@@ -56,8 +58,9 @@ export function createCoastalHome(container, records, artifacts) {
     elapsed = 0,
     frames = 0,
     clockTimer = 0;
-  let style = stored("sirui-scene-style", "architectural");
-  if (!["architectural", "realistic", "illustrated"].includes(style)) style = "architectural";
+  // The other directions are deferred experiments, never a remembered public default.
+  let style = "realistic";
+  const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
   let avatarId,
     actor,
     mixer,
@@ -100,12 +103,24 @@ export function createCoastalHome(container, records, artifacts) {
   const sun = new THREE.DirectionalLight(0xffe0aa, 3.2);
   sun.position.set(-4, 9, 5);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
-  Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7, near: 0.1, far: 30 });
-  sun.shadow.bias = -0.0007;
+  sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 10, bottom: -10, near: 0.1, far: 65 });
+  sun.shadow.bias = -0.00015;
+  sun.shadow.normalBias = 0.018;
+  sun.shadow.radius = 3;
   const lamp = new THREE.PointLight(0xffbf6b, 4, 6);
   lamp.position.set(-0.6, 1.6, -2.3);
   scene.add(hemi, sun, lamp);
+  const practicals = [
+    [-4.13, 0.87, -2.53],
+    [-3.3, 1.95, 2.96],
+    [2.14, 1.1, 1.42],
+  ].map((position) => {
+    const light = new THREE.PointLight(0xffc286, 1, 4.8, 2);
+    light.position.set(...position);
+    scene.add(light);
+    return light;
+  });
 
   function listen(targetObject, event, fn, options) {
     targetObject.addEventListener(event, fn, options);
@@ -237,11 +252,12 @@ export function createCoastalHome(container, records, artifacts) {
     });
     const glass = mesh(
       new THREE.PlaneGeometry(2.45, 2.3),
-      material(0xbee0dc, { transparent: true, opacity: 0.075, side: THREE.DoubleSide, depthWrite: false }),
+      material(0xbee0dc, { transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }),
       [0, 1.3, -3.13],
       { type: "window" }
     );
     glass.castShadow = false;
+    glass.userData.noOcclusion = true;
     // A real framed portrait inside the cave, never a scenery billboard.
     mesh(new THREE.BoxGeometry(0.7, 0.87, 0.06), material(0x6d482c), [-3.15, 1.57, 3.17]);
     mesh(new THREE.BoxGeometry(0.61, 0.78, 0.065), cream, [-3.15, 1.57, 3.16]);
@@ -472,13 +488,17 @@ export function createCoastalHome(container, records, artifacts) {
   function updateLight() {
     if (!routine) return;
     const evening = routine.palette === "evening";
-    hemi.color.set(evening ? 0xaaaedb : 0xe5f1ff);
-    hemi.intensity = evening ? 1.35 : style === "illustrated" ? 1.2 : style === "realistic" ? 0.9 : 2.0;
+    hemi.color.set(evening ? 0x97b2dc : 0xd5e9f7);
+    hemi.groundColor.set(evening ? 0x473426 : 0x8b7659);
+    hemi.intensity = style === "realistic" ? (evening ? 0.32 : 0.5) : 1.5;
     sun.color.set(style === "illustrated" ? (evening ? 0xc7a1ef : 0xffc773) : evening ? 0xb6c4f1 : 0xffe2b0);
-    sun.intensity = evening ? 1.15 : style === "illustrated" ? 3.2 : style === "realistic" ? 3.7 : 2.5;
-    sun.position.set(routine.palette === "afternoon" ? -6 : 4, evening ? 6 : 9, 5);
-    lamp.intensity = evening ? 12 : 1.7;
+    sun.intensity = evening ? 0.75 : style === "realistic" ? 3.0 : 2.5;
+    // Light enters the carved Pacific opening; a lamp warms the occupied desk.
+    sun.position.set(routine.palette === "afternoon" ? -14 : 10, evening ? 16 : 18, -22);
+    lamp.intensity = evening ? 5.5 : 0.9;
+    practicals.forEach((light) => (light.intensity = evening ? 2.7 : 0.35));
     pacific?.setPalette(routine.palette);
+    pacific?.setActivity(routine.id);
     container.dataset.scenePalette = routine.palette;
   }
 
@@ -637,10 +657,10 @@ export function createCoastalHome(container, records, artifacts) {
     ui.querySelector("[data-world-view]").innerHTML =
       id === "outside" ? 'Back inside <span aria-hidden="true">↙</span>' : 'Look around <span aria-hidden="true">↗</span>';
     if (id === "overview" || id === "outside") {
-      desiredTarget.set(id === "outside" ? 3 : 0, id === "outside" ? -0.8 : 0.6, id === "outside" ? -6 : 0);
-      desiredRadius = id === "outside" ? 34 : 16;
-      yaw = Math.PI + (id === "outside" ? 0.4 : 0.38);
-      pitch = id === "outside" ? 0.28 : 0.67;
+      desiredTarget.set(id === "outside" ? 0.4 : 0, id === "outside" ? -1.05 : 0.6, id === "outside" ? -1.2 : 0);
+      desiredRadius = id === "outside" ? 27 : 15;
+      yaw = id === "outside" ? 2.84 : Math.PI + 0.38;
+      pitch = id === "outside" ? 0.19 : 0.67;
       config.rooms.forEach((r) => {
         loadRoom(r.id).catch(() => {});
       });
@@ -663,10 +683,11 @@ export function createCoastalHome(container, records, artifacts) {
 
   function setStyle(next) {
     if (!["architectural", "realistic", "illustrated"].includes(next)) return;
+    if (!labEnabled && next !== "realistic") return;
     style = next;
     remember("sirui-scene-style", style);
     camera = style === "realistic" ? perspective : orthographic;
-    if (renderer) renderer.toneMappingExposure = style === "realistic" ? 0.94 : 1.18;
+    if (renderer) renderer.toneMappingExposure = style === "realistic" ? 1.05 : 1.18;
     world.traverse((o) => {
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
     });
@@ -913,6 +934,7 @@ export function createCoastalHome(container, records, artifacts) {
     aspect = rect.width / rect.height;
     perspective.aspect = aspect;
     perspective.updateProjectionMatrix();
+    finish?.resize(rect.width, rect.height);
     requestFrame();
   }
 
@@ -932,6 +954,7 @@ export function createCoastalHome(container, records, artifacts) {
     lastFrame = now;
     const moving = !reduced && !paused;
     if (moving) elapsed += delta;
+    physicalTime.value = elapsed;
     target.lerp(desiredTarget, reduced ? 1 : 0.14);
     radius = THREE.MathUtils.lerp(radius, desiredRadius, reduced ? 1 : 0.14);
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
@@ -985,7 +1008,10 @@ export function createCoastalHome(container, records, artifacts) {
     if (water && moving) water.position.y = water.userData.restY + Math.sin(elapsed * 0.7) * 0.006;
     if (moving) pacific?.update(elapsed);
     orientProp();
-    renderer.render(scene, camera);
+    renderer.info.reset();
+    pacific?.reflect(camera, style === "realistic" && currentRoom === "outside");
+    if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside");
+    else renderer.render(scene, camera);
     frames++;
     if (
       moving ||
@@ -1019,6 +1045,8 @@ export function createCoastalHome(container, records, artifacts) {
       renderer.toneMappingExposure = 1.18;
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.info.autoReset = false;
+      finish = createFinish(renderer, scene, perspective);
       container.append(renderer.domElement);
       const shell = await loadModel(new URL(config.shell, manifestUrl).href);
       if (disposed) {
@@ -1035,7 +1063,6 @@ export function createCoastalHome(container, records, artifacts) {
       world.add(prepareModel(coast.scene));
       makeDeskObjects();
       const lab = ui.querySelector("[data-world-lab]");
-      const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
       lab.hidden = !labEnabled;
       lab.inert = !labEnabled;
       avatarId = chooseArrivalAvatar(
@@ -1129,6 +1156,7 @@ export function createCoastalHome(container, records, artifacts) {
     resources: renderer ? { ...renderer.info.memory } : {},
     projection: camera.isOrthographicCamera ? "orthographic" : "perspective",
     coastDetail: style,
+    rendering: finish?.evidence,
     backdropImages: 0,
     camera: camera.position.toArray(),
     target: target.toArray(),
@@ -1239,6 +1267,8 @@ export function createCoastalHome(container, records, artifacts) {
       resources.forEach((r) => r.dispose());
       art.dispose();
       pacific?.dispose();
+      finish?.dispose();
+      decoder.dispose();
       renderer?.dispose();
       renderer?.domElement.remove();
       delete container.getSceneEvidence;

@@ -14,10 +14,10 @@ const report = {
   platform: `${os.platform()} ${os.release()} ${os.arch()}`,
   cpu: os.cpus()[0].model,
   method:
-    "Serial headless Chromium, no CPU or network throttle. Three seconds of warmup and four seconds of live animation per style. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
+    "Serial headless Chromium, no CPU or network throttle. Three seconds of study warmup and four seconds of live animation; the exterior has 1.5 seconds of warmup and four seconds of measurement. Arrival follows the current routine with a random avatar; subsequent animation measurements use Lizard. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
   views: [],
 };
-const styles = ["architectural", "realistic", "illustrated"];
+const styles = ["realistic"];
 let ownedBrowser;
 const graphicsArgs = process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [];
 report.graphicsArgs = graphicsArgs;
@@ -87,6 +87,9 @@ async function sample(page, ms = 4000) {
     await page.locator('[data-home-desk-mode="3d"]').click();
     await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").dataset.sceneState === "ready");
     const readyMs = Date.now() - start;
+    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames > 0);
+    const firstFrameMs = Date.now() - start;
+    const arrival = await evidence(page);
     const initialResources = await page.evaluate(() =>
       performance
         .getEntriesByType("resource")
@@ -99,10 +102,23 @@ async function sample(page, ms = 4000) {
         ext = gl.getExtension("WEBGL_debug_renderer_info");
       return ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
     });
-    console.log(`${label}: ${gpu}; ready in ${readyMs} ms`);
+    console.log(`${label}: ${gpu}; ready in ${readyMs} ms; first rendered frame in ${firstFrameMs} ms`);
     await page.locator(".home-world-explore > summary").click();
+    await page.locator("[data-world-avatar]").selectOption("lizard");
     await page.locator("[data-world-activity]").selectOption("work");
-    const view = { label, ...options, defaultMode, requestsBefore3D, readyMs, gpu, initialResources, styles: [], errors };
+    const view = {
+      label,
+      ...options,
+      defaultMode,
+      requestsBefore3D,
+      readyMs,
+      firstFrameMs,
+      arrival: { avatar: arrival.avatarId, activity: arrival.activity, room: arrival.currentRoom },
+      gpu,
+      initialResources,
+      styles: [],
+      errors,
+    };
     for (const style of styles) {
       await page.locator(`[data-world-style="${style}"]`).click();
       await canvas.scrollIntoViewIfNeeded();
@@ -114,6 +130,10 @@ async function sample(page, ms = 4000) {
       await canvas.screenshot({ path: path.join(output, `${label}-${style}-live.png`) });
     }
     report.views.push(view);
+    await page.locator('[data-world-room="outside"]').click();
+    await canvas.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1500);
+    view.exterior = { ...(await sample(page)), state: await evidence(page) };
     fs.writeFileSync(path.join(output, "performance.json"), JSON.stringify(report, null, 2) + "\n");
     // Comparable composed study, onsen, and exterior views, using the same actor.
     if (label === "desktop") {
@@ -145,8 +165,10 @@ async function sample(page, ms = 4000) {
       .readdirSync("assets/js/home-scene")
       .filter((n) => n.endsWith(".mjs"))
       .map((n) => `assets/js/home-scene/${n}`),
-    "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
-    "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+    ...fs
+      .readdirSync("assets/js/vendor/three-r164", { recursive: true })
+      .filter((n) => /\.(js|wasm)$/.test(n))
+      .map((n) => `assets/js/vendor/three-r164/${n.replaceAll("\\", "/")}`),
     "assets/models/home/manifest.json",
     ...fs
       .readdirSync("assets/models/home")
@@ -165,6 +187,13 @@ async function sample(page, ms = 4000) {
     size(`assets/models/home/${manifest.coast}`) +
     Math.max(...manifest.rooms.map((r) => size(`assets/models/home/${r.file}`))) +
     Math.max(...manifest.avatars.map((a) => size(`assets/models/home/${a.file}`) + size(`assets/models/home/${a.portrait}`)));
+  const rawSize = (file) => report.assets.find((a) => a.file === file).bytes;
+  report.largestInitialSceneUncompressedHttpBytes =
+    report.assets.filter((a) => !a.file.endsWith(".glb") && !a.file.endsWith(".png")).reduce((sum, a) => sum + a.bytes, 0) +
+    rawSize(`assets/models/home/${manifest.shell}`) +
+    rawSize(`assets/models/home/${manifest.coast}`) +
+    Math.max(...manifest.rooms.map((r) => rawSize(`assets/models/home/${r.file}`))) +
+    Math.max(...manifest.avatars.map((a) => rawSize(`assets/models/home/${a.file}`) + rawSize(`assets/models/home/${a.portrait}`)));
   fs.writeFileSync(path.join(output, "performance.json"), JSON.stringify(report, null, 2) + "\n");
 })().catch(async (error) => {
   console.error(error);

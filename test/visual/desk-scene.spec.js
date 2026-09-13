@@ -38,6 +38,7 @@ async function settle(page) {
 test("coastal home: quiet public controls, wall portrait and a new arrival on refresh", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
+  await page.addInitScript(() => sessionStorage.setItem("sirui-scene-style", "architectural"));
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
   await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
@@ -46,7 +47,8 @@ test("coastal home: quiet public controls, wall portrait and a new arrival on re
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   const first = (await evidence(scene)).avatarId;
   const ui = page.locator("[data-home-world-controls]");
-  await expect(ui.locator("button:visible")).toHaveCount(5);
+  await expect(ui.locator("button:visible")).toHaveCount(2);
+  await expect(scene).toHaveAttribute("data-render-style", "realistic");
   await expect(ui.locator("select:visible")).toHaveCount(0);
   await expect.poll(async () => (await evidence(scene)).portrait).toContain(`/portraits/${first}.png`);
   await ui.locator("[data-world-view]").click();
@@ -105,7 +107,7 @@ for (const theme of ["light", "dark"]) {
   });
 }
 
-test("coastal home: all five avatars and three material styles retain one actor and album state", async ({ page }, testInfo) => {
+test("coastal home: all five avatars retain one actor, portrait and album state", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page);
   await explore(ui);
@@ -123,20 +125,8 @@ test("coastal home: all five avatars and three material styles retain one actor 
     expect(info.joints.FootR[1]).toBeLessThan(0.16);
     await capture(testInfo, avatar, await canvas.screenshot());
   }
-  let before = await canvas.screenshot();
-  for (const style of ["realistic", "illustrated", "architectural", "illustrated", "architectural"]) {
-    await ui.locator(`[data-world-style="${style}"]`).click();
-    await canvas.scrollIntoViewIfNeeded();
-    await settle(page);
-    await expect(scene).toHaveAttribute("data-render-style", style);
-    const after = await canvas.screenshot();
-    expect(screenshotDiffRatio(before, after)).toBeGreaterThan(0.005);
-    before = after;
-    expect((await evidence(scene)).currentRecord).toBe(0);
-    expect((await evidence(scene)).avatarId).toBe("lizard");
-    expect((await evidence(scene)).portrait).toContain("/portraits/lizard.png");
-    await capture(testInfo, style, after);
-  }
+  expect((await evidence(scene)).currentRecord).toBe(0);
+  expect((await evidence(scene)).style).toBe("realistic");
   await page.locator('[data-home-desk-mode="2d"]').click();
   await page.locator('[data-home-desk-mode="3d"]').click();
   expect((await evidence(scene)).avatarId).toBe("lizard");
@@ -292,20 +282,25 @@ test("coastal home: touch pinch zoom changes the projection and returns to Now",
   await context.close();
 });
 
-test("coastal home: a failed asset restores 2D and a retry creates one set of controls", async ({ page }) => {
-  await preparePage(page);
-  await page.route("**/models/home/home-shell.glb", (r) => r.abort());
-  await page.goto(publicRouteUrl("/"));
-  await page.locator('[data-home-desk-mode="3d"]').click();
-  const stage = page.locator("[data-home-artifact-stage]");
-  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
-  await expect(page.locator("#home-profile-image-container")).toBeVisible();
-  await page.unroute("**/models/home/home-shell.glb");
-  await page.locator('[data-home-desk-mode="3d"]').click();
-  await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
-  await expect(page.locator("[data-world-avatar] option")).toHaveCount(5);
-  await expect(page.locator("[data-world-room-list] button")).toHaveCount(6);
-});
+for (const [failure, asset] of [
+  ["mesh", "**/models/home/home-shell.glb"],
+  ["decoder", "**/libs/draco/draco_decoder.wasm"],
+]) {
+  test(`coastal home: a failed ${failure} restores 2D and a retry creates one set of controls`, async ({ page }) => {
+    await preparePage(page);
+    await page.route(asset, (r) => r.abort());
+    await page.goto(publicRouteUrl("/"));
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const stage = page.locator("[data-home-artifact-stage]");
+    await expect(stage).toHaveAttribute("data-desk-mode", "2d");
+    await expect(page.locator("#home-profile-image-container")).toBeVisible();
+    await page.unroute(asset);
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    await expect(page.locator("[data-world-avatar] option")).toHaveCount(5);
+    await expect(page.locator("[data-world-room-list] button")).toHaveCount(6);
+  });
+}
 
 test("coastal home: a routine boundary walks through the home before settling into the onsen", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Representative live transition; clock boundaries are covered separately.");

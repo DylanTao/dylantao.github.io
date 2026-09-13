@@ -486,7 +486,7 @@ def build_cave(mats, h):
     """Connected sandstone shell: a vaulted cave cut into the bluff's crown."""
     # Front-to-back vault; the opening is one irregular carved span, not piers.
     vertices, faces = [], []
-    n, depths = 64, [3.42, 2.0, 0, -1.8, -3.45]
+    n, depths = 96, [3.42 - i * 6.87 / 24 for i in range(25)]
     for layer in (0, 1):
         for y in depths:
             for j in range(n + 1):
@@ -496,9 +496,16 @@ def build_cave(mats, h):
                     z = 0.15 + 3.05 * math.sin(a) ** 0.48
                 else:
                     x = (5.45 + (3.42 - y) * 0.085) * math.cos(a)
-                    z = 0.05 + (3.75 + (3.42 - y) * 0.19) * math.sin(a) ** 0.53
+                    z = 0.05 + (3.62 + (3.42 - y) * 0.12) * math.sin(a) ** 0.53
                 wave = 0.06 * math.sin(a * 7 + y * 0.47) + 0.03 * math.sin(a * 15 - y)
-                vertices.append((x + wave, y, z + wave * (0.5 if layer == 0 else 2.5)))
+                relief = (
+                    wave
+                    if layer == 0
+                    else wave * 1.8 + 0.09 * math.sin(a * 19 + y * 2.7)
+                )
+                vertices.append(
+                    (x + relief, y, z + relief * (0.5 if layer == 0 else 1.3))
+                )
     block = len(depths) * (n + 1)
     for layer in (0, 1):
         for i in range(len(depths) - 1):
@@ -511,7 +518,7 @@ def build_cave(mats, h):
             p = row * (n + 1) + j
             faces.append((p, p + block, p + 1 + block, p + 1))
     roof = surface("core_carved_vault", vertices, faces, mats["plaster"])
-    outer_stone = h["material"]("cave exterior sandstone", (0.57, 0.40, 0.245), 0.91)
+    outer_stone = h["material"]("cave exterior sandstone", (0.43, 0.34, 0.235), 0.91)
     roof.data.materials.append(outer_stone)
     for i, face in enumerate(roof.data.polygons):
         face.material_index = (
@@ -538,26 +545,35 @@ def build_cave(mats, h):
 
 def build_bluff(mats, h):
     rng = random.Random(371)
-    rock = h["material"]("eroded coastal sandstone", (0.57, 0.40, 0.245), 0.91)
-    strata = h["material"]("fine warm sediment", (0.62, 0.46, 0.30), 0.94)
+    rock = h["material"]("eroded coastal sandstone", (0.43, 0.34, 0.235), 0.91)
+    strata = h["material"]("fine warm sediment", (0.455, 0.363, 0.263), 0.94)
     sand = h["material"]("dry beach sand", (0.73, 0.59, 0.39), 0.98)
     wet = h["material"]("wet tideline sand", (0.41, 0.35, 0.25), 0.35)
     scrub = h["material"]("bluff coastal sage", (0.22, 0.28, 0.13), 0.95)
     objects = []
 
     def bluff(name, cx, cy, rx, ry, base, top):
-        count, rows = 88, 24
+        count, rows = 112, 40
         verts, faces = [], []
         for i in range(rows + 1):
             t = i / rows
             for j in range(count):
                 a = j * math.tau / count
+                # Fluted erosion, fractures, and shallow ledges in one continuous
+                # surface. The old regular bands made the cliff a striped block.
                 wave = (
-                    0.045 * math.sin(a * 11 + t * 0.7)
-                    + 0.032 * math.sin(a * 19 - t * 0.9)
-                    + 0.007 * math.sin(t * 17 + a * 23)
+                    0.065 * math.sin(a * 5 + 0.15 * math.sin(t * 9))
+                    + 0.043 * math.sin(a * 13 + t * 0.4)
+                    + 0.018 * math.sin(a * 31 - t * 0.7)
+                    + 0.014 * math.sin(a * 63 + t * 4)
+                    + 0.019 * math.sin(t * 27 + math.sin(a * 7))
                 )
-                radius = 1.12 - t * 0.14 + wave
+                flute = 0.115 * abs(math.sin(a * 9.0 + 0.7 * math.sin(a * 3.0))) ** 10
+                radius = (
+                    1.16
+                    - t * 0.16
+                    + (wave * 1.45 - flute) * math.sin(math.pi * t * 0.91)
+                )
                 c, s = math.cos(a), math.sin(a)
                 power = 0.52 if name == "coast_home_bluff" else 0.85
                 x = cx + rx * math.copysign(abs(c) ** power, c) * radius
@@ -565,8 +581,21 @@ def build_bluff(mats, h):
                 if name == "coast_home_bluff" and s < 0:
                     y -= abs(s) * 15
                 z = base + (top - base) * t
+                # Asymmetric rounded caps on the distant landforms; the inhabited
+                # shelf stays level so the floor never separates from its cliff.
+                cap = (
+                    0
+                    if name == "coast_home_bluff"
+                    else (0.5 * math.sin(a * 3) + 0.27 * math.sin(a * 7)) * t * t
+                )
                 verts.append(
-                    (x, y, z + 0.1 * math.sin(a * 8 + t * 4) * math.sin(math.pi * t))
+                    (
+                        x,
+                        y,
+                        z
+                        + cap
+                        + 0.06 * math.sin(a * 8 + t * 4) * math.sin(math.pi * t),
+                    )
                 )
         for i in range(rows):
             for j in range(count):
@@ -579,7 +608,7 @@ def build_bluff(mats, h):
         obj = surface(name, verts, faces, rock)
         obj.data.materials.append(strata)
         for i, face in enumerate(obj.data.polygons):
-            face.material_index = 1 if (i // count) % 7 == 2 else 0
+            face.material_index = 1 if (i // count) % 13 == 5 else 0
         objects.append(obj)
         return obj
 
@@ -591,12 +620,12 @@ def build_bluff(mats, h):
         y = -3.45 - j / ny * 25
         for i in range(nx + 1):
             x = -14 + i / nx * 31
-            edge = max(0, 1 - (x / 6.034) ** 2) ** 0.265 * 5.1
+            edge = max(0, 1 - (x / 6.034) ** 2) ** 0.265 * 4.45
             t = min(1, (-y - 3.45) / 4)
             rise = (
-                3.5
-                + 3.0 * math.exp(-(((x - 4) / 6) ** 2))
-                + 1.3 * math.sin(y * 0.28 + x * 0.16)
+                3.1
+                + 2.5 * math.exp(-(((x - 4) / 6) ** 2))
+                + 0.9 * math.sin(y * 0.28 + x * 0.16)
             )
             noise = 0.23 * math.sin(x * 1.13 + y * 0.83) + 0.12 * math.sin(
                 x * 2.7 - y * 1.7
@@ -609,36 +638,10 @@ def build_bluff(mats, h):
             faces.append((p, p + nx + 1, p + nx + 2, p + 1))
     terrain = surface("coast_continuous_inland_terrain", verts, faces, rock)
     objects.append(terrain)
-    bluff("coast_mainland", 23, -13, 17, 14, -7.65, 2.4)
+    bluff("coast_mainland", 25, -16, 18, 15, -7.65, 2.4)
     # Two headlands recede along the same shoreline, below the real horizon.
     for x, y, rx, ry, top in [(32, 12, 8, 12, 1.9), (60, 22, 12, 16, 4.2)]:
         bluff("coast_distant_headland", x, y, rx, ry, -7.7, top)
-    # The realistic treatment adds fractured relief to the same bedrock.
-    # These are attached facets, not a second competing landscape.
-    for i in range(68):
-        a = rng.uniform(0.06, math.pi - 0.06)
-        t = rng.uniform(0.06, 0.92)
-        radius = (
-            1.12
-            - t * 0.14
-            + 0.045 * math.sin(a * 11 + t * 0.7)
-            + 0.032 * math.sin(a * 19 - t * 0.9)
-        )
-        x = 5.45 * math.copysign(abs(math.cos(a)) ** 0.52, math.cos(a)) * radius
-        y = -1.35 + 5.45 * math.sin(a) ** 0.52 * radius
-        bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=1, radius=1, location=(x, y, -7.65 + t * 7.41)
-        )
-        fragment = bpy.context.object
-        fragment.scale = (
-            rng.uniform(0.12, 0.35),
-            rng.uniform(0.10, 0.27),
-            rng.uniform(0.20, 0.62),
-        )
-        fragment.rotation_euler = (rng.uniform(-0.3, 0.3), rng.uniform(-0.25, 0.25), a)
-        h["finish"](fragment, "coast_fractured_relief", rock)
-        fragment["renderStyle"] = "realistic"
-        objects.append(fragment)
     # Authored, variable-width contour strokes describe erosion in the print.
     contour = h["material"]("coast ink contour", (0.055, 0.075, 0.13), 1)
     for j in range(18):
@@ -731,7 +734,7 @@ def build_bluff(mats, h):
         x = rng.uniform(-4.3, 4.3)
         y = rng.uniform(-2.9, 2.8)
         a = math.acos(max(-0.99, min(0.99, x / (5.45 + (3.42 - y) * 0.085))))
-        z = 0.05 + (3.75 + (3.42 - y) * 0.19) * math.sin(a) ** 0.53
+        z = 0.05 + (3.62 + (3.42 - y) * 0.12) * math.sin(a) ** 0.53
         for j in range(3):
             plant = h["sphere"](
                 "coast_roof_sage",

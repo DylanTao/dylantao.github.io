@@ -4,17 +4,6 @@
       <span class="home-world-clock" data-world-clock>San Diego time</span>
       <p data-world-status>Opening the little home…</p>
     </div>
-    <div class="home-world-styles" aria-label="Rendering style">
-      <button type="button" data-world-style="architectural" aria-pressed="true" aria-label="Architectural style" title="Architectural">
-        <i class="fa-solid fa-cube" aria-hidden="true"></i>
-      </button>
-      <button type="button" data-world-style="realistic" aria-pressed="false" aria-label="Realistic style" title="Realistic">
-        <i class="fa-solid fa-gem" aria-hidden="true"></i>
-      </button>
-      <button type="button" data-world-style="illustrated" aria-pressed="false" aria-label="Illustrated style" title="Illustrated">
-        <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
-      </button>
-    </div>
   </div>
   <div class="home-world-quiet-actions">
     <button type="button" data-world-view>Look around <span aria-hidden="true">↗</span></button>
@@ -23,6 +12,11 @@
     </button>
   </div>
   <div data-world-lab hidden inert>
+    <div class="home-world-styles" role="group" aria-label="Deferred rendering experiments">
+      <button type="button" data-world-style="realistic" aria-pressed="true">Realistic</button>
+      <button type="button" data-world-style="architectural" aria-pressed="false">Architectural experiment</button>
+      <button type="button" data-world-style="illustrated" aria-pressed="false">Illustrated experiment</button>
+    </div>
     <div class="home-world-shortcuts">
       <button type="button" data-world-room="overview">Whole home</button>
       <button type="button" data-world-room="study">Visit the desk</button>

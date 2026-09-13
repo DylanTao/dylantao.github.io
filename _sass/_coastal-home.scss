@@ -38,7 +38,7 @@
   z-index: 1;
   transform: none;
   filter: none;
-  mask-image: radial-gradient(ellipse 76% 75% at 50% 47%, #000 51%, transparent 73%);
+  mask-image: radial-gradient(ellipse 82% 78% at 50% 48%, #000 58%, transparent 74%);
 }
 
 .home-desk-corner-scene canvas {
@@ -156,10 +156,12 @@
 }
 .home-world-styles {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.15rem;
 }
 .home-world-styles button {
-  width: 2.6rem;
+  width: auto;
+  font-size: 0.72rem;
 }
 .home-world-shortcuts {
   display: flex;

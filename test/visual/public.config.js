@@ -48,6 +48,11 @@ module.exports = {
     timezoneId: "America/Los_Angeles",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
+    // Exercise the same Windows GPU backend as the visible preview. Shader-
+    // intensive scene checks otherwise silently use CPU WebGL in headless Chrome.
+    // Worker processes reload this config without the CLI's spec arguments.
+    // Keep the backend independent of suiteName so they preserve the setting.
+    launchOptions: process.platform === "win32" ? { args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] } : {},
   },
   webServer,
   projects: [

@@ -92,6 +92,10 @@ class CoastalAssetsTest(unittest.TestCase):
         ]
         base = sum(len(gzip.compress(p.read_bytes())) for p in runtime)
         base += len(gzip.compress((ASSETS / MANIFEST["shell"]).read_bytes()))
+        base += sum(
+            p.stat().st_size
+            for p in (ROOT / "assets/js/vendor/three-r164").rglob("*.wasm")
+        )
         largest_room = max(
             len(gzip.compress((ASSETS / r["file"]).read_bytes()))
             for r in MANIFEST["rooms"]
@@ -102,6 +106,18 @@ class CoastalAssetsTest(unittest.TestCase):
             for a in MANIFEST["avatars"]
         )
         self.assertLess(base + largest_room + largest_actor, 4 * 1024 * 1024)
+
+    def test_mesh_compression_is_shipped_and_has_a_local_decoder(self):
+        for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:
+            self.assertIn(
+                "KHR_draco_mesh_compression",
+                glb(ASSETS / entry["file"])["extensionsRequired"],
+            )
+        self.assertTrue(
+            (
+                ROOT / "assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm"
+            ).is_file()
+        )
 
     def test_routine_and_room_references_are_complete(self):
         rooms = {r["id"] for r in MANIFEST["rooms"]}

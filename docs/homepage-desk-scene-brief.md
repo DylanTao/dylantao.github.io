@@ -7,7 +7,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 1. A recognizable Sirui, readable activity, grounded pose, and useful camera framing.
 2. One connected house, cliff, and Pacific exterior across all room visits.
 3. Reliable Now/Explore state, album interactions, accessibility, and recovery.
-4. Distinct Architectural, Realistic, and Illustrated treatments of the same world.
+4. A convincing Realistic treatment: crafted geometry, coherent coastal light, soft contacts, and water. The three-style experiment is deferred to GPT-7 at Sirui's request.
 5. Bounded asset size and animation work; optional atmosphere after functional proof.
 
 ## Known Inspection Targets
@@ -21,12 +21,14 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 ## Architecture And Assets
 
-- `bin/build_coastal_home.py` and `bin/coastal_sculpt.py`: original Blender geometry, continuous sculpt surfaces, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar. Portraits are rendered from the same models in Blender.
+- `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar. Portraits are rendered from the same models in Blender.
 - `artwork/coastal-home/*.blend`: editable sources. `artwork/` is excluded from the built website.
 - `assets/models/home/manifest.json`: asset paths, room/camera/actor anchors, editable schedules, activities, clips, and prop choices.
 - `assets/js/home-scene/routine.mjs`: pure Pacific clock and exploration state.
 - `assets/js/home-scene/controller.mjs`: lazy loading, mixer, camera, interactions, lifecycle, and the album-controller adapter.
 - `assets/js/home-scene/materials.mjs`: shared-geometry art direction and illustrated outlines/ink.
+- `assets/js/home-scene/realism.mjs` and `reflection.mjs`: physical-scale surface detail, bounded screen-space contact shadows, final color management, and live sea reflections of the actual scene.
+- `assets/js/home-scene/model-loader.mjs`: Draco geometry decoding through a pinned static same-origin worker. Blender's `--export-only` route rebuilds GLBs from the editable sources without repeating sculpting.
 - `assets/js/home-scene/environment.mjs`: Pacific water geometry, procedural sky and reflections, graphic surf, and atmosphere. `coast.glb` supplies connected headlands and style-specific geology.
 - `assets/js/home.js`: existing 2D desk and shared record state; lazy adapter to the extracted runtime.
 - `_includes/home/world_controls.liquid` and `_sass/_coastal-home.scss`: accessible scene controls and responsive composition.
@@ -62,7 +64,7 @@ On weekends, coding runs until 04:00; sleep lasts until 12:30; breakfast continu
 ## Interaction Discoverability
 
 - Default to 2D at every viewport, including desktop (Sirui's live-review correction). A deliberate session choice takes precedence.
-- Keep the quiet 2D/3D switch, named style icons, a Look around / Back inside action, and motion pause. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes or styles. Avatar, activity, time and room selectors are authoring controls, available only with `?scene-lab=1`.
+- Keep the quiet 2D/3D switch, a Look around / Back inside action, and motion pause. 3D always opens in Realistic, including sessions with an obsolete saved style. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes. Avatar, activity, time, room and experimental style selectors are authoring controls, available only with `?scene-lab=1`.
 - Now follows the occupied room. Whole home, room visits, orbit, and previews opt out of camera following until Now.
 - Visit the desk keeps album and research-paper interactions one click away. First activation focuses an object; second activation plays the album or opens its paper link.
 - Preserve current record, spin state, discovery order, and avatar through modes and styles. Dropped cards retain their source links and four-card replay.
@@ -75,11 +77,13 @@ Touch supports orbit and two-finger pinch; explicit zoom buttons provide another
 
 The initial view frames the occupied room. A thick carved vault, low divisions, flooring and the bluff connect the study, kitchen, gym, onsen, lounge and sleeping alcove. The outer stone roof joins inland terrain; the opening faces the Pacific. The beach sits roughly seven meters below the inhabited floor. Room cameras sit inside the vault, with an explicit cutaway for the overview and orbit positions outside it. A framed portrait on the kitchen wall follows the current character. Load the shell, occupied room detail and selected avatar first; stream other rooms after the first meaningful frame.
 
-Architectural is an orthographic crafted miniature with matte plaster, simplified sandstone strata, and quiet model water. Realistic changes to perspective, fractured rock and scrub geometry, a procedural sky, moving physical water and environment reflections, and on-demand wood/fabric/stone detail. Illustrated returns to orthographic projection with modeled cliff contours and faults, graphic surf and sun, variable outlines, crosshatching, halftones, and stepped character poses while the camera remains smooth. Shared architecture, identity, activity, and interaction state persist; the styles have different physical detail as well as materials.
+Realistic is the public direction. Perspective, eroded sandstone, separate oak boards, fitted shelving, thin botanical leaves, a stone onsen rim, and warm modeled fixtures establish the scene before effects. Procedural material detail uses physical coordinates; contact occlusion, soft directional shadows, sky lighting, coastal haze, moving water, shoreline wash, and an exterior reflection pass support that geometry. The sky and ocean are rendered geometry, not scenic images.
+
+Architectural and Illustrated remain unfinished lab experiments. Sirui explicitly deferred the three-style comparison to a future GPT-7 attempt after finding the current treatments too similar. See the complete [GPT-7 experiment note](design-experiment-backlog.md). They are not current public acceptance targets and should not regain public controls without a convincing comparison and a new Sirui request.
 
 ## Outside Vignette
 
-The exterior is the same house and cliff viewed from outside. The glass bay and Look around action lead there; Back inside resumes the current routine. The authoring lab retains individual room visits. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.
+The exterior is the same house and cliff viewed from outside. The Pacific opening and Look around action lead there; Back inside resumes the current routine. The authoring lab retains individual room visits. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.
 
 ## Acceptance Evidence Map
 
@@ -87,7 +91,7 @@ The exterior is the same house and cliff viewed from outside. The glass bay and 
 | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Time, midnight/noon, weekends, DST, preview/Now                   | `node.exe --test test/coastal-routine.test.mjs`                                    |
 | Nonblank scene, orbit/zoom pixel changes, room continuity         | `test/visual/desk-scene.spec.js`, four viewport projects                           |
-| Avatar/style repetition, one actor, clips and contacts            | Browser pose captures plus exported asset/joint checks                             |
+| Avatar/mode repetition, one actor, clips and contacts             | Browser pose captures plus exported asset/joint checks                             |
 | Records, artifact focus/open, drop/return, 2D sharing             | Browser scene suite plus retained legacy 2D interactions                           |
 | Reduced motion, keyboard/touch, load failures, pause and recovery | Targeted browser cases; inspect screenshots and runtime errors                     |
 | Sitewide typography, layout, themes, overflow                     | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000        |
@@ -96,7 +100,7 @@ The exterior is the same house and cliff viewed from outside. The glass bay and 
 
 ## Acceptance Checklist
 
-Keep original and comparable new captures, including live cinematic states. Inspect the images directly. Confirm a nonblank WebGL canvas and actual changed pixels after drag/zoom; source attributes are supporting evidence, not a substitute. Verify one active avatar, sane contact points, room connectivity, deterministic previews, failure recovery, and repeated mode/style switches. Run formatting, style contract, Python tests, production build, and override audit. Report measured limitations honestly.
+Keep original and comparable new captures, including live cinematic states. Inspect the images directly. Confirm a nonblank WebGL canvas and actual changed pixels after drag/zoom; source attributes are supporting evidence, not a substitute. Verify one active avatar, sane contact points, room connectivity, deterministic previews, failure recovery, and repeated avatar/mode switches. Run formatting, style contract, Python tests, production build, and override audit. Report measured limitations honestly.
 
 ## Future Model Handoff Prompt
 
