@@ -38,20 +38,37 @@
   z-index: 1;
   transform: none;
   filter: none;
-  mask-image: radial-gradient(ellipse 82% 78% at 50% 48%, #000 58%, transparent 74%);
+  // The carved silhouette fades inside every canvas boundary, including tall mobile views.
+  mask-image:
+    url("../img/home/coastal-vignette.svg"), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(to bottom, transparent, #000 5%, #000 93%, transparent);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-composite: intersect;
 }
 
 .home-desk-corner-scene canvas {
   width: 100%;
   height: 100%;
+  min-height: 0;
   display: block;
   touch-action: none;
   cursor: grab;
 }
 
 .home-desk-corner-scene canvas:focus-visible {
-  outline: var(--md-lite-focus-ring);
-  outline-offset: -5px;
+  outline: none;
+}
+
+// Keep the keyboard cue inside the visible silhouette; an edge outline is masked away.
+.home-desk-corner-scene:has(canvas:focus-visible)::after {
+  content: "";
+  position: absolute;
+  inset: 9% 8% 10%;
+  border: 2px solid var(--home-accent);
+  border-radius: 39% 47% 42% 44% / 44% 40% 48% 43%;
+  box-shadow: 0 0 0 2px var(--home-paper);
+  pointer-events: none;
 }
 
 .home-desk-corner-fallback {
@@ -80,7 +97,7 @@
   position: relative;
   z-index: 11;
   width: min(100%, 32rem);
-  margin: -0.45rem auto 0;
+  margin: 0.15rem auto 0;
   padding: 0 0.5rem;
   font-size: var(--type-compact);
 

@@ -21,11 +21,20 @@ def glb(path):
 
 
 class CoastalAssetsTest(unittest.TestCase):
-    def test_each_avatar_has_an_actual_blender_portrait_for_the_wall(self):
+    def test_each_avatar_has_an_actual_blender_study_and_one_shared_wall_print(self):
         for avatar in MANIFEST["avatars"]:
-            data = (ASSETS / avatar["portrait"]).read_bytes()
+            data = (
+                ROOT / "artwork/coastal-home/portraits" / (avatar["id"] + ".png")
+            ).read_bytes()
             self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
             self.assertEqual(struct.unpack_from(">II", data, 16), (384, 480))
+        self.assertEqual(
+            (ASSETS / MANIFEST["wallArt"]["file"]).resolve(),
+            (ROOT / "assets/img/home/sirui_capy.jpg").resolve(),
+        )
+        self.assertEqual(
+            (ASSETS / MANIFEST["wallArt"]["file"]).read_bytes()[:2], b"\xff\xd8"
+        )
 
     def test_every_export_and_editable_source_exists(self):
         self.assertEqual(len(MANIFEST["rooms"]), 6)
@@ -89,9 +98,11 @@ class CoastalAssetsTest(unittest.TestCase):
             ROOT / "assets/js/three.module.min.js",
             ROOT / "assets/models/home/coast.glb",
             ASSETS / "manifest.json",
+            ROOT / "assets/img/home/coastal-vignette.svg",
         ]
         base = sum(len(gzip.compress(p.read_bytes())) for p in runtime)
         base += len(gzip.compress((ASSETS / MANIFEST["shell"]).read_bytes()))
+        base += len(gzip.compress((ASSETS / MANIFEST["wallArt"]["file"]).read_bytes()))
         base += sum(
             p.stat().st_size
             for p in (ROOT / "assets/js/vendor/three-r164").rglob("*.wasm")
@@ -102,7 +113,6 @@ class CoastalAssetsTest(unittest.TestCase):
         )
         largest_actor = max(
             len(gzip.compress((ASSETS / a["file"]).read_bytes()))
-            + len(gzip.compress((ASSETS / a["portrait"]).read_bytes()))
             for a in MANIFEST["avatars"]
         )
         self.assertLess(base + largest_room + largest_actor, 4 * 1024 * 1024)

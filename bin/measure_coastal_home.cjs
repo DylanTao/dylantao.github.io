@@ -14,7 +14,7 @@ const report = {
   platform: `${os.platform()} ${os.release()} ${os.arch()}`,
   cpu: os.cpus()[0].model,
   method:
-    "Serial headless Chromium, no CPU or network throttle. Three seconds of study warmup and four seconds of live animation; the exterior has 1.5 seconds of warmup and four seconds of measurement. Arrival follows the current routine with a random avatar; subsequent animation measurements use Lizard. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
+    "Serial headless Chromium, no CPU or network throttle. Three seconds of study warmup and four seconds of live animation; the gym and exterior each have 1.5 seconds of warmup and four seconds of measurement. Arrival follows the current routine with a random avatar; subsequent animation measurements use Lizard. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
   views: [],
 };
 const styles = ["realistic"];
@@ -93,7 +93,7 @@ async function sample(page, ms = 4000) {
     const initialResources = await page.evaluate(() =>
       performance
         .getEntriesByType("resource")
-        .filter((r) => /home-scene|models\/home|three\.module|three-r164/.test(r.name))
+        .filter((r) => /home-scene|models\/home|three\.module|three-r164|sirui_capy\.jpg|coastal-vignette\.svg/.test(r.name))
         .map((r) => ({ path: new URL(r.name).pathname, encodedBodySize: r.encodedBodySize, transferSize: r.transferSize }))
     );
     const canvas = page.locator("[data-home-desk-scene] canvas");
@@ -130,6 +130,11 @@ async function sample(page, ms = 4000) {
       await canvas.screenshot({ path: path.join(output, `${label}-${style}-live.png`) });
     }
     report.views.push(view);
+    await page.locator("[data-world-activity]").selectOption("workout");
+    await canvas.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1500);
+    view.gym = { ...(await sample(page)), state: await evidence(page) };
+    await canvas.screenshot({ path: path.join(output, `${label}-gym-live.png`) });
     await page.locator('[data-world-room="outside"]').click();
     await canvas.scrollIntoViewIfNeeded();
     await page.waitForTimeout(1500);
@@ -170,11 +175,12 @@ async function sample(page, ms = 4000) {
       .filter((n) => /\.(js|wasm)$/.test(n))
       .map((n) => `assets/js/vendor/three-r164/${n.replaceAll("\\", "/")}`),
     "assets/models/home/manifest.json",
+    "assets/img/home/coastal-vignette.svg",
     ...fs
       .readdirSync("assets/models/home")
       .filter((n) => n.endsWith(".glb"))
       .map((n) => `assets/models/home/${n}`),
-    ...manifest.avatars.map((a) => `assets/models/home/${a.portrait}`),
+    path.posix.normalize(`assets/models/home/${manifest.wallArt.file}`),
   ];
   report.assets = files.map((file) => {
     const data = fs.readFileSync(file);
@@ -186,14 +192,14 @@ async function sample(page, ms = 4000) {
     size(`assets/models/home/${manifest.shell}`) +
     size(`assets/models/home/${manifest.coast}`) +
     Math.max(...manifest.rooms.map((r) => size(`assets/models/home/${r.file}`))) +
-    Math.max(...manifest.avatars.map((a) => size(`assets/models/home/${a.file}`) + size(`assets/models/home/${a.portrait}`)));
+    Math.max(...manifest.avatars.map((a) => size(`assets/models/home/${a.file}`)));
   const rawSize = (file) => report.assets.find((a) => a.file === file).bytes;
   report.largestInitialSceneUncompressedHttpBytes =
     report.assets.filter((a) => !a.file.endsWith(".glb") && !a.file.endsWith(".png")).reduce((sum, a) => sum + a.bytes, 0) +
     rawSize(`assets/models/home/${manifest.shell}`) +
     rawSize(`assets/models/home/${manifest.coast}`) +
     Math.max(...manifest.rooms.map((r) => rawSize(`assets/models/home/${r.file}`))) +
-    Math.max(...manifest.avatars.map((a) => rawSize(`assets/models/home/${a.file}`) + rawSize(`assets/models/home/${a.portrait}`)));
+    Math.max(...manifest.avatars.map((a) => rawSize(`assets/models/home/${a.file}`)));
   fs.writeFileSync(path.join(output, "performance.json"), JSON.stringify(report, null, 2) + "\n");
 })().catch(async (error) => {
   console.error(error);

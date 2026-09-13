@@ -118,6 +118,10 @@ def weld_sculpt(objects, name, voxel=0.012):
 
 def refine_character(pieces, style, width, head_z, head_scale, h):
     """Replace primitive silhouettes with sewn clothing, sculpt skin and locks."""
+    if style != "lizard":
+        from coastal_characters import refine_human
+
+        return refine_human(pieces, style, width, head_z, head_scale, h)
     sphere, tube = h["sphere"], h["tube"]
     mats = {m.name: m for m in bpy.data.materials}
     shirt, skin, hair = mats["Sirui shirt"], mats["skin"], mats["long black hair"]
@@ -525,21 +529,9 @@ def build_cave(mats, h):
             1 if (len(depths) - 1) * n <= i < 2 * (len(depths) - 1) * n else 0
         )
     roof["caveRoof"] = True
-    # The back of the room is the mountain itself, with a portrait hung inside.
-    h["box"](
-        "core_backwall", (0, -3.48, 1.42), (9.3, 0.38, 2.85), mats["plaster"], 0.18
-    )
-    # Unbroken low carved divisions guide movement without blocking the vista.
-    for x in (-1.67, 1.67):
-        h["box"](
-            "core_carved_division",
-            (x, 1.5, 0.38),
-            (0.28, 3.4, 0.76),
-            mats["plaster"],
-            0.13,
-        )
-    # Deep jambs/sill explain the thickness of the excavated seaward aperture.
-    h["box"]("core_windowseat", (0, 3.34, 0.10), (8.9, 0.54, 0.22), mats["edge"], 0.10)
+    from coastal_interiors import architecture
+
+    architecture(mats, h)
     return roof
 
 

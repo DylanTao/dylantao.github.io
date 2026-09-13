@@ -258,13 +258,13 @@ export function createCoastalHome(container, records, artifacts) {
     );
     glass.castShadow = false;
     glass.userData.noOcclusion = true;
-    // A real framed portrait inside the cave, never a scenery billboard.
-    mesh(new THREE.BoxGeometry(0.7, 0.87, 0.06), material(0x6d482c), [-3.15, 1.57, 3.17]);
-    mesh(new THREE.BoxGeometry(0.61, 0.78, 0.065), cream, [-3.15, 1.57, 3.16]);
-    portraitMaterial = material(0xffffff, { roughness: 0.85 });
-    const portrait = mesh(new THREE.PlaneGeometry(0.53, 0.67), portraitMaterial, [-3.15, 1.57, 3.12]);
+    // One informal capybara print for the home, independent of its inhabitant.
+    mesh(new THREE.BoxGeometry(0.88, 0.88, 0.035), material(0xb68b59), [-3.15, 1.65, 3.09]);
+    mesh(new THREE.BoxGeometry(0.82, 0.82, 0.039), cream, [-3.15, 1.65, 3.083]);
+    portraitMaterial = material(0xffffff, { roughness: 0.9, map: imageTexture(new URL(config.wallArt.file, manifestUrl).href) });
+    const portrait = mesh(new THREE.PlaneGeometry(0.73, 0.73), portraitMaterial, [-3.15, 1.65, 3.06]);
     portrait.rotation.y = Math.PI;
-    portrait.name = "Framed portrait of Sirui";
+    portrait.name = "Capybara beach party print";
     portrait.userData.fixedMaterial = true;
     updateRecords();
   }
@@ -351,10 +351,6 @@ export function createCoastalHome(container, records, artifacts) {
       avatarId = entry.id;
       container.dataset.avatar = avatarId;
       remember("sirui-scene-avatar", avatarId);
-      if (portraitMaterial && entry.portrait) {
-        portraitMaterial.map = imageTexture(new URL(entry.portrait, manifestUrl).href);
-        portraitMaterial.needsUpdate = true;
-      }
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
     } catch (error) {
@@ -1140,7 +1136,7 @@ export function createCoastalHome(container, records, artifacts) {
     ready: container.dataset.sceneState === "ready",
     style,
     avatarId,
-    portrait: world.getObjectByName("Framed portrait of Sirui")?.material.map?.image?.src || null,
+    portrait: world.getObjectByName("Capybara beach party print")?.material.map?.image?.src || null,
     currentRoom,
     activity: routine?.id,
     palette: routine?.palette,

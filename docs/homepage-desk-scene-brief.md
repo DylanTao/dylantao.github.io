@@ -12,7 +12,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 ## Known Inspection Targets
 
-- Study hand/keyboard contact, chair back orientation, supported feet, and a camera that shows Sirui's profile.
+- Study hand/keyboard contact, chair back orientation, supported feet, and a camera that shows Sirui's profile. In the gym, keep the rack, bench, and exercising character readable together; the study bookshelf must not block its camera.
 - Kitchen utensil/cup contact; onsen waterline; pillow/duvet occlusion; tail clearance.
 - Five distinct male interpretations: Lizard, South Park, Simpsons, Ghibli, Rick and Morty. One character at a time, independent of the selected album.
 - Unobstructed record and paper focus, visible camera changes, and a clear outside/return route.
@@ -21,7 +21,9 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 ## Architecture And Assets
 
-- `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar. Portraits are rendered from the same models in Blender.
+- `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar.
+- `bin/coastal_characters.py`: the four human models, with shaped faces, inset eyes, side-parted hair, sloping sleeves, fingers, trousers, and canvas shoes. `artwork/coastal-home/portraits/` holds Blender model studies, excluded from production.
+- `bin/coastal_interiors.py`: scalloped mountain wall, curved low divisions, rounded returns, the print niche, and the fitted gym with a power rack, loaded barbell, padded bench and dumbbell stand.
 - `artwork/coastal-home/*.blend`: editable sources. `artwork/` is excluded from the built website.
 - `assets/models/home/manifest.json`: asset paths, room/camera/actor anchors, editable schedules, activities, clips, and prop choices.
 - `assets/js/home-scene/routine.mjs`: pure Pacific clock and exploration state.
@@ -75,7 +77,9 @@ Touch supports orbit and two-finger pinch; explicit zoom buttons provide another
 
 ## 3D Desk Vignette
 
-The initial view frames the occupied room. A thick carved vault, low divisions, flooring and the bluff connect the study, kitchen, gym, onsen, lounge and sleeping alcove. The outer stone roof joins inland terrain; the opening faces the Pacific. The beach sits roughly seven meters below the inhabited floor. Room cameras sit inside the vault, with an explicit cutaway for the overview and orbit positions outside it. A framed portrait on the kitchen wall follows the current character. Load the shell, occupied room detail and selected avatar first; stream other rooms after the first meaningful frame.
+The initial view frames the occupied room. A thick carved vault, curved low divisions, fitted alcoves, flooring and the bluff connect the study, kitchen, gym, onsen, lounge and sleeping alcove. The outer stone roof joins inland terrain; the opening faces the Pacific. The beach sits roughly seven meters below the inhabited floor. Room cameras sit inside the vault, with an explicit cutaway for the overview and orbit positions outside it. Sirui's capybara beach-party image hangs in a light oak frame in the kitchen niche, unchanged across all avatars. Self-portraits are model-review assets, not wall decor. Load the shell, occupied room detail and selected avatar first; stream other rooms after the first meaningful frame.
+
+The scene uses an asymmetric feathered alpha silhouette that reaches transparency before every canvas edge. A scenic image is never used to hide the rectangle. Match the canvas's CSS height to its renderer container at mobile widths; a legacy minimum height must not stretch the picture or overlap the clock. Keep the keyboard focus contour inside the visible silhouette so the mask cannot erase it. Verify the rendered perimeter against the page in light and dark themes.
 
 Realistic is the public direction. Perspective, eroded sandstone, separate oak boards, fitted shelving, thin botanical leaves, a stone onsen rim, and warm modeled fixtures establish the scene before effects. Procedural material detail uses physical coordinates; contact occlusion, soft directional shadows, sky lighting, coastal haze, moving water, shoreline wash, and an exterior reflection pass support that geometry. The sky and ocean are rendered geometry, not scenic images.
 

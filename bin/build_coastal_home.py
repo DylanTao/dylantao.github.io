@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "bin"))
 from coastal_sculpt import build_cave, build_bluff, refine_character, render_portrait
 from coastal_craft import potted_plant, furnish
+from coastal_interiors import gym
 
 OUT = ROOT / "assets/models/home"
 SOURCE = ROOT / "artwork/coastal-home"
@@ -343,17 +344,7 @@ def home():
     plant("kitchen", -4.18, -1.06, 0, 1.15)
     empty("anchor_kitchen", (-3.02, -2.50, 0))
 
-    # Gym, quiet equipment and a generous clear mat.
-    box("gym_mat", (0, -1.4, 0.025), (1.5, 1.9, 0.035), mats["sage"], 0.017)
-    for x in (-1.01, 1.0):
-        box("gym_weightbar", (x, -0.60, 0.17), (0.4, 0.05, 0.05), mats["brass"], 0.02)
-        for dx in (-0.18, 0.18):
-            o = cylinder("gym_weight", (x + dx, -0.60, 0.17), 0.15, 0.10, mats["ink"])
-            o.rotation_euler.y = math.pi / 2
-    box("gym_bench", (0.05, -2.55, 0.40), (1.25, 0.34, 0.12), mats["cream"], 0.05)
-    for x in (-0.38, 0.48):
-        box("gym_benchleg", (x, -2.55, 0.20), (0.07, 0.27, 0.40), mats["wood"], 0.03)
-    empty("anchor_gym", (0, -1.10, 0))
+    gym(mats, globals())
 
     # Rounded carved onsen rim, separate animated water surface.
     cylinder("onsen_base", (3.02, 1.82, 0.17), 1.10, 0.34, mats["edge"], vertices=64)
@@ -479,8 +470,8 @@ def character(style):
 
     # Character is deliberately adult: broad relaxed shoulders, natural brow and
     # jaw, clean-shaven face; long hair is an identity feature in all variants.
-    width = 0.29 if short else 0.18 if angular else 0.24 if lizard else 0.235
-    head_z = 1.29 if short else 1.43
+    width = 0.25 if short else 0.16 if angular else 0.24 if lizard else 0.215
+    head_z = 1.29 if short else 1.39 if natural else 1.43
     head_scale = (
         (0.36, 0.24, 0.35)
         if short
@@ -490,6 +481,8 @@ def character(style):
         head_scale = (0.205, 0.16, 0.32)
     if yellow:
         head_scale = (0.20, 0.18, 0.31)
+    if natural:
+        head_scale = (0.182, 0.158, 0.238)
     part(sphere("male torso", (0, 0.01, 0.92), (width, 0.15, 0.26), shirt), "Spine")
     part(
         sphere("shirt hem", (0, 0.01, 0.73), (width * 0.88, 0.15, 0.10), shirt), "Hips"
@@ -567,11 +560,11 @@ def character(style):
                 )
             )
         part(tube("swept hair strand", points, 0.0024, strand), "Head")
-    eye_x = 0.14 if short else 0.112 if lizard or angular or yellow else 0.090
+    eye_x = 0.14 if short else 0.112 if lizard or angular or yellow else 0.076
     eye_r = (
-        0.095 if lizard else 0.11 if short else 0.090 if angular or yellow else 0.053
+        0.095 if lizard else 0.11 if short else 0.090 if angular or yellow else 0.045
     )
-    eye_y = -0.205 if lizard else -0.192 if short else -0.174
+    eye_y = -0.205 if lizard else -0.232 if short else -0.158 if natural else -0.174
     eye_z = head_z + 0.042
     for s, side in ((-1, "L"), (1, "R")):
         part(
@@ -1027,7 +1020,7 @@ def character(style):
     bpy.ops.wm.save_as_mainfile(
         filepath=str(SOURCE / ("sirui-" + style + ".blend")), compress=True
     )
-    render_portrait(arm, style, OUT)
+    render_portrait(arm, style, SOURCE)
 
 
 if "--export-only" in sys.argv:
@@ -1051,13 +1044,23 @@ if "--export-only" in sys.argv:
                 for track in obj.animation_data.nla_tracks:
                     track.mute = False
         export("sirui-" + avatar, animations=True)
-elif "--characters-only" not in sys.argv and "--lizard-only" not in sys.argv:
+elif (
+    "--characters-only" not in sys.argv
+    and "--lizard-only" not in sys.argv
+    and not any(a.startswith("--avatar=") for a in sys.argv)
+):
     home()
 if "--house-only" not in sys.argv and "--export-only" not in sys.argv:
+    requested_avatar = next(
+        (a.split("=", 1)[1] for a in sys.argv if a.startswith("--avatar=")), None
+    )
+    variants = ("lizard", "south-park", "simpsons", "ghibli", "rick-and-morty")
+    if requested_avatar and requested_avatar not in variants:
+        raise ValueError("Unknown avatar: " + requested_avatar)
     for avatar in (
-        ("lizard",)
-        if "--lizard-only" in sys.argv
-        else ("lizard", "south-park", "simpsons", "ghibli", "rick-and-morty")
+        (requested_avatar,)
+        if requested_avatar
+        else ("lizard",) if "--lizard-only" in sys.argv else variants
     ):
         character(avatar)
 print(

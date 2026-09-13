@@ -3,6 +3,7 @@ const path = require("node:path");
 const { test, expect } = require("@playwright/test");
 const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetrics } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
+const { PNG } = require("pngjs");
 
 async function capture(testInfo, name, buffer) {
   const file = testInfo.outputPath(name + ".png");
@@ -35,7 +36,7 @@ async function settle(page) {
   await page.waitForTimeout(200);
 }
 
-test("coastal home: quiet public controls, wall portrait and a new arrival on refresh", async ({ page }) => {
+test("coastal home: quiet public controls, capybara wall art and a new arrival on refresh", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.addInitScript(() => sessionStorage.setItem("sirui-scene-style", "architectural"));
@@ -50,7 +51,7 @@ test("coastal home: quiet public controls, wall portrait and a new arrival on re
   await expect(ui.locator("button:visible")).toHaveCount(2);
   await expect(scene).toHaveAttribute("data-render-style", "realistic");
   await expect(ui.locator("select:visible")).toHaveCount(0);
-  await expect.poll(async () => (await evidence(scene)).portrait).toContain(`/portraits/${first}.png`);
+  await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
   await ui.locator("[data-world-view]").click();
   await expect(scene).toHaveAttribute("data-room", "outside");
   await expect(ui.locator("[data-world-view]")).toHaveText(/Back inside/);
@@ -64,10 +65,35 @@ test("coastal home: quiet public controls, wall portrait and a new arrival on re
   await page.reload();
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   expect((await evidence(scene)).avatarId).not.toBe(first);
+  await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
   expect(errors).toEqual([]);
 });
 
 for (const theme of ["light", "dark"]) {
+  test(`coastal home: ${theme} scene fades completely before every canvas edge`, async ({ page }, testInfo) => {
+    const { scene, canvas, ui } = await openHome(page, { theme });
+    await explore(ui);
+    await ui.locator("[data-world-activity]").selectOption("workout");
+    await canvas.scrollIntoViewIfNeeded();
+    const sceneBox = await scene.boundingBox();
+    const canvasBox = await canvas.boundingBox();
+    expect(Math.abs(canvasBox.height - sceneBox.height)).toBeLessThan(1);
+    const visible = PNG.sync.read(await scene.screenshot());
+    await canvas.evaluate((e) => (e.style.visibility = "hidden"));
+    const background = PNG.sync.read(await scene.screenshot());
+    await canvas.evaluate((e) => (e.style.visibility = ""));
+    let largestDifference = 0;
+    for (let y = 0; y < visible.height; y++) {
+      for (let x = 0; x < visible.width; x++) {
+        if (x > 1 && y > 1 && x < visible.width - 2 && y < visible.height - 2) continue;
+        const i = (y * visible.width + x) * 4;
+        for (let c = 0; c < 3; c++) largestDifference = Math.max(largestDifference, Math.abs(visible.data[i + c] - background.data[i + c]));
+      }
+    }
+    expect(largestDifference).toBeLessThan(5);
+    await capture(testInfo, `organic-edge-${theme}`, await scene.screenshot());
+  });
+
   test(`coastal home: ${theme} composition, connected rooms, actual orbit and zoom`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);
     const { scene, canvas, stage, ui } = await openHome(page, { theme });
@@ -91,6 +117,9 @@ for (const theme of ["light", "dark"]) {
     await canvas.press("+");
     await settle(page);
     expect(screenshotDiffRatio(orbit, await canvas.screenshot())).toBeGreaterThan(0.006);
+    expect(await canvas.evaluate((e) => e.matches(":focus-visible"))).toBe(true);
+    expect(await scene.evaluate((e) => getComputedStyle(e, "::after").borderTopWidth)).toBe("2px");
+    await capture(testInfo, "keyboard-focus", await scene.screenshot());
     await ui.locator('[data-world-room="overview"]').click();
     await canvas.scrollIntoViewIfNeeded();
     await settle(page);
@@ -107,7 +136,7 @@ for (const theme of ["light", "dark"]) {
   });
 }
 
-test("coastal home: all five avatars retain one actor, portrait and album state", async ({ page }, testInfo) => {
+test("coastal home: all five avatars retain one actor, shared wall art and album state", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page);
   await explore(ui);
@@ -115,7 +144,7 @@ test("coastal home: all five avatars retain one actor, portrait and album state"
   for (const avatar of ["lizard", "south-park", "simpsons", "ghibli", "rick-and-morty", "lizard"]) {
     await ui.locator("[data-world-avatar]").selectOption(avatar);
     await expect(scene).toHaveAttribute("data-avatar", avatar);
-    await expect.poll(async () => (await evidence(scene)).portrait).toContain(`/portraits/${avatar}.png`);
+    await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
     await canvas.scrollIntoViewIfNeeded();
     await settle(page);
     const info = await evidence(scene);
@@ -205,6 +234,9 @@ test("coastal home: album focus, playback, discovery, mode sharing, and paper na
 
 test("coastal home: live animation pauses offscreen and recovers after a hidden tab", async ({ page }) => {
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
+  // A newly streamed room legitimately requests one still redraw while paused.
+  // Settle those loads before using frame counts to detect ongoing animation.
+  await expect.poll(async () => (await evidence(scene)).roomCount).toBe(6);
   const before = await canvas.screenshot();
   await page.waitForTimeout(650);
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.0002);

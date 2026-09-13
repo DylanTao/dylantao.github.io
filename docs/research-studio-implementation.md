@@ -6,10 +6,10 @@ Integrated on `main` after the local review branch, based on `bba74ccc1`. This i
 
 - Website: [localhost:8080](http://localhost:8080/?cinematic=live), also open in the Codex app.
 - Start/restart the owned preview with `docker compose up -d`. Compose serves the personal site with an empty base URL; the separate production check uses `/al-folio`.
-- Start in 2D on every screen; an explicit mode choice survives for the session. A page refresh chooses a new Sirui, avoiding the immediately previous avatar. Public 3D opens in Realistic with Look around / Back inside and pause. The San Diego routine runs automatically. A framed portrait matches the current character.
+- Start in 2D on every screen; an explicit mode choice survives for the session. A page refresh chooses a new Sirui, avoiding the immediately previous avatar. Public 3D opens in Realistic with Look around / Back inside and pause. The San Diego routine runs automatically. The same capybara beach-party print hangs on the wall for every character.
 - For authoring and deterministic checks only, add `?scene-lab=1` to expose room, avatar, activity, time, and album controls. These controls are hidden and inert on the public page.
 - Inspect the isolated [depth study](http://127.0.0.1:4106/artwork/coastal-home/splat-lab/). To restart it, serve the repository root with `python -m http.server 4106 --bind 127.0.0.1`.
-- [Latest Realistic evidence](evidence/coastal-realism/README.md), [preceding refinement](evidence/coastal-home-refinement/README.md), [original sitewide checkpoint](evidence/research-studio/README.md), [scene brief](homepage-desk-scene-brief.md), [asset provenance](../artwork/coastal-home/PROVENANCE.md), and [splat findings](../artwork/coastal-home/splat-lab/FINDINGS.md).
+- [Latest habitat evidence](evidence/coastal-habitat/README.md), [Realistic evidence](evidence/coastal-realism/README.md), [preceding refinement](evidence/coastal-home-refinement/README.md), [original sitewide checkpoint](evidence/research-studio/README.md), [scene brief](homepage-desk-scene-brief.md), [asset provenance](../artwork/coastal-home/PROVENANCE.md), and [splat findings](../artwork/coastal-home/splat-lab/FINDINGS.md).
 
 ## What changed
 
@@ -31,11 +31,13 @@ There is no image backdrop in any homepage treatment. The generated Pacific illu
 
 ## Runtime boundaries
 
+The September 13 refinement gives the gym a rack, loaded barbell, padded bench, dumbbell stand and open workout area. Curved divisions, scalloped back-wall recesses, rounded returns and a print niche fit the rooms into the cave. Four human models are rebuilt with shaped faces, inset eyes, side-parted hair, relaxed sleeves and laced shoes. Their Blender studies now live under `artwork/`; the wall uses Sirui's existing capybara image independently of the avatar. The scene edge uses a feathered asymmetric vector mask with complete perimeter transparency, and the mobile canvas no longer inherits an oversized minimum height.
+
 `assets/models/home/manifest.json` owns asset paths, room/camera/actor/egress anchors, activity props/clips, and editable weekday/weekend schedules. `routine.mjs` resolves `America/Los_Angeles`, including DST. Visitor-local and manually selected website themes remain separate from the miniature's clock.
 
 The scene loads only after choosing 3D. Shell, coast, occupied room, and selected avatar load first; other rooms stream afterward. Rendering stops offscreen or hidden, DPR is capped at 1.5, and reduced motion uses composed poses. Asset or WebGL failure restores the usable 2D desk. Cached back/forward navigation pauses and restores controllers instead of destroying them.
 
-The [latest evidence report](evidence/coastal-realism/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
+The [latest evidence report](evidence/coastal-habitat/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
 
 Album focus, second-click playback/open, swaps, four-card discovery/replay, source links, and sharing between 2D/3D remain. The controls also support keyboard orbit/zoom, D discovery, room buttons, one-finger orbit, and two-finger pinch.
 
@@ -57,7 +59,7 @@ docker compose exec -T -e JEKYLL_ENV=production jekyll bundle exec jekyll build 
 docker compose exec -T jekyll bundle exec al-folio upgrade overrides audit
 ```
 
-Blender reproduction: `blender --background --python-exit-code 1 --python bin/build_coastal_home.py`. The official portable 4.5.9 LTS build worked after the installed Store launcher denied background execution. The script, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py` write the `.blend` sources, optimized GLBs, and wall portraits together. Each character source opens with its idle NLA track selected; switch tracks to inspect another action.
+Blender reproduction: `blender --background --python-exit-code 1 --python bin/build_coastal_home.py`. The official portable 4.5.9 LTS build worked after the installed Store launcher denied background execution. The script and its `coastal_sculpt`, `coastal_craft`, `coastal_characters`, and `coastal_interiors` helpers write the `.blend` sources, optimized GLBs, and model-review portraits together. Use `-- --avatar=ghibli` to rebuild one variant. Each character source opens with its idle NLA track selected; switch tracks to inspect another action.
 
 Sipping, eating, and reading hand contacts are solved in Blender and baked into the exported clips. Cups sit beyond the stylized closed hand instead of disappearing inside it; the reading prop opens across both hands. Use `--python-exit-code 1` in scripted Blender runs to treat an authoring exception as a failed command.
 

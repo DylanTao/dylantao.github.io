@@ -2,36 +2,35 @@
   "version": 2,
   "timeZone": "America/Los_Angeles",
   "shell": "home-shell.glb",
+  "wallArt": {
+    "file": "../../img/home/sirui_capy.jpg",
+    "label": "Capybara beach party"
+  },
   "avatars": [
     {
       "id": "lizard",
       "label": "Lizard",
-      "file": "sirui-lizard.glb",
-      "portrait": "portraits/lizard.png"
+      "file": "sirui-lizard.glb"
     },
     {
       "id": "south-park",
       "label": "South Park",
-      "file": "sirui-south-park.glb",
-      "portrait": "portraits/south-park.png"
+      "file": "sirui-south-park.glb"
     },
     {
       "id": "simpsons",
       "label": "Simpsons",
-      "file": "sirui-simpsons.glb",
-      "portrait": "portraits/simpsons.png"
+      "file": "sirui-simpsons.glb"
     },
     {
       "id": "ghibli",
       "label": "Ghibli",
-      "file": "sirui-ghibli.glb",
-      "portrait": "portraits/ghibli.png"
+      "file": "sirui-ghibli.glb"
     },
     {
       "id": "rick-and-morty",
       "label": "Rick and Morty",
-      "file": "sirui-rick-and-morty.glb",
-      "portrait": "portraits/rick-and-morty.png"
+      "file": "sirui-rick-and-morty.glb"
     }
   ],
   "rooms": [
@@ -67,14 +66,14 @@
       "id": "gym",
       "label": "Gym",
       "file": "room-gym.glb",
-      "target": [0, 0.93, 1.0],
-      "actor": [0, 0.04, 1.1],
-      "facing": 0,
+      "target": [0, 1.02, 1.78],
+      "actor": [-0.46, 0.048, 1.03],
+      "facing": 3.141593,
       "egress": [0, 0, 0.3],
       "camera": {
-        "radius": 3.3,
-        "yaw": 1.4,
-        "pitch": 0.22
+        "radius": 4.8,
+        "yaw": 2.98,
+        "pitch": 0.28
       }
     },
     {
