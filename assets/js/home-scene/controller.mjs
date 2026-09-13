@@ -7,6 +7,8 @@ import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvat
 
 import { createFootContacts } from "./locomotion.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
+import { createWorldCompanion } from "./companion.mjs";
+import { companion } from "../companion/bridge.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -80,6 +82,7 @@ export function createCoastalHome(container, records, artifacts) {
     focused = null,
     travel = null,
     footContacts,
+    worldCompanion,
     actorGoal = null;
   let pointer = null,
     followClock = true,
@@ -1024,6 +1027,8 @@ export function createCoastalHome(container, records, artifacts) {
     if (vinyl && spinning && moving) vinyl.rotation.y += delta * 0.75;
     if (water && moving) water.position.y = water.userData.restY + Math.sin(elapsed * 0.7) * 0.006;
     if (moving) pacific?.update(elapsed);
+    companion.paused = paused;
+    worldCompanion?.update(delta, elapsed, camera, currentRoom, moving);
     orientProp();
     renderer.info.reset();
     pacific?.reflect(camera, style === "realistic" && currentRoom === "outside");
@@ -1071,13 +1076,16 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       world.add(prepareModel(shell.scene));
-      pacific = createPacific(scene, renderer);
+      pacific = createPacific(scene, renderer, config);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href);
       if (disposed) {
         release(coast.scene);
         return;
       }
       world.add(prepareModel(coast.scene));
+      worldCompanion = createWorldCompanion(scene, config, container);
+      cleanup.push(() => worldCompanion.dispose());
+      listen(window, "pip:change", requestFrame);
       makeDeskObjects();
       const lab = ui.querySelector("[data-world-lab]");
       lab.hidden = !labEnabled;
@@ -1176,6 +1184,8 @@ export function createCoastalHome(container, records, artifacts) {
     resources: renderer ? { ...renderer.info.memory } : {},
     projection: camera.isOrthographicCamera ? "orthographic" : "perspective",
     coastDetail: style,
+    companion: worldCompanion?.evidence(),
+    ecology: pacific?.evidence(),
     rendering: finish?.evidence,
     backdropImages: 0,
     camera: camera.position.toArray(),
@@ -1226,6 +1236,7 @@ export function createCoastalHome(container, records, artifacts) {
     },
     async setVisible(value) {
       visible = value;
+      if (!value) companion.paused = false;
       container.classList.toggle("is-visible", value);
       container.setAttribute("aria-hidden", String(!value));
       ui.hidden = !value;

@@ -125,6 +125,9 @@
   <script defer src="{{ '/assets/js/home-coffee-stain.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <script defer src="{{ '/assets/js/home.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
 {% endif %}
+{% unless page.ai_profile or page.redirect or page.secret_globe %}
+  <script type="module" src="{{ '/assets/js/companion/page.mjs' | relative_url | bust_file_cache }}"></script>
+{% endunless %}
 {% if page.research_motion %}
   <script defer src="{{ '/assets/js/research-motion.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <script type="module" src="{{ '/assets/js/paper-research-field.js' | relative_url | bust_file_cache }}"></script>

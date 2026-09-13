@@ -5,7 +5,7 @@ const { getPublicBaseURL, getVisualPort, usesExternalVisualServer } = require(".
 const repoRoot = path.resolve(__dirname, "../..");
 const baseURL = getPublicBaseURL();
 const visualPort = getVisualPort();
-const suiteName = process.argv.some((argument) => argument.includes("desk-scene.spec.js"))
+const suiteName = process.argv.some((argument) => /(?:desk-scene|companion)\.spec\.js/.test(argument))
   ? "scene"
   : process.argv.some((argument) => argument.includes("sitewide.spec.js"))
     ? "site"
@@ -25,7 +25,7 @@ const webServer = usesExternalVisualServer()
 
 module.exports = {
   testDir: __dirname,
-  testMatch: ["sitewide.spec.js", "paper-constellation.spec.js", "build-rhythm-story.spec.js", "desk-scene.spec.js"],
+  testMatch: ["sitewide.spec.js", "paper-constellation.spec.js", "build-rhythm-story.spec.js", "desk-scene.spec.js", "companion.spec.js"],
   timeout: 300000,
   expect: {
     timeout: 15000,

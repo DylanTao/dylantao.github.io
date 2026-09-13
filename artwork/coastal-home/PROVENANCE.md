@@ -51,3 +51,11 @@ The September 13 habitat refinement adds `bin/coastal_interiors.py`: original cu
 `portraits/` contains front, profile and full-body Cycles studies in addition to the original review angle. `reviews/` contains direct Blender views of the house. All authoring studies remain excluded from Jekyll. Asset creation used Blender's Python API; native Blender mouse and keyboard control is unavailable in this session.
 
 After a full house rebuild, `-- --section-only` reuses the local room cache to rebuild floors and coast, and `-- --coast-only` reuses the local section cache for terrain iteration. These caches are optional and gitignored; the full build reconstructs them from source. `bin/render_coastal_review.py` renders the saved house for direct inspection. The public renderer remains Realistic, with the three-style comparison deferred to GPT-7.
+
+## September 13: garden, beach ecology and Pip
+
+`bin/coastal_garden.py` authors the hanging study planter, trailing leaves, cords and bracket, plus larger lounge and kitchen plants. These meshes are saved in `coastal-home.blend` and exported with the relevant room assets. The widened beach reads its 14-meter base depth, cove bulge and shoreline variation from `manifest.json`; Blender and browser contact geometry share those values.
+
+Pip and the animals are original code-authored geometry. `assets/js/companion/portrait.mjs` ray-marches a small ceramic robot for the 2D page; `home-scene/companion.mjs` builds its articulated Three.js counterpart. `wildlife.mjs` models two brush rabbits, a raccoon, four flying gulls, a balcony gull and three sandpipers. These are geometry, not image cutouts, downloaded models or Blender exports. The garden and beach changes used Blender's background Python API; native application mouse control was unavailable.
+
+Ceramic reflections, colored rim light, soft hover shadows, leaf backlighting/wind, wet sand, broken wave crests, spray, dust and steam are procedural browser effects. Motion uses damped springs, authored paths and particle fields. No physical fluid simulation, unrestricted rigid-body solver or trained animal model is claimed. All remarks are locally authored strings; no remote conversational service is called.

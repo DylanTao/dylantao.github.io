@@ -1,0 +1,1537 @@
+{
+  "capturedAt": "2026-09-13T11:07:40.577Z",
+  "platform": "win32 10.0.26300 x64",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "method": "Serial headless Chromium, no CPU or network throttle. Three seconds of study warmup and four seconds of live animation; the gym and exterior each have 1.5 seconds of warmup and four seconds of measurement. Arrival follows the current routine with a random avatar; subsequent animation measurements use Lizard. Mobile is touch/viewport/DPR emulation on this computer, not a physical device. gzip estimates are separate from actual local HTTP transfer sizes.",
+  "views": [
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "deviceScaleFactor": 1,
+      "defaultMode": "2d",
+      "twoD": {
+        "companionFps": 60,
+        "rafP95Ms": 16.7,
+        "state": {
+          "owner": "page",
+          "x": 1337,
+          "y": 491.76514108362244,
+          "target": {
+            "x": 1337,
+            "y": 491.765625
+          },
+          "gaze": [0, 0],
+          "visible": true,
+          "napping": false,
+          "reduced": false,
+          "theme": "evening",
+          "frames": 352,
+          "bumpCount": 0,
+          "repaired": 0,
+          "repairing": false,
+          "text": "",
+          "renderer": "webgl"
+        },
+        "resources": [
+          {
+            "path": "/assets/js/companion/page.mjs",
+            "encodedBodySize": 17395,
+            "transferSize": 17695
+          },
+          {
+            "path": "/assets/js/companion/portrait.mjs",
+            "encodedBodySize": 5914,
+            "transferSize": 6214
+          },
+          {
+            "path": "/assets/js/companion/bridge.mjs",
+            "encodedBodySize": 693,
+            "transferSize": 993
+          },
+          {
+            "path": "/assets/js/companion/behaviour.mjs",
+            "encodedBodySize": 3015,
+            "transferSize": 3315
+          }
+        ]
+      },
+      "requestsBefore3D": [],
+      "readyMs": 3924,
+      "firstFrameMs": 3985,
+      "arrival": {
+        "avatar": "lizard",
+        "activity": "sleep",
+        "room": "sleep"
+      },
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "initialResources": [
+        {
+          "path": "/assets/js/home-scene/controller.mjs",
+          "encodedBodySize": 48215,
+          "transferSize": 48515
+        },
+        {
+          "path": "/assets/img/home/coastal-vignette.svg",
+          "encodedBodySize": 526,
+          "transferSize": 826
+        },
+        {
+          "path": "/assets/js/three.module.min.js",
+          "encodedBodySize": 674428,
+          "transferSize": 674728
+        },
+        {
+          "path": "/assets/js/home-scene/model-loader.mjs",
+          "encodedBodySize": 1372,
+          "transferSize": 1672
+        },
+        {
+          "path": "/assets/js/home-scene/materials.mjs",
+          "encodedBodySize": 6844,
+          "transferSize": 7144
+        },
+        {
+          "path": "/assets/js/home-scene/environment.mjs",
+          "encodedBodySize": 14081,
+          "transferSize": 14381
+        },
+        {
+          "path": "/assets/js/home-scene/routine.mjs",
+          "encodedBodySize": 2927,
+          "transferSize": 3227
+        },
+        {
+          "path": "/assets/js/home-scene/realism.mjs",
+          "encodedBodySize": 9845,
+          "transferSize": 10145
+        },
+        {
+          "path": "/assets/js/home-scene/locomotion.mjs",
+          "encodedBodySize": 3001,
+          "transferSize": 3301
+        },
+        {
+          "path": "/assets/js/home-scene/navigation.mjs",
+          "encodedBodySize": 1985,
+          "transferSize": 2285
+        },
+        {
+          "path": "/assets/js/home-scene/companion.mjs",
+          "encodedBodySize": 10689,
+          "transferSize": 10989
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/EffectComposer.js",
+          "encodedBodySize": 2971,
+          "transferSize": 3271
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/SSAOPass.js",
+          "encodedBodySize": 7595,
+          "transferSize": 7895
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/RenderPass.js",
+          "encodedBodySize": 1057,
+          "transferSize": 1357
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/OutputPass.js",
+          "encodedBodySize": 1873,
+          "transferSize": 2173
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+          "encodedBodySize": 10795,
+          "transferSize": 11095
+        },
+        {
+          "path": "/assets/js/home-scene/reflection.mjs",
+          "encodedBodySize": 3723,
+          "transferSize": 4023
+        },
+        {
+          "path": "/assets/js/home-scene/wildlife.mjs",
+          "encodedBodySize": 6833,
+          "transferSize": 7133
+        },
+        {
+          "path": "/assets/js/home-scene/shore.mjs",
+          "encodedBodySize": 545,
+          "transferSize": 845
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/shaders/CopyShader.js",
+          "encodedBodySize": 507,
+          "transferSize": 807
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/ShaderPass.js",
+          "encodedBodySize": 964,
+          "transferSize": 1264
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/MaskPass.js",
+          "encodedBodySize": 1172,
+          "transferSize": 1472
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/Pass.js",
+          "encodedBodySize": 835,
+          "transferSize": 1135
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/shaders/OutputShader.js",
+          "encodedBodySize": 1597,
+          "transferSize": 1897
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/math/SimplexNoise.js",
+          "encodedBodySize": 4296,
+          "transferSize": 4596
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/shaders/SSAOShader.js",
+          "encodedBodySize": 6504,
+          "transferSize": 6804
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+          "encodedBodySize": 49780,
+          "transferSize": 50080
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/DRACOLoader.js",
+          "encodedBodySize": 6320,
+          "transferSize": 6620
+        },
+        {
+          "path": "/assets/models/home/manifest.json",
+          "encodedBodySize": 6637,
+          "transferSize": 6937
+        },
+        {
+          "path": "/assets/models/home/home-shell.glb",
+          "encodedBodySize": 966580,
+          "transferSize": 966880
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+          "encodedBodySize": 192420,
+          "transferSize": 192720
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/libs/draco/draco-worker.js",
+          "encodedBodySize": 2135,
+          "transferSize": 2435
+        },
+        {
+          "path": "/assets/models/home/coast.glb",
+          "encodedBodySize": 139212,
+          "transferSize": 139512
+        },
+        {
+          "path": "/assets/models/home/room-sleep.glb",
+          "encodedBodySize": 45920,
+          "transferSize": 46220
+        },
+        {
+          "path": "/assets/models/home/sirui-lizard.glb",
+          "encodedBodySize": 379188,
+          "transferSize": 379488
+        },
+        {
+          "path": "/assets/img/home/sirui_capy.jpg",
+          "encodedBodySize": 93168,
+          "transferSize": 93468
+        }
+      ],
+      "styles": [
+        {
+          "style": "realistic",
+          "durationMs": 4003,
+          "renderedFrames": 240,
+          "sceneFps": 60,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "realistic",
+            "avatarId": "lizard",
+            "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+            "currentRoom": "study",
+            "activity": "work",
+            "activityFloor": 2.6,
+            "activityOffset": [-0.35, 2.6, 5],
+            "traveling": false,
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 451,
+            "drawCalls": 372,
+            "triangles": 1227097,
+            "resources": {
+              "geometries": 102,
+              "textures": 18
+            },
+            "projection": "perspective",
+            "coastDetail": "realistic",
+            "companion": {
+              "visible": true,
+              "position": [0.014252470225945996, 3.7123100801461026, 3.480863779757594],
+              "head": [1.6732441240142687e-8, 1.945178464640233e-8],
+              "room": "study",
+              "traveling": false
+            },
+            "ecology": {
+              "wildlife": {
+                "rabbits": 2,
+                "raccoons": 1,
+                "gulls": 5,
+                "shorebirds": 3
+              },
+              "beachWidth": 14,
+              "particles": 200
+            },
+            "rendering": {
+              "contactShadows": true,
+              "samples": 16,
+              "aoWidth": 480,
+              "aoHeight": 406,
+              "width": 544.859375,
+              "height": 460.796875
+            },
+            "backdropImages": 0,
+            "camera": [2.236066065239198, 4.530654253316282, 0.8338161904533798],
+            "target": [-0.2700000000000002, 3.639999999999999, 3.2599999999999985],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 544,
+            "canvasHeight": 460,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.4069915230543377,
+                "y": 0.6492477792102965
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.8589334646910288,
+                "y": 0.2213553467412373
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.7652409449494303,
+                "y": 0.21618028926530397
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.6815133878491768,
+                "y": 0.21155564130505794
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.6062412852163483,
+                "y": 0.20739802596358187
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.7693807879426029,
+                "y": 0.5301467954719001
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.7057804347213601,
+                "y": 0.5567726133703947
+              },
+              {
+                "type": "window",
+                "x": 0.9877471967577437,
+                "y": 0.4852639097134352
+              }
+            ],
+            "joints": {
+              "Root": [-0.27, 2.5200000017881394, 3.38],
+              "Hips": [-0.27, 3.200000008940697, 3.38],
+              "Head": [-0.27, 3.640000006556511, 3.38],
+              "HandL": [0.021493842198695445, 3.4869385138756126, 3.141275594694602],
+              "HandR": [-0.5617679623177735, 3.489803124556732, 3.143712826202404],
+              "FootL": [-0.16000017951039638, 2.8814964812980195, 3.060497854602231],
+              "FootR": [-0.3800001857688695, 2.881496431741684, 3.060497947180517]
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "gym": {
+        "durationMs": 4003,
+        "renderedFrames": 240,
+        "sceneFps": 60,
+        "rafP95Ms": 16.8,
+        "state": {
+          "ready": true,
+          "style": "realistic",
+          "avatarId": "lizard",
+          "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+          "currentRoom": "gym",
+          "activity": "workout",
+          "activityFloor": 0,
+          "activityOffset": [0, 0, -3],
+          "traveling": false,
+          "palette": "afternoon",
+          "clockMode": "preview",
+          "following": false,
+          "animation": "workout",
+          "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+          "roomCount": 6,
+          "actorCount": 1,
+          "frames": 787,
+          "drawCalls": 330,
+          "triangles": 1463322,
+          "resources": {
+            "geometries": 105,
+            "textures": 18
+          },
+          "projection": "perspective",
+          "coastDetail": "realistic",
+          "companion": {
+            "visible": true,
+            "position": [1.615, 1.4937022890215124, -0.19101726132609076],
+            "head": [7.063866455252704e-24, 8.211880567007412e-24],
+            "room": "gym",
+            "traveling": true
+          },
+          "ecology": {
+            "wildlife": {
+              "rabbits": 2,
+              "raccoons": 1,
+              "gulls": 5,
+              "shorebirds": 3
+            },
+            "beachWidth": 14,
+            "particles": 200
+          },
+          "rendering": {
+            "contactShadows": true,
+            "samples": 16,
+            "aoWidth": 480,
+            "aoHeight": 406,
+            "width": 544.859375,
+            "height": 460.796875
+          },
+          "backdropImages": 0,
+          "camera": [0.7421976584208331, 2.3465071131077453, -5.7729684289163625],
+          "target": [-1.39110662312935e-22, 1.0200000000000007, -1.2199999999999993],
+          "currentRecord": 0,
+          "spinning": false,
+          "dropped": [],
+          "focused": null,
+          "canvasWidth": 544,
+          "canvasHeight": 460,
+          "prop": {
+            "kind": "dumbbell",
+            "position": [-0.7804032350456468, 0.6913958225995733, -2.1440602114512064],
+            "size": [0.2790176731674525, 0.21963064470921956, 0.22254308374556153],
+            "ancestorsVisible": true
+          },
+          "targets": [
+            {
+              "type": "spin",
+              "x": 0.32431699428721084,
+              "y": -0.14987083621013397
+            },
+            {
+              "type": "record",
+              "index": 0,
+              "x": 0.6368978325761725,
+              "y": -0.2821944994137151
+            },
+            {
+              "type": "record",
+              "index": 1,
+              "x": 0.6227864264644637,
+              "y": -0.2672887225565125
+            },
+            {
+              "type": "record",
+              "index": 2,
+              "x": 0.6097834193324644,
+              "y": -0.25355373957551974
+            },
+            {
+              "type": "record",
+              "index": 3,
+              "x": 0.5977631551044966,
+              "y": -0.24085682086108806
+            },
+            {
+              "type": "artifact",
+              "index": 0,
+              "x": 0.5608099269661851,
+              "y": -0.12881611308872598
+            },
+            {
+              "type": "artifact",
+              "index": 1,
+              "x": 0.5087234230701027,
+              "y": -0.13023082648606754
+            },
+            {
+              "type": "window",
+              "x": 0.47334289651386513,
+              "y": -0.2533990867131689
+            }
+          ],
+          "joints": {
+            "Root": [-0.46, 0.048, -1.97],
+            "Hips": [-0.46, 0.7280000071525574, -1.97],
+            "Head": [-0.46, 1.1680000047683716, -1.97],
+            "HandL": [-0.14548386801628446, 0.8863834238237484, -2.1806705818849395],
+            "HandR": [-0.7812397946258904, 0.7032873310279416, -2.102733568903192],
+            "FootL": [-0.35000000009097043, 0.1229999582767417, -1.970000036438284],
+            "FootR": [-0.5699999988988643, 0.1229999880790641, -1.9699999603867788]
+          }
+        }
+      },
+      "exterior": {
+        "durationMs": 4002,
+        "renderedFrames": 240,
+        "sceneFps": 60,
+        "rafP95Ms": 16.8,
+        "state": {
+          "ready": true,
+          "style": "realistic",
+          "avatarId": "lizard",
+          "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+          "currentRoom": "outside",
+          "activity": "workout",
+          "activityFloor": 0,
+          "activityOffset": [0, 0, -3],
+          "traveling": false,
+          "palette": "afternoon",
+          "clockMode": "preview",
+          "following": false,
+          "animation": "workout",
+          "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+          "roomCount": 6,
+          "actorCount": 1,
+          "frames": 1133,
+          "drawCalls": 948,
+          "triangles": 2032553,
+          "resources": {
+            "geometries": 105,
+            "textures": 19
+          },
+          "projection": "perspective",
+          "coastDetail": "realistic",
+          "companion": {
+            "visible": true,
+            "position": [0.7031659515599085, 0.7547241776321582, 3.3],
+            "head": [0.0002711742452878679, 0.00001772426358636089],
+            "room": "gym",
+            "traveling": true
+          },
+          "ecology": {
+            "wildlife": {
+              "rabbits": 2,
+              "raccoons": 1,
+              "gulls": 5,
+              "shorebirds": 3
+            },
+            "beachWidth": 14,
+            "particles": 200
+          },
+          "rendering": {
+            "contactShadows": true,
+            "samples": 16,
+            "aoWidth": 480,
+            "aoHeight": 406,
+            "width": 544.859375,
+            "height": 460.796875
+          },
+          "backdropImages": 0,
+          "camera": [-12.985500308871162, 10.437678107399856, -38.25334900908734],
+          "target": [3.9999999999999987, -2.199999999999999, -5.499999999999997],
+          "currentRecord": 0,
+          "spinning": false,
+          "dropped": [],
+          "focused": null,
+          "canvasWidth": 544,
+          "canvasHeight": 460,
+          "prop": {
+            "kind": "dumbbell",
+            "position": [-0.775183445776969, 0.8250025997465031, -2.214160164301493],
+            "size": [0.28169650072381125, 0.19406865882085245, 0.2016317168086692],
+            "ancestorsVisible": true
+          },
+          "targets": [
+            {
+              "type": "spin",
+              "x": 0.7006441350985413,
+              "y": 0.25058680386414045
+            },
+            {
+              "type": "record",
+              "index": 0,
+              "x": 0.760241646548454,
+              "y": 0.23039257770461113
+            },
+            {
+              "type": "record",
+              "index": 1,
+              "x": 0.7632286366985919,
+              "y": 0.22874499372533158
+            },
+            {
+              "type": "record",
+              "index": 2,
+              "x": 0.7661727250445074,
+              "y": 0.22712107380979707
+            },
+            {
+              "type": "record",
+              "index": 3,
+              "x": 0.7690748292864846,
+              "y": 0.22552031176675502
+            },
+            {
+              "type": "artifact",
+              "index": 0,
+              "x": 0.7441328838866113,
+              "y": 0.25702339273139985
+            },
+            {
+              "type": "artifact",
+              "index": 1,
+              "x": 0.7341871347393243,
+              "y": 0.25610239634134513
+            },
+            {
+              "type": "window",
+              "x": 0.7156199624477073,
+              "y": 0.2454846059021294
+            }
+          ],
+          "joints": {
+            "Root": [-0.46, 0.048, -1.97],
+            "Hips": [-0.46, 0.7280000071525574, -1.97],
+            "Head": [-0.46, 1.1680000047683716, -1.97],
+            "HandL": [-0.14146847065808982, 0.76080157862045, -2.1523635169757998],
+            "HandR": [-0.7766983216265573, 0.8107276070136183, -2.1736147812372146],
+            "FootL": [-0.35000000009097043, 0.1229999582767417, -1.970000036438284],
+            "FootR": [-0.5699999988988643, 0.1229999880790641, -1.9699999603867788]
+          }
+        }
+      }
+    },
+    {
+      "label": "emulated-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "defaultMode": "2d",
+      "twoD": {
+        "companionFps": 60,
+        "rafP95Ms": 16.7,
+        "state": {
+          "owner": "page",
+          "x": 322,
+          "y": 910.5765187402657,
+          "target": {
+            "x": 322,
+            "y": 910.6000000000003
+          },
+          "gaze": [0, 0],
+          "visible": true,
+          "napping": false,
+          "reduced": false,
+          "theme": "evening",
+          "frames": 349,
+          "bumpCount": 0,
+          "repaired": 0,
+          "repairing": false,
+          "text": "",
+          "renderer": "webgl"
+        },
+        "resources": [
+          {
+            "path": "/assets/js/companion/page.mjs",
+            "encodedBodySize": 17395,
+            "transferSize": 17695
+          },
+          {
+            "path": "/assets/js/companion/portrait.mjs",
+            "encodedBodySize": 5914,
+            "transferSize": 6214
+          },
+          {
+            "path": "/assets/js/companion/behaviour.mjs",
+            "encodedBodySize": 3015,
+            "transferSize": 3315
+          },
+          {
+            "path": "/assets/js/companion/bridge.mjs",
+            "encodedBodySize": 693,
+            "transferSize": 993
+          }
+        ]
+      },
+      "requestsBefore3D": [],
+      "readyMs": 847,
+      "firstFrameMs": 908,
+      "arrival": {
+        "avatar": "south-park",
+        "activity": "sleep",
+        "room": "sleep"
+      },
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "initialResources": [
+        {
+          "path": "/assets/js/home-scene/controller.mjs",
+          "encodedBodySize": 48215,
+          "transferSize": 48515
+        },
+        {
+          "path": "/assets/img/home/coastal-vignette.svg",
+          "encodedBodySize": 526,
+          "transferSize": 826
+        },
+        {
+          "path": "/assets/js/three.module.min.js",
+          "encodedBodySize": 674428,
+          "transferSize": 674728
+        },
+        {
+          "path": "/assets/js/home-scene/materials.mjs",
+          "encodedBodySize": 6844,
+          "transferSize": 7144
+        },
+        {
+          "path": "/assets/js/home-scene/environment.mjs",
+          "encodedBodySize": 14081,
+          "transferSize": 14381
+        },
+        {
+          "path": "/assets/js/home-scene/model-loader.mjs",
+          "encodedBodySize": 1372,
+          "transferSize": 1672
+        },
+        {
+          "path": "/assets/js/home-scene/routine.mjs",
+          "encodedBodySize": 2927,
+          "transferSize": 3227
+        },
+        {
+          "path": "/assets/js/home-scene/realism.mjs",
+          "encodedBodySize": 9845,
+          "transferSize": 10145
+        },
+        {
+          "path": "/assets/js/home-scene/locomotion.mjs",
+          "encodedBodySize": 3001,
+          "transferSize": 3301
+        },
+        {
+          "path": "/assets/js/home-scene/companion.mjs",
+          "encodedBodySize": 10689,
+          "transferSize": 10989
+        },
+        {
+          "path": "/assets/js/home-scene/navigation.mjs",
+          "encodedBodySize": 1985,
+          "transferSize": 2285
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+          "encodedBodySize": 10795,
+          "transferSize": 11095
+        },
+        {
+          "path": "/assets/js/home-scene/reflection.mjs",
+          "encodedBodySize": 3723,
+          "transferSize": 4023
+        },
+        {
+          "path": "/assets/js/home-scene/wildlife.mjs",
+          "encodedBodySize": 6833,
+          "transferSize": 7133
+        },
+        {
+          "path": "/assets/js/home-scene/shore.mjs",
+          "encodedBodySize": 545,
+          "transferSize": 845
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/EffectComposer.js",
+          "encodedBodySize": 2971,
+          "transferSize": 3271
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/SSAOPass.js",
+          "encodedBodySize": 7595,
+          "transferSize": 7895
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/RenderPass.js",
+          "encodedBodySize": 1057,
+          "transferSize": 1357
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/OutputPass.js",
+          "encodedBodySize": 1873,
+          "transferSize": 2173
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+          "encodedBodySize": 49780,
+          "transferSize": 50080
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/loaders/DRACOLoader.js",
+          "encodedBodySize": 6320,
+          "transferSize": 6620
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/ShaderPass.js",
+          "encodedBodySize": 964,
+          "transferSize": 1264
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/shaders/CopyShader.js",
+          "encodedBodySize": 507,
+          "transferSize": 807
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/MaskPass.js",
+          "encodedBodySize": 1172,
+          "transferSize": 1472
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/postprocessing/Pass.js",
+          "encodedBodySize": 835,
+          "transferSize": 1135
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/math/SimplexNoise.js",
+          "encodedBodySize": 4296,
+          "transferSize": 4596
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/shaders/SSAOShader.js",
+          "encodedBodySize": 6504,
+          "transferSize": 6804
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/shaders/OutputShader.js",
+          "encodedBodySize": 1597,
+          "transferSize": 1897
+        },
+        {
+          "path": "/assets/models/home/manifest.json",
+          "encodedBodySize": 6637,
+          "transferSize": 6937
+        },
+        {
+          "path": "/assets/models/home/home-shell.glb",
+          "encodedBodySize": 966580,
+          "transferSize": 966880
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+          "encodedBodySize": 192420,
+          "transferSize": 192720
+        },
+        {
+          "path": "/assets/js/vendor/three-r164/libs/draco/draco-worker.js",
+          "encodedBodySize": 2135,
+          "transferSize": 2435
+        },
+        {
+          "path": "/assets/models/home/coast.glb",
+          "encodedBodySize": 139212,
+          "transferSize": 139512
+        },
+        {
+          "path": "/assets/models/home/room-sleep.glb",
+          "encodedBodySize": 45920,
+          "transferSize": 46220
+        },
+        {
+          "path": "/assets/models/home/sirui-south-park.glb",
+          "encodedBodySize": 511692,
+          "transferSize": 511992
+        },
+        {
+          "path": "/assets/img/home/sirui_capy.jpg",
+          "encodedBodySize": 93168,
+          "transferSize": 93468
+        }
+      ],
+      "styles": [
+        {
+          "style": "realistic",
+          "durationMs": 4012,
+          "renderedFrames": 241,
+          "sceneFps": 60.1,
+          "rafP95Ms": 16.8,
+          "state": {
+            "ready": true,
+            "style": "realistic",
+            "avatarId": "lizard",
+            "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+            "currentRoom": "study",
+            "activity": "work",
+            "activityFloor": 2.6,
+            "activityOffset": [-0.35, 2.6, 5],
+            "traveling": false,
+            "palette": "afternoon",
+            "clockMode": "preview",
+            "following": false,
+            "animation": "typing",
+            "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+            "roomCount": 6,
+            "actorCount": 1,
+            "frames": 451,
+            "drawCalls": 368,
+            "triangles": 1223473,
+            "resources": {
+              "geometries": 102,
+              "textures": 18
+            },
+            "projection": "perspective",
+            "coastDetail": "realistic",
+            "companion": {
+              "visible": true,
+              "position": [0.014225609349143159, 3.7056263249960395, 3.480854248478729],
+              "head": [2.0657334864376875e-8, 2.8343430025731692e-8],
+              "room": "study",
+              "traveling": false
+            },
+            "ecology": {
+              "wildlife": {
+                "rabbits": 2,
+                "raccoons": 1,
+                "gulls": 5,
+                "shorebirds": 3
+              },
+              "beachWidth": 14,
+              "particles": 200
+            },
+            "rendering": {
+              "contactShadows": true,
+              "samples": 16,
+              "aoWidth": 350,
+              "aoHeight": 352,
+              "width": 350,
+              "height": 352
+            },
+            "backdropImages": 0,
+            "camera": [2.236066065239198, 4.530654253316282, 0.8338161904533798],
+            "target": [-0.2700000000000002, 3.639999999999999, 3.2599999999999985],
+            "currentRecord": 0,
+            "spinning": false,
+            "dropped": [],
+            "focused": null,
+            "canvasWidth": 525,
+            "canvasHeight": 528,
+            "prop": null,
+            "targets": [
+              {
+                "type": "spin",
+                "x": 0.3893956890432035,
+                "y": 0.6492477792102965
+              },
+              {
+                "type": "record",
+                "index": 0,
+                "x": 0.9268383898456948,
+                "y": 0.2213553467412373
+              },
+              {
+                "type": "record",
+                "index": 1,
+                "x": 0.8154206252705394,
+                "y": 0.21618028926530397
+              },
+              {
+                "type": "record",
+                "index": 2,
+                "x": 0.7158530475047014,
+                "y": 0.21155564130505794
+              },
+              {
+                "type": "record",
+                "index": 3,
+                "x": 0.6263405716597613,
+                "y": 0.20739802596358187
+              },
+              {
+                "type": "artifact",
+                "index": 0,
+                "x": 0.8203436655864956,
+                "y": 0.5301467954719001
+              },
+              {
+                "type": "artifact",
+                "index": 1,
+                "x": 0.7447110622405216,
+                "y": 0.5567726133703947
+              },
+              {
+                "type": "window",
+                "x": 1.080021782853367,
+                "y": 0.4852639097134352
+              }
+            ],
+            "joints": {
+              "Root": [-0.27, 2.5200000017881394, 3.38],
+              "Hips": [-0.27, 3.200000008940697, 3.38],
+              "Head": [-0.27, 3.640000006556511, 3.38],
+              "HandL": [0.021561536299899063, 3.4876538587319557, 3.141875954922769],
+              "HandR": [-0.5616996041944298, 3.489095932818596, 3.1431029669670827],
+              "FootL": [-0.16000017951039638, 2.8814964812980195, 3.060497854602231],
+              "FootR": [-0.3800001857688695, 2.881496431741684, 3.060497947180517]
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "gym": {
+        "durationMs": 4016,
+        "renderedFrames": 241,
+        "sceneFps": 60,
+        "rafP95Ms": 16.7,
+        "state": {
+          "ready": true,
+          "style": "realistic",
+          "avatarId": "lizard",
+          "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+          "currentRoom": "gym",
+          "activity": "workout",
+          "activityFloor": 0,
+          "activityOffset": [0, 0, -3],
+          "traveling": false,
+          "palette": "afternoon",
+          "clockMode": "preview",
+          "following": false,
+          "animation": "workout",
+          "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+          "roomCount": 6,
+          "actorCount": 1,
+          "frames": 799,
+          "drawCalls": 314,
+          "triangles": 1456198,
+          "resources": {
+            "geometries": 105,
+            "textures": 18
+          },
+          "projection": "perspective",
+          "coastDetail": "realistic",
+          "companion": {
+            "visible": true,
+            "position": [1.615, 1.3530822672201412, -0.4126750142115568],
+            "head": [2.4630179366926085e-24, 3.3794473972126744e-24],
+            "room": "gym",
+            "traveling": true
+          },
+          "ecology": {
+            "wildlife": {
+              "rabbits": 2,
+              "raccoons": 1,
+              "gulls": 5,
+              "shorebirds": 3
+            },
+            "beachWidth": 14,
+            "particles": 200
+          },
+          "rendering": {
+            "contactShadows": true,
+            "samples": 16,
+            "aoWidth": 350,
+            "aoHeight": 352,
+            "width": 350,
+            "height": 352
+          },
+          "backdropImages": 0,
+          "camera": [0.7421976584208331, 2.3465071131077453, -5.7729684289163625],
+          "target": [-2.2768888651725005e-23, 1.0200000000000007, -1.2199999999999993],
+          "currentRecord": 0,
+          "spinning": false,
+          "dropped": [],
+          "focused": null,
+          "canvasWidth": 525,
+          "canvasHeight": 528,
+          "prop": {
+            "kind": "dumbbell",
+            "position": [-0.7822184373239108, 0.659172122773001, -2.1036867408815394],
+            "size": [0.2776351487134201, 0.20881979359403924, 0.21101244030276267],
+            "ancestorsVisible": true
+          },
+          "targets": [
+            {
+              "type": "spin",
+              "x": 0.2910803570621394,
+              "y": -0.14987083621013397
+            },
+            {
+              "type": "record",
+              "index": 0,
+              "x": 0.6627968862710489,
+              "y": -0.2821944994137151
+            },
+            {
+              "type": "record",
+              "index": 1,
+              "x": 0.6460158099555113,
+              "y": -0.2672887225565125
+            },
+            {
+              "type": "record",
+              "index": 2,
+              "x": 0.6305528253821662,
+              "y": -0.25355373957551974
+            },
+            {
+              "type": "record",
+              "index": 3,
+              "x": 0.6162585041964778,
+              "y": -0.24085682086108806
+            },
+            {
+              "type": "artifact",
+              "index": 0,
+              "x": 0.5723142695408013,
+              "y": -0.12881611308872598
+            },
+            {
+              "type": "artifact",
+              "index": 1,
+              "x": 0.5103737662365658,
+              "y": -0.13023082648606754
+            },
+            {
+              "type": "window",
+              "x": 0.4682997651395745,
+              "y": -0.2533990867131689
+            }
+          ],
+          "joints": {
+            "Root": [-0.46, 0.048, -1.97],
+            "Hips": [-0.46, 0.7280000071525574, -1.97],
+            "Head": [-0.46, 1.1680000047683716, -1.97],
+            "HandL": [-0.14643680387920965, 0.929658355303556, -2.172254592988038],
+            "HandR": [-0.782754166617744, 0.6793716950234452, -2.065717155391826],
+            "FootL": [-0.35000000009097043, 0.1229999582767417, -1.970000036438284],
+            "FootR": [-0.5699999988988643, 0.1229999880790641, -1.9699999603867788]
+          }
+        }
+      },
+      "exterior": {
+        "durationMs": 4017,
+        "renderedFrames": 241,
+        "sceneFps": 60,
+        "rafP95Ms": 16.7,
+        "state": {
+          "ready": true,
+          "style": "realistic",
+          "avatarId": "lizard",
+          "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+          "currentRoom": "outside",
+          "activity": "workout",
+          "activityFloor": 0,
+          "activityOffset": [0, 0, -3],
+          "traveling": false,
+          "palette": "afternoon",
+          "clockMode": "preview",
+          "following": false,
+          "animation": "workout",
+          "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+          "roomCount": 6,
+          "actorCount": 1,
+          "frames": 1146,
+          "drawCalls": 948,
+          "triangles": 2032553,
+          "resources": {
+            "geometries": 105,
+            "textures": 19
+          },
+          "projection": "perspective",
+          "coastDetail": "realistic",
+          "companion": {
+            "visible": true,
+            "position": [0.3567659515599946, 0.7509651483759305, 3.3],
+            "head": [0.0002711742452878679, 0.000011910864591918114],
+            "room": "gym",
+            "traveling": true
+          },
+          "ecology": {
+            "wildlife": {
+              "rabbits": 2,
+              "raccoons": 1,
+              "gulls": 5,
+              "shorebirds": 3
+            },
+            "beachWidth": 14,
+            "particles": 200
+          },
+          "rendering": {
+            "contactShadows": true,
+            "samples": 16,
+            "aoWidth": 350,
+            "aoHeight": 352,
+            "width": 350,
+            "height": 352
+          },
+          "backdropImages": 0,
+          "camera": [-12.985500308871162, 10.437678107399856, -38.25334900908734],
+          "target": [3.9999999999999987, -2.199999999999999, -5.499999999999997],
+          "currentRecord": 0,
+          "spinning": false,
+          "dropped": [],
+          "focused": null,
+          "canvasWidth": 525,
+          "canvasHeight": 528,
+          "prop": {
+            "kind": "dumbbell",
+            "position": [-0.7729940003243341, 0.9066129331744252, -2.2148389405751665],
+            "size": [0.2823226443726128, 0.16366038614197875, 0.17426509616403152],
+            "ancestorsVisible": true
+          },
+          "targets": [
+            {
+              "type": "spin",
+              "x": 0.7386030503763835,
+              "y": 0.25058680386414045
+            },
+            {
+              "type": "record",
+              "index": 0,
+              "x": 0.8094755332416652,
+              "y": 0.23039257770461113
+            },
+            {
+              "type": "record",
+              "index": 1,
+              "x": 0.813027617935878,
+              "y": 0.22874499372533158
+            },
+            {
+              "type": "record",
+              "index": 2,
+              "x": 0.8165286844363666,
+              "y": 0.22712107380979707
+            },
+            {
+              "type": "record",
+              "index": 3,
+              "x": 0.8199798240587927,
+              "y": 0.22552031176675502
+            },
+            {
+              "type": "artifact",
+              "index": 0,
+              "x": 0.7903192299337354,
+              "y": 0.25702339273139985
+            },
+            {
+              "type": "artifact",
+              "index": 1,
+              "x": 0.7784918915285759,
+              "y": 0.25610239634134513
+            },
+            {
+              "type": "window",
+              "x": 0.7564120836963266,
+              "y": 0.2454846059021294
+            }
+          ],
+          "joints": {
+            "Root": [-0.46, 0.048, -1.97],
+            "Hips": [-0.46, 0.7280000071525574, -1.97],
+            "Head": [-0.46, 1.1680000047683716, -1.97],
+            "HandL": [-0.1389879412160296, 0.7074142784943295, -2.107699993831454],
+            "HandR": [-0.7746767745276427, 0.8799411633302134, -2.1811375672560347],
+            "FootL": [-0.35000000009097043, 0.1229999582767417, -1.970000036438284],
+            "FootR": [-0.5699999988988643, 0.1229999880790641, -1.9699999603867788]
+          }
+        }
+      }
+    }
+  ],
+  "graphicsArgs": ["--use-angle=d3d11", "--ignore-gpu-blocklist"],
+  "browser": "145.0.7632.6",
+  "assets": [
+    {
+      "file": "assets/js/three.module.min.js",
+      "bytes": 674428,
+      "gzipBytes": 167923
+    },
+    {
+      "file": "assets/js/companion/behaviour.mjs",
+      "bytes": 3015,
+      "gzipBytes": 1441
+    },
+    {
+      "file": "assets/js/companion/bridge.mjs",
+      "bytes": 693,
+      "gzipBytes": 382
+    },
+    {
+      "file": "assets/js/companion/page.mjs",
+      "bytes": 17395,
+      "gzipBytes": 5258
+    },
+    {
+      "file": "assets/js/companion/portrait.mjs",
+      "bytes": 5914,
+      "gzipBytes": 2615
+    },
+    {
+      "file": "assets/js/home-scene/companion.mjs",
+      "bytes": 10689,
+      "gzipBytes": 3559
+    },
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "bytes": 48215,
+      "gzipBytes": 13825
+    },
+    {
+      "file": "assets/js/home-scene/environment.mjs",
+      "bytes": 14081,
+      "gzipBytes": 4743
+    },
+    {
+      "file": "assets/js/home-scene/locomotion.mjs",
+      "bytes": 3001,
+      "gzipBytes": 1160
+    },
+    {
+      "file": "assets/js/home-scene/materials.mjs",
+      "bytes": 6844,
+      "gzipBytes": 2383
+    },
+    {
+      "file": "assets/js/home-scene/model-loader.mjs",
+      "bytes": 1372,
+      "gzipBytes": 650
+    },
+    {
+      "file": "assets/js/home-scene/navigation.mjs",
+      "bytes": 1985,
+      "gzipBytes": 868
+    },
+    {
+      "file": "assets/js/home-scene/realism.mjs",
+      "bytes": 9845,
+      "gzipBytes": 3210
+    },
+    {
+      "file": "assets/js/home-scene/reflection.mjs",
+      "bytes": 3723,
+      "gzipBytes": 1379
+    },
+    {
+      "file": "assets/js/home-scene/routine.mjs",
+      "bytes": 2927,
+      "gzipBytes": 1213
+    },
+    {
+      "file": "assets/js/home-scene/shore.mjs",
+      "bytes": 545,
+      "gzipBytes": 302
+    },
+    {
+      "file": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 6833,
+      "gzipBytes": 2126
+    },
+    {
+      "file": "assets/js/vendor/three-r164/loaders/DRACOLoader.js",
+      "bytes": 13651,
+      "gzipBytes": 4181
+    },
+    {
+      "file": "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+      "bytes": 109805,
+      "gzipBytes": 23591
+    },
+    {
+      "file": "assets/js/vendor/three-r164/math/SimplexNoise.js",
+      "bytes": 14351,
+      "gzipBytes": 3691
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/EffectComposer.js",
+      "bytes": 4674,
+      "gzipBytes": 1198
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/MaskPass.js",
+      "bytes": 2231,
+      "gzipBytes": 667
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/OutputPass.js",
+      "bytes": 2547,
+      "gzipBytes": 846
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/Pass.js",
+      "bytes": 1729,
+      "gzipBytes": 763
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/RenderPass.js",
+      "bytes": 1938,
+      "gzipBytes": 628
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/ShaderPass.js",
+      "bytes": 1599,
+      "gzipBytes": 655
+    },
+    {
+      "file": "assets/js/vendor/three-r164/postprocessing/SSAOPass.js",
+      "bytes": 11331,
+      "gzipBytes": 2528
+    },
+    {
+      "file": "assets/js/vendor/three-r164/shaders/CopyShader.js",
+      "bytes": 571,
+      "gzipBytes": 333
+    },
+    {
+      "file": "assets/js/vendor/three-r164/shaders/OutputShader.js",
+      "bytes": 1498,
+      "gzipBytes": 577
+    },
+    {
+      "file": "assets/js/vendor/three-r164/shaders/SSAOShader.js",
+      "bytes": 6497,
+      "gzipBytes": 1860
+    },
+    {
+      "file": "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+      "bytes": 31578,
+      "gzipBytes": 6875
+    },
+    {
+      "file": "assets/js/vendor/three-r164/libs/draco/draco-worker.js",
+      "bytes": 5593,
+      "gzipBytes": 1748
+    },
+    {
+      "file": "assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+      "bytes": 192420,
+      "gzipBytes": 63458
+    },
+    {
+      "file": "assets/js/vendor/three-r164/libs/draco/draco_wasm_wrapper.js",
+      "bytes": 58456,
+      "gzipBytes": 11748
+    },
+    {
+      "file": "assets/models/home/manifest.json",
+      "bytes": 6637,
+      "gzipBytes": 1674
+    },
+    {
+      "file": "assets/img/home/coastal-vignette.svg",
+      "bytes": 526,
+      "gzipBytes": 368
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "bytes": 139212,
+      "gzipBytes": 116921
+    },
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "bytes": 966580,
+      "gzipBytes": 852192
+    },
+    {
+      "file": "assets/models/home/room-gym.glb",
+      "bytes": 621876,
+      "gzipBytes": 509053
+    },
+    {
+      "file": "assets/models/home/room-kitchen.glb",
+      "bytes": 126324,
+      "gzipBytes": 110129
+    },
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "bytes": 285592,
+      "gzipBytes": 256525
+    },
+    {
+      "file": "assets/models/home/room-onsen.glb",
+      "bytes": 80540,
+      "gzipBytes": 69596
+    },
+    {
+      "file": "assets/models/home/room-sleep.glb",
+      "bytes": 45920,
+      "gzipBytes": 38323
+    },
+    {
+      "file": "assets/models/home/room-study.glb",
+      "bytes": 356432,
+      "gzipBytes": 310140
+    },
+    {
+      "file": "assets/models/home/sirui-ghibli.glb",
+      "bytes": 501264,
+      "gzipBytes": 372058
+    },
+    {
+      "file": "assets/models/home/sirui-lizard.glb",
+      "bytes": 379188,
+      "gzipBytes": 253371
+    },
+    {
+      "file": "assets/models/home/sirui-rick-and-morty.glb",
+      "bytes": 461296,
+      "gzipBytes": 335794
+    },
+    {
+      "file": "assets/models/home/sirui-simpsons.glb",
+      "bytes": 472880,
+      "gzipBytes": 347415
+    },
+    {
+      "file": "assets/models/home/sirui-south-park.glb",
+      "bytes": 511692,
+      "gzipBytes": 384177
+    },
+    {
+      "file": "assets/img/home/sirui_capy.jpg",
+      "bytes": 93168,
+      "gzipBytes": 93065
+    }
+  ],
+  "companionScriptsGzipBytes": 9696,
+  "largestInitialSceneGzipBytes": 2295834,
+  "largestInitialSceneUncompressedHttpBytes": 3611665
+}

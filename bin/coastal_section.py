@@ -71,7 +71,12 @@ def cliff_normals(obj):
 
 
 def beach_width(x):
-    return 6.6 + 3.5 * math.exp(-(((x - 9) / 11) ** 2)) + 0.7 * math.sin(x * 0.19)
+    shore = CONFIG.get("beach", {"width": 14, "bulge": 6, "ripple": 1.2})
+    return (
+        shore["width"]
+        + shore["bulge"] * math.exp(-(((x - 9) / 11) ** 2))
+        + shore["ripple"] * math.sin(x * 0.19)
+    )
 
 
 def rehouse(mats, h):

@@ -399,6 +399,7 @@ def CONFIG_ROOMS():
 
 def finish_home(mats, furnished=False):
     from coastal_section import rehouse, coast
+    from coastal_garden import garden
 
     bpy.context.preferences.filepaths.save_version = 0
     if not furnished:
@@ -440,6 +441,7 @@ def finish_home(mats, furnished=False):
         if o:
             x, y, z = room["actor"]
             o.location = (x, -z, y)
+    garden(mats, globals())
     coast_objects = coast(mats, globals())
     buckets = {}
     for o in coast_objects:

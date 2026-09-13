@@ -1,0 +1,134 @@
+.pip-companion {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 88px;
+  height: 112px;
+  z-index: 1040;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  contain: layout style;
+  will-change: transform;
+  &[data-visible="true"] {
+    opacity: 1;
+  }
+  &[data-napping="true"] canvas {
+    filter: saturate(0.45);
+  }
+  canvas {
+    width: 88px;
+    height: 112px;
+    display: block;
+  }
+  .pip-hit {
+    position: absolute;
+    inset: 16px 14px 25px;
+    border: 0;
+    background: none;
+    pointer-events: auto;
+    cursor: pointer;
+    border-radius: 45%;
+    &:focus-visible {
+      outline: 2px solid var(--global-theme-color);
+      outline-offset: 3px;
+    }
+  }
+  &[data-visible="false"] .pip-hit {
+    pointer-events: none;
+  }
+  .pip-speech {
+    position: absolute;
+    bottom: 102px;
+    right: 7px;
+    width: max-content;
+    max-width: min(190px, calc(100vw - 30px));
+    padding: 9px 12px;
+    border-radius: 12px 12px 3px 12px;
+    border: 1px solid var(--global-divider-color);
+    background: var(--global-bg-color);
+    color: var(--global-text-color);
+    font: 400 12px/1.4 var(--font-family-base, Inter, sans-serif);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 9%);
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  &[data-speaking="true"] .pip-speech {
+    opacity: 1;
+    transform: none;
+  }
+  &[data-side="left"] .pip-speech {
+    right: auto;
+    left: 7px;
+    border-radius: 12px 12px 12px 3px;
+  }
+  .pip-nap {
+    position: absolute;
+    right: 0;
+    bottom: 14px;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 50%;
+    background: var(--global-bg-color);
+    color: var(--global-text-color);
+    font-size: 13px;
+    pointer-events: auto;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover .pip-nap,
+  &:focus-within .pip-nap,
+  &[data-napping="true"] .pip-nap {
+    opacity: 1;
+  }
+  &[data-visible="false"] .pip-nap {
+    visibility: hidden;
+  }
+  .pip-fallback {
+    display: none;
+    position: absolute;
+    inset: 24px 10px 42px;
+    border-radius: 22px;
+    background: linear-gradient(130deg, #fff, #b5c5cd);
+    box-shadow: 0 28px 8px -8px rgb(0 0 0 / 15%);
+  }
+  .pip-fallback::after {
+    content: "••";
+    position: absolute;
+    inset: 9px 6px;
+    border-radius: 15px;
+    background: #182b32;
+    color: #90d9d3;
+    text-align: center;
+    font: 25px/30px sans-serif;
+    letter-spacing: 8px;
+    padding-left: 8px;
+  }
+  &[data-fallback="true"] .pip-fallback {
+    display: block;
+  }
+}
+@media (max-width: 600px) {
+  .pip-companion {
+    width: 72px;
+    height: 92px;
+  }
+  .pip-companion canvas {
+    width: 72px;
+    height: 92px;
+  }
+  .pip-companion .pip-speech {
+    bottom: 85px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pip-companion,
+  .pip-companion .pip-speech {
+    transition: none;
+  }
+}

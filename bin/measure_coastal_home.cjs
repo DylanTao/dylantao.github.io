@@ -23,13 +23,17 @@ const graphicsArgs = process.platform === "win32" ? ["--use-angle=d3d11", "--ign
 report.graphicsArgs = graphicsArgs;
 const evidence = (page) => page.locator("[data-home-desk-scene]").evaluate((e) => e.getSceneEvidence());
 
-async function sample(page, ms = 4000) {
+async function sample(page, ms = 4000, measuringCompanion = false) {
   return page.evaluate(
-    (duration) =>
+    ([duration, measuringCompanion]) =>
       new Promise((resolve) => {
         const start = performance.now(),
           deltas = [];
-        const frames = document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames;
+        const frameCount = () =>
+          measuringCompanion
+            ? document.querySelector(".pip-companion").getCompanionEvidence().frames
+            : document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames;
+        const frames = frameCount();
         let previous = start,
           raf;
         function tick(now) {
@@ -42,7 +46,7 @@ async function sample(page, ms = 4000) {
           cancelAnimationFrame(raf);
           const elapsed = performance.now() - start;
           deltas.sort((a, b) => a - b);
-          const rendered = document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames - frames;
+          const rendered = frameCount() - frames;
           resolve({
             durationMs: Math.round(elapsed),
             renderedFrames: rendered,
@@ -51,7 +55,7 @@ async function sample(page, ms = 4000) {
           });
         }, duration);
       }),
-    ms
+    [ms, measuringCompanion]
   );
 }
 
@@ -83,6 +87,21 @@ async function sample(page, ms = 4000) {
         .map((r) => r.name)
     );
     if (defaultMode !== "2d" || requestsBefore3D.length) throw new Error("The initial 2D page fetched the 3D scene.");
+    await page.locator(".home-portrait-frame").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1000);
+    const twoDTiming = await sample(page, 4000, true);
+    const twoD = {
+      companionFps: twoDTiming.sceneFps,
+      rafP95Ms: twoDTiming.rafP95Ms,
+      state: await page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence()),
+      resources: await page.evaluate(() =>
+        performance
+          .getEntriesByType("resource")
+          .filter((r) => /js\/companion\//.test(r.name))
+          .map((r) => ({ path: new URL(r.name).pathname, encodedBodySize: r.encodedBodySize, transferSize: r.transferSize }))
+      ),
+    };
+    await page.screenshot({ path: path.join(output, `${label}-2d-pip-live.png`) });
     const start = Date.now();
     await page.locator('[data-home-desk-mode="3d"]').click();
     await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").dataset.sceneState === "ready");
@@ -110,6 +129,7 @@ async function sample(page, ms = 4000) {
       label,
       ...options,
       defaultMode,
+      twoD,
       requestsBefore3D,
       readyMs,
       firstFrameMs,
@@ -167,6 +187,10 @@ async function sample(page, ms = 4000) {
   const files = [
     "assets/js/three.module.min.js",
     ...fs
+      .readdirSync("assets/js/companion")
+      .filter((n) => n.endsWith(".mjs"))
+      .map((n) => `assets/js/companion/${n}`),
+    ...fs
       .readdirSync("assets/js/home-scene")
       .filter((n) => n.endsWith(".mjs"))
       .map((n) => `assets/js/home-scene/${n}`),
@@ -186,6 +210,7 @@ async function sample(page, ms = 4000) {
     const data = fs.readFileSync(file);
     return { file, bytes: data.length, gzipBytes: zlib.gzipSync(data).length };
   });
+  report.companionScriptsGzipBytes = report.assets.filter((a) => a.file.startsWith("assets/js/companion/")).reduce((sum, a) => sum + a.gzipBytes, 0);
   const size = (file) => report.assets.find((a) => a.file === file).gzipBytes;
   report.largestInitialSceneGzipBytes =
     report.assets.filter((a) => !a.file.endsWith(".glb") && !a.file.endsWith(".png")).reduce((sum, a) => sum + a.gzipBytes, 0) +

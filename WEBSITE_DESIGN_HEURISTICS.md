@@ -200,6 +200,8 @@ Code history appears only after an exact schema-5 source-calendar contract passe
 
 ## Accessibility And Quality Checks
 
+- Pip is a deliberate playful companion, requested by Sirui on September 13. Give it delayed, damped movement and occasional independent actions; keep its head response quicker than its body. Its white material and shadow should respond to all four themes. Use clear margins and gaps, protect links and prose, keep remarks short and infrequent, and restore every nudged object without changing layout or content. Provide a discoverable nap action and composed reduced-motion pose. Transfer one identity between page and room; keep the semantic AI routes undecorated. Detailed behavior belongs in the [scene brief](docs/homepage-desk-scene-brief.md#pip-the-studio-companion).
+
 - Check light mode, dark mode, mobile, tablet, and desktop.
 - Check keyboard navigation, visible focus, and that collapsed panels are not hidden tab stops.
 - Check that text does not overlap cards, nav, footer, or the back-to-top button, and that mobile has no horizontal overflow.

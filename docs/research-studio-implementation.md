@@ -37,7 +37,7 @@ The September 13 refinement gives the gym a rack, loaded barbell, padded bench, 
 
 The scene loads only after choosing 3D. Shell, coast, occupied room, and selected avatar load first; other rooms stream afterward. Rendering stops offscreen or hidden, DPR is capped at 1.5, and reduced motion uses composed poses. Asset or WebGL failure restores the usable 2D desk. Cached back/forward navigation pauses and restores controllers instead of destroying them.
 
-The [latest evidence report](evidence/coastal-section/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
+The [latest evidence report](evidence/coastal-companion/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
 
 Album focus, second-click playback/open, swaps, four-card discovery/replay, source links, and sharing between 2D/3D remain. The controls also support keyboard orbit/zoom, D discovery, room buttons, one-finger orbit, and two-finger pinch.
 
@@ -45,16 +45,18 @@ The subsequent likeness and section correction places the study, sleep and onsen
 
 ## Evidence and reproduction
 
+The subsequent [Pip and beach ecology pass](evidence/coastal-companion/README.md) adds a shared hovering companion to human routes and the 3D home, a wider shore, modeled wildlife, hanging and floor plants, wet-sand transitions and bounded atmospheric motion. Its behavior, route-specific remarks and reading-space protection are documented in the [active brief](homepage-desk-scene-brief.md#pip-the-studio-companion). The greeting is now “Welcome to Sirui’s crib.”
+
 The committed gallery contains a curated subset of comparable captures and machine-readable measurements. Full local captures and test output live under the ignored `.jekyll-cache/visual-qa/` directory so screenshot writes do not trigger Jekyll rebuilds. Source checks supplement direct inspection; a ready flag alone was never treated as proof of visible WebGL.
 
 ```powershell
-node --test test/coastal-routine.test.mjs test/coastal-navigation.test.mjs
+node --test test/coastal-routine.test.mjs test/coastal-navigation.test.mjs test/companion.test.mjs
 python -m unittest discover -s test -p "test_*.py"
 npm.cmd run lint:prettier
 npm.cmd run lint:style-contract
 $env:NO_WEBSERVER='1'
 $env:VISUAL_BASE_URL='http://127.0.0.1:8080'
-npx.cmd playwright test --config test/visual/public.config.js desk-scene.spec.js --workers 1
+npx.cmd playwright test --config test/visual/public.config.js desk-scene.spec.js companion.spec.js --workers 1
 node bin/measure_coastal_home.cjs
 node bin/measure_coastal_splats.cjs
 docker compose exec -T -e JEKYLL_ENV=production jekyll bundle exec jekyll build --baseurl /al-folio --destination /tmp/sirui-studio-production --quiet

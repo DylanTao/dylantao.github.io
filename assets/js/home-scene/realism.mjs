@@ -36,6 +36,33 @@ export function finishPhysicalMaterial(source, mesh) {
     m.envMapIntensity = /hair/i.test(name) ? 0.28 : 0.5;
     return m;
   }
+  if (/leaf|foliage/i.test(name)) {
+    m.side = THREE.DoubleSide;
+    m.roughness = 0.56;
+    m.envMapIntensity = 0.6;
+    m.onBeforeCompile = (shader) => {
+      shader.uniforms.leafTime = physicalTime;
+      shader.vertexShader = "uniform float leafTime;\n" + shader.vertexShader;
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <begin_vertex>",
+        `
+        vec3 transformed=position;
+        float phase=position.x*.7+position.z*.9+leafTime*.65;
+        transformed.x+=sin(phase)*.008+sin(phase*2.3)*.003;
+        transformed.z+=cos(phase*.83)*.006;
+      `
+      );
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <opaque_fragment>",
+        `
+        outgoingLight+=diffuseColor.rgb*vec3(.16,.23,.065)*pow(max(0.,-dot(normal,normalize(vec3(-.4,.8,.3)))),2.);
+        #include <opaque_fragment>
+      `
+      );
+    };
+    m.customProgramCacheKey = () => "coastal-botanical-v1";
+    return m;
+  }
   const wood = /wood|oak|ash|walnut/i.test(name);
   const cloth = /linen|textile|cotton|trousers|woven/i.test(name);
   const rock = /sandstone|sediment|limestone|stone|sand|plaster/i.test(name);
@@ -105,10 +132,21 @@ export function finishPhysicalMaterial(source, mesh) {
         diffuseColor.rgb *= pigment;
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.67,.74,.80), smoothstep(.5,.85,erosion)*.3);
       `
-              : `diffuseColor.rgb *= .86 + .20*detail + .045*pores;`
+              : kind === 4
+                ? `
+        float wetSand = 1.0-smoothstep(-7.30,-7.03,p.y + (detail-.5)*.045);
+        diffuseColor.rgb = mix(vec3(.76,.64,.45),vec3(.43,.37,.27),wetSand);
+        diffuseColor.rgb *= .92 + .08*detail + .025*pores;
+      `
+                : `diffuseColor.rgb *= .86 + .20*detail + .045*pores;`
       }
     `
     );
+    if (kind === 4)
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <roughnessmap_fragment>",
+        "#include <roughnessmap_fragment>\nroughnessFactor = mix(.96,.34,1.0-smoothstep(-7.30,-7.03,surfacePoint.y));"
+      );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <normal_fragment_maps>",
       `

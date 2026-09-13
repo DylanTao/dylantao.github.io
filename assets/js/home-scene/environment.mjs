@@ -2,13 +2,17 @@ import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
+import { createWildlife } from "./wildlife.mjs";
+import { beachPoint, beachWidth } from "./shore.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
-export function createPacific(scene, renderer) {
+export function createPacific(scene, renderer, config) {
   const root = new THREE.Group();
   root.name = "Pacific environment";
   scene.add(root);
+  const beach = config.beach;
+  const wildlife = createWildlife(root, beach);
   const time = { value: 0 },
     ink = { value: 0 };
   let style = "realistic",
@@ -67,14 +71,16 @@ export function createPacific(scene, renderer) {
       // Blender becomes -Z here; ocean local coordinates are offset by 28 m).
       float x = oceanXZ.x;
       float cliffY = 5.7 + 1.2*sin(x*.12) + 7.5*exp(-pow((x-24.)/10.,2.)) + 3.3*exp(-pow((x+22.)/7.,2.));
-      float beachWidth = 6.6 + 3.5*exp(-pow((x-9.)/11.,2.)) + .7*sin(x*.19);
+      float beachWidth = ${Number(beach.width).toFixed(2)} + ${Number(beach.bulge).toFixed(2)}*exp(-pow((x-9.)/11.,2.)) + ${Number(beach.ripple).toFixed(2)}*sin(x*.19);
       float waterline = cliffY - .35 + beachWidth*.47;
-      float distanceToBeach = (28.-oceanXZ.y-waterline)/3.0;
-      float shoal = (1.-smoothstep(.2,2.2,distanceToBeach)) * smoothstep(-.35,.15,distanceToBeach);
-      float wash = sin(distanceToBeach*35.0 - pacificTime*.9 + n*2.8);
-      float foam = smoothstep(.76,.98,wash) * shoal * (.3+.7*grainNoise(vec3(oceanXZ*24.0,pacificTime*.04)));
+      float distanceToBeach = 28.-oceanXZ.y-waterline;
+      float shoal = (1.-smoothstep(.5,6.0,distanceToBeach)) * smoothstep(-.5,.35,distanceToBeach);
+      float drift = stoneNoise(vec3(x*.22,distanceToBeach*.35,pacificTime*.06));
+      float wash = sin(distanceToBeach*1.65 - pacificTime*.82 + drift*3.5);
+      float lace = stoneNoise(vec3(oceanXZ*3.8,pacificTime*.16));
+      float foam = smoothstep(.66,.99,wash) * shoal * smoothstep(.30,.67,lace);
       outgoingLight = mix(outgoingLight, outgoingLight*vec3(.9,1.35,1.25),shoal*.4);
-      outgoingLight = mix(outgoingLight, vec3(.52,.63,.61), foam*.72);
+      outgoingLight = mix(outgoingLight, vec3(.69,.76,.71), foam*.76);
       #include <opaque_fragment>
     `
     );
@@ -118,6 +124,55 @@ export function createPacific(scene, renderer) {
   steam.position.set(3.17, 3.03, 3.18);
   steam.visible = false;
   root.add(steam);
+
+  // Advected surf droplets and sunlit dust: bounded particle lifetimes, not
+  // an image overlay. The same clock pauses with the inhabited world.
+  const mistPositions = [];
+  for (let i = 0; i < 140; i++) {
+    const x = -22 + ((i * 3.719) % 67),
+      p = beachPoint(x, 0.47, beach);
+    mistPositions.push(x, p[2], (i * 0.618) % 1, beachWidth(x, beach));
+  }
+  const sprayGeometry = new THREE.BufferGeometry();
+  sprayGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(
+      mistPositions.flatMap((_, i, a) => (i % 4 === 0 ? [a[i], a[i + 1], a[i + 2]] : [])),
+      3
+    )
+  );
+  const sprayMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    uniforms: { age: time },
+    vertexShader: `uniform float age;varying float alpha;
+    void main(){float life=fract(position.z+age*.09);vec3 p=vec3(position.x+sin(life*5.+position.x)*.35,-7.30+sin(life*3.14159)*.23,position.y-1.4+life*2.2);
+    vec4 v=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*v;gl_PointSize=clamp(36./-v.z,1.,7.);alpha=sin(life*3.14159)*.17;}`,
+    fragmentShader: "varying float alpha;void main(){vec2 p=gl_PointCoord-.5;gl_FragColor=vec4(.86,.91,.85,exp(-dot(p,p)*15.)*alpha);}",
+  });
+  const spray = new THREE.Points(sprayGeometry, sprayMaterial);
+  spray.name = "Breaking-wave spray";
+  root.add(spray);
+  const dustGeometry = new THREE.BufferGeometry();
+  dustGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(
+      Array.from({ length: 42 }, (_, i) => [-1.2 + ((i * 0.719) % 2.4), 3 + ((i * 0.31) % 2.2), 2.4 + ((i * 0.437) % 2)]).flat(),
+      3
+    )
+  );
+  const dustMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    uniforms: { age: time, glow: { value: 0.25 } },
+    vertexShader: `uniform float age,glow;varying float alpha;void main(){vec3 p=position;
+    p.y+=sin(age*.23+p.x*2.)*.06;p.x+=sin(age*.17+p.z)*.04;p.z+=cos(age*.21+p.y)*.035;
+    vec4 v=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*v;gl_PointSize=clamp(6./-v.z,1.,3.);alpha=(.5+.5*sin(age*.5+p.x*7.))*glow;}`,
+    fragmentShader: "varying float alpha;void main(){gl_FragColor=vec4(1.,.86,.62,exp(-dot(gl_PointCoord-.5,gl_PointCoord-.5)*20.)*alpha);}",
+  });
+  const dust = new THREE.Points(dustGeometry, dustMaterial);
+  dust.name = "Dust in the study light";
+  root.add(dust);
 
   // The modeled sky also supplies a physically useful environment reflection.
   const skyMaterial = new THREE.ShaderMaterial({
@@ -174,26 +229,6 @@ export function createPacific(scene, renderer) {
   const printSun = new THREE.Mesh(new THREE.SphereGeometry(2.0, 24, 12), new THREE.MeshBasicMaterial({ color: 0xf08a49 }));
   printSun.position.set(-12, 9, -48);
   root.add(printSun);
-  const birds = new THREE.Group();
-  root.add(birds);
-  const birdMaterial = new THREE.MeshBasicMaterial({ color: 0x253e4c });
-  for (let i = 0; i < 5; i++) {
-    const x = -5 + i * 1.1,
-      y = 3 + (i % 3) * 0.38,
-      z = -17 - i * 0.9;
-    birds.add(
-      new THREE.Mesh(
-        new THREE.TubeGeometry(
-          new THREE.CatmullRomCurve3([new THREE.Vector3(x - 0.3, y + 0.12, z), new THREE.Vector3(x, y, z), new THREE.Vector3(x + 0.3, y + 0.14, z)]),
-          8,
-          0.019,
-          3,
-          false
-        ),
-        birdMaterial
-      )
-    );
-  }
   function makeEnvironment() {
     if (environment) environment.dispose();
     const capture = new THREE.Scene();
@@ -228,7 +263,8 @@ export function createPacific(scene, renderer) {
     capMaterial.color.set(style === "illustrated" ? 0xf4e2b3 : 0xe5eeee);
     capMaterial.opacity = style === "illustrated" ? 0.9 : 0.42;
     caps.children.forEach((o) => (o.scale.z = style === "illustrated" ? 1.35 : 1));
-    birds.visible = style !== "architectural";
+    spray.visible = style === "realistic";
+    dust.visible = style === "realistic";
     printSun.visible = style === "illustrated";
     scene.environment = style === "realistic" ? environment?.texture || null : null;
     scene.fog = style === "realistic" ? new THREE.Fog(skyMaterial.uniforms.horizon.value, 38, 110) : null;
@@ -238,16 +274,19 @@ export function createPacific(scene, renderer) {
   function update(elapsed) {
     time.value = elapsed;
     caps.position.x = Math.sin(elapsed * 0.18) * 0.16;
-    birds.position.x = Math.sin(elapsed * 0.1) * 1.1;
+    wildlife.update(elapsed, palette);
   }
   function dispose() {
+    wildlife.dispose();
     reflection.dispose();
     root.traverse((o) => {
       if (o.geometry) o.geometry.dispose();
     });
-    [physicalWater, modelWater, printWater, skyMaterial, capMaterial, birdMaterial, printSun.material].forEach((m) => m.dispose());
+    [physicalWater, modelWater, printWater, skyMaterial, capMaterial, printSun.material].forEach((m) => m.dispose());
     environment?.dispose();
     steamMaterial.dispose();
+    sprayMaterial.dispose();
+    dustMaterial.dispose();
     root.removeFromParent();
   }
   setStyle(style);
@@ -256,6 +295,7 @@ export function createPacific(scene, renderer) {
     setPalette,
     update,
     dispose,
+    evidence: () => ({ wildlife: wildlife.evidence(), beachWidth: beach.width, particles: 140 + 42 + 18 }),
     reflect: reflection.update,
     setActivity(activity) {
       steam.visible = style === "realistic" && activity === "soak";

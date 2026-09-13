@@ -17,7 +17,8 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - Five distinct male interpretations: Lizard, South Park, Simpsons, Ghibli, Rick and Morty. One character at a time, independent of the selected album.
 - Unobstructed record and paper focus, visible camera changes, and a clear outside/return route.
 - Previewing time never lets a later clock tick seize the camera. Now clears both previews.
-- Readable controls and the exact greeting “Welcome to Sirui’s cave.” at every supported viewport.
+- Readable controls and the exact greeting “Welcome to Sirui’s crib.” at every supported viewport.
+- Pip stays clear of reading text and links, has one visible embodiment, and returns nudged objects to their original position.
 
 ## Architecture And Assets
 
@@ -26,6 +27,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar.
 - `bin/coastal_characters.py`: the four human models, with shaped faces, inset eyes, side-parted hair, sloping sleeves, fingers, trousers, and canvas shoes. `artwork/coastal-home/portraits/` holds Blender model studies, excluded from production.
 - `bin/coastal_interiors.py`: scalloped mountain wall, curved low divisions, rounded returns, the print niche, and the fitted gym with a power rack, loaded barbell, padded bench and dumbbell stand.
+- `bin/coastal_garden.py`: the hanging study planter and trailing vines, plus larger kitchen and lounge plants, authored in the finished Blender section.
 - `artwork/coastal-home/*.blend`: editable sources. `artwork/` is excluded from the built website.
 - `assets/models/home/manifest.json`: asset paths, room/camera/actor anchors, editable schedules, activities, clips, and prop choices.
 - `assets/js/home-scene/routine.mjs`: pure Pacific clock and exploration state.
@@ -34,6 +36,8 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - `assets/js/home-scene/realism.mjs` and `reflection.mjs`: physical-scale surface detail, bounded screen-space contact shadows, final color management, and live sea reflections of the actual scene.
 - `assets/js/home-scene/model-loader.mjs`: Draco geometry decoding through a pinned static same-origin worker. Blender's `--export-only` route rebuilds GLBs from the editable sources without repeating sculpting.
 - `assets/js/home-scene/environment.mjs`: Pacific water geometry, procedural sky and reflections, graphic surf, and atmosphere. `coast.glb` supplies connected headlands and style-specific geology.
+- `assets/js/home-scene/shore.mjs` and `wildlife.mjs`: the expanded beach contact surface, brush rabbits, a raccoon, flying/perching gulls and sandpipers. Beach width comes from the same manifest values used by Blender.
+- `assets/js/companion/`: Pip's small analytic WebGL portrait, damped page movement, clearance checks, authored remarks, nap preference and shared page/world state. `home-scene/companion.mjs` builds its articulated room counterpart; safe perches and hover heights live in the manifest.
 - `assets/js/home.js`: existing 2D desk and shared record state; lazy adapter to the extracted runtime.
 - `_includes/home/world_controls.liquid` and `_sass/_coastal-home.scss`: accessible scene controls and responsive composition.
 - Three.js r164 and its matching GLTFLoader closure remain local. The splat study has an independent r180/Spark dependency graph.
@@ -95,18 +99,43 @@ Architectural and Illustrated remain unfinished lab experiments. Sirui explicitl
 
 The exterior is the same house and cliff viewed from outside. The Pacific opening and Look around action lead there; Back inside resumes the current routine. The authoring lab retains individual room visits. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.
 
+The beach now has a 14-meter base depth plus the authored cove bulge. Dry and wet sand blend by elevation; surf breaks into irregular crests instead of parallel white stripes. Airborne spray, quiet dust in the study, onsen vapor and small leaf movements use bounded procedural fields. Animals follow the same beach surface. These effects are authored motion, not a fluid solver or a general collision simulation.
+
+## Pip, The Studio Companion
+
+Pip is the white ceramic hovering robot requested in the September 13 review. Start it beside the album in 2D. Its head and eyes acknowledge a recent pointer position; its body follows more slowly, sometimes pausing to wander. Hover or keyboard focus lets a visitor greet it or use its small nap control. Morning, noon, afternoon and evening alter the key light, reflections, eye color and shadow. The initial 2D page loads neither Three.js nor the house assets.
+
+On human reading routes, choose clear page gaps and margins. Protect prose, figures, links, controls and navigation; fade while crossing an occupied area. Keep occasional comments short and infrequent. A small card or heading nudge uses a reversible transform and a repair gesture: preserve content, links and document flow, and cancel the transform on pause, reduced motion, hiding or navigation. AI reading routes remain undecorated.
+
+When the 3D room is visible, one shared owner transfers Pip into the modeled scene. It floats between authored perches, looks toward the pointer and can follow the circulation route out to the beach and back. Scrolling away transfers it to the reading page; occasional brief page excursions are allowed while the room remains visible. Pip never selects a room, changes the album or seizes the camera. Reduced motion and nap use still poses; hidden documents stop their animation loops.
+
+| Place or trigger          | Motion and example copy                                              |
+| ------------------------- | -------------------------------------------------------------------- |
+| Album / home arrival      | Settle into a clear corner; “Make yourself at home.”                 |
+| Pointer or tap            | A head turn, delayed follow, blink or small greeting; “Oh, hello!”   |
+| Scroll or navigation      | Catch up after the reader moves; “There you are.”                    |
+| Projects                  | Wait beside the work; “This one started with a question.”            |
+| DesignWeaver              | “Same question, different ideas.”                                    |
+| Research / publications   | “I like this question.” / “The details live in the paper.”           |
+| Blog                      | Stay in a margin; “Take your time.”                                  |
+| CV / contact              | “A few chapters so far.” / “Thanks for stopping by.”                 |
+| Small accident and repair | Brief tilt, restore exactly; “Oops. One sec.” / “There. All better.” |
+
+The copy is local and authored. Ordinary remarks wait roughly 45–80 seconds between attempts and disappear after 3.5 seconds; occupied space can suppress them. The lab URL `?companion-lab=1&seed=41` makes curiosity repeatable and exposes evidence/preview helpers for checks, without adding public controls.
+
 ## Acceptance Evidence Map
 
-| Contract                                                          | Evidence                                                                           |
-| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Time, midnight/noon, weekends, DST, preview/Now                   | `node.exe --test test/coastal-routine.test.mjs`                                    |
-| Nonblank scene, orbit/zoom pixel changes, room continuity         | `test/visual/desk-scene.spec.js`, four viewport projects                           |
-| Avatar/mode repetition, one actor, clips and contacts             | Browser pose captures plus exported asset/joint checks                             |
-| Records, artifact focus/open, drop/return, 2D sharing             | Browser scene suite plus retained legacy 2D interactions                           |
-| Reduced motion, keyboard/touch, load failures, pause and recovery | Targeted browser cases; inspect screenshots and runtime errors                     |
-| Sitewide typography, layout, themes, overflow                     | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000        |
-| Payload and runtime cost                                          | Asset report and desktop/mobile browser measurements in the implementation handoff |
-| Local splat tradeoff                                              | `artwork/coastal-home/splat-lab/` and its findings                                 |
+| Contract                                                              | Evidence                                                                                 |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Time, midnight/noon, weekends, DST, preview/Now                       | `node.exe --test test/coastal-routine.test.mjs`                                          |
+| Nonblank scene, orbit/zoom pixel changes, room continuity             | `test/visual/desk-scene.spec.js`, four viewport projects                                 |
+| Avatar/mode repetition, one actor, clips and contacts                 | Browser pose captures plus exported asset/joint checks                                   |
+| Records, artifact focus/open, drop/return, 2D sharing                 | Browser scene suite plus retained legacy 2D interactions                                 |
+| Reduced motion, keyboard/touch, load failures, pause and recovery     | Targeted browser cases; inspect screenshots and runtime errors                           |
+| Sitewide typography, layout, themes, overflow                         | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000              |
+| Payload and runtime cost                                              | Asset report and desktop/mobile browser measurements in the implementation handoff       |
+| Local splat tradeoff                                                  | `artwork/coastal-home/splat-lab/` and its findings                                       |
+| Pip clearance, greeting, handoff, repair, reduced motion and fallback | `test/companion.test.mjs`, `test/visual/companion.spec.js`, and inspected route captures |
 
 ## Acceptance Checklist
 
