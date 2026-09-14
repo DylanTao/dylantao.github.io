@@ -975,16 +975,21 @@ export function createCoastalHome(container, records, artifacts) {
   function render(now) {
     frame = 0;
     if (!visible || !inViewport || disposed || document.hidden) return;
-    const delta = lastFrame ? Math.min((now - lastFrame) / 1000, 0.05) : 0;
+    const frameDelta = lastFrame ? Math.min(Math.max((now - lastFrame) / 1000, 0), 0.25) : 1 / 60;
+    const delta = frameDelta;
     lastFrame = now;
     const moving = !reduced && !paused;
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
-    target.lerp(desiredTarget, reduced ? 1 : 0.14);
-    radius = THREE.MathUtils.lerp(radius, desiredRadius, reduced ? 1 : 0.14);
+    // Camera settling follows elapsed time, including on software renderers.
+    // Pausing leaves a composed still instead of an unfinished camera journey.
+    const cameraEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 9);
+    const orbitEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 15);
+    target.lerp(desiredTarget, cameraEase);
+    radius = THREE.MathUtils.lerp(radius, desiredRadius, cameraEase);
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
-    cameraYaw += yawDelta * (reduced ? 1 : 0.22);
-    cameraPitch = THREE.MathUtils.lerp(cameraPitch, pitch, reduced ? 1 : 0.22);
+    cameraYaw += yawDelta * orbitEase;
+    cameraPitch = THREE.MathUtils.lerp(cameraPitch, pitch, orbitEase);
     camera.position.set(
       target.x + Math.sin(cameraYaw) * Math.cos(cameraPitch) * radius,
       target.y + Math.sin(cameraPitch) * radius,
@@ -1050,7 +1055,7 @@ export function createCoastalHome(container, records, artifacts) {
       moving ||
       target.distanceTo(desiredTarget) > 0.003 ||
       Math.abs(radius - desiredRadius) > 0.003 ||
-      Math.abs(yawDelta) > 0.003 ||
+      Math.abs(yawDelta * (1 - orbitEase)) > 0.003 ||
       Math.abs(cameraPitch - pitch) > 0.003
     )
       requestFrame();

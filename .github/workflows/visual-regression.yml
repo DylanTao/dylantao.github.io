@@ -70,15 +70,16 @@ concurrency:
 
 jobs:
   visual-checkpoints:
-    name: Visual checkpoints (${{ matrix.viewport }})
+    name: Visual checkpoints (${{ matrix.viewport }}, ${{ matrix.stream }})
     runs-on: ubuntu-latest
-    # Each viewport gets an isolated runner. Keep one browser worker per runner
-    # and separate site/scene processes: full-page captures plus software WebGL
-    # made the serialized four-viewport run exceed a practical release budget.
+    # Each viewport and stream gets an isolated runner with one browser worker.
+    # Full-page captures and software WebGL retain their complete assets and
+    # checks without sharing a renderer or queuing behind another stream.
     strategy:
       fail-fast: false
       matrix:
         viewport: [desktop-1440, laptop-1280, tablet-768, mobile-390]
+        stream: [scene, site]
     timeout-minutes: 50
     steps:
       - name: Checkout candidate
@@ -116,6 +117,7 @@ jobs:
           NO_WEBSERVER: "1"
           VISUAL_BASE_URL: http://127.0.0.1:4000/al-folio
           VISUAL_PROJECT: ${{ matrix.viewport }}
+          VISUAL_STREAM: ${{ matrix.stream }}
         run: |
           set -euo pipefail
           export PATH="$HOME/.local/bin:$PATH"
@@ -159,11 +161,14 @@ jobs:
           tail -n 80 "$LOG_PATH" || true
           python3 test/validate_publication_outputs.py _site
           # Surface the first defect promptly; a passing run still covers every case.
-          npm run test:visual:scene -- --project "$VISUAL_PROJECT" --max-failures=1
-          npm run test:visual:site -- --project "$VISUAL_PROJECT" --max-failures=1
+          if [ "$VISUAL_STREAM" = "scene" ]; then
+            npm run test:visual:scene -- --project "$VISUAL_PROJECT" --max-failures=1
+          else
+            npm run test:visual:site -- --project "$VISUAL_PROJECT" --max-failures=1
+          fi
 
           # Both legacy engines run once, after the desktop public matrix.
-          if [ "$VISUAL_PROJECT" = "desktop-1440" ]; then
+          if [ "$VISUAL_PROJECT" = "desktop-1440" ] && [ "$VISUAL_STREAM" = "site" ]; then
             LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
             VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP" --max-failures=1
           fi
@@ -172,7 +177,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-checkpoint-artifacts-${{ matrix.viewport }}
+          name: visual-checkpoint-artifacts-${{ matrix.viewport }}-${{ matrix.stream }}
           path: |
             playwright-report/public-site
             playwright-report/public-scene
@@ -185,6 +190,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: jekyll-visual-logs-${{ matrix.viewport }}
+          name: jekyll-visual-logs-${{ matrix.viewport }}-${{ matrix.stream }}
           path: /tmp/jekyll-candidate.log
           if-no-files-found: ignore
