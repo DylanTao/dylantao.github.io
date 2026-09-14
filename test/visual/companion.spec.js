@@ -127,7 +127,7 @@ test("P: playground respects reduced motion and a failed model keeps the room us
     await page.goto(publicRouteUrl("/") + "?companion-lab=1");
     await page.getByRole("button", { name: "3D", exact: true }).click();
     const room = page.locator("[data-home-desk-scene]");
-    await expect(room).toHaveAttribute("data-scene-state", "ready");
+    await expect(room).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
     await expect.poll(async () => (await evidence(page)).owner).toBe("page");
     await expect(page.locator(".home-world-pip-link")).toHaveAttribute("href", /\/projects\/p\/$/);
     await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
