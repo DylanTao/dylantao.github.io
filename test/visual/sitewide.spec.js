@@ -1200,11 +1200,11 @@ for (const route of SITEWIDE_ROUTES) {
   test(`public route: ${route.id}`, async ({ page, context }, testInfo) => {
     for (const [index, theme] of SITEWIDE_ROUTE_THEMES.entries()) {
       const themePage = index === 0 ? page : await context.newPage();
-      try {
-        await exercisePublicRoute(themePage, route, theme, testInfo);
-      } finally {
-        if (index > 0) await themePage.close();
-      }
+      await exercisePublicRoute(themePage, route, theme, testInfo);
+      // Headless pages can both remain visible and render their coastal worlds.
+      // Release each completed theme before opening the next one; keep the
+      // failing/current page open for Playwright's error screenshot and trace.
+      if (index < SITEWIDE_ROUTE_THEMES.length - 1) await themePage.close();
     }
   });
 }
