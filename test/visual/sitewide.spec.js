@@ -90,7 +90,12 @@ async function switchToCoastalThemeMode(page, { mode, computedTheme }) {
           () =>
             document
               .getAnimations()
-              .filter((animation) => animation.constructor.name === "CSSTransition" && ["pending", "running"].includes(animation.playState)).length
+              .filter(
+                (animation) =>
+                  animation.constructor.name === "CSSTransition" &&
+                  ["pending", "running"].includes(animation.playState) &&
+                  /color$|^(background|fill|stroke|box-shadow|text-shadow|filter)$/.test(animation.transitionProperty)
+              ).length
         ),
       { message: `${mode} theme surfaces kept transitioning after html.transition cleared`, timeout: 3000 }
     )
@@ -161,9 +166,16 @@ async function readSettledCoastalThemeSample(page, surfaceSelector) {
         navbar: computed(navbar),
         surface: computed(surface),
       },
+      // P may begin an opacity/transform transition during these samples.
+      // Keep it moving, while checking the color transitions this test owns.
       themeTransitionCount: document
         .getAnimations()
-        .filter((animation) => animation.constructor.name === "CSSTransition" && ["pending", "running"].includes(animation.playState)).length,
+        .filter(
+          (animation) =>
+            animation.constructor.name === "CSSTransition" &&
+            ["pending", "running"].includes(animation.playState) &&
+            /color$|^(background|fill|stroke|box-shadow|text-shadow|filter)$/.test(animation.transitionProperty)
+        ).length,
       toggleLabels: Array.from(document.querySelectorAll("[data-theme-toggle]"), (toggle) => ({
         ariaLabel: toggle.getAttribute("aria-label"),
         title: toggle.getAttribute("title"),
