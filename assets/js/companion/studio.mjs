@@ -38,7 +38,7 @@ function start() {
   }
   function frame(now) {
     raf = 0;
-    const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
+    const dt = last ? Math.min(0.25, Math.max(0, (now - last) / 1000)) : 1 / 60;
     last = now;
     if (companion.owner !== "studio") {
       request();

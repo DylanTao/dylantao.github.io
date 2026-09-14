@@ -86,7 +86,9 @@ export function createPipMotion(seed = 61) {
       return true;
     },
     update(dt, { gaze = [0, 0], still = false, nap = false, blink = 0, flight = 0, squeeze = 0, autonomous = true } = {}) {
-      const step = Math.min(0.05, Math.max(0, dt));
+      // Choreography follows the real frame interval down to 4 fps. Substeps
+      // keep the antenna springs stable; long suspension gaps remain bounded.
+      const step = Math.min(0.25, Math.max(0, dt));
       if (still || nap) {
         pose = { ...rest };
         name = null;
@@ -100,8 +102,11 @@ export function createPipMotion(seed = 61) {
         const ease = 1 - Math.exp(-step * 9);
         gx += (Math.min(1, Math.max(-1, gaze[0])) - gx) * ease;
         gy += (Math.min(1, Math.max(-1, gaze[1])) - gy) * ease;
-        [al, vl] = spring(al, vl, pose.left - pose.roll * 0.45 + Math.sin(time * 2.3) * 0.025, step, 6);
-        [ar, vr] = spring(ar, vr, pose.right - pose.roll * 0.45 + Math.sin(time * 2.3 + 1) * 0.025, step, 6);
+        for (let remaining = step; remaining > 0.000001; remaining -= 0.05) {
+          const substep = Math.min(0.05, remaining);
+          [al, vl] = spring(al, vl, pose.left - pose.roll * 0.45 + Math.sin(time * 2.3) * 0.025, substep, 6);
+          [ar, vr] = spring(ar, vr, pose.right - pose.roll * 0.45 + Math.sin(time * 2.3 + 1) * 0.025, substep, 6);
+        }
       }
       const idle = still || nap ? 0 : 1;
       return {
