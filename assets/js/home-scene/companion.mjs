@@ -4,84 +4,39 @@ import { randomSource } from "../companion/behaviour.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { beachPoint } from "./shore.mjs";
 
-function rounded(width, height, depth, radius) {
-  const s = new THREE.Shape(),
-    x = -width / 2,
-    y = -height / 2,
-    r = radius;
-  s.moveTo(x + r, y);
-  s.lineTo(x + width - r, y);
-  s.quadraticCurveTo(x + width, y, x + width, y + r);
-  s.lineTo(x + width, y + height - r);
-  s.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
-  s.lineTo(x + r, y + height);
-  s.quadraticCurveTo(x, y + height, x, y + height - r);
-  s.lineTo(x, y + r);
-  s.quadraticCurveTo(x, y, x + r, y);
-  const g = new THREE.ExtrudeGeometry(s, {
-    depth: Math.max(0.008, depth - 0.06),
-    bevelEnabled: true,
-    bevelSegments: 3,
-    steps: 1,
-    bevelSize: 0.03,
-    bevelThickness: 0.03,
-    curveSegments: 10,
-  });
-  g.translate(0, 0, -depth / 2 + 0.03);
-  return g;
-}
-
-export function createWorldCompanion(scene, config, container) {
+export async function createWorldCompanion(scene, config, container, loader) {
+  const gltf = await loader.loadAsync(new URL("../../models/pip/pip.glb", import.meta.url).href);
   const group = new THREE.Group();
   group.name = "Pip companion";
   scene.add(group);
-  const body = new THREE.Group();
+  const body = gltf.scene;
   group.add(body);
-  body.scale.setScalar(0.4);
-  const ceramic = new THREE.MeshPhysicalMaterial({ color: 0xecf1ef, roughness: 0.26, metalness: 0.02, clearcoat: 0.9, clearcoatRoughness: 0.16 });
-  const glass = new THREE.MeshPhysicalMaterial({ color: 0x10232b, roughness: 0.12, metalness: 0.35, clearcoat: 1 });
-  const metal = new THREE.MeshStandardMaterial({ color: 0x889f9e, metalness: 0.65, roughness: 0.32 });
-  const eyes = new THREE.MeshStandardMaterial({ color: 0x75dad0, emissive: 0x4dc5ba, emissiveIntensity: 1.8, roughness: 0.3 });
-  const orange = new THREE.MeshStandardMaterial({ color: 0xf58b41, emissive: 0xf58b41, emissiveIntensity: 0.5 });
-  const sphere = new THREE.SphereGeometry(1, 20, 14),
-    owned = [];
-  const add = (parent, g, m, pos, scale) => {
-    const o = new THREE.Mesh(g, m);
-    o.position.set(...pos);
-    if (scale) o.scale.set(...scale);
-    o.castShadow = true;
-    o.receiveShadow = true;
-    parent.add(o);
-    return o;
-  };
-  add(body, sphere, ceramic, [0, -0.16, 0], [0.255, 0.3, 0.21]);
-  add(body, sphere, metal, [0, 0.15, 0], [0.065, 0.1, 0.065]);
-  const head = new THREE.Group();
-  head.position.y = 0.46;
-  body.add(head);
-  const headGeometry = rounded(0.96, 0.62, 0.5, 0.19),
-    visorGeometry = rounded(0.79, 0.43, 0.045, 0.15),
-    eyeGeometry = rounded(0.088, 0.16, 0.02, 0.035);
-  owned.push(headGeometry, visorGeometry, eyeGeometry);
-  add(head, headGeometry, ceramic, [0, 0, 0]);
-  add(head, visorGeometry, glass, [0, 0, 0.275]);
-  const gaze = new THREE.Group();
-  gaze.position.z = 0.322;
-  head.add(gaze);
-  for (const side of [-1, 1]) {
-    add(gaze, eyeGeometry, eyes, [side * 0.155, 0, 0]);
-    add(head, sphere, metal, [side * 0.507, 0, 0], [0.035, 0.09, 0.09]);
-  }
-  const arms = [-1, 1].map((side) => {
-    const arm = new THREE.Group();
-    arm.position.set(side * 0.31, -0.12, 0);
-    body.add(arm);
-    add(arm, sphere, ceramic, [0, -0.06, 0], [0.075, 0.145, 0.075]);
-    return arm;
+  const head = body.getObjectByName("PipHead");
+  const shell = body.getObjectByName("PipBody");
+  const antennas = ["L", "R"].map((s) => body.getObjectByName("PipAntenna" + s));
+  const arms = ["L", "R"].map((s) => body.getObjectByName("PipArm" + s));
+  const pupils = ["L", "R"].map((s) => body.getObjectByName("PipEye" + s));
+  const pupilOrigins = pupils.map((p) => p.position.clone());
+  const meshes = [],
+    materials = new Set(),
+    geometries = new Set();
+  body.traverse((o) => {
+    if (!o.isMesh) return;
+    o.castShadow = o.receiveShadow = true;
+    o.userData.action = { type: "pip" };
+    meshes.push(o);
+    materials.add(o.material);
+    geometries.add(o.geometry);
+    if (o.material.name === "Pip porcelain") {
+      o.material.roughness = 0.3;
+      o.material.envMapIntensity = 0.65;
+    }
   });
-  add(head, sphere, metal, [0, 0.39, -0.02], [0.022, 0.072, 0.022]);
-  add(head, sphere, orange, [0, 0.46, -0.02], [0.038, 0.038, 0.038]);
-  add(body, sphere, eyes, [0, -0.447, 0], [0.12, 0.023, 0.1]);
+  const eyes = [...materials].find((m) => m.name === "Pip iris");
+  body.scale.setScalar(0.46);
+  companion.worldReady = true;
+  let pose = {},
+    hoverHeight = null;
   const shadowMaterial = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
@@ -181,10 +136,11 @@ export function createWorldCompanion(scene, config, container) {
       routeStart = now;
       returning = true;
     } else if (!paused) position.lerp(goal, 1 - Math.exp(-dt * 0.8));
-    const bob = paused ? 0 : Math.sin(time * 2.4) * 0.035;
+    const bob = paused ? 0 : Math.sin(time * 2.05) * 0.012;
     group.position.copy(position);
     const hover = away ? 0.72 : config.companion.hover[room.id] || 0.72;
-    group.position.y += hover + bob;
+    hoverHeight = hoverHeight === null || paused ? hover : THREE.MathUtils.lerp(hoverHeight, hover, 1 - Math.exp(-dt * 3));
+    group.position.y += hoverHeight;
     const toCamera = camera.position.clone().sub(group.position);
     group.rotation.y = Math.atan2(toCamera.x, toCamera.z);
     const rect = container.getBoundingClientRect(),
@@ -206,16 +162,27 @@ export function createWorldCompanion(scene, config, container) {
         }
       }
     }
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, lookX * 0.32, paused ? 1 : 0.1);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, lookY * 0.23, paused ? 1 : 0.1);
-    gaze.position.x = lookX * 0.032;
-    gaze.position.y = -lookY * 0.025;
-    const blink = companion.napping ? 0.09 : paused ? 1 : Math.sin(time * 1.07) > 0.996 ? 0.1 : 1;
-    gaze.scale.y = blink;
-    arms.forEach((arm, i) => (arm.rotation.z = (i ? 1 : -1) * (0.22 + (paused ? 0 : Math.sin(time * 2) * 0.08) + companion.mood * 0.65)));
-    body.rotation.z = paused ? 0 : Math.sin(time * 1.3) * 0.035;
+    pose = companion.motion.update(dt, {
+      gaze: [lookX, -lookY],
+      still: paused,
+      nap: companion.napping,
+      blink: paused ? 0 : Math.sin(time * 1.07) > 0.996 ? 1 : 0,
+    });
+    head.rotation.set(...pose.head);
+    head.rotation.order = "ZYX";
+    head.position.y = 0.432;
+    body.position.y = pose.lift * 0.46;
+    shell.rotation.z = pose.lean;
+    antennas.forEach((a, i) => (a.rotation.z = pose.antennas[i]));
+    arms.forEach((a, i) => (a.rotation.z = (i ? 0.16 : -0.16) + pose.arms[i]));
+    pupils.forEach((p, i) => {
+      p.position.copy(pupilOrigins[i]);
+      p.position.x += pose.gaze[0] * 0.024;
+      p.position.y += pose.gaze[1] * 0.019;
+      p.scale.y = Math.max(0.085, 1 - pose.blink * 0.915);
+    });
     fade = paused ? 1 : Math.min(1, fade + dt * 2);
-    body.scale.setScalar(0.4 * fade);
+    body.scale.setScalar(0.46 * fade);
     shadow.position.set(position.x, position.y + 0.016, position.z);
     shadow.scale.setScalar(0.9 + bob * 2);
     shadowMaterial.uniforms.strength.value = (companion.theme === "evening" ? 0.35 : 0.22) * fade;
@@ -228,20 +195,23 @@ export function createWorldCompanion(scene, config, container) {
   }
   return {
     update,
+    pick: (raycaster) => (group.visible ? raycaster.intersectObjects(meshes, false)[0] : null),
     evidence: () => ({
       visible: group.visible,
       position: group.position.toArray(),
-      head: [head.rotation.x, head.rotation.y],
+      head: [head.rotation.x, head.rotation.y, head.rotation.z],
+      model: "blender-pip",
+      gesture: pose.gesture,
       room: away ? "beach" : room?.id,
       traveling: Boolean(route),
     }),
     dispose() {
       group.removeFromParent();
       shadow.removeFromParent();
-      sphere.dispose();
-      owned.forEach((g) => g.dispose());
+      geometries.forEach((g) => g.dispose());
+      materials.forEach((m) => m.dispose());
       shadow.geometry.dispose();
-      [ceramic, glass, metal, eyes, orange, shadowMaterial].forEach((m) => m.dispose());
+      shadowMaterial.dispose();
       companion.worldReady = false;
     },
   };

@@ -193,6 +193,14 @@
   align-items: center;
   padding-top: 0.15rem;
 }
+.home-world-pip-link {
+  margin-left: auto;
+  width: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  color: var(--global-text-color-light);
+  border-radius: 8px;
+}
 .home-world-quiet-actions [data-world-pause] {
   min-width: 2.5rem;
 }

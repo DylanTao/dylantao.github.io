@@ -127,6 +127,9 @@
 {% endif %}
 {% unless page.ai_profile or page.redirect or page.secret_globe %}
   <script type="module" src="{{ '/assets/js/companion/page.mjs' | relative_url | bust_file_cache }}"></script>
+  {% if page.pip_studio %}
+    <script type="module" src="{{ '/assets/js/companion/studio.mjs' | relative_url | bust_file_cache }}"></script>
+  {% endif %}
 {% endunless %}
 {% if page.research_motion %}
   <script defer src="{{ '/assets/js/research-motion.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>

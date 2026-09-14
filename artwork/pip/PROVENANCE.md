@@ -1,0 +1,37 @@
+# Pip: model, motion, and references
+
+Created for Sirui Tao’s website on September 14, 2026. Sirui directed the character through references and critique; OpenAI Codex implemented the original geometry, materials, and browser motion.
+
+## Editable assets
+
+| File                                     | Origin and purpose                                                                                                                                                                                                         |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pip.blend`                              | Original model authored in Blender 4.5.9 LTS through its background Python API. Rounded ceramic head, tapered shell, separate convex optical lenses, two antennae, and detached arms. Includes a studio camera and lights. |
+| `../../bin/build_pip.py`                 | Reproducible authoring, GLB export, and transparent Cycles render. No downloaded model, traced mesh, or image-to-mesh service.                                                                                             |
+| `../../assets/models/pip/pip.glb`        | Exported articulated nodes, 799,784 bytes. The browser poses named head, antenna, eye, and arm pivots; there is no skeletal animation clip or physics simulation.                                                          |
+| `pip-model.png`                          | Actual 800 × 900 transparent Cycles render of the model, 48 samples and denoising. This is model evidence, not generated concept art.                                                                                      |
+| `../../assets/img/project_pics/pip.webp` | 640 × 720 transparent WebP derivative of that render, quality 88. Used for the project thumbnail and progressive fallback.                                                                                                 |
+| `../../assets/js/companion/portrait.mjs` | Original analytic WebGL portrait matching the model’s design. Shaped surfaces, optical reflections, ambient occlusion, soft light and a ground shadow; no raster scene backdrop.                                           |
+| `../../assets/js/companion/motion.mjs`   | Shared original pose vocabulary, gaze blending, standard minimum-jerk interpolation, and damped antenna springs.                                                                                                           |
+
+Rebuild from the repository root:
+
+```powershell
+& 'C:/Users/dylan/.cache/sirui-studio-tools/blender-4.5.9-windows-x64/blender.exe' --background --python-exit-code 1 --python bin/build_pip.py
+```
+
+Blender was used programmatically. Native application mouse control was unavailable in this session; no manual sculpting through the Blender UI is claimed. GLB nodes export in Y-up coordinates with +Z facing forward. The web runtime retains one pose controller across the page, room, and project playground.
+
+## Inspiration and resources
+
+- **Pollen Robotics / Hugging Face, [Reachy Mini](https://huggingface.co/docs/reachy_mini/index):** expressive articulated head, unequal circular optical eyes, and independently moving antennae. Sirui supplied two product photographs as visual references; those photographs are not shipped with the website.
+- **[Reachy Mini Python SDK movement API](https://huggingface.co/docs/reachy_mini/SDK/python-sdk#movement):** separation of head, antennae, and body targets, and minimum-jerk timing. The SDK and its Apache-2.0 license were inspected. Pip does not distribute or execute the SDK; the interpolation polynomial is standard mathematics implemented locally.
+- **[Reachy Mini Dances Library](https://github.com/pollen-robotics/reachy_mini_dances_library):** reference vocabulary for nods, tilts, glances, pauses, and recovery. Pip’s six short gestures are independently authored for a reading page. No library implementation, choreography file, or recorded motion is copied or bundled; no license to those assets is assumed.
+- **Pixar, [WALL·E](https://www.pixar.com/wall-e), especially EVE:** floating tapered silhouette, detached arms, and expressive stillness. Sirui supplied a film still for direction. No film image, character mesh, sound, or animation is distributed.
+- **[Blender](https://www.blender.org/) and [Three.js](https://threejs.org/):** authoring/rendering tools. The room uses the existing version-matched Three.js r164 loader closure and retained MIT notice. The initial 2D page does not load Three.js or the GLB.
+
+The public [Pip project page](../../_projects/pip.md) keeps these credits visible. The work is an unofficial personal interaction experiment, with no claim of endorsement by the reference creators.
+
+## Review limits
+
+Page motion is bounded authored animation, not robot inverse kinematics or flight physics. The room uses an articulated node model; the page uses a matching analytic model. They share identity and motion, but their lighting pipelines are different. Phone figures in the evidence report are desktop browser emulation, not physical-device measurements. Sirui’s judgment remains the design acceptance criterion.

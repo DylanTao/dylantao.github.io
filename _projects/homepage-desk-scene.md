@@ -47,9 +47,11 @@ hide_title: true
 
 The room now has a study, kitchen, gym, onsen, ocean terrace, and sleeping alcove. An authored San Diego routine moves me between them: breakfast comes late, coding continues into the night, and the onsen faces the Pacific. It is a little imagined day, not a live location feed.
 
-I kept 2D as the first view on every screen. In 3D, Now follows the routine; Explore lets you visit a room or preview an activity without the clock pulling the camera away. The three treatments offer a crafted architectural miniature, a richer perspective view of stone and moving water, and an inked world with graphic shadows. The cliff and ocean remain actual parts of the world when you look around.
+I kept 2D as the first view on every screen. In 3D, the occupied room follows the routine; Look around takes you out to the coast. I am refining the Realistic treatment, with stone, warm wood, and moving water. Architectural and Illustrated are deferred experiments in the authoring lab. The cliff and ocean remain actual parts of the world when you look around.
 
 The first character pass did not look enough like me. Reviewing it against my portrait led to an exposed forehead, swept-back long hair, wire glasses, and a broader Lizard jaw. Likeness and the small gestures remain things to judge in the rendered scene, not just in a concept board.
+
+A small floating companion, [Pip]({{ '/projects/pip/' | relative_url }}), now wanders between the room and the reading page. Its project page has a motion playground and credits for the robot references that shaped it.
 
 ## Why the desk has two views
 

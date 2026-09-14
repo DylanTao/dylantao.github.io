@@ -30,9 +30,11 @@ async function sample(page, ms = 4000, measuringCompanion = false) {
         const start = performance.now(),
           deltas = [];
         const frameCount = () =>
-          measuringCompanion
-            ? document.querySelector(".pip-companion").getCompanionEvidence().frames
-            : document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames;
+          measuringCompanion === "studio"
+            ? document.querySelector("[data-pip-studio]").getPipEvidence().frames
+            : measuringCompanion
+              ? document.querySelector(".pip-companion").getCompanionEvidence().frames
+              : document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames;
         const frames = frameCount();
         let previous = start,
           raf;
@@ -83,7 +85,7 @@ async function sample(page, ms = 4000, measuringCompanion = false) {
     const requestsBefore3D = await page.evaluate(() =>
       performance
         .getEntriesByType("resource")
-        .filter((r) => /home-scene|models\/home|three\.module/.test(r.name))
+        .filter((r) => /home-scene|models\/(home|pip)|three\.module/.test(r.name))
         .map((r) => r.name)
     );
     if (defaultMode !== "2d" || requestsBefore3D.length) throw new Error("The initial 2D page fetched the 3D scene.");
@@ -180,6 +182,11 @@ async function sample(page, ms = 4000, measuringCompanion = false) {
         await canvas.screenshot({ path: path.join(output, `outside-${style}.png`) });
       }
     }
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto(base + "/projects/pip/", { waitUntil: "networkidle" });
+    await page.locator("[data-pip-studio]").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(2000);
+    view.pipPlayground = await sample(page, 4000, "studio");
     await context.close();
   }
   await browser.close();
@@ -199,6 +206,7 @@ async function sample(page, ms = 4000, measuringCompanion = false) {
       .filter((n) => /\.(js|wasm)$/.test(n))
       .map((n) => `assets/js/vendor/three-r164/${n.replaceAll("\\", "/")}`),
     "assets/models/home/manifest.json",
+    "assets/models/pip/pip.glb",
     "assets/img/home/coastal-vignette.svg",
     ...fs
       .readdirSync("assets/models/home")
@@ -211,11 +219,15 @@ async function sample(page, ms = 4000, measuringCompanion = false) {
     return { file, bytes: data.length, gzipBytes: zlib.gzipSync(data).length };
   });
   report.companionScriptsGzipBytes = report.assets.filter((a) => a.file.startsWith("assets/js/companion/")).reduce((sum, a) => sum + a.gzipBytes, 0);
+  report.defaultPageCompanionScriptsGzipBytes = report.assets
+    .filter((a) => a.file.startsWith("assets/js/companion/") && !a.file.endsWith("studio.mjs"))
+    .reduce((sum, a) => sum + a.gzipBytes, 0);
   const size = (file) => report.assets.find((a) => a.file === file).gzipBytes;
   report.largestInitialSceneGzipBytes =
     report.assets.filter((a) => !a.file.endsWith(".glb") && !a.file.endsWith(".png")).reduce((sum, a) => sum + a.gzipBytes, 0) +
     size(`assets/models/home/${manifest.shell}`) +
     size(`assets/models/home/${manifest.coast}`) +
+    size("assets/models/pip/pip.glb") +
     Math.max(...manifest.rooms.map((r) => size(`assets/models/home/${r.file}`))) +
     Math.max(...manifest.avatars.map((a) => size(`assets/models/home/${a.file}`)));
   const rawSize = (file) => report.assets.find((a) => a.file === file).bytes;
@@ -223,6 +235,7 @@ async function sample(page, ms = 4000, measuringCompanion = false) {
     report.assets.filter((a) => !a.file.endsWith(".glb") && !a.file.endsWith(".png")).reduce((sum, a) => sum + a.bytes, 0) +
     rawSize(`assets/models/home/${manifest.shell}`) +
     rawSize(`assets/models/home/${manifest.coast}`) +
+    rawSize("assets/models/pip/pip.glb") +
     Math.max(...manifest.rooms.map((r) => rawSize(`assets/models/home/${r.file}`))) +
     Math.max(...manifest.avatars.map((a) => rawSize(`assets/models/home/${a.file}`)));
   fs.writeFileSync(path.join(output, "performance.json"), JSON.stringify(report, null, 2) + "\n");

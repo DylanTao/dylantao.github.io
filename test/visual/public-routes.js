@@ -134,6 +134,12 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-pip",
+    path: "/projects/pip/",
+    readySelector: "[data-pip-studio][data-renderer]",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-homepage-desk-scene",
     path: "/projects/homepage-desk-scene/",
     readySelector: ".desk-scene-evidence-pair",

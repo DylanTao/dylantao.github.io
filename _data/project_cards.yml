@@ -95,6 +95,20 @@ build-rhythm:
     - "Readers can see when work clustered without mistaking a busy day for a good one."
     - "The charts show when work arrived, not whether it was good."
 
+pip:
+  origin_line: "I wanted the site to feel inhabited, with a little companion that notices visitors without getting in the way of reading."
+  evolution_line: "Pip grew from a rectangular visor into a floating, lens-eyed character with an articulated Blender model and a shared vocabulary of small gestures."
+  icon: robot
+  teaser_alt: Pip, a white floating companion with two antennae and round optical eyes
+  accents:
+    morning: "#d79973"
+    noon: "#5996a7"
+    afternoon: "#87a9a3"
+    evening: "#a89bd2"
+  takeaways:
+    - "A head turn, a pause, and delayed antennae can say more than another face."
+    - "Try the motion playground and meet the references behind Pip."
+
 homepage-desk-scene:
   origin_line: "The flat desk held papers, records, and hidden cards, but visitors could not step inside the room."
   evolution_line: "I made 2D and 3D views of the same room, so music and discoveries remain when someone switches views."

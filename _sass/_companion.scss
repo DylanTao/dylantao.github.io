@@ -34,6 +34,20 @@
       outline-offset: 3px;
     }
   }
+  .pip-label {
+    position: absolute;
+    bottom: -24px;
+    left: -6px;
+    white-space: nowrap;
+    color: var(--global-theme-color);
+    font: 500 11px/1.4 var(--font-family-base, Inter, sans-serif);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover .pip-label,
+  &:focus-within .pip-label {
+    opacity: 1;
+  }
   &[data-visible="false"] .pip-hit {
     pointer-events: none;
   }
@@ -92,25 +106,124 @@
   .pip-fallback {
     display: none;
     position: absolute;
-    inset: 24px 10px 42px;
-    border-radius: 22px;
-    background: linear-gradient(130deg, #fff, #b5c5cd);
-    box-shadow: 0 28px 8px -8px rgb(0 0 0 / 15%);
-  }
-  .pip-fallback::after {
-    content: "••";
-    position: absolute;
-    inset: 9px 6px;
-    border-radius: 15px;
-    background: #182b32;
-    color: #90d9d3;
-    text-align: center;
-    font: 25px/30px sans-serif;
-    letter-spacing: 8px;
-    padding-left: 8px;
+    inset: 0;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   }
   &[data-fallback="true"] .pip-fallback {
     display: block;
+  }
+}
+
+.pip-project-hero {
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+  .project-case-copy {
+    min-width: 0;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 4.4vw, 4.7rem);
+    line-height: 1.06;
+  }
+}
+.pip-project-invitation {
+  color: var(--global-text-color-light);
+  font-size: 0.9rem;
+}
+.pip-studio {
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+  .pip-studio-figure {
+    position: relative;
+    width: min(100%, 440px);
+    height: clamp(290px, 33vw, 440px);
+    margin-inline: auto;
+  }
+  canvas,
+  .pip-studio-poster {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: block;
+    object-fit: contain;
+  }
+  canvas {
+    visibility: hidden;
+  }
+  &[data-renderer="webgl"] canvas {
+    visibility: visible;
+  }
+  &[data-renderer="webgl"] .pip-studio-poster {
+    visibility: hidden;
+  }
+  .pip-studio-gestures[hidden] {
+    display: none;
+  }
+  .pip-studio-gestures {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    button {
+      border: 1px solid var(--global-divider-color);
+      border-radius: 24px;
+      padding: 8px 12px;
+      min-height: 40px;
+      background: transparent;
+      color: var(--global-text-color);
+      font: 500 0.8rem/1.4 var(--font-family-base, Inter, sans-serif);
+      &:hover,
+      &[aria-pressed="true"] {
+        background: var(--global-code-bg-color);
+        border-color: var(--global-theme-color);
+      }
+      &:focus-visible {
+        outline: 2px solid var(--global-theme-color);
+        outline-offset: 3px;
+      }
+    }
+  }
+  .pip-studio-status {
+    min-height: 3em;
+    font-size: 0.78rem;
+    color: var(--global-text-color-light);
+    margin: 12px auto 0;
+    max-width: 36em;
+  }
+}
+.pip-motion-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding-block: 20px 28px;
+  border-block: 1px solid var(--global-divider-color);
+  margin-block: 24px 40px;
+  h3 {
+    margin-block: 0 10px;
+  }
+  p {
+    margin: 0;
+    font-size: 0.94rem;
+  }
+}
+.pip-credits {
+  margin-top: 42px;
+  scroll-margin-top: 90px;
+  li {
+    margin-bottom: 14px;
+  }
+}
+@media (max-width: 767px) {
+  .pip-project-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pip-motion-notes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
   }
 }
 @media (max-width: 600px) {

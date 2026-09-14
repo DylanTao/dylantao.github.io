@@ -3,7 +3,48 @@ import assert from "node:assert/strict";
 import { randomSource, spring, choosePerch, clearAt, phrase } from "../assets/js/companion/behaviour.mjs";
 import { beachPoint, beachWidth } from "../assets/js/home-scene/shore.mjs";
 import { readFileSync } from "node:fs";
+import { createPipMotion, gestures, sampleGesture } from "../assets/js/companion/motion.mjs";
 const beach = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url))).beach;
+
+test("Pip gestures settle, can be interrupted, and honor reduced motion immediately", () => {
+  for (const name of Object.keys(gestures)) {
+    const motion = createPipMotion();
+    assert.ok(motion.play(name));
+    let pose;
+    for (let i = 0; i < 360; i++) pose = motion.update(1 / 60, { autonomous: false });
+    assert.equal(pose.gesture, "rest");
+    assert.ok(pose.head.every((v) => Math.abs(v) < 1e-8));
+    assert.ok(Object.values(sampleGesture(name, 100)).every((v) => v === 0));
+  }
+  const motion = createPipMotion();
+  motion.play("curious");
+  let before;
+  for (let i = 0; i < 50; i++) before = motion.update(1 / 60, { autonomous: false });
+  motion.play("hello");
+  const after = motion.update(0, { autonomous: false });
+  assert.deepEqual(after.head, before.head, "interrupting a gesture must not snap the head");
+  const still = motion.update(5, { still: true, gaze: [1, 1] });
+  assert.deepEqual(still.head, [0, 0, 0]);
+  assert.deepEqual(still.antennas, [0, 0]);
+  assert.equal(motion.update(10, { nap: true }).blink, 1);
+});
+
+test("Pip pointer following is frame-rate independent and long frames stay bounded", () => {
+  const sample = (hz) => {
+    const motion = createPipMotion();
+    let pose;
+    for (let i = 0; i < hz; i++) pose = motion.update(1 / hz, { gaze: [1, -1], autonomous: false });
+    return pose;
+  };
+  const a = sample(30),
+    b = sample(120);
+  for (let i = 0; i < 3; i++) assert.ok(Math.abs(a.head[i] - b.head[i]) < 0.0001);
+  const motion = createPipMotion();
+  motion.play("hello");
+  const pose = motion.update(3600, { gaze: [100, -100], autonomous: false });
+  assert.ok(pose.head.every((v) => Number.isFinite(v) && Math.abs(v) < 0.4));
+  assert.equal(pose.gesture, "hello", "a hidden-tab interval must not skip the entire gesture");
+});
 test("the damped companion settles without overshooting after a long frame", () => {
   let x = 0,
     v = 0;

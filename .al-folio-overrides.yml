@@ -237,8 +237,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/scripts.liquid
     upstream_sha256: 6b7146cfc83ab101ba20e4ad6fb1b65aede3f6fc18ec083ad71bed07e20b93ce
-    local_sha256: 1197569025322e1adc8f0d95d6612b9b86731d454aa36bba81b1deb00d7482e6
-    acknowledged_at: "2026-09-13"
+    local_sha256: 21a80c43fbe2e90947fd68474fa1ad233faa6bbd6a062deca439df9d6e75b4e8
+    acknowledged_at: "2026-09-14"
   _includes/selected_papers.liquid:
     owner: al_folio_core
     gem_version: 1.0.10

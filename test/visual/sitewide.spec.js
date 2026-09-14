@@ -7,6 +7,7 @@ const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-paper-constellation",
   "project-build-rhythm",
   "project-homepage-desk-scene",
+  "project-pip",
   "project-hci-spooder-man",
   "project-scholar-lens",
   "project-wall-of-rejection",
@@ -401,7 +402,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     const hero = page.locator(".project-case-hero").first();
     const copy = hero.locator(":scope > .project-case-copy");
     const media = hero.locator(":scope > .project-case-media");
-    const visual = hero.locator(":scope > .project-case-media, :scope > .build-week-boundary-figure");
+    const visual = hero.locator(":scope > .project-case-media, :scope > .build-week-boundary-figure, :scope > .pip-studio");
     await expect(hero).toBeVisible();
     await expect(copy).toBeVisible();
     const mediaCount = await media.count();
@@ -418,7 +419,9 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
       const heroGeometry = await hero.evaluate((element) => {
         const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
-        const mediaBox = element.querySelector(":scope > .project-case-media, :scope > .build-week-boundary-figure").getBoundingClientRect();
+        const mediaBox = element
+          .querySelector(":scope > .project-case-media, :scope > .build-week-boundary-figure, :scope > .pip-studio")
+          .getBoundingClientRect();
         return {
           copyBottom: copyBox.bottom,
           copyHeight: copyBox.height,
@@ -1088,7 +1091,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   if (route.id === "projects-index") {
     const icons = page.locator(".projects [data-project-card-icon]");
-    await expect(icons).toHaveCount(11);
+    await expect(icons).toHaveCount(12);
     expect(await icons.evaluateAll((elements) => elements.every((element) => element.getAttribute("aria-hidden") === "true"))).toBe(true);
     expect(
       await icons.evaluateAll((elements) =>
@@ -1104,7 +1107,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     });
     await expect(driverCard.locator("[data-project-card-origin]")).toHaveCount(1);
     await expect(driverCard.locator("[data-project-card-evolution]")).toHaveCount(0);
-    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(10);
+    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(FUN_PROJECT_ROUTE_IDS.size - 1);
 
     const card = page.locator("[data-site-experiment-grid] [data-project-card]").first();
     const trigger = card.locator("[data-project-card-trigger]");
@@ -1355,7 +1358,7 @@ test("coastal time modes settle coherently across representative human routes", 
   expect(runtimeErrors, "sitewide coastal time-mode matrix raised browser runtime errors").toEqual([]);
 });
 
-test("all eleven project cards disclose and recover their stories", async ({ page }, testInfo) => {
+test("all twelve project cards disclose and recover their stories", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "desktop and mobile exercise every expandable story");
 
@@ -1368,12 +1371,12 @@ test("all eleven project cards disclose and recover their stories", async ({ pag
   await stabilizeVisuals(page);
 
   const cards = page.locator(".projects [data-project-card]").filter({ has: page.locator("[data-project-card-story]") });
-  await expect(cards).toHaveCount(11);
-  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(11);
-  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(10);
+  await expect(cards).toHaveCount(FUN_PROJECT_ROUTE_IDS.size);
+  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(FUN_PROJECT_ROUTE_IDS.size);
+  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(FUN_PROJECT_ROUTE_IDS.size - 1);
   await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
 
-  for (let index = 0; index < 11; index += 1) {
+  for (let index = 0; index < FUN_PROJECT_ROUTE_IDS.size; index += 1) {
     const card = cards.nth(index);
     const title = (await card.locator(".card-title").innerText()).trim();
     const trigger = card.locator("[data-project-card-trigger]");
@@ -1468,15 +1471,15 @@ test("all eleven project cards disclose and recover their stories", async ({ pag
     await expect(trigger, `${title} did not restore focus to its preview trigger`).toBeFocused();
   }
 
-  expect(runtimeErrors, "all-eleven project-card expansion raised browser runtime errors").toEqual([]);
+  expect(runtimeErrors, "all-twelve project-card expansion raised browser runtime errors").toEqual([]);
 });
 
-test("all eleven fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
+test("all twelve fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one Chromium context covers the high-DPR effective viewport");
 
   const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
-  expect(routes).toHaveLength(11);
+  expect(routes).toHaveLength(FUN_PROJECT_ROUTE_IDS.size);
 
   // A 720x500 CSS viewport at DPR 2 retains a 1440x1000 pixel canvas while
   // independently exercising the compact responsive layout.
@@ -1534,12 +1537,12 @@ test("all eleven fun stories fit a high-DPR scaled canvas", async ({ browser }, 
   }
 });
 
-test("all eleven fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
+test("all twelve fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop context covers text-only 200% reflow");
 
   const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
-  expect(routes).toHaveLength(11);
+  expect(routes).toHaveLength(FUN_PROJECT_ROUTE_IDS.size);
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
 

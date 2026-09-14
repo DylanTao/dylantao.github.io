@@ -37,7 +37,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - `assets/js/home-scene/model-loader.mjs`: Draco geometry decoding through a pinned static same-origin worker. Blender's `--export-only` route rebuilds GLBs from the editable sources without repeating sculpting.
 - `assets/js/home-scene/environment.mjs`: Pacific water geometry, procedural sky and reflections, graphic surf, and atmosphere. `coast.glb` supplies connected headlands and style-specific geology.
 - `assets/js/home-scene/shore.mjs` and `wildlife.mjs`: the expanded beach contact surface, brush rabbits, a raccoon, flying/perching gulls and sandpipers. Beach width comes from the same manifest values used by Blender.
-- `assets/js/companion/`: Pip's small analytic WebGL portrait, damped page movement, clearance checks, authored remarks, nap preference and shared page/world state. `home-scene/companion.mjs` builds its articulated room counterpart; safe perches and hover heights live in the manifest.
+- `assets/js/companion/`: Pip's small analytic WebGL portrait, shared articulated motion, page movement, clearance checks, remarks, nap preference, and page/world/playground ownership. `home-scene/companion.mjs` loads the Blender model at `assets/models/pip/pip.glb`; safe perches and hover heights live in the home manifest. `bin/build_pip.py` and `artwork/pip/` preserve its editable source and provenance.
 - `assets/js/home.js`: existing 2D desk and shared record state; lazy adapter to the extracted runtime.
 - `_includes/home/world_controls.liquid` and `_sass/_coastal-home.scss`: accessible scene controls and responsive composition.
 - Three.js r164 and its matching GLTFLoader closure remain local. The splat study has an independent r180/Spark dependency graph.
@@ -103,7 +103,9 @@ The beach now has a 14-meter base depth plus the authored cove bulge. Dry and we
 
 ## Pip, The Studio Companion
 
-Pip is the white ceramic hovering robot requested in the September 13 review. Start it beside the album in 2D. Its head and eyes acknowledge a recent pointer position; its body follows more slowly, sometimes pausing to wander. Hover or keyboard focus lets a visitor greet it or use its small nap control. Morning, noon, afternoon and evening alter the key light, reflections, eye color and shadow. The initial 2D page loads neither Three.js nor the house assets.
+Pip is the white ceramic hovering robot requested in the September 13 review, refined September 14 toward Reachy Mini’s expressive head and EVE’s floating body. Keep the two antennae, unequal convex lens eyes, tapered shell, orange detail and detached arms recognizable. Start it beside the album in 2D. Its head and eyes acknowledge a recent pointer position; its body follows more slowly, sometimes pausing to wander. Hover or keyboard focus offers a greeting; clicking Pip opens `/projects/pip/`. The room has both a clickable model and a quiet accessible project link. Its small nap control remains available. Morning, noon, afternoon and evening alter the key light, reflections, eye color and shadow. The initial 2D page loads neither Three.js, the robot GLB, nor the house assets.
+
+`motion.mjs` owns original hello, curious, nod, peek, repair and sleepy poses. Minimum-jerk transitions preserve the current pose when interrupted; antenna springs settle after the head. The same controller drives the analytic page portrait, articulated Blender room model and enlarged project playground, with exactly one active owner. The project offers four short gesture previews and nap, visible inspiration/resource credits, and a real Blender-rendered poster on graphics failure. Reachy’s SDK and dance library inform the design; no SDK or recorded dance is bundled. See [Pip provenance](../artwork/pip/PROVENANCE.md) and [the current evidence](evidence/pip-reachy/README.md).
 
 On human reading routes, choose clear page gaps and margins. Protect prose, figures, links, controls and navigation; fade while crossing an occupied area. Keep occasional comments short and infrequent. A small card or heading nudge uses a reversible transform and a repair gesture: preserve content, links and document flow, and cancel the transform on pause, reduced motion, hiding or navigation. AI reading routes remain undecorated.
 
@@ -125,17 +127,18 @@ The copy is local and authored. Ordinary remarks wait roughly 45–80 seconds be
 
 ## Acceptance Evidence Map
 
-| Contract                                                              | Evidence                                                                                 |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Time, midnight/noon, weekends, DST, preview/Now                       | `node.exe --test test/coastal-routine.test.mjs`                                          |
-| Nonblank scene, orbit/zoom pixel changes, room continuity             | `test/visual/desk-scene.spec.js`, four viewport projects                                 |
-| Avatar/mode repetition, one actor, clips and contacts                 | Browser pose captures plus exported asset/joint checks                                   |
-| Records, artifact focus/open, drop/return, 2D sharing                 | Browser scene suite plus retained legacy 2D interactions                                 |
-| Reduced motion, keyboard/touch, load failures, pause and recovery     | Targeted browser cases; inspect screenshots and runtime errors                           |
-| Sitewide typography, layout, themes, overflow                         | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000              |
-| Payload and runtime cost                                              | Asset report and desktop/mobile browser measurements in the implementation handoff       |
-| Local splat tradeoff                                                  | `artwork/coastal-home/splat-lab/` and its findings                                       |
-| Pip clearance, greeting, handoff, repair, reduced motion and fallback | `test/companion.test.mjs`, `test/visual/companion.spec.js`, and inspected route captures |
+| Contract                                                              | Evidence                                                                                             |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Time, midnight/noon, weekends, DST, preview/Now                       | `node.exe --test test/coastal-routine.test.mjs`                                                      |
+| Nonblank scene, orbit/zoom pixel changes, room continuity             | `test/visual/desk-scene.spec.js`, four viewport projects                                             |
+| Avatar/mode repetition, one actor, clips and contacts                 | Browser pose captures plus exported asset/joint checks                                               |
+| Records, artifact focus/open, drop/return, 2D sharing                 | Browser scene suite plus retained legacy 2D interactions                                             |
+| Reduced motion, keyboard/touch, load failures, pause and recovery     | Targeted browser cases; inspect screenshots and runtime errors                                       |
+| Sitewide typography, layout, themes, overflow                         | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000                          |
+| Payload and runtime cost                                              | Asset report and desktop/mobile browser measurements in the implementation handoff                   |
+| Local splat tradeoff                                                  | `artwork/coastal-home/splat-lab/` and its findings                                                   |
+| Pip clearance, greeting, handoff, repair, reduced motion and fallback | `test/companion.test.mjs`, `test/visual/companion.spec.js`, and inspected route captures             |
+| Pip project, motion settling, interrupted poses and source credit     | Gesture unit tests, public project checkpoint, playground keyboard/touch checks and model provenance |
 
 ## Acceptance Checklist
 

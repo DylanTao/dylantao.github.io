@@ -1,5 +1,5 @@
 import { createPortrait } from "./portrait.mjs";
-import { companion } from "./bridge.mjs";
+import { companion, pipProjectUrl } from "./bridge.mjs";
 import { choosePerch, clearAt, phrase, randomSource, spring } from "./behaviour.mjs";
 
 const root = document.documentElement;
@@ -28,7 +28,7 @@ function start() {
   el.dataset.visible = "false";
   el.setAttribute("aria-label", "Pip, the little studio companion");
   el.innerHTML =
-    '<canvas aria-hidden="true"></canvas><span class="pip-fallback" aria-hidden="true"></span><button class="pip-hit" aria-label="Say hello to Pip"></button><span class="pip-speech" aria-hidden="true"></span><button class="pip-nap" aria-label="Let Pip nap" title="Let Pip nap">☾</button>';
+    '<canvas aria-hidden="true"></canvas><span class="pip-fallback" aria-hidden="true"><svg viewBox="0 0 88 112"><defs><linearGradient id="pip-shell" x2="0.8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#bbcbd0"/></linearGradient></defs><ellipse cx="44" cy="103" rx="20" ry="3" fill="#12222c" opacity=".16"/><g fill="url(#pip-shell)" stroke="#8a9da3" stroke-width=".55"><path d="M25 29 19 10M62 29 69 10" stroke-width="1.2"/><rect x="15" y="27" width="58" height="32" rx="12"/><path d="M44 61C20 60 30 95 44 96C58 95 68 60 44 61Z"/><ellipse cx="25" cy="75" rx="3" ry="10"/><ellipse cx="63" cy="75" rx="3" ry="10"/></g><path d="M35 43h17" stroke="#263941" stroke-width="2"/><g fill="#10222b" stroke="#647f8b"><circle cx="32" cy="43" r="10"/><circle cx="57" cy="43" r="8"/></g><g fill="none" stroke="var(--global-theme-color, #6fc6ca)" stroke-width="1.5"><circle cx="32" cy="43" r="4.4"/><circle cx="57" cy="43" r="3.7"/></g><g fill="#fff" opacity=".75"><ellipse cx="29" cy="38" rx="2.4" ry="1.3"/><ellipse cx="55" cy="39" rx="1.6" ry=".8"/></g><circle cx="48" cy="70" r="1.5" fill="#f07a38"/></svg></span><a class="pip-hit" aria-label="Meet Pip, the floating studio companion" title="Meet Pip"><span class="pip-label" aria-hidden="true">Meet Pip ↗</span></a><span class="pip-speech" aria-hidden="true"></span><button class="pip-nap" aria-label="Let Pip nap" title="Let Pip nap">☾</button>';
   document.body.append(el);
   let portrait;
   try {
@@ -42,6 +42,7 @@ function start() {
   const hit = el.querySelector(".pip-hit"),
     nap = el.querySelector(".pip-nap"),
     bubble = el.querySelector(".pip-speech");
+  hit.href = pipProjectUrl;
   companion.napping = read("pip-napping") === "1";
   companion.reduced = reduced.matches;
   let x = innerWidth - 85,
@@ -227,6 +228,7 @@ function start() {
       { duration: 2300, easing: "ease-in-out" }
     );
     companion.mood = 1;
+    companion.motion.play("repair");
     bumpCount++;
     repairAt = elapsed + 2.3;
     speak("bump", force);
@@ -251,15 +253,21 @@ function start() {
     restore();
     request();
   }
-  hit.addEventListener("click", () => {
-    if (companion.napping) setNap(false);
-    companion.boops++;
-    companion.mood = 0.8;
+  let lastHello = -10;
+  const greet = () => {
+    if (elapsed - lastHello < 6 || companion.napping || companion.reduced) return;
+    lastHello = elapsed;
+    companion.motion.play("hello");
     speak("hello", true);
-    nextSpeech = elapsed + 45;
     request();
+  };
+  hit.addEventListener("pointerenter", greet);
+  hit.addEventListener("focus", greet);
+  nap.addEventListener("click", () => {
+    setNap(!companion.napping);
+    window.dispatchEvent(new Event("pip:nap"));
   });
-  nap.addEventListener("click", () => setNap(!companion.napping));
+  window.addEventListener("pip:nap", () => setNap(companion.napping));
   document.addEventListener(
     "pointermove",
     (event) => {
@@ -369,6 +377,7 @@ function start() {
     const worldVisible =
       stage?.dataset.deskMode === "3d" &&
       scene?.dataset.sceneState === "ready" &&
+      companion.worldReady &&
       rect?.bottom > innerHeight * 0.28 &&
       rect?.top < innerHeight * 0.62;
     if (worldVisible && !wasWorldVisible) nextEscape = elapsed + 35 + random() * 25;
@@ -378,7 +387,9 @@ function start() {
       nextEscape = elapsed + 60 + random() * 45;
       companion.excursion = true;
     }
-    const nextMode = worldVisible && elapsed > worldEscapeUntil ? "world" : "page";
+    const studio = document.querySelector("[data-pip-studio]")?.getBoundingClientRect();
+    const studioVisible = studio && studio.bottom > innerHeight * 0.25 && studio.top < innerHeight * 0.8;
+    const nextMode = studioVisible ? "studio" : worldVisible && elapsed > worldEscapeUntil ? "world" : "page";
     if (mode !== nextMode) {
       if (nextMode === "page" && companion.projected) {
         x = Math.max(45, Math.min(innerWidth - 45, companion.projected.x));
@@ -394,7 +405,7 @@ function start() {
       layoutDirty = true;
       nextPerch = 0;
     }
-    if (mode === "world") {
+    if (mode !== "page") {
       el.dataset.visible = "false";
       visible = false;
       el.dataset.speaking = "false";
@@ -437,10 +448,13 @@ function start() {
       companion.mood *= Math.exp(-dt * 1.5);
       if (visible)
         portrait?.draw({
-          time: still ? 0 : elapsed,
-          gaze: [gx, gy],
-          blink: companion.napping ? 1 : elapsed < blinkUntil ? Math.sin(((blinkUntil - elapsed) / 0.17) * Math.PI) : 0,
-          mood: companion.mood,
+          pose: companion.motion.update(dt, {
+            gaze: [gx, gy],
+            still,
+            nap: companion.napping,
+            blink: elapsed < blinkUntil ? Math.sin(((blinkUntil - elapsed) / 0.17) * Math.PI) : 0,
+            flight: vx * 0.0004,
+          }),
           theme: companion.theme,
         });
     }

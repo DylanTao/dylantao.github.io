@@ -19,6 +19,82 @@ async function capture(page, testInfo, name) {
   await testInfo.attach(name, { path: file, contentType: "image/png" });
 }
 
+test("Pip: its project link opens a working motion playground with visible credits", async ({ page }, testInfo) => {
+  const errors = await open(page);
+  await page.locator(".home-portrait-frame").scrollIntoViewIfNeeded();
+  const link = page.locator(".pip-hit");
+  await expect(link).toHaveAttribute("href", /\/projects\/pip\/$/);
+  await expect.poll(async () => (await evidence(page)).visible).toBe(true);
+  await link.focus();
+  await link.press("Enter");
+  await expect(page).toHaveURL(/\/projects\/pip\/$/);
+  const studio = page.locator("[data-pip-studio]");
+  await studio.scrollIntoViewIfNeeded();
+  await expect(studio).toHaveAttribute("data-renderer", "webgl");
+  await expect.poll(async () => (await evidence(page)).owner).toBe("studio");
+  await expect(page.locator(".pip-companion")).toHaveAttribute("data-visible", "false");
+  const get = () => studio.evaluate((e) => e.getPipEvidence());
+  const before = await get();
+  await page.getByRole("button", { name: "Curious", exact: true }).click();
+  await page.waitForTimeout(1100);
+  const after = await get();
+  expect(after.pose.gesture).toBe("curious");
+  expect(Math.abs(after.pose.head[2] - before.pose.head[2])).toBeGreaterThan(0.12);
+  await capture(page, testInfo, "pip-curiosity-playground");
+  await page.getByRole("button", { name: "Let Pip nap", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Wake Pip up", exact: true })).toHaveAttribute("aria-pressed", "true");
+  const asleep = await get();
+  await page.waitForTimeout(300);
+  expect((await get()).time).toBe(asleep.time);
+  expect((await get()).pose.blink).toBe(1);
+  await page.getByRole("button", { name: "Hello", exact: true }).click();
+  await expect.poll(async () => (await get()).pose.gesture).toBe("hello");
+  await expect(page.locator("#credits")).toContainText("Pollen Robotics");
+  await expect(page.locator("#credits")).toContainText("Pixar");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test("Pip: playground respects reduced motion and a failed model keeps the room usable", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route("**/livereload.js*", (r) => r.fulfill({ body: "" }));
+  await page.goto(publicRouteUrl("/projects/pip/"));
+  const studio = page.locator("[data-pip-studio]");
+  await studio.scrollIntoViewIfNeeded();
+  await expect(studio).toHaveAttribute("data-renderer", "webgl");
+  await page.getByRole("button", { name: "Curious", exact: true }).click();
+  await expect(page.locator("[data-pip-status]")).toContainText("Reduced motion");
+  const still = await studio.evaluate((e) => e.getPipEvidence());
+  await page.waitForTimeout(250);
+  expect((await studio.evaluate((e) => e.getPipEvidence())).pose).toEqual(still.pose);
+  if (testInfo.project.name === "desktop-1440") {
+    await studio.locator("canvas").evaluate((canvas) => {
+      canvas.pipContextLossTest = canvas.getContext("webgl").getExtension("WEBGL_lose_context");
+      canvas.pipContextLossTest.loseContext();
+    });
+    await expect(studio).toHaveAttribute("data-renderer", "poster");
+    await expect(studio.locator(".pip-studio-gestures")).toBeHidden();
+    await expect(studio.locator(".pip-studio-poster")).toBeVisible();
+    await studio.locator("canvas").evaluate((canvas) => {
+      canvas.pipContextLossTest.restoreContext();
+      delete canvas.pipContextLossTest;
+    });
+    await expect(studio).toHaveAttribute("data-renderer", "webgl");
+    await expect(studio.locator(".pip-studio-gestures")).toBeVisible();
+    await page.route("**/models/pip/pip.glb", (r) => r.fulfill({ contentType: "model/gltf-binary", body: "invalid model" }));
+    await page.goto(publicRouteUrl("/") + "?companion-lab=1");
+    await page.getByRole("button", { name: "3D", exact: true }).click();
+    const room = page.locator("[data-home-desk-scene]");
+    await expect(room).toHaveAttribute("data-scene-state", "ready");
+    await expect.poll(async () => (await evidence(page)).owner).toBe("page");
+    await expect(page.locator(".home-world-pip-link")).toHaveAttribute("href", /\/projects\/pip\/$/);
+    await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
+    await page.waitForTimeout(100);
+  }
+  expect(errors).toEqual([]);
+});
+
 test("Pip: 2D greeting, shaded companion, pointer curiosity and clear page bounds", async ({ page }, testInfo) => {
   const errors = await open(page);
   await expect(page.locator(".home-world-welcome")).toHaveText("Welcome to Sirui’s crib.");

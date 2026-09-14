@@ -8,7 +8,7 @@ import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvat
 import { createFootContacts } from "./locomotion.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
-import { companion } from "../companion/bridge.mjs";
+import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -721,16 +721,19 @@ export function createCoastalHome(container, records, artifacts) {
       new THREE.Vector2(((event.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((event.clientY - rect.top) / rect.height) * 2),
       camera
     );
-    return ray.intersectObjects(
+    const hit = ray.intersectObjects(
       picks.filter((o) => o.visible && o.parent),
       false
-    )[0]?.object;
+    )[0];
+    const bot = worldCompanion?.pick(ray);
+    return bot && (!hit || bot.distance < hit.distance) ? bot.object : hit?.object;
   }
 
   function activate(o) {
     const a = o?.userData.action;
     if (!a) return;
-    if (a.type === "record" || a.type === "artifact") focusObject(o);
+    if (a.type === "pip") location.assign(pipProjectUrl);
+    else if (a.type === "record" || a.type === "artifact") focusObject(o);
     else if (a.type === "spin") callbacks.toggleSpin?.();
     else if (a.type === "window") setRoom("outside");
     else if (a.type === "source" && records[a.index].source) window.open(records[a.index].source, "_blank", "noopener,noreferrer");
@@ -1083,8 +1086,12 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       world.add(prepareModel(coast.scene));
-      worldCompanion = createWorldCompanion(scene, config, container);
-      cleanup.push(() => worldCompanion.dispose());
+      worldCompanion = await createWorldCompanion(scene, config, container, loader).catch(() => null);
+      if (disposed) {
+        worldCompanion?.dispose();
+        return;
+      }
+      cleanup.push(() => worldCompanion?.dispose());
       listen(window, "pip:change", requestFrame);
       makeDeskObjects();
       const lab = ui.querySelector("[data-world-lab]");

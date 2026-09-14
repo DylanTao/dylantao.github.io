@@ -1,7 +1,10 @@
+import { createPipMotion } from "./motion.mjs";
+
 // One companion moves between the DOM reading surface and the miniature.
 // Neither renderer owns a second copy of its mood, nap or pointer state.
 export const companion = {
   owner: "page",
+  motion: createPipMotion(),
   theme: "noon",
   reduced: false,
   napping: false,
@@ -21,3 +24,6 @@ export const companionLights = {
   afternoon: { accent: [0.95, 0.54, 0.2], lamp: [1, 0.82, 0.58] },
   evening: { accent: [0.58, 0.51, 1], lamp: [1, 0.69, 0.45] },
 };
+
+// Resolves correctly on root hosting and a Jekyll project baseurl.
+export const pipProjectUrl = new URL("../../../projects/pip/", import.meta.url).href;

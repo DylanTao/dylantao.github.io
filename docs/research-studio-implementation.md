@@ -37,7 +37,7 @@ The September 13 refinement gives the gym a rack, loaded barbell, padded bench, 
 
 The scene loads only after choosing 3D. Shell, coast, occupied room, and selected avatar load first; other rooms stream afterward. Rendering stops offscreen or hidden, DPR is capped at 1.5, and reduced motion uses composed poses. Asset or WebGL failure restores the usable 2D desk. Cached back/forward navigation pauses and restores controllers instead of destroying them.
 
-The [latest evidence report](evidence/coastal-companion/README.md) records the rebuilt scene's payload and performance, exact measurement method, device-emulation limits, and check results. The preceding galleries retain their earlier measurements as historical evidence; they do not describe the revised meshes.
+The [latest Pip evidence report](evidence/pip-reachy/README.md) records the articulated Blender robot, shared motion, project playground, updated payload and performance, and check results. The [habitat report](evidence/coastal-companion/README.md) records the preceding garden and shore work. Earlier measurements remain historical evidence.
 
 Album focus, second-click playback/open, swaps, four-card discovery/replay, source links, and sharing between 2D/3D remain. The controls also support keyboard orbit/zoom, D discovery, room buttons, one-finger orbit, and two-finger pinch.
 
@@ -46,6 +46,8 @@ The subsequent likeness and section correction places the study, sleep and onsen
 ## Evidence and reproduction
 
 The subsequent [Pip and beach ecology pass](evidence/coastal-companion/README.md) adds a shared hovering companion to human routes and the 3D home, a wider shore, modeled wildlife, hanging and floor plants, wet-sand transitions and bounded atmospheric motion. Its behavior, route-specific remarks and reading-space protection are documented in the [active brief](homepage-desk-scene-brief.md#pip-the-studio-companion). The greeting is now “Welcome to Sirui’s crib.”
+
+The September 14 [Pip refinement](evidence/pip-reachy/README.md) replaces the boxy visor with separate convex lenses, articulated antennae and an EVE-inspired tapered body. The original Blender model and analytic page portrait share minimum-jerk gestures, pointer attention and delayed antenna springs. Clicking Pip opens a project page with a live motion playground and visible Reachy Mini / Pixar credits. Blender was used through its background Python API; native mouse-driven asset creation is not claimed.
 
 The committed gallery contains a curated subset of comparable captures and machine-readable measurements. Full local captures and test output live under the ignored `.jekyll-cache/visual-qa/` directory so screenshot writes do not trigger Jekyll rebuilds. Source checks supplement direct inspection; a ready flag alone was never treated as proof of visible WebGL.
 
