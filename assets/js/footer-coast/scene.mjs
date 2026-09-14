@@ -279,14 +279,17 @@ export async function mountCoast(host) {
     raf = requestAnimationFrame(frame);
     // This ambient footer needs at most 30 fps, independent of display refresh.
     if (now - previous < 32) return;
-    const dt = Math.min((now - previous) / 1000, 0.06);
+    // These are analytic poses, not a physics integration. Capping active time
+    // makes the reveal and its reversal lag behind scrolling on slower GPUs.
+    // syncRunning resets previous after suspension so hidden time is excluded.
+    const dt = Math.max((now - previous) / 1000, 0);
     previous = now;
     elapsed += dt;
     clock.value = elapsed;
     progress();
-    reveal += (targetReveal - reveal) * Math.min(1, dt * 4);
+    reveal += (targetReveal - reveal) * (1 - Math.exp(-dt * 4));
     revealBuildings(reveal);
-    currentX += (pointerX - currentX) * Math.min(1, dt * 2.1);
+    currentX += (pointerX - currentX) * (1 - Math.exp(-dt * 2.1));
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
     });
@@ -443,6 +446,7 @@ export async function mountCoast(host) {
     miniature,
     frames: frameCount,
     reveal,
+    targetReveal,
     office: lightOn,
     theme: host.dataset.theme,
     running,
