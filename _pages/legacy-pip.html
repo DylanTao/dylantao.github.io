@@ -1,0 +1,23 @@
+---
+layout: null
+permalink: /projects/pip/
+sitemap: false
+nav: false
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <noscript><meta http-equiv="refresh" content="0; url={{ '/projects/p/' | relative_url }}" /></noscript>
+    <link rel="canonical" href="{{ '/projects/p/' | absolute_url }}" />
+    <meta name="robots" content="noindex" />
+    <title>P has a new address</title>
+  </head>
+  <body>
+    <p><a href="{{ '/projects/p/' | relative_url }}">Meet P, the prototype companion.</a></p>
+    <script>
+      window.location.replace(document.querySelector("a").href + window.location.search + window.location.hash);
+    </script>
+  </body>
+</html>

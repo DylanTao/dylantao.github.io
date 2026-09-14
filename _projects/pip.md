@@ -2,7 +2,6 @@
 layout: page
 title: P, a Little Company
 permalink: /projects/p/
-redirect_from: /projects/pip/
 description: A floating studio companion that looks, tilts, wanders, and occasionally helps put things back.
 img: assets/models/pip/poster.webp
 image_aspect: 8 / 9

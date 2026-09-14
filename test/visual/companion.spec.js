@@ -4,6 +4,12 @@ const { publicRouteUrl } = require("./public-routes");
 const { collectRuntimeErrors } = require("./helpers");
 const evidence = (page) => page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence());
 
+test("P: its former project address redirects to the current page", async ({ page }) => {
+  await page.goto(publicRouteUrl("/projects/pip/") + "?from=archive#credits");
+  await expect(page).toHaveURL(publicRouteUrl("/projects/p/") + "?from=archive#credits");
+  await expect(page.locator("h1")).toContainText("A little curiosity.");
+});
+
 test("P: public page journeys, interrupted portals, and reduced motion stay usable", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await page.route("**/livereload.js*", (r) => r.fulfill({ body: "" }));

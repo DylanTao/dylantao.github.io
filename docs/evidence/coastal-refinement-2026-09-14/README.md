@@ -71,6 +71,7 @@ Pixel density is capped; the emulated mobile home canvas was 525 × 528 pixels. 
 
 ## Verification record
 
+- Deployed smoke inspection caught an unsupported `redirect_from` field: this site does not load the redirect plugin. An explicit legacy page now forwards `/projects/pip/` to `/projects/p/`, retaining query strings and anchors, with a no-JavaScript fallback. Desktop and mobile browser checks exercise the old address.
 - Python unit suite: **163 passed**. Node routine/navigation/companion suite: **17 passed**. Style contract passed.
 - Production Jekyll build at `/al-folio`: passed, 46.39 seconds. PurgeCSS output was exercised through the production preview.
 - Public site matrix: 280 cases; the first pass had 181 passes, 92 deliberate viewport skips, and seven stale layout/index assertions. Correcting those expectations and rerunning their affected cases yielded **188 distinct applicable passes**; the scoped rerun was nine passes and three skips.
