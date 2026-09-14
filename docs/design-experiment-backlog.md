@@ -28,11 +28,24 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Reference:** Sirui's four miniature-city footer screenshots and two annotated DIB photographs, supplied September 14, 2026.
 - **Licensing:** Original Blender geometry, an actual Cycles fallback render, and the existing licensed Three.js/Draco closure. No source website models, screenshots, or building photographs are shipped. See [provenance](../artwork/la-jolla/PROVENANCE.md).
 - **Visitor benefit:** Discover La Jolla's coast, courts, houses, and a recognizable DIB with a small personal third-floor light.
-- **Budget:** About 716 KiB of compressed geometry, load near the footer, at most 30 fps, capped pixel density, pause/offscreen suspension, native scrolling, and static graphics-failure/reduced-motion alternatives.
-- **Status:** Implemented locally for visual review. It is an authored place collage, not a map or an occupancy feed.
+- **Budget:** Approximately 2 MB of combined compressed footer and miniature geometry, load near the footer, at most 30 fps, capped pixel density, system reduced motion and offscreen suspension, native scrolling, and static graphics-failure/reduced-motion alternatives.
+- **Status:** Implemented locally for visual review. The buildings form an authored place collage above a sourced OSM atlas; the office light is not an occupancy feed.
 - **Evidence:** [Footer brief](la-jolla-footer.md) and [captures/checks](evidence/la-jolla-footer/README.md).
 - **Sirui decision:** Requested implementation of the miniature La Jolla direction. Final visual taste remains open to his review.
 - **Revisit trigger:** Sirui's review, an obstructed reading/footer control, or a measured loading/rendering regression.
+
+### Approved A–F reading enhancements
+
+- **Hypothesis:** Let readers inspect relevant research details and materials without scattering the explanation.
+- **Route:** DesignWeaver (lens, resource folder, compact sticky explanation), selected inline project references (local preview), Fun thumbnails (chroma), Website Revamp (matched Connect comparison).
+- **Reference:** Aceternity Lens, Link Preview, Sticky Scroll Reveal, Compare; React Bits Folder and Chroma Grid. Links and credit appear in the Website Revamp story.
+- **Licensing:** Original Jekyll/CSS/JavaScript implementations; no React component code or bundled dependency copied.
+- **Visitor benefit:** Inspect a detail, recognize a destination, find supplementary resources, and compare an actual changed view.
+- **Budget:** Direct full-image/material links, keyboard focus and Escape, native disclosure/range controls, full-color touch/reduced-motion thumbnails, no forced scrolling.
+- **Status:** `kept` for implementation, with visual review recorded in the refinement evidence.
+- **Evidence:** `test/visual/reading-effects.spec.js` and [refinement captures](evidence/coastal-refinement-2026-09-14/README.md).
+- **Sirui decision:** Explicitly approved A–F and this implementation plan.
+- **Revisit trigger:** An effect obscures a figure, makes navigation harder, breaks keyboard/touch access, or lacks a truly comparable image pair.
 
 ### GPT-7 handoff: three genuinely different ways to render the same home
 

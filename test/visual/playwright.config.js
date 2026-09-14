@@ -45,6 +45,7 @@ module.exports = {
       use: {
         browserName: "chromium",
         viewport: { width: 1366, height: 1800 },
+        launchOptions: process.platform === "win32" ? { args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] } : {},
       },
     },
     {

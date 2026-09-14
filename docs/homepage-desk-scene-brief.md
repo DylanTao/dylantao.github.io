@@ -18,7 +18,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - Unobstructed record and paper focus, visible camera changes, and a clear outside/return route.
 - Previewing time never lets a later clock tick seize the camera. Now clears both previews.
 - Readable controls and the exact greeting “Welcome to Sirui’s crib.” at every supported viewport.
-- Pip stays clear of reading text and links, has one visible embodiment, and returns nudged objects to their original position.
+- P stays clear of reading text and links, has one visible embodiment, and returns nudged objects to their original position.
 
 ## Architecture And Assets
 
@@ -37,7 +37,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - `assets/js/home-scene/model-loader.mjs`: Draco geometry decoding through a pinned static same-origin worker. Blender's `--export-only` route rebuilds GLBs from the editable sources without repeating sculpting.
 - `assets/js/home-scene/environment.mjs`: Pacific water geometry, procedural sky and reflections, graphic surf, and atmosphere. `coast.glb` supplies connected headlands and style-specific geology.
 - `assets/js/home-scene/shore.mjs` and `wildlife.mjs`: the expanded beach contact surface, brush rabbits, a raccoon, flying/perching gulls and sandpipers. Beach width comes from the same manifest values used by Blender.
-- `assets/js/companion/`: Pip's small analytic WebGL portrait, shared articulated motion, page movement, clearance checks, remarks, nap preference, and page/world/playground ownership. `home-scene/companion.mjs` loads the Blender model at `assets/models/pip/pip.glb`; safe perches and hover heights live in the home manifest. `bin/build_pip.py` and `artwork/pip/` preserve its editable source and provenance.
+- `assets/js/companion/`: P's small analytic WebGL portrait, shared articulated motion, page movement, clearance checks, remarks, automatic rests, and page/world/playground ownership. `home-scene/companion.mjs` loads the Blender model at `assets/models/pip/pip.glb`; safe perches and hover heights live in the home manifest. `bin/build_pip.py` and `artwork/pip/` preserve its editable source and provenance.
 - `assets/js/home.js`: existing 2D desk and shared record state; lazy adapter to the extracted runtime.
 - `_includes/home/world_controls.liquid` and `_sass/_coastal-home.scss`: accessible scene controls and responsive composition.
 - Three.js r164 and its matching GLTFLoader closure remain local. The splat study has an independent r180/Spark dependency graph.
@@ -72,14 +72,14 @@ On weekends, coding runs until 04:00; sleep lasts until 12:30; breakfast continu
 ## Interaction Discoverability
 
 - Default to 2D at every viewport, including desktop (Sirui's live-review correction). A deliberate session choice takes precedence.
-- Keep the quiet 2D/3D switch, a Look around / Back inside action, and motion pause. 3D always opens in Realistic, including sessions with an obsolete saved style. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes. Avatar, activity, time, room and experimental style selectors are authoring controls, available only with `?scene-lab=1`.
+- Keep the quiet 2D/3D switch, a Look around / Back inside action. 3D always opens in Realistic, including sessions with an obsolete saved style. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes. Avatar, activity, time, room and experimental style selectors are authoring controls, available only with `?scene-lab=1`.
 - Now follows the occupied room. Whole home, room visits, orbit, and previews opt out of camera following until Now.
 - Visit the desk keeps album and research-paper interactions one click away. First activation focuses an object; second activation plays the album or opens its paper link.
 - Preserve current record, spin state, discovery order, and avatar through modes and styles. Dropped cards retain their source links and four-card replay.
 - Arrow keys orbit; plus/minus zoom; D discovers a record; Escape returns to the study. Ordinary visitors keep the shared 2D album and research links; the authoring panel supplies equivalent scene-object buttons. Wheel zoom requires canvas focus, preserving ordinary page scrolling.
-- Motion pause and reduced motion use composed still poses. Camera controls remain usable.
+- System reduced motion uses composed still poses. Camera controls remain usable.
 
-Touch supports orbit and two-finger pinch; explicit zoom buttons provide another path. A cached back/forward return pauses and restores the controllers without destroying shared state.
+Touch supports orbit and two-finger pinch; the focused canvas also supports plus/minus zoom. A cached back/forward return pauses and restores the controllers without destroying shared state.
 
 ## 3D Desk Vignette
 
@@ -99,19 +99,21 @@ Architectural and Illustrated remain unfinished lab experiments. Sirui explicitl
 
 The exterior is the same house and cliff viewed from outside. The Pacific opening and Look around action lead there; Back inside resumes the current routine. The authoring lab retains individual room visits. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.
 
-The beach now has a 14-meter base depth plus the authored cove bulge. Dry and wet sand blend by elevation; surf breaks into irregular crests instead of parallel white stripes. Airborne spray, quiet dust in the study, onsen vapor and small leaf movements use bounded procedural fields. Animals follow the same beach surface. These effects are authored motion, not a fluid solver or a general collision simulation.
+The beach has an authored variable depth of roughly 10–22 meters, including the dry berm, wet slope, rocky haul-outs, and shallow tidal basins. Dry and wet sand blend by elevation; surf breaks into irregular crests instead of parallel white stripes. Airborne spray, quiet dust in the study, onsen vapor and small leaf movements use bounded procedural fields. Clifftop rabbits and the dusk-active raccoon follow planted habitat paths. California sea lions use rock contacts; harbor seals rest on sheltered sand. Sandpipers follow the wet edge; gulls alternate gliding and perching. Animals, foot placement, and shoreline foam consume the same exported terrain definitions. These effects are authored motion, not a fluid solver or a general collision simulation.
 
-## Pip, The Studio Companion
+<a id="pip-the-studio-companion"></a>
 
-Pip is the white ceramic hovering robot requested in the September 13 review, refined September 14 toward Reachy Mini’s expressive head and EVE’s floating body. Keep the two antennae, unequal convex lens eyes, tapered shell, orange detail and detached arms recognizable. Start it beside the album in 2D. Its head and eyes acknowledge a recent pointer position; its body follows more slowly, sometimes pausing to wander. Hover or keyboard focus offers a greeting; clicking Pip opens `/projects/pip/`. The room has both a clickable model and a quiet accessible project link. Its small nap control remains available. Morning, noon, afternoon and evening alter the key light, reflections, eye color and shadow. The initial 2D page loads neither Three.js, the robot GLB, nor the house assets.
+## P, The Studio Companion
 
-`motion.mjs` owns original hello, curious, nod, peek, repair and sleepy poses. Filled pupils widen, squint and wink independently; shaped flippers wave, startle and tuck in. The shorter antennae settle after the head. Minimum-jerk transitions preserve the current pose when interrupted. The same controller drives the analytic page portrait, articulated Blender room model and enlarged project playground, with exactly one active owner. The project offers four gesture previews, a separate invitation to try four page encounters, nap, visible inspiration/resource credits, and a real Blender-rendered poster on graphics failure. Reachy’s SDK and dance library inform the design; no SDK or recorded dance is bundled. See [Pip provenance](../artwork/pip/PROVENANCE.md) and [the current evidence](evidence/pip-expressive/README.md).
+P is the white ceramic hovering robot requested in the September 13 review, refined September 14 toward Reachy Mini’s expressive head and EVE’s floating body. Keep the two antennae, unequal convex lens eyes, tapered shell, orange detail and detached arms recognizable. Start it beside the album in 2D. Its head and eyes acknowledge a recent pointer position; its body follows more slowly, sometimes pausing to wander. Hover or keyboard focus offers a greeting; clicking P opens `/projects/p/`. The room has both a clickable model and a quiet accessible project link. P means Prototype, with a nod to ProtoLab. The old `/projects/pip/` route redirects to `/projects/p/`. There is no persistent public nap switch. An obsolete `pip-napping` preference is cleared on entry; the first autonomous journey begins in 4–8 seconds, followed by varied 12–24-second intervals. A temporary rest ends automatically after 12 seconds. Morning, noon, afternoon and evening alter the key light, reflections, eye color and shadow. The initial 2D page loads neither Three.js, the robot GLB, nor the house assets.
 
-On human reading routes, `travel.mjs` plans bounded routes around actual rendered rectangles. Prefer flight around prose, figures, links, controls and navigation. Slow at a corner before turning. Shrink in place and fold the flippers before passing through a gap that fits the smaller footprint; expand only after arrival. If the crossing is blocked, open a pair of portals at clear endpoints and move between them only while invisible. Scroll, resizing, an obstructed route, pause, reduced motion, hiding or navigation cancel travel and remove the portals. Hover or focus holds Pip still enough to activate its link. If there is no clear perch, hide it until a gap becomes available. AI reading routes remain undecorated.
+`motion.mjs` owns original hello, curious, nod, peek, repair and sleepy poses. Filled pupils widen, squint and wink independently; shaped flippers wave, startle and tuck in. The shorter antennae settle after the head. Minimum-jerk transitions preserve the current pose when interrupted. The same controller drives the analytic page portrait, articulated Blender room model and enlarged project playground, with exactly one active owner. The project offers four gesture previews, a separate invitation to try four page encounters, nap, visible inspiration/resource credits, and a real Blender-rendered poster on graphics failure. Reachy’s SDK and dance library inform the design; no SDK or recorded dance is bundled. See [P provenance](../artwork/pip/PROVENANCE.md) and [the current evidence](evidence/pip-expressive/README.md).
 
-Most encounters are avoidance, not accidents. A rare card or heading nudge has a visible approach to an available side or top/bottom edge, a small reversible wobble and a repair gesture. Preserve content, links and document flow; cancel the transform on pause, reduced motion, hiding or navigation. Never nudge a hovered or focused element. After the initial 55–105-second delay, automatic bump attempts occur only every 85–150 seconds with a 30% chance, and can still be suppressed by proximity and clearance. The public Pip project lets visitors invite a flight, squeeze, portal or bump; these controls respect nap and reduced motion and are hidden without JavaScript.
+On human reading routes, `travel.mjs` plans bounded routes around actual rendered rectangles. Prefer flight around prose, figures, links, controls and navigation. Slow at a corner before turning. Shrink in place and fold the flippers before passing through a gap that fits the smaller footprint; expand only after arrival. If the crossing is blocked, open a pair of portals at clear endpoints and move between them only while invisible. Scroll, resizing, an obstructed route, pause, reduced motion, hiding or navigation cancel travel and remove the portals. Hover or focus holds P still enough to activate its link. If there is no clear perch, hide it until a gap becomes available. AI reading routes remain undecorated.
 
-When the 3D room is visible, one shared owner transfers Pip into the modeled scene. It floats between authored perches, looks toward the pointer and can follow the circulation route out to the beach and back. Scrolling away transfers it to the reading page; occasional brief page excursions are allowed while the room remains visible. Pip never selects a room, changes the album or seizes the camera. Reduced motion and nap use still poses; hidden documents stop their animation loops.
+Most encounters are avoidance, not accidents. A rare card or heading nudge has a visible approach to an available side or top/bottom edge, a small reversible wobble and a repair gesture. Preserve content, links and document flow; cancel the transform on pause, reduced motion, hiding or navigation. Never nudge a hovered or focused element. After the initial 55–105-second delay, automatic bump attempts occur only every 85–150 seconds with a 30% chance, and can still be suppressed by proximity and clearance. The public P project lets visitors invite a flight, squeeze, portal or bump; these controls respect nap and reduced motion and are hidden without JavaScript.
+
+When the 3D room is visible, one shared owner transfers P into the modeled scene. It floats between authored perches, looks toward the pointer and can follow the circulation route out to the beach and back. Scrolling away transfers it to the reading page; occasional brief page excursions are allowed while the room remains visible. P never selects a room, changes the album or seizes the camera. Reduced motion and nap use still poses; hidden documents stop their animation loops.
 
 | Place or trigger          | Motion and example copy                                              |
 | ------------------------- | -------------------------------------------------------------------- |
@@ -129,18 +131,18 @@ The copy is local and authored. Ordinary remarks wait roughly 45–80 seconds be
 
 ## Acceptance Evidence Map
 
-| Contract                                                              | Evidence                                                                                             |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Time, midnight/noon, weekends, DST, preview/Now                       | `node.exe --test test/coastal-routine.test.mjs`                                                      |
-| Nonblank scene, orbit/zoom pixel changes, room continuity             | `test/visual/desk-scene.spec.js`, four viewport projects                                             |
-| Avatar/mode repetition, one actor, clips and contacts                 | Browser pose captures plus exported asset/joint checks                                               |
-| Records, artifact focus/open, drop/return, 2D sharing                 | Browser scene suite plus retained legacy 2D interactions                                             |
-| Reduced motion, keyboard/touch, load failures, pause and recovery     | Targeted browser cases; inspect screenshots and runtime errors                                       |
-| Sitewide typography, layout, themes, overflow                         | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000                          |
-| Payload and runtime cost                                              | Asset report and desktop/mobile browser measurements in the implementation handoff                   |
-| Local splat tradeoff                                                  | `artwork/coastal-home/splat-lab/` and its findings                                                   |
-| Pip clearance, greeting, handoff, repair, reduced motion and fallback | `test/companion.test.mjs`, `test/visual/companion.spec.js`, and inspected route captures             |
-| Pip project, motion settling, interrupted poses and source credit     | Gesture unit tests, public project checkpoint, playground keyboard/touch checks and model provenance |
+| Contract                                                            | Evidence                                                                                             |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Time, midnight/noon, weekends, DST, preview/Now                     | `node.exe --test test/coastal-routine.test.mjs`                                                      |
+| Nonblank scene, orbit/zoom pixel changes, room continuity           | `test/visual/desk-scene.spec.js`, four viewport projects                                             |
+| Avatar/mode repetition, one actor, clips and contacts               | Browser pose captures plus exported asset/joint checks                                               |
+| Records, artifact focus/open, drop/return, 2D sharing               | Browser scene suite plus retained legacy 2D interactions                                             |
+| Reduced motion, keyboard/touch, load failures, pause and recovery   | Targeted browser cases; inspect screenshots and runtime errors                                       |
+| Sitewide typography, layout, themes, overflow                       | Explicit public-route checkpoint at 1440×1000, 1280×800, 768×1024, 390×1000                          |
+| Payload and runtime cost                                            | Asset report and desktop/mobile browser measurements in the implementation handoff                   |
+| Local splat tradeoff                                                | `artwork/coastal-home/splat-lab/` and its findings                                                   |
+| P clearance, greeting, handoff, repair, reduced motion and fallback | `test/companion.test.mjs`, `test/visual/companion.spec.js`, and inspected route captures             |
+| P project, motion settling, interrupted poses and source credit     | Gesture unit tests, public project checkpoint, playground keyboard/touch checks and model provenance |
 
 ## Acceptance Checklist
 
@@ -149,3 +151,21 @@ Keep original and comparable new captures, including live cinematic states. Insp
 ## Future Model Handoff Prompt
 
 Improve Sirui's inhabited coastal home from the current Blender source and extracted runtime. Read the active brief, asset provenance, and latest implementation evidence first. Preserve the five adult male identities, shared album state, authored Pacific routine, and Now/Explore camera boundary. Inspect a comparable rendered state before editing. Improve one visible problem, rebuild the relevant assets, then test contact, camera, fallback, and performance. Historical single-room experiments are reference material, not current constraints.
+
+## September 14 geometry and material checkpoint
+
+The approved target is animated-film realism: appealing proportions and readable activities before surface detail. `direction/` retains coordinated architecture, furnished cutaway, character and wildlife studies; their C2PA metadata reports `gpt-image` version `2.0`. No Images 2.5 selector was exposed. Treat the studies as direction, not photographs or delivered renderer quality.
+
+`bin/coastal_landscape.py` composes headlands, coves, inclined channels, ledges, and a varying ridge. `coastal_section.py` carves the full-depth dwelling and preserves the mainland when lifting only its local ceiling. The stair runs along the landward wall, with closed risers and an upper landing. The gym retains its rack, bench, and dumbbells. Kitchen/dining and lounge remain downstairs; study, sleeping alcove, and sheltered onsen remain upstairs. Fitted cabinetry, capybara wall art, and plants stay part of the house.
+
+The version-4 manifest exports support polygons and each tread, habitat paths, shoreline elevation samples, perches, tidal basins, and room contacts. `shore.mjs`, `navigation.mjs`, `locomotion.mjs`, `wildlife.mjs`, and the water shader consume these definitions. Do not restore independent approximate terrain or stair equations.
+
+`bin/bake_coastal_light.py` bakes Cycles ambient occlusion and indirect diffuse light to source vertex colors. `bin/optimize_coastal_exports.py` produces compact byte-color Draco meshes without overwriting the editable high-detail source. The browser adds dynamic sun, warm practical lights, directional wood grain, fabric detail, ceramic reflections, skin/leaf response, contact shadows, and shoreline motion. This is baked vertex lighting plus procedural normals, not a claim of baked normal-map textures or simulated fluid physics.
+
+`bin/render_coastal_review.py` uses the manifest cameras for neutral-clay and material checks. `bin/render_coastal_contacts.py` renders all five typing poses and wildlife masters. Reviews caught a missing trouser weighting branch, sideways sleeve cuffs, incorrectly oriented typing hands, an obsolete staircase contact equation, and groundcover crossing the terrain. Correct these in the authoring source and runtime together. See [the release evidence](evidence/coastal-refinement-2026-09-14/README.md).
+
+The final terrain pass raycasts planting, habitat paths, and perches against the actual carved mesh with a Blender BVH. Groundcover has upward-facing triangles. Do not return these contacts to the pre-carving height approximation. The sleeve pass rounds each cuff in a plane perpendicular to the arm and blends it into the shoulder through eight rings; the seated review includes all five variants.
+
+Browser review also caught a narrow-screen P invitation choosing a destination that only a portal could reach. Explicit flight and squeeze demonstrations now search nearby connected clear space first. Autonomous travel keeps its original obstacle boundaries and portal fallback. Compare actual rendered screenshots with the concepts: the current result is a stylized browser world, and film-studio character surfacing and close-up environmental detail remain a higher visual target.
+
+The final sleeping-alcove review replaced the floating duvet block with a draped mesh and aligned the sleeping head with its pillow through the shared actor contact. The invisible ocean hotspot now yields to actual paper and record hits. Keep the Draco decoder marked binary in `.gitattributes`: applying the vendor text rule to WebAssembly corrupts an archived or deployed copy even when the current Windows working file still runs.

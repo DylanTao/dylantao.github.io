@@ -17,23 +17,7 @@
       >
       <canvas class="footer-coast__canvas" aria-hidden="true"></canvas>
     </div>
-    <figcaption class="footer-coast__caption">
-      <span>One little corner of La Jolla.<span class="footer-coast__hint"> Swipe to wander.</span></span>
-      <div class="footer-coast__actions" hidden>
-        <button
-          type="button"
-          class="footer-coast__light"
-          aria-pressed="true"
-          title="A little light in my third-floor corner of the Design and Innovation Building"
-        >
-          <span class="footer-coast__lamp" aria-hidden="true"></span>
-          <span data-coast-light-label>Studio light on</span>
-        </button>
-        <button type="button" class="footer-coast__pause" aria-label="Pause coastal scene" aria-pressed="false">
-          <span data-coast-pause-icon aria-hidden="true">Ⅱ</span>
-        </button>
-      </div>
-    </figcaption>
+    <figcaption class="sr-only">La Jolla: a coastal vignette that follows the site theme.</figcaption>
     <script type="module" src="{{ '/assets/js/footer-coast/entry.mjs' | relative_url | bust_file_cache }}"></script>
   </figure>
 {% endunless %}

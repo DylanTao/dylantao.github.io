@@ -25,7 +25,7 @@ function start() {
     }
     studio.dataset.renderer = renderer ? "webgl" : "poster";
     studio.querySelector(".pip-studio-gestures").hidden = !renderer;
-    if (!renderer) status.textContent = "Pip’s portrait. Interactive motion is unavailable in this browser.";
+    if (!renderer) status.textContent = "P’s portrait. Interactive motion is unavailable in this browser.";
   }
   makeRenderer();
   function request() {
@@ -33,7 +33,7 @@ function start() {
   }
   function syncRest() {
     rest.setAttribute("aria-pressed", String(companion.napping));
-    rest.textContent = companion.napping ? "Wake Pip up" : "Let Pip nap";
+    rest.textContent = companion.napping ? "Wake P up" : "Let P nap";
     request();
   }
   function frame(now) {
@@ -96,7 +96,7 @@ function start() {
         nod: "Got it. A little nod is enough.",
         repair: "Oops. One sec… there, all better.",
       };
-      status.textContent = reduced.matches ? "Reduced motion is on. Pip stays in a quiet pose." : labels[button.dataset.pipGesture];
+      status.textContent = reduced.matches ? "Reduced motion is on. P stays in a quiet pose." : labels[button.dataset.pipGesture];
       request();
     }
   });
@@ -129,7 +129,7 @@ function start() {
     renderer = null;
     studio.dataset.renderer = "poster";
     studio.querySelector(".pip-studio-gestures").hidden = true;
-    status.textContent = "Pip’s portrait. Interactive motion is unavailable in this browser.";
+    status.textContent = "P’s portrait. Interactive motion is unavailable in this browser.";
   });
   canvas.addEventListener("webglcontextrestored", () => {
     if (!disposed) {

@@ -111,7 +111,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.081
     eye_y = -0.232 if short else -0.174 if yellow or lanky else -0.158
     eye_z = head_z + 0.042
-    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.039
+    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.043
     # A continuous nose bridge; the Simpsons study keeps its distinctive long tip.
     if natural:
         nose = loft(
@@ -162,7 +162,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     for side, name in ((-1, "L"), (1, "R")):
         x = side * eye_x
         depth = 0.013 if natural else 0.046
-        vertical = eye_r * (0.43 if natural else 0.98)
+        vertical = eye_r * (0.56 if natural else 0.98)
         part(
             sphere(
                 "inset eye " + name,
@@ -376,8 +376,8 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 (0.64, wrist, -0.021, ar * 0.76, ar * 0.82),
                 (0.715, wrist, -0.010, ar, ar),
                 (0.82, side * (width + 0.065), 0, ar * 0.87, ar * 0.88),
-                (0.89, shoulder + side * 0.024, 0, ar * 1.05, ar),
-                (0.965, shoulder, 0, ar * 1.10, ar * 1.04),
+                (0.89, shoulder + side * 0.016, 0, ar * 0.83, ar * .86),
+                (0.965, side * (width-.010), 0, ar * .54, ar * .65),
             ],
             skin,
             28,

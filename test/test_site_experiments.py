@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import unittest
 from datetime import datetime
@@ -433,7 +434,11 @@ class SiteExperimentsTests(unittest.TestCase):
         ):
             with self.subTest(route=route):
                 self.assertEqual(source.count(route), 1)
-        self.assertIn("No static image on this page is labeled as a current capture", source)
+        self.assertIn('data-compare', source)
+        self.assertIn('connect-before.webp', source)
+        self.assertIn('connect-after.webp', source)
+        capture = json.loads((REPO_ROOT / 'assets/img/website-revamp/connect-capture.json').read_text())
+        self.assertEqual(capture['viewport'], {'width': 1440, 'height': 650})
         self.assertIn("hachettebookgroup.com/titles/donald-a-schon/the-reflective-practitioner", source)
 
     def test_paper_constellation_and_scholar_lens_link_the_shared_record_both_ways(self) -> None:

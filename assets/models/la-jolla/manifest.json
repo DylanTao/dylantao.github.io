@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "model": "la-jolla.glb",
   "coordinates": "Y-up",
   "office": [5.523333333333333, 3.2800000000000002, -1.106666666666667],
@@ -8,7 +8,15 @@
     "target": [0, 2, 0],
     "width": 45
   },
-  "triangleCount": 72868,
+  "triangleCount": 100736,
   "source": "bin/build_la_jolla.py",
-  "geography": "Authored collage, not a map"
+  "geography": "Authored collage, not a map",
+  "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier"],
+  "miniature": {
+    "model": "miniature.glb",
+    "camera": [22, 27, 30],
+    "target": [0, 1, -1],
+    "width": 30,
+    "office": [2.579, 2.857, -2.893]
+  }
 }

@@ -1084,11 +1084,14 @@ async function clickCoastalObject(page, scene, type, index) {
 async function coastalHome(page) {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(visualRoute(""), { waitUntil: "networkidle" });
+  await page.goto(visualRoute("") + "?scene-lab=1", { waitUntil: "networkidle" });
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   await page.locator('[data-world-room="study"]').first().click();
+  await expect(scene).toHaveAttribute("data-room", "study");
+  // The camera updates on the next render even when reduced motion snaps it.
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   return scene;
 }
 
@@ -1098,7 +1101,7 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
   await canvas.focus();
   await canvas.press("+");
   await expect(scene).toHaveAttribute("data-room", "study");
-  await clickCoastalObject(page, scene, "window");
+  await page.locator("[data-world-view]").click();
   await expect(scene).toHaveAttribute("data-room", "outside");
   await canvas.focus();
   await canvas.press("+");
@@ -1125,8 +1128,12 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
       .map((t) => t.index)
   );
   expect(rack).toEqual([2, 3]);
-  await page.locator('[data-home-desk-control="previous"]').click();
+  await page.locator('[data-home-desk-mode="2d"]').click();
+  await page.locator("[data-home-record-prev]").click();
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  await page.locator('[data-world-room="study"]').first().click();
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   await clickCoastalObject(page, scene, "record", 2);
   await expect(scene).toHaveAttribute("data-focused-desk-object", "record-2");
   await expect(stage).toHaveAttribute("data-record-tone", "jude");

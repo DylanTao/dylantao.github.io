@@ -15,7 +15,7 @@ CANONICAL_HEADINGS = {
         "Less, But More Sirui",
         "An Evolving Spine",
         "Signature Copy Locklist",
-        "Three Narrative Type Roles",
+        "Five Type Roles",
         "Human And AI Are Different Reading Surfaces",
         "Story With The Right Medium",
         "Agent Quick Index",

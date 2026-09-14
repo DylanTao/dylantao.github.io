@@ -1,6 +1,8 @@
 """Render the editable home itself for geometry review (Blender background)."""
 
 from pathlib import Path
+import math
+import json
 import bpy
 from mathutils import Vector
 
@@ -34,7 +36,8 @@ sun.rotation_euler = (
 )
 bpy.ops.object.camera_add()
 camera = bpy.context.object
-camera.data.type = "ORTHO"
+camera.data.type = "PERSP"
+camera.data.lens = 52.4
 scene.camera = camera
 scene.render.resolution_x = 800
 scene.render.resolution_y = 800
@@ -42,10 +45,11 @@ scene.render.resolution_percentage = 100
 scene.view_settings.view_transform = "AgX"
 out = root / "artwork/coastal-home/reviews"
 out.mkdir(exist_ok=True)
-for name, location, target, size, roof in [
-    ("exterior", (-16, 32, 7), (1, 0, -1), 23, True),
-    ("section", (12, 19, 14), (0, -0.3, 1.8), 14.5, False),
-]:
+views=json.loads((root/'assets/models/home/manifest.json').read_text())['views']
+for name,view,roof in [('exterior',views['outside'],True),('section',views['overview'],False)]:
+    tx,ty,tz=view['target'];r=view['radius'];yaw=view['yaw'];pitch=view['pitch']
+    target=(tx,-tz,ty)
+    location=(tx+math.sin(yaw)*math.cos(pitch)*r,-tz-math.cos(yaw)*math.cos(pitch)*r,ty+math.sin(pitch)*r)
     for obj in scene.objects:
         if obj.get("caveRoof"):
             obj.hide_render = not roof
@@ -53,6 +57,10 @@ for name, location, target, size, roof in [
     camera.rotation_euler = (
         (Vector(target) - camera.location).to_track_quat("-Z", "Y").to_euler()
     )
-    camera.data.ortho_scale = size
-    scene.render.filepath = str(out / (name + ".png"))
-    bpy.ops.render.render(write_still=True)
+    for clay in (True,False):
+        if clay:
+            material=bpy.data.materials.new('Neutral clay');material.diffuse_color=(.57,.57,.57,1)
+            scene.view_layers[0].material_override=material
+        else:scene.view_layers[0].material_override=None
+        scene.render.filepath = str(out / (name + ('-clay' if clay else '') + ".png"))
+        bpy.ops.render.render(write_still=True)

@@ -32,6 +32,7 @@ module.exports = {
     "desk-scene.spec.js",
     "companion.spec.js",
     "footer-coast.spec.js",
+    "reading-effects.spec.js",
   ],
   timeout: 300000,
   expect: {

@@ -41,13 +41,19 @@ These phrases carry Sirui's voice or research framing. Preserve them exactly unl
 - “Vibes -> Variables -> Value”
 - “Make better design decisions visible.”
 
-### Three Narrative Type Roles
+<a id="three-narrative-type-roles"></a>
 
-- **Display:** Newsreader 400 for the major statement or page title. Keep the original research language intact and let the serif carry the editorial character.
-- **Heading:** Newsreader 400–500 for human section titles; Inter 600 for dense tools and document subheadings.
-- **Reading:** Inter 400, comfortable line spacing, about 65–80 characters per line in articles.
-- **Compact exception:** Inter 500 for controls and metadata; Source Code Pro for code and genuinely structured records.
-- Use the shared type roles. Newsreader is self-hosted with its SIL Open Font License; Inter retains the loaded 400, 500, 600, and 700 weights. Never synthesize 750–900.
+### Five Type Roles
+
+Sirui's September 14 refinement replaces the mixed serif/sans system with Inter throughout headings, prose, navigation, and metadata. Keep the research language intact; use spacing and a small hierarchy to organize it.
+
+- **Page title:** 34–44 px, weight 600.
+- **Section title:** 26–28 px, weight 600.
+- **Subsection:** 20–22 px, weight 600.
+- **Body:** 16–17 px, weight 400, comfortable line spacing.
+- **Metadata and controls:** 14 px, weight 400 or 500.
+
+Inter regular and italic are self-hosted with the SIL OFL in `assets/fonts/inter/`. Use weights 400/500/600. Reserve monospace for actual code. Opened project and blog pages share an approximately 68-character column: title, prose, resources, and end navigation align. Wide figures extend symmetrically. Desktop contents navigation sits outside the column; smaller screens use one disclosure. Preserve index grids and expanding previews.
 
 ### Human And AI Are Different Reading Surfaces
 
@@ -200,7 +206,7 @@ Code history appears only after an exact schema-5 source-calendar contract passe
 
 ## Accessibility And Quality Checks
 
-- Pip is a deliberate playful companion, requested by Sirui on September 13. Give it delayed, damped movement and occasional independent actions; keep its head response quicker than its body. Its white material and shadow should respond to all four themes. Use clear margins and gaps, protect links and prose, keep remarks short and infrequent, and restore every nudged object without changing layout or content. Provide a discoverable nap action and composed reduced-motion pose. Transfer one identity between page and room; keep the semantic AI routes undecorated. Detailed behavior belongs in the [scene brief](docs/homepage-desk-scene-brief.md#pip-the-studio-companion).
+- P is a deliberate playful companion, requested by Sirui on September 13. Give it delayed, damped movement and occasional independent actions; let gaze lead the head and the head lead travel. Its white material and shadow should respond to all four themes. Use clear margins and gaps, protect links and prose, keep remarks short and infrequent, and restore every nudged object without changing layout or content. Start an autonomous journey within 4–8 seconds, then use varied 12–24-second intervals. Retire the persistent nap preference; short rests end automatically. Keep a composed reduced-motion pose. Transfer one identity between page and room; keep the semantic AI routes undecorated. Detailed behavior belongs in the [scene brief](docs/homepage-desk-scene-brief.md#pip-the-studio-companion).
 
 - Check light mode, dark mode, mobile, tablet, and desktop.
 - Check keyboard navigation, visible focus, and that collapsed panels are not hidden tab stops.
@@ -292,11 +298,11 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 
 ## Footer And Global Chrome
 
-- Sirui requested a miniature La Jolla footer on September 14. Keep this authored landscape below the reading flow, with the existing short credit sentence beneath it. Load it only near the footer; protect the AI surface, native scrolling, motion pause, and a composed fallback. Small screens may explore the coast horizontally instead of shrinking every landmark into illegibility. The DIB's third-floor light is a personal authored detail, not live occupancy data. Geometry, provenance, and evidence belong in the [footer brief](docs/la-jolla-footer.md).
+- Sirui requested a miniature La Jolla footer on September 14. Let the authored landscape fill the viewport width and meet the bottom edge, with unobtrusive copyright inside it. Reveal building groups left to right as the footer enters view and reverse on upward scroll; keep the terrain present. Load it only near visibility; protect the AI surface, native scrolling, system reduced motion, and a composed fallback. Small screens may explore the coast horizontally instead of shrinking every landmark into illegibility. The DIB's third-floor light is a personal authored detail, not live occupancy data. Geometry, provenance, and evidence belong in the [footer brief](docs/la-jolla-footer.md).
 
 - Keep page chrome quiet. The work should be louder than the frame.
 - Brand-mark rules (flat silhouette before detail, low-contrast texture cues, category anchors at icon size) live in `docs/material-lite-revamp.md`.
-- Search, theme, and back-to-top controls stay discoverable without covering content. The footer is one short sentence: copyright, the al-folio credit, and the update date, with its links underlined rather than told apart by color alone. Sirui removed the footer link row (RSS, GitHub, email, AI profile) on 2026-09-06 as clutter; those destinations already live in the navbar format switch and the contact section. Keep the space between the last section and the footer to one section's worth of padding, not a stack of shell padding plus footer margin. A page whose header jumps to its last section (the AI profile's Sources) keeps that landing room inside the page itself, since the footer's height is not a layout contract.
+- Search, theme, and back-to-top controls stay discoverable without covering content. The footer retains a quiet copyright line within the coastal composition. Sirui removed the al-folio credit, update-date line, and separate scene-control row on September 14. Sirui removed the footer link row (RSS, GitHub, email, AI profile) on 2026-09-06 as clutter; those destinations already live in the navbar format switch and the contact section. Keep the space between the last section and the footer to one section's worth of padding, not a stack of shell padding plus footer margin. A page whose header jumps to its last section (the AI profile's Sources) keeps that landing room inside the page itself, since the footer's height is not a layout contract.
 - Page titles and descriptions sound written by Sirui, not generated by the theme.
 
 ## Blog Voice
@@ -332,7 +338,7 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 
 Default to 2D on every viewport; remember a deliberate session choice. Sirui is an adult man with long swept-back hair and glasses, not a doll with paired hair lobes. The onsen pose faces the ocean. Build the Pacific, cliffs, and exterior as actual geometry; never put an illustration or photo behind the room. Focus the public scene on Realistic. Sirui deferred the three art directions to a future GPT-7 attempt; its comparison criteria and revisit trigger live in the design experiment backlog. Image-derived splats remain a separate local study.
 
-The home is a quiet inhabited place, not a control panel. Choose a new character on refresh; keep the daily rhythm automatic. Keep only look-around and motion controls beside the 2D/3D switch. Sirui's capybara beach-party print stays on the wall for every avatar; self-portraits remain authoring studies. Model the cave within continuous inland terrain above a cliff, with the beach at its foot and ocean beyond; a freestanding platform does not communicate that relationship. Model quality is judged in close-up and in the page, not by whether a GLB loads.
+The home is a quiet inhabited place, not a control panel. Choose a new character on refresh; keep the daily rhythm automatic. Keep only look-around beside the 2D/3D switch; use automatic motion and system reduced-motion preferences. Authoring controls remain private. Sirui's capybara beach-party print stays on the wall for every avatar; self-portraits remain authoring studies. Model the cave within continuous inland terrain above a cliff, with the beach at its foot and ocean beyond; a freestanding platform does not communicate that relationship. Model quality is judged in close-up and in the page, not by whether a GLB loads.
 
 Rooms need recognizable use and spatial character: a gym has a rack, barbell, bench, storage, and clear exercise space. Fit furniture into carved alcoves and soft divisions, and frame the activity without foreground shelving hiding it. Compare human faces and hair silhouettes with the supplied character studies, including profile views. An organic scene edge must finish fading inside all four canvas boundaries; inspect the actual composited pixels and keep canvas/container dimensions equal at narrow widths.
 
@@ -345,3 +351,9 @@ Selected work should introduce the question and project name before asking a vis
 For the coastal home, judge the section before lighting: floors connect by traversable stairs; the house is embedded in a continuous mainland cliff; the beach meets its foot. Compare the actual Blender mesh and the browser exterior. Hiding a roof must not erase the mountain behind the rooms. Preserve one shoreline for beach, shoaling and surf.
 
 Judge Sirui's likeness in front, profile and full-body model renders, then at homepage size during an activity. Keep his long black hair, glasses and clean-shaven adult male identity. A flattering single angle, identity metadata, or a passing loading test does not establish likeness. Check garment continuity, jaw and brow proportions, ear visibility, hand contacts and the silhouette of the hair. Scene evidence and source studies live in `docs/evidence/coastal-section/` and `artwork/coastal-home/`.
+
+## September 14: approved reading enhancements
+
+Use local project thumbnails for selective hover/focus previews. DesignWeaver's selected interface figures gain a lens and a direct full-image link; its compact sticky explanation stacks below desktop width. Supplementary materials can sit in a native disclosure styled as a folder, while essential links stay directly available. Chroma belongs only to Fun thumbnails and remains full color on touch, focus, expansion, and reduced motion. The Website Revamp comparison uses matched actual Connect captures at the same viewport, theme, and section position. Credit Aceternity and React Bits as interaction references; the implementation uses this site's Jekyll, CSS, and JavaScript.
+
+The current implementation and defects corrected during review are recorded in [the coastal refinement evidence](docs/evidence/coastal-refinement-2026-09-14/README.md). Generated references, Blender renders, and browser screenshots are distinct kinds of evidence. Film-quality realism remains an art-direction target, not a measured claim about a working WebGL scene.

@@ -12,6 +12,7 @@ import bmesh
 from mathutils import Vector
 from coastal_sculpt import surface
 from coastal_interiors import curved_wall
+from coastal_landscape import shoreline, cliff_surface, beach_width, beach_point, top_height, export_contacts, web
 
 
 import json
@@ -26,25 +27,6 @@ RISE = max(r["floor"] for r in CONFIG["rooms"])
 OFFSETS = {
     r["id"]: (r["offset"][0], -r["offset"][2], r["offset"][1]) for r in CONFIG["rooms"]
 }
-
-
-def shoreline(x):
-    return (
-        5.7
-        + 1.2 * math.sin(x * 0.12)
-        + 7.5 * math.exp(-(((x - 24) / 10) ** 2))
-        + 3.3 * math.exp(-(((x + 22) / 7) ** 2))
-    )
-
-
-def cliff_surface(x, z):
-    t = max(0, min(1, (z + 8.4) / 18))
-    relief = (
-        0.54 * math.sin(x * 1.7 + z * 0.24)
-        + 0.24 * math.sin(x * 4.4 - z * 0.71)
-        + 0.13 * math.sin(x * 9 + z * 1.7)
-    ) * math.sin(math.pi * t) ** 0.6
-    return shoreline(x) + relief
 
 
 def cliff_normals(obj):
@@ -68,15 +50,6 @@ def cliff_normals(obj):
             else:
                 normals.append((0, 0, 0))
     obj.data.normals_split_custom_set(normals)
-
-
-def beach_width(x):
-    shore = CONFIG.get("beach", {"width": 14, "bulge": 6, "ripple": 1.2})
-    return (
-        shore["width"]
-        + shore["bulge"] * math.exp(-(((x - 9) / 11) ** 2))
-        + shore["ripple"] * math.sin(x * 0.19)
-    )
 
 
 def rehouse(mats, h):
@@ -115,12 +88,12 @@ def rehouse(mats, h):
     # The front notch is the stair opening; the rear landing is continuous.
     upper = [
         (-4.7, -5.3),
+        (-2.08, -5.3),
+        (-2.08, -4.08),
+        (2.05, -4.08),
+        (2.05, -5.3),
         (4.7, -5.3),
         (4.7, -1.30),
-        (2.16, -1.30),
-        (2.16, -2.7),
-        (1.07, -2.7),
-        (1.07, -1.30),
         (-4.7, -1.30),
     ]
     slab("core_upper_floor", upper, RISE - 0.24, RISE - 0.022, plaster)
@@ -135,8 +108,9 @@ def rehouse(mats, h):
             y = y0
             while y < y1:
                 length = min(y1 - y, rng.uniform(1.2, 2.3))
-                if upper_floor and 1.07 < x < 2.16 and y + length > -2.7:
-                    length = max(0, -2.7 - y)
+                if upper_floor and -2.1 < x < 2.1 and y < -4.08:
+                    y = -4.06
+                    continue
                 if length > 0.04:
                     box(
                         "core_fitted_floorboard",
@@ -190,7 +164,14 @@ def rehouse(mats, h):
                 0.006,
             )
     # Upper balcony rail follows the floor edge and leaves the stair open.
-    for xa, xb in ((-4.6, 1.04), (2.19, 4.55)):
+    # Rotate the complete stair to the landward wall. Treads, closed risers and
+    # handrails share the transform; the exported walking path uses it too.
+    from mathutils import Matrix
+    transform = Matrix(((0,-1,0,-.8),(1,0,0,-6.265),(0,0,1,0),(0,0,0,1)))
+    for obj in list(bpy.context.scene.objects):
+        if obj.name.startswith("core_stair_"):
+            obj.matrix_world = transform @ obj.matrix_world
+    for xa, xb in ((-4.6, 4.55),):
         tube(
             "core_gallery_rail",
             [(xa, -1.31, RISE + 0.83), (xb, -1.31, RISE + 0.83)],
@@ -231,6 +212,8 @@ def rehouse(mats, h):
     # Shallow cupboards line the sheltered part of the lower storey.
     for i in range(10):
         x = -4.17 + i * 0.80
+        if -2.4 < x < 2.3:
+            continue
         box(
             "core_lower_storage",
             (x, -4.97, 0.92),
@@ -266,18 +249,55 @@ def rehouse(mats, h):
         )
     for x in (-4.1, 3.9):
         h["potted_plant"]("core", x, -3.25, 0, 1.1, mats, h)
+    # The long front gallery reads as carved stone, not a thin office mezzanine.
+    # Tapered side returns and a shaped lintel frame both inhabited levels.
+    for side in (-1,1):
+        path=[(side*(4.70-.38*math.sin(t*math.pi/2)), -1.36+t*.75, 0, RISE+.12) for t in [i/12 for i in range(13)]]
+        curved_wall("core_carved_gallery_return", path, plaster, .34)
+    archverts, archfaces=[],[]
+    for row in range(2):
+        for i in range(65):
+            t=i/64
+            x=-4.40+8.80*t
+            bottom=RISE-.25-.53*(abs(x)/4.4)**5
+            archverts.extend([(x,-1.50+row*.40,bottom),(x,-1.50+row*.40,RISE-.02)])
+    for row in range(2):
+        for i in range(64):
+            p=row*130+i*2
+            archfaces.append((p,p+2,p+3,p+1))
+    for i in range(64):
+        p=i*2
+        archfaces.extend([(p,p+130,p+132,p+2),(p+1,p+3,p+133,p+131)])
+    surface("core_carved_gallery_arch",archverts,archfaces,plaster)
+    # Export navigation from the stair transform instead of retaining old steps.
+    CONFIG["navigation"].update({"upperAisleZ":3.94,"stairX":2.35,
+        "stairs":[web((-2.1, -4.65,0))]+[web((-.8-(start-(i+.5)*depth),-4.65,(i+1)*RISE/n)) for i in range(n)]+[web((2.35,-4.65,RISE)),web((2.35,-3.94,RISE))],
+        "lowerStairApproach":[[-2.55,0,3.3],[-2.55,0,4.65],[-2.1,0,4.65]]})
+    for room in CONFIG["rooms"]:
+        if room["floor"]>0:
+            room["egress"][2]=3.94
+            if room.get("exitPath"):
+                room["exitPath"][-1][2]=3.94
+    CONFIG["views"]["outside"].update({"target":[3,-.2,-6],"radius":48,"yaw":3.48,"pitch":.37})
+    CONFIG["views"]["overview"].update({"radius":18.5,"yaw":3.30,"pitch":.43})
 
 
 def coast(mats, h):
     """A shared shoreline section closes foundation, roof, land and beach."""
-    rock = h["material"]("eroded coastal sandstone", (0.43, 0.34, 0.235), 0.91)
-    sand = h["material"]("dry beach sand", (0.76, 0.64, 0.45), 0.98)
-    wet = h["material"]("wet tideline sand", (0.43, 0.37, 0.27), 0.38)
-    scrub = h["material"]("coastal sage scrub", (0.22, 0.29, 0.13), 0.95)
-    nx, ny = 192, 32
+    rock = h["material"]("golden coastal sandstone", (0.62, 0.43, 0.265), 0.86)
+    sand = h["material"]("dry beach sand", (0.81, 0.69, 0.49), 0.96)
+    wet = h["material"]("wet tideline sand", (0.48, 0.40, 0.27), 0.30)
+    scrub = h["material"]("coastal sage scrub", (0.26, 0.34, 0.16), 0.92)
+    nx, ny = 224, 40
     xmin, xmax = -36, 76
     xs = [xmin + (xmax - xmin) * i / nx for i in range(nx + 1)]
     objects = []
+
+    def ridge(x):
+        z = top_height(x, shoreline(x))
+        for _ in range(5):
+            z = top_height(x, cliff_surface(x, z))
+        return z
 
     def mass(name, bottom, top, upper):
         verts, faces = [], []
@@ -291,14 +311,13 @@ def coast(mats, h):
                     if layer:
                         z = top
                         if upper:
-                            inland = 1 - t
-                            z += (
-                                1.3 * inland
-                                + 0.45 * math.sin(x * 0.28 + y * 0.19)
-                                + 0.15 * math.sin(x * 1.7 - y * 0.9)
-                            )
-                            z += 1.6 * math.exp(-(((x - 24) / 14) ** 2))
+                            z = top_height(x, y)
                     y += (cliff_surface(x, z) - shoreline(x)) * t**8
+                    if layer and upper:
+                        z = top_height(x, y)
+                        if j == ny:
+                            z = ridge(x)
+                            y = cliff_surface(x, z)
                     verts.append((x, y, z))
         block = (nx + 1) * (ny + 1)
         for layer in (0, 1):
@@ -310,22 +329,18 @@ def coast(mats, h):
         for j in (0, ny):
             if j == ny:
                 front = []
-                for row in range(33):
-                    t = row / 32
+                for row in range(81):
+                    t = row / 80
                     line = []
                     for x in xs:
                         ztop = top
                         if upper:
-                            ztop += (
-                                0.45 * math.sin(x * 0.28 + shoreline(x) * 0.19)
-                                + 0.15 * math.sin(x * 1.7 - shoreline(x) * 0.9)
-                                + 1.6 * math.exp(-(((x - 24) / 14) ** 2))
-                            )
+                            ztop = ridge(x)
                         z = bottom + (ztop - bottom) * t
                         line.append(len(verts))
                         verts.append((x, cliff_surface(x, z), z))
                     front.append(line)
-                for row in range(32):
+                for row in range(80):
                     for i in range(nx):
                         faces.append(
                             (
@@ -359,15 +374,15 @@ def coast(mats, h):
     base = mass("coast_continuous_cliff_foundation", -8.4, -0.26, False)
     cliff_normals(base)
     objects.append(base)
-    roof = mass("core_carved_mainland", -0.26, 6.25, True)
+    roof = mass("core_carved_mainland", -0.26, 6.75, True)
     roof.data.materials.append(mats["plaster"])
     # Carve a full-depth arched dwelling into that same mass. Roof, jambs and
     # foundation share coordinates; there is no gap or separate scenic arch.
     arch = [(-4.94, -0.40), (4.94, -0.40)]
     arch += [
         (
-            5.08 * math.cos(a * math.pi / 64),
-            0.04 + 5.67 * math.sin(a * math.pi / 64) ** 0.36,
+            5.20 * math.cos(a * math.pi / 64),
+            0.04 + 5.95 * math.sin(a * math.pi / 64) ** 0.44,
         )
         for a in range(65)
     ]
@@ -420,16 +435,22 @@ def coast(mats, h):
     top = piece("core_liftaway_cave_ceiling", ceiling_faces)
     top["caveRoof"] = True
     piece("core_continuous_mainland_and_cave_walls", shell_faces)
+    # Fit planting and exported wildlife paths to the actual triangulated
+    # support, including the excavation. Sampling only its analytic precursor
+    # left small plant mats cutting through the coarser rendered ridge.
+    from mathutils.bvhtree import BVHTree
+    supports = BVHTree.FromPolygons(coordinates, [tuple(f.vertices) for f in roof.data.polygons])
+    def support_height(x, y):
+        hit, _, _, _ = supports.ray_cast(Vector((x, y, 30)), Vector((0, 0, -1)))
+        return hit.z if hit is not None else top_height(x, y)
     bpy.data.objects.remove(roof, do_unlink=True)
     # Beach is one long sloping shore. It joins the foot of the very same cliff
     # and disappears below the water instead of ending as a polygonal ring.
-    verts, faces, rows = [], [], 20
+    verts, faces, rows = [], [], 40
     for j in range(rows + 1):
         t = j / rows
         for x in xs:
-            y = shoreline(x) - 0.35 + t * beach_width(x)
-            z = -6.82 - 1.13 * t + 0.04 * math.sin(x * 0.6 + t * 2)
-            verts.append((x, y, z))
+            verts.append(beach_point(x, t))
     for j in range(rows):
         for i in range(nx):
             p = j * (nx + 1) + i
@@ -440,37 +461,66 @@ def coast(mats, h):
         face.material_index = int(face.center.z < -7.13)
     objects.append(beach)
     rng = random.Random(93)
-    for i in range(65):
-        x = rng.uniform(-18, 40)
-        y = shoreline(x) + rng.uniform(0.5, 3.4)
+    # Fallen rock gathers below the headlands, leaving usable expanses of sand.
+    for i in range(90):
+        center = (-14, -8, 12, 23, 34)[i % 5]
+        x = center + rng.gauss(0, 1.8)
+        x, y, z = beach_point(x, rng.uniform(.03,.22))
+        size = rng.uniform(.24, 1.1)
         obj = h["sphere"](
             "coast_talus",
-            (x, y, -6.95),
-            (
-                0.18 + rng.random() * 0.4,
-                0.15 + rng.random() * 0.3,
-                0.12 + rng.random() * 0.3,
-            ),
+            (x, y, z + size * .18),
+            (size, size*.74, size*.57),
             rock,
-            segments=12,
+            segments=16,
         )
+        # Broad chipped silhouettes, with smoothed normals rather than pebbles.
+        for v in obj.data.vertices:
+            v.co *= 1 + .13 * math.sin(v.co.x*3.1 + i) * math.cos(v.co.z*2.7)
+        obj.rotation_euler.z = rng.random() * math.tau
         objects.append(obj)
-    for i in range(95):
-        x = rng.uniform(-15, 38)
-        y = rng.uniform(-12, -6.4)
-        t = (y + 32) / (shoreline(x) + 32)
-        z = (
-            6.25
-            + 1.3 * (1 - t)
-            + 0.45 * math.sin(x * 0.28 + y * 0.19)
-            + 0.15 * math.sin(x * 1.7 - y * 0.9)
-            + 1.6 * math.exp(-(((x - 24) / 14) ** 2))
-        )
-        obj = h["sphere"](
-            "core_clifftop_sage",
-            (x, y, z + 0.12),
-            (0.24, 0.22, 0.18),
-            scrub,
-            segments=12,
-        )
+    export_contacts(CONFIG)
+    for habitat in CONFIG['terrain']['habitats'].values():
+        if habitat['kind'] != 'clifftop':
+            continue
+        coarse = habitat['path']
+        path = []
+        for a, b in zip(coarse, coarse[1:] + coarse[:1]):
+            for i in range(12):
+                t = i / 12
+                x, z = a[0]*(1-t)+b[0]*t, a[2]*(1-t)+b[2]*t
+                path.append([round(x,4), round(support_height(x,-z)+.025,4), round(z,4)])
+        habitat['path'] = path
+    for perch in CONFIG['terrain']['perches']:
+        perch[1] = round(support_height(perch[0],-perch[2])+.05,4)
+    # Low, broad wave-worn haul-out rocks. Their exact top contacts are exported.
+    for i, (x,t) in enumerate([(-10,.32),(-8.6,.34),(11,.29)]):
+        x,y,z = beach_point(x,t)
+        hgt = .48 if i < 2 else .38
+        obj = h["sphere"]("coast_haulout_ledge", (x,y,z), (1.7,1.1,hgt), rock, segments=24)
+        objects.append(obj)
+        CONFIG["terrain"]["habitats"]["seaLion"]["path"].append(web((x,y,z+hgt)))
+    from coastal_garden import coastal_planting
+    coastal_planting(mats, h, support_height, shoreline, scrub)
+    # Shallow rock basins sit above the active waterline. Their rims and water
+    # levels share the beach section; these are pockets, not floating disks.
+    pool_water = h['material']('tide pool sea glass',(.10,.24,.22),.15,.12)
+    CONFIG['terrain']['tidePools']=[]
+    for i,(x,t,rx,ry) in enumerate([(-11.8,.19,1.15,.72),(8.7,.20,1.50,.83)]):
+        cx,cy,cz=beach_point(x,t)
+        vertices,faces=[],[]
+        rings=[(.0,-.07),(.70,-.06),(.83,.13),(1.,.035)]
+        for radius,z in rings:
+            for j in range(65):
+                a=j/64*math.tau;vary=1+.07*math.sin(5*a+i)+.035*math.sin(9*a)
+                vertices.append((cx+rx*radius*math.cos(a)*vary,cy+ry*radius*math.sin(a)*vary,cz+z))
+        for k in range(3):
+            for j in range(64):
+                p=k*65+j;faces.append((p,p+1,p+66,p+65))
+        objects.append(surface('coast_tidal_basin',vertices,faces,rock))
+        points=[(cx+rx*.77*math.cos(j/64*math.tau),cy+ry*.77*math.sin(j/64*math.tau),cz+.018) for j in range(64)]
+        objects.append(surface('coast_tide_pool_water',points,[tuple(range(64))],pool_water))
+        CONFIG['terrain']['tidePools'].append({'center':web((cx,cy,cz+.018)),'radii':[rx*.77,ry*.77]})
+    manifest = Path(__file__).resolve().parents[1] / "assets/models/home/manifest.json"
+    manifest.write_text(json.dumps(CONFIG, indent=2) + "\n", encoding="utf-8")
     return objects

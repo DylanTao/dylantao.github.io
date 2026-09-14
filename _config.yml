@@ -15,8 +15,7 @@ description: > # the ">" symbol means to ignore newlines until "footer_text:"
 seo_description: >-
   Sirui Tao is a Cognitive Science Ph.D. student at UC San Diego studying HCI,
   creativity, design tools, and human-centered AI.
-footer_text: >
-  Built with <a href="https://github.com/alshedivat/al-folio">al-folio</a>.
+footer_text: ""
 keywords: Sirui Tao, HCI researcher, UC San Diego, human-computer interaction, human-centered AI, creativity support tools, design tools, computational design, creative AI, DesignWeaver # add your own keywords or leave empty
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon.ico # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
@@ -110,7 +109,7 @@ al_folio:
 # -----------------------------------------------------------------------------
 
 navbar_fixed: true
-footer_fixed: true
+footer_fixed: false
 search_enabled: true
 socials_in_search: true
 posts_in_search: true
@@ -616,7 +615,7 @@ third_party_libraries:
     version: "5.5.0"
   google_fonts:
     url:
-      fonts: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@500;600;700&family=Material+Icons&display=swap"
+      fonts: "https://fonts.googleapis.com/css2?family=Material+Icons&display=swap"
   globe-gl:
     url:
       js: "https://cdn.jsdelivr.net/npm/globe.gl@{{version}}/dist/globe.gl.min.js"

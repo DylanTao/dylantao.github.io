@@ -1,0 +1,121 @@
+{
+  "ready": true,
+  "style": "realistic",
+  "avatarId": "ghibli",
+  "portrait": "http://127.0.0.1:8081/assets/img/home/sirui_capy.jpg",
+  "currentRoom": "study",
+  "activity": "work",
+  "activityFloor": 2.6,
+  "activityOffset": [-0.35, 2.6, 5],
+  "traveling": false,
+  "palette": "afternoon",
+  "clockMode": "preview",
+  "following": false,
+  "animation": "typing",
+  "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+  "roomCount": 6,
+  "actorCount": 1,
+  "frames": 18,
+  "drawCalls": 431,
+  "triangles": 1475575,
+  "resources": {
+    "geometries": 126,
+    "textures": 19
+  },
+  "projection": "perspective",
+  "coastDetail": "realistic",
+  "companion": {
+    "visible": true,
+    "position": [0.35, 3.73, 3.6],
+    "head": [0, 0, 0],
+    "model": "blender-pip",
+    "gesture": "rest",
+    "room": "study",
+    "traveling": false
+  },
+  "ecology": {
+    "wildlife": {
+      "rabbits": 2,
+      "raccoons": 1,
+      "gulls": 5,
+      "shorebirds": 3
+    },
+    "beachWidth": 14,
+    "particles": 200
+  },
+  "rendering": {
+    "contactShadows": true,
+    "samples": 16,
+    "aoWidth": 480,
+    "aoHeight": 297,
+    "width": 672,
+    "height": 416
+  },
+  "backdropImages": 0,
+  "camera": [2.2360660652392, 4.530654253316283, 0.8338161904533838],
+  "target": [-0.27, 3.64, 3.26],
+  "currentRecord": 0,
+  "spinning": false,
+  "dropped": [],
+  "focused": null,
+  "canvasWidth": 672,
+  "canvasHeight": 416,
+  "prop": null,
+  "targets": [
+    {
+      "type": "spin",
+      "x": 0.4319196949603056,
+      "y": 0.6492477792102973
+    },
+    {
+      "type": "record",
+      "index": 0,
+      "x": 0.762731963446687,
+      "y": 0.2213553467412377
+    },
+    {
+      "type": "record",
+      "index": 1,
+      "x": 0.6941509530547827,
+      "y": 0.21618028926530464
+    },
+    {
+      "type": "record",
+      "index": 2,
+      "x": 0.6328640917405831,
+      "y": 0.2115556413050585
+    },
+    {
+      "type": "record",
+      "index": 3,
+      "x": 0.5777664503587544,
+      "y": 0.20739802596358242
+    },
+    {
+      "type": "artifact",
+      "index": 0,
+      "x": 0.6971812335522937,
+      "y": 0.5301467954719005
+    },
+    {
+      "type": "artifact",
+      "index": 1,
+      "x": 0.6506270742957756,
+      "y": 0.5567726133703952
+    },
+    {
+      "type": "window",
+      "x": 0.85702098376391,
+      "y": 0.4852639097134357
+    }
+  ],
+  "joints": {
+    "Root": [-0.27, 2.5200000017881394, 3.38],
+    "Hips": [-0.27, 3.200000008940697, 3.38],
+    "Head": [-0.27, 3.640000006556511, 3.38],
+    "HandL": [0.00171982186928853, 3.4892828494960844, 3.143263113374081],
+    "HandR": [-0.5415462235006525, 3.4874657752268674, 3.1417174342622216],
+    "FootL": [-0.16000017951037862, 2.8814964812980195, 3.060497854602231],
+    "FootR": [-0.38000018576885175, 2.881496431741684, 3.060497947180517]
+  }
+}

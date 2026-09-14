@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "bin"))
 from coastal_sculpt import build_cave, build_bluff, refine_character, render_portrait
 from coastal_craft import potted_plant, furnish
 from coastal_interiors import gym
+from coastal_bedding import duvet
 
 OUT = ROOT / "assets/models/home"
 SOURCE = ROOT / "artwork/coastal-home"
@@ -298,7 +299,7 @@ def home():
     # Bedroom; the blanket leaves room for the sleeping character's face.
     box("sleep_bedframe", (-3.10, 1.85, 0.20), (1.54, 2.25, 0.32), mats["wood"], 0.12)
     box("sleep_mattress", (-3.10, 1.82, 0.43), (1.49, 2.18, 0.22), mats["cream"], 0.105)
-    box("sleep_duvet", (-3.10, 1.52, 0.80), (1.52, 1.53, 0.25), mats["sage"], 0.11)
+    duvet("sleep_duvet", mats["sage"])
     box("sleep_pillow", (-3.10, 2.65, 0.61), (0.82, 0.40, 0.20), mats["cream"], 0.09)
     cylinder("sleep_bedside", (-4.13, 2.53, 0.34), 0.23, 0.68, mats["oak"])
     sphere("sleep_lamp", (-4.13, 2.53, 0.83), (0.14, 0.14, 0.19), mats["cream"])
@@ -925,8 +926,8 @@ def character(style):
                     (0.59, x, -0.02, 0.043, 0.043),
                     (0.68, x, -0.01, 0.062, 0.06),
                     (0.80, side * (width + 0.065), 0, 0.051, 0.051),
-                    (0.885, side * (width + 0.055), 0, 0.048, 0.048),
-                    (0.884, side * (width + 0.055), 0, 0.042, 0.043),
+                    (0.91, side * (width + 0.04), 0, 0.054, 0.054),
+                    (0.915, side * (width + 0.030), 0, 0.025, 0.030),
                 ],
                 skin,
                 28,
@@ -1056,6 +1057,7 @@ def character(style):
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
         if (
             o.get("blendLeg")
+            or o.get("blendPants")
             or o.get("blendArm")
             or o.get("blendShirt")
             or o.get("blendTail")
@@ -1097,7 +1099,7 @@ def character(style):
                 else:
                     w = o["blendShirt"]
                     t = clamp((abs(co.x) - w * 0.55) / (w * 0.5)) * clamp(
-                        (co.z - 0.86) / 0.16
+                        (co.z - 0.76) / 0.10
                     )
                     weight("Arm." + ("L" if co.x < 0 else "R"), v.index, t)
                     weight("Spine", v.index, 1 - t)
@@ -1218,7 +1220,18 @@ def character(style):
             if lizard:
                 pb["Tail"].rotation_euler.z = math.sin(phase) * 0.13
                 pb["TailTip"].rotation_euler.z = math.sin(phase + 0.4) * 0.18
-            if clip in ("eat", "drink"):
+            if clip == "typing":
+                for i,side in enumerate(('L','R')):
+                    tap=.006*math.sin(phase*4+i*math.pi)
+                    solve_grip(side,(-.13 if side=='L' else .13,-.345,.925+tap))
+                    hand=pb['Hand.'+side]
+                    # Resting fingers point down in the master. In the typing
+                    # clip the hand extends along the keyboard, not up at Sirui.
+                    yaxis=Vector((0,-1,-.14)).normalized();xaxis=Vector((-1,0,0));zaxis=xaxis.cross(yaxis)
+                    basis=Matrix((xaxis,yaxis,zaxis)).transposed().to_4x4()
+                    hand.matrix=Matrix.Translation(hand.matrix.translation) @ basis
+                    bpy.context.view_layer.update()
+            elif clip in ("eat", "drink"):
                 solve_grip("R", (0.075, eye_y - 0.11, head_z - 0.28), gesture)
             elif clip == "reading":
                 for side, x in (("L", -0.16), ("R", 0.16)):

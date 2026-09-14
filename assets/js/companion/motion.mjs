@@ -1,6 +1,6 @@
 // Original browser choreography. Reachy Mini's independently posed head,
 // antennae and body, and its minimum-jerk timing, informed this small rig.
-// See /projects/pip/#credits. No recorded robot motions or SDK are bundled.
+// See /projects/p/#credits. No recorded robot motions or SDK are bundled.
 import { randomSource, spring } from "./behaviour.mjs";
 
 const rest = { pitch: 0, yaw: 0, roll: 0, lift: 0, lean: 0, left: 0, right: 0, armL: 0, armR: 0, close: 0, wink: 0, wide: 0 };

@@ -30,7 +30,7 @@ vec2 shape(vec3 p){
  d=nearest(d,vec2(max(seamD,abs(seam.z)-.0035),3.));
  d=nearest(d,vec2(box(h-vec3(0.,.015,.253),vec3(.084,.006,.003),.008),3.));
  for(int i=0;i<2;i++){
-   float side=i==0?-1.:1., r=i==0?.151:.126;
+   float side=i==0?-1.:1., r=i==0?.143:.132;
    vec3 eye=h-vec3(side*.201,.017,.279);
    d=nearest(d,vec2(ball(eye,vec3(r*1.1,r*1.1,.044)),3.));
    d=nearest(d,vec2(ring(eye-vec3(0.,0.,.035),r,.006),3.));
@@ -38,9 +38,9 @@ vec2 shape(vec3 p){
    vec3 iris=eye-vec3(gaze.x*.024,gaze.y*.019,.082);
    iris.xy/=pupil;
    iris.y/=max(.08,i==0?eyes.x:eyes.y);
-   d=nearest(d,vec2(ball(iris,vec3(r*.32,r*.46,.009)),4.));
+   d=nearest(d,vec2(ball(iris,vec3(r*.41,r*.43,.009)),4.));
    vec3 glint=eye-vec3(-r*.28,r*.44,.076);
-   d=nearest(d,vec2(ball(glint,vec3(r*.16,r*.095,.007)),7.));
+   d=nearest(d,vec2(ball(glint,vec3(r*.11,r*.075,.007)),7.));
    // Two independently hinged antennae: a short collar, slender stalk, soft tip.
    vec3 a=h-vec3(side*.322,.239,-.055);
    a.xy=rot(i==0?antennas.x:antennas.y)*a.xy;
@@ -48,11 +48,11 @@ vec2 shape(vec3 p){
    d=nearest(d,vec2(rod(a,vec3(0.),vec3(side*.015,.046,0.),.016),3.));
    d=nearest(d,vec2(rod(a,vec3(side*.012,.039,0.),mid,.009),3.));
    d=nearest(d,vec2(rod(a,mid,end,.007),3.));
-   d=nearest(d,vec2(ball(a-end,vec3(.022,.033,.022)),i==0?1.:5.));
+   d=nearest(d,vec2(ball(a-end,vec3(.016,.023,.016)),1.));
    vec3 arm=p-vec3(side*.33,-.08,.015);
    arm.xy=rot(side*.16+(i==0?arms.x:arms.y))*arm.xy;
    arm.y+=.10;arm.x+=side*.035*pow(clamp(-arm.y/.18,0.,1.),2.);arm.x/=(1.+arm.y*1.4);
-   d=nearest(d,vec2(ball(arm,vec3(.073,.18,.058)),1.));
+   d=nearest(d,vec2(ball(arm,vec3(.062,.165,.035)),1.));
  }
  return d;
 }

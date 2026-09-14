@@ -1,4 +1,4 @@
-// Shared, deterministic motion and copy. No page text is rewritten by Pip.
+// Shared, deterministic motion and copy. No page text is rewritten by P.
 export function randomSource(seed) {
   let value = seed >>> 0;
   return () => {
@@ -25,7 +25,9 @@ export function clearAt(x, y, obstacles, size = 82) {
 
 export function choosePerch({ width, height, preferred, obstacles, size = 82, rail }) {
   const padding = size * 0.5 + 7;
-  const xs = [preferred.x, width - padding, padding, rail?.right + padding, rail?.left - padding, width * 0.72, width * 0.28].filter(Number.isFinite);
+  const xs = [preferred.x, width - padding, padding, rail?.right + padding, rail?.left - padding, width * 0.72, width * 0.5, width * 0.28].filter(
+    Number.isFinite
+  );
   const ys = [preferred.y, height - padding - 12];
   for (let y = 115; y < height - padding; y += size * 0.9) ys.push(y);
   const candidates = [];

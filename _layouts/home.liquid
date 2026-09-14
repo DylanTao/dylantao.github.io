@@ -16,14 +16,19 @@ layout: default
         <p class="home-kicker">Connect</p>
         <h2>Find me around the web.</h2>
       </div>
-      {% include home/lineage.liquid %}
-      <div class="social home-social">
-        <div class="contact-icons">{% social_links %}</div>
-        <p class="home-connect-note">
-          I rebuilt this site with AI coding agents.
-          <a href="{{ '/projects/website-revamp/' | relative_url }}">The Website Revamp story</a> tells how it went, and
-          <a href="{{ '/github-activity/' | relative_url }}">Build Rhythm</a> shows when the work bunched up.
-        </p>
+      <div class="home-connect-grid">
+        <div class="home-connect-copy">
+          {% include home/lineage.liquid %}
+          <div class="social home-social">
+            <div class="contact-icons">{% social_links %}</div>
+            <p class="home-connect-note">
+              I rebuilt this site with AI coding agents.
+              <a href="{{ '/projects/website-revamp/' | relative_url }}">The Website Revamp story</a> tells how it went, and
+              <a href="{{ '/github-activity/' | relative_url }}">Build Rhythm</a> shows when the work bunched up.
+            </p>
+          </div>
+        </div>
+        {% include la-jolla-miniature.liquid %}
       </div>
     </section>
   {% endif %}

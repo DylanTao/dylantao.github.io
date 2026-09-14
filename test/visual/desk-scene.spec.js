@@ -48,7 +48,7 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   const first = (await evidence(scene)).avatarId;
   const ui = page.locator("[data-home-world-controls]");
-  await expect(ui.locator("button:visible")).toHaveCount(2);
+  await expect(ui.locator("button:visible")).toHaveCount(1);
   await expect(scene).toHaveAttribute("data-render-style", "realistic");
   await expect(ui.locator("select:visible")).toHaveCount(0);
   await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
@@ -97,6 +97,13 @@ for (const theme of ["light", "dark"]) {
   test(`coastal home: ${theme} composition, connected rooms, actual orbit and zoom`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);
     const { scene, canvas, stage, ui } = await openHome(page, { theme });
+    if (theme === "dark") {
+      await explore(ui);
+      await ui.locator("[data-world-time]").fill("1380");
+      await expect(scene).toHaveAttribute("data-scene-palette", "evening");
+      await canvas.scrollIntoViewIfNeeded();
+      await settle(page);
+    }
     await expect.poll(async () => (await evidence(scene)).roomCount).toBe(6);
     await expect(stage.locator(".home-world-welcome")).toBeVisible();
     const before = await canvas.screenshot();

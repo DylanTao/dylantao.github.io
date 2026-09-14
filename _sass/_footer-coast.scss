@@ -165,3 +165,125 @@ html[data-theme="dark"] .footer-coast__poster {
     transition: none;
   }
 }
+
+// The shoreline is the page's end, with credit inside the composition.
+footer.coastal-page-footer {
+  position: relative;
+  width: 100%;
+  margin: 2rem 0 0;
+  padding: 0;
+  overflow: hidden;
+  > .container {
+    position: absolute;
+    color: var(--global-text-color);
+    bottom: 0.6rem;
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    text-align: center;
+    padding: 0.35rem 1rem;
+    font-size: var(--type-meta);
+    pointer-events: none;
+    a {
+      pointer-events: auto;
+    }
+  }
+  .footer-coast {
+    margin: 0;
+  }
+  .footer-coast__scene {
+    height: clamp(300px, 36vw, 520px);
+    mask-image: none;
+  }
+  .footer-coast__poster {
+    object-fit: cover;
+  }
+}
+.home-connect-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 420px);
+  align-items: start;
+  gap: 3rem;
+}
+.home-connect-copy {
+  min-width: 0;
+}
+.home-connect-copy .home-lineage {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+.home-connect-copy .contact-icons {
+  font-size: 2.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.home-connect-copy .home-social,
+.home-connect-copy .home-connect-note {
+  text-align: left;
+  margin-inline: 0;
+}
+.coastal-miniature {
+  margin: -2rem 0 0;
+  .footer-coast__scene {
+    height: auto;
+    aspect-ratio: 1;
+    overflow: clip;
+    mask-image: none;
+    cursor: grab;
+  }
+  .footer-coast__scene:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: -10px;
+    border-radius: 35%;
+  }
+  .footer-coast__poster {
+    object-fit: contain;
+  }
+  .footer-coast__canvas {
+    pointer-events: none;
+  }
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-align: center;
+    font-size: var(--type-meta);
+    line-height: 1.5;
+  }
+  figcaption > a {
+    font-weight: 500;
+  }
+  figcaption small {
+    font-size: var(--type-meta);
+    opacity: 0.8;
+  }
+}
+.coastal-miniature__atlas {
+  position: absolute;
+  width: 125%;
+  height: 125%;
+  left: -12.5%;
+  top: -4%;
+  opacity: 0.5;
+  pointer-events: none;
+  transform: rotate(-12deg) scaleY(0.75);
+}
+.coastal-miniature--large {
+  margin-block: 1.5rem 3rem;
+  .footer-coast__scene {
+    aspect-ratio: 1.2;
+  }
+}
+@media (max-width: 991px) {
+  .home-connect-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .coastal-miniature {
+    width: min(100%, 480px);
+    margin: 0 auto;
+  }
+}

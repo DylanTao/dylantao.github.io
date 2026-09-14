@@ -169,6 +169,20 @@ The redesign did not arrive as one reveal. These are the three turns that change
   <p>The frames document a shift toward a clearer research claim and closer proof routes. Missing viewport, theme, interaction, browser, and DPR metadata mean they cannot establish better usability on their own.</p>
 </aside>
 
+## One place, before and after
+
+The Connect section used to end with a wide empty corner. The revision puts the same research relationships and links beside [a small La Jolla]({{ '/projects/la-jolla/' | relative_url }}), and uses the coastal footer as the page's end. Drag the divider to compare the same route, scroll anchor, noon theme, and viewport.
+
+<figure class="image-compare" data-compare>
+  <div class="image-compare__images">
+    <img src="{{ '/assets/img/website-revamp/connect-before.webp' | relative_url }}" width="1440" height="650" loading="lazy" alt="Connect before the refinement, with relationships and links spanning the page and an empty right corner">
+    <img src="{{ '/assets/img/website-revamp/connect-after.webp' | relative_url }}" width="1440" height="650" loading="lazy" alt="Connect after the refinement, with aligned text beside an interactive La Jolla miniature">
+  </div>
+  <label for="connect-compare">Before ← → After</label>
+  <input id="connect-compare" type="range" min="0" max="100" value="50" aria-label="Reveal the revised Connect section">
+  <figcaption>September 14 checkpoint · 1440 × 650, noon, reduced motion. These matched browser frames document a design change, not a usability result. <a href="{{ '/assets/img/website-revamp/connect-capture.json' | relative_url }}">Capture details</a> · <a href="{{ '/assets/img/website-revamp/connect-before.webp' | relative_url }}">Before image</a> · <a href="{{ '/assets/img/website-revamp/connect-after.webp' | relative_url }}">After image</a></figcaption>
+</figure>
+
 ## Five principles I kept
 
 The full heuristics file is a living teaching artifact, not a wall of rules to embed in every story. These five principles do most of the work:
@@ -207,7 +221,7 @@ Codex made implementation passes fast; it did not decide what deserved attention
     <ul>
       <li><strong>Archive artifact:</strong> <code>old-home-wayback.png</code>, 1440 × 1000, captured by Wayback at <code>20260209013429</code>; added to this repository on May 23 at <code>e4f021520</code>. The exact historical site commit, source viewport, theme, and interaction state are not retained.</li>
       <li><strong>Artifact-stage checkpoint:</strong> the legacy-named <code>current-home-desktop.png</code>, 1440 × 1100, last changed at <code>d5c636509</code> on June 16. Its capture date and environment were not recorded. “Current” is a filename, not a status claim.</li>
-      <li><strong>Current evidence:</strong> the live homepage and linked case studies. No static image on this page is labeled as a current capture.</li>
+      <li><strong>Current evidence:</strong> the live homepage and linked case studies. The matched September Connect comparison is a dated checkpoint with its capture settings retained.</li>
       <li><strong>Paper texture:</strong> generated deterministically from Paper Texture in <code>@paper-design/shaders@0.0.80</code>. The seed, parameters, output hash, generator, Apache license, and vendor hashes are stored beside the asset and dependency.</li>
       <li><strong>Review method:</strong> compare the same route, viewport, theme, and interaction state; keep the research meaning and signature phrases fixed; record what became clearer or harder to notice.</li>
     </ul>
@@ -220,6 +234,8 @@ Codex made implementation passes fast; it did not decide what deserved attention
 </details>
 
 ## Credits
+
+The research-image lens, inline project previews, sticky explanation, and comparison slider take interaction cues from Aceternity's [Lens](https://ui.aceternity.com/components/lens), [Link Preview](https://ui.aceternity.com/components/link-preview), [Sticky Scroll Reveal](https://ui.aceternity.com/components/sticky-scroll-reveal), and [Compare](https://ui.aceternity.com/components/compare). The materials folder and playful thumbnail color treatment reference React Bits' [Folder](https://reactbits.dev/components/folder) and [Chroma Grid](https://reactbits.dev/components/chroma-grid). These are small original implementations in this site's Jekyll, CSS, and JavaScript stack; no React component source is bundled.
 
 This redesign borrows principles, not visual identities or assets, from work I admire. The static paper surface and quiet research substrate use [Paper Shaders](https://shaders.paper.design/) by [Paper](https://paper.design/); the founder's [design walkthrough](https://youtu.be/P06RgnUKX_I?si=7xfPgwCjDHvjVG46) sharpened the “less, but more intentional” pass.
 

@@ -114,9 +114,10 @@ export function finishPhysicalMaterial(source, mesh) {
         kind === 1
           ? `
         float warp = stoneNoise(vec3(p.x*1.6, p.y*2.0, p.z*.38));
-        float growth = sin(p.x*115.0 + warp*13.0 + sin(p.z*.9)*1.2);
+        float growth = sin(p.x*115.0 + warp*23.0 + sin(p.z*.9)*1.2);
         float fibers = grainNoise(vec3(p.x*330.0,p.y*180.0,p.z*5.0));
-        pigment = .91 + .055*growth + .075*fibers;
+        float grainFade = 1.-smoothstep(.003,.025,max(length(dFdx(p)),length(dFdy(p))));
+        pigment = .86 + .025*growth*grainFade + .07*fibers*grainFade + .08*warp;
         diffuseColor.rgb *= pigment;
       `
           : kind === 2
@@ -128,9 +129,9 @@ export function finishPhysicalMaterial(source, mesh) {
               ? `
         float layers = stoneNoise(vec3(p.x*.45, p.y*9.0 + detail*1.8, p.z*.45));
         float erosion = stoneNoise(vec3(p.x*2.0,p.y*.30,p.z*2.0));
-        pigment = .68 + .32*detail + .14*layers;
+        pigment = .89 + .10*detail + .07*layers;
         diffuseColor.rgb *= pigment;
-        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.67,.74,.80), smoothstep(.5,.85,erosion)*.3);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.06,.96,.84), smoothstep(.5,.85,erosion)*.18);
       `
               : kind === 4
                 ? `
@@ -152,7 +153,9 @@ export function finishPhysicalMaterial(source, mesh) {
       `
       #include <normal_fragment_maps>
       // Derivative bump mapping on the actual surface; filtered below a pixel.
-      float height = ${kind === 1 ? "grainNoise(vec3(surfacePoint.x*95.0,surfacePoint.y*24.0,surfacePoint.z*2.5)) * .0018" : kind === 2 ? "grainNoise(surfacePoint*140.0)*.0015" : kind === 3 ? "stoneNoise(surfacePoint*7.0)*.065 + grainNoise(surfacePoint*55.0)*.006" : "stoneNoise(surfacePoint*32.0)*.008"};
+      float footprint = max(length(dFdx(surfacePoint)), length(dFdy(surfacePoint)));
+      float detailFade = 1.0-smoothstep(.025,.12,footprint);
+      float height = detailFade * ${kind === 1 ? "grainNoise(vec3(surfacePoint.x*95.0,surfacePoint.y*24.0,surfacePoint.z*2.5)) * .0007" : kind === 2 ? "grainNoise(surfacePoint*140.0)*.0004" : kind === 3 ? "stoneNoise(surfacePoint*3.0)*.022" : "stoneNoise(surfacePoint*32.0)*.001"};
       vec3 eyeX = dFdx(-vViewPosition), eyeY = dFdy(-vViewPosition);
       vec3 r1 = cross(eyeY, normal), r2 = cross(normal, eyeX);
       float det = dot(eyeX, r1);
@@ -220,7 +223,8 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
     },
     render(activeCamera, exterior) {
       beauty.camera = contact.camera = activeCamera;
-      contact.kernelRadius = exterior ? 1.1 : 0.34;
+      contact.enabled = !exterior;
+      contact.kernelRadius = 0.28;
       contact.ssaoMaterial.uniforms.cameraProjectionMatrix.value.copy(activeCamera.projectionMatrix);
       contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
       composer.render();

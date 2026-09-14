@@ -1,0 +1,240 @@
+{
+  "browser": "Chromium, headless",
+  "environment": "Local desktop GPU; mobile viewport/DPR emulation only",
+  "results": [
+    {
+      "width": 1440,
+      "emulatedMobile": false,
+      "devicePixelRatio": 1,
+      "initial3D": [],
+      "samples": [
+        {
+          "room": "overview",
+          "durationMs": 15008.19999999553,
+          "frames": 901,
+          "framesPerSecond": 60.03384816302211,
+          "medianFrameIntervalMs": 16.700000000000728,
+          "p95FrameIntervalMs": 16.700000000000728,
+          "drawCalls": 539,
+          "triangles": 2237404,
+          "resources": {
+            "geometries": 208,
+            "textures": 18
+          },
+          "canvas": [544, 460]
+        },
+        {
+          "room": "outside",
+          "durationMs": 15007.89999999851,
+          "frames": 901,
+          "framesPerSecond": 60.03504820794978,
+          "medianFrameIntervalMs": 16.69999999999709,
+          "p95FrameIntervalMs": 16.799999999995634,
+          "drawCalls": 1403,
+          "triangles": 2647548,
+          "resources": {
+            "geometries": 208,
+            "textures": 19
+          },
+          "canvas": [544, 460]
+        }
+      ],
+      "offscreenFrameDelta": 0,
+      "transfer": [
+        {
+          "asset": "/assets/models/home/home-shell.glb",
+          "bytes": 1537056,
+          "loadMs": 10.100000001490116
+        },
+        {
+          "asset": "/assets/models/home/BrushRabbit.glb",
+          "bytes": 70608,
+          "loadMs": 4.5999999940395355
+        },
+        {
+          "asset": "/assets/models/home/CaliforniaSeaLion.glb",
+          "bytes": 59004,
+          "loadMs": 5.5
+        },
+        {
+          "asset": "/assets/models/home/HarborSeal.glb",
+          "bytes": 181544,
+          "loadMs": 5.299999997019768
+        },
+        {
+          "asset": "/assets/models/home/coast.glb",
+          "bytes": 240620,
+          "loadMs": 3.7000000029802322
+        },
+        {
+          "asset": "/assets/models/pip/pip.glb",
+          "bytes": 848536,
+          "loadMs": 6.899999998509884
+        },
+        {
+          "asset": "/assets/models/home/room-sleep.glb",
+          "bytes": 56528,
+          "loadMs": 3.9000000059604645
+        },
+        {
+          "asset": "/assets/models/home/sirui-rick-and-morty.glb",
+          "bytes": 519800,
+          "loadMs": 9.200000002980232
+        },
+        {
+          "asset": "/assets/models/home/room-study.glb",
+          "bytes": 345648,
+          "loadMs": 3.7999999970197678
+        },
+        {
+          "asset": "/assets/models/home/room-kitchen.glb",
+          "bytes": 133548,
+          "loadMs": 4.200000002980232
+        },
+        {
+          "asset": "/assets/models/home/room-gym.glb",
+          "bytes": 639784,
+          "loadMs": 8.299999997019768
+        },
+        {
+          "asset": "/assets/models/home/room-onsen.glb",
+          "bytes": 84248,
+          "loadMs": 5.799999997019768
+        },
+        {
+          "asset": "/assets/models/home/room-lounge.glb",
+          "bytes": 247912,
+          "loadMs": 6.600000001490116
+        },
+        {
+          "asset": "/assets/models/la-jolla/miniature.glb",
+          "bytes": 1089416,
+          "loadMs": 15.100000001490116
+        },
+        {
+          "asset": "/assets/models/la-jolla/la-jolla.glb",
+          "bytes": 993024,
+          "loadMs": 13
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "emulatedMobile": true,
+      "devicePixelRatio": 3,
+      "initial3D": [],
+      "samples": [
+        {
+          "room": "overview",
+          "durationMs": 15020,
+          "frames": 902,
+          "framesPerSecond": 60.05326231691078,
+          "medianFrameIntervalMs": 16.69999999999891,
+          "p95FrameIntervalMs": 16.700000000000728,
+          "drawCalls": 539,
+          "triangles": 2237404,
+          "resources": {
+            "geometries": 208,
+            "textures": 18
+          },
+          "canvas": [525, 528]
+        },
+        {
+          "room": "outside",
+          "durationMs": 15015,
+          "frames": 901,
+          "framesPerSecond": 60.006660006660006,
+          "medianFrameIntervalMs": 16.69999999999709,
+          "p95FrameIntervalMs": 16.700000000004366,
+          "drawCalls": 1403,
+          "triangles": 2647548,
+          "resources": {
+            "geometries": 208,
+            "textures": 19
+          },
+          "canvas": [525, 528]
+        }
+      ],
+      "offscreenFrameDelta": 0,
+      "transfer": [
+        {
+          "asset": "/assets/models/home/home-shell.glb",
+          "bytes": 1537056,
+          "loadMs": 9.299999997019768
+        },
+        {
+          "asset": "/assets/models/home/BrushRabbit.glb",
+          "bytes": 70608,
+          "loadMs": 4.4000000059604645
+        },
+        {
+          "asset": "/assets/models/home/CaliforniaSeaLion.glb",
+          "bytes": 59004,
+          "loadMs": 4
+        },
+        {
+          "asset": "/assets/models/home/HarborSeal.glb",
+          "bytes": 181544,
+          "loadMs": 4.800000004470348
+        },
+        {
+          "asset": "/assets/models/home/coast.glb",
+          "bytes": 240620,
+          "loadMs": 4.399999998509884
+        },
+        {
+          "asset": "/assets/models/pip/pip.glb",
+          "bytes": 848536,
+          "loadMs": 7
+        },
+        {
+          "asset": "/assets/models/home/room-sleep.glb",
+          "bytes": 56528,
+          "loadMs": 4.399999998509884
+        },
+        {
+          "asset": "/assets/models/home/sirui-rick-and-morty.glb",
+          "bytes": 519800,
+          "loadMs": 6.700000002980232
+        },
+        {
+          "asset": "/assets/models/home/room-study.glb",
+          "bytes": 345648,
+          "loadMs": 4
+        },
+        {
+          "asset": "/assets/models/home/room-kitchen.glb",
+          "bytes": 133548,
+          "loadMs": 5.200000002980232
+        },
+        {
+          "asset": "/assets/models/home/room-gym.glb",
+          "bytes": 639784,
+          "loadMs": 11.700000002980232
+        },
+        {
+          "asset": "/assets/models/home/room-onsen.glb",
+          "bytes": 84248,
+          "loadMs": 4.600000001490116
+        },
+        {
+          "asset": "/assets/models/home/room-lounge.glb",
+          "bytes": 247912,
+          "loadMs": 9.299999997019768
+        },
+        {
+          "asset": "/assets/models/la-jolla/la-jolla.glb",
+          "bytes": 993024,
+          "loadMs": 13.199999995529652
+        },
+        {
+          "asset": "/assets/models/la-jolla/miniature.glb",
+          "bytes": 1089416,
+          "loadMs": 14.199999995529652
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

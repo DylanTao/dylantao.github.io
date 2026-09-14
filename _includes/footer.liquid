@@ -2,12 +2,9 @@
   &copy; {{ site.time | date: '%Y' }}
   {{ site.first_name }}
   {{ site.middle_name }}
-  {{ site.last_name }}. {{ site.footer_text }}
+  {{ site.last_name }}.
   {% if site.impressum_path %}
     <a href="{{ site.url }}{{ site.baseurl }}{{ site.impressum_path }}">Impressum</a>.
-  {% endif %}
-  {% if site.last_updated %}
-    Updated {{ 'now' | date: '%B %-d, %Y' }}.
   {% endif %}
   <a class="mobile-back-to-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
 {% endcapture %}
@@ -20,7 +17,7 @@
     </div>
   </footer>
 {% else %}
-  <footer class="sticky-bottom mt-5" role="contentinfo">
+  <footer class="sticky-bottom coastal-page-footer" role="contentinfo">
     {% include la-jolla-footer.liquid %}
     {% if site.newsletter.enabled %}
       {% include newsletter.liquid %}

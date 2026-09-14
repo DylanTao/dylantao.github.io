@@ -129,7 +129,8 @@ test("seeded curiosity is repeatable, varied, and has route-appropriate copy", (
 });
 test("the expanded beach and animal contact surface share the shoreline", () => {
   for (const x of [-15, 0, 9, 24, 40]) {
-    assert.ok(beachWidth(x, beach) > 12);
+    // The projecting eastern headland narrows the sand before the next cove.
+    assert.ok(beachWidth(x, beach) > 9);
     const sand = beachPoint(x, 0.28, beach),
       sea = beachPoint(x, 0.8, beach);
     assert.ok(sand[1] > -7.35);

@@ -7,7 +7,7 @@ import { beachPoint } from "./shore.mjs";
 export async function createWorldCompanion(scene, config, container, loader) {
   const gltf = await loader.loadAsync(new URL("../../models/pip/pip.glb", import.meta.url).href);
   const group = new THREE.Group();
-  group.name = "Pip companion";
+  group.name = "P companion";
   scene.add(group);
   const body = gltf.scene;
   group.add(body);
@@ -27,12 +27,12 @@ export async function createWorldCompanion(scene, config, container, loader) {
     meshes.push(o);
     materials.add(o.material);
     geometries.add(o.geometry);
-    if (o.material.name === "Pip porcelain") {
+    if (/^(P|Pip) porcelain$/.test(o.material.name)) {
       o.material.roughness = 0.38;
       o.material.envMapIntensity = 0.65;
     }
   });
-  const eyes = [...materials].find((m) => m.name === "Pip iris");
+  const eyes = [...materials].find((m) => /^(P|Pip) iris$/.test(m.name));
   body.scale.setScalar(0.46);
   companion.worldReady = true;
   let pose = {},

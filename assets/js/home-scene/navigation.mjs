@@ -3,6 +3,8 @@
 // or overshoot the first and last riser. Camera easing is independent.
 export function roomRoute(config, from, to, start) {
   const nav = config.navigation;
+  from = from && { ...from, ...config.terrain.contacts[from.id] };
+  to = { ...to, ...config.terrain.contacts[to.id] };
   const begin = [start[0], from?.floor ?? 0, start[2]];
   const end = [to.actor[0], to.floor, to.actor[2]];
   const exit = from?.egress || begin;

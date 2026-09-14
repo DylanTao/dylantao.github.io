@@ -1,0 +1,272 @@
+// The same five typographic roles across the site; article geometry is scoped
+// separately from project/blog indexes and their expanding previews.
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter/Inter.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter/Inter-Italic.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: italic;
+  font-display: swap;
+}
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-ui);
+}
+code,
+pre,
+kbd,
+samp,
+code * {
+  font-family: var(--font-code);
+}
+h1,
+.home-title,
+.post-title,
+.project-case-copy h1 {
+  font-size: var(--type-page-title);
+  font-weight: 600;
+  line-height: 1.15;
+}
+h2,
+.home-section-heading h2,
+.project-detail h2,
+.blog-post h2 {
+  font-size: var(--type-section-title);
+  font-weight: 600;
+  line-height: 1.3;
+}
+h3,
+h4,
+.project-detail h3,
+.blog-post h3 {
+  font-size: var(--type-subheading);
+  font-weight: 600;
+  line-height: 1.4;
+}
+strong,
+b {
+  font-weight: 600;
+}
+.home-title {
+  max-width: 22ch;
+}
+.home-lede {
+  font-size: var(--type-reading);
+}
+.home-cred-item,
+html[data-theme="dark"] .home-cred-item {
+  padding-inline: 1rem;
+}
+.home-cred-item span,
+.home-cred-item strong,
+.home-kicker,
+.post-meta,
+.post-tags,
+.project-case-kicker,
+.project-case-facts,
+.caption,
+figcaption,
+.home-connect-note {
+  font-size: var(--type-meta);
+}
+.home-cred-item span {
+  letter-spacing: 0.03em;
+}
+
+.project-detail,
+.blog-post {
+  --reading-width: 68ch;
+  width: 100%;
+  font-size: var(--type-reading);
+  line-height: 1.75;
+  > .post-header,
+  > .post-content,
+  > article,
+  > .blog-post-navigation,
+  > .publications,
+  > h2 {
+    width: min(100%, var(--reading-width));
+    max-width: none;
+    margin-inline: auto;
+  }
+  .post-header,
+  .blog-opening {
+    margin-inline: auto;
+  }
+  .post-header {
+    padding-inline: 0;
+  }
+  .post-title {
+    max-width: none;
+  }
+  &.post .post-header .post-title {
+    font-size: var(--type-page-title);
+    font-weight: 600;
+  }
+  #markdown-content h2 {
+    font-size: var(--type-section-title);
+    font-weight: 600;
+  }
+  #markdown-content h3,
+  #markdown-content h4 {
+    font-size: var(--type-subheading);
+    font-weight: 600;
+  }
+  article > :is(p, h2, h3, h4, ul, ol, blockquote, dl, pre, .caption, .project-author-strip),
+  #markdown-content > :is(p, h2, h3, h4, ul, ol, blockquote, dl, pre, .caption) {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  article > h2,
+  #markdown-content > h2 {
+    margin-top: 2.75rem;
+  }
+  .project-case-hero {
+    display: block;
+    width: 100%;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  .project-case-copy,
+  .project-case-lede,
+  .project-case-actions,
+  .project-case-facts {
+    max-width: none;
+  }
+  .project-case-copy {
+    padding: 0;
+  }
+  .project-case-media {
+    margin: 2rem 0;
+    position: static;
+    transform: none;
+  }
+  .project-case-lede {
+    font-size: var(--type-reading);
+    line-height: 1.75;
+  }
+  .project-case-actions {
+    justify-content: flex-start;
+  }
+  .scholar-story-trace-steps,
+  .project-story-beats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .project-case-actions a {
+    font-size: var(--type-meta);
+    font-weight: 500;
+  }
+  .blog-reading-layout.has-toc {
+    display: block;
+    position: relative;
+  }
+  .blog-opening {
+    max-width: none;
+    font-size: var(--type-reading);
+  }
+  .blog-contents-rail {
+    position: static;
+    margin: 0 0 1.75rem;
+    max-height: none;
+  }
+  .blog-post-navigation {
+    margin-top: 3rem;
+  }
+  .row {
+    margin-inline: 0;
+  }
+  .row > :first-child {
+    padding-left: 0;
+  }
+  .row > :last-child {
+    padding-right: 0;
+  }
+}
+// Override the former asymmetric title/intro offset when the contents rail exists.
+.blog-post:has(.has-toc) .post-header,
+.blog-post:has(.has-toc) .blog-opening {
+  margin-inline: auto;
+}
+.case-step,
+html.cinematic-live .case-scroll-hero:not(.is-static) .case-step {
+  min-height: 0;
+  padding-block: 1.5rem;
+  opacity: 1;
+  transform: none;
+}
+.case-step-title {
+  font-size: var(--type-subheading);
+  max-width: none;
+}
+.case-step > p:last-child {
+  max-width: none;
+}
+.case-scroll-hint {
+  display: none;
+}
+.case-stage-lens {
+  box-shadow: inset 0 0 0 1px var(--global-bg-color);
+}
+
+@media (min-width: 1200px) {
+  .blog-post .blog-contents-rail {
+    position: absolute;
+    right: calc(100% + 2.5rem);
+    top: 0;
+    width: 11.5rem;
+    height: 100%;
+    overflow: visible;
+  }
+  .blog-post .blog-inline-toc {
+    position: sticky;
+    top: 6rem;
+    max-height: calc(100vh - 8rem);
+    overflow: auto;
+  }
+  .project-detail article > .row,
+  .blog-post #markdown-content > .row {
+    width: min(84vw, 960px);
+    max-width: none;
+    margin-left: calc((100% - min(84vw, 960px)) / 2);
+    margin-right: 0;
+  }
+}
+@media (min-width: 1440px) {
+  .project-detail .case-scroll-hero {
+    display: grid;
+    grid-template-columns: 100% 280px;
+    grid-template-areas: "copy media" "steps media";
+    column-gap: 1.5rem;
+  }
+  .project-detail .case-scroll-hero > .project-case-media {
+    position: sticky;
+    top: 6rem;
+    margin-top: 0;
+  }
+}
+@media (max-width: 767px) {
+  .project-detail,
+  .blog-post {
+    .row {
+      width: 100%;
+    }
+    .blog-nav-chronology {
+      gap: 1rem;
+    }
+  }
+  .home-title {
+    font-size: var(--type-page-title);
+  }
+}

@@ -30,7 +30,7 @@ class DesignRealignmentContractTests(unittest.TestCase):
             "An Evolving Spine",
             "Signature Copy Locklist",
             "Human And AI Are Different Reading Surfaces",
-            "Three Narrative Type Roles",
+            "Five Type Roles",
             "docs/design-experiment-backlog.md",
         ):
             self.assertIn(contract, heuristics)
@@ -58,8 +58,10 @@ class DesignRealignmentContractTests(unittest.TestCase):
     def test_inter_load_and_computed_roles_use_supported_weights(self) -> None:
         config = (REPO_ROOT / "_config.yml").read_text(encoding="utf-8")
         themes = (REPO_ROOT / "_sass" / "_themes.scss").read_text(encoding="utf-8")
-        self.assertRegex(config, r"Inter:wght@400;500;600;700")
-        self.assertNotRegex(config, r"Inter:wght@[^\n]*800")
+        reading = (REPO_ROOT / "_sass/_reading.scss").read_text(encoding="utf-8")
+        self.assertIn('Inter.woff2', reading)
+        self.assertIn('font-weight: 400 600', reading)
+        self.assertNotIn('Inter:wght', config)
         for role in ("--type-display", "--type-heading", "--type-reading", "--type-compact"):
             self.assertIn(role, themes)
         for legacy in (

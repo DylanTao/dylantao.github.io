@@ -1,0 +1,230 @@
+[
+  {
+    "id": "designweaver",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 342.08408277425195,
+      "y": 330,
+      "target": {
+        "x": 349,
+        "y": 330
+      },
+      "gaze": [0, 0],
+      "visible": false,
+      "napping": false,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 98,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "rest",
+      "lastTravel": "rest",
+      "travels": {
+        "fly": 0,
+        "squeeze": 0,
+        "portal": 0
+      },
+      "lastEncounter": "none",
+      "portalVisible": false,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "still"
+        }
+      ],
+      "headers": []
+    }
+  },
+  {
+    "id": "blog",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 349,
+      "y": 910.6000000000003,
+      "target": {
+        "x": 349,
+        "y": 910.6000000000003
+      },
+      "gaze": [0, 0],
+      "visible": true,
+      "napping": false,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 97,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "fly",
+      "lastTravel": "fly",
+      "travels": {
+        "fly": 1,
+        "squeeze": 0,
+        "portal": 0
+      },
+      "lastEncounter": "none",
+      "portalVisible": false,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "still"
+        }
+      ],
+      "headers": [
+        {
+          "text": "research skills starter pack",
+          "size": "34px",
+          "font": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+          "x": 15,
+          "width": 360
+        }
+      ]
+    }
+  },
+  {
+    "id": "home",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 41,
+      "y": 792.6465092040598,
+      "target": {
+        "x": 41,
+        "y": 792.6465092040598
+      },
+      "gaze": [0, 0],
+      "visible": true,
+      "napping": false,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 548,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "portal",
+      "lastTravel": "portal",
+      "travels": {
+        "fly": 0,
+        "squeeze": 0,
+        "portal": 1
+      },
+      "lastEncounter": "none",
+      "portalVisible": true,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "ready",
+          "evidence": {
+            "miniature": true,
+            "frames": 146,
+            "reveal": 0.9999999985553925,
+            "office": true,
+            "theme": "noon",
+            "running": true,
+            "buildings": 11,
+            "orbit": [0, 0],
+            "resources": {
+              "geometries": 204,
+              "textures": 9
+            }
+          }
+        },
+        {
+          "state": "ready",
+          "evidence": {
+            "miniature": false,
+            "frames": 76,
+            "reveal": 0.9999642268973477,
+            "office": true,
+            "theme": "noon",
+            "running": true,
+            "buildings": 11,
+            "orbit": [0, 0],
+            "resources": {
+              "geometries": 140,
+              "textures": 9
+            }
+          }
+        }
+      ],
+      "headers": []
+    }
+  },
+  {
+    "id": "la-jolla",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 338,
+      "y": 115,
+      "target": {
+        "x": 338,
+        "y": 115
+      },
+      "gaze": [0, 0],
+      "visible": true,
+      "napping": false,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 95,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "rest",
+      "lastTravel": "rest",
+      "travels": {
+        "fly": 0,
+        "squeeze": 0,
+        "portal": 0
+      },
+      "lastEncounter": "none",
+      "portalVisible": false,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "ready",
+          "evidence": {
+            "miniature": true,
+            "frames": 107,
+            "reveal": 0.9999996135947976,
+            "office": true,
+            "theme": "noon",
+            "running": true,
+            "buildings": 11,
+            "orbit": [0, 0],
+            "resources": {
+              "geometries": 204,
+              "textures": 9
+            }
+          }
+        },
+        {
+          "state": "still"
+        }
+      ],
+      "headers": []
+    }
+  }
+]

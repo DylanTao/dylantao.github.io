@@ -1,5 +1,5 @@
 import * as THREE from "../three.module.min.js";
-import { createModelLoader } from "../home-scene/model-loader.mjs";
+import { coastManifest, acquireCoast } from "./assets.mjs";
 import { createFinish } from "../home-scene/realism.mjs";
 
 const THEMES = {
@@ -34,7 +34,7 @@ function reflectionStudio(renderer) {
   return target;
 }
 
-function makeWater(clock, color) {
+function makeWater(clock, color, miniature = false) {
   const material = new THREE.MeshStandardMaterial({ color, roughness: 0.32, metalness: 0.18, transparent: true, depthWrite: false });
   material.onBeforeCompile = (shader) => {
     shader.uniforms.coastTime = clock;
@@ -49,9 +49,9 @@ function makeWater(clock, color) {
     shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shader.fragmentShader}`.replace(
       "#include <color_fragment>",
       `#include <color_fragment>
-        float shore = 2.1-.7*sin(coastPosition.x*.23)-.25*sin(coastPosition.x*.68);
+        float shore = ${miniature ? "3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58)" : "2.1-.7*sin(coastPosition.x*.23)-.25*sin(coastPosition.x*.68)"};
         float depth = coastPosition.z-shore;
-        float edge = smoothstep(0.,.12,depth)*(1.-smoothstep(5.0,7.0,depth))*(1.-smoothstep(18.6,21.,abs(coastPosition.x)));
+        float edge = ${miniature ? "1." : "smoothstep(0.,.12,depth)"};
         float swell = sin(depth*5.5-coastTime*.62+sin(coastPosition.x*.6)*.45);
         float breakup = smoothstep(-.45,.7,sin(coastPosition.x*1.9+coastTime*.08)+sin(coastPosition.x*5.2+depth));
         float foam = smoothstep(.83,1.,swell)*breakup*(1.-smoothstep(.2,2.5,depth))*.66;
@@ -61,15 +61,14 @@ function makeWater(clock, color) {
         if(diffuseColor.a<.008) discard;`
     );
   };
-  const geometry = new THREE.PlaneGeometry(42, 15, 170, 64).rotateX(-Math.PI / 2).translate(0, 0.04, 3.5);
+  const geometry = new THREE.PlaneGeometry(70, 32, 140, 64).rotateX(-Math.PI / 2).translate(0, 0.04, 10);
   return new THREE.Mesh(geometry, material);
 }
 
 export async function mountCoast(host) {
+  const miniature = host.hasAttribute("data-miniature");
   const canvas = host.querySelector("canvas");
   const surface = host.querySelector(".footer-coast__scene");
-  const pause = host.querySelector(".footer-coast__pause");
-  const lightButton = host.querySelector(".footer-coast__light");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
@@ -98,31 +97,31 @@ export async function mountCoast(host) {
   fill.position.set(12, 6, -10);
   scene.add(fill);
   const clock = { value: 0 };
-  const water = makeWater(clock, 0x337e90);
+  const water = makeWater(clock, 0x337e90, miniature);
   water.userData.noOcclusion = true;
   const finish = createFinish(renderer, scene, camera, { transparentOutput: true });
-  const { loader, decoder } = createModelLoader();
   let model, manifest;
   try {
-    const manifestResponse = await fetch(new URL("../../models/la-jolla/manifest.json", import.meta.url));
-    if (!manifestResponse.ok) throw new Error("The coastal miniature is unavailable.");
-    manifest = await manifestResponse.json();
-    model = await loader.loadAsync(new URL(`../../models/la-jolla/${manifest.model}`, import.meta.url).href);
+    manifest = await coastManifest();
+    model = await acquireCoast(miniature ? manifest.miniature.model : manifest.model);
   } catch (error) {
-    decoder.dispose();
     renderer.dispose();
     env.dispose();
     finish.dispose();
     throw error;
   }
-  decoder.dispose();
-  scene.add(model.scene, water);
+  scene.add(model.scene);
+  if (!miniature) scene.add(water);
   const crowns = [],
     surfers = [],
     windows = [];
   let officeMaterial;
   model.scene.traverse((o) => {
     if (o.name === "Pacific") o.visible = false;
+    if (miniature && o.name === "PacificSurface") {
+      o.material = water.material;
+      o.userData.noOcclusion = true;
+    }
     if (!o.isMesh && o.name.startsWith("Crown")) crowns.push(o);
     if (!o.isMesh && /^Surfer\d/.test(o.name)) surfers.push({ object: o, position: o.position.clone() });
     if (o.isMesh) {
@@ -137,13 +136,13 @@ export async function mountCoast(host) {
     }
   });
   // Shader-driven light in the exact marked pane; no giant glowing facade.
-  const officePosition = new THREE.Vector3().fromArray(manifest.office);
+  const officePosition = new THREE.Vector3().fromArray(miniature ? manifest.miniature.office : manifest.office);
   const officeGlow = new THREE.PointLight(0xffbd70, 0.6, 2.1, 2);
   officeGlow.position.copy(officePosition).add(new THREE.Vector3(0, 0, 0.12));
   scene.add(officeGlow);
   let visible = false,
     stopped = reduced.matches,
-    lightOn = true,
+    lightOn = false,
     running = false,
     disposed = false,
     lost = false;
@@ -160,6 +159,35 @@ export async function mountCoast(host) {
   const target = new THREE.Vector3(0, 1.3, 0);
   const cameraBase = new THREE.Vector3(11, 23, 36);
   let drag = null;
+  let orbitY = 0,
+    orbitX = 0;
+  const buildings = [];
+  const buildingNames = /^(DIB|Geisel|Salk|Casita|CliffVilla|Lifeguard|Tennis|BeachVolleyball)/;
+  model.scene.traverse((o) => {
+    if (!o.isMesh && buildingNames.test(o.name)) {
+      const bounds = new THREE.Box3().setFromObject(o);
+      buildings.push({
+        object: o,
+        base: o.position.clone(),
+        floor: bounds.min.y,
+        center: bounds.getCenter(new THREE.Vector3()).x,
+        scale: o.scale.clone(),
+      });
+    }
+  });
+  buildings.sort((a, b) => a.center - b.center);
+  function revealBuildings(value) {
+    if (host.dataset.reveal === value.toFixed(3)) return;
+    buildings.forEach((b, i) => {
+      const p = miniature || reduced.matches ? 1 : clamp((value - (i / Math.max(1, buildings.length)) * 0.68) / 0.32);
+      const eased = p * p * (3 - 2 * p);
+      b.object.scale.y = b.scale.y * Math.max(0.001, eased);
+      b.object.position.y = b.base.y + (1 - eased) * b.floor;
+      b.object.visible = p > 0.001;
+    });
+    renderer.shadowMap.needsUpdate = true;
+    host.dataset.reveal = value.toFixed(3);
+  }
 
   function lights() {
     if (officeMaterial) {
@@ -183,6 +211,19 @@ export async function mountCoast(host) {
     fill.intensity = 0.65 - theme.night * 0.45;
     renderer.toneMappingExposure = theme.exposure;
     water.material.color.set(theme.water);
+    const selected = document.documentElement.dataset.themeMode || (document.documentElement.dataset.theme === "dark" ? "evening" : "noon");
+    const lateNight = Math.floor(Date.now() / 86400000) % 5 < 2;
+    lightOn = selected === "noon" || selected === "afternoon" || (selected === "evening" && lateNight);
+    const night = theme.night > 0.8;
+    model.scene.getObjectByName("EveningBonfire")?.traverse((o) => {
+      o.visible = night;
+    });
+    model.scene.getObjectByName("ParkedBoards")?.traverse((o) => {
+      o.visible = night;
+    });
+    surfers.forEach(({ object }) => (object.visible = !night && selected !== "morning"));
+    host.dataset.theme = selected;
+    host.dataset.office = String(lightOn);
     lights();
     draw();
   }
@@ -190,12 +231,16 @@ export async function mountCoast(host) {
   function resize() {
     const { width, height } = surface.getBoundingClientRect();
     const narrow = width < 600;
-    surface.tabIndex = narrow ? 0 : -1;
+    surface.tabIndex = miniature || narrow ? 0 : -1;
     surface.setAttribute("aria-keyshortcuts", narrow ? "ArrowLeft ArrowRight" : "");
     // Phone composition visits the studio, courts and surf at a readable scale.
-    cameraWidth = narrow ? 21 : 45;
+    cameraWidth = miniature ? 29 : narrow ? 21 : 40.5;
     target.set(narrow ? 5.1 : 0, 2, 0);
     cameraBase.set(target.x + 5, 18, 38);
+    if (miniature) {
+      target.fromArray(manifest.miniature.target);
+      cameraBase.fromArray(manifest.miniature.camera);
+    }
     const half = cameraWidth / 2;
     camera.left = -half;
     camera.right = half;
@@ -212,6 +257,13 @@ export async function mountCoast(host) {
     if (disposed || lost) return;
     camera.position.copy(cameraBase);
     camera.position.x += currentX * 0.6;
+    if (miniature) {
+      const offset = camera.position.clone().sub(target);
+      const spherical = new THREE.Spherical().setFromVector3(offset);
+      spherical.theta += orbitX;
+      spherical.phi += orbitY;
+      camera.position.copy(target).add(new THREE.Vector3().setFromSpherical(spherical));
+    }
     camera.lookAt(target);
     finish.render(camera, false);
     host.dataset.frames = String(++frameCount);
@@ -219,7 +271,7 @@ export async function mountCoast(host) {
 
   function progress() {
     const r = surface.getBoundingClientRect();
-    targetReveal = Math.max(targetReveal, clamp((innerHeight - r.top) / Math.min(r.height * 0.75, innerHeight * 0.5)));
+    targetReveal = miniature ? 1 : clamp((innerHeight - r.top) / (r.height * 0.95));
   }
 
   function frame(now) {
@@ -233,10 +285,7 @@ export async function mountCoast(host) {
     clock.value = elapsed;
     progress();
     reveal += (targetReveal - reveal) * Math.min(1, dt * 4);
-    if (reveal < 0.999) {
-      canvas.style.transform = `translateY(${(1 - reveal) * 22}px)`;
-      if (officeMaterial && lightOn) officeMaterial.emissiveIntensity = (0.65 + theme.night * 0.7) * reveal;
-    } else canvas.style.transform = "none";
+    revealBuildings(reveal);
     currentX += (pointerX - currentX) * Math.min(1, dt * 2.1);
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
@@ -263,26 +312,11 @@ export async function mountCoast(host) {
       }
       if (visible) draw();
     }
-    pause.setAttribute("aria-pressed", String(stopped || reduced.matches));
-    pause.setAttribute("aria-label", stopped || reduced.matches ? "Play coastal scene" : "Pause coastal scene");
-    host.querySelector("[data-coast-pause-icon]").textContent = stopped || reduced.matches ? "▷" : "Ⅱ";
-    pause.disabled = reduced.matches;
-  }
-  const onPause = () => {
-    stopped = !stopped;
-    syncRunning();
-  };
-  const onLight = () => {
-    lightOn = !lightOn;
-    lightButton.setAttribute("aria-pressed", String(lightOn));
-    host.querySelector("[data-coast-light-label]").textContent = lightOn ? "Studio light on" : "Studio light off";
-    lights();
-    if (surface.clientWidth < 600) {
-      target.x = 5.1;
-      cameraBase.x = target.x + 5;
+    if (reduced.matches) {
+      revealBuildings(1);
+      if (visible) draw();
     }
-    draw();
-  };
+  }
   const pan = (delta) => {
     if (surface.clientWidth >= 600) return;
     target.x = clamp(target.x + delta, -10.5, 10.5);
@@ -290,11 +324,19 @@ export async function mountCoast(host) {
     draw();
   };
   const onDown = (event) => {
-    if (surface.clientWidth < 600) drag = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    if (miniature || surface.clientWidth < 600) drag = { x: event.clientX, y: event.clientY, id: event.pointerId };
   };
   const onPointer = (event) => {
     if (drag && drag.id === event.pointerId) {
       const dx = event.clientX - drag.x;
+      if (miniature) {
+        orbitX = clamp(orbitX - dx * 0.006, -Math.PI / 6, Math.PI / 6);
+        orbitY = clamp(orbitY - (event.clientY - drag.y) * 0.003, -Math.PI / 18, Math.PI / 18);
+        drag.x = event.clientX;
+        drag.y = event.clientY;
+        draw();
+        return;
+      }
       if (Math.abs(dx) > Math.abs(event.clientY - drag.y) * 1.2) {
         pan((-dx / surface.clientWidth) * cameraWidth);
         drag.x = event.clientX;
@@ -311,6 +353,15 @@ export async function mountCoast(host) {
     drag = null;
   };
   const onKey = (event) => {
+    if (miniature && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home"].includes(event.key)) {
+      event.preventDefault();
+      if (event.key === "Home") orbitX = orbitY = 0;
+      else if (event.key === "ArrowLeft" || event.key === "ArrowRight")
+        orbitX = clamp(orbitX + (event.key === "ArrowLeft" ? -0.08 : 0.08), -Math.PI / 6, Math.PI / 6);
+      else orbitY = clamp(orbitY + (event.key === "ArrowUp" ? -0.04 : 0.04), -Math.PI / 18, Math.PI / 18);
+      draw();
+      return;
+    }
     if (surface.clientWidth < 600 && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
       event.preventDefault();
       pan(event.key === "ArrowLeft" ? -3.5 : 3.5);
@@ -332,8 +383,6 @@ export async function mountCoast(host) {
   observer.observe(surface);
   resizer.observe(surface);
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme-mode", "data-theme"] });
-  pause.addEventListener("click", onPause);
-  lightButton.addEventListener("click", onLight);
   surface.addEventListener("pointermove", onPointer);
   surface.addEventListener("pointerdown", onDown);
   surface.addEventListener("pointerup", onLeave);
@@ -347,14 +396,12 @@ export async function mountCoast(host) {
     lost = true;
     syncRunning();
     host.dataset.state = "fallback";
-    host.querySelector(".footer-coast__actions").hidden = true;
   };
   canvas.addEventListener("webglcontextlost", contextLost);
   const contextRestored = () => {
     lost = false;
     renderer.shadowMap.needsUpdate = true;
     host.dataset.state = "ready";
-    host.querySelector(".footer-coast__actions").hidden = false;
     syncRunning();
     draw();
   };
@@ -373,11 +420,14 @@ export async function mountCoast(host) {
     document.removeEventListener("visibilitychange", syncRunning);
     reduced.removeEventListener("change", onMotion);
     scene.traverse((o) => {
-      o.geometry?.dispose();
+      if (!o.userData.sharedCoastGeometry) o.geometry?.dispose();
       const materials = Array.isArray(o.material) ? o.material : [o.material];
       materials.forEach((m) => m?.dispose());
     });
     env.dispose();
+    model.release();
+    water.geometry.dispose();
+    water.material.dispose();
     finish.dispose();
     renderer.dispose();
   });
@@ -389,6 +439,16 @@ export async function mountCoast(host) {
   renderer.shadowMap.needsUpdate = true;
   draw();
   host.dataset.state = "ready";
-  host.querySelector(".footer-coast__actions").hidden = false;
+  host.getCoastEvidence = () => ({
+    miniature,
+    frames: frameCount,
+    reveal,
+    office: lightOn,
+    theme: host.dataset.theme,
+    running,
+    buildings: buildings.length,
+    orbit: [orbitX, orbitY],
+    resources: renderer.info.memory,
+  });
   syncRunning();
 }

@@ -1,0 +1,139 @@
+[
+  {
+    "id": "designweaver",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 716,
+      "y": 330,
+      "target": {
+        "x": 716,
+        "y": 330
+      },
+      "gaze": [0, 0],
+      "visible": true,
+      "napping": true,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 2,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "rest",
+      "lastTravel": "rest",
+      "travels": {
+        "fly": 0,
+        "squeeze": 0,
+        "portal": 0
+      },
+      "lastEncounter": "none",
+      "portalVisible": false,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "still"
+        }
+      ],
+      "headers": []
+    }
+  },
+  {
+    "id": "blog",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 716,
+      "y": 336.40000000000003,
+      "target": {
+        "x": 716,
+        "y": 336.40000000000003
+      },
+      "gaze": [0, 0],
+      "visible": true,
+      "napping": true,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 3,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "rest",
+      "lastTravel": "rest",
+      "travels": {
+        "fly": 0,
+        "squeeze": 0,
+        "portal": 0
+      },
+      "lastEncounter": "none",
+      "portalVisible": false,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "still"
+        }
+      ],
+      "headers": [
+        {
+          "text": "research skills starter pack",
+          "size": "36px",
+          "font": "Newsreader, Georgia, \"Times New Roman\", serif",
+          "x": 15,
+          "width": 738
+        }
+      ]
+    }
+  },
+  {
+    "id": "home",
+    "errors": [],
+    "p": {
+      "owner": "page",
+      "x": 696,
+      "y": 705.4,
+      "target": {
+        "x": 696,
+        "y": 705.4
+      },
+      "gaze": [0, 0],
+      "visible": true,
+      "napping": true,
+      "reduced": false,
+      "theme": "noon",
+      "frames": 2,
+      "bumpCount": 0,
+      "repaired": 0,
+      "travel": "rest",
+      "lastTravel": "rest",
+      "travels": {
+        "fly": 0,
+        "squeeze": 0,
+        "portal": 0
+      },
+      "lastEncounter": "none",
+      "portalVisible": false,
+      "repairing": false,
+      "text": "",
+      "renderer": "webgl"
+    },
+    "layout": {
+      "overflow": 0,
+      "bodyFont": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+      "scenes": [
+        {
+          "state": "ready"
+        }
+      ],
+      "headers": []
+    }
+  }
+]

@@ -1,0 +1,166 @@
+{
+  "ready": true,
+  "style": "realistic",
+  "avatarId": "ghibli",
+  "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+  "currentRoom": "overview",
+  "activity": "coding",
+  "activityFloor": 2.6,
+  "activityOffset": [-0.35, 2.6, 5],
+  "traveling": false,
+  "palette": "evening",
+  "clockMode": "preview",
+  "following": false,
+  "animation": "typing",
+  "animations": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "soak", "lounge", "sleep"],
+  "roomCount": 6,
+  "actorCount": 1,
+  "frames": 17,
+  "drawCalls": 509,
+  "triangles": 2268820,
+  "resources": {
+    "geometries": 209,
+    "textures": 20
+  },
+  "projection": "perspective",
+  "coastDetail": "realistic",
+  "companion": {
+    "visible": true,
+    "position": [0.35, 3.73, 3.6],
+    "head": [0, 0, 0],
+    "model": "blender-pip",
+    "gesture": "rest",
+    "room": "study",
+    "traveling": false
+  },
+  "ecology": {
+    "wildlife": {
+      "rabbits": 2,
+      "raccoons": 1,
+      "gulls": 5,
+      "shorebirds": 3,
+      "modelsReady": true,
+      "seaLions": 3,
+      "harborSeals": 3,
+      "contacts": [
+        {
+          "habitat": "seaLion",
+          "position": [-10, -6.6084, -14.5115],
+          "state": "rest"
+        },
+        {
+          "habitat": "seaLion",
+          "position": [-8.6, -6.6737, -14.2179],
+          "state": "rest"
+        },
+        {
+          "habitat": "seaLion",
+          "position": [11, -6.7453, -13.3577],
+          "state": "rest"
+        },
+        {
+          "habitat": "seal",
+          "position": [-5, -7.1295, -12.0849],
+          "state": "rest"
+        },
+        {
+          "habitat": "seal",
+          "position": [-4, -7.1329, -12.1697],
+          "state": "rest"
+        },
+        {
+          "habitat": "seal",
+          "position": [-3, -7.1308, -11.9844],
+          "state": "rest"
+        }
+      ],
+      "rabbitHabitats": [
+        {
+          "position": [-8.743972, 9.551371999999999, 3.296],
+          "state": "look"
+        },
+        {
+          "position": [9.016008, 8.061907999999999, 3.048008],
+          "state": "groom"
+        }
+      ]
+    },
+    "beachWidth": 13.5,
+    "particles": 200
+  },
+  "rendering": {
+    "contactShadows": true,
+    "samples": 16,
+    "aoWidth": 480,
+    "aoHeight": 297,
+    "width": 672,
+    "height": 416
+  },
+  "backdropImages": 0,
+  "camera": [-2.6526305129957004, 9.362109844940399, -16.4053278528639],
+  "target": [0, 1.65, 0.2],
+  "currentRecord": 0,
+  "spinning": false,
+  "dropped": [],
+  "focused": null,
+  "canvasWidth": 672,
+  "canvasHeight": 416,
+  "prop": null,
+  "targets": [
+    {
+      "type": "spin",
+      "x": 0.4973606301668721,
+      "y": 0.2946997514790489
+    },
+    {
+      "type": "record",
+      "index": 0,
+      "x": 0.590505010566815,
+      "y": 0.24897897864247476
+    },
+    {
+      "type": "record",
+      "index": 1,
+      "x": 0.5916012556810091,
+      "y": 0.24223756420982373
+    },
+    {
+      "type": "record",
+      "index": 2,
+      "x": 0.5926624499075821,
+      "y": 0.2357116969724361
+    },
+    {
+      "type": "record",
+      "index": 3,
+      "x": 0.5936902478486165,
+      "y": 0.22939120187163747
+    },
+    {
+      "type": "artifact",
+      "index": 0,
+      "x": 0.5663683791488562,
+      "y": 0.30469604996910704
+    },
+    {
+      "type": "artifact",
+      "index": 1,
+      "x": 0.5506691094004138,
+      "y": 0.30351515236105675
+    },
+    {
+      "type": "window",
+      "x": 0.528798942180956,
+      "y": 0.293031226206779
+    }
+  ],
+  "joints": {
+    "Root": [-0.27, 2.5200000017881394, 3.38],
+    "Hips": [-0.27, 3.200000008940697, 3.38],
+    "Head": [-0.27, 3.640000006556511, 3.38],
+    "HandL": [-0.1399994997972016, 3.5240295665289745, 3.034999294914642],
+    "HandR": [-0.3999991905880149, 3.525970912133552, 3.034999699554195],
+    "FootL": [-0.16000017951032355, 2.8814964812980195, 3.060497854602233],
+    "FootR": [-0.3800001857687967, 2.881496431741684, 3.060497947180515]
+  }
+}

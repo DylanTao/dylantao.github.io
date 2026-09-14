@@ -1,0 +1,66 @@
+{
+  "note": "The requested Images 2.5 name was not selectable in the tool. The retained outputs embed gpt-image version 2.0 in C2PA softwareAgent metadata. Generated concepts are not browser-render evidence.",
+  "assets": [
+    {
+      "asset": "artwork/coastal-home/direction/architecture.png",
+      "sha256": "09c8525bf0770e6606a09ec786062da6f0d5a02bdb6f198f0be42a88918851af",
+      "tool": "image_gen.imagegen",
+      "modelSelectorExposed": false,
+      "modelFromC2PA": {
+        "name": "gpt-image",
+        "version": "2.0"
+      },
+      "rawModelMetadata": [
+        ":00ZmsoftwareAgent\ufffddnameigpt-imagegversionc2.0qdigitalSourceTypexFht",
+        "\u001e\ufffd\ufffd\ufffd8\ufffd\ufffd\ufffd{\ufffd\ufffd}\ufffd\ubbbd\ufffd\ufffd\ufffd\ufffd\tOgpt\ufffdp\ufffd<:\ufffd\ufffd\\\ufffdw\ufffd\u0007\ufffd\u05a6*f\ufffdY7\ufffd.]8\ufffd4\ufffd\ufffd\ufffd\ufffd\ufffdX\ufffd\ufffd\ufffdVI\t\u000ee"
+      ]
+    },
+    {
+      "asset": "artwork/coastal-home/direction/character-wildlife.png",
+      "sha256": "0afadbbb969cee320b619b69ecd40ad03ab35225e2f6c90a70ff79679ea10f72",
+      "tool": "image_gen.imagegen",
+      "modelSelectorExposed": false,
+      "modelFromC2PA": {
+        "name": "gpt-image",
+        "version": "2.0"
+      },
+      "rawModelMetadata": [":00ZmsoftwareAgent\ufffddnameigpt-imagegversionc2.0qdigitalSourceTypexFht"]
+    },
+    {
+      "asset": "artwork/la-jolla/direction/front.png",
+      "sha256": "04e7dd14ca3c551cf17faf2fe53e4de485ca64bbfdaa158c960923af3eec949d",
+      "tool": "image_gen.imagegen",
+      "modelSelectorExposed": false,
+      "modelFromC2PA": {
+        "name": "gpt-image",
+        "version": "2.0"
+      },
+      "rawModelMetadata": [":00ZmsoftwareAgent\ufffddnameigpt-imagegversionc2.0qdigitalSourceTypexFht"]
+    },
+    {
+      "asset": "artwork/la-jolla/direction/back.png",
+      "sha256": "f50b8591abed65772feef94d0d328e14415c20df6cf9ac345fc36313408e326e",
+      "tool": "image_gen.imagegen",
+      "modelSelectorExposed": false,
+      "modelFromC2PA": {
+        "name": "gpt-image",
+        "version": "2.0"
+      },
+      "rawModelMetadata": [
+        ":00ZmsoftwareAgent\ufffddnameigpt-imagegversionc2.0qdigitalSourceTypexFht",
+        "a\ufffdZ\u000e\ufffd\u0016\ufffdm\b\t\ufffdPk\ufffd\u0000D3\ufffdka\u0003\ufffd\ufffd\ufffdqgptr\ufffd|w\ufffd\ufffd\ufffdg{\u0007\ufffd\ufffd\ufffd~\u001cGJ\t\ufffd{\ufffd\ufffd\u0495\ufffdU\ufffd\t+\ufffd*u\u001djS\u03a4\ufffdZI"
+      ]
+    },
+    {
+      "asset": "artwork/la-jolla/direction/atlas.png",
+      "sha256": "25affba5458da5559f13661b4c2911bd31535bd9185c3e202903203d44876f7d",
+      "tool": "image_gen.imagegen",
+      "modelSelectorExposed": false,
+      "modelFromC2PA": {
+        "name": "gpt-image",
+        "version": "2.0"
+      },
+      "rawModelMetadata": [":00ZmsoftwareAgent\ufffddnameigpt-imagegversionc2.0qdigitalSourceTypexFht"]
+    }
+  ]
+}

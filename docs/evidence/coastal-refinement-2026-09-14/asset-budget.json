@@ -1,0 +1,35 @@
+{
+  "laJolla": {
+    "files": {
+      "assets/models/la-jolla/atlas.svg": 347022,
+      "assets/models/la-jolla/la-jolla.glb": 993024,
+      "assets/models/la-jolla/manifest.json": 560,
+      "assets/models/la-jolla/miniature.glb": 1089416,
+      "assets/models/la-jolla/miniature.webp": 37560,
+      "assets/models/la-jolla/poster.webp": 56530
+    },
+    "totalBytes": 2524112
+  },
+  "home": {
+    "files": {
+      "assets/models/home/BrushRabbit.glb": 70608,
+      "assets/models/home/CaliforniaSeaLion.glb": 59004,
+      "assets/models/home/coast.glb": 240620,
+      "assets/models/home/HarborSeal.glb": 181544,
+      "assets/models/home/home-shell.glb": 1537056,
+      "assets/models/home/room-gym.glb": 639784,
+      "assets/models/home/room-kitchen.glb": 133548,
+      "assets/models/home/room-lounge.glb": 247912,
+      "assets/models/home/room-onsen.glb": 84248,
+      "assets/models/home/room-sleep.glb": 56528,
+      "assets/models/home/room-study.glb": 345648,
+      "assets/models/home/sirui-ghibli.glb": 564112,
+      "assets/models/home/sirui-lizard.glb": 426284,
+      "assets/models/home/sirui-rick-and-morty.glb": 519800,
+      "assets/models/home/sirui-simpsons.glb": 534156,
+      "assets/models/home/sirui-south-park.glb": 574652
+    }
+  },
+  "sourceBaseline": "bb56e6af5c8963f1a117dee1a46da924faa1bd52",
+  "environment": "Windows 11, RTX 3080 Ti, Chromium headless ANGLE D3D11; mobile sizes are emulated, not physical devices"
+}

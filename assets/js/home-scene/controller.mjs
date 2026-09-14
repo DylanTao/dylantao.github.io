@@ -112,8 +112,8 @@ export function createCoastalHome(container, records, artifacts) {
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 10, bottom: -10, near: 0.1, far: 65 });
-  sun.shadow.bias = -0.00015;
-  sun.shadow.normalBias = 0.018;
+  sun.shadow.bias = -0.00005;
+  sun.shadow.normalBias = 0.07;
   sun.shadow.radius = 3;
   const lamp = new THREE.PointLight(0xffbf6b, 4, 6);
   lamp.position.set(-0.95, 4.2, 2.7);
@@ -179,7 +179,7 @@ export function createCoastalHome(container, records, artifacts) {
     ctx.font = "22px sans-serif";
     ctx.fillText(subtitle.toUpperCase(), 52, 78);
     ctx.fillStyle = color;
-    ctx.font = "bold 44px Georgia";
+    ctx.font = "600 44px Inter, sans-serif";
     let y = 152,
       line = "";
     for (const word of title.split(" ")) {
@@ -364,7 +364,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
       actor = prepareModel(gltf.scene);
       actor.name = "active-Sirui";
-      footContacts = createFootContacts(actor, config.navigation);
+      footContacts = createFootContacts(actor, config.terrain);
       world.add(actor);
       mixer = new THREE.AnimationMixer(actor);
       actions = new Map(gltf.animations.map((clip) => [clip.name, mixer.clipAction(clip)]));
@@ -510,15 +510,15 @@ export function createCoastalHome(container, records, artifacts) {
   function updateLight() {
     if (!routine) return;
     const evening = routine.palette === "evening";
-    hemi.color.set(evening ? 0x97b2dc : 0xd5e9f7);
+    hemi.color.set(evening ? 0x97b2dc : 0xffead1);
     hemi.groundColor.set(evening ? 0x473426 : 0x8b7659);
-    hemi.intensity = style === "realistic" ? (evening ? 0.32 : 0.5) : 1.5;
+    hemi.intensity = style === "realistic" ? (evening ? 0.65 : 0.62) : 1.5;
     sun.color.set(style === "illustrated" ? (evening ? 0xc7a1ef : 0xffc773) : evening ? 0xb6c4f1 : 0xffe2b0);
-    sun.intensity = evening ? 0.75 : style === "realistic" ? 3.0 : 2.5;
+    sun.intensity = evening ? 1.05 : style === "realistic" ? 2.05 : 2.5;
     // Light enters the carved Pacific opening; a lamp warms the occupied desk.
-    sun.position.set(routine.palette === "afternoon" ? -14 : 10, evening ? 16 : 18, -22);
+    sun.position.set(routine.palette === "afternoon" ? -24 : 20, evening ? 16 : 22, -12);
     lamp.intensity = evening ? 5.5 : 0.9;
-    practicals.forEach((light) => (light.intensity = evening ? 2.7 : 0.35));
+    practicals.forEach((light) => (light.intensity = evening ? 2.7 : 0.7));
     pacific?.setPalette(routine.palette);
     pacific?.setActivity(routine.id);
     container.dataset.scenePalette = routine.palette;
@@ -664,6 +664,11 @@ export function createCoastalHome(container, records, artifacts) {
       followClock = false;
     }
     currentRoom = id;
+    const shadowExtent = id === "outside" ? 36 : 10;
+    Object.assign(sun.shadow.camera, { left: -shadowExtent, right: shadowExtent, top: shadowExtent, bottom: -shadowExtent, far: 160 });
+    sun.shadow.normalBias = id === "outside" ? 0.12 : 0.04;
+    sun.shadow.camera.updateProjectionMatrix();
+    sun.shadow.needsUpdate = true;
     clearFocus();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
@@ -721,10 +726,13 @@ export function createCoastalHome(container, records, artifacts) {
       new THREE.Vector2(((event.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((event.clientY - rect.top) / rect.height) * 2),
       camera
     );
-    const hit = ray.intersectObjects(
+    const hits = ray.intersectObjects(
       picks.filter((o) => o.visible && o.parent),
       false
-    )[0];
+    );
+    // The invisible ocean hotspot is a fallback, not a pane that can steal
+    // clicks from the papers or album sleeves seen through its projected area.
+    const hit = hits.find((entry) => entry.object.userData.action?.type !== "window") || hits[0];
     const bot = worldCompanion?.pick(ray);
     return bot && (!hit || bot.distance < hit.distance) ? bot.object : hit?.object;
   }

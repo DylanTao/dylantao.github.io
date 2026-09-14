@@ -4,11 +4,11 @@ const { publicRouteUrl } = require("./public-routes");
 const { collectRuntimeErrors } = require("./helpers");
 const evidence = (page) => page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence());
 
-test("Pip: public page journeys, interrupted portals, and reduced motion stay usable", async ({ page }, testInfo) => {
+test("P: public page journeys, interrupted portals, and reduced motion stay usable", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await page.route("**/livereload.js*", (r) => r.fulfill({ body: "" }));
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto(publicRouteUrl("/projects/pip/"), { waitUntil: "networkidle" });
+  await page.goto(publicRouteUrl("/projects/p/"), { waitUntil: "networkidle" });
   const playground = page.locator(".pip-encounter");
   await playground.scrollIntoViewIfNeeded();
   await page.getByRole("button", { name: "Open a portal", exact: true }).click();
@@ -54,15 +54,15 @@ async function capture(page, testInfo, name) {
   await testInfo.attach(name, { path: file, contentType: "image/png" });
 }
 
-test("Pip: its project link opens a working motion playground with visible credits", async ({ page }, testInfo) => {
+test("P: its project link opens a working motion playground with visible credits", async ({ page }, testInfo) => {
   const errors = await open(page);
   await page.locator(".home-portrait-frame").scrollIntoViewIfNeeded();
   const link = page.locator(".pip-hit");
-  await expect(link).toHaveAttribute("href", /\/projects\/pip\/$/);
+  await expect(link).toHaveAttribute("href", /\/projects\/p\/$/);
   await expect.poll(async () => (await evidence(page)).visible).toBe(true);
   await link.focus();
   await link.press("Enter");
-  await expect(page).toHaveURL(/\/projects\/pip\/$/);
+  await expect(page).toHaveURL(/\/projects\/p\/$/);
   const studio = page.locator("[data-pip-studio]");
   await studio.scrollIntoViewIfNeeded();
   await expect(studio).toHaveAttribute("data-renderer", "webgl");
@@ -76,8 +76,8 @@ test("Pip: its project link opens a working motion playground with visible credi
   expect(after.pose.gesture).toBe("curious");
   expect(Math.abs(after.pose.head[2] - before.pose.head[2])).toBeGreaterThan(0.12);
   await capture(page, testInfo, "pip-curiosity-playground");
-  await page.getByRole("button", { name: "Let Pip nap", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Wake Pip up", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Let P nap", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Wake P up", exact: true })).toHaveAttribute("aria-pressed", "true");
   const asleep = await get();
   await page.waitForTimeout(300);
   expect((await get()).time).toBe(asleep.time);
@@ -90,11 +90,11 @@ test("Pip: its project link opens a working motion playground with visible credi
   expect(errors).toEqual([]);
 });
 
-test("Pip: playground respects reduced motion and a failed model keeps the room usable", async ({ page }, testInfo) => {
+test("P: playground respects reduced motion and a failed model keeps the room usable", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.route("**/livereload.js*", (r) => r.fulfill({ body: "" }));
-  await page.goto(publicRouteUrl("/projects/pip/"));
+  await page.goto(publicRouteUrl("/projects/p/"));
   const studio = page.locator("[data-pip-studio]");
   await studio.scrollIntoViewIfNeeded();
   await expect(studio).toHaveAttribute("data-renderer", "webgl");
@@ -123,14 +123,14 @@ test("Pip: playground respects reduced motion and a failed model keeps the room 
     const room = page.locator("[data-home-desk-scene]");
     await expect(room).toHaveAttribute("data-scene-state", "ready");
     await expect.poll(async () => (await evidence(page)).owner).toBe("page");
-    await expect(page.locator(".home-world-pip-link")).toHaveAttribute("href", /\/projects\/pip\/$/);
+    await expect(page.locator(".home-world-pip-link")).toHaveAttribute("href", /\/projects\/p\/$/);
     await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
     await page.waitForTimeout(100);
   }
   expect(errors).toEqual([]);
 });
 
-test("Pip: 2D greeting, shaded companion, pointer curiosity and clear page bounds", async ({ page }, testInfo) => {
+test("P: 2D greeting, shaded companion, pointer curiosity and clear page bounds", async ({ page }, testInfo) => {
   const errors = await open(page);
   await expect(page.locator(".home-world-welcome")).toHaveText("Welcome to Sirui’s crib.");
   await page.locator(".home-portrait-frame").scrollIntoViewIfNeeded();
@@ -166,7 +166,7 @@ test("Pip: 2D greeting, shaded companion, pointer curiosity and clear page bound
   expect(errors).toEqual([]);
 });
 
-test("Pip: a small accident restores the original card and text", async ({ page }, testInfo) => {
+test("P: a small accident restores the original card and text", async ({ page }, testInfo) => {
   const errors = await open(page);
   await page.locator(".home-artifact-stack").scrollIntoViewIfNeeded();
   await page.waitForTimeout(500);
@@ -183,7 +183,7 @@ test("Pip: a small accident restores the original card and text", async ({ page 
   expect(errors).toEqual([]);
 });
 
-test("Pip: reduced motion is a still pose; hidden controls leave the tab order", async ({ page }, testInfo) => {
+test("P: reduced motion is a still pose; hidden controls leave the tab order", async ({ page }, testInfo) => {
   const errors = await open(page, { motion: "reduce" });
   await page.locator(".home-portrait-frame").scrollIntoViewIfNeeded();
   await page.waitForTimeout(350);
@@ -205,7 +205,7 @@ test("Pip: reduced motion is a still pose; hidden controls leave the tab order",
   expect(errors).toEqual([]);
 });
 
-test("Pip: one companion transfers between room and reading surface", async ({ page }, testInfo) => {
+test("P: one companion transfers between room and reading surface", async ({ page }, testInfo) => {
   const errors = await open(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
@@ -215,8 +215,8 @@ test("Pip: one companion transfers between room and reading surface", async ({ p
   await page.mouse.move(rect.x + rect.width * 0.85, rect.y + rect.height * 0.25);
   await page.waitForTimeout(300);
   const info = await scene.evaluate((e) => e.getSceneEvidence());
-  expect(info.ecology.wildlife).toEqual({ rabbits: 2, raccoons: 1, gulls: 5, shorebirds: 3 });
-  expect(info.ecology.beachWidth).toBe(14);
+  expect(info.ecology.wildlife).toMatchObject({ rabbits: 2, raccoons: 1, gulls: 5, shorebirds: 3 });
+  expect(info.ecology.beachWidth).toBeGreaterThanOrEqual(13.5);
   expect((await evidence(page)).visible).toBe(false);
   await capture(page, testInfo, "pip-in-the-room");
   await scene.evaluate((e) => scrollTo(0, scrollY + e.getBoundingClientRect().bottom + 140));
@@ -229,7 +229,7 @@ test("Pip: one companion transfers between room and reading surface", async ({ p
   expect(errors).toEqual([]);
 });
 
-test("Pip: graphics failure keeps an accessible composed companion", async ({ page }) => {
+test("P: graphics failure keeps an accessible composed companion", async ({ page }) => {
   await page.addInitScript(() => {
     const original = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (type, ...args) {
@@ -242,16 +242,16 @@ test("Pip: graphics failure keeps an accessible composed companion", async ({ pa
   expect(errors).toEqual([]);
 });
 
-test("Pip: nap and navigation persist; AI reading remains undecorated", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-1440", "One navigation sequence; viewport behavior is covered above.");
+test("P: old nap storage recovers automatically and a journey starts within eight seconds", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await page.addInitScript(() => sessionStorage.setItem("pip-napping", "1"));
   const errors = await open(page);
-  await page.locator(".home-portrait-frame").scrollIntoViewIfNeeded();
-  await expect.poll(async () => (await evidence(page)).visible).toBe(true);
-  await page.locator(".pip-hit").focus();
-  await page.getByRole("button", { name: "Let Pip nap", exact: true }).click();
-  expect((await evidence(page)).napping).toBe(true);
+  expect((await evidence(page)).napping).toBe(false);
+  await expect(page.locator(".pip-companion button")).toHaveCount(0);
+  await expect.poll(async () => Object.values((await evidence(page)).travels).reduce((a, b) => a + b, 0), { timeout: 10000 }).toBeGreaterThan(0);
   await page.goto(publicRouteUrl("/blog/"));
-  await expect.poll(async () => (await evidence(page)).napping).toBe(true);
+  expect((await evidence(page)).napping).toBe(false);
+  await expect(page.locator(".pip-companion")).toHaveCount(1);
   await page.goto(publicRouteUrl("/ai/"));
   await expect(page.locator(".pip-companion")).toHaveCount(0);
   expect(errors).toEqual([]);

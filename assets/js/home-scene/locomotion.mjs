@@ -1,9 +1,10 @@
 import * as THREE from "../three.module.min.js";
+import { supportHeight } from "./shore.mjs";
 
 // Constrain the authored walking pose to the actual floor and stair treads.
 // The mixer still supplies the gait; this short two-bone solve prevents a
 // climbing foot from passing through a riser or hovering above its support.
-export function createFootContacts(actor, navigation) {
+export function createFootContacts(actor, terrain) {
   const legs = ["L", "R"]
     .map((side) => {
       const named = (prefix) => {
@@ -48,10 +49,7 @@ export function createFootContacts(actor, navigation) {
       leg.hip.getWorldPosition(p);
       leg.knee.getWorldPosition(q);
       leg.foot.getWorldPosition(r);
-      let floor = actor.position.y > 2.59 ? 2.6 : 0;
-      const stair = Math.abs(r.x - navigation.stairX) < 0.53 && r.z >= -1.2 && r.z <= 2.7;
-      if (onStairs && stair) floor = (Math.min(15, Math.floor((r.z + 1.2) / 0.26) + 1) * 2.6) / 15;
-      if (onStairs && r.z > 2.7) floor = 2.6;
+      const floor = supportHeight(r.x, r.z, terrain, actor.position.y, onStairs);
       goal.copy(r);
       const behind = r.clone().sub(p).dot(forward) < 0;
       goal.y = behind ? floor + 0.075 : Math.max(r.y, floor + 0.075);

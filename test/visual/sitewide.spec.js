@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio, stabilizeVisuals } = require("./helpers");
-const { SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
+const { ALL_SITEWIDE_ROUTES, SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
 const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-openai-build-week",
@@ -8,6 +8,7 @@ const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-build-rhythm",
   "project-homepage-desk-scene",
   "project-pip",
+  "project-la-jolla",
   "project-hci-spooder-man",
   "project-scholar-lens",
   "project-wall-of-rejection",
@@ -436,15 +437,8 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       });
       expect(heroGeometry.copyWidth).toBeGreaterThan(220);
       expect(heroGeometry.mediaWidth).toBeGreaterThan(220);
-      if ((page.viewportSize()?.width ?? 0) <= 991) {
-        expect(heroGeometry.mediaTop).toBeGreaterThan(heroGeometry.copyTop);
-      } else {
-        const verticalOverlap = Math.min(heroGeometry.copyBottom, heroGeometry.mediaBottom) - Math.max(heroGeometry.copyTop, heroGeometry.mediaTop);
-        expect(verticalOverlap, `${route.path} hero columns do not read side by side`).toBeGreaterThan(
-          Math.min(heroGeometry.copyHeight, heroGeometry.mediaHeight) * 0.5
-        );
-        expect(heroGeometry.copyWidth + heroGeometry.mediaWidth).toBeGreaterThan(heroGeometry.heroWidth * 0.75);
-      }
+      expect(heroGeometry.mediaTop, `${route.path} media overlaps the opening reading column`).toBeGreaterThanOrEqual(heroGeometry.copyBottom - 1);
+      expect(heroGeometry.copyWidth, `${route.path} opening reserves an unused second column`).toBeGreaterThan(heroGeometry.heroWidth * 0.9);
     } else {
       const singleChildGeometry = await hero.evaluate((element) => {
         const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
@@ -567,14 +561,8 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       beatBoxes.every((box, index) => index === 0 || box.top >= beatBoxes[index - 1].top),
       `${route.path} story beats do not preserve source order`
     ).toBe(true);
-    if (route.id === "project-paper-constellation" && ["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
-      expect(Math.max(...beatBoxes.map((box) => box.top)) - Math.min(...beatBoxes.map((box) => box.top))).toBeLessThanOrEqual(2);
-      expect(beatBoxes[0].right).toBeLessThanOrEqual(beatBoxes[1].left);
-      expect(beatBoxes[1].right).toBeLessThanOrEqual(beatBoxes[2].left);
-    } else if (route.id !== "project-paper-constellation" || testInfo.project.name === "mobile-390") {
-      expect(beatBoxes[1].top).toBeGreaterThanOrEqual(beatBoxes[0].bottom);
-      expect(beatBoxes[2].top).toBeGreaterThanOrEqual(beatBoxes[1].bottom);
-    }
+    expect(beatBoxes[1].top).toBeGreaterThanOrEqual(beatBoxes[0].bottom);
+    expect(beatBoxes[2].top).toBeGreaterThanOrEqual(beatBoxes[1].bottom);
 
     const measure = await privacyNote.evaluate((element) => {
       const articleBox = element.closest("article").getBoundingClientRect();
@@ -679,12 +667,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
         return { bottom: box.bottom, left: box.left, right: box.right, top: box.top };
       })
     );
-    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
-      expect(Math.abs(figureBoxes[0].top - figureBoxes[1].top), "desktop atlas and mobile trail should compare in one row").toBeLessThanOrEqual(2);
-      expect(figureBoxes[0].right, "Paper Constellation evidence figures should not overlap").toBeLessThanOrEqual(figureBoxes[1].left);
-    } else {
-      expect(figureBoxes[1].top, "compact Paper Constellation evidence should stack in reading order").toBeGreaterThan(figureBoxes[0].bottom);
-    }
+    expect(figureBoxes[1].top, "Paper Constellation evidence should stack in reading order").toBeGreaterThan(figureBoxes[0].bottom);
   }
 
   if (route.id === "project-scholar-lens") {
@@ -719,14 +702,8 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       stepBoxes.every((box) => box.width >= 220),
       "Scholar Lens evidence cues are squeezed"
     ).toBe(true);
-    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
-      expect(Math.max(...stepBoxes.map((box) => box.top)) - Math.min(...stepBoxes.map((box) => box.top))).toBeLessThanOrEqual(2);
-      expect(stepBoxes[0].right).toBeLessThanOrEqual(stepBoxes[1].left);
-      expect(stepBoxes[1].right).toBeLessThanOrEqual(stepBoxes[2].left);
-    } else {
-      expect(stepBoxes[1].top).toBeGreaterThan(stepBoxes[0].bottom);
-      expect(stepBoxes[2].top).toBeGreaterThan(stepBoxes[1].bottom);
-    }
+    expect(stepBoxes[1].top).toBeGreaterThan(stepBoxes[0].bottom);
+    expect(stepBoxes[2].top).toBeGreaterThan(stepBoxes[1].bottom);
 
     const evidenceHero = page.locator('.project-case-media[data-evidence-kind="responsive-runtime-crop"]');
     const evidenceImage = evidenceHero.locator("img");
@@ -974,16 +951,9 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
         return { bottom: box.bottom, left: box.left, right: box.right, top: box.top };
       })
     );
-    if (["desktop-1440", "laptop-1280"].includes(testInfo.project.name)) {
-      expect(Math.abs(eraBoxes[0].top - eraBoxes[1].top), "desktop evidence eras should compare in one row").toBeLessThanOrEqual(2);
-      expect(eraBoxes[0].right, "desktop evidence eras should not overlap").toBeLessThanOrEqual(eraBoxes[1].left);
-      expect(Math.abs(figureBoxes[0].top - figureBoxes[2].top), "the two 2D frames should align as one comparison row").toBeLessThanOrEqual(2);
-      expect(Math.abs(figureBoxes[1].top - figureBoxes[3].top), "the two 3D frames should align as one comparison row").toBeLessThanOrEqual(2);
-      expect(figureBoxes[1].top, "June 3D should follow June 2D").toBeGreaterThan(figureBoxes[0].bottom);
-      expect(figureBoxes[3].top, "July 3D should follow July 2D").toBeGreaterThan(figureBoxes[2].bottom);
-    } else {
-      expect(eraBoxes[1].top, "compact evidence eras should stack in reading order").toBeGreaterThan(eraBoxes[0].bottom);
-    }
+    expect(eraBoxes[1].top, "evidence eras should follow the article's reading order").toBeGreaterThan(eraBoxes[0].bottom);
+    expect(figureBoxes[1].top, "June 3D should follow June 2D").toBeGreaterThan(figureBoxes[0].bottom);
+    expect(figureBoxes[3].top, "July 3D should follow July 2D").toBeGreaterThan(figureBoxes[2].bottom);
   }
 
   if (route.id === "secret-locked") {
@@ -1091,7 +1061,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   if (route.id === "projects-index") {
     const icons = page.locator(".projects [data-project-card-icon]");
-    await expect(icons).toHaveCount(12);
+    await expect(icons).toHaveCount(FUN_PROJECT_ROUTE_IDS.size);
     expect(await icons.evaluateAll((elements) => elements.every((element) => element.getAttribute("aria-hidden") === "true"))).toBe(true);
     expect(
       await icons.evaluateAll((elements) =>
@@ -1119,7 +1089,9 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     await expect(story).toBeHidden();
 
     await card.scrollIntoViewIfNeeded();
-    await trigger.click();
+    // The direct project link sits above the full-card preview button. Click
+    // the image corner, where a visitor can open the expanding preview.
+    await trigger.click({ position: { x: 12, y: 12 } });
     await expect(card).toHaveAttribute("data-project-card-state", "expanded");
     await expect(panel).toBeVisible();
     await expect(primaryAction).toBeVisible();
@@ -1358,7 +1330,7 @@ test("coastal time modes settle coherently across representative human routes", 
   expect(runtimeErrors, "sitewide coastal time-mode matrix raised browser runtime errors").toEqual([]);
 });
 
-test("all twelve project cards disclose and recover their stories", async ({ page }, testInfo) => {
+test("all project cards disclose and recover their stories", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "desktop and mobile exercise every expandable story");
 
@@ -1471,14 +1443,14 @@ test("all twelve project cards disclose and recover their stories", async ({ pag
     await expect(trigger, `${title} did not restore focus to its preview trigger`).toBeFocused();
   }
 
-  expect(runtimeErrors, "all-twelve project-card expansion raised browser runtime errors").toEqual([]);
+  expect(runtimeErrors, "project-card expansion raised browser runtime errors").toEqual([]);
 });
 
-test("all twelve fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
+test("all fun stories fit a high-DPR scaled canvas", async ({ browser }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one Chromium context covers the high-DPR effective viewport");
 
-  const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
+  const routes = ALL_SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
   expect(routes).toHaveLength(FUN_PROJECT_ROUTE_IDS.size);
 
   // A 720x500 CSS viewport at DPR 2 retains a 1440x1000 pixel canvas while
@@ -1537,11 +1509,11 @@ test("all twelve fun stories fit a high-DPR scaled canvas", async ({ browser }, 
   }
 });
 
-test("all twelve fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
+test("all fun stories reflow at 200% root text size", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop context covers text-only 200% reflow");
 
-  const routes = SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
+  const routes = ALL_SITEWIDE_ROUTES.filter((route) => FUN_PROJECT_ROUTE_IDS.has(route.id));
   expect(routes).toHaveLength(FUN_PROJECT_ROUTE_IDS.size);
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -1562,9 +1534,9 @@ test("all twelve fun stories reflow at 200% root text size", async ({ page }, te
       const root = document.documentElement;
       const textElements = Array.from(
         document.querySelectorAll(
-          ".project-case-copy h1, .project-case-copy p, .project-case-summary p, .project-story-beat h3, .project-story-beat p, .scholar-story-trace h3, .scholar-story-trace p, .project-story-note h2, .project-story-note p, .site-experiment-reproduce h2, .site-experiment-reproduce p, .site-experiment-evidence-figure figcaption"
+          ".project-case-copy h1, .project-case-copy p, .project-detail article > p, .project-detail article > h2, .project-case-summary p, .project-story-beat h3, .project-story-beat p, .scholar-story-trace h3, .scholar-story-trace p, .project-story-note h2, .project-story-note p, .site-experiment-reproduce h2, .site-experiment-reproduce p, .site-experiment-evidence-figure figcaption"
         )
-      ).filter((element) => element.getClientRects().length > 0);
+      ).filter((element) => element.getClientRects().length > 0 && !element.matches(".sr-only, .visually-hidden"));
       const controls = Array.from(document.querySelectorAll(".project-case-actions a, details.project-story-disclosure > summary")).filter(
         (element) => element.getClientRects().length > 0
       );
@@ -1785,7 +1757,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto(publicRouteUrl("/ai/#projects"), { waitUntil: "domcontentloaded" });
   await expect(page.locator(".ai-jump-nav")).toHaveCount(0);
-  await expect(page.locator("[data-project-slug]")).toHaveCount(17);
+  await expect(page.locator("[data-project-slug]")).toHaveCount(19);
   await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
   await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Human CV");
@@ -2235,7 +2207,7 @@ test("home research motion responds locally and keeps a reduced-motion still", a
   expect(runtimeErrors, "research motion raised browser runtime errors").toEqual([]);
 });
 
-test("projects keep the ten site experiments in debut order", async ({ page }, testInfo) => {
+test("projects keep site experiments in debut order", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/projects/"), { waitUntil: "domcontentloaded" });
 
@@ -2247,10 +2219,12 @@ test("projects keep the ten site experiments in debut order", async ({ page }, t
   });
 
   const cards = grid.locator("[data-project-card]");
-  await expect(cards).toHaveCount(10);
-  await expect(cards.locator("h4.card-title")).toHaveCount(10);
+  await expect(cards).toHaveCount(12);
+  await expect(cards.locator("h4.card-title")).toHaveCount(12);
   await expect(cards.locator("h3.card-title")).toHaveCount(0);
   expect(await cards.locator(".card-title").allTextContents()).toEqual([
+    "A little La Jolla",
+    "P, a Little Company",
     "Scaffolding for Taste — OpenAI Build Week",
     "Paper Constellation",
     "Build Rhythm",
@@ -2268,7 +2242,7 @@ test("projects keep the ten site experiments in debut order", async ({ page }, t
     loaded: images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   }));
-  expect(imageEvidence.count).toBe(10);
+  expect(imageEvidence.count).toBe(12);
   expect(imageEvidence.loaded).toBe(true);
   expect(imageEvidence.overflow).toBeLessThanOrEqual(0);
 

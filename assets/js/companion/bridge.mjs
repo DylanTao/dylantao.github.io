@@ -26,4 +26,4 @@ export const companionLights = {
 };
 
 // Resolves correctly on root hosting and a Jekyll project baseurl.
-export const pipProjectUrl = new URL("../../../projects/pip/", import.meta.url).href;
+export const pipProjectUrl = new URL("../../../projects/p/", import.meta.url).href;

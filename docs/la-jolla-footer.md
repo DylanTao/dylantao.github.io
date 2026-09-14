@@ -1,38 +1,39 @@
-# A small La Jolla at the end of the page
+# La Jolla, beside Connect and across the footer
 
-Sirui requested a coastal counterpart to a miniature city that rises into a website footer. This site-owned component follows the reading flow on human pages and keeps the existing copyright, al-folio credit, update date, and mobile return link. It adds no repeated navigation link row. AI profiles, redirects, and the secret globe remain undecorated.
+Sirui's September 14 plan places a compressed coastal miniature on a translucent atlas beside Connect, with a related landscape filling the bottom of human reading pages. The larger viewer and process live at `/projects/la-jolla/`; the Projects index includes its own card. On mobile the Connect miniature follows the text. AI profiles, redirects, and the secret globe remain undecorated.
 
-## Composition
+## Composition and provenance
 
-A long sandstone shore ties together an arcaded cliff villa, tiled Spanish cottages, palms, an open-air tennis court, beach volleyball, parasols, surfers, and the Design and Innovation Building. The DIB is distinguished by four projecting glass bays, narrow mullions, dark folded sides, two lower horizontal floors, and a solid end volume. The user's marked third-floor corner has a separate warm emissive pane and a small local light. Its switch is an authored detail, never a claim about actual occupancy.
+The composition brings together DIB's folded glass bays, Geisel Library, Salk's courtyard, Scripps Pier, the Cove, cliff villas, Spanish houses, palms, tennis, volleyball, surfers, and beach life. It deliberately compresses landmark distances. The map below uses actual OpenStreetMap coastline and roads, with a translucent feathered edge and OpenStreetMap/ODbL attribution. It is not a geographically accurate model of building locations.
 
-This is a personal collage of places, not a map. The source photos identify the DIB and the window; they do not imply that the DIB is on the beach. Models and inspiration boundaries are documented in [asset provenance](../artwork/la-jolla/PROVENANCE.md).
+Coordinated generated front/back studies were passed through a local Hunyuan3D-2mv shape reconstruction. The raw mesh and its actual Blender clay render are retained. Its softened architectural details made it a shape study; the production architecture is deliberately authored in Blender. Source images retain actual `gpt-image` version `2.0` C2PA metadata. Sources, licenses, editable `.blend` files, downloads, and reconstruction details are recorded in [provenance](../artwork/la-jolla/PROVENANCE.md).
 
-## Rendering and motion
+## Light, activity, and reveal
 
-- Actual Blender geometry and one compressed GLB; a generated reflection studio, soft directional shadows, restrained ambient contact shadows, and the site's four visitor-local/manual themes.
-- Ocean geometry with changing surface normals, shallow-water color, broken foam, and a feathered seaward edge. Water, plant motion, and surfer movement are bounded authored effects, not a fluid or collision solver.
-- A small arrival movement settles as the reader reaches the scene. There is no scroll interception, sticky stage, continuous rise/fall loop, or page background image.
-- Surfers move as complete figures. Palm crowns pivot at their own trunks. Motion runs at most 30 frames per second, stops offscreen/in hidden documents, and composes a still scene under reduced motion.
-- Narrow screens frame the studio more closely. Horizontal swipes or focused Left/Right arrow keys visit the coastline. Vertical swipes retain ordinary page scrolling. The studio-light switch brings the view back to the DIB.
-- A motion pause sits beside the studio-light switch. Reduced motion keeps lighting and deliberate camera moves available, while automatic travel, water, and wind remain still.
+Both scenes follow the selected site theme: quiet morning; midday surfing and courts; warm afternoon activity; evening bonfire, parked boards, and lit windows. The DIB third-floor office lights from noon onward and on a stable subset of nights. This is a personal vignette, not live occupancy information.
 
-## Ownership and loading
+Terrain is always present. Building groups emerge left to right according to footer visibility, and lower again when scrolling up. There is no scroll interception. The coast fills the viewport width and reaches the bottom edge; copyright sits quietly inside it. Sirui removed the al-folio credit, update date, and separate lighting/motion controls.
 
-`_includes/la-jolla-footer.liquid` and `_sass/_footer-coast.scss` own the component. `_includes/footer.liquid` supplies the integration point; the homepage room, album controller, Pip state, and general page content are untouched.
+The customized footer uses `footer_fixed: false`. The previous fixed-footer branch left a masked band and a separate bottom gap even when the scene itself measured full width. Acceptance now checks the actual bottom edge and absence of that mask, as well as width.
 
-`assets/js/footer-coast/entry.mjs` waits until the footer is within 450 pixels of the viewport before importing the renderer. `scene.mjs` reuses the version-matched loader and contact-shadow utility. `assets/models/la-jolla/manifest.json` holds the model name and office anchor. The GLB is about 716 KiB; its 73,000 triangles are grouped by material. Pixel density is capped at 1.5, shadow maps update on layout changes, and ambient-occlusion buffers are bounded by the existing finishing utility.
+The Connect and project miniatures allow gentle bounded orbit with dragging or arrow keys; Home resets the view. On narrow screens, the footer permits horizontal exploration while vertical touch gestures retain page scrolling. Reduced motion keeps a composed still view and deliberate camera interaction. Offscreen and hidden-document render loops stop.
 
-The actual Blender render remains visible if JavaScript, WebGL, model decoding, or context recovery fails. Controls appear only after successful initialization. Context loss restores the poster and hides unavailable controls. A restored context returns to the current light/pause/theme state.
+## Implementation and budgets
+
+- `_includes/la-jolla-miniature.liquid`, `_includes/la-jolla-footer.liquid`, `_sass/_footer-coast.scss`, and `_includes/footer.liquid` own integration and layout.
+- `assets/js/footer-coast/entry.mjs` imports the renderer near visibility (450 px). `assets.mjs` shares decoder, model resources, and geometry; instances have their own materials and light/activity state.
+- `scene.mjs` uses the existing pinned Three.js stack, studio reflections, soft sun shadows, bounded contact occlusion, and authored water/plant/character motion. It caps device pixel density at 1.5 and animation at approximately 30 fps.
+- `bin/build_la_jolla.py`, `coastal_landmarks.py`, and `build_la_jolla_miniature.py` retain editable sources. The two compressed GLBs total about 2 MB; geometry, atlas, and posters remain below the approximate 4 MB combined asset target. Concept boards and the raw reconstruction are downloads, not initial scene resources.
+- The actual Blender poster remains visible without JavaScript, WebGL, or successful model decoding. Context recovery restores current theme and camera state. There are no controls for unavailable graphics.
 
 ## Verification
 
-The focused suite is `test/visual/footer-coast.spec.js`, included in the existing scene test command. It covers actual changed pixels for light and motion, nonblank frames, four themes at all four standard sizes, mobile pan/keyboard access, lazy loading, pause/offscreen recovery, reduced motion, context loss, failed loading, and integration with project/blog/publication/AI routes.
+`test/visual/footer-coast.spec.js` covers four themes, full viewport width, nonblank and changing pixels, lazy loading, automatic activity, reversible reveal, offscreen recovery, keyboard and touch orbit, native vertical scrolling, reduced motion, context loss, and failed-model/no-JavaScript fallbacks. Use one owned server and one worker during review.
 
 ```powershell
 $env:NO_WEBSERVER='1'
 $env:VISUAL_BASE_URL='http://127.0.0.1:8080'
-npx.cmd playwright test --config test/visual/footer-coast.config.js --output .jekyll-cache/visual-qa/la-jolla-footer/checkpoint
+npx.cmd playwright test --config test/visual/public.config.js footer-coast.spec.js --workers 1
 ```
 
-Use `COAST_THEME=noon` and one `--project desktop-1440` while iterating. The current before/after captures and measured results live in [the evidence record](evidence/la-jolla-footer/README.md). Measurements from local Chromium mobile emulation are not physical-phone benchmarks. Source reproducibility does not substitute for Sirui's visual review.
+Current captures, measurements, corrected defects, and limitations live in [the refinement evidence](evidence/coastal-refinement-2026-09-14/README.md). Local mobile emulation is not a physical-phone benchmark. Browser behavior and a successful model load do not establish film-quality art direction.

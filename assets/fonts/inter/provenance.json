@@ -1,0 +1,22 @@
+{
+  "family": "Inter",
+  "authors": "The Inter Project Authors",
+  "license": "SIL OFL 1.1",
+  "revision": "0b58fb370093f9a9f4ff785d94405710b79de67c",
+  "weights": [400, 600],
+  "conversion": "FontTools variable weight range 400-600, WOFF2; glyph set and optical sizing retained",
+  "assets": [
+    {
+      "file": "Inter.woff2",
+      "source": "https://raw.githubusercontent.com/google/fonts/0b58fb370093f9a9f4ff785d94405710b79de67c/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf",
+      "sourceSha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "sha256": "195021a1cbe72eda75e34d8392027715cb8e81acaaea0879b1e9c1e055fcd3b6"
+    },
+    {
+      "file": "Inter-Italic.woff2",
+      "source": "https://raw.githubusercontent.com/google/fonts/0b58fb370093f9a9f4ff785d94405710b79de67c/ofl/inter/Inter-Italic%5Bopsz%2Cwght%5D.ttf",
+      "sourceSha256": "acd98e64795781b2058f07b18475e0ecee2a0fe2b42a49e2f9e37d0d6bf66ce6",
+      "sha256": "303a5d4399aef464dc80f297e6863a484bcaa745b13f8d66b0916781a3cfffec"
+    }
+  ]
+}

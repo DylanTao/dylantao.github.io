@@ -1,0 +1,15 @@
+{
+  "model": "tencent/Hunyuan3D-2mv",
+  "revision": "3a761b539b29fe4ff64714813aa9560fd66f5de0",
+  "subfolder": "hunyuan3d-dit-v2-mv",
+  "seed": 20260914,
+  "steps": 30,
+  "octree": 256,
+  "inputs": ["direction/front.png", "direction/back.png"],
+  "status": "generated",
+  "started": "2026-09-14T14:03:13Z",
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "vertices": 281286,
+  "faces": 563412,
+  "seconds": 301.88
+}

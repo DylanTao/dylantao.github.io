@@ -97,9 +97,9 @@ build-rhythm:
 
 pip:
   origin_line: "I wanted the site to feel inhabited, with a little companion that notices visitors without getting in the way of reading."
-  evolution_line: "Pip grew from a rectangular visor into a floating, lens-eyed character with an articulated Blender model and a shared vocabulary of small gestures."
+  evolution_line: "P grew from a rectangular visor into a floating, lens-eyed character with an articulated Blender model and a shared vocabulary of small gestures."
   icon: robot
-  teaser_alt: Pip, a white floating companion with two antennae and round optical eyes
+  teaser_alt: P, a white floating companion with two antennae and round optical eyes
   accents:
     morning: "#d79973"
     noon: "#5996a7"
@@ -107,7 +107,21 @@ pip:
     evening: "#a89bd2"
   takeaways:
     - "A head turn, a pause, and delayed antennae can say more than another face."
-    - "Try the motion playground and meet the references behind Pip."
+    - "Try the motion playground and meet the references behind P."
+
+la-jolla:
+  origin_line: "The coast and the lab are both part of my everyday life, but sat outside the story on this site."
+  evolution_line: "I brought them together in a small coastal atlas, using real map geometry beneath a deliberately compressed Blender miniature."
+  icon: desk
+  teaser_alt: A miniature La Jolla with the Design and Innovation Building, Geisel Library, coastal houses, courts, and the Pacific
+  accents:
+    morning: "#d99b6b"
+    noon: "#648eab"
+    afternoon: "#7792aa"
+    evening: "#a9c4d4"
+  takeaways:
+    - "Turn the coast gently, and follow its light from morning to evening."
+    - "See the generated studies, local reconstruction, and editable model."
 
 homepage-desk-scene:
   origin_line: "The flat desk held papers, records, and hidden cards, but visitors could not step inside the room."

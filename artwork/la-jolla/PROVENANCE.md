@@ -22,3 +22,18 @@ node -e "require('C:/Users/dylan/.cache/codex-runtimes/codex-primary-runtime/dep
 ```
 
 Blender and Sharp paths are local tooling locations, not website dependencies. See [the implementation brief](../../docs/la-jolla-footer.md) for scope and acceptance evidence.
+
+## September 14: atlas, multiview experiment, and miniature
+
+The later refinement extends both the footer and Connect miniature with original Geisel, Salk, and Scripps Pier geometry (`bin/coastal_landmarks.py`). Sources consulted: [Geisel architecture](https://geisel50.ucsd.edu/about/architecture.html), [Salk architecture](https://www.salk.edu/about/about-salk/architecture/), [Scripps Pier](https://scripps.ucsd.edu/about/scripps-pier), and the DIB photographs above. These are visual references, not photogrammetry or copied architectural models.
+
+- `direction/front.png`, `back.png`, and `atlas.png`: generated design studies. Original C2PA metadata identifies `gpt-image` version `2.0`; the image tool offered no Images 2.5 selector. Hashes and metadata are recorded in `../coastal-home/direction/provenance.json`.
+- `reconstruction/multiview-shape.glb`: actual locally inferred Hunyuan3D-2mv shape, using front and back concepts, seed 20260914, 30 steps, octree resolution 256. `attempt.json` records the pinned model revision, successful result, duration, hardware and face/vertex counts. `clay.png` is the actual Blender render of this mesh. It is a **generated shape study**, not the production landmark model.
+- `reconstruction/HUNYUAN-LICENSE.txt`: retained Tencent Hunyuan3D 2.0 Community License for the reconstruction model/tooling. The run used `tencent/Hunyuan3D-2mv`, revision `3a761b539b29fe4ff64714813aa9560fd66f5de0`. Model weights and upstream code stay in the local tools cache, outside this repository.
+- `miniature.blend`, `miniature.png`, and `assets/models/la-jolla/miniature.glb`: deliberately authored Blender composition and actual render. The reconstructed silhouette helped review the massing, but the runtime GLB is **not** a relabeled Hunyuan export. `bin/build_la_jolla_miniature.py` reproduces the compact composition.
+- `atlas/openstreetmap.json.gz` and `atlas/provenance.json`: retained sourced coastline and road response and retrieval metadata. Bounds are 32.817 to 32.915 north, -117.293 to -117.206 east. `bin/build_coastal_atlas.py` projects these ways into `assets/models/la-jolla/atlas.svg`, with a soft alpha boundary.
+- Geographic data is © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), under ODbL. The SVG carries its attribution; the interface links to it. Generated atlas art is a direction study only, never substituted for the sourced geometry.
+
+The miniature compresses landmark distances and scales to form an artistic block. Neither the model nor its office light represents current occupancy. Theme-linked activities, evening fire, window lighting, and left-to-right footer reveal are authored vignettes. `bin/prepare_coastal_web.py` generates bounded public WebP previews from the original concepts and Blender renders. The raw reconstruction and editable sources are optional downloads and never initial-page dependencies.
+
+The final process and browser evidence are in [the refinement record](../../docs/evidence/coastal-refinement-2026-09-14/README.md).

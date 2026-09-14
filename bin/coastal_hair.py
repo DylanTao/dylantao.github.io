@@ -6,7 +6,7 @@ long hair must not become two cylindrical side curtains or a helmet.
 
 import math
 import bpy
-from coastal_sculpt import surface
+from coastal_sculpt import surface, swept_lock
 
 
 def hair_sculpt(head_z, head_scale, hair, h):
@@ -33,11 +33,11 @@ def hair_sculpt(head_z, head_scale, hair, h):
             end = 1.91 - front**2 * (1.03 + 0.10 * math.sin(a))
             p = 0.012 + t * end
             sweep = a + 0.14 * (1 - t) * math.sin(a)
-            ridge = 0.002 * math.cos(a * 23 + p * 5) * math.sin(p)
+            ridge = (0.0013 * math.cos(a * 31 + p * 6) + .006*math.sin(a*3+p*2)+.003*math.sin(a*7-p*4)) * math.sin(p)
             verts.append(
                 (
-                    (hx * 1.15 + ridge) * math.sin(p) ** 0.66 * math.sin(sweep),
-                    0.018 - (hy * 1.15 + ridge) * math.sin(p) ** 0.66 * math.cos(sweep),
+                    (hx * 1.075 + ridge) * math.sin(p) ** 0.66 * math.sin(sweep),
+                    0.018 - (hy * 1.075 + ridge) * math.sin(p) ** 0.66 * math.cos(sweep),
                     head_z + hz * (1.065 * math.cos(p) + 0.018 * math.sin(a)),
                 )
             )
@@ -55,10 +55,10 @@ def hair_sculpt(head_z, head_scale, hair, h):
             t = i / rows
             for j in range(cols + 1):
                 a = 1.57 + j / cols * math.pi
-                ripple = 0.007 * math.sin(a * 17 + t * 2.3)
+                ripple = 0.0045 * math.sin(a * 21 + t * 2.3)
                 spread = 1.025 - 0.12 * t + 0.25 * max(0, (t - 0.77) / 0.23) ** 2
                 z = head_z + hz * (0.28 - t * (1.72 - layer * 0.24))
-                z += hz * 0.07 * math.cos(a * 13) * t**5
+                z += hz * 0.055 * math.cos(a * 5) * t**5
                 # Ear tuck and a backward flow leave the cheek silhouette open.
                 x = math.sin(a) * (hx * spread + ripple + layer * 0.005)
                 y = 0.028 - math.cos(a) * (hy * spread + ripple) + t * 0.05
@@ -72,17 +72,19 @@ def hair_sculpt(head_z, head_scale, hair, h):
 
     # Broad ribbon fringe sweeps across the forehead and behind one ear.
     # Narrow ridges lie on its surface; none of these strands is a round tube.
-    for layer in range(5):
+    for layer in range(6):
         verts, faces, rows, cols = [], [], 28, 6
         for i in range(rows + 1):
             t = i / rows
-            a = 0.35 - t * 2.18
+            a = 0.35 + layer*.028 - t * (2.18+layer*.035)
             p = 0.29 + t * (1.11 + layer * 0.017)
             for j in range(cols + 1):
                 w = (j / cols - 0.5) * 0.19 * math.sin(math.pi * (0.08 + t * 0.90))
                 cap_end = 1.91 - max(0, math.cos(a)) ** 2 * (1.03 + 0.10 * math.sin(a))
-                polar = min(p + layer * 0.070 + w, cap_end - 0.028)
-                radius = 1.17 + 0.013 * math.sin(j / cols * math.pi)
+                # Follow the scalp continuously. Clamping a strip against the
+                # hairline collapsed whole rows into a sharp folded triangle.
+                polar = (p + layer * 0.036 + w) * .87
+                radius = 1.095 + 0.016 * math.sin(j / cols * math.pi)
                 verts.append(
                     (
                         hx * radius * math.sin(polar) ** 0.66 * math.sin(a),
@@ -95,4 +97,24 @@ def hair_sculpt(head_z, head_scale, hair, h):
                 p = i * (cols + 1) + j
                 faces.append((p, p + cols + 1, p + cols + 2, p + 1))
         sheet("swept flat fringe", verts, faces, 0.005)
+    # Broad asymmetrical locks lift away from the scalp and sweep to the ear.
+    # Their flattened cross-section creates a readable flow at widget scale.
+    for i in range(11):
+        t=i/10
+        points=[(.25*hx,-hy*.40,head_z+hz*(1.03-.07*t)),
+                (-.25*hx,-hy*(.72+.12*t),head_z+hz*(1.00-.21*t)),
+                (-.79*hx,-hy*(.76+.13*t),head_z+hz*(.75-.32*t)),
+                (-1.04*hx,-hy*.35,head_z+hz*(.27-.32*t)),
+                (-1.02*hx,hy*.13,head_z-hz*(.15+.16*t))]
+        o=swept_lock('swept temple lock',points,[.010,.025,.023,.016,.0018],hair,width=1.8,sides=12)
+        result.append((o,'Head'))
+    for side in (-1,1):
+        for i in range(6):
+            t=i/5
+            o=swept_lock('tapered nape lock',[(side*hx*.92,hy*(.1+.6*t),head_z-.2*hz),
+                (side*hx*(.90-.1*t),hy*(.22+.62*t),head_z-.8*hz),
+                (side*hx*(1.00-.18*t),hy*(.31+.61*t),head_z-1.3*hz),
+                (side*hx*(1.23-.27*t),hy*(.36+.59*t),head_z-1.42*hz)],
+                [.013,.019,.016,.0015],hair,width=1.7,sides=10)
+            result.append((o,'Head'))
     return result

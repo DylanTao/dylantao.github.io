@@ -1,6 +1,5 @@
 // No renderer or model is fetched until the footer is approaching the viewport.
-const host = document.querySelector("[data-footer-coast]");
-if (host) {
+document.querySelectorAll("[data-footer-coast]").forEach((host) => {
   let started = false;
   const start = async () => {
     if (started) return;
@@ -10,7 +9,6 @@ if (host) {
       await mountCoast(host);
     } catch {
       host.dataset.state = "fallback";
-      host.querySelector(".footer-coast__actions").hidden = true;
     }
   };
   if ("IntersectionObserver" in window) {
@@ -25,4 +23,4 @@ if (host) {
     );
     observer.observe(host);
   } else start();
-}
+});

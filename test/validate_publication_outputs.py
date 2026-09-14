@@ -34,10 +34,12 @@ EXPECTED_PROJECT_SLUGS = {
     "homepage-desk-scene",
     "hotspot",
     "ikea-project-cards",
+    "la-jolla",
     "not-a-good-driver",
     "openai-build-week",
     "paper-constellation",
     "physion",
+    "pip",  # Stable machine-context key; its public human route is /projects/p/.
     "scholar-lens",
     "wall-of-rejection",
     "website-revamp",

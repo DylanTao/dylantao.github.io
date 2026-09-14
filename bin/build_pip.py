@@ -129,7 +129,7 @@ ellipsoid(
 head = parent("PipHead", (0, 0.4, 0), body)
 rounded("Pebble head shell", (0, 0, 0), (0.87, 0.506, 0.506), 0.19, ceramic, head)
 rounded("Lens bridge", (0, 0.015, 0.253), (0.184, 0.028, 0.022), 0.008, graphite, head)
-for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
+for side, suffix, radius in [(-1, "L", 0.143), (1, "R", 0.132)]:
     center = (side * 0.201, 0.017, 0.279)
     ellipsoid(
         "Lens housing " + suffix,
@@ -157,14 +157,14 @@ for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
     ellipsoid(
         "Soft luminous pupil " + suffix,
         (0, 0, 0),
-        (radius * 0.32, radius * 0.46, 0.009),
+        (radius * 0.41, radius * 0.43, 0.009),
         light,
         pupil,
     )
     ellipsoid(
         "Optical catchlight " + suffix,
         (center[0] - radius * 0.28, center[1] + radius * 0.44, 0.355),
-        (radius * 0.16, radius * 0.095, 0.007),
+        (radius * 0.11, radius * 0.075, 0.007),
         highlight,
         head,
     )
@@ -196,8 +196,8 @@ for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
     ellipsoid(
         "Antenna tip " + suffix,
         (side * 0.08, 0.245, 0.004),
-        (0.022, 0.033, 0.022),
-        ceramic if side < 0 else orange,
+        (0.016, 0.023, 0.016),
+        ceramic,
         antenna,
     )
     arm = parent("PipArm" + suffix, (side * 0.33, -0.08, 0.015), body)
@@ -205,7 +205,7 @@ for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
     flipper = ellipsoid(
         "Sculpted floating flipper " + suffix,
         (0, -0.10, 0),
-        (0.073, 0.18, 0.058),
+        (0.062, 0.165, 0.035),
         ceramic,
         arm,
         taper=1.4,

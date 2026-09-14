@@ -15,6 +15,7 @@ import bpy
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'bin'))
 OUT = ROOT / "assets/models/la-jolla"
 SOURCE = ROOT / "artwork/la-jolla"
 for directory in (OUT, SOURCE):
@@ -856,6 +857,9 @@ for s in (-0.3, 0.3):
         hut,
     )
 
+from coastal_landmarks import landmarks
+landmark_groups = landmarks(globals())
+
 # Material batches keep hundreds of authored details cheap to draw.
 # Preserve water, surfers, palm crowns, and the office as independent objects.
 for obj in list(bpy.data.objects):
@@ -885,7 +889,7 @@ def batch(owner):
         objects[0].name = owner.name + " · " + key[0]
 
 
-for root in (terrain, village, campus, sports, garden, waves):
+for root in (terrain, village, campus, sports, garden, waves, *landmark_groups):
     batch(root)
 
 scene = bpy.context.scene
@@ -937,7 +941,7 @@ bpy.ops.export_scene.gltf(
     export_draco_mesh_compression_level=6,
 )
 manifest = {
-    "version": 1,
+    "version": 2,
     "model": "la-jolla.glb",
     "coordinates": "Y-up",
     "office": [office_anchor[0], office_anchor[2], -office_anchor[1]],
@@ -947,6 +951,7 @@ manifest = {
     ),
     "source": "bin/build_la_jolla.py",
     "geography": "Authored collage, not a map",
+    "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier"],
 }
 (OUT / "manifest.json").write_text(
     json.dumps(manifest, indent=2) + "\n", encoding="utf8"

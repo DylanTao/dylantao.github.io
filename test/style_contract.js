@@ -77,8 +77,9 @@ if (!/^\s*-\s*al_math\s*$/m.test(config)) {
   failures.push("`_config.yml` plugins must include `al_math` when math features are enabled.");
 }
 
-if (!config.includes("family=Inter:wght@400;500;600;700&")) {
-  failures.push("The site must request exactly the supported Inter narrative weights: 400, 500, 600, and 700.");
+const reading = read("_sass/_reading.scss");
+if (!reading.includes("Inter.woff2") || !reading.includes("font-weight: 400 600")) {
+  failures.push("The site must serve the local Inter variable font for the supported 400, 500, and 600 weights.");
 }
 if (/family=Inter:wght@[^&]*(?:800|900)/.test(config)) {
   failures.push("The site must not load unsupported Inter 800 or 900 weights.");

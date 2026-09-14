@@ -104,6 +104,12 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-la-jolla",
+    path: "/projects/la-jolla/",
+    readySelector: ".project-detail .project-case-hero",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-what-happened-and-why",
     path: "/projects/what-happened-and-why/",
     readySelector: ".trace-paper-page .trace-hero",
@@ -135,7 +141,7 @@ const ALL_SITEWIDE_ROUTES = [
   },
   {
     id: "project-pip",
-    path: "/projects/pip/",
+    path: "/projects/p/",
     readySelector: "[data-pip-studio][data-renderer]",
     contentSelector: ".project-detail article",
   },

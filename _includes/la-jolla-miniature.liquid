@@ -1,0 +1,35 @@
+<figure
+  class="footer-coast coastal-miniature{% if include.large %} coastal-miniature--large{% endif %}"
+  data-footer-coast
+  data-miniature
+  data-state="still"
+>
+  <div
+    class="footer-coast__scene"
+    role="img"
+    aria-label="A compressed La Jolla miniature over an OpenStreetMap coastal atlas. Drag gently to orbit; arrow keys turn the model and Home resets the view."
+  >
+    <img
+      class="coastal-miniature__atlas"
+      src="{{ '/assets/models/la-jolla/atlas.svg' | relative_url }}"
+      alt=""
+      width="900"
+      height="900"
+      loading="lazy"
+    >
+    <img
+      class="footer-coast__poster"
+      src="{{ '/assets/models/la-jolla/miniature.webp' | relative_url }}"
+      alt=""
+      width="1000"
+      height="1000"
+      loading="lazy"
+    >
+    <canvas class="footer-coast__canvas" aria-hidden="true"></canvas>
+  </div>
+  <figcaption>
+    <a href="{{ '/projects/la-jolla/' | relative_url }}">A little La Jolla ↗</a>
+    <span>Places I keep coming back to.</span>
+    <small>Artistic miniature · map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></small>
+  </figcaption>
+</figure>

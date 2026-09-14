@@ -1,0 +1,10 @@
+{
+  "source": "OpenStreetMap contributors",
+  "license": "ODbL 1.0",
+  "attribution": "https://www.openstreetmap.org/copyright",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "query": "[out:json][timeout:40];(way[\"natural\"=\"coastline\"](32.817,-117.293,32.915,-117.206);way[\"highway\"~\"^(primary|secondary|tertiary|residential)$\"](32.817,-117.293,32.915,-117.206););out geom;",
+  "bounds": [32.817, -117.293, 32.915, -117.206],
+  "osm_base": "2026-09-14T14:02:01Z",
+  "ways": 2940
+}

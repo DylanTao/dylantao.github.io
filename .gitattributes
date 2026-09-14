@@ -4,8 +4,12 @@
 # Keep recorded upstream source hashes identical on Windows and Linux.
 assets/vendor/paper-shaders/** text eol=lf
 assets/js/vendor/three-r164/** text eol=lf whitespace=-blank-at-eof
+# Decoder bytecode must never pass through newline normalization.
+assets/js/vendor/three-r164/**/*.wasm binary
 # Retain the upstream font license's original whitespace.
 assets/fonts/newsreader/OFL.txt text eol=lf whitespace=-blank-at-eol
+assets/fonts/inter/OFL.txt text eol=lf whitespace=-blank-at-eol
+artwork/la-jolla/reconstruction/HUNYUAN-LICENSE.txt text eol=lf whitespace=-blank-at-eol
 # Reviewed local overrides use portable hashes across Windows and CI.
 _includes/projects.liquid text eol=lf
 _layouts/post.liquid text eol=lf

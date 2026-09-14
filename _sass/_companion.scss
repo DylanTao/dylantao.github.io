@@ -266,8 +266,8 @@
   padding: 28px clamp(16px, 4vw, 40px);
   border-block: 1px solid var(--global-divider-color);
   .pip-encounter-note {
-    font-family: var(--font-family-display, Newsreader, serif);
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-family: var(--font-ui);
+    font-size: var(--type-subheading);
     line-height: 1.25;
     margin-bottom: 24px;
   }

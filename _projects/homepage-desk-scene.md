@@ -51,7 +51,7 @@ I kept 2D as the first view on every screen. In 3D, the occupied room follows th
 
 The first character pass did not look enough like me. Reviewing it against my portrait led to an exposed forehead, swept-back long hair, wire glasses, and a broader Lizard jaw. Likeness and the small gestures remain things to judge in the rendered scene, not just in a concept board.
 
-A small floating companion, [Pip]({{ '/projects/pip/' | relative_url }}), now wanders between the room and the reading page. Its project page has a motion playground and credits for the robot references that shaped it.
+A small floating companion, [P]({{ '/projects/p/' | relative_url }}), now wanders between the room and the reading page. P means Prototype, with a nod to ProtoLab. Its project page has a motion playground and credits for the robot references that shaped it.
 
 ## Why the desk has two views
 

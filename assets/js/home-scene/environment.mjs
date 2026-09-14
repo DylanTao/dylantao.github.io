@@ -12,7 +12,11 @@ export function createPacific(scene, renderer, config) {
   root.name = "Pacific environment";
   scene.add(root);
   const beach = config.beach;
-  const wildlife = createWildlife(root, beach);
+  const wildlife = createWildlife(root, config);
+  const shoreData = new Float32Array(beach.samples.flatMap((row) => [row[3], row[1], row[2], 1]));
+  const shoreTexture = new THREE.DataTexture(shoreData, beach.samples.length, 1, THREE.RGBAFormat, THREE.FloatType);
+  shoreTexture.minFilter = shoreTexture.magFilter = THREE.LinearFilter;
+  shoreTexture.needsUpdate = true;
   const time = { value: 0 },
     ink = { value: 0 };
   let style = "realistic",
@@ -28,6 +32,7 @@ export function createPacific(scene, renderer, config) {
   });
   physicalWater.onBeforeCompile = (shader) => {
     shader.uniforms.pacificTime = time;
+    shader.uniforms.shoreProfile = { value: shoreTexture };
     shader.vertexShader = "uniform float pacificTime; varying vec2 oceanXZ;\n" + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <beginnormal_vertex>",
@@ -46,7 +51,8 @@ export function createPacific(scene, renderer, config) {
       transformed.y += crest;
     `
     );
-    shader.fragmentShader = `uniform float pacificTime; varying vec2 oceanXZ;\n${surfaceNoise}\n` + shader.fragmentShader;
+    shader.fragmentShader =
+      `uniform float pacificTime; uniform sampler2D shoreProfile; varying vec2 oceanXZ;\n${surfaceNoise}\n` + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <normal_fragment_maps>",
       `
@@ -70,9 +76,7 @@ export function createPacific(scene, renderer, config) {
       // Same continuous shoreline section as the Blender beach (world +Y in
       // Blender becomes -Z here; ocean local coordinates are offset by 28 m).
       float x = oceanXZ.x;
-      float cliffY = 5.7 + 1.2*sin(x*.12) + 7.5*exp(-pow((x-24.)/10.,2.)) + 3.3*exp(-pow((x+22.)/7.,2.));
-      float beachWidth = ${Number(beach.width).toFixed(2)} + ${Number(beach.bulge).toFixed(2)}*exp(-pow((x-9.)/11.,2.)) + ${Number(beach.ripple).toFixed(2)}*sin(x*.19);
-      float waterline = cliffY - .35 + beachWidth*.47;
+      float waterline = texture2D(shoreProfile,vec2(clamp((x+36.)/112.,0.,1.),.5)).r;
       float distanceToBeach = 28.-oceanXZ.y-waterline;
       float shoal = (1.-smoothstep(.5,6.0,distanceToBeach)) * smoothstep(-.5,.35,distanceToBeach);
       float drift = stoneNoise(vec3(x*.22,distanceToBeach*.35,pacificTime*.06));
@@ -277,6 +281,7 @@ export function createPacific(scene, renderer, config) {
     wildlife.update(elapsed, palette);
   }
   function dispose() {
+    shoreTexture.dispose();
     wildlife.dispose();
     reflection.dispose();
     root.traverse((o) => {

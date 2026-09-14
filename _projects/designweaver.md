@@ -213,6 +213,15 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 DesignWeaver's **dimensional scaffolding** bridges novice‑expert gaps by making domain vocabulary explicit and enabling rapid, structured exploration of design spaces—ultimately fostering more innovative, user‑aligned product concepts.
 
+<details class="resource-folder">
+  <summary>Research materials</summary>
+  <div class="resource-folder__papers">
+    <a href="https://arxiv.org/pdf/2502.09867">Paper ↗</a>
+    <a href="{{ '/assets/pdf/slides/[CHI25 Version] DesignWeaver.pdf' | relative_url }}">Slides ↗</a>
+    <a href="https://github.com/slimykat/DesignWeaver">Code ↗</a>
+  </div>
+</details>
+
 ## BibTeX
 
 {% assign designweaver_publication = site.data.publication_catalog.by_key['tao2024designweaver'] %}
