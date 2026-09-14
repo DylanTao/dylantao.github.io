@@ -31,6 +31,16 @@ Offer a quick 2D proof collection and a richer 3D view without making them feel 
 
 For each pass, record the date, model and effort as context, commit, attempted change, visitor problem, accepted result, failure or reversion, and comparable evidence. Hold the brief, viewports, and important states steady. Do not claim the model alone caused the outcome.
 
+## Extending the desk into an inhabited home
+
+- Keep 2D as the initial view at every width; remember deliberate session choices.
+- Separate the actor, art direction, room camera, selected album, and clock preview into independent state.
+- Author room anchors, editable schedules, and activity/prop definitions as data. Use an IANA time zone for the routine and test DST, midnight, weekends, and returning from a hidden tab.
+- Now follows the routine; exploring opts out until the visitor explicitly returns. Treat the schedule as an imagined day, never as real location tracking.
+- Use connected floor, cliff, and water geometry. Do not substitute a background illustration for an explorable exterior.
+- Export editable Blender sources, skinned GLBs, and named clips. Inspect hands, feet, furniture, and prop contact in the browser after every rig change.
+- Make rendering treatments differ in projection, physical detail, light, and motion as appropriate, while preserving identity and interaction state. Keep image-derived splat studies isolated from the production engine.
+
 ## Acceptance checks
 
 - Capture 1440x1000, 1280x800, 768x1024, and 390x1000.

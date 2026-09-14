@@ -61,6 +61,35 @@ I use situated work for settings where judgment depends on practice and medium: 
 Base project records are derived from public project front matter. Website Revamp and Build Rhythm carry deliberately reviewed question, evidence, boundary, and reproduction fields; other entries declare their conservative fallback basis.
 
 
+### A little La Jolla
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/la-jolla/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/la-jolla.md
+- Context basis: public-frontmatter-fallback
+
+A few places from my everyday orbit, compressed into a coastal miniature.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Design and direction
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
 ### Build Rhythm
 
 - Category: fun
@@ -139,6 +168,36 @@ No separate research or design question is encoded in this project's public fron
 - Year: 2026
 - Role: OG HCI Spooder-Man
 - Status: Remix guide
+
+
+#### Boundary
+
+This fallback does not infer claims from page prose or treat frontmatter metadata as an evaluation result.
+
+#### Reproduction
+
+- Open the human project page and the listed source URLs; no separate reproduction record is encoded in front matter.
+
+
+
+### P, a Little Company
+
+- Category: fun
+- Human page: https://dylantao.github.io/projects/p/
+- Machine-readable project context: https://dylantao.github.io/ai/projects/pip.md
+- Context basis: public-frontmatter-fallback
+
+A floating studio companion that looks, tilts, wanders, and occasionally helps put things back.
+
+#### Question
+
+No separate research or design question is encoded in this project's public front matter; use the human project page for situated context.
+
+#### Evidence
+
+- Year: 2026
+- Role: Designer and character director
+- Status: Living interaction experiment
 
 
 #### Boundary
@@ -248,7 +307,7 @@ This fallback does not infer claims from page prose or treat frontmatter metadat
 - Machine-readable project context: https://dylantao.github.io/ai/projects/homepage-desk-scene.md
 - Context basis: public-frontmatter-fallback
 
-How the homepage's paper collage became an explorable cliff room without losing the same desk, records, and discoveries.
+How the homepage's paper collage became an inhabited coastal home while keeping its records, research papers, and discoveries.
 
 #### Question
 

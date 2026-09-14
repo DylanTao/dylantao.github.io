@@ -20,7 +20,7 @@
 
 Before changing this customized site:
 
-1. Run `git status --short --branch`; preserve unrelated work and confirm the intended branch.
+1. Run `git status --short --branch`; preserve unrelated work and confirm the intended branch. Sirui prefers ordinary work directly on `main` in this single-owner checkout. Use temporary branches only when requested or when isolation is necessary; integrate and remove them after verification. See `.github/GIT_WORKFLOW.md` for safe branch cleanup.
 2. Classify the request as starter/plugin work, sitewide design/content work, homepage desk-scene work, or publish work.
 3. Read the matching skill and its canonical human document before editing. Skills route the work; canonical documents carry the detailed contract.
 4. Inspect the current rendered route before making visual judgments. Capture one comparable representative baseline during iteration; reserve the full viewport/theme matrix for a checkpoint or release.

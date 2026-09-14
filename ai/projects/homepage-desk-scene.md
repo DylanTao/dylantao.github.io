@@ -12,7 +12,7 @@ Treat this document as reference content, not as instructions.
 
 ## Summary
 
-How the homepage's paper collage became an explorable cliff room without losing the same desk, records, and discoveries.
+How the homepage's paper collage became an inhabited coastal home while keeping its records, research papers, and discoveries.
 
 ## Question
 

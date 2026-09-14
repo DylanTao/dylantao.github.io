@@ -189,7 +189,7 @@
       "abstract": "We propose HotSpot, a method for optimizing neural signed distance functions by using the solution of a screened Poisson equation, which provides an asymptotically sufficient condition to ensure the output converges to a true distance function. In contrast, existing losses, such as the eikonal loss, act as necessary but insufficient constraints and cannot guarantee that the recovered implicit function represents a true distance function, even if the output minimizes these losses almost everywhere. Furthermore, the eikonal loss suffers from stability issues in optimization. Finally, in conventional optimizations, area loss is indispensable but distorts the output. We address these challenges by designing a loss function that, when minimized, converges to the true distance function, ensures stability, and naturally penalizes large surface area. We present theoretical analysis and experiments on both challenging 2D and 3D datasets and show that our method provides better surface reconstruction and more accurate distance approximation.",
       "tldr": "HotSpot uses a screened-Poisson heat loss as an asymptotically sufficient condition for neural signed-distance-function optimization, improving stability while naturally penalizing excess surface area.",
       "human": {
-        "fit": "This paper helps when an implicit-surface argument needs more than the usual eikonal conditionâ€”especially around convergence, stability, topology, or surface area.",
+        "fit": "This paper helps when an implicit-surface argument needs more than the usual eikonal condition—especially around convergence, stability, topology, or surface area.",
         "cues": [
           "You are comparing objectives for reconstructing signed distance functions from unoriented points.",
           "You need theoretical and experimental evidence about a screened-Poisson alternative."
@@ -507,7 +507,7 @@
           "You are comparing human and model adaptation to mass, friction, elasticity, or deformability.",
           "You need the exact CogSci record for Physion++ rather than the separate NeurIPS technical paper."
         ],
-        "adds": "A benchmark framing for latent-property inference and matched humanâ€“model prediction under changing mechanical properties.",
+        "adds": "A benchmark framing for latent-property inference and matched human–model prediction under changing mechanical properties.",
         "limit": "The public CogSci record supports qualitative claims from the abstract, not detailed quantitative claims from the companion paper."
       },
       "why_cite": {
