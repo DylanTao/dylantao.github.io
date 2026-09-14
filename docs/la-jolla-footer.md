@@ -14,6 +14,8 @@ Both scenes follow the selected site theme: quiet morning; midday surfing and co
 
 Terrain is always present. Building groups emerge left to right according to footer visibility, and lower again when scrolling up. There is no scroll interception. The coast fills the viewport width and reaches the bottom edge; copyright sits quietly inside it. Sirui removed the al-folio credit, update date, and separate lighting/motion controls.
 
+Reveal, camera settling, and authored motion use active elapsed time instead of a per-frame time cap. Exponential easing keeps the response consistent when frames are slow. Offscreen and hidden-page recovery reset the clock, so suspension does not advance the vignette. Browser reversal checks place the page at the reveal boundary before measuring the response; they do not include the separate page-level smooth-scroll duration.
+
 The customized footer uses `footer_fixed: false`. The previous fixed-footer branch left a masked band and a separate bottom gap even when the scene itself measured full width. Acceptance now checks the actual bottom edge and absence of that mask, as well as width.
 
 The Connect and project miniatures allow gentle bounded orbit with dragging or arrow keys; Home resets the view. On narrow screens, the footer permits horizontal exploration while vertical touch gestures retain page scrolling. Reduced motion keeps a composed still view and deliberate camera interaction. Offscreen and hidden-document render loops stop.

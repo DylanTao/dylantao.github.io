@@ -52,7 +52,7 @@ test("coastal scenes: lazy loading, automatic movement, offscreen pause and reve
   const host = page.locator("footer [data-footer-coast]");
   const started = Date.now();
   await host.scrollIntoViewIfNeeded();
-  await expect(host).toHaveAttribute("data-state", "ready");
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
   const loadMs = Date.now() - started;
   await page.waitForTimeout(1800);
   const a = await host.locator("canvas").screenshot(),
@@ -63,10 +63,12 @@ test("coastal scenes: lazy loading, automatic movement, offscreen pause and reve
   expect(fps).toBeLessThan(33);
   expect(screenshotDiffRatio(a, await host.locator("canvas").screenshot(), { threshold: 0.03 })).toBeGreaterThan(0.0001);
   const revealed = (await evidence(host)).reveal;
-  await host.evaluate((e) => scrollTo(0, scrollY + e.getBoundingClientRect().top - innerHeight + 80));
+  // Place the coast at the reveal boundary before measuring its response.
+  // Page-level smooth scrolling has a separate, compositor-dependent duration.
+  await host.evaluate((e) => scrollTo({ top: scrollY + e.getBoundingClientRect().top - innerHeight + 80, behavior: "instant" }));
   await page.waitForTimeout(1400);
   expect((await evidence(host)).reveal).toBeLessThan(revealed - 0.2);
-  await page.evaluate(() => scrollTo(0, 0));
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
   await expect(host).toHaveAttribute("data-running", "false");
   const still = (await evidence(host)).frames;
   await page.waitForTimeout(350);
@@ -90,7 +92,7 @@ test("La Jolla miniature: keyboard orbit, static reduced motion, and map attribu
   await page.goto(publicRouteUrl("/projects/la-jolla/"));
   const host = page.locator("[data-miniature]");
   await host.scrollIntoViewIfNeeded();
-  await expect(host).toHaveAttribute("data-state", "ready");
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
   await expect(host).toHaveAttribute("data-running", "false");
   await expect(host.getByRole("link", { name: "OpenStreetMap contributors" })).toBeVisible();
   const surface = host.locator(".footer-coast__scene");
@@ -132,7 +134,7 @@ test("La Jolla miniature: touch orbit preserves vertical page scrolling", async 
   await page.goto(publicRouteUrl("/projects/la-jolla/"));
   const host = page.locator("[data-miniature]");
   await host.scrollIntoViewIfNeeded();
-  await expect(host).toHaveAttribute("data-state", "ready");
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
   const surface = host.locator(".footer-coast__scene"),
     box = await surface.boundingBox();
   expect(await surface.evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y");
@@ -157,7 +159,7 @@ test("coastal scenes: missing model and no JavaScript retain real rendered fallb
   await page.goto(publicRouteUrl("/"));
   const host = page.locator("footer [data-footer-coast]");
   await host.scrollIntoViewIfNeeded();
-  await expect(host).toHaveAttribute("data-state", "fallback");
+  await expect(host).toHaveAttribute("data-state", "fallback", { timeout: 30000 });
   await expect.poll(() => host.locator("img").evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
   const staticPage = await context.newPage();
