@@ -567,7 +567,9 @@ export function createCoastalHome(container, records, artifacts) {
         const route = roomRoute(config, priorRoom, room, actor.position.toArray());
         travel = {
           route,
-          start: elapsed,
+          // Start between rendered frames without counting time before this
+          // routine changed as part of the new walk.
+          start: elapsed + (lastFrame ? Math.max(0, (performance.now() - lastFrame) / 1000) : 0),
           duration: Math.max(2.5, route.length / 1.5),
           goal,
           facing: room.facing,
@@ -784,6 +786,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
       if (b.hasAttribute("data-world-pause")) {
         paused = !paused;
+        lastFrame = 0;
         b.setAttribute("aria-pressed", String(paused));
         syncMotionPreference();
         if (paused && travel) {
@@ -946,6 +949,7 @@ export function createCoastalHome(container, records, artifacts) {
     });
     listen(reducedQuery, "change", (e) => {
       reduced = e.matches;
+      lastFrame = 0;
       syncMotionPreference();
       updateRoutine(true);
     });
@@ -975,8 +979,11 @@ export function createCoastalHome(container, records, artifacts) {
   function render(now) {
     frame = 0;
     if (!visible || !inViewport || disposed || document.hidden) return;
-    const frameDelta = lastFrame ? Math.min(Math.max((now - lastFrame) / 1000, 0), 0.25) : 1 / 60;
-    const delta = frameDelta;
+    // Routes, clips, and water are sampled in time; capping their clock makes
+    // every journey run in slow motion on a software renderer. Pause, reduced
+    // motion, and visibility recovery reset lastFrame before animation resumes.
+    const delta = lastFrame ? Math.max((now - lastFrame) / 1000, 0) : 1 / 60;
+    const frameDelta = Math.min(delta, 1);
     lastFrame = now;
     const moving = !reduced && !paused;
     if (moving) elapsed += delta;
@@ -1044,7 +1051,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (water && moving) water.position.y = water.userData.restY + Math.sin(elapsed * 0.7) * 0.006;
     if (moving) pacific?.update(elapsed);
     companion.paused = paused;
-    worldCompanion?.update(delta, elapsed, camera, currentRoom, moving);
+    worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
     renderer.info.reset();
     pacific?.reflect(camera, style === "realistic" && currentRoom === "outside");
@@ -1191,6 +1198,10 @@ export function createCoastalHome(container, records, artifacts) {
     activityFloor: config?.rooms.find((r) => r.id === routine?.room)?.floor,
     activityOffset: config?.rooms.find((r) => r.id === routine?.room)?.offset,
     traveling: Boolean(travel),
+    navigation: travel
+      ? { progress: clamp((elapsed - travel.start) / travel.duration, 0, 1), duration: travel.duration, position: actor.position.toArray() }
+      : null,
+    animationSeconds: elapsed,
     palette: routine?.palette,
     clockMode: routine?.live ? "now" : "preview",
     following: explore.following && followClock,

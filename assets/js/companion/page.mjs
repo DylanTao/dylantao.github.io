@@ -174,7 +174,7 @@ function start() {
     rail = main?.getBoundingClientRect();
     obstacles = [
       ...document.querySelectorAll(
-        "#main h1,#main h2,#main h3,#main p,#main li,#main figure,#main img,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main .home-portrait-frame,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main [data-home-desk-scene] canvas,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
+        "#main h1,#main h2,#main h3,#main p,#main li,#main figure,#main img,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main canvas,#main .home-portrait-frame,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
       ),
     ]
       .filter(
