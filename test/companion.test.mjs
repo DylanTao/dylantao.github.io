@@ -66,6 +66,18 @@ test("Pip gestures settle, can be interrupted, and honor reduced motion immediat
   assert.equal(motion.update(10, { nap: true }).blink, 1);
 });
 
+test("P gestures keep their expression at 5, 10, and 60 fps", () => {
+  for (const hz of [5, 10, 60]) {
+    const motion = createPipMotion();
+    motion.play("curious");
+    let pose;
+    for (let i = 0; i < hz * 1.2; i++) pose = motion.update(1 / hz, { autonomous: false });
+    assert.ok(pose.head[2] > 0.25, `${hz} fps must reach the curious head tilt on time`);
+    assert.ok(pose.antennas[0] > 0.03, `${hz} fps antenna should follow the tilt`);
+    assert.equal(pose.gesture, "curious");
+  }
+});
+
 test("Pip pointer following is frame-rate independent and long frames stay bounded", () => {
   const sample = (hz) => {
     const motion = createPipMotion();
@@ -73,7 +85,7 @@ test("Pip pointer following is frame-rate independent and long frames stay bound
     for (let i = 0; i < hz; i++) pose = motion.update(1 / hz, { gaze: [1, -1], autonomous: false });
     return pose;
   };
-  const a = sample(30),
+  const a = sample(10),
     b = sample(120);
   for (let i = 0; i < 3; i++) assert.ok(Math.abs(a.head[i] - b.head[i]) < 0.0001);
   const motion = createPipMotion();

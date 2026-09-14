@@ -664,7 +664,7 @@ function start() {
       companion.mood *= Math.exp(-dt * 1.5);
       if (visible)
         portrait?.draw({
-          pose: companion.motion.update(dt, {
+          pose: companion.motion.update(wallDelta, {
             gaze: [gx, gy],
             still,
             nap: companion.napping,
