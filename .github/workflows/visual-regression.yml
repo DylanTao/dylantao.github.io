@@ -70,12 +70,15 @@ concurrency:
 
 jobs:
   visual-checkpoints:
+    name: Visual checkpoints (${{ matrix.viewport }})
     runs-on: ubuntu-latest
-    # A fully green run measured 34m48s against the previous 35m cap -- twelve
-    # seconds of headroom. The work is genuinely this long (two browser installs,
-    # two Jekyll builds, 260 cases over four viewports), so the cap was mis-sized
-    # rather than the suite being slow. This is not masking a hang: the job still
-    # fails fast on a dead server via its own readiness poll.
+    # Each viewport gets an isolated runner. Keep one browser worker per runner
+    # and separate site/scene processes: full-page captures plus software WebGL
+    # made the serialized four-viewport run exceed a practical release budget.
+    strategy:
+      fail-fast: false
+      matrix:
+        viewport: [desktop-1440, laptop-1280, tablet-768, mobile-390]
     timeout-minutes: 50
     steps:
       - name: Checkout candidate
@@ -112,6 +115,7 @@ jobs:
         env:
           NO_WEBSERVER: "1"
           VISUAL_BASE_URL: http://127.0.0.1:4000/al-folio
+          VISUAL_PROJECT: ${{ matrix.viewport }}
         run: |
           set -euo pipefail
           export PATH="$HOME/.local/bin:$PATH"
@@ -154,16 +158,20 @@ jobs:
           echo "Jekyll is ready. Recent build output:"
           tail -n 80 "$LOG_PATH" || true
           python3 test/validate_publication_outputs.py _site
-          npm run test:visual:public
+          npm run test:visual:site -- --project "$VISUAL_PROJECT"
+          npm run test:visual:scene -- --project "$VISUAL_PROJECT"
 
-          LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
-          VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP"
+          # Both legacy engines run once, after the desktop public matrix.
+          if [ "$VISUAL_PROJECT" = "desktop-1440" ]; then
+            LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
+            VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP"
+          fi
 
       - name: Upload Playwright screenshots and traces
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-checkpoint-artifacts
+          name: visual-checkpoint-artifacts-${{ matrix.viewport }}
           path: |
             playwright-report/public-site
             playwright-report/public-scene
@@ -176,6 +184,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: jekyll-visual-logs
+          name: jekyll-visual-logs-${{ matrix.viewport }}
           path: /tmp/jekyll-candidate.log
           if-no-files-found: ignore
