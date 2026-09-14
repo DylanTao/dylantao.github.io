@@ -75,12 +75,19 @@ test("P: its project link opens a working motion playground with visible credits
   await expect.poll(async () => (await evidence(page)).owner).toBe("studio");
   await expect(page.locator(".pip-companion")).toHaveAttribute("data-visible", "false");
   const get = () => studio.evaluate((e) => e.getPipEvidence());
-  const before = await get();
   await page.getByRole("button", { name: "Curious", exact: true }).click();
-  await page.waitForTimeout(1100);
-  const after = await get();
-  expect(after.pose.gesture).toBe("curious");
-  expect(Math.abs(after.pose.head[2] - before.pose.head[2])).toBeGreaterThan(0.12);
+  // Observe the expressive phase instead of sampling one wall-clock instant.
+  // Software rendering and pointer gaze can shift that sample relative to
+  // the incoming pose. Unit tests separately enforce the gesture's cadence.
+  await expect
+    .poll(
+      async () => {
+        const after = await get();
+        return after.pose.gesture === "curious" && after.pose.head[2] > 0.2;
+      },
+      { timeout: 8000, intervals: [100, 200, 250] }
+    )
+    .toBe(true);
   await capture(page, testInfo, "pip-curiosity-playground");
   await page.getByRole("button", { name: "Let P nap", exact: true }).click();
   await expect(page.getByRole("button", { name: "Wake P up", exact: true })).toHaveAttribute("aria-pressed", "true");
