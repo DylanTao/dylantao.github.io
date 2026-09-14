@@ -548,10 +548,13 @@ function start() {
   }
   function frame(now) {
     raf = 0;
-    const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
+    const wallDelta = last ? Math.max(0, (now - last) / 1000) : 1 / 60;
+    const dt = Math.min(0.05, wallDelta);
     last = now;
     const still = companion.reduced || companion.napping || companion.paused;
-    elapsed += dt;
+    // Scheduling and travel follow real time even on a slower GPU. Only spring
+    // integration is capped; visibility/page-return handlers reset the clock.
+    elapsed += wallDelta;
     if (layoutDirty || elapsed - lastLayout > 1.2) refreshLayout();
     const scene = document.querySelector("[data-home-desk-scene]"),
       rect = scene?.getBoundingClientRect();
@@ -616,8 +619,8 @@ function start() {
           travelPose = sampleTravel(journey, elapsed - journeyStart);
           x = travelPose.x;
           y = travelPose.y;
-          vx = (x - priorX) / Math.max(dt, 0.001);
-          vy = (y - priorY) / Math.max(dt, 0.001);
+          vx = (x - priorX) / Math.max(wallDelta, 0.001);
+          vy = (y - priorY) / Math.max(wallDelta, 0.001);
           el.dataset.travel = journey.kind;
           if (journey.kind === "portal") showPortals(journey, travelPose);
           if (travelPose.done) {
