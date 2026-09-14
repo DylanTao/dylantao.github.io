@@ -292,6 +292,8 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 
 ## Footer And Global Chrome
 
+- Sirui requested a miniature La Jolla footer on September 14. Keep this authored landscape below the reading flow, with the existing short credit sentence beneath it. Load it only near the footer; protect the AI surface, native scrolling, motion pause, and a composed fallback. Small screens may explore the coast horizontally instead of shrinking every landmark into illegibility. The DIB's third-floor light is a personal authored detail, not live occupancy data. Geometry, provenance, and evidence belong in the [footer brief](docs/la-jolla-footer.md).
+
 - Keep page chrome quiet. The work should be louder than the frame.
 - Brand-mark rules (flat silhouette before detail, low-contrast texture cues, category anchors at icon size) live in `docs/material-lite-revamp.md`.
 - Search, theme, and back-to-top controls stay discoverable without covering content. The footer is one short sentence: copyright, the al-folio credit, and the update date, with its links underlined rather than told apart by color alone. Sirui removed the footer link row (RSS, GitHub, email, AI profile) on 2026-09-06 as clutter; those destinations already live in the navbar format switch and the contact section. Keep the space between the last section and the footer to one section's worth of padding, not a stack of shell padding plus footer margin. A page whose header jumps to its last section (the AI profile's Sources) keeps that landing room inside the page itself, since the footer's height is not a layout contract.

@@ -165,7 +165,7 @@ export function finishPhysicalMaterial(source, mesh) {
   return m;
 }
 
-export function createFinish(renderer, scene, camera) {
+export function createFinish(renderer, scene, camera, { transparentOutput = false } = {}) {
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const composer = new EffectComposer(renderer, target);
   const beauty = new RenderPass(scene, camera);
@@ -196,6 +196,14 @@ export function createFinish(renderer, scene, camera) {
   // Ambient contact, not a dark halo around every object.
   contact.ssaoMaterial.fragmentShader = contact.ssaoMaterial.fragmentShader.replace("1.0 - occlusion", "1.0 - occlusion * 0.65");
   const output = new OutputPass();
+  if (transparentOutput) {
+    // Tone-map straight color, then premultiply again for the transparent page
+    // canvas. Applying the transfer curve to premultiplied foam creates a neon
+    // fringe where the coastline fades into paper.
+    output.material.fragmentShader = output.material.fragmentShader
+      .replace("// tone mapping", "gl_FragColor.rgb /= max(gl_FragColor.a, 0.00001);\n// tone mapping")
+      .replace(/\}\s*$/, "gl_FragColor.rgb *= gl_FragColor.a;\n}");
+  }
   composer.addPass(beauty);
   composer.addPass(contact);
   composer.addPass(output);

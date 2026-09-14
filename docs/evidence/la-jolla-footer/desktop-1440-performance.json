@@ -1,0 +1,9 @@
+{
+  "loadMs": 696,
+  "observedFooterFps": 30,
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "platform": "Local Windows Chromium; emulated mobile, not a physical phone benchmark"
+}

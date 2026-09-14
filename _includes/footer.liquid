@@ -14,12 +14,14 @@
 
 {% if site.footer_fixed %}
   <footer class="fixed-bottom" role="contentinfo">
+    {% include la-jolla-footer.liquid %}
     <div class="container mt-0">
       {{ footer_contents }}
     </div>
   </footer>
 {% else %}
   <footer class="sticky-bottom mt-5" role="contentinfo">
+    {% include la-jolla-footer.liquid %}
     {% if site.newsletter.enabled %}
       {% include newsletter.liquid %}
     {% endif %}

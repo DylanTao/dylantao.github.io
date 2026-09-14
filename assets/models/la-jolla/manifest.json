@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "model": "la-jolla.glb",
+  "coordinates": "Y-up",
+  "office": [5.523333333333333, 3.2800000000000002, -1.106666666666667],
+  "camera": {
+    "position": [5, 18, 38],
+    "target": [0, 2, 0],
+    "width": 45
+  },
+  "triangleCount": 72868,
+  "source": "bin/build_la_jolla.py",
+  "geography": "Authored collage, not a map"
+}

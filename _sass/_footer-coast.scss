@@ -1,0 +1,167 @@
+// A scene at the end of the reading flow, with the existing credit sentence below.
+footer:has(.footer-coast) {
+  background: var(--global-bg-color);
+  border-top: 0;
+  padding-top: 0;
+
+  > .container {
+    color: var(--global-text-color-light);
+    padding-block: 1.15rem 1.4rem;
+    font-size: 0.72rem;
+
+    a {
+      color: inherit;
+    }
+  }
+}
+
+.footer-coast {
+  position: relative;
+  margin: 1.25rem 0 0;
+  color: var(--global-text-color-light);
+  isolation: isolate;
+
+  &__scene {
+    position: relative;
+    width: 100%;
+    height: clamp(240px, 28vw, 420px);
+    overflow: hidden;
+    touch-action: pan-y;
+    // Fade the water and the coast's ends into paper, keeping the skyline whole.
+    mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent), linear-gradient(to bottom, #000 82%, transparent 100%);
+    mask-composite: intersect;
+  }
+
+  &__canvas,
+  &__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  &__poster {
+    object-fit: contain;
+  }
+
+  &__canvas {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 400ms ease;
+  }
+
+  &[data-state="ready"] &__canvas {
+    opacity: 1;
+  }
+
+  &[data-state="ready"] &__poster {
+    visibility: hidden;
+  }
+
+  &__caption {
+    width: min(100% - 4rem, 1200px);
+    margin: -0.1rem auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    font-size: 0.73rem;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 44px;
+    background: transparent;
+    border: 0;
+    padding: 0.3rem 0.4rem;
+    color: var(--global-text-color);
+    font: inherit;
+    cursor: pointer;
+    border-radius: 0.35rem;
+
+    &:hover {
+      background: var(--global-code-bg-color);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--global-theme-color);
+      outline-offset: 3px;
+    }
+  }
+
+  &__lamp {
+    width: 6px;
+    height: 9px;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+    background: var(--global-theme-color);
+  }
+
+  &__light[aria-pressed="true"] &__lamp {
+    background: #eda859;
+    border-color: #c78230;
+    box-shadow: 0 0 8px #eeb75e70;
+  }
+
+  &__pause {
+    min-width: 44px;
+  }
+
+  &__hint {
+    display: none;
+  }
+}
+
+html[data-theme="dark"] .footer-coast__poster {
+  filter: brightness(0.65) saturate(0.8);
+}
+
+@media (max-width: 600px) {
+  .footer-coast {
+    &[data-state="ready"] .footer-coast__hint {
+      display: inline;
+    }
+
+    &__scene {
+      height: 270px;
+
+      &:focus-visible {
+        outline: 2px solid var(--global-theme-color);
+        outline-offset: -3px;
+      }
+    }
+
+    &__poster {
+      object-fit: cover;
+      object-position: 67% center;
+    }
+
+    &__caption {
+      width: calc(100% - 2rem);
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0 1rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-coast__canvas {
+    transition: none;
+  }
+}
