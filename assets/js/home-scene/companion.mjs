@@ -28,7 +28,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
     materials.add(o.material);
     geometries.add(o.geometry);
     if (o.material.name === "Pip porcelain") {
-      o.material.roughness = 0.3;
+      o.material.roughness = 0.38;
       o.material.envMapIntensity = 0.65;
     }
   });
@@ -170,7 +170,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
     });
     head.rotation.set(...pose.head);
     head.rotation.order = "ZYX";
-    head.position.y = 0.432;
+    head.position.y = 0.4;
     body.position.y = pose.lift * 0.46;
     shell.rotation.z = pose.lean;
     antennas.forEach((a, i) => (a.rotation.z = pose.antennas[i]));
@@ -179,7 +179,8 @@ export async function createWorldCompanion(scene, config, container, loader) {
       p.position.copy(pupilOrigins[i]);
       p.position.x += pose.gaze[0] * 0.024;
       p.position.y += pose.gaze[1] * 0.019;
-      p.scale.y = Math.max(0.085, 1 - pose.blink * 0.915);
+      p.scale.x = pose.pupil[0];
+      p.scale.y = pose.eyes[i] * pose.pupil[1];
     });
     fade = paused ? 1 : Math.min(1, fade + dt * 2);
     body.scale.setScalar(0.46 * fade);

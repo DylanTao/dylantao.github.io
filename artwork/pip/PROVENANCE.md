@@ -8,11 +8,12 @@ Created for Sirui Tao’s website on September 14, 2026. Sirui directed the char
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pip.blend`                              | Original model authored in Blender 4.5.9 LTS through its background Python API. Rounded ceramic head, tapered shell, separate convex optical lenses, two antennae, and detached arms. Includes a studio camera and lights. |
 | `../../bin/build_pip.py`                 | Reproducible authoring, GLB export, and transparent Cycles render. No downloaded model, traced mesh, or image-to-mesh service.                                                                                             |
-| `../../assets/models/pip/pip.glb`        | Exported articulated nodes, 799,784 bytes. The browser poses named head, antenna, eye, and arm pivots; there is no skeletal animation clip or physics simulation.                                                          |
+| `../../assets/models/pip/pip.glb`        | Exported articulated nodes, 870,896 bytes. The browser poses named head, antenna, eye, and arm pivots; there is no skeletal animation clip or physics simulation.                                                          |
 | `pip-model.png`                          | Actual 800 × 900 transparent Cycles render of the model, 48 samples and denoising. This is model evidence, not generated concept art.                                                                                      |
 | `../../assets/img/project_pics/pip.webp` | 640 × 720 transparent WebP derivative of that render, quality 88. Used for the project thumbnail and progressive fallback.                                                                                                 |
 | `../../assets/js/companion/portrait.mjs` | Original analytic WebGL portrait matching the model’s design. Shaped surfaces, optical reflections, ambient occlusion, soft light and a ground shadow; no raster scene backdrop.                                           |
 | `../../assets/js/companion/motion.mjs`   | Shared original pose vocabulary, gaze blending, standard minimum-jerk interpolation, and damped antenna springs.                                                                                                           |
+| `../../assets/js/companion/travel.mjs`   | Original page navigation: bounded visibility graph around rendered rectangles, a smaller footprint for squeezed passages, and authored portal transitions between clear endpoints.                                         |
 
 Rebuild from the repository root:
 
@@ -21,6 +22,8 @@ Rebuild from the repository root:
 ```
 
 Blender was used programmatically. Native application mouse control was unavailable in this session; no manual sculpting through the Blender UI is claimed. GLB nodes export in Y-up coordinates with +Z facing forward. The web runtime retains one pose controller across the page, room, and project playground.
+
+The second September 14 pass replaces hollow eye rings with filled elliptical pupils and separate catchlights, softens the optical bezels, shortens the antennae, rounds the body and shapes curved flippers. Independent eye apertures and pupil proportions carry winks, squints and surprise in both renderers. The model, transparent Cycles render and web poster were regenerated together; no image generation was used for this revision.
 
 ## Inspiration and resources
 

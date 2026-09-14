@@ -58,7 +58,20 @@ I built a small vocabulary around those moments: a greeting, a curious lean, an 
 
 ## One companion, two places
 
+<div class="pip-encounter" data-pip-play-space>
+  <p class="pip-encounter-note">A thought in the way.<br>A little room to get around it.</p>
+  <div class="pip-trip-controls" role="group" aria-label="Try Pip’s page interactions" hidden>
+    <button type="button" data-pip-trip="fly">Fly around</button>
+    <button type="button" data-pip-trip="squeeze">Squeeze past</button>
+    <button type="button" data-pip-trip="portal">Open a portal</button>
+    <button type="button" data-pip-trip="bump">A little bump</button>
+  </div>
+  <p class="pip-trip-status" data-pip-trip-status aria-live="polite">Invite Pip out into the page.</p>
+</div>
+
 Pip begins beside the homepage record. Enter the 3D home and it appears inside, hovering between places to perch. Scroll back into the reading and it can follow you out. The white shell, optical lenses, orange detail, and gestures keep that identity recognizable.
+
+On the page, Pip looks for a clear way around the words and cards. It usually flies around an edge, sometimes tucks into a smaller gap, and opens a pair of little portals when a crossing is blocked. A rare bump has a visible approach, a small wobble, and a repair. The reading stays where it belongs.
 
 The surface responds to the site’s four times of day: softer morning light, cooler daylight, a warm afternoon, and a quiet evening rim. The page version draws a tiny analytic 3D portrait; the room uses the articulated Blender model. They share their motion vocabulary, attention, and nap preference.
 
@@ -66,7 +79,7 @@ This is an authored character experiment. Pip’s remarks and actions are local,
 
 ## What changed after the first pass
 
-The first Pip had a rectangular visor and a small round body. In review, I asked for the physical charm of Reachy Mini and the floating ease of EVE. I replaced the visor with separate convex lenses, added two independently moving antennae, and shaped a continuous tapered shell. A larger playground made the timing and surface easier to judge than a tiny homepage screenshot.
+The first Pip had a rectangular visor and a small round body. In review, I asked for the physical charm of Reachy Mini and the floating ease of EVE. Separate convex lenses and a tapered shell helped, but the hollow eye rings still felt cold and the antennae too wiry. The next pass uses softer filled pupils that widen, squint and wink, shorter flexible antennae, and shaped flippers. The larger playground makes those small differences easier to judge.
 
 The useful lesson: a character needs a coherent silhouette and a few legible gestures before it needs more behavior. The next question is whether its occasional interruptions remain welcome during a longer reading session; I have not run a visitor study yet.
 

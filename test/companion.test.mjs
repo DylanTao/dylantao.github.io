@@ -4,7 +4,44 @@ import { randomSource, spring, choosePerch, clearAt, phrase } from "../assets/js
 import { beachPoint, beachWidth } from "../assets/js/home-scene/shore.mjs";
 import { readFileSync } from "node:fs";
 import { createPipMotion, gestures, sampleGesture } from "../assets/js/companion/motion.mjs";
+import { planTravel, sampleTravel, segmentClear } from "../assets/js/companion/travel.mjs";
 const beach = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url))).beach;
+
+test("Pip flies around cards, shrinks before narrow gaps, and uses portals across blocked pages", () => {
+  const start = { x: 100, y: 298 },
+    end = { x: 500, y: 298 },
+    bounds = { width: 600, height: 600, size: 70 };
+  const card = [{ left: 250, right: 350, top: 200, bottom: 400 }];
+  const fly = planTravel(start, end, { ...bounds, obstacles: card });
+  assert.equal(fly.kind, "fly");
+  assert.ok(fly.points.length > 2);
+  const narrow = [
+    { left: 250, right: 350, top: 0, bottom: 270 },
+    { left: 250, right: 350, top: 325, bottom: 600 },
+  ];
+  const squeeze = planTravel(start, end, { ...bounds, obstacles: narrow });
+  assert.equal(squeeze.kind, "squeeze");
+  for (const [plan, obstacles] of [
+    [fly, card],
+    [squeeze, narrow],
+  ]) {
+    for (let i = 0; i <= 200; i++) {
+      const pose = sampleTravel(plan, (plan.duration * i) / 200);
+      assert.ok(clearAt(pose.x, pose.y, obstacles, 70 * pose.scale), `${plan.kind} intersects reading at ${i}`);
+    }
+    assert.equal(sampleTravel(plan, 100).x, end.x);
+    assert.equal(sampleTravel(plan, 100).y, end.y);
+  }
+  const wall = [{ left: 250, right: 350, top: 0, bottom: 600 }];
+  const portal = planTravel(start, end, { ...bounds, obstacles: wall });
+  assert.equal(portal.kind, "portal");
+  assert.equal(segmentClear(start, end, wall, 70), false);
+  for (let i = 0; i <= 100; i++) {
+    const pose = sampleTravel(portal, (portal.duration * i) / 100);
+    assert.ok(pose.x === start.x || pose.x === end.x, "portal must not fly through the intervening text");
+    assert.ok(pose.scale > 0 && pose.scale <= 1);
+  }
+});
 
 test("Pip gestures settle, can be interrupted, and honor reduced motion immediately", () => {
   for (const name of Object.keys(gestures)) {

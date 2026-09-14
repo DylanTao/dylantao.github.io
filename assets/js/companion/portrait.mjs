@@ -3,9 +3,9 @@
 import { companionLights } from "./bridge.mjs";
 
 const fragment = `precision highp float;
-uniform vec2 resolution, gaze, antennas, arms;
+uniform vec2 resolution, gaze, antennas, arms, eyes, pupil;
 uniform vec3 headPose, accent, lamp;
-uniform float lift, lean, blink, dark;
+uniform float lift, lean, blink, dark, framing;
 float box(vec3 p,vec3 b,float r){vec3 q=abs(p)-b;return length(max(q,0.))+min(max(q.x,max(q.y,q.z)),0.)-r;}
 float ball(vec3 p,vec3 r){return (length(p/r)-1.)*min(r.x,min(r.y,r.z));}
 float rod(vec3 p,vec3 a,vec3 b,float r){vec3 ab=b-a;return length(p-a-ab*clamp(dot(p-a,ab)/dot(ab,ab),0.,1.))-r;}
@@ -15,40 +15,44 @@ vec2 nearest(vec2 a,vec2 b){return a.x<b.x?a:b;}
 vec2 shape(vec3 p){
  p.y-=lift; p.xy=rot(lean)*p.xy;
  // A continuous pear-shaped shell, tapering toward the hover unit.
- vec3 torso=p-vec3(0.,-.21,0.);float taper=1.+clamp(torso.y,-.39,.34)*.43;
- vec2 d=vec2(ball(vec3(torso.x/taper,torso.y,torso.z/taper),vec3(.28,.38,.23)),1.);
+ vec3 torso=p-vec3(0.,-.20,0.);float taper=1.+clamp(torso.y,-.35,.34)*.60;
+ vec2 d=vec2(ball(vec3(torso.x/taper,torso.y,torso.z/taper),vec3(.295,.35,.24)),1.);
  d=nearest(d,vec2(ball(p-vec3(0.,.158,0.),vec3(.09,.07,.085)),6.));
- d=nearest(d,vec2(ball(p-vec3(0.,-.558,0.),vec3(.095,.022,.079)),3.));
- d=nearest(d,vec2(ball(p-vec3(0.,-.573,.004),vec3(.067,.009,.055)),4.));
- d=nearest(d,vec2(ball(p-vec3(.087,-.05,.225),vec3(.022,.022,.008)),5.));
- vec3 h=p-vec3(0.,.432,0.);
+ d=nearest(d,vec2(ball(p-vec3(0.,-.526,0.),vec3(.078,.014,.06)),3.));
+ d=nearest(d,vec2(ball(p-vec3(0.,-.534,.004),vec3(.056,.006,.048)),4.));
+ d=nearest(d,vec2(ball(p-vec3(.078,-.035,.237),vec3(.018,.024,.006)),5.));
+ vec3 h=p-vec3(0.,.4,0.);
  h.xy=rot(headPose.z)*h.xy;h.xz=rot(-headPose.y)*h.xz;h.yz=rot(headPose.x)*h.yz;
- d=nearest(d,vec2(box(h,vec3(.285,.087,.075),.178),1.));
+ d=nearest(d,vec2(box(h,vec3(.245,.063,.063),.19),1.));
  // A dark, recessed seam continues around the back of the shell.
  vec3 seam=h;seam.z+=.065;
- float seamD=box(seam,vec3(.282,.084,.001),.179);
+ float seamD=box(seam,vec3(.242,.06,.001),.191);
  d=nearest(d,vec2(max(seamD,abs(seam.z)-.0035),3.));
- d=nearest(d,vec2(box(h-vec3(0.,.016,.275),vec3(.10,.012,.007),.008),3.));
+ d=nearest(d,vec2(box(h-vec3(0.,.015,.253),vec3(.084,.006,.003),.008),3.));
  for(int i=0;i<2;i++){
    float side=i==0?-1.:1., r=i==0?.151:.126;
    vec3 eye=h-vec3(side*.201,.017,.279);
    d=nearest(d,vec2(ball(eye,vec3(r*1.1,r*1.1,.044)),3.));
-   d=nearest(d,vec2(ring(eye-vec3(0.,0.,.035),r,.012),6.));
+   d=nearest(d,vec2(ring(eye-vec3(0.,0.,.035),r,.006),3.));
    d=nearest(d,vec2(ball(eye-vec3(0.,0.,.041),vec3(r*.94,r*.94,.043)),2.));
    vec3 iris=eye-vec3(gaze.x*.024,gaze.y*.019,.082);
-   iris.y/=max(.085,1.-blink*.915);
-   d=nearest(d,vec2(ring(iris,r*.46,.0075),4.));
-   d=nearest(d,vec2(ball(iris,vec3(r*.405,r*.405,.009)),2.));
+   iris.xy/=pupil;
+   iris.y/=max(.08,i==0?eyes.x:eyes.y);
+   d=nearest(d,vec2(ball(iris,vec3(r*.32,r*.46,.009)),4.));
+   vec3 glint=eye-vec3(-r*.28,r*.44,.076);
+   d=nearest(d,vec2(ball(glint,vec3(r*.16,r*.095,.007)),7.));
    // Two independently hinged antennae: a short collar, slender stalk, soft tip.
    vec3 a=h-vec3(side*.322,.239,-.055);
    a.xy=rot(i==0?antennas.x:antennas.y)*a.xy;
-   vec3 end=vec3(side*.12,.34,0.);
+   vec3 end=vec3(side*.08,.245,.004),mid=vec3(side*.052,.13,.006);
    d=nearest(d,vec2(rod(a,vec3(0.),vec3(side*.015,.046,0.),.016),3.));
-   d=nearest(d,vec2(rod(a,vec3(side*.012,.039,0.),end,.008),3.));
-   d=nearest(d,vec2(length(a-end)-.016,i==0?1.:5.));
-   vec3 arm=p-vec3(side*.344,-.13,0.);
+   d=nearest(d,vec2(rod(a,vec3(side*.012,.039,0.),mid,.009),3.));
+   d=nearest(d,vec2(rod(a,mid,end,.007),3.));
+   d=nearest(d,vec2(ball(a-end,vec3(.022,.033,.022)),i==0?1.:5.));
+   vec3 arm=p-vec3(side*.33,-.08,.015);
    arm.xy=rot(side*.16+(i==0?arms.x:arms.y))*arm.xy;
-   d=nearest(d,vec2(ball(arm-vec3(0.,-.04,0.),vec3(.062,.205,.09)),1.));
+   arm.y+=.10;arm.x+=side*.035*pow(clamp(-arm.y/.18,0.,1.),2.);arm.x/=(1.+arm.y*1.4);
+   d=nearest(d,vec2(ball(arm,vec3(.073,.18,.058)),1.));
  }
  return d;
 }
@@ -64,7 +68,7 @@ vec3 studio(vec3 r){
  return c;
 }
 void main(){
- vec2 uv=(gl_FragCoord.xy/resolution-.5)*vec2(resolution.x/resolution.y,1.)*2.17;
+ vec2 uv=(gl_FragCoord.xy/resolution-.5)*vec2(resolution.x/resolution.y,1.)*framing;
  vec3 ro=vec3(0.,.235,3.8),rd=normalize(vec3(uv.x,uv.y-.012,-3.35));
  float t=0.;vec2 hit=vec2(1.);
  for(int i=0;i<80;i++){hit=shape(ro+rd*t);if(hit.x<.001||t>5.5)break;t+=hit.x*.86;}
@@ -76,18 +80,19 @@ void main(){
    float ao=1.;
    for(int j=1;j<4;j++){float h=float(j)*.035;ao-=(h-shape(p+n*h).x)*(.65/float(j));}
    ao=clamp(ao,.45,1.);
-   bool ceramic=hit.y<1.5,glass=hit.y>1.5&&hit.y<2.5,metal=hit.y>5.5;
-   vec3 base=ceramic?vec3(.91,.94,.92):glass?vec3(.005,.014,.022):vec3(.035,.047,.052);
+   bool ceramic=hit.y<1.5,glass=hit.y>1.5&&hit.y<2.5,metal=hit.y>5.5&&hit.y<6.5;
+   vec3 base=ceramic?vec3(.96,.955,.925):glass?vec3(.003,.009,.015):vec3(.019,.031,.038);
    float keyShadow=clamp(shape(p+l*.085).x/.065,.3,1.);
    color=base*(mix(vec3(.55,.57,.56),vec3(.32,.36,.46),dark)+lamp*diffuse*.82*keyShadow)*ao;
    vec3 ref=studio(reflect(-v,n));
    float fresnel=pow(1.-max(0.,dot(n,v)),5.);
-   color+=ref*(ceramic?.07+fresnel*.20:glass?.17:metal?.38:.12)*ao;
-   color+=lamp*pow(max(0.,dot(n,normalize(l+v))),ceramic?48.:110.)*(ceramic?.32:.62);
+   color+=ref*(ceramic?.035+fresnel*.16:glass?.065:metal?.14:.045)*ao;
+   color+=lamp*pow(max(0.,dot(n,normalize(l+v))),ceramic?30.:110.)*(ceramic?.19:.32);
    color+=accent*pow(max(0.,dot(n,rim)),4.)*(ceramic?.14:.05);
-   if(hit.y>3.5&&hit.y<4.5)color=accent*.9+lamp*.22+ref*.1;
+   if(hit.y>3.5&&hit.y<4.5)color=mix(accent,vec3(.52,.95,1.),.45)*.85+lamp*.18;
    if(hit.y>4.5&&hit.y<5.5)color=vec3(.95,.34,.065)*(.6+diffuse*.45);
    if(metal)color+=vec3(.22,.26,.29)*diffuse;
+   if(hit.y>6.5)color=vec3(.75,.9,.95);
    color=pow(color/(color*.26+1.),vec3(1./2.2));alpha=1.;
  }else{
    float ground=(-.82-ro.y)/rd.y;
@@ -125,7 +130,7 @@ export function createPortrait(canvas) {
   gl.enableVertexAttribArray(point);
   gl.vertexAttribPointer(point, 2, gl.FLOAT, false, 0, 0);
   const u = Object.fromEntries(
-    ["resolution", "gaze", "headPose", "antennas", "arms", "lift", "lean", "blink", "dark", "accent", "lamp"].map((k) => [
+    ["resolution", "gaze", "headPose", "antennas", "arms", "eyes", "pupil", "lift", "lean", "blink", "dark", "framing", "accent", "lamp"].map((k) => [
       k,
       gl.getUniformLocation(program, k),
     ])
@@ -144,10 +149,13 @@ export function createPortrait(canvas) {
         light = companionLights[theme] || companionLights.noon;
       gl.useProgram(program);
       gl.uniform2f(u.resolution, w, h);
+      gl.uniform1f(u.framing, canvas.clientWidth > 180 ? 2.17 : 1.7);
       gl.uniform2fv(u.gaze, pose.gaze || [0, 0]);
       gl.uniform3fv(u.headPose, pose.head || [0, 0, 0]);
       gl.uniform2fv(u.antennas, pose.antennas || [0, 0]);
       gl.uniform2fv(u.arms, pose.arms || [0, 0]);
+      gl.uniform2fv(u.eyes, pose.eyes || [1 - (pose.blink || 0) * 0.92, 1 - (pose.blink || 0) * 0.92]);
+      gl.uniform2fv(u.pupil, pose.pupil || [1, 1]);
       for (const [key, value] of Object.entries({ lift: pose.lift || 0, lean: pose.lean || 0, blink: pose.blink || 0, dark: night ? 1 : 0 }))
         gl.uniform1f(u[key], value);
       gl.uniform3fv(u.accent, light.accent);

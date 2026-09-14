@@ -3,19 +3,19 @@
 // See /projects/pip/#credits. No recorded robot motions or SDK are bundled.
 import { randomSource, spring } from "./behaviour.mjs";
 
-const rest = { pitch: 0, yaw: 0, roll: 0, lift: 0, lean: 0, left: 0, right: 0, armL: 0, armR: 0, close: 0 };
+const rest = { pitch: 0, yaw: 0, roll: 0, lift: 0, lean: 0, left: 0, right: 0, armL: 0, armR: 0, close: 0, wink: 0, wide: 0 };
 export const gestures = {
   hello: [
     [0.35, { lift: 0.07, pitch: -0.09, left: -0.2, right: 0.28 }],
-    [0.85, { roll: -0.12, armR: -0.65, right: 0.48 }],
+    [0.85, { roll: -0.12, armR: -1.05, right: 0.48, wide: 0.18 }],
     [1.25, { roll: 0.08, armR: -0.45, right: -0.08 }],
-    [1.65, { roll: -0.08, armR: -0.7, right: 0.3 }],
+    [1.65, { roll: -0.08, armR: -1.2, right: 0.3, wink: 0.75 }],
     [2.6, {}],
   ],
   curious: [
     [0.5, { yaw: -0.16, pitch: -0.08, lift: 0.035 }],
-    [1.15, { roll: 0.24, yaw: 0.1, left: 0.28, right: 0.08 }],
-    [2.25, { roll: 0.24, yaw: 0.1, left: 0.28, right: 0.08 }],
+    [1.15, { roll: 0.28, yaw: 0.1, left: 0.4, right: -0.18, wide: 0.3, armL: -0.18, armR: -0.25 }],
+    [2.25, { roll: 0.28, yaw: 0.1, left: 0.4, right: -0.18, wide: 0.3, armL: -0.18, armR: -0.25 }],
     [3.2, {}],
   ],
   nod: [
@@ -31,7 +31,7 @@ export const gestures = {
     [2.6, {}],
   ],
   repair: [
-    [0.25, { pitch: -0.2, lift: 0.07, armL: -0.22, armR: 0.22, left: -0.35, right: 0.35 }],
+    [0.25, { pitch: -0.2, lift: 0.07, armL: -0.8, armR: 0.8, left: -0.45, right: 0.45, wide: 0.65 }],
     [0.65, { pitch: 0.23, roll: -0.16, lift: -0.025, armL: 0.4, armR: -0.4 }],
     [1.35, { pitch: 0.16, roll: 0.09, armL: 0.22, armR: -0.22 }],
     [1.8, { pitch: -0.1, armR: -0.25 }],
@@ -85,7 +85,7 @@ export function createPipMotion(seed = 61) {
       next = time + 13 + random() * 15;
       return true;
     },
-    update(dt, { gaze = [0, 0], still = false, nap = false, blink = 0, flight = 0, autonomous = true } = {}) {
+    update(dt, { gaze = [0, 0], still = false, nap = false, blink = 0, flight = 0, squeeze = 0, autonomous = true } = {}) {
       const step = Math.min(0.05, Math.max(0, dt));
       if (still || nap) {
         pose = { ...rest };
@@ -110,8 +110,13 @@ export function createPipMotion(seed = 61) {
         lift: nap ? -0.055 : pose.lift + Math.sin(time * 2.05) * 0.024 * idle,
         lean: pose.lean + Math.min(0.12, Math.max(-0.12, flight)) * idle,
         antennas: nap ? [0.34, -0.34] : [al, ar],
-        arms: [pose.armL + Math.sin(time * 1.7) * 0.04 * idle, pose.armR - Math.sin(time * 1.7 + 0.7) * 0.04 * idle],
+        arms: [
+          pose.armL + Math.sin(time * 1.7) * 0.06 * idle + squeeze * 0.65,
+          pose.armR - Math.sin(time * 1.7 + 0.7) * 0.06 * idle - squeeze * 0.65,
+        ],
         blink: nap ? 1 : Math.max(blink, pose.close),
+        eyes: nap ? [0.08, 0.08] : [Math.max(0.08, 1 - Math.max(blink, pose.close)), Math.max(0.08, 1 - Math.max(blink, pose.close, pose.wink))],
+        pupil: [1 + pose.wide * 0.22, 1 + pose.wide * 0.35 - squeeze * 0.3],
         gesture: name || (nap ? "nap" : "rest"),
       };
     },

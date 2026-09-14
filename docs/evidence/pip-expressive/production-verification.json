@@ -1,0 +1,17 @@
+{
+  "matched_assets": {
+    "assets/js/companion/behaviour.mjs": "dd980baa32a85e335b2cd3dab33b3d71e01e1e6e2e5496dda57afd9da136ee4e",
+    "assets/js/companion/bridge.mjs": "9208fefc340f3cd8f0a9b8fd3313353a8980cdd0784d440cdd77273055834009",
+    "assets/js/companion/motion.mjs": "300f9ddb656729dd6a8bfdf8124bfb2c5abfa69aade8b24dc4c55a5c242f9feb",
+    "assets/js/companion/page.mjs": "485f89c2f6d0404791434c7f6c838abbfaddb043db152b91085b4a30271631c4",
+    "assets/js/companion/portrait.mjs": "0f71a53423e05a256e5515671e03b6368873fcf79a866344cdd0c4b262f0d6d6",
+    "assets/js/companion/studio.mjs": "b92f97dde2fca612c53bf1ee92bd712209d5a0c60eaa8686d97e5b043b1c64c4",
+    "assets/js/companion/travel.mjs": "e566888472a8c977bda4ba338a2a0ef317a7ed113fb69ac27d6574a337d22edc",
+    "assets/js/home-scene/companion.mjs": "92e50e8a3876c6d805e72a579e533071dfa28369169239d9cd53f875aa8de38b",
+    "assets/models/pip/pip.glb": "e1cfba23a0e946ed61da20a3844feedbca65f0453fca88fc6f650f7b66330bbe",
+    "assets/img/project_pics/pip.webp": "ed6258734dc43504a4467d35addac4f7438ce07059add64a4db3d21e2ea23dde"
+  },
+  "baseurl_and_controls": true,
+  "credits": true,
+  "blender_source_excluded": true
+}

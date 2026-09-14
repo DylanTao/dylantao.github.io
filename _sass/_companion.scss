@@ -117,6 +117,50 @@
   }
 }
 
+// Small paired doorways use the active page palette. They never intercept a
+// click or change the layout, and only exist visually during a blocked trip.
+.pip-portals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1039;
+  opacity: 0;
+  contain: strict;
+  .pip-portal {
+    position: absolute;
+    width: 30px;
+    height: 96px;
+    border-radius: 50%;
+    border: 2px solid var(--global-theme-color);
+    background: radial-gradient(ellipse, color-mix(in srgb, var(--global-theme-color) 20%, transparent), transparent 70%);
+    box-shadow:
+      inset 0 0 10px color-mix(in srgb, var(--global-theme-color) 40%, transparent),
+      0 0 12px color-mix(in srgb, var(--global-theme-color) 32%, transparent);
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -6px -4px;
+      border: 1px dashed var(--global-theme-color);
+      border-radius: inherit;
+      opacity: 0.45;
+      transform: rotate(var(--pip-portal-turn, 0deg));
+    }
+    &::after {
+      inset: 5px 3px;
+      border-style: solid;
+      opacity: 0.75;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip-portals {
+    display: none;
+  }
+}
+
 .pip-project-hero {
   align-items: center;
   gap: clamp(24px, 5vw, 72px);
@@ -215,6 +259,47 @@
   scroll-margin-top: 90px;
   li {
     margin-bottom: 14px;
+  }
+}
+.pip-encounter {
+  margin-block: 28px 36px;
+  padding: 28px clamp(16px, 4vw, 40px);
+  border-block: 1px solid var(--global-divider-color);
+  .pip-encounter-note {
+    font-family: var(--font-family-display, Newsreader, serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.25;
+    margin-bottom: 24px;
+  }
+  .pip-trip-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    &[hidden] {
+      display: none;
+    }
+    button {
+      min-height: 42px;
+      border: 1px solid var(--global-divider-color);
+      border-radius: 24px;
+      padding: 8px 14px;
+      background: var(--global-bg-color);
+      color: var(--global-text-color);
+      font: 500 0.8rem/1.4 var(--font-family-base, Inter, sans-serif);
+      &:hover {
+        border-color: var(--global-theme-color);
+      }
+      &:focus-visible {
+        outline: 2px solid var(--global-theme-color);
+        outline-offset: 3px;
+      }
+    }
+  }
+  .pip-trip-status {
+    min-height: 2.8em;
+    margin: 14px 0 0;
+    color: var(--global-text-color-light);
+    font-size: 0.8rem;
   }
 }
 @media (max-width: 767px) {

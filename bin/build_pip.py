@@ -28,7 +28,7 @@ def material(name, color, roughness, metallic=0, glow=0):
     bsdf.inputs["Base Color"].default_value = (*color, 1)
     bsdf.inputs["Roughness"].default_value = roughness
     bsdf.inputs["Metallic"].default_value = metallic
-    bsdf.inputs["Coat Weight"].default_value = 0.6
+    bsdf.inputs["Coat Weight"].default_value = 0.3
     bsdf.inputs["Coat Roughness"].default_value = 0.18
     if glow:
         bsdf.inputs["Emission Color"].default_value = (*color, 1)
@@ -36,11 +36,12 @@ def material(name, color, roughness, metallic=0, glow=0):
     return mat
 
 
-ceramic = material("Pip porcelain", (0.91, 0.94, 0.92), 0.3)
-glass = material("Pip optical glass", (0.008, 0.018, 0.026), 0.11, 0.25)
+ceramic = material("Pip porcelain", (0.96, 0.955, 0.925), 0.38)
+glass = material("Pip optical glass", (0.003, 0.009, 0.015), 0.2, 0.08)
 graphite = material("Pip graphite", (0.025, 0.032, 0.035), 0.33, 0.3)
 metal = material("Pip lens bevel", (0.22, 0.28, 0.3), 0.22, 0.7)
 light = material("Pip iris", (0.18, 0.73, 0.72), 0.25, glow=1.1)
+highlight = material("Pip catchlight", (0.75, 0.9, 0.95), 0.3, glow=0.5)
 orange = material("Pip orange pip", (0.95, 0.34, 0.065), 0.34)
 
 
@@ -113,21 +114,21 @@ def torus(name, loc, radius, tube, mat, owner):
 body = parent("PipBody")
 ellipsoid(
     "Continuous tapered shell",
-    (0, -0.21, 0),
-    (0.28, 0.38, 0.23),
+    (0, -0.20, 0),
+    (0.295, 0.35, 0.24),
     ceramic,
     body,
-    taper=0.43,
+    taper=0.60,
 )
 ellipsoid("Neck gimbal", (0, 0.158, 0), (0.09, 0.07, 0.085), metal, body)
-ellipsoid("Hover outlet", (0, -0.558, 0), (0.095, 0.022, 0.079), graphite, body)
-ellipsoid("Hover glow", (0, -0.573, 0.004), (0.067, 0.009, 0.055), light, body)
+ellipsoid("Hover outlet", (0, -0.526, 0), (0.078, 0.014, 0.06), graphite, body)
+ellipsoid("Hover glow", (0, -0.534, 0.004), (0.056, 0.006, 0.048), light, body)
 ellipsoid(
-    "Orange identity dot", (0.087, -0.05, 0.225), (0.022, 0.022, 0.008), orange, body
+    "Orange identity dot", (0.078, -0.035, 0.237), (0.018, 0.024, 0.006), orange, body
 )
-head = parent("PipHead", (0, 0.432, 0), body)
-rounded("Pebble head shell", (0, 0, 0), (0.926, 0.53, 0.506), 0.178, ceramic, head)
-rounded("Lens bridge", (0, 0.016, 0.275), (0.22, 0.04, 0.028), 0.009, graphite, head)
+head = parent("PipHead", (0, 0.4, 0), body)
+rounded("Pebble head shell", (0, 0, 0), (0.87, 0.506, 0.506), 0.19, ceramic, head)
+rounded("Lens bridge", (0, 0.015, 0.253), (0.184, 0.028, 0.022), 0.008, graphite, head)
 for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
     center = (side * 0.201, 0.017, 0.279)
     ellipsoid(
@@ -141,8 +142,8 @@ for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
         "Lens bevel " + suffix,
         (center[0], center[1], 0.314),
         radius,
-        0.012,
-        metal,
+        0.006,
+        graphite,
         head,
     )
     ellipsoid(
@@ -153,13 +154,19 @@ for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
         head,
     )
     pupil = parent("PipEye" + suffix, (center[0], center[1], 0.361), head)
-    torus("Iris light " + suffix, (0, 0, 0), radius * 0.46, 0.0075, light, pupil)
     ellipsoid(
-        "Pupil " + suffix,
+        "Soft luminous pupil " + suffix,
         (0, 0, 0),
-        (radius * 0.405, radius * 0.405, 0.009),
-        glass,
+        (radius * 0.32, radius * 0.46, 0.009),
+        light,
         pupil,
+    )
+    ellipsoid(
+        "Optical catchlight " + suffix,
+        (center[0] - radius * 0.28, center[1] + radius * 0.44, 0.355),
+        (radius * 0.16, radius * 0.095, 0.007),
+        highlight,
+        head,
     )
     antenna = parent("PipAntenna" + suffix, (side * 0.322, 0.239, -0.055), head)
     rod(
@@ -173,23 +180,38 @@ for side, suffix, radius in [(-1, "L", 0.151), (1, "R", 0.126)]:
     rod(
         "Antenna stalk " + suffix,
         (side * 0.012, 0.039, 0),
-        (side * 0.12, 0.34, 0),
-        0.008,
+        (side * 0.052, 0.13, 0.006),
+        0.009,
+        graphite,
+        antenna,
+    )
+    rod(
+        "Flexible antenna end " + suffix,
+        (side * 0.052, 0.13, 0.006),
+        (side * 0.08, 0.245, 0.004),
+        0.007,
         graphite,
         antenna,
     )
     ellipsoid(
         "Antenna tip " + suffix,
-        (side * 0.12, 0.34, 0),
-        (0.016,) * 3,
+        (side * 0.08, 0.245, 0.004),
+        (0.022, 0.033, 0.022),
         ceramic if side < 0 else orange,
         antenna,
     )
-    arm = parent("PipArm" + suffix, (side * 0.344, -0.13, 0), body)
+    arm = parent("PipArm" + suffix, (side * 0.33, -0.08, 0.015), body)
     arm.rotation_euler.y = -side * 0.16
-    ellipsoid(
-        "Floating flipper " + suffix, (0, -0.04, 0), (0.062, 0.205, 0.09), ceramic, arm
+    flipper = ellipsoid(
+        "Sculpted floating flipper " + suffix,
+        (0, -0.10, 0),
+        (0.073, 0.18, 0.058),
+        ceramic,
+        arm,
+        taper=1.4,
     )
+    for vertex in flipper.data.vertices:
+        vertex.co.x -= side * 0.035 * max(0, min(1, -vertex.co.z / 0.18)) ** 2
 
 bpy.context.scene.render.engine = "CYCLES"
 bpy.context.scene.cycles.samples = 48
@@ -220,6 +242,7 @@ bpy.context.scene.render.resolution_x = 800
 bpy.context.scene.render.resolution_y = 900
 bpy.context.scene.render.resolution_percentage = 100
 bpy.context.scene.render.film_transparent = True
+bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "pip.blend"))
 bpy.ops.object.select_all(action="DESELECT")
 body.select_set(True)

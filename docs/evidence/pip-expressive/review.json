@@ -1,0 +1,128 @@
+{
+  "states": [
+    {
+      "activity": "work",
+      "companion": {
+        "visible": true,
+        "position": [0.4, 3.73, 3.45],
+        "head": [0, 0, 0],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "traveling": false
+      }
+    },
+    {
+      "activity": "soak",
+      "companion": {
+        "visible": true,
+        "position": [2.25, 3.3200000000000003, 2.2],
+        "head": [0, 0, 0],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "onsen",
+        "traveling": false
+      }
+    },
+    {
+      "route": "/projects/",
+      "accepted": true,
+      "state": {
+        "owner": "page",
+        "x": 1388,
+        "y": 620,
+        "target": {
+          "x": 1388,
+          "y": 620
+        },
+        "gaze": [0, 0],
+        "visible": true,
+        "napping": false,
+        "reduced": true,
+        "theme": "noon",
+        "frames": 171,
+        "bumpCount": 1,
+        "repaired": 1,
+        "travel": "rest",
+        "lastTravel": "portal",
+        "travels": {
+          "fly": 9,
+          "squeeze": 0,
+          "portal": 1
+        },
+        "lastEncounter": "bump",
+        "portalVisible": false,
+        "repairing": false,
+        "text": "That was me.",
+        "renderer": "webgl"
+      }
+    },
+    {
+      "route": "/blog/",
+      "accepted": true,
+      "state": {
+        "owner": "page",
+        "x": 1388,
+        "y": 330,
+        "target": {
+          "x": 1388,
+          "y": 330
+        },
+        "gaze": [0, 0],
+        "visible": true,
+        "napping": false,
+        "reduced": true,
+        "theme": "noon",
+        "frames": 187,
+        "bumpCount": 1,
+        "repaired": 1,
+        "travel": "rest",
+        "lastTravel": "fly",
+        "travels": {
+          "fly": 1,
+          "squeeze": 0,
+          "portal": 0
+        },
+        "lastEncounter": "bump",
+        "portalVisible": false,
+        "repairing": false,
+        "text": "That was me.",
+        "renderer": "webgl"
+      }
+    },
+    {
+      "route": "/blog/2026/research-skills-starter-pack/",
+      "accepted": true,
+      "state": {
+        "owner": "page",
+        "x": 1388,
+        "y": 620,
+        "target": {
+          "x": 1388,
+          "y": 620
+        },
+        "gaze": [0, 0],
+        "visible": true,
+        "napping": false,
+        "reduced": true,
+        "theme": "noon",
+        "frames": 299,
+        "bumpCount": 1,
+        "repaired": 1,
+        "travel": "rest",
+        "lastTravel": "fly",
+        "travels": {
+          "fly": 16,
+          "squeeze": 0,
+          "portal": 0
+        },
+        "lastEncounter": "stumble",
+        "portalVisible": false,
+        "repairing": false,
+        "text": "I can fix that.",
+        "renderer": "webgl"
+      }
+    }
+  ],
+  "errors": []
+}

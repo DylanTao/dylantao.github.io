@@ -1,6 +1,7 @@
 import { createPortrait } from "./portrait.mjs";
 import { companion, pipProjectUrl } from "./bridge.mjs";
 import { choosePerch, clearAt, phrase, randomSource, spring } from "./behaviour.mjs";
+import { planTravel, sampleTravel, segmentClear } from "./travel.mjs";
 
 const root = document.documentElement;
 if (!document.querySelector(".pip-companion") && !location.pathname.startsWith("/ai/") && !document.querySelector("[data-ai-profile]")) start();
@@ -28,8 +29,13 @@ function start() {
   el.dataset.visible = "false";
   el.setAttribute("aria-label", "Pip, the little studio companion");
   el.innerHTML =
-    '<canvas aria-hidden="true"></canvas><span class="pip-fallback" aria-hidden="true"><svg viewBox="0 0 88 112"><defs><linearGradient id="pip-shell" x2="0.8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#bbcbd0"/></linearGradient></defs><ellipse cx="44" cy="103" rx="20" ry="3" fill="#12222c" opacity=".16"/><g fill="url(#pip-shell)" stroke="#8a9da3" stroke-width=".55"><path d="M25 29 19 10M62 29 69 10" stroke-width="1.2"/><rect x="15" y="27" width="58" height="32" rx="12"/><path d="M44 61C20 60 30 95 44 96C58 95 68 60 44 61Z"/><ellipse cx="25" cy="75" rx="3" ry="10"/><ellipse cx="63" cy="75" rx="3" ry="10"/></g><path d="M35 43h17" stroke="#263941" stroke-width="2"/><g fill="#10222b" stroke="#647f8b"><circle cx="32" cy="43" r="10"/><circle cx="57" cy="43" r="8"/></g><g fill="none" stroke="var(--global-theme-color, #6fc6ca)" stroke-width="1.5"><circle cx="32" cy="43" r="4.4"/><circle cx="57" cy="43" r="3.7"/></g><g fill="#fff" opacity=".75"><ellipse cx="29" cy="38" rx="2.4" ry="1.3"/><ellipse cx="55" cy="39" rx="1.6" ry=".8"/></g><circle cx="48" cy="70" r="1.5" fill="#f07a38"/></svg></span><a class="pip-hit" aria-label="Meet Pip, the floating studio companion" title="Meet Pip"><span class="pip-label" aria-hidden="true">Meet Pip ↗</span></a><span class="pip-speech" aria-hidden="true"></span><button class="pip-nap" aria-label="Let Pip nap" title="Let Pip nap">☾</button>';
+    '<canvas aria-hidden="true"></canvas><span class="pip-fallback" aria-hidden="true"><svg viewBox="0 0 88 112"><defs><linearGradient id="pip-shell" x2="0.8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#bbcbd0"/></linearGradient></defs><ellipse cx="44" cy="103" rx="20" ry="3" fill="#12222c" opacity=".16"/><g fill="url(#pip-shell)" stroke="#8a9da3" stroke-width=".55"><path d="M25 29 19 10M62 29 69 10" stroke-width="1.2"/><rect x="15" y="27" width="58" height="32" rx="12"/><path d="M44 61C20 60 30 95 44 96C58 95 68 60 44 61Z"/><ellipse cx="25" cy="75" rx="3" ry="10"/><ellipse cx="63" cy="75" rx="3" ry="10"/></g><path d="M35 43h17" stroke="#263941" stroke-width="2"/><g fill="#10222b" stroke="#647f8b"><circle cx="32" cy="43" r="10"/><circle cx="57" cy="43" r="8"/></g><g fill="var(--global-theme-color, #6fc6ca)"><ellipse cx="32" cy="43" rx="3.4" ry="5.2"/><ellipse cx="57" cy="43" rx="3" ry="4.5"/></g><g fill="#fff" opacity=".75"><ellipse cx="29" cy="38" rx="2.4" ry="1.3"/><ellipse cx="55" cy="39" rx="1.6" ry=".8"/></g><circle cx="48" cy="70" r="1.5" fill="#f07a38"/></svg></span><a class="pip-hit" aria-label="Meet Pip, the floating studio companion" title="Meet Pip"><span class="pip-label" aria-hidden="true">Meet Pip ↗</span></a><span class="pip-speech" aria-hidden="true"></span><button class="pip-nap" aria-label="Let Pip nap" title="Let Pip nap">☾</button>';
   document.body.append(el);
+  const portals = document.createElement("div");
+  portals.className = "pip-portals";
+  portals.setAttribute("aria-hidden", "true");
+  portals.innerHTML = '<span class="pip-portal"></span><span class="pip-portal"></span>';
+  document.body.append(portals);
   let portrait;
   try {
     portrait = createPortrait(el.querySelector("canvas"));
@@ -65,12 +71,21 @@ function start() {
     nextWander = 9 + random() * 8,
     nextSpeech = 28 + random() * 25,
     speakingUntil = 0;
-  let nextBump = 35 + random() * 28,
+  let nextBump = 55 + random() * 50,
     bumpAnimation = null,
     repairAt = 0,
     section = "",
     priorSection = "",
     mode = "page";
+  let journey = null,
+    journeyStart = 0,
+    contact = null,
+    travelPose = null,
+    lastTravel = "rest",
+    lastEncounter = "none";
+  const travels = { fly: 0, squeeze: 0, portal: 0 };
+  let invitation = null,
+    invitedUntil = 0;
   let nextBlink = 3 + random() * 4,
     blinkUntil = 0,
     worldEscapeUntil = 0,
@@ -124,9 +139,28 @@ function start() {
   }
   function speak(event, explicit = false) {
     if (!explicit && (companion.napping || companion.reduced || !visible)) return;
-    const box = { left: x - 180, right: x + 8, top: y - 116, bottom: y - 64 };
-    if (!explicit && obstacles.some((r) => box.left < r.right && box.right > r.left && box.top < r.bottom && box.bottom > r.top)) return;
+    if (journey) return;
+    el.dataset.speaking = "false";
     bubble.textContent = phrase(location.pathname, section, event, random);
+    bubble.style.translate = "none";
+    const rect = bubble.getBoundingClientRect(),
+      gap = (innerWidth < 600 ? 68 : 82) * 0.55 + 10;
+    const positions = [
+      { left: rect.left, top: rect.top },
+      { left: x - rect.width / 2, top: y + gap },
+      { left: x - gap - rect.width, top: y - rect.height / 2 },
+      { left: x + gap, top: y - rect.height / 2 },
+    ];
+    const position = positions.find(
+      (p) =>
+        p.left > 10 &&
+        p.top > 90 &&
+        p.left + rect.width < innerWidth - 10 &&
+        p.top + rect.height < innerHeight - 12 &&
+        !obstacles.some((r) => p.left < r.right + 6 && p.left + rect.width > r.left - 6 && p.top < r.bottom + 6 && p.top + rect.height > r.top - 6)
+    );
+    if (!position) return;
+    bubble.style.translate = `${position.left - rect.left}px ${position.top - rect.top}px`;
     speakingUntil = elapsed + 3.5;
     el.dataset.speaking = "true";
   }
@@ -135,14 +169,40 @@ function start() {
     rail = main?.getBoundingClientRect();
     obstacles = [
       ...document.querySelectorAll(
-        "#main h1,#main h2,#main h3,#main p,#main li,#main figure,#main img,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main .home-portrait-frame,#main .home-artifact-card,#main [data-home-desk-scene] canvas,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
+        "#main h1,#main h2,#main h3,#main p,#main li,#main figure,#main img,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main .home-portrait-frame,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main [data-home-desk-scene] canvas,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
       ),
     ]
       .filter(
         (node) => !node.closest(".pip-companion") && getComputedStyle(node).visibility !== "hidden" && getComputedStyle(node).display !== "none"
       )
-      .map((node) => node.getBoundingClientRect())
+      .flatMap((node) => {
+        const bounds = node.getBoundingClientRect();
+        if (bounds.bottom < 70 || bounds.top > innerHeight) return [];
+        const style = getComputedStyle(node);
+        // Protect the actual lines, leaving the empty end of a paragraph usable.
+        // Painted boxes and interactive controls retain their complete bounds.
+        if (node.matches("p,h1,h2,h3") && style.backgroundColor === "rgba(0, 0, 0, 0)" && style.backgroundImage === "none") {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          return [...range.getClientRects()];
+        }
+        return [bounds];
+      })
       .filter((r) => r.width > 0 && r.height > 0 && r.bottom > 70 && r.top < innerHeight);
+    if (journey) {
+      const sample = sampleTravel(journey, elapsed - journeyStart);
+      const remaining = journey.kind === "portal" ? journey.points : [sample, ...journey.points.slice(sample.segment)];
+      const size = innerWidth < 600 ? 68 : 82;
+      const fits =
+        journey.kind === "portal"
+          ? remaining.every((p) => clearAt(p.x, p.y, obstacles, size))
+          : clearAt(sample.x, sample.y, obstacles, size * sample.scale) &&
+            remaining.slice(1).every((p, i) => segmentClear(remaining[i], p, obstacles, journey.footprint));
+      if (!fits) {
+        clearTravel();
+        visible = false;
+      }
+    }
     const headings = [...document.querySelectorAll("#main h2,#main h1")];
     const near = headings
       .map((node) => ({ node, rect: node.getBoundingClientRect() }))
@@ -171,6 +231,7 @@ function start() {
     };
   }
   function choose(follow = false) {
+    if (journey || contact || bumpAnimation || elapsed < speakingUntil) return;
     if (layoutDirty || elapsed - lastLayout > 0.7) refreshLayout();
     if (visible && el.matches(":hover,:focus-within") && clearAt(x, y, obstacles, innerWidth < 600 ? 68 : 82)) {
       target = { x, y };
@@ -186,16 +247,58 @@ function start() {
       ignoreUntil = elapsed + 3 + random() * 5;
     }
     const size = innerWidth < 600 ? 68 : 82;
-    target = choosePerch({ width: innerWidth, height: innerHeight, preferred, obstacles, size, rail });
+    const next = choosePerch({ width: innerWidth, height: innerHeight, preferred, obstacles, size, rail });
+    target = next;
     if (target && !visible) {
       x = target.x;
       y = target.y;
       vx = vy = 0;
     }
     visible = Boolean(target);
+    if (target && !companion.reduced && !companion.napping && !companion.paused && Math.hypot(target.x - x, target.y - y) > 34) beginTravel(target);
     nextPerch = elapsed + 0.5;
   }
+  function beginTravel(destination, kind) {
+    if (companion.reduced || companion.napping || companion.paused) return false;
+    const size = innerWidth < 600 ? 68 : 82;
+    if (!clearAt(x, y, obstacles, size)) {
+      const safe = choosePerch({ width: innerWidth, height: innerHeight, preferred: { x, y }, obstacles, size, rail });
+      if (!safe) return false;
+      x = safe.x;
+      y = safe.y;
+    }
+    const start = { x, y };
+    portals.style.opacity = "0";
+    travelPose = null;
+    journey = planTravel(start, destination, { obstacles, width: innerWidth, height: innerHeight, size, kind });
+    journeyStart = elapsed;
+    lastTravel = journey.kind;
+    travels[journey.kind]++;
+    target = destination;
+    if (journey.kind === "portal") companion.motion.play("peek");
+    return true;
+  }
+  function clearTravel() {
+    journey = null;
+    contact = null;
+    travelPose = null;
+    portals.style.opacity = "0";
+    el.dataset.travel = "rest";
+    el.style.opacity = "";
+    nextPerch = 0;
+  }
+  function showPortals(plan, sample) {
+    portals.style.opacity = String(sample.portal);
+    portals.style.setProperty("--pip-portal-turn", `${(elapsed - journeyStart) * 110}deg`);
+    for (let i = 0; i < 2; i++) {
+      const p = plan.points[i ? plan.points.length - 1 : 0];
+      portals.children[i].style.transform = `translate(${p.x - 15}px,${p.y - 48}px) scale(${sample.portal},${0.65 + sample.portal * 0.35})`;
+    }
+  }
   function restore() {
+    clearTravel();
+    el.dataset.speaking = "false";
+    speakingUntil = 0;
     if (bumpAnimation) {
       bumpAnimation.cancel();
       bumpAnimation = null;
@@ -203,26 +306,70 @@ function start() {
     }
     repairAt = 0;
   }
-  function nudge(force = false) {
-    if (companion.reduced || companion.napping || companion.paused || bumpAnimation) return false;
-    const candidates = [...document.querySelectorAll(".home-artifact-card,#main .home-featured-title,#main h2")].filter(
+  function nudge(force = false, type) {
+    if (companion.reduced || companion.napping || companion.paused || bumpAnimation || contact) return false;
+    const selector =
+      type === "stumble"
+        ? "#main h2,#main .home-featured-title,#main .pip-encounter-note"
+        : ".home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main .home-featured-item,#main h2,#main .pip-encounter-note";
+    const candidates = [...document.querySelectorAll(selector)].filter(
       (node) =>
         !node.matches(":hover,:focus-within") && node.getBoundingClientRect().top > 100 && node.getBoundingClientRect().bottom < innerHeight - 70
     );
-    const card = candidates.sort((a, b) => {
-      const A = a.getBoundingClientRect(),
-        B = b.getBoundingClientRect();
-      return Math.hypot(A.right - x, A.top - y) - Math.hypot(B.right - x, B.top - y);
-    })[0];
-    if (!card) return false;
-    const rect = card.getBoundingClientRect();
-    if (!force && Math.hypot(rect.right - x, rect.top + rect.height * 0.5 - y) > 200) return false;
+    refreshLayout();
+    const size = innerWidth < 600 ? 68 : 82;
+    // Narrow layouts often have room above a card, but none beside it.
+    const approaches = candidates.flatMap((card) => {
+      const rect = card.getBoundingClientRect();
+      const sides = [
+        { x: rect.right + size * 0.39 + 7, y: rect.top + Math.min(rect.height / 2, 65) },
+        { x: rect.left - size * 0.39 - 7, y: rect.top + Math.min(rect.height / 2, 65) },
+      ];
+      for (const fraction of [0.85, 0.15, 0.5])
+        for (const y of [rect.top - size * 0.48 - 7, rect.bottom + size * 0.48 + 7]) sides.push({ x: rect.left + rect.width * fraction, y });
+      return sides.map((p) => ({ ...p, card }));
+    });
+    const destination = approaches
+      .filter(
+        (p) =>
+          p.x > size * 0.5 + 5 &&
+          p.x < innerWidth - size * 0.5 - 5 &&
+          p.y > 100 &&
+          p.y < innerHeight - size * 0.5 - 5 &&
+          clearAt(p.x, p.y, obstacles, size)
+      )
+      .sort((a, b) => Math.hypot(a.x - x, a.y - y) - Math.hypot(b.x - x, b.y - y))[0];
+    if (!destination || (!force && Math.hypot(destination.x - x, destination.y - y) > 200)) return false;
+    const { card } = destination;
+    contact = { card, force, type: type || (card.matches("h2,.home-featured-title,.pip-encounter-note") ? "stumble" : "bump") };
+    if (Math.hypot(destination.x - x, destination.y - y) > 24) {
+      if (!beginTravel(destination)) {
+        contact = null;
+        return false;
+      }
+    } else {
+      x = destination.x;
+      y = destination.y;
+      target = destination;
+      performContact();
+    }
+    return true;
+  }
+  function performContact() {
+    if (!contact) return;
+    const { card, force, type } = contact;
+    contact = null;
+    if (!card.isConnected || card.matches(":hover,:focus-within") || companion.reduced || companion.napping) return;
+    const amount = type === "stumble" ? 2.5 : 5;
+    lastEncounter = type;
     bumpAnimation = card.animate(
       [
         { translate: "0 0", rotate: "0deg" },
-        { translate: "0 7px", rotate: "1.5deg", offset: 0.14 },
-        { translate: "0 7px", rotate: "1.5deg", offset: 0.64 },
-        { translate: "0 -1px", rotate: "-.3deg", offset: 0.92 },
+        { translate: `${amount}px 1px`, rotate: ".7deg", offset: 0.1 },
+        { translate: `${-amount * 0.55}px -1px`, rotate: "-.5deg", offset: 0.2 },
+        { translate: `${amount * 0.3}px 0`, rotate: ".25deg", offset: 0.3 },
+        { translate: "1px 1px", rotate: ".1deg", offset: 0.64 },
+        { translate: "0 -1px", rotate: "-.1deg", offset: 0.88 },
         { translate: "0 0", rotate: "0deg" },
       ],
       { duration: 2300, easing: "ease-in-out" }
@@ -241,7 +388,6 @@ function start() {
         speak("repair", force);
       })
       .catch(() => {});
-    return true;
   }
   function setNap(value) {
     companion.napping = value;
@@ -255,6 +401,11 @@ function start() {
   }
   let lastHello = -10;
   const greet = () => {
+    if (journey) {
+      clearTravel();
+      target = { x, y };
+      nextPerch = elapsed + 2;
+    }
     if (elapsed - lastHello < 6 || companion.napping || companion.reduced) return;
     lastHello = elapsed;
     companion.motion.play("hello");
@@ -263,6 +414,27 @@ function start() {
   };
   hit.addEventListener("pointerenter", greet);
   hit.addEventListener("focus", greet);
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-pip-trip]");
+    if (!button) return;
+    const status = document.querySelector("[data-pip-trip-status]");
+    if (companion.reduced || companion.napping || companion.paused) {
+      if (status) status.textContent = "Pip is resting. Wake it up or allow motion to try a little journey.";
+      return;
+    }
+    invitedUntil = elapsed + 14;
+    invitation = button.dataset.pipTrip;
+    restore();
+    if (status)
+      status.textContent = {
+        fly: "Taking the scenic route.",
+        squeeze: "Tuck in. Just enough room.",
+        portal: "A little shortcut.",
+        bump: "Careful… oh. One second.",
+      }[invitation];
+    request();
+  });
+  for (const controls of document.querySelectorAll(".pip-trip-controls")) controls.hidden = false;
   nap.addEventListener("click", () => {
     setNap(!companion.napping);
     window.dispatchEvent(new Event("pip:nap"));
@@ -298,6 +470,9 @@ function start() {
   window.addEventListener(
     "scroll",
     () => {
+      if (journey) clearTravel();
+      el.dataset.speaking = "false";
+      speakingUntil = 0;
       layoutDirty = true;
       lastScroll = elapsed;
       scrolled = true;
@@ -309,6 +484,7 @@ function start() {
   window.addEventListener(
     "resize",
     () => {
+      clearTravel();
       layoutDirty = true;
       nextPerch = 0;
       request();
@@ -389,7 +565,7 @@ function start() {
     }
     const studio = document.querySelector("[data-pip-studio]")?.getBoundingClientRect();
     const studioVisible = studio && studio.bottom > innerHeight * 0.25 && studio.top < innerHeight * 0.8;
-    const nextMode = studioVisible ? "studio" : worldVisible && elapsed > worldEscapeUntil ? "world" : "page";
+    const nextMode = invitedUntil > elapsed ? "page" : studioVisible ? "studio" : worldVisible && elapsed > worldEscapeUntil ? "world" : "page";
     if (mode !== nextMode) {
       if (nextMode === "page" && companion.projected) {
         x = Math.max(45, Math.min(innerWidth - 45, companion.projected.x));
@@ -400,6 +576,7 @@ function start() {
         nextSpeech = elapsed + 2;
       }
       mode = nextMode;
+      restore();
       companion.owner = mode;
       window.dispatchEvent(new Event("pip:change"));
       layoutDirty = true;
@@ -411,22 +588,53 @@ function start() {
       el.dataset.speaking = "false";
     } else {
       if (elapsed >= nextPerch || !target || layoutDirty) choose(!still && elapsed - lastPointer < 5);
+      if (invitation) {
+        const action = invitation;
+        invitation = null;
+        if (!performTrip(action)) {
+          const status = document.querySelector("[data-pip-trip-status]");
+          if (status) status.textContent = "A little crowded here. I’ll wait for a clear gap.";
+        }
+      }
+      if (!target) {
+        el.dataset.visible = "false";
+        el.style.opacity = "";
+      }
       if (target) {
         if (still) {
           x = target.x;
           y = target.y;
           vx = vy = 0;
+        } else if (journey) {
+          const priorX = x,
+            priorY = y;
+          travelPose = sampleTravel(journey, elapsed - journeyStart);
+          x = travelPose.x;
+          y = travelPose.y;
+          vx = (x - priorX) / Math.max(dt, 0.001);
+          vy = (y - priorY) / Math.max(dt, 0.001);
+          el.dataset.travel = journey.kind;
+          if (journey.kind === "portal") showPortals(journey, travelPose);
+          if (travelPose.done) {
+            journey = null;
+            el.dataset.travel = "rest";
+            portals.style.opacity = "0";
+            travelPose = null;
+            nextPerch = elapsed + 2;
+            performContact();
+          }
         } else {
           [x, vx] = spring(x, vx, target.x, dt, 2.1);
           [y, vy] = spring(y, vy, target.y, dt, 2.1);
         }
         // If a moving page puts text under Pip, wait in the next clear gap.
-        const clear = clearAt(x, y, obstacles, innerWidth < 600 ? 58 : 70);
+        const clear = clearAt(x, y, obstacles, (innerWidth < 600 ? 68 : 82) * (travelPose?.scale || 1));
         el.dataset.visible = String(visible && (clear || el.matches(":focus-within")));
         el.dataset.side = x < innerWidth / 2 ? "left" : "right";
+        el.style.opacity = travelPose && el.dataset.visible === "true" ? String(travelPose.opacity) : "";
         const w = innerWidth < 600 ? 72 : 88,
           h = innerWidth < 600 ? 92 : 112;
-        el.style.transform = `translate3d(${(x - w / 2).toFixed(2)}px,${(y - h / 2).toFixed(2)}px,0) rotate(${still ? 0 : Math.max(-7, Math.min(7, vx * 0.055))}deg)`;
+        el.style.transform = `translate3d(${(x - w / 2).toFixed(2)}px,${(y - h / 2).toFixed(2)}px,0) rotate(${still ? 0 : (travelPose?.bank ?? Math.max(-7, Math.min(7, vx * 0.055)))}deg) scale(${travelPose?.scale || 1})`;
       }
       if (elapsed > nextSpeech) {
         speak(scrolled ? "catchup" : undefined);
@@ -434,8 +642,8 @@ function start() {
         nextSpeech = elapsed + 45 + random() * 35;
       }
       if (elapsed > nextBump && !still) {
-        if (random() < 0.55) nudge();
-        nextBump = elapsed + 55 + random() * 45;
+        if (!journey && random() < 0.3) nudge();
+        nextBump = elapsed + 85 + random() * 65;
       }
       if (elapsed > speakingUntil) el.dataset.speaking = "false";
       if (!still && elapsed > nextBlink) {
@@ -454,6 +662,7 @@ function start() {
             nap: companion.napping,
             blink: elapsed < blinkUntil ? Math.sin(((blinkUntil - elapsed) / 0.17) * Math.PI) : 0,
             flight: vx * 0.0004,
+            squeeze: journey?.kind === "squeeze" ? (1 - (travelPose?.scale || 1)) / 0.44 : 0,
           }),
           theme: companion.theme,
         });
@@ -476,20 +685,40 @@ function start() {
     frames,
     bumpCount,
     repaired,
+    travel: journey?.kind || "rest",
+    lastTravel,
+    travels: { ...travels },
+    lastEncounter,
+    portalVisible: Number(portals.style.opacity || 0) > 0,
     repairing: Boolean(bumpAnimation),
     text: bubble.textContent,
     renderer: portrait ? "webgl" : "css",
   });
-  if (lab)
-    el.previewCompanion = (action) => {
-      if (action === "bump") return nudge(true);
-      if (action === "speak") speak(undefined, true);
-      if (action === "escape") {
-        worldEscapeUntil = elapsed + 10;
-        nextPerch = 0;
-      }
-      request();
-    };
+  function performTrip(action) {
+    if (action === "bump") return nudge(true);
+    if (action === "stumble") return nudge(true, "stumble");
+    if (["fly", "squeeze", "portal"].includes(action)) {
+      refreshLayout();
+      const size = innerWidth < 600 ? 68 : 82;
+      const destination = choosePerch({
+        width: innerWidth,
+        height: innerHeight,
+        preferred: { x: x < innerWidth / 2 ? innerWidth - 55 : 55, y: Math.max(130, innerHeight - y) },
+        obstacles,
+        size,
+        rail,
+      });
+      if (destination) return beginTravel(destination, action);
+      return false;
+    }
+    if (action === "speak") speak(undefined, true);
+    if (action === "escape") {
+      worldEscapeUntil = elapsed + 10;
+      nextPerch = 0;
+    }
+    request();
+  }
+  if (lab) el.previewCompanion = performTrip;
   setNap(companion.napping);
   theme();
   request();

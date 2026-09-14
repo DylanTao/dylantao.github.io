@@ -3,6 +3,41 @@ const { test, expect } = require("@playwright/test");
 const { publicRouteUrl } = require("./public-routes");
 const { collectRuntimeErrors } = require("./helpers");
 const evidence = (page) => page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence());
+
+test("Pip: public page journeys, interrupted portals, and reduced motion stay usable", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.route("**/livereload.js*", (r) => r.fulfill({ body: "" }));
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/projects/pip/"), { waitUntil: "networkidle" });
+  const playground = page.locator(".pip-encounter");
+  await playground.scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Open a portal", exact: true }).click();
+  await expect.poll(async () => (await evidence(page)).portalVisible).toBe(true);
+  await expect.poll(async () => (await evidence(page)).travel).toBe("portal");
+  await page.waitForTimeout(440);
+  await capture(page, testInfo, "pip-paired-portals");
+  await page.getByRole("button", { name: "Squeeze past", exact: true }).click();
+  await expect.poll(async () => (await evidence(page)).travels.squeeze).toBeGreaterThan(0);
+  await expect.poll(async () => (await evidence(page)).portalVisible).toBe(false);
+  await capture(page, testInfo, "pip-squeeze-past-the-words");
+  await page.mouse.wheel(0, 130);
+  await expect.poll(async () => (await evidence(page)).portalVisible).toBe(false);
+  await page.getByRole("button", { name: "A little bump", exact: true }).click();
+  await expect.poll(async () => (await evidence(page)).repairing).toBe(true);
+  const thought = page.locator(".pip-encounter-note"),
+    original = await thought.innerText();
+  await capture(page, testInfo, "pip-stumbles-then-helps");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(async () => (await evidence(page)).repairing).toBe(false);
+  expect(await thought.innerText()).toBe(original);
+  expect(await thought.evaluate((e) => e.getAnimations().length)).toBe(0);
+  await page.getByRole("button", { name: "Open a portal", exact: true }).click();
+  await expect(page.locator("[data-pip-trip-status]")).toContainText("resting");
+  expect((await evidence(page)).portalVisible).toBe(false);
+  expect((await evidence(page)).travel).toBe("rest");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  expect(errors).toEqual([]);
+});
 async function open(page, { motion = "no-preference" } = {}) {
   const errors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: motion });

@@ -49,6 +49,8 @@ The subsequent [Pip and beach ecology pass](evidence/coastal-companion/README.md
 
 The September 14 [Pip refinement](evidence/pip-reachy/README.md) replaces the boxy visor with separate convex lenses, articulated antennae and an EVE-inspired tapered body. The original Blender model and analytic page portrait share minimum-jerk gestures, pointer attention and delayed antenna springs. Clicking Pip opens a project page with a live motion playground and visible Reachy Mini / Pixar credits. Blender was used through its background Python API; native mouse-driven asset creation is not claimed.
 
+The follow-up [expressive Pip checkpoint](evidence/pip-expressive/README.md) softens the eyes, body, flippers and antennae, then adds obstacle-aware flight, squeezed passages and paired portals. Card and text accidents now have visible approaches and occur much less often than ordinary travel. The project page lets visitors try these encounters directly. Original reading content, links, one-owner handoff, nap and reduced motion remain protected.
+
 The committed gallery contains a curated subset of comparable captures and machine-readable measurements. Full local captures and test output live under the ignored `.jekyll-cache/visual-qa/` directory so screenshot writes do not trigger Jekyll rebuilds. Source checks supplement direct inspection; a ready flag alone was never treated as proof of visible WebGL.
 
 ```powershell
