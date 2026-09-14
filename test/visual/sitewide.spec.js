@@ -2150,6 +2150,10 @@ test("home research motion responds locally and keeps a reduced-motion still", a
   expect(centerState.kineticEnergy).toBeGreaterThanOrEqual(centerState.maxInteractionIntent - 0.03);
   expect(centerState.targetIntent).toBeLessThanOrEqual(0.72);
   expect(centerState.kineticEnergy).toBeLessThanOrEqual(centerState.maxInteractionIntent);
+  expect(
+    await page.evaluate(([x, y]) => Boolean(document.elementFromPoint(x, y)?.closest(".pip-companion")), [centerX, centerY]),
+    "P must leave the interactive research canvas available to the pointer"
+  ).toBe(false);
   await attachScreenshot(page, testInfo, "research-motion-engaged-desktop-1440", { locator: stage });
 
   await page.mouse.move(centerX, box.y - 24);

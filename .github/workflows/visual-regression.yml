@@ -80,6 +80,9 @@ jobs:
       matrix:
         viewport: [desktop-1440, laptop-1280, tablet-768, mobile-390]
         stream: [scene, site]
+        include:
+          - viewport: desktop-1440
+            stream: legacy
     timeout-minutes: 50
     steps:
       - name: Checkout candidate
@@ -165,12 +168,13 @@ jobs:
           # Surface the first defect promptly; a passing run still covers every case.
           if [ "$VISUAL_STREAM" = "scene" ]; then
             npm run test:visual:scene -- --project "$VISUAL_PROJECT" --max-failures=1
-          else
+          elif [ "$VISUAL_STREAM" = "site" ]; then
             npm run test:visual:site -- --project "$VISUAL_PROJECT" --max-failures=1
           fi
 
-          # Both legacy engines run once, after the desktop public matrix.
-          if [ "$VISUAL_PROJECT" = "desktop-1440" ] && [ "$VISUAL_STREAM" = "site" ]; then
+          # Both legacy engines get one isolated runner. The full desktop page
+          # matrix must not consume their browser/build budget first.
+          if [ "$VISUAL_STREAM" = "legacy" ]; then
             LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
             VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP" --max-failures=1
           fi
