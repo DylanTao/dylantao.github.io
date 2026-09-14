@@ -355,7 +355,21 @@ test("coastal home: a routine boundary walks through the home before settling in
   await ui.locator('[data-world-room="overview"]').click();
   await canvas.scrollIntoViewIfNeeded();
   await capture(testInfo, "walking-between-rooms", await canvas.screenshot());
-  await expect.poll(async () => (await evidence(scene)).joints.Root[1], { timeout: 25000 }).toBeGreaterThan(0.5);
+  const climbSamples = [];
+  try {
+    await expect
+      .poll(
+        async () => {
+          const sample = await evidence(scene);
+          climbSamples.push({ frames: sample.frames, seconds: sample.animationSeconds, navigation: sample.navigation, root: sample.joints.Root });
+          return sample.joints.Root[1];
+        },
+        { timeout: 25000 }
+      )
+      .toBeGreaterThan(0.5);
+  } finally {
+    await testInfo.attach("stair-timing", { body: JSON.stringify(climbSamples, null, 2), contentType: "application/json" });
+  }
   await capture(testInfo, "walking-up-the-stair", await canvas.screenshot());
   await expect(scene).toHaveAttribute("data-animation", "soak", { timeout: 18000 });
   const soaked = await evidence(scene);

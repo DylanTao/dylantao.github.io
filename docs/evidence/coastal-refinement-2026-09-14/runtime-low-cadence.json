@@ -1,0 +1,34 @@
+{
+  "samples": [
+    {
+      "wall": 4.499,
+      "frames": 8,
+      "animationSeconds": 67.83066666666667,
+      "navigation": {
+        "progress": 0.4727937469342694,
+        "duration": 11.195156522947565,
+        "position": [-2.55, 0, 3.8795000000000104]
+      },
+      "root": [-2.55, 0, 3.8795000000000104]
+    },
+    {
+      "wall": 9.186,
+      "frames": 9,
+      "animationSeconds": 72.28766666666667,
+      "navigation": {
+        "progress": 0.8709123432097338,
+        "duration": 11.195156522947565,
+        "position": [2.35, 2.6, 4.427734784421347]
+      },
+      "root": [2.35, 2.6, 4.427734784421347]
+    },
+    {
+      "wall": 14.777,
+      "frames": 10,
+      "animationSeconds": 76.96566666666666,
+      "navigation": null,
+      "root": [3.17, 2.12, 3.08]
+    }
+  ],
+  "errors": []
+}
