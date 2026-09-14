@@ -262,3 +262,17 @@ test("P: old nap storage recovers automatically and a journey starts within eigh
   await expect(page.locator(".pip-companion")).toHaveCount(0);
   expect(errors).toEqual([]);
 });
+
+test("P: a slow frame rate does not delay its autonomous schedule", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    window.requestAnimationFrame = (callback) => setTimeout(() => callback(performance.now()), 100);
+    window.cancelAnimationFrame = clearTimeout;
+  });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => typeof document.querySelector(".pip-companion")?.getCompanionEvidence === "function");
+  await expect.poll(async () => Object.values((await evidence(page)).travels).reduce((a, b) => a + b, 0), { timeout: 9000 }).toBeGreaterThan(0);
+  expect(errors).toEqual([]);
+});

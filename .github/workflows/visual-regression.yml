@@ -158,13 +158,14 @@ jobs:
           echo "Jekyll is ready. Recent build output:"
           tail -n 80 "$LOG_PATH" || true
           python3 test/validate_publication_outputs.py _site
-          npm run test:visual:site -- --project "$VISUAL_PROJECT"
-          npm run test:visual:scene -- --project "$VISUAL_PROJECT"
+          # Surface the first defect promptly; a passing run still covers every case.
+          npm run test:visual:site -- --project "$VISUAL_PROJECT" --max-failures=1
+          npm run test:visual:scene -- --project "$VISUAL_PROJECT" --max-failures=1
 
           # Both legacy engines run once, after the desktop public matrix.
           if [ "$VISUAL_PROJECT" = "desktop-1440" ]; then
             LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
-            VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP"
+            VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP" --max-failures=1
           fi
 
       - name: Upload Playwright screenshots and traces

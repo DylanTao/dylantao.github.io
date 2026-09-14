@@ -71,6 +71,7 @@ Pixel density is capped; the emulated mobile home canvas was 525 × 528 pixels. 
 
 ## Verification record
 
+- A 10 fps scheduling probe exposed a roughly 12-second first journey: the spring delta cap also slowed P's behavior clock. The schedule and travel now use elapsed wall time while spring integration remains capped; hidden-page recovery still resets the clock. A browser regression check enforces the first-journey deadline at that cadence. This is a scheduling probe, not a physical-device performance measurement.
 - Linux CI runs the four public viewports on isolated runners, with one browser worker each and separate site/scene processes. The Chromium/WebKit legacy scope runs once on the desktop runner. This preserves all checks and assets while avoiding a single serialized software-WebGL queue; artifact names retain the viewport.
 - Deployed smoke inspection caught an unsupported `redirect_from` field: this site does not load the redirect plugin. An explicit legacy page now forwards `/projects/pip/` to `/projects/p/`, retaining query strings and anchors, with a no-JavaScript fallback. Desktop and mobile browser checks exercise the old address.
 - Python unit suite: **163 passed**. Node routine/navigation/companion suite: **17 passed**. Style contract passed.
