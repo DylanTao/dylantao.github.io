@@ -34,8 +34,8 @@ function route(start, end, obstacles, width, height, size) {
   if (segmentClear(start, end, obstacles, size)) return [start, end];
   // Visibility graph of expanded obstacle corners. Cap to viewport rectangles
   // and deduplicate nested text/link boxes before adding nodes.
-  const padX = size * 0.39 + 8,
-    padY = size * 0.48 + 8;
+  const padX = size * 0.39 + 24,
+    padY = size * 0.48 + 24;
   const nodes = [start, end];
   const hulls = obstacles.filter(
     (r, i) =>
@@ -85,6 +85,38 @@ function route(start, end, obstacles, width, height, size) {
   return result;
 }
 
+// Round a visibility path only where the entire curve has clearance. A single
+// arc-length clock carries momentum through bends instead of restarting the
+// easing at every graph corner. The sampled chords are also used on reflow.
+function softenRoute(points, obstacles, size) {
+  const result = [points[0]];
+  const mix = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+  for (let i = 1; i < points.length - 1; i++) {
+    const a = points[i - 1],
+      b = points[i],
+      c = points[i + 1];
+    const before = Math.hypot(b.x - a.x, b.y - a.y),
+      after = Math.hypot(c.x - b.x, c.y - b.y);
+    let bend = null;
+    for (const radius of [44, 28, 16, 8]) {
+      const reach = Math.min(radius, before * 0.35, after * 0.35);
+      const entry = mix(b, a, reach / before),
+        exit = mix(b, c, reach / after);
+      const candidate = Array.from({ length: 13 }, (_, j) => {
+        const t = j / 12;
+        return mix(mix(entry, b, t), mix(b, exit, t), t);
+      });
+      if (candidate.slice(1).every((p, j) => segmentClear(candidate[j], p, obstacles, size))) {
+        bend = candidate;
+        break;
+      }
+    }
+    result.push(...(bend || [b]));
+  }
+  result.push(points.at(-1));
+  return result;
+}
+
 export function planTravel(start, end, { obstacles = [], width, height, size = 70, kind } = {}) {
   const direct = Math.hypot(end.x - start.x, end.y - start.y);
   let points = kind === "portal" ? null : route(start, end, obstacles, width, height, size);
@@ -103,6 +135,7 @@ export function planTravel(start, end, { obstacles = [], width, height, size = 7
     points = [start, end];
     mode = "portal";
   }
+  if (mode !== "portal") points = softenRoute(points, obstacles, footprint);
   const lengths = [0];
   for (let i = 1; i < points.length; i++) lengths.push(lengths[i - 1] + Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y));
   return { kind: mode, points, lengths, footprint, duration: mode === "portal" ? 1.9 : Math.max(0.85, Math.min(7, lengths.at(-1) / 115 + 0.5)) };
@@ -125,21 +158,23 @@ export function sampleTravel(plan, seconds) {
       phase: entering ? "enter" : "exit",
     };
   }
-  const travel = plan.kind === "squeeze" ? Math.min(1, Math.max(0, (u - 0.16) / 0.68)) : u;
-  const length = travel * plan.lengths.at(-1);
+  const travel = plan.kind === "squeeze" ? Math.min(1, Math.max(0, (u - 0.16) / 0.68)) : Math.max(0, (u - 0.07) / 0.93);
+  const length = minimumJerk(travel) * plan.lengths.at(-1);
   let i = 1;
   while (i < plan.lengths.length - 1 && length > plan.lengths[i]) i++;
   const a = plan.points[i - 1],
     b = plan.points[i];
-  // Settle at each corner before changing heading; never cut through a card.
-  const t = minimumJerk((length - plan.lengths[i - 1]) / Math.max(0.001, plan.lengths[i] - plan.lengths[i - 1]));
+  const t = (length - plan.lengths[i - 1]) / Math.max(0.001, plan.lengths[i] - plan.lengths[i - 1]);
+  const span = Math.max(0.001, plan.lengths[i] - plan.lengths[i - 1]);
+  const direction = [(b.x - a.x) / span, (b.y - a.y) / span];
   const squeeze = plan.kind === "squeeze" ? 1 - 0.44 * minimumJerk(Math.min(1, u / 0.16, (1 - u) / 0.16)) : 1;
   return {
-    x: a.x + (b.x - a.x) * t,
-    y: a.y + (b.y - a.y) * t,
+    x: u === 1 ? end.x : a.x + (b.x - a.x) * t,
+    y: u === 1 ? end.y : a.y + (b.y - a.y) * t,
     scale: squeeze,
     opacity: 1,
-    bank: Math.max(-9, Math.min(9, (b.x - a.x) * 0.06)) * Math.sin(Math.PI * t),
+    bank: direction[0] * 7 * Math.sin(Math.PI * travel),
+    gaze: [direction[0] * 0.8, -direction[1] * 0.6],
     done: u === 1,
     portal: 0,
     phase: plan.kind,

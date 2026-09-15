@@ -451,6 +451,7 @@ export async function mountCoast(host) {
     theme: host.dataset.theme,
     running,
     buildings: buildings.length,
+    landmarks: buildings.map((b) => b.object.name),
     orbit: [orbitX, orbitY],
     resources: renderer.info.memory,
   });

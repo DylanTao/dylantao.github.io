@@ -101,7 +101,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Repeat information only when it improves orientation. Pinned content is a route into the work, not a reason to remove that work from the chronological archive.
 - When comparable time series begin on different dates, keep every verified earlier segment and let later series join when their evidence begins; never truncate shared history to force a common start.
 - Line breaks are part of hierarchy. If a phrase leaves one orphan word on a line, adjust width, type size, or copy before accepting the wrap.
-- Research figures stay inspectable: `object-fit: contain` in clean white wells, no decorative crops, intrinsic width and height declared so the layout never jumps, and an aspect hint in front matter for an unusually wide or tall teaser.
+- Research figures stay inspectable: `object-fit: contain`, no decorative crops, intrinsic width and height declared so the layout never jumps, and an aspect hint in front matter for an unusually wide or tall teaser. Sirui's September 14 refinement permits reviewed outer-background masks: preserve every original RGB pixel, internal white interface panels, labels and source downloads. Remove the surrounding paper/card backing for these derivatives and use restrained localized contrast on dark themes; do not regenerate scientific figures.
 
 ## Color
 

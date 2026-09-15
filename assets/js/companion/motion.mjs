@@ -42,6 +42,23 @@ export const gestures = {
     [2, { pitch: 0.19, roll: -0.12, lift: -0.06, close: 1, left: 0.38, right: -0.38 }],
     [3.8, {}],
   ],
+  stretch: [
+    [0.8, { lift: 0.06, pitch: -0.12, armL: -0.65, armR: 0.65, left: -0.25, right: 0.25 }],
+    [1.6, { lift: 0.09, roll: -0.1, armL: -1.05, armR: 0.9, close: 0.35 }],
+    [2.6, { roll: 0.08, armL: -0.15, armR: 0.2 }],
+    [3.8, {}],
+  ],
+  listen: [
+    [0.8, { yaw: 0.18, roll: -0.19, armL: -0.24, right: 0.35, wide: 0.18 }],
+    [2.0, { yaw: 0.2, roll: -0.19, armL: -0.24, right: 0.35, wide: 0.18 }],
+    [3.3, {}],
+  ],
+  delight: [
+    [0.55, { lift: 0.08, pitch: -0.12, armL: -0.65, armR: 0.65, wide: 0.3 }],
+    [1.3, { lift: 0.04, roll: 0.1, armL: -0.4, armR: 0.8, left: -0.3, right: 0.18 }],
+    [2.1, { lift: 0.05, roll: -0.08, armL: -0.6, armR: 0.3, wink: 0.5 }],
+    [3.4, {}],
+  ],
 };
 
 // The standard zero-velocity, zero-acceleration quintic trajectory.
@@ -72,6 +89,9 @@ export function createPipMotion(seed = 61) {
     next = 8 + random() * 10;
   let gx = 0,
     gy = 0,
+    hx = 0,
+    hy = 0,
+    bodyLean = 0,
     al = 0,
     ar = 0,
     vl = 0,
@@ -92,32 +112,42 @@ export function createPipMotion(seed = 61) {
       if (still || nap) {
         pose = { ...rest };
         name = null;
-        gx = gy = al = ar = vl = vr = 0;
+        gx = gy = hx = hy = bodyLean = al = ar = vl = vr = 0;
         next = time + 12;
       } else {
         time += step;
-        if (autonomous && time > next && !name) this.play(["curious", "nod", "peek"][Math.floor(random() * 3)]);
+        if (autonomous && time > next && !name) this.play(["curious", "nod", "peek", "listen", "stretch", "delight"][Math.floor(random() * 6)]);
         pose = name ? sampleGesture(name, time - started, start) : { ...rest };
         if (name && time - started >= gestures[name].at(-1)[0]) name = null;
-        const ease = 1 - Math.exp(-step * 9);
-        gx += (Math.min(1, Math.max(-1, gaze[0])) - gx) * ease;
-        gy += (Math.min(1, Math.max(-1, gaze[1])) - gy) * ease;
+        // Exact cascaded low-pass response: eyes arrive first, neck follows.
+        // Closed-form integration keeps the lag identical at different rates.
+        const eg = Math.exp(-step * 12),
+          eh = Math.exp(-step * 5);
+        const tx = Math.min(1, Math.max(-1, gaze[0])),
+          ty = Math.min(1, Math.max(-1, gaze[1]));
+        hx = tx + (hx - tx) * eh + (5 * (gx - tx) * (eg - eh)) / (5 - 12);
+        hy = ty + (hy - ty) * eh + (5 * (gy - ty) * (eg - eh)) / (5 - 12);
+        gx = tx + (gx - tx) * eg;
+        gy = ty + (gy - ty) * eg;
+        bodyLean += (Math.min(0.12, Math.max(-0.12, flight)) - bodyLean) * (1 - Math.exp(-step * 3));
         for (let remaining = step; remaining > 0.000001; remaining -= 0.05) {
           const substep = Math.min(0.05, remaining);
-          [al, vl] = spring(al, vl, pose.left - pose.roll * 0.45 + Math.sin(time * 2.3) * 0.025, substep, 6);
-          [ar, vr] = spring(ar, vr, pose.right - pose.roll * 0.45 + Math.sin(time * 2.3 + 1) * 0.025, substep, 6);
+          [al, vl] = spring(al, vl, pose.left - pose.roll * 0.6 - bodyLean * 0.7 + Math.sin(time * 1.6) * 0.028, substep, 7);
+          [ar, vr] = spring(ar, vr, pose.right - pose.roll * 0.6 - bodyLean * 0.7 + Math.sin(time * 1.6 + 1) * 0.028, substep, 6);
         }
       }
       const idle = still || nap ? 0 : 1;
       return {
-        head: [nap ? 0.16 : pose.pitch - gy * 0.25, pose.yaw + gx * 0.35, nap ? -0.09 : pose.roll - gx * 0.045],
+        head: [nap ? 0.16 : pose.pitch - hy * 0.25, pose.yaw + hx * 0.35, nap ? -0.09 : pose.roll - hx * 0.045],
         gaze: [gx, gy],
-        lift: nap ? -0.055 : pose.lift + Math.sin(time * 2.05) * 0.024 * idle,
-        lean: pose.lean + Math.min(0.12, Math.max(-0.12, flight)) * idle,
+        lift: nap ? -0.055 : pose.lift + Math.sin(time * 1.32) * 0.018 * idle,
+        lean: pose.lean + bodyLean * idle,
+        bodyPitch: -Math.abs(bodyLean) * 0.6 + pose.pitch * 0.16,
+        armPitch: [pose.armL * 0.3 + bodyLean * 1.4, -pose.armR * 0.3 + bodyLean * 1.4],
         antennas: nap ? [0.34, -0.34] : [al, ar],
         arms: [
-          pose.armL + Math.sin(time * 1.7) * 0.06 * idle + squeeze * 0.65,
-          pose.armR - Math.sin(time * 1.7 + 0.7) * 0.06 * idle - squeeze * 0.65,
+          pose.armL + Math.sin(time * 1.32 - 0.6) * 0.06 * idle - Math.abs(bodyLean) * 1.8 + squeeze * 0.65,
+          pose.armR - Math.sin(time * 1.32 + 0.1) * 0.06 * idle + Math.abs(bodyLean) * 1.8 - squeeze * 0.65,
         ],
         blink: nap ? 1 : Math.max(blink, pose.close),
         eyes: nap ? [0.08, 0.08] : [Math.max(0.08, 1 - Math.max(blink, pose.close)), Math.max(0.08, 1 - Math.max(blink, pose.close, pose.wink))],
