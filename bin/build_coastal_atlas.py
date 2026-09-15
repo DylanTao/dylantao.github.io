@@ -28,8 +28,10 @@ paths = ''.join(f'<path d="{d}"/>' for d in roads)
 shore = ''.join(f'<path d="{d}"/>' for d in coasts)
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
 <title>La Jolla coastline and roads</title><desc>OpenStreetMap contributors, ODbL. Geographic base; landmark distances in the 3D miniature are compressed.</desc>
-<defs><radialGradient id="fade"><stop offset="45%" stop-color="white"/><stop offset="100%" stop-color="black"/></radialGradient><mask id="edge"><rect width="900" height="900" fill="url(#fade)"/></mask></defs>
-<g mask="url(#edge)"><rect width="900" height="900" fill="#b0c2b1" opacity=".12"/>
+<defs><radialGradient id="fade"><stop offset="30%" stop-color="white"/><stop offset="72%" stop-color="#888"/><stop offset="100%" stop-color="black"/></radialGradient>
+<filter id="paper-feather" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="30"/></filter>
+<mask id="edge" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="900"><path d="M155 216C191 94 322 151 426 105S691 104 724 208S827 377 746 486S791 686 650 744S488 793 344 744S157 721 154 614S71 436 139 352S116 290 155 216Z" fill="url(#fade)" filter="url(#paper-feather)"/></mask></defs>
+<g mask="url(#edge)">
 <g fill="none" stroke="#859690" stroke-width=".65" opacity=".55">{paths}</g>
 <g fill="none" stroke="#7eacb7" stroke-width="18" opacity=".13">{shore}</g>
 <g fill="none" stroke="#699ca8" stroke-width="1.6" opacity=".65">{shore}</g>

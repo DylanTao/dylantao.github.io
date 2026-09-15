@@ -66,6 +66,35 @@ test("Pip gestures settle, can be interrupted, and honor reduced motion immediat
   assert.equal(motion.update(10, { nap: true }).blink, 1);
 });
 
+test("P carries momentum through a clear bend and looks before departing", () => {
+  const plan = planTravel(
+    { x: 100, y: 298 },
+    { x: 500, y: 298 },
+    { width: 600, height: 600, size: 70, obstacles: [{ left: 250, right: 350, top: 200, bottom: 400 }] }
+  );
+  const waiting = sampleTravel(plan, plan.duration * 0.03);
+  assert.equal(waiting.x, 100);
+  assert.equal(waiting.y, 298);
+  assert.ok(Math.hypot(...waiting.gaze) > 0.5);
+  let minSpeed = Infinity;
+  const dt = plan.duration / 1000;
+  for (let i = 250; i < 800; i++) {
+    const a = sampleTravel(plan, i * dt),
+      b = sampleTravel(plan, (i + 1) * dt);
+    minSpeed = Math.min(minSpeed, Math.hypot(b.x - a.x, b.y - a.y) / dt);
+  }
+  assert.ok(minSpeed > 35, "a clear bend should not stop and restart the journey");
+});
+
+test("P's gaze arrives before its neck and all articulations remain still under reduced motion", () => {
+  const motion = createPipMotion();
+  const p = motion.update(0.15, { gaze: [1, 1], autonomous: false });
+  assert.ok(p.gaze[0] > p.head[1] / 0.35 + 0.2);
+  const still = motion.update(0.1, { still: true, flight: 1, squeeze: 0 });
+  assert.equal(still.bodyPitch, 0);
+  assert.deepEqual(still.armPitch, [0, 0]);
+});
+
 test("P gestures keep their expression at 5, 10, and 60 fps", () => {
   for (const hz of [5, 10, 60]) {
     const motion = createPipMotion();

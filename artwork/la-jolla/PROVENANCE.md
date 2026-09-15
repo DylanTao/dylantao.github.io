@@ -25,6 +25,8 @@ Blender and Sharp paths are local tooling locations, not website dependencies. S
 
 ## September 14: atlas, multiview experiment, and miniature
 
+Sirui's follow-up photographs and explicit correction establish **five folded DIB bays**, with the personal office vignette in the middle bay on the third floor. The additional landward/end views guide cladding, ribbon glazing and the external stair. Photographs are references only and are not bundled in the public assets. The Connect composition now features Geisel, Salk, DIB, Scripps Pier, Torrey pines and the rocky Cove; the footer keeps the seaside neighborhood and courts. Geisel's concrete core, paired buttresses and podium, and the tennis retaining foundation, correct the previously unsupported appearance. Salk's bands and openings follow the [official architecture guide](https://www.salk.edu/explore-salk-architecture-guide/). The map uses the original OSM response with an irregular feathered vector mask; no geography was regenerated.
+
 The later refinement extends both the footer and Connect miniature with original Geisel, Salk, and Scripps Pier geometry (`bin/coastal_landmarks.py`). Sources consulted: [Geisel architecture](https://geisel50.ucsd.edu/about/architecture.html), [Salk architecture](https://www.salk.edu/about/about-salk/architecture/), [Scripps Pier](https://scripps.ucsd.edu/about/scripps-pier), and the DIB photographs above. These are visual references, not photogrammetry or copied architectural models.
 
 - `direction/front.png`, `back.png`, and `atlas.png`: generated design studies. Original C2PA metadata identifies `gpt-image` version `2.0`; the image tool offered no Images 2.5 selector. Hashes and metadata are recorded in `../coastal-home/direction/provenance.json`.

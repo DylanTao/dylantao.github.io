@@ -28,6 +28,12 @@ if "--render-only" in sys.argv:
         (Vector((0, 0, 2)) - scene.camera.location).to_track_quat("-Z", "Y").to_euler()
     )
     bpy.context.preferences.filepaths.save_version = 0
+    scene.camera.data.ortho_scale = 40.5
+    scene.render.resolution_x, scene.render.resolution_y = 2000, 720
+    for name in ('Geisel','Salk'):
+        o = bpy.data.objects.get(name)
+        if o:
+            for child in [o,*o.children_recursive]: child.hide_render = True
     bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "la-jolla.blend"))
     scene.render.filepath = str(SOURCE / "la-jolla-day.png")
     bpy.ops.render.render(write_still=True)
@@ -180,9 +186,9 @@ def plateau(x):
 
 # One continuous coast, with shallow coves and a raised sandstone headland.
 verts, faces = [], []
-nx, ny = 180, 20
+nx, ny = 260, 28
 for i in range(nx + 1):
-    x = -20 + 40 * i / nx
+    x = -38 + 76 * i / nx
     for j in range(ny + 1):
         t = j / ny
         y = shoreline(x) + 1.9 + t * (5.0 - shoreline(x) - 1.9)
@@ -208,7 +214,7 @@ for name, start, end, mat in [
 ]:
     vv, ff = [], []
     for i in range(181):
-        x = -20 + i * 40 / 180
+        x = -38 + i * 76 / 180
         for t in (start, end):
             vv.append((x, shoreline(x) + t, 0.085 + t * 0.027))
         if i < 180:
@@ -399,7 +405,8 @@ for i in range(17):
         0.016,
     )
 
-# The DIB: four folded upper glass bays above two horizontal lower storeys.
+# Five folded bays, with the user's studio in the middle bay. The concrete
+# ground floor, glass gallery, clad ends and stair are read from their photos.
 dx, dy, bz = 7.5, 2.7, 0.93
 box("DIB plinth", (dx, dy, bz + 0.08), (7.45, 3.5, 0.16), concrete, campus)
 box("DIB core", (dx, dy + 0.22, bz + 2.18), (6.8, 2.45, 4.26), concrete, campus)
@@ -448,9 +455,9 @@ for fl in range(4):
             dark,
             campus,
         )
-for bay in range(4):
-    x0 = dx - 3.43 + bay * 1.25
-    x1 = x0 + 1.22
+for bay in range(5):
+    x0 = dx - 3.43 + bay * 1.04
+    x1 = x0 + 1.01
     ya, yb = dy - 1.45, dy - 2.13
     lo, hi = bz + 2.05, bz + 4.48
     mesh(
@@ -481,7 +488,7 @@ for bay in range(4):
         y1 = ya + (yb - ya) * b
         for row in range(4):
             z0, z1 = lo + row * 0.60, lo + (row + 1) * 0.60
-            is_office = bay == 1 and col == 0 and row == 0
+            is_office = bay == 2 and col == 1 and row == 0
             pane = mesh(
                 "OfficeWindow" if is_office else "Glazed bay pane",
                 [(xa, y0, z0), (xb, y1, z0), (xb, y1, z1), (xa, y0, z1)],
@@ -538,6 +545,24 @@ for fl in (2, 3):
 box(
     "Entrance canopy", (dx + 0.5, dy - 1.55, bz + 0.98), (1.7, 1.2, 0.10), white, campus
 )
+# A substantial terrace follows the full frontage, including benches and steps.
+box("DIB concrete terrace", (dx, dy - .50, .50), (7.8, 5.4, .86), concrete, campus, .07)
+for i in range(8):
+    box("DIB promenade stair", (dx+.5,dy-3.32-i*.22,.84-i*.11), (2.4,.29,.16), concrete,campus,.016)
+for i in range(12):
+    yy = dy - 1.95 + i * .27
+    zz = bz + .11 + i * .087
+    box("DIB external stair", (dx + 3.93, yy, zz), (.64, .32, .17), concrete, campus, .012)
+    if i % 3 == 0:
+        rod("DIB stair baluster", (dx + 4.20, yy, zz), (dx + 4.20, yy, zz + .55), .016, dark, campus)
+rod("DIB stair handrail", (dx+4.20,dy-1.95,bz+.66), (dx+4.20,dy+1.02,bz+1.617), .022, dark, campus)
+# Landward facade: dark study volumes over a long glazed gallery.
+for i in range(5):
+    xx = dx - 2.78 + i * 1.29
+    box("DIB landward metal panel", (xx, dy+1.47, bz+3.13), (1.22,.14,2.40), dark, campus)
+    box("DIB landward ribbon window", (xx,dy+1.552,bz+3.23), (.96,.02,.56), glass2,campus, .008)
+    for j in range(7):
+        rod("Cladding seam", (xx-.55+j*.16,dy+1.55,bz+2.0), (xx-.55+j*.16,dy+1.55,bz+2.80), .004, concrete,campus)
 for i in range(3):
     box(
         "DIB broad entry step",
@@ -645,6 +670,11 @@ for x, y, z, h, l in [
 def court(x, y, z, w, d, tennis):
     owner = group("Tennis" if tennis else "BeachVolleyball")
     owner.parent = sports
+    if tennis:
+        # A retaining platform reaches the beach; no thin suspended court slab.
+        box("Tennis retaining foundation", (x,y,(z-.1)/2), (w+.6,d+.6,z-.1), rockmats[2], owner, .10)
+        for i in range(6):
+            box("Court access step", (x+w/2+.48,y-.60+i*.27,z*(i+1)/6-.08), (.48,.32,.16), concrete,owner,.015)
     box(
         "Court foundation",
         (x, y, z - 0.05),
@@ -917,10 +947,10 @@ cam.rotation_euler = (
     (Vector((0, 0, 2)) - cam.location).to_track_quat("-Z", "Y").to_euler()
 )
 cam.data.type = "ORTHO"
-cam.data.ortho_scale = 45
+cam.data.ortho_scale = 40.5
 scene.camera = cam
 scene.render.resolution_x = 2000
-scene.render.resolution_y = 620
+scene.render.resolution_y = 720
 scene.render.resolution_percentage = 100
 scene.render.film_transparent = True
 scene.view_settings.view_transform = "AgX"
@@ -928,7 +958,15 @@ bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "la-jolla.blend"))
 bpy.ops.object.select_all(action="DESELECT")
 for obj in bpy.data.objects:
-    if obj.type not in ("LIGHT", "CAMERA"):
+    # Geisel and Salk are source landmarks for the campus atlas, not repeated
+    # in the seaside footer. Keep them editable in the shared authoring file.
+    ancestor, campus_only = obj, False
+    while ancestor:
+        campus_only |= ancestor.name in ("Geisel", "Salk")
+        ancestor = ancestor.parent
+    if campus_only:
+        obj.hide_render = True
+    if obj.type not in ("LIGHT", "CAMERA") and not campus_only:
         obj.select_set(True)
 bpy.ops.export_scene.gltf(
     filepath=str(OUT / "la-jolla.glb"),
@@ -941,17 +979,19 @@ bpy.ops.export_scene.gltf(
     export_draco_mesh_compression_level=6,
 )
 manifest = {
-    "version": 2,
+    "version": 3,
     "model": "la-jolla.glb",
     "coordinates": "Y-up",
     "office": [office_anchor[0], office_anchor[2], -office_anchor[1]],
-    "camera": {"position": [5, 18, 38], "target": [0, 2, 0], "width": 45},
+    "camera": {"position": [5, 18, 38], "target": [0, 2, 0], "width": 40.5},
     "triangleCount": sum(
         len(o.data.loop_triangles) for o in bpy.data.objects if o.type == "MESH"
     ),
     "source": "bin/build_la_jolla.py",
     "geography": "Authored collage, not a map",
-    "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier"],
+    "landmarks": ["DIB", "CliffVilla", "Village", "Tennis", "ScrippsPier"],
+    "dib": {"foldedBays": 5, "officeBay": 3, "officeFloor": 3},
+    "terrainBounds": [-38, 38, 5],
 }
 (OUT / "manifest.json").write_text(
     json.dumps(manifest, indent=2) + "\n", encoding="utf8"

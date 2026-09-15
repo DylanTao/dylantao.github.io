@@ -1,0 +1,34 @@
+{
+  "homeGlbBytes": {
+    "BrushRabbit.glb": 70608,
+    "CaliforniaSeaLion.glb": 59004,
+    "coast.glb": 240436,
+    "HarborSeal.glb": 181544,
+    "home-shell.glb": 1628680,
+    "room-gym.glb": 686748,
+    "room-kitchen.glb": 447768,
+    "room-lounge.glb": 247856,
+    "room-onsen.glb": 84248,
+    "room-sleep.glb": 56492,
+    "room-study.glb": 345596,
+    "sirui-ghibli.glb": 622524,
+    "sirui-lizard.glb": 490464,
+    "sirui-rick-and-morty.glb": 607904,
+    "sirui-simpsons.glb": 622360,
+    "sirui-south-park.glb": 664616
+  },
+  "laJollaBytes": {
+    "atlas.svg": 347335,
+    "la-jolla.glb": 892620,
+    "manifest.json": 764,
+    "miniature.glb": 572384,
+    "miniature.webp": 36380,
+    "poster.webp": 102106
+  },
+  "laJollaTotalBytes": 1951589,
+  "laJollaTargetBytes": 4000000,
+  "manifestVersion": 5,
+  "avatarClips": null,
+  "largestFirstHomeGzipBytes": 3278702,
+  "firstHomeBudgetBytes": 4194304
+}

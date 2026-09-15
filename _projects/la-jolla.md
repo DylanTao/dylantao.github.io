@@ -29,9 +29,11 @@ hide_title: true
 
 ## A place, compressed
 
-The miniature brings together DIB, Geisel Library, the Salk courtyard, Scripps Pier, Spanish houses, palms, courts, and the coast. Their distances are deliberately compressed. The translucent atlas underneath uses real OpenStreetMap coastline and road geometry; the buildings above it are an artistic composition.
+The miniature follows a walk through campus and the Cove: Geisel's concrete supports, the Salk courtyard, DIB, Scripps Pier, wind-shaped Torrey pines, and sea lions on the rocks. The footer takes a different route, past Spanish houses, palms, a cliff villa, tennis, and the beach. DIB connects the two, with five folded bays and my third-floor office in the middle one.
 
-The selected site theme changes the light and the little activities: a quiet morning, surfing around noon, warm afternoon light, and a small evening bonfire. My DIB office gets a light from noon onward and on some nights. That is a personal vignette, not live occupancy information.
+Their distances are deliberately compressed. The translucent atlas underneath uses real OpenStreetMap coastline and road geometry; the buildings above it are an artistic composition.
+
+The selected site theme changes the light and the little activities: a quiet morning, surfing around noon, warm afternoon light, and a small evening bonfire on the footer beach. My DIB office gets a light from noon onward and on some nights. That is a personal vignette, not live occupancy information.
 
 ## From reference to geometry
 

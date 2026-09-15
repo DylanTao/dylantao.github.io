@@ -1,0 +1,20 @@
+[
+  {
+    "source": "assets/img/publication_preview/designweaver.png",
+    "sourceSha256": "9d6bb5256724f1d0bb98ba9409553b34f84e0ffa4f57c7b1cccfdb8da01a1c23",
+    "derivative": "assets/img/publication_preview/designweaver-transparent.png",
+    "dimensions": [2294, 1298],
+    "transparentPixels": 1235561,
+    "rgbPixelsChanged": 0,
+    "method": "Edge-connected neutral paper mask; no resampling, recoloring or generated pixels"
+  },
+  {
+    "source": "assets/img/publication_preview/herding_cats_why_what.png",
+    "sourceSha256": "d97d7dd3eed54b36bd98efd3d48d7e2a5e1bfe9615f9f3595156f3a42b5773e9",
+    "derivative": "assets/img/publication_preview/herding_cats_why_what-transparent.png",
+    "dimensions": [1376, 590],
+    "transparentPixels": 385389,
+    "rgbPixelsChanged": 0,
+    "method": "Edge-connected neutral paper mask; no resampling, recoloring or generated pixels"
+  }
+]

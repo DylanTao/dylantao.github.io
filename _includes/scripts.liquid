@@ -176,7 +176,23 @@
   <script src="{{ '/assets/js/vanilla-back-to-top.min.js' | relative_url | bust_file_cache }}"></script>
   <script>
     if (typeof addBackToTop === 'function') {
-      addBackToTop();
+      addBackToTop({ scrollDuration: 0 });
+      const backToTop = document.getElementById('back-to-top');
+      backToTop.setAttribute('role', 'button');
+      backToTop.setAttribute('aria-label', 'Back to top');
+      const syncBackToTop = () => {
+        const hidden = backToTop.classList.contains('hidden') || backToTop.hasAttribute('data-home-stage-suppressed');
+        backToTop.tabIndex = hidden ? -1 : 0;
+        backToTop.setAttribute('aria-hidden', String(hidden));
+      };
+      new MutationObserver(syncBackToTop).observe(backToTop, { attributes: true, attributeFilter: ['class', 'data-home-stage-suppressed'] });
+      syncBackToTop();
+      backToTop.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          backToTop.click();
+        }
+      });
     }
   </script>
 {% endif %}

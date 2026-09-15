@@ -6,11 +6,14 @@ def landmarks(h):
     concrete, glass, white, wood = (h[k] for k in ('concrete','glass','white','wood'))
     geisel=group('Geisel')
     x,y,z=-1.3,6.2,.93
-    box('Library podium',(x,y,z+.13),(3.3,3.3,.26),concrete,geisel)
+    box('Library earthbound podium',(x,y,z-.35),(5.2,5.2,.90),concrete,geisel)
+    box('Recessed library entrance',(x,y,z+.58),(1.45,1.45,1.16),glass,geisel)
+    box('Library structural core',(x,y,z+1.30),(.96,.96,2.6),concrete,geisel)
     for side in (-1,1):
         for sy in (-1,1):
-            rod('Splayed library column',(x+side*.65,y+sy*.65,z+.1),(x+side*1.48,y+sy*1.48,z+2.4),.15,concrete,geisel,vertices=4)
-    for i,w in enumerate([3.2,4.3,4.0,3.6,3.1]):
+            for offset in (-.22,.22):
+                rod('Splayed concrete library buttress',(x+side*.68+offset,y+sy*.68,z+.03),(x+side*1.92+offset,y+sy*1.92,z+2.75),.24,concrete,geisel,vertices=4)
+    for i,w in enumerate([3.2,4.25,4.7,4.05,3.4]):
         ht=z+2.1+i*.47
         box('Stepped library soffit',(x,y,ht),(w,w,.13),white,geisel,.035)
         box('Continuous library glass',(x,y,ht+.25),(w-.18,w-.18,.38),glass,geisel,.01)
@@ -19,7 +22,7 @@ def landmarks(h):
                 p=-w/2+.2+j*(w-.4)/8
                 box('Library mullion',(x+p,y+s*(w/2-.07),ht+.24),(.035,.06,.4),concrete,geisel,.002)
                 box('Library mullion',(x+s*(w/2-.07),y+p,ht+.24),(.06,.035,.4),concrete,geisel,.002)
-    box('Library roof',(x,y,z+4.53),(3.22,3.22,.15),white,geisel)
+    box('Library roof',(x,y,z+4.53),(3.52,3.52,.15),white,geisel)
     salk=group('Salk')
     x,y,z=-7.0,6.4,.93
     box('Travertine court',(x,y,z+.04),(4.8,4.0,.08),white,salk,.01)

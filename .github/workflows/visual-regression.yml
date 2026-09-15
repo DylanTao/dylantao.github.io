@@ -106,7 +106,7 @@ jobs:
       - name: Verify starter and visual contracts
         run: |
           npm run lint:style-contract
-          node --test test/companion.test.mjs test/coastal-routine.test.mjs test/coastal-navigation.test.mjs
+          node --test test/companion.test.mjs test/coastal-routine.test.mjs test/coastal-navigation.test.mjs test/coastal-camera.test.mjs
 
       - name: Install Jekyll and image runtime dependencies
         run: |

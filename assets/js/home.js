@@ -17,7 +17,6 @@
     const backToTop = document.getElementById("back-to-top");
     if (!(stage instanceof HTMLElement) || !(backToTop instanceof HTMLElement)) return false;
 
-    const originalAriaHidden = backToTop.getAttribute("aria-hidden");
     const originallyInert = backToTop.hasAttribute("inert");
     let isSuppressed = null;
 
@@ -37,11 +36,7 @@
       }
 
       backToTop.removeAttribute("data-home-stage-suppressed");
-      if (originalAriaHidden === null) {
-        backToTop.removeAttribute("aria-hidden");
-      } else {
-        backToTop.setAttribute("aria-hidden", originalAriaHidden);
-      }
+      backToTop.setAttribute("aria-hidden", String(backToTop.classList.contains("hidden")));
       if (!originallyInert) backToTop.removeAttribute("inert");
     };
 
@@ -193,7 +188,7 @@
       const collapsedWidth = storyRail.getBoundingClientRect().width || 38;
       const expandedWidth = Math.min(Math.max(window.innerWidth * 0.07, 89), 116);
       const hasExpansionGutter = titleRect.left >= expandedWidth + 72;
-      const gap = hasExpansionGutter ? 56 : 48;
+      const gap = hasExpansionGutter ? 28 : 32;
       const minAnchor = hasExpansionGutter ? 8 + collapsedWidth : 14;
       const anchor = Math.max(minAnchor, titleRect.left - gap);
       storyRail.style.setProperty("--home-rail-anchor", `${anchor.toFixed(1)}px`);

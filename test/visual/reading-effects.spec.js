@@ -9,7 +9,8 @@ test("reading: inspection lens, direct materials, and a responsive explanation",
   await page.goto(publicRouteUrl("/projects/designweaver/"));
   const frame = page.locator(".research-lens").first();
   await frame.scrollIntoViewIfNeeded();
-  await expect(page.locator(".research-lens__open").first()).toHaveAttribute("href", /tool_design_all_features/);
+  await expect(page.locator(".research-lens + .research-lens__open").first()).toHaveAttribute("href", /tool_design_all_features/);
+  await expect(page.getByRole("link", { name: "Open original figure" })).toHaveAttribute("href", /publication_preview\/designweaver\.png$/);
   if (testInfo.project.name !== "mobile-390") {
     await frame.locator("img").hover();
     await expect(frame.locator(".research-lens__glass")).toBeVisible();

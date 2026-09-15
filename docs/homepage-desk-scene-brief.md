@@ -24,7 +24,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 - `bin/coastal_section.py`: two storeys at 0 and 2.6 meters, a 15-riser stair, room offsets shared with the manifest, one excavated mainland cliff and a continuous beach. `navigation.mjs` follows the corridors and treads; `locomotion.mjs` fits the walking feet to their support.
 - `bin/coastal_clothing.py` and `bin/coastal_hair.py`: continuous sleeved garments and ear-tucked, collar-length hair surfaces. Review front, profile and full-body renders before accepting likeness.
-- `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and ten clips per avatar.
+- `bin/build_coastal_home.py`, `bin/coastal_sculpt.py`, and `bin/coastal_craft.py`: original Blender geometry, continuous sculpt surfaces, fitted furniture, shared humanoid bone convention, Lizard tail bones, and fourteen clips per avatar.
 - `bin/coastal_characters.py`: the four human models, with shaped faces, inset eyes, side-parted hair, sloping sleeves, fingers, trousers, and canvas shoes. `artwork/coastal-home/portraits/` holds Blender model studies, excluded from production.
 - `bin/coastal_interiors.py`: scalloped mountain wall, curved low divisions, rounded returns, the print niche, and the fitted gym with a power rack, loaded barbell, padded bench and dumbbell stand.
 - `bin/coastal_garden.py`: the hanging study planter and trailing vines, plus larger kitchen and lounge plants, authored in the finished Blender section.
@@ -133,6 +133,8 @@ The copy is local and authored. Ordinary remarks wait roughly 45–80 seconds be
 
 ## Acceptance Evidence Map
 
+The September 14 follow-up replaces repeated stop/start travel with an arc-length path and collision-checked rounded corners. P looks toward the route during a short departure pause. Exact cascaded gaze/neck damping separates the eyes from the head; fins pitch as well as wave, the body banks softly, and antennae follow with different settling rates. Listen, stretch and delight expand the autonomous vocabulary. Eyes are smaller shaded ovals inside the existing optical housings; fins have broader curved silhouettes. The page portal owns its opacity directly, avoiding a competing CSS transition. These refinements preserve the shared page/world rig and ownership model.
+
 | Contract                                                            | Evidence                                                                                             |
 | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Time, midnight/noon, weekends, DST, preview/Now                     | `node.exe --test test/coastal-routine.test.mjs`                                                      |
@@ -160,7 +162,7 @@ The approved target is animated-film realism: appealing proportions and readable
 
 `bin/coastal_landscape.py` composes headlands, coves, inclined channels, ledges, and a varying ridge. `coastal_section.py` carves the full-depth dwelling and preserves the mainland when lifting only its local ceiling. The stair runs along the landward wall, with closed risers and an upper landing. The gym retains its rack, bench, and dumbbells. Kitchen/dining and lounge remain downstairs; study, sleeping alcove, and sheltered onsen remain upstairs. Fitted cabinetry, capybara wall art, and plants stay part of the house.
 
-The version-4 manifest exports support polygons and each tread, habitat paths, shoreline elevation samples, perches, tidal basins, and room contacts. `shore.mjs`, `navigation.mjs`, `locomotion.mjs`, `wildlife.mjs`, and the water shader consume these definitions. Do not restore independent approximate terrain or stair equations.
+The version-5 manifest exports support polygons and each tread, habitat paths, shoreline elevation samples, perches, tidal basins, room and equipment contacts, camera envelopes, and cutaway tags. `shore.mjs`, `navigation.mjs`, `locomotion.mjs`, `wildlife.mjs`, and the water shader consume these definitions. Do not restore independent approximate terrain or stair equations.
 
 `bin/bake_coastal_light.py` bakes Cycles ambient occlusion and indirect diffuse light to source vertex colors. `bin/optimize_coastal_exports.py` produces compact byte-color Draco meshes without overwriting the editable high-detail source. The browser adds dynamic sun, warm practical lights, directional wood grain, fabric detail, ceramic reflections, skin/leaf response, contact shadows, and shoreline motion. This is baked vertex lighting plus procedural normals, not a claim of baked normal-map textures or simulated fluid physics.
 
@@ -171,3 +173,15 @@ The final terrain pass raycasts planting, habitat paths, and perches against the
 Browser review also caught a narrow-screen P invitation choosing a destination that only a portal could reach. Explicit flight and squeeze demonstrations now search nearby connected clear space first. Autonomous travel keeps its original obstacle boundaries and portal fallback. Compare actual rendered screenshots with the concepts: the current result is a stylized browser world, and film-studio character surfacing and close-up environmental detail remain a higher visual target.
 
 The final sleeping-alcove review replaced the floating duvet block with a draped mesh and aligned the sleeping head with its pillow through the shared actor contact. The invisible ocean hotspot now yields to actual paper and record hits. Keep the Draco decoder marked binary in `.gitattributes`: applying the vendor text rule to WebAssembly corrupts an archived or deployed copy even when the current Windows working file still runs.
+
+## Closed mainland, furnished kitchen, and activity contacts
+
+The finishing pass replaces face-based roof separation with intersecting closed Boolean solids. Both the continuous mainland and removable inhabited roof are welded, capped, and checked for nonmanifold edges before export. Only the roof lifts in interior views. The full exterior orbit keeps it present, including its underside; the landward side has a recessed oak entrance, thresholds, and a planted approach. The house remains part of the sandstone mass.
+
+`bin/coastal_camera.py` records a height grid raycast from the finished terrain and shared camera envelopes. `home-scene/camera.mjs` applies the same limits to pointer, wheel, pinch, keyboard, and interpolated transitions. Exterior yaw is unrestricted; interior views have generous bounded arcs and a near-plane clearance proxy. Room and activity IDs are unchanged. Preserve the full orbit instead of hiding rear geometry problems with a front-only camera.
+
+`bin/coastal_furnishing.py` finishes perimeter cabinetry, a waterfall island, ocean-facing dining, a double-door refrigerator with freezer drawer, sink, oven and induction hob. The coffee station has an espresso group, portafilter, wand, drip tray and cup, plus a separate hopper grinder. The working aisle is approximately one meter wide; the island leaves the central stair circulation open. The gym has braced uprights, neutral pull-up grips, front dip handles and an explicitly parked bench.
+
+`home-scene/activities.mjs` consumes exported equipment contacts. Coffee preparation includes grinding, brewing, pickup, carrying, drinking, and returning the same cup to its counter. Strength sets include approaches, pull-ups, dips, an actual rack-to-hand dumbbell transfer, and rests. The new baked clips are `pullup`, `dip`, `coffee-prep`, and `carry`; all five avatars retain the original ten clips. Runtime arm contact correction follows the mixed pose, while system reduced motion keeps a composed still state. The schedule and Now/Explore boundary remain unchanged.
+
+Actual Blender front, profile, body, seated, reaching, pull-up and dip studies remain under `artwork/coastal-home/`. `bin/capture_coastal_finish.cjs` records the exterior orbit and moving hand contacts in the browser. [Finishing evidence](evidence/coastal-finish-2026-09-14/README.md) records corrected defects, capture locations, verification and remaining visual limits. Generated references guide this review; they never replace the interactive scene or its browser evidence.

@@ -146,6 +146,7 @@ def join_static(group):
             and o.name.startswith(group + "_")
             and not o.name.startswith(group + "_water")
             and not o.get("caveRoof")
+            and not o.get("activityProp")
         ):
             buckets.setdefault(o.data.materials[0].name, []).append(o)
     for key, objects in buckets.items():
@@ -399,8 +400,9 @@ def CONFIG_ROOMS():
 
 
 def finish_home(mats, furnished=False):
-    from coastal_section import rehouse, coast
+    from coastal_section import rehouse, coast, CONFIG
     from coastal_garden import garden
+    from coastal_furnishing import furnish_final
 
     bpy.context.preferences.filepaths.save_version = 0
     if not furnished:
@@ -442,8 +444,18 @@ def finish_home(mats, furnished=False):
         if o:
             x, y, z = room["actor"]
             o.location = (x, -z, y)
+    # Cached room studies can predate the draped cover; always author the current
+    # bedding before batching, so a section rebuild cannot restore the old block.
+    for o in list(bpy.context.scene.objects):
+        if o.name.startswith('sleep_duvet'):bpy.data.objects.remove(o,do_unlink=True)
+    offset=next(r['offset'] for r in CONFIG['rooms'] if r['id']=='sleep')
+    duvet('sleep_duvet',mats['sage'],(offset[0],-offset[2],offset[1]))
+    furnish_final(mats, globals(), CONFIG)
     garden(mats, globals())
     coast_objects = coast(mats, globals())
+    for room in CONFIG['rooms']:
+        anchor=bpy.data.objects.get('anchor_'+room['id']) or empty('anchor_'+room['id'])
+        x,y,z=room['actor'];anchor.location=(x,-z,y)
     buckets = {}
     for o in coast_objects:
         buckets.setdefault(
@@ -1101,7 +1113,12 @@ def character(style):
                     t = clamp((abs(co.x) - w * 0.55) / (w * 0.5)) * clamp(
                         (co.z - 0.76) / 0.10
                     )
-                    weight("Arm." + ("L" if co.x < 0 else "R"), v.index, t)
+                    # The cuff follows the elbow instead of remaining a rigid
+                    # shoulder shell when Sirui reaches above the rack.
+                    side="L" if co.x<0 else "R"
+                    elbow=clamp((.91-co.z)/.10)*.42
+                    weight("Arm." + side, v.index, t*(1-elbow))
+                    weight("Forearm." + side, v.index, t*elbow)
                     weight("Spine", v.index, 1 - t)
         else:
             vg = o.vertex_groups.new(name=bone)
@@ -1144,6 +1161,27 @@ def character(style):
             pb[name].matrix = matrices[name]
             bpy.context.view_layer.update()
 
+    def solve_fixed_grip(side, goal):
+        # A stable elbow plane avoids the IK branch flipping during a pull-up.
+        # These are authored armature-space contacts, baked before GLB export.
+        pb=arm.pose.bones
+        upper,lower,hand=(pb[n+'.'+side] for n in ('Arm','Forearm','Hand'))
+        bpy.context.view_layer.update()
+        a,b,c=(bone.head.copy() for bone in (upper,lower,hand))
+        target=Vector(goal);direction=target-a
+        l1=(b-a).length;l2=(c-b).length
+        distance=min(direction.length,l1+l2-.00001);direction.normalize()
+        along=(l1*l1-l2*l2+distance*distance)/(2*max(distance,.00001))
+        bend=Vector((-.7 if side=='L' else .7,-.45,-.4))
+        bend-=direction*bend.dot(direction);bend.normalize()
+        elbow=a+direction*along+bend*math.sqrt(max(0,l1*l1-along*along))
+        for bone,child,destination in ((upper,lower,elbow),(lower,hand,target)):
+            pivot=bone.head.copy()
+            before=(child.head-pivot).normalized();after=(destination-pivot).normalized()
+            turn=before.rotation_difference(after).to_matrix().to_4x4()
+            bone.matrix=Matrix.Translation(pivot)@turn@Matrix.Translation(-pivot)@bone.matrix
+            bpy.context.view_layer.update()
+
     clips = (
         "idle",
         "walk",
@@ -1152,6 +1190,10 @@ def character(style):
         "eat",
         "drink",
         "workout",
+        "pullup",
+        "dip",
+        "coffee-prep",
+        "carry",
         "soak",
         "lounge",
         "sleep",
@@ -1159,7 +1201,9 @@ def character(style):
     for clip in clips:
         action = bpy.data.actions.new(clip)
         arm.animation_data.action = action
-        for frame in range(1, 98, 8):
+        prior_angles={}
+        fixed_contact=clip in ('pullup','dip')
+        for frame in range(1, 98, 4 if fixed_contact else 8):
             bpy.context.scene.frame_set(frame)
             phase = (frame - 1) / 96 * math.tau
             for p in arm.pose.bones:
@@ -1200,6 +1244,19 @@ def character(style):
                     pb["Forearm." + side].rotation_euler.x = (
                         -0.15 - (1 - math.cos(phase + i * math.pi)) * 0.90
                     )
+            elif clip in ('pullup','dip'):
+                effort=(1-math.cos(phase))/2
+                pb['Root'].location.y=(.91+.31*effort) if clip=='pullup' else (.24-.19*effort)
+                pb['Spine'].rotation_euler.x=.06 if clip=='pullup' else .14
+                for side in ('L','R'):
+                    pb['Thigh.'+side].rotation_euler.x=-.38
+                    pb['Shin.'+side].rotation_euler.x=1.10
+                pb['Head'].rotation_euler.x=-.07 if clip=='pullup' else .08
+            elif clip in ('coffee-prep','carry'):
+                pb['Head'].rotation_euler.x=.17
+                pb['Head'].rotation_euler.z=.013*math.sin(phase)
+                pb['Arm.R'].rotation_euler.x=-.75
+                pb['Forearm.R'].rotation_euler.x=-.80
             elif clip == "walk":
                 for i, side in enumerate(("L", "R")):
                     w = math.sin(phase * 2 + i * math.pi)
@@ -1236,7 +1293,17 @@ def character(style):
             elif clip == "reading":
                 for side, x in (("L", -0.16), ("R", 0.16)):
                     solve_grip(side, (x, -0.36, 1.0))
+            elif clip in ('pullup','dip'):
+                for side,sign in (('L',-1),('R',1)):
+                    solve_fixed_grip(side,(sign*(.30 if clip=='pullup' else .43),-.01,2.37-.048 if clip=='pullup' else 1.24-.048))
+            elif clip=='coffee-prep':
+                solve_grip('R',(.13,-.49,1.06+.035*math.sin(phase)))
+            elif clip=='carry':
+                solve_grip('R',(.16,-.30,.91))
             for p in pb:
+                if fixed_contact:
+                    if p.name in prior_angles:p.rotation_euler.make_compatible(prior_angles[p.name])
+                    prior_angles[p.name]=p.rotation_euler.copy()
                 p.keyframe_insert(data_path="rotation_euler", frame=frame, group=p.name)
                 p.keyframe_insert(data_path="location", frame=frame, group=p.name)
                 p.keyframe_insert(data_path="scale", frame=frame, group=p.name)

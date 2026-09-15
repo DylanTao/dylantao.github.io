@@ -200,6 +200,19 @@ footer.coastal-page-footer {
     object-fit: cover;
   }
 }
+// The old footer-height avoidance lifts this control over the whole landscape.
+// Keep one stable viewport corner while the coast scrolls behind it.
+body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
+  bottom: max(1.25rem, env(safe-area-inset-bottom, 0px)) !important;
+  right: max(1.25rem, env(safe-area-inset-right, 0px));
+  background: var(--global-card-bg-color);
+  color: var(--global-text-color);
+  border: 1px solid var(--global-divider-color);
+  &:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 3px;
+  }
+}
 .home-connect-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(330px, 420px);
@@ -270,6 +283,8 @@ footer.coastal-page-footer {
   opacity: 0.5;
   pointer-events: none;
   transform: rotate(-12deg) scaleY(0.75);
+  // Fade before the rotated image reaches its rectangular viewport.
+  mask-image: radial-gradient(ellipse 46% 43% at 49% 49%, #000 45%, #0008 68%, transparent 98%);
 }
 .coastal-miniature--large {
   margin-block: 1.5rem 3rem;

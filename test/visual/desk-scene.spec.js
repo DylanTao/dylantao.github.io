@@ -156,7 +156,7 @@ test("coastal home: all five avatars retain one actor, shared wall art and album
     await settle(page);
     const info = await evidence(scene);
     expect(info.actorCount).toBe(1);
-    expect(info.animations).toHaveLength(10);
+    expect(info.animations).toHaveLength(14);
     expect(info.joints.FootR[1]).toBeGreaterThan(0.06);
     expect(info.joints.FootR[1]).toBeLessThan(0.16);
     await capture(testInfo, avatar, await canvas.screenshot());
@@ -166,6 +166,37 @@ test("coastal home: all five avatars retain one actor, shared wall art and album
   await page.locator('[data-home-desk-mode="2d"]').click();
   await page.locator('[data-home-desk-mode="3d"]').click();
   expect((await evidence(scene)).avatarId).toBe("lizard");
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: full exterior orbit and guided interior camera boundaries", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "camera geometry is shared; touch zoom has its own mobile case");
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page);
+  await explore(ui);
+  for (const room of ["outside", "overview", "study", "kitchen", "gym", "onsen", "sleep", "lounge"]) {
+    await ui.locator(`[data-world-room="${room}"]`).first().click();
+    await canvas.scrollIntoViewIfNeeded();
+    for (let i = 0; i < 42; i++) await canvas.press("ArrowLeft");
+    for (let i = 0; i < 12; i++) await canvas.press("ArrowUp");
+    const box = await canvas.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.wheel(0, -8000);
+    await settle(page);
+    const state = await evidence(scene),
+      v = state.cameraOrbit,
+      e = state.cameraEnvelope;
+    expect(v.radius).toBeGreaterThanOrEqual(e.radius[0] - 0.001);
+    expect(v.pitch).toBeLessThanOrEqual(e.pitch[1] + 0.001);
+    if (room === "outside") expect(v.yaw).toBeGreaterThan(Math.PI * 2);
+    else {
+      expect(v.yaw).toBeGreaterThanOrEqual(e.yaw[0] - 0.001);
+      expect(v.yaw).toBeLessThanOrEqual(e.yaw[1] + 0.001);
+    }
+    expect(state.camera.every(Number.isFinite)).toBe(true);
+    await canvas.evaluate((e) => e.blur());
+    await capture(testInfo, `camera-boundary-${room}`, await canvas.screenshot());
+  }
   expect(errors).toEqual([]);
 });
 

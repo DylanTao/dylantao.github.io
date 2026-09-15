@@ -17,7 +17,9 @@ for (const theme of process.env.COAST_THEME ? [process.env.COAST_THEME] : ["morn
     await page.waitForTimeout(2000);
     const info = await evidence(host);
     expect(info.theme).toBe(theme);
-    expect(info.buildings).toBeGreaterThanOrEqual(10);
+    expect(info.landmarks).toEqual(expect.arrayContaining(["DIB", "Tennis", "CliffVilla"]));
+    expect(info.landmarks).not.toContain("Geisel");
+    expect(info.landmarks).not.toContain("Salk");
     if (theme === "morning") expect(info.office).toBe(false);
     if (theme === "noon" || theme === "afternoon") expect(info.office).toBe(true);
     await expect(host.locator("button")).toHaveCount(0);
@@ -85,6 +87,32 @@ test("coastal scenes: lazy loading, automatic movement, offscreen pause and reve
     contentType: "application/json",
   });
   expect(errors).toEqual([]);
+});
+
+test("coastal navigation: helper clears the reading column and return control stays in the corner", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await page.setViewportSize({ width: 1920, height: 1000 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await open(page);
+  await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  const back = page.getByRole("button", { name: "Back to top", exact: true });
+  await expect(back).toBeVisible();
+  await expect(back).toHaveAttribute("tabindex", "0");
+  const bounds = await back.boundingBox();
+  expect(1000 - bounds.y - bounds.height).toBeGreaterThanOrEqual(15);
+  expect(1000 - bounds.y - bounds.height).toBeLessThanOrEqual(30);
+  const rail = page.getByRole("navigation", { name: "Homepage story" });
+  await rail.hover();
+  await expect(rail.getByRole("link", { name: "Connect", exact: true })).toBeVisible();
+  const gap = await rail.evaluate((e) => document.querySelector(".home-title").getBoundingClientRect().left - e.getBoundingClientRect().right);
+  expect(gap).toBeGreaterThanOrEqual(24);
+  expect(gap).toBeLessThanOrEqual(32);
+  await attachScreenshot(page, testInfo, "coast-navigation-wide");
+  await back.focus();
+  await page.keyboard.press("Enter");
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect(page.locator("#back-to-top")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator("#back-to-top")).toHaveAttribute("tabindex", "-1");
 });
 test("La Jolla miniature: keyboard orbit, static reduced motion, and map attribution", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);

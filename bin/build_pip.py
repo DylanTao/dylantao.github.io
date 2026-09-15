@@ -40,7 +40,7 @@ ceramic = material("Pip porcelain", (0.96, 0.955, 0.925), 0.38)
 glass = material("Pip optical glass", (0.003, 0.009, 0.015), 0.2, 0.08)
 graphite = material("Pip graphite", (0.025, 0.032, 0.035), 0.33, 0.3)
 metal = material("Pip lens bevel", (0.22, 0.28, 0.3), 0.22, 0.7)
-light = material("Pip iris", (0.18, 0.73, 0.72), 0.25, glow=1.1)
+light = material("Pip iris", (0.12, 0.42, 0.44), 0.3, glow=0.35)
 highlight = material("Pip catchlight", (0.75, 0.9, 0.95), 0.3, glow=0.5)
 orange = material("Pip orange pip", (0.95, 0.34, 0.065), 0.34)
 
@@ -149,7 +149,7 @@ for side, suffix, radius in [(-1, "L", 0.143), (1, "R", 0.132)]:
     ellipsoid(
         "Convex optical lens " + suffix,
         (center[0], center[1], 0.320),
-        (radius * 0.94, radius * 0.94, 0.043),
+        (radius * 0.94, radius * 0.94, 0.039),
         glass,
         head,
     )
@@ -157,14 +157,15 @@ for side, suffix, radius in [(-1, "L", 0.143), (1, "R", 0.132)]:
     ellipsoid(
         "Soft luminous pupil " + suffix,
         (0, 0, 0),
-        (radius * 0.41, radius * 0.43, 0.009),
+        (radius * 0.50, radius * 0.29, 0.009),
         light,
         pupil,
     )
+    pupil.rotation_euler.y = side*.10
     ellipsoid(
         "Optical catchlight " + suffix,
-        (center[0] - radius * 0.28, center[1] + radius * 0.44, 0.355),
-        (radius * 0.11, radius * 0.075, 0.007),
+        (center[0] - radius * 0.24, center[1] + radius * 0.35, 0.359),
+        (radius * 0.075, radius * 0.052, 0.005),
         highlight,
         head,
     )
@@ -188,14 +189,14 @@ for side, suffix, radius in [(-1, "L", 0.143), (1, "R", 0.132)]:
     rod(
         "Flexible antenna end " + suffix,
         (side * 0.052, 0.13, 0.006),
-        (side * 0.08, 0.245, 0.004),
+        (side * 0.105, 0.285, 0.004),
         0.007,
         graphite,
         antenna,
     )
     ellipsoid(
         "Antenna tip " + suffix,
-        (side * 0.08, 0.245, 0.004),
+        (side * 0.105, 0.285, 0.004),
         (0.016, 0.023, 0.016),
         ceramic,
         antenna,
@@ -204,14 +205,14 @@ for side, suffix, radius in [(-1, "L", 0.143), (1, "R", 0.132)]:
     arm.rotation_euler.y = -side * 0.16
     flipper = ellipsoid(
         "Sculpted floating flipper " + suffix,
-        (0, -0.10, 0),
-        (0.062, 0.165, 0.035),
+        (0, -0.105, 0),
+        (0.078, 0.192, 0.038),
         ceramic,
         arm,
-        taper=1.4,
+        taper=1.2,
     )
     for vertex in flipper.data.vertices:
-        vertex.co.x -= side * 0.035 * max(0, min(1, -vertex.co.z / 0.18)) ** 2
+        vertex.co.x -= side * 0.045 * max(0, min(1, -vertex.co.z / 0.20)) ** 2
 
 bpy.context.scene.render.engine = "CYCLES"
 bpy.context.scene.cycles.samples = 48

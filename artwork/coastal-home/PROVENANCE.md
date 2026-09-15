@@ -73,3 +73,15 @@ After a geometry rebuild, run `bin/bake_coastal_light.py`, then `bin/optimize_co
 Run `bin/render_coastal_review.py` for matched-camera clay/material views and `bin/render_coastal_contacts.py` for five seated poses plus the animal masters. The full authoring command remains reproducible without the ignored local caches. The public visual direction is Realistic; Architectural and Illustrated remain explicitly deferred GPT-7 experiments.
 
 Inter now replaces Newsreader on the website. Its regular/italic WOFF2 files, pinned source hashes, weight-range conversion, and SIL OFL are in `assets/fonts/inter/`. The retained Newsreader font is historical and no longer loaded.
+
+## September 14 finishing pass: solid cutaway and fitted activities
+
+This pass continues the approved reference boards above. It generated no additional concept images and makes no new image-model claim. Blender 4.5.9 LTS and the existing Python workflow authored the delivered geometry, animation and optimized GLBs.
+
+The old centroid-based roof split left open boundaries. `coastal_section.py` now partitions a closed cave with exact Boolean intersection/difference, welds coincident vertices, fills residual coplanar boundary loops, recalculates normals, and rejects remaining nonmanifold edges. Both exported sections retain closed solids. `coastal_camera.py` samples the final terrain BVH for camera clearance; it also exports cutaway tags and exterior/interior envelopes consumed by `camera.mjs`.
+
+`coastal_furnishing.py` is the canonical final kitchen and gym authoring source. It retains the capybara artwork and adds fitted cabinetry, island, detailed coffee equipment, a paired-door refrigerator, and ocean-facing dining. The rack gains neutral pull-up grips and dip attachments; the bench parks clear of these exercises. Coffee and weight props remain individually tagged through material batching, so the runtime moves the same authored objects between their rest surfaces and the character's hand.
+
+All five character sources were rebuilt with fourteen clips, softer sleeve weighting and revised eyelids. `activities.mjs` runs phase-based approaches and rests and solves residual arm contact drift against exported equipment grips. The poses remain authored stylization; contact correction is not a whole-body dynamics solver.
+
+The production assets were re-exported after Cycles vertex-light baking and Draco/byte-color optimization. `reviews/` retains matched-camera neutral-clay/material views plus seated, reaching, pull-up and dip studies for all five variants. The live exterior orbit, cup and weight transfers, room views and responsive checks are recorded in [the finishing evidence](../../docs/evidence/coastal-finish-2026-09-14/README.md).

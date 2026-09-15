@@ -6,6 +6,8 @@ import { createFinish, physicalTime } from "./realism.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
+import { envelopeFor, constrainOrbit, keepCameraClear } from "./camera.mjs";
+import { activityPose, createHandContacts } from "./activities.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
@@ -82,6 +84,11 @@ export function createCoastalHome(container, records, artifacts) {
     focused = null,
     travel = null,
     footContacts,
+    handContacts,
+    sequenceStart = 0,
+    sequencePose = null,
+    coffeeCup = null,
+    exerciseWeight = null,
     worldCompanion,
     actorGoal = null;
   let pointer = null,
@@ -365,6 +372,7 @@ export function createCoastalHome(container, records, artifacts) {
       actor = prepareModel(gltf.scene);
       actor.name = "active-Sirui";
       footContacts = createFootContacts(actor, config.terrain);
+      handContacts = createHandContacts(actor);
       world.add(actor);
       mixer = new THREE.AnimationMixer(actor);
       actions = new Map(gltf.animations.map((clip) => [clip.name, mixer.clipAction(clip)]));
@@ -398,7 +406,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     if (currentAction) {
       if (reduced || paused) currentAction.stop();
-      else next.crossFadeFrom(currentAction, 0.35, false);
+      else next.crossFadeFrom(currentAction, /pullup|dip/.test(name) || /pullup|dip/.test(container.dataset.animation) ? 1.2 : 0.45, false);
     }
     currentAction = next;
     container.dataset.animation = name;
@@ -557,6 +565,8 @@ export function createCoastalHome(container, records, artifacts) {
     updateLight();
     wardrobe();
     if ((changed || force) && actor) {
+      sequenceStart = elapsed;
+      sequencePose = null;
       const room = config.rooms.find((r) => r.id === routine.room);
       const goal = new THREE.Vector3(...room.actor);
       loadRoom(room.id).catch(() => {
@@ -767,7 +777,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (b.dataset.worldZoom) {
         explore.explore();
         followClock = false;
-        desiredRadius = clamp(desiredRadius + (b.dataset.worldZoom === "in" ? -0.6 : 0.6), 3.7, 32);
+        desiredRadius += b.dataset.worldZoom === "in" ? -0.6 : 0.6;
         requestFrame();
       }
       if (b.hasAttribute("data-world-now")) {
@@ -850,7 +860,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (touches.has(e.pointerId)) touches.set(e.pointerId, [e.clientX, e.clientY]);
       if (pinch && touches.size === 2) {
         const [a, b] = [...touches.values()];
-        desiredRadius = clamp((pinch.radius * pinch.distance) / Math.max(15, Math.hypot(a[0] - b[0], a[1] - b[1])), 3.7, 32);
+        desiredRadius = (pinch.radius * pinch.distance) / Math.max(15, Math.hypot(a[0] - b[0], a[1] - b[1]));
         requestFrame();
         return;
       }
@@ -861,7 +871,7 @@ export function createCoastalHome(container, records, artifacts) {
       pointer.moved = Math.hypot(e.clientX - pointer.x, e.clientY - pointer.y);
       if (pointer.moved > 5) {
         yaw -= (e.clientX - pointer.lastX) * 0.008;
-        pitch = clamp(pitch + (e.clientY - pointer.lastY) * 0.006, 0.2, 1.25);
+        pitch += (e.clientY - pointer.lastY) * 0.006;
       }
       pointer.lastX = e.clientX;
       pointer.lastY = e.clientY;
@@ -892,7 +902,7 @@ export function createCoastalHome(container, records, artifacts) {
         explore.explore();
         followClock = false;
         if (focused) clearFocus();
-        desiredRadius = clamp(desiredRadius + e.deltaY * 0.007, 3.7, 32);
+        desiredRadius += e.deltaY * 0.007;
         requestFrame();
       },
       { passive: false }
@@ -901,11 +911,11 @@ export function createCoastalHome(container, records, artifacts) {
       const keys = {
         ArrowLeft: () => (yaw += 0.18),
         ArrowRight: () => (yaw -= 0.18),
-        ArrowUp: () => (pitch = clamp(pitch + 0.1, 0.2, 1.25)),
-        ArrowDown: () => (pitch = clamp(pitch - 0.1, 0.2, 1.25)),
-        "+": () => (desiredRadius = Math.max(3.7, desiredRadius - 0.5)),
-        "=": () => (desiredRadius = Math.max(3.7, desiredRadius - 0.5)),
-        "-": () => (desiredRadius = Math.min(32, desiredRadius + 0.5)),
+        ArrowUp: () => (pitch += 0.1),
+        ArrowDown: () => (pitch -= 0.1),
+        "+": () => (desiredRadius -= 0.5),
+        "=": () => (desiredRadius -= 0.5),
+        "-": () => (desiredRadius += 0.5),
         Escape: () => setRoom("study"),
         Enter: () => focused && activate(focused),
         d: () => {
@@ -973,6 +983,12 @@ export function createCoastalHome(container, records, artifacts) {
     lastFrame = 0;
   }
   function requestFrame() {
+    if (config) {
+      const orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, envelopeFor(config, currentRoom));
+      yaw = orbit.yaw;
+      pitch = orbit.pitch;
+      desiredRadius = orbit.radius;
+    }
     if (!frame && renderer && visible && inViewport && !document.hidden && !disposed) frame = requestAnimationFrame(render);
   }
 
@@ -997,11 +1013,16 @@ export function createCoastalHome(container, records, artifacts) {
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
     cameraYaw += yawDelta * orbitEase;
     cameraPitch = THREE.MathUtils.lerp(cameraPitch, pitch, orbitEase);
+    const safeOrbit = constrainOrbit({ yaw: cameraYaw, pitch: cameraPitch, radius }, envelopeFor(config, currentRoom));
+    cameraYaw = safeOrbit.yaw;
+    cameraPitch = safeOrbit.pitch;
+    radius = safeOrbit.radius;
     camera.position.set(
       target.x + Math.sin(cameraYaw) * Math.cos(cameraPitch) * radius,
       target.y + Math.sin(cameraPitch) * radius,
       target.z + Math.cos(cameraYaw) * Math.cos(cameraPitch) * radius
     );
+    keepCameraClear(camera.position, config, currentRoom);
     if (camera.isOrthographicCamera) {
       const half = radius * Math.tan((38 * Math.PI) / 360);
       camera.left = -half * aspect;
@@ -1012,14 +1033,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     camera.lookAt(target);
     world.traverse((o) => {
-      if (o.userData.caveRoof)
-        o.visible =
-          currentRoom === "outside" ||
-          (currentRoom !== "overview" &&
-            camera.position.y < 4.9 &&
-            camera.position.z < 4.8 &&
-            camera.position.z > -4.7 &&
-            Math.abs(camera.position.x) < 4.4);
+      if (o.userData.caveRoof) o.visible = currentRoom === "outside";
     });
     if (moving && mixer) {
       if (style === "illustrated") {
@@ -1045,7 +1059,75 @@ export function createCoastalHome(container, records, artifacts) {
         travel = null;
         playClip(routine.clip);
         propFor(routine.prop);
+        sequenceStart = elapsed;
       }
+    }
+    if (actor && !travel && routine?.sequence && moving) {
+      const room = config.rooms.find((r) => r.id === routine.room);
+      sequencePose = activityPose(routine.sequence, elapsed - sequenceStart, config.equipment, room);
+      if (sequencePose) {
+        const pose = sequencePose;
+        playClip(pose.clip);
+        actor.position.fromArray(pose.position);
+        actor.rotation.y +=
+          Math.atan2(Math.sin(pose.facing - actor.rotation.y), Math.cos(pose.facing - actor.rotation.y)) * (1 - Math.exp(-delta * 8));
+        if ((selectedProp?.userData.kind || null) !== (pose.prop || null)) propFor(pose.prop || null);
+        let contacts = pose.hands;
+        if (pose.cup && !contacts && pose.clip === "walk") {
+          const grip = new THREE.Vector3(0.16, 0.91, 0.3).applyQuaternion(actor.quaternion).add(actor.position);
+          contacts = [null, grip.toArray()];
+        }
+        handContacts?.solve(contacts, pose.contactBlend ?? 1);
+        container.dataset.activityPhase = pose.phase;
+      }
+    } else sequencePose = null;
+    // Move the authored cup itself; there is never a second coffee cup in a hand.
+    if (!coffeeCup && config?.equipment?.coffee) {
+      const pieces = [];
+      world.traverse((o) => {
+        if (o.userData.activityProp === "coffee-cup") pieces.push(o);
+      });
+      if (pieces.length) {
+        coffeeCup = new THREE.Group();
+        coffeeCup.position.fromArray(config.equipment.coffee.cup);
+        world.add(coffeeCup);
+        world.updateMatrixWorld(true);
+        pieces.forEach((o) => coffeeCup.attach(o));
+      }
+    }
+    if (coffeeCup) {
+      const cupTarget = new THREE.Vector3(...config.equipment.coffee.cup);
+      if (sequencePose?.cup) {
+        actor.updateMatrixWorld(true);
+        actor.traverse((o) => {
+          if (o.isBone && o.name.replaceAll(".", "") === "HandR") o.getWorldPosition(cupTarget);
+        });
+      }
+      coffeeCup.position.lerp(cupTarget, 1 - Math.exp(-frameDelta * 16));
+    }
+    // The selected top-tray weight keeps one identity through pickup and return.
+    if (!exerciseWeight && config?.equipment?.dumbbell?.rest) {
+      const pieces = [];
+      world.traverse((o) => {
+        if (o.userData.activityProp === "exercise-weight") pieces.push(o);
+      });
+      if (pieces.length) {
+        exerciseWeight = new THREE.Group();
+        exerciseWeight.position.fromArray(config.equipment.dumbbell.rest);
+        world.add(exerciseWeight);
+        world.updateMatrixWorld(true);
+        pieces.forEach((o) => exerciseWeight.attach(o));
+      }
+    }
+    if (exerciseWeight) {
+      const destination = new THREE.Vector3(...config.equipment.dumbbell.rest);
+      if (sequencePose?.weight) {
+        actor.updateMatrixWorld(true);
+        actor.traverse((o) => {
+          if (o.isBone && o.name.replaceAll(".", "") === "HandR") o.getWorldPosition(destination);
+        });
+      }
+      exerciseWeight.position.lerp(destination, 1 - Math.exp(-frameDelta * 20));
     }
     if (vinyl && spinning && moving) vinyl.rotation.y += delta * 0.75;
     if (water && moving) water.position.y = water.userData.restY + Math.sin(elapsed * 0.7) * 0.006;
@@ -1206,6 +1288,12 @@ export function createCoastalHome(container, records, artifacts) {
     clockMode: routine?.live ? "now" : "preview",
     following: explore.following && followClock,
     animation: container.dataset.animation,
+    activityPhase: sequencePose?.phase || null,
+    cupOwner: sequencePose?.cup ? "hand" : "counter",
+    weightOwner: sequencePose?.weight ? "hand" : "rack",
+    cupPosition: coffeeCup?.position.toArray() || null,
+    weightPosition: exerciseWeight?.position.toArray() || null,
+    gripDrift: handContacts?.evidence() || [],
     animations: actions ? [...actions.keys()] : [],
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
@@ -1220,6 +1308,8 @@ export function createCoastalHome(container, records, artifacts) {
     rendering: finish?.evidence,
     backdropImages: 0,
     camera: camera.position.toArray(),
+    cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
+    cameraEnvelope: config ? envelopeFor(config, currentRoom) : null,
     target: target.toArray(),
     currentRecord,
     spinning,

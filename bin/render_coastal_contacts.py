@@ -32,6 +32,18 @@ for avatar in ('lizard','south-park','simpsons','ghibli','rick-and-morty'):
     for name,location,size in [('seat',(0,0,.49),(.56,.64,.05)),('footrest',(0,-.37,.11),(.49,.28,.22)),('keyboard',(0,-.43,.89),(.48,.22,.02))]:
         bpy.ops.mesh.primitive_cube_add(size=1,location=location);support=bpy.context.object;support.name=name;support.scale=size
     scene.render.filepath=str(OUT/f'{avatar}-seated.png');bpy.ops.render.render(write_still=True)
+    for pose in ('pullup','dip','coffee-prep'):
+        bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home'/f'sirui-{avatar}.blend'))
+        arm=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
+        for track in arm.animation_data.nla_tracks:track.mute=track.name!=pose
+        bpy.context.scene.frame_set(28)
+        scene=studio((0,-.08,1.55 if pose=='pullup' else 1.05),(3.2,-5.2,2.8),2.8)
+        grips=[(-.30,-.01,2.322),(.30,-.01,2.322)] if pose=='pullup' else [(-.43,-.01,1.192),(.43,-.01,1.192)] if pose=='dip' else [(0,-.47,.89)]
+        for x,y,z in grips:
+            bpy.ops.mesh.primitive_cube_add(size=1,location=(x,y,z));support=bpy.context.object
+            support.name='Authored grip' if pose!='coffee-prep' else 'Work surface'
+            support.scale=(.055,.37,.055) if pose!='coffee-prep' else (.60,.30,.035)
+        scene.render.filepath=str(OUT/f'{avatar}-{pose}.png');bpy.ops.render.render(write_still=True)
 
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/wildlife.blend'))
 scene=studio((2,0,.25),(4,-7,3.4),6.4)

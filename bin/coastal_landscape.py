@@ -94,7 +94,7 @@ def export_contacts(config):
         "seal": {"kind": "sand", "path": [web(beach_point(x,.32)) for x in (-5,-4,-3)]},
         "seaLion": {"kind": "rock", "path": []},
     }
-    config["version"] = 4
+    config["version"] = 5
     config["beach"].update({"samples": samples, "width": 13.5})
     config["terrain"] = {"coordinateSystem": "three-y-up", "habitats": habitats,
                          "perches": [web((x,y,top_height(x,y)+.05)) for x,y in [(-8,-1),(9,-1),(14,3)]]}

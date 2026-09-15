@@ -13,6 +13,9 @@
   &[data-visible="true"] {
     opacity: 1;
   }
+  &[data-travel="portal"] {
+    transition: none;
+  }
   &[data-napping="true"] canvas {
     filter: saturate(0.45);
   }

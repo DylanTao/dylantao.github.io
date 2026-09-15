@@ -83,13 +83,25 @@ html[data-theme="dark"] .home-cred-item {
   aspect-ratio: 1;
   border: 0;
   border-radius: 0.3rem;
-  background: #fff;
+  background: transparent;
 }
 .home-work-image-wrap img {
   width: 100%;
   height: 100%;
   padding: 0.55rem;
   object-fit: contain;
+}
+
+// Keep the original diagram pixels and local white UI panels. A small light
+// halo gives dark labels contrast without restoring the rectangular paper.
+.project-case-media.research-figure-stage {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+html[data-theme="dark"] img[src*="-transparent.png"],
+html[data-theme="evening"] img[src*="-transparent.png"] {
+  filter: drop-shadow(0 0 0.65px #faf8f1) drop-shadow(0 0 0.85px #faf8f1);
 }
 .home-work-card:hover .home-work-image-wrap img {
   transform: none;

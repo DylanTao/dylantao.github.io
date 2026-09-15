@@ -412,29 +412,40 @@ def coast(mats, h):
     # Only lift the local ceiling for an interior cutaway. Keep the actual
     # mainland, back wall and side jambs visible; hiding the whole landmass
     # exposed an enormous flat foundation behind the rooms.
-    ceiling_faces = []
-    shell_faces = []
     coordinates = [tuple(v.co) for v in roof.data.vertices]
-    for face in roof.data.polygons:
-        c = face.center
-        bucket = (
-            ceiling_faces
-            if abs(c.x) < 5.8 and c.y > -5.47 and c.z > 3.8
-            else shell_faces
-        )
-        bucket.append((tuple(face.vertices), face.material_index))
-
-    def piece(name, selected):
-        obj = surface(name, coordinates, [f for f, _ in selected], rock, smooth=False)
-        obj.data.materials.append(mats["plaster"])
-        for face, (_, material_index) in zip(obj.data.polygons, selected):
-            face.material_index = material_index
-        cliff_normals(obj)
-        return obj
-
-    top = piece("core_liftaway_cave_ceiling", ceiling_faces)
+    # Boolean partition preserves the inside faces along the reveal. Selecting
+    # faces by centroid left 186 open boundary edges and see-through rock.
+    bpy.ops.mesh.primitive_cube_add(size=1, location=(0, 7.325, 16.95))
+    split = bpy.context.object
+    split.name = 'Closed cutaway partition tool'
+    split.dimensions = (11.3, 25.35, 26.1)
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    split.data.materials.append(mats['edge'])
+    solids = []
+    for name, operation in [('core_liftaway_cave_ceiling','INTERSECT'),('core_continuous_mainland_and_cave_walls','DIFFERENCE')]:
+        obj = roof.copy(); obj.data = roof.data.copy()
+        bpy.context.collection.objects.link(obj); obj.name = name
+        bpy.context.view_layer.objects.active = obj
+        modifier = obj.modifiers.new('Solid stone section', 'BOOLEAN')
+        modifier.operation = operation; modifier.solver = 'EXACT'; modifier.object = split
+        bpy.ops.object.modifier_apply(modifier=modifier.name)
+        bm = bmesh.new(); bm.from_mesh(obj.data)
+        bmesh.ops.remove_doubles(bm, verts=list(bm.verts), dist=.00005)
+        # Boolean seams can leave coplanar boundary loops on the cut plane.
+        # Close those actual edge loops, rather than making the rock double-sided.
+        boundary_edges = [e for e in bm.edges if e.is_boundary]
+        if boundary_edges:
+            bmesh.ops.holes_fill(bm, edges=boundary_edges, sides=0)
+        bmesh.ops.recalc_face_normals(bm, faces=list(bm.faces))
+        boundary = sum(not e.is_manifold for e in bm.edges)
+        assert boundary == 0, f'{name} has {boundary} non-manifold edges'
+        bm.to_mesh(obj.data); bm.free(); cliff_normals(obj)
+        obj['closedSolid'] = True
+        solids.append(obj)
+    bpy.data.objects.remove(split, do_unlink=True)
+    top = solids[0]
     top["caveRoof"] = True
-    piece("core_continuous_mainland_and_cave_walls", shell_faces)
+    top['cutawaySection'] = 'inhabited-roof'
     # Fit planting and exported wildlife paths to the actual triangulated
     # support, including the excavation. Sampling only its analytic precursor
     # left small plant mats cutting through the coarser rendered ridge.
@@ -443,6 +454,9 @@ def coast(mats, h):
     def support_height(x, y):
         hit, _, _, _ = supports.ray_cast(Vector((x, y, 30)), Vector((0, 0, -1)))
         return hit.z if hit is not None else top_height(x, y)
+    from coastal_camera import camera_manifest, landward_entry
+    camera_manifest(CONFIG, support_height)
+    landward_entry(mats, h, support_height)
     bpy.data.objects.remove(roof, do_unlink=True)
     # Beach is one long sloping shore. It joins the foot of the very same cliff
     # and disappears below the water instead of ending as a polygonal ring.

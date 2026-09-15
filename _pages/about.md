@@ -97,7 +97,7 @@ credibility:
 featured_work:
   - title: DesignWeaver
     url: /projects/designweaver/
-    image: /assets/img/publication_preview/designweaver.png
+    image: /assets/img/publication_preview/designweaver-transparent.png
     alt: Original DesignWeaver figure connecting a design brief, dimension palette, and image gallery.
     image_aspect: 16 / 9
     venue: CHI 2025
@@ -105,7 +105,7 @@ featured_work:
     description: Making the dimensions inside a prompt visible, so novices can compare and refine product ideas.
   - title: What Happened and Why?
     url: /projects/what-happened-and-why/
-    image: /assets/img/publication_preview/herding_cats_why_what.png
+    image: /assets/img/publication_preview/herding_cats_why_what-transparent.png
     alt: Original paper diagram linking creative activity traces to micro-episodes and user explanations.
     image_aspect: 16 / 9
     venue: CHI 2026 Workshop

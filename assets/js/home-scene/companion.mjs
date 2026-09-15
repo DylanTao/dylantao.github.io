@@ -173,8 +173,12 @@ export async function createWorldCompanion(scene, config, container, loader) {
     head.position.y = 0.4;
     body.position.y = pose.lift * 0.46;
     shell.rotation.z = pose.lean;
+    shell.rotation.x = pose.bodyPitch;
     antennas.forEach((a, i) => (a.rotation.z = pose.antennas[i]));
-    arms.forEach((a, i) => (a.rotation.z = (i ? 0.16 : -0.16) + pose.arms[i]));
+    arms.forEach((a, i) => {
+      a.rotation.z = (i ? 0.16 : -0.16) + pose.arms[i];
+      a.rotation.x = pose.armPitch[i];
+    });
     pupils.forEach((p, i) => {
       p.position.copy(pupilOrigins[i]);
       p.position.x += pose.gaze[0] * 0.024;

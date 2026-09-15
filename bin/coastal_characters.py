@@ -206,7 +206,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             ),
             "Eye." + name,
         )
-        if natural:
+        if natural or yellow or lanky or short:
             for sign in (-1, 1):
                 pts = [
                     (
@@ -217,7 +217,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                     for a in range(17)
                 ]
                 part(
-                    tube("soft eyelid", pts, 0.0036 if sign > 0 else 0.0024, skin),
+                    tube("soft eyelid", pts, (0.0036 if sign > 0 else 0.0024) if natural else (0.0045 if sign > 0 else 0.003), skin),
                     "Eye." + name,
                 )
         r = eye_r + (0.026 if natural else 0.011)

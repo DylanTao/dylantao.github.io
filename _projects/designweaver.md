@@ -2,7 +2,7 @@
 layout: page
 title: DesignWeaver
 description: A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.
-img: assets/img/publication_preview/designweaver.png
+img: assets/img/publication_preview/designweaver-transparent.png
 image_aspect: 16 / 9
 importance: -2
 category: research
@@ -55,12 +55,13 @@ cinematic: true
     </div>
     <p class="case-scroll-hint" aria-hidden="true">Scroll to read it in three steps<span class="case-scroll-hint-arrow">↓</span></p>
   </div>
-  <div class="project-case-media case-scroll-stage" data-case-stage>
+  <div class="project-case-media case-scroll-stage research-figure-stage" data-case-stage>
     <figure class="case-stage-figure">
-      {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver.png" width="2294" height="1298" title="DesignWeaver teaser" alt="Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery" class="img-fluid" %}
+      {% include figure.liquid loading="eager" path="assets/img/publication_preview/designweaver-transparent.png" width="2294" height="1298" title="DesignWeaver teaser" alt="Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery" class="img-fluid" %}
       <span class="case-stage-lens" data-case-lens-box aria-hidden="true"></span>
     </figure>
     <p class="case-stage-caption" data-case-caption-out>One screen in three parts: the design brief on the left, the tag-based prompt box in the middle, and the image gallery on the right.</p>
+    <a class="research-lens__open" href="{{ '/assets/img/publication_preview/designweaver.png' | relative_url }}">Open original figure ↗</a>
     <p class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/" target="_blank" rel="noopener noreferrer">Paper Shaders' Static Mesh Gradient</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</p>
   </div>
   <div class="case-scroll-steps" aria-label="DesignWeaver in three steps">

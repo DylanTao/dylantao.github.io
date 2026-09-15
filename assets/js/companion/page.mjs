@@ -29,7 +29,7 @@ function start() {
   el.dataset.visible = "false";
   el.setAttribute("aria-label", "P, the little studio companion");
   el.innerHTML =
-    '<canvas aria-hidden="true"></canvas><span class="pip-fallback" aria-hidden="true"><svg viewBox="0 0 88 112"><defs><linearGradient id="pip-shell" x2="0.8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#bbcbd0"/></linearGradient></defs><ellipse cx="44" cy="103" rx="20" ry="3" fill="#12222c" opacity=".16"/><g fill="url(#pip-shell)" stroke="#8a9da3" stroke-width=".55"><path d="M25 29 19 10M62 29 69 10" stroke-width="1.2"/><rect x="15" y="27" width="58" height="32" rx="12"/><path d="M44 61C20 60 30 95 44 96C58 95 68 60 44 61Z"/><ellipse cx="25" cy="75" rx="3" ry="10"/><ellipse cx="63" cy="75" rx="3" ry="10"/></g><path d="M35 43h17" stroke="#263941" stroke-width="2"/><g fill="#10222b" stroke="#647f8b"><circle cx="32" cy="43" r="10"/><circle cx="57" cy="43" r="8"/></g><g fill="var(--global-theme-color, #6fc6ca)"><ellipse cx="32" cy="43" rx="3.4" ry="5.2"/><ellipse cx="57" cy="43" rx="3" ry="4.5"/></g><g fill="#fff" opacity=".75"><ellipse cx="29" cy="38" rx="2.4" ry="1.3"/><ellipse cx="55" cy="39" rx="1.6" ry=".8"/></g><circle cx="48" cy="70" r="1.5" fill="#f07a38"/></svg></span><a class="pip-hit" aria-label="Meet P, the floating studio companion" title="Meet P"><span class="pip-label" aria-hidden="true">Meet P ↗</span></a><span class="pip-speech" aria-hidden="true"></span>';
+    '<canvas aria-hidden="true"></canvas><span class="pip-fallback" aria-hidden="true"><svg viewBox="0 0 88 112"><defs><linearGradient id="pip-shell" x2="0.8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#bbcbd0"/></linearGradient></defs><ellipse cx="44" cy="103" rx="20" ry="3" fill="#12222c" opacity=".16"/><g fill="url(#pip-shell)" stroke="#8a9da3" stroke-width=".55"><path d="M25 29 19 10M62 29 69 10" stroke-width="1.2"/><rect x="15" y="27" width="58" height="32" rx="12"/><path d="M44 61C20 60 30 95 44 96C58 95 68 60 44 61Z"/><ellipse cx="25" cy="75" rx="3" ry="10"/><ellipse cx="63" cy="75" rx="3" ry="10"/></g><path d="M35 43h17" stroke="#263941" stroke-width="2"/><g fill="#10222b" stroke="#647f8b"><circle cx="32" cy="43" r="10"/><circle cx="57" cy="43" r="8"/></g><g fill="var(--global-theme-color, #6fc6ca)"><ellipse cx="32" cy="43" rx="4.5" ry="2.6"/><ellipse cx="57" cy="43" rx="4.1" ry="2.4"/></g><g fill="#fff" opacity=".75"><ellipse cx="29" cy="38" rx="2.4" ry="1.3"/><ellipse cx="55" cy="39" rx="1.6" ry=".8"/></g><circle cx="48" cy="70" r="1.5" fill="#f07a38"/></svg></span><a class="pip-hit" aria-label="Meet P, the floating studio companion" title="Meet P"><span class="pip-label" aria-hidden="true">Meet P ↗</span></a><span class="pip-speech" aria-hidden="true"></span>';
   document.body.append(el);
   const portals = document.createElement("div");
   portals.className = "pip-portals";
@@ -659,8 +659,12 @@ function start() {
         nextBlink = elapsed + 3 + random() * 5;
       }
       const glance = companion.pointer.at > 0 && performance.now() - companion.pointer.at < 6000 && elapsed > ignoreUntil && !still;
-      gx += (Math.max(-1, Math.min(1, (companion.pointer.x - x) / 180)) * (glance ? 1 : 0) - gx) * 0.09;
-      gy += (Math.max(-1, Math.min(1, (y - companion.pointer.y) / 160)) * (glance ? 1 : 0) - gy) * 0.09;
+      const gazeEase = 1 - Math.exp(-wallDelta * 6);
+      const desiredGaze =
+        travelPose?.gaze ||
+        (glance ? [Math.max(-1, Math.min(1, (companion.pointer.x - x) / 180)), Math.max(-1, Math.min(1, (y - companion.pointer.y) / 160))] : [0, 0]);
+      gx += (desiredGaze[0] - gx) * gazeEase;
+      gy += (desiredGaze[1] - gy) * gazeEase;
       companion.mood *= Math.exp(-dt * 1.5);
       if (visible)
         portrait?.draw({

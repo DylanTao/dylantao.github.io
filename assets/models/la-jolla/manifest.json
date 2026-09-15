@@ -1,22 +1,29 @@
 {
-  "version": 2,
+  "version": 3,
   "model": "la-jolla.glb",
   "coordinates": "Y-up",
-  "office": [5.523333333333333, 3.2800000000000002, -1.106666666666667],
+  "office": [6.655, 3.2800000000000002, -0.8800000000000003],
   "camera": {
     "position": [5, 18, 38],
     "target": [0, 2, 0],
-    "width": 45
+    "width": 40.5
   },
-  "triangleCount": 100736,
+  "triangleCount": 113254,
   "source": "bin/build_la_jolla.py",
   "geography": "Authored collage, not a map",
-  "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier"],
+  "landmarks": ["DIB", "CliffVilla", "Village", "Tennis", "ScrippsPier"],
+  "dib": {
+    "foldedBays": 5,
+    "officeBay": 3,
+    "officeFloor": 3
+  },
+  "terrainBounds": [-38, 38, 5],
   "miniature": {
     "model": "miniature.glb",
-    "camera": [22, 27, 30],
+    "camera": [18, 30, 30],
     "target": [0, 1, -1],
     "width": 30,
-    "office": [2.579, 2.857, -2.893]
+    "office": [4.25075, 2.4575, -6.117],
+    "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier", "Cove", "TorreyPines"]
   }
 }

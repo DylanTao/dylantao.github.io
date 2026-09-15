@@ -65,7 +65,7 @@ class CoastalAssetsTest(unittest.TestCase):
             )
         self.assertTrue((ROOT / "artwork/coastal-home/coastal-home.blend").is_file())
 
-    def test_all_five_characters_are_skinned_with_ten_nonempty_clips(self):
+    def test_all_five_characters_have_contact_and_daily_activity_clips(self):
         required = {
             "idle",
             "walk",
@@ -74,6 +74,10 @@ class CoastalAssetsTest(unittest.TestCase):
             "eat",
             "drink",
             "workout",
+            "pullup",
+            "dip",
+            "coffee-prep",
+            "carry",
             "soak",
             "lounge",
             "sleep",

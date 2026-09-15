@@ -57,7 +57,7 @@ def cotton_shirt(width, material):
                 # straight, wide taper made a triangular rigid sleeve in idle.
                 fullness = math.sin(math.pi * t)
                 point[0] += side * .010 * fullness
-                point[1] += .004 * math.cos(theta * 3) * fullness
+                point[1] += (.004 * math.cos(theta * 3)+.003*math.sin(theta*5+t*7)) * fullness
                 verts.append(tuple(point))
             for j in range(len(edge)):
                 k = (j + 1) % len(edge)
