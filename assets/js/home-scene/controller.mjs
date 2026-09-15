@@ -1298,6 +1298,7 @@ export function createCoastalHome(container, records, artifacts) {
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
     frames,
+    framePending: Boolean(frame),
     drawCalls: renderer?.info.render.calls,
     triangles: renderer?.info.render.triangles,
     resources: renderer ? { ...renderer.info.memory } : {},

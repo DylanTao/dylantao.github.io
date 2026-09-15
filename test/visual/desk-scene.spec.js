@@ -177,8 +177,21 @@ test("coastal home: full exterior orbit and guided interior camera boundaries", 
   for (const room of ["outside", "overview", "study", "kitchen", "gym", "onsen", "sleep", "lounge"]) {
     await ui.locator(`[data-world-room="${room}"]`).first().click();
     await canvas.scrollIntoViewIfNeeded();
-    for (let i = 0; i < 42; i++) await canvas.press("ArrowLeft");
-    for (let i = 0; i < 12; i++) await canvas.press("ArrowUp");
+    // Keep a real focused keyboard input, then stress the same browser handler
+    // with a burst of repeat events. Hundreds of protocol round trips otherwise
+    // force hundreds of software-rendered frames on Linux before any assertion.
+    await canvas.press("ArrowLeft");
+    // Each burst stays below half a turn. Let its frame finish so the camera's
+    // shortest-angle interpolation follows the complete orbit, not a shortcut.
+    for (const count of [14, 14, 13]) {
+      await canvas.evaluate((node, count) => {
+        for (let i = 0; i < count; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", repeat: true, bubbles: true }));
+      }, count);
+      await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+    }
+    await canvas.evaluate((node) => {
+      for (let i = 0; i < 12; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", repeat: true, bubbles: true }));
+    });
     const box = await canvas.boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.wheel(0, -8000);
@@ -281,15 +294,19 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
   await canvas.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(300);
+  // Pause still requests a final composed frame; software WebGL can take longer
+  // than a fixed 300 ms to finish it. Wait for an empty render queue, then keep
+  // the strict unchanged-frame assertion so ongoing animation still fails.
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   const paused = (await evidence(scene)).frames;
   await page.waitForTimeout(400);
   expect((await evidence(scene)).frames).toBe(paused);
   await ui.locator("[data-world-pause]").click();
   await canvas.scrollIntoViewIfNeeded();
   await page.waitForTimeout(250);
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(250);
+  await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
+  await expect.poll(async () => canvas.evaluate((node) => node.getBoundingClientRect().bottom)).toBeLessThanOrEqual(0);
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   const offscreen = (await evidence(scene)).frames;
   await page.waitForTimeout(350);
   expect((await evidence(scene)).frames).toBe(offscreen);
