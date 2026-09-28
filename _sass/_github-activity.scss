@@ -3,15 +3,13 @@
  ******************************************************************************/
 
 .post:has(> article > .github-activity-page) {
-  max-width: min(76rem, calc(100vw - 2rem));
+  max-width: 100%;
   margin-right: auto;
   margin-left: auto;
 }
 
 .github-activity-page {
   --github-activity-grid: var(--global-divider-color);
-  --github-activity-added-text: color-mix(in srgb, var(--global-sky-strong) 85%, var(--global-text-color));
-  --github-activity-removed-text: color-mix(in srgb, var(--global-mint-strong) 85%, var(--global-text-color));
   // Second and later code-activity sources. The first source keeps the primary
   // accent so a single-source page is unchanged.
   --github-activity-source-alt-color: color-mix(in srgb, #6f7a1e 90%, var(--global-text-color));
@@ -655,17 +653,6 @@ html[data-theme-mode="evening"] .github-activity-page {
   fill-opacity: 0.18;
 }
 
-.github-activity-key-glyph.is-added line {
-  stroke: var(--global-sky-strong);
-  stroke-width: 1.7px;
-}
-
-.github-activity-key-glyph.is-removed line {
-  stroke: var(--global-mint-strong);
-  stroke-width: 1.7px;
-  stroke-dasharray: 4 2;
-}
-
 .github-activity-source-value {
   display: inline-flex;
   align-items: center;
@@ -699,16 +686,14 @@ html[data-theme-mode="evening"] .github-activity-page {
   letter-spacing: 0.02em;
 }
 
-// One wrapping sentence joined by middots left an orphaned separator whenever
-// the last value wrapped, and four numbers of different kinds read as a run-on.
-// Each value now owns a cell, so wrapping happens between values rather than
-// inside the punctuation, and the columns line up for scanning.
+// Give total and authored commits the first row. Source detail stays smaller
+// beneath them, so the selected date's counts remain the visual focus.
 .github-activity-values {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.45rem 1.5rem;
   margin-top: 0.4rem !important;
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -718,22 +703,19 @@ html[data-theme-mode="evening"] .github-activity-page {
   min-width: 0;
 }
 
-// The paired commit counts are one stat and stay together; they need more room
-// than a single number, so they take the full row above the line movement.
-.github-activity-commit-value-group {
-  grid-column: 1 / -1;
+.github-activity-source-value-group {
+  font-size: var(--type-meta);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.github-activity-source-value-label,
+.github-activity-source-value-count {
+  white-space: nowrap;
 }
 
 .github-activity-commits {
   color: var(--global-primary-color);
-}
-
-.github-activity-added {
-  color: var(--github-activity-added-text);
-}
-
-.github-activity-removed {
-  color: var(--github-activity-removed-text);
 }
 
 .github-activity-latest {
@@ -784,15 +766,11 @@ html[data-theme-mode="evening"] .github-activity-page {
 .github-activity-chart {
   display: block;
   width: 100%;
-  height: clamp(33rem, 52vw, 37rem);
+  height: clamp(24rem, 36vw, 32rem);
   overflow: visible;
   touch-action: pan-y;
 }
 
-.github-activity-add-line,
-.github-activity-remove-line,
-.github-activity-add-stems,
-.github-activity-remove-stems,
 .github-activity-commit-gap-band,
 .github-activity-commit-total-line,
 .github-activity-authored-line,
@@ -928,7 +906,7 @@ html[data-theme-mode="evening"] .github-activity-page {
 }
 
 .github-activity-method .github-activity-table {
-  min-width: 68rem;
+  min-width: 28rem;
 }
 
 .github-activity-table thead th {
@@ -976,6 +954,10 @@ html[data-theme-mode="evening"] .github-activity-page {
 }
 
 @media (max-width: 700px) {
+  .github-activity-values {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .github-activity-page {
     padding-top: 1rem;
   }
@@ -1024,7 +1006,7 @@ html[data-theme-mode="evening"] .github-activity-page {
   }
 
   .github-activity-chart {
-    height: 34rem;
+    height: 26rem;
   }
 
   .github-activity-method-grid {
@@ -1032,7 +1014,7 @@ html[data-theme-mode="evening"] .github-activity-page {
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 550px) {
   .github-activity-table-scroll-hint {
     display: block;
   }

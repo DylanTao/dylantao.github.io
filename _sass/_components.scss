@@ -354,7 +354,17 @@ html.site-motion-ready .hoverable.site-visible:hover {
   }
 
   .project-category-link {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-height: 44px;
     min-width: 0;
+    border-radius: var(--md-lite-radius-sm);
+
+    &:focus-visible {
+      outline: 2px solid var(--global-theme-color);
+      outline-offset: 3px;
+    }
 
     &:hover,
     &:focus-visible {

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Daily code activity by named source, showing when the work bunched up and how much moved.
+description: Daily code activity by named source, showing when the work bunched up.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -44,7 +44,7 @@ github_activity: true
         {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
       </div>
       <p>
-        I start with when the recorded code changed, then how much moved, then why one giant day needed a second scale.
+        I start with when the recorded code changed, then which commits were authored, then why one giant day needed a second scale.
       </p>
     </header>
 
@@ -53,7 +53,7 @@ github_activity: true
         <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
           <div class="build-rhythm-story-stage-heading">
             <span data-build-rhythm-story-label>THE WHOLE RHYTHM</span>
-            <span data-build-rhythm-story-scope>COMMITS + LINES</span>
+            <span data-build-rhythm-story-scope>COMMITS</span>
           </div>
           <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
           <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
@@ -69,10 +69,10 @@ github_activity: true
           <p>Reported commits bunch into bursts, with quieter days between. That uneven shape is the rhythm I was looking for.</p>
         </article>
 
-        <article class="build-rhythm-story-step" data-build-rhythm-step="magnitude">
-          <p class="build-rhythm-story-step-number">02 · HOW MUCH MOVED</p>
-          <h3>Total commits tell me when. Authored line changes tell me how much.</h3>
-          <p>Added lines climb above zero and removed lines fall below, so I can see how much authored repository text moved in each direction.</p>
+        <article class="build-rhythm-story-step" data-build-rhythm-step="authored">
+          <p class="build-rhythm-story-step-number">02 · WHAT COUNTS</p>
+          <h3>Keep the commits. Make the gap visible.</h3>
+          <p>The outer line counts all reported commits. The inner line keeps authored commits; the space between them shows merges and deploys.</p>
         </article>
 
         <article class="build-rhythm-story-step" data-build-rhythm-step="bursts">
@@ -149,12 +149,8 @@ github_activity: true
           <span class="github-activity-value-group github-activity-commit-value-group"
             ><span class="github-activity-commits" id="github-activity-selected-commits"></span
           ></span>
-          <span class="github-activity-value-group">
-            <span class="github-activity-added" id="github-activity-selected-additions"></span>
-          </span>
-          <span class="github-activity-value-group">
-            <span class="github-activity-removed" id="github-activity-selected-deletions"></span>
-          </span>
+          <span class="github-activity-value-group"><span class="github-activity-commits" id="github-activity-selected-authored"></span></span>
+
         </p>
       </div>
       <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
@@ -168,7 +164,7 @@ github_activity: true
 
     <div class="github-activity-chart-shell" data-personal-daily-copy>
       <h2 class="sr-only" id="github-activity-chart-title">
-        Total and authored commits, authored additions and deletions by source-reported calendar label
+        Total and authored commits by source-reported calendar label
       </h2>
       <p class="sr-only" id="github-activity-chart-instructions">
         Hover or click to inspect a source-reported date label and its code activity. Drag horizontally to select a range. With
@@ -201,23 +197,6 @@ github_activity: true
             </li>
           </ul>
         </div>
-        <div class="github-activity-key-group" role="group" aria-labelledby="github-activity-key-lines-label">
-          <p class="github-activity-key-label" id="github-activity-key-lines-label">Lines</p>
-          <ul class="github-activity-key-items">
-            <li class="github-activity-key-item">
-              <svg class="github-activity-key-glyph is-added" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
-                <line x1="0" y1="5" x2="18" y2="5"></line>
-              </svg>
-              <span>+ added</span>
-            </li>
-            <li class="github-activity-key-item">
-              <svg class="github-activity-key-glyph is-removed" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
-                <line x1="0" y1="5" x2="18" y2="5"></line>
-              </svg>
-              <span>− removed</span>
-            </li>
-          </ul>
-        </div>
         <div class="github-activity-source-legend github-activity-key-group" data-source-legend hidden>
           <p class="github-activity-source-legend-label github-activity-key-label" id="github-activity-source-legend-label">Sources</p>
           <div class="github-activity-legend-items" data-source-legend-items role="group" aria-labelledby="github-activity-source-legend-label"></div>
@@ -238,8 +217,8 @@ github_activity: true
     <summary>How this view works</summary>
     <div class="github-activity-method-grid">
       <div>
-        <h2>Separate scales</h2>
-        <p>Commits and line changes keep their own units and axes. The two panels share only the date axis and the selected label.</p>
+        <h2>One count, two boundaries</h2>
+        <p>Total and authored commits share one axis. Their gap makes merges and deploys visible.</p>
       </div>
       <div>
         <h2>Source calendars</h2>
@@ -250,7 +229,7 @@ github_activity: true
       </div>
       <div>
         <h2>Readable or literal</h2>
-        <p>Readable uses log1p for commits and a symmetric log view for line changes. Literal uses the full linear range; both plot the same reported values.</p>
+        <p>Readable uses log1p: small daily changes get more space, with labeled steps up to the biggest day. Literal uses the full linear range; both plot the same reported values.</p>
       </div>
       <div>
         <h2>What's counted</h2>
@@ -259,14 +238,6 @@ github_activity: true
           GitHub credits, so it matches the contribution graph: the default branch plus <code>gh-pages</code>, merges included. The crisp inner
           line is the summed non-merge, non-deploy authored subset. The soft band between them makes the difference visible without switching
           views.
-        </p>
-      </div>
-      <div>
-        <h2>Why lines follow authored commits</h2>
-        <p>
-          A merge diff restates the branch it absorbs and a deploy rewrites the whole generated site, so counting their lines would report
-          machine output as writing. Added and removed lines use each authored commit's first-parent raw-text diff. Documentation and data text
-          count; intrinsic binary changes count as zero, and repository attributes are neutralized so local diff rules cannot change the measure.
         </p>
       </div>
       <div>
@@ -293,9 +264,6 @@ github_activity: true
             <th scope="col">Date label</th>
             <th scope="col">Total commits</th>
             <th scope="col">Authored commits</th>
-            <th scope="col">Added</th>
-            <th scope="col">Removed</th>
-            <th scope="col">Line changes</th>
           </tr>
         </thead>
         <tbody id="github-activity-table-body"></tbody>

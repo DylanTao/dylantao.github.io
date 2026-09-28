@@ -2,8 +2,8 @@
 layout: page
 title: Build Rhythm
 description: "A page for seeing when I build: daily code activity by source, read for cadence and change rather than as a score."
-img: assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light.png
-image_aspect: 583 / 342
+img: assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-27-1440-light.png
+image_aspect: 1330 / 1142
 card_avoid_scaling: true
 importance: -30
 category: fun
@@ -18,7 +18,7 @@ ai_context:
   question: What can a daily code trace reveal about the cadence of making without turning activity into a productivity score?
   evidence:
     - Code history reports daily commits by named source and separates total commits from authored commits, merges, and deploys.
-    - Added and removed lines come only from each authored commit's first-parent raw-text diff, so merges and deploys never count as writing.
+    - A taller commit plot and labeled logarithmic steps make ordinary days visible beside large bursts.
   boundary: The rhythm shows bunching, scale, and quiet stretches; it does not establish productivity, quality, effort, or why a day was busy.
   reproduction:
     - Keep one clock and expose the exact source table behind every chart.
@@ -46,13 +46,13 @@ ai_context:
     class="project-case-media site-experiment-evidence-figure"
     data-paper-static-accent="waves"
     data-evidence-kind="runtime-capture-live-data"
-    data-capture-date="2026-09-08"
+    data-capture-date="2026-09-27"
     data-capture-viewport="1440x1000"
     data-capture-theme="light"
     data-capture-interaction-state="three-years-readable-latest-label"
   >
-    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light.png' | relative_url }}" alt="Build Rhythm code history explorer: total and authored commits per day above added and removed lines, three-year window on the readable scale" loading="eager" width="1166" height="684">
-    <figcaption><strong>Live code history, captured September 8, 2026.</strong> The explorer in its default state: three-year window, readable scale, latest label pinned, light theme at 1440 by 1000. <span class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/waves" target="_blank" rel="noopener noreferrer">Paper Shaders' Waves</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</span></figcaption>
+    <img src="{{ '/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-27-1440-light.png' | relative_url }}" alt="Build Rhythm's taller commit chart: total and authored commits per day with detailed logarithmic ticks, three-year window on the readable scale" loading="eager" width="1330" height="1142">
+    <figcaption><strong>Live code history, captured September 27, 2026.</strong> The explorer in its default state: three-year window, readable scale, latest label pinned, light theme at 1440 by 1000. <span class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/waves" target="_blank" rel="noopener noreferrer">Paper Shaders' Waves</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</span></figcaption>
   </figure>
 </section>
 
@@ -70,13 +70,13 @@ The chart answers two questions at the reading speed its evidence can support. T
   <li>
     <p class="project-case-kicker">Code cadence</p>
     <h3>When did the code work bunch up?</h3>
-    <p>Reported commits mark active calendar labels. The quiet outer line is the reported total across visible sources. The crisp inner line is authored commits, and the soft band between them is merges and deploys. Added and deleted repository-text lines use only that authored subset's first-parent diffs.</p>
+    <p>Reported commits mark active calendar labels. The quiet outer line is the reported total across visible sources. The crisp inner line is authored commits, and the soft band between them is merges and deploys.</p>
     <p class="build-rhythm-limit"><strong>It cannot establish:</strong> time spent, difficulty, quality, or whether a large diff mattered more.</p>
   </li>
   <li>
-    <p class="project-case-kicker">Change magnitude</p>
-    <h3>How much moved, and in which direction?</h3>
-    <p>Added lines climb above zero and removed lines fall below, for the authored subset only. Readable compresses the one giant day so ordinary days stay visible; Literal restores the full distance to the biggest spike. Both plot the same reported values.</p>
+    <p class="project-case-kicker">Readable detail</p>
+    <h3>What happens between the biggest bursts?</h3>
+    <p>The commit chart now has the whole plotting area, with more labeled log-scale steps. Readable gives ordinary days room; Literal restores the full distance to the biggest spike. Both plot the same reported values.</p>
     <p class="build-rhythm-limit"><strong>It cannot establish:</strong> whether a large change was good, how long it took, or what caused a burst.</p>
   </li>
 </ol>
@@ -84,8 +84,10 @@ The chart answers two questions at the reading speed its evidence can support. T
 <aside class="project-story-note project-story-note--privacy" aria-labelledby="build-rhythm-privacy-title">
   <p class="project-case-kicker">Privacy boundary</p>
   <h2 id="build-rhythm-privacy-title">The public view stops at daily counts.</h2>
-  <p>Each source publishes per-day commit and line counts only. No commit hashes, messages, repository names, or identities leave the source record.</p>
+  <p>The chart and its exact table show per-day total and authored commits. No commit hashes, messages, repository names, or identities leave the source record.</p>
 </aside>
+
+I removed the additions and deletions chart because repository text churn was drawing attention away from the rhythm I wanted to see. The website and GitHub profile now give that space to commits.
 
 ## Why the pacing changed
 
@@ -118,7 +120,7 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
 <details class="project-story-disclosure">
   <summary>Receipts: full data and revision record</summary>
   <div class="project-story-disclosure-body">
-    <p><strong>Hero evidence:</strong> the current screenshot is a live capture of the code-history explorer on September 8, 2026 at 1440 by 1000 in the light theme, three-year window, readable scale, latest label pinned.</p>
+    <p><strong>Hero evidence:</strong> the current screenshot is a live capture of the code-history explorer on September 27, 2026 at 1440 by 1000 in the light theme, three-year window, readable scale, latest label pinned. Page navigation and the floating companion are hidden for this content-only capture; the existing data snapshot is unchanged.</p>
     <p><strong>Data contract:</strong> One signal, never a score. Code history appears only after exact schema-5 source-calendar coverage validates for every named source. Personal uses GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels, so matching labels do not pretend to be one shared 24-hour window. Each named source carries only daily commit, authored-commit, addition, and deletion counts inside its declared coverage.</p>
     <ol class="site-experiment-ledger" aria-label="Build Rhythm iteration record">
       <li><time datetime="2026-07-11">Jul 11</time><code>b4203f3ea</code><span>Introduced the activity view with keyboard inspection, an exact table, and a privacy-safe fallback.</span></li>
@@ -131,6 +133,7 @@ John Thompson shared [The Rhythm of Food](https://rhythm-of-food.net/) during a 
       <li><time datetime="2026-07-16">Jul 16</time><code>6edea07f4</code><span>Restored the rounded repo-scoped token estimate as a separate series within the public boundary.</span></li>
       <li><time datetime="2026-09-05">Sep 5</time><code>90e9f613b</code><span>Moved the encoding key into an HTML strip with the profile SVG's words, plainer panel headings, an olive intern band with a seam, and per-source readout cells.</span></li>
       <li><time datetime="2026-09-08">Sep 8</time><code aria-hidden="true"></code><span>Retired both token clocks and their pipelines; the page now reads code cadence and change only, with a live capture as its hero.</span></li>
+      <li><time datetime="2026-09-27">Sep 27</time><code aria-hidden="true"></code><span>Removed line-change metrics from the website and GitHub profile, giving commits the full chart height and finer logarithmic ticks.</span></li>
     </ol>
   </div>
 </details>

@@ -83,9 +83,9 @@ paper-constellation:
 
 build-rhythm:
   origin_line: "The logs had totals, but they did not show when the work arrived in bursts."
-  evolution_line: "A later dashboard mixed unlike numbers. I split the clocks apart, then retired the token ones and kept daily code changes by source."
+  evolution_line: "A later dashboard mixed unlike numbers. I retired the token clocks and line-change totals, giving daily commits more room."
   icon: pulse
-  teaser_alt: Build Rhythm code history explorer showing total and authored commits per day above added and removed lines
+  teaser_alt: Build Rhythm code history explorer showing total and authored commits per day on a taller logarithmic chart
   accents:
     morning: "#e88754"
     noon: "#4f91ab"

@@ -180,19 +180,28 @@
     const syncRailPlacement = () => {
       if (window.matchMedia("(max-width: 767px)").matches) {
         storyRail.style.removeProperty("--home-rail-anchor");
+        storyRail.style.removeProperty("--home-rail-top");
         storyRail.removeAttribute("data-rail-compact");
+        storyRail.removeAttribute("data-rail-obscured");
+        storyRail.removeAttribute("inert");
         return;
       }
 
       const titleRect = homeTitle.getBoundingClientRect();
-      const collapsedWidth = storyRail.getBoundingClientRect().width || 38;
       const expandedWidth = Math.min(Math.max(window.innerWidth * 0.07, 89), 116);
-      const hasExpansionGutter = titleRect.left >= expandedWidth + 72;
-      const gap = hasExpansionGutter ? 28 : 32;
-      const minAnchor = hasExpansionGutter ? 8 + collapsedWidth : 14;
-      const anchor = Math.max(minAnchor, titleRect.left - gap);
+      const anchor = Math.min(64, Math.max(16, window.innerWidth * 0.02));
+      const hasExpansionGutter = titleRect.left >= anchor + expandedWidth + 24;
       storyRail.style.setProperty("--home-rail-anchor", `${anchor.toFixed(1)}px`);
       storyRail.toggleAttribute("data-rail-compact", !hasExpansionGutter);
+      const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 57;
+      const railHeight = storyRail.getBoundingClientRect().height;
+      const coastTop = document.querySelector("footer")?.getBoundingClientRect().top ?? innerHeight;
+      const preferredTop = Math.min(416, Math.max(128, innerHeight * 0.36));
+      const top = Math.min(preferredTop, innerHeight - railHeight - 24, coastTop - railHeight - 24);
+      const obscured = top < navBottom + 16;
+      storyRail.style.setProperty("--home-rail-top", `${Math.max(navBottom + 16, top).toFixed(1)}px`);
+      storyRail.toggleAttribute("data-rail-obscured", obscured);
+      storyRail.toggleAttribute("inert", obscured);
     };
 
     const scheduleRailPlacement = () => {
@@ -204,6 +213,7 @@
     };
 
     window.addEventListener("resize", scheduleRailPlacement);
+    window.addEventListener("scroll", scheduleRailPlacement, { passive: true });
     window.addEventListener("orientationchange", scheduleRailPlacement);
     if (document.fonts?.ready) {
       document.fonts.ready.then(scheduleRailPlacement).catch(() => {});

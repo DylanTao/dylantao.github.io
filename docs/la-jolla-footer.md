@@ -16,6 +16,8 @@ Both scenes follow the selected site theme. The footer moves from quiet morning 
 
 Terrain is always present. Building groups emerge left to right according to footer visibility, and lower again when scrolling up. There is no scroll interception. The coast fills the viewport width and reaches the bottom edge; copyright sits quietly inside it. Sirui removed the al-folio credit, update date, and separate lighting/motion controls.
 
+On wide displays, the camera expands sideways while retaining at least 13 world units of vertical clearance. Palm crowns and the DIB roof stay inside the frame as the footer becomes a shorter panorama. The outer shoreline extends with original Torrey pine and tidepool forms and smaller instances of the existing houses. The Connect miniature keeps its own camera and geometry. Homepage content grows to 2240 px on a 4K display, while the section rail stays near the left edge and moves or hides before reaching the footer.
+
 Reveal, camera settling, and authored motion use active elapsed time instead of a per-frame time cap. Exponential easing keeps the response consistent when frames are slow. Offscreen and hidden-page recovery reset the clock, so suspension does not advance the vignette. Browser reversal checks place the page at the reveal boundary before measuring the response; they do not include the separate page-level smooth-scroll duration.
 
 The customized footer uses `footer_fixed: false`. The previous fixed-footer branch left a masked band and a separate bottom gap even when the scene itself measured full width. Acceptance now checks the actual bottom edge and absence of that mask, as well as width.
@@ -27,6 +29,7 @@ The Connect and project miniatures allow gentle bounded orbit with dragging or a
 - `_includes/la-jolla-miniature.liquid`, `_includes/la-jolla-footer.liquid`, `_sass/_footer-coast.scss`, and `_includes/footer.liquid` own integration and layout.
 - `assets/js/footer-coast/entry.mjs` imports the renderer near visibility (450 px). `assets.mjs` shares decoder, model resources, and geometry; instances have their own materials and light/activity state.
 - `scene.mjs` uses the existing pinned Three.js stack, studio reflections, soft sun shadows, bounded contact occlusion, and authored water/plant/character motion. It caps device pixel density at 1.5 and animation at approximately 30 fps.
+- `panorama.mjs` extends only the footer instance's outer terrain and adds the side scenery at runtime. Its cloned geometries are disposed with that instance; the miniature's shared model remains unchanged.
 - `bin/build_la_jolla.py`, `coastal_landmarks.py`, and `build_la_jolla_miniature.py` retain editable sources. The two compressed GLBs total about 1.45 MB; geometry, atlas, and posters total about 1.95 MB, below the approximate 4 MB combined asset target. Concept boards and the raw reconstruction are downloads, not initial scene resources.
 - The actual Blender poster remains visible without JavaScript, WebGL, or successful model decoding. Context recovery restores current theme and camera state. There are no controls for unavailable graphics.
 

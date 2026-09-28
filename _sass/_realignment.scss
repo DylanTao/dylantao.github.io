@@ -181,7 +181,7 @@
   background-position: center;
   background-size: cover;
   content: "";
-  mask-image: linear-gradient(to right, #000, transparent 88%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 15%, transparent 100%);
   opacity: 0.16;
   pointer-events: none;
 }
@@ -219,9 +219,13 @@
 }
 
 .build-rhythm-story-page .project-case-hero::before {
+  bottom: auto;
+  height: 32rem;
+  max-height: 100%;
   background-image: url("../img/paper-shaders/build-rhythm-waves-0.0.80.webp");
   background-position: 50% 44%;
-  mask-image: linear-gradient(100deg, transparent 4%, #000 52%, transparent 100%);
+  // Keep the field near the introduction and fade every edge into the page.
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 15%, transparent 100%);
   opacity: 0.2;
 }
 
@@ -251,44 +255,6 @@
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16rem;
-}
-
-.projects .project-category-heading[data-paper-category-accent] {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-}
-
-.projects .project-category-heading[data-paper-category-accent]::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  width: min(72%, 34rem);
-  height: 2.75rem;
-  background-position: 50% 50%;
-  background-size: cover;
-  content: "";
-  mask-image: linear-gradient(to right, transparent, #000 48%, #000);
-  opacity: 0.16;
-  pointer-events: none;
-  transition:
-    background-position 360ms ease-out,
-    opacity 360ms ease-out;
-}
-
-.projects .project-category-heading--research::after {
-  background-image: url("../img/paper-shaders/designweaver-static-mesh-0.0.80.webp");
-}
-
-.projects .project-category-heading--fun::after {
-  background-image: url("../img/paper-shaders/build-rhythm-waves-0.0.80.webp");
-}
-
-.projects .project-category-heading[data-paper-category-accent]:hover::after,
-.projects .project-category-heading[data-paper-category-accent]:focus-within::after {
-  background-position: 54% 50%;
-  opacity: 0.23;
 }
 
 .website-revamp-turns .website-revamp-turn {
@@ -395,16 +361,14 @@ html[data-theme-mode="evening"] :where(.designweaver-case, .build-rhythm-story-p
 
 @media (prefers-reduced-motion: reduce) {
   .designweaver-case::before,
-  .build-rhythm-story-page .project-case-hero::before,
-  .projects .project-category-heading[data-paper-category-accent]::after {
+  .build-rhythm-story-page .project-case-hero::before {
     transition: none;
   }
 }
 
 @media (prefers-contrast: more), (forced-colors: active) {
   .designweaver-case::before,
-  .build-rhythm-story-page .project-case-hero::before,
-  .projects .project-category-heading[data-paper-category-accent]::after {
+  .build-rhythm-story-page .project-case-hero::before {
     display: none;
   }
 }

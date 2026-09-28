@@ -38,7 +38,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
         self.assertEqual(
             steps,
-            ["cadence", "magnitude", "bursts", "explore"],
+            ["cadence", "authored", "bursts", "explore"],
         )
         self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
         self.assertLess(
@@ -138,13 +138,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
         ):
             with self.subTest(contract=contract):
                 self.assertIn(contract, self.script)
-        self.assertIn("@media (max-width: 820px)", self.style)
-        self.assertIn("min-width: 68rem", self.style)
+        self.assertIn("@media (max-width: 550px)", self.style)
+        self.assertIn("min-width: 28rem", self.style)
         self.assertNotIn("body.github-activity-body #back-to-top", self.style)
 
     def test_daily_story_domain_ends_on_the_last_verified_day(self) -> None:
         self.assertIn(
-            "const domainEnd = storyGithubRows.at(-1).date;",
+            "rows.length - 1",
             self.script,
         )
         self.assertNotIn(
@@ -177,7 +177,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for phrase in (
             "I wanted the logs to show where the work bunches up.",
             "First, I look for the bursts.",
-            "Total commits tell me when. Authored line changes tell me how much.",
+            "Keep the commits. Make the gap visible.",
             "One giant day was flattening everything else.",
             "Now read the whole rhythm yourself.",
         ):
@@ -206,14 +206,12 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('const spacedLogTicks = (domainMaximum, yForValue, minimumGap = 18)', self.script)
         for axis_name in (
             "story-cadence",
-            "story-magnitude",
-            "story-complete-commits",
-            "story-complete-lines",
+            "story-authored",
         ):
             with self.subTest(axis_name=axis_name):
                 self.assertIn(f'"{axis_name}"', self.script)
         self.assertIn('name: `story-bursts-${panel.mode === "log" ? "readable" : "literal"}`', self.script)
-        self.assertIn('className: "github-activity-line-tick is-zero"', self.script)
+        self.assertIn('className: "github-activity-commit-tick"', self.script)
 
     def test_static_and_reduced_motion_styles_remain_complete(self) -> None:
         self.assertIn('@media (max-width: 820px)', self.style)
@@ -232,8 +230,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
             'data-github-activity',
             'id="github-activity-chart"',
             'id="github-activity-selected-commits"',
-            'id="github-activity-selected-additions"',
-            'id="github-activity-selected-deletions"',
+            'id="github-activity-selected-authored"',
             'id="github-activity-table-scroll-hint"',
             'id="github-activity-table-body"',
             'id="code-activity-data"',
@@ -256,10 +253,10 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("The quiet outer line is the reported total across visible sources.", self.page)
         self.assertIn("The crisp inner line is authored commits", self.page)
         self.assertIn("the soft band between them is merges and deploys", self.page)
-        self.assertIn("Total and authored commits plus", self.script)
+        self.assertIn("Total and authored commits by", self.script)
         self.assertIn('class: "github-activity-commit-source-area"', self.script)
-        self.assertIn('class: "github-activity-add-line"', self.script)
-        self.assertIn('class: "github-activity-remove-line"', self.script)
+        self.assertNotIn('class: "github-activity-add-line"', self.script)
+        self.assertNotIn('class: "github-activity-remove-line"', self.script)
         self.assertIn('item.className = "github-activity-legend-item is-static"', self.script)
         self.assertIn('legendLabel.textContent = multiSource ? "Sources" : "Source"', self.script)
 

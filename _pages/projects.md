@@ -23,7 +23,7 @@ cinematic: true
   <!-- Display categorized projects -->
   {% for category in page.display_categories %}
   {% assign category_label = category | capitalize %}
-  <div class="project-category-heading project-category-heading--{{ category }}" data-paper-category-accent="{{ category }}">
+  <div class="project-category-heading">
     <a class="project-category-link" id="{{ category }}" href=".#{{ category }}">
       <h2 class="category">{{ category_label }}</h2>
     </a>

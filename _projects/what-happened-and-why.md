@@ -14,6 +14,7 @@ status: Published
 date: 2026-04-15
 hide_title: true
 wide_layout: true
+design_story_class: trace-project-page
 keywords: What Happened and Why, trace-guided micro-episodes, elicited user explanations, product iteration, creative activity traces, CHI 2026 workshop, Herding CATs, generative AI, design tools, Sirui Tao, William P. McCarthy, Steven P. Dow
 og_image: https://dylantao.github.io/assets/img/publication_preview/herding_cats_why_what.png
 og_image_width: 1376
@@ -27,6 +28,10 @@ citation_publication_date: "2026/04/15"
 citation_conference_title: "Herding CATs: Making Sense of Creative Activity Traces (CHI 2026 Workshop)"
 citation_pdf_url: "https://dylantao.github.io/projects/what-happened-and-why/what-happened-and-why.pdf"
 _styles: |
+  .trace-project-page > article {
+    width: min(100%, 86.25rem);
+  }
+
   .trace-paper-page {
     --trace-accent: var(--global-primary-color);
     --trace-accent-deep: var(--global-hover-color);
@@ -161,12 +166,13 @@ _styles: |
 
   .trace-meta {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
     gap: 1rem;
     margin: 0 0 1rem;
   }
 
   .trace-meta-card {
+    min-width: 0;
     padding: 0.95rem 1rem;
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.38);

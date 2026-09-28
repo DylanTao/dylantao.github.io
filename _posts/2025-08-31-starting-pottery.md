@@ -27,8 +27,8 @@ Ellen is a member of the [San Diego Potters' Guild](https://www.sandiegopottersg
 Last year at the Craft Center Fair, I saw Ellen's booth and fell in love with her piglet artwork. I had to buy it! That piece got me excited about pottery, so when I found out she teaches classes, I signed up right away.
 
 <div class="spotlight-group">
-<a class="spotlight" href="/assets/img/pottery/ellens_piglet.jpg">
-  <img src="/assets/img/pottery/ellens_piglet.jpg" alt="Ellen's beautiful piglet artwork that inspired my pottery journey" style="max-width: 100%; height: auto; object-fit: contain;"/>
+<a class="spotlight" href="{{ '/assets/img/pottery/ellens_piglet.jpg' | relative_url }}">
+  <img src="{{ '/assets/img/pottery/ellens_piglet.jpg' | relative_url }}" alt="Ellen's beautiful piglet artwork that inspired my pottery journey" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -43,8 +43,8 @@ I have three pieces commissioned that I'm excited to create. These are my design
 A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psyduck. This will be a functional piece that brings joy to morning coffee routines. _(Design draft - not yet produced)_
 
 <div class="spotlight-group">
-<a class="spotlight" href="/assets/img/pottery/psyduck-cup.png">
-  <img src="/assets/img/pottery/psyduck-cup.png" alt="Psyduck Coffee Cup" style="max-width: 100%; height: auto; object-fit: contain;"/>
+<a class="spotlight" href="{{ '/assets/img/pottery/psyduck-cup.png' | relative_url }}">
+  <img src="{{ '/assets/img/pottery/psyduck-cup.png' | relative_url }}" alt="Psyduck Coffee Cup" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -53,8 +53,8 @@ A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psy
 A charming honey pot inspired by the beloved bear, complete with a bear-head lid. This piece will be both decorative and functional, perfect for storing honey or other sweet treats. _(Design draft - not yet produced)_
 
 <div class="spotlight-group">
-<a class="spotlight" href="/assets/img/pottery/pooh-pot.png">
-  <img src="/assets/img/pottery/pooh-pot.png" alt="Winnie the Pooh Pot with Bear-Head Lid" style="max-width: 100%; height: auto; object-fit: contain;"/>
+<a class="spotlight" href="{{ '/assets/img/pottery/pooh-pot.png' | relative_url }}">
+  <img src="{{ '/assets/img/pottery/pooh-pot.png' | relative_url }}" alt="Winnie the Pooh Pot with Bear-Head Lid" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -63,8 +63,8 @@ A charming honey pot inspired by the beloved bear, complete with a bear-head lid
 Two small cat sculptures - one dancing with joy and another peacefully sleeping. These will showcase different moods and poses, adding personality to any space. _(Design draft - not yet produced)_
 
 <div class="spotlight-group">
-<a class="spotlight" href="/assets/img/pottery/cat-sculptures.png">
-  <img src="/assets/img/pottery/cat-sculptures.png" alt="Cat Sculpture Pair - Dancing and Sleeping" style="max-width: 100%; height: auto; object-fit: contain;"/>
+<a class="spotlight" href="{{ '/assets/img/pottery/cat-sculptures.png' | relative_url }}">
+  <img src="{{ '/assets/img/pottery/cat-sculptures.png' | relative_url }}" alt="Cat Sculpture Pair - Dancing and Sleeping" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 

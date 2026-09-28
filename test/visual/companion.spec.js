@@ -1,8 +1,73 @@
 const fs = require("node:fs");
 const { test, expect } = require("@playwright/test");
 const { publicRouteUrl } = require("./public-routes");
-const { collectRuntimeErrors } = require("./helpers");
+const { collectRuntimeErrors, preparePage } = require("./helpers");
 const evidence = (page) => page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence());
+
+test("P: reading surfaces stay clear after content reflows", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, "light");
+  for (const [route, ready, protectedSelector] of [
+    ["/projects/", ".project-browser-origin", ".project-browser-origin"],
+    ["/projects/designweaver/", ".project-case-facts", ".project-case-facts"],
+    ["/github-activity/", "[data-github-activity][data-state='ready']", "#main svg"],
+    ["/blog/2026/research-skills-starter-pack/", "#markdown-content", "#main p"],
+  ]) {
+    await page.goto(publicRouteUrl(route), { waitUntil: "load" });
+    await expect(page.locator(ready).first()).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(() => typeof document.querySelector(".pip-companion")?.getCompanionEvidence === "function");
+
+    const overlaps = () =>
+      page.evaluate((selector) => {
+        const companion = document.querySelector(".pip-companion");
+        if (companion.dataset.visible !== "true") return [];
+        const hit = companion.querySelector(".pip-hit").getBoundingClientRect();
+        return [...document.querySelectorAll(selector)].flatMap((node) => {
+          let boxes = [node.getBoundingClientRect()];
+          if (node.matches("p")) {
+            const range = document.createRange();
+            range.selectNodeContents(node);
+            boxes = [...range.getClientRects()];
+          }
+          return boxes
+            .filter((box) => box.width && box.height && hit.left < box.right && hit.right > box.left && hit.top < box.bottom && hit.bottom > box.top)
+            .map(() => node.tagName + ":" + node.textContent.trim().slice(0, 60));
+        });
+      }, protectedSelector);
+    await expect.poll(overlaps, { message: `${route}: P covers content` }).toEqual([]);
+
+    // A late image or an expanding reading aid can move content without a
+    // scroll or viewport resize. Reduced motion must still refresh the perch.
+    const before = await evidence(page);
+    await page.locator("#main").evaluate((main) => {
+      const spacer = document.createElement("div");
+      spacer.setAttribute("data-layout-probe", "");
+      spacer.style.height = "113px";
+      main.prepend(spacer);
+    });
+    await expect.poll(async () => (await evidence(page)).frames).toBeGreaterThan(before.frames);
+    await expect.poll(overlaps, { message: `${route}: P did not clear reflowed content` }).toEqual([]);
+    await page.locator("[data-layout-probe]").evaluate((node) => node.remove());
+    await expect.poll(overlaps).toEqual([]);
+
+    // Measuring the fixed navbar changes body padding on blog pages. The
+    // content moves even though its own width and height remain unchanged.
+    const beforePadding = await evidence(page);
+    const originalPadding = await page.evaluate(() => {
+      const original = document.body.style.paddingTop;
+      document.body.style.paddingTop = `${parseFloat(getComputedStyle(document.body).paddingTop) + 19}px`;
+      return original;
+    });
+    await expect.poll(async () => (await evidence(page)).frames).toBeGreaterThan(beforePadding.frames);
+    await expect.poll(overlaps, { message: `${route}: P did not clear shifted content` }).toEqual([]);
+    await page.evaluate((padding) => (document.body.style.paddingTop = padding), originalPadding);
+    await expect.poll(overlaps).toEqual([]);
+    await capture(page, testInfo, `pip-clear-${route.split("/").filter(Boolean).at(-1)}`);
+  }
+  expect(errors).toEqual([]);
+});
 
 test("P: its former project address redirects to the current page", async ({ page }) => {
   await page.goto(publicRouteUrl("/projects/pip/") + "?from=archive#credits");

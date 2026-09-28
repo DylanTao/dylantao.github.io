@@ -106,13 +106,23 @@ test("coastal navigation: helper clears the reading column and return control st
   await expect(rail.getByRole("link", { name: "Connect", exact: true })).toBeVisible();
   const gap = await rail.evaluate((e) => document.querySelector(".home-title").getBoundingClientRect().left - e.getBoundingClientRect().right);
   expect(gap).toBeGreaterThanOrEqual(24);
-  expect(gap).toBeLessThanOrEqual(32);
+  const railBounds = await rail.boundingBox();
+  expect(railBounds.x).toBeGreaterThanOrEqual(16);
+  expect(railBounds.x).toBeLessThanOrEqual(64);
+  const footerTop = await page.locator("footer").evaluate((e) => e.getBoundingClientRect().top);
+  expect(railBounds.y + railBounds.height).toBeLessThanOrEqual(footerTop - 24);
   await attachScreenshot(page, testInfo, "coast-navigation-wide");
   await back.focus();
   await page.keyboard.press("Enter");
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
   await expect(page.locator("#back-to-top")).toHaveAttribute("aria-hidden", "true");
   await expect(page.locator("#back-to-top")).toHaveAttribute("tabindex", "-1");
+  // A short wide window has no vertical room for the rail above the coast.
+  // It must leave both the skyline and keyboard focus order clear.
+  await page.setViewportSize({ width: 1920, height: 540 });
+  await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect(page.locator(".home-story-rail")).toHaveAttribute("inert", "");
+  await expect(page.locator(".home-story-rail")).toBeHidden();
 });
 test("La Jolla miniature: keyboard orbit, static reduced motion, and map attribution", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);

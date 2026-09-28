@@ -620,7 +620,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_truthful_teasers_are_tracked_for_newest_visual_experiments(self) -> None:
         for relative_path in (
             "assets/img/project_pics/paper-constellation/paper-constellation-teaser.png",
-            "assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light.png",
+            "assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-27-1440-light.png",
             "assets/img/project_pics/site-experiments/homepage-desk-depth.png",
             "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png",
             "assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png",
@@ -657,23 +657,23 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertNotIn("mobile_teaser_alt", card_include)
         self.assertIn('alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"', card_include)
 
-    def test_build_rhythm_teaser_matches_the_approved_code_history_capture(self) -> None:
-        teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-code-history-2026-09-08-1440-light.png"
+    def test_build_rhythm_teaser_matches_the_current_commit_capture(self) -> None:
+        teaser = REPO_ROOT / "assets" / "img" / "project_pics" / "site-experiments" / "build-rhythm-commits-2026-09-27-1440-light.png"
         payload = teaser.read_bytes()
         self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
-        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (1166, 684))
+        self.assertEqual((int.from_bytes(payload[16:20], "big"), int.from_bytes(payload[20:24], "big")), (1330, 1142))
         blob_hash = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
-        self.assertEqual(blob_hash, "a93f1ba43915456e681a12075c6699562c438c8b")
+        self.assertEqual(blob_hash, "f43f218d7940a950727ab315ee254b3f9cd217e5")
 
         source = (REPO_ROOT / "_projects" / "build-rhythm.md").read_text(encoding="utf-8")
         for phrase in (
             'data-evidence-kind="runtime-capture-live-data"',
-            'data-capture-date="2026-09-08"',
+            'data-capture-date="2026-09-27"',
             'data-capture-viewport="1440x1000"',
             'data-capture-theme="light"',
             'data-capture-interaction-state="three-years-readable-latest-label"',
-            'width="1166" height="684"',
-            "Live code history, captured September 8, 2026.",
+            'width="1330" height="1142"',
+            "Live code history, captured September 27, 2026.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, source)

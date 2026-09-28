@@ -193,11 +193,12 @@ footer.coastal-page-footer {
     margin: 0;
   }
   .footer-coast__scene {
-    height: clamp(300px, 36vw, 520px);
+    height: clamp(300px, 24vw, 440px);
     mask-image: none;
   }
   .footer-coast__poster {
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center bottom;
   }
 }
 // The old footer-height avoidance lifts this control over the whole landscape.
@@ -215,9 +216,13 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
 }
 .home-connect-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(330px, 420px);
+  grid-template-columns: minmax(0, 1.4fr) minmax(330px, 1fr);
   align-items: start;
-  gap: 3rem;
+  gap: clamp(3rem, 6vw, 9rem);
+}
+.home-connect-grid > .coastal-miniature {
+  width: min(100%, 580px);
+  justify-self: end;
 }
 .home-connect-copy {
   min-width: 0;
@@ -296,6 +301,10 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
   .home-connect-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
+  }
+  .home-connect-grid > .coastal-miniature {
+    width: min(100%, 480px);
+    justify-self: center;
   }
   .coastal-miniature {
     width: min(100%, 480px);

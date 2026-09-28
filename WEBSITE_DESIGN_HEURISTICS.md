@@ -160,6 +160,8 @@ Current contracts:
 
 Code history appears only after an exact schema-5 source-calendar contract passes; otherwise show one compact `Code history is being rebuilt.` state. Matching `YYYY-MM-DD` labels does not imply a shared timezone. In that contract, each source's `commits` is its reported total and `authored_commits` is the non-merge, non-deploy subset. Personal-source GitHub contribution parity has a specific scope: do not extend that claim to other sources or a combined total.
 
+Sirui's September 27 refinement gives Build Rhythm and the GitHub profile one tall commit chart, larger total and authored counts, and more labeled logarithmic steps. Additions and deletions no longer appear in their charts, summaries, legends, or tables. Keep the versioned input contract compatible while presenting only the commit rhythm.
+
 ## Objects And Materiality
 
 - Borrow Jackie Hu's portfolio as an interaction principle, not a visual costume: a personal site can feel like a small desk of artifacts when each object teaches something real about the person. Credit influences plainly; borrow principles, never assets, code, layout, or exact styling.
@@ -209,6 +211,7 @@ Code history appears only after an exact schema-5 source-calendar contract passe
 - P is a deliberate playful companion, requested by Sirui on September 13. Give it delayed, damped movement and occasional independent actions; let gaze lead the head and the head lead travel. Its white material and shadow should respond to all four themes. Use clear margins and gaps, protect links and prose, keep remarks short and infrequent, and restore every nudged object without changing layout or content. Start an autonomous journey within 4–8 seconds, then use varied 12–24-second intervals. Retire the persistent nap preference; short rests end automatically. Keep a composed reduced-motion pose. Transfer one identity between page and room; keep the semantic AI routes undecorated. Detailed behavior belongs in the [scene brief](docs/homepage-desk-scene-brief.md#pip-the-studio-companion).
 
 - Check light mode, dark mode, mobile, tablet, and desktop.
+- Floating decoration must use the settled layout: refresh its clearance after fonts, images, or reading aids reflow, and protect SVG charts and metadata chips as well as prose.
 - Check keyboard navigation, visible focus, and that collapsed panels are not hidden tab stops.
 - Check that text does not overlap cards, nav, footer, or the back-to-top button, and that mobile has no horizontal overflow.
 - Check contrast, especially orange text on light backgrounds and nav text in dark mode.

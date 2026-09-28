@@ -1011,12 +1011,15 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
           await page.setViewportSize({ width, height: 1000 });
           await expect
             .poll(async () => {
-              return page.locator(".github-activity-line-heading").evaluate((heading) => {
-                const chart = heading.ownerSVGElement;
-                const box = heading.getBBox();
-                const viewBoxWidth = chart?.viewBox.baseVal.width || 0;
-                return viewBoxWidth > 0 && box.x >= 0 && box.x + box.width <= viewBoxWidth;
-              });
+              return page
+                .locator("#github-activity-chart text")
+                .filter({ hasText: /^COMMITS / })
+                .evaluate((heading) => {
+                  const chart = heading.ownerSVGElement;
+                  const box = heading.getBBox();
+                  const viewBoxWidth = chart?.viewBox.baseVal.width || 0;
+                  return viewBoxWidth > 0 && box.x >= 0 && box.x + box.width <= viewBoxWidth;
+                });
             })
             .toBe(true);
 
@@ -2069,7 +2072,8 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
 
   for (const width of [768, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
-    await expect(hint).toBeVisible();
+    if (width > 550) await expect(hint).toBeHidden();
+    else await expect(hint).toBeVisible();
     const geometry = await tableWrap.evaluate((element) => {
       const bounds = element.getBoundingClientRect();
       return {
@@ -2082,7 +2086,8 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
       };
     });
     expect(geometry.pageScrollWidth - geometry.pageClientWidth, `${width}px page overflows`).toBeLessThanOrEqual(1);
-    expect(geometry.scrollWidth, `${width}px table should retain every reported column`).toBeGreaterThan(geometry.clientWidth);
+    if (width > 550) expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+    else expect(geometry.scrollWidth, `${width}px table should retain every reported column`).toBeGreaterThan(geometry.clientWidth);
     expect(geometry.left).toBeGreaterThanOrEqual(0);
     expect(geometry.right).toBeLessThanOrEqual(width);
     await tableWrap.focus();
@@ -2093,7 +2098,7 @@ test("Build Rhythm narrow table exposes its horizontal reading path", async ({ p
     });
     expect(focusStyle.outlineStyle).not.toBe("none");
     expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(2);
-    await hint.scrollIntoViewIfNeeded();
+    await tableWrap.scrollIntoViewIfNeeded();
   }
 
   await page.setViewportSize({ width: 1440, height: 1000 });

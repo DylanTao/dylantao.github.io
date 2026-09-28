@@ -70,9 +70,7 @@
     const parsed = calendarDate(value);
     return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
   };
-  const signed = (value, positive) => `${positive ? "+" : "\u2212"}${number.format(value)}`;
   const commitCountLabel = (value, qualifier) => `${number.format(value)} ${qualifier} ${value === 1 ? "commit" : "commits"}`;
-  const lineChanges = (row) => row.additions + row.deletions;
   const niceLinearScale = (maximum, count = 4) => {
     const rough = Math.max(1, maximum) / Math.max(1, count);
     const power = 10 ** Math.floor(Math.log10(rough));
@@ -164,7 +162,6 @@
       options.xForRow ? options.xForRow(rows[index], index) : bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
     const y = (value) => {
       const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
-      if (options.signed) return bounds.baseline - Math.sign(value) * transformed * (bounds.bottom - bounds.top) * 0.45;
       return bounds.bottom - transformed * (bounds.bottom - bounds.top);
     };
     const points = values.map((value, index) => [x(index), y(value)]);
@@ -172,7 +169,7 @@
       group.append(
         svgElement("path", {
           ...(options.className ? { class: `${options.className}-area` } : {}),
-          d: areaPath(points, options.signed ? bounds.baseline : bounds.bottom),
+          d: areaPath(points, bounds.bottom),
           fill: options.color,
           "fill-opacity": options.fillOpacity,
         })
@@ -227,8 +224,6 @@
       const style = getComputedStyle(storyRoot);
       return {
         accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
-        added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
-        removed: style.getPropertyValue("--global-mint-strong").trim() || "#26735d",
         text: style.getPropertyValue("--global-text-color").trim() || "#23282a",
         muted: style.getPropertyValue("--global-text-color-light").trim() || "#5d6565",
         grid: style.getPropertyValue("--global-divider-color").trim() || "rgba(45,101,112,.2)",
@@ -266,43 +261,31 @@
       return `Busiest ${storyDateUnitLower} in this view \u00b7 ${fullDate.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits.`;
     };
 
-    const drawMagnitude = (group, width, height, colors) => {
-      const left = width < 620 ? 62 : 68;
-      const right = 14;
-      const top = 45;
-      const bottom = 30;
-      const baseline = (top + height - bottom) / 2;
-      const maximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
-
-      addText(group, `LINES CHANGED / ${storyDateUnit} \u00b7 READABLE SYMLOG`, left, 20, { color: colors.text, weight: 700 });
-      addText(group, "+ added", left, 38, { color: colors.added, weight: 650 });
-      addText(group, "\u2212 removed", left + 78, 38, { color: colors.removed, weight: 650 });
-      const bounds = { left, right: width - right, top, bottom: height - bottom, baseline };
-      const additionsSeries = drawSeries(group, storyGithubRows, (row) => row.additions, bounds, {
-        color: colors.added,
-        maximum,
-        scale: "log",
-        signed: true,
-      });
-      drawSeries(group, storyGithubRows, (row) => -row.deletions, bounds, {
-        color: colors.removed,
-        dash: "4 2",
-        maximum,
-        scale: "log",
-        signed: true,
-      });
-      const positiveTicks = spacedLogTicks(maximum, additionsSeries.y, width < 620 ? 24 : 28).filter((value) => value > 0);
+    const drawAuthored = (group, width, height, colors) => {
+      const bounds = { left: width < 620 ? 58 : 64, right: width - 14, top: 40, bottom: height - 30 };
+      const maximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
+      const total = drawSeries(group, storyGithubRows, (row) => row.commits, bounds, { maximum, color: colors.muted });
+      const authored = drawSeries(group, storyGithubRows, (row) => row.authoredCommits, bounds, { maximum, color: colors.accent });
+      group.prepend(
+        svgElement("path", {
+          d: bandPath(
+            storyGithubRows.map((row, i) => [total.x(i), total.y(row.commits)]),
+            storyGithubRows.map((row, i) => [authored.x(i), authored.y(row.authoredCommits)])
+          ),
+          fill: colors.accent,
+          "fill-opacity": 0.18,
+        })
+      );
+      addText(group, `COMMITS / ${storyDateUnit} · LOG1P`, bounds.left, 20, { color: colors.accent, weight: 700 });
       drawYAxis(group, {
-        name: "story-magnitude",
-        ticks: [...positiveTicks.map((value) => -value), 0, ...positiveTicks],
-        y: additionsSeries.y,
-        left,
-        right: width - right,
+        name: "story-authored",
+        ticks: spacedLogTicks(maximum, total.y, 26),
+        y: total.y,
+        left: bounds.left,
+        right: bounds.right,
         colors,
-        format: (value) => (value === 0 ? "0" : `${value > 0 ? "+" : "\u2212"}${compactNumber.format(Math.abs(value))}`),
       });
-      const largest = storyGithubRows.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
-      return `Biggest line-change ${storyDateUnitLower} \u00b7 ${fullDate.format(largest.date)} \u00b7 ${signed(largest.additions, true)} added / ${signed(largest.deletions, false)} removed.`;
+      return "All commits outside, authored commits inside. The gap is merges and deploys.";
     };
 
     const drawBursts = (group, width, height, colors) => {
@@ -311,7 +294,7 @@
       const panelWidth = (width - outer * 2 - gap) / 2;
       const panelTop = 32;
       const panelBottom = height - 26;
-      const values = storyGithubRows.map(lineChanges);
+      const values = storyGithubRows.map((row) => row.commits);
       const rawMaximum = Math.max(...values, 1);
       const maximum = Math.max(niceLogMaximum(rawMaximum), niceLinearScale(rawMaximum, 2).domainMaximum);
       const peakIndex = values.indexOf(rawMaximum);
@@ -327,7 +310,7 @@
         const series = drawSeries(
           group,
           storyGithubRows,
-          lineChanges,
+          (row) => row.commits,
           { left, right, top: panelTop + 14, bottom },
           { color: colors.accent, fillOpacity: panel.mode === "log" ? 0.12 : 0.07, maximum, scale: panel.mode }
         );
@@ -342,113 +325,17 @@
         });
       });
       const peak = storyGithubRows[peakIndex];
-      return `Same ${storyDatePlural}, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${compactNumber.format(values[peakIndex])} lines changed.`;
+      return `Same ${storyDatePlural}, two scales \u00b7 biggest burst ${fullDate.format(peak.date)} \u00b7 ${number.format(values[peakIndex])} commits.`;
     };
 
-    const drawComplete = (group, width, height, colors) => {
-      const compact = width < 620;
-      const left = compact ? 58 : 64;
-      const right = 12;
-      const domainStart = storyGithubRows[0].date;
-      const domainEnd = storyGithubRows.at(-1).date;
-      const domainSpan = Math.max(1, domainEnd.getTime() - domainStart.getTime());
-      const sharedX = (date) => left + ((date.getTime() - domainStart.getTime()) / domainSpan) * (width - left - right);
-      const commitTop = 26;
-      const commitBottom = Math.max(76, height * 0.2);
-      const commitMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
-      addText(group, compact ? `COMMITS / ${storyDateUnit}` : `COMBINED \u00b7 COMMITS / ${storyDateUnit}`, left, 16, {
-        color: colors.accent,
-        weight: 700,
-      });
-      const commitSeries = drawSeries(
-        group,
-        storyGithubRows,
-        (row) => row.commits,
-        { left, right: width - right, top: commitTop, bottom: commitBottom },
-        { color: colors.accent, maximum: commitMaximum, scale: "log", xForRow: (row) => sharedX(row.date) }
-      );
-      drawYAxis(group, {
-        name: "story-complete-commits",
-        ticks: compact ? [0, commitMaximum] : spacedLogTicks(commitMaximum, commitSeries.y, 16),
-        y: commitSeries.y,
-        left,
-        right: width - right,
-        colors,
-      });
-
-      const lineTop = commitBottom + 30;
-      const lineBottom = height - 28;
-      const lineBaseline = (lineTop + lineBottom) / 2;
-      const lineMaximum = niceLogMaximum(Math.max(...storyGithubRows.flatMap((row) => [row.additions, row.deletions]), 1));
-      addText(
-        group,
-        compact ? "+ ADDED / \u2212 REMOVED" : `SAME ${storyDatePlural.toUpperCase()} \u00b7 + ADDED / \u2212 REMOVED`,
-        left,
-        lineTop - 12,
-        {
-          color: colors.muted,
-          weight: 700,
-        }
-      );
-      const lineBounds = { left, right: width - right, top: lineTop, bottom: lineBottom, baseline: lineBaseline };
-      const additionsSeries = drawSeries(group, storyGithubRows, (row) => row.additions, lineBounds, {
-        color: colors.added,
-        maximum: lineMaximum,
-        scale: "log",
-        signed: true,
-        xForRow: (row) => sharedX(row.date),
-      });
-      const completePositiveTicks = compact ? [lineMaximum] : spacedLogTicks(lineMaximum, additionsSeries.y, 18).filter((value) => value > 0);
-      drawYAxis(group, {
-        name: "story-complete-lines",
-        ticks: [...completePositiveTicks.map((value) => -value), 0, ...completePositiveTicks],
-        y: additionsSeries.y,
-        left,
-        right: width - right,
-        colors,
-        format: (value) => (value === 0 ? "0" : `${value > 0 ? "+" : "\u2212"}${compactNumber.format(Math.abs(value))}`),
-      });
-      drawSeries(group, storyGithubRows, (row) => -row.deletions, lineBounds, {
-        color: colors.removed,
-        dash: "4 2",
-        maximum: lineMaximum,
-        scale: "log",
-        signed: true,
-        xForRow: (row) => sharedX(row.date),
-      });
-
-      const timeGrid = svgElement("g", { class: "build-rhythm-shared-time-grid", "aria-hidden": "true" });
-      const yearTicks = new Set();
-      storyGithubRows.forEach((row) => {
-        const year = row.date.getUTCFullYear();
-        if (yearTicks.has(year) || row.date.getUTCMonth() !== 0) return;
-        yearTicks.add(year);
-        const xx = sharedX(row.date);
-        timeGrid.append(
-          svgElement("line", {
-            x1: xx,
-            y1: commitTop,
-            x2: xx,
-            y2: lineBottom,
-            stroke: colors.grid,
-            "stroke-width": 1,
-          })
-        );
-        addText(timeGrid, String(year), xx, height - 5, { anchor: "middle", color: colors.muted });
-      });
-      group.prepend(timeGrid);
-
-      return mixedCalendarLabels
-        ? "The whole record across source-reported date labels \u00b7 commits and line movement."
-        : "The whole record, day by day \u00b7 commits and line movement.";
-    };
+    const drawComplete = drawAuthored;
 
     const metadata = {
       cadence: { label: "WHEN", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
-      magnitude: { label: "HOW MUCH MOVED", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
+      authored: { label: "WHAT COUNTS", scope: mixedCalendarLabels ? "LIFETIME \u00b7 DATE LABELS" : "LIFETIME \u00b7 DAILY" },
       bursts: { label: "TWO SCALES", scope: "SAME VALUES \u00b7 READABLE / LITERAL" },
-      explore: { label: "YOUR TURN", scope: "COMMITS + LINES" },
-      complete: { label: "THE WHOLE RHYTHM", scope: "COMMITS + LINES" },
+      explore: { label: "YOUR TURN", scope: "COMMITS" },
+      complete: { label: "THE WHOLE RHYTHM", scope: "COMMITS" },
     };
 
     const syncStageOffset = () => {
@@ -472,7 +359,7 @@
       chart.replaceChildren(group);
       let readout;
       if (targetScene === "cadence") readout = drawCadence(group, width, height, colors);
-      else if (targetScene === "magnitude") readout = drawMagnitude(group, width, height, colors);
+      else if (targetScene === "authored") readout = drawAuthored(group, width, height, colors);
       else if (targetScene === "bursts") readout = drawBursts(group, width, height, colors);
       else readout = drawComplete(group, width, height, colors);
 
@@ -778,23 +665,17 @@
       let hasVisibleSource = false;
       let commits = 0;
       let authoredCommits = 0;
-      let additions = 0;
-      let deletions = 0;
       sourceList.forEach(({ id }) => {
         const entry = point[id];
         if (!entry) return;
         bySource[id] = {
           commits: entry.commits,
           authoredCommits: entry.authored_commits,
-          additions: entry.additions,
-          deletions: entry.deletions,
         };
         if (!visibleSources.has(id)) return;
         hasVisibleSource = true;
         commits += entry.commits;
         authoredCommits += entry.authored_commits;
-        additions += entry.additions;
-        deletions += entry.deletions;
       });
       return {
         index,
@@ -802,8 +683,6 @@
         date: calendarDate(point.date),
         commits,
         authoredCommits,
-        additions,
-        deletions,
         bySource,
         hasVisibleSource,
       };
@@ -823,8 +702,7 @@
   const chartTitle = document.getElementById("github-activity-chart-title");
   const selectedDate = document.getElementById("github-activity-selected-date");
   const selectedCommits = document.getElementById("github-activity-selected-commits");
-  const selectedAdditions = document.getElementById("github-activity-selected-additions");
-  const selectedDeletions = document.getElementById("github-activity-selected-deletions");
+  const selectedAuthored = document.getElementById("github-activity-selected-authored");
   const rangeSummary = document.getElementById("github-activity-range-summary");
   const selectionAnnouncement = document.getElementById("github-activity-selection-announcement");
   const annotation = document.getElementById("github-activity-annotation");
@@ -844,8 +722,7 @@
     !chartTitle ||
     !selectedDate ||
     !selectedCommits ||
-    !selectedAdditions ||
-    !selectedDeletions ||
+    !selectedAuthored ||
     !rangeSummary ||
     !selectionAnnouncement ||
     !annotation ||
@@ -898,8 +775,6 @@
   const colors = () => {
     const style = getComputedStyle(root);
     return {
-      added: style.getPropertyValue("--global-sky-strong").trim() || "#236e8c",
-      removed: style.getPropertyValue("--global-mint-strong").trim() || "#26735d",
       addedText: style.getPropertyValue("--github-activity-added-text").trim() || "#28657d",
       removedText: style.getPropertyValue("--github-activity-removed-text").trim() || "#286b58",
       accent: style.getPropertyValue("--global-primary-color").trim() || "#3b6a98",
@@ -1005,7 +880,7 @@
     });
     if (!showSources) return;
     const palette = colors();
-    let anchor = selectedCommits.closest(".github-activity-value-group");
+    let anchor = selectedAuthored.closest(".github-activity-value-group");
     visibleSourceList.forEach((entry) => {
       let cell = values.querySelector(`[data-source-readout-id="${entry.id}"]`);
       if (!cell) {
@@ -1036,10 +911,9 @@
   };
   const updateDayReadout = (row) => {
     selectedDate.textContent = dateLabel.format(row.date);
-    selectedCommits.textContent = `${commitCountLabel(row.commits, "total")} \u00b7 ${commitCountLabel(row.authoredCommits, "authored")}`;
+    selectedCommits.textContent = commitCountLabel(row.commits, "total");
+    selectedAuthored.textContent = commitCountLabel(row.authoredCommits, "authored");
     renderSourceReadout(row);
-    selectedAdditions.textContent = `${signed(row.additions, true)} added`;
-    selectedDeletions.textContent = `${signed(row.deletions, false)} removed`;
   };
   let deferredTableRows = [];
   let tableRevision = 0;
@@ -1048,14 +922,7 @@
     const fragment = document.createDocumentFragment();
     [...data].reverse().forEach((row) => {
       const tr = document.createElement("tr");
-      [
-        row.dateKey,
-        number.format(row.commits),
-        number.format(row.authoredCommits),
-        signed(row.additions, true),
-        signed(row.deletions, false),
-        number.format(lineChanges(row)),
-      ].forEach((value, index) => {
+      [row.dateKey, number.format(row.commits), number.format(row.authoredCommits)].forEach((value, index) => {
         const cell = document.createElement(index === 0 ? "th" : "td");
         if (index === 0) cell.scope = "row";
         cell.textContent = value;
@@ -1089,11 +956,9 @@
   };
   const updateAggregate = (data, announce = false, refreshTable = true) => {
     const scoped = analysisRows(data);
-    const active = scoped.filter((row) => row.commits > 0 || row.additions > 0 || row.deletions > 0);
+    const active = scoped.filter((row) => row.commits > 0);
     const totalCommits = scoped.reduce((sum, row) => sum + row.commits, 0);
     const totalAuthored = scoped.reduce((sum, row) => sum + row.authoredCommits, 0);
-    const totalAdditions = scoped.reduce((sum, row) => sum + row.additions, 0);
-    const totalDeletions = scoped.reduce((sum, row) => sum + row.deletions, 0);
     const commitSummary = `${commitCountLabel(totalCommits, "total")} \u00b7 ${commitCountLabel(totalAuthored, "authored")}`;
     const visibleSourceEntries = sourceList.filter((entry) => visibleSources.has(entry.id));
     const sourceClause =
@@ -1108,19 +973,20 @@
         ? "Lifetime"
         : `${range} ${range === "1" ? "year" : "years"}`;
     const dates = `${dateLabel.format(scoped[0].date)} \u2014 ${dateLabel.format(scoped.at(-1).date)}`;
-    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active date labels \u00b7 ${commitSummary} \u00b7 +${compactNumber.format(totalAdditions)} / \u2212${compactNumber.format(totalDeletions)} lines${sourceClause}`;
+    rangeSummary.textContent = `${scope} \u00b7 ${dates} \u00b7 ${number.format(active.length)} active date labels \u00b7 ${commitSummary}${sourceClause}`;
     clearSelectionButton.hidden = !selection;
 
     if (active.length) {
       const busiest = active.reduce((best, row) => (row.commits > best.commits ? row : best));
-      const largest = active.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
-      const medianMagnitude = percentile(active.map(lineChanges), 0.5);
-      annotation.textContent = `Largest authored line-change date label \u00b7 ${dateLabel.format(largest.date)} \u00b7 ${signed(largest.additions, true)} / ${signed(largest.deletions, false)}. Highest total-commit date label \u00b7 ${dateLabel.format(busiest.date)} \u00b7 ${number.format(busiest.commits)} commits. Median active-label line magnitude \u00b7 ${compactNumber.format(medianMagnitude)}.`;
+      const medianCommits = percentile(
+        active.map((row) => row.commits),
+        0.5
+      );
+      annotation.textContent = `Busiest date label · ${dateLabel.format(busiest.date)} · ${number.format(busiest.commits)} commits. Median active date · ${number.format(medianCommits)} commits.`;
     } else {
-      annotation.textContent = "No active date labels in this scope. Median active-label line magnitude \u00b7 \u2014.";
+      annotation.textContent = "No commits in this scope.";
     }
-    // Range feedback follows the pointer, while the reported-value table only
-    // rebuilds after the selection is finalized.
+
     if (refreshTable) queueTable(scoped);
     if (announce) selectionAnnouncement.textContent = selection ? rangeSummary.textContent : "Selection cleared.";
   };
@@ -1139,7 +1005,7 @@
 
     const palette = colors();
     const width = chart.clientWidth || 920;
-    const height = chart.clientHeight || 608;
+    const height = chart.clientHeight || 480;
     const narrow = width < 620;
     const mixedCalendarView = visibleSources.size > 1;
     const chartDateUnit = mixedCalendarView ? "DATE LABEL" : "DAY";
@@ -1147,109 +1013,25 @@
     const right = narrow ? 12 : 22;
     const bottom = narrow ? 26 : 30;
     const commitTop = 54;
-    const commitHeight = Math.max(92, Math.min(118, height * 0.19));
-    const commitBottom = commitTop + commitHeight;
-    const lineTop = commitBottom + (narrow ? 58 : 64);
-    const lineBottom = height - bottom - (narrow ? 20 : 24);
-    const codeDateY = height - (narrow ? 5 : 7);
+    const commitBottom = height - bottom - 20;
+    const commitHeight = commitBottom - commitTop;
+    const codeDateY = height - 7;
     const plotTop = commitTop;
-    const baseline = (lineTop + lineBottom) / 2;
-    const lineHalf = Math.max(20, (lineBottom - lineTop) / 2 - 12);
     const domain = selectedDomain();
     const start = domain.start.getTime();
     const end = domain.end.getTime();
     const span = Math.max(1, end - start);
-    const rawLineMaximum = Math.max(...data.flatMap((row) => [row.additions, row.deletions]), 1);
     const rawCommitMaximum = Math.max(...data.map((row) => row.commits), 1);
-    const lineLinear = niceLinearScale(rawLineMaximum, narrow ? 3 : 4);
     const commitLinear = niceLinearScale(rawCommitMaximum, narrow ? 3 : 4);
-    const lineDomainMaximum = scale === "linear" ? lineLinear.domainMaximum : niceLogMaximum(rawLineMaximum);
     const commitDomainMaximum = scale === "linear" ? commitLinear.domainMaximum : niceLogMaximum(rawCommitMaximum);
-    const lineLogMaximum = Math.log1p(lineDomainMaximum);
     const commitLogMaximum = Math.log1p(commitDomainMaximum);
     const x = (date) => left + ((date.getTime() - start) / span) * (width - left - right);
-    const lineTransform = (value) => (scale === "linear" ? value / lineDomainMaximum : Math.log1p(value) / lineLogMaximum);
-    const lineY = (value) => baseline - Math.sign(value) * lineTransform(Math.abs(value)) * lineHalf;
     const commitY = (value) =>
       commitBottom - (scale === "linear" ? value / commitDomainMaximum : Math.log1p(value) / commitLogMaximum) * commitHeight;
     chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const grid = svgElement("g", { "aria-hidden": "true" });
-    let lineTicks;
-    if (scale === "linear") {
-      lineTicks = lineLinear.ticks;
-    } else {
-      const candidates = new Set([0, lineDomainMaximum]);
-      for (let power = 0; 10 ** power <= lineDomainMaximum; power += 1) {
-        [1, 2, 5].forEach((multiple) => {
-          const value = multiple * 10 ** power;
-          if (value <= lineDomainMaximum) candidates.add(value);
-        });
-      }
-      lineTicks = [];
-      [...candidates]
-        .sort((a, b) => a - b)
-        .forEach((value) => {
-          const previous = lineTicks.at(-1);
-          if (previous == null || Math.abs(lineY(previous) - lineY(value)) >= (narrow ? 15 : 18)) lineTicks.push(value);
-        });
-      if (!lineTicks.includes(lineDomainMaximum)) {
-        if (Math.abs(lineY(lineTicks.at(-1)) - lineY(lineDomainMaximum)) < (narrow ? 15 : 18)) lineTicks.pop();
-        lineTicks.push(lineDomainMaximum);
-      }
-      lineTicks = lineTicks.filter((value) => value > 0);
-    }
-    lineTicks.forEach((tick) => {
-      [1, -1].forEach((direction) => {
-        const yy = lineY(direction * tick);
-        grid.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: palette.grid, "stroke-width": 1 }));
-        addText(grid, `${direction > 0 ? "+" : "\u2212"}${compactNumber.format(tick)}`, left - 8, yy + 4, {
-          anchor: "end",
-          color: palette.muted,
-          className: `github-activity-line-tick is-${direction > 0 ? "positive" : "negative"}`,
-        });
-      });
-    });
-    grid.append(
-      svgElement("line", {
-        x1: left,
-        y1: baseline,
-        x2: width - right,
-        y2: baseline,
-        stroke: palette.text,
-        "stroke-opacity": 0.38,
-        "stroke-width": 1.4,
-      })
-    );
-    addText(grid, "0", left - 8, baseline + 4, {
-      anchor: "end",
-      color: palette.muted,
-      className: "github-activity-line-tick is-zero",
-    });
-
-    let commitTicks;
-    if (scale === "linear") {
-      commitTicks = [0, ...commitLinear.ticks];
-    } else {
-      const candidates = new Set([0, commitDomainMaximum]);
-      for (let power = 0; 10 ** power <= commitDomainMaximum; power += 1) {
-        [1, 2, 5].forEach((multiple) => {
-          const value = multiple * 10 ** power;
-          if (value <= commitDomainMaximum) candidates.add(value);
-        });
-      }
-      commitTicks = [];
-      [...candidates]
-        .sort((a, b) => a - b)
-        .forEach((value) => {
-          const previous = commitTicks.at(-1);
-          if (previous == null || Math.abs(commitY(previous) - commitY(value)) >= (narrow ? 14 : 17)) commitTicks.push(value);
-        });
-      if (!commitTicks.includes(commitDomainMaximum)) {
-        if (Math.abs(commitY(commitTicks.at(-1)) - commitY(commitDomainMaximum)) < 14) commitTicks.pop();
-        commitTicks.push(commitDomainMaximum);
-      }
-    }
+    const commitTicks = scale === "linear" ? [0, ...commitLinear.ticks] : spacedLogTicks(commitDomainMaximum, commitY, narrow ? 24 : 26);
     commitTicks.forEach((tick) => {
       const yy = commitY(tick);
       grid.append(svgElement("line", { x1: left, y1: yy, x2: width - right, y2: yy, stroke: palette.grid, "stroke-width": 1 }));
@@ -1277,7 +1059,7 @@
           x1: xx,
           y1: plotTop,
           x2: xx,
-          y2: lineBottom,
+          y2: commitBottom,
           stroke: palette.grid,
           "stroke-width": 1,
         })
@@ -1317,21 +1099,11 @@
         weight: 700,
       })
     );
-    const lineScaleLabel = scale === "linear" ? "LINEAR" : "SYMLOG";
-    const lineHeading = `${narrow ? "LINES" : "LINES CHANGED"} ${unitJoin} ${chartDateUnit} \u00b7 ${lineScaleLabel}`;
-    fitHeading(
-      addText(chart, lineHeading, left, lineTop - 34, {
-        color: palette.muted,
-        weight: 700,
-        className: "github-activity-line-heading",
-      })
-    );
-
     let renderPeak = () => {};
     const selectionBand = svgElement("rect", {
       class: "github-activity-selection-band",
       y: plotTop,
-      height: lineBottom - plotTop,
+      height: commitBottom - plotTop,
       fill: palette.accent,
       "fill-opacity": 0.1,
       stroke: palette.accent,
@@ -1411,14 +1183,6 @@
           }
         });
     }
-    const addPoints = data.map((row) => [x(row.date), lineY(row.additions)]);
-    const removePoints = data.map((row) => [x(row.date), lineY(-row.deletions)]);
-    const addStems = data
-      .map((row) => `M ${x(row.date).toFixed(2)} ${baseline.toFixed(2)} L ${x(row.date).toFixed(2)} ${lineY(row.additions).toFixed(2)}`)
-      .join(" ");
-    const removeStems = data
-      .map((row) => `M ${x(row.date).toFixed(2)} ${baseline.toFixed(2)} L ${x(row.date).toFixed(2)} ${lineY(-row.deletions).toFixed(2)}`)
-      .join(" ");
     chart.append(
       svgElement("path", {
         class: "github-activity-commit-area github-activity-commit-gap-band",
@@ -1444,48 +1208,13 @@
         "stroke-width": 2.1,
         "stroke-linejoin": "round",
         "stroke-linecap": "round",
-      }),
-      svgElement("path", {
-        class: "github-activity-add-stems",
-        d: addStems,
-        fill: "none",
-        stroke: palette.added,
-        "stroke-opacity": 0.18,
-        "stroke-width": 1,
-      }),
-      svgElement("path", {
-        class: "github-activity-remove-stems",
-        d: removeStems,
-        fill: "none",
-        stroke: palette.removed,
-        "stroke-opacity": 0.18,
-        "stroke-width": 1,
-      }),
-      svgElement("path", {
-        class: "github-activity-add-line",
-        d: linePath(addPoints),
-        fill: "none",
-        stroke: palette.added,
-        "stroke-width": 1.7,
-        "stroke-linejoin": "round",
-        "stroke-linecap": "round",
-      }),
-      svgElement("path", {
-        class: "github-activity-remove-line",
-        d: linePath(removePoints),
-        fill: "none",
-        stroke: palette.removed,
-        "stroke-width": 1.7,
-        "stroke-dasharray": "4 2",
-        "stroke-linejoin": "round",
-        "stroke-linecap": "round",
       })
     );
 
     const peakGuide = svgElement("line", {
       class: "github-activity-peak-guide",
       y1: plotTop,
-      y2: lineBottom,
+      y2: commitBottom,
       stroke: palette.accent,
       "stroke-width": 1.3,
       "stroke-dasharray": "3 4",
@@ -1494,12 +1223,12 @@
     chart.append(peakGuide);
     renderPeak = () => {
       const scoped = analysisRows(data);
-      const active = scoped.filter((row) => row.commits > 0 || row.additions > 0 || row.deletions > 0);
+      const active = scoped.filter((row) => row.commits > 0);
       if (!active.length) {
         peakGuide.setAttribute("visibility", "hidden");
         return;
       }
-      const largest = active.reduce((best, row) => (lineChanges(row) > lineChanges(best) ? row : best));
+      const largest = active.reduce((best, row) => (row.commits > best.commits ? row : best));
       const xx = x(largest.date);
       peakGuide.setAttribute("x1", xx);
       peakGuide.setAttribute("x2", xx);
@@ -1531,7 +1260,7 @@
     const guide = svgElement("line", {
       class: "github-activity-guide",
       y1: plotTop,
-      y2: lineBottom,
+      y2: commitBottom,
       stroke: palette.text,
       "stroke-width": 1.2,
       "stroke-opacity": 0.68,
@@ -1550,36 +1279,22 @@
       stroke: palette.surface,
       "stroke-width": 1.2,
     });
-    const addMarker = svgElement("circle", {
-      class: "github-activity-add-marker",
-      r: narrow ? 4 : 4.5,
-      fill: palette.surface,
-      stroke: palette.added,
-      "stroke-width": 2.2,
-    });
-    const removeMarker = svgElement("circle", {
-      class: "github-activity-remove-marker",
-      r: narrow ? 4 : 4.5,
-      fill: palette.surface,
-      stroke: palette.removed,
-      "stroke-width": 2.2,
-    });
     const overlay = svgElement("rect", {
       class: "github-activity-inspector",
       x: left,
       y: plotTop,
       width: width - left - right,
-      height: lineBottom - plotTop,
+      height: commitBottom - plotTop,
       fill: "transparent",
       tabindex: 0,
       focusable: "true",
       role: "slider",
-      "aria-label": "Source-reported date labels for total and authored commits and line changes",
+      "aria-label": "Source-reported date labels for total and authored commits",
       "aria-valuemin": 0,
       "aria-valuemax": data.length - 1,
       "aria-describedby": "github-activity-chart-instructions",
     });
-    chart.append(guide, commitMarker, authoredCommitMarker, addMarker, removeMarker, overlay);
+    chart.append(guide, commitMarker, authoredCommitMarker, overlay);
 
     const showIndex = (index, { pin = false } = {}) => {
       selectedIndex = clamp(index, data[0].index, data.at(-1).index);
@@ -1592,14 +1307,10 @@
       commitMarker.setAttribute("cy", commitY(row.commits));
       authoredCommitMarker.setAttribute("cx", xx);
       authoredCommitMarker.setAttribute("cy", commitY(row.authoredCommits));
-      addMarker.setAttribute("cx", xx);
-      addMarker.setAttribute("cy", lineY(row.additions));
-      removeMarker.setAttribute("cx", xx);
-      removeMarker.setAttribute("cy", lineY(-row.deletions));
       overlay.setAttribute("aria-valuenow", String(selectedIndex - data[0].index));
       overlay.setAttribute(
         "aria-valuetext",
-        `${row.dateKey}, ${number.format(row.commits)} total commits, ${number.format(row.authoredCommits)} authored commits, ${signed(row.additions, true)} added, ${signed(row.deletions, false)} removed`
+        `${row.dateKey}, ${number.format(row.commits)} total commits, ${number.format(row.authoredCommits)} authored commits`
       );
       updateDayReadout(row);
     };
@@ -1802,7 +1513,7 @@
 
   updated.dateTime = source.updated_on;
   updated.textContent = source.updated_on;
-  chartTitle.textContent = "Total and authored commits plus authored line changes by source-reported date label";
+  chartTitle.textContent = "Total and authored commits by source-reported date label";
   renderLegend();
   setPressedState();
   drawChart();

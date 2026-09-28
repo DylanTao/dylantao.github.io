@@ -224,7 +224,7 @@ test("late source bands, filtering, focus, theme, and table stay truthful", asyn
   await expect(personalButton).toHaveText("Personal");
   await expect(internButton).toHaveText("Intern work");
   await expect(chart).toContainText("COMMITS PER DATE LABEL");
-  await expect(chart).toContainText("LINES CHANGED PER DATE LABEL");
+  await expect(chart).not.toContainText("LINES CHANGED");
   await expect(page.locator("[data-github-scope]")).toHaveText("LIFETIME \u00b7 DATE LABELS");
   // The encoding key is an HTML strip above the SVG and uses the profile SVG twin's words.
   await expect(page.locator("[data-chart-key]").getByText("Merges + deploys", { exact: true })).toBeVisible();
@@ -296,7 +296,7 @@ test("late source bands, filtering, focus, theme, and table stay truthful", asyn
   await expect(chart.locator(".github-activity-commit-source-seam")).toHaveCount(0);
   await expect(page.locator("[data-source-readout-id]")).toHaveCount(0);
   await expect(chart).toContainText("COMMITS PER DAY");
-  await expect(chart).toContainText("LINES CHANGED PER DAY");
+  await expect(chart).not.toContainText("LINES CHANGED");
   await expect(page.locator("[data-github-scope]")).toHaveText("LIFETIME \u00b7 DAILY");
   await expect(page.locator("#github-activity-range-summary")).toContainText("Jun 15, 2026");
   await expect(page.locator("#github-activity-range-summary")).toContainText("Jul 31, 2026");
@@ -313,7 +313,7 @@ test("late source bands, filtering, focus, theme, and table stay truthful", asyn
     ) + 1;
   await expect(tableBody.locator("tr")).toHaveCount(expectedRows);
   await expect(tableBody.locator("tr").last().locator("th").first()).toHaveText(lateSourceStart);
-  await expect(tableBody.locator("tr").first().locator("th, td")).toHaveCount(6);
+  await expect(tableBody.locator("tr").first().locator("th, td")).toHaveCount(3);
 
   await tableBody
     .locator("tr")
@@ -328,6 +328,8 @@ test("late source bands, filtering, focus, theme, and table stay truthful", asyn
     document.documentElement.setAttribute("data-theme-setting", "noon");
   });
   await page.setViewportSize({ width: 768, height: 1024 });
+  await expect(page.locator("#github-activity-table-scroll-hint")).toBeHidden();
+  await page.setViewportSize({ width: 390, height: 1000 });
   await expect(page.locator("#github-activity-table-scroll-hint")).toBeVisible();
   await expect(tableBody.locator("tr").first()).toHaveAttribute("data-render-probe", "preserved");
   await disclosure.locator("summary").click();
@@ -408,9 +410,9 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
   expect(commitComparison.authored.length).toBeGreaterThan(100);
   expect(commitComparison.total).not.toBe(commitComparison.authored);
   await expect(page.locator("#github-activity-selected-commits")).toContainText("total");
-  await expect(page.locator("#github-activity-selected-commits")).toContainText("authored");
+  await expect(page.locator("#github-activity-selected-authored")).toContainText("authored");
 
-  await expect(story).toContainText("Total commits tell me when. Authored line changes tell me how much.");
+  await expect(story).toContainText("Keep the commits. Make the gap visible.");
   await expect(story).toContainText("One giant day was flattening everything else.");
   await expect(story).not.toContainText("The same week can carry a different amount of change.");
 
@@ -446,13 +448,13 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
     await expect(story).toHaveAttribute("data-story-static", "true");
     await expect(stage).toHaveAttribute("data-scene", "complete");
     await expect(chart.locator('[data-build-rhythm-story-layer="complete"]')).toHaveCount(1);
-    await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(2);
+    await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(1);
     await expectReadableAxes(chart, 12);
     await expect(page.locator(".build-rhythm-story-step.is-active")).toHaveCount(0);
   } else {
     await expect(story).toHaveAttribute("data-story-static", "false");
-    const sceneAxisCounts = { cadence: 1, magnitude: 1, bursts: 2, explore: 2 };
-    for (const scene of ["cadence", "magnitude", "bursts", "explore"]) {
+    const sceneAxisCounts = { cadence: 1, authored: 1, bursts: 2, explore: 1 };
+    for (const scene of ["cadence", "authored", "bursts", "explore"]) {
       const step = page.locator(`[data-build-rhythm-step="${scene}"]`);
       await step.scrollIntoViewIfNeeded();
       await expect(step).toHaveClass(/is-active/);
@@ -460,8 +462,8 @@ test("Build Rhythm story stays truthful and responsive before exact exploration"
       await expect(stage).toHaveAttribute("data-transitioning", "false");
       await expect(chart.locator("[data-build-rhythm-y-axis]")).toHaveCount(sceneAxisCounts[scene]);
       if (sceneAxisCounts[scene]) await expectReadableAxes(chart, scene === "explore" ? 12 : 14);
-      if (scene === "magnitude") {
-        await attachScreenshot(page, testInfo, `build-rhythm-magnitude-scene-${testInfo.project.name}`, { locator: stage });
+      if (scene === "authored") {
+        await attachScreenshot(page, testInfo, `build-rhythm-authored-scene-${testInfo.project.name}`, { locator: stage });
         const geometry = await page.evaluate(() => {
           const stageBox = document.querySelector("[data-build-rhythm-story-stage]").getBoundingClientRect();
           const stepsBox = document.querySelector(".build-rhythm-story-steps").getBoundingClientRect();
@@ -591,11 +593,13 @@ test("Build Rhythm reduced motion renders one complete still", async ({ page }, 
   await expect(story).toHaveAttribute("data-story-static", "true");
   await expect(stage).toHaveAttribute("data-scene", "complete");
   await expect(stage).toHaveAttribute("data-transitioning", "false");
+  await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(120);
   const before = await stage.screenshot();
-  const explorerBefore = await explorerChart.screenshot();
   await page.waitForTimeout(260);
   const after = await stage.screenshot();
+  const explorerBefore = await explorerChart.screenshot();
+  await page.waitForTimeout(260);
   const explorerAfter = await explorerChart.screenshot();
   expect(screenshotDiffRatio(after, before), "reduced-motion story should remain pixel-stable").toBeLessThan(0.0001);
   expect(screenshotDiffRatio(explorerAfter, explorerBefore), "reduced-motion code explorer should remain pixel-stable").toBeLessThan(0.0001);
@@ -619,7 +623,7 @@ test("Build Rhythm axes stay legible in the evening theme", async ({ page }, tes
     await expectReadableAxes(storyChart, 14);
   } else {
     await expect(stage).toHaveAttribute("data-scene", "complete");
-    await expect(storyChart.locator("[data-build-rhythm-y-axis]")).toHaveCount(2);
+    await expect(storyChart.locator("[data-build-rhythm-y-axis]")).toHaveCount(1);
     await expectReadableAxes(storyChart, 12);
   }
   await expectReadableAxes(explorerChart, testInfo.project.name === "mobile-390" ? 12 : 14);
@@ -652,8 +656,8 @@ test("Build Rhythm cancels its scene transition when the story leaves view", asy
   const story = page.locator("[data-build-rhythm-story]");
   const stage = page.locator("[data-build-rhythm-story-stage]");
   await expect(story).toHaveAttribute("data-state", "ready");
-  await page.locator('[data-build-rhythm-step="magnitude"]').scrollIntoViewIfNeeded();
-  await expect(stage).toHaveAttribute("data-scene", "magnitude");
+  await page.locator('[data-build-rhythm-step="authored"]').scrollIntoViewIfNeeded();
+  await expect(stage).toHaveAttribute("data-scene", "authored");
 
   await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
   await expect(story).toHaveAttribute("data-story-visible", "false");
