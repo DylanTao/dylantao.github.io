@@ -135,6 +135,10 @@ class ActivityError(ValueError):
     """Raised when code activity cannot be safely published."""
 
 
+class StaleProfileError(ActivityError):
+    """The valid upstream snapshot is too old to publish (temporary exit 75)."""
+
+
 def _exact_dict(value: Any, keys: set[str], label: str) -> dict[str, Any]:
     if not isinstance(value, dict) or set(value) != keys:
         raise ActivityError(f"{label} must contain only the documented fields")
@@ -294,8 +298,6 @@ def validate_profile_snapshot(
     checked_now_utc = checked_now.astimezone(timezone.utc)
     if generated_at_utc > checked_now_utc:
         raise ActivityError("personal profile generatedAt cannot be future")
-    if checked_now_utc - generated_at_utc > PERSONAL_PROFILE_MAX_AGE:
-        raise ActivityError("personal profile generatedAt is stale")
     _validate_weeks(source["weeks"])
 
     daily = _exact_dict(source["daily"], DAILY_KEYS, "personal profile daily")
@@ -327,6 +329,12 @@ def validate_profile_snapshot(
         current_date=generated_calendar_date,
         label="personal profile daily points",
     )
+    # Validate the source before deferring it: malformed data must still fail,
+    # even when an independently refreshed profile has fallen behind.
+    if checked_now_utc - generated_at_utc > PERSONAL_PROFILE_MAX_AGE:
+        raise StaleProfileError(
+            f"personal profile generatedAt is stale ({source['generatedAt']})"
+        )
     return {
         "id": PERSONAL_SOURCE_ID,
         "label": descriptor["label"],
@@ -865,6 +873,12 @@ def main() -> int:
         )
         if changed and not args.check:
             publish_atomically(output, payload)
+    except StaleProfileError as error:
+        print(
+            f"code activity deferred: {error}; keeping the existing snapshot",
+            file=__import__("sys").stderr,
+        )
+        return 75
     except (OSError, json.JSONDecodeError, ActivityError) as error:
         print(f"code activity rejected: {error}", file=__import__("sys").stderr)
         return 1

@@ -5,7 +5,7 @@ import io
 import json
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -128,13 +128,9 @@ class ProfileContractTests(unittest.TestCase):
         )
 
     def test_profile_snapshot_rejects_an_arbitrarily_stale_generation(self) -> None:
-        stale = profile_snapshot()
-        stale["generatedAt"] = (
-            NOW - importer.PERSONAL_PROFILE_MAX_AGE - timedelta(seconds=1)
-        ).isoformat().replace("+00:00", "Z")
-
-        with self.assertRaisesRegex(importer.ActivityError, "generatedAt is stale"):
-            importer.validate_profile_snapshot(stale, now=NOW)
+        later = NOW + importer.PERSONAL_PROFILE_MAX_AGE + timedelta(seconds=1)
+        with self.assertRaisesRegex(importer.StaleProfileError, "generatedAt is stale"):
+            importer.validate_profile_snapshot(profile_snapshot(), now=later)
 
     def test_truncated_history_is_rejected(self) -> None:
         # A rolling window used to shorten published history on every refresh.
@@ -477,6 +473,39 @@ class MergeTests(unittest.TestCase):
 
 
 class PublishTests(unittest.TestCase):
+    def test_stale_input_defers_without_writing_but_invalid_input_still_fails(self) -> None:
+        later = NOW + importer.PERSONAL_PROFILE_MAX_AGE + timedelta(days=1)
+        for invalid in (False, True):
+            with self.subTest(invalid=invalid), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                profile = root / "profile"
+                site = root / "site"
+                (profile / "docs").mkdir(parents=True)
+                (site / "_data").mkdir(parents=True)
+                snapshot = profile_snapshot()
+                if invalid:
+                    snapshot["daily"]["points"][-1]["commits"] = -1
+                (profile / "docs" / "github-activity.json").write_text(
+                    json.dumps(snapshot), encoding="utf-8"
+                )
+                payload, _ = importer.build_public_snapshot(profile_snapshot(), now=NOW)
+                output = site / "_data" / "code_activity.json"
+                importer.publish_atomically(output, payload)
+                original = output.read_bytes()
+                diagnostics = io.StringIO()
+                arguments = SimpleNamespace(personal_repo=profile, repo_root=site, check=False)
+                with (
+                    patch.object(importer, "parse_args", return_value=arguments),
+                    patch.object(importer, "_checked_now", return_value=later),
+                    patch.object(importer, "publish_atomically") as publish,
+                    redirect_stderr(diagnostics),
+                ):
+                    self.assertEqual(importer.main(), 1 if invalid else 75)
+                publish.assert_not_called()
+                self.assertEqual(output.read_bytes(), original)
+                self.assertIn("rejected" if invalid else "deferred", diagnostics.getvalue())
+                self.assertEqual(list(output.parent.glob(".*tmp")), [])
+
     def test_check_mode_reports_that_a_change_would_update_without_writing(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

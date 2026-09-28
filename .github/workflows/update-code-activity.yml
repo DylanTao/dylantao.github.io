@@ -40,10 +40,23 @@ jobs:
           python-version: "3.13"
 
       - name: Import completed source-calendar dates
-        run: >-
-          python site/bin/import_code_activity.py
-          --personal-repo profile
-          --repo-root site
+        id: import
+        shell: bash
+        run: |
+          set +e
+          python site/bin/import_code_activity.py --personal-repo profile --repo-root site
+          status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          elif [ "$status" -eq 75 ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Waiting for a fresh public profile snapshot; the published code activity is unchanged."
+            echo "### Code activity refresh deferred" >> "$GITHUB_STEP_SUMMARY"
+            echo "The upstream profile snapshot is older than the freshness window. No data or dates were changed. The next scheduled run will try again." >> "$GITHUB_STEP_SUMMARY"
+          else
+            exit "$status"
+          fi
 
       - name: Validate importer and privacy contracts
         working-directory: site
@@ -72,6 +85,7 @@ jobs:
 
       - name: Detect public change
         id: change
+        if: steps.import.outputs.ready == 'true'
         working-directory: site
         shell: bash
         run: |
