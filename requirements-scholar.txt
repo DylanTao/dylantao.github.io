@@ -1,0 +1,4 @@
+# scholarly imports bibtexparser's v1-only bibdatabase module.
+scholarly==1.7.11
+bibtexparser==1.4.4
+PyYAML>=6,<7

@@ -1,4 +1,3 @@
 nbconvert
-pyyaml
 rendercv[full]
-scholarly
+-r requirements-scholar.txt
