@@ -1,6 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { coastManifest, acquireCoast } from "./assets.mjs";
 import { createFinish } from "../home-scene/realism.mjs";
+import { extendCoast } from "./panorama.mjs";
 
 const THEMES = {
   morning: { sky: 0xf5dfce, ground: 0x8b9290, sun: 0xffdfb4, key: 2.4, fill: 1.05, exposure: 1.0, water: 0x568f9d, night: 0.12 },
@@ -49,7 +50,8 @@ function makeWater(clock, color, miniature = false) {
     shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shader.fragmentShader}`.replace(
       "#include <color_fragment>",
       `#include <color_fragment>
-        float shore = ${miniature ? "3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58)" : "2.1-.7*sin(coastPosition.x*.23)-.25*sin(coastPosition.x*.68)"};
+        float shoreX = sign(coastPosition.x)*(min(abs(coastPosition.x),20.)+max(0.,abs(coastPosition.x)-20.)/4.);
+        float shore = ${miniature ? "3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58)" : "2.1-.7*sin(shoreX*.23)-.25*sin(shoreX*.68)"};
         float depth = coastPosition.z-shore;
         float edge = ${miniature ? "1." : "smoothstep(0.,.12,depth)"};
         float swell = sin(depth*5.5-coastTime*.62+sin(coastPosition.x*.6)*.45);
@@ -61,7 +63,7 @@ function makeWater(clock, color, miniature = false) {
         if(diffuseColor.a<.008) discard;`
     );
   };
-  const geometry = new THREE.PlaneGeometry(70, 32, 140, 64).rotateX(-Math.PI / 2).translate(0, 0.04, 10);
+  const geometry = new THREE.PlaneGeometry(190, 48, 190, 64).rotateX(-Math.PI / 2).translate(0, 0.04, 14);
   return new THREE.Mesh(geometry, material);
 }
 
@@ -111,6 +113,7 @@ export async function mountCoast(host) {
     throw error;
   }
   scene.add(model.scene);
+  const disposePanorama = miniature ? () => {} : extendCoast(model.scene);
   if (!miniature) scene.add(water);
   const crowns = [],
     surfers = [],
@@ -234,7 +237,10 @@ export async function mountCoast(host) {
     surface.tabIndex = miniature || narrow ? 0 : -1;
     surface.setAttribute("aria-keyshortcuts", narrow ? "ArrowLeft ArrowRight" : "");
     // Phone composition visits the studio, courts and surf at a readable scale.
-    cameraWidth = miniature ? 29 : narrow ? 21 : 40.5;
+    // A fixed width collapsed the vertical frustum on ultrawide screens and
+    // cut off crowns and roofs. Keep at least 13 world units of skyline room;
+    // wider viewports discover more coastline instead of magnifying it.
+    cameraWidth = miniature ? 29 : narrow ? 21 : Math.max(40.5, (width / Math.max(height, 1)) * 13);
     target.set(narrow ? 5.1 : 0, 2, 0);
     cameraBase.set(target.x + 5, 18, 38);
     if (miniature) {
@@ -428,6 +434,7 @@ export async function mountCoast(host) {
       materials.forEach((m) => m?.dispose());
     });
     env.dispose();
+    disposePanorama();
     model.release();
     water.geometry.dispose();
     water.material.dispose();
@@ -454,6 +461,7 @@ export async function mountCoast(host) {
     landmarks: buildings.map((b) => b.object.name),
     orbit: [orbitX, orbitY],
     resources: renderer.info.memory,
+    framing: { width: cameraWidth, height: camera.top - camera.bottom },
   });
   syncRunning();
 }

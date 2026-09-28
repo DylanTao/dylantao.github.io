@@ -7,6 +7,7 @@ const root = document.documentElement;
 if (!document.querySelector(".pip-companion") && !location.pathname.startsWith("/ai/") && !document.querySelector("[data-ai-profile]")) start();
 
 function start() {
+  const contentRoot = document.querySelector("#main") || document.querySelector("main");
   const params = new URLSearchParams(location.search),
     lab = params.has("companion-lab");
   const random = randomSource(lab ? Number(params.get("seed") || 41) : crypto.getRandomValues(new Uint32Array(1))[0]);
@@ -170,11 +171,10 @@ function start() {
     el.dataset.speaking = "true";
   }
   function refreshLayout() {
-    const main = document.querySelector("#main") || document.querySelector("main");
-    rail = main?.getBoundingClientRect();
+    rail = contentRoot?.getBoundingClientRect();
     obstacles = [
       ...document.querySelectorAll(
-        "#main h1,#main h2,#main h3,#main p,#main li,#main figure,#main img,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main canvas,#main .home-portrait-frame,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
+        "#main h1,#main h2,#main h3,#main h4,#main h5,#main h6,#main p,#main li,#main dl,#main figure,#main img,#main svg,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main canvas,#main .project-case-facts,#main .project-browser-origin,#main .home-portrait-frame,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
       ),
     ]
       .filter(
@@ -186,7 +186,7 @@ function start() {
         const style = getComputedStyle(node);
         // Protect the actual lines, leaving the empty end of a paragraph usable.
         // Painted boxes and interactive controls retain their complete bounds.
-        if (node.matches("p,h1,h2,h3") && style.backgroundColor === "rgba(0, 0, 0, 0)" && style.backgroundImage === "none") {
+        if (node.matches("p,h1,h2,h3,h4,h5,h6") && style.backgroundColor === "rgba(0, 0, 0, 0)" && style.backgroundImage === "none") {
           const range = document.createRange();
           range.selectNodeContents(node);
           return [...range.getClientRects()];
@@ -505,6 +505,20 @@ function start() {
     theme();
   });
   observer.observe(root, { attributes: true, attributeFilter: ["data-theme", "data-theme-setting", "data-theme-mode"] });
+  // Images and reading aids can reflow the page after fonts have settled.
+  // Refresh the perch even when reduced motion has stopped the render loop.
+  const invalidateLayout = () => {
+    layoutDirty = true;
+    nextPerch = 0;
+    request();
+  };
+  const resizeObserver = new ResizeObserver(invalidateLayout);
+  if (contentRoot) resizeObserver.observe(contentRoot);
+  // The reading progress bar adjusts body padding to the measured navbar.
+  // That moves the content without changing the content root's own size.
+  resizeObserver.observe(document.body, { box: "border-box" });
+  window.addEventListener("load", invalidateLayout, { once: true });
+  document.fonts.addEventListener("loadingdone", invalidateLayout);
   const stage = document.querySelector("[data-home-artifact-stage]");
   if (stage)
     observer.observe(stage, { attributes: true, subtree: true, childList: true, attributeFilter: ["data-desk-mode", "data-scene-state", "class"] });
@@ -529,6 +543,9 @@ function start() {
       clearTimeout(restTimer);
       portrait?.dispose();
       observer.disconnect();
+      resizeObserver.disconnect();
+      window.removeEventListener("load", invalidateLayout);
+      document.fonts.removeEventListener("loadingdone", invalidateLayout);
     }
   });
   window.addEventListener("pageshow", () => {
@@ -537,11 +554,7 @@ function start() {
       request();
     }
   });
-  document.fonts.ready.then(() => {
-    layoutDirty = true;
-    nextPerch = 0;
-    request();
-  });
+  document.fonts.ready.then(invalidateLayout);
 
   function request() {
     if (!raf && !document.hidden && !disposed) raf = requestAnimationFrame(frame);
@@ -555,7 +568,8 @@ function start() {
     // Scheduling and travel follow real time even on a slower GPU. Only spring
     // integration is capped; visibility/page-return handlers reset the clock.
     elapsed += wallDelta;
-    if (layoutDirty || elapsed - lastLayout > 1.2) refreshLayout();
+    const layoutChanged = layoutDirty || elapsed - lastLayout > 1.2;
+    if (layoutChanged) refreshLayout();
     const scene = document.querySelector("[data-home-desk-scene]"),
       rect = scene?.getBoundingClientRect();
     const worldVisible =
@@ -595,7 +609,7 @@ function start() {
       visible = false;
       el.dataset.speaking = "false";
     } else {
-      if (elapsed >= nextPerch || !target || layoutDirty) choose(!still && elapsed - lastPointer < 5);
+      if (elapsed >= nextPerch || !target || layoutChanged) choose(!still && elapsed - lastPointer < 5);
       if (invitation) {
         const action = invitation;
         invitation = null;

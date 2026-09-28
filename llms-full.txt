@@ -106,7 +106,7 @@ What can a daily code trace reveal about the cadence of making without turning a
 #### Evidence
 
 - Code history reports daily commits by named source and separates total commits from authored commits, merges, and deploys.
-- Added and removed lines come only from each authored commit's first-parent raw-text diff, so merges and deploys never count as writing.
+- A taller commit plot and labeled logarithmic steps make ordinary days visible beside large bursts.
 
 
 #### Boundary
