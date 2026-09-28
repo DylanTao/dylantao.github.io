@@ -293,14 +293,19 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.0002);
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
+  await expect(ui.locator("[data-world-pause]")).toHaveAttribute("aria-pressed", "true");
   await canvas.scrollIntoViewIfNeeded();
-  // Pause still requests a final composed frame; software WebGL can take longer
-  // than a fixed 300 ms to finish it. Wait for an empty render queue, then keep
-  // the strict unchanged-frame assertion so ongoing animation still fails.
+  // Pausing stops motion, but clock, layout, and companion updates can still
+  // request a composed frame. Check the animation clock, then deliberately
+  // cross the routine's 30-second refresh to prove a redraw stays still.
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
-  const paused = (await evidence(scene)).frames;
+  const paused = await evidence(scene);
   await page.waitForTimeout(400);
-  expect((await evidence(scene)).frames).toBe(paused);
+  expect((await evidence(scene)).animationSeconds).toBe(paused.animationSeconds);
+  await page.clock.fastForward(30000);
+  await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(paused.frames);
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+  expect((await evidence(scene)).animationSeconds).toBe(paused.animationSeconds);
   await ui.locator("[data-world-pause]").click();
   await canvas.scrollIntoViewIfNeeded();
   await page.waitForTimeout(250);
