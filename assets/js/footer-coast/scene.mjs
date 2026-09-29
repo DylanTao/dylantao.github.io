@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
-import { coastManifest, acquireCoast } from "./assets.mjs";
+import { coastManifest, acquireCoast } from "./assets.mjs?v=landmarks-20260928";
 import { createFinish } from "../home-scene/realism.mjs";
-import { extendCoast } from "./panorama.mjs";
+import { extendCoast } from "./panorama.mjs?v=landmarks-20260928";
 
 const THEMES = {
   morning: { sky: 0xf5dfce, ground: 0x8b9290, sun: 0xffdfb4, key: 2.4, fill: 1.05, exposure: 1.0, water: 0x568f9d, night: 0.12 },
@@ -93,11 +93,12 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   sun.position.set(-10, 18, 12);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 1024);
-  Object.assign(sun.shadow.camera, { left: -25, right: 25, top: 12, bottom: -12, near: 1, far: 70 });
+  Object.assign(sun.shadow.camera, { left: miniature ? -25 : -58, right: miniature ? 25 : 58, top: 28, bottom: -28, near: 0.1, far: 100 });
   sun.shadow.normalBias = 0.025;
   sun.shadow.bias = -0.00015;
   sun.shadow.radius = 3;
   scene.add(sun);
+  scene.add(sun.target);
   const fill = new THREE.DirectionalLight(0xd3e7ec, 0.65);
   fill.position.set(12, 6, -10);
   scene.add(fill);
@@ -169,7 +170,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   let orbitY = 0,
     orbitX = 0;
   const buildings = [];
-  const buildingNames = /^(DIB|Geisel|Salk|Casita|CliffVilla|Lifeguard|Tennis|BeachVolleyball)/;
+  const buildingNames = /^(DIB|Geisel|Salk|BrocktonVilla|LaValencia|Casita|CliffVilla|Lifeguard|Tennis|BeachVolleyball)/;
   model.scene.traverse((o) => {
     if (!o.isMesh && buildingNames.test(o.name)) {
       const bounds = new THREE.Box3().setFromObject(o);
@@ -239,7 +240,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     const { width, height } = surface.getBoundingClientRect();
     const narrow = narrowViewport.matches;
     surface.tabIndex = miniature || narrow ? 0 : -1;
-    surface.setAttribute("aria-keyshortcuts", miniature ? "ArrowLeft ArrowRight ArrowUp ArrowDown Home" : narrow ? "ArrowLeft ArrowRight" : "");
+    surface.setAttribute("aria-keyshortcuts", miniature ? "ArrowLeft ArrowRight ArrowUp ArrowDown Home" : narrow ? "ArrowLeft ArrowRight Home" : "");
     // Phone composition visits the studio, courts and surf at a readable scale.
     // A fixed width collapsed the vertical frustum on ultrawide screens and
     // cut off crowns and roofs. Keep at least 13 world units of skyline room;
@@ -247,8 +248,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // Authoring can capture extra sky/water around the same wide camera. That
     // overscan keeps the still filled when a tablet's frame is proportionally taller.
     cameraWidth = miniature ? 29 : narrow ? 21 : Math.max(40.5, (width / Math.max(posterFrameHeight || height, 1)) * 13);
-    target.set(narrow ? 5.1 : 0, 2, 0);
-    cameraBase.set(target.x + 5, 18, 38);
+    // The left campus sits higher in this oblique view. Shift the wide frame
+    // upward without shrinking the buildings or adding empty coast at its ends.
+    target.set(narrow ? 5.1 : 0, narrow ? 2 : 3.2, 0);
+    cameraBase.set(target.x + (narrow ? 5 : 2.5), target.y + 16, 38);
     if (miniature) {
       target.fromArray(manifest.miniature.target);
       cameraBase.fromArray(manifest.miniature.camera);
@@ -258,6 +261,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     camera.right = half;
     camera.top = (half * height) / width;
     camera.bottom = -camera.top;
+    const shadowWidth = miniature ? 25 : Math.min(58, Math.max(25, cameraWidth * 0.55));
+    sun.shadow.camera.left = -shadowWidth;
+    sun.shadow.camera.right = shadowWidth;
+    sun.shadow.camera.updateProjectionMatrix();
+    sun.position.x = -10;
+    sun.target.position.x = 0;
+    sun.target.updateMatrixWorld();
+    renderer.shadowMap.needsUpdate = true;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
     finish.resize(width, height);
@@ -339,8 +350,15 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   }
   const pan = (delta) => {
     if (!narrowViewport.matches) return;
-    target.x = clamp(target.x + delta, -10.5, 10.5);
+    const [left, right] = manifest.panoramaBounds;
+    target.x = clamp(target.x + delta, left + cameraWidth / 2, right - cameraWidth / 2);
     cameraBase.x = target.x + 5;
+    // Keep the shadow coverage around the visited neighborhood while retaining
+    // the same sun direction and the default view's preview alignment.
+    sun.position.x = -10 + target.x - 5.1;
+    sun.target.position.x = target.x - 5.1;
+    sun.target.updateMatrixWorld();
+    renderer.shadowMap.needsUpdate = true;
     draw();
   };
   const onDown = (event) => {
@@ -382,9 +400,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       draw();
       return;
     }
-    if (narrowViewport.matches && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
+    if (narrowViewport.matches && ["ArrowLeft", "ArrowRight", "Home"].includes(event.key)) {
       event.preventDefault();
-      pan(event.key === "ArrowLeft" ? -3.5 : 3.5);
+      pan(event.key === "Home" ? 5.1 - target.x : event.key === "ArrowLeft" ? -3.5 : 3.5);
     }
   };
   const onMotion = () => {
@@ -473,7 +491,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     landmarks: buildings.map((b) => b.object.name),
     orbit: [orbitX, orbitY],
     resources: renderer.info.memory,
-    framing: { width: cameraWidth, height: camera.top - camera.bottom },
+    framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
   });
   syncRunning();
 }

@@ -4,8 +4,15 @@ import { createModelLoader } from "../home-scene/model-loader.mjs";
 // Instance materials remain independent because their lighting can differ.
 let manifest, decoder, loader;
 const models = new Map();
+// Version the shared dependencies and binaries with the renderer release so a
+// repeat visitor cannot combine a new poster with an old cached coastal model.
+function assetUrl(file) {
+  const url = new URL("../../models/la-jolla/" + file, import.meta.url);
+  url.search = new URL(import.meta.url).search;
+  return url;
+}
 export function coastManifest() {
-  return (manifest ||= fetch(new URL("../../models/la-jolla/manifest.json", import.meta.url)).then((response) => {
+  return (manifest ||= fetch(assetUrl("manifest.json")).then((response) => {
     if (!response.ok) throw new Error("The coastal miniature is unavailable.");
     return response.json();
   }));
@@ -14,7 +21,7 @@ export async function acquireCoast(file) {
   if (!loader) ({ loader, decoder } = createModelLoader());
   let entry = models.get(file);
   if (!entry) {
-    entry = { refs: 0, promise: loader.loadAsync(new URL("../../models/la-jolla/" + file, import.meta.url).href) };
+    entry = { refs: 0, promise: loader.loadAsync(assetUrl(file).href) };
     models.set(file, entry);
   }
   entry.refs++;

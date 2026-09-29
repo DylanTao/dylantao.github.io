@@ -8,7 +8,7 @@ document.querySelectorAll("[data-footer-coast]").forEach((host) => {
     const theme = ["morning", "noon", "afternoon", "evening"].includes(selected) ? selected : "noon";
     preview?.querySelectorAll("[data-coast-view]").forEach((image) => {
       const attribute = image.tagName === "SOURCE" ? "srcset" : "src";
-      const url = `${preview.dataset.coastPreview}${image.dataset.coastView}-${theme}.webp`;
+      const url = `${preview.dataset.coastPreview}${image.dataset.coastView}-${theme}.webp?v=${preview.dataset.coastPreviewVersion}`;
       if (image.getAttribute(attribute) !== url) image.setAttribute(attribute, url);
     });
   };
