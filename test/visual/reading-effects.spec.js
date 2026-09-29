@@ -53,7 +53,7 @@ test("reading: project preview supports focus and Escape; comparison responds to
   expect(errors).toEqual([]);
 });
 
-test("reading: one type family and aligned articles; Fun keeps color for focus and reduced motion", async ({ page }, testInfo) => {
+test("reading: one type family and aligned articles; every project keeps its original color", async ({ page }) => {
   await preparePage(page, "noon");
   for (const route of ["/projects/designweaver/", "/blog/2026/research-skills-starter-pack/"]) {
     await page.goto(publicRouteUrl(route));
@@ -77,15 +77,15 @@ test("reading: one type family and aligned articles; Fun keeps color for focus a
   }
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto(publicRouteUrl("/projects/"));
+  const filters = () =>
+    page.locator(".project-card-media img").evaluateAll((images) => [...new Set(images.map((img) => getComputedStyle(img).filter))]);
   const card = page.locator("[data-site-experiment-grid] .project-card").first();
-  const img = card.locator(".project-card-media img").first();
   await card.scrollIntoViewIfNeeded();
   await page.mouse.move(1, 1);
-  const filter = () => img.evaluate((e) => getComputedStyle(e).filter);
-  await expect.poll(filter).toBe(testInfo.project.name === "mobile-390" ? "none" : "grayscale(0.88)");
+  await expect.poll(filters).toEqual(["none"]);
   await card.locator(".project-card-direct-link").focus();
-  await expect.poll(filter).toBe("none");
+  await expect.poll(filters).toEqual(["none"]);
   await page.locator("body").click({ position: { x: 1, y: 1 }, force: true });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect.poll(filter).toBe("none");
+  await expect.poll(filters).toEqual(["none"]);
 });

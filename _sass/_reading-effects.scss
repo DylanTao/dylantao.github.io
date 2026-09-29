@@ -94,14 +94,6 @@
 .resource-folder__papers a:focus-visible {
   transform: translateY(-5px);
 }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .chroma-ready .project-card:not(:hover):not(:focus-within):not(.is-expanded) .project-card-media img {
-    filter: grayscale(0.88);
-  }
-  .chroma-ready .project-card-media img {
-    transition: filter 240ms ease;
-  }
-}
 .image-compare {
   --compare: 50%;
   margin-block: 2rem;

@@ -559,11 +559,12 @@ html[data-theme="dark"] .home-cred-item strong {
   grid-area: media;
   display: grid;
   grid-template-areas:
+    "heading"
     "portrait"
     "record"
     "artifacts"
     "credit";
-  grid-template-rows: auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto;
   align-items: center;
   justify-items: center;
   min-height: 33.9rem;
@@ -3054,12 +3055,13 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-hero-media {
     grid-template-areas:
+      "heading"
       "portrait"
       "record"
       "artifacts"
       "credit";
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
     gap: 0.58rem;
     align-items: center;
     justify-items: center;
@@ -3354,6 +3356,7 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-hero-media {
     grid-template-areas:
+      "heading"
       "portrait"
       "record"
       "artifacts"

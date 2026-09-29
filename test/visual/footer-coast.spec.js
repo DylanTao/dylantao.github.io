@@ -116,13 +116,15 @@ test("coastal loading: a slow model arrives complete without fading through an e
         if (e.dataset.state !== "ready") return;
         observe.disconnect();
         const sample = () => {
+          const poster = Number(getComputedStyle(e.querySelector(".footer-coast__poster")).opacity);
           window.coastHandoff.push({
             reveal: e.getCoastEvidence().reveal,
             frames: e.getCoastEvidence().frames,
             canvas: Number(getComputedStyle(e.querySelector("canvas")).opacity),
-            poster: Number(getComputedStyle(e.querySelector(".footer-coast__poster")).opacity),
+            poster,
           });
-          if (window.coastHandoff.length < 12) requestAnimationFrame(sample);
+          // Sample the complete handoff, independent of software WebGL's frame rate.
+          if (poster > 0 || window.coastHandoff.length < 2) requestAnimationFrame(sample);
         };
         sample();
       });
@@ -130,7 +132,7 @@ test("coastal loading: a slow model arrives complete without fading through an e
     });
     release();
     await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
-    await expect.poll(() => page.evaluate(() => window.coastHandoff.length)).toBe(12);
+    await expect.poll(() => page.evaluate(() => window.coastHandoff.length >= 2 && window.coastHandoff.at(-1).poster === 0)).toBe(true);
     const frames = await page.evaluate(() => window.coastHandoff);
     expect(frames.every((frame) => frame.reveal === 1 && frame.frames > 0 && frame.canvas === 1)).toBe(true);
     await expect(host.locator(".footer-coast__poster")).toBeHidden();

@@ -42,7 +42,7 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Licensing:** Original Jekyll/CSS/JavaScript implementations; no React component code or bundled dependency copied.
 - **Visitor benefit:** Inspect a detail, recognize a destination, find supplementary resources, and compare an actual changed view.
 - **Budget:** Direct full-image/material links, keyboard focus and Escape, native disclosure/range controls, full-color touch/reduced-motion thumbnails, no forced scrolling.
-- **Status:** `kept` for implementation, with visual review recorded in the refinement evidence.
+- **Status:** `kept` except the Fun chroma effect, removed after Sirui's September 28 review because mixed grayscale and color thumbnails made the project index inconsistent.
 - **Evidence:** `test/visual/reading-effects.spec.js` and [refinement captures](evidence/coastal-refinement-2026-09-14/README.md).
 - **Sirui decision:** Explicitly approved A–F and this implementation plan.
 - **Revisit trigger:** An effect obscures a figure, makes navigation harder, breaks keyboard/touch access, or lacks a truly comparable image pair.
