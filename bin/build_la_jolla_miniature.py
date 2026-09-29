@@ -1,5 +1,5 @@
 """Compose the authored landmark models into a compact coastal relief in Blender."""
-import bpy, math, json
+import bpy, math, json, sys
 import random
 from pathlib import Path
 from mathutils import Vector, Matrix
@@ -13,7 +13,7 @@ for obj in scene.objects: obj.hide_render=False
 def discard(obj):
     for child in list(obj.children): discard(child)
     bpy.data.objects.remove(obj, do_unlink=True)
-for name in ('Coast','Village','Courts','Palms','EveningBonfire','ParkedBoards','Lifeguard'):
+for name in ('Coast','Village','Courts','Palms','EveningBonfire','ParkedBoards','Lifeguard','GeiselCoast','SalkCoast','CampusWalk','BrocktonVilla','LaValencia','ChildrensPool'):
     if name in bpy.data.objects: discard(bpy.data.objects[name])
 def move(name, center, target, scale=1):
     o=bpy.data.objects.get(name)
@@ -176,24 +176,7 @@ for x,y in [(4.3,.1),(4.3,.8)]:
     line('Cove overlook bench',[(x,y,1.14),(x+.8,y,1.14)],.06,bpy.data.materials['Warm oak'])
     for xx in (x+.1,x+.7):line('Bench foot',[(xx,y,.94),(xx,y,1.14)],.035,stone)
 # Join static top-level details by material; moving groups and window names stay.
-def detail_box(name, pos, dims, material):
-    bpy.ops.mesh.primitive_cube_add(size=1,location=pos)
-    o=bpy.context.object;o.name=name;o.dimensions=dims
-    bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
-    o.data.materials.append(material)
-    return o
-# Salk's laboratory bands and recessed teak openings frame its ocean court.
-for side in (-1,1):
-    xx=-4.3+side*1.78*1.04
-    for fl in range(2):
-        zz=.93+.51+fl*.66
-        detail_box('Salk laboratory glass band',(xx+side*.604,2.8,zz),(.035,3.90,.40),bpy.data.materials['Pacific blue glazing'])
-        detail_box('Salk front glass band',(xx,.703,zz),(.99,.03,.40),bpy.data.materials['Pacific blue glazing'])
-        for j in range(11):
-            detail_box('Salk concrete facade rhythm',(xx+side*.634,.92+j*.374,zz),(.042,.027,.42),bpy.data.materials['Limestone trim'])
-    for j in range(5):
-        yy=2.8+(-1.6+j*.8)*1.04
-        detail_box('Salk recessed study glass',(-4.3+side*.994,yy,1.99),(.025,.25,.44),bpy.data.materials['Village glazing'])
+# Campus facade detail is authored once in coastal_campus.py.
 buckets={}
 for o in list(scene.objects):
     if o.type=='CURVE':
@@ -218,7 +201,8 @@ bpy.ops.object.select_all(action='DESELECT')
 for o in scene.objects:
     if o.type not in ('LIGHT','CAMERA'):o.select_set(True)
 bpy.ops.export_scene.gltf(filepath=str(OUT/'miniature.glb'),export_format='GLB',use_selection=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
-scene.render.filepath=str(SOURCE/'miniature.png');bpy.ops.render.render(write_still=True)
+if '--skip-render' not in sys.argv:
+    scene.render.filepath=str(SOURCE/'miniature.png');bpy.ops.render.render(write_still=True)
 manifest=json.loads((OUT/'manifest.json').read_text())
 old=manifest['office'];office=[4.8+(old[0]-7.5)*.65,.93+(old[1]-.93)*.65,-(7.3+(-old[2]-2.7)*.65)]
 manifest['miniature']={'model':'miniature.glb','camera':[18,30,30],'target':[0,1,-1],'width':30,'office':office,'landmarks':['DIB','Geisel','Salk','ScrippsPier','Cove','TorreyPines']}

@@ -122,8 +122,30 @@ def mesh(name, verts, faces, mat, owner):
     return finish(obj, name, mat, owner)
 
 
+_box_shapes = {}
+_sphere_shapes = {}
+
+
 def box(name, pos, size, mat, owner, bevel=0.025):
-    bpy.ops.mesh.primitive_cube_add(size=1, location=pos)
+    # Repeated panes and rails should not trigger a full dependency-graph
+    # rebuild for every primitive. Cache the finished shape, with independent
+    # mesh data/material slots for the later material-batching pass.
+    key = (*size, bevel)
+    if key in _box_shapes:
+        obj = bpy.data.objects.new(name, _box_shapes[key].copy())
+        bpy.context.collection.objects.link(obj)
+        obj.location = pos
+        return finish(obj, name, mat, owner)
+    if not bevel:
+        w, d, ht = (v/2 for v in size)
+        verts = [(xx, yy, zz) for zz in (-ht, ht) for yy in (-d, d) for xx in (-w, w)]
+        obj = mesh(name, verts, [(0,2,3,1),(4,5,7,6),(0,1,5,4),(2,6,7,3),(0,4,6,2),(1,3,7,5)], mat, owner)
+        template = obj.data.copy()
+        template.materials.clear()
+        _box_shapes[key] = template
+        obj.location = pos
+        return obj
+    bpy.ops.mesh.primitive_cube_add(size=1)
     obj = bpy.context.object
     obj.dimensions = size
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
@@ -134,30 +156,35 @@ def box(name, pos, size, mat, owner, bevel=0.025):
         bpy.ops.object.modifier_apply(modifier=mod.name)
         mod = obj.modifiers.new("Weighted normals", "WEIGHTED_NORMAL")
         bpy.ops.object.modifier_apply(modifier=mod.name)
+    _box_shapes[key] = obj.data.copy()
+    obj.location = pos
     return finish(obj, name, mat, owner)
 
 
 def ball(name, pos, scale, mat, owner, subdivisions=2):
-    bpy.ops.mesh.primitive_ico_sphere_add(
-        subdivisions=subdivisions, radius=1, location=pos
-    )
-    obj = bpy.context.object
+    if subdivisions not in _sphere_shapes:
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=subdivisions, radius=1)
+        seed = bpy.context.object
+        _sphere_shapes[subdivisions] = seed.data.copy()
+        bpy.data.objects.remove(seed, do_unlink=True)
+    obj = bpy.data.objects.new(name, _sphere_shapes[subdivisions].copy())
+    bpy.context.collection.objects.link(obj)
+    obj.location = pos
     obj.scale = scale
     return finish(obj, name, mat, owner)
 
 
 def rod(name, a, b, r, mat, owner, vertices=8, r2=None):
     d = Vector(b) - Vector(a)
-    bpy.ops.mesh.primitive_cone_add(
-        vertices=vertices,
-        radius1=r,
-        radius2=r if r2 is None else r2,
-        depth=d.length,
-        location=(Vector(a) + Vector(b)) / 2,
-    )
-    obj = bpy.context.object
+    verts = [(radius*math.cos(i*math.tau/vertices), radius*math.sin(i*math.tau/vertices), zz)
+             for radius, zz in ((r, -d.length/2), (r if r2 is None else r2, d.length/2))
+             for i in range(vertices)]
+    faces = [tuple(reversed(range(vertices))), tuple(range(vertices, vertices*2))]
+    faces += [(i, (i+1) % vertices, (i+1) % vertices+vertices, i+vertices) for i in range(vertices)]
+    obj = mesh(name, verts, faces, mat, owner)
+    obj.location = (Vector(a) + Vector(b)) / 2
     obj.rotation_euler = d.to_track_quat("Z", "Y").to_euler()
-    return finish(obj, name, mat, owner)
+    return obj
 
 
 def line(name, points, r, mat, owner):
@@ -888,7 +915,8 @@ for s in (-0.3, 0.3):
     )
 
 from coastal_landmarks import landmarks
-landmark_groups = landmarks(globals())
+from coastal_panorama import village_landmarks, campus_panorama
+landmark_groups = [*landmarks(globals()), *village_landmarks(globals())]
 
 # Material batches keep hundreds of authored details cheap to draw.
 # Preserve water, surfers, palm crowns, and the office as independent objects.
@@ -920,6 +948,9 @@ def batch(owner):
 
 
 for root in (terrain, village, campus, sports, garden, waves, *landmark_groups):
+    batch(root)
+
+for root in campus_panorama(globals()):
     batch(root)
 
 scene = bpy.context.scene
@@ -958,8 +989,7 @@ bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "la-jolla.blend"))
 bpy.ops.object.select_all(action="DESELECT")
 for obj in bpy.data.objects:
-    # Geisel and Salk are source landmarks for the campus atlas, not repeated
-    # in the seaside footer. Keep them editable in the shared authoring file.
+    # Keep the atlas originals separate from their placed panorama instances.
     ancestor, campus_only = obj, False
     while ancestor:
         campus_only |= ancestor.name in ("Geisel", "Salk")
@@ -979,19 +1009,20 @@ bpy.ops.export_scene.gltf(
     export_draco_mesh_compression_level=6,
 )
 manifest = {
-    "version": 3,
+    "version": 4,
     "model": "la-jolla.glb",
     "coordinates": "Y-up",
     "office": [office_anchor[0], office_anchor[2], -office_anchor[1]],
-    "camera": {"position": [5, 18, 38], "target": [0, 2, 0], "width": 40.5},
+    "camera": {"position": [2.5, 19.2, 38], "target": [0, 3.2, 0], "width": 40.5},
     "triangleCount": sum(
-        len(o.data.loop_triangles) for o in bpy.data.objects if o.type == "MESH"
+        len(o.data.loop_triangles) for o in bpy.data.objects if o.type == "MESH" and o.select_get()
     ),
     "source": "bin/build_la_jolla.py",
     "geography": "Authored collage, not a map",
-    "landmarks": ["DIB", "CliffVilla", "Village", "Tennis", "ScrippsPier"],
+    "landmarks": ["DIB", "CliffVilla", "Village", "Tennis", "ScrippsPier", "Geisel", "Salk", "BrocktonVilla", "LaValencia", "ChildrensPool"],
     "dib": {"foldedBays": 5, "officeBay": 3, "officeFloor": 3},
     "terrainBounds": [-38, 38, 5],
+    "panoramaBounds": [-47.5, 52],
 }
 (OUT / "manifest.json").write_text(
     json.dumps(manifest, indent=2) + "\n", encoding="utf8"

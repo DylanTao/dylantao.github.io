@@ -3,6 +3,7 @@ const { writeFile } = require("node:fs/promises");
 const { preparePage, collectRuntimeErrors, attachScreenshot, screenshotMetrics, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 const evidence = (host) => host.evaluate((e) => e.getCoastEvidence());
+const coastModels = /\/models\/la-jolla\/[^/?]+\.glb(?:\?.*)?$/;
 async function open(page, theme = "noon") {
   await preparePage(page, theme);
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
@@ -17,7 +18,7 @@ async function compareLoadingPreview(page, testInfo, { route = "/", selector = "
   await preparePage(page, theme);
   let release;
   const loading = new Promise((resolve) => (release = resolve));
-  await page.route("**/models/la-jolla/*.glb", async (request) => {
+  await page.route(coastModels, async (request) => {
     await loading;
     await request.continue();
   });
@@ -50,7 +51,7 @@ async function compareLoadingPreview(page, testInfo, { route = "/", selector = "
     });
   } finally {
     release();
-    await page.unroute("**/models/la-jolla/*.glb");
+    await page.unroute(coastModels);
   }
 }
 
@@ -101,7 +102,7 @@ test("coastal loading: a slow model arrives complete without fading through an e
   await preparePage(page, "noon");
   let release;
   const loading = new Promise((resolve) => (release = resolve));
-  await page.route("**/models/la-jolla/*.glb", async (request) => {
+  await page.route(coastModels, async (request) => {
     await loading;
     await request.continue();
   });
@@ -150,8 +151,7 @@ for (const theme of process.env.COAST_THEME ? [process.env.COAST_THEME] : ["morn
     const info = await evidence(host);
     expect(info.theme).toBe(theme);
     expect(info.landmarks).toEqual(expect.arrayContaining(["DIB", "Tennis", "CliffVilla"]));
-    expect(info.landmarks).not.toContain("Geisel");
-    expect(info.landmarks).not.toContain("Salk");
+    expect(info.landmarks).toEqual(expect.arrayContaining(["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia"]));
     if (theme === "morning") expect(info.office).toBe(false);
     if (theme === "noon" || theme === "afternoon") expect(info.office).toBe(true);
     await expect(host.locator("button")).toHaveCount(0);
@@ -278,6 +278,26 @@ test("La Jolla miniature: keyboard orbit, static reduced motion, and map attribu
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   expect(errors).toEqual([]);
 });
+test("coastal footer: phone navigation reaches both landmark wings and returns home", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-390");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const errors = collectRuntimeErrors(page);
+  const host = await open(page);
+  const surface = host.locator(".footer-coast__scene");
+  const initial = await surface.screenshot();
+  for (let i = 0; i < 10; i++) await surface.press("ArrowLeft");
+  expect((await evidence(host)).framing.center[0]).toBeLessThan(-25);
+  await attachScreenshot(page, testInfo, "phone-campus-wing", { locator: host });
+  expect(screenshotDiffRatio(initial, await surface.screenshot())).toBeGreaterThan(0.01);
+  for (let i = 0; i < 22; i++) await surface.press("ArrowRight");
+  expect((await evidence(host)).framing.center[0]).toBeGreaterThan(35);
+  await attachScreenshot(page, testInfo, "phone-village-wing", { locator: host });
+  await surface.press("Home");
+  expect((await evidence(host)).framing.center[0]).toBeCloseTo(5.1);
+  expect(await surface.evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y");
+  expect(errors).toEqual([]);
+});
+
 test("coastal scenes: reduced motion and WebGL context recovery", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -325,7 +345,7 @@ test("La Jolla miniature: touch orbit preserves vertical page scrolling", async 
 });
 test("coastal scenes: missing model and no JavaScript retain real rendered fallbacks", async ({ page, browser }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440");
-  await page.route("**/models/la-jolla/la-jolla.glb", (r) => r.abort());
+  await page.route(/\/models\/la-jolla\/la-jolla\.glb(?:\?.*)?$/, (r) => r.abort());
   await page.goto(publicRouteUrl("/"));
   const host = page.locator("footer [data-footer-coast]");
   await host.scrollIntoViewIfNeeded();

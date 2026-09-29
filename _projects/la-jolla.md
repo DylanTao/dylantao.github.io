@@ -29,9 +29,11 @@ hide_title: true
 
 ## A place, compressed
 
-The miniature follows a walk through campus and the Cove: Geisel's concrete supports, the Salk courtyard, DIB, Scripps Pier, wind-shaped Torrey pines, and sea lions on the rocks. The footer takes a different route, past Spanish houses, palms, a cliff villa, tennis, and the beach. DIB connects the two, with five folded bays and my third-floor office in the middle one.
+The miniature follows a walk through campus and the Cove: Geisel's concrete supports, the Salk courtyard, DIB, Scripps Pier, wind-shaped Torrey pines, and sea lions on the rocks. The footer continues that walk through a seaside neighborhood. Wider screens reveal Geisel and Salk on one side, and Brockton Villa's porch, La Valencia's pink tower, and seals behind the Children's Pool seawall on the other. DIB connects the two views, with five folded bays and my third-floor office in the middle one.
 
 Their distances are deliberately compressed. The translucent atlas underneath uses real OpenStreetMap coastline and road geometry; the buildings above it are an artistic composition.
+
+For the wider coast, I compared map outlines and aerial views with building plans and photographs. Geisel's recessed corners, Salk's angled study towers, and La Valencia's connected wings each needed their own geometry. Little porch tables, reading benches, and warm windows keep the places feeling lived in.
 
 The selected site theme changes the light and the little activities: a quiet morning, surfing around noon, warm afternoon light, and a small evening bonfire on the footer beach. My DIB office gets a light from noon onward and on some nights. That is a personal vignette, not live occupancy information.
 
@@ -48,7 +50,8 @@ The reconstruction recovered the overall coastal mass, but softened the glass ba
 
 ## Sources and materials
 
-- Building references: [UCSD Design and Innovation Building](https://dib.ucsd.edu/about/index.html), [Geisel Library architecture](https://geisel50.ucsd.edu/about/architecture.html), [Salk architecture](https://www.salk.edu/about/about-salk/architecture/), and [Scripps Pier](https://scripps.ucsd.edu/about/scripps-pier).
+- Building references: [UCSD Design and Innovation Building](https://dib.ucsd.edu/about/index.html), [Geisel Library architecture](https://geisel50.ucsd.edu/about/architecture.html), [Salk's architecture guide](https://www.salk.edu/explore-salk-architecture-guide/), and [Scripps Pier](https://scripps.ucsd.edu/about/scripps-pier).
+- Village references: [Brockton Villa's history and photographs](https://www.brocktonvilla.com/about), [La Valencia's gallery](https://www.lavalencia.com/gallery) and [property plan](https://www.lavalencia.com/ResourceFiles/pdf/la-valencia-map-new.pdf), and the [City of San Diego's Children's Pool guide](https://www.sandiego.gov/lifeguards/beaches/pool).
 - Geographic base: [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), under the Open Database License. The exported vector atlas carries the same attribution.
 - Shape experiment: [Tencent Hunyuan3D-2](https://github.com/Tencent-Hunyuan/Hunyuan3D-2), with its model license retained in the process notes.
 - Modeling and rendering: [Blender](https://www.blender.org/) and [Three.js](https://threejs.org/).

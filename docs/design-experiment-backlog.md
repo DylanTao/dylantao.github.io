@@ -27,11 +27,11 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Route:** The shared human footer; no scene on AI profiles, redirects, or the secret globe.
 - **Reference:** Sirui's four miniature-city footer screenshots and two annotated DIB photographs, supplied September 14, 2026.
 - **Licensing:** Original Blender geometry, an actual Cycles fallback render, and the existing licensed Three.js/Draco closure. No source website models, screenshots, or building photographs are shipped. See [provenance](../artwork/la-jolla/PROVENANCE.md).
-- **Visitor benefit:** Discover La Jolla's coast, courts, houses, and a recognizable DIB with a small personal third-floor light.
+- **Visitor benefit:** Discover La Jolla's coast, courts, houses, and a recognizable DIB with a small personal third-floor light. Wider displays also reveal Geisel, Salk, Brockton Villa, La Valencia and the Children's Pool seawall; phones can pan to these places.
 - **Budget:** Approximately 2 MB of combined compressed footer and miniature geometry, load near the footer, at most 30 fps, capped pixel density, system reduced motion and offscreen suspension, native scrolling, and static graphics-failure/reduced-motion alternatives.
 - **Status:** Implemented locally for visual review. The buildings form an authored place collage above a sourced OSM atlas; the office light is not an occupancy feed.
 - **Evidence:** [Footer brief](la-jolla-footer.md) and [captures/checks](evidence/la-jolla-footer/README.md).
-- **Sirui decision:** Requested implementation of the miniature La Jolla direction. Final visual taste remains open to his review.
+- **Sirui decision:** Requested implementation of the miniature La Jolla direction. On September 28 he rejected generic trees as widescreen filler and requested recognizable local architecture, informed by map outlines, aerial views and photographs, while retaining a cozy feeling. Final visual taste remains open to his review.
 - **Revisit trigger:** Sirui's review, an obstructed reading/footer control, or a measured loading/rendering regression.
 
 ### Approved A–F reading enhancements
