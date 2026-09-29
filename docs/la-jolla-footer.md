@@ -27,7 +27,7 @@ The Connect and project miniatures allow gentle bounded orbit with dragging or a
 ## Implementation and budgets
 
 - `_includes/la-jolla-miniature.liquid`, `_includes/la-jolla-footer.liquid`, `_sass/_footer-coast.scss`, and `_includes/footer.liquid` own integration and layout.
-- `assets/js/footer-coast/entry.mjs` imports the renderer near visibility (450 px). `assets.mjs` shares decoder, model resources, and geometry; instances have their own materials and light/activity state.
+- `assets/js/footer-coast/entry.mjs` imports the renderer near visibility (450 px), using its content-versioned URL from the page. `assets.mjs` shares decoder, model resources, and geometry; instances have their own materials and light/activity state.
 - `scene.mjs` uses the existing pinned Three.js stack, studio reflections, soft sun shadows, bounded contact occlusion, and authored water/plant/character motion. It caps device pixel density at 1.5 and animation at approximately 30 fps.
 - `panorama.mjs` extends only the footer instance's outer terrain and adds the side scenery at runtime. Its cloned geometries are disposed with that instance; the miniature's shared model remains unchanged.
 - `bin/build_la_jolla.py`, `coastal_landmarks.py`, and `build_la_jolla_miniature.py` retain editable sources. The two compressed GLBs total about 1.45 MB; geometry, atlas, and every poster variant total about 2.6 MB, below the approximate 4 MB combined asset target. Concept boards and the raw reconstruction are downloads, not initial scene resources.

@@ -1,5 +1,11 @@
 {% unless page.ai_profile or page.redirect or page.secret_globe %}
-  <figure class="footer-coast" id="la-jolla" data-footer-coast data-state="still">
+  <figure
+    class="footer-coast"
+    id="la-jolla"
+    data-footer-coast
+    data-coast-module="{{ '/assets/js/footer-coast/scene.mjs' | relative_url | bust_file_cache }}"
+    data-state="still"
+  >
     <div
       class="footer-coast__scene"
       role="img"

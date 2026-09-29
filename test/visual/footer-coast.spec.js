@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect, chromium } = require("@playwright/test");
 const { writeFile } = require("node:fs/promises");
 const { preparePage, collectRuntimeErrors, attachScreenshot, screenshotMetrics, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
@@ -76,6 +76,24 @@ test("La Jolla loading: both miniature frames retain their scale and lighting", 
     theme: "evening",
   });
   await project.close();
+});
+
+test("coastal loading with a visible scrollbar: preview and camera agree at the phone boundary", async ({}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  const browser = await chromium.launch({
+    ignoreDefaultArgs: ["--hide-scrollbars"],
+    ...(process.platform === "win32" ? { args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] } : {}),
+  });
+  try {
+    const page = await browser.newPage({ viewport: { width: 610, height: 800 }, deviceScaleFactor: 1 });
+    await compareLoadingPreview(page, testInfo, { name: "scrollbar-boundary" });
+    expect((await evidence(page.locator("footer [data-footer-coast]"))).framing.width).toBe(40.5);
+    await page.setViewportSize({ width: 599, height: 800 });
+    await expect.poll(async () => (await evidence(page.locator("footer [data-footer-coast]"))).framing.width).toBe(21);
+    await expect.poll(() => page.locator("footer .footer-coast__poster").evaluate((image) => image.currentSrc)).toContain("coast-mobile-noon.webp");
+  } finally {
+    await browser.close();
+  }
 });
 
 test("coastal loading: a slow model arrives complete without fading through an empty canvas", async ({ page }, testInfo) => {
