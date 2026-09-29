@@ -1,5 +1,5 @@
 // Small progressive enhancements, authored for this Jekyll site. Interaction
-// references: Aceternity Lens/Link Preview/Compare and React Bits Folder/Chroma.
+// references: Aceternity Lens/Link Preview/Compare and React Bits Folder.
 const fine = matchMedia("(hover: hover) and (pointer: fine)");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const asset = (path) => new URL("../" + path, import.meta.url).href;
@@ -116,4 +116,3 @@ document.querySelectorAll("[data-compare]").forEach((figure) => {
   range.addEventListener("input", update);
   update();
 });
-document.querySelectorAll("[data-site-experiment-grid]").forEach((grid) => grid.classList.add("chroma-ready"));
