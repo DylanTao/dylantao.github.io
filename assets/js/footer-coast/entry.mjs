@@ -23,9 +23,7 @@ document.querySelectorAll("[data-footer-coast]").forEach((host) => {
     if (started) return;
     started = true;
     try {
-      const module = new URL("./scene.mjs", import.meta.url);
-      module.search = new URL(import.meta.url).search;
-      const { mountCoast } = await import(module.href);
+      const { mountCoast } = await import(host.dataset.coastModule || new URL("./scene.mjs", import.meta.url).href);
       await mountCoast(host);
     } catch {
       host.dataset.state = "fallback";

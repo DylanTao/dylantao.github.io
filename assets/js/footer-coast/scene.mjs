@@ -72,6 +72,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const canvas = host.querySelector("canvas");
   const surface = host.querySelector(".footer-coast__scene");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  // Use the same viewport breakpoint as <picture> and CSS. A classic scrollbar
+  // can make the canvas narrower than the viewport near this boundary.
+  const narrowViewport = matchMedia("(max-width: 599px)");
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setClearColor(0, 0);
@@ -234,9 +237,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
 
   function resize() {
     const { width, height } = surface.getBoundingClientRect();
-    const narrow = width < 600;
+    const narrow = narrowViewport.matches;
     surface.tabIndex = miniature || narrow ? 0 : -1;
-    surface.setAttribute("aria-keyshortcuts", narrow ? "ArrowLeft ArrowRight" : "");
+    surface.setAttribute("aria-keyshortcuts", miniature ? "ArrowLeft ArrowRight ArrowUp ArrowDown Home" : narrow ? "ArrowLeft ArrowRight" : "");
     // Phone composition visits the studio, courts and surf at a readable scale.
     // A fixed width collapsed the vertical frustum on ultrawide screens and
     // cut off crowns and roofs. Keep at least 13 world units of skyline room;
@@ -335,13 +338,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     }
   }
   const pan = (delta) => {
-    if (surface.clientWidth >= 600) return;
+    if (!narrowViewport.matches) return;
     target.x = clamp(target.x + delta, -10.5, 10.5);
     cameraBase.x = target.x + 5;
     draw();
   };
   const onDown = (event) => {
-    if (miniature || surface.clientWidth < 600) drag = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    if (miniature || narrowViewport.matches) drag = { x: event.clientX, y: event.clientY, id: event.pointerId };
   };
   const onPointer = (event) => {
     if (drag && drag.id === event.pointerId) {
@@ -379,7 +382,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       draw();
       return;
     }
-    if (surface.clientWidth < 600 && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
+    if (narrowViewport.matches && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
       event.preventDefault();
       pan(event.key === "ArrowLeft" ? -3.5 : 3.5);
     }
