@@ -17,14 +17,7 @@
       height="900"
       loading="lazy"
     >
-    <img
-      class="footer-coast__poster"
-      src="{{ '/assets/models/la-jolla/miniature.webp' | relative_url }}"
-      alt=""
-      width="1000"
-      height="1000"
-      loading="lazy"
-    >
+    {% include la-jolla-poster.liquid miniature=true %}
     <canvas class="footer-coast__canvas" aria-hidden="true"></canvas>
   </div>
   <figcaption>

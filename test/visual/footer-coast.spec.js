@@ -1,4 +1,5 @@
 const { test, expect } = require("@playwright/test");
+const { writeFile } = require("node:fs/promises");
 const { preparePage, collectRuntimeErrors, attachScreenshot, screenshotMetrics, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 const evidence = (host) => host.evaluate((e) => e.getCoastEvidence());
@@ -10,6 +11,117 @@ async function open(page, theme = "noon") {
   await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
   return host;
 }
+
+async function compareLoadingPreview(page, testInfo, { route = "/", selector = "footer [data-footer-coast]", theme = "noon", name }) {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, theme);
+  let release;
+  const loading = new Promise((resolve) => (release = resolve));
+  await page.route("**/models/la-jolla/*.glb", async (request) => {
+    await loading;
+    await request.continue();
+  });
+  try {
+    await page.goto(publicRouteUrl(route), { waitUntil: "domcontentloaded" });
+    const host = page.locator(selector);
+    await host.scrollIntoViewIfNeeded();
+    const poster = host.locator(".footer-coast__poster");
+    await expect.poll(() => poster.evaluate((image) => image.currentSrc)).toContain(`-${theme}.webp`);
+    await poster.evaluate((image) => image.decode());
+    await expect(host).toHaveAttribute("data-state", "still");
+    const surface = host.locator(".footer-coast__scene");
+    const before = await surface.screenshot();
+    release();
+    await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
+    await expect(poster).toBeHidden();
+    const after = await surface.screenshot();
+    // Compare actual pixels: a centered thumbnail, shifted landmark, missing
+    // panorama or wrong theme cannot pass by merely reporting 'ready'.
+    const changed = screenshotDiffRatio(before, after);
+    await writeFile(testInfo.outputPath(`${name}-loading.png`), before);
+    await writeFile(testInfo.outputPath(`${name}-ready.png`), after);
+    await writeFile(testInfo.outputPath(`${name}-difference.json`), JSON.stringify({ changed, theme, viewport: page.viewportSize() }));
+    expect(changed, "The still and first rendered composition must match").toBeLessThan(0.045);
+    await testInfo.attach(`${name}-loading`, { body: before, contentType: "image/png" });
+    await testInfo.attach(`${name}-ready`, { body: after, contentType: "image/png" });
+    await testInfo.attach(`${name}-difference`, {
+      body: JSON.stringify({ changed, theme, viewport: page.viewportSize() }),
+      contentType: "application/json",
+    });
+  } finally {
+    release();
+    await page.unroute("**/models/la-jolla/*.glb");
+  }
+}
+
+test("coastal loading: responsive, theme-matched stills preserve the first frame", async ({ page }, testInfo) => {
+  const themes = { "desktop-1440": "morning", "laptop-1280": "noon", "tablet-768": "afternoon", "mobile-390": "evening" };
+  await compareLoadingPreview(page, testInfo, { theme: themes[testInfo.project.name] || "noon", name: "coast" });
+  if (testInfo.project.name === "desktop-1440") {
+    const wide = await page.context().newPage();
+    await wide.setViewportSize({ width: 3840, height: 1200 });
+    await compareLoadingPreview(wide, testInfo, { name: "coast-4k" });
+    await wide.close();
+  }
+});
+
+test("La Jolla loading: both miniature frames retain their scale and lighting", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  await compareLoadingPreview(page, testInfo, { selector: "[data-miniature]", name: "connect-miniature", theme: "afternoon" });
+  const project = await page.context().newPage();
+  await compareLoadingPreview(project, testInfo, {
+    route: "/projects/la-jolla/",
+    selector: "[data-miniature]",
+    name: "project-miniature",
+    theme: "evening",
+  });
+  await project.close();
+});
+
+test("coastal loading: a slow model arrives complete without fading through an empty canvas", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await preparePage(page, "noon");
+  let release;
+  const loading = new Promise((resolve) => (release = resolve));
+  await page.route("**/models/la-jolla/*.glb", async (request) => {
+    await loading;
+    await request.continue();
+  });
+  try {
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    const host = page.locator("footer [data-footer-coast]");
+    await host.evaluate((e) => scrollTo({ top: scrollY + e.getBoundingClientRect().top - innerHeight + 100, behavior: "instant" }));
+    await host.locator(".footer-coast__poster").evaluate((image) => image.decode());
+    await host.evaluate((e) => {
+      window.coastHandoff = [];
+      const observe = new MutationObserver(() => {
+        if (e.dataset.state !== "ready") return;
+        observe.disconnect();
+        const sample = () => {
+          window.coastHandoff.push({
+            reveal: e.getCoastEvidence().reveal,
+            frames: e.getCoastEvidence().frames,
+            canvas: Number(getComputedStyle(e.querySelector("canvas")).opacity),
+            poster: Number(getComputedStyle(e.querySelector(".footer-coast__poster")).opacity),
+          });
+          if (window.coastHandoff.length < 12) requestAnimationFrame(sample);
+        };
+        sample();
+      });
+      observe.observe(e, { attributes: true, attributeFilter: ["data-state"] });
+    });
+    release();
+    await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
+    await expect.poll(() => page.evaluate(() => window.coastHandoff.length)).toBe(12);
+    const frames = await page.evaluate(() => window.coastHandoff);
+    expect(frames.every((frame) => frame.reveal === 1 && frame.frames > 0 && frame.canvas === 1)).toBe(true);
+    await expect(host.locator(".footer-coast__poster")).toBeHidden();
+    await testInfo.attach("handoff-frames", { body: JSON.stringify(frames), contentType: "application/json" });
+  } finally {
+    release();
+  }
+});
+
 for (const theme of process.env.COAST_THEME ? [process.env.COAST_THEME] : ["morning", "noon", "afternoon", "evening"]) {
   test(`coastal footer: automatic ${theme} light and full width composition`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);

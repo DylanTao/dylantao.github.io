@@ -5,16 +5,7 @@
       role="img"
       aria-label="La Jolla in miniature: Spanish houses and a villa above sandstone cliffs, palms, tennis, beach volleyball, Pacific surfers, and the folded glass bays of UC San Diego's Design and Innovation Building."
     >
-      <img
-        class="footer-coast__poster"
-        src="{{ '/assets/models/la-jolla/poster.webp' | relative_url }}"
-        width="2000"
-        height="620"
-        loading="lazy"
-        decoding="async"
-        alt=""
-        aria-hidden="true"
-      >
+      {% include la-jolla-poster.liquid %}
       <canvas class="footer-coast__canvas" aria-hidden="true"></canvas>
     </div>
     <figcaption class="sr-only">La Jolla: a coastal vignette that follows the site theme.</figcaption>

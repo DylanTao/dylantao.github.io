@@ -43,12 +43,15 @@ footer:has(.footer-coast) {
 
   &__poster {
     object-fit: contain;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
   }
 
   &__canvas {
     opacity: 0;
     pointer-events: none;
-    transition: opacity 400ms ease;
   }
 
   &[data-state="ready"] &__canvas {
@@ -56,7 +59,13 @@ footer:has(.footer-coast) {
   }
 
   &[data-state="ready"] &__poster {
+    // The complete canvas is already underneath. Keep the still until it has
+    // faded away; fading both layers through paper produces a visible flash.
+    opacity: 0;
     visibility: hidden;
+    transition:
+      opacity 240ms ease,
+      visibility 0s linear 240ms;
   }
 
   &__caption {
@@ -127,10 +136,6 @@ footer:has(.footer-coast) {
   }
 }
 
-html[data-theme="dark"] .footer-coast__poster {
-  filter: brightness(0.65) saturate(0.8);
-}
-
 @media (max-width: 600px) {
   .footer-coast {
     &[data-state="ready"] .footer-coast__hint {
@@ -146,11 +151,6 @@ html[data-theme="dark"] .footer-coast__poster {
       }
     }
 
-    &__poster {
-      object-fit: cover;
-      object-position: 67% center;
-    }
-
     &__caption {
       width: calc(100% - 2rem);
       flex-wrap: wrap;
@@ -161,7 +161,7 @@ html[data-theme="dark"] .footer-coast__poster {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .footer-coast__canvas {
+  .footer-coast[data-state="ready"] .footer-coast__poster {
     transition: none;
   }
 }
@@ -194,11 +194,26 @@ footer.coastal-page-footer {
   }
   .footer-coast__scene {
     height: clamp(300px, 24vw, 440px);
+    container-type: inline-size;
     mask-image: none;
   }
   .footer-coast__poster {
-    object-fit: contain;
-    object-position: center bottom;
+    // Mirror scene.mjs: 13 units high on wide screens, at least 40.5 units
+    // wide on tablets. Crop the panorama without shrinking it into a thumbnail.
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    max-width: none;
+    // The still includes 800/440 vertical overscan, so taller tablet frames
+    // retain their water all the way to the bottom instead of exposing paper.
+    height: min(calc(100% * 800 / 440), calc(100cqw * 13 * 800 / 440 / 40.5));
+    transform: translate(-50%, -50%);
+    @media (max-width: 599px) {
+      // The narrow camera has a fixed 21-unit width and its own DIB-centered still.
+      width: 100%;
+      height: auto;
+    }
   }
 }
 // The old footer-height avoidance lifts this control over the whole landscape.
@@ -258,7 +273,14 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
     border-radius: 35%;
   }
   .footer-coast__poster {
-    object-fit: contain;
+    // Both miniature viewers share a fixed-width camera, including the wider
+    // project-page frame. Preserve its scale and crop vertically there.
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: auto;
+    transform: translate(-50%, -50%);
   }
   .footer-coast__canvas {
     pointer-events: none;

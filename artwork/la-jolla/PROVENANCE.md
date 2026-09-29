@@ -10,7 +10,9 @@ UC San Diego's [DIB overview](https://dib.ucsd.edu/about/index.html) and [Design
 
 Three.js r164, the matched GLTF/Draco loaders, and ambient-occlusion passes use the repository's existing licensed distribution. The matching Blender exporter performs Draco compression. There are no downloaded third-party meshes, HDR photographs, texture packs, or generated scenic backdrops.
 
-`la-jolla-day.png` is an actual transparent Cycles render of the editable model. `assets/models/la-jolla/poster.webp` is its compressed graphics-failure/no-JavaScript fallback. The interactive scene uses geometry, procedural water, generated reflection lighting, and shadows. The poster is never its ocean or sky background.
+`la-jolla-day.png` is an actual transparent Cycles render of the editable model. `assets/models/la-jolla/poster.webp` retains that original compressed study. The interactive scene uses geometry, procedural water, generated reflection lighting, and shadows. The poster is never its ocean or sky background.
+
+Since September 28, the loading and graphics-failure stills in `assets/models/la-jolla/posters/` are transparent captures of the actual Three.js renderer, made by `bin/render_coast_posters.cjs`. They include the authored panorama extensions and match the live camera and each of the four site themes. These are rendered images of the existing model, not newly generated or reconstructed artwork. Regenerate with `node bin/render_coast_posters.cjs http://127.0.0.1:4101/al-folio` against an owned Jekyll preview (Playwright Chromium and Python/Pillow required).
 
 Reproduce from the repository root:
 

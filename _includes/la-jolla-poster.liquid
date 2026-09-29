@@ -1,0 +1,32 @@
+<picture data-coast-preview="{{ '/assets/models/la-jolla/posters/' | relative_url }}">
+  {% if include.miniature %}
+    <img
+      class="footer-coast__poster"
+      data-coast-view="miniature"
+      src="{{ '/assets/models/la-jolla/posters/miniature-noon.webp' | relative_url }}"
+      width="1000"
+      height="1000"
+      loading="lazy"
+      decoding="async"
+      alt=""
+      aria-hidden="true"
+    >
+  {% else %}
+    <source
+      media="(max-width: 599px)"
+      data-coast-view="coast-mobile"
+      srcset="{{ '/assets/models/la-jolla/posters/coast-mobile-noon.webp' | relative_url }}"
+    >
+    <img
+      class="footer-coast__poster"
+      data-coast-view="coast"
+      src="{{ '/assets/models/la-jolla/posters/coast-noon.webp' | relative_url }}"
+      width="5120"
+      height="800"
+      loading="lazy"
+      decoding="async"
+      alt=""
+      aria-hidden="true"
+    >
+  {% endif %}
+</picture>
