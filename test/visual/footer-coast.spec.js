@@ -62,6 +62,14 @@ test("coastal loading: responsive, theme-matched stills preserve the first frame
     const wide = await page.context().newPage();
     await wide.setViewportSize({ width: 3840, height: 1200 });
     await compareLoadingPreview(wide, testInfo, { name: "coast-4k" });
+    const frames = await wide.locator("footer [data-footer-coast]").evaluate((e) => e.getCoastEvidence({ projectLandmarks: true }).landmarkFrames);
+    for (const [name, frame] of Object.entries(frames)) {
+      expect(frame, name).not.toBeNull();
+      expect(frame.top, `${name} roof must clear the top edge`).toBeGreaterThan(0.01);
+      expect(frame.bottom, `${name} must clear the bottom edge`).toBeLessThan(0.99);
+      expect(frame.left, `${name} must be inside the panorama`).toBeGreaterThan(0);
+      expect(frame.right, `${name} must be inside the panorama`).toBeLessThan(1);
+    }
     await wide.close();
   }
 });
@@ -291,6 +299,24 @@ test("coastal footer: phone navigation reaches both landmark wings and returns h
   expect(screenshotDiffRatio(initial, await surface.screenshot())).toBeGreaterThan(0.01);
   for (let i = 0; i < 22; i++) await surface.press("ArrowRight");
   expect((await evidence(host)).framing.center[0]).toBeGreaterThan(35);
+  const villageFrame = await host.evaluate((e) => {
+    const frames = e.getCoastEvidence({ projectLandmarks: true }).landmarkFrames;
+    const scene = e.getBoundingClientRect();
+    const credit = e.closest("footer").querySelector(":scope > .container");
+    // The container includes the link's 44px touch target. Measure the visible
+    // text, so invisible hit-area padding is not mistaken for an overlap.
+    const walker = document.createTreeWalker(credit, NodeFilter.SHOW_TEXT);
+    const tops = [];
+    while (walker.nextNode()) {
+      if (!walker.currentNode.textContent.trim()) continue;
+      const range = document.createRange();
+      range.selectNodeContents(walker.currentNode);
+      tops.push(range.getBoundingClientRect().top);
+    }
+    return { roof: frames.LaValencia.top, seawall: frames.ChildrensPool.bottom * scene.height, credit: Math.min(...tops) - scene.top };
+  });
+  expect(villageFrame.roof).toBeGreaterThan(0.01);
+  expect(villageFrame.seawall).toBeLessThan(villageFrame.credit - 4);
   await attachScreenshot(page, testInfo, "phone-village-wing", { locator: host });
   await surface.press("Home");
   expect((await evidence(host)).framing.center[0]).toBeCloseTo(5.1);

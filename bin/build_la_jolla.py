@@ -203,50 +203,16 @@ def line(name, points, r, mat, owner):
     return obj
 
 
-def shoreline(x):
-    return -2.1 + 0.7 * math.sin(x * 0.23) + 0.25 * math.sin(x * 0.68)
+from coastal_terrain import PROFILE, shoreline, author_terrain, landscape_paths
 
 
 def plateau(x):
     return 0.80 + 2.5 * math.exp(-(((x + 10.3) / 3.25) ** 4))
 
 
-# One continuous coast, with shallow coves and a raised sandstone headland.
-verts, faces = [], []
-nx, ny = 260, 28
-for i in range(nx + 1):
-    x = -38 + 76 * i / nx
-    for j in range(ny + 1):
-        t = j / ny
-        y = shoreline(x) + 1.9 + t * (5.0 - shoreline(x) - 1.9)
-        height = plateau(x) * min(1, (t / 0.18) ** 0.5)
-        z = 0.12 + height + 0.018 * math.sin(x * 7 + t * 20)
-        verts.append((x, y, z))
-        if i < nx and j < ny:
-            a = i * (ny + 1) + j
-            faces.append((a, a + ny + 1, a + ny + 2, a + 1))
-land = mesh("Continuous mainland sandstone", verts, faces, rockmats[0], terrain)
-for m in rockmats[1:] + [grass]:
-    land.data.materials.append(m)
-for p in land.data.polygons:
-    p.material_index = 4 if p.center.y > 1.1 else 2
-# Polygon centers need update after mesh creation, assign elevation bands directly.
-for i, p in enumerate(land.data.polygons):
-    j = i % ny
-    p.material_index = 4 if j >= 7 else min(3, j // 2)
-
-for name, start, end, mat in [
-    ("Long sandy beach", 0, 1.96, sand),
-    ("Wet tide edge", -0.27, 0.22, wet),
-]:
-    vv, ff = [], []
-    for i in range(181):
-        x = -38 + i * 76 / 180
-        for t in (start, end):
-            vv.append((x, shoreline(x) + t, 0.085 + t * 0.027))
-        if i < 180:
-            ff.append((2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1))
-    mesh(name, vv, ff, mat, terrain)
+# The terrain is authored at its final width: campus mesa, inhabited center,
+# recessed Cove and village park. No stretched strip or separate model stands.
+author_terrain(globals())
 
 # The water edge fades in the browser; the surface itself is modeled geometry.
 vv, ff = [], []
@@ -916,7 +882,7 @@ for s in (-0.3, 0.3):
 
 from coastal_landmarks import landmarks
 from coastal_panorama import village_landmarks, campus_panorama
-landmark_groups = [*landmarks(globals()), *village_landmarks(globals())]
+landmark_groups = [*landmarks(globals()), *village_landmarks(globals()), landscape_paths(globals())]
 
 # Material batches keep hundreds of authored details cheap to draw.
 # Preserve water, surfers, palm crowns, and the office as independent objects.
@@ -972,16 +938,16 @@ for name, pos, power, size in [
     lamp.rotation_euler = (
         (Vector((0, 0, 0)) - lamp.location).to_track_quat("-Z", "Y").to_euler()
     )
-bpy.ops.object.camera_add(location=(5, -38, 18))
+bpy.ops.object.camera_add(location=(0, -38, 20.5))
 cam = bpy.context.object
 cam.rotation_euler = (
-    (Vector((0, 0, 2)) - cam.location).to_track_quat("-Z", "Y").to_euler()
+    (Vector((0, 0, 4.5)) - cam.location).to_track_quat("-Z", "Y").to_euler()
 )
 cam.data.type = "ORTHO"
-cam.data.ortho_scale = 40.5
+cam.data.ortho_scale = 116
 scene.camera = cam
-scene.render.resolution_x = 2000
-scene.render.resolution_y = 720
+scene.render.resolution_x = 3840
+scene.render.resolution_y = 480
 scene.render.resolution_percentage = 100
 scene.render.film_transparent = True
 scene.view_settings.view_transform = "AgX"
@@ -1009,11 +975,11 @@ bpy.ops.export_scene.gltf(
     export_draco_mesh_compression_level=6,
 )
 manifest = {
-    "version": 4,
+    "version": 5,
     "model": "la-jolla.glb",
     "coordinates": "Y-up",
     "office": [office_anchor[0], office_anchor[2], -office_anchor[1]],
-    "camera": {"position": [2.5, 19.2, 38], "target": [0, 3.2, 0], "width": 40.5},
+    "camera": {"position": [0, 20.5, 38], "target": [0, 4.5, 0], "width": 40.5},
     "triangleCount": sum(
         len(o.data.loop_triangles) for o in bpy.data.objects if o.type == "MESH" and o.select_get()
     ),
@@ -1021,8 +987,9 @@ manifest = {
     "geography": "Authored collage, not a map",
     "landmarks": ["DIB", "CliffVilla", "Village", "Tennis", "ScrippsPier", "Geisel", "Salk", "BrocktonVilla", "LaValencia", "ChildrensPool"],
     "dib": {"foldedBays": 5, "officeBay": 3, "officeFloor": 3},
-    "terrainBounds": [-38, 38, 5],
-    "panoramaBounds": [-47.5, 52],
+    "terrainBounds": [-82, 82, 13],
+    "panoramaBounds": [-48.5, 54],
+    "coastProfile": PROFILE,
 }
 (OUT / "manifest.json").write_text(
     json.dumps(manifest, indent=2) + "\n", encoding="utf8"

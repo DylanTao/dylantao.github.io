@@ -1,7 +1,6 @@
 import * as THREE from "../three.module.min.js";
-import { coastManifest, acquireCoast } from "./assets.mjs?v=landmarks-20260928";
+import { coastManifest, acquireCoast } from "./assets.mjs?v=coastal-place-20260929";
 import { createFinish } from "../home-scene/realism.mjs";
-import { extendCoast } from "./panorama.mjs?v=landmarks-20260928";
 
 const THEMES = {
   morning: { sky: 0xf5dfce, ground: 0x8b9290, sun: 0xffdfb4, key: 2.4, fill: 1.05, exposure: 1.0, water: 0x568f9d, night: 0.12 },
@@ -35,8 +34,22 @@ function reflectionStudio(renderer) {
   return target;
 }
 
-function makeWater(clock, color, miniature = false) {
+function makeWater(clock, color, miniature = false, profile = []) {
   const material = new THREE.MeshStandardMaterial({ color, roughness: 0.32, metalness: 0.18, transparent: true, depthWrite: false });
+  // Terrain and surf share the authored shoreline. A stretched sine wave no
+  // longer fits the village's recessed Cove and projecting sandstone headland.
+  const number = (value) => Number(value).toFixed(6);
+  const shore = `float coastShore(float x) {
+    if (x >= -19. && x <= 19.) return 2.1-.7*sin(x*.23)-.25*sin(x*.68);
+    ${profile
+      .slice(1)
+      .map((point, i) => {
+        const previous = profile[i];
+        return `if (x <= ${number(point[0])}) return -mix(${number(previous[1])},${number(point[1])},smoothstep(${number(previous[0])},${number(point[0])},x));`;
+      })
+      .join("\n")}
+    return 2.;
+  }`;
   material.onBeforeCompile = (shader) => {
     shader.uniforms.coastTime = clock;
     shader.vertexShader = `uniform float coastTime; varying vec3 coastPosition;
@@ -47,11 +60,10 @@ function makeWater(clock, color, miniature = false) {
         `vec3 objectNormal = normalize(vec3((wave(position.xz-vec2(.03,0.))-wave(position.xz+vec2(.03,0.)))/.06,1.,(wave(position.xz-vec2(0.,.03))-wave(position.xz+vec2(0.,.03)))/.06));`
       )
       .replace("#include <begin_vertex>", `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=transformed;`);
-    shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shader.fragmentShader}`.replace(
+    shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shore}\n${shader.fragmentShader}`.replace(
       "#include <color_fragment>",
       `#include <color_fragment>
-        float shoreX = sign(coastPosition.x)*(min(abs(coastPosition.x),20.)+max(0.,abs(coastPosition.x)-20.)/4.);
-        float shore = ${miniature ? "3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58)" : "2.1-.7*sin(shoreX*.23)-.25*sin(shoreX*.68)"};
+        float shore = ${miniature ? "3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58)" : "coastShore(coastPosition.x)"};
         float depth = coastPosition.z-shore;
         float edge = ${miniature ? "1." : "smoothstep(0.,.12,depth)"};
         float swell = sin(depth*5.5-coastTime*.62+sin(coastPosition.x*.6)*.45);
@@ -103,8 +115,6 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   fill.position.set(12, 6, -10);
   scene.add(fill);
   const clock = { value: 0 };
-  const water = makeWater(clock, 0x337e90, miniature);
-  water.userData.noOcclusion = true;
   const finish = createFinish(renderer, scene, camera, { transparentOutput: true });
   let model, manifest;
   try {
@@ -117,7 +127,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     throw error;
   }
   scene.add(model.scene);
-  const disposePanorama = miniature ? () => {} : extendCoast(model.scene);
+  const water = makeWater(clock, 0x337e90, miniature, manifest.coastProfile);
+  water.userData.noOcclusion = true;
   if (!miniature) scene.add(water);
   const crowns = [],
     surfers = [],
@@ -243,15 +254,15 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     surface.setAttribute("aria-keyshortcuts", miniature ? "ArrowLeft ArrowRight ArrowUp ArrowDown Home" : narrow ? "ArrowLeft ArrowRight Home" : "");
     // Phone composition visits the studio, courts and surf at a readable scale.
     // A fixed width collapsed the vertical frustum on ultrawide screens and
-    // cut off crowns and roofs. Keep at least 13 world units of skyline room;
+    // cut off crowns and roofs. Keep at least 14.5 world units of skyline room;
     // wider viewports discover more coastline instead of magnifying it.
     // Authoring can capture extra sky/water around the same wide camera. That
     // overscan keeps the still filled when a tablet's frame is proportionally taller.
-    cameraWidth = miniature ? 29 : narrow ? 21 : Math.max(40.5, (width / Math.max(posterFrameHeight || height, 1)) * 13);
+    cameraWidth = miniature ? 29 : narrow ? 21 : Math.max(40.5, (width / Math.max(posterFrameHeight || height, 1)) * 14.5);
     // The left campus sits higher in this oblique view. Shift the wide frame
     // upward without shrinking the buildings or adding empty coast at its ends.
-    target.set(narrow ? 5.1 : 0, narrow ? 2 : 3.2, 0);
-    cameraBase.set(target.x + (narrow ? 5 : 2.5), target.y + 16, 38);
+    target.set(narrow ? 5.1 : 0, narrow ? 2 : 4.5, 0);
+    cameraBase.set(target.x + (narrow ? 5 : 0), target.y + 16, 38);
     if (miniature) {
       target.fromArray(manifest.miniature.target);
       cameraBase.fromArray(manifest.miniature.camera);
@@ -352,7 +363,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     if (!narrowViewport.matches) return;
     const [left, right] = manifest.panoramaBounds;
     target.x = clamp(target.x + delta, left + cameraWidth / 2, right - cameraWidth / 2);
+    const inland = clamp((Math.abs(target.x - 5.1) - 14) / 14);
+    const rise = target.x < 5.1 ? 2.5 : 1;
+    target.y = 2 + rise * inland * inland * (3 - 2 * inland);
     cameraBase.x = target.x + 5;
+    cameraBase.y = target.y + 16;
     // Keep the shadow coverage around the visited neighborhood while retaining
     // the same sun direction and the default view's preview alignment.
     sun.position.x = -10 + target.x - 5.1;
@@ -463,7 +478,6 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       materials.forEach((m) => m?.dispose());
     });
     env.dispose();
-    disposePanorama();
     model.release();
     water.geometry.dispose();
     water.material.dispose();
@@ -479,7 +493,26 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   renderer.shadowMap.needsUpdate = true;
   draw();
   host.dataset.state = "ready";
-  host.getCoastEvidence = () => ({
+  function landmarkFrame(name) {
+    const object = model.scene.getObjectByName(name);
+    if (!object) return null;
+    const projected = new THREE.Box2();
+    const point = new THREE.Vector3();
+    const screenPoint = new THREE.Vector2();
+    object.updateWorldMatrix(true, true);
+    // Project real vertices: a world-aligned box around a rotated, stepped
+    // library includes empty upper corners well above its actual roof.
+    object.traverse((mesh) => {
+      const positions = mesh.geometry?.attributes.position;
+      if (!positions) return;
+      for (let i = 0; i < positions.count; i++) {
+        point.fromBufferAttribute(positions, i).applyMatrix4(mesh.matrixWorld).project(camera);
+        projected.expandByPoint(screenPoint.set((point.x + 1) / 2, (1 - point.y) / 2));
+      }
+    });
+    return { left: projected.min.x, top: projected.min.y, right: projected.max.x, bottom: projected.max.y };
+  }
+  host.getCoastEvidence = ({ projectLandmarks = false } = {}) => ({
     miniature,
     frames: frameCount,
     reveal,
@@ -492,6 +525,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     orbit: [orbitX, orbitY],
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
+    landmarkFrames: projectLandmarks
+      ? Object.fromEntries(["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia", "ChildrensPool"].map((name) => [name, landmarkFrame(name)]))
+      : undefined,
   });
   syncRunning();
 }

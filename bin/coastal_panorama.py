@@ -11,12 +11,13 @@ def village_landmarks(h):
     group, box, rod, ball, mesh, line = (h[k] for k in ('group','box','rod','ball','mesh','line'))
     white, wood, glass, warm, roof = (h[k] for k in ('white','wood','window','warm','roof'))
     stone, leaf = h['rockmats'][2], h['leaf']
-    pink = h['material']('La Valencia rose plaster', (.79,.43,.38))
+    pink = h['material']('La Valencia rose plaster', (.76,.34,.32))
     shingle = h['material']('Brockton weathered cedar', (.29,.31,.28))
     teal = h['material']('Brockton blue trim', (.12,.40,.43))
     sealmat = h['material']('Harbor seal warm grey', (.31,.33,.30))
     blossom = h['material']('Bougainvillea petals', (.67,.24,.34))
-    dome = h['material']('La Valencia tiled dome', (.66,.40,.14))
+    dome = h['material']('La Valencia tiled dome', (.48,.25,.10))
+    seawall = h['material']('Weathered breakwater concrete', (.46,.45,.40))
 
     def hip(name, x, y, z, w, d, rise, mat, owner):
         ridge = max(0, (w-d)*.42)
@@ -152,8 +153,8 @@ def village_landmarks(h):
     for i in range(32):
         a=i*4;b=a+4
         faces += [(a,a+2,b+2,b),(a+1,b+1,b+3,a+3),(a+2,a+3,b+3,b+2)]
-    mesh('Childrens Pool curved concrete seawall',verts,faces,h['concrete'],pool)
-    line('Seawall rounded coping',[(xx,yy,.60) for xx,yy in arc],.075,white,pool)
+    mesh('Childrens Pool curved concrete seawall',verts,faces,seawall,pool)
+    line('Seawall rounded coping',[(xx,yy,.60) for xx,yy in arc],.055,seawall,pool)
     for i in range(0,33,2):
         xx,yy=arc[i]
         rod('Seawall rail stanchion',(xx,yy,.63),(xx,yy,.94),.018,h['dark'],pool)
@@ -172,7 +173,29 @@ def village_landmarks(h):
             flipper.rotation_euler.z=side*.35
         for j in range(4):
             ball('Harbor seal mottling',(-.12+j*.1,-.045,.283),(.035,.04,.018),stone,seal,1)
-    return [brockton,valencia,pool]
+    # Compose an inhabited village: low cottage against the Cove, hotel inland
+    # above the park, and a breakwater rooted into the outer headland.
+    from mathutils import Matrix, Vector
+    def place(owner, origin, target, scale, angle):
+        owner.matrix_world = (Matrix.Translation(Vector(target)) @
+            Matrix.Rotation(angle,4,'Z') @ Matrix.Scale(scale,4) @
+            Matrix.Translation(-Vector(origin)))
+    place(brockton,(25.8,1.65,.91),(29.0,4.8,2.02),.88,-.34)
+    place(valencia,(45.1,1.55,.91),(39.1,6.2,1.95),1.02,.24)
+    place(pool,(35.5,-.85,0),(46.2,-3.3,0),1.15,-.10)
+    access=group('PoolAccess')
+    # One end is anchored to the bluff by a stair and landing. The other stays
+    # open to the sea, so the seawall reads as a breakwater rather than a bowl.
+    for i in range(12):
+        yy=-.85-i*.23
+        top=1.68-i*.091
+        box('Breakwater access stair',(42.0,yy,top/2),(.78,.255,top),seawall,access,.012)
+        for side in (-1,1):
+            if i%3==0:
+                rod('Stair rail post',(42.0+side*.35,yy,top),(42.0+side*.35,yy,top+.36),.018,h['dark'],access)
+    for side in (-1,1):
+        line('Stair handrail',[(42.0+side*.35,-.85-i*.23,2.04-i*.091) for i in range(12)],.019,h['dark'],access)
+    return [brockton,valencia,pool,access]
 
 
 def campus_panorama(h):
@@ -182,8 +205,8 @@ def campus_panorama(h):
     print('Placing campus landmarks on the wider coast', flush=True)
     copies=[]
     for name,center,target,scale,angle in (
-        ('Geisel',(-1.3,6.2,.93),(-27.8,1.3,.92),1.28,-.06),
-        ('Salk',(-7,6.4,.93),(-41.3,1.2,.92),1.65,-.14),
+        ('Geisel',(-1.3,6.2,.93),(-28.0,8.0,2.05),1.25,.24),
+        ('Salk',(-7,6.4,.93),(-41.7,3.1,2.15),1.48,-.36),
     ):
         def clone(source,parent=None):
             obj=source.copy()
@@ -196,16 +219,4 @@ def campus_panorama(h):
         root.name=name+'Coast'
         root.matrix_world=Matrix.Translation(Vector(target)) @ Matrix.Rotation(angle,4,'Z') @ Matrix.Scale(scale,4) @ Matrix.Translation(-Vector(center))
         copies.append(root)
-    # Quiet low approach terraces join landmarks to the neighborhood walk.
-    paths=h['group']('CampusWalk')
-    foundation=h['box']('Salk sandstone foundation',(-41.3,1.2,.36),(8.1,8.5,1.10),h['rockmats'][2],paths)
-    foundation.rotation_euler.z=-.14
-    for xx,width in ((-27.8,8.5),(-41.3,8.9)):
-        h['box']('Campus approach terrace',(xx,-2.9,.69),(width,1.3,.28),h['white'],paths)
-        for i in range(5):
-            h['box']('Campus beach approach',(xx,-3.6-i*.17,.61-i*.10),(1.6,.20,.14),h['white'],paths,.01)
-        for side in (-1,1):
-            h['box']('Coastal reading bench',(xx+side*2.8,-3,.99),(1.0,.30,.10),h['wood'],paths)
-            for dx in (-.36,.36):
-                h['box']('Reading bench foot',(xx+side*2.8+dx,-3,.84),(.09,.24,.25),h['concrete'],paths)
-    return [*copies,paths]
+    return copies

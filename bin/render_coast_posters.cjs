@@ -11,7 +11,7 @@ const root = path.resolve(__dirname, "..");
 const scratch = path.join(root, ".jekyll-cache", "coast-posters");
 const output = path.join(root, "assets", "models", "la-jolla", "posters");
 const views = [
-  { name: "coast", width: 5120, height: 800, posterFrameHeight: 440 },
+  { name: "coast", width: 5120, height: 880, posterFrameHeight: 480 },
   { name: "coast-mobile", width: 560, height: 560 },
   { name: "miniature", width: 1000, height: 1000, miniature: true },
 ];

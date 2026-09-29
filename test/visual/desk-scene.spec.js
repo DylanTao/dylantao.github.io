@@ -26,6 +26,12 @@ async function openHome(page, { motion = "reduce", theme = "light" } = {}) {
   return { stage, scene, canvas, ui: page.locator("[data-home-world-controls]") };
 }
 const evidence = (scene) => scene.evaluate((e) => e.getSceneEvidence());
+async function settleRoomModels(scene) {
+  // Readiness covers the occupied room; five additional GLBs then stream and
+  // compile on the software-rendered CI worker. Verify every actual room before
+  // measuring pause/orbit behavior, with a load budget rather than the 15s UI one.
+  await expect.poll(async () => (await evidence(scene)).roomCount, { timeout: 60000 }).toBe(6);
+}
 async function explore(ui) {
   const details = ui.locator("details").first();
   if (!(await details.getAttribute("open"))) {
@@ -104,7 +110,7 @@ for (const theme of ["light", "dark"]) {
       await canvas.scrollIntoViewIfNeeded();
       await settle(page);
     }
-    await expect.poll(async () => (await evidence(scene)).roomCount).toBe(6);
+    await settleRoomModels(scene);
     await expect(stage.locator(".home-world-welcome")).toBeVisible();
     const before = await canvas.screenshot();
     const metrics = screenshotMetrics(before);
@@ -287,7 +293,7 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
   // A newly streamed room legitimately requests one still redraw while paused.
   // Settle those loads before using frame counts to detect ongoing animation.
-  await expect.poll(async () => (await evidence(scene)).roomCount).toBe(6);
+  await settleRoomModels(scene);
   const before = await canvas.screenshot();
   await page.waitForTimeout(650);
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.0002);
@@ -397,7 +403,7 @@ for (const [failure, asset] of [
 test("coastal home: a routine boundary walks through the home before settling into the onsen", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Representative live transition; clock boundaries are covered separately.");
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
-  await expect.poll(async () => (await evidence(scene)).roomCount).toBe(6);
+  await settleRoomModels(scene);
   await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
   await page.clock.fastForward(30001);
   await expect(scene).toHaveAttribute("data-animation", "walk");

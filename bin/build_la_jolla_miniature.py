@@ -13,7 +13,7 @@ for obj in scene.objects: obj.hide_render=False
 def discard(obj):
     for child in list(obj.children): discard(child)
     bpy.data.objects.remove(obj, do_unlink=True)
-for name in ('Coast','Village','Courts','Palms','EveningBonfire','ParkedBoards','Lifeguard','GeiselCoast','SalkCoast','CampusWalk','BrocktonVilla','LaValencia','ChildrensPool'):
+for name in ('Coast','Village','Courts','Palms','EveningBonfire','ParkedBoards','Lifeguard','GeiselCoast','SalkCoast','CampusWalk','CoastalWalk','BrocktonVilla','LaValencia','ChildrensPool','PoolAccess'):
     if name in bpy.data.objects: discard(bpy.data.objects[name])
 def move(name, center, target, scale=1):
     o=bpy.data.objects.get(name)

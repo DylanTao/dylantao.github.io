@@ -31,7 +31,7 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Budget:** Approximately 2 MB of combined compressed footer and miniature geometry, load near the footer, at most 30 fps, capped pixel density, system reduced motion and offscreen suspension, native scrolling, and static graphics-failure/reduced-motion alternatives.
 - **Status:** Implemented locally for visual review. The buildings form an authored place collage above a sourced OSM atlas; the office light is not an occupancy feed.
 - **Evidence:** [Footer brief](la-jolla-footer.md) and [captures/checks](evidence/la-jolla-footer/README.md).
-- **Sirui decision:** Requested implementation of the miniature La Jolla direction. On September 28 he rejected generic trees as widescreen filler and requested recognizable local architecture, informed by map outlines, aerial views and photographs, while retaining a cozy feeling. Final visual taste remains open to his review.
+- **Sirui decision:** Requested implementation of the miniature La Jolla direction. On September 28 he rejected generic trees as widescreen filler and requested recognizable local architecture, informed by map outlines, aerial views and photographs, while retaining a cozy feeling. He then rejected the evenly spaced landmark lineup: distinct names alone do not make a convincing place. The revision groups the campus, home and coastal village through varied setbacks, continuous bluffs, a recessed Cove, park paths and a seawall connected to land. Final visual taste remains open to his review.
 - **Revisit trigger:** Sirui's review, an obstructed reading/footer control, or a measured loading/rendering regression.
 
 ### Approved A–F reading enhancements

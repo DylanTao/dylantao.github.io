@@ -193,21 +193,25 @@ footer.coastal-page-footer {
     margin: 0;
   }
   .footer-coast__scene {
-    height: clamp(300px, 24vw, 440px);
+    height: clamp(300px, 24vw, 480px);
     container-type: inline-size;
     mask-image: none;
+    @media (max-width: 599px) {
+      // Keep the explored headland above the credit's quiet strip of water.
+      height: 330px;
+    }
   }
   .footer-coast__poster {
-    // Mirror scene.mjs: 13 units high on wide screens, at least 40.5 units
+    // Mirror scene.mjs: 14.5 units high on wide screens, at least 40.5 units
     // wide on tablets. Crop the panorama without shrinking it into a thumbnail.
     inset: auto;
     top: 50%;
     left: 50%;
     width: auto;
     max-width: none;
-    // The still includes 800/440 vertical overscan, so taller tablet frames
+    // The still includes 880/480 vertical overscan, so taller tablet frames
     // retain their water all the way to the bottom instead of exposing paper.
-    height: min(calc(100% * 800 / 440), calc(100cqw * 13 * 800 / 440 / 40.5));
+    height: min(calc(100% * 880 / 480), calc(100cqw * 14.5 * 880 / 480 / 40.5));
     transform: translate(-50%, -50%);
     @media (max-width: 599px) {
       // The narrow camera has a fixed 21-unit width and its own DIB-centered still.
