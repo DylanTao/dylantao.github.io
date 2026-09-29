@@ -67,7 +67,7 @@ function makeWater(clock, color, miniature = false) {
   return new THREE.Mesh(geometry, material);
 }
 
-export async function mountCoast(host) {
+export async function mountCoast(host, { posterFrameHeight } = {}) {
   const miniature = host.hasAttribute("data-miniature");
   const canvas = host.querySelector("canvas");
   const surface = host.querySelector(".footer-coast__scene");
@@ -152,9 +152,10 @@ export async function mountCoast(host) {
   let raf = 0,
     previous = 0,
     elapsed = 0,
-    reveal = 0,
-    targetReveal = 0,
+    reveal = 1,
+    targetReveal = 1,
     theme = THEMES.noon;
+  let revealOnScroll = false;
   let pointerX = 0,
     currentX = 0,
     cameraWidth = 45,
@@ -240,7 +241,9 @@ export async function mountCoast(host) {
     // A fixed width collapsed the vertical frustum on ultrawide screens and
     // cut off crowns and roofs. Keep at least 13 world units of skyline room;
     // wider viewports discover more coastline instead of magnifying it.
-    cameraWidth = miniature ? 29 : narrow ? 21 : Math.max(40.5, (width / Math.max(height, 1)) * 13);
+    // Authoring can capture extra sky/water around the same wide camera. That
+    // overscan keeps the still filled when a tablet's frame is proportionally taller.
+    cameraWidth = miniature ? 29 : narrow ? 21 : Math.max(40.5, (width / Math.max(posterFrameHeight || height, 1)) * 13);
     target.set(narrow ? 5.1 : 0, 2, 0);
     cameraBase.set(target.x + 5, 18, 38);
     if (miniature) {
@@ -276,8 +279,13 @@ export async function mountCoast(host) {
   }
 
   function progress() {
+    // The poster already shows the complete place. Do not dismantle it as the
+    // model arrives, even when loading finishes with only part of the coast in
+    // view. Enable the reversible scroll reveal after the first complete arrival.
     const r = surface.getBoundingClientRect();
-    targetReveal = miniature ? 1 : clamp((innerHeight - r.top) / (r.height * 0.95));
+    const amount = clamp((innerHeight - r.top) / (r.height * 0.95));
+    if (amount === 1) revealOnScroll = true;
+    targetReveal = miniature || !revealOnScroll ? 1 : amount;
   }
 
   function frame(now) {
@@ -410,9 +418,9 @@ export async function mountCoast(host) {
   const contextRestored = () => {
     lost = false;
     renderer.shadowMap.needsUpdate = true;
-    host.dataset.state = "ready";
     syncRunning();
     draw();
+    host.dataset.state = "ready";
   };
   canvas.addEventListener("webglcontextrestored", contextRestored);
   window.addEventListener("pagehide", (event) => {
@@ -444,6 +452,7 @@ export async function mountCoast(host) {
   window.addEventListener("pageshow", () => {
     if (!disposed) syncRunning();
   });
+  revealBuildings(1);
   resize();
   syncTheme();
   renderer.shadowMap.needsUpdate = true;
