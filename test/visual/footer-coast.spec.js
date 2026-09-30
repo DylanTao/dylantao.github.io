@@ -4,6 +4,45 @@ const { preparePage, collectRuntimeErrors, attachScreenshot, screenshotMetrics, 
 const { publicRouteUrl } = require("./public-routes");
 const evidence = (host) => host.evaluate((e) => e.getCoastEvidence());
 const coastModels = /\/models\/la-jolla\/[^/?]+\.glb(?:\?.*)?$/;
+
+test("La Jolla guide: names select actual landmarks without moving the view", async ({ page }, testInfo) => {
+  await preparePage(page, "afternoon");
+  await page.goto(publicRouteUrl("/projects/la-jolla/"));
+  const viewer = page.locator("[data-miniature]");
+  await viewer.scrollIntoViewIfNeeded();
+  await expect(viewer).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  const before = await viewer.evaluate((e) => e.getCoastEvidence().orbit);
+  for (const name of ["DIB", "Geisel", "Salk", "ScrippsPier"]) {
+    const place = page.locator(`[data-coast-guide] [data-coast-place="${name}"]`);
+    await place.locator("summary").click();
+    await expect(viewer).toHaveAttribute("data-selected-place", name);
+    await expect(viewer.locator(".coast-place-marker")).toBeVisible();
+    await expect(place.locator("a")).toHaveAttribute("href", /^https:\/\//);
+    expect(await viewer.evaluate((e) => e.getCoastEvidence().orbit)).toEqual(before);
+  }
+  await page.locator(".coast-explorer").screenshot({ path: testInfo.outputPath("coast-guide.png") });
+  await page.locator('[data-coast-place="ScrippsPier"] summary').click();
+  await expect(viewer.locator(".coast-place-marker")).toBeHidden();
+  await page.locator(".studio-print-pair").scrollIntoViewIfNeeded();
+  await expect(page.locator(".studio-print-pair img")).toHaveCount(2);
+  expect(
+    await page
+      .locator(".studio-print-pair img")
+      .evaluateAll((images) => images.every((img) => img.complete && img.naturalWidth > 0 && getComputedStyle(img).filter === "none"))
+  ).toBe(true);
+  await page.locator(".studio-print-pair").screenshot({ path: testInfo.outputPath("coastal-print-studies.png") });
+});
+
+test("La Jolla guide: sources and notes remain usable when WebGL is unavailable", async ({ page }) => {
+  await preparePage(page, "noon");
+  await page.route("**/assets/models/la-jolla/*.glb*", (route) => route.abort());
+  await page.goto(publicRouteUrl("/projects/la-jolla/"));
+  const place = page.locator('[data-coast-guide] [data-coast-place="Geisel"]');
+  await place.locator("summary").click();
+  await expect(place.locator("p")).toContainText("stepped crown");
+  await expect(place.locator("a")).toBeVisible();
+  await expect(page.locator("[data-miniature] .coast-place-marker")).toBeHidden();
+});
 async function open(page, theme = "noon") {
   await preparePage(page, theme);
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });

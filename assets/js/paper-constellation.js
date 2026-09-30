@@ -23,6 +23,8 @@
   const clearButton = constellation.querySelector("[data-constellation-clear]");
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const mobileQuery = window.matchMedia("(max-width: 820px)");
+  const readingStarts = Array.from(constellation.querySelectorAll("[data-reading-start]"));
+  const readingKeys = () => constellation.querySelector("[data-reading-start][open]")?.dataset.readingKeys.split("|") || [];
 
   let currentView = "list";
   let pinnedKey = null;
@@ -164,7 +166,7 @@
     return { active, related, activeEdges };
   };
 
-  const updateGraphFocus = (paperKeys = []) => {
+  const updateGraphFocus = (paperKeys = readingKeys()) => {
     const keys = paperKeys.filter((key) => visiblePaperKeys.has(key));
     const hasFocus = keys.length > 0;
     const { active, related, activeEdges } = connectedState(keys);
@@ -298,6 +300,7 @@
       membership.classList.toggle("paper-constellation-mobile-membership-filtered", !visiblePaperKeys.has(membership.dataset.membershipPaper));
     });
     if (pinnedKey && !visiblePaperKeys.has(pinnedKey)) clearPinned();
+    updateGraphFocus(pinnedKey ? [pinnedKey] : readingKeys());
   };
 
   const currentFilterKeys = () => {
@@ -351,6 +354,18 @@
 
   viewButtons.forEach((button) => {
     button.addEventListener("click", () => setView(button.dataset.publicationViewButton));
+  });
+
+  readingStarts.forEach((route) => {
+    route.addEventListener("toggle", () => {
+      if (currentView !== "constellation") return;
+      if (pinnedKey) clearPinned();
+      updateGraphFocus();
+      const keys = readingKeys();
+      if (keys.length) broadcastFocus(keys, "Reading path");
+      else broadcastClear();
+      scheduleMobileGeometry();
+    });
   });
 
   clearButton?.addEventListener("click", () => clearPinned({ restoreFocus: true }));

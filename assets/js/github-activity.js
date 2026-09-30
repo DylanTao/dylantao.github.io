@@ -92,7 +92,7 @@
   const spacedLogTicks = (domainMaximum, yForValue, minimumGap = 18) => {
     const candidates = new Set([0, domainMaximum]);
     for (let power = 0; 10 ** power <= domainMaximum; power += 1) {
-      [1, 2, 5].forEach((multiple) => {
+      [1, 2, 3, 4, 5, 6, 8].forEach((multiple) => {
         const value = multiple * 10 ** power;
         if (value <= domainMaximum) candidates.add(value);
       });
@@ -157,11 +157,11 @@
   const drawSeries = (group, rows, valueForRow, bounds, options) => {
     const values = rows.map(valueForRow);
     const maximum = options.maximum || Math.max(...values.map(Math.abs), 1);
-    const transformedMaximum = options.scale === "linear" ? maximum : Math.log1p(maximum);
+    const transformedMaximum = options.scale === "linear" ? maximum : Math.sqrt(maximum);
     const x = (index) =>
       options.xForRow ? options.xForRow(rows[index], index) : bounds.left + (index / Math.max(1, rows.length - 1)) * (bounds.right - bounds.left);
     const y = (value) => {
-      const transformed = (options.scale === "linear" ? Math.abs(value) : Math.log1p(Math.abs(value))) / transformedMaximum;
+      const transformed = (options.scale === "linear" ? Math.abs(value) : Math.sqrt(Math.abs(value))) / transformedMaximum;
       return bounds.bottom - transformed * (bounds.bottom - bounds.top);
     };
     const points = values.map((value, index) => [x(index), y(value)]);
@@ -241,7 +241,7 @@
       const baseline = height - bottom;
       const domainMaximum = niceLogMaximum(Math.max(...storyGithubRows.map((row) => row.commits), 1));
 
-      addText(group, `COMMITS / ${storyDateUnit} \u00b7 READABLE LOG1P`, left, 20, { color: colors.accent, weight: 700 });
+      addText(group, `COMMITS / ${storyDateUnit} \u00b7 READABLE SQRT`, left, 20, { color: colors.accent, weight: 700 });
       const series = drawSeries(
         group,
         storyGithubRows,
@@ -276,7 +276,7 @@
           "fill-opacity": 0.18,
         })
       );
-      addText(group, `COMMITS / ${storyDateUnit} · LOG1P`, bounds.left, 20, { color: colors.accent, weight: 700 });
+      addText(group, `COMMITS / ${storyDateUnit} · SQRT`, bounds.left, 20, { color: colors.accent, weight: 700 });
       drawYAxis(group, {
         name: "story-authored",
         ticks: spacedLogTicks(maximum, total.y, 26),
@@ -300,7 +300,7 @@
       const peakIndex = values.indexOf(rawMaximum);
 
       [
-        { label: "READABLE LOG1P", mode: "log", x: outer },
+        { label: "READABLE SQRT", mode: "log", x: outer },
         { label: "LITERAL LINEAR", mode: "linear", x: outer + panelWidth + gap },
       ].forEach((panel) => {
         addText(group, panel.label, panel.x + 10, 20, { color: panel.mode === "log" ? colors.accent : colors.muted, weight: 700 });
@@ -534,14 +534,14 @@
     !Array.isArray(value) &&
     Object.keys(value).length === keys.length &&
     keys.every((key) => Object.hasOwn(value, key));
-  // `commits` is each source's reported total; for Personal, that is every commit
-  // GitHub credits. `authored_commits` is the non-merge, non-deploy subset that
-  // owns the line counts. Lines without an authored commit are malformed.
-  const validSourceCounts = (entry) =>
-    hasExactKeys(entry, ["commits", "authored_commits", "additions", "deletions"]) &&
-    ["commits", "authored_commits", "additions", "deletions"].every((key) => Number.isSafeInteger(entry[key]) && entry[key] >= 0) &&
+  // `commits` is each source's reported total; Personal counts attributable
+  // commits on eligible branches. `authored_commits` excludes merges and deploys.
+  // Schema 6 retires line statistics.
+  const validSourceCounts = (entry, schema) =>
+    hasExactKeys(entry, schema === 6 ? ["commits", "authored_commits"] : ["commits", "authored_commits", "additions", "deletions"]) &&
+    Object.values(entry).every((value) => Number.isSafeInteger(value) && value >= 0) &&
     entry.authored_commits <= entry.commits &&
-    (entry.authored_commits > 0 || (entry.additions === 0 && entry.deletions === 0));
+    (schema === 6 || entry.authored_commits > 0 || (entry.additions === 0 && entry.deletions === 0));
   const codeActivitySourceContracts = {
     personal: {
       label: "Personal",
@@ -580,7 +580,7 @@
   const validCodeActivitySource = (candidate) => {
     if (
       !hasExactKeys(candidate, ["schema", "updated_on", "date_basis", "scope", "sources", "coverage", "points"]) ||
-      candidate.schema !== 5 ||
+      ![5, 6].includes(candidate.schema) ||
       candidate.date_basis !== "source_reported_calendar" ||
       candidate.scope !== "code_activity" ||
       !isIsoDate(candidate.updated_on) ||
@@ -627,7 +627,11 @@
         .filter((descriptor) => date >= calendarDate(descriptor.starts_on) && date <= calendarDate(descriptor.complete_through))
         .map((descriptor) => descriptor.id);
       const keys = Object.keys(point).filter((key) => key !== "date");
-      return keys.length === covered.length && covered.every((id) => Object.hasOwn(point, id)) && covered.every((id) => validSourceCounts(point[id]));
+      return (
+        keys.length === covered.length &&
+        covered.every((id) => Object.hasOwn(point, id)) &&
+        covered.every((id) => validSourceCounts(point[id], candidate.schema))
+      );
     });
   };
 
@@ -1024,10 +1028,10 @@
     const rawCommitMaximum = Math.max(...data.map((row) => row.commits), 1);
     const commitLinear = niceLinearScale(rawCommitMaximum, narrow ? 3 : 4);
     const commitDomainMaximum = scale === "linear" ? commitLinear.domainMaximum : niceLogMaximum(rawCommitMaximum);
-    const commitLogMaximum = Math.log1p(commitDomainMaximum);
+    const commitReadableMaximum = Math.sqrt(commitDomainMaximum);
     const x = (date) => left + ((date.getTime() - start) / span) * (width - left - right);
     const commitY = (value) =>
-      commitBottom - (scale === "linear" ? value / commitDomainMaximum : Math.log1p(value) / commitLogMaximum) * commitHeight;
+      commitBottom - (scale === "linear" ? value / commitDomainMaximum : Math.sqrt(value) / commitReadableMaximum) * commitHeight;
     chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const grid = svgElement("g", { "aria-hidden": "true" });
@@ -1094,7 +1098,7 @@
       return node;
     };
     fitHeading(
-      addText(chart, `COMMITS ${unitJoin} ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "LOG1P"}`, left, 18, {
+      addText(chart, `COMMITS ${unitJoin} ${chartDateUnit} \u00b7 ${scale === "linear" ? "LINEAR" : "SQRT"}`, left, 18, {
         color: palette.accent,
         weight: 700,
       })

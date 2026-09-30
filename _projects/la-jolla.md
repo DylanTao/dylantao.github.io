@@ -25,7 +25,10 @@ hide_title: true
   </div>
 </section>
 
-{% include la-jolla-miniature.liquid large=true %}
+<section class="coast-explorer" data-coast-explorer aria-label="Explore the La Jolla miniature">
+  {% include la-jolla-miniature.liquid large=true %}
+  {% include la-jolla-place-guide.liquid %}
+</section>
 
 ## A place, compressed
 
@@ -41,7 +44,16 @@ The selected site theme changes the light and the little activities: a quiet mor
 
 I started with coordinated generated views, then ran Tencent's Hunyuan3D-2mv locally to see what shape it could recover. The raw reconstruction is retained alongside the editable Blender composition. It is useful to compare the silhouette with the architecture that needs deliberate modeling: the folded DIB bays, Geisel's stepped crown, the Salk courtyard, and the thin structure of the pier.
 
-<div class="row"><div class="col-sm-6">{% include figure.liquid path="assets/img/coastal-process/la-jolla-front.webp" alt="Generated front view of the proposed La Jolla miniature" class="img-fluid" %}</div><div class="col-sm-6">{% include figure.liquid path="assets/img/coastal-process/la-jolla-back.webp" alt="Generated opposite view of the same proposed miniature" class="img-fluid" %}</div></div>
+<div class="studio-print-pair">
+  <figure class="studio-print">
+    {% include figure.liquid path="assets/img/coastal-process/la-jolla-front.webp" alt="Generated front view of the proposed La Jolla miniature" class="img-fluid" %}
+    <figcaption><span>La Jolla · front study</span><span class="studio-print__inks" aria-hidden="true"><i></i><i></i><i></i></span></figcaption>
+  </figure>
+  <figure class="studio-print">
+    {% include figure.liquid path="assets/img/coastal-process/la-jolla-back.webp" alt="Generated opposite view of the same proposed miniature" class="img-fluid" %}
+    <figcaption><span>La Jolla · reverse study</span><span class="studio-print__inks" aria-hidden="true"><i></i><i></i><i></i></span></figcaption>
+  </figure>
+</div>
 <p class="caption">Generated design studies, not photographs or the live browser renderer. The production atlas uses sourced geometry.</p>
 
 {% include figure.liquid path="assets/img/coastal-process/reconstruction-clay.webp" alt="Actual Blender clay render of the local Hunyuan multiview reconstruction" class="img-fluid" %}

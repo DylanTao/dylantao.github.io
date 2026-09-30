@@ -82,7 +82,7 @@ class GithubActivityPrivacyTests(unittest.TestCase):
         ):
             self.assertIn(fragment, contract)
 
-    def test_code_activity_is_exact_schema5_or_compactly_unavailable(
+    def test_code_activity_is_an_exact_supported_schema_or_compactly_unavailable(
         self,
     ) -> None:
         page = (REPO_ROOT / "_pages" / "github-activity.md").read_text(
@@ -93,7 +93,10 @@ class GithubActivityPrivacyTests(unittest.TestCase):
             return
 
         activity = json.loads(CODE_ACTIVITY_PATH.read_text(encoding="utf-8"))
-        self.assertEqual(activity["schema"], 5)
+        self.assertIn(activity["schema"], (5, 6))
+        metrics = {"commits", "authored_commits"}
+        if activity["schema"] == 5:
+            metrics |= {"additions", "deletions"}
         self.assertEqual(
             set(activity),
             {
@@ -181,14 +184,14 @@ class GithubActivityPrivacyTests(unittest.TestCase):
                 entry = point[identifier]
                 self.assertEqual(
                     set(entry),
-                    {"commits", "authored_commits", "additions", "deletions"},
+                    metrics,
                 )
                 for field in entry:
                     self.assertIsInstance(entry[field], int)
                     self.assertNotIsInstance(entry[field], bool)
                     self.assertGreaterEqual(entry[field], 0)
                 self.assertLessEqual(entry["authored_commits"], entry["commits"])
-                if not entry["authored_commits"]:
+                if activity["schema"] == 5 and not entry["authored_commits"]:
                     self.assertEqual(entry["additions"], 0)
                     self.assertEqual(entry["deletions"], 0)
             previous_date = observed

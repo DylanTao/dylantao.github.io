@@ -1,0 +1,281 @@
+// Small, purposeful details: the artifact stays primary and controls stay native.
+.artifact-spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(15rem, 0.85fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+  margin: 2.5rem 0 3rem;
+  padding-block: 1.5rem;
+  border-block: 1px solid var(--global-divider-color);
+
+  figure {
+    margin: 0;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
+  .caption {
+    margin: 0.85rem 0 0;
+    text-align: left;
+  }
+}
+
+.artifact-spread__notes {
+  border-left: 2px solid var(--global-theme-color);
+  padding-left: 1.25rem;
+
+  h3 {
+    font-size: var(--type-subheading);
+    margin: 0 0 1.2rem;
+  }
+  dt {
+    font-size: var(--type-compact);
+    margin-top: 1rem;
+  }
+  dd {
+    margin: 0.35rem 0 0;
+    font-size: var(--type-compact);
+    line-height: 1.6;
+    color: var(--global-text-color-light);
+  }
+  dl {
+    margin: 0;
+  }
+}
+
+.copy-feedback {
+  display: block;
+  min-height: 0;
+  color: var(--global-text-color);
+  font-size: var(--type-compact);
+  line-height: 1.5;
+
+  &:not(:empty) {
+    padding: 0.4rem 0.7rem;
+    border-top: 1px solid var(--global-divider-color);
+  }
+}
+
+.coast-explorer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(17rem, 0.85fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+  margin-block: 2rem 3.5rem;
+
+  .coastal-miniature--large {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+}
+
+.coast-place-guide {
+  h2 {
+    margin: 0.3rem 0 0.65rem;
+    font-size: var(--type-subheading);
+  }
+  > p {
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+  }
+  details {
+    border-bottom: 1px solid var(--global-divider-color);
+  }
+  summary {
+    padding: 0.9rem 0.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--type-compact);
+  }
+  details[open] summary {
+    color: var(--global-theme-color);
+  }
+  details > div {
+    padding: 0 0.2rem 1rem;
+    font-size: var(--type-compact);
+    line-height: 1.65;
+  }
+  details p {
+    margin-bottom: 0.5rem;
+  }
+  .coast-place-guide__note {
+    margin-top: 1rem;
+    font-size: var(--type-compact);
+  }
+}
+
+.coast-place-marker {
+  --marker-ink: var(--global-theme-color);
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--marker-ink), var(--marker-ink)) left top / 12px 2px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) left top / 2px 12px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) right top / 12px 2px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) right top / 2px 12px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) left bottom / 12px 2px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) left bottom / 2px 12px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) right bottom / 12px 2px no-repeat,
+    linear-gradient(var(--marker-ink), var(--marker-ink)) right bottom / 2px 12px no-repeat;
+}
+
+.coast-place-marker[hidden],
+[data-footer-coast]:not([data-state="ready"]) .coast-place-marker {
+  display: none;
+}
+
+.reading-starts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1rem;
+  margin: 1.5rem 0;
+
+  details {
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.65rem;
+  }
+  summary {
+    position: relative;
+    list-style: none;
+    padding: 1rem 2.5rem 1rem 1.1rem;
+    cursor: pointer;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: "+";
+    position: absolute;
+    top: 1.4rem;
+    right: 1rem;
+  }
+  details[open] summary::after {
+    content: "−";
+  }
+  summary span {
+    display: block;
+    font-size: var(--type-compact);
+    color: var(--global-text-color-light);
+    margin-bottom: 0.4rem;
+  }
+  summary strong {
+    display: block;
+    font-size: var(--type-compact);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  details[open] {
+    border-color: var(--global-theme-color);
+  }
+  ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  li {
+    padding: 0.3rem 0;
+  }
+  li span {
+    margin-left: 0.7rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+  }
+}
+
+.reading-starts__body {
+  padding: 0 1.1rem 1.1rem;
+  font-size: var(--type-compact);
+  line-height: 1.6;
+}
+
+.studio-print-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
+  margin: 2rem 0 1rem;
+}
+
+.studio-print {
+  margin: 0;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  border: 1px solid var(--global-divider-color);
+  background: color-mix(in srgb, var(--global-bg-color) 96%, #b99568);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--global-divider-color) 50%, transparent);
+
+  figure {
+    margin: 0;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
+  > figcaption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    font-size: var(--type-compact);
+    letter-spacing: 0.035em;
+  }
+}
+
+.studio-print__inks {
+  display: inline-flex;
+  flex-shrink: 0;
+  i {
+    width: 0.55rem;
+    height: 0.55rem;
+    background: #598f91;
+    border-radius: 50%;
+  }
+  i + i {
+    margin-left: -0.08rem;
+    background: #c88e67;
+  }
+  i:last-child {
+    background: #7e8865;
+  }
+}
+
+.coast-place-guide summary:focus-visible,
+.reading-starts summary:focus-visible {
+  outline: 2px solid var(--global-theme-color);
+  outline-offset: 3px;
+  border-radius: 0.3rem;
+}
+
+@media (max-width: 850px) {
+  .artifact-spread,
+  .coast-explorer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .artifact-spread__notes {
+    border-left: 0;
+    border-top: 2px solid var(--global-theme-color);
+    padding: 1.2rem 0 0;
+  }
+  .coast-explorer {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 851px) {
+  .artifact-spread,
+  .coast-explorer,
+  .studio-print-pair {
+    --detail-spread-width: min(1100px, calc(100vw - 4rem));
+    width: var(--detail-spread-width);
+    margin-inline: calc((100% - var(--detail-spread-width)) / 2);
+  }
+}
+
+@media (max-width: 575px) {
+  .reading-starts,
+  .studio-print-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

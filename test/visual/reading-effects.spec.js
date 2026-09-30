@@ -2,6 +2,85 @@ const { test, expect } = require("@playwright/test");
 const { preparePage, collectRuntimeErrors, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 
+test("details: the research spread keeps its figure complete and notes readable", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/projects/designweaver/"));
+  const spread = page.locator(".artifact-spread");
+  await spread.scrollIntoViewIfNeeded();
+  await expect(spread.getByRole("heading", { name: "Put the vocabulary next to the image." })).toBeVisible();
+  const geometry = await spread.evaluate((element) => {
+    const image = element.querySelector("img");
+    const notes = element.querySelector("aside").getBoundingClientRect();
+    const figure = element.querySelector(".artifact-spread__artifact").getBoundingClientRect();
+    return {
+      loaded: image.complete && image.naturalWidth > 0,
+      ratio: image.width / image.height,
+      original: image.naturalWidth / image.naturalHeight,
+      beside: notes.left >= figure.right,
+      below: notes.top >= figure.bottom,
+      overflow: document.documentElement.scrollWidth - innerWidth,
+    };
+  });
+  expect(geometry.loaded).toBe(true);
+  expect(Math.abs(geometry.ratio - geometry.original)).toBeLessThan(0.02);
+  expect(page.viewportSize().width > 850 ? geometry.beside : geometry.below).toBe(true);
+  expect(geometry.overflow).toBeLessThanOrEqual(1);
+  await spread.screenshot({ path: testInfo.outputPath("artifact-spread.png") });
+  expect(errors).toEqual([]);
+});
+
+test("details: copy feedback waits for success and explains a clipboard refusal", async ({ page }) => {
+  await preparePage(page, "noon");
+  await page.addInitScript(() => {
+    window.copyAllowed = false;
+    Object.defineProperty(navigator, "clipboard", {
+      value: {
+        writeText: async (text) => {
+          await new Promise((resolve) => setTimeout(resolve, 120));
+          if (!window.copyAllowed) throw new DOMException("Clipboard denied", "NotAllowedError");
+          window.copiedText = text;
+        },
+      },
+    });
+  });
+  await page.goto(publicRouteUrl("/blog/2026/website-redesign-ai-agent/"));
+  const wrapper = page.locator(".code-display-wrapper").first();
+  const button = wrapper.locator("button.copy");
+  await button.click();
+  await expect(wrapper.locator('[role="status"]')).toContainText("Couldn’t copy");
+  await expect(button).toHaveAccessibleName("Retry copying code");
+  await page.evaluate(() => {
+    window.copyAllowed = true;
+  });
+  await button.click();
+  await expect(wrapper.locator('[role="status"]')).toHaveText("Copied");
+  expect(await page.evaluate(() => window.copiedText.length)).toBeGreaterThan(0);
+  await expect(button).toBeEnabled();
+});
+
+test("details: project expansion can be interrupted without losing keyboard focus", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/projects/"));
+  const card = page.locator("[data-project-card]").first();
+  const trigger = card.locator("[data-project-card-trigger]");
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Escape");
+  await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(card.locator("[data-project-card-primary-action]")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+  await expect
+    .poll(() => page.evaluate(() => document.getAnimations().filter((a) => a.effect?.target?.closest("[data-project-card]")).length))
+    .toBe(0);
+  expect(errors).toEqual([]);
+});
+
 test("reading: inspection lens, direct materials, and a responsive explanation", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "noon");

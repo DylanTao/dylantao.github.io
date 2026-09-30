@@ -6,20 +6,85 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Experiment Record
 
-| Field           | What to record                                                                      |
-| --------------- | ----------------------------------------------------------------------------------- |
-| Hypothesis      | The visitor problem and the specific improvement expected.                          |
-| Route           | The smallest public surface where the idea can be tested.                           |
-| Reference       | The source that shaped the idea and what was learned from it.                       |
-| Licensing       | Whether code/assets may be used, what credit is required, and unresolved questions. |
-| Visitor benefit | What becomes clearer, easier, more meaningful, or more delightful.                  |
-| Budget          | Performance, accessibility, motion, privacy, and maintenance limits.                |
-| Status          | `idea`, `scoped`, `prototype`, `kept`, `revised`, `removed`, or `deferred`.         |
-| Evidence        | Comparable screenshots, measurements, tests, and observed tradeoffs.                |
-| Sirui decision  | Keep/revise/remove plus the judgment behind it.                                     |
-| Revisit trigger | A concrete event that makes another pass worthwhile.                                |
+| Field           | What to record                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| Hypothesis      | The visitor problem and the specific improvement expected.                                 |
+| Route           | The smallest public surface where the idea can be tested.                                  |
+| Reference       | The source that shaped the idea and what was learned from it.                              |
+| Licensing       | Whether code/assets may be used, what credit is required, and unresolved questions.        |
+| Visitor benefit | What becomes clearer, easier, more meaningful, or more delightful.                         |
+| Budget          | Performance, accessibility, motion, privacy, and maintenance limits.                       |
+| Status          | `idea`, `scoped`, `prototype`, `implemented`, `kept`, `revised`, `removed`, or `deferred`. |
+| Evidence        | Comparable screenshots, measurements, tests, and observed tradeoffs.                       |
+| Sirui decision  | Keep/revise/remove plus the judgment behind it.                                            |
+| Revisit trigger | A concrete event that makes another pass worthwhile.                                       |
 
 ## Current And Deferred Experiments
+
+### Tactile record and continuous interaction states
+
+- **Hypothesis:** Better light, mechanical cause and effect, and a readable record caption make the existing meme spinner more understandable and personal without enlarging the hero.
+- **Route:** Homepage 2D record first; existing project expansion only after a successful bounded state experiment.
+- **Reference:** [057 Vinyl Listening Room](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/057-vinyl-listening-room.html), [V07 source](https://youmind.com/video-prompts/ui-morphing-motion-template-11361), and [050 micro-interactions](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/050-loader-atelier.html). Detailed critique in the [September 29 study](design-study-2026-09-29.md).
+- **Licensing:** Principles only; no reference code, audio or assets copied. Implement with site-owned controls and the current licensed renderer. Any later reuse requires a source-specific license check.
+- **Visitor benefit:** Understand the selected record, its source and the result of an action while retaining a playful physical object.
+- **Budget:** Current hero footprint and shared 2D/3D state; no new rendering engine, autoplay audio, fake audio meters or progress, or continuous decorative loops. Stationary accessible controls, interruptible motion, reduced-motion still state and offscreen suspension.
+- **Status:** `implemented`; release checks and rendered comparison are recorded in the study.
+- **Evidence:** Desktop and phone captures reviewed after iteration. Four-viewport checks verify fixed controls, continuous pause/resume, keyboard order, reduced motion and offscreen suspension. The record is a visual spinner; visitor benefit remains a hypothesis.
+- **Sirui decision:** September 29: named V07 and 057 as promising, then requested completion, iteration and publication of all planned refinements. Visitor benefit remains a hypothesis.
+- **Revisit trigger:** The next record refinement; compare material-only and material-plus-motion versions at the actual homepage size.
+
+### Artifact-and-decision reading spreads
+
+- **Hypothesis:** A real artifact paired with a short note about the decision it informed makes research thinking clearer and uses wide-screen space meaningfully.
+- **Route:** One existing turning point in DesignWeaver or Website Revamp before wider reuse.
+- **Reference:** [008 editorial layout](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html), [087 sketchbook process](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/087-sketchbook-portfolio.html), and [003 hierarchy](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/003-swiss-poster-machine.html); [study](design-study-2026-09-29.md).
+- **Licensing:** Original layout around existing credited artifacts. No copied illustrations, fake manuscript material or replacement research figures.
+- **Visitor benefit:** See what changed and why, with evidence adjacent to the explanation.
+- **Budget:** Existing typography and theme tokens, immediately readable prose, complete figures, native scrolling. A short side note on wide screens becomes inline on phones. Enhance the current lens/comparison treatment instead of adding duplicate panels.
+- **Status:** `implemented` in DesignWeaver; complete figure and three documented mechanism notes.
+- **Evidence:** Complete figure and notes reviewed at desktop and phone sizes. The first composition squeezed the figure, so the final spread uses the wider desktop canvas and stacks on small screens. Four-viewport checks verify complete, unfiltered imagery and no overflow.
+- **Sirui decision:** September 29: requested completion, iteration and publication of the proposed refinements. Final visual taste remains open to his review.
+- **Revisit trigger:** A case-study refinement with a documented turning point and inspectable source artifact.
+
+### A quiet key to the La Jolla miniature
+
+- **Hypothesis:** Linking an accessible place list to selected geometry helps visitors understand the miniature and its personal meaning.
+- **Route:** A little La Jolla project page first, without adding permanent controls to the shared footer.
+- **Reference:** [056 drawing and key](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/056-architectural-blueprint.html); [study](design-study-2026-09-29.md).
+- **Licensing:** Existing original geometry and place provenance; no reference blueprint or invented survey data.
+- **Visitor benefit:** Identify a landmark, see the corresponding building group, and read a concise source-backed or personal note.
+- **Budget:** One selected place at a time, touch and keyboard equivalents, ordinary text/link fallback, clear reset, and no extra renderer. Geometry must be recognizable independently of labels. Preserve the authored-collage boundary and the deferred status of alternate home rendering styles.
+- **Status:** `implemented` on the La Jolla project; four source-backed places, actual geometry emphasis, native fallback and reset.
+- **Evidence:** All four names select actual building groups without changing the orbit. Desktop and phone captures reviewed; four-viewport selection and unavailable-WebGL checks pass. A key alone does not establish architectural or geographic accuracy.
+- **Sirui decision:** September 29: requested completion and publication after the study. The scene remains an authored place collage; visual taste remains reviewable.
+- **Revisit trigger:** The next review of the miniature's project page, after architecture and placement are convincing.
+
+### Authored reading starts in Paper Constellation
+
+- **Hypothesis:** One or two short reading routes help a newcomer choose a first paper and understand its relationship to a second.
+- **Route:** Optional Paper Constellation view on publications; authoritative list stays default.
+- **Reference:** [036 selected network route](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/036-transit-map.html); [study](design-study-2026-09-29.md).
+- **Licensing:** Original UI using the existing constellation data; no transit artwork or simulation copied.
+- **Visitor benefit:** A meaningful starting point and an explanation of the next connection.
+- **Budget:** Reuse existing graph/trail emphasis, preserve extension versus bridge semantics, and exclude anonymous future work. Compare against a plain two-link note before adding controls. No force simulation, animated trains or invented journey metrics.
+- **Status:** `implemented`; two ordered pairs reuse the existing graph and direct publication routes.
+- **Evidence:** Two authored pairs preserve direct paper links, with the thematic bridge distinguished from a benchmark extension. Four-viewport interaction checks verify disclosure, graph emphasis and filter interruption. Phone capture reviewed.
+- **Sirui decision:** September 29: requested completion and publication of the study's refinements. Visitor benefit remains a hypothesis.
+- **Revisit trigger:** A newcomer cannot choose where to start from the existing publication orientation.
+
+### A shared print treatment for original personal illustrations
+
+- **Hypothesis:** A limited, coherent print treatment can connect a few original Fun illustrations without flattening the diversity of project evidence.
+- **Route:** One original personal illustration or coastal postcard first.
+- **Reference:** [049 Riso Lab](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/049-riso-halftone-lab.html); [study](design-study-2026-09-29.md).
+- **Licensing:** Original or licensed artwork only; no demo asset or runtime copied.
+- **Visitor benefit:** A recognizable personal visual voice at thumbnail size.
+- **Budget:** Static art, modest texture, existing color tokens and readable captions. No sitewide paper overlay, live print engine, grayscale-on-hover revival, or filters on research figures and photographs.
+- **Status:** `implemented`; static framing on the existing coastal concept pair, with unfiltered images and original provenance.
+- **Evidence:** Desktop composition reviewed; the original credited images stay complete and unfiltered. Responsive light/dark route checks pass. The earlier full-color project-thumbnail correction remains in force.
+- **Sirui decision:** September 29: requested completion and publication of the study's refinements. Final art direction remains open to review.
+- **Revisit trigger:** A new personal illustration needs art direction, followed by thumbnail-size light/dark review.
 
 ### La Jolla along the footer
 

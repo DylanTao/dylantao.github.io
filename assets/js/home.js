@@ -252,6 +252,10 @@
     let isLoading = false;
     let isVisible = false;
     let isPlaying = false;
+    let inViewport = true;
+    let lastFrameTime = 0;
+    let angularVelocity = 0;
+    let cueUntil = 0;
     const armState = { rotation: 0.68, lift: 0.5 };
     const armTarget = { rotation: 0.68, lift: 0.5 };
     const textureCache = new Map();
@@ -284,6 +288,7 @@
     };
 
     const stopLoop = () => {
+      lastFrameTime = 0;
       if (!animationFrame) return;
       window.cancelAnimationFrame(animationFrame);
       animationFrame = null;
@@ -299,18 +304,18 @@
       return Math.abs(armState.rotation - armTarget.rotation) > 0.002 || Math.abs(armState.lift - armTarget.lift) > 0.002;
     };
 
-    const applyArmPose = (time = 0, immediate = false) => {
+    const applyArmPose = (time = 0, immediate = false, elapsed = 16.67) => {
       if (!armGroup) return false;
-      const speed = immediate || reduceMotion ? 1 : 0.11;
+      const speed = immediate || reduceMotionQuery.matches ? 1 : 1 - Math.exp(-elapsed / 135);
       armState.rotation += (armTarget.rotation - armState.rotation) * speed;
       armState.lift += (armTarget.lift - armState.lift) * speed;
 
-      if (immediate || reduceMotion) {
+      if (immediate || reduceMotionQuery.matches) {
         armState.rotation = armTarget.rotation;
         armState.lift = armTarget.lift;
       }
 
-      const playingDrift = isPlaying && !reduceMotion ? Math.sin(time * 0.0014) * 0.006 : 0;
+      const playingDrift = isPlaying && !reduceMotionQuery.matches ? Math.sin(time * 0.0014) * 0.006 : 0;
       armGroup.rotation.z = armState.rotation + playingDrift;
       armGroup.position.z = armState.lift;
       return armNeedsFrame();
@@ -318,34 +323,62 @@
 
     const tick = (time) => {
       animationFrame = null;
-      if (!isVisible || reduceMotion || !recordGroup) {
+      if (!isVisible || !inViewport || document.hidden || reduceMotionQuery.matches || !recordGroup) {
+        lastFrameTime = 0;
         applyArmPose(time, true);
         render();
         return;
       }
 
-      if (isPlaying) {
-        recordGroup.rotation.z = time * 0.00084;
-      }
-
-      const keepAnimatingArm = applyArmPose(time);
+      const elapsed = lastFrameTime ? Math.min(time - lastFrameTime, 40) : 0;
+      lastFrameTime = time;
+      const cueing = time < cueUntil;
+      updateArmTarget(isPlaying && !cueing);
+      const targetVelocity = isPlaying && !cueing ? 0.00084 : 0;
+      angularVelocity += (targetVelocity - angularVelocity) * (1 - Math.exp(-elapsed / 180));
+      recordGroup.rotation.z = (recordGroup.rotation.z + angularVelocity * elapsed) % (Math.PI * 2);
+      const keepAnimatingArm = applyArmPose(time, false, elapsed);
       render();
 
-      if (isPlaying || keepAnimatingArm) {
+      if (isPlaying || angularVelocity > 0.000002 || keepAnimatingArm || cueing) {
         animationFrame = window.requestAnimationFrame(tick);
+      } else {
+        angularVelocity = 0;
+        lastFrameTime = 0;
       }
     };
 
     const scheduleRender = () => {
       if (!isLoaded) return;
       stopLoop();
-      if (isVisible && !reduceMotion && (isPlaying || armNeedsFrame())) {
+      if (isVisible && inViewport && !document.hidden && !reduceMotionQuery.matches && (isPlaying || angularVelocity || armNeedsFrame())) {
         animationFrame = window.requestAnimationFrame(tick);
       } else {
         applyArmPose(0, true);
         render();
       }
     };
+
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting;
+      container.classList.toggle("is-suspended", document.hidden || !inViewport);
+      scheduleRender();
+    });
+    visibilityObserver.observe(container);
+    const resumeVisibleScene = () => {
+      container.classList.toggle("is-suspended", document.hidden || !inViewport);
+      if (isVisible && !reduceMotionQuery.matches) ensureLoaded();
+      scheduleRender();
+    };
+    document.addEventListener("visibilitychange", resumeVisibleScene);
+    reduceMotionQuery.addEventListener("change", resumeVisibleScene);
+    container.getRecordEvidence = () => ({
+      angle: recordGroup?.rotation.z || 0,
+      playing: isPlaying,
+      running: Boolean(animationFrame),
+      inViewport,
+      loaded: isLoaded,
+    });
 
     const applyRecordTexture = (record) => {
       if (!record) return;
@@ -537,6 +570,23 @@
       outerCatchlight.position.z = 0.074;
       recordGroup.add(outerCatchlight);
 
+      // Light stays in the room while the label turns beneath it.
+      const sheenGeometry = new THREE.RingGeometry(1.03, 2.37, 128);
+      const sheenColors = [];
+      const sheenPositions = sheenGeometry.getAttribute("position");
+      for (let index = 0; index < sheenPositions.count; index += 1) {
+        const angle = Math.atan2(sheenPositions.getY(index), sheenPositions.getX(index));
+        const intensity = Math.pow(Math.max(0, Math.cos((angle - 2.3) * 2)), 18);
+        sheenColors.push(intensity, intensity * 0.94, intensity * 0.82);
+      }
+      sheenGeometry.setAttribute("color", new THREE.Float32BufferAttribute(sheenColors, 3));
+      const lightSweep = new THREE.Mesh(
+        sheenGeometry,
+        new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.16, blending: THREE.AdditiveBlending, depthWrite: false })
+      );
+      lightSweep.position.z = 0.1;
+      baseGroup.add(lightSweep);
+
       const spindleWasher = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0065, 10, 44), spindleMaterial);
       spindleWasher.position.z = 0.124;
       baseGroup.add(spindleWasher);
@@ -648,7 +698,7 @@
     };
 
     const ensureLoaded = async () => {
-      if (isLoaded || isLoading || reduceMotion) return;
+      if (isLoaded || isLoading || reduceMotionQuery.matches) return;
       isLoading = true;
       try {
         THREE = await import(threeModuleUrl);
@@ -666,9 +716,14 @@
 
     return {
       setRecord(record) {
+        if (currentRecord && currentRecord.src !== record.src && isPlaying && !reduceMotionQuery.matches) {
+          cueUntil = performance.now() + 340;
+          updateArmTarget(false);
+        }
         currentRecord = record;
         updateAccent();
         applyRecordTexture(record);
+        scheduleRender();
       },
       setVisible(nextVisible) {
         isVisible = nextVisible;
@@ -692,9 +747,18 @@
       },
       dispose() {
         stopLoop();
+        visibilityObserver.disconnect();
+        document.removeEventListener("visibilitychange", resumeVisibleScene);
+        reduceMotionQuery.removeEventListener("change", resumeVisibleScene);
         if (resizeObserver) resizeObserver.disconnect();
         if (!resizeObserver) window.removeEventListener("resize", resize);
         textureCache.forEach((texture) => texture.dispose());
+        const materials = new Set();
+        scene?.traverse((object) => {
+          object.geometry?.dispose();
+          if (object.material) (Array.isArray(object.material) ? object.material : [object.material]).forEach((material) => materials.add(material));
+        });
+        materials.forEach((material) => material.dispose());
         renderer?.dispose();
       },
     };
@@ -942,6 +1006,7 @@
         button.setAttribute("aria-pressed", String(isActive));
       });
       deskScene.setVisible(is3D);
+      recordScene.setVisible(!is3D && (isRecordEngaged || isSpinning));
       if (is3D) syncDroppedRecordsToDesk({ immediate: true });
       if (is3D && userInitiated && stage && compactPileQuery.matches) {
         window.requestAnimationFrame(() => {
@@ -982,6 +1047,14 @@
     };
 
     const syncRecordControls = (record) => {
+      const title = document.querySelector("[data-home-record-title]");
+      const source = document.querySelector("[data-home-record-source]");
+      if (title) title.textContent = record.title;
+      if (source) {
+        source.href = record.source || "#";
+        source.hidden = !record.source;
+        source.setAttribute("aria-label", `${record.title} artwork source`);
+      }
       if (spinButton) {
         spinButton.setAttribute("aria-label", isSpinning ? `Pause ${record.title} meme record` : `Spin ${record.title} meme record`);
       }
@@ -1698,7 +1771,10 @@
       deskScene.dispose();
     });
     window.addEventListener("pageshow", (event) => {
-      if (event.persisted) syncRecordVisualState();
+      if (event.persisted) {
+        syncRecordVisualState();
+        recordScene.setVisible(stage?.dataset.deskMode !== "3d" && (isRecordEngaged || isSpinning));
+      }
     });
     return true;
   };

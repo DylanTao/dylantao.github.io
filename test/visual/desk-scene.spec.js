@@ -5,6 +5,46 @@ const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetric
 const { publicRouteUrl } = require("./public-routes");
 const { PNG } = require("pngjs");
 
+test("record: fixed controls, continuous rotation, and offscreen suspension", async ({ page }, testInfo) => {
+  await preparePage(page, "afternoon");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const record = page.locator("[data-home-record-scene]");
+  const transport = page.locator(".home-record-transport");
+  const play = page.locator("[data-home-record-play]");
+  const controlsBefore = await transport.boundingBox();
+  await play.click();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().loaded)).toBe(true);
+  await page.waitForTimeout(500);
+  await play.click();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
+  const paused = await record.evaluate((e) => e.getRecordEvidence().angle);
+  await page.waitForTimeout(800);
+  expect(await record.evaluate((e) => e.getRecordEvidence().angle)).toBe(paused);
+  await play.click();
+  await page.waitForTimeout(100);
+  const resumed = await record.evaluate((e) => e.getRecordEvidence().angle);
+  const change = Math.atan2(Math.sin(resumed - paused), Math.cos(resumed - paused));
+  expect(change).toBeGreaterThanOrEqual(0);
+  expect(change).toBeLessThan(0.12);
+  await page.locator("[data-home-record-next]").click();
+  await expect(page.locator("[data-home-record-title]")).not.toHaveText("Yellow Submarine");
+  const controlsAfter = await transport.boundingBox();
+  expect(Math.abs(controlsBefore.x - controlsAfter.x)).toBeLessThan(1);
+  expect(Math.abs(controlsBefore.y - controlsAfter.y)).toBeLessThan(1);
+  for (const control of await transport.locator("button").all()) {
+    const box = await control.boundingBox();
+    expect(Math.min(box.width, box.height)).toBeGreaterThanOrEqual(44);
+  }
+  await page.locator(".home-record-player").screenshot({ path: testInfo.outputPath("record-player.png") });
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
+  await page.locator(".home-record-player").scrollIntoViewIfNeeded();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(true);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
+});
+
 async function capture(testInfo, name, buffer) {
   const file = testInfo.outputPath(name + ".png");
   fs.mkdirSync(path.dirname(file), { recursive: true });

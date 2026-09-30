@@ -109,6 +109,31 @@ def legacy_public_snapshot(payload):
 
 
 class ProfileContractTests(unittest.TestCase):
+    def test_counts_only_profile_migrates_both_sources_without_line_fields(self) -> None:
+        snapshot = profile_snapshot()
+        snapshot["schema"] = 6
+        for rows in (snapshot["weeks"], snapshot["daily"]["points"]):
+            for row in rows:
+                del row["additions"]
+                del row["deletions"]
+        previous, _ = importer.build_public_snapshot(
+            profile_snapshot(), contributed=[contributed_snapshot(COMPLETE_THROUGH, COMPLETE_THROUGH)], now=NOW,
+        )
+        payload, changed = importer.build_public_snapshot(
+            snapshot, contributed=[contributed_snapshot(COMPLETE_THROUGH, COMPLETE_THROUGH)], previous=previous, now=NOW,
+        )
+        self.assertTrue(changed)
+        self.assertEqual(payload["schema"], 6)
+        self.assertEqual(payload["sources"], previous["sources"])
+        self.assertEqual(payload["coverage"], previous["coverage"])
+        for row in payload["points"]:
+            for source, value in row.items():
+                if source != "date":
+                    self.assertEqual(set(value), {"commits", "authored_commits"})
+        snapshot["daily"]["points"][0]["additions"] = 10
+        with self.assertRaises(importer.ActivityError):
+            importer.validate_profile_snapshot(snapshot, now=NOW)
+
     def test_valid_profile_projects_to_the_personal_source(self) -> None:
         projected = importer.validate_profile_snapshot(profile_snapshot(), now=NOW)
         self.assertEqual(projected["id"], "personal")

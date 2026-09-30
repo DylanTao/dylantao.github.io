@@ -76,6 +76,7 @@ On weekends, coding runs until 04:00; sleep lasts until 12:30; breakfast continu
 - Now follows the occupied room. Whole home, room visits, orbit, and previews opt out of camera following until Now.
 - Visit the desk keeps album and research-paper interactions one click away. First activation focuses an object; second activation plays the album or opens its paper link.
 - Preserve current record, spin state, discovery order, and avatar through modes and styles. Dropped cards retain their source links and four-card replay.
+- The 2D record uses stationary previous/spin/next controls and a title/source caption beneath the portrait/disc, in matching visual and keyboard order. Its fixed highlight stays separate from label rotation. Acceleration, braking and a short arm cue preserve angular continuity across rapid input. Offscreen state, hidden documents, 3D mode and reduced motion suspend the 2D renderer; the CSS fallback retains a paused label angle. It remains a visual meme spinner.
 - Arrow keys orbit; plus/minus zoom; D discovers a record; Escape returns to the study. Ordinary visitors keep the shared 2D album and research links; the authoring panel supplies equivalent scene-object buttons. Wheel zoom requires canvas focus, preserving ordinary page scrolling.
 - System reduced motion uses composed still poses. Camera controls remain usable.
 

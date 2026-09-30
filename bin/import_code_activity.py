@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Publish validated daily code activity as one multi-source public series.
 
-The importer accepts the schema-5 personal GitHub profile snapshot plus approved
+The importer accepts schema-5 or commits-only schema-6 personal GitHub snapshots plus approved
 contributed source snapshots, and projects them into a single public
 file whose points are keyed by named source. Each source keeps its own calendar
 contract; matching public date labels do not claim one shared timezone. The
@@ -199,11 +199,11 @@ def _source_id(value: Any, label: str) -> str:
     return identifier
 
 
-def _metrics(row: Any, label: str) -> dict[str, int]:
-    counts = {metric: _count(row[metric], f"{label}.{metric}") for metric in METRICS}
+def _metrics(row: Any, label: str, metrics: tuple[str, ...] = METRICS) -> dict[str, int]:
+    counts = {metric: _count(row[metric], f"{label}.{metric}") for metric in metrics}
     if counts["authored_commits"] > counts["commits"]:
         raise ActivityError(f"{label} authored commits exceed counted commits")
-    if not counts["authored_commits"] and (counts["additions"] or counts["deletions"]):
+    if not counts["authored_commits"] and (counts.get("additions", 0) or counts.get("deletions", 0)):
         raise ActivityError(f"{label} reports lines without an authored commit")
     return counts
 
@@ -215,6 +215,7 @@ def _validate_points(
     complete_through: date,
     current_date: date,
     label: str,
+    metrics: tuple[str, ...] = METRICS,
 ) -> list[dict[str, Any]]:
     if not isinstance(value, list) or not value:
         raise ActivityError(f"{label} must be a non-empty array")
@@ -226,7 +227,7 @@ def _validate_points(
     normalized: list[dict[str, Any]] = []
     expected = starts_on
     for index, raw_point in enumerate(value):
-        point = _exact_dict(raw_point, POINT_KEYS, f"{label}[{index}]")
+        point = _exact_dict(raw_point, {"date", *metrics}, f"{label}[{index}]")
         observed = _iso_date(point["date"], f"{label}[{index}].date")
         if observed != expected:
             raise ActivityError(f"{label} dates must be contiguous and increasing")
@@ -235,7 +236,7 @@ def _validate_points(
                 f"{label} must contain completed source-calendar dates only"
             )
         normalized.append(
-            {"date": observed.isoformat(), **_metrics(point, f"{label}[{index}]")}
+            {"date": observed.isoformat(), **_metrics(point, f"{label}[{index}]", metrics)}
         )
         expected += timedelta(days=1)
     return normalized
@@ -254,19 +255,19 @@ def _validate_coverage(value: Any, label: str) -> tuple[date, date]:
     return starts_on, complete_through
 
 
-def _validate_weeks(value: Any) -> list[dict[str, Any]]:
+def _validate_weeks(value: Any, metrics: tuple[str, ...] = METRICS) -> list[dict[str, Any]]:
     if not isinstance(value, list) or not value:
         raise ActivityError("personal profile weeks must be a non-empty array")
 
     previous: date | None = None
     for index, raw_row in enumerate(value):
-        row = _exact_dict(raw_row, WEEK_KEYS, f"personal profile weeks[{index}]")
+        row = _exact_dict(raw_row, {"week", *metrics}, f"personal profile weeks[{index}]")
         observed = _iso_date(row["week"], f"personal profile weeks[{index}].week")
         if observed.weekday() != 6:
             raise ActivityError("personal profile week dates must be Sundays")
         if previous is not None and observed != previous + timedelta(days=7):
             raise ActivityError("personal profile week dates must be contiguous")
-        _metrics(row, f"personal profile weeks[{index}]")
+        _metrics(row, f"personal profile weeks[{index}]", metrics)
         previous = observed
     return value
 
@@ -276,12 +277,13 @@ def validate_profile_snapshot(
     *,
     now: datetime | None = None,
 ) -> dict[str, Any]:
-    """Validate the exact schema-5 personal GitHub source contract."""
+    """Validate the supported personal GitHub source and weekly reconciliation."""
 
     checked_now = _checked_now(now)
     source = _exact_dict(value, PROFILE_KEYS, "personal profile")
-    if type(source["schema"]) is not int or source["schema"] != 5:
-        raise ActivityError("personal profile schema must be integer 5")
+    if type(source["schema"]) is not int or source["schema"] not in (5, 6):
+        raise ActivityError("personal profile schema must be integer 5 or 6")
+    metrics = METRICS if source["schema"] == 5 else ("commits", "authored_commits")
 
     descriptor = _exact_dict(
         source["source"], PROFILE_SOURCE_KEYS, "personal profile source"
@@ -298,7 +300,7 @@ def validate_profile_snapshot(
     checked_now_utc = checked_now.astimezone(timezone.utc)
     if generated_at_utc > checked_now_utc:
         raise ActivityError("personal profile generatedAt cannot be future")
-    _validate_weeks(source["weeks"])
+    _validate_weeks(source["weeks"], metrics)
 
     daily = _exact_dict(source["daily"], DAILY_KEYS, "personal profile daily")
     if daily["date_basis"] != PERSONAL_DATE_BASIS:
@@ -328,14 +330,26 @@ def validate_profile_snapshot(
         complete_through=complete_through,
         current_date=generated_calendar_date,
         label="personal profile daily points",
+        metrics=metrics,
     )
+    if source["schema"] == 6:
+        by_week: dict[str, dict[str, int]] = {}
+        for point in points:
+            day = date.fromisoformat(point["date"])
+            sunday = (day - timedelta(days=(day.weekday() + 1) % 7)).isoformat()
+            bucket = by_week.setdefault(sunday, {metric: 0 for metric in metrics})
+            for metric in metrics:
+                bucket[metric] += point[metric]
+        expected_weeks = [{"week": key, **by_week[key]} for key in sorted(by_week)]
+        if source["weeks"] != expected_weeks:
+            raise ActivityError("personal profile weeks must reconcile with daily commits")
     # Validate the source before deferring it: malformed data must still fail,
     # even when an independently refreshed profile has fallen behind.
     if checked_now_utc - generated_at_utc > PERSONAL_PROFILE_MAX_AGE:
         raise StaleProfileError(
             f"personal profile generatedAt is stale ({source['generatedAt']})"
         )
-    return {
+    result = {
         "id": PERSONAL_SOURCE_ID,
         "label": descriptor["label"],
         "basis": PERSONAL_SOURCE_BASIS,
@@ -345,6 +359,9 @@ def validate_profile_snapshot(
         "complete_through": complete_through.isoformat(),
         "points": points,
     }
+    if source["schema"] == 6:
+        result["commits_only"] = True
+    return result
 
 
 def validate_contributed_snapshot(
@@ -408,6 +425,8 @@ def merge_sources(sources: list[dict[str, Any]]) -> dict[str, Any]:
     if not sources:
         raise ActivityError("at least one code activity source is required")
     identifiers = [source["id"] for source in sources]
+    commits_only = any(source.get("commits_only") for source in sources)
+    metrics = ("commits", "authored_commits") if commits_only else METRICS
     if len(set(identifiers)) != len(identifiers):
         raise ActivityError("code activity source ids must be unique")
 
@@ -429,12 +448,12 @@ def merge_sources(sources: list[dict[str, Any]]) -> dict[str, Any]:
         for source in sources:
             point = indexed[source["id"]].get(key)
             if point is not None:
-                row[source["id"]] = {metric: point[metric] for metric in METRICS}
+                row[source["id"]] = {metric: point[metric] for metric in metrics}
         points.append(row)
         cursor += timedelta(days=1)
 
     return {
-        "schema": 5,
+        "schema": 6 if commits_only else 5,
         "updated_on": complete_through.isoformat(),
         "date_basis": PUBLIC_DATE_BASIS,
         "scope": "code_activity",
@@ -459,8 +478,9 @@ def validate_public_snapshot(
 
     checked_now = _checked_now(now)
     source = _exact_dict(value, PUBLIC_KEYS, "public snapshot")
-    if type(source["schema"]) is not int or source["schema"] != 5:
-        raise ActivityError("public snapshot schema must be 5")
+    if type(source["schema"]) is not int or source["schema"] not in (5, 6):
+        raise ActivityError("public snapshot schema must be 5 or 6")
+    metrics = METRICS if source["schema"] == 5 else ("commits", "authored_commits")
     if source["date_basis"] != PUBLIC_DATE_BASIS:
         raise ActivityError("public snapshot date basis is invalid")
     if source["scope"] != "code_activity":
@@ -555,15 +575,16 @@ def validate_public_snapshot(
         for identifier in sorted(expected_ids):
             row[identifier] = _metrics(
                 _exact_dict(
-                    raw_point[identifier], set(METRICS), f"{label}.{identifier}"
+                    raw_point[identifier], set(metrics), f"{label}.{identifier}"
                 ),
                 f"{label}.{identifier}",
+                metrics,
             )
         points.append(row)
         expected += timedelta(days=1)
 
     return {
-        "schema": 5,
+        "schema": source["schema"],
         "updated_on": complete_through.isoformat(),
         "date_basis": PUBLIC_DATE_BASIS,
         "scope": "code_activity",

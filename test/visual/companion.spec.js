@@ -246,10 +246,12 @@ test("P: 2D greeting, shaded companion, pointer curiosity and clear page bounds"
 
 test("P: a small accident restores the original card and text", async ({ page }, testInfo) => {
   const errors = await open(page);
-  await page.locator(".home-artifact-stack").scrollIntoViewIfNeeded();
+  const card = page.locator(".home-artifact-card").first();
+  // Leave room for a safe approach. At the viewport's lower edge the only
+  // visible card can be boxed in by the record controls and the next card.
+  await card.evaluate((e) => e.scrollIntoView({ block: "center", behavior: "instant" }));
   await page.waitForTimeout(500);
-  const card = page.locator(".home-artifact-card").first(),
-    text = await card.innerText(),
+  const text = await card.innerText(),
     href = await card.getAttribute("href");
   expect(await page.locator(".pip-companion").evaluate((e) => e.previewCompanion("bump"))).toBe(true);
   await expect.poll(async () => (await evidence(page)).repairing).toBe(true);

@@ -10,8 +10,12 @@ github_activity: true
 ---
 
 {% assign code_activity = site.data.code_activity %}
+{% assign code_schema_supported = false %}
+{% if code_activity.schema == 5 or code_activity.schema == 6 %}
+{% assign code_schema_supported = true %}
+{% endif %}
 {% assign personal_daily_ready = false %}
-{% if code_activity.schema == 5 and code_activity.date_basis == "source_reported_calendar" and code_activity.scope == "code_activity" and code_activity.coverage.status == "complete" and code_activity.sources and code_activity.sources.size > 0 and code_activity.points and code_activity.points.size > 0 %}
+{% if code_schema_supported and code_activity.date_basis == "source_reported_calendar" and code_activity.scope == "code_activity" and code_activity.coverage.status == "complete" and code_activity.sources and code_activity.sources.size > 0 and code_activity.points and code_activity.points.size > 0 %}
 {% assign personal_daily_ready = true %}
 {% endif %}
 
@@ -229,15 +233,15 @@ github_activity: true
       </div>
       <div>
         <h2>Readable or literal</h2>
-        <p>Readable uses log1p: small daily changes get more space, with labeled steps up to the biggest day. Literal uses the full linear range; both plot the same reported values.</p>
+        <p>Readable uses a square-root scale: it gives larger commit bursts more room while retaining small counts. Literal uses the full linear range; both plot the same reported values. This website plots commits per day or source date label; the GitHub profile groups the same personal history by week.</p>
       </div>
       <div>
         <h2>What's counted</h2>
         <p>
-          The quiet outer line is the reported commit total across visible sources. For <strong>Personal</strong> alone, that means every commit
-          GitHub credits, so it matches the contribution graph: the default branch plus <code>gh-pages</code>, merges included. The crisp inner
-          line is the summed non-merge, non-deploy authored subset. The soft band between them makes the difference visible without switching
-          views.
+          The quiet outer line is the reported commit total across visible sources. <strong>Personal</strong> counts attributable commits on
+          the default branch plus <code>gh-pages</code>, merges included. GitHub's contribution calendar also counts pull requests, issues and
+          reviews and some commits from replaced history, so its total is a different measure. The crisp inner line is the summed non-merge, non-deploy authored subset. The soft band
+          between them makes the difference visible without switching views.
         </p>
       </div>
       <div>

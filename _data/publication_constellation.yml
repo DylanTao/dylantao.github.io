@@ -13,6 +13,22 @@ metadata:
     label: John Thompson
     url: https://jrthomp.com/
 
+reading_starts:
+  - id: design-to-evidence
+    title: From a design choice to its explanation
+    relation: A thematic bridge
+    note: DesignWeaver makes dimensions available during creation. What Happened and Why? asks how interaction evidence can help explain design decisions. These are connected questions, not a direct system extension.
+    papers:
+      - tao2024designweaver
+      - tao2026whw
+  - id: physical-events
+    title: From seeing an event to testing its physics
+    relation: A benchmark extension
+    note: Start with Physion's physical prediction benchmark, then follow Physion++ into experiments with latent physical properties.
+    papers:
+      - bear2021physion
+      - tung2023physion++
+
 threads:
   design:
     label: Design

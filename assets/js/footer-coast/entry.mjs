@@ -1,5 +1,20 @@
 // No renderer or model is fetched until the footer is approaching the viewport.
 document.querySelectorAll("[data-footer-coast]").forEach((host) => {
+  const guide = host.closest("[data-coast-explorer]")?.querySelector("[data-coast-guide]");
+  if (guide) {
+    const marker = document.createElement("div");
+    marker.className = "coast-place-marker";
+    marker.setAttribute("aria-hidden", "true");
+    marker.hidden = true;
+    host.querySelector(".footer-coast__scene").append(marker);
+    guide.querySelectorAll("details").forEach((place) => {
+      place.addEventListener("toggle", () => {
+        const selected = guide.querySelector("details[open]");
+        host.dataset.selectedPlace = selected?.dataset.coastPlace || "";
+        host.dispatchEvent(new Event("coast:place"));
+      });
+    });
+  }
   // Match the still to the site theme without starting WebGL or downloading a model.
   const preview = host.querySelector("[data-coast-preview]");
   const syncPreview = () => {

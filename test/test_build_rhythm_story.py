@@ -46,11 +46,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
             self.page.index('class="github-activity-workbench"'),
         )
 
-    def test_code_activity_schema5_gate_replaces_the_retired_lifetime_strip(self) -> None:
+    def test_code_activity_supported_schema_gate_replaces_the_retired_lifetime_strip(self) -> None:
         for contract in (
             "site.data.code_activity",
             'id="code-activity-data"',
             'code_activity.schema == 5',
+            'code_activity.schema == 6',
+            'code_schema_supported and code_activity.date_basis',
             'code_activity.date_basis == "source_reported_calendar"',
             'code_activity.scope == "code_activity"',
             'code_activity.coverage.status == "complete"',
@@ -277,13 +279,13 @@ class BuildRhythmStoryTests(unittest.TestCase):
             "each code source on its declared calendar",
             "daily commits",
             "same selected source-calendar label",
-            "exact schema-5 source-calendar contract",
+            "exact source-calendar contract",
             "Code history is being rebuilt.",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.reproduction)
 
-        self.assertIn("Code history appears only after an exact schema-5 source-calendar contract", self.heuristics)
+        self.assertIn("Code history appears only after an exact source-calendar contract", self.heuristics)
         self.assertIn("Matching `YYYY-MM-DD` labels", self.heuristics)
         self.assertIn("one compact `Code history is being rebuilt.` state", self.heuristics)
         self.assertIn("each source's `commits` is its reported total", self.heuristics)

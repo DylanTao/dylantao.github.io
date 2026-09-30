@@ -31,6 +31,8 @@
       rects.set(card, {
         card: card.getBoundingClientRect(),
         surface: card.querySelector(".card")?.getBoundingClientRect() || null,
+        image: card.querySelector(".project-card-media")?.getBoundingClientRect() || null,
+        title: card.querySelector(".card-title")?.getBoundingClientRect() || null,
       });
     });
     return rects;
@@ -64,9 +66,34 @@
 
           const dx = first.left - last.left;
           const dy = first.top - last.top;
-          if (Math.abs(dx) <= 0.5 && Math.abs(dy) <= 0.5) return;
-
-          clock.animations.push(card.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }], flipTiming));
+          // Keep the image and title attached to the card through its layout change.
+          // Measure children before animating their parent to avoid counting the offset twice.
+          const anchors = [
+            ["image", ".project-card-media"],
+            ["title", ".card-title"],
+          ];
+          anchors.forEach(([key, selector]) => {
+            const element = card.querySelector(selector);
+            const before = firstRects.get(card)?.[key];
+            const after = element?.getBoundingClientRect();
+            if (!before?.width || !after?.width || !after.height) return;
+            const x = before.left - after.left - dx;
+            const y = before.top - after.top - dy;
+            const scale = key === "image" ? ` scale(${before.width / after.width}, ${before.height / after.height})` : "";
+            if (Math.abs(x) + Math.abs(y) < 1 && Math.abs(before.width - after.width) < 1) return;
+            clock.animations.push(
+              element.animate(
+                [
+                  { transformOrigin: "top left", transform: `translate(${x}px, ${y}px)${scale}` },
+                  { transformOrigin: "top left", transform: "none" },
+                ],
+                flipTiming
+              )
+            );
+          });
+          if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+            clock.animations.push(card.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }], flipTiming));
+          }
         });
 
         const openingSurface = openingCard?.querySelector(".card");
@@ -81,6 +108,9 @@
             );
           }
         }
+        const panel = openingCard?.querySelector("[data-project-card-panel]");
+        if (panel)
+          clock.animations.push(panel.animate([{ opacity: 0 }, { opacity: 1 }], { ...flipTiming, duration: 250, delay: 100, fill: "backwards" }));
       }
 
       const didAnimate = clock.animations.length > 0;

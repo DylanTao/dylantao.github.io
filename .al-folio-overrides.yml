@@ -475,8 +475,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/css/main.scss
     upstream_sha256: 437c6c911c596391413e435dc0ea7095e682e85c572c1fd3fff69f9597455b3e
-    local_sha256: b31a3862bbb2224305fbad6751271d13ecae22d12b3b74aae7a7160ea2885826
-    acknowledged_at: "2026-09-14"
+    local_sha256: 4e6c749eef22d6169fdebf9bf8d3f7e7e77412cafc5cab77eaeb2e0811bcb197
+    acknowledged_at: "2026-09-29"
   assets/js/bibsearch.js:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -500,11 +500,11 @@ overrides:
     acknowledged_at: "2026-09-05"
   assets/js/copy_code.js:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: assets/js/copy_code.js
     upstream_sha256: e123513955a808ebb5703f7c034e88be7072ddc6b6cb943c7375c55ff1ff66ef
-    local_sha256: e123513955a808ebb5703f7c034e88be7072ddc6b6cb943c7375c55ff1ff66ef
-    acknowledged_at: "2026-06-01"
+    local_sha256: 75da5903903d4a88ebcabf7d4b62366ee16f9e332b0c769275a13961c5c776d6
+    acknowledged_at: "2026-09-29"
   assets/js/highlight-search-term.js:
     owner: al_folio_core
     gem_version: 1.0.10

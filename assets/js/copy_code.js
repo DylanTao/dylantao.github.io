@@ -16,11 +16,17 @@ codeBlocks.forEach(function (codeBlock) {
     copyButton.className = "copy";
     copyButton.type = "button";
     copyButton.ariaLabel = "Copy code to clipboard";
-    copyButton.innerText = "Copy";
-    copyButton.innerHTML = '<i class="fa-solid fa-clipboard"></i>';
+    copyButton.innerHTML = '<i class="fa-solid fa-clipboard" aria-hidden="true"></i>';
+    const feedback = document.createElement("span");
+    feedback.className = "copy-feedback";
+    feedback.setAttribute("role", "status");
+    let resetTimer;
 
     // get code from code block and copy to clipboard
-    copyButton.addEventListener("click", function () {
+    copyButton.addEventListener("click", async function () {
+      if (copyButton.disabled) return;
+      clearTimeout(resetTimer);
+      copyButton.disabled = true;
       // check if code block has line numbers
       // i.e. `kramdown.syntax_highlighter_opts.block.line_numbers` set to true in _config.yml
       // or using `jekyll highlight` liquid tag with `linenos` option
@@ -32,15 +38,23 @@ codeBlocks.forEach(function (codeBlock) {
         // get code from code block when line numbers are not displayed
         var code = codeBlock.querySelector("code").innerText.trim();
       }
-      window.navigator.clipboard.writeText(code);
-      copyButton.innerText = "Copied";
-      copyButton.innerHTML = '<i class="fa-solid fa-clipboard-check"></i>';
-      var waitFor = 3000;
-
-      setTimeout(function () {
-        copyButton.innerText = "Copy";
-        copyButton.innerHTML = '<i class="fa-solid fa-clipboard"></i>';
-      }, waitFor);
+      try {
+        await window.navigator.clipboard.writeText(code);
+        copyButton.innerHTML = '<i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>';
+        copyButton.ariaLabel = "Code copied";
+        feedback.textContent = "Copied";
+      } catch {
+        copyButton.innerHTML = '<i class="fa-solid fa-clipboard" aria-hidden="true"></i>';
+        copyButton.ariaLabel = "Retry copying code";
+        feedback.textContent = "Couldn’t copy. Select the code to copy it manually.";
+      } finally {
+        copyButton.disabled = false;
+        resetTimer = setTimeout(function () {
+          copyButton.innerHTML = '<i class="fa-solid fa-clipboard" aria-hidden="true"></i>';
+          copyButton.ariaLabel = "Copy code to clipboard";
+          feedback.textContent = "";
+        }, 4000);
+      }
     });
 
     // create wrapper div
@@ -52,5 +66,6 @@ codeBlocks.forEach(function (codeBlock) {
     parent.insertBefore(wrapper, codeBlock);
     wrapper.append(codeBlock);
     wrapper.append(copyButton);
+    wrapper.append(feedback);
   }
 });

@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
-const { getPublicBaseURL, publicRouteUrl, usesExternalVisualServer } = require("./public-routes");
+const { getPublicBaseURL, publicRouteUrl } = require("./public-routes");
 
 async function openOptionalStarterRoute(page, path) {
   const response = await page.goto(path, { waitUntil: "networkidle" });
@@ -343,10 +343,9 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
         snapshotLineCount: count("#github-activity-chart .github-activity-lifetime-snapshot-line"),
         selectedDate: text("#github-activity-selected-date"),
         selectedCommits: text("#github-activity-selected-commits"),
-        selectedAdditions: text("#github-activity-selected-additions"),
-        selectedDeletions: text("#github-activity-selected-deletions"),
+        selectedAuthored: text("#github-activity-selected-authored"),
         inspectorValue: chartRoot?.querySelector(".github-activity-inspector")?.getAttribute("aria-valuetext"),
-        hasDailyCommitHeading: chartRoot?.textContent?.includes("COMMITS / DAY · LOG1P"),
+        hasDailyCommitHeading: chartRoot?.textContent?.includes("COMMITS / DAY · SQRT"),
         hasDailyLineHeading: chartRoot?.textContent?.includes("LINES / DAY · SYMLOG"),
         hasForbiddenCopy: /Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i.test(
           activityRoot?.textContent || ""
@@ -360,16 +359,15 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
       codeDataCount: 1,
       retiredDataCount: 0,
       commitLineCount: 1,
-      additionLineCount: 1,
-      deletionLineCount: 1,
+      additionLineCount: 0,
+      deletionLineCount: 0,
       snapshotLineCount: 0,
       selectedDate: "Jul 31, 2026",
-      selectedCommits: "7 total commits · 5 authored commits",
-      selectedAdditions: "+321 added",
-      selectedDeletions: "−45 removed",
-      inspectorValue: "2026-07-31, 7 total commits, 5 authored commits, +321 added, −45 removed",
+      selectedCommits: "7 total commits",
+      selectedAuthored: "5 authored commits",
+      inspectorValue: "2026-07-31, 7 total commits, 5 authored commits",
       hasDailyCommitHeading: true,
-      hasDailyLineHeading: true,
+      hasDailyLineHeading: false,
       hasForbiddenCopy: false,
     });
 
@@ -388,32 +386,26 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
   await expect(page.locator("#code-activity-data")).toHaveCount(1);
   await expect(page.locator("#personal-code-activity-data, #github-activity-data")).toHaveCount(0);
   await expect(chart.locator(".github-activity-commit-line")).toHaveCount(1);
-  await expect(chart.locator(".github-activity-add-line")).toHaveCount(1);
-  await expect(chart.locator(".github-activity-remove-line")).toHaveCount(1);
+  await expect(chart.locator(".github-activity-add-line, .github-activity-remove-line")).toHaveCount(0);
   await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
   await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 31, 2026");
-  await expect(page.locator("#github-activity-selected-commits")).toHaveText("7 total commits · 5 authored commits");
-  await expect(page.locator("#github-activity-selected-additions")).toHaveText("+321 added");
-  await expect(page.locator("#github-activity-selected-deletions")).toHaveText("−45 removed");
+  await expect(page.locator("#github-activity-selected-commits")).toHaveText("7 total commits");
+  await expect(page.locator("#github-activity-selected-authored")).toHaveText("5 authored commits");
+  await expect(page.locator("#github-activity-selected-additions, #github-activity-selected-deletions")).toHaveCount(0);
   await expect(activity).not.toContainText(/Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i);
 
   const compact = (page.viewportSize()?.width ?? 0) < 620;
-  await expect(chart.getByText(compact ? "COMMITS / DAY · LOG1P" : "COMMITS PER DAY · LOG1P", { exact: true })).toBeVisible();
-  await expect(
-    chart.getByText(compact ? "LINES / DAY · SYMLOG" : "LINES CHANGED PER DAY · SYMLOG", {
-      exact: true,
-    })
-  ).toBeVisible();
+  await expect(chart.getByText(compact ? "COMMITS / DAY · SQRT" : "COMMITS PER DAY · SQRT", { exact: true })).toBeVisible();
+  await expect(chart.getByText(/LINES.*DAY/)).toHaveCount(0);
 
   await page.getByRole("button", { name: "Literal", exact: true }).click();
   await expect(chart.getByText(compact ? "COMMITS / DAY · LINEAR" : "COMMITS PER DAY · LINEAR", { exact: true })).toBeVisible();
-  await expect(chart.getByText(compact ? "LINES / DAY · LINEAR" : "LINES CHANGED PER DAY · LINEAR", { exact: true })).toBeVisible();
 
   await page.getByRole("button", { name: "1 year", exact: true }).click();
   await expect(page.locator("[data-github-scope]")).toHaveText("1 YEAR · DAILY");
   const inspector = chart.locator(".github-activity-inspector");
   await inspector.focus();
-  await expect(inspector).toHaveAttribute("aria-valuetext", /^2026-07-31, 7 total commits, 5 authored commits, \+321 added, −45 removed$/);
+  await expect(inspector).toHaveAttribute("aria-valuetext", /^2026-07-31, 7 total commits, 5 authored commits$/);
   await inspector.press("ArrowLeft");
   await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 30, 2026");
   await inspector.press("Shift+ArrowLeft");
@@ -423,15 +415,15 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
   await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "hidden");
 
   await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Separate scales" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Readable or literal" })).toBeVisible();
   const firstRowCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
-  await expect(firstRowCells).toHaveCount(6);
+  await expect(firstRowCells).toHaveCount(3);
   await expect(page.locator("#github-activity-table-caption")).toContainText("source calendar label");
   expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(300);
   expect(runtimeErrors).toEqual([]);
 });
 
-test("GitHub line-change labels meet contrast in every light theme", async ({ page }) => {
+test("GitHub commit readouts meet contrast in every light theme", async ({ page }) => {
   await preparePage(page, "light");
   await gotoPersonalBuildRhythm(page);
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
@@ -452,15 +444,6 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
       const [lighter, darker] = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
       return (lighter + 0.05) / (darker + 0.05);
     };
-    const resolveColor = (value) => {
-      const probe = document.createElement("span");
-      probe.style.color = value;
-      document.body.append(probe);
-      const resolved = parseColor(getComputedStyle(probe).color);
-      probe.remove();
-      return resolved;
-    };
-
     const results = [];
     for (const mode of ["morning", "noon", "afternoon"]) {
       document.documentElement.setAttribute("data-theme", "light");
@@ -468,36 +451,21 @@ test("GitHub line-change labels meet contrast in every light theme", async ({ pa
       document.documentElement.setAttribute("data-theme-setting", mode);
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
-      const activity = document.querySelector("[data-github-activity]");
       const background = parseColor(getComputedStyle(document.querySelector(".github-activity-readout")).backgroundColor);
-      const addedText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-additions")).color);
-      const removedText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-deletions")).color);
-      const addedStroke = parseColor(getComputedStyle(document.querySelector(".github-activity-add-line")).stroke);
-      const removedStroke = parseColor(getComputedStyle(document.querySelector(".github-activity-remove-line")).stroke);
-      const rawAdded = resolveColor(getComputedStyle(activity).getPropertyValue("--global-sky-strong").trim());
-      const rawRemoved = resolveColor(getComputedStyle(activity).getPropertyValue("--global-mint-strong").trim());
+      const totalText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-commits")).color);
+      const authoredText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-authored")).color);
       results.push({
         mode,
-        addedContrast: contrast(addedText, background),
-        removedContrast: contrast(removedText, background),
-        addedStroke,
-        removedStroke,
-        rawAdded,
-        rawRemoved,
-        addedText,
-        removedText,
+        totalContrast: contrast(totalText, background),
+        authoredContrast: contrast(authoredText, background),
       });
     }
     return results;
   });
 
   themes.forEach((theme) => {
-    expect(theme.addedContrast, `${theme.mode} added-text contrast`).toBeGreaterThanOrEqual(4.5);
-    expect(theme.removedContrast, `${theme.mode} removed-text contrast`).toBeGreaterThanOrEqual(4.5);
-    expect(theme.addedStroke, `${theme.mode} added graph keeps the raw stroke`).toEqual(theme.rawAdded);
-    expect(theme.removedStroke, `${theme.mode} removed graph keeps the raw stroke`).toEqual(theme.rawRemoved);
-    expect(theme.addedText).not.toEqual(theme.addedStroke);
-    expect(theme.removedText).not.toEqual(theme.removedStroke);
+    expect(theme.totalContrast, `${theme.mode} total-commit contrast`).toBeGreaterThanOrEqual(4.5);
+    expect(theme.authoredContrast, `${theme.mode} authored-commit contrast`).toBeGreaterThanOrEqual(4.5);
   });
 });
 
@@ -870,7 +838,7 @@ test("home artifact cards hover independently", async ({ page }, testInfo) => {
 
 test("home keyboard record playback survives shake suppression", async ({ page }) => {
   await preparePage(page, "dark");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = publicRouteUrl("/");
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
@@ -889,7 +857,7 @@ test("home keyboard record playback survives shake suppression", async ({ page }
 
 test("home portrait offers a keyboard-equivalent record-card discovery", async ({ page }) => {
   await preparePage(page, "dark");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = publicRouteUrl("/");
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
@@ -916,7 +884,7 @@ test("home dropped meme record cards resolve into an inspectable 2D fan", async 
   // keep the full journey rather than trimming coverage to the shared two-minute default.
   test.setTimeout(180000);
   await preparePage(page, "dark");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = publicRouteUrl("/");
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);
@@ -1025,7 +993,7 @@ test("home dropped meme record cards resolve into an inspectable 2D fan", async 
 
 test("home opened meme record cards settle back on top of the 2D pile", async ({ page }) => {
   await preparePage(page, "light");
-  const homeRoute = usesExternalVisualServer() && process.env.VISUAL_BASE_URL ? "/" : "/al-folio/";
+  const homeRoute = publicRouteUrl("/");
   await page.goto(homeRoute, { waitUntil: "networkidle" });
   await page.locator('[data-home-desk-mode="2d"]').click();
   await stabilizeVisuals(page);

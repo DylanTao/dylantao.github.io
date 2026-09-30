@@ -96,14 +96,24 @@ cinematic: true
 
 **DesignWeaver** is an interface for making prompt decisions visible. Instead of asking novices to invent the right design vocabulary from a blank text box, it surfaces dimensions such as style, material, ergonomics, and form from briefs, images, and generated concepts. In a controlled study (n = 52), participants wrote more nuanced prompts and produced more diverse, novel designs than with a standard text-only interface _{% cite tao2024designweaver %}_.
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" width="15360" height="7732" title="DesignWeaver_teaser" alt="DesignWeaver interface overview showing a prompt box, dimension palette, image gallery, and favorite folder" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Figure 1: DesignWeaver: An AI-enabled product design interface for novices. The components include (A) Prompt Box, (B) Dimension Palette, (C) Image Gallery, and (D) Favorite Folder
-</div>
+<section class="artifact-spread" aria-labelledby="designweaver-interface-decision">
+  <div class="artifact-spread__artifact">
+    {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" width="15360" height="7732" title="DesignWeaver_teaser" alt="DesignWeaver interface overview showing a prompt box, dimension palette, image gallery, and favorite folder" class="img-fluid rounded" %}
+    <p class="caption">Figure 1. The interface brings together (A) a prompt box, (B) a dimension palette, (C) an image gallery, and (D) a favorite folder.</p>
+  </div>
+  <aside class="artifact-spread__notes">
+    <p class="project-case-kicker">A decision in the interface</p>
+    <h3 id="designweaver-interface-decision">Put the vocabulary next to the image.</h3>
+    <dl>
+      <dt>Start with something concrete</dt>
+      <dd>The brief and moodboard supply the first dimensions. A novice can select a tag before having to name every quality of a chair.</dd>
+      <dt>Keep the choice editable</dt>
+      <dd>Tags build the prompt, but designers can add or remove dimensions and write their own text.</dd>
+      <dt>Let the next image teach a word</dt>
+      <dd>Info buttons extract tags from generated images. A useful quality in one result can become a deliberate choice in the next prompt.</dd>
+    </dl>
+  </aside>
+</section>
 
 ## How DesignWeaver Works
 

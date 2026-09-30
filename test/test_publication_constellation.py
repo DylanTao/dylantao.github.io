@@ -42,7 +42,7 @@ EXPECTED_FUTURE_IDS = {
 }
 EXPECTED_REJECTION_RECORDS = {"chi-rejection", "uist-rejection"}
 
-ROOT_FIELDS = {"schema_version", "metadata", "threads", "papers", "future", "edges"}
+ROOT_FIELDS = {"schema_version", "metadata", "reading_starts", "threads", "papers", "future", "edges"}
 THREAD_FIELDS = {"label", "summary", "position"}
 THREAD_POSITION_FIELDS = {"x", "anchor_y"}
 PAPER_FIELDS = {"display_label", "memberships", "position", "mobile_thread", "qualifier"}
@@ -74,6 +74,19 @@ class PublicationConstellationContractTest(unittest.TestCase):
     def test_root_schema_is_small_and_explicit(self) -> None:
         self.assertEqual(self.constellation["schema_version"], 1)
         self.assertEqual(set(self.constellation), ROOT_FIELDS)
+
+    def test_reading_pairs_are_sourced_and_distinguish_their_relationship(self) -> None:
+        pairs = self.constellation["reading_starts"]
+        self.assertEqual(len(pairs), 2)
+        self.assertEqual(len({pair["id"] for pair in pairs}), len(pairs))
+        for pair in pairs:
+            self.assertEqual(set(pair), {"id", "title", "relation", "note", "papers"})
+            self.assertEqual(len(pair["papers"]), 2)
+            self.assertTrue(set(pair["papers"]) <= self.paper_keys)
+            self.assertIn(pair["relation"], {"A thematic bridge", "A benchmark extension"})
+            self.assertTrue(pair["title"].strip())
+            self.assertTrue(pair["note"].strip())
+        self.assertIn("not a direct system extension", pairs[0]["note"])
 
     def test_three_research_threads_have_bounded_geometry(self) -> None:
         threads = self.constellation["threads"]

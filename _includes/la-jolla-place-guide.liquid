@@ -1,0 +1,15 @@
+<aside class="coast-place-guide" aria-labelledby="coast-place-guide-title" data-coast-guide>
+  <p class="project-case-kicker">A few familiar places</p>
+  <h2 id="coast-place-guide-title">Look a little closer.</h2>
+  <p>Choose a place to find it in the miniature.</p>
+  {% for place in site.data.la_jolla_places %}
+    <details name="coast-places" data-coast-place="{{ place.id }}">
+      <summary>{{ place.name }}</summary>
+      <div>
+        <p>{{ place.detail }}</p>
+        <a href="{{ place.source }}">{{ place.source_label }} ↗</a>
+      </div>
+    </details>
+  {% endfor %}
+  <p class="coast-place-guide__note">An artistic arrangement; distances are compressed.</p>
+</aside>

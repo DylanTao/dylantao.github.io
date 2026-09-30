@@ -1,0 +1,20 @@
+- id: DIB
+  name: Design and Innovation Building
+  detail: Look for the folded glass bays. My third-floor corner is the small, warm window in the middle bay.
+  source: https://dib.ucsd.edu/about/index.html
+  source_label: About DIB
+- id: Geisel
+  name: Geisel Library
+  detail: The stepped crown sits above angled concrete supports. The recessed corners matter as much as the silhouette.
+  source: https://geisel50.ucsd.edu/about/architecture.html
+  source_label: Geisel architecture
+- id: Salk
+  name: Salk Institute
+  detail: Two wings frame an open courtyard toward the ocean. The miniature leaves that space open, with the study towers facing it.
+  source: https://www.salk.edu/explore-salk-architecture-guide/
+  source_label: Salk architecture guide
+- id: ScrippsPier
+  name: Scripps Pier
+  detail: A long, thin line reaching into the water. Its timber deck and closely spaced supports give it a different rhythm from the buildings.
+  source: https://scripps.ucsd.edu/about/scripps-pier
+  source_label: About Scripps Pier

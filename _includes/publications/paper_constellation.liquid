@@ -14,6 +14,27 @@
       {% include widget_origin_link.liquid href="/projects/paper-constellation/" label="Read how Paper Constellation began" %}
     </header>
 
+    <div class="reading-starts" aria-label="Two ways into the papers">
+      {% for route in constellation.reading_starts %}
+        <details name="paper-reading-starts" data-reading-start="{{ route.id }}" data-reading-keys="{{ route.papers | join: '|' }}">
+          <summary>
+            <span>{{ route.relation }}</span><strong>{{ route.title }}</strong>
+          </summary>
+          <div class="reading-starts__body">
+            <p>{{ route.note }}</p>
+            <ol>
+              {% for paper_key in route.papers %}
+                {% assign paper = publication_catalog[paper_key] %}
+                <li>
+                  <a href="{{ paper.links.citation_page_path }}">{{ constellation.papers[paper_key].display_label }}</a><span>{{ paper.year }}</span>
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+
     <div class="paper-constellation-legend" aria-label="Constellation legend">
       {% for thread_pair in constellation.threads %}
         {% assign thread_id = thread_pair[0] %}

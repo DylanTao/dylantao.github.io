@@ -203,6 +203,36 @@ test("code activity fails closed on an impossible ISO calendar date", async ({ p
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "unavailable");
 });
 
+test("commits-only history preserves exact totals through both scale choices", async ({ page }) => {
+  const runtimeErrors = collectRuntimeErrors(page);
+  const fixture = structuredClone(dailyActivityFixture);
+  fixture.schema = 6;
+  fixture.points.forEach(({ personal }) => {
+    delete personal.additions;
+    delete personal.deletions;
+  });
+  await preparePage(page, "light");
+  await gotoWithDailyCode(page, { activity: fixture });
+  const activity = page.locator("[data-github-activity]");
+  await expect(activity).toHaveAttribute("data-state", "ready");
+  await expect(activity).toHaveAttribute("data-source-schema", "6");
+  await page.getByRole("button", { name: "Lifetime", exact: true }).click();
+  const commits = fixture.points.reduce((total, row) => total + row.personal.commits, 0);
+  const authored = fixture.points.reduce((total, row) => total + row.personal.authored_commits, 0);
+  const summary = page.locator("#github-activity-range-summary");
+  await expect(summary).toContainText(`${commits.toLocaleString("en-US")} total commits`);
+  await expect(summary).toContainText(`${authored.toLocaleString("en-US")} authored commits`);
+  await expect(page.locator("#github-activity-chart")).toContainText("SQRT");
+  await page.getByRole("button", { name: "Literal", exact: true }).click();
+  await expect(page.locator("#github-activity-chart")).toContainText("LINEAR");
+  await expect(summary).toContainText(`${commits.toLocaleString("en-US")} total commits`);
+  await page.getByRole("button", { name: "Readable", exact: true }).click();
+  await expect(page.locator("#github-activity-chart")).toContainText("SQRT");
+  await expect(page.locator(".github-activity-added-line, .github-activity-removed-line")).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  expect(runtimeErrors).toEqual([]);
+});
+
 test("late source bands, filtering, focus, theme, and table stay truthful", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one desktop exercises the multi-source contract before tablet resizing");
 
@@ -639,9 +669,14 @@ test("Build Rhythm axes stay legible in the evening theme", async ({ page }, tes
   await inspector.press("ArrowLeft");
   const outline = await chartShell.evaluate((element) => getComputedStyle(element).outlineStyle);
   expect(outline).not.toBe("none");
-  const tickColors = await page.locator(".build-rhythm-axis-tick").evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).fill));
-  expect(tickColors.length).toBeGreaterThan(4);
-  expect(tickColors.every((color) => color && color !== "none" && color !== "rgba(0, 0, 0, 0)")).toBe(true);
+  // Scrolling focus into the explorer changes the story scene and replaces
+  // its SVG ticks. Reacquire the current nodes until that paint has settled.
+  await expect
+    .poll(async () => {
+      const colors = await page.locator(".build-rhythm-axis-tick").evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).fill));
+      return colors.length > 4 && colors.every((color) => color && color !== "none" && color !== "rgba(0, 0, 0, 0)");
+    })
+    .toBe(true);
   await attachScreenshot(page, testInfo, `build-rhythm-evening-axes-${testInfo.project.name}`, { locator: stage });
   await chartShell.scrollIntoViewIfNeeded();
   await attachScreenshot(page, testInfo, `build-rhythm-evening-explorer-${testInfo.project.name}`, { fullPage: false });

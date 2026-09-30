@@ -158,9 +158,11 @@ Current contracts:
 - The homepage scene uses San Diego time for an authored routine; surrounding themes stay visitor-local or manually selected. Details live in [the scene brief](docs/homepage-desk-scene-brief.md).
 - Preserve the existing Build Rhythm source-calendar, commit/line-count, and missing-evidence contracts in the [historical technical record](docs/history/research-studio-2026-09/website-design-heuristics-before.md). This redesign does not change their data semantics.
 
-Code history appears only after an exact schema-5 source-calendar contract passes; otherwise show one compact `Code history is being rebuilt.` state. Matching `YYYY-MM-DD` labels does not imply a shared timezone. In that contract, each source's `commits` is its reported total and `authored_commits` is the non-merge, non-deploy subset. Personal-source GitHub contribution parity has a specific scope: do not extend that claim to other sources or a combined total.
+Code history appears only after an exact source-calendar contract passes; otherwise show one compact `Code history is being rebuilt.` state. The current schema-6 contract carries total and authored commits only, with schema-5 reading retained during migration. Matching `YYYY-MM-DD` labels does not imply a shared timezone. In that contract, each source's `commits` is its reported total and `authored_commits` is the non-merge, non-deploy subset. Personal-source GitHub contribution parity has a specific scope: do not extend that claim to other sources or a combined total.
 
 Sirui's September 27 refinement gives Build Rhythm and the GitHub profile one tall commit chart, larger total and authored counts, and more labeled logarithmic steps. Additions and deletions no longer appear in their charts, summaries, legends, or tables. Keep the versioned input contract compatible while presenting only the commit rhythm.
+
+The September 29 refinement retires diff collection from the default refresh and uses square-root spacing on Readable, with granular ticks and exact counts. The website plots days; the profile groups the same personal record by week. Keep completed-day and refresh dates explicit. GitHub's contribution calendar includes other activities and some replaced-history credits, so it is a different measure from the current eligible-branch commit count.
 
 ## Objects And Materiality
 

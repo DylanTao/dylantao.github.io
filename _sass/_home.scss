@@ -825,6 +825,7 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-hero-media.is-desk-3d .home-portrait-frame,
+.home-hero-media.is-desk-3d .home-record-player,
 .home-hero-media.is-desk-3d .home-record-card-pile,
 .home-hero-media.is-desk-3d .home-artifact-stack,
 .home-hero-media.is-desk-3d .home-inspiration-credit {
@@ -995,6 +996,7 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-record-art {
+  animation: home-record-spin 7.5s linear infinite paused;
   position: absolute;
   inset: 22.5%;
   z-index: 2;
@@ -1153,185 +1155,109 @@ html.home-desk-outside-active .home-story-rail {
   animation: home-record-found-pulse 520ms ease-out both;
 }
 
-.home-profile-recordable.is-playing .home-record-scene-fallback {
-  animation: home-record-spin 7.5s linear infinite;
+.home-profile-recordable.is-playing .home-record-scene-fallback .home-record-art {
+  animation-play-state: running;
+}
+
+.home-profile-recordable .home-record-scene.is-suspended .home-record-art {
+  animation-play-state: paused;
+}
+
+// The transport stays still and reachable while the record changes state.
+.home-record-player {
+  grid-area: portrait;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  width: min(21rem, 100%);
+  max-width: 100%;
+}
+
+.home-record-player .home-portrait-frame {
+  grid-area: auto;
+}
+
+.home-record-console {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.3rem 0.4rem;
+  min-height: 4.5rem;
+  border-top: 1px solid var(--home-line);
+}
+
+.home-record-caption {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+  text-align: left;
+  line-height: 1.35;
+
+  span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: var(--type-compact);
+    font-weight: 600;
+  }
+
+  a {
+    font-size: var(--type-compact);
+    color: var(--home-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+}
+
+.home-record-transport {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.15rem;
+}
+
+.home-record-play,
+.home-record-nav {
+  display: grid;
+  position: static;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--home-line);
+  border-radius: 50%;
+  background: var(--home-surface);
+  color: var(--home-ink);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-standard),
+    border-color var(--motion-standard);
+
+  &:hover {
+    background: color-mix(in srgb, var(--record-accent) 12%, var(--home-surface));
+    border-color: var(--home-accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--home-accent);
+    outline-offset: 3px;
+  }
 }
 
 .home-record-play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 7;
-  display: grid;
-  width: clamp(4.15rem, 31%, 5.65rem);
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--record-accent) 24%, rgba(255, 255, 255, 0.58));
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.42), transparent 42%), color-mix(in srgb, var(--home-surface) 44%, transparent);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.48),
-    inset 0 0 1.15rem rgba(255, 255, 255, 0.18),
-    0 0.38rem 1rem rgba(73, 45, 30, 0.12),
-    0 0 0 0.18rem rgba(255, 255, 255, 0.1);
-  color: color-mix(in srgb, var(--record-accent-ink) 84%, var(--home-ink));
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(0.9);
-  transition:
-    background-color var(--motion-standard),
-    border-color var(--motion-standard),
-    color var(--motion-standard),
-    opacity var(--motion-standard),
-    transform var(--motion-standard);
-  backdrop-filter: blur(7px) saturate(1.04);
+  background: color-mix(in srgb, var(--record-accent) 10%, var(--home-surface));
 }
 
-.home-profile-recordable.is-vinyl-preview .home-record-play,
-.home-profile-recordable.is-vinyl-mode .home-record-play,
-.home-profile-recordable:hover .home-record-play,
-.home-profile-recordable:focus-visible .home-record-play,
-.home-record-play:focus-visible {
-  opacity: 0.76;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.home-record-play.is-playing {
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.35), transparent 42%), color-mix(in srgb, var(--home-surface) 38%, transparent);
-}
-
-.home-record-play:hover,
-.home-record-play:focus-visible {
-  border-color: color-mix(in srgb, var(--record-accent) 36%, rgba(255, 255, 255, 0.68));
-  background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.5), transparent 42%), color-mix(in srgb, var(--home-surface) 56%, transparent);
-  color: color-mix(in srgb, var(--record-accent-ink) 92%, var(--home-ink));
-  opacity: 0.92;
-  transform: translate(-50%, -50%) scale(1.035);
-}
-
-.home-record-play i {
-  font-size: clamp(1.36rem, 10vw, 1.96rem);
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.34),
-    0 0.12rem 0.42rem rgba(73, 45, 30, 0.22);
-}
-
-html[data-theme="dark"] .home-record-play {
-  border-color: color-mix(in srgb, var(--record-accent) 28%, rgba(255, 255, 255, 0.28));
-  background:
-    radial-gradient(circle at 35% 26%, rgba(255, 255, 255, 0.18), transparent 42%), color-mix(in srgb, var(--home-surface) 52%, transparent);
-  color: color-mix(in srgb, var(--record-accent) 70%, var(--home-ink));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 0 1.15rem rgba(255, 255, 255, 0.06),
-    0 0.38rem 1rem rgba(0, 0, 0, 0.24),
-    0 0 0 0.18rem rgba(255, 255, 255, 0.04);
-}
-
-.home-profile-recordable.is-vinyl-mode .home-record-play,
-.home-profile-recordable.is-playing .home-record-play,
-.home-profile-recordable.is-paused-record .home-record-play {
-  width: clamp(2.45rem, 17.5%, 3.08rem);
-  border-color: color-mix(in srgb, var(--record-accent) 22%, rgba(255, 255, 255, 0.42));
-  background:
-    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.34), transparent 44%), color-mix(in srgb, var(--home-surface) 34%, transparent);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.38),
-    inset 0 0 0.68rem rgba(255, 255, 255, 0.12),
-    0 0.26rem 0.72rem rgba(73, 45, 30, 0.1);
-}
-
-.home-profile-recordable.is-vinyl-mode .home-record-play i,
-.home-profile-recordable.is-playing .home-record-play i,
-.home-profile-recordable.is-paused-record .home-record-play i {
-  font-size: clamp(0.86rem, 5.4vw, 1.12rem);
-}
-
-.home-record-play [data-home-record-pause-icon] {
-  display: none;
-}
-
+.home-record-play [data-home-record-pause-icon],
 .home-record-play.is-playing [data-home-record-play-icon] {
   display: none;
 }
 
 .home-record-play.is-playing [data-home-record-pause-icon] {
   display: inline-block;
-}
-
-.home-record-nav {
-  position: absolute;
-  top: 50%;
-  z-index: 8;
-  display: grid;
-  width: 2.02rem;
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--record-accent) 24%, rgba(255, 255, 255, 0.42));
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--home-surface) 72%, transparent);
-  box-shadow:
-    0 0.28rem 0.72rem rgba(0, 0, 0, 0.12),
-    0 1px 0 rgba(255, 255, 255, 0.22) inset;
-  color: color-mix(in srgb, var(--record-accent-ink) 76%, var(--home-muted));
-  font-size: 0.7rem;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-50%) scale(0.9);
-  transition:
-    background-color var(--motion-standard),
-    border-color var(--motion-standard),
-    color var(--motion-standard),
-    opacity var(--motion-standard),
-    top var(--motion-standard),
-    transform var(--motion-standard);
-}
-
-.home-record-nav-prev {
-  left: 0.48rem;
-}
-
-.home-record-nav-next {
-  right: 0.48rem;
-}
-
-.home-profile-recordable.is-vinyl-mode .home-record-nav,
-.home-profile-recordable.is-playing .home-record-nav,
-.home-profile-recordable.is-paused-record .home-record-nav {
-  top: 63%;
-  width: 1.84rem;
-}
-
-.home-profile-recordable.is-vinyl-preview .home-record-nav,
-.home-profile-recordable.is-vinyl-mode .home-record-nav,
-.home-profile-recordable:hover .home-record-nav,
-.home-profile-recordable:focus-visible .home-record-nav,
-.home-record-nav:focus-visible {
-  opacity: 0.82;
-  pointer-events: auto;
-  transform: translateY(-50%) scale(1);
-}
-
-.home-record-nav:hover,
-.home-record-nav:focus-visible {
-  border-color: color-mix(in srgb, var(--record-accent) 48%, var(--home-line));
-  background: color-mix(in srgb, var(--record-accent) 12%, var(--home-surface));
-  color: var(--record-accent-ink);
-  outline: 0;
-}
-
-html[data-theme="dark"] .home-record-nav {
-  background: color-mix(in srgb, var(--home-surface) 82%, transparent);
-  color: color-mix(in srgb, var(--record-accent) 62%, var(--home-ink));
-}
-
-html[data-theme="dark"] .home-record-nav:hover,
-html[data-theme="dark"] .home-record-nav:focus-visible {
-  background: color-mix(in srgb, var(--record-accent) 16%, var(--home-surface));
-  color: color-mix(in srgb, var(--record-accent) 78%, var(--home-ink));
 }
 
 .home-record-card-pile {
@@ -2342,7 +2268,7 @@ html[data-theme="dark"] .home-artifact-mark {
   max-width: none;
   margin: 0.45rem 0 0;
   color: var(--home-muted);
-  font-size: 0.76rem;
+  font-size: var(--type-compact);
   line-height: 1.45;
   opacity: 0.78;
 }
@@ -2350,7 +2276,7 @@ html[data-theme="dark"] .home-artifact-mark {
 .home-motion-credit-label {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: var(--type-compact);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -3265,7 +3191,7 @@ html.home-motion-ready .home-reveal.home-visible {
 
   .home-motion-credit {
     margin-top: 0;
-    font-size: 0.76rem;
+    font-size: var(--type-compact);
   }
 
   .home-motion-exploring {
@@ -3492,23 +3418,6 @@ html.home-motion-ready .home-reveal.home-visible {
     font-size: 0.56rem;
   }
 
-  .home-record-play {
-    width: clamp(3.55rem, 34%, 4.55rem);
-  }
-
-  .home-record-nav {
-    width: 1.72rem;
-    font-size: 0.58rem;
-  }
-
-  .home-record-nav-prev {
-    left: 0.36rem;
-  }
-
-  .home-record-nav-next {
-    right: 0.36rem;
-  }
-
   .home-artifact-card {
     grid-template-columns: 2.8rem minmax(0, 1fr) auto;
     min-height: 0;
@@ -3593,6 +3502,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-profile-recordable.is-playing .home-record-scene-fallback,
   .home-record-scene,
   .home-record-scene-fallback,
+  .home-record-art,
   .home-record-play,
   .home-record-nav,
   .home-record-card-pile,

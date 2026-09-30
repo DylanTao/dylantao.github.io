@@ -4,6 +4,28 @@ const { publicRouteUrl } = require("./public-routes");
 
 const PUBLICATIONS_URL = publicRouteUrl("/publications/");
 
+test("reading starts: two sourced pairs highlight the graph and retain direct links", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await openConstellation(page);
+  const starts = page.locator("[data-reading-start]");
+  await expect(starts).toHaveCount(2);
+  await starts.first().locator("summary").click();
+  await expect(starts.first().locator("li a")).toHaveText(["DesignWeaver", "What Happened and Why?"]);
+  await expect(starts.first()).toContainText("not a direct system extension");
+  await expect(page.locator("[data-constellation-desktop] .paper-constellation-node-active")).toHaveCount(2);
+  await starts.nth(1).locator("summary").click();
+  await expect(starts.first()).not.toHaveAttribute("open", "");
+  await expect(starts.nth(1).locator("li a")).toHaveText(["Physion", "Physion++"]);
+  for (const link of await starts.nth(1).locator("li a").all()) {
+    const response = await page.request.get(await link.getAttribute("href"));
+    expect(response.status()).toBe(200);
+  }
+  await page.locator(".reading-starts").screenshot({ path: testInfo.outputPath("reading-starts.png") });
+  await starts.nth(1).locator("summary").click();
+  await expect(page.locator(".paper-constellation-node-active")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 async function openConstellation(page, theme = "light") {
   await preparePage(page, theme);
   await page.goto(PUBLICATIONS_URL, { waitUntil: "networkidle" });
