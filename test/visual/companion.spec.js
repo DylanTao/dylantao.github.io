@@ -9,6 +9,7 @@ test("P: reading surfaces stay clear after content reflows", async ({ page }, te
   await page.emulateMedia({ reducedMotion: "reduce" });
   await preparePage(page, "light");
   for (const [route, ready, protectedSelector] of [
+    ["/", ".home-record-console", ".home-record-console"],
     ["/projects/", ".project-browser-origin", ".project-browser-origin"],
     ["/projects/designweaver/", ".project-case-facts", ".project-case-facts"],
     ["/github-activity/", "[data-github-activity][data-state='ready']", "#main svg"],
