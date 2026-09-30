@@ -8,11 +8,20 @@ const { PNG } = require("pngjs");
 test("record: fixed controls, continuous rotation, and offscreen suspension", async ({ page }, testInfo) => {
   await preparePage(page, "afternoon");
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-09-29T12:00:00-07:00") });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
   const record = page.locator("[data-home-record-scene]");
   const transport = page.locator(".home-record-transport");
   const play = page.locator("[data-home-record-play]");
-  const controlsBefore = await transport.boundingBox();
+  await page.evaluate(() => document.fonts.ready);
+  // Accessible clicks may scroll the controls into view. Compare their actual
+  // document position rather than their position in a moving viewport.
+  const transportPosition = () =>
+    transport.evaluate((e) => {
+      const box = e.getBoundingClientRect();
+      return { x: box.left + window.scrollX, y: box.top + window.scrollY };
+    });
+  const controlsBefore = await transportPosition();
   await play.click();
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().loaded)).toBe(true);
   await page.waitForTimeout(500);
@@ -21,15 +30,20 @@ test("record: fixed controls, continuous rotation, and offscreen suspension", as
   const paused = await record.evaluate((e) => e.getRecordEvidence().angle);
   await page.waitForTimeout(800);
   expect(await record.evaluate((e) => e.getRecordEvidence().angle)).toBe(paused);
+  // Browser IPC can add hundreds of milliseconds on software-WebGL runners.
+  // Observe the exact resume boundary, then advance 100 ms of animation time.
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
   await play.click();
-  await page.waitForTimeout(100);
+  expect(await record.evaluate((e) => e.getRecordEvidence().angle)).toBe(paused);
+  await page.clock.runFor(100);
   const resumed = await record.evaluate((e) => e.getRecordEvidence().angle);
   const change = Math.atan2(Math.sin(resumed - paused), Math.cos(resumed - paused));
-  expect(change).toBeGreaterThanOrEqual(0);
+  expect(change).toBeGreaterThan(0);
   expect(change).toBeLessThan(0.12);
+  await page.clock.resume();
   await page.locator("[data-home-record-next]").click();
   await expect(page.locator("[data-home-record-title]")).not.toHaveText("Yellow Submarine");
-  const controlsAfter = await transport.boundingBox();
+  const controlsAfter = await transportPosition();
   expect(Math.abs(controlsBefore.x - controlsAfter.x)).toBeLessThan(1);
   expect(Math.abs(controlsBefore.y - controlsAfter.y)).toBeLessThan(1);
   for (const control of await transport.locator("button").all()) {
