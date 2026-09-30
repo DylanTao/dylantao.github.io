@@ -1,11 +1,12 @@
 name: Update code activity
 
 on:
-  # Daily and staggered clear of the 00:00 citations refresh. The importer
-  # validates each source's declared completion timezone, and both refreshes
-  # share the main-autocommit concurrency group so they serialize rather than race.
+  # The local profile task starts at 01:15 Pacific (08:15 or 09:15 UTC).
+  # Import after its usual twenty-minute scan, with at least an hour's buffer,
+  # and before the 11:20 UTC site deployment. Both data refreshes share the
+  # main-autocommit concurrency group so they serialize rather than race.
   schedule:
-    - cron: "40 5 * * *"
+    - cron: "20 10 * * *"
   workflow_dispatch:
 
 permissions:
