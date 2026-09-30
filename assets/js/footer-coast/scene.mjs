@@ -287,6 +287,48 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     draw();
   }
 
+  const placeMarker = host.querySelector(".coast-place-marker");
+  const placeCorners = new Map();
+  if (placeMarker) {
+    model.scene.updateMatrixWorld(true);
+    ["DIB", "Geisel", "Salk", "ScrippsPier"].forEach((name) => {
+      const object = model.scene.getObjectByName(name);
+      if (!object) return;
+      const bounds = new THREE.Box3().setFromObject(object);
+      const corners = [];
+      for (const x of [bounds.min.x, bounds.max.x]) {
+        for (const y of [bounds.min.y, bounds.max.y]) {
+          for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z));
+        }
+      }
+      placeCorners.set(name, corners);
+    });
+  }
+  const markerPoint = new THREE.Vector3();
+  function updatePlaceMarker() {
+    if (!placeMarker) return;
+    const corners = placeCorners.get(host.dataset.selectedPlace);
+    placeMarker.hidden = !corners || lost;
+    if (!corners || lost) return;
+    let left = 1,
+      top = 1,
+      right = 0,
+      bottom = 0;
+    corners.forEach((corner) => {
+      markerPoint.copy(corner).project(camera);
+      const x = (markerPoint.x + 1) / 2;
+      const y = (1 - markerPoint.y) / 2;
+      left = Math.min(left, x);
+      top = Math.min(top, y);
+      right = Math.max(right, x);
+      bottom = Math.max(bottom, y);
+    });
+    placeMarker.style.left = `${clamp(left) * 100}%`;
+    placeMarker.style.top = `${clamp(top) * 100}%`;
+    placeMarker.style.width = `${(clamp(right) - clamp(left)) * 100}%`;
+    placeMarker.style.height = `${(clamp(bottom) - clamp(top)) * 100}%`;
+  }
+
   function draw() {
     if (disposed || lost) return;
     camera.position.copy(cameraBase);
@@ -300,6 +342,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     }
     camera.lookAt(target);
     finish.render(camera, false);
+    updatePlaceMarker();
     host.dataset.frames = String(++frameCount);
   }
 
@@ -442,6 +485,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   surface.addEventListener("pointercancel", onLeave);
   surface.addEventListener("pointerleave", onLeave);
   surface.addEventListener("keydown", onKey);
+  host.addEventListener("coast:place", draw);
   reduced.addEventListener("change", onMotion);
   document.addEventListener("visibilitychange", syncRunning);
   const contextLost = (event) => {
@@ -449,6 +493,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     lost = true;
     syncRunning();
     host.dataset.state = "fallback";
+    if (placeMarker) placeMarker.hidden = true;
   };
   canvas.addEventListener("webglcontextlost", contextLost);
   const contextRestored = () => {
@@ -470,6 +515,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     observer.disconnect();
     resizer.disconnect();
     themeObserver.disconnect();
+    host.removeEventListener("coast:place", draw);
     document.removeEventListener("visibilitychange", syncRunning);
     reduced.removeEventListener("change", onMotion);
     scene.traverse((o) => {
@@ -514,6 +560,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   }
   host.getCoastEvidence = ({ projectLandmarks = false } = {}) => ({
     miniature,
+    selectedPlace: host.dataset.selectedPlace || null,
     frames: frameCount,
     reveal,
     targetReveal,
