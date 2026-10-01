@@ -1,5 +1,6 @@
 ---
 layout: post
+title: HotSpot selected as a CVPR 2025 Highlight
 date: 2025-04-04
 inline: true
 related_posts: false

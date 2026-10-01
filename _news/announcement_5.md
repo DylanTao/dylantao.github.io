@@ -1,5 +1,6 @@
 ---
 layout: post
+title: What Happened and Why? accepted to Herding CATs
 date: 2026-02-25
 inline: true
 related_posts: false
