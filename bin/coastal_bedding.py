@@ -15,11 +15,16 @@ def duvet(name, mat, offset=(0, 0, 0)):
             # fullness leaves room for the reclining body; small folds settle
             # toward the edges rather than forming a second rigid mattress.
             across = max(0, math.sin(math.pi * u)) ** 0.6
-            along = max(0, math.sin(math.pi * v)) ** 0.4
-            z = 0.48 + 0.31 * across * along
+            along = max(0, math.sin(math.pi * v)) ** 0.28
+            y = 1.52 + (v - 0.5) * 1.61
+            # The adult pose rests on the pillow; cloth fullness follows its
+            # torso and raised toes instead of letting shoes emerge through it.
+            toes = .16 * math.exp(-((y - 1.08) / .30) ** 2)
+            torso = .055 * math.exp(-((y - 1.91) / .40) ** 2)
+            z = 0.48 + across * (0.34 * along + toes + torso)
             z += 0.008 * math.sin(u * 42 + v * 13) * across * along
             vertices.append((-3.10 + (u - 0.5) * 1.59 + offset[0],
-                             1.52 + (v - 0.5) * 1.61 + offset[1], z + offset[2]))
+                             y + offset[1], z + offset[2]))
     for j in range(ny):
         for i in range(nx):
             a = j * (nx + 1) + i

@@ -5,8 +5,12 @@ modulation supplies local bounce/contact without baking a time of day into color
 """
 import bpy
 import json
+import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
+assert room is None or room in ('study','sleep','kitchen','gym','onsen','lounge'),room
+prefixes=(room+'_',) if room else ('core_','study_','kitchen_','lounge_','sleep_','gym_','onsen_')
 source=ROOT/'artwork/coastal-home/coastal-home.blend'
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
@@ -26,7 +30,7 @@ light.rotation_euler=(Vector((0,-2,1))-light.location).to_track_quat('-Z','Y').t
 selected=[]
 bpy.ops.object.select_all(action='DESELECT')
 for o in scene.objects:
-    if o.type=='MESH' and o.name.startswith(('core_','study_','kitchen_','lounge_','sleep_','gym_','onsen_')) and not o.name.startswith('core_continuous') and not o.get('caveRoof'):
+    if o.type=='MESH' and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof'):
         for a in list(o.data.color_attributes):o.data.color_attributes.remove(a)
         a=o.data.color_attributes.new(name='Baked contact and bounce',type='FLOAT_COLOR',domain='CORNER')
         o.data.color_attributes.active_color=a
@@ -50,9 +54,13 @@ for o in selected:
 bpy.data.objects.remove(light,do_unlink=True)
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(source),compress=True)
-for name,prefix in [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]:
+exports=[('room-'+room,room+'_')] if room else [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]
+for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
         if o.name.startswith(prefix):o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
-(ROOT/'artwork/coastal-home/reviews/baked-light.json').write_text(json.dumps({'method':'Cycles AO and diffuse indirect color-attribute bake','samples':24,'surfaces':stats},indent=2)+'\n')
+report=ROOT/'artwork/coastal-home/reviews/baked-light.json'
+if room and report.exists():
+    stats=[s for s in json.loads(report.read_text())['surfaces'] if not s['mesh'].startswith(prefixes)]+stats
+report.write_text(json.dumps({'method':'Cycles AO and diffuse indirect color-attribute bake','samples':24,'surfaces':stats},indent=2)+'\n')

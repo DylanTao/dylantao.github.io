@@ -12,6 +12,7 @@ import bmesh
 from mathutils import Vector
 from coastal_sculpt import surface
 from coastal_interiors import curved_wall
+from coastal_objects import wave_worn_rock, sandstone_bedding
 from coastal_landscape import shoreline, cliff_surface, beach_width, beach_point, top_height, export_contacts, web
 
 
@@ -285,6 +286,7 @@ def rehouse(mats, h):
 def coast(mats, h):
     """A shared shoreline section closes foundation, roof, land and beach."""
     rock = h["material"]("golden coastal sandstone", (0.62, 0.43, 0.265), 0.86)
+    bedding = h["material"]("warm sandstone bedding", (0.54, 0.385, 0.255), 0.89)
     sand = h["material"]("dry beach sand", (0.81, 0.69, 0.49), 0.96)
     wet = h["material"]("wet tideline sand", (0.48, 0.40, 0.27), 0.30)
     scrub = h["material"]("coastal sage scrub", (0.26, 0.34, 0.16), 0.92)
@@ -373,6 +375,7 @@ def coast(mats, h):
 
     base = mass("coast_continuous_cliff_foundation", -8.4, -0.26, False)
     cliff_normals(base)
+    sandstone_bedding(base, bedding, cliff_surface)
     objects.append(base)
     roof = mass("core_carved_mainland", -0.26, 6.75, True)
     roof.data.materials.append(mats["plaster"])
@@ -441,6 +444,7 @@ def coast(mats, h):
         assert boundary == 0, f'{name} has {boundary} non-manifold edges'
         bm.to_mesh(obj.data); bm.free(); cliff_normals(obj)
         obj['closedSolid'] = True
+        sandstone_bedding(obj, bedding, cliff_surface)
         solids.append(obj)
     bpy.data.objects.remove(split, do_unlink=True)
     top = solids[0]
@@ -481,17 +485,13 @@ def coast(mats, h):
         x = center + rng.gauss(0, 1.8)
         x, y, z = beach_point(x, rng.uniform(.03,.22))
         size = rng.uniform(.24, 1.1)
-        obj = h["sphere"](
+        obj = wave_worn_rock(
             "coast_talus",
             (x, y, z + size * .18),
             (size, size*.74, size*.57),
             rock,
-            segments=16,
+            9300 + i,
         )
-        # Broad chipped silhouettes, with smoothed normals rather than pebbles.
-        for v in obj.data.vertices:
-            v.co *= 1 + .13 * math.sin(v.co.x*3.1 + i) * math.cos(v.co.z*2.7)
-        obj.rotation_euler.z = rng.random() * math.tau
         objects.append(obj)
     export_contacts(CONFIG)
     for habitat in CONFIG['terrain']['habitats'].values():

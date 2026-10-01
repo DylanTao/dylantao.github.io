@@ -1,5 +1,5 @@
 """Actual Blender contact/pose review of each retained avatar and animal master."""
-import bpy, math
+import bpy, math, sys
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parents[1]
@@ -27,9 +27,9 @@ for avatar in ('lizard','south-park','simpsons','ghibli','rick-and-morty'):
     arm=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
     for track in arm.animation_data.nla_tracks:track.mute=track.name!='typing'
     bpy.context.scene.frame_set(28)
-    scene=studio((0,-.15,.67),(2.8,-4.6,2.4),1.85)
+    scene=studio((0,-.15,.86),(2.8,-4.6,2.4),2.10)
     # Exact fitted support heights: cushion top 51.5 cm, footrest top 22 cm.
-    for name,location,size in [('seat',(0,0,.49),(.56,.64,.05)),('footrest',(0,-.37,.11),(.49,.28,.22)),('keyboard',(0,-.43,.89),(.48,.22,.02))]:
+    for name,location,size in [('seat',(0,0,.49),(.56,.64,.05)),('footrest',(0,-.49,.11),(.49,.40,.22)),('keyboard',(0,-.43,.89),(.48,.22,.02))]:
         bpy.ops.mesh.primitive_cube_add(size=1,location=location);support=bpy.context.object;support.name=name;support.scale=size
     scene.render.filepath=str(OUT/f'{avatar}-seated.png');bpy.ops.render.render(write_still=True)
     for pose in ('pullup','dip','coffee-prep'):
@@ -45,7 +45,8 @@ for avatar in ('lizard','south-park','simpsons','ghibli','rick-and-morty'):
             support.scale=(.055,.37,.055) if pose!='coffee-prep' else (.60,.30,.035)
         scene.render.filepath=str(OUT/f'{avatar}-{pose}.png');bpy.ops.render.render(write_still=True)
 
-bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/wildlife.blend'))
-scene=studio((2,0,.25),(4,-7,3.4),6.4)
-scene.render.resolution_x=1200;scene.render.resolution_y=600
-scene.render.filepath=str(OUT/'wildlife-masters.png');bpy.ops.render.render(write_still=True)
+if '--avatars-only' not in sys.argv:
+    bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/wildlife.blend'))
+    scene=studio((2,0,.25),(4,-7,3.4),6.4)
+    scene.render.resolution_x=1200;scene.render.resolution_y=600
+    scene.render.filepath=str(OUT/'wildlife-masters.png');bpy.ops.render.render(write_still=True)
