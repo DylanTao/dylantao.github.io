@@ -1,13 +1,17 @@
 """Export bounded web geometry from the retained high-resolution Blender source."""
 import bpy
 import json
+import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
+assert room is None or room in ('study','sleep','kitchen','gym','onsen','lounge'),room
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/coastal-home.blend'))
 scene=bpy.context.scene
 report=[]
 for o in scene.objects:
     if o.type!='MESH':continue
+    if room and not o.name.startswith(room+'_'):continue
     attr=o.data.color_attributes.active_color
     if attr:
         sums=[0.0]*len(o.data.vertices);counts=[0]*len(sums)
@@ -27,9 +31,13 @@ for o in scene.objects:
         mod=o.modifiers.new('Web silhouette LOD','DECIMATE');mod.ratio=.42;mod.use_collapse_triangulate=True
         bpy.ops.object.modifier_apply(modifier=mod.name)
     report.append({'mesh':o.name,'facesBefore':before,'facesExported':len(o.data.polygons)})
-for name,prefix in [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]:
+exports=[('room-'+room,room+'_')] if room else [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]
+for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
         if o.name.startswith(prefix) or name=='home-shell' and o.type=='EMPTY':o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7,export_draco_color_quantization=6,export_draco_normal_quantization=8,export_draco_position_quantization=14)
-(ROOT/'artwork/coastal-home/reviews/web-export.json').write_text(json.dumps({'bakedColorQuantization':'32 grayscale steps, shared per vertex','dracoColorBits':6,'meshes':report},indent=2)+'\n')
+output=ROOT/'artwork/coastal-home/reviews/web-export.json'
+if room and output.exists():
+    report=[m for m in json.loads(output.read_text())['meshes'] if not m['mesh'].startswith(room+'_')]+report
+output.write_text(json.dumps({'bakedColorQuantization':'32 grayscale steps, shared per vertex','dracoColorBits':6,'meshes':report},indent=2)+'\n')

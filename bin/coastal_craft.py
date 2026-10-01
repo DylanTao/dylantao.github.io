@@ -4,6 +4,7 @@ import math
 import random
 import bpy
 from coastal_sculpt import surface
+from coastal_objects import turned_vessel
 
 
 def potted_plant(group, x, y, z, scale, mats, h):
@@ -159,9 +160,15 @@ def furnish(mats, h):
         mats["glass"],
         0.003,
     )
-    cylinder("study_cup", (0.61, 2.17, 0.961), 0.069, 0.15, cream, vertices=32)
+    turned_vessel(
+        "study_cup", (0.61, 2.17, 0.961),
+        [(0, -.075), (.045, -.075), (.052, -.070), (.057, -.048),
+         (.066, .058), (.066, .072), (.064, .076), (.061, .077),
+         (.058, .073), (.058, .061), (.050, -.046), (.043, -.062), (0, -.062)],
+        cream,
+    )
     coffee = h["material"]("coffee", (0.027, 0.011, 0.004), 0.18)
-    cylinder("study_coffee", (0.61, 2.17, 1.037), 0.055, 0.002, coffee)
+    cylinder("study_coffee", (0.61, 2.17, 1.015), 0.056, 0.002, coffee)
     tube(
         "study_cup_handle",
         [

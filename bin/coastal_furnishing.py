@@ -2,6 +2,7 @@
 import math
 import bpy
 from coastal_landscape import web
+from coastal_objects import turned_vessel
 
 
 def furnish_final(mats, h, config):
@@ -22,7 +23,7 @@ def furnish_final(mats, h, config):
         for j in range(3):
             box('kitchen_fitted_drawer',(-4.021,y,.24+j*.25),(.026,.57,.228),oak,.012)
             tube('kitchen_drawer_pull',[(-3.99,y-.15,.27+j*.25),(-3.99,y+.15,.27+j*.25)],.009,metal)
-    box('kitchen_limestone_worktop',(-4.33,.61,.88),(.78,3.36,.07),stone,.03)
+    worktop = box('kitchen_limestone_worktop',(-4.33,.61,.88),(.78,3.36,.07),stone,.03)
     box('kitchen_stone_backsplash',(-4.72,.61,1.05),(.09,3.4,.4),stone,.025)
     # Independent island: waterfall stone ends, ribbed oak, inset drawers.
     box('kitchen_island_plinth',(-2.46,1.26,.055),(.70,1.55,.10),black,.025)
@@ -31,7 +32,9 @@ def furnish_final(mats, h, config):
     for y in (.37,2.15):box('kitchen_waterfall_end',(-2.43,y,.50),(.96,.075,.90),stone,.035)
     for i in range(24):box('kitchen_island_oak_flute',(-2.038,.51+i*.065,.49),(.030,.042,.77),oak,.013)
     box('kitchen_chopping_board',(-2.42,1.17,.985),(.47,.60,.035),mats['wood'],.035)
-    bowl=sphere('kitchen_fruit_bowl',(-2.45,1.71,1.025),(.20,.19,.075),ceramic)
+    turned_vessel('kitchen_fruit_bowl',(-2.45,1.71,1.025),
+        [(0,-.055),(.075,-.055),(.095,-.045),(.16,-.003),(.197,.037),
+         (.20,.043),(.196,.048),(.190,.043),(.153,.007),(.083,-.035),(0,-.039)],ceramic)
     for dx,dy in [(-.065,0),(.07,.025),(0,-.065)]:sphere('kitchen_citrus',(-2.45+dx,1.71+dy,1.07),(.057,.055,.055),mats['terra'])
     # Refrigerator faces into the working aisle; paired doors and freezer.
     fridge_y=2.85
@@ -49,8 +52,18 @@ def furnish_final(mats, h, config):
     box('kitchen_oven_door',(-3.985,-.65,.49),(.045,.55,.56),black,.025)
     box('kitchen_oven_window',(-3.958,-.65,.49),(.008,.41,.30),steel,.02)
     tube('kitchen_oven_handle',[(-3.92,-.86,.71),(-3.92,-.44,.71)],.014,steel)
-    box('kitchen_sink_recess',(-4.31,1.85,.919),(.49,.49,.018),steel,.09)
-    box('kitchen_sink_bowl',(-4.31,1.85,.928),(.40,.40,.011),black,.09)
+    # The sink is an actual counter opening and a thin rounded metal basin.
+    cutter = cylinder('kitchen_sink_opening_tool',(-4.31,1.85,.91),.222,.32,None)
+    bpy.context.view_layer.objects.active=worktop
+    cut=worktop.modifiers.new('Undermount sink opening','BOOLEAN')
+    cut.operation='DIFFERENCE';cut.solver='EXACT';cut.object=cutter
+    bpy.ops.object.modifier_apply(modifier=cut.name)
+    bpy.data.objects.remove(cutter,do_unlink=True)
+    turned_vessel('kitchen_sink_bowl',(-4.31,1.85,.921),
+        [(0,-.148),(.075,-.148),(.15,-.119),(.210,-.04),(.231,.005),
+         (.237,.009),(.237,.014),(.231,.017),(.224,.010),(.205,-.039),
+         (.145,-.112),(.073,-.141),(0,-.141)],steel,64)
+    cylinder('kitchen_sink_drain',(-4.31,1.85,.782),.026,.004,black,vertices=24)
     tube('kitchen_swan_tap',[(-4.57,1.85,.91),(-4.57,1.85,1.26),(-4.47,1.85,1.34),(-4.31,1.85,1.28),(-4.31,1.85,1.20)],.017,metal)
     # Espresso machine: case, group, controls, steam wand and slotted drip tray.
     box('kitchen_espresso_machine',(-4.25,.22,1.18),(.47,.60,.48),black,.06)
@@ -63,8 +76,13 @@ def furnish_final(mats, h, config):
     for y in (.06,.38):
         dial=cylinder('kitchen_espresso_dial',(-3.977,y,1.32),.038,.018,black,vertices=24);dial.rotation_euler.y=math.pi/2
     cylinder('kitchen_cup_rest',(-3.91,.22,1.01),.071,.018,ceramic)
-    cup=cylinder('kitchen_espresso_cup',(-3.91,.22,1.065),.055,.094,ceramic)
+    cup=turned_vessel('kitchen_espresso_cup',(-3.91,.22,1.065),
+        [(0,-.047),(.031,-.047),(.040,-.041),(.051,.026),(.054,.043),
+         (.053,.048),(.049,.050),(.046,.046),(.045,.025),(.033,-.034),(0,-.036)],ceramic)
     cup['activityProp']='coffee-cup'
+    crema=h['material']('espresso crema',(.24,.11,.028),.28)
+    coffee=cylinder('kitchen_espresso_crema',(-3.91,.22,1.104),.046,.002,crema)
+    coffee['activityProp']='coffee-cup'
     handle=tube('kitchen_espresso_cup_handle',[(-3.91,.264,1.09),(-3.91,.307,1.083),(-3.91,.311,1.047),(-3.91,.265,1.035)],.010,ceramic)
     handle['activityProp']='coffee-cup'
     # Separate grinder with transparent hopper and visible beans.
@@ -91,7 +109,9 @@ def furnish_final(mats, h, config):
     box('kitchen_dining_chair_seat',(-3.45,3.05,.45),(.57,.59,.12),mats['sage'],.065)
     back=box('kitchen_dining_chair_back',(-3.45,2.79,.77),(.58,.12,.55),oak,.065)
     back.rotation_euler.x=.12
-    cylinder('kitchen_dining_plate',(-3.45,3.60,.839),.18,.017,ceramic)
+    turned_vessel('kitchen_dining_plate',(-3.45,3.60,.839),
+        [(0,-.008),(.08,-.008),(.14,-.005),(.18,.008),(.18,.014),
+         (.175,.017),(.139,.003),(.077,-.001),(0,-.001)],ceramic,64)
     h['potted_plant']('kitchen',-4.32,4.12,0,.86,mats,h)
     kitchen=next(r for r in config['rooms'] if r['id']=='kitchen')
     kitchen.update(actor=web((-3.45,3.04,0)),target=web((-3.18,1.85,1.03)),egress=web((-1.56,3.1,0)),exitPath=[web((-2.7,3.04,0)),web((-1.56,3.1,0))])

@@ -58,13 +58,14 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     ]
     if natural:
         profile = [
-            (-1.0, 0.40, 0.34),
-            (-0.86, 0.74, 0.62),
-            (-0.66, 0.94, 0.81),
-            (-0.30, 1.0, 0.97),
-            (0.1, 1.0, 1.0),
-            (0.45, 0.95, 0.93),
-            (0.72, 0.83, 0.75),
+            (-1.0, 0.30, 0.30),
+            (-0.88, 0.59, 0.56),
+            (-0.70, 0.84, 0.76),
+            (-0.40, 0.95, 0.86),
+            (-0.05, 0.98, 0.95),
+            (0.28, 1.0, 0.97),
+            (0.52, 0.95, 0.90),
+            (0.75, 0.82, 0.77),
             (0.91, 0.53, 0.50),
             (1.025, 0.08, 0.08),
         ]
@@ -108,10 +109,10 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             segments=24,
         )
         face_parts.append(ear)
-    eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.081
+    eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.067
     eye_y = -0.232 if short else -0.174 if yellow or lanky else -0.158
     eye_z = head_z + 0.042
-    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.043
+    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.031
     # A continuous nose bridge; the Simpsons study keeps its distinctive long tip.
     if natural:
         nose = loft(
@@ -148,9 +149,11 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             loft(
                 "natural neck",
                 [
-                    (1.065, 0, 0.015, 0.079, 0.075),
-                    (1.13, 0, 0.018, 0.071, 0.072),
-                    (max(1.14, head_z - hz * 0.71), 0, 0.015, 0.074, 0.066),
+                    (1.063, 0, 0.020, 0.087 if natural else 0.092, 0.069),
+                    (1.09, 0, 0.024, 0.075 if natural else 0.082, 0.065),
+                    (1.13, 0, 0.027, 0.054 if natural else 0.065, 0.052),
+                    (1.185, 0, 0.033, 0.053 if natural else 0.065, 0.055),
+                    (max(1.19, head_z - hz * 0.71), 0, 0.034, 0.059 if natural else 0.070, 0.057),
                 ],
                 skin,
                 28,
@@ -179,13 +182,13 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 sphere(
                     "iris " + name,
                     (x + 0.001, pupil_y - 0.002, eye_z),
-                    (0.014, 0.004, 0.015),
+                    (0.010, 0.004, 0.011),
                     iris,
                     segments=24,
                 ),
                 "Eye." + name,
             )
-        pupil_r = 0.009 if natural else 0.013 if short else 0.015
+        pupil_r = 0.0065 if natural else 0.013 if short else 0.015
         part(
             sphere(
                 "pupil " + name,
@@ -220,7 +223,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                     tube("soft eyelid", pts, (0.0036 if sign > 0 else 0.0024) if natural else (0.0045 if sign > 0 else 0.003), skin),
                     "Eye." + name,
                 )
-        r = eye_r + (0.026 if natural else 0.011)
+        r = eye_r + (0.030 if natural else 0.011)
         glasses_y = eye_y - (0.036 if natural else 0.056)
         pts = [
             (
@@ -261,7 +264,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             )
         )
         # Brows sit on the forehead, above the lens, with a calm uneven arch.
-        bz = eye_z + (0.071 if natural else r + 0.018)
+        bz = eye_z + (0.061 if natural else r + 0.018)
         part(
             swept_lock(
                 "tapered eyebrow",
@@ -277,7 +280,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 sides=8,
             )
         )
-    r = eye_r + (0.026 if natural else 0.011)
+    r = eye_r + (0.030 if natural else 0.011)
     part(
         tube(
             "spectacle bridge",
@@ -384,21 +387,22 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
         )
         hand_parts = [
             smooth(arm),
-            sphere("palm", (wrist, -0.030, 0.555), (0.042, 0.03, 0.066), skin),
+            sphere("palm", (wrist, -0.030, 0.561), (0.038, 0.026, 0.055), skin),
         ]
         fingers = 3 if short else 4
         for j in range(fingers):
-            x = wrist + (j - (fingers - 1) / 2) * 0.017
+            x = wrist + (j - (fingers - 1) / 2) * 0.019
+            length = (0.053, 0.062, 0.058, 0.047)[j]
             hand_parts.append(
                 swept_lock(
                     "resting finger",
                     [
-                        (x, -0.034, 0.535),
-                        (x, -0.05, 0.507 - 0.005 * (j % 2)),
-                        (x, -0.057, 0.489),
-                        (x, -0.047, 0.484),
+                        (x, -0.034, 0.532),
+                        (x, -0.049, 0.532 - length * 0.47),
+                        (x, -0.057, 0.532 - length * 0.87),
+                        (x, -0.048, 0.532 - length),
                     ],
-                    [0.010, 0.011, 0.009, 0.006],
+                    [0.0085, 0.0080, 0.0068, 0.0045],
                     skin,
                     sides=8,
                 )
@@ -407,16 +411,16 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             swept_lock(
                 "relaxed thumb",
                 [
-                    (wrist - side * 0.031, -0.032, 0.578),
-                    (wrist - side * 0.052, -0.040, 0.554),
-                    (wrist - side * 0.046, -0.050, 0.53),
+                    (wrist - side * 0.027, -0.028, 0.578),
+                    (wrist - side * 0.051, -0.044, 0.549),
+                    (wrist - side * 0.044, -0.061, 0.525),
                 ],
-                [0.016, 0.014, 0.008],
+                [0.014, 0.012, 0.006],
                 skin,
                 sides=10,
             )
         )
-        arm = weld_sculpt(hand_parts, "continuous relaxed arm", 0.0045)
+        arm = weld_sculpt(hand_parts, "continuous relaxed arm", 0.0028)
         arm["blendArm"] = name
         part(arm, "Forearm." + name)
         hip, leg_w = side * 0.11, 0.057 if lanky else 0.098 if short else 0.079

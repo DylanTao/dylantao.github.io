@@ -244,14 +244,26 @@ def home():
             0.07,
         )
         back.rotation_euler.x = -0.13 * back_sign
+        # A bent oak/linen back cups the lumbar region rather than forming a
+        # straight block across Sirui's shoulders. The seat height is unchanged.
+        for vertex in back.data.vertices:
+            edge = (vertex.co.x / (width * 0.5)) ** 2
+            vertex.co.y -= 0.045 * edge
+            vertex.co.z += 0.018 * (1 - edge)
+        back.data.update()
         if not lounge:
             box(
                 group + "_footrest",
-                (x, y + 0.37, 0.11),
-                (0.49, 0.28, 0.22),
+                (x, y + 0.37, 0.204),
+                (0.49, 0.28, 0.032),
                 mats["wood"],
-                0.04,
+                0.012,
             )
+            for dx in (-0.195, 0.195):
+                box(group + "_footrest_support", (x + dx, y + 0.37, 0.095),
+                    (0.044, 0.235, 0.19), mats["oak"], 0.01)
+            box(group + "_footrest_stretcher", (x, y + 0.37, 0.061),
+                (0.42, 0.034, 0.035), mats["wood"], 0.009)
         if lounge:
             for dx in (-0.51, 0.51):
                 box(
@@ -365,7 +377,10 @@ def home():
     empty("anchor_onsen", (3.02, 1.92, -0.48))
 
     chair("lounge", 3.23, -0.83, True)
-    box("lounge_ottoman", (3.23, 0.04, 0.30), (0.75, 0.53, 0.20), mats["cream"], 0.09)
+    box("lounge_ottoman", (3.23, -0.29, 0.13), (0.75, 0.53, 0.18), mats["cream"], 0.06)
+    for dx in (-.26, .26):
+        for dy in (-.17, .17):
+            box("lounge_ottoman_foot",(3.23+dx,-.29+dy,.025),(.065,.065,.05),mats["wood"],.014)
     cylinder("lounge_table", (2.14, -1.42, 0.46), 0.36, 0.07, mats["oak"])
     cylinder("lounge_tableleg", (2.14, -1.42, 0.21), 0.09, 0.42, mats["wood"])
     for i in range(3):
@@ -451,6 +466,9 @@ def finish_home(mats, furnished=False):
     offset=next(r['offset'] for r in CONFIG['rooms'] if r['id']=='sleep')
     duvet('sleep_duvet',mats['sage'],(offset[0],-offset[2],offset[1]))
     furnish_final(mats, globals(), CONFIG)
+    from coastal_objects import fitted_footrests
+
+    fitted_footrests(CONFIG, mats, globals())
     garden(mats, globals())
     coast_objects = coast(mats, globals())
     for room in CONFIG['rooms']:
@@ -1033,7 +1051,7 @@ def character(style):
     # The natural interpretation has adult head-to-shoulder proportions. Apply
     # the same transform to eyes and their bones, leaving the contact rig intact.
     head_factor = (
-        0.76 if natural else 0.89 if angular or yellow else 0.94 if lizard else 1.0
+        0.66 if natural else 0.83 if angular or yellow else 0.94 if lizard else 0.90
     )
     pivot = Vector((0, 0, 1.12))
     for obj, bone in pieces:
@@ -1134,6 +1152,10 @@ def character(style):
     bpy.context.view_layer.objects.active = pieces[0][0]
     bpy.ops.object.join()
     bpy.context.object.name = "SiruiMesh"
+    from coastal_anatomy import fit_adult_rest
+
+    fit_adult_rest(arm)
+    head_z += 0.24
     arm.animation_data_create()
     # Solve the authored hand contacts in Blender, then bake the resulting
     # bone rotations into the exported clips. The browser needs no IK runtime.
@@ -1182,6 +1204,11 @@ def character(style):
             bone.matrix=Matrix.Translation(pivot)@turn@Matrix.Translation(-pivot)@bone.matrix
             bpy.context.view_layer.update()
 
+    body_mesh = bpy.data.objects["SiruiMesh"]
+    head_group = body_mesh.vertex_groups["Head"].index
+    head_back = max((body_mesh.matrix_world @ v.co).y for v in body_mesh.data.vertices
+                    if any(g.group == head_group and g.weight > .9 for g in v.groups))
+    sleep_head_lift = max(0, head_back - .055)
     clips = (
         "idle",
         "walk",
@@ -1214,12 +1241,12 @@ def character(style):
             pb = arm.pose.bones
             seated = clip in ("typing", "reading", "eat", "drink", "soak", "lounge")
             if seated:
-                # Root's local Y is Blender world Z. Keep hips on the cushion;
-                # miniature footrests support the deliberately cartoon proportions.
-                pb["Root"].location.y = -0.08
+                # Root's local Y is Blender world Z. The adult shins descend
+                # to the same 22 cm footrest; the pelvis rests on the cushion.
+                pb["Root"].location.y = -0.21
                 for side in ("L", "R"):
-                    pb["Thigh." + side].rotation_euler.x = -1.48
-                    pb["Shin." + side].rotation_euler.x = 1.46
+                    pb["Thigh." + side].rotation_euler.x = -1.574
+                    pb["Shin." + side].rotation_euler.x = 1.554
                     pb["Arm." + side].rotation_euler.x = -0.25
                     pb["Forearm." + side].rotation_euler.x = -1.05
             if clip == "typing":
@@ -1246,7 +1273,7 @@ def character(style):
                     )
             elif clip in ('pullup','dip'):
                 effort=(1-math.cos(phase))/2
-                pb['Root'].location.y=(.91+.31*effort) if clip=='pullup' else (.24-.19*effort)
+                pb['Root'].location.y=(.66+.31*effort) if clip=='pullup' else (.10-.15*effort)
                 pb['Spine'].rotation_euler.x=.06 if clip=='pullup' else .14
                 for side in ('L','R'):
                     pb['Thigh.'+side].rotation_euler.x=-.38
@@ -1255,6 +1282,7 @@ def character(style):
             elif clip in ('coffee-prep','carry'):
                 pb['Head'].rotation_euler.x=.17
                 pb['Head'].rotation_euler.z=.013*math.sin(phase)
+                pb['Spine'].rotation_euler.x=.26 if clip=='coffee-prep' else .025
                 pb['Arm.R'].rotation_euler.x=-.75
                 pb['Forearm.R'].rotation_euler.x=-.80
             elif clip == "walk":
@@ -1269,6 +1297,10 @@ def character(style):
             elif clip == "sleep":
                 pb["Root"].rotation_euler.x = -math.pi / 2
                 pb["Root"].location.y = 0.67
+                # After reclining, local Z moves down the mattress. Fit the
+                # center of the head to the existing pillow for every style.
+                pb["Root"].location.z = head_z - 1.14
+                pb["Head"].location.z = sleep_head_lift
                 pb["Spine"].rotation_euler.x = math.sin(phase) * 0.012
                 for side in ("L", "R"):
                     pb["Eye." + side].scale.y = 0.06
@@ -1277,6 +1309,19 @@ def character(style):
             if lizard:
                 pb["Tail"].rotation_euler.z = math.sin(phase) * 0.13
                 pb["TailTip"].rotation_euler.z = math.sin(phase + 0.4) * 0.18
+                if clip == "sleep":
+                    # Reclining rotates the standing tail into the mattress.
+                    # Rest both sections along the bed toward the feet instead.
+                    for name in ("Tail", "TailTip"):
+                        bpy.context.view_layer.update()
+                        bone = pb[name]
+                        pivot = bone.head.copy()
+                        before = (bone.tail - pivot).normalized()
+                        after = Vector((.035 * math.sin(phase), -1, .02)).normalized()
+                        turn = before.rotation_difference(after).to_matrix().to_4x4()
+                        lift = Matrix.Translation((0, 0, .21)) if name == "Tail" else Matrix.Identity(4)
+                        bone.matrix = lift @ Matrix.Translation(pivot) @ turn @ Matrix.Translation(-pivot) @ bone.matrix
+                    bpy.context.view_layer.update()
             if clip == "typing":
                 for i,side in enumerate(('L','R')):
                     tap=.006*math.sin(phase*4+i*math.pi)

@@ -746,6 +746,11 @@ def build_bluff(mats, h):
 
 def render_portrait(arm, style, out):
     scene = bpy.context.scene
+    height = max(
+        (obj.matrix_world @ vertex.co).z
+        for obj in scene.objects if obj.type == "MESH"
+        for vertex in obj.data.vertices
+    )
     scene.render.engine = "CYCLES"
     scene.cycles.samples = 24
     scene.cycles.use_denoising = True
@@ -775,7 +780,7 @@ def render_portrait(arm, style, out):
     bpy.ops.object.camera_add(location=(1.8, -5.0, 2.12))
     camera = bpy.context.object
     camera.name = "Portrait camera"
-    target = Vector((0, -0.01, 1.30))
+    target = Vector((0, -0.01, height - 0.38))
     camera.rotation_euler = (
         (target - camera.location).to_track_quat("-Z", "Y").to_euler()
     )
@@ -800,9 +805,9 @@ def render_portrait(arm, style, out):
     # Model review includes front, profile, and full-body views. A flattering
     # single bust angle is not evidence for a usable three-dimensional likeness.
     for label, location, center, scale in [
-        ("front", (0, -5, 1.36), (0, 0, 1.24), 1.12),
-        ("profile", (5, -0.4, 1.5), (0, 0, 1.24), 1.14),
-        ("body", (2, -6, 2.2), (0, 0, 0.81), 2.12),
+        ("front", (0, -5, height - 0.14), (0, 0, height - 0.38), 1.12),
+        ("profile", (5, -0.4, height - 0.10), (0, 0, height - 0.38), 1.14),
+        ("body", (2, -6, 2.2), (0, 0, height * 0.51), max(2.12, height * 1.22)),
     ]:
         camera.location = location
         camera.rotation_euler = (
