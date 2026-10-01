@@ -17,6 +17,17 @@ test("record: on-disc controls, continuous rotation, and offscreen suspension", 
   // The header measures its height after window.load. Start the transport
   // baseline after that page-wide layout change, before any player input.
   await expect.poll(() => page.locator("body").evaluate((e) => e.style.paddingTop)).not.toBe("");
+  const caption = page.locator(".home-record-console");
+  await expect(caption).toBeHidden();
+  // A preview caption must stay reachable while keyboard focus moves from
+  // the disc to its source, and disappear when the original portrait returns.
+  await play.focus();
+  await expect(caption).toBeVisible();
+  await page.locator("[data-home-record-next]").press("Tab");
+  await expect(page.locator("[data-home-record-source]")).toBeFocused();
+  await expect(caption).toBeVisible();
+  await page.getByRole("button", { name: "2D", exact: true }).focus();
+  await expect(caption).toBeHidden();
   const disc = page.locator("#home-profile-image-container");
   const discBox = await disc.boundingBox();
   const playBox = await play.boundingBox();
@@ -814,6 +825,7 @@ test("coastal home: touch pinch zoom changes the projection and returns to Now",
   await settle(page);
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.02);
   expect((await evidence(scene)).following).toBe(false);
+  await explore(ui);
   await ui.locator("[data-world-now]").tap();
   expect((await evidence(scene)).following).toBe(true);
   await context.close();

@@ -898,6 +898,7 @@
     const previousButton = document.querySelector("[data-home-record-prev]");
     const nextButton = document.querySelector("[data-home-record-next]");
     const recordSceneElement = portrait.querySelector("[data-home-record-scene]");
+    const recordPlayer = portrait.closest(".home-record-player") || portrait;
     const recordFallbackArt = recordSceneElement?.querySelector(".home-record-art");
     const recordScene = createRecordSceneController(recordSceneElement);
     const deskSceneElement = stage?.querySelector("[data-home-desk-scene]");
@@ -1726,15 +1727,17 @@
     syncRecordVisualState();
     syncPileState();
 
-    portrait.addEventListener("mouseenter", () => {
+    recordPlayer.addEventListener("mouseenter", () => {
       if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
     });
-    portrait.addEventListener("mouseleave", () => hideRecord());
-    portrait.addEventListener("focusin", () => {
+    recordPlayer.addEventListener("mouseleave", () => {
+      if (!recordPlayer.contains(document.activeElement)) hideRecord();
+    });
+    recordPlayer.addEventListener("focusin", () => {
       if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
     });
-    portrait.addEventListener("focusout", (event) => {
-      if (!portrait.contains(event.relatedTarget) && !pile?.contains(event.relatedTarget)) hideRecord();
+    recordPlayer.addEventListener("focusout", (event) => {
+      if (!recordPlayer.contains(event.relatedTarget) && !pile?.contains(event.relatedTarget)) hideRecord();
     });
     portrait.addEventListener("pointerdown", startShakeGesture);
     portrait.addEventListener("pointermove", updateShakeGesture);

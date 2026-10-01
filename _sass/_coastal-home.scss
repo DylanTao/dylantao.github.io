@@ -52,9 +52,13 @@
   filter: none;
   // The carved silhouette fades inside every canvas boundary, including tall mobile views.
   mask-image:
-    url("../img/home/coastal-vignette.svg"), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent),
-    linear-gradient(to bottom, transparent, #000 5%, #000 93%, transparent);
-  mask-size: 100% 100%;
+    url("../img/home/coastal-vignette.svg"), linear-gradient(to right, transparent 3px, #000 4%, #000 96%, transparent calc(100% - 3px)),
+    linear-gradient(to bottom, transparent 3px, #000 4%, #000 96%, transparent calc(100% - 3px));
+  mask-size:
+    106% 106%,
+    100% 100%,
+    100% 100%;
+  mask-position: center;
   mask-repeat: no-repeat;
   mask-composite: intersect;
 }

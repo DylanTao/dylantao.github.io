@@ -25,6 +25,8 @@
               <img
                 src="{{ work.image | relative_url }}"
                 alt="{{ work.alt }}"
+                width="{{ work.image_width }}"
+                height="{{ work.image_height }}"
                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
               >
             </div>

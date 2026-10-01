@@ -1,0 +1,189 @@
+{% assign home = site.pages | where: 'permalink', '/' | first %}
+{% assign origin_photo = home.thesis.origin.photo %}
+<link rel="stylesheet" href="{{ '/assets/css/design-lab.css' | relative_url }}">
+
+<div class="home-page design-lab">
+  <header class="design-lab-opening">
+    <p class="home-kicker">Local design review · October 1</p>
+    <h1>Ideas, in your site.</h1>
+    <p>Working previews with your research and photographs. Revised after your October 1 feedback.</p>
+    <nav aria-label="Design previews">
+      <a href="#a">A · Work spread</a>
+      <a href="#b1">B1 · Small margin photo</a>
+      <a href="#b2">B2 · Text only</a>
+      <a href="#c">C · Quiet updates</a>
+      <a href="{{ '/' | relative_url }}">Current homepage ↗</a>
+    </nav>
+  </header>
+
+  <section id="a" class="design-preview" aria-labelledby="preview-a-title">
+    <header class="design-preview-brief">
+      <div>
+        <p class="design-preview-label">A · Homepage selected work</p>
+        <h2 id="preview-a-title">Let DesignWeaver lead.</h2>
+        <p>One selected research project, with room to inspect the original interface figure before opening the case study.</p>
+      </div>
+      <p class="design-preview-reference">
+        Learn from
+        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/087-sketchbook-portfolio.html" target="_blank" rel="noopener noreferrer"
+          >087 · Sketchbook ↗</a
+        >
+        and
+        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html" target="_blank" rel="noopener noreferrer"
+          >008 · Editorial ↗</a
+        >.
+      </p>
+    </header>
+    <div class="design-preview-surface design-work-spread">
+      <div class="home-section-heading home-section-heading-row">
+        <div>
+          <p class="home-kicker">Selected work</p>
+          <h2>Questions made tangible.</h2>
+        </div>
+        <a class="home-text-link" href="{{ '/projects/' | relative_url }}">All projects</a>
+      </div>
+      {% for work in home.featured_work %}
+        <article class="design-work-row">
+          <figure>
+            <a href="{{ work.url | relative_url }}" aria-label="Open {{ work.title }} case study">
+              <img
+                src="{{ work.image | relative_url }}"
+                alt="{{ work.alt }}"
+                width="{{ work.image_width }}"
+                height="{{ work.image_height }}"
+                loading="lazy"
+              >
+            </a>
+          </figure>
+          <div class="design-work-copy">
+            <p class="home-work-meta">
+              <span>{{ work.venue }}</span><span>{{ work.theme }}</span>
+            </p>
+            <h3>
+              <a href="{{ work.url | relative_url }}">{{ work.title }}</a>
+            </h3>
+            <p>{{ work.description }}</p>
+            <a class="home-text-link" href="{{ work.url | relative_url }}">Read the case study ↗</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    <p class="design-preview-tradeoff">
+      DesignWeaver now leads the local homepage. The workshop paper remains in the project and publication archives.
+    </p>
+  </section>
+
+  <section id="b" class="design-preview" aria-labelledby="preview-b-title">
+    <header class="design-preview-brief">
+      <div>
+        <p class="design-preview-label">B · Revised thesis note</p>
+        <h2 id="preview-b-title">Keep the question at the center.</h2>
+        <p>B1 is now on the local homepage. Steven, Don, and other conversations share the acknowledgement; B2 remains here for comparison.</p>
+      </div>
+      <p class="design-preview-reference">
+        Learn from
+        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html" target="_blank" rel="noopener noreferrer"
+          >008 · Margin notes ↗</a
+        >
+        and the
+        <a href="https://zcnofdpgpxud.feishuapp.com/app/app_17exzr8eka4/" target="_blank" rel="noopener noreferrer">editorial collection ↗</a>.
+      </p>
+    </header>
+    <article id="b1" class="design-notebook-variant" aria-labelledby="preview-b1-title">
+      <p id="preview-b1-title" class="design-variant-label">B1 · A small photograph in the margin</p>
+      <div class="design-preview-surface design-conversation">
+        <div class="design-conversation-copy">
+          <p class="home-kicker">{{ home.thesis.eyebrow }}</p>
+          <h2>{{ home.thesis.title }}</h2>
+          <p class="design-thesis-lead">{{ home.thesis.lead }}</p>
+          <aside class="design-principle" aria-label="Sirui's design principle">
+            <p class="design-preview-label">{{ home.thesis.principle_label }}</p>
+            <p>{{ home.thesis.principle }}</p>
+          </aside>
+          <p class="design-conversation-credit">{{ home.thesis.origin.text }}</p>
+        </div>
+        <aside class="design-conversation-margin" aria-label="One of the conversations behind this work">
+          {% capture origin_caption %}{{ origin_photo.caption }}<br>{{ origin_photo.date_label }}{% endcapture %}
+          {%
+            include figure.liquid
+            path=origin_photo.image
+            alt=origin_photo.alt
+            width=origin_photo.width
+            height=origin_photo.height
+            caption=origin_caption
+            sizes='(max-width: 767px) 192px, 208px'
+            loading='lazy'
+          %}
+          <a class="home-text-link" href="{{ home.thesis.origin.url | relative_url }}">Read the talk note ↗</a>
+        </aside>
+      </div>
+      <p class="design-preview-tradeoff">Keeps a personal detail at the edge of the research story. The image stays small on mobile too.</p>
+    </article>
+    <article id="b2" class="design-notebook-variant" aria-labelledby="preview-b2-title">
+      <p id="preview-b2-title" class="design-variant-label">B2 · A quiet acknowledgement, without a photograph</p>
+      <div class="design-preview-surface design-text-note">
+        <p class="home-kicker">{{ home.thesis.eyebrow }}</p>
+        <h2>{{ home.thesis.title }}</h2>
+        <p class="design-thesis-lead">{{ home.thesis.lead }}</p>
+        <aside class="design-principle" aria-label="Sirui's design principle">
+          <p class="design-preview-label">{{ home.thesis.principle_label }}</p>
+          <p>{{ home.thesis.principle }}</p>
+        </aside>
+        <div class="design-conversation-footer">
+          <p>{{ home.thesis.origin.text }}</p>
+          <a class="home-text-link" href="{{ home.thesis.origin.url | relative_url }}">{{ home.thesis.origin.link_label }} ↗</a>
+        </div>
+      </div>
+      <p class="design-preview-tradeoff">
+        The lightest treatment. Keeps the people and a reading link in the story, with less emphasis on any single encounter.
+      </p>
+    </article>
+  </section>
+
+  <section id="c" class="design-preview" aria-labelledby="preview-c-title">
+    <header class="design-preview-brief">
+      <div>
+        <p class="design-preview-label">C · Homepage updates</p>
+        <h2 id="preview-c-title">Let updates read like dated notes.</h2>
+        <p>Quiet rules, aligned dates, complete sentences. This refinement is already on the local homepage.</p>
+      </div>
+      <p class="design-preview-reference">
+        Learn from the clear alignment in
+        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/003-swiss-poster-machine.html" target="_blank" rel="noopener noreferrer"
+          >003 · Swiss grid ↗</a
+        >.
+      </p>
+    </header>
+    <div class="design-preview-surface">
+      <div class="home-section-heading home-section-heading-row">
+        <div>
+          <p class="home-kicker">Updates</p>
+          <h2>Recent signals.</h2>
+        </div>
+        <a class="home-text-link" href="{{ '/news/' | relative_url }}">Full timeline</a>
+      </div>
+      {% assign pinned_news = site.news | where: 'pinned', true | sort: 'date' | reverse %}
+      {% assign regular_news = site.news | where_exp: 'item', 'item.pinned != true' | sort: 'date' | reverse %}
+      {% assign preview_news = pinned_news | concat: regular_news %}
+      <div class="home-news-strip">
+        {% for item in preview_news limit: home.announcements.limit %}
+          <article class="home-news-item">
+            <time datetime="{{ item.date | date_to_xmlschema }}">{{ item.date | date: '%b %d, %Y' }}</time>
+            <p>
+              {% if item.pinned -%}
+                <span class="home-news-pin" aria-label="Pinned">Pinned</span>
+              {%- endif %}
+              {% if item.inline -%}
+                {{- item.content | remove: '<p>' | remove: '</p>' | emojify -}}
+              {%- else -%}
+                <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+              {%- endif %}
+            </p>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <p class="design-lab-credit">Original site implementation and existing Sirui assets. Reference sites are linked for the ideas they illustrate.</p>
+</div>

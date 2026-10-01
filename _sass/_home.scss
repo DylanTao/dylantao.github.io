@@ -1213,6 +1213,11 @@ html.home-desk-outside-active .home-story-rail {
 .home-record-console {
   width: 100%;
   padding: 0.35rem 0.4rem;
+  visibility: hidden;
+}
+
+.home-record-player:has(.home-portrait-frame:is(.is-previewing, .is-vinyl-mode)) .home-record-console {
+  visibility: visible;
 }
 
 .home-record-caption {

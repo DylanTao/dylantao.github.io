@@ -67,7 +67,8 @@ const COASTAL_THEME_ROUTE_SAMPLES = [
   {
     path: "/",
     readySelector: '[data-home-section="start"]',
-    surfaceSelector: ".home-thesis-note",
+    // The thesis is an unboxed note; sample the retained research-focus card.
+    surfaceSelector: ".home-motion-detail.is-active",
   },
 ];
 

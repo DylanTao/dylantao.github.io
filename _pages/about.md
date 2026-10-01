@@ -100,17 +100,11 @@ featured_work:
     image: /assets/img/publication_preview/designweaver-transparent.png
     alt: Original DesignWeaver figure connecting a design brief, dimension palette, and image gallery.
     image_aspect: 16 / 9
+    image_width: 2294
+    image_height: 1298
     venue: CHI 2025
     theme: Design
     description: Making the dimensions inside a prompt visible, so novices can compare and refine product ideas.
-  - title: What Happened and Why?
-    url: /projects/what-happened-and-why/
-    image: /assets/img/publication_preview/herding_cats_why_what-transparent.png
-    alt: Original paper diagram linking creative activity traces to micro-episodes and user explanations.
-    image_aspect: 16 / 9
-    venue: CHI 2026 Workshop
-    theme: Evaluate
-    description: Connecting creative activity traces with people’s explanations of the moments that matter.
 
 story_sections:
   - label: Start
@@ -140,8 +134,16 @@ thesis:
     changed, comparing alternatives, and building better reasons for choosing one
     direction over another.
   origin:
-    text: "Don Norman's Design Lab talk helped sharpen this framing: the next generation of designers needs tools that cultivate taste, not just tools that generate options."
+    text: "My work with Steven P. Dow and conversations with Don Norman and many others keep shaping how I think about taste and design judgment."
+    link_label: Notes from Don Norman's talk
     url: /blog/2026/don-norman-design-lab-talk/
+    photo:
+      image: /assets/img/don-norman-talk-2026/selfie-with-don.jpg
+      alt: Sirui with Don Norman after the Design Lab talk
+      width: 4032
+      height: 3024
+      caption: One of those conversations.
+      date_label: Design Lab · March 4, 2026
   principle_label: Design principle
   principle: >-
     Design help should not just make more artifacts. It should make the next move

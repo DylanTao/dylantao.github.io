@@ -21,6 +21,32 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### October 1 working previews: selected work and a quieter conversation note
+
+- **Hypothesis:** A larger original figure beside a short explanation lets a visitor inspect the strongest work earlier; a small margin photograph or text acknowledgement can connect the thesis to people without making one encounter dominate it.
+- **Route:** Unlisted `/design-lab/` previews A, B1 and B2. DesignWeaver now leads homepage selected work; the workshop paper remains in the archives. B1 adds a small margin photograph to the homepage thesis; B2 is retained as a text-only comparison.
+- **Reference:** [087's artifact and process relationship](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/087-sketchbook-portfolio.html), [008's editorial figure and margin-note relationship](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html), and its two versions inspected in the [unified collection](https://zcnofdpgpxud.feishuapp.com/app/app_17exzr8eka4/). Keep this site's Inter, ordinary scrolling, and theme tokens.
+- **Licensing:** Original markup and styles around existing Sirui figures, approved copy, and the already-public Don Norman photograph. No reference code, imagery, fonts, or video imported. The displayed design principle is explicitly Sirui's words.
+- **Visitor benefit:** Inspect the original DesignWeaver interface at a useful size, then follow a direct case-study link; understand that the thesis develops through work with Steven P. Dow and conversations with Don Norman and many others.
+- **Budget:** No new runtime dependencies or motion. Whole, uncropped research figures with declared dimensions. Native links, theme-aware surfaces, readable mobile stacking, no horizontal overflow. The review route has no navigation/search/sitemap entry and requests `noindex, nofollow`.
+- **Status:** Selected-work, shared-credit and B1 corrections are `implemented` locally. B2 remains a comparison on the review route.
+- **Evidence:** Original desktop renders and the responsive report live under `.jekyll-cache/visual-qa/october-design-previews-revised/`. The [preview handoff](design-previews-2026-10-01.md) records sources and comparisons. These establish rendered behavior, not measured visitor comprehension.
+- **Sirui decision:** Requested ongoing implementation and concrete renders. Declined the workshop paper's selected-work prominence and the Don-dominant framing; requested broader credit, then chose B1's small margin photograph. Integrated B1 after that choice.
+- **Revisit trigger:** Revised wording or whether the small photograph still gives one person disproportionate emphasis.
+
+### October 1 quiet updates and contextual record caption
+
+- **Hypothesis:** A dated reading list avoids empty equal-height cards and truncated announcements; a caption tied to the visible record avoids labeling an ordinary portrait with a song title.
+- **Route:** Existing homepage updates and 2D portrait/record; preview C shows the same updates treatment.
+- **Reference:** [003's aligned reading structure](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/003-swiss-poster-machine.html). The record refinement follows the existing 057/V07 causal-state work rather than adding another control layer.
+- **Licensing:** Original styles and interaction changes; existing announcement content, dates, record metadata, and sources are preserved.
+- **Visitor benefit:** Read complete news entries and understand which artwork a source link identifies. The source remains reachable as keyboard focus moves from the disc into its caption.
+- **Budget:** Preserve native disc controls, shared 2D/3D state, stable caption space, accessible focus, reduced motion, and offscreen suspension. No new controls or dependencies.
+- **Status:** `implemented` locally; visual review remains open.
+- **Evidence:** Comparable work/update captures, the responsive preview report, and the existing on-disc interaction case with caption focus/return checks. See the [preview handoff](design-previews-2026-10-01.md).
+- **Sirui decision:** Authorized the next refinement pass and asked to judge concrete renders. Preview C is available for keep/revise/remove feedback.
+- **Revisit trigger:** Sirui's response to C or a record input path that loses its source link or leaves a stale caption.
+
 ### Reading roles across the public site
 
 - **Hypothesis:** A consistent title hierarchy, comfortable prose measure, and compact utility metadata let readers find work and scan notes sooner.

@@ -56,3 +56,9 @@ Completed source/build checks: 166 Python tests, changed Python compilation, sty
 Direct screenshot inspection covered the comparable study/kitchen views, current 390-pixel study and actual sleep/soak states, with no runtime errors. The coordinator owns combined light/dark, four-viewport and site/room release checks.
 
 The original mobile pinch test passes its projection/pixel-change assertions, then times out at `desk-scene.spec.js:817`: it taps the hidden Now button without opening the newly collapsed lab menu. Its trace and failure screenshot are retained under `.jekyll-cache/visual-qa/realistic-refinement-mobile-checks/`. This is a failed complete test, not a mobile acceptance pass. The coordinator owns the scene tests and has corrected the menu locator for the integrated rerun.
+
+## Integrated acceptance on main
+
+The coordinator integrated the model checkpoint as `dc67a2c29`. Four minimal-control and eight light/dark composition cases pass at the four standard viewports, including real orbit/zoom pixel differences and connected room/exterior navigation. The corrected mobile pinch/Now case passes completely. An initial mobile dark-edge failure in the wider page mask was repaired with a three-pixel interior fade guard; all eight light/dark edge cases pass. The final desktop minimal-control view passes with that guard in place. Evidence is under `.jekyll-cache/visual-qa/october-integrated-room/`, `october-integrated-edges/`, `october-integrated-pinch/` and `october-room-final-preview/` in the main checkout.
+
+The root Docker server's Ghibli, study, kitchen and shell GLBs were SHA-256-compared with their integrated source files. The combined homepage checkpoint passes all four standard sizes in light/dark, and the final `/al-folio` production build succeeds. These checks establish this local integration, rather than a complete release matrix or a new physical solver claim.
