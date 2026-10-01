@@ -1,5 +1,6 @@
 ---
 layout: post
+title: HotSpot accepted at CVPR 2025
 date: 2025-02-26
 inline: true
 related_posts: false
