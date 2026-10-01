@@ -30,7 +30,7 @@ code * {
 }
 h1,
 .home-title,
-.post-title,
+h1.post-title,
 .project-case-copy h1 {
   font-size: var(--type-page-title);
   font-weight: 600;
@@ -56,6 +56,23 @@ strong,
 b {
   font-weight: 600;
 }
+
+// Repeated entries use the subsection role. The page-title rule must not
+// leak into blog list links that also carry the legacy .post-title class.
+.blog-index .post-list > li h3,
+.blog-index .blog-start-body strong,
+.projects .project-card .card-title {
+  font-size: var(--type-subheading);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.cv .card-title {
+  font-size: var(--type-section-title);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
 .home-title {
   max-width: 22ch;
 }

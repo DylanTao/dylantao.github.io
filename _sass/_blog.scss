@@ -1469,3 +1469,53 @@ body.sirui-secret-dialog-open {
 .project-navigation {
   margin-top: 2.5rem;
 }
+
+// Archive dates stay intact on a phone; complete rows are easy to scan and tap.
+.archive-return {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+  font-size: var(--type-meta);
+}
+
+.archive {
+  table {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  tr + tr {
+    border-top: 1px solid var(--global-divider-color);
+  }
+
+  th {
+    width: 7.5rem;
+    padding: 0.75rem 1.25rem 0.75rem 0;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    font-weight: 400;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0;
+    vertical-align: top;
+  }
+
+  .post-link {
+    display: block;
+    min-height: 2.75rem;
+    padding-block: 0.65rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 575px) {
+  .archive th {
+    width: 5rem;
+    padding-right: 0.75rem;
+  }
+}

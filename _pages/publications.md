@@ -12,6 +12,7 @@ publication_constellation: true
 publication_collection: true
 random_teasers: true
 cinematic: true
+design_story_class: publications-page
 ---
 
 <!-- _pages/publications.md -->
@@ -28,6 +29,13 @@ cinematic: true
 
 {% include publications/wall_of_rejection.liquid %}
 
+<div class="publication-workbench" data-publication-workbench data-publication-view="list">
+  <div class="publication-lens-column">
+    {% include publications/scholar_lens.liquid %}
+  </div>
+
+  <div class="publication-list-column">
+    <div class="publication-list-tools">
 <div class="publication-view-switcher" data-publication-view-switcher hidden>
   <div role="group" aria-label="Choose publication view">
     <button
@@ -53,15 +61,9 @@ cinematic: true
   </div>
   <p class="sr-only" data-publication-view-status aria-live="polite">Paper List shown.</p>
 </div>
-
-<div class="publication-workbench" data-publication-workbench data-publication-view="list">
-  <div class="publication-lens-column">
-    {% include publications/scholar_lens.liquid %}
-  </div>
-
-  <div class="publication-list-column">
-    <div id="publication-list-view" data-publication-view-panel="list">
       {% include bib_search.liquid %}
+    </div>
+    <div id="publication-list-view" data-publication-view-panel="list">
 
       <div class="publications">
 

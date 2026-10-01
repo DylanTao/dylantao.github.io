@@ -4,30 +4,71 @@ const { publicRouteUrl } = require("./public-routes");
 const { collectRuntimeErrors, preparePage } = require("./helpers");
 const evidence = (page) => page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence());
 
+test("P: moving content clears its painted surface immediately", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/blog/2024/"), { waitUntil: "load" });
+  const companion = page.locator(".pip-companion");
+  await expect(companion).toHaveAttribute("data-visible", "true");
+
+  // An expanding reading surface can remove every clear perch. Observe the
+  // next painted frame, before an opacity fade would have finished.
+  const paintsOverReading = await page.evaluate(async () => {
+    const probe = document.createElement("p");
+    probe.dataset.pipClearanceProbe = "";
+    probe.textContent = "An expanded reading surface.";
+    Object.assign(probe.style, {
+      position: "fixed",
+      inset: "75px 0 0",
+      margin: "0",
+      background: "var(--global-bg-color)",
+    });
+    document.querySelector("#main").append(probe);
+    window.dispatchEvent(new Event("resize"));
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const pip = document.querySelector(".pip-companion");
+    const style = getComputedStyle(pip);
+    const paint = pip.querySelector("canvas").getBoundingClientRect();
+    const reading = probe.getBoundingClientRect();
+    const overlaps = paint.left < reading.right && paint.right > reading.left && paint.top < reading.bottom && paint.bottom > reading.top;
+    return overlaps && style.visibility !== "hidden" && Number(style.opacity) > 0;
+  });
+  expect(paintsOverReading).toBe(false);
+  await page.locator("[data-pip-clearance-probe]").evaluate((node) => node.remove());
+  await page.evaluate(() => window.dispatchEvent(new Event("resize")));
+  await expect(companion).toHaveAttribute("data-visible", "true");
+  expect(errors).toEqual([]);
+});
+
 test("P: reading surfaces stay clear after content reflows", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await preparePage(page, "light");
   for (const [route, ready, protectedSelector] of [
     ["/", ".home-record-console", ".home-record-console"],
-    ["/projects/", ".project-browser-origin", ".project-browser-origin"],
+    ["/projects/", ".project-browser-origin", ".projects [data-project-card]"],
     ["/projects/designweaver/", ".project-case-facts", ".project-case-facts"],
+    ["/projects/what-happened-and-why/", ".trace-caption", ".trace-caption"],
+    ["/projects/homepage-desk-scene/", ".project-case-copy h1", ".project-case-copy h1"],
     ["/github-activity/", "[data-github-activity][data-state='ready']", "#main svg"],
     ["/blog/2026/research-skills-starter-pack/", "#markdown-content", "#main p"],
   ]) {
     await page.goto(publicRouteUrl(route), { waitUntil: "load" });
     await expect(page.locator(ready).first()).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
+    await page.locator(protectedSelector).first().scrollIntoViewIfNeeded();
     await page.waitForFunction(() => typeof document.querySelector(".pip-companion")?.getCompanionEvidence === "function");
 
     const overlaps = () =>
       page.evaluate((selector) => {
         const companion = document.querySelector(".pip-companion");
-        if (companion.dataset.visible !== "true") return [];
-        const hit = companion.querySelector(".pip-hit").getBoundingClientRect();
+        const paint = getComputedStyle(companion);
+        if (paint.visibility === "hidden" || Number(paint.opacity) === 0) return [];
+        const hit = companion.querySelector("canvas").getBoundingClientRect();
         return [...document.querySelectorAll(selector)].flatMap((node) => {
           let boxes = [node.getBoundingClientRect()];
-          if (node.matches("p")) {
+          if (node.matches("p, h1, h2, h3, h4, h5, h6")) {
             const range = document.createRange();
             range.selectNodeContents(node);
             boxes = [...range.getClientRects()];

@@ -172,9 +172,16 @@ function start() {
   }
   function refreshLayout() {
     rail = contentRoot?.getBoundingClientRect();
+    // The travel solver uses the body footprint. Reading clearance includes
+    // the complete canvas, so glasses and antennae cannot sit over a heading.
+    const bodySize = innerWidth < 600 ? 68 : 82;
+    const paintWidth = innerWidth < 600 ? 72 : 88;
+    const paintHeight = innerWidth < 600 ? 92 : 112;
+    const paintInsetX = paintWidth / 2 - bodySize * 0.39 + 1;
+    const paintInsetY = paintHeight / 2 - bodySize * 0.48 + 1;
     obstacles = [
       ...document.querySelectorAll(
-        "#main h1,#main h2,#main h3,#main h4,#main h5,#main h6,#main p,#main li,#main dl,#main figure,#main img,#main svg,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main canvas,#main .project-case-facts,#main .project-browser-origin,#main .home-portrait-frame,#main .home-record-console,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
+        "#main h1,#main h2,#main h3,#main h4,#main h5,#main h6,#main p,#main li,#main dl,#main figure,#main figcaption,#main .caption,#main [class$='-caption'],#main [class*='-caption '],#main img,#main svg,#main pre,#main table,#main input,#main textarea,#main button,#main a,#main label,#main summary,#main canvas,#main .project-case-facts,#main .project-browser-origin,#main .home-portrait-frame,#main .home-record-console,#main .home-artifact-card,#main [data-project-card],#main .blog-pinned-card,#main .home-world-controls,header,nav.navbar,.ninja-keys,.modal.show,#back-to-top"
       ),
     ]
       .filter(
@@ -193,7 +200,13 @@ function start() {
         }
         return [bounds];
       })
-      .filter((r) => r.width > 0 && r.height > 0 && r.bottom > 70 && r.top < innerHeight);
+      .filter((r) => r.width > 0 && r.height > 0 && r.bottom > 70 && r.top < innerHeight)
+      .map((r) => ({
+        left: r.left - paintInsetX,
+        right: r.right + paintInsetX,
+        top: r.top - paintInsetY,
+        bottom: r.bottom + paintInsetY,
+      }));
     if (journey) {
       const sample = sampleTravel(journey, elapsed - journeyStart);
       const remaining = journey.kind === "portal" ? journey.points : [sample, ...journey.points.slice(sample.segment)];
@@ -606,6 +619,7 @@ function start() {
     }
     if (mode !== "page") {
       el.dataset.visible = "false";
+      el.style.visibility = "hidden";
       visible = false;
       el.dataset.speaking = "false";
     } else {
@@ -620,6 +634,7 @@ function start() {
       }
       if (!target) {
         el.dataset.visible = "false";
+        el.style.visibility = "hidden";
         el.style.opacity = "";
       }
       if (target) {
@@ -652,6 +667,9 @@ function start() {
         // If a moving page puts text under P, wait in the next clear gap.
         const clear = clearAt(x, y, obstacles, (innerWidth < 600 ? 68 : 82) * (travelPose?.scale || 1));
         el.dataset.visible = String(visible && (clear || el.matches(":focus-within")));
+        // An opacity fade still paints over words after a scroll or reflow.
+        // Clear occupied reading space immediately, then fade into a safe gap.
+        el.style.visibility = el.dataset.visible === "true" ? "" : "hidden";
         el.dataset.side = x < innerWidth / 2 ? "left" : "right";
         el.style.opacity = travelPose && el.dataset.visible === "true" ? String(travelPose.opacity) : "";
         const w = innerWidth < 600 ? 72 : 88,
