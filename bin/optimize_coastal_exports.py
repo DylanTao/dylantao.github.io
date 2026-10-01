@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
+interiors_only='--interiors-only' in sys.argv
 assert room is None or room in ('study','sleep','kitchen','gym','onsen','lounge'),room
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/coastal-home.blend'))
 scene=bpy.context.scene
@@ -12,6 +13,7 @@ report=[]
 for o in scene.objects:
     if o.type!='MESH':continue
     if room and not o.name.startswith(room+'_'):continue
+    if interiors_only and o.name.startswith('coast_'):continue
     attr=o.data.color_attributes.active_color
     if attr:
         sums=[0.0]*len(o.data.vertices);counts=[0]*len(sums)
@@ -32,6 +34,7 @@ for o in scene.objects:
         bpy.ops.object.modifier_apply(modifier=mod.name)
     report.append({'mesh':o.name,'facesBefore':before,'facesExported':len(o.data.polygons)})
 exports=[('room-'+room,room+'_')] if room else [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]
+if interiors_only:exports=[e for e in exports if e[0]!='coast']
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
@@ -40,4 +43,6 @@ for name,prefix in exports:
 output=ROOT/'artwork/coastal-home/reviews/web-export.json'
 if room and output.exists():
     report=[m for m in json.loads(output.read_text())['meshes'] if not m['mesh'].startswith(room+'_')]+report
+elif interiors_only and output.exists():
+    report=[m for m in json.loads(output.read_text())['meshes'] if m['mesh'].startswith('coast_')]+report
 output.write_text(json.dumps({'bakedColorQuantization':'32 grayscale steps, shared per vertex','dracoColorBits':6,'meshes':report},indent=2)+'\n')

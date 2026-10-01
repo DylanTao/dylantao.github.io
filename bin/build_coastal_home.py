@@ -501,6 +501,9 @@ def finish_home(mats, furnished=False):
         coast_objects.append(o)
     for group in ("core", "study", "sleep", "kitchen", "gym", "onsen", "lounge"):
         join_static(group)
+    from coastal_finishes import apply_finishes
+
+    apply_finishes()
     bpy.ops.wm.save_as_mainfile(
         filepath=str(SOURCE / "coastal-home.blend"), compress=True
     )
@@ -568,7 +571,7 @@ def character(style):
     if yellow:
         head_scale = (0.20, 0.18, 0.31)
     if natural:
-        head_scale = (0.200, 0.163, 0.222)
+        head_scale = (0.184, 0.163, 0.222)
     part(sphere("male torso", (0, 0.01, 0.92), (width, 0.15, 0.26), shirt), "Spine")
     part(
         sphere("shirt hem", (0, 0.01, 0.73), (width * 0.88, 0.15, 0.10), shirt), "Hips"
@@ -1051,7 +1054,7 @@ def character(style):
     # The natural interpretation has adult head-to-shoulder proportions. Apply
     # the same transform to eyes and their bones, leaving the contact rig intact.
     head_factor = (
-        0.66 if natural else 0.83 if angular or yellow else 0.94 if lizard else 0.90
+        0.58 if natural else 0.83 if angular or yellow else 0.94 if lizard else 0.90
     )
     pivot = Vector((0, 0, 1.12))
     for obj, bone in pieces:

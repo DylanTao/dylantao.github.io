@@ -59,12 +59,12 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     if natural:
         profile = [
             (-1.0, 0.30, 0.30),
-            (-0.88, 0.59, 0.56),
-            (-0.70, 0.84, 0.76),
-            (-0.40, 0.95, 0.86),
-            (-0.05, 0.98, 0.95),
-            (0.28, 1.0, 0.97),
-            (0.52, 0.95, 0.90),
+            (-0.88, 0.57, 0.59),
+            (-0.70, 0.79, 0.76),
+            (-0.40, 0.92, 0.87),
+            (-0.05, 0.99, 0.95),
+            (0.28, 0.97, 0.97),
+            (0.52, 0.91, 0.90),
             (0.75, 0.82, 0.77),
             (0.91, 0.53, 0.50),
             (1.025, 0.08, 0.08),
@@ -93,7 +93,9 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     face = smooth(
         loft(
             "shaped adult face",
-            [(head_z + l * hz, 0, -0.015, hx * wx, hy * wy) for l, wx, wy in profile],
+            [(head_z + l * hz, 0,
+              -0.015 - (0.007 * max(0, -l - 0.25) if natural else 0),
+              hx * wx, hy * wy) for l, wx, wy in profile],
             skin,
             48,
         ),
@@ -104,15 +106,15 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
         ear = sphere(
             "ear helix",
             (side * hx * 0.98, -0.003, head_z - 0.015),
-            (0.034 if natural else 0.043, 0.031, 0.058),
+            (0.030 if natural else 0.043, 0.028 if natural else 0.031, 0.055 if natural else 0.058),
             skin,
             segments=24,
         )
         face_parts.append(ear)
-    eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.067
+    eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.060
     eye_y = -0.232 if short else -0.174 if yellow or lanky else -0.158
     eye_z = head_z + 0.042
-    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.031
+    eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.028
     # A continuous nose bridge; the Simpsons study keeps its distinctive long tip.
     if natural:
         nose = loft(
@@ -149,11 +151,11 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             loft(
                 "natural neck",
                 [
-                    (1.063, 0, 0.020, 0.087 if natural else 0.092, 0.069),
-                    (1.09, 0, 0.024, 0.075 if natural else 0.082, 0.065),
-                    (1.13, 0, 0.027, 0.054 if natural else 0.065, 0.052),
-                    (1.185, 0, 0.033, 0.053 if natural else 0.065, 0.055),
-                    (max(1.19, head_z - hz * 0.71), 0, 0.034, 0.059 if natural else 0.070, 0.057),
+                    (1.063, 0, 0.020, 0.080 if natural else 0.092, 0.065 if natural else 0.069),
+                    (1.09, 0, 0.023, 0.070 if natural else 0.082, 0.060 if natural else 0.065),
+                    (1.13, 0, 0.026, 0.052 if natural else 0.065, 0.050 if natural else 0.052),
+                    (1.185, 0, 0.029, 0.051 if natural else 0.065, 0.053 if natural else 0.055),
+                    (max(1.19, head_z - hz * 0.71), 0, 0.030 if natural else 0.034, 0.055 if natural else 0.070, 0.054 if natural else 0.057),
                 ],
                 skin,
                 28,
@@ -223,7 +225,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                     tube("soft eyelid", pts, (0.0036 if sign > 0 else 0.0024) if natural else (0.0045 if sign > 0 else 0.003), skin),
                     "Eye." + name,
                 )
-        r = eye_r + (0.030 if natural else 0.011)
+        r = eye_r + (0.025 if natural else 0.011)
         glasses_y = eye_y - (0.036 if natural else 0.056)
         pts = [
             (
@@ -247,7 +249,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             tube(
                 "round wire glasses",
                 pts,
-                0.0032 if natural else 0.0042,
+                0.0027 if natural else 0.0042,
                 mats["wire spectacles"],
             )
         )
@@ -264,7 +266,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             )
         )
         # Brows sit on the forehead, above the lens, with a calm uneven arch.
-        bz = eye_z + (0.061 if natural else r + 0.018)
+        bz = eye_z + (0.059 if natural else r + 0.018)
         part(
             swept_lock(
                 "tapered eyebrow",
@@ -280,7 +282,7 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
                 sides=8,
             )
         )
-    r = eye_r + (0.030 if natural else 0.011)
+    r = eye_r + (0.025 if natural else 0.011)
     part(
         tube(
             "spectacle bridge",
@@ -301,10 +303,10 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
             tube(
                 "quiet asymmetric smile",
                 [
-                    (-0.060, mouth_y + 0.004, mouth_z + 0.007),
+                    (-0.053, mouth_y + 0.004, mouth_z + 0.006),
                     (-0.019, mouth_y - 0.006, mouth_z - 0.001),
                     (0.015, mouth_y - 0.007, mouth_z),
-                    (0.060, mouth_y + 0.002, mouth_z + 0.008),
+                    (0.053, mouth_y + 0.002, mouth_z + 0.007),
                 ],
                 0.0025,
                 lip,
@@ -349,10 +351,10 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
 
     from coastal_hair import hair_sculpt
 
-    pieces.extend(hair_sculpt(head_z, head_scale, hair, h))
+    pieces.extend(hair_sculpt(head_z, head_scale, hair, h, natural=natural))
     from coastal_clothing import cotton_shirt
 
-    part(cotton_shirt(width, shirt), "Spine")
+    part(cotton_shirt(width, shirt, natural=natural), "Spine")
     part(
         smooth(
             loft(

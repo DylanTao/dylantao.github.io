@@ -3,6 +3,21 @@
   "dracoColorBits": 6,
   "meshes": [
     {
+      "mesh": "coast_shared_golden coastal sandstone",
+      "facesBefore": 44592,
+      "facesExported": 44592
+    },
+    {
+      "mesh": "coast_shared_dry beach sand",
+      "facesBefore": 8960,
+      "facesExported": 8960
+    },
+    {
+      "mesh": "coast_shared_tide pool sea glass",
+      "facesBefore": 2,
+      "facesExported": 2
+    },
+    {
       "mesh": "study__pale oak",
       "facesBefore": 980,
       "facesExported": 980
@@ -46,6 +61,36 @@
       "mesh": "study__olive leaf",
       "facesBefore": 5176,
       "facesExported": 5176
+    },
+    {
+      "mesh": "sleep__honey ash",
+      "facesBefore": 494,
+      "facesExported": 494
+    },
+    {
+      "mesh": "sleep__linen",
+      "facesBefore": 436,
+      "facesExported": 436
+    },
+    {
+      "mesh": "sleep__pale oak",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "sleep__terracotta",
+      "facesBefore": 306,
+      "facesExported": 306
+    },
+    {
+      "mesh": "sleep__charcoal",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "sleep__olive leaf",
+      "facesBefore": 572,
+      "facesExported": 572
     },
     {
       "mesh": "gym__gym rubber",
@@ -378,11 +423,6 @@
       "facesExported": 320
     },
     {
-      "mesh": "coast_shared_golden coastal sandstone",
-      "facesBefore": 44592,
-      "facesExported": 44592
-    },
-    {
       "mesh": "core_liftaway_cave_ceiling",
       "facesBefore": 917,
       "facesExported": 917
@@ -391,11 +431,6 @@
       "mesh": "core__golden coastal sandstone",
       "facesBefore": 34104,
       "facesExported": 34104
-    },
-    {
-      "mesh": "coast_shared_dry beach sand",
-      "facesBefore": 8960,
-      "facesExported": 8960
     },
     {
       "mesh": "core__coastal sage scrub",
@@ -411,11 +446,6 @@
       "mesh": "core__coastal wildflower ochre",
       "facesBefore": 34560,
       "facesExported": 26610
-    },
-    {
-      "mesh": "coast_shared_tide pool sea glass",
-      "facesBefore": 2,
-      "facesExported": 2
     },
     {
       "mesh": "study_footrest",
@@ -476,36 +506,6 @@
       "mesh": "lounge_ottoman_foot.003",
       "facesBefore": 98,
       "facesExported": 98
-    },
-    {
-      "mesh": "sleep__honey ash",
-      "facesBefore": 494,
-      "facesExported": 494
-    },
-    {
-      "mesh": "sleep__linen",
-      "facesBefore": 436,
-      "facesExported": 436
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "facesBefore": 306,
-      "facesExported": 306
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "facesBefore": 572,
-      "facesExported": 572
     },
     {
       "mesh": "sleep_duvet",

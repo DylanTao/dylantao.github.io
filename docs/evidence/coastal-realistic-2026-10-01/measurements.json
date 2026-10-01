@@ -1,0 +1,377 @@
+{
+  "baselineCommit": "d2878aa30984778e9f38a4d29866b4065e6ee453",
+  "server": "http://127.0.0.1:8083",
+  "viewportBeforeAfter": [1440, 1000],
+  "capture": "Actual Chromium, D3D11, deviceScaleFactor 1, reduced-motion poses",
+  "manifestSha256": "3428a3a76bd7a01f904233a8326dbc5535a4cce2367d8a1675ce5ddbb94c1cb0",
+  "manifestUnchanged": true,
+  "manifestHashEncoding": "Repository content normalized to LF, matching the unchanged Git blob",
+  "geometryBytesBefore": 7070400,
+  "geometryBytesAfter": 7077116,
+  "selectedGhibliComputedGzipBytes": 3744542,
+  "computedGzipQualifier": "All room/coast/wildlife GLBs plus Ghibli, excluding the four other avatars. Not HTTP transfer or full page payload.",
+  "totalAllChoiceTriangles": 1381389,
+  "assets": [
+    {
+      "file": "BrushRabbit.glb",
+      "beforeBytes": 70608,
+      "afterBytes": 70608,
+      "triangles": 11232,
+      "sha256": "00c20e5e7486ce6a56528d76de384511b62789477c3ea6f06fd9022da1a2b297"
+    },
+    {
+      "file": "CaliforniaSeaLion.glb",
+      "beforeBytes": 59004,
+      "afterBytes": 59004,
+      "triangles": 9360,
+      "sha256": "94126291afa3e8d39dd528fa691a71b0999a8ad62d5d994497fe21fd2a16db39"
+    },
+    {
+      "file": "coast.glb",
+      "beforeBytes": 169708,
+      "afterBytes": 169708,
+      "triangles": 99884,
+      "sha256": "02e7d5d93233b62b0902ebb89743061c087aec4ff5ce343577c8e10d136960ae"
+    },
+    {
+      "file": "HarborSeal.glb",
+      "beforeBytes": 181544,
+      "afterBytes": 181544,
+      "triangles": 29328,
+      "sha256": "ee14ca76bc74ccec69903ccad186747aad1b120239d598de56acc55ab134eaa1"
+    },
+    {
+      "file": "home-shell.glb",
+      "beforeBytes": 1646112,
+      "afterBytes": 1646588,
+      "triangles": 267410,
+      "sha256": "d179c5ba94ca18101ed0040abf1af75961230a7618451a2df4f550aa05c705f3"
+    },
+    {
+      "file": "room-gym.glb",
+      "beforeBytes": 686812,
+      "afterBytes": 686928,
+      "triangles": 58084,
+      "sha256": "525395e32ba096e453188831efa1ee920adaca05bc3b6b6e0ad53cdeddc54d49"
+    },
+    {
+      "file": "room-kitchen.glb",
+      "beforeBytes": 469508,
+      "afterBytes": 470204,
+      "triangles": 60668,
+      "sha256": "dc6c2fbd5ae2f1b2106c5cad7b04a59cb37e8cd38ebb89a89e137b24af83347b"
+    },
+    {
+      "file": "room-lounge.glb",
+      "beforeBytes": 262100,
+      "afterBytes": 262396,
+      "triangles": 31507,
+      "sha256": "bf1156629ee60b6716866d19d636282d9e4a07e38776dd919f7b3243b162f312"
+    },
+    {
+      "file": "room-onsen.glb",
+      "beforeBytes": 84208,
+      "afterBytes": 84412,
+      "triangles": 7792,
+      "sha256": "2c9b468d29326b050deb6d72a7606205696e8b225b8251129060da45309bebab"
+    },
+    {
+      "file": "room-sleep.glb",
+      "beforeBytes": 56724,
+      "afterBytes": 56932,
+      "triangles": 9248,
+      "sha256": "de5dca6376dc0b598505a5ed732e62a49c2965b38cb57876401091918cad6fb3"
+    },
+    {
+      "file": "room-study.glb",
+      "beforeBytes": 354988,
+      "afterBytes": 357520,
+      "triangles": 38912,
+      "sha256": "32a13265d9b0bcc776afca269883c54f2727cdf4369e1c7352214ea339206e67"
+    },
+    {
+      "file": "sirui-ghibli.glb",
+      "beforeBytes": 631600,
+      "afterBytes": 633788,
+      "triangles": 166110,
+      "sha256": "a6f84f0b06165db6b27c12d214d22cbd4f37a66497635ed5e8e6b40d8e983ea3"
+    },
+    {
+      "file": "sirui-lizard.glb",
+      "beforeBytes": 463080,
+      "afterBytes": 463080,
+      "triangles": 97470,
+      "sha256": "b1a38357cffc570641994776190f4a0d8c8349881755d5cde62d22f2807b951e"
+    },
+    {
+      "file": "sirui-rick-and-morty.glb",
+      "beforeBytes": 618384,
+      "afterBytes": 618384,
+      "triangles": 153396,
+      "sha256": "7f419bb51d4f8f55d081d6359f924d929e121594ce6d64be72de4b27235c88fa"
+    },
+    {
+      "file": "sirui-simpsons.glb",
+      "beforeBytes": 634376,
+      "afterBytes": 634376,
+      "triangles": 159498,
+      "sha256": "844e1c55e5f7f84aba8b5e101bb275b4d8c1c8a0687db713abb5637de16e71d7"
+    },
+    {
+      "file": "sirui-south-park.glb",
+      "beforeBytes": 681644,
+      "afterBytes": 681644,
+      "triangles": 181490,
+      "sha256": "900eafa5b13def0e028c9d525cbceb47ef781ac999891ee7a5ac2cb0816dfb81"
+    }
+  ],
+  "browser": {
+    "beforeStudy": {
+      "ready": true,
+      "style": "realistic",
+      "avatarId": "ghibli",
+      "currentRoom": "study",
+      "activity": "work",
+      "animation": "typing",
+      "animations": [
+        "carry",
+        "coffee-prep",
+        "dip",
+        "drink",
+        "eat",
+        "idle",
+        "lounge",
+        "pullup",
+        "reading",
+        "sleep",
+        "soak",
+        "typing",
+        "walk",
+        "workout"
+      ],
+      "clockMode": "preview",
+      "daylight": {
+        "minute": 960,
+        "offset": -7,
+        "altitude": 30.50655509559289,
+        "daylight": 1,
+        "sunlight": 1,
+        "direction": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "keyDirection": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "location": {
+          "latitude": 32.83,
+          "longitude": -117.27,
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "camera": [2.2360660652392, 4.530654253316283, 0.8338161904533838],
+      "gripDrift": []
+    },
+    "afterStudy": {
+      "ready": true,
+      "style": "realistic",
+      "avatarId": "ghibli",
+      "currentRoom": "study",
+      "activity": "work",
+      "animation": "typing",
+      "animations": [
+        "idle",
+        "walk",
+        "typing",
+        "reading",
+        "eat",
+        "drink",
+        "workout",
+        "pullup",
+        "dip",
+        "coffee-prep",
+        "carry",
+        "soak",
+        "lounge",
+        "sleep"
+      ],
+      "clockMode": "preview",
+      "daylight": {
+        "minute": 960,
+        "offset": -7,
+        "altitude": 30.50655509559289,
+        "daylight": 1,
+        "sunlight": 1,
+        "direction": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "keyDirection": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "location": {
+          "latitude": 32.83,
+          "longitude": -117.27,
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "camera": [2.2360660652392, 4.530654253316283, 0.8338161904533838],
+      "gripDrift": []
+    },
+    "afterKitchen": {
+      "ready": true,
+      "style": "realistic",
+      "avatarId": "ghibli",
+      "currentRoom": "kitchen",
+      "activity": "work",
+      "animation": "typing",
+      "animations": [
+        "idle",
+        "walk",
+        "typing",
+        "reading",
+        "eat",
+        "drink",
+        "workout",
+        "pullup",
+        "dip",
+        "coffee-prep",
+        "carry",
+        "soak",
+        "lounge",
+        "sleep"
+      ],
+      "clockMode": "preview",
+      "daylight": {
+        "minute": 960,
+        "offset": -7,
+        "altitude": 30.50655509559289,
+        "daylight": 1,
+        "sunlight": 1,
+        "direction": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "keyDirection": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "location": {
+          "latitude": 32.83,
+          "longitude": -117.27,
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "camera": [-0.9648270508507459, 3.132859048466713, -6.303200268081268],
+      "gripDrift": []
+    },
+    "sleep": {
+      "ready": true,
+      "style": "realistic",
+      "avatarId": "ghibli",
+      "currentRoom": "sleep",
+      "activity": "sleep",
+      "animation": "sleep",
+      "animations": [
+        "idle",
+        "walk",
+        "typing",
+        "reading",
+        "eat",
+        "drink",
+        "workout",
+        "pullup",
+        "dip",
+        "coffee-prep",
+        "carry",
+        "soak",
+        "lounge",
+        "sleep"
+      ],
+      "clockMode": "preview",
+      "daylight": {
+        "minute": 600,
+        "offset": -7,
+        "altitude": 38.26509772676648,
+        "daylight": 1,
+        "sunlight": 1,
+        "direction": [-0.45839809202132387, 0.6193008627846475, 0.6374461785793378],
+        "keyDirection": [-0.45839809202132387, 0.6193008627846475, 0.6374461785793378],
+        "location": {
+          "latitude": 32.83,
+          "longitude": -117.27,
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "camera": [-0.993597268152207, 4.952050065417124, -0.20135404025872816],
+      "gripDrift": []
+    },
+    "soak": {
+      "ready": true,
+      "style": "realistic",
+      "avatarId": "ghibli",
+      "currentRoom": "onsen",
+      "activity": "soak",
+      "animation": "soak",
+      "animations": [
+        "idle",
+        "walk",
+        "typing",
+        "reading",
+        "eat",
+        "drink",
+        "workout",
+        "pullup",
+        "dip",
+        "coffee-prep",
+        "carry",
+        "soak",
+        "lounge",
+        "sleep"
+      ],
+      "clockMode": "preview",
+      "daylight": {
+        "minute": 1115,
+        "offset": -7,
+        "altitude": -0.8724351942099893,
+        "daylight": 0.6039160585566726,
+        "sunlight": 0,
+        "direction": [-0.05188550818514876, -0.015226278245604118, -0.9985369569981655],
+        "keyDirection": [-0.45, 0.7, -0.55],
+        "location": {
+          "latitude": 32.83,
+          "longitude": -117.27,
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "camera": [1.9553014382014264, 4.653414663117833, -0.39277930484544443],
+      "gripDrift": []
+    },
+    "work-390": {
+      "ready": true,
+      "style": "realistic",
+      "avatarId": "ghibli",
+      "currentRoom": "study",
+      "activity": "work",
+      "animation": "typing",
+      "animations": [
+        "idle",
+        "walk",
+        "typing",
+        "reading",
+        "eat",
+        "drink",
+        "workout",
+        "pullup",
+        "dip",
+        "coffee-prep",
+        "carry",
+        "soak",
+        "lounge",
+        "sleep"
+      ],
+      "clockMode": "preview",
+      "daylight": {
+        "minute": 960,
+        "offset": -7,
+        "altitude": 30.50655509559289,
+        "daylight": 1,
+        "sunlight": 1,
+        "direction": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "keyDirection": [-0.3883680334336814, 0.507636936908601, -0.769074125746607],
+        "location": {
+          "latitude": 32.83,
+          "longitude": -117.27,
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "camera": [2.2360660652392, 4.530654253316283, 0.8338161904533838],
+      "gripDrift": []
+    }
+  },
+  "runtimeErrors": []
+}

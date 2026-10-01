@@ -5,6 +5,7 @@ import random
 import bpy
 from coastal_sculpt import surface
 from coastal_objects import turned_vessel
+from coastal_finishes import celadon
 
 
 def potted_plant(group, x, y, z, scale, mats, h):
@@ -160,12 +161,13 @@ def furnish(mats, h):
         mats["glass"],
         0.003,
     )
+    cup_glaze = celadon(h["material"])
     turned_vessel(
         "study_cup", (0.61, 2.17, 0.961),
         [(0, -.075), (.045, -.075), (.052, -.070), (.057, -.048),
          (.066, .058), (.066, .072), (.064, .076), (.061, .077),
          (.058, .073), (.058, .061), (.050, -.046), (.043, -.062), (0, -.062)],
-        cream,
+        cup_glaze,
     )
     coffee = h["material"]("coffee", (0.027, 0.011, 0.004), 0.18)
     cylinder("study_coffee", (0.61, 2.17, 1.015), 0.056, 0.002, coffee)
@@ -178,7 +180,7 @@ def furnish(mats, h):
             (0.675, 2.17, 0.935),
         ],
         0.013,
-        cream,
+        cup_glaze,
     )
     for y in (1.962, 2.474):
         box("study_desktop_lip", (0.15, y, 0.776), (2.36, 0.025, 0.035), wood, 0.01)

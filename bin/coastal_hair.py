@@ -9,7 +9,7 @@ import bpy
 from coastal_sculpt import surface
 
 
-def hair_sculpt(head_z, head_scale, hair, h):
+def hair_sculpt(head_z, head_scale, hair, h, natural=False):
     hx, hy, hz = head_scale
     result = []
 
@@ -27,22 +27,29 @@ def hair_sculpt(head_z, head_scale, hair, h):
         sweep = a + 0.08 * math.sin(p) * math.sin(a + 0.4)
         ripple = 0.0011 * math.sin(a * 35 + p * 8) * math.sin(p)
         crest = 0.05 * max(0, math.cos(a)) * math.exp(-((p - 0.65) / 0.42) ** 2)
-        radial = 1.065 + lift + crest
+        radial = (1.075 if natural else 1.065) + lift + crest
+        contour = math.sin(p) ** (0.82 if natural else 0.70)
         return (
-            (hx * radial + ripple) * math.sin(p) ** 0.70 * math.sin(sweep),
-            0.012 - (hy * radial + ripple) * math.sin(p) ** 0.70 * math.cos(sweep),
+            (hx * radial + ripple) * contour * math.sin(sweep),
+            (-0.015 if natural else 0.012) - (hy * radial + ripple) * contour * math.cos(sweep),
             head_z + hz * (radial * math.cos(p) + 0.013 * math.sin(a)),
         )
+
+    def hairline(a):
+        front = max(0, math.cos(a))
+        if natural:
+            # Keep the swept forehead clear across the full lens width. The
+            # recession turns behind the temple before dropping around the ear.
+            return 1.90 - front**0.70 * 1.02 - 0.47 * abs(math.sin(a))**10
+        return 1.90 - front**2 * (0.83 + 0.12 * math.sin(a)) - 0.48 * abs(math.sin(a))**8
 
     verts, faces, columns, rows = [], [], 80, 22
     for row in range(rows + 1):
         t = row / rows
         for j in range(columns):
             a = j * math.tau / columns
-            front = max(0, math.cos(a))
             # A slightly asymmetric M hairline leaves the adult forehead open.
-            end = 1.90 - front**2 * (0.83 + 0.12 * math.sin(a))
-            end -= 0.48 * abs(math.sin(a)) ** 8
+            end = hairline(a)
             p = 0.012 + t * end
             verts.append(scalp(a, p))
     for row in range(rows):
@@ -61,6 +68,8 @@ def hair_sculpt(head_z, head_scale, hair, h):
             t = i / rows
             a = side * (0.10 + offset * 0.95 + t * 1.40)
             p = 0.93 - t * 0.48 + t * t * 1.09
+            if natural:
+                p = min(p, hairline(a) - 0.025)
             width = 0.018 * math.sin(math.pi * (0.08 + 0.89 * t))
             for j in range(3):
                 aa = a + (j - 1) * width
@@ -80,7 +89,7 @@ def hair_sculpt(head_z, head_scale, hair, h):
             t = row / rows
             for j in range(columns + 1):
                 a = math.pi / 2 + j / columns * math.pi
-                spread = 1.0 - 0.15 * math.sin(t * math.pi * 0.8)
+                spread = 1.0 - (0.20 if natural else 0.15) * math.sin(t * math.pi * 0.8)
                 spread += 0.14 * max(0, (t - 0.75) / 0.25) ** 2
                 edge_taper = math.sin((a - math.pi / 2)) ** 0.5
                 ripple = 0.0018 * math.sin(a * 31 - t * 5)

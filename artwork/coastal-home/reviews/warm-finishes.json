@@ -1,0 +1,16 @@
+{
+  "method": "PBR-only refresh; retained neutral vertex-contact bake",
+  "geometrySha256Before": "983d6ea055c1bf3231dbd914a3549b29253ea6407e13e32cd18b7804227b0028",
+  "geometrySha256After": "983d6ea055c1bf3231dbd914a3549b29253ea6407e13e32cd18b7804227b0028",
+  "updatedMaterials": [
+    "honey ash",
+    "pale oak",
+    "chalk limestone",
+    "warm cut stone",
+    "smoked olive cabinetry",
+    "brushed brass",
+    "warm glazed porcelain",
+    "hand glazed celadon"
+  ],
+  "mugFacesReassigned": 724
+}

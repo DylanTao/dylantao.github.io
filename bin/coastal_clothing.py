@@ -5,7 +5,7 @@ import bpy
 from coastal_sculpt import surface
 
 
-def cotton_shirt(width, material):
+def cotton_shirt(width, material, natural=False):
     # One connected garment; separate shoulder caps read as armour in the old
     # models. The cuffs and neckline are real open boundaries with cloth depth.
     rings = [
@@ -19,6 +19,11 @@ def cotton_shirt(width, material):
         (1.067, 0.63, 0.094),
         (1.089, 0, 0.077),
     ]
+    if natural:
+        # The doubled hem and shallow lower-torso folds have real volume.
+        # Keep the rest rig, shoulder openings and cuff endpoints unchanged.
+        rings[1:1] = [(0.697, 0.905, 0.126)]
+        rings[3:3] = [(0.741, 0.89, 0.133)]
     count = 32
     verts = []
     for z, ratio, depth in rings:
@@ -26,19 +31,24 @@ def cotton_shirt(width, material):
         for j in range(count):
             a = j * math.tau / count
             fold = .003 * math.sin(a * 5 + z * 19) * max(0, 1 - abs(z - .76) * 5)
-            verts.append(((rx + fold) * math.cos(a), (depth + fold) * math.sin(a), z))
+            if natural:
+                fold += .004 * math.sin(a * 7 - z * 12) * math.exp(-((z - .745)/.095)**2)
+            hem_wave = .003 * math.sin(a * 3 + .4) if natural and z < .75 else 0
+            verts.append(((rx + fold) * math.cos(a), (depth + fold) * math.sin(a), z + hem_wave))
     faces = []
     for i in range(len(rings) - 1):
         for j in range(count):
-            if i in (4, 5) and j in (30, 31, 0, 1, 14, 15, 16, 17):
+            opening = (6, 7) if natural else (4, 5)
+            if i in opening and j in (30, 31, 0, 1, 14, 15, 16, 17):
                 continue
             a = i * count + j
             b = i * count + (j + 1) % count
             faces.append((a, b, b + count, a + count))
     for side, start in ((1, 30), (-1, 14)):
         js = [(start + j) % count for j in range(5)]
-        edge = [4 * count + j for j in js] + [5 * count + js[-1], 6 * count + js[-1]]
-        edge += [6 * count + j for j in js[-2::-1]] + [5 * count + js[0]]
+        base = 6 if natural else 4
+        edge = [base * count + j for j in js] + [(base + 1) * count + js[-1], (base + 2) * count + js[-1]]
+        edge += [(base + 2) * count + j for j in js[-2::-1]] + [(base + 1) * count + js[0]]
         original = list(edge)
         for ring in range(1, 9):
             t = ring / 8

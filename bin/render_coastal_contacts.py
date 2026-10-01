@@ -22,7 +22,10 @@ def studio(target,position,scale):
     scene.view_settings.view_transform='AgX'
     return scene
 
-for avatar in ('lizard','south-park','simpsons','ghibli','rick-and-morty'):
+avatars=('lizard','south-park','simpsons','ghibli','rick-and-morty')
+requested=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--avatar=')),None)
+assert requested is None or requested in avatars,requested
+for avatar in (requested,) if requested else avatars:
     bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home'/f'sirui-{avatar}.blend'))
     arm=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
     for track in arm.animation_data.nla_tracks:track.mute=track.name!='typing'
