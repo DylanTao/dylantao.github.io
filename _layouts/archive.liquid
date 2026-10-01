@@ -3,6 +3,7 @@ layout: default
 ---
 <div class="post">
   <header class="post-header">
+    <a class="archive-return" href="{{ '/blog/' | relative_url }}"><span aria-hidden="true">←</span> All notes</a>
     {% if page.type == 'categories' %}
       <h1 class="post-title"><i class="fa-solid fa-tag fa-sm"></i> {{ page.title }}</h1>
       <p class="post-description">an archive of {{ page.collection_name }} in this category</p>
@@ -22,9 +23,9 @@ layout: default
           <tr>
             <th scope="row">
               {% if page.type == 'year' %}
-                {{ document.date | date: '%b %d' }}
+                <time datetime="{{ document.date | date_to_xmlschema }}">{{ document.date | date: '%b %d' }}</time>
               {% else %}
-                {{ document.date | date: '%b %d, %Y' }}
+                <time datetime="{{ document.date | date_to_xmlschema }}">{{ document.date | date: '%b %d, %Y' }}</time>
               {% endif %}
             </th>
             <td>

@@ -15,10 +15,6 @@ cinematic: true
 <!-- pages/projects.md -->
 <div class="projects">
 <p class="sr-only" data-project-card-status aria-live="polite" aria-atomic="true"></p>
-<div class="project-browser-origin">
-  <span>IN-PLACE CARD VIEW</span>
-  {% include widget_origin_link.liquid href="/projects/ikea-project-cards/" label="Read how this card view began" %}
-</div>
 {% if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
   {% for category in page.display_categories %}
@@ -110,6 +106,10 @@ cinematic: true
   </div>
   {% endif %}
 {% endif %}
+<div class="project-browser-origin">
+  <span>How this card view began</span>
+  {% include widget_origin_link.liquid href="/projects/ikea-project-cards/" label="Read how this card view began" %}
+</div>
 <p class="project-inspiration-credit" id="project-index-end">
   Interaction note: card opening pattern inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>; adapted here for an academic project browser.
 </p>
