@@ -59,11 +59,249 @@ test("record: fixed controls, continuous rotation, and offscreen suspension", as
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
 });
 
+test("record physics: the needle lifts before artwork changes and rapid cues preserve phase", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-09-30T13:00:00-07:00") });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const record = page.locator("[data-home-record-scene]"),
+    play = page.locator("[data-home-record-play]");
+  await play.click();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics?.phase)).toBe("tracking");
+  await expect.poll(() => record.evaluate((e) => Boolean(e.getRecordEvidence().artwork))).toBe(true);
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  const before = await record.evaluate((e) => e.getRecordEvidence());
+  await page.locator("[data-home-record-next]").click();
+  const cue = await record.evaluate((e) => e.getRecordEvidence());
+  expect(cue.mechanics.angle).toBe(before.mechanics.angle);
+  expect(cue.mechanics.velocity).toBe(before.mechanics.velocity);
+  expect(cue.artwork).toBe(before.artwork);
+  expect(cue.cuePending).toBe(true);
+  await page.clock.runFor(100);
+  expect((await record.evaluate((e) => e.getRecordEvidence())).artwork).toBe(before.artwork);
+  await page.clock.runFor(400);
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().artwork)).not.toBe(before.artwork);
+  expect((await record.evaluate((e) => e.getRecordEvidence())).recordTransfer.lift).toBeGreaterThan(0.44);
+  await play.click();
+  const stopped = await record.evaluate((e) => e.getRecordEvidence().mechanics);
+  await play.click();
+  const resumed = await record.evaluate((e) => e.getRecordEvidence().mechanics);
+  expect(resumed.angle).toBe(stopped.angle);
+  expect(resumed.yaw).toBe(stopped.yaw);
+  expect(resumed.lift).toBe(stopped.lift);
+  await page.clock.runFor(1500);
+  await page.locator(".home-record-player").screenshot({ path: testInfo.outputPath("physical-record-player.png") });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect((await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+for (const graphics of ["delayed", "unavailable"]) {
+  test(`record physics: ${graphics} graphics keep the same interruptible 2D mechanics`, async ({ page }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    await preparePage(page, "light");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.install({ time: new Date("2026-09-30T13:00:00-07:00") });
+    let releaseGraphics;
+    const graphicsGate = new Promise((resolve) => {
+      releaseGraphics = resolve;
+    });
+    await page.route("**/three.module.min.js", async (route) => {
+      if (graphics === "delayed") {
+        await graphicsGate;
+        await route.continue();
+      } else {
+        // A handled import exception exercises the genuine fallback without
+        // introducing an expected network/console error into this assertion.
+        await route.fulfill({ contentType: "application/javascript", body: "throw new Error('Deliberate graphics-unavailable fixture');" });
+      }
+    });
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
+    await expect(page.locator("#home-profile-image-container")).toBeVisible();
+    const record = page.locator("[data-home-record-scene]"),
+      play = page.locator("[data-home-record-play]");
+    await play.focus();
+    await play.press("Enter");
+    await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanicsLoaded)).toBe(true);
+    await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics.phase)).toBe("tracking");
+    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+    const before = await record.evaluate((e) => e.getRecordEvidence());
+    expect(before.fallback).toBe(true);
+    expect(before.mechanics.rpm).toBeCloseTo(33 + 1 / 3, 1);
+    await page.locator("[data-home-record-next]").click();
+    const first = await record.evaluate((e) => e.getRecordEvidence());
+    expect(first.mechanics.angle).toBe(before.mechanics.angle);
+    expect(first.mechanics.velocity).toBe(before.mechanics.velocity);
+    await page.clock.runFor(100);
+    expect((await record.evaluate((e) => e.getRecordEvidence())).artwork).toBe(before.artwork);
+    await page.locator("[data-home-record-next]").click();
+    await page.clock.runFor(1300);
+    const cued = await record.evaluate((e) => e.getRecordEvidence());
+    expect(cued.cuePending).toBe(false);
+    expect(cued.recordTransfer.lift).toBeGreaterThan(0.44);
+    expect(cued.artwork).not.toBe(before.artwork);
+    const selectedImage = (await page.locator("#home-profile-image-container").getAttribute("data-record-images")).split("|")[2];
+    expect(new URL(cued.artwork, page.url()).pathname).toBe(new URL(selectedImage, page.url()).pathname);
+    expect(cued.mechanics.phase).toBe("tracking");
+    const transform = await record.locator(".home-record-art").evaluate((e) => getComputedStyle(e).transform);
+    expect(transform).not.toBe("none");
+    await play.focus();
+    await play.press(" ");
+    const stopping = await record.evaluate((e) => e.getRecordEvidence().mechanics);
+    await play.press(" ");
+    const restarting = await record.evaluate((e) => e.getRecordEvidence().mechanics);
+    for (const key of ["angle", "velocity", "yaw", "lift"]) expect(restarting[key]).toBe(stopping[key]);
+    await page.clock.runFor(1400);
+    await capture(testInfo, `physical-record-${graphics}`, await page.locator(".home-record-player").screenshot());
+    if (graphics === "delayed") {
+      const fallbackPose = await record.evaluate((e) => e.getRecordEvidence().mechanics);
+      releaseGraphics();
+      await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().loaded)).toBe(true);
+      expect((await record.evaluate((e) => e.getRecordEvidence())).mechanics.angle).toBe(fallbackPose.angle);
+      expect((await record.evaluate((e) => e.getRecordEvidence())).mechanics.velocity).toBe(fallbackPose.velocity);
+    }
+    await page.evaluate(() => {
+      Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    const hidden = await record.evaluate((e) => e.getRecordEvidence());
+    expect(hidden.running).toBe(false);
+    await page.clock.runFor(500);
+    expect((await record.evaluate((e) => e.getRecordEvidence())).mechanics.angle).toBe(hidden.mechanics.angle);
+    await page.evaluate(() => {
+      delete document.hidden;
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await page.clock.runFor(100);
+    expect((await record.evaluate((e) => e.getRecordEvidence())).mechanics.angle).toBeGreaterThan(hidden.mechanics.angle);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    expect((await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
+    await page.locator("[data-home-record-next]").click();
+    expect((await record.evaluate((e) => e.getRecordEvidence())).cuePending).toBe(false);
+    expect(errors).toEqual([]);
+  });
+}
+
+test("record physics: touch transport keeps cues reachable and preserves spin across 2D/3D", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-390", "Real Chromium touch context exercises the transport.");
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const record = page.locator("[data-home-record-scene]");
+  await page.locator("[data-home-record-play]").tap();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics?.phase)).toBe("tracking");
+  await page.locator("[data-home-record-next]").tap();
+  await page.locator("[data-home-record-prev]").tap();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics?.phase)).toBe("tracking");
+  await page.locator('[data-home-desk-mode="3d"]').tap();
+  const scene = page.locator("[data-home-desk-scene]");
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await expect(scene).toHaveAttribute("data-record-spinning", "true");
+  await page.locator('[data-home-desk-mode="2d"]').tap();
+  expect((await record.evaluate((e) => e.getRecordEvidence())).playing).toBe(true);
+  await page.locator("[data-home-record-play]").tap();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test("record physics: a late old texture cannot replace the newest cue and disposal stays quiet", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-09-30T13:00:00-07:00") });
+  let releaseOldTexture;
+  const imageGate = new Promise((resolve) => {
+    releaseOldTexture = resolve;
+  });
+  // Block the second meme image, including its preload, before navigation.
+  const response = await page.request.get(publicRouteUrl("/"));
+  const imagePaths = (await response.text()).match(/data-record-images="([^"]+)"/)[1].split("|");
+  await page.route(`**${imagePaths[1]}`, async (route) => {
+    await imageGate;
+    await route.continue();
+  });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const record = page.locator("[data-home-record-scene]");
+  await page.locator("[data-home-record-play]").click();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().loaded)).toBe(true);
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics.phase)).toBe("tracking");
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  const first = await record.evaluate((e) => e.getRecordEvidence());
+  await page.locator("[data-home-record-next]").click();
+  await page.clock.runFor(1000);
+  const waiting = await record.evaluate((e) => e.getRecordEvidence());
+  expect(waiting.artwork).toBe(first.artwork);
+  expect(waiting.mechanics.lift).toBeGreaterThan(0.456);
+  expect(waiting.mechanics.phase).toBe("swinging");
+  await page.locator("[data-home-record-next]").click();
+  await page.clock.runFor(700);
+  await expect.poll(() => record.evaluate((e) => new URL(e.getRecordEvidence().artwork, location.href).pathname)).toBe(imagePaths[2]);
+  releaseOldTexture();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        (src) =>
+          Array.from(document.images)
+            .filter((i) => i.src.endsWith(src))
+            .every((i) => i.complete),
+        imagePaths[1]
+      )
+    )
+    .toBe(true);
+  await page.clock.runFor(1400);
+  expect(new URL((await record.evaluate((e) => e.getRecordEvidence())).artwork).pathname).toBe(imagePaths[2]);
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
+  await page.clock.runFor(300);
+  expect((await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test("record physics: reduced motion composes the SVG player without requesting Three", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  let graphicsRequests = 0;
+  page.on("request", (request) => {
+    if (request.url().endsWith("/three.module.min.js")) graphicsRequests++;
+  });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const record = page.locator("[data-home-record-scene]");
+  await page.locator("[data-home-record-play]").click();
+  await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanicsLoaded)).toBe(true);
+  const before = await record.evaluate((e) => e.getRecordEvidence());
+  expect(before.mechanics.phase).toBe("tracking");
+  expect(before.running).toBe(false);
+  await page.locator("[data-home-record-next]").click();
+  const after = await record.evaluate((e) => e.getRecordEvidence());
+  expect(after.artwork).not.toBe(before.artwork);
+  expect(after.mechanics.angle).toBe(before.mechanics.angle);
+  expect(after.cuePending).toBe(false);
+  expect(graphicsRequests).toBe(0);
+  await expect(record.locator("canvas")).toHaveCount(0);
+  await capture(testInfo, "physical-record-reduced-svg", await page.locator(".home-record-player").screenshot());
+  expect(errors).toEqual([]);
+});
+
 async function capture(testInfo, name, buffer) {
   const file = testInfo.outputPath(name + ".png");
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, buffer);
   await testInfo.attach(name, { path: file, contentType: "image/png" });
+}
+function seaRegion(buffer) {
+  const source = PNG.sync.read(buffer),
+    x = Math.floor(source.width * 0.27),
+    y = Math.floor(source.height * 0.83),
+    width = Math.floor(source.width * 0.34),
+    height = Math.floor(source.height * 0.07),
+    crop = new PNG({ width, height });
+  for (let row = 0; row < height; row++)
+    source.data.copy(crop.data, row * width * 4, ((y + row) * source.width + x) * 4, ((y + row) * source.width + x + width) * 4);
+  return PNG.sync.write(crop);
 }
 async function openHome(page, { motion = "reduce", theme = "light" } = {}) {
   await preparePage(page, theme);
@@ -95,6 +333,104 @@ async function explore(ui) {
 async function settle(page) {
   await page.waitForTimeout(200);
 }
+
+test("coastal physics: dispersive water changes visible pixels, shares La Jolla light, and suspends cleanly", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
+  await settleRoomModels(scene);
+  await explore(ui);
+  await ui.locator("[data-world-time]").fill("800");
+  await ui.locator('[data-world-room="outside"]').click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1400);
+  const info = await evidence(scene);
+  expect(info.ecology.water.waves).toBe(10);
+  expect(info.ecology.water.sample.jacobian).toBeGreaterThan(0.6);
+  expect(info.ecology.water.reflection.linear).toBe(true);
+  expect(info.ecology.water.reflection.fresnelIOR).toBe(1.333);
+  expect(info.daylight.location.latitude).toBe(32.83);
+  expect(info.daylight.sunlight).toBe(1);
+  await expect(ui.locator("[data-world-clock]")).toContainText("La Jolla");
+  const before = await canvas.screenshot();
+  await page.waitForTimeout(500);
+  const after = await canvas.screenshot();
+  expect(screenshotDiffRatio(before, after)).toBeGreaterThan(0.001);
+  // This interior patch of the normal exterior's sea excludes the moving actor
+  // and most birds. Motion must change actual water pixels, not only telemetry.
+  const seaDiff = screenshotDiffRatio(seaRegion(before), seaRegion(after));
+  expect(seaDiff).toBeGreaterThan(0.002);
+  await capture(testInfo, "moving-water-region", seaRegion(after));
+  await capture(testInfo, "physical-pacific", after);
+  await ui.locator("[data-world-pause]").click();
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+  const frozen = (await evidence(scene)).ecology.water.seconds;
+  await page.waitForTimeout(250);
+  expect((await evidence(scene)).ecology.water.seconds).toBe(frozen);
+  await ui.locator("[data-world-pause]").click();
+  await expect.poll(async () => (await evidence(scene)).ecology.water.seconds).toBeGreaterThan(frozen);
+  const final = await evidence(scene);
+  const proofFile = testInfo.outputPath("physical-rendering-evidence.json");
+  fs.writeFileSync(
+    proofFile,
+    JSON.stringify(
+      {
+        water: final.ecology.water,
+        daylight: final.daylight,
+        frameTiming: final.frameTiming,
+        drawCalls: final.drawCalls,
+        triangles: final.triangles,
+        resources: final.resources,
+        seaPixelDiff: seaDiff,
+      },
+      null,
+      2
+    )
+  );
+  await testInfo.attach("physical-rendering-evidence", { path: proofFile, contentType: "application/json" });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test("coastal physics: the study label transfers only above contact and keeps the newest album", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
+  await settleRoomModels(scene);
+  await explore(ui);
+  await ui.locator('[data-world-room="study"]').first().click();
+  await ui.locator(".home-world-objects > summary").click();
+  const first = ui.locator('[data-world-record="0"]');
+  await first.click();
+  await first.click();
+  await canvas.scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await evidence(scene)).recordMechanics.phase).toBe("tracking");
+  await expect.poll(async () => (await evidence(scene)).displayedVinylRecord).toBe(0);
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  const before = await evidence(scene);
+  const second = ui.locator('[data-world-record="1"]');
+  await second.click();
+  await second.click();
+  await canvas.scrollIntoViewIfNeeded();
+  const interrupted = await evidence(scene);
+  expect(interrupted.recordMechanics.angle).toBe(before.recordMechanics.angle);
+  expect(interrupted.recordMechanics.velocity).toBe(before.recordMechanics.velocity);
+  expect(interrupted.displayedVinylRecord).toBe(0);
+  await page.clock.runFor(100);
+  expect((await evidence(scene)).displayedVinylRecord).toBe(0);
+  const third = ui.locator('[data-world-record="2"]');
+  await third.click();
+  await third.click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(650);
+  await expect.poll(async () => (await evidence(scene)).displayedVinylRecord).toBe(2);
+  const transfer = (await evidence(scene)).vinylTransfer;
+  expect(transfer.index).toBe(2);
+  expect(transfer.lift).toBeGreaterThan(0.44);
+  await page.clock.runFor(1400);
+  expect((await evidence(scene)).recordMechanics.phase).toBe("tracking");
+  await capture(testInfo, "study-physical-record", await canvas.screenshot());
+  expect(errors).toEqual([]);
+});
 
 test("coastal home: quiet public controls, capybara wall art and a new arrival on refresh", async ({ page }) => {
   const errors = collectRuntimeErrors(page);

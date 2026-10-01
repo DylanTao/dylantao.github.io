@@ -248,19 +248,38 @@
     let resizeObserver = null;
     let animationFrame = null;
     let currentRecord = null;
+    let displayedRecord = null;
+    let pendingRecordTexture = null;
+    let recordTransfer = null;
     let isLoaded = false;
     let isLoading = false;
+    let mechanicsLoading = null;
+    let graphicsFailed = false;
+    let disposed = false;
     let isVisible = false;
     let isPlaying = false;
     let inViewport = true;
     let lastFrameTime = 0;
-    let angularVelocity = 0;
-    let cueUntil = 0;
-    const armState = { rotation: 0.68, lift: 0.5 };
-    const armTarget = { rotation: 0.68, lift: 0.5 };
+    let recordMotion = null;
     const textureCache = new Map();
 
     const render = () => {
+      if (recordMotion) {
+        const pose = recordMotion.evidence();
+        if (pendingRecordTexture && (pose.lift > 0.44 || reduceMotionQuery.matches)) {
+          const readyRecord = pendingRecordTexture;
+          pendingRecordTexture = null;
+          applyRecordTexture(readyRecord);
+        }
+        container.style.setProperty("--record-angle", `${pose.angle}rad`);
+        container.style.setProperty("--record-arm-yaw", `${pose.yaw}rad`);
+        container.style.setProperty("--record-arm-lift", `${(pose.lift - 0.1) * 12}px`);
+        if (recordGroup) recordGroup.rotation.z = pose.angle % (Math.PI * 2);
+        if (armGroup) {
+          armGroup.rotation.z = pose.yaw;
+          armGroup.position.z = pose.lift;
+        }
+      }
       if (!renderer || !scene || !camera) return;
       renderer.render(scene, camera);
     };
@@ -294,67 +313,34 @@
       animationFrame = null;
     };
 
-    const updateArmTarget = (playing) => {
-      armTarget.rotation = playing ? -0.12 : 0.56;
-      armTarget.lift = playing ? 0.27 : 0.52;
-    };
-
-    const armNeedsFrame = () => {
-      if (!armGroup) return false;
-      return Math.abs(armState.rotation - armTarget.rotation) > 0.002 || Math.abs(armState.lift - armTarget.lift) > 0.002;
-    };
-
-    const applyArmPose = (time = 0, immediate = false, elapsed = 16.67) => {
-      if (!armGroup) return false;
-      const speed = immediate || reduceMotionQuery.matches ? 1 : 1 - Math.exp(-elapsed / 135);
-      armState.rotation += (armTarget.rotation - armState.rotation) * speed;
-      armState.lift += (armTarget.lift - armState.lift) * speed;
-
-      if (immediate || reduceMotionQuery.matches) {
-        armState.rotation = armTarget.rotation;
-        armState.lift = armTarget.lift;
-      }
-
-      const playingDrift = isPlaying && !reduceMotionQuery.matches ? Math.sin(time * 0.0014) * 0.006 : 0;
-      armGroup.rotation.z = armState.rotation + playingDrift;
-      armGroup.position.z = armState.lift;
-      return armNeedsFrame();
-    };
-
     const tick = (time) => {
       animationFrame = null;
-      if (!isVisible || !inViewport || document.hidden || reduceMotionQuery.matches || !recordGroup) {
+      if (!isVisible || !inViewport || document.hidden || reduceMotionQuery.matches || !recordMotion || disposed) {
         lastFrameTime = 0;
-        applyArmPose(time, true);
+        if (reduceMotionQuery.matches) recordMotion?.compose();
         render();
         return;
       }
 
-      const elapsed = lastFrameTime ? Math.min(time - lastFrameTime, 40) : 0;
+      const elapsed = lastFrameTime ? (time - lastFrameTime) / 1000 : 0;
       lastFrameTime = time;
-      const cueing = time < cueUntil;
-      updateArmTarget(isPlaying && !cueing);
-      const targetVelocity = isPlaying && !cueing ? 0.00084 : 0;
-      angularVelocity += (targetVelocity - angularVelocity) * (1 - Math.exp(-elapsed / 180));
-      recordGroup.rotation.z = (recordGroup.rotation.z + angularVelocity * elapsed) % (Math.PI * 2);
-      const keepAnimatingArm = applyArmPose(time, false, elapsed);
+      recordMotion.advance(elapsed);
       render();
 
-      if (isPlaying || angularVelocity > 0.000002 || keepAnimatingArm || cueing) {
+      if (recordMotion.needsFrame()) {
         animationFrame = window.requestAnimationFrame(tick);
       } else {
-        angularVelocity = 0;
         lastFrameTime = 0;
       }
     };
 
     const scheduleRender = () => {
-      if (!isLoaded) return;
+      if (!recordMotion || disposed) return;
       stopLoop();
-      if (isVisible && inViewport && !document.hidden && !reduceMotionQuery.matches && (isPlaying || angularVelocity || armNeedsFrame())) {
+      if (isVisible && inViewport && !document.hidden && !reduceMotionQuery.matches && recordMotion?.needsFrame()) {
         animationFrame = window.requestAnimationFrame(tick);
       } else {
-        applyArmPose(0, true);
+        if (reduceMotionQuery.matches) recordMotion?.compose();
         render();
       }
     };
@@ -373,22 +359,40 @@
     document.addEventListener("visibilitychange", resumeVisibleScene);
     reduceMotionQuery.addEventListener("change", resumeVisibleScene);
     container.getRecordEvidence = () => ({
-      angle: recordGroup?.rotation.z || 0,
+      angle: (recordMotion?.evidence().angle || 0) % (Math.PI * 2),
       playing: isPlaying,
       running: Boolean(animationFrame),
       inViewport,
       loaded: isLoaded,
+      fallback: graphicsFailed || !isLoaded,
+      mechanicsLoaded: Boolean(recordMotion),
+      mechanics: recordMotion?.evidence() || null,
+      artwork: labelMaterial?.map?.image?.src || displayedRecord?.src || null,
+      cuePending: Boolean(pendingRecordTexture),
+      recordTransfer,
+      drawCalls: renderer?.info.render.calls || 0,
     });
 
-    const applyRecordTexture = (record) => {
+    const applyRecordTexture = (record, releaseCue = true) => {
       if (!record) return;
+      displayedRecord = record;
       if (fallbackArt) fallbackArt.style.backgroundImage = `url("${record.src}")`;
-      if (!isLoaded || !textureLoader || !labelMaterial) return;
+      const completeTransfer = () => {
+        if (releaseCue && currentRecord?.src === record.src && !pendingRecordTexture) {
+          recordTransfer = recordMotion?.evidence();
+          recordMotion?.completeCue();
+        }
+      };
+      if (!isLoaded || !textureLoader || !labelMaterial) {
+        completeTransfer();
+        return;
+      }
 
       const cachedTexture = textureCache.get(record.src);
       if (cachedTexture) {
         labelMaterial.map = cachedTexture;
         labelMaterial.needsUpdate = true;
+        completeTransfer();
         render();
         return;
       }
@@ -396,17 +400,24 @@
       textureLoader.load(
         record.src,
         (texture) => {
+          if (disposed) {
+            texture.dispose();
+            return;
+          }
           texture.colorSpace = THREE.SRGBColorSpace;
           texture.anisotropy = Math.min(renderer?.capabilities?.getMaxAnisotropy?.() || 1, 8);
           textureCache.set(record.src, texture);
-          if (currentRecord?.src === record.src) {
+          if (displayedRecord?.src === record.src) {
             labelMaterial.map = texture;
             labelMaterial.needsUpdate = true;
+            completeTransfer();
             render();
           }
         },
         undefined,
         () => {
+          if (disposed) return;
+          completeTransfer();
           render();
         }
       );
@@ -419,7 +430,7 @@
       container.appendChild(renderer.domElement);
 
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+      camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
       camera.position.set(0, 0, 7.35);
       camera.lookAt(0, 0, 0);
 
@@ -431,21 +442,44 @@
       scene.add(ambient, key, low);
 
       const platterMaterial = new THREE.MeshStandardMaterial({
-        color: 0xd4c3a8,
-        metalness: 0.32,
-        roughness: 0.54,
+        color: 0xbec6c3,
+        metalness: 0.75,
+        roughness: 0.4,
       });
-      const vinylMaterial = new THREE.MeshStandardMaterial({
+      const vinylMaterial = new THREE.MeshPhysicalMaterial({
         color: 0x111214,
-        metalness: 0.05,
-        roughness: 0.56,
+        metalness: 0,
+        roughness: 0.36,
+        ior: 1.52,
+        anisotropy: 0.65,
       });
-      const grooveMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.052,
-        depthWrite: false,
-      });
+      // Concentric grooves have a circular tangent, not an image highlight
+      // glued to the rotating label. Filter their pigment below one pixel.
+      vinylMaterial.onBeforeCompile = (shader) => {
+        shader.vertexShader = "varying vec2 recordPoint;\n" + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\nrecordPoint=position.xy;");
+        shader.fragmentShader = "varying vec2 recordPoint;\n" + shader.fragmentShader;
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <color_fragment>",
+          `
+          #include <color_fragment>
+          float recordRadius=length(recordPoint);
+          float grooveFilter=exp(-.5*pow(fwidth(recordRadius)*440.,2.));
+          diffuseColor.rgb*=.94+.06*cos(recordRadius*440.)*grooveFilter;
+        `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <lights_physical_fragment>",
+          `
+          #include <lights_physical_fragment>
+          #ifdef USE_ANISOTROPY
+          material.anisotropyT=normalize(tbn[0]*(-recordPoint.y)+tbn[1]*recordPoint.x);
+          material.anisotropyB=normalize(cross(normal,material.anisotropyT));
+          #endif
+        `
+        );
+      };
+      vinylMaterial.customProgramCacheKey = () => "vinyl-circular-grooves-v1";
       labelMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         roughness: 0.46,
@@ -522,6 +556,7 @@
       baseGroup.add(recordGroup);
 
       const vinyl = new THREE.Mesh(new THREE.RingGeometry(0.82, 2.42, 192), vinylMaterial);
+      vinyl.geometry.computeTangents();
       recordGroup.add(vinyl);
 
       [
@@ -535,13 +570,6 @@
         sheen.position.z = 0.019;
         recordGroup.add(sheen);
       });
-
-      for (let index = 0; index < 38; index += 1) {
-        const radius = 0.92 + index * 0.038;
-        const groove = new THREE.Mesh(new THREE.RingGeometry(radius, radius + 0.0032, 192), grooveMaterial);
-        groove.position.z = 0.012 + index * 0.0006;
-        recordGroup.add(groove);
-      }
 
       const label = new THREE.Mesh(new THREE.CircleGeometry(0.94, 128), labelMaterial);
       label.position.z = 0.052;
@@ -600,8 +628,8 @@
       baseGroup.add(centerPinTip);
 
       armGroup = new THREE.Group();
-      armGroup.position.set(2.18, 1.55, armState.lift);
-      armGroup.rotation.z = armState.rotation;
+      armGroup.position.set(1.55, 1.56, 0.36);
+      armGroup.rotation.z = 0.28;
       baseGroup.add(armGroup);
 
       const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.12, 48), spindleMaterial);
@@ -614,10 +642,10 @@
 
       const counterWeight = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.18, 36), armMaterial);
       counterWeight.rotation.x = Math.PI / 2;
-      counterWeight.position.set(0.18, 0.18, 0.08);
+      counterWeight.position.set(0.04, 0.23, 0.08);
       armGroup.add(counterWeight);
       const counterWeightRim = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.008, 8, 40), armDarkMaterial);
-      counterWeightRim.position.set(0.18, 0.18, 0.176);
+      counterWeightRim.position.set(0.04, 0.23, 0.176);
       armGroup.add(counterWeightRim);
       const cueLever = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.34, 0.032), armDarkMaterial);
       cueLever.position.set(-0.08, 0.2, 0.12);
@@ -627,9 +655,9 @@
       const armCurve = new THREE.CatmullRomCurve3(
         [
           new THREE.Vector3(-0.05, -0.08, 0.1),
-          new THREE.Vector3(-0.34, -0.42, 0.105),
-          new THREE.Vector3(-0.78, -0.82, 0.095),
-          new THREE.Vector3(-1.14, -1.14, 0.08),
+          new THREE.Vector3(0.12, -0.75, 0.105),
+          new THREE.Vector3(-0.08, -1.8, 0.095),
+          new THREE.Vector3(-0.45, -2.82, 0.08),
         ],
         false,
         "catmullrom",
@@ -642,12 +670,12 @@
       armGroup.add(armHighlight);
 
       const headshell = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.058), accentMaterial);
-      headshell.position.set(-1.27, -1.21, 0.09);
-      headshell.rotation.z = -0.72;
+      headshell.position.set(-0.43, -2.74, 0.09);
+      headshell.rotation.z = 0.22;
       armGroup.add(headshell);
       [
-        [-1.2, -1.16],
-        [-1.31, -1.26],
+        [-0.37, -2.7],
+        [-0.49, -2.78],
       ].forEach(([x, y]) => {
         const screw = new THREE.Mesh(new THREE.CircleGeometry(0.018, 14), spindleMaterial);
         screw.position.set(x, y, 0.124);
@@ -655,11 +683,11 @@
       });
 
       const cartridge = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.105, 0.065), armDarkMaterial);
-      cartridge.position.set(-1.37, -1.31, 0.04);
-      cartridge.rotation.z = -0.72;
+      cartridge.position.set(-0.49, -2.86, 0.04);
+      cartridge.rotation.z = 0.22;
       armGroup.add(cartridge);
       const cantileverCurve = new THREE.CatmullRomCurve3(
-        [new THREE.Vector3(-1.38, -1.32, 0.02), new THREE.Vector3(-1.41, -1.35, -0.01), new THREE.Vector3(-1.42, -1.37, -0.052)],
+        [new THREE.Vector3(-0.49, -2.86, 0.02), new THREE.Vector3(-0.5, -2.91, -0.01), new THREE.Vector3(-0.5, -2.95, -0.052)],
         false,
         "catmullrom",
         0.5
@@ -669,23 +697,21 @@
 
       const stylus = new THREE.Mesh(new THREE.ConeGeometry(0.034, 0.16, 18), armDarkMaterial);
       stylus.rotation.x = Math.PI;
-      stylus.position.set(-1.42, -1.36, -0.02);
+      stylus.position.set(-0.5, -2.92, -0.02);
       armGroup.add(stylus);
       const stylusTip = new THREE.Mesh(new THREE.SphereGeometry(0.017, 14, 8), accentMaterial);
-      stylusTip.position.set(-1.42, -1.39, -0.075);
+      stylusTip.position.set(-0.5, -2.95, -0.075);
       armGroup.add(stylusTip);
       const stylusGlow = new THREE.Mesh(
         new THREE.CircleGeometry(0.072, 24),
         new THREE.MeshBasicMaterial({ color: 0xb99538, transparent: true, opacity: 0.16, depthWrite: false })
       );
-      stylusGlow.position.set(-1.42, -1.36, -0.075);
+      stylusGlow.position.set(-0.5, -2.95, -0.075);
       armGroup.add(stylusGlow);
 
       updateAccent();
-      updateArmTarget(isPlaying);
-      applyArmPose(0, true);
+      recordMotion.setPlaying(isPlaying);
       resize();
-      applyRecordTexture(currentRecord);
       render();
       container.classList.add("is-three-record");
 
@@ -697,43 +723,69 @@
       }
     };
 
+    const ensureMechanics = () => {
+      if (!mechanicsLoading)
+        mechanicsLoading = import(new URL("home-scene/record-motion.mjs", homeScriptBase).href).then((module) => {
+          if (disposed) return;
+          recordMotion = module.createRecordMotion();
+          recordMotion.setPlaying(isPlaying);
+          if (reduceMotionQuery.matches) recordMotion.compose();
+          container.classList.add("is-physical-record");
+          scheduleRender();
+        });
+      return mechanicsLoading;
+    };
+
     const ensureLoaded = async () => {
-      if (isLoaded || isLoading || reduceMotionQuery.matches) return;
+      if (isLoaded || isLoading || graphicsFailed || reduceMotionQuery.matches || !isVisible || disposed) return;
       isLoading = true;
       try {
+        await ensureMechanics();
         THREE = await import(threeModuleUrl);
+        if (disposed) return;
         textureLoader = new THREE.TextureLoader();
         buildScene();
         isLoaded = true;
-        applyRecordTexture(currentRecord);
+        // Preserve the already visible fallback record if graphics arrive in
+        // the middle of a cue. Loading Three must not shortcut the raised arm.
+        applyRecordTexture(displayedRecord || currentRecord, false);
         scheduleRender();
       } catch {
+        graphicsFailed = true;
         container.classList.add("is-three-record-failed");
       } finally {
         isLoading = false;
+        scheduleRender();
       }
     };
 
     return {
       setRecord(record) {
-        if (currentRecord && currentRecord.src !== record.src && isPlaying && !reduceMotionQuery.matches) {
-          cueUntil = performance.now() + 340;
-          updateArmTarget(false);
+        const cue = currentRecord && currentRecord.src !== record.src && isPlaying && recordMotion && !reduceMotionQuery.matches;
+        if (cue) {
+          recordMotion?.cue(true);
+          pendingRecordTexture = record;
         }
         currentRecord = record;
         updateAccent();
-        applyRecordTexture(record);
+        if (!cue) {
+          pendingRecordTexture = null;
+          applyRecordTexture(record);
+        }
         scheduleRender();
       },
       setVisible(nextVisible) {
         isVisible = nextVisible;
         container.classList.toggle("is-visible", isVisible);
-        if (isVisible) ensureLoaded();
+        if (isVisible) {
+          ensureMechanics();
+          ensureLoaded();
+        }
         scheduleRender();
       },
       setPlaying(nextPlaying) {
         isPlaying = nextPlaying;
-        updateArmTarget(isPlaying);
+        recordMotion?.setPlaying(isPlaying);
         container.classList.toggle("is-playing", isPlaying);
         scheduleRender();
       },
@@ -746,6 +798,7 @@
         window.setTimeout(() => container.classList.remove("is-found-pulse"), 520);
       },
       dispose() {
+        disposed = true;
         stopLoop();
         visibilityObserver.disconnect();
         document.removeEventListener("visibilitychange", resumeVisibleScene);

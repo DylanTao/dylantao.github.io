@@ -123,7 +123,9 @@ export function finishPhysicalMaterial(source, mesh) {
           : kind === 2
             ? `
         float weave = sin(p.x*590.0) * sin(p.z*590.0 + p.y*590.0);
-        diffuseColor.rgb *= .90 + .07*weave + .10*pores;
+        float weaveFootprint=max(length(dFdx(p)),length(dFdy(p)));
+        float weaveFilter=exp(-.5*pow(weaveFootprint*590.,2.));
+        diffuseColor.rgb *= .90 + .07*weave*weaveFilter + .10*pores;
       `
             : kind === 3
               ? `

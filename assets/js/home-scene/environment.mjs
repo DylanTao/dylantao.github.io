@@ -4,6 +4,7 @@ import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
 import { createWildlife } from "./wildlife.mjs";
 import { beachPoint, beachWidth } from "./shore.mjs";
+import { OCEAN_WAVES, oceanFieldGLSL, sampleOcean } from "./ocean-spectrum.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
@@ -21,78 +22,99 @@ export function createPacific(scene, renderer, config) {
     ink = { value: 0 };
   let style = "realistic",
     palette = "afternoon",
+    skyKey = "",
     environment;
   const physicalWater = new THREE.MeshPhysicalMaterial({
-    color: 0x286877,
-    roughness: 0.24,
-    metalness: 0.12,
-    clearcoat: 1,
-    clearcoatRoughness: 0.12,
-    envMapIntensity: 1.3,
+    color: 0x185462,
+    roughness: 0.14,
+    metalness: 0,
+    ior: 1.333,
+    envMapIntensity: 1,
   });
   physicalWater.onBeforeCompile = (shader) => {
     shader.uniforms.pacificTime = time;
     shader.uniforms.shoreProfile = { value: shoreTexture };
-    shader.vertexShader = "uniform float pacificTime; varying vec2 oceanXZ;\n" + shader.vertexShader;
+    shader.uniforms.shoreRange = { value: new THREE.Vector2(beach.samples[0][0], beach.samples.at(-1)[0] - beach.samples[0][0]) };
+    shader.vertexShader = `uniform float pacificTime; varying vec2 oceanXZ;\n${oceanFieldGLSL}\n` + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <beginnormal_vertex>",
       `
-      float a = position.x * 0.8 + position.z * 0.48 - pacificTime * 0.8;
-      float b = position.x * 1.8 - position.z * 1.4 + pacificTime * 1.15;
-      vec3 objectNormal = normalize(vec3(-0.07 * 0.8 * cos(a) - 0.028 * 1.8 * cos(b), 1.0, -0.07 * 0.48 * cos(a) + 0.028 * 1.4 * cos(b)));
+      vec3 oceanDisplacement, oceanTx, oceanTz; float vertexVariance;
+      // Geometry carries the resolvable swells; the pixel stage carries the
+      // shorter ripples, avoiding undersampled high-frequency vertices.
+      oceanField(position.xz,pacificTime,1.1,oceanDisplacement,oceanTx,oceanTz,vertexVariance);
+      vec3 objectNormal = normalize(cross(oceanTz,oceanTx));
     `
     );
     shader.vertexShader = shader.vertexShader.replace(
       "#include <begin_vertex>",
       `
-      vec3 transformed = position;
+      vec3 transformed = position + oceanDisplacement;
       oceanXZ = position.xz;
-      float crest = 0.07 * sin(a) + 0.028 * sin(b);
-      transformed.y += crest;
     `
     );
     shader.fragmentShader =
-      `uniform float pacificTime; uniform sampler2D shoreProfile; varying vec2 oceanXZ;\n${surfaceNoise}\n` + shader.fragmentShader;
+      `uniform float pacificTime; uniform sampler2D shoreProfile; uniform vec2 shoreRange; varying vec2 oceanXZ;\n${surfaceNoise}\n${oceanFieldGLSL}\n` +
+      shader.fragmentShader;
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "#include <roughnessmap_fragment>",
+      `
+      #include <roughnessmap_fragment>
+      float footprint=max(length(dFdx(oceanXZ)),length(dFdy(oceanXZ)));
+      vec3 fieldDisplacement, fieldTx, fieldTz; float slopeVariance;
+      oceanField(oceanXZ,pacificTime,footprint,fieldDisplacement,fieldTx,fieldTz,slopeVariance);
+      // Unresolved wave energy broadens the GGX lobe instead of vanishing
+      // or flickering. This scalar isotropic fit is not the full ocean BRDF.
+      roughnessFactor=clamp(pow(pow(roughnessFactor,4.)+slopeVariance,.25),.14,.65);
+    `
+    );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <normal_fragment_maps>",
       `
       #include <normal_fragment_maps>
-      // Analytic small ripples catch the sky at pixel scale, independent of
-      // the lower-resolution mesh used for the broad moving swells.
-      float swellA = oceanXZ.x * 0.8 + oceanXZ.y * 0.48 - pacificTime * 0.8;
-      float swellB = oceanXZ.x * 1.8 - oceanXZ.y * 1.4 + pacificTime * 1.15;
-      vec3 flow = vec3(oceanXZ * 2.0, pacificTime * .16);
-      float n = stoneNoise(flow);
-      float slopeX = .03*cos(swellA) + .03*cos(swellB) + (stoneNoise(flow + vec3(.13,0,0))-n)*.7;
-      float slopeZ = .025*cos(swellA) - .025*cos(swellB) + (stoneNoise(flow + vec3(0,.13,0))-n)*.7;
-      normal = normalize(mat3(viewMatrix) * vec3(-slopeX, 1.0, -slopeZ));
+      vec3 waveNormal=normalize(cross(fieldTz,fieldTx));
+      float slopeX=-waveNormal.x/max(.1,waveNormal.y);
+      float slopeZ=-waveNormal.z/max(.1,waveNormal.y);
+      normal=normalize(mat3(viewMatrix)*waveNormal);
     `
     );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <opaque_fragment>",
       `
-      // Thin, broken wind lines supplement reflections. A height threshold
-      // on intersecting swells made large polka dots across the old sea.
-      // Same continuous shoreline section as the Blender beach (world +Y in
-      // Blender becomes -Z here; ocean local coordinates are offset by 28 m).
       float x = oceanXZ.x;
-      float waterline = texture2D(shoreProfile,vec2(clamp((x+36.)/112.,0.,1.),.5)).r;
+      float waterline = texture2D(shoreProfile,vec2(clamp((x-shoreRange.x)/shoreRange.y,0.,1.),.5)).r;
       float distanceToBeach = 28.-oceanXZ.y-waterline;
-      float shoal = (1.-smoothstep(.5,6.0,distanceToBeach)) * smoothstep(-.5,.35,distanceToBeach);
-      float drift = stoneNoise(vec3(x*.22,distanceToBeach*.35,pacificTime*.06));
-      float wash = sin(distanceToBeach*1.65 - pacificTime*.82 + drift*3.5);
+      float shoal = (1.-smoothstep(.5,7.,distanceToBeach)) * smoothstep(-.4,.4,distanceToBeach);
+      // Compression of the horizontal displacement Jacobian selects crests.
+      // Foam is an authored shoreline model; there is no breaking-fluid solver.
+      float jacobian=fieldTx.x*fieldTz.z-fieldTx.z*fieldTz.x;
+      float compression=1.-smoothstep(.84,.985,jacobian);
+      float crest=smoothstep(.035,.22,fieldDisplacement.y);
       float lace = stoneNoise(vec3(oceanXZ*3.8,pacificTime*.16));
-      float foam = smoothstep(.66,.99,wash) * shoal * smoothstep(.30,.67,lace);
-      outgoingLight = mix(outgoingLight, outgoingLight*vec3(.9,1.35,1.25),shoal*.4);
-      outgoingLight = mix(outgoingLight, vec3(.69,.76,.71), foam*.76);
+      float foam = smoothstep(.11,.52,shoal*(crest*.4+compression*.6))*smoothstep(.25,.66,lace);
+      float waterDepth=max(.05,distanceToBeach*.18);
+      vec3 transmission=exp(-vec3(.45,.12,.08)*waterDepth);
+      outgoingLight=mix(outgoingLight,outgoingLight+vec3(.10,.21,.16)*transmission,shoal*.35);
+      outgoingLight=mix(outgoingLight,vec3(.63,.70,.68),foam*.83);
       #include <opaque_fragment>
     `
     );
   };
+  physicalWater.customProgramCacheKey = () => "pacific-spectrum-v2";
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
-  const waterGeometry = new THREE.PlaneGeometry(400, 400, 120, 120);
+  const waterGeometry = new THREE.PlaneGeometry(400, 400, 160, 160);
   waterGeometry.rotateX(-Math.PI / 2);
+  // Concentrate vertices near the inhabited coast without growing a uniform
+  // high-resolution grid over all 400 meters of the distant sea.
+  const waterPositions = waterGeometry.getAttribute("position");
+  for (let i = 0; i < waterPositions.count; i++) {
+    for (const axis of ["X", "Z"]) {
+      const value = waterPositions[`get${axis}`](i) / 200;
+      waterPositions[`set${axis}`](i, Math.sign(value) * value * value * 200);
+    }
+  }
+  waterGeometry.computeBoundingSphere();
   const ocean = new THREE.Mesh(waterGeometry, modelWater);
   ocean.position.set(0, -7.35, -28);
   ocean.receiveShadow = true;
@@ -187,19 +209,20 @@ export function createPacific(scene, renderer, config) {
       horizon: { value: new THREE.Color(0xdde0d7) },
       sunDirection: { value: new THREE.Vector3(-14, 18, -22).normalize() },
       night: { value: 0 },
+      sunRadiance: { value: 5 },
       printMode: ink,
     },
     vertexShader:
       "varying vec3 direction; void main(){ direction = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
     fragmentShader: `${surfaceNoise}
-      uniform vec3 zenith; uniform vec3 horizon; uniform vec3 sunDirection; uniform float night; varying vec3 direction;
+      uniform vec3 zenith; uniform vec3 horizon; uniform vec3 sunDirection; uniform float night; uniform float sunRadiance; varying vec3 direction;
       void main(){
         vec3 d = normalize(direction);
         float height = pow(max(0.0,d.y),.45);
         vec3 color = mix(horizon,zenith,height);
         float alignment = max(0.0,dot(d,sunDirection));
         color += vec3(1.0,.83,.58) * pow(alignment,28.0) * .2 * (1.-night);
-        color += vec3(1.0,.88,.69) * pow(alignment,2200.0) * 5.0;
+        color += vec3(1.0,.88,.69) * pow(alignment,2200.0) * sunRadiance;
         vec3 cloudPoint = vec3(d.xz / max(.14,d.y+.18) * 2.4, .4);
         float clouds = smoothstep(.56,.75,stoneNoise(cloudPoint)) * smoothstep(-.02,.16,d.y);
         color = mix(color, horizon*1.08, clouds*.36*(1.-night));
@@ -242,15 +265,21 @@ export function createPacific(scene, renderer, config) {
     pmrem.dispose();
     scene.environment = environment.texture;
   }
-  function setPalette(next) {
-    if (palette === next && environment) return;
+  function setPalette(next, light) {
+    // PMREM captures are static across a 20-minute light interval; animation
+    // never rebuilds them. The visible sun still follows the current minute.
+    if (light) skyMaterial.uniforms.sunDirection.value.fromArray(light.keyDirection).normalize();
+    const key = `${next}:${light ? Math.floor(light.minute / 20) : "authored"}`;
+    if (skyKey === key && environment) return;
+    skyKey = key;
     palette = next;
-    const night = next === "evening";
+    const night = light ? light.daylight < 0.15 : next === "evening";
     skyMaterial.uniforms.zenith.value.set(night ? 0x112441 : next === "morning" ? 0x8bb3c8 : 0x4b92bd);
     skyMaterial.uniforms.horizon.value.set(night ? 0x435771 : next === "afternoon" ? 0xbfcfce : 0xd9e5e7);
-    skyMaterial.uniforms.night.value = night ? 1 : 0;
-    skyMaterial.uniforms.sunDirection.value.set(next === "afternoon" ? -14 : 10, night ? 16 : 18, -22).normalize();
-    physicalWater.color.set(night ? 0x193447 : 0x216e7b);
+    skyMaterial.uniforms.night.value = light ? 1 - light.daylight : night ? 1 : 0;
+    skyMaterial.uniforms.sunRadiance.value = light ? 0.2 + light.sunlight * 4.8 : night ? 0.2 : 5;
+    if (!light) skyMaterial.uniforms.sunDirection.value.set(next === "afternoon" ? -14 : 10, night ? 16 : 18, -22).normalize();
+    physicalWater.color.set(night ? 0x122a3c : 0x185462);
     modelWater.color.set(night ? 0x526d86 : 0x8db9bb);
     printWater.color.set(night ? 0x273e66 : 0x267787);
     if (style === "realistic") {
@@ -271,7 +300,9 @@ export function createPacific(scene, renderer, config) {
     dust.visible = style === "realistic";
     printSun.visible = style === "illustrated";
     scene.environment = style === "realistic" ? environment?.texture || null : null;
-    scene.fog = style === "realistic" ? new THREE.Fog(skyMaterial.uniforms.horizon.value, 38, 110) : null;
+    // Keep near-shore surface contrast at the authored 24–72 m exterior
+    // distance. This bounded haze is a clear-day art direction, not weather.
+    scene.fog = style === "realistic" ? new THREE.Fog(skyMaterial.uniforms.horizon.value, 65, 180) : null;
     // The first palette update builds the sky environment for the actual hour.
     // Building a default environment here compiled and captured the sky twice.
   }
@@ -300,7 +331,19 @@ export function createPacific(scene, renderer, config) {
     setPalette,
     update,
     dispose,
-    evidence: () => ({ wildlife: wildlife.evidence(), beachWidth: beach.width, particles: 140 + 42 + 18 }),
+    evidence: () => ({
+      wildlife: wildlife.evidence(),
+      beachWidth: beach.width,
+      particles: 140 + 42 + 18,
+      water: {
+        waves: OCEAN_WAVES.length,
+        vertices: waterPositions.count,
+        triangles: waterGeometry.index.count / 3,
+        seconds: time.value,
+        sample: sampleOcean(0, 0, time.value, 0.02),
+        reflection: reflection.evidence(),
+      },
+    }),
     reflect: reflection.update,
     setActivity(activity) {
       steam.visible = style === "realistic" && activity === "soak";

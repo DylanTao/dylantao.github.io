@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { WATER_IOR } from "./ocean-spectrum.mjs";
 
 // A small live mirror of the actual land and home. Oblique near-plane clipping
 // follows Three r164's Water implementation; no landscape image is sampled.
@@ -25,15 +26,26 @@ export function createSeaReflection(renderer, scene, ocean, material) {
     shader.fragmentShader =
       "uniform sampler2D coastalReflection; uniform float reflectionStrength; varying vec4 reflectionPoint;\n" + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
-      "#include <opaque_fragment>",
+      "#include <lights_fragment_end>",
       `
+      #include <lights_fragment_end>
       vec2 reflectedUv = reflectionPoint.xy / reflectionPoint.w;
-      reflectedUv += vec2(slopeX, slopeZ)*.045;
+      reflectedUv += vec2(slopeX, slopeZ)*.025;
       float inside = step(.002, reflectedUv.x)*step(.002,reflectedUv.y)*step(reflectedUv.x,.998)*step(reflectedUv.y,.998);
-      vec3 reflectedColor = texture2D(coastalReflection, reflectedUv).rgb;
-      float fresnel = .08 + .55*pow(1.0-max(0.0,dot(normal,normalize(vViewPosition))),3.0);
-      outgoingLight = mix(outgoingLight, reflectedColor, fresnel*reflectionStrength*inside);
-      #include <opaque_fragment>
+      float spread=.0015+roughnessFactor*.006;
+      vec3 reflectedColor=texture2D(coastalReflection,reflectedUv).rgb*.4;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv+vec2(spread,0.)).rgb*.15;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv-vec2(spread,0.)).rgb*.15;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv+vec2(0.,spread)).rgb*.15;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv-vec2(0.,spread)).rgb*.15;
+      float cosine=max(0.,dot(normal,normalize(vViewPosition))),ior=${WATER_IOR};
+      float transmitted=sqrt(1.-(1.-cosine*cosine)/(ior*ior));
+      float rs=(cosine-ior*transmitted)/(cosine+ior*transmitted);
+      float rp=(ior*cosine-transmitted)/(ior*cosine+transmitted);
+      float fresnel=.5*(rs*rs+rp*rp);
+      // Replace only indirect specular. Keeping direct light and diffuse here
+      // avoids the previous nonphysical blend of the complete shaded surface.
+      reflectedLight.indirectSpecular=mix(reflectedLight.indirectSpecular,reflectedColor*fresnel,reflectionStrength*inside);
     `
     );
   };
@@ -64,17 +76,25 @@ export function createSeaReflection(renderer, scene, ocean, material) {
       p[14] = clip.w;
       const previousTarget = renderer.getRenderTarget();
       const previousShadowUpdate = renderer.shadowMap.autoUpdate;
-      ocean.visible = false;
-      renderer.shadowMap.autoUpdate = false;
-      renderer.setRenderTarget(target);
-      renderer.clear();
-      renderer.render(scene, mirror);
-      renderer.setRenderTarget(previousTarget);
-      renderer.shadowMap.autoUpdate = previousShadowUpdate;
-      ocean.visible = true;
+      const previousToneMapping = renderer.toneMapping,
+        previousVisibility = ocean.visible;
+      try {
+        ocean.visible = false;
+        renderer.shadowMap.autoUpdate = false;
+        renderer.toneMapping = THREE.NoToneMapping;
+        renderer.setRenderTarget(target);
+        renderer.clear();
+        renderer.render(scene, mirror);
+      } finally {
+        renderer.setRenderTarget(previousTarget);
+        renderer.toneMapping = previousToneMapping;
+        renderer.shadowMap.autoUpdate = previousShadowUpdate;
+        ocean.visible = previousVisibility;
+      }
     },
     dispose() {
       target.dispose();
     },
+    evidence: () => ({ width: target.width, height: target.height, linear: true, fresnelIOR: WATER_IOR, active: strength.value === 1 }),
   };
 }
