@@ -11,6 +11,8 @@ import { activityPose, createHandContacts } from "./activities.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
+import { createRecordMotion } from "./record-motion.mjs";
+import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -35,6 +37,7 @@ export function createCoastalHome(container, records, artifacts) {
   const status = ui.querySelector("[data-world-status]");
   const clockLabel = ui.querySelector("[data-world-clock]");
   const explore = createExplorationState();
+  const recordMotion = createRecordMotion();
   const { loader, decoder } = createModelLoader();
   const art = createArtDirection();
   const scene = new THREE.Scene();
@@ -45,7 +48,8 @@ export function createCoastalHome(container, records, artifacts) {
   let camera = orthographic,
     aspect = 1,
     pacific,
-    finish;
+    finish,
+    daylight;
   const target = new THREE.Vector3(0, 0.7, 0),
     desiredTarget = target.clone();
   let yaw = 0.36,
@@ -96,6 +100,10 @@ export function createCoastalHome(container, records, artifacts) {
     selectedProp,
     propHand,
     vinyl,
+    vinylLabel,
+    displayedVinylRecord = -1,
+    pendingVinylRecord = null,
+    vinylTransfer = null,
     tonearm,
     water,
     portraitMaterial;
@@ -111,6 +119,11 @@ export function createCoastalHome(container, records, artifacts) {
     textureCache = new Map(),
     cleanup = [],
     reducedQuery = matchMedia("(prefers-reduced-motion: reduce)");
+  const frameTimings = [];
+  const quantile = (key, fraction) => {
+    const values = frameTimings.map((sample) => sample[key]).sort((a, b) => a - b);
+    return values[Math.min(values.length - 1, Math.floor(values.length * fraction))] || 0;
+  };
   const modelRequests = new Set();
   let reduced = reducedQuery.matches;
   const hemi = new THREE.HemisphereLight(0xe5ecff, 0xb28d57, 2.8);
@@ -120,7 +133,7 @@ export function createCoastalHome(container, records, artifacts) {
   sun.shadow.mapSize.set(2048, 2048);
   Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 10, bottom: -10, near: 0.1, far: 65 });
   sun.shadow.bias = -0.00005;
-  sun.shadow.normalBias = 0.07;
+  sun.shadow.normalBias = 0.018;
   sun.shadow.radius = 3;
   const lamp = new THREE.PointLight(0xffbf6b, 4, 6);
   lamp.position.set(-0.95, 4.2, 2.7);
@@ -226,9 +239,18 @@ export function createCoastalHome(container, records, artifacts) {
 
   function imageTexture(url) {
     if (textureCache.has(url)) return textureCache.get(url);
-    const tex = new THREE.TextureLoader().load(url, requestFrame, undefined, () => {
-      /* Keep the colored surface if an optional picture fails. */
-    });
+    const tex = new THREE.TextureLoader().load(
+      url,
+      () => {
+        tex.userData.ready = true;
+        requestFrame();
+      },
+      undefined,
+      () => {
+        tex.userData.failed = true;
+        requestFrame();
+      }
+    );
     tex.colorSpace = THREE.SRGBColorSpace;
     textureCache.set(url, tex);
     return own(tex);
@@ -245,11 +267,37 @@ export function createCoastalHome(container, records, artifacts) {
       ink = material(0x252c29);
     mesh(new THREE.BoxGeometry(0.68, 0.07, 0.43), material(0x71512b), [0.84, 0.91, -2.18]);
     vinyl = mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.017, 48), ink, [0.83, 0.956, -2.17], { type: "spin" });
-    const label = new THREE.Mesh(own(new THREE.CircleGeometry(0.063, 32)), material(0xc8834b));
-    label.rotation.x = -Math.PI / 2;
-    label.position.y = 0.011;
-    vinyl.add(label);
-    tonearm = mesh(new THREE.BoxGeometry(0.025, 0.025, 0.27), material(0xc9b587, { metalness: 0.6 }), [1.07, 0.99, -2.15]);
+    vinylLabel = new THREE.Mesh(own(new THREE.CircleGeometry(0.063, 32)), material(0xffffff));
+    vinylLabel.rotation.x = -Math.PI / 2;
+    vinylLabel.position.y = 0.011;
+    vinylLabel.userData.fixedMaterial = true;
+    vinyl.add(vinylLabel);
+    pendingVinylRecord = currentRecord;
+    if (spinning && !reduced) recordMotion.cue(true);
+    tonearm = new THREE.Group();
+    tonearm.name = "Pivoted study tonearm";
+    tonearm.position.set(1.04, 0.986, -2.29);
+    const armMetal = material(0xa7b2b5, { metalness: 1, roughness: 0.28 });
+    const addArm = (geometry, mat, position) => {
+      const part = new THREE.Mesh(own(geometry), mat);
+      part.position.set(...position);
+      part.castShadow = part.receiveShadow = true;
+      part.userData.fixedMaterial = true;
+      tonearm.add(part);
+      return part;
+    };
+    addArm(new THREE.CylinderGeometry(0.017, 0.02, 0.025, 16), armMetal, [0, 0, 0]);
+    const armPath = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0.01, 0),
+      new THREE.Vector3(-0.016, 0.01, 0.09),
+      new THREE.Vector3(-0.075, 0.01, 0.18),
+      new THREE.Vector3(-0.105, 0.01, 0.23),
+    ]);
+    addArm(new THREE.TubeGeometry(armPath, 18, 0.005, 8, false), armMetal, [0, 0, 0]);
+    addArm(new THREE.CylinderGeometry(0.016, 0.016, 0.025, 12), armMetal, [0.004, 0.01, -0.025]);
+    addArm(new THREE.BoxGeometry(0.022, 0.012, 0.028), ink, [-0.105, 0.002, 0.23]);
+    addArm(new THREE.ConeGeometry(0.004, 0.018, 8), armMetal, [-0.105, -0.012, 0.23]).rotation.z = Math.PI;
+    world.add(tonearm);
     for (let i = 0; i < records.length; i++) {
       const face = material(0xffffff, { map: imageTexture(records[i].cover) });
       const sleeve = mesh(new THREE.BoxGeometry(0.34, 0.35, 0.025), [cream, cream, cream, cream, face, cream], [-1.22, 1.68, -2.14 + i * 0.36], {
@@ -284,6 +332,7 @@ export function createCoastalHome(container, records, artifacts) {
       .filter((o) => !previousObjects.has(o))
       .forEach((o) => {
         o.position.fromArray(roomPoint("study", o.position.toArray()));
+        if (o === tonearm) o.userData.restY = o.position.y;
         if (o.userData.home) o.userData.home.position.copy(o.position);
       });
     // One informal capybara print for the home, independent of its inhabitant.
@@ -517,17 +566,19 @@ export function createCoastalHome(container, records, artifacts) {
 
   function updateLight() {
     if (!routine) return;
-    const evening = routine.palette === "evening";
+    daylight = coastalDaylight(routine.dateKey, routine.minute);
+    const evening = daylight.daylight < 0.15;
     hemi.color.set(evening ? 0x97b2dc : 0xffead1);
     hemi.groundColor.set(evening ? 0x473426 : 0x8b7659);
     hemi.intensity = style === "realistic" ? (evening ? 0.65 : 0.62) : 1.5;
     sun.color.set(style === "illustrated" ? (evening ? 0xc7a1ef : 0xffc773) : evening ? 0xb6c4f1 : 0xffe2b0);
-    sun.intensity = evening ? 1.05 : style === "realistic" ? 2.05 : 2.5;
-    // Light enters the carved Pacific opening; a lamp warms the occupied desk.
-    sun.position.set(routine.palette === "afternoon" ? -24 : 20, evening ? 16 : 22, -12);
+    sun.intensity = style === "realistic" ? 0.18 + daylight.sunlight * 2.35 : evening ? 1.05 : 2.5;
+    // The sky, reflection, direct shadow, and room now agree on the same
+    // approximate La Jolla sun. Night's weak key is an authored moon light.
+    sun.position.fromArray(daylight.keyDirection).normalize().multiplyScalar(32);
     lamp.intensity = evening ? 5.5 : 0.9;
     practicals.forEach((light) => (light.intensity = evening ? 2.7 : 0.7));
-    pacific?.setPalette(routine.palette);
+    pacific?.setPalette(routine.palette, daylight);
     pacific?.setActivity(routine.id);
     container.dataset.scenePalette = routine.palette;
   }
@@ -555,7 +606,7 @@ export function createCoastalHome(container, records, artifacts) {
     const next = resolveRoutine(config, new Date(), explore.preview);
     const changed = !routine || routine.id !== next.id || routine.prop !== next.prop || routine.clip !== next.clip;
     routine = next;
-    clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · San Diego`;
+    clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
     status.textContent = routine.label;
     container.dataset.activity = routine.id;
@@ -607,7 +658,6 @@ export function createCoastalHome(container, records, artifacts) {
     sleeves.forEach((s, i) => {
       s.visible = !dropped.includes(i);
     });
-    if (tonearm) tonearm.rotation.y = spinning ? -0.6 : 0.12;
     floorCards.forEach((o) => {
       const p = picks.indexOf(o);
       if (p >= 0) picks.splice(p, 1);
@@ -626,6 +676,22 @@ export function createCoastalHome(container, records, artifacts) {
       floorCards.push(card);
     });
     requestFrame();
+  }
+
+  function transferVinylRecord(pose) {
+    if (pendingVinylRecord === null || !vinylLabel) return;
+    if (spinning && !reduced && pose.lift <= 0.44) return;
+    const next = pendingVinylRecord,
+      texture = imageTexture(records[next].src);
+    if (!texture.userData.ready && !texture.userData.failed) return;
+    if (texture.userData.ready) {
+      vinylLabel.material.map = texture;
+      vinylLabel.material.needsUpdate = true;
+      displayedVinylRecord = next;
+      vinylTransfer = { ...pose, index: next };
+    }
+    pendingVinylRecord = null;
+    recordMotion.completeCue();
   }
 
   function clearFocus() {
@@ -995,6 +1061,8 @@ export function createCoastalHome(container, records, artifacts) {
   function render(now) {
     frame = 0;
     if (!visible || !inViewport || disposed || document.hidden) return;
+    const submitStart = performance.now(),
+      consecutive = lastFrame > 0;
     // Routes, clips, and water are sampled in time; capping their clock makes
     // every journey run in slow motion on a software renderer. Pause, reduced
     // motion, and visibility recovery reset lastFrame before animation resumes.
@@ -1129,7 +1197,17 @@ export function createCoastalHome(container, records, artifacts) {
       }
       exerciseWeight.position.lerp(destination, 1 - Math.exp(-frameDelta * 20));
     }
-    if (vinyl && spinning && moving) vinyl.rotation.y += delta * 0.75;
+    if (vinyl) {
+      if (moving) recordMotion.advance(delta);
+      else if (reduced) recordMotion.compose();
+      const pose = recordMotion.evidence();
+      transferVinylRecord(pose);
+      vinyl.rotation.y = pose.angle;
+      if (tonearm) {
+        tonearm.rotation.y = pose.yaw;
+        tonearm.position.y = tonearm.userData.restY + (pose.lift - 0.1) * 0.06;
+      }
+    }
     if (water && moving) water.position.y = water.userData.restY + Math.sin(elapsed * 0.7) * 0.006;
     if (moving) pacific?.update(elapsed);
     companion.paused = paused;
@@ -1139,6 +1217,10 @@ export function createCoastalHome(container, records, artifacts) {
     pacific?.reflect(camera, style === "realistic" && currentRoom === "outside");
     if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside");
     else renderer.render(scene, camera);
+    if (moving && consecutive && delta < 0.5) {
+      frameTimings.push({ interval: delta * 1000, submit: performance.now() - submitStart });
+      if (frameTimings.length > 120) frameTimings.shift();
+    }
     frames++;
     if (
       moving ||
@@ -1285,6 +1367,7 @@ export function createCoastalHome(container, records, artifacts) {
       : null,
     animationSeconds: elapsed,
     palette: routine?.palette,
+    daylight: daylight ? { ...daylight, location: LA_JOLLA } : null,
     clockMode: routine?.live ? "now" : "preview",
     following: explore.following && followClock,
     animation: container.dataset.animation,
@@ -1298,6 +1381,12 @@ export function createCoastalHome(container, records, artifacts) {
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
     frames,
+    frameTiming: {
+      samples: frameTimings.length,
+      medianFrameMs: quantile("interval", 0.5),
+      p95FrameMs: quantile("interval", 0.95),
+      medianSubmitMs: quantile("submit", 0.5),
+    },
     framePending: Boolean(frame),
     drawCalls: renderer?.info.render.calls,
     triangles: renderer?.info.render.triangles,
@@ -1314,6 +1403,10 @@ export function createCoastalHome(container, records, artifacts) {
     target: target.toArray(),
     currentRecord,
     spinning,
+    recordMechanics: recordMotion.evidence(),
+    displayedVinylRecord,
+    vinylCuePending: pendingVinylRecord !== null,
+    vinylTransfer,
     dropped: [...dropped],
     focused: container.dataset.focusedDeskObject || null,
     canvasWidth: renderer?.domElement.width,
@@ -1375,12 +1468,18 @@ export function createCoastalHome(container, records, artifacts) {
       } else cancelFrame();
     },
     setActiveRecord(index) {
+      if (currentRecord !== index) {
+        if (spinning && !reduced) recordMotion.cue(true);
+        pendingVinylRecord = index;
+      }
       currentRecord = index;
       if (renderer) updateRecords();
     },
     setSpinning(value) {
       spinning = value;
-      if (tonearm) tonearm.rotation.y = spinning ? -0.6 : 0.12;
+      recordMotion.setPlaying(value);
+      if (value && pendingVinylRecord !== null && !reduced) recordMotion.cue(true);
+      if (reduced) recordMotion.compose();
       container.dataset.recordSpinning = String(value);
       requestFrame();
     },

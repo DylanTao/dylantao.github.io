@@ -998,7 +998,7 @@ html.home-desk-outside-active .home-story-rail {
 .home-record-art {
   animation: home-record-spin 7.5s linear infinite paused;
   position: absolute;
-  inset: 22.5%;
+  inset: 32%;
   z-index: 2;
   border-radius: 50%;
   border: 1px solid color-mix(in srgb, var(--record-accent) 38%, rgba(255, 255, 255, 0.42));
@@ -1024,10 +1024,41 @@ html.home-desk-outside-active .home-story-rail {
   inset: 0;
   z-index: 3;
   background:
+    conic-gradient(
+      from -30deg,
+      transparent 0deg 38deg,
+      rgba(255, 255, 255, 0.16) 49deg,
+      transparent 63deg 217deg,
+      rgba(255, 255, 255, 0.1) 229deg,
+      transparent 243deg
+    ),
     radial-gradient(circle at center, transparent 0 27.2%, rgba(255, 255, 255, 0.05) 27.7% 28.2%, transparent 29%),
     repeating-radial-gradient(circle at center, transparent 0 8px, rgba(255, 255, 255, 0.052) 9px 10px, transparent 11px 18px);
   mix-blend-mode: soft-light;
   opacity: 0.58;
+}
+
+.home-record-arm {
+  position: absolute;
+  top: 14%;
+  left: 71%;
+  z-index: 5;
+  width: 16%;
+  height: 61%;
+  overflow: visible;
+  color: var(--record-accent);
+  transform: rotate(calc(0rad - var(--record-arm-yaw, 0.28rad)));
+  transform-origin: 50% 12.2%;
+  filter: drop-shadow(2px calc(2px + var(--record-arm-lift, 3px)) 2px rgba(0, 0, 0, 0.32));
+}
+
+.home-profile-recordable.is-playing .home-record-scene:not(.is-physical-record) .home-record-arm {
+  --record-arm-yaw: 0rad;
+}
+
+.home-record-scene.is-physical-record .home-record-art {
+  animation: none;
+  transform: rotate(var(--record-angle, 0rad));
 }
 
 .home-record-scene-fallback::after {
