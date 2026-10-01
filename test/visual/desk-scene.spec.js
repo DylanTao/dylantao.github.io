@@ -14,6 +14,9 @@ test("record: fixed controls, continuous rotation, and offscreen suspension", as
   const transport = page.locator(".home-record-transport");
   const play = page.locator("[data-home-record-play]");
   await page.evaluate(() => document.fonts.ready);
+  // The header measures its height after window.load. Start the transport
+  // baseline after that page-wide layout change, before any player input.
+  await expect.poll(() => page.locator("body").evaluate((e) => e.style.paddingTop)).not.toBe("");
   // Accessible clicks may scroll the controls into view. Compare their actual
   // document position rather than their position in a moving viewport.
   const transportPosition = () =>

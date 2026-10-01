@@ -471,7 +471,7 @@ test("GitHub commit readouts meet contrast in every light theme", async ({ page 
 
 test("publication abstracts remain available below the human citation context", async ({ page }) => {
   await preparePage(page, "light");
-  await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });
+  await page.goto(publicRouteUrl("/publications/"), { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
   const firstGuide = page.locator("[data-publication-why-cite]").first();
@@ -492,7 +492,7 @@ test("publication abstracts remain available below the human citation context", 
 test("publication why-cite guides are shared and keyboard-native", async ({ page }) => {
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
-  await page.goto("/al-folio/publications/", { waitUntil: "networkidle" });
+  await page.goto(publicRouteUrl("/publications/"), { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
 
   const guides = page.locator("[data-publication-why-cite]");
@@ -512,7 +512,7 @@ test("publication why-cite guides are shared and keyboard-native", async ({ page
   await summary.press("Space");
   await expect(firstGuide).not.toHaveAttribute("open", "");
 
-  await page.goto("/al-folio/", { waitUntil: "networkidle" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
   await expect(page.locator("[data-publication-why-cite]")).toHaveCount(4);
   expect(runtimeErrors).toEqual([]);

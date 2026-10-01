@@ -21,6 +21,32 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### Reading roles across the public site
+
+- **Hypothesis:** A consistent title hierarchy, comfortable prose measure, and compact utility metadata let readers find work and scan notes sooner.
+- **Route:** Blog and project indexes, CV, publications, and the What Happened and Why? case study; review the remaining public routes for shared regressions.
+- **Reference:** [008 editorial composition](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html), [087 process beside artifacts](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/087-sketchbook-portfolio.html), and the [current unified effect collection](https://zcnofdpgpxud.feishuapp.com/app/app_17exzr8eka4/). Study spatial relationships and causal feedback while retaining this site's Inter roles and theme tokens.
+- **Licensing:** Original site changes; no reference code, fonts, illustrations, audio, or screenshots copied into public pages.
+- **Visitor benefit:** Distinguish a page title from a list entry, read the research without overly long lines, reach papers sooner, and keep captions clear of P.
+- **Budget:** Preserve research meaning, signature copy, scientific figure pixels, publication status, the requested rejection badges, and exact XP. Native scrolling, immediately readable prose, complete figures, keyboard paths, and four viewport/theme checks.
+- **Status:** `implemented` locally; title roles, archive navigation, the publications opening, the trace-paper reading spread, announcement titles, and P's caption clearance are integrated on `main`.
+- **Evidence:** The [October 1 review](design-review-2026-10-01.md) records 54 inspected HTML targets, desktop/phone comparisons, explicit four-viewport light/dark checkpoints, and keyboard/interaction checks. Every published note, local project, paper context, and announcement received individual inspection. Repeated archive filters were sampled. Visitor comprehension remains unmeasured.
+- **Sirui decision:** Requested a whole-site visual review and improvements informed by both collections. Final visual taste remains reviewable; visitor benefit has not been measured in a study.
+- **Revisit trigger:** The integrated before/after review or a new public route that breaks the reading roles.
+
+### La Jolla home: geometry and physical relationships
+
+- **Hypothesis:** More credible adult proportions, hollow and rounded everyday objects, recognizable coastal geology, and consistent contact and light make the inhabited room convincing at its actual homepage size.
+- **Route:** Existing Realistic coastal home and the 2D vinyl mechanism, with close-up authoring renders used to inspect details.
+- **Reference:** [057 fixed light and vinyl mechanics](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/057-vinyl-listening-room.html), [093 constrained mechanical contact](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/093-strandbeest-walker.html), [096 coherent architectural light and material](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/096-concrete-monolith.html), and [V07 continuous interaction](https://zcnofdpgpxud.feishuapp.com/app/app_17exzr8eka4/#v07-ui-morph). Select primary graphics research after inspecting the existing analytic water, reflections, and contact-shadow implementation; document actual equations and approximations, rather than declaring a renderer state of the art.
+- **Licensing:** Original Blender geometry and shader/dynamics implementations around the existing licensed Three.js runtime. Record research sources near the implementation; no reference models, illustrations, textures, or audio imported.
+- **Visitor benefit:** Read a human action, understand the record mechanism, and recognize the room as part of a continuous La Jolla cliff and Pacific environment.
+- **Budget:** Preserve the five adult male identities, long swept-back hair and glasses, shared record state, automatic routine, original capybara wall print, contact anchors, 2D default, native scroll, and graphics-failure alternatives. Bound asset size and rendering cost with measured evidence. Alternate public art directions remain deferred.
+- **Status:** `implemented` locally; original model refinements and the paper-informed water, light, reflection, and record mechanics are integrated on `main`.
+- **Evidence:** The [October 1 review](design-review-2026-10-01.md), [physical methods](../assets/js/home-scene/PHYSICS.md), and [model comparisons](evidence/coastal-models-2026-10-01/README.md) record source measurements, actual browser views, visible water/orbit/zoom changes, interruption and suspension checks, reduced-motion and graphics-failure alternatives, and measured asset/frame costs.
+- **Sirui decision:** Requested parallel improvement of the room, vinyl, objects, human figure, environment, and customized paper-informed physical techniques. No scientific validation or universal SOTA claim follows from that request.
+- **Revisit trigger:** The integrated geometry/material review, a remaining contact or silhouette defect, or a measured performance regression.
+
 ### Tactile record and continuous interaction states
 
 - **Hypothesis:** Better light, mechanical cause and effect, and a readable record caption make the existing meme spinner more understandable and personal without enlarging the hero.
