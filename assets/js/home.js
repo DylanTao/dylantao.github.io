@@ -1612,14 +1612,6 @@
       lastShakeDirection = 0;
       shakeCount = 0;
       shakeShouldReplayAllRecords = droppedRecords.size >= records.length;
-      if (droppedRecords.size >= records.length) {
-        selectRecord(0);
-      } else if (droppedRecords.has(recordIndex)) {
-        const nextIndex = getNextUndroppedRecordIndex(recordIndex);
-        if (nextIndex !== recordIndex) selectRecord(nextIndex);
-      }
-      showRecord(recordIndex, { vinyl: isRecordEngaged || isSpinning });
-      portrait.classList.add("is-dragging-record");
       if (!activePointerStartedOnPlayButton && portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
     };
 
@@ -1630,6 +1622,17 @@
       const totalY = event.clientY - gestureStartY;
       if (Math.abs(totalX) < 10 && Math.abs(totalY) < 10) return;
       if (Math.abs(totalY) > Math.abs(totalX) * 1.35) return;
+      // A click only toggles playback. Discovering or advancing a card starts
+      // after actual horizontal movement, never on the disc's pointerdown.
+      if (!portrait.classList.contains("is-dragging-record")) {
+        if (droppedRecords.size >= records.length) {
+          selectRecord(0);
+        } else if (droppedRecords.has(recordIndex)) {
+          selectRecord(getNextUndroppedRecordIndex(recordIndex));
+        }
+        showRecord(recordIndex, { vinyl: isRecordEngaged || isSpinning });
+        portrait.classList.add("is-dragging-record");
+      }
       suppressNextSpinClick = true;
 
       const dragX = Math.max(-18, Math.min(18, totalX * 0.16));
@@ -1781,6 +1784,11 @@
     }
 
     portrait.addEventListener("keydown", (event) => {
+      if (event.target === spinButton && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
+        event.preventDefault();
+        advanceRecord(event.key === "ArrowLeft" ? -1 : 1);
+        return;
+      }
       if (event.key.toLowerCase() !== "d" || stage?.dataset.deskMode !== "2d") return;
       event.preventDefault();
       if (droppedRecords.size >= records.length) {

@@ -907,10 +907,10 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-portrait-frame:hover,
-.home-portrait-frame:focus-visible {
+.home-portrait-frame:focus-visible,
+.home-portrait-frame:focus-within {
   border-color: color-mix(in srgb, var(--home-accent) 38%, var(--home-line));
   box-shadow: 0 22px 48px rgba(var(--global-shadow-rgb), 0.15);
-  transform: translateY(-2px);
 }
 
 .home-portrait-frame:focus-visible,
@@ -1194,7 +1194,7 @@ html.home-desk-outside-active .home-story-rail {
   animation-play-state: paused;
 }
 
-// The transport stays still and reachable while the record changes state.
+// Controls live on the disc and stay still while its artwork turns.
 .home-record-player {
   grid-area: portrait;
   display: grid;
@@ -1206,24 +1206,20 @@ html.home-desk-outside-active .home-story-rail {
 
 .home-record-player .home-portrait-frame {
   grid-area: auto;
+  width: min(19rem, 72vw);
+  max-width: 100%;
 }
 
 .home-record-console {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.65rem;
   width: 100%;
-  padding: 0.3rem 0.4rem;
-  min-height: 4.5rem;
-  border-top: 1px solid var(--home-line);
+  padding: 0.35rem 0.4rem;
 }
 
 .home-record-caption {
   display: grid;
   gap: 0.1rem;
   min-width: 0;
-  text-align: left;
+  text-align: center;
   line-height: 1.35;
 
   span {
@@ -1244,42 +1240,88 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-record-transport {
-  display: flex;
-  flex-shrink: 0;
-  gap: 0.15rem;
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
 }
 
 .home-record-play,
 .home-record-nav {
   display: grid;
-  position: static;
+  position: absolute;
   place-items: center;
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 1px solid var(--home-line);
+  border: 0;
   border-radius: 50%;
   background: var(--home-surface);
   color: var(--home-ink);
   font-size: 0.75rem;
   cursor: pointer;
+  pointer-events: auto;
   transition:
-    background-color var(--motion-standard),
-    border-color var(--motion-standard);
-
-  &:hover {
-    background: color-mix(in srgb, var(--record-accent) 12%, var(--home-surface));
-    border-color: var(--home-accent);
-  }
+    opacity var(--motion-standard),
+    background-color var(--motion-standard);
 
   &:focus-visible {
     outline: 2px solid var(--home-accent);
-    outline-offset: 3px;
+    outline-offset: -4px;
   }
 }
 
 .home-record-play {
-  background: color-mix(in srgb, var(--record-accent) 10%, var(--home-surface));
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.home-record-play-cue {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--home-surface) 92%, transparent);
+  box-shadow: 0 2px 12px rgba(var(--global-shadow-rgb), 0.12);
+  opacity: 0;
+  transition: opacity var(--motion-standard);
+}
+
+.home-record-nav {
+  top: 50%;
+  margin-top: -22px;
+  background: color-mix(in srgb, var(--home-surface) 92%, transparent);
+  box-shadow: 0 2px 12px rgba(var(--global-shadow-rgb), 0.12);
+  opacity: 0;
+
+  &:hover {
+    background: var(--home-surface);
+    color: var(--home-accent-strong);
+  }
+}
+
+.home-record-nav-prev {
+  left: 4%;
+}
+
+.home-record-nav-next {
+  right: 4%;
+}
+
+.home-portrait-frame:hover .home-record-nav,
+.home-portrait-frame:focus-within .home-record-nav,
+.home-record-play:hover .home-record-play-cue,
+.home-record-play:focus-visible .home-record-play-cue {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .home-record-nav {
+    opacity: 1;
+  }
 }
 
 .home-record-play [data-home-record-pause-icon],
@@ -3535,6 +3577,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-scene-fallback,
   .home-record-art,
   .home-record-play,
+  .home-record-play-cue,
   .home-record-nav,
   .home-record-card-pile,
   .home-record-card-pile::before,
@@ -3563,6 +3606,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-work-card:hover,
   .home-portrait-frame:hover,
   .home-portrait-frame:focus-visible,
+  .home-portrait-frame:focus-within,
   .home-desk-mode-switch button:hover,
   .home-desk-mode-switch button:focus-visible,
   .home-desk-control-strip button:hover,

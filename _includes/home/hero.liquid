@@ -114,7 +114,9 @@
         <div
           class="home-portrait-frame{% if meme_records %} home-profile-recordable{% elsif page.profile.image_hovers %} home-profile-swappable{% endif %}"
           id="home-profile-image-container"
-          tabindex="0"
+          {% unless meme_records %}
+            tabindex="0"
+          {% endunless %}
           aria-label="Sirui Tao portrait meme-record preview. Shake or press D to discover a record card."
           title="Shake, swipe, or press D to discover a record card"
           {% if meme_records %}
@@ -155,14 +157,21 @@
           {% if meme_records or page.profile.image_hovers %}
             <div class="home-profile-image-hover-layer" aria-hidden="true"></div>
           {% endif %}
-        </div>
-        {% if meme_records %}
-          <div class="home-record-console" aria-label="Meme record player">
-            <div class="home-record-caption">
-              <span data-home-record-title>{{ meme_records.first.title }}</span>
-              <a data-home-record-source href="{{ meme_records.first.source_url }}" target="_blank" rel="noopener noreferrer">Artwork source ↗</a>
-            </div>
-            <div class="home-record-transport">
+          {% if meme_records %}
+            <div class="home-record-transport" role="group" aria-label="Disc controls">
+              <button
+                class="home-record-play"
+                type="button"
+                data-home-record-play
+                aria-pressed="false"
+                aria-label="Spin meme record"
+                aria-describedby="home-record-help"
+              >
+                <span class="home-record-play-cue" aria-hidden="true">
+                  <i class="fa-solid fa-play" data-home-record-play-icon></i>
+                  <i class="fa-solid fa-pause" data-home-record-pause-icon></i>
+                </span>
+              </button>
               <button
                 class="home-record-nav home-record-nav-prev"
                 type="button"
@@ -172,16 +181,6 @@
                 <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
               </button>
               <button
-                class="home-record-play"
-                type="button"
-                data-home-record-play
-                aria-pressed="false"
-                aria-label="Spin meme-record album"
-              >
-                <i class="fa-solid fa-play" data-home-record-play-icon aria-hidden="true"></i>
-                <i class="fa-solid fa-pause" data-home-record-pause-icon aria-hidden="true"></i>
-              </button>
-              <button
                 class="home-record-nav home-record-nav-next"
                 type="button"
                 data-home-record-next
@@ -189,6 +188,17 @@
               >
                 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
               </button>
+            </div>
+            <span class="sr-only" id="home-record-help"
+              >Click the disc to start or pause. Left and right change records. Shake or press D to discover a record card.</span
+            >
+          {% endif %}
+        </div>
+        {% if meme_records %}
+          <div class="home-record-console" aria-label="Meme record player">
+            <div class="home-record-caption">
+              <span data-home-record-title>{{ meme_records.first.title }}</span>
+              <a data-home-record-source href="{{ meme_records.first.source_url }}" target="_blank" rel="noopener noreferrer">Artwork source ↗</a>
             </div>
           </div>
         {% endif %}

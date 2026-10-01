@@ -868,15 +868,33 @@ test("home portrait offers a keyboard-equivalent record-card discovery", async (
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
   await expect(portrait).toHaveAttribute("aria-label", /press D to discover a record card/i);
 
-  await portrait.focus();
+  await portrait.locator("[data-home-record-play]").focus();
   await page.keyboard.press("d");
   await expect(cards).toHaveCount(1);
   await expect(stage).toHaveAttribute("data-dropped-records", "0");
 
-  await portrait.focus();
+  await portrait.locator("[data-home-record-play]").focus();
   await page.keyboard.press("D");
   await expect(cards).toHaveCount(2);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
+});
+
+test("home disc clicks only toggle playback after card discovery", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/"), { waitUntil: "networkidle" });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const play = page.locator("[data-home-record-play]");
+  await play.press("d");
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
+  await page.locator("[data-home-record-prev]").click();
+  const selected = await page.locator("[data-home-record-title]").textContent();
+  await play.click();
+  await expect(play).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-home-record-title]")).toHaveText(selected);
+  await play.click();
+  await expect(play).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator("[data-home-record-title]")).toHaveText(selected);
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
 });
 
 test("home dropped meme record cards resolve into an inspectable 2D fan", async ({ page }) => {
@@ -1056,6 +1074,7 @@ async function coastalHome(page) {
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await page.locator("[data-world-lab] > summary").click();
   await page.locator('[data-world-room="study"]').first().click();
   await expect(scene).toHaveAttribute("data-room", "study");
   // The camera updates on the next render even when reduced motion snaps it.

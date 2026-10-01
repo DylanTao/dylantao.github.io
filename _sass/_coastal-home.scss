@@ -112,12 +112,20 @@
   margin: 0.15rem auto 0;
   padding: 0 0.5rem;
   font-size: var(--type-compact);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 0.6rem;
 
   &[hidden] {
     display: none;
   }
   [data-world-lab][hidden] {
     display: none;
+  }
+
+  &:has([data-world-lab]:not([hidden])) .home-world-quiet-actions {
+    padding-right: 44px;
   }
 
   button,
@@ -164,15 +172,10 @@
 }
 
 .home-world-status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  border-bottom: 1px solid var(--home-line);
-  padding-bottom: 0.45rem;
+  min-width: 0;
 
   p {
-    margin: 0.12rem 0 0;
+    margin: 0 0 0.12rem;
     font-weight: 500;
     font-size: var(--type-compact);
   }
@@ -180,17 +183,8 @@
 
 .home-world-clock {
   color: var(--home-muted);
-  font-size: var(--type-compact);
+  font-size: var(--type-meta);
   font-variant-numeric: tabular-nums;
-}
-.home-world-styles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.15rem;
-}
-.home-world-styles button {
-  width: auto;
-  font-size: 0.72rem;
 }
 .home-world-shortcuts {
   display: flex;
@@ -201,41 +195,45 @@
 }
 .home-world-quiet-actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-top: 0.15rem;
-}
-.home-world-pip-link {
-  margin-left: auto;
-  width: 2.5rem;
-  line-height: 2.5rem;
-  text-align: center;
-  color: var(--global-text-color-light);
-  border-radius: 8px;
-}
-.home-world-quiet-actions [data-world-pause] {
-  min-width: 2.5rem;
+  flex-shrink: 0;
 }
 .home-world-explore {
-  border-top: 1px solid var(--home-line);
+  grid-column: 1 / -1;
 }
 .home-world-explore > summary {
-  display: flex;
-  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  padding: 0.65rem 0.4rem;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--md-lite-radius-sm);
+  color: var(--home-muted);
   list-style: none;
+  font-size: 1.25rem;
+
+  &:hover {
+    background: var(--home-accent-soft);
+  }
 }
 .home-world-explore > summary::-webkit-details-marker {
   display: none;
 }
-.home-world-explore[open] > summary span {
-  transform: rotate(45deg);
+.home-world-explore[open] > summary {
+  background: var(--home-accent-soft);
+  color: var(--home-accent-strong);
 }
 .home-world-panel {
-  padding: 0.5rem 0.4rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.75rem;
   background: var(--home-paper);
+  border: 1px solid var(--home-line);
   border-radius: var(--md-lite-radius-md);
+  box-shadow: var(--home-shadow);
 }
 .home-world-room-list {
   display: flex;

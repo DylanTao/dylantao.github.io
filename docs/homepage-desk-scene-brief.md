@@ -7,7 +7,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 1. A recognizable Sirui, readable activity, grounded pose, and useful camera framing.
 2. One connected house, cliff, and Pacific exterior across all room visits.
 3. Reliable Now/Explore state, album interactions, accessibility, and recovery.
-4. A convincing Realistic treatment: crafted geometry, coherent coastal light, soft contacts, and water. The three-style experiment is deferred to GPT-7 at Sirui's request.
+4. A convincing Realistic treatment: crafted geometry, coherent coastal light, soft contacts, and water. Realistic is the only active treatment, including authoring previews, following Sirui's October 1 correction.
 5. Bounded asset size and animation work; optional atmosphere after functional proof.
 
 ## Known Inspection Targets
@@ -72,11 +72,11 @@ On weekends, coding runs until 04:00; sleep lasts until 12:30; breakfast continu
 ## Interaction Discoverability
 
 - Default to 2D at every viewport, including desktop (Sirui's live-review correction). A deliberate session choice takes precedence.
-- Keep the quiet 2D/3D switch, a Look around / Back inside action. 3D always opens in Realistic, including sessions with an obsolete saved style. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes. Avatar, activity, time, room and experimental style selectors are authoring controls, available only with `?scene-lab=1`.
+- Keep the quiet 2D/3D switch and one Look around / Back inside action beside the activity caption. 3D uses Realistic even with an obsolete saved style or `?scene-lab=1`. Choose a new character on each document refresh, avoiding an immediate repeat. Preserve that character when changing modes. Avatar, activity, time, room, Now, pause and object controls live inside a single collapsed ellipsis menu, available only with `?scene-lab=1`. Do not restore the style switch or separate shortcut rows beneath the scene.
 - Now follows the occupied room. Whole home, room visits, orbit, and previews opt out of camera following until Now.
 - Visit the desk keeps album and research-paper interactions one click away. First activation focuses an object; second activation plays the album or opens its paper link.
-- Preserve current record, spin state, discovery order, and avatar through modes and styles. Dropped cards retain their source links and four-card replay.
-- The 2D record uses stationary previous/spin/next controls and a title/source caption beneath the portrait/disc, in matching visual and keyboard order. Its fixed highlight stays separate from label rotation. Acceleration, braking and a short arm cue preserve angular continuity across rapid input. Offscreen state, hidden documents, 3D mode and reduced motion suspend the 2D renderer; the CSS fallback retains a paused label angle. It remains a visual meme spinner.
+- Preserve current record, spin state, discovery order, and avatar through modes. Dropped cards retain their source links and four-card replay.
+- The whole 2D disc is a native start/pause button. Previous and next are stationary 44-pixel buttons inside its left and right edges, revealed on hover or keyboard focus and always reachable on touch. These are sibling buttons, with the disc first in keyboard order; Left/Right change records while the disc is focused, and Enter/Space toggle playback. Keep only the title/source caption beneath it. A click never changes the selected record or discovers a card; shake discovery begins after horizontal movement. Its fixed highlight stays separate from label rotation. Acceleration, braking and a short arm cue preserve angular continuity across rapid input. Offscreen state, hidden documents, 3D mode and reduced motion suspend the 2D renderer; the CSS fallback retains a paused label angle. It remains a visual meme spinner.
 - Arrow keys orbit; plus/minus zoom; D discovers a record; Escape returns to the study. Ordinary visitors keep the shared 2D album and research links; the authoring panel supplies equivalent scene-object buttons. Wheel zoom requires canvas focus, preserving ordinary page scrolling.
 - System reduced motion uses composed still poses. Camera controls remain usable.
 

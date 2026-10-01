@@ -5,7 +5,7 @@ const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetric
 const { publicRouteUrl } = require("./public-routes");
 const { PNG } = require("pngjs");
 
-test("record: fixed controls, continuous rotation, and offscreen suspension", async ({ page }, testInfo) => {
+test("record: on-disc controls, continuous rotation, and offscreen suspension", async ({ page }, testInfo) => {
   await preparePage(page, "afternoon");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.install({ time: new Date("2026-09-29T12:00:00-07:00") });
@@ -17,6 +17,15 @@ test("record: fixed controls, continuous rotation, and offscreen suspension", as
   // The header measures its height after window.load. Start the transport
   // baseline after that page-wide layout change, before any player input.
   await expect.poll(() => page.locator("body").evaluate((e) => e.style.paddingTop)).not.toBe("");
+  const disc = page.locator("#home-profile-image-container");
+  const discBox = await disc.boundingBox();
+  const playBox = await play.boundingBox();
+  expect(Math.abs(playBox.width - discBox.width)).toBeLessThan(3);
+  expect(Math.abs(playBox.height - discBox.height)).toBeLessThan(3);
+  await expect(page.locator(".home-record-console button")).toHaveCount(0);
+  const previousBox = await page.locator("[data-home-record-prev]").boundingBox();
+  const nextBox = await page.locator("[data-home-record-next]").boundingBox();
+  expect(nextBox.x - previousBox.x - previousBox.width).toBeGreaterThan(100);
   // Accessible clicks may scroll the controls into view. Compare their actual
   // document position rather than their position in a moving viewport.
   const transportPosition = () =>
@@ -43,6 +52,12 @@ test("record: fixed controls, continuous rotation, and offscreen suspension", as
   const change = Math.atan2(Math.sin(resumed - paused), Math.cos(resumed - paused));
   expect(change).toBeGreaterThan(0);
   expect(change).toBeLessThan(0.12);
+  const titleBefore = await page.locator("[data-home-record-title]").textContent();
+  await play.press("ArrowRight");
+  await expect(page.locator("[data-home-record-title]")).not.toHaveText(titleBefore);
+  await expect(play).toHaveAttribute("aria-pressed", "true");
+  await play.press("ArrowLeft");
+  await expect(page.locator("[data-home-record-title]")).toHaveText(titleBefore);
   await page.clock.resume();
   await page.locator("[data-home-record-next]").click();
   await expect(page.locator("[data-home-record-title]")).not.toHaveText("Yellow Submarine");
@@ -52,6 +67,11 @@ test("record: fixed controls, continuous rotation, and offscreen suspension", as
   for (const control of await transport.locator("button").all()) {
     const box = await control.boundingBox();
     expect(Math.min(box.width, box.height)).toBeGreaterThanOrEqual(44);
+    const onDisc = await disc.boundingBox();
+    expect(box.x).toBeGreaterThanOrEqual(onDisc.x);
+    expect(box.x + box.width).toBeLessThanOrEqual(onDisc.x + onDisc.width);
+    expect(box.y).toBeGreaterThanOrEqual(onDisc.y);
+    expect(box.y + box.height).toBeLessThanOrEqual(onDisc.y + onDisc.height);
   }
   await page.locator(".home-record-player").screenshot({ path: testInfo.outputPath("record-player.png") });
   await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
@@ -306,10 +326,10 @@ function seaRegion(buffer) {
     source.data.copy(crop.data, row * width * 4, ((y + row) * source.width + x) * 4, ((y + row) * source.width + x + width) * 4);
   return PNG.sync.write(crop);
 }
-async function openHome(page, { motion = "reduce", theme = "light" } = {}) {
+async function openHome(page, { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00" } = {}) {
   await preparePage(page, theme);
   await page.emulateMedia({ reducedMotion: motion });
-  await page.clock.install({ time: new Date("2026-09-11T17:45:00-07:00") });
+  await page.clock.install({ time: new Date(time) });
   await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
@@ -468,6 +488,31 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   expect(errors).toEqual([]);
 });
 
+test("coastal home: the lab stays minimal and realistic with obsolete saved styles", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.addInitScript(() => sessionStorage.setItem("sirui-scene-style", "illustrated"));
+  const { scene, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  await explore(ui);
+  await ui.locator("[data-world-avatar]").selectOption("ghibli");
+  await expect(scene).toHaveAttribute("data-avatar", "ghibli");
+  await ui.locator("details").first().locator("summary").first().click();
+  await expect(scene).toHaveAttribute("data-render-style", "realistic");
+  await expect(ui.locator("[data-world-style]")).toHaveCount(0);
+  await expect(ui.locator("button:visible")).toHaveCount(1);
+  await expect(ui.locator("select:visible")).toHaveCount(0);
+  await expect(ui.locator("details").first()).not.toHaveAttribute("open");
+  await capture(testInfo, "minimal-realistic-controls", await page.locator(".home-hero-media").screenshot());
+  await explore(ui);
+  await expect(ui.locator("[data-world-avatar]")).toBeVisible();
+  await ui.locator('[data-world-room="overview"]').click();
+  await expect(scene).toHaveAttribute("data-room", "overview");
+  await ui.locator('[data-world-room="study"]').click();
+  await expect(scene).toHaveAttribute("data-room", "study");
+  await ui.locator("details").first().locator("summary").first().click();
+  await expect(ui.locator("[data-world-avatar]")).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
 for (const theme of ["light", "dark"]) {
   test(`coastal home: ${theme} scene fades completely before every canvas edge`, async ({ page }, testInfo) => {
     const { scene, canvas, ui } = await openHome(page, { theme });
@@ -526,6 +571,7 @@ for (const theme of ["light", "dark"]) {
     expect(await canvas.evaluate((e) => e.matches(":focus-visible"))).toBe(true);
     expect(await scene.evaluate((e) => getComputedStyle(e, "::after").borderTopWidth)).toBe("2px");
     await capture(testInfo, "keyboard-focus", await scene.screenshot());
+    await explore(ui);
     await ui.locator('[data-world-room="overview"]').click();
     await canvas.scrollIntoViewIfNeeded();
     await settle(page);

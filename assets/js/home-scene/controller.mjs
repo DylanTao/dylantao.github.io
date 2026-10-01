@@ -69,8 +69,8 @@ export function createCoastalHome(container, records, artifacts) {
     elapsed = 0,
     frames = 0,
     clockTimer = 0;
-  // The other directions are deferred experiments, never a remembered public default.
-  let style = "realistic";
+  // Realistic is the only active treatment, including the authoring lab.
+  const style = "realistic";
   const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
   let avatarId,
     actor,
@@ -778,11 +778,7 @@ export function createCoastalHome(container, records, artifacts) {
     requestFrame();
   }
 
-  function setStyle(next) {
-    if (!["architectural", "realistic", "illustrated"].includes(next)) return;
-    if (!labEnabled && next !== "realistic") return;
-    style = next;
-    remember("sirui-scene-style", style);
+  function setStyle() {
     camera = style === "realistic" ? perspective : orthographic;
     if (renderer) renderer.toneMappingExposure = style === "realistic" ? 1.05 : 1.18;
     world.traverse((o) => {
@@ -793,7 +789,6 @@ export function createCoastalHome(container, records, artifacts) {
     updateLight();
     wardrobe();
     container.dataset.renderStyle = style;
-    ui.querySelectorAll("[data-world-style]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.worldStyle === style)));
     requestFrame();
   }
 
@@ -838,7 +833,6 @@ export function createCoastalHome(container, records, artifacts) {
     listen(ui, "click", (event) => {
       const b = event.target.closest("button");
       if (!b) return;
-      if (b.dataset.worldStyle) setStyle(b.dataset.worldStyle);
       if (b.dataset.worldRoom) setRoom(b.dataset.worldRoom);
       if (b.dataset.worldZoom) {
         explore.explore();
@@ -1334,7 +1328,7 @@ export function createCoastalHome(container, records, artifacts) {
       updateRoutine();
       await Promise.all([loadRoom(routine.room), setAvatar(avatarId)]);
       if (disposed) return;
-      setStyle(style);
+      setStyle();
       resize();
       container.dataset.sceneState = "ready";
       clockTimer = window.setInterval(() => {
