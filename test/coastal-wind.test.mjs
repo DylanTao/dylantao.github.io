@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { performance } from "node:perf_hooks";
+import { ShaderLib } from "../assets/js/three.module.min.js";
 import {
   DEFAULT_WIND,
   WIND_MODES,
@@ -132,16 +133,31 @@ test("plant response is bounded, root tangent is unchanged, and normals follow i
   assert.deepEqual(samplePlantDeflection([0, 0, 0], 500, undefined, { reduced: true }), [0, 0, 0]);
 });
 
-test("beauty, shadow and normal hooks share one bend evaluation", () => {
+test("real beauty, depth, distance and normal hooks retain one unconditional bend without displacement maps", () => {
   const wind = createWindUniforms(),
     plant = createPlantUniforms();
-  for (const normals of [true, false]) {
-    const shader = { uniforms: {}, vertexShader: `void main(){${normals ? "#include <beginnormal_vertex>" : ""}\n#include <begin_vertex>\n}` };
+  // These are the pinned renderer's actual sources: depth/distance normals are
+  // inside USE_DISPLACEMENTMAP, which is disabled for the authored leaf meshes.
+  const withoutDisplacement = (source) => source.replace(/^[\t ]*#ifdef USE_DISPLACEMENTMAP\r?\n[\s\S]*?^[\t ]*#endif/gm, "");
+  for (const name of ["depth", "distanceRGBA", "normal", "standard"]) {
+    const original = ShaderLib[name].vertexShader;
+    if (name === "depth" || name === "distanceRGBA") {
+      assert.match(original, /#ifdef USE_DISPLACEMENTMAP\s+#include <beginnormal_vertex>/);
+      assert.ok(!withoutDisplacement(original).includes("#include <beginnormal_vertex>"));
+    }
+    const shader = { uniforms: {}, vertexShader: original };
     patchPlantShader(shader, wind, plant);
-    assert.equal((shader.vertexShader.match(/vec3 coastalLocalBend=/g) ?? []).length, 1);
-    assert.ok(shader.vertexShader.includes("vec3 transformed=position+coastalPlantWeight*coastalLocalBend"));
+    for (const source of [withoutDisplacement(shader.vertexShader), shader.vertexShader]) {
+      assert.equal((source.match(/vec3 coastalLocalBend=/g) ?? []).length, 1, name);
+      assert.match(source, /void\s+main\s*\(\s*\)\s*\{\s*vec3 coastalLocalBend=coastalPlantBend\(coastalPlantRoot\);/, name);
+      assert.ok(source.indexOf("vec3 coastalLocalBend=") < source.indexOf("vec3 transformed=position+coastalPlantWeight*coastalLocalBend"), name);
+    }
     assert.equal(shader.uniforms.coastalPlantPhase, plant.coastalPlantPhase);
   }
+  const spaced = { uniforms: {}, vertexShader: "void\nmain ( void )\n{\n#include <begin_vertex>\n}" };
+  patchPlantShader(spaced, wind, plant);
+  assert.match(spaced.vertexShader, /\{\s*vec3 coastalLocalBend=/);
+  assert.throws(() => patchPlantShader({ uniforms: {}, vertexShader: "#include <begin_vertex>" }, wind, plant), /main/);
 });
 
 const emitters = new Float32Array([0, 1, 0, 0.15, 1, 0.2, -0.1, 1, -0.2]);

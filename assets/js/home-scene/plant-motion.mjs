@@ -209,23 +209,26 @@ export function deformPlantNormal(normal, gradient, bend, out = [0, 0, 0]) {
 // One filtered field evaluation is shared by vertex position and normal stages.
 export function patchPlantShader(shader, windUniforms, plantUniforms) {
   if (!shader.vertexShader.includes("#include <begin_vertex>")) throw new Error("Plant shader has no position stage");
+  const mainEntry = /\bvoid\s+main\s*\(\s*(?:void\s*)?\)\s*\{/;
+  if (!mainEntry.test(shader.vertexShader)) throw new Error("Plant shader has no main entry");
   Object.assign(shader.uniforms, windUniforms, plantUniforms);
   const declarations = `uniform vec3 coastalWindMean; uniform float coastalWindGust;\n${plantFieldGLSL}\n`;
   shader.vertexShader = declarations + shader.vertexShader;
+  // Depth/distance shaders put normals inside USE_DISPLACEMENTMAP. The shared
+  // bend must be computed outside that guard so shadow positions always have it.
+  shader.vertexShader = shader.vertexShader.replace(mainEntry, "$&\n    vec3 coastalLocalBend=coastalPlantBend(coastalPlantRoot);");
   const hasNormals = shader.vertexShader.includes("#include <beginnormal_vertex>");
   if (hasNormals)
     shader.vertexShader = shader.vertexShader.replace(
       "#include <beginnormal_vertex>",
       `
     #include <beginnormal_vertex>
-    vec3 coastalLocalBend=coastalPlantBend(coastalPlantRoot);
     objectNormal=coastalPlantNormal(objectNormal,coastalLocalBend,coastalPlantGradient);
   `
     );
   shader.vertexShader = shader.vertexShader.replace(
     "#include <begin_vertex>",
     `
-    ${hasNormals ? "" : "vec3 coastalLocalBend=coastalPlantBend(coastalPlantRoot);"}
     vec3 transformed=position+coastalPlantWeight*coastalLocalBend;
   `
   );
