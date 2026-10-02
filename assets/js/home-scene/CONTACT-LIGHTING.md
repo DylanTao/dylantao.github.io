@@ -64,7 +64,7 @@ The two new public runtime modules are 9,511 source bytes / 3,558 gzip bytes whe
 
 Ignored `.jekyll-cache/visual-qa/coastal-contact-followup/` contains matched `before-*` / `after-*` PNGs of the study, kitchen, gym and onsen. They use the same October 1, 2026 authored local time, camera, Ghibli model and reduced-motion pose within each pair. The study's shelf edges and pale countertop/room contacts retain clearer surface separation. `lab-direct-comparison.png` and `lab-indirect-comparison.png` show the controlled original-geometry study.
 
-The latest Chromium controlled capture compares each 392 × 328 canvas with the no-AO view. A pixel counts as changed when any RGB channel differs by more than two 8-bit levels:
+The recorded Chromium controlled capture compares each 392 × 328 canvas with the no-AO view. A pixel counts as changed when any RGB channel differs by more than two 8-bit levels:
 
 | Lighting condition | Previous composite changed pixels | New horizon changed pixels | New mean absolute RGB difference | New maximum RGB difference |
 | ------------------ | --------------------------------- | -------------------------- | -------------------------------- | -------------------------- |

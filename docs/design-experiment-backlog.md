@@ -47,6 +47,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Sirui decision:** Pending. Requested concrete screenshots and ongoing reference-informed iteration while away.
 - **Revisit trigger:** Sirui's E/F feedback or a mismatch between a margin claim and its adjacent figure.
 
+### October 1 away review: La Jolla process comparison
+
+- **Hypothesis:** Keeping the reconstructed shape beside the production miniature will clarify which coastal mass was recovered and which architecture was deliberately authored.
+- **Route:** Unlisted `/design-lab/coastal-process/` (G); the current public case and interactive miniature remain intact.
+- **Reference:** [063 Skyward](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/063-history-of-flight.html), for an artifact and consequence at each stage; [039 Galerie Nocturne](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/039-virtual-gallery.html), for whole artifacts with adjacent interpretation; the linked Feishu V14 recreation in the checkpoint note, for explanation tied to visible state.
+- **Licensing:** Original page/styles with four existing owned assets, original architecture/village references, OpenStreetMap attribution and retained Hunyuan license credit. No reference assets or code copied.
+- **Visitor benefit:** Inspect the reconstruction and deliberate modeling decision together, rather than returning across a long case study.
+- **Budget:** Four complete existing WebPs totaling about 740 KiB, lazy reconstruction/poster loading, static HTML and native original/source links; no new scene instance or JavaScript. Responsive derivatives can be considered if accepted.
+- **Status:** `prototype`.
+- **Evidence:** The [G checkpoint](coastal-process-preview-2026-10-01.md) records eight viewport/theme states, actual desktop/phone renders, keyboard/license/original-image checks, no-JavaScript rendering and the production baseurl build. Viewpoints and artistic distances differ; this is qualitative process evidence.
+- **Sirui decision:** Pending screenshot review.
+- **Revisit trigger:** Sirui's G feedback or a provenance label that conflates reconstruction and authored geometry.
+
 ### October 1 working previews: selected work and a quieter conversation note
 
 - **Hypothesis:** A larger original figure beside a short explanation lets a visitor inspect the strongest work earlier; a small margin photograph or text acknowledgement can connect the thesis to people without making one encounter dominate it.

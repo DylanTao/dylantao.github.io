@@ -82,6 +82,12 @@ class CoastalAssetsTest(unittest.TestCase):
             "lounge",
             "sleep",
         }
+        finger_joints = {
+            f"Hand.Finger.{digit}.{segment}.{side}"
+            for digit in ("0", "1", "2", "3", "thumb")
+            for segment in (0, 1)
+            for side in ("L", "R")
+        }
         conventions = []
         for avatar in MANIFEST["avatars"]:
             data = glb(ASSETS / avatar["file"])
@@ -91,8 +97,13 @@ class CoastalAssetsTest(unittest.TestCase):
             if avatar["id"] == "lizard":
                 self.assertIn("Tail", names)
                 self.assertIn("TailTip", names)
-            else:
-                conventions.append(names)
+                names -= {"Tail", "TailTip"}
+            if "gripWristOffsets" in avatar:
+                self.assertEqual(avatar["id"], "ghibli")
+                self.assertEqual(set(avatar["gripWristOffsets"]), {"pullup", "dip"})
+                self.assertTrue(finger_joints <= names)
+                names -= finger_joints
+            conventions.append(names)
             for clip in data["animations"]:
                 self.assertGreater(len(clip["channels"]), 5)
                 self.assertTrue(

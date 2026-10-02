@@ -8,6 +8,7 @@ import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvat
 import { createFootContacts } from "./locomotion.mjs";
 import { envelopeFor, constrainOrbit, keepCameraClear } from "./camera.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
+import { resolveWristTargets } from "./grip-targets.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
@@ -74,6 +75,7 @@ export function createCoastalHome(container, records, artifacts) {
   const style = "realistic";
   const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
   let avatarId,
+    activeGripOffsets,
     actor,
     mixer,
     actions,
@@ -389,7 +391,9 @@ export function createCoastalHome(container, records, artifacts) {
 
   function release(root) {
     art.forget(root);
+    const skeletons = new Set();
     root.traverse((o) => {
+      if (o.isSkinnedMesh && o.skeleton) skeletons.add(o.skeleton);
       if (!o.isMesh || o.userData.outline) return;
       o.geometry.dispose();
       resources.delete(o.geometry);
@@ -400,6 +404,7 @@ export function createCoastalHome(container, records, artifacts) {
       });
       o.userData.inkOutline?.material.dispose();
     });
+    skeletons.forEach((skeleton) => skeleton.dispose());
     root.removeFromParent();
   }
 
@@ -421,6 +426,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
       actor = prepareModel(gltf.scene);
       actor.name = "active-Sirui";
+      activeGripOffsets = entry.gripWristOffsets;
       footContacts = createFootContacts(actor, config.terrain);
       handContacts = createHandContacts(actor);
       world.add(actor);
@@ -1140,7 +1146,7 @@ export function createCoastalHome(container, records, artifacts) {
           const grip = new THREE.Vector3(0.16, 0.91, 0.3).applyQuaternion(actor.quaternion).add(actor.position);
           contacts = [null, grip.toArray()];
         }
-        handContacts?.solve(contacts, pose.contactBlend ?? 1);
+        handContacts?.solve(resolveWristTargets(contacts, pose.clip, activeGripOffsets, actor.rotation.y), pose.contactBlend ?? 1);
         container.dataset.activityPhase = pose.phase;
       }
     } else sequencePose = null;
@@ -1373,6 +1379,7 @@ export function createCoastalHome(container, records, artifacts) {
     cupPosition: coffeeCup?.position.toArray() || null,
     weightPosition: exerciseWeight?.position.toArray() || null,
     gripDrift: handContacts?.evidence() || [],
+    gripTargetMode: activeGripOffsets?.[sequencePose?.clip] ? "anatomical-wrist" : "equipment-anchor",
     animations: actions ? [...actions.keys()] : [],
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,

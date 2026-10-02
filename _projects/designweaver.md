@@ -220,7 +220,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
     </div>
 </div>
 <div class="caption">
-    Figure 7: Top 5 expert rated chair on novelty.
+    Figure 7: Five chair concepts rated highest for novelty by experts in each condition.
 </div>
 
 ## Conclusion

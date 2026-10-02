@@ -653,6 +653,53 @@ test("coastal home: all five avatars retain one actor, shared wall art and album
   expect(errors).toEqual([]);
 });
 
+test("coastal home: compiled avatar replacements release their bone textures", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "Rig ownership and texture lifetime are shared across viewports.");
+  const errors = collectRuntimeErrors(page);
+  const { scene, ui } = await openHome(page);
+  await settleRoomModels(scene);
+  await explore(ui);
+  await ui.locator("[data-world-activity]").selectOption("workout");
+  await page.evaluate(async () => {
+    const { Skeleton } = await import(new URL("assets/js/three.module.min.js", location.href).href);
+    const dispose = Skeleton.prototype.dispose;
+    window.__coastalRigDisposals = [];
+    Skeleton.prototype.dispose = function () {
+      const hadTexture = Boolean(this.boneTexture);
+      dispose.call(this);
+      window.__coastalRigDisposals.push({ hadTexture, cleared: this.boneTexture === null });
+    };
+  });
+  const avatars = ["lizard", "south-park", "simpsons", "ghibli", "rick-and-morty"];
+  const reference = new Map(),
+    samples = [];
+  for (let cycle = 0; cycle < 3; cycle++) {
+    for (const avatar of avatars) {
+      const frame = (await evidence(scene)).frames;
+      await ui.locator("[data-world-avatar]").selectOption(avatar);
+      await expect(scene).toHaveAttribute("data-avatar", avatar);
+      await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(frame);
+      await settle(page);
+      const info = await evidence(scene);
+      expect(info.actorCount).toBe(1);
+      samples.push({ cycle, avatar, textures: info.resources.textures, geometries: info.resources.geometries });
+      if (cycle === 1) reference.set(avatar, info.resources.textures);
+      if (cycle === 2) expect(info.resources.textures).toBe(reference.get(avatar));
+    }
+  }
+  const beforeDisposal = await page.evaluate(() => window.__coastalRigDisposals.length);
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
+  await expect(scene.locator("canvas")).toHaveCount(0);
+  const disposals = await page.evaluate(() => window.__coastalRigDisposals);
+  expect(disposals).toHaveLength(beforeDisposal + 1);
+  expect(disposals.every((entry) => entry.hadTexture && entry.cleared)).toBe(true);
+  const report = testInfo.outputPath("compiled-avatar-resource-cycles.json");
+  fs.mkdirSync(path.dirname(report), { recursive: true });
+  fs.writeFileSync(report, JSON.stringify({ samples, disposals }, null, 2));
+  await testInfo.attach("compiled-avatar-resource-cycles", { path: report, contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: full exterior orbit and guided interior camera boundaries", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "camera geometry is shared; touch zoom has its own mobile case");
   const errors = collectRuntimeErrors(page);
