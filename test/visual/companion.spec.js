@@ -210,6 +210,66 @@ test("P: its project link opens a working motion playground with visible credits
   expect(errors).toEqual([]);
 });
 
+test("P: a partially visible playground sleeps until it owns the shared companion", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/projects/p/"), { waitUntil: "domcontentloaded" });
+  const studio = page.locator("[data-pip-studio]");
+  await expect.poll(() => studio.evaluate((e) => typeof e.getPipEvidence)).toBe("function");
+  await studio.evaluate((e) => {
+    const bottom = e.getBoundingClientRect().bottom + scrollY;
+    window.scrollTo(0, bottom - 12);
+  });
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().visible)).toBe(true);
+  await expect.poll(async () => (await evidence(page)).owner).toBe("page");
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
+  const idle = await studio.evaluate((e) => e.getPipEvidence());
+  await page.waitForTimeout(250);
+  expect((await studio.evaluate((e) => e.getPipEvidence())).frames).toBe(idle.frames);
+  await capture(page, testInfo, "pip-studio-unowned-still");
+
+  await studio.scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await evidence(page)).owner).toBe("studio");
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().frames)).toBeGreaterThan(idle.frames);
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
+  // Positive control: ownership return must wake the real rendered portrait.
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(true);
+  const moving = await studio.evaluate((e) => e.getPipEvidence());
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().frames)).toBeGreaterThan(moving.frames);
+  await page.getByRole("button", { name: "Let P nap", exact: true }).click();
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
+  const asleep = await studio.evaluate((e) => e.getPipEvidence());
+  await page.waitForTimeout(250);
+  expect((await studio.evaluate((e) => e.getPipEvidence())).time).toBe(asleep.time);
+  await page.getByRole("button", { name: "Wake P up", exact: true }).click();
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(true);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
+  const hidden = await studio.evaluate((e) => e.getPipEvidence());
+  await page.waitForTimeout(250);
+  expect((await studio.evaluate((e) => e.getPipEvidence())).frames).toBe(hidden.frames);
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(true);
+  // Synthetic lifecycle coverage preserves the retained controller. It does
+  // not assert that browser navigation actually admitted this page to BFCache.
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true })));
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true })));
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(true);
+  await capture(page, testInfo, "pip-studio-owned-awake");
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
+  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
+  expect(errors).toEqual([]);
+});
+
 test("P: playground respects reduced motion and a failed model keeps the room usable", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
