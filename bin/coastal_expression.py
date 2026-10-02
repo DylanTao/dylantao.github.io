@@ -6,14 +6,18 @@ Only irises/pupils follow Eye bones; sclera and skin stay with the head.
 
 import math
 import bpy
-from mathutils import Vector
+from mathutils import Quaternion, Vector
 
 
 def install_expression(arm):
+    gaze_fit = arm.get("avatar") == "ghibli"
     mesh = next(o for o in arm.children if o.type == "MESH" and o.name == "SiruiMesh")
     for obj in list(arm.children):
         if obj.get("characterLids"):
+            old_mesh = obj.data
             bpy.data.objects.remove(obj, do_unlink=True)
+            if not old_mesh.users:
+                bpy.data.meshes.remove(old_mesh)
     skin = next(m for m in mesh.data.materials if m.name == "skin")
     head = mesh.vertex_groups.get("Head")
     samples, vertices, polygons, closed, sides = [], [], [], [], []
@@ -54,8 +58,25 @@ def install_expression(arm):
         # The retained iris/catchlight layers project in front of the sclera.
         # Cover their actual surface envelope at closure, not merely the globe.
         optical = [mesh.matrix_world @ mesh.data.vertices[i].co for i in eye]
+        if gaze_fit:
+            # The small natural eye's protruding catchlights can escape a lid
+            # fitted only to neutral gaze. Sweep the actual retained optical
+            # vertices around their native eye pivot through runtime's bounds.
+            basis = arm.matrix_world @ arm.data.bones["Eye." + side].matrix_local
+            inverse = basis.inverted()
+            local = [inverse @ p for p in optical]
+            # Match Three's intrinsic XYZ quaternion product, not Blender's
+            # extrinsic Euler sequence when both angles are nonzero.
+            optical = [basis @ (Quaternion((1, 0, 0), -pitch) @ Quaternion((0, 1, 0), yaw)).to_matrix().to_4x4() @ p
+                       for yaw in (-.2, -.1, 0, .1, .2)
+                       for pitch in (-.12, -.06, 0, .06, .12)
+                       for p in local]
         cover_depth = max(radius.y, center.y - min(p.y for p in optical)) * 1.12
-        samples.append({"side": side, "center": list(center), "radius": list(radius)})
+        sample = {"side": side, "center": list(center), "radius": list(radius)}
+        if gaze_fit:
+            sample["closedDepth"] = cover_depth
+            sample["gazeSweep"] = {"yaw": [-.2, .2], "pitch": [-.12, .12], "poses": 25, "cornerScale": 1.04}
+        samples.append(sample)
         # The eyeball remains round during a saccade. Reassign only static white
         # and existing soft lid vertices; the original surface is unchanged.
         static = set(component)
@@ -74,15 +95,21 @@ def install_expression(arm):
                     angle = math.pi * segment / segments
                     x = math.cos(angle) * .998
 
-                    def point(aperture, depth):
+                    def point(aperture, depth, closure=False):
                         z = sign * math.sin(angle) * (1.07 * (1 - t) + aperture * t)
                         front = math.sqrt(max(0, 1 - x * x - z * z))
-                        return (center.x + radius.x * x,
+                        if closure and gaze_fit:
+                            # A smooth broad closure rests ahead of the fitted
+                            # optical sweep with a small corner coverage margin.
+                            f = min(1, front / .45)
+                            front = f * f * (3 - 2 * f)
+                        px = x * (1.04 if closure and gaze_fit else 1)
+                        return (center.x + radius.x * px,
                                 center.y - depth * front - .0007,
                                 center.z + radius.z * z)
 
                     vertices.append(point(opening, radius.y))
-                    closed.append(point(-.012, cover_depth))
+                    closed.append(point(-.012, cover_depth, True))
                     sides.append(side)
             for ring in range(rings):
                 for segment in range(segments):
