@@ -1,0 +1,190 @@
+{
+  "baseurl": "/al-folio",
+  "moduleAndModelHashes": [
+    {
+      "path": "assets/models/home/manifest.json",
+      "normalization": "canonical JSON data",
+      "matches": true,
+      "sourceSha256": "64cd2c1749220d33818a2682561af165821f6f146be400069980441763b0566a",
+      "builtSha256": "64cd2c1749220d33818a2682561af165821f6f146be400069980441763b0566a"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "7183fdabbcfd56aa5c492269983d87d403ebc4d5956dfc75f1ebd47323ec7d5b",
+      "builtSha256": "7183fdabbcfd56aa5c492269983d87d403ebc4d5956dfc75f1ebd47323ec7d5b"
+    },
+    {
+      "path": "assets/js/home-scene/character-performance.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "af535a365da0ff52dcdf0252caa2f011eadd29dd430e0c792ae155bff437103c",
+      "builtSha256": "af535a365da0ff52dcdf0252caa2f011eadd29dd430e0c792ae155bff437103c"
+    },
+    {
+      "path": "assets/js/home-scene/companion.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "1971af4560863f46364616e55e412918fa7a74b889aaff7942b83eeba05ca279",
+      "builtSha256": "1971af4560863f46364616e55e412918fa7a74b889aaff7942b83eeba05ca279"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "b54b84c6ec2b31791bd675809b4faa71486f2f7aeed8f77729616223a30aa2ef",
+      "builtSha256": "b54b84c6ec2b31791bd675809b4faa71486f2f7aeed8f77729616223a30aa2ef"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-motion.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "8607a3f84b9b07b47dcb186d7827dca7e3fd7a7ab7bab1d3d9be771b9c99d507",
+      "builtSha256": "8607a3f84b9b07b47dcb186d7827dca7e3fd7a7ab7bab1d3d9be771b9c99d507"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "4cac0afd75fda624b62be4b6afb83d63a1eb254c9a677e50220076a4110de721",
+      "builtSha256": "4cac0afd75fda624b62be4b6afb83d63a1eb254c9a677e50220076a4110de721"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-perch-contact.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "7df59574b8ce72d70651a2b8f9204ccafc375b50909d57159d49d0d6a960ef21",
+      "builtSha256": "7df59574b8ce72d70651a2b8f9204ccafc375b50909d57159d49d0d6a960ef21"
+    },
+    {
+      "path": "assets/js/home-scene/occlusion-region.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "ec422fd21a2e42a8ac9bd04f0bc9aaf3968647541e0ac8dd2e4aeb92563c639c",
+      "builtSha256": "ec422fd21a2e42a8ac9bd04f0bc9aaf3968647541e0ac8dd2e4aeb92563c639c"
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "2637aafd9daeb7f966641ce5a13ad0ac91618d0cf89013fda629c69ce690ddb4",
+      "builtSha256": "2637aafd9daeb7f966641ce5a13ad0ac91618d0cf89013fda629c69ce690ddb4"
+    },
+    {
+      "path": "assets/js/home-scene/realism.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "013b1f9616267e2b9bfb738c5e1fe8bbacc8e1705bbf0ebd83eddf936309a4a6",
+      "builtSha256": "013b1f9616267e2b9bfb738c5e1fe8bbacc8e1705bbf0ebd83eddf936309a4a6"
+    },
+    {
+      "path": "assets/js/companion/attention.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "0e5146bd49fa8f6e11182c036a0a01cdd39696d527d25898c74b880aafe53ba1",
+      "builtSha256": "0e5146bd49fa8f6e11182c036a0a01cdd39696d527d25898c74b880aafe53ba1"
+    },
+    {
+      "path": "assets/js/companion/performance.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "5f2828c64c4f035d3e71cf79e3507b414b395bc3e2350efd3d8d42af9fab16c6",
+      "builtSha256": "5f2828c64c4f035d3e71cf79e3507b414b395bc3e2350efd3d8d42af9fab16c6"
+    },
+    {
+      "path": "assets/js/companion/clearance.mjs",
+      "normalization": "LF line endings",
+      "matches": true,
+      "sourceSha256": "ff423aee127fc8c968bd33fc8d9df555acbf05881819f0279360eec7d7610146",
+      "builtSha256": "ff423aee127fc8c968bd33fc8d9df555acbf05881819f0279360eec7d7610146"
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "normalization": "canonical JSON data",
+      "matches": true,
+      "sourceSha256": "0a045e4155d25712388b584a9dd55b61d6a44cabddb6b4aae4e32960dd2ee96b",
+      "builtSha256": "0a045e4155d25712388b584a9dd55b61d6a44cabddb6b4aae4e32960dd2ee96b"
+    },
+    {
+      "path": "assets/models/home/sirui-lizard.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "3ac88825c77493b6e00bd5721cba51b166d8051d8585eef583e75a73093caac6",
+      "builtSha256": "3ac88825c77493b6e00bd5721cba51b166d8051d8585eef583e75a73093caac6"
+    },
+    {
+      "path": "assets/models/home/sirui-south-park.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "b971576f8232e7f523b6b45ce2a53527b603aedbd4a031a8ec22fca4d26a7642",
+      "builtSha256": "b971576f8232e7f523b6b45ce2a53527b603aedbd4a031a8ec22fca4d26a7642"
+    },
+    {
+      "path": "assets/models/home/sirui-simpsons.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "16af9103ef80599c1dc898a5c845927fe8da88b667e8fc07a47d2fcef2bcb47c",
+      "builtSha256": "16af9103ef80599c1dc898a5c845927fe8da88b667e8fc07a47d2fcef2bcb47c"
+    },
+    {
+      "path": "assets/models/home/sirui-ghibli.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "d5fb167789795f68f3abcee005976c48f17231a080ba031ff0147b8f44b7138a",
+      "builtSha256": "d5fb167789795f68f3abcee005976c48f17231a080ba031ff0147b8f44b7138a"
+    },
+    {
+      "path": "assets/models/home/sirui-rick-and-morty.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "c6b4e09125000d3b2d2a6243c42ca62a728920e3266ecd3c82ec593d743f09b7",
+      "builtSha256": "c6b4e09125000d3b2d2a6243c42ca62a728920e3266ecd3c82ec593d743f09b7"
+    },
+    {
+      "path": "assets/models/home/BrushRabbit.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "52c884a80fb918ff187c029f4282ce1b9f5b9e26b908c466371c85daed949d66",
+      "builtSha256": "52c884a80fb918ff187c029f4282ce1b9f5b9e26b908c466371c85daed949d66"
+    },
+    {
+      "path": "assets/models/home/CaliforniaSeaLion.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "b027d398fa5e2a91ad1120b970c0f9000964a7bb9e795e69c103e0057adbb00c",
+      "builtSha256": "b027d398fa5e2a91ad1120b970c0f9000964a7bb9e795e69c103e0057adbb00c"
+    },
+    {
+      "path": "assets/models/home/HarborSeal.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "8169158f0f73e962398f79ca5ff8fc3f429dc7392ea58627987b151f22499d1b",
+      "builtSha256": "8169158f0f73e962398f79ca5ff8fc3f429dc7392ea58627987b151f22499d1b"
+    },
+    {
+      "path": "assets/models/home/Raccoon.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "d3a7cd66d473ab3344964a85b5487a95db0a9dd125e2cbd6b42d6423cf816085",
+      "builtSha256": "d3a7cd66d473ab3344964a85b5487a95db0a9dd125e2cbd6b42d6423cf816085"
+    },
+    {
+      "path": "assets/models/home/WesternGull.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "8ae14bbd280cd34d51641ad3cb1096486969eec93d9703d1099f6b253d44b5d6",
+      "builtSha256": "8ae14bbd280cd34d51641ad3cb1096486969eec93d9703d1099f6b253d44b5d6"
+    },
+    {
+      "path": "assets/models/home/Sandpiper.glb",
+      "normalization": "binary",
+      "matches": true,
+      "sourceSha256": "e644f6576d88ece0860f468661918a4250d6a8bc7fc58af7cea1247183391db9",
+      "builtSha256": "e644f6576d88ece0860f468661918a4250d6a8bc7fc58af7cea1247183391db9"
+    }
+  ],
+  "prefixedEntry": true,
+  "authoringExcluded": true,
+  "limits": "Build and generated-reference inspection, not a full production-baseurl browser matrix."
+}

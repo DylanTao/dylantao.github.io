@@ -18,11 +18,22 @@ const hash = (buffer) => createHash("sha256").update(buffer).digest("hex");
     out = path.resolve(process.env.CHARACTER_PREVIEW_EVIDENCE || ".jekyll-cache/visual-qa/character-preview-freshness.json"),
     files = [
       "assets/models/home/manifest.json",
-      ...["controller", "character-performance", "companion", "wildlife", "wildlife-motion", "wildlife-neighbor-motion", "occlusion-region"].map(
-        (name) => `assets/js/home-scene/${name}.mjs`
-      ),
+      ...[
+        "controller",
+        "character-performance",
+        "companion",
+        "wildlife",
+        "wildlife-motion",
+        "wildlife-neighbor-motion",
+        "wildlife-perch-contact",
+        "occlusion-region",
+        "environment",
+        "realism",
+      ].map((name) => `assets/js/home-scene/${name}.mjs`),
       "assets/js/companion/attention.mjs",
       "assets/js/companion/performance.mjs",
+      "assets/js/companion/clearance.mjs",
+      "assets/models/home/wildlife-perch-support.json",
       ...["ghibli", "lizard", "south-park", "simpsons", "rick-and-morty"].map((name) => `assets/models/home/sirui-${name}.glb`),
       ...["BrushRabbit", "CaliforniaSeaLion", "HarborSeal", "Raccoon", "WesternGull", "Sandpiper"].map((name) => `assets/models/home/${name}.glb`),
     ];

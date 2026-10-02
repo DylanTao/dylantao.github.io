@@ -1,0 +1,1070 @@
+{
+  "diagnostic": "Actual GLBs, native retained clips and WebGL material/light instances. Tight inspection camera is diagnostic only; no geometry/lids substituted.",
+  "samples": [
+    {
+      "id": "ghibli",
+      "activity": "lounge",
+      "proof": {
+        "clip": "drink",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "HandFinger00L",
+          "HandFinger01L",
+          "HandFinger10L",
+          "HandFinger11L",
+          "HandFinger20L",
+          "HandFinger21L",
+          "HandFinger30L",
+          "HandFinger31L",
+          "HandFingerthumb0L",
+          "HandFingerthumb1L",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "HandFinger00R",
+          "HandFinger01R",
+          "HandFinger10R",
+          "HandFinger11R",
+          "HandFinger20R",
+          "HandFinger21R",
+          "HandFinger30R",
+          "HandFinger31R",
+          "HandFingerthumb0R",
+          "HandFingerthumb1R",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "ghibli",
+      "activity": "lunch",
+      "proof": {
+        "clip": "eat",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "HandFinger00L",
+          "HandFinger01L",
+          "HandFinger10L",
+          "HandFinger11L",
+          "HandFinger20L",
+          "HandFinger21L",
+          "HandFinger30L",
+          "HandFinger31L",
+          "HandFingerthumb0L",
+          "HandFingerthumb1L",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "HandFinger00R",
+          "HandFinger01R",
+          "HandFinger10R",
+          "HandFinger11R",
+          "HandFinger20R",
+          "HandFinger21R",
+          "HandFinger30R",
+          "HandFinger31R",
+          "HandFingerthumb0R",
+          "HandFingerthumb1R",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "ghibli",
+      "inspection": {
+        "pose": "open",
+        "performance": {
+          "blink": [0, 0],
+          "eye": [0.19999999994421064, 0.11999999996652638],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 1,
+          "blinkCount": 1,
+          "cooldownRemaining": 9.3,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.530000405868051, 1.3709600800275803, -4.211639975312645],
+        "origin": [-3.4500000317450326, 1.3309600800275803, -3.1316400030255265],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "ghibli",
+      "inspection": {
+        "pose": "closed",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 9.49,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.530000405868051, 1.3709600800275803, -4.211639975312645],
+        "origin": [-3.4500000317450326, 1.3309600800275803, -3.1316400030255265],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "ghibli",
+      "inspection": {
+        "pose": "closed-profile",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 9.49,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-4.250000343514171, 1.3709600800275803, -4.031639725897308],
+        "origin": [-3.4500000317450326, 1.3309600800275803, -3.1316400030255265],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "south-park",
+      "activity": "lounge",
+      "proof": {
+        "clip": "drink",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "south-park",
+      "activity": "lunch",
+      "proof": {
+        "clip": "eat",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "south-park",
+      "inspection": {
+        "pose": "open",
+        "performance": {
+          "blink": [0, 0],
+          "eye": [0.19999999994421064, 0.11999999996652638],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 1,
+          "blinkCount": 1,
+          "cooldownRemaining": 7.5,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.5300004464534656, 1.38080009162426, -4.328799960318493],
+        "origin": [-3.450000072330447, 1.34080009162426, -3.248799988031375],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "south-park",
+      "inspection": {
+        "pose": "closed",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 7.69,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.5300004464534656, 1.38080009162426, -4.328799960318493],
+        "origin": [-3.450000072330447, 1.34080009162426, -3.248799988031375],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "south-park",
+      "inspection": {
+        "pose": "closed-profile",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 7.69,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-4.250000384099585, 1.38080009162426, -4.148799710903156],
+        "origin": [-3.450000072330447, 1.34080009162426, -3.248799988031375],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "simpsons",
+      "activity": "lounge",
+      "proof": {
+        "clip": "drink",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "simpsons",
+      "activity": "lunch",
+      "proof": {
+        "clip": "eat",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "simpsons",
+      "inspection": {
+        "pose": "open",
+        "performance": {
+          "blink": [0, 0],
+          "eye": [0.19999999994421064, 0.11999999996652638],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 1,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.4,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.53000042415158, 1.4821600550413132, -4.264419970217636],
+        "origin": [-3.4500000500285615, 1.4421600550413132, -3.1844199979305183],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "simpsons",
+      "inspection": {
+        "pose": "closed",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.59,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.53000042415158, 1.4821600550413132, -4.264419970217636],
+        "origin": [-3.4500000500285615, 1.4421600550413132, -3.1844199979305183],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "simpsons",
+      "inspection": {
+        "pose": "closed-profile",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.59,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-4.250000361797699, 1.4821600550413132, -4.084419720802299],
+        "origin": [-3.4500000500285615, 1.4421600550413132, -3.1844199979305183],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "rick-and-morty",
+      "activity": "lounge",
+      "proof": {
+        "clip": "drink",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "rick-and-morty",
+      "activity": "lunch",
+      "proof": {
+        "clip": "eat",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR"
+        ]
+      }
+    },
+    {
+      "id": "rick-and-morty",
+      "inspection": {
+        "pose": "open",
+        "performance": {
+          "blink": [0, 0],
+          "eye": [0.19999999994421064, 0.11999999996652638],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 1,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.4,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.53000042415158, 1.4821600550413132, -4.264419970217636],
+        "origin": [-3.4500000500285615, 1.4421600550413132, -3.1844199979305183],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "rick-and-morty",
+      "inspection": {
+        "pose": "closed",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.59,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.53000042415158, 1.4821600550413132, -4.264419970217636],
+        "origin": [-3.4500000500285615, 1.4421600550413132, -3.1844199979305183],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "rick-and-morty",
+      "inspection": {
+        "pose": "closed-profile",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.59,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-4.250000361797699, 1.4821600550413132, -4.084419720802299],
+        "origin": [-3.4500000500285615, 1.4421600550413132, -3.1844199979305183],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "lizard",
+      "activity": "lounge",
+      "proof": {
+        "clip": "drink",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR",
+          "Tail",
+          "TailTip"
+        ]
+      }
+    },
+    {
+      "id": "lizard",
+      "activity": "lunch",
+      "proof": {
+        "clip": "eat",
+        "states": [
+          {
+            "seconds": 0,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.35,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 0.7,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.05,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.4,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          },
+          {
+            "seconds": 1.75,
+            "drift": 0,
+            "head": [0, 0, 0],
+            "eye": [0.19999997051658436, 0.1199999823099506],
+            "breath": 0
+          }
+        ],
+        "bones": [
+          "Root",
+          "Hips",
+          "Spine",
+          "Head",
+          "ArmL",
+          "ForearmL",
+          "HandL",
+          "ArmR",
+          "ForearmR",
+          "HandR",
+          "ThighL",
+          "ShinL",
+          "FootL",
+          "ThighR",
+          "ShinR",
+          "FootR",
+          "Tail",
+          "TailTip"
+        ]
+      }
+    },
+    {
+      "id": "lizard",
+      "inspection": {
+        "pose": "open",
+        "performance": {
+          "blink": [0, 0],
+          "eye": [0.19999999994421064, 0.11999999996652638],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 1,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.4,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.530000440876265, 1.5208800667524338, -4.312699970904279],
+        "origin": [-3.4500000667532467, 1.4808800667524338, -3.2326999986171607],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "lizard",
+      "inspection": {
+        "pose": "closed",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.59,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-3.530000440876265, 1.5208800667524338, -4.312699970904279],
+        "origin": [-3.4500000667532467, 1.4808800667524338, -3.2326999986171607],
+        "boneCount": 2
+      }
+    },
+    {
+      "id": "lizard",
+      "inspection": {
+        "pose": "closed-profile",
+        "performance": {
+          "blink": [1, 1],
+          "eye": [0.19999999635328078, 0.11999999781196845],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "acknowledge",
+          "seconds": 0.8099999999999999,
+          "blinkCount": 1,
+          "cooldownRemaining": 8.59,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "camera": [-4.250000378522385, 1.5208800667524338, -4.132699721488942],
+        "origin": [-3.4500000667532467, 1.4808800667524338, -3.2326999986171607],
+        "boneCount": 2
+      }
+    }
+  ],
+  "errors": []
+}

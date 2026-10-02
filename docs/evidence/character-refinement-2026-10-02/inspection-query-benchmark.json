@@ -1,0 +1,1745 @@
+{
+  "capturedAt": "2026-10-02T11:51:26.333Z",
+  "browser": "145.0.7632.6",
+  "base": "http://127.0.0.1:8080",
+  "method": "One native Windows Chromium context; reduced-motion Date-only override; native performance.now/RAF. Three balanced rounds after warming all six rooms and17 selections. Only controller query-object choice is instrumented; identical product geometry, poses, candidates, finite rays, early exit and scoring. Timings include local subset construction/disposal. This isolates CPU arrival selection, not FPS or the entire prior implementation.",
+  "errors": [],
+  "summary": [
+    {
+      "id": "rabbit-0",
+      "fullMedianMs": 113.19999992847443,
+      "localMedianMs": 20,
+      "rays": 3
+    },
+    {
+      "id": "rabbit-1",
+      "fullMedianMs": 113.90000009536743,
+      "localMedianMs": 16.5,
+      "rays": 3
+    },
+    {
+      "id": "seaLion-0",
+      "fullMedianMs": 194,
+      "localMedianMs": 17.300000071525574,
+      "rays": 9
+    },
+    {
+      "id": "seaLion-1",
+      "fullMedianMs": 47.300000071525574,
+      "localMedianMs": 15.5,
+      "rays": 3
+    },
+    {
+      "id": "seaLion-2",
+      "fullMedianMs": 47,
+      "localMedianMs": 12.5,
+      "rays": 3
+    },
+    {
+      "id": "seal-0",
+      "fullMedianMs": 48.39999997615814,
+      "localMedianMs": 15,
+      "rays": 3
+    },
+    {
+      "id": "seal-1",
+      "fullMedianMs": 97.89999997615814,
+      "localMedianMs": 15.300000071525574,
+      "rays": 6
+    },
+    {
+      "id": "seal-2",
+      "fullMedianMs": 1179.1000000238419,
+      "localMedianMs": 43.5,
+      "rays": 72
+    },
+    {
+      "id": "raccoon-0",
+      "fullMedianMs": 173.29999995231628,
+      "localMedianMs": 22.300000071525574,
+      "rays": 4
+    },
+    {
+      "id": "gull-0",
+      "fullMedianMs": 83.89999997615814,
+      "localMedianMs": 1.8000000715255737,
+      "rays": 4
+    },
+    {
+      "id": "gull-1",
+      "fullMedianMs": 24.899999976158142,
+      "localMedianMs": 1.600000023841858,
+      "rays": 4
+    },
+    {
+      "id": "gull-2",
+      "fullMedianMs": 25.100000023841858,
+      "localMedianMs": 2.399999976158142,
+      "rays": 4
+    },
+    {
+      "id": "gull-3",
+      "fullMedianMs": 110.60000002384186,
+      "localMedianMs": 14.899999976158142,
+      "rays": 4
+    },
+    {
+      "id": "balcony-gull-0",
+      "fullMedianMs": 542,
+      "localMedianMs": 19.899999976158142,
+      "rays": 20
+    },
+    {
+      "id": "sandpiper-0",
+      "fullMedianMs": 63.89999997615814,
+      "localMedianMs": 15.200000047683716,
+      "rays": 4
+    },
+    {
+      "id": "sandpiper-1",
+      "fullMedianMs": 61.700000047683716,
+      "localMedianMs": 9.300000071525574,
+      "rays": 4
+    },
+    {
+      "id": "sandpiper-2",
+      "fullMedianMs": 65.60000002384186,
+      "localMedianMs": 8.700000047683716,
+      "rays": 4
+    }
+  ],
+  "rows": [
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "rabbit-0",
+      "camera": [-5.862176994776549, 9.652739779982918, -1.7948195632166457],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 113.19999992847443
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "rabbit-1",
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992363],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 113.29999995231628
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "seaLion-0",
+      "camera": [-6.483880533115144, -5.101819240416411, -11.146589070898994],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 9,
+        "query": "full original mesh",
+        "milliseconds": 194
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "seaLion-1",
+      "camera": [-4.671196126681304, -5.167119240416412, -17.077659744139964],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 47.300000071525574
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "seaLion-2",
+      "camera": [7.297571343820646, -5.238719240416412, -16.505044084762986],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 48.39999997615814
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "seal-0",
+      "camera": [-3.3752566705427123, -5.5826545995034635, -8.2420206503586],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 48.39999997615814
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "seal-1",
+      "camera": [-0.8335767648029289, -5.179359442614199, -14.474526097943391],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 6,
+        "query": "full original mesh",
+        "milliseconds": 94.79999995231628
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "seal-2",
+      "camera": [-4.849113714006279, -5.177259442614199, -15.442505768366976],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "query": "full original mesh",
+        "milliseconds": 1179.1000000238419
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "raccoon-0",
+      "camera": [-7.756891488313359, 9.958292684951402, 9.10776381587541],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 190
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "gull-0",
+      "camera": [13.121514967983414, 9.344024502784224, -30.924722927442648],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 90.59999990463257
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "gull-1",
+      "camera": [-4.098063155027125, 10.227765474209068, -32.42857875204765],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 25
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "gull-2",
+      "camera": [-17.96253895483832, 10.957670330373986, -22.59523702149606],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 26.299999952316284
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "gull-3",
+      "camera": [-7.458208122528191, 12.40130267106568, -5.5411028834396365],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 110.60000002384186
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "balcony-gull-0",
+      "camera": [4.226344149590137, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 20,
+        "query": "full original mesh",
+        "milliseconds": 542
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "sandpiper-0",
+      "camera": [-1.565980587945428, -6.108737125374989, -13.373886000000061],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 63.89999997615814
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "sandpiper-1",
+      "camera": [3.5262649996800652, -6.098862505885074, -12.444522393846704],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 61.700000047683716
+      }
+    },
+    {
+      "round": 0,
+      "mode": "full",
+      "id": "sandpiper-2",
+      "camera": [7.652468303633527, -6.088133254491873, -12.560554319888864],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 65.60000002384186
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "rabbit-0",
+      "camera": [-5.862176994776547, 9.652739779982918, -1.7948195632166453],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 2227,
+        "proxyMeshes": 3,
+        "milliseconds": 27.600000023841858
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "rabbit-1",
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992361],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 214928,
+        "retainedTriangles": 1519,
+        "proxyMeshes": 5,
+        "milliseconds": 20.200000047683716
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "seaLion-0",
+      "camera": [-6.48388053311516, -5.101819240416411, -11.146589070898978],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 9,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 7104,
+        "proxyMeshes": 5,
+        "milliseconds": 17.100000023841858
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "seaLion-1",
+      "camera": [-4.671196126681301, -5.167119240416412, -17.07765974413996],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 6977,
+        "proxyMeshes": 5,
+        "milliseconds": 15.799999952316284
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "seaLion-2",
+      "camera": [7.297571343820648, -5.238719240416412, -16.505044084762986],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 150561,
+        "retainedTriangles": 2316,
+        "proxyMeshes": 4,
+        "milliseconds": 12
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "seal-0",
+      "camera": [-3.375256670542715, -5.5826545995034635, -8.2420206503586],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 11449,
+        "proxyMeshes": 9,
+        "milliseconds": 16.899999976158142
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "seal-1",
+      "camera": [-0.8335767648029266, -5.179359442614199, -14.47452609794339],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 6,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 10204,
+        "proxyMeshes": 9,
+        "milliseconds": 15.299999952316284
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "seal-2",
+      "camera": [-4.849113714006275, -5.177259442614199, -15.442505768366978],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 99588,
+        "retainedTriangles": 8217,
+        "proxyMeshes": 7,
+        "milliseconds": 43.5
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "raccoon-0",
+      "camera": [-7.756891488313361, 9.958292684951406, 9.107763815875408],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 4849,
+        "proxyMeshes": 4,
+        "milliseconds": 22.300000071525574
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "gull-0",
+      "camera": [13.121514967983417, 9.344024502784224, -30.924722927442645],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1.8000000715255737
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "gull-1",
+      "camera": [-4.098063155027125, 10.227765474209068, -32.42857875204765],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1.600000023841858
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "gull-2",
+      "camera": [-17.962538954838323, 10.957670330373986, -22.59523702149606],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 2.399999976158142
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "gull-3",
+      "camera": [-7.458208122528195, 12.40130267106568, -5.5411028834396365],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 192605,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 16.100000023841858
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "balcony-gull-0",
+      "camera": [4.226344149590134, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 20,
+        "sourceTriangles": 139206,
+        "retainedTriangles": 1906,
+        "proxyMeshes": 5,
+        "milliseconds": 19.699999928474426
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "sandpiper-0",
+      "camera": [-1.565980587945428, -6.108737125374989, -13.37388600000006],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 171745,
+        "retainedTriangles": 15352,
+        "proxyMeshes": 10,
+        "milliseconds": 14.699999928474426
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "sandpiper-1",
+      "camera": [3.5262649996800643, -6.098862505885074, -12.4445223938467],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 100452,
+        "retainedTriangles": 8616,
+        "proxyMeshes": 5,
+        "milliseconds": 9.300000071525574
+      }
+    },
+    {
+      "round": 0,
+      "mode": "local",
+      "id": "sandpiper-2",
+      "camera": [7.652468303633526, -6.088133254491873, -12.560554319888862],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 93580,
+        "retainedTriangles": 4573,
+        "proxyMeshes": 4,
+        "milliseconds": 8.599999904632568
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "rabbit-0",
+      "camera": [-5.862176994776545, 9.652739779982918, -1.7948195632166444],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 2227,
+        "proxyMeshes": 3,
+        "milliseconds": 20
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "rabbit-1",
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992359],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 214928,
+        "retainedTriangles": 1519,
+        "proxyMeshes": 5,
+        "milliseconds": 16.5
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "seaLion-0",
+      "camera": [-6.483880533115162, -5.101819240416411, -11.146589070898976],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 9,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 7104,
+        "proxyMeshes": 5,
+        "milliseconds": 18.399999976158142
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "seaLion-1",
+      "camera": [-4.671196126681299, -5.167119240416412, -17.077659744139957],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 6977,
+        "proxyMeshes": 5,
+        "milliseconds": 15.5
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "seaLion-2",
+      "camera": [7.297571343820628, -5.238719240416412, -16.505044084762964],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 150561,
+        "retainedTriangles": 2316,
+        "proxyMeshes": 4,
+        "milliseconds": 13.100000023841858
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "seal-0",
+      "camera": [-3.3752566705426625, -5.58265459950351, -8.242020650358622],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 11449,
+        "proxyMeshes": 9,
+        "milliseconds": 15
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "seal-1",
+      "camera": [-0.8335767648029422, -5.179359442614199, -14.47452609794341],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 6,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 10204,
+        "proxyMeshes": 9,
+        "milliseconds": 16
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "seal-2",
+      "camera": [-4.849113714006274, -5.177259442614199, -15.442505768366978],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 99588,
+        "retainedTriangles": 8217,
+        "proxyMeshes": 7,
+        "milliseconds": 47.60000002384186
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "raccoon-0",
+      "camera": [-7.756891488313379, 9.958292684951415, 9.107763815875389],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 4849,
+        "proxyMeshes": 4,
+        "milliseconds": 22.300000071525574
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "gull-0",
+      "camera": [13.12151496798342, 9.344024502784224, -30.924722927442645],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1.9000000953674316
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "gull-1",
+      "camera": [-4.098063155027124, 10.227765474209068, -32.428578752047656],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 2.9000000953674316
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "gull-2",
+      "camera": [-17.962538954838354, 10.957670330373986, -22.595237021496082],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 2.700000047683716
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "gull-3",
+      "camera": [-7.458208122528198, 12.40130267106568, -5.541102883439636],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 192605,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 14.899999976158142
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "balcony-gull-0",
+      "camera": [4.2263441495901315, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 20,
+        "sourceTriangles": 139206,
+        "retainedTriangles": 1906,
+        "proxyMeshes": 5,
+        "milliseconds": 19.899999976158142
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "sandpiper-0",
+      "camera": [-1.565980587945428, -6.108737125374989, -13.373886000000024],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 171745,
+        "retainedTriangles": 15352,
+        "proxyMeshes": 10,
+        "milliseconds": 15.200000047683716
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "sandpiper-1",
+      "camera": [3.526264999680058, -6.098862505885074, -12.444522393846666],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 100452,
+        "retainedTriangles": 8616,
+        "proxyMeshes": 5,
+        "milliseconds": 9
+      }
+    },
+    {
+      "round": 1,
+      "mode": "local",
+      "id": "sandpiper-2",
+      "camera": [7.65246830363352, -6.088133254491873, -12.560554319888828],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 93580,
+        "retainedTriangles": 4573,
+        "proxyMeshes": 4,
+        "milliseconds": 9.199999928474426
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "rabbit-0",
+      "camera": [-5.862176994776544, 9.652739779982918, -1.7948195632166435],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 118.60000002384186
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "rabbit-1",
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992374],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 114.29999995231628
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "seaLion-0",
+      "camera": [-6.483880533115139, -5.101819240416411, -11.146589070899],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 9,
+        "query": "full original mesh",
+        "milliseconds": 196.39999997615814
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "seaLion-1",
+      "camera": [-4.671196126681318, -5.167119240416412, -17.077659744139982],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 53.699999928474426
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "seaLion-2",
+      "camera": [7.297571343820652, -5.238719240416412, -16.505044084762993],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 47
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "seal-0",
+      "camera": [-3.375256670542693, -5.582654599503484, -8.24202065035861],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 51
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "seal-1",
+      "camera": [-0.8335767648029235, -5.179359442614199, -14.474526097943384],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 6,
+        "query": "full original mesh",
+        "milliseconds": 97.89999997615814
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "seal-2",
+      "camera": [-4.849113714006296, -5.177259442614199, -15.442505768366967],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "query": "full original mesh",
+        "milliseconds": 1193.7999999523163
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "raccoon-0",
+      "camera": [-7.756891488313364, 9.958292684951406, 9.107763815875405],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 173.29999995231628
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "gull-0",
+      "camera": [13.121514967983458, 9.344024502784224, -30.924722927442637],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 79.09999990463257
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "gull-1",
+      "camera": [-4.098063155027127, 10.227765474209068, -32.42857875204762],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 24.899999976158142
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "gull-2",
+      "camera": [-17.96253895483833, 10.957670330373986, -22.595237021496065],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 25.100000023841858
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "gull-3",
+      "camera": [-7.458208122528166, 12.40130267106568, -5.54110288343964],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 105
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "balcony-gull-0",
+      "camera": [4.226344149590155, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 20,
+        "query": "full original mesh",
+        "milliseconds": 522.3000000715256
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "sandpiper-0",
+      "camera": [-1.565980587945428, -6.108737125374989, -13.373886000000052],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 66.10000002384186
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "sandpiper-1",
+      "camera": [3.5262649996800635, -6.098862505885074, -12.444522393846693],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 68.30000007152557
+      }
+    },
+    {
+      "round": 1,
+      "mode": "full",
+      "id": "sandpiper-2",
+      "camera": [7.652468303633524, -6.088133254491873, -12.560554319888855],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 64.70000004768372
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "rabbit-0",
+      "camera": [-5.862176994776558, 9.652739779982918, -1.7948195632166493],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 107.29999995231628
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "rabbit-1",
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992356],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 113.90000009536743
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "seaLion-0",
+      "camera": [-6.483880533115167, -5.101819240416411, -11.14658907089897],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 9,
+        "query": "full original mesh",
+        "milliseconds": 193.90000009536743
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "seaLion-1",
+      "camera": [-4.671196126681295, -5.167119240416412, -17.07765974413995],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 46.39999997615814
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "seaLion-2",
+      "camera": [7.297571343820632, -5.238719240416412, -16.505044084762968],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 44.09999990463257
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "seal-0",
+      "camera": [-3.375256670542668, -5.582654599503503, -8.24202065035862],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "query": "full original mesh",
+        "milliseconds": 48.300000071525574
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "seal-1",
+      "camera": [-0.8335767648029382, -5.179359442614199, -14.474526097943404],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 6,
+        "query": "full original mesh",
+        "milliseconds": 104.89999997615814
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "seal-2",
+      "camera": [-4.849113714006268, -5.177259442614199, -15.442505768366981],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "query": "full original mesh",
+        "milliseconds": 1164.2000000476837
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "raccoon-0",
+      "camera": [-7.756891488313382, 9.958292684951417, 9.107763815875385],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 172.39999997615814
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "gull-0",
+      "camera": [13.121514967983428, 9.344024502784224, -30.924722927442645],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 83.89999997615814
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "gull-1",
+      "camera": [-4.098063155027124, 10.227765474209068, -32.42857875204766],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 23.200000047683716
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "gull-2",
+      "camera": [-17.96253895483836, 10.957670330373986, -22.595237021496086],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 19.299999952316284
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "gull-3",
+      "camera": [-7.458208122528205, 12.40130267106568, -5.541102883439635],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 119.39999997615814
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "balcony-gull-0",
+      "camera": [4.226344149590126, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 20,
+        "query": "full original mesh",
+        "milliseconds": 549.5
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "sandpiper-0",
+      "camera": [-1.565980587945428, -6.108737125374989, -13.373886000000018],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 63.299999952316284
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "sandpiper-1",
+      "camera": [3.5262649996800572, -6.098862505885074, -12.444522393846661],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 59
+      }
+    },
+    {
+      "round": 2,
+      "mode": "full",
+      "id": "sandpiper-2",
+      "camera": [7.652468303633519, -6.088133254491873, -12.560554319888821],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "query": "full original mesh",
+        "milliseconds": 66.5
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "rabbit-0",
+      "camera": [-5.862176994776541, 9.652739779982918, -1.7948195632166426],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 2227,
+        "proxyMeshes": 3,
+        "milliseconds": 18.899999976158142
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "rabbit-1",
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992371],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 214928,
+        "retainedTriangles": 1519,
+        "proxyMeshes": 5,
+        "milliseconds": 14.799999952316284
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "seaLion-0",
+      "camera": [-6.483880533115145, -5.101819240416411, -11.146589070898994],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 9,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 7104,
+        "proxyMeshes": 5,
+        "milliseconds": 17.300000071525574
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "seaLion-1",
+      "camera": [-4.671196126681314, -5.167119240416412, -17.07765974413998],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 6977,
+        "proxyMeshes": 5,
+        "milliseconds": 12.100000023841858
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "seaLion-2",
+      "camera": [7.297571343820658, -5.238719240416412, -16.505044084763],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 150561,
+        "retainedTriangles": 2316,
+        "proxyMeshes": 4,
+        "milliseconds": 12.5
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "seal-0",
+      "camera": [-3.375256670542699, -5.582654599503479, -8.242020650358608],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 3,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 11449,
+        "proxyMeshes": 9,
+        "milliseconds": 12.100000023841858
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "seal-1",
+      "camera": [-0.83357676480292, -5.179359442614199, -14.474526097943379],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 6,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 10204,
+        "proxyMeshes": 9,
+        "milliseconds": 15.300000071525574
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "seal-2",
+      "camera": [-4.84911371400619, -5.177259442614199, -15.442505768367024],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 99588,
+        "retainedTriangles": 8217,
+        "proxyMeshes": 7,
+        "milliseconds": 39.800000071525574
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "raccoon-0",
+      "camera": [-7.756891488313336, 9.958292684951392, 9.107763815875437],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 4849,
+        "proxyMeshes": 4,
+        "milliseconds": 21.399999976158142
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "gull-0",
+      "camera": [13.121514967983396, 9.344024502784224, -30.92472292744265],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1.5
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "gull-1",
+      "camera": [-4.098063155027127, 10.227765474209068, -32.42857875204763],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1.5
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "gull-2",
+      "camera": [-17.962538954838333, 10.957670330373986, -22.595237021496068],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1.8000000715255737
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "gull-3",
+      "camera": [-7.458208122528174, 12.40130267106568, -5.541102883439639],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 192605,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 14.299999952316284
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "balcony-gull-0",
+      "camera": [4.226344149590149, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 20,
+        "sourceTriangles": 139206,
+        "retainedTriangles": 1906,
+        "proxyMeshes": 5,
+        "milliseconds": 22.5
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "sandpiper-0",
+      "camera": [-1.565980587945428, -6.108737125374989, -13.373886000000107],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 171745,
+        "retainedTriangles": 15352,
+        "proxyMeshes": 10,
+        "milliseconds": 17.100000023841858
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "sandpiper-1",
+      "camera": [3.5262649996800723, -6.098862505885074, -12.444522393846748],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 100452,
+        "retainedTriangles": 8616,
+        "proxyMeshes": 5,
+        "milliseconds": 9.600000023841858
+      }
+    },
+    {
+      "round": 2,
+      "mode": "local",
+      "id": "sandpiper-2",
+      "camera": [7.6524683036335235, -6.088133254491873, -12.560554319888848],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 4,
+        "sourceTriangles": 93580,
+        "retainedTriangles": 4573,
+        "proxyMeshes": 4,
+        "milliseconds": 8.700000047683716
+      }
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "description": "Exact decoded native full P geometry including head/fins/antennae vs all retained native static GLBs for156 integrated endpoint/direction cases. Conservative transformed part-box/sphere nearest-surface broad phase precedes exact BVH pairs; no geometry omitted by that filter. No-visitor motor, return heading Pacific, settle aims native room camera. Existing room roof cutaway excluded. Pupils/catchlights not displaced. Sampled poses; no swept-continuous or arbitrary greeting trajectory guarantee.",
+  "samples": 289,
+  "partchecks": 0,
+  "rootSourceHashes": {
+    "assets/js/home-scene/companion.mjs": "2cae9e05fdbd79ff6acc5c15694f97068f5601f061d3c9701e8b46278987bf3c",
+    "assets/js/companion/clearance.mjs": "ecd34b34a4cb3dcd40fdcd1864f2e09477071df701ccb3d1fe9dae9ef3bdba86",
+    "assets/js/companion/performance.mjs": "c12dc1e5f4370a4916ba00336db3a8e6daad60ea52f039892361a8d232db7cef",
+    "assets/js/companion/motion.mjs": "80dc8288656d6a2b26621888a88c4ec6a0c30ba9a7e63271478f490e1718edc5",
+    "assets/js/companion/attention.mjs": "fcced5f64f4c361b7937cb6728d0b20438e227de14612cc13d6974bc6f7c696b",
+    "assets/js/home-scene/navigation.mjs": "1ae0a10c0f2ae0deb92c0adcc379181d60f3e01b22dd8b331bbb97b02a2fa110",
+    "assets/models/home/manifest.json": "0af9214c10233cfc7efe80f7fb98e3b19b16324d65abe634f361da609e01916e",
+    "assets/models/pip/pip.glb": "f48b00aa90b4a82fc9a633ea2c4be240214f827635c20f1f3cb861ec9e8af9aa",
+    "assets/models/home/home-shell.glb": "d179c5ba94ca18101ed0040abf1af75961230a7618451a2df4f550aa05c705f3",
+    "assets/models/home/room-study.glb": "32a13265d9b0bcc776afca269883c54f2727cdf4369e1c7352214ea339206e67",
+    "assets/models/home/room-kitchen.glb": "dc6c2fbd5ae2f1b2106c5cad7b04a59cb37e8cd38ebb89a89e137b24af83347b",
+    "assets/models/home/room-onsen.glb": "2c9b468d29326b050deb6d72a7606205696e8b225b8251129060da45309bebab",
+    "assets/models/home/room-gym.glb": "525395e32ba096e453188831efa1ee920adaca05bc3b6b6e0ad53cdeddc54d49",
+    "assets/models/home/room-sleep.glb": "de5dca6376dc0b598505a5ed732e62a49c2965b38cb57876401091918cad6fb3",
+    "assets/models/home/room-lounge.glb": "bf1156629ee60b6716866d19d636282d9e4a07e38776dd919f7b3243b162f312",
+    "assets/models/home/coast.glb": "02e7d5d93233b62b0902ebb89743061c087aec4ff5ce343577c8e10d136960ae"
+  },
+  "seconds": 5.038622140884399,
+  "checks": [
+    {
+      "route": "study-0-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-0-beach-return",
+      "samples": 8,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-1-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-1-beach-return",
+      "samples": 9,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-0-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-0-beach-return",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-1-beach-outbound",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-1-beach-return",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-0-beach-outbound",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-0-beach-return",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-1-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-1-beach-return",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-0-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-0-beach-return",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-1-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-1-beach-return",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-0-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-0-beach-return",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-1-beach-outbound",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-1-beach-return",
+      "samples": 12,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-0-beach-outbound",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-0-beach-return",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-1-beach-outbound",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-1-beach-return",
+      "samples": 13,
+      "collisionSamples": 0,
+      "collisions": []
+    }
+  ]
+}

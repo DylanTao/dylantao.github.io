@@ -1,0 +1,713 @@
+{
+  "description": "Exact decoded native full P geometry including head/fins/antennae vs all retained native static GLBs for156 integrated endpoint/direction cases. Conservative transformed part-box/sphere nearest-surface broad phase precedes exact BVH pairs; no geometry omitted by that filter. No-visitor motor, return heading Pacific, settle aims native room camera. Existing room roof cutaway excluded. Pupils/catchlights not displaced. Sampled poses; no swept-continuous or arbitrary greeting trajectory guarantee.",
+  "samples": 3,
+  "partchecks": 56,
+  "rootSourceHashes": {
+    "assets/js/home-scene/companion.mjs": "2cae9e05fdbd79ff6acc5c15694f97068f5601f061d3c9701e8b46278987bf3c",
+    "assets/js/companion/clearance.mjs": "ecd34b34a4cb3dcd40fdcd1864f2e09477071df701ccb3d1fe9dae9ef3bdba86",
+    "assets/js/companion/performance.mjs": "c12dc1e5f4370a4916ba00336db3a8e6daad60ea52f039892361a8d232db7cef",
+    "assets/js/companion/motion.mjs": "80dc8288656d6a2b26621888a88c4ec6a0c30ba9a7e63271478f490e1718edc5",
+    "assets/js/companion/attention.mjs": "fcced5f64f4c361b7937cb6728d0b20438e227de14612cc13d6974bc6f7c696b",
+    "assets/js/home-scene/navigation.mjs": "1ae0a10c0f2ae0deb92c0adcc379181d60f3e01b22dd8b331bbb97b02a2fa110",
+    "assets/models/home/manifest.json": "0af9214c10233cfc7efe80f7fb98e3b19b16324d65abe634f361da609e01916e",
+    "assets/models/pip/pip.glb": "f48b00aa90b4a82fc9a633ea2c4be240214f827635c20f1f3cb861ec9e8af9aa",
+    "assets/models/home/home-shell.glb": "d179c5ba94ca18101ed0040abf1af75961230a7618451a2df4f550aa05c705f3",
+    "assets/models/home/room-study.glb": "32a13265d9b0bcc776afca269883c54f2727cdf4369e1c7352214ea339206e67",
+    "assets/models/home/room-kitchen.glb": "dc6c2fbd5ae2f1b2106c5cad7b04a59cb37e8cd38ebb89a89e137b24af83347b",
+    "assets/models/home/room-onsen.glb": "2c9b468d29326b050deb6d72a7606205696e8b225b8251129060da45309bebab",
+    "assets/models/home/room-gym.glb": "525395e32ba096e453188831efa1ee920adaca05bc3b6b6e0ad53cdeddc54d49",
+    "assets/models/home/room-sleep.glb": "de5dca6376dc0b598505a5ed732e62a49c2965b38cb57876401091918cad6fb3",
+    "assets/models/home/room-lounge.glb": "bf1156629ee60b6716866d19d636282d9e4a07e38776dd919f7b3243b162f312",
+    "assets/models/home/coast.glb": "02e7d5d93233b62b0902ebb89743061c087aec4ff5ce343577c8e10d136960ae"
+  },
+  "seconds": 3.682617425918579,
+  "checks": [
+    {
+      "route": "study-to-onsen",
+      "samples": 1,
+      "collisionSamples": 12,
+      "collisions": [
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "core__chalk limestone",
+          "pairs": 141,
+          "firstPair": [450, 2226]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Hover glow",
+          "object": "core__chalk limestone",
+          "pairs": 144,
+          "firstPair": [878, 2227]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Hover outlet",
+          "object": "core__chalk limestone",
+          "pairs": 140,
+          "firstPair": [1179, 2227]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Neck gimbal",
+          "object": "core__chalk limestone",
+          "pairs": 130,
+          "firstPair": [1112, 2227]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Convex optical lens L",
+          "object": "core__chalk limestone",
+          "pairs": 92,
+          "firstPair": [274, 2209]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Convex optical lens L",
+          "object": "core__honey ash",
+          "pairs": 55,
+          "firstPair": [1209, 11989]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Lens bevel L",
+          "object": "core__honey ash",
+          "pairs": 44,
+          "firstPair": [461, 11967]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Lens housing L",
+          "object": "core__chalk limestone",
+          "pairs": 122,
+          "firstPair": [511, 2209]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Lens housing L",
+          "object": "core__honey ash",
+          "pairs": 70,
+          "firstPair": [1195, 11989]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Lens housing R",
+          "object": "core__chalk limestone",
+          "pairs": 136,
+          "firstPair": [381, 2145]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Pebble head shell",
+          "object": "core__chalk limestone",
+          "pairs": 84,
+          "firstPair": [902, 2162]
+        },
+        {
+          "frame": 168,
+          "seconds": 2.8,
+          "center": [1.843998352333724, 3.3200876991703008, 3.94],
+          "part": "Pebble head shell",
+          "object": "core__honey ash",
+          "pairs": 91,
+          "firstPair": [263, 11992]
+        }
+      ]
+    },
+    {
+      "route": "study-to-sleep",
+      "samples": 1,
+      "collisionSamples": 37,
+      "collisions": [
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "core__chalk limestone",
+          "pairs": 208,
+          "firstPair": [1567, 2685]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "study__pale oak",
+          "pairs": 225,
+          "firstPair": [1597, 1158]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "study__honey ash",
+          "pairs": 174,
+          "firstPair": [1592, 2167]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "study__sage textile",
+          "pairs": 105,
+          "firstPair": [356, 1317]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "study__charcoal",
+          "pairs": 197,
+          "firstPair": [1778, 1772]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Continuous tapered shell",
+          "object": "study__linen",
+          "pairs": 108,
+          "firstPair": [1450, 10061]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Hover outlet",
+          "object": "study__charcoal",
+          "pairs": 68,
+          "firstPair": [1581, 1770]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Neck gimbal",
+          "object": "study__pale oak",
+          "pairs": 196,
+          "firstPair": [1802, 779]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Orange identity dot",
+          "object": "study__honey ash",
+          "pairs": 82,
+          "firstPair": [1592, 2168]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Sculpted floating flipper L",
+          "object": "study__honey ash",
+          "pairs": 82,
+          "firstPair": [1587, 2168]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Sculpted floating flipper L",
+          "object": "study__linen",
+          "pairs": 110,
+          "firstPair": [1485, 10059]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Sculpted floating flipper R",
+          "object": "study__honey ash",
+          "pairs": 84,
+          "firstPair": [1552, 2168]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Sculpted floating flipper R",
+          "object": "study__sage textile",
+          "pairs": 66,
+          "firstPair": [1644, 1352]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Sculpted floating flipper R",
+          "object": "study__terracotta",
+          "pairs": 100,
+          "firstPair": [154, 2015]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Convex optical lens L",
+          "object": "study__linen",
+          "pairs": 116,
+          "firstPair": [169, 9452]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Convex optical lens L",
+          "object": "study__terracotta",
+          "pairs": 104,
+          "firstPair": [1702, 1495]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Convex optical lens R",
+          "object": "study__pale oak",
+          "pairs": 76,
+          "firstPair": [1586, 893]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Convex optical lens R",
+          "object": "study__charcoal",
+          "pairs": 108,
+          "firstPair": [1811, 1355]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens bevel L",
+          "object": "study__linen",
+          "pairs": 94,
+          "firstPair": [695, 9570]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens bevel L",
+          "object": "study__terracotta",
+          "pairs": 116,
+          "firstPair": [360, 1423]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens bridge",
+          "object": "study__pale oak",
+          "pairs": 72,
+          "firstPair": [948, 871]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens bridge",
+          "object": "study__linen",
+          "pairs": 72,
+          "firstPair": [948, 9400]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens housing L",
+          "object": "study__linen",
+          "pairs": 208,
+          "firstPair": [141, 9442]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens housing L",
+          "object": "study__terracotta",
+          "pairs": 144,
+          "firstPair": [1109, 1495]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens housing R",
+          "object": "study__pale oak",
+          "pairs": 128,
+          "firstPair": [1604, 931]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Lens housing R",
+          "object": "study__charcoal",
+          "pairs": 221,
+          "firstPair": [1829, 1365]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Pebble head shell",
+          "object": "core__chalk limestone",
+          "pairs": 180,
+          "firstPair": [312, 2684]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Pebble head shell",
+          "object": "study__pale oak",
+          "pairs": 141,
+          "firstPair": [946, 770]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Pebble head shell",
+          "object": "study__sage textile",
+          "pairs": 77,
+          "firstPair": [730, 941]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Pebble head shell",
+          "object": "study__charcoal",
+          "pairs": 131,
+          "firstPair": [946, 1365]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Pebble head shell",
+          "object": "study__linen",
+          "pairs": 128,
+          "firstPair": [946, 9442]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Pebble head shell",
+          "object": "study__terracotta",
+          "pairs": 147,
+          "firstPair": [312, 1421]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Antenna hinge L",
+          "object": "study__terracotta",
+          "pairs": 32,
+          "firstPair": [0, 1452]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Antenna hinge R",
+          "object": "study__charcoal",
+          "pairs": 21,
+          "firstPair": [40, 1445]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Antenna stalk R",
+          "object": "study__charcoal",
+          "pairs": 27,
+          "firstPair": [0, 1445]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Antenna tip R",
+          "object": "study__honey ash",
+          "pairs": 80,
+          "firstPair": [1616, 1980]
+        },
+        {
+          "frame": 402,
+          "seconds": 6.7,
+          "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+          "part": "Flexible antenna end R",
+          "object": "study__honey ash",
+          "pairs": 10,
+          "firstPair": [0, 1980]
+        }
+      ]
+    },
+    {
+      "route": "kitchen-wander",
+      "samples": 1,
+      "collisionSamples": 25,
+      "collisions": [
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Continuous tapered shell",
+          "object": "kitchen__pale oak",
+          "pairs": 416,
+          "firstPair": [1387, 2493]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Continuous tapered shell",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 140,
+          "firstPair": [1243, 16]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Hover outlet",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 68,
+          "firstPair": [1721, 16]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Neck gimbal",
+          "object": "kitchen__pale oak",
+          "pairs": 32,
+          "firstPair": [1614, 2707]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Neck gimbal",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 98,
+          "firstPair": [1726, 16]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Sculpted floating flipper L",
+          "object": "kitchen__pale oak",
+          "pairs": 237,
+          "firstPair": [1116, 2300]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Convex optical lens L",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 82,
+          "firstPair": [1436, 0]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Convex optical lens L",
+          "object": "kitchen__warm cut stone",
+          "pairs": 164,
+          "firstPair": [1436, 43]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Convex optical lens R",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 82,
+          "firstPair": [1452, 0]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Convex optical lens R",
+          "object": "kitchen__warm cut stone",
+          "pairs": 162,
+          "firstPair": [1452, 43]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Convex optical lens R",
+          "object": "kitchen__honey ash",
+          "pairs": 84,
+          "firstPair": [224, 3513]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens bevel L",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 42,
+          "firstPair": [594, 0]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens bevel L",
+          "object": "kitchen__warm cut stone",
+          "pairs": 84,
+          "firstPair": [379, 30]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens bevel R",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 42,
+          "firstPair": [576, 0]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens bevel R",
+          "object": "kitchen__warm cut stone",
+          "pairs": 86,
+          "firstPair": [320, 30]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens bevel R",
+          "object": "kitchen__honey ash",
+          "pairs": 48,
+          "firstPair": [261, 3365]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens housing L",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 82,
+          "firstPair": [1450, 0]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens housing L",
+          "object": "kitchen__warm cut stone",
+          "pairs": 164,
+          "firstPair": [1450, 43]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens housing R",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 82,
+          "firstPair": [1446, 0]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens housing R",
+          "object": "kitchen__warm cut stone",
+          "pairs": 164,
+          "firstPair": [1446, 43]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Lens housing R",
+          "object": "kitchen__honey ash",
+          "pairs": 102,
+          "firstPair": [1770, 3523]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Pebble head shell",
+          "object": "kitchen__pale oak",
+          "pairs": 264,
+          "firstPair": [778, 2300]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Pebble head shell",
+          "object": "kitchen__smoked olive cabinetry",
+          "pairs": 89,
+          "firstPair": [66, 10]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Pebble head shell",
+          "object": "kitchen__warm cut stone",
+          "pairs": 168,
+          "firstPair": [362, 13]
+        },
+        {
+          "frame": 72,
+          "seconds": 1.2,
+          "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+          "part": "Pebble head shell",
+          "object": "kitchen__honey ash",
+          "pairs": 58,
+          "firstPair": [956, 3442]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 // Actual served inspection views with native performance timing and static motion.
-const { chromium } = require("playwright");
+const { chromium, webkit } = require("playwright");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const { collectRuntimeErrors } = require("../test/visual/helpers");
@@ -9,9 +9,19 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
     output = path.resolve(`.jekyll-cache/visual-qa/animal-inspections-${label}`),
     base = (process.env.VISUAL_BASE_URL || "http://127.0.0.1:8080").replace(/\/$/, "");
   await fs.mkdir(output, { recursive: true });
-  const browser = await chromium.launch({ args: process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [] });
+  const engine = process.env.CHARACTER_BROWSER === "webkit" ? webkit : chromium;
+  const width = Number(process.env.CHARACTER_VIEWPORT_WIDTH || 1440);
+  const browser = await engine.launch({
+    args: engine === chromium && process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [],
+  });
   try {
-    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: "reduce", timezoneId: "America/Los_Angeles" }),
+    const page = await browser.newPage({
+        viewport: { width, height: 1000 },
+        hasTouch: width === 390,
+        isMobile: width === 390,
+        reducedMotion: "reduce",
+        timezoneId: "America/Los_Angeles",
+      }),
       errors = collectRuntimeErrors(page);
     await page.route("**/livereload.js*", (route) => route.fulfill({ contentType: "application/javascript", body: "" }));
     await page.addInitScript(() => {
@@ -30,7 +40,12 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
     const scene = page.locator("[data-home-desk-scene]"),
       canvas = scene.locator("canvas");
     await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.ecology?.wildlife?.modelsReady);
+    const controls = page.locator("[data-home-world-controls]");
+    await controls.locator("[data-world-lab]>summary").click();
+    await controls.locator("[data-world-avatar]").selectOption("ghibli");
+    await controls.locator("[data-world-lab]>summary").click();
     await page.locator("[data-world-view]").click();
+    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === 6);
     await canvas.scrollIntoViewIfNeeded();
     const rows = [],
       count = (await scene.evaluate((element) => element.getSceneEvidence())).neighbours.length;
@@ -41,12 +56,14 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
       const view = await scene.evaluate((element) => element.getSceneEvidence());
       await canvas.evaluate((element) => element.blur());
       await canvas.screenshot({ path: path.join(output, `${view.inspection.id}.png`) });
-      rows.push({ animal: view.inspection, camera: view.camera, target: view.target, orbit: view.cameraOrbit });
+      rows.push({ animal: view.inspection, camera: view.camera, target: view.target, orbit: view.cameraOrbit, rendering: view.rendering });
     }
     const report = {
       capturedAt: new Date().toISOString(),
       base,
       browser: browser.version(),
+      engine: engine.name(),
+      width,
       method:
         "Actual served reduced-motion public arrivals, Date-only 13:20 Pacific override, native performance.now and RAF. All product assets retained; no hidden vegetation or image substitution. Per-selection times are local observations, not a controlled before/after benchmark.",
       errors,

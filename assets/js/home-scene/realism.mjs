@@ -280,7 +280,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
     activeRenderer.shadowMap.autoUpdate = false;
     contact.overrideVisibility();
     scene.traverse((object) => {
-      if (object.userData.noOcclusion) object.visible = false;
+      if (object.userData.noOcclusion || object.userData.noContactOcclusion) object.visible = false;
     });
     try {
       contact.renderOverride(activeRenderer, contact.normalMaterial, contact.normalRenderTarget, 0x7777ff, 1);
@@ -328,6 +328,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
     get evidence() {
       return {
         contactShadows: true,
+        contactActive: contact.enabled,
         method: "cosine-weighted horizons / indirect diffuse",
         slices: CONTACT_SLICES,
         samples: CONTACT_SLICES * CONTACT_STEPS * 2,

@@ -1,0 +1,123 @@
+{
+  "diagnostic": "CPU BVH triangle overlap of exact decoded current P continuous shell and current static GLBs, transformed by valid deployed production motor playback. No sphere proxy, rendered inference, cutaway cave roof, source mutation or GPU capture.",
+  "nativeShellBoundsBlender": [
+    [-0.30049338936805725, -0.24446912109851837, -0.550000011920929],
+    [0.3004932105541229, 0.2444692701101303, 0.14999999105930328]
+  ],
+  "checks": [
+    {
+      "route": "kitchen-wander",
+      "frame": 72,
+      "seconds": 1.2,
+      "phase": "fly",
+      "center": [-2.086802829307122, 0.72, -1.5218984639926854],
+      "heading": 4.266918218566518,
+      "pose": {
+        "head": [0, 0.21375258108908635, -0.027482474711453958],
+        "gaze": [0.43121590528354786, 0],
+        "lift": 0.017988847464384006,
+        "lean": -0.017287817945290135,
+        "bodyPitch": -0.01037269076717408,
+        "bodyYaw": 0.0645725604016636,
+        "armPitch": [-0.024202945123406188, -0.024202945123406188],
+        "antennas": [0.03311922467738908, 0.02262708838772727],
+        "arms": [0.019563785664075985, -0.02833436159120078],
+        "blink": 0,
+        "eyes": [1, 1],
+        "pupil": [1, 1],
+        "gesture": "rest"
+      },
+      "object": "kitchen__smoked olive cabinetry",
+      "visibleInRealistic": true,
+      "shellWorldBounds": [
+        [-2.204399347305298, 0.475326269865036, -1.6568999290466309],
+        [-1.969460368156433, 0.7972608804702759, -1.389357328414917]
+      ],
+      "intersectingShellTriangles": 140,
+      "trianglePairs": 140,
+      "firstPairs": [
+        [1243, 16],
+        [1242, 16],
+        [1248, 16],
+        [1249, 16],
+        [1255, 16]
+      ]
+    },
+    {
+      "route": "study-to-onsen",
+      "frame": 168,
+      "seconds": 2.8,
+      "phase": "fly",
+      "center": [1.843998352333724, 3.3200876991703008, 3.94],
+      "heading": 1.4428720491765685,
+      "pose": {
+        "head": [0, 0.15877083329094466, -0.020413392851692885],
+        "gaze": [0.3183888734924931, 0],
+        "lift": -0.009810275148036892,
+        "lean": -0.036712119762237476,
+        "bodyPitch": -0.022027271857342486,
+        "bodyYaw": 0.03412804532874005,
+        "armPitch": [-0.05139696766713246, -0.05139696766713246],
+        "antennas": [-0.0014371222234327253, -0.007291861293929867],
+        "arms": [-0.0646663876728333, 0.10364154093084246],
+        "blink": 0,
+        "eyes": [1, 1],
+        "pupil": [1, 1],
+        "gesture": "rest"
+      },
+      "object": "core__chalk limestone",
+      "visibleInRealistic": true,
+      "shellWorldBounds": [
+        [1.7319718599319458, 3.0628066062927246, 3.8044519424438477],
+        [1.9581266641616821, 3.384511709213257, 4.080331325531006]
+      ],
+      "intersectingShellTriangles": 133,
+      "trianglePairs": 141,
+      "firstPairs": [
+        [450, 2226],
+        [451, 2226],
+        [456, 2226],
+        [457, 2226],
+        [373, 2194]
+      ]
+    },
+    {
+      "route": "study-to-sleep",
+      "frame": 402,
+      "seconds": 6.7,
+      "phase": "fly",
+      "center": [-1.7482740435335962, 3.320000000727361, 3.94],
+      "heading": -7.785257540185137,
+      "pose": {
+        "head": [0, -0.09191990304575842, 0.011818273248740368],
+        "gaze": [-0.1710656660330463, 0],
+        "lift": 0.009542707606138724,
+        "lean": 0.04622673494014706,
+        "bodyPitch": -0.027736040964088236,
+        "bodyYaw": -0.04756338777767633,
+        "armPitch": [0.06471742891620588, 0.06471742891620588],
+        "antennas": [-0.06801258612726532, -0.07530572702627641],
+        "arms": [-0.02822925794700106, 0.05663695702575253],
+        "blink": 0,
+        "eyes": [1, 1],
+        "pupil": [1, 1],
+        "gesture": "rest"
+      },
+      "object": "study__honey ash",
+      "visibleInRealistic": true,
+      "shellWorldBounds": [
+        [-1.8622881174087524, 3.0717570781707764, 3.804701328277588],
+        [-1.63724946975708, 3.393289566040039, 4.081148624420166]
+      ],
+      "intersectingShellTriangles": 139,
+      "trianglePairs": 174,
+      "firstPairs": [
+        [1592, 2167],
+        [1592, 2168],
+        [1593, 2076],
+        [1593, 2164],
+        [1593, 2167]
+      ]
+    }
+  ]
+}

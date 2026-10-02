@@ -1,0 +1,260 @@
+{
+  "description": "Exact decoded native full P geometry including production motor head/fins/antennae vs all retained native static GLBs. Valid no-visitor route performance. Pupils/catchlights not displaced (irrelevant to outer envelope). Existing room roof cutaway excluded. Sampled poses; no swept-continuous or all greeting-pose collision certification.",
+  "samples": 10391,
+  "partchecks": 280557,
+  "seconds": 367.939740896225,
+  "checks": [
+    {
+      "route": "study-wander",
+      "samples": 23,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-to-kitchen",
+      "samples": 279,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-to-gym",
+      "samples": 257,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-to-onsen",
+      "samples": 77,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-to-lounge",
+      "samples": 301,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-to-sleep",
+      "samples": 137,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "study-beach",
+      "samples": 455,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-wander",
+      "samples": 47,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-to-study",
+      "samples": 280,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-to-gym",
+      "samples": 242,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-to-onsen",
+      "samples": 266,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-to-lounge",
+      "samples": 286,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-to-sleep",
+      "samples": 326,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "kitchen-beach",
+      "samples": 440,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-wander",
+      "samples": 23,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-to-study",
+      "samples": 259,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-to-kitchen",
+      "samples": 242,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-to-onsen",
+      "samples": 244,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-to-lounge",
+      "samples": 264,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-to-sleep",
+      "samples": 305,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "gym-beach",
+      "samples": 419,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-wander",
+      "samples": 23,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-to-study",
+      "samples": 78,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-to-kitchen",
+      "samples": 266,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-to-gym",
+      "samples": 244,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-to-lounge",
+      "samples": 287,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-to-sleep",
+      "samples": 124,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "onsen-beach",
+      "samples": 442,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-wander",
+      "samples": 38,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-to-study",
+      "samples": 302,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-to-kitchen",
+      "samples": 286,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-to-gym",
+      "samples": 264,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-to-onsen",
+      "samples": 287,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-to-sleep",
+      "samples": 348,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "lounge-beach",
+      "samples": 462,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-wander",
+      "samples": 23,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-to-study",
+      "samples": 139,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-to-kitchen",
+      "samples": 326,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-to-gym",
+      "samples": 305,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-to-onsen",
+      "samples": 124,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-to-lounge",
+      "samples": 348,
+      "collisionSamples": 0,
+      "collisions": []
+    },
+    {
+      "route": "sleep-beach",
+      "samples": 503,
+      "collisionSamples": 0,
+      "collisions": []
+    }
+  ]
+}

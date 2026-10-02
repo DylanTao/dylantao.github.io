@@ -1,0 +1,137 @@
+{
+  "method": "Private diagnostic with actual served scene and native Date-only composed poses. After routes only the existing controller contact-enable/material binding, contact-only displaced-sea depth exclusion, and matching environment flag. Beauty/reflect geometry retained; no pose or camera override. Not final accepted product evidence.",
+  "rows": [
+    {
+      "mode": "before",
+      "id": "raccoon-0",
+      "camera": [-8.477273198907273, 10.183786603230606, 6.642067235815503],
+      "target": [-5.718358594115028, 6.382267158940916, 4.437460235044412],
+      "rendering": {
+        "contactShadows": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 63,
+          "medianMs": 6.306816,
+          "p95Ms": 10.038272
+        }
+      },
+      "drawCalls": 732,
+      "triangles": 2104762,
+      "fps": 60.01768140734814,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.700000000000728,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 7.5
+      },
+      "errors": []
+    },
+    {
+      "mode": "before",
+      "id": "balcony-gull-0",
+      "camera": [-1.6747942679574281, 7.619264832134429, 3.7127612070079556],
+      "target": [-2.1297156486794853, 6.742853828798585, -0.5867096763360321],
+      "rendering": {
+        "contactShadows": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 4.523008,
+          "p95Ms": 9.517056
+        }
+      },
+      "drawCalls": 546,
+      "triangles": 1760430,
+      "fps": 60.091574096052,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999709,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 5.5
+      },
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "id": "raccoon-0",
+      "camera": [-8.413850008944603, 9.268323170934947, 0.5649986742868894],
+      "target": [-4.834005348352933, 2.480224275509553, -0.3815619826217278],
+      "rendering": {
+        "contactShadows": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 60,
+          "medianMs": 8.6784,
+          "p95Ms": 13.4144
+        }
+      },
+      "drawCalls": 1008,
+      "triangles": 2909699,
+      "fps": 59.71878791405766,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999891,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 12.300000071525574
+      },
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "id": "balcony-gull-0",
+      "camera": [-1.9533100596840867, 7.616439461681481, 1.7482269512785868],
+      "target": [-2.394813763861726, 6.7426142786922725, -2.539818986175939],
+      "rendering": {
+        "contactShadows": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 5.830656,
+          "p95Ms": 11.302912
+        }
+      },
+      "drawCalls": 637,
+      "triangles": 2235433,
+      "fps": 60.0748384153722,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999709,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 6
+      },
+      "errors": []
+    }
+  ]
+}

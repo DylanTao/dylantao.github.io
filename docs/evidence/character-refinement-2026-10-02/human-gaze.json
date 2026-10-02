@@ -1,0 +1,139 @@
+{
+  "baseline": "98d13e518",
+  "diagnostic": "actual product models/materials/camera; fixed elapsed animation and source-routed read-only actor/camera diagnostics plus approved third camera argument",
+  "samples": [
+    {
+      "activity": "work",
+      "id": "ghibli",
+      "target": {
+        "direction": [-0.1511404563789223, 0.3158335946113282, 0.9366993927892848],
+        "worldDirection": [0.4996836686158286, 0.2014279512799123, -0.8424624690523632],
+        "requested": [-0.15997545860260937, 0.321335081772688],
+        "angles": [-0.15997545860260937, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": -0.15997543930446595,
+      "oldOpticalErrorDeg": 19.91364286687825,
+      "newOpticalErrorDeg": 12.631510262480688,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "work",
+      "id": "south-park",
+      "target": {
+        "direction": [-0.1750242870129773, 0.326992625837554, 0.9286777540021994],
+        "worldDirection": [0.5193988598829534, 0.2134670222692083, -0.8274398194163762],
+        "requested": [-0.18628108855230108, 0.3331194912955269],
+        "angles": [-0.18628108855230108, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": -0.18628106608085956,
+      "oldOpticalErrorDeg": 21.04208291232327,
+      "newOpticalErrorDeg": 12.9803381879322,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "work",
+      "id": "simpsons",
+      "target": {
+        "direction": [-0.16928776412144528, 0.26558367009198564, 0.9491084930533699],
+        "worldDirection": [0.5190841536598462, 0.1500538682916318, -0.8414484405059877],
+        "requested": [-0.1765088278269184, 0.2688092885234327],
+        "angles": [-0.1765088278269184, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": -0.17650880653432327,
+      "oldOpticalErrorDeg": 17.76213737729333,
+      "newOpticalErrorDeg": 9.544881949909483,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "work",
+      "id": "rick-and-morty",
+      "target": {
+        "direction": [-0.16987513919796246, 0.2668486892706351, 0.9486486519444148],
+        "worldDirection": [0.5193065574706083, 0.15136484209817025, -0.8410763246844021],
+        "requested": [-0.17719261720778867, 0.27012165524940307],
+        "angles": [-0.17719261720778867, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": -0.17719259583270672,
+      "oldOpticalErrorDeg": 18.29294123319726,
+      "newOpticalErrorDeg": 9.980950176583137,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "work",
+      "id": "lizard",
+      "target": {
+        "direction": [-0.18264859495926652, 0.25277383059822545, 0.9501289030160295],
+        "worldDirection": [0.5310868439682385, 0.13721399685455649, -0.8361334123398334],
+        "requested": [-0.1899187608728939, 0.2555461126392041],
+        "angles": [-0.1899187608728939, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": -0.18991873796263303,
+      "oldOpticalErrorDeg": 18.008018195485615,
+      "newOpticalErrorDeg": 9.003702254855147,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "lounge",
+      "id": "ghibli",
+      "target": {
+        "direction": [0.39507360120864704, 0.09149624461484651, 0.9140816631184607],
+        "worldDirection": [-0.3950739178558412, 0.09149624461484651, -0.9140815262608778],
+        "requested": [0.40796019120807137, 0.09162438904298724],
+        "angles": [0.2, 0.09162438904298724]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": 0.19999997587362014,
+      "oldOpticalErrorDeg": 16.77033339635996,
+      "newOpticalErrorDeg": 11.819755585876107,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "soak",
+      "id": "ghibli",
+      "target": {
+        "direction": [0.5275201274526924, 0.19480433266032038, 0.8269061131823997],
+        "worldDirection": [-0.5115590520862388, 0.3622832840124612, -0.7791393703014724],
+        "requested": [0.5678535465740054, 0.19605796374499182],
+        "angles": [0.2, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": 0.19999997587362012,
+      "oldOpticalErrorDeg": 27.107468159333006,
+      "newOpticalErrorDeg": 21.075293402323748,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "breakfast",
+      "id": "ghibli",
+      "target": {
+        "direction": [-0.4872756310309462, 0.5312974396707992, 0.6930263270631545],
+        "worldDirection": [0.4872753909595239, 0.5312974396707992, -0.6930264958603651],
+        "requested": [-0.6128119896890266, 0.5601313020454817],
+        "angles": [-0.2, 0.12]
+      },
+      "oldTotalYaw": 0.11999994967777106,
+      "newTotalYaw": -0.19999997587362014,
+      "oldOpticalErrorDeg": 49.586401836594334,
+      "newOpticalErrorDeg": 33.54322870045394,
+      "sameStillOptics": true
+    },
+    {
+      "activity": "workout",
+      "id": "ghibli",
+      "protected": true,
+      "head": [0, 0, 0]
+    }
+  ],
+  "assetsChanged": "",
+  "runtime": {
+    "beforeRaw": 6184,
+    "afterRaw": 9821,
+    "beforeGzipEquivalent": 2259,
+    "afterGzipEquivalent": 3355
+  }
+}

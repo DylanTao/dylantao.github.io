@@ -1,0 +1,35 @@
+{
+  "description": "Conservative lower bound: distance between transformed full native P mesh bounding envelopes and measured native component boxes over all 42 routes /10391 samples. Actual triangles are inside both bounds, so positive box gap is a guaranteed sampled surface gap; this is not swept clearance.",
+  "minima": {
+    "island": {
+      "minimumConservativeGap": 0.17963925823261384,
+      "route": "kitchen-to-sleep",
+      "seconds": 0.4,
+      "center": [-1.65, 0.9510032816244989, -1.4],
+      "rigBounds": [
+        [-1.885360741767386, 0.7023311276869209, -1.6021053968171666],
+        [-1.4146392664080185, 1.3990161144377262, -1.18168913639006]
+      ]
+    },
+    "upperGuard": {
+      "minimumConservativeGap": 0.04451938664157479,
+      "route": "sleep-to-gym",
+      "seconds": 13.5,
+      "center": [1.5448242325898334, 4.099911690414685, 4.141939480936089],
+      "rigBounds": [
+        [1.2893298894474385, 3.8194231131729617, 3.9953298894988936],
+        [1.7966598200052828, 4.555291317548897, 4.3171012639559585]
+      ]
+    },
+    "horizontalShelf": {
+      "minimumConservativeGap": 0.6661666696795026,
+      "route": "sleep-to-gym",
+      "seconds": 15.7,
+      "center": [-1.1575399277966145, 2.298282040434026, 4.45],
+      "rigBounds": [
+        [-1.3325287008182738, 2.046699976788176, 4.23542661245442],
+        [-1.010770805189646, 2.7491324006095677, 4.666316576988736]
+      ]
+    }
+  }
+}

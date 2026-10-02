@@ -1,0 +1,80 @@
+{
+  "diagnostic": "CPU exact decoded current GLB double-sided triangle rays. Gallery t=0 pose, actual prior captured center/radius, current production arrival candidates and study clearance. Dynamic actor/P/water omitted; this can disprove a clear claim but cannot prove the complete rendered camera clear.",
+  "anchors": [
+    [4.216068744659424, 3.8505001068115234, 1.5683351755142212],
+    [4.374122619628906, 3.8505001068115234, 1.5015109777450562],
+    [4.317799091339111, 3.8208000659942627, 1.588620901107788]
+  ],
+  "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+  "radius": 3.608494861056405,
+  "facing": 0.39999949395306816,
+  "results": {
+    "roof-hidden": {
+      "offset": 0,
+      "pitch": 0.2,
+      "yaw": 0.39999949395306816,
+      "position": [5.603545862598431, 4.411190935763749, 4.629702737517416],
+      "score": 4.0,
+      "faces": 3,
+      "body": true,
+      "blockers": [[], [], [], []],
+      "selfBlockers": [
+        [],
+        [],
+        [
+          {
+            "object": "Tapered gull bill",
+            "distance": 3.21457839012146
+          }
+        ]
+      ],
+      "actualFinalBlockers": [
+        [
+          {
+            "object": "core_liftaway_cave_ceiling",
+            "distance": 2.1233463287353516
+          }
+        ],
+        [
+          {
+            "object": "core_liftaway_cave_ceiling",
+            "distance": 2.3431966304779053
+          }
+        ],
+        [
+          {
+            "object": "core_liftaway_cave_ceiling",
+            "distance": 2.202457904815674
+          }
+        ],
+        [
+          {
+            "object": "core_liftaway_cave_ceiling",
+            "distance": 2.155775547027588
+          }
+        ]
+      ]
+    },
+    "roof-visible": {
+      "offset": -0.4,
+      "pitch": 0.2,
+      "yaw": -5.06046931858517e-7,
+      "position": [4.226342359922168, 4.411190935763749, 4.908874982880272],
+      "score": 3.991999985828742,
+      "faces": 3,
+      "body": true,
+      "blockers": [[], [], [], []],
+      "selfBlockers": [
+        [],
+        [],
+        [
+          {
+            "object": "Tapered gull bill",
+            "distance": 3.305755376815796
+          }
+        ]
+      ],
+      "actualFinalBlockers": [[], [], [], []]
+    }
+  }
+}

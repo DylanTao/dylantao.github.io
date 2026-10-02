@@ -1,0 +1,62 @@
+{
+  "masters": [
+    {
+      "name": "Raccoon",
+      "count": 1,
+      "bytes": 100960,
+      "primitives": 23,
+      "triangles": 13864
+    },
+    {
+      "name": "WesternGull",
+      "count": 5,
+      "bytes": 38524,
+      "primitives": 15,
+      "triangles": 5504
+    },
+    {
+      "name": "Sandpiper",
+      "count": 3,
+      "bytes": 36444,
+      "primitives": 14,
+      "triangles": 5248
+    }
+  ],
+  "totalBytes": 175928,
+  "nineInstances": {
+    "primitives": 140,
+    "triangles": 57128
+  },
+  "sourceCountedOldInlineNine": {
+    "primitives": 111,
+    "triangles": 17112
+  },
+  "wholeWildlifeNativeAfter": {
+    "meshes": 256,
+    "triangles": 137148
+  },
+  "limits": {
+    "masterBytes": 196608,
+    "nineInstancePrimitives": 140,
+    "nineInstanceTriangles": 60000
+  },
+  "fullFramePerformanceMeasuredByCoordinator": true,
+  "perchSupport": {
+    "path": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\assets\\models\\home\\wildlife-perch-support.json",
+    "bytes": 23427,
+    "sha256": "5d77687eef5a1362395ff923444bed946f187c08f7ae05a45ac43dfc32ff7724",
+    "sourceSha256": "a14543ba1a4e5bf08c94abe7c49bbe458c482c46d64259ebe8a344e3d8fb5cf5",
+    "gullSha256": "8ae14bbd280cd34d51641ad3cb1096486969eec93d9703d1099f6b253d44b5d6",
+    "triangles": 51,
+    "soleSamples": {
+      "L": 192,
+      "R": 192
+    },
+    "addedDrawPrimitives": 0,
+    "addedTriangles": 0,
+    "addedGpuResources": 0,
+    "limitBytes": 24576,
+    "hashAndBudgetVerifier": "test/wildlife-perch-contact.test.mjs"
+  },
+  "totalRuntimeAssetBytes": 199355
+}

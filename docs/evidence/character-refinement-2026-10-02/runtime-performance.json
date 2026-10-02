@@ -1,0 +1,2935 @@
+{
+  "capturedAt": "2026-10-02T11:43:46.155Z",
+  "label": "final",
+  "method": "Serial headless Chromium with ANGLE D3D11 on Windows, native randomness/performance clock/RAF, Date-only override at 13:20 Pacific, 2-second warmup and 4-second live sample per view. No CPU/network throttling. Phone is 390px touch/viewport emulation on the same GPU, not a physical-phone benchmark. Only development livereload is blocked; product assets are unchanged. Background authoring may affect these local observations.",
+  "views": [
+    {
+      "width": 1440,
+      "room": "study",
+      "durationMs": 4007,
+      "renderedFrames": 242,
+      "sceneFps": 60.4,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.700000000000728,
+        "p95FrameMs": 16.700000000000728,
+        "medianSubmitMs": 4.899999976158142
+      },
+      "drawCalls": 531,
+      "triangles": 2108436,
+      "resources": {
+        "geometries": 231,
+        "textures": 19
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, 0.0035032611350875264, -0.0020715960775982032],
+        "breath": 0.00037951995630114866,
+        "phase": "routine",
+        "seconds": 6.399700000000029,
+        "blinkCount": 1,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.4, 3.73, 3.45],
+        "head": [0.11235105197000272, 0.1861019918420684, -0.023927398951123082],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": 0,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "Sirui"
+        },
+        "aim": {
+          "heading": 4.46186438466538,
+          "target": [-0.27, 3.810379540817927, 3.38],
+          "origin": [0.4, 3.914, 3.45],
+          "yaw": -1.6748962649044965,
+          "pitch": -0.15262393821260517,
+          "taskSource": "live-head"
+        },
+        "input": {
+          "kind": "mouse",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [0.3644056639113985, -0.4491356201758228],
+        "eyes": [1, 1],
+        "arms": [0.004637135967813906, -0.0420841269512929],
+        "activeSeconds": 8.166399999999914,
+        "projected": {
+          "x": 988.1104843337778,
+          "y": 420.82588642076666
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [8.089951243145833, 8.298755005432142, -29.6929147834514],
+              "state": "glide",
+              "velocity": [-0.5317797288170013, -0.003276344441761594, -0.2022487810786458],
+              "contacts": []
+            },
+            {
+              "position": [-10.556322816829299, 8.554382313458872, -29.864531376175638],
+              "state": "glide",
+              "velocity": [-0.6044127072338698, 0.00694823374978915, 0.3120999789323445],
+              "contacts": []
+            },
+            {
+              "position": [-8.829673781859295, 10.197770474924422, -19.656548711157445],
+              "state": "approach",
+              "velocity": [1.4352017291708408, 0.10641276534238187, 0.8902571178623496],
+              "contacts": []
+            },
+            {
+              "position": [-8, 8.7668409, 1],
+              "state": "perch",
+              "velocity": [0, 0, 0],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-8.067857676826764, 8.814491555756614, 1.0056710400875188],
+                  "hipAccommodation": 0.024455438949169506,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-7.935563856136029, 8.75926661349117, 1.0220183642431007],
+                  "hipAccommodation": 0.028154779346354797,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                  "yaw": 1.479911638261943,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                  "yaw": 1.5997589266451129,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.8060877197497349, -7.238867348075467, -13.142924492881992],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.9144771323176955, -7.227987671990763, -13.1492480046574],
+                  "yaw": 1.1854727580651896,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.8313969230097954, -7.227013971937675, -13.210166587010253],
+                  "yaw": 1.1593179756922443,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.2939122802502645, -7.228636129116883, -13.375120178187817],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.2627815172010672, -7.216077693505678, -13.329393085637367],
+                  "yaw": 1.3216867315884646,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.33961215132188, -7.2170857114253435, -13.413445147162971],
+                  "yaw": 1.1850564534852808,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "look"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "groom"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "groom"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.42000000000000004
+            },
+            {
+              "position": [8.723999999999998, 8.121500000000001, 5.7],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.62
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 13.84943333333325,
+          "sample": {
+            "displacement": [-0.03434401251905654, -0.1881984576757647, -0.013867234421294746],
+            "tangentX": [0.9988818941687642, -0.05854440547000528, 0.007678004615432217],
+            "tangentZ": [0.007678004615432217, 0.013892510021867062, 1.0347213803566846],
+            "normal": [0.0586099226385171, 0.9981850620251647, -0.013836868075013447],
+            "jacobian": 1.0335055005927287,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": false
+          }
+        }
+      },
+      "inspection": null,
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 51,
+          "medianMs": 6.201344,
+          "p95Ms": 10.79296
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "room": "outside",
+      "durationMs": 4002,
+      "renderedFrames": 244,
+      "sceneFps": 61,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.700000000000728,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 11.5
+      },
+      "drawCalls": 1261,
+      "triangles": 2767420,
+      "resources": {
+        "geometries": 270,
+        "textures": 20
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, -0.005687954472034187, 0.0024156094349678256],
+        "breath": -0.0006161950678037036,
+        "phase": "routine",
+        "seconds": 13.915999999999944,
+        "blinkCount": 3,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.35, 3.73, 3.6],
+        "head": [-0.1792927649772453, -0.0035364748178622865, 0.00045468961943943685],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": -3.746760972611253e-10,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "visitor-ready"
+        },
+        "aim": {
+          "heading": 3.3755653774971606,
+          "target": [-11.856905727089087, 17.157540734318175, -48.21360126633207],
+          "origin": [0.35, 3.914, 3.6],
+          "yaw": -2.910219095213175,
+          "pitch": 0.24383816089436938,
+          "taskSource": "visitor-plane"
+        },
+        "input": {
+          "kind": "mouse",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [-0.0064697189706866874, 0.7171710614540273],
+        "eyes": [1, 1],
+        "arms": [-0.032584972463240484, 0.05737864341005772],
+        "activeSeconds": 15.682699999999743,
+        "projected": {
+          "x": 1182.7744410923729,
+          "y": 339.26050072814564
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [3.4182274344586334, 8.16383075698223, -30.792857120350682],
+              "state": "glide",
+              "velocity": [-0.6901714253304984, -0.03015786060315717, -0.08545568586146583],
+              "contacts": []
+            },
+            {
+              "position": [-13.55497613058066, 8.73943588301549, -27.125627075760015],
+              "state": "glide",
+              "velocity": [-0.17604807464886607, 0.037928051022316174, 0.4007558160345587],
+              "contacts": []
+            },
+            {
+              "position": [6.103997463027963, 10.16078062605765, -9.12521568120764],
+              "state": "approach",
+              "velocity": [1.9993109626437122, -0.2132049414954787, 1.5123075631281135],
+              "contacts": []
+            },
+            {
+              "position": [-8, 8.7668409, 1],
+              "state": "perch",
+              "velocity": [0, 0, 0],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-8.067857676826764, 8.814491555756614, 1.0056710400875188],
+                  "hipAccommodation": 0.024455438949169506,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-7.935563856136029, 8.75926661349117, 1.0220183642431007],
+                  "hipAccommodation": 0.028154779346354797,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                  "yaw": 1.479911638261943,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                  "yaw": 1.5997589266451129,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.7245875200052152, -7.237912165734461, -13.097721222095693],
+              "state": "walk",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.8250886219718655, -7.22694003864951, -13.103676951553576],
+                  "yaw": 1.0306694465771016,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.8198823362644037, -7.226024796738816, -13.20344000091258],
+                  "yaw": 1.1449057750772487,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": false,
+                  "lift": 0.0008542242422029986
+                }
+              ]
+            },
+            {
+              "position": [3.3820866548733854, -7.22979297691194, -13.345292198042813],
+              "state": "look",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.3644428261616204, -7.2174114898792405, -13.386201501048534],
+                  "yaw": -0.6458864931854371,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.392113006388201, -7.217774522643813, -13.29425864289395],
+                  "yaw": -0.9626400918579645,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "look"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "groom"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "rest"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.42000000000000004
+            },
+            {
+              "position": [8.514409883716986, 8.201799804290888, 5.7],
+              "state": "hop",
+              "airborne": true,
+              "contact": false,
+              "lift": 0.08562514731424596,
+              "progress": 0.6636646075589612
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 21.36573333333308,
+          "sample": {
+            "displacement": [-0.00504813713745515, -0.23462694243066828, -0.10528920891820202],
+            "tangentX": [1.010891904682202, 0.04102601272600035, 0.0198478224219466],
+            "tangentZ": [0.0198478224219466, -0.08006742101599586, 1.0527363911621603],
+            "normal": [-0.04193218366018979, 0.9961830938330007, 0.07655674715398111],
+            "jacobian": 1.063808759535291,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": true
+          }
+        }
+      },
+      "inspection": null,
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": false,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 6.582272,
+          "p95Ms": 11.963392
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "room": "raccoon-0",
+      "durationMs": 4007,
+      "renderedFrames": 243,
+      "sceneFps": 60.6,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999709,
+        "p95FrameMs": 16.700000000004366,
+        "medianSubmitMs": 8.800000071525574
+      },
+      "drawCalls": 985,
+      "triangles": 2916495,
+      "resources": {
+        "geometries": 270,
+        "textures": 20
+      },
+      "character": {
+        "blink": [0.000011804276956572934, 0.005499038551591617],
+        "eye": [0, 0],
+        "head": [0, 0.004912849786798145, 0.0018148579140555366],
+        "breath": 0.000532225393569799,
+        "phase": "routine",
+        "seconds": 21.66569999999969,
+        "blinkCount": 5,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.35, 3.73, 3.6],
+        "head": [-0.2499999999999861, 0.000035853450752622345, -0.0000046097293824800154],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": -1.4753539616889228e-23,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "visitor-ready"
+        },
+        "aim": {
+          "heading": 5.261591576562023,
+          "target": [-9.157952867367186, 10.594604123138886, 9.419293323015566],
+          "origin": [0.35, 3.914, 3.6],
+          "yaw": -1.0215673810998533,
+          "pitch": 0.5399010301082874,
+          "taskSource": "visitor-plane"
+        },
+        "input": {
+          "kind": "mouse",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [0.00006558806695349446, 0.9999999999999998],
+        "eyes": [1, 1],
+        "arms": [0.05889896682230346, -0.052419337839233617],
+        "activeSeconds": 23.432399999999504,
+        "projected": {
+          "x": 1105.883999454642,
+          "y": 497.21903311993697
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "groom",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [-2.1026453453672875, 7.896494210350779, -30.92264612656968],
+              "state": "glide",
+              "velocity": [-0.7088610422260339, -0.03378944127580264, 0.05256613363418218],
+              "contacts": []
+            },
+            {
+              "position": [-13.017988466961139, 9.037834512585643, -24.008900460884206],
+              "state": "approach",
+              "velocity": [0.31214013532579293, 0.03209886662566067, 0.3859275811842523],
+              "contacts": []
+            },
+            {
+              "position": [13.983953091742507, 8.608782949753294, -3.0129180186832514],
+              "state": "approach",
+              "velocity": [0.05327296416362515, -0.020878027858791788, 0.04283954413330946],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.953327902411194, 8.610944028515936, -2.952018537963965],
+                  "hipAccommodation": 0.01477012934157455,
+                  "surfaceLift": 0,
+                  "weight": 0.9245539190208131
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.040766809028552, 8.659858219463132, -3.052757950403963],
+                  "hipAccommodation": 0.03292598619079664,
+                  "surfaceLift": 0.006070717737804543,
+                  "weight": 0.9245539190208131
+                }
+              ]
+            },
+            {
+              "position": [-7.995525449820665, 8.77027880010012, 0.9923947377273699],
+              "state": "depart",
+              "velocity": [0.1145487280889432, 0.08687912354308376, -0.19475277875325325],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-8.040995145568711, 8.815128445815215, 1.0422682779599457],
+                  "hipAccommodation": 0.020842056574588413,
+                  "surfaceLift": 0,
+                  "weight": 0.8894902285225654
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-7.934513552273947, 8.766144996059209, 0.9619927686603263],
+                  "hipAccommodation": 0.025975429424595575,
+                  "surfaceLift": 0,
+                  "weight": 0.8894902285225654
+                }
+              ]
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.817913345126614, -7.253799212754713, -13.112240636577852],
+              "state": "look",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.7133541764638425, -7.2420507199623785, -13.143614438556407],
+                  "yaw": 3.390013125590381,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.864864676641583, -7.241468919641696, -13.072756587527373],
+                  "yaw": 3.7214335765395625,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.7179133451266142, -7.237833944404884, -13.094019457741023],
+              "state": "look",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.657482183650447, -7.224975691192383, -13.071020410175048],
+                  "yaw": -0.1822035676052267,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.6029818884649256, -7.224336947732809, -12.999291890640384],
+                  "yaw": -0.5629840028950965,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.3820866548733854, -7.22979297691194, -13.345292198042813],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.3644428261616204, -7.2174114898792405, -13.386201501048534],
+                  "yaw": -0.6458864931854371,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.392113006388201, -7.217774522643813, -13.29425864289395],
+                  "yaw": -0.9626400918579645,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "look"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "groom"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "rest"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.705344, 8.170864, 0.31334399999999984],
+              "state": "hop",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.49333333333333335
+            },
+            {
+              "position": [8.027988, 8.117556, 5.556012],
+              "state": "look",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.8400000000000001
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 29.11543333333284,
+          "sample": {
+            "displacement": [-0.03921763249166062, -0.22271846657048164, 0.034060545247051384],
+            "tangentX": [1.020242546841581, -0.0485429003371667, 0.0034481853650275285],
+            "tangentZ": [0.0034481853650275285, 0.03289457819363217, 1.0522205657308936],
+            "normal": [0.047608387693527446, 0.9983734465683943, -0.03136722187839141],
+            "jacobian": 1.0735082998380645,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": true
+          }
+        }
+      },
+      "inspection": {
+        "id": "raccoon-0",
+        "name": "Raccoon",
+        "radius": 0.9606006212788362,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 219648,
+          "retainedTriangles": 2071,
+          "proxyMeshes": 4,
+          "milliseconds": 18.399999976158142
+        }
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 8.15104,
+          "p95Ms": 15.50336
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "room": "balcony-gull-0",
+      "durationMs": 4013,
+      "renderedFrames": 242,
+      "sceneFps": 60.3,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999709,
+        "p95FrameMs": 16.700000000004366,
+        "medianSubmitMs": 5.799999952316284
+      },
+      "drawCalls": 633,
+      "triangles": 2235385,
+      "resources": {
+        "geometries": 270,
+        "textures": 20
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, -0.005938500560118706, -0.0029991219163851544],
+        "breath": -0.0006433375606795265,
+        "phase": "routine",
+        "seconds": 28.36549999999938,
+        "blinkCount": 6,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.4, 3.73, 3.45],
+        "head": [-0.08882620023703428, -0.06482803623415934, 0.0083350332301062],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": 6.923766311126901e-11,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "visitor-ready"
+        },
+        "aim": {
+          "heading": 1.254626553544454,
+          "target": [4.226344149590144, 4.41119093576375, 4.908874982880725],
+          "origin": [0.4, 3.914, 3.45],
+          "yaw": 1.206538949656837,
+          "pitch": 0.12082204896528198,
+          "taskSource": "visitor-plane"
+        },
+        "input": {
+          "kind": "mouse",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [-0.11969871302811282, 0.3553589675346125],
+        "eyes": [1, 1],
+        "arms": [-0.042952897278043314, 0.05984063402602325],
+        "activeSeconds": 30.13219999999966,
+        "projected": {
+          "x": -523.27525025413,
+          "y": 582.5008422785234
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "rest",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [-6.55738164955694, 7.725412027823564, -30.187463637944404],
+              "state": "glide",
+              "velocity": [-0.6029947638639942, -0.014500372951026954, 0.16393454123892348],
+              "contacts": []
+            },
+            {
+              "position": [-6.575907295117973, 9.694996260878833, -17.052528226005233],
+              "state": "approach",
+              "velocity": [1.6878884184812382, 0.08457611657009823, 1.882410676733643],
+              "contacts": []
+            },
+            {
+              "position": [14, 8.602356, -3],
+              "state": "perch",
+              "velocity": [0, 0, 0],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.968983940826577, 8.605335444032072, -2.939379631530724],
+                  "hipAccommodation": 0.01533878216094697,
+                  "surfaceLift": 6.746603276042151e-12,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.052723605084886, 8.651990834412244, -3.0430934619966084],
+                  "hipAccommodation": 0.029800714333984228,
+                  "surfaceLift": 4.476419235288631e-13,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [5.892842104378041, 10.741193373389928, -33.5272443823853],
+              "state": "glide",
+              "velocity": [-1.3752275486617935, -0.03883856758763784, -0.22758562610011743],
+              "contacts": []
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.817913345126614, -7.253799212754713, -13.112240636577852],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.7133541764638425, -7.2420507199623785, -13.143614438556407],
+                  "yaw": 3.390013125590381,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.864864676641583, -7.241468919641696, -13.072756587527373],
+                  "yaw": 3.7214335765395625,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.7179133451266142, -7.237833944404884, -13.094019457741023],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.657482183650447, -7.224975691192383, -13.071020410175048],
+                  "yaw": -0.1822035676052267,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.6029818884649256, -7.224336947732809, -12.999291890640384],
+                  "yaw": -0.5629840028950965,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.3820866548733854, -7.22979297691194, -13.345292198042813],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.3644428261616204, -7.2174114898792405, -13.386201501048534],
+                  "yaw": -0.6458864931854371,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.392113006388201, -7.217774522643813, -13.29425864289395],
+                  "yaw": -0.9626400918579645,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "groom"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "rest"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-7.3160240000000005, 8.376256000000001, 0.24402399999999996],
+              "state": "look",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.64
+            },
+            {
+              "position": [8.027988, 8.117556, 5.556012],
+              "state": "groom",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.8400000000000001
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 35.815233333333,
+          "sample": {
+            "displacement": [-0.010805203472502951, -0.05607525977859252, 0.13592305020031403],
+            "tangentX": [0.9980498850382117, -0.11486433930398954, 0.012340214109440422],
+            "tangentZ": [0.012340214109440422, 0.09958057634007136, 1.0217804351671178],
+            "normal": [0.11497923093847533, 0.9885486963096851, -0.09773050433318554],
+            "jacobian": 1.0196355649685689,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": true
+          }
+        }
+      },
+      "inspection": {
+        "id": "balcony-gull-0",
+        "name": "Balcony gull",
+        "radius": 1.0023596836267792,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 20,
+          "sourceTriangles": 139206,
+          "retainedTriangles": 1906,
+          "proxyMeshes": 5,
+          "milliseconds": 22.299999952316284
+        }
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 6.153216,
+          "p95Ms": 12.148736
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "room": "study",
+      "durationMs": 4007,
+      "renderedFrames": 242,
+      "sceneFps": 60.4,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.699999999999818,
+        "p95FrameMs": 16.700000000000728,
+        "medianSubmitMs": 5.299999952316284
+      },
+      "drawCalls": 524,
+      "triangles": 2104896,
+      "resources": {
+        "geometries": 230,
+        "textures": 19
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, 0.0022176383187584485, -0.0018166870966038742],
+        "breath": 0.0002402441511988319,
+        "phase": "routine",
+        "seconds": 6.21650000000002,
+        "blinkCount": 1,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.4, 3.73, 3.45],
+        "head": [-0.10660033222994257, 0.04648313490304835, -0.005976403058963358],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": 0,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "Sirui"
+        },
+        "aim": {
+          "heading": 2.6797729990205617,
+          "target": [-0.27, 3.810240265012825, 3.38],
+          "origin": [0.4, 3.914, 3.45],
+          "yaw": -1.6748962649044965,
+          "pitch": -0.15282590219606312,
+          "taskSource": "live-head"
+        },
+        "input": {
+          "kind": "touch",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [0.6324142125865684, -0.07826541796239317],
+        "eyes": [1, 1],
+        "arms": [0.0009100859451151638, 0.037952542374933534],
+        "activeSeconds": 6.583100000000026,
+        "projected": {
+          "x": 99.9258753881301,
+          "y": 509.8260885918428
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [11.01032312609324, 8.218925773418487, -27.98836828775403],
+              "state": "glide",
+              "velocity": [-0.2863250334365805, 0.024613607670491807, -0.275258078152331],
+              "contacts": []
+            },
+            {
+              "position": [-5.281225900673682, 8.637861492248232, -31.54324216012225],
+              "state": "glide",
+              "velocity": [-0.8669630738431201, -0.028849076263715405, 0.1561405918460045],
+              "contacts": []
+            },
+            {
+              "position": [-14.507626131787898, 9.905126758501408, -23.426658937298132],
+              "state": "glide",
+              "velocity": [0.4358504519913336, 0.03327481466696189, 0.4947472501353309],
+              "contacts": []
+            },
+            {
+              "position": [-7.8931113651665665, 9.219853913974447, -0.23148093713015072],
+              "state": "approach",
+              "velocity": [-0.05467560689159008, -0.2527959620364455, 0.7791242681545285],
+              "contacts": []
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+              "state": "look",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                  "yaw": 1.479911638261943,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                  "yaw": 1.5997589266451129,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.8060877197497349, -7.238867348075467, -13.142924492881992],
+              "state": "look",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.9144771323176955, -7.227987671990763, -13.1492480046574],
+                  "yaw": 1.1854727580651896,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.8313969230097954, -7.227013971937675, -13.210166587010253],
+                  "yaw": 1.1593179756922443,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.2939122802502645, -7.228636129116883, -13.375120178187817],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.2627815172010672, -7.216077693505678, -13.329393085637367],
+                  "yaw": 1.3216867315884646,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.33961215132188, -7.2170857114253435, -13.413445147162971],
+                  "yaw": 1.1850564534852808,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "rest"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+              "state": "groom",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.42000000000000004
+            },
+            {
+              "position": [8.723999999999998, 8.121500000000001, 5.7],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.62
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 6.816333333333359,
+          "sample": {
+            "displacement": [-0.025555571880436747, 0.06645074216205277, -0.008792664636284666],
+            "tangentX": [1.023003160321061, 0.05249976486001499, 0.004220776153052725],
+            "tangentZ": [0.004220776153052725, 0.029317411818378214, 1.015001753159571],
+            "normal": [-0.05111303599428252, 0.9982826461878538, -0.028621947376506286],
+            "jacobian": 1.0383321862623245,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": false
+          }
+        }
+      },
+      "inspection": null,
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 350,
+        "aoHeight": 352,
+        "width": 350,
+        "height": 352,
+        "gpu": {
+          "available": true,
+          "samples": 49,
+          "medianMs": 5.107712,
+          "p95Ms": 12.314624
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "room": "outside",
+      "durationMs": 4005,
+      "renderedFrames": 241,
+      "sceneFps": 60.2,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999891,
+        "p95FrameMs": 16.700000000000728,
+        "medianSubmitMs": 10.200000047683716
+      },
+      "drawCalls": 1257,
+      "triangles": 2764472,
+      "resources": {
+        "geometries": 269,
+        "textures": 20
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, 0.0017170911503203627, 0.0029933491919881252],
+        "breath": 0.0001860182079513726,
+        "phase": "routine",
+        "seconds": 12.766199999999955,
+        "blinkCount": 3,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.35, 3.73, 3.6],
+        "head": [-0.17915974585343605, -0.287624362475781, 0.03698027517545756],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": -0.000009971531475465037,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "visitor-ready"
+        },
+        "aim": {
+          "heading": 3.6294238230082736,
+          "target": [-11.856905727089108, 17.15754073431817, -48.21360126633206],
+          "origin": [0.35, 3.914, 3.6],
+          "yaw": -2.9102190952131743,
+          "pitch": 0.24383816089436933,
+          "taskSource": "visitor-plane"
+        },
+        "input": {
+          "kind": "touch",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [-0.6353773169950933, 0.7171710535316841],
+        "eyes": [1, 1],
+        "arms": [-0.043119832093455344, 0.005967810566108276],
+        "activeSeconds": 13.132799999999941,
+        "projected": {
+          "x": 248.62851747750088,
+          "y": 447.5187741947938
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [8.343574999602087, 8.299835398644408, -29.5936082393783],
+              "state": "glide",
+              "velocity": [-0.5174795864704754, -0.0011923781130075285, -0.20858937499005212],
+              "contacts": []
+            },
+            {
+              "position": [-10.258499704352955, 8.551664565312336, -30.01328568245004],
+              "state": "glide",
+              "velocity": [-0.6276778807351863, 0.004292019537027447, 0.3032947738678265],
+              "contacts": []
+            },
+            {
+              "position": [-9.49503257338849, 10.148386624548422, -20.064596165355955],
+              "state": "approach",
+              "velocity": [1.3175280174750144, 0.09726650622583127, 0.798461880824768],
+              "contacts": []
+            },
+            {
+              "position": [-8, 8.7668409, 1],
+              "state": "perch",
+              "velocity": [0, 0, 0],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-8.067857676824065, 8.814491555756614, 1.005671040119809],
+                  "hipAccommodation": 0.02445543894916951,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-7.935563856125552, 8.75926661349117, 1.0220183642124387],
+                  "hipAccommodation": 0.028154779346354776,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                  "yaw": 1.479911638261943,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                  "yaw": 1.5997589266451129,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.8060877197497349, -7.238867348075467, -13.142924492881992],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.9144771323176955, -7.227987671990763, -13.1492480046574],
+                  "yaw": 1.1854727580651896,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.8313969230097954, -7.227013971937675, -13.210166587010253],
+                  "yaw": 1.1593179756922443,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.2939122802502645, -7.228636129116883, -13.375120178187817],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.2627815172010672, -7.216077693505678, -13.329393085637367],
+                  "yaw": 1.3216867315884646,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.33961215132188, -7.2170857114253435, -13.413445147162971],
+                  "yaw": 1.1850564534852808,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "look"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "groom"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "groom"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.42000000000000004
+            },
+            {
+              "position": [8.723999999999998, 8.121500000000001, 5.7],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.62
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 13.366033333333274,
+          "sample": {
+            "displacement": [-0.01475309253848577, -0.10367533863748607, 0.06550443734431238],
+            "tangentX": [0.9987873626903861, -0.08220397892543149, 0.01992319124425639],
+            "tangentZ": [0.01992319124425639, 0.07057600658644264, 1.0089526121367576],
+            "normal": [0.08322848612399747, 0.9939856585047246, -0.07117253532393246],
+            "jacobian": 1.007332185006293,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": true
+          }
+        }
+      },
+      "inspection": null,
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": false,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 350,
+        "aoHeight": 352,
+        "width": 350,
+        "height": 352,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 5.25824,
+          "p95Ms": 8.22272
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "room": "raccoon-0",
+      "durationMs": 4014,
+      "renderedFrames": 243,
+      "sceneFps": 60.5,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.69999999999709,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 8.800000071525574
+      },
+      "drawCalls": 943,
+      "triangles": 2897139,
+      "resources": {
+        "geometries": 269,
+        "textures": 20
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, 0.0023371103512294868, -0.0004882720162716195],
+        "breath": 0.0002531869547165277,
+        "phase": "routine",
+        "seconds": 20.332599999999793,
+        "blinkCount": 4,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.35, 3.73, 3.6],
+        "head": [-0.24999999999997446, 0.00004880811037735782, -0.000006275328477088863],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": -7.1544918446382915e-19,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "visitor-ready"
+        },
+        "aim": {
+          "heading": 5.261582055869999,
+          "target": [-9.157952867367188, 10.594604123138886, 9.419293323015566],
+          "origin": [0.35, 3.914, 3.6],
+          "yaw": -1.0215673810998533,
+          "pitch": 0.5399010301082874,
+          "taskSource": "visitor-plane"
+        },
+        "input": {
+          "kind": "touch",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [0.00008928741573985968, 0.9999999999999998],
+        "eyes": [1, 1],
+        "arms": [0.013764665952355454, 0.027094372156812076],
+        "activeSeconds": 20.69919999999977,
+        "projected": {
+          "x": 189.8923651186523,
+          "y": 568.1823602963935
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [3.7160899081973957, 8.176670855424746, -30.754213697441077],
+              "state": "glide",
+              "velocity": [-0.6846067724315152, -0.029095337897096733, -0.09290224770493488],
+              "contacts": []
+            },
+            {
+              "position": [-13.472822080203594, 8.723203085567802, -27.29876087485443],
+              "state": "glide",
+              "velocity": [-0.20312620082723315, 0.03697663243054733, 0.39832691367558454],
+              "contacts": []
+            },
+            {
+              "position": [5.223500366239368, 10.248154029179789, -9.789360212233172],
+              "state": "approach",
+              "velocity": [2.0628369993606865, -0.18965420376025552, 1.5515244204200993],
+              "contacts": []
+            },
+            {
+              "position": [-8, 8.7668409, 1],
+              "state": "perch",
+              "velocity": [0, 0, 0],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-8.067857676824065, 8.814491555756614, 1.005671040119809],
+                  "hipAccommodation": 0.02445543894916951,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-7.935563856125552, 8.75926661349117, 1.0220183642124387],
+                  "hipAccommodation": 0.028154779346354776,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+              "state": "rest",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                  "yaw": 1.479911638261943,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                  "yaw": 1.5997589266451129,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.7736026565377356, -7.238486623134622, -13.12490697742209],
+              "state": "walk",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.9119854870116557, -7.219234195896873, -13.147882700064738],
+                  "yaw": 1.1847098358430952,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": false,
+                  "lift": 0.008724274010902944
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.8199719148393892, -7.226880070841918, -13.203492683086893],
+                  "yaw": 1.1450308141924603,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.3820997352701796, -7.229793148526745, -13.345287773153863],
+              "state": "walk",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.3644428261616204, -7.2174114898792405, -13.386201501048534],
+                  "yaw": -0.6458864931854371,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.392113006388201, -7.217774522643813, -13.29425864289395],
+                  "yaw": -0.9626400918579645,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "rest"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "look"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "groom"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "rest"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+              "state": "rest",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.42000000000000004
+            },
+            {
+              "position": [8.548, 8.117048, 5.7],
+              "state": "hop",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.6566666666666667
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 20.932433333333105,
+          "sample": {
+            "displacement": [0.030981807983808844, -0.27279953528646483, 0.026739754512806184],
+            "tangentX": [1.0208203853749998, 0.017635999009619176, 0.014591048678040116],
+            "tangentZ": [0.014591048678040116, 0.06969733093987449, 1.0590287463498806],
+            "normal": [-0.016301633599079813, 0.9977234661054158, -0.06543807702397961],
+            "jacobian": 1.0808652342705631,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": true
+          }
+        }
+      },
+      "inspection": {
+        "id": "raccoon-0",
+        "name": "Raccoon",
+        "radius": 0.9606006212788366,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 219648,
+          "retainedTriangles": 2071,
+          "proxyMeshes": 4,
+          "milliseconds": 21.399999976158142
+        }
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 350,
+        "aoHeight": 352,
+        "width": 350,
+        "height": 352,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 6.756352,
+          "p95Ms": 10.838016
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "room": "balcony-gull-0",
+      "durationMs": 4016,
+      "renderedFrames": 242,
+      "sceneFps": 60.3,
+      "timing": {
+        "samples": 120,
+        "medianFrameMs": 16.700000000000728,
+        "p95FrameMs": 16.799999999999272,
+        "medianSubmitMs": 6
+      },
+      "drawCalls": 619,
+      "triangles": 2219013,
+      "resources": {
+        "geometries": 269,
+        "textures": 20
+      },
+      "character": {
+        "blink": [0, 0],
+        "eye": [0, 0],
+        "head": [0, 0.0009394580442386133, -0.002025329848102427],
+        "breath": 0.00010177462145918311,
+        "phase": "routine",
+        "seconds": 26.965699999999625,
+        "blinkCount": 5,
+        "cooldownRemaining": 0,
+        "eyelidMeshes": 1,
+        "headOnly": true,
+        "attentionTarget": null
+      },
+      "companion": {
+        "visible": true,
+        "position": [0.4, 3.73, 3.45],
+        "head": [0.2498561844687977, 0.025806372954421324, -0.0033179622369970277],
+        "model": "blender-pip",
+        "gesture": "rest",
+        "room": "study",
+        "destinationRoom": "study",
+        "pendingRoom": null,
+        "outing": "home",
+        "traveling": false,
+        "flight": {
+          "phase": "rest",
+          "bank": -0.000006787466205785315,
+          "velocity": [0, 0, 0],
+          "progress": 1,
+          "hover": 1.13
+        },
+        "attention": {
+          "phase": "task",
+          "greetings": 0,
+          "cooldown": 0,
+          "target": "record"
+        },
+        "aim": {
+          "heading": 9.277391188552118,
+          "target": [0.48, 3.556, 2.83],
+          "origin": [0.4, 3.914, 3.45],
+          "yaw": 3.0132694259039985,
+          "pitch": -0.5200827671306323,
+          "taskSource": "live-record"
+        },
+        "input": {
+          "kind": "touch",
+          "touchInvitation": false,
+          "touchPending": false
+        },
+        "gaze": [0.04745249665040318, -0.9999999954128181],
+        "eyes": [1, 1],
+        "arms": [-0.04726607412466654, 0.01219863810399487],
+        "activeSeconds": 27.332299999999602,
+        "projected": {
+          "x": -1054.6127238047213,
+          "y": 633.3286285383872
+        },
+        "opticalCatchlights": 2
+      },
+      "ecology": {
+        "wildlife": {
+          "rabbits": 2,
+          "raccoons": 1,
+          "gulls": 5,
+          "shorebirds": 3,
+          "modelsReady": true,
+          "seaLions": 3,
+          "harborSeals": 3,
+          "raccoon": {
+            "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+            "state": "groom",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                "yaw": -1.092031100810383,
+                "slope": 0.526136581191318,
+                "gradient": [-0.6339601459132042, 0.03919935826115657],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                "yaw": -1.0800927981018744,
+                "slope": 0.5238167742407576,
+                "gradient": [-0.6341182498903636, 0.038934392209993986],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                "yaw": -1.0649064875715923,
+                "slope": 0.5207572514188439,
+                "gradient": [-0.6342749230265028, 0.038671824101639565],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                "yaw": -1.0995106565145956,
+                "slope": 0.5275034668415712,
+                "gradient": [-0.6337603096191151, 0.039418355144397614],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          "birds": [
+            {
+              "position": [-0.9964792844415782, 7.950348116796396, -30.982731099265052],
+              "state": "glide",
+              "velocity": [-0.7175132782941676, -0.035503514517839396, 0.024911982111039455],
+              "contacts": []
+            },
+            {
+              "position": [-13.427531987536828, 8.984721807969487, -24.61541126716022],
+              "state": "glide",
+              "velocity": [0.21654967781614176, 0.03645460515935776, 0.39698790224021924],
+              "contacts": []
+            },
+            {
+              "position": [13.701513083545457, 8.708854583872954, -3.23888928946338],
+              "state": "approach",
+              "velocity": [0.34531219322612117, -0.11489985359465116, 0.27541634029958856],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.672600683504177, 8.71562987926678, -3.1766961792237627],
+                  "hipAccommodation": 0.011186516814480211,
+                  "surfaceLift": 0,
+                  "weight": 0.3026601137261628
+                },
+                {
+                  "foot": "FootR",
+                  "position": [13.758498309044493, 8.72929579008251, -3.278691893369555],
+                  "hipAccommodation": 0.0025654401785470825,
+                  "surfaceLift": 0,
+                  "weight": 0.3026601137261628
+                }
+              ]
+            },
+            {
+              "position": [-8, 8.7668409, 1],
+              "state": "perch",
+              "velocity": [0, 0, 0],
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-8.067857676824065, 8.814491555756614, 1.005671040119809],
+                  "hipAccommodation": 0.02445543894916951,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-7.935563856125552, 8.75926661349117, 1.0220183642124387],
+                  "hipAccommodation": 0.028154779346354776,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "balconyGullContacts": [
+            {
+              "foot": "FootL",
+              "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+              "hipAccommodation": 0.015586657044901803,
+              "surfaceLift": 0,
+              "weight": 1
+            },
+            {
+              "foot": "FootR",
+              "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+              "hipAccommodation": 0.01094335512389863,
+              "surfaceLift": 0,
+              "weight": 1
+            }
+          ],
+          "shorebirdContacts": [
+            {
+              "position": [-4.751720493675705, -7.254053393304285, -13.12306660981835],
+              "state": "walk",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-4.682710536409448, -7.203661578529275, -13.13529239340987],
+                  "yaw": 3.1577702250471074,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": false,
+                  "lift": 0.03850681301091277
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-4.780474752671633, -7.241792976949741, -13.126091058040936],
+                  "yaw": 3.008082420817673,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [-0.7179133451266142, -7.237833944404884, -13.094019457741023],
+              "state": "look",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-0.657482183650447, -7.224975691192383, -13.071020410175048],
+                  "yaw": -0.1822035676052267,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-0.6029818884649256, -7.224336947732809, -12.999291890640384],
+                  "yaw": -0.5629840028950965,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            {
+              "position": [3.3820866548733854, -7.22979297691194, -13.345292198042813],
+              "state": "probe",
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [3.3644428261616204, -7.2174114898792405, -13.386201501048534],
+                  "yaw": -0.6458864931854371,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FootR",
+                  "position": [3.392113006388201, -7.217774522643813, -13.29425864289395],
+                  "yaw": -0.9626400918579645,
+                  "slope": 0,
+                  "gradient": [0, 0],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            }
+          ],
+          "contacts": [
+            {
+              "habitat": "seaLion",
+              "position": [-10, -6.6084, -14.5115],
+              "state": "look"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [-8.6, -6.6737, -14.2179],
+              "state": "groom"
+            },
+            {
+              "habitat": "seaLion",
+              "position": [11, -6.7453, -13.3577],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-5, -7.1295, -12.0849],
+              "state": "look"
+            },
+            {
+              "habitat": "seal",
+              "position": [-4, -7.1329, -12.1697],
+              "state": "rest"
+            },
+            {
+              "habitat": "seal",
+              "position": [-3, -7.1308, -11.9844],
+              "state": "rest"
+            }
+          ],
+          "rabbitHabitats": [
+            {
+              "position": [-6.740890025411229, 8.288607735221232, 0.4022523389010929],
+              "state": "hop",
+              "airborne": true,
+              "contact": false,
+              "lift": 0.09063567996838132,
+              "progress": 0.44886473875844685
+            },
+            {
+              "position": [8.027988, 8.117556, 5.556012],
+              "state": "look",
+              "airborne": false,
+              "contact": true,
+              "lift": 0,
+              "progress": 0.8400000000000001
+            }
+          ]
+        },
+        "beachWidth": 13.5,
+        "particles": 200,
+        "water": {
+          "waves": 10,
+          "vertices": 25921,
+          "triangles": 51200,
+          "seconds": 27.565533333332937,
+          "sample": {
+            "displacement": [0.057618502061014314, 0.12018900040654934, 0.024356807086042043],
+            "tangentX": [0.9990118683811695, 0.09632127901479186, -0.017353670945104906],
+            "tangentZ": [-0.017353670945104906, -0.005436063339380017, 0.9896000793178913],
+            "normal": [-0.09590565166457789, 0.9953832287061778, 0.0037860255225756565],
+            "jacobian": 0.9883210742942492,
+            "lostVariance": 0.002534119297229181
+          },
+          "reflection": {
+            "width": 384,
+            "height": 384,
+            "linear": true,
+            "fresnelIOR": 1.333,
+            "active": true
+          }
+        }
+      },
+      "inspection": {
+        "id": "balcony-gull-0",
+        "name": "Balcony gull",
+        "radius": 1.0023596836267792,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 20,
+          "sourceTriangles": 139206,
+          "retainedTriangles": 1906,
+          "proxyMeshes": 5,
+          "milliseconds": 19.300000071525574
+        }
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 350,
+        "aoHeight": 352,
+        "width": 350,
+        "height": 352,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 5.317632,
+          "p95Ms": 9.356288
+        }
+      },
+      "errors": []
+    }
+  ],
+  "browser": "145.0.7632.6"
+}

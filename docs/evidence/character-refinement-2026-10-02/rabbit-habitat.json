@@ -1,0 +1,58 @@
+{
+  "source": "C:\\dev\\dylantao.github.io\\artwork\\coastal-home\\coastal-home.blend",
+  "sourceSha256": "a14543ba1a4e5bf08c94abe7c49bbe458c482c46d64259ebe8a344e3d8fb5cf5",
+  "bodyColumn": {
+    "radius": 0.316227766016838,
+    "bottom": 0.02,
+    "top": 0.85,
+    "stencilPoints": 37
+  },
+  "foliageMeshes": ["core__coastal sage scrub", "core__blue sage agave leaf", "core__coastal wildflower ochre"],
+  "habitats": {
+    "rabbitWest": {
+      "before": {
+        "bodySamples": 384,
+        "verticalRays": 14208,
+        "blockedRays": 9603,
+        "minimumBodyCenterToFoliage": 1.3918418517278042e-5,
+        "maximumLinearSupportError": 0.0009991638183581841
+      },
+      "after": {
+        "bodySamples": 384,
+        "verticalRays": 14208,
+        "blockedRays": 0,
+        "minimumBodyCenterToFoliage": 0.7334753274917603,
+        "maximumLinearSupportError": 0.0010757324218744202
+      },
+      "plan": [
+        [-7.9, -0.9],
+        [-6.9, -0.8],
+        [-6.7, -0.3],
+        [-7.8, -0.2]
+      ]
+    },
+    "rabbitEast": {
+      "before": {
+        "bodySamples": 384,
+        "verticalRays": 14208,
+        "blockedRays": 11352,
+        "minimumBodyCenterToFoliage": 0.00017554879013914615,
+        "maximumLinearSupportError": 0.0010953063964844745
+      },
+      "after": {
+        "bodySamples": 384,
+        "verticalRays": 14208,
+        "blockedRays": 0,
+        "minimumBodyCenterToFoliage": 0.4610709547996521,
+        "maximumLinearSupportError": 0.0010714935302740258
+      },
+      "plan": [
+        [7.9, -5.3],
+        [9.1, -5.3],
+        [9.3, -5.7],
+        [8.1, -5.7]
+      ]
+    }
+  },
+  "onlyTwoRabbitPathsChanged": true
+}

@@ -1,0 +1,428 @@
+{
+  "units": "metres",
+  "scope": "Gull surface perch contact only; no new geometry, source coast or shared manifest edits",
+  "asset": {
+    "path": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\assets\\models\\home\\wildlife-perch-support.json",
+    "bytes": 23427,
+    "sha256": "5d77687eef5a1362395ff923444bed946f187c08f7ae05a45ac43dfc32ff7724",
+    "sourceSha256": "a14543ba1a4e5bf08c94abe7c49bbe458c482c46d64259ebe8a344e3d8fb5cf5",
+    "gullSha256": "8ae14bbd280cd34d51641ad3cb1096486969eec93d9703d1099f6b253d44b5d6",
+    "triangles": 51,
+    "soleSamples": {
+      "L": 192,
+      "R": 192
+    },
+    "addedDrawPrimitives": 0,
+    "addedTriangles": 0,
+    "addedGpuResources": 0,
+    "limitBytes": 24576,
+    "hashAndBudgetVerifier": "test/wildlife-perch-contact.test.mjs"
+  },
+  "method": {
+    "physicalSurface": "Retained shared/realistic coastal support and core structural meshes, native loop triangles matching GLB tessellation",
+    "sourceTessellationRationale": "Nonplanar polygon re-triangulation can select a different diagonal; prior alternate BVH height differed by 4.6 mm at one probe. All final queries use native mesh loop triangles.",
+    "sole": "Decoded deployed GLB. A projected 8-subdivision barycentric grid on each foot triangle is cast upward to its lower envelope, then downward to the actual retained physical surface.",
+    "sequence": "337 poses over four 90-second cycles for four flying gulls, including approach, flare, settle and toe-off; plus balcony stationary contact.",
+    "rail": "Only sole samples directly above the narrow physical rail count as support. Toe overhang above the distant floor is intentional.",
+    "hipContainment": "Hidden hip origin checked inside at least one original closed torso/breast shell; overlapping shell union uses outward first-exit in cardinal directions rather than parity cancellation.",
+    "cache": "WeakMap caches native triangle coefficients/normals and stationary landing poses; transients continue to query bounded patches."
+  },
+  "before": [
+    {
+      "id": "gull-0",
+      "rootSupport": {
+        "height": 8.766840934753418,
+        "gap": 0.04995906524658267,
+        "normal": [0.41003915667533875, 0.1673404723405838, 0.89658522605896],
+        "surface": "core__golden coastal sandstone"
+      },
+      "feet": {
+        "L": {
+          "minGap": -0.00627899169921875,
+          "nearest": {
+            "position": [-8.091734886169434, 8.821449279785156, 1.1014457941055298],
+            "supportHeight": 8.827728271484375,
+            "gap": -0.00627899169921875,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 2
+        },
+        "R": {
+          "minGap": 0.05640411376953125,
+          "nearest": {
+            "position": [-7.960193634033203, 8.821449279785156, 1.0798622369766235],
+            "supportHeight": 8.765045166015625,
+            "gap": 0.05640411376953125,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "gull-0",
+      "rootSupport": {
+        "height": 8.766840934753418,
+        "gap": 0.04995906524658267,
+        "normal": [0.41003915667533875, 0.1673404723405838, 0.89658522605896],
+        "surface": "core__golden coastal sandstone"
+      },
+      "feet": {
+        "L": {
+          "minGap": -0.00627899169921875,
+          "nearest": {
+            "position": [-8.091734886169434, 8.821449279785156, 1.1014457941055298],
+            "supportHeight": 8.827728271484375,
+            "gap": -0.00627899169921875,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 2
+        },
+        "R": {
+          "minGap": 0.05640411376953125,
+          "nearest": {
+            "position": [-7.960193634033203, 8.821449279785156, 1.0798622369766235],
+            "supportHeight": 8.765045166015625,
+            "gap": 0.05640411376953125,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "gull-1",
+      "rootSupport": {
+        "height": 7.940230846405029,
+        "gap": 0.02196915359497087,
+        "normal": [0.046167731285095215, 0.07512974739074707, 0.9961044788360596],
+        "surface": "core__coastal sage scrub"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.013409137725830078,
+          "nearest": {
+            "position": [9.016131401062012, 7.962200164794922, 1.1236572265625],
+            "supportHeight": 7.948791027069092,
+            "gap": 0.013409137725830078,
+            "surface": "core__coastal sage scrub"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": 0.024684906005859375,
+          "nearest": {
+            "position": [9.118633270263672, 7.962200164794922, 1.0384389162063599],
+            "supportHeight": 7.9375152587890625,
+            "gap": 0.024684906005859375,
+            "surface": "core__coastal sage scrub"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "gull-1",
+      "rootSupport": {
+        "height": 7.940230846405029,
+        "gap": 0.02196915359497087,
+        "normal": [0.046167731285095215, 0.07512974739074707, 0.9961044788360596],
+        "surface": "core__coastal sage scrub"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.013409137725830078,
+          "nearest": {
+            "position": [9.016131401062012, 7.962200164794922, 1.1236572265625],
+            "supportHeight": 7.948791027069092,
+            "gap": 0.013409137725830078,
+            "surface": "core__coastal sage scrub"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": 0.024684906005859375,
+          "nearest": {
+            "position": [9.118633270263672, 7.962200164794922, 1.0384389162063599],
+            "supportHeight": 7.9375152587890625,
+            "gap": 0.024684906005859375,
+            "surface": "core__coastal sage scrub"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "gull-2",
+      "rootSupport": {
+        "height": 8.60235595703125,
+        "gap": 0.05004404296875009,
+        "normal": [-0.5357245206832886, 0.0052372426725924015, 0.8443766832351685],
+        "surface": "core__golden coastal sandstone"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.022800445556640625,
+          "nearest": {
+            "position": [14.04857349395752, 8.656468391418457, -2.920441150665283],
+            "supportHeight": 8.633667945861816,
+            "gap": 0.022800445556640625,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": -0.029625892639160156,
+          "nearest": {
+            "position": [14.13231372833252, 8.656468391418457, -3.0241549015045166],
+            "supportHeight": 8.686094284057617,
+            "gap": -0.029625892639160156,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 69
+        }
+      }
+    },
+    {
+      "id": "gull-2",
+      "rootSupport": {
+        "height": 8.60235595703125,
+        "gap": 0.05004404296875009,
+        "normal": [-0.5357245206832886, 0.0052372426725924015, 0.8443766832351685],
+        "surface": "core__golden coastal sandstone"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.022800445556640625,
+          "nearest": {
+            "position": [14.04857349395752, 8.656468391418457, -2.920441150665283],
+            "supportHeight": 8.633667945861816,
+            "gap": 0.022800445556640625,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": -0.029625892639160156,
+          "nearest": {
+            "position": [14.13231372833252, 8.656468391418457, -3.0241549015045166],
+            "supportHeight": 8.686094284057617,
+            "gap": -0.029625892639160156,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 69
+        }
+      }
+    },
+    {
+      "id": "gull-3",
+      "rootSupport": {
+        "height": 8.766840934753418,
+        "gap": 0.04995906524658267,
+        "normal": [0.41003915667533875, 0.1673404723405838, 0.89658522605896],
+        "surface": "core__golden coastal sandstone"
+      },
+      "feet": {
+        "L": {
+          "minGap": -0.012059211730957031,
+          "nearest": {
+            "position": [-8.116598129272461, 8.821449279785156, 1.0714943408966064],
+            "supportHeight": 8.833508491516113,
+            "gap": -0.012059211730957031,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 18
+        },
+        "R": {
+          "minGap": 0.044798851013183594,
+          "nearest": {
+            "position": [-7.984304428100586, 8.821449279785156, 1.0878416299819946],
+            "supportHeight": 8.776650428771973,
+            "gap": 0.044798851013183594,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "gull-3",
+      "rootSupport": {
+        "height": 8.766840934753418,
+        "gap": 0.04995906524658267,
+        "normal": [0.41003915667533875, 0.1673404723405838, 0.89658522605896],
+        "surface": "core__golden coastal sandstone"
+      },
+      "feet": {
+        "L": {
+          "minGap": -0.012059211730957031,
+          "nearest": {
+            "position": [-8.116598129272461, 8.821449279785156, 1.0714943408966064],
+            "supportHeight": 8.833508491516113,
+            "gap": -0.012059211730957031,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 18
+        },
+        "R": {
+          "minGap": 0.044798851013183594,
+          "nearest": {
+            "position": [-7.984304428100586, 8.821449279785156, 1.0878416299819946],
+            "supportHeight": 8.776650428771973,
+            "gap": 0.044798851013183594,
+            "surface": "core__golden coastal sandstone"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "balcony-gull-0",
+      "rootSupport": {
+        "height": 3.4620001316070557,
+        "gap": -0.0020001316070556996,
+        "normal": [-1.4342809606660012e-7, 0.38268882036209106, 0.9238772988319397],
+        "surface": "core__honey ash"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.008812904357910156,
+          "nearest": {
+            "position": [4.149580001831055, 3.469898223876953, 1.3122085332870483],
+            "supportHeight": 3.461085319519043,
+            "gap": 0.008812904357910156,
+            "surface": "core__honey ash"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": 0.003967761993408203,
+          "nearest": {
+            "position": [4.25127649307251, 3.4658918380737305, 1.3098162412643433],
+            "supportHeight": 3.4619240760803223,
+            "gap": 0.003967761993408203,
+            "surface": "core__honey ash"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "balcony-gull-0",
+      "rootSupport": {
+        "height": 3.4620001316070557,
+        "gap": -0.0020001316070556996,
+        "normal": [-1.4342809606660012e-7, 0.38268882036209106, 0.9238772988319397],
+        "surface": "core__honey ash"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.008812904357910156,
+          "nearest": {
+            "position": [4.149580001831055, 3.469898223876953, 1.3122085332870483],
+            "supportHeight": 3.461085319519043,
+            "gap": 0.008812904357910156,
+            "surface": "core__honey ash"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": 0.003967761993408203,
+          "nearest": {
+            "position": [4.25127649307251, 3.4658918380737305, 1.3098162412643433],
+            "supportHeight": 3.4619240760803223,
+            "gap": 0.003967761993408203,
+            "surface": "core__honey ash"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    },
+    {
+      "id": "balcony-gull-0",
+      "rootSupport": {
+        "height": 3.4620001316070557,
+        "gap": -0.0020001316070556996,
+        "normal": [-1.4342809606660012e-7, 0.38268882036209106, 0.9238772988319397],
+        "surface": "core__honey ash"
+      },
+      "feet": {
+        "L": {
+          "minGap": 0.008812904357910156,
+          "nearest": {
+            "position": [4.149580001831055, 3.469898223876953, 1.3122085332870483],
+            "supportHeight": 3.461085319519043,
+            "gap": 0.008812904357910156,
+            "surface": "core__honey ash"
+          },
+          "intersectionsOver2mm": 0
+        },
+        "R": {
+          "minGap": 0.003967761993408203,
+          "nearest": {
+            "position": [4.25127649307251, 3.4658918380737305, 1.3098162412643433],
+            "supportHeight": 3.4619240760803223,
+            "gap": 0.003967761993408203,
+            "surface": "core__honey ash"
+          },
+          "intersectionsOver2mm": 0
+        }
+      }
+    }
+  ],
+  "after": {
+    "poses": 337,
+    "minimumVisibleSoleGap": -1.9073486328125e-6,
+    "maximumAnkleConnectionError": 6.468133910298603e-6,
+    "maximumVisibleHipAccommodation": 0.04675473333523791,
+    "exposedHipsOutsideOriginalTorso": [],
+    "tarsusLengthScale": 1,
+    "coastRootHeightAdjustments": [-0.04995910000000059, -0.021969200000000022, -0.050043999999999755],
+    "coastPerchXZPreserved": true,
+    "balconyOriginalRootAndYawPreserved": true
+  },
+  "checks": {
+    "targetedNodeTests": "14 passed",
+    "pythonTests": "166 passed",
+    "nativeBeforeCache": "17 picks, pause/reduced still, 130 resources each disposed once; four-lap raccoon reach <= 4.5%",
+    "postCacheDecodedGeometry": "337 poses rerun after caching; same gap/connection/containment results",
+    "nativeCacheIntegration": "Coordinator owns final integrated browser verification"
+  },
+  "matchedNativeCaptures": [
+    {
+      "label": "Coast gull feet",
+      "before": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\perch-before\\coast-feet.png",
+      "after": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\perch-after\\coast-feet.png"
+    },
+    {
+      "label": "East coast gull feet",
+      "before": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\perch-before\\east-coast-feet.png",
+      "after": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\perch-after\\east-coast-feet.png"
+    },
+    {
+      "label": "Balcony rail feet",
+      "before": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\perch-before\\rail-feet.png",
+      "after": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\perch-after\\rail-feet.png"
+    }
+  ],
+  "captureMethod": "Actual product geometry, all assets and native scene lighting; same private detail cameras in paired frames, recorded in perch-before/frames.json and perch-after/frames.json. Browser contexts closed after captures.",
+  "rawEvidence": [
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\gull-foot-support-cpu.json",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\gull-contact-poses.json",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\gull-foot-support-after-cpu.json",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\runtime\\evidence.json",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-second-pass\\asset-budget.json"
+  ],
+  "reproduceScripts": [
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\gull-support-probe.py",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\gull-contact-cpu.mjs",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\gull-fit-probe.py",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\wildlife-perch-capture.cjs",
+    "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\.jekyll-cache\\visual-qa\\finalize-gull-contact-evidence.py"
+  ],
+  "limits": [
+    "Deterministic authored local contact; no aerodynamic solver or SOTA reproduction claim.",
+    "Sampled sole-envelope contact, not a guarantee between samples or outside these retained local support patches.",
+    "Prior gull-landing motion video predates this correction and is superseded for final foot support evidence."
+  ]
+}

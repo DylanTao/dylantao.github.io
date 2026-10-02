@@ -839,6 +839,35 @@ test("character performance: P acknowledges a visitor without changing the room 
   expect(errors).toEqual([]);
 });
 
+test("character performance: rapid room changes preserve P's airborne floor and queue the latest destination", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
+  await explore(ui);
+  await canvas.scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
+  await ui.locator('[data-world-room="kitchen"]').click();
+  await expect.poll(async () => (await evidence(scene)).companion?.destinationRoom).toBe("kitchen");
+  await page.clock.fastForward(4000);
+  const before = (await evidence(scene)).companion;
+  expect(before.traveling).toBe(true);
+  await ui.locator('[data-world-room="onsen"]').click();
+  await expect.poll(async () => (await evidence(scene)).companion?.pendingRoom).toBe("onsen");
+  const changed = await evidence(scene);
+  expect(changed.currentRoom).toBe("onsen");
+  expect(changed.companion.destinationRoom).toBe("kitchen");
+  expect(Math.abs(changed.companion.position[1] - before.position[1])).toBeLessThan(0.5);
+  await capture(testInfo, "P-retains-airborne-floor", await canvas.screenshot());
+  await ui.locator('[data-world-room="gym"]').click();
+  await expect.poll(async () => (await evidence(scene)).companion?.pendingRoom).toBe("gym");
+  await ui.locator('[data-world-room="kitchen"]').click();
+  await expect.poll(async () => (await evidence(scene)).companion?.pendingRoom).toBe(null);
+  await ui.locator("[data-world-pause]").click();
+  const paused = (await evidence(scene)).companion;
+  await page.clock.fastForward(3000);
+  expect((await evidence(scene)).companion.position).toEqual(paused.position);
+  expect(errors).toEqual([]);
+});
+
 test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back inside preserve the room state", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });

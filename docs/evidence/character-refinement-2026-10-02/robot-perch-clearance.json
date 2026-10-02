@@ -1,0 +1,66 @@
+{
+  "description": "Conservative full native P bounding-envelope clearance to measured limiting component boxes at the four corrected perches. Covers 24 body headings, rest/hello/listen motor poses over 2.6 seconds, gaze at nine local extrema. Other geometry certified separately in full route triangle audit; not a continuous universal solver.",
+  "perches": {
+    "kitchen": {
+      "object": "west counter front edge",
+      "center": [-3.5, 0.72, -2],
+      "minimumConservativeGap": 0.18659239764678226,
+      "worst": {
+        "gesture": "listen",
+        "gaze": [1, -1],
+        "frame": 19,
+        "yaw": 0,
+        "bounds": [
+          [-3.7574076023532177, 0.47098121262301285, -2.2252647103037173],
+          [-3.2425923976467823, 1.1852008786014385, -1.768254077364988]
+        ]
+      }
+    },
+    "gym": {
+      "object": "steel rack/dumbbell near face",
+      "center": [0.55, 0.72, -2.25],
+      "minimumConservativeGap": 0.12759239764678243,
+      "worst": {
+        "gesture": "listen",
+        "gaze": [1, -1],
+        "frame": 19,
+        "yaw": 12,
+        "bounds": [
+          [0.29259239764678246, 0.47098121262301285, -2.481745922635012],
+          [0.8074076023532176, 1.1852008786014385, -2.0247352896962827]
+        ]
+      }
+    },
+    "onsen": {
+      "object": "bench near corner",
+      "center": [2.18, 3.3200000000000003, 2.05],
+      "minimumConservativeGap": 0.16259239764678224,
+      "worst": {
+        "gesture": "listen",
+        "gaze": [1, -1],
+        "frame": 19,
+        "yaw": 0,
+        "bounds": [
+          [1.9225923976467827, 3.070981212623013, 1.8247352896962823],
+          [2.437407602353218, 3.7852008786014393, 2.281745922635012]
+        ]
+      }
+    },
+    "lounge": {
+      "object": "retained planter/leaf near envelope",
+      "center": [3.3, 0.72, -3.65],
+      "minimumConservativeGap": 0.08129239764678253,
+      "worst": {
+        "gesture": "listen",
+        "gaze": [1, -1],
+        "frame": 19,
+        "yaw": 0,
+        "bounds": [
+          [3.042592397646782, 0.47098121262301285, -3.875264710303717],
+          [3.5574076023532175, 1.1852008786014385, -3.418254077364988]
+        ]
+      }
+    }
+  },
+  "states": 69984
+}

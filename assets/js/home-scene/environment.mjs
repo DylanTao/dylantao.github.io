@@ -118,6 +118,11 @@ export function createPacific(scene, renderer, config) {
   const ocean = new THREE.Mesh(waterGeometry, modelWater);
   ocean.position.set(0, -7.35, -28);
   ocean.receiveShadow = true;
+  // The normal-depth override does not run this material's wave displacement.
+  // Its flat mesh would create false animal contacts up to 26 cm away from
+  // the sampled beauty surface. Keep the real sea in beauty/reflections and
+  // arrival rays; exclude it only from local indirect-contact reconstruction.
+  ocean.userData.noContactOcclusion = true;
   root.add(ocean);
   const reflection = createSeaReflection(renderer, scene, ocean, physicalWater);
   const steamGeometry = new THREE.BufferGeometry();

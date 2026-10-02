@@ -748,12 +748,21 @@ export function createCoastalHome(container, records, artifacts) {
       // Choose a readable initial angle through the actual coast. This runs
       // only on selection; orbiting and tracking never raycast the whole coast.
       const selectionStarted = performance.now();
+      // Streamed wildlife and P materials arrive outside the house finish
+      // binding. Bind their authored shaders before a close contact view;
+      // the binder leaves already-bound house materials unchanged.
+      scene.traverse((object) => {
+        if (!object.isMesh || object.userData.noContactOcclusion) return;
+        for (const material of [object.material].flat()) if (material) bindContactLighting(material, finish?.contactLighting);
+      });
       // A burst of selections can precede the first exterior frame. Score
       // against the final cutaway now, not the preceding inside roof state.
       syncCutaway();
-      world.updateMatrixWorld(true);
+      scene.updateMatrixWorld(true);
       const occluders = [];
-      world.traverse((object) => {
+      // Wildlife and P are sibling scene roots, outside the house group.
+      // They must remain legitimate occluders of another selected animal.
+      scene.traverse((object) => {
         if (!object.isMesh || object.userData.noOcclusion) return;
         let parent = object;
         while (parent) {
@@ -1395,7 +1404,7 @@ export function createCoastalHome(container, records, artifacts) {
     orientProp();
     renderer.info.reset();
     withoutContactLighting(finish?.contactLighting, () => pacific?.reflect(camera, style === "realistic" && currentRoom === "outside"));
-    if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside");
+    if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
     else renderer.render(scene, camera);
     if (moving && consecutive && delta < 0.5) {
       frameTimings.push({ interval: delta * 1000, submit: performance.now() - submitStart });

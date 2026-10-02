@@ -1,0 +1,14 @@
+{
+  "label": "Native GLB/production motion+clearance module route playback; private inspection camera, native RAF, actual room assets; before/after authored perch data differ",
+  "errors": [],
+  "before": {
+    "duration": 3.9683000000476842,
+    "final": [-3.8, 0.72, -2],
+    "nativeRaf": true
+  },
+  "after": {
+    "duration": 4.762599999976159,
+    "final": [-3.5, 0.72, -2],
+    "nativeRaf": true
+  }
+}

@@ -36,7 +36,7 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
         // Playwright Clock also supplies its own animation scheduling. For FPS,
         // freeze only the routine's calendar date and retain native RAF timing.
         const NativeDate = Date;
-        const fixedDate = NativeDate.parse("2026-10-01T13:20:00-07:00");
+        const fixedDate = NativeDate.parse("2026-10-02T13:20:00-07:00");
         globalThis.Date = new Proxy(NativeDate, {
           construct: (target, args, newTarget) => Reflect.construct(target, args.length ? args : [fixedDate], newTarget),
           apply: () => new NativeDate(fixedDate).toString(),
@@ -55,8 +55,20 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
       await controls.locator("[data-world-avatar]").selectOption("ghibli");
       await controls.locator("[data-world-activity]").selectOption("work");
       await scene.scrollIntoViewIfNeeded();
-      for (const room of ["study", "outside"]) {
-        await controls.locator(`[data-world-room="${room}"]`).first().click();
+      for (const room of ["study", "outside", "raccoon-0", "balcony-gull-0"]) {
+        if (room === "study" || room === "outside") {
+          await controls.locator(`[data-world-room="${room}"]`).first().click();
+        } else {
+          const canvas = scene.locator("canvas");
+          for (let index = 0; index < 17; index++) {
+            await canvas.press("n");
+            if ((await scene.evaluate((element) => element.getSceneEvidence())).inspection?.id === room) break;
+          }
+          if ((await scene.evaluate((element) => element.getSceneEvidence())).inspection?.id !== room) throw new Error(`Missing ${room} inspection`);
+        }
+        // Clicking the authoring controls can scroll a mobile canvas offscreen.
+        // Sample the actual visible animation, not its offscreen suspension.
+        await scene.scrollIntoViewIfNeeded();
         await page.waitForTimeout(2000);
         const before = await scene.evaluate((element) => element.getSceneEvidence());
         const started = performance.now();
@@ -76,6 +88,8 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
           character: after.characterPerformance || null,
           companion: after.companion,
           ecology: after.ecology,
+          inspection: after.inspection,
+          rendering: after.rendering,
           errors: [...errors],
         });
         await scene.screenshot({ path: path.join(output, `${width}-${room}.png`) });

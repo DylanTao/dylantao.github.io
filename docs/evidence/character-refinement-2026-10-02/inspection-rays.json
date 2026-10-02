@@ -1,0 +1,264 @@
+{
+  "method": "Actual current served meshes, with only controller visibility calls instrumented to run both the full original Three raycast and local triangle subset. Same finite segments, visibility and nearest distance within10 micrometers; all product assets retained. Instrumentation excluded from performance sampling.",
+  "count": 17,
+  "rays": 1440,
+  "mismatches": 0,
+  "errors": [],
+  "rows": [
+    {
+      "id": "rabbit-0",
+      "name": "Brush rabbit",
+      "radius": 0.6704269597460005,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 2227,
+        "proxyMeshes": 3,
+        "milliseconds": 2958
+      }
+    },
+    {
+      "id": "rabbit-1",
+      "name": "Brush rabbit",
+      "radius": 0.6704269597460011,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 214928,
+        "retainedTriangles": 1519,
+        "proxyMeshes": 5,
+        "milliseconds": 2733
+      }
+    },
+    {
+      "id": "seaLion-0",
+      "name": "California sea lion",
+      "radius": 1.403389257611431,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 7104,
+        "proxyMeshes": 5,
+        "milliseconds": 1420
+      }
+    },
+    {
+      "id": "seaLion-1",
+      "name": "California sea lion",
+      "radius": 1.4033892576114315,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 153133,
+        "retainedTriangles": 6977,
+        "proxyMeshes": 5,
+        "milliseconds": 1299
+      }
+    },
+    {
+      "id": "seaLion-2",
+      "name": "California sea lion",
+      "radius": 1.403389257611431,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 150561,
+        "retainedTriangles": 2316,
+        "proxyMeshes": 4,
+        "milliseconds": 1304
+      }
+    },
+    {
+      "id": "seal-0",
+      "name": "Harbor seal",
+      "radius": 1.2042014532157541,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 11449,
+        "proxyMeshes": 9,
+        "milliseconds": 1355
+      }
+    },
+    {
+      "id": "seal-1",
+      "name": "Harbor seal",
+      "radius": 1.2042014532157546,
+      "arrival": {
+        "visibleFaceSamples": 2,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 168309,
+        "retainedTriangles": 10204,
+        "proxyMeshes": 9,
+        "milliseconds": 1345
+      }
+    },
+    {
+      "id": "seal-2",
+      "name": "Harbor seal",
+      "radius": 1.2042014532157546,
+      "arrival": {
+        "visibleFaceSamples": 1,
+        "faceSamples": 2,
+        "visibleBody": true,
+        "rays": 72,
+        "sourceTriangles": 99588,
+        "retainedTriangles": 8217,
+        "proxyMeshes": 7,
+        "milliseconds": 1237
+      }
+    },
+    {
+      "id": "raccoon-0",
+      "name": "Raccoon",
+      "radius": 0.9606006212788366,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 242862,
+        "retainedTriangles": 4849,
+        "proxyMeshes": 4,
+        "milliseconds": 3611
+      }
+    },
+    {
+      "id": "gull-0",
+      "name": "Western gull",
+      "radius": 1.412415917837737,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1398
+      }
+    },
+    {
+      "id": "gull-1",
+      "name": "Western gull",
+      "radius": 1.412415917837735,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1230
+      }
+    },
+    {
+      "id": "gull-2",
+      "name": "Western gull",
+      "radius": 1.4124159178377342,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 0,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 1127
+      }
+    },
+    {
+      "id": "gull-3",
+      "name": "Western gull",
+      "radius": 1.4124159178377342,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 192605,
+        "retainedTriangles": 0,
+        "proxyMeshes": 0,
+        "milliseconds": 2139
+      }
+    },
+    {
+      "id": "balcony-gull-0",
+      "name": "Balcony gull",
+      "radius": 1.0023596836267792,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 139206,
+        "retainedTriangles": 1906,
+        "proxyMeshes": 5,
+        "milliseconds": 2764
+      }
+    },
+    {
+      "id": "sandpiper-0",
+      "name": "Sandpiper",
+      "radius": 1.2299389511347585,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 171745,
+        "retainedTriangles": 15352,
+        "proxyMeshes": 10,
+        "milliseconds": 1788
+      }
+    },
+    {
+      "id": "sandpiper-1",
+      "name": "Sandpiper",
+      "radius": 1.22993895113476,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 100452,
+        "retainedTriangles": 8616,
+        "proxyMeshes": 5,
+        "milliseconds": 1545
+      }
+    },
+    {
+      "id": "sandpiper-2",
+      "name": "Sandpiper",
+      "radius": 1.22993895113476,
+      "arrival": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "rays": 96,
+        "sourceTriangles": 93580,
+        "retainedTriangles": 4573,
+        "proxyMeshes": 4,
+        "milliseconds": 1637
+      }
+    }
+  ]
+}

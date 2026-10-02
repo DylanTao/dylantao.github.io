@@ -1,0 +1,723 @@
+{
+  "capturedAt": "2026-10-02T11:33:59.789Z",
+  "base": "http://127.0.0.1:8080",
+  "browser": "145.0.7632.6",
+  "method": "Actual served reduced-motion public arrivals, Date-only 13:20 Pacific override, native performance.now and RAF. All product assets retained; no hidden vegetation or image substitution. Per-selection times are local observations, not a controlled before/after benchmark.",
+  "errors": [],
+  "rows": [
+    {
+      "animal": {
+        "id": "rabbit-0",
+        "name": "Brush rabbit",
+        "radius": 0.6704269597460005,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 3,
+          "sourceTriangles": 242862,
+          "retainedTriangles": 2227,
+          "proxyMeshes": 3,
+          "milliseconds": 43.39999997615814
+        }
+      },
+      "camera": [-5.862176994776549, 9.652739779982918, -1.7948195632166457],
+      "target": [-6.727346869566672, 8.498474701872567, 0.3683154804666069],
+      "orbit": {
+        "yaw": 2.7611198101067767,
+        "pitch": 0.46,
+        "radius": 2.6
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "rabbit-1",
+        "name": "Brush rabbit",
+        "radius": 0.6704269597460011,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 3,
+          "sourceTriangles": 214928,
+          "retainedTriangles": 1519,
+          "proxyMeshes": 5,
+          "milliseconds": 20
+        }
+      },
+      "camera": [6.368793641858332, 9.574335303571416, 5.699998016992368],
+      "target": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+      "orbit": {
+        "yaw": 4.712388046063262,
+        "pitch": 0.46,
+        "radius": 2.6
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "seaLion-0",
+        "name": "California sea lion",
+        "radius": 1.403389257611431,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 9,
+          "sourceTriangles": 153133,
+          "retainedTriangles": 7104,
+          "proxyMeshes": 5,
+          "milliseconds": 23.5
+        }
+      },
+      "camera": [-6.483880533115145, -5.101819240416411, -11.146589070898994],
+      "target": [-10.035864673119882, -6.105536697173118, -14.596327928950515],
+      "orbit": {
+        "yaw": 7.083185307179586,
+        "pitch": 0.2,
+        "radius": 5.052201327401152
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "seaLion-1",
+        "name": "California sea lion",
+        "radius": 1.4033892576114315,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 3,
+          "sourceTriangles": 153133,
+          "retainedTriangles": 6977,
+          "proxyMeshes": 5,
+          "milliseconds": 13.700000047683716
+        }
+      },
+      "camera": [-4.671196126681306, -5.167119240416412, -17.077659744139964],
+      "target": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+      "orbit": {
+        "yaw": 8.483185307179589,
+        "pitch": 0.2,
+        "radius": 5.0522013274011535
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "seaLion-2",
+        "name": "California sea lion",
+        "radius": 1.403389257611431,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 3,
+          "sourceTriangles": 150561,
+          "retainedTriangles": 2316,
+          "proxyMeshes": 4,
+          "milliseconds": 15.399999976158142
+        }
+      },
+      "camera": [7.297571343820637, -5.238719240416412, -16.505044084762975],
+      "target": [11.06970004019229, -6.242436697173119, -13.297500691821064],
+      "orbit": {
+        "yaw": 10.290890334377623,
+        "pitch": 0.2,
+        "radius": 5.052201327401152
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "seal-0",
+        "name": "Harbor seal",
+        "radius": 1.2042014532157541,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 3,
+          "sourceTriangles": 168309,
+          "retainedTriangles": 11449,
+          "proxyMeshes": 9,
+          "milliseconds": 13.599999904632568
+        }
+      },
+      "camera": [-3.3752566705427025, -5.5826545995034715, -8.242020650358606],
+      "target": [-5.029782801495118, -6.864136723995209, -12.155342949827826],
+      "orbit": {
+        "yaw": 12.966370614359173,
+        "pitch": 0.2,
+        "radius": 4.335125231576715
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "seal-1",
+        "name": "Harbor seal",
+        "radius": 1.2042014532157546,
+        "arrival": {
+          "visibleFaceSamples": 2,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 6,
+          "sourceTriangles": 168309,
+          "retainedTriangles": 10204,
+          "proxyMeshes": 9,
+          "milliseconds": 17.799999952316284
+        }
+      },
+      "camera": [-0.8335767648029222, -5.179359442614199, -14.474526097943382],
+      "target": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+      "orbit": {
+        "yaw": 14.766370614359172,
+        "pitch": 0.4,
+        "radius": 4.335125231576717
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 1,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "seal-2",
+        "name": "Harbor seal",
+        "radius": 1.2042014532157546,
+        "arrival": {
+          "visibleFaceSamples": 1,
+          "faceSamples": 2,
+          "visibleBody": true,
+          "rays": 72,
+          "sourceTriangles": 99588,
+          "retainedTriangles": 8217,
+          "proxyMeshes": 7,
+          "milliseconds": 44.699999928474426
+        }
+      },
+      "camera": [-4.849113714006268, -5.177259442614199, -15.442505768366981],
+      "target": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+      "orbit": {
+        "yaw": 16.205878000068,
+        "pitch": 0.4,
+        "radius": 4.335125231576717
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "raccoon-0",
+        "name": "Raccoon",
+        "radius": 0.9606006212788366,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 242862,
+          "retainedTriangles": 4849,
+          "proxyMeshes": 4,
+          "milliseconds": 22.5
+        }
+      },
+      "camera": [-7.756891488313365, 9.958292684951406, 9.107763815875403],
+      "target": [-5.212537339835567, 8.326733397099733, 6.868760302523496],
+      "orbit": {
+        "yaw": 18.000408213201066,
+        "pitch": 0.2,
+        "radius": 3.458162236603812
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "gull-0",
+        "name": "Western gull",
+        "radius": 1.412415917837737,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 0,
+          "retainedTriangles": 0,
+          "proxyMeshes": 0,
+          "milliseconds": 2
+        }
+      },
+      "camera": [13.121514967983428, 9.344024502784224, -30.924722927442645],
+      "target": [12.059105018454023, 8.33385109206021, -26.055946751142578],
+      "orbit": {
+        "yaw": 15.493122083969698,
+        "pitch": 0.2,
+        "radius": 5.084697304215853
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "gull-1",
+        "name": "Western gull",
+        "radius": 1.412415917837735,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 0,
+          "retainedTriangles": 0,
+          "proxyMeshes": 0,
+          "milliseconds": 1.7999999523162842
+        }
+      },
+      "camera": [-4.098063155027127, 10.227765474209068, -32.42857875204763],
+      "target": [0.8673266040564016, 9.217592063485055, -32.00596675960714],
+      "orbit": {
+        "yaw": 17.19385267669163,
+        "pitch": 0.2,
+        "radius": 5.084697304215846
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "gull-2",
+        "name": "Western gull",
+        "radius": 1.4124159178377342,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 0,
+          "retainedTriangles": 0,
+          "proxyMeshes": 0,
+          "milliseconds": 2.299999952316284
+        }
+      },
+      "camera": [-17.962538954838315, 10.957670330373986, -22.59523702149606],
+      "target": [-15.52121759858839, 9.947496919649973, -26.939618035090987],
+      "orbit": {
+        "yaw": 18.337584985363534,
+        "pitch": 0.2,
+        "radius": 5.084697304215843
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "gull-3",
+        "name": "Western gull",
+        "radius": 1.4124159178377342,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 192605,
+          "retainedTriangles": 0,
+          "proxyMeshes": 0,
+          "milliseconds": 14.600000023841858
+        }
+      },
+      "camera": [-7.45820812252817, 12.40130267106568, -5.54110288343964],
+      "target": [-8.146631443626996, 11.391129260341668, -10.476664623174372],
+      "orbit": {
+        "yaw": 18.988144042630648,
+        "pitch": 0.2,
+        "radius": 5.084697304215843
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "balcony-gull-0",
+        "name": "Balcony gull",
+        "radius": 1.0023596836267792,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 20,
+          "sourceTriangles": 139206,
+          "retainedTriangles": 1906,
+          "proxyMeshes": 5,
+          "milliseconds": 16.199999928474426
+        }
+      },
+      "camera": [4.2263441495901395, 4.411190935763749, 4.908874982880725],
+      "target": [4.226344149590142, 3.694293676540255, 1.3723097732474674],
+      "orbit": {
+        "yaw": 18.84955592153876,
+        "pitch": 0.2,
+        "radius": 3.608494861056405
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "sandpiper-0",
+        "name": "Sandpiper",
+        "radius": 1.2299389511347585,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 171745,
+          "retainedTriangles": 15352,
+          "proxyMeshes": 10,
+          "milliseconds": 15.299999952316284
+        }
+      },
+      "camera": [-1.565980587945428, -6.108737125374989, -13.373886000000049],
+      "target": [-5.905499999597668, -6.988401259401588, -13.373885999999999],
+      "orbit": {
+        "yaw": 20.420352248333668,
+        "pitch": 0.2,
+        "radius": 4.42778022408513
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 2,
+          "medianMs": 5.9392,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "sandpiper-1",
+        "name": "Sandpiper",
+        "radius": 1.22993895113476,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 100452,
+          "retainedTriangles": 8616,
+          "proxyMeshes": 5,
+          "milliseconds": 8.899999976158142
+        }
+      },
+      "camera": [3.5262649996800626, -6.098862505885074, -12.444522393846691],
+      "target": [-0.755343066874075, -6.978526639911674, -13.15110649253926],
+      "orbit": {
+        "yaw": 20.256798625769957,
+        "pitch": 0.2,
+        "radius": 4.4277802240851365
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 3,
+          "medianMs": 5.66784,
+          "p95Ms": 5.9392
+        }
+      }
+    },
+    {
+      "animal": {
+        "id": "sandpiper-2",
+        "name": "Sandpiper",
+        "radius": 1.22993895113476,
+        "arrival": {
+          "visibleFaceSamples": 3,
+          "faceSamples": 3,
+          "visibleBody": true,
+          "rays": 4,
+          "sourceTriangles": 93580,
+          "retainedTriangles": 4573,
+          "proxyMeshes": 4,
+          "milliseconds": 9.600000023841858
+        }
+      },
+      "camera": [7.652468303633527, -6.088133254491873, -12.560554319888867],
+      "target": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+      "orbit": {
+        "yaw": 20.235594683233458,
+        "pitch": 0.2,
+        "radius": 4.4277802240851365
+      },
+      "rendering": {
+        "contactShadows": true,
+        "contactActive": true,
+        "method": "cosine-weighted horizons / indirect diffuse",
+        "slices": 4,
+        "samples": 32,
+        "radiusMeters": 0.36,
+        "aoWidth": 480,
+        "aoHeight": 406,
+        "width": 544.859375,
+        "height": 460.796875,
+        "gpu": {
+          "available": true,
+          "samples": 3,
+          "medianMs": 5.66784,
+          "p95Ms": 5.9392
+        }
+      }
+    }
+  ]
+}
